@@ -1,0 +1,40 @@
+# CODEOWNERS
+# Each line is a file pattern followed by one or more owners.
+# Owners are automatically requested for review when someone opens a PR
+# that modifies the matching files.
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global fallback — maintainer reviews everything not matched below
+*                                           @gonzalezpazmonica
+
+# Core configuration — extra scrutiny, always maintainer review
+CLAUDE.md                                   @gonzalezpazmonica
+SETUP.md                                    @gonzalezpazmonica
+.claude/settings.local.json                 @gonzalezpazmonica
+
+# Spec-Driven Development skill — high impact, careful review needed
+.claude/skills/spec-driven-development/     @gonzalezpazmonica
+
+# SDD reference files — changes affect all agent behaviour
+.claude/skills/spec-driven-development/references/   @gonzalezpazmonica
+
+# Slash commands — any maintainer can review
+.claude/commands/                           @gonzalezpazmonica
+
+# Scripts — bash/python/node changes need functional testing
+scripts/                                    @gonzalezpazmonica
+
+# CI/CD workflows — security-sensitive
+.github/workflows/                          @gonzalezpazmonica
+
+# Community and governance files
+CODE_OF_CONDUCT.md                          @gonzalezpazmonica
+SECURITY.md                                 @gonzalezpazmonica
+CONTRIBUTING.md                             @gonzalezpazmonica
+
+# Test project — lower risk, community contributions welcome
+projects/sala-reservas/                     @gonzalezpazmonica
+
+# Documentation
+docs/                                       @gonzalezpazmonica
+README.md                                   @gonzalezpazmonica

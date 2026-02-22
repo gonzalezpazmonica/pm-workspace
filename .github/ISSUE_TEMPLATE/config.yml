@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Question or discussion
+    url: https://github.com/gonzalezpazmonica/pm-workspace/discussions
+    about: Ask how to use the workspace, share your setup, or discuss ideas before opening a feature request.
+  - name: Security vulnerability
+    url: https://github.com/gonzalezpazmonica/pm-workspace/security/advisories/new
+    about: Report a security vulnerability privately. Do not open a public issue for security concerns.

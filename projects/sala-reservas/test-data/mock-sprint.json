@@ -1,0 +1,89 @@
+{
+  "_comment": "Mock de datos del sprint activo — simula respuestas de Azure DevOps Analytics OData y REST API",
+
+  "sprint": {
+    "id": "sprint-2026-04",
+    "name": "Sprint 2026-04",
+    "path": "SalaReservas\\Sprints\\Sprint 2026-04",
+    "startDate": "2026-03-02T00:00:00Z",
+    "endDate": "2026-03-13T23:59:59Z",
+    "goal": "CRUD completo de Salas y Reservas con API REST funcional",
+    "state": "inProgress",
+    "daysTotal": 10,
+    "daysElapsed": 4,
+    "daysRemaining": 6
+  },
+
+  "burndown": {
+    "_comment": "Datos diarios de burndown — horas restantes por día",
+    "unit": "hours",
+    "entries": [
+      { "date": "2026-03-02", "ideal": 54.0, "actual": 54.0, "completed": 0 },
+      { "date": "2026-03-03", "ideal": 48.6, "actual": 47.0, "completed": 7.0 },
+      { "date": "2026-03-04", "ideal": 43.2, "actual": 42.5, "completed": 11.5 },
+      { "date": "2026-03-05", "ideal": 37.8, "actual": 38.0, "completed": 16.0 },
+      { "date": "2026-03-06", "ideal": 32.4, "actual": 31.0, "completed": 23.0 },
+      { "date": "2026-03-09", "ideal": 27.0, "actual": null, "completed": null },
+      { "date": "2026-03-10", "ideal": 21.6, "actual": null, "completed": null },
+      { "date": "2026-03-11", "ideal": 16.2, "actual": null, "completed": null },
+      { "date": "2026-03-12", "ideal": 10.8, "actual": null, "completed": null },
+      { "date": "2026-03-13", "ideal": 0.0,  "actual": null, "completed": null }
+    ],
+    "totalHours": 54.0,
+    "completedHours": 23.0,
+    "remainingHours": 31.0,
+    "completedPercent": 42.6,
+    "trend": "on_track"
+  },
+
+  "summary": {
+    "totalPBIs": 3,
+    "pbisCompleted": 0,
+    "pbisInProgress": 2,
+    "pbisNotStarted": 1,
+    "totalTasks": 15,
+    "tasksDone": 2,
+    "tasksInReview": 1,
+    "tasksActive": 3,
+    "tasksNew": 9,
+    "storyPointsCommitted": 11,
+    "storyPointsCompleted": 0,
+    "storyPointsInProgress": 8,
+    "velocity_previous_sprint": 24
+  },
+
+  "board_columns": [
+    { "name": "New",       "count": 9,  "wip_limit": null, "items": [105,106,107,108,109,111,112,113,114] },
+    { "name": "Active",    "count": 3,  "wip_limit": 5,    "items": [104,110,115] },
+    { "name": "In Review", "count": 1,  "wip_limit": 3,    "items": [103] },
+    { "name": "Done",      "count": 2,  "wip_limit": null, "items": [101,102] }
+  ],
+
+  "alerts": [
+    {
+      "type": "info",
+      "message": "AB#103 (B3 Handlers Salas) está In Review — pendiente de Code Review por Carlos Mendoza"
+    },
+    {
+      "type": "info",
+      "message": "AB#110 (Entidad Reserva) está Active — Carlos lleva 1h de 3h estimadas"
+    },
+    {
+      "type": "warning",
+      "message": "9 tasks en estado New — confirmar con el equipo que el plan de la semana 2 está claro"
+    }
+  ],
+
+  "velocity_history": [
+    { "sprint": "Sprint 2026-01", "committed": 18, "completed": 16, "completion_rate": 0.89 },
+    { "sprint": "Sprint 2026-02", "committed": 22, "completed": 22, "completion_rate": 1.00 },
+    { "sprint": "Sprint 2026-03", "committed": 24, "completed": 24, "completion_rate": 1.00 },
+    { "sprint": "Sprint 2026-04", "committed": 11, "completed": 0,  "completion_rate": null, "status": "in_progress" }
+  ],
+
+  "cycle_time_data": [
+    { "id": 101, "title": "B1: Entidad Sala",       "started": "2026-03-02", "done": "2026-03-03", "cycle_days": 1.0 },
+    { "id": 102, "title": "B2: Migration Salas",    "started": "2026-03-03", "done": "2026-03-04", "cycle_days": 1.0 },
+    { "id": 103, "title": "B3: Handlers Salas",     "started": "2026-03-04", "done": null,         "cycle_days": null, "state": "In Review" }
+  ]
+}

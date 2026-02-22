@@ -1,0 +1,230 @@
+{
+  "_comment": "Mock de respuesta Azure DevOps REST API v7.1 — Work Items del Sprint 2026-04",
+  "_source": "GET {org}/SalaReservas/_apis/wit/workitems?ids=1,2,3,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117&$expand=all&api-version=7.1",
+
+  "count": 20,
+  "value": [
+    {
+      "id": 1,
+      "fields": {
+        "System.WorkItemType": "Product Backlog Item",
+        "System.Title": "Gestión de Salas (CRUD)",
+        "System.State": "Committed",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "Carlos Mendoza" },
+        "Microsoft.VSTS.Scheduling.StoryPoints": 3,
+        "Microsoft.VSTS.Common.AcceptanceCriteria": "GET /api/salas devuelve listado\nPOST /api/salas crea sala 201\nPUT /api/salas/{id} actualiza\nDELETE /api/salas/{id} elimina (sin reservas futuras)",
+        "System.Description": "CRUD completo de salas de reuniones via REST API",
+        "System.Tags": "sprint-2026-04; backend"
+      }
+    },
+    {
+      "id": 2,
+      "fields": {
+        "System.WorkItemType": "Product Backlog Item",
+        "System.Title": "Gestión de Reservas (CRUD)",
+        "System.State": "Committed",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "Laura Sánchez" },
+        "Microsoft.VSTS.Scheduling.StoryPoints": 5,
+        "Microsoft.VSTS.Common.AcceptanceCriteria": "GET /api/reservas?salaId&fecha devuelve reservas\nPOST /api/reservas crea reserva 201 o 409\nDELETE /api/reservas/{id} cancela reserva futura",
+        "System.Description": "CRUD completo de reservas de salas",
+        "System.Tags": "sprint-2026-04; backend"
+      }
+    },
+    {
+      "id": 3,
+      "fields": {
+        "System.WorkItemType": "Product Backlog Item",
+        "System.Title": "Validación de conflictos de reservas",
+        "System.State": "Active",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "Carlos Mendoza" },
+        "Microsoft.VSTS.Scheduling.StoryPoints": 3,
+        "Microsoft.VSTS.Common.AcceptanceCriteria": "El sistema detecta solapamientos y devuelve 409 con la reserva conflictiva",
+        "System.Description": "Domain Service para detectar solapamientos de reservas",
+        "System.Tags": "sprint-2026-04; domain"
+      }
+    },
+    {
+      "id": 101,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "B1: Entidad Sala + Value Objects",
+        "System.State": "Done",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "Carlos Mendoza" },
+        "Microsoft.VSTS.Common.Activity": "Development",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 2,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 2.5,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 0,
+        "System.Tags": "sprint-2026-04; domain; human"
+      }
+    },
+    {
+      "id": 102,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "B2: Migration EF Core tabla Salas",
+        "System.State": "Done",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "Diego Torres" },
+        "Microsoft.VSTS.Common.Activity": "Development",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 1,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 1,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 0,
+        "System.Tags": "sprint-2026-04; infrastructure; human"
+      }
+    },
+    {
+      "id": 103,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "B3: Handlers CreateSala + UpdateSala + DeleteSala",
+        "System.State": "In Review",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "claude-agent" },
+        "Microsoft.VSTS.Common.Activity": "Development",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 4,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 3.5,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 0,
+        "System.Tags": "sprint-2026-04; application; spec-driven; agent-implemented"
+      }
+    },
+    {
+      "id": 104,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "B4: Handlers GetSalas + GetSalaById",
+        "System.State": "Active",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "claude-agent" },
+        "Microsoft.VSTS.Common.Activity": "Development",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 2,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 0,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 2,
+        "System.Tags": "sprint-2026-04; application; spec-driven; dev:agent"
+      }
+    },
+    {
+      "id": 105,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "C1: ISalaRepository + EF Core impl",
+        "System.State": "New",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "claude-agent" },
+        "Microsoft.VSTS.Common.Activity": "Development",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 2,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 0,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 2,
+        "System.Tags": "sprint-2026-04; infrastructure; spec-driven; dev:agent"
+      }
+    },
+    {
+      "id": 106,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "C2: SalasController (5 endpoints) + DTOs",
+        "System.State": "New",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "claude-agent" },
+        "Microsoft.VSTS.Common.Activity": "Development",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 2,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 0,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 2,
+        "System.Tags": "sprint-2026-04; api; spec-driven; dev:agent"
+      }
+    },
+    {
+      "id": 107,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "D1: Unit Tests CreateSalaCommandHandler (7 scenarios)",
+        "System.State": "New",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "claude-agent-fast" },
+        "Microsoft.VSTS.Common.Activity": "Testing",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 2,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 0,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 2,
+        "System.Tags": "sprint-2026-04; tests; spec-driven; dev:agent-fast"
+      }
+    },
+    {
+      "id": 108,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "D2: Integration Tests API Salas",
+        "System.State": "New",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "Ana Morales" },
+        "Microsoft.VSTS.Common.Activity": "Testing",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 2,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 0,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 2,
+        "System.Tags": "sprint-2026-04; tests; human"
+      }
+    },
+    {
+      "id": 109,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "E1: Code Review PBI Gestión de Salas",
+        "System.State": "New",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "Carlos Mendoza" },
+        "Microsoft.VSTS.Common.Activity": "Development",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 1,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 0,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 1,
+        "System.Tags": "sprint-2026-04; review; human"
+      }
+    },
+    {
+      "id": 110,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "B1: Entidad Reserva + Value Objects",
+        "System.State": "Active",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "Carlos Mendoza" },
+        "Microsoft.VSTS.Common.Activity": "Development",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 3,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 1,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 2,
+        "System.Tags": "sprint-2026-04; domain; human"
+      }
+    },
+    {
+      "id": 111,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "B3: Handler CreateReservaCommand + Validator",
+        "System.State": "New",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "claude-agent" },
+        "Microsoft.VSTS.Common.Activity": "Development",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 4,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 0,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 4,
+        "System.Tags": "sprint-2026-04; application; spec-driven; dev:agent"
+      }
+    },
+    {
+      "id": 112,
+      "fields": {
+        "System.WorkItemType": "Task",
+        "System.Title": "B3: Domain Service ValidarConflictoReservaService",
+        "System.State": "New",
+        "System.IterationPath": "SalaReservas\\Sprints\\Sprint 2026-04",
+        "System.AssignedTo": { "displayName": "Carlos Mendoza" },
+        "Microsoft.VSTS.Common.Activity": "Development",
+        "Microsoft.VSTS.Scheduling.OriginalEstimate": 3,
+        "Microsoft.VSTS.Scheduling.CompletedWork": 0,
+        "Microsoft.VSTS.Scheduling.RemainingWork": 3,
+        "System.Tags": "sprint-2026-04; domain; human"
+      }
+    }
+  ]
+}

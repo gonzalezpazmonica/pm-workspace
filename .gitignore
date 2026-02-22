@@ -1,0 +1,32 @@
+# Credenciales y secretos — NUNCA commitear
+.claude/.env
+*.pat
+*.secret
+**/*-secret*
+**/*-credentials*
+
+# Outputs generados
+output/
+/tmp/
+
+# Node
+scripts/node_modules/
+scripts/package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code
+# settings.local.json se incluye intencionalmente — solo contiene permisos,
+# sin credenciales. Cada usuario puede sobreescribirlo localmente.
+# .claude/settings.local.json
+
+# Código fuente (cada dev clona directamente)
+projects/*/source/

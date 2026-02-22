@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(az devops:*)",
+      "Bash(az boards:*)",
+      "Bash(az repos:*)",
+      "Bash(az pipelines:*)",
+      "Bash(az account:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(echo:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(date:*)",
+      "Bash(node:*)",
+      "Bash(python3:*)",
+      "Bash(python:*)",
+      "Bash(jq:*)",
+      "Bash(curl:*)",
+      "WebSearch"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(chmod:*)",
+      "Bash(sudo:*)"
+    ]
+  },
+  "env": {
+    "AZURE_DEVOPS_EXT_PAT": "$(cat $HOME/.azure/devops-pat 2>/dev/null || echo 'PAT_NOT_CONFIGURED')"
+  }
+}

@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Extract changelog for this version
+        id: changelog
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          # Strip leading 'v' for CHANGELOG lookup (v0.1.0 -> 0.1.0)
+          SEMVER="${VERSION#v}"
+
+          # Extract the section for this version from CHANGELOG.md
+          awk "/^## \[${SEMVER}\]/{found=1; next} /^## \[/{if(found) exit} found{print}" CHANGELOG.md \
+            > release_notes.md
+
+          if [ ! -s release_notes.md ]; then
+            echo "No changelog entry found for version ${SEMVER}." > release_notes.md
+            echo "See CHANGELOG.md for full history." >> release_notes.md
+          fi
+
+          echo "Release notes extracted for ${VERSION}:"
+          cat release_notes.md
+
+      - name: Run CI checks before releasing
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y jq python3
+          chmod +x scripts/test-workspace.sh
+          ./scripts/test-workspace.sh --mock
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "PM Workspace ${{ steps.version.outputs.VERSION }}"
+          body_path: release_notes.md
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.VERSION, '-') }}
+          generate_release_notes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

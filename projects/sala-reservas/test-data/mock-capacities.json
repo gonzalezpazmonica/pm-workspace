@@ -1,0 +1,146 @@
+{
+  "_comment": "Mock de capacidades del equipo — simula respuesta de Azure DevOps REST API Capacities",
+  "_source": "GET {org}/SalaReservas/_apis/work/teamsettings/iterations/{iterationId}/capacities?api-version=7.1",
+
+  "sprint": "Sprint 2026-04",
+  "sprint_start": "2026-03-02",
+  "sprint_end": "2026-03-13",
+  "sprint_working_days": 10,
+  "hours_per_day": 8,
+  "focus_factor": 0.75,
+
+  "team_members": [
+    {
+      "alias": "sofia.reyes@empresa.com",
+      "display_name": "Sofía Reyes",
+      "role": "PM/Scrum Master",
+      "days_off": [],
+      "activities": [
+        { "name": "Management", "capacity_per_day": 4.0 }
+      ],
+      "total_capacity_hours": 30.0,
+      "available_for_dev_hours": 0,
+      "assigned_hours": 0,
+      "utilization_percent": 0
+    },
+    {
+      "alias": "carlos.mendoza@empresa.com",
+      "display_name": "Carlos Mendoza",
+      "role": "Tech Lead",
+      "days_off": [],
+      "activities": [
+        { "name": "Development", "capacity_per_day": 4.8 },
+        { "name": "Design", "capacity_per_day": 1.6 }
+      ],
+      "total_capacity_hours": 48.0,
+      "available_for_dev_hours": 48.0,
+      "assigned_hours": 11.0,
+      "utilization_percent": 22.9,
+      "assigned_tasks": [
+        { "id": 101, "title": "B1: Entidad Sala", "hours": 2, "state": "Done" },
+        { "id": 110, "title": "B1: Entidad Reserva", "hours": 3, "state": "Active" },
+        { "id": 112, "title": "Domain Service ValidarConflicto", "hours": 3, "state": "New" },
+        { "id": 109, "title": "E1: Code Review Salas", "hours": 1, "state": "New" },
+        { "id": 116, "title": "E1: Code Review Reservas", "hours": 1, "state": "New" },
+        { "id": 117, "title": "E1: Code Review Conflictos", "hours": 1, "state": "New" }
+      ]
+    },
+    {
+      "alias": "laura.sanchez@empresa.com",
+      "display_name": "Laura Sánchez",
+      "role": "Developer Full Stack",
+      "days_off": [],
+      "activities": [
+        { "name": "Development", "capacity_per_day": 6.0 }
+      ],
+      "total_capacity_hours": 60.0,
+      "available_for_dev_hours": 60.0,
+      "assigned_hours": 2.0,
+      "utilization_percent": 3.3,
+      "assigned_tasks": [
+        { "id": 113, "title": "B4: Integrar ValidarConflicto en Handler", "hours": 2, "state": "New" }
+      ],
+      "_note": "Capacidad libre → Sprint 2: Frontend Angular + testing E2E"
+    },
+    {
+      "alias": "diego.torres@empresa.com",
+      "display_name": "Diego Torres",
+      "role": "Developer Backend",
+      "days_off": [],
+      "activities": [
+        { "name": "Development", "capacity_per_day": 6.0 }
+      ],
+      "total_capacity_hours": 60.0,
+      "available_for_dev_hours": 60.0,
+      "assigned_hours": 3.0,
+      "utilization_percent": 5.0,
+      "assigned_tasks": [
+        { "id": 102, "title": "B2: Migration Salas", "hours": 1, "state": "Done" },
+        { "id": 115, "title": "B2: Migration Reservas", "hours": 1, "state": "Active" },
+        { "id": 118, "title": "Setup Azure (App Service + SQL Server)", "hours": 4, "state": "Active" }
+      ],
+      "_note": "Capacidad libre → Refinement Sprint 2026-05 + soporte infraestructura"
+    },
+    {
+      "alias": "ana.morales@empresa.com",
+      "display_name": "Ana Morales",
+      "role": "QA Engineer",
+      "days_off": [],
+      "activities": [
+        { "name": "Testing", "capacity_per_day": 6.0 }
+      ],
+      "total_capacity_hours": 60.0,
+      "available_for_dev_hours": 60.0,
+      "assigned_hours": 7.0,
+      "utilization_percent": 11.7,
+      "assigned_tasks": [
+        { "id": 108, "title": "D2: Integration Tests Salas", "hours": 2, "state": "New" },
+        { "id": 114, "title": "D3: Integration Tests Reservas", "hours": 3, "state": "New" },
+        { "id": 119, "title": "D2: Integration Test Conflictos e2e", "hours": 2, "state": "New" }
+      ],
+      "_note": "Capacidad libre → Regression testing + preparar escenarios de prueba Sprint 2"
+    }
+  ],
+
+  "agent_capacity": {
+    "_comment": "Los agentes no tienen capacidad en Azure DevOps. Esta sección es informativa.",
+    "tasks_assigned_to_agents": [103, 104, 105, 106, 107, 111],
+    "estimated_hours": 16.0,
+    "cost_estimate_usd": 9.6,
+    "model": "claude-opus-4-5-20251101 (implementadores) + claude-haiku-4-5-20251001 (tests)"
+  },
+
+  "capacity_summary": {
+    "total_human_capacity": 228.0,
+    "total_human_assigned": 23.0,
+    "total_human_utilization_percent": 10.1,
+    "total_agent_hours_estimated": 16.0,
+    "total_effective_capacity": 244.0,
+    "sprint_commitment_hours": 54.0,
+    "commitment_vs_capacity_percent": 22.1,
+    "status": "bajo_cargado",
+    "_note": "Sprint 1 tiene carga baja en humanos — es normal: setup del proyecto + agentes hacen la carga técnica"
+  },
+
+  "time_entries_week1": {
+    "_comment": "Imputaciones reales de la semana 1 (03/03 - 06/03)",
+    "entries": [
+      { "date": "2026-03-02", "person": "Carlos Mendoza",  "task_id": 101, "hours": 2.5, "description": "Entidad Sala con SalaId value object y factory method" },
+      { "date": "2026-03-03", "person": "Diego Torres",    "task_id": 102, "hours": 1.0, "description": "Migration EF Core Salas + seed 3 salas" },
+      { "date": "2026-03-03", "person": "Diego Torres",    "task_id": 118, "hours": 2.0, "description": "Setup App Service en Azure Portal" },
+      { "date": "2026-03-04", "person": "Carlos Mendoza",  "task_id": 110, "hours": 1.0, "description": "Inicio entidad Reserva + HorarioReserva value object" },
+      { "date": "2026-03-04", "person": "Diego Torres",    "task_id": 115, "hours": 1.0, "description": "Migration EF Core Reservas + FK Sala" },
+      { "date": "2026-03-05", "person": "Diego Torres",    "task_id": 118, "hours": 2.0, "description": "Configurar Azure SQL Server + connection strings" },
+      { "date": "2026-03-06", "person": "Carlos Mendoza",  "task_id": 110, "hours": 1.0, "description": "Completar Reserva.cs + invariantes de dominio" },
+      { "date": "2026-03-06", "person": "Ana Morales",     "task_id": 119, "hours": 1.0, "description": "Preparar escenarios de test para conflictos de reservas" }
+    ],
+    "total_hours_week1": 11.5,
+    "by_person": {
+      "Carlos Mendoza":  4.5,
+      "Diego Torres":    6.0,
+      "Ana Morales":     1.0,
+      "Laura Sánchez":   0.0,
+      "claude-agent":    3.5
+    }
+  }
+}

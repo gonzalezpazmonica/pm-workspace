@@ -1,0 +1,72 @@
+name: Feature Request
+description: Propose a new command, skill, or improvement
+title: "[FEATURE] "
+labels: ["enhancement", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting, please search existing issues to avoid duplicates.
+        Check [ROADMAP.md](../../ROADMAP.md) — your idea might already be planned.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type of contribution
+      options:
+        - New slash command
+        - New skill
+        - Improvement to existing command or skill
+        - New reporting format
+        - New stack support (non-.NET)
+        - New methodology support (non-Scrum)
+        - Integration with external tool
+        - Test suite or mock data
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: |
+        Describe the PM or development workflow problem this feature would solve.
+        Real-world context ("In my project, I needed to...") makes proposals much stronger.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: |
+        How would this work? If it's a new command, what would you type and what would Claude respond?
+        Include a sample conversation if possible.
+      placeholder: |
+        Command: /risk:log --project ProyectoAlpha
+        Claude: [reads sprint status and current risks]
+                [updates projects/proyecto-alpha/risks.md]
+                "3 active risks, 1 escalated to critical. See risks.md."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Have you found any workaround or alternative approach?
+
+  - type: dropdown
+    id: willing-to-implement
+    attributes:
+      label: Are you willing to implement this?
+      options:
+        - "Yes — I plan to open a PR"
+        - "Maybe — I could try with guidance"
+        - "No — I'm proposing for someone else to implement"
+    validations:
+      required: true

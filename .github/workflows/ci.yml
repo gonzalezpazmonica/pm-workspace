@@ -1,0 +1,119 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate workspace
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y jq python3
+
+      - name: Validate JSON mock files
+        run: |
+          echo "Validating mock data JSON files..."
+          for f in projects/sala-reservas/test-data/*.json; do
+            echo "  Checking $f"
+            jq empty "$f" || { echo "INVALID JSON: $f"; exit 1; }
+          done
+          echo "All JSON files are valid."
+
+      - name: Check for sensitive data patterns
+        run: |
+          echo "Scanning for accidentally committed secrets..."
+          # Check for PAT patterns (Azure DevOps PATs are 52-char base64)
+          if grep -rn --include="*.md" --include="*.sh" --include="*.json" --include="*.yml" \
+            -E '[a-z0-9]{52}' \
+            --exclude-dir=".git" \
+            --exclude-dir="node_modules" \
+            . 2>/dev/null | grep -v "mock" | grep -v "example" | grep -v "placeholder"; then
+            echo "WARNING: Potential secret pattern found. Review the matches above."
+          fi
+          # Check for real org URL patterns (not placeholders)
+          if grep -rn --include="*.md" --include="*.sh" \
+            "dev.azure.com" . \
+            --exclude-dir=".git" \
+            | grep -v "TU-ORGANIZACION" \
+            | grep -v "miempresa" \
+            | grep -v "YOUR-ORG" \
+            | grep -v "example" \
+            | grep -v "SETUP.md" \
+            | grep -v "README.md" \
+            | grep -v "CHANGELOG.md" \
+            | grep -v "CONTRIBUTING.md"; then
+            echo "WARNING: Real Azure DevOps org URL may be present. Review the matches above."
+          fi
+          echo "Secret scan complete."
+
+      - name: Run workspace test suite (mock mode)
+        run: |
+          chmod +x scripts/test-workspace.sh
+          ./scripts/test-workspace.sh --mock
+        continue-on-error: false
+
+      - name: Verify required open source files exist
+        run: |
+          echo "Checking required open source files..."
+          required_files=(
+            "LICENSE"
+            "README.md"
+            "CHANGELOG.md"
+            "CONTRIBUTING.md"
+            "CODE_OF_CONDUCT.md"
+            "SECURITY.md"
+            "ROADMAP.md"
+            ".github/pull_request_template.md"
+            ".github/ISSUE_TEMPLATE/bug_report.yml"
+            ".github/ISSUE_TEMPLATE/feature_request.yml"
+          )
+          all_ok=true
+          for f in "${required_files[@]}"; do
+            if [ -f "$f" ]; then
+              echo "  ✅ $f"
+            else
+              echo "  ❌ MISSING: $f"
+              all_ok=false
+            fi
+          done
+          if [ "$all_ok" = false ]; then
+            echo "One or more required files are missing."
+            exit 1
+          fi
+          echo "All required files present."
+
+  lint-markdown:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install markdownlint
+        run: npm install -g markdownlint-cli
+
+      - name: Lint Markdown files
+        run: |
+          markdownlint \
+            --config .markdownlint.json \
+            --ignore node_modules \
+            --ignore projects/sala-reservas/test-data \
+            "**/*.md" || true
+        # 'true' keeps CI green while the team establishes linting baseline.
+        # Remove '|| true' once all existing files pass linting.

@@ -1,0 +1,14 @@
+{
+  "_comment": "MCP Server opcional de Azure DevOps (Microsoft oficial). Activar si se necesitan operaciones encadenadas avanzadas. Requiere npx instalado.",
+  "mcpServers": {
+    "azure-devops": {
+      "command": "npx",
+      "args": ["-y", "@azure-devops/mcp", "MI-ORGANIZACION"],
+      "env": {
+        "AZURE_DEVOPS_ORG": "https://dev.azure.com/MI-ORGANIZACION",
+        "AZURE_DEVOPS_PAT": "CARGAR_DESDE_FICHERO"
+      },
+      "_note": "Sustituir CARGAR_DESDE_FICHERO por el PAT real, o configurar el entorno antes de iniciar Claude Code con: export AZURE_DEVOPS_PAT=$(cat $HOME/.azure/devops-pat)"
+    }
+  }
+}

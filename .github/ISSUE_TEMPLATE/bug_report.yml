@@ -1,0 +1,100 @@
+name: Bug Report
+description: Something is not working as expected
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug. Please fill in as much detail as possible so we can reproduce and fix it quickly.
+
+  - type: input
+    id: claude-version
+    attributes:
+      label: Claude Code version
+      description: Output of `claude --version`
+      placeholder: "e.g. claude-code 1.2.3"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: command
+    attributes:
+      label: Command or skill involved
+      description: Which command or skill is affected?
+      options:
+        - /sprint:status
+        - /sprint:plan
+        - /sprint:review
+        - /sprint:retro
+        - /report:hours
+        - /report:executive
+        - /report:capacity
+        - /team:workload
+        - /board:flow
+        - /kpi:dashboard
+        - /pbi:decompose
+        - /pbi:decompose-batch
+        - /pbi:assign
+        - /pbi:plan-sprint
+        - /spec:generate
+        - /spec:implement
+        - /spec:review
+        - /spec:status
+        - /agent:run
+        - scripts/test-workspace.sh
+        - scripts/azdevops-queries.sh
+        - Other (describe below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+      placeholder: "Describe what you did and what went wrong"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      description: What should have happened instead?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: reproducible-mock
+    attributes:
+      label: Reproducible in mock mode?
+      description: Can you reproduce this with `./scripts/test-workspace.sh --mock` or the `sala-reservas` test project?
+      options:
+        - "Yes — reproducible with mock data"
+        - "No — only with real Azure DevOps connection"
+        - "Not applicable"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Step-by-step instructions to reproduce the bug.
+      placeholder: |
+        1. Open Claude Code from pm-workspace/
+        2. Run /sprint:status --project ...
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: |
+        Any other relevant information: OS, Azure DevOps tier, error messages, screenshots.
+        Do NOT include PATs, real organisation URLs, or any sensitive data.
