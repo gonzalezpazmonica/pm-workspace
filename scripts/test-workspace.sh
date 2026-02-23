@@ -153,7 +153,7 @@ test_prereqs() {
     fail "curl no encontrado" "Instalar curl"
   fi
 
-  # Azure CLI
+  # Azure CLI (solo obligatorio en modo --real; en mock se omite)
   log_section "Azure CLI"
   if command -v az &>/dev/null; then
     AZVER=$(az version --query '"azure-cli"' -o tsv 2>/dev/null || echo "desconocida")
@@ -161,10 +161,18 @@ test_prereqs() {
     if az extension show --name azure-devops &>/dev/null 2>&1; then
       pass "Extensión azure-devops instalada"
     else
-      fail "Extensión azure-devops NO instalada" "Ejecutar: az extension add --name azure-devops"
+      if [[ "$MODE" == "mock" ]]; then
+        skip "Extensión azure-devops NO instalada" "No requerida en modo --mock"
+      else
+        fail "Extensión azure-devops NO instalada" "Ejecutar: az extension add --name azure-devops"
+      fi
     fi
   else
-    fail "az (Azure CLI) no encontrado" "Instalar: https://docs.microsoft.com/cli/azure/install-azure-cli"
+    if [[ "$MODE" == "mock" ]]; then
+      skip "az (Azure CLI) no encontrado" "No requerido en modo --mock"
+    else
+      fail "az (Azure CLI) no encontrado" "Instalar: https://docs.microsoft.com/cli/azure/install-azure-cli"
+    fi
   fi
 
   # Claude CLI
