@@ -1,0 +1,9 @@
+# Normalize line endings to LF on commit (prevents CRLF issues on Linux/CI)
+* text=auto eol=lf
+
+# Shell scripts must always use LF
+*.sh text eol=lf
+
+# Windows-specific files can keep CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
