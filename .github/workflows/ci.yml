@@ -20,6 +20,14 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y jq python3
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Node.js dependencies
+        run: npm install --prefix scripts
+
       - name: Validate JSON mock files
         run: |
           echo "Validating mock data JSON files..."
