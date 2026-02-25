@@ -1,4 +1,4 @@
-# PM Workspace — Claude Code Global
+# PM-Workspace — Claude Code Global
 # ── Léelo completo antes de cualquier acción ─────────────────────────────────
 
 > Contexto para TODOS los proyectos. Corre `claude` siempre desde ~/claude/.

@@ -1,6 +1,6 @@
 # Roadmap
 
-This document describes what is planned for each upcoming version of PM Workspace.
+This document describes what is planned for each upcoming version of PM-Workspace.
 
 Milestone status: 🔴 Not started · 🟡 In progress · ✅ Done · 💡 Proposed (not committed)
 

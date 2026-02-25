@@ -1,4 +1,4 @@
-# Regla: Configuración PM Workspace
+# Regla: Configuración PM-Workspace
 # ── Constantes de configuración Azure DevOps y proyectos ─────────────────────
 
 > Esta regla se carga bajo demanda. Contiene los valores de configuración completos.

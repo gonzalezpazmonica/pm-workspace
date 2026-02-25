@@ -111,6 +111,10 @@ projects/proyecto-alpha/
 ├── reglas-negocio.md       ← Reglas de negocio específicas de Alpha
 ├── source/                 ← Código fuente (git clone aquí)
 │   └── [repo clonado]
+├── specs/                  ← Specs SDD del proyecto
+│   ├── sdd-metrics.md
+│   └── templates/
+│       └── spec-template.md
 └── sprints/                ← Historial de sprints
     ├── sprint-2026-01/
     │   ├── planning.md

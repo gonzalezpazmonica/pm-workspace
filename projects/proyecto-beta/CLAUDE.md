@@ -19,7 +19,7 @@ AREA_PATH                 = "ProyectoBeta"
 SPRINT_ACTUAL             = "Sprint 2026-04"
 SPRINT_START              = "2026-03-02"
 SPRINT_END                = "2026-03-13"
-SPRINT_GOAL               = "[Definir el objetivo del sprint actual]"
+SPRINT_GOAL               = "Implementar el módulo de autenticación con Azure AD B2C y el alta de usuarios"
 
 # ── Métricas históricas ────────────────────────────────────────────────────────
 VELOCITY_MEDIA_SP         = 25
@@ -90,7 +90,9 @@ Ver composición completa en `equipo.md`.
 ## 🏃 Sprint Actual
 
 **Sprint:** Sprint 2026-04 (02/03/2026 → 13/03/2026)
-**Sprint Goal:** [Definir objetivo]
+**Sprint Goal:** Implementar el módulo de autenticación con Azure AD B2C y el alta de usuarios
+
+**Estado:** 🟡 Inicio de sprint
 
 Para ver el estado detallado ejecutar: `/sprint:status proyecto-beta`
 
@@ -104,6 +106,10 @@ projects/proyecto-beta/
 ├── equipo.md               ← Composición del equipo
 ├── reglas-negocio.md       ← Reglas específicas de Beta
 ├── source/                 ← Código fuente (git clone aquí)
+├── specs/                  ← Specs SDD del proyecto
+│   ├── sdd-metrics.md
+│   └── templates/
+│       └── spec-template.md
 └── sprints/
     └── sprint-2026-04/     ← Sprint actual
 ```
