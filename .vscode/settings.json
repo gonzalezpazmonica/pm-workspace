@@ -1,0 +1,67 @@
+{
+  "highlight.regexes": {
+    // 1. SEPARADORES DE SECCIÓN
+    // Detecta líneas que empiezan con "# ──" (como títulos decorativos).
+    // Las pone en negrita y color verde suave.
+    "(# ──[^\n]*)": {
+      "filterFileRegex": ".*\\.md",
+      "decorations": [
+        {
+          "color": "#6A9955",
+          "fontWeight": "bold"
+        }
+      ]
+    },
+
+    // 2. CONSTANTES EN MAYÚSCULAS (SNAKE_CASE)
+    // Busca palabras que tengan mayúsculas y guiones bajos (ej: SDD_MAX_AGENTS).
+    // Las resalta en un verde lima claro.
+    "\\b([A-Z][A-Z0-9]*(?:_[A-Z0-9]+)+)\\b": {
+      "filterFileRegex": ".*\\.md",
+      "decorations": [
+        {
+          "color": "#B8D7A3"
+        }
+      ]
+    },
+
+    // 3. COMENTARIOS AL FINAL DE LÍNEA
+    // Detecta un espacio seguido de "#" y cualquier texto hasta el final de la línea.
+    // Los pone en verde itálica (estilo comentario de código).
+    "\\s+(#[^\n]+)": {
+      "filterFileRegex": ".*\\.md",
+      "decorations": [
+        {
+          "color": "#6A9955",
+          "fontStyle": "italic"
+        }
+      ]
+    },
+
+    // 4. ÍTEMS DE LISTAS
+    // Busca líneas que empiecen con espacios opcionales, un guion y un espacio.
+    // "regexFlags": "gm" es vital para que reconozca cada línea del archivo por separado.
+    // El color es un ocre/dorado.
+    "^\\s*(- .+)": {
+      "filterFileRegex": ".*\\.md",
+      "regexFlags": "gm",
+      "decorations": [
+        {
+          "color": "#D7BA7D"
+        }
+      ]
+    },
+
+    // 5. TEXTO ENTRE COMILLAS
+    // Resalta cualquier texto encerrado en comillas dobles (que no tenga saltos de línea).
+    // Aplica un color salmón/naranja similar a los strings en código.
+    "(\"[^\"\\n]+\")": {
+      "filterFileRegex": ".*\\.md",
+      "decorations": [
+        {
+          "color": "#CE9178"
+        }
+      ]
+    }
+  }
+}

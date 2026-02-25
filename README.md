@@ -83,16 +83,18 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 ## Estructura del Workspace
 
+> **Nota:** El directorio raíz del workspace (`~/claude/`) **es** el repositorio. Se trabaja siempre desde la raíz. El `.gitignore` gestiona qué queda privado (proyectos reales, credenciales, configuración local).
+
 ```
-pm-workspace/
-├── CLAUDE.md                    ← Punto de entrada de Claude Code (constantes globales)
+~/claude/                        ← Raíz de trabajo Y repositorio GitHub
+├── CLAUDE.md                    ← Punto de entrada de Claude Code (≤150 líneas)
 ├── SETUP.md                     ← Guía de configuración paso a paso
 ├── README.md                    ← Este fichero
-├── .gitignore
+├── .gitignore                   ← Privacidad: proyectos reales, secrets, local config
 │
 ├── .claude/
-│   ├── settings.local.json      ← Permisos de Claude Code
-│   ├── .env                     ← Variables de entorno (NO commitear)
+│   ├── settings.local.json      ← Permisos de Claude Code (git-ignorado)
+│   ├── .env                     ← Variables de entorno (git-ignorado)
 │   ├── mcp.json                 ← Configuración MCP opcional
 │   │
 │   ├── commands/                ← 19 slash commands
@@ -116,21 +118,27 @@ pm-workspace/
 │   │   ├── spec-status.md        ← SDD
 │   │   └── agent-run.md          ← SDD
 │   │
-│   └── skills/                  ← 6 skills personalizadas
-│       ├── azure-devops-queries/
-│       ├── sprint-management/
-│       ├── capacity-planning/
-│       ├── time-tracking-report/
-│       ├── executive-reporting/
-│       ├── pbi-decomposition/
-│       │   └── references/
-│       │       └── assignment-scoring.md
-│       └── spec-driven-development/
-│           ├── SKILL.md
-│           └── references/
-│               ├── spec-template.md         ← Plantilla de specs
-│               ├── layer-assignment-matrix.md ← Qué va a agente vs humano
-│               └── agent-team-patterns.md   ← Patrones de equipos de agentes
+│   ├── skills/                  ← 7 skills personalizadas
+│   │   ├── azure-devops-queries/
+│   │   ├── sprint-management/
+│   │   ├── capacity-planning/
+│   │   ├── time-tracking-report/
+│   │   ├── executive-reporting/
+│   │   ├── pbi-decomposition/
+│   │   │   └── references/
+│   │   │       └── assignment-scoring.md
+│   │   └── spec-driven-development/
+│   │       ├── SKILL.md
+│   │       └── references/
+│   │           ├── spec-template.md           ← Plantilla de specs
+│   │           ├── layer-assignment-matrix.md ← Qué va a agente vs humano
+│   │           └── agent-team-patterns.md     ← Patrones de equipos de agentes
+│   │
+│   └── rules/                   ← Reglas modulares (carga bajo demanda)
+│       ├── pm-config.md         ← Constantes completas Azure DevOps
+│       ├── pm-workflow.md       ← Cadencia Scrum y tabla de comandos
+│       ├── dotnet-conventions.md← Convenciones C#/.NET y verificación
+│       └── readme-update.md     ← Cuándo y cómo actualizar este README
 │
 ├── docs/
 │   ├── reglas-scrum.md
@@ -241,11 +249,14 @@ chmod +x scripts/azdevops-queries.sh
 ### Paso 6 — Abrir con Claude Code
 
 ```bash
-# Desde la raíz de pm-workspace/
+# Siempre desde la raíz del workspace (donde está el CLAUDE.md y la carpeta .claude/)
+cd ~/claude    # o el directorio donde hayas clonado el repositorio
 claude
 ```
 
-Claude Code leerá `CLAUDE.md` automáticamente y tendrá acceso a todos los comandos y skills.
+Claude Code cargará `CLAUDE.md` automáticamente, activará los 19 comandos y las 7 skills,
+y aplicará las reglas de `.claude/rules/` bajo demanda. Todas las buenas prácticas del
+flujo Explorar → Planificar → Implementar → Commit están preconfiguradas.
 
 ---
 
@@ -1044,6 +1055,7 @@ Los ficheros en `projects/sala-reservas/test-data/` simulan respuestas reales de
 
 ## Reglas Críticas
 
+### Gestión de proyectos
 1. **El PAT nunca se hardcodea** — siempre `$(cat $AZURE_DEVOPS_PAT_FILE)`
 2. **Filtrar siempre por IterationPath** en queries WIQL, salvo petición explícita
 3. **Confirmar antes de escribir** en Azure DevOps — Claude pregunta antes de modificar datos
@@ -1051,7 +1063,17 @@ Los ficheros en `projects/sala-reservas/test-data/` simulan respuestas reales de
 5. **La Spec es el contrato** — no se implementa sin spec aprobada (ni humanos ni agentes)
 6. **El Code Review (E1) es siempre humano** — sin excepciones, nunca a un agente
 7. **"Si el agente falla, la Spec no era suficientemente buena"** — mejorar la spec, no saltarse el proceso
-8. **Budget de tokens** — respetar el límite configurado por proyecto antes de lanzar agent:team
+
+### Calidad .NET (ver `.claude/rules/dotnet-conventions.md`)
+8. **Verificar siempre**: `dotnet build` + `dotnet test --filter "Category=Unit"` antes de dar una tarea por hecha
+9. **async/await en toda la cadena** — nunca `.Result` ni `.Wait()`
+10. **Revisar migrations antes de aplicar** — `dotnet ef migrations script` para ver el SQL generado
+
+### Buenas prácticas Claude Code (ver `docs/best-practices-claude-code.md`)
+11. **Explorar → Planificar → Implementar → Commit** — usar `/plan` para separar investigación de ejecución
+12. **Gestión activa del contexto** — `/compact` al 50%, `/clear` entre tareas no relacionadas
+13. **Si Claude corrige el mismo error 2+ veces** — `/clear` y reformular el prompt
+14. **README actualizado** — reflejar cambios estructurales o de herramientas antes del commit
 
 ---
 
@@ -1102,9 +1124,74 @@ Los ficheros en `projects/sala-reservas/test-data/` simulan respuestas reales de
 
 ---
 
+## Equipo de Subagentes Especializados
+
+El workspace incluye 8 subagentes que Claude puede invocar en paralelo o en secuencia,
+cada uno optimizado para su tarea con el modelo LLM más adecuado:
+
+| Agente | Modelo | Color | Cuándo se usa |
+|---|---|---|---|
+| `architect` | Opus | 🔵 azul | Diseño de arquitectura .NET, asignación de capas, decisiones técnicas |
+| `business-analyst` | Opus | 🟣 morado | Análisis de PBIs, reglas de negocio, criterios de aceptación |
+| `sdd-spec-writer` | Opus | 🩵 cyan | Generación y validación de Specs SDD ejecutables |
+| `code-reviewer` | Opus | 🔴 rojo | Quality gate: seguridad, SOLID, cumplimiento de spec |
+| `dotnet-developer` | Sonnet | 🟢 verde | Implementación C#/.NET siguiendo specs SDD aprobadas |
+| `test-engineer` | Sonnet | 🟡 amarillo | Tests xUnit/NUnit, TestContainers, cobertura |
+| `tech-writer` | Haiku | ⚪ blanco | README, CHANGELOG, comentarios XML C#, docs de proyecto |
+| `azure-devops-operator` | Haiku | ⬜ blanco brillante | Consultas WIQL, crear/actualizar work items, gestión de sprint |
+
+### Flujo SDD con agentes en paralelo
+
+```
+Usuario: /pbi:plan-sprint --project Alpha
+
+  ┌─ business-analyst (Opus) ─────────────────┐
+  │  Analiza PBIs candidatos                  │   EN PARALELO
+  │  Verifica reglas de negocio               │
+  └───────────────────────────────────────────┘
+  ┌─ azure-devops-operator (Haiku) ───────────┐
+  │  Obtiene sprint activo + capacidades      │   EN PARALELO
+  └───────────────────────────────────────────┘
+           ↓ (resultados combinados)
+  ┌─ architect (Opus) ────────────────────────┐
+  │  Asigna capas a cada task                 │
+  │  Detecta dependencias técnicas            │
+  └───────────────────────────────────────────┘
+           ↓
+  ┌─ sdd-spec-writer (Opus) ──────────────────┐
+  │  Genera specs para tasks → agente         │
+  └───────────────────────────────────────────┘
+           ↓
+  ┌─ dotnet-developer (Sonnet) ───┐  ┌─ test-engineer (Sonnet) ─┐
+  │  Implementa tasks B, C, D     │  │  Escribe tests para E, F  │   EN PARALELO
+  └───────────────────────────────┘  └──────────────────────────┘
+           ↓
+  ┌─ code-reviewer (Opus) ────────────────────┐
+  │  Quality gate antes de commit             │
+  └───────────────────────────────────────────┘
+           ↓
+  ┌─ tech-writer (Haiku) ─────────────────────┐
+  │  Actualiza README + docs del sprint       │
+  └───────────────────────────────────────────┘
+```
+
+### Cómo invocar agentes
+
+```
+# Explícitamente
+"Usa el agente architect para analizar si esta feature cabe en la capa Application"
+"Usa business-analyst y architect en paralelo para analizar el PBI #1234"
+
+# El agente correcto se invoca automáticamente según la descripción de la tarea
+```
+
 ## Soporte
 
-Para ajustar el comportamiento de Claude, edita los ficheros en `.claude/skills/` (cada skill tiene su `SKILL.md`) o añade nuevos slash commands en `.claude/commands/`.
+Para ajustar el comportamiento de Claude, edita los ficheros en:
+- `.claude/skills/` — conocimiento de dominio (cada skill tiene su `SKILL.md`)
+- `.claude/agents/` — subagentes especializados (modelo, herramientas, instrucciones)
+- `.claude/commands/` — slash commands para flujos de trabajo
+- `.claude/rules/` — reglas modulares cargadas bajo demanda
 
 Las métricas de uso de SDD se registran automáticamente en `projects/{proyecto}/specs/sdd-metrics.md` al ejecutar `/spec:review --check-impl`.
 

@@ -1,0 +1,56 @@
+# Regla: Workflow PM — Convenciones, Cadencia y Comandos
+# ── Referencia operativa completa ────────────────────────────────────────────
+
+## 📅 Cadencia Scrum
+
+| Ceremonia | Cuándo | Duración |
+|---|---|---|
+| Sprint Planning | Lunes inicio sprint, 10:00 | 4h max |
+| Daily Standup | Cada día laborable, 09:15 | 15 min |
+| Sprint Review | Viernes fin sprint, 15:00 | 1h |
+| Retrospectiva | Viernes fin sprint, 16:30 | 1.5h |
+| Refinement | Miércoles semana 1 del sprint, 11:00 | 2h |
+
+## 📏 Convenciones
+
+- **Branches:** `feature/AB#XXXX-descripcion`, `bugfix/AB#XXXX-descripcion`
+- **Commits:** `[AB#XXXX] Descripción corta en imperativo`
+- **Sprints:** `Sprint YYYY-NN` (ej: `Sprint 2026-04`)
+- **Informes:** `YYYYMMDD-tipo-proyecto.ext` (ej: `20260222-sprint-report-alpha.xlsx`)
+
+## 📟 Comandos Disponibles
+
+| Comando | Descripción |
+|---|---|
+| `/sprint:status` | Estado del sprint actual: progreso, burndown, alertas |
+| `/sprint:plan` | Asistente de Sprint Planning: capacity + PBIs candidatos |
+| `/sprint:review` | Resumen para Sprint Review: velocity, items completados |
+| `/sprint:retro` | Plantilla de retrospectiva con datos del sprint |
+| `/report:hours` | Informe de imputación de horas (Excel) |
+| `/report:executive` | Informe ejecutivo multi-proyecto (PPT/Word) |
+| `/report:capacity` | Estado de capacidades del equipo |
+| `/team:workload` | Carga de trabajo por persona |
+| `/board:flow` | Análisis del flujo: WIP, cuellos de botella, cycle time |
+| `/kpi:dashboard` | Dashboard completo de KPIs del equipo |
+| `/pbi:decompose {id}` | Descomponer un PBI en tasks con estimación y asignación |
+| `/pbi:decompose-batch {ids}` | Descomponer varios PBIs optimizando la carga global |
+| `/pbi:assign {pbi_id}` | (Re)asignar tasks existentes de un PBI |
+| `/pbi:plan-sprint` | Planning completo: capacity + PBIs + descomposición + asignación |
+| `/spec:generate {task_id}` | Generar Spec ejecutable desde una Task de Azure DevOps |
+| `/spec:implement {spec_file}` | Implementar una Spec (lanza agente Claude o asigna humano) |
+| `/spec:review {spec_file}` | Revisar calidad de Spec o validar implementación resultante |
+| `/spec:status` | Dashboard de estado de todas las Specs del sprint |
+| `/agent:run {spec_file}` | Lanzar agente Claude directamente sobre una Spec |
+
+## 🔗 Referencias
+
+- Reglas Scrum: `docs/reglas-scrum.md`
+- KPIs: `docs/kpis-equipo.md`
+- Plantillas: `docs/plantillas-informes.md`
+- Política estimación: `docs/politica-estimacion.md`
+- Queries WIQL: `.claude/skills/azure-devops-queries/references/wiql-patterns.md`
+- Scoring asignación: `.claude/skills/pbi-decomposition/references/assignment-scoring.md`
+- SDD Template: `.claude/skills/spec-driven-development/references/spec-template.md`
+- SDD Layer Matrix: `.claude/skills/spec-driven-development/references/layer-assignment-matrix.md`
+- SDD Agent Patterns: `.claude/skills/spec-driven-development/references/agent-team-patterns.md`
+- Azure DevOps API v7.1: https://learn.microsoft.com/en-us/rest/api/azure/devops/
