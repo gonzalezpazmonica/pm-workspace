@@ -11,6 +11,7 @@
 projects/proyecto-alpha/
 projects/proyecto-beta/
 projects/sala-reservas/
+projects/dotnet-microservices-home-lab/
 # → añadir aquí nuevos proyectos privados
 
 # ── Datos generados y sensibles de proyectos ─────────────────────────────────
@@ -35,6 +36,9 @@ __pycache__/
 # ── OS ───────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+
+# ── Configuración privada de reglas ──────────────────────────────────────────
+.claude/rules/pm-config.local.md
 
 # ── Claude Code — preferencias personales (no compartir) ─────────────────────
 CLAUDE.local.md
