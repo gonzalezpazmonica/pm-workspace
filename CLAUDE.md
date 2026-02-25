@@ -3,6 +3,7 @@
 
 > Contexto para TODOS los proyectos. Corre `claude` siempre desde ~/claude/.
 > Config detallada: @.claude/rules/pm-config.md · @.claude/rules/pm-workflow.md
+> Proyectos privados: @.claude/rules/pm-config.local.md (git-ignorado, no en este repo)
 > Buenas prácticas: @docs/best-practices-claude-code.md
 
 ---
@@ -14,8 +15,7 @@ AZURE_DEVOPS_ORG_URL    = "https://dev.azure.com/MI-ORGANIZACION"
 AZURE_DEVOPS_PAT_FILE   = "$HOME/.azure/devops-pat"          # sin comillas, sin salto de línea
 AZURE_DEVOPS_API_VERSION = "7.1"
 
-PROJECT_ALPHA_NAME      = "ProyectoAlpha"        # PROJECT_ALPHA_ITERATION_PATH = "ProyectoAlpha\\Sprints"
-PROJECT_BETA_NAME       = "ProyectoBeta"         # PROJECT_BETA_ITERATION_PATH  = "ProyectoBeta\\Sprints"
+# Proyectos activos → ver pm-config.local.md (git-ignorado)
 
 SPRINT_DURATION_WEEKS   = 2                      # TEAM_HOURS_PER_DAY = 8 · TEAM_FOCUS_FACTOR = 0.75
 CLAUDE_MODEL_AGENT      = "claude-opus-4-5-20251101"
@@ -51,10 +51,14 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 
 ## 📋 Proyectos Activos
 
+> Los proyectos reales están en `CLAUDE.local.md` (git-ignorado).
+> Aquí solo figuran los proyectos de ejemplo del repositorio público.
+
 | Proyecto | Azure DevOps | CLAUDE.md específico |
 |---|---|---|
-| Alpha | ProyectoAlpha | `projects/proyecto-alpha/CLAUDE.md` |
-| Beta | ProyectoBeta | `projects/proyecto-beta/CLAUDE.md` |
+| Alpha (ejemplo) | ProyectoAlpha | `projects/proyecto-alpha/CLAUDE.md` |
+| Beta (ejemplo) | ProyectoBeta | `projects/proyecto-beta/CLAUDE.md` |
+| Sala Reservas (test) | SalaReservas | `projects/sala-reservas/CLAUDE.md` |
 
 Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 
@@ -122,4 +126,6 @@ Antes de cualquier commit → `commit-guardian`
 - [ ] `.vscode/settings.json` con reglas de highlight para `.md`
 - [ ] Entrada añadida en tabla "Proyectos Activos" de este fichero
 - [ ] `projects/[nombre]/` añadido al `.gitignore` si es privado
+- [ ] Constantes del proyecto añadidas a `pm-config.local.md` si es privado
+- [ ] Entrada añadida en `CLAUDE.local.md` en tabla "Proyectos Activos" si es privado
 - [ ] `README.md` actualizado para reflejar el nuevo proyecto
