@@ -8,7 +8,7 @@
 
 ## Sensitive Data in This Project
 
-PM Workspace handles configuration that, if exposed, could compromise your Azure DevOps organisation. Be aware of the following:
+PM-Workspace handles configuration that, if exposed, could compromise your Azure DevOps organisation. Be aware of the following:
 
 **Never commit these files:**
 - `.claude/.env` — contains `AZURE_DEVOPS_EXT_PAT` and other secrets
@@ -28,7 +28,7 @@ An Azure DevOps PAT with the scopes required by this workspace (Work Items Read/
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in PM Workspace itself (e.g. a script that leaks credentials, a command that exposes sensitive data in logs, or an unsafe default configuration), please **do not open a public GitHub issue**.
+If you discover a security vulnerability in PM-Workspace itself (e.g. a script that leaks credentials, a command that exposes sensitive data in logs, or an unsafe default configuration), please **do not open a public GitHub issue**.
 
 Instead:
 

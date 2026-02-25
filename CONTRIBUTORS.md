@@ -1,6 +1,6 @@
 # Contributors
 
-Thank you to everyone who has contributed to PM Workspace. ✨
+Thank you to everyone who has contributed to PM-Workspace. ✨
 
 ## Maintainers
 

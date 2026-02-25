@@ -3,7 +3,7 @@
 > Registro histórico de rendimiento del proceso Spec-Driven Development.
 > Actualizar al completar cada Spec (via `/spec:review` con `--check-impl`).
 >
-> **Nota:** Este es el proyecto de test del PM Workspace. Las métricas aquí
+> **Nota:** Este es el proyecto de test del PM-Workspace. Las métricas aquí
 > sirven también para validar que el proceso SDD funciona correctamente en un
 > proyecto real (aunque simulado con mock data).
 

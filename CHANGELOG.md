@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to PM Workspace are documented in this file.
+All notable changes to PM-Workspace are documented in this file.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -20,7 +20,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.1.0] — 2026-03-01
 
-Initial public release of PM Workspace.
+Initial public release of PM-Workspace.
 
 ### Added
 
