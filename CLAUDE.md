@@ -87,8 +87,10 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 | `test-engineer` | Sonnet | xUnit, TestContainers, cobertura |
 | `tech-writer` | Haiku | README, CHANGELOG, XML docs |
 | `azure-devops-operator` | Haiku | WIQL, work items, sprint, capacity |
+| `commit-guardian` | Sonnet | Pre-commit checks: rama, secrets, build, tests, README |
 
 Flujo SDD: `business-analyst` → `architect` → `sdd-spec-writer` → `dotnet-developer` ‖ `test-engineer` → `code-reviewer`
+Antes de cualquier commit → `commit-guardian`
 
 ---
 

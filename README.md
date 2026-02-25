@@ -1143,6 +1143,7 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 | `test-engineer` | Sonnet | 🟡 amarillo | Tests xUnit/NUnit, TestContainers, cobertura |
 | `tech-writer` | Haiku | ⚪ blanco | README, CHANGELOG, comentarios XML C#, docs de proyecto |
 | `azure-devops-operator` | Haiku | ⬜ blanco brillante | Consultas WIQL, crear/actualizar work items, gestión de sprint |
+| `commit-guardian` | Sonnet | 🟠 naranja | Pre-commit: rama, secrets, build, tests, README, formato de mensaje |
 
 ### Flujo SDD con agentes en paralelo
 
@@ -1176,6 +1177,11 @@ Usuario: /pbi:plan-sprint --project Alpha
            ↓
   ┌─ tech-writer (Haiku) ─────────────────────┐
   │  Actualiza README + docs del sprint       │
+  └───────────────────────────────────────────┘
+           ↓
+  ┌─ commit-guardian (Sonnet) ────────────────┐
+  │  Verifica reglas → hace el commit         │
+  │  Si algo falla → delega corrección        │
   └───────────────────────────────────────────┘
 ```
 
