@@ -6,14 +6,15 @@
 **/*-secret*
 **/*-credentials*
 
-# ── Proyectos reales (datos privados) ────────────────────────────────────────
-# Añadir cada proyecto real al crearlo. Solo se publican estructuras de ejemplo.
-projects/proyecto-alpha/
-projects/proyecto-beta/
-projects/sala-reservas/
-# → añadir aquí nuevos proyectos privados
+# ── Proyectos: todo ignorado por defecto, solo se publican los de ejemplo ─────
+# Cualquier proyecto nuevo queda automáticamente excluido sin necesidad de
+# nombrarlo aquí. Solo se declaran explícitamente los proyectos de ejemplo.
+projects/*
+!projects/proyecto-alpha/
+!projects/proyecto-beta/
+!projects/sala-reservas/
 
-# ── Datos generados y sensibles de proyectos ─────────────────────────────────
+# ── Datos generados y sensibles (incluso dentro de proyectos de ejemplo) ──────
 projects/*/sprints/
 projects/*/test-data/
 projects/*/source/
@@ -35,6 +36,9 @@ __pycache__/
 # ── OS ───────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+
+# ── Configuración privada de reglas ──────────────────────────────────────────
+.claude/rules/pm-config.local.md
 
 # ── Claude Code — preferencias personales (no compartir) ─────────────────────
 CLAUDE.local.md
