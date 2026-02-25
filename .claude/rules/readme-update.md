@@ -13,15 +13,24 @@ Actualizar `README.md` (y `README.en.md` si existe) **antes del commit** cuando:
 - Se incorporan **nuevas buenas prácticas** o herramientas al flujo de trabajo
 - Cambia cualquier **prerequisito de instalación** (MCPs, extensiones, dependencias)
 
+## Alineación obligatoria entre idiomas
+
+Los README traducidos (`README.en.md`, etc.) **siempre deben estar alineados** con `README.md`:
+- Si se añade una sección en `README.md`, se añade también en todas las traducciones
+- Si se actualiza información (tablas, diagramas, ejemplos), se actualiza en todos los idiomas
+- Si una traducción no tiene una sección que sí existe en `README.md`, se añade traducida
+- Al actualizar cualquier README, **verificar y actualizar todas las versiones en otros idiomas**
+
 ## Qué secciones revisar
 
 Revisar en orden:
 1. **Tabla de comandos** — refleja exactamente los ficheros en `.claude/commands/`
 2. **Tabla de skills** — refleja exactamente los directorios en `.claude/skills/`
-3. **Estructura de directorios** — árbol actualizado con los directorios reales
-4. **Requisitos previos** — versiones de herramientas, extensiones VSCode, MCPs
-5. **Proyectos de ejemplo** — si se han añadido nuevas estructuras de ejemplo
-6. **Changelog** — actualizar también `CHANGELOG.md` si el cambio es significativo
+3. **Tabla de agentes** — refleja exactamente los ficheros en `.claude/agents/` con modelo y color
+4. **Estructura de directorios** — árbol actualizado con los directorios reales
+5. **Requisitos previos** — versiones de herramientas, extensiones VSCode, MCPs
+6. **Proyectos de ejemplo** — si se han añadido nuevas estructuras de ejemplo
+7. **Changelog** — actualizar también `CHANGELOG.md` si el cambio es significativo
 
 ## Criterio de calidad
 

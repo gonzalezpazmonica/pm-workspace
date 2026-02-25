@@ -18,9 +18,11 @@ AZURE_DEVOPS_API_VERSION = "7.1"
 # Proyectos activos → ver pm-config.local.md (git-ignorado)
 
 SPRINT_DURATION_WEEKS   = 2                      # TEAM_HOURS_PER_DAY = 8 · TEAM_FOCUS_FACTOR = 0.75
-CLAUDE_MODEL_AGENT      = "claude-opus-4-5-20251101"
+CLAUDE_MODEL_AGENT      = "claude-opus-4-6"
+CLAUDE_MODEL_MID        = "claude-sonnet-4-6"
 CLAUDE_MODEL_FAST       = "claude-haiku-4-5-20251001"
 SDD_MAX_PARALLEL_AGENTS = 5                      # SDD_DEFAULT_MAX_TURNS = 40
+TEST_COVERAGE_MIN_PERCENT = 80                   # Umbral mínimo de cobertura para test-runner
 ```
 
 ---
@@ -83,18 +85,21 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
-| `architect` | Opus | Diseño de capas, interfaces, patrones |
-| `business-analyst` | Opus | Reglas de negocio, criterios de aceptación |
-| `sdd-spec-writer` | Opus | Specs ejecutables para agentes de código |
-| `code-reviewer` | Opus | Calidad, seguridad, SOLID |
-| `dotnet-developer` | Sonnet | Implementación C#/.NET |
-| `test-engineer` | Sonnet | xUnit, TestContainers, cobertura |
-| `tech-writer` | Haiku | README, CHANGELOG, XML docs |
-| `azure-devops-operator` | Haiku | WIQL, work items, sprint, capacity |
-| `commit-guardian` | Sonnet | Pre-commit checks: rama, secrets, build, tests, README |
+| `architect` | Opus 4.6 | Diseño de capas, interfaces, patrones |
+| `business-analyst` | Opus 4.6 | Reglas de negocio, criterios de aceptación |
+| `sdd-spec-writer` | Opus 4.6 | Specs ejecutables para agentes de código |
+| `code-reviewer` | Opus 4.6 | Calidad, seguridad, SOLID |
+| `security-guardian` | Opus 4.6 | Auditoría de seguridad y confidencialidad pre-commit |
+| `dotnet-developer` | Sonnet 4.6 | Implementación C#/.NET |
+| `test-engineer` | Sonnet 4.6 | xUnit, TestContainers, cobertura |
+| `test-runner` | Sonnet 4.6 | Ejecución de tests, cobertura ≥ TEST_COVERAGE_MIN_PERCENT, orquestación de mejora |
+| `commit-guardian` | Sonnet 4.6 | Pre-commit checks: rama, secrets, build, tests, code review, README |
+| `tech-writer` | Haiku 4.5 | README, CHANGELOG, XML docs |
+| `azure-devops-operator` | Haiku 4.5 | WIQL, work items, sprint, capacity |
 
 Flujo SDD: `business-analyst` → `architect` → `sdd-spec-writer` → `dotnet-developer` ‖ `test-engineer` → `code-reviewer`
-Antes de cualquier commit → `commit-guardian`
+Antes de cualquier commit → `commit-guardian` (incluye code review automático via `code-reviewer`)
+Tras commit → `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`; si falla → `dotnet-developer`; si cobertura baja → `architect` + `business-analyst` + `dotnet-developer`)
 
 ---
 

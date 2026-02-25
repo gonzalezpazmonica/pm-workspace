@@ -178,7 +178,8 @@ tech_lead_alias: "carlos.mendoza@empresa.com"
 
 ```yaml
 sdd_config:
-  model_agent: "claude-opus-4-5-20251101"
+  model_agent: "claude-opus-4-6"
+  model_mid:   "claude-sonnet-4-6"
   model_fast:  "claude-haiku-4-5-20251001"
   specs_dir: "projects/sala-reservas/specs"
   agentization_target: 0.65    # 65% de tasks técnicas por agente

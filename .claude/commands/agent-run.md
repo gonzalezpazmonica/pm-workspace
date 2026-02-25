@@ -11,7 +11,7 @@ Lanza un agente Claude (o equipo) directamente sobre una Spec, con soporte para 
 - `--all-pending`: Lanzar agentes para todas las specs pendientes `agent:single` del sprint
 - `--team`: Usar patrón `agent:team` (default: `impl-test`)
 - `--pattern {name}`: Patrón específico: `single` | `impl-test` | `impl-test-review` | `full-stack` | `parallel-handlers`
-- `--model {model}`: Sobreescribir modelo (default: `claude-opus-4-5-20251101`)
+- `--model {model}`: Sobreescribir modelo (default: `claude-opus-4-6`)
 
 ## Este comando orquesta
 
@@ -24,7 +24,7 @@ Lanza un agente Claude (o equipo) directamente sobre una Spec, con soporte para 
 SPEC_FILE="{spec_file}"
 BASE="projects/{proyecto}"
 TASK_ID=$(grep "^\*\*Task ID:\*\*" $SPEC_FILE | grep -oE '[0-9]+')
-MODEL="${model:-claude-opus-4-5-20251101}"
+MODEL="${model:-claude-opus-4-6}"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 LOG_FILE="output/agent-runs/${TIMESTAMP}-AB${TASK_ID}-single.log"
 
@@ -85,7 +85,7 @@ TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 
 echo "🤖🤖 AGENT:TEAM (impl-test) — AB#${TASK_ID}"
 echo "   Patrón:         impl-test (Implementador + Tester en paralelo)"
-echo "   Modelo impl:    claude-opus-4-5-20251101"
+echo "   Modelo impl:    claude-opus-4-6"
 echo "   Modelo tester:  claude-haiku-4-5-20251001"
 echo ""
 echo "¿Lanzar equipo de agentes? (s/n)"
@@ -97,7 +97,7 @@ Tras confirmación:
 # Resumen:
 
 # Agente Implementador (background)
-claude --model claude-opus-4-5-20251101 \
+claude --model claude-opus-4-6 \
   --system-prompt "$(cat $BASE/CLAUDE.md). Tu rol: SOLO código de producción en src/. No escribas tests." \
   "$(cat $SPEC_FILE)" \
   2>&1 | tee "output/agent-runs/${TIMESTAMP}-AB${TASK_ID}-implementador.log" &
@@ -123,7 +123,7 @@ echo "⚠️  Ejecuta 'dotnet build && dotnet test' para verificar compatibilida
 Si `--pattern impl-test-review`:
 ```bash
 # Después del wait anterior, lanzar el Reviewer
-claude --model claude-opus-4-5-20251101 \
+claude --model claude-opus-4-6 \
   --system-prompt "Eres un Tech Lead .NET. Tu rol: SOLO revisar y reportar — NO modificar código." \
   "Revisa estos logs contra la Spec y reporta discrepancias.
    $(cat $SPEC_FILE)
@@ -169,7 +169,7 @@ for SPEC_FILE in "${PENDING_SPECS[@]}"; do
   TASK_ID=$(grep "^\*\*Task ID:\*\*" $SPEC_FILE | grep -oE '[0-9]+')
   LOG_FILE="output/agent-runs/${TIMESTAMP}-AB${TASK_ID}-single.log"
 
-  claude --model claude-opus-4-5-20251101 \
+  claude --model claude-opus-4-6 \
     --system-prompt "$(cat $BASE/CLAUDE.md)" \
     --max-turns 40 \
     "Implementa la siguiente Spec: $(cat $SPEC_FILE)" \
@@ -199,11 +199,13 @@ done
 
 ```bash
 # Configuración en CLAUDE.md del proyecto o usar defaults:
-CLAUDE_MODEL_AGENT="claude-opus-4-5-20251101"   # Para código de producción y lógica compleja
+CLAUDE_MODEL_AGENT="claude-opus-4-6"            # Para código de producción y lógica compleja
+CLAUDE_MODEL_MID="claude-sonnet-4-6"            # Para tareas medianas/balanceadas
 CLAUDE_MODEL_FAST="claude-haiku-4-5-20251001"   # Para tests, DTOs, validadores simples
 
 # Criterios de selección:
 # - Usar AGENT para: handlers, servicios con lógica, repositorios complejos
+# - Usar MID para: tareas medianas, refactoring, lógica moderada
 # - Usar FAST para: unit tests, DTOs/Records, validators simples, mappers
 ```
 
