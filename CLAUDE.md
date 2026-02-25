@@ -71,6 +71,7 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 7. **PBIs**: presentar propuesta completa antes de crear tasks; NUNCA crear sin confirmación
 8. **SDD**: NUNCA lanzar agente sin Spec aprobada; Code Review (E1) SIEMPRE es humano
 9. **README**: actualizar `README.md` cuando cambien estructura, tools o configuración
+10. **Git**: NUNCA commit directo en `main` — siempre rama `feature/fix/docs/` + PR · ver `@.claude/rules/github-flow.md`
 
 ---
 
