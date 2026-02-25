@@ -80,7 +80,7 @@ LOG_FILE="output/agent-runs/${TIMESTAMP}-AB${TASK_ID}-single.log"
 
 # Mostrar plan antes de ejecutar
 echo "🤖 LANZAR AGENTE — AB#${TASK_ID}"
-echo "   Modelo:  claude-opus-4-5-20251101"
+echo "   Modelo:  claude-opus-4-6"
 echo "   Spec:    $SPEC_FILE"
 echo "   Log:     $LOG_FILE"
 echo "   Max turns: 40"
@@ -90,7 +90,7 @@ echo "¿Procedo a lanzar el agente? (s/n)"
 
 Tras confirmación:
 ```bash
-claude --model claude-opus-4-5-20251101 \
+claude --model claude-opus-4-6 \
   --system-prompt "$(cat $BASE/CLAUDE.md)" \
   --max-turns 40 \
   "Implementa la siguiente Spec exactamente como se describe.

@@ -11,7 +11,7 @@ tools:
   - Glob
   - Grep
   - Task
-model: claude-sonnet-4-5-20250929
+model: claude-sonnet-4-6
 color: orange
 maxTurns: 30
 ---
@@ -79,7 +79,34 @@ dotnet format --verify-no-changes 2>&1
 - ✅ Sin cambios de formato pendientes
 - 🔴 Delegar a `dotnet-developer` para ejecutar `dotnet format`
 
-### CHECK 6 — README actualizado (readme-update.md)
+### CHECK 6 — Code Review estático (si hay cambios en `.cs`)
+
+Solo si CHECK 3 detectó cambios .NET y los checks 3-5 pasaron.
+
+Delegar al agente `code-reviewer` usando la herramienta `Task`:
+
+```
+Agente: code-reviewer
+Descripción: Revisión de código pre-commit
+Prompt: Revisa los cambios staged (git diff --cached) aplicando las reglas de
+        .claude/rules/csharp-rules.md. Prioriza: Vulnerabilities > Bugs > Code Smells.
+        Solo reporta hallazgos Blocker y Critical. Devuelve tu veredicto:
+        APROBADO, APROBADO_CON_CAMBIOS_MENORES o RECHAZADO.
+```
+
+Interpretar el resultado:
+- `APROBADO` → ✅ continuar con CHECK 7
+- `APROBADO_CON_CAMBIOS_MENORES` → 🟡 continuar con CHECK 7, incluir hallazgos en informe final
+- `RECHAZADO` → 🔴 Delegar correcciones a `dotnet-developer` con el informe completo del reviewer
+
+**Ciclo de corrección automática (máx 2 intentos):**
+1. Si `RECHAZADO`: enviar informe completo a `dotnet-developer` para que corrija
+2. Tras la corrección, re-ejecutar checks 3-5 (build, tests, formato)
+3. Si 3-5 pasan, volver a delegar a `code-reviewer`
+4. Si el segundo review es `RECHAZADO` → escalar al humano
+5. Si el segundo review es `APROBADO` o `APROBADO_CON_CAMBIOS_MENORES` → continuar
+
+### CHECK 7 — README actualizado (readme-update.md)
 Leer `.claude/rules/readme-update.md` para confirmar los triggers. Verificar si los archivos staged
 tocan alguno de estos directorios:
 ```bash
@@ -92,7 +119,7 @@ git diff --cached --name-only | grep "README.md"
 - ✅ README.md está staged (o no hubo cambios que lo requieran)
 - 🔴 Delegar a `tech-writer` para actualizar README.md con los cambios detectados
 
-### CHECK 7 — CLAUDE.md dentro del límite (si está staged)
+### CHECK 8 — CLAUDE.md dentro del límite (si está staged)
 ```bash
 git diff --cached --name-only | grep "^CLAUDE.md$"
 ```
@@ -104,7 +131,7 @@ wc -l CLAUDE.md
 - 🟡 Avisar si está entre 130-150 líneas (margen reducido)
 - 🔴 > 150 líneas → delegar a `tech-writer` para comprimir
 
-### CHECK 8 — Mensaje de commit (Conventional Commits)
+### CHECK 9 — Mensaje de commit (Conventional Commits)
 Recibir el mensaje propuesto y verificar formato:
 - Formato: `tipo(scope): descripción` donde tipo ∈ {feat, fix, docs, refactor, chore, test, ci}
 - Descripción en inglés o español, ≤ 72 caracteres en la primera línea
@@ -122,9 +149,12 @@ Recibir el mensaje propuesto y verificar formato:
 | Build .NET falla | `dotnet-developer` | Error completo de `dotnet build`, ficheros afectados |
 | Tests unitarios fallan | `dotnet-developer` | Nombres de tests fallidos y error message |
 | Formato .NET incorrecto | `dotnet-developer` | Ejecutar `dotnet format` en el proyecto |
+| Code review rechazado | `dotnet-developer` | Informe completo de `code-reviewer` con hallazgos a corregir |
+| Code review (siempre si hay .cs) | `code-reviewer` | Revisar staged aplicando `.claude/rules/csharp-rules.md` |
 | README no actualizado | `tech-writer` | Lista de ficheros cambiados que requieren docs update |
 | CLAUDE.md > 150 líneas | `tech-writer` | Pedir compresión priorizando @imports |
 | Secrets/datos privados detectados | ❌ Humano | NUNCA delegar — escalar siempre al humano con informe security-guardian |
+| Code review rechazado 2 veces | ❌ Humano | Escalar con informe completo de ambos intentos |
 | Commit en main | ❌ Humano | NUNCA delegar a agente — escalar siempre al humano |
 
 ---
@@ -158,9 +188,11 @@ Antes de hacer el commit (o de bloquearlo), genera siempre este resumen:
   Check 3 — Build .NET ................... ✅ / ⏭️ no aplica
   Check 4 — Tests unitarios .............. ✅ 42/42 / ⏭️ no aplica
   Check 5 — Formato ...................... ✅ / ⏭️ no aplica
-  Check 6 — README actualizado ........... ✅ / 🔴 PENDIENTE
-  Check 7 — CLAUDE.md ≤ 150 líneas ....... ✅ 122 líneas
-  Check 8 — Mensaje de commit ............ ✅ formato correcto
+  Check 6 — Code review .................. ✅ APROBADO / 🟡 CAMBIOS MENORES / 🔴 RECHAZADO
+             (delegado a code-reviewer: reglas csharp-rules.md)
+  Check 7 — README actualizado ........... ✅ / 🔴 PENDIENTE
+  Check 8 — CLAUDE.md ≤ 150 líneas ....... ✅ 122 líneas
+  Check 9 — Mensaje de commit ............ ✅ formato correcto
 
   RESULTADO: ✅ APROBADO / 🔴 BLOQUEADO (N checks fallidos)
 ═══════════════════════════════════════════════════════════

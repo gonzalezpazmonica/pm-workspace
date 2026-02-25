@@ -127,7 +127,7 @@ Ana:     Sin ausencias
 ### claude-agent-opus — Implementador
 ```
 ID (Azure DevOps tag):  dev:agent
-Modelo:                 claude-opus-4-5-20251101
+Modelo:                 claude-opus-4-6
 Rol:                    Application Layer + Infrastructure (cuando hay patrón de referencia)
 Coste estimado:         ~$0.60-1.20 por spec
 ```
