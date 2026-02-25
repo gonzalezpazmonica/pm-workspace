@@ -10,14 +10,12 @@ AZURE_DEVOPS_ORG_NAME       = "MI-ORGANIZACION"
 AZURE_DEVOPS_PAT_FILE       = "$HOME/.azure/devops-pat"          # fichero con el PAT (sin comillas, sin salto de línea)
 AZURE_DEVOPS_API_VERSION    = "7.1"
 
-# ── Proyectos activos (nombre exacto en Azure DevOps) ────────────────────────
-PROJECT_ALPHA_NAME          = "ProyectoAlpha"
-PROJECT_ALPHA_TEAM          = "ProyectoAlpha Team"
-PROJECT_ALPHA_ITERATION_PATH = "ProyectoAlpha\\Sprints"
-
-PROJECT_BETA_NAME           = "ProyectoBeta"
-PROJECT_BETA_TEAM           = "ProyectoBeta Team"
-PROJECT_BETA_ITERATION_PATH = "ProyectoBeta\\Sprints"
+# ── Proyectos activos ─────────────────────────────────────────────────────────
+# Los proyectos reales (privados) están en pm-config.local.md (git-ignorado).
+# Formato para añadir un proyecto Azure DevOps en pm-config.local.md:
+#   PROJECT_XXX_NAME           = "NombreExactoEnAzureDevOps"
+#   PROJECT_XXX_TEAM           = "NombreEquipo Team"
+#   PROJECT_XXX_ITERATION_PATH = "NombreExactoEnAzureDevOps\\Sprints"
 
 # ── Configuración de sprints ──────────────────────────────────────────────────
 SPRINT_DURATION_WEEKS       = 2                                   # duración estándar de sprint
