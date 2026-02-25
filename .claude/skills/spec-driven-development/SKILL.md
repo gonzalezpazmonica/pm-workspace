@@ -35,7 +35,8 @@ SPECS_DIR="projects/{proyecto}/specs"          # directorio de specs del proyect
 SPECS_SPRINT_DIR="$SPECS_DIR/{sprint}"         # specs del sprint actual
 SPEC_EXTENSION=".spec.md"                      # extensión de los ficheros de spec
 AGENT_LOGS_DIR="output/agent-runs"             # logs de ejecuciones de agentes
-CLAUDE_MODEL_AGENT="claude-opus-4-5-20251101"  # modelo para agentes (configurable por proyecto)
+CLAUDE_MODEL_AGENT="claude-opus-4-6"           # modelo para agentes (configurable por proyecto)
+CLAUDE_MODEL_MID="claude-sonnet-4-6"           # modelo para tareas medianas/balanceadas
 CLAUDE_MODEL_FAST="claude-haiku-4-5-20251001"  # modelo para tareas simples (tests, DTOs)
 ```
 

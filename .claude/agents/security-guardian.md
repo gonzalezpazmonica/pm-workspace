@@ -11,7 +11,7 @@ tools:
   - Read
   - Glob
   - Grep
-model: claude-opus-4-5-20251101
+model: claude-opus-4-6
 color: red
 maxTurns: 20
 ---

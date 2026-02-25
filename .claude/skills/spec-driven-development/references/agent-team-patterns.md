@@ -33,7 +33,7 @@ BASE="projects/{proyecto}"
 SPEC_FILE="$BASE/specs/{sprint}/{spec_filename}.spec.md"
 LOG_FILE="output/agent-runs/$(date +%Y%m%d-%H%M%S)-{task_id}-single.log"
 
-claude --model claude-opus-4-5-20251101 \
+claude --model claude-opus-4-6 \
   --system-prompt "$(cat $BASE/CLAUDE.md)" \
   --max-turns 40 \
   "Implementa la siguiente Spec exactamente como se describe.
@@ -79,7 +79,7 @@ SPEC_FILE="$BASE/specs/{sprint}/{spec_filename}.spec.md"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 
 # Agente 1: Implementador — solo código de producción, sin tests
-claude --model claude-opus-4-5-20251101 \
+claude --model claude-opus-4-6 \
   --system-prompt "Eres un desarrollador .NET 8 senior especializado en Clean Architecture y CQRS.
 Tu único rol es implementar el código de PRODUCCIÓN de la Spec:
 - Ficheros en src/ (NO tests/)
@@ -155,7 +155,7 @@ wait $PID_IMPL $PID_TEST
 IMPL_LOG="output/agent-runs/${TIMESTAMP}-{task_id}-implementador.log"
 TEST_LOG="output/agent-runs/${TIMESTAMP}-{task_id}-tester.log"
 
-claude --model claude-opus-4-5-20251101 \
+claude --model claude-opus-4-6 \
   --system-prompt "Eres un Tech Lead .NET revisando código generado por agentes IA.
 Tu rol es SOLO revisar y reportar — NO modificar código.
 Busca específicamente:
@@ -240,7 +240,7 @@ for ROLE in "api" "application" "infrastructure" "tests"; do
       ;;
   esac
 
-  claude --model claude-opus-4-5-20251101 \
+  claude --model claude-opus-4-6 \
     --system-prompt "$SYSTEM_PROMPT. $ROLE_PROMPT" \
     "$(cat $SPEC_FILE)" \
     2>&1 | tee "output/agent-runs/${TIMESTAMP}-{task_id}-${ROLE}.log" &
@@ -281,7 +281,7 @@ for SPEC_FILE in $SPRINT_DIR/*.spec.md; do
   fi
 
   echo "🚀 Lanzando agente para: $SPEC_BASENAME"
-  claude --model claude-opus-4-5-20251101 \
+  claude --model claude-opus-4-6 \
     --system-prompt "$(cat $BASE/CLAUDE.md)" \
     --max-turns 30 \
     "Implementa esta Spec exactamente. No tomes decisiones fuera de la Spec.
@@ -369,7 +369,7 @@ cat "output/agent-runs/${TIMESTAMP}-${TASK_ID}-summary.md"
 | `full-stack` | 4 | 25-40 c/u | ~180K total | ~90K total | ~$1.80 |
 | `parallel-handlers` (5 specs) | 5 | 20-30 c/u | ~200K total | ~120K total | ~$2.50 |
 
-*Estimaciones con claude-opus-4-5-20251101 a $15/MTok input, $75/MTok output.
+*Estimaciones con claude-opus-4-6 a $15/MTok input, $75/MTok output.
 El patrón `tester` usa claude-haiku que es ~20x más barato.*
 
 ---
