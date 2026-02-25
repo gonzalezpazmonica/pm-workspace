@@ -138,7 +138,8 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 │       ├── pm-config.md         ← Constantes completas Azure DevOps
 │       ├── pm-workflow.md       ← Cadencia Scrum y tabla de comandos
 │       ├── dotnet-conventions.md← Convenciones C#/.NET y verificación
-│       └── readme-update.md     ← Cuándo y cómo actualizar este README
+│       ├── readme-update.md     ← Cuándo y cómo actualizar este README
+│       └── github-flow.md       ← Branching workflow: ramas, PRs, protección de main
 │
 ├── docs/
 │   ├── reglas-scrum.md
@@ -1075,6 +1076,9 @@ Los ficheros en `projects/sala-reservas/test-data/` simulan respuestas reales de
 13. **Si Claude corrige el mismo error 2+ veces** — `/clear` y reformular el prompt
 14. **README actualizado** — reflejar cambios estructurales o de herramientas antes del commit
 
+### Git workflow (ver `.claude/rules/github-flow.md`)
+15. **Nunca commit directo en `main`** — todo cambio pasa por rama + Pull Request + revisión
+
 ---
 
 ## Roadmap de Adopción
@@ -1284,9 +1288,11 @@ Este proyecto está diseñado para crecer con las aportaciones de la comunidad. 
 
 ### Flujo de contribución
 
+Este repositorio sigue **GitHub Flow**: ningún commit va directamente a `main`. Todo cambio pasa por rama de feature + Pull Request. Ver `.claude/rules/github-flow.md` para la referencia completa.
+
 ```
 1. Fork del repositorio en GitHub
-2. Crea una rama con nombre descriptivo
+2. Crea una rama con nombre descriptivo (feature/, fix/, docs/, refactor/)
 3. Desarrolla y documenta tu contribución
 4. Ejecuta el test suite (debe pasar ≥ 93/96 en modo mock)
 5. Abre un Pull Request siguiendo la plantilla
