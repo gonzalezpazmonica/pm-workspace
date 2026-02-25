@@ -37,6 +37,8 @@ main
 |---|---|
 | Nombrar con prefijo | `feature/`, `fix/`, `docs/`, `refactor/`, `chore/` |
 | Nombre descriptivo | `feature/agente-architect` no `feature/rama1` |
+| Nombre ≤ 5 palabras | Máximo 5 palabras separadas por guiones tras el prefijo |
+| Refleja el PBI/tarea | Si existe PBI o tarea, el nombre debe reflejarlo; si no, sintetizar el concepto principal de los cambios |
 | Ramas cortas | Merge en días, no semanas; evitar ramas de larga vida |
 | Una rama por PBI/tarea | No mezclar cambios no relacionados en la misma rama |
 
@@ -47,6 +49,17 @@ main
 - `docs/` — solo documentación (README, best-practices, reglas)
 - `refactor/` — reestructuración sin cambio de comportamiento
 - `chore/` — mantenimiento (actualizar .gitignore, limpieza, etc.)
+
+### Nombrado de rama: regla pre-commit
+
+Antes de hacer commit, verificar que el nombre de la rama actual cumple:
+1. **Si existe PBI o tarea** → el nombre refleja el PBI/tarea (ej: `feature/crud-sala-reservas`)
+2. **Si no existe PBI** → sintetizar el concepto principal de los cambios más importantes
+3. **Máximo 5 palabras** separadas por guiones tras el prefijo
+4. **Si la rama no cumple** → crear una nueva rama con nombre correcto y mover los cambios
+
+Ejemplos válidos: `feature/new-test-runner-agent`, `fix/capacity-formula-edge-case`, `docs/align-readme-agent-table`
+Ejemplos inválidos: `feature/rama1`, `fix/cosas`, `docs/rename-pm-workspace-and-align-examples-with-current-conventions` (demasiado largo)
 
 ---
 
@@ -106,10 +119,13 @@ git checkout main && git pull && git branch -d feature/nombre-descriptivo
 
 ## En este workspace
 
-Claude Code **nunca** hace commit directamente en `main`. Para cualquier cambio:
+Claude Code **nunca** hace commit directamente en `main`. Siempre se parte de `main` y se vuelve a `main`:
 
-1. `git checkout -b feature/descripcion` desde `main` actualizado
-2. Implementar + commit(s)
-3. `git push -u origin feature/descripcion`
-4. Crear PR en GitHub para revisión
-5. Tras merge → `git checkout main && git pull`
+1. **Partir de `main`**: `git checkout main && git pull` antes de empezar cualquier tarea
+2. **Crear rama**: `git checkout -b feature/descripcion` (nombre ≤ 5 palabras, refleja PBI/tarea o síntesis del cambio)
+3. Implementar + commit(s)
+4. **Antes de cada commit**: verificar que el nombre de la rama refleja los cambios; si no, crear rama nueva con nombre adecuado
+5. **Volver a `main`**: tras el commit, `git checkout main` — la rama queda lista para push/PR pero el workspace vuelve a `main`
+6. Desde `main`, la siguiente tarea creará su propia rama nueva
+
+**Regla fundamental: toda tarea empieza en `main` y termina en `main`.**
