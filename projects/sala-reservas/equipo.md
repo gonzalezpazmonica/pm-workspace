@@ -1,6 +1,6 @@
 # Equipo — Proyecto Sala Reservas (Test)
 
-> Equipo ficticio para el proyecto de test del PM Workspace.
+> Equipo ficticio para el proyecto de test del PM-Workspace.
 
 ## Configuración de Capacidad
 

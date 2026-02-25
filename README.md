@@ -2,7 +2,7 @@
 
 🌐 [English version](README.en.md) · **Español**
 
-# PM Workspace — Claude Code + Azure DevOps
+# PM-Workspace — Claude Code + Azure DevOps
 
 [![CI](https://img.shields.io/github/actions/workflow/status/gonzalezpazmonica/pm-workspace/ci.yml?branch=main&label=CI&logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/gonzalezpazmonica/pm-workspace?logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/releases)
@@ -28,7 +28,7 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 > **💬 EJEMPLO — Primeros cinco minutos con el workspace**
 >
-> _Escenario: Es lunes por la mañana. Abres Claude Code por primera vez desde la raíz de `pm-workspace/`._
+> _Escenario: Es lunes por la mañana. Abres Claude Code por primera vez desde la raíz de `~/claude/`._
 >
 > **Tú escribes:**
 > ```
@@ -1399,4 +1399,4 @@ Las contribuciones deben ser respetuosas, técnicamente sólidas y orientadas a 
 
 ---
 
-*PM Workspace — Estrategia Claude Code + Azure DevOps para equipos .NET/Scrum*
+*PM-Workspace — Estrategia Claude Code + Azure DevOps para equipos .NET/Scrum*

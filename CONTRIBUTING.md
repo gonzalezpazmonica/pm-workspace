@@ -1,6 +1,6 @@
-# Contributing to PM Workspace
+# Contributing to PM-Workspace
 
-Thank you for considering a contribution. PM Workspace grows through real-world use: the best contributions come from PMs who found something missing while managing an actual project.
+Thank you for considering a contribution. PM-Workspace grows through real-world use: the best contributions come from PMs who found something missing while managing an actual project.
 
 Before you start, please read this document and the [Code of Conduct](CODE_OF_CONDUCT.md).
 
