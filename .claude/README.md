@@ -1,11 +1,6 @@
-# .claude/ — Plantilla Pública de PM Workspace
+# .claude/ — Configuración de PM-Workspace
 
-> ⚠️ **Esta es una plantilla de referencia**, no el entorno de trabajo activo.
->
-> Si has clonado este repositorio y quieres usar estas herramientas:
-> 1. Copia este directorio `.claude/` a tu carpeta de trabajo principal
-> 2. Edita las constantes de configuración en tu `CLAUDE.md` raíz
-> 3. Configura tus credenciales de Azure DevOps en `~/.azure/devops-pat`
+Directorio de configuración de Claude Code para PM-Workspace + Azure DevOps.
 
 ---
 
@@ -22,15 +17,13 @@
 │   ├── executive-reporting/
 │   ├── pbi-decomposition/
 │   └── spec-driven-development/
+├── agents/            ← 9 subagentes especializados (architect, dotnet-developer, etc.)
+├── rules/             ← Reglas modulares cargadas bajo demanda
 ├── mcp.json           ← Configuración MCP Azure DevOps (rellenar con datos reales)
 └── settings.local.json ← Permisos pre-aprobados (personalizar según entorno)
 ```
 
-## Entorno de trabajo de la autora
-
-Las herramientas activas de la autora viven en `~/claude/.claude/` (directorio padre,
-fuera de este repositorio git), siguiendo el patrón recomendado de Claude Code de
-separar la configuración personal del repositorio público compartido.
+Para configurar el workspace, sigue las instrucciones en [SETUP.md](../SETUP.md).
 
 ---
 

@@ -1,6 +1,6 @@
-# Sala Reservas — Proyecto de Test del PM Workspace
+# Sala Reservas — Proyecto de Test del PM-Workspace
 
-> ⚠️ PROYECTO DE TEST — Creado para validar todas las funcionalidades del PM Workspace.
+> ⚠️ PROYECTO DE TEST — Creado para validar todas las funcionalidades del PM-Workspace.
 > Los datos de Azure DevOps son ficticios. Consulta `test-data/` para los mocks.
 
 ---
@@ -128,7 +128,6 @@ projects/sala-reservas/
 │       └── planning.md          ← Planning detallado del sprint
 ├── specs/
 │   ├── sdd-metrics.md           ← Métricas SDD
-│   ├── templates/               ← Plantilla de specs
 │   └── sprint-2026-04/          ← Specs del sprint actual
 │       ├── AB101-B3-create-sala-handler.spec.md
 │       └── AB102-D1-unit-tests-salas.spec.md
@@ -221,7 +220,7 @@ sdd_config:
 
 ## ⚠️ Notas del Proyecto de Test
 
-- Este proyecto existe para validar el PM Workspace sin necesidad de Azure DevOps real
+- Este proyecto existe para validar el PM-Workspace sin necesidad de Azure DevOps real
 - Los datos de `test-data/` simulan respuestas reales de la API de Azure DevOps
 - Las specs en `specs/sprint-2026-04/` son specs completas y ejecutables para testear SDD
 - El script `scripts/test-workspace.sh --mock` usa estos datos y no necesita conectividad

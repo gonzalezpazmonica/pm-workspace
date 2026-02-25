@@ -1,4 +1,4 @@
-# Guía de Inicio Rápido — PM Workspace
+# Guía de Inicio Rápido — PM-Workspace
 
 ## Paso 1 — Configurar el PAT de Azure DevOps
 

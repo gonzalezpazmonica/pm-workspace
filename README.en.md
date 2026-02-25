@@ -2,7 +2,7 @@
 
 **English** · [Versión en español](README.md)
 
-# PM Workspace — Claude Code + Azure DevOps
+# PM-Workspace — Claude Code + Azure DevOps
 
 [![CI](https://img.shields.io/github/actions/workflow/status/gonzalezpazmonica/pm-workspace/ci.yml?branch=main&label=CI&logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/gonzalezpazmonica/pm-workspace?logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/releases)
@@ -1257,4 +1257,4 @@ SDD usage metrics are automatically recorded in `projects/{project}/specs/sdd-me
 
 ---
 
-*PM Workspace — Claude Code + Azure DevOps strategy for .NET/Scrum teams*
+*PM-Workspace — Claude Code + Azure DevOps strategy for .NET/Scrum teams*
