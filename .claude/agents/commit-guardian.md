@@ -32,18 +32,22 @@ git branch --show-current
 - ✅ Cualquier rama que NO sea `main`
 - 🔴 BLOQUEO ABSOLUTO si la rama es `main` → comunicar al humano, NUNCA hacer commit en main
 
-### CHECK 2 — Archivos sensibles (seguridad)
-```bash
-git diff --cached --name-only
+### CHECK 2 — Seguridad, confidencialidad y datos privados
+
+Delegar SIEMPRE al agente especializado `security-guardian` usando la herramienta `Task`:
+
 ```
-Buscar en la lista de archivos staged:
-- Patrones: `*.pat`, `*.secret`, `*-credentials*`, `settings.local.json`, `.env`
-- Buscar en el contenido staged: `password`, `token`, `apikey`, `connectionstring` en valores literales
-```bash
-git diff --cached | grep -iE "(password|token|apikey|pat=|secret=|connectionstring)" | grep "^+" | grep -v "^\+\+\+"
+Agente: security-guardian
+Descripción: Auditoría de seguridad pre-commit
+Prompt: Audita los cambios staged en busca de credenciales, datos privados,
+        proyectos privados, IPs de infraestructura real o cualquier dato sensible
+        que no deba estar en el repositorio público. Devuelve tu veredicto completo.
 ```
-- ✅ Sin coincidencias
-- 🔴 BLOQUEO ABSOLUTO → comunicar al humano con el fichero y la línea exacta
+
+Interpretar el resultado:
+- `SECURITY: APROBADO` → ✅ continuar con CHECK 3
+- `SECURITY: APROBADO_CON_ADVERTENCIAS` → 🟡 continuar con CHECK 3, incluir advertencias en informe final
+- `SECURITY: BLOQUEADO` → 🔴 BLOQUEO ABSOLUTO → escalar al humano con el informe completo de security-guardian. NUNCA intentar resolver credenciales reales.
 
 ### CHECK 3 — Build .NET (si hay cambios en `.cs` o `.csproj`)
 ```bash
@@ -114,12 +118,13 @@ Recibir el mensaje propuesto y verificar formato:
 
 | Problema detectado | Agente a llamar | Qué comunicarle |
 |---|---|---|
+| Auditoría de seguridad (siempre) | `security-guardian` | Auditar staged: credenciales, datos privados, IPs, GDPR |
 | Build .NET falla | `dotnet-developer` | Error completo de `dotnet build`, ficheros afectados |
 | Tests unitarios fallan | `dotnet-developer` | Nombres de tests fallidos y error message |
 | Formato .NET incorrecto | `dotnet-developer` | Ejecutar `dotnet format` en el proyecto |
 | README no actualizado | `tech-writer` | Lista de ficheros cambiados que requieren docs update |
 | CLAUDE.md > 150 líneas | `tech-writer` | Pedir compresión priorizando @imports |
-| Secrets detectados | ❌ Humano | NUNCA delegar a agente — escalar siempre al humano |
+| Secrets/datos privados detectados | ❌ Humano | NUNCA delegar — escalar siempre al humano con informe security-guardian |
 | Commit en main | ❌ Humano | NUNCA delegar a agente — escalar siempre al humano |
 
 ---
@@ -143,21 +148,22 @@ Si tras dos intentos el check sigue fallando → escalar al humano.
 Antes de hacer el commit (o de bloquearlo), genera siempre este resumen:
 
 ```
-═══════════════════════════════════════════════
+═══════════════════════════════════════════════════════════
   PRE-COMMIT CHECK — [rama] → [tipo de cambio]
-═══════════════════════════════════════════════
+═══════════════════════════════════════════════════════════
 
-  Check 1 — Rama ..................... ✅ feature/nombre
-  Check 2 — Secrets .................. ✅ sin coincidencias
-  Check 3 — Build .NET ............... ✅ / ⏭️ no aplica
-  Check 4 — Tests unitarios .......... ✅ 42/42 / ⏭️ no aplica
-  Check 5 — Formato .................. ✅ / ⏭️ no aplica
-  Check 6 — README actualizado ....... ✅ / 🔴 PENDIENTE
-  Check 7 — CLAUDE.md ≤ 150 líneas ... ✅ 122 líneas
-  Check 8 — Mensaje de commit ........ ✅ formato correcto
+  Check 1 — Rama ......................... ✅ feature/nombre
+  Check 2 — Security audit ............... ✅ APROBADO / 🟡 ADVERTENCIAS / 🔴 BLOQUEADO
+             (delegado a security-guardian: credenciales, datos privados, GDPR, IPs)
+  Check 3 — Build .NET ................... ✅ / ⏭️ no aplica
+  Check 4 — Tests unitarios .............. ✅ 42/42 / ⏭️ no aplica
+  Check 5 — Formato ...................... ✅ / ⏭️ no aplica
+  Check 6 — README actualizado ........... ✅ / 🔴 PENDIENTE
+  Check 7 — CLAUDE.md ≤ 150 líneas ....... ✅ 122 líneas
+  Check 8 — Mensaje de commit ............ ✅ formato correcto
 
   RESULTADO: ✅ APROBADO / 🔴 BLOQUEADO (N checks fallidos)
-═══════════════════════════════════════════════
+═══════════════════════════════════════════════════════════
 ```
 
 Solo cuando todos los checks son ✅ o ⏭️ (no aplica), ejecutas:
