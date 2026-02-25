@@ -729,7 +729,7 @@ La matrix completa está en `.claude/skills/spec-driven-development/references/l
 >
 > **Claude responde:**
 > ```
-> Lanzando agente claude-opus-4-5 sobre AB302-B3...
+> Lanzando agente claude-opus-4-6 sobre AB302-B3...
 > Log en tiempo real: output/agent-runs/20260519-094512-AB302-B3-single.log
 >
 > [09:45:14] Agente iniciado — leyendo spec y contexto del proyecto
@@ -767,7 +767,7 @@ La matrix completa está en `.claude/skills/spec-driven-development/references/l
 > ✅ AB#302-B3 actualizada en Azure DevOps:
 >    Estado: In Review
 >    Tags añadidos: spec-driven; agent-implemented
->    Comentario: "Implementado por claude-opus-4-5. Build OK, 6/6 tests. Pendiente Code Review."
+>    Comentario: "Implementado por claude-opus-4-6. Build OK, 6/6 tests. Pendiente Code Review."
 > ```
 
 ---
@@ -842,8 +842,8 @@ Los patrones disponibles están documentados en `references/agent-team-patterns.
 > **Claude responde:**
 > ```
 > Patrón seleccionado: impl-test (código producción + tests en paralelo)
->   Agente 1 — Implementador: claude-opus-4-5  (handler + service)
->   Agente 2 — Tester:        claude-haiku-4-5 (unit tests + mocks)
+>   Agente 1 — Implementador: claude-opus-4-6  (handler + service)
+>   Agente 2 — Tester:        claude-haiku-4-5-20251001 (unit tests + mocks)
 >
 > Coste estimado: ~$1.40 USD
 > ¿Confirmas el lanzamiento?
@@ -858,8 +858,8 @@ Los patrones disponibles están documentados en `references/agent-team-patterns.
 > ```
 > Lanzando 2 agentes en paralelo...
 >
-> [Agente 1] 09:51:03 → Implementando SendCitaConfirmationCommandHandler...
-> [Agente 2] 09:51:04 → Generando unit tests para SendCitaConfirmationCommand...
+> [Agente 1 — opus] 09:51:03 → Implementando SendCitaConfirmationCommandHandler...
+> [Agente 2 — haiku] 09:51:04 → Generando unit tests para SendCitaConfirmationCommand...
 >
 > [Agente 1] 09:52:41 → Handler + EmailTemplateService completos. Build OK.
 > [Agente 2] 09:52:58 → 9 unit tests generados. Esperando implementación para ejecutar.
@@ -898,7 +898,8 @@ En proyectos de precio fijo, se puede ajustar: más peso en expertise y disponib
 ```yaml
 # En projects/{proyecto}/CLAUDE.md
 sdd_config:
-  model_agent: "claude-opus-4-5-20251101"
+  model_agent: "claude-opus-4-6"
+  model_mid:   "claude-sonnet-4-6"
   model_fast:  "claude-haiku-4-5-20251001"
   token_budget_usd: 30          # Presupuesto mensual en tokens
   max_parallel_agents: 5
@@ -935,6 +936,9 @@ sdd_config:
 >   growth:       0.00   # ← baja a 0: no arriesgar horas de aprendizaje
 >
 > sdd_config:
+>   model_agent: "claude-opus-4-6"
+>   model_mid:   "claude-sonnet-4-6"
+>   model_fast:  "claude-haiku-4-5-20251001"
 >   agentization_target: 0.40    # ← meta conservadora: solo 40% agentizado
 >   require_tech_lead_approval: true  # ← Carlos revisa CADA spec antes de lanzar agente
 >   cost_alert_per_spec_usd: 1.50     # ← alerta si una spec supera $1.50
@@ -1130,20 +1134,22 @@ Los ficheros en `projects/sala-reservas/test-data/` simulan respuestas reales de
 
 ## Equipo de Subagentes Especializados
 
-El workspace incluye 8 subagentes que Claude puede invocar en paralelo o en secuencia,
+El workspace incluye 11 subagentes que Claude puede invocar en paralelo o en secuencia,
 cada uno optimizado para su tarea con el modelo LLM más adecuado:
 
 | Agente | Modelo | Color | Cuándo se usa |
 |---|---|---|---|
-| `architect` | Opus | 🔵 azul | Diseño de arquitectura .NET, asignación de capas, decisiones técnicas |
-| `business-analyst` | Opus | 🟣 morado | Análisis de PBIs, reglas de negocio, criterios de aceptación |
-| `sdd-spec-writer` | Opus | 🩵 cyan | Generación y validación de Specs SDD ejecutables |
-| `code-reviewer` | Opus | 🔴 rojo | Quality gate: seguridad, SOLID, cumplimiento de spec |
-| `dotnet-developer` | Sonnet | 🟢 verde | Implementación C#/.NET siguiendo specs SDD aprobadas |
-| `test-engineer` | Sonnet | 🟡 amarillo | Tests xUnit/NUnit, TestContainers, cobertura |
-| `tech-writer` | Haiku | ⚪ blanco | README, CHANGELOG, comentarios XML C#, docs de proyecto |
-| `azure-devops-operator` | Haiku | ⬜ blanco brillante | Consultas WIQL, crear/actualizar work items, gestión de sprint |
-| `commit-guardian` | Sonnet | 🟠 naranja | Pre-commit: rama, secrets, build, tests, README, formato de mensaje |
+| `architect` | Opus 4.6 | 🔵 azul | Diseño de arquitectura .NET, asignación de capas, decisiones técnicas |
+| `business-analyst` | Opus 4.6 | 🟣 morado | Análisis de PBIs, reglas de negocio, criterios de aceptación |
+| `sdd-spec-writer` | Opus 4.6 | 🩵 cyan | Generación y validación de Specs SDD ejecutables |
+| `code-reviewer` | Opus 4.6 | 🔴 rojo | Quality gate: seguridad, SOLID, reglas SonarQube (`csharp-rules.md`) |
+| `security-guardian` | Opus 4.6 | 🔴 rojo | Auditoría de seguridad y confidencialidad pre-commit |
+| `dotnet-developer` | Sonnet 4.6 | 🟢 verde | Implementación C#/.NET siguiendo specs SDD aprobadas |
+| `test-engineer` | Sonnet 4.6 | 🟡 amarillo | Tests xUnit/NUnit, TestContainers, cobertura |
+| `test-runner` | Sonnet 4.6 | 🟣 magenta | Post-commit: ejecución de tests, cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`, orquestación de mejora |
+| `commit-guardian` | Sonnet 4.6 | 🟠 naranja | Pre-commit: rama, security, build, tests, code review, README |
+| `tech-writer` | Haiku 4.5 | ⚪ blanco | README, CHANGELOG, comentarios XML C#, docs de proyecto |
+| `azure-devops-operator` | Haiku 4.5 | ⬜ blanco brillante | Consultas WIQL, crear/actualizar work items, gestión de sprint |
 
 ### Flujo SDD con agentes en paralelo
 
@@ -1171,18 +1177,30 @@ Usuario: /pbi:plan-sprint --project Alpha
   │  Implementa tasks B, C, D     │  │  Escribe tests para E, F  │   EN PARALELO
   └───────────────────────────────┘  └──────────────────────────┘
            ↓
-  ┌─ code-reviewer (Opus) ────────────────────┐
-  │  Quality gate antes de commit             │
-  └───────────────────────────────────────────┘
-           ↓
-  ┌─ tech-writer (Haiku) ─────────────────────┐
-  │  Actualiza README + docs del sprint       │
-  └───────────────────────────────────────────┘
-           ↓
   ┌─ commit-guardian (Sonnet) ────────────────┐
-  │  Verifica reglas → hace el commit         │
-  │  Si algo falla → delega corrección        │
-  └───────────────────────────────────────────┘
+  │  9 checks: rama → security-guardian →    │
+  │  build → tests → format → code-reviewer  │
+  │  → README → CLAUDE.md → commit message   │
+  │                                          │
+  │  Si code-reviewer RECHAZA:               │
+  │    → dotnet-developer corrige            │
+  │    → re-build → re-review (máx 2x)      │
+  │  Si todo ✅ → git commit                 │
+  └──────────────────────────────────────────┘
+           ↓
+  ┌─ test-runner (Sonnet) ──────────────────┐
+  │  Ejecuta TODOS los tests del proyecto   │
+  │  afectado por el commit                 │
+  │                                         │
+  │  Si tests fallan:                       │
+  │    → dotnet-developer corrige (máx 2x)  │
+  │  Si tests pasan → verifica cobertura    │
+  │    ≥ TEST_COVERAGE_MIN_PERCENT → ✅     │
+  │    < TEST_COVERAGE_MIN_PERCENT →        │
+  │      architect (análisis gaps) →        │
+  │      business-analyst (casos test) →    │
+  │      dotnet-developer (implementa)      │
+  └─────────────────────────────────────────┘
 ```
 
 ### Cómo invocar agentes

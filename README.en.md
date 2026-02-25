@@ -687,7 +687,7 @@ The full matrix is in `.claude/skills/spec-driven-development/references/layer-a
 >
 > **Claude responds:**
 > ```
-> Launching claude-opus-4-5 agent on AB302-B3...
+> Launching claude-opus-4-6 agent on AB302-B3...
 > Live log: output/agent-runs/20260519-094512-AB302-B3-single.log
 >
 > [09:45:14] Agent started — reading spec and project context
@@ -787,8 +787,8 @@ Available patterns are documented in `references/agent-team-patterns.md`:
 > **Claude responds:**
 > ```
 > Selected pattern: impl-test (production code + tests in parallel)
->   Agent 1 — Implementer: claude-opus-4-5  (handler + service)
->   Agent 2 — Tester:      claude-haiku-4-5 (unit tests + mocks)
+>   Agent 1 — Implementer: claude-opus-4-6  (handler + service)
+>   Agent 2 — Tester:      claude-haiku-4-5-20251001 (unit tests + mocks)
 >
 > Estimated cost: ~$1.40 USD
 > Confirm launch?
@@ -803,8 +803,8 @@ Available patterns are documented in `references/agent-team-patterns.md`:
 > ```
 > Launching 2 agents in parallel...
 >
-> [Agent 1] 09:51:03 → Implementing SendCitaConfirmationCommandHandler...
-> [Agent 2] 09:51:04 → Generating unit tests for SendCitaConfirmationCommand...
+> [Agent 1 — opus] 09:51:03 → Implementing SendCitaConfirmationCommandHandler...
+> [Agent 2 — haiku] 09:51:04 → Generating unit tests for SendCitaConfirmationCommand...
 >
 > [Agent 1] 09:52:41 → Handler + EmailTemplateService complete. Build OK.
 > [Agent 2] 09:52:58 → 9 unit tests generated. Waiting for implementation to run.
@@ -843,7 +843,8 @@ For fixed-price projects, you can adjust: higher weight on expertise and availab
 ```yaml
 # In projects/{project}/CLAUDE.md
 sdd_config:
-  model_agent: "claude-opus-4-5-20251101"
+  model_agent: "claude-opus-4-6"
+  model_mid:   "claude-sonnet-4-6"
   model_fast:  "claude-haiku-4-5-20251001"
   token_budget_usd: 30          # Monthly token budget
   max_parallel_agents: 5
@@ -880,6 +881,9 @@ sdd_config:
 >   growth:       0.00   # ← zero: no learning-time risk
 >
 > sdd_config:
+>   model_agent: "claude-opus-4-6"
+>   model_mid:   "claude-sonnet-4-6"
+>   model_fast:  "claude-haiku-4-5-20251001"
 >   agentization_target: 0.40    # ← conservative goal: only 40% agentized
 >   require_tech_lead_approval: true  # ← Carlos reviews EVERY spec before launching agent
 >   cost_alert_per_spec_usd: 1.50     # ← alert if a spec exceeds $1.50
@@ -1055,6 +1059,89 @@ The files in `projects/sala-reservas/test-data/` simulate real Azure DevOps API 
 /spec:review {spec_file}          Review Spec quality or implementation
 /spec:status [--project]          Sprint Spec dashboard
 /agent:run {spec_file} [--team]   Launch Claude agent on a Spec
+```
+
+---
+
+## Specialized Agent Team
+
+The workspace includes 11 subagents that Claude can invoke in parallel or in sequence,
+each optimized for its task with the most suitable LLM model:
+
+| Agent | Model | Color | When to use |
+|---|---|---|---|
+| `architect` | Opus 4.6 | 🔵 blue | .NET architecture design, layer assignment, technical decisions |
+| `business-analyst` | Opus 4.6 | 🟣 purple | PBI analysis, business rules, acceptance criteria |
+| `sdd-spec-writer` | Opus 4.6 | 🩵 cyan | Generation and validation of executable SDD Specs |
+| `code-reviewer` | Opus 4.6 | 🔴 red | Quality gate: security, SOLID, SonarQube rules (`csharp-rules.md`) |
+| `security-guardian` | Opus 4.6 | 🔴 red | Security and confidentiality audit before commit |
+| `dotnet-developer` | Sonnet 4.6 | 🟢 green | C#/.NET implementation following approved SDD specs |
+| `test-engineer` | Sonnet 4.6 | 🟡 yellow | xUnit/NUnit tests, TestContainers, coverage |
+| `test-runner` | Sonnet 4.6 | 🟣 magenta | Post-commit: test execution, coverage ≥ `TEST_COVERAGE_MIN_PERCENT`, improvement orchestration |
+| `commit-guardian` | Sonnet 4.6 | 🟠 orange | Pre-commit: branch, security, build, tests, code review, README |
+| `tech-writer` | Haiku 4.5 | ⚪ white | README, CHANGELOG, C# XML comments, project docs |
+| `azure-devops-operator` | Haiku 4.5 | ⬜ bright white | WIQL queries, create/update work items, sprint management |
+
+### SDD flow with parallel agents
+
+```
+User: /pbi:plan-sprint --project Alpha
+
+  ┌─ business-analyst (Opus) ─────────────────┐
+  │  Analyze candidate PBIs                   │   IN PARALLEL
+  │  Verify business rules                    │
+  └───────────────────────────────────────────┘
+  ┌─ azure-devops-operator (Haiku) ───────────┐
+  │  Get active sprint + capacities           │   IN PARALLEL
+  └───────────────────────────────────────────┘
+           ↓ (combined results)
+  ┌─ architect (Opus) ────────────────────────┐
+  │  Assign layers to each task               │
+  │  Detect technical dependencies            │
+  └───────────────────────────────────────────┘
+           ↓
+  ┌─ sdd-spec-writer (Opus) ──────────────────┐
+  │  Generate specs for agent tasks           │
+  └───────────────────────────────────────────┘
+           ↓
+  ┌─ dotnet-developer (Sonnet) ───┐  ┌─ test-engineer (Sonnet) ─┐
+  │  Implement tasks B, C, D      │  │  Write tests for E, F     │   IN PARALLEL
+  └───────────────────────────────┘  └──────────────────────────┘
+           ↓
+  ┌─ commit-guardian (Sonnet) ────────────────┐
+  │  9 checks: branch → security-guardian →   │
+  │  build → tests → format → code-reviewer   │
+  │  → README → CLAUDE.md → commit message    │
+  │                                           │
+  │  If code-reviewer REJECTS:                │
+  │    → dotnet-developer fixes               │
+  │    → re-build → re-review (max 2x)       │
+  │  If all ✅ → git commit                   │
+  └───────────────────────────────────────────┘
+           ↓
+  ┌─ test-runner (Sonnet) ──────────────────┐
+  │  Run ALL tests in the project            │
+  │  affected by the commit                  │
+  │                                          │
+  │  If tests fail:                          │
+  │    → dotnet-developer fixes (max 2x)     │
+  │  If tests pass → verify coverage         │
+  │    ≥ TEST_COVERAGE_MIN_PERCENT → ✅     │
+  │    < TEST_COVERAGE_MIN_PERCENT →         │
+  │      architect (gap analysis) →          │
+  │      business-analyst (test cases) →     │
+  │      dotnet-developer (implements)       │
+  └─────────────────────────────────────────┘
+```
+
+### How to invoke agents
+
+```
+# Explicitly
+"Use the architect agent to analyze if this feature fits the Application layer"
+"Use business-analyst and architect in parallel to analyze PBI #1234"
+
+# The correct agent is invoked automatically based on the task description
 ```
 
 ---

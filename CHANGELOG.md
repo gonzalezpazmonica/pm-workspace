@@ -9,6 +9,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `csharp-rules.md` — knowledge base con 70+ reglas de análisis estático C# equivalentes a SonarQube (Vulnerabilities, Security Hotspots, Bugs, Code Smells) + 12 reglas de arquitectura Clean Architecture/DDD (ARCH-01 a ARCH-12)
+- `security-guardian` añadido a la tabla de agentes en CLAUDE.md
+- `CLAUDE_MODEL_MID` — nueva constante para el tier intermedio (Sonnet)
+
+### Changed
+- Modelos actualizados a generación 4.6: Opus `claude-opus-4-6`, Sonnet `claude-sonnet-4-6` (Haiku 4.5 se mantiene)
+- `commit-guardian` ampliado de 8 a 9 checks — nuevo CHECK 6 (Code Review) con ciclo automático de corrección vía `code-reviewer` → `dotnet-developer` → re-review (máx 2 intentos)
+- `code-reviewer` ahora referencia `csharp-rules.md` y cita IDs de regla en cada hallazgo
+- Actualizados los 10 ficheros de agentes, configs, skills, commands, y project CLAUDE.md con nuevos model IDs
+
 ### Planned for v0.2.0
 - `backlog:capture` — create PBIs from unstructured input (emails, meeting notes, support tickets)
 - `risk:log` — structured risk register updated automatically on each `/sprint:status`

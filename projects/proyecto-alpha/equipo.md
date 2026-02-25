@@ -141,7 +141,7 @@ Tabla de capacity estimada por persona para los próximos sprints:
 ### claude-agent-opus — Implementador Principal
 ```
 ID (Azure DevOps tag):  dev:agent
-Modelo:                 claude-opus-4-5-20251101
+Modelo:                 claude-opus-4-6
 Rol:                    Developer virtual — código de producción complejo
 Capacidad efectiva:     Ilimitada (paralelo), limitada por presupuesto de tokens
 Coste estimado:         ~$0.60-1.20 por spec implementada

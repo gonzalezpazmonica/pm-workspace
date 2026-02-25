@@ -11,7 +11,7 @@ tools:
   - Glob
   - Grep
   - Bash
-model: claude-opus-4-5-20251101
+model: claude-opus-4-6
 color: purple
 maxTurns: 25
 ---

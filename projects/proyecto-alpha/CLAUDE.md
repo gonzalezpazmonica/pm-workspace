@@ -180,8 +180,9 @@ tech_lead_alias: "juan.garcia@empresa.com"
 ```yaml
 sdd_config:
   # Modelo de agentes para este proyecto
-  model_agent: "claude-opus-4-5-20251101"   # Para código de producción complejo
-  model_fast: "claude-haiku-4-5-20251001"   # Para tests, DTOs, validators
+  model_agent: "claude-opus-4-6"            # Para código de producción complejo
+  model_mid:   "claude-sonnet-4-6"          # Para tareas medianas y balanceadas
+  model_fast:  "claude-haiku-4-5-20251001"  # Para tests, DTOs, validators
 
   # Directorio de specs de este proyecto
   specs_dir: "projects/proyecto-alpha/specs"
