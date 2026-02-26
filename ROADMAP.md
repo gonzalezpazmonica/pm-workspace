@@ -14,37 +14,43 @@ Complete core workspace: sprint management, reporting, PBI decomposition, Spec-D
 
 ---
 
-## 🟡 v0.2.0 — Backlog Intelligence
+## ✅ v0.2.0 — Quality, Discovery & Operations (released 2026-02-26)
+
+Adds product discovery workflow (JTBD + PRD), multi-perspective PR review, session context loading, changelog automation, external repo auditing, and enhances security-guardian and commit-guardian. See [CHANGELOG.md](CHANGELOG.md) for full details.
+
+---
+
+## 🟡 v0.3.0 — Backlog Intelligence
 
 _Target: Q2 2026_
 
-Extends the workspace with features that close the loop between external inputs (client requests, support tickets, production incidents) and the structured backlog.
+Extends the workspace with features that close the loop between external inputs and the structured backlog, plus risk management.
 
 | Feature | Issue | Status |
 |---------|-------|--------|
 | `backlog:capture` — create PBIs from unstructured input (emails, meeting notes, Slack threads) | [#1] | 🔴 |
 | `backlog:estimate` — AI-assisted Story Point estimation based on historical PBI similarity | [#2] | 🔴 |
 | `tech-debt:review` — scan backlog for tech-debt items and propose a maintenance sprint slot | [#3] | 🔴 |
-| `sprint:release-notes` — auto-generate release notes from completed items and linked commits | [#4] | 🔴 |
+| `sprint:release-notes` — auto-generate release notes combining work items + commits (builds on `/changelog:update`) | [#4] | 🔴 |
+| `risk:log` — structured risk register (probability × impact) updated on each `/sprint:status` | [#5] | 🔴 |
+| `risk:escalate` — automatic escalation of critical risks to PM via daily digest | [#6] | 🔴 |
 
 ---
 
-## 🔴 v0.3.0 — Risk and Governance
+## 🔴 v0.4.0 — Governance & Onboarding
 
 _Target: Q3 2026_
 
-Adds proactive risk management and pull request lifecycle tracking to the workspace.
+Adds PR lifecycle tracking and team onboarding automation.
 
 | Feature | Issue | Status |
 |---------|-------|--------|
-| `risk:log` — structured risk register (probability × impact) updated on each `/sprint:status` | [#5] | 🔴 |
-| `risk:escalate` — automatic escalation of critical risks to PM via daily digest | [#6] | 🔴 |
-| `pr:status` — track pull request state (reviewers assigned, pending comments, time in review) | [#7] | 🔴 |
+| `pr:status` — track PR state in AzDO (reviewers, pending comments, review time) — extends `/pr:review` | [#7] | 🔴 |
 | `team:onboarding` — generate personalised onboarding guide for new team members | [#8] | 🔴 |
 
 ---
 
-## 🔴 v0.4.0 — Multi-methodology and Multi-stack
+## 🔴 v0.5.0 — Multi-methodology and Multi-stack
 
 _Target: Q4 2026_
 
