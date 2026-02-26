@@ -89,7 +89,7 @@ Delegar al agente `code-reviewer` usando la herramienta `Task`:
 Agente: code-reviewer
 Descripción: Revisión de código pre-commit
 Prompt: Revisa los cambios staged (git diff --cached) aplicando las reglas de
-        .claude/rules/csharp-rules.md. Prioriza: Vulnerabilities > Bugs > Code Smells.
+        .claude/rules/languages/csharp-rules.md. Prioriza: Vulnerabilities > Bugs > Code Smells.
         Solo reporta hallazgos Blocker y Critical. Devuelve tu veredicto:
         APROBADO, APROBADO_CON_CAMBIOS_MENORES o RECHAZADO.
 ```
@@ -176,7 +176,7 @@ Recibir el mensaje propuesto y verificar formato:
 | Tests unitarios fallan | `dotnet-developer` | Nombres de tests fallidos y error message |
 | Formato .NET incorrecto | `dotnet-developer` | Ejecutar `dotnet format` en el proyecto |
 | Code review rechazado | `dotnet-developer` | Informe completo de `code-reviewer` con hallazgos a corregir |
-| Code review (siempre si hay .cs) | `code-reviewer` | Revisar staged aplicando `.claude/rules/csharp-rules.md` |
+| Code review (siempre si hay .cs) | `code-reviewer` | Revisar staged aplicando `.claude/rules/languages/csharp-rules.md` |
 | README no actualizado | `tech-writer` | Lista de ficheros cambiados que requieren docs update |
 | CLAUDE.md > 150 líneas | `tech-writer` | Pedir compresión priorizando @imports |
 | Commit no atómico | ❌ Humano | Sugerir división con ficheros por commit — el humano decide |
