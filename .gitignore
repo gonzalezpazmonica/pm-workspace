@@ -19,6 +19,11 @@ projects/*/sprints/
 projects/*/test-data/
 projects/*/source/
 
+# ── Datos de equipo con información personal (RGPD) ──────────────────────────
+projects/*/evaluaciones/
+projects/*/privacy/
+projects/*/onboarding/
+
 # ── Outputs generados ────────────────────────────────────────────────────────
 output/
 /tmp/

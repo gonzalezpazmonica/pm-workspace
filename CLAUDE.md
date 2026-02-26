@@ -41,9 +41,9 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← Subagentes especializados (11 agentes)
-│   ├── commands/                  ← Slash commands (24 comandos)
+│   ├── commands/                  ← Slash commands (27 comandos)
 │   ├── rules/                     ← Reglas y configuración detallada
-│   └── skills/                    ← Skills reutilizables (8 skills)
+│   └── skills/                    ← Skills reutilizables (9 skills)
 ├── docs/                          ← Metodología (reglas Scrum, KPIs, plantillas...)
 ├── projects/                      ← Proyectos reales (git-ignorados por .gitignore)
 └── scripts/                       ← Scripts auxiliares Azure DevOps
@@ -86,7 +86,7 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 | Agente | Modelo | Especialidad |
 |---|---|---|
 | `architect` | Opus 4.6 | Diseño de capas, interfaces, patrones |
-| `business-analyst` | Opus 4.6 | Reglas de negocio, criterios de aceptación |
+| `business-analyst` | Opus 4.6 | Reglas de negocio, criterios de aceptación, evaluación de competencias |
 | `sdd-spec-writer` | Opus 4.6 | Specs ejecutables para agentes de código |
 | `code-reviewer` | Opus 4.6 | Calidad, seguridad, SOLID |
 | `security-guardian` | Opus 4.6 | Auditoría de seguridad y confidencialidad pre-commit |
