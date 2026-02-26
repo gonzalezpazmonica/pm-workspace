@@ -67,7 +67,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [Proyecto de test](docs/readme/09-proyecto-test.md) | `sala-reservas`: tests, datos mock, validación |
 | [KPIs, reglas y roadmap](docs/readme/10-kpis-reglas.md) | Métricas, reglas críticas, plan de adopción |
 | [Onboarding de nuevos miembros](docs/readme/11-onboarding.md) | Incorporación en 5 fases, evaluación de competencias, RGPD |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 35 comandos + 23 agentes especializados |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 37 comandos + 23 agentes especializados |
 | [Cobertura y contribución](docs/readme/13-cobertura-contribucion.md) | Qué cubre, qué no, cómo contribuir |
 
 ### Otros documentos
@@ -109,8 +109,9 @@ La documentación completa está organizada en secciones para facilitar la consu
 
 ### Calidad y Equipo
 ```
-/pr:review [PR]    /context:load    /changelog:update    /evaluate:repo [URL]
+/pr:review [PR]    /pr:pending    /context:load    /changelog:update    /evaluate:repo [URL]
 /team:onboarding {nombre}    /team:evaluate {nombre}    /team:privacy-notice {nombre}
+/help [filtro]
 ```
 
 ---
