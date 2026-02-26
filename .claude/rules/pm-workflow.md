@@ -62,6 +62,10 @@
 | `/diagram:import {source}` | Importar diagrama → validar reglas negocio → crear Features/PBIs/Tasks |
 | `/diagram:config` | Configurar credenciales Draw.io/Miro y verificar conexión |
 | `/diagram:status` | Listar diagramas por proyecto y estado de sincronización |
+| `/notify:slack {canal} {msg}` | Enviar notificación o informe al canal de Slack del proyecto |
+| `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
+| `/github:activity {repo}` | Analizar actividad GitHub: PRs, commits, contributors |
+| `/github:issues {repo}` | Gestionar issues GitHub: buscar, crear, sincronizar con Azure DevOps |
 | `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
 ## 🔗 Referencias
