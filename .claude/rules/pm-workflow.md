@@ -66,6 +66,7 @@
 | `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
 | `/sentry:health {--project p}` | Métricas de salud técnica desde Sentry: errores, crash rate, performance |
 | `/sentry:bugs {--project p}` | Crear PBIs (Bug) en Azure DevOps desde errores frecuentes en Sentry |
+| `/notion:sync {--project p}` | Sincronizar documentación del proyecto con Notion (import/export) |
 | `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
 ## 🔗 Referencias
