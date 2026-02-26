@@ -47,6 +47,9 @@
 | `/context:load` | Carga de contexto al iniciar sesión (proyecto, sprint, actividad) |
 | `/changelog:update` | Actualizar CHANGELOG.md desde commits convencionales |
 | `/evaluate:repo [URL]` | Auditoría de seguridad y calidad de un repo externo |
+| `/team:onboarding {nombre}` | Guía de onboarding personalizada (Fases 1-2: contexto + código) |
+| `/team:evaluate {nombre}` | Cuestionario interactivo de competencias → perfil en equipo.md |
+| `/team:privacy-notice {nombre}` | Nota informativa RGPD obligatoria antes de evaluar competencias |
 
 ## 🔗 Referencias
 
@@ -60,4 +63,5 @@
 - SDD Template: `.claude/skills/spec-driven-development/references/spec-template.md`
 - SDD Layer Matrix: `.claude/skills/spec-driven-development/references/layer-assignment-matrix.md`
 - SDD Agent Patterns: `.claude/skills/spec-driven-development/references/agent-team-patterns.md`
+- Team Onboarding: `.claude/skills/team-onboarding/SKILL.md`
 - Azure DevOps API v7.1: https://learn.microsoft.com/en-us/rest/api/azure/devops/

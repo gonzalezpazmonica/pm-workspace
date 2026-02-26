@@ -8,8 +8,8 @@ Directorio de configuración de Claude Code para PM-Workspace + Azure DevOps.
 
 ```
 .claude/
-├── commands/          ← 24 slash commands para flujos PM con Azure DevOps
-├── skills/            ← 8 skills especializadas en gestión de proyectos
+├── commands/          ← 27 slash commands para flujos PM con Azure DevOps
+├── skills/            ← 9 skills especializadas en gestión de proyectos
 │   ├── azure-devops-queries/       ← Prerequisito para el resto
 │   ├── sprint-management/
 │   ├── capacity-planning/
@@ -17,6 +17,7 @@ Directorio de configuración de Claude Code para PM-Workspace + Azure DevOps.
 │   ├── executive-reporting/
 │   ├── product-discovery/          ← JTBD + PRD antes de decompose
 │   ├── pbi-decomposition/
+│   ├── team-onboarding/            ← Onboarding + evaluación de competencias + RGPD
 │   └── spec-driven-development/
 ├── agents/            ← 11 subagentes especializados (architect, dotnet-developer, etc.)
 ├── rules/             ← Reglas modulares cargadas bajo demanda
