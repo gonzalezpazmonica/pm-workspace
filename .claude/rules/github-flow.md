@@ -49,6 +49,7 @@ main
 - `docs/` — solo documentación (README, best-practices, reglas)
 - `refactor/` — reestructuración sin cambio de comportamiento
 - `chore/` — mantenimiento (actualizar .gitignore, limpieza, etc.)
+- `release/` — preparación de nueva versión (CHANGELOG, tag)
 
 ### Nombrado de rama: regla pre-commit
 
@@ -96,24 +97,19 @@ Configurar en GitHub → Settings → Branches → Branch protection rules:
 
 ---
 
-## Comandos habituales
+## Releases y Tags
 
-```bash
-# Crear y cambiar a nueva rama
-git checkout -b feature/nombre-descriptivo
+Toda release usa rama `release/vX.Y.Z` + tag anotado tras merge:
 
-# Ver ramas locales y remotas
-git branch -a
+1. `git checkout -b release/vX.Y.Z` desde `main`
+2. Actualizar `CHANGELOG.md` con versión y fecha
+3. Commit: `chore(release): prepare vX.Y.Z — Título breve`
+4. Push + PR hacia `main`
+5. Tras merge: `git checkout main && git pull && git tag -a vX.Y.Z -m "vX.Y.Z — Título" && git push origin vX.Y.Z`
 
-# Pushear rama nueva al remoto
-git push -u origin feature/nombre-descriptivo
+**SemVer**: Minor (0.X.0) = nuevos agentes/comandos/skills · Patch (0.0.X) = fixes/docs · Major (X.0.0) = cambios incompatibles
 
-# Actualizar rama con cambios de main (antes de PR)
-git fetch origin && git rebase origin/main
-
-# Después del merge: volver a main y limpiar
-git checkout main && git pull && git branch -d feature/nombre-descriptivo
-```
+**Prefijo de rama**: `release/` (se añade a los prefijos estándar de la tabla anterior)
 
 ---
 

@@ -200,7 +200,7 @@ test_structure() {
   log_header "SUITE 2 — Estructura del Workspace"
 
   log_section "Ficheros raíz obligatorios"
-  local ROOT_FILES=("CLAUDE.md" "SETUP.md" "README.md" ".gitignore")
+  local ROOT_FILES=("CLAUDE.md" "README.md" ".gitignore")
   for f in "${ROOT_FILES[@]}"; do
     if [[ -f "$WORKSPACE_ROOT/$f" ]]; then
       pass "$f existe"

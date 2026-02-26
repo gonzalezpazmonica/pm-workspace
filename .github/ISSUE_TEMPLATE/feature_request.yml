@@ -9,7 +9,7 @@ body:
     attributes:
       value: |
         Before submitting, please search existing issues to avoid duplicates.
-        Check [ROADMAP.md](../../ROADMAP.md) — your idea might already be planned.
+        Check [ROADMAP.md](../../docs/ROADMAP.md) — your idea might already be planned.
 
   - type: dropdown
     id: type
