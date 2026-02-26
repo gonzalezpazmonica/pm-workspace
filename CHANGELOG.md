@@ -62,7 +62,7 @@ Initial public release of PM-Workspace.
 
 **Core workspace**
 - `CLAUDE.md` — global entry point with org constants, project registry, and tool definitions
-- `SETUP.md` — step-by-step setup guide (PAT, constants, npm install, git clone, first run)
+- `docs/SETUP.md` — step-by-step setup guide (PAT, constants, npm install, git clone, first run)
 - Project template structure: `CLAUDE.md`, `equipo.md`, `reglas-negocio.md`, `sprints/`, `specs/`
 
 **Sprint management commands** (`.claude/commands/`)

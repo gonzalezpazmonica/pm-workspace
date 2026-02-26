@@ -50,6 +50,13 @@
 | `/team:onboarding {nombre}` | Guía de onboarding personalizada (Fases 1-2: contexto + código) |
 | `/team:evaluate {nombre}` | Cuestionario interactivo de competencias → perfil en equipo.md |
 | `/team:privacy-notice {nombre}` | Nota informativa RGPD obligatoria antes de evaluar competencias |
+| `/infra:detect {proyecto} {env}` | Detectar infraestructura existente del proyecto en un entorno |
+| `/infra:plan {proyecto} {env}` | Generar plan de infraestructura para un entorno |
+| `/infra:estimate {proyecto}` | Estimar costes de infraestructura por entorno |
+| `/infra:scale {recurso}` | Proponer escalado de un recurso (requiere aprobación humana) |
+| `/infra:status {proyecto}` | Estado de la infraestructura actual del proyecto |
+| `/env:setup {proyecto}` | Configurar entornos (DEV/PRE/PRO) para un proyecto |
+| `/env:promote {proyecto} {origen} {destino}` | Promover deploy entre entornos (PRE→PRO requiere aprobación) |
 
 ## 🔗 Referencias
 
@@ -64,4 +71,7 @@
 - SDD Layer Matrix: `.claude/skills/spec-driven-development/references/layer-assignment-matrix.md`
 - SDD Agent Patterns: `.claude/skills/spec-driven-development/references/agent-team-patterns.md`
 - Team Onboarding: `.claude/skills/team-onboarding/SKILL.md`
+- Multi-entorno: `.claude/rules/environment-config.md`
+- Confidencialidad: `.claude/rules/confidentiality-config.md`
+- Infrastructure as Code: `.claude/rules/infrastructure-as-code.md`
 - Azure DevOps API v7.1: https://learn.microsoft.com/en-us/rest/api/azure/devops/
