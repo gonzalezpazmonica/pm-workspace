@@ -72,6 +72,7 @@
 | `/linear:sync {--project p}` | Sincronizar issues Linear ↔ PBIs/Tasks Azure DevOps |
 | `/jira:sync {--project p}` | Sincronizar issues Jira ↔ PBIs Azure DevOps (bidireccional) |
 | `/confluence:publish {file}` | Publicar documentación/informes en Confluence |
+| `/notion:sync {--project p}` | Sincronizar documentación del proyecto con Notion (import/export) |
 | `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
 ## 🔗 Referencias

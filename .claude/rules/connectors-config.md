@@ -27,7 +27,7 @@ GDRIVE_CONNECTOR_ENABLED    = true
 GDRIVE_REPORTS_FOLDER       = ""                                 # ID de carpeta para informes
 
 # ── Notion ───────────────────────────────────────────────────────────────────
-NOTION_CONNECTOR_ENABLED    = false
+NOTION_CONNECTOR_ENABLED    = true
 NOTION_DEFAULT_DATABASE     = ""                                 # ID de base de datos principal
 
 # ── Linear ───────────────────────────────────────────────────────────────────
