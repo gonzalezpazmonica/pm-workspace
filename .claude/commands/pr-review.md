@@ -1,187 +1,46 @@
 ---
 name: pr-review
 description: >
-  Revisión multi-perspectiva de un Pull Request desde 5 ángulos: Business Analyst,
-  Developer (code-reviewer), QA Engineer, Security, DevOps. Opcionalmente incluye
-  verificación de cumplimiento de Spec SDD. Genera un informe consolidado con
-  hallazgos priorizados y veredicto final.
+  Revisión multi-perspectiva de un PR desde 5 ángulos: BA, Developer,
+  QA, Security, DevOps. Informe consolidado con veredicto final.
 ---
 
 # Revisión Multi-Perspectiva de Pull Request
 
 **PR:** $ARGUMENTS
 
-> Acepta: número de PR de Azure DevOps, URL de PR, o nombre de rama local.
-> Si no se pasa argumento, usa la rama actual y compara contra `main`.
+> Acepta: número de PR (Azure DevOps), URL, o rama local. Sin argumento → rama actual vs main.
 
----
+## Clasificación de hallazgos
 
-## Instrucciones generales
-
-Ejecuta cada tarea en orden. Cada perspectiva genera hallazgos clasificados como:
-- 🔴 **Bloqueante** — debe corregirse antes del merge
+- 🔴 **Bloqueante** — corregir antes del merge
 - 🟡 **Recomendado** — debería hacerse, no bloquea
-- 🔵 **Nota** — sugerencia menor o informativa
+- 🔵 **Nota** — sugerencia menor
 
-**Principio clave:** cualquier mejora identificada como "para el futuro" debe
-tratarse como mejora inmediata. No se difieren correcciones.
+**Principio:** mejoras "para el futuro" → mejora inmediata. No se difieren correcciones.
 
----
+## Paso 0 — Obtener diff
 
-## Paso 0 — Obtener el diff
+`git diff main...HEAD --stat` + `git diff main...HEAD`. Identificar ficheros, líneas, tipos de cambio.
 
-```bash
-# Si es rama local
-git diff main...HEAD --stat
-git diff main...HEAD
+## Las 5 perspectivas
 
-# Si es PR de Azure DevOps
-az repos pr show --id {PR_ID} --output json
-```
+**1. Business Analyst** — ¿Cambios cumplen criterios de aceptación del PBI? ¿Ni más ni menos? Si hay Spec SDD: ¿implementa el contrato exacto?
 
-Identificar: ficheros modificados, líneas añadidas/eliminadas, tipos de cambio.
+**2. Developer** — Delegar a agente `code-reviewer` con reglas de `csharp-rules.md`. Evaluar: calidad, arquitectura, mantenibilidad, simplicidad, comentarios XML actualizados.
 
----
+**3. QA Engineer** — Cobertura de tests (`dotnet test --collect:"XPlat Code Coverage"`), edge cases (null, vacío, límites, concurrencia), riesgo de regresión, scenarios SDD implementados.
 
-## Tarea 1 — Perspectiva Business Analyst
+**4. Security** — Delegar a `security-guardian`: SQL injection, XSS, secrets, deserialization, CORS, `[Authorize]`, inputs, NuGet CVEs, datos en logs/errores.
 
-**Objetivo:** Verificar que los cambios cumplen los criterios de aceptación del PBI.
+**5. DevOps** — Build Release sin warnings, cambios en pipeline/K8s/docker, variables de entorno nuevas, connection strings, logging (Serilog), métricas (OpenTelemetry).
 
-Delegar al agente `business-analyst`:
-- ¿Los cambios implementan lo que el PBI pide? ¿Ni más ni menos?
-- ¿Los criterios de aceptación están cubiertos?
-- ¿Hay reglas de negocio afectadas que no se hayan considerado?
-- ¿El comportamiento en casos límite es el esperado?
+## Informe consolidado
 
-Si hay Spec SDD asociada:
-- ¿El código implementa exactamente el contrato de la spec?
-- ¿Los ficheros creados/modificados son los indicados en la spec?
-
----
-
-## Tarea 2 — Perspectiva Developer (Code Review)
-
-**Objetivo:** Evaluar calidad de código, arquitectura y mantenibilidad.
-
-Delegar al agente `code-reviewer` existente:
-```
-Prompt: Revisa los cambios del PR (git diff main...HEAD) aplicando las reglas de
-        .claude/rules/csharp-rules.md. Prioriza: Vulnerabilities > Bugs > Code Smells.
-        Incluye hallazgos Blocker, Critical y Major. Devuelve informe completo con
-        veredicto: APROBADO, APROBADO_CON_CAMBIOS_MENORES o RECHAZADO.
-```
-
-Puntos adicionales no cubiertos por `code-reviewer`:
-- ¿El código es fácil de entender para alguien que no lo escribió?
-- ¿Hay oportunidades de simplificación evidentes?
-- ¿Se han actualizado los comentarios XML si las firmas cambiaron?
-
----
-
-## Tarea 3 — Perspectiva QA Engineer
-
-**Objetivo:** Verificar cobertura de tests, edge cases y riesgo de regresión.
-
-1. **Cobertura de tests:**
-   ```bash
-   dotnet test --filter "Category=Unit" --no-build --collect:"XPlat Code Coverage" 2>&1
-   ```
-   - ¿Los tests cubren los cambios del PR?
-   - ¿Hay paths de código nuevos sin test?
-   - ¿La cobertura está por encima de TEST_COVERAGE_MIN_PERCENT (80%)?
-
-2. **Edge cases:**
-   - ¿Se consideran: null, vacío, límites numéricos, concurrencia?
-   - ¿Los tests de la Spec SDD (sección Test Scenarios) están implementados?
-
-3. **Riesgo de regresión:**
-   - ¿Los cambios afectan código existente que ya tiene tests?
-   - ¿Se han ejecutado los tests de integración afectados?
-
----
-
-## Tarea 4 — Perspectiva Security Engineer
-
-**Objetivo:** Detectar vulnerabilidades de seguridad en los cambios.
-
-Delegar al agente `security-guardian` para verificar:
-- SQL injection (WIQL, ADO.NET directo)
-- XSS en respuestas de API
-- Secrets hardcodeados
-- Insecure deserialization
-- CORS mal configurado
-- Missing `[Authorize]`
-- Validación de inputs
-
-Puntos adicionales:
-- ¿Se han añadido dependencias NuGet con CVEs conocidos?
-- ¿Los cambios afectan la superficie de autenticación/autorización?
-- ¿Se exponen datos sensibles en logs o respuestas de error?
-
----
-
-## Tarea 5 — Perspectiva DevOps
-
-**Objetivo:** Evaluar impacto en build, deployment y monitorización.
-
-1. **Pipeline CI/CD:**
-   ```bash
-   dotnet build --configuration Release 2>&1
-   ```
-   - ¿El PR compila sin warnings en Release?
-   - ¿Se ha modificado el Jenkinsfile o docker-compose?
-   - ¿Hay cambios que requieran actualizar configuración de K8s?
-
-2. **Infraestructura:**
-   - ¿Se necesitan nuevas variables de entorno?
-   - ¿Hay cambios en connection strings o configuración de servicios?
-   - ¿Se ha actualizado la documentación de deployment?
-
-3. **Observabilidad:**
-   - ¿Los nuevos endpoints tienen logging adecuado (Serilog)?
-   - ¿Se han añadido métricas o traces de OpenTelemetry donde corresponde?
-
----
-
-## Formato del informe consolidado
-
-```markdown
-## PR Review Multi-Perspectiva: [Título del PR]
-
-### Resumen
-- Ficheros modificados: N
-- Líneas añadidas: +N / eliminadas: -N
-- Specs SDD asociadas: [lista o N/A]
-
-### 🔴 Bloqueantes (corregir antes del merge)
-1. [PERSPECTIVA] [Problema] en [fichero:línea] → [solución]
-
-### 🟡 Recomendados (no bloquean pero deberían hacerse)
-1. [PERSPECTIVA] [Problema] en [fichero:línea] → [solución]
-
-### 🔵 Notas
-- [...]
-
-### Veredicto por perspectiva
-| Perspectiva | Veredicto | Hallazgos |
-|---|---|---|
-| Business Analyst | ✅/🟡/🔴 | N hallazgos |
-| Developer | ✅/🟡/🔴 | N hallazgos |
-| QA Engineer | ✅/🟡/🔴 | N hallazgos |
-| Security | ✅/🟡/🔴 | N hallazgos |
-| DevOps | ✅/🟡/🔴 | N hallazgos |
-
-### Veredicto Final
-- [ ] ✅ APROBADO — listo para merge
-- [ ] 🟡 APROBADO CON CAMBIOS — corregir los amarillos y merge
-- [ ] 🔴 RECHAZADO — corregir bloqueantes y repetir review
-```
-
----
+Generar markdown con: resumen (ficheros, líneas, specs asociadas), bloqueantes, recomendados, notas, tabla de veredictos por perspectiva, veredicto final (✅ APROBADO / 🟡 CON CAMBIOS / 🔴 RECHAZADO).
 
 ## Restricciones
 
-- **No corriges el código** — señalas problemas y propones soluciones
-- Las perspectivas Developer y Security delegan a los agentes existentes (`code-reviewer`, `security-guardian`)
-- Si el PR toca código de Domain Layer, señalar que el Code Review E1 SIEMPRE es humano
-- El informe se genera localmente — publicar en Azure DevOps solo si el humano lo confirma
+- No corriges código — señalas problemas y propones soluciones
+- Si PR toca Domain Layer → Code Review E1 SIEMPRE humano
+- Informe local — publicar en Azure DevOps solo con confirmación humana
