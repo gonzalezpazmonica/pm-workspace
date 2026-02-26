@@ -44,6 +44,7 @@
 | `/pbi:jtbd {id}` | Generar documento Jobs to be Done para un PBI (discovery) |
 | `/pbi:prd {id}` | Generar Product Requirements Document para un PBI (discovery) |
 | `/pr:review [PR]` | Revisión multi-perspectiva de PR (BA, Dev, QA, Security, DevOps) |
+| `/pr:pending` | PRs asignados al PM pendientes de revisión: estado, votos, comentarios, antigüedad |
 | `/context:load` | Carga de contexto al iniciar sesión (proyecto, sprint, actividad) |
 | `/changelog:update` | Actualizar CHANGELOG.md desde commits convencionales |
 | `/evaluate:repo [URL]` | Auditoría de seguridad y calidad de un repo externo |
