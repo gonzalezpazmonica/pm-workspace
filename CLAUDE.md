@@ -40,7 +40,7 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← 23 subagentes → @.claude/rules/agents-catalog.md
-│   ├── commands/                  ← 36 slash commands → @.claude/rules/pm-workflow.md
+│   ├── commands/                  ← 37 slash commands → @.claude/rules/pm-workflow.md
 │   ├── rules/                     ← Reglas, convenciones, Language Packs (16) y entornos
 │   └── skills/                    ← 9 skills reutilizables
 ├── docs/                          ← Metodología, guías, secciones README
