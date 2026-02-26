@@ -39,10 +39,10 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ~/claude/                          ← Raíz de trabajo Y repositorio GitHub
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
-│   ├── agents/                    ← 23 subagentes → @.claude/rules/agents-catalog.md
-│   ├── commands/                  ← 30 slash commands (+7 infra en skill) → @.claude/rules/pm-workflow.md
+│   ├── agents/                    ← 24 subagentes → @.claude/rules/agents-catalog.md
+│   ├── commands/                  ← 34 slash commands (+7 infra en skill) → @.claude/rules/pm-workflow.md
 │   ├── rules/                     ← Reglas core + languages/ (16 Language Packs, excluido de carga auto)
-│   └── skills/                    ← 9 skills reutilizables
+│   └── skills/                    ← 11 skills reutilizables
 ├── docs/                          ← Metodología, guías, secciones README
 ├── projects/                      ← Proyectos reales (git-ignorados)
 └── scripts/                       ← Scripts auxiliares Azure DevOps
@@ -85,11 +85,12 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 
 ## 🤖 Subagentes y Flujos
 
-> Catálogo completo (23 agentes): `@.claude/rules/agents-catalog.md`
+> Catálogo completo (24 agentes): `@.claude/rules/agents-catalog.md`
 
 Flujos principales:
 - **SDD**: business-analyst → architect → sdd-spec-writer → {lang}-developer ‖ test-engineer → code-reviewer
 - **Infra**: architect → infrastructure-agent → (detectar → tier mínimo → propuesta) → humano aprueba
+- **Diagramas**: diagram-architect analiza consistencia → genera/importa → valida reglas negocio → Features/PBIs/Tasks
 - **Pre-commit**: commit-guardian (10 checks) · **Post-commit**: test-runner (cobertura ≥ 80%)
 
 ---
@@ -111,6 +112,7 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 - **Discovery** → `.claude/skills/product-discovery/SKILL.md`
 - **PBIs** → `.claude/skills/pbi-decomposition/SKILL.md`
 - **SDD** → `.claude/skills/spec-driven-development/SKILL.md`
+- **Diagramas** → `.claude/skills/diagram-generation/SKILL.md` · `.claude/skills/diagram-import/SKILL.md`
 - **Comandos** → `@.claude/rules/pm-workflow.md`
 - Explorar → Planificar → Implementar → Commit · `/compact` al 50% · `/clear` entre tareas
 - Arquitectura: **Command → Agent → Skills** — subagentes solo con `Task`
