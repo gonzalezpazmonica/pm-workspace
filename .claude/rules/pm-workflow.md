@@ -73,6 +73,7 @@
 | `/jira:sync {--project p}` | Sincronizar issues Jira ↔ PBIs Azure DevOps (bidireccional) |
 | `/confluence:publish {file}` | Publicar documentación/informes en Confluence |
 | `/notion:sync {--project p}` | Sincronizar documentación del proyecto con Notion (import/export) |
+| `/figma:extract {url}` | Extraer componentes UI, pantallas y design tokens desde Figma |
 | `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
 ## 🔗 Referencias

@@ -35,7 +35,7 @@ LINEAR_CONNECTOR_ENABLED    = true
 LINEAR_DEFAULT_TEAM         = ""                                 # Equipo Linear por defecto
 
 # ── Figma ────────────────────────────────────────────────────────────────────
-FIGMA_CONNECTOR_ENABLED     = false
+FIGMA_CONNECTOR_ENABLED     = true
 FIGMA_DEFAULT_PROJECT       = ""                                 # Proyecto Figma por defecto
 ```
 
