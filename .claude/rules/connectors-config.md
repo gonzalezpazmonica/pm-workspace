@@ -14,7 +14,7 @@ GITHUB_CONNECTOR_ENABLED    = true
 GITHUB_DEFAULT_ORG          = ""                                 # Organización GitHub por defecto
 
 # ── Sentry ───────────────────────────────────────────────────────────────────
-SENTRY_CONNECTOR_ENABLED    = false
+SENTRY_CONNECTOR_ENABLED    = true
 SENTRY_DEFAULT_ORG          = ""                                 # Organización Sentry
 
 # ── Atlassian (Jira + Confluence) ────────────────────────────────────────────
@@ -23,7 +23,7 @@ JIRA_DEFAULT_PROJECT        = ""                                 # Clave de proy
 CONFLUENCE_DEFAULT_SPACE    = ""                                 # Espacio Confluence para publicar
 
 # ── Google Drive ─────────────────────────────────────────────────────────────
-GDRIVE_CONNECTOR_ENABLED    = false
+GDRIVE_CONNECTOR_ENABLED    = true
 GDRIVE_REPORTS_FOLDER       = ""                                 # ID de carpeta para informes
 
 # ── Notion ───────────────────────────────────────────────────────────────────
@@ -31,7 +31,7 @@ NOTION_CONNECTOR_ENABLED    = false
 NOTION_DEFAULT_DATABASE     = ""                                 # ID de base de datos principal
 
 # ── Linear ───────────────────────────────────────────────────────────────────
-LINEAR_CONNECTOR_ENABLED    = false
+LINEAR_CONNECTOR_ENABLED    = true
 LINEAR_DEFAULT_TEAM         = ""                                 # Equipo Linear por defecto
 
 # ── Figma ────────────────────────────────────────────────────────────────────
