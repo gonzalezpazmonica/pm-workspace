@@ -13,7 +13,7 @@
 ├── .claude/
 │   ├── settings.local.json      ← Permisos de Claude Code (git-ignorado)
 │   │
-│   ├── commands/                ← 45 slash commands
+│   ├── commands/                ← 46 slash commands
 │   │   ├── help.md              ← /help — catálogo + primeros pasos
 │   │   ├── sprint-status.md ... ← Sprint y Reporting (10)
 │   │   ├── pbi-decompose.md ... ← PBI y Discovery (6)
@@ -22,7 +22,7 @@
 │   │   ├── team-onboarding.md ..← Equipo (3)
 │   │   ├── infra-detect.md ...  ← Infraestructura (7)
 │   │   ├── diagram-generate.md..← Diagramas (4)
-│   │   ├── notify-slack.md ...  ← Conectores (11: Slack, GitHub, Sentry, GDrive, Linear, Atlassian, Figma)
+│   │   ├── notify-slack.md ...  ← Conectores (12: Slack, GitHub, Sentry, GDrive, Linear, Atlassian, Notion, Figma)
 │   │   ├── context-load.md      ← Utilidades
 │   │   └── references/          ← Ficheros de referencia (no se cargan como commands)
 │   │       ├── command-catalog.md
