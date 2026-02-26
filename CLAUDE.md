@@ -29,8 +29,9 @@ TEST_COVERAGE_MIN_PERCENT = 80                   # Umbral mínimo de cobertura p
 
 ## 🎯 Rol
 
-**Project Manager / Scrum Master** gestionando proyectos .NET con equipos Scrum en Azure DevOps.
+**Project Manager / Scrum Master** gestionando proyectos **multi-lenguaje** con equipos Scrum en Azure DevOps.
 Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
+Lenguajes soportados: C#/.NET, TypeScript/Node.js, Angular, React, Java/Spring, Python, Go, Rust, PHP/Laravel, Swift/iOS, Kotlin/Android, Ruby/Rails, VB.NET, COBOL, Terraform/IaC, Flutter/Dart.
 
 ---
 
@@ -40,9 +41,9 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ~/claude/                          ← Raíz de trabajo Y repositorio GitHub
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
-│   ├── agents/                    ← Subagentes especializados (11 agentes)
+│   ├── agents/                    ← Subagentes especializados (22 agentes)
 │   ├── commands/                  ← Slash commands (27 comandos)
-│   ├── rules/                     ← Reglas y configuración detallada
+│   ├── rules/                     ← Reglas, convenciones y Language Packs (16 lenguajes)
 │   └── skills/                    ← Skills reutilizables (9 skills)
 ├── docs/                          ← Metodología (reglas Scrum, KPIs, plantillas...)
 ├── projects/                      ← Proyectos reales (git-ignorados por .gitignore)
@@ -91,15 +92,54 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 | `code-reviewer` | Opus 4.6 | Calidad, seguridad, SOLID |
 | `security-guardian` | Opus 4.6 | Auditoría de seguridad y confidencialidad pre-commit |
 | `dotnet-developer` | Sonnet 4.6 | Implementación C#/.NET |
-| `test-engineer` | Sonnet 4.6 | xUnit, TestContainers, cobertura |
+| `typescript-developer` | Sonnet 4.6 | Implementación TypeScript/Node.js (NestJS, Express, Prisma) |
+| `frontend-developer` | Sonnet 4.6 | Implementación Angular + React |
+| `java-developer` | Sonnet 4.6 | Implementación Java/Spring Boot |
+| `python-developer` | Sonnet 4.6 | Implementación Python (FastAPI, Django, SQLAlchemy) |
+| `go-developer` | Sonnet 4.6 | Implementación Go |
+| `rust-developer` | Sonnet 4.6 | Implementación Rust/Axum |
+| `php-developer` | Sonnet 4.6 | Implementación PHP/Laravel |
+| `mobile-developer` | Sonnet 4.6 | Implementación Swift/iOS, Kotlin/Android, Flutter |
+| `ruby-developer` | Sonnet 4.6 | Implementación Ruby on Rails |
+| `cobol-developer` | Opus 4.6 | Asistencia COBOL (documentación, copybooks, tests) |
+| `terraform-developer` | Sonnet 4.6 | Terraform/IaC (NUNCA ejecuta apply) |
+| `test-engineer` | Sonnet 4.6 | Testing multi-lenguaje, TestContainers, cobertura |
 | `test-runner` | Sonnet 4.6 | Ejecución de tests, cobertura ≥ TEST_COVERAGE_MIN_PERCENT, orquestación de mejora |
 | `commit-guardian` | Sonnet 4.6 | Pre-commit checks: rama, secrets, build, tests, code review, README |
 | `tech-writer` | Haiku 4.5 | README, CHANGELOG, XML docs |
 | `azure-devops-operator` | Haiku 4.5 | WIQL, work items, sprint, capacity |
 
-Flujo SDD: `business-analyst` (JTBD+PRD opcionales) → `architect` → `sdd-spec-writer` → `dotnet-developer` ‖ `test-engineer` → `code-reviewer`
+Flujo SDD: `business-analyst` → `architect` → `sdd-spec-writer` → `{lang}-developer` ‖ `test-engineer` → `code-reviewer`
+El agente developer se selecciona según el Language Pack del proyecto (ver tabla abajo).
 Antes de cualquier commit → `commit-guardian` (10 checks: rama, security, build, tests, format, code review, README, CLAUDE.md, atomicidad, mensaje)
-Tras commit → `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`; si falla → `dotnet-developer`; si cobertura baja → `architect` + `business-analyst` + `dotnet-developer`)
+Tras commit → `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`)
+
+---
+
+## 🌐 Language Packs (Multi-lenguaje)
+
+> Guía completa de incorporación: `docs/guia-incorporacion-lenguajes.md`
+
+| Lenguaje | Conventions | Rules | Agent | Layer Matrix |
+|---|---|---|---|---|
+| C#/.NET | `dotnet-conventions.md` | `csharp-rules.md` | `dotnet-developer` | `layer-assignment-matrix.md` |
+| TypeScript/Node.js | `typescript-conventions.md` | `typescript-rules.md` | `typescript-developer` | `layer-assignment-matrix-typescript.md` |
+| Angular | `angular-conventions.md` | (usa typescript-rules) | `frontend-developer` | `layer-assignment-matrix-angular.md` |
+| React | `react-conventions.md` | (usa typescript-rules) | `frontend-developer` | `layer-assignment-matrix-react.md` |
+| Java/Spring Boot | `java-conventions.md` | `java-rules.md` | `java-developer` | `layer-assignment-matrix-java.md` |
+| Python | `python-conventions.md` | `python-rules.md` | `python-developer` | `layer-assignment-matrix-python.md` |
+| Go | `go-conventions.md` | `go-rules.md` | `go-developer` | `layer-assignment-matrix-go.md` |
+| Rust | `rust-conventions.md` | `rust-rules.md` | `rust-developer` | `layer-assignment-matrix-rust.md` |
+| PHP/Laravel | `php-conventions.md` | `php-rules.md` | `php-developer` | `layer-assignment-matrix-php.md` |
+| Swift/iOS | `swift-conventions.md` | `swift-rules.md` | `mobile-developer` | — |
+| Kotlin/Android | `kotlin-conventions.md` | `kotlin-rules.md` | `mobile-developer` | — |
+| Ruby/Rails | `ruby-conventions.md` | `ruby-rules.md` | `ruby-developer` | — |
+| VB.NET | `vbnet-conventions.md` | (usa csharp-rules) | `dotnet-developer` | (usa .NET matrix) |
+| COBOL | `cobol-conventions.md` | `cobol-rules.md` | `cobol-developer` | — |
+| Terraform/IaC | `terraform-conventions.md` | `terraform-rules.md` | `terraform-developer` | — |
+| Flutter/Dart | `flutter-conventions.md` | `flutter-rules.md` | `mobile-developer` | — |
+
+Al cargar un proyecto (`/context:load`), detectar el Language Pack por archivos presentes (package.json, pom.xml, go.mod, Cargo.toml, etc.) y cargar las reglas y agente correspondiente.
 
 ---
 
@@ -117,13 +157,13 @@ Tras commit → `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MI
 
 ## 🧠 Buenas Prácticas Claude Code
 
-- **Verificación obligatoria**: dar a Claude forma de verificar su trabajo (`dotnet build`, `dotnet test`)
+- **Verificación obligatoria**: dar a Claude forma de verificar su trabajo (build + test del lenguaje del proyecto)
 - Explorar → Planificar → Implementar → Commit · `/plan` para iniciar sin modificar
 - `/compact` al **50% del contexto** · `/clear` entre tareas no relacionadas
 - **Commit inmediato** al completar cada tarea
 - Arquitectura: **Command → Agent → Skills** — subagentes solo con herramienta `Task`
 - Si Claude corrige el mismo error 2+ veces: `/clear` y prompt mejor
-- Permisos con **wildcards**: `Bash(dotnet *)`, `Bash(az devops:*)`, `Edit(./**)`
+- Permisos con **wildcards**: `Bash(dotnet *|npm *|mvn *|pytest *|go *|cargo *)`, `Bash(az devops:*)`, `Edit(./**)`
 
 ---
 
