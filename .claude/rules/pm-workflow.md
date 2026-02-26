@@ -64,6 +64,8 @@
 | `/diagram:status` | Listar diagramas por proyecto y estado de sincronización |
 | `/notify:slack {canal} {msg}` | Enviar notificación o informe al canal de Slack del proyecto |
 | `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
+| `/github:activity {repo}` | Analizar actividad GitHub: PRs, commits, contributors |
+| `/github:issues {repo}` | Gestionar issues GitHub: buscar, crear, sincronizar con Azure DevOps |
 | `/sentry:health {--project p}` | Métricas de salud técnica desde Sentry: errores, crash rate, performance |
 | `/sentry:bugs {--project p}` | Crear PBIs (Bug) en Azure DevOps desde errores frecuentes en Sentry |
 | `/gdrive:upload {file}` | Subir informes y documentos generados a Google Drive |
