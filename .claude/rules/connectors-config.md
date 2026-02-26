@@ -18,7 +18,7 @@ SENTRY_CONNECTOR_ENABLED    = true
 SENTRY_DEFAULT_ORG          = ""                                 # Organización Sentry
 
 # ── Atlassian (Jira + Confluence) ────────────────────────────────────────────
-ATLASSIAN_CONNECTOR_ENABLED = false
+ATLASSIAN_CONNECTOR_ENABLED = true
 JIRA_DEFAULT_PROJECT        = ""                                 # Clave de proyecto Jira (ej: PROJ)
 CONFLUENCE_DEFAULT_SPACE    = ""                                 # Espacio Confluence para publicar
 
