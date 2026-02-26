@@ -70,6 +70,8 @@
 | `/sentry:bugs {--project p}` | Crear PBIs (Bug) en Azure DevOps desde errores frecuentes en Sentry |
 | `/gdrive:upload {file}` | Subir informes y documentos generados a Google Drive |
 | `/linear:sync {--project p}` | Sincronizar issues Linear ↔ PBIs/Tasks Azure DevOps |
+| `/jira:sync {--project p}` | Sincronizar issues Jira ↔ PBIs Azure DevOps (bidireccional) |
+| `/confluence:publish {file}` | Publicar documentación/informes en Confluence |
 | `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
 ## 🔗 Referencias
