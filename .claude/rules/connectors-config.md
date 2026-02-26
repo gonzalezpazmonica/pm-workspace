@@ -31,7 +31,7 @@ NOTION_CONNECTOR_ENABLED    = false
 NOTION_DEFAULT_DATABASE     = ""                                 # ID de base de datos principal
 
 # ── Linear ───────────────────────────────────────────────────────────────────
-LINEAR_CONNECTOR_ENABLED    = false
+LINEAR_CONNECTOR_ENABLED    = true
 LINEAR_DEFAULT_TEAM         = ""                                 # Equipo Linear por defecto
 
 # ── Figma ────────────────────────────────────────────────────────────────────
