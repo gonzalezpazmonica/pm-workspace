@@ -40,10 +40,10 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ~/claude/                          ← Raíz de trabajo Y repositorio GitHub
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
-│   ├── agents/                    ← Subagentes especializados (8 agentes)
-│   ├── commands/                  ← Comandos slash personalizados
+│   ├── agents/                    ← Subagentes especializados (11 agentes)
+│   ├── commands/                  ← Slash commands (24 comandos)
 │   ├── rules/                     ← Reglas y configuración detallada
-│   └── skills/                    ← Skills reutilizables
+│   └── skills/                    ← Skills reutilizables (8 skills)
 ├── docs/                          ← Metodología (reglas Scrum, KPIs, plantillas...)
 ├── projects/                      ← Proyectos reales (git-ignorados por .gitignore)
 └── scripts/                       ← Scripts auxiliares Azure DevOps
@@ -97,8 +97,8 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 | `tech-writer` | Haiku 4.5 | README, CHANGELOG, XML docs |
 | `azure-devops-operator` | Haiku 4.5 | WIQL, work items, sprint, capacity |
 
-Flujo SDD: `business-analyst` → `architect` → `sdd-spec-writer` → `dotnet-developer` ‖ `test-engineer` → `code-reviewer`
-Antes de cualquier commit → `commit-guardian` (incluye code review automático via `code-reviewer`)
+Flujo SDD: `business-analyst` (JTBD+PRD opcionales) → `architect` → `sdd-spec-writer` → `dotnet-developer` ‖ `test-engineer` → `code-reviewer`
+Antes de cualquier commit → `commit-guardian` (10 checks: rama, security, build, tests, format, code review, README, CLAUDE.md, atomicidad, mensaje)
 Tras commit → `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`; si falla → `dotnet-developer`; si cobertura baja → `architect` + `business-analyst` + `dotnet-developer`)
 
 ---
@@ -106,8 +106,10 @@ Tras commit → `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MI
 ## 🛠️ Para cualquier operación
 
 - **Azure DevOps** → leer primero `.claude/skills/azure-devops-queries/SKILL.md`
+- **Discovery (JTBD/PRD)** → `.claude/skills/product-discovery/SKILL.md`
 - **Descomponer PBIs** → `.claude/skills/pbi-decomposition/SKILL.md`
 - **Specs y agentes** → `.claude/skills/spec-driven-development/SKILL.md`
+- **Evaluar repos externos** → `/evaluate-repo`
 - **Comandos** → lista completa en `@.claude/rules/pm-workflow.md`
 - **Formateo .md** → `.vscode/settings.json` (extensión Highlight requerida)
 

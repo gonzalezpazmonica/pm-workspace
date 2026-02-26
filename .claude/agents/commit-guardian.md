@@ -131,7 +131,33 @@ wc -l CLAUDE.md
 - 🟡 Avisar si está entre 130-150 líneas (margen reducido)
 - 🔴 > 150 líneas → delegar a `tech-writer` para comprimir
 
-### CHECK 9 — Mensaje de commit (Conventional Commits)
+### CHECK 9 — Atomicidad del commit (github-flow.md)
+
+Verificar que los cambios staged son un **solo cambio lógico** que puede revertirse
+de forma independiente (regla: "Cada commit = un cambio aislado y completo").
+
+```bash
+git diff --cached --stat
+git diff --cached --name-only | sed 's|/.*||' | sort -u
+```
+
+Señales de que el commit debería dividirse:
+- Cambios en **más de 3 directorios raíz** no relacionados (ej: `agents/` + `docs/` + `scripts/` sin relación)
+- Mezcla de **tipos de cambio dispares** (ej: nuevo agente + fix de config + docs de otra cosa)
+- Más de **300 líneas** de diff total (umbral orientativo, no absoluto)
+- Ficheros que pertenecen a **propósitos claramente diferentes**
+
+Excepciones válidas (NO dividir):
+- Un nuevo comando/skill + su entrada en README + su entrada en pm-workflow.md (es un solo cambio)
+- Un fix + su test (van juntos)
+- Un refactor que toca múltiples ficheros del mismo módulo
+
+Si se detecta que debería dividirse:
+- 🟡 Sugerir al humano cómo dividir (listar qué ficheros van en cada commit)
+- Esperar confirmación antes de proceder
+- Si el humano confirma que es un solo cambio lógico → continuar con CHECK 10
+
+### CHECK 10 — Mensaje de commit (Conventional Commits)
 Recibir el mensaje propuesto y verificar formato:
 - Formato: `tipo(scope): descripción` donde tipo ∈ {feat, fix, docs, refactor, chore, test, ci}
 - Descripción en inglés o español, ≤ 72 caracteres en la primera línea
@@ -153,6 +179,7 @@ Recibir el mensaje propuesto y verificar formato:
 | Code review (siempre si hay .cs) | `code-reviewer` | Revisar staged aplicando `.claude/rules/csharp-rules.md` |
 | README no actualizado | `tech-writer` | Lista de ficheros cambiados que requieren docs update |
 | CLAUDE.md > 150 líneas | `tech-writer` | Pedir compresión priorizando @imports |
+| Commit no atómico | ❌ Humano | Sugerir división con ficheros por commit — el humano decide |
 | Secrets/datos privados detectados | ❌ Humano | NUNCA delegar — escalar siempre al humano con informe security-guardian |
 | Code review rechazado 2 veces | ❌ Humano | Escalar con informe completo de ambos intentos |
 | Commit en main | ❌ Humano | NUNCA delegar a agente — escalar siempre al humano |
@@ -192,7 +219,8 @@ Antes de hacer el commit (o de bloquearlo), genera siempre este resumen:
              (delegado a code-reviewer: reglas csharp-rules.md)
   Check 7 — README actualizado ........... ✅ / 🔴 PENDIENTE
   Check 8 — CLAUDE.md ≤ 150 líneas ....... ✅ 122 líneas
-  Check 9 — Mensaje de commit ............ ✅ formato correcto
+  Check 9 — Atomicidad del commit ........ ✅ cambio lógico único / 🟡 sugerencia de dividir
+  Check 10 — Mensaje de commit ........... ✅ formato correcto
 
   RESULTADO: ✅ APROBADO / 🔴 BLOQUEADO (N checks fallidos)
 ═══════════════════════════════════════════════════════════
