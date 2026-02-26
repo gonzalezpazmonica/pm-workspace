@@ -24,8 +24,9 @@ Muestra la ayuda de PM-Workspace. Pasos:
    **Calidad y PRs (4):** pr:review [PR], pr:pending [--project p], evaluate:repo [URL], changelog:update
    **Equipo (3):** team:privacy-notice {nombre} --project {p}, team:onboarding {nombre} --project {p}, team:evaluate {nombre} --project {p}
    **Infra (7):** infra:detect {proy} {env}, infra:plan {proy} {env}, infra:estimate {proy}, infra:scale {recurso}, infra:status {proy}, env:setup {proy}, env:promote {proy} {orig} {dest}
+   **Diagramas (4):** diagram:generate {proy}, diagram:import {source} --project {p}, diagram:config --tool {t}, diagram:status
    **Utilidades (2):** context:load, help [filtro]
 
-   Si $ARGUMENTS filtra (sprint, pbi, sdd, pr, team, infra, --setup), mostrar solo esa sección.
+   Si $ARGUMENTS filtra (sprint, pbi, sdd, pr, team, infra, diagram, --setup), mostrar solo esa sección.
 
 3. **Solo lectura** — no modificar ficheros. No mostrar secrets.

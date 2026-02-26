@@ -58,6 +58,10 @@
 | `/infra:status {proyecto}` | Estado de la infraestructura actual del proyecto |
 | `/env:setup {proyecto}` | Configurar entornos (DEV/PRE/PRO) para un proyecto |
 | `/env:promote {proyecto} {origen} {destino}` | Promover deploy entre entornos (PRE→PRO requiere aprobación) |
+| `/diagram:generate {proy}` | Generar diagrama de arquitectura/flujo → Draw.io, Miro o local |
+| `/diagram:import {source}` | Importar diagrama → validar reglas negocio → crear Features/PBIs/Tasks |
+| `/diagram:config` | Configurar credenciales Draw.io/Miro y verificar conexión |
+| `/diagram:status` | Listar diagramas por proyecto y estado de sincronización |
 | `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
 ## 🔗 Referencias
@@ -76,4 +80,7 @@
 - Multi-entorno: `.claude/rules/environment-config.md`
 - Confidencialidad: `.claude/rules/confidentiality-config.md`
 - Infrastructure as Code: `.claude/rules/infrastructure-as-code.md`
+- Diagram Generation: `.claude/skills/diagram-generation/SKILL.md`
+- Diagram Import: `.claude/skills/diagram-import/SKILL.md`
+- Diagram Config: `.claude/rules/diagram-config.md`
 - Azure DevOps API v7.1: https://learn.microsoft.com/en-us/rest/api/azure/devops/

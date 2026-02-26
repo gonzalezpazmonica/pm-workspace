@@ -84,3 +84,16 @@ curl -X POST "https://login.microsoftonline.com/$GRAPH_TENANT_ID/oauth2/v2.0/tok
 ```
 
 **Scopes PAT requeridos:** Work Items R/W · Project and Team R · Analytics R · Code R · Build R
+
+```
+# ── Diagram Tools (Draw.io / Miro) ──────────────────────────────────────────
+DRAWIO_MCP_URL              = "https://mcp.draw.io/mcp"           # MCP HTTP oficial, sin auth
+MIRO_MCP_URL                = "https://mcp.miro.com"              # MCP HTTP oficial, OAuth 2.1
+MIRO_TOKEN_FILE             = "$HOME/.azure/miro-token"            # fichero con OAuth token (sin salto de línea)
+
+# ── Per-Project Diagram Settings (en pm-config.local.md) ────────────────────
+# Formato:
+#   PROJECT_XXX_DRAWIO_FOLDER   = "Folder/Path"                   # carpeta en Draw.io
+#   PROJECT_XXX_MIRO_BOARD_ID   = "uXjVN..."                      # ID del board en Miro
+#   PROJECT_XXX_DIAGRAM_TOOL    = "draw-io"                        # tool preferido (draw-io|miro)
+```
