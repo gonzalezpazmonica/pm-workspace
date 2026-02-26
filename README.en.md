@@ -12,6 +12,8 @@
 
 > A .NET project management system built on Scrum, powered by Claude Code as an automated PM/Scrum Master — with the ability to delegate technical implementation to AI agents.
 
+> **🚀 First time here?** Check the [Adoption Guide for Consulting Firms](ADOPTION_GUIDE.en.md) — step by step from Claude signup to project and team onboarding.
+
 ---
 
 ## What is this?
