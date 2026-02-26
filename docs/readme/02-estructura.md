@@ -13,7 +13,7 @@
 ├── .claude/
 │   ├── settings.local.json      ← Permisos de Claude Code (git-ignorado)
 │   │
-│   ├── commands/                ← 38 slash commands
+│   ├── commands/                ← 42 slash commands
 │   │   ├── help.md              ← /help — catálogo + primeros pasos
 │   │   ├── sprint-status.md ... ← Sprint y Reporting (10)
 │   │   ├── pbi-decompose.md ... ← PBI y Discovery (6)
@@ -22,7 +22,7 @@
 │   │   ├── team-onboarding.md ..← Equipo (3)
 │   │   ├── infra-detect.md ...  ← Infraestructura (7)
 │   │   ├── diagram-generate.md..← Diagramas (4)
-│   │   ├── notify-slack.md ...  ← Conectores (4): Slack + GitHub
+│   │   ├── notify-slack.md ...  ← Conectores (8: Slack, GitHub, Sentry, GDrive, Linear)
 │   │   ├── context-load.md      ← Utilidades
 │   │   └── references/          ← Ficheros de referencia (no se cargan como commands)
 │   │       ├── command-catalog.md
@@ -69,6 +69,7 @@
 │       ├── command-validation.md← Pre-commit: validar commands
 │       ├── file-size-limit.md   ← Regla 150 líneas
 │       ├── readme-update.md     ← Regla 12: actualizar READMEs
+│       ├── connectors-config.md ← Configuración conectores Claude (Slack, GitHub, Sentry...)
 │       ├── diagram-config.md    ← Configuración Draw.io/Miro
 │       ├── agents-catalog.md    ← Tabla de 24 agentes
 │       └── languages/           ← Convenciones por lenguaje (excluido de carga automática)

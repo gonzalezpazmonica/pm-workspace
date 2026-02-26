@@ -66,6 +66,10 @@
 | `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
 | `/github:activity {repo}` | Analizar actividad GitHub: PRs, commits, contributors |
 | `/github:issues {repo}` | Gestionar issues GitHub: buscar, crear, sincronizar con Azure DevOps |
+| `/sentry:health {--project p}` | Métricas de salud técnica desde Sentry: errores, crash rate, performance |
+| `/sentry:bugs {--project p}` | Crear PBIs (Bug) en Azure DevOps desde errores frecuentes en Sentry |
+| `/gdrive:upload {file}` | Subir informes y documentos generados a Google Drive |
+| `/linear:sync {--project p}` | Sincronizar issues Linear ↔ PBIs/Tasks Azure DevOps |
 | `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
 ## 🔗 Referencias
@@ -84,6 +88,7 @@
 - Multi-entorno: `.claude/rules/environment-config.md`
 - Confidencialidad: `.claude/rules/confidentiality-config.md`
 - Infrastructure as Code: `.claude/rules/infrastructure-as-code.md`
+- Conectores Claude: `.claude/rules/connectors-config.md`
 - Diagram Generation: `.claude/skills/diagram-generation/SKILL.md`
 - Diagram Import: `.claude/skills/diagram-import/SKILL.md`
 - Diagram Config: `.claude/rules/diagram-config.md`
