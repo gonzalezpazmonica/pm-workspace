@@ -12,6 +12,8 @@
 
 > Sistema de gestión de proyectos .NET con Scrum, impulsado por Claude Code como asistente de PM/Scrum Master con capacidad de delegar implementación técnica a agentes de IA.
 
+> **🚀 ¿Primera vez aquí?** Consulta la [Guía de Adopción para Consultoras](ADOPTION_GUIDE.md) — paso a paso desde el registro en Claude hasta la incorporación de proyectos y equipo.
+
 ---
 
 ## ¿Qué es esto?
