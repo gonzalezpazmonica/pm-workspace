@@ -79,6 +79,7 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 11. **150 líneas máx.** por fichero — dividir si crece · legacy heredado exento salvo petición PM · ver `@.claude/rules/file-size-limit.md`
 12. **README**: ANTES de cada commit, si los cambios tocan `commands/`, `agents/`, `skills/`, `rules/` o la estructura de directorios → actualizar `README.md` + `README.en.md` (conteos, tablas, referencia rápida) en el MISMO commit · ver `@.claude/rules/readme-update.md`
 13. **Git**: NUNCA commit directo en `main` — siempre rama + PR · ver `@.claude/rules/github-flow.md`
+14. **Comandos**: ANTES de commit que toque `commands/`, ejecutar `scripts/validate-commands.sh` · ver `@.claude/rules/command-validation.md`
 
 ---
 
