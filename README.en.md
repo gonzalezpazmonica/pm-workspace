@@ -125,6 +125,7 @@ Full documentation is organized into sections for easy reference:
 5. **Secrets**: NEVER connection strings, API keys, or passwords in the repository
 6. **Infrastructure**: NEVER `terraform apply` in PRE/PRO without human approval; always minimum tier
 7. **Git**: NEVER commit directly to `main` — always branch + PR
+8. **Commands**: validate with `scripts/validate-commands.sh` before committing
 
 ---
 
