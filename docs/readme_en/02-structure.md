@@ -13,7 +13,7 @@
 ├── .claude/
 │   ├── settings.local.json      ← Claude Code permissions (git-ignored)
 │   │
-│   ├── commands/                ← 30 slash commands
+│   ├── commands/                ← 34 slash commands
 │   │   ├── help.md              ← /help — catalog + first steps
 │   │   ├── sprint-status.md ... ← Sprint & Reporting (10)
 │   │   ├── pbi-decompose.md ... ← PBI & Discovery (6)
@@ -21,12 +21,13 @@
 │   │   ├── pr-review.md ...     ← Quality & PRs (4)
 │   │   ├── team-onboarding.md ..← Team (3)
 │   │   ├── infra-detect.md ...  ← Infrastructure (7)
+│   │   ├── diagram-generate.md..← Diagrams (4)
 │   │   ├── context-load.md      ← Utilities
 │   │   └── references/          ← Reference files (not loaded as commands)
 │   │       ├── command-catalog.md
 │   │       └── ... (11 files)
 │   │
-│   ├── agents/                  ← 23 specialized subagents
+│   ├── agents/                  ← 24 specialized subagents
 │   │   ├── business-analyst.md
 │   │   ├── architect.md
 │   │   ├── code-reviewer.md
@@ -35,10 +36,11 @@
 │   │   ├── test-runner.md
 │   │   ├── sdd-spec-writer.md
 │   │   ├── infrastructure-agent.md
+│   │   ├── diagram-architect.md ← Architecture diagram analysis
 │   │   ├── dotnet-developer.md  ← + 10 language-specific developers
 │   │   └── ...
 │   │
-│   ├── skills/                  ← 9 reusable skills
+│   ├── skills/                  ← 11 reusable skills
 │   │   ├── azure-devops-queries/
 │   │   ├── sprint-management/
 │   │   ├── capacity-planning/
@@ -47,8 +49,12 @@
 │   │   ├── product-discovery/
 │   │   ├── pbi-decomposition/
 │   │   ├── team-onboarding/
-│   │   └── spec-driven-development/
-│   │       └── references/      ← Templates, matrices, team patterns
+│   │   ├── spec-driven-development/
+│   │   │   └── references/      ← Templates, matrices, team patterns
+│   │   ├── diagram-generation/  ← Diagram generation (Draw.io, Miro, Mermaid)
+│   │   │   └── references/      ← Mermaid templates, shapes, boards
+│   │   └── diagram-import/      ← Diagram import → Features/PBIs/Tasks
+│   │       └── references/      ← Mapping, PBI templates, business rules validation
 │   │
 │   └── rules/                   ← Modular rules
 │       ├── pm-config.md         ← Azure DevOps constants
@@ -61,7 +67,8 @@
 │       ├── command-validation.md← Pre-commit: validate commands
 │       ├── file-size-limit.md   ← 150 lines rule
 │       ├── readme-update.md     ← Rule 12: update READMEs
-│       ├── agents-catalog.md    ← 23 agents table
+│       ├── diagram-config.md    ← Draw.io/Miro configuration
+│       ├── agents-catalog.md    ← 24 agents table
 │       └── languages/           ← Per-language conventions (excluded from auto-loading)
 │           ├── csharp-rules.md
 │           ├── dotnet-conventions.md

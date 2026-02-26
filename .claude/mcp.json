@@ -1,5 +1,5 @@
 {
-  "_comment": "MCP Server opcional de Azure DevOps (Microsoft oficial). Activar si se necesitan operaciones encadenadas avanzadas. Requiere npx instalado.",
+  "_comment": "MCP Servers para PM-Workspace. Requiere npx instalado para servidores stdio.",
   "mcpServers": {
     "azure-devops": {
       "command": "npx",
@@ -9,6 +9,19 @@
         "AZURE_DEVOPS_PAT": "CARGAR_DESDE_FICHERO"
       },
       "_note": "Sustituir CARGAR_DESDE_FICHERO por el PAT real, o configurar el entorno antes de iniciar Claude Code con: export AZURE_DEVOPS_PAT=$(cat $HOME/.azure/devops-pat)"
+    },
+    "draw-io": {
+      "type": "url",
+      "url": "https://mcp.draw.io/mcp",
+      "_note": "Draw.io MCP oficial (HTTP). No requiere autenticación para operaciones básicas de lectura/escritura."
+    },
+    "miro": {
+      "type": "url",
+      "url": "https://mcp.miro.com",
+      "headers": {
+        "Authorization": "Bearer CARGAR_DESDE_FICHERO"
+      },
+      "_note": "Miro MCP oficial (HTTP, OAuth 2.1). Sustituir CARGAR_DESDE_FICHERO por el token real, o configurar: export MIRO_TOKEN=$(cat $HOME/.azure/miro-token). Configurar con /diagram:config --tool miro"
     }
   }
 }

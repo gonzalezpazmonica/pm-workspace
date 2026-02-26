@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (23)
+# Catálogo de Subagentes (24)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -20,6 +20,7 @@
 | `cobol-developer` | Opus 4.6 | Asistencia COBOL (documentación, copybooks, tests) |
 | `terraform-developer` | Sonnet 4.6 | Terraform/IaC (NUNCA ejecuta apply) |
 | `infrastructure-agent` | Opus 4.6 | Infra multi-cloud: detectar, crear (tier mínimo), escalar (aprobación humana) |
+| `diagram-architect` | Sonnet 4.6 | Análisis de diagramas: consistencia, layering, decomposición Features/PBIs |
 | `test-engineer` | Sonnet 4.6 | Testing multi-lenguaje, TestContainers, cobertura |
 | `test-runner` | Sonnet 4.6 | Ejecución de tests, cobertura ≥ TEST_COVERAGE_MIN_PERCENT, orquestación de mejora |
 | `commit-guardian` | Sonnet 4.6 | Pre-commit checks: rama, secrets, build, tests, code review, README |
@@ -31,6 +32,7 @@
 - **SDD**: `business-analyst` → `architect` → `sdd-spec-writer` → `{lang}-developer` ‖ `test-engineer` → `code-reviewer`
 - **Infra**: `architect` → `infrastructure-agent` → (detectar → crear tier mínimo → propuesta) → humano aprueba → apply
 - **Pre-commit**: `commit-guardian` (10 checks: rama, security, build, tests, format, code review, README, CLAUDE.md, atomicidad, mensaje)
+- **Diagramas**: `diagram-architect` → analizar consistencia → validar reglas negocio → proponer decomposición
 - **Post-commit**: `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`)
 
 El agente developer se selecciona según el Language Pack del proyecto.
