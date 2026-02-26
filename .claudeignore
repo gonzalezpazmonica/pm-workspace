@@ -1,0 +1,6 @@
+# Worktrees de Claude Code — se crean con cada sesión de Código
+# y acumulan copias completas del workspace que inflan el contexto
+.claude/worktrees/
+
+# Language rules — se cargan bajo demanda, no en cada sesión
+.claude/rules/languages/
