@@ -10,6 +10,10 @@ AZURE_DEVOPS_ORG_NAME       = "MI-ORGANIZACION"
 AZURE_DEVOPS_PAT_FILE       = "$HOME/.azure/devops-pat"          # fichero con el PAT (sin comillas, sin salto de línea)
 AZURE_DEVOPS_API_VERSION    = "7.1"
 
+# ── PM / Scrum Master ────────────────────────────────────────────────────────
+AZURE_DEVOPS_PM_USER        = "nombre.apellido@miorganizacion.com"  # email o uniqueName del PM en Azure DevOps
+AZURE_DEVOPS_PM_DISPLAY     = "Nombre Apellido"                     # nombre para mostrar en informes
+
 # ── Proyectos activos ─────────────────────────────────────────────────────────
 # Los proyectos reales (privados) están en pm-config.local.md (git-ignorado).
 # Formato para añadir un proyecto Azure DevOps en pm-config.local.md:
