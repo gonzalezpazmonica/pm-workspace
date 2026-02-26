@@ -5,129 +5,100 @@
 ```
 ~/claude/                        ← Raíz de trabajo Y repositorio GitHub
 ├── CLAUDE.md                    ← Punto de entrada de Claude Code (≤150 líneas)
-├── docs/SETUP.md                ← Guía de configuración paso a paso
-├── README.md                    ← Este fichero
+├── .claudeignore                ← Excluye worktrees y languages de carga automática
 ├── .gitignore                   ← Privacidad: proyectos reales, secrets, local config
+├── docs/SETUP.md                ← Guía de configuración paso a paso
+├── README.md / README.en.md     ← Documentación principal (ES/EN)
 │
 ├── .claude/
 │   ├── settings.local.json      ← Permisos de Claude Code (git-ignorado)
-│   ├── .env                     ← Variables de entorno (git-ignorado)
-│   ├── mcp.json                 ← Configuración MCP opcional
 │   │
-│   ├── commands/                ← 35 slash commands
-│   │   ├── sprint-status.md
-│   │   ├── sprint-plan.md
-│   │   ├── sprint-review.md
-│   │   ├── sprint-retro.md
-│   │   ├── report-hours.md
-│   │   ├── report-executive.md
-│   │   ├── report-capacity.md
-│   │   ├── team-workload.md
-│   │   ├── board-flow.md
-│   │   ├── kpi-dashboard.md
-│   │   ├── pbi-decompose.md
-│   │   ├── pbi-decompose-batch.md
-│   │   ├── pbi-assign.md
-│   │   ├── pbi-plan-sprint.md
-│   │   ├── pbi-jtbd.md           ← Discovery: Jobs to be Done
-│   │   ├── pbi-prd.md            ← Discovery: Product Requirements
-│   │   ├── pr-review.md          ← Review multi-perspectiva de PR
-│   │   ├── context-load.md       ← Carga de contexto al iniciar sesión
-│   │   ├── changelog-update.md   ← Actualizar CHANGELOG desde commits
-│   │   ├── evaluate-repo.md      ← Auditoría de repos externos
-│   │   ├── spec-generate.md      ← SDD
-│   │   ├── spec-implement.md     ← SDD
-│   │   ├── spec-review.md        ← SDD
-│   │   ├── spec-status.md        ← SDD
-│   │   ├── agent-run.md          ← SDD
-│   │   ├── team-onboarding.md    ← Onboarding de nuevos miembros
-│   │   ├── team-evaluate.md      ← Evaluación de competencias
-│   │   └── team-privacy-notice.md ← Nota informativa RGPD
+│   ├── commands/                ← 30 slash commands
+│   │   ├── help.md              ← /help — catálogo + primeros pasos
+│   │   ├── sprint-status.md ... ← Sprint y Reporting (10)
+│   │   ├── pbi-decompose.md ... ← PBI y Discovery (6)
+│   │   ├── spec-generate.md ... ← SDD (5)
+│   │   ├── pr-review.md ...     ← Calidad y PRs (4)
+│   │   ├── team-onboarding.md ..← Equipo (3)
+│   │   ├── infra-detect.md ...  ← Infraestructura (7)
+│   │   ├── context-load.md      ← Utilidades
+│   │   └── references/          ← Ficheros de referencia (no se cargan como commands)
+│   │       ├── command-catalog.md
+│   │       ├── spec-template.md
+│   │       └── ... (11 ficheros)
 │   │
-│   ├── skills/                  ← 9 skills personalizadas
+│   ├── agents/                  ← 23 subagentes especializados
+│   │   ├── business-analyst.md
+│   │   ├── architect.md
+│   │   ├── code-reviewer.md
+│   │   ├── commit-guardian.md
+│   │   ├── security-guardian.md
+│   │   ├── test-runner.md
+│   │   ├── sdd-spec-writer.md
+│   │   ├── infrastructure-agent.md
+│   │   ├── dotnet-developer.md  ← + 10 developers por lenguaje
+│   │   └── ...
+│   │
+│   ├── skills/                  ← 9 skills reutilizables
 │   │   ├── azure-devops-queries/
 │   │   ├── sprint-management/
 │   │   ├── capacity-planning/
 │   │   ├── time-tracking-report/
 │   │   ├── executive-reporting/
-│   │   ├── product-discovery/     ← JTBD + PRD antes de decompose
-│   │   │   └── references/
-│   │   │       ├── jtbd-template.md
-│   │   │       └── prd-template.md
+│   │   ├── product-discovery/
 │   │   ├── pbi-decomposition/
-│   │   │   └── references/
-│   │   │       └── assignment-scoring.md
-│   │   ├── team-onboarding/          ← Onboarding + evaluación de competencias
-│   │   │   └── references/
-│   │   │       ├── onboarding-checklist.md
-│   │   │       ├── questionnaire-template.md
-│   │   │       ├── expertise-mapping.md
-│   │   │       └── privacy-notice-template.md
+│   │   ├── team-onboarding/
 │   │   └── spec-driven-development/
-│   │       ├── SKILL.md
-│   │       └── references/
-│   │           ├── spec-template.md           ← Plantilla de specs
-│   │           ├── layer-assignment-matrix.md ← Qué va a agente vs humano
-│   │           └── agent-team-patterns.md     ← Patrones de equipos de agentes
+│   │       └── references/      ← Templates, matrices, patrones de equipo
 │   │
-│   └── rules/                   ← Reglas modulares (carga bajo demanda)
-│       ├── pm-config.md         ← Constantes completas Azure DevOps
+│   └── rules/                   ← Reglas modulares
+│       ├── pm-config.md         ← Constantes Azure DevOps
 │       ├── pm-workflow.md       ← Cadencia Scrum y tabla de comandos
-│       ├── {lang}-conventions.md← Convenciones por lenguaje (16 Language Packs)
-│       ├── {lang}-rules.md      ← Reglas de calidad por lenguaje
-│       ├── environment-config.md← Configuración multi-entorno (DEV/PRE/PRO)
-│       ├── confidentiality-config.md ← Protección de secrets y connection strings
-│       ├── infrastructure-as-code.md ← IaC multi-cloud (Azure, AWS, GCP)
-│       ├── readme-update.md     ← Cuándo y cómo actualizar este README
-│       └── github-flow.md       ← Branching workflow: ramas, PRs, protección de main
+│       ├── github-flow.md       ← Branching, PRs, releases, tags
+│       ├── environment-config.md
+│       ├── confidentiality-config.md
+│       ├── infrastructure-as-code.md
+│       ├── language-packs.md    ← Tabla de 16 lenguajes soportados
+│       ├── command-validation.md← Pre-commit: validar commands
+│       ├── file-size-limit.md   ← Regla 150 líneas
+│       ├── readme-update.md     ← Regla 12: actualizar READMEs
+│       ├── agents-catalog.md    ← Tabla de 23 agentes
+│       └── languages/           ← Convenciones por lenguaje (excluido de carga automática)
+│           ├── csharp-rules.md
+│           ├── dotnet-conventions.md
+│           └── ... (21 ficheros para 16 lenguajes)
 │
-├── docs/
-│   ├── reglas-scrum.md
-│   ├── politica-estimacion.md
-│   ├── kpis-equipo.md
-│   ├── plantillas-informes.md
-│   └── flujo-trabajo.md         ← Incluye sección 8: workflow SDD
+├── docs/                        ← Metodología, guías, secciones README
+│   ├── readme/ (13 secciones ES)
+│   ├── readme_en/ (13 secciones EN)
+│   ├── best-practices-claude-code.md
+│   ├── guia-incorporacion-lenguajes.md
+│   ├── ADOPTION_GUIDE.md / .en.md
+│   └── ...
 │
-├── projects/
-│   ├── proyecto-alpha/
-│   │   ├── CLAUDE.md            ← Constantes + config SDD del proyecto
-│   │   ├── equipo.md            ← Equipo humano + agentes Claude como developers
-│   │   ├── reglas-negocio.md
-│   │   ├── source/              ← git clone del repo aquí
-│   │   ├── sprints/
-│   │   └── specs/               ← Specs SDD
-│   │       ├── sdd-metrics.md
-│   │       ├── templates/
-│   │       └── sprint-YYYY-MM/
+├── projects/                    ← Proyectos reales (git-ignorados)
+│   ├── proyecto-alpha/          ← Ejemplo: CLAUDE.md, equipo.md, specs/
 │   ├── proyecto-beta/
-│   │   └── (misma estructura)
-│   └── sala-reservas/           ← ⚗️ PROYECTO DE TEST (ver sección abajo)
-│       ├── CLAUDE.md
-│       ├── equipo.md            ← 4 devs + PM + agentes Claude
-│       ├── reglas-negocio.md    ← 16 reglas de negocio documentadas
-│       ├── sprints/
-│       │   └── sprint-2026-04/
-│       │       └── planning.md
-│       ├── specs/
-│       │   ├── sdd-metrics.md
-│       │   └── sprint-2026-04/
-│       │       ├── AB101-B3-create-sala-handler.spec.md
-│       │       └── AB102-D1-unit-tests-salas.spec.md
-│       └── test-data/           ← Mock JSON de Azure DevOps API
-│           ├── mock-workitems.json
-│           ├── mock-sprint.json
-│           └── mock-capacities.json
+│   └── sala-reservas/           ← Proyecto de test con mock data
 │
 ├── scripts/
-│   ├── azdevops-queries.sh      ← Bash: queries a Azure DevOps REST API
-│   ├── capacity-calculator.py  ← Python: cálculo de capacity real
-│   └── report-generator.js     ← Node.js: generación de informes Excel/PPT
+│   ├── azdevops-queries.sh      ← Queries a Azure DevOps REST API
+│   ├── test-workspace.sh        ← Validación de estructura del workspace
+│   └── validate-commands.sh     ← Validación estática de slash commands
 │
-└── output/
+└── output/                      ← Informes generados (git-ignorado)
     ├── sprints/
     ├── reports/
-    ├── executive/
-    └── agent-runs/              ← Logs de ejecuciones de agentes Claude
+    └── agent-runs/              ← Logs de ejecuciones de agentes
 ```
 
 ---
+
+## `.claudeignore`
+
+Fichero que controla qué directorios **no se cargan en el contexto** de Claude Code:
+
+- `.claude/worktrees/` — Claude Code crea copias del workspace por sesión; sin excluirlas, saturan el contexto
+- `.claude/rules/languages/` — 21 ficheros de convenciones (6.900+ líneas) que se cargan bajo demanda cuando un agente los necesita
+
+> Sin `.claudeignore`, el contexto auto-cargado supera los límites y todos los slash commands fallan con "Prompt is too long".
