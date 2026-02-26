@@ -54,7 +54,9 @@ chmod +x scripts/test-workspace.sh
 | `test/` | Test suite or mock data changes |
 | `refactor/` | Restructuring without behaviour change |
 
-Examples: `feature/risk-log-command`, `fix/capacity-formula-zero-days`, `docs/add-jira-example`
+If the change originates from an Azure DevOps task or PBI, include `#ID` right after the prefix (before the description). This links commits to the task automatically.
+
+Examples: `feature/#12345-risk-log-command`, `fix/#6789-capacity-formula-zero-days`, `docs/add-jira-example` (no DevOps task)
 
 ---
 
