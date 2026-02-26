@@ -85,7 +85,7 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 
 ## 🤖 Subagentes y Flujos
 
-> Catálogo completo (23 agentes): `@.claude/rules/agents-catalog.md`
+> Catálogo completo (24 agentes): `@.claude/rules/agents-catalog.md`
 
 Flujos principales:
 - **SDD**: business-analyst → architect → sdd-spec-writer → {lang}-developer ‖ test-engineer → code-reviewer
