@@ -1,83 +1,31 @@
 ---
 name: help
-description: >
-  Muestra todos los comandos disponibles agrupados por categoría, con parámetros
-  y ejemplos. Detecta el estado del workspace y recomienda primeros pasos si
-  hay configuración pendiente.
+description: Catálogo de comandos y primeros pasos pendientes.
 ---
 
-# Ayuda de PM-Workspace
+Filtro: $ARGUMENTS
 
-**Filtro:** $ARGUMENTS
+Muestra la ayuda de PM-Workspace. Pasos:
 
-> Uso: `/help` (todo) · `/help sprint` (categoría) · `/help --setup` (solo primeros pasos)
+1. **Primeros pasos** — comprueba si falta configuración:
+   - PAT: `test -f $HOME/.azure/devops-pat`
+   - Org: AZURE_DEVOPS_ORG_URL no contiene "MI-ORGANIZACION"
+   - PM: AZURE_DEVOPS_PM_USER no es placeholder
+   - Proyecto: existe `projects/*/CLAUDE.md`
+   - Equipo: existe `projects/*/equipo.md`
+   - Test: existe `output/test-workspace-*.md`
+   Si hay pendientes, listarlos con ⬜/✅. Si todo OK → "✅ Workspace configurado".
 
----
+2. **Catálogo** — muestra los comandos por categoría (nombre, params, descripción breve):
 
-## Protocolo
+   **Sprint y Reporting (10):** sprint:status, sprint:plan, sprint:review, sprint:retro, report:hours, report:executive, report:capacity, team:workload, board:flow, kpi:dashboard
+   **PBI y Discovery (6):** pbi:decompose {id}, pbi:decompose-batch {ids}, pbi:assign {pbi_id}, pbi:plan-sprint, pbi:jtbd {id}, pbi:prd {id}
+   **SDD (5):** spec:generate {task_id}, spec:implement {spec}, spec:review {spec}, spec:status, agent:run {spec}
+   **Calidad y PRs (4):** pr:review [PR], pr:pending [--project p], evaluate:repo [URL], changelog:update
+   **Equipo (3):** team:privacy-notice {nombre} --project {p}, team:onboarding {nombre} --project {p}, team:evaluate {nombre} --project {p}
+   **Infra (7):** infra:detect {proy} {env}, infra:plan {proy} {env}, infra:estimate {proy}, infra:scale {recurso}, infra:status {proy}, env:setup {proy}, env:promote {proy} {orig} {dest}
+   **Utilidades (2):** context:load, help [filtro]
 
-### 1. Detectar estado del workspace (memoria de primeros pasos)
+   Si $ARGUMENTS filtra (sprint, pbi, sdd, pr, team, infra, --setup), mostrar solo esa sección.
 
-Comprobar cada punto y registrar los pendientes:
-
-| Paso | Qué comprobar | Cómo |
-|---|---|---|
-| 1. PAT | Existe fichero en `AZURE_DEVOPS_PAT_FILE` | `test -f $HOME/.azure/devops-pat` |
-| 2. Organización | `AZURE_DEVOPS_ORG_URL` no contiene "MI-ORGANIZACION" | Leer CLAUDE.md |
-| 3. PM identificado | `AZURE_DEVOPS_PM_USER` no es placeholder | Leer pm-config.md |
-| 4. Proyecto registrado | Existe `projects/*/CLAUDE.md` | Buscar en projects/ |
-| 5. Equipo definido | Existe `projects/*/equipo.md` | Buscar en projects/ |
-| 6. Conexión verificada | Existe `output/test-workspace-*.md` | Buscar en output/ |
-
-### 2. Presentar primeros pasos (si hay pendientes)
-
-Si hay pasos pendientes, mostrarlos ANTES del catálogo:
-
-```
-══════════════════════════════════════════════════════
-  🚀 PRIMEROS PASOS — {N} pendientes de 6
-══════════════════════════════════════════════════════
-
-  ⬜/✅ Paso 1: Configurar PAT → crear $HOME/.azure/devops-pat
-  ⬜/✅ Paso 2: Configurar organización → editar CLAUDE.md
-  ⬜/✅ Paso 3: Identificar PM → editar pm-config.md (AZURE_DEVOPS_PM_USER)
-  ⬜/✅ Paso 4: Registrar primer proyecto → /context:load o crear projects/{nombre}/
-  ⬜/✅ Paso 5: Definir equipo → crear equipo.md en el proyecto
-  ⬜/✅ Paso 6: Verificar conexión → ejecutar scripts/test-workspace.sh --mock
-
-  📖 Guía completa: docs/SETUP.md
-══════════════════════════════════════════════════════
-```
-
-Si todos completados → `✅ Workspace configurado — todos los pasos completados.`
-
-### 3. Mostrar catálogo de comandos
-
-Leer `.claude/commands/references/command-catalog.md` y presentar los comandos.
-
-Si `$ARGUMENTS` contiene un filtro, mostrar solo la categoría:
-
-| Argumento | Categoría |
-|---|---|
-| `sprint`, `report`, `kpi`, `board` | Sprint y Reporting |
-| `pbi`, `discovery`, `jtbd`, `prd` | PBI y Discovery |
-| `spec`, `sdd`, `agent` | SDD |
-| `pr`, `review`, `quality` | Calidad y PRs |
-| `team`, `onboarding`, `evaluate` | Equipo y Onboarding |
-| `infra`, `env`, `cloud` | Infraestructura y Entornos |
-| `--setup`, `setup`, `start` | Solo primeros pasos (omitir catálogo) |
-| (vacío) | Todo |
-
-### 4. Formato de presentación
-
-Para cada comando mostrar: nombre, descripción de una línea, parámetros (obligatorios y opcionales), y un ejemplo de uso.
-
-Agrupar por categoría con separadores visuales. Ver formato completo en `references/command-catalog.md`.
-
----
-
-## Restricciones
-
-- **Solo lectura** — no modifica ningún fichero
-- Si no puede determinar el estado de un paso, marcarlo como ⚠️ (no verificable)
-- No mostrar datos sensibles (PAT, secrets) en el output
+3. **Solo lectura** — no modificar ficheros. No mostrar secrets.
