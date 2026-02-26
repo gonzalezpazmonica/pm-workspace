@@ -64,6 +64,8 @@
 | `/diagram:status` | Listar diagramas por proyecto y estado de sincronización |
 | `/notify:slack {canal} {msg}` | Enviar notificación o informe al canal de Slack del proyecto |
 | `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
+| `/jira:sync {--project p}` | Sincronizar issues Jira ↔ PBIs Azure DevOps (bidireccional) |
+| `/confluence:publish {file}` | Publicar documentación/informes en Confluence |
 | `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
 ## 🔗 Referencias
