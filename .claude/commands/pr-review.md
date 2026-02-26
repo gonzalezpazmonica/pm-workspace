@@ -27,7 +27,7 @@ description: >
 
 **1. Business Analyst** — ¿Cambios cumplen criterios de aceptación del PBI? ¿Ni más ni menos? Si hay Spec SDD: ¿implementa el contrato exacto?
 
-**2. Developer** — Delegar a agente `code-reviewer` con reglas de `csharp-rules.md`. Evaluar: calidad, arquitectura, mantenibilidad, simplicidad, comentarios XML actualizados.
+**2. Developer** — Delegar a agente `code-reviewer` con reglas de `languages/csharp-rules.md`. Evaluar: calidad, arquitectura, mantenibilidad, simplicidad, comentarios XML actualizados.
 
 **3. QA Engineer** — Cobertura de tests (`dotnet test --collect:"XPlat Code Coverage"`), edge cases (null, vacío, límites, concurrencia), riesgo de regresión, scenarios SDD implementados.
 

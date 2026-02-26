@@ -22,7 +22,7 @@ constructivo: cada comentario incluye el problema, el impacto y la solución pro
 
 ## Knowledge base de reglas
 
-Antes de iniciar cualquier revisión, **leer siempre** `.claude/rules/csharp-rules.md`.
+Antes de iniciar cualquier revisión, **leer siempre** `.claude/rules/languages/csharp-rules.md`.
 Esta knowledge base contiene las reglas equivalentes a SonarQube para C# organizadas por:
 - **Vulnerabilities** (Blocker → Critical → Major)
 - **Security Hotspots**
