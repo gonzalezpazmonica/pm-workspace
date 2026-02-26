@@ -14,6 +14,7 @@
 AZURE_DEVOPS_ORG_URL    = "https://dev.azure.com/MI-ORGANIZACION"
 AZURE_DEVOPS_PAT_FILE   = "$HOME/.azure/devops-pat"          # sin comillas, sin salto de línea
 AZURE_DEVOPS_API_VERSION = "7.1"
+AZURE_DEVOPS_PM_USER    = "nombre.apellido@miorganizacion.com" # email del PM en Azure DevOps
 SPRINT_DURATION_WEEKS   = 2                      # TEAM_HOURS_PER_DAY = 8 · TEAM_FOCUS_FACTOR = 0.75
 CLAUDE_MODEL_AGENT      = "claude-opus-4-6"
 CLAUDE_MODEL_MID        = "claude-sonnet-4-6"
@@ -39,7 +40,7 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← 23 subagentes → @.claude/rules/agents-catalog.md
-│   ├── commands/                  ← 35 slash commands → @.claude/rules/pm-workflow.md
+│   ├── commands/                  ← 36 slash commands → @.claude/rules/pm-workflow.md
 │   ├── rules/                     ← Reglas, convenciones, Language Packs (16) y entornos
 │   └── skills/                    ← 9 skills reutilizables
 ├── docs/                          ← Metodología, guías, secciones README
