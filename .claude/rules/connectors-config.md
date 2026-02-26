@@ -14,7 +14,7 @@ GITHUB_CONNECTOR_ENABLED    = true
 GITHUB_DEFAULT_ORG          = ""                                 # Organización GitHub por defecto
 
 # ── Sentry ───────────────────────────────────────────────────────────────────
-SENTRY_CONNECTOR_ENABLED    = false
+SENTRY_CONNECTOR_ENABLED    = true
 SENTRY_DEFAULT_ORG          = ""                                 # Organización Sentry
 
 # ── Atlassian (Jira + Confluence) ────────────────────────────────────────────
