@@ -64,6 +64,8 @@
 | `/diagram:status` | Listar diagramas por proyecto y estado de sincronización |
 | `/notify:slack {canal} {msg}` | Enviar notificación o informe al canal de Slack del proyecto |
 | `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
+| `/sentry:health {--project p}` | Métricas de salud técnica desde Sentry: errores, crash rate, performance |
+| `/sentry:bugs {--project p}` | Crear PBIs (Bug) en Azure DevOps desde errores frecuentes en Sentry |
 | `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
 ## 🔗 Referencias
