@@ -66,8 +66,9 @@ Full documentation is organized into sections for easy reference:
 |---|---|
 | [Test project](docs/readme_en/09-test-project.md) | `sala-reservas`: tests, mock data, validation |
 | [KPIs, rules, and roadmap](docs/readme_en/10-kpis-rules.md) | Metrics, critical rules, adoption plan |
-| [Commands and agents](docs/readme_en/11-commands-agents.md) | 35 commands + 23 specialized agents |
-| [Coverage and contributing](docs/readme_en/12-coverage-contributing.md) | What's covered, what's not, how to contribute |
+| [Onboarding new team members](docs/readme_en/11-onboarding.md) | 5-phase onboarding, competency evaluation, GDPR |
+| [Commands and agents](docs/readme_en/12-commands-agents.md) | 35 commands + 23 specialized agents |
+| [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
 ### Other Documents
 
