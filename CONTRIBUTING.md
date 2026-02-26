@@ -10,7 +10,7 @@ Before you start, please read this document and the [Code of Conduct](CODE_OF_CO
 
 The highest-impact contributions are:
 
-**New slash commands** (`.claude/commands/`) — if you've had a conversation with Claude that solved a PM problem not yet covered, package it as a reusable command. Commands currently in high demand: `risk:log`, `sprint:release-notes`, `backlog:capture`, `pr:status`, `tech-debt:review`. See [ROADMAP.md](ROADMAP.md) for the full list.
+**New slash commands** (`.claude/commands/`) — if you've had a conversation with Claude that solved a PM problem not yet covered, package it as a reusable command. Commands currently in high demand: `risk:log`, `sprint:release-notes`, `backlog:capture`, `pr:status`, `tech-debt:review`. See [ROADMAP.md](docs/ROADMAP.md) for the full list.
 
 **New skills** (`.claude/skills/`) — skills that extend Claude's behaviour into new territory: Jira integration, Kanban / SAFe methodology support, non-.NET stacks (Java Spring, Node.js, Python FastAPI), or new reporting formats.
 

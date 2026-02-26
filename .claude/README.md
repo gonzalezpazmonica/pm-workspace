@@ -25,7 +25,7 @@ Directorio de configuración de Claude Code para PM-Workspace + Azure DevOps.
 └── settings.local.json ← Permisos pre-aprobados (personalizar según entorno)
 ```
 
-Para configurar el workspace, sigue las instrucciones en [SETUP.md](../SETUP.md).
+Para configurar el workspace, sigue las instrucciones en [SETUP.md](../docs/SETUP.md).
 
 ---
 
