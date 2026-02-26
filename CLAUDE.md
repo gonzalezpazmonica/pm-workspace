@@ -77,7 +77,7 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 9. **Secrets**: NUNCA secrets en el repo — usar vault o `config.local/` · ver `@.claude/rules/confidentiality-config.md`
 10. **Infraestructura**: NUNCA apply en PRE/PRO sin aprobación; tier mínimo; detectar antes de crear · ver `@.claude/rules/infrastructure-as-code.md`
 11. **150 líneas máx.** por fichero — dividir si crece · legacy heredado exento salvo petición PM · ver `@.claude/rules/file-size-limit.md`
-12. **README**: actualizar cuando cambien estructura, tools o configuración
+12. **README**: ANTES de cada commit, si los cambios tocan `commands/`, `agents/`, `skills/`, `rules/` o la estructura de directorios → actualizar `README.md` + `README.en.md` (conteos, tablas, referencia rápida) en el MISMO commit · ver `@.claude/rules/readme-update.md`
 13. **Git**: NUNCA commit directo en `main` — siempre rama + PR · ver `@.claude/rules/github-flow.md`
 
 ---
