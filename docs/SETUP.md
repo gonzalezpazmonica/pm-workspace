@@ -40,6 +40,12 @@ Repite para cada proyecto en `projects/proyecto-alpha/CLAUDE.md` y `projects/pro
 ## Paso 3 — Instalar dependencias de scripts
 
 ```bash
+# GitHub CLI (necesario para crear PRs y gestionar repos desde Claude Code)
+sudo apt update && sudo apt install gh -y   # Ubuntu/Debian
+# o: brew install gh                         # macOS
+gh auth login
+
+# Node.js dependencies para report-generator
 cd scripts/
 npm install
 cd ..
@@ -184,6 +190,7 @@ output/agent-runs/                           ← Logs de ejecuciones de agentes
 | `TF400813: Not authorized` | Verificar PAT: `cat $HOME/.azure/devops-pat` + scopes |
 | `az: command not found` | Instalar Azure CLI: https://aka.ms/installazurecliwindows |
 | `jq: command not found` | `apt install jq` / `brew install jq` |
+| `gh: command not found` | `sudo apt install gh` / `brew install gh` + `gh auth login` |
 | Resultados vacíos del sprint | Verificar que el sprint está activo en Azure DevOps Team Settings |
 | Node modules faltantes | `cd scripts && npm install` |
 
