@@ -96,7 +96,7 @@ pm-workspace/
 │   ├── .env                     ← Environment variables (DO NOT commit)
 │   ├── mcp.json                 ← Optional MCP configuration
 │   │
-│   ├── commands/                ← 19 slash commands
+│   ├── commands/                ← 24 slash commands
 │   │   ├── sprint-status.md
 │   │   ├── sprint-plan.md
 │   │   ├── sprint-review.md
@@ -111,18 +111,28 @@ pm-workspace/
 │   │   ├── pbi-decompose-batch.md
 │   │   ├── pbi-assign.md
 │   │   ├── pbi-plan-sprint.md
+│   │   ├── pbi-jtbd.md           ← Discovery: Jobs to be Done
+│   │   ├── pbi-prd.md            ← Discovery: Product Requirements
+│   │   ├── pr-review.md          ← Multi-perspective PR review
+│   │   ├── context-load.md       ← Session context loading
+│   │   ├── changelog-update.md   ← Update CHANGELOG from commits
+│   │   ├── evaluate-repo.md      ← External repo audit
 │   │   ├── spec-generate.md      ← SDD
 │   │   ├── spec-implement.md     ← SDD
 │   │   ├── spec-review.md        ← SDD
 │   │   ├── spec-status.md        ← SDD
 │   │   └── agent-run.md          ← SDD
 │   │
-│   └── skills/                  ← 6 custom skills
+│   └── skills/                  ← 8 custom skills
 │       ├── azure-devops-queries/
 │       ├── sprint-management/
 │       ├── capacity-planning/
 │       ├── time-tracking-report/
 │       ├── executive-reporting/
+│       ├── product-discovery/     ← JTBD + PRD before decompose
+│       │   └── references/
+│       │       ├── jtbd-template.md
+│       │       └── prd-template.md
 │       ├── pbi-decomposition/
 │       │   └── references/
 │       │       └── assignment-scoring.md
@@ -1061,6 +1071,20 @@ The files in `projects/sala-reservas/test-data/` simulate real Azure DevOps API 
 /agent:run {spec_file} [--team]   Launch Claude agent on a Spec
 ```
 
+### Product Discovery
+```
+/pbi:jtbd {id}                   Generate JTBD (Jobs to be Done) for a PBI
+/pbi:prd {id}                    Generate PRD (Product Requirements) for a PBI
+```
+
+### Quality and Operations
+```
+/pr:review [PR]                  Multi-perspective PR review (BA, Dev, QA, Sec, DevOps)
+/context:load                    Load session context on startup
+/changelog:update                Update CHANGELOG.md from conventional commits
+/evaluate:repo [URL]             Security and quality audit of external repo
+```
+
 ---
 
 ## Specialized Agent Team
@@ -1071,14 +1095,14 @@ each optimized for its task with the most suitable LLM model:
 | Agent | Model | Color | When to use |
 |---|---|---|---|
 | `architect` | Opus 4.6 | 🔵 blue | .NET architecture design, layer assignment, technical decisions |
-| `business-analyst` | Opus 4.6 | 🟣 purple | PBI analysis, business rules, acceptance criteria |
+| `business-analyst` | Opus 4.6 | 🟣 purple | PBI analysis, business rules, acceptance criteria, JTBD, PRD |
 | `sdd-spec-writer` | Opus 4.6 | 🩵 cyan | Generation and validation of executable SDD Specs |
 | `code-reviewer` | Opus 4.6 | 🔴 red | Quality gate: security, SOLID, SonarQube rules (`csharp-rules.md`) |
 | `security-guardian` | Opus 4.6 | 🔴 red | Security and confidentiality audit before commit |
 | `dotnet-developer` | Sonnet 4.6 | 🟢 green | C#/.NET implementation following approved SDD specs |
 | `test-engineer` | Sonnet 4.6 | 🟡 yellow | xUnit/NUnit tests, TestContainers, coverage |
 | `test-runner` | Sonnet 4.6 | 🟣 magenta | Post-commit: test execution, coverage ≥ `TEST_COVERAGE_MIN_PERCENT`, improvement orchestration |
-| `commit-guardian` | Sonnet 4.6 | 🟠 orange | Pre-commit: branch, security, build, tests, code review, README |
+| `commit-guardian` | Sonnet 4.6 | 🟠 orange | Pre-commit: 10 checks (branch, security, build, tests, format, code review, README, CLAUDE.md, atomicity, message) |
 | `tech-writer` | Haiku 4.5 | ⚪ white | README, CHANGELOG, C# XML comments, project docs |
 | `azure-devops-operator` | Haiku 4.5 | ⬜ bright white | WIQL queries, create/update work items, sprint management |
 
@@ -1109,9 +1133,10 @@ User: /pbi:plan-sprint --project Alpha
   └───────────────────────────────┘  └──────────────────────────┘
            ↓
   ┌─ commit-guardian (Sonnet) ────────────────┐
-  │  9 checks: branch → security-guardian →   │
+  │  10 checks: branch → security-guardian →  │
   │  build → tests → format → code-reviewer   │
-  │  → README → CLAUDE.md → commit message    │
+  │  → README → CLAUDE.md → atomicity →       │
+  │  commit message                           │
   │                                           │
   │  If code-reviewer REJECTS:                │
   │    → dotnet-developer fixes               │
@@ -1179,13 +1204,13 @@ Areas that would be naturally automatable with Claude and represent a logical ev
 
 **Risk management (risk log):** the workspace detects WIP and burndown alerts, but doesn't maintain a structured risk register with probability, impact, and mitigation plans. A `risk:log` skill that updates the register on each `/sprint:status` and escalates critical risks to the PM would be valuable.
 
-**Automatic release notes:** at sprint close, Claude has all the information to generate release notes from completed items and commits. This isn't implemented, but would be a straightforward `/sprint:release-notes` command.
+**Automatic release notes:** at sprint close, Claude has all the information to generate release notes from completed items and commits. The `/changelog:update` command partially covers this (generates CHANGELOG from commits), but a dedicated `/sprint:release-notes` that combines commits + work items would be the next step.
 
 **Technical debt management:** the workspace doesn't track or prioritize technical debt. A skill that analyzes the backlog for items tagged "refactor" or "tech-debt" and proposes them for maintenance sprints would be a useful addition.
 
 **New member onboarding:** when someone new joins the team, Claude could automatically generate a personalized onboarding guide (environment setup, project modules, code conventions) from workspace files.
 
-**Pull request integration:** the workspace manages tasks in AzDO but doesn't track associated PR status (reviewers, pending comments, review time). Integration with Azure DevOps Git API would complete the cycle.
+**Pull request integration:** the `/pr:review` command now covers multi-perspective review of PRs, but the workspace doesn't yet track associated PR status in AzDO (reviewers, pending comments, review time). Full integration with Azure DevOps Git API would complete the cycle.
 
 **Production bug tracking:** the bug escape rate is calculated, but there's no automated flow for prioritizing incoming bugs, linking them to the current sprint, and proposing whether they impact the sprint goal.
 
@@ -1221,7 +1246,7 @@ This project is designed to grow with community contributions. If you use the wo
 
 ### What types of contributions we accept
 
-**New slash commands** (`.claude/commands/`) — the highest-impact area. If you've automated a Claude conversation that solves a PM problem not yet covered, package it as a command and share it. High-interest examples: `risk:log`, `sprint:release-notes`, `backlog:capture`, `pr:status`.
+**New slash commands** (`.claude/commands/`) — the highest-impact area. If you've automated a Claude conversation that solves a PM problem not yet covered, package it as a command and share it. High-interest examples: `risk:log`, `sprint:release-notes`, `backlog:capture`.
 
 **New skills** (`.claude/skills/`) — skills that extend Claude's behavior in new areas (technical debt management, Jira integration, Kanban or SAFe methodology support, stacks other than .NET).
 
