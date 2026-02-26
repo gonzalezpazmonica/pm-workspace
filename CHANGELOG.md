@@ -9,23 +9,48 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-### Added
-- `csharp-rules.md` — knowledge base con 70+ reglas de análisis estático C# equivalentes a SonarQube (Vulnerabilities, Security Hotspots, Bugs, Code Smells) + 12 reglas de arquitectura Clean Architecture/DDD (ARCH-01 a ARCH-12)
-- `security-guardian` añadido a la tabla de agentes en CLAUDE.md
-- `CLAUDE_MODEL_MID` — nueva constante para el tier intermedio (Sonnet)
-
-### Changed
-- Modelos actualizados a generación 4.6: Opus `claude-opus-4-6`, Sonnet `claude-sonnet-4-6` (Haiku 4.5 se mantiene)
-- `commit-guardian` ampliado de 8 a 9 checks — nuevo CHECK 6 (Code Review) con ciclo automático de corrección vía `code-reviewer` → `dotnet-developer` → re-review (máx 2 intentos)
-- `code-reviewer` ahora referencia `csharp-rules.md` y cita IDs de regla en cada hallazgo
-- Actualizados los 10 ficheros de agentes, configs, skills, commands, y project CLAUDE.md con nuevos model IDs
-
-### Planned for v0.2.0
+### Planned for v0.3.0
 - `backlog:capture` — create PBIs from unstructured input (emails, meeting notes, support tickets)
 - `risk:log` — structured risk register updated automatically on each `/sprint:status`
-- `sprint:release-notes` — auto-generate release notes from completed items and commits
-- `/pr:status` — track pull request state (reviewers, pending comments, time in review)
+- `sprint:release-notes` — auto-generate release notes combining work items + commits
 - GitHub Actions: auto-label PRs by branch prefix (`feature/`, `fix/`, `docs/`)
+
+---
+
+## [0.2.0] — 2026-02-26
+
+Quality, discovery, and operations expansion. Adds 6 new slash commands, 1 new skill, enhances 2 existing agents, and aligns all documentation.
+
+### Added
+
+**Product Discovery workflow**
+- `/pbi:jtbd {id}` — generate Jobs to be Done document for a PBI before technical decomposition
+- `/pbi:prd {id}` — generate Product Requirements Document (MoSCoW prioritisation, Gherkin acceptance criteria, risks)
+- `product-discovery` skill (`.claude/skills/product-discovery/`) with JTBD and PRD reference templates
+
+**Quality and operations commands**
+- `/pr:review [PR]` — multi-perspective PR review from 5 angles: Business Analyst, Developer, QA Engineer, Security, DevOps
+- `/context:load` — session initialisation: loads CLAUDE.md, checks git branches, summarises recent commits, verifies tools
+- `/changelog:update` — automates CHANGELOG.md updates from conventional commits with semantic version suggestion
+- `/evaluate:repo [URL]` — static security and quality evaluation of external repositories before adoption (6 criteria + Claude Code-specific checklist)
+
+**Agents and rules enhancements**
+- `security-guardian` — new SEC-8: merge conflict markers and git artifacts detection (`.orig`, `.BACKUP`, `.BASE`, `.LOCAL`, `.REMOTE`)
+- `commit-guardian` — new CHECK 9: commit atomicity verification (signals: >3 unrelated root dirs, disparate file types, >300 lines diff; exceptions: related command+docs, fix+test, same-module refactor)
+- `csharp-rules.md` — knowledge base with 70+ static analysis rules equivalent to SonarQube (Vulnerabilities, Security Hotspots, Bugs, Code Smells) + 12 Clean Architecture/DDD rules (ARCH-01 to ARCH-12)
+- `test-runner` agent — post-commit test execution, coverage verification, improvement orchestration
+- `CLAUDE_MODEL_MID` — new constant for mid-tier model (Sonnet)
+
+### Changed
+- Models upgraded to generation 4.6: Opus `claude-opus-4-6`, Sonnet `claude-sonnet-4-6` (Haiku 4.5 maintained)
+- `commit-guardian` expanded from 8 to 10 checks — CHECK 6 (Code Review with auto-correction cycle) and CHECK 9 (atomicity)
+- `security-guardian` expanded from 8 to 9 checks — SEC-8 (merge conflict markers)
+- `code-reviewer` now references `csharp-rules.md` and cites rule IDs in each finding
+- `business-analyst` agent now covers JTBD and PRD generation
+- Updated all agent, config, skill, command, and project CLAUDE.md files with new model IDs
+- Workspace totals: 19 → 24 commands, 7 → 8 skills, 9 → 11 agents
+- `README.md`, `README.en.md`, `.claude/README.md`, `CLAUDE.md`, `pm-workflow.md` aligned with new counts and capabilities
+- `github-flow.md` updated with branch naming conventions and main-return rules
 
 ---
 
@@ -104,5 +129,6 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/releases/tag/v0.1.0
