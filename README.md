@@ -1202,9 +1202,10 @@ Usuario: /pbi:plan-sprint --project Alpha
   └───────────────────────────────┘  └──────────────────────────┘
            ↓
   ┌─ commit-guardian (Sonnet) ────────────────┐
-  │  9 checks: rama → security-guardian →    │
+  │  10 checks: rama → security-guardian →    │
   │  build → tests → format → code-reviewer  │
-  │  → README → CLAUDE.md → commit message   │
+  │  → README → CLAUDE.md → atomicidad →     │
+  │  commit message                          │
   │                                          │
   │  Si code-reviewer RECHAZA:               │
   │    → dotnet-developer corrige            │
