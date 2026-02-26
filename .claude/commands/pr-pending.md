@@ -45,9 +45,17 @@ curl -s -u ":$(cat $AZURE_DEVOPS_PAT_FILE)" \
   "$AZURE_DEVOPS_ORG_URL/_apis/identities?searchFilter=General&filterValue=$AZURE_DEVOPS_PM_USER&api-version=7.1"
 ```
 
-### 4. Para cada PR, obtener detalle
+### 4. Filtrar PRs con reviewer-asignado pendiente
 
-Por cada PR activo donde el PM es reviewer:
+Antes de mostrar un PR al PM, comprobar si el PR tiene **más de un reviewer** y uno de ellos es el **programador asignado a la tarea de DevOps** que originó el cambio (extraer task ID del nombre de rama `feature/#XXXX-...` o `fix/#XXXX-...` → consultar `System.AssignedTo` de esa task).
+
+- Si el programador asignado **aún no ha votado** (vote = 0) → **ocultar el PR** de la lista del PM. El PM no necesita revisarlo hasta que el propio programador lo valide primero.
+- Si el programador asignado **ya votó** (vote ≠ 0, cualquier valor) → mostrar el PR normalmente al PM.
+- Si el PR **no tiene task ID** en la rama, o la task **no tiene asignado**, o el PR **solo tiene un reviewer** → mostrar normalmente (sin filtro).
+
+### 5. Para cada PR visible, obtener detalle
+
+Por cada PR activo donde el PM es reviewer (y que haya pasado el filtro del paso 4):
 
 ```bash
 # Threads (comentarios) del PR
@@ -61,7 +69,7 @@ Extraer:
 - **Comentarios del PM pendientes de respuesta**: threads creados por PM donde la última respuesta no es del autor del PR
 - **Antigüedad**: `creationDate` → días desde creación
 
-### 5. Presentar resultado
+### 6. Presentar resultado
 
 ```
 ══════════════════════════════════════════════════════
@@ -100,13 +108,14 @@ Extraer:
 ══════════════════════════════════════════════════════
 ```
 
-### 6. Alertas
+### 7. Alertas
 
 Generar alertas cuando:
 - Un PR lleva **> 3 días** sin voto del PM → ⚠️ alerta de antigüedad
 - Un PR tiene **comentarios del PM sin respuesta** del autor → 💬 seguimiento
 - Un PR tiene **0 reviewers con voto** → 🔴 bloqueado
 - Un PR tiene **conflictos de merge** → ⛔ requiere acción del autor
+- Hay PRs **ocultos por validación pendiente del programador asignado** → 🕐 informar cuántos PRs están esperando revisión del dev asignado (sin listar detalle, solo contador)
 
 ---
 

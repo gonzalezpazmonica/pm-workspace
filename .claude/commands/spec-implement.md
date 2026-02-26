@@ -34,6 +34,8 @@ Si falla → informar problemas y sugerir `/spec:review`.
 
 Actualizar task en Azure DevOps: estado → "In Review", tags → "spec-driven;agent-implemented", historial con referencia al log.
 
+**Reviewer por asignación de tarea:** Si la task tiene un `System.AssignedTo` humano, añadir a ese programador como reviewer del PR. Esto aplica tanto a implementaciones por agente como a PRs creados manualmente desde una tarea DevOps.
+
 ## Restricciones
 
 - Implementación por agente SIEMPRE requiere Code Review humano antes de merge
