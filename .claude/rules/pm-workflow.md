@@ -67,6 +67,7 @@
 | `/sentry:health {--project p}` | Métricas de salud técnica desde Sentry: errores, crash rate, performance |
 | `/sentry:bugs {--project p}` | Crear PBIs (Bug) en Azure DevOps desde errores frecuentes en Sentry |
 | `/gdrive:upload {file}` | Subir informes y documentos generados a Google Drive |
+| `/linear:sync {--project p}` | Sincronizar issues Linear ↔ PBIs/Tasks Azure DevOps |
 | `/figma:extract {url}` | Extraer componentes UI, pantallas y design tokens desde Figma |
 | `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
