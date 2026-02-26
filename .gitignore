@@ -1,3 +1,6 @@
+# ── Claude Code internals ─────────────────────────────────────────────────────
+.claude/worktrees/
+
 # ── Credenciales y secretos — NUNCA commitear ────────────────────────────────
 .claude/.env
 .claude/settings.local.json
