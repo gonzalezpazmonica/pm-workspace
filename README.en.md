@@ -96,7 +96,7 @@ pm-workspace/
 │   ├── .env                     ← Environment variables (DO NOT commit)
 │   ├── mcp.json                 ← Optional MCP configuration
 │   │
-│   ├── commands/                ← 24 slash commands
+│   ├── commands/                ← 27 slash commands
 │   │   ├── sprint-status.md
 │   │   ├── sprint-plan.md
 │   │   ├── sprint-review.md
@@ -121,9 +121,12 @@ pm-workspace/
 │   │   ├── spec-implement.md     ← SDD
 │   │   ├── spec-review.md        ← SDD
 │   │   ├── spec-status.md        ← SDD
-│   │   └── agent-run.md          ← SDD
+│   │   ├── agent-run.md          ← SDD
+│   │   ├── team-onboarding.md    ← New member onboarding
+│   │   ├── team-evaluate.md      ← Competency assessment
+│   │   └── team-privacy-notice.md ← GDPR privacy notice
 │   │
-│   └── skills/                  ← 8 custom skills
+│   └── skills/                  ← 9 custom skills
 │       ├── azure-devops-queries/
 │       ├── sprint-management/
 │       ├── capacity-planning/
@@ -136,6 +139,12 @@ pm-workspace/
 │       ├── pbi-decomposition/
 │       │   └── references/
 │       │       └── assignment-scoring.md
+│       ├── team-onboarding/          ← Onboarding + competency assessment
+│       │   └── references/
+│       │       ├── onboarding-checklist.md
+│       │       ├── questionnaire-template.md
+│       │       ├── expertise-mapping.md
+│       │       └── privacy-notice-template.md
 │       └── spec-driven-development/
 │           ├── SKILL.md
 │           └── references/
@@ -1085,6 +1094,13 @@ The files in `projects/sala-reservas/test-data/` simulate real Azure DevOps API 
 /evaluate:repo [URL]             Security and quality audit of external repo
 ```
 
+### Team Management
+```
+/team:onboarding {name}          Personalized onboarding guide (context + code)
+/team:evaluate {name}            Interactive competency questionnaire → equipo.md profile
+/team:privacy-notice {name}      Mandatory GDPR privacy notice before assessment
+```
+
 ---
 
 ## Specialized Agent Team
@@ -1095,7 +1111,7 @@ each optimized for its task with the most suitable LLM model:
 | Agent | Model | Color | When to use |
 |---|---|---|---|
 | `architect` | Opus 4.6 | 🔵 blue | .NET architecture design, layer assignment, technical decisions |
-| `business-analyst` | Opus 4.6 | 🟣 purple | PBI analysis, business rules, acceptance criteria, JTBD, PRD |
+| `business-analyst` | Opus 4.6 | 🟣 purple | PBI analysis, business rules, acceptance criteria, JTBD, PRD, competency assessment |
 | `sdd-spec-writer` | Opus 4.6 | 🩵 cyan | Generation and validation of executable SDD Specs |
 | `code-reviewer` | Opus 4.6 | 🔴 red | Quality gate: security, SOLID, SonarQube rules (`csharp-rules.md`) |
 | `security-guardian` | Opus 4.6 | 🔴 red | Security and confidentiality audit before commit |
@@ -1195,6 +1211,7 @@ The following classic PM/Scrum Master responsibilities are automated or signific
 | Sprint Retrospective data | `/sprint:retro` | Medium — provides quantitative sprint data, but the retrospective dynamics are human |
 | Repetitive .NET task implementation | SDD + `/agent:run` | Very high — Command Handlers, Repositories, Validators, Unit Tests implemented without human intervention |
 | Spec quality control | `/spec:review` | High — automatically validates that a spec has sufficient detail before implementation |
+| New member onboarding | `/team:onboarding`, `/team:evaluate` | High — personalized onboarding guide + 26-competency questionnaire with GDPR compliance |
 
 ### 🔮 Not yet covered — candidates for the future
 
@@ -1207,8 +1224,6 @@ Areas that would be naturally automatable with Claude and represent a logical ev
 **Automatic release notes:** at sprint close, Claude has all the information to generate release notes from completed items and commits. The `/changelog:update` command partially covers this (generates CHANGELOG from commits), but a dedicated `/sprint:release-notes` that combines commits + work items would be the next step.
 
 **Technical debt management:** the workspace doesn't track or prioritize technical debt. A skill that analyzes the backlog for items tagged "refactor" or "tech-debt" and proposes them for maintenance sprints would be a useful addition.
-
-**New member onboarding:** when someone new joins the team, Claude could automatically generate a personalized onboarding guide (environment setup, project modules, code conventions) from workspace files.
 
 **Pull request integration:** the `/pr:review` command now covers multi-perspective review of PRs, but the workspace doesn't yet track associated PR status in AzDO (reviewers, pending comments, review time). Full integration with Azure DevOps Git API would complete the cycle.
 

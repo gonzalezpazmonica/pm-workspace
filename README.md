@@ -97,7 +97,7 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 │   ├── .env                     ← Variables de entorno (git-ignorado)
 │   ├── mcp.json                 ← Configuración MCP opcional
 │   │
-│   ├── commands/                ← 24 slash commands
+│   ├── commands/                ← 27 slash commands
 │   │   ├── sprint-status.md
 │   │   ├── sprint-plan.md
 │   │   ├── sprint-review.md
@@ -122,9 +122,12 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 │   │   ├── spec-implement.md     ← SDD
 │   │   ├── spec-review.md        ← SDD
 │   │   ├── spec-status.md        ← SDD
-│   │   └── agent-run.md          ← SDD
+│   │   ├── agent-run.md          ← SDD
+│   │   ├── team-onboarding.md    ← Onboarding de nuevos miembros
+│   │   ├── team-evaluate.md      ← Evaluación de competencias
+│   │   └── team-privacy-notice.md ← Nota informativa RGPD
 │   │
-│   ├── skills/                  ← 8 skills personalizadas
+│   ├── skills/                  ← 9 skills personalizadas
 │   │   ├── azure-devops-queries/
 │   │   ├── sprint-management/
 │   │   ├── capacity-planning/
@@ -137,6 +140,12 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 │   │   ├── pbi-decomposition/
 │   │   │   └── references/
 │   │   │       └── assignment-scoring.md
+│   │   ├── team-onboarding/          ← Onboarding + evaluación de competencias
+│   │   │   └── references/
+│   │   │       ├── onboarding-checklist.md
+│   │   │       ├── questionnaire-template.md
+│   │   │       ├── expertise-mapping.md
+│   │   │       └── privacy-notice-template.md
 │   │   └── spec-driven-development/
 │   │       ├── SKILL.md
 │   │       └── references/
@@ -265,7 +274,7 @@ cd ~/claude    # o el directorio donde hayas clonado el repositorio
 claude
 ```
 
-Claude Code cargará `CLAUDE.md` automáticamente, activará los 24 comandos y las 8 skills,
+Claude Code cargará `CLAUDE.md` automáticamente, activará los 27 comandos y las 9 skills,
 y aplicará las reglas de `.claude/rules/` bajo demanda. Todas las buenas prácticas del
 flujo Explorar → Planificar → Implementar → Commit están preconfiguradas.
 
@@ -1154,6 +1163,13 @@ Los ficheros en `projects/sala-reservas/test-data/` simulan respuestas reales de
 /evaluate:repo [URL]             Auditoría de seguridad y calidad de repo externo
 ```
 
+### Gestión de Equipo
+```
+/team:onboarding {nombre}       Guía de onboarding personalizada (contexto + código)
+/team:evaluate {nombre}         Cuestionario interactivo de competencias → perfil en equipo.md
+/team:privacy-notice {nombre}   Nota informativa RGPD obligatoria antes de evaluar
+```
+
 ---
 
 ## Equipo de Subagentes Especializados
@@ -1164,7 +1180,7 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 | Agente | Modelo | Color | Cuándo se usa |
 |---|---|---|---|
 | `architect` | Opus 4.6 | 🔵 azul | Diseño de arquitectura .NET, asignación de capas, decisiones técnicas |
-| `business-analyst` | Opus 4.6 | 🟣 morado | Análisis de PBIs, reglas de negocio, criterios de aceptación, JTBD, PRD |
+| `business-analyst` | Opus 4.6 | 🟣 morado | Análisis de PBIs, reglas de negocio, criterios de aceptación, JTBD, PRD, evaluación de competencias |
 | `sdd-spec-writer` | Opus 4.6 | 🩵 cyan | Generación y validación de Specs SDD ejecutables |
 | `code-reviewer` | Opus 4.6 | 🔴 rojo | Quality gate: seguridad, SOLID, reglas SonarQube (`csharp-rules.md`) |
 | `security-guardian` | Opus 4.6 | 🔴 rojo | Auditoría de seguridad y confidencialidad pre-commit |
@@ -1274,6 +1290,7 @@ Las siguientes responsabilidades clásicas del PM/Scrum Master quedan automatiza
 | Sprint Retrospectiva (datos) | `/sprint:retro` | Media — proporciona los datos cuantitativos del sprint (qué fue bien, qué no), pero la dinámica es humana |
 | Implementación de tasks repetibles (.NET) | SDD + `/agent:run` | Muy alta — Command Handlers, Repositories, Validators, Unit Tests implementados sin intervención humana |
 | Control de calidad de specs | `/spec:review` | Alta — valida automáticamente que una spec tenga el nivel de detalle suficiente antes de implementar |
+| Onboarding de nuevos miembros | `/team:onboarding`, `/team:evaluate` | Alta — guía personalizada de incorporación + cuestionario de 26 competencias con conformidad RGPD |
 
 ### 🔮 No contemplado actualmente — candidatos para el futuro
 
@@ -1286,8 +1303,6 @@ Las siguientes responsabilidades clásicas del PM/Scrum Master quedan automatiza
 **Release notes automáticas:** al cierre del sprint, Claude tiene toda la información para generar las release notes desde los items completados y los commits. El comando `/changelog:update` cubre parcialmente este caso (genera CHANGELOG desde commits), pero un `/sprint:release-notes` específico que combine commits + work items sería el siguiente paso.
 
 **Gestión de deuda técnica:** el workspace no rastrea ni prioriza la deuda técnica. Un skill que analice el backlog en busca de items marcados como "refactor" o "tech-debt" y los proponga para sprints de mantenimiento sería un añadido útil.
-
-**Onboarding de nuevos miembros:** cuando llega alguien nuevo al equipo, Claude podría generar automáticamente una guía de incorporación personalizada (setup del entorno, módulos del proyecto, convenciones de código) desde los ficheros del workspace.
 
 **Seguimiento de bugs en producción:** el bug escape rate se calcula, pero no hay un flujo automatizado para priorizar bugs entrantes, relacionarlos con el sprint en curso y proponer si impactan en el sprint goal actual.
 
