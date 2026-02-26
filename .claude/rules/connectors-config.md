@@ -23,7 +23,7 @@ JIRA_DEFAULT_PROJECT        = ""                                 # Clave de proy
 CONFLUENCE_DEFAULT_SPACE    = ""                                 # Espacio Confluence para publicar
 
 # ── Google Drive ─────────────────────────────────────────────────────────────
-GDRIVE_CONNECTOR_ENABLED    = false
+GDRIVE_CONNECTOR_ENABLED    = true
 GDRIVE_REPORTS_FOLDER       = ""                                 # ID de carpeta para informes
 
 # ── Notion ───────────────────────────────────────────────────────────────────
