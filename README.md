@@ -97,7 +97,7 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 │   ├── .env                     ← Variables de entorno (git-ignorado)
 │   ├── mcp.json                 ← Configuración MCP opcional
 │   │
-│   ├── commands/                ← 19 slash commands
+│   ├── commands/                ← 24 slash commands
 │   │   ├── sprint-status.md
 │   │   ├── sprint-plan.md
 │   │   ├── sprint-review.md
@@ -112,18 +112,28 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 │   │   ├── pbi-decompose-batch.md
 │   │   ├── pbi-assign.md
 │   │   ├── pbi-plan-sprint.md
+│   │   ├── pbi-jtbd.md           ← Discovery: Jobs to be Done
+│   │   ├── pbi-prd.md            ← Discovery: Product Requirements
+│   │   ├── pr-review.md          ← Review multi-perspectiva de PR
+│   │   ├── context-load.md       ← Carga de contexto al iniciar sesión
+│   │   ├── changelog-update.md   ← Actualizar CHANGELOG desde commits
+│   │   ├── evaluate-repo.md      ← Auditoría de repos externos
 │   │   ├── spec-generate.md      ← SDD
 │   │   ├── spec-implement.md     ← SDD
 │   │   ├── spec-review.md        ← SDD
 │   │   ├── spec-status.md        ← SDD
 │   │   └── agent-run.md          ← SDD
 │   │
-│   ├── skills/                  ← 7 skills personalizadas
+│   ├── skills/                  ← 8 skills personalizadas
 │   │   ├── azure-devops-queries/
 │   │   ├── sprint-management/
 │   │   ├── capacity-planning/
 │   │   ├── time-tracking-report/
 │   │   ├── executive-reporting/
+│   │   ├── product-discovery/     ← JTBD + PRD antes de decompose
+│   │   │   └── references/
+│   │   │       ├── jtbd-template.md
+│   │   │       └── prd-template.md
 │   │   ├── pbi-decomposition/
 │   │   │   └── references/
 │   │   │       └── assignment-scoring.md
@@ -255,7 +265,7 @@ cd ~/claude    # o el directorio donde hayas clonado el repositorio
 claude
 ```
 
-Claude Code cargará `CLAUDE.md` automáticamente, activará los 19 comandos y las 7 skills,
+Claude Code cargará `CLAUDE.md` automáticamente, activará los 24 comandos y las 8 skills,
 y aplicará las reglas de `.claude/rules/` bajo demanda. Todas las buenas prácticas del
 flujo Explorar → Planificar → Implementar → Commit están preconfiguradas.
 
@@ -1130,6 +1140,20 @@ Los ficheros en `projects/sala-reservas/test-data/` simulan respuestas reales de
 /agent:run {spec_file} [--team]   Lanzar agente Claude sobre una Spec
 ```
 
+### Product Discovery
+```
+/pbi:jtbd {id}                   Generar JTBD (Jobs to be Done) para un PBI
+/pbi:prd {id}                    Generar PRD (Product Requirements) para un PBI
+```
+
+### Calidad y Operaciones
+```
+/pr:review [PR]                  Revisión multi-perspectiva de PR (BA, Dev, QA, Sec, DevOps)
+/context:load                    Carga de contexto al iniciar sesión
+/changelog:update                Actualizar CHANGELOG.md desde commits convencionales
+/evaluate:repo [URL]             Auditoría de seguridad y calidad de repo externo
+```
+
 ---
 
 ## Equipo de Subagentes Especializados
@@ -1140,14 +1164,14 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 | Agente | Modelo | Color | Cuándo se usa |
 |---|---|---|---|
 | `architect` | Opus 4.6 | 🔵 azul | Diseño de arquitectura .NET, asignación de capas, decisiones técnicas |
-| `business-analyst` | Opus 4.6 | 🟣 morado | Análisis de PBIs, reglas de negocio, criterios de aceptación |
+| `business-analyst` | Opus 4.6 | 🟣 morado | Análisis de PBIs, reglas de negocio, criterios de aceptación, JTBD, PRD |
 | `sdd-spec-writer` | Opus 4.6 | 🩵 cyan | Generación y validación de Specs SDD ejecutables |
 | `code-reviewer` | Opus 4.6 | 🔴 rojo | Quality gate: seguridad, SOLID, reglas SonarQube (`csharp-rules.md`) |
 | `security-guardian` | Opus 4.6 | 🔴 rojo | Auditoría de seguridad y confidencialidad pre-commit |
 | `dotnet-developer` | Sonnet 4.6 | 🟢 verde | Implementación C#/.NET siguiendo specs SDD aprobadas |
 | `test-engineer` | Sonnet 4.6 | 🟡 amarillo | Tests xUnit/NUnit, TestContainers, cobertura |
 | `test-runner` | Sonnet 4.6 | 🟣 magenta | Post-commit: ejecución de tests, cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`, orquestación de mejora |
-| `commit-guardian` | Sonnet 4.6 | 🟠 naranja | Pre-commit: rama, security, build, tests, code review, README |
+| `commit-guardian` | Sonnet 4.6 | 🟠 naranja | Pre-commit: 10 checks (rama, security, build, tests, format, code review, README, CLAUDE.md, atomicidad, mensaje) |
 | `tech-writer` | Haiku 4.5 | ⚪ blanco | README, CHANGELOG, comentarios XML C#, docs de proyecto |
 | `azure-devops-operator` | Haiku 4.5 | ⬜ blanco brillante | Consultas WIQL, crear/actualizar work items, gestión de sprint |
 
@@ -1258,13 +1282,11 @@ Las siguientes responsabilidades clásicas del PM/Scrum Master quedan automatiza
 
 **Gestión de riesgos (risk log):** el workspace detecta alertas de WIP y burndown, pero no mantiene un registro estructurado de riesgos con probabilidad, impacto y plan de mitigación. Un skill de `risk:log` que actualice el registro en cada `/sprint:status` y escale riesgos críticos al PM sería valioso.
 
-**Release notes automáticas:** al cierre del sprint, Claude tiene toda la información para generar las release notes desde los items completados y los commits. No está implementado, pero sería un `/sprint:release-notes` directo.
+**Release notes automáticas:** al cierre del sprint, Claude tiene toda la información para generar las release notes desde los items completados y los commits. El comando `/changelog:update` cubre parcialmente este caso (genera CHANGELOG desde commits), pero un `/sprint:release-notes` específico que combine commits + work items sería el siguiente paso.
 
 **Gestión de deuda técnica:** el workspace no rastrea ni prioriza la deuda técnica. Un skill que analice el backlog en busca de items marcados como "refactor" o "tech-debt" y los proponga para sprints de mantenimiento sería un añadido útil.
 
 **Onboarding de nuevos miembros:** cuando llega alguien nuevo al equipo, Claude podría generar automáticamente una guía de incorporación personalizada (setup del entorno, módulos del proyecto, convenciones de código) desde los ficheros del workspace.
-
-**Integración con pull requests:** el workspace gestiona tasks en AzDO pero no hace seguimiento del estado de los PRs asociados (reviewers, comentarios pendientes, tiempo en revisión). Una integración con la API de Git de Azure DevOps completaría el ciclo.
 
 **Seguimiento de bugs en producción:** el bug escape rate se calcula, pero no hay un flujo automatizado para priorizar bugs entrantes, relacionarlos con el sprint en curso y proponer si impactan en el sprint goal actual.
 

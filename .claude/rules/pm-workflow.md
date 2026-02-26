@@ -41,6 +41,12 @@
 | `/spec:review {spec_file}` | Revisar calidad de Spec o validar implementación resultante |
 | `/spec:status` | Dashboard de estado de todas las Specs del sprint |
 | `/agent:run {spec_file}` | Lanzar agente Claude directamente sobre una Spec |
+| `/pbi:jtbd {id}` | Generar documento Jobs to be Done para un PBI (discovery) |
+| `/pbi:prd {id}` | Generar Product Requirements Document para un PBI (discovery) |
+| `/pr:review [PR]` | Revisión multi-perspectiva de PR (BA, Dev, QA, Security, DevOps) |
+| `/context:load` | Carga de contexto al iniciar sesión (proyecto, sprint, actividad) |
+| `/changelog:update` | Actualizar CHANGELOG.md desde commits convencionales |
+| `/evaluate:repo [URL]` | Auditoría de seguridad y calidad de un repo externo |
 
 ## 🔗 Referencias
 
@@ -49,6 +55,7 @@
 - Plantillas: `docs/plantillas-informes.md`
 - Política estimación: `docs/politica-estimacion.md`
 - Queries WIQL: `.claude/skills/azure-devops-queries/references/wiql-patterns.md`
+- Product Discovery: `.claude/skills/product-discovery/SKILL.md`
 - Scoring asignación: `.claude/skills/pbi-decomposition/references/assignment-scoring.md`
 - SDD Template: `.claude/skills/spec-driven-development/references/spec-template.md`
 - SDD Layer Matrix: `.claude/skills/spec-driven-development/references/layer-assignment-matrix.md`
