@@ -48,7 +48,7 @@ Lo que SÍ es aceptable (no bloquear):
 
 ## PROTOCOLO DE AUDITORÍA
 
-Ejecuta SIEMPRE los 8 checks en orden. Para cada check, analiza el diff staged:
+Ejecuta SIEMPRE los 9 checks en orden. Para cada check, analiza el diff staged:
 
 ```bash
 git diff --cached
@@ -184,7 +184,24 @@ git diff --cached | grep "^+" | grep -v "^\+\+\+" | grep -iE \
 
 ---
 
-### SEC-8 — Metadatos y comentarios reveladores
+### SEC-8 — Marcadores de merge conflict y artefactos de Git
+
+Buscar en staged files marcadores de merge conflict no resueltos:
+
+```bash
+git diff --cached | grep "^+" | grep -v "^\+\+\+" | grep -E "^(\+<{7}|\+>{7}|\+={7})"
+```
+
+También buscar ficheros temporales de merge:
+```bash
+git diff --cached --name-only | grep -iE "\.(orig|BACKUP|BASE|LOCAL|REMOTE)\."
+```
+
+🔴 BLOQUEO ABSOLUTO si hay marcadores de merge conflict en staged files.
+
+---
+
+### SEC-9 — Metadatos y comentarios reveladores
 
 Buscar en el diff staged comentarios o metadatos que revelen información privada:
 
@@ -214,7 +231,8 @@ Genera SIEMPRE este informe antes de declarar el veredicto:
   SEC-5 — URLs de repos/servicios priv. .. ✅ / 🔴 [detalle]
   SEC-6 — Ficheros prohibidos staged ..... ✅ / 🔴 [detalle]
   SEC-7 — Infraestructura expuesta ....... ✅ / 🔴 [detalle]
-  SEC-8 — Metadatos reveladores .......... ✅ / 🟡 [detalle]
+  SEC-8 — Merge conflicts / artefactos .. ✅ / 🔴 [detalle]
+  SEC-9 — Metadatos reveladores .......... ✅ / 🟡 [detalle]
 
 ══════════════════════════════════════════════════════════════
   VEREDICTO: ✅ APROBADO — seguro para commit público
