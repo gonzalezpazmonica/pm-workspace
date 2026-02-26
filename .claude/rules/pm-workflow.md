@@ -62,6 +62,8 @@
 | `/diagram:import {source}` | Importar diagrama → validar reglas negocio → crear Features/PBIs/Tasks |
 | `/diagram:config` | Configurar credenciales Draw.io/Miro y verificar conexión |
 | `/diagram:status` | Listar diagramas por proyecto y estado de sincronización |
+| `/notify:slack {canal} {msg}` | Enviar notificación o informe al canal de Slack del proyecto |
+| `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
 | `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
 ## 🔗 Referencias
@@ -80,6 +82,7 @@
 - Multi-entorno: `.claude/rules/environment-config.md`
 - Confidencialidad: `.claude/rules/confidentiality-config.md`
 - Infrastructure as Code: `.claude/rules/infrastructure-as-code.md`
+- Conectores Claude: `.claude/rules/connectors-config.md`
 - Diagram Generation: `.claude/skills/diagram-generation/SKILL.md`
 - Diagram Import: `.claude/skills/diagram-import/SKILL.md`
 - Diagram Config: `.claude/rules/diagram-config.md`

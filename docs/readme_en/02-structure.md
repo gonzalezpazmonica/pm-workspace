@@ -13,7 +13,7 @@
 ├── .claude/
 │   ├── settings.local.json      ← Claude Code permissions (git-ignored)
 │   │
-│   ├── commands/                ← 34 slash commands
+│   ├── commands/                ← 36 slash commands
 │   │   ├── help.md              ← /help — catalog + first steps
 │   │   ├── sprint-status.md ... ← Sprint & Reporting (10)
 │   │   ├── pbi-decompose.md ... ← PBI & Discovery (6)
@@ -22,6 +22,7 @@
 │   │   ├── team-onboarding.md ..← Team (3)
 │   │   ├── infra-detect.md ...  ← Infrastructure (7)
 │   │   ├── diagram-generate.md..← Diagrams (4)
+│   │   ├── notify-slack.md ...  ← Connectors (2)
 │   │   ├── context-load.md      ← Utilities
 │   │   └── references/          ← Reference files (not loaded as commands)
 │   │       ├── command-catalog.md
@@ -67,6 +68,7 @@
 │       ├── command-validation.md← Pre-commit: validate commands
 │       ├── file-size-limit.md   ← 150 lines rule
 │       ├── readme-update.md     ← Rule 12: update READMEs
+│       ├── connectors-config.md ← Claude connectors config (Slack, GitHub, Sentry...)
 │       ├── diagram-config.md    ← Draw.io/Miro configuration
 │       ├── agents-catalog.md    ← 24 agents table
 │       └── languages/           ← Per-language conventions (excluded from auto-loading)
