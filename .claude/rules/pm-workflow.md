@@ -58,6 +58,7 @@
 | `/infra:status {proyecto}` | Estado de la infraestructura actual del proyecto |
 | `/env:setup {proyecto}` | Configurar entornos (DEV/PRE/PRO) para un proyecto |
 | `/env:promote {proyecto} {origen} {destino}` | Promover deploy entre entornos (PRE→PRO requiere aprobación) |
+| `/help [filtro]` | Ayuda: catálogo de comandos + detección de primeros pasos pendientes |
 
 ## 🔗 Referencias
 
