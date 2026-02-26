@@ -13,7 +13,7 @@
 
 ## 📏 Convenciones
 
-- **Branches:** `feature/AB#XXXX-descripcion`, `bugfix/AB#XXXX-descripcion`
+- **Branches:** `feature/#XXXX-descripcion`, `fix/#XXXX-descripcion` (el `#ID` enlaza el commit con la tarea en DevOps)
 - **Commits:** `[AB#XXXX] Descripción corta en imperativo`
 - **Sprints:** `Sprint YYYY-NN` (ej: `Sprint 2026-04`)
 - **Informes:** `YYYYMMDD-tipo-proyecto.ext` (ej: `20260222-sprint-report-alpha.xlsx`)
