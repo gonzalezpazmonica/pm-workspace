@@ -20,7 +20,7 @@ description: >
 
 ## Contexto requerido
 
-1. @.claude/rules/messaging-config.md — Config canales activos
+1. @.claude/rules/domain/messaging-config.md — Config canales activos
 2. `.claude/skills/voice-inbox/SKILL.md` — Transcripción de audio
 
 ## Pasos de ejecución

@@ -19,7 +19,7 @@ description: >
 ## Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — `AZURE_REPOS_PROJECT`
-2. @.claude/rules/azure-repos-config.md — Config de Azure Repos
+2. @.claude/rules/domain/azure-repos-config.md — Config de Azure Repos
 
 ## Pasos de ejecución
 

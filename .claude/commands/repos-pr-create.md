@@ -28,7 +28,7 @@ description: >
 
 1. `projects/{proyecto}/CLAUDE.md` — Config del repo
 2. `projects/{proyecto}/equipo.md` — Reviewers disponibles
-3. @.claude/rules/azure-repos-config.md — Políticas y convenciones
+3. @.claude/rules/domain/azure-repos-config.md — Políticas y convenciones
 
 ## Pasos de ejecución
 

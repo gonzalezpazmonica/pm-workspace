@@ -23,7 +23,7 @@ description: >
 ## Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — `AZURE_REPOS_PROJECT`, `AZURE_REPOS_DEFAULT_REPO`
-2. @.claude/rules/azure-repos-config.md — Convenciones de naming
+2. @.claude/rules/domain/azure-repos-config.md — Convenciones de naming
 
 ## Pasos de ejecución
 
