@@ -17,6 +17,60 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.4.0] — 2026-02-27
+
+Connectors ecosystem, Azure DevOps MCP optimization, CI/CD pipelines, and Azure Repos management. Adds 8 connector integrations (23 commands), 5 pipeline commands, 6 Azure Repos commands, 1 new skill, and 1 new config rule. Total: 57 slash commands, 12 skills.
+
+### Added
+
+**Connector integrations (8 connectors, 12 commands)** — PRs #27–#34
+- `/notify:slack {canal} {msg}` — send notifications and reports to Slack channels
+- `/slack:search {query}` — search messages and decisions in Slack for context
+- `/github:activity {repo}` — analyze GitHub activity: PRs, commits, contributors
+- `/github:issues {repo}` — manage GitHub issues: search, create, sync with Azure DevOps
+- `/sentry:health --project {p}` — health metrics from Sentry: error rate, crash rate, p95 latency
+- `/sentry:bugs --project {p}` — create Bug PBIs in Azure DevOps from frequent Sentry errors
+- `/gdrive:upload {file} --project {p}` — upload generated reports and documents to Google Drive
+- `/linear:sync --project {p}` — bidirectional sync Linear issues ↔ Azure DevOps PBIs/Tasks
+- `/jira:sync --project {p}` — bidirectional sync Jira issues ↔ Azure DevOps PBIs
+- `/confluence:publish {file} --project {p}` — publish documentation and reports to Confluence
+- `/notion:sync --project {p}` — bidirectional document sync with Notion databases
+- `/figma:extract {url} --project {p}` — extract UI components, screens, and design tokens from Figma
+- `connectors-config.md` — centralized connector configuration with per-connector enable/disable
+
+**Azure Pipelines CI/CD (5 commands, 1 skill)** — PR #35
+- `/pipeline:status --project {p}` — pipeline health: last builds, success rate, duration, alerts
+- `/pipeline:run --project {p} {pipeline}` — execute pipeline with preview and PM confirmation
+- `/pipeline:logs --project {p} --build {id}` — build logs: timeline, errors, warnings
+- `/pipeline:create --project {p} --name {n}` — create pipeline from YAML templates with preview
+- `/pipeline:artifacts --project {p} --build {id}` — list/download build artifacts
+- `azure-pipelines` skill with YAML templates (build+test, multi-env, PR validation, nightly) and stage patterns (DEV→PRE→PRO with approval gates)
+
+**Azure Repos management (6 commands, 1 config rule)** — PR #36
+- `/repos:list --project {p}` — list Azure DevOps repositories with stats
+- `/repos:branches --project {p} --repo {r}` — branch management: list, create, compare
+- `/repos:pr-create --project {p} --repo {r}` — create PR with work item linking, reviewers, auto-complete
+- `/repos:pr-list --project {p}` — list PRs: pending, assigned to PM, by reviewer
+- `/repos:pr-review --project {p} --pr {id}` — multi-perspective PR review (BA, Dev, QA, Security, DevOps)
+- `/repos:search --project {p} {query}` — search code across Azure Repos
+- `azure-repos-config.md` — dual Git provider support (`GIT_PROVIDER = "github" | "azure-repos"` per project)
+
+**DevOps workflow improvements** — PR #26
+- Task ID in branch names: `feature/#XXXX-descripcion`
+- Auto-reviewer assignment on PR creation
+- PM notification filter for relevant updates
+
+### Changed
+- PAT scopes expanded: `Code R/W`, `Build R/W`, `Release R` (for pipeline and repo operations)
+- Command count: 46 → 57 (+5 pipeline, +6 repos, no net change from connectors already counted in 0.3.0 changelog)
+- Skills count: 11 → 12 (+azure-pipelines)
+- Help command updated with Pipelines (5) and Azure Repos (6) categories
+- `pm-workflow.md` updated with 11 new command entries
+- READMEs (ES/EN) updated with new commands, skill, and rule entries
+- GitHub CLI (`gh`) added as workspace dependency in SETUP.md
+
+---
+
 ## [0.3.0] — 2026-02-26
 
 Multi-language, multi-environment, infrastructure as code, documentation reorganization, and file size governance. Adds 16 Language Packs, 7 new commands, 1 new agent, 12 new developer agents, and a 150-line file size rule.
@@ -128,7 +182,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/releases/tag/v0.1.0
