@@ -25,7 +25,13 @@ description: >
 2. `.claude/skills/azure-devops-queries/SKILL.md` — Queries si hay work items
 3. Acceso al repositorio del proyecto (Git clone o Azure Repos)
 
-## Pasos de ejecución
+## Delegación a subagente
+
+**OBLIGATORIO**: Todo el análisis (recopilar datos, calcular scores, generar roadmap) se ejecuta en un subagente (`Task`) para proteger el contexto. Mostrar: `📋 Paso 1/1 — Análisis delegado a subagente (puede tardar ~2 min)...`
+
+El subagente ejecuta los pasos 1-5 abajo y guarda el informe en `output/assessments/`. El contexto principal solo recibe el resumen (score global + hallazgos críticos).
+
+## Pasos de ejecución (dentro del subagente)
 
 ### 1. Recopilar datos
 - **Código fuente**: LOC, lenguajes, edad del repo, frecuencia de commits
@@ -105,3 +111,4 @@ Conocimiento:   ████░░░░░░ 4/10
 - No modifica código ni crea branches — solo analiza y reporta
 - El score es orientativo, no sustituye el juicio del equipo
 - Acceso al repo necesario para análisis profundo (`--deep`)
+- **NO ejecutar análisis en el contexto principal** — SIEMPRE subagente

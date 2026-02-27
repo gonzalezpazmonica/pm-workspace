@@ -44,21 +44,15 @@ Si la URL es inválida o no se puede clonar → error claro:
    (o que tienes acceso configurado).
 ```
 
-## 3. Ejecución con progreso
+## 3. Delegar análisis a subagente
 
-```
-📋 Paso 1/5 — Analizando estructura del repositorio...
-📋 Paso 2/5 — Evaluando calidad de código...
-📋 Paso 3/5 — Escaneando seguridad...
-📋 Paso 4/5 — Verificando documentación...
-📋 Paso 5/5 — Calculando puntuaciones...
-```
+**OBLIGATORIO**: Delegar el análisis a un subagente (`Task`) para proteger el contexto.
 
-### Instrucciones internas
+Mostrar: `📋 Paso 1/1 — Análisis delegado a subagente (puede tardar ~2 min)...`
 
-1. **NO ejecutar código** — solo inspección estática
-2. Clonar a `/tmp/eval-repo-$(date +%s) --depth 1`
-3. Leer: README, CLAUDE.md, package.json, *.csproj, hooks, commands, scripts, configs
+El subagente debe: clonar (--depth 1) a `/tmp/eval-repo-*`, inspeccionar estáticamente (NO ejecutar código), evaluar las 6 categorías del §4, generar scoring y veredicto, y limpiar `/tmp/eval-repo-*`.
+
+Ficheros a leer: README, CLAUDE.md, package.json, *.csproj, hooks, commands, scripts, configs.
 
 ## 4. Criterios (1-10 cada uno)
 
@@ -105,3 +99,4 @@ Limpiar: `rm -rf /tmp/eval-repo-*`
 - NUNCA instalar dependencias ni ejecutar código
 - NUNCA aprobar automáticamente — es recomendación al humano
 - Si duda entre 🟡 y 🔴 → elevar a 🔴
+- **NO ejecutar análisis en el contexto principal** — SIEMPRE subagente

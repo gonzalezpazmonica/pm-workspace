@@ -13,6 +13,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.13.2] — 2026-02-27
+
+Fix silent failures: heavy commands (project-audit, evaluate-repo, legacy-assess) now explicitly delegate analysis to subagents. Added stack detection to project-audit prerequisite checks.
+
+### Fixed
+
+**`/project:audit` silent failure** — At 100% context, the command produced zero output. Root cause: anti-improvisation rule prevented Claude from using subagents (not defined in command spec). Now explicitly delegates to `Task` subagent.
+
+### Changed
+
+**`/project:audit`** — Rewritten: mandatory subagent delegation (§4), stack-aware prereqs (GitHub-only vs Azure DevOps), output-first summary.
+**`/evaluate:repo`** — Added mandatory subagent delegation for analysis.
+**`/legacy:assess`** — Added mandatory subagent delegation for analysis.
+
+---
+
 ## [0.13.1] — 2026-02-27
 
 Anti-improvisation: commands now strictly execute only what their `.md` file defines. `/help --setup` rewritten with explicit stack detection (GitHub-only vs Azure DevOps) and conditional checks.
@@ -412,7 +428,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.1...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.2...HEAD
+[0.13.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.1...v0.13.2
 [0.13.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.11.1...v0.12.0
