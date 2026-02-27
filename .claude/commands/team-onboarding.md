@@ -10,10 +10,10 @@ description: >
 
 **Nuevo miembro:** $ARGUMENTS
 
-> Uso: `/team:onboarding "Laura Sánchez" --project GestiónClínica`
+> Uso: `/team-onboarding "Laura Sánchez" --project GestiónClínica`
 >
 > Prerequisito: la nota informativa RGPD debe estar firmada antes de registrar
-> datos del trabajador. Si no existe, sugerir `/team:privacy-notice` primero.
+> datos del trabajador. Si no existe, sugerir `/team-privacy-notice` primero.
 
 ---
 
@@ -37,13 +37,13 @@ Si el `--project` no se especifica, preguntar al usuario qué proyecto.
 Comprobar si existe `projects/{proyecto}/privacy/{nombre}-nota-informativa-*.md`.
 
 - Si existe → continuar
-- Si no existe → informar al usuario que debe ejecutar `/team:privacy-notice` primero.
+- Si no existe → informar al usuario que debe ejecutar `/team-privacy-notice` primero.
   No bloquear el onboarding (la nota es necesaria para Fase 4, no para Fases 1-2),
-  pero recordar que es **obligatoria antes de ejecutar `/team:evaluate`**.
+  pero recordar que es **obligatoria antes de ejecutar `/team-evaluate`**.
 
 ### 4. Fase 1 — Contexto inmediato
 
-Ejecutar el equivalente de `/context:load` pero orientado al nuevo miembro:
+Ejecutar el equivalente de `/context-load` pero orientado al nuevo miembro:
 
 **a) Arquitectura general:**
 - Leer la estructura de carpetas del source (`projects/{proyecto}/source/`)
@@ -99,7 +99,7 @@ Guardar en: `projects/{proyecto}/onboarding/{nombre}-guia.md`
 Mostrar la guía generada y preguntar:
 - ¿El mentor quiere ajustar algo?
 - ¿Está listo para la Fase 3 (primera task asistida)?
-- Recordar que tras la Fase 3, el siguiente paso es `/team:evaluate`
+- Recordar que tras la Fase 3, el siguiente paso es `/team-evaluate`
 
 ---
 
@@ -126,7 +126,7 @@ Mostrar la guía generada y preguntar:
   ═══ PRÓXIMOS PASOS ═══
 
   → Fase 3: Mentor asigna primera task (complejidad B/C)
-  → Fase 4: /team:evaluate "{nombre}" --project {proyecto}
+  → Fase 4: /team-evaluate "{nombre}" --project {proyecto}
 
   📄 Guía guardada en: projects/{proyecto}/onboarding/{nombre}-guia.md
 
@@ -138,7 +138,7 @@ Mostrar la guía generada y preguntar:
 ## Restricciones
 
 - **No asignar tasks** — eso es responsabilidad del mentor (Fase 3)
-- **No evaluar competencias** — eso es `/team:evaluate` (Fase 4)
+- **No evaluar competencias** — eso es `/team-evaluate` (Fase 4)
 - **No modificar equipo.md** — solo lectura en esta fase
 - **No mostrar datos de competencias de otros miembros** — privacidad (RGPD)
 - Si el source del proyecto no está clonado, informar y sugerir cómo clonarlo

@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/repos:pr-create --project {p} --repo {r}` o con todos los params
+> Uso: `/repos-pr-create --project {p} --repo {r}` o con todos los params
 
 ## Parámetros
 
@@ -68,9 +68,9 @@ description: >
 
 ## Integración
 
-- `/repos:pr-list` → ver PRs del repo
-- `/repos:pr-review` → review multi-perspectiva del PR
-- `/pipeline:status` → verificar que la build de validación pasa
+- `/repos-pr-list` → ver PRs del repo
+- `/repos-pr-review` → review multi-perspectiva del PR
+- `/pipeline-status` → verificar que la build de validación pasa
 
 ## Restricciones
 

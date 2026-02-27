@@ -2,66 +2,66 @@
 
 ## Sprint and Reporting
 ```
-/sprint:status [--project]        Sprint status with alerts
-/sprint:plan [--project]          Sprint Planning assistant
-/sprint:review [--project]        Sprint Review summary
-/sprint:retro [--project]         Retrospective with data
-/report:hours [--project]         Hours report (Excel)
-/report:executive                 Multi-project report (PPT/Word)
-/report:capacity [--project]      Capacity status
-/team:workload [--project]        Workload by person
-/board:flow [--project]           Cycle time and bottlenecks
-/kpi:dashboard [--project]        Full KPI dashboard
+/sprint-status [--project]        Sprint status with alerts
+/sprint-plan [--project]          Sprint Planning assistant
+/sprint-review [--project]        Sprint Review summary
+/sprint-retro [--project]         Retrospective with data
+/report-hours [--project]         Hours report (Excel)
+/report-executive                 Multi-project report (PPT/Word)
+/report-capacity [--project]      Capacity status
+/team-workload [--project]        Workload by person
+/board-flow [--project]           Cycle time and bottlenecks
+/kpi-dashboard [--project]        Full KPI dashboard
 ```
 
 ## PBI Decomposition
 ```
-/pbi:decompose {id}               Break down a PBI into tasks
-/pbi:decompose-batch {id1,id2}    Break down multiple PBIs
-/pbi:assign {pbi_id}              (Re)assign tasks for a PBI
-/pbi:plan-sprint                  Full sprint planning
+/pbi-decompose {id}               Break down a PBI into tasks
+/pbi-decompose-batch {id1,id2}    Break down multiple PBIs
+/pbi-assign {pbi_id}              (Re)assign tasks for a PBI
+/pbi-plan-sprint                  Full sprint planning
 ```
 
 ## Spec-Driven Development
 ```
-/spec:generate {task_id}          Generate Spec from Azure DevOps Task
-/spec:implement {spec_file}       Implement Spec (agent or human)
-/spec:review {spec_file}          Review Spec quality or implementation
-/spec:status [--project]          Sprint Spec dashboard
-/agent:run {spec_file} [--team]   Launch Claude agent on a Spec
+/spec-generate {task_id}          Generate Spec from Azure DevOps Task
+/spec-implement {spec_file}       Implement Spec (agent or human)
+/spec-review {spec_file}          Review Spec quality or implementation
+/spec-status [--project]          Sprint Spec dashboard
+/agent-run {spec_file} [--team]   Launch Claude agent on a Spec
 ```
 
 ## Product Discovery
 ```
-/pbi:jtbd {id}                   Generate JTBD (Jobs to be Done) for a PBI
-/pbi:prd {id}                    Generate PRD (Product Requirements) for a PBI
+/pbi-jtbd {id}                   Generate JTBD (Jobs to be Done) for a PBI
+/pbi-prd {id}                    Generate PRD (Product Requirements) for a PBI
 ```
 
 ## Quality and Operations
 ```
-/pr:review [PR]                  Multi-perspective PR review (BA, Dev, QA, Sec, DevOps)
-/context:load                    Load session context on startup (big picture)
-/session:save                    Save decisions and pending tasks before /clear
-/changelog:update                Update CHANGELOG.md from conventional commits
-/evaluate:repo [URL]             Security and quality audit of external repo
+/pr-review [PR]                  Multi-perspective PR review (BA, Dev, QA, Sec, DevOps)
+/context-load                    Load session context on startup (big picture)
+/session-save                    Save decisions and pending tasks before /clear
+/changelog-update                Update CHANGELOG.md from conventional commits
+/evaluate-repo [URL]             Security and quality audit of external repo
 ```
 
 ## Team Management
 ```
-/team:onboarding {name}          Personalized onboarding guide (context + code)
-/team:evaluate {name}            Interactive competency questionnaire → equipo.md profile
-/team:privacy-notice {name}      Mandatory GDPR privacy notice before assessment
+/team-onboarding {name}          Personalized onboarding guide (context + code)
+/team-evaluate {name}            Interactive competency questionnaire → equipo.md profile
+/team-privacy-notice {name}      Mandatory GDPR privacy notice before assessment
 ```
 
 ## Infrastructure and Environments
 ```
-/infra:detect {project} {env}    Detect existing infrastructure
-/infra:plan {project} {env}      Generate infrastructure plan
-/infra:estimate {project}        Estimate costs per environment
-/infra:scale {resource}          Propose scaling (requires human approval)
-/infra:status {project}          Current infrastructure status
-/env:setup {project}             Configure environments (DEV/PRE/PRO)
-/env:promote {project} {s} {d}   Promote between environments (PRE→PRO requires approval)
+/infra-detect {project} {env}    Detect existing infrastructure
+/infra-plan {project} {env}      Generate infrastructure plan
+/infra-estimate {project}        Estimate costs per environment
+/infra-scale {resource}          Propose scaling (requires human approval)
+/infra-status {project}          Current infrastructure status
+/env-setup {project}             Configure environments (DEV/PRE/PRO)
+/env-promote {project} {s} {d}   Promote between environments (PRE→PRO requires approval)
 ```
 
 ---
@@ -100,7 +100,7 @@ The workspace includes 23 specialized agents organized in 3 groups, each optimiz
 ### SDD flow with parallel agents
 
 ```
-User: /pbi:plan-sprint --project Alpha
+User: /pbi-plan-sprint --project Alpha
 
   ┌─ business-analyst (Opus) ─────────────────┐
   │  Analyze candidate PBIs                   │   IN PARALLEL

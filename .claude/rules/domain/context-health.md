@@ -24,7 +24,7 @@ Formato obligatorio para resultados extensos:
    Top crítico: SQL injection en AuthController (3 sprints sin resolver)
 
 📄 Detalle completo: output/audits/YYYYMMDD-audit-proyecto.md
-💡 Siguiente paso: /project:release-plan --project proyecto
+💡 Siguiente paso: /project-release-plan --project proyecto
 ```
 
 ## 2. Uso de subagentes para tareas pesadas
@@ -36,10 +36,10 @@ El subagente trabaja en contexto aislado y devuelve solo el resumen.
 Esto evita que el análisis intermedio contamine el contexto principal.
 
 **Comandos que DEBEN usar subagente:**
-- `/project:audit` → subagente analiza repo, devuelve scores + hallazgos
-- `/evaluate:repo` → subagente clona y analiza, devuelve puntuaciones
-- `/legacy:assess` → subagente evalúa 6 dimensiones, devuelve scoring
-- `/spec:generate` → subagente genera spec, guarda en fichero
+- `/project-audit` → subagente analiza repo, devuelve scores + hallazgos
+- `/evaluate-repo` → subagente clona y analiza, devuelve puntuaciones
+- `/legacy-assess` → subagente evalúa 6 dimensiones, devuelve scoring
+- `/spec-generate` → subagente genera spec, guarda en fichero
 - Cualquier comando que lea más de 5 ficheros internamente
 
 ## 3. Compactación proactiva
@@ -73,7 +73,7 @@ Cada sesión debería tener UN objetivo claro:
 - "Planificar Sprint 5" → planning + asignación
 - "Implementar feature X" → spec + implement + test
 
-Si el PM cambia de objetivo, sugerir `/clear` + nuevo `/context:load`.
+Si el PM cambia de objetivo, sugerir `/clear` + nuevo `/context-load`.
 
 ### Antipatrones a evitar
 - ❌ Mezclar auditoría + implementación + reporting en una sesión
@@ -93,8 +93,8 @@ Cada proyecto mantiene estado en disco (no en contexto):
 Los comandos LEEN estos ficheros cuando los necesitan.
 No necesitan que la información esté en el contexto de conversación.
 
-### `/context:load` como punto de partida
-Al iniciar sesión, `/context:load` lee el estado de disco y muestra
+### `/context-load` como punto de partida
+Al iniciar sesión, `/context-load` lee el estado de disco y muestra
 un resumen conciso. No carga todo — solo lo justo para orientar al PM.
 
 ## 6. Límites de carga bajo demanda

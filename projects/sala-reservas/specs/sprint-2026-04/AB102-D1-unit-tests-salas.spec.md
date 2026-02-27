@@ -6,7 +6,7 @@
 **Fecha creación:** 2026-03-03
 **Creado por:**     Carlos Mendoza (Tech Lead)
 
-**Developer Type:** agent:single
+**Developer Type:** agent-single
 **Modelo sugerido:** claude-haiku-4-5-20251001
 **Asignado a:**     claude-agent-fast (dev:agent-fast)
 **Estimación:**     2h

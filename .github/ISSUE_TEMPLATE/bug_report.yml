@@ -25,25 +25,25 @@ body:
       label: Command or skill involved
       description: Which command or skill is affected?
       options:
-        - /sprint:status
-        - /sprint:plan
-        - /sprint:review
-        - /sprint:retro
-        - /report:hours
-        - /report:executive
-        - /report:capacity
-        - /team:workload
-        - /board:flow
-        - /kpi:dashboard
-        - /pbi:decompose
-        - /pbi:decompose-batch
-        - /pbi:assign
-        - /pbi:plan-sprint
-        - /spec:generate
-        - /spec:implement
-        - /spec:review
-        - /spec:status
-        - /agent:run
+        - /sprint-status
+        - /sprint-plan
+        - /sprint-review
+        - /sprint-retro
+        - /report-hours
+        - /report-executive
+        - /report-capacity
+        - /team-workload
+        - /board-flow
+        - /kpi-dashboard
+        - /pbi-decompose
+        - /pbi-decompose-batch
+        - /pbi-assign
+        - /pbi-plan-sprint
+        - /spec-generate
+        - /spec-implement
+        - /spec-review
+        - /spec-status
+        - /agent-run
         - scripts/test-workspace.sh
         - scripts/azdevops-queries.sh
         - Other (describe below)
@@ -86,7 +86,7 @@ body:
       description: Step-by-step instructions to reproduce the bug.
       placeholder: |
         1. Open Claude Code from pm-workspace/
-        2. Run /sprint:status --project ...
+        2. Run /sprint-status --project ...
         3. See error
     validations:
       required: true

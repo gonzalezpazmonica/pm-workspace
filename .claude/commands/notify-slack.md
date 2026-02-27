@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/notify:slack {canal} {mensaje}` o `/notify:slack --project {p} {mensaje}`
+> Uso: `/notify-slack {canal} {mensaje}` o `/notify-slack --project {p} {mensaje}`
 
 ## Parámetros
 
@@ -61,20 +61,20 @@ su resultado automáticamente. Cuando un comando incluye este flag:
 5. Mostrar confirmación
 
 Comandos que soportan `--notify-slack`:
-- `/sprint:status` → Publica resumen de estado del sprint
-- `/sprint:review` → Publica items completados y velocity
-- `/board:flow` → Publica alertas de WIP y cuellos de botella
-- `/team:workload` → Publica distribución de carga
-- `/kpi:dashboard` → Publica KPIs principales
-- `/pbi:decompose` → Notifica asignaciones de tasks
-- `/diagram:status` → Publica estado de diagramas
+- `/sprint-status` → Publica resumen de estado del sprint
+- `/sprint-review` → Publica items completados y velocity
+- `/board-flow` → Publica alertas de WIP y cuellos de botella
+- `/team-workload` → Publica distribución de carga
+- `/kpi-dashboard` → Publica KPIs principales
+- `/pbi-decompose` → Notifica asignaciones de tasks
+- `/diagram-status` → Publica estado de diagramas
 
 ## Ejemplos
 
 ```
-/notify:slack #dev-team Sprint 14 completado: 34 SP, velocity 32 📈
-/notify:slack --project ProyectoAlpha ⚠️ WIP limit superado en columna "In Progress"
-/notify:slack @maria.garcia Tu task #1234 ha sido asignada (4h estimadas)
+/notify-slack #dev-team Sprint 14 completado: 34 SP, velocity 32 📈
+/notify-slack --project ProyectoAlpha ⚠️ WIP limit superado en columna "In Progress"
+/notify-slack @maria.garcia Tu task #1234 ha sido asignada (4h estimadas)
 ```
 
 ## Restricciones

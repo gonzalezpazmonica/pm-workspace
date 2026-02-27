@@ -9,7 +9,7 @@ description: >
 
 **Búsqueda:** $ARGUMENTS
 
-> Uso: `/slack:search {query} [--channel {canal}] [--from {usuario}] [--since {fecha}]`
+> Uso: `/slack-search {query} [--channel {canal}] [--from {usuario}] [--since {fecha}]`
 
 ## Parámetros
 
@@ -58,9 +58,9 @@ description: >
 
 ## Casos de uso en PM-Workspace
 
-- **Input para `/diagram:import`**: Buscar decisiones arquitectónicas antes de importar
-- **Input para `/pbi:decompose`**: Buscar contexto funcional sobre un PBI
-- **Input para `/sprint:retro`**: Recopilar feedback del equipo durante el sprint
+- **Input para `/diagram-import`**: Buscar decisiones arquitectónicas antes de importar
+- **Input para `/pbi-decompose`**: Buscar contexto funcional sobre un PBI
+- **Input para `/sprint-retro`**: Recopilar feedback del equipo durante el sprint
 - **Auditoría**: Buscar quién aprobó qué y cuándo
 
 ## Restricciones

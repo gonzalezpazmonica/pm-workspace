@@ -7,13 +7,13 @@ PM-Workspace includes a complete workflow for onboarding developers to a project
 ```
 New member joins the project
     ↓
-/team:privacy-notice "Name"       ← 1. GDPR privacy notice (mandatory)
+/team-privacy-notice "Name"       ← 1. GDPR privacy notice (mandatory)
     ↓                                   Worker reads and signs acknowledgment
-/team:onboarding "Name"           ← 2. Project context + codebase tour
+/team-onboarding "Name"           ← 2. Project context + codebase tour
     ↓                                   Mentor validates each phase
   [First assisted task]            ← 3. Mentor assigns B/C task, pair with Claude
     ↓                                   Human Code Review mandatory
-/team:evaluate "Name"              ← 4. Competency questionnaire (8 dimensions)
+/team-evaluate "Name"              ← 4. Competency questionnaire (8 dimensions)
     ↓                                   Self-assessment + Tech Lead calibration
   [Progressive autonomy]           ← 5. Weeks 1-3 with decreasing supervision
 ```
@@ -22,13 +22,13 @@ Phases 3 and 5 are human-driven processes guided by the mentor, not commands.
 
 ### Phase 1 — GDPR Privacy Notice
 
-Before collecting any worker data, the law requires delivering a privacy notice (Art. 13 GDPR). The command `/team:privacy-notice "Name" --project MyProject` generates the document from a template covering: data controller, purpose (task assignment and training), legal basis (legitimate interest), worker rights (access, rectification, erasure, objection, portability).
+Before collecting any worker data, the law requires delivering a privacy notice (Art. 13 GDPR). The command `/team-privacy-notice "Name" --project MyProject` generates the document from a template covering: data controller, purpose (task assignment and training), legal basis (legitimate interest), worker rights (access, rectification, erasure, objection, portability).
 
-The worker signs the acknowledgment before proceeding. Without this signature, `/team:evaluate` is blocked.
+The worker signs the acknowledgment before proceeding. Without this signature, `/team-evaluate` is blocked.
 
 ### Phase 2 — Onboarding: Context and Codebase Tour
 
-The command `/team:onboarding "Name" --project MyProject` generates a personalized guide covering:
+The command `/team-onboarding "Name" --project MyProject` generates a personalized guide covering:
 
 - **Immediate context**: project architecture, layers, modules, patterns, team conventions, members and roles
 - **Codebase tour**: end-to-end request walkthrough (Controller → Handler → Repository → Entity), patterns with real project examples, test structure, SDD spec locations
@@ -41,7 +41,7 @@ The mentor assigns a B/C complexity task. The new member implements it with Clau
 
 ### Phase 4 — Competency Evaluation
 
-The command `/team:evaluate "Name" --project MyProject` runs an interactive questionnaire in three sections: A (stack-specific technical skills, 12 competencies), B (cross-cutting skills, 7 competencies), C (project domain knowledge, dynamically generated from project modules).
+The command `/team-evaluate "Name" --project MyProject` runs an interactive questionnaire in three sections: A (stack-specific technical skills, 12 competencies), B (cross-cutting skills, 7 competencies), C (project domain knowledge, dynamically generated from project modules).
 
 For each competency, level (1-5) and interest (Y/N) are collected. The `business-analyst` agent compares self-assessment with observable evidence (PRs, Git history) and suggests adjustments. The Tech Lead co-signs the final result.
 

@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/confluence:publish {fichero} --project {p}` o `/confluence:publish --project {p} --type {tipo}`
+> Uso: `/confluence-publish {fichero} --project {p}` o `/confluence-publish --project {p} --type {tipo}`
 
 ## Parámetros
 
@@ -18,11 +18,11 @@ description: >
 - `--space {clave}` — Espacio Confluence (defecto: `CONFLUENCE_DEFAULT_SPACE` del proyecto)
 - `--parent {título}` — Página padre bajo la que crear la nueva página
 - `--type {tipo}` — Tipo de contenido predefinido:
-  - `sprint-report` → publica resultado de `/sprint:review`
+  - `sprint-report` → publica resultado de `/sprint-review`
   - `spec` → publica una SDD Spec
   - `architecture` → publica diagrama de arquitectura
   - `onboarding` → publica guía de onboarding
-  - `retro` → publica resultado de `/sprint:retro`
+  - `retro` → publica resultado de `/sprint-retro`
 - `--update` — Actualizar página existente en vez de crear nueva
 
 ## Contexto requerido
@@ -37,7 +37,7 @@ description: >
 2. **Resolver contenido**:
    - Si `{fichero}` → leer el markdown del fichero
    - Si `--type` → generar contenido desde el comando correspondiente
-   - Si `--type sprint-report` → ejecutar `/sprint:review` y usar su salida
+   - Si `--type sprint-report` → ejecutar `/sprint-review` y usar su salida
 
 3. **Convertir markdown → Confluence Storage Format**:
    - Tablas markdown → macro `{table}`
@@ -73,10 +73,10 @@ description: >
 
 ## Integración con otros comandos
 
-- `/sprint:review --publish-confluence` → publica automáticamente
-- `/sprint:retro --publish-confluence` → publica retrospectiva
-- `/spec:generate --publish-confluence` → publica la Spec en Confluence
-- `/report:executive --publish-confluence` → publica informe ejecutivo
+- `/sprint-review --publish-confluence` → publica automáticamente
+- `/sprint-retro --publish-confluence` → publica retrospectiva
+- `/spec-generate --publish-confluence` → publica la Spec en Confluence
+- `/report-executive --publish-confluence` → publica informe ejecutivo
 
 ## Restricciones
 

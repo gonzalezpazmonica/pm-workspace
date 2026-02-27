@@ -1,10 +1,10 @@
-# /report:hours
+# /report-hours
 
 Genera el informe de imputación de horas del sprint actual o especificado.
 
 ## Uso
 ```
-/report:hours [proyecto] [--sprint "Sprint 2026-XX"] [--format xlsx|docx]
+/report-hours [proyecto] [--sprint "Sprint 2026-XX"] [--format xlsx|docx]
 ```
 Formato por defecto: `xlsx`.
 

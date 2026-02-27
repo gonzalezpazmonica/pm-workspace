@@ -47,7 +47,7 @@ y los MCP tools equivalentes de `@azure-devops/mcp`.
    que no está cubierto por ningún MCP tool. Necesario para dashboards de burndown.
 
 2. **`get_team_capacities`** — Usa Work API (`teamsettings/iterations/{id}/capacities`)
-   que no está cubierto por MCP. Necesario para `/report:capacity` y `/project:assign`.
+   que no está cubierto por MCP. Necesario para `/report-capacity` y `/project-assign`.
 
 3. **`get_velocity_history`** (parcial) — MCP puede listar iteraciones (`get_team_iterations`)
    pero el cálculo de SP completados por sprint requiere WIQL por cada iteración.
@@ -61,7 +61,7 @@ y los MCP tools equivalentes de `@azure-devops/mcp`.
 
 ### Ahora (MCP via Claude):
 ```
-PM: /sprint:status --project sala-reservas
+PM: /sprint-status --project sala-reservas
 → Claude usa MCP: run_wiql_query con la WIQL del sprint actual
 → Claude usa MCP: get_work_item para cada ID
 → Claude formatea y presenta el dashboard

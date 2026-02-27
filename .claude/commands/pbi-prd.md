@@ -3,15 +3,15 @@ name: pbi-prd
 description: >
   Genera un Product Requirements Document (PRD) para un PBI. Lee el JTBD previo
   (si existe) y formaliza los requisitos funcionales, no funcionales, dependencias,
-  riesgos y criterios de aceptación enriquecidos. Paso previo a /pbi:decompose.
+  riesgos y criterios de aceptación enriquecidos. Paso previo a /pbi-decompose.
 ---
 
 # Generar PRD para un PBI
 
 **PBI ID:** $ARGUMENTS
 
-> Uso: `/pbi:prd 302 --project GestiónClínica`
-> Idealmente ejecutar después de `/pbi:jtbd`. Si no hay JTBD, se genera igual
+> Uso: `/pbi-prd 302 --project GestiónClínica`
+> Idealmente ejecutar después de `/pbi-jtbd`. Si no hay JTBD, se genera igual
 > pero con menos contexto de usuario.
 
 ---
@@ -36,7 +36,7 @@ ls projects/{proyecto}/discovery/PBI-{id}-jtbd.md 2>/dev/null
 
 Si existe, leerlo y usarlo como base.
 Si no existe, informar al usuario que el PRD tendrá menos contexto de usuario
-y sugerir ejecutar `/pbi:jtbd {id}` primero.
+y sugerir ejecutar `/pbi-jtbd {id}` primero.
 
 ### 4. Leer contexto del proyecto
 
@@ -69,7 +69,7 @@ Guardar en: `projects/{proyecto}/discovery/PBI-{id}-prd.md`
 Mostrar el PRD y preguntar:
 - ¿Los requisitos son correctos?
 - ¿El scope está bien delimitado?
-- ¿Procedo a descomponer en tasks? → sugerir `/pbi:decompose {id}`
+- ¿Procedo a descomponer en tasks? → sugerir `/pbi-decompose {id}`
 
 ---
 
@@ -77,5 +77,5 @@ Mostrar el PRD y preguntar:
 
 - **No incluir estimaciones de tiempo** — eso es para decompose
 - **No proponer soluciones técnicas** — solo requisitos de producto
-- **No crear tasks en Azure DevOps** — eso es para `/pbi:decompose`
+- **No crear tasks en Azure DevOps** — eso es para `/pbi-decompose`
 - Si el humano ya validó el JTBD, no repetir preguntas ya respondidas

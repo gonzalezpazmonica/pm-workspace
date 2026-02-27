@@ -1,10 +1,10 @@
-# /sprint:review
+# /sprint-review
 
 Genera el resumen para la Sprint Review con todos los datos del sprint cerrado.
 
 ## Uso
 ```
-/sprint:review [proyecto] [--sprint "Sprint 2026-XX"]
+/sprint-review [proyecto] [--sprint "Sprint 2026-XX"]
 ```
 Si no se indica sprint, usa el sprint actual (o el último cerrado).
 

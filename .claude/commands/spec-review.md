@@ -1,10 +1,10 @@
-# /spec:review
+# /spec-review
 
 Valida una Spec y opcionalmente verifica que el código implementado la cumple.
 
 ## Uso
 ```
-/spec:review {spec_file} [--check-impl] [--project {nombre}]
+/spec-review {spec_file} [--check-impl] [--project {nombre}]
 ```
 
 ## Modo 1: Review de Spec (sin `--check-impl`)

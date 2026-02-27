@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/inbox:check` o `/inbox:check --channels wa` o `/inbox:check --since {fecha}`
+> Uso: `/inbox-check` o `/inbox-check --channels wa` o `/inbox-check --since {fecha}`
 
 ## Parámetros
 
@@ -67,7 +67,7 @@ Grupo "Equipo Sala Reservas":
   [09:22] Pedro López: "Por mí bien, si el PM confirma"
   [10:30] Ana García: 🎤 Audio (12s):
     📝 "Ponme el estado del sprint de sala reservas, porfa"
-    → /sprint:status --project sala-reservas [confianza: alta]
+    → /sprint-status --project sala-reservas [confianza: alta]
     → ¿Ejecutar? (s/n)
 
 Chat "Carlos Sanz":
@@ -80,7 +80,7 @@ Sala "equipo-sala-reservas":
   [10:00] Pedro López: "Revisado, falta el flujo de error"
 
 ### Resumen de acciones pendientes
-1. 🎤 Ejecutar /sprint:status --project sala-reservas (Ana, WhatsApp)
+1. 🎤 Ejecutar /sprint-status --project sala-reservas (Ana, WhatsApp)
 2. 💬 Ana pregunta adelantar review → requiere decisión del PM
 3. ℹ️ Carlos confirma tests OK → informativo
 ```
@@ -91,9 +91,9 @@ Sala "equipo-sala-reservas":
 
 ## Integración
 
-- `/inbox:start` → lanza inbox:check en background cada N minutos
-- `/context:load` → puede invocar inbox:check al inicio de sesión
-- `/notify:whatsapp` y `/notify:nctalk` → responder a mensajes encontrados
+- `/inbox-start` → lanza inbox-check en background cada N minutos
+- `/context-load` → puede invocar inbox-check al inicio de sesión
+- `/notify-whatsapp` y `/notify-nctalk` → responder a mensajes encontrados
 - Skill `voice-inbox` → lógica de transcripción y mapeo voz→comando
 
 ## Restricciones

@@ -6,10 +6,10 @@ Ejecuta estos comandos dentro de Claude Code:
 
 | Comando | Descripción |
 |---------|-------------|
-| `/sprint:status` | Estado del sprint: burndown, items activos, alertas de WIP |
-| `/sprint:plan` | Asistente de Sprint Planning: capacity + PBIs candidatos del backlog |
-| `/sprint:review` | Resumen para Sprint Review: velocity, items completados, demostración |
-| `/sprint:retro` | Plantilla de retrospectiva con datos del sprint |
+| `/sprint-status` | Estado del sprint: burndown, items activos, alertas de WIP |
+| `/sprint-plan` | Asistente de Sprint Planning: capacity + PBIs candidatos del backlog |
+| `/sprint-review` | Resumen para Sprint Review: velocity, items completados, demostración |
+| `/sprint-retro` | Plantilla de retrospectiva con datos del sprint |
 
 ---
 
@@ -19,7 +19,7 @@ _Escenario: Sprint en curso, día 4 de 10. Quieres saber si el equipo va bien an
 
 **Tú escribes:**
 ```
-/sprint:status --project GestiónClínica
+/sprint-status --project GestiónClínica
 ```
 
 **Claude responde:**
@@ -82,7 +82,7 @@ _Escenario: Es el viernes antes del nuevo sprint. Quieres preparar el planning._
 
 **Tú escribes:**
 ```
-/sprint:plan --project GestiónClínica
+/sprint-plan --project GestiónClínica
 ```
 
 **Claude responde:**
@@ -132,10 +132,10 @@ Descomponiendo los 4 PBIs... [consulta Azure DevOps]
 PBI #301 — Notificaciones de cita por email (8 SP)
   B1  Entidad NotificacionEmail + reglas de dominio   4h  Carlos TL   human
   B2  IEmailNotificationService interface             2h  Carlos TL   human
-  B3  SendCitaConfirmationCommandHandler              4h  🤖 agente   agent:single
-  B4  EmailTemplateService (Infrastructure)          3h  🤖 agente   agent:single
-  C1  Unit tests del command handler                 2h  🤖 agente   agent:single
-  D1  EmailController endpoints                      3h  🤖 agente   agent:single
+  B3  SendCitaConfirmationCommandHandler              4h  🤖 agente   agent-single
+  B4  EmailTemplateService (Infrastructure)          3h  🤖 agente   agent-single
+  C1  Unit tests del command handler                 2h  🤖 agente   agent-single
+  D1  EmailController endpoints                      3h  🤖 agente   agent-single
   D2  Integration test (Mailtrap sandbox)            4h  Diego T.    human
   E1  Code Review                                    2h  Carlos TL   human
 
@@ -157,11 +157,11 @@ Resumen de asignación:
 
 | Comando | Descripción |
 |---------|-------------|
-| `/report:hours` | Informe de imputación de horas (Excel, 4 pestañas) |
-| `/report:executive` | Informe ejecutivo multi-proyecto (Word + PPT con semáforos) |
-| `/report:capacity` | Estado de capacidades del equipo esta semana |
-| `/team:workload` | Mapa de carga de trabajo por persona |
-| `/kpi:dashboard` | Dashboard completo: velocity, cycle time, lead time, bug escape rate |
+| `/report-hours` | Informe de imputación de horas (Excel, 4 pestañas) |
+| `/report-executive` | Informe ejecutivo multi-proyecto (Word + PPT con semáforos) |
+| `/report-capacity` | Estado de capacidades del equipo esta semana |
+| `/team-workload` | Mapa de carga de trabajo por persona |
+| `/kpi-dashboard` | Dashboard completo: velocity, cycle time, lead time, bug escape rate |
 
 ---
 
@@ -171,7 +171,7 @@ _Escenario: Último día del sprint. El cliente pide el informe de imputación._
 
 **Tú escribes:**
 ```
-/report:hours --project GestiónClínica --sprint 2026-04
+/report-hours --project GestiónClínica --sprint 2026-04
 ```
 
 **Claude responde:**
@@ -209,7 +209,7 @@ _Escenario: Miércoles. Sospechas que alguien está sobrecargado._
 
 **Tú escribes:**
 ```
-/team:workload --project GestiónClínica
+/team-workload --project GestiónClínica
 ```
 
 **Claude responde:**
@@ -233,11 +233,11 @@ Carga del equipo — semana actual (lun 17/03 – vie 21/03)
 
 El proceso estándar para preparar un sprint:
 
-1. `/pbi:decompose {id}` — Claude analiza el PBI, sus criterios de aceptación y el contexto del equipo, y propone la tabla de tasks.
+1. `/pbi-decompose {id}` — Claude analiza el PBI, sus criterios de aceptación y el contexto del equipo, y propone la tabla de tasks.
 2. Claude pregunta si crear las tasks en Azure DevOps.
 3. Confirmas y Claude las crea vía REST API.
 
-Para preparar el sprint completo de una vez: `/pbi:plan-sprint` hace todo el ciclo automáticamente (capacity → selección de PBIs → descomposición → asignación → creación en AzDO).
+Para preparar el sprint completo de una vez: `/pbi-plan-sprint` hace todo el ciclo automáticamente (capacity → selección de PBIs → descomposición → asignación → creación en AzDO).
 
 **Algoritmo de scoring de asignación:**
 ```
@@ -253,7 +253,7 @@ _Escenario: Tienes el PBI AB#302 "Historial de citas por paciente" con 3 criteri
 
 **Tú escribes:**
 ```
-/pbi:decompose 302 --project GestiónClínica
+/pbi-decompose 302 --project GestiónClínica
 ```
 
 **Claude responde:**
@@ -273,10 +273,10 @@ PROPUESTA DE TASKS:
 ├────┼──────────────────────────────────────────┼──────┼──────┼──────────────┼───────────────┤
 │ B1 │ Diseño query HistorialCitasQuery + DTO   │  3h  │ Dev  │ Carlos TL    │ human         │
 │ B2 │ EF Core: IHistorialCitasRepository       │  2h  │ Dev  │ Diego T.     │ human         │
-│ B3 │ GetHistorialCitasQueryHandler            │  4h  │ Dev  │ 🤖 agente    │ agent:single  │
-│ C1 │ HistorialCitasController (GET endpoint)  │  3h  │ Dev  │ 🤖 agente    │ agent:single  │
+│ B3 │ GetHistorialCitasQueryHandler            │  4h  │ Dev  │ 🤖 agente    │ agent-single  │
+│ C1 │ HistorialCitasController (GET endpoint)  │  3h  │ Dev  │ 🤖 agente    │ agent-single  │
 │ C2 │ Paginación cursor-based (middleware)     │  3h  │ Dev  │ Laura S.     │ human         │
-│ D1 │ Unit tests del QueryHandler              │  2h  │ Dev  │ 🤖 agente    │ agent:single  │
+│ D1 │ Unit tests del QueryHandler              │  2h  │ Dev  │ 🤖 agente    │ agent-single  │
 │ D2 │ Integration test end-to-end              │  3h  │ QA   │ Ana Morales  │ human         │
 │ E1 │ Code Review                              │  2h  │ Rev  │ Carlos TL    │ human         │
 └────┴──────────────────────────────────────────┴──────┴──────┴──────────────┴───────────────┘
@@ -295,7 +295,7 @@ Cambia C2 al agente también, Laura ya tiene mucha carga. Crea las tasks.
 
 **Claude responde:**
 ```
-Ajustado: C2 → agent:single (añadiré en la spec el patrón de paginación de referencia).
+Ajustado: C2 → agent-single (añadiré en la spec el patrón de paginación de referencia).
 
 Creando 8 tasks en Azure DevOps para AB#302...
   ✅ AB#302-B1 creada → asignada a Carlos Mendoza
@@ -308,7 +308,7 @@ Creando 8 tasks en Azure DevOps para AB#302...
   ✅ AB#302-E1 creada → asignada a Carlos Mendoza
 
 8 tasks creadas. Las tasks de agente (B3, C1, C2, D1) ya tienen el tag
-"spec-driven" y están listas para /spec:generate cuando quieras.
+"spec-driven" y están listas para /spec-generate cuando quieras.
 ```
 
 ---

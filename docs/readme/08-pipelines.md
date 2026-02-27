@@ -77,7 +77,7 @@ Claude genera la pipeline adaptada al Language Pack del proyecto. Estos son los 
 |---|---|---|---|---|---|
 | C#/.NET | `dotnet restore` | `dotnet build` | `dotnet format --verify` | `dotnet test` | `dotnet list package --vulnerable` |
 | TypeScript | `npm ci` | `npm run build` | `eslint . && prettier --check` | `vitest run` | `npm audit` |
-| Java/Spring | `mvn dependency:resolve` | `mvn package -DskipTests` | `mvn checkstyle:check` | `mvn test` | `mvn dependency-check:check` |
+| Java/Spring | `mvn dependency-resolve` | `mvn package -DskipTests` | `mvn checkstyle:check` | `mvn test` | `mvn dependency-check:check` |
 | Python | `pip install -r requirements.txt` | `— (interpretado)` | `ruff check . && mypy .` | `pytest` | `safety check` |
 | Go | `go mod download` | `go build ./...` | `golangci-lint run` | `go test ./...` | `govulncheck ./...` |
 | Rust | `— (cargo)` | `cargo build --release` | `cargo fmt --check && cargo clippy` | `cargo test` | `cargo audit` |
@@ -145,7 +145,7 @@ jobs:
 
 | Comando | Descripción |
 |---|---|
-| `/infra:plan {proyecto} {env}` | Genera plan de infraestructura incluyendo pipelines |
-| `/pr:review [PR]` | Revisión multi-perspectiva de PR (incluye validación de pipeline) |
+| `/infra-plan {proyecto} {env}` | Genera plan de infraestructura incluyendo pipelines |
+| `/pr-review [PR]` | Revisión multi-perspectiva de PR (incluye validación de pipeline) |
 
 ---

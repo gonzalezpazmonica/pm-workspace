@@ -35,8 +35,8 @@
 
 | Weeks | Phase | Goal |
 |-------|-------|------|
-| 1-2 | Setup | Connect to Azure DevOps, try `/sprint:status` |
-| 3-4 | Basic management | Iterate with `/sprint:plan`, `/team:workload`, adjust constants |
-| 5-6 | Reporting | Activate `/report:hours` and `/report:executive` with real data |
+| 1-2 | Setup | Connect to Azure DevOps, try `/sprint-status` |
+| 3-4 | Basic management | Iterate with `/sprint-plan`, `/team-workload`, adjust constants |
+| 5-6 | Reporting | Activate `/report-hours` and `/report-executive` with real data |
 | 7-8 | SDD pilot | Generate first specs, test agent with 1-2 Application Layer tasks |
 | 9+ | SDD at scale | Goal: 60%+ of repetitive technical tasks implemented by agents |

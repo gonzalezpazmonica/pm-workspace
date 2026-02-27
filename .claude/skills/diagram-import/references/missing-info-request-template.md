@@ -23,12 +23,12 @@ Para completar la importación, necesito que proporciones la información
 marcada como faltante. Puedes:
 
 1. **Actualizar `projects/{proyecto}/reglas-negocio.md`** con la información
-   y volver a ejecutar `/diagram:import`
+   y volver a ejecutar `/diagram-import`
 2. **Proporcionar la información aquí** y la añado al fichero
 3. **Generar solo las entidades completas** (parcial)
 
 ---
-Generado por PM-Workspace — /diagram:import
+Generado por PM-Workspace — /diagram-import
 ```
 
 ## Solicitud por entidad (para modo interactivo)

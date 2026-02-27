@@ -274,7 +274,7 @@ Claude leerá `CLAUDE.md` y te mostrará los proyectos activos y los comandos di
 ### 7.2 Estado del sprint (tu comando más usado)
 
 ```
-/sprint:status --project TuProyecto
+/sprint-status --project TuProyecto
 ```
 
 Muestra: burndown del sprint, items en progreso, alertas de WIP, personas al 100%, items bloqueados y capacidad restante. Ideal para preparar la Daily cada mañana.
@@ -282,7 +282,7 @@ Muestra: burndown del sprint, items en progreso, alertas de WIP, personas al 100
 ### 7.3 Carga del equipo
 
 ```
-/team:workload --project TuProyecto
+/team-workload --project TuProyecto
 ```
 
 Muestra un mapa visual de la carga de cada miembro del equipo, con alertas de sobrecarga y sugerencias de redistribución.
@@ -290,7 +290,7 @@ Muestra un mapa visual de la carga de cada miembro del equipo, con alertas de so
 ### 7.4 Informe de horas
 
 ```
-/report:hours --project TuProyecto --sprint 2026-04
+/report-hours --project TuProyecto --sprint 2026-04
 ```
 
 Genera un Excel con 4 pestañas (Resumen, Detalle por persona, Detalle por PBI, Agentes) listo para entregar al cliente o al PMO.
@@ -298,12 +298,12 @@ Genera un Excel con 4 pestañas (Resumen, Detalle por persona, Detalle por PBI, 
 ### 7.5 Dashboard de KPIs
 
 ```
-/kpi:dashboard --project TuProyecto
+/kpi-dashboard --project TuProyecto
 ```
 
 Velocity, cycle time, lead time, bug escape rate y más, calculados automáticamente desde los datos reales de Azure DevOps.
 
-> **💡 Recomendación:** Durante las primeras 2 semanas, usa solo `/sprint:status`, `/team:workload` y `/report:hours`. Familiarízate con estos 3 comandos antes de avanzar a descomposición de PBIs y SDD.
+> **💡 Recomendación:** Durante las primeras 2 semanas, usa solo `/sprint-status`, `/team-workload` y `/report-hours`. Familiarízate con estos 3 comandos antes de avanzar a descomposición de PBIs y SDD.
 
 ---
 
@@ -359,7 +359,7 @@ cd ~/claude && claude
 ```
 
 ```
-/sprint:status --project MiProyecto
+/sprint-status --project MiProyecto
 ```
 
 Si ves el estado del sprint con datos reales, el proyecto está correctamente incorporado.
@@ -386,7 +386,7 @@ Sigue los pasos 8.1 a 8.6 adaptando las constantes al nuevo proyecto.
 Crea los PBIs en Azure DevOps con criterios de aceptación claros. Luego usa PM-Workspace para preparar el sprint:
 
 ```
-/pbi:plan-sprint --project NuevoProyecto
+/pbi-plan-sprint --project NuevoProyecto
 ```
 
 Claude calculará la capacity del equipo, seleccionará los PBIs que caben en el sprint, los descompondrá en tasks y propondrá asignaciones.
@@ -396,8 +396,8 @@ Claude calculará la capacity del equipo, seleccionará los PBIs que caben en el
 Antes de descomponer un PBI, puedes usar los comandos de discovery:
 
 ```
-/pbi:jtbd {id}    ← Genera el JTBD (Jobs to be Done)
-/pbi:prd {id}     ← Genera el PRD (Product Requirements)
+/pbi-jtbd {id}    ← Genera el JTBD (Jobs to be Done)
+/pbi-prd {id}     ← Genera el PRD (Product Requirements)
 ```
 
 Esto asegura que el PBI está bien definido antes de invertir tiempo en descomposición y desarrollo.
@@ -414,9 +414,9 @@ El proceso tiene 3 pasos obligatorios, siempre en este orden:
 
 | Paso | Comando | Qué hace |
 |------|---------|----------|
-| 1. Nota informativa RGPD | `/team:privacy-notice {nombre}` | Genera la nota informativa legal para que el trabajador sepa qué datos se recogen, con qué finalidad y sus derechos ARCO-POL |
-| 2. Guía de onboarding | `/team:onboarding {nombre}` | Genera una guía personalizada: contexto del proyecto, tour por el código, convenciones, primeras tasks |
-| 3. Evaluación de competencias | `/team:evaluate {nombre}` | Cuestionario interactivo de 26 competencias (12 .NET + 7 transversales + dominio) que actualiza `equipo.md` |
+| 1. Nota informativa RGPD | `/team-privacy-notice {nombre}` | Genera la nota informativa legal para que el trabajador sepa qué datos se recogen, con qué finalidad y sus derechos ARCO-POL |
+| 2. Guía de onboarding | `/team-onboarding {nombre}` | Genera una guía personalizada: contexto del proyecto, tour por el código, convenciones, primeras tasks |
+| 3. Evaluación de competencias | `/team-evaluate {nombre}` | Cuestionario interactivo de 26 competencias (12 .NET + 7 transversales + dominio) que actualiza `equipo.md` |
 
 ### 10.2 Ejemplo práctico: incorporar a un nuevo programador
 
@@ -425,7 +425,7 @@ El proceso tiene 3 pasos obligatorios, siempre en este orden:
 **Paso 1 — Generar la nota informativa RGPD**
 
 ```
-/team:privacy-notice "Laura García" --project GestionClinica
+/team-privacy-notice "Laura García" --project GestionClinica
 ```
 
 Claude genera el documento en `projects/gestion-clinica/privacy/` con los datos de la empresa ya rellenados. El PM imprime el documento, Laura lo lee y firma el acuse de recibo.
@@ -433,7 +433,7 @@ Claude genera el documento en `projects/gestion-clinica/privacy/` con los datos 
 **Paso 2 — Generar la guía de onboarding**
 
 ```
-/team:onboarding "Laura García" --project GestionClinica
+/team-onboarding "Laura García" --project GestionClinica
 ```
 
 Claude lee el `CLAUDE.md` del proyecto, `equipo.md`, `reglas-negocio.md` y el código fuente, y genera una guía personalizada con: resumen del proyecto, arquitectura, módulos principales, convenciones de código, y las primeras tasks sugeridas para ir cogiendo ritmo.
@@ -441,7 +441,7 @@ Claude lee el `CLAUDE.md` del proyecto, `equipo.md`, `reglas-negocio.md` y el c�
 **Paso 3 — Evaluar competencias**
 
 ```
-/team:evaluate "Laura García" --project GestionClinica
+/team-evaluate "Laura García" --project GestionClinica
 ```
 
 Claude conduce un cuestionario interactivo en grupos de 3 preguntas. Evalúa 12 competencias .NET/C#, 7 transversales y las del dominio del proyecto. Cada competencia se valora de 1 a 5 (escala Shu-Ha-Ri: Aprendiz → Referente) con evidencias verificables. El resultado se guarda en `equipo.md` para mejorar las asignaciones futuras.
@@ -456,16 +456,16 @@ La adopción recomendada es incremental. No intentes usar todas las funcionalida
 
 | Semanas | Fase | Objetivo | Comandos clave |
 |---------|------|----------|----------------|
-| 1-2 | Conexión | Configurar PAT, verificar conectividad, primer `/sprint:status` | `/sprint:status` |
-| 3-4 | Gestión básica | Usar `/sprint:status` cada mañana, `/team:workload`, ajustar constantes | `/team:workload`, `/report:capacity` |
-| 5-6 | Reporting | Generar informes para el cliente con datos reales | `/report:hours`, `/report:executive` |
-| 7-8 | SDD piloto | Generar 2-3 specs, probar agente con 1 task de Application Layer | `/spec:generate`, `/agent:run` |
-| 9-10 | Onboarding + escala | Incorporar nuevos miembros, escalar SDD a 40%+ | `/team:onboarding`, `/team:evaluate` |
+| 1-2 | Conexión | Configurar PAT, verificar conectividad, primer `/sprint-status` | `/sprint-status` |
+| 3-4 | Gestión básica | Usar `/sprint-status` cada mañana, `/team-workload`, ajustar constantes | `/team-workload`, `/report-capacity` |
+| 5-6 | Reporting | Generar informes para el cliente con datos reales | `/report-hours`, `/report-executive` |
+| 7-8 | SDD piloto | Generar 2-3 specs, probar agente con 1 task de Application Layer | `/spec-generate`, `/agent-run` |
+| 9-10 | Onboarding + escala | Incorporar nuevos miembros, escalar SDD a 40%+ | `/team-onboarding`, `/team-evaluate` |
 
 ### Indicadores de éxito por fase
 
 - **Fase 1-2:** El PM puede ver el estado real del sprint sin abrir Azure DevOps.
-- **Fase 3-4:** El PM prepara la Daily en <5 minutos con `/sprint:status`.
+- **Fase 3-4:** El PM prepara la Daily en <5 minutos con `/sprint-status`.
 - **Fase 5-6:** El informe de horas se genera en <2 minutos (antes: 30-60 min manual).
 - **Fase 7-8:** Al menos 1 task repetitiva implementada por agente sin errores.
 - **Fase 9-10:** Nuevos miembros incorporados con guía personalizada y evaluación de competencias.
@@ -481,9 +481,9 @@ La adopción recomendada es incremental. No intentes usar todas las funcionalida
 | `az: command not found` | Azure CLI no instalado | Instalar desde https://aka.ms/installazurecliwindows |
 | Resultados vacíos del sprint | Sprint no activo o nombre incorrecto | Verificar en AzDO > Project Settings > Iterations que el sprint esté activo |
 | Claude no reconoce el proyecto | `CLAUDE.md` no actualizado | Añadir proyecto a la tabla «Proyectos Activos» de `CLAUDE.md` |
-| `/sprint:status` sin datos | IterationPath incorrecto en `CLAUDE.md` | Verificar `CURRENT_SPRINT_PATH` con el nombre exacto de AzDO (con `\\`) |
+| `/sprint-status` sin datos | IterationPath incorrecto en `CLAUDE.md` | Verificar `CURRENT_SPRINT_PATH` con el nombre exacto de AzDO (con `\\`) |
 | Error de contexto largo | Conversación demasiado larga | Usar `/compact` o `/clear` y reformular |
-| Agente SDD falla inmediatamente | Spec incompleta o con placeholders | Revisar con `/spec:review` antes de `/agent:run` |
+| Agente SDD falla inmediatamente | Spec incompleta o con placeholders | Revisar con `/spec-review` antes de `/agent-run` |
 | `npm: command not found` | Node.js no instalado | Instalar Node.js ≥ 18 desde [nodejs.org](https://nodejs.org) |
 
 ---

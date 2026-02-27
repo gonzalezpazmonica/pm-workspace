@@ -87,7 +87,7 @@ Para usar Spec-Driven Development con agentes Claude, necesitas la CLI de Claude
 # Verificar que claude CLI está instalado
 claude --version
 
-# Verificar que puedes invocar claude como subproceso (necesario para agent:run)
+# Verificar que puedes invocar claude como subproceso (necesario para agent-run)
 echo "Test de invocación de agente:"
 claude --model claude-haiku-4-5-20251001 --max-turns 1 "Di 'Hola' en una sola palabra"
 
@@ -123,35 +123,35 @@ Una vez dentro de Claude Code:
 
 | Comando | Descripción |
 |---------|-------------|
-| `/sprint:status` | Estado del sprint actual |
-| `/sprint:plan` | Asistente de sprint planning |
-| `/sprint:review` | Generar resumen de sprint review |
-| `/sprint:retro` | Plantilla de retrospectiva con datos |
-| `/report:hours` | Informe de imputación de horas (Excel) |
-| `/report:executive` | Informe ejecutivo multi-proyecto (PPT/Word) |
-| `/report:capacity` | Estado de capacidades del equipo |
-| `/team:workload` | Carga de trabajo por persona |
-| `/board:flow` | Análisis del flujo y cuellos de botella |
-| `/kpi:dashboard` | Dashboard completo de KPIs |
+| `/sprint-status` | Estado del sprint actual |
+| `/sprint-plan` | Asistente de sprint planning |
+| `/sprint-review` | Generar resumen de sprint review |
+| `/sprint-retro` | Plantilla de retrospectiva con datos |
+| `/report-hours` | Informe de imputación de horas (Excel) |
+| `/report-executive` | Informe ejecutivo multi-proyecto (PPT/Word) |
+| `/report-capacity` | Estado de capacidades del equipo |
+| `/team-workload` | Carga de trabajo por persona |
+| `/board-flow` | Análisis del flujo y cuellos de botella |
+| `/kpi-dashboard` | Dashboard completo de KPIs |
 
 ### Descomposición de PBIs
 
 | Comando | Descripción |
 |---------|-------------|
-| `/pbi:decompose {id}` | Descomponer un PBI en tasks con estimación y asignación |
-| `/pbi:decompose-batch {ids}` | Descomponer varios PBIs optimizando la carga global |
-| `/pbi:assign {pbi_id}` | (Re)asignar tasks existentes de un PBI |
-| `/pbi:plan-sprint` | Planning completo: capacity + PBIs + descomposición |
+| `/pbi-decompose {id}` | Descomponer un PBI en tasks con estimación y asignación |
+| `/pbi-decompose-batch {ids}` | Descomponer varios PBIs optimizando la carga global |
+| `/pbi-assign {pbi_id}` | (Re)asignar tasks existentes de un PBI |
+| `/pbi-plan-sprint` | Planning completo: capacity + PBIs + descomposición |
 
 ### Spec-Driven Development (SDD) — Agentes Claude
 
 | Comando | Descripción |
 |---------|-------------|
-| `/spec:generate {task_id}` | Generar Spec ejecutable desde una Task de Azure DevOps |
-| `/spec:implement {spec_file}` | Implementar Spec (lanza agente o asigna humano) |
-| `/spec:review {spec_file}` | Revisar calidad de Spec o validar implementación |
-| `/spec:status` | Dashboard de estado de todas las Specs del sprint |
-| `/agent:run {spec_file}` | Lanzar agente Claude directamente sobre una Spec |
+| `/spec-generate {task_id}` | Generar Spec ejecutable desde una Task de Azure DevOps |
+| `/spec-implement {spec_file}` | Implementar Spec (lanza agente o asigna humano) |
+| `/spec-review {spec_file}` | Revisar calidad de Spec o validar implementación |
+| `/spec-status` | Dashboard de estado de todas las Specs del sprint |
+| `/agent-run {spec_file}` | Lanzar agente Claude directamente sobre una Spec |
 
 ---
 
@@ -214,7 +214,7 @@ output/agent-runs/                           ← Logs de ejecuciones de agentes
 ## Roadmap de Implementación (según propuesta)
 
 - **Semanas 1-2 (Fase 1):** ✅ Estructura creada — Configurar PAT y probar conectividad
-- **Semanas 3-4 (Fase 2):** Iterar con `/sprint:status` y `/team:workload` — documentar ajustes
-- **Semanas 5-6 (Fase 3):** Activar `/report:hours` y `/report:executive` con datos reales
-- **Semanas 7-8 (Fase 4):** Activar SDD — generar primeras specs con `/spec:generate` y probar agente con una task piloto
+- **Semanas 3-4 (Fase 2):** Iterar con `/sprint-status` y `/team-workload` — documentar ajustes
+- **Semanas 5-6 (Fase 3):** Activar `/report-hours` y `/report-executive` con datos reales
+- **Semanas 7-8 (Fase 4):** Activar SDD — generar primeras specs con `/spec-generate` y probar agente con una task piloto
 - **Semana 9+ (Fase 5):** Escalar SDD — objetivo 60% de tasks técnicas repetitivas por agente

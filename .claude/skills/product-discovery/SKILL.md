@@ -20,11 +20,11 @@ Dos documentos que preceden la descomposición técnica:
 ```
 PBI en Azure DevOps
     ↓
-/pbi:jtbd {id}          ← business-analyst genera JTBD
+/pbi-jtbd {id}          ← business-analyst genera JTBD
     ↓
-/pbi:prd {id}           ← business-analyst genera PRD (lee JTBD)
+/pbi-prd {id}           ← business-analyst genera PRD (lee JTBD)
     ↓
-/pbi:decompose {id}     ← flujo existente (architect + spec-writer + ...)
+/pbi-decompose {id}     ← flujo existente (architect + spec-writer + ...)
 ```
 
 ## Cuándo NO usar

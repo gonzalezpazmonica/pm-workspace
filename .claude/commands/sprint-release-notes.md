@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/sprint:release-notes --project {p}` o `/sprint:release-notes --project {p} --sprint {s}`
+> Uso: `/sprint-release-notes --project {p}` o `/sprint-release-notes --project {p} --sprint {s}`
 
 ## Parámetros
 
@@ -83,15 +83,15 @@ Velocity: 34 SP | Items completados: 8/10 | Bugs resueltos: 3
 
 ### 5. Guardar y distribuir
 - Guardar en `output/release-notes/YYYYMMDD-release-{proyecto}.{ext}`
-- Si `--format slack` → enviar via `/notify:slack`
+- Si `--format slack` → enviar via `/notify-slack`
 - Si `--format html` → generar HTML con estilos para email
 
 ## Integración
 
-- `/sprint:review` → puede invocar release-notes como parte del review
-- `/changelog:update` → complementario (changelog = técnico, release notes = negocio)
-- `/notify:slack` → distribuir release notes al equipo/stakeholders
-- `/confluence:publish` → publicar en Confluence como página de release
+- `/sprint-review` → puede invocar release-notes como parte del review
+- `/changelog-update` → complementario (changelog = técnico, release notes = negocio)
+- `/notify-slack` → distribuir release notes al equipo/stakeholders
+- `/confluence-publish` → publicar en Confluence como página de release
 
 ## Restricciones
 

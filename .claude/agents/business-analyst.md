@@ -46,7 +46,7 @@ que permitan implementaciones sin ambigüedad.
 - **Preguntas sin respuesta** que deben resolverse antes de implementar
 - **Estimación de complejidad de negocio** (independiente de la técnica)
 
-## Tu proceso al evaluar competencias (delegado por `/team:evaluate`)
+## Tu proceso al evaluar competencias (delegado por `/team-evaluate`)
 
 Cuando se te pide calibrar una evaluación de competencias:
 

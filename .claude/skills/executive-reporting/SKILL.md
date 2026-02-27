@@ -183,4 +183,4 @@ Tablas:         Cabecera azul oscuro (#003865) texto blanco, filas alternas blan
 → KPIs calculados: `docs/kpis-equipo.md`
 → Plantillas: `docs/plantillas-informes.md`
 → Script generador: `scripts/report-generator.js`
-→ Comando: `/report:executive`
+→ Comando: `/report-executive`

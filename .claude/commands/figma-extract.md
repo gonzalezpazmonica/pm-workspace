@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/figma:extract {url} --project {p}` o `/figma:extract --project {p} --page {nombre}`
+> Uso: `/figma-extract {url} --project {p}` o `/figma-extract --project {p} --page {nombre}`
 
 ## Parámetros
 
@@ -84,9 +84,9 @@ description: >
 
 ## Integración con otros comandos
 
-- `/diagram:generate` puede usar la estructura de Figma como input
-- `/pbi:decompose` puede descomponer los PBIs generados en tasks
-- `/spec:generate` puede incluir specs de UI desde Figma
+- `/diagram-generate` puede usar la estructura de Figma como input
+- `/pbi-decompose` puede descomponer los PBIs generados en tasks
+- `/spec-generate` puede incluir specs de UI desde Figma
 - Soporta `--notify-slack` para publicar resumen
 
 ## Restricciones

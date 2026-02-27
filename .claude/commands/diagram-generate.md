@@ -9,7 +9,7 @@ description: >
 
 **Proyecto:** $ARGUMENTS
 
-> Uso: `/diagram:generate {proyecto} [--tool draw.io|miro|local] [--type architecture|flow|sequence]`
+> Uso: `/diagram-generate {proyecto} [--tool draw.io|miro|local] [--type architecture|flow|sequence]`
 
 ## Parámetros
 
@@ -60,13 +60,13 @@ Leer en este orden (Progressive Disclosure):
    📁 Local: projects/{p}/diagrams/local/{tipo}.mermaid
 
    ¿Quieres importar este diagrama para generar Features/PBIs?
-   → /diagram:import {url_o_fichero} --project {proyecto}
+   → /diagram-import {url_o_fichero} --project {proyecto}
    ```
 
 ## Validaciones previas
 
 - Si `--tool draw.io` → verificar entrada `draw-io` en `mcp.json`
-- Si `--tool miro` → verificar token Miro existe (`/diagram:config --tool miro --test`)
+- Si `--tool miro` → verificar token Miro existe (`/diagram-config --tool miro --test`)
 - Si proyecto no tiene código ni infraestructura → advertir: "No se detectaron componentes. ¿Quieres crear un diagrama desde cero?"
 
 ## Invocar agente (opcional)

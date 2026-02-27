@@ -408,7 +408,7 @@ Añadir el lenguaje a la sección "Lenguajes Soportados" en `README.md` y `READM
 
 ## Referencia Rápida: Detección Automática de Lenguaje
 
-Para el comando `/context:load`, detectar el Language Pack automáticamente:
+Para el comando `/context-load`, detectar el Language Pack automáticamente:
 
 | Archivo(s) en el proyecto | Language Pack |
 |---|---|
