@@ -62,6 +62,17 @@
 | `/diagram:import {source}` | Importar diagrama → validar reglas negocio → crear Features/PBIs/Tasks |
 | `/diagram:config` | Configurar credenciales Draw.io/Miro y verificar conexión |
 | `/diagram:status` | Listar diagramas por proyecto y estado de sincronización |
+| `/pipeline:status {--project p}` | Estado de pipelines: últimas builds, % éxito, duración, alertas |
+| `/pipeline:run {--project p} {pipeline}` | Ejecutar pipeline con preview y confirmación previa |
+| `/pipeline:logs {--project p} {--build id}` | Logs de una build: timeline, errores, warnings |
+| `/pipeline:create {--project p} {--name n}` | Crear pipeline YAML desde template con preview |
+| `/pipeline:artifacts {--project p} {--build id}` | Listar/descargar artefactos de una build |
+| `/repos:list {--project p}` | Listar repositorios del proyecto en Azure DevOps |
+| `/repos:branches {--project p} {--repo r}` | Gestión de branches: listar, crear, comparar |
+| `/repos:pr-create {--project p} {--repo r}` | Crear PR en Azure Repos con work item linking |
+| `/repos:pr-list {--project p}` | Listar PRs: pendientes, asignados al PM, por reviewer |
+| `/repos:pr-review {--project p} {--pr id}` | Review multi-perspectiva de PR en Azure Repos |
+| `/repos:search {--project p} {query}` | Buscar código en repositorios de Azure DevOps |
 | `/notify:slack {canal} {msg}` | Enviar notificación o informe al canal de Slack del proyecto |
 | `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
 | `/github:activity {repo}` | Analizar actividad GitHub: PRs, commits, contributors |
@@ -96,4 +107,6 @@
 - Diagram Generation: `.claude/skills/diagram-generation/SKILL.md`
 - Diagram Import: `.claude/skills/diagram-import/SKILL.md`
 - Diagram Config: `.claude/rules/diagram-config.md`
+- Azure Pipelines: `.claude/skills/azure-pipelines/SKILL.md`
+- Azure Repos Config: `.claude/rules/azure-repos-config.md`
 - Azure DevOps API v7.1: https://learn.microsoft.com/en-us/rest/api/azure/devops/
