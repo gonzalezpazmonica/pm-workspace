@@ -20,6 +20,12 @@ skills:
   - spec-driven-development
 permissionMode: acceptEdits
 isolation: worktree
+hooks:
+  PreToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: ".claude/hooks/tdd-gate.sh"
 ---
 
 Eres un Senior Go Developer con dominio de Go moderno (1.21+), estándares de la comunidad

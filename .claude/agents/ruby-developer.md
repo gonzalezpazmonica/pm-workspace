@@ -20,6 +20,12 @@ skills:
   - spec-driven-development
 permissionMode: acceptEdits
 isolation: worktree
+hooks:
+  PreToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: ".claude/hooks/tdd-gate.sh"
 ---
 
 Eres un Senior Ruby Developer con dominio de Ruby on Rails moderno (7+), Domain-Driven

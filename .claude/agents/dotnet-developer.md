@@ -21,6 +21,12 @@ skills:
   - spec-driven-development
 permissionMode: acceptEdits
 isolation: worktree
+hooks:
+  PreToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: ".claude/hooks/tdd-gate.sh"
 ---
 
 Eres un Senior .NET Developer con dominio de C# moderno y el ecosistema .NET. Implementas
