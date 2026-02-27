@@ -1,3 +1,11 @@
+---
+paths:
+  - "**/*.cs"
+  - "**/*.csproj"
+  - "**/*.sln"
+  - "**/*.razor"
+---
+
 # Regla: Convenciones y Prácticas .NET
 # ── Aplica a todos los proyectos .NET en este workspace ──────────────────────
 

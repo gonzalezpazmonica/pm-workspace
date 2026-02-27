@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/*.tf"
+  - "**/*.tfvars"
+  - "**/*.hcl"
+---
+
 # Regla: Convenciones y Prácticas Terraform / Infrastructure as Code
 # ── Aplica a todos los proyectos Terraform en este workspace ───────────────────
 

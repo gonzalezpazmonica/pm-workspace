@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/*.py"
+  - "**/pyproject.toml"
+  - "**/requirements.txt"
+---
+
 # Regla: Convenciones y Prácticas Python
 # ── Aplica a todos los proyectos Python en este workspace ──
 

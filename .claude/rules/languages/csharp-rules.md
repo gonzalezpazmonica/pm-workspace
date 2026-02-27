@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*.cs"
+---
+
 # Reglas de Análisis Estático C#/.NET — Knowledge Base para Agente de Revisión
 
 > Fuente: [SonarSource sonar-dotnet](https://github.com/SonarSource/sonar-dotnet) · [Reglas C#](https://rules.sonarsource.com/csharp/)

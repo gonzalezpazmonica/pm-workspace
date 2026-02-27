@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.tsx"
+  - "**/*.jsx"
+---
+
 # Regla: Convenciones y Prácticas React
 # ── Aplica a todos los proyectos React (Vite, Next.js, Remix) en este workspace ──
 

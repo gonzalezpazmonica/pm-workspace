@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.ts"
+  - "**/*.mts"
+---
+
 # Reglas de Análisis Estático TypeScript/Node.js — Knowledge Base para Agente de Revisión
 
 > Fuente: ESLint, @typescript-eslint, SonarJS, Node.js security best practices

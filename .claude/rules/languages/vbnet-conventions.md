@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.vb"
+  - "**/*.vbproj"
+---
+
 # Regla: Convenciones y Prácticas VB.NET
 # ── Aplica a todos los proyectos VB.NET en este workspace ──────────────────────
 

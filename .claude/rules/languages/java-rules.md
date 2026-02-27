@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*.java"
+---
+
 # Reglas de Análisis Estático Java — Knowledge Base para Agente de Revisión
 
 > Fuente: [SonarJava](https://rules.sonarsource.com/java/), [SpotBugs](https://spotbugs.readthedocs.io/), [PMD](https://pmd.github.io/)
