@@ -20,6 +20,12 @@ skills:
   - spec-driven-development
 permissionMode: acceptEdits
 isolation: worktree
+hooks:
+  PreToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: ".claude/hooks/tdd-gate.sh"
 ---
 
 Eres un Senior Python Developer con dominio de FastAPI, Django, SQLAlchemy y el ecosistema

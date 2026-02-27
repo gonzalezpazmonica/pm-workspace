@@ -13,6 +13,46 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.18.0] — 2026-02-27
+
+Multi-agent coordination inspired by Miguel Palacios' agent team model: agent-notes for persistent inter-agent memory, TDD gate hook for test-first enforcement, security review pre-implementation, Architecture Decision Records, and enhanced SDD handoff protocol with full traceability.
+
+### Added
+
+**Agent Notes system** — `docs/agent-notes-protocol.md` + `docs/templates/agent-note-template.md`: formalized inter-agent communication where each agent writes deliverables in `projects/{proyecto}/agent-notes/` with YAML metadata (ticket, phase, agent, status, dependencies). Next agent in chain reads previous notes before acting. Naming convention: `{ticket}-{tipo}-{fecha}.md`.
+
+**TDD Gate Hook** — `.claude/hooks/tdd-gate.sh` (PreToolUse on Edit/Write): blocks developer agents from editing production code if no corresponding test file exists. Enforces test-first: test-engineer writes tests (Red), developer implements (Green), then refactors. Applied to all 10 developer agents.
+
+**`/security-review {spec}`** — Pre-implementation security review command. Unlike security-guardian (pre-commit code audit), this reviews the spec and architecture against OWASP Top 10 **before** any code is written. Produces a security checklist as INPUT for the developer, not as a final gate.
+
+**`/adr-create {proyecto} {título}`** — Creates Architecture Decision Records with standard format (context, decision, alternatives, consequences). Template at `docs/templates/adr-template.md`. Stored in `projects/{proyecto}/adrs/`.
+
+**`/agent-notes-archive {proyecto}`** — Archives completed agent-notes from closed sprints to `agent-notes/archive/{sprint}/`.
+
+### Changed
+
+**SDD skill workflow expanded** — New phases inserted between spec generation and implementation:
+- Phase 2.5: Security Review pre-implementation (`/security-review`)
+- Phase 2.6: TDD Gate — test-engineer writes tests BEFORE developer implements
+- Phase 3.1: Developer now reads agent-notes (legacy-analysis, architecture-decision, security-checklist, test-strategy) before implementing
+- Phase 3.5: Developer writes implementation-log agent-note post-implementation
+
+**10 developer agents** — Added `tdd-gate.sh` PreToolUse hook to: dotnet, typescript, frontend, java, python, go, rust, php, ruby, cobol developers. Blocks production code edits without prior tests.
+
+**architect agent** — New "Agent Notes" section: must write architecture-decision notes and ADRs. Stronger restrictions: "NUNCA decides sin documentar". Security review recommendation for security-impacting decisions.
+
+**test-engineer agent** — New "TDD Gate" section explaining test-first enforcement. New "Agent Notes" section for test-strategy deliverables. Restriction: "NUNCA saltarte el TDD".
+
+**CLAUDE.md** — New §"Agent Notes y ADRs" section. Updated hooks count (7→8, added tdd-gate). Updated SDD flow to include security-review and TDD gate. Updated command count (84→87). New checklist items for agent-notes/ and adrs/.
+
+**README.md + README.en.md** — Added multi-agent coordination feature, Architecture and Security command section, agent-notes protocol doc reference, updated command count.
+
+### Why
+
+Inspired by Miguel Palacios' article "No es Vibe Coding" — his team of 6 specialized AI agents uses three pillars: ticket tracking, agent-notes as persistent memory, and strict workflow handoffs. PM-Workspace had sophisticated agents but lacked formalized inter-agent communication. Agent-notes solve context loss between sessions. TDD gate moves testing from "validation after the fact" to "contract before implementation". Security review shifts from "catch bugs in code" to "prevent bugs by design". ADRs provide traceable architectural decisions that survive across sprints and team changes.
+
+---
+
 ## [0.17.0] — 2026-02-27
 
 Advanced agent capabilities, programmatic hooks, Agent Teams support, and SDD spec refinements. Every subagent now has persistent memory, preloaded skills, appropriate permission modes, and developer agents use worktree isolation for parallel implementation.
@@ -556,7 +596,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.17.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.18.0...HEAD
+[0.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.1...v0.16.0
 [0.15.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.0...v0.15.1
