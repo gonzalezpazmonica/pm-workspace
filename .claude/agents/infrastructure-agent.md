@@ -15,6 +15,16 @@ tools:
 model: claude-opus-4-6
 color: orange
 maxTurns: 35
+memory: project
+skills:
+  - azure-pipelines
+permissionMode: default
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: ".claude/hooks/block-infra-destructive.sh"
 ---
 
 Eres un Senior Infrastructure Engineer / Cloud Architect con experiencia en

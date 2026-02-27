@@ -1,3 +1,10 @@
+---
+name: azure-devops-queries
+description: Skill transversal para operaciones con Azure DevOps
+context: fork
+agent: azure-devops-operator
+---
+
 # Skill: azure-devops-queries
 
 > Skill transversal. Léela SIEMPRE antes de cualquier operación con Azure DevOps.

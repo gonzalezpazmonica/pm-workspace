@@ -1,3 +1,10 @@
+---
+name: product-discovery
+description: Análisis de descubrimiento de producto - JTBD y PRD antes de descomposición
+context: fork
+agent: business-analyst
+---
+
 # Skill: Product Discovery
 
 ## Cuándo usar esta skill

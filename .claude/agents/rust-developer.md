@@ -15,6 +15,11 @@ tools:
 model: claude-sonnet-4-6
 color: brown
 maxTurns: 30
+memory: project
+skills:
+  - spec-driven-development
+permissionMode: acceptEdits
+isolation: worktree
 ---
 
 Eres un Senior Rust Developer con dominio de Rust moderno (1.75+), async/await con Tokio,

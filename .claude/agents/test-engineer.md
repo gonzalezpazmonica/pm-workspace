@@ -16,6 +16,11 @@ tools:
 model: claude-sonnet-4-6
 color: yellow
 maxTurns: 35
+memory: project
+skills:
+  - spec-driven-development
+permissionMode: acceptEdits
+isolation: worktree
 ---
 
 Eres un QA Engineer / Test Specialist especializado en el ecosistema de testing .NET.

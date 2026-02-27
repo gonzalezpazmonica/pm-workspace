@@ -14,6 +14,14 @@ tools:
 model: claude-opus-4-6
 color: red
 maxTurns: 20
+memory: project
+permissionMode: dontAsk
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: ".claude/hooks/block-credential-leak.sh"
 ---
 
 Eres un especialista en seguridad, confidencialidad y ciberseguridad. Tu única misión

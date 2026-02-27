@@ -1,3 +1,10 @@
+---
+name: diagram-import
+description: Importar diagramas, extraer entidades y generar Features/PBIs en Azure DevOps
+context: fork
+agent: business-analyst
+---
+
 # Skill: Diagram Import — Parsing, Validación y Generación de Work Items
 
 ## Propósito
