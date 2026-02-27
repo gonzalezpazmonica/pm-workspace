@@ -131,7 +131,7 @@ Fallo por config → Pedir dato → Guardar → Reintentar automáticamente.
 ## 7. Output-first (protección de contexto)
 
 Resultado > 30 líneas → guardar en fichero, mostrar resumen en chat.
-Ver @.claude/rules/context-health.md
+Ver @.claude/rules/domain/context-health.md
 
 ## 8. Anti-improvisación
 

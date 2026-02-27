@@ -2,7 +2,7 @@
 # ── Léelo completo antes de cualquier acción ─────────────────────────────────
 
 > Contexto para TODOS los proyectos. Corre `claude` siempre desde ~/claude/.
-> Config detallada: @.claude/rules/pm-config.md · @.claude/rules/pm-workflow.md
+> Config detallada: @.claude/rules/domain/pm-config.md · @.claude/rules/domain/pm-workflow.md
 > Proyectos privados: @.claude/rules/pm-config.local.md (git-ignorado, no en este repo)
 > Buenas prácticas: @docs/best-practices-claude-code.md
 
@@ -29,7 +29,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 
 **Project Manager / Scrum Master** gestionando proyectos **multi-lenguaje** con equipos Scrum en Azure DevOps.
 Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
-16 lenguajes soportados — ver `@.claude/rules/language-packs.md`.
+16 lenguajes soportados — ver `@.claude/rules/domain/language-packs.md`.
 
 ---
 
@@ -39,9 +39,9 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ~/claude/                          ← Raíz de trabajo Y repositorio GitHub
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
-│   ├── agents/                    ← 24 subagentes → @.claude/rules/agents-catalog.md
-│   ├── commands/                  ← 83 slash commands (+7 infra en skill) → @.claude/rules/pm-workflow.md
-│   ├── rules/                     ← Reglas core + languages/ (16 Language Packs, excluido de carga auto)
+│   ├── agents/                    ← 24 subagentes → @.claude/rules/domain/agents-catalog.md
+│   ├── commands/                  ← 83 slash commands (+7 infra en skill) → @.claude/rules/domain/pm-workflow.md
+│   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
 │   └── skills/                    ← 13 skills reutilizables
 ├── docs/                          ← Metodología, guías, secciones README
 ├── projects/                      ← Proyectos reales (git-ignorados)
@@ -76,19 +76,19 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 8. **SDD**: NUNCA lanzar agente sin Spec aprobada; Code Review (E1) SIEMPRE humano
 9. **Secrets**: NUNCA secrets en el repo — usar vault o `config.local/` · ver `@.claude/rules/domain/confidentiality-config.md`
 10. **Infraestructura**: NUNCA apply en PRE/PRO sin aprobación; tier mínimo; detectar antes de crear · ver `@.claude/rules/domain/infrastructure-as-code.md`
-11. **150 líneas máx.** por fichero — dividir si crece · legacy heredado exento salvo petición PM · ver `@.claude/rules/file-size-limit.md`
-12. **README**: ANTES de cada commit, si los cambios tocan `commands/`, `agents/`, `skills/`, `rules/` o la estructura de directorios → actualizar `README.md` + `README.en.md` (conteos, tablas, referencia rápida) en el MISMO commit · ver `@.claude/rules/readme-update.md`
-13. **Git**: NUNCA commit directo en `main` — siempre rama + PR · ver `@.claude/rules/github-flow.md`
-14. **Comandos**: ANTES de commit que toque `commands/`, ejecutar `scripts/validate-commands.sh` · ver `@.claude/rules/command-validation.md`
-15. **UX Feedback OBLIGATORIO**: TODO slash command DEBE mostrar: (1) banner de inicio `🚀 /comando — Descripción`, (2) verificación de prerequisitos con ✅/❌, (3) progreso por pasos `📋 Paso N/M`, (4) resultado en pantalla, (5) banner de fin `✅ /comando — Completado` o `❌ /comando — Error`. Si falta configuración → preguntar interactivamente → guardar → reintentar. **El silencio es un bug.** · ver `@.claude/rules/command-ux-feedback.md`
-16. **Contexto**: Resultado > 30 líneas → guardar en fichero, mostrar solo resumen en chat. Usar `Task` (subagente) para análisis pesados. Sugerir `/compact` tras 10+ turnos o 3+ comandos. Una tarea por sesión. · ver `@.claude/rules/context-health.md`
-17. **Anti-improvisación**: Un comando SOLO ejecuta las acciones definidas en su `.md`. NO crear ficheros, secciones o edits no especificados. Si un escenario no está cubierto → error con sugerencia, NO inventar comportamiento. · ver `@.claude/rules/command-ux-feedback.md` §8
+11. **150 líneas máx.** por fichero — dividir si crece · legacy heredado exento salvo petición PM
+12. **README**: ANTES de cada commit, si los cambios tocan `commands/`, `agents/`, `skills/`, `rules/` o la estructura → actualizar `README.md` + `README.en.md` en el MISMO commit
+13. **Git**: NUNCA commit directo en `main` — siempre rama + PR
+14. **Comandos**: ANTES de commit que toque `commands/`, ejecutar `scripts/validate-commands.sh`
+15. **UX Feedback OBLIGATORIO**: TODO slash command DEBE mostrar: banner inicio, verificación prerequisitos ✅/❌, progreso por pasos, resultado, banner fin. Si falta config → preguntar → guardar → reintentar. **El silencio es un bug.**
+16. **Contexto**: Resultado > 30 líneas → fichero + resumen. Subagente (`Task`) para análisis pesados. `/compact` tras 10+ turnos. Una tarea por sesión.
+17. **Anti-improvisación**: Un comando SOLO ejecuta lo definido en su `.md`. Escenario no cubierto → error con sugerencia, NO inventar.
 
 ---
 
 ## 🤖 Subagentes y Flujos
 
-> Catálogo completo (24 agentes): `@.claude/rules/agents-catalog.md`
+> Catálogo completo (24 agentes): `@.claude/rules/domain/agents-catalog.md`
 
 Flujos principales:
 - **SDD**: business-analyst → architect → sdd-spec-writer → {lang}-developer ‖ test-engineer → code-reviewer
@@ -100,7 +100,7 @@ Flujos principales:
 
 ## 🌐 Language Packs · 🏗️ Entornos e Infra
 
-> Language Packs (16): `@.claude/rules/language-packs.md`
+> Language Packs (16): `@.claude/rules/domain/language-packs.md`
 > Multi-entorno: `@.claude/rules/domain/environment-config.md` · Confidencialidad: `@.claude/rules/domain/confidentiality-config.md`
 > IaC multi-cloud: `@.claude/rules/domain/infrastructure-as-code.md`
 
@@ -118,7 +118,7 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 - **Diagramas** → `.claude/skills/diagram-generation/SKILL.md` · `.claude/skills/diagram-import/SKILL.md`
 - **Pipelines** → `.claude/skills/azure-pipelines/SKILL.md`
 - **Azure Repos** → `@.claude/rules/domain/azure-repos-config.md`
-- **Comandos** → `@.claude/rules/pm-workflow.md`
+- **Comandos** → `@.claude/rules/domain/pm-workflow.md`
 - Explorar → Planificar → Implementar → Commit
 - Arquitectura: **Command → Agent → Skills** — subagentes solo con `Task`
 - **Compactación**: Al hacer `/compact`, preservar: ficheros modificados, scores de audits, decisiones del PM, errores y cómo se resolvieron. Sugerir `/compact` tras 10 turnos o 3 comandos.
