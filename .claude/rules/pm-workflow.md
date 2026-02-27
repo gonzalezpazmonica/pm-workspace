@@ -73,6 +73,11 @@
 | `/repos:pr-list {--project p}` | Listar PRs: pendientes, asignados al PM, por reviewer |
 | `/repos:pr-review {--project p} {--pr id}` | Review multi-perspectiva de PR en Azure Repos |
 | `/repos:search {--project p} {query}` | Buscar código en repositorios de Azure DevOps |
+| `/debt:track {--project p}` | Registro y seguimiento de deuda técnica: ratio, tendencia, SonarQube |
+| `/kpi:dora {--project p}` | Métricas DORA: deploy frequency, lead time, change failure rate, MTTR |
+| `/dependency:map {--project p}` | Mapa de dependencias entre PBIs/Features/equipos con alertas de bloqueo |
+| `/retro:actions {--project p}` | Seguimiento de action items de retrospectivas entre sprints |
+| `/risk:log {--project p}` | Registro de riesgos: probabilidad, impacto, mitigación, risk burndown |
 | `/notify:slack {canal} {msg}` | Enviar notificación o informe al canal de Slack del proyecto |
 | `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
 | `/github:activity {repo}` | Analizar actividad GitHub: PRs, commits, contributors |
