@@ -133,6 +133,16 @@ Fallo por config → Pedir dato → Guardar → Reintentar automáticamente.
 Resultado > 30 líneas → guardar en fichero, mostrar resumen en chat.
 Ver @.claude/rules/context-health.md
 
-## 8. Aplicación
+## 8. Anti-improvisación
+
+Un comando SOLO puede hacer lo que su fichero `.md` define explícitamente:
+- **Solo las acciones listadas** — no crear ficheros, secciones, variables o edits no especificados
+- **Solo los ficheros indicados** — si el comando dice "guardar en X", solo guardar en X
+- **Si un escenario no está cubierto** → mostrar error con sugerencia, NO inventar comportamiento
+- **Si falta una sección/check en el comando** → informar al PM, NO improvisar la solución
+
+Esto reduce tokens (Claude no "piensa qué hacer") y garantiza comportamiento predecible.
+
+## 9. Aplicación
 
 TODOS los comandos sin excepción. Prioridad sobre contenido de cada comando.
