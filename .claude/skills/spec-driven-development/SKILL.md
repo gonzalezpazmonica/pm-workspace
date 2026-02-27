@@ -204,6 +204,8 @@ claude --model $CLAUDE_MODEL_AGENT \
 
 ### 3.3 Patrón `agent-team` — Agentes especializados en paralelo
 
+**Regla de serialización**: ANTES de lanzar tareas paralelas, verificar que los scopes (ficheros declarados en cada spec) no se solapan. Si dos specs tocan los mismos módulos → serializar o asignar a un solo agente. Ver `@docs/agent-teams-sdd.md` §"Regla de Serialización de Scope".
+
 Para tasks grandes, se lanza un equipo de agentes con roles distintos:
 
 ```bash

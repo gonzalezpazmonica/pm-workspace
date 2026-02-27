@@ -44,7 +44,7 @@ Verificar raíz (`~/claude/`).
 - Si no existe → `ℹ️ Sin sesiones anteriores guardadas`
 
 ```
-📋 Paso 3/5 — Estado de proyectos...
+📋 Paso 3/6 — Estado de proyectos...
 ```
 Leer `CLAUDE.local.md` → tabla de proyectos activos.
 Para cada proyecto, comprobar si existe y mostrar 1 línea de estado:
@@ -53,7 +53,20 @@ Para cada proyecto, comprobar si existe y mostrar 1 línea de estado:
 - Riesgos: `projects/{p}/risk-register.md` → riesgos críticos si existe
 
 ```
-📋 Paso 4/5 — Actividad Git reciente...
+📋 Paso 4/6 — ADRs activos...
+```
+Para cada proyecto activo, buscar ADRs con `status: accepted`:
+```bash
+grep -l "status: accepted" projects/*/adrs/*.md 2>/dev/null
+```
+- Si existen → leer título y fecha de cada ADR activo, mostrar resumen (máx. 5 ADRs más recientes)
+- Si no existen → `ℹ️ Sin ADRs activos`
+- Formato: `🏛️ ADR-001: {título} ({fecha}) — {proyecto}`
+
+**Propósito**: Prevenir deriva arquitectónica a largo plazo al recordar decisiones activas al inicio de cada sesión.
+
+```
+📋 Paso 5/6 — Actividad Git reciente...
 ```
 ```bash
 git log --oneline -5 --decorate
@@ -61,7 +74,7 @@ git log --oneline -5 --decorate
 Ramas activas no mergeadas (si hay).
 
 ```
-📋 Paso 5/5 — Herramientas disponibles...
+📋 Paso 6/6 — Herramientas disponibles...
 ```
 Solo si stack = Azure DevOps: verificar `az`, PAT.
 Siempre: `claude --version`, `git --version`.
@@ -89,6 +102,10 @@ Siempre: `claude --version`, `git --version`.
      • {proyecto1} — audit: X/10 | deuda: N items | riesgos: N
      • {proyecto2} — sin audit previo
 
+  🏛️ ADRs activos: N
+     • ADR-001: {título} ({fecha}) — {proyecto}
+     • ADR-002: {título} ({fecha}) — {proyecto}
+
   📝 Últimos cambios:
      • {commit 1}
      • {commit 2}
@@ -105,7 +122,7 @@ Si no hay proyectos → sugerir `/help --setup`.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ /context-load — Completado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📁 {N} proyectos | 📋 {N} decisiones recientes | ⏳ {N} pendientes
+📁 {N} proyectos | 🏛️ {N} ADRs activos | 📋 {N} decisiones recientes | ⏳ {N} pendientes
 💡 ¿Por dónde empezamos?
 ```
 

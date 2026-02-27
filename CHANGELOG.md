@@ -13,6 +13,36 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.19.0] — 2026-02-27
+
+Governance hardening inspired by Fernando García Varela's article on AI governance failure modes: scope guard hook to detect silent scope creep, parallel session serialization rule to prevent contradictory changes, and ADR loading at session start to prevent architectural drift.
+
+### Added
+
+**Scope Guard Hook** — `.claude/hooks/scope-guard.sh` (Stop): detects files modified outside the declared scope of the active SDD spec. Compares `git diff` against the "Ficheros a Crear/Modificar" section of the most recently touched `.spec.md` file. Issues a warning to the PM (does not block) when out-of-scope files are found. Excludes test files, config, agent-notes, and other legitimate ancillary changes.
+
+**Parallel session serialization rule** — New critical rule #18 in CLAUDE.md: "ANTES de lanzar Agent Teams o tareas paralelas, verificar que los scopes no se solapan. Si dos specs tocan los mismos módulos → serializar." Prevents the failure mode where two agents produce internally coherent but mutually contradictory code that merges cleanly but behaves incorrectly.
+
+### Changed
+
+**`/context-load` expanded (5→6 steps)** — New step 4/6 "ADRs activos": reads Architecture Decision Records with `status: accepted` from all active projects at session start. Shows up to 5 most recent ADRs with title, date, and project. Prevents long-term architectural drift by reminding the PM of active design decisions.
+
+**`docs/agent-teams-sdd.md`** — New §"Regla de Serialización de Scope" with verification protocol, example showing conflict detection, risk explanation, and reference to scope-guard hook as second line of defense.
+
+**SDD skill** — Added serialization rule reference in §3.3 (agent-team pattern): must verify scope overlap before launching parallel tasks.
+
+**`.claude/settings.json`** — Added `scope-guard.sh` as second Stop hook (after `stop-quality-gate.sh`).
+
+**CLAUDE.md** — New rule #18 (parallel serialization). Hooks count 8→9. New scope-guard entry in hooks section.
+
+**README.md + README.en.md** — Updated hooks count (8→9), added scope guard and serialization features in descriptions. New critical rule #9 (parallel scope verification).
+
+### Why
+
+Inspired by Fernando García Varela's article "IA y Código. Domesticando a mi Nueva Mascota!!!" — after 6 months of serious AI adoption, he identified structural failure modes that productivity studies miss. Two gaps in pm-workspace matched his findings: (1) no programmatic detection of scope creep during agent execution, and (2) no formal protocol for verifying scope disjunction before parallel sessions. The scope guard hook provides runtime detection, the serialization rule provides prevention, and ADR loading at session start addresses his concern about architectural decisions drifting over time.
+
+---
+
 ## [0.18.0] — 2026-02-27
 
 Multi-agent coordination inspired by Miguel Palacios' agent team model: agent-notes for persistent inter-agent memory, TDD gate hook for test-first enforcement, security review pre-implementation, Architecture Decision Records, and enhanced SDD handoff protocol with full traceability.
@@ -596,7 +626,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.18.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.19.0...HEAD
+[0.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.1...v0.16.0
