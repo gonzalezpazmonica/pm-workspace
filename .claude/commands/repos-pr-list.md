@@ -23,7 +23,7 @@ description: >
 ## Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — `AZURE_REPOS_PROJECT`
-2. @.claude/rules/pm-config.md — `AZURE_DEVOPS_PM_USER` (para --assigned-to-me)
+2. @.claude/rules/domain/pm-config.md — `AZURE_DEVOPS_PM_USER` (para --assigned-to-me)
 
 ## Pasos de ejecución
 

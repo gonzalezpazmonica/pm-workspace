@@ -11,7 +11,7 @@ description: >
 
 > Uso: `/debt:track --project {p}` o `/debt:track --project {p} --add`
 
-Aplica siempre @.claude/rules/command-ux-feedback.md
+Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
 ## 1. Banner de inicio
 

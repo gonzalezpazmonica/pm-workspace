@@ -9,7 +9,7 @@ description: >
 
 **Repositorio:** $ARGUMENTS
 
-Aplica siempre @.claude/rules/command-ux-feedback.md
+Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
 > Si no se pasa argumento, evalúa el repositorio actual.
 
