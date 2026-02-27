@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/github:issues {repo} [--sync-from-azdo {ids}] [--search {query}] [--create {titulo}]`
+> Uso: `/github-issues {repo} [--sync-from-azdo {ids}] [--search {query}] [--create {titulo}]`
 
 ## Parámetros
 

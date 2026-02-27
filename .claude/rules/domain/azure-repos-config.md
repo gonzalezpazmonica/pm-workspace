@@ -1,7 +1,7 @@
 # Regla: Configuración Azure Repos
 
 > Configuración para gestión de repositorios Git en Azure DevOps.
-> Carga bajo demanda cuando se usan comandos `repos:*`.
+> Carga bajo demanda cuando se usan comandos `repos-*`.
 
 ## Proveedor Git por proyecto
 

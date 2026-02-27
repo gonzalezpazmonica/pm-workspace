@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/security:alerts --project {p}` o `/security:alerts --project {p} --severity {level}`
+> Uso: `/security-alerts --project {p}` o `/security-alerts --project {p} --severity {level}`
 
 ## Parámetros
 
@@ -85,10 +85,10 @@ Nuevas: 8 | Resueltas: 11 | Netas: -3 (mejorando 📉)
 
 ## Integración
 
-- `/project:audit` → incluye security alerts en evaluación
-- `/evaluate:repo` → complementario (evaluate:repo = estático, security:alerts = dinámico)
-- `/debt:track` → alertas no resueltas como deuda de seguridad
-- `/risk:log` → alertas critical alimentan registro de riesgos
+- `/project-audit` → incluye security alerts en evaluación
+- `/evaluate-repo` → complementario (evaluate-repo = estático, security-alerts = dinámico)
+- `/debt-track` → alertas no resueltas como deuda de seguridad
+- `/risk-log` → alertas critical alimentan registro de riesgos
 
 ## Restricciones
 

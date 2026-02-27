@@ -9,7 +9,7 @@ description: >
 
 **Tool:** $ARGUMENTS
 
-> Uso: `/diagram:config --tool draw.io|miro [--test] [--list]`
+> Uso: `/diagram-config --tool draw.io|miro [--test] [--list]`
 
 ## Parámetros
 

@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/risk:log --project {p}` o `/risk:log --project {p} --add`
+> Uso: `/risk-log --project {p}` o `/risk-log --project {p} --add`
 
 ## Parámetros
 
@@ -66,11 +66,11 @@ Baja(1)  | R-06    | R-05     |         |
 
 ## Integración
 
-- `/sprint:status` → muestra top 3 riesgos por exposure
-- `/sprint:plan` → revisa riesgos al planificar
-- `/project:release-plan` → riesgos por release
-- `/project:audit` → evalúa gestión de riesgos
-- `/dependency:map` → riesgos de dependencias cross-team
+- `/sprint-status` → muestra top 3 riesgos por exposure
+- `/sprint-plan` → revisa riesgos al planificar
+- `/project-release-plan` → riesgos por release
+- `/project-audit` → evalúa gestión de riesgos
+- `/dependency-map` → riesgos de dependencias cross-team
 
 ## Restricciones
 

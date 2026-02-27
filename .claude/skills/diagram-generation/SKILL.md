@@ -8,7 +8,7 @@ Generar diagramas de arquitectura, flujo de datos y secuencia a partir de la inf
 
 ## Triggers
 
-- Comando `/diagram:generate` — Genera diagrama completo
+- Comando `/diagram-generate` — Genera diagrama completo
 - Petición directa: "genera el diagrama de arquitectura del proyecto X"
 
 ---
@@ -176,7 +176,7 @@ Crear/actualizar `projects/{p}/diagrams/{tool}/{tipo}.meta.json`:
 📁 Metadata: projects/{p}/diagrams/{tool}/{tipo}.meta.json
 📝 Mermaid local: projects/{p}/diagrams/local/{tipo}.mermaid
 
-¿Quieres importar este diagrama para generar Features/PBIs? → /diagram:import
+¿Quieres importar este diagrama para generar Features/PBIs? → /diagram-import
 ```
 
 ---

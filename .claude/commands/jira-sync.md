@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/jira:sync --project {p}` o `/jira:sync --project {p} --direction {dir}`
+> Uso: `/jira-sync --project {p}` o `/jira-sync --project {p} --direction {dir}`
 
 ## Parámetros
 

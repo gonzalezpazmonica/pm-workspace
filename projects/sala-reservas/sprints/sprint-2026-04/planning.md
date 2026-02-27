@@ -44,17 +44,17 @@
 
 **Definition of Ready:** ✅ Criterios claros, reglas de negocio documentadas, estimación acordada
 
-**Desglose de Tasks (propuesto por Claude `/pbi:decompose 001`):**
+**Desglose de Tasks (propuesto por Claude `/pbi-decompose 001`):**
 
 | # | Task | h | Act. | Asignado a | Developer Type |
 |---|------|---|------|-----------|----------------|
 | B1 | Entidad `Sala` + Value Objects (`SalaId`, `CapacidadSala`) | 2h | Dev | Carlos | human |
 | B2 | Migration EF Core: tabla `Salas` + seed data (3 salas de ejemplo) | 1h | Dev | Diego | human |
-| B3 | Handlers: CreateSala, UpdateSala, DeleteSala (+ Validators) | 4h | Dev | 🤖 agent | agent:single |
-| B4 | Handlers: GetSalas (paginado), GetSalaById | 2h | Dev | 🤖 agent | agent:single |
-| C1 | `ISalaRepository` + implementación EF Core | 2h | Dev | 🤖 agent | agent:single |
-| C2 | `SalasController` (5 endpoints) + DTOs de API | 2h | Dev | 🤖 agent | agent:single |
-| D1 | Unit Tests: CreateSalaCommandHandler (7 scenarios) | 2h | Dev | 🤖 agent | agent:single |
+| B3 | Handlers: CreateSala, UpdateSala, DeleteSala (+ Validators) | 4h | Dev | 🤖 agent | agent-single |
+| B4 | Handlers: GetSalas (paginado), GetSalaById | 2h | Dev | 🤖 agent | agent-single |
+| C1 | `ISalaRepository` + implementación EF Core | 2h | Dev | 🤖 agent | agent-single |
+| C2 | `SalasController` (5 endpoints) + DTOs de API | 2h | Dev | 🤖 agent | agent-single |
+| D1 | Unit Tests: CreateSalaCommandHandler (7 scenarios) | 2h | Dev | 🤖 agent | agent-single |
 | D2 | Integration Tests: endpoints API Salas (Postman / WebApplicationFactory) | 2h | Dev | Ana | human |
 | E1 | Code Review | 1h | Dev | Carlos (TL) | human |
 | **Total** | | **18h** | | | 9h human / 9h agent |
@@ -81,13 +81,13 @@
 |---|------|---|------|-----------|----------------|
 | B1 | Entidad `Reserva` + Value Objects (`ReservaId`, `HorarioReserva`) | 3h | Dev | Carlos | human |
 | B2 | Migration EF Core: tabla `Reservas` + FK a Salas | 1h | Dev | Diego | human |
-| B3 | Handler: `CreateReservaCommand` + Validator | 4h | Dev | 🤖 agent | agent:single |
-| B4 | Handlers: `GetReservasQuery` (filtro sala+fecha), `GetReservaByIdQuery` | 2h | Dev | 🤖 agent | agent:single |
-| B5 | Handler: `CancelReservaCommand` + Validator | 2h | Dev | 🤖 agent | agent:single |
-| C1 | `IReservaRepository` + implementación EF Core | 3h | Dev | 🤖 agent | agent:single |
-| C2 | `ReservasController` (4 endpoints) + DTOs de API | 2h | Dev | 🤖 agent | agent:single |
-| D1 | Unit Tests: CreateReservaCommandHandler (10 scenarios) | 3h | Dev | 🤖 agent | agent:single |
-| D2 | Unit Tests: CancelReservaCommandHandler (4 scenarios) | 2h | Dev | 🤖 agent | agent:single |
+| B3 | Handler: `CreateReservaCommand` + Validator | 4h | Dev | 🤖 agent | agent-single |
+| B4 | Handlers: `GetReservasQuery` (filtro sala+fecha), `GetReservaByIdQuery` | 2h | Dev | 🤖 agent | agent-single |
+| B5 | Handler: `CancelReservaCommand` + Validator | 2h | Dev | 🤖 agent | agent-single |
+| C1 | `IReservaRepository` + implementación EF Core | 3h | Dev | 🤖 agent | agent-single |
+| C2 | `ReservasController` (4 endpoints) + DTOs de API | 2h | Dev | 🤖 agent | agent-single |
+| D1 | Unit Tests: CreateReservaCommandHandler (10 scenarios) | 3h | Dev | 🤖 agent | agent-single |
+| D2 | Unit Tests: CancelReservaCommandHandler (4 scenarios) | 2h | Dev | 🤖 agent | agent-single |
 | D3 | Integration Tests: endpoints API Reservas | 3h | Dev | Ana | human |
 | E1 | Code Review | 1h | Dev | Carlos (TL) | human |
 | **Total** | | **26h** | | | 11h human / 15h agent |
@@ -111,7 +111,7 @@
 |---|------|---|------|-----------|----------------|
 | B3 | Domain Service: `ValidarConflictoReservaService` | 3h | Dev | Carlos | human |
 | B4 | Integrar `ValidarConflictoReservaService` en `CreateReservaCommandHandler` | 2h | Dev | Laura | human |
-| D1 | Unit Tests: `ValidarConflictoReservaService` (6 scenarios) | 2h | Dev | 🤖 agent | agent:single |
+| D1 | Unit Tests: `ValidarConflictoReservaService` (6 scenarios) | 2h | Dev | 🤖 agent | agent-single |
 | D2 | Integration Test: escenario de conflicto end-to-end | 2h | Dev | Ana | human |
 | E1 | Code Review | 1h | Dev | Carlos (TL) | human |
 | **Total** | | **10h** | | | 8h human / 2h agent |

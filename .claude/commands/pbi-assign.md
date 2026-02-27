@@ -1,10 +1,10 @@
-# /pbi:assign
+# /pbi-assign
 
 Asigna (o reasigna) las Tasks existentes de un PBI según el algoritmo de asignación inteligente, sin recrear las tasks.
 
 ## Uso
 ```
-/pbi:assign {pbi_id} [--project {nombre}] [--rebalance]
+/pbi-assign {pbi_id} [--project {nombre}] [--rebalance]
 ```
 
 - `{pbi_id}`: ID del PBI padre cuyas tasks se quieren (re)asignar
@@ -15,12 +15,12 @@ Asigna (o reasigna) las Tasks existentes de un PBI según el algoritmo de asigna
 - Las tasks ya existen en Azure DevOps pero no están asignadas o están mal distribuidas
 - Alguien del equipo se ha ido de baja / vacaciones inesperadas y hay que redistribuir
 - Tras un cambio de capacity (ej: Pedro no puede trabajar esta semana) y quieres rebalancear
-- Como alternativa más rápida a `/pbi:decompose` cuando ya tienes las tasks
+- Como alternativa más rápida a `/pbi-decompose` cuando ya tienes las tasks
 
-## Diferencia con /pbi:decompose
+## Diferencia con /pbi-decompose
 
-`/pbi:decompose` → Crea tasks nuevas desde cero + asigna
-`/pbi:assign` → Solo reasigna tasks que ya existen
+`/pbi-decompose` → Crea tasks nuevas desde cero + asigna
+`/pbi-assign` → Solo reasigna tasks que ya existen
 
 ## Pasos de Ejecución
 

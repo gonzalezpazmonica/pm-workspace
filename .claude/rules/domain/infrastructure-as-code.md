@@ -267,11 +267,11 @@ tags = {
 
 | Comando | Descripción |
 |---|---|
-| `/infra:detect {proyecto} {env}` | Detectar infraestructura existente del proyecto en un entorno |
-| `/infra:plan {proyecto} {env}` | Generar plan de infraestructura para un entorno |
-| `/infra:estimate {proyecto}` | Estimar costes de infraestructura por entorno |
-| `/infra:scale {recurso}` | Proponer escalado de un recurso (requiere aprobación) |
-| `/infra:status {proyecto}` | Estado de la infraestructura actual del proyecto |
+| `/infra-detect {proyecto} {env}` | Detectar infraestructura existente del proyecto en un entorno |
+| `/infra-plan {proyecto} {env}` | Generar plan de infraestructura para un entorno |
+| `/infra-estimate {proyecto}` | Estimar costes de infraestructura por entorno |
+| `/infra-scale {recurso}` | Proponer escalado de un recurso (requiere aprobación) |
+| `/infra-status {proyecto}` | Estado de la infraestructura actual del proyecto |
 
 ---
 

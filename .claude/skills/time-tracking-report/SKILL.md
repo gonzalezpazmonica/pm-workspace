@@ -168,4 +168,4 @@ El Word incluye: portada, tabla resumen por persona, tabla detalle con todos los
 ## Referencias
 → Script generador: `scripts/report-generator.js`
 → Plantilla de informes: `docs/plantillas-informes.md`
-→ Comando: `/report:hours`
+→ Comando: `/report-hours`

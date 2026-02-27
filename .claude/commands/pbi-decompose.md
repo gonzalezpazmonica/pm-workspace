@@ -1,10 +1,10 @@
-# /pbi:decompose
+# /pbi-decompose
 
 Descompone un PBI en Tasks técnicas con estimaciones y propuesta de asignación inteligente.
 
 ## Uso
 ```
-/pbi:decompose {id} [--project {nombre}] [--dry-run]
+/pbi-decompose {id} [--project {nombre}] [--dry-run]
 ```
 
 - `{id}`: ID del work item en Azure DevOps (ej: `1234`)
@@ -55,7 +55,7 @@ Descompone un PBI en Tasks técnicas con estimaciones y propuesta de asignación
    │ #  │ Task                                │ Horas    │ Act. │ Asignado a   │ Developer Type │
    ├────┼─────────────────────────────────────┼──────────┼──────┼──────────────┼────────────────┤
    │ B1 │ ...                                 │ 2h       │ Dev  │ ...          │ human          │
-   │ B3 │ ...                                 │ 4h       │ Dev  │ 🤖 agent     │ agent:single   │
+   │ B3 │ ...                                 │ 4h       │ Dev  │ 🤖 agent     │ agent-single   │
    └────┴─────────────────────────────────────┴──────────┴──────┴──────────────┴────────────────┘
 
    Total: Xh (rango esperado para Y SP: A-Bh)
@@ -70,7 +70,7 @@ Descompone un PBI en Tasks técnicas con estimaciones y propuesta de asignación
 
 ## Ejemplo
 ```
-/pbi:decompose 1234
-/pbi:decompose 1234 --project ProyectoAlpha
-/pbi:decompose 1234 --dry-run
+/pbi-decompose 1234
+/pbi-decompose 1234 --project ProyectoAlpha
+/pbi-decompose 1234 --dry-run
 ```

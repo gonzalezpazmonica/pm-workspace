@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/repos:list --project {p}`
+> Uso: `/repos-list --project {p}`
 
 ## Parámetros
 

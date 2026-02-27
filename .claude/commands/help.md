@@ -59,7 +59,7 @@ Terminar con:
   Pipelines (5), Repos (6), DevOps Extended (5)
 
 📄 Catálogo completo: output/help-catalog.md
-💡 Siguiente: /project:audit --project {nombre}
+💡 Siguiente: /project-audit --project {nombre}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

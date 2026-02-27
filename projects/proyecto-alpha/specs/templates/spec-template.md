@@ -16,7 +16,7 @@
 **Fecha creación:** {YYYY-MM-DD}
 **Creado por:**     {PM/Tech Lead}
 
-**Developer Type:** human | agent:single | agent:team
+**Developer Type:** human | agent-single | agent-team
 **Asignado a:**     {nombre_dev | claude-agent | claude-agent-team}
 **Estimación:**     {Xh}
 **Estado:**         Pendiente | En Progreso | Completado | Bloqueado
@@ -304,7 +304,7 @@ dotnet test $TEST_PROJECT --filter "Category=Unit" --no-build
 **Último update:** {YYYY-MM-DD HH:MM}
 **Actualizado por:** {dev/agent}
 
-### Log de implementación (si agent:single o agent:team)
+### Log de implementación (si agent-single o agent-team)
 - {timestamp} — [AGENT] Iniciando implementación
 - {timestamp} — [AGENT] Handler creado: CreatePatientCommandHandler.cs
 - {timestamp} — [AGENT] Validator creado: CreatePatientCommandValidator.cs

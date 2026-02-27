@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/backlog:capture --project {p} --source {tipo}`
+> Uso: `/backlog-capture --project {p} --source {tipo}`
 
 ## Parámetros
 
@@ -32,7 +32,7 @@ description: >
 ### 1. Obtener input
 - **text**: el PM pega texto directamente en el prompt
 - **file**: leer fichero indicado (`.md`, `.txt`, `.eml`, `.csv`)
-- **slack**: usar `/slack:search` con filtros de canal y fecha
+- **slack**: usar `/slack-search` con filtros de canal y fecha
 - **email**: leer fichero `.eml` o texto pegado del email
 - **support**: leer CSV/JSON de tickets de soporte
 
@@ -83,10 +83,10 @@ Descartados: 2 (duplicados exactos de #1230, #1245)
 
 ## Integración
 
-- `/pbi:decompose` → descomponer los PBIs creados en tasks
-- `/sprint:plan` → incluir PBIs capturados en planning
-- `/slack:search` → fuente de input para captura desde Slack
-- `/project:audit` → puede generar input para backlog:capture
+- `/pbi-decompose` → descomponer los PBIs creados en tasks
+- `/sprint-plan` → incluir PBIs capturados en planning
+- `/slack-search` → fuente de input para captura desde Slack
+- `/project-audit` → puede generar input para backlog-capture
 
 ## Restricciones
 

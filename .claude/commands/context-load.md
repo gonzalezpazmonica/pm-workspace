@@ -15,7 +15,7 @@ Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 /context:load — Cargando contexto de sesión
+🚀 /context-load — Cargando contexto de sesión
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -39,7 +39,7 @@ Verificar raíz (`~/claude/`).
 ```
 **Decision log** (`decision-log.md` en raíz):
 - Si existe → leer las últimas 10 entradas y mostrar resumen (3-5 decisiones más recientes)
-- Si no existe → `ℹ️ Sin decision log — se creará con /session:save`
+- Si no existe → `ℹ️ Sin decision log — se creará con /session-save`
 
 **Último session save** (`output/sessions/` → fichero más reciente):
 - Si existe → leer y mostrar: objetivo, pendientes, contexto para esta sesión
@@ -105,7 +105,7 @@ Si no hay proyectos → sugerir `/help --setup`.
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ /context:load — Completado
+✅ /context-load — Completado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📁 {N} proyectos | 📋 {N} decisiones recientes | ⏳ {N} pendientes
 💡 ¿Por dónde empezamos?
@@ -117,4 +117,4 @@ Si no hay proyectos → sugerir `/help --setup`.
 - **Conciso** — output legible en 30 segundos, NO cargar ficheros completos
 - Si no hay PAT / Azure DevOps → no error, solo omitir esos datos
 - Leer solo las primeras líneas de cada fichero de estado (no cargar completos)
-- **NO ejecutar otros comandos** como dependencia (/sprint:status, etc.)
+- **NO ejecutar otros comandos** como dependencia (/sprint-status, etc.)

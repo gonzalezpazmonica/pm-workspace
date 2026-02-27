@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/github:activity {repo} [--since {fecha}] [--author {usuario}]`
+> Uso: `/github-activity {repo} [--since {fecha}] [--author {usuario}]`
 
 ## Parámetros
 
@@ -64,10 +64,10 @@ description: >
 
 ## Integración con otros comandos
 
-- `/team:workload` puede invocar este comando para añadir métricas de código
-- `/team:evaluate` usa estos datos como input para evaluación técnica
-- `/sprint:status` puede incluir sección "Actividad de código" con estos datos
-- `/kpi:dashboard` puede mostrar métricas de PR lead time y review time
+- `/team-workload` puede invocar este comando para añadir métricas de código
+- `/team-evaluate` usa estos datos como input para evaluación técnica
+- `/sprint-status` puede incluir sección "Actividad de código" con estos datos
+- `/kpi-dashboard` puede mostrar métricas de PR lead time y review time
 
 ## Restricciones
 

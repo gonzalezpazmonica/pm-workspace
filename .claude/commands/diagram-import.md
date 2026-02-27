@@ -9,7 +9,7 @@ description: >
 
 **Fuente:** $ARGUMENTS
 
-> Uso: `/diagram:import {source} --project {nombre} [--validate-only] [--dry-run]`
+> Uso: `/diagram-import {source} --project {nombre} [--validate-only] [--dry-run]`
 
 ## Parámetros
 
@@ -69,9 +69,9 @@ Leer en este orden (Progressive Disclosure):
 ## Ejemplo
 
 ```
-/diagram:import https://miro.com/app/board/uXjVN... --project ProyectoAlpha
-/diagram:import projects/alpha/diagrams/local/architecture.mermaid --project ProyectoAlpha
-/diagram:import --validate-only projects/alpha/diagrams/local/flow.mermaid --project ProyectoAlpha
+/diagram-import https://miro.com/app/board/uXjVN... --project ProyectoAlpha
+/diagram-import projects/alpha/diagrams/local/architecture.mermaid --project ProyectoAlpha
+/diagram-import --validate-only projects/alpha/diagrams/local/flow.mermaid --project ProyectoAlpha
 ```
 
 ## Restricciones

@@ -1,7 +1,7 @@
 # SDD Metrics — Proyecto Alpha
 
 > Registro histórico de rendimiento del proceso Spec-Driven Development.
-> Actualizar al completar cada Spec (via `/spec:review` con `--check-impl`).
+> Actualizar al completar cada Spec (via `/spec-review` con `--check-impl`).
 
 ## Tabla de Métricas
 

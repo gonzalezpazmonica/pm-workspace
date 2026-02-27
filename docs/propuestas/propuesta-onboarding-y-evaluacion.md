@@ -16,7 +16,7 @@ El proceso se dise&ntilde;a para que un nuevo miembro del equipo llegue a su pri
 
 #### Fase 1 &mdash; Contexto inmediato (D&iacute;a 1, ma&ntilde;ana)
 
-**Qu&eacute; hace la persona nueva:** ejecuta `/context:load` y despu&eacute;s pregunta a Claude:
+**Qu&eacute; hace la persona nueva:** ejecuta `/context-load` y despu&eacute;s pregunta a Claude:
 
 ```
 Soy nuevo en este proyecto. Expl&iacute;came la arquitectura general,
@@ -37,7 +37,7 @@ Mu&eacute;strame el flujo completo de un POST /salas desde el Controller
 hasta la base de datos, explicando cada capa que atraviesa.
 ```
 
-**Herramientas complementarias:** Claude Code con `/evaluate:repo` sobre el propio proyecto para que el nuevo miembro entienda la calidad actual y las &aacute;reas de mejora.
+**Herramientas complementarias:** Claude Code con `/evaluate-repo` sobre el propio proyecto para que el nuevo miembro entienda la calidad actual y las &aacute;reas de mejora.
 
 **Tiempo:** 2-3 horas. **Verificable:** la persona puede explicar el flujo de un endpoint al mentor.
 

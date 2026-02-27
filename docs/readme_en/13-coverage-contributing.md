@@ -8,37 +8,37 @@ The following classic PM/Scrum Master responsibilities are automated or signific
 
 | Responsibility | Coverage | Simplification |
 |----------------|----------|----------------|
-| Sprint Planning (capacity + PBI selection) | `/sprint:plan` | High — calculates real capacity, proposes PBIs to fill it, and breaks them into tasks with a single command |
-| PBI breakdown into tasks | `/pbi:decompose`, `/pbi:decompose-batch` | High — generates task table with estimates, activity, and assignment. Eliminates task refinement meetings |
-| Work assignment (load balancing) | `/pbi:assign` + scoring algorithm | High — expertise×availability×balance algorithm removes subjective intuition and guarantees equitable distribution |
-| Burndown tracking | `/sprint:status` | High — automatic burndown at any time, with deviation from ideal and completion forecast |
-| Team capacity control | `/report:capacity`, `/team:workload` | High — detects individual overload and free days without manual spreadsheets |
-| WIP and blocker alerts | `/sprint:status` | High — automatic alerts for stalled items, people at 100%, and WIP over limit |
-| Daily standup preparation | `/sprint:status` | Medium — provides exact status and suggests talking points, but the standup itself is human |
-| Hours report | `/report:hours` | High — Excel with 4 tabs auto-generated from Azure DevOps, no manual editing |
-| Multi-project executive report | `/report:executive` | High — PPT/Word with status traffic lights, ready to send to management |
-| Team velocity and KPIs | `/kpi:dashboard` | High — velocity, cycle time, lead time, bug escape rate calculated from real AzDO data |
-| Sprint Review preparation | `/sprint:review` | Medium — generates completed items summary and velocity, but the demo is done by the team |
-| Sprint Retrospective data | `/sprint:retro` | Medium — provides quantitative sprint data, but the retrospective dynamics are human |
-| Repetitive multi-language task implementation | SDD + `/agent:run` | Very high — handlers, repositories, validators, unit tests implemented in 16 languages without human intervention |
-| Spec quality control | `/spec:review` | High — automatically validates that a spec has sufficient detail before implementation |
-| New member onboarding | `/team:onboarding`, `/team:evaluate` | High — personalized onboarding guide + 26-competency questionnaire with GDPR compliance |
-| Infrastructure planning and cost estimation | `/infra:plan`, `/infra:estimate` | High — multi-cloud infrastructure as code with automatic detection and cost analysis |
-| Multi-environment management | `/env:setup`, `/env:promote` | High — DEV/PRE/PRO environments with confidential configuration protection |
+| Sprint Planning (capacity + PBI selection) | `/sprint-plan` | High — calculates real capacity, proposes PBIs to fill it, and breaks them into tasks with a single command |
+| PBI breakdown into tasks | `/pbi-decompose`, `/pbi-decompose-batch` | High — generates task table with estimates, activity, and assignment. Eliminates task refinement meetings |
+| Work assignment (load balancing) | `/pbi-assign` + scoring algorithm | High — expertise×availability×balance algorithm removes subjective intuition and guarantees equitable distribution |
+| Burndown tracking | `/sprint-status` | High — automatic burndown at any time, with deviation from ideal and completion forecast |
+| Team capacity control | `/report-capacity`, `/team-workload` | High — detects individual overload and free days without manual spreadsheets |
+| WIP and blocker alerts | `/sprint-status` | High — automatic alerts for stalled items, people at 100%, and WIP over limit |
+| Daily standup preparation | `/sprint-status` | Medium — provides exact status and suggests talking points, but the standup itself is human |
+| Hours report | `/report-hours` | High — Excel with 4 tabs auto-generated from Azure DevOps, no manual editing |
+| Multi-project executive report | `/report-executive` | High — PPT/Word with status traffic lights, ready to send to management |
+| Team velocity and KPIs | `/kpi-dashboard` | High — velocity, cycle time, lead time, bug escape rate calculated from real AzDO data |
+| Sprint Review preparation | `/sprint-review` | Medium — generates completed items summary and velocity, but the demo is done by the team |
+| Sprint Retrospective data | `/sprint-retro` | Medium — provides quantitative sprint data, but the retrospective dynamics are human |
+| Repetitive multi-language task implementation | SDD + `/agent-run` | Very high — handlers, repositories, validators, unit tests implemented in 16 languages without human intervention |
+| Spec quality control | `/spec-review` | High — automatically validates that a spec has sufficient detail before implementation |
+| New member onboarding | `/team-onboarding`, `/team-evaluate` | High — personalized onboarding guide + 26-competency questionnaire with GDPR compliance |
+| Infrastructure planning and cost estimation | `/infra-plan`, `/infra-estimate` | High — multi-cloud infrastructure as code with automatic detection and cost analysis |
+| Multi-environment management | `/env-setup`, `/env-promote` | High — DEV/PRE/PRO environments with confidential configuration protection |
 
 ## 🔮 Not yet covered — candidates for the future
 
 Areas that would be naturally automatable with Claude and represent a logical evolution of the workspace:
 
-**Backlog management and refinement:** Claude currently breaks down existing PBIs, but doesn't assist in creating new PBIs from scratch (from client notes, emails, support tickets). A `backlog:capture` skill that converts unstructured inputs into well-formed PBIs with acceptance criteria would be a natural next step.
+**Backlog management and refinement:** Claude currently breaks down existing PBIs, but doesn't assist in creating new PBIs from scratch (from client notes, emails, support tickets). A `backlog-capture` skill that converts unstructured inputs into well-formed PBIs with acceptance criteria would be a natural next step.
 
-**Risk management (risk log):** the workspace detects WIP and burndown alerts, but doesn't maintain a structured risk register with probability, impact, and mitigation plans. A `risk:log` skill that updates the register on each `/sprint:status` and escalates critical risks to the PM would be valuable.
+**Risk management (risk log):** the workspace detects WIP and burndown alerts, but doesn't maintain a structured risk register with probability, impact, and mitigation plans. A `risk-log` skill that updates the register on each `/sprint-status` and escalates critical risks to the PM would be valuable.
 
-**Automatic release notes:** at sprint close, Claude has all the information to generate release notes from completed items and commits. The `/changelog:update` command partially covers this (generates CHANGELOG from commits), but a dedicated `/sprint:release-notes` that combines commits + work items would be the next step.
+**Automatic release notes:** at sprint close, Claude has all the information to generate release notes from completed items and commits. The `/changelog-update` command partially covers this (generates CHANGELOG from commits), but a dedicated `/sprint-release-notes` that combines commits + work items would be the next step.
 
 **Technical debt management:** the workspace doesn't track or prioritize technical debt. A skill that analyzes the backlog for items tagged "refactor" or "tech-debt" and proposes them for maintenance sprints would be a useful addition.
 
-**Pull request integration:** the `/pr:review` command now covers multi-perspective review of PRs, but the workspace doesn't yet track associated PR status in AzDO (reviewers, pending comments, review time). Full integration with Azure DevOps Git API would complete the cycle.
+**Pull request integration:** the `/pr-review` command now covers multi-perspective review of PRs, but the workspace doesn't yet track associated PR status in AzDO (reviewers, pending comments, review time). Full integration with Azure DevOps Git API would complete the cycle.
 
 **Production bug tracking:** the bug escape rate is calculated, but there's no automated flow for prioritizing incoming bugs, linking them to the current sprint, and proposing whether they impact the sprint goal.
 
@@ -74,7 +74,7 @@ This project is designed to grow with community contributions. If you use the wo
 
 ## What types of contributions we accept
 
-**New slash commands** (`.claude/commands/`) — the highest-impact area. If you've automated a Claude conversation that solves a PM problem not yet covered, package it as a command and share it. High-interest examples: `risk:log`, `sprint:release-notes`, `backlog:capture`.
+**New slash commands** (`.claude/commands/`) — the highest-impact area. If you've automated a Claude conversation that solves a PM problem not yet covered, package it as a command and share it. High-interest examples: `risk-log`, `sprint-release-notes`, `backlog-capture`.
 
 **New skills** (`.claude/skills/`) — skills that extend Claude's behavior in new areas (technical debt management, Jira integration, Kanban or SAFe methodology support, new cloud providers).
 
@@ -175,7 +175,7 @@ The test suite continues to pass in mock mode (≥ 93/96). The new command or sk
 Open an Issue on GitHub with one of these prefixes in the title:
 
 ```
-[BUG]     /sprint:status doesn't show alerts when WIP = 0
+[BUG]     /sprint-status doesn't show alerts when WIP = 0
 [FEATURE] Add support for Kanban methodology
 [DOCS]    The SDD example in the README doesn't reflect current behavior
 [QUESTION] How do I configure the workspace for projects with multiple repos?
@@ -193,7 +193,7 @@ Contributions must be respectful, technically sound, and focused on solving real
 
 To adjust Claude's behavior, edit the files in `.claude/skills/` (each skill has its `SKILL.md`) or add new slash commands in `.claude/commands/`.
 
-SDD usage metrics are automatically recorded in `projects/{project}/specs/sdd-metrics.md` when running `/spec:review --check-impl`.
+SDD usage metrics are automatically recorded in `projects/{project}/specs/sdd-metrics.md` when running `/spec-review --check-impl`.
 
 ---
 

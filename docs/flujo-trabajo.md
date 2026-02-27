@@ -240,11 +240,11 @@ Un item se marca como **Blocked** (tag `blocked` en Azure DevOps) cuando:
 ```
 PBI en Backlog
     ↓
-/pbi:decompose {id}        → Tasks creadas con campo "Developer Type" (human | agent:single | agent:team)
+/pbi-decompose {id}        → Tasks creadas con campo "Developer Type" (human | agent-single | agent-team)
     ↓
-/spec:generate {task_id}   → Spec generada para cada task (fichero .spec.md)
+/spec-generate {task_id}   → Spec generada para cada task (fichero .spec.md)
     ↓
-/spec:review {spec_file}   → PM/Tech Lead valida la Spec (calidad, completitud)
+/spec-review {spec_file}   → PM/Tech Lead valida la Spec (calidad, completitud)
     ↓
          ┌──────────────────────────────────────────────┐
          │  ¿Developer Type?                            │
@@ -253,17 +253,17 @@ PBI en Backlog
          │                   Task: Active               │
          │                   Dev implementa normalmente │
          │                                              │
-         │  agent:single   → /agent:run {spec_file}     │
+         │  agent-single   → /agent-run {spec_file}     │
          │                   Agente implementa la Spec  │
          │                   Task: Active → In Review   │
          │                                              │
-         │  agent:team     → /agent:run {spec_file}     │
+         │  agent-team     → /agent-run {spec_file}     │
          │                        --team                │
          │                   Implementador + Tester     │
          │                   en paralelo                │
          └──────────────────────────────────────────────┘
     ↓
-/spec:review {spec_file}   → Pre-check de implementación (--check-impl)
+/spec-review {spec_file}   → Pre-check de implementación (--check-impl)
     ↓
 Code Review (E1)           → SIEMPRE humano (Tech Lead)
     ↓
@@ -318,11 +318,11 @@ Tiempo adicional estimado por SDD en el Daily: +2 minutos
 
 | Comando | Propósito |
 |---------|-----------|
-| `/spec:generate {task_id}` | Generar Spec desde una Task de Azure DevOps |
-| `/spec:implement {spec_file}` | Implementar una Spec (lanza agente o asigna humano) |
-| `/spec:review {spec_file}` | Revisar calidad de Spec o validar implementación |
-| `/spec:status` | Dashboard de todas las Specs del sprint |
-| `/agent:run {spec_file}` | Lanzar agente directamente sobre una Spec |
+| `/spec-generate {task_id}` | Generar Spec desde una Task de Azure DevOps |
+| `/spec-implement {spec_file}` | Implementar una Spec (lanza agente o asigna humano) |
+| `/spec-review {spec_file}` | Revisar calidad de Spec o validar implementación |
+| `/spec-status` | Dashboard de todas las Specs del sprint |
+| `/agent-run {spec_file}` | Lanzar agente directamente sobre una Spec |
 
 ### 8.6 Cuándo NO usar SDD
 

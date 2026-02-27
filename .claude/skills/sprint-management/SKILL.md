@@ -164,5 +164,5 @@ cp /tmp/sprint-items.json "$SPRINT_DIR/snapshots/$DATE-items.json"
 
 ## Referencias
 → Patrones WIQL: `references/wiql-patterns.md`
-→ Comandos disponibles: `/sprint:status`, `/sprint:plan`, `/sprint:review`, `/sprint:retro`
-→ Para descomponer los PBIs del sprint en tasks: `../pbi-decomposition/SKILL.md` y `/pbi:plan-sprint`
+→ Comandos disponibles: `/sprint-status`, `/sprint-plan`, `/sprint-review`, `/sprint-retro`
+→ Para descomponer los PBIs del sprint en tasks: `../pbi-decomposition/SKILL.md` y `/pbi-plan-sprint`

@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/testplan:status --project {p}` o `/testplan:status --project {p} --plan {id}`
+> Uso: `/testplan-status --project {p}` o `/testplan-status --project {p} --plan {id}`
 
 ## Parámetros
 
@@ -67,10 +67,10 @@ description: >
 
 ## Integración
 
-- `/testplan:results` → detalle de resultados de ejecución
-- `/kpi:dashboard` → incluye cobertura de tests como KPI
-- `/sprint:review` → resumen de test status para review
-- `/project:audit` → evalúa madurez de testing
+- `/testplan-results` → detalle de resultados de ejecución
+- `/kpi-dashboard` → incluye cobertura de tests como KPI
+- `/sprint-review` → resumen de test status para review
+- `/project-audit` → evalúa madurez de testing
 
 ## Restricciones
 

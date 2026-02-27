@@ -21,8 +21,8 @@ Un **Developer** en este workspace puede ser:
 | Tipo | Descripción | Cuándo usar |
 |------|-------------|-------------|
 | `human` | Desarrollador humano del equipo | Lógica de dominio compleja, decisiones de arquitectura, código con alta ambigüedad |
-| `agent:single` | Un Claude Code agent ejecutando la Spec | Tasks bien definidas, patrones repetitivos, boilerplate, tests |
-| `agent:team` | Varios agentes Claude especializados en paralelo | Tasks grandes que se benefician de separación (implementer + tester + reviewer) |
+| `agent-single` | Un Claude Code agent ejecutando la Spec | Tasks bien definidas, patrones repetitivos, boilerplate, tests |
+| `agent-team` | Varios agentes Claude especializados en paralelo | Tasks grandes que se benefician de separación (implementer + tester + reviewer) |
 
 La Spec es el **contrato** que hace posible esta dualidad: debe ser suficientemente precisa para que un agente la implemente correctamente, y suficientemente expresiva para que un humano entienda el "por qué".
 
@@ -52,7 +52,7 @@ Cada proyecto define en su `CLAUDE.md` la sección `sdd_layer_assignment`. Si no
 
 ### 1.2 Factores de decisión
 
-**Favorecen `agent:single` o `agent:team`:**
+**Favorecen `agent-single` o `agent-team`:**
 - La task tiene un patrón claro y repetible en el proyecto
 - El output es determinístico dado el input (tests, DTOs, validators, mappers)
 - Existen ejemplos similares en el código fuente que el agente puede seguir
@@ -67,7 +67,7 @@ Cada proyecto define en su `CLAUDE.md` la sección `sdd_layer_assignment`. Si no
 - El PBI tiene criterios de aceptación incompletos o vagos
 - La Task es `E1: Code Review` → **siempre humano**
 
-**Favorecen `agent:team`:**
+**Favorecen `agent-team`:**
 - La Task es grande (> 6h) Y bien definida
 - Beneficia de separación de responsabilidades (un agente implementa, otro escribe tests)
 - La velocidad es crítica y hay budget de tokens disponible
@@ -145,7 +145,7 @@ El agente necesita acceso a:
 2. El código fuente del módulo — para seguir patrones existentes
 3. Los ficheros de reglas relevantes — `docs/reglas-negocio.md`, `projects/{proyecto}/reglas-negocio.md`
 
-### 3.2 Prompt de invocación para `agent:single`
+### 3.2 Prompt de invocación para `agent-single`
 
 ```bash
 # Invocar Claude Code como subagente
@@ -165,7 +165,7 @@ claude --model $CLAUDE_MODEL_AGENT \
    - Si detectas que la Spec es incompleta o ambigua, actualiza 'Blockers' en la Spec y detente"
 ```
 
-### 3.3 Patrón `agent:team` — Agentes especializados en paralelo
+### 3.3 Patrón `agent-team` — Agentes especializados en paralelo
 
 Para tasks grandes, se lanza un equipo de agentes con roles distintos:
 
@@ -260,8 +260,8 @@ Registrar en `projects/{proyecto}/specs/sdd-metrics.md`:
 ```markdown
 | Sprint | Task ID | Developer Type | Spec Quality | Impl OK? | Review Issues | Horas Estimadas | Horas Reales |
 |--------|---------|---------------|--------------|----------|---------------|----------------|--------------|
-| 2026-04 | AB#1234-B3 | agent:single | ✅ Completa | ✅ | 0 | 4h | 3.5h |
-| 2026-04 | AB#1234-D1 | agent:single | ✅ Completa | ✅ | 1 (naming) | 3h | 2h |
+| 2026-04 | AB#1234-B3 | agent-single | ✅ Completa | ✅ | 0 | 4h | 3.5h |
+| 2026-04 | AB#1234-D1 | agent-single | ✅ Completa | ✅ | 1 (naming) | 3h | 2h |
 | 2026-04 | AB#1235-B3 | human | ✅ Completa | ✅ | 0 | 6h | 7h |
 ```
 
@@ -281,4 +281,4 @@ Principio: **"Si el agente falla, la Spec no era suficientemente buena"**
 → Matrix de asignación por capa: `references/layer-assignment-matrix.md`
 → Patrones de agent team: `references/agent-team-patterns.md`
 → Skill base: `../pbi-decomposition/SKILL.md`
-→ Comandos: `/spec:generate`, `/spec:implement`, `/spec:review`, `/spec:status`, `/agent:run`
+→ Comandos: `/spec-generate`, `/spec-implement`, `/spec-review`, `/spec-status`, `/agent-run`

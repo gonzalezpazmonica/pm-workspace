@@ -1,10 +1,10 @@
-# /board:flow
+# /board-flow
 
 Analiza el flujo de trabajo del board: WIP actual, cuellos de botella y métricas de flujo.
 
 ## Uso
 ```
-/board:flow [proyecto]
+/board-flow [proyecto]
 ```
 
 ## Pasos de Ejecución

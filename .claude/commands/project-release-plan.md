@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/project:release-plan --project {p}` o con `--audit {file}`
+> Uso: `/project-release-plan --project {p}` o con `--audit {file}`
 
 ## Parámetros
 
@@ -31,9 +31,9 @@ description: >
 ### 1. Recopilar inputs
 - **Audit report** → acciones priorizadas por tier (🔴🟡🟢)
 - **Backlog existente** → PBIs en Azure DevOps (New + Active)
-- **Dependencias** → `/dependency:map` si hay datos
-- **Riesgos** → `/risk:log` si hay registro
-- **Capacity del equipo** → `equipo.md` + `/report:capacity`
+- **Dependencias** → `/dependency-map` si hay datos
+- **Riesgos** → `/risk-log` si hay registro
+- **Capacity del equipo** → `equipo.md` + `/report-capacity`
 
 ### 2. Agrupar en releases lógicas
 
@@ -99,11 +99,11 @@ R1/#1234 → R2/#1236 → R3/#1250 (estimado: 10 sprints)
 
 ## Integración
 
-- `/project:audit` → (Phase 1) provee el input principal
-- `/project:assign` → (Phase 3) distribuye trabajo del plan
-- `/project:roadmap` → (Phase 4) visualiza el plan como timeline
-- `/dependency:map` → mapa de dependencias entre PBIs
-- `/pbi:decompose` → descomponer PBIs del plan en tasks
+- `/project-audit` → (Phase 1) provee el input principal
+- `/project-assign` → (Phase 3) distribuye trabajo del plan
+- `/project-roadmap` → (Phase 4) visualiza el plan como timeline
+- `/dependency-map` → mapa de dependencias entre PBIs
+- `/pbi-decompose` → descomponer PBIs del plan en tasks
 
 ## Restricciones
 

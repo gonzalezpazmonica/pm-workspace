@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/notify:nctalk {sala} {mensaje}` o `/notify:nctalk --team {msg}`
+> Uso: `/notify-nctalk {sala} {mensaje}` o `/notify-nctalk --team {msg}`
 
 ## Parámetros
 
@@ -59,10 +59,10 @@ Adjunto: sprint-report.pdf (compartido via Nextcloud Files)
 ## Ejemplos
 
 ```bash
-/notify:nctalk --team "Sprint review mañana a las 10:00"
-/notify:nctalk "pm-notifications" "Alerta: 2 CVEs críticos detectados"
-/notify:nctalk --team --file output/reports/sprint-report.pdf
-/notify:nctalk --team --silent  # envía último informe sin notificar
+/notify-nctalk --team "Sprint review mañana a las 10:00"
+/notify-nctalk "pm-notifications" "Alerta: 2 CVEs críticos detectados"
+/notify-nctalk --team --file output/reports/sprint-report.pdf
+/notify-nctalk --team --silent  # envía último informe sin notificar
 ```
 
 ## Restricciones

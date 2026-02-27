@@ -619,7 +619,7 @@ test_sdd() {
   log_section "Dry-run de agente (sin ejecutar código real)"
   if command -v claude &>/dev/null; then
     info "Claude CLI disponible — para ejecutar el agente real:"
-    info "  /agent:run projects/sala-reservas/specs/sprint-2026-04/AB101-B3-create-sala-handler.spec.md"
+    info "  /agent-run projects/sala-reservas/specs/sprint-2026-04/AB101-B3-create-sala-handler.spec.md"
     pass "Claude CLI disponible para SDD real"
   else
     skip "Dry-run de agente" "Claude CLI no instalado"
@@ -775,7 +775,7 @@ fi)
 \`\`\`bash
 cd pm-workspace/
 claude
-# Luego: /sprint:status sala-reservas
+# Luego: /sprint-status sala-reservas
 \`\`\`
 
 ## Próximos pasos
@@ -785,7 +785,7 @@ $(if [[ $TESTS_FAILED -eq 0 ]]; then
   echo ""
   echo "1. Editar \`CLAUDE.md\` con tus datos reales de Azure DevOps"
   echo "2. Clonar tus repos en \`projects/{proyecto}/source/\`"
-  echo "3. Abrir con \`claude\` y ejecutar \`/sprint:status\`"
+  echo "3. Abrir con \`claude\` y ejecutar \`/sprint-status\`"
 else
   echo "⚠️  Hay $TESTS_FAILED tests fallidos. Resolver antes de usar en producción."
 fi)

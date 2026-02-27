@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/dependency:map --project {p}` o `/dependency:map --project {p} --add`
+> Uso: `/dependency-map --project {p}` o `/dependency-map --project {p} --add`
 
 ## Parámetros
 
@@ -63,7 +63,7 @@ Ruta crítica: #1230 → #1234 → #1236 (estimado: 8 días)
 
 ### Modo `--diagram`
 1. Generar Mermaid flowchart con dependencias
-2. Usar `/diagram:generate` para publicar en Draw.io/Miro
+2. Usar `/diagram-generate` para publicar en Draw.io/Miro
 3. Colorear: verde=resuelto, amarillo=en progreso, rojo=bloqueado
 
 ### Modo `--add`
@@ -73,10 +73,10 @@ Ruta crítica: #1230 → #1234 → #1236 (estimado: 8 días)
 
 ## Integración
 
-- `/sprint:plan` → muestra dependencias al planificar
-- `/project:release-plan` → usa mapa para ordenar releases
-- `/board:flow` → detecta cuellos de botella por dependencias
-- `/project:roadmap` → incluye dependencias en timeline
+- `/sprint-plan` → muestra dependencias al planificar
+- `/project-release-plan` → usa mapa para ordenar releases
+- `/board-flow` → detecta cuellos de botella por dependencias
+- `/project-roadmap` → incluye dependencias en timeline
 
 ## Restricciones
 

@@ -93,8 +93,8 @@ mvn test -pl {module}                          # tests de un módulo
 
 ```bash
 mvn versions:display-dependency-updates        # ver actualizaciones
-mvn dependency:analyze                         # dependencias no usadas
-mvn dependency:tree                            # árbol de dependencias
+mvn dependency-analyze                         # dependencias no usadas
+mvn dependency-tree                            # árbol de dependencias
 mvn org.owasp:dependency-check-maven:check     # vulnerabilidades (OWASP)
 ```
 

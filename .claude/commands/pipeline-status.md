@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/pipeline:status --project {p}` o `/pipeline:status --project {p} --pipeline {name}`
+> Uso: `/pipeline-status --project {p}` o `/pipeline-status --project {p} --pipeline {name}`
 
 ## Parámetros
 
@@ -52,18 +52,18 @@ description: >
 
 ### Alertas activas
 - backend-ci: Coverage 72% (< 80% mínimo)
-- frontend-ci: Build #89 fallida hace 1d — revisar con `/pipeline:logs --project {p} --build 89`
+- frontend-ci: Build #89 fallida hace 1d — revisar con `/pipeline-logs --project {p} --build 89`
 ```
 
 ## Integración con otros comandos
 
-- `/pipeline:logs --build {id}` → ver logs de build fallida
-- `/pipeline:run {pipeline}` → re-ejecutar pipeline
-- `/kpi:dashboard` → incluye métricas de pipelines
-- `/sprint:status` → muestra alertas de CI/CD si hay fallos
+- `/pipeline-logs --build {id}` → ver logs de build fallida
+- `/pipeline-run {pipeline}` → re-ejecutar pipeline
+- `/kpi-dashboard` → incluye métricas de pipelines
+- `/sprint-status` → muestra alertas de CI/CD si hay fallos
 
 ## Restricciones
 
 - Solo lectura — no modifica nada
-- Si no hay pipelines configuradas → informar y sugerir `/pipeline:create`
+- Si no hay pipelines configuradas → informar y sugerir `/pipeline-create`
 - Máximo 20 pipelines mostradas (ordenar por última actividad)

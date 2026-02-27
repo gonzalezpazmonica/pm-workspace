@@ -98,7 +98,7 @@ Ver composición completa en `equipo.md`.
 
 **Estado:** 🟢 En buen camino
 
-Para ver el estado detallado ejecutar: `/sprint:status proyecto-alpha`
+Para ver el estado detallado ejecutar: `/sprint-status proyecto-alpha`
 
 ---
 
@@ -202,15 +202,15 @@ sdd_config:
 
   # Tipos de task por defecto para este proyecto (basado en el stack)
   default_agent_tasks:
-    - "Command Handler (CRUD)"         # Application layer → agent:single
-    - "Query Handler"                  # Application layer → agent:single
-    - "FluentValidation Validator"     # Application layer → agent:single
-    - "AutoMapper Profile"             # Application layer → agent:single
-    - "DTO / Request / Response"       # Cualquier capa → agent:single (haiku)
-    - "Repository EF Core"             # Infrastructure → agent:single
-    - "Entity Configuration EF Core"   # Infrastructure → agent:single
-    - "Controller CRUD"                # API layer → agent:single
-    - "Unit Tests Application"         # Tests → agent:single (haiku)
+    - "Command Handler (CRUD)"         # Application layer → agent-single
+    - "Query Handler"                  # Application layer → agent-single
+    - "FluentValidation Validator"     # Application layer → agent-single
+    - "AutoMapper Profile"             # Application layer → agent-single
+    - "DTO / Request / Response"       # Cualquier capa → agent-single (haiku)
+    - "Repository EF Core"             # Infrastructure → agent-single
+    - "Entity Configuration EF Core"   # Infrastructure → agent-single
+    - "Controller CRUD"                # API layer → agent-single
+    - "Unit Tests Application"         # Tests → agent-single (haiku)
 
   default_human_tasks:
     - "Domain Entity (nuevo agregado)" # Domain → human

@@ -2,66 +2,66 @@
 
 ## Sprint y Reporting
 ```
-/sprint:status [--project]        Estado del sprint con alertas
-/sprint:plan [--project]          Asistente de Sprint Planning
-/sprint:review [--project]        Resumen para Sprint Review
-/sprint:retro [--project]         Retrospectiva con datos
-/report:hours [--project]         Informe de horas (Excel)
-/report:executive                 Informe multi-proyecto (PPT/Word)
-/report:capacity [--project]      Estado de capacidades
-/team:workload [--project]        Carga por persona
-/board:flow [--project]           Cycle time y cuellos de botella
-/kpi:dashboard [--project]        Dashboard KPIs completo
+/sprint-status [--project]        Estado del sprint con alertas
+/sprint-plan [--project]          Asistente de Sprint Planning
+/sprint-review [--project]        Resumen para Sprint Review
+/sprint-retro [--project]         Retrospectiva con datos
+/report-hours [--project]         Informe de horas (Excel)
+/report-executive                 Informe multi-proyecto (PPT/Word)
+/report-capacity [--project]      Estado de capacidades
+/team-workload [--project]        Carga por persona
+/board-flow [--project]           Cycle time y cuellos de botella
+/kpi-dashboard [--project]        Dashboard KPIs completo
 ```
 
 ## PBI Decomposition
 ```
-/pbi:decompose {id}               Descomponer un PBI en tasks
-/pbi:decompose-batch {id1,id2}    Descomponer varios PBIs
-/pbi:assign {pbi_id}              (Re)asignar tasks de un PBI
-/pbi:plan-sprint                  Planning completo del sprint
+/pbi-decompose {id}               Descomponer un PBI en tasks
+/pbi-decompose-batch {id1,id2}    Descomponer varios PBIs
+/pbi-assign {pbi_id}              (Re)asignar tasks de un PBI
+/pbi-plan-sprint                  Planning completo del sprint
 ```
 
 ## Spec-Driven Development
 ```
-/spec:generate {task_id}          Generar Spec desde Task de Azure DevOps
-/spec:implement {spec_file}       Implementar Spec (agente o humano)
-/spec:review {spec_file}          Revisar calidad de Spec o implementación
-/spec:status [--project]          Dashboard de Specs del sprint
-/agent:run {spec_file} [--team]   Lanzar agente Claude sobre una Spec
+/spec-generate {task_id}          Generar Spec desde Task de Azure DevOps
+/spec-implement {spec_file}       Implementar Spec (agente o humano)
+/spec-review {spec_file}          Revisar calidad de Spec o implementación
+/spec-status [--project]          Dashboard de Specs del sprint
+/agent-run {spec_file} [--team]   Lanzar agente Claude sobre una Spec
 ```
 
 ## Product Discovery
 ```
-/pbi:jtbd {id}                   Generar JTBD (Jobs to be Done) para un PBI
-/pbi:prd {id}                    Generar PRD (Product Requirements) para un PBI
+/pbi-jtbd {id}                   Generar JTBD (Jobs to be Done) para un PBI
+/pbi-prd {id}                    Generar PRD (Product Requirements) para un PBI
 ```
 
 ## Calidad y Operaciones
 ```
-/pr:review [PR]                  Revisión multi-perspectiva de PR (BA, Dev, QA, Sec, DevOps)
-/context:load                    Carga de contexto al iniciar sesión (big picture)
-/session:save                    Guarda decisiones y pendientes antes de /clear
-/changelog:update                Actualizar CHANGELOG.md desde commits convencionales
-/evaluate:repo [URL]             Auditoría de seguridad y calidad de repo externo
+/pr-review [PR]                  Revisión multi-perspectiva de PR (BA, Dev, QA, Sec, DevOps)
+/context-load                    Carga de contexto al iniciar sesión (big picture)
+/session-save                    Guarda decisiones y pendientes antes de /clear
+/changelog-update                Actualizar CHANGELOG.md desde commits convencionales
+/evaluate-repo [URL]             Auditoría de seguridad y calidad de repo externo
 ```
 
 ## Gestión de Equipo
 ```
-/team:onboarding {nombre}       Guía de onboarding personalizada (contexto + código)
-/team:evaluate {nombre}         Cuestionario interactivo de competencias → perfil en equipo.md
-/team:privacy-notice {nombre}   Nota informativa RGPD obligatoria antes de evaluar
+/team-onboarding {nombre}       Guía de onboarding personalizada (contexto + código)
+/team-evaluate {nombre}         Cuestionario interactivo de competencias → perfil en equipo.md
+/team-privacy-notice {nombre}   Nota informativa RGPD obligatoria antes de evaluar
 ```
 
 ## Infraestructura y Entornos
 ```
-/infra:detect {proyecto} {env}  Detectar infraestructura existente
-/infra:plan {proyecto} {env}    Generar plan de infraestructura
-/infra:estimate {proyecto}      Estimar costes por entorno
-/infra:scale {recurso}          Proponer escalado (requiere aprobación humana)
-/infra:status {proyecto}        Estado de infraestructura actual
-/env:setup {proyecto}           Configurar entornos (DEV/PRE/PRO)
-/env:promote {proyecto} {o} {d} Promover entre entornos (PRE→PRO requiere aprobación)
+/infra-detect {proyecto} {env}  Detectar infraestructura existente
+/infra-plan {proyecto} {env}    Generar plan de infraestructura
+/infra-estimate {proyecto}      Estimar costes por entorno
+/infra-scale {recurso}          Proponer escalado (requiere aprobación humana)
+/infra-status {proyecto}        Estado de infraestructura actual
+/env-setup {proyecto}           Configurar entornos (DEV/PRE/PRO)
+/env-promote {proyecto} {o} {d} Promover entre entornos (PRE→PRO requiere aprobación)
 ```
 
 ---
@@ -112,7 +112,7 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 ### Flujo SDD con agentes en paralelo
 
 ```
-Usuario: /pbi:plan-sprint --project Alpha
+Usuario: /pbi-plan-sprint --project Alpha
 
   ┌─ business-analyst (Opus) ─────────────────┐
   │  Analiza PBIs candidatos                  │   EN PARALELO
@@ -167,7 +167,7 @@ Usuario: /pbi:plan-sprint --project Alpha
 ### Flujo de Infraestructura
 
 ```
-PM: /infra:plan {proyecto} {env}
+PM: /infra-plan {proyecto} {env}
 
   ┌─ architect (Opus) ────────────────────────┐
   │  Define requisitos técnicos               │
@@ -207,6 +207,6 @@ Para ajustar el comportamiento de Claude, edita los ficheros en:
 - `.claude/commands/` — slash commands para flujos de trabajo
 - `.claude/rules/` — reglas modulares cargadas bajo demanda
 
-Las métricas de uso de SDD se registran automáticamente en `projects/{proyecto}/specs/sdd-metrics.md` al ejecutar `/spec:review --check-impl`.
+Las métricas de uso de SDD se registran automáticamente en `projects/{proyecto}/specs/sdd-metrics.md` al ejecutar `/spec-review --check-impl`.
 
 ---

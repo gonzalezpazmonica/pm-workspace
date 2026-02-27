@@ -10,7 +10,7 @@ Before you start, please read this document and the [Code of Conduct](CODE_OF_CO
 
 The highest-impact contributions are:
 
-**New slash commands** (`.claude/commands/`) — if you've had a conversation with Claude that solved a PM problem not yet covered, package it as a reusable command. Commands currently in high demand: `risk:log`, `sprint:release-notes`, `backlog:capture`, `pr:status`, `tech-debt:review`. See [ROADMAP.md](docs/ROADMAP.md) for the full list.
+**New slash commands** (`.claude/commands/`) — if you've had a conversation with Claude that solved a PM problem not yet covered, package it as a reusable command. Commands currently in high demand: `risk-log`, `sprint-release-notes`, `backlog-capture`, `pr-status`, `tech-debt-review`. See [ROADMAP.md](docs/ROADMAP.md) for the full list.
 
 **New skills** (`.claude/skills/`) — skills that extend Claude's behaviour into new territory: Jira integration, Kanban / SAFe methodology support, non-.NET stacks (Java Spring, Node.js, Python FastAPI), or new reporting formats.
 
@@ -72,7 +72,7 @@ Every new command must include:
 4. At least one usage example, ideally showing both the user's input and Claude's response.
 5. A reference to any skills it depends on.
 
-Follow the naming convention of existing commands: `namespace:action` (e.g. `sprint:status`, `pbi:decompose`, `spec:generate`).
+Follow the naming convention of existing commands: `namespace:action` (e.g. `sprint-status`, `pbi-decompose`, `spec-generate`).
 
 ### Skills (`.claude/skills/nombre-skill/`)
 
@@ -124,7 +124,7 @@ Open a GitHub Issue using one of the provided templates. Choose **Bug report** o
 Use these title prefixes if you write the issue manually:
 
 ```
-[BUG]      /sprint:status does not show alerts when WIP = 0
+[BUG]      /sprint-status does not show alerts when WIP = 0
 [FEATURE]  Add support for Kanban methodology
 [DOCS]     SDD example in README does not match current behaviour
 [QUESTION] How to configure workspace for multi-repo projects?

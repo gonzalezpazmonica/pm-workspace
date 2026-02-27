@@ -209,7 +209,7 @@ throughput_semanal = items_done / semanas_del_período
 
 ## Dashboard Completo — Tabla de KPIs
 
-Formato para el comando `/kpi:dashboard`:
+Formato para el comando `/kpi-dashboard`:
 
 | KPI | Valor actual | Referencia | Semáforo | Tendencia |
 |-----|-------------|------------|----------|-----------|

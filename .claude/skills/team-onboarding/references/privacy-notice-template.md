@@ -121,5 +121,5 @@ He leído y comprendo esta nota informativa sobre el tratamiento de mis datos de
 
 ---
 
-*Documento generado por pm-workspace — `/team:privacy-notice`*
+*Documento generado por pm-workspace — `/team-privacy-notice`*
 *Este documento no constituye un contrato ni solicita consentimiento. Informa sobre un tratamiento basado en interés legítimo (Art. 6.1.f RGPD).*

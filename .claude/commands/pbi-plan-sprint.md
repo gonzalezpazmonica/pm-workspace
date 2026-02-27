@@ -1,10 +1,10 @@
-# /pbi:plan-sprint
+# /pbi-plan-sprint
 
 Flujo completo de Sprint Planning asistido por IA: calcula capacity, propone qué PBIs caben, descompone en tasks y asigna todo de forma equilibrada.
 
 ## Uso
 ```
-/pbi:plan-sprint [--project {nombre}] [--sprint "Sprint 2026-XX"] [--max-sp N]
+/pbi-plan-sprint [--project {nombre}] [--sprint "Sprint 2026-XX"] [--max-sp N]
 ```
 
 - `--project`: Proyecto (default: el del CLAUDE.md raíz)
@@ -24,7 +24,7 @@ Flujo completo de Sprint Planning asistido por IA: calcula capacity, propone qu�
 
 ```bash
 # Capacity por persona para el sprint objetivo
-# (misma lógica que /report:capacity)
+# (misma lógica que /report-capacity)
 ./scripts/azdevops-queries.sh capacities {proyecto} "{equipo}"
 python3 scripts/capacity-calculator.py \
   --sprint-start {fecha_inicio} \
@@ -56,7 +56,7 @@ Si el último PBI que cabe tiene muchos SP, considerar si vale la pena incluir u
 
 ### Paso 4 — Descomponer y Asignar cada PBI
 
-Para cada PBI seleccionado, ejecutar las Fases 1-5 de `pbi-decomposition/SKILL.md` en modo batch (ver `/pbi:decompose-batch`), acumulando el estado de carga entre PBIs.
+Para cada PBI seleccionado, ejecutar las Fases 1-5 de `pbi-decomposition/SKILL.md` en modo batch (ver `/pbi-decompose-batch`), acumulando el estado de carga entre PBIs.
 
 ### Paso 5 — Presentar el Plan Completo
 

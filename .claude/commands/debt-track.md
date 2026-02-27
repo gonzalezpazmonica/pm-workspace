@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/debt:track --project {p}` o `/debt:track --project {p} --add`
+> Uso: `/debt-track --project {p}` o `/debt-track --project {p} --add`
 
 Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
@@ -17,7 +17,7 @@ Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 /debt:track — Registro de deuda técnica
+🚀 /debt-track — Registro de deuda técnica
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -34,7 +34,7 @@ Si falta `--project`:
 ```
 ❌ Falta parámetro obligatorio: --project {nombre}
    Proyectos disponibles: [listar de projects/*/CLAUDE.md]
-   Uso: /debt:track --project nombre
+   Uso: /debt-track --project nombre
 ```
 
 ## 3. Verificar prerequisitos
@@ -95,16 +95,16 @@ Recomendación: Incluir DT-01 en el próximo sprint
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ /debt:track — Completado
+✅ /debt-track — Completado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📊 Debt ratio: X% | {N} abiertos | Tendencia: 📈/📉/→
 ```
 
 ## Integración
 
-- `/kpi:dashboard` → incluye debt ratio como KPI
-- `/sprint:plan` → sugiere items de deuda para sprint
-- `/project:audit` → usa debt:track para evaluar salud
+- `/kpi-dashboard` → incluye debt ratio como KPI
+- `/sprint-plan` → sugiere items de deuda para sprint
+- `/project-audit` → usa debt-track para evaluar salud
 
 ## Restricciones
 
