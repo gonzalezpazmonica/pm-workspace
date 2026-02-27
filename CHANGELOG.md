@@ -13,6 +13,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.13.1] — 2026-02-27
+
+Anti-improvisation: commands now strictly execute only what their `.md` file defines. `/help --setup` rewritten with explicit stack detection (GitHub-only vs Azure DevOps) and conditional checks.
+
+### Changed
+
+**`/help` rewritten** — Stack detection from `CLAUDE.local.md`, conditional checks per stack, catalog split by availability. No more improvised edits to `CLAUDE.local.md`.
+**`command-ux-feedback.md` §8** — New anti-improvisation rule: commands ONLY perform defined actions, undefined scenarios → error with suggestion.
+**CLAUDE.md rule #17** — Anti-improvisation elevated to critical rule.
+
+---
+
 ## [0.13.0] — 2026-02-27
 
 Context health and operational resilience: proactive context management to prevent saturation. Output-first pattern, subagent delegation, compaction suggestions, session focus. pm-workflow.md slimmed from 140→42 lines. Auto-loaded context: 899 lines (was 2,109 pre-v0.12.0).
@@ -400,7 +412,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.1...HEAD
+[0.13.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.11.1...v0.12.0
 [0.11.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.11.0...v0.11.1

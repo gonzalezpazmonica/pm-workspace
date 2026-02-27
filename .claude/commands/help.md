@@ -17,109 +17,125 @@ Muestra la ayuda de PM-Workspace. Pasos:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## 2. Primeros pasos (siempre, o si $ARGUMENTS = --setup)
+## 2. Detección de stack
 
-Comprobar configuración y mostrar estado de cada check:
+Leer `CLAUDE.local.md` en la raíz del workspace. Buscar la sección `## ⚙️ Stack del Workspace`.
 
-```
-Verificando configuración del workspace...
-```
+**Si existe y contiene `AZURE_DEVOPS_ENABLED = false`:**
+- Stack = **GitHub-only**
+- Mostrar: `📦 Stack detectado: GitHub-only (Azure DevOps desactivado)`
 
-Checks (mostrar ✅ o ❌ por cada uno):
-- PAT: `test -f $HOME/.azure/devops-pat`
-- Org: AZURE_DEVOPS_ORG_URL no contiene "MI-ORGANIZACION"
-- PM: AZURE_DEVOPS_PM_USER no es placeholder
-- Proyecto: existe `projects/*/CLAUDE.md`
-- Equipo: existe `projects/*/equipo.md`
-- Test: existe `output/test-workspace-*.md`
+**Si existe y contiene `AZURE_DEVOPS_ENABLED = true` (o no tiene esa variable):**
+- Stack = **Azure DevOps**
+- Mostrar: `📦 Stack detectado: Azure DevOps`
+
+**Si la sección NO existe en `CLAUDE.local.md`:**
+- Stack = **Azure DevOps** (por defecto, ya que CLAUDE.md define constantes Azure DevOps)
+- Mostrar: `📦 Stack detectado: Azure DevOps (por defecto)`
+
+## 3. Setup (siempre, o si $ARGUMENTS = --setup)
+
+Mostrar: `Verificando configuración del workspace...`
+
+### 3a. Checks comunes (ambos stacks)
+
+Mostrar ✅ o ❌ por cada uno:
+- **Proyecto:** existe `projects/*/CLAUDE.md`
+- **Equipo:** existe `projects/*/equipo.md`
+- **Test:** existe `output/test-workspace-*.md`
+
+### 3b. Checks Azure DevOps (SOLO si stack = Azure DevOps)
+
+Mostrar ✅ o ❌ por cada uno:
+- **PAT:** `test -f $HOME/.azure/devops-pat`
+- **Org:** AZURE_DEVOPS_ORG_URL no contiene "MI-ORGANIZACION"
+- **PM:** AZURE_DEVOPS_PM_USER no es placeholder
+
+### 3c. Checks GitHub-only (SOLO si stack = GitHub-only)
+
+Mostrar ✅ o ❌ por cada uno:
+- **GitHub Connector:** `GITHUB_CONNECTOR = true` en CLAUDE.local.md
+- **Repo accesible:** el directorio raíz es un repo git (`test -d .git`)
 
 ### Si hay ❌ → Modo interactivo
 
-Para CADA check fallido, seguir este flujo:
-
+Para CADA check fallido, seguir este flujo exacto:
 1. Explicar qué es y por qué es necesario
 2. Preguntar si quiere configurarlo ahora
-3. Si dice sí → pedir el dato y guardarlo en el fichero correcto
+3. Si dice sí → pedir el dato y guardarlo en el fichero indicado abajo
 4. Confirmar que se guardó
 
-**PAT faltante:**
-- Explicar: "El Personal Access Token permite a pm-workspace conectarse a Azure DevOps"
-- Pedir: "Pega tu PAT de Azure DevOps (dev.azure.com → User Settings → Personal Access Tokens)"
-- Guardar en: `$HOME/.azure/devops-pat` (sin salto de línea final)
-- Verificar: longitud > 20 chars, sin espacios
-
-**Org placeholder:**
-- Explicar: "La URL de tu organización es necesaria para las llamadas a la API"
-- Pedir: "¿Cuál es tu URL? Ejemplo: https://dev.azure.com/mi-empresa"
-- Guardar en: CLAUDE.md → reemplazar "MI-ORGANIZACION" por el valor real
-
-**PM user placeholder:**
-- Explicar: "Tu email en Azure DevOps identifica tus items asignados"
-- Pedir: "¿Cuál es tu email en Azure DevOps?"
-- Guardar en: CLAUDE.md → reemplazar placeholder en AZURE_DEVOPS_PM_USER
-
-**Proyecto faltante:**
+**Proyecto faltante** (ambos stacks):
 - Explicar: "Cada proyecto necesita su propio CLAUDE.md con la configuración específica"
-- Preguntar: "¿Cómo se llama tu proyecto en Azure DevOps?"
+- Preguntar: "¿Cómo se llama tu proyecto?"
 - Crear: `projects/{nombre}/CLAUDE.md` desde plantilla
-- Mostrar: contenido creado para que el PM lo revise
+- Añadir entrada en `CLAUDE.local.md` tabla de Proyectos Activos
 
-**Equipo faltante:**
+**Equipo faltante** (ambos stacks):
 - Explicar: "equipo.md contiene los miembros y sus competencias"
 - Preguntar: "¿Quieres crear el fichero de equipo ahora?"
 - Si sí: pedir nombre, email y rol de cada miembro (loop hasta que diga "fin")
 - Guardar: `projects/{nombre}/equipo.md`
 
-**Test no ejecutado:**
+**Test no ejecutado** (ambos stacks):
 - Explicar: "El test del workspace verifica que todo funciona"
 - Preguntar: "¿Quieres ejecutar el test ahora? (puede tardar ~2 min)"
 - Si sí: ejecutar `bash scripts/test-workspace.sh --mock`
 
+**PAT faltante** (solo Azure DevOps):
+- Explicar: "El Personal Access Token permite conectarse a Azure DevOps"
+- Pedir: "Pega tu PAT (dev.azure.com → User Settings → Personal Access Tokens)"
+- Guardar en: `$HOME/.azure/devops-pat` (sin salto de línea final)
+- Verificar: longitud > 20 chars, sin espacios
+
+**Org placeholder** (solo Azure DevOps):
+- Pedir: "¿Cuál es tu URL? Ejemplo: https://dev.azure.com/mi-empresa"
+- Guardar en: CLAUDE.md → reemplazar "MI-ORGANIZACION" por el valor real
+
+**PM user placeholder** (solo Azure DevOps):
+- Pedir: "¿Cuál es tu email en Azure DevOps?"
+- Guardar en: CLAUDE.md → reemplazar placeholder en AZURE_DEVOPS_PM_USER
+
+**GitHub Connector faltante** (solo GitHub-only):
+- Explicar: "El conector GitHub en claude.ai da acceso enriquecido a repos e issues"
+- Mostrar: "Actívalo en claude.ai/settings/connectors → GitHub"
+- NO modificar ficheros — solo informar al usuario
+
 ### Después de resolver todos los ❌
 
-Mostrar de nuevo el resumen actualizado:
 ```
-✅ Verificación completada — 6/6 checks OK
-```
-
-Si todo estaba OK desde el principio:
-```
-✅ Workspace configurado correctamente
+✅ Verificación completada — N/N checks OK (stack: {tipo})
 ```
 
-## 3. Catálogo (si $ARGUMENTS no es --setup, o después del setup)
+Si todo OK desde el principio:
+```
+✅ Workspace configurado correctamente (stack: {tipo})
+```
 
-Mostrar los comandos por categoría (nombre, params, descripción breve):
+## 4. Catálogo (si $ARGUMENTS no es --setup, o después del setup)
 
-**Sprint y Reporting (10):** sprint:status, sprint:plan, sprint:review, sprint:retro, report:hours, report:executive, report:capacity, team:workload, board:flow, kpi:dashboard
-**PBI y Discovery (6):** pbi:decompose {id}, pbi:decompose-batch {ids}, pbi:assign {pbi_id}, pbi:plan-sprint, pbi:jtbd {id}, pbi:prd {id}
-**SDD (5):** spec:generate {task_id}, spec:implement {spec}, spec:review {spec}, spec:status, agent:run {spec}
-**Calidad y PRs (4):** pr:review [PR], pr:pending [--project p], evaluate:repo [URL], changelog:update
-**Equipo (3):** team:privacy-notice {nombre} --project {p}, team:onboarding {nombre} --project {p}, team:evaluate {nombre} --project {p}
-**Infra (7):** infra:detect {proy} {env}, infra:plan {proy} {env}, infra:estimate {proy}, infra:scale {recurso}, infra:status {proy}, env:setup {proy}, env:promote {proy} {orig} {dest}
-**Diagramas (4):** diagram:generate {proy}, diagram:import {source} --project {p}, diagram:config --tool {t}, diagram:status
-**Pipelines (5):** pipeline:status --project {p}, pipeline:run --project {p} {pipeline}, pipeline:logs --project {p} --build {id}, pipeline:create --project {p} --name {n} --repo {r}, pipeline:artifacts --project {p} --build {id}
-**Azure Repos (6):** repos:list --project {p}, repos:branches --project {p} --repo {r}, repos:pr-create --project {p} --repo {r}, repos:pr-list --project {p}, repos:pr-review --project {p} --pr {id}, repos:search --project {p} {query}
-**Governance (5):** debt:track --project {p}, kpi:dora --project {p}, dependency:map --project {p}, retro:actions --project {p}, risk:log --project {p}
-**Legacy & Capture (3):** legacy:assess --project {p}, backlog:capture --project {p} --source {tipo}, sprint:release-notes --project {p}
-**Project Onboarding (5):** project:audit --project {p}, project:release-plan --project {p}, project:assign --project {p}, project:roadmap --project {p}, project:kickoff --project {p}
-**DevOps Extended (5):** wiki:publish {file} --project {p}, wiki:sync --project {p}, testplan:status --project {p}, testplan:results --project {p} --run {id}, security:alerts --project {p}
-**Mensajería e Inbox (6):** notify:whatsapp {contacto} {msg}, whatsapp:search {query}, notify:nctalk {sala} {msg}, nctalk:search {query}, inbox:check, inbox:start --interval {min}
-**Conectores (12):** notify:slack {canal} {msg}, slack:search {query}, github:activity {repo}, github:issues {repo}, sentry:health --project {p}, sentry:bugs --project {p}, gdrive:upload {file} --project {p}, linear:sync --project {p}, jira:sync --project {p}, confluence:publish {file} --project {p}, notion:sync --project {p}, figma:extract {url} --project {p}
-**Utilidades (2):** context:load, help [filtro]
+Mostrar comandos por categoría. Referencia completa: `.claude/commands/references/command-catalog.md`
 
-Si $ARGUMENTS filtra (sprint, pbi, sdd, pr, team, infra, diagram, pipeline, repos, governance, debt, dora, risk, dependency, retro, legacy, capture, backlog, release-notes, onboarding, audit, roadmap, kickoff, wiki, testplan, security, devops, whatsapp, nctalk, nextcloud, inbox, messaging, voice, slack, github, sentry, gdrive, linear, jira, confluence, atlassian, notion, figma, connectors, --setup), mostrar solo esa sección.
+**GitHub-only:** mostrar solo categorías que NO requieren Azure DevOps (Calidad, Governance, Legacy, Onboarding, Diagramas, Infra, Mensajería, Conectores, Utilidades = ~41 cmds). Listar las categorías Azure DevOps al final como "No disponibles (requieren Azure DevOps)".
+**Azure DevOps:** mostrar todas las categorías (81 comandos).
 
-## 4. Banner de fin
+Siguiente paso recomendado:
+- GitHub-only: `Prueba: /project:audit --project {nombre} · /evaluate:repo {url}`
+- Azure DevOps: `Prueba: /sprint:status --project {nombre} · /project:audit --project {nombre}`
+
+## 5. Banner de fin
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ /help — Fin del catálogo (81 comandos, 13 skills, 24 agentes)
+✅ /help — Fin del catálogo ({N} disponibles / 81 total — stack: {tipo})
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## 5. Restricciones
+## 6. Restricciones
 
-- Solo lectura (salvo modo interactivo de --setup)
+- Solo lectura (salvo modo interactivo de --setup para los ficheros listados arriba)
 - No mostrar secrets (PAT, tokens)
-- El modo interactivo SOLO modifica ficheros de configuración, nunca código
+- El modo interactivo SOLO modifica los ficheros indicados explícitamente en cada check
+- **NO crear secciones, variables o ficheros no definidos en este comando**
+- **NO editar CLAUDE.local.md** salvo añadir entrada en tabla de Proyectos Activos al crear un proyecto nuevo
+- Si $ARGUMENTS filtra por categoría, mostrar solo esa sección del catálogo
