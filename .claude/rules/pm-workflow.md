@@ -78,6 +78,9 @@
 | `/dependency:map {--project p}` | Mapa de dependencias entre PBIs/Features/equipos con alertas de bloqueo |
 | `/retro:actions {--project p}` | Seguimiento de action items de retrospectivas entre sprints |
 | `/risk:log {--project p}` | Registro de riesgos: probabilidad, impacto, mitigación, risk burndown |
+| `/legacy:assess {--project p}` | Evaluación de aplicación legacy: complejidad, riesgo, roadmap de modernización (strangler fig) |
+| `/backlog:capture {--project p} {--source tipo}` | Crear PBIs desde input desestructurado: emails, reuniones, Slack, tickets de soporte |
+| `/sprint:release-notes {--project p}` | Generar release notes automáticas combinando work items + commits + PRs |
 | `/notify:slack {canal} {msg}` | Enviar notificación o informe al canal de Slack del proyecto |
 | `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
 | `/github:activity {repo}` | Analizar actividad GitHub: PRs, commits, contributors |
