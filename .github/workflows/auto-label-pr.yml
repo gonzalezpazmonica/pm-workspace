@@ -1,0 +1,89 @@
+name: Auto-label PRs by branch prefix
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label PR based on branch prefix
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.payload.pull_request.head.ref;
+            const labels = [];
+
+            // Map branch prefixes to labels
+            const prefixMap = {
+              'feature/': 'feature',
+              'fix/': 'fix',
+              'docs/': 'docs',
+              'refactor/': 'refactor',
+              'test/': 'test',
+              'release/': 'release',
+              'hotfix/': 'hotfix',
+              'chore/': 'chore'
+            };
+
+            for (const [prefix, label] of Object.entries(prefixMap)) {
+              if (branch.startsWith(prefix)) {
+                labels.push(label);
+                break;
+              }
+            }
+
+            // Add size label based on changed files
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+
+            const totalChanges = files.reduce((sum, f) => sum + f.additions + f.deletions, 0);
+            if (totalChanges <= 10) labels.push('size/XS');
+            else if (totalChanges <= 50) labels.push('size/S');
+            else if (totalChanges <= 200) labels.push('size/M');
+            else if (totalChanges <= 500) labels.push('size/L');
+            else labels.push('size/XL');
+
+            if (labels.length > 0) {
+              // Ensure labels exist
+              for (const label of labels) {
+                try {
+                  await github.rest.issues.getLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    name: label
+                  });
+                } catch {
+                  const colors = {
+                    'feature': '0E8A16', 'fix': 'D93F0B', 'docs': '0075CA',
+                    'refactor': 'FBCA04', 'test': '6F42C1', 'release': '006B75',
+                    'hotfix': 'B60205', 'chore': 'EDEDED',
+                    'size/XS': 'C2E0C6', 'size/S': '76D27D',
+                    'size/M': 'F9D0C4', 'size/L': 'E99695', 'size/XL': 'D93F0B'
+                  };
+                  await github.rest.issues.createLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    name: label,
+                    color: colors[label] || 'EDEDED'
+                  });
+                }
+              }
+
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: labels
+              });
+
+              console.log(`Added labels: ${labels.join(', ')}`);
+            }
