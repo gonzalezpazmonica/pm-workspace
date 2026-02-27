@@ -40,7 +40,8 @@
 ## Quality and Operations
 ```
 /pr:review [PR]                  Multi-perspective PR review (BA, Dev, QA, Sec, DevOps)
-/context:load                    Load session context on startup
+/context:load                    Load session context on startup (big picture)
+/session:save                    Save decisions and pending tasks before /clear
 /changelog:update                Update CHANGELOG.md from conventional commits
 /evaluate:repo [URL]             Security and quality audit of external repo
 ```
