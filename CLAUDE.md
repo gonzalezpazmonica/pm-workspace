@@ -41,8 +41,8 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← 24 subagentes → @.claude/rules/domain/agents-catalog.md
-│   ├── commands/                  ← 86 slash commands (+7 infra en skill) → @.claude/rules/domain/pm-workflow.md
-│   ├── hooks/                     ← 8 hooks programáticos (seguridad, TDD gate, lint, quality gates)
+│   ├── commands/                  ← 86 slash commands → @.claude/rules/domain/pm-workflow.md
+│   ├── hooks/                     ← 9 hooks programáticos → .claude/settings.json
 │   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
 │   ├── rules/languages/           ← Convenciones por lenguaje (auto-carga por paths: frontmatter)
 │   ├── settings.json              ← Hooks config + Agent Teams env
@@ -56,15 +56,7 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 
 ## 📋 Proyectos Activos
 
-> Los proyectos reales están en `CLAUDE.local.md` (git-ignorado).
-
-| Proyecto | Azure DevOps | CLAUDE.md específico |
-|---|---|---|
-| Alpha (ejemplo) | ProyectoAlpha | `projects/proyecto-alpha/CLAUDE.md` |
-| Beta (ejemplo) | ProyectoBeta | `projects/proyecto-beta/CLAUDE.md` |
-| Sala Reservas (test) | SalaReservas | `projects/sala-reservas/CLAUDE.md` |
-
-Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
+> Proyectos reales en `CLAUDE.local.md` (git-ignorado). Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico** en `projects/{nombre}/CLAUDE.md`.
 
 ---
 
@@ -78,117 +70,61 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 6. **Si algo se repite 2+ veces**, documentarlo en la skill correspondiente
 7. **PBIs**: propuesta completa antes de crear tasks; NUNCA crear sin confirmación
 8. **SDD**: NUNCA lanzar agente sin Spec aprobada; Code Review (E1) SIEMPRE humano
-9. **Secrets**: NUNCA secrets en el repo — usar vault o `config.local/` · ver `@.claude/rules/domain/confidentiality-config.md`
-10. **Infraestructura**: NUNCA apply en PRE/PRO sin aprobación; tier mínimo; detectar antes de crear · ver `@.claude/rules/domain/infrastructure-as-code.md`
+9. **Secrets**: NUNCA secrets en el repo — usar vault o `config.local/` · `@.claude/rules/domain/confidentiality-config.md`
+10. **Infra**: NUNCA apply en PRE/PRO sin aprobación; tier mínimo; detectar antes de crear · `@.claude/rules/domain/infrastructure-as-code.md`
 11. **150 líneas máx.** por fichero — dividir si crece · legacy heredado exento salvo petición PM
-12. **README**: ANTES de cada commit, si los cambios tocan `commands/`, `agents/`, `skills/`, `rules/` o la estructura → actualizar `README.md` + `README.en.md` en el MISMO commit
+12. **README**: si los cambios tocan `commands/`, `agents/`, `skills/`, `rules/` o estructura → actualizar `README.md` + `README.en.md` en el MISMO commit
 13. **Git**: NUNCA commit directo en `main` — siempre rama + PR
 14. **Comandos**: ANTES de commit que toque `commands/`, ejecutar `scripts/validate-commands.sh`
-15. **UX Feedback OBLIGATORIO**: TODO slash command DEBE mostrar: banner inicio, verificación prerequisitos ✅/❌, progreso por pasos, resultado, banner fin. Si falta config → preguntar → guardar → reintentar. **El silencio es un bug.**
-16. **Contexto y Auto-compact**: Resultado > 30 líneas → fichero + resumen. Subagente (`Task`) para análisis pesados. **TRAS CADA slash command ejecutado**, terminar con `⚡ /compact` para que el PM libere contexto. Una tarea por sesión. Si el PM pide otro comando sin compactar → recordar: "Ejecuta `/compact` primero para liberar contexto."
-17. **Anti-improvisación**: Un comando SOLO ejecuta lo definido en su `.md`. Escenario no cubierto → error con sugerencia, NO inventar.
-18. **Serialización de paralelo**: ANTES de lanzar Agent Teams o tareas paralelas, verificar que los scopes (ficheros en cada spec) no se solapan. Si dos specs tocan los mismos módulos → serializar. Hook `scope-guard.sh` detecta ficheros fuera del scope al terminar.
+15. **UX Feedback**: TODO slash command DEBE mostrar: banner, prerequisitos ✅/❌, progreso, resultado, banner fin. **El silencio es un bug.**
+16. **Auto-compact**: Resultado > 30 líneas → fichero + resumen. `Task` para análisis pesados. TRAS CADA slash command → `⚡ /compact`.
+17. **Anti-improvisación**: Un comando SOLO ejecuta lo definido en su `.md`. Escenario no cubierto → error con sugerencia.
+18. **Serialización de paralelo**: verificar scopes antes de Agent Teams. Si solapan → serializar. Hook `scope-guard.sh`.
 
 ---
 
 ## 🤖 Subagentes y Flujos
 
-> Catálogo completo (24 agentes): `@.claude/rules/domain/agents-catalog.md`
+> Catálogo (24 agentes): `@.claude/rules/domain/agents-catalog.md` · Agent Notes: `@docs/agent-notes-protocol.md`
 
-Cada agente tiene: `memory: project` (persistencia entre sesiones), `skills:` precargados, `permissionMode:` apropiado, y `hooks:` donde aplica. Los developer agents usan `isolation: worktree` para ramas paralelas sin conflicto.
-
-Flujos principales:
-- **SDD**: business-analyst → architect → security-review → test-engineer (TDD) → {lang}-developer → code-reviewer
-  Cada agente escribe agent-notes/: `@docs/agent-notes-protocol.md` · ADRs: `@docs/templates/adr-template.md`
-- **Infra**: architect → infrastructure-agent → (detectar → tier mínimo → propuesta) → humano aprueba
-- **Diagramas**: diagram-architect analiza consistencia → genera/importa → valida reglas negocio → Features/PBIs/Tasks
-- **Pre-commit**: commit-guardian (10 checks) · **Post-commit**: test-runner (cobertura ≥ 80%)
-- **Agent Teams** (experimental): lead + teammates en paralelo con worktree isolation → `@docs/agent-teams-sdd.md`
+Cada agente: `memory: project`, `skills:` precargados, `permissionMode:` apropiado, `hooks:` donde aplica. Developers: `isolation: worktree`.
+Flujos: SDD (analyst→architect→security→tester→developer→reviewer) · Infra · Diagramas · Pre/Post-commit · Agent Teams (`@docs/agent-teams-sdd.md`)
 
 ---
 
 ## 🌐 Language Packs · 🏗️ Entornos e Infra
 
 > Language Packs (16): `@.claude/rules/domain/language-packs.md`
-> Multi-entorno: `@.claude/rules/domain/environment-config.md` · Confidencialidad: `@.claude/rules/domain/confidentiality-config.md`
-> IaC multi-cloud: `@.claude/rules/domain/infrastructure-as-code.md`
+> Entornos: `@.claude/rules/domain/environment-config.md` · Secrets: `@.claude/rules/domain/confidentiality-config.md`
+> IaC: `@.claude/rules/domain/infrastructure-as-code.md`
 
-Entornos por defecto DEV/PRE/PRO (configurables). Config sensible NUNCA en repo.
-IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pulumi.
-
----
-
-## 🛠️ Operaciones · 🧠 Buenas Prácticas
-
-- **Azure DevOps** → `.claude/skills/azure-devops-queries/SKILL.md`
-- **Discovery** → `.claude/skills/product-discovery/SKILL.md`
-- **PBIs** → `.claude/skills/pbi-decomposition/SKILL.md`
-- **SDD** → `.claude/skills/spec-driven-development/SKILL.md`
-- **Diagramas** → `.claude/skills/diagram-generation/SKILL.md` · `.claude/skills/diagram-import/SKILL.md`
-- **Pipelines** → `.claude/skills/azure-pipelines/SKILL.md`
-- **Azure Repos** → `@.claude/rules/domain/azure-repos-config.md`
-- **Comandos** → `@.claude/rules/domain/pm-workflow.md`
-- Explorar → Planificar → Implementar → Commit
-- Arquitectura: **Command → Agent → Skills** — subagentes solo con `Task`
-- **Auto-compact**: TRAS CADA slash command, terminar con `⚡ /compact`. Al compactar → preservar: ficheros modificados, scores, decisiones del PM, errores y resoluciones, último comando y resultado.
+Entornos DEV/PRE/PRO (configurables). Config sensible NUNCA en repo. IaC preferido: Terraform.
 
 ---
 
-## 🔒 Hooks Programáticos
+## 🛠️ Operaciones
 
-> Config: `.claude/settings.json` · Scripts: `.claude/hooks/`
+Skills: azure-devops-queries · product-discovery · pbi-decomposition · spec-driven-development · diagram-generation · diagram-import · azure-pipelines · sprint-management · capacity-planning · executive-reporting · time-tracking-report · team-onboarding · voice-inbox. Detalle: `.claude/skills/{nombre}/SKILL.md`
 
-9 hooks que refuerzan reglas críticas automáticamente (sin depender de disciplina del agente):
-- **SessionStart**: `session-init.sh` — verifica PAT, herramientas, rama git, establece env vars
-- **PreToolUse (Bash)**: `validate-bash-global.sh` — bloquea `rm -rf /`, `chmod 777`, `curl|bash`, `sudo`
-- **PreToolUse (Bash)**: `block-force-push.sh` — bloquea `push --force`, push a main, `commit --amend`, `reset --hard`
-- **PreToolUse (Bash)**: `block-credential-leak.sh` — detecta passwords, API keys, tokens en comandos
-- **PreToolUse (Bash)**: `block-infra-destructive.sh` — bloquea `terraform destroy`, apply en PRE/PRO, `az group delete`
-- **PreToolUse (Edit/Write)**: `tdd-gate.sh` — bloquea edición de código de producción sin tests previos (developer agents)
-- **PostToolUse (Edit/Write)**: `post-edit-lint.sh` — auto-lint async (ruff, eslint, gofmt, rustfmt, rubocop, etc.)
-- **Stop**: `stop-quality-gate.sh` — detecta secrets en staged changes antes de terminar
-- **Stop**: `scope-guard.sh` — detecta ficheros modificados fuera del scope de la spec SDD activa
+Ciclo: Explorar → Planificar → Implementar → Commit. Arquitectura: **Command → Agent → Skills** — subagentes solo con `Task`.
 
 ---
 
-## 🧠 Sistema de Memoria
+## 🔒 Hooks · 🧠 Memoria · 📝 Agent Notes
 
-> Guía completa: `@docs/memory-system.md`
-
-**Auto-carga por lenguaje**: Las reglas en `rules/languages/` incluyen frontmatter `paths:` — se cargan automáticamente al tocar ficheros del lenguaje (`.cs`, `.py`, `.go`, etc.). No necesitas `@` manual para convenciones de lenguaje.
-
-**Auto Memory**: Claude guarda notas por proyecto en `~/.claude/projects/<proyecto>/memory/`. Usa `/memory-sync` para consolidar insights del sprint. Inicializar con `scripts/setup-memory.sh [proyecto]`.
-
-**User rules**: Preferencias personales globales en `~/.claude/rules/` (estilo comunicación, formato reportes).
-
-**Proyectos externos**: Usa `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1 claude --add-dir ~/claude` o symlinks a `rules/languages/`.
-
----
-
-## 📝 Agent Notes y ADRs
-
-> Protocolo: `@docs/agent-notes-protocol.md` · Plantillas: `docs/templates/`
-
-**Agent Notes**: Cada agente que participa en un flujo SDD escribe un entregable en `projects/{proyecto}/agent-notes/` con metadata YAML (ticket, fase, agente, status, dependencias). El siguiente agente en la cadena lee las notas previas antes de actuar. Convención: `{ticket}-{tipo}-{fecha}.md`.
-
-**ADRs**: Las decisiones arquitectónicas importantes se documentan como Architecture Decision Records en `projects/{proyecto}/adrs/`. Crear con `/adr-create {proyecto} {título}`.
-
-**TDD Gate**: Los developer agents tienen hook `tdd-gate.sh` que bloquea edición de código de producción si no existen tests previos. El test-engineer escribe tests ANTES; el developer implementa DESPUÉS.
-
-**Security Review**: `/security-review {spec}` revisa la spec contra OWASP **antes** de implementar. Diferente de security-guardian (que audita código staged pre-commit).
+> Hooks (9): `.claude/settings.json` · Scripts: `.claude/hooks/` (session-init, validate-bash, block-force-push, block-credential-leak, block-infra-destructive, tdd-gate, post-edit-lint, stop-quality-gate, scope-guard)
+> Memoria: `@docs/memory-system.md` · Auto-carga por `paths:` frontmatter · Auto Memory: `/memory-sync` · User rules: `~/.claude/rules/`
+> Agent Notes: `@docs/agent-notes-protocol.md` · ADRs: `/adr-create {proyecto} {título}` · TDD Gate: test-engineer antes, developer después
+> Security Review: `/security-review {spec}` — OWASP pre-implementación (≠ security-guardian pre-commit)
 
 ---
 
 ## ✅ Checklist Nuevo Proyecto
 
 - [ ] `projects/[nombre]/` con `CLAUDE.md` específico (≤150 líneas)
-- [ ] `.vscode/settings.json` con highlight para `.md`
-- [ ] Entrada en tabla "Proyectos Activos" (aquí o en `CLAUDE.local.md` si privado)
-- [ ] `projects/[nombre]/` en `.gitignore` si es privado
-- [ ] Entornos definidos (DEV/PRE/PRO o los que apliquen)
-- [ ] `config.local/` creado + `.gitignore` · `.env.example` sin valores reales
-- [ ] Cloud provider e infraestructura definidos si aplica
-- [ ] Auto memory inicializada: `scripts/setup-memory.sh [nombre]`
-- [ ] `agent-notes/` directorio creado en el proyecto
-- [ ] `adrs/` directorio creado si hay decisiones arquitectónicas
+- [ ] Entrada en `CLAUDE.local.md` (si privado) o tabla "Proyectos Activos"
+- [ ] Entornos definidos (DEV/PRE/PRO) + `config.local/` + `.env.example`
+- [ ] Cloud provider e infra definidos si aplica
+- [ ] Auto memory: `scripts/setup-memory.sh [nombre]`
+- [ ] Directorios: `agent-notes/`, `adrs/` si hay decisiones arquitectónicas
 - [ ] `README.md` actualizado

@@ -30,7 +30,7 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Multi-environment** — support for DEV/PRE/PRO (configurable) with secrets protection — connection strings never go into the repository.
 
-**Intelligent memory system** — language rules with auto-loading by file type (`paths:` frontmatter), persistent auto memory per project, and support for external projects via symlinks and `--add-dir`.
+**Intelligent memory system** — language rules with auto-loading by file type (`paths:` frontmatter), persistent auto memory per project, support for external projects via symlinks and `--add-dir`. Skills and agents use progressive disclosure (`references/`) with `context_cost` metadata to optimize context consumption.
 
 **Programmatic hooks** — 9 hooks that enforce critical rules automatically: force push blocking, secrets detection, destructive infrastructure operation prevention, auto-lint after edits, quality gates before finishing, and scope guard that detects files modified outside the SDD spec's declared scope. Configured in `.claude/settings.json`.
 
