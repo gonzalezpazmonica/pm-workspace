@@ -13,7 +13,7 @@
 ├── .claude/
 │   ├── settings.local.json      ← Permisos de Claude Code (git-ignorado)
 │   │
-│   ├── commands/                ← 46 slash commands
+│   ├── commands/                ← 57 slash commands
 │   │   ├── help.md              ← /help — catálogo + primeros pasos
 │   │   ├── sprint-status.md ... ← Sprint y Reporting (10)
 │   │   ├── pbi-decompose.md ... ← PBI y Discovery (6)
@@ -22,6 +22,8 @@
 │   │   ├── team-onboarding.md ..← Equipo (3)
 │   │   ├── infra-detect.md ...  ← Infraestructura (7)
 │   │   ├── diagram-generate.md..← Diagramas (4)
+│   │   ├── pipeline-status.md ..← Pipelines CI/CD (5)
+│   │   ├── repos-list.md ...   ← Azure Repos (6)
 │   │   ├── notify-slack.md ...  ← Conectores (12: Slack, GitHub, Sentry, GDrive, Linear, Atlassian, Notion, Figma)
 │   │   ├── context-load.md      ← Utilidades
 │   │   └── references/          ← Ficheros de referencia (no se cargan como commands)
@@ -42,7 +44,7 @@
 │   │   ├── dotnet-developer.md  ← + 10 developers por lenguaje
 │   │   └── ...
 │   │
-│   ├── skills/                  ← 11 skills reutilizables
+│   ├── skills/                  ← 12 skills reutilizables
 │   │   ├── azure-devops-queries/
 │   │   ├── sprint-management/
 │   │   ├── capacity-planning/
@@ -55,8 +57,10 @@
 │   │   │   └── references/      ← Templates, matrices, patrones de equipo
 │   │   ├── diagram-generation/  ← Generación de diagramas (Draw.io, Miro, Mermaid)
 │   │   │   └── references/      ← Plantillas Mermaid, shapes, boards
-│   │   └── diagram-import/      ← Importación de diagramas → Features/PBIs/Tasks
-│   │       └── references/      ← Mapping, templates PBI, validación reglas negocio
+│   │   ├── diagram-import/      ← Importación de diagramas → Features/PBIs/Tasks
+│   │   │   └── references/      ← Mapping, templates PBI, validación reglas negocio
+│   │   └── azure-pipelines/     ← CI/CD con Azure Pipelines (YAML templates, stages)
+│   │       └── references/      ← Templates YAML, patrones de stages multi-entorno
 │   │
 │   └── rules/                   ← Reglas modulares
 │       ├── pm-config.md         ← Constantes Azure DevOps
@@ -71,6 +75,7 @@
 │       ├── readme-update.md     ← Regla 12: actualizar READMEs
 │       ├── connectors-config.md ← Configuración conectores Claude (Slack, GitHub, Sentry...)
 │       ├── diagram-config.md    ← Configuración Draw.io/Miro
+│       ├── azure-repos-config.md ← Configuración Azure Repos (dual Git provider)
 │       ├── agents-catalog.md    ← Tabla de 24 agentes
 │       └── languages/           ← Convenciones por lenguaje (excluido de carga automática)
 │           ├── csharp-rules.md

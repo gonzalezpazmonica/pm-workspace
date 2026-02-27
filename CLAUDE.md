@@ -40,9 +40,9 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← 24 subagentes → @.claude/rules/agents-catalog.md
-│   ├── commands/                  ← 46 slash commands (+7 infra en skill) → @.claude/rules/pm-workflow.md
+│   ├── commands/                  ← 57 slash commands (+7 infra en skill) → @.claude/rules/pm-workflow.md
 │   ├── rules/                     ← Reglas core + languages/ (16 Language Packs, excluido de carga auto)
-│   └── skills/                    ← 11 skills reutilizables
+│   └── skills/                    ← 12 skills reutilizables
 ├── docs/                          ← Metodología, guías, secciones README
 ├── projects/                      ← Proyectos reales (git-ignorados)
 └── scripts/                       ← Scripts auxiliares Azure DevOps
@@ -113,6 +113,8 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 - **PBIs** → `.claude/skills/pbi-decomposition/SKILL.md`
 - **SDD** → `.claude/skills/spec-driven-development/SKILL.md`
 - **Diagramas** → `.claude/skills/diagram-generation/SKILL.md` · `.claude/skills/diagram-import/SKILL.md`
+- **Pipelines** → `.claude/skills/azure-pipelines/SKILL.md`
+- **Azure Repos** → `@.claude/rules/azure-repos-config.md`
 - **Comandos** → `@.claude/rules/pm-workflow.md`
 - Explorar → Planificar → Implementar → Commit · `/compact` al 50% · `/clear` entre tareas
 - Arquitectura: **Command → Agent → Skills** — subagentes solo con `Task`
