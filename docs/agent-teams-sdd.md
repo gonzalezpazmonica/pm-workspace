@@ -29,6 +29,29 @@ PM (Lead)
 - Modifican los mismos ficheros
 - Una sola spec es suficientemente compleja para ocupar toda la sesión
 
+## Regla de Serialización de Scope
+
+**ANTES de lanzar Agent Teams**, el PM DEBE verificar que los scopes no se solapan:
+
+1. Para cada spec asignada, leer la sección "Ficheros a Crear/Modificar"
+2. Generar la lista completa de ficheros que cada spec tocará
+3. Si dos o más specs tocan los mismos ficheros → **serializar** (una después de otra) o asignar al mismo agente
+4. Si los scopes son disjuntos → proceder con paralelo
+
+```
+# Ejemplo de verificación:
+Spec #1234 → src/Auth/LoginHandler.cs, src/Auth/TokenService.cs
+Spec #1235 → src/Notifications/EmailService.cs, src/Notifications/SmsService.cs
+Spec #1236 → src/Auth/LoginHandler.cs, src/Dashboard/MetricsController.cs
+                   ^^^^^^^^^^^^^^^^^^^^
+# Conflicto: Spec #1234 y #1236 tocan LoginHandler.cs → SERIALIZAR
+# Spec #1235 es independiente → puede ir en paralelo con cualquiera
+```
+
+**Riesgo**: Sin esta verificación, dos agentes pueden modificar el mismo fichero en worktrees separados. Ambos cambios serán internamente coherentes pero mutuamente contradictorios. El merge será limpio (sin conflictos git) pero el comportamiento será incorrecto.
+
+El hook `scope-guard.sh` (Stop) detecta ficheros modificados fuera del scope de la spec, proporcionando una segunda línea de defensa.
+
 ## Ejemplo de Uso
 
 ```

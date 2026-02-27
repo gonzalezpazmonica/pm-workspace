@@ -87,6 +87,7 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 15. **UX Feedback OBLIGATORIO**: TODO slash command DEBE mostrar: banner inicio, verificación prerequisitos ✅/❌, progreso por pasos, resultado, banner fin. Si falta config → preguntar → guardar → reintentar. **El silencio es un bug.**
 16. **Contexto y Auto-compact**: Resultado > 30 líneas → fichero + resumen. Subagente (`Task`) para análisis pesados. **TRAS CADA slash command ejecutado**, terminar con `⚡ /compact` para que el PM libere contexto. Una tarea por sesión. Si el PM pide otro comando sin compactar → recordar: "Ejecuta `/compact` primero para liberar contexto."
 17. **Anti-improvisación**: Un comando SOLO ejecuta lo definido en su `.md`. Escenario no cubierto → error con sugerencia, NO inventar.
+18. **Serialización de paralelo**: ANTES de lanzar Agent Teams o tareas paralelas, verificar que los scopes (ficheros en cada spec) no se solapan. Si dos specs tocan los mismos módulos → serializar. Hook `scope-guard.sh` detecta ficheros fuera del scope al terminar.
 
 ---
 
@@ -137,7 +138,7 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 
 > Config: `.claude/settings.json` · Scripts: `.claude/hooks/`
 
-8 hooks que refuerzan reglas críticas automáticamente (sin depender de disciplina del agente):
+9 hooks que refuerzan reglas críticas automáticamente (sin depender de disciplina del agente):
 - **SessionStart**: `session-init.sh` — verifica PAT, herramientas, rama git, establece env vars
 - **PreToolUse (Bash)**: `validate-bash-global.sh` — bloquea `rm -rf /`, `chmod 777`, `curl|bash`, `sudo`
 - **PreToolUse (Bash)**: `block-force-push.sh` — bloquea `push --force`, push a main, `commit --amend`, `reset --hard`
@@ -146,6 +147,7 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 - **PreToolUse (Edit/Write)**: `tdd-gate.sh` — bloquea edición de código de producción sin tests previos (developer agents)
 - **PostToolUse (Edit/Write)**: `post-edit-lint.sh` — auto-lint async (ruff, eslint, gofmt, rustfmt, rubocop, etc.)
 - **Stop**: `stop-quality-gate.sh` — detecta secrets en staged changes antes de terminar
+- **Stop**: `scope-guard.sh` — detecta ficheros modificados fuera del scope de la spec SDD activa
 
 ---
 

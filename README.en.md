@@ -32,11 +32,11 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Intelligent memory system** — language rules with auto-loading by file type (`paths:` frontmatter), persistent auto memory per project, and support for external projects via symlinks and `--add-dir`.
 
-**Programmatic hooks** — 8 hooks that enforce critical rules automatically: force push blocking, secrets detection, destructive infrastructure operation prevention, auto-lint after edits, and quality gates before finishing. Configured in `.claude/settings.json`.
+**Programmatic hooks** — 9 hooks that enforce critical rules automatically: force push blocking, secrets detection, destructive infrastructure operation prevention, auto-lint after edits, quality gates before finishing, and scope guard that detects files modified outside the SDD spec's declared scope. Configured in `.claude/settings.json`.
 
 **Agents with advanced capabilities** — each subagent has persistent memory (`memory: project`), preloaded skills, appropriate permission mode, and developer agents use `isolation: worktree` for parallel implementation without conflicts. Experimental support for Agent Teams (lead + teammates).
 
-**Multi-agent coordination** — agent-notes system for persistent inter-agent memory, TDD gate that blocks implementation without prior tests, pre-implementation security review (OWASP on the spec, not just code), and Architecture Decision Records (ADR) for traceable decisions.
+**Multi-agent coordination** — agent-notes system for persistent inter-agent memory, TDD gate that blocks implementation without prior tests, pre-implementation security review (OWASP on the spec, not just code), Architecture Decision Records (ADR) for traceable decisions, and scope serialization rules for safe parallel sessions.
 
 ---
 
@@ -146,6 +146,7 @@ Full documentation is organized into sections for easy reference:
 6. **Infrastructure**: NEVER `terraform apply` in PRE/PRO without human approval; always minimum tier
 7. **Git**: NEVER commit directly to `main` — always branch + PR
 8. **Commands**: validate with `scripts/validate-commands.sh` before committing
+9. **Parallel**: verify scope overlap before launching Agent Teams; serialize if conflict
 
 ---
 
