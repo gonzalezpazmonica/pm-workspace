@@ -8,68 +8,69 @@ description: >
 
 # Carga de Contexto — Inicio de Sesión
 
-> Ejecuta este comando al empezar una sesión nueva para que Claude tenga
-> contexto completo sin que tengas que repetir información.
+Aplica siempre @.claude/rules/command-ux-feedback.md
 
----
+> Ejecuta este comando al empezar una sesión nueva para tener contexto completo.
 
-## Protocolo de carga (en orden)
+## 1. Banner de inicio
 
-### 1. Identificar el workspace
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 /context:load — Cargando contexto de sesión
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
+## 2. Protocolo de carga (con progreso)
+
+```
+📋 Paso 1/5 — Identificando workspace y rama...
+```
 ```bash
 pwd
 git branch --show-current
 ```
+Verificar que estamos en la raíz (`~/claude/`).
 
-Verificar que estamos en la raíz del workspace (`~/claude/`).
+```
+📋 Paso 2/5 — Leyendo configuración global...
+```
+Leer `CLAUDE.md` (raíz) — Proyectos Activos y Config Esencial.
+Leer `CLAUDE.local.md` si existe — proyectos privados.
 
-### 2. Leer configuración global
-
-Leer `CLAUDE.md` (raíz) — solo la sección de Proyectos Activos y Configuración Esencial.
-Leer `CLAUDE.local.md` si existe — proyectos privados configurados.
-
-### 3. Actividad reciente en Git
-
+```
+📋 Paso 3/5 — Analizando actividad Git reciente...
+```
 ```bash
 git log --oneline -10 --all --decorate
 git branch -a | grep -v "remotes/origin/HEAD"
 ```
+Resumir: últimos 5 commits, ramas activas no mergeadas.
 
-Resumir: últimos 5 commits, ramas activas (no mergeadas).
+```
+📋 Paso 4/5 — Consultando estado del sprint...
+```
+Solo si PAT configurado:
+- Ejecutar `/sprint:status` en modo resumido (solo burndown y alertas)
+- Si no hay PAT → "⚠️ Azure DevOps no conectado — sprint no disponible"
 
-### 4. Estado del sprint (si Azure DevOps está disponible)
-
-Solo si existe el PAT configurado:
+```
+📋 Paso 5/5 — Verificando herramientas disponibles...
+```
 ```bash
-test -f "$HOME/.azure/devops-pat" && echo "PAT disponible" || echo "PAT no configurado"
+claude --version 2>/dev/null || echo "no disponible"
+az --version 2>/dev/null | head -1 || echo "no disponible"
+dotnet --version 2>/dev/null || echo "no disponible"
+jq --version 2>/dev/null || echo "no disponible"
 ```
 
-Si está disponible: ejecutar el equivalente de `/sprint:status` en modo resumido
-(solo burndown y alertas, sin detalle por item).
+## 3. Proyecto activo (detección automática)
 
-Si no está disponible: indicar que Azure DevOps no está conectado y que los
-comandos de sprint no funcionarán.
+Si la rama sigue `feature/`, `fix/`, etc.:
+- Detectar proyecto por path o nombre de rama
+- Leer su CLAUDE.md específico
+- Resumir tarea en curso
 
-### 5. Proyecto activo (si hay rama de feature)
-
-Si la rama actual sigue el patrón `feature/`, `fix/`, etc.:
-- Detectar a qué proyecto pertenece (por el path o por el nombre de la rama)
-- Leer su `CLAUDE.md` específico
-- Resumir el estado de la tarea en curso
-
-### 6. Verificar herramientas
-
-```bash
-claude --version 2>/dev/null || echo "Claude CLI: no disponible"
-az --version 2>/dev/null | head -1 || echo "Azure CLI: no disponible"
-dotnet --version 2>/dev/null || echo ".NET SDK: no disponible"
-jq --version 2>/dev/null || echo "jq: no disponible"
-```
-
----
-
-## Formato del output
+## 4. Mostrar resultado
 
 ```
 ══════════════════════════════════════════════════
@@ -83,28 +84,34 @@ jq --version 2>/dev/null || echo "jq: no disponible"
      • ProyectoAlpha — Sprint 2026-05 (día 4/10)
      • ProyectoBeta  — Sprint 2026-05 (día 4/10)
 
-  📊 Sprint actual: [resumen de 1 línea del burndown]
-     [alerta más importante si hay alguna]
+  📊 Sprint actual: [resumen 1 línea del burndown]
+     [alerta más importante si hay]
 
   🌿 Ramas activas: N
-     • feature/nueva-funcionalidad (3 commits adelante de main)
+     • feature/nueva-funcionalidad (3 commits adelante)
      • fix/capacity-edge-case (1 commit)
 
   📝 Últimos cambios:
-     • feat(agents): add pr-review multi-perspective command
-     • docs(readme): update command reference table
-     • fix(rules): correct PAT reference in pm-config
+     • feat(agents): add pr-review command
+     • docs(readme): update command reference
+     • fix(rules): correct PAT reference
 
-══════════════════════════════════════════════════
-  ¿Por dónde empezamos?
 ══════════════════════════════════════════════════
 ```
 
----
+## 5. Banner de fin
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ /context:load — Completado
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 {N} proyectos | 🌿 {N} ramas | 🔧 {N}/{M} herramientas OK
+💡 ¿Por dónde empezamos?
+```
 
 ## Restricciones
 
-- **Solo lectura** — este comando no modifica nada
-- **Rápido** — no ejecutar queries pesadas a Azure DevOps; priorizar datos locales
-- **Conciso** — el output debe leerse en 30 segundos o menos
-- Si el PAT no está configurado, no mostrar error — simplemente indicar que AzDO no está disponible
+- **Solo lectura** — no modifica nada
+- **Rápido** — no queries pesadas a Azure DevOps; datos locales primero
+- **Conciso** — output legible en 30 segundos o menos
+- Si PAT no configurado → no error, solo aviso

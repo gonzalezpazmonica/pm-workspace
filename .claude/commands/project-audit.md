@@ -11,33 +11,45 @@ description: >
 
 > Uso: `/project:audit --project {p}` o `/project:audit --project {p} --deep`
 
-## Parámetros
+Aplica siempre @.claude/rules/command-ux-feedback.md
 
-- `--project {nombre}` — Proyecto de PM-Workspace (obligatorio)
-- `--deep` — Análisis profundo incluyendo código fuente y dependencias
-- `--focus {area}` — Foco en área específica: code, tests, cicd, debt, security, docs
-- `--compare {fecha}` — Comparar con audit anterior (evolución)
-- `--output {format}` — Formato: `md` (defecto), `xlsx`, `pptx`
+## 1. Banner de inicio
 
-## Contexto requerido
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 /project:audit — Auditoría completa del proyecto
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
-1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto
-2. Acceso al repositorio (GitHub o Azure Repos)
-3. Azure DevOps (backlog, pipelines) si está configurado
+## 2. Parámetros
 
-## Pasos de ejecución
+- `--project {nombre}` — Proyecto (obligatorio)
+- `--deep` — Análisis profundo con código fuente y dependencias
+- `--focus {area}` — Foco: code, tests, cicd, debt, security, docs
+- `--compare {fecha}` — Comparar con audit anterior
+- `--output {format}` — md (defecto), xlsx, pptx
 
-### 1. Recopilar datos de todas las fuentes
+Si falta `--project` → listar proyectos disponibles con sugerencia de uso.
 
-Ejecutar internamente (según disponibilidad):
-- `/pipeline:status` → madurez CI/CD, frecuencia de deploy, tasa de éxito
-- `/debt:track` → deuda técnica existente, ratio, tendencia
-- `/kpi:dora` → métricas DORA (si hay datos de pipeline)
-- `/sentry:health` → tasa de errores, crash rate (si Sentry configurado)
-- `/legacy:assess` → scores de complejidad (si es proyecto legacy)
-- Repo analysis → LOC, tests, cobertura, dependencias
+## 3. Verificar prerequisitos
 
-### 2. Evaluar 8 dimensiones
+Mostrar ✅/❌: proyecto CLAUDE.md, acceso repo, Azure DevOps, pipelines.
+Si falta CLAUDE.md → modo interactivo: preguntar datos, crear, reintentar.
+Si faltan opcionales (AzDO, pipelines, Sentry) → avisar N/A y continuar.
+
+## 4. Recopilar datos (con progreso)
+
+```
+📋 Paso 1/5 — Analizando estructura del repositorio...
+📋 Paso 2/5 — Evaluando calidad de código y tests...
+📋 Paso 3/5 — Revisando seguridad y dependencias...
+📋 Paso 4/5 — Analizando CI/CD y métricas...
+📋 Paso 5/5 — Generando informe y scoring...
+```
+
+Internamente usar (según disponibilidad): `/debt:track`, `/kpi:dora`, `/pipeline:status`, `/sentry:health`, `/security:alerts`, `/legacy:assess`.
+
+## 5. Evaluar 8 dimensiones
 
 | Dimensión | Peso | Indicadores clave |
 |---|---|---|
@@ -50,67 +62,34 @@ Ejecutar internamente (según disponibilidad):
 | Madurez CI/CD | 10% | Pipelines, envs, deploy frequency |
 | Salud del equipo | 10% | Bus factor, contributors, workload |
 
-### 3. Clasificar hallazgos en 3 tiers
+Dimensiones sin datos → "N/A" (no penalizan).
 
-**🔴 Crítico (must fix)** — Riesgo inmediato: CVEs, secrets, datos sin proteger, 0% tests en módulos críticos.
+## 6. Clasificar y mostrar informe
 
-**🟡 Mejorable (should fix)** — Calidad comprometida: baja cobertura, deuda técnica alta, documentación pobre, CI/CD incompleto.
+**🔴 Crítico** — Riesgo inmediato | **🟡 Mejorable** — Calidad comprometida | **🟢 Correcto**
 
-**🟢 Correcto (keep)** — Aspectos saludables que mantener o reforzar.
+Mostrar SIEMPRE en pantalla: resumen ejecutivo, barras de score por dimensión, hallazgos por tier, plan de acción priorizado con esfuerzo y sprint sugerido.
 
-### 4. Generar informe
+## 7. Guardar y banner de fin
+
+Guardar: `output/audits/YYYYMMDD-audit-{proyecto}.md`
 
 ```
-## Project Audit — {proyecto}
-Fecha: YYYY-MM-DD | Score global: 6.2/10
-
-### Resumen ejecutivo
-{1-3 líneas con conclusión principal}
-
-### Scores por dimensión
-Código:      ██████░░░░ 6/10
-Tests:       ████░░░░░░ 4/10
-Arquitectura:███████░░░ 7/10
-Deuda:       █████░░░░░ 5/10
-Seguridad:   ████████░░ 8/10
-Docs:        ███░░░░░░░ 3/10
-CI/CD:       ██████░░░░ 6/10
-Equipo:      ████████░░ 8/10
-
-### 🔴 Crítico (3 items)
-1. [SEC] 2 CVEs críticos en dependencia auth-lib v2.1
-2. [TEST] 0% cobertura en módulo de pagos
-3. [SEC] API key hardcodeada en config.json
-
-### 🟡 Mejorable (5 items)
-1. [DEBT] 23% debt ratio (objetivo <20%)
-2. [DOCS] Sin documentación de API
-...
-
-### 🟢 Correcto (4 items)
-1. [ARCH] Clean Architecture bien implementada
-...
-
-### Plan de acción priorizado
-| # | Tier | Área | Acción | Esfuerzo | Sprint sugerido |
-|---|---|---|---|---|---|
-| 1 | 🔴 | SEC | Actualizar auth-lib a v3.0 | S | Sprint actual |
-| 2 | 🔴 | TEST | Añadir tests módulo pagos | L | Sprint actual |
-...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ /project:audit — Completado
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📄 Informe: output/audits/YYYYMMDD-audit-{proyecto}.md
+📊 Score global: X.X/10 | 🔴 N | 🟡 N | 🟢 N
+💡 Siguiente paso: /project:release-plan --project {proyecto}
 ```
-
-### 5. Guardar
-- `output/audits/YYYYMMDD-audit-{proyecto}.md`
 
 ## Integración
 
-- `/project:release-plan` → (Phase 2) usa audit como input principal
-- `/legacy:assess` → fuente de datos para proyectos legacy
-- `/debt:track` → importa hallazgos de deuda del audit
-- `/risk:log` → alimenta registro de riesgos desde hallazgos críticos
+- `/project:release-plan` → Phase 2, usa audit como input
+- `/debt:track` → importa hallazgos de deuda
+- `/risk:log` → alimenta registro desde hallazgos críticos
 
 ## Restricciones
 
 - Solo lectura — no modifica código ni Azure DevOps
-- Score es orientativo, no sustituye el juicio del equipo
-- Dimensiones sin datos se marcan "N/A" (no penalizan)
+- Score orientativo, no sustituye juicio del equipo
