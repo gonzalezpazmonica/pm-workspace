@@ -11,31 +11,70 @@ description: >
 
 > Uso: `/debt:track --project {p}` o `/debt:track --project {p} --add`
 
-## Parámetros
+Aplica siempre @.claude/rules/command-ux-feedback.md
 
-- `--project {nombre}` — Proyecto de PM-Workspace (obligatorio)
+## 1. Banner de inicio
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 /debt:track — Registro de deuda técnica
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+## 2. Parámetros
+
+- `--project {nombre}` — Proyecto (obligatorio)
 - `--add` — Registrar nuevo item de deuda técnica
 - `--resolve {id}` — Marcar item como resuelto
 - `--sprint-report` — Informe de deuda del sprint actual
-- `--sonarqube {url}` — Importar métricas desde SonarQube (opcional)
+- `--sonarqube {url}` — Importar métricas desde SonarQube
 - `--severity {critical|high|medium|low}` — Filtrar por severidad
 
-## Contexto requerido
+Si falta `--project`:
+```
+❌ Falta parámetro obligatorio: --project {nombre}
+   Proyectos disponibles: [listar de projects/*/CLAUDE.md]
+   Uso: /debt:track --project nombre
+```
 
-1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto
-2. `projects/{proyecto}/debt-register.md` — Registro de deuda (se crea si no existe)
+## 3. Verificar prerequisitos
 
-## Pasos de ejecución
+```
+Verificando requisitos para "{proyecto}"...
+  ✅ Proyecto: projects/{proyecto}/CLAUDE.md
+  ✅ Registro: projects/{proyecto}/debt-register.md (12 items)
+```
+
+Si no existe `debt-register.md`:
+```
+  ⚠️ No existe registro de deuda. Se creará uno nuevo.
+```
+
+## 4. Ejecución
 
 ### Modo vista (por defecto)
-1. **Leer registro** — `projects/{proyecto}/debt-register.md`
-2. **Calcular métricas:**
-   - Total items abiertos por severidad
-   - Debt ratio: items deuda / total PBIs del sprint
-   - Tendencia: comparar con últimos 5 sprints
-   - Edad media de items sin resolver
-3. **Si `--sonarqube`** → importar code smells, bugs, vulnerabilities
-4. **Presentar dashboard:**
+
+```
+📋 Paso 1/3 — Leyendo registro de deuda...
+📋 Paso 2/3 — Calculando métricas y tendencia...
+📋 Paso 3/3 — Generando dashboard...
+```
+
+1. Leer `projects/{proyecto}/debt-register.md`
+2. Calcular: items abiertos por severidad, debt ratio, tendencia 5 sprints, edad media
+3. Si `--sonarqube` → importar code smells, bugs, vulnerabilities
+4. Presentar dashboard (ver formato abajo)
+
+### Modo `--add`
+1. Solicitar interactivamente: descripción, severidad, componente, estimación
+2. Añadir al registro con ID auto-incrementable
+3. Sugerir sprint para resolución según capacity
+
+### Modo `--sprint-report`
+1. Generar informe de evolución
+2. Guardar en `output/debt/YYYYMMDD-debt-{proyecto}.md`
+
+## 5. Formato de salida
 
 ```
 ## Deuda Técnica — {proyecto} — Sprint {n}
@@ -48,28 +87,26 @@ Tendencia: 📉 mejorando (-2 vs sprint anterior)
 |---|---|---|---|---|
 | DT-01 | critical | SQL injection en AuthController | 3 sprints | — |
 | DT-02 | high | Sin tests en módulo de pagos | 2 sprints | Ana |
-| ... | | | | |
 
-Recomendación: Incluir DT-01 en el próximo sprint (critical, 3 sprints sin resolver)
+Recomendación: Incluir DT-01 en el próximo sprint
 ```
 
-### Modo `--add`
-1. Solicitar: descripción, severidad, componente afectado, estimación
-2. Añadir al registro con ID auto-incrementable
-3. Sugerir sprint para resolución según capacity
+## 6. Banner de fin
 
-### Modo `--sprint-report`
-1. Generar informe de evolución de deuda en el sprint
-2. Guardar en `output/debt/YYYYMMDD-debt-{proyecto}.md`
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ /debt:track — Completado
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 Debt ratio: X% | {N} abiertos | Tendencia: 📈/📉/→
+```
 
 ## Integración
 
 - `/kpi:dashboard` → incluye debt ratio como KPI
-- `/sprint:plan` → sugiere items de deuda para incluir en sprint
-- `/project:audit` → usa debt:track para evaluar salud del proyecto
+- `/sprint:plan` → sugiere items de deuda para sprint
+- `/project:audit` → usa debt:track para evaluar salud
 
 ## Restricciones
 
-- El registro es un fichero markdown en el proyecto, no en Azure DevOps
-- Opcionalmente puede crear PBIs de tipo "Tech Debt" en DevOps con `--create-pbi`
+- Registro en markdown, no en Azure DevOps (salvo `--create-pbi`)
 - SonarQube es opcional — funciona sin él con registro manual
