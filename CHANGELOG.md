@@ -13,6 +13,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.15.1] — 2026-02-27
+
+Auto-compact post-command: prevents context saturation after heavy commands. Removed `@command-ux-feedback.md` dependency from 7 commands (saves 148 lines per execution). After every slash command, Claude now suggests `/compact` to free context.
+
+### Added
+
+**Auto-compact protocol** — New §9 in `command-ux-feedback.md`: after EVERY slash command, banner must include `⚡ /compact`. Soft block if PM requests another command without compacting first.
+
+### Changed
+
+**7 commands freed from `@command-ux-feedback.md`** — Removed on-demand load of 148-line rule file from: `project-audit`, `sprint-status`, `kpi-dora`, `debt-track`, `evaluate-repo`, `context-load`, `session-save`. UX rules already enforced via CLAUDE.md #15-#17.
+**`context-health.md` §3 rewritten** — "Compactación proactiva" → "Auto-compact post-comando (OBLIGATORIO)". Simplified rules, added soft-block mechanism.
+**CLAUDE.md rule #16 updated** — Now mandates auto-compact suggestion after every command execution.
+
+---
+
 ## [0.15.0] — 2026-02-27
 
 Command naming fix: Claude Code only supports hyphens in slash command names, not colons. All 106 unique command references across 164 files renamed from colon notation (`/project:audit`) to hyphen notation (`/project-audit`). This fix ensures all documented commands actually work as slash commands.
@@ -472,7 +488,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.1...HEAD
+[0.15.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.1...v0.15.0
 [0.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.2...v0.14.0

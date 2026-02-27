@@ -42,28 +42,25 @@ Esto evita que el análisis intermedio contamine el contexto principal.
 - `/spec-generate` → subagente genera spec, guarda en fichero
 - Cualquier comando que lea más de 5 ficheros internamente
 
-## 3. Compactación proactiva
+## 3. Auto-compact post-comando (OBLIGATORIO)
 
-### Cuándo sugerir `/compact`
-- Después de 10+ turnos de conversación
-- Después de ejecutar 3+ comandos en la misma sesión
-- Antes de ejecutar un comando pesado (audit, spec, evaluate)
-- Si el PM cambia de tema o proyecto
+### Regla principal
+**TRAS CADA slash command** → terminar con `⚡ /compact` en el banner de finalización.
+Sin excepciones. Un solo comando pesado satura el contexto (~88%).
 
-### Mensaje de sugerencia
+### Bloqueo suave
+Si el PM pide otro comando sin compactar → responder:
 ```
-💡 Llevamos N turnos. Para mantener la precisión de los comandos,
-   te recomiendo ejecutar /compact antes de continuar.
-   (Preservará las decisiones y resultados de esta sesión)
+⚠️ Contexto alto — ejecuta `/compact` antes de continuar.
 ```
 
-### Instrucciones de compactación para CLAUDE.md
-Al compactar, SIEMPRE preservar:
-- Lista de ficheros modificados en la sesión
-- Resultados de audits/evaluaciones (scores, hallazgos críticos)
+### Al compactar, SIEMPRE preservar
+- Ficheros modificados en la sesión
+- Scores de audits/evaluaciones (hallazgos críticos)
 - Decisiones tomadas por el PM
 - Estado del sprint/proyecto activo
 - Errores encontrados y cómo se resolvieron
+- Último comando ejecutado y su resultado
 
 ## 4. Sesiones enfocadas
 
