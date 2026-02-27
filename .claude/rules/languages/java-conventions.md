@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/*.java"
+  - "**/pom.xml"
+  - "**/build.gradle"
+---
+
 # Regla: Convenciones y Prácticas Java/Spring Boot
 # ── Aplica a todos los proyectos Java en este workspace ──
 

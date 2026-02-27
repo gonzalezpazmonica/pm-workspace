@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.rb"
+  - "**/Gemfile"
+---
+
 # Regla: Convenciones y Prácticas Ruby on Rails
 # ── Aplica a todos los proyectos Rails en este workspace ───────────────────────
 

@@ -1,3 +1,13 @@
+---
+paths:
+  - "**/*.tf"
+  - "**/*.tfvars"
+  - "**/*.bicep"
+  - "**/Dockerfile"
+  - "**/docker-compose*.yml"
+  - "**/*.cdktf.*"
+---
+
 # Regla: Infrastructure as Code — Soporte Multi-Cloud
 # ── Azure CLI, Terraform, AWS CLI, GCP CLI y otros proveedores ──────────────
 

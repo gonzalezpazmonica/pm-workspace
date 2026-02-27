@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.swift"
+  - "**/Package.swift"
+---
+
 # Regla: Convenciones y Prácticas Swift/iOS
 # ── Aplica a todos los proyectos Swift e iOS en este workspace ──────────────────────
 

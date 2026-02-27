@@ -5,6 +5,7 @@
 > Config detallada: @.claude/rules/domain/pm-config.md · @.claude/rules/domain/pm-workflow.md
 > Proyectos privados: @.claude/rules/pm-config.local.md (git-ignorado, no en este repo)
 > Buenas prácticas: @docs/best-practices-claude-code.md
+> Sistema de memoria: @docs/memory-system.md
 
 ---
 
@@ -42,6 +43,7 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 │   ├── agents/                    ← 24 subagentes → @.claude/rules/domain/agents-catalog.md
 │   ├── commands/                  ← 83 slash commands (+7 infra en skill) → @.claude/rules/domain/pm-workflow.md
 │   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
+│   ├── rules/languages/           ← Convenciones por lenguaje (auto-carga por paths: frontmatter)
 │   └── skills/                    ← 13 skills reutilizables
 ├── docs/                          ← Metodología, guías, secciones README
 ├── projects/                      ← Proyectos reales (git-ignorados)
@@ -125,6 +127,20 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 
 ---
 
+## 🧠 Sistema de Memoria
+
+> Guía completa: `@docs/memory-system.md`
+
+**Auto-carga por lenguaje**: Las reglas en `rules/languages/` incluyen frontmatter `paths:` — se cargan automáticamente al tocar ficheros del lenguaje (`.cs`, `.py`, `.go`, etc.). No necesitas `@` manual para convenciones de lenguaje.
+
+**Auto Memory**: Claude guarda notas por proyecto en `~/.claude/projects/<proyecto>/memory/`. Usa `/memory-sync` para consolidar insights del sprint. Inicializar con `scripts/setup-memory.sh [proyecto]`.
+
+**User rules**: Preferencias personales globales en `~/.claude/rules/` (estilo comunicación, formato reportes).
+
+**Proyectos externos**: Usa `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1 claude --add-dir ~/claude` o symlinks a `rules/languages/`.
+
+---
+
 ## ✅ Checklist Nuevo Proyecto
 
 - [ ] `projects/[nombre]/` con `CLAUDE.md` específico (≤150 líneas)
@@ -134,4 +150,5 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 - [ ] Entornos definidos (DEV/PRE/PRO o los que apliquen)
 - [ ] `config.local/` creado + `.gitignore` · `.env.example` sin valores reales
 - [ ] Cloud provider e infraestructura definidos si aplica
+- [ ] Auto memory inicializada: `scripts/setup-memory.sh [nombre]`
 - [ ] `README.md` actualizado

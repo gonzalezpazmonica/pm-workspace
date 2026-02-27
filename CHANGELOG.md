@@ -13,6 +13,32 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.16.0] — 2026-02-27
+
+Intelligent memory system: path-specific auto-loading for all 24 language/domain rule files, auto memory templates per project, new `/memory-sync` command, and comprehensive documentation for symlinks, `--add-dir`, and user-level rules.
+
+### Added
+
+**Path-specific rules (`paths:` frontmatter)** — 21 language files and 3 domain files now include YAML frontmatter with `paths:` patterns. Claude Code auto-loads the correct conventions when touching files of that language (e.g., `.cs` triggers dotnet-conventions, `.py` triggers python-conventions). No manual `@` import needed for language rules.
+
+**`/memory-sync` command** — Consolidates session insights (architecture decisions, debugging solutions, sprint metrics, team patterns) into auto memory topic files. Keeps `MEMORY.md` under 200 lines as an index.
+
+**`scripts/setup-memory.sh`** — Initializes auto memory structure for a project: creates `MEMORY.md` index + 5 topic files (sprint-history, architecture, debugging, team-patterns, devops-notes).
+
+**`docs/memory-system.md`** — Comprehensive guide covering: memory hierarchy, path-specific rules, auto memory, `@` imports, symlinks for shared rules, `--add-dir` for external projects, and user-level rules in `~/.claude/rules/`.
+
+### Changed
+
+**CLAUDE.md** — New §"Sistema de Memoria" section. Added `rules/languages/` to structure diagram. New checklist item for auto memory setup. Reference to `docs/memory-system.md`.
+
+**README.md + README.en.md** — Added "Memory and Context" command section, memory system feature description, and doc reference in the documentation table.
+
+### Why
+
+Claude Code's memory system (v2025+) supports path-specific frontmatter, auto memory with topic files, and hierarchical rule loading. PM-Workspace was loading all language rules manually via `@` imports. With `paths:` frontmatter, the correct conventions activate automatically — reducing context pollution and eliminating manual loading errors. Auto memory provides persistent learning across sessions per project.
+
+---
+
 ## [0.15.1] — 2026-02-27
 
 Auto-compact post-command: prevents context saturation after heavy commands. Removed `@command-ux-feedback.md` dependency from 7 commands (saves 148 lines per execution). After every slash command, Claude now suggests `/compact` to free context.
