@@ -11,7 +11,7 @@ description: >
 
 > Uso: `/kpi:dora --project {p}` o `/kpi:dora --project {p} --sprints 10`
 
-Aplica siempre @.claude/rules/command-ux-feedback.md
+Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
 ## 1. Banner de inicio
 
