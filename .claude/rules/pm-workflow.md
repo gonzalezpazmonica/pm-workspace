@@ -81,6 +81,11 @@
 | `/legacy:assess {--project p}` | Evaluación de aplicación legacy: complejidad, riesgo, roadmap de modernización (strangler fig) |
 | `/backlog:capture {--project p} {--source tipo}` | Crear PBIs desde input desestructurado: emails, reuniones, Slack, tickets de soporte |
 | `/sprint:release-notes {--project p}` | Generar release notes automáticas combinando work items + commits + PRs |
+| `/project:audit {--project p}` | (Phase 1) Deep audit del proyecto: calidad, tests, deuda, seguridad, CI/CD → informe priorizado |
+| `/project:release-plan {--project p}` | (Phase 2) Plan de releases priorizado desde audit + backlog, respetando dependencias |
+| `/project:assign {--project p}` | (Phase 3) Asignar trabajo del plan al equipo según skills, seniority y capacity |
+| `/project:roadmap {--project p}` | (Phase 4) Roadmap visual: timeline, milestones, diagrama Gantt → Draw.io/Miro |
+| `/project:kickoff {--project p}` | (Phase 5) Compilar fases 1-4, notificar PM, crear Sprint 1 en Azure DevOps |
 | `/notify:slack {canal} {msg}` | Enviar notificación o informe al canal de Slack del proyecto |
 | `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
 | `/github:activity {repo}` | Analizar actividad GitHub: PRs, commits, contributors |
