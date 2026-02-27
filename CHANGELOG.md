@@ -13,6 +13,23 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.14.0] — 2026-02-27
+
+Session persistence: knowledge no longer lost between sessions. Inspired by Obsidian vault pattern — pm-workspace now has save/load rituals that build a persistent "second brain" for the PM.
+
+### Added
+
+**`/session:save` command** — Captures decisions, results, modified files, and pending tasks before `/clear`. Saves to two destinations: session log (`output/sessions/`) and cumulative decision log (`decision-log.md`).
+**`decision-log.md`** — Private (git-ignored) cumulative register of PM decisions. Max 50 entries. Loaded by `/context:load` at session start.
+**`output/sessions/`** — Session history with full context for continuity.
+
+### Changed
+
+**`/context:load` rewritten** — Now loads the "big picture": recent decisions from decision-log, last session's pending tasks, project health (last audit score, open debt, risks), plus git activity. Stack-aware (GitHub-only vs Azure DevOps).
+**Command count** — 81 → 83 commands (added session:save, help --setup as separate entry).
+
+---
+
 ## [0.13.2] — 2026-02-27
 
 Fix silent failures: heavy commands (project-audit, evaluate-repo, legacy-assess) now explicitly delegate analysis to subagents. Added stack detection to project-audit prerequisite checks.
@@ -428,7 +445,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.2...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.2...v0.14.0
 [0.13.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.1...v0.13.2
 [0.13.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.12.0...v0.13.0

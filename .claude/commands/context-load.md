@@ -1,16 +1,15 @@
 ---
 name: context-load
 description: >
-  Carga de contexto al inicio de una sesión de Claude Code. Lee el estado actual
-  del workspace, el proyecto activo, el sprint en curso y la actividad reciente
-  para arrancar la sesión con información completa.
+  Carga de contexto al inicio de sesión. Lee estado del workspace, decisiones
+  recientes, último session save y actividad Git para arrancar con el big picture.
 ---
 
 # Carga de Contexto — Inicio de Sesión
 
 Aplica siempre @.claude/rules/command-ux-feedback.md
 
-> Ejecuta este comando al empezar una sesión nueva para tener contexto completo.
+> Ejecuta al empezar una sesión nueva para tener contexto completo.
 
 ## 1. Banner de inicio
 
@@ -20,55 +19,54 @@ Aplica siempre @.claude/rules/command-ux-feedback.md
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## 2. Protocolo de carga (con progreso)
+## 2. Detección de stack
+
+Leer `CLAUDE.local.md` → campo `AZURE_DEVOPS_ENABLED`.
+Mostrar: `📦 Stack: {GitHub-only|Azure DevOps}`
+
+## 3. Protocolo de carga (con progreso)
 
 ```
-📋 Paso 1/5 — Identificando workspace y rama...
+📋 Paso 1/5 — Workspace y rama...
 ```
 ```bash
-pwd
-git branch --show-current
+pwd && git branch --show-current
 ```
-Verificar que estamos en la raíz (`~/claude/`).
+Verificar raíz (`~/claude/`).
 
 ```
-📋 Paso 2/5 — Leyendo configuración global...
+📋 Paso 2/5 — Decisiones y sesión anterior...
 ```
-Leer `CLAUDE.md` (raíz) — Proyectos Activos y Config Esencial.
-Leer `CLAUDE.local.md` si existe — proyectos privados.
+**Decision log** (`decision-log.md` en raíz):
+- Si existe → leer las últimas 10 entradas y mostrar resumen (3-5 decisiones más recientes)
+- Si no existe → `ℹ️ Sin decision log — se creará con /session:save`
+
+**Último session save** (`output/sessions/` → fichero más reciente):
+- Si existe → leer y mostrar: objetivo, pendientes, contexto para esta sesión
+- Si no existe → `ℹ️ Sin sesiones anteriores guardadas`
 
 ```
-📋 Paso 3/5 — Analizando actividad Git reciente...
+📋 Paso 3/5 — Estado de proyectos...
+```
+Leer `CLAUDE.local.md` → tabla de proyectos activos.
+Para cada proyecto, comprobar si existe y mostrar 1 línea de estado:
+- Último audit: `output/audits/*-{proyecto}.md` → score si existe
+- Deuda: `projects/{p}/debt-register.md` → items abiertos si existe
+- Riesgos: `projects/{p}/risk-register.md` → riesgos críticos si existe
+
+```
+📋 Paso 4/5 — Actividad Git reciente...
 ```
 ```bash
-git log --oneline -10 --all --decorate
-git branch -a | grep -v "remotes/origin/HEAD"
+git log --oneline -5 --decorate
 ```
-Resumir: últimos 5 commits, ramas activas no mergeadas.
+Ramas activas no mergeadas (si hay).
 
 ```
-📋 Paso 4/5 — Consultando estado del sprint...
+📋 Paso 5/5 — Herramientas disponibles...
 ```
-Solo si PAT configurado:
-- Ejecutar `/sprint:status` en modo resumido (solo burndown y alertas)
-- Si no hay PAT → "⚠️ Azure DevOps no conectado — sprint no disponible"
-
-```
-📋 Paso 5/5 — Verificando herramientas disponibles...
-```
-```bash
-claude --version 2>/dev/null || echo "no disponible"
-az --version 2>/dev/null | head -1 || echo "no disponible"
-dotnet --version 2>/dev/null || echo "no disponible"
-jq --version 2>/dev/null || echo "no disponible"
-```
-
-## 3. Proyecto activo (detección automática)
-
-Si la rama sigue `feature/`, `fix/`, etc.:
-- Detectar proyecto por path o nombre de rama
-- Leer su CLAUDE.md específico
-- Resumir tarea en curso
+Solo si stack = Azure DevOps: verificar `az`, PAT.
+Siempre: `claude --version`, `git --version`.
 
 ## 4. Mostrar resultado
 
@@ -77,27 +75,31 @@ Si la rama sigue `feature/`, `fix/`, etc.:
   PM-WORKSPACE · Sesión iniciada
 ══════════════════════════════════════════════════
 
-  📁 Workspace: ~/claude/ (rama: main)
-  🔧 Herramientas: Claude X.X ✅ | az CLI ✅ | .NET X ✅ | jq ✅
+  📦 Stack: {GitHub-only|Azure DevOps}
+  📁 Workspace: ~/claude/ (rama: {branch})
 
-  📋 Proyectos activos: N
-     • ProyectoAlpha — Sprint 2026-05 (día 4/10)
-     • ProyectoBeta  — Sprint 2026-05 (día 4/10)
+  📋 Decisiones recientes:
+     • {decisión más reciente}
+     • {decisión 2}
+     • {decisión 3}
 
-  📊 Sprint actual: [resumen 1 línea del burndown]
-     [alerta más importante si hay]
+  ⏳ Pendiente (de última sesión):
+     • {tarea pendiente 1}
+     • {tarea pendiente 2}
 
-  🌿 Ramas activas: N
-     • feature/nueva-funcionalidad (3 commits adelante)
-     • fix/capacity-edge-case (1 commit)
+  📁 Proyectos activos: N
+     • {proyecto1} — audit: X/10 | deuda: N items | riesgos: N
+     • {proyecto2} — sin audit previo
 
   📝 Últimos cambios:
-     • feat(agents): add pr-review command
-     • docs(readme): update command reference
-     • fix(rules): correct PAT reference
+     • {commit 1}
+     • {commit 2}
 
 ══════════════════════════════════════════════════
 ```
+
+Si no hay decisiones ni sesiones previas, mostrar solo proyectos + git.
+Si no hay proyectos → sugerir `/help --setup`.
 
 ## 5. Banner de fin
 
@@ -105,13 +107,14 @@ Si la rama sigue `feature/`, `fix/`, etc.:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ /context:load — Completado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📁 {N} proyectos | 🌿 {N} ramas | 🔧 {N}/{M} herramientas OK
+📁 {N} proyectos | 📋 {N} decisiones recientes | ⏳ {N} pendientes
 💡 ¿Por dónde empezamos?
 ```
 
 ## Restricciones
 
 - **Solo lectura** — no modifica nada
-- **Rápido** — no queries pesadas a Azure DevOps; datos locales primero
-- **Conciso** — output legible en 30 segundos o menos
-- Si PAT no configurado → no error, solo aviso
+- **Conciso** — output legible en 30 segundos, NO cargar ficheros completos
+- Si no hay PAT / Azure DevOps → no error, solo omitir esos datos
+- Leer solo las primeras líneas de cada fichero de estado (no cargar completos)
+- **NO ejecutar otros comandos** como dependencia (/sprint:status, etc.)
