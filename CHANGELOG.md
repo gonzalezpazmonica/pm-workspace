@@ -13,6 +13,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.14.1] — 2026-02-27
+
+Context optimization: auto-loaded baseline reduced by 79% (929 → 193 lines). All 10 domain rules moved to `rules/domain/` (loaded on-demand via `@` references). `/help` rewritten to separate `--setup` from catalog display.
+
+### Changed
+
+**Auto-loaded context** — Moved 10 rules from `.claude/rules/` to `.claude/rules/domain/`. Only `CLAUDE.md` (137 lines) + `CLAUDE.local.md` (36 lines) + base rules (20 lines) load automatically. Domain rules load on-demand when commands reference them via `@`.
+**`/help` rewritten** — `--setup` now only runs checks (no catalog). Plain `/help` saves catalog to `output/help-catalog.md` and shows 15-line summary. Removed `@command-ux-feedback.md` dependency.
+**`CLAUDE.md` compacted** — Removed verbose rule descriptions, updated all `@` references to `domain/` paths.
+**All command `@` references updated** — 9 commands + 1 skill updated from `@.claude/rules/X.md` to `@.claude/rules/domain/X.md`.
+
+---
+
 ## [0.14.0] — 2026-02-27
 
 Session persistence: knowledge no longer lost between sessions. Inspired by Obsidian vault pattern — pm-workspace now has save/load rituals that build a persistent "second brain" for the PM.
@@ -445,7 +458,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.1...HEAD
+[0.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.2...v0.14.0
 [0.13.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.1...v0.13.2
 [0.13.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.0...v0.13.1

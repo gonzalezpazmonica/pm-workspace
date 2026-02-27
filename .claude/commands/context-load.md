@@ -7,7 +7,7 @@ description: >
 
 # Carga de Contexto — Inicio de Sesión
 
-Aplica siempre @.claude/rules/command-ux-feedback.md
+Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
 > Ejecuta al empezar una sesión nueva para tener contexto completo.
 
