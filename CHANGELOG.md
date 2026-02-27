@@ -9,11 +9,28 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-### Planned
+*No planned items — all features from the original roadmap have been implemented.*
 
-**Lower priority — infrastructure and tooling**
-- GitHub Actions: auto-label PRs by branch prefix (`feature/`, `fix/`, `docs/`)
-- Migrate work item CRUD from REST/CLI (`azdevops-queries.sh`) to MCP tools where equivalent
+---
+
+## [0.10.0] — 2026-02-27
+
+Infrastructure and tooling: GitHub Actions workflow for auto-labeling PRs, and MCP migration guide documenting which `azdevops-queries.sh` functions are replaced by MCP tools and which must be kept.
+
+### Added
+
+**GitHub Actions** — PR #45
+- `auto-label-pr.yml` — automatically labels PRs based on branch prefix (`feature/` → feature, `fix/` → fix, `docs/` → docs, etc.) and adds size labels (XS/S/M/L/XL) based on total lines changed. Creates labels on first use with color coding
+
+**MCP migration guide** — `mcp-migration.md` config rule
+- Documents equivalence between `azdevops-queries.sh` functions and MCP tools
+- 5 functions fully migrated to MCP: `get_current_sprint`, `get_sprint_items`, `get_board_status`, `update_workitem`, `batch_get_workitems`
+- 3 functions kept in script (no MCP equivalent): `get_burndown_data` (Analytics OData), `get_team_capacities` (Work API), `get_velocity_history` (hybrid)
+- Decision rule: CRUD → MCP, Analytics/OData/Capacities → keep script
+
+### Changed
+- `azdevops-queries.sh` header updated with migration notes and reference to `mcp-migration.md`
+- `pm-workflow.md` updated with MCP migration reference
 
 ---
 
@@ -299,7 +316,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.9.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.6.0...v0.7.0
