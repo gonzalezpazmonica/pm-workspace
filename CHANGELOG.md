@@ -10,10 +10,35 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Planned
+
+**High priority — Project Onboarding & Release Planning pipeline**
+
+Full automated workflow for onboarding new projects and planning their execution. Five interconnected phases:
+
+- `project:audit` — (Phase 1: Analysis) Deep audit of a newly onboarded project: code quality, architecture, test coverage, technical debt, security, documentation, CI/CD maturity. Generates a prioritized action report with three tiers: critical (must fix), improvable (should fix), and good (keep). Leverages `/evaluate:repo`, `/sentry:health`, `/pipeline:status`, `/debt:track`, and `/kpi:dora` internally. Output: `output/audits/YYYYMMDD-audit-{project}.md`
+- `project:release-plan` — (Phase 2: Planning) Generate a prioritized release plan from the audit report + backlog. Groups PBIs into logical releases respecting dependencies (`/dependency:map`), risk (`/risk:log`), and business value. Each release has: scope, entry/exit criteria, estimated sprints, and dependency graph. Supports both greenfield and legacy projects (strangler fig phasing for legacy). Output: `output/plans/YYYYMMDD-release-plan-{project}.md`
+- `project:assign` — (Phase 3: Assignment) Distribute release plan work across the team. Reads `equipo.md` profiles (skills, seniority, capacity), applies `/team:workload` and `/report:capacity` to balance load, and assigns PBIs/Tasks per sprint using the scoring algorithm from `pbi-decomposition` skill. Generates assignment matrix with per-person load, skill-match %, and overload alerts
+- `project:roadmap` — (Phase 4: Roadmap) Generate a visual roadmap from the release plan: timeline with milestones, releases, sprints, and dependencies. Uses `/diagram:generate` to produce Mermaid gantt/flow → Draw.io or Miro. Also generates an executive-friendly summary via `/report:executive`. Output: diagram + `output/roadmaps/YYYYMMDD-roadmap-{project}.md`
+- `project:kickoff` — (Phase 5: Notification) Summarize and notify. Compiles audit + release plan + assignments + roadmap into a kickoff report. Sends to PM and stakeholders via configured channel (`/notify:slack`, email, or Teams). Creates the Sprint 1 backlog in Azure DevOps with the first release scope already decomposed and assigned
+
+**High priority — industry consensus, clear gap in pm-workspace**
+- `debt:track` — technical debt register per project: debt ratio, trend per sprint, SonarQube integration if available. Debt reduction woven into sprints, not treated as a separate project
+- `kpi:dora` — DORA metrics dashboard: deployment frequency, lead time for changes, change failure rate, MTTR + reliability. Calculated from pipeline and repo data already available via MCP
+- `dependency:map` — cross-team/cross-PBI dependency mapping with blocking alerts. Visual graph for sprint planning. Critical for multi-project PM
+- `retro:actions` — track retrospective action items across sprints: ownership, status, % implemented. Retros without follow-up lose value
+- `legacy:assess` — legacy application assessment: complexity score, maintenance cost, risk rating, modernization roadmap (strangler fig pattern). Feeds into `project:audit` and `project:release-plan` for legacy onboarding
+
+**Medium priority — valuable additions aligned with current architecture**
 - `backlog:capture` — create PBIs from unstructured input (emails, meeting notes, support tickets)
-- `risk:log` — structured risk register updated automatically on each `/sprint:status`
+- `risk:log` — structured risk register updated automatically on each `/sprint:status`, with risk burndown chart
 - `sprint:release-notes` — auto-generate release notes combining work items + commits
+- `wiki:publish` / `wiki:sync` — publish and sync documentation with Azure DevOps Wiki (MCP has 6 wiki tools)
+- `testplan:status` / `testplan:results` — manage Azure DevOps Test Plans and view test results (MCP has 9 test plan tools)
+- `security:alerts` — surface security alerts from Azure DevOps Advanced Security (MCP has 2 security tools)
+
+**Lower priority — infrastructure and tooling**
 - GitHub Actions: auto-label PRs by branch prefix (`feature/`, `fix/`, `docs/`)
+- Migrate work item CRUD from REST/CLI (`azdevops-queries.sh`) to MCP tools where equivalent
 
 ---
 
