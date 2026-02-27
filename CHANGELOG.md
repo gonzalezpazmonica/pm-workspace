@@ -13,6 +13,30 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.12.0] — 2026-02-27
+
+Context optimization: 58% reduction in auto-loaded context. Domain-specific rules moved to on-demand loading, freeing ~1,200 lines of context window for actual PM work. Prevents context saturation that caused commands to fail silently at high usage.
+
+### Changed
+
+**Context architecture overhaul**
+- Created `rules/domain/` subdirectory for domain-specific rules (excluded from auto-loading via `.claudeignore`)
+- 8 rules moved from auto-load to on-demand: `infrastructure-as-code.md` (289 lines), `confidentiality-config.md` (274), `messaging-config.md` (238), `environment-config.md` (186), `mcp-migration.md` (72), `connectors-config.md` (66), `azure-repos-config.md` (52), `diagram-config.md` (50)
+- Auto-loaded context reduced from 2,109 lines to 882 lines (-58%)
+- 10 core rules remain auto-loaded: pm-config, pm-workflow, github-flow, command-ux-feedback, command-validation, file-size-limit, readme-update, language-packs, agents-catalog, pm-config.local
+- Commands that need domain rules now reference them explicitly with `@.claude/rules/domain/` path
+- `.claudeignore` updated to exclude `rules/domain/` alongside existing `rules/languages/` exclusion
+
+**References updated across 17 files:**
+- CLAUDE.md: 4 rule references updated to `domain/` path
+- 6 messaging commands: messaging-config reference updated
+- 4 Azure Repos commands: azure-repos-config reference updated
+- 1 skill (azure-pipelines): environment-config reference updated
+- pm-workflow.md: 8 references updated
+- docs (ES/EN): structure trees updated showing auto-loaded vs on-demand
+
+---
+
 ## [0.11.0] — 2026-02-27
 
 UX Feedback Standards: Every command now provides consistent visual feedback — start banners, progress indicators, error handling with interactive recovery, and end banners. The PM always knows what's happening. Interactive setup mode in `/help --setup` guides through configuration step by step.
@@ -352,7 +376,9 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.11.1...v0.12.0
+[0.11.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.8.0...v0.9.0

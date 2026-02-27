@@ -23,7 +23,7 @@ description: >
 
 1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto y repo
 2. `projects/{proyecto}/reglas-negocio.md` — Para perspectiva BA
-3. @.claude/rules/azure-repos-config.md — Políticas de branch
+3. @.claude/rules/domain/azure-repos-config.md — Políticas de branch
 
 ## Pasos de ejecución
 

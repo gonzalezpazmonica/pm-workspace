@@ -4,3 +4,8 @@
 
 # Language rules — se cargan bajo demanda, no en cada sesión
 .claude/rules/languages/
+
+# Domain-specific rules — se cargan bajo demanda cuando un comando las necesita
+# Libera ~1200 líneas de contexto automático (-58%)
+# Los comandos que las necesitan las referencian con @.claude/rules/domain/fichero.md
+.claude/rules/domain/
