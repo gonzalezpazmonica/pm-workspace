@@ -82,6 +82,7 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 14. **Comandos**: ANTES de commit que toque `commands/`, ejecutar `scripts/validate-commands.sh` · ver `@.claude/rules/command-validation.md`
 15. **UX Feedback OBLIGATORIO**: TODO slash command DEBE mostrar: (1) banner de inicio `🚀 /comando — Descripción`, (2) verificación de prerequisitos con ✅/❌, (3) progreso por pasos `📋 Paso N/M`, (4) resultado en pantalla, (5) banner de fin `✅ /comando — Completado` o `❌ /comando — Error`. Si falta configuración → preguntar interactivamente → guardar → reintentar. **El silencio es un bug.** · ver `@.claude/rules/command-ux-feedback.md`
 16. **Contexto**: Resultado > 30 líneas → guardar en fichero, mostrar solo resumen en chat. Usar `Task` (subagente) para análisis pesados. Sugerir `/compact` tras 10+ turnos o 3+ comandos. Una tarea por sesión. · ver `@.claude/rules/context-health.md`
+17. **Anti-improvisación**: Un comando SOLO ejecuta las acciones definidas en su `.md`. NO crear ficheros, secciones o edits no especificados. Si un escenario no está cubierto → error con sugerencia, NO inventar comportamiento. · ver `@.claude/rules/command-ux-feedback.md` §8
 
 ---
 
