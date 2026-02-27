@@ -86,6 +86,11 @@
 | `/project:assign {--project p}` | (Phase 3) Asignar trabajo del plan al equipo según skills, seniority y capacity |
 | `/project:roadmap {--project p}` | (Phase 4) Roadmap visual: timeline, milestones, diagrama Gantt → Draw.io/Miro |
 | `/project:kickoff {--project p}` | (Phase 5) Compilar fases 1-4, notificar PM, crear Sprint 1 en Azure DevOps |
+| `/wiki:publish {file} {--project p}` | Publicar documentación en Azure DevOps Wiki |
+| `/wiki:sync {--project p}` | Sincronizar documentación local ↔ Azure DevOps Wiki (bidireccional) |
+| `/testplan:status {--project p}` | Estado de Test Plans: suites, casos, ejecución, cobertura |
+| `/testplan:results {--project p} {--run id}` | Resultados detallados de test runs: fallos, tendencias, recomendaciones |
+| `/security:alerts {--project p}` | Alertas de seguridad: CVEs, secrets, vulnerabilidades (Azure DevOps Advanced Security) |
 | `/notify:slack {canal} {msg}` | Enviar notificación o informe al canal de Slack del proyecto |
 | `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
 | `/github:activity {repo}` | Analizar actividad GitHub: PRs, commits, contributors |
