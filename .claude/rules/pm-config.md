@@ -83,7 +83,7 @@ curl -X POST "https://login.microsoftonline.com/$GRAPH_TENANT_ID/oauth2/v2.0/tok
   -d "client_id=$GRAPH_CLIENT_ID&client_secret=$(cat $HOME/.azure/graph-secret)&scope=https://graph.microsoft.com/.default&grant_type=client_credentials"
 ```
 
-**Scopes PAT requeridos:** Work Items R/W · Project and Team R · Analytics R · Code R · Build R
+**Scopes PAT requeridos:** Work Items R/W · Project and Team R · Analytics R · Code R/W · Build R/W · Release R
 
 ```
 # ── Diagram Tools (Draw.io / Miro) ──────────────────────────────────────────
@@ -96,4 +96,10 @@ MIRO_TOKEN_FILE             = "$HOME/.azure/miro-token"            # fichero con
 #   PROJECT_XXX_DRAWIO_FOLDER   = "Folder/Path"                   # carpeta en Draw.io
 #   PROJECT_XXX_MIRO_BOARD_ID   = "uXjVN..."                      # ID del board en Miro
 #   PROJECT_XXX_DIAGRAM_TOOL    = "draw-io"                        # tool preferido (draw-io|miro)
+
+# ── Azure Repos (Git provider por proyecto) ───────────────────────────────
+# Formato en pm-config.local.md:
+#   PROJECT_XXX_GIT_PROVIDER        = "github"                       # github | azure-repos
+#   PROJECT_XXX_AZURE_REPOS_REPO    = "backend-api"                  # repo por defecto en Azure Repos
+#   PROJECT_XXX_AZURE_REPOS_BRANCH  = "main"                         # rama principal
 ```
