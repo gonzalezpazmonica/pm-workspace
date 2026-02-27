@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/wiki:publish {file} --project {p}` o `/wiki:publish --project {p} --page {path}`
+> Uso: `/wiki-publish {file} --project {p}` o `/wiki-publish --project {p} --page {path}`
 
 ## Parámetros
 
@@ -59,9 +59,9 @@ Tamaño: 2.4 KB | Líneas: 85
 
 ## Integración
 
-- `/wiki:sync` → sincronización bidireccional wiki ↔ local
-- `/report:executive` → publicar informes en wiki
-- `/confluence:publish` → alternativa para equipos con Confluence
+- `/wiki-sync` → sincronización bidireccional wiki ↔ local
+- `/report-executive` → publicar informes en wiki
+- `/confluence-publish` → alternativa para equipos con Confluence
 
 ## Restricciones
 

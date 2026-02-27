@@ -88,29 +88,29 @@ Full documentation is organized into sections for easy reference:
 
 ### Sprint and Reporting
 ```
-/sprint:status    /sprint:plan    /sprint:review    /sprint:retro
-/report:hours     /report:executive    /report:capacity
-/team:workload    /board:flow    /kpi:dashboard
+/sprint-status    /sprint-plan    /sprint-review    /sprint-retro
+/report-hours     /report-executive    /report-capacity
+/team-workload    /board-flow    /kpi-dashboard
 ```
 
 ### PBI and SDD
 ```
-/pbi:decompose {id}    /pbi:plan-sprint    /pbi:assign {id}
-/spec:generate {id}    /spec:review {file}    /agent:run {file}
-/spec:status    /pbi:jtbd {id}    /pbi:prd {id}
+/pbi-decompose {id}    /pbi-plan-sprint    /pbi-assign {id}
+/spec-generate {id}    /spec-review {file}    /agent-run {file}
+/spec-status    /pbi-jtbd {id}    /pbi-prd {id}
 ```
 
 ### Infrastructure and Environments
 ```
-/infra:detect {proj} {env}    /infra:plan {proj} {env}    /infra:estimate {proj}
-/infra:scale {resource}       /infra:status {proj}
-/env:setup {proj}             /env:promote {proj} {source} {dest}
+/infra-detect {proj} {env}    /infra-plan {proj} {env}    /infra-estimate {proj}
+/infra-scale {resource}       /infra-status {proj}
+/env-setup {proj}             /env-promote {proj} {source} {dest}
 ```
 
 ### Quality and Team
 ```
-/pr:review [PR]    /pr:pending    /context:load    /changelog:update    /evaluate:repo [URL]
-/team:onboarding {name}    /team:evaluate {name}    /team:privacy-notice {name}
+/pr-review [PR]    /pr-pending    /context-load    /changelog-update    /evaluate-repo [URL]
+/team-onboarding {name}    /team-evaluate {name}    /team-privacy-notice {name}
 /help [filter]
 ```
 

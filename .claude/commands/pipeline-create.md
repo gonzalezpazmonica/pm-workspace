@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/pipeline:create --project {p} --name {n} --repo {r}`
+> Uso: `/pipeline-create --project {p} --name {n} --repo {r}`
 
 ## Parámetros
 
@@ -75,6 +75,6 @@ YAML path: azure-pipelines.yml
 
 ## Integración
 
-- `/pipeline:status` → verificar que la pipeline aparece
-- `/pipeline:run` → ejecutar primera build
-- `/env:setup` → configurar entornos si no existen
+- `/pipeline-status` → verificar que la pipeline aparece
+- `/pipeline-run` → ejecutar primera build
+- `/env-setup` → configurar entornos si no existen

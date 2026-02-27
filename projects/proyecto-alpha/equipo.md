@@ -229,5 +229,5 @@ Fuerza humano:
 | 2026-04 | 60h | 60h | 50h | 60h | ~40h estimadas | ~270h efectivas |
 | 2026-05 | 60h | 60h | 60h | 60h | ~40h estimadas | ~280h efectivas |
 
-> Las horas de agentes son estimadas. Varían según número de specs `agent:single` aprobadas ese sprint.
+> Las horas de agentes son estimadas. Varían según número de specs `agent-single` aprobadas ese sprint.
 > El Tech Lead decide sprint a sprint cuántas specs se delegan a agentes.

@@ -32,18 +32,18 @@ I have 2 active projects configured:
   • ProjectBeta   — 4-person team, fixed price, sprint 2026-04 active
 
 I can help you with:
-  Sprint        → /sprint:status, /sprint:plan, /sprint:review, /sprint:retro
-  Reports       → /report:hours, /report:executive, /report:capacity
-  Backlog       → /pbi:decompose, /pbi:plan-sprint, /pbi:assign
-  SDD (agents)  → /spec:generate, /agent:run, /spec:status
+  Sprint        → /sprint-status, /sprint-plan, /sprint-review, /sprint-retro
+  Reports       → /report-hours, /report-executive, /report-capacity
+  Backlog       → /pbi-decompose, /pbi-plan-sprint, /pbi-assign
+  SDD (agents)  → /spec-generate, /agent-run, /spec-status
 
-Where do you want to start? If it's Monday, I recommend /sprint:status
+Where do you want to start? If it's Monday, I recommend /sprint-status
 to see the current sprint state before the Daily standup.
 ```
 
 **You type:**
 ```
-/sprint:status --project ProjectAlpha
+/sprint-status --project ProjectAlpha
 ```
 
 **Claude responds:**

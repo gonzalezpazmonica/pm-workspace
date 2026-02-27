@@ -73,7 +73,7 @@ Tras un análisis exhaustivo del repositorio awesome-claude-code (209 recursos c
 
 **Qué hace:** Antes de descomponer un PBI en tareas técnicas, documenta el *por qué* del usuario (Jobs to be Done) y el *qué* del producto (Product Requirements Document). Esto enriquece la cadena: JTBD → PRD → PBI → Tasks.
 
-**Por qué tiene sentido:** Actualmente, `/pbi:decompose` toma un PBI de Azure DevOps y lo descompone directamente en tareas técnicas. Pero los PBIs a veces llegan sin contexto suficiente sobre la necesidad del usuario. Agregar una fase de discovery formaliza lo que el `business-analyst` debería hacer antes de que el `architect` diseñe la solución.
+**Por qué tiene sentido:** Actualmente, `/pbi-decompose` toma un PBI de Azure DevOps y lo descompone directamente en tareas técnicas. Pero los PBIs a veces llegan sin contexto suficiente sobre la necesidad del usuario. Agregar una fase de discovery formaliza lo que el `business-analyst` debería hacer antes de que el `architect` diseñe la solución.
 
 **Adaptación necesaria:**
 
@@ -105,7 +105,7 @@ Tras un análisis exhaustivo del repositorio awesome-claude-code (209 recursos c
 **Adaptación necesaria:**
 
 - Leer `CLAUDE.md` raíz + `CLAUDE.md` del proyecto activo
-- Ejecutar `/sprint:status` para obtener el estado actual del sprint
+- Ejecutar `/sprint-status` para obtener el estado actual del sprint
 - Listar las ramas activas (`git branch -a | grep -v main`)
 - Resumir los últimos 5 commits para entender en qué se estuvo trabajando
 - Verificar si hay PBIs asignados sin empezar en el sprint actual

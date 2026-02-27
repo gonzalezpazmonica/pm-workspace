@@ -109,6 +109,6 @@ Coste estimado:         ~$0.02-0.05 por spec de tests
 agente_prioritario: true
 objetivo_agentizacion: "70% de tasks técnicas"
 budget_tokens_por_sprint: "Máx $20 USD en tokens Claude"
-aprobacion_requerida: "Tech Lead (Laura) antes de lanzar agent:team"
-coste_max_por_spec: "$2.00 USD (si supera, usar agent:single)"
+aprobacion_requerida: "Tech Lead (Laura) antes de lanzar agent-team"
+coste_max_por_spec: "$2.00 USD (si supera, usar agent-single)"
 ```

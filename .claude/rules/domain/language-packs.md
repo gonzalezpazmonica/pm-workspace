@@ -24,7 +24,7 @@
 
 ## Detección automática
 
-Al cargar un proyecto (`/context:load`), detectar el Language Pack por archivos presentes:
+Al cargar un proyecto (`/context-load`), detectar el Language Pack por archivos presentes:
 
 | Archivo | Language Pack |
 |---|---|

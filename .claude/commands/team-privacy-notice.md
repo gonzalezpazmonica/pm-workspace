@@ -10,9 +10,9 @@ description: >
 
 **Trabajador:** $ARGUMENTS
 
-> Uso: `/team:privacy-notice "Laura Sánchez" --project GestiónClínica`
+> Uso: `/team-privacy-notice "Laura Sánchez" --project GestiónClínica`
 >
-> Este comando debe ejecutarse ANTES de `/team:evaluate`. La nota es obligatoria
+> Este comando debe ejecutarse ANTES de `/team-evaluate`. La nota es obligatoria
 > conforme al Art. 13 del RGPD.
 
 ---
@@ -73,7 +73,7 @@ Mostrar la nota generada y el checklist de entrega:
   [ ] El trabajador firma el acuse de recibo (sección 9 del documento)
   [ ] Archivar la copia firmada (física o digital con firma electrónica)
 
-  ⚠️  IMPORTANTE: No ejecutar /team:evaluate hasta que el acuse
+  ⚠️  IMPORTANTE: No ejecutar /team-evaluate hasta que el acuse
      de recibo esté firmado. Es un requisito legal (Art. 13 RGPD).
 
 ═══════════════════════════════════════
@@ -83,7 +83,7 @@ Mostrar la nota generada y el checklist de entrega:
 
 ## Restricciones
 
-- **Solo genera la nota** — no recoge datos de competencias (eso es `/team:evaluate`)
+- **Solo genera la nota** — no recoge datos de competencias (eso es `/team-evaluate`)
 - **No solicita consentimiento** — la base legal es interés legítimo, no consentimiento. La nota INFORMA, no pide permiso
 - **Si faltan datos de empresa**, preguntar al usuario antes de generar (no inventar)
 - **Un archivo por trabajador** — no reutilizar notas entre trabajadores

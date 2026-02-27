@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/testplan:results --project {p} --run {id}` o `--plan {id}`
+> Uso: `/testplan-results --project {p} --run {id}` o `--plan {id}`
 
 ## Parámetros
 
@@ -76,10 +76,10 @@ Tendencia: 📉 bajando (-6% vs media)
 
 ## Integración
 
-- `/testplan:status` → vista general de planes y suites
-- `/sentry:bugs` → correlacionar fallos de tests con errores en producción
-- `/sprint:review` → incluir resultados en sprint review
-- `/debt:track` → tests flaky como deuda técnica
+- `/testplan-status` → vista general de planes y suites
+- `/sentry-bugs` → correlacionar fallos de tests con errores en producción
+- `/sprint-review` → incluir resultados en sprint review
+- `/debt-track` → tests flaky como deuda técnica
 
 ## Restricciones
 

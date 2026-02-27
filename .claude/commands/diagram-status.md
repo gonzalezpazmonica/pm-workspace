@@ -9,7 +9,7 @@ description: >
 
 **Filtro:** $ARGUMENTS
 
-> Uso: `/diagram:status [--project {nombre}] [--tool draw.io|miro]`
+> Uso: `/diagram-status [--project {nombre}] [--tool draw.io|miro]`
 
 ## Parámetros
 
@@ -53,7 +53,7 @@ description: >
 5. **Si no hay diagramas**:
    ```
    📊 No hay diagramas registrados.
-   Usa /diagram:generate para crear uno, o /diagram:import para cargar uno existente.
+   Usa /diagram-generate para crear uno, o /diagram-import para cargar uno existente.
    ```
 
 ## Restricciones

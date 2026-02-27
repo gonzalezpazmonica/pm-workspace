@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/whatsapp:search {query}` o `/whatsapp:search --chat {nombre} {query}`
+> Uso: `/whatsapp-search {query}` o `/whatsapp-search --chat {nombre} {query}`
 
 ## Parámetros
 
@@ -64,9 +64,9 @@ Resultados: 5 mensajes en 2 chats (últimos 30 días)
 ## Ejemplos
 
 ```bash
-/whatsapp:search "fecha límite"
-/whatsapp:search --chat "Equipo Sala Reservas" "decisión"
-/whatsapp:search --since 2026-02-01 "requisitos" --media
+/whatsapp-search "fecha límite"
+/whatsapp-search --chat "Equipo Sala Reservas" "decisión"
+/whatsapp-search --since 2026-02-01 "requisitos" --media
 ```
 
 ## Restricciones

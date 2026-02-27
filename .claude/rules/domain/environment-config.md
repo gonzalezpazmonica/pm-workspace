@@ -161,7 +161,7 @@ TELEMETRY_KEY=                # Application Insights / Datadog key
 
 ## Detección Automática de Entorno
 
-Al cargar un proyecto (`/context:load`), detectar entornos por:
+Al cargar un proyecto (`/context-load`), detectar entornos por:
 
 | Señal | Interpretación |
 |---|---|

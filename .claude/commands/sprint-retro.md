@@ -1,15 +1,15 @@
-# /sprint:retro
+# /sprint-retro
 
 Genera la plantilla de retrospectiva con datos del sprint para facilitar la ceremonia.
 
 ## Uso
 ```
-/sprint:retro [proyecto] [--sprint "Sprint 2026-XX"]
+/sprint-retro [proyecto] [--sprint "Sprint 2026-XX"]
 ```
 
 ## Pasos de Ejecución
 
-1. Obtener datos del sprint cerrado (mismos que /sprint:review si ya se ejecutó)
+1. Obtener datos del sprint cerrado (mismos que /sprint-review si ya se ejecutó)
 2. Recuperar action items de la retro anterior desde `projects/<proyecto>/sprints/<sprint-anterior>/retro-actions.md`
 3. Verificar cuáles action items se han cumplido (revisar estado en Azure DevOps si generaron tasks)
 4. Calcular métricas de tendencia (velocity, cycle time, bug rate) vs sprint anterior

@@ -44,9 +44,9 @@
 
 | Semanas | Fase | Objetivo |
 |---------|------|----------|
-| 1-2 | Configuración | Conectar con Azure DevOps, probar `/sprint:status` |
-| 3-4 | Gestión básica | Iterar con `/sprint:plan`, `/team:workload`, ajustar constantes |
-| 5-6 | Reporting | Activar `/report:hours` y `/report:executive` con datos reales |
+| 1-2 | Configuración | Conectar con Azure DevOps, probar `/sprint-status` |
+| 3-4 | Gestión básica | Iterar con `/sprint-plan`, `/team-workload`, ajustar constantes |
+| 5-6 | Reporting | Activar `/report-hours` y `/report-executive` con datos reales |
 | 7-8 | SDD piloto | Generar primeras specs, probar agente con 1-2 tasks de Application Layer |
 | 9+ | SDD a escala | Objetivo: 60%+ de tasks técnicas repetitivas implementadas por agentes |
 

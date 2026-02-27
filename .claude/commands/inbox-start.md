@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/inbox:start` o `/inbox:start --interval 2 --channels wa`
+> Uso: `/inbox-start` o `/inbox-start --interval 2 --channels wa`
 
 ## Parámetros
 
@@ -47,7 +47,7 @@ while true; do
   # Marcar que el monitor está activo
   echo "$TIMESTAMP" > "$INBOX_DIR/monitor-heartbeat.txt"
 
-  # Invocar inbox:check internamente
+  # Invocar inbox-check internamente
   # (la lógica real la ejecuta Claude al leer los resultados)
   echo "CHECK_REQUESTED:$TIMESTAMP" >> "$INBOX_DIR/check-queue.txt"
 
@@ -64,7 +64,7 @@ El proceso se lanza con `&` y Claude registra el task ID.
 Intervalo: cada 5 minutos
 Canales: WhatsApp ✅, Nextcloud Talk ✅
 Task ID: bg-inbox-7a3f
-Detener: /inbox:start --stop
+Detener: /inbox-start --stop
 
 Próximo check: 11:05 (en 5 min)
 ```
@@ -72,7 +72,7 @@ Próximo check: 11:05 (en 5 min)
 ### 4. Ciclo de monitorización
 
 Cada N minutos, Claude recibe la señal del background task y ejecuta:
-1. `/inbox:check` silencioso
+1. `/inbox-check` silencioso
 2. Si hay mensajes nuevos → notificar al PM en la conversación
 3. Si hay audios → transcribir y proponer acciones
 4. Si no hay nada nuevo → silencio (no interrumpir)
@@ -93,30 +93,30 @@ Comandos ejecutados: 2
 
 ```bash
 # Inicio estándar (5 min, todos los canales)
-/inbox:start
+/inbox-start
 
 # Polling cada 2 minutos, solo WhatsApp
-/inbox:start --interval 2 --channels wa
+/inbox-start --interval 2 --channels wa
 
 # Sin mensajes informativos (solo alertas y audios)
-/inbox:start --quiet
+/inbox-start --quiet
 
 # Detener
-/inbox:start --stop
+/inbox-start --stop
 ```
 
 ## Flujo típico de una sesión
 
 ```
-PM: /context:load                   ← carga contexto del proyecto
-PM: /inbox:start                    ← activa monitor de mensajes
-PM: /sprint:status --project x      ← trabaja normalmente
+PM: /context-load                   ← carga contexto del proyecto
+PM: /inbox-start                    ← activa monitor de mensajes
+PM: /sprint-status --project x      ← trabaja normalmente
 
   ... 10 minutos después ...
 
 → 📩 Nuevo audio de Ana García (WhatsApp):
 →   "¿Puedes generar el informe ejecutivo para la reunión de las 12?"
-→   → /report:executive --project sala-reservas
+→   → /report-executive --project sala-reservas
 →   → ¿Ejecutar? (s/n)
 
 PM: s                               ← confirma

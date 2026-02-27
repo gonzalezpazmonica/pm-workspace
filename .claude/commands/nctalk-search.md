@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/nctalk:search {query}` o `/nctalk:search --room {sala} {query}`
+> Uso: `/nctalk-search {query}` o `/nctalk-search --room {sala} {query}`
 
 ## Parámetros
 
@@ -60,9 +60,9 @@ Resultados: 3 mensajes en 1 sala (últimos 30 días)
 ## Ejemplos
 
 ```bash
-/nctalk:search "arquitectura"
-/nctalk:search --room "equipo-sala-reservas" "decisión"
-/nctalk:search --participant "Ana García" --since 2026-02-01
+/nctalk-search "arquitectura"
+/nctalk-search --room "equipo-sala-reservas" "decisión"
+/nctalk-search --participant "Ana García" --since 2026-02-01
 ```
 
 ## Restricciones

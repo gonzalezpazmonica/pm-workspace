@@ -2,14 +2,14 @@
 name: repos-pr-review
 description: >
   Review multi-perspectiva de un PR en Azure Repos. Analiza
-  desde BA, Dev, QA, Security y DevOps (reutiliza patrón pr:review).
+  desde BA, Dev, QA, Security y DevOps (reutiliza patrón pr-review).
 ---
 
 # Repos PR Review
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/repos:pr-review --project {p} --pr {id}` o `/repos:pr-review --project {p} --repo {r} --pr {id}`
+> Uso: `/repos-pr-review --project {p} --pr {id}` o `/repos-pr-review --project {p} --repo {r} --pr {id}`
 
 ## Parámetros
 
@@ -64,9 +64,9 @@ description: >
 
 ## Integración
 
-- `/repos:pr-list` → contexto de PRs activos
-- `/pipeline:logs` → si la build falla
-- `/pr:review` → equivalente para PRs de GitHub
+- `/repos-pr-list` → contexto de PRs activos
+- `/pipeline-logs` → si la build falla
+- `/pr-review` → equivalente para PRs de GitHub
 
 ## Restricciones
 

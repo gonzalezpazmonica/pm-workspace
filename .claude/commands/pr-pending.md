@@ -9,7 +9,7 @@ description: >
 
 **Filtro:** $ARGUMENTS
 
-> Uso: `/pr:pending` (todos los proyectos) · `/pr:pending --project Alpha` (un proyecto)
+> Uso: `/pr-pending` (todos los proyectos) · `/pr-pending --project Alpha` (un proyecto)
 
 ---
 

@@ -1,10 +1,10 @@
-# /sprint:plan
+# /sprint-plan
 
 Asiste en el Sprint Planning calculando capacity disponible y proponiendo la carga de trabajo.
 
 ## Uso
 ```
-/sprint:plan [proyecto] [--sprint "Sprint 2026-XX"]
+/sprint-plan [proyecto] [--sprint "Sprint 2026-XX"]
 ```
 
 ## Pasos de Ejecución

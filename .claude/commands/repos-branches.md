@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/repos:branches --project {p} --repo {r}` o `/repos:branches --project {p} --repo {r} --create {name}`
+> Uso: `/repos-branches --project {p} --repo {r}` o `/repos-branches --project {p} --repo {r} --create {name}`
 
 ## Parámetros
 

@@ -176,5 +176,5 @@ curl -s -X PATCH \
 ## Referencias
 → Skill principal: `azure-devops-queries/SKILL.md`
 → Script de cálculo: `scripts/capacity-calculator.py`
-→ Comando: `/report:capacity`
+→ Comando: `/report-capacity`
 → Esta skill es prerequisito de `pbi-decomposition/SKILL.md` (Fase 4: perfil de disponibilidad del equipo)

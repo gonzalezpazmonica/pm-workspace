@@ -1,10 +1,10 @@
-# /kpi:dashboard
+# /kpi-dashboard
 
 Muestra el dashboard completo con todos los KPIs definidos en docs/kpis-equipo.md.
 
 ## Uso
 ```
-/kpi:dashboard [proyecto] [--sprints N]
+/kpi-dashboard [proyecto] [--sprints N]
 ```
 `--sprints N`: número de sprints para análisis de tendencia (default: 5).
 

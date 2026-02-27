@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/notion:sync --project {p} --direction {dir}` o `/notion:sync {page} --project {p}`
+> Uso: `/notion-sync --project {p} --direction {dir}` o `/notion-sync {page} --project {p}`
 
 ## Parámetros
 
@@ -68,10 +68,10 @@ description: >
 
 ## Integración con otros comandos
 
-- `/spec:generate --publish-notion` → publica Spec en Notion tras generarla
-- `/team:onboarding --publish-notion` → publica guía en Notion
-- `/sprint:retro --publish-notion` → publica retrospectiva en Notion
-- `/pbi:prd --publish-notion` → publica PRD en Notion
+- `/spec-generate --publish-notion` → publica Spec en Notion tras generarla
+- `/team-onboarding --publish-notion` → publica guía en Notion
+- `/sprint-retro --publish-notion` → publica retrospectiva en Notion
+- `/pbi-prd --publish-notion` → publica PRD en Notion
 
 ## Restricciones
 

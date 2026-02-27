@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/project:kickoff --project {p}`
+> Uso: `/project-kickoff --project {p}`
 
 ## Parámetros
 
@@ -24,7 +24,7 @@ description: >
 2. `output/audits/` — Último audit (Phase 1)
 3. `output/plans/` — Último release plan (Phase 2)
 4. `output/roadmaps/` — Último roadmap (Phase 4)
-5. Resultados de `/project:assign` (Phase 3)
+5. Resultados de `/project-assign` (Phase 3)
 
 ## Pasos de ejecución
 
@@ -83,11 +83,11 @@ Milestones: MVP ({fecha}), Beta ({fecha}), Launch ({fecha})
 ### 3. Crear Sprint 1 (si `--create-sprint`)
 - Crear iteration en Azure DevOps (nombre: Sprint YYYY-NN)
 - Mover PBIs de Release 1 al sprint
-- Asignar tasks según matriz de `/project:assign`
+- Asignar tasks según matriz de `/project-assign`
 - ⚠️ **Confirmar con PM antes de crear**
 
 ### 4. Notificar (si `--notify`)
-- **slack**: enviar resumen al canal del proyecto via `/notify:slack`
+- **slack**: enviar resumen al canal del proyecto via `/notify-slack`
 - **email**: generar email con kickoff report (no envía, solo genera)
 - Incluir: score, releases, roadmap, próximos pasos
 
@@ -96,12 +96,12 @@ Milestones: MVP ({fecha}), Beta ({fecha}), Launch ({fecha})
 
 ## Integración
 
-- `/project:audit` → Phase 1 input
-- `/project:release-plan` → Phase 2 input
-- `/project:assign` → Phase 3 input
-- `/project:roadmap` → Phase 4 input
-- `/notify:slack` → distribución del kickoff
-- `/sprint:plan` → refinamiento del Sprint 1 post-kickoff
+- `/project-audit` → Phase 1 input
+- `/project-release-plan` → Phase 2 input
+- `/project-assign` → Phase 3 input
+- `/project-roadmap` → Phase 4 input
+- `/notify-slack` → distribución del kickoff
+- `/sprint-plan` → refinamiento del Sprint 1 post-kickoff
 
 ## Restricciones
 

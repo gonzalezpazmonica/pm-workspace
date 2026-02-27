@@ -23,9 +23,9 @@ El Tech Lead tiene siempre la última palabra.
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
 | Crear entidad de dominio (struct, enum) | `human` | Decisiones de identidad, lifetimes, ownership |
-| Añadir Value Object (newtype pattern, struct) | `agent:single` | Patrón claro: tipo fuerte con derive |
-| Definir trait de repositorio | `agent:single` | Firma predecible, patrón idéntico |
-| Crear Domain Event (struct, derive Clone) | `agent:single` | Estructura fija con propiedades |
+| Añadir Value Object (newtype pattern, struct) | `agent-single` | Patrón claro: tipo fuerte con derive |
+| Definir trait de repositorio | `agent-single` | Firma predecible, patrón idéntico |
+| Crear Domain Event (struct, derive Clone) | `agent-single` | Estructura fija con propiedades |
 | Implementar regla de negocio compleja | `human` | Requiere entendimiento del negocio |
 
 ---
@@ -34,11 +34,11 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| **Use Case / Service CRUD** | `agent:single` | Patrón: validate → check rules → execute → Result |
-| **Query / Service para GetByID, List** | `agent:single` | Patrón: fetch → map → return Result |
-| **DTO / Request structs (serde)** | `agent:single` | Modelos con serde::Serialize/Deserialize |
+| **Use Case / Service CRUD** | `agent-single` | Patrón: validate → check rules → execute → Result |
+| **Query / Service para GetByID, List** | `agent-single` | Patrón: fetch → map → return Result |
+| **DTO / Request structs (serde)** | `agent-single` | Modelos con serde::Serialize/Deserialize |
 | **Use Case con lógica compleja** | `human` | El agente puede equivocarse en orquestación |
-| **Error handling con thiserror/anyhow** | `agent:single` | Patrón: custom error type con Display |
+| **Error handling con thiserror/anyhow** | `agent-single` | Patrón: custom error type con Display |
 
 ---
 
@@ -46,9 +46,9 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| **Implementación de Repositorio (sqlx)** | `agent:single` | Patrón: query → map → return Result |
+| **Implementación de Repositorio (sqlx)** | `agent-single` | Patrón: query → map → return Result |
 | **HTTP Client (reqwest)** | `human` | Depende de documentación externa; alto riesgo |
-| **Email / Notification Service** | `agent:single` si patrón existe / `human` si nuevo | Verificar si existe servicio similar |
+| **Email / Notification Service** | `agent-single` si patrón existe / `human` si nuevo | Verificar si existe servicio similar |
 | **Caché Implementation** (Redis) | `human` | Decisiones de TTL, invalidación y coherencia |
 | **Background Job / Task** | `human` | Ciclo de vida, spawn logic, error recovery |
 | **Mensaje Queue Consumer** | `human` | At-least-once, idempotencia, error handling |
@@ -60,12 +60,12 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| **HTTP Handler CRUD** (Axum) | `agent:single` | Patrón: decode → call service → encode response |
-| **Handler con validación** | `agent:single` | Axum extractors tipados |
-| **Router setup y structure** | `agent:single` | Organización mecánica de rutas |
-| **Middleware simple** (logging) | `agent:single` | Patrón predecible: tower middleware |
+| **HTTP Handler CRUD** (Axum) | `agent-single` | Patrón: decode → call service → encode response |
+| **Handler con validación** | `agent-single` | Axum extractors tipados |
+| **Router setup y structure** | `agent-single` | Organización mecánica de rutas |
+| **Middleware simple** (logging) | `agent-single` | Patrón predecible: tower middleware |
 | **Authorization middleware complejo** | `human` | Decisiones de control de acceso |
-| **Error responder** | `agent:single` | Error → HTTP response mapping |
+| **Error responder** | `agent-single` | Error → HTTP response mapping |
 
 ---
 
@@ -73,10 +73,10 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| **Unit Test — Use Case / Service** | `agent:single` | Los test scenarios están en la Spec |
-| **Unit Test — Domain** | `agent:single` si Spec incluye escenarios / `human` si no | Requiere definición clara |
+| **Unit Test — Use Case / Service** | `agent-single` | Los test scenarios están en la Spec |
+| **Unit Test — Domain** | `agent-single` si Spec incluye escenarios / `human` si no | Requiere definición clara |
 | **Integration Test** (sqlx + DB) | `human` | Require setup, TestContainers |
-| **HTTP Handler Test** (Axum) | `agent:single` si patrón existe | Verificar que hay tests similares |
+| **HTTP Handler Test** (Axum) | `agent-single` si patrón existe | Verificar que hay tests similares |
 | **Property-based Tests** (proptest) | `human` | Decisiones de estrategias de testing |
 
 ---

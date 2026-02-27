@@ -28,12 +28,12 @@ Extends the workspace with features that close the loop between external inputs 
 
 | Feature | Issue | Status |
 |---------|-------|--------|
-| `backlog:capture` — create PBIs from unstructured input (emails, meeting notes, Slack threads) | [#1] | 🔴 |
-| `backlog:estimate` — AI-assisted Story Point estimation based on historical PBI similarity | [#2] | 🔴 |
-| `tech-debt:review` — scan backlog for tech-debt items and propose a maintenance sprint slot | [#3] | 🔴 |
-| `sprint:release-notes` — auto-generate release notes combining work items + commits (builds on `/changelog:update`) | [#4] | 🔴 |
-| `risk:log` — structured risk register (probability × impact) updated on each `/sprint:status` | [#5] | 🔴 |
-| `risk:escalate` — automatic escalation of critical risks to PM via daily digest | [#6] | 🔴 |
+| `backlog-capture` — create PBIs from unstructured input (emails, meeting notes, Slack threads) | [#1] | 🔴 |
+| `backlog-estimate` — AI-assisted Story Point estimation based on historical PBI similarity | [#2] | 🔴 |
+| `tech-debt-review` — scan backlog for tech-debt items and propose a maintenance sprint slot | [#3] | 🔴 |
+| `sprint-release-notes` — auto-generate release notes combining work items + commits (builds on `/changelog-update`) | [#4] | 🔴 |
+| `risk-log` — structured risk register (probability × impact) updated on each `/sprint-status` | [#5] | 🔴 |
+| `risk-escalate` — automatic escalation of critical risks to PM via daily digest | [#6] | 🔴 |
 
 ---
 
@@ -45,8 +45,8 @@ Adds PR lifecycle tracking and team onboarding automation.
 
 | Feature | Issue | Status |
 |---------|-------|--------|
-| `pr:status` — track PR state in AzDO (reviewers, pending comments, review time) — extends `/pr:review` | [#7] | 🔴 |
-| `team:onboarding` — generate personalised onboarding guide for new team members | [#8] | 🔴 |
+| `pr-status` — track PR state in AzDO (reviewers, pending comments, review time) — extends `/pr-review` | [#7] | 🔴 |
+| `team-onboarding` — generate personalised onboarding guide for new team members | [#8] | 🔴 |
 
 ---
 
@@ -72,7 +72,7 @@ Ideas from the community that are not yet committed to a version. Open an issue 
 
 - GitHub Actions integration: track CI/CD pipeline status per sprint item
 - Multi-language documentation (EN, DE, FR)
-- `report:client` — client-facing progress report (lighter than executive report, no internal metrics)
+- `report-client` — client-facing progress report (lighter than executive report, no internal metrics)
 - Budget tracking per project (burned vs. estimated cost)
 - VS Code extension for running workspace commands from the editor sidebar
 - MCP server exposing workspace tools to other Claude Code projects

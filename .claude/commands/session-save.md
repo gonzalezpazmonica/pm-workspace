@@ -2,7 +2,7 @@
 name: session-save
 description: >
   Guarda decisiones, resultados y pendientes de la sesión actual antes de /clear.
-  Persiste el conocimiento entre sesiones para que /context:load lo recupere.
+  Persiste el conocimiento entre sesiones para que /context-load lo recupere.
 ---
 
 # Session Save — Persistencia entre sesiones
@@ -17,7 +17,7 @@ Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 /session:save — Guardando estado de sesión
+🚀 /session-save — Guardando estado de sesión
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -89,7 +89,7 @@ Fichero: `decision-log.md` (raíz del workspace, git-ignorado)
 # Decision Log — PM-Workspace
 # ── FICHERO PRIVADO — git-ignorado ──────────────────────────────
 
-> Registro acumulativo de decisiones del PM. Cargado por /context:load.
+> Registro acumulativo de decisiones del PM. Cargado por /context-load.
 > Mantener máximo 50 entradas. Al superar → archivar antiguas al final.
 
 ---
@@ -118,7 +118,7 @@ Solo decisiones — no resultados ni ficheros (eso está en el session log).
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ /session:save — Completado
+✅ /session-save — Completado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📄 Log: output/sessions/YYYYMMDD-HHMM-session.md
 📋 Decision log actualizado: decision-log.md

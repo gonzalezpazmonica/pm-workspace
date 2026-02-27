@@ -22,7 +22,7 @@ EMAIL_DESTINATARIOS   = ["pm@empresa.com"]                 # ← configurar dest
 **Cuándo:** Al finalizar cada Sprint Review
 **Formato:** Word (.docx) + resumen en Markdown
 **Destino:** `output/sprints/YYYYMMDD-sprint-review-[proyecto]-[sprint].docx`
-**Comando:** `/sprint:review`
+**Comando:** `/sprint-review`
 
 ### Estructura
 
@@ -76,7 +76,7 @@ EMAIL_DESTINATARIOS   = ["pm@empresa.com"]                 # ← configurar dest
 **Cuándo:** Cada viernes antes de las 18:00
 **Formato:** PowerPoint (.pptx) — máximo 8 diapositivas
 **Destino:** `output/executive/YYYYMMDD-weekly-report.pptx`
-**Comando:** `/report:executive`
+**Comando:** `/report-executive`
 
 ### Estructura de diapositivas
 
@@ -115,7 +115,7 @@ Diapositiva N+3 — PRÓXIMOS PASOS
 **Cuándo:** Al finalizar cada sprint o bajo demanda
 **Formato:** Excel (.xlsx) — 4 pestañas
 **Destino:** `output/reports/YYYYMMDD-hours-[proyecto]-[sprint].xlsx`
-**Comando:** `/report:hours`
+**Comando:** `/report-hours`
 
 ### Estructura
 
@@ -151,7 +151,7 @@ Pestaña 4 — COMPARATIVA SPRINTS
 **Cuándo:** Bajo demanda o como adjunto al informe semanal
 **Formato:** HTML interactivo o Excel
 **Destino:** `output/reports/YYYYMMDD-dashboard-[proyecto].html`
-**Comando:** `/kpi:dashboard`
+**Comando:** `/kpi-dashboard`
 
 ### Widgets del dashboard
 
@@ -182,7 +182,7 @@ Widget 6 — Carga del equipo
 **Cuándo:** Al inicio de cada sprint (para el planning) y bajo demanda
 **Formato:** Markdown o tabla en terminal
 **Destino:** `output/reports/YYYYMMDD-capacity-[proyecto]-[sprint].md`
-**Comando:** `/report:capacity`
+**Comando:** `/report-capacity`
 
 ### Estructura
 

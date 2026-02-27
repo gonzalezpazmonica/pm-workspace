@@ -1,10 +1,10 @@
-# /report:executive
+# /report-executive
 
 Genera el informe ejecutivo multi-proyecto para dirección en formato Word o PowerPoint.
 
 ## Uso
 ```
-/report:executive [--format pptx|docx] [--proyectos alpha,beta] [--semana YYYY-WW]
+/report-executive [--format pptx|docx] [--proyectos alpha,beta] [--semana YYYY-WW]
 ```
 Si no se indica formato, generar ambos. Si no se indica semana, usar la semana actual.
 

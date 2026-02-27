@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/retro:actions --project {p}` o `/retro:actions --project {p} --add`
+> Uso: `/retro-actions --project {p}` o `/retro-actions --project {p} --add`
 
 ## Parámetros
 
@@ -70,9 +70,9 @@ Media: 58%
 
 ## Integración
 
-- `/sprint:retro` → al final de la retro, invoca `/retro:actions --add`
-- `/sprint:status` → muestra actions pendientes como recordatorio
-- `/project:audit` → usa % implementación como indicador de mejora continua
+- `/sprint-retro` → al final de la retro, invoca `/retro-actions --add`
+- `/sprint-status` → muestra actions pendientes como recordatorio
+- `/project-audit` → usa % implementación como indicador de mejora continua
 
 ## Restricciones
 
