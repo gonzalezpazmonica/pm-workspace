@@ -514,7 +514,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.1...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.16.0...HEAD
+[0.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.1...v0.16.0
 [0.15.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.1...v0.15.0
 [0.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.0...v0.14.1
