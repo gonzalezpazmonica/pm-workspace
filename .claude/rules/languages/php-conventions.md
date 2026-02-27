@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.php"
+  - "**/composer.json"
+---
+
 # Regla: Convenciones y Prácticas PHP/Laravel
 # ── Aplica a todos los proyectos Laravel en este workspace ──────────────────────
 

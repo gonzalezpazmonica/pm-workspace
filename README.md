@@ -30,6 +30,8 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Multi-entorno** — soporte para DEV/PRE/PRO (configurable) con protección de secrets — las connection strings nunca van al repositorio.
 
+**Sistema de memoria inteligente** — reglas de lenguaje con auto-carga por tipo de fichero (`paths:` frontmatter), auto memory persistente por proyecto, y soporte para proyectos externos vía symlinks y `--add-dir`.
+
 ---
 
 ## Documentación
@@ -81,6 +83,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [KPIs de equipo](docs/kpis-equipo.md) | Definición de KPIs |
 | [Plantillas de informes](docs/plantillas-informes.md) | Templates para reporting |
 | [Flujo de trabajo](docs/flujo-trabajo.md) | Workflow completo |
+| [Sistema de memoria](docs/memory-system.md) | Auto-carga, auto memory, symlinks, `--add-dir` |
 
 ---
 
@@ -107,11 +110,15 @@ La documentación completa está organizada en secciones para facilitar la consu
 /env-setup {proy}             /env-promote {proy} {origen} {destino}
 ```
 
+### Memoria y Contexto
+```
+/memory-sync    /context-load    /session-save    /help [filtro]
+```
+
 ### Calidad y Equipo
 ```
-/pr-review [PR]    /pr-pending    /context-load    /changelog-update    /evaluate-repo [URL]
+/pr-review [PR]    /pr-pending    /changelog-update    /evaluate-repo [URL]
 /team-onboarding {nombre}    /team-evaluate {nombre}    /team-privacy-notice {nombre}
-/help [filtro]
 ```
 
 ---

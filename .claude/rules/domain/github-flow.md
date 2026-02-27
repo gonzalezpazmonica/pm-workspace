@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/.github/**"
+  - "**/.gitignore"
+  - "**/.gitattributes"
+---
+
 # GitHub Flow — Reglas de Branching
 
 > Fuente oficial: https://docs.github.com/get-started/quickstart/github-flow

@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/azure-pipelines*.yml"
+  - "**/.azuredevops/**"
+---
+
 # Regla: Configuración Azure Repos
 
 > Configuración para gestión de repositorios Git en Azure DevOps.

@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/*.ts"
+  - "**/*.mts"
+  - "**/*.cts"
+---
+
 # Regla: Convenciones y Prácticas TypeScript/Node.js
 # ── Aplica a todos los proyectos TypeScript (backend y full-stack) en este workspace ──
 
