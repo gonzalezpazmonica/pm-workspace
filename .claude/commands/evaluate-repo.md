@@ -9,46 +9,99 @@ description: >
 
 **Repositorio:** $ARGUMENTS
 
+Aplica siempre @.claude/rules/command-ux-feedback.md
+
 > Si no se pasa argumento, evalúa el repositorio actual.
 
-## Instrucciones
+## 1. Banner de inicio
 
-1. **NO ejecutes código** — solo inspección estática
-2. Clona a `/tmp/eval-repo-$(date +%s) --depth 1`
-3. Lee: README, CLAUDE.md, package.json, *.csproj, hooks, commands, scripts, configs
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 /evaluate:repo — Evaluación de repositorio
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
-## Criterios (1-10 cada uno)
+## 2. Verificar prerequisitos
+
+Si se pasa URL:
+```
+Verificando acceso al repositorio...
+  ✅ URL válida: {url}
+  📋 Clonando (--depth 1) para inspección...
+```
+
+Si no se pasa argumento:
+```
+Verificando repositorio actual...
+  ✅ Repositorio detectado: {nombre} ({branch})
+```
+
+Si la URL es inválida o no se puede clonar → error claro:
+```
+❌ No se pudo acceder al repositorio: {url}
+   Causa: {motivo}
+   Verifica que la URL es correcta y el repositorio es público
+   (o que tienes acceso configurado).
+```
+
+## 3. Ejecución con progreso
+
+```
+📋 Paso 1/5 — Analizando estructura del repositorio...
+📋 Paso 2/5 — Evaluando calidad de código...
+📋 Paso 3/5 — Escaneando seguridad...
+📋 Paso 4/5 — Verificando documentación...
+📋 Paso 5/5 — Calculando puntuaciones...
+```
+
+### Instrucciones internas
+
+1. **NO ejecutar código** — solo inspección estática
+2. Clonar a `/tmp/eval-repo-$(date +%s) --depth 1`
+3. Leer: README, CLAUDE.md, package.json, *.csproj, hooks, commands, scripts, configs
+
+## 4. Criterios (1-10 cada uno)
 
 1. **Calidad de código** — estructura, legibilidad, consistencia
 2. **Seguridad** — ejecución implícita, filesystem, red, credenciales, escalación
-3. **Documentación** — transparencia, side effects documentados, coincide con implementación
+3. **Documentación** — transparencia, side effects documentados
 4. **Funcionalidad** — cumple scope declarado
 5. **Higiene del repo** — mantenibilidad, licencia, calidad de publicación
-6. **Compatibilidad pm-workspace** — Hexagonal/DDD, convenciones .NET, github-flow, no conflicto con agentes/skills
+6. **Compatibilidad pm-workspace** — Hexagonal/DDD, convenciones, github-flow
 
-## Checklist Claude Code
+## 5. Checklist Claude Code
 
-Responder a cada punto: hooks (stop/lifecycle/pre-post-commit), shell scripts, estado persistente, acciones implícitas sin confirmación, defaults seguros (opt-in), mecanismo de desactivación.
+Responder: hooks, shell scripts, estado persistente, acciones implícitas, defaults seguros (opt-in), mecanismo de desactivación.
 
-## Análisis de permisos
+## 6. Análisis de permisos
 
-- **Declarados** (docs/config) vs **Inferidos** (inspección) → marcar: confirmado/probable/incierto
+- **Declarados** (docs/config) vs **Inferidos** (inspección) → confirmado/probable/incierto
 - Listar discrepancias
 
-## Red flags
+## 7. Red flags
 
-Verificar: malware, ejecución implícita no documentada, actividad de red no documentada, claims falsos, supply-chain, auto-updates.
+Verificar: malware, ejecución implícita no documentada, actividad de red, claims falsos, supply-chain, auto-updates.
 
-## Informe
+## 8. Mostrar informe y veredicto
 
-Generar informe con puntuaciones, media global, y veredicto:
+Puntuaciones, media global, y veredicto:
 - ✅ RECOMENDAR | 🟡 CON RESERVAS | 🔍 REVISIÓN MANUAL | 🔴 RECHAZAR
 
-Si RECHAZAR → indicar heurística: malicioso, ejecución de alto riesgo, discrepancia severa, defaults inseguros.
+Si RECHAZAR → indicar heurística.
+
+## 9. Banner de fin
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ /evaluate:repo — Completado
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 Score: X.X/10 | Veredicto: ✅/🟡/🔍/🔴
+```
+
+Limpiar: `rm -rf /tmp/eval-repo-*`
 
 ## Restricciones
 
 - NUNCA instalar dependencias ni ejecutar código
 - NUNCA aprobar automáticamente — es recomendación al humano
 - Si duda entre 🟡 y 🔴 → elevar a 🔴
-- Limpiar: `rm -rf /tmp/eval-repo-*`

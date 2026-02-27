@@ -81,6 +81,7 @@
 │       ├── diagram-config.md    ← Draw.io/Miro configuration
 │       ├── azure-repos-config.md ← Azure Repos configuration (dual Git provider)
 │       ├── agents-catalog.md    ← 24 agents table
+│       ├── command-ux-feedback.md ← UX feedback standards for all commands
 │       └── languages/           ← Per-language conventions (excluded from auto-loading)
 │           ├── csharp-rules.md
 │           ├── dotnet-conventions.md

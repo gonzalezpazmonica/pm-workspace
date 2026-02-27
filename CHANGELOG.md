@@ -13,6 +13,42 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.11.0] — 2026-02-27
+
+UX Feedback Standards: Every command now provides consistent visual feedback — start banners, progress indicators, error handling with interactive recovery, and end banners. The PM always knows what's happening. Interactive setup mode in `/help --setup` guides through configuration step by step.
+
+### Added
+
+**UX Feedback rule** — `command-ux-feedback.md`
+- Mandatory feedback standards for ALL commands (start banner, progress, errors, end banner)
+- Interactive prerequisite resolution: missing config → ask PM → save → retry automatically
+- Progress indicators for multi-step commands (`📋 Paso 1/N — Descripción...`)
+- Three completion states: success (`✅`), partial (`⚠️`), error (`❌`)
+- Automatic retry after interactive configuration — PM never re-types the command
+
+### Changed
+
+**`/help` rewritten with interactive setup mode**
+- Shows `✅`/`❌` per configuration check with clear explanations
+- For each missing item: explains why it's needed, asks for the value interactively, saves it, confirms
+- After resolving all issues, re-verifies and shows updated status
+- Retry flow: fail → ask → save → retry → show result
+
+**6 core commands updated with UX feedback pattern:**
+- `/sprint:status` — banners, prerequisite checks, progress steps, completion summary
+- `/project:audit` — banners, interactive project creation if missing, 5-step progress, detailed completion
+- `/evaluate:repo` — banners, clone verification, 5-step progress, score summary
+- `/debt:track` — banners, parameter validation, 3-step progress, debt ratio summary
+- `/kpi:dora` — banners, prerequisite checks, 4-step progress, performer classification
+- `/context:load` — banners, 5-step progress, session summary
+
+**Documentation updated:**
+- `pm-workflow.md` — added UX Feedback reference
+- `docs/readme/02-estructura.md` — added `command-ux-feedback.md` to rules tree
+- `docs/readme_en/02-structure.md` — same update (EN)
+
+---
+
 ## [0.10.0] — 2026-02-27
 
 Infrastructure and tooling: GitHub Actions workflow for auto-labeling PRs, and MCP migration guide documenting which `azdevops-queries.sh` functions are replaced by MCP tools and which must be kept.
@@ -316,7 +352,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.10.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.7.0...v0.8.0
