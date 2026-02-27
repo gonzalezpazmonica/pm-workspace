@@ -13,7 +13,7 @@
 ├── .claude/
 │   ├── settings.local.json      ← Claude Code permissions (git-ignored)
 │   │
-│   ├── commands/                ← 57 slash commands
+│   ├── commands/                ← 62 slash commands
 │   │   ├── help.md              ← /help — catalog + first steps
 │   │   ├── sprint-status.md ... ← Sprint & Reporting (10)
 │   │   ├── pbi-decompose.md ... ← PBI & Discovery (6)
@@ -24,6 +24,7 @@
 │   │   ├── diagram-generate.md..← Diagrams (4)
 │   │   ├── pipeline-status.md ..← Pipelines CI/CD (5)
 │   │   ├── repos-list.md ...   ← Azure Repos (6)
+│   │   ├── debt-track.md ...    ← Governance (5: tech debt, DORA, dependencies, retro actions, risks)
 │   │   ├── notify-slack.md ...  ← Connectors (12: Slack, GitHub, Sentry, GDrive, Linear, Atlassian, Notion, Figma)
 │   │   ├── context-load.md      ← Utilities
 │   │   └── references/          ← Reference files (not loaded as commands)

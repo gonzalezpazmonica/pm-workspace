@@ -22,15 +22,10 @@ Full automated workflow for onboarding new projects and planning their execution
 - `project:kickoff` — (Phase 5: Notification) Summarize and notify. Compiles audit + release plan + assignments + roadmap into a kickoff report. Sends to PM and stakeholders via configured channel (`/notify:slack`, email, or Teams). Creates the Sprint 1 backlog in Azure DevOps with the first release scope already decomposed and assigned
 
 **High priority — industry consensus, clear gap in pm-workspace**
-- `debt:track` — technical debt register per project: debt ratio, trend per sprint, SonarQube integration if available. Debt reduction woven into sprints, not treated as a separate project
-- `kpi:dora` — DORA metrics dashboard: deployment frequency, lead time for changes, change failure rate, MTTR + reliability. Calculated from pipeline and repo data already available via MCP
-- `dependency:map` — cross-team/cross-PBI dependency mapping with blocking alerts. Visual graph for sprint planning. Critical for multi-project PM
-- `retro:actions` — track retrospective action items across sprints: ownership, status, % implemented. Retros without follow-up lose value
 - `legacy:assess` — legacy application assessment: complexity score, maintenance cost, risk rating, modernization roadmap (strangler fig pattern). Feeds into `project:audit` and `project:release-plan` for legacy onboarding
 
 **Medium priority — valuable additions aligned with current architecture**
 - `backlog:capture` — create PBIs from unstructured input (emails, meeting notes, support tickets)
-- `risk:log` — structured risk register updated automatically on each `/sprint:status`, with risk burndown chart
 - `sprint:release-notes` — auto-generate release notes combining work items + commits
 - `wiki:publish` / `wiki:sync` — publish and sync documentation with Azure DevOps Wiki (MCP has 6 wiki tools)
 - `testplan:status` / `testplan:results` — manage Azure DevOps Test Plans and view test results (MCP has 9 test plan tools)
@@ -39,6 +34,27 @@ Full automated workflow for onboarding new projects and planning their execution
 **Lower priority — infrastructure and tooling**
 - GitHub Actions: auto-label PRs by branch prefix (`feature/`, `fix/`, `docs/`)
 - Migrate work item CRUD from REST/CLI (`azdevops-queries.sh`) to MCP tools where equivalent
+
+---
+
+## [0.5.0] — 2026-02-27
+
+Governance foundations: technical debt tracking, DORA metrics, dependency mapping, retrospective action follow-up, and risk management. Adds 5 new governance commands. Total: 62 slash commands.
+
+### Added
+
+**Governance commands (5)** — PR #40
+- `/debt:track --project {p}` — technical debt register: debt ratio, trend per sprint, SonarQube integration. Stores data in `projects/{p}/debt-register.md`
+- `/kpi:dora --project {p}` — DORA metrics dashboard: deployment frequency, lead time, change failure rate, MTTR. Classifies as Elite/High/Medium/Low per DORA 2025 benchmarks
+- `/dependency:map --project {p}` — cross-team/cross-PBI dependency mapping with blocking alerts, circular dependency detection, critical path analysis. Visual graph via `/diagram:generate`
+- `/retro:actions --project {p}` — retrospective action items tracking: ownership, status, % implementation across sprints. Detects recurrent themes and suggests elevation to initiatives
+- `/risk:log --project {p}` — risk register: probability × impact matrix (1-3 scale), exposure scoring, risk burndown chart. Stores in `projects/{p}/risk-register.md`
+
+### Changed
+- Command count: 57 → 62 (+5 governance)
+- Help command updated with Governance (5) category
+- `pm-workflow.md` updated with 5 new governance command entries
+- READMEs (ES/EN) updated with governance commands
 
 ---
 
@@ -207,7 +223,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
