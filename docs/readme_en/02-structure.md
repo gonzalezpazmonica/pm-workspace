@@ -13,7 +13,7 @@
 ├── .claude/
 │   ├── settings.local.json      ← Claude Code permissions (git-ignored)
 │   │
-│   ├── commands/                ← 46 slash commands
+│   ├── commands/                ← 57 slash commands
 │   │   ├── help.md              ← /help — catalog + first steps
 │   │   ├── sprint-status.md ... ← Sprint & Reporting (10)
 │   │   ├── pbi-decompose.md ... ← PBI & Discovery (6)
@@ -22,6 +22,8 @@
 │   │   ├── team-onboarding.md ..← Team (3)
 │   │   ├── infra-detect.md ...  ← Infrastructure (7)
 │   │   ├── diagram-generate.md..← Diagrams (4)
+│   │   ├── pipeline-status.md ..← Pipelines CI/CD (5)
+│   │   ├── repos-list.md ...   ← Azure Repos (6)
 │   │   ├── notify-slack.md ...  ← Connectors (12: Slack, GitHub, Sentry, GDrive, Linear, Atlassian, Notion, Figma)
 │   │   ├── context-load.md      ← Utilities
 │   │   └── references/          ← Reference files (not loaded as commands)
@@ -41,7 +43,7 @@
 │   │   ├── dotnet-developer.md  ← + 10 language-specific developers
 │   │   └── ...
 │   │
-│   ├── skills/                  ← 11 reusable skills
+│   ├── skills/                  ← 12 reusable skills
 │   │   ├── azure-devops-queries/
 │   │   ├── sprint-management/
 │   │   ├── capacity-planning/
@@ -54,8 +56,10 @@
 │   │   │   └── references/      ← Templates, matrices, team patterns
 │   │   ├── diagram-generation/  ← Diagram generation (Draw.io, Miro, Mermaid)
 │   │   │   └── references/      ← Mermaid templates, shapes, boards
-│   │   └── diagram-import/      ← Diagram import → Features/PBIs/Tasks
-│   │       └── references/      ← Mapping, PBI templates, business rules validation
+│   │   ├── diagram-import/      ← Diagram import → Features/PBIs/Tasks
+│   │   │   └── references/      ← Mapping, PBI templates, business rules validation
+│   │   └── azure-pipelines/     ← CI/CD with Azure Pipelines (YAML templates, stages)
+│   │       └── references/      ← YAML templates, multi-environment stage patterns
 │   │
 │   └── rules/                   ← Modular rules
 │       ├── pm-config.md         ← Azure DevOps constants
@@ -70,6 +74,7 @@
 │       ├── readme-update.md     ← Rule 12: update READMEs
 │       ├── connectors-config.md ← Claude connectors config (Slack, GitHub, Sentry...)
 │       ├── diagram-config.md    ← Draw.io/Miro configuration
+│       ├── azure-repos-config.md ← Azure Repos configuration (dual Git provider)
 │       ├── agents-catalog.md    ← 24 agents table
 │       └── languages/           ← Per-language conventions (excluded from auto-loading)
 │           ├── csharp-rules.md
