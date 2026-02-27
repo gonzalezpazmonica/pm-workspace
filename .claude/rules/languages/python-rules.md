@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*.py"
+---
+
 # Reglas de Análisis Estático Python — Knowledge Base para Agente de Revisión
 
 > Fuente: [Bandit](https://bandit.readthedocs.io/), [Ruff](https://docs.astral.sh/ruff/rules/), [SonarPython](https://rules.sonarsource.com/python/)

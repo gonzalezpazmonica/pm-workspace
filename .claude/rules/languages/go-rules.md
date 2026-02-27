@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*.go"
+---
+
 # Reglas de Análisis Estático Go — Knowledge Base para Agente de Revisión
 
 > Fuente: [go vet](https://golang.org/cmd/vet/), [staticcheck](https://staticcheck.io/), [gosec](https://github.com/securego/gosec)

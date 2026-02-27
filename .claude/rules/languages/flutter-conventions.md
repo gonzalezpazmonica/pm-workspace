@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.dart"
+  - "**/pubspec.yaml"
+---
+
 # Regla: Convenciones y Prácticas Flutter/Dart
 # ── Aplica a todos los proyectos Flutter en este workspace ──────────────────────
 

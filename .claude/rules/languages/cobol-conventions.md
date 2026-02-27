@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/*.cob"
+  - "**/*.cbl"
+  - "**/*.cpy"
+---
+
 # Regla: Convenciones y Prácticas COBOL
 # ── Aplica a todos los proyectos COBOL en este workspace ──────────────────────
 

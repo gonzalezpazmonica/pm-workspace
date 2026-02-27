@@ -1,3 +1,11 @@
+---
+paths:
+  - "**/*.component.ts"
+  - "**/*.module.ts"
+  - "**/*.service.ts"
+  - "**/*.directive.ts"
+---
+
 # Regla: Convenciones y Prácticas Angular
 # ── Aplica a todos los proyectos Angular en este workspace ──
 

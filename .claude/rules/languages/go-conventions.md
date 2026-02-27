@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.go"
+  - "**/go.mod"
+---
+
 # Regla: Convenciones y Prácticas Go
 # ── Aplica a todos los proyectos Go en este workspace ──────────────────────────
 

@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.rs"
+  - "**/Cargo.toml"
+---
+
 # Regla: Convenciones y Prácticas Rust
 # ── Aplica a todos los proyectos Rust en este workspace ────────────────────────
 

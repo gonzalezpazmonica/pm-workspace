@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/*.kt"
+  - "**/*.kts"
+  - "**/build.gradle.kts"
+---
+
 # Regla: Convenciones y Prácticas Kotlin/Android
 # ── Aplica a todos los proyectos Kotlin en este workspace ──────────────────────
 
