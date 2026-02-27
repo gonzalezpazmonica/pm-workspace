@@ -30,7 +30,7 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Multi-entorno** — soporte para DEV/PRE/PRO (configurable) con protección de secrets — las connection strings nunca van al repositorio.
 
-**Sistema de memoria inteligente** — reglas de lenguaje con auto-carga por tipo de fichero (`paths:` frontmatter), auto memory persistente por proyecto, y soporte para proyectos externos vía symlinks y `--add-dir`.
+**Sistema de memoria inteligente** — reglas de lenguaje con auto-carga por tipo de fichero (`paths:` frontmatter), auto memory persistente por proyecto, soporte para proyectos externos vía symlinks y `--add-dir`. Skills y agentes usan progressive disclosure (`references/`) con metadata `context_cost` para optimizar el consumo de contexto.
 
 **Hooks programáticos** — 9 hooks que refuerzan reglas críticas automáticamente: bloqueo de force push, detección de secrets, prevención de operaciones destructivas de infra, auto-lint tras edición, quality gates antes de finalizar, y scope guard que detecta ficheros modificados fuera del alcance de la spec SDD. Configurados en `.claude/settings.json`.
 

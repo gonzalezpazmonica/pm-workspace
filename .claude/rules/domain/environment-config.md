@@ -15,54 +15,24 @@
 
 ## Configuración de Entornos por Proyecto
 
-En el `CLAUDE.md` de cada proyecto, declarar la sección de entornos:
+En `CLAUDE.md`, declarar la sección `ENVIRONMENTS`:
 
 ```
-# ── Entornos ────────────────────────────────────────────────────────────────
-ENVIRONMENTS_COUNT          = 3
-ENVIRONMENTS                = ["DEV", "PRE", "PRO"]
-
-# Cada entorno se define con nombre completo, diminutivo y propósito:
-ENV_1_NAME                  = "Development"
-ENV_1_SHORT                 = "DEV"
-ENV_1_PURPOSE               = "Desarrollo y pruebas locales"
-ENV_1_AUTO_DEPLOY           = true
-
-ENV_2_NAME                  = "Pre-production"
-ENV_2_SHORT                 = "PRE"
-ENV_2_PURPOSE               = "Staging, pruebas de integración y UAT"
-ENV_2_AUTO_DEPLOY           = false
-
-ENV_3_NAME                  = "Production"
-ENV_3_SHORT                 = "PRO"
-ENV_3_PURPOSE               = "Producción — solo deploy con aprobación humana"
-ENV_3_AUTO_DEPLOY           = false
+ENVIRONMENTS_COUNT = 3
+ENVIRONMENTS       = ["DEV", "PRE", "PRO"]
+ENV_1_NAME         = "Development"
+ENV_1_SHORT        = "DEV"
+ENV_1_AUTO_DEPLOY  = true
+ENV_2_NAME         = "Pre-production"
+ENV_2_SHORT        = "PRE"
+ENV_2_AUTO_DEPLOY  = false
+ENV_3_NAME         = "Production"
+ENV_3_SHORT        = "PRO"
+ENV_3_AUTO_DEPLOY  = false
 ```
 
-### Variantes comunes
-
-**2 entornos (proyectos pequeños):**
-```
-ENVIRONMENTS = ["DEV", "PRO"]
-```
-
-**4 entornos (proyectos enterprise):**
-```
-ENVIRONMENTS = ["DEV", "INT", "PRE", "PRO"]
-# INT = Integration (pruebas de integración entre servicios)
-```
-
-**5 entornos (regulación estricta):**
-```
-ENVIRONMENTS = ["DEV", "INT", "QA", "PRE", "PRO"]
-# QA = Quality Assurance (validación formal)
-```
-
-**Nombres personalizados:**
-```
-ENVIRONMENTS = ["LOCAL", "STAGING", "PRODUCTION"]
-# O cualquier nombre que use la organización
-```
+Variantes: 2 entornos [DEV, PRO] | 4 entornos [DEV, INT, PRE, PRO] |
+5 entornos [DEV, INT, QA, PRE, PRO] | Nombres personalizados [LOCAL, STAGING, PROD]
 
 ---
 
@@ -134,43 +104,18 @@ DEV ──(CI automático)──► PRE ──(aprobación humana)──► PRO
 
 ## Variables de Entorno Estándar
 
-Cada proyecto debe definir estas variables mínimas por entorno:
-
-```bash
-# Identificación
-APP_ENVIRONMENT=DEV           # Nombre del entorno actual
-APP_VERSION=1.2.3             # Versión desplegada
-
-# Conexiones (SIEMPRE en fichero protegido, NUNCA en repo)
-DATABASE_CONNECTION_STRING=   # Connection string BD
-REDIS_CONNECTION_STRING=      # Cache
-MESSAGE_BUS_CONNECTION=       # Service Bus / RabbitMQ
-
-# Servicios externos
-API_BASE_URL=                 # URL del API del entorno
-AUTH_AUTHORITY=               # URL del proveedor de autenticación
-AUTH_CLIENT_ID=               # Client ID (puede ir en repo si no es secret)
-AUTH_CLIENT_SECRET=           # Client secret (NUNCA en repo)
-
-# Observabilidad
-LOG_LEVEL=Information         # DEV=Debug, PRE=Information, PRO=Warning
-TELEMETRY_KEY=                # Application Insights / Datadog key
-```
+**Identificación**: `APP_ENVIRONMENT`, `APP_VERSION`
+**Conexiones** (en ficheros protegidos): `DATABASE_CONNECTION_STRING`, `REDIS_CONNECTION_STRING`, `MESSAGE_BUS_CONNECTION`
+**Servicios externos**: `API_BASE_URL`, `AUTH_AUTHORITY`, `AUTH_CLIENT_ID`, `AUTH_CLIENT_SECRET`
+**Observabilidad**: `LOG_LEVEL` (DEV=Debug, PRE=Info, PRO=Warn), `TELEMETRY_KEY`
 
 ---
 
 ## Detección Automática de Entorno
 
-Al cargar un proyecto (`/context-load`), detectar entornos por:
-
-| Señal | Interpretación |
-|---|---|
-| `appsettings.{ENV}.json` | .NET multi-entorno |
-| `.env.{ENV}` o `config.local/.env.{ENV}` | Entornos con dotenv |
-| `infrastructure/environments/{env}/` | Terraform multi-entorno |
-| `deploy/pipelines/*{ENV}*` | Pipelines por entorno |
-| `docker-compose.{env}.yml` | Docker multi-entorno |
-| Sección `ENVIRONMENTS` en CLAUDE.md | Declaración explícita |
+Al cargar proyecto, detectar entornos por: `appsettings.{ENV}.json`, `.env.{ENV}`,
+`infrastructure/environments/{env}/`, `docker-compose.{env}.yml`, o sección
+`ENVIRONMENTS` en CLAUDE.md.
 
 ---
 
