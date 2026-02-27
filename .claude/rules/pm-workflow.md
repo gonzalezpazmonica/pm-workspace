@@ -136,4 +136,5 @@
 - Mensajería: `.claude/rules/messaging-config.md`
 - Voice Inbox: `.claude/skills/voice-inbox/SKILL.md`
 - MCP Migration: `.claude/rules/mcp-migration.md`
+- UX Feedback: `.claude/rules/command-ux-feedback.md`
 - Azure DevOps API v7.1: https://learn.microsoft.com/en-us/rest/api/azure/devops/

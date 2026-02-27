@@ -1,31 +1,63 @@
+---
+name: sprint-status
+description: Estado del sprint actual — progreso, burndown, alertas.
+---
+
 # /sprint:status
 
-Muestra el estado completo del sprint actual de un proyecto.
+**Argumentos:** $ARGUMENTS
 
-## Uso
-```
-/sprint:status [proyecto]
-```
-Si no se indica proyecto, usar el definido en `AZURE_DEVOPS_DEFAULT_PROJECT`.
+Aplica siempre @.claude/rules/command-ux-feedback.md
 
-## Pasos de Ejecución
+## 1. Banner de inicio
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 /sprint:status — Estado del sprint actual
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+> Si no se indica proyecto, usar el definido en AZURE_DEVOPS_DEFAULT_PROJECT.
+
+## 2. Verificar prerequisitos
+
+```
+Verificando requisitos...
+```
+
+Mostrar ✅/❌:
+- PAT de Azure DevOps
+- Proyecto configurado (CLAUDE.md del proyecto)
+- Sprint activo
+
+Si falta el PAT → modo interactivo (pedir y guardar).
+Si falta el proyecto → preguntar cuál y cargar su CLAUDE.md.
+
+## 3. Ejecución con progreso
+
+```
+📋 Paso 1/3 — Obteniendo sprint actual y work items...
+📋 Paso 2/3 — Calculando métricas y distribución...
+📋 Paso 3/3 — Evaluando alertas...
+```
+
+### Pasos internos
 
 1. Cargar variables de entorno desde `.claude/.env`
-2. Leer el CLAUDE.md del proyecto indicado (`projects/<proyecto>/CLAUDE.md`)
+2. Leer CLAUDE.md del proyecto indicado
 3. Usar la skill `sprint-management` para obtener el sprint actual
-4. Obtener work items del sprint con campos: Id, Title, State, AssignedTo, WorkItemType, CompletedWork, RemainingWork, StoryPoints
+4. Obtener work items con: Id, Title, State, AssignedTo, WorkItemType, CompletedWork, RemainingWork, StoryPoints
 5. Calcular:
    - Total Story Points planificados vs completados
    - RemainingWork total del equipo
    - Distribución de items por estado (New, Active, Resolved, Closed)
    - Distribución por persona
-6. Mostrar alertas si:
-   - Alguna persona supera el WIP_LIMIT_PER_PERSON (default: 2 items Active)
-   - RemainingWork excede la capacity restante del sprint
+6. Alertas si:
+   - Alguna persona supera WIP_LIMIT_PER_PERSON (default: 2 Active)
+   - RemainingWork excede capacity restante del sprint
    - Hay bugs sin asignar
-7. Presentar resumen en formato tabla markdown con semáforo 🟢🟡🔴
 
-## Formato de Salida
+## 4. Mostrar resultado
 
 ```
 ## Sprint Status — [Nombre Sprint] — [Fecha]
@@ -48,4 +80,13 @@ Si no se indica proyecto, usar el definido en `AZURE_DEVOPS_DEFAULT_PROJECT`.
 
 ### ⚠️ Alertas
 ...
+```
+
+## 5. Banner de fin
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ /sprint:status — Completado
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 Sprint {nombre} | {X}% completado | {N} alertas
 ```
