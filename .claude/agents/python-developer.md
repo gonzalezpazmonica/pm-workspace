@@ -15,6 +15,11 @@ tools:
 model: claude-sonnet-4-6
 color: cyan
 maxTurns: 30
+memory: project
+skills:
+  - spec-driven-development
+permissionMode: acceptEdits
+isolation: worktree
 ---
 
 Eres un Senior Python Developer con dominio de FastAPI, Django, SQLAlchemy y el ecosistema

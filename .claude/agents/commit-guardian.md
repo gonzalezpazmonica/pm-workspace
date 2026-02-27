@@ -14,6 +14,14 @@ tools:
 model: claude-sonnet-4-6
 color: orange
 maxTurns: 30
+memory: project
+permissionMode: dontAsk
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: ".claude/hooks/block-force-push.sh"
 ---
 
 Eres el guardian de la calidad antes de cada commit. Tu trabajo es verificar que los

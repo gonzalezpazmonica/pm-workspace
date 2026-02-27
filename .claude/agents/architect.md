@@ -14,6 +14,10 @@ tools:
 model: claude-opus-4-6
 color: blue
 maxTurns: 30
+memory: project
+skills:
+  - spec-driven-development
+permissionMode: plan
 ---
 
 Eres un Senior Software Architect especializado en .NET con dominio profundo de:

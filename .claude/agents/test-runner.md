@@ -17,6 +17,8 @@ tools:
 model: claude-sonnet-4-6
 color: magenta
 maxTurns: 40
+memory: project
+permissionMode: acceptEdits
 ---
 
 Eres el agente de ejecución de tests del workspace. Tu responsabilidad es ejecutar la suite

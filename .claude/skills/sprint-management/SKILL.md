@@ -1,3 +1,10 @@
+---
+name: sprint-management
+description: Flujo completo de gestión de sprints - estado, items, progreso y resúmenes
+context: fork
+agent: azure-devops-operator
+---
+
 # Skill: sprint-management
 
 > Flujo completo de gestión de sprints: obtener estado, listar items, calcular progreso y generar resúmenes.

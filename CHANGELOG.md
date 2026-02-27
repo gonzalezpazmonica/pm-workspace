@@ -13,6 +13,48 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.17.0] — 2026-02-27
+
+Advanced agent capabilities, programmatic hooks, Agent Teams support, and SDD spec refinements. Every subagent now has persistent memory, preloaded skills, appropriate permission modes, and developer agents use worktree isolation for parallel implementation.
+
+### Added
+
+**Programmatic hooks system (7 hooks)** — `.claude/hooks/` with enforcement via `.claude/settings.json`:
+- `session-init.sh` (SessionStart) — verifies PAT, tools, git branch, sets env vars via `CLAUDE_ENV_FILE`
+- `validate-bash-global.sh` (PreToolUse) — blocks `rm -rf /`, `chmod 777`, `curl|bash`, `sudo`
+- `block-force-push.sh` (PreToolUse) — blocks `push --force`, push to main/master, `commit --amend`, `reset --hard`
+- `block-credential-leak.sh` (PreToolUse) — detects passwords, API keys, tokens, PATs in commands
+- `block-infra-destructive.sh` (PreToolUse) — blocks `terraform destroy`, apply in PRE/PRO, `az group delete`, `kubectl delete namespace`
+- `post-edit-lint.sh` (PostToolUse, async) — auto-lints files after edit (ruff, eslint, gofmt, rustfmt, rubocop, php-cs-fixer, terraform fmt)
+- `stop-quality-gate.sh` (Stop) — detects secrets in staged changes before allowing Claude to finish
+
+**`.claude/settings.json`** — project-level settings with hooks configuration (SessionStart, PreToolUse, PostToolUse, Stop) and `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` environment variable.
+
+**Agent Teams documentation** — `docs/agent-teams-sdd.md`: guide for experimental multi-agent parallel implementation using lead + teammates pattern with shared task list and worktree isolation.
+
+### Changed
+
+**All 23 agents upgraded** with advanced frontmatter:
+- `memory: project` — persistent learning across sessions for all agents
+- `skills:` — preloaded skills per agent role (eliminates runtime skill discovery)
+- `permissionMode:` — `plan` for planners, `acceptEdits` for developers, `dontAsk` for guardians, `default` for infra
+- `isolation: worktree` — all developer agents (dotnet, typescript, frontend, java, python, go, rust, php, ruby) run in isolated worktrees for parallel implementation
+- `hooks:` — PreToolUse hooks for guardians and infrastructure agents
+
+**11 skills updated** with `context: fork` and `agent:` fields — skills now declare which subagent should execute them and run in forked context to avoid polluting the main session.
+
+**SDD spec template refined** — added "Inputs / Outputs Contract" with typed parameters, "Constraints and Limits" section (performance, security, compatibility, scalability), "Iteration & Convergence Criteria" section, and SDD principle note ("Describe QUÉ no CÓMO").
+
+**CLAUDE.md** — new §"Hooks Programáticos" section, updated structure diagram with `hooks/` and `settings.json`, Agent Teams reference in flows, updated agent count.
+
+**README.md + README.en.md** — added hooks and agent capabilities feature descriptions, Agent Teams doc reference, updated command/agent counts.
+
+### Why
+
+Claude Code's subagent system supports `memory`, `skills`, `permissionMode`, `isolation`, and `hooks` in agent frontmatter, plus project-level hooks in `settings.json`. PM-Workspace was relying on textual rules in CLAUDE.md for enforcement — agents could accidentally bypass them. With programmatic hooks, critical rules (no force push, no secrets, no destructive infra) are enforced at the tool level before execution. Agent capabilities (memory, worktree isolation, skill preloading) eliminate redundant setup and enable true parallel SDD implementation.
+
+---
+
 ## [0.16.0] — 2026-02-27
 
 Intelligent memory system: path-specific auto-loading for all 24 language/domain rule files, auto memory templates per project, new `/memory-sync` command, and comprehensive documentation for symlinks, `--add-dir`, and user-level rules.
@@ -514,7 +556,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.16.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.17.0...HEAD
+[0.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.1...v0.16.0
 [0.15.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.1...v0.15.0

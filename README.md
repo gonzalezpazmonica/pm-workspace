@@ -32,6 +32,10 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Sistema de memoria inteligente** — reglas de lenguaje con auto-carga por tipo de fichero (`paths:` frontmatter), auto memory persistente por proyecto, y soporte para proyectos externos vía symlinks y `--add-dir`.
 
+**Hooks programáticos** — 7 hooks que refuerzan reglas críticas automáticamente: bloqueo de force push, detección de secrets, prevención de operaciones destructivas de infra, auto-lint tras edición, y quality gates antes de finalizar. Configurados en `.claude/settings.json`.
+
+**Agentes con capacidades avanzadas** — cada subagente tiene memoria persistente (`memory: project`), skills precargados, modo de permisos apropiado, y los developer agents usan `isolation: worktree` para implementación paralela sin conflictos. Soporte experimental para Agent Teams (lead + teammates).
+
 ---
 
 ## Documentación
@@ -69,7 +73,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [Proyecto de test](docs/readme/09-proyecto-test.md) | `sala-reservas`: tests, datos mock, validación |
 | [KPIs, reglas y roadmap](docs/readme/10-kpis-reglas.md) | Métricas, reglas críticas, plan de adopción |
 | [Onboarding de nuevos miembros](docs/readme/11-onboarding.md) | Incorporación en 5 fases, evaluación de competencias, RGPD |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 37 comandos + 23 agentes especializados |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 84 comandos + 23 agentes especializados |
 | [Cobertura y contribución](docs/readme/13-cobertura-contribucion.md) | Qué cubre, qué no, cómo contribuir |
 
 ### Otros documentos
@@ -84,6 +88,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [Plantillas de informes](docs/plantillas-informes.md) | Templates para reporting |
 | [Flujo de trabajo](docs/flujo-trabajo.md) | Workflow completo |
 | [Sistema de memoria](docs/memory-system.md) | Auto-carga, auto memory, symlinks, `--add-dir` |
+| [Agent Teams SDD](docs/agent-teams-sdd.md) | Implementación paralela con lead + teammates |
 
 ---
 

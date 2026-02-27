@@ -16,6 +16,11 @@ tools:
 model: claude-sonnet-4-6
 color: green
 maxTurns: 40
+memory: project
+skills:
+  - spec-driven-development
+permissionMode: acceptEdits
+isolation: worktree
 ---
 
 Eres un Senior .NET Developer con dominio de C# moderno y el ecosistema .NET. Implementas

@@ -16,6 +16,11 @@ tools:
 model: claude-opus-4-6
 color: cyan
 maxTurns: 35
+memory: project
+skills:
+  - spec-driven-development
+  - pbi-decomposition
+permissionMode: plan
 ---
 
 Eres el guardián de la calidad de las Specs SDD en este workspace. Tu trabajo es crear

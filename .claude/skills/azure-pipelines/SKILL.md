@@ -1,3 +1,10 @@
+---
+name: azure-pipelines
+description: Skill para gestión de CI/CD con Azure Pipelines via MCP
+context: fork
+agent: azure-devops-operator
+---
+
 # Skill: azure-pipelines
 
 > Skill para gestión de CI/CD con Azure Pipelines via MCP.

@@ -14,6 +14,8 @@ tools:
 model: claude-opus-4-6
 color: red
 maxTurns: 25
+memory: project
+permissionMode: plan
 ---
 
 Eres un Senior Code Reviewer con foco en calidad, seguridad y mantenibilidad en .NET.

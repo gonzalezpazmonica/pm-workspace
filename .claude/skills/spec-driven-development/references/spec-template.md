@@ -36,6 +36,8 @@ Objetivo de esta task:
 [Qué debe existir al finalizar esta task que no existía antes.]
 ```
 
+> **Principio SDD**: Describe QUÉ hace el código (contratos, interfaces, comportamiento), NO CÓMO lo implementa. El agente decide el cómo.
+
 **Criterios de Aceptación del PBI (extracto relevante):**
 ```
 - [ ] {AC relevante al alcance de esta task}
@@ -115,6 +117,86 @@ public CreatePatientCommandHandler(
 
 ---
 
+## 3. Inputs / Outputs Contract
+
+> *Define exactamente QUÉ datos entran y QUÉ datos salen. Tipos concretos, no vaguedades.*
+
+### Inputs
+
+```csharp
+// Parámetros tipados que el componente acepta (entrada)
+
+// Ejemplo — CreatePatientCommand:
+public record CreatePatientCommand : IRequest<Result<Guid>>
+{
+    /// <summary>
+    /// Nombre completo del paciente (1-200 caracteres)
+    /// Ejemplo: "Juan García López"
+    /// </summary>
+    [Required]
+    [MinLength(1)]
+    [MaxLength(200)]
+    public string Name { get; init; }
+
+    /// <summary>
+    /// Fecha de nacimiento (no puede ser futura)
+    /// Formato: ISO 8601 (YYYY-MM-DD)
+    /// Ejemplo: "1985-03-15" → 40 años
+    /// </summary>
+    [Required]
+    public DateTime BirthDate { get; init; }
+
+    /// <summary>
+    /// DNI o NIE español (debe pasar validación de algoritmo)
+    /// Formato: 8 dígitos + 1 letra (DNI) O X/Y/Z + 7 dígitos + 1 letra (NIE)
+    /// Ejemplo: "12345678A" o "X1234567A"
+    /// </summary>
+    [Required]
+    [RegularExpression(@"^[0-9]{8}[A-Z]$|^[XYZ][0-9]{7}[A-Z]$")]
+    public string NationalId { get; init; }
+}
+```
+
+### Outputs
+
+```csharp
+// Valores tipados que el componente retorna (salida)
+
+// Ejemplo — Response:
+public record CreatePatientResponse
+{
+    /// <summary>
+    /// ID único del paciente creado (GUID)
+    /// Formato: UUID v4
+    /// Ejemplo: "550e8400-e29b-41d4-a716-446655440000"
+    /// </summary>
+    [Required]
+    public Guid Id { get; init; }
+}
+
+// Ejemplo — HTTP Response (201 Created):
+{
+    "id": "550e8400-e29b-41d4-a716-446655440000"
+}
+
+// Ejemplo — Errores (4xx/5xx):
+// 400 Bad Request — validación fallida
+{
+    "error": "ValidationException",
+    "message": "El campo Name no puede estar vacío",
+    "traceId": "0HN8V5EGPE72B:00000001"
+}
+
+// 409 Conflict — DNI duplicado
+{
+    "error": "DuplicateNationalIdException",
+    "message": "El DNI 12345678A ya existe en el sistema",
+    "traceId": "0HN8V5EGPE72B:00000002"
+}
+```
+
+---
+
 ## 3. Reglas de Negocio
 
 > *Cada regla debe ser verificable en tests. No usar "según corresponda" ni "a criterio del dev".*
@@ -135,7 +217,50 @@ public CreatePatientCommandHandler(
 
 ---
 
-## 4. Test Scenarios
+## 4. Constraints and Limits
+
+> *Lo que el código NO PUEDE hacer. Límites cuantificables, no suposiciones.*
+
+### Performance Constraints
+
+| Métrica | Límite | Crítico | Nota |
+|---|---|---|---|
+| Latencia de creación de paciente | ≤ 500ms | Sí | p95 latency, incluye BD |
+| Memory por comando | ≤ 50 MB | No | Heap máximo durante ejecución |
+| Throughput (requests/seg) | ≥ 1000 req/s | Sí | En DEV/PRE, medido con load test |
+| Timeout máximo | 30s | Sí | Abrir un comando que tarde >30s debe fallar con TimeoutException |
+
+### Security Constraints
+
+| Aspecto | Requirement |
+|---|---|
+| Autenticación | Usuario DEBE estar autenticado (JWT válido) con claim `scope:patient.create` |
+| Autorización | Solo Role `Doctor` o `Admin` pueden crear pacientes |
+| Validación de entrada | Sanitizar campo `Name` (XSS), validar `NationalId` (no inyección SQL), rechazar campos extra |
+| Encriptación | Connection string a BD DEBE usar SSL/TLS, datos sensibles (NationalId) pueden estar hasheados en logs |
+| Rate Limiting | Máx 100 requests/min por usuario (DDoS mitigation) |
+| GDPR | Registrar creación en audit log (quién, cuándo, qué dato) |
+
+### Compatibility Constraints
+
+| Elemento | Constraint |
+|---|---|
+| .NET Runtime | ≥ .NET 8.0 (LTS), soporte por Microsoft hasta Nov 2026 |
+| Base de datos | SQL Server 2019+ ó PostgreSQL 13+ |
+| API versioning | Soportar `application/json` con charset `utf-8` |
+| Backwards compatibility | Si cambias la interfaz del comando, crear una V2 del endpoint (`/api/v2/patients`) |
+
+### Scalability Limits
+
+| Recurso | Límite | Plan de escalado |
+|---|---|---|
+| Usuarios concurrentes | ≤ 10,000 | Horizontal: add más instancias de API (Azure App Service scale out) |
+| Registros de pacientes | ≤ 10 millones | Vertical: migrar a sharding por región, table partitioning en BD |
+| Datos por request | ≤ 1 MB | Si supera, usar pagination o batch API |
+
+---
+
+## 5. Test Scenarios
 
 > *Estos escenarios son los tests que DEBEN existir al finalizar la task.*
 > *Si el developer_type es agent, el agente debe generar exactamente estos tests.*
@@ -198,7 +323,7 @@ Scenario: Transacción fallida (UnitOfWork lanza excepción)
 
 ---
 
-## 5. Ficheros a Crear / Modificar
+## 6. Ficheros a Crear / Modificar
 
 > *Lista exacta de ficheros. El agente debe crear/modificar EXACTAMENTE estos, ni más ni menos.*
 
@@ -227,7 +352,7 @@ src/Infrastructure/               # Infrastructure layer — según Fase 2 de de
 
 ---
 
-## 6. Código de Referencia
+## 7. Código de Referencia
 
 > *Ejemplos del mismo patrón en el proyecto para que el developer/agente siga la convención.*
 
@@ -271,7 +396,7 @@ public async Task<Result<Guid>> Handle(CreateAppointmentCommand request, Cancell
 
 ---
 
-## 7. Configuración de Entorno
+## 8. Configuración de Entorno
 
 > *Lo que el agente necesita saber sobre el entorno de ejecución.*
 
@@ -294,7 +419,7 @@ dotnet test $TEST_PROJECT --filter "Category=Unit" --no-build
 
 ---
 
-## 8. Estado de Implementación
+## 9. Estado de Implementación
 
 > *El developer/agente actualiza esta sección durante la implementación.*
 
@@ -321,7 +446,7 @@ dotnet test $TEST_PROJECT --filter "Category=Unit" --no-build
 
 ---
 
-## 9. Checklist Pre-Entrega
+## 10. Checklist Pre-Entrega
 
 > *El developer (humano o agente) verifica antes de marcar la task como "In Review".*
 
@@ -345,7 +470,7 @@ dotnet test $TEST_PROJECT --filter "Category=Unit" --no-build
 
 ---
 
-## Notas para el Revisor (Tech Lead)
+## 11. Notas para el Revisor (Tech Lead)
 
 > *Información adicional para el Code Review. No afecta la implementación.*
 
@@ -356,5 +481,107 @@ dotnet test $TEST_PROJECT --filter "Category=Unit" --no-build
 
 ---
 
-*Template versión 1.0 — SDD Skill para {Workspace Name}*
-*Basado en Clean Architecture .NET 8 + CQRS + MediatR*
+## 12. Iteration & Convergence Criteria
+
+> *¿Cuándo está la spec lista para implementar? Checklist de madurez.*
+
+### Cuándo es la Spec "Good Enough" para implementar
+
+Una spec está lista para que un agente (o developer humano) empiece a implementar SOLO si cumple todos los criterios siguientes. Si falta algo → iterar la spec, NO empezar a codificar.
+
+### Checklist de Completitud
+
+#### ✅ Inputs / Outputs Completamente Definidos (Sección 3)
+- [ ] **Tipos concretos para TODOS los inputs**: Cada parámetro tiene un tipo específico (string, int, DateTime, custom object). No "información", "datos", "algo".
+  - ❌ MAL: `input: información del paciente`
+  - ✅ BIEN: `input: CreatePatientCommand { Name: string (1-200), BirthDate: DateTime, NationalId: string (regex) }`
+- [ ] **Ejemplos reales para cada input**: Mostrar un ejemplo de valor válido. No plantillas abstractas.
+  - ❌ MAL: `NationalId: {valid_dni}`
+  - ✅ BIEN: `NationalId: "12345678A" (8 dígitos + letra mayúscula)`
+- [ ] **Tipos concretos para TODOS los outputs**: Response, error codes, eventos generados.
+  - ❌ MAL: `output: resultado de la creación`
+  - ✅ BIEN: `output: { id: Guid, name: string }` + HTTP 201 + `PatientCreatedDomainEvent`
+- [ ] **Ejemplos reales de outputs**: Mostrar JSON/objeto real que se devuelve.
+  - ❌ MAL: `{ success: true, data: {...} }`
+  - ✅ BIEN: `{ id: "550e8400-e29b-41d4-a716-446655440000" }` + HTTP 201
+
+#### ✅ Reglas de Negocio Enumerables (Sección 4 — antes "3. Reglas de Negocio")
+- [ ] **Cada regla es una fila en tabla**: No párrafos sueltos. Formato: ID | Descripción | Error | HTTP Code.
+- [ ] **Cada regla es testeable**: Puedo escribir un test unitario para ella sin ambigüedad.
+  - ❌ MAL: `El DNI debe ser válido según corresponda`
+  - ✅ BIEN: `RN-05: El NationalId debe pasar validación de algoritmo DNI/NIE español (mod 23). Error: ValidationException (400)`
+- [ ] **Sin "según corresponda", "a criterio del", "si procede"**: Reglas concretas y cuantificables.
+- [ ] **Máximo 10-15 reglas**: Si hay más, están mal agrupadas. Consolidar.
+
+#### ✅ Test Scenarios Cubren Happy + Error + Edge (Sección 5 — antes "4")
+- [ ] **Happy path**: Al menos 1 scenario donde TODO funciona bien.
+- [ ] **Error cases**: Cada regla de negocio tiene al menos 1 scenario de error asociado.
+- [ ] **Edge cases**: Límites (máximo/mínimo valores), casos frontera.
+  - Ejemplo: nombre de 200 caracteres (límite máximo) vs 201 (debe fallar)
+- [ ] **Cada scenario es ejecutable**: Doy Given/When/Then concretos, no vagos.
+  - ❌ MAL: `Given un paciente When creamos Then se crea bien`
+  - ✅ BIEN: `Given DNI "12345678A" (no existe) AND nombre "Juan" AND BirthDate "1985-03-15" When POST /api/v1/patients Then HTTP 201 AND response.id es Guid válido`
+
+#### ✅ Constraints Están Cuantificados (Sección 4 — nuevo)
+- [ ] **Performance**: Latencia máxima en ms, throughput en req/s, memory limit en MB. No "rápido" o "eficiente".
+  - ❌ MAL: `Debe ser eficiente`
+  - ✅ BIEN: `Latencia ≤ 500ms (p95), throughput ≥ 1000 req/s`
+- [ ] **Security**: Autenticación y autorización especificadas. Qué datos se sanitizan. Rate limits.
+  - ❌ MAL: `Debe ser seguro`
+  - ✅ BIEN: `Requiere JWT válido con scope:patient.create. Solo Role Doctor|Admin. Rate limit: 100 req/min/user`
+- [ ] **Compatibility**: Qué versiones de BD, framework, navegadores. Backwards compatibility.
+  - ❌ MAL: `Compatible con versiones recientes`
+  - ✅ BIEN: `.NET 8.0+ (LTS). SQL Server 2019+ o PostgreSQL 13+`
+- [ ] **Scalability**: Límites de usuarios, volumen de datos, plan de escalado.
+  - ❌ MAL: `Escalable horizontalmente`
+  - ✅ BIEN: `≤ 10,000 usuarios concurrentes. Plan: App Service scale-out. ≤ 10M registros. Plan: sharding por región`
+
+#### ✅ Archivos a Crear/Modificar Están Listados (Sección 6 — antes "5")
+- [ ] **Crear (nuevos)**: Ruta exacta + nombre de fichero + propósito en 1 línea.
+  - ❌ MAL: `src/Application/Commands/` (ruta incompleta)
+  - ✅ BIEN: `src/Application/Patients/Commands/CreatePatient/CreatePatientCommand.cs # Command + Response`
+- [ ] **Modificar (existentes)**: Ruta exacta + qué cambios concretos (añadir método, registrar handler, etc.)
+  - ❌ MAL: `Actualizar DependencyInjection.cs`
+  - ✅ BIEN: `src/Application/DependencyInjection.cs # Registrar CreatePatientCommandHandler en MediatR`
+- [ ] **NO tocar**: Listar ficheros que el agente NUNCA debe tocar.
+
+### Flujo de Iteración
+
+```
+PM escribe spec (inicial, probablemente incompleta)
+    ↓
+Para cada sección:
+  ¿Inputs/Outputs son concretos o vagos?
+    → Vagos → Iterar spec (pedir detalles al analista/PM)
+  ¿Reglas de negocio enumerables o texto libre?
+    → Texto libre → Iterar (extraer reglas en tabla)
+  ¿Test scenarios tienen Given/When/Then concretos?
+    → Abstactos → Iterar (pedir ejemplos reales)
+  ¿Constraints cuantificados o sólo descripciones?
+    → Descripciones → Iterar (definir límites numéricos)
+    ↓
+  Spec madura → READY FOR IMPLEMENTATION
+    ↓
+  Agente lee spec → Implementa exactamente lo pedido → Tests pasan
+```
+
+### Condiciones de Parada (cuándo dejar de iterar)
+
+**Parar de iterar (spec lista para implementar) si:**
+- Inputs/Outputs: tipos concretos + ejemplos para todos
+- Reglas: tabla con ID, descripción, error, HTTP code (máx 15 reglas)
+- Tests: happy path + error case por cada regla + edge cases (mín 7 scenarios)
+- Constraints: performance, security, compatibility, scalability cuantificados
+- Archivos: lista exacta de crear/modificar/no-tocar (no ambigüedades)
+
+**NO empezar implementación si:**
+- Hay inputs sin tipo concreto ← Iterar
+- Una regla dice "según corresponda" ← Iterar
+- Un scenario describe con 1 palabra ("crear paciente") ← Iterar
+- Un constraint dice "eficiente" o "seguro" sin números ← Iterar
+- Hay 2+ archivos con ruta incompleta ← Iterar
+
+---
+
+*Template versión 2.0 — SDD Skill para {Workspace Name}*
+*Basado en Clean Architecture .NET 8 + CQRS + MediatR + SDD Best Practices*
