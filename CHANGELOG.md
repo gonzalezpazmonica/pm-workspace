@@ -31,7 +31,7 @@ Context optimization and 150-line discipline enforcement: every skill, agent, an
 
 ### Fixed
 
-**CI: spec developer_type format** — Spec files used `agent-single` but test suite expected `agent:single` (colon format). Fixed in 2 spec files + `agent-run.md` command. Failures since v0.17.0.
+**CI: spec developer_type format** — Test suite used `agent:single` (colon format) but specs and project convention use `agent-single` (hyphen format, required by Claude Code). Fixed test-workspace.sh validation regex + layer-assignment-matrix grep. Failures since v0.17.0.
 
 **Release workflow: missing npm install** — Added `setup-node@v4` and `npm install --prefix scripts` steps to `.github/workflows/release.yml`. The test suite requires `node_modules` for Excel/PowerPoint validation.
 
