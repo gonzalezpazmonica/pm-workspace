@@ -9,8 +9,6 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-Aplica siempre @.claude/rules/domain/command-ux-feedback.md
-
 > Ejecuta ANTES de `/clear` o al terminar una sesión para no perder contexto.
 
 ## 1. Banner de inicio

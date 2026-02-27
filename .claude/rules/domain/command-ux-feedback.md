@@ -143,6 +143,34 @@ Un comando SOLO puede hacer lo que su fichero `.md` define explícitamente:
 
 Esto reduce tokens (Claude no "piensa qué hacer") y garantiza comportamiento predecible.
 
-## 9. Aplicación
+## 9. Auto-compact post-comando (OBLIGATORIO)
+
+TRAS CADA slash command — sin excepción — el banner de finalización DEBE incluir:
+
+```
+⚡ /compact — Ejecuta para liberar contexto antes del siguiente comando
+```
+
+### Reglas de auto-compact
+
+1. **Siempre sugerir**: No importa si el comando fue ligero o pesado. SIEMPRE terminar con `⚡ /compact`
+2. **Bloqueo suave**: Si el PM pide otro comando sin haber compactado, responder:
+   ```
+   ⚠️ Contexto alto — ejecuta `/compact` antes de continuar.
+   Esto preservará los resultados y liberará espacio para el siguiente comando.
+   ```
+3. **Resumen de compactación**: Cuando el PM ejecute `/compact`, Claude DEBE preservar:
+   - Ficheros modificados en la sesión
+   - Scores de audits/evaluaciones
+   - Decisiones del PM
+   - Errores y cómo se resolvieron
+   - Último comando ejecutado y su resultado
+
+### Por qué es obligatorio
+
+Sin compactación entre comandos, el contexto se satura (~88% tras un solo audit)
+y el siguiente comando falla o produce resultados degradados.
+
+## 10. Aplicación
 
 TODOS los comandos sin excepción. Prioridad sobre contenido de cada comando.
