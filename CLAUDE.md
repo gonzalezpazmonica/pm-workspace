@@ -40,8 +40,8 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ~/claude/                          ← Raíz de trabajo Y repositorio GitHub
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
-│   ├── agents/                    ← 23 subagentes → @.claude/rules/domain/agents-catalog.md
-│   ├── commands/                  ← 87 slash commands (+7 infra en skill) → @.claude/rules/domain/pm-workflow.md
+│   ├── agents/                    ← 24 subagentes → @.claude/rules/domain/agents-catalog.md
+│   ├── commands/                  ← 86 slash commands (+7 infra en skill) → @.claude/rules/domain/pm-workflow.md
 │   ├── hooks/                     ← 8 hooks programáticos (seguridad, TDD gate, lint, quality gates)
 │   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
 │   ├── rules/languages/           ← Convenciones por lenguaje (auto-carga por paths: frontmatter)
@@ -92,7 +92,7 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 
 ## 🤖 Subagentes y Flujos
 
-> Catálogo completo (23 agentes): `@.claude/rules/domain/agents-catalog.md`
+> Catálogo completo (24 agentes): `@.claude/rules/domain/agents-catalog.md`
 
 Cada agente tiene: `memory: project` (persistencia entre sesiones), `skills:` precargados, `permissionMode:` apropiado, y `hooks:` donde aplica. Los developer agents usan `isolation: worktree` para ramas paralelas sin conflicto.
 
