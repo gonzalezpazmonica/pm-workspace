@@ -11,16 +11,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Planned
 
-**High priority — Project Onboarding & Release Planning pipeline**
-
-Full automated workflow for onboarding new projects and planning their execution. Five interconnected phases:
-
-- `project:audit` — (Phase 1: Analysis) Deep audit of a newly onboarded project: code quality, architecture, test coverage, technical debt, security, documentation, CI/CD maturity. Generates a prioritized action report with three tiers: critical (must fix), improvable (should fix), and good (keep). Leverages `/evaluate:repo`, `/sentry:health`, `/pipeline:status`, `/debt:track`, and `/kpi:dora` internally. Output: `output/audits/YYYYMMDD-audit-{project}.md`
-- `project:release-plan` — (Phase 2: Planning) Generate a prioritized release plan from the audit report + backlog. Groups PBIs into logical releases respecting dependencies (`/dependency:map`), risk (`/risk:log`), and business value. Each release has: scope, entry/exit criteria, estimated sprints, and dependency graph. Supports both greenfield and legacy projects (strangler fig phasing for legacy). Output: `output/plans/YYYYMMDD-release-plan-{project}.md`
-- `project:assign` — (Phase 3: Assignment) Distribute release plan work across the team. Reads `equipo.md` profiles (skills, seniority, capacity), applies `/team:workload` and `/report:capacity` to balance load, and assigns PBIs/Tasks per sprint using the scoring algorithm from `pbi-decomposition` skill. Generates assignment matrix with per-person load, skill-match %, and overload alerts
-- `project:roadmap` — (Phase 4: Roadmap) Generate a visual roadmap from the release plan: timeline with milestones, releases, sprints, and dependencies. Uses `/diagram:generate` to produce Mermaid gantt/flow → Draw.io or Miro. Also generates an executive-friendly summary via `/report:executive`. Output: diagram + `output/roadmaps/YYYYMMDD-roadmap-{project}.md`
-- `project:kickoff` — (Phase 5: Notification) Summarize and notify. Compiles audit + release plan + assignments + roadmap into a kickoff report. Sends to PM and stakeholders via configured channel (`/notify:slack`, email, or Teams). Creates the Sprint 1 backlog in Azure DevOps with the first release scope already decomposed and assigned
-
 **Medium priority — valuable additions aligned with current architecture**
 - `wiki:publish` / `wiki:sync` — publish and sync documentation with Azure DevOps Wiki (MCP has 6 wiki tools)
 - `testplan:status` / `testplan:results` — manage Azure DevOps Test Plans and view test results (MCP has 9 test plan tools)
@@ -29,6 +19,27 @@ Full automated workflow for onboarding new projects and planning their execution
 **Lower priority — infrastructure and tooling**
 - GitHub Actions: auto-label PRs by branch prefix (`feature/`, `fix/`, `docs/`)
 - Migrate work item CRUD from REST/CLI (`azdevops-queries.sh`) to MCP tools where equivalent
+
+---
+
+## [0.7.0] — 2026-02-27
+
+Project Onboarding Pipeline: 5-phase automated workflow for onboarding new projects. From audit to kickoff in one pipeline. Adds 5 new commands. Total: 70 slash commands.
+
+### Added
+
+**Project Onboarding commands (5)** — PR #42
+- `/project:audit --project {p}` — (Phase 1) Deep project audit: 8 dimensions (code quality, tests, architecture, debt, security, docs, CI/CD, team health). Generates prioritized action report with 3 tiers: critical, improvable, correct. Leverages `/debt:track`, `/kpi:dora`, `/pipeline:status`, `/sentry:health` internally
+- `/project:release-plan --project {p}` — (Phase 2) Prioritized release plan from audit + backlog. Groups PBIs into releases respecting dependencies, risk, and business value. Supports greenfield and legacy (strangler fig) strategies
+- `/project:assign --project {p}` — (Phase 3) Distribute work across team by skills, seniority, and capacity. Scoring algorithm: skill_match (40%) + capacity (30%) + seniority_fit (20%) + context_bonus (10%). Alerts for overload and bus factor
+- `/project:roadmap --project {p}` — (Phase 4) Visual roadmap: Mermaid Gantt with milestones, dependencies, releases. Exports to Draw.io/Miro. Two audiences: tech (detailed) and executive (summary)
+- `/project:kickoff --project {p}` — (Phase 5) Compile phases 1-4 into kickoff report. Notify PM via Slack/email. Optionally create Sprint 1 in Azure DevOps with Release 1 scope
+
+### Changed
+- Command count: 65 → 70 (+5 onboarding)
+- Help command updated with Project Onboarding (5) category
+- `pm-workflow.md` updated with 5 new onboarding command entries
+- READMEs (ES/EN) updated with project onboarding commands
 
 ---
 
@@ -237,7 +248,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
