@@ -21,12 +21,7 @@ Full automated workflow for onboarding new projects and planning their execution
 - `project:roadmap` — (Phase 4: Roadmap) Generate a visual roadmap from the release plan: timeline with milestones, releases, sprints, and dependencies. Uses `/diagram:generate` to produce Mermaid gantt/flow → Draw.io or Miro. Also generates an executive-friendly summary via `/report:executive`. Output: diagram + `output/roadmaps/YYYYMMDD-roadmap-{project}.md`
 - `project:kickoff` — (Phase 5: Notification) Summarize and notify. Compiles audit + release plan + assignments + roadmap into a kickoff report. Sends to PM and stakeholders via configured channel (`/notify:slack`, email, or Teams). Creates the Sprint 1 backlog in Azure DevOps with the first release scope already decomposed and assigned
 
-**High priority — industry consensus, clear gap in pm-workspace**
-- `legacy:assess` — legacy application assessment: complexity score, maintenance cost, risk rating, modernization roadmap (strangler fig pattern). Feeds into `project:audit` and `project:release-plan` for legacy onboarding
-
 **Medium priority — valuable additions aligned with current architecture**
-- `backlog:capture` — create PBIs from unstructured input (emails, meeting notes, support tickets)
-- `sprint:release-notes` — auto-generate release notes combining work items + commits
 - `wiki:publish` / `wiki:sync` — publish and sync documentation with Azure DevOps Wiki (MCP has 6 wiki tools)
 - `testplan:status` / `testplan:results` — manage Azure DevOps Test Plans and view test results (MCP has 9 test plan tools)
 - `security:alerts` — surface security alerts from Azure DevOps Advanced Security (MCP has 2 security tools)
@@ -34,6 +29,25 @@ Full automated workflow for onboarding new projects and planning their execution
 **Lower priority — infrastructure and tooling**
 - GitHub Actions: auto-label PRs by branch prefix (`feature/`, `fix/`, `docs/`)
 - Migrate work item CRUD from REST/CLI (`azdevops-queries.sh`) to MCP tools where equivalent
+
+---
+
+## [0.6.0] — 2026-02-27
+
+Legacy assessment, backlog capture from unstructured sources, and automated release notes generation. Adds 3 new commands. Total: 65 slash commands.
+
+### Added
+
+**Legacy & Capture commands (3)** — PR #41
+- `/legacy:assess --project {p}` — legacy application assessment: complexity score (6 dimensions), maintenance cost, risk rating, modernization roadmap using strangler fig pattern. Output: `output/assessments/YYYYMMDD-legacy-{project}.md`
+- `/backlog:capture --project {p} --source {tipo}` — create PBIs from unstructured input: emails, meeting notes, Slack messages, support tickets. Deduplicates against existing backlog, classifies by type and priority
+- `/sprint:release-notes --project {p}` — auto-generate release notes combining Azure DevOps work items + conventional commits + merged PRs. Three audience levels: tech, stakeholder, public
+
+### Changed
+- Command count: 62 → 65 (+3 legacy & capture)
+- Help command updated with Legacy & Capture (3) category
+- `pm-workflow.md` updated with 3 new command entries
+- READMEs (ES/EN) updated with legacy & capture commands
 
 ---
 
@@ -223,7 +237,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
