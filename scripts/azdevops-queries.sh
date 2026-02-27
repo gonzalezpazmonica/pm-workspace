@@ -4,6 +4,14 @@
 # =============================================================================
 # Uso: ./scripts/azdevops-queries.sh <comando> [opciones]
 # Requiere: az cli con extensión devops, jq
+#
+# NOTA: Las funciones CRUD (sprint, items, board, update, batch) tienen
+# equivalente MCP y los comandos de pm-workspace las usan via MCP tools.
+# Este script se mantiene para funciones sin equivalente MCP:
+#   - burndown    → Analytics OData (no cubierto por MCP)
+#   - capacities  → Work API capacities (no cubierto por MCP)
+#   - velocity    → Cálculo híbrido (MCP + OData)
+# Ver: .claude/rules/mcp-migration.md para detalle de la migración.
 # =============================================================================
 
 set -euo pipefail
