@@ -68,7 +68,7 @@
 │   │
 │   └── rules/                   ← Modular rules
 │       ├── pm-config.md         ← Azure DevOps constants (auto-loaded)
-│       ├── pm-workflow.md       ← Scrum cadence and command table (auto-loaded)
+│       ├── pm-workflow.md       ← Scrum cadence and category index (auto-loaded)
 │       ├── github-flow.md       ← Branching, PRs, releases, tags (auto-loaded)
 │       ├── command-ux-feedback.md ← UX feedback standards (auto-loaded)
 │       ├── command-validation.md← Pre-commit: validate commands (auto-loaded)
@@ -76,6 +76,7 @@
 │       ├── readme-update.md     ← Rule 12: update READMEs (auto-loaded)
 │       ├── language-packs.md    ← 16 supported languages table (auto-loaded)
 │       ├── agents-catalog.md    ← 24 agents table (auto-loaded)
+│       ├── context-health.md   ← Context management and output-first (auto-loaded)
 │       ├── domain/              ← Domain-specific rules (on-demand, excluded from auto-loading)
 │       │   ├── infrastructure-as-code.md
 │       │   ├── confidentiality-config.md

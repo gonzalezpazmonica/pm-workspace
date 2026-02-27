@@ -69,7 +69,7 @@
 │   │
 │   └── rules/                   ← Reglas modulares
 │       ├── pm-config.md         ← Constantes Azure DevOps (auto-cargado)
-│       ├── pm-workflow.md       ← Cadencia Scrum y tabla de comandos (auto-cargado)
+│       ├── pm-workflow.md       ← Cadencia Scrum e índice de categorías (auto-cargado)
 │       ├── github-flow.md       ← Branching, PRs, releases, tags (auto-cargado)
 │       ├── command-ux-feedback.md ← Estándares de feedback UX (auto-cargado)
 │       ├── command-validation.md← Pre-commit: validar commands (auto-cargado)
@@ -77,6 +77,7 @@
 │       ├── readme-update.md     ← Regla 12: actualizar READMEs (auto-cargado)
 │       ├── language-packs.md    ← Tabla de 16 lenguajes (auto-cargado)
 │       ├── agents-catalog.md    ← Tabla de 24 agentes (auto-cargado)
+│       ├── context-health.md   ← Gestión de contexto y output-first (auto-cargado)
 │       ├── domain/              ← Reglas por dominio (bajo demanda, excluidas de auto-carga)
 │       │   ├── infrastructure-as-code.md
 │       │   ├── confidentiality-config.md
