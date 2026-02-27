@@ -1,3 +1,10 @@
+---
+name: diagram-generation
+description: Generar diagramas de arquitectura y flujo desde infraestructura y código
+context: fork
+agent: diagram-architect
+---
+
 # Skill: Diagram Generation — Arquitectura y Flujo
 
 ## Propósito

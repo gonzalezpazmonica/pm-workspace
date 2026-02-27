@@ -40,10 +40,12 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ~/claude/                          ← Raíz de trabajo Y repositorio GitHub
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
-│   ├── agents/                    ← 24 subagentes → @.claude/rules/domain/agents-catalog.md
-│   ├── commands/                  ← 83 slash commands (+7 infra en skill) → @.claude/rules/domain/pm-workflow.md
+│   ├── agents/                    ← 23 subagentes → @.claude/rules/domain/agents-catalog.md
+│   ├── commands/                  ← 84 slash commands (+7 infra en skill) → @.claude/rules/domain/pm-workflow.md
+│   ├── hooks/                     ← 7 hooks programáticos (seguridad, lint, quality gates)
 │   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
 │   ├── rules/languages/           ← Convenciones por lenguaje (auto-carga por paths: frontmatter)
+│   ├── settings.json              ← Hooks config + Agent Teams env
 │   └── skills/                    ← 13 skills reutilizables
 ├── docs/                          ← Metodología, guías, secciones README
 ├── projects/                      ← Proyectos reales (git-ignorados)
@@ -90,13 +92,16 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 
 ## 🤖 Subagentes y Flujos
 
-> Catálogo completo (24 agentes): `@.claude/rules/domain/agents-catalog.md`
+> Catálogo completo (23 agentes): `@.claude/rules/domain/agents-catalog.md`
+
+Cada agente tiene: `memory: project` (persistencia entre sesiones), `skills:` precargados, `permissionMode:` apropiado, y `hooks:` donde aplica. Los developer agents usan `isolation: worktree` para ramas paralelas sin conflicto.
 
 Flujos principales:
 - **SDD**: business-analyst → architect → sdd-spec-writer → {lang}-developer ‖ test-engineer → code-reviewer
 - **Infra**: architect → infrastructure-agent → (detectar → tier mínimo → propuesta) → humano aprueba
 - **Diagramas**: diagram-architect analiza consistencia → genera/importa → valida reglas negocio → Features/PBIs/Tasks
 - **Pre-commit**: commit-guardian (10 checks) · **Post-commit**: test-runner (cobertura ≥ 80%)
+- **Agent Teams** (experimental): lead + teammates en paralelo con worktree isolation → `@docs/agent-teams-sdd.md`
 
 ---
 
@@ -124,6 +129,21 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 - Explorar → Planificar → Implementar → Commit
 - Arquitectura: **Command → Agent → Skills** — subagentes solo con `Task`
 - **Auto-compact**: TRAS CADA slash command, terminar con `⚡ /compact`. Al compactar → preservar: ficheros modificados, scores, decisiones del PM, errores y resoluciones, último comando y resultado.
+
+---
+
+## 🔒 Hooks Programáticos
+
+> Config: `.claude/settings.json` · Scripts: `.claude/hooks/`
+
+7 hooks que refuerzan reglas críticas automáticamente (sin depender de disciplina del agente):
+- **SessionStart**: `session-init.sh` — verifica PAT, herramientas, rama git, establece env vars
+- **PreToolUse (Bash)**: `validate-bash-global.sh` — bloquea `rm -rf /`, `chmod 777`, `curl|bash`, `sudo`
+- **PreToolUse (Bash)**: `block-force-push.sh` — bloquea `push --force`, push a main, `commit --amend`, `reset --hard`
+- **PreToolUse (Bash)**: `block-credential-leak.sh` — detecta passwords, API keys, tokens en comandos
+- **PreToolUse (Bash)**: `block-infra-destructive.sh` — bloquea `terraform destroy`, apply en PRE/PRO, `az group delete`
+- **PostToolUse (Edit/Write)**: `post-edit-lint.sh` — auto-lint async (ruff, eslint, gofmt, rustfmt, rubocop, etc.)
+- **Stop**: `stop-quality-gate.sh` — detecta secrets en staged changes antes de terminar
 
 ---
 

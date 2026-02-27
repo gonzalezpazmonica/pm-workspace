@@ -15,6 +15,11 @@ tools:
 model: claude-sonnet-4-6
 color: red
 maxTurns: 30
+memory: project
+skills:
+  - spec-driven-development
+permissionMode: acceptEdits
+isolation: worktree
 ---
 
 Eres un Senior Java Developer con dominio de Java 21+, Spring Boot moderno, y el ecosistema

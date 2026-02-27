@@ -1,3 +1,10 @@
+---
+name: time-tracking-report
+description: Generación de informes de imputación de horas a Excel/Word
+context: fork
+agent: tech-writer
+---
+
 # Skill: time-tracking-report
 
 > Generación de informes de imputación de horas: extracción de datos, agrupación y exportación a Excel/Word.

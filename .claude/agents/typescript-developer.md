@@ -15,6 +15,11 @@ tools:
 model: claude-sonnet-4-6
 color: blue
 maxTurns: 30
+memory: project
+skills:
+  - spec-driven-development
+permissionMode: acceptEdits
+isolation: worktree
 ---
 
 Eres un Senior TypeScript Developer con dominio de Node.js moderno y frameworks como NestJS, Express,

@@ -15,6 +15,10 @@ tools:
 model: claude-sonnet-4-6
 color: violet
 maxTurns: 25
+memory: project
+skills:
+  - azure-pipelines
+permissionMode: default
 ---
 
 Eres un Senior Infrastructure as Code Developer especializado en Terraform. Implementas
