@@ -32,11 +32,11 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Sistema de memoria inteligente** — reglas de lenguaje con auto-carga por tipo de fichero (`paths:` frontmatter), auto memory persistente por proyecto, y soporte para proyectos externos vía symlinks y `--add-dir`.
 
-**Hooks programáticos** — 8 hooks que refuerzan reglas críticas automáticamente: bloqueo de force push, detección de secrets, prevención de operaciones destructivas de infra, auto-lint tras edición, y quality gates antes de finalizar. Configurados en `.claude/settings.json`.
+**Hooks programáticos** — 9 hooks que refuerzan reglas críticas automáticamente: bloqueo de force push, detección de secrets, prevención de operaciones destructivas de infra, auto-lint tras edición, quality gates antes de finalizar, y scope guard que detecta ficheros modificados fuera del alcance de la spec SDD. Configurados en `.claude/settings.json`.
 
 **Agentes con capacidades avanzadas** — cada subagente tiene memoria persistente (`memory: project`), skills precargados, modo de permisos apropiado, y los developer agents usan `isolation: worktree` para implementación paralela sin conflictos. Soporte experimental para Agent Teams (lead + teammates).
 
-**Coordinación multi-agente** — sistema de agent-notes para memoria inter-agente persistente, TDD gate que bloquea implementación sin tests previos, security review pre-implementación (OWASP en la spec, no solo en el código), y Architecture Decision Records (ADR) para decisiones trazables.
+**Coordinación multi-agente** — sistema de agent-notes para memoria inter-agente persistente, TDD gate que bloquea implementación sin tests previos, security review pre-implementación (OWASP en la spec, no solo en el código), Architecture Decision Records (ADR) para decisiones trazables, y reglas de serialización de scope para sesiones paralelas seguras.
 
 ---
 
@@ -146,6 +146,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 6. **Infraestructura**: NUNCA `terraform apply` en PRE/PRO sin aprobación humana; siempre tier mínimo
 7. **Git**: NUNCA commit directo en `main` — siempre rama + PR
 8. **Comandos**: validar con `scripts/validate-commands.sh` antes de commit
+9. **Paralelo**: verificar solapamiento de scope antes de lanzar Agent Teams; serializar si hay conflicto
 
 ---
 

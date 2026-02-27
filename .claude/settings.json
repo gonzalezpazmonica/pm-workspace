@@ -47,6 +47,12 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/stop-quality-gate.sh",
             "timeout": 15,
             "statusMessage": "Verificando quality gates..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scope-guard.sh",
+            "timeout": 10,
+            "statusMessage": "Verificando scope de la spec..."
           }
         ]
       }
