@@ -134,6 +134,41 @@ Una Spec es ejecutable por un agente cuando:
 
 Si algún punto no se puede completar → la task es `developer_type: human`.
 
+### 2.5 Agent-Note del análisis
+
+El agente que genera la spec (business-analyst o sdd-spec-writer) DEBE escribir una agent-note:
+```
+projects/{proyecto}/agent-notes/{ticket}-legacy-analysis-{fecha}.md
+```
+Con: análisis del código existente, patrones encontrados, decisiones sobre developer_type, y dependencias identificadas. Ver `@docs/agent-notes-protocol.md`.
+
+---
+
+## Fase 2.5 — Security Review Pre-Implementación
+
+**Antes** de que cualquier developer (humano o agente) implemente, ejecutar `/security-review {spec}`:
+
+1. `security-guardian` revisa la spec y arquitectura contra OWASP Top 10
+2. Produce checklist en: `projects/{proyecto}/agent-notes/{ticket}-security-checklist-{fecha}.md`
+3. Si hay hallazgos 🔴 → corregir la spec antes de implementar
+4. El checklist se convierte en **input** para el developer
+
+**Obligatorio** para: auth, pagos, datos personales, APIs públicas, infraestructura.
+**Recomendado** para: cualquier spec de complejidad M o superior.
+
+---
+
+## Fase 2.6 — TDD Gate: Tests Antes de Implementar
+
+El `test-engineer` escribe los tests **ANTES** de que el developer implemente:
+
+1. `test-engineer` lee: spec + architecture-decision + security-checklist
+2. Escribe test suites que fallan (Red) — cubren todos los scenarios de la spec
+3. Produce agent-note: `projects/{proyecto}/agent-notes/{ticket}-test-strategy-{fecha}.md`
+4. **GATE**: el developer NO puede editar código de producción sin que existan tests
+   - Enforcement: hook `tdd-gate.sh` (PreToolUse en developer agents)
+   - Si el hook bloquea → el developer debe pedir al test-engineer que cree los tests primero
+
 ---
 
 ## Fase 3 — Ejecutar con Agente Claude
@@ -142,8 +177,10 @@ Si algún punto no se puede completar → la task es `developer_type: human`.
 
 El agente necesita acceso a:
 1. La Spec (`.spec.md`) — su instrucción principal
-2. El código fuente del módulo — para seguir patrones existentes
-3. Los ficheros de reglas relevantes — `docs/reglas-negocio.md`, `projects/{proyecto}/reglas-negocio.md`
+2. Las agent-notes previas del ticket — `projects/{proyecto}/agent-notes/{ticket}-*.md`
+3. El código fuente del módulo — para seguir patrones existentes
+4. Los ficheros de reglas relevantes — `docs/reglas-negocio.md`, `projects/{proyecto}/reglas-negocio.md`
+5. El security checklist — si existe, el developer DEBE respetar sus recomendaciones
 
 ### 3.2 Prompt de invocación para `agent-single`
 
@@ -201,6 +238,16 @@ LOG_FILE="output/agent-runs/${TIMESTAMP}-AB{task_id}-{tipo}.log"
 claude ... 2>&1 | tee "$LOG_FILE"
 echo "Log guardado en: $LOG_FILE"
 ```
+
+---
+
+### 3.5 Agent-Note post-implementación
+
+El developer DEBE escribir:
+```
+projects/{proyecto}/agent-notes/{ticket}-implementation-log-{fecha}.md
+```
+Con: ficheros creados/modificados, decisiones tomadas, desviaciones de la spec (si las hubo), y blockers encontrados.
 
 ---
 

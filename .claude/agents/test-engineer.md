@@ -97,8 +97,28 @@ dotnet test --filter "Category=Unit" --collect "XPlat Code Coverage"
 dotnet test --filter "Category=Integration"
 ```
 
+## Agent Notes
+
+Al completar una estrategia de tests, DEBES escribir:
+```
+projects/{proyecto}/agent-notes/{ticket}-test-strategy-{fecha}.md
+```
+Con: lista de test suites, cobertura esperada, edge cases, y dependencias de infra.
+
+## TDD Gate — Tests ANTES de Implementar
+
+En flujo SDD, los tests se escriben **ANTES** del código de producción:
+1. Leer la spec + architecture-decision + security-checklist (agent-notes previas)
+2. Escribir test suites que fallan (Red)
+3. El developer tiene hook `tdd-gate.sh` que le impide editar código sin tests
+4. El developer implementa hasta que pasan (Green) → Refactor
+
+**Los tests son el contrato que el developer debe satisfacer.**
+
 ## Restricciones
 
+- **NUNCA aprobar sin cobertura ≥ 80%** — escalar al PM si no se puede alcanzar
+- **NUNCA saltarte el TDD** — los tests PRIMERO, siempre
 - **No mockear lo que no debería mockearse**: repositories de EF → usar TestContainers, no mocks
 - **Un assert lógico por test** (puede haber múltiples líneas de assertion si van juntas)
 - **Tests deterministas**: si un test falla intermitentemente, es un bug en el test

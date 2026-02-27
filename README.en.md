@@ -36,6 +36,8 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Agents with advanced capabilities** — each subagent has persistent memory (`memory: project`), preloaded skills, appropriate permission mode, and developer agents use `isolation: worktree` for parallel implementation without conflicts. Experimental support for Agent Teams (lead + teammates).
 
+**Multi-agent coordination** — agent-notes system for persistent inter-agent memory, TDD gate that blocks implementation without prior tests, pre-implementation security review (OWASP on the spec, not just code), and Architecture Decision Records (ADR) for traceable decisions.
+
 ---
 
 ## Documentation
@@ -73,7 +75,7 @@ Full documentation is organized into sections for easy reference:
 | [Test project](docs/readme_en/09-test-project.md) | `sala-reservas`: tests, mock data, validation |
 | [KPIs, rules, and roadmap](docs/readme_en/10-kpis-rules.md) | Metrics, critical rules, adoption plan |
 | [Onboarding new team members](docs/readme_en/11-onboarding.md) | 5-phase onboarding, competency evaluation, GDPR |
-| [Commands and agents](docs/readme_en/12-commands-agents.md) | 84 commands + 23 specialized agents |
+| [Commands and agents](docs/readme_en/12-commands-agents.md) | 87 commands + 23 specialized agents |
 | [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
 ### Other Documents
@@ -89,6 +91,7 @@ Full documentation is organized into sections for easy reference:
 | [Workflow](docs/flujo-trabajo.md) | Complete workflow |
 | [Memory system](docs/memory-system.md) | Auto-loading, auto memory, symlinks, `--add-dir` |
 | [Agent Teams SDD](docs/agent-teams-sdd.md) | Parallel implementation with lead + teammates |
+| [Agent Notes Protocol](docs/agent-notes-protocol.md) | Inter-agent memory, handoffs, traceability |
 
 ---
 
@@ -118,6 +121,11 @@ Full documentation is organized into sections for easy reference:
 ### Memory and Context
 ```
 /memory-sync    /context-load    /session-save    /help [filter]
+```
+
+### Architecture and Security
+```
+/adr-create {proj} {title}    /security-review {spec}    /agent-notes-archive {proj}
 ```
 
 ### Quality and Team
