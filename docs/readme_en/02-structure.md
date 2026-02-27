@@ -67,22 +67,25 @@
 │   │       └── references/      ← YAML templates, multi-environment stage patterns
 │   │
 │   └── rules/                   ← Modular rules
-│       ├── pm-config.md         ← Azure DevOps constants
-│       ├── pm-workflow.md       ← Scrum cadence and command table
-│       ├── github-flow.md       ← Branching, PRs, releases, tags
-│       ├── environment-config.md
-│       ├── confidentiality-config.md
-│       ├── infrastructure-as-code.md
-│       ├── language-packs.md    ← 16 supported languages table
-│       ├── command-validation.md← Pre-commit: validate commands
-│       ├── file-size-limit.md   ← 150 lines rule
-│       ├── readme-update.md     ← Rule 12: update READMEs
-│       ├── connectors-config.md ← Claude connectors config (Slack, GitHub, Sentry...)
-│       ├── diagram-config.md    ← Draw.io/Miro configuration
-│       ├── azure-repos-config.md ← Azure Repos configuration (dual Git provider)
-│       ├── agents-catalog.md    ← 24 agents table
-│       ├── command-ux-feedback.md ← UX feedback standards for all commands
-│       └── languages/           ← Per-language conventions (excluded from auto-loading)
+│       ├── pm-config.md         ← Azure DevOps constants (auto-loaded)
+│       ├── pm-workflow.md       ← Scrum cadence and command table (auto-loaded)
+│       ├── github-flow.md       ← Branching, PRs, releases, tags (auto-loaded)
+│       ├── command-ux-feedback.md ← UX feedback standards (auto-loaded)
+│       ├── command-validation.md← Pre-commit: validate commands (auto-loaded)
+│       ├── file-size-limit.md   ← 150 lines rule (auto-loaded)
+│       ├── readme-update.md     ← Rule 12: update READMEs (auto-loaded)
+│       ├── language-packs.md    ← 16 supported languages table (auto-loaded)
+│       ├── agents-catalog.md    ← 24 agents table (auto-loaded)
+│       ├── domain/              ← Domain-specific rules (on-demand, excluded from auto-loading)
+│       │   ├── infrastructure-as-code.md
+│       │   ├── confidentiality-config.md
+│       │   ├── messaging-config.md
+│       │   ├── environment-config.md
+│       │   ├── connectors-config.md
+│       │   ├── diagram-config.md
+│       │   ├── azure-repos-config.md
+│       │   └── mcp-migration.md
+│       └── languages/           ← Per-language conventions (on-demand)
 │           ├── csharp-rules.md
 │           ├── dotnet-conventions.md
 │           └── ... (21 files for 16 languages)

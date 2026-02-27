@@ -22,7 +22,7 @@ description: >
 
 ## Contexto requerido
 
-1. @.claude/rules/messaging-config.md — Config WhatsApp
+1. @.claude/rules/domain/messaging-config.md — Config WhatsApp
 2. MCP WhatsApp configurado y sesión activa
 
 ## Pasos de ejecución
