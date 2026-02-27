@@ -6,7 +6,7 @@
 **Fecha creación:** 2026-03-03
 **Creado por:**     Carlos Mendoza (Tech Lead)
 
-**Developer Type:** agent:single
+**Developer Type:** agent-single
 **Asignado a:**     claude-agent (dev:agent)
 **Estimación:**     4h
 **Estado:**         Pendiente

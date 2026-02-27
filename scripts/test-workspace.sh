@@ -578,10 +578,10 @@ test_sdd() {
 
     # Verificar developer_type válido
     DEV_TYPE=$(grep "^\*\*Developer Type:\*\*" "$SPEC" | awk '{print $NF}')
-    if [[ "$DEV_TYPE" =~ ^(human|agent:single|agent:team)$ ]]; then
+    if [[ "$DEV_TYPE" =~ ^(human|agent-single|agent-team)$ ]]; then
       pass "Spec $SPEC_NAME: developer_type válido ($DEV_TYPE)"
     else
-      fail "Spec $SPEC_NAME: developer_type inválido" "Valor: '$DEV_TYPE', Esperado: human|agent:single|agent:team"
+      fail "Spec $SPEC_NAME: developer_type inválido" "Valor: '$DEV_TYPE', Esperado: human|agent-single|agent-team"
     fi
 
     # Verificar que no hay placeholders sin rellenar
@@ -596,7 +596,7 @@ test_sdd() {
   log_section "Validar layer-assignment-matrix"
   MATRIX="$WORKSPACE_ROOT/.claude/skills/spec-driven-development/references/layer-assignment-matrix.md"
   if [[ -f "$MATRIX" ]]; then
-    AGENT_ROWS=$(grep -c "agent:single\|agent:team" "$MATRIX" 2>/dev/null || true)
+    AGENT_ROWS=$(grep -c "agent-single\|agent-team" "$MATRIX" 2>/dev/null || true)
     HUMAN_ROWS=$(grep -c "\`human\`" "$MATRIX" 2>/dev/null || true)
     pass "Matrix de asignación: $AGENT_ROWS entradas de agente, $HUMAN_ROWS de humano"
   else
