@@ -41,8 +41,8 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← 23 subagentes → @.claude/rules/domain/agents-catalog.md
-│   ├── commands/                  ← 84 slash commands (+7 infra en skill) → @.claude/rules/domain/pm-workflow.md
-│   ├── hooks/                     ← 7 hooks programáticos (seguridad, lint, quality gates)
+│   ├── commands/                  ← 87 slash commands (+7 infra en skill) → @.claude/rules/domain/pm-workflow.md
+│   ├── hooks/                     ← 8 hooks programáticos (seguridad, TDD gate, lint, quality gates)
 │   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
 │   ├── rules/languages/           ← Convenciones por lenguaje (auto-carga por paths: frontmatter)
 │   ├── settings.json              ← Hooks config + Agent Teams env
@@ -97,7 +97,8 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 Cada agente tiene: `memory: project` (persistencia entre sesiones), `skills:` precargados, `permissionMode:` apropiado, y `hooks:` donde aplica. Los developer agents usan `isolation: worktree` para ramas paralelas sin conflicto.
 
 Flujos principales:
-- **SDD**: business-analyst → architect → sdd-spec-writer → {lang}-developer ‖ test-engineer → code-reviewer
+- **SDD**: business-analyst → architect → security-review → test-engineer (TDD) → {lang}-developer → code-reviewer
+  Cada agente escribe agent-notes/: `@docs/agent-notes-protocol.md` · ADRs: `@docs/templates/adr-template.md`
 - **Infra**: architect → infrastructure-agent → (detectar → tier mínimo → propuesta) → humano aprueba
 - **Diagramas**: diagram-architect analiza consistencia → genera/importa → valida reglas negocio → Features/PBIs/Tasks
 - **Pre-commit**: commit-guardian (10 checks) · **Post-commit**: test-runner (cobertura ≥ 80%)
@@ -136,12 +137,13 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 
 > Config: `.claude/settings.json` · Scripts: `.claude/hooks/`
 
-7 hooks que refuerzan reglas críticas automáticamente (sin depender de disciplina del agente):
+8 hooks que refuerzan reglas críticas automáticamente (sin depender de disciplina del agente):
 - **SessionStart**: `session-init.sh` — verifica PAT, herramientas, rama git, establece env vars
 - **PreToolUse (Bash)**: `validate-bash-global.sh` — bloquea `rm -rf /`, `chmod 777`, `curl|bash`, `sudo`
 - **PreToolUse (Bash)**: `block-force-push.sh` — bloquea `push --force`, push a main, `commit --amend`, `reset --hard`
 - **PreToolUse (Bash)**: `block-credential-leak.sh` — detecta passwords, API keys, tokens en comandos
 - **PreToolUse (Bash)**: `block-infra-destructive.sh` — bloquea `terraform destroy`, apply en PRE/PRO, `az group delete`
+- **PreToolUse (Edit/Write)**: `tdd-gate.sh` — bloquea edición de código de producción sin tests previos (developer agents)
 - **PostToolUse (Edit/Write)**: `post-edit-lint.sh` — auto-lint async (ruff, eslint, gofmt, rustfmt, rubocop, etc.)
 - **Stop**: `stop-quality-gate.sh` — detecta secrets en staged changes antes de terminar
 
@@ -161,6 +163,20 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 
 ---
 
+## 📝 Agent Notes y ADRs
+
+> Protocolo: `@docs/agent-notes-protocol.md` · Plantillas: `docs/templates/`
+
+**Agent Notes**: Cada agente que participa en un flujo SDD escribe un entregable en `projects/{proyecto}/agent-notes/` con metadata YAML (ticket, fase, agente, status, dependencias). El siguiente agente en la cadena lee las notas previas antes de actuar. Convención: `{ticket}-{tipo}-{fecha}.md`.
+
+**ADRs**: Las decisiones arquitectónicas importantes se documentan como Architecture Decision Records en `projects/{proyecto}/adrs/`. Crear con `/adr-create {proyecto} {título}`.
+
+**TDD Gate**: Los developer agents tienen hook `tdd-gate.sh` que bloquea edición de código de producción si no existen tests previos. El test-engineer escribe tests ANTES; el developer implementa DESPUÉS.
+
+**Security Review**: `/security-review {spec}` revisa la spec contra OWASP **antes** de implementar. Diferente de security-guardian (que audita código staged pre-commit).
+
+---
+
 ## ✅ Checklist Nuevo Proyecto
 
 - [ ] `projects/[nombre]/` con `CLAUDE.md` específico (≤150 líneas)
@@ -171,4 +187,6 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 - [ ] `config.local/` creado + `.gitignore` · `.env.example` sin valores reales
 - [ ] Cloud provider e infraestructura definidos si aplica
 - [ ] Auto memory inicializada: `scripts/setup-memory.sh [nombre]`
+- [ ] `agent-notes/` directorio creado en el proyecto
+- [ ] `adrs/` directorio creado si hay decisiones arquitectónicas
 - [ ] `README.md` actualizado

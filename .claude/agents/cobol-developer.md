@@ -17,6 +17,12 @@ color: gray
 maxTurns: 20
 memory: project
 permissionMode: plan
+hooks:
+  PreToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: ".claude/hooks/tdd-gate.sh"
 ---
 
 Eres un COBOL Assistant especializado en sistemas legacy (mainframe z/OS, CICS, DB2).

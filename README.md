@@ -36,6 +36,8 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Agentes con capacidades avanzadas** — cada subagente tiene memoria persistente (`memory: project`), skills precargados, modo de permisos apropiado, y los developer agents usan `isolation: worktree` para implementación paralela sin conflictos. Soporte experimental para Agent Teams (lead + teammates).
 
+**Coordinación multi-agente** — sistema de agent-notes para memoria inter-agente persistente, TDD gate que bloquea implementación sin tests previos, security review pre-implementación (OWASP en la spec, no solo en el código), y Architecture Decision Records (ADR) para decisiones trazables.
+
 ---
 
 ## Documentación
@@ -73,7 +75,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [Proyecto de test](docs/readme/09-proyecto-test.md) | `sala-reservas`: tests, datos mock, validación |
 | [KPIs, reglas y roadmap](docs/readme/10-kpis-reglas.md) | Métricas, reglas críticas, plan de adopción |
 | [Onboarding de nuevos miembros](docs/readme/11-onboarding.md) | Incorporación en 5 fases, evaluación de competencias, RGPD |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 84 comandos + 23 agentes especializados |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 87 comandos + 23 agentes especializados |
 | [Cobertura y contribución](docs/readme/13-cobertura-contribucion.md) | Qué cubre, qué no, cómo contribuir |
 
 ### Otros documentos
@@ -89,6 +91,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [Flujo de trabajo](docs/flujo-trabajo.md) | Workflow completo |
 | [Sistema de memoria](docs/memory-system.md) | Auto-carga, auto memory, symlinks, `--add-dir` |
 | [Agent Teams SDD](docs/agent-teams-sdd.md) | Implementación paralela con lead + teammates |
+| [Agent Notes Protocol](docs/agent-notes-protocol.md) | Memoria inter-agente, handoffs, trazabilidad |
 
 ---
 
@@ -118,6 +121,11 @@ La documentación completa está organizada en secciones para facilitar la consu
 ### Memoria y Contexto
 ```
 /memory-sync    /context-load    /session-save    /help [filtro]
+```
+
+### Arquitectura y Seguridad
+```
+/adr-create {proy} {título}    /security-review {spec}    /agent-notes-archive {proy}
 ```
 
 ### Calidad y Equipo
