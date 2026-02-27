@@ -124,17 +124,17 @@
 - SDD Layer Matrix: `.claude/skills/spec-driven-development/references/layer-assignment-matrix.md`
 - SDD Agent Patterns: `.claude/skills/spec-driven-development/references/agent-team-patterns.md`
 - Team Onboarding: `.claude/skills/team-onboarding/SKILL.md`
-- Multi-entorno: `.claude/rules/environment-config.md`
-- Confidencialidad: `.claude/rules/confidentiality-config.md`
-- Infrastructure as Code: `.claude/rules/infrastructure-as-code.md`
-- Conectores Claude: `.claude/rules/connectors-config.md`
+- Multi-entorno: `.claude/rules/domain/environment-config.md`
+- Confidencialidad: `.claude/rules/domain/confidentiality-config.md`
+- Infrastructure as Code: `.claude/rules/domain/infrastructure-as-code.md`
+- Conectores Claude: `.claude/rules/domain/connectors-config.md`
 - Diagram Generation: `.claude/skills/diagram-generation/SKILL.md`
 - Diagram Import: `.claude/skills/diagram-import/SKILL.md`
-- Diagram Config: `.claude/rules/diagram-config.md`
+- Diagram Config: `.claude/rules/domain/diagram-config.md`
 - Azure Pipelines: `.claude/skills/azure-pipelines/SKILL.md`
-- Azure Repos Config: `.claude/rules/azure-repos-config.md`
-- Mensajería: `.claude/rules/messaging-config.md`
+- Azure Repos Config: `.claude/rules/domain/azure-repos-config.md`
+- Mensajería: `.claude/rules/domain/messaging-config.md`
 - Voice Inbox: `.claude/skills/voice-inbox/SKILL.md`
-- MCP Migration: `.claude/rules/mcp-migration.md`
+- MCP Migration: `.claude/rules/domain/mcp-migration.md`
 - UX Feedback: `.claude/rules/command-ux-feedback.md`
 - Azure DevOps API v7.1: https://learn.microsoft.com/en-us/rest/api/azure/devops/

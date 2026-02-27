@@ -74,8 +74,8 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 6. **Si algo se repite 2+ veces**, documentarlo en la skill correspondiente
 7. **PBIs**: propuesta completa antes de crear tasks; NUNCA crear sin confirmación
 8. **SDD**: NUNCA lanzar agente sin Spec aprobada; Code Review (E1) SIEMPRE humano
-9. **Secrets**: NUNCA secrets en el repo — usar vault o `config.local/` · ver `@.claude/rules/confidentiality-config.md`
-10. **Infraestructura**: NUNCA apply en PRE/PRO sin aprobación; tier mínimo; detectar antes de crear · ver `@.claude/rules/infrastructure-as-code.md`
+9. **Secrets**: NUNCA secrets en el repo — usar vault o `config.local/` · ver `@.claude/rules/domain/confidentiality-config.md`
+10. **Infraestructura**: NUNCA apply en PRE/PRO sin aprobación; tier mínimo; detectar antes de crear · ver `@.claude/rules/domain/infrastructure-as-code.md`
 11. **150 líneas máx.** por fichero — dividir si crece · legacy heredado exento salvo petición PM · ver `@.claude/rules/file-size-limit.md`
 12. **README**: ANTES de cada commit, si los cambios tocan `commands/`, `agents/`, `skills/`, `rules/` o la estructura de directorios → actualizar `README.md` + `README.en.md` (conteos, tablas, referencia rápida) en el MISMO commit · ver `@.claude/rules/readme-update.md`
 13. **Git**: NUNCA commit directo en `main` — siempre rama + PR · ver `@.claude/rules/github-flow.md`
@@ -99,8 +99,8 @@ Flujos principales:
 ## 🌐 Language Packs · 🏗️ Entornos e Infra
 
 > Language Packs (16): `@.claude/rules/language-packs.md`
-> Multi-entorno: `@.claude/rules/environment-config.md` · Confidencialidad: `@.claude/rules/confidentiality-config.md`
-> IaC multi-cloud: `@.claude/rules/infrastructure-as-code.md`
+> Multi-entorno: `@.claude/rules/domain/environment-config.md` · Confidencialidad: `@.claude/rules/domain/confidentiality-config.md`
+> IaC multi-cloud: `@.claude/rules/domain/infrastructure-as-code.md`
 
 Entornos por defecto DEV/PRE/PRO (configurables). Config sensible NUNCA en repo.
 IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pulumi.
@@ -115,7 +115,7 @@ IaC preferido: Terraform. También: Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pul
 - **SDD** → `.claude/skills/spec-driven-development/SKILL.md`
 - **Diagramas** → `.claude/skills/diagram-generation/SKILL.md` · `.claude/skills/diagram-import/SKILL.md`
 - **Pipelines** → `.claude/skills/azure-pipelines/SKILL.md`
-- **Azure Repos** → `@.claude/rules/azure-repos-config.md`
+- **Azure Repos** → `@.claude/rules/domain/azure-repos-config.md`
 - **Comandos** → `@.claude/rules/pm-workflow.md`
 - Explorar → Planificar → Implementar → Commit · `/compact` al 50% · `/clear` entre tareas
 - Arquitectura: **Command → Agent → Skills** — subagentes solo con `Task`
