@@ -29,7 +29,7 @@ Mostrar plan (spec, modelo, log path, max turns 40) → confirmar → lanzar age
 Lanzar en paralelo: Implementador (opus) + Tester (haiku). Tras `wait`, si pattern es `impl-test-review`, lanzar Reviewer (opus) que compara logs contra Spec.
 
 ### 4. Modo Batch (`--all-pending`)
-Buscar specs con `developer_type=agent:single` y `Estado=Pendiente` en el sprint. Mostrar lista + estimación de tokens → confirmar → lanzar en paralelo.
+Buscar specs con `developer_type=agent-single` y `Estado=Pendiente` en el sprint. Mostrar lista + estimación de tokens → confirmar → lanzar en paralelo.
 
 ### 5. Post-ejecución
 - Detectar blockers en logs (`grep BLOCKER`)
