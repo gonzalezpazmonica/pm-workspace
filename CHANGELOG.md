@@ -11,14 +11,30 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Planned
 
-**Medium priority — valuable additions aligned with current architecture**
-- `wiki:publish` / `wiki:sync` — publish and sync documentation with Azure DevOps Wiki (MCP has 6 wiki tools)
-- `testplan:status` / `testplan:results` — manage Azure DevOps Test Plans and view test results (MCP has 9 test plan tools)
-- `security:alerts` — surface security alerts from Azure DevOps Advanced Security (MCP has 2 security tools)
-
 **Lower priority — infrastructure and tooling**
 - GitHub Actions: auto-label PRs by branch prefix (`feature/`, `fix/`, `docs/`)
 - Migrate work item CRUD from REST/CLI (`azdevops-queries.sh`) to MCP tools where equivalent
+
+---
+
+## [0.8.0] — 2026-02-27
+
+DevOps Extended: Azure DevOps Wiki management, Test Plans visibility, and security alerts. Leverages remaining MCP tool domains. Adds 5 new commands. Total: 75 slash commands.
+
+### Added
+
+**DevOps Extended commands (5)** — PR #43
+- `/wiki:publish {file} --project {p}` — publish markdown documentation to Azure DevOps Wiki. Supports create and update operations via MCP wiki tools
+- `/wiki:sync --project {p}` — bidirectional sync between local docs and Azure DevOps Wiki. Three modes: status (compare), push (local→wiki), pull (wiki→local). Conflict detection
+- `/testplan:status --project {p}` — Test Plans dashboard: active plans, suites, test cases, execution rates (passed/failed/blocked/not run), PBI test coverage, alerts for untested PBIs
+- `/testplan:results --project {p} --run {id}` — detailed test run results: failure analysis, stack traces, flaky test detection, trend over last N runs, recommendations for Bug PBI creation
+- `/security:alerts --project {p}` — security alerts from Azure DevOps Advanced Security: CVEs, exposed secrets, code vulnerabilities. Severity filtering, trend analysis, optional PBI creation for critical/high alerts
+
+### Changed
+- Command count: 70 → 75 (+5 DevOps Extended)
+- Help command updated with DevOps Extended (5) category
+- `pm-workflow.md` updated with 5 new command entries
+- READMEs (ES/EN) updated with DevOps Extended commands
 
 ---
 
@@ -248,7 +264,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.4.0...v0.5.0
