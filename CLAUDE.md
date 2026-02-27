@@ -80,6 +80,7 @@ Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico**.
 12. **README**: ANTES de cada commit, si los cambios tocan `commands/`, `agents/`, `skills/`, `rules/` o la estructura de directorios → actualizar `README.md` + `README.en.md` (conteos, tablas, referencia rápida) en el MISMO commit · ver `@.claude/rules/readme-update.md`
 13. **Git**: NUNCA commit directo en `main` — siempre rama + PR · ver `@.claude/rules/github-flow.md`
 14. **Comandos**: ANTES de commit que toque `commands/`, ejecutar `scripts/validate-commands.sh` · ver `@.claude/rules/command-validation.md`
+15. **UX Feedback OBLIGATORIO**: TODO slash command DEBE mostrar: (1) banner de inicio `🚀 /comando — Descripción`, (2) verificación de prerequisitos con ✅/❌, (3) progreso por pasos `📋 Paso N/M`, (4) resultado en pantalla, (5) banner de fin `✅ /comando — Completado` o `❌ /comando — Error`. Si falta configuración → preguntar interactivamente → guardar → reintentar. **El silencio es un bug.** · ver `@.claude/rules/command-ux-feedback.md`
 
 ---
 
