@@ -40,7 +40,8 @@
 ## Calidad y Operaciones
 ```
 /pr:review [PR]                  Revisión multi-perspectiva de PR (BA, Dev, QA, Sec, DevOps)
-/context:load                    Carga de contexto al iniciar sesión
+/context:load                    Carga de contexto al iniciar sesión (big picture)
+/session:save                    Guarda decisiones y pendientes antes de /clear
 /changelog:update                Actualizar CHANGELOG.md desde commits convencionales
 /evaluate:repo [URL]             Auditoría de seguridad y calidad de repo externo
 ```
