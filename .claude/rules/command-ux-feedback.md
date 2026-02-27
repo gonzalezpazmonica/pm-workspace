@@ -124,28 +124,15 @@ Motivo: No se encontró el proyecto "alpha"
 Sugerencia: Ejecuta `/help --setup` para ver proyectos configurados
 ```
 
-## 6. Comandos sin output (solo lectura)
+## 6. Retry automático
 
-Incluso los comandos que solo muestran información (como `/help`):
-- Mostrar banner de inicio
-- Mostrar el contenido
-- Mostrar banner de fin: `✅ /help — Fin del catálogo`
+Fallo por config → Pedir dato → Guardar → Reintentar automáticamente.
 
-## 7. Regla de retry automático
+## 7. Output-first (protección de contexto)
 
-Cuando un comando falla por falta de configuración y el PM la proporciona
-de forma interactiva, el comando DEBE reintentarse automáticamente.
-No obligar al PM a volver a escribir el comando.
-
-Flujo: Fallo → Pedir dato → Guardar → Reintentar → Mostrar resultado
+Resultado > 30 líneas → guardar en fichero, mostrar resumen en chat.
+Ver @.claude/rules/context-health.md
 
 ## 8. Aplicación
 
-Esta regla se aplica a TODOS los comandos sin excepción:
-- Slash commands (`/comando:nombre`)
-- Skills invocados desde comandos
-- Agentes lanzados desde comandos
-
-Prioridad: Esta regla tiene prioridad sobre el contenido específico de cada
-comando en cuanto a formato de feedback. Si un comando no define feedback,
-aplicar estos estándares por defecto.
+TODOS los comandos sin excepción. Prioridad sobre contenido de cada comando.

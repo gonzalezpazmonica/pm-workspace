@@ -1,84 +1,52 @@
-# Catálogo de Comandos PM-Workspace (37)
+# Catálogo de Comandos PM-Workspace (81)
 
-## 📅 Sprint y Reporting (10)
+> Este fichero se carga bajo demanda (desde `/help` o consultas de catálogo).
+> NO se auto-carga en el contexto.
 
-| Comando | Params | Descripción |
-|---|---|---|
-| `/sprint:status` | — | Burndown, progreso, alertas WIP, blockers |
-| `/sprint:plan` | — | Planning: capacity real + PBIs candidatos |
-| `/sprint:review` | — | Review: velocity, completados, demo |
-| `/sprint:retro` | — | Retro con datos cuantitativos del sprint |
-| `/report:hours` | — | Imputación de horas (Excel, 4 pestañas) |
-| `/report:executive` | — | Multi-proyecto (PPT + Word, semáforos) |
-| `/report:capacity` | — | Capacidades del equipo por persona |
-| `/team:workload` | — | Carga por persona + alertas sobrecarga |
-| `/board:flow` | — | Cycle time, WIP, cuellos de botella |
-| `/kpi:dashboard` | — | Velocity, cycle time, lead time, bug escape rate |
+## Sprint y Reporting (10)
+`/sprint:status` · `/sprint:plan` · `/sprint:review` · `/sprint:retro` · `/report:hours` · `/report:executive` · `/report:capacity` · `/team:workload` · `/board:flow` · `/kpi:dashboard`
 
-## 📦 PBI y Discovery (6)
+## PBI y Discovery (6)
+`/pbi:decompose {id}` · `/pbi:decompose-batch {ids}` · `/pbi:assign {pbi_id}` · `/pbi:plan-sprint` · `/pbi:jtbd {id}` · `/pbi:prd {id}`
 
-| Comando | Params | Descripción |
-|---|---|---|
-| `/pbi:decompose` | `{id}` | Descomponer PBI en tasks con estimación |
-| `/pbi:decompose-batch` | `{ids}` (coma) | Descomponer varios PBIs a la vez |
-| `/pbi:assign` | `{pbi_id}` | (Re)asignar tasks con scoring |
-| `/pbi:plan-sprint` | — | Planning completo: capacity → PBIs → tasks → asignación |
-| `/pbi:jtbd` | `{id}` | Jobs to be Done (discovery pre-técnico) |
-| `/pbi:prd` | `{id}` | Product Requirements Document |
+## SDD (5)
+`/spec:generate {task_id}` · `/spec:implement {spec}` · `/spec:review {spec}` · `/spec:status` · `/agent:run {spec}`
 
-## ⚙️ SDD — Spec-Driven Development (5)
+## Calidad y PRs (4)
+`/pr:review [PR]` · `/pr:pending [--project p]` · `/evaluate:repo [URL]` · `/changelog:update`
 
-| Comando | Params | Descripción |
-|---|---|---|
-| `/spec:generate` | `{task_id}` | Spec ejecutable desde Task de Azure DevOps |
-| `/spec:implement` | `{spec_file}` | Implementar Spec (agente Claude o humano) |
-| `/spec:review` | `{spec_file}` | Revisar calidad o validar implementación |
-| `/spec:status` | — | Dashboard de Specs del sprint |
-| `/agent:run` | `{spec_file}` | Lanzar agente Claude sobre Spec |
+## Equipo (3)
+`/team:privacy-notice {nombre} --project {p}` · `/team:onboarding {nombre} --project {p}` · `/team:evaluate {nombre} --project {p}`
 
-## 🔍 Calidad y PRs (4)
+## Infra (7)
+`/infra:detect {proy} {env}` · `/infra:plan {proy} {env}` · `/infra:estimate {proy}` · `/infra:scale {recurso}` · `/infra:status {proy}` · `/env:setup {proy}` · `/env:promote {proy} {orig} {dest}`
 
-| Comando | Params | Descripción |
-|---|---|---|
-| `/pr:review` | `[PR]` (opcional) | Revisión 5 perspectivas: BA, Dev, QA, Sec, DevOps |
-| `/pr:pending` | `--project {p}` (opc.) | PRs del PM pendientes: votos, comentarios, antigüedad |
-| `/evaluate:repo` | `[URL]` | Auditoría seguridad/calidad de repo externo |
-| `/changelog:update` | — | CHANGELOG.md desde commits convencionales |
+## Diagramas (4)
+`/diagram:generate {proy}` · `/diagram:import {source} --project {p}` · `/diagram:config --tool {t}` · `/diagram:status`
 
-## 👥 Equipo y Onboarding (3)
+## Pipelines (5)
+`/pipeline:status --project {p}` · `/pipeline:run --project {p} {pipeline}` · `/pipeline:logs --project {p} --build {id}` · `/pipeline:create --project {p} --name {n} --repo {r}` · `/pipeline:artifacts --project {p} --build {id}`
 
-| Comando | Params | Descripción |
-|---|---|---|
-| `/team:privacy-notice` | `{nombre}` `--project {p}` | Nota RGPD (obligatoria antes de evaluar) |
-| `/team:onboarding` | `{nombre}` `--project {p}` | Guía: contexto + tour del código (Fases 1-2) |
-| `/team:evaluate` | `{nombre}` `--project {p}` | Competencias → perfil expertise en equipo.md |
+## Azure Repos (6)
+`/repos:list --project {p}` · `/repos:branches --project {p} --repo {r}` · `/repos:pr-create --project {p} --repo {r}` · `/repos:pr-list --project {p}` · `/repos:pr-review --project {p} --pr {id}` · `/repos:search --project {p} {query}`
 
-## 🏗️ Infraestructura y Entornos (7)
+## Governance (5)
+`/debt:track --project {p}` · `/kpi:dora --project {p}` · `/dependency:map --project {p}` · `/retro:actions --project {p}` · `/risk:log --project {p}`
 
-| Comando | Params | Descripción |
-|---|---|---|
-| `/infra:detect` | `{proy}` `{env}` | Detectar infra existente en un entorno |
-| `/infra:plan` | `{proy}` `{env}` | Plan IaC (Terraform/CLI) para un entorno |
-| `/infra:estimate` | `{proy}` | Costes mensuales estimados por entorno |
-| `/infra:scale` | `{recurso}` | Proponer escalado (aprobación humana) |
-| `/infra:status` | `{proy}` | Estado actual de la infra del proyecto |
-| `/env:setup` | `{proy}` | Configurar entornos (DEV/PRE/PRO) |
-| `/env:promote` | `{proy}` `{orig}` `{dest}` | Promover deploy (PRE→PRO = aprobación) |
+## Legacy & Capture (3)
+`/legacy:assess --project {p}` · `/backlog:capture --project {p} --source {tipo}` · `/sprint:release-notes --project {p}`
 
-## 🔧 Utilidades (2)
+## Project Onboarding (5)
+`/project:audit --project {p}` · `/project:release-plan --project {p}` · `/project:assign --project {p}` · `/project:roadmap --project {p}` · `/project:kickoff --project {p}`
 
-| Comando | Params | Descripción |
-|---|---|---|
-| `/context:load` | — | Inicializar sesión: CLAUDE.md, git, commits, tools |
-| `/help` | `[filtro]` (opc.) | Esta ayuda. Filtros: sprint, pbi, sdd, pr, team, infra, --setup |
+## DevOps Extended (5)
+`/wiki:publish {file} --project {p}` · `/wiki:sync --project {p}` · `/testplan:status --project {p}` · `/testplan:results --project {p} --run {id}` · `/security:alerts --project {p}`
 
-## Ejemplos rápidos por escenario
+## Mensajería e Inbox (6)
+`/notify:whatsapp {contacto} {msg}` · `/whatsapp:search {query}` · `/notify:nctalk {sala} {msg}` · `/nctalk:search {query}` · `/inbox:check` · `/inbox:start --interval {min}`
 
-```
-Empezar el día:       /context:load → /sprint:status → /pr:pending
-Sprint Planning:      /sprint:plan → /pbi:plan-sprint
-Revisar un PR:        /pr:review 42
-Nuevo miembro:        /team:privacy-notice "Ana" --project Alpha → /team:onboarding "Ana" --project Alpha
-Crear infraestructura:/infra:detect Alpha DEV → /infra:plan Alpha DEV → /infra:estimate Alpha
-Generar informe:      /report:executive
-```
+## Conectores (12)
+`/notify:slack {canal} {msg}` · `/slack:search {query}` · `/github:activity {repo}` · `/github:issues {repo}` · `/sentry:health --project {p}` · `/sentry:bugs --project {p}` · `/gdrive:upload {file} --project {p}` · `/linear:sync --project {p}` · `/jira:sync --project {p}` · `/confluence:publish {file} --project {p}` · `/notion:sync --project {p}` · `/figma:extract {url} --project {p}`
+
+## Utilidades (2)
+`/context:load` · `/help [filtro]`
