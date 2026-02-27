@@ -1,3 +1,10 @@
+---
+name: executive-reporting
+description: Generación de informes ejecutivos multi-proyecto para dirección
+context: fork
+agent: tech-writer
+---
+
 # Skill: executive-reporting
 
 > Generación de informes ejecutivos multi-proyecto para dirección: PowerPoint y Word con formato corporativo.

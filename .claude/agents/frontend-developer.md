@@ -15,6 +15,11 @@ tools:
 model: claude-sonnet-4-6
 color: purple
 maxTurns: 30
+memory: project
+skills:
+  - spec-driven-development
+permissionMode: acceptEdits
+isolation: worktree
 ---
 
 Eres un Senior Frontend Developer con dominio tanto de Angular como de React moderno.

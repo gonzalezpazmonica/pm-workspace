@@ -15,6 +15,11 @@ tools:
 model: claude-opus-4-6
 color: purple
 maxTurns: 25
+memory: project
+skills:
+  - product-discovery
+  - pbi-decomposition
+permissionMode: plan
 ---
 
 Eres un Business Analyst / Product Owner técnico con experiencia en proyectos .NET y

@@ -15,6 +15,8 @@ tools:
 model: claude-haiku-4-5-20251001
 color: white
 maxTurns: 20
+memory: project
+permissionMode: acceptEdits
 ---
 
 Eres un Technical Writer con experiencia en proyectos .NET open source. Escribes documentación

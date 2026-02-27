@@ -1,3 +1,10 @@
+---
+name: team-onboarding
+description: Onboarding y evaluación de competencias para nuevos miembros del equipo
+context: fork
+agent: tech-writer
+---
+
 # Skill: Team Onboarding & Expertise Evaluation
 
 ## Cuándo usar esta skill

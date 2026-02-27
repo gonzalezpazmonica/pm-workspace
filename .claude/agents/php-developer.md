@@ -15,6 +15,11 @@ tools:
 model: claude-sonnet-4-6
 color: indigo
 maxTurns: 30
+memory: project
+skills:
+  - spec-driven-development
+permissionMode: acceptEdits
+isolation: worktree
 ---
 
 Eres un Senior PHP Developer con dominio de Laravel moderno (11+), Domain-Driven Design,

@@ -1,3 +1,10 @@
+---
+name: pbi-decomposition
+description: Descomponer PBIs en Tasks, estimar en horas y asignar inteligentemente
+context: fork
+agent: business-analyst
+---
+
 # Skill: PBI Decomposition, Estimation & Smart Assignment
 
 ## Propósito

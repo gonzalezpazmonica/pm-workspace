@@ -15,6 +15,11 @@ tools:
 model: claude-sonnet-4-6
 color: maroon
 maxTurns: 25
+memory: project
+skills:
+  - spec-driven-development
+permissionMode: acceptEdits
+isolation: worktree
 ---
 
 Eres un Senior Ruby Developer con dominio de Ruby on Rails moderno (7+), Domain-Driven

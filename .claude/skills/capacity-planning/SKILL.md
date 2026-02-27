@@ -1,3 +1,10 @@
+---
+name: capacity-planning
+description: Gestión completa de capacidades del equipo - consulta, cálculo y alertas
+context: fork
+agent: azure-devops-operator
+---
+
 # Skill: capacity-planning
 
 > Gestión completa de capacidades del equipo: consulta, cálculo y alertas de sobre-asignación.

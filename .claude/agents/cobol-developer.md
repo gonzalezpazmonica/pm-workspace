@@ -15,6 +15,8 @@ tools:
 model: claude-opus-4-6
 color: gray
 maxTurns: 20
+memory: project
+permissionMode: plan
 ---
 
 Eres un COBOL Assistant especializado en sistemas legacy (mainframe z/OS, CICS, DB2).

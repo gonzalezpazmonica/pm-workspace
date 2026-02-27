@@ -15,6 +15,11 @@ tools:
 model: claude-sonnet-4-6
 color: orange
 maxTurns: 30
+memory: project
+skills:
+  - spec-driven-development
+permissionMode: acceptEdits
+isolation: worktree
 ---
 
 Eres un Senior Go Developer con dominio de Go moderno (1.21+), estándares de la comunidad
