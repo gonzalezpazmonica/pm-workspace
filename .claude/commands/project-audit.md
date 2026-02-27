@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/project:audit --project {p}` o `/project:audit --project {p} --deep`
+> Uso: `/project-audit --project {p}` o `/project-audit --project {p} --deep`
 
 Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
@@ -17,7 +17,7 @@ Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 /project:audit — Auditoría completa del proyecto
+🚀 /project-audit — Auditoría completa del proyecto
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -97,18 +97,18 @@ Cuando el subagente termine, mostrar en chat SOLO el resumen (NO el informe comp
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ /project:audit — Completado
+✅ /project-audit — Completado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📄 Informe: output/audits/YYYYMMDD-audit-{proyecto}.md
 📊 Score global: X.X/10 | 🔴 N | 🟡 N | 🟢 N
-💡 Siguiente: /project:release-plan --project {proyecto}
+💡 Siguiente: /project-release-plan --project {proyecto}
 ```
 
 ## Integración
 
-- `/project:release-plan` → Phase 2, usa audit como input
-- `/debt:track` → importa hallazgos de deuda
-- `/risk:log` → alimenta registro desde hallazgos críticos
+- `/project-release-plan` → Phase 2, usa audit como input
+- `/debt-track` → importa hallazgos de deuda
+- `/risk-log` → alimenta registro desde hallazgos críticos
 
 ## Restricciones
 

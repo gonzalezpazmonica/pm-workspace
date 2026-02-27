@@ -47,7 +47,7 @@ body:
         How would this work? If it's a new command, what would you type and what would Claude respond?
         Include a sample conversation if possible.
       placeholder: |
-        Command: /risk:log --project ProyectoAlpha
+        Command: /risk-log --project ProyectoAlpha
         Claude: [reads sprint status and current risks]
                 [updates projects/proyecto-alpha/risks.md]
                 "3 active risks, 1 escalated to critical. See risks.md."

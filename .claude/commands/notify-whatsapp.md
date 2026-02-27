@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/notify:whatsapp {contacto|grupo} {mensaje}` o `/notify:whatsapp --team {msg}`
+> Uso: `/notify-whatsapp {contacto|grupo} {mensaje}` o `/notify-whatsapp --team {msg}`
 
 ## Parámetros
 
@@ -61,10 +61,10 @@ Adjunto: sprint-report.pdf
 ## Ejemplos
 
 ```bash
-/notify:whatsapp --team "Sprint review mañana a las 10:00"
-/notify:whatsapp "Ana García" "El PR #42 necesita tu revisión"
-/notify:whatsapp --pm --file output/reports/sprint-report.pdf
-/notify:whatsapp --team   # envía último informe generado
+/notify-whatsapp --team "Sprint review mañana a las 10:00"
+/notify-whatsapp "Ana García" "El PR #42 necesita tu revisión"
+/notify-whatsapp --pm --file output/reports/sprint-report.pdf
+/notify-whatsapp --team   # envía último informe generado
 ```
 
 ## Restricciones

@@ -10,7 +10,7 @@ description: >
 
 **PBI ID:** $ARGUMENTS
 
-> Uso: `/pbi:jtbd 302 --project GestiónClínica`
+> Uso: `/pbi-jtbd 302 --project GestiónClínica`
 > Solo para PBIs tipo feature o user story. No usar para bugs ni chores.
 
 ---
@@ -31,7 +31,7 @@ Extraer: título, descripción, criterios de aceptación, tipo, comentarios.
 
 ### 3. Verificar tipo de PBI
 
-- Si es `Bug` o `Task` → informar al usuario que JTBD no aplica y sugerir `/pbi:decompose` directamente
+- Si es `Bug` o `Task` → informar al usuario que JTBD no aplica y sugerir `/pbi-decompose` directamente
 - Si es `Feature` o `User Story` o `Product Backlog Item` → continuar
 
 ### 4. Leer contexto del proyecto
@@ -62,8 +62,8 @@ Guardar en: `projects/{proyecto}/discovery/PBI-{id}-jtbd.md`
 
 Mostrar el JTBD generado y preguntar:
 - ¿Algún ajuste?
-- ¿Procedo a generar el PRD? → sugerir `/pbi:prd {id}`
-- ¿O prefieres ir directo a descomponer? → sugerir `/pbi:decompose {id}`
+- ¿Procedo a generar el PRD? → sugerir `/pbi-prd {id}`
+- ¿O prefieres ir directo a descomponer? → sugerir `/pbi-decompose {id}`
 
 ---
 

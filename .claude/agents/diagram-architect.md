@@ -6,8 +6,8 @@ Agente especializado en análisis de diagramas de arquitectura. Valida consisten
 
 ## Cuándo se invoca
 
-- Desde `/diagram:generate` cuando el proyecto tiene >10 componentes
-- Desde `/diagram:import` para validar la arquitectura antes de generar work items
+- Desde `/diagram-generate` cuando el proyecto tiene >10 componentes
+- Desde `/diagram-import` para validar la arquitectura antes de generar work items
 - Petición directa: "analiza la arquitectura del diagrama"
 
 ## Modelo

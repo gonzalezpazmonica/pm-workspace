@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/pipeline:run --project {p} {pipeline}` o `/pipeline:run --project {p} {pipeline} --branch {b}`
+> Uso: `/pipeline-run --project {p} {pipeline}` o `/pipeline-run --project {p} {pipeline} --branch {b}`
 
 ## Parámetros
 
@@ -70,6 +70,6 @@ description: >
 
 ## Integración
 
-- `/pipeline:status` → ver resultado tras ejecución
-- `/pipeline:logs --build {id}` → si falla, ver logs
-- `/notify:slack` → notificar al canal del proyecto
+- `/pipeline-status` → ver resultado tras ejecución
+- `/pipeline-logs --build {id}` → si falla, ver logs
+- `/notify-slack` → notificar al canal del proyecto

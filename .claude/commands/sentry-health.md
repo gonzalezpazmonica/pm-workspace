@@ -2,14 +2,14 @@
 name: sentry-health
 description: >
   Métricas de salud técnica del proyecto desde Sentry: errores, crash rate,
-  performance, alertas activas. Alimenta sprint:status y kpi:dashboard.
+  performance, alertas activas. Alimenta sprint-status y kpi-dashboard.
 ---
 
 # Salud Técnica — Sentry
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/sentry:health --project {p}` o `/sentry:health --project {p} --period {días}`
+> Uso: `/sentry-health --project {p}` o `/sentry-health --project {p} --period {días}`
 
 ## Parámetros
 
@@ -72,9 +72,9 @@ description: >
 
 ## Integración con otros comandos
 
-- `/sprint:status` puede invocar `sentry:health` para incluir métricas técnicas
-- `/kpi:dashboard` usa los datos de salud como KPIs técnicos
-- `/sprint:review` incluye tendencia de salud técnica en el resumen
+- `/sprint-status` puede invocar `sentry-health` para incluir métricas técnicas
+- `/kpi-dashboard` usa los datos de salud como KPIs técnicos
+- `/sprint-review` incluye tendencia de salud técnica en el resumen
 - Soporta `--notify-slack` para publicar el informe en el canal del proyecto
 
 ## Restricciones

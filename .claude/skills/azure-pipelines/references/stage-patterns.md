@@ -96,8 +96,8 @@ variables:
 
 | Evento pipeline | Acción PM-Workspace |
 |---|---|
-| Build fallida | `/pipeline:logs` → investigar → crear Bug si recurrente |
+| Build fallida | `/pipeline-logs` → investigar → crear Bug si recurrente |
 | Deploy PRE OK | Notificar equipo → preparar Sprint Review demo |
 | Deploy PRO OK | Actualizar PBI state → Closed |
-| Approval pendiente | `/pipeline:status` muestra alerta |
-| Coverage < 80% | Alerta en `/kpi:dashboard` |
+| Approval pendiente | `/pipeline-status` muestra alerta |
+| Coverage < 80% | Alerta en `/kpi-dashboard` |

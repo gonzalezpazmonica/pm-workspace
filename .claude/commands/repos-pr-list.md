@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/repos:pr-list --project {p}` o `/repos:pr-list --project {p} --repo {r} --status {s}`
+> Uso: `/repos-pr-list --project {p}` o `/repos-pr-list --project {p} --repo {r} --status {s}`
 
 ## Parámetros
 
@@ -49,15 +49,15 @@ description: >
 
 ### Resumen
 - 3 PRs activos, 1 listo para merge (#39)
-- 1 build fallida (#41) — revisar con `/repos:pr-review`
+- 1 build fallida (#41) — revisar con `/repos-pr-review`
 - Antigüedad media: 3.3 días
 ```
 
 ## Integración
 
-- `/repos:pr-review --pr {id}` → review detallado
-- `/pr:pending` → similar pero para GitHub (equivalente Azure Repos)
-- `/pipeline:logs` → si build fallida, ver logs
+- `/repos-pr-review --pr {id}` → review detallado
+- `/pr-pending` → similar pero para GitHub (equivalente Azure Repos)
+- `/pipeline-logs` → si build fallida, ver logs
 
 ## Restricciones
 

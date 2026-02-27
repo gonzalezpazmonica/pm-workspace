@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/wiki:sync --project {p}` o `/wiki:sync --project {p} --direction {dir}`
+> Uso: `/wiki-sync --project {p}` o `/wiki-sync --project {p} --direction {dir}`
 
 ## Parámetros
 
@@ -59,9 +59,9 @@ Sincronizados: 5 | Solo local: 2 | Solo wiki: 1 | Conflictos: 1
 
 ## Integración
 
-- `/wiki:publish` → publicar páginas individuales
-- `/notion:sync` → patrón similar para Notion
-- `/confluence:publish` → patrón similar para Confluence
+- `/wiki-publish` → publicar páginas individuales
+- `/notion-sync` → patrón similar para Notion
+- `/confluence-publish` → patrón similar para Confluence
 
 ## Restricciones
 

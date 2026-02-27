@@ -23,9 +23,9 @@ El Tech Lead tiene siempre la última palabra.
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
 | Crear entidad de dominio (struct) | `human` | Decisiones de identidad y encapsulación |
-| Añadir Value Object immutable (struct + private fields) | `agent:single` | Patrón claro: constructor factory + equals |
-| Definir interfaz de repositorio | `agent:single` | Firma predecible, patrón idéntico |
-| Crear Domain Event (struct) | `agent:single` | Estructura fija con propiedades |
+| Añadir Value Object immutable (struct + private fields) | `agent-single` | Patrón claro: constructor factory + equals |
+| Definir interfaz de repositorio | `agent-single` | Firma predecible, patrón idéntico |
+| Crear Domain Event (struct) | `agent-single` | Estructura fija con propiedades |
 | Implementar regla de negocio compleja | `human` | Requiere entendimiento del negocio |
 
 ---
@@ -34,9 +34,9 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| **Use Case / Service CRUD** | `agent:single` | Patrón: validate → check rules → execute → return error |
-| **Query / Service para GetByID, List** | `agent:single` | Patrón: fetch → map → return data |
-| **DTO / Request structs** | `agent:single` | Modelos planos con validación tags |
+| **Use Case / Service CRUD** | `agent-single` | Patrón: validate → check rules → execute → return error |
+| **Query / Service para GetByID, List** | `agent-single` | Patrón: fetch → map → return data |
+| **DTO / Request structs** | `agent-single` | Modelos planos con validación tags |
 | **Use Case con lógica compleja** | `human` | El agente puede equivocarse en orquestación |
 | **Application Service (orquestación) complejo** | `human` | Alto riesgo si no está perfectamente especificado |
 
@@ -46,9 +46,9 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| **Implementación de Repositorio (sqlc o sqlx)** | `agent:single` | Patrón: query → scan → return; derivable del schema |
+| **Implementación de Repositorio (sqlc o sqlx)** | `agent-single` | Patrón: query → scan → return; derivable del schema |
 | **HTTP Client** | `human` | Depende de documentación externa; alto riesgo |
-| **Email / Notification Service** | `agent:single` si patrón existe / `human` si nuevo | Verificar si existe servicio similar |
+| **Email / Notification Service** | `agent-single` si patrón existe / `human` si nuevo | Verificar si existe servicio similar |
 | **Caché Implementation** (Redis) | `human` | Decisiones de TTL, invalidación y coherencia |
 | **Background Job / Scheduled Task** | `human` | Ciclo de vida, concurrencia, context management |
 | **Mensaje Queue Consumer** | `human` | At-least-once, idempotencia, error handling |
@@ -60,10 +60,10 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| **HTTP Handler CRUD** | `agent:single` | Patrón: decode request → call service → encode response |
-| **Handler con validación de entrada** | `agent:single` | Validación tags en structs |
-| **Router setup y structure** | `agent:single` | Organización mecánica de rutas |
-| **Middleware simple** (logging) | `agent:single` | Patrón predecible: wrap handler |
+| **HTTP Handler CRUD** | `agent-single` | Patrón: decode request → call service → encode response |
+| **Handler con validación de entrada** | `agent-single` | Validación tags en structs |
+| **Router setup y structure** | `agent-single` | Organización mecánica de rutas |
+| **Middleware simple** (logging) | `agent-single` | Patrón predecible: wrap handler |
 | **Authorization middleware complejo** | `human` | Decisiones de control de acceso |
 | **Global error handling** | `human` | Afecta toda la aplicación |
 
@@ -73,10 +73,10 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| **Unit Test — Use Case / Service** | `agent:single` | Los test scenarios están en la Spec |
-| **Unit Test — Domain** | `agent:single` si Spec incluye escenarios / `human` si no | Requiere definición clara |
+| **Unit Test — Use Case / Service** | `agent-single` | Los test scenarios están en la Spec |
+| **Unit Test — Domain** | `agent-single` si Spec incluye escenarios / `human` si no | Requiere definición clara |
 | **Integration Test** (sqlc + DB) | `human` | Require setup, TestContainers, fixtures |
-| **HTTP Handler Test** | `agent:single` si patrón existe | Verificar que hay tests similares |
+| **HTTP Handler Test** | `agent-single` si patrón existe | Verificar que hay tests similares |
 | **Performance / Load Tests** | `human` | Decisiones sobre umbrales |
 
 ---

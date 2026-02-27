@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/project:roadmap --project {p}` o con `--release-plan {file}`
+> Uso: `/project-roadmap --project {p}` o con `--release-plan {file}`
 
 ## Parámetros
 
@@ -31,7 +31,7 @@ description: >
 
 ### 1. Cargar datos
 - Release plan → releases, sprints, PBIs, dependencias
-- Asignaciones → si `/project:assign` ya ejecutado
+- Asignaciones → si `/project-assign` ya ejecutado
 - Calendario → fechas de sprints, festivos
 
 ### 2. Generar diagrama Gantt (Mermaid)
@@ -70,8 +70,8 @@ gantt
 ### 4. Publicar diagrama
 
 - Si `--format mermaid` → incluir en markdown del roadmap
-- Si `--format drawio` → usar `/diagram:generate` → exportar XML
-- Si `--format miro` → usar `/diagram:generate` → publicar board
+- Si `--format drawio` → usar `/diagram-generate` → exportar XML
+- Si `--format miro` → usar `/diagram-generate` → publicar board
 
 ### 5. Generar resumen ejecutivo
 
@@ -102,15 +102,15 @@ Fecha: YYYY-MM-DD | Horizonte: {n} sprints ({m} semanas)
 ### 6. Guardar
 - Diagrama: `output/roadmaps/YYYYMMDD-roadmap-{proyecto}.mermaid`
 - Resumen: `output/roadmaps/YYYYMMDD-roadmap-{proyecto}.md`
-- Si `--output pptx` → usar `/report:executive` para presentación
+- Si `--output pptx` → usar `/report-executive` para presentación
 
 ## Integración
 
-- `/project:release-plan` → (Phase 2) fuente de datos principal
-- `/project:assign` → (Phase 3) asignaciones para vista tech
-- `/project:kickoff` → (Phase 5) incluye roadmap en el kickoff
-- `/diagram:generate` → publicar en Draw.io o Miro
-- `/report:executive` → versión presentación del roadmap
+- `/project-release-plan` → (Phase 2) fuente de datos principal
+- `/project-assign` → (Phase 3) asignaciones para vista tech
+- `/project-kickoff` → (Phase 5) incluye roadmap en el kickoff
+- `/diagram-generate` → publicar en Draw.io o Miro
+- `/report-executive` → versión presentación del roadmap
 
 ## Restricciones
 

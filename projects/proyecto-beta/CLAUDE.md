@@ -94,7 +94,7 @@ Ver composición completa en `equipo.md`.
 
 **Estado:** 🟡 Inicio de sprint
 
-Para ver el estado detallado ejecutar: `/sprint:status proyecto-beta`
+Para ver el estado detallado ejecutar: `/sprint-status proyecto-beta`
 
 ---
 
@@ -191,7 +191,7 @@ sdd_config:
       reason: "Sin componente de referencia en el código, el agente genera estructuras inconsistentes"
     - layer: "Blazor Components"
       task_type: "Componente basado en patrón existente"
-      default: "agent:single"
+      default: "agent-single"
       reason: "Si hay componente similar, el agente puede replicar el patrón"
 
     # Migraciones: siempre humano (precio fijo → riesgo de datos crítico)
@@ -201,11 +201,11 @@ sdd_config:
 
   # En Beta (N-Layer simple, no Clean Architecture completa), adaptar los tipos de task
   default_agent_tasks:
-    - "Service Method (CRUD)"          # Application/Services → agent:single
-    - "Repository Method EF Core"      # Data layer → agent:single
-    - "DTO / ViewModel"                # Cualquier capa → agent:single (haiku)
-    - "Unit Tests Services"            # Tests → agent:single (haiku)
-    - "Blazor Code-Behind (CRUD)"      # Presentación → agent:single si hay referencia
+    - "Service Method (CRUD)"          # Application/Services → agent-single
+    - "Repository Method EF Core"      # Data layer → agent-single
+    - "DTO / ViewModel"                # Cualquier capa → agent-single (haiku)
+    - "Unit Tests Services"            # Tests → agent-single (haiku)
+    - "Blazor Code-Behind (CRUD)"      # Presentación → agent-single si hay referencia
 
   default_human_tasks:
     - "Business Logic compleja"        # Siempre humano
@@ -217,7 +217,7 @@ sdd_config:
   # Presupuesto de tokens (más ajustado que Alpha por precio fijo)
   token_budget_usd: 20          # $20/sprint máximo
   max_parallel_agents: 3        # Máximo 3 agentes en paralelo (equipo pequeño de supervisión)
-  require_tech_lead_approval: true   # Laura debe aprobar antes de lanzar agent:team (riesgo precio fijo)
+  require_tech_lead_approval: true   # Laura debe aprobar antes de lanzar agent-team (riesgo precio fijo)
   cost_alert_per_spec_usd: 2.00     # Alertar si una spec supera $2 en tokens
 ```
 

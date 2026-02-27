@@ -1,15 +1,15 @@
-# /agent:run
+# /agent-run
 
 Lanza un agente Claude sobre una Spec SDD (o batch de specs pendientes).
 
 ## Uso
 ```
-/agent:run {spec_file|--all-pending} [--project {nombre}] [--team] [--pattern {pattern}] [--model {model}]
+/agent-run {spec_file|--all-pending} [--project {nombre}] [--team] [--pattern {pattern}] [--model {model}]
 ```
 
 - `{spec_file}`: Ruta a `.spec.md`
-- `--all-pending`: Todas las specs `agent:single` pendientes del sprint
-- `--team`: Patrón `agent:team` (default `impl-test`)
+- `--all-pending`: Todas las specs `agent-single` pendientes del sprint
+- `--team`: Patrón `agent-team` (default `impl-test`)
 - `--pattern`: `single` | `impl-test` | `impl-test-review` | `full-stack` | `parallel-handlers`
 - `--model`: Sobreescribir modelo (default: `claude-opus-4-6`)
 
@@ -19,7 +19,7 @@ Lanza un agente Claude sobre una Spec SDD (o batch de specs pendientes).
 - Leer `.claude/skills/spec-driven-development/SKILL.md` (Fase 3)
 - Leer `projects/{proyecto}/CLAUDE.md`
 
-### 2. Modo Single (`agent:single` o default)
+### 2. Modo Single (`agent-single` o default)
 Mostrar plan (spec, modelo, log path, max turns 40) → confirmar → lanzar agente con:
 - System prompt: CLAUDE.md del proyecto
 - Instrucciones: implementar Spec exactamente, detenerse ante ambigüedad, ejecutar build+test
@@ -29,7 +29,7 @@ Mostrar plan (spec, modelo, log path, max turns 40) → confirmar → lanzar age
 Lanzar en paralelo: Implementador (opus) + Tester (haiku). Tras `wait`, si pattern es `impl-test-review`, lanzar Reviewer (opus) que compara logs contra Spec.
 
 ### 4. Modo Batch (`--all-pending`)
-Buscar specs con `developer_type=agent:single` y `Estado=Pendiente` en el sprint. Mostrar lista + estimación de tokens → confirmar → lanzar en paralelo.
+Buscar specs con `developer_type=agent-single` y `Estado=Pendiente` en el sprint. Mostrar lista + estimación de tokens → confirmar → lanzar en paralelo.
 
 ### 5. Post-ejecución
 - Detectar blockers en logs (`grep BLOCKER`)

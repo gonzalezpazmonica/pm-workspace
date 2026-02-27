@@ -9,7 +9,7 @@ description: >
 
 **Programador:** $ARGUMENTS
 
-> Uso: `/team:evaluate "Laura Sánchez" --project GestiónClínica`
+> Uso: `/team-evaluate "Laura Sánchez" --project GestiónClínica`
 > Prerequisito: nota informativa RGPD firmada.
 
 ## Protocolo
@@ -22,7 +22,7 @@ description: >
 
 ### 2. Verificar RGPD (BLOQUEO)
 Comprobar `projects/{proyecto}/privacy/{nombre}-nota-informativa-*.md`.
-Si no existe → DETENER → sugerir `/team:privacy-notice`.
+Si no existe → DETENER → sugerir `/team-privacy-notice`.
 
 ### 3. Personalizar sección C (dominio)
 Generar competencias de dominio a partir de los módulos reales del proyecto.

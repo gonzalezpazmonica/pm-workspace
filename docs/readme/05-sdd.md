@@ -9,20 +9,20 @@ Una Spec es un contrato que describe exactamente qué implementar. Si el contrat
 | Tipo | Quién implementa | Cuándo |
 |------|-----------------|--------|
 | `human` | Desarrollador del equipo | Lógica de dominio, migraciones, integraciones externas, Code Review |
-| `agent:single` | Un agente Claude | Handlers, Repositorios, Validators, Unit Tests, DTOs, Controllers |
-| `agent:team` | Implementador + Tester en paralelo | Tasks ≥ 6h con código producción + tests |
+| `agent-single` | Un agente Claude | Handlers, Repositorios, Validators, Unit Tests, DTOs, Controllers |
+| `agent-team` | Implementador + Tester en paralelo | Tasks ≥ 6h con código producción + tests |
 
 ## Flujo de trabajo SDD
 
 ```
-1. /pbi:decompose → propuesta de tasks con columna "Developer Type"
-2. /spec:generate {task_id} → genera el fichero .spec.md desde Azure DevOps
-3. /spec:review {spec_file} → valida la spec (calidad, completitud)
+1. /pbi-decompose → propuesta de tasks con columna "Developer Type"
+2. /spec-generate {task_id} → genera el fichero .spec.md desde Azure DevOps
+3. /spec-review {spec_file} → valida la spec (calidad, completitud)
 4. Si developer_type = agent:
-     /agent:run {spec_file} → agente implementa la spec
+     /agent-run {spec_file} → agente implementa la spec
    Si developer_type = human:
      Asignar al desarrollador
-5. /spec:review {spec_file} --check-impl → pre-check del código generado
+5. /spec-review {spec_file} --check-impl → pre-check del código generado
 6. Code Review (E1) → SIEMPRE humano (Tech Lead)
 7. PR → merge → Task: Done
 ```
@@ -59,7 +59,7 @@ _Escenario: La task AB#302-B3 "GetHistorialCitasQueryHandler" está lista para q
 
 **Tú escribes:**
 ```
-/spec:generate 302-B3 --project GestiónClínica
+/spec-generate 302-B3 --project GestiónClínica
 ```
 
 **Claude responde:**
@@ -67,7 +67,7 @@ _Escenario: La task AB#302-B3 "GetHistorialCitasQueryHandler" está lista para q
 Leyendo AB#302 (PBI padre) y AB#302-B3 (Task)...
 Analizando código existente en projects/gestion-clinica/source/...
 → Módulo: Citas / Capa: Application / Tipo: QueryHandler
-→ Developer type: agent:single (patrón repetible, interfaces definidas)
+→ Developer type: agent-single (patrón repetible, interfaces definidas)
 
 Spec generada:
   projects/gestion-clinica/specs/sprint-2026-05/AB302-B3-get-historial-citas-handler.spec.md
@@ -85,14 +85,14 @@ Vista previa de la sección más crítica (Contrato Técnico):
 │  }                                                              │
 └─────────────────────────────────────────────────────────────────┘
 
-¿Revisas la spec antes de implementar? → /spec:review AB302-B3-...
+¿Revisas la spec antes de implementar? → /spec-review AB302-B3-...
 ```
 
 ### Paso 2 — Validar la spec
 
 **Tú escribes:**
 ```
-/spec:review AB302-B3-get-historial-citas-handler.spec.md
+/spec-review AB302-B3-get-historial-citas-handler.spec.md
 ```
 
 **Claude responde:**
@@ -108,7 +108,7 @@ Revisando calidad de la spec...
 
 ══════════════════════
   ✅ SPEC LISTA
-  Puedes ejecutar /agent:run
+  Puedes ejecutar /agent-run
 ══════════════════════
 ```
 
@@ -116,7 +116,7 @@ Revisando calidad de la spec...
 
 **Tú escribes:**
 ```
-/agent:run projects/gestion-clinica/specs/sprint-2026-05/AB302-B3-get-historial-citas-handler.spec.md
+/agent-run projects/gestion-clinica/specs/sprint-2026-05/AB302-B3-get-historial-citas-handler.spec.md
 ```
 
 **Claude responde:**
@@ -170,7 +170,7 @@ _Escenario: Quieres ver el estado de todas las tasks SDD del sprint de un vistaz
 
 **Tú escribes:**
 ```
-/spec:status --project GestiónClínica
+/spec-status --project GestiónClínica
 ```
 
 **Claude responde:**
@@ -181,12 +181,12 @@ _Escenario: Quieres ver el estado de todas las tasks SDD del sprint de un vistaz
 
   Task                             Spec         Dev Type     Estado   h    Asignado
   ─────────────────────────────────────────────────────────────────────────────────
-  AB#302-B3 GetHistorialCitas      ✅ lista      agent:single  ✅ done  4h   agente
-  AB#302-C1 HistorialController    ✅ lista      agent:single  🔄 impl  3h   agente
-  AB#302-C2 Paginación cursor      ✅ lista      agent:single  ⏳ cola  3h   agente
-  AB#302-D1 Unit tests handler     ✅ lista      agent:single  ⏳ cola  2h   agente
-  AB#301-B3 SendConfirmationCmd    ⚠️ incompleta agent:single  🚫 bloq  4h   agente
-  AB#301-D1 EmailTemplateService   ⏳ pendiente  agent:single  ⏳ cola  3h   agente
+  AB#302-B3 GetHistorialCitas      ✅ lista      agent-single  ✅ done  4h   agente
+  AB#302-C1 HistorialController    ✅ lista      agent-single  🔄 impl  3h   agente
+  AB#302-C2 Paginación cursor      ✅ lista      agent-single  ⏳ cola  3h   agente
+  AB#302-D1 Unit tests handler     ✅ lista      agent-single  ⏳ cola  2h   agente
+  AB#301-B3 SendConfirmationCmd    ⚠️ incompleta agent-single  🚫 bloq  4h   agente
+  AB#301-D1 EmailTemplateService   ⏳ pendiente  agent-single  ⏳ cola  3h   agente
 
   Resumen:
     Completadas: 1 | En curso: 1 | En cola: 3 | Bloqueadas: 1
@@ -195,7 +195,7 @@ _Escenario: Quieres ver el estado de todas las tasks SDD del sprint de un vistaz
 
   ⚠️  AB#301-B3 bloqueada:
      La spec tiene una sección de Contrato Técnico incompleta —
-     falta la firma de IEmailService. Ejecuta /spec:review AB301-B3-...
+     falta la firma de IEmailService. Ejecuta /spec-review AB301-B3-...
      para ver qué falta exactamente.
 ```
 
@@ -206,7 +206,7 @@ _Escenario: Quieres ver el estado de todas las tasks SDD del sprint de un vistaz
 Para tasks grandes, puedes usar un equipo de agentes en paralelo:
 
 ```bash
-/agent:run {spec_file} --team
+/agent-run {spec_file} --team
 # Lanza: Implementador (opus) + Tester (haiku) en paralelo
 # Tiempo: ~50% menos que secuencial
 # Coste: ~$0.80-1.80 por spec
@@ -228,7 +228,7 @@ _Escenario: La task AB#301-B3 "SendCitaConfirmationCommandHandler" es compleja (
 
 **Tú escribes:**
 ```
-/agent:run projects/gestion-clinica/specs/sprint-2026-05/AB301-B3-send-confirmation-cmd.spec.md --team
+/agent-run projects/gestion-clinica/specs/sprint-2026-05/AB301-B3-send-confirmation-cmd.spec.md --team
 ```
 
 **Claude responde:**

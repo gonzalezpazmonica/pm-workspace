@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/legacy:assess --project {p}` o `/legacy:assess --project {p} --deep`
+> Uso: `/legacy-assess --project {p}` o `/legacy-assess --project {p} --deep`
 
 ## Parámetros
 
@@ -37,9 +37,9 @@ El subagente ejecuta los pasos 1-5 abajo y guarda el informe en `output/assessme
 - **Código fuente**: LOC, lenguajes, edad del repo, frecuencia de commits
 - **Dependencias**: paquetes obsoletos, CVEs conocidos, frameworks EOL
 - **Tests**: cobertura, tests rotos, ratio test/código
-- **CI/CD**: pipelines existentes (`/pipeline:status`), frecuencia de deploy
+- **CI/CD**: pipelines existentes (`/pipeline-status`), frecuencia de deploy
 - **Deuda técnica**: si existe `debt-register.md`, incorporar datos
-- **Errores**: si Sentry configurado (`/sentry:health`), crash rate
+- **Errores**: si Sentry configurado (`/sentry-health`), crash rate
 
 ### 2. Calcular scores (1-10)
 
@@ -101,10 +101,10 @@ Conocimiento:   ████░░░░░░ 4/10
 
 ## Integración
 
-- `/project:audit` → usa legacy:assess como fuente para proyectos legacy
-- `/project:release-plan` → incorpora roadmap de modernización como input
-- `/debt:track` → importa hallazgos como items de deuda técnica
-- `/evaluate:repo` → complementario (evaluate:repo = seguridad, legacy:assess = salud global)
+- `/project-audit` → usa legacy-assess como fuente para proyectos legacy
+- `/project-release-plan` → incorpora roadmap de modernización como input
+- `/debt-track` → importa hallazgos como items de deuda técnica
+- `/evaluate-repo` → complementario (evaluate-repo = seguridad, legacy-assess = salud global)
 
 ## Restricciones
 

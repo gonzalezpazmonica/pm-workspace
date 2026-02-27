@@ -1,10 +1,10 @@
-# /report:capacity
+# /report-capacity
 
 Muestra el estado de capacidades del equipo: disponibilidad, asignación y alertas de sobre-carga.
 
 ## Uso
 ```
-/report:capacity [proyecto] [--sprint "Sprint 2026-XX"]
+/report-capacity [proyecto] [--sprint "Sprint 2026-XX"]
 ```
 
 ## Pasos de Ejecución

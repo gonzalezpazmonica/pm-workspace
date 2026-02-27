@@ -1,10 +1,10 @@
-# /spec:status
+# /spec-status
 
 Muestra el estado de todas las Specs del sprint activo: pendientes, en progreso, completadas, bloqueadas.
 
 ## Uso
 ```
-/spec:status [--project {nombre}] [--sprint {sprint}] [--filter pending|in-progress|blocked|all]
+/spec-status [--project {nombre}] [--sprint {sprint}] [--filter pending|in-progress|blocked|all]
 ```
 
 - `--project`: Proyecto AzDO (default: todos los proyectos con specs en el sprint activo)
@@ -59,12 +59,12 @@ grep "^\*\*Último update:\*\*" $SPEC_FILE | cut -d: -f2- | xargs
 ┌──────────┬──────────────────────────────────┬─────────┬──────────────┬───────┬─────────────────────┐
 │ Task     │ Spec                             │ Estado  │ Dev Type     │ Horas │ Asignado a          │
 ├──────────┼──────────────────────────────────┼─────────┼──────────────┼───────┼─────────────────────┤
-│ AB#1234  │ B3-create-patient-handler        │ ✅ Done │ agent:single │  4h   │ claude-agent        │
-│ AB#1235  │ D1-unit-tests-patient            │ ✅ Done │ agent:single │  3h   │ claude-agent        │
-│ AB#1236  │ B3-update-patient-command        │ 🔄 WIP  │ agent:single │  4h   │ claude-agent        │
+│ AB#1234  │ B3-create-patient-handler        │ ✅ Done │ agent-single │  4h   │ claude-agent        │
+│ AB#1235  │ D1-unit-tests-patient            │ ✅ Done │ agent-single │  3h   │ claude-agent        │
+│ AB#1236  │ B3-update-patient-command        │ 🔄 WIP  │ agent-single │  4h   │ claude-agent        │
 │ AB#1237  │ C1-patient-repository            │ ⏳ Pend │ human        │  5h   │ María García        │
 │ AB#1238  │ E1-code-review                   │ ⏳ Pend │ human        │  2h   │ Carlos Ruiz         │
-│ AB#1239  │ B3-create-appointment            │ 🚫 Bloq │ agent:single │  4h   │ -                   │
+│ AB#1239  │ B3-create-appointment            │ 🚫 Bloq │ agent-single │  4h   │ -                   │
 └──────────┴──────────────────────────────────┴─────────┴──────────────┴───────┴─────────────────────┘
 
 Leyenda: ✅ Completado | 🔄 En Progreso | ⏳ Pendiente | 🚫 Bloqueado
@@ -107,9 +107,9 @@ Leyenda: ✅ Completado | 🔄 En Progreso | ⏳ Pendiente | 🚫 Bloqueado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Comandos disponibles:
-  /spec:implement {spec_file}   — Iniciar implementación de una spec pendiente
-  /spec:review {spec_file}      — Revisar una spec antes de implementar
-  /agent:run {spec_file}        — Lanzar agente directamente
+  /spec-implement {spec_file}   — Iniciar implementación de una spec pendiente
+  /spec-review {spec_file}      — Revisar una spec antes de implementar
+  /agent-run {spec_file}        — Lanzar agente directamente
 ```
 
 ### Formato simplificado (si --filter)
@@ -129,8 +129,8 @@ Con `--filter pending`:
 
   AB#1237 — {título} (human / María García / 5h)
   AB#1238 — {título} (human / Carlos Ruiz / 2h)
-  AB#... — {título} (agent:single / claude-agent / Xh)
+  AB#... — {título} (agent-single / claude-agent / Xh)
 
   Para lanzar todos los agentes pendientes:
-  /agent:run --all-pending --project {proyecto}
+  /agent-run --all-pending --project {proyecto}
 ```

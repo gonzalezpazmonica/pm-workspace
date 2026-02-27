@@ -110,7 +110,7 @@ Ver composición completa en `equipo.md`.
 
 **Capacity del sprint:** 198h (ver equipo.md)
 
-Para ver el estado: `/sprint:status sala-reservas`
+Para ver el estado: `/sprint-status sala-reservas`
 
 ---
 

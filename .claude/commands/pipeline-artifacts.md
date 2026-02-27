@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/pipeline:artifacts --project {p} --build {id}` o `/pipeline:artifacts --project {p} --pipeline {name}`
+> Uso: `/pipeline-artifacts --project {p} --build {id}` o `/pipeline-artifacts --project {p} --pipeline {name}`
 
 ## Parámetros
 
@@ -53,9 +53,9 @@ description: >
 
 ## Integración
 
-- `/pipeline:logs --build {id}` → ver logs de la build
-- `/pipeline:status` → contexto del pipeline
-- Artefactos de test → correlacionar con `/kpi:dashboard` (coverage)
+- `/pipeline-logs --build {id}` → ver logs de la build
+- `/pipeline-status` → contexto del pipeline
+- Artefactos de test → correlacionar con `/kpi-dashboard` (coverage)
 
 ## Restricciones
 

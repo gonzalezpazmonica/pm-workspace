@@ -1,16 +1,16 @@
-# /pbi:decompose-batch
+# /pbi-decompose-batch
 
 Descompone varios PBIs a la vez, optimizando las asignaciones en conjunto para equilibrar la carga global.
 
 ## Uso
 ```
-/pbi:decompose-batch {id1,id2,id3} [--project {nombre}]
+/pbi-decompose-batch {id1,id2,id3} [--project {nombre}]
 ```
 
 - `{id1,id2,id3}`: IDs separados por coma (ej: `1234,1235,1236`)
 - `--project`: Proyecto AzDO (default: el del CLAUDE.md raíz)
 
-## Diferencia con /pbi:decompose individual
+## Diferencia con /pbi-decompose individual
 
 En el modo batch, la asignación de tasks es **global y coordinada**:
 - El agente carga el estado de capacity del equipo una sola vez al inicio
@@ -20,7 +20,7 @@ En el modo batch, la asignación de tasks es **global y coordinada**:
 
 ## Pasos de Ejecución
 
-1. **Cargar contexto** (igual que `/pbi:decompose`)
+1. **Cargar contexto** (igual que `/pbi-decompose`)
 2. **Obtener todos los PBIs** en una sola pasada de la API
 3. **Obtener capacity del equipo** (una sola llamada, estado actual)
 4. Para cada PBI en orden de prioridad:

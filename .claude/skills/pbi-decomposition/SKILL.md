@@ -10,9 +10,9 @@ Esta skill combina análisis de código fuente, conocimiento del dominio del pro
 
 ## Triggers
 
-- Comando `/pbi:decompose` — Descompone uno o varios PBIs
-- Comando `/pbi:assign` — Solo asignación (si las Tasks ya existen)
-- Comando `/pbi:plan-sprint` — Descompone + estima + asigna todos los PBIs candidatos para un sprint
+- Comando `/pbi-decompose` — Descompone uno o varios PBIs
+- Comando `/pbi-assign` — Solo asignación (si las Tasks ya existen)
+- Comando `/pbi-plan-sprint` — Descompone + estima + asigna todos los PBIs candidatos para un sprint
 - Petición directa: "descompón el PBI #1234", "crea las tareas del PBI #1234", "asigna las tareas del sprint"
 
 ---
@@ -419,9 +419,9 @@ curl -s -u ":$PAT" \
    ├────┼─────────────────────────────────────────────┼──────────┼──────┼──────────────┼────────────────┤
    │ B1 │ Crear entidad Patient + value objects        │ 2h       │ Dev  │ María G.     │ human          │
    │ B2 │ Migration EF Core: tabla Patients            │ 1h       │ Dev  │ María G.     │ human          │
-   │ B3 │ Handler CreatePatientCommand + validación    │ 4h       │ Dev  │ 🤖 agent     │ agent:single   │
-   │ B4 │ Endpoint POST /api/patients + DTO            │ 2h       │ Dev  │ 🤖 agent     │ agent:single   │
-   │ D1 │ Unit tests CreatePatientCommandHandler       │ 3h       │ Dev  │ 🤖 agent     │ agent:single   │
+   │ B3 │ Handler CreatePatientCommand + validación    │ 4h       │ Dev  │ 🤖 agent     │ agent-single   │
+   │ B4 │ Endpoint POST /api/patients + DTO            │ 2h       │ Dev  │ 🤖 agent     │ agent-single   │
+   │ D1 │ Unit tests CreatePatientCommandHandler       │ 3h       │ Dev  │ 🤖 agent     │ agent-single   │
    │ D2 │ Integration test endpoint POST /patients     │ 2h       │ Dev  │ Carlos R.    │ human          │
    │ D3 │ Validación criterios aceptación              │ 2h       │ Test │ Ana L.       │ human          │
    │ E1 │ Code review                                  │ 1h       │ Dev  │ Pedro T. (TL)│ human          │
@@ -457,22 +457,22 @@ Tras crear las Tasks:
 
 ## Slash Commands
 
-### /pbi:decompose {id} [--project {nombre}] [--dry-run]
+### /pbi-decompose {id} [--project {nombre}] [--dry-run]
 
 Descompone un PBI en Tasks con estimaciones y propuesta de asignación.
 - `--dry-run`: Solo muestra la propuesta, no crea nada en Azure DevOps
 - Default: dry-run (siempre mostrar antes de crear)
 
-### /pbi:decompose-batch {id1,id2,id3} [--project {nombre}]
+### /pbi-decompose-batch {id1,id2,id3} [--project {nombre}]
 
 Descompone varios PBIs a la vez, optimizando las asignaciones en conjunto para equilibrar la carga global del equipo.
 
-### /pbi:assign {pbi_id} [--rebalance]
+### /pbi-assign {pbi_id} [--rebalance]
 
 Asigna (o reasigna) las Tasks existentes de un PBI según el algoritmo de asignación.
 - `--rebalance`: Redistribuye considerando la carga actual del sprint completo
 
-### /pbi:plan-sprint [--project {nombre}] [--sprint "Sprint N"]
+### /pbi-plan-sprint [--project {nombre}] [--sprint "Sprint N"]
 
 Flujo completo para Sprint Planning:
 1. Obtener PBIs candidatos (Approved, priorizados)

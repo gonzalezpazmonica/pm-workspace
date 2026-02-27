@@ -10,7 +10,7 @@ Importar diagramas de arquitectura (Draw.io, Miro, Mermaid local), extraer entid
 
 ## Triggers
 
-- Comando `/diagram:import` — Importación completa
+- Comando `/diagram-import` — Importación completa
 - Petición directa: "importa el diagrama y crea los PBIs"
 
 ---
@@ -258,8 +258,8 @@ SP total: ~{SP}
 📊 Metadata actualizada: projects/{p}/diagrams/{tool}/{tipo}.meta.json
 
 Siguiente paso recomendado:
-  → /pbi:decompose-batch {ids} para refinar estimaciones y asignaciones
-  → /sprint:plan para planificar el sprint con los nuevos PBIs
+  → /pbi-decompose-batch {ids} para refinar estimaciones y asignaciones
+  → /sprint-plan para planificar el sprint con los nuevos PBIs
 ```
 
 ---

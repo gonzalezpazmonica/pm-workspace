@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/pipeline:logs --project {p} --build {id}` o `/pipeline:logs --project {p} --pipeline {name}`
+> Uso: `/pipeline-logs --project {p} --build {id}` o `/pipeline-logs --project {p} --pipeline {name}`
 
 ## Parámetros
 
@@ -66,9 +66,9 @@ Branch: main | Trigger: CI | Started: 2026-02-27 10:15
 
 ## Integración
 
-- `/pipeline:run` → re-ejecutar si el fallo es transitorio
-- `/pipeline:status` → contexto global del pipeline
-- `/sentry:health` → correlacionar errores de build con errores en runtime
+- `/pipeline-run` → re-ejecutar si el fallo es transitorio
+- `/pipeline-status` → contexto global del pipeline
+- `/sentry-health` → correlacionar errores de build con errores en runtime
 
 ## Restricciones
 

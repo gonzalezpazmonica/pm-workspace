@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/linear:sync --project {p}` o `/linear:sync --project {p} --cycle {nombre}`
+> Uso: `/linear-sync --project {p}` o `/linear-sync --project {p} --cycle {nombre}`
 
 ## Parámetros
 
@@ -77,9 +77,9 @@ description: >
 
 ## Integración con otros comandos
 
-- `/sprint:plan` puede considerar issues de Linear como candidatos
-- `/board:flow` puede incluir métricas de cycle time de Linear
-- `/kpi:dashboard` puede agregar métricas de ambos trackers
+- `/sprint-plan` puede considerar issues de Linear como candidatos
+- `/board-flow` puede incluir métricas de cycle time de Linear
+- `/kpi-dashboard` puede agregar métricas de ambos trackers
 - Soporta `--notify-slack` para publicar resumen del sync
 
 ## Restricciones

@@ -8,33 +8,33 @@ Las siguientes responsabilidades clásicas del PM/Scrum Master quedan automatiza
 
 | Must | Cobertura | Simplificación |
 |------|-----------|----------------|
-| Sprint Planning (capacity + selección de PBIs) | `/sprint:plan` | Alta — calcula capacity real, propone PBIs hasta llenarla y descompone en tasks con un solo comando |
-| Descomposición de PBIs en tasks | `/pbi:decompose`, `/pbi:decompose-batch` | Alta — genera tabla de tasks con estimación, actividad y asignación. Elimina la reunión de refinamiento de tareas |
-| Asignación de trabajo (balanceo de carga) | `/pbi:assign` + scoring algorithm | Alta — el algoritmo expertise×disponibilidad×balance elimina la intuición subjetiva y garantiza reparto equitativo |
-| Seguimiento del burndown | `/sprint:status` | Alta — burndown automático en cualquier momento, con desviación respecto al ideal y proyección de cierre |
-| Control de capacity del equipo | `/report:capacity`, `/team:workload` | Alta — detecta sobrecarga individual y días libres sin necesidad de hojas de cálculo manuales |
-| Alertas de WIP y bloqueos | `/sprint:status` | Alta — alertas automáticas de items sin avance, personas al 100% y WIP sobre el límite |
-| Preparación de la Daily | `/sprint:status` | Media — proporciona el estado exacto y sugiere los puntos a tratar, pero la Daily es humana |
-| Informe de imputación de horas | `/report:hours` | Alta — Excel con 4 pestañas generado automáticamente desde Azure DevOps, sin edición manual |
-| Informe ejecutivo multi-proyecto | `/report:executive` | Alta — PPT/Word con semáforos de estado, listo para enviar a dirección |
-| Velocity y KPIs de equipo | `/kpi:dashboard` | Alta — velocity, cycle time, lead time, bug escape rate calculados con datos reales de AzDO |
-| Sprint Review (preparación) | `/sprint:review` | Media — genera el resumen de items completados y velocity, pero la demo la hace el equipo |
-| Sprint Retrospectiva (datos) | `/sprint:retro` | Media — proporciona los datos cuantitativos del sprint (qué fue bien, qué no), pero la dinámica es humana |
-| Implementación de tasks repetibles (multi-lenguaje) | SDD + `/agent:run` | Muy alta — Handlers, Repositories, Validators, Unit Tests implementados sin intervención humana en 16 lenguajes |
-| Gestión de infraestructura cloud | `/infra:plan`, `infrastructure-agent` | Alta — detección automática, creación al tier mínimo, escalado con aprobación humana |
-| Configuración multi-entorno | `/env:setup`, `environment-config.md` | Alta — DEV/PRE/PRO configurables, secrets protegidos, pipelines por entorno |
-| Control de calidad de specs | `/spec:review` | Alta — valida automáticamente que una spec tenga el nivel de detalle suficiente antes de implementar |
-| Onboarding de nuevos miembros | `/team:onboarding`, `/team:evaluate` | Alta — guía personalizada de incorporación + cuestionario de 26 competencias con conformidad RGPD |
+| Sprint Planning (capacity + selección de PBIs) | `/sprint-plan` | Alta — calcula capacity real, propone PBIs hasta llenarla y descompone en tasks con un solo comando |
+| Descomposición de PBIs en tasks | `/pbi-decompose`, `/pbi-decompose-batch` | Alta — genera tabla de tasks con estimación, actividad y asignación. Elimina la reunión de refinamiento de tareas |
+| Asignación de trabajo (balanceo de carga) | `/pbi-assign` + scoring algorithm | Alta — el algoritmo expertise×disponibilidad×balance elimina la intuición subjetiva y garantiza reparto equitativo |
+| Seguimiento del burndown | `/sprint-status` | Alta — burndown automático en cualquier momento, con desviación respecto al ideal y proyección de cierre |
+| Control de capacity del equipo | `/report-capacity`, `/team-workload` | Alta — detecta sobrecarga individual y días libres sin necesidad de hojas de cálculo manuales |
+| Alertas de WIP y bloqueos | `/sprint-status` | Alta — alertas automáticas de items sin avance, personas al 100% y WIP sobre el límite |
+| Preparación de la Daily | `/sprint-status` | Media — proporciona el estado exacto y sugiere los puntos a tratar, pero la Daily es humana |
+| Informe de imputación de horas | `/report-hours` | Alta — Excel con 4 pestañas generado automáticamente desde Azure DevOps, sin edición manual |
+| Informe ejecutivo multi-proyecto | `/report-executive` | Alta — PPT/Word con semáforos de estado, listo para enviar a dirección |
+| Velocity y KPIs de equipo | `/kpi-dashboard` | Alta — velocity, cycle time, lead time, bug escape rate calculados con datos reales de AzDO |
+| Sprint Review (preparación) | `/sprint-review` | Media — genera el resumen de items completados y velocity, pero la demo la hace el equipo |
+| Sprint Retrospectiva (datos) | `/sprint-retro` | Media — proporciona los datos cuantitativos del sprint (qué fue bien, qué no), pero la dinámica es humana |
+| Implementación de tasks repetibles (multi-lenguaje) | SDD + `/agent-run` | Muy alta — Handlers, Repositories, Validators, Unit Tests implementados sin intervención humana en 16 lenguajes |
+| Gestión de infraestructura cloud | `/infra-plan`, `infrastructure-agent` | Alta — detección automática, creación al tier mínimo, escalado con aprobación humana |
+| Configuración multi-entorno | `/env-setup`, `environment-config.md` | Alta — DEV/PRE/PRO configurables, secrets protegidos, pipelines por entorno |
+| Control de calidad de specs | `/spec-review` | Alta — valida automáticamente que una spec tenga el nivel de detalle suficiente antes de implementar |
+| Onboarding de nuevos miembros | `/team-onboarding`, `/team-evaluate` | Alta — guía personalizada de incorporación + cuestionario de 26 competencias con conformidad RGPD |
 
 ## 🔮 No contemplado actualmente — candidatos para el futuro
 
 Áreas que serían naturalmente automatizables con Claude y que representan una evolución lógica del workspace:
 
-**Gestión del backlog y refinement:** actualmente Claude descompone PBIs que ya existen, pero no asiste en la creación de nuevos PBIs desde cero (desde notas de cliente, emails, tickets de soporte). Un skill de `backlog:capture` que convierta inputs desestructurados en PBIs bien formados con criterios de aceptación sería un paso natural.
+**Gestión del backlog y refinement:** actualmente Claude descompone PBIs que ya existen, pero no asiste en la creación de nuevos PBIs desde cero (desde notas de cliente, emails, tickets de soporte). Un skill de `backlog-capture` que convierta inputs desestructurados en PBIs bien formados con criterios de aceptación sería un paso natural.
 
-**Gestión de riesgos (risk log):** el workspace detecta alertas de WIP y burndown, pero no mantiene un registro estructurado de riesgos con probabilidad, impacto y plan de mitigación. Un skill de `risk:log` que actualice el registro en cada `/sprint:status` y escale riesgos críticos al PM sería valioso.
+**Gestión de riesgos (risk log):** el workspace detecta alertas de WIP y burndown, pero no mantiene un registro estructurado de riesgos con probabilidad, impacto y plan de mitigación. Un skill de `risk-log` que actualice el registro en cada `/sprint-status` y escale riesgos críticos al PM sería valioso.
 
-**Release notes automáticas:** al cierre del sprint, Claude tiene toda la información para generar las release notes desde los items completados y los commits. El comando `/changelog:update` cubre parcialmente este caso (genera CHANGELOG desde commits), pero un `/sprint:release-notes` específico que combine commits + work items sería el siguiente paso.
+**Release notes automáticas:** al cierre del sprint, Claude tiene toda la información para generar las release notes desde los items completados y los commits. El comando `/changelog-update` cubre parcialmente este caso (genera CHANGELOG desde commits), pero un `/sprint-release-notes` específico que combine commits + work items sería el siguiente paso.
 
 **Gestión de deuda técnica:** el workspace no rastrea ni prioriza la deuda técnica. Un skill que analice el backlog en busca de items marcados como "refactor" o "tech-debt" y los proponga para sprints de mantenimiento sería un añadido útil.
 
@@ -72,7 +72,7 @@ Este proyecto está diseñado para crecer con las aportaciones de la comunidad. 
 
 ### Qué tipos de contribución aceptamos
 
-**Nuevos slash commands** (`.claude/commands/`) — el área de mayor impacto inmediato. Si has automatizado una conversación con Claude que resuelve un problema de PM no cubierto, empaquétala como comando y compártela. Ejemplos de alto interés: `risk:log`, `sprint:release-notes`, `backlog:capture`, `pr:status`.
+**Nuevos slash commands** (`.claude/commands/`) — el área de mayor impacto inmediato. Si has automatizado una conversación con Claude que resuelve un problema de PM no cubierto, empaquétala como comando y compártela. Ejemplos de alto interés: `risk-log`, `sprint-release-notes`, `backlog-capture`, `pr-status`.
 
 **Nuevas skills** (`.claude/skills/`) — skills que amplíen el comportamiento de Claude en áreas nuevas (gestión de deuda técnica, integración con Jira, soporte para metodologías Kanban o SAFe, nuevos proveedores cloud).
 
@@ -175,7 +175,7 @@ El test suite sigue pasando en modo mock (≥ 93/96). El nuevo comando o skill t
 Abre un Issue en GitHub con uno de estos prefijos en el título:
 
 ```
-[BUG]     /sprint:status no muestra alertas cuando WIP = 0
+[BUG]     /sprint-status no muestra alertas cuando WIP = 0
 [FEATURE] Añadir soporte para metodología Kanban
 [DOCS]    El ejemplo de SDD en el README no refleja el comportamiento actual
 [QUESTION] ¿Cómo configurar el workspace para proyectos con múltiples repos?

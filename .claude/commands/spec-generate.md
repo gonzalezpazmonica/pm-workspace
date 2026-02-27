@@ -1,10 +1,10 @@
-# /spec:generate
+# /spec-generate
 
 Genera una Spec ejecutable (`.spec.md`) a partir de una Task de Azure DevOps, lista para ser implementada por un humano o un agente Claude.
 
 ## Uso
 ```
-/spec:generate {task_id} [--project {nombre}] [--sprint {sprint}] [--force-type human|agent:single|agent:team]
+/spec-generate {task_id} [--project {nombre}] [--sprint {sprint}] [--force-type human|agent-single|agent-team]
 ```
 
 - `{task_id}`: ID de la Task en Azure DevOps (ej: `1234`)
@@ -93,7 +93,7 @@ Aplicar la matrix de `references/layer-assignment-matrix.md`:
 3. Si no hay override de proyecto, usar la matrix global
 4. Si `--force-type` está especificado, usar ese valor
 
-Mostrar al usuario: `Developer Type determinado: agent:single (Application / Command Handler)`
+Mostrar al usuario: `Developer Type determinado: agent-single (Application / Command Handler)`
 
 ### Paso 6 — Construir la Spec
 
@@ -124,7 +124,7 @@ SPEC_FILE="$SPEC_DIR/AB{task_id}-{tipo}-{descripcion-corta}.spec.md"
 📄 SPEC GENERADA — AB#{task_id}: {título}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Developer Type:  agent:single  (Application / Command Handler)
+Developer Type:  agent-single  (Application / Command Handler)
 Fichero:         {spec_file_path}
 Estimación:      {Xh}
 Asignado a:      {dev o "claude-agent"}
@@ -138,9 +138,9 @@ Checklist de calidad:
   ⚠️  {advertencia si algún campo quedó incompleto}
 
 ¿Está lista para implementar? Puedes:
-  - Ejecutar: /spec:implement {spec_file}  (si developer_type es agent)
+  - Ejecutar: /spec-implement {spec_file}  (si developer_type es agent)
   - Revisar el fichero manualmente antes de asignar
-  - Ejecutar: /spec:review {spec_file}     (para validación adicional)
+  - Ejecutar: /spec-review {spec_file}     (para validación adicional)
 ```
 
 > ⚠️ La Spec generada es un BORRADOR. Siempre revisarla antes de darla a un agente o a un desarrollador.

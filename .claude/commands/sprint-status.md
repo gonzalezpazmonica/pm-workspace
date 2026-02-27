@@ -3,7 +3,7 @@ name: sprint-status
 description: Estado del sprint actual — progreso, burndown, alertas.
 ---
 
-# /sprint:status
+# /sprint-status
 
 **Argumentos:** $ARGUMENTS
 
@@ -13,7 +13,7 @@ Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 /sprint:status — Estado del sprint actual
+🚀 /sprint-status — Estado del sprint actual
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -86,7 +86,7 @@ Si falta el proyecto → preguntar cuál y cargar su CLAUDE.md.
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ /sprint:status — Completado
+✅ /sprint-status — Completado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📊 Sprint {nombre} | {X}% completado | {N} alertas
 ```

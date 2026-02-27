@@ -123,10 +123,10 @@ brew install ffmpeg         # macOS
 
 ### Modo 1 — Manual (sin infraestructura)
 
-El PM ejecuta `/inbox:check` cuando quiere ver si hay mensajes nuevos.
+El PM ejecuta `/inbox-check` cuando quiere ver si hay mensajes nuevos.
 
 ```
-PM: /inbox:check
+PM: /inbox-check
 → Revisando WhatsApp... 3 mensajes nuevos (1 audio)
 → Revisando Nextcloud Talk... 0 mensajes nuevos
 →
@@ -135,7 +135,7 @@ PM: /inbox:check
 →   [10:22] Pedro López: "Por mí bien, pero falta revisar el PR #42"
 →   [10:30] Ana García: 🎤 Audio (12s) → Transcripción:
 →     "Oye, ¿puedes ponerme el estado del sprint? Que no me da tiempo a mirarlo"
-→     → Comando sugerido: /sprint:status --project sala-reservas
+→     → Comando sugerido: /sprint-status --project sala-reservas
 →     → ¿Ejecutar? (s/n)
 ```
 
@@ -143,11 +143,11 @@ PM: /inbox:check
 
 ### Modo 2 — Background polling (sesión activa)
 
-Al iniciar sesión, el PM lanza `/inbox:start` y un proceso en background
+Al iniciar sesión, el PM lanza `/inbox-start` y un proceso en background
 revisa los canales cada N minutos mientras la sesión esté abierta.
 
 ```
-PM: /inbox:start --interval 5
+PM: /inbox-start --interval 5
 → ✅ Inbox monitor iniciado (cada 5 min)
 → Canales activos: WhatsApp ✅, Nextcloud Talk ✅
 → Task ID: bg-inbox-7a3f (ver con /tasks)
@@ -156,7 +156,7 @@ PM: /inbox:start --interval 5
 →
 → 📩 [11:45] Nuevo mensaje de voz en WhatsApp:
 →   Ana García: 🎤 Audio (8s) → "Descompón el PBI 1234 en tareas"
-→   → Comando sugerido: /pbi:decompose 1234
+→   → Comando sugerido: /pbi-decompose 1234
 →   → ¿Ejecutar? (s/n)
 ```
 
@@ -164,16 +164,16 @@ PM: /inbox:start --interval 5
 El proceso se detiene automáticamente al cerrar la sesión.
 
 ```
-PM: /inbox:start                    # Iniciar con intervalo por defecto (5 min)
-PM: /inbox:start --interval 2      # Revisar cada 2 minutos
-PM: /inbox:start --channels wa      # Solo WhatsApp
-PM: /inbox:start --channels nctalk  # Solo Nextcloud Talk
+PM: /inbox-start                    # Iniciar con intervalo por defecto (5 min)
+PM: /inbox-start --interval 2      # Revisar cada 2 minutos
+PM: /inbox-start --channels wa      # Solo WhatsApp
+PM: /inbox-start --channels nctalk  # Solo Nextcloud Talk
 ```
 
 ### Modo 3 — Listener persistente (24/7)
 
 Un microservicio que corre como daemon, escuchando webhooks y polling.
-Encola mensajes en `inbox/pending.json` para que `/inbox:check` los lea.
+Encola mensajes en `inbox/pending.json` para que `/inbox-check` los lea.
 
 ```bash
 # Opción A: Script Python como servicio systemd
@@ -184,7 +184,7 @@ sudo systemctl enable --now inbox-listener
 # Opción B: Docker
 docker run -d --name pm-inbox \
   -v ~/.whatsapp-mcp:/data/whatsapp \
-  -v ./inbox:/data/inbox \
+  -v ./inbox-/data/inbox \
   -e NCTALK_WEBHOOK_PORT=8085 \
   pm-workspace/inbox-listener
 ```
@@ -194,7 +194,7 @@ incluso cuando el PM no tiene Claude Code abierto.
 Los mensajes se acumulan y se procesan en la siguiente sesión.
 
 ```
-PM: /inbox:check
+PM: /inbox-check
 → 📬 12 mensajes acumulados desde 2026-02-27 18:00
 →   WhatsApp: 8 mensajes (2 audios)
 →   Nextcloud Talk: 4 mensajes (0 audios)
@@ -203,7 +203,7 @@ PM: /inbox:check
 →   → No mapea a comando → archivado como nota informativa
 →
 → 🎤 Audio 2 (Pedro, 14:30): "Hazme un report de horas del proyecto"
-→   → Comando sugerido: /report:hours --project sala-reservas
+→   → Comando sugerido: /report-hours --project sala-reservas
 →   → ¿Ejecutar? (s/n)
 ```
 

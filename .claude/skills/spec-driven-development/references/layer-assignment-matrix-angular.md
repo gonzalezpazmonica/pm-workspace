@@ -22,11 +22,11 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| Crear Guard funcional (autenticación simple) | `agent:single` | Patrón fijo: verificar token → retornar true/false/redirect |
+| Crear Guard funcional (autenticación simple) | `agent-single` | Patrón fijo: verificar token → retornar true/false/redirect |
 | Implementar Guard con lógica compleja | `human` | Decisiones de autorización multi-rol requieren revisión |
-| Crear Interceptor (logging, timing) | `agent:single` | Patrón predecible: wrap request → call next → return response |
+| Crear Interceptor (logging, timing) | `agent-single` | Patrón predecible: wrap request → call next → return response |
 | Implementar Interceptor de error global | `human` | Decisiones de manejo de errores afectan a toda la app |
-| Servicio singleton (Auth, Config) | `agent:single` si patrón existe / `human` si es nuevo | Verificar si existe servicio similar |
+| Servicio singleton (Auth, Config) | `agent-single` si patrón existe / `human` si es nuevo | Verificar si existe servicio similar |
 
 ---
 
@@ -34,10 +34,10 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| Componente presentacional (UI puro) | `agent:single` | Sin lógica de estado; entrada=@Input, salida=@Output |
-| Pipe simple (formato fecha, moneda) | `agent:single` | Transformación mecánica de datos |
-| Directiva de utilidad (highlight, autofocus) | `agent:single` | Patrón fijo: @Directive + @HostListener/Binding |
-| Componente con @Input/@Output clara | `agent:single` | Contrato definido: inputs/outputs especificados |
+| Componente presentacional (UI puro) | `agent-single` | Sin lógica de estado; entrada=@Input, salida=@Output |
+| Pipe simple (formato fecha, moneda) | `agent-single` | Transformación mecánica de datos |
+| Directiva de utilidad (highlight, autofocus) | `agent-single` | Patrón fijo: @Directive + @HostListener/Binding |
+| Componente con @Input/@Output clara | `agent-single` | Contrato definido: inputs/outputs especificados |
 | Componente con lógica de estado | `human` | Requiere entendimiento de flujos de datos |
 
 ---
@@ -46,12 +46,12 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| **Smart Component** (con Signal + consulta) | `agent:single` si spec clara / `human` si lógica compleja | Patrón: `signal()` + servicio + `computed()` |
-| **Dumb Component** (presentación) | `agent:single` | Recibe data por @Input, emite eventos por @Output |
-| **Servicio local del feature** (queries, mutations) | `agent:single` | Métodos CRUD delegados a backend |
+| **Smart Component** (con Signal + consulta) | `agent-single` si spec clara / `human` si lógica compleja | Patrón: `signal()` + servicio + `computed()` |
+| **Dumb Component** (presentación) | `agent-single` | Recibe data por @Input, emite eventos por @Output |
+| **Servicio local del feature** (queries, mutations) | `agent-single` | Métodos CRUD delegados a backend |
 | **RxJS observable con lógica de transformación** | `human` | `switchMap`, `mergeMap`, operadores requieren expertise |
 | **Manejo de estado con NgRx (feature store)** | `human` | Actions, reducers, effects requieren diseño arquitectónico |
-| **Formulario Reactive complejo** | `agent:single` si validadores simples / `human` si validators custom | Depende de reglas de negocio |
+| **Formulario Reactive complejo** | `agent-single` si validadores simples / `human` si validators custom | Depende de reglas de negocio |
 
 ---
 
@@ -59,10 +59,10 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| **HTTP GET/POST básico** (HttpClient) | `agent:single` | Patrón fijo: `this.http.get<T>(url)` |
-| **Query con parámetros** | `agent:single` | Construcción de HttpParams mecánica |
+| **HTTP GET/POST básico** (HttpClient) | `agent-single` | Patrón fijo: `this.http.get<T>(url)` |
+| **Query con parámetros** | `agent-single` | Construcción de HttpParams mecánica |
 | **Error handling genérico** | `human` | Decisiones de retry, fallback, logging |
-| **Request/Response mapping** | `agent:single` | Transformación de DTOs mecánica |
+| **Request/Response mapping** | `agent-single` | Transformación de DTOs mecánica |
 
 ---
 
@@ -70,11 +70,11 @@ El Tech Lead tiene siempre la última palabra.
 
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
-| **Unit Test — Pipe** | `agent:single` | Entrada/salida determinada |
-| **Unit Test — Directive** | `agent:single` | Comportamiento DOM predecible |
-| **Component Test — Presentacional** | `agent:single` | Sin dependencias complejas; inputs/outputs claros |
-| **Component Test — Smart component** | `agent:single` si spec clara / `human` si mocking complejo | Puede requerir MockService, fixture setup |
-| **Service Test** | `agent:single` | Métodos desacoplados, mocks de HTTP claros |
+| **Unit Test — Pipe** | `agent-single` | Entrada/salida determinada |
+| **Unit Test — Directive** | `agent-single` | Comportamiento DOM predecible |
+| **Component Test — Presentacional** | `agent-single` | Sin dependencias complejas; inputs/outputs claros |
+| **Component Test — Smart component** | `agent-single` si spec clara / `human` si mocking complejo | Puede requerir MockService, fixture setup |
+| **Service Test** | `agent-single` | Métodos desacoplados, mocks de HTTP claros |
 | **E2E Test** (Cypress) | `human` | Flujos completos de usuario; criterios de test |
 | **Visual Regression Test** | `human` | Decisiones sobre umbrales visuales |
 
@@ -85,7 +85,7 @@ El Tech Lead tiene siempre la última palabra.
 | Tipo de Tarea | Developer Type | Justificación |
 |--------------|---------------|---------------|
 | **Code Review** | `human` siempre | Por definición, requiere un humano |
-| **Documentación de componentes** (Storybook) | `agent:single` con revisión humana | Generar historias de componentes |
+| **Documentación de componentes** (Storybook) | `agent-single` con revisión humana | Generar historias de componentes |
 | **Actualización de Angular** (ng update) | `human` | Cambios de breaking, dependencias |
 | **Optimización de performance** (OnPush, lazy loading) | `human` | Decisiones de arquitectura |
 
@@ -93,7 +93,7 @@ El Tech Lead tiene siempre la última palabra.
 
 ## Heurísticas de Decisión Rápida
 
-### ✅ Task ideal para `agent:single`
+### ✅ Task ideal para `agent-single`
 
 Marca al menos 4 de estos:
 - [ ] Existe componente similar en el codebase
@@ -103,9 +103,9 @@ Marca al menos 4 de estos:
 - [ ] Sin lógica de validación custom
 - [ ] El Tech Lead puede verificar solo revisando el code
 
-### ✅ Task ideal para `agent:team`
+### ✅ Task ideal para `agent-team`
 
-Además de criterios de `agent:single`:
+Además de criterios de `agent-single`:
 - [ ] Feature completa con smart + dumb components + tests
 - [ ] ≥ 6h de trabajo
 - [ ] Roles separados: UI vs Logic vs Tests

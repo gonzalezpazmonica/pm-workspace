@@ -64,13 +64,13 @@ Comandos disponibles: @.claude/rules/domain/pm-workflow.md
 
 | El PM dice... | Comando mapeado |
 |---|---|
-| "Ponme el estado del sprint de sala-reservas" | `/sprint:status --project sala-reservas` |
-| "¿Cómo va la deuda técnica?" | `/debt:track --project {activo}` |
-| "Descompón el PBI 1234 en tareas" | `/pbi:decompose 1234` |
-| "Genera el informe ejecutivo del sprint" | `/report:executive --project {activo}` |
-| "Hazme un audit del proyecto nuevo" | `/project:audit --project {activo}` |
-| "Manda el resumen del sprint al equipo por Slack" | `/notify:slack #equipo {resumen}` |
-| "¿Qué alertas de seguridad hay?" | `/security:alerts --project {activo}` |
+| "Ponme el estado del sprint de sala-reservas" | `/sprint-status --project sala-reservas` |
+| "¿Cómo va la deuda técnica?" | `/debt-track --project {activo}` |
+| "Descompón el PBI 1234 en tareas" | `/pbi-decompose 1234` |
+| "Genera el informe ejecutivo del sprint" | `/report-executive --project {activo}` |
+| "Hazme un audit del proyecto nuevo" | `/project-audit --project {activo}` |
+| "Manda el resumen del sprint al equipo por Slack" | `/notify-slack #equipo {resumen}` |
+| "¿Qué alertas de seguridad hay?" | `/security-alerts --project {activo}` |
 
 ### Casos ambiguos
 

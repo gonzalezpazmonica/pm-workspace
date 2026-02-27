@@ -1,7 +1,7 @@
 # Regla: Configuración de Diagramas de Arquitectura
 # ── Constantes y configuración para generación e importación de diagramas ────
 
-> Esta regla se carga bajo demanda cuando se ejecutan comandos `diagram:*`.
+> Esta regla se carga bajo demanda cuando se ejecutan comandos `diagram-*`.
 
 ```
 # ── MCP Tools disponibles ────────────────────────────────────────────────────

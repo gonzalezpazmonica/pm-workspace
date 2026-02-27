@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/sentry:bugs --project {p}` o `/sentry:bugs --project {p} --min-events {N}`
+> Uso: `/sentry-bugs --project {p}` o `/sentry-bugs --project {p} --min-events {N}`
 
 ## Parámetros
 
@@ -85,10 +85,10 @@ description: >
 
 ## Integración con otros comandos
 
-- `/pbi:decompose` puede descomponer los bugs creados en tasks técnicas
-- `/sprint:plan` puede incluir bugs de Sentry como candidatos al sprint
-- `/notify:slack` puede publicar resumen de bugs detectados
-- `/sentry:health` complementa con visión general de salud
+- `/pbi-decompose` puede descomponer los bugs creados en tasks técnicas
+- `/sprint-plan` puede incluir bugs de Sentry como candidatos al sprint
+- `/notify-slack` puede publicar resumen de bugs detectados
+- `/sentry-health` complementa con visión general de salud
 
 ## Restricciones
 

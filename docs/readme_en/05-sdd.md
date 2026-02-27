@@ -9,20 +9,20 @@ A Spec is a contract that describes exactly what to implement. If the contract i
 | Type | Who implements | When |
 |------|----------------|------|
 | `human` | Team developer | Domain logic, migrations, external integrations, Code Review |
-| `agent:single` | One Claude agent | Handlers, Repositories, Validators, Unit Tests, DTOs, Controllers |
-| `agent:team` | Implementer + Tester in parallel | Tasks ≥ 6h with production code + tests |
+| `agent-single` | One Claude agent | Handlers, Repositories, Validators, Unit Tests, DTOs, Controllers |
+| `agent-team` | Implementer + Tester in parallel | Tasks ≥ 6h with production code + tests |
 
 ## SDD workflow
 
 ```
-1. /pbi:decompose → task proposal with "Developer Type" column
-2. /spec:generate {task_id} → generates .spec.md file from Azure DevOps
-3. /spec:review {spec_file} → validates the spec (quality, completeness)
+1. /pbi-decompose → task proposal with "Developer Type" column
+2. /spec-generate {task_id} → generates .spec.md file from Azure DevOps
+3. /spec-review {spec_file} → validates the spec (quality, completeness)
 4. If developer_type = agent:
-     /agent:run {spec_file} → agent implements the spec
+     /agent-run {spec_file} → agent implements the spec
    If developer_type = human:
      Assign to the developer
-5. /spec:review {spec_file} --check-impl → pre-check of generated code
+5. /spec-review {spec_file} --check-impl → pre-check of generated code
 6. Code Review (E1) → ALWAYS human (Tech Lead)
 7. PR → merge → Task: Done
 ```
@@ -59,7 +59,7 @@ _Scenario: Task AB#302-B3 "GetHistorialCitasQueryHandler" is ready for the agent
 
 **You type:**
 ```
-/spec:generate 302-B3 --project ClinicManagement
+/spec-generate 302-B3 --project ClinicManagement
 ```
 
 **Claude responds:**
@@ -67,7 +67,7 @@ _Scenario: Task AB#302-B3 "GetHistorialCitasQueryHandler" is ready for the agent
 Reading AB#302 (parent PBI) and AB#302-B3 (Task)...
 Analyzing existing code in projects/clinic-management/source/...
 → Module: Appointments / Layer: Application / Type: QueryHandler
-→ Developer type: agent:single (repeatable pattern, interfaces defined)
+→ Developer type: agent-single (repeatable pattern, interfaces defined)
 
 Spec generated:
   projects/clinic-management/specs/sprint-2026-05/AB302-B3-get-historial-citas-handler.spec.md
@@ -85,14 +85,14 @@ Preview of the most critical section (Technical Contract):
 │  }                                                              │
 └─────────────────────────────────────────────────────────────────┘
 
-Do you want to review the spec before implementing? → /spec:review AB302-B3-...
+Do you want to review the spec before implementing? → /spec-review AB302-B3-...
 ```
 
 **Step 2 — Validate the spec**
 
 **You type:**
 ```
-/spec:review AB302-B3-get-historial-citas-handler.spec.md
+/spec-review AB302-B3-get-historial-citas-handler.spec.md
 ```
 
 **Claude responds:**
@@ -108,7 +108,7 @@ Reviewing spec quality...
 
 ══════════════════════
   ✅ SPEC READY
-  You can run /agent:run
+  You can run /agent-run
 ══════════════════════
 ```
 
@@ -116,7 +116,7 @@ Reviewing spec quality...
 
 **You type:**
 ```
-/agent:run projects/clinic-management/specs/sprint-2026-05/AB302-B3-get-historial-citas-handler.spec.md
+/agent-run projects/clinic-management/specs/sprint-2026-05/AB302-B3-get-historial-citas-handler.spec.md
 ```
 
 **Claude responds:**
@@ -157,7 +157,7 @@ _Scenario: You want to see the status of all SDD tasks in the sprint at a glance
 
 **You type:**
 ```
-/spec:status --project ClinicManagement
+/spec-status --project ClinicManagement
 ```
 
 **Claude responds:**
@@ -168,12 +168,12 @@ _Scenario: You want to see the status of all SDD tasks in the sprint at a glance
 
   Task                             Spec         Dev Type     Status   h    Assigned
   ─────────────────────────────────────────────────────────────────────────────────
-  AB#302-B3 GetHistorialCitas      ✅ ready      agent:single  ✅ done  4h   agent
-  AB#302-C1 HistorialController    ✅ ready      agent:single  🔄 impl  3h   agent
-  AB#302-C2 Cursor pagination      ✅ ready      agent:single  ⏳ queue 3h   agent
-  AB#302-D1 Unit tests handler     ✅ ready      agent:single  ⏳ queue 2h   agent
-  AB#301-B3 SendConfirmationCmd    ⚠️ incomplete agent:single  🚫 blk   4h   agent
-  AB#301-D1 EmailTemplateService   ⏳ pending    agent:single  ⏳ queue 3h   agent
+  AB#302-B3 GetHistorialCitas      ✅ ready      agent-single  ✅ done  4h   agent
+  AB#302-C1 HistorialController    ✅ ready      agent-single  🔄 impl  3h   agent
+  AB#302-C2 Cursor pagination      ✅ ready      agent-single  ⏳ queue 3h   agent
+  AB#302-D1 Unit tests handler     ✅ ready      agent-single  ⏳ queue 2h   agent
+  AB#301-B3 SendConfirmationCmd    ⚠️ incomplete agent-single  🚫 blk   4h   agent
+  AB#301-D1 EmailTemplateService   ⏳ pending    agent-single  ⏳ queue 3h   agent
 
   Summary:
     Completed: 1 | In progress: 1 | In queue: 3 | Blocked: 1
@@ -182,7 +182,7 @@ _Scenario: You want to see the status of all SDD tasks in the sprint at a glance
 
   ⚠️  AB#301-B3 blocked:
      The spec has an incomplete Technical Contract section —
-     the IEmailService signature is missing. Run /spec:review AB301-B3-...
+     the IEmailService signature is missing. Run /spec-review AB301-B3-...
      to see exactly what's missing.
 ```
 
@@ -193,7 +193,7 @@ _Scenario: You want to see the status of all SDD tasks in the sprint at a glance
 For large tasks, you can use a team of agents in parallel:
 
 ```bash
-/agent:run {spec_file} --team
+/agent-run {spec_file} --team
 # Launches: Implementer (opus) + Tester (haiku) in parallel
 # Time: ~50% less than sequential
 # Cost: ~$0.80-1.80 per spec
@@ -215,7 +215,7 @@ _Scenario: Task AB#301-B3 "SendCitaConfirmationCommandHandler" is complex (6h), 
 
 **You type:**
 ```
-/agent:run projects/clinic-management/specs/sprint-2026-05/AB301-B3-send-confirmation-cmd.spec.md --team
+/agent-run projects/clinic-management/specs/sprint-2026-05/AB301-B3-send-confirmation-cmd.spec.md --team
 ```
 
 **Claude responds:**

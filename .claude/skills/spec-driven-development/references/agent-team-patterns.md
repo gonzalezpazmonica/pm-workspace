@@ -261,7 +261,7 @@ N agentes en paralelo, cada uno implementando un handler diferente que sigue el 
 ### Cuándo usar
 - Sprint con múltiples Commands/Queries del mismo módulo
 - Todos siguen el mismo patrón (validar → consultar → crear → persistir)
-- Se han detectado las Specs de todos como `agent:single`
+- Se han detectado las Specs de todos como `agent-single`
 
 ### Invocación
 ```bash
@@ -273,9 +273,9 @@ TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 for SPEC_FILE in $SPRINT_DIR/*.spec.md; do
   SPEC_BASENAME=$(basename $SPEC_FILE .spec.md)
 
-  # Solo procesar specs marcadas como agent:single (no human)
+  # Solo procesar specs marcadas como agent-single (no human)
   DEVELOPER_TYPE=$(grep "^\*\*Developer Type:\*\*" $SPEC_FILE | awk '{print $NF}')
-  if [ "$DEVELOPER_TYPE" != "agent:single" ]; then
+  if [ "$DEVELOPER_TYPE" != "agent-single" ]; then
     echo "⏭️  Saltando $SPEC_BASENAME (Developer Type: $DEVELOPER_TYPE)"
     continue
   fi
@@ -388,8 +388,8 @@ Dos agentes modificando `DependencyInjection.cs` → pérdida de cambios de uno 
 ### ❌ Reviewer que modifica código
 El agente reviewer es read-only. Si modifica código → loop infinito de correcciones. Solo reporta.
 
-### ❌ `agent:team` para tasks < 4h
-El overhead de coordinación y el coste de tokens supera el ahorro. Usar `agent:single`.
+### ❌ `agent-team` para tasks < 4h
+El overhead de coordinación y el coste de tokens supera el ahorro. Usar `agent-single`.
 
 ### ❌ Agente para Code Review (E1)
 El Code Review siempre lo realiza un humano. Siempre. Sin excepción.

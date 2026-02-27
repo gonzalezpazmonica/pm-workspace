@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/kpi:dora --project {p}` o `/kpi:dora --project {p} --sprints 10`
+> Uso: `/kpi-dora --project {p}` o `/kpi-dora --project {p} --sprints 10`
 
 Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
@@ -17,7 +17,7 @@ Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 /kpi:dora — Métricas DORA
+🚀 /kpi-dora — Métricas DORA
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -33,7 +33,7 @@ Si falta `--project`:
 ```
 ❌ Falta parámetro obligatorio: --project {nombre}
    Proyectos disponibles: [listar]
-   Uso: /kpi:dora --project nombre
+   Uso: /kpi-dora --project nombre
 ```
 
 ## 3. Verificar prerequisitos
@@ -98,17 +98,17 @@ Si `--export` → guardar en `output/dora/YYYYMMDD-dora-{proyecto}.md`
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ /kpi:dora — Completado
+✅ /kpi-dora — Completado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📊 Clasificación: {ELITE/HIGH/MEDIUM/LOW} PERFORMER
 ```
 
 ## Integración
 
-- `/kpi:dashboard` → incluye resumen DORA
-- `/pipeline:status` → datos fuente
-- `/project:audit` → usa DORA para evaluar madurez CI/CD
-- `/report:executive` → incluye DORA en informe directivo
+- `/kpi-dashboard` → incluye resumen DORA
+- `/pipeline-status` → datos fuente
+- `/project-audit` → usa DORA para evaluar madurez CI/CD
+- `/report-executive` → incluye DORA en informe directivo
 
 ## Restricciones
 

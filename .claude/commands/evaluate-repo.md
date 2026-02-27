@@ -17,7 +17,7 @@ Aplica siempre @.claude/rules/domain/command-ux-feedback.md
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 /evaluate:repo — Evaluación de repositorio
+🚀 /evaluate-repo — Evaluación de repositorio
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -87,7 +87,7 @@ Si RECHAZAR → indicar heurística.
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ /evaluate:repo — Completado
+✅ /evaluate-repo — Completado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📊 Score: X.X/10 | Veredicto: ✅/🟡/🔍/🔴
 ```

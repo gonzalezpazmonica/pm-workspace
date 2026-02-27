@@ -8,9 +8,9 @@ Checklist para el **mentor** y el **nuevo miembro**. Cada fase tiene un criterio
 
 **Responsable:** PM + Mentor
 
-- [ ] Nota informativa RGPD entregada y firmada (`/team:privacy-notice`)
+- [ ] Nota informativa RGPD entregada y firmada (`/team-privacy-notice`)
 - [ ] Accesos configurados: Azure DevOps, repositorio Git, CI/CD, canales de comunicación
-- [ ] `/context:load` ejecutado en presencia del nuevo miembro
+- [ ] `/context-load` ejecutado en presencia del nuevo miembro
 - [ ] Claude explica la arquitectura general del proyecto
 - [ ] Mentor complementa con contexto que Claude no tiene (decisiones históricas, deuda técnica conocida, relaciones con el cliente)
 
@@ -56,7 +56,7 @@ Checklist para el **mentor** y el **nuevo miembro**. Cada fase tiene un criterio
 **Responsable:** PM + Nuevo miembro + Tech Lead
 
 - [ ] Verificar que la nota informativa RGPD está firmada
-- [ ] Ejecutar `/team:evaluate {nombre} --project {proyecto}`
+- [ ] Ejecutar `/team-evaluate {nombre} --project {proyecto}`
 - [ ] Nuevo miembro responde las secciones A (técnico), B (transversal), C (dominio)
 - [ ] Tech Lead revisa y calibra las respuestas (ajustar si discrepancia > ±1 nivel)
 - [ ] Ambos confirman el perfil final

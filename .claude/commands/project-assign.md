@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/project:assign --project {p}` o con `--release-plan {file}`
+> Uso: `/project-assign --project {p}` o con `--release-plan {file}`
 
 ## Parámetros
 
@@ -31,13 +31,13 @@ description: >
 
 ### 1. Cargar datos del equipo
 - Leer `equipo.md` → nombre, rol, skills, seniority, disponibilidad
-- Obtener capacity actual → `/report:capacity`
-- Obtener carga actual → `/team:workload`
+- Obtener capacity actual → `/report-capacity`
+- Obtener carga actual → `/team-workload`
 - Calcular horas disponibles por persona y sprint
 
 ### 2. Cargar trabajo a asignar
 - Leer release plan → PBIs agrupados por release y sprint
-- Para PBIs sin descomponer → invocar `/pbi:decompose` primero
+- Para PBIs sin descomponer → invocar `/pbi-decompose` primero
 - Obtener tasks con estimaciones (SP u horas)
 
 ### 3. Algoritmo de asignación
@@ -90,11 +90,11 @@ Restricciones:
 
 ## Integración
 
-- `/project:release-plan` → (Phase 2) provee el trabajo a asignar
-- `/project:roadmap` → (Phase 4) visualiza asignaciones en timeline
-- `/pbi:decompose` → descompone PBIs antes de asignar tasks
-- `/team:workload` → datos de carga actual
-- `/report:capacity` → datos de capacity
+- `/project-release-plan` → (Phase 2) provee el trabajo a asignar
+- `/project-roadmap` → (Phase 4) visualiza asignaciones en timeline
+- `/pbi-decompose` → descompone PBIs antes de asignar tasks
+- `/team-workload` → datos de carga actual
+- `/report-capacity` → datos de capacity
 
 ## Restricciones
 

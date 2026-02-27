@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/gdrive:upload {fichero} --project {p}` o `/gdrive:upload --project {p} --latest {tipo}`
+> Uso: `/gdrive-upload {fichero} --project {p}` o `/gdrive-upload --project {p} --latest {tipo}`
 
 ## Parámetros
 
@@ -69,10 +69,10 @@ description: >
 
 ## Integración con otros comandos
 
-- `/report:hours --upload-gdrive` → sube automáticamente tras generar
-- `/report:executive --upload-gdrive` → sube informe ejecutivo
-- `/report:capacity --upload-gdrive` → sube informe de capacidad
-- `/sprint:review --upload-gdrive` → sube resumen del sprint
+- `/report-hours --upload-gdrive` → sube automáticamente tras generar
+- `/report-executive --upload-gdrive` → sube informe ejecutivo
+- `/report-capacity --upload-gdrive` → sube informe de capacidad
+- `/sprint-review --upload-gdrive` → sube resumen del sprint
 
 ## Restricciones
 

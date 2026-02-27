@@ -13,6 +13,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.15.0] — 2026-02-27
+
+Command naming fix: Claude Code only supports hyphens in slash command names, not colons. All 106 unique command references across 164 files renamed from colon notation (`/project:audit`) to hyphen notation (`/project-audit`). This fix ensures all documented commands actually work as slash commands.
+
+### Fixed
+
+**All command references renamed** — Colon notation (`/project:audit`, `/sprint:status`, etc.) replaced with hyphen notation (`/project-audit`, `/sprint-status`, etc.) across all documentation, commands, rules, skills, READMEs, CHANGELOG, guides, templates, and scripts. 164 files, 1203 lines changed.
+
+### Why
+
+Claude Code command names only support lowercase letters, numbers, and hyphens (max 64 chars). Colons were never valid — commands like `/project:audit` were interpreted as free text, not as slash commands. The actual command files already used hyphens (`project-audit.md`, `name: project-audit`), but all documentation referenced them with colons.
+
+---
+
 ## [0.14.1] — 2026-02-27
 
 Context optimization: auto-loaded baseline reduced by 79% (929 → 193 lines). All 10 domain rules moved to `rules/domain/` (loaded on-demand via `@` references). `/help` rewritten to separate `--setup` from catalog display.
@@ -32,14 +46,14 @@ Session persistence: knowledge no longer lost between sessions. Inspired by Obsi
 
 ### Added
 
-**`/session:save` command** — Captures decisions, results, modified files, and pending tasks before `/clear`. Saves to two destinations: session log (`output/sessions/`) and cumulative decision log (`decision-log.md`).
-**`decision-log.md`** — Private (git-ignored) cumulative register of PM decisions. Max 50 entries. Loaded by `/context:load` at session start.
+**`/session-save` command** — Captures decisions, results, modified files, and pending tasks before `/clear`. Saves to two destinations: session log (`output/sessions/`) and cumulative decision log (`decision-log.md`).
+**`decision-log.md`** — Private (git-ignored) cumulative register of PM decisions. Max 50 entries. Loaded by `/context-load` at session start.
 **`output/sessions/`** — Session history with full context for continuity.
 
 ### Changed
 
-**`/context:load` rewritten** — Now loads the "big picture": recent decisions from decision-log, last session's pending tasks, project health (last audit score, open debt, risks), plus git activity. Stack-aware (GitHub-only vs Azure DevOps).
-**Command count** — 81 → 83 commands (added session:save, help --setup as separate entry).
+**`/context-load` rewritten** — Now loads the "big picture": recent decisions from decision-log, last session's pending tasks, project health (last audit score, open debt, risks), plus git activity. Stack-aware (GitHub-only vs Azure DevOps).
+**Command count** — 81 → 83 commands (added session-save, help --setup as separate entry).
 
 ---
 
@@ -49,13 +63,13 @@ Fix silent failures: heavy commands (project-audit, evaluate-repo, legacy-assess
 
 ### Fixed
 
-**`/project:audit` silent failure** — At 100% context, the command produced zero output. Root cause: anti-improvisation rule prevented Claude from using subagents (not defined in command spec). Now explicitly delegates to `Task` subagent.
+**`/project-audit` silent failure** — At 100% context, the command produced zero output. Root cause: anti-improvisation rule prevented Claude from using subagents (not defined in command spec). Now explicitly delegates to `Task` subagent.
 
 ### Changed
 
-**`/project:audit`** — Rewritten: mandatory subagent delegation (§4), stack-aware prereqs (GitHub-only vs Azure DevOps), output-first summary.
-**`/evaluate:repo`** — Added mandatory subagent delegation for analysis.
-**`/legacy:assess`** — Added mandatory subagent delegation for analysis.
+**`/project-audit`** — Rewritten: mandatory subagent delegation (§4), stack-aware prereqs (GitHub-only vs Azure DevOps), output-first summary.
+**`/evaluate-repo`** — Added mandatory subagent delegation for analysis.
+**`/legacy-assess`** — Added mandatory subagent delegation for analysis.
 
 ---
 
@@ -141,12 +155,12 @@ UX Feedback Standards: Every command now provides consistent visual feedback —
 - Retry flow: fail → ask → save → retry → show result
 
 **6 core commands updated with UX feedback pattern:**
-- `/sprint:status` — banners, prerequisite checks, progress steps, completion summary
-- `/project:audit` — banners, interactive project creation if missing, 5-step progress, detailed completion
-- `/evaluate:repo` — banners, clone verification, 5-step progress, score summary
-- `/debt:track` — banners, parameter validation, 3-step progress, debt ratio summary
-- `/kpi:dora` — banners, prerequisite checks, 4-step progress, performer classification
-- `/context:load` — banners, 5-step progress, session summary
+- `/sprint-status` — banners, prerequisite checks, progress steps, completion summary
+- `/project-audit` — banners, interactive project creation if missing, 5-step progress, detailed completion
+- `/evaluate-repo` — banners, clone verification, 5-step progress, score summary
+- `/debt-track` — banners, parameter validation, 3-step progress, debt ratio summary
+- `/kpi-dora` — banners, prerequisite checks, 4-step progress, performer classification
+- `/context-load` — banners, 5-step progress, session summary
 
 **Documentation updated:**
 - `pm-workflow.md` — added UX Feedback reference
@@ -183,12 +197,12 @@ Messaging & Voice Inbox: WhatsApp (personal, no requiere Business) y Nextcloud T
 ### Added
 
 **Messaging & Inbox commands (6)** — PR #44
-- `/notify:whatsapp {contacto} {msg}` — enviar notificaciones e informes por WhatsApp al PM o grupo del equipo. Funciona con cuenta personal (no requiere Business). Soporta adjuntos (PDF, imágenes)
-- `/whatsapp:search {query}` — buscar mensajes en WhatsApp como contexto: decisiones, acuerdos, conversaciones del equipo. Datos en SQLite local (nunca se envían a terceros)
-- `/notify:nctalk {sala} {msg}` — enviar notificaciones a sala de Nextcloud Talk. Funciona con cualquier instancia Nextcloud (self-hosted o cloud). Soporta ficheros adjuntos via Nextcloud Files
-- `/nctalk:search {query}` — buscar mensajes en Nextcloud Talk: decisiones y contexto del equipo
-- `/inbox:check` — revisar mensajes nuevos en todos los canales configurados. Transcribe audios con Faster-Whisper (local), interpreta peticiones del PM y propone el comando de pm-workspace correspondiente
-- `/inbox:start --interval {min}` — iniciar monitor de inbox en background. Polling cada N minutos mientras la sesión esté abierta. Se detiene automáticamente al cerrar sesión
+- `/notify-whatsapp {contacto} {msg}` — enviar notificaciones e informes por WhatsApp al PM o grupo del equipo. Funciona con cuenta personal (no requiere Business). Soporta adjuntos (PDF, imágenes)
+- `/whatsapp-search {query}` — buscar mensajes en WhatsApp como contexto: decisiones, acuerdos, conversaciones del equipo. Datos en SQLite local (nunca se envían a terceros)
+- `/notify-nctalk {sala} {msg}` — enviar notificaciones a sala de Nextcloud Talk. Funciona con cualquier instancia Nextcloud (self-hosted o cloud). Soporta ficheros adjuntos via Nextcloud Files
+- `/nctalk-search {query}` — buscar mensajes en Nextcloud Talk: decisiones y contexto del equipo
+- `/inbox-check` — revisar mensajes nuevos en todos los canales configurados. Transcribe audios con Faster-Whisper (local), interpreta peticiones del PM y propone el comando de pm-workspace correspondiente
+- `/inbox-start --interval {min}` — iniciar monitor de inbox en background. Polling cada N minutos mientras la sesión esté abierta. Se detiene automáticamente al cerrar sesión
 
 **Voice Inbox skill** — transcripción de audio y flujo audio→texto→acción
 - Faster-Whisper local (modelos: tiny, base, small, medium, large-v3)
@@ -218,11 +232,11 @@ DevOps Extended: Azure DevOps Wiki management, Test Plans visibility, and securi
 ### Added
 
 **DevOps Extended commands (5)** — PR #43
-- `/wiki:publish {file} --project {p}` — publish markdown documentation to Azure DevOps Wiki. Supports create and update operations via MCP wiki tools
-- `/wiki:sync --project {p}` — bidirectional sync between local docs and Azure DevOps Wiki. Three modes: status (compare), push (local→wiki), pull (wiki→local). Conflict detection
-- `/testplan:status --project {p}` — Test Plans dashboard: active plans, suites, test cases, execution rates (passed/failed/blocked/not run), PBI test coverage, alerts for untested PBIs
-- `/testplan:results --project {p} --run {id}` — detailed test run results: failure analysis, stack traces, flaky test detection, trend over last N runs, recommendations for Bug PBI creation
-- `/security:alerts --project {p}` — security alerts from Azure DevOps Advanced Security: CVEs, exposed secrets, code vulnerabilities. Severity filtering, trend analysis, optional PBI creation for critical/high alerts
+- `/wiki-publish {file} --project {p}` — publish markdown documentation to Azure DevOps Wiki. Supports create and update operations via MCP wiki tools
+- `/wiki-sync --project {p}` — bidirectional sync between local docs and Azure DevOps Wiki. Three modes: status (compare), push (local→wiki), pull (wiki→local). Conflict detection
+- `/testplan-status --project {p}` — Test Plans dashboard: active plans, suites, test cases, execution rates (passed/failed/blocked/not run), PBI test coverage, alerts for untested PBIs
+- `/testplan-results --project {p} --run {id}` — detailed test run results: failure analysis, stack traces, flaky test detection, trend over last N runs, recommendations for Bug PBI creation
+- `/security-alerts --project {p}` — security alerts from Azure DevOps Advanced Security: CVEs, exposed secrets, code vulnerabilities. Severity filtering, trend analysis, optional PBI creation for critical/high alerts
 
 ### Changed
 - Command count: 70 → 75 (+5 DevOps Extended)
@@ -239,11 +253,11 @@ Project Onboarding Pipeline: 5-phase automated workflow for onboarding new proje
 ### Added
 
 **Project Onboarding commands (5)** — PR #42
-- `/project:audit --project {p}` — (Phase 1) Deep project audit: 8 dimensions (code quality, tests, architecture, debt, security, docs, CI/CD, team health). Generates prioritized action report with 3 tiers: critical, improvable, correct. Leverages `/debt:track`, `/kpi:dora`, `/pipeline:status`, `/sentry:health` internally
-- `/project:release-plan --project {p}` — (Phase 2) Prioritized release plan from audit + backlog. Groups PBIs into releases respecting dependencies, risk, and business value. Supports greenfield and legacy (strangler fig) strategies
-- `/project:assign --project {p}` — (Phase 3) Distribute work across team by skills, seniority, and capacity. Scoring algorithm: skill_match (40%) + capacity (30%) + seniority_fit (20%) + context_bonus (10%). Alerts for overload and bus factor
-- `/project:roadmap --project {p}` — (Phase 4) Visual roadmap: Mermaid Gantt with milestones, dependencies, releases. Exports to Draw.io/Miro. Two audiences: tech (detailed) and executive (summary)
-- `/project:kickoff --project {p}` — (Phase 5) Compile phases 1-4 into kickoff report. Notify PM via Slack/email. Optionally create Sprint 1 in Azure DevOps with Release 1 scope
+- `/project-audit --project {p}` — (Phase 1) Deep project audit: 8 dimensions (code quality, tests, architecture, debt, security, docs, CI/CD, team health). Generates prioritized action report with 3 tiers: critical, improvable, correct. Leverages `/debt-track`, `/kpi-dora`, `/pipeline-status`, `/sentry-health` internally
+- `/project-release-plan --project {p}` — (Phase 2) Prioritized release plan from audit + backlog. Groups PBIs into releases respecting dependencies, risk, and business value. Supports greenfield and legacy (strangler fig) strategies
+- `/project-assign --project {p}` — (Phase 3) Distribute work across team by skills, seniority, and capacity. Scoring algorithm: skill_match (40%) + capacity (30%) + seniority_fit (20%) + context_bonus (10%). Alerts for overload and bus factor
+- `/project-roadmap --project {p}` — (Phase 4) Visual roadmap: Mermaid Gantt with milestones, dependencies, releases. Exports to Draw.io/Miro. Two audiences: tech (detailed) and executive (summary)
+- `/project-kickoff --project {p}` — (Phase 5) Compile phases 1-4 into kickoff report. Notify PM via Slack/email. Optionally create Sprint 1 in Azure DevOps with Release 1 scope
 
 ### Changed
 - Command count: 65 → 70 (+5 onboarding)
@@ -260,9 +274,9 @@ Legacy assessment, backlog capture from unstructured sources, and automated rele
 ### Added
 
 **Legacy & Capture commands (3)** — PR #41
-- `/legacy:assess --project {p}` — legacy application assessment: complexity score (6 dimensions), maintenance cost, risk rating, modernization roadmap using strangler fig pattern. Output: `output/assessments/YYYYMMDD-legacy-{project}.md`
-- `/backlog:capture --project {p} --source {tipo}` — create PBIs from unstructured input: emails, meeting notes, Slack messages, support tickets. Deduplicates against existing backlog, classifies by type and priority
-- `/sprint:release-notes --project {p}` — auto-generate release notes combining Azure DevOps work items + conventional commits + merged PRs. Three audience levels: tech, stakeholder, public
+- `/legacy-assess --project {p}` — legacy application assessment: complexity score (6 dimensions), maintenance cost, risk rating, modernization roadmap using strangler fig pattern. Output: `output/assessments/YYYYMMDD-legacy-{project}.md`
+- `/backlog-capture --project {p} --source {tipo}` — create PBIs from unstructured input: emails, meeting notes, Slack messages, support tickets. Deduplicates against existing backlog, classifies by type and priority
+- `/sprint-release-notes --project {p}` — auto-generate release notes combining Azure DevOps work items + conventional commits + merged PRs. Three audience levels: tech, stakeholder, public
 
 ### Changed
 - Command count: 62 → 65 (+3 legacy & capture)
@@ -279,11 +293,11 @@ Governance foundations: technical debt tracking, DORA metrics, dependency mappin
 ### Added
 
 **Governance commands (5)** — PR #40
-- `/debt:track --project {p}` — technical debt register: debt ratio, trend per sprint, SonarQube integration. Stores data in `projects/{p}/debt-register.md`
-- `/kpi:dora --project {p}` — DORA metrics dashboard: deployment frequency, lead time, change failure rate, MTTR. Classifies as Elite/High/Medium/Low per DORA 2025 benchmarks
-- `/dependency:map --project {p}` — cross-team/cross-PBI dependency mapping with blocking alerts, circular dependency detection, critical path analysis. Visual graph via `/diagram:generate`
-- `/retro:actions --project {p}` — retrospective action items tracking: ownership, status, % implementation across sprints. Detects recurrent themes and suggests elevation to initiatives
-- `/risk:log --project {p}` — risk register: probability × impact matrix (1-3 scale), exposure scoring, risk burndown chart. Stores in `projects/{p}/risk-register.md`
+- `/debt-track --project {p}` — technical debt register: debt ratio, trend per sprint, SonarQube integration. Stores data in `projects/{p}/debt-register.md`
+- `/kpi-dora --project {p}` — DORA metrics dashboard: deployment frequency, lead time, change failure rate, MTTR. Classifies as Elite/High/Medium/Low per DORA 2025 benchmarks
+- `/dependency-map --project {p}` — cross-team/cross-PBI dependency mapping with blocking alerts, circular dependency detection, critical path analysis. Visual graph via `/diagram-generate`
+- `/retro-actions --project {p}` — retrospective action items tracking: ownership, status, % implementation across sprints. Detects recurrent themes and suggests elevation to initiatives
+- `/risk-log --project {p}` — risk register: probability × impact matrix (1-3 scale), exposure scoring, risk burndown chart. Stores in `projects/{p}/risk-register.md`
 
 ### Changed
 - Command count: 57 → 62 (+5 governance)
@@ -300,35 +314,35 @@ Connectors ecosystem, Azure DevOps MCP optimization, CI/CD pipelines, and Azure 
 ### Added
 
 **Connector integrations (8 connectors, 12 commands)** — PRs #27–#34
-- `/notify:slack {canal} {msg}` — send notifications and reports to Slack channels
-- `/slack:search {query}` — search messages and decisions in Slack for context
-- `/github:activity {repo}` — analyze GitHub activity: PRs, commits, contributors
-- `/github:issues {repo}` — manage GitHub issues: search, create, sync with Azure DevOps
-- `/sentry:health --project {p}` — health metrics from Sentry: error rate, crash rate, p95 latency
-- `/sentry:bugs --project {p}` — create Bug PBIs in Azure DevOps from frequent Sentry errors
-- `/gdrive:upload {file} --project {p}` — upload generated reports and documents to Google Drive
-- `/linear:sync --project {p}` — bidirectional sync Linear issues ↔ Azure DevOps PBIs/Tasks
-- `/jira:sync --project {p}` — bidirectional sync Jira issues ↔ Azure DevOps PBIs
-- `/confluence:publish {file} --project {p}` — publish documentation and reports to Confluence
-- `/notion:sync --project {p}` — bidirectional document sync with Notion databases
-- `/figma:extract {url} --project {p}` — extract UI components, screens, and design tokens from Figma
+- `/notify-slack {canal} {msg}` — send notifications and reports to Slack channels
+- `/slack-search {query}` — search messages and decisions in Slack for context
+- `/github-activity {repo}` — analyze GitHub activity: PRs, commits, contributors
+- `/github-issues {repo}` — manage GitHub issues: search, create, sync with Azure DevOps
+- `/sentry-health --project {p}` — health metrics from Sentry: error rate, crash rate, p95 latency
+- `/sentry-bugs --project {p}` — create Bug PBIs in Azure DevOps from frequent Sentry errors
+- `/gdrive-upload {file} --project {p}` — upload generated reports and documents to Google Drive
+- `/linear-sync --project {p}` — bidirectional sync Linear issues ↔ Azure DevOps PBIs/Tasks
+- `/jira-sync --project {p}` — bidirectional sync Jira issues ↔ Azure DevOps PBIs
+- `/confluence-publish {file} --project {p}` — publish documentation and reports to Confluence
+- `/notion-sync --project {p}` — bidirectional document sync with Notion databases
+- `/figma-extract {url} --project {p}` — extract UI components, screens, and design tokens from Figma
 - `connectors-config.md` — centralized connector configuration with per-connector enable/disable
 
 **Azure Pipelines CI/CD (5 commands, 1 skill)** — PR #35
-- `/pipeline:status --project {p}` — pipeline health: last builds, success rate, duration, alerts
-- `/pipeline:run --project {p} {pipeline}` — execute pipeline with preview and PM confirmation
-- `/pipeline:logs --project {p} --build {id}` — build logs: timeline, errors, warnings
-- `/pipeline:create --project {p} --name {n}` — create pipeline from YAML templates with preview
-- `/pipeline:artifacts --project {p} --build {id}` — list/download build artifacts
+- `/pipeline-status --project {p}` — pipeline health: last builds, success rate, duration, alerts
+- `/pipeline-run --project {p} {pipeline}` — execute pipeline with preview and PM confirmation
+- `/pipeline-logs --project {p} --build {id}` — build logs: timeline, errors, warnings
+- `/pipeline-create --project {p} --name {n}` — create pipeline from YAML templates with preview
+- `/pipeline-artifacts --project {p} --build {id}` — list/download build artifacts
 - `azure-pipelines` skill with YAML templates (build+test, multi-env, PR validation, nightly) and stage patterns (DEV→PRE→PRO with approval gates)
 
 **Azure Repos management (6 commands, 1 config rule)** — PR #36
-- `/repos:list --project {p}` — list Azure DevOps repositories with stats
-- `/repos:branches --project {p} --repo {r}` — branch management: list, create, compare
-- `/repos:pr-create --project {p} --repo {r}` — create PR with work item linking, reviewers, auto-complete
-- `/repos:pr-list --project {p}` — list PRs: pending, assigned to PM, by reviewer
-- `/repos:pr-review --project {p} --pr {id}` — multi-perspective PR review (BA, Dev, QA, Security, DevOps)
-- `/repos:search --project {p} {query}` — search code across Azure Repos
+- `/repos-list --project {p}` — list Azure DevOps repositories with stats
+- `/repos-branches --project {p} --repo {r}` — branch management: list, create, compare
+- `/repos-pr-create --project {p} --repo {r}` — create PR with work item linking, reviewers, auto-complete
+- `/repos-pr-list --project {p}` — list PRs: pending, assigned to PM, by reviewer
+- `/repos-pr-review --project {p} --pr {id}` — multi-perspective PR review (BA, Dev, QA, Security, DevOps)
+- `/repos-search --project {p} {query}` — search code across Azure Repos
 - `azure-repos-config.md` — dual Git provider support (`GIT_PROVIDER = "github" | "azure-repos"` per project)
 
 **DevOps workflow improvements** — PR #26
@@ -365,13 +379,13 @@ Multi-language, multi-environment, infrastructure as code, documentation reorgan
 - `confidentiality-config.md` — secrets protection policy (Key Vault, SSM, Secret Manager, config.local/)
 - `infrastructure-as-code.md` — multi-cloud IaC support (Terraform, Azure CLI, AWS CLI, GCP CLI, Bicep, CDK, Pulumi)
 - `infrastructure-agent` (Opus 4.6) — auto-detect existing resources, minimum viable tier, cost estimation, human approval for scaling
-- 7 new commands: `/infra:detect`, `/infra:plan`, `/infra:estimate`, `/infra:scale`, `/infra:status`, `/env:setup`, `/env:promote`
+- 7 new commands: `/infra-detect`, `/infra-plan`, `/infra-estimate`, `/infra-scale`, `/infra-status`, `/env-setup`, `/env-promote`
 
 **File size governance**
 - `file-size-limit.md` — max 150 lines per file (code, rules, docs, tests); legacy inherited code exempt unless PM requests refactor
 
 **Team evaluation and onboarding**
-- `/team:evaluate` — competency evaluation across 8 dimensions with radar charts
+- `/team-evaluate` — competency evaluation across 8 dimensions with radar charts
 - `business-analyst` agent extended with onboarding and GDPR-compliant evaluation capabilities
 - Onboarding proposal and evaluation framework in `docs/propuestas/`
 
@@ -392,15 +406,15 @@ Quality, discovery, and operations expansion. Adds 6 new slash commands, 1 new s
 ### Added
 
 **Product Discovery workflow**
-- `/pbi:jtbd {id}` — generate Jobs to be Done document for a PBI before technical decomposition
-- `/pbi:prd {id}` — generate Product Requirements Document (MoSCoW prioritisation, Gherkin acceptance criteria, risks)
+- `/pbi-jtbd {id}` — generate Jobs to be Done document for a PBI before technical decomposition
+- `/pbi-prd {id}` — generate Product Requirements Document (MoSCoW prioritisation, Gherkin acceptance criteria, risks)
 - `product-discovery` skill with JTBD and PRD reference templates
 
 **Quality and operations commands**
-- `/pr:review [PR]` — multi-perspective PR review from 5 angles
-- `/context:load` — session initialisation: loads CLAUDE.md, checks git, summarises commits, verifies tools
-- `/changelog:update` — automates CHANGELOG.md updates from conventional commits
-- `/evaluate:repo [URL]` — static security and quality evaluation of external repositories
+- `/pr-review [PR]` — multi-perspective PR review from 5 angles
+- `/context-load` — session initialisation: loads CLAUDE.md, checks git, summarises commits, verifies tools
+- `/changelog-update` — automates CHANGELOG.md updates from conventional commits
+- `/evaluate-repo [URL]` — static security and quality evaluation of external repositories
 
 **Agents and rules enhancements**
 - `security-guardian` — SEC-8: merge conflict markers detection
@@ -428,21 +442,21 @@ Initial public release of PM-Workspace.
 - `docs/SETUP.md` — step-by-step setup guide
 
 **Sprint management commands**
-- `/sprint:status`, `/sprint:plan`, `/sprint:review`, `/sprint:retro`
+- `/sprint-status`, `/sprint-plan`, `/sprint-review`, `/sprint-retro`
 
 **Reporting commands**
-- `/report:hours`, `/report:executive`, `/report:capacity`
-- `/team:workload`, `/board:flow`, `/kpi:dashboard`
+- `/report-hours`, `/report-executive`, `/report-capacity`
+- `/team-workload`, `/board-flow`, `/kpi-dashboard`
 
 **PBI decomposition commands**
-- `/pbi:decompose`, `/pbi:decompose-batch`, `/pbi:assign`, `/pbi:plan-sprint`
+- `/pbi-decompose`, `/pbi-decompose-batch`, `/pbi-assign`, `/pbi-plan-sprint`
 
 **Skills**
 - `azure-devops-queries`, `sprint-management`, `capacity-planning`
 - `time-tracking-report`, `executive-reporting`, `pbi-decomposition`
 
 **Spec-Driven Development (SDD)**
-- `/spec:generate`, `/spec:implement`, `/spec:review`, `/spec:status`, `/agent:run`
+- `/spec-generate`, `/spec-implement`, `/spec-review`, `/spec-status`, `/agent-run`
 - `spec-driven-development` skill with spec template, layer matrix, agent patterns
 
 **Test project** (`projects/sala-reservas/`)
@@ -458,7 +472,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.1...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.0...HEAD
+[0.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.1...v0.15.0
 [0.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.2...v0.14.0
 [0.13.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.1...v0.13.2

@@ -6,10 +6,10 @@ Run these commands inside Claude Code:
 
 | Command | Description |
 |---------|-------------|
-| `/sprint:status` | Sprint status: burndown, active items, WIP alerts |
-| `/sprint:plan` | Sprint Planning assistant: capacity + backlog PBI candidates |
-| `/sprint:review` | Sprint Review summary: velocity, completed items, demo |
-| `/sprint:retro` | Retrospective template with sprint data |
+| `/sprint-status` | Sprint status: burndown, active items, WIP alerts |
+| `/sprint-plan` | Sprint Planning assistant: capacity + backlog PBI candidates |
+| `/sprint-review` | Sprint Review summary: velocity, completed items, demo |
+| `/sprint-retro` | Retrospective template with sprint data |
 
 ---
 
@@ -19,7 +19,7 @@ _Scenario: Sprint in progress, day 4 of 10. You want to know if the team is on t
 
 **You type:**
 ```
-/sprint:status --project ClinicManagement
+/sprint-status --project ClinicManagement
 ```
 
 **Claude responds:**
@@ -82,7 +82,7 @@ _Scenario: It's the Friday before a new sprint. You want to prepare the planning
 
 **You type:**
 ```
-/sprint:plan --project ClinicManagement
+/sprint-plan --project ClinicManagement
 ```
 
 **Claude responds:**
@@ -126,11 +126,11 @@ _Scenario: It's the Friday before a new sprint. You want to prepare the planning
 
 | Command | Description |
 |---------|-------------|
-| `/report:hours` | Hours report (Excel, 4 tabs) |
-| `/report:executive` | Multi-project executive report (Word + PPT with traffic lights) |
-| `/report:capacity` | Team capacity status for the current week |
-| `/team:workload` | Workload map by person |
-| `/kpi:dashboard` | Full dashboard: velocity, cycle time, lead time, bug escape rate |
+| `/report-hours` | Hours report (Excel, 4 tabs) |
+| `/report-executive` | Multi-project executive report (Word + PPT with traffic lights) |
+| `/report-capacity` | Team capacity status for the current week |
+| `/team-workload` | Workload map by person |
+| `/kpi-dashboard` | Full dashboard: velocity, cycle time, lead time, bug escape rate |
 
 ---
 
@@ -140,7 +140,7 @@ _Scenario: Last day of the sprint. The client requests the hours report._
 
 **You type:**
 ```
-/report:hours --project ClinicManagement --sprint 2026-04
+/report-hours --project ClinicManagement --sprint 2026-04
 ```
 
 **Claude responds:**
@@ -178,7 +178,7 @@ _Scenario: Wednesday. You suspect someone is overloaded._
 
 **You type:**
 ```
-/team:workload --project ClinicManagement
+/team-workload --project ClinicManagement
 ```
 
 **Claude responds:**
@@ -202,11 +202,11 @@ Team workload — current week (Mon 17/03 – Fri 21/03)
 
 The standard process to prepare a sprint:
 
-1. `/pbi:decompose {id}` — Claude analyzes the PBI, its acceptance criteria, and team context, then proposes a task table.
+1. `/pbi-decompose {id}` — Claude analyzes the PBI, its acceptance criteria, and team context, then proposes a task table.
 2. Claude asks if you want to create the tasks in Azure DevOps.
 3. You confirm and Claude creates them via REST API.
 
-To prepare the full sprint at once: `/pbi:plan-sprint` runs the complete cycle automatically (capacity → PBI selection → decomposition → assignment → creation in AzDO).
+To prepare the full sprint at once: `/pbi-plan-sprint` runs the complete cycle automatically (capacity → PBI selection → decomposition → assignment → creation in AzDO).
 
 **Assignment scoring algorithm:**
 ```
@@ -222,7 +222,7 @@ _Scenario: You have PBI AB#302 "Patient appointment history" with 3 acceptance c
 
 **You type:**
 ```
-/pbi:decompose 302 --project ClinicManagement
+/pbi-decompose 302 --project ClinicManagement
 ```
 
 **Claude responds:**
@@ -242,10 +242,10 @@ TASK PROPOSAL:
 ├────┼──────────────────────────────────────────┼──────┼──────┼────────────────┼───────────────┤
 │ B1 │ HistorialCitasQuery design + DTO         │  3h  │ Dev  │ Carlos TL      │ human         │
 │ B2 │ EF Core: IHistorialCitasRepository       │  2h  │ Dev  │ Diego T.       │ human         │
-│ B3 │ GetHistorialCitasQueryHandler            │  4h  │ Dev  │ 🤖 agent       │ agent:single  │
-│ C1 │ HistorialCitasController (GET endpoint)  │  3h  │ Dev  │ 🤖 agent       │ agent:single  │
+│ B3 │ GetHistorialCitasQueryHandler            │  4h  │ Dev  │ 🤖 agent       │ agent-single  │
+│ C1 │ HistorialCitasController (GET endpoint)  │  3h  │ Dev  │ 🤖 agent       │ agent-single  │
 │ C2 │ Cursor-based pagination (middleware)     │  3h  │ Dev  │ Laura S.       │ human         │
-│ D1 │ Unit tests for QueryHandler              │  2h  │ Dev  │ 🤖 agent       │ agent:single  │
+│ D1 │ Unit tests for QueryHandler              │  2h  │ Dev  │ 🤖 agent       │ agent-single  │
 │ D2 │ End-to-end integration test              │  3h  │ QA   │ Ana Morales    │ human         │
 │ E1 │ Code Review                              │  2h  │ Rev  │ Carlos TL      │ human         │
 └────┴──────────────────────────────────────────┴──────┴──────┴────────────────┴───────────────┘
@@ -264,7 +264,7 @@ Change C2 to the agent too, Laura already has a heavy load. Create the tasks.
 
 **Claude responds:**
 ```
-Adjusted: C2 → agent:single (I'll add the reference pagination pattern to the spec).
+Adjusted: C2 → agent-single (I'll add the reference pagination pattern to the spec).
 
 Creating 8 tasks in Azure DevOps for AB#302...
   ✅ AB#302-B1 created → assigned to Carlos Mendoza
@@ -277,5 +277,5 @@ Creating 8 tasks in Azure DevOps for AB#302...
   ✅ AB#302-E1 created → assigned to Carlos Mendoza
 
 8 tasks created. Agent tasks (B3, C1, C2, D1) now have the
-"spec-driven" tag and are ready for /spec:generate whenever you want.
+"spec-driven" tag and are ready for /spec-generate whenever you want.
 ```

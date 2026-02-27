@@ -20,13 +20,13 @@ Tres outputs que cubren el ciclo completo de incorporación:
 ```
 Nuevo miembro se incorpora al proyecto
     ↓
-/team:privacy-notice {nombre}     ← PM genera nota informativa RGPD
+/team-privacy-notice {nombre}     ← PM genera nota informativa RGPD
     ↓                                (trabajador lee, firma, se archiva)
-/team:onboarding {nombre}         ← Fases 1-2: contexto + tour del código
+/team-onboarding {nombre}         ← Fases 1-2: contexto + tour del código
     ↓                                (mentor valida cada fase)
   [Fase 3: primera task asistida]  ← Mentor asigna task B/C, pair programming con Claude
     ↓                                (Code Review humano obligatorio)
-/team:evaluate {nombre}            ← Fase 4: cuestionario interactivo de competencias
+/team-evaluate {nombre}            ← Fase 4: cuestionario interactivo de competencias
     ↓                                (autoevaluación + calibración Tech Lead)
   [Fase 5: autonomía progresiva]   ← Semanas 1-3 con supervisión decreciente
 ```
@@ -36,9 +36,9 @@ Nuevo miembro se incorpora al proyecto
 ## Cuándo NO usar
 
 - El miembro ya lleva >2 semanas productivo en el proyecto (ya está onboarded)
-- Cambio de proyecto de un miembro existente (usar solo `/team:evaluate` para actualizar dominio)
+- Cambio de proyecto de un miembro existente (usar solo `/team-evaluate` para actualizar dominio)
 - Becarios o personal de soporte que no escriben código (el cuestionario es para programadores)
-- Si no se ha entregado la nota informativa RGPD — `/team:evaluate` verificará esto
+- Si no se ha entregado la nota informativa RGPD — `/team-evaluate` verificará esto
 
 ## Almacenamiento
 
@@ -70,7 +70,7 @@ Las plantillas están en `references/`:
 
 - **PM/Scrum Master** — orquesta el proceso completo y genera la nota informativa
 - **Mentor humano** — valida fases 1-3, aprueba checkpoints
-- **business-analyst** — ejecuta la calibración de competencias (Fase 4) vía `/team:evaluate`
+- **business-analyst** — ejecuta la calibración de competencias (Fase 4) vía `/team-evaluate`
 - **Tech Lead** — co-firma la evaluación final de competencias
 
 ## Métricas de éxito

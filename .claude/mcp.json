@@ -21,7 +21,7 @@
       "headers": {
         "Authorization": "Bearer CARGAR_DESDE_FICHERO"
       },
-      "_note": "Miro MCP oficial (HTTP, OAuth 2.1). Sustituir CARGAR_DESDE_FICHERO por el token real, o configurar: export MIRO_TOKEN=$(cat $HOME/.azure/miro-token). Configurar con /diagram:config --tool miro"
+      "_note": "Miro MCP oficial (HTTP, OAuth 2.1). Sustituir CARGAR_DESDE_FICHERO por el token real, o configurar: export MIRO_TOKEN=$(cat $HOME/.azure/miro-token). Configurar con /diagram-config --tool miro"
     }
   }
 }

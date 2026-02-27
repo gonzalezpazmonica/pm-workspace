@@ -95,7 +95,7 @@ Scenario: [Nombre del escenario]
 
 - [ ] Product Owner / Stakeholder confirma los requisitos
 - [ ] Business Analyst valida la coherencia con reglas de negocio
-- [ ] Listo para pasar a `architect` y `pbi:decompose`
+- [ ] Listo para pasar a `architect` y `pbi-decompose`
 
 ---
 

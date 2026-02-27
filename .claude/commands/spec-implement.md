@@ -1,10 +1,10 @@
-# /spec:implement
+# /spec-implement
 
 Implementa una Spec según su `developer_type`: lanza agente o asigna a humano.
 
 ## Uso
 ```
-/spec:implement {spec_file} [--dry-run] [--override-type human|agent:single|agent:team]
+/spec-implement {spec_file} [--dry-run] [--override-type human|agent-single|agent-team]
 ```
 
 ## Protocolo
@@ -20,15 +20,15 @@ Verificar criterios mínimos antes de implementar:
 - Sección 6: al menos un fichero de referencia
 - Estado: "Pendiente"
 
-Si falla → informar problemas y sugerir `/spec:review`.
+Si falla → informar problemas y sugerir `/spec-review`.
 
 ### 2. Ejecutar según developer_type
 
 **human** → Informar asignado + task ID. Ofrecer: notificar al dev o mover task a "Active".
 
-**agent:single** → Mostrar plan (spec, modelo opus, log, max turns 40) → confirmar → lanzar agente con system-prompt del proyecto, instrucciones de implementar Spec exactamente, detenerse ante ambigüedad, ejecutar build+test (máx 3 reintentos). Log en `output/agent-runs/`.
+**agent-single** → Mostrar plan (spec, modelo opus, log, max turns 40) → confirmar → lanzar agente con system-prompt del proyecto, instrucciones de implementar Spec exactamente, detenerse ante ambigüedad, ejecutar build+test (máx 3 reintentos). Log en `output/agent-runs/`.
 
-**agent:team** → Leer team pattern de la spec (default: `impl-test`) → confirmar → lanzar Implementador (opus) + Tester (haiku) en paralelo. Si pattern incluye review, lanzar Reviewer después.
+**agent-team** → Leer team pattern de la spec (default: `impl-test`) → confirmar → lanzar Implementador (opus) + Tester (haiku) en paralelo. Si pattern incluye review, lanzar Reviewer después.
 
 ### 3. Post-implementación (solo agentes)
 
@@ -39,4 +39,4 @@ Actualizar task en Azure DevOps: estado → "In Review", tags → "spec-driven;a
 ## Restricciones
 
 - Implementación por agente SIEMPRE requiere Code Review humano antes de merge
-- Usar `/spec:review {spec_file}` para pre-check automático antes del review humano
+- Usar `/spec-review {spec_file}` para pre-check automático antes del review humano

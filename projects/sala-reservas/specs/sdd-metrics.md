@@ -1,7 +1,7 @@
 # SDD Metrics — Sala Reservas (Proyecto de Test)
 
 > Registro histórico de rendimiento del proceso Spec-Driven Development.
-> Actualizar al completar cada Spec (via `/spec:review` con `--check-impl`).
+> Actualizar al completar cada Spec (via `/spec-review` con `--check-impl`).
 >
 > **Nota:** Este es el proyecto de test del PM-Workspace. Las métricas aquí
 > sirven también para validar que el proceso SDD funciona correctamente en un
@@ -11,8 +11,8 @@
 
 | Sprint | Task ID | Título (corto) | Dev Type | Spec Quality | Impl OK? | Review Issues | h Estimadas | h Reales | Notas |
 |--------|---------|----------------|----------|-------------|----------|---------------|------------|---------|-------|
-| 2026-04 | AB101-B3 | CreateSalaCommandHandler | agent:single | ✅ Completa | ⏳ Pendiente | — | 4h | — | Spec de referencia para testing SDD |
-| 2026-04 | AB102-D1 | Unit Tests Salas | agent:single | ✅ Completa | ⏳ Pendiente | — | 2h | — | Spec haiku — 15 tests |
+| 2026-04 | AB101-B3 | CreateSalaCommandHandler | agent-single | ✅ Completa | ⏳ Pendiente | — | 4h | — | Spec de referencia para testing SDD |
+| 2026-04 | AB102-D1 | Unit Tests Salas | agent-single | ✅ Completa | ⏳ Pendiente | — | 2h | — | Spec haiku — 15 tests |
 
 ## Instrucciones de actualización
 
@@ -99,8 +99,8 @@ Las siguientes specs están disponibles para testear el flujo SDD completo:
 
 | Spec File | Task | Modelo | Propósito del Test |
 |-----------|------|--------|--------------------|
-| `AB101-B3-create-sala-handler.spec.md` | AB#101-B3 | claude-opus-4-5-20251101 | Testear flujo agent:single para handler CQRS |
-| `AB102-D1-unit-tests-salas.spec.md` | AB#102-D1 | claude-haiku-4-5-20251001 | Testear flujo agent:single para unit tests |
+| `AB101-B3-create-sala-handler.spec.md` | AB#101-B3 | claude-opus-4-5-20251101 | Testear flujo agent-single para handler CQRS |
+| `AB102-D1-unit-tests-salas.spec.md` | AB#102-D1 | claude-haiku-4-5-20251001 | Testear flujo agent-single para unit tests |
 
 Para ejecutar un agente sobre estas specs (cuando el proyecto real exista):
 ```bash

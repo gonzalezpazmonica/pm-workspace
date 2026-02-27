@@ -9,7 +9,7 @@ description: >
 
 **Argumentos:** $ARGUMENTS
 
-> Uso: `/repos:search --project {p} {query}` o con filtros
+> Uso: `/repos-search --project {p} {query}` o con filtros
 
 ## Parámetros
 
@@ -50,8 +50,8 @@ Total: 11 resultados en 2 repositorios
 
 ## Integración
 
-- `/repos:pr-create` → si buscas código para entender el impacto de un cambio
-- `/spec:generate` → buscar implementación existente antes de generar spec
+- `/repos-pr-create` → si buscas código para entender el impacto de un cambio
+- `/spec-generate` → buscar implementación existente antes de generar spec
 
 ## Restricciones
 
