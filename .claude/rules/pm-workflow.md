@@ -91,6 +91,12 @@
 | `/testplan:status {--project p}` | Estado de Test Plans: suites, casos, ejecución, cobertura |
 | `/testplan:results {--project p} {--run id}` | Resultados detallados de test runs: fallos, tendencias, recomendaciones |
 | `/security:alerts {--project p}` | Alertas de seguridad: CVEs, secrets, vulnerabilidades (Azure DevOps Advanced Security) |
+| `/notify:whatsapp {contacto} {msg}` | Enviar notificación/informe por WhatsApp (cuenta personal, no requiere Business) |
+| `/whatsapp:search {query}` | Buscar mensajes en WhatsApp como contexto (decisiones, acuerdos) |
+| `/notify:nctalk {sala} {msg}` | Enviar notificación/informe a sala de Nextcloud Talk |
+| `/nctalk:search {query}` | Buscar mensajes en Nextcloud Talk como contexto |
+| `/inbox:check` | Revisar mensajes nuevos en todos los canales, transcribir audios, proponer acciones |
+| `/inbox:start {--interval min}` | Iniciar monitor de inbox en background (polling cada N min mientras la sesión esté abierta) |
 | `/notify:slack {canal} {msg}` | Enviar notificación o informe al canal de Slack del proyecto |
 | `/slack:search {query}` | Buscar mensajes y decisiones en Slack como contexto |
 | `/github:activity {repo}` | Analizar actividad GitHub: PRs, commits, contributors |
@@ -127,4 +133,6 @@
 - Diagram Config: `.claude/rules/diagram-config.md`
 - Azure Pipelines: `.claude/skills/azure-pipelines/SKILL.md`
 - Azure Repos Config: `.claude/rules/azure-repos-config.md`
+- Mensajería: `.claude/rules/messaging-config.md`
+- Voice Inbox: `.claude/skills/voice-inbox/SKILL.md`
 - Azure DevOps API v7.1: https://learn.microsoft.com/en-us/rest/api/azure/devops/

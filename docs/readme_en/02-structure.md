@@ -13,7 +13,7 @@
 ├── .claude/
 │   ├── settings.local.json      ← Claude Code permissions (git-ignored)
 │   │
-│   ├── commands/                ← 75 slash commands
+│   ├── commands/                ← 81 slash commands
 │   │   ├── help.md              ← /help — catalog + first steps
 │   │   ├── sprint-status.md ... ← Sprint & Reporting (10)
 │   │   ├── pbi-decompose.md ... ← PBI & Discovery (6)
@@ -28,6 +28,7 @@
 │   │   ├── legacy-assess.md ... ← Legacy & Capture (3: legacy assess, backlog capture, release notes)
 │   │   ├── project-audit.md ... ← Project Onboarding (5: audit, release-plan, assign, roadmap, kickoff)
 │   │   ├── wiki-publish.md ...  ← DevOps Extended (5: wiki, testplan, security alerts)
+│   │   ├── inbox-check.md ...   ← Messaging & Inbox (6: WhatsApp, Nextcloud Talk, voice inbox)
 │   │   ├── notify-slack.md ...  ← Connectors (12: Slack, GitHub, Sentry, GDrive, Linear, Atlassian, Notion, Figma)
 │   │   ├── context-load.md      ← Utilities
 │   │   └── references/          ← Reference files (not loaded as commands)

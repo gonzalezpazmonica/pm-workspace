@@ -17,6 +17,41 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.9.0] — 2026-02-27
+
+Messaging & Voice Inbox: WhatsApp (personal, no requiere Business) y Nextcloud Talk como canales de comunicación bidireccional. El PM puede enviar mensajes de voz por WhatsApp y pm-workspace los transcribe con Faster-Whisper (local, sin APIs externas), interpreta la intención y propone el comando correspondiente. Tres modos de operación: manual, background polling y listener persistente. Adds 6 new commands, 1 skill, 1 config rule. Total: 81 slash commands, 13 skills.
+
+### Added
+
+**Messaging & Inbox commands (6)** — PR #44
+- `/notify:whatsapp {contacto} {msg}` — enviar notificaciones e informes por WhatsApp al PM o grupo del equipo. Funciona con cuenta personal (no requiere Business). Soporta adjuntos (PDF, imágenes)
+- `/whatsapp:search {query}` — buscar mensajes en WhatsApp como contexto: decisiones, acuerdos, conversaciones del equipo. Datos en SQLite local (nunca se envían a terceros)
+- `/notify:nctalk {sala} {msg}` — enviar notificaciones a sala de Nextcloud Talk. Funciona con cualquier instancia Nextcloud (self-hosted o cloud). Soporta ficheros adjuntos via Nextcloud Files
+- `/nctalk:search {query}` — buscar mensajes en Nextcloud Talk: decisiones y contexto del equipo
+- `/inbox:check` — revisar mensajes nuevos en todos los canales configurados. Transcribe audios con Faster-Whisper (local), interpreta peticiones del PM y propone el comando de pm-workspace correspondiente
+- `/inbox:start --interval {min}` — iniciar monitor de inbox en background. Polling cada N minutos mientras la sesión esté abierta. Se detiene automáticamente al cerrar sesión
+
+**Voice Inbox skill** — transcripción de audio y flujo audio→texto→acción
+- Faster-Whisper local (modelos: tiny, base, small, medium, large-v3)
+- Detección automática de idioma
+- Mapeo de intención: voz del PM → comando de pm-workspace con nivel de confianza
+- Confirmación obligatoria antes de ejecutar (configurable)
+
+**Messaging config rule** — `messaging-config.md`
+- Configuración centralizada: WhatsApp (personal vía whatsmeow) + Nextcloud Talk (API REST v4)
+- 3 modos de operación documentados con ejemplos: manual, background polling, listener persistente
+- Documentación completa de primer uso, instalación y configuración de cada canal
+- Referencia MCP tools (WhatsApp) y API endpoints (Nextcloud Talk)
+
+### Changed
+- Command count: 75 → 81 (+6 messaging & inbox)
+- Skills count: 12 → 13 (+voice-inbox)
+- Help command updated with Mensajería e Inbox (6) category
+- `pm-workflow.md` updated with 6 new commands + 2 new references (messaging-config, voice-inbox)
+- READMEs (ES/EN) updated with messaging & inbox commands
+
+---
+
 ## [0.8.0] — 2026-02-27
 
 DevOps Extended: Azure DevOps Wiki management, Test Plans visibility, and security alerts. Leverages remaining MCP tool domains. Adds 5 new commands. Total: 75 slash commands.
@@ -264,7 +299,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.5.0...v0.6.0

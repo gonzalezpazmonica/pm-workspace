@@ -31,9 +31,10 @@ Muestra la ayuda de PM-Workspace. Pasos:
    **Legacy & Capture (3):** legacy:assess --project {p}, backlog:capture --project {p} --source {tipo}, sprint:release-notes --project {p}
    **Project Onboarding (5):** project:audit --project {p}, project:release-plan --project {p}, project:assign --project {p}, project:roadmap --project {p}, project:kickoff --project {p}
    **DevOps Extended (5):** wiki:publish {file} --project {p}, wiki:sync --project {p}, testplan:status --project {p}, testplan:results --project {p} --run {id}, security:alerts --project {p}
+   **Mensajería e Inbox (6):** notify:whatsapp {contacto} {msg}, whatsapp:search {query}, notify:nctalk {sala} {msg}, nctalk:search {query}, inbox:check, inbox:start --interval {min}
    **Conectores (12):** notify:slack {canal} {msg}, slack:search {query}, github:activity {repo}, github:issues {repo}, sentry:health --project {p}, sentry:bugs --project {p}, gdrive:upload {file} --project {p}, linear:sync --project {p}, jira:sync --project {p}, confluence:publish {file} --project {p}, notion:sync --project {p}, figma:extract {url} --project {p}
    **Utilidades (2):** context:load, help [filtro]
 
-   Si $ARGUMENTS filtra (sprint, pbi, sdd, pr, team, infra, diagram, pipeline, repos, governance, debt, dora, risk, dependency, retro, legacy, capture, backlog, release-notes, onboarding, audit, roadmap, kickoff, wiki, testplan, security, devops, slack, github, sentry, gdrive, linear, jira, confluence, atlassian, notion, figma, connectors, --setup), mostrar solo esa sección.
+   Si $ARGUMENTS filtra (sprint, pbi, sdd, pr, team, infra, diagram, pipeline, repos, governance, debt, dora, risk, dependency, retro, legacy, capture, backlog, release-notes, onboarding, audit, roadmap, kickoff, wiki, testplan, security, devops, whatsapp, nctalk, nextcloud, inbox, messaging, voice, slack, github, sentry, gdrive, linear, jira, confluence, atlassian, notion, figma, connectors, --setup), mostrar solo esa sección.
 
 3. **Solo lectura** — no modificar ficheros. No mostrar secrets.
