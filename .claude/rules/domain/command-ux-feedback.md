@@ -16,161 +16,59 @@ Al comenzar CUALQUIER comando, mostrar inmediatamente:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## 2. Verificación de prerequisitos
+## 2. Verificación de Prerequisitos
 
-ANTES de ejecutar la lógica, comprobar requisitos. Mostrar check por cada uno:
+Comprobar requisitos. Si falta configuración → modo interactivo
+(NO parar con error genérico). Pedir datos uno a uno, guardar, reintentar.
 
-```
-Verificando requisitos...
-  ✅ Proyecto encontrado: projects/alpha/CLAUDE.md
-  ✅ Azure DevOps configurado (PAT válido)
-  ❌ Falta: equipo.md no encontrado en projects/alpha/
-```
+Detalles: **→ `command-ux-checklist.md`** (checklist, retry flow, ejemplos)
 
-### Si falta configuración → Modo interactivo
+## 3. Progreso y Errores
 
-NO parar con un error genérico. En su lugar:
+**Progreso**: `📋 Paso 1/4 — Recopilando datos...` Si tarda, informar: `(esto puede tardar ~30s)...`
 
-1. Informar qué falta y por qué es necesario
-2. Preguntar al PM si quiere configurarlo ahora
-3. Pedir los datos de forma interactiva (uno a uno)
-4. Escribir la configuración en el fichero correspondiente
-5. Confirmar que se ha guardado
-6. Reintentar el comando automáticamente
+**Errores no-críticos**: `⚠️ Error en paso X — Causa — Acción sugerida — ¿Continuar?`
 
-Ejemplo de flujo interactivo:
-```
-❌ Falta: AZURE_DEVOPS_ORG_URL contiene placeholder "MI-ORGANIZACION"
+**Errores críticos**: `❌ Error crítico — Causa — Sugerencia`
 
-  Este dato es necesario para conectar con tu organización Azure DevOps.
+Detalles: **→ `command-ux-checklist.md`**
 
-  → ¿Cuál es la URL de tu organización?
-    Ejemplo: https://dev.azure.com/mi-empresa
+## 4. Banner de Finalización
 
-  PM responde: https://dev.azure.com/acme-corp
+**Siempre mostrar** al terminar (éxito completo / parcial / error):
+- Banner con status (✅/⚠️/❌)
+- Ruta de fichero si se guardó
+- Duración
+- Sugerencia de siguiente paso si procede
 
-  ✅ Guardado AZURE_DEVOPS_ORG_URL = "https://dev.azure.com/acme-corp"
-     en CLAUDE.md
+Ejemplos completos: **→ `command-ux-checklist.md`**
 
-  → Reintentando verificación...
-```
+## 5. Retry Automático
 
-## 3. Progreso durante ejecución
+Fallo por configuración → Pedir dato → Guardar → Reintentar automáticamente.
 
-Para comandos con múltiples pasos, mostrar progreso:
-
-```
-📋 Paso 1/4 — Recopilando datos del sprint...
-📋 Paso 2/4 — Calculando métricas DORA...
-📋 Paso 3/4 — Analizando deuda técnica...
-📋 Paso 4/4 — Generando informe...
-```
-
-Si un paso tarda, informar:
-```
-📋 Paso 2/4 — Consultando pipelines (esto puede tardar ~30s)...
-```
-
-## 4. Manejo de errores
-
-Los errores NUNCA deben ser silenciosos. Formato:
-
-```
-⚠️ Error en paso 2/4 — No se pudo conectar con Azure DevOps
-   Causa: PAT expirado o sin permisos de lectura
-   Acción sugerida: Regenera el PAT en dev.azure.com → User Settings → PATs
-
-   ¿Quieres continuar sin los datos de pipelines? (el informe será parcial)
-```
-
-Errores críticos que impiden continuar:
-```
-❌ Error crítico — No se encontró projects/{proyecto}/CLAUDE.md
-   Este fichero es obligatorio para identificar el proyecto.
-
-   Ejecuta `/help --setup` para configurar el proyecto,
-   o crea el fichero manualmente siguiendo la plantilla en docs/SETUP.md
-```
-
-## 5. Banner de finalización
-
-Al terminar CUALQUIER comando, mostrar SIEMPRE:
-
-### Éxito completo
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ /comando:nombre — Completado
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📄 Informe guardado en: output/YYYYMMDD-tipo-proyecto.md
-⏱️  Duración: ~45s
-```
-
-### Éxito parcial
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⚠️ /comando:nombre — Completado con avisos
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📄 Informe guardado en: output/YYYYMMDD-tipo-proyecto.md
-⚠️  2 dimensiones sin datos (marcadas N/A)
-⏱️  Duración: ~30s
-```
-
-### Error irrecuperable
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-❌ /comando:nombre — No ejecutado
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Motivo: No se encontró el proyecto "alpha"
-Sugerencia: Ejecuta `/help --setup` para ver proyectos configurados
-```
-
-## 6. Retry automático
-
-Fallo por config → Pedir dato → Guardar → Reintentar automáticamente.
-
-## 7. Output-first (protección de contexto)
+## 6. Output-First
 
 Resultado > 30 líneas → guardar en fichero, mostrar resumen en chat.
-Ver @.claude/rules/domain/context-health.md
+Ver `@context-health.md`
 
-## 8. Anti-improvisación
+## 7. Anti-Improvisación
 
-Un comando SOLO puede hacer lo que su fichero `.md` define explícitamente:
-- **Solo las acciones listadas** — no crear ficheros, secciones, variables o edits no especificados
-- **Solo los ficheros indicados** — si el comando dice "guardar en X", solo guardar en X
-- **Si un escenario no está cubierto** → mostrar error con sugerencia, NO inventar comportamiento
-- **Si falta una sección/check en el comando** → informar al PM, NO improvisar la solución
+Un comando SOLO hace lo que su `.md` define explícitamente:
+- **Solo acciones listadas** — no inventar comportamiento
+- **Solo ficheros indicados** — respetar rutas exactas
+- **Si no está cubierto** → error con sugerencia, NO improvisar
 
-Esto reduce tokens (Claude no "piensa qué hacer") y garantiza comportamiento predecible.
+## 8. Auto-Compact Post-Comando (OBLIGATORIO)
 
-## 9. Auto-compact post-comando (OBLIGATORIO)
-
-TRAS CADA slash command — sin excepción — el banner de finalización DEBE incluir:
-
+TRAS CADA slash command → incluir en banner:
 ```
 ⚡ /compact — Ejecuta para liberar contexto antes del siguiente comando
 ```
 
-### Reglas de auto-compact
+**Si PM pide otro comando sin compactar:**
+```
+⚠️ Contexto alto — ejecuta `/compact` antes de continuar.
+```
 
-1. **Siempre sugerir**: No importa si el comando fue ligero o pesado. SIEMPRE terminar con `⚡ /compact`
-2. **Bloqueo suave**: Si el PM pide otro comando sin haber compactado, responder:
-   ```
-   ⚠️ Contexto alto — ejecuta `/compact` antes de continuar.
-   Esto preservará los resultados y liberará espacio para el siguiente comando.
-   ```
-3. **Resumen de compactación**: Cuando el PM ejecute `/compact`, Claude DEBE preservar:
-   - Ficheros modificados en la sesión
-   - Scores de audits/evaluaciones
-   - Decisiones del PM
-   - Errores y cómo se resolvieron
-   - Último comando ejecutado y su resultado
-
-### Por qué es obligatorio
-
-Sin compactación entre comandos, el contexto se satura (~88% tras un solo audit)
-y el siguiente comando falla o produce resultados degradados.
-
-## 10. Aplicación
-
-TODOS los comandos sin excepción. Prioridad sobre contenido de cada comando.
+**Aplicación**: TODOS los comandos sin excepción.

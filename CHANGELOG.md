@@ -9,7 +9,37 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-*No planned items — all features from the original roadmap have been implemented.*
+*Planned: v0.21.0 (Permissions + Plan-Gate), v0.22.0 (CI/CD Hardening), v0.23.0 (Security), v0.24.0 (Community Patterns).*
+
+---
+
+## [0.20.0] — 2026-02-27
+
+Context optimization and 150-line discipline enforcement: every skill, agent, and domain rule now complies with the project's own rule #11 (≤150 lines). Progressive disclosure via `references/` subdirectories. CI fixes for spec format validation and release workflow.
+
+### Changed
+
+**CLAUDE.md compacted (195→130 lines)** — Eliminated redundant hook listing, condensed agent flows, moved project table to CLAUDE.local.md only, combined Memory/Hooks/Agent Notes sections. 33% context reduction.
+
+**9 skills refactored with progressive disclosure** — Core workflows stay in SKILL.md (≤145 lines), detailed content extracted to `references/` subdirectories. Skills affected: pbi-decomposition (574→145), spec-driven-development (333→135), diagram-import (279→123), azure-devops-queries (233→126), diagram-generation (195→121), executive-reporting (193→114), capacity-planning (187→119), time-tracking-report (178→123), sprint-management (175→120). ~26 reference files created.
+
+**5 agents refactored** — Detailed check patterns, scripts, and decision trees extracted to `rules/domain/` companion files. Agents: security-guardian (284→102), test-runner (268→113), commit-guardian (250→136), infrastructure-agent (234→123), cobol-developer (181→120). 4 new domain reference files.
+
+**5 domain rules refactored** — Extracted platform-specific strategies and cloud patterns. Rules: infrastructure-as-code (299→139), confidentiality-config (274→139), messaging-config (238→81), environment-config (186→131), command-ux-feedback (176→74). 5 new companion files.
+
+**`context_cost` metadata** — Added `context_cost: medium|high` frontmatter field to refactored skills for context budget awareness.
+
+### Fixed
+
+**CI: spec developer_type format** — Spec files used `agent-single` but test suite expected `agent:single` (colon format). Fixed in 2 spec files + `agent-run.md` command. Failures since v0.17.0.
+
+**Release workflow: missing npm install** — Added `setup-node@v4` and `npm install --prefix scripts` steps to `.github/workflows/release.yml`. The test suite requires `node_modules` for Excel/PowerPoint validation.
+
+### Metrics
+
+- Files modified: ~30 | New reference files: ~30
+- Total context savings: ~3,200 lines extracted to on-demand references
+- Zero files >150 lines in skills, agents, or domain rules (language rules exempt)
 
 ---
 

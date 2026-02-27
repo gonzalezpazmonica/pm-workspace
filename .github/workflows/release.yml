@@ -42,6 +42,14 @@ jobs:
           echo "Release notes extracted for ${VERSION}:"
           cat release_notes.md
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: cd scripts && npm install
+
       - name: Run CI checks before releasing
         run: |
           sudo apt-get update -qq && sudo apt-get install -y jq python3
