@@ -11,8 +11,6 @@ description: >
 
 > Uso: `/project-audit --project {p}` o `/project-audit --project {p} --deep`
 
-Aplica siempre @.claude/rules/domain/command-ux-feedback.md
-
 ## 1. Banner de inicio
 
 ```

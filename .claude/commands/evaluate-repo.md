@@ -9,8 +9,6 @@ description: >
 
 **Repositorio:** $ARGUMENTS
 
-Aplica siempre @.claude/rules/domain/command-ux-feedback.md
-
 > Si no se pasa argumento, evalúa el repositorio actual.
 
 ## 1. Banner de inicio

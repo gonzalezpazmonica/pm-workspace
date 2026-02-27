@@ -7,8 +7,6 @@ description: Estado del sprint actual — progreso, burndown, alertas.
 
 **Argumentos:** $ARGUMENTS
 
-Aplica siempre @.claude/rules/domain/command-ux-feedback.md
-
 ## 1. Banner de inicio
 
 ```
