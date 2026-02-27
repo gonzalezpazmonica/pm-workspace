@@ -13,6 +13,30 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.13.0] — 2026-02-27
+
+Context health and operational resilience: proactive context management to prevent saturation. Output-first pattern, subagent delegation, compaction suggestions, session focus. pm-workflow.md slimmed from 140→42 lines. Auto-loaded context: 899 lines (was 2,109 pre-v0.12.0).
+
+### Added
+
+**Context health rule** — `context-health.md`
+- Output-first: results > 30 lines → file, summary in chat
+- Subagent delegation for heavy commands (audit, evaluate, legacy, spec)
+- Proactive compaction: suggest `/compact` after 10+ turns or 3+ commands
+- Session focus: one task per session, `/clear` between topics
+- Persistent state via project files (debt-register, risk-register, audits)
+
+**Critical rule #16** — Context management in CLAUDE.md
+**Compaction instructions** — Preserve files, scores, decisions on `/compact`
+
+### Changed
+
+- `pm-workflow.md`: 140→42 lines (-70%), command table to `references/command-catalog.md`
+- `command-ux-feedback.md`: added output-first section, compacted from 155→138 lines
+- `command-catalog.md`: updated from 37→81 commands, compact inline format
+
+---
+
 ## [0.12.0] — 2026-02-27
 
 Context optimization: 58% reduction in auto-loaded context. Domain-specific rules moved to on-demand loading, freeing ~1,200 lines of context window for actual PM work. Prevents context saturation that caused commands to fail silently at high usage.
