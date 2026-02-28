@@ -13,6 +13,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.32.1] — 2026-02-28
+
+Emergency plan: preventive pre-download of Ollama and LLM for fully offline installation, with first-run detection and automatic suggestion.
+
+### Added
+
+**`/emergency-plan`** — Pre-downloads Ollama installer, binary, and LLM model to local cache (`~/.pm-workspace-emergency/`). Detects hardware and selects optimal model automatically. When `emergency-setup` runs without internet, it uses this cache for fully offline installation. Includes `--check` flag to verify execution status.
+
+**`scripts/emergency-plan.sh`** — Interactive pre-download script: detects OS/RAM/GPU, downloads Ollama installer + binary, pulls LLM model into Ollama cache, saves metadata (`plan-info.json`), and creates execution marker. Supports `--model` for custom model selection and `--check` for status verification.
+
+### Changed
+
+**`scripts/emergency-setup.sh`** — Now detects internet connectivity at startup. When offline, automatically uses local cache from `emergency-plan` to install Ollama binary and use pre-downloaded model. Falls back gracefully with clear instructions if cache is missing.
+
+**`session-init.sh`** — Now checks if `emergency-plan` has been executed on the current machine. If not, shows a reminder in the session context suggesting the user run `/emergency-plan` to prepare for offline contingency.
+
+---
+
 ## [0.32.0] — 2026-02-28
 
 Emergency mode: local LLM contingency plan with Ollama setup, hardware detection, offline PM operations, and step-by-step emergency documentation.

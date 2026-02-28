@@ -4,6 +4,17 @@
 
 ---
 
+## Paso 0: Preparación preventiva (RECOMENDADO)
+
+Ejecuta esto **ahora**, mientras tienes conexión, para que todo funcione offline:
+
+```bash
+cd ~/claude
+./scripts/emergency-plan.sh
+```
+
+Esto pre-descarga el instalador de Ollama y el modelo LLM en caché local (~5-10GB). Si algún día pierdes conexión, `emergency-setup` usará la caché automáticamente. Se sugiere automáticamente la primera vez que arrancas pm-workspace en una máquina nueva.
+
 ## ¿Cuándo activar el modo emergencia?
 
 Activa el modo emergencia si:
@@ -25,6 +36,8 @@ El script detectará tu hardware y te guiará por:
 1. Instalación de Ollama (gestor de LLMs locales)
 2. Descarga del modelo recomendado para tu RAM
 3. Configuración automática de variables
+
+Si no hay internet, usará la caché local de `emergency-plan` automáticamente.
 
 Si tu equipo tiene **menos de 16GB de RAM**, usa un modelo más pequeño:
 ```bash
@@ -122,8 +135,8 @@ ollama pull qwen2.5:7b
 ## Referencia Rápida
 
 ```
-./scripts/emergency-setup.sh          # Instalación inicial
-./scripts/emergency-setup.sh --help   # Opciones de instalación
+./scripts/emergency-plan.sh           # Pre-descarga preventiva (ejecutar con internet)
+./scripts/emergency-setup.sh          # Instalación (online u offline con caché)
 ./scripts/emergency-status.sh         # Diagnóstico del sistema
 ./scripts/emergency-fallback.sh help  # Operaciones sin LLM
 source ~/.pm-workspace-emergency.env  # Activar modo emergencia
