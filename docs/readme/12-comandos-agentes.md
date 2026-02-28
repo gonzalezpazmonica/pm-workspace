@@ -19,6 +19,13 @@
 /velocity-trend [--project]       Tendencia de velocity y detección de anomalías
 ```
 
+## Gobernanza IA (3 comandos)
+```
+/ai-model-card [--project]        Model card de agentes IA del proyecto
+/ai-risk-assessment [--project]   Evaluación de riesgo EU AI Act
+/ai-audit-log [--project]         Log de auditoría de ejecuciones IA
+```
+
 ## PBI y Decomposition (6 comandos)
 ```
 /pbi-decompose {id}               Descomponer un PBI en tasks

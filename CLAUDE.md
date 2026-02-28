@@ -41,7 +41,7 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← 24 subagentes → @.claude/rules/domain/agents-catalog.md
-│   ├── commands/                  ← 111 slash commands → @.claude/rules/domain/pm-workflow.md
+│   ├── commands/                  ← 114 slash commands → @.claude/rules/domain/pm-workflow.md
 │   ├── hooks/                     ← 13 hooks programáticos → .claude/settings.json
 │   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
 │   ├── rules/languages/           ← Convenciones por lenguaje (auto-carga por paths: frontmatter)
