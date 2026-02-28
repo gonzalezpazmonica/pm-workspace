@@ -52,6 +52,8 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **AI governance and compliance** — model cards documenting agents and models, risk assessment per EU AI Act categories (prohibited/high/limited/minimal), audit logs with full traceability, and governance rules with quarterly compliance checklist.
 
+**Technical debt intelligence** — automated hotspot analysis, temporal coupling and code smell detection, business impact prioritization with scoring model (proximity × churn × velocity × risk), and per-sprint debt budget with velocity impact projection.
+
 ---
 
 ## Documentation
@@ -89,7 +91,7 @@ Full documentation is organized into sections for easy reference:
 | [Test project](docs/readme_en/09-test-project.md) | `sala-reservas`: tests, mock data, validation |
 | [KPIs, rules, and roadmap](docs/readme_en/10-kpis-rules.md) | Metrics, critical rules, adoption plan |
 | [Onboarding new team members](docs/readme_en/11-onboarding.md) | 5-phase onboarding, competency evaluation, GDPR |
-| [Commands and agents](docs/readme_en/12-commands-agents.md) | 114 commands + 24 specialized agents |
+| [Commands and agents](docs/readme_en/12-commands-agents.md) | 117 commands + 24 specialized agents |
 | [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
 ### Other Documents
@@ -111,7 +113,12 @@ Full documentation is organized into sections for easy reference:
 
 ## Quick Command Reference
 
-> 114 commands · 24 agents · 15 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 117 commands · 24 agents · 15 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+
+### Technical Debt Intelligence
+```
+/debt-analyze    /debt-prioritize    /debt-budget
+```
 
 ### AI Governance
 ```

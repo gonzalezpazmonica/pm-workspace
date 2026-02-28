@@ -1,8 +1,9 @@
 ---
 name: debt-track
 description: >
-  Registro y seguimiento de deuda técnica por proyecto.
+  Registro y seguimiento manual de deuda técnica por proyecto.
   Ratio de deuda, tendencia por sprint, integración con SonarQube.
+  NOTA: Para análisis automatizado, ver /debt-analyze, /debt-prioritize, /debt-budget
 ---
 
 # Debt Track
@@ -98,10 +99,24 @@ Recomendación: Incluir DT-01 en el próximo sprint
 📊 Debt ratio: X% | {N} abiertos | Tendencia: 📈/📉/→
 ```
 
-## Integración
+## Integración con Debt Intelligence
+
+**Automated Analysis (para análisis técnico profundo):**
+- `/debt-analyze` — Detecta hotspots de complejidad, acoplamiento, code smells
+- `/debt-prioritize` — Prioriza items por impacto de negocio y frecuencia
+- `/debt-budget` — Propone % del sprint basado en tendencias de velocity
+
+**Manual Tracking (para gestión de items específicos):**
+- `/debt-track` — Registro manual de deuda, versión más ligera
+- Útil para equipos pequeños o proyectos con deuda muy manual/heredada
+
+**Uso recomendado**: Combinar ambos. Usar `/debt-analyze` para descubrimiento,
+luego `/debt-track` para seguimiento granular de resoluciónde items.
+
+## Integración General
 
 - `/kpi-dashboard` → incluye debt ratio como KPI
-- `/sprint-plan` → sugiere items de deuda para sprint
+- `/sprint-plan` → sugiere items de deuda para sprint (vía `/debt-prioritize`)
 - `/project-audit` → usa debt-track para evaluar salud
 
 ## Restricciones
