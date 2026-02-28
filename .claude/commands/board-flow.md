@@ -35,15 +35,31 @@ Analiza el flujo de trabajo del board: WIP actual, cuellos de botella y métrica
 | In Review | 5 | 3 | 4.8 días | 🔴 EXCEDE WIP |
 | Done | 8 | — | — | 🟢 |
 
+### ⚡ Flow Efficiency & WIP Aging
+- **Flow Efficiency** : 58% ↑ (meta: >60%)
+- **%C&A (Quality)** : 94% (items sin rework)
+
+**WIP Aging (Items en Progreso)**
+| ID | Tipo | Días | Status |
+|----|------|------|--------|
+| FEAT-801 | Feature | 8 | 🟡 AMBER |
+| BUG-345 | Bug | 5 | 🟢 OK |
+| DEBT-12 | Debt | 3 | 🟢 OK |
+
 ### ⚠️ Cuellos de Botella Detectados
 - **In Review**: WIP 5/3 (excede límite). Items: AB#1001 (6 días), AB#1008 (3 días)
+- **FEAT-801 (8 días)**: Aproximándose a umbral de riesgo (1.5× cycle time = 7.5 días)
 
 ### Métricas de Flujo
-- Cycle Time medio: X días (último sprint)
-- Lead Time medio: X días (último sprint)
-- Throughput: X items/semana
+- Cycle Time medio: 5.0 días (último sprint)
+- Lead Time medio: 12.3 días (último sprint)
+- Flow Efficiency: 58% (Activos / Total Elapsed)
+- Throughput: 14 items/semana
+- **→ Para análisis detallado de Flow Metrics**: ejecutar `/flow-metrics`
 
 ### Recomendaciones
 - Revisar PR de AB#1001 (lleva 6 días en Review sin actividad)
 - Considerar aumentar capacidad de Review o reducir WIP de Active
+- Investigar FEAT-801: en riesgo de sobrepasarse el ciclo time normal
+- Mejorar Flow Efficiency: target 60%+ (revisar items bloqueados en New)
 ```

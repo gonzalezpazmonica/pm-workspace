@@ -41,12 +41,12 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← 24 subagentes → @.claude/rules/domain/agents-catalog.md
-│   ├── commands/                  ← 102 slash commands → @.claude/rules/domain/pm-workflow.md
+│   ├── commands/                  ← 105 slash commands → @.claude/rules/domain/pm-workflow.md
 │   ├── hooks/                     ← 12 hooks programáticos → .claude/settings.json
 │   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
 │   ├── rules/languages/           ← Convenciones por lenguaje (auto-carga por paths: frontmatter)
 │   ├── settings.json              ← Hooks config + Agent Teams env
-│   └── skills/                    ← 13 skills reutilizables
+│   └── skills/                    ← 14 skills reutilizables
 ├── docs/                          ← Metodología, guías, secciones README
 ├── projects/                      ← Proyectos reales (git-ignorados)
 └── scripts/                       ← Scripts auxiliares Azure DevOps

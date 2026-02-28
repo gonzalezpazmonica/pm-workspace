@@ -1,6 +1,6 @@
 # Quick Command Reference
 
-## Sprint and Reporting (12 commands)
+## Sprint and Reporting (15 commands)
 ```
 /sprint-status [--project]        Sprint status with alerts
 /sprint-plan [--project]          Sprint Planning assistant
@@ -14,6 +14,9 @@
 /board-flow [--project]           Cycle time and bottlenecks
 /kpi-dashboard [--project]        Full KPI dashboard
 /kpi-dora [--project]             DORA metrics (deploy freq, lead time, MTTR, change fail)
+/sprint-forecast [--project]      Sprint completion forecast with Monte Carlo
+/flow-metrics [--project]         Value Stream dashboard (Lead Time, Flow Efficiency, WIP)
+/velocity-trend [--project]       Velocity trend and anomaly detection
 ```
 
 ## PBI and Decomposition (6 commands)

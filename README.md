@@ -44,6 +44,8 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Validación y CI/CD** — plan gate que avisa si se implementa sin spec aprobada, validación de tamaño de ficheros (≤150 líneas), schema de frontmatter y settings.json, y pipeline CI con checks automáticos en cada PR.
 
+**Analítica predictiva** — predicción de completitud de sprint con Monte Carlo, Value Stream Mapping con Lead Time E2E y Flow Efficiency, tendencia de velocity con detección de anomalías, y WIP aging con alertas. Métricas basadas en datos, no en sensaciones.
+
 ---
 
 ## Documentación
@@ -81,7 +83,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [Proyecto de test](docs/readme/09-proyecto-test.md) | `sala-reservas`: tests, datos mock, validación |
 | [KPIs, reglas y roadmap](docs/readme/10-kpis-reglas.md) | Métricas, reglas críticas, plan de adopción |
 | [Onboarding de nuevos miembros](docs/readme/11-onboarding.md) | Incorporación en 5 fases, evaluación de competencias, RGPD |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 102 comandos + 24 agentes especializados |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 105 comandos + 24 agentes especializados |
 | [Cobertura y contribución](docs/readme/13-cobertura-contribucion.md) | Qué cubre, qué no, cómo contribuir |
 
 ### Otros documentos
@@ -103,13 +105,14 @@ La documentación completa está organizada en secciones para facilitar la consu
 
 ## Referencia rápida de comandos
 
-> 102 comandos · 24 agentes · 13 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 105 comandos · 24 agentes · 14 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Sprint y Reporting
 ```
 /sprint-status    /sprint-plan    /sprint-review    /sprint-retro
 /sprint-release-notes    /report-hours    /report-executive    /report-capacity
 /team-workload    /board-flow    /kpi-dashboard    /kpi-dora
+/sprint-forecast    /flow-metrics    /velocity-trend
 ```
 
 ### PBI y SDD

@@ -1,6 +1,6 @@
 # Referencia Rápida de Comandos
 
-## Sprint y Reporting (12 comandos)
+## Sprint y Reporting (15 comandos)
 ```
 /sprint-status [--project]        Estado del sprint con alertas
 /sprint-plan [--project]          Asistente de Sprint Planning
@@ -14,6 +14,9 @@
 /board-flow [--project]           Cycle time y cuellos de botella
 /kpi-dashboard [--project]        Dashboard KPIs completo
 /kpi-dora [--project]             Métricas DORA (deploy freq, lead time, MTTR, change fail)
+/sprint-forecast [--project]      Predicción de completitud con Monte Carlo
+/flow-metrics [--project]         Value Stream dashboard (Lead Time, Flow Efficiency, WIP)
+/velocity-trend [--project]       Tendencia de velocity y detección de anomalías
 ```
 
 ## PBI y Decomposition (6 comandos)
