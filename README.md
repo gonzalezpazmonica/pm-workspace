@@ -38,6 +38,12 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Coordinación multi-agente** — sistema de agent-notes para memoria inter-agente persistente, TDD gate que bloquea implementación sin tests previos, security review pre-implementación (OWASP en la spec, no solo en el código), Architecture Decision Records (ADR) para decisiones trazables, y reglas de serialización de scope para sesiones paralelas seguras.
 
+**Code Review automatizado** — hook pre-commit que analiza ficheros staged contra reglas de dominio (REJECT/REQUIRE/PREFER), con caché SHA256 que evita re-revisar ficheros sin cambios. Guardian angel integrado en el flujo de commit.
+
+**Seguridad y compliance** — análisis SAST contra OWASP Top 10, auditoría de vulnerabilidades en dependencias, generación de SBOM (CycloneDX), escaneo de credenciales en historial git, y detección mejorada de leaks (AWS, GitHub, OpenAI, Azure, JWT).
+
+**Validación y CI/CD** — plan gate que avisa si se implementa sin spec aprobada, validación de tamaño de ficheros (≤150 líneas), schema de frontmatter y settings.json, y pipeline CI con checks automáticos en cada PR.
+
 ---
 
 ## Documentación
@@ -97,42 +103,87 @@ La documentación completa está organizada en secciones para facilitar la consu
 
 ## Referencia rápida de comandos
 
+> 102 comandos · 24 agentes · 13 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+
 ### Sprint y Reporting
 ```
 /sprint-status    /sprint-plan    /sprint-review    /sprint-retro
-/report-hours     /report-executive    /report-capacity
-/team-workload    /board-flow    /kpi-dashboard
+/sprint-release-notes    /report-hours    /report-executive    /report-capacity
+/team-workload    /board-flow    /kpi-dashboard    /kpi-dora
 ```
 
 ### PBI y SDD
 ```
-/pbi-decompose {id}    /pbi-plan-sprint    /pbi-assign {id}
-/spec-generate {id}    /spec-review {file}    /agent-run {file}
-/spec-explore {id}     /spec-design {spec}    /spec-verify {spec}
-/spec-status    /pbi-jtbd {id}    /pbi-prd {id}
+/pbi-decompose {id}    /pbi-decompose-batch {ids}    /pbi-assign {id}
+/pbi-plan-sprint    /pbi-jtbd {id}    /pbi-prd {id}
+/spec-generate {id}    /spec-explore {id}    /spec-design {spec}
+/spec-implement {spec}    /spec-review {file}    /spec-verify {spec}
+/spec-status    /agent-run {file}
+```
+
+### Repositorios, PRs y Pipelines
+```
+/repos-list    /repos-branches {repo}    /repos-search {query}
+/repos-pr-create    /repos-pr-list    /repos-pr-review {pr}
+/pr-review [PR]    /pr-pending
+/pipeline-status    /pipeline-run {pipe}    /pipeline-logs {id}
+/pipeline-artifacts {id}    /pipeline-create {repo}
 ```
 
 ### Infraestructura y Entornos
 ```
 /infra-detect {proy} {env}    /infra-plan {proy} {env}    /infra-estimate {proy}
-/infra-scale {recurso}        /infra-status {proy}
-/env-setup {proy}             /env-promote {proy} {origen} {destino}
+/infra-scale {recurso}    /infra-status {proy}
+/env-setup {proy}    /env-promote {proy} {origen} {destino}
+```
+
+### Proyectos y Planificación
+```
+/project-kickoff {nombre}    /project-assign {nombre}    /project-audit {nombre}
+/project-roadmap {nombre}    /project-release-plan {nombre}
+/epic-plan {proy}    /backlog-capture    /retro-actions
 ```
 
 ### Memoria y Contexto
 ```
-/memory-sync    /context-load    /session-save    /help [filtro]
+/memory-sync    /memory-save    /memory-search    /memory-context
+/context-load    /session-save    /help [filtro]
 ```
 
-### Arquitectura y Seguridad
+### Seguridad y Auditoría
 ```
-/adr-create {proy} {título}    /security-review {spec}    /agent-notes-archive {proy}
+/security-review {spec}    /security-audit    /security-alerts
+/credential-scan    /dependencies-audit    /sbom-generate
 ```
 
-### Calidad y Equipo
+### Calidad y Validación
 ```
-/pr-review [PR]    /pr-pending    /changelog-update    /evaluate-repo [URL]
+/changelog-update    /evaluate-repo [URL]    /validate-filesize
+/validate-schema    /review-cache-stats    /review-cache-clear
+/testplan-status    /testplan-results {id}
+```
+
+### Equipo y Onboarding
+```
 /team-onboarding {nombre}    /team-evaluate {nombre}    /team-privacy-notice {nombre}
+```
+
+### Arquitectura y Diagramas
+```
+/adr-create {proy} {título}    /agent-notes-archive {proy}
+/diagram-generate {proy}    /diagram-import {fichero}
+/diagram-config    /diagram-status
+/debt-track    /dependency-map    /legacy-assess    /risk-log
+```
+
+### Integraciones Externas
+```
+/jira-sync    /linear-sync    /notion-sync    /confluence-publish
+/wiki-publish    /wiki-sync    /slack-search    /notify-slack
+/notify-whatsapp    /whatsapp-search    /notify-nctalk    /nctalk-search
+/figma-extract    /gdrive-upload    /github-activity    /github-issues
+/sentry-bugs    /sentry-health    /inbox-check    /inbox-start
+/worktree-setup {spec}
 ```
 
 ---

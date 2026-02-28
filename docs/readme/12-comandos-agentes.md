@@ -1,74 +1,179 @@
 # Referencia Rápida de Comandos
 
-## Sprint y Reporting
+## Sprint y Reporting (12 comandos)
 ```
 /sprint-status [--project]        Estado del sprint con alertas
 /sprint-plan [--project]          Asistente de Sprint Planning
 /sprint-review [--project]        Resumen para Sprint Review
 /sprint-retro [--project]         Retrospectiva con datos
+/sprint-release-notes [--project] Generar release notes del sprint
 /report-hours [--project]         Informe de horas (Excel)
 /report-executive                 Informe multi-proyecto (PPT/Word)
-/report-capacity [--project]      Estado de capacidades
+/report-capacity [--project]      Estado de capacidades del equipo
 /team-workload [--project]        Carga por persona
 /board-flow [--project]           Cycle time y cuellos de botella
 /kpi-dashboard [--project]        Dashboard KPIs completo
+/kpi-dora [--project]             Métricas DORA (deploy freq, lead time, MTTR, change fail)
 ```
 
-## PBI Decomposition
+## PBI y Decomposition (6 comandos)
 ```
 /pbi-decompose {id}               Descomponer un PBI en tasks
 /pbi-decompose-batch {id1,id2}    Descomponer varios PBIs
 /pbi-assign {pbi_id}              (Re)asignar tasks de un PBI
 /pbi-plan-sprint                  Planning completo del sprint
+/pbi-jtbd {id}                    Generar JTBD (Jobs to be Done)
+/pbi-prd {id}                     Generar PRD (Product Requirements)
 ```
 
-## Spec-Driven Development
+## Spec-Driven Development (8 comandos)
 ```
 /spec-generate {task_id}          Generar Spec desde Task de Azure DevOps
+/spec-explore {id}                Exploración pre-spec del codebase
+/spec-design {spec}               Diseño técnico a partir de spec
 /spec-implement {spec_file}       Implementar Spec (agente o humano)
 /spec-review {spec_file}          Revisar calidad de Spec o implementación
+/spec-verify {spec}               Verificar implementación vs spec (Given/When/Then)
 /spec-status [--project]          Dashboard de Specs del sprint
 /agent-run {spec_file} [--team]   Lanzar agente Claude sobre una Spec
 ```
 
-## Product Discovery
+## Repositorios y PRs (8 comandos)
 ```
-/pbi-jtbd {id}                   Generar JTBD (Jobs to be Done) para un PBI
-/pbi-prd {id}                    Generar PRD (Product Requirements) para un PBI
-```
-
-## Calidad y Operaciones
-```
-/pr-review [PR]                  Revisión multi-perspectiva de PR (BA, Dev, QA, Sec, DevOps)
-/context-load                    Carga de contexto al iniciar sesión (big picture)
-/session-save                    Guarda decisiones y pendientes antes de /clear
-/changelog-update                Actualizar CHANGELOG.md desde commits convencionales
-/evaluate-repo [URL]             Auditoría de seguridad y calidad de repo externo
+/repos-list [--project]           Listar repositorios del proyecto
+/repos-branches {repo}            Ramas activas de un repositorio
+/repos-search {query}             Buscar en código fuente
+/repos-pr-create {repo}           Crear Pull Request
+/repos-pr-list [--project]        Listar PRs abiertas
+/repos-pr-review {pr_id}          Revisar un PR de Azure DevOps
+/pr-review [PR]                   Revisión multi-perspectiva (BA, Dev, QA, Sec, DevOps)
+/pr-pending [--project]           PRs pendientes de revisión
 ```
 
-## Gestión de Equipo
+## Pipelines CI/CD (5 comandos)
 ```
-/team-onboarding {nombre}       Guía de onboarding personalizada (contexto + código)
-/team-evaluate {nombre}         Cuestionario interactivo de competencias → perfil en equipo.md
-/team-privacy-notice {nombre}   Nota informativa RGPD obligatoria antes de evaluar
+/pipeline-status [--project]      Estado de pipelines
+/pipeline-run {pipeline}          Ejecutar un pipeline
+/pipeline-logs {run_id}           Ver logs de ejecución
+/pipeline-artifacts {run_id}      Descargar artefactos
+/pipeline-create {repo}           Crear pipeline desde plantilla
 ```
 
-## Infraestructura y Entornos
+## Infraestructura y Entornos (7 comandos)
 ```
-/infra-detect {proyecto} {env}  Detectar infraestructura existente
-/infra-plan {proyecto} {env}    Generar plan de infraestructura
-/infra-estimate {proyecto}      Estimar costes por entorno
-/infra-scale {recurso}          Proponer escalado (requiere aprobación humana)
-/infra-status {proyecto}        Estado de infraestructura actual
-/env-setup {proyecto}           Configurar entornos (DEV/PRE/PRO)
-/env-promote {proyecto} {o} {d} Promover entre entornos (PRE→PRO requiere aprobación)
+/infra-detect {proyecto} {env}    Detectar infraestructura existente
+/infra-plan {proyecto} {env}      Generar plan de infraestructura
+/infra-estimate {proyecto}        Estimar costes por entorno
+/infra-scale {recurso}            Proponer escalado (requiere aprobación humana)
+/infra-status {proyecto}          Estado de infraestructura actual
+/env-setup {proyecto}             Configurar entornos (DEV/PRE/PRO)
+/env-promote {proyecto} {o} {d}   Promover entre entornos
+```
+
+## Proyectos y Planificación (7 comandos)
+```
+/project-kickoff {nombre}         Iniciar nuevo proyecto (estructura + Azure DevOps)
+/project-assign {nombre}          Asignar equipo al proyecto
+/project-audit {nombre}           Auditoría de salud del proyecto
+/project-roadmap {nombre}         Generar roadmap visual
+/project-release-plan {nombre}    Plan de releases
+/epic-plan {proyecto}             Planificación multi-sprint de épicas
+/backlog-capture                  Captura rápida de items al backlog
+```
+
+## Memoria y Contexto (6 comandos)
+```
+/memory-sync [--project]          Sincronizar insights en auto memory
+/memory-save {tipo} {contenido}   Guardar en memoria persistente
+/memory-search {query}            Buscar en memoria
+/memory-context                   Inyectar contexto de memoria
+/context-load                     Carga de contexto al iniciar sesión
+/session-save                     Guardar decisiones antes de /clear
+```
+
+## Seguridad y Auditoría (5 comandos)
+```
+/security-review {spec}           Revisión OWASP pre-implementación
+/security-audit [--project]       Análisis SAST contra OWASP Top 10
+/security-alerts [--project]      Alertas de seguridad activas
+/credential-scan [--project]      Escanear historial git por credenciales filtradas
+/dependencies-audit [--project]   Auditoría de vulnerabilidades en dependencias
+```
+
+## Testing (2 comandos)
+```
+/testplan-status [--project]      Estado de test plans
+/testplan-results {plan_id}       Resultados de ejecución de tests
+```
+
+## Calidad y Validación (7 comandos)
+```
+/changelog-update                 Actualizar CHANGELOG desde commits
+/evaluate-repo [URL]              Auditoría de repo externo
+/validate-filesize                Validar ≤150 líneas por fichero
+/validate-schema                  Validar schema de frontmatter y settings
+/review-cache-stats               Estadísticas de caché de code review
+/review-cache-clear               Limpiar caché de code review
+/sbom-generate [--project]        Generar SBOM (Software Bill of Materials)
+```
+
+## Equipo y Onboarding (3 comandos)
+```
+/team-onboarding {nombre}         Guía de onboarding personalizada
+/team-evaluate {nombre}           Cuestionario de competencias
+/team-privacy-notice {nombre}     Nota informativa RGPD
+```
+
+## Integraciones Externas (12 comandos)
+```
+/jira-sync {proyecto}             Sync Jira ↔ Azure DevOps
+/linear-sync {proyecto}           Sync Linear ↔ Azure DevOps
+/notion-sync {proyecto}           Sync documentación ↔ Notion
+/confluence-publish {doc}         Publicar en Confluence
+/wiki-publish {doc}               Publicar en Wiki de Azure DevOps
+/wiki-sync [--project]            Sincronizar wiki
+/slack-search {query}             Buscar en Slack
+/notify-slack {canal} {msg}       Notificar en Slack
+/notify-whatsapp {dest} {msg}     Notificar por WhatsApp
+/whatsapp-search {query}          Buscar en WhatsApp
+/notify-nctalk {sala} {msg}       Notificar en Nextcloud Talk
+/nctalk-search {query}            Buscar en Nextcloud Talk
+```
+
+## Diagramas (4 comandos)
+```
+/diagram-generate {proyecto}      Generar diagrama de arquitectura
+/diagram-import {fichero}         Importar diagrama → generar Work Items
+/diagram-config                   Configurar herramientas de diagramas
+/diagram-status [--project]       Estado de diagramas del proyecto
+```
+
+## Otros (10+ comandos)
+```
+/help [filtro]                    Catálogo de comandos y primeros pasos
+/adr-create {proyecto} {título}   Crear Architecture Decision Record
+/agent-notes-archive {proy}       Archivar agent-notes del sprint
+/debt-track [--project]           Seguimiento de deuda técnica
+/dependency-map [--project]       Mapa de dependencias entre servicios
+/legacy-assess {proyecto}         Evaluación de sistema legacy
+/risk-log [--project]             Registro de riesgos del proyecto
+/retro-actions [--project]        Seguimiento de acciones de retrospectiva
+/worktree-setup {spec}            Configurar git worktree para implementación paralela
+/inbox-check                      Revisar inbox de voz pendiente
+/inbox-start                      Iniciar transcripción de buzón de voz
+/figma-extract {url}              Extraer diseño desde Figma
+/gdrive-upload {fichero}          Subir fichero a Google Drive
+/github-activity [--project]      Actividad reciente en GitHub
+/github-issues [--project]        Issues de GitHub
+/sentry-bugs [--project]          Bugs desde Sentry → PBIs
+/sentry-health [--project]        Salud técnica desde Sentry
 ```
 
 ---
 
 ## Equipo de Subagentes Especializados
 
-El workspace incluye 23 subagentes que Claude puede invocar en paralelo o en secuencia,
+El workspace incluye 24 subagentes que Claude puede invocar en paralelo o en secuencia,
 cada uno optimizado para su tarea con el modelo LLM más adecuado:
 
 **Agentes de gestión y arquitectura:**
@@ -108,6 +213,7 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 | `commit-guardian` | Sonnet 4.6 | Pre-commit: 10 checks (rama, security, build, tests, format, code review) |
 | `tech-writer` | Haiku 4.5 | README, CHANGELOG, docs de proyecto |
 | `azure-devops-operator` | Haiku 4.5 | WIQL, work items, sprint, capacity |
+| `diagram-architect` | Sonnet 4.6 | Diseño de diagramas de arquitectura, C4, flujos de datos |
 
 ### Flujo SDD con agentes en paralelo
 
