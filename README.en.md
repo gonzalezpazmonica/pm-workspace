@@ -44,6 +44,8 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Validation and CI/CD** — plan gate that warns when implementing without an approved spec, file size validation (≤150 lines), frontmatter and settings.json schema validation, and CI pipeline with automated checks on every PR.
 
+**Predictive analytics** — sprint completion forecasting with Monte Carlo simulation, Value Stream Mapping with E2E Lead Time and Flow Efficiency, velocity trending with anomaly detection, and WIP aging alerts. Data-driven metrics, not gut feelings.
+
 ---
 
 ## Documentation
@@ -81,7 +83,7 @@ Full documentation is organized into sections for easy reference:
 | [Test project](docs/readme_en/09-test-project.md) | `sala-reservas`: tests, mock data, validation |
 | [KPIs, rules, and roadmap](docs/readme_en/10-kpis-rules.md) | Metrics, critical rules, adoption plan |
 | [Onboarding new team members](docs/readme_en/11-onboarding.md) | 5-phase onboarding, competency evaluation, GDPR |
-| [Commands and agents](docs/readme_en/12-commands-agents.md) | 102 commands + 24 specialized agents |
+| [Commands and agents](docs/readme_en/12-commands-agents.md) | 105 commands + 24 specialized agents |
 | [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
 ### Other Documents
@@ -103,13 +105,14 @@ Full documentation is organized into sections for easy reference:
 
 ## Quick Command Reference
 
-> 102 commands · 24 agents · 13 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 105 commands · 24 agents · 14 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### Sprint and Reporting
 ```
 /sprint-status    /sprint-plan    /sprint-review    /sprint-retro
 /sprint-release-notes    /report-hours    /report-executive    /report-capacity
 /team-workload    /board-flow    /kpi-dashboard    /kpi-dora
+/sprint-forecast    /flow-metrics    /velocity-trend
 ```
 
 ### PBI and SDD
