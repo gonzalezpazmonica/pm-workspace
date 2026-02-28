@@ -78,29 +78,34 @@ Formato:
 {lo que necesita saber quien continúe}
 ```
 
-### 3b. Decision log (acumulativo, privado)
+### 3b. Memory store (persistencia con búsqueda)
 
-Fichero: `decision-log.md` (raíz del workspace, git-ignorado)
-
-**Si no existe** → crearlo con cabecera:
-```markdown
-# Decision Log — PM-Workspace
-# ── FICHERO PRIVADO — git-ignorado ──────────────────────────────
-
-> Registro acumulativo de decisiones del PM. Cargado por /context-load.
-> Mantener máximo 50 entradas. Al superar → archivar antiguas al final.
-
----
+Para CADA decisión tomada en la sesión, guardar en memory-store:
+```bash
+bash scripts/memory-store.sh save --type decision --title "{decisión}" --content "{contexto y razón}"
 ```
 
-**Añadir al inicio** (después de la cabecera, antes de entradas anteriores):
+Si hay bugs resueltos, patrones descubiertos o convenciones establecidas, guardarlos también:
+```bash
+bash scripts/memory-store.sh save --type bug --title "{bug}" --content "{causa raíz y solución}"
+bash scripts/memory-store.sh save --type pattern --title "{patrón}" --content "{descripción}"
+```
+
+Si una decisión tiene topic_key conocido (ej: auth-strategy, db-choice), usar `--topic`:
+```bash
+bash scripts/memory-store.sh save --type decision --title "{título}" --content "{contenido}" --topic {key}
+```
+
+### 3c. Decision log (legacy, compatibilidad)
+
+Fichero: `decision-log.md` (raíz del workspace, git-ignorado). Mantener actualizado como backup:
+
+**Añadir al inicio** (después de la cabecera):
 ```markdown
 ### YYYY-MM-DD — {objetivo de la sesión}
 - {decisión 1}
 - {decisión 2}
 ```
-
-Solo decisiones — no resultados ni ficheros (eso está en el session log).
 
 ## 4. Mostrar resumen en chat
 

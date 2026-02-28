@@ -33,11 +33,12 @@ pwd && git branch --show-current
 Verificar raíz (`~/claude/`).
 
 ```
-📋 Paso 2/5 — Decisiones y sesión anterior...
+📋 Paso 2/5 — Memoria persistente y sesión anterior...
 ```
-**Decision log** (`decision-log.md` en raíz):
-- Si existe → leer las últimas 10 entradas y mostrar resumen (3-5 decisiones más recientes)
-- Si no existe → `ℹ️ Sin decision log — se creará con /session-save`
+**Memory store** (`output/.memory-store.jsonl`):
+- Si existe → ejecutar `bash scripts/memory-store.sh context --limit 10`
+- Mostrar últimas decisiones, bugs y patrones agrupados por tipo
+- Si no existe → buscar `decision-log.md` como fallback (formato legacy)
 
 **Último session save** (`output/sessions/` → fichero más reciente):
 - Si existe → leer y mostrar: objetivo, pendientes, contexto para esta sesión
