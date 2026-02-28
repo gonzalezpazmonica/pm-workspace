@@ -195,6 +195,13 @@
 /ai-audit-log [--project]         Log de auditoría de ejecuciones IA
 ```
 
+## Inteligencia de Compliance Regulatorio (3 comandos)
+```
+/compliance-scan {repo|path}     Escaneo automático de cumplimiento normativo en 12 sectores
+/compliance-fix {repo|path}      Auto-fix de violaciones de compliance
+/compliance-report {repo|path}   Informe de compliance por sector
+```
+
 ## Emergencia (2 comandos)
 ```
 /emergency-plan [--model MODEL]  Pre-descargar Ollama y modelo LLM para instalación offline
