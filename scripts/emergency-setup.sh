@@ -10,17 +10,9 @@ BLUE='\033[0;34m'; CYAN='\033[0;36m'; NC='\033[0m'; BOLD='\033[1m'
 DEFAULT_MODEL="qwen2.5:7b"
 MODEL="${1:-}"
 [[ "$MODEL" == "--help" || "$MODEL" == "-h" ]] && {
-  echo -e "${BOLD}PM-Workspace Emergency Setup${NC}"
-  echo "Instala Ollama y configura un LLM local para operar sin conexión cloud."
-  echo ""
-  echo "Uso: $0 [--model MODEL]"
-  echo "  --model MODEL   Modelo a descargar (default: $DEFAULT_MODEL)"
-  echo "  --help          Muestra esta ayuda"
-  echo ""
-  echo "Modelos recomendados por hardware:"
-  echo "  8GB RAM:   qwen2.5:3b, phi3.5:3.8b"
-  echo "  16GB RAM:  qwen2.5:7b (default), mistral:7b"
-  echo "  32GB+ RAM: qwen2.5:14b, deepseek-coder-v2:16b"
+  echo -e "${BOLD}PM-Workspace Emergency Setup${NC} — Instala Ollama + LLM local"
+  echo "Uso: $0 [--model MODEL]. Detecta caché de emergency-plan si no hay internet."
+  echo "Modelos: 8GB→qwen2.5:3b | 16GB→qwen2.5:7b (default) | 32GB+→qwen2.5:14b"
   exit 0
 }
 
@@ -33,11 +25,12 @@ while [[ $# -gt 0 ]]; do
 done
 MODEL="${MODEL:-$DEFAULT_MODEL}"
 
-echo -e "\n${BOLD}${CYAN}╔══════════════════════════════════════════╗${NC}"
-echo -e "${BOLD}${CYAN}║   PM-Workspace · Emergency Setup         ║${NC}"
-echo -e "${BOLD}${CYAN}╚══════════════════════════════════════════╝${NC}\n"
+CACHE_DIR="$HOME/.pm-workspace-emergency"
+OFFLINE=false
 
-# ── 1. Detectar sistema ──────────────────────────────────────────────────────
+echo -e "\n${BOLD}${CYAN}PM-Workspace · Emergency Setup${NC}\n"
+
+# ── 1. Detectar sistema y conectividad ───────────────────────────────────────
 echo -e "${BLUE}[1/5]${NC} Detectando sistema..."
 OS="$(uname -s)"
 ARCH="$(uname -m)"
@@ -46,19 +39,23 @@ RAM_GB=$((RAM_KB / 1024 / 1024))
 
 echo -e "  OS: ${GREEN}$OS${NC} · Arch: ${GREEN}$ARCH${NC} · RAM: ${GREEN}${RAM_GB}GB${NC}"
 
-if [[ $RAM_GB -lt 8 ]]; then
-  echo -e "  ${YELLOW}⚠ RAM < 8GB. Recomendado: qwen2.5:1.5b o phi3.5:3.8b${NC}"
-  [[ "$MODEL" == "$DEFAULT_MODEL" ]] && MODEL="qwen2.5:3b"
-fi
+[[ $RAM_GB -lt 8 ]] && echo -e "  ${YELLOW}⚠ RAM < 8GB${NC}" && [[ "$MODEL" == "$DEFAULT_MODEL" ]] && MODEL="qwen2.5:3b"
 
 # Detectar GPU
-GPU_INFO="ninguna detectada"
-if command -v nvidia-smi &>/dev/null; then
-  GPU_INFO=$(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader 2>/dev/null | head -1 || echo "NVIDIA (sin detalle)")
-elif [[ "$OS" == "Darwin" ]] && sysctl -n machdep.cpu.brand_string &>/dev/null; then
-  GPU_INFO="Apple Silicon (Metal)"
-fi
+GPU_INFO="ninguna"
+command -v nvidia-smi &>/dev/null && GPU_INFO=$(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | head -1 || echo "NVIDIA")
+[[ "$OS" == "Darwin" ]] && sysctl -n machdep.cpu.brand_string &>/dev/null && GPU_INFO="Apple Silicon"
 echo -e "  GPU: ${GREEN}$GPU_INFO${NC}"
+
+# Detectar conectividad
+if curl -s --max-time 5 https://ollama.ai >/dev/null 2>&1; then
+  echo -e "  Internet: ${GREEN}conectado${NC}"
+else
+  OFFLINE=true; echo -e "  Internet: ${YELLOW}SIN CONEXIÓN${NC}"
+  [[ -d "$CACHE_DIR" && -f "$CACHE_DIR/.plan-executed" ]] \
+    && echo -e "  ${GREEN}✓${NC} Caché local detectada" \
+    || { echo -e "  ${RED}✗${NC} Sin caché. Ejecuta ${CYAN}./scripts/emergency-plan.sh${NC} con conexión."; exit 1; }
+fi
 
 # ── 2. Instalar Ollama ──────────────────────────────────────────────────────
 echo -e "\n${BLUE}[2/5]${NC} Verificando Ollama..."
@@ -66,17 +63,31 @@ if command -v ollama &>/dev/null; then
   OLLAMA_VER=$(ollama --version 2>/dev/null || echo "desconocida")
   echo -e "  ${GREEN}✓${NC} Ollama ya instalado (versión: $OLLAMA_VER)"
 else
-  echo -e "  ${YELLOW}→${NC} Instalando Ollama..."
-  if [[ "$OS" == "Linux" ]]; then
-    curl -fsSL https://ollama.ai/install.sh | sh
-  elif [[ "$OS" == "Darwin" ]]; then
-    echo -e "  ${YELLOW}⚠${NC} En macOS, descarga desde ${CYAN}https://ollama.com/download${NC}"
-    echo -e "  Ejecuta de nuevo este script tras instalar."
-    exit 1
+  if [[ "$OFFLINE" == true ]]; then
+    # Instalación desde caché local
+    OLLAMA_BIN="$CACHE_DIR/ollama-${OS,,}-${ARCH}"
+    if [[ -f "$OLLAMA_BIN" ]]; then
+      echo -e "  ${YELLOW}→${NC} Instalando Ollama desde caché local..."
+      sudo cp "$OLLAMA_BIN" /usr/local/bin/ollama 2>/dev/null || cp "$OLLAMA_BIN" "$HOME/.local/bin/ollama" 2>/dev/null && mkdir -p "$HOME/.local/bin"
+      echo -e "  ${GREEN}✓${NC} Ollama instalado desde caché"
+    else
+      echo -e "  ${RED}✗${NC} No hay binario Ollama en caché."
+      echo -e "    Ejecuta ${CYAN}./scripts/emergency-plan.sh${NC} cuando tengas conexión."
+      exit 1
+    fi
   else
-    echo -e "  ${RED}✗${NC} SO no soportado para instalación automática."
-    echo -e "  Descarga manualmente: ${CYAN}https://ollama.com/download${NC}"
-    exit 1
+    echo -e "  ${YELLOW}→${NC} Instalando Ollama..."
+    if [[ "$OS" == "Linux" ]]; then
+      curl -fsSL https://ollama.ai/install.sh | sh
+    elif [[ "$OS" == "Darwin" ]]; then
+      echo -e "  ${YELLOW}⚠${NC} En macOS, descarga desde ${CYAN}https://ollama.com/download${NC}"
+      echo -e "  Ejecuta de nuevo este script tras instalar."
+      exit 1
+    else
+      echo -e "  ${RED}✗${NC} SO no soportado para instalación automática."
+      echo -e "  Descarga manualmente: ${CYAN}https://ollama.com/download${NC}"
+      exit 1
+    fi
   fi
   echo -e "  ${GREEN}✓${NC} Ollama instalado"
 fi
@@ -97,10 +108,21 @@ else
   fi
 fi
 
-# ── 4. Descargar modelo ─────────────────────────────────────────────────────
-echo -e "\n${BLUE}[4/5]${NC} Descargando modelo ${CYAN}$MODEL${NC}..."
+# ── 4. Verificar/descargar modelo ────────────────────────────────────────────
+echo -e "\n${BLUE}[4/5]${NC} Verificando modelo ${CYAN}$MODEL${NC}..."
 if ollama list 2>/dev/null | grep -q "$MODEL"; then
   echo -e "  ${GREEN}✓${NC} Modelo ya disponible"
+elif [[ "$OFFLINE" == true ]]; then
+  # En modo offline, el modelo debería estar ya cacheado por emergency-plan
+  if ollama list 2>/dev/null | grep -q .; then
+    AVAILABLE=$(ollama list 2>/dev/null | tail -n +2 | awk '{print $1}' | head -1)
+    echo -e "  ${YELLOW}⚠${NC} Modelo $MODEL no disponible offline."
+    echo -e "  ${YELLOW}→${NC} Usando modelo disponible: ${CYAN}$AVAILABLE${NC}"
+    MODEL="$AVAILABLE"
+  else
+    echo -e "  ${RED}✗${NC} No hay modelos cacheados. El LLM local no funcionará."
+    echo -e "    Ejecuta ${CYAN}./scripts/emergency-plan.sh${NC} cuando tengas conexión."
+  fi
 else
   echo -e "  ${YELLOW}→${NC} Descargando (puede tardar varios minutos)..."
   ollama pull "$MODEL"
@@ -118,16 +140,7 @@ export PM_EMERGENCY_MODE="active"
 ENVEOF
 
 echo -e "  ${GREEN}✓${NC} Variables guardadas en ${CYAN}$ENV_FILE${NC}"
-echo -e ""
-echo -e "${BOLD}${GREEN}╔══════════════════════════════════════════╗${NC}"
-echo -e "${BOLD}${GREEN}║   ✓ Setup completado                    ║${NC}"
-echo -e "${BOLD}${GREEN}╚══════════════════════════════════════════╝${NC}"
-echo -e ""
-echo -e "Para activar el modo emergencia:"
-echo -e "  ${CYAN}source $ENV_FILE${NC}"
-echo -e ""
-echo -e "Para verificar estado:"
-echo -e "  ${CYAN}./scripts/emergency-status.sh${NC}"
-echo -e ""
-echo -e "Para operar sin LLM:"
-echo -e "  ${CYAN}./scripts/emergency-fallback.sh --help${NC}"
+echo -e "\n${GREEN}${BOLD}✓ Setup completado${NC}"
+echo -e "Activar: ${CYAN}source $ENV_FILE${NC}"
+echo -e "Estado:  ${CYAN}./scripts/emergency-status.sh${NC}"
+echo -e "Offline: ${CYAN}./scripts/emergency-fallback.sh --help${NC}"

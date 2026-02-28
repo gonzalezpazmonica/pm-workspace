@@ -24,6 +24,15 @@ done
 BRANCH=$(git -C "$HOME/claude" branch --show-current 2>/dev/null || echo "N/A")
 LAST_COMMITS=$(git -C "$HOME/claude" log --oneline -3 2>/dev/null || echo "N/A")
 
+# Verificar si emergency-plan se ha ejecutado alguna vez
+EMERGENCY_PLAN_STATUS=""
+PLAN_MARKER="$HOME/.pm-workspace-emergency/.plan-executed"
+if [ -f "$PLAN_MARKER" ]; then
+  EMERGENCY_PLAN_STATUS="Emergency plan: OK ✅"
+else
+  EMERGENCY_PLAN_STATUS="Emergency plan: NO ejecutado ⚠️ — Ejecuta /emergency-plan para preparar contingencia offline"
+fi
+
 # Establecer variables de entorno si CLAUDE_ENV_FILE existe
 if [ -n "$CLAUDE_ENV_FILE" ]; then
   echo "export PM_WORKSPACE_ROOT=$HOME/claude" >> "$CLAUDE_ENV_FILE"
@@ -35,9 +44,10 @@ jq -n --arg pat "$PAT_STATUS" \
       --arg tools "$TOOLS_STATUS" \
       --arg branch "$BRANCH" \
       --arg commits "$LAST_COMMITS" \
+      --arg emergency "$EMERGENCY_PLAN_STATUS" \
 '{
   hookSpecificOutput: {
     hookEventName: "SessionStart",
-    additionalContext: ("PM-Workspace Session Init:\n- " + $pat + "\n- Herramientas:" + $tools + "\n- Rama: " + $branch + "\n- Últimos commits:\n" + $commits)
+    additionalContext: ("PM-Workspace Session Init:\n- " + $pat + "\n- Herramientas:" + $tools + "\n- " + $emergency + "\n- Rama: " + $branch + "\n- Últimos commits:\n" + $commits)
   }
 }'

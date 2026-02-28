@@ -195,8 +195,9 @@
 /ai-audit-log [--project]         AI execution audit log
 ```
 
-## Emergency (1 command)
+## Emergency (2 commands)
 ```
+/emergency-plan [--model MODEL]  Pre-download Ollama and LLM model for offline installation
 /emergency-mode {subcommand}     Manage emergency mode with local LLM (setup/status/activate/deactivate/test)
 ```
 
