@@ -26,6 +26,18 @@ context_cost: low
 ### Configuration Keys
 - `FERPA_*`, `COPPA_*`, `LMS_*`, `SCHOOL_*`
 
+### Middleware & Services
+- FerpaAccessFilter, CoppaConsentMiddleware, ContentFilterMiddleware
+
+### Database & Schema
+- students, grades, courses, enrollments, transcripts, guardians, assignments
+
+### Folder & Namespace Patterns
+- Education/, LMS/, School/, Student/, Academic/, EdTech/
+
+### Documentation & CI/CD
+- FERPA, COPPA, CIPA, student privacy, parental consent, edtech
+
 ## Compliance Checklist
 
 - [ ] Student records access restricted per authorization (FERPA §99.30)
