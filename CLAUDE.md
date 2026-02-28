@@ -41,8 +41,8 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← 24 subagentes → @.claude/rules/domain/agents-catalog.md
-│   ├── commands/                  ← 105 slash commands → @.claude/rules/domain/pm-workflow.md
-│   ├── hooks/                     ← 12 hooks programáticos → .claude/settings.json
+│   ├── commands/                  ← 108 slash commands → @.claude/rules/domain/pm-workflow.md
+│   ├── hooks/                     ← 13 hooks programáticos → .claude/settings.json
 │   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
 │   ├── rules/languages/           ← Convenciones por lenguaje (auto-carga por paths: frontmatter)
 │   ├── settings.json              ← Hooks config + Agent Teams env
@@ -112,7 +112,7 @@ Ciclo: Explorar → Planificar → Implementar → Commit. Arquitectura: **Comma
 
 ## 🔒 Hooks · 🧠 Memoria · 📝 Agent Notes
 
-> Hooks (12): `.claude/settings.json` · Scripts: `.claude/hooks/` + `scripts/post-compaction.sh` (session-init, validate-bash, plan-gate, block-force-push, block-credential-leak, block-infra-destructive, tdd-gate, post-edit-lint, pre-commit-review, stop-quality-gate, scope-guard, post-compaction)
+> Hooks (13): `.claude/settings.json` · Scripts: `.claude/hooks/` + `scripts/post-compaction.sh` (session-init, validate-bash, plan-gate, block-force-push, block-credential-leak, block-infra-destructive, tdd-gate, post-edit-lint, pre-commit-review, stop-quality-gate, scope-guard, agent-trace-log, post-compaction)
 > Memoria: `@docs/memory-system.md` · Memory store: `scripts/memory-store.sh` (JSONL con búsqueda, dedup, topic_key, privacidad `<private>`) · Auto-carga por `paths:` frontmatter · User rules: `~/.claude/rules/`
 > Agent Notes: `@docs/agent-notes-protocol.md` · ADRs: `/adr-create {proyecto} {título}` · TDD Gate: test-engineer antes, developer después
 > Security Review: `/security-review {spec}` — OWASP pre-implementación (≠ security-guardian pre-commit)
