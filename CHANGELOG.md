@@ -13,6 +13,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.30.0] — 2026-02-28
+
+Technical debt intelligence: automated analysis, business-impact prioritization, and sprint debt budgeting.
+
+### Added
+
+**`/debt-analyze`** — Automated technical debt discovery: complexity hotspots (cyclomatic complexity × change frequency), temporal coupling (files that change together), code smells (long files, deep nesting), churn analysis (30/60/90 days), and age analysis. Optional SonarQube enrichment. Outputs ranked debt items with severity and estimated effort.
+
+**`/debt-prioritize`** — Prioritizes debt by business impact using weighted scoring: Business Impact 40% (proximity to upcoming PBIs), Change Frequency 30%, Velocity Impact 20%, Risk 10%. Cross-references with flow metrics for bottleneck identification. ROI estimates per item.
+
+**`/debt-budget`** — Proposes sprint debt budget based on velocity trend and re-work rate. Heuristic: declining velocity → 20-30%, stable → 10-15%, improving → 5-10%. Lists specific items that fit in budget with projected velocity improvement.
+
+### Changed
+
+**`/debt-track`** — Enhanced with references to the new debt intelligence commands and integration section explaining the combined manual + automated approach.
+
+---
+
 ## [0.29.0] — 2026-02-28
 
 AI governance and EU AI Act compliance: model cards, risk assessment, audit logging, and governance rules.
@@ -868,7 +886,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.29.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.30.0...HEAD
+[0.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.29.0...v0.30.0
 [0.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.28.0...v0.29.0
 [0.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.27.0...v0.28.0
 [0.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.26.0...v0.27.0

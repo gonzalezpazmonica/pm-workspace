@@ -172,6 +172,20 @@
 /diagram-status [--project]       Project diagram status
 ```
 
+## Technical Debt Intelligence (3 commands)
+```
+/debt-analyze [--project]         Automated debt analysis (hotspots, coupling, smells)
+/debt-prioritize [--project]      Business impact prioritization and ROI
+/debt-budget [--sprint]           Per-sprint technical debt budget
+```
+
+## AI Governance (3 commands)
+```
+/ai-model-card [--project]        AI agent model card
+/ai-risk-assessment [--project]   EU AI Act risk assessment
+/ai-audit-log [--project]         AI execution audit log
+```
+
 ## Other (10 commands)
 ```
 /help [filter]                    Command catalog and first steps

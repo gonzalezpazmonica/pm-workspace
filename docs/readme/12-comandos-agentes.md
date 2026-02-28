@@ -172,6 +172,20 @@
 /diagram-status [--project]       Estado de diagramas del proyecto
 ```
 
+## Inteligencia de Deuda Técnica (3 comandos)
+```
+/debt-analyze [--project]         Análisis automático de deuda (hotspots, coupling, smells)
+/debt-prioritize [--project]      Priorización por impacto de negocio y ROI
+/debt-budget [--sprint]           Presupuesto de deuda técnica por sprint
+```
+
+## Gobernanza IA (3 comandos)
+```
+/ai-model-card [--project]        Model card de agentes IA del proyecto
+/ai-risk-assessment [--project]   Evaluación de riesgo EU AI Act
+/ai-audit-log [--project]         Log de auditoría de ejecuciones IA
+```
+
 ## Otros (10+ comandos)
 ```
 /help [filtro]                    Catálogo de comandos y primeros pasos
