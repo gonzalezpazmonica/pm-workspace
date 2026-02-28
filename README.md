@@ -48,6 +48,8 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Observabilidad de agentes** — trazas de ejecución con tokens consumidos, duración y resultado, estimación de costes por modelo (Opus/Sonnet/Haiku), y métricas de eficiencia (success rate, re-work, first-pass). Hook automático que registra cada invocación de subagente.
 
+**Developer Experience** — encuestas DX Core 4 adaptadas, dashboard automatizado con feedback loops y cognitive load proxy, y análisis de friction points con recomendaciones accionables. Mide la experiencia del equipo, no solo la velocidad.
+
 ---
 
 ## Documentación
@@ -85,7 +87,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [Proyecto de test](docs/readme/09-proyecto-test.md) | `sala-reservas`: tests, datos mock, validación |
 | [KPIs, reglas y roadmap](docs/readme/10-kpis-reglas.md) | Métricas, reglas críticas, plan de adopción |
 | [Onboarding de nuevos miembros](docs/readme/11-onboarding.md) | Incorporación en 5 fases, evaluación de competencias, RGPD |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 105 comandos + 24 agentes especializados |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 111 comandos + 24 agentes especializados |
 | [Cobertura y contribución](docs/readme/13-cobertura-contribucion.md) | Qué cubre, qué no, cómo contribuir |
 
 ### Otros documentos
@@ -107,7 +109,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 
 ## Referencia rápida de comandos
 
-> 108 comandos · 24 agentes · 14 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 111 comandos · 24 agentes · 15 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Sprint y Reporting
 ```
@@ -166,6 +168,11 @@ La documentación completa está organizada en secciones para facilitar la consu
 /changelog-update    /evaluate-repo [URL]    /validate-filesize
 /validate-schema    /review-cache-stats    /review-cache-clear
 /testplan-status    /testplan-results {id}
+```
+
+### Developer Experience
+```
+/dx-survey    /dx-dashboard    /dx-recommendations
 ```
 
 ### Observabilidad de Agentes
