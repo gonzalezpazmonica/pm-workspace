@@ -6,7 +6,7 @@ agent: architect
 context_cost: high
 ---
 
-# /compliance-report {path} [--format md|docx] [--compare]
+# /compliance-report {path} [--format md|docx] [--compare] [--lang es|en]
 
 > Genera un informe ejecutivo de cumplimiento regulatorio basado en los resultados de `/compliance-scan`, con análisis de tendencias y roadmap de remediación.
 
@@ -18,6 +18,7 @@ context_cost: high
 - `--format` — Formato de salida: `md` (default) o `docx`
 - `--compare` — Comparar con scans anteriores (si existen en `output/compliance/`)
 - `--sectors` — Filtrar por sectores específicos (default: todos los detectados)
+- `--lang` — Idioma del informe: `es` (default) o `en`. Usar mismo idioma que el scan.
 
 ## Prerequisitos
 
@@ -28,97 +29,52 @@ context_cost: high
 ## Ejecución (4 pasos)
 
 ### Paso 1 — Recopilar datos
-Leer todos los informes de scan en `output/compliance/{proyecto}-scan-*.md`.
+Leer todos los informes en `output/compliance/{proyecto}-scan-*.md` y `{proyecto}-fix-*.md`.
 Ordenar cronológicamente. Identificar sector(es) y regulaciones verificadas.
+Extraer scores con fórmula documentada: `(requisitos cumplidos / total) × 100`.
 
 ### Paso 2 — Analizar tendencias (si --compare)
 Comparar compliance score entre scans:
 - Tendencia: mejorando / estable / empeorando
-- Issues resueltos vs nuevos
-- Regulaciones con más incumplimientos recurrentes
+- Issues resueltos vs nuevos vs recurrentes
+- Regulaciones con más incumplimientos
 
-### Paso 3 — Generar informe
-
-Estructura del informe:
+### Paso 3 — Generar informe (7 secciones)
 
 ```markdown
 # Informe de Compliance Regulatorio — {proyecto}
 
-**Fecha**: {ISO date}
-**Sector**: {sector(s)}
-**Último scan**: {fecha}
-**Compliance Score**: {X}%
-
----
+**Fecha**: {ISO date} | **Sector**: {sector(s)} | **Score**: {X}% ({N}/{M} requisitos)
 
 ## 1. Resumen Ejecutivo
-
-Estado general del cumplimiento regulatorio del proyecto.
-Score actual: {X}% ({tendencia} vs scan anterior).
-{N} hallazgos críticos requieren atención inmediata.
-{M} hallazgos han sido corregidos desde el último scan.
+Score actual y delta vs scan anterior. N hallazgos críticos. M corregidos.
 
 ## 2. Regulaciones Aplicables
-
 | Regulación | Artículos | Requisitos | Cumple | Score |
 |------------|-----------|------------|--------|-------|
-| {Reg A}    | §{arts}   | {N}        | {M}/{N}| {X}%  |
-| {Reg B}    | §{arts}   | {N}        | {M}/{N}| {X}%  |
 
 ## 3. Hallazgos por Severidad
-
-### CRITICAL ({N})
-Requieren corrección inmediata. Riesgo de sanción regulatoria o breach.
-- RC-001: {descripción} — {regulación} — {ficheros}
-- RC-002: {descripción} — {regulación} — {ficheros}
-
-### HIGH ({N})
-Corregir en el próximo sprint. Controles de seguridad ausentes.
-- RC-005: {descripción} — {regulación} — {ficheros}
-
-### MEDIUM ({N}) (si --strict en scan)
-Backlog. Mejoras recomendadas por la normativa.
-
-### LOW ({N}) (si --strict en scan)
-Nice to have. Best practices del sector.
+### CRITICAL ({N}) — {auto-fix} auto-fixables, {manual} manuales
+- RC-001: {desc} [FIXED ✅] | RC-004: {desc} [AUTO-FIX] | RC-006: {desc} [MANUAL]
+### HIGH / MEDIUM / LOW
 
 ## 4. Tendencia (si --compare)
-
-| Fecha scan | Score | CRITICAL | HIGH | MEDIUM | Δ Score |
-|------------|-------|----------|------|--------|---------|
-| {fecha 1}  | {X}%  | {N}      | {N}  | {N}    | —       |
-| {fecha 2}  | {Y}%  | {N}      | {N}  | {N}    | {+/-}%  |
-
-Issues resueltos: {lista}
-Issues nuevos: {lista}
-Issues recurrentes: {lista}
+| Fecha | Score | CRITICAL | HIGH | Δ Score |
+Issues resueltos / nuevos / recurrentes
 
 ## 5. Roadmap de Remediación
-
-### Quick Wins (auto-fix disponible, corregir hoy)
-- RC-001: `/compliance-fix RC-001` — {descripción breve}
-- RC-003: `/compliance-fix RC-003` — {descripción breve}
-
-### Medio plazo (1-2 sprints)
-- RC-005: {descripción} — Esfuerzo estimado: {días}
-- RC-008: {descripción} — Esfuerzo estimado: {días}
-
-### Largo plazo (cambios arquitectónicos)
-- RC-012: {descripción} — Requiere: {qué cambio}
-- RC-015: {descripción} — Requiere: {qué cambio}
+### Quick Wins (auto-fix, corregir hoy): RC-XXX con `/compliance-fix`
+### Medio plazo (1-2 sprints): esfuerzo estimado en días
+### Largo plazo (arquitectónico): qué requiere cada cambio
 
 ## 6. Riesgo si no se corrige
-
 | Regulación | Sanción máxima | Probabilidad | Impacto |
-|------------|---------------|--------------|---------|
-| GDPR       | 4% facturación o €20M | {alta/media/baja} | {descripción} |
-| {Reg B}    | {sanción}     | {prob}       | {impacto} |
+| HIPAA      | $1.9M/categoría| {alta/media}  | {desc}  |
+| GDPR       | 4% o €20M     | {alta/media}  | {desc}  |
 
 ## 7. Recomendaciones
-
-1. {Recomendación prioritaria}
-2. {Recomendación secundaria}
-3. Re-escanear tras correcciones: `/compliance-scan {path}`
+1-5 recomendaciones priorizadas para dirección / compliance officers.
+Re-escanear tras correcciones: `/compliance-scan {path}`
 ```
 
 ### Paso 4 — Exportar
@@ -127,10 +83,11 @@ Issues recurrentes: {lista}
 
 ## Output
 
-Fichero en `output/compliance/{proyecto}-report-{fecha}.{ext}`
+Fichero en `output/compliance/{proyecto}-report-{fecha}.{ext}` (fecha obligatoria)
 
 ## Notas
 - El informe está pensado para dirección / compliance officers, no técnico.
 - La sección de riesgo incluye sanciones reales por regulación.
 - Con `--compare`, el informe muestra evolución para auditorías periódicas.
 - Complementa a `/ai-risk-assessment` (EU AI Act) con compliance sectorial.
+- Usar siempre el mismo idioma (--lang) que el scan original para coherencia.

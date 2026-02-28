@@ -28,94 +28,63 @@ context_cost: high
 ### Paso 1 — Leer informe de scan
 Localizar el informe más reciente en `output/compliance/{proyecto}-scan-*.md`.
 Extraer los hallazgos correspondientes a los IDs solicitados.
-Verificar que cada ID existe y tiene auto-fix disponible.
+Verificar que cada ID existe y tiene marca `[AUTO-FIX]`.
 
-Si un ID no tiene auto-fix, informar al usuario y sugerir generar Task manual:
+Si un ID tiene marca `[MANUAL]`, informar al usuario y sugerir generar Task:
 ```
-RC-005 no tiene auto-fix disponible (requiere cambio arquitectónico).
+RC-005 requiere corrección manual (cambio arquitectónico).
 → Generar Task con: descripción, ficheros afectados, regulación, requisito.
 ```
 
 ### Paso 2 — Generar changeset
-Para cada hallazgo con auto-fix, generar los cambios necesarios según la categoría:
+Para cada hallazgo con auto-fix, generar cambios según categoría (ver SKILL.md §Auto-Fix Templates):
 
-**Cifrado (at-rest)**:
-- Identificar campos sensibles sin cifrar
-- Añadir decoradores/atributos de cifrado o middleware de cifrado transparente
-- Generar migración DB si aplica
-
-**Cifrado (in-transit)**:
-- Configurar TLS en endpoints afectados
-- Añadir headers de seguridad (HSTS, etc.)
-
-**Audit trail**:
-- Crear tabla/colección de audit log si no existe
-- Añadir middleware/interceptor que registre: usuario, acción, timestamp, datos
-- Configurar retención según normativa del sector
-
-**Control de acceso (RBAC)**:
-- Scaffolding de modelo de roles y permisos
-- Añadir decoradores/middleware de autorización en endpoints afectados
-- Generar seed de roles base del sector
-
-**Consentimiento**:
-- Crear modelo de consentimiento (tipo, fecha, revocación)
-- Añadir endpoints de gestión de consentimiento
-- Añadir check de consentimiento previo al procesamiento
-
-**Trazabilidad**:
-- Añadir campos de tracking (lote, origen, destino, timestamp)
-- Crear endpoints de consulta de trazabilidad
-- Implementar cadena de custodia (hash encadenado)
-
-**Accesibilidad (WCAG)**:
-- Añadir ARIA labels a formularios
-- Corregir contraste de colores
-- Añadir navegación por teclado
-- Generar alt text para imágenes
+- **Cifrado (at-rest)**: Servicio de cifrado + atributos en campos sensibles + config de claves
+- **Cifrado (in-transit)**: Configurar TLS en endpoints + headers de seguridad (HSTS)
+- **Audit trail**: Modelo de log + servicio + middleware interceptor + config de retención
+- **Control de acceso (RBAC)**: Modelo de roles + middleware de autorización + seed de roles
+- **Consentimiento**: Modelo + endpoints de gestión + check previo al procesamiento
+- **Trazabilidad**: Campos de tracking + endpoints de consulta + hash encadenado
+- **Accesibilidad (WCAG)**: ARIA labels + contraste + navegación por teclado
 
 ### Paso 3 — Aplicar o previsualizar
+
+Indicar modo de ejecución al inicio del informe: `**Modo**: APLICADO` o `**Modo**: DRY-RUN`
+
 - Si `--dry-run`: Mostrar diff de cada cambio propuesto sin aplicar
 - Si normal: Aplicar cambios al código fuente
 
-Mostrar resumen de cambios:
+Incluir **sección de configuración requerida** con claves exactas para appsettings/env:
 ```
-Aplicando RC-001 (cifrado PHI)...
-  ✓ models/patient.ts — añadido @Encrypted en campos sensibles
-  ✓ config/database.ts — habilitado TDE (Transparent Data Encryption)
-  ✓ migrations/add_encryption.ts — nueva migración
-
-Aplicando RC-003 (audit trail)...
-  ✓ middleware/audit.ts — nuevo middleware de auditoría
-  ✓ models/audit-log.ts — nuevo modelo
-  ✓ config/audit.ts — configuración de retención
+## Configuración requerida
+- `Jwt:Key` — Clave HS256 (mínimo 32 caracteres)
+- `Encryption:Key` — Clave AES-256 (Base64, 256 bits)
+Añadir a appsettings.json antes de despliegue.
 ```
 
 ### Paso 4 — Re-verificar
-Para cada hallazgo corregido, ejecutar de nuevo la verificación específica:
-- Comprobar que el patrón requerido ahora existe en el código
-- Verificar que no se han introducido nuevas violaciones
+Para cada hallazgo corregido, ejecutar de nuevo la verificación específica.
+Incluir **ejemplo de salida** (sample output) para cada fix verificado:
 
-Reportar resultado:
 ```
 Re-verificación:
-  RC-001 [cifrado PHI]    → ✅ PASS (antes: FAIL)
-  RC-003 [audit trail]    → ✅ PASS (antes: FAIL)
+  RC-001 [cifrado PHI]    → ✅ PASS (ejemplo: SSN cifrado = "AQz3k2M5...")
+  RC-003 [audit trail]    → ✅ PASS (ejemplo: {"userId":"dr.smith","action":"READ",...})
   RC-007 [RBAC]           → ❌ FAIL (fix parcial — falta middleware en 2 endpoints)
 ```
 
-### Paso 5 — Actualizar informe
-Actualizar el informe de scan con los resultados de la corrección.
-Marcar hallazgos corregidos como FIXED.
-Si algún fix fue parcial, mantener como FAIL con nota de progreso.
+### Paso 5 — Actualizar informe y calcular nuevo score
+Actualizar el informe de scan con los resultados. Marcar hallazgos corregidos como FIXED.
+Recalcular score: `Nuevo score = (requisitos cumplidos + fixes PASS) / total × 100`
 
 ## Output
 
-Stdout con changeset y resultado de re-verificación.
-Informe de scan actualizado en `output/compliance/`.
+Guardar en: `output/compliance/{proyecto}-fix-{fecha}.md`
+Actualizar: `output/compliance/{proyecto}-scan-{fecha}.md` (marcar FIXED)
 
 ## Notas
 - Auto-fix genera código que debe ser revisado por el equipo.
 - Los cambios NO se commitean automáticamente — el usuario decide cuándo.
 - Si la re-verificación falla, el fix queda como parcial y se puede reintentar.
-- Para hallazgos sin auto-fix, generar descripción detallada de Task manual.
+- Para hallazgos `[MANUAL]`, generar descripción detallada de Task manual.
+- Usar mismo idioma que el scan para consistencia.
