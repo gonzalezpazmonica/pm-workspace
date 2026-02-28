@@ -74,18 +74,22 @@ if [[ "$OS" == "Linux" ]]; then
   fi
 
   # Descargar binario directamente para offline completo
-  OLLAMA_BIN="$CACHE_DIR/ollama-${OS,,}-${ARCH}"
+  DL_ARCH="$ARCH"; [[ "$ARCH" == "x86_64" ]] && DL_ARCH="amd64"; [[ "$ARCH" == "aarch64" ]] && DL_ARCH="arm64"
+  OLLAMA_BIN="$CACHE_DIR/ollama-bin"
   if [[ -f "$OLLAMA_BIN" ]]; then
     echo -e "  ${GREEN}✓${NC} Binario Ollama ya en caché"
   else
-    echo -e "  ${YELLOW}→${NC} Descargando binario Ollama..."
-    DOWNLOAD_URL="https://ollama.com/download/ollama-linux-${ARCH}"
-    curl -fSL "$DOWNLOAD_URL" -o "$OLLAMA_BIN" 2>/dev/null || {
-      echo -e "  ${YELLOW}⚠${NC} No se pudo descargar binario. Se usará script de instalación."
-      OLLAMA_BIN=""
-    }
-    [[ -n "$OLLAMA_BIN" && -f "$OLLAMA_BIN" ]] && chmod +x "$OLLAMA_BIN"
-    echo -e "  ${GREEN}✓${NC} Binario guardado"
+    echo -e "  ${YELLOW}→${NC} Descargando binario Ollama (tar.zst)..."
+    DOWNLOAD_URL="https://ollama.com/download/ollama-linux-${DL_ARCH}.tar.zst"
+    TMP_TAR="$CACHE_DIR/ollama.tar.zst"
+    curl -fSL "$DOWNLOAD_URL" -o "$TMP_TAR" 2>/dev/null && {
+      TMP_EXTRACT="$CACHE_DIR/_extract"
+      mkdir -p "$TMP_EXTRACT" && tar --zstd -xf "$TMP_TAR" -C "$TMP_EXTRACT" 2>/dev/null
+      FOUND_BIN=$(find "$TMP_EXTRACT" -name "ollama" -type f | head -1)
+      [[ -n "$FOUND_BIN" ]] && cp "$FOUND_BIN" "$OLLAMA_BIN" && chmod +x "$OLLAMA_BIN" || OLLAMA_BIN=""
+      rm -rf "$TMP_EXTRACT" "$TMP_TAR"
+      echo -e "  ${GREEN}✓${NC} Binario extraído y guardado"
+    } || { echo -e "  ${YELLOW}⚠${NC} No se pudo descargar. Se usará script."; rm -f "$TMP_TAR"; OLLAMA_BIN=""; }
   fi
 elif [[ "$OS" == "Darwin" ]]; then
   echo -e "  ${YELLOW}⚠${NC} macOS: descarga Ollama desde ${CYAN}https://ollama.com/download${NC}"

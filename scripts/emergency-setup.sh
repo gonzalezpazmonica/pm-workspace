@@ -65,10 +65,11 @@ if command -v ollama &>/dev/null; then
 else
   if [[ "$OFFLINE" == true ]]; then
     # Instalación desde caché local
-    OLLAMA_BIN="$CACHE_DIR/ollama-${OS,,}-${ARCH}"
+    OLLAMA_BIN="$CACHE_DIR/ollama-bin"
     if [[ -f "$OLLAMA_BIN" ]]; then
       echo -e "  ${YELLOW}→${NC} Instalando Ollama desde caché local..."
-      sudo cp "$OLLAMA_BIN" /usr/local/bin/ollama 2>/dev/null || cp "$OLLAMA_BIN" "$HOME/.local/bin/ollama" 2>/dev/null && mkdir -p "$HOME/.local/bin"
+      mkdir -p "$HOME/.local/bin"
+      sudo cp "$OLLAMA_BIN" /usr/local/bin/ollama 2>/dev/null || cp "$OLLAMA_BIN" "$HOME/.local/bin/ollama"
       echo -e "  ${GREEN}✓${NC} Ollama instalado desde caché"
     else
       echo -e "  ${RED}✗${NC} No hay binario Ollama en caché."
