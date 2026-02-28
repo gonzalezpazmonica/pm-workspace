@@ -50,6 +50,8 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Developer Experience** — adapted DX Core 4 surveys, automated dashboard with feedback loops and cognitive load proxy, and friction point analysis with actionable recommendations. Measures team experience, not just speed.
 
+**AI governance and compliance** — model cards documenting agents and models, risk assessment per EU AI Act categories (prohibited/high/limited/minimal), audit logs with full traceability, and governance rules with quarterly compliance checklist.
+
 ---
 
 ## Documentation
@@ -87,7 +89,7 @@ Full documentation is organized into sections for easy reference:
 | [Test project](docs/readme_en/09-test-project.md) | `sala-reservas`: tests, mock data, validation |
 | [KPIs, rules, and roadmap](docs/readme_en/10-kpis-rules.md) | Metrics, critical rules, adoption plan |
 | [Onboarding new team members](docs/readme_en/11-onboarding.md) | 5-phase onboarding, competency evaluation, GDPR |
-| [Commands and agents](docs/readme_en/12-commands-agents.md) | 111 commands + 24 specialized agents |
+| [Commands and agents](docs/readme_en/12-commands-agents.md) | 114 commands + 24 specialized agents |
 | [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
 ### Other Documents
@@ -109,7 +111,12 @@ Full documentation is organized into sections for easy reference:
 
 ## Quick Command Reference
 
-> 111 commands · 24 agents · 15 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 114 commands · 24 agents · 15 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+
+### AI Governance
+```
+/ai-model-card    /ai-risk-assessment    /ai-audit-log
+```
 
 ### Sprint and Reporting
 ```
