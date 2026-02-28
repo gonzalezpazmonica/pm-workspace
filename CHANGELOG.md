@@ -13,6 +13,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.28.0] — 2026-02-28
+
+Developer Experience metrics: DX Core 4 surveys, automated DX dashboard, friction point analysis, and developer-experience skill.
+
+### Added
+
+**`/dx-survey`** — Generates adapted DX Core 4 surveys (Speed, Effectiveness, Quality, Impact) complemented with SPACE dimensions. 12-15 Likert questions + 3 open questions. Processes results with statistical summaries and trend comparison vs previous survey.
+
+**`/dx-dashboard`** — Automated DX dashboard from workspace data: PR cycle time, spec cycle time, build feedback, cognitive load proxy (files/spec, dependencies/task), tool satisfaction proxy (command success rate, cache hits). RAG indicators and trend vs previous sprint.
+
+**`/dx-recommendations`** — Analyzes friction points from traces, specs, PRs, and surveys. Top-5 ranked by impact across 5 categories (Tooling, Process, Communication, Knowledge, Infrastructure). Each with supporting data, action, and expected improvement.
+
+**Skill: `developer-experience`** — Framework reference covering DX Core 4, SPACE, cognitive load types, feedback loop optimization, survey design, actionable metrics, and integration with pm-workspace data sources.
+
+---
+
 ## [0.27.0] — 2026-02-28
 
 Agent observability: execution tracing, cost estimation, and efficiency metrics for subagent operations.
@@ -836,7 +852,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.27.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.28.0...HEAD
+[0.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.27.0...v0.28.0
 [0.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.26.0...v0.27.0
 [0.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.25.0...v0.26.0
 [0.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.24.0...v0.25.0
