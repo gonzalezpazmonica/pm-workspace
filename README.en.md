@@ -75,7 +75,7 @@ Full documentation is organized into sections for easy reference:
 | [Test project](docs/readme_en/09-test-project.md) | `sala-reservas`: tests, mock data, validation |
 | [KPIs, rules, and roadmap](docs/readme_en/10-kpis-rules.md) | Metrics, critical rules, adoption plan |
 | [Onboarding new team members](docs/readme_en/11-onboarding.md) | 5-phase onboarding, competency evaluation, GDPR |
-| [Commands and agents](docs/readme_en/12-commands-agents.md) | 86 commands + 24 specialized agents |
+| [Commands and agents](docs/readme_en/12-commands-agents.md) | 92 commands + 24 specialized agents |
 | [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
 ### Other Documents
@@ -108,6 +108,7 @@ Full documentation is organized into sections for easy reference:
 ```
 /pbi-decompose {id}    /pbi-plan-sprint    /pbi-assign {id}
 /spec-generate {id}    /spec-review {file}    /agent-run {file}
+/spec-explore {id}     /spec-design {spec}    /spec-verify {spec}
 /spec-status    /pbi-jtbd {id}    /pbi-prd {id}
 ```
 

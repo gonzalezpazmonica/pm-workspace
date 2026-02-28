@@ -75,7 +75,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [Proyecto de test](docs/readme/09-proyecto-test.md) | `sala-reservas`: tests, datos mock, validación |
 | [KPIs, reglas y roadmap](docs/readme/10-kpis-reglas.md) | Métricas, reglas críticas, plan de adopción |
 | [Onboarding de nuevos miembros](docs/readme/11-onboarding.md) | Incorporación en 5 fases, evaluación de competencias, RGPD |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 86 comandos + 24 agentes especializados |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 92 comandos + 24 agentes especializados |
 | [Cobertura y contribución](docs/readme/13-cobertura-contribucion.md) | Qué cubre, qué no, cómo contribuir |
 
 ### Otros documentos
@@ -108,6 +108,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 ```
 /pbi-decompose {id}    /pbi-plan-sprint    /pbi-assign {id}
 /spec-generate {id}    /spec-review {file}    /agent-run {file}
+/spec-explore {id}     /spec-design {spec}    /spec-verify {spec}
 /spec-status    /pbi-jtbd {id}    /pbi-prd {id}
 ```
 
