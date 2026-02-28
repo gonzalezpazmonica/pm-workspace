@@ -125,11 +125,25 @@ Detalles: **`references/review-metrics.md`**
 
 ---
 
+## §2.7 Delta Specs (cambios incrementales)
+
+Cuando una spec existente necesita modificaciones, usar formato delta en lugar de reescribir:
+
+### Secciones delta
+- **ADDED**: nuevos requisitos, escenarios o ficheros
+- **MODIFIED**: cambios a requisitos existentes (mostrar antes → después)
+- **REMOVED**: requisitos eliminados con justificación
+
+### Consolidación
+Al cerrar sprint, ejecutar `/spec-verify` para confirmar compliance y archivar deltas consolidados.
+
+> Detalle: @references/compliance-matrix.md
+
+---
+
 ## Referencias
 
-- Spec template: `references/spec-template.md`
-- Layer assignment: `references/layer-assignment-matrix.md`
-- Agent invocation: `references/agent-invocation.md`
-- Review & metrics: `references/review-metrics.md`
-- Skill base: `../pbi-decomposition/SKILL.md`
-- Comandos: `/spec-generate`, `/spec-implement`, `/spec-review`
+- Spec template: `references/spec-template.md` · Layer assignment: `references/layer-assignment-matrix.md`
+- Agent invocation: `references/agent-invocation.md` · Review & metrics: `references/review-metrics.md`
+- Compliance matrix: `references/compliance-matrix.md`
+- Comandos: `/spec-generate`, `/spec-implement`, `/spec-review`, `/spec-explore`, `/spec-design`, `/spec-verify`
