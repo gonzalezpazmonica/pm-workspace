@@ -125,3 +125,88 @@ jobs:
             "**/*.md" || true
         # 'true' keeps CI green while the team establishes linting baseline.
         # Remove '|| true' once all existing files pass linting.
+
+      - name: Validate file sizes (≤150 lines)
+        run: |
+          echo "Validating file sizes..."
+          FAILED=0
+          # Check skills
+          for file in .claude/skills/*/SKILL.md; do
+            if [ -f "$file" ]; then
+              lines=$(wc -l < "$file")
+              if [ "$lines" -gt 150 ]; then
+                echo "❌ FAIL: $file ($lines líneas)"
+                FAILED=$((FAILED + 1))
+              fi
+            fi
+          done
+          # Check agents
+          for file in .claude/agents/*.md; do
+            if [ -f "$file" ]; then
+              lines=$(wc -l < "$file")
+              if [ "$lines" -gt 150 ]; then
+                echo "❌ FAIL: $file ($lines líneas)"
+                FAILED=$((FAILED + 1))
+              fi
+            fi
+          done
+          # Check domain rules
+          for file in .claude/rules/domain/*.md; do
+            if [ -f "$file" ]; then
+              lines=$(wc -l < "$file")
+              if [ "$lines" -gt 150 ]; then
+                echo "⚠️  WARNING: $file ($lines líneas)"
+              fi
+            fi
+          done
+          # Check commands
+          for file in .claude/commands/*.md; do
+            if [ -f "$file" ]; then
+              lines=$(wc -l < "$file")
+              if [ "$lines" -gt 150 ]; then
+                echo "❌ FAIL: $file ($lines líneas)"
+                FAILED=$((FAILED + 1))
+              fi
+            fi
+          done
+          if [ $FAILED -gt 0 ]; then
+            echo "$FAILED ficheros exceden 150 líneas."
+            exit 1
+          fi
+          echo "✅ All files within 150 lines limit."
+
+      - name: Validate settings.json JSON schema
+        run: |
+          echo "Validating .claude/settings.json..."
+          python3 -c "import json; json.load(open('.claude/settings.json'))" && \
+            echo "✅ settings.json is valid JSON" || \
+            { echo "❌ settings.json is invalid JSON"; exit 1; }
+
+      - name: Validate command frontmatter
+        run: |
+          echo "Validating command frontmatter..."
+          FAILED=0
+          for file in .claude/commands/*.md; do
+            if [ -f "$file" ]; then
+              # Extract frontmatter
+              if head -1 "$file" | grep -q "^---$"; then
+                # Check for required fields
+                if ! grep -q "^name:" "$file"; then
+                  echo "❌ FAIL: $file missing 'name' field"
+                  FAILED=$((FAILED + 1))
+                fi
+                if ! grep -q "^description:" "$file"; then
+                  echo "❌ FAIL: $file missing 'description' field"
+                  FAILED=$((FAILED + 1))
+                fi
+              else
+                echo "❌ FAIL: $file missing frontmatter"
+                FAILED=$((FAILED + 1))
+              fi
+            fi
+          done
+          if [ $FAILED -gt 0 ]; then
+            echo "$FAILED command(s) have invalid frontmatter."
+            exit 1
+          fi
+          echo "✅ All command frontmatter is valid."

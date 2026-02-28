@@ -9,7 +9,31 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-*Planned: v0.24.0 (Permissions + CI/CD), v0.25.0 (Security + Community).*
+*Planned: v0.25.0 (Security + Community).*
+
+---
+
+## [0.24.0] — 2026-02-28
+
+Permissions and CI/CD hardening: plan-gate hook warns before implementing without spec, file size validation in CI, settings.json schema validation, command frontmatter validation, and two new governance commands.
+
+### Added
+
+**Plan-gate hook** — `.claude/hooks/plan-gate.sh` (PreToolUse on Edit/Write): warns if code edits start without a recently approved spec. Checks for `.spec.md` files modified in last 14 days. Warning only (does not block). Encourages SDD discipline: spec first, then implement.
+
+**CI validation steps** — `.github/workflows/ci.yml` expanded with: (1) file size validation — all skills, agents, commands, domain rules checked for ≤150 lines, (2) JSON schema validation — `settings.json` must be valid JSON, (3) command frontmatter validation — all commands must have `name` and `description` fields.
+
+**`/validate-filesize`** — Scans all managed files (skills, agents, rules, commands, scripts) for ≤150 lines compliance. Reports violations with file paths and line counts.
+
+**`/validate-schema`** — Validates settings.json JSON structure, command frontmatter (name, description, agent), and skill frontmatter (name, description, context).
+
+### Changed
+
+**CLAUDE.md** — Hooks 11→12 (plan-gate). Commands 94→96.
+
+### Why
+
+CI should catch regressions that manual review misses: a file growing past 150 lines, a command missing its frontmatter, or a broken settings.json. The plan-gate hook nudges toward SDD discipline without blocking — a soft reminder that specs should precede implementation.
 
 ---
 
@@ -746,7 +770,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.23.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.24.0...HEAD
+[0.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.22.0...v0.23.0
 [0.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.20.1...v0.21.0
