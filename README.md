@@ -42,6 +42,8 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Seguridad y compliance** — análisis SAST contra OWASP Top 10, auditoría de vulnerabilidades en dependencias, generación de SBOM (CycloneDX), escaneo de credenciales en historial git, y detección mejorada de leaks (AWS, GitHub, OpenAI, Azure, JWT).
 
+**Validación de Azure DevOps** — al conectar un proyecto, auditoría automática de la configuración contra el "Agile ideal" de pm-workspace: process template, tipos de work item, estados, campos, jerarquía de backlog e iteraciones. Si hay incompatibilidades, genera un plan de remediación para aprobación manual. PAT requiere scopes: Work Items R/W, Project and Team R, Analytics R, Code R/W, Build R/W, Process R.
+
 **Validación y CI/CD** — plan gate que avisa si se implementa sin spec aprobada, validación de tamaño de ficheros (≤150 líneas), schema de frontmatter y settings.json, y pipeline CI con checks automáticos en cada PR.
 
 **Analítica predictiva** — predicción de completitud de sprint con Monte Carlo, Value Stream Mapping con Lead Time E2E y Flow Efficiency, tendencia de velocity con detección de anomalías, y WIP aging con alertas. Métricas basadas en datos, no en sensaciones.
@@ -120,7 +122,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 
 ## Referencia rápida de comandos
 
-> 128 comandos · 24 agentes · 17 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 129 comandos · 24 agentes · 18 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Inteligencia de Deuda Técnica
 ```
@@ -188,7 +190,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 ```
 /changelog-update    /evaluate-repo [URL]    /validate-filesize
 /validate-schema    /review-cache-stats    /review-cache-clear
-/testplan-status    /testplan-results {id}
+/testplan-status    /testplan-results {id}    /devops-validate {proy}
 ```
 
 ### Developer Experience
