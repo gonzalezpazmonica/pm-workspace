@@ -9,7 +9,43 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-*Planned: v0.21.0 (Permissions + Plan-Gate), v0.22.0 (CI/CD Hardening), v0.23.0 (Security), v0.24.0 (Community Patterns).*
+*Planned: v0.22.0 (SDD Mejorado/ATL), v0.23.0 (Code Review/GGA), v0.24.0 (Permissions + CI/CD), v0.25.0 (Security + Community).*
+
+---
+
+## [0.21.0] — 2026-02-28
+
+Persistent memory system inspired by Engram (Gentleman Programming): JSONL-based memory store with full-text search, topic_key upsert for evolving decisions, SHA256 deduplication, `<private>` tag privacy filtering, and automatic context injection after compaction.
+
+### Added
+
+**Memory store** — `scripts/memory-store.sh`: bash script managing `output/.memory-store.jsonl` with 4 commands (save, search, context, stats). Features: topic_key upsert (same topic evolves in place, not duplicated), SHA256 hash dedup within 15-min window, `<private>` tag stripping to `[REDACTED]`, 2000-char content limit. Zero external dependencies.
+
+**Post-compaction hook** — `scripts/post-compaction.sh` + SessionStart(compact) in settings.json: automatically injects last 20 memory entries after `/compact`. Groups by type (decisions, bugs, patterns, conventions, discoveries). Resolves the biggest pm-workspace pain point: context loss after compaction.
+
+**3 memory commands** — `/memory-save {tipo} {título}` (with optional `--topic` for evolving decisions), `/memory-search {query}`, `/memory-context [--limit N]`.
+
+### Changed
+
+**`/context-load` updated** — Step 2 now reads from memory-store.jsonl instead of only decision-log.md. Falls back to decision-log for legacy compatibility.
+
+**`/session-save` updated** — Now auto-saves decisions, bugs, and patterns to memory-store in addition to session log and decision-log (legacy). Supports `--topic` for known recurring decisions.
+
+**CLAUDE.md** — Hooks 9→10 (post-compaction). Commands 86→89 (3 memory commands). Memory section updated with memory-store reference.
+
+### Why
+
+Inspired by Engram's approach to persistent memory: the agent decides what's worth remembering (not auto-capture everything), topic_key enables evolving decisions without polluting search, and post-compaction injection ensures context survives `/compact`. Unlike Engram (Go binary + SQLite), pm-workspace's implementation is pure bash + JSONL for zero dependencies.
+
+---
+
+## [0.20.1] — 2026-02-27
+
+Fix developer_type format: revert specs to hyphen format (agent-single) and update test suite. Claude Code does not support colons in developer_type values.
+
+### Fixed
+
+**developer_type format** — Reverted v0.20.0's incorrect change from `agent-single` to `agent:single` in spec files. Fixed `test-workspace.sh` validation regex and layer-assignment-matrix grep to accept hyphen format.
 
 ---
 
@@ -656,7 +692,10 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.19.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.21.0...HEAD
+[0.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.20.1...v0.21.0
+[0.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.20.0...v0.20.1
+[0.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.19.0...v0.20.0
 [0.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.16.0...v0.17.0

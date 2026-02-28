@@ -11,6 +11,17 @@
             "statusMessage": "Inicializando sesión PM-Workspace..."
           }
         ]
+      },
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
+            "timeout": 10,
+            "statusMessage": "Recuperando memoria persistente tras compactación..."
+          }
+        ]
       }
     ],
     "PreToolUse": [
