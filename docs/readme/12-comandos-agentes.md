@@ -195,8 +195,9 @@
 /ai-audit-log [--project]         Log de auditoría de ejecuciones IA
 ```
 
-## Emergencia (1 comando)
+## Emergencia (2 comandos)
 ```
+/emergency-plan [--model MODEL]  Pre-descargar Ollama y modelo LLM para instalación offline
 /emergency-mode {subcommand}     Gestionar modo emergencia con LLM local (setup/status/activate/deactivate/test)
 ```
 

@@ -118,7 +118,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 
 ## Referencia rápida de comandos
 
-> 124 comandos · 24 agentes · 16 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 125 comandos · 24 agentes · 16 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Inteligencia de Deuda Técnica
 ```
@@ -220,7 +220,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 
 ### Emergencia
 ```
-/emergency-mode {setup|status|activate|deactivate|test}
+/emergency-plan [--model MODEL]    /emergency-mode {setup|status|activate|deactivate|test}
 ```
 
 ### Integraciones Externas
