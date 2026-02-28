@@ -42,6 +42,8 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Security and compliance** — SAST analysis against OWASP Top 10, dependency vulnerability auditing, SBOM generation (CycloneDX), git history credential scanning, and enhanced leak detection (AWS, GitHub, OpenAI, Azure, JWT patterns).
 
+**Azure DevOps validation** — when connecting a project, automatic audit of the configuration against pm-workspace's "ideal Agile": process template, work item types, states, fields, backlog hierarchy, and iterations. If incompatibilities are found, generates a remediation plan for manual approval. PAT requires scopes: Work Items R/W, Project and Team R, Analytics R, Code R/W, Build R/W, Process R.
+
 **Validation and CI/CD** — plan gate that warns when implementing without an approved spec, file size validation (≤150 lines), frontmatter and settings.json schema validation, and CI pipeline with automated checks on every PR.
 
 **Predictive analytics** — sprint completion forecasting with Monte Carlo simulation, Value Stream Mapping with E2E Lead Time and Flow Efficiency, velocity trending with anomaly detection, and WIP aging alerts. Data-driven metrics, not gut feelings.
@@ -120,7 +122,7 @@ Full documentation is organized into sections for easy reference:
 
 ## Quick Command Reference
 
-> 128 commands · 24 agents · 17 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 129 commands · 24 agents · 18 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### Technical Debt Intelligence
 ```
@@ -188,7 +190,7 @@ Full documentation is organized into sections for easy reference:
 ```
 /changelog-update    /evaluate-repo [URL]    /validate-filesize
 /validate-schema    /review-cache-stats    /review-cache-clear
-/testplan-status    /testplan-results {id}
+/testplan-status    /testplan-results {id}    /devops-validate {proj}
 ```
 
 ### Developer Experience

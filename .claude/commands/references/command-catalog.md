@@ -1,4 +1,4 @@
-# Catálogo de Comandos PM-Workspace (83)
+# Catálogo de Comandos PM-Workspace (84)
 
 > Este fichero se carga bajo demanda (desde `/help` o consultas de catálogo).
 > NO se auto-carga en el contexto.
@@ -47,6 +47,9 @@
 
 ## Conectores (12)
 `/notify-slack {canal} {msg}` · `/slack-search {query}` · `/github-activity {repo}` · `/github-issues {repo}` · `/sentry-health --project {p}` · `/sentry-bugs --project {p}` · `/gdrive-upload {file} --project {p}` · `/linear-sync --project {p}` · `/jira-sync --project {p}` · `/confluence-publish {file} --project {p}` · `/notion-sync --project {p}` · `/figma-extract {url} --project {p}`
+
+## DevOps Validation (1)
+`/devops-validate --project {p} [--team {t}]`
 
 ## Utilidades (4)
 `/context-load` · `/session-save` · `/help [filtro]` · `/help --setup`
