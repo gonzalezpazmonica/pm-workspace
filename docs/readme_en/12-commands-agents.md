@@ -19,6 +19,13 @@
 /velocity-trend [--project]       Velocity trend and anomaly detection
 ```
 
+## AI Governance (3 commands)
+```
+/ai-model-card [--project]        AI agent model card
+/ai-risk-assessment [--project]   EU AI Act risk assessment
+/ai-audit-log [--project]         AI execution audit log
+```
+
 ## PBI and Decomposition (6 commands)
 ```
 /pbi-decompose {id}               Break down a PBI into tasks

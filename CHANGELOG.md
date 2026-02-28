@@ -13,6 +13,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.29.0] — 2026-02-28
+
+AI governance and EU AI Act compliance: model cards, risk assessment, audit logging, and governance rules.
+
+### Added
+
+**`/ai-model-card`** — Generates AI model cards for the project: agent inventory with models, tasks, data access, decision points, human oversight, and limitations. Follows EU AI Act Article 11 requirements. Includes usage statistics from agent traces when available.
+
+**`/ai-risk-assessment`** — Risk assessment per EU AI Act categories (Prohibited, High-Risk, Limited, Minimal). Classifies each agent with justification and required measures. Flags project-specific agents that could reach high-risk status.
+
+**`/ai-audit-log`** — Chronological audit log from agent traces: user, agent, action, data scope, outcome, duration. Filterable by date, agent, user. Demonstrates Article 12 compliance (record-keeping).
+
+**Rule: `ai-governance.md`** — Domain rule defining AI governance principles (transparency, accountability, human oversight), EU AI Act requirements mapping (Articles 9, 11, 12, 14), decision taxonomy (autonomous prohibited, assisted allowed), and quarterly compliance checklist.
+
+---
+
 ## [0.28.0] — 2026-02-28
 
 Developer Experience metrics: DX Core 4 surveys, automated DX dashboard, friction point analysis, and developer-experience skill.
@@ -852,7 +868,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.28.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.29.0...HEAD
+[0.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.28.0...v0.29.0
 [0.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.27.0...v0.28.0
 [0.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.26.0...v0.27.0
 [0.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.25.0...v0.26.0
