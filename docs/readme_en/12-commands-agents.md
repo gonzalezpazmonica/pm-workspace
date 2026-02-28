@@ -202,6 +202,13 @@
 /compliance-report {repo|path}   Compliance report with sector-specific findings
 ```
 
+## Performance Audit (3 commands)
+```
+/perf-audit {path}               Static performance audit: hotspots, async, complexity
+/perf-fix {PA-NNN}               Test-first optimization with characterization tests
+/perf-report {path}              Executive performance report with roadmap
+```
+
 ## Emergency (2 commands)
 ```
 /emergency-plan [--model MODEL]  Pre-download Ollama and LLM model for offline installation

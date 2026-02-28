@@ -202,6 +202,13 @@
 /compliance-report {repo|path}   Informe de compliance por sector
 ```
 
+## Auditoría de Rendimiento (3 comandos)
+```
+/perf-audit {path}               Auditoría estática de rendimiento: hotspots, async, complejidad
+/perf-fix {PA-NNN}               Optimización test-first con characterization tests
+/perf-report {path}              Informe ejecutivo de rendimiento con roadmap
+```
+
 ## Emergencia (2 comandos)
 ```
 /emergency-plan [--model MODEL]  Pre-descargar Ollama y modelo LLM para instalación offline

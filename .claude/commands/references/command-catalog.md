@@ -1,4 +1,4 @@
-# Catálogo de Comandos PM-Workspace (84)
+# Catálogo de Comandos PM-Workspace (87)
 
 > Este fichero se carga bajo demanda (desde `/help` o consultas de catálogo).
 > NO se auto-carga en el contexto.
@@ -50,6 +50,9 @@
 
 ## DevOps Validation (1)
 `/devops-validate --project {p} [--team {t}]`
+
+## Auditoría de Rendimiento (3)
+`/perf-audit {path}` · `/perf-fix {PA-NNN}` · `/perf-report {path}`
 
 ## Utilidades (4)
 `/context-load` · `/session-save` · `/help [filtro]` · `/help --setup`
