@@ -9,7 +9,37 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-*Planned: v0.25.0 (Security + Community).*
+*No planned releases at this time.*
+
+---
+
+## [0.25.0] — 2026-02-28
+
+Security hardening and community patterns: SAST audit, dependency vulnerability scanning, SBOM generation, credential history scanning, epic-level planning, worktree automation, and enhanced credential leak detection.
+
+### Added
+
+**`/security-audit`** — SAST analysis against OWASP Top 10 (2021): broken access control, cryptographic failures, injection, insecure design, security misconfiguration, XSS, logging failures, SSRF. Categorizes findings as CRITICAL/WARNING/INFO with file:line references and fix recommendations.
+
+**`/dependencies-audit`** — Scans project dependencies for known vulnerabilities. Auto-detects stack (npm, pip, dotnet, go, cargo, composer, bundler) and runs native audit tools. Reports CVEs with severity and recommended upgrade versions.
+
+**`/sbom-generate`** — Generates Software Bill of Materials in CycloneDX JSON format. Lists direct and transitive dependencies with versions and scopes. Output: `output/sbom/{proyecto}-sbom-{fecha}.json`.
+
+**`/credential-scan`** — Scans git history (last 50 commits) and current files for leaked credentials: AWS keys (AKIA...), GitHub tokens (ghp_...), OpenAI keys (sk-...), private keys, Azure connection strings. Provides rotation and cleanup recommendations.
+
+**`/epic-plan`** — Multi-sprint epic planning: decomposes epics into PBIs, distributes across sprints respecting capacity and dependencies, generates Mermaid Gantt roadmap. Output: `output/epic-plans/`.
+
+**`/worktree-setup`** — Automates git worktree creation for parallel agent implementation. Creates feature branches, copies local config, verifies build, and provides cleanup for completed worktrees.
+
+### Changed
+
+**`block-credential-leak.sh` enhanced** — 5 new patterns: AWS Access Keys (`AKIA`), GitHub tokens (`ghp_`), OpenAI keys (`sk-`), Azure connection strings, JWT tokens. Better false-positive handling for test files and examples.
+
+**CLAUDE.md** — Commands 96→102 (+6 security/community commands).
+
+### Why
+
+Security should shift left: `/security-audit` catches OWASP issues before they reach production, `/dependencies-audit` catches known CVEs before they're exploited, `/sbom-generate` provides supply chain transparency. `/credential-scan` catches historical leaks that current hooks would miss. `/epic-plan` addresses the gap between PBI-level planning and strategic roadmapping. `/worktree-setup` automates the manual steps needed for parallel agent development.
 
 ---
 
@@ -770,7 +800,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.24.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.25.0...HEAD
+[0.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.24.0...v0.25.0
 [0.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.22.0...v0.23.0
 [0.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.21.0...v0.22.0
