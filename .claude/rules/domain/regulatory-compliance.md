@@ -28,35 +28,21 @@ paths:
 | Defense | ITAR, NIST 800-171, CUI | Asset, Classification, Clearance |
 | Transport/Auto | UNECE R155/R156, ISO 21434 | Vehicle, ECU, Firmware |
 
-## Árbol de decisión de sector
+## Algoritmo de detección (5 fases, pesos calibrados)
 
 ```
-¿Hay entidades de paciente/diagnóstico/historial médico?
-  → Healthcare
-¿Hay procesamiento de pagos, cuentas bancarias, transacciones?
-  → Finance
-¿Hay trazabilidad de productos alimentarios, lotes, alérgenos?
-  → Food/Agriculture
-¿Hay gestión de expedientes judiciales, evidencias?
-  → Justice/Legal
-¿Hay trámites ciudadanos, firma electrónica, accesibilidad?
-  → Public Admin
-¿Hay pólizas, siniestros, cálculos actuariales?
-  → Insurance
-¿Hay ensayos clínicos, lotes farmacéuticos, GxP?
-  → Pharma
-¿Hay infraestructura crítica, SCADA, contadores?
-  → Energy
-¿Hay gestión de llamadas, suscriptores, red?
-  → Telecom
-¿Hay expedientes académicos, menores de edad?
-  → Education
-¿Hay datos clasificados, control de exportación?
-  → Defense
-¿Hay ECUs, firmware vehicular, OTA updates?
-  → Transport/Auto
-Ninguna coincidencia → No regulado (o regulación genérica GDPR/LOPDGDD)
+Fase 1 — Domain Models (35%): modelos, DTOs, interfaces, enums del sector
+Fase 2 — Naming & Routes (25%): APIs, controllers, servicios, carpetas, namespaces
+Fase 3 — Dependencies (15%): paquetes NuGet/npm/pip sectoriales
+Fase 4 — Configuration (15%): env, config keys, connection strings sectoriales
+Fase 5 — Infra & Docs (10%): README, docs, CI/CD, terraform — menciones a regulaciones
+
+score ≥ 55% → AUTO (proceder sin preguntar)
+score 25-54% → ASK (mostrar top 3 sectores al usuario)
+score < 25% → UNDETECTED (ofrecer "No regulado" para saltar)
 ```
+
+Pesos calibrados tras testing real sobre 12 sectores (.NET 10, 2026-02-28).
 
 ## Patrones comunes cross-sector
 

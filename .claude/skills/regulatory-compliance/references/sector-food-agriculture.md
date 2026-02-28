@@ -33,6 +33,18 @@ context_cost: low
 - GS1_*
 - TRACEABILITY_*
 
+### Middleware & Services
+- TraceabilityMiddleware, AllergenCheckFilter, RecallNotifier
+
+### Database & Schema
+- products, batches, lots, suppliers, allergens, ingredients, recall_events
+
+### Folder & Namespace Patterns
+- Traceability/, FoodSafety/, SupplyChain/, QualityControl/
+
+### Documentation & CI/CD
+- FSMA, HACCP, food safety, traceability, allergen, GS1
+
 ## Compliance Checklist
 
 - [ ] KDE/CTE capture per FSMA 204

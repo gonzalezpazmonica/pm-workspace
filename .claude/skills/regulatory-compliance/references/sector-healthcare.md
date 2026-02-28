@@ -32,6 +32,18 @@ context_cost: low
 - HIPAA_MODE
 - EHR_*
 
+### Middleware & Services
+- AuditMiddleware, ConsentMiddleware, PhiProtection, HipaaFilter
+
+### Database & Schema
+- patients, medical_records, prescriptions, diagnoses, encounters, phi_audit_log
+
+### Folder & Namespace Patterns
+- Healthcare/, Clinical/, PHI/, FHIR/, EHR/
+
+### Documentation & CI/CD
+- HIPAA, PHI, medical, clinical, patient privacy
+
 ## Compliance Checklist
 
 - [ ] PHI encryption at-rest (AES-256 minimum)

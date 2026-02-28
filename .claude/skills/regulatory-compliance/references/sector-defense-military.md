@@ -26,6 +26,18 @@ context_cost: low
 ### Configuration Keys
 - `ITAR_*`, `CUI_*`, `CLASSIFICATION_*`, `CLEARANCE_*`
 
+### Middleware & Services
+- ItarAccessFilter, CuiMarkingMiddleware, ClassificationFilter, ClearanceChecker
+
+### Database & Schema
+- assets, clearances, missions, personnel, exports, classifications, inventories
+
+### Folder & Namespace Patterns
+- Defense/, Military/, Classified/, CUI/, Security/, Export/
+
+### Documentation & CI/CD
+- ITAR, CUI, NIST 800-171, clearance, classified, export control, CMMC
+
 ## Compliance Checklist
 
 - [ ] Access restricted to authorized persons only (ITAR §120.1)

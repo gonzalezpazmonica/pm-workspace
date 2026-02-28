@@ -13,6 +13,31 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.33.2] — 2026-02-28
+
+Detection algorithm calibration after real-world testing across all 12 regulated sectors.
+
+### Changed
+- **Detection algorithm**: 4 phases → 5 phases (added Infrastructure & Docs phase)
+- **Phase weights recalibrated**: 40/30/20/10 → 35/25/15/15/10 (reduced Dependencies, added Infra & Docs)
+- **Phase 2 renamed**: "Dependencies" → "Naming & Routes" (now includes folders, namespaces, middleware)
+- **Confidence thresholds lowered**: AUTO ≥55% (was 60%), ASK 25-54% (was 30-59%)
+- **Domain rule updated**: Decision tree replaced with calibrated algorithm reference
+
+### Added
+- 4 new detection marker categories per sector: Middleware & Services, Database & Schema, Folder & Namespace Patterns, Documentation & CI/CD
+- ~240 new detection markers total across 12 sector reference files
+- Scan output now includes detection phase breakdown table
+- Credential hardcoding check added to compliance scan (Paso 4)
+- Soft-delete/versioning added to Auto-Fix Templates in SKILL.md
+
+### Fixed
+- Dependencies phase (now 15%) no longer over-penalizes projects without sector-specific packages
+- Public Admin was the only sector reaching AUTO confidence — now 8+ sectors should reach ≥55%
+- Detection markers cover infrastructure (Dockerfile, terraform, CI/CD) not just source code
+
+---
+
 ## [0.33.1] — 2026-02-28
 
 Compliance commands improvements after real-world testing with HealthPatientApi (.NET 10).

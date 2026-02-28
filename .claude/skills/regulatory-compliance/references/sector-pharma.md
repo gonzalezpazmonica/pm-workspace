@@ -26,6 +26,18 @@ context_cost: low
 ### Configuration Keys
 - `GXP_*`, `FDA_*`, `ANNEX11_*`, `PHARMA_*`
 
+### Middleware & Services
+- GxpAuditMiddleware, ElectronicSignatureFilter, ChangeControlMiddleware
+
+### Database & Schema
+- drugs, clinical_trials, batches, formulations, adverse_events, validations
+
+### Folder & Namespace Patterns
+- Pharma/, ClinicalTrials/, DrugManagement/, GxP/, Validation/
+
+### Documentation & CI/CD
+- GxP, GMP, GCP, 21 CFR Part 11, Annex 11, ALCOA, validation
+
 ## Compliance Checklist
 
 - [ ] Audit trails automatic, read-only, timestamped (21 CFR 11.10(e))
