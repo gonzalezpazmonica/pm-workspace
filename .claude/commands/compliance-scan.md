@@ -29,23 +29,24 @@ Cargar skill: `@.claude/skills/regulatory-compliance/SKILL.md`
 Comprobar que `{path}` existe y es accesible. Identificar lenguaje principal y estructura.
 
 ### Paso 2 — Detectar sector (si no se forzó con --sector)
-Ejecutar algoritmo de 4 fases del SKILL.md:
+Ejecutar algoritmo de 5 fases del SKILL.md:
 
-1. **File patterns (40%)**: Buscar modelos de dominio, schemas, migraciones, DTOs con entidades del sector
-2. **Dependencies (30%)**: Analizar package managers por imports específicos del sector
-3. **Naming (20%)**: Escanear rutas API, controladores, servicios, tablas por nomenclatura sectorial
-4. **Config (10%)**: Buscar variables de entorno y ficheros de configuración sectoriales
+1. **Domain Models (35%)**: Modelos, schemas, migraciones, DTOs, interfaces, enums del sector
+2. **Naming & Routes (25%)**: Rutas API, controladores, servicios, repositorios, carpetas, namespaces
+3. **Dependencies (15%)**: Package managers por imports específicos del sector
+4. **Configuration (15%)**: .env, config/, appsettings, docker-compose — claves sectoriales + connection strings
+5. **Infrastructure & Docs (10%)**: README, docs/, CI/CD, terraform — menciones a regulaciones
 
 Calcular score por sector (0-100):
-- **≥60%** → Proceder automáticamente con sector detectado
-- **30-59%** → Preguntar al usuario mostrando top 3 sectores con porcentajes
-- **<30%** → Preguntar con opción **"No regulado (saltar validación)"**
+- **≥55%** → Proceder automáticamente con sector detectado
+- **25-54%** → Preguntar al usuario mostrando top 3 sectores con porcentajes
+- **<25%** → Preguntar con opción **"No regulado (saltar validación)"**
 
 Si el usuario elige "No regulado", terminar con mensaje informativo sobre GDPR/LOPDGDD genérico.
 
 ### Paso 3 — Cargar regulaciones
 Leer `references/sector-{name}.md` del sector confirmado.
-Si multi-sector (varios >60%), cargar todos los aplicables.
+Si multi-sector (varios >55%), cargar todos los aplicables.
 
 ### Paso 4 — Escanear código
 Para cada regulación en el checklist del sector:
@@ -53,6 +54,7 @@ Para cada regulación en el checklist del sector:
 - Verificar patrones de cifrado, audit trails, control de acceso, trazabilidad
 - Identificar datos sensibles sin protección adecuada
 - Comprobar formatos estándar del sector
+- Verificar credenciales no hardcodeadas
 
 ### Paso 5 — Clasificar hallazgos
 Asignar severidad según la matriz del SKILL.md:
@@ -80,6 +82,15 @@ Guardar en: `output/compliance/{proyecto}-scan-{fecha}.md` (fecha obligatoria en
 **Fecha**: {ISO date}
 **Compliance Score**: {X}% ({cumplidos}/{total} requisitos)
 
+## Detección de sector
+| Fase | Peso | Score | Señales encontradas |
+|------|------|-------|---------------------|
+| Domain Models | 35% | X | {entidades} |
+| Naming & Routes | 25% | X | {rutas, controllers} |
+| Dependencies | 15% | X | {paquetes} |
+| Configuration | 15% | X | {keys} |
+| Infra & Docs | 10% | X | {menciones} |
+
 ## Resumen
 | Severidad | Count | Auto-fix | Manual |
 |-----------|-------|----------|--------|
@@ -93,10 +104,6 @@ Guardar en: `output/compliance/{proyecto}-scan-{fecha}.md` (fecha obligatoria en
 **Requisito**: {qué exige la norma}
 **Estado actual**: {qué se encontró en el código}
 **Acción**: `/compliance-fix RC-001`
-
-### RC-002 [HIGH] [MANUAL] {Regulación} — {descripción}
-**Ficheros afectados**: {lista}
-**Acción**: Generar Task para corrección manual
 
 ## Regulaciones verificadas
 - [x] {Regulación A} — {N} de {M} requisitos OK

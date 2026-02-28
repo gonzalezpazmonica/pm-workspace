@@ -34,6 +34,18 @@ context_cost: low
 - PAYMENT_GATEWAY_*
 - BANKING_API_*
 
+### Middleware & Services
+- FraudDetectionMiddleware, PciComplianceFilter, SCAFilter, TransactionLogger
+
+### Database & Schema
+- transactions, accounts, payments, cards, ledger_entries, kyc_records
+
+### Folder & Namespace Patterns
+- Banking/, Payments/, Trading/, Finance/, Accounting/
+
+### Documentation & CI/CD
+- PCI-DSS, SOX, PSD2, anti-money laundering, KYC, AML
+
 ## Compliance Checklist
 
 - [ ] PAN/CVV never stored in plain text

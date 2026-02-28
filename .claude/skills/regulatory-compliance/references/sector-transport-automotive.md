@@ -26,6 +26,18 @@ context_cost: low
 ### Configuration Keys
 - `UNECE_*`, `ISO21434_*`, `OTA_*`, `ECU_*`, `AUTOSAR_*`
 
+### Middleware & Services
+- SecureBootVerifier, OtaSigningMiddleware, SbomTracker, VulnMonitor
+
+### Database & Schema
+- vehicles, ecus, firmware_versions, ota_updates, diagnostics, can_messages
+
+### Folder & Namespace Patterns
+- Automotive/, Vehicle/, ECU/, Firmware/, OTA/, Telematics/
+
+### Documentation & CI/CD
+- UNECE R155, R156, ISO 21434, automotive cybersecurity, SBOM, OTA, TARA
+
 ## Compliance Checklist
 
 - [ ] CSMS certification completed (R155 Art.7)

@@ -33,6 +33,18 @@ context_cost: low
 - JUDICIAL_*
 - EVIDENCE_*
 
+### Middleware & Services
+- ChainOfCustodyMiddleware, EvidenceIntegrityFilter, CaseAccessLogger
+
+### Database & Schema
+- cases, evidence, hearings, rulings, parties, sentences, legal_documents
+
+### Folder & Namespace Patterns
+- Legal/, Court/, Judicial/, CaseManagement/, Evidence/
+
+### Documentation & CI/CD
+- judicial, court, evidence integrity, chain of custody, legal privilege
+
 ## Compliance Checklist
 
 - [ ] Evidence chain of custody (immutable log)

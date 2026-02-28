@@ -35,6 +35,18 @@ context_cost: low
 - WCAG_*
 - GOV_*
 
+### Middleware & Services
+- AccessibilityMiddleware, EidasAuthFilter, EnsSecurityFilter
+
+### Database & Schema
+- citizens, procedures, certificates, notifications, registries, expedientes
+
+### Folder & Namespace Patterns
+- GovServices/, Administration/, eGov/, Procedures/, Tramites/
+
+### Documentation & CI/CD
+- ENS, eIDAS, WCAG, accessibility, gobierno electrónico, administración
+
 ## Compliance Checklist
 
 - [ ] ENS security level compliance (basic/medium/high)

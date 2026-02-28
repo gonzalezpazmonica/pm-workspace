@@ -34,6 +34,18 @@ context_cost: low
 - INSURANCE_*
 - ACTUARIAL_*
 
+### Middleware & Services
+- SuitabilityAssessmentFilter, ClaimsAuditMiddleware, IDDComplianceFilter
+
+### Database & Schema
+- policies, claims, premiums, beneficiaries, risks, reserves, underwriting
+
+### Folder & Namespace Patterns
+- Insurance/, Actuarial/, Claims/, Underwriting/, PolicyManagement/
+
+### Documentation & CI/CD
+- Solvency II, IDD, IFRS 17, actuarial, insurance, reinsurance
+
 ## Compliance Checklist
 
 - [ ] Policyholder data protection (GDPR)
