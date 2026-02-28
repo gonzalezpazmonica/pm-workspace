@@ -13,6 +13,26 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.26.0] — 2026-02-28
+
+Predictive analytics and flow metrics: sprint forecasting with Monte Carlo simulation, Value Stream Mapping dashboard, velocity trending with anomaly detection, and enhanced board-flow with Flow Efficiency.
+
+### Added
+
+**`/sprint-forecast`** — Predicts sprint completion using Monte Carlo simulation (N=1000) over historical velocity (last 3-5 sprints). Outputs confidence intervals at P70/P85/P95, identifies at-risk items, and recommends actions. Falls back to mock data without Azure DevOps connection.
+
+**`/flow-metrics`** — Complete Value Stream dashboard: Lead Time E2E (idea→production), Cycle Time, Flow Efficiency (active time / total elapsed), %Complete & Accurate, WIP Aging with alerts, WIP distribution by type (Feature/Bug/Debt/Risk), Flow Load by state, and Throughput trend (last 4 weeks).
+
+**`/velocity-trend`** — Velocity analysis over 6-8 sprints with 3-sprint moving average, anomaly detection (>1.5σ threshold), factor identification (team changes, holidays, scope), and trend direction (accelerating/stable/decelerating).
+
+**Skill: `predictive-analytics`** — Reference skill covering Monte Carlo formulas, confidence intervals, Flow Efficiency calculation, WIP Aging thresholds, throughput regression, and Azure DevOps integration patterns.
+
+### Changed
+
+**`/board-flow`** — Enhanced with Flow Efficiency percentage, %Complete & Accurate, and WIP Aging table with status indicators (🔴/🟡/🟢). Added reference to `/flow-metrics` for full dashboard.
+
+---
+
 ## [0.25.0] — 2026-02-28
 
 Security hardening and community patterns: SAST audit, dependency vulnerability scanning, SBOM generation, credential history scanning, epic-level planning, worktree automation, and enhanced credential leak detection.
@@ -800,7 +820,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.25.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.26.0...HEAD
+[0.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.25.0...v0.26.0
 [0.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.24.0...v0.25.0
 [0.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.22.0...v0.23.0
