@@ -29,6 +29,12 @@ Multi-OS emergency mode: full support for Linux, macOS, and Windows. Auto-detect
 
 **`scripts/emergency-setup.sh`** — Added macOS support: online installation via `ollama-darwin.tgz` extraction, offline installation from cache binary. macOS-specific PATH guidance. Improved GPU detection (Apple Silicon Metal).
 
+### Fixed
+
+**macOS compatibility** — Replaced GNU-specific `date -Iseconds` with portable `iso_date()` function that falls back to `date -u` on macOS. Fixed `&;` syntax error in setup script.
+
+**Validated with emulators** — PowerShell Core (pwsh 7.4.6) for Windows PS1 syntax/execution, bash syntax checker and macOS-specific pattern analysis for shell scripts.
+
 ---
 
 ## [0.32.2] — 2026-02-28
