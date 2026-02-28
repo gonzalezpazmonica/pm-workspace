@@ -54,6 +54,8 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Inteligencia de deuda técnica** — análisis automático de hotspots, coupling temporal y code smells, priorización por impacto de negocio con modelo de scoring (proximity × churn × velocity × risk), y presupuesto de deuda por sprint con proyección de impacto en velocity.
 
+**Architecture Intelligence** — detección automática de patrones de arquitectura (Clean, Hexagonal, DDD, CQRS, MVC/MVVM, Microservices, Event-Driven) en repositorios de cualquier lenguaje, sugerencias de mejora priorizadas por impacto, recomendación de arquitectura para proyectos nuevos basada en requisitos, fitness functions para verificar integridad arquitectónica, y comparativas entre patrones para toma de decisiones. Catálogo de referencia con patrones específicos para los 16 lenguajes soportados.
+
 ---
 
 ## Documentación
@@ -113,7 +115,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 
 ## Referencia rápida de comandos
 
-> 117 comandos · 24 agentes · 15 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 123 comandos · 24 agentes · 16 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Inteligencia de Deuda Técnica
 ```
@@ -197,6 +199,12 @@ La documentación completa está organizada en secciones para facilitar la consu
 ### Equipo y Onboarding
 ```
 /team-onboarding {nombre}    /team-evaluate {nombre}    /team-privacy-notice {nombre}
+```
+
+### Architecture Intelligence
+```
+/arch-detect {repo|path}    /arch-suggest {repo|path}    /arch-recommend {reqs}
+/arch-fitness {repo|path}    /arch-compare {patrón1} {patrón2}
 ```
 
 ### Arquitectura y Diagramas

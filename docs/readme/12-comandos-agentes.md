@@ -172,6 +172,15 @@
 /diagram-status [--project]       Estado de diagramas del proyecto
 ```
 
+## Architecture Intelligence (5 comandos)
+```
+/arch-detect {repo|path}         Detectar patrón de arquitectura del proyecto
+/arch-suggest {repo|path}        Sugerir mejoras de arquitectura priorizadas
+/arch-recommend {requisitos}     Recomendar arquitectura para proyecto nuevo
+/arch-fitness {repo|path}        Ejecutar fitness functions de arquitectura
+/arch-compare {patrón1} {patrón2} Comparar dos patrones de arquitectura
+```
+
 ## Inteligencia de Deuda Técnica (3 comandos)
 ```
 /debt-analyze [--project]         Análisis automático de deuda (hotspots, coupling, smells)

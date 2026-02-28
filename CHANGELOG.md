@@ -13,6 +13,28 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.31.0] — 2026-02-28
+
+Architecture intelligence: pattern detection, improvement suggestions, recommendations for new projects, fitness functions, and pattern comparisons across 16 languages.
+
+### Added
+
+**`/arch-detect {repo|path}`** — Detects the architecture pattern of a repository using a 4-phase scoring algorithm: folder structure analysis (40%), dependency direction analysis (30%), naming convention analysis (20%), and configuration analysis (10%). Identifies primary pattern, adherence level (High/Medium/Low), violations, and secondary patterns. Supports all 16 languages with language-specific detection markers.
+
+**`/arch-suggest {repo|path}`** — Generates prioritized architecture improvement suggestions based on detection results. Classifies findings into Quick Wins (high impact, low effort), Projects (high impact, high effort), and Nice to Have. Identifies god classes, inverse dependencies, missing abstractions, and tight coupling. Includes architectural health metrics.
+
+**`/arch-recommend {requirements}`** — Recommends the optimal architecture pattern for a new project based on requirements (app type, language, scale, team size, domain complexity). Uses weighted scoring across 7 patterns and 9 factors. Generates folder structure proposal, dependency suggestions, and ADR draft.
+
+**`/arch-fitness {repo|path}`** — Defines and executes architecture fitness functions (integrity rules). Includes pattern-specific rules (layer independence, no circular dependencies, naming conventions) and generic rules (file size limits, import limits, no hardcoded secrets). Reports PASS/FAIL per rule with affected files and suggested fixes.
+
+**`/arch-compare {pattern1} {pattern2}`** — Generates detailed comparison between two architecture patterns across 10 dimensions: complexity, learning curve, testability, scalability, maintainability, minimum team size, ideal use case, anti-use case, popular frameworks, and enforcement tools. Optional project context for personalized recommendation.
+
+**Architecture Intelligence skill** — New skill with pattern detection algorithm, fitness function templates, and reference catalog with 11 language-specific pattern files covering .NET, TypeScript, Java, Python, Go, Rust, PHP, Mobile (Swift/Kotlin/Flutter), Ruby, Legacy (COBOL/VB.NET), and Terraform.
+
+**Architecture patterns domain rule** — Cross-language reference with 7 pattern definitions, detection markers, enforcement tools per language, and fitness function categories.
+
+---
+
 ## [0.30.0] — 2026-02-28
 
 Technical debt intelligence: automated analysis, business-impact prioritization, and sprint debt budgeting.
