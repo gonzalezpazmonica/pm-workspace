@@ -13,6 +13,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.32.3] — 2026-02-28
+
+Multi-OS emergency mode: full support for Linux, macOS, and Windows. Auto-detects OS and uses appropriate download strategy.
+
+### Added
+
+**`scripts/emergency-plan.ps1`** — Windows PowerShell version of emergency-plan. Downloads `OllamaSetup.exe`, detects hardware (RAM/GPU via WMI), auto-selects model, pre-downloads LLM via Ollama. Saves cache to `%USERPROFILE%\.pm-workspace-emergency\`.
+
+**`scripts/emergency-setup.ps1`** — Windows PowerShell version of emergency-setup. Silent Ollama installation from cache or download, server management, model verification, environment variable configuration via `[Environment]::SetEnvironmentVariable`.
+
+### Changed
+
+**`scripts/emergency-plan.sh`** — Added macOS support: downloads `ollama-darwin.tgz` (~70MB), extracts binary from root of archive. Improved RAM detection per OS (`sysctl` for macOS, `/proc/meminfo` for Linux). Windows detected with redirect to `.ps1` scripts.
+
+**`scripts/emergency-setup.sh`** — Added macOS support: online installation via `ollama-darwin.tgz` extraction, offline installation from cache binary. macOS-specific PATH guidance. Improved GPU detection (Apple Silicon Metal).
+
+---
+
 ## [0.32.2] — 2026-02-28
 
 Fix Ollama download: adapted to new release format (tar.zst archives with amd64/arm64 naming).
