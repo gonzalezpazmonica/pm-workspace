@@ -9,7 +9,35 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-*Planned: v0.22.0 (SDD Mejorado/ATL), v0.23.0 (Code Review/GGA), v0.24.0 (Permissions + CI/CD), v0.25.0 (Security + Community).*
+*Planned: v0.23.0 (Code Review/GGA), v0.24.0 (Permissions + CI/CD), v0.25.0 (Security + Community).*
+
+---
+
+## [0.22.0] — 2026-02-28
+
+SDD workflow enhanced with Agent Teams Lite patterns (Gentleman Programming): pre-spec exploration, technical design phase, spec compliance matrix, delta specs, and hierarchical task decomposition by phases.
+
+### Added
+
+**`/spec-explore {task-id}`** — Pre-spec exploration command. Launches a subagent to analyze the codebase before writing the spec: identifies affected files, compares implementation approaches, maps dependencies. Output: `output/explorations/{task-id}-exploration.md`. Provides informed context for `/spec-generate`.
+
+**`/spec-design {spec-file}`** — Technical design phase. Generates a design document from an approved spec: technical decisions, data flow, files to modify, testing strategy. Output: `projects/{proy}/specs/{sprint}/{task-id}-design.md`. Can run in parallel with spec generation (DAG pattern from ATL).
+
+**`/spec-verify {spec-file}`** — Spec compliance matrix. Cross-references each Given/When/Then scenario from the spec against actual test results. Generates: `| Requirement | Scenario | Test | Result |`. A scenario is COMPLIANT only if a passing test exists — existing code alone is NOT sufficient evidence (ATL pattern).
+
+**Compliance matrix reference** — `references/compliance-matrix.md` in SDD skill: template, rules (PASS/FAIL/MISSING mapping), consolidation workflow for sprint close.
+
+### Changed
+
+**SDD skill updated** — New §2.7 Delta Specs: incremental spec modifications using ADDED/MODIFIED/REMOVED sections instead of full rewrites. Deltas consolidated at sprint close via `/spec-verify`.
+
+**PBI decomposition** — New rule #7: hierarchical task numbering by phases (Foundation 1.x → Core 2.x → Integration 3.x → Testing 4.x → Cleanup 5.x). Tasks grouped by phase for clearer execution order.
+
+**CLAUDE.md** — Commands 89→92 (+3 SDD commands).
+
+### Why
+
+Inspired by Agent Teams Lite's approach to SDD: exploration before spec writing prevents specs based on assumptions, design phase separates "what" from "how", compliance matrix provides objective verification (not "code looks right" but "tests prove it works"), and delta specs reduce noise in evolving requirements. Hierarchical task numbering from ATL's DAG phases improves execution clarity.
 
 ---
 
@@ -692,7 +720,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.21.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.22.0...HEAD
+[0.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.20.1...v0.21.0
 [0.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.20.0...v0.20.1
 [0.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.19.0...v0.20.0

@@ -74,6 +74,7 @@ Estimaciones: 1-8h según tipo. Detalle completo: **`references/phases-detail.md
 4. Definir Activity en cada Task (Development/Testing/Documentation/Design)
 5. Coherencia con SP (suma de horas debe coincidir con calibración)
 6. No inflar (no crear tasks innecesarias)
+7. **Numeración jerárquica por fases**: Foundation (1.x) → Core (2.x) → Integration (3.x) → Testing (4.x) → Cleanup (5.x)
 
 ### 2.3 Adaptación por Stack
 
