@@ -13,6 +13,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.32.2] — 2026-02-28
+
+Fix Ollama download: adapted to new release format (tar.zst archives with amd64/arm64 naming).
+
+### Fixed
+
+**`scripts/emergency-plan.sh`** — Updated Ollama binary download to use new tar.zst format (`ollama-linux-amd64.tar.zst`) instead of deprecated raw binary (`ollama-linux-x86_64`). Maps `x86_64→amd64` and `aarch64→arm64`. Extracts binary from archive automatically.
+
+**`scripts/emergency-setup.sh`** — Updated offline cache binary path to match new `ollama-bin` naming from emergency-plan.
+
+---
+
 ## [0.32.1] — 2026-02-28
 
 Emergency plan: preventive pre-download of Ollama and LLM for fully offline installation, with first-run detection and automatic suggestion.
