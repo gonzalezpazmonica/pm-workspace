@@ -25,6 +25,18 @@ context_cost: low
 ### Configuration Keys
 - `NERC_*`, `NIS2_*`, `SCADA_*`, `GRID_*`
 
+### Middleware & Services
+- ScadaAuthMiddleware, NercCipFilter, IncidentResponseMiddleware
+
+### Database & Schema
+- grid_assets, meters, substations, generators, outages, scada_events
+
+### Folder & Namespace Patterns
+- SCADA/, Grid/, Energy/, Utilities/, SmartGrid/, Metering/
+
+### Documentation & CI/CD
+- NERC CIP, NIS2, SCADA, smart grid, critical infrastructure
+
 ## Compliance Checklist
 
 - [ ] MFA required for all remote access (CIP-005)

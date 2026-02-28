@@ -26,6 +26,18 @@ context_cost: low
 ### Configuration Keys
 - `TELECOM_*`, `CDR_*`, `VOIP_*`, `CARRIER_*`
 
+### Middleware & Services
+- EPrivacyFilter, CDRRetentionMiddleware, ConsentTracker, LocationDataFilter
+
+### Database & Schema
+- subscribers, calls, messages, cdrs, sim_cards, number_portability
+
+### Folder & Namespace Patterns
+- Telecom/, VoIP/, Messaging/, CDR/, Network/, Carrier/
+
+### Documentation & CI/CD
+- ePrivacy, BEREC, net neutrality, telecom, CDR, lawful interception
+
 ## Compliance Checklist
 
 - [ ] Communication confidentiality enforced (ePrivacy Art.5)
