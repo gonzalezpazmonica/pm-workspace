@@ -9,7 +9,33 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-*Planned: v0.23.0 (Code Review/GGA), v0.24.0 (Permissions + CI/CD), v0.25.0 (Security + Community).*
+*Planned: v0.24.0 (Permissions + CI/CD), v0.25.0 (Security + Community).*
+
+---
+
+## [0.23.0] — 2026-02-28
+
+Automated code review inspired by Guardian Angel (Gentleman Programming): pre-commit review hook with SHA256 cache, centralized review rules (REJECT/REQUIRE/PREFER), staging area reads, and cache management commands.
+
+### Added
+
+**Pre-commit review hook** — `.claude/hooks/pre-commit-review.sh` (Stop): reviews staged files before finalizing. Reads from `git show :file` (staging area, not filesystem — prevents race conditions). Detects: debug statements in production, hardcoded secrets, TODOs without tickets, TypeScript `any`. SHA256 cache: hash of (file content + rules) → skip if unchanged. Only caches PASSED results (FAILED always re-reviewed). Cache invalidated automatically when rules file changes.
+
+**Code review rules** — `.claude/rules/domain/code-review-rules.md`: centralized rules with GGA-style keywords. REJECT (blocking): secrets, merge conflicts, debugger statements. REQUIRE (mandatory): TODOs with tickets, TypeScript types, error handling. PREFER (suggestions): constants over magic numbers, early return, readonly/const. Per-project overrides in `projects/{proy}/code-review-rules.md`.
+
+**Review cache utility** — `scripts/review-cache.sh`: stats (entries, size, token savings estimate), clear (invalidate all), list (recent entries).
+
+**2 cache commands** — `/review-cache-stats` (show hit rate and savings), `/review-cache-clear` (invalidate cache).
+
+### Changed
+
+**`/pr-review` updated** — Now references centralized code-review-rules.md. Added diff-only mode: sends only the diff (not full files) to reduce context consumption for large PRs.
+
+**CLAUDE.md** — Hooks 10→11 (pre-commit-review). Commands 92→94.
+
+### Why
+
+Inspired by Guardian Angel's approach: review from staging area prevents race conditions, SHA256 cache avoids re-reviewing unchanged files, centralized rules (not scattered across agents) ensure consistency. Unlike GGA (multi-provider), pm-workspace uses Claude as the single reviewer with rule-based pattern detection for common issues.
 
 ---
 
@@ -720,7 +746,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.22.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.23.0...HEAD
+[0.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.22.0...v0.23.0
 [0.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.20.1...v0.21.0
 [0.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.20.0...v0.20.1

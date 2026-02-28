@@ -27,13 +27,17 @@ description: >
 
 **1. Business Analyst** — ¿Cambios cumplen criterios de aceptación del PBI? ¿Ni más ni menos? Si hay Spec SDD: ¿implementa el contrato exacto?
 
-**2. Developer** — Delegar a agente `code-reviewer` con reglas de `languages/csharp-rules.md`. Evaluar: calidad, arquitectura, mantenibilidad, simplicidad, comentarios XML actualizados.
+**2. Developer** — Delegar a agente `code-reviewer` con reglas de `languages/csharp-rules.md` + centralizadas `code-review-rules.md`. Evaluar: calidad, arquitectura, mantenibilidad, simplicidad, comentarios XML actualizados.
 
 **3. QA Engineer** — Cobertura de tests (`dotnet test --collect:"XPlat Code Coverage"`), edge cases (null, vacío, límites, concurrencia), riesgo de regresión, scenarios SDD implementados.
 
 **4. Security** — Delegar a `security-guardian`: SQL injection, XSS, secrets, deserialization, CORS, `[Authorize]`, inputs, NuGet CVEs, datos en logs/errores.
 
 **5. DevOps** — Build Release sin warnings, cambios en pipeline/K8s/docker, variables de entorno nuevas, connection strings, logging (Serilog), métricas (OpenTelemetry).
+
+## Diff-only mode
+
+Modo optimizado: analizar solo líneas cambiadas (no ficheros completos). Útil para PRs contra ramas largas. Activar con flag `--diff-only`.
 
 ## Informe consolidado
 
