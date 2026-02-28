@@ -118,7 +118,7 @@ Full documentation is organized into sections for easy reference:
 
 ## Quick Command Reference
 
-> 124 commands · 24 agents · 16 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 125 commands · 24 agents · 16 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### Technical Debt Intelligence
 ```
@@ -220,7 +220,7 @@ Full documentation is organized into sections for easy reference:
 
 ### Emergency
 ```
-/emergency-mode {setup|status|activate|deactivate|test}
+/emergency-plan [--model MODEL]    /emergency-mode {setup|status|activate|deactivate|test}
 ```
 
 ### External Integrations
