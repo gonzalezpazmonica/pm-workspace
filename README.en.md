@@ -58,6 +58,8 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Emergency mode (local LLM)** — contingency plan for operating without cloud connection. Automatic Ollama setup scripts with hardware detection (RAM/GPU), recommended model download (Qwen 2.5), and transparent Claude Code configuration. Offline PM operations without LLM (git summary, board snapshot, Scrum checklists). Step-by-step emergency documentation in English and Spanish.
 
+**Regulatory Compliance Intelligence** — automated compliance scanning across 12 regulated sectors (healthcare, finance, food/agriculture, justice/legal, public administration, insurance, pharma, energy/utilities, telecom, education, defense/military, transport/automotive). 4-phase sector auto-detection algorithm (file markers 40%, naming patterns 30%, dependency analysis 20%, domain rules 10%). Detects HIPAA/PCI violations, data retention failures, audit trail gaps, weak encryption, misconfigured access control. Auto-fix with post-fix re-verification.
+
 ---
 
 ## Documentation
@@ -118,7 +120,7 @@ Full documentation is organized into sections for easy reference:
 
 ## Quick Command Reference
 
-> 125 commands · 24 agents · 16 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 128 commands · 24 agents · 17 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### Technical Debt Intelligence
 ```
@@ -216,6 +218,11 @@ Full documentation is organized into sections for easy reference:
 /diagram-generate {proj}    /diagram-import {file}
 /diagram-config    /diagram-status
 /debt-track    /dependency-map    /legacy-assess    /risk-log
+```
+
+### Regulatory Compliance Intelligence
+```
+/compliance-scan {repo|path}    /compliance-fix {repo|path}    /compliance-report {repo|path}
 ```
 
 ### Emergency
