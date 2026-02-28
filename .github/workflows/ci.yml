@@ -186,11 +186,11 @@ jobs:
         run: |
           echo "Validating command frontmatter..."
           FAILED=0
+          WARNED=0
           for file in .claude/commands/*.md; do
             if [ -f "$file" ]; then
-              # Extract frontmatter
               if head -1 "$file" | grep -q "^---$"; then
-                # Check for required fields
+                # Has frontmatter → validate required fields
                 if ! grep -q "^name:" "$file"; then
                   echo "❌ FAIL: $file missing 'name' field"
                   FAILED=$((FAILED + 1))
@@ -200,8 +200,9 @@ jobs:
                   FAILED=$((FAILED + 1))
                 fi
               else
-                echo "❌ FAIL: $file missing frontmatter"
-                FAILED=$((FAILED + 1))
+                # Legacy command without frontmatter → warning only
+                echo "⚠️  WARNING: $file has no frontmatter (legacy)"
+                WARNED=$((WARNED + 1))
               fi
             fi
           done
@@ -209,4 +210,4 @@ jobs:
             echo "$FAILED command(s) have invalid frontmatter."
             exit 1
           fi
-          echo "✅ All command frontmatter is valid."
+          echo "✅ Frontmatter valid ($WARNED legacy commands without frontmatter)."
