@@ -1,3 +1,11 @@
+---
+name: voice-inbox
+description: Transcripción de audio y flujo audio→texto→acción para mensajes de voz
+context: fork
+context_cost: medium
+agent: business-analyst
+---
+
 # Voice Inbox — Transcripción y procesamiento de mensajes de voz
 
 Skill para transcribir mensajes de audio recibidos por WhatsApp o Nextcloud Talk,
