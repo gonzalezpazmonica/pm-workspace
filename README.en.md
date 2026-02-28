@@ -38,6 +38,12 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Multi-agent coordination** — agent-notes system for persistent inter-agent memory, TDD gate that blocks implementation without prior tests, pre-implementation security review (OWASP on the spec, not just code), Architecture Decision Records (ADR) for traceable decisions, and scope serialization rules for safe parallel sessions.
 
+**Automated code review** — pre-commit hook that analyzes staged files against domain rules (REJECT/REQUIRE/PREFER), with SHA256 cache to skip re-reviewing unchanged files. Guardian angel integrated into the commit flow.
+
+**Security and compliance** — SAST analysis against OWASP Top 10, dependency vulnerability auditing, SBOM generation (CycloneDX), git history credential scanning, and enhanced leak detection (AWS, GitHub, OpenAI, Azure, JWT patterns).
+
+**Validation and CI/CD** — plan gate that warns when implementing without an approved spec, file size validation (≤150 lines), frontmatter and settings.json schema validation, and CI pipeline with automated checks on every PR.
+
 ---
 
 ## Documentation
@@ -97,42 +103,87 @@ Full documentation is organized into sections for easy reference:
 
 ## Quick Command Reference
 
+> 102 commands · 24 agents · 13 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+
 ### Sprint and Reporting
 ```
 /sprint-status    /sprint-plan    /sprint-review    /sprint-retro
-/report-hours     /report-executive    /report-capacity
-/team-workload    /board-flow    /kpi-dashboard
+/sprint-release-notes    /report-hours    /report-executive    /report-capacity
+/team-workload    /board-flow    /kpi-dashboard    /kpi-dora
 ```
 
 ### PBI and SDD
 ```
-/pbi-decompose {id}    /pbi-plan-sprint    /pbi-assign {id}
-/spec-generate {id}    /spec-review {file}    /agent-run {file}
-/spec-explore {id}     /spec-design {spec}    /spec-verify {spec}
-/spec-status    /pbi-jtbd {id}    /pbi-prd {id}
+/pbi-decompose {id}    /pbi-decompose-batch {ids}    /pbi-assign {id}
+/pbi-plan-sprint    /pbi-jtbd {id}    /pbi-prd {id}
+/spec-generate {id}    /spec-explore {id}    /spec-design {spec}
+/spec-implement {spec}    /spec-review {file}    /spec-verify {spec}
+/spec-status    /agent-run {file}
+```
+
+### Repositories, PRs and Pipelines
+```
+/repos-list    /repos-branches {repo}    /repos-search {query}
+/repos-pr-create    /repos-pr-list    /repos-pr-review {pr}
+/pr-review [PR]    /pr-pending
+/pipeline-status    /pipeline-run {pipe}    /pipeline-logs {id}
+/pipeline-artifacts {id}    /pipeline-create {repo}
 ```
 
 ### Infrastructure and Environments
 ```
 /infra-detect {proj} {env}    /infra-plan {proj} {env}    /infra-estimate {proj}
-/infra-scale {resource}       /infra-status {proj}
-/env-setup {proj}             /env-promote {proj} {source} {dest}
+/infra-scale {resource}    /infra-status {proj}
+/env-setup {proj}    /env-promote {proj} {source} {dest}
+```
+
+### Projects and Planning
+```
+/project-kickoff {name}    /project-assign {name}    /project-audit {name}
+/project-roadmap {name}    /project-release-plan {name}
+/epic-plan {proj}    /backlog-capture    /retro-actions
 ```
 
 ### Memory and Context
 ```
-/memory-sync    /context-load    /session-save    /help [filter]
+/memory-sync    /memory-save    /memory-search    /memory-context
+/context-load    /session-save    /help [filter]
 ```
 
-### Architecture and Security
+### Security and Auditing
 ```
-/adr-create {proj} {title}    /security-review {spec}    /agent-notes-archive {proj}
+/security-review {spec}    /security-audit    /security-alerts
+/credential-scan    /dependencies-audit    /sbom-generate
 ```
 
-### Quality and Team
+### Quality and Validation
 ```
-/pr-review [PR]    /pr-pending    /changelog-update    /evaluate-repo [URL]
+/changelog-update    /evaluate-repo [URL]    /validate-filesize
+/validate-schema    /review-cache-stats    /review-cache-clear
+/testplan-status    /testplan-results {id}
+```
+
+### Team and Onboarding
+```
 /team-onboarding {name}    /team-evaluate {name}    /team-privacy-notice {name}
+```
+
+### Architecture and Diagrams
+```
+/adr-create {proj} {title}    /agent-notes-archive {proj}
+/diagram-generate {proj}    /diagram-import {file}
+/diagram-config    /diagram-status
+/debt-track    /dependency-map    /legacy-assess    /risk-log
+```
+
+### External Integrations
+```
+/jira-sync    /linear-sync    /notion-sync    /confluence-publish
+/wiki-publish    /wiki-sync    /slack-search    /notify-slack
+/notify-whatsapp    /whatsapp-search    /notify-nctalk    /nctalk-search
+/figma-extract    /gdrive-upload    /github-activity    /github-issues
+/sentry-bugs    /sentry-health    /inbox-check    /inbox-start
+/worktree-setup {spec}
 ```
 
 ---
