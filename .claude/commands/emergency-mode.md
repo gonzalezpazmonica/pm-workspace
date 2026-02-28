@@ -14,8 +14,8 @@ context_cost: low
 
 ## Prerequisitos
 
-- Acceso a terminal con bash
-- Para `setup`: conexión a internet (para descargar Ollama y modelo)
+- Linux/macOS: terminal con bash · Windows: PowerShell (usar scripts `.ps1`)
+- Para `setup`: conexión a internet (o caché de emergency-plan para offline)
 - Para `activate/status/test`: Ollama instalado previamente
 
 ## Subcomandos
