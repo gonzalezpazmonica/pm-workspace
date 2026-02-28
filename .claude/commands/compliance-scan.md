@@ -6,7 +6,7 @@ agent: architect
 context_cost: medium
 ---
 
-# /compliance-scan {path} [--sector SECTOR] [--strict]
+# /compliance-scan {path} [--sector SECTOR] [--strict] [--lang es|en]
 
 > Detecta el sector regulatorio del proyecto, carga las normativas aplicables y verifica el cumplimiento del código fuente.
 
@@ -17,6 +17,7 @@ context_cost: medium
 - `{path}` — Ruta del proyecto a escanear (default: proyecto actual)
 - `--sector SECTOR` — Forzar sector (saltar detección): healthcare, finance, food, justice, public-admin, insurance, pharma, energy, telecom, education, defense, transport
 - `--strict` — Incluir hallazgos MEDIUM y LOW (default: solo CRITICAL y HIGH)
+- `--lang` — Idioma del informe: `es` (default) o `en`. Detectar de CLAUDE.md si existe.
 
 ## Prerequisitos
 
@@ -62,38 +63,38 @@ Asignar severidad según la matriz del SKILL.md:
 
 ### Paso 6 — Asignar IDs y acciones
 Cada hallazgo recibe un ID (formato: `RC-{NNN}`).
-Determinar si tiene auto-fix disponible (ver plantillas en SKILL.md).
+Marcar cada hallazgo con: `[AUTO-FIX]` o `[MANUAL]` según disponibilidad de corrección automática.
 
-### Paso 7 — Generar informe
+### Paso 7 — Calcular score y generar informe
+
+**Fórmula de compliance score**: `Score = (requisitos cumplidos / total requisitos) × 100`
 
 ## Output
 
-Guardar en: `output/compliance/{proyecto}-scan-{fecha}.md`
+Guardar en: `output/compliance/{proyecto}-scan-{fecha}.md` (fecha obligatoria en nombre)
 
 ```markdown
 # Compliance Scan — {proyecto}
 
 **Sector**: {sector} ({score}% confianza)
 **Fecha**: {ISO date}
-**Compliance Score**: {X}%
+**Compliance Score**: {X}% ({cumplidos}/{total} requisitos)
 
 ## Resumen
-| Severidad | Count |
-|-----------|-------|
-| CRITICAL  | N     |
-| HIGH      | N     |
-| MEDIUM    | N     |
-| LOW       | N     |
+| Severidad | Count | Auto-fix | Manual |
+|-----------|-------|----------|--------|
+| CRITICAL  | N     | N        | N      |
+| HIGH      | N     | N        | N      |
 
 ## Hallazgos
 
-### RC-001 [CRITICAL] {Regulación} §{artículo} — {descripción}
+### RC-001 [CRITICAL] [AUTO-FIX] {Regulación} §{artículo} — {descripción}
 **Ficheros afectados**: {lista}
 **Requisito**: {qué exige la norma}
 **Estado actual**: {qué se encontró en el código}
-**Acción**: `/compliance-fix RC-001` (auto-fix disponible)
+**Acción**: `/compliance-fix RC-001`
 
-### RC-002 [HIGH] {Regulación} — {descripción}
+### RC-002 [HIGH] [MANUAL] {Regulación} — {descripción}
 **Ficheros afectados**: {lista}
 **Acción**: Generar Task para corrección manual
 
@@ -111,3 +112,4 @@ Guardar en: `output/compliance/{proyecto}-scan-{fecha}.md`
 - El scan NO modifica código. Solo analiza y reporta.
 - Los IDs RC-XXX son estables para referencia en `/compliance-fix`.
 - Si el proyecto usa IA, considerar también `/ai-risk-assessment` para EU AI Act.
+- Usar mismo idioma (--lang) en scan, fix y report para consistencia.

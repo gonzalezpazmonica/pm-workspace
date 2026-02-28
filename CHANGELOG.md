@@ -13,6 +13,30 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.33.1] — 2026-02-28
+
+Compliance commands improvements after real-world testing with HealthPatientApi (.NET 10).
+
+### Fixed
+- Output file naming now requires date suffix (`{proyecto}-scan-{fecha}.md`) for historical comparison
+- Scoring formula documented: `Score = (requisitos cumplidos / total) × 100`
+- Dry-run vs actual execution clearly indicated in fix output header
+- Language consistency enforced: `--lang es|en` parameter added to scan and report
+
+### Changed
+- `/compliance-scan`: findings now marked `[AUTO-FIX]` or `[MANUAL]` for quick triage
+- `/compliance-scan`: summary table includes auto-fix/manual column split
+- `/compliance-fix`: includes configuration keys section (appsettings keys required)
+- `/compliance-fix`: re-verification includes sample output per fix
+- `/compliance-fix`: score recalculation after fixes
+- `/compliance-report`: score formula shown in header (`{N}/{M} requisitos`)
+
+### Added
+- Test project: gonzalezpazmonica/health-patient-api (.NET 10, healthcare sector)
+- Full compliance flow validated: scan → fix → report with 38 findings detected
+
+---
+
 ## [0.33.0] — 2026-02-28
 
 Regulatory Compliance Intelligence: automated sector detection, compliance scanning, and auto-fix with re-verification across 12 regulated industries.
