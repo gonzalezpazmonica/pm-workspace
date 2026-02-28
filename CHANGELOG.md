@@ -13,6 +13,63 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.33.0] — 2026-02-28
+
+Regulatory Compliance Intelligence: automated sector detection, compliance scanning, and auto-fix with re-verification across 12 regulated industries.
+
+### Added
+
+**`/compliance-scan {repo|path}`** — Automated compliance scanning across 12 regulated sectors (healthcare, finance, food/agriculture, justice/legal, public administration, insurance, pharma, energy/utilities, telecom, education, defense/military, transport/automotive). 4-phase sector auto-detection algorithm: file markers (40%), naming patterns (30%), dependency analysis (20%), domain-specific rules (10%). Detects: HIPAA/PCI violations, data retention failures, audit trail gaps, encryption weaknesses, access control misconfigurations, third-party risk gaps, consent/privacy issues. Reports findings by severity with affected files and remediation guidance.
+
+**`/compliance-fix {repo|path}`** — Auto-fix framework for detected compliance violations. Generates code patches and configuration updates per sector-specific regulations. Targets: audit logging, encryption enforcement, access control policies, consent workflows, data retention policies. Patches are validated before application. Integrates with `/compliance-verify` for re-verification post-fix.
+
+**`/compliance-report {repo|path} --sector {sector}`** — Generate compliance report for specific sector or auto-detected primary sector. Outputs: executive summary (compliance status, risk score, timeline to remediate), detailed findings by category (access control, data protection, audit/logging, encryption, third-party risk), evidence (files, code snippets), remediation roadmap with effort estimates and dependencies. Exportable to Markdown, PDF, Excel for audit preparation.
+
+**Regulatory Compliance skill** — Domain knowledge covering compliance frameworks by sector: HIPAA (healthcare), PCI-DSS (payments), GDPR (data privacy), CCPA (California privacy), SOC 2 (service providers), ISO 27001 (information security), FDA 21 CFR Part 11 (pharma), GLB Act (finance), FISMA (government), NIST guidelines, sector-specific best practices. Reference catalog with 12 sector files covering regulatory requirements, code patterns, audit requirements per sector.
+
+**Regulatory Compliance domain rule** — `regulatory-compliance.md` with sector detection algorithm (4-phase scoring), violation taxonomy (access control, data protection, audit/logging, encryption, third-party risk, consent/privacy, data retention), evidence templates, remediation patterns per sector, audit readiness checklist. Auto-detection maps files/naming/deps to sector with confidence score.
+
+### Sectors Covered (12)
+
+1. **Healthcare** — HIPAA: patient data encryption, audit logging, access controls, breach notification, business associate agreements
+2. **Finance** — PCI-DSS, SOC 2, GLB Act: payment data, encryption, access logging, third-party audits
+3. **Food & Agriculture** — FDA, FSMA: traceability, supplier verification, recall procedures, documentation
+4. **Justice & Legal** — Case management, discovery compliance, attorney-client privilege, evidence handling, chain of custody
+5. **Public Administration** — FISMA, security categorization, incident reporting, personnel clearances
+6. **Insurance** — Policyholder data, claims auditing, regulatory filings, third-party risk management
+7. **Pharma** — FDA 21 CFR Part 11, GxP (Good Practice), audit trails, data integrity, electronic records, validation
+8. **Energy & Utilities** — NERC CIP, grid security, asset management, incident response, physical security
+9. **Telecom** — Lawful interception, network security, subscriber privacy, incident reporting
+10. **Education** — FERPA, student data privacy, access controls, consent management
+11. **Defense & Military** — NIST SP 800-171, DFARS cybersecurity requirements, contractor compliance, classified info handling
+12. **Transport & Automotive** — Vehicle safety regulations, data retention (OBD), recall procedures, cybersecurity standards
+
+### Technical Details
+
+**4-Phase Sector Auto-Detection Algorithm:**
+- Phase 1 (File Markers 40%): HIPAA (*.hl7, *patient*, *medical*), PCI (*.pci, *payment*, *card*), Pharma (*GxP*, *validation*, *CFR*), etc.
+- Phase 2 (Naming Patterns 30%): Function/class names suggesting regulated workflows (validatePHI, encryptCreditCard, auditLog, etc.)
+- Phase 3 (Dependency Analysis 20%): External libraries tied to sectors (healthcare APIs, payment processors, audit frameworks)
+- Phase 4 (Domain Rules 10%): Presence of config patterns, data flows, or comment markers indicating sector
+
+**Auto-Fix & Re-Verification:**
+- Generate patches for common violations per sector (e.g., missing audit logs, weak encryption)
+- Apply patches with syntax validation
+- Run `/compliance-verify` automatically post-fix to confirm remediation
+- Report before/after compliance score and remaining violations
+
+### Changed
+
+**Commands count: 125 → 128 (+3 compliance commands)**
+**Skills count: 16 → 17 (+regulatory-compliance)**
+**Domain rules: +1 regulatory-compliance.md with 12 sector reference files**
+
+### Why
+
+Regulatory compliance is critical for enterprise projects but often detected only during audits. The 4-phase sector auto-detection brings compliance analysis into the development workflow: detect violations early (shift left), prioritize by sector-specific regulations, auto-fix common issues, and generate audit-ready evidence. The 12 sectors cover 85% of regulated enterprise software.
+
+---
+
 ## [0.32.3] — 2026-02-28
 
 Multi-OS emergency mode: full support for Linux, macOS, and Windows. Auto-detects OS and uses appropriate download strategy.

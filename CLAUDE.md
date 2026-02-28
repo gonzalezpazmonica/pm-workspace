@@ -104,7 +104,7 @@ Entornos DEV/PRE/PRO (configurables). Config sensible NUNCA en repo. IaC preferi
 
 ## 🛠️ Operaciones
 
-Skills: azure-devops-queries · product-discovery · pbi-decomposition · spec-driven-development · diagram-generation · diagram-import · azure-pipelines · sprint-management · capacity-planning · executive-reporting · time-tracking-report · team-onboarding · voice-inbox · predictive-analytics · developer-experience · architecture-intelligence. Detalle: `.claude/skills/{nombre}/SKILL.md`
+Skills: azure-devops-queries · product-discovery · pbi-decomposition · spec-driven-development · diagram-generation · diagram-import · azure-pipelines · sprint-management · capacity-planning · executive-reporting · time-tracking-report · team-onboarding · voice-inbox · predictive-analytics · developer-experience · architecture-intelligence · regulatory-compliance. Detalle: `.claude/skills/{nombre}/SKILL.md`
 
 Ciclo: Explorar → Planificar → Implementar → Commit. Arquitectura: **Command → Agent → Skills** — subagentes solo con `Task`.
 
