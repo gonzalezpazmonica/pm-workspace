@@ -1,0 +1,83 @@
+---
+name: memory-context
+description: >
+  Muestra las últimas observaciones de memoria para el proyecto activo. Útil al inicio de sesión o tras /compact.
+---
+
+# ⚡ Contexto de Memoria
+
+Muestra las observaciones recientes almacenadas en memoria persistente para el proyecto activo.
+
+## Uso
+
+```
+/memory-context [--limit N]
+```
+
+### Parámetros
+
+- **--limit N** (opcional): Número máximo de items a mostrar (default: 10)
+
+## Proceso
+
+**1. Inicio**
+```
+═══════════════════════════════════════════════════════════
+📚 CONTEXTO DE MEMORIA DEL PROYECTO
+═══════════════════════════════════════════════════════════
+```
+
+**2. Detección de proyecto**
+Leo `CLAUDE.local.md` para obtener el proyecto activo.
+
+**3. Recuperación**
+```bash
+bash scripts/memory-store.sh context \
+  [--project {proyecto_activo}] \
+  [--limit {N}]
+```
+
+**4. Agrupación y formato**
+Organizo resultados por tipo:
+- **🎯 Decisiones**: Decisiones arquitectónicas o técnicas
+- **🐛 Bugs**: Problemas encontrados y soluciones
+- **⚡ Patrones**: Patrones de código y mejores prácticas
+- **📋 Convenciones**: Estándares del proyecto
+- **💡 Descubrimientos**: Hallazgos y aprendizajes
+
+Cada entry muestra:
+- Timestamp
+- Título
+- Resumen del contenido
+- Topic key (si aplica)
+
+**5. Fin**
+```
+═══════════════════════════════════════════════════════════
+✅ Contexto cargado
+⚡ Usa /memory-search para búsquedas específicas
+═══════════════════════════════════════════════════════════
+```
+
+## Ejemplos
+
+```
+/memory-context
+
+/memory-context --limit 5
+
+/memory-context --limit 20
+```
+
+## Casos de uso
+
+- **Inicio de sesión**: Recuperar contexto del proyecto
+- **Tras /compact**: Refrescar memoria después de compactar
+- **Continuidad**: Mantener coherencia entre sesiones
+- **Onboarding**: Aprender decisiones previas
+
+## Restricciones
+
+- ✓ Solo lectura
+- ✗ No modifica memoria
+- ✗ No ejecuta comandos
