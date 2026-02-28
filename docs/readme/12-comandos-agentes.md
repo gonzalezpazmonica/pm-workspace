@@ -120,6 +120,13 @@
 /sbom-generate [--project]        Generar SBOM (Software Bill of Materials)
 ```
 
+## Developer Experience (3 comandos)
+```
+/dx-survey [--project]            Encuesta DX Core 4 adaptada
+/dx-dashboard [--project]         Dashboard DX automatizado
+/dx-recommendations [--project]   Friction points y recomendaciones
+```
+
 ## Observabilidad de Agentes (3 comandos)
 ```
 /agent-trace [--project]          Trazas de ejecución de agentes
