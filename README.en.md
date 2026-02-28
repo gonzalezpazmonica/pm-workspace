@@ -46,6 +46,8 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Predictive analytics** — sprint completion forecasting with Monte Carlo simulation, Value Stream Mapping with E2E Lead Time and Flow Efficiency, velocity trending with anomaly detection, and WIP aging alerts. Data-driven metrics, not gut feelings.
 
+**Agent observability** — execution traces with token consumption, duration and outcome, cost estimation per model (Opus/Sonnet/Haiku), and efficiency metrics (success rate, re-work, first-pass). Automatic hook logs every subagent invocation.
+
 ---
 
 ## Documentation
@@ -105,7 +107,7 @@ Full documentation is organized into sections for easy reference:
 
 ## Quick Command Reference
 
-> 105 commands · 24 agents · 14 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 108 commands · 24 agents · 14 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### Sprint and Reporting
 ```
@@ -164,6 +166,11 @@ Full documentation is organized into sections for easy reference:
 /changelog-update    /evaluate-repo [URL]    /validate-filesize
 /validate-schema    /review-cache-stats    /review-cache-clear
 /testplan-status    /testplan-results {id}
+```
+
+### Agent Observability
+```
+/agent-trace    /agent-cost    /agent-efficiency
 ```
 
 ### Team and Onboarding

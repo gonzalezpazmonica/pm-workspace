@@ -120,6 +120,13 @@
 /sbom-generate [--project]        Generate SBOM (Software Bill of Materials)
 ```
 
+## Agent Observability (3 commands)
+```
+/agent-trace [--project]          Agent execution traces
+/agent-cost [--project] [--sprint] Cost estimation per model and command
+/agent-efficiency [--project]     Efficiency metrics and re-work rates
+```
+
 ## Team and Onboarding (3 commands)
 ```
 /team-onboarding {name}           Personalized onboarding guide

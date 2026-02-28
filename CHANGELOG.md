@@ -13,6 +13,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.27.0] — 2026-02-28
+
+Agent observability: execution tracing, cost estimation, and efficiency metrics for subagent operations.
+
+### Added
+
+**`/agent-trace`** — Dashboard of agent execution traces: timestamp, agent, command, tokens in/out, duration, files modified, outcome (success/failure/partial). Filters by agent, count, or failures only. Summary with total tokens, average duration, and success rate.
+
+**`/agent-cost`** — Estimates agent usage cost per sprint/project. Configurable pricing per model (Opus $15/$75, Sonnet $3/$15, Haiku $0.80/$4 per M tokens). Groups by agent, command, sprint. Trend analysis and optimization recommendations.
+
+**`/agent-efficiency`** — Agent efficiency analysis: specs completed/attempted, average time by complexity, re-work rate, first-pass success rate, agent utilization in Agent Teams. Benchmarks against last 3 sprints.
+
+**Hook: `agent-trace-log.sh`** — PostToolUse async hook that automatically logs every Task (subagent) invocation to `projects/{project}/traces/agent-traces.jsonl` in JSONL format.
+
+---
+
 ## [0.26.0] — 2026-02-28
 
 Predictive analytics and flow metrics: sprint forecasting with Monte Carlo simulation, Value Stream Mapping dashboard, velocity trending with anomaly detection, and enhanced board-flow with Flow Efficiency.
@@ -820,7 +836,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.26.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.27.0...HEAD
+[0.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.26.0...v0.27.0
 [0.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.25.0...v0.26.0
 [0.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.24.0...v0.25.0
 [0.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.23.0...v0.24.0
