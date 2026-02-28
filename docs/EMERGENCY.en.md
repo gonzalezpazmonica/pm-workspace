@@ -9,11 +9,16 @@
 Run this **now**, while you have internet, so everything works offline:
 
 ```bash
+# Linux / macOS
 cd ~/claude
 ./scripts/emergency-plan.sh
+
+# Windows (PowerShell)
+cd ~\claude
+.\scripts\emergency-plan.ps1
 ```
 
-This pre-downloads the Ollama installer and LLM model to local cache (~5-10GB). If you lose connectivity, `emergency-setup` will use the cache automatically. It is automatically suggested the first time you start pm-workspace on a new machine.
+This pre-downloads the Ollama installer and LLM model to local cache (~5-10GB). Supports Linux (amd64/arm64), macOS (Intel/Apple Silicon) and Windows. If you lose connectivity, `emergency-setup` will use the cache automatically. It is automatically suggested the first time you start pm-workspace on a new machine.
 
 ## When to activate emergency mode?
 
@@ -28,11 +33,16 @@ Activate emergency mode if:
 ### Step 1: Run the installer
 
 ```bash
+# Linux / macOS
 cd ~/claude
 ./scripts/emergency-setup.sh
+
+# Windows (PowerShell)
+cd ~\claude
+.\scripts\emergency-setup.ps1
 ```
 
-The script will detect your hardware and guide you through:
+The script auto-detects your OS and hardware, then guides you through:
 1. Installing Ollama (local LLM manager)
 2. Downloading the recommended model for your RAM
 3. Automatic environment variable configuration
@@ -107,39 +117,25 @@ Or simply close and open a new terminal.
 
 ## Troubleshooting
 
-**"Ollama not installed"**
-```bash
-curl -fsSL https://ollama.ai/install.sh | sh
-```
+**"Ollama not installed"** → Linux: `curl -fsSL https://ollama.ai/install.sh | sh` · macOS: re-run `emergency-setup.sh` · Windows: run `OllamaSetup.exe` from cache.
 
-**"Server not responding"**
-```bash
-ollama serve &
-```
+**"Server not responding"** → `ollama serve &`
 
-**"Model not downloaded"**
-```bash
-ollama pull qwen2.5:7b
-```
+**"Model not downloaded"** → `ollama pull qwen2.5:7b`
 
-**"Very slow responses"**
-- Use a smaller model: `ollama pull qwen2.5:3b`
-- Close RAM-consuming applications
-- If you have NVIDIA GPU: Ollama uses it automatically
+**"Slow responses"** → Use smaller model (`qwen2.5:3b`), close RAM-heavy apps, NVIDIA GPU is used automatically.
 
-**"Out of memory"**
-- Downgrade to a smaller model (`qwen2.5:1.5b`)
-- Close browser and other heavy apps
-- Consider adding temporary swap
+**"Out of memory"** → Downgrade to `qwen2.5:1.5b`, close browser, consider temporary swap.
 
 ## Quick Reference
 
 ```
-./scripts/emergency-plan.sh           # Preventive pre-download (run with internet)
-./scripts/emergency-setup.sh          # Installation (online or offline with cache)
-./scripts/emergency-status.sh         # System diagnostics
-./scripts/emergency-fallback.sh help  # Operations without LLM
-source ~/.pm-workspace-emergency.env  # Activate emergency mode
+# Linux / macOS                         # Windows (PowerShell)
+./scripts/emergency-plan.sh             .\scripts\emergency-plan.ps1
+./scripts/emergency-setup.sh            .\scripts\emergency-setup.ps1
+./scripts/emergency-status.sh           (check Ollama manually)
+./scripts/emergency-fallback.sh help    (use Git Bash)
+source ~/.pm-workspace-emergency.env    (env vars set automatically)
 ```
 
 ---
