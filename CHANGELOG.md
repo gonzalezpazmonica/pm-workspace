@@ -13,6 +13,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.32.0] — 2026-02-28
+
+Emergency mode: local LLM contingency plan with Ollama setup, hardware detection, offline PM operations, and step-by-step emergency documentation.
+
+### Added
+
+**`/emergency-mode`** — Manages emergency mode with local LLM. Subcommands: `setup` (install Ollama + download model), `status` (system diagnostics), `activate` (switch to local LLM), `deactivate` (restore cloud), `test` (verify local LLM responds). Automatically recommends model based on available RAM (3B for 8GB, 7B for 16GB, 14B for 32GB+).
+
+**`scripts/emergency-setup.sh`** — Interactive setup script that detects OS/RAM/GPU, installs Ollama, downloads recommended model (default: Qwen 2.5 7B), configures ANTHROPIC_BASE_URL for Claude Code, and verifies connectivity. Color output with progress indicators.
+
+**`scripts/emergency-status.sh`** — System diagnostics showing Ollama installation status, server status, available models with sizes, environment variables, RAM/GPU info, and issue detection with suggested fixes.
+
+**`scripts/emergency-fallback.sh`** — PM operations that work without any LLM: `git-summary` (7-day activity), `board-snapshot` (export to markdown), `team-checklist` (Scrum ceremonies), `pr-list` (pending PRs), `branch-status` (active branches).
+
+**Emergency documentation** — `docs/EMERGENCY.md` (Spanish) and `docs/EMERGENCY.en.md` (English) with step-by-step guide: when to activate, 5-minute setup, what works in emergency mode, hardware requirements by model size, return to normal, and troubleshooting.
+
+---
+
 ## [0.31.0] — 2026-02-28
 
 Architecture intelligence: pattern detection, improvement suggestions, recommendations for new projects, fitness functions, and pattern comparisons across 16 languages.

@@ -56,6 +56,8 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Architecture Intelligence** — automatic detection of architecture patterns (Clean, Hexagonal, DDD, CQRS, MVC/MVVM, Microservices, Event-Driven) in repositories of any language, improvement suggestions prioritized by impact, architecture recommendations for new projects based on requirements, fitness functions for architectural integrity verification, and pattern comparisons for decision-making. Reference catalog with language-specific patterns for all 16 supported languages.
 
+**Emergency mode (local LLM)** — contingency plan for operating without cloud connection. Automatic Ollama setup scripts with hardware detection (RAM/GPU), recommended model download (Qwen 2.5), and transparent Claude Code configuration. Offline PM operations without LLM (git summary, board snapshot, Scrum checklists). Step-by-step emergency documentation in English and Spanish.
+
 ---
 
 ## Documentation
@@ -110,12 +112,13 @@ Full documentation is organized into sections for easy reference:
 | [Memory system](docs/memory-system.md) | Auto-loading, auto memory, symlinks, `--add-dir` |
 | [Agent Teams SDD](docs/agent-teams-sdd.md) | Parallel implementation with lead + teammates |
 | [Agent Notes Protocol](docs/agent-notes-protocol.md) | Inter-agent memory, handoffs, traceability |
+| [Emergency guide](docs/EMERGENCY.en.md) | Offline mode with local LLM, contingency scripts |
 
 ---
 
 ## Quick Command Reference
 
-> 123 commands · 24 agents · 16 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 124 commands · 24 agents · 16 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### Technical Debt Intelligence
 ```
@@ -213,6 +216,11 @@ Full documentation is organized into sections for easy reference:
 /diagram-generate {proj}    /diagram-import {file}
 /diagram-config    /diagram-status
 /debt-track    /dependency-map    /legacy-assess    /risk-log
+```
+
+### Emergency
+```
+/emergency-mode {setup|status|activate|deactivate|test}
 ```
 
 ### External Integrations
