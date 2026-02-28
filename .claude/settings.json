@@ -34,6 +34,16 @@
             "statusMessage": "Validando comando..."
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/plan-gate.sh",
+            "statusMessage": "Verificando spec aprobada..."
+          }
+        ]
       }
     ],
     "PostToolUse": [
