@@ -23,9 +23,9 @@ Si el proveedor cloud de LLM cae y además no hay internet, `/emergency-mode set
 
 ## Qué descarga
 
-1. **Script de instalación de Ollama** — `~/.pm-workspace-emergency/ollama-install.sh`
-2. **Binario de Ollama** — `~/.pm-workspace-emergency/ollama-{os}-{arch}`
-3. **Modelo LLM** — cacheado en Ollama o en directorio local
+1. **Script/Instalador de Ollama** — Linux: `ollama-install.sh` + binario extraído de tar.zst · macOS: binario extraído de tgz · Windows: `OllamaSetup.exe`
+2. **Binario de Ollama** — `~/.pm-workspace-emergency/ollama-bin` (Linux/macOS)
+3. **Modelo LLM** — cacheado en Ollama (`~/.ollama/models/`)
 
 ## Selección automática de modelo
 
@@ -40,14 +40,16 @@ Si no se especifica `--model`, se selecciona según la RAM disponible:
 ## Uso
 
 ```bash
-# Descarga automática según hardware
+# Linux / macOS — descarga automática según hardware
 ./scripts/emergency-plan.sh
-
-# Con modelo específico
-./scripts/emergency-plan.sh --model mistral:7b
-
-# Verificar si ya se ejecutó
-./scripts/emergency-plan.sh --check
+./scripts/emergency-plan.sh --model mistral:7b   # modelo específico
+./scripts/emergency-plan.sh --check               # verificar estado
+```
+```powershell
+# Windows (PowerShell)
+.\scripts\emergency-plan.ps1
+.\scripts\emergency-plan.ps1 -Model "mistral:7b"
+.\scripts\emergency-plan.ps1 -Check
 ```
 
 ## Verificación
@@ -72,11 +74,12 @@ La primera vez que se inicia Claude Code en una máquina nueva, `session-init.sh
 
 Todo se almacena en `~/.pm-workspace-emergency/`:
 ```
-~/.pm-workspace-emergency/
-├── .plan-executed          # Marcador de ejecución con timestamp
-├── plan-info.json          # Metadata (OS, RAM, modelo elegido)
-├── ollama-install.sh       # Script de instalación
-└── ollama-linux-x86_64     # Binario (Linux)
+~/.pm-workspace-emergency/        # Linux/macOS: $HOME  ·  Windows: %USERPROFILE%
+├── .plan-executed                 # Marcador de ejecución con timestamp
+├── plan-info.json                 # Metadata (OS, RAM, modelo elegido)
+├── ollama-install.sh              # Script instalación (solo Linux)
+├── ollama-bin                     # Binario extraído (Linux/macOS)
+└── OllamaSetup.exe                # Instalador (solo Windows)
 ```
 
-Los modelos de Ollama se cachean en `~/.ollama/models/` (directorio estándar de Ollama).
+Modelos: `~/.ollama/models/` (Linux/macOS) · `%USERPROFILE%\.ollama\models\` (Windows).
