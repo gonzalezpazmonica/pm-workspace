@@ -58,6 +58,18 @@
             "statusMessage": "Auto-lint en background..."
           }
         ]
+      },
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/agent-trace-log.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Registrando traza de agente..."
+          }
+        ]
       }
     ],
     "Stop": [
