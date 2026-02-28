@@ -56,6 +56,8 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Architecture Intelligence** — detección automática de patrones de arquitectura (Clean, Hexagonal, DDD, CQRS, MVC/MVVM, Microservices, Event-Driven) en repositorios de cualquier lenguaje, sugerencias de mejora priorizadas por impacto, recomendación de arquitectura para proyectos nuevos basada en requisitos, fitness functions para verificar integridad arquitectónica, y comparativas entre patrones para toma de decisiones. Catálogo de referencia con patrones específicos para los 16 lenguajes soportados.
 
+**Modo emergencia (LLM local)** — plan de contingencia para operar sin conexión cloud. Scripts de setup automático de Ollama con detección de hardware (RAM/GPU), descarga de modelo recomendado (Qwen 2.5), y configuración transparente de Claude Code. Operaciones PM offline sin LLM (resumen git, snapshot del board, checklists Scrum). Documentación de emergencia paso a paso en español e inglés.
+
 ---
 
 ## Documentación
@@ -110,12 +112,13 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [Sistema de memoria](docs/memory-system.md) | Auto-carga, auto memory, symlinks, `--add-dir` |
 | [Agent Teams SDD](docs/agent-teams-sdd.md) | Implementación paralela con lead + teammates |
 | [Agent Notes Protocol](docs/agent-notes-protocol.md) | Memoria inter-agente, handoffs, trazabilidad |
+| [Guía de emergencia](docs/EMERGENCY.md) | Modo offline con LLM local, scripts de contingencia |
 
 ---
 
 ## Referencia rápida de comandos
 
-> 123 comandos · 24 agentes · 16 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 124 comandos · 24 agentes · 16 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Inteligencia de Deuda Técnica
 ```
@@ -213,6 +216,11 @@ La documentación completa está organizada en secciones para facilitar la consu
 /diagram-generate {proy}    /diagram-import {fichero}
 /diagram-config    /diagram-status
 /debt-track    /dependency-map    /legacy-assess    /risk-log
+```
+
+### Emergencia
+```
+/emergency-mode {setup|status|activate|deactivate|test}
 ```
 
 ### Integraciones Externas
