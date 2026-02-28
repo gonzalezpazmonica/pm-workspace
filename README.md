@@ -60,7 +60,9 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Modo emergencia (LLM local)** — plan de contingencia para operar sin conexión cloud. Scripts de setup automático de Ollama con detección de hardware (RAM/GPU), descarga de modelo recomendado (Qwen 2.5), y configuración transparente de Claude Code. Operaciones PM offline sin LLM (resumen git, snapshot del board, checklists Scrum). Documentación de emergencia paso a paso en español e inglés.
 
-**Inteligencia de Compliance Regulatorio** — escaneo automatizado de cumplimiento normativo en 12 sectores regulados (sanidad, finanzas, alimentación, justicia, administración pública, seguros, farmacéutico, energía, telecomunicaciones, educación, defensa, transporte). Algoritmo de auto-detección de sector en 4 fases (marcadores 40%, patrones 30%, análisis dependencias 20%, reglas 10%). Detecta violaciones HIPAA/PCI, fallos de retención, auditoría incompleta, cifrado débil, acceso mal configurado. Auto-fix con re-verificación post-aplicación.
+**Inteligencia de Compliance Regulatorio** — escaneo automatizado de cumplimiento normativo en 12 sectores regulados (sanidad, finanzas, alimentación, justicia, administración pública, seguros, farmacéutico, energía, telecomunicaciones, educación, defensa, transporte). Algoritmo de auto-detección de sector en 5 fases calibradas. Detecta violaciones HIPAA/PCI, fallos de retención, auditoría incompleta, cifrado débil, acceso mal configurado. Auto-fix con re-verificación post-aplicación.
+
+**Auditoría de Rendimiento** — análisis estático de rendimiento sin ejecución de código. Detecta funciones pesadas por complejidad ciclomática + cognitiva, anti-patrones de async por lenguaje (6 lenguajes: .NET, TypeScript, Python, Java, Go, Rust), hotspots con estimación de O() y N+1 queries. Workflow test-first: crea characterization tests (Golden Master) antes de optimizar. Informe ejecutivo con roadmap de mejora.
 
 ---
 
@@ -225,6 +227,11 @@ La documentación completa está organizada en secciones para facilitar la consu
 ### Inteligencia de Compliance Regulatorio
 ```
 /compliance-scan {repo|path}       /compliance-fix {repo|path}       /compliance-report {repo|path}
+```
+
+### Auditoría de Rendimiento
+```
+/perf-audit {path}                 /perf-fix {PA-NNN}                 /perf-report {path}
 ```
 
 ### Emergencia

@@ -13,6 +13,46 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.34.0] — 2026-02-28
+
+Performance Audit Intelligence — static analysis for code performance hotspots, async anti-patterns, and test-first optimization.
+
+### Added
+- **New skill**: `performance-audit` — static performance analysis without code execution
+- **New command**: `/perf-audit` — scan code for complexity hotspots, async anti-patterns, and untested functions
+- **New command**: `/perf-fix` — test-first optimization with characterization tests (Golden Master pattern)
+- **New command**: `/perf-report` — executive performance report with 6 sections (hotspots, async, coverage, roadmap, risk)
+- **New domain rule**: `performance-patterns.md` — cross-language thresholds, N+1 detection, blocking async, memory allocation
+- **6 language reference files**: perf-dotnet.md, perf-typescript.md, perf-python.md, perf-java.md, perf-go.md, perf-rust.md
+- 4-phase detection: Complexity (40%), Async (25%), Hotspot ID (20%), Test Coverage (15%)
+- Scoring: `Performance Score = 100 - Σ(CRITICAL×15 + HIGH×8 + MEDIUM×3 + LOW×1)`
+- IDs `PA-NNN` stable across audit, fix, and report commands
+- Integration with `/debt-track` (PA findings registered as tech debt)
+- Characterization tests auto-created before any optimization
+
+### Changed
+- **Commands count**: 129 → 131 (+3 performance commands, includes devops-validate from v0.33.3)
+- **Skills count**: 19 → 20 (+performance-audit)
+- **Domain rules**: +1 performance-patterns.md with 6 language reference files
+
+---
+
+## [0.33.3] — 2026-02-28
+
+Azure DevOps project validation: automated audit of project configuration against pm-workspace's ideal Agile requirements.
+
+### Added
+- **New command**: `/devops-validate` — audits Azure DevOps project config (process template, work item types, states, fields, backlog hierarchy, iterations)
+- **New skill**: `devops-validation` — skill definition with ideal Agile configuration reference
+- **2 scripts**: `validate-devops.sh` (orchestration), `validate-devops-checks.sh` (8 check functions with Azure DevOps REST API)
+- JSON report with remediation plan for manual approval when incompatibilities found
+
+### Changed
+- **Commands count**: 128 → 129 (+1 devops-validate)
+- **Skills count**: 18 → 19 (+devops-validation)
+
+---
+
 ## [0.33.2] — 2026-02-28
 
 Detection algorithm calibration after real-world testing across all 12 regulated sectors.
@@ -1086,7 +1126,17 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.30.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.34.0...HEAD
+[0.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.3...v0.34.0
+[0.33.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.2...v0.33.3
+[0.33.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.1...v0.33.2
+[0.33.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.0...v0.33.1
+[0.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.3...v0.33.0
+[0.32.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.2...v0.32.3
+[0.32.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.1...v0.32.2
+[0.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.0...v0.32.1
+[0.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.31.0...v0.32.0
+[0.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.30.0...v0.31.0
 [0.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.29.0...v0.30.0
 [0.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.28.0...v0.29.0
 [0.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.27.0...v0.28.0
