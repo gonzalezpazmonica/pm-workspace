@@ -32,7 +32,7 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Intelligent memory system** — language rules with auto-loading by file type (`paths:` frontmatter), persistent auto memory per project, support for external projects via symlinks and `--add-dir`. Persistent memory store (JSONL) with full-text search, hash-based deduplication, topic_key for evolving decisions, `<private>` tag filtering, and automatic context injection after compaction. Skills and agents use progressive disclosure (`references/`) with `context_cost` metadata to optimize context consumption.
 
-**Programmatic hooks** — 10 hooks that enforce critical rules automatically: force push blocking, secrets detection, destructive infrastructure operation prevention, auto-lint after edits, quality gates before finishing, scope guard that detects files modified outside the SDD spec's declared scope, and persistent memory injection after compaction. Configured in `.claude/settings.json`.
+**Programmatic hooks** — 11 hooks that enforce critical rules automatically: force push blocking, secrets detection, destructive infrastructure operation prevention, auto-lint after edits, quality gates before finishing, scope guard that detects files modified outside the SDD spec's declared scope, and persistent memory injection after compaction. Configured in `.claude/settings.json`.
 
 **Agents with advanced capabilities** — each subagent has persistent memory (`memory: project`), preloaded skills, appropriate permission mode, and developer agents use `isolation: worktree` for parallel implementation without conflicts. Experimental support for Agent Teams (lead + teammates).
 
@@ -75,7 +75,7 @@ Full documentation is organized into sections for easy reference:
 | [Test project](docs/readme_en/09-test-project.md) | `sala-reservas`: tests, mock data, validation |
 | [KPIs, rules, and roadmap](docs/readme_en/10-kpis-rules.md) | Metrics, critical rules, adoption plan |
 | [Onboarding new team members](docs/readme_en/11-onboarding.md) | 5-phase onboarding, competency evaluation, GDPR |
-| [Commands and agents](docs/readme_en/12-commands-agents.md) | 92 commands + 24 specialized agents |
+| [Commands and agents](docs/readme_en/12-commands-agents.md) | 94 commands + 24 specialized agents |
 | [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
 ### Other Documents

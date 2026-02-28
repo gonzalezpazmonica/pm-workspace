@@ -55,6 +55,12 @@
         "hooks": [
           {
             "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-commit-review.sh",
+            "timeout": 30,
+            "statusMessage": "Revisando ficheros staged..."
+          },
+          {
+            "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/stop-quality-gate.sh",
             "timeout": 15,
             "statusMessage": "Verificando quality gates..."

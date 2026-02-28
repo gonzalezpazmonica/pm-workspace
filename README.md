@@ -32,7 +32,7 @@ Este workspace convierte a Claude Code en un **Project Manager / Scrum Master au
 
 **Sistema de memoria inteligente** — reglas de lenguaje con auto-carga por tipo de fichero (`paths:` frontmatter), auto memory persistente por proyecto, soporte para proyectos externos vía symlinks y `--add-dir`. Memory store persistente (JSONL) con búsqueda, deduplicación por hash, topic_key para decisiones que evolucionan, filtrado de `<private>` tags, e inyección automática de contexto tras compactación. Skills y agentes usan progressive disclosure (`references/`) con metadata `context_cost` para optimizar el consumo de contexto.
 
-**Hooks programáticos** — 10 hooks que refuerzan reglas críticas automáticamente: bloqueo de force push, detección de secrets, prevención de operaciones destructivas de infra, auto-lint tras edición, quality gates antes de finalizar, scope guard que detecta ficheros modificados fuera del alcance de la spec SDD, e inyección de memoria persistente tras compactación. Configurados en `.claude/settings.json`.
+**Hooks programáticos** — 11 hooks que refuerzan reglas críticas automáticamente: bloqueo de force push, detección de secrets, prevención de operaciones destructivas de infra, auto-lint tras edición, quality gates antes de finalizar, scope guard que detecta ficheros modificados fuera del alcance de la spec SDD, e inyección de memoria persistente tras compactación. Configurados en `.claude/settings.json`.
 
 **Agentes con capacidades avanzadas** — cada subagente tiene memoria persistente (`memory: project`), skills precargados, modo de permisos apropiado, y los developer agents usan `isolation: worktree` para implementación paralela sin conflictos. Soporte experimental para Agent Teams (lead + teammates).
 
@@ -75,7 +75,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [Proyecto de test](docs/readme/09-proyecto-test.md) | `sala-reservas`: tests, datos mock, validación |
 | [KPIs, reglas y roadmap](docs/readme/10-kpis-reglas.md) | Métricas, reglas críticas, plan de adopción |
 | [Onboarding de nuevos miembros](docs/readme/11-onboarding.md) | Incorporación en 5 fases, evaluación de competencias, RGPD |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 92 comandos + 24 agentes especializados |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 94 comandos + 24 agentes especializados |
 | [Cobertura y contribución](docs/readme/13-cobertura-contribucion.md) | Qué cubre, qué no, cómo contribuir |
 
 ### Otros documentos
