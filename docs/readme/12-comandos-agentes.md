@@ -195,6 +195,11 @@
 /ai-audit-log [--project]         Log de auditoría de ejecuciones IA
 ```
 
+## Emergencia (1 comando)
+```
+/emergency-mode {subcommand}     Gestionar modo emergencia con LLM local (setup/status/activate/deactivate/test)
+```
+
 ## Otros (10+ comandos)
 ```
 /help [filtro]                    Catálogo de comandos y primeros pasos
