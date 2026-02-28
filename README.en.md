@@ -54,6 +54,8 @@ This workspace turns Claude Code into an **automated Project Manager / Scrum Mas
 
 **Technical debt intelligence** — automated hotspot analysis, temporal coupling and code smell detection, business impact prioritization with scoring model (proximity × churn × velocity × risk), and per-sprint debt budget with velocity impact projection.
 
+**Architecture Intelligence** — automatic detection of architecture patterns (Clean, Hexagonal, DDD, CQRS, MVC/MVVM, Microservices, Event-Driven) in repositories of any language, improvement suggestions prioritized by impact, architecture recommendations for new projects based on requirements, fitness functions for architectural integrity verification, and pattern comparisons for decision-making. Reference catalog with language-specific patterns for all 16 supported languages.
+
 ---
 
 ## Documentation
@@ -113,7 +115,7 @@ Full documentation is organized into sections for easy reference:
 
 ## Quick Command Reference
 
-> 117 commands · 24 agents · 15 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 123 commands · 24 agents · 16 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### Technical Debt Intelligence
 ```
@@ -197,6 +199,12 @@ Full documentation is organized into sections for easy reference:
 ### Team and Onboarding
 ```
 /team-onboarding {name}    /team-evaluate {name}    /team-privacy-notice {name}
+```
+
+### Architecture Intelligence
+```
+/arch-detect {repo|path}    /arch-suggest {repo|path}    /arch-recommend {reqs}
+/arch-fitness {repo|path}    /arch-compare {pattern1} {pattern2}
 ```
 
 ### Architecture and Diagrams

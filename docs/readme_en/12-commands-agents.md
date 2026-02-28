@@ -172,6 +172,15 @@
 /diagram-status [--project]       Project diagram status
 ```
 
+## Architecture Intelligence (5 commands)
+```
+/arch-detect {repo|path}         Detect architecture pattern of a project
+/arch-suggest {repo|path}        Suggest prioritized architecture improvements
+/arch-recommend {requirements}   Recommend architecture for new project
+/arch-fitness {repo|path}        Run architecture fitness functions
+/arch-compare {pattern1} {pattern2} Compare two architecture patterns
+```
+
 ## Technical Debt Intelligence (3 commands)
 ```
 /debt-analyze [--project]         Automated debt analysis (hotspots, coupling, smells)
