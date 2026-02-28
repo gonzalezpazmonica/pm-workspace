@@ -9,6 +9,7 @@ BLUE='\033[0;34m'; CYAN='\033[0;36m'; NC='\033[0m'; BOLD='\033[1m'
 CACHE_DIR="$HOME/.pm-workspace-emergency"
 MARKER_FILE="$CACHE_DIR/.plan-executed"
 MODEL=""
+iso_date() { date -Iseconds 2>/dev/null || date -u +"%Y-%m-%dT%H:%M:%S+00:00"; }
 
 show_help() {
   echo -e "${BOLD}PM-Workspace Emergency Plan${NC} — Pre-descarga Ollama + LLM para offline"
@@ -115,9 +116,9 @@ fi
 # ── 4. Guardar metadata y marcador ───────────────────────────────────────────
 echo -e "\n${BLUE}[4/4]${NC} Guardando metadata..."
 cat > "$CACHE_DIR/plan-info.json" << JSONEOF
-{"executed":"$(date -Iseconds)","os":"$OS","arch":"$ARCH","ram_gb":$RAM_GB,"model":"$MODEL"}
+{"executed":"$(iso_date)","os":"$OS","arch":"$ARCH","ram_gb":$RAM_GB,"model":"$MODEL"}
 JSONEOF
-date -Iseconds > "$MARKER_FILE"
+iso_date > "$MARKER_FILE"
 
 echo -e "\n${GREEN}${BOLD}✓ Emergency Plan completado${NC}"
 echo -e "Caché: ${CYAN}$CACHE_DIR${NC} · Modelo: ${CYAN}$MODEL${NC}"

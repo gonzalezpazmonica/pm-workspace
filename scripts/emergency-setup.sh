@@ -7,6 +7,7 @@ RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
 BLUE='\033[0;34m'; CYAN='\033[0;36m'; NC='\033[0m'; BOLD='\033[1m'
 
 DEFAULT_MODEL="qwen2.5:7b"; MODEL=""
+iso_date() { date -Iseconds 2>/dev/null || date -u +"%Y-%m-%dT%H:%M:%S+00:00"; }
 [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]] && {
   echo -e "${BOLD}PM-Workspace Emergency Setup${NC} — Instala Ollama + LLM local"
   echo "Uso: $0 [--model MODEL]. Soporta Linux/macOS. Windows: usar .ps1"
@@ -91,7 +92,8 @@ if curl -s http://localhost:11434/api/tags &>/dev/null; then
   echo -e "  ${GREEN}✓${NC} Servidor activo en :11434"
 else
   echo -e "  ${YELLOW}→${NC} Iniciando servidor..."
-  ollama serve &>/dev/null &; sleep 3
+  ollama serve &>/dev/null &
+  sleep 3
   curl -s http://localhost:11434/api/tags &>/dev/null \
     && echo -e "  ${GREEN}✓${NC} Servidor iniciado" \
     || { echo -e "  ${RED}✗${NC} No se pudo iniciar. Ejecuta: ollama serve"; exit 1; }
@@ -115,7 +117,7 @@ fi
 echo -e "\n${BLUE}[5/5]${NC} Configuración para Claude Code..."
 ENV_FILE="$HOME/.pm-workspace-emergency.env"
 cat > "$ENV_FILE" << ENVEOF
-# PM-Workspace Emergency Mode — generado $(date -Iseconds)
+# PM-Workspace Emergency Mode — generado $(iso_date)
 export ANTHROPIC_BASE_URL="http://localhost:11434"
 export PM_EMERGENCY_MODEL="$MODEL"
 export PM_EMERGENCY_MODE="active"
