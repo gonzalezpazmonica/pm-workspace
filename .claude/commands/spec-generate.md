@@ -43,40 +43,14 @@ Genera una Spec ejecutable (`.spec.md`) a partir de una Task de Azure DevOps, li
 
 ### Paso 2 — Obtener la Task de Azure DevOps
 
-```bash
-PAT=$(cat $AZURE_DEVOPS_PAT_FILE)
-
-# Obtener Task completa con todos los campos
-curl -s -u ":$PAT" \
-  "$AZURE_DEVOPS_ORG_URL/{proyecto}/_apis/wit/workitems/{task_id}?\$expand=all&api-version=7.1" | jq '{
-    id: .id,
-    title: .fields["System.Title"],
-    description: .fields["System.Description"],
-    activity: .fields["Microsoft.VSTS.Common.Activity"],
-    estimated_hours: .fields["Microsoft.VSTS.Scheduling.OriginalEstimate"],
-    state: .fields["System.State"],
-    assigned_to: .fields["System.AssignedTo"].displayName,
-    iteration: .fields["System.IterationPath"],
-    tags: .fields["System.Tags"],
-    parent_url: (.relations // [] | map(select(.rel == "System.LinkTypes.Hierarchy-Reverse")) | first | .url // null)
-  }'
-```
+Usar skill `azure-devops-queries` para obtener Task completa con campos:
+id, title, description, activity, estimated_hours, state, assigned_to,
+iteration, tags, parent_url (relación Hierarchy-Reverse).
 
 ### Paso 3 — Obtener el PBI padre (criterios de aceptación)
 
-```bash
-# Extraer el ID del PBI padre de parent_url
-PBI_ID=$(echo $PARENT_URL | grep -oE '[0-9]+$')
-
-curl -s -u ":$PAT" \
-  "$AZURE_DEVOPS_ORG_URL/{proyecto}/_apis/wit/workitems/$PBI_ID?\$expand=all&api-version=7.1" \
-  | jq '.fields | {
-    "title": .["System.Title"],
-    "description": .["System.Description"],
-    "acceptance": .["Microsoft.VSTS.Common.AcceptanceCriteria"],
-    "story_points": .["Microsoft.VSTS.Scheduling.StoryPoints"]
-  }'
-```
+Extraer PBI_ID de parent_url. Obtener: title, description,
+acceptance criteria, story_points.
 
 ### Paso 4 — Detectar el módulo y buscar código de referencia
 
