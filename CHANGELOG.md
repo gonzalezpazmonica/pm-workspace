@@ -560,6 +560,59 @@ Inspired by the research paper "The Personalization Paradox: Navigating the Tens
 
 ---
 
+## [0.35.0] — 2026-03-01
+
+Savia — User Profiling System and Agent Mode. pm-workspace now has its own identity: Savia, the little owl that keeps your projects alive. Fragmented user profiles with conditional context loading, natural conversational onboarding, multi-role support, and machine-to-machine communication for external agents.
+
+### Added
+
+**🦉 Savia — pm-workspace identity** — Savia is a female owl ("buhita") who serves as the personality and voice of pm-workspace. She introduces herself to new users, conducts natural conversational onboarding, adapts her tone to each user's preferences, and communicates with external agents in structured YAML/JSON. Her personality is defined in `.claude/profiles/savia.md`.
+
+**User Profiling System** — Fragmented user profiles stored in 6 independent files per user (identity.md, workflow.md, tools.md, projects.md, preferences.md, tone.md) with YAML frontmatter. Inspired by "The Personalization Paradox" research: less context = better results. Each command group loads only the profile fragments it needs, controlled by `context-map.md`.
+
+**`/profile-setup`** — Savia's conversational onboarding flow. She asks one question at a time in a natural dialogue: name, role (10 options including PM, Tech Lead, Arquitecto/a, QA, CEO/CTO, Desarrollador/a, Supervisor/a, Agent), company, workflow mode, tools, projects, preferences (language, detail level, report format), and tone (alert style, celebrations). Includes fast YAML registration for agents.
+
+**`/profile-edit`** — Edit specific sections of the active user profile through Savia's conversational interface.
+
+**`/profile-switch`** — Switch between configured user profiles for multi-user workspaces.
+
+**`/profile-show`** — Display the complete active user profile with all 6 fragments.
+
+**Agent Mode** — External agents (OpenClaw, other LLMs, automated scripts) communicate with Savia in machine-to-machine mode: structured YAML/JSON output, status codes (OK/ERROR/WARNING/PARTIAL), zero narrative, no greetings, no confirmations. Agent detection via dual mechanism: `PM_CLIENT_TYPE=agent` environment variable or message content analysis.
+
+**Dual onboarding trigger** — Combined hook + rule mechanism ensures profiling starts automatically:
+- `session-init.sh` hook (data layer): detects profile status and agent mode, injects context into session
+- `profile-onboarding.md` rule (behavior layer): always-on rule that determines human vs agent mode and triggers appropriate onboarding flow
+
+**Context-map** — `context-map.md` maps 13 command groups to their required profile fragments. Sprint & Daily loads identity + workflow + tone. Reporting loads identity + preferences. SDD & Agents loads identity + workflow + tools. Each group loads only what it needs — no unnecessary context.
+
+**Profile templates** — 6 template files in `.claude/profiles/users/template/` with empty YAML frontmatter for new user creation.
+
+**Test profile** — `test-user-sala` profile with sample data for automated testing of the profile system.
+
+**132 automated tests** — `scripts/test-profile-system.sh` with 15 test categories covering directory structure, templates, commands, context-map content, profile integration in existing commands, trigger mechanism, hook JSON validity, Savia identity, agent mode, and agent hook detection.
+
+### Changed
+
+**README.md and README.en.md** — Completely rewritten with Savia speaking in first person throughout. She presents herself and describes all features from her perspective, giving pm-workspace a distinctive personality.
+
+**CLAUDE.md** — New "🦉 Savia — La voz de pm-workspace" section replacing the old profile section. References savia.md and context-map.md.
+
+**~72 existing commands updated** — Each command now includes a "Cargar perfil de usuario" step that references the appropriate context-map group and lists which profile fragments to load.
+
+**session-init.sh hook** — Enhanced with agent detection (PM_CLIENT_TYPE, AGENT_MODE env vars), profile role checking, and differentiated messages for agents vs humans.
+
+**`.gitignore`** — Added rules to exclude real user profiles but include template: `.claude/profiles/users/*` with `!.claude/profiles/users/template/` exception.
+
+**Commands count**: 131 → 135 (+4 profile commands)
+**Skills count**: 20 (unchanged)
+
+### Why
+
+Inspired by the research paper "The Personalization Paradox: Navigating the Tension Between Context and Efficiency in LLM-Driven PM Assistants" — which found that loading full user context for every operation degrades LLM performance. The fragmented approach (6 files × conditional loading via context-map) ensures each command gets exactly the context it needs. Savia as a named identity creates a consistent, warm interaction point while maintaining professional efficiency. Agent mode enables programmatic access for external tools without the overhead of conversational UI.
+
+---
+
 ## [0.34.0] — 2026-02-28
 
 Performance Audit Intelligence — static analysis for code performance hotspots, async anti-patterns, and test-first optimization.
