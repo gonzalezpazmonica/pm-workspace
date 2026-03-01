@@ -7,8 +7,10 @@
 ## Pre-requisitos
 
 - Branch: `feature/{nombre}` (NUNCA commit directo en `main`)
+- Verificar rama actual: `git branch --show-current` (debe ser feature/*, fix/*, NUNCA main)
 - Todos los ficheros ≤150 líneas
 - CI local verde antes de push
+- Hook `validate-bash-global.sh` bloquea `git commit/add` en main automáticamente
 
 ---
 

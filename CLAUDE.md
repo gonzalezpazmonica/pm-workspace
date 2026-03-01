@@ -84,8 +84,8 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 10. **Infra**: NUNCA apply PRE/PRO sin aprobación · `@.claude/rules/domain/infrastructure-as-code.md`
 11. **150 líneas máx.** por fichero — dividir si crece
 12. **README**: cambios en commands/agents/skills/rules → actualizar README.md + README.en.md
-13. **Git**: NUNCA commit directo en `main`
-14. **CI Local**: antes de push → `bash scripts/validate-ci-local.sh` (replica checks del CI de GitHub Actions)
+13. **Git**: NUNCA commit/add en `main` — hook `validate-bash-global.sh` lo bloquea automáticamente. Verificar rama antes de operar: `git branch --show-current`
+14. **CI Local**: antes de push → `bash scripts/validate-ci-local.sh` (replica checks del CI + verifica branch ≠ main)
 15. **UX**: TODO comando DEBE mostrar banner, prerequisitos, progreso, resultado. **El silencio es bug.**
 16. **Auto-compact**: Resultado >30 líneas → fichero + resumen. `Task` para pesados. Tras comando → `⚡ /compact`
 17. **Anti-improvisación**: Comando SOLO ejecuta lo de su `.md`. No cubierto → error + sugerencia

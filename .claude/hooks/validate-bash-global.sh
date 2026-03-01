@@ -9,6 +9,15 @@ if [ -z "$COMMAND" ]; then
   exit 0
 fi
 
+# Bloquear git commit/add en rama main/master (evita commits accidentales)
+if echo "$COMMAND" | grep -iE 'git\s+(commit|add)' > /dev/null; then
+  CURRENT_BRANCH=$(cd "$CLAUDE_PROJECT_DIR" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  if [ "$CURRENT_BRANCH" = "main" ] || [ "$CURRENT_BRANCH" = "master" ]; then
+    echo "BLOQUEADO: git commit/add en rama '$CURRENT_BRANCH'. Cambia a feature branch primero." >&2
+    exit 2
+  fi
+fi
+
 # Bloquear rm -rf / (root)
 if echo "$COMMAND" | grep -iE 'rm\s+-rf\s+/' > /dev/null; then
   echo "BLOQUEADO: rm -rf con ruta root. Operación potencialmente destructiva." >&2
