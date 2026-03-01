@@ -76,6 +76,8 @@ Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Optimización de contexto** — Con `/context-optimize` analizo cómo usas pm-workspace y te sugiero optimizaciones al context-map. Con `/context-age` comprimo y archivo decisiones antiguas aplicando envejecimiento semántico (episódico → comprimido → archivado). Con `/context-benchmark` verifico empíricamente que la información crítica está bien posicionada en el contexto. Con `/hub-audit` audito la topología de dependencias entre reglas, comandos y agentes para detectar hubs críticos y reglas huérfanas.
 
+**Informes ejecutivos** — Con `/ceo-report` genero informes multi-proyecto para dirección con semáforo de portfolio, métricas clave y recomendaciones. Con `/ceo-alerts` filtro solo las alertas que requieren decisión de nivel directivo. Con `/portfolio-overview` muestro una vista bird's-eye de todos los proyectos con dependencias.
+
 **Detección de verticales** — Detecto automáticamente si tu proyecto pertenece a un sector no-software (sanidad, legal, industrial, agrícola, educación, finanzas...) usando un algoritmo de 5 fases con scoring calibrado. Si el score es suficiente, te propongo crear extensiones especializadas con reglas, flujos y entidades de dominio para tu sector.
 
 ---
@@ -138,7 +140,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 147 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 150 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -152,6 +154,8 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 /context-optimize {stats|reset|apply}
 /context-age {status|apply}    /context-benchmark {quick|history}
 /hub-audit {quick|update}
+/ceo-report {proyecto|--format md|pdf|pptx}
+/ceo-alerts {proyecto|--history}    /portfolio-overview {--compact|--deps}
 ```
 
 ### Inteligencia de Deuda Técnica
