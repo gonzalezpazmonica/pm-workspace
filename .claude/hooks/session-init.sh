@@ -68,6 +68,36 @@ else
   fi
 fi
 
+# Check semanal de actualizaciones
+UPDATE_STATUS=""
+UPDATE_CONFIG="$HOME/.pm-workspace/update-config"
+if [ -f "$UPDATE_CONFIG" ]; then
+  AUTO_CHECK=$(grep -oP 'auto_check=\K\w+' "$UPDATE_CONFIG" 2>/dev/null || echo "true")
+  LAST_CHECK=$(grep -oP 'last_check=\K\d+' "$UPDATE_CONFIG" 2>/dev/null || echo "0")
+else
+  AUTO_CHECK="true"
+  LAST_CHECK="0"
+fi
+
+if [ "$AUTO_CHECK" = "true" ]; then
+  NOW=$(date +%s)
+  DIFF=$((NOW - LAST_CHECK))
+  if [ "$DIFF" -gt 604800 ]; then  # 7 días
+    LATEST=$(timeout 5 gh api repos/gonzalezpazmonica/pm-workspace/releases/latest --jq '.tag_name' 2>/dev/null || echo "")
+    CURRENT=$(git -C "$HOME/claude" describe --tags --abbrev=0 2>/dev/null || echo "")
+    if [ -n "$LATEST" ] && [ -n "$CURRENT" ] && [ "$LATEST" != "$CURRENT" ]; then
+      UPDATE_STATUS="🆕 Actualización disponible: $CURRENT → $LATEST — Ejecuta /update para actualizar"
+    fi
+    # Actualizar timestamp
+    mkdir -p "$HOME/.pm-workspace"
+    if [ -f "$UPDATE_CONFIG" ]; then
+      sed -i "s/last_check=.*/last_check=$NOW/" "$UPDATE_CONFIG"
+    else
+      printf "auto_check=true\nlast_check=%s\ncheck_interval=604800\n" "$NOW" > "$UPDATE_CONFIG"
+    fi
+  fi
+fi
+
 # Establecer variables de entorno si CLAUDE_ENV_FILE existe
 if [ -n "$CLAUDE_ENV_FILE" ]; then
   echo "export PM_WORKSPACE_ROOT=$HOME/claude" >> "$CLAUDE_ENV_FILE"
@@ -75,15 +105,17 @@ if [ -n "$CLAUDE_ENV_FILE" ]; then
 fi
 
 # Devolver contexto como additionalContext para Claude
-jq -n --arg pat "$PAT_STATUS" \
-      --arg tools "$TOOLS_STATUS" \
-      --arg branch "$BRANCH" \
-      --arg commits "$LAST_COMMITS" \
-      --arg emergency "$EMERGENCY_PLAN_STATUS" \
-      --arg profile "$PROFILE_STATUS" \
+# Construir contexto adicional
+ADDITIONAL_CONTEXT="PM-Workspace Session Init:\n- $PAT_STATUS\n- Herramientas:$TOOLS_STATUS\n- $EMERGENCY_PLAN_STATUS\n- $PROFILE_STATUS"
+if [ -n "$UPDATE_STATUS" ]; then
+  ADDITIONAL_CONTEXT="$ADDITIONAL_CONTEXT\n- $UPDATE_STATUS"
+fi
+ADDITIONAL_CONTEXT="$ADDITIONAL_CONTEXT\n- Rama: $BRANCH\n- Últimos commits:\n$LAST_COMMITS"
+
+jq -n --arg ctx "$ADDITIONAL_CONTEXT" \
 '{
   hookSpecificOutput: {
     hookEventName: "SessionStart",
-    additionalContext: ("PM-Workspace Session Init:\n- " + $pat + "\n- Herramientas:" + $tools + "\n- " + $emergency + "\n- " + $profile + "\n- Rama: " + $branch + "\n- Últimos commits:\n" + $commits)
+    additionalContext: $ctx
   }
 }'

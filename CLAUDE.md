@@ -41,7 +41,7 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← 24 subagentes → @.claude/rules/domain/agents-catalog.md
-│   ├── commands/                  ← 135 slash commands → @.claude/rules/domain/pm-workflow.md
+│   ├── commands/                  ← 136 slash commands → @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles de usuario fragmentados → @.claude/profiles/README.md
 │   ├── hooks/                     ← 13 hooks programáticos → .claude/settings.json
 │   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
@@ -74,6 +74,7 @@ Al iniciar una sesión:
 5. Los fragmentos del perfil se cargan bajo demanda según `@.claude/profiles/context-map.md`
 
 Comandos de perfil: `/profile-setup` · `/profile-edit` · `/profile-switch` · `/profile-show`
+Actualización: `/update` (check · install · auto-on · auto-off · status) — comprueba versiones y actualiza desde GitHub preservando datos locales
 
 ---
 

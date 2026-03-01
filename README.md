@@ -128,11 +128,12 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 135 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 136 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
-### Perfil de Usuario
+### Perfil de Usuario y Actualización
 ```
 /profile-setup    /profile-edit    /profile-switch    /profile-show
+/update {check|install|auto-on|auto-off|status}
 ```
 
 ### Inteligencia de Deuda Técnica
