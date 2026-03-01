@@ -13,6 +13,26 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.43.0] — 2026-03-01
+
+Context Aging and Verified Positioning. Savia now compresses and archives old decisions using semantic aging inspired by neuroscience (episodic → compressed → archived). New context benchmark command empirically verifies that information positioning in the context window is optimal.
+
+### Added
+
+- **`/context-age` command** — 3 subcommands: default (analyze + propose), `apply` (compress and archive with confirmation), `status` (quick count). Decisions <30d stay complete, 30-90d compress to one line, >90d archive or migrate to domain rules.
+- **`/context-benchmark` command** — 3 subcommands: default (5-question benchmark), `quick` (2 questions), `history` (past results). Tests information retrieval from different context positions (start/middle/end).
+- **`scripts/context-aging.sh`** — Script for analyzing, compressing, and archiving decision-log entries by age category.
+- **`.claude/rules/domain/context-aging.md`** — Protocol documenting semantic aging thresholds, compression format, migration vs. archival criteria, and affected files.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 144 → 146, added `/context-age` and `/context-benchmark` references
+- **README.md** — Updated context optimization section, command count (146), command reference
+- **README.en.md** — Same updates in English
+- **context-map.md** — Added `/context-age` and `/context-benchmark` to Memory & Context group
+
+---
+
 ## [0.42.0] — 2026-03-01
 
 Subagent Context Budget System. All 24 agents now have explicit `max_context_tokens` and `output_max_tokens` fields in their frontmatter, categorized into 4 tiers: Heavy (12K/1K), Standard (8K/500), Light (4K/300), Minimal (2K/200). Protocol documentation defines budget enforcement, reduction strategies, and integration with context-tracker.
@@ -1311,7 +1331,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.42.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.43.0...HEAD
+[0.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.42.0...v0.43.0
 [0.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.41.0...v0.42.0
 [0.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.40.0...v0.41.0
 [0.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.39.0...v0.40.0
