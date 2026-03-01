@@ -201,7 +201,7 @@
 ### Grupo: Memory & Context
 
 **Comandos:** `/memory-context`, `/memory-save`, `/memory-search`,
-`/memory-sync`, `/context-load`, `/context-optimize`
+`/memory-sync`, `/context-load`, `/context-optimize`, `/context-age`, `/context-benchmark`
 
 **Perfil necesario:**
 
