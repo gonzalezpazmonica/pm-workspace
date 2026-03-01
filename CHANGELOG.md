@@ -13,6 +13,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.42.0] — 2026-03-01
+
+Subagent Context Budget System. All 24 agents now have explicit `max_context_tokens` and `output_max_tokens` fields in their frontmatter, categorized into 4 tiers: Heavy (12K/1K), Standard (8K/500), Light (4K/300), Minimal (2K/200). Protocol documentation defines budget enforcement, reduction strategies, and integration with context-tracker.
+
+### Added
+
+- **`.claude/rules/domain/agent-context-budget.md`** — Protocol documenting 4 budget categories, invocation rules, reduction strategies (prioritize, truncate, summarize, fragment), and context-tracker integration.
+
+### Changed
+
+- **All 24 agent frontmatter files** — Added `max_context_tokens` and `output_max_tokens` fields across 4 budget tiers.
+
+---
+
 ## [0.41.0] — 2026-03-01
 
 Session-Init Compression and CLAUDE.md Pre-compaction. Session-init now uses a 4-level priority system (critical/high/medium/low) with a max budget of 8 items to prevent context bloat as features grow. CLAUDE.md reduced from 154 to 125 lines (688 words, ~36% reduction) by condensing verbose sections and moving rarely-needed info to referenced files.

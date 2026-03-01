@@ -15,6 +15,8 @@ tools:
 model: claude-sonnet-4-6
 color: violet
 maxTurns: 25
+max_context_tokens: 8000
+output_max_tokens: 500
 memory: project
 skills:
   - azure-pipelines

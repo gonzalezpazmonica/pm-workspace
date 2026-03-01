@@ -15,6 +15,8 @@ tools:
 model: claude-haiku-4-5-20251001
 color: white
 maxTurns: 20
+max_context_tokens: 8000
+output_max_tokens: 500
 memory: project
 permissionMode: acceptEdits
 ---
