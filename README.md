@@ -84,6 +84,8 @@ Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Inteligencia para Tech Lead** — Con `\`/tech-radar\`` mapeo el stack tecnológico con categorización adopt/trial/hold/retire. Con `\`/team-skills-matrix\`` construyo la matriz de competencias del equipo con bus factor y sugerencias de pair programming. Con `\`/arch-health\`` mido la salud arquitectónica con fitness functions, drift detection y métricas de acoplamiento. Con `\`/incident-postmortem\`` estructuro postmortems blameless con timeline y root cause analysis.
 
+**Product Owner Analytics** — Con `/value-stream-map` mapeo el flujo de valor end-to-end detectando cuellos de botella. Con `/feature-impact` analizo el impacto de features en ROI, engagement y carga técnica. Con `/stakeholder-report` genero reportes ejecutivos para stakeholders con métricas de entrega y alineación de objetivos. Con `/release-readiness` verifico que una release está lista: capacidad técnica, riesgos mitigados, comunicación preparada.
+
 **Detección de verticales** — Detecto automáticamente si tu proyecto pertenece a un sector no-software (sanidad, legal, industrial, agrícola, educación, finanzas...) usando un algoritmo de 5 fases con scoring calibrado. Si el score es suficiente, te propongo crear extensiones especializadas con reglas, flujos y entidades de dominio para tu sector.
 
 ---
@@ -146,7 +148,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 162 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 166 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -175,6 +177,12 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 ```
 /tech-radar {proyecto|--outdated}    /team-skills-matrix {--bus-factor|--pairs}
 /arch-health {--drift|--coupling}    /incident-postmortem {desc|--from-alert|--list}
+```
+
+### Product Owner Analytics
+```
+/value-stream-map {--bottlenecks}    /feature-impact {--roi}
+/stakeholder-report    /release-readiness
 ```
 
 ### Inteligencia de Deuda Técnica

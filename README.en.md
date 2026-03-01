@@ -84,6 +84,8 @@ I work with 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Tech Lead intelligence** — With `\`/tech-radar\`` I map the tech stack with adopt/trial/hold/retire categorization. With `\`/team-skills-matrix\`` I build the team skills matrix with bus factor and pair programming suggestions. With `\`/arch-health\`` I measure architectural health with fitness functions, drift detection, and coupling metrics. With `\`/incident-postmortem\`` I structure blameless postmortems with timeline and root cause analysis.
 
+**Product Owner Analytics** — With `/value-stream-map` I map the end-to-end value flow detecting bottlenecks. With `/feature-impact` I analyze feature impact on ROI, engagement, and technical load. With `/stakeholder-report` I generate executive reports for stakeholders with delivery metrics and objective alignment. With `/release-readiness` I verify release readiness: technical capacity, risks mitigated, communications prepared.
+
 **Vertical detection** — I automatically detect if your project belongs to a non-software sector (healthcare, legal, industrial, agriculture, education, finance...) using a calibrated 5-phase scoring algorithm. If the score is sufficient, I propose creating specialized extensions with rules, workflows, and domain entities for your sector.
 
 ---
@@ -146,7 +148,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 162 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 166 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -175,6 +177,12 @@ I've organized all documentation into sections so you can quickly find what you 
 ```
 /tech-radar {project|--outdated}    /team-skills-matrix {--bus-factor|--pairs}
 /arch-health {--drift|--coupling}    /incident-postmortem {desc|--from-alert|--list}
+```
+
+### Product Owner Analytics
+```
+/value-stream-map {--bottlenecks}    /feature-impact {--roi}
+/stakeholder-report    /release-readiness
 ```
 
 ### Technical Debt Intelligence
