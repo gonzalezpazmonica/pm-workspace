@@ -70,6 +70,8 @@ Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Comunidad y colaboración** — Te animo a contribuir mejoras, reportar bugs o proponer ideas. Con `/contribute` puedes crear PRs directamente al repositorio, y con `/feedback` abrir issues. Antes de enviar cualquier cosa, valido que no haya datos privados (PATs, emails corporativos, nombres de proyecto, IPs) — tu privacidad es lo primero.
 
+**Detección de verticales** — Detecto automáticamente si tu proyecto pertenece a un sector no-software (sanidad, legal, industrial, agrícola, educación, finanzas...) usando un algoritmo de 5 fases con scoring calibrado. Si el score es suficiente, te propongo crear extensiones especializadas con reglas, flujos y entidades de dominio para tu sector.
+
 ---
 
 ## Documentación
@@ -130,13 +132,14 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 138 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 139 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
 /profile-setup    /profile-edit    /profile-switch    /profile-show
 /update {check|install|auto-on|auto-off|status}
 /contribute {pr|idea|bug|status}    /feedback {bug|idea|improve|list|search}
+/vertical-propose {nombre}
 ```
 
 ### Inteligencia de Deuda Técnica
