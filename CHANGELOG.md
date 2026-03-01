@@ -560,6 +560,27 @@ Inspired by the research paper "The Personalization Paradox: Navigating the Tens
 
 ---
 
+## [0.39.0] — 2026-03-01
+
+Encrypted Cloud Backup System. Savia now protects user data with AES-256-CBC encryption (PBKDF2, 100k iterations) before uploading to NextCloud (WebDAV) or Google Drive (MCP). Automatic rotation of 7 backups. Session-init suggests backup when more than 24h have passed.
+
+### Added
+
+- **`/backup` command** — 5 subcommands: `now` (encrypt + upload), `restore` (download + decrypt + verify SHA256), `auto-on`/`auto-off` (daily reminder toggle), `status` (backup history and cloud config).
+- **`scripts/backup.sh`** — Full backup lifecycle: collect files, create SHA256 manifest, encrypt with AES-256-CBC/PBKDF2 (100k iterations), upload to NextCloud via WebDAV or Google Drive via MCP, rotation of max 7 backups, restore with integrity verification.
+- **`.claude/rules/domain/backup-protocol.md`** — Protocol documenting what to include/exclude, encryption algorithm, rotation strategy, cloud providers, and restore flow.
+- **Backup suggestion in session-init** — When `auto_backup=true` and >24h since last backup, shows reminder (humans only).
+- **`scripts/test-backup.sh`** — 63 automated tests including real encrypt/decrypt/SHA256 verification cycle.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 140 → 141, added `/backup` reference
+- **README.md** — Added "Backup cifrado en la nube" feature section, updated command count (141)
+- **README.en.md** — Added "Encrypted cloud backup" feature section, updated command count (141)
+- **session-init.sh** — Added `BACKUP_TIP` variable with 24h reminder logic
+
+---
+
 ## [0.38.0] — 2026-03-01
 
 Private Review Protocol. Maintainer workflow for reviewing community PRs, issues, and contributions. Includes secrets scanning on PR diffs, validate-commands integration, squash merge, and GitHub release creation.
