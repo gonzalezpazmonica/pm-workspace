@@ -44,14 +44,15 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 ## Tech Lead — Modo `code-focused`
 
 ### Rutina diaria
-1. `/pr-pending` — PRs pendientes de review
-2. `/spec-status` — specs en progreso / esperando review
-3. `/perf-audit` si hay PRs con cambios de rendimiento
-4. Revisar output de agentes si hay specs en ejecución
+1. `/tech-radar --outdated` — detectar dependencias desactualizadas y vulnerabilidades
+2. `/pr-pending` — PRs pendientes de review
+3. `/spec-status` — specs en progreso / esperando review
+4. `/perf-audit` si hay PRs con cambios de rendimiento
+5. Revisar output de agentes si hay specs en ejecución
 
 ### Ritual semanal
-- **Lunes**: `/project-audit` — salud del código
-- **Miércoles**: `/debt-analyze` — tendencia de deuda técnica
+- **Lunes**: `/arch-health` — salud arquitectónica (fitness functions, drift, coupling)
+- **Miércoles**: `/team-skills-matrix --bus-factor` — detectar riesgos de dependencia en equipo
 - **Viernes**: `/diagram-generate` — revisión de arquitectura
 
 ### Métricas clave

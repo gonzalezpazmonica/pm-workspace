@@ -9,7 +9,25 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-*No planned releases at this time.*
+---
+
+## [0.48.0] — 2026-03-01
+
+Tech Lead Intelligence. Four new commands give Tech Leads deep visibility into technology health, team knowledge distribution, architectural integrity, and incident learning: tech stack radar, skills matrix with bus factor, architectural health scoring, and blameless postmortem templates.
+
+### Added
+
+- **`/tech-radar` command** — Maps project dependencies into adopt/trial/hold/retire categories. Detects outdated versions, CVEs, and deprecated packages. Recommends migration actions with effort estimates.
+- **`/team-skills-matrix` command** — Builds competency matrix from git history: expertise per module, bus factor calculation, pair programming suggestions for knowledge transfer.
+- **`/arch-health` command** — Architectural health score: fitness function execution, drift detection vs ADRs, coupling metrics (Ca, Ce, Instability, Abstractness, Distance from main sequence).
+- **`/incident-postmortem` command** — Blameless postmortem template: timeline construction, 5 Whys root cause analysis, action items with owners and deadlines.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 158 → 162
+- **README.md / README.en.md** — Updated tech lead intelligence section, command count (162)
+- **context-map.md** — Added 4 tech lead commands to relevant groups
+- **role-workflows.md** — Updated Tech Lead routine with new commands
 
 ---
 
@@ -1410,7 +1428,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.47.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.48.0...HEAD
+[0.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.47.0...v0.48.0
 [0.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.46.0...v0.47.0
 [0.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.45.0...v0.46.0
 [0.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.44.0...v0.45.0
