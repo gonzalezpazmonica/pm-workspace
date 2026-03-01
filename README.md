@@ -78,6 +78,8 @@ Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Informes ejecutivos** — Con `/ceo-report` genero informes multi-proyecto para dirección con semáforo de portfolio, métricas clave y recomendaciones. Con `/ceo-alerts` filtro solo las alertas que requieren decisión de nivel directivo. Con `/portfolio-overview` muestro una vista bird's-eye de todos los proyectos con dependencias.
 
+**Toolkit QA** — Con `/qa-dashboard` tengo un panel de calidad con cobertura, tests flaky, bugs y escape rate. Con `/qa-regression-plan` analizo el impacto de cambios y recomiendo qué tests ejecutar. Con `/qa-bug-triage` ayudo a clasificar bugs por severidad y detectar duplicados. Con `/testplan-generate` genero planes de pruebas desde specs SDD o PBIs.
+
 **Detección de verticales** — Detecto automáticamente si tu proyecto pertenece a un sector no-software (sanidad, legal, industrial, agrícola, educación, finanzas...) usando un algoritmo de 5 fases con scoring calibrado. Si el score es suficiente, te propongo crear extensiones especializadas con reglas, flujos y entidades de dominio para tu sector.
 
 ---
@@ -140,7 +142,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 150 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 154 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -156,6 +158,8 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 /hub-audit {quick|update}
 /ceo-report {proyecto|--format md|pdf|pptx}
 /ceo-alerts {proyecto|--history}    /portfolio-overview {--compact|--deps}
+/qa-dashboard {proyecto|--trend}    /qa-regression-plan {branch|--pr}
+/qa-bug-triage {bug-id|--backlog}    /testplan-generate {spec|--pbi|--sprint}
 ```
 
 ### Inteligencia de Deuda Técnica

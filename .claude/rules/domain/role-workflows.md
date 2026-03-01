@@ -68,14 +68,15 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 ## QA Engineer — Modo `quality-gate`
 
 ### Rutina diaria
-1. `/pr-pending` — revisar PRs con foco en testing
-2. Verificar cobertura de tests en cambios recientes
-3. `/security-alerts` si el proyecto tiene compliance activo
+1. `/qa-dashboard` — panel de calidad con cobertura, tests flaky, bugs, escape rate
+2. `/pr-pending` — revisar PRs con foco en testing
+3. Verificar cobertura de tests en cambios recientes
+4. `/security-alerts` si el proyecto tiene compliance activo
 
 ### Ritual semanal
-- **Lunes**: Planificar tests para items del sprint
-- **Miércoles**: Ejecutar tests de regresión
-- **Viernes**: `/compliance-scan` — verificación pre-release
+- **Lunes**: Planificar tests para items del sprint + `/qa-regression-plan` si hay cambios
+- **Miércoles**: Ejecutar tests de regresión y `/qa-bug-triage` para clasificación de defectos
+- **Viernes**: `/testplan-generate` para próximas features + `/compliance-scan` pre-release
 
 ### Métricas clave
 - Cobertura de tests, bugs encontrados/sprint, escape rate, test execution time

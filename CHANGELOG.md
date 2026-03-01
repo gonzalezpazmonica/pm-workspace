@@ -13,6 +13,27 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.46.0] — 2026-03-01
+
+QA and Testing Toolkit. Four new commands give QA Engineers a complete testing workflow: quality dashboard with composite scoring, change-impact regression planning, assisted bug triage with duplicate detection, and test plan generation from SDD specs or PBIs.
+
+### Added
+
+- **`/qa-dashboard` command** — Quality panel with coverage, flaky tests, bugs by severity, escape rate, test execution time. Quality Score 0-100 with traffic-light.
+- **`/qa-regression-plan` command** — Analyzes changed files, maps test coverage (direct/indirect), identifies uncovered files, and recommends regression test suites.
+- **`/qa-bug-triage` command** — Assisted bug triage: severity classification (4 factors), duplicate detection (similarity matching), assignment suggestions based on code authorship and workload.
+- **`/testplan-generate` command** — Generates test plans from SDD specs or PBIs: happy path, negative, edge cases, data cases. Classifies by type (unit/integration/E2E/perf/security) and estimates effort.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 150 → 154, added QA commands
+- **README.md** — Updated QA toolkit section, command count (154), command reference
+- **README.en.md** — Same updates in English
+- **context-map.md** — Added 4 QA commands to Quality & PRs group
+- **role-workflows.md** — Updated QA Engineer routine to use new commands
+
+---
+
 ## [0.45.0] — 2026-03-01
 
 Executive Reports for Leadership. Three new commands give CEO/CTO/Directors a strategic view of their project portfolio without operational noise: multi-project reports with traffic-light scoring, filtered alerts requiring only C-level decisions, and a bird's-eye portfolio overview with inter-project dependency mapping.
@@ -1369,7 +1390,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.45.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.46.0...HEAD
+[0.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.45.0...v0.46.0
 [0.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.44.0...v0.45.0
 [0.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.43.0...v0.44.0
 [0.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.42.0...v0.43.0
