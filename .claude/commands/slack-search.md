@@ -21,11 +21,21 @@ description: >
 - `--decisions` — Filtrar por mensajes que parezcan decisiones (contienen "decidimos", "aprobado", "acordamos")
 - `--limit {n}` — Máximo de resultados (default: 10)
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Messaging** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/preferences.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar tono y formalidad según `tone.formality` y `preferences.language`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 1. `.claude/rules/connectors-config.md` — Verificar que Slack está habilitado
 
-## Pasos de ejecución
+## 4. Pasos de ejecución
 
 1. **Verificar conector** — Comprobar que el conector Slack está disponible
 

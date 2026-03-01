@@ -14,6 +14,8 @@ tools:
 model: claude-opus-4-6
 color: red
 maxTurns: 25
+max_context_tokens: 12000
+output_max_tokens: 1000
 memory: project
 permissionMode: plan
 ---

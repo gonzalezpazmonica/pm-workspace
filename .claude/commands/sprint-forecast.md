@@ -8,15 +8,26 @@ context_cost: medium
 
 # Sprint Forecast
 
-## Descripción
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Sprint & Daily** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `tone.alert_style` y `workflow.daily_time`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Descripción
 Predice la fecha de completitud del sprint actual y items en riesgo usando análisis de velocity histórica con simulación Monte Carlo simplificada.
 
-## Uso
+## 3. Uso
 ```bash
 claude sprint-forecast [sprint-name]
 ```
 
-## Funcionalidades
+## 4. Funcionalidades
 
 ### 1. Extracción de Velocity Histórica
 - Lectura de últimas 3-5 sprints completadas

@@ -2,12 +2,23 @@
 
 Genera la plantilla de retrospectiva con datos del sprint para facilitar la ceremonia.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Sprint & Daily** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `tone.alert_style` y `workflow.daily_time`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /sprint-retro [proyecto] [--sprint "Sprint 2026-XX"]
 ```
 
-## Pasos de Ejecución
+## 3. Pasos de Ejecución
 
 1. Obtener datos del sprint cerrado (mismos que /sprint-review si ya se ejecutó)
 2. Recuperar action items de la retro anterior desde `projects/<proyecto>/sprints/<sprint-anterior>/retro-actions.md`
@@ -16,7 +27,7 @@ Genera la plantilla de retrospectiva con datos del sprint para facilitar la cere
 5. Generar plantilla con datos pre-cargados
 6. Guardar en `projects/<proyecto>/sprints/<sprint>/retro-template.md`
 
-## Formato de Salida
+## 4. Formato de Salida
 
 ```
 ## Retrospectiva — [Sprint Name] — [Fecha]

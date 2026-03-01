@@ -26,20 +26,30 @@ context_cost: high
 - Si `--format docx`: cargar skill `docx` para generación de Word
 - Cargar skill: `@.claude/skills/regulatory-compliance/SKILL.md`
 
-## Ejecución (4 pasos)
+## 2. Cargar perfil de usuario
 
-### Paso 1 — Recopilar datos
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Governance** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar idioma y nivel de detalle según `preferences.language` y `preferences.detail_level`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Ejecución (4 pasos)
+
+### Paso 4 — Recopilar datos
 Leer todos los informes en `output/compliance/{proyecto}-scan-*.md` y `{proyecto}-fix-*.md`.
 Ordenar cronológicamente. Identificar sector(es) y regulaciones verificadas.
 Extraer scores con fórmula documentada: `(requisitos cumplidos / total) × 100`.
 
-### Paso 2 — Analizar tendencias (si --compare)
+### Paso 5 — Analizar tendencias (si --compare)
 Comparar compliance score entre scans:
 - Tendencia: mejorando / estable / empeorando
 - Issues resueltos vs nuevos vs recurrentes
 - Regulaciones con más incumplimientos
 
-### Paso 3 — Generar informe (7 secciones)
+### Paso 6 — Generar informe (7 secciones)
 
 ```markdown
 # Informe de Compliance Regulatorio — {proyecto}
@@ -77,7 +87,7 @@ Issues resueltos / nuevos / recurrentes
 Re-escanear tras correcciones: `/compliance-scan {path}`
 ```
 
-### Paso 4 — Exportar
+### Paso 7 — Exportar
 - Si `--format md`: Guardar en `output/compliance/{proyecto}-report-{fecha}.md`
 - Si `--format docx`: Generar Word usando skill `docx`
 

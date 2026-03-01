@@ -17,7 +17,18 @@ description: Estado del sprint actual — progreso, burndown, alertas.
 
 > Si no se indica proyecto, usar el definido en AZURE_DEVOPS_DEFAULT_PROJECT.
 
-## 2. Verificar prerequisitos
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Sprint & Daily** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `tone.alert_style` y `workflow.daily_time`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Verificar prerequisitos
 
 ```
 Verificando requisitos...
@@ -31,7 +42,7 @@ Mostrar ✅/❌:
 Si falta el PAT → modo interactivo (pedir y guardar).
 Si falta el proyecto → preguntar cuál y cargar su CLAUDE.md.
 
-## 3. Ejecución con progreso
+## 4. Ejecución con progreso
 
 ```
 📋 Paso 1/3 — Obteniendo sprint actual y work items...
@@ -55,7 +66,7 @@ Si falta el proyecto → preguntar cuál y cargar su CLAUDE.md.
    - RemainingWork excede capacity restante del sprint
    - Hay bugs sin asignar
 
-## 4. Mostrar resultado
+## 5. Mostrar resultado
 
 ```
 ## Sprint Status — [Nombre Sprint] — [Fecha]
@@ -80,7 +91,7 @@ Si falta el proyecto → preguntar cuál y cargar su CLAUDE.md.
 ...
 ```
 
-## 5. Banner de fin
+## 6. Banner de fin
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

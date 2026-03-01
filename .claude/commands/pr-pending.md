@@ -13,6 +13,18 @@ description: >
 
 ---
 
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Quality & PRs** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/tools.md`
+3. Adaptar output según `identity.rol` y `tools.ide`, `tools.git_mode`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+---
+
 ## Protocolo
 
 ### 1. Leer configuración

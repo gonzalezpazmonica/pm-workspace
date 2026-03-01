@@ -25,12 +25,22 @@ description: >
 - `--database {id}` — ID de database Notion (defecto: `NOTION_DEFAULT_DATABASE`)
 - `--dry-run` — Solo mostrar cambios propuestos
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Connectors** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/preferences.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar idioma y formato según `preferences.language` y `preferences.report_format`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 1. `.claude/rules/connectors-config.md` — Verificar Notion habilitado
 2. `projects/{proyecto}/CLAUDE.md` — `NOTION_DEFAULT_DATABASE`
 
-## Pasos de ejecución — Export (to-notion)
+## 4. Pasos de ejecución — Export (to-notion)
 
 1. **Verificar conector** — Comprobar Notion disponible
 2. **Recopilar documentación** del proyecto:

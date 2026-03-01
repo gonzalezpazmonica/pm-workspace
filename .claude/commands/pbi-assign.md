@@ -2,7 +2,18 @@
 
 Asigna (o reasigna) las Tasks existentes de un PBI según el algoritmo de asignación inteligente, sin recrear las tasks.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **PBI & Backlog** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tools.md`
+3. Adaptar output según `identity.rol`, `workflow.sdd_active` y disponibilidad de `tools.azure_devops`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /pbi-assign {pbi_id} [--project {nombre}] [--rebalance]
 ```
@@ -10,19 +21,19 @@ Asigna (o reasigna) las Tasks existentes de un PBI según el algoritmo de asigna
 - `{pbi_id}`: ID del PBI padre cuyas tasks se quieren (re)asignar
 - `--rebalance`: Redistribuye teniendo en cuenta la carga actual de TODO el sprint, no solo las tasks de este PBI
 
-## Cuándo usar este comando
+## 3. Cuándo usar este comando
 
 - Las tasks ya existen en Azure DevOps pero no están asignadas o están mal distribuidas
 - Alguien del equipo se ha ido de baja / vacaciones inesperadas y hay que redistribuir
 - Tras un cambio de capacity (ej: Pedro no puede trabajar esta semana) y quieres rebalancear
 - Como alternativa más rápida a `/pbi-decompose` cuando ya tienes las tasks
 
-## Diferencia con /pbi-decompose
+## 4. Diferencia con /pbi-decompose
 
 `/pbi-decompose` → Crea tasks nuevas desde cero + asigna
 `/pbi-assign` → Solo reasigna tasks que ya existen
 
-## Pasos de Ejecución
+## 5. Pasos de Ejecución
 
 1. Obtener las Tasks hijas del PBI:
    ```bash

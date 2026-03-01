@@ -2,7 +2,18 @@
 
 Descompone varios PBIs a la vez, optimizando las asignaciones en conjunto para equilibrar la carga global.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **PBI & Backlog** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tools.md`
+3. Adaptar output según `identity.rol`, `workflow.sdd_active` y disponibilidad de `tools.azure_devops`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /pbi-decompose-batch {id1,id2,id3} [--project {nombre}]
 ```
@@ -10,7 +21,7 @@ Descompone varios PBIs a la vez, optimizando las asignaciones en conjunto para e
 - `{id1,id2,id3}`: IDs separados por coma (ej: `1234,1235,1236`)
 - `--project`: Proyecto AzDO (default: el del CLAUDE.md raíz)
 
-## Diferencia con /pbi-decompose individual
+## 3. Diferencia con /pbi-decompose individual
 
 En el modo batch, la asignación de tasks es **global y coordinada**:
 - El agente carga el estado de capacity del equipo una sola vez al inicio
@@ -18,7 +29,7 @@ En el modo batch, la asignación de tasks es **global y coordinada**:
 - Al descomponer el segundo PBI, las horas ya asignadas (simuladas) del primer PBI se restan de la disponibilidad
 - Resultado: **distribución equilibrada entre todos los PBIs**, no uno por uno
 
-## Pasos de Ejecución
+## 4. Pasos de Ejecución
 
 1. **Cargar contexto** (igual que `/pbi-decompose`)
 2. **Obtener todos los PBIs** en una sola pasada de la API

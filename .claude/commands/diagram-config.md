@@ -18,13 +18,23 @@ description: >
 - `--list` — Mostrar estado de configuración de todas las herramientas
 - `--set-token` — Configurar token/credencial (solo Miro; Draw.io no requiere)
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Diagramas** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar etiquetas según `preferences.language`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 1. `.claude/rules/diagram-config.md` — Constantes y URLs
 2. `.claude/mcp.json` — Configuración MCP actual
 3. `.claude/rules/pm-config.md` — Credenciales generales
 
-## Pasos de ejecución
+## 4. Pasos de ejecución
 
 ### Si `--list`
 

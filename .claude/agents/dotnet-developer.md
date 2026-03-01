@@ -16,6 +16,8 @@ tools:
 model: claude-sonnet-4-6
 color: green
 maxTurns: 40
+max_context_tokens: 8000
+output_max_tokens: 500
 memory: project
 skills:
   - spec-driven-development

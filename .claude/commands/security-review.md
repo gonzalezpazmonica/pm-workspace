@@ -21,7 +21,17 @@ allowed-tools:
 2. Obtener proyecto del path de la spec
 3. Leer agent-notes previas del ticket (especialmente architecture-decision)
 
-## Ejecución
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Governance** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar idioma y nivel de detalle según `preferences.language` y `preferences.detail_level`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Ejecución
 
 1. 🏁 Banner inicio: `══ /security-review — {spec} ══`
 2. Delegar a `security-guardian` con Task para análisis de:
@@ -41,19 +51,19 @@ allowed-tools:
 - Revisar flujo de datos: ¿hay datos sensibles que cruzan boundaries?
 - Revisar dependencias externas: ¿APIs de terceros? ¿trust boundaries?
 
-3. Producir checklist de seguridad en:
+4. Producir checklist de seguridad en:
    ```
    projects/{proyecto}/agent-notes/{ticket}-security-checklist-{fecha}.md
    ```
 
-4. Mostrar resumen al PM con hallazgos categorizados:
+5. Mostrar resumen al PM con hallazgos categorizados:
    - 🔴 Bloqueante: la spec tiene una vulnerabilidad de diseño → corregir antes de implementar
    - 🟡 Recomendación: añadir X a la spec para prevenir Y
    - ✅ OK: aspecto revisado sin hallazgos
 
-5. ✅ Banner fin con veredicto
+6. ✅ Banner fin con veredicto
 
-## Output
+## 4. Output
 
 El checklist de seguridad se convierte en INPUT para el developer agent. El developer DEBE leer el security-checklist antes de implementar.
 

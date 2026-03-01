@@ -2,12 +2,22 @@
 
 Analiza el flujo de trabajo del board: WIP actual, cuellos de botella y métricas de flujo.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Team & Workload** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `tone.alert_style` (calibrar alertas de sobrecarga)
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /board-flow [proyecto]
 ```
 
-## Pasos de Ejecución
+## 3. Pasos de Ejecución
 
 1. Obtener configuración del board (columnas, WIP limits) vía API:
    `GET {org}/{project}/{team}/_apis/work/boards/{boardName}`

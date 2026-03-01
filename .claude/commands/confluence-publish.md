@@ -25,12 +25,22 @@ description: >
   - `retro` → publica resultado de `/sprint-retro`
 - `--update` — Actualizar página existente en vez de crear nueva
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Connectors** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/preferences.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar idioma y formato según `preferences.language` y `preferences.report_format`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 1. `.claude/rules/connectors-config.md` — Verificar Atlassian habilitado
 2. `projects/{proyecto}/CLAUDE.md` — `CONFLUENCE_DEFAULT_SPACE`, `JIRA_PROJECT`
 
-## Pasos de ejecución
+## 4. Pasos de ejecución
 
 1. **Verificar conector** — Comprobar Atlassian disponible
 

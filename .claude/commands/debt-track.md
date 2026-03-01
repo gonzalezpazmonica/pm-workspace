@@ -12,7 +12,17 @@ description: >
 
 > Uso: `/debt-track --project {p}` o `/debt-track --project {p} --add`
 
-## 1. Banner de inicio
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Architecture & Debt** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar profundidad del análisis según `preferences.detail_level`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Banner de inicio
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -20,7 +30,7 @@ description: >
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## 2. Parámetros
+## 3. Parámetros
 
 - `--project {nombre}` — Proyecto (obligatorio)
 - `--add` — Registrar nuevo item de deuda técnica
@@ -36,7 +46,7 @@ Si falta `--project`:
    Uso: /debt-track --project nombre
 ```
 
-## 3. Verificar prerequisitos
+## 4. Verificar prerequisitos
 
 ```
 Verificando requisitos para "{proyecto}"...

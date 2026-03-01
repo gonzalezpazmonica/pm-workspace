@@ -21,13 +21,23 @@ description: >
 - `--dry-run` — Solo mostrar cambios propuestos
 - `--since {fecha}` — Solo sincronizar cambios desde esta fecha (YYYY-MM-DD)
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Connectors** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/preferences.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar idioma y formato según `preferences.language` y `preferences.report_format`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 1. `.claude/rules/connectors-config.md` — Verificar Linear habilitado
 2. `projects/{proyecto}/CLAUDE.md` — `LINEAR_DEFAULT_TEAM`, `AZURE_DEVOPS_PROJECT`
 3. `projects/{proyecto}/equipo.md` — Para mapeo de asignaciones
 
-## Mapeo de campos
+## 4. Mapeo de campos
 
 | Linear | Azure DevOps |
 |---|---|

@@ -2,7 +2,18 @@
 
 Descompone un PBI en Tasks técnicas con estimaciones y propuesta de asignación inteligente.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **PBI & Backlog** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tools.md`
+3. Adaptar output según `identity.rol`, `workflow.sdd_active` y disponibilidad de `tools.azure_devops`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /pbi-decompose {id} [--project {nombre}] [--dry-run]
 ```
@@ -11,7 +22,7 @@ Descompone un PBI en Tasks técnicas con estimaciones y propuesta de asignación
 - `--project`: Proyecto AzDO (default: `AZURE_DEVOPS_DEFAULT_PROJECT`)
 - `--dry-run`: Solo muestra la propuesta, **no crea nada** en Azure DevOps (comportamiento por defecto)
 
-## Pasos de Ejecución
+## 3. Pasos de Ejecución
 
 1. **Leer contexto** en este orden (Progressive Disclosure según la skill):
    - `CLAUDE.md` (raíz)

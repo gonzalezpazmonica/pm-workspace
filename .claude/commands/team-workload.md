@@ -2,12 +2,22 @@
 
 Muestra la carga de trabajo por persona: items asignados, horas remaining y balance de equipo.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Team & Workload** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `tone.alert_style` (calibrar alertas de sobrecarga)
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /team-workload [proyecto]
 ```
 
-## Pasos de Ejecución
+## 3. Pasos de Ejecución
 
 1. Ejecutar WIQL para obtener todos los items activos del sprint actual asignados a cada persona
 2. Para cada persona del equipo (leer de `projects/<proyecto>/equipo.md`):

@@ -2,7 +2,17 @@
 
 Fase de exploración pre-spec. Analiza el codebase para identificar ficheros afectados, patrones existentes y enfoques posibles antes de generar la spec.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **SDD & Agentes** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar output según `identity.rol` (tech lead vs PM), `workflow.reviews_agent_code`, `workflow.specs_per_sprint`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /spec-explore {task-id} [--project {nombre}]
 ```
@@ -10,9 +20,9 @@ Fase de exploración pre-spec. Analiza el codebase para identificar ficheros afe
 - `{task-id}`: ID de la Task en Azure DevOps (ej: `1234`)
 - `--project`: Proyecto (default: proyecto activo de CLAUDE.md)
 
-## Pasos de Ejecución
+## 3. Pasos de Ejecución
 
-### Paso 1 — Banner de inicio
+### 3.1 — Banner de inicio
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

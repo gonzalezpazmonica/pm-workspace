@@ -16,11 +16,21 @@ context_cost: medium
 
 - Descripción del proyecto o requisitos
 
-## Parámetros
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Architecture & Debt** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar profundidad del análisis según `preferences.detail_level`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Parámetros
 
 - `{requirements}` — Descripción libre: tipo de app, lenguaje, escala, equipo, etc.
 
-## Flujo de Ejecución
+## 4. Flujo de Ejecución
 
 ### 1. Extraer Requisitos
 

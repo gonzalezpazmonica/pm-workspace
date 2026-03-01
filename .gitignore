@@ -48,6 +48,11 @@ Thumbs.db
 # ── Configuración privada de reglas ──────────────────────────────────────────
 .claude/rules/pm-config.local.md
 
+# ── Perfiles de usuario (datos personales — RGPD) ──────────────────────────
+# Solo se commitea la plantilla. Perfiles reales son privados.
+.claude/profiles/users/*
+!.claude/profiles/users/template/
+
 # ── Claude Code — preferencias personales (no compartir) ─────────────────────
 CLAUDE.local.md
 

@@ -16,13 +16,23 @@ context_cost: low
 
 - Ninguno
 
-## Parámetros
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Architecture & Debt** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar profundidad del análisis según `preferences.detail_level`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Parámetros
 
 - `{pattern1}` — Primer patrón (clean, hexagonal, ddd, cqrs, mvc, mvvm, microservices, event-driven)
 - `{pattern2}` — Segundo patrón
 - `--context {description}` — (Opcional) Contexto del proyecto para personalizar
 
-## Patrones Reconocidos
+## 4. Patrones Reconocidos
 
 | Alias | Patrón |
 |-------|--------|
@@ -37,7 +47,7 @@ context_cost: low
 | layered | Layered (N-Tier) |
 | monolith | Modular Monolith |
 
-## Flujo de Ejecución
+## 5. Flujo de Ejecución
 
 ### 1. Validar Patrones
 

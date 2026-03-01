@@ -18,12 +18,22 @@ description: >
 - `--last {n}` — Últimas N builds por pipeline (defecto: 5)
 - `--branch {rama}` — Filtrar por rama (opcional)
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Infrastructure** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/tools.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar output según herramientas y entorno del usuario
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — `AZURE_REPOS_PROJECT` o nombre DevOps
 2. `.claude/skills/azure-pipelines/SKILL.md` — Referencia de estados y MCP tools
 
-## Pasos de ejecución
+## 4. Pasos de ejecución
 
 1. **Leer proyecto** → resolver nombre en Azure DevOps
 2. **MCP `get_build_definitions`** → listar pipelines del proyecto
@@ -55,14 +65,14 @@ description: >
 - frontend-ci: Build #89 fallida hace 1d — revisar con `/pipeline-logs --project {p} --build 89`
 ```
 
-## Integración con otros comandos
+## 6. Integración con otros comandos
 
 - `/pipeline-logs --build {id}` → ver logs de build fallida
 - `/pipeline-run {pipeline}` → re-ejecutar pipeline
 - `/kpi-dashboard` → incluye métricas de pipelines
 - `/sprint-status` → muestra alertas de CI/CD si hay fallos
 
-## Restricciones
+## 7. Restricciones
 
 - Solo lectura — no modifica nada
 - Si no hay pipelines configuradas → informar y sugerir `/pipeline-create`

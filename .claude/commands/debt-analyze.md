@@ -15,7 +15,17 @@ context_cost: high
 
 > Uso: `/debt-analyze --project {p}` o `/debt-analyze --project {p} --days 30`
 
-## 1. Banner de inicio
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Architecture & Debt** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar profundidad del análisis según `preferences.detail_level`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Banner de inicio
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -23,13 +33,13 @@ context_cost: high
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## 2. Parámetros
+## 3. Parámetros
 
 - `--project {nombre}` — Proyecto (obligatorio)
 - `--days {N}` — Ventana temporal: 30 (default), 60, 90
 - `--sonarqube {url}` — URL SonarQube (si está disponible)
 
-## 3. Análisis a ejecutar
+## 4. Análisis a ejecutar
 
 1. **Complexity Hotspots**: Detectar ficheros con mayor complejidad ciclomática
    - Heurística: líneas × frecuencia de cambio en últimos 30 días

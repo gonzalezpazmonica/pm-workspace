@@ -8,15 +8,25 @@ context_cost: low
 
 # Comando: agent-cost
 
-## Descripción
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **SDD & Agentes** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar output según `identity.rol` (tech lead vs PM), `workflow.reviews_agent_code`, `workflow.specs_per_sprint`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Descripción
 
 Estima el coste de uso de agentes basándose en tokens consumidos. Agrupa por agente, comando y opcionalmente por sprint. Incluye recomendaciones de optimización.
 
-## Datos
+## 3. Datos
 
 Lectura desde `projects/{proyecto}/traces/agent-traces.jsonl` (mismo formato que `/agent-trace`)
 
-## Modelo de costes
+## 4. Modelo de costes
 
 Configurable en `CLAUDE.local.md`:
 - **Opus 4.6**: $15/M tokens entrada, $75/M tokens salida

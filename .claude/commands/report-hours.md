@@ -2,13 +2,24 @@
 
 Genera el informe de imputación de horas del sprint actual o especificado.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Reporting** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/preferences.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `preferences.language`, `preferences.detail_level`, `preferences.report_format` y `tone.formality`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /report-hours [proyecto] [--sprint "Sprint 2026-XX"] [--format xlsx|docx]
 ```
 Formato por defecto: `xlsx`.
 
-## Pasos de Ejecución
+## 3. Pasos de Ejecución
 
 1. Cargar variables de entorno y leer `projects/<proyecto>/CLAUDE.md`
 2. Usar la skill `time-tracking-report`:

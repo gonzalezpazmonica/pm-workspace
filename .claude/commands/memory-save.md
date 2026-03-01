@@ -24,17 +24,25 @@ Guarda observaciones clave en la memoria persistente del proyecto para reutiliza
 
 ## Proceso
 
-**1. Inicio**
+**1. Cargar perfil de usuario**
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Memory** del context-map):
+   - `profiles/users/{slug}/identity.md`
+3. Usar slug para aislar memorias por usuario
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+**2. Inicio**
 ```
 ═══════════════════════════════════════════════════════════
 ⚙️ GUARDAR EN MEMORIA PERSISTENTE
 ═══════════════════════════════════════════════════════════
 ```
 
-**2. Parse de argumentos**
+**3. Parse de argumentos**
 Extraigo `tipo`, `título` y `--topic` (si existe) de tu entrada.
 
-**3. Solicito contenido**
+**4. Solicito contenido**
 Te pido que completes:
 - Qué recordar (descripción detallada)
 - Por qué es importante

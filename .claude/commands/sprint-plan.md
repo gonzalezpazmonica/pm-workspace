@@ -2,12 +2,23 @@
 
 Asiste en el Sprint Planning calculando capacity disponible y proponiendo la carga de trabajo.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Sprint & Daily** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `tone.alert_style` y `workflow.daily_time`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /sprint-plan [proyecto] [--sprint "Sprint 2026-XX"]
 ```
 
-## Pasos de Ejecución
+## 3. Pasos de Ejecución
 
 1. Leer `projects/<proyecto>/CLAUDE.md` y `projects/<proyecto>/equipo.md`
 2. Obtener el siguiente sprint de Azure DevOps (az boards iteration team list)
@@ -27,7 +38,7 @@ Asiste en el Sprint Planning calculando capacity disponible y proponiendo la car
    - Specialization (según `equipo.md`)
 8. Mostrar propuesta y pedir confirmación antes de crear las capacities en Azure DevOps
 
-## Formato de Salida
+## 4. Formato de Salida
 
 ```
 ## Sprint Planning — [Sprint Name] — [Fechas]

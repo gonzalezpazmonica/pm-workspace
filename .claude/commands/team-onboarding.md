@@ -13,6 +13,16 @@ description: >
 > Uso: `/team-onboarding "Laura Sánchez" --project GestiónClínica`
 >
 > Prerequisito: la nota informativa RGPD debe estar firmada antes de registrar
+
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Team & Workload** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `tone.alert_style` (calibrar alertas de sobrecarga)
+4. Si no hay perfil → continuar con comportamiento por defecto
 > datos del trabajador. Si no existe, sugerir `/team-privacy-notice` primero.
 
 ---

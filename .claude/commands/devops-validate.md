@@ -22,7 +22,17 @@ description: >
 Si no se indica `--project`, preguntar interactivamente.
 Si no se indica `--team`, usar `"{project} Team"` como default.
 
-## 2. Verificar prerequisitos
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Infrastructure** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/tools.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar output según herramientas y entorno del usuario
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Verificar prerequisitos
 
 ```
 Verificando requisitos...
@@ -36,7 +46,7 @@ Mostrar ✅/❌:
 Si falta el PAT → modo interactivo: pedir, guardar en `$HOME/.azure/devops-pat`, continuar.
 Si falta Org URL → pedir interactivamente, guardar en `CLAUDE.local.md`.
 
-## 3. Ejecución con progreso
+## 4. Ejecución con progreso
 
 ```
 📋 Paso 1/4 — Verificando conectividad y proyecto...
@@ -49,7 +59,7 @@ Ejecutar: `bash scripts/validate-devops.sh --project "$PROJECT" --team "$TEAM" -
 
 Donde `OUTPUT_FILE` = `output/validations/YYYYMMDD-devops-validate-{project}.json`
 
-## 4. Mostrar resultado
+## 5. Mostrar resultado
 
 Parsear el JSON report. Presentar tabla resumen:
 
@@ -83,7 +93,7 @@ Impact: Bugs won't appear in backlog alongside User Stories
 
 Preguntar: `¿Deseas que guarde el plan de remediación en un fichero?`
 
-## 5. Banner de fin
+## 6. Banner de fin
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
