@@ -13,6 +13,26 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.47.0] — 2026-03-01
+
+Developer Productivity. Four new commands give developers a personal sprint view, deep focus mode, learning opportunity detection, and a living pattern catalog from their own codebase. All features are private — no comparisons or rankings.
+
+### Added
+
+- **`/my-sprint` command** — Personal sprint view: assigned items, progress bar, cycle time vs team, PR status. Private, no team comparisons.
+- **`/my-focus` command** — Deep focus mode: identifies top priority item (considering blocks, severity, age), loads all context (spec, tests, code, agent-notes), suggests next action.
+- **`/my-learning` command** — Analyzes developer's recent commits against project best practices. Identifies gaps by frequency, always includes strengths. Private and constructive.
+- **`/code-patterns` command** — Living pattern catalog: detects architectural, creational, structural, behavioral, resilience, and testing patterns in the project code with real examples.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 154 → 158
+- **README.md / README.en.md** — Updated developer productivity section, command count (158)
+- **context-map.md** — Added 4 developer commands to relevant groups
+- **role-workflows.md** — Updated Developer daily routine with new commands
+
+---
+
 ## [0.46.0] — 2026-03-01
 
 QA and Testing Toolkit. Four new commands give QA Engineers a complete testing workflow: quality dashboard with composite scoring, change-impact regression planning, assisted bug triage with duplicate detection, and test plan generation from SDD specs or PBIs.
@@ -1390,7 +1410,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.46.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.47.0...HEAD
+[0.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.46.0...v0.47.0
 [0.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.45.0...v0.46.0
 [0.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.44.0...v0.45.0
 [0.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.43.0...v0.44.0

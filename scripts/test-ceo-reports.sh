@@ -85,7 +85,7 @@ echo ""
 
 echo "📋 4. CLAUDE.md Updates"
 
-check_content "CLAUDE.md" "commands/ (154)" "CLAUDE.md shows 154 commands"
+check_content "CLAUDE.md" "commands/ (158)" "CLAUDE.md shows 158 commands"
 check_content "CLAUDE.md" "ceo-report" "CLAUDE.md references /ceo-report"
 check_content "CLAUDE.md" "ceo-alerts" "CLAUDE.md references /ceo-alerts"
 check_content "CLAUDE.md" "portfolio-overview" "CLAUDE.md references /portfolio-overview"
@@ -95,11 +95,11 @@ echo ""
 
 echo "📋 5. README Updates"
 
-check_content "README.md" "154 comandos" "README.md shows 154 commands"
+check_content "README.md" "158 comandos" "README.md shows 158 commands"
 check_content "README.md" "ceo-report" "README.md references /ceo-report"
 check_content "README.md" "portfolio-overview" "README.md references /portfolio-overview"
 check_content "README.md" "nformes ejecutivos" "README.md has executive reports feature"
-check_content "README.en.md" "154 commands" "README.en.md shows 154 commands"
+check_content "README.en.md" "158 commands" "README.en.md shows 158 commands"
 check_content "README.en.md" "ceo-report" "README.en.md references /ceo-report"
 check_content "README.en.md" "Executive reports" "README.en.md has executive reports feature"
 echo ""

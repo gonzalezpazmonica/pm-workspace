@@ -11,7 +11,7 @@
 ### Grupo: Sprint & Daily
 
 **Comandos:** `/sprint-status`, `/sprint-plan`, `/sprint-review`,
-`/sprint-retro`, `/velocity-trend`, `/sprint-forecast`
+`/sprint-retro`, `/velocity-trend`, `/sprint-forecast`, `/my-sprint`
 
 **Perfil necesario:**
 
@@ -70,7 +70,7 @@
 
 **Comandos:** `/spec-generate`, `/spec-design`, `/spec-explore`,
 `/spec-implement`, `/spec-review`, `/spec-verify`, `/spec-status`,
-`/agent-run`, `/agent-cost`, `/agent-efficiency`
+`/agent-run`, `/agent-cost`, `/agent-efficiency`, `/my-focus`
 
 **Perfil necesario:**
 
@@ -107,7 +107,7 @@
 
 ### Grupo: Quality & PRs
 
-**Comandos:** `/pr-pending`, `/pr-review`, `/perf-audit`, `/perf-fix`, `/qa-dashboard`, `/qa-regression-plan`, `/qa-bug-triage`, `/testplan-generate`
+**Comandos:** `/pr-pending`, `/pr-review`, `/perf-audit`, `/perf-fix`, `/qa-dashboard`, `/qa-regression-plan`, `/qa-bug-triage`, `/testplan-generate`, `/my-learning`
 
 **Perfil necesario:**
 
@@ -237,7 +237,7 @@
 
 **Comandos:** `/arch-detect`, `/arch-suggest`, `/arch-compare`,
 `/arch-fitness`, `/arch-recommend`, `/debt-track`, `/debt-analyze`,
-`/debt-prioritize`, `/debt-budget`
+`/debt-prioritize`, `/debt-budget`, `/code-patterns`
 
 **Perfil necesario:**
 
