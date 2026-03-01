@@ -68,6 +68,8 @@ I work with 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **User profiles and agent mode** — When you arrive for the first time, I introduce myself and get to know you through a natural conversation. I store your fragmented profile (identity, workflow, tools, projects, preferences, tone) and load only what's needed for each operation. I also communicate with external agents (OpenClaw and similar) in machine-to-machine mode: structured YAML/JSON output, no narrative, just data and status codes.
 
+**Community and collaboration** — I encourage you to contribute improvements, report bugs, or propose ideas. With `/contribute` you can create PRs directly to the repository, and with `/feedback` you can open issues. Before sending anything, I validate that no private data is included (PATs, corporate emails, project names, IPs) — your privacy comes first.
+
 ---
 
 ## Documentation
@@ -128,12 +130,13 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 136 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 138 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
-### User Profile and Updates
+### User Profile, Updates and Community
 ```
 /profile-setup    /profile-edit    /profile-switch    /profile-show
 /update {check|install|auto-on|auto-off|status}
+/contribute {pr|idea|bug|status}    /feedback {bug|idea|improve|list|search}
 ```
 
 ### Technical Debt Intelligence

@@ -13,6 +13,28 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.36.0] — 2026-03-01
+
+Community & Collaboration System. Savia now helps users contribute back to pm-workspace while protecting their privacy. Privacy-first validation blocks PATs, corporate emails, project names, IPs, and connection strings before any content reaches GitHub.
+
+### Added
+
+- **`/contribute` command** — Create PRs (`/contribute pr`), propose ideas (`/contribute idea`), report bugs (`/contribute bug`), check status (`/contribute status`). All content validated for privacy before submission.
+- **`/feedback` command** — Open issues as bug reports (`/feedback bug`), ideas (`/feedback idea`), improvements (`/feedback improve`), list open issues (`/feedback list`), search before duplicating (`/feedback search`).
+- **`scripts/contribute.sh`** — Shared GitHub interaction layer with `validate_privacy()`, `do_pr()`, `do_issue()`, `do_list()`, `do_search()`. Detects AWS keys, GitHub PATs, OpenAI keys, JWTs, Azure credentials, corporate emails, private IPs, connection strings, and project names from `CLAUDE.local.md`.
+- **`.claude/rules/domain/community-protocol.md`** — Privacy guardrails documenting what NEVER to include, what to include, standard labels (`bug`, `enhancement`, `idea`, `improvement`, `community`, `from-savia`), and PR/issue templates.
+- **Community suggestion in session-init** — 1-in-20 session probability of showing "¿Encontraste algo que mejorar? /contribute idea o /feedback bug" (only for human users, not agents).
+- **`scripts/test-contribute.sh`** — 67 automated tests covering file existence, script content, privacy validation (clean text, GitHub PAT, AWS key detection), hook integration, documentation integration.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 136 → 138, added `/contribute` and `/feedback` references
+- **README.md** — Added "Comunidad y colaboración" feature section, updated command reference (138 comandos), added `/contribute` and `/feedback` to quick reference
+- **README.en.md** — Added "Community and collaboration" feature section, updated command reference (138 commands), added `/contribute` and `/feedback` to quick reference
+- **session-init.sh** — Added `COMMUNITY_TIP` variable with random suggestion logic
+
+---
+
 ## [0.35.0] — 2026-03-01
 
 Savia — User Profiling System and Agent Mode. pm-workspace now has its own identity: Savia, the little owl that keeps your projects alive. Fragmented user profiles with conditional context loading, natural conversational onboarding, multi-role support, and machine-to-machine communication for external agents.
@@ -1180,6 +1202,7 @@ Initial public release of PM-Workspace.
 ---
 
 [Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.35.0...HEAD
+[0.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.35.0...v0.36.0
 [0.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.34.0...v0.35.0
 [0.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.3...v0.34.0
 [0.33.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.2...v0.33.3

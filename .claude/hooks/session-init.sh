@@ -98,6 +98,13 @@ if [ "$AUTO_CHECK" = "true" ]; then
   fi
 fi
 
+# Sugerencia ocasional de comunidad (1 de cada 20 sesiones)
+COMMUNITY_TIP=""
+RANDOM_NUM=$((RANDOM % 20))
+if [ "$RANDOM_NUM" -eq 0 ] && [ "$AGENT_MODE" = "false" ]; then
+  COMMUNITY_TIP="💡 ¿Encontraste algo que mejorar? /contribute idea o /feedback bug"
+fi
+
 # Establecer variables de entorno si CLAUDE_ENV_FILE existe
 if [ -n "$CLAUDE_ENV_FILE" ]; then
   echo "export PM_WORKSPACE_ROOT=$HOME/claude" >> "$CLAUDE_ENV_FILE"
@@ -109,6 +116,9 @@ fi
 ADDITIONAL_CONTEXT="PM-Workspace Session Init:\n- $PAT_STATUS\n- Herramientas:$TOOLS_STATUS\n- $EMERGENCY_PLAN_STATUS\n- $PROFILE_STATUS"
 if [ -n "$UPDATE_STATUS" ]; then
   ADDITIONAL_CONTEXT="$ADDITIONAL_CONTEXT\n- $UPDATE_STATUS"
+fi
+if [ -n "$COMMUNITY_TIP" ]; then
+  ADDITIONAL_CONTEXT="$ADDITIONAL_CONTEXT\n- $COMMUNITY_TIP"
 fi
 ADDITIONAL_CONTEXT="$ADDITIONAL_CONTEXT\n- Rama: $BRANCH\n- Últimos commits:\n$LAST_COMMITS"
 
