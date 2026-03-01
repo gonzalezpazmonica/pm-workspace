@@ -82,6 +82,8 @@ Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Productividad del desarrollador** — Con `/my-sprint` muestro tu vista personal del sprint con items asignados y cycle time. Con `/my-focus` identifico tu item más prioritario y cargo todo su contexto. Con `/my-learning` detecto oportunidades de mejora analizando tu código. Con `/code-patterns` documento los patterns del proyecto con ejemplos reales.
 
+**Inteligencia para Tech Lead** — Con `\`/tech-radar\`` mapeo el stack tecnológico con categorización adopt/trial/hold/retire. Con `\`/team-skills-matrix\`` construyo la matriz de competencias del equipo con bus factor y sugerencias de pair programming. Con `\`/arch-health\`` mido la salud arquitectónica con fitness functions, drift detection y métricas de acoplamiento. Con `\`/incident-postmortem\`` estructuro postmortems blameless con timeline y root cause analysis.
+
 **Detección de verticales** — Detecto automáticamente si tu proyecto pertenece a un sector no-software (sanidad, legal, industrial, agrícola, educación, finanzas...) usando un algoritmo de 5 fases con scoring calibrado. Si el score es suficiente, te propongo crear extensiones especializadas con reglas, flujos y entidades de dominio para tu sector.
 
 ---
@@ -144,7 +146,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 158 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 162 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -167,6 +169,12 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 ```
 /my-sprint {--all|--history}    /my-focus {--next|--list}
 /my-learning {--quick|--topic}    /code-patterns {pattern|--new}
+```
+
+### Inteligencia para Tech Lead
+```
+/tech-radar {proyecto|--outdated}    /team-skills-matrix {--bus-factor|--pairs}
+/arch-health {--drift|--coupling}    /incident-postmortem {desc|--from-alert|--list}
 ```
 
 ### Inteligencia de Deuda Técnica
