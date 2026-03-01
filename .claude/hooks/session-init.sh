@@ -105,6 +105,25 @@ if [ "$RANDOM_NUM" -eq 0 ] && [ "$AGENT_MODE" = "false" ]; then
   COMMUNITY_TIP="💡 ¿Encontraste algo que mejorar? /contribute idea o /feedback bug"
 fi
 
+# Sugerencia de backup si nunca se ha hecho o hace más de 24h
+BACKUP_TIP=""
+BACKUP_CONFIG="$HOME/.pm-workspace/backup-config"
+if [ "$AGENT_MODE" = "false" ]; then
+  if [ ! -f "$BACKUP_CONFIG" ]; then
+    BACKUP_TIP="💾 Tus perfiles no tienen backup. Ejecuta /backup now para protegerlos."
+  else
+    BACKUP_AUTO=$(grep -oP 'auto_backup=\K\w+' "$BACKUP_CONFIG" 2>/dev/null || echo "false")
+    BACKUP_LAST=$(grep -oP 'last_backup=\K\d+' "$BACKUP_CONFIG" 2>/dev/null || echo "0")
+    if [ "$BACKUP_AUTO" = "true" ] && [ "$BACKUP_LAST" != "0" ]; then
+      BACKUP_NOW=$(date +%s)
+      BACKUP_DIFF=$((BACKUP_NOW - BACKUP_LAST))
+      if [ "$BACKUP_DIFF" -gt 86400 ]; then  # 24 horas
+        BACKUP_TIP="💾 Hace más de 24h de tu último backup. Ejecuta /backup now para proteger tus datos."
+      fi
+    fi
+  fi
+fi
+
 # Establecer variables de entorno si CLAUDE_ENV_FILE existe
 if [ -n "$CLAUDE_ENV_FILE" ]; then
   echo "export PM_WORKSPACE_ROOT=$HOME/claude" >> "$CLAUDE_ENV_FILE"
@@ -119,6 +138,9 @@ if [ -n "$UPDATE_STATUS" ]; then
 fi
 if [ -n "$COMMUNITY_TIP" ]; then
   ADDITIONAL_CONTEXT="$ADDITIONAL_CONTEXT\n- $COMMUNITY_TIP"
+fi
+if [ -n "$BACKUP_TIP" ]; then
+  ADDITIONAL_CONTEXT="$ADDITIONAL_CONTEXT\n- $BACKUP_TIP"
 fi
 ADDITIONAL_CONTEXT="$ADDITIONAL_CONTEXT\n- Rama: $BRANCH\n- Últimos commits:\n$LAST_COMMITS"
 

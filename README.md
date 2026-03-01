@@ -70,6 +70,8 @@ Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Comunidad y colaboración** — Te animo a contribuir mejoras, reportar bugs o proponer ideas. Con `/contribute` puedes crear PRs directamente al repositorio, y con `/feedback` abrir issues. Antes de enviar cualquier cosa, valido que no haya datos privados (PATs, emails corporativos, nombres de proyecto, IPs) — tu privacidad es lo primero.
 
+**Backup cifrado en la nube** — Con `/backup` cifro tus perfiles, configuraciones y PATs con AES-256-CBC (PBKDF2, 100k iteraciones) antes de subirlos a NextCloud o Google Drive. Rotación automática de 7 backups. Si pierdes tu máquina, un solo comando restaura todo tras un clone fresco.
+
 **Detección de verticales** — Detecto automáticamente si tu proyecto pertenece a un sector no-software (sanidad, legal, industrial, agrícola, educación, finanzas...) usando un algoritmo de 5 fases con scoring calibrado. Si el score es suficiente, te propongo crear extensiones especializadas con reglas, flujos y entidades de dominio para tu sector.
 
 ---
@@ -132,7 +134,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 140 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 141 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -141,6 +143,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 /contribute {pr|idea|bug|status}    /feedback {bug|idea|improve|list|search}
 /vertical-propose {nombre}
 /review-community {pending|review|merge|release|summary}
+/backup {now|restore|auto-on|auto-off|status}
 ```
 
 ### Inteligencia de Deuda Técnica
