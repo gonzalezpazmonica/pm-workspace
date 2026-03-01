@@ -121,6 +121,8 @@ Comunidad: `/contribute` (pr · idea · bug · status) · `/feedback` (bug · id
 Verticales: `/vertical-propose {nombre}` — detecta y propone extensiones para sectores no-software
 Mantenimiento: `/review-community` (pending · review · merge · release · summary) — protocolo privado de revisión de contribuciones
 Backup: `/backup` (now · restore · auto-on · auto-off · status) — backup cifrado AES-256 a NextCloud/GDrive
+Rutina diaria: `/daily-routine` — rutina adaptativa según tu rol · `/health-dashboard` (proyecto · all · trend) — salud del proyecto vista desde tu rol
+Contexto: `/context-optimize` (stats · reset · apply) — analiza patrones de uso de contexto y sugiere optimizaciones al context-map
 
 ---
 
