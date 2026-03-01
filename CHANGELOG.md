@@ -560,6 +560,24 @@ Inspired by the research paper "The Personalization Paradox: Navigating the Tens
 
 ---
 
+## [0.44.0] — 2026-03-01
+
+Semantic Hub Topology. Savia now maps the dependency network between domain rules, commands, and agents. A full topology audit reveals hubs (rules referenced by ≥5 consumers), near-hubs, paired rules, isolated rules, and dormant candidates. This enables informed decisions about which rules to minimize, stabilize, or merge.
+
+### Added
+
+- **`/hub-audit` command** — 3 subcommands: default (full audit with comparison), `quick` (count only), `update` (audit + update index). Scans all domain rules for references from commands, agents, and skills. Classifies into 5 tiers (hub ≥5, near-hub 3-4, paired 2, isolated 1, dormant 0). Compares with previous index to detect promotions, degradations, and new dormant rules.
+- **`.claude/rules/domain/semantic-hub-index.md`** — Living index documenting the current topology: 1 hub (messaging-config.md, 6 refs), 2 near-hubs, 3 paired, 10 isolated, 25 dormant (61%). Includes network metrics, recommendations per tier, and evolution strategy toward small-world topology.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 146 → 147, added `/hub-audit` reference
+- **README.md** — Updated context optimization section, command count (147), command reference
+- **README.en.md** — Same updates in English
+- **context-map.md** — Added `/hub-audit` to Memory & Context group
+
+---
+
 ## [0.43.0] — 2026-03-01
 
 Context Aging and Verified Positioning. Savia now compresses and archives old decisions using semantic aging inspired by neuroscience (episodic → compressed → archived). New context benchmark command empirically verifies that information positioning in the context window is optimal.
