@@ -61,7 +61,7 @@ check_content ".claude/commands/incident-postmortem.md" "Modo agente" "Has agent
 echo ""
 
 echo "📋 5. CLAUDE.md Updates"
-check_content "CLAUDE.md" "commands/ (162)" "CLAUDE.md shows 162 commands"
+check_content "CLAUDE.md" "commands/ (166)" "CLAUDE.md shows 166 commands"
 check_content "CLAUDE.md" "tech-radar" "CLAUDE.md references /tech-radar"
 check_content "CLAUDE.md" "team-skills-matrix" "CLAUDE.md references /team-skills-matrix"
 check_content "CLAUDE.md" "arch-health" "CLAUDE.md references /arch-health"
@@ -69,10 +69,10 @@ check_content "CLAUDE.md" "incident-postmortem" "CLAUDE.md references /incident-
 echo ""
 
 echo "📋 6. README Updates"
-check_content "README.md" "162 comandos" "README.md shows 162 commands"
+check_content "README.md" "166 comandos" "README.md shows 166 commands"
 check_content "README.md" "tech-radar" "README.md references /tech-radar"
 check_content "README.md" "team-skills-matrix" "README.md references /team-skills-matrix"
-check_content "README.en.md" "162 commands" "README.en.md shows 162 commands"
+check_content "README.en.md" "166 commands" "README.en.md shows 166 commands"
 check_content "README.en.md" "tech-radar" "README.en.md references /tech-radar"
 echo ""
 

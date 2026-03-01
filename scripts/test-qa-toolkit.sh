@@ -88,7 +88,7 @@ echo ""
 
 echo "📋 5. CLAUDE.md Updates"
 
-check_content "CLAUDE.md" "commands/ (162)" "CLAUDE.md shows 158 commands"
+check_content "CLAUDE.md" "commands/ (166)" "CLAUDE.md shows 158 commands"
 check_content "CLAUDE.md" "qa-dashboard" "CLAUDE.md references /qa-dashboard"
 check_content "CLAUDE.md" "qa-regression-plan" "CLAUDE.md references /qa-regression-plan"
 check_content "CLAUDE.md" "qa-bug-triage" "CLAUDE.md references /qa-bug-triage"
@@ -99,10 +99,10 @@ echo ""
 
 echo "📋 6. README Updates"
 
-check_content "README.md" "162 comandos" "README.md shows 158 commands"
+check_content "README.md" "166 comandos" "README.md shows 158 commands"
 check_content "README.md" "qa-dashboard" "README.md references /qa-dashboard"
 check_content "README.md" "qa-regression-plan" "README.md references /qa-regression-plan"
-check_content "README.en.md" "162 commands" "README.en.md shows 158 commands"
+check_content "README.en.md" "166 commands" "README.en.md shows 158 commands"
 check_content "README.en.md" "qa-dashboard" "README.en.md references /qa-dashboard"
 echo ""
 
