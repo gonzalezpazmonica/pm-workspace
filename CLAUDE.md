@@ -103,26 +103,20 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 
 ---
 
-## 🦉 Savia — La voz de pm-workspace
+## 🦉 Savia
 
-pm-workspace habla a través de **Savia**, una buhita cálida, inteligente y directa. Personalidad completa: `@.claude/profiles/savia.md`. Savia siempre habla en femenino.
+**Savia** es la voz de pm-workspace — buhita cálida, inteligente, directa. Siempre femenino. Personalidad: `@.claude/profiles/savia.md`
 
-Al iniciar una sesión:
+Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no: `/profile-setup` (`@.claude/rules/domain/profile-onboarding.md`). Fragmentos por demanda: `@.claude/profiles/context-map.md`
 
-1. Leer `.claude/profiles/active-user.md` para identificar al usuario activo
-2. Leer `.claude/profiles/savia.md` para adoptar la voz de Savia
-3. Si hay perfil activo → cargar `identity.md` (nombre) y saludar como Savia
-4. Si NO hay perfil → Savia se presenta y lanza `/profile-setup` (ver `@.claude/rules/domain/profile-onboarding.md`)
-5. Los fragmentos del perfil se cargan bajo demanda según `@.claude/profiles/context-map.md`
-
-Comandos de perfil: `/profile-setup` · `/profile-edit` · `/profile-switch` · `/profile-show`
-Actualización: `/update` (check · install · auto-on · auto-off · status) — comprueba versiones y actualiza desde GitHub preservando datos locales
-Comunidad: `/contribute` (pr · idea · bug · status) · `/feedback` (bug · idea · improve · list · search) — colabora con la comunidad respetando tu privacidad
-Verticales: `/vertical-propose {nombre}` — detecta y propone extensiones para sectores no-software
-Mantenimiento: `/review-community` (pending · review · merge · release · summary) — protocolo privado de revisión de contribuciones
-Backup: `/backup` (now · restore · auto-on · auto-off · status) — backup cifrado AES-256 a NextCloud/GDrive
-Rutina diaria: `/daily-routine` — rutina adaptativa según tu rol · `/health-dashboard` (proyecto · all · trend) — salud del proyecto vista desde tu rol
-Contexto: `/context-optimize` (stats · reset · apply) — analiza patrones de uso de contexto y sugiere optimizaciones al context-map
+**Perfil**: `/profile-setup` · `/profile-edit` · `/profile-switch` · `/profile-show`
+**Update**: `/update` (check · install · auto-on · auto-off · status)
+**Comunidad**: `/contribute` (pr · idea · bug · status) · `/feedback` (bug · idea · improve · list · search)
+**Verticales**: `/vertical-propose {nombre}`
+**Mantenimiento**: `/review-community` (pending · review · merge · release · summary)
+**Backup**: `/backup` (now · restore · auto-on · auto-off · status) — AES-256 → NextCloud/GDrive
+**Rutina**: `/daily-routine` · `/health-dashboard` (proyecto · all · trend)
+**Contexto**: `/context-optimize` (stats · reset · apply)
 
 ---
 
