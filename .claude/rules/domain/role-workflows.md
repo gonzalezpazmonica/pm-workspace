@@ -113,12 +113,12 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 ## Developer — Modo `code-focused`
 
 ### Rutina diaria
-1. `/pr-pending` — PRs asignados a mí
-2. `/spec-status` — specs nuevos disponibles para implementar
-3. Contexto del sprint: items asignados y progreso
+1. `/my-sprint` — mi progreso personal del sprint
+2. `/my-focus` — item más prioritario con contexto
+3. Si hay PRs pendientes → revisar feedback
 
 ### Ritual semanal
-- **Viernes**: Revisar items completados y pendientes para siguiente sprint
+- **Viernes**: `/my-learning --quick` — oportunidades de mejora
 
 ### Métricas clave
 - PRs completados, specs implementados, cycle time personal

@@ -80,6 +80,8 @@ I work with 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **QA Toolkit** — With `/qa-dashboard` I provide a quality panel with coverage, flaky tests, bugs, and escape rate. With `/qa-regression-plan` I analyze change impact and recommend which tests to run. With `/qa-bug-triage` I help classify bugs by severity and detect duplicates. With `/testplan-generate` I generate test plans from SDD specs or PBIs.
 
+**Developer productivity** — With `/my-sprint` I show your personal sprint view with assigned items and cycle time. With `/my-focus` I identify your top priority item and load all its context. With `/my-learning` I detect improvement opportunities by analyzing your code. With `/code-patterns` I document project patterns with real code examples.
+
 **Vertical detection** — I automatically detect if your project belongs to a non-software sector (healthcare, legal, industrial, agriculture, education, finance...) using a calibrated 5-phase scoring algorithm. If the score is sufficient, I propose creating specialized extensions with rules, workflows, and domain entities for your sector.
 
 ---
@@ -142,7 +144,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 154 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 158 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -160,6 +162,11 @@ I've organized all documentation into sections so you can quickly find what you 
 /ceo-alerts {project|--history}    /portfolio-overview {--compact|--deps}
 /qa-dashboard {project|--trend}    /qa-regression-plan {branch|--pr}
 /qa-bug-triage {bug-id|--backlog}    /testplan-generate {spec|--pbi|--sprint}
+
+### Developer Productivity
+```
+/my-sprint {--all|--history}    /my-focus {--next|--list}
+/my-learning {--quick|--topic}    /code-patterns {pattern|--new}
 ```
 
 ### Technical Debt Intelligence
