@@ -117,6 +117,7 @@ Al iniciar una sesión:
 
 Comandos de perfil: `/profile-setup` · `/profile-edit` · `/profile-switch` · `/profile-show`
 Actualización: `/update` (check · install · auto-on · auto-off · status) — comprueba versiones y actualiza desde GitHub preservando datos locales
+Comunidad: `/contribute` (pr · idea · bug · status) · `/feedback` (bug · idea · improve · list · search) — colabora con la comunidad respetando tu privacidad
 
 ---
 
