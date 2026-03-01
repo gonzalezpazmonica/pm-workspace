@@ -13,6 +13,23 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.38.0] — 2026-03-01
+
+Private Review Protocol. Maintainer workflow for reviewing community PRs, issues, and contributions. Includes secrets scanning on PR diffs, validate-commands integration, squash merge, and GitHub release creation.
+
+### Added
+
+- **`/review-community` command** — 5 subcommands: `pending` (list community PRs/issues), `review {pr}` (deep analysis with diff, validate-commands, secrets scan), `merge {pr}` (squash merge), `release {version}` (tag + GitHub release), `summary` (weekly activity).
+- **`scripts/review-community.sh`** — Maintainer automation script with secrets detection in diffs (AKIA, ghp_, sk-, JWT, password=, api_key=), validate-commands.sh integration for command changes, squash merge strategy.
+- **`scripts/test-review-community.sh`** — 33 automated tests covering script functions, command content, doc integration.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 139 → 140, added `/review-community` reference
+- **README.md / README.en.md** — Updated command count (140), added `/review-community` to quick reference
+
+---
+
 ## [0.37.0] — 2026-03-01
 
 Vertical Detection System. Savia now detects when a project belongs to a non-software sector (healthcare, legal, industrial, agriculture, education, finance, logistics, real estate, energy, hospitality) using a calibrated 5-phase scoring algorithm and proposes specialized extensions.
@@ -1222,6 +1239,7 @@ Initial public release of PM-Workspace.
 ---
 
 [Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.35.0...HEAD
+[0.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.37.0...v0.38.0
 [0.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.36.0...v0.37.0
 [0.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.35.0...v0.36.0
 [0.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.34.0...v0.35.0

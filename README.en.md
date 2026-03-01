@@ -132,7 +132,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 139 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 140 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -140,6 +140,7 @@ I've organized all documentation into sections so you can quickly find what you 
 /update {check|install|auto-on|auto-off|status}
 /contribute {pr|idea|bug|status}    /feedback {bug|idea|improve|list|search}
 /vertical-propose {name}
+/review-community {pending|review|merge|release|summary}
 ```
 
 ### Technical Debt Intelligence
