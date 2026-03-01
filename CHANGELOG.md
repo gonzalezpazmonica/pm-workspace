@@ -13,6 +13,26 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.45.0] — 2026-03-01
+
+Executive Reports for Leadership. Three new commands give CEO/CTO/Directors a strategic view of their project portfolio without operational noise: multi-project reports with traffic-light scoring, filtered alerts requiring only C-level decisions, and a bird's-eye portfolio overview with inter-project dependency mapping.
+
+### Added
+
+- **`/ceo-report` command** — Multi-project executive report with portfolio health, risk exposure, team utilization, delivery velocity trend. Generates traffic-light (🟢/🟡/🔴) per project. Subcommands: default (all projects), `{proyecto}` (single), `--format md|pdf|pptx`.
+- **`/ceo-alerts` command** — Strategic alert panel filtering only decisions requiring director-level action. 3 severity levels: critical (immediate), high (this week), medium (next committee). Sources: sprint failures, team burnout, debt trends, security CVEs, inter-project blocks.
+- **`/portfolio-overview` command** — Bird's-eye view of all projects: traffic-light table with sprint progress, velocity trend, health score, risk level, next milestone. `--deps` shows inter-project dependency map. `--compact` for quick semaphore.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 147 → 150, added `/ceo-report`, `/ceo-alerts`, `/portfolio-overview` references
+- **README.md** — Updated executive reports section, command count (150), command reference
+- **README.en.md** — Same updates in English
+- **context-map.md** — Added 3 CEO commands to Reporting group
+- **role-workflows.md** — Updated CEO/CTO daily routine to use new commands
+
+---
+
 ## [0.44.0] — 2026-03-01
 
 Semantic Hub Topology. Savia now maps the dependency network between domain rules, commands, and agents. A full topology audit reveals hubs (rules referenced by ≥5 consumers), near-hubs, paired rules, isolated rules, and dormant candidates. This enables informed decisions about which rules to minimize, stabilize, or merge.
@@ -1349,7 +1369,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.44.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.45.0...HEAD
+[0.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.44.0...v0.45.0
 [0.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.43.0...v0.44.0
 [0.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.42.0...v0.43.0
 [0.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.41.0...v0.42.0

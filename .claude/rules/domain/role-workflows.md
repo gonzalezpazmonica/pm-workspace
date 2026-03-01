@@ -132,13 +132,13 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 ## CEO / CTO / Director — Modo `strategic-oversight`
 
 ### Rutina diaria
-1. `/kpi-dashboard` — resumen multi-proyecto
-2. `/team-workload` — utilización general del equipo
-3. Revisar alertas críticas de todos los proyectos
+1. `/ceo-alerts` — alertas estratégicas que requieren decisión
+2. `/portfolio-overview` — semáforo rápido de todos los proyectos
+3. Si hay alertas críticas → detallar con `/ceo-report {proyecto}`
 
 ### Ritual semanal
-- **Lunes**: Overview de sprints activos
-- **Viernes**: `/report-executive` de cada proyecto
+- **Lunes**: `/portfolio-overview --deps` — dependencias inter-proyecto
+- **Viernes**: `/ceo-report` — informe multi-proyecto para comité
 
 ### Ritual mensual
 - `/kpi-dora` — tendencias de delivery

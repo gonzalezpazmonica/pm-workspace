@@ -76,6 +76,8 @@ I work with 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Context optimization** — With `/context-optimize` I analyze how you use pm-workspace and suggest optimizations to the context-map. With `/context-age` I compress and archive old decisions using semantic aging (episodic → compressed → archived). With `/context-benchmark` I empirically verify that critical information is well-positioned in the context. With `/hub-audit` I audit the dependency topology between rules, commands, and agents to detect critical hubs and orphan rules.
 
+**Executive reports** — With `/ceo-report` I generate multi-project reports for leadership with portfolio traffic lights, key metrics, and recommendations. With `/ceo-alerts` I filter only alerts requiring C-level decisions. With `/portfolio-overview` I show a bird's-eye view of all projects with dependencies.
+
 **Vertical detection** — I automatically detect if your project belongs to a non-software sector (healthcare, legal, industrial, agriculture, education, finance...) using a calibrated 5-phase scoring algorithm. If the score is sufficient, I propose creating specialized extensions with rules, workflows, and domain entities for your sector.
 
 ---
@@ -138,7 +140,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 147 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 150 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -152,6 +154,8 @@ I've organized all documentation into sections so you can quickly find what you 
 /context-optimize {stats|reset|apply}
 /context-age {status|apply}    /context-benchmark {quick|history}
 /hub-audit {quick|update}
+/ceo-report {project|--format md|pdf|pptx}
+/ceo-alerts {project|--history}    /portfolio-overview {--compact|--deps}
 ```
 
 ### Technical Debt Intelligence
