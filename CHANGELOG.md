@@ -560,6 +560,26 @@ Inspired by the research paper "The Personalization Paradox: Navigating the Tens
 
 ---
 
+## [0.37.0] — 2026-03-01
+
+Vertical Detection System. Savia now detects when a project belongs to a non-software sector (healthcare, legal, industrial, agriculture, education, finance, logistics, real estate, energy, hospitality) using a calibrated 5-phase scoring algorithm and proposes specialized extensions.
+
+### Added
+
+- **`.claude/rules/domain/vertical-detection.md`** — 5-phase detection algorithm: domain entities (35%), API naming patterns (25%), sector-specific dependencies (15%), specialized configuration (15%), documentation mentions (10%). Covers 10 verticals with scoring thresholds (≥55% auto-detect, 25-54% ask, <25% ignore).
+- **`/vertical-propose` command** — Detect vertical or receive name, generate local extension structure (`rules.md`, `workflows.md`, `entities.md`, `compliance.md`, `examples/`), offer to contribute to community repo.
+- **Vertical trigger in profile-onboarding** — During `/profile-setup`, if user role is non-software, triggers vertical detection algorithm and suggests `/vertical-propose`.
+- **`scripts/test-vertical-detection.sh`** — 42 automated tests covering algorithm phases, verticals, scoring, command content, integration with docs.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 138 → 139, added `/vertical-propose` reference
+- **README.md** — Added "Detección de verticales" feature section, updated command count (139 comandos), added `/vertical-propose`
+- **README.en.md** — Added "Vertical detection" feature section, updated command count (139 commands), added `/vertical-propose`
+- **profile-onboarding.md** — Added "Detección de Verticales" section with integration trigger
+
+---
+
 ## [0.36.0] — 2026-03-01
 
 Community & Collaboration System. Savia now helps users contribute back to pm-workspace while protecting their privacy. Privacy-first validation blocks PATs, corporate emails, project names, IPs, and connection strings before any content reaches GitHub.
