@@ -11,6 +11,26 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.49.0] — 2026-03-01
+
+Product Owner Analytics — 4 comandos para Product Owners. Mapeo de flujo de valor, análisis de impacto de features en ROI, reportes ejecutivos para stakeholders, y verificación de readiness para releases.
+
+### Added
+
+- **`/value-stream-map` command** — Maps end-to-end value flow detecting bottlenecks. Calculates Lead Time, Processing Time, and Flow Efficiency. Highlights slowest stages with recommendations.
+- **`/feature-impact` command** — Analyzes feature impact on ROI, engagement, and technical load. Compares planned vs actual impact. Suggests feature adjustments for maximum value.
+- **`/stakeholder-report` command** — Generates executive report for stakeholders with delivery metrics, objective alignment, risk summary, and next steps. Customizable audience and detail level.
+- **`/release-readiness` command** — Verifies release readiness: technical capacity assessment, risk mitigation checklist, communication plan status, rollback procedure validation.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 162 → 166
+- **README.md / README.en.md** — Updated Product Owner Analytics section, command count (166)
+- **context-map.md** — Added 4 PO commands to relevant groups
+- **role-workflows.md** — Updated Product Owner routine with new commands
+
+---
+
 ## [0.48.0] — 2026-03-01
 
 Tech Lead Intelligence. Four new commands give Tech Leads deep visibility into technology health, team knowledge distribution, architectural integrity, and incident learning: tech stack radar, skills matrix with bus factor, architectural health scoring, and blameless postmortem templates.
@@ -1428,7 +1448,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.48.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.49.0...HEAD
+[0.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.48.0...v0.49.0
 [0.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.47.0...v0.48.0
 [0.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.46.0...v0.47.0
 [0.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.45.0...v0.46.0

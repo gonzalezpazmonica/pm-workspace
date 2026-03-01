@@ -31,7 +31,8 @@
 
 **Comandos:** `/report-hours`, `/report-capacity`,
 `/kpi-dashboard`, `/kpi-dora`, `/dx-dashboard`,
-`/ceo-report`, `/ceo-alerts`, `/portfolio-overview`, `/incident-postmortem`
+`/ceo-report`, `/ceo-alerts`, `/portfolio-overview`, `/incident-postmortem`,
+`/value-stream-map`, `/stakeholder-report`
 
 **Perfil necesario:**
 
@@ -50,7 +51,7 @@
 ### Grupo: PBI & Backlog
 
 **Comandos:** `/pbi-decompose`, `/pbi-decompose-batch`,
-`/pbi-assign`, `/pbi-plan-sprint`, `/epic-plan`
+`/pbi-assign`, `/pbi-plan-sprint`, `/epic-plan`, `/feature-impact`
 
 **Perfil necesario:**
 
@@ -107,7 +108,7 @@
 
 ### Grupo: Quality & PRs
 
-**Comandos:** `/pr-pending`, `/pr-review`, `/perf-audit`, `/perf-fix`, `/qa-dashboard`, `/qa-regression-plan`, `/qa-bug-triage`, `/testplan-generate`, `/my-learning`
+**Comandos:** `/pr-pending`, `/pr-review`, `/perf-audit`, `/perf-fix`, `/qa-dashboard`, `/qa-regression-plan`, `/qa-bug-triage`, `/testplan-generate`, `/my-learning`, `/release-readiness`
 
 **Perfil necesario:**
 

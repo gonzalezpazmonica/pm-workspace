@@ -74,17 +74,17 @@ check_contains ".claude/commands/review-community.md" "maintainer" "review-commu
 echo ""
 echo "📖 Integración con CLAUDE.md"
 check_contains "CLAUDE.md" "/review-community" "CLAUDE.md"
-check_contains "CLAUDE.md" "commands/ (162)" "CLAUDE.md"
+check_contains "CLAUDE.md" "commands/ (166)" "CLAUDE.md"
 
 echo ""
 echo "📖 Integración con README.md"
 check_contains "README.md" "/review-community" "README.md"
-check_contains "README.md" "162 comandos" "README.md"
+check_contains "README.md" "166 comandos" "README.md"
 
 echo ""
 echo "📖 Integración con README.en.md"
 check_contains "README.en.md" "/review-community" "README.en.md"
-check_contains "README.en.md" "162 commands" "README.en.md"
+check_contains "README.en.md" "166 commands" "README.en.md"
 
 echo ""
 echo "📋 review-community.sh help funciona"

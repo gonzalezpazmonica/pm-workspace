@@ -97,17 +97,21 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 3. Validar PBIs completados contra acceptance criteria
 
 ### Ritual semanal
-- **Lunes**: `/pbi-jtbd` — análisis de valor de features pendientes
-- **Miércoles**: `/kpi-dora` — métricas de delivery
-- **Viernes**: `/report-executive` — resumen para stakeholders
+- **Lunes**: `/value-stream-map --bottlenecks` — análisis de flujo de valor
+- **Miércoles**: `/feature-impact --roi` — impacto de features en ROI
+- **Viernes**: `/stakeholder-report` — resumen para stakeholders
+
+### Ritual antes de release
+- `/release-readiness` — verificar que release está lista
 
 ### Métricas clave
-- Velocity, feature completion rate, customer satisfaction proxy, time to market
+- Velocity, feature completion rate, customer satisfaction proxy, time to market, value delivered
 
 ### Alertas personalizadas
 - Feature planeada para release sin PBIs descompuestos → alerta
 - Backlog > 100 items sin priorizar → sugerir limpieza
 - Sprint sin discovery (JTBD/PRD) → sugerir refinamiento
+- Release sin validación readiness → alerta
 
 ---
 
