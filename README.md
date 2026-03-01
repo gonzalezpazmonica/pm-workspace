@@ -74,7 +74,7 @@ Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Rutina diaria adaptativa** — Con `/daily-routine` te propongo la rutina del día según tu rol (PM, Tech Lead, QA, Product Owner, Developer, CEO/CTO). Cada rol ve los comandos más relevantes en el orden correcto. También puedes usar `/health-dashboard` para ver un dashboard de salud del proyecto adaptado a tu perspectiva, con scoring compuesto y alertas priorizadas.
 
-**Optimización de contexto** — Con `/context-optimize` analizo cómo usas pm-workspace y te sugiero optimizaciones al context-map. Detecto fragmentos de perfil que se cargan innecesariamente, co-ocurrencias de comandos, y patrones de uso que permiten ahorrar tokens sin perder funcionalidad.
+**Optimización de contexto** — Con `/context-optimize` analizo cómo usas pm-workspace y te sugiero optimizaciones al context-map. Con `/context-age` comprimo y archivo decisiones antiguas aplicando envejecimiento semántico (episódico → comprimido → archivado). Con `/context-benchmark` verifico empíricamente que la información crítica está bien posicionada en el contexto.
 
 **Detección de verticales** — Detecto automáticamente si tu proyecto pertenece a un sector no-software (sanidad, legal, industrial, agrícola, educación, finanzas...) usando un algoritmo de 5 fases con scoring calibrado. Si el score es suficiente, te propongo crear extensiones especializadas con reglas, flujos y entidades de dominio para tu sector.
 
@@ -138,7 +138,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 144 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 146 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -150,6 +150,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 /backup {now|restore|auto-on|auto-off|status}
 /daily-routine    /health-dashboard {proyecto|all|trend}
 /context-optimize {stats|reset|apply}
+/context-age {status|apply}    /context-benchmark {quick|history}
 ```
 
 ### Inteligencia de Deuda Técnica

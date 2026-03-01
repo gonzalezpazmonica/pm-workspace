@@ -74,7 +74,7 @@ I work with 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Adaptive daily routine** — With `/daily-routine` I suggest the day's routine based on your role (PM, Tech Lead, QA, Product Owner, Developer, CEO/CTO). Each role sees the most relevant commands in the right order. You can also use `/health-dashboard` for a project health dashboard adapted to your perspective, with composite scoring and prioritized alerts.
 
-**Context optimization** — With `/context-optimize` I analyze how you use pm-workspace and suggest optimizations to the context-map. I detect unnecessarily loaded profile fragments, command co-occurrences, and usage patterns that save tokens without losing functionality.
+**Context optimization** — With `/context-optimize` I analyze how you use pm-workspace and suggest optimizations to the context-map. With `/context-age` I compress and archive old decisions using semantic aging (episodic → compressed → archived). With `/context-benchmark` I empirically verify that critical information is well-positioned in the context.
 
 **Vertical detection** — I automatically detect if your project belongs to a non-software sector (healthcare, legal, industrial, agriculture, education, finance...) using a calibrated 5-phase scoring algorithm. If the score is sufficient, I propose creating specialized extensions with rules, workflows, and domain entities for your sector.
 
@@ -138,7 +138,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 144 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 146 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -150,6 +150,7 @@ I've organized all documentation into sections so you can quickly find what you 
 /backup {now|restore|auto-on|auto-off|status}
 /daily-routine    /health-dashboard {project|all|trend}
 /context-optimize {stats|reset|apply}
+/context-age {status|apply}    /context-benchmark {quick|history}
 ```
 
 ### Technical Debt Intelligence
