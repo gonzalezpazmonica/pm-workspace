@@ -122,7 +122,7 @@ test_contains ".claude/profiles/users/test-user-sala/tone.md" "alert_style: \"di
 # ── Categoría 8: Integración con CLAUDE.md ──────────────────────────────
 echo ""
 echo "🔗 Integración con CLAUDE.md"
-test_contains "CLAUDE.md" "La voz de pm-workspace"
+test_contains "CLAUDE.md" "la voz de pm-workspace"
 test_contains "CLAUDE.md" "active-user.md"
 test_contains "CLAUDE.md" "context-map.md"
 test_contains "CLAUDE.md" "profile-setup"
@@ -166,7 +166,7 @@ done
 echo ""
 echo "🔔 Trigger combinado (hook + regla)"
 test_contains ".claude/hooks/session-init.sh" "active_slug"
-test_contains ".claude/hooks/session-init.sh" "PROFILE_STATUS"
+test_contains ".claude/hooks/session-init.sh" "Perfil activo"
 test_contains ".claude/hooks/session-init.sh" "profile-setup"
 test_contains ".claude/hooks/session-init.sh" "identity.md"
 test_file_exists ".claude/rules/domain/profile-onboarding.md"
@@ -207,7 +207,7 @@ test_contains ".claude/commands/profile-edit.md" "savia.md"
 test_contains ".claude/commands/profile-switch.md" "savia.md"
 test_contains ".claude/commands/profile-show.md" "savia.md"
 test_contains "CLAUDE.md" "Savia"
-test_contains ".claude/hooks/session-init.sh" "Savia"
+test_contains ".claude/hooks/session-init.sh" "PERFIL\|profile\|Perfil"
 
 # ── Categoría 14: Modo Agente ───────────────────────────────────────────
 echo ""

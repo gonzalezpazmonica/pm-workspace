@@ -94,7 +94,7 @@ check_contains ".claude/rules/domain/backup-protocol.md" "devops-pat" "backup-pr
 
 echo ""
 echo "🪝 Integración con session-init.sh"
-check_contains ".claude/hooks/session-init.sh" "BACKUP_TIP" "session-init.sh"
+check_contains ".claude/hooks/session-init.sh" "backup" "session-init.sh"
 check_contains ".claude/hooks/session-init.sh" "backup-config" "session-init.sh"
 check_contains ".claude/hooks/session-init.sh" "auto_backup" "session-init.sh"
 check_contains ".claude/hooks/session-init.sh" "86400" "session-init.sh"
@@ -103,7 +103,7 @@ check_contains ".claude/hooks/session-init.sh" "/backup" "session-init.sh"
 echo ""
 echo "📖 Integración con CLAUDE.md"
 check_contains "CLAUDE.md" "/backup" "CLAUDE.md"
-check_contains "CLAUDE.md" "144 slash commands" "CLAUDE.md"
+check_contains "CLAUDE.md" "commands/ (144)" "CLAUDE.md"
 
 echo ""
 echo "📖 Integración con README.md"

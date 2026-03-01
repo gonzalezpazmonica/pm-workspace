@@ -13,6 +13,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.41.0] — 2026-03-01
+
+Session-Init Compression and CLAUDE.md Pre-compaction. Session-init now uses a 4-level priority system (critical/high/medium/low) with a max budget of 8 items to prevent context bloat as features grow. CLAUDE.md reduced from 154 to 125 lines (688 words, ~36% reduction) by condensing verbose sections and moving rarely-needed info to referenced files.
+
+### Added
+
+- **`.claude/rules/domain/session-init-priority.md`** — Documentation of the 4-level priority system: critical (always: PAT, profile, git branch), high (conditional: updates, missing tools), medium (conditional: backup, emergency plan), low (probabilistic: community tip).
+
+### Changed
+
+- **`session-init.sh`** — Rewritten with priority-based array system. Items are organized into CRITICAL/HIGH/MEDIUM/LOW arrays and assembled with MAX_ITEMS=8 budget. Only critical items are guaranteed; others fill remaining space. Also integrates context-tracker logging.
+- **CLAUDE.md** — Pre-compacted: 154→125 lines, 1079→688 words. Removed inline comments from config block, condensed structure tree, merged Proyectos Activos into Estructura, shortened section headers, removed redundant descriptions. All information preserved via `@` references.
+
+---
+
 ## [0.40.0] — 2026-03-01
 
 Role-Adaptive Daily Routines, Project Health Dashboard, and Context Usage Optimization. Savia now adapts her daily suggestions based on the user's role (PM, Tech Lead, QA, Product Owner, Developer, CEO/CTO), provides a unified project health dashboard with role-weighted scoring, and tracks context usage patterns to suggest context-map optimizations.
