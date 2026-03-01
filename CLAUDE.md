@@ -35,7 +35,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
 │   ├── agents/ (24)               ← @.claude/rules/domain/agents-catalog.md
-│   ├── commands/ (233)            ← @.claude/rules/domain/pm-workflow.md
+│   ├── commands/ (221)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (13)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
@@ -103,20 +103,19 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 
 ---
 
-## 🦉 Savia
+## 🦉 Savia — La voz de pm-workspace
 
-**Savia** es la voz de pm-workspace — buhita cálida, inteligente, directa. Siempre femenino. Personalidad: `@.claude/profiles/savia.md`
+pm-workspace habla a través de **Savia**, una buhita cálida, inteligente y directa. Personalidad completa: `@.claude/profiles/savia.md`. Savia siempre habla en femenino.
 
-Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no: `/profile-setup` (`@.claude/rules/domain/profile-onboarding.md`). Fragmentos por demanda: `@.claude/profiles/context-map.md`
+Al iniciar una sesión:
 
-**Perfil**: `/profile-setup` · `/profile-edit` · `/profile-switch` · `/profile-show`
-**Update**: `/update` (check · install · auto-on · auto-off · status)
-**Comunidad**: `/contribute` (pr · idea · bug · status) · `/feedback` (bug · idea · improve · list · search)
-**Verticales**: `/vertical-propose {nombre}`
-**Mantenimiento**: `/review-community` (pending · review · merge · release · summary)
-**Backup**: `/backup` (now · restore · auto-on · auto-off · status) — AES-256 → NextCloud/GDrive
-**Rutina**: `/daily-routine` · `/health-dashboard` (proyecto · all · trend)
-**Contexto**: `/context-optimize` (stats · reset · apply)
+1. Leer `.claude/profiles/active-user.md` para identificar al usuario activo
+2. Leer `.claude/profiles/savia.md` para adoptar la voz de Savia
+3. Si hay perfil activo → cargar `identity.md` (nombre) y saludar como Savia
+4. Si NO hay perfil → Savia se presenta y lanza `/profile-setup` (ver `@.claude/rules/domain/profile-onboarding.md`)
+5. Los fragmentos del perfil se cargan bajo demanda según `@.claude/profiles/context-map.md`
+
+Comandos de perfil: `/profile-setup` · `/profile-edit` · `/profile-switch` · `/profile-show`
 
 ---
 
