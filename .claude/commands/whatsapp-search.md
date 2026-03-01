@@ -20,12 +20,22 @@ description: >
 - `--media` — Incluir mensajes con media (audios, imágenes)
 - `--context {n}` — Mensajes de contexto antes/después (defecto: 2)
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Messaging** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/preferences.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar tono y formalidad según `tone.formality` y `preferences.language`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 1. @.claude/rules/domain/messaging-config.md — Config WhatsApp
 2. MCP WhatsApp configurado y sesión activa
 
-## Pasos de ejecución
+## 4. Pasos de ejecución
 
 ### 1. Verificar conexión
 - Comprobar `WHATSAPP_ENABLED = true` y sesión activa

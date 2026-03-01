@@ -20,19 +20,27 @@ Busca observaciones guardadas en la memoria persistente del proyecto.
 
 ## Proceso
 
-**1. Inicio**
+**1. Cargar perfil de usuario**
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Memory** del context-map):
+   - `profiles/users/{slug}/identity.md`
+3. Usar slug para aislar memorias por usuario
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+**2. Inicio**
 ```
 ═══════════════════════════════════════════════════════════
 🔍 BUSCAR EN MEMORIA PERSISTENTE
 ═══════════════════════════════════════════════════════════
 ```
 
-**2. Búsqueda**
+**3. Búsqueda**
 ```bash
 bash scripts/memory-store.sh search "{query}"
 ```
 
-**3. Formato de resultados**
+**4. Formato de resultados**
 Muestro hasta 10 resultados agrupados por:
 - **Tipo**: decision, bug, pattern, convention, discovery
 - **Timestamp**: Cuándo se guardó

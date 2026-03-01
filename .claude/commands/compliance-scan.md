@@ -23,12 +23,22 @@ context_cost: medium
 
 Cargar skill: `@.claude/skills/regulatory-compliance/SKILL.md`
 
-## Ejecución (7 pasos)
+## 2. Cargar perfil de usuario
 
-### Paso 1 — Verificar proyecto
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Governance** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar idioma y nivel de detalle según `preferences.language` y `preferences.detail_level`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Ejecución (7 pasos)
+
+### Paso 4 — Verificar proyecto
 Comprobar que `{path}` existe y es accesible. Identificar lenguaje principal y estructura.
 
-### Paso 2 — Detectar sector (si no se forzó con --sector)
+### Paso 5 — Detectar sector (si no se forzó con --sector)
 Ejecutar algoritmo de 5 fases del SKILL.md:
 
 1. **Domain Models (35%)**: Modelos, schemas, migraciones, DTOs, interfaces, enums del sector
@@ -44,11 +54,11 @@ Calcular score por sector (0-100):
 
 Si el usuario elige "No regulado", terminar con mensaje informativo sobre GDPR/LOPDGDD genérico.
 
-### Paso 3 — Cargar regulaciones
+### Paso 6 — Cargar regulaciones
 Leer `references/sector-{name}.md` del sector confirmado.
 Si multi-sector (varios >55%), cargar todos los aplicables.
 
-### Paso 4 — Escanear código
+### Paso 7 — Escanear código
 Para cada regulación en el checklist del sector:
 - Buscar implementación de cada requisito en el código fuente
 - Verificar patrones de cifrado, audit trails, control de acceso, trazabilidad
@@ -56,18 +66,18 @@ Para cada regulación en el checklist del sector:
 - Comprobar formatos estándar del sector
 - Verificar credenciales no hardcodeadas
 
-### Paso 5 — Clasificar hallazgos
+### Paso 8 — Clasificar hallazgos
 Asignar severidad según la matriz del SKILL.md:
 - **CRITICAL**: Riesgo de breach, multa, ilegalidad directa
 - **HIGH**: Control de seguridad/auditoría ausente
 - **MEDIUM**: Mejora recomendada (solo con --strict)
 - **LOW**: Best practice (solo con --strict)
 
-### Paso 6 — Asignar IDs y acciones
+### Paso 9 — Asignar IDs y acciones
 Cada hallazgo recibe un ID (formato: `RC-{NNN}`).
 Marcar cada hallazgo con: `[AUTO-FIX]` o `[MANUAL]` según disponibilidad de corrección automática.
 
-### Paso 7 — Calcular score y generar informe
+### Paso 10 — Calcular score y generar informe
 
 **Fórmula de compliance score**: `Score = (requisitos cumplidos / total requisitos) × 100`
 

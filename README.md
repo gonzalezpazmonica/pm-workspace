@@ -10,65 +10,69 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Contributors](https://img.shields.io/github/contributors/gonzalezpazmonica/pm-workspace)](CONTRIBUTORS.md)
 
-> Sistema de gestión de proyectos **multi-lenguaje** con Scrum, impulsado por Claude Code como asistente de PM/Scrum Master con capacidad de delegar implementación técnica a agentes de IA y gestionar infraestructura cloud.
+> 🦉 **Soy Savia**, la buhita de pm-workspace. Me encargo de que tus proyectos fluyan: gestiono sprints, backlog, informes, agentes de código e infraestructura cloud — todo desde Claude Code, en **cualquier lenguaje**, con Scrum y Azure DevOps.
 
 > **🚀 ¿Primera vez aquí?** Consulta la [Guía de Adopción para Consultoras](docs/ADOPTION_GUIDE.md) — paso a paso desde el registro en Claude hasta la incorporación de proyectos y equipo.
 
 ---
 
-## ¿Qué es esto?
+## ¿Quién soy?
 
-Este workspace convierte a Claude Code en un **Project Manager / Scrum Master automatizado** para proyectos de **cualquier lenguaje** en Azure DevOps. Soporta 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Python, Go, Rust, PHP/Laravel, Swift, Kotlin, Ruby, VB.NET, COBOL, Terraform, Flutter) con convenciones, reglas y agentes especializados para cada uno.
+Soy Savia — tu PM / Scrum Master automatizada para proyectos en Azure DevOps. Cuando me instalas, lo primero que hago es presentarme y conocerte: tu nombre, tu rol, cómo trabajas, qué herramientas usas. Me adapto a ti, no al revés.
 
-**Gestión de sprints** — seguimiento de burndown, capacity del equipo, estado del board, KPIs, reportes automáticos en Excel/PowerPoint.
+Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Python, Go, Rust, PHP/Laravel, Swift, Kotlin, Ruby, VB.NET, COBOL, Terraform, Flutter) y tengo convenciones, reglas y agentes especializados para cada uno.
 
-**Descomposición de PBIs** — analiza backlog, descompone PBIs en tasks con estimación, detecta balance de carga y propone asignaciones con scoring (expertise × disponibilidad × balance × crecimiento).
+**Gestión de sprints** — Llevo el control del burndown, la capacity del equipo, el estado del board, los KPIs, y genero informes automáticos en Excel y PowerPoint.
 
-**Spec-Driven Development (SDD)** — las tasks se convierten en specs ejecutables. Un "developer" puede ser humano o agente Claude. Implementación automática de handlers, repositorios, unit tests en el lenguaje del proyecto.
+**Descomposición de PBIs** — Analizo el backlog, descompongo PBIs en tasks con estimación, detecto problemas de carga y propongo asignaciones con scoring (expertise × disponibilidad × balance × crecimiento).
 
-**Infraestructura como Código** — gestión multi-cloud (Azure, AWS, GCP) con detección automática de recursos, creación al tier más bajo, y escalado solo con aprobación humana.
+**Spec-Driven Development (SDD)** — Las tasks se convierten en specs ejecutables. Un "developer" puede ser humano o agente Claude. Implemento handlers, repositorios y unit tests en el lenguaje del proyecto.
 
-**Multi-entorno** — soporte para DEV/PRE/PRO (configurable) con protección de secrets — las connection strings nunca van al repositorio.
+**Infraestructura como Código** — Gestiono multi-cloud (Azure, AWS, GCP) con detección automática de recursos, creación al tier más bajo, y escalado solo con tu aprobación.
 
-**Sistema de memoria inteligente** — reglas de lenguaje con auto-carga por tipo de fichero (`paths:` frontmatter), auto memory persistente por proyecto, soporte para proyectos externos vía symlinks y `--add-dir`. Memory store persistente (JSONL) con búsqueda, deduplicación por hash, topic_key para decisiones que evolucionan, filtrado de `<private>` tags, e inyección automática de contexto tras compactación. Skills y agentes usan progressive disclosure (`references/`) con metadata `context_cost` para optimizar el consumo de contexto.
+**Multi-entorno** — Soporte para DEV/PRE/PRO (configurable) con protección de secrets — las connection strings nunca van al repositorio.
 
-**Hooks programáticos** — 12 hooks que refuerzan reglas críticas automáticamente: bloqueo de force push, detección de secrets, prevención de operaciones destructivas de infra, auto-lint tras edición, quality gates antes de finalizar, scope guard que detecta ficheros modificados fuera del alcance de la spec SDD, e inyección de memoria persistente tras compactación. Configurados en `.claude/settings.json`.
+**Sistema de memoria inteligente** — Tengo reglas de lenguaje con auto-carga por tipo de fichero, auto memory persistente por proyecto, soporte para proyectos externos vía symlinks y `--add-dir`. Mi memory store (JSONL) tiene búsqueda, deduplicación por hash, topic_key para decisiones que evolucionan, filtrado de `<private>` tags, e inyección automática de contexto tras compactación. Mis skills y agentes usan progressive disclosure con metadata `context_cost` para optimizar el consumo de contexto.
 
-**Agentes con capacidades avanzadas** — cada subagente tiene memoria persistente (`memory: project`), skills precargados, modo de permisos apropiado, y los developer agents usan `isolation: worktree` para implementación paralela sin conflictos. Soporte experimental para Agent Teams (lead + teammates).
+**Hooks programáticos** — 12 hooks que refuerzan reglas críticas automáticamente: bloqueo de force push, detección de secrets, prevención de operaciones destructivas de infra, auto-lint tras edición, quality gates antes de finalizar, scope guard que detecta ficheros modificados fuera del alcance de la spec SDD, e inyección de memoria persistente tras compactación.
 
-**Coordinación multi-agente** — sistema de agent-notes para memoria inter-agente persistente, TDD gate que bloquea implementación sin tests previos, security review pre-implementación (OWASP en la spec, no solo en el código), Architecture Decision Records (ADR) para decisiones trazables, y reglas de serialización de scope para sesiones paralelas seguras.
+**Agentes con capacidades avanzadas** — Cada subagente tiene memoria persistente, skills precargados, modo de permisos apropiado, y los developer agents usan `isolation: worktree` para implementación paralela sin conflictos. Soporte experimental para Agent Teams (lead + teammates).
 
-**Code Review automatizado** — hook pre-commit que analiza ficheros staged contra reglas de dominio (REJECT/REQUIRE/PREFER), con caché SHA256 que evita re-revisar ficheros sin cambios. Guardian angel integrado en el flujo de commit.
+**Coordinación multi-agente** — Sistema de agent-notes para memoria inter-agente persistente, TDD gate que bloquea implementación sin tests previos, security review pre-implementación (OWASP en la spec, no solo en el código), Architecture Decision Records (ADR) para decisiones trazables, y reglas de serialización de scope para sesiones paralelas seguras.
 
-**Seguridad y compliance** — análisis SAST contra OWASP Top 10, auditoría de vulnerabilidades en dependencias, generación de SBOM (CycloneDX), escaneo de credenciales en historial git, y detección mejorada de leaks (AWS, GitHub, OpenAI, Azure, JWT).
+**Code Review automatizado** — Hook pre-commit que analiza ficheros staged contra reglas de dominio (REJECT/REQUIRE/PREFER), con caché SHA256 que evita re-revisar ficheros sin cambios. Guardian angel integrado en el flujo de commit.
 
-**Validación de Azure DevOps** — al conectar un proyecto, auditoría automática de la configuración contra el "Agile ideal" de pm-workspace: process template, tipos de work item, estados, campos, jerarquía de backlog e iteraciones. Si hay incompatibilidades, genera un plan de remediación para aprobación manual. PAT requiere scopes: Work Items R/W, Project and Team R, Analytics R, Code R/W, Build R/W, Process R.
+**Seguridad y compliance** — Análisis SAST contra OWASP Top 10, auditoría de vulnerabilidades en dependencias, generación de SBOM (CycloneDX), escaneo de credenciales en historial git, y detección mejorada de leaks (AWS, GitHub, OpenAI, Azure, JWT).
 
-**Validación y CI/CD** — plan gate que avisa si se implementa sin spec aprobada, validación de tamaño de ficheros (≤150 líneas), schema de frontmatter y settings.json, y pipeline CI con checks automáticos en cada PR.
+**Validación de Azure DevOps** — Cuando conectas un proyecto, audito automáticamente la configuración contra mi "Agile ideal": process template, tipos de work item, estados, campos, jerarquía de backlog e iteraciones. Si hay incompatibilidades, genero un plan de remediación para que tú lo apruebes.
 
-**Analítica predictiva** — predicción de completitud de sprint con Monte Carlo, Value Stream Mapping con Lead Time E2E y Flow Efficiency, tendencia de velocity con detección de anomalías, y WIP aging con alertas. Métricas basadas en datos, no en sensaciones.
+**Validación y CI/CD** — Plan gate que avisa si se implementa sin spec aprobada, validación de tamaño de ficheros (≤150 líneas), schema de frontmatter y settings.json, y pipeline CI con checks automáticos en cada PR.
 
-**Observabilidad de agentes** — trazas de ejecución con tokens consumidos, duración y resultado, estimación de costes por modelo (Opus/Sonnet/Haiku), y métricas de eficiencia (success rate, re-work, first-pass). Hook automático que registra cada invocación de subagente.
+**Analítica predictiva** — Predicción de completitud de sprint con Monte Carlo, Value Stream Mapping con Lead Time E2E y Flow Efficiency, tendencia de velocity con detección de anomalías, y WIP aging con alertas. Métricas basadas en datos, no en sensaciones.
 
-**Developer Experience** — encuestas DX Core 4 adaptadas, dashboard automatizado con feedback loops y cognitive load proxy, y análisis de friction points con recomendaciones accionables. Mide la experiencia del equipo, no solo la velocidad.
+**Observabilidad de agentes** — Trazas de ejecución con tokens consumidos, duración y resultado, estimación de costes por modelo (Opus/Sonnet/Haiku), y métricas de eficiencia (success rate, re-work, first-pass). Hook automático que registra cada invocación de subagente.
 
-**Gobernanza IA y compliance** — model cards documentando agentes y modelos, evaluación de riesgo según EU AI Act (prohibido/alto/limitado/mínimo), logs de auditoría con trazabilidad completa, y reglas de gobernanza con checklist de compliance trimestral.
+**Developer Experience** — Encuestas DX Core 4 adaptadas, dashboard automatizado con feedback loops y cognitive load proxy, y análisis de friction points con recomendaciones accionables. Mido la experiencia del equipo, no solo la velocidad.
 
-**Inteligencia de deuda técnica** — análisis automático de hotspots, coupling temporal y code smells, priorización por impacto de negocio con modelo de scoring (proximity × churn × velocity × risk), y presupuesto de deuda por sprint con proyección de impacto en velocity.
+**Gobernanza IA y compliance** — Model cards documentando agentes y modelos, evaluación de riesgo según EU AI Act, logs de auditoría con trazabilidad completa, y reglas de gobernanza con checklist de compliance trimestral.
 
-**Architecture Intelligence** — detección automática de patrones de arquitectura (Clean, Hexagonal, DDD, CQRS, MVC/MVVM, Microservices, Event-Driven) en repositorios de cualquier lenguaje, sugerencias de mejora priorizadas por impacto, recomendación de arquitectura para proyectos nuevos basada en requisitos, fitness functions para verificar integridad arquitectónica, y comparativas entre patrones para toma de decisiones. Catálogo de referencia con patrones específicos para los 16 lenguajes soportados.
+**Inteligencia de deuda técnica** — Análisis automático de hotspots, coupling temporal y code smells, priorización por impacto de negocio con modelo de scoring, y presupuesto de deuda por sprint con proyección de impacto en velocity.
 
-**Modo emergencia (LLM local)** — plan de contingencia para operar sin conexión cloud. Scripts de setup automático de Ollama con detección de hardware (RAM/GPU), descarga de modelo recomendado (Qwen 2.5), y configuración transparente de Claude Code. Operaciones PM offline sin LLM (resumen git, snapshot del board, checklists Scrum). Documentación de emergencia paso a paso en español e inglés.
+**Architecture Intelligence** — Detecto patrones de arquitectura (Clean, Hexagonal, DDD, CQRS, MVC/MVVM, Microservices, Event-Driven) en repositorios de cualquier lenguaje, sugiero mejoras priorizadas por impacto, recomiendo arquitectura para proyectos nuevos, verifico integridad con fitness functions, y comparo patrones para toma de decisiones.
 
-**Inteligencia de Compliance Regulatorio** — escaneo automatizado de cumplimiento normativo en 12 sectores regulados (sanidad, finanzas, alimentación, justicia, administración pública, seguros, farmacéutico, energía, telecomunicaciones, educación, defensa, transporte). Algoritmo de auto-detección de sector en 5 fases calibradas. Detecta violaciones HIPAA/PCI, fallos de retención, auditoría incompleta, cifrado débil, acceso mal configurado. Auto-fix con re-verificación post-aplicación.
+**Modo emergencia (LLM local)** — Plan de contingencia para operar sin conexión cloud. Scripts de setup automático de Ollama con detección de hardware, descarga de modelo recomendado (Qwen 2.5), y configuración transparente de Claude Code. Operaciones PM offline sin LLM. Documentación de emergencia en español e inglés.
 
-**Auditoría de Rendimiento** — análisis estático de rendimiento sin ejecución de código. Detecta funciones pesadas por complejidad ciclomática + cognitiva, anti-patrones de async por lenguaje (6 lenguajes: .NET, TypeScript, Python, Java, Go, Rust), hotspots con estimación de O() y N+1 queries. Workflow test-first: crea characterization tests (Golden Master) antes de optimizar. Informe ejecutivo con roadmap de mejora.
+**Inteligencia de Compliance Regulatorio** — Escaneo automatizado de cumplimiento normativo en 12 sectores regulados. Algoritmo de auto-detección de sector en 5 fases calibradas. Detecto violaciones HIPAA/PCI, fallos de retención, auditoría incompleta, cifrado débil, acceso mal configurado. Auto-fix con re-verificación post-aplicación.
+
+**Auditoría de Rendimiento** — Análisis estático de rendimiento sin ejecución de código. Detecto funciones pesadas por complejidad ciclomática + cognitiva, anti-patrones de async por lenguaje, hotspots con estimación de O() y N+1 queries. Workflow test-first: creo characterization tests antes de optimizar.
+
+**Perfiles de usuario y modo agente** — Cuando llegas por primera vez, me presento y te conozco en una conversación natural. Guardo tu perfil fragmentado (identidad, workflow, herramientas, proyectos, preferencias, tono) y cargo solo lo necesario en cada operación. También hablo con agentes externos (OpenClaw y similares) en modo máquina-a-máquina: output estructurado YAML/JSON, sin narrativa, solo datos y códigos de estado.
 
 ---
 
 ## Documentación
 
-La documentación completa está organizada en secciones para facilitar la consulta:
+He organizado toda la documentación en secciones para que encuentres rápido lo que necesitas:
 
 ### Empezar
 
@@ -101,7 +105,7 @@ La documentación completa está organizada en secciones para facilitar la consu
 | [Proyecto de test](docs/readme/09-proyecto-test.md) | `sala-reservas`: tests, datos mock, validación |
 | [KPIs, reglas y roadmap](docs/readme/10-kpis-reglas.md) | Métricas, reglas críticas, plan de adopción |
 | [Onboarding de nuevos miembros](docs/readme/11-onboarding.md) | Incorporación en 5 fases, evaluación de competencias, RGPD |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 117 comandos + 24 agentes especializados |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 135 comandos + 24 agentes especializados |
 | [Cobertura y contribución](docs/readme/13-cobertura-contribucion.md) | Qué cubre, qué no, cómo contribuir |
 
 ### Otros documentos
@@ -124,7 +128,12 @@ La documentación completa está organizada en secciones para facilitar la consu
 
 ## Referencia rápida de comandos
 
-> 129 comandos · 24 agentes · 18 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 135 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+
+### Perfil de Usuario
+```
+/profile-setup    /profile-edit    /profile-switch    /profile-show
+```
 
 ### Inteligencia de Deuda Técnica
 ```
@@ -253,8 +262,10 @@ La documentación completa está organizada en secciones para facilitar la consu
 
 ## Reglas Críticas
 
+Estas son las reglas que nunca se saltan — ni yo misma:
+
 1. **NUNCA hardcodear el PAT** — siempre `$(cat $PAT_FILE)`
-2. **Confirmar antes de escribir** en Azure DevOps — preguntar si modifica datos
+2. **Confirmar antes de escribir** en Azure DevOps — pregunto antes de modificar datos
 3. **Leer CLAUDE.md del proyecto** antes de actuar sobre él
 4. **SDD**: NUNCA lanzar agente sin Spec aprobada; Code Review SIEMPRE humano
 5. **Secrets**: NUNCA connection strings, API keys o passwords en el repositorio
@@ -265,4 +276,4 @@ La documentación completa está organizada en secciones para facilitar la consu
 
 ---
 
-*PM-Workspace — Estrategia Claude Code + Azure DevOps para equipos multi-lenguaje/Scrum con soporte de infraestructura cloud*
+*🦉 Savia — PM-Workspace, tu PM automatizada con Claude Code + Azure DevOps para equipos multi-lenguaje/Scrum*

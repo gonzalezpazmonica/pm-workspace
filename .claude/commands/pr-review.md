@@ -11,7 +11,17 @@ description: >
 
 > Acepta: número de PR (Azure DevOps), URL, o rama local. Sin argumento → rama actual vs main.
 
-## Clasificación de hallazgos
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Quality & PRs** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/tools.md`
+3. Adaptar output según `identity.rol` y `tools.ide`, `tools.git_mode`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Clasificación de hallazgos
 
 - 🔴 **Bloqueante** — corregir antes del merge
 - 🟡 **Recomendado** — debería hacerse, no bloquea

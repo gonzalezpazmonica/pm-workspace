@@ -20,12 +20,22 @@ description: >
 - `--stage {nombre}` — Ejecutar solo un stage específico (opcional)
 - `--watch` — Monitorizar estado hasta completar (opcional)
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Infrastructure** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/tools.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar output según herramientas y entorno del usuario
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — Nombre del proyecto en DevOps
 2. `.claude/skills/azure-pipelines/SKILL.md` — MCP tools y reglas
 
-## Pasos de ejecución
+## 4. Pasos de ejecución
 
 1. **Resolver pipeline** — MCP `get_build_definitions` → buscar por nombre
    - Si no se encuentra → listar disponibles y pedir selección
@@ -60,7 +70,7 @@ description: >
    Stage Test: in progress...
    ```
 
-## Restricciones
+## 5. Restricciones
 
 - **NUNCA ejecutar sin confirmación** del PM
 - **Deploys a PRO:** requieren mención explícita del PBI/Release
@@ -68,7 +78,7 @@ description: >
 - Si la pipeline requiere approval gates → informar que se necesitará aprobación manual en Azure DevOps
 - Timeout de `--watch`: 30 minutos máximo
 
-## Integración
+## 6. Integración
 
 - `/pipeline-status` → ver resultado tras ejecución
 - `/pipeline-logs --build {id}` → si falla, ver logs

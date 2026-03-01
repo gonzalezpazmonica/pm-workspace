@@ -2,12 +2,23 @@
 
 Muestra el estado de capacidades del equipo: disponibilidad, asignación y alertas de sobre-carga.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Reporting** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/preferences.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `preferences.language`, `preferences.detail_level`, `preferences.report_format` y `tone.formality`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /report-capacity [proyecto] [--sprint "Sprint 2026-XX"]
 ```
 
-## Pasos de Ejecución
+## 3. Pasos de Ejecución
 
 1. Usar la skill `capacity-planning` para:
    a. Consultar capacidades vía API:

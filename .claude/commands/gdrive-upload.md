@@ -24,12 +24,22 @@ description: >
 - `--share {email}` — Compartir con un email después de subir (viewer)
 - `--notify` — Enviar notificación por email al compartir
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Connectors** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/preferences.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar idioma y formato según `preferences.language` y `preferences.report_format`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 1. `.claude/rules/connectors-config.md` — Verificar Google Drive habilitado
 2. `projects/{proyecto}/CLAUDE.md` — `GDRIVE_REPORTS_FOLDER`
 
-## Pasos de ejecución
+## 4. Pasos de ejecución
 
 1. **Verificar conector** — Comprobar Google Drive disponible
    - Si no activado → mostrar instrucciones de activación

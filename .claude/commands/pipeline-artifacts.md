@@ -20,12 +20,22 @@ description: >
 - `--download` — Descargar artefactos a `output/artifacts/`
 - `--list-only` — Solo listar, no descargar (defecto)
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Infrastructure** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/tools.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar output según herramientas y entorno del usuario
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — Nombre del proyecto en DevOps
 2. `.claude/skills/azure-pipelines/SKILL.md` — MCP tools
 
-## Pasos de ejecución
+## 4. Pasos de ejecución
 
 1. **Resolver build:**
    - Si `--build {id}` → usar directamente
@@ -51,13 +61,13 @@ description: >
    - Mostrar rutas de descarga
 5. **Si `--list-only`** → solo mostrar tabla
 
-## Integración
+## 5. Integración
 
 - `/pipeline-logs --build {id}` → ver logs de la build
 - `/pipeline-status` → contexto del pipeline
 - Artefactos de test → correlacionar con `/kpi-dashboard` (coverage)
 
-## Restricciones
+## 6. Restricciones
 
 - Descarga requiere espacio en disco — advertir si > 100 MB
 - NO descargar artefactos de builds de terceros (solo del proyecto)

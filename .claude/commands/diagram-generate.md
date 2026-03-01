@@ -17,7 +17,17 @@ description: >
 - `--tool {draw.io|miro|local}` — Herramienta destino (default: valor de `DIAGRAM_DEFAULT_TOOL` o `local`)
 - `--type {architecture|flow|sequence}` — Tipo de diagrama (default: `architecture`)
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Diagramas** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar etiquetas según `preferences.language`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 Leer en este orden (Progressive Disclosure):
 
@@ -27,7 +37,7 @@ Leer en este orden (Progressive Disclosure):
 4. `.claude/rules/diagram-config.md` — Constantes de la feature
 5. `.claude/rules/pm-config.md` — Credenciales si tool ≠ local
 
-## Pasos de ejecución
+## 4. Pasos de ejecución
 
 1. **Validar proyecto** — Verificar que `projects/{proyecto}/` existe y tiene `CLAUDE.md`
 

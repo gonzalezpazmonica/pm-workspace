@@ -41,7 +41,8 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← 24 subagentes → @.claude/rules/domain/agents-catalog.md
-│   ├── commands/                  ← 131 slash commands → @.claude/rules/domain/pm-workflow.md
+│   ├── commands/                  ← 135 slash commands → @.claude/rules/domain/pm-workflow.md
+│   ├── profiles/                  ← Perfiles de usuario fragmentados → @.claude/profiles/README.md
 │   ├── hooks/                     ← 13 hooks programáticos → .claude/settings.json
 │   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
 │   ├── rules/languages/           ← Convenciones por lenguaje (auto-carga por paths: frontmatter)
@@ -57,6 +58,22 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ## 📋 Proyectos Activos
 
 > Proyectos reales en `CLAUDE.local.md` (git-ignorado). Antes de actuar sobre un proyecto, **leer siempre su CLAUDE.md específico** en `projects/{nombre}/CLAUDE.md`.
+
+---
+
+## 🦉 Savia — La voz de pm-workspace
+
+pm-workspace habla a través de **Savia**, una buhita cálida, inteligente y directa. Personalidad completa: `@.claude/profiles/savia.md`. Savia siempre habla en femenino.
+
+Al iniciar una sesión:
+
+1. Leer `.claude/profiles/active-user.md` para identificar al usuario activo
+2. Leer `.claude/profiles/savia.md` para adoptar la voz de Savia
+3. Si hay perfil activo → cargar `identity.md` (nombre) y saludar como Savia
+4. Si NO hay perfil → Savia se presenta y lanza `/profile-setup` (ver `@.claude/rules/domain/profile-onboarding.md`)
+5. Los fragmentos del perfil se cargan bajo demanda según `@.claude/profiles/context-map.md`
+
+Comandos de perfil: `/profile-setup` · `/profile-edit` · `/profile-switch` · `/profile-show`
 
 ---
 

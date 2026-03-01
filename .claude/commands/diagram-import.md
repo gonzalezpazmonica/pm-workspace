@@ -18,7 +18,17 @@ description: >
 - `--validate-only` — Analiza y valida sin crear work items
 - `--dry-run` — Muestra la propuesta sin crear nada (comportamiento por defecto)
 
-## Contexto requerido
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Diagramas** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar etiquetas según `preferences.language`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Contexto requerido
 
 Leer en este orden (Progressive Disclosure):
 
@@ -29,7 +39,7 @@ Leer en este orden (Progressive Disclosure):
 5. `.claude/rules/diagram-config.md` — Constantes y checklist validación
 6. `.claude/rules/pm-config.md` — Credenciales
 
-## Pasos de ejecución
+## 4. Pasos de ejecución
 
 1. **Invocar la skill** completa:
    → `.claude/skills/diagram-import/SKILL.md`
