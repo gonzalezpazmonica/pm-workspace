@@ -107,7 +107,7 @@
 
 ### Grupo: Quality & PRs
 
-**Comandos:** `/pr-pending`, `/pr-review`, `/perf-audit`, `/perf-fix`
+**Comandos:** `/pr-pending`, `/pr-review`, `/perf-audit`, `/perf-fix`, `/qa-dashboard`, `/qa-regression-plan`, `/qa-bug-triage`, `/testplan-generate`
 
 **Perfil necesario:**
 

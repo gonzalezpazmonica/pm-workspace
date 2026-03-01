@@ -78,6 +78,8 @@ I work with 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Executive reports** — With `/ceo-report` I generate multi-project reports for leadership with portfolio traffic lights, key metrics, and recommendations. With `/ceo-alerts` I filter only alerts requiring C-level decisions. With `/portfolio-overview` I show a bird's-eye view of all projects with dependencies.
 
+**QA Toolkit** — With `/qa-dashboard` I provide a quality panel with coverage, flaky tests, bugs, and escape rate. With `/qa-regression-plan` I analyze change impact and recommend which tests to run. With `/qa-bug-triage` I help classify bugs by severity and detect duplicates. With `/testplan-generate` I generate test plans from SDD specs or PBIs.
+
 **Vertical detection** — I automatically detect if your project belongs to a non-software sector (healthcare, legal, industrial, agriculture, education, finance...) using a calibrated 5-phase scoring algorithm. If the score is sufficient, I propose creating specialized extensions with rules, workflows, and domain entities for your sector.
 
 ---
@@ -140,7 +142,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 150 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 154 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -156,6 +158,8 @@ I've organized all documentation into sections so you can quickly find what you 
 /hub-audit {quick|update}
 /ceo-report {project|--format md|pdf|pptx}
 /ceo-alerts {project|--history}    /portfolio-overview {--compact|--deps}
+/qa-dashboard {project|--trend}    /qa-regression-plan {branch|--pr}
+/qa-bug-triage {bug-id|--backlog}    /testplan-generate {spec|--pbi|--sprint}
 ```
 
 ### Technical Debt Intelligence
