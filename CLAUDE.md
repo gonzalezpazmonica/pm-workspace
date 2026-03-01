@@ -116,6 +116,7 @@ Al iniciar una sesión:
 5. Los fragmentos del perfil se cargan bajo demanda según `@.claude/profiles/context-map.md`
 
 Comandos de perfil: `/profile-setup` · `/profile-edit` · `/profile-switch` · `/profile-show`
+Actualización: `/update` (check · install · auto-on · auto-off · status) — comprueba versiones y actualiza desde GitHub preservando datos locales
 
 ---
 
