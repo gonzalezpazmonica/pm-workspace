@@ -31,7 +31,7 @@
 
 **Comandos:** `/report-hours`, `/report-capacity`,
 `/kpi-dashboard`, `/kpi-dora`, `/dx-dashboard`,
-`/ceo-report`, `/ceo-alerts`, `/portfolio-overview`
+`/ceo-report`, `/ceo-alerts`, `/portfolio-overview`, `/incident-postmortem`
 
 **Perfil necesario:**
 
@@ -89,7 +89,7 @@
 ### Grupo: Team & Workload
 
 **Comandos:** `/team-workload`, `/board-flow`, `/team-onboarding`,
-`/team-evaluate`
+`/team-evaluate`, `/team-skills-matrix`
 
 **Perfil necesario:**
 
@@ -236,7 +236,7 @@
 ### Grupo: Architecture & Debt
 
 **Comandos:** `/arch-detect`, `/arch-suggest`, `/arch-compare`,
-`/arch-fitness`, `/arch-recommend`, `/debt-track`, `/debt-analyze`,
+`/arch-fitness`, `/arch-recommend`, `/tech-radar`, `/arch-health`, `/debt-track`, `/debt-analyze`,
 `/debt-prioritize`, `/debt-budget`, `/code-patterns`
 
 **Perfil necesario:**

@@ -82,6 +82,8 @@ I work with 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Developer productivity** — With `/my-sprint` I show your personal sprint view with assigned items and cycle time. With `/my-focus` I identify your top priority item and load all its context. With `/my-learning` I detect improvement opportunities by analyzing your code. With `/code-patterns` I document project patterns with real code examples.
 
+**Tech Lead intelligence** — With `\`/tech-radar\`` I map the tech stack with adopt/trial/hold/retire categorization. With `\`/team-skills-matrix\`` I build the team skills matrix with bus factor and pair programming suggestions. With `\`/arch-health\`` I measure architectural health with fitness functions, drift detection, and coupling metrics. With `\`/incident-postmortem\`` I structure blameless postmortems with timeline and root cause analysis.
+
 **Vertical detection** — I automatically detect if your project belongs to a non-software sector (healthcare, legal, industrial, agriculture, education, finance...) using a calibrated 5-phase scoring algorithm. If the score is sufficient, I propose creating specialized extensions with rules, workflows, and domain entities for your sector.
 
 ---
@@ -144,7 +146,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 158 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 162 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -167,6 +169,12 @@ I've organized all documentation into sections so you can quickly find what you 
 ```
 /my-sprint {--all|--history}    /my-focus {--next|--list}
 /my-learning {--quick|--topic}    /code-patterns {pattern|--new}
+```
+
+### Tech Lead Intelligence
+```
+/tech-radar {project|--outdated}    /team-skills-matrix {--bus-factor|--pairs}
+/arch-health {--drift|--coupling}    /incident-postmortem {desc|--from-alert|--list}
 ```
 
 ### Technical Debt Intelligence

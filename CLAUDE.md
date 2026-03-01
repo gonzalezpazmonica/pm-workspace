@@ -35,7 +35,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
 │   ├── agents/ (24)               ← @.claude/rules/domain/agents-catalog.md
-│   ├── commands/ (158)            ← @.claude/rules/domain/pm-workflow.md
+│   ├── commands/ (162)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (13)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
@@ -65,6 +65,7 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 **Dirección**: `/ceo-report` (proyecto · --format) · `/ceo-alerts` (proyecto · --history) · `/portfolio-overview` (--compact · --deps)
 **QA**: `/qa-dashboard` (proyecto · --trend) · `/qa-regression-plan` (branch · --pr) · `/qa-bug-triage` (bug-id · --backlog) · `/testplan-generate` (spec · --pbi · --sprint)
 **Developer**: `\`/my-sprint\`` (--all · --history) · `\`/my-focus\`` (--next · --list) · `\`/my-learning\`` (--quick · --topic) · `\`/code-patterns\`` (pattern · --new)
+**Tech Lead**: `\`/tech-radar\` (proyecto · --outdated) · \`/team-skills-matrix\` (--bus-factor · --pairs) · \`/arch-health\` (--drift · --coupling) · \`/incident-postmortem\` (--from-alert · --list)
 
 ---
 
