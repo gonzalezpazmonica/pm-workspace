@@ -115,33 +115,10 @@ Mostrar la guía generada y preguntar:
 
 ## Formato del output
 
-```
-══════════════════════════════════════════════════════
-  ONBOARDING · {nombre} · {proyecto}
-══════════════════════════════════════════════════════
-
-  📋 Proyecto: {nombre_proyecto}
-  👥 Equipo: {N} miembros + agentes Claude
-  🏗️ Stack: .NET 8 / Clean Architecture / CQRS / EF Core
-  👤 Mentor: {nombre_mentor} ({rol_mentor})
-
-  ═══ FASE 1: CONTEXTO ═══
-
-  [Arquitectura, módulos, convenciones]
-
-  ═══ FASE 2: TOUR DEL CÓDIGO ═══
-
-  [Flujo request, patrones, estructura]
-
-  ═══ PRÓXIMOS PASOS ═══
-
-  → Fase 3: Mentor asigna primera task (complejidad B/C)
-  → Fase 4: /team-evaluate "{nombre}" --project {proyecto}
-
-  📄 Guía guardada en: projects/{proyecto}/onboarding/{nombre}-guia.md
-
-══════════════════════════════════════════════════════
-```
+Banner con: proyecto, equipo (N miembros + agentes), stack, mentor.
+Secciones: Fase 1 (contexto), Fase 2 (tour del código), Próximos pasos
+(Fase 3: primera task, Fase 4: `/team-evaluate`).
+Guía guardada en: `projects/{proyecto}/onboarding/{nombre}-guia.md`.
 
 ---
 
