@@ -28,6 +28,16 @@ echo "  🔍 Validación CI Local — pm-workspace"
 echo "═══════════════════════════════════════════════════════════════"
 echo ""
 
+# ── 0. Branch check (NUNCA en main) ──────────────────────────────────
+echo "📋 0. Branch actual"
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+if [ "$CURRENT_BRANCH" = "main" ] || [ "$CURRENT_BRANCH" = "master" ]; then
+  fail "Estás en rama '$CURRENT_BRANCH' — cambia a feature branch antes de commit"
+else
+  pass "Rama: $CURRENT_BRANCH"
+fi
+echo ""
+
 # ── 1. Validate file sizes (≤150 lines) ──────────────────────────────
 echo "📋 1. File sizes (≤150 líneas)"
 
