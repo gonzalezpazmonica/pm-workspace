@@ -35,7 +35,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
 │   ├── agents/ (24)               ← @.claude/rules/domain/agents-catalog.md
-│   ├── commands/ (147)            ← @.claude/rules/domain/pm-workflow.md
+│   ├── commands/ (150)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (13)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
@@ -62,6 +62,7 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 **Backup**: `/backup` (now · restore · auto-on · auto-off · status) — AES-256 → NextCloud/GDrive
 **Rutina**: `/daily-routine` · `/health-dashboard` (proyecto · all · trend)
 **Contexto**: `/context-optimize` (stats · reset · apply) · `/context-age` (status · apply) · `/context-benchmark` (quick · history) · `/hub-audit` (quick · update)
+**Dirección**: `/ceo-report` (proyecto · --format) · `/ceo-alerts` (proyecto · --history) · `/portfolio-overview` (--compact · --deps)
 
 ---
 

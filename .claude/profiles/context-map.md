@@ -30,7 +30,8 @@
 ### Grupo: Reporting
 
 **Comandos:** `/report-hours`, `/report-capacity`,
-`/kpi-dashboard`, `/kpi-dora`, `/dx-dashboard`
+`/kpi-dashboard`, `/kpi-dora`, `/dx-dashboard`,
+`/ceo-report`, `/ceo-alerts`, `/portfolio-overview`
 
 **Perfil necesario:**
 
