@@ -72,6 +72,10 @@ Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Backup cifrado en la nube** — Con `/backup` cifro tus perfiles, configuraciones y PATs con AES-256-CBC (PBKDF2, 100k iteraciones) antes de subirlos a NextCloud o Google Drive. Rotación automática de 7 backups. Si pierdes tu máquina, un solo comando restaura todo tras un clone fresco.
 
+**Rutina diaria adaptativa** — Con `/daily-routine` te propongo la rutina del día según tu rol (PM, Tech Lead, QA, Product Owner, Developer, CEO/CTO). Cada rol ve los comandos más relevantes en el orden correcto. También puedes usar `/health-dashboard` para ver un dashboard de salud del proyecto adaptado a tu perspectiva, con scoring compuesto y alertas priorizadas.
+
+**Optimización de contexto** — Con `/context-optimize` analizo cómo usas pm-workspace y te sugiero optimizaciones al context-map. Detecto fragmentos de perfil que se cargan innecesariamente, co-ocurrencias de comandos, y patrones de uso que permiten ahorrar tokens sin perder funcionalidad.
+
 **Detección de verticales** — Detecto automáticamente si tu proyecto pertenece a un sector no-software (sanidad, legal, industrial, agrícola, educación, finanzas...) usando un algoritmo de 5 fases con scoring calibrado. Si el score es suficiente, te propongo crear extensiones especializadas con reglas, flujos y entidades de dominio para tu sector.
 
 ---
@@ -134,7 +138,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 141 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 144 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -144,6 +148,8 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 /vertical-propose {nombre}
 /review-community {pending|review|merge|release|summary}
 /backup {now|restore|auto-on|auto-off|status}
+/daily-routine    /health-dashboard {proyecto|all|trend}
+/context-optimize {stats|reset|apply}
 ```
 
 ### Inteligencia de Deuda Técnica

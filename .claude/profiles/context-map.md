@@ -201,7 +201,7 @@
 ### Grupo: Memory & Context
 
 **Comandos:** `/memory-context`, `/memory-save`, `/memory-search`,
-`/memory-sync`, `/context-load`
+`/memory-sync`, `/context-load`, `/context-optimize`
 
 **Perfil necesario:**
 
@@ -249,6 +249,24 @@
 - `workflow.md` — irrelevante
 - `tools.md` — irrelevante
 - `tone.md` — análisis técnico usa tono estándar
+
+---
+
+### Grupo: Daily Routine & Health
+
+**Comandos:** `/daily-routine`, `/health-dashboard`
+
+**Perfil necesario:**
+
+- `identity.md` — nombre, rol (determina qué rutina y qué vista del dashboard)
+- `workflow.md` — primary_mode, daily_time (contextualizar rutina)
+- `projects.md` — qué proyectos gestiona
+- `tone.md` — alert_style, celebrate (calibrar tono de alertas)
+
+**NO cargar:**
+
+- `tools.md` — irrelevante para rutinas y dashboards
+- `preferences.md` — solo útil si `/health-dashboard` genera informe formal
 
 ---
 

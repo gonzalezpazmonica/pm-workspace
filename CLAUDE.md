@@ -41,7 +41,7 @@ Sprints de 2 semanas · Daily 09:15 · Review + Retro viernes fin de sprint.
 ├── CLAUDE.md                      ← Este fichero
 ├── .claude/                       ← Herramientas activas
 │   ├── agents/                    ← 24 subagentes → @.claude/rules/domain/agents-catalog.md
-│   ├── commands/                  ← 141 slash commands → @.claude/rules/domain/pm-workflow.md
+│   ├── commands/                  ← 144 slash commands → @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles de usuario fragmentados → @.claude/profiles/README.md
 │   ├── hooks/                     ← 13 hooks programáticos → .claude/settings.json
 │   ├── rules/domain/              ← Reglas bajo demanda (cargadas por @ cuando se necesitan)
@@ -79,6 +79,8 @@ Comunidad: `/contribute` (pr · idea · bug · status) · `/feedback` (bug · id
 Verticales: `/vertical-propose {nombre}` — detecta y propone extensiones para sectores no-software
 Mantenimiento: `/review-community` (pending · review · merge · release · summary) — protocolo privado de revisión de contribuciones
 Backup: `/backup` (now · restore · auto-on · auto-off · status) — backup cifrado AES-256 a NextCloud/GDrive
+Rutina diaria: `/daily-routine` — rutina adaptativa según tu rol · `/health-dashboard` (proyecto · all · trend) — salud del proyecto vista desde tu rol
+Contexto: `/context-optimize` (stats · reset · apply) — analiza patrones de uso de contexto y sugiere optimizaciones al context-map
 
 ---
 

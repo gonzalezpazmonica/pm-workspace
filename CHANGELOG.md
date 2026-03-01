@@ -13,6 +13,29 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.40.0] — 2026-03-01
+
+Role-Adaptive Daily Routines, Project Health Dashboard, and Context Usage Optimization. Savia now adapts her daily suggestions based on the user's role (PM, Tech Lead, QA, Product Owner, Developer, CEO/CTO), provides a unified project health dashboard with role-weighted scoring, and tracks context usage patterns to suggest context-map optimizations.
+
+### Added
+
+- **`.claude/rules/domain/role-workflows.md`** — Role-specific daily routines, weekly/monthly rituals, key metrics, and personalized alerts for 6 roles. Includes context-map integration table mapping roles to primary/secondary command groups.
+- **`/daily-routine` command** — Role-adaptive daily routine. Identifies user role, composes the day's routine (daily + weekly rituals if applicable), executes on demand with user control (skip, reorder, stop), and shows summary at end.
+- **`/health-dashboard` command** — Unified project health dashboard with 4 subcommands: default (single project), `{project}` (specific), `all` (multi-project), `trend` (4-week history). Composite health score (0-100) with role-weighted dimensions and traffic-light system.
+- **`/context-optimize` command** — Context usage analysis with 4 subcommands: default (full analysis), `stats` (statistics only), `reset` (clear log), `apply {id}` (apply recommendation). Detects unnecessary fragment loads, co-occurrences, and waste patterns.
+- **`scripts/context-tracker.sh`** — Lightweight context usage tracking script. Logs command+fragments+tokens to `$HOME/.pm-workspace/context-usage.log`. Supports stats, top-commands, top-fragments, co-occurrences, low-impact analysis, and log rotation (max 1MB/5000 entries).
+- **`.claude/rules/domain/context-tracking.md`** — Protocol documenting what is tracked (metadata only), privacy guarantees, token estimation per fragment, and optimization metrics.
+- **`scripts/test-context-tracking.sh`** — Automated tests for v0.40.0 features.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 141 → 144, added `/daily-routine`, `/health-dashboard`, `/context-optimize` references
+- **README.md** — Added "Rutina diaria adaptativa" and "Optimización de contexto" feature sections, updated command count (144), added commands to reference
+- **README.en.md** — Added "Adaptive daily routine" and "Context optimization" feature sections, updated command count (144), added commands to reference
+- **context-map.md** — Added "Daily Routine & Health" group, added `/context-optimize` to Memory & Context group
+
+---
+
 ## [0.39.0] — 2026-03-01
 
 Encrypted Cloud Backup System. Savia now protects user data with AES-256-CBC encryption (PBKDF2, 100k iterations) before uploading to NextCloud (WebDAV) or Google Drive (MCP). Automatic rotation of 7 backups. Session-init suggests backup when more than 24h have passed.
