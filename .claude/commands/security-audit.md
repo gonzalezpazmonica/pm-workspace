@@ -16,7 +16,17 @@ Ejecuta un análisis estático de seguridad (SAST) sobre los ficheros del proyec
 
 ## Flujo
 
-### 1. Banner inicio
+### 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Governance** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar idioma y nivel de detalle según `preferences.language` y `preferences.detail_level`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+### 2. Banner inicio
 
 ```
 ╔══════════════════════════════════════╗
@@ -24,12 +34,12 @@ Ejecuta un análisis estático de seguridad (SAST) sobre los ficheros del proyec
 ╚══════════════════════════════════════╝
 ```
 
-### 2. Prerequisitos
+### 3. Prerequisitos
 
 - ✅/❌ Proyecto activo identificado
 - ✅/❌ Ficheros fuente encontrados
 
-### 3. Análisis por categoría OWASP Top 10
+### 4. Análisis por categoría OWASP Top 10
 
 Revisar contra:
 
@@ -42,7 +52,7 @@ Revisar contra:
 7. **A09: Logging Failures** — sensitive data in logs, missing audit trail
 8. **A10: SSRF** — unvalidated URLs, user-controlled redirects
 
-### 4. Formato de resultados
+### 5. Formato de resultados
 
 Para cada hallazgo:
 
@@ -55,7 +65,7 @@ Para cada hallazgo:
   Recomendación: {fix sugerido}
 ```
 
-### 5. Resumen
+### 6. Resumen
 
 ```
 📊 Security Audit:
@@ -64,7 +74,7 @@ Para cada hallazgo:
   Duración: ~45s
 ```
 
-### 6. Banner fin
+### 7. Banner fin
 
 ```
 ╔══════════════════════════════════════╗

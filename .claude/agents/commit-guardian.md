@@ -13,6 +13,8 @@ tools:
 model: claude-sonnet-4-6
 color: orange
 maxTurns: 30
+max_context_tokens: 4000
+output_max_tokens: 300
 memory: project
 permissionMode: dontAsk
 context_cost: high

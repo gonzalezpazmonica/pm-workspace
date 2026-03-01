@@ -2,7 +2,17 @@
 
 Lanza un agente Claude sobre una Spec SDD (o batch de specs pendientes).
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **SDD & Agentes** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar output según `identity.rol` (tech lead vs PM), `workflow.reviews_agent_code`, `workflow.specs_per_sprint`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /agent-run {spec_file|--all-pending} [--project {nombre}] [--team] [--pattern {pattern}] [--model {model}]
 ```
@@ -13,9 +23,9 @@ Lanza un agente Claude sobre una Spec SDD (o batch de specs pendientes).
 - `--pattern`: `single` | `impl-test` | `impl-test-review` | `full-stack` | `parallel-handlers`
 - `--model`: Sobreescribir modelo (default: `claude-opus-4-6`)
 
-## Protocolo
+## 3. Protocolo
 
-### 1. Leer contexto
+### 3.1 Leer contexto
 - Leer `.claude/skills/spec-driven-development/SKILL.md` (Fase 3)
 - Leer `projects/{proyecto}/CLAUDE.md`
 

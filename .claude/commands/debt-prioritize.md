@@ -14,7 +14,17 @@ context_cost: medium
 
 > Uso: `/debt-prioritize --project {p}` o `/debt-prioritize --project {p} --next-sprints 2`
 
-## 1. Banner de inicio
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Architecture & Debt** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar profundidad del análisis según `preferences.detail_level`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Banner de inicio
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -22,12 +32,12 @@ context_cost: medium
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## 2. Parámetros
+## 3. Parámetros
 
 - `--project {nombre}` — Proyecto (obligatorio)
 - `--next-sprints {N}` — Sprints a considerar (default: 2)
 
-## 3. Leer entrada
+## 4. Leer entrada
 
 1. Leer `projects/{proyecto}/debt/analysis-*.md` (más reciente)
 2. Leer `projects/{proyecto}/CLAUDE.md` (context del proyecto)

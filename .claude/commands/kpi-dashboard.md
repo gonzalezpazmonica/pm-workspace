@@ -2,13 +2,24 @@
 
 Muestra el dashboard completo con todos los KPIs definidos en docs/kpis-equipo.md.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Reporting** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/preferences.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `preferences.language`, `preferences.detail_level`, `preferences.report_format` y `tone.formality`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /kpi-dashboard [proyecto] [--sprints N]
 ```
 `--sprints N`: número de sprints para análisis de tendencia (default: 5).
 
-## Pasos de Ejecución
+## 3. Pasos de Ejecución
 
 1. Leer `docs/kpis-equipo.md` para obtener la lista de KPIs y sus umbrales
 2. Para cada KPI, ejecutar la query/API correspondiente (ver fuentes en kpis-equipo.md)

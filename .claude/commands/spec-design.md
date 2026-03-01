@@ -2,16 +2,26 @@
 
 Genera diseño técnico a partir de una spec existente. Decisiones técnicas, flujo de datos, ficheros a modificar y estrategia de testing.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **SDD & Agentes** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar output según `identity.rol` (tech lead vs PM), `workflow.reviews_agent_code`, `workflow.specs_per_sprint`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /spec-design {spec-file}
 ```
 
 - `{spec-file}`: Ruta a fichero spec (ej: `projects/sala-reservas/specs/2026-04/AB1234-B3-create-sala.spec.md`)
 
-## Pasos de Ejecución
+## 3. Pasos de Ejecución
 
-### Paso 1 — Banner de inicio
+### 3.1 — Banner de inicio
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

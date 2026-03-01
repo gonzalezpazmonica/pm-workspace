@@ -11,7 +11,17 @@ description: >
 
 > Uso: `/pipeline-create --project {p} --name {n} --repo {r}`
 
-## Parámetros
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Infrastructure** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/tools.md`
+   - `profiles/users/{slug}/projects.md`
+3. Adaptar output según `tools.cicd`, `tools.docker` y `identity.rol`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Parámetros
 
 - `--project {nombre}` — Proyecto de PM-Workspace (obligatorio)
 - `--name {nombre}` — Nombre de la pipeline (obligatorio)

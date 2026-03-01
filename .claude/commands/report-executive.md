@@ -2,13 +2,24 @@
 
 Genera el informe ejecutivo multi-proyecto para dirección en formato Word o PowerPoint.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Reporting** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/preferences.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `preferences.language`, `preferences.detail_level`, `preferences.report_format` y `tone.formality`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /report-executive [--format pptx|docx] [--proyectos alpha,beta] [--semana YYYY-WW]
 ```
 Si no se indica formato, generar ambos. Si no se indica semana, usar la semana actual.
 
-## Pasos de Ejecución
+## 3. Pasos de Ejecución
 
 1. Para cada proyecto activo (o los indicados):
    a. Leer `projects/<proyecto>/CLAUDE.md` para contexto

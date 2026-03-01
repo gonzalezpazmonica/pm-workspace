@@ -9,7 +9,15 @@ description: >
 
 > Ejecuta al empezar una sesión nueva para tener contexto completo.
 
-## 1. Banner de inicio
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Memory** del context-map):
+   - `profiles/users/{slug}/identity.md`
+3. Usar slug para aislar memorias por usuario
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Banner de inicio
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -17,12 +25,12 @@ description: >
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## 2. Detección de stack
+## 3. Detección de stack
 
 Leer `CLAUDE.local.md` → campo `AZURE_DEVOPS_ENABLED`.
 Mostrar: `📦 Stack: {GitHub-only|Azure DevOps}`
 
-## 3. Protocolo de carga (con progreso)
+## 4. Protocolo de carga (con progreso)
 
 ```
 📋 Paso 1/5 — Workspace y rama...

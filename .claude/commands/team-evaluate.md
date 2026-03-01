@@ -12,9 +12,19 @@ description: >
 > Uso: `/team-evaluate "Laura Sánchez" --project GestiónClínica`
 > Prerequisito: nota informativa RGPD firmada.
 
-## Protocolo
+## 1. Cargar perfil de usuario
 
-### 1. Leer contexto
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Team & Workload** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tone.md`
+3. Adaptar output según `tone.alert_style` (calibrar alertas de sobrecarga)
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Protocolo
+
+### 2.1 Leer contexto
 - `.claude/skills/team-onboarding/SKILL.md`
 - `projects/{proyecto}/CLAUDE.md` (módulos)
 - `projects/{proyecto}/equipo.md` (perfil existente)

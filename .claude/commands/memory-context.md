@@ -20,24 +20,32 @@ Muestra las observaciones recientes almacenadas en memoria persistente para el p
 
 ## Proceso
 
-**1. Inicio**
+**1. Cargar perfil de usuario**
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Memory** del context-map):
+   - `profiles/users/{slug}/identity.md`
+3. Usar slug para aislar memorias por usuario
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+**2. Inicio**
 ```
 ═══════════════════════════════════════════════════════════
 📚 CONTEXTO DE MEMORIA DEL PROYECTO
 ═══════════════════════════════════════════════════════════
 ```
 
-**2. Detección de proyecto**
+**3. Detección de proyecto**
 Leo `CLAUDE.local.md` para obtener el proyecto activo.
 
-**3. Recuperación**
+**4. Recuperación**
 ```bash
 bash scripts/memory-store.sh context \
   [--project {proyecto_activo}] \
   [--limit {N}]
 ```
 
-**4. Agrupación y formato**
+**5. Agrupación y formato**
 Organizo resultados por tipo:
 - **🎯 Decisiones**: Decisiones arquitectónicas o técnicas
 - **🐛 Bugs**: Problemas encontrados y soluciones

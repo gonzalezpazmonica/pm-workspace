@@ -13,6 +13,191 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.42.0] — 2026-03-01
+
+Subagent Context Budget System. All 24 agents now have explicit `max_context_tokens` and `output_max_tokens` fields in their frontmatter, categorized into 4 tiers: Heavy (12K/1K), Standard (8K/500), Light (4K/300), Minimal (2K/200). Protocol documentation defines budget enforcement, reduction strategies, and integration with context-tracker.
+
+### Added
+
+- **`.claude/rules/domain/agent-context-budget.md`** — Protocol documenting 4 budget categories, invocation rules, reduction strategies (prioritize, truncate, summarize, fragment), and context-tracker integration.
+
+### Changed
+
+- **All 24 agent frontmatter files** — Added `max_context_tokens` and `output_max_tokens` fields across 4 budget tiers.
+
+---
+
+## [0.41.0] — 2026-03-01
+
+Session-Init Compression and CLAUDE.md Pre-compaction. Session-init now uses a 4-level priority system (critical/high/medium/low) with a max budget of 8 items to prevent context bloat as features grow. CLAUDE.md reduced from 154 to 125 lines (688 words, ~36% reduction) by condensing verbose sections and moving rarely-needed info to referenced files.
+
+### Added
+
+- **`.claude/rules/domain/session-init-priority.md`** — Documentation of the 4-level priority system: critical (always: PAT, profile, git branch), high (conditional: updates, missing tools), medium (conditional: backup, emergency plan), low (probabilistic: community tip).
+
+### Changed
+
+- **`session-init.sh`** — Rewritten with priority-based array system. Items are organized into CRITICAL/HIGH/MEDIUM/LOW arrays and assembled with MAX_ITEMS=8 budget. Only critical items are guaranteed; others fill remaining space. Also integrates context-tracker logging.
+- **CLAUDE.md** — Pre-compacted: 154→125 lines, 1079→688 words. Removed inline comments from config block, condensed structure tree, merged Proyectos Activos into Estructura, shortened section headers, removed redundant descriptions. All information preserved via `@` references.
+
+---
+
+## [0.40.0] — 2026-03-01
+
+Role-Adaptive Daily Routines, Project Health Dashboard, and Context Usage Optimization. Savia now adapts her daily suggestions based on the user's role (PM, Tech Lead, QA, Product Owner, Developer, CEO/CTO), provides a unified project health dashboard with role-weighted scoring, and tracks context usage patterns to suggest context-map optimizations.
+
+### Added
+
+- **`.claude/rules/domain/role-workflows.md`** — Role-specific daily routines, weekly/monthly rituals, key metrics, and personalized alerts for 6 roles. Includes context-map integration table mapping roles to primary/secondary command groups.
+- **`/daily-routine` command** — Role-adaptive daily routine. Identifies user role, composes the day's routine (daily + weekly rituals if applicable), executes on demand with user control (skip, reorder, stop), and shows summary at end.
+- **`/health-dashboard` command** — Unified project health dashboard with 4 subcommands: default (single project), `{project}` (specific), `all` (multi-project), `trend` (4-week history). Composite health score (0-100) with role-weighted dimensions and traffic-light system.
+- **`/context-optimize` command** — Context usage analysis with 4 subcommands: default (full analysis), `stats` (statistics only), `reset` (clear log), `apply {id}` (apply recommendation). Detects unnecessary fragment loads, co-occurrences, and waste patterns.
+- **`scripts/context-tracker.sh`** — Lightweight context usage tracking script. Logs command+fragments+tokens to `$HOME/.pm-workspace/context-usage.log`. Supports stats, top-commands, top-fragments, co-occurrences, low-impact analysis, and log rotation (max 1MB/5000 entries).
+- **`.claude/rules/domain/context-tracking.md`** — Protocol documenting what is tracked (metadata only), privacy guarantees, token estimation per fragment, and optimization metrics.
+- **`scripts/test-context-tracking.sh`** — Automated tests for v0.40.0 features.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 141 → 144, added `/daily-routine`, `/health-dashboard`, `/context-optimize` references
+- **README.md** — Added "Rutina diaria adaptativa" and "Optimización de contexto" feature sections, updated command count (144), added commands to reference
+- **README.en.md** — Added "Adaptive daily routine" and "Context optimization" feature sections, updated command count (144), added commands to reference
+- **context-map.md** — Added "Daily Routine & Health" group, added `/context-optimize` to Memory & Context group
+
+---
+
+## [0.39.0] — 2026-03-01
+
+Encrypted Cloud Backup System. Savia now protects user data with AES-256-CBC encryption (PBKDF2, 100k iterations) before uploading to NextCloud (WebDAV) or Google Drive (MCP). Automatic rotation of 7 backups. Session-init suggests backup when more than 24h have passed.
+
+### Added
+
+- **`/backup` command** — 5 subcommands: `now` (encrypt + upload), `restore` (download + decrypt + verify SHA256), `auto-on`/`auto-off` (daily reminder toggle), `status` (backup history and cloud config).
+- **`scripts/backup.sh`** — Full backup lifecycle: collect files, create SHA256 manifest, encrypt with AES-256-CBC/PBKDF2 (100k iterations), upload to NextCloud via WebDAV or Google Drive via MCP, rotation of max 7 backups, restore with integrity verification.
+- **`.claude/rules/domain/backup-protocol.md`** — Protocol documenting what to include/exclude, encryption algorithm, rotation strategy, cloud providers, and restore flow.
+- **Backup suggestion in session-init** — When `auto_backup=true` and >24h since last backup, shows reminder (humans only).
+- **`scripts/test-backup.sh`** — 63 automated tests including real encrypt/decrypt/SHA256 verification cycle.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 140 → 141, added `/backup` reference
+- **README.md** — Added "Backup cifrado en la nube" feature section, updated command count (141)
+- **README.en.md** — Added "Encrypted cloud backup" feature section, updated command count (141)
+- **session-init.sh** — Added `BACKUP_TIP` variable with 24h reminder logic
+
+---
+
+## [0.38.0] — 2026-03-01
+
+Private Review Protocol. Maintainer workflow for reviewing community PRs, issues, and contributions. Includes secrets scanning on PR diffs, validate-commands integration, squash merge, and GitHub release creation.
+
+### Added
+
+- **`/review-community` command** — 5 subcommands: `pending` (list community PRs/issues), `review {pr}` (deep analysis with diff, validate-commands, secrets scan), `merge {pr}` (squash merge), `release {version}` (tag + GitHub release), `summary` (weekly activity).
+- **`scripts/review-community.sh`** — Maintainer automation script with secrets detection in diffs (AKIA, ghp_, sk-, JWT, password=, api_key=), validate-commands.sh integration for command changes, squash merge strategy.
+- **`scripts/test-review-community.sh`** — 33 automated tests covering script functions, command content, doc integration.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 139 → 140, added `/review-community` reference
+- **README.md / README.en.md** — Updated command count (140), added `/review-community` to quick reference
+
+---
+
+## [0.37.0] — 2026-03-01
+
+Vertical Detection System. Savia now detects when a project belongs to a non-software sector (healthcare, legal, industrial, agriculture, education, finance, logistics, real estate, energy, hospitality) using a calibrated 5-phase scoring algorithm and proposes specialized extensions.
+
+### Added
+
+- **`.claude/rules/domain/vertical-detection.md`** — 5-phase detection algorithm: domain entities (35%), API naming patterns (25%), sector-specific dependencies (15%), specialized configuration (15%), documentation mentions (10%). Covers 10 verticals with scoring thresholds (≥55% auto-detect, 25-54% ask, <25% ignore).
+- **`/vertical-propose` command** — Detect vertical or receive name, generate local extension structure (`rules.md`, `workflows.md`, `entities.md`, `compliance.md`, `examples/`), offer to contribute to community repo.
+- **Vertical trigger in profile-onboarding** — During `/profile-setup`, if user role is non-software, triggers vertical detection algorithm and suggests `/vertical-propose`.
+- **`scripts/test-vertical-detection.sh`** — 42 automated tests covering algorithm phases, verticals, scoring, command content, integration with docs.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 138 → 139, added `/vertical-propose` reference
+- **README.md** — Added "Detección de verticales" feature section, updated command count (139 comandos), added `/vertical-propose`
+- **README.en.md** — Added "Vertical detection" feature section, updated command count (139 commands), added `/vertical-propose`
+- **profile-onboarding.md** — Added "Detección de Verticales" section with integration trigger
+
+---
+
+## [0.36.0] — 2026-03-01
+
+Community & Collaboration System. Savia now helps users contribute back to pm-workspace while protecting their privacy. Privacy-first validation blocks PATs, corporate emails, project names, IPs, and connection strings before any content reaches GitHub.
+
+### Added
+
+- **`/contribute` command** — Create PRs (`/contribute pr`), propose ideas (`/contribute idea`), report bugs (`/contribute bug`), check status (`/contribute status`). All content validated for privacy before submission.
+- **`/feedback` command** — Open issues as bug reports (`/feedback bug`), ideas (`/feedback idea`), improvements (`/feedback improve`), list open issues (`/feedback list`), search before duplicating (`/feedback search`).
+- **`scripts/contribute.sh`** — Shared GitHub interaction layer with `validate_privacy()`, `do_pr()`, `do_issue()`, `do_list()`, `do_search()`. Detects AWS keys, GitHub PATs, OpenAI keys, JWTs, Azure credentials, corporate emails, private IPs, connection strings, and project names from `CLAUDE.local.md`.
+- **`.claude/rules/domain/community-protocol.md`** — Privacy guardrails documenting what NEVER to include, what to include, standard labels (`bug`, `enhancement`, `idea`, `improvement`, `community`, `from-savia`), and PR/issue templates.
+- **Community suggestion in session-init** — 1-in-20 session probability of showing "¿Encontraste algo que mejorar? /contribute idea o /feedback bug" (only for human users, not agents).
+- **`scripts/test-contribute.sh`** — 67 automated tests covering file existence, script content, privacy validation (clean text, GitHub PAT, AWS key detection), hook integration, documentation integration.
+
+### Changed
+
+- **CLAUDE.md** — Commands count 136 → 138, added `/contribute` and `/feedback` references
+- **README.md** — Added "Comunidad y colaboración" feature section, updated command reference (138 comandos), added `/contribute` and `/feedback` to quick reference
+- **README.en.md** — Added "Community and collaboration" feature section, updated command reference (138 commands), added `/contribute` and `/feedback` to quick reference
+- **session-init.sh** — Added `COMMUNITY_TIP` variable with random suggestion logic
+
+---
+
+## [0.35.0] — 2026-03-01
+
+Savia — User Profiling System and Agent Mode. pm-workspace now has its own identity: Savia, the little owl that keeps your projects alive. Fragmented user profiles with conditional context loading, natural conversational onboarding, multi-role support, and machine-to-machine communication for external agents.
+
+### Added
+
+**🦉 Savia — pm-workspace identity** — Savia is a female owl ("buhita") who serves as the personality and voice of pm-workspace. She introduces herself to new users, conducts natural conversational onboarding, adapts her tone to each user's preferences, and communicates with external agents in structured YAML/JSON. Her personality is defined in `.claude/profiles/savia.md`.
+
+**User Profiling System** — Fragmented user profiles stored in 6 independent files per user (identity.md, workflow.md, tools.md, projects.md, preferences.md, tone.md) with YAML frontmatter. Inspired by "The Personalization Paradox" research: less context = better results. Each command group loads only the profile fragments it needs, controlled by `context-map.md`.
+
+**`/profile-setup`** — Savia's conversational onboarding flow. She asks one question at a time in a natural dialogue: name, role (10 options including PM, Tech Lead, Arquitecto/a, QA, CEO/CTO, Desarrollador/a, Supervisor/a, Agent), company, workflow mode, tools, projects, preferences (language, detail level, report format), and tone (alert style, celebrations). Includes fast YAML registration for agents.
+
+**`/profile-edit`** — Edit specific sections of the active user profile through Savia's conversational interface.
+
+**`/profile-switch`** — Switch between configured user profiles for multi-user workspaces.
+
+**`/profile-show`** — Display the complete active user profile with all 6 fragments.
+
+**Agent Mode** — External agents (OpenClaw, other LLMs, automated scripts) communicate with Savia in machine-to-machine mode: structured YAML/JSON output, status codes (OK/ERROR/WARNING/PARTIAL), zero narrative, no greetings, no confirmations. Agent detection via dual mechanism: `PM_CLIENT_TYPE=agent` environment variable or message content analysis.
+
+**Dual onboarding trigger** — Combined hook + rule mechanism ensures profiling starts automatically:
+- `session-init.sh` hook (data layer): detects profile status and agent mode, injects context into session
+- `profile-onboarding.md` rule (behavior layer): always-on rule that determines human vs agent mode and triggers appropriate onboarding flow
+
+**Context-map** — `context-map.md` maps 13 command groups to their required profile fragments. Sprint & Daily loads identity + workflow + tone. Reporting loads identity + preferences. SDD & Agents loads identity + workflow + tools. Each group loads only what it needs — no unnecessary context.
+
+**Profile templates** — 6 template files in `.claude/profiles/users/template/` with empty YAML frontmatter for new user creation.
+
+**Test profile** — `test-user-sala` profile with sample data for automated testing of the profile system.
+
+**132 automated tests** — `scripts/test-profile-system.sh` with 15 test categories covering directory structure, templates, commands, context-map content, profile integration in existing commands, trigger mechanism, hook JSON validity, Savia identity, agent mode, and agent hook detection.
+
+### Changed
+
+**README.md and README.en.md** — Completely rewritten with Savia speaking in first person throughout. She presents herself and describes all features from her perspective, giving pm-workspace a distinctive personality.
+
+**CLAUDE.md** — New "🦉 Savia — La voz de pm-workspace" section replacing the old profile section. References savia.md and context-map.md.
+
+**~72 existing commands updated** — Each command now includes a "Cargar perfil de usuario" step that references the appropriate context-map group and lists which profile fragments to load.
+
+**session-init.sh hook** — Enhanced with agent detection (PM_CLIENT_TYPE, AGENT_MODE env vars), profile role checking, and differentiated messages for agents vs humans.
+
+**`.gitignore`** — Added rules to exclude real user profiles but include template: `.claude/profiles/users/*` with `!.claude/profiles/users/template/` exception.
+
+**Commands count**: 131 → 135 (+4 profile commands)
+**Skills count**: 20 (unchanged)
+
+### Why
+
+Inspired by the research paper "The Personalization Paradox: Navigating the Tension Between Context and Efficiency in LLM-Driven PM Assistants" — which found that loading full user context for every operation degrades LLM performance. The fragmented approach (6 files × conditional loading via context-map) ensures each command gets exactly the context it needs. Savia as a named identity creates a consistent, warm interaction point while maintaining professional efficiency. Agent mode enables programmatic access for external tools without the overhead of conversational UI.
+
+---
+
 ## [0.34.0] — 2026-02-28
 
 Performance Audit Intelligence — static analysis for code performance hotspots, async anti-patterns, and test-first optimization.
@@ -1126,7 +1311,12 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.34.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.35.0...HEAD
+[0.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.38.0...v0.39.0
+[0.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.37.0...v0.38.0
+[0.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.36.0...v0.37.0
+[0.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.35.0...v0.36.0
+[0.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.34.0...v0.35.0
 [0.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.3...v0.34.0
 [0.33.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.2...v0.33.3
 [0.33.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.1...v0.33.2

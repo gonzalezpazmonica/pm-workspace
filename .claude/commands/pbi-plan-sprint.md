@@ -2,7 +2,18 @@
 
 Flujo completo de Sprint Planning asistido por IA: calcula capacity, propone qué PBIs caben, descompone en tasks y asigna todo de forma equilibrada.
 
-## Uso
+## 1. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **PBI & Backlog** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/workflow.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/tools.md`
+3. Adaptar output según `identity.rol`, `workflow.sdd_active` y disponibilidad de `tools.azure_devops`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 2. Uso
 ```
 /pbi-plan-sprint [--project {nombre}] [--sprint "Sprint 2026-XX"] [--max-sp N]
 ```
@@ -11,14 +22,14 @@ Flujo completo de Sprint Planning asistido por IA: calcula capacity, propone qu�
 - `--sprint`: Sprint al que se planifica (default: el siguiente sprint sin iniciar)
 - `--max-sp N`: Limitar la propuesta a N Story Points máximos (override de la capacity calculada)
 
-## Este comando combina y orquesta
+## 3. Este comando combina y orquesta
 
 → `capacity-planning/SKILL.md` (para calcular horas disponibles)
 → `sprint-management/SKILL.md` (para obtener el sprint y PBIs candidatos)
 → `pbi-decomposition/SKILL.md` (para descomponer y asignar cada PBI)
 → `azure-devops-queries/SKILL.md` (para todas las llamadas a la API)
 
-## Flujo Completo
+## 4. Flujo Completo
 
 ### Paso 1 — Obtener Capacity del Equipo
 

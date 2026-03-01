@@ -17,11 +17,21 @@ context_cost: medium
 - Ejecutar `/arch-detect` primero (o se ejecutará automáticamente)
 - Acceso al repositorio
 
-## Parámetros
+## 2. Cargar perfil de usuario
+
+1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+2. Si hay perfil activo, cargar (grupo **Architecture & Debt** del context-map):
+   - `profiles/users/{slug}/identity.md`
+   - `profiles/users/{slug}/projects.md`
+   - `profiles/users/{slug}/preferences.md`
+3. Adaptar profundidad del análisis según `preferences.detail_level`
+4. Si no hay perfil → continuar con comportamiento por defecto
+
+## 3. Parámetros
 
 - `{repo|path}` — Ruta local o nombre del repositorio
 
-## Flujo de Ejecución
+## 4. Flujo de Ejecución
 
 ### 1. Cargar detección previa
 
