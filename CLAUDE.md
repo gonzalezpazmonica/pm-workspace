@@ -85,7 +85,7 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 11. **150 líneas máx.** por fichero — dividir si crece
 12. **README**: cambios en commands/agents/skills/rules → actualizar README.md + README.en.md
 13. **Git**: NUNCA commit directo en `main`
-14. **Comandos**: antes de commit → `scripts/validate-commands.sh`
+14. **CI Local**: antes de push → `bash scripts/validate-ci-local.sh` (replica checks del CI de GitHub Actions)
 15. **UX**: TODO comando DEBE mostrar banner, prerequisitos, progreso, resultado. **El silencio es bug.**
 16. **Auto-compact**: Resultado >30 líneas → fichero + resumen. `Task` para pesados. Tras comando → `⚡ /compact`
 17. **Anti-improvisación**: Comando SOLO ejecuta lo de su `.md`. No cubierto → error + sugerencia
