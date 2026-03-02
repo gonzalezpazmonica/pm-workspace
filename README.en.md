@@ -148,7 +148,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 170 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 174 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -189,6 +189,12 @@ I've organized all documentation into sections so you can quickly find what you 
 ```
 /portfolio-deps {--critical}    /backlog-patterns
 /org-metrics {--trend 6}    /cross-project-search {query}
+```
+
+### AI-Powered Planning
+```
+/sprint-autoplan {--conservative}    /risk-predict {--sprint N}
+/meeting-summarize {--type daily}    /capacity-forecast {--sprints 6}
 ```
 
 ### Technical Debt Intelligence

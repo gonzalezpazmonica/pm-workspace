@@ -7,6 +7,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.51.0] — 2026-03-02
+
+AI-Powered Planning — 4 nuevos comandos para planificación inteligente de sprints, predicción de riesgos, resumen de reuniones y previsión de capacidad.
+
+### Added
+
+- **`/sprint-autoplan` command** — Planificación inteligente de sprint desde backlog y capacidad. Propone distribución óptima de items considerando expertise, disponibilidad, balance de carga y crecimiento del equipo.
+- **`/risk-predict` command** — Predicción de riesgo del sprint con señales tempranas. Detecta riesgos técnicos, de dependencias, de recursos y propone mitigaciones proactivas.
+- **`/meeting-summarize` command** — Transcripción y extracción de action items de reuniones. Procesa audio/video, genera resumen ejecutivo y trackea dueños de acciones.
+- **`/capacity-forecast` command** — Previsión de capacidad a medio plazo (3-6 sprints). Proyecta velocity tendencia, detecta bottlenecks y sugiere acciones de escalado.
+
+### Changed
+
+- **Commands count**: 170 → 174
+- **Updated**: CLAUDE.md, README.md, README.en.md, context-map.md, role-workflows.md
+
+---
+
 ## [Unreleased]
 
 ---
@@ -1467,6 +1485,7 @@ Initial public release of PM-Workspace.
 ---
 
 [Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.50.0...HEAD
+[0.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.50.0...v0.51.0
 [0.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.49.0...v0.50.0
 [0.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.48.0...v0.49.0
 [0.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.47.0...v0.48.0

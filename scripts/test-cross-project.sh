@@ -54,7 +54,7 @@ check_content ".claude/commands/cross-project-search.md" "Modo agente" "Has agen
 echo ""
 
 echo "📋 5. CLAUDE.md Updates"
-check_content "CLAUDE.md" "commands/ (170)" "CLAUDE.md shows 170 commands"
+check_content "CLAUDE.md" "commands/ (174)" "CLAUDE.md shows 174 commands"
 check_content "CLAUDE.md" "portfolio-deps" "CLAUDE.md references /portfolio-deps"
 check_content "CLAUDE.md" "backlog-patterns" "CLAUDE.md references /backlog-patterns"
 check_content "CLAUDE.md" "org-metrics" "CLAUDE.md references /org-metrics"
@@ -62,9 +62,9 @@ check_content "CLAUDE.md" "cross-project-search" "CLAUDE.md references /cross-pr
 echo ""
 
 echo "📋 6. README Updates"
-check_content "README.md" "170 comandos" "README.md shows 170 commands"
+check_content "README.md" "174 comandos" "README.md shows 174 commands"
 check_content "README.md" "portfolio-deps" "README.md references /portfolio-deps"
-check_content "README.en.md" "170 commands" "README.en.md shows 170 commands"
+check_content "README.en.md" "174 commands" "README.en.md shows 174 commands"
 check_content "README.en.md" "portfolio-deps" "README.en.md references /portfolio-deps"
 echo ""
 

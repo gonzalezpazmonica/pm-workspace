@@ -11,7 +11,7 @@
 ### Grupo: Sprint & Daily
 
 **Comandos:** `/sprint-status`, `/sprint-plan`, `/sprint-review`,
-`/sprint-retro`, `/velocity-trend`, `/sprint-forecast`, `/my-sprint`
+`/sprint-retro`, `/velocity-trend`, `/sprint-forecast`, `/sprint-autoplan`, `/risk-predict`, `/my-sprint`
 
 **Perfil necesario:**
 
@@ -32,7 +32,7 @@
 **Comandos:** `/report-hours`, `/report-capacity`,
 `/kpi-dashboard`, `/kpi-dora`, `/dx-dashboard`,
 `/ceo-report`, `/ceo-alerts`, `/portfolio-overview`, `/incident-postmortem`,
-`/value-stream-map`, `/stakeholder-report`, `/portfolio-deps`, `/org-metrics`
+`/value-stream-map`, `/stakeholder-report`, `/portfolio-deps`, `/org-metrics`, `/meeting-summarize`, `/capacity-forecast`
 
 **Perfil necesario:**
 
