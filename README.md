@@ -155,6 +155,15 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ---
 
+## v0.72.0 — Trace Intelligence
+
+- `/trace-search` — Buscar y filtrar trazas en Grafana, Datadog, App Insights con lenguaje natural
+- `/trace-analyze` — Análisis profundo de trazas: waterfall, cuellos de botella, cadena de errores
+- `/error-investigate` — Investigación asistida de errores con root cause analysis
+- `/incident-correlate` — Correlación multi-fuente para análisis integral de incidentes con post-mortem draft
+
+**Era 13 — Observabilidad e Inteligencia (2/2). ERA 13 COMPLETA!**
+
 ## Referencia rápida de comandos
 
 > 265 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
