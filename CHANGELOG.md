@@ -7,6 +7,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.53.0] — 2026-03-02
+
+### Added — Multi-Platform Support
+- `/jira-connect` — conectar y sincronizar con Jira Cloud
+- `/github-projects` — integración con GitHub Projects v2
+- `/platform-migrate` — migración asistida entre plataformas
+
+### Changed
+- `/linear-sync` — reescrito con nuevo formato, webhooks y métricas unificadas
+
+---
+
 ## [0.52.0] — 2026-03-02
 
 ### Added — Integration Hub
@@ -1500,6 +1512,7 @@ Initial public release of PM-Workspace.
 ---
 
 [Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.50.0...HEAD
+[0.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.52.0...v0.53.0
 [0.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.51.0...v0.52.0
 [0.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.50.0...v0.51.0
 [0.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.49.0...v0.50.0
