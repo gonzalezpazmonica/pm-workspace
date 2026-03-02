@@ -35,7 +35,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
 │   ├── agents/ (24)               ← @.claude/rules/domain/agents-catalog.md
-│   ├── commands/ (262)            ← @.claude/rules/domain/pm-workflow.md
+│   ├── commands/ (267)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (13)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
@@ -103,6 +103,9 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 
 ### Banking Architecture (v0.73.0)
 `/banking-detect` (auto-detección proyecto bancario) · `/banking-bian` (validar BIAN + ArchiMate) · `/banking-eda-validate` (Kafka/EDA pipelines) · `/banking-data-governance` (lineage, clasificación, GDPR) · `/banking-mlops-audit` (MLOps, XAI, model risk, scoring)
+
+### Savia Flow Practice (v0.74.0)
+`/flow-setup` (configurar Azure DevOps dual-track) · `/flow-board` (visualizar tablero dual-track) · `/flow-intake` (mover Spec-Ready → Production) · `/flow-metrics` (cycle time, lead time, throughput, CFR) · `/flow-spec` (crear spec desde outcome)
 
 ---
 
