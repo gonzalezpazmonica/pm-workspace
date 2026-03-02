@@ -148,7 +148,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 201 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 205 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -242,6 +242,11 @@ I've organized all documentation into sections so you can quickly find what you 
 ```
 /ai-safety-config    /ai-confidence    /ai-boundary    /ai-incident
 /ai-model-card    /ai-risk-assessment    /ai-audit-log
+```
+
+### AI Adoption Companion
+```
+/adoption-assess    /adoption-plan    /adoption-sandbox    /adoption-track
 ```
 
 ### Sprint and Reporting
