@@ -4,6 +4,7 @@ description: Crear spec ejecutable desde outcome de exploración (puente explora
 developer_type: pm
 agent: sdd-spec-writer
 context_cost: moderate
+max_context: 4000
 allowed_modes: [pm, lead, all]
 ---
 

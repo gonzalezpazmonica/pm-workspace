@@ -77,15 +77,35 @@ Specialized tooling for regulated industries, starting with banking:
 
 ---
 
-## 💡 Proposed — v0.74.0+
+## ✅ Era 15 — Savia Flow Practice (v0.74.0–v0.75.0, Mar 2026)
+
+Practical implementation of Savia Flow: Azure DevOps dual-track, SocialApp example, E2E test harness.
+
+- **Savia Flow Practice** (v0.74.0) — `/flow-setup`, `/flow-board`, `/flow-intake`, `/flow-metrics`, `/flow-spec`. Skill with 6 references. SocialApp example (Ionic + microservices).
+- **E2E Test Harness** (v0.75.0) — Docker + autonomous agent. 5 scenarios, 23 steps, mock + live engines. Metrics CSV + auto-report.
+
+---
+
+## ✅ Era 16 — Context Intelligence & AI Roles (v0.76.0–v0.79.0, Mar 2026)
+
+Improvements driven by E2E test results + Fowler Knowledge Priming + NVIDIA multimodal agents + AI-era role evolution.
+
+- **Context Optimization** (v0.76.0) — `max_context` budgets per command, `--spec` filter for intake, `flow-protect` scenario in E2E, stress test scenario (10+ concurrent specs).
+- **Knowledge Priming** (v0.77.0) — 7-section priming docs (Fowler pattern), `.priming/` project structure, Design-First + Context Anchoring + Feedback Flywheel integration.
+- **Role Evolution** (v0.78.0) — 6 AI-era role categories mapped to Savia Flow, maturity metrics per role, augmented builder patterns.
+- **CI + Multimodal Prep** (v0.79.0) — GitHub Action for E2E mock on PRs, multimodal agent reference (VLM vision+text+code), roadmap for visual quality gates.
+
+---
+
+## 💡 Proposed — v0.80.0+
 
 Ideas under consideration. Open an issue or vote with 👍 to prioritize.
 
 **More industry verticals** — Insurance (Guidewire, Solvency II), Retail/eCommerce (catalog, pricing, recommendations), Telco (OSS/BSS, eTOM/SID).
 
-**Savia Flow integration** — `/pm-mode` (scrum/flow/hybrid), `/flow-metrics` (cycle time, throughput), `/spec-create` + `/spec-validate` (executable specs), `/quality-gate` (autonomous pipeline).
+**Multimodal quality gates** — Visual regression via VLM screenshot analysis, diagram-to-spec generation, wireframe-driven decompose.
 
-**Observability extensions** — New Relic, Splunk, Elastic APM connectors. LLM-specific observability (token usage, prompt latency, model drift). Cost optimization from infra metrics.
+**Observability extensions** — New Relic, Splunk, Elastic APM connectors. LLM-specific observability (token usage, prompt latency, model drift).
 
 **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status).
 

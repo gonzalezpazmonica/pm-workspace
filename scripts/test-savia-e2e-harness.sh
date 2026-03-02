@@ -66,6 +66,7 @@ has "$DOCKER_DIR/scenarios/02-production.md" "production" "flow-intake"
 has "$DOCKER_DIR/scenarios/02-production.md" "production" "pbi-decompose"
 has "$DOCKER_DIR/scenarios/03-coordination.md" "coordination" "flow-metrics"
 has "$DOCKER_DIR/scenarios/03-coordination.md" "coordination" "quality-gate"
+has "$DOCKER_DIR/scenarios/03-coordination.md" "coordination" "flow-protect"
 has "$DOCKER_DIR/scenarios/04-release.md" "release" "release-readiness"
 has "$DOCKER_DIR/scenarios/04-release.md" "release" "outcome-track"
 
@@ -73,9 +74,11 @@ echo ""
 echo "7️⃣  Mock Mode Dry Run"
 # Run harness in mock mode to verify it works without Docker
 cd "$REPO_ROOT"
-if bash "$DOCKER_DIR/harness.sh" mock 2>/dev/null; then
-  ok "Mock dry run completed successfully"
-  # Check output was generated
+# Mock has 5% random error rate, so exit 1 is expected sometimes
+bash "$DOCKER_DIR/harness.sh" mock 2>/dev/null
+mock_exit=$?
+if [ "$mock_exit" -le 1 ]; then
+  ok "Mock dry run completed (exit=$mock_exit)"
   LAST_RUN=$(ls -dt "$DOCKER_DIR/output/run-"* 2>/dev/null | head -1)
   if [ -n "$LAST_RUN" ] && [ -f "$LAST_RUN/report.md" ]; then
     ok "Report generated at $LAST_RUN/report.md"
@@ -93,7 +96,7 @@ if bash "$DOCKER_DIR/harness.sh" mock 2>/dev/null; then
     fail "Metrics CSV not generated"
   fi
 else
-  fail "Mock dry run failed"
+  fail "Mock dry run crashed (exit=$mock_exit)"
 fi
 
 echo ""

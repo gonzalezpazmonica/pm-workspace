@@ -4,6 +4,7 @@ description: Intake continuo — mover items Spec-Ready a Production y asignar a
 developer_type: pm
 agent: azure-devops-operator
 context_cost: moderate
+max_context: 4000
 allowed_modes: [pm, lead, all]
 ---
 
@@ -12,11 +13,12 @@ allowed_modes: [pm, lead, all]
 > Proceso semiautomático: validar specs listos, evaluar capacidad, asignar builders, mover a Production.
 
 ## Uso
-`/flow-intake [--dry-run] [--auto-assign] [--project {nombre}]`
+`/flow-intake [--dry-run] [--auto-assign] [--spec {ID}] [--project {nombre}]`
 
 ## Subcomandos
 - `--dry-run` (default): Muestra items candidatos sin cambios
 - `--auto-assign`: Asigna automáticamente a builders disponibles
+- `--spec {PBI#XXXX}`: Procesar una sola spec (reduce contexto, previene overflow)
 - `--project {nombre}`: Proyecto específico (default: activo)
 
 ## Flujo principal

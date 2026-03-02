@@ -4,6 +4,7 @@ description: Visualizar tablero dual-track de Savia Flow (exploración + producc
 developer_type: pm
 agent: azure-devops-operator
 context_cost: moderate
+max_context: 4000
 allowed_modes: [pm, lead, dev, qa, all]
 ---
 

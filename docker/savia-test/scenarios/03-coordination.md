@@ -35,6 +35,14 @@ Eres Savia. Mónica visualiza el tablero actualizado tras segundo intake. Ejecut
 ```
 
 ## Step 5
+- **Role**: Mónica
+- **Command**: flow-protect
+
+```prompt
+Eres Savia. Mónica detecta que Ana lleva 5 días seguidos en SPEC-001 front sin pausas significativas. Ejecuta flow-protect --analyze para evaluar el flow state del equipo. Ana tiene WIP 1/2 pero está en context-switching constante entre 5 sub-tasks. Isabel tiene WIP 2/2 (SPEC-001 gates + SPEC-002 building). Elena tiene 3 specs activas. Analiza meeting density, context switches, WIP overload. Sugiere protecciones: bloquear calendario de Ana martes/jueves para deep work, reducir WIP de Elena a 2 specs.
+```
+
+## Step 6
 - **Role**: Elena
 - **Command**: flow-spec
 
