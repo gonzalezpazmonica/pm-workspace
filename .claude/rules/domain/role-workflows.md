@@ -7,314 +7,115 @@ paths: []
 
 # Workflows por Rol — Rutinas Adaptativas de Savia
 
-> 🦉 Cada rol tiene un ritmo diferente. Savia se adapta al tuyo.
-
----
-
-## Principio
-
-El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qué rutina sugiere Savia al inicio de sesión y qué comandos prioriza.
+El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qué rutina sugiere Savia al inicio de sesión.
 
 ---
 
 ## PM / Scrum Master — Modo `daily-first`
 
-### Rutina diaria (al abrir sesión)
-1. `/sprint-status` — progreso, burndown, violaciones WIP
-2. `/team-workload` — carga por persona, items sin asignar
-3. `/board-flow` — detectar cuellos de botella
-4. `/nl-query` (opcional) — consultar estado del proyecto en lenguaje natural
-5. Si hay bloqueantes → sugerir escalación o redistribución
-6. `/integration-status --check` (semanal) — verificar salud de integraciones
+**Diaria**: `/sprint-status` → `/team-workload` → `/board-flow` → `/nl-query` (opt) → si bloqueantes: sugerir escalación. Semanal: `/integration-status --check`.
 
-### Ritual semanal
-- **Lunes**: `/sprint-plan` o `/sprint-autoplan` — kickoff del sprint si aplica
-- **Lunes**: `/risk-predict` — análisis de riesgos del sprint
-- **Miércoles**: `/pbi-plan-sprint` — refinamiento del backlog
-- **Miércoles**: `/backlog-patterns` — detección de PBIs duplicados/similares entre proyectos
-- **Miércoles**: `/backlog-groom` — grooming: detectar items obsoletos, duplicados, sin criterios
-- **Miércoles**: `/backlog-prioritize` — priorización RICE/WSJF del backlog
-- **Viernes**: `/report-hours` + `/report-executive` + `/sprint-review`
+**Semanal**: Lun: `/sprint-plan` o `/sprint-autoplan`, `/risk-predict`. Mié: `/pbi-plan-sprint`, `/backlog-patterns`, `/backlog-groom`, `/backlog-prioritize`. Vie: `/report-hours` + `/report-executive` + `/sprint-review`.
 
-### Post-Release
-- `/outcome-track` — tracking de outcomes: ¿entregó la feature el valor esperado?
-- `/stakeholder-align` — resolver conflictos de prioridad con datos objetivos
+**Post-Release**: `/outcome-track`, `/stakeholder-align`.
 
-### Platform Integration (cuando aplica)
-- `/cache-strategy --show` — Verificar estrategia de caché aplicada al equipo
-- `/cache-invalidate --selective` — Invalidar selectivamente después de cambios en reglas
+**Wellbeing (SPACE)**: `/burnout-radar --team|--individual {name}`, `/workload-balance --show|--suggest`, `/sustainable-pace --calculate|--forecast`, `/team-sentiment --collect|--trends`.
 
-### Context Engineering (Context budget)
-- `/context-budget --optimize` — monitorear presupuesto de contexto, identificar mayores consumidores
-- `/context-defer --status` — verificar estado de deferred loading, ahorros de tokens
-- `/context-profile --analyze` — analizar consumo de contexto por capas
-- `/platform-migrate --plan` — plan migración entre plataformas (Jira ↔ Linear ↔ GitHub Projects)
-- `/jira-connect setup` — conectar Jira Cloud si no está configurado
-- `/github-projects connect` — conectar GitHub Projects si aplica
-- `/company-setup` — onboarding conversacional de empresa: sector, estructura, estrategia
-- `/company-edit {section}` — editar secciones del perfil de empresa
+**Playbooks**: `/playbook-create`, `/playbook-reflect`, `/playbook-evolve`, `/playbook-library --search`.
 
-### Métricas clave
-- Velocity trend, burndown, WIP, lead time, bloqueantes activos
+**Alertas**: Items sin mover >2d → revisión. Capacidad <70% → infrautilización. >110% → sobrecarga. Burndown desviado >20% → alerta temprana.
 
-### Context Engineering (context optimization)
-- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
-- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
-- `/context-compress --preview` — evaluar oportunidades de compresión semántica
-- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
-- `/memory-importance --scan` — Ranking de importancia de memorias históricas
-- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
-
-### Alertas personalizadas
-
-### Team Wellbeing & Sustainability (Dimensión SPACE — Satisfaction & Wellbeing)
-- `/burnout-radar --team` — Detectar señales tempranas de burnout en miembros del equipo
-- `/burnout-radar --individual {nombre}` — Análisis personalizado de riesgo de burnout
-- `/workload-balance --show` — Visualizar balance actual de carga por persona
-- `/workload-balance --suggest` — Proponer redistribuciones de carga
-- `/sustainable-pace --calculate` — Calcular ritmo sostenible del equipo
-- `/sustainable-pace --forecast` — Proyectar sostenibilidad para próximos sprints
-- `/team-sentiment --collect` — Lanzar pulse survey rápido del equipo
-- `/team-sentiment --trends` — Analizar tendencias mensuales de sentimiento
-- Items sin mover en >2 días → sugerir revisión
-- Capacidad < 70% → alerta de infrautilización
-- Capacidad > 110% → alerta de sobrecarga
-- Sprint burndown desviado >20% → alerta temprana
+**Métricas**: Velocity trend, burndown, WIP, lead time, bloqueantes activos.
 
 ---
 
-### Evolving Playbooks (Automation & Learning)
-- `/playbook-create {nombre}` — Capturar flujos repetitivos (releases, onboarding, audits, deploys)
-- `/playbook-reflect {nombre}` — Reflexión post-ejecución (ACE Reflector)
-- `/playbook-evolve {nombre}` — Evolucionar con insights acumulados
-- `/playbook-library --search` — Reutilizar playbooks de otros proyectos
-
-
 ## Tech Lead — Modo `code-focused`
 
-### Rutina diaria
-1. `/tech-radar --outdated` — detectar dependencias desactualizadas y vulnerabilidades
-2. `/pr-pending` — PRs pendientes de review
-3. `/spec-status` — specs en progreso / esperando review
-4. `/perf-audit` si hay PRs con cambios de rendimiento
-5. Revisar output de agentes si hay specs en ejecución
-6. `/risk-predict` — identificar riesgos técnicos del sprint
-7. `/mcp-server status` (semanal) — verificar estado de servidores MCP
-8. `/integration-status --check` (semanal) — auditar integraciones y webhooks
+**Diaria**: `/tech-radar --outdated` → `/pr-pending` → `/spec-status` → `/perf-audit` si hay PRs de rendimiento → revisar output de agentes → `/risk-predict`. Semanal: `/mcp-server status`, `/integration-status --check`.
 
-### Ritual semanal
-- **Lunes**: `/arch-health` — salud arquitectónica (fitness functions, drift, coupling)
-- **Lunes**: `/webhook-config list` — revisar webhooks configurados
-- **Miércoles**: `/team-skills-matrix --bus-factor` — detectar riesgos de dependencia en equipo
-- **Viernes**: `/diagram-generate` — revisión de arquitectura
+**Semanal**: Lun: `/arch-health`, `/webhook-config list`. Mié: `/team-skills-matrix --bus-factor`. Vie: `/diagram-generate`.
 
-### Platform Integration (cuando aplica)
-- `/cache-strategy --show` — Verificar estrategia de caché aplicada al equipo
-- `/cache-invalidate --selective` — Invalidar selectivamente después de cambios en reglas
+**Alertas**: PR abierto >3d → review urgente. Spec fallido → debug/rewrite. Deuda técnica creciente → `/debt-prioritize`. CVEs → alerta seguridad.
 
-### Context Engineering (Context budget)
-- `/context-budget --optimize` — monitorear presupuesto de contexto, identificar mayores consumidores
-- `/context-defer --status` — verificar estado de deferred loading, ahorros de tokens
-- `/context-profile --analyze` — analizar consumo de contexto por capas
-- `/platform-migrate --validate` — verificar integridad de la migración entre plataformas
-- `/github-projects board` — si hay integración con GitHub Projects
-
-### Métricas clave
-- PR cycle time, specs completados/sprint, cobertura de tests, deuda técnica
-
-### Context Engineering (context optimization)
-- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
-- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
-- `/context-compress --preview` — evaluar oportunidades de compresión semántica
-- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
-- `/memory-importance --scan` — Ranking de importancia de memorias históricas
-- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
-
-### Alertas personalizadas
-- PR abierto >3 días → sugerir review urgente
-- Spec fallido → sugerir debug o rewrite
-- Deuda técnica creciente → sugerir `/debt-prioritize`
-- Dependencias desactualizadas con CVEs → alerta de seguridad
+**Métricas**: PR cycle time, specs/sprint, cobertura tests, deuda técnica.
 
 ---
 
 ## QA Engineer — Modo `quality-gate`
 
-### Rutina diaria
-1. `/qa-dashboard` — panel de calidad con cobertura, tests flaky, bugs, escape rate
-2. `/pr-pending` — revisar PRs con foco en testing
-3. Verificar cobertura de tests en cambios recientes
-4. `/security-alerts` si el proyecto tiene compliance activo
+**Diaria**: `/qa-dashboard` → `/pr-pending` (foco testing) → verificar cobertura → `/security-alerts` si compliance activo.
 
-### Ritual semanal
-- **Lunes**: Planificar tests para items del sprint + `/qa-regression-plan` si hay cambios
-- **Miércoles**: Ejecutar tests de regresión y `/qa-bug-triage` para clasificación de defectos
-- **Viernes**: `/testplan-generate` para próximas features + `/compliance-scan` pre-release
+**Semanal**: Lun: planificar tests + `/qa-regression-plan`. Mié: regresión + `/qa-bug-triage`. Vie: `/testplan-generate` + `/compliance-scan`.
 
-### Métricas clave
-- Cobertura de tests, bugs encontrados/sprint, escape rate, test execution time
+**A11y**: `/a11y-audit`, `/a11y-fix`, `/a11y-report`, `/a11y-monitor`.
 
-### Context Engineering (context optimization)
-- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
-- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
-- `/context-compress --preview` — evaluar oportunidades de compresión semántica
-- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
-- `/memory-importance --scan` — Ranking de importancia de memorias históricas
-- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
+**Alertas**: PR sin tests → bloquear. Cobertura < umbral → alerta. Bug crítico reabierto → regresión.
 
-### Alertas personalizadas
-- PR sin tests → bloquear y alertar
-- Cobertura < umbral del proyecto → alerta
-- Bug crítico reabierto → alerta de regresión
-
-### Accessibility & Inclusive Design (A11y)
-- `/a11y-audit [--scope page|site] [--standard WCAG2.2-AA]` — Auditoría WCAG 2.2 de componentes y páginas
-- `/a11y-fix [--issue ID] [--preview]` — Correcciones automáticas de problemas detectados
-- `/a11y-report [--format technical]` — Reporte técnico de conformidad y regresiones
-- `/a11y-monitor [--enable] [--threshold 75]` — Monitorización continua, bloquea deploys con regresiones
+**Métricas**: Cobertura tests, bugs/sprint, escape rate, test execution time.
 
 ---
 
 ## Product Owner — Modo `reporting-focused`
 
-### Rutina diaria
-1. `/kpi-dashboard` — vista rápida de métricas del producto
-2. Revisar backlog: prioridad vs. capacidad
-3. Validar PBIs completados contra acceptance criteria
+**Diaria**: `/kpi-dashboard` → revisar backlog prioridad vs capacidad → validar PBIs contra acceptance criteria.
 
-### Ritual semanal
-- **Lunes**: `/sprint-autoplan` — propuesta de distribución de items
-- **Lunes**: `/capacity-forecast` — previsión de capacidad a medio plazo
-- **Lunes**: `/value-stream-map --bottlenecks` — análisis de flujo de valor
-- **Miércoles**: `/feature-impact --roi` — impacto de features en ROI
-- **Viernes**: `/stakeholder-report` — resumen para stakeholders
+**Semanal**: Lun: `/sprint-autoplan`, `/capacity-forecast`, `/value-stream-map --bottlenecks`. Mié: `/feature-impact --roi`. Vie: `/stakeholder-report`.
 
-### Ritual antes de release
-- `/release-readiness` — verificar que release está lista
+**Pre-Release**: `/release-readiness`.
 
-### Métricas clave
-- Velocity, feature completion rate, customer satisfaction proxy, time to market, value delivered
+**Alertas**: Feature sin PBIs descompuestos → alerta. Backlog >100 items sin priorizar → limpieza. Sprint sin discovery → refinamiento. Release sin readiness → alerta.
 
-### Context Engineering (context optimization)
-- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
-- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
-- `/context-compress --preview` — evaluar oportunidades de compresión semántica
-- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
-- `/memory-importance --scan` — Ranking de importancia de memorias históricas
-- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
-
-### Alertas personalizadas
-- Feature planeada para release sin PBIs descompuestos → alerta
-- Backlog > 100 items sin priorizar → sugerir limpieza
-- Sprint sin discovery (JTBD/PRD) → sugerir refinamiento
-- Release sin validación readiness → alerta
+**Métricas**: Velocity, feature completion rate, satisfaction proxy, time to market.
 
 ---
 
 ## Developer — Modo `code-focused`
 
-### Rutina diaria
-1. `/my-sprint` — mi progreso personal del sprint
-2. `/my-focus` — item más prioritario con contexto
-3. Si hay PRs pendientes → revisar feedback
+**Diaria**: `/my-sprint` → `/my-focus` → revisar feedback PRs.
 
-### Ritual semanal
-- **Viernes**: `/my-learning --quick` — oportunidades de mejora
+**Semanal**: Vie: `/my-learning --quick`.
 
-### Métricas clave
-- PRs completados, specs implementados, cycle time personal
+**Alertas**: PR con feedback sin responder >24h → recordatorio. Spec sin empezar >2d → recordatorio. Build roto → alerta inmediata.
 
-### Context Engineering (context optimization)
-- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
-- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
-- `/context-compress --preview` — evaluar oportunidades de compresión semántica
-- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
-- `/memory-importance --scan` — Ranking de importancia de memorias históricas
-- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
-
-### Alertas personalizadas
-- PR con feedback sin responder >24h → recordatorio
-- Spec asignado sin empezar >2 días → recordatorio
-- Build roto → alerta inmediata
+**Métricas**: PRs completados, specs implementados, cycle time personal.
 
 ---
 
 ## CEO / CTO / Director — Modo `strategic-oversight`
 
-### Rutina diaria
-1. `/ceo-alerts` — alertas estratégicas que requieren decisión
-2. `/portfolio-overview` — semáforo rápido de todos los proyectos
-3. `/integration-status --check` (semanal) — verificar criticidad de integraciones en portfolio
-4. Si hay alertas críticas → detallar con `/ceo-report {proyecto}`
+**Diaria**: `/ceo-alerts` → `/portfolio-overview` → si alertas críticas: `/ceo-report {proyecto}`. Semanal: `/integration-status --check`.
 
-### Ritual semanal
-- **Lunes**: `/portfolio-overview --deps` — dependencias inter-proyecto
-- **Lunes**: `/portfolio-deps --critical` — grafo de dependencias inter-proyecto y alertas de bloqueo
-- **Lunes**: `/capacity-forecast` — previsión de capacidad a medio plazo
-- **Lunes**: `/company-show --gaps` — validación del perfil de empresa y gaps
-- **Lunes**: `/okr-track` — estado actual de OKRs y alertas de riesgo
-- **Viernes**: `/ceo-report` — informe multi-proyecto para comité
+**Semanal**: Lun: `/portfolio-overview --deps`, `/portfolio-deps --critical`, `/capacity-forecast`, `/company-show --gaps`, `/okr-track`. Vie: `/ceo-report`.
 
-### Ritual mensual
-- `/kpi-dora` — tendencias de delivery
-- `/org-metrics --trend 6` — métricas DORA agregadas a nivel organización, tendencias
-- `/debt-analyze` — acumulación de deuda técnica
-- `/report-capacity` — planificación de capacidad
-- `/company-vertical detect` — detectar cambios en vertical y regulaciones
-- `/okr-align` — validación de alineación proyecto→OKR→estrategia
-- `/strategy-map` — revisión de mapa estratégico e iniciativas
-- `/governance-audit` — auditoría de cumplimiento de política AI vs acciones reales
-- `/governance-report` — reporte ejecutivo de gobernanza (EU AI Act, NIST, ISO 42001)
-- `/governance-certify` — verificación de readiness para certificación de gobernanza
-- `/cache-strategy` — Revisar estrategia de caché multi-capa por eficiencia
-- `/cache-analytics` — Dashboard de hit rate y cost savings en portfolio
-- `/cache-warm` — Activar pre-calentar predictivo para próximos sprints
-- `/memory-compress --preview` — Evaluar compresión de memorias del portfolio histórico
-- `/memory-importance --scan` — Identificar decisiones críticas vs. obsoletas en múltiples proyectos
-- `/memory-graph --build` — Mapear relaciones de decisiones estratégicas entre proyectos
-- `/vertical-healthcare` (si aplica) — verificación HIPAA, HL7 FHIR, FDA 21 CFR Part 11
-- `/vertical-finance` (si aplica) — verificación SOX, Basel III, MiFID II, PCI DSS
-- `/vertical-legal` (si aplica) — verificación GDPR, eDiscovery, contract lifecycle
-- `/vertical-education` (si aplica) — verificación FERPA, accesibilidad, COPPA
+**Mensual**: `/kpi-dora`, `/org-metrics --trend 6`, `/debt-analyze`, `/report-capacity`, `/company-vertical detect`, `/okr-align`, `/strategy-map`, `/governance-audit`, `/governance-report`, `/governance-certify`, `/cache-strategy`, `/cache-analytics`, `/cache-warm`. Verticales si aplican: `/vertical-healthcare`, `/vertical-finance`, `/vertical-legal`, `/vertical-education`.
 
-### Métricas clave
-- Delivery rate, team utilization, risk exposure, budget burn
+**Alertas**: Sprint fallido (>30% incompleto) → alerta. Burnout risk (>120% capacity >2 sprints) → alerta. Deuda técnica ascendente >3 sprints → alerta estratégica.
 
-### Context Engineering (context optimization)
-- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
-- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
-- `/context-compress --preview` — evaluar oportunidades de compresión semántica
-- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
-- `/memory-importance --scan` — Ranking de importancia de memorias históricas
-- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
+**Métricas**: Delivery rate, team utilization, risk exposure, budget burn.
 
-### Alertas personalizadas
-- Proyecto con sprint fallido (>30% items no completados) → alerta
-- Equipo con burnout risk (>120% capacity >2 sprints) → alerta
-- Deuda técnica en tendencia ascendente >3 sprints → alerta estratégica
+---
+
+## Bloques compartidos (todos los roles)
+
+**Context Engineering**: `/context-budget --show|--optimize`, `/context-profile --compare|--analyze`, `/context-compress --preview`, `/context-defer --status`.
+
+**Memory**: `/memory-compress --preview`, `/memory-importance --scan`, `/memory-graph --build`.
+
+**Platform**: `/cache-strategy --show`, `/cache-invalidate --selective`, `/platform-migrate --plan|--validate`, `/jira-connect setup`, `/github-projects connect|board`, `/company-setup`, `/company-edit {section}`.
 
 ---
 
 ## Regla de activación
 
-Al inicio de sesión, si `workflow.md` tiene `primary_mode` configurado:
+Al inicio de sesión, si `workflow.md` tiene `primary_mode`:
+1. Leer `identity.md` (nombre + rol) y `workflow.md` (primary_mode + daily_time)
+2. Si hora actual ±30 min de `daily_time` → ejecutar rutina diaria del rol
+3. Si día de ritual semanal → sugerir tras rutina diaria
+4. Si final de mes → sugerir ritual mensual (si el rol lo tiene)
 
-1. Savia lee `identity.md` (nombre + rol)
-2. Savia lee `workflow.md` (primary_mode + daily_time)
-3. Si la hora actual está dentro de ±30 min de `daily_time`:
-   - Ejecutar rutina diaria del rol
-4. Si es el día configurado para ritual semanal:
-   - Sugerir ritual semanal tras la rutina diaria
-5. Si es final de mes:
-   - Sugerir ritual mensual (si el rol lo tiene)
-
-Savia NUNCA ejecuta comandos automáticamente — sugiere la rutina y espera confirmación.
-
----
+Savia NUNCA ejecuta automáticamente — sugiere y espera confirmación.
 
 ## Integración con context-map
-
-El rol determina qué grupo del context-map se prioriza:
 
 | Rol | Grupo primario | Grupo secundario |
 |---|---|---|
