@@ -41,6 +41,8 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/stakeholder-align` — resolver conflictos de prioridad con datos objetivos
 
 ### Platform Integration (cuando aplica)
+- `/cache-strategy --show` — Verificar estrategia de caché aplicada al equipo
+- `/cache-invalidate --selective` — Invalidar selectivamente después de cambios en reglas
 
 ### Context Engineering (Context budget)
 - `/context-budget --optimize` — monitorear presupuesto de contexto, identificar mayores consumidores
@@ -97,6 +99,8 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - **Viernes**: `/diagram-generate` — revisión de arquitectura
 
 ### Platform Integration (cuando aplica)
+- `/cache-strategy --show` — Verificar estrategia de caché aplicada al equipo
+- `/cache-invalidate --selective` — Invalidar selectivamente después de cambios en reglas
 
 ### Context Engineering (Context budget)
 - `/context-budget --optimize` — monitorear presupuesto de contexto, identificar mayores consumidores
@@ -246,6 +250,9 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/governance-audit` — auditoría de cumplimiento de política AI vs acciones reales
 - `/governance-report` — reporte ejecutivo de gobernanza (EU AI Act, NIST, ISO 42001)
 - `/governance-certify` — verificación de readiness para certificación de gobernanza
+- `/cache-strategy` — Revisar estrategia de caché multi-capa por eficiencia
+- `/cache-analytics` — Dashboard de hit rate y cost savings en portfolio
+- `/cache-warm` — Activar pre-calentar predictivo para próximos sprints
 - `/memory-compress --preview` — Evaluar compresión de memorias del portfolio histórico
 - `/memory-importance --scan` — Identificar decisiones críticas vs. obsoletas en múltiples proyectos
 - `/memory-graph --build` — Mapear relaciones de decisiones estratégicas entre proyectos
