@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  savia-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: savia-e2e-test
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-mock}
+      - SAVIA_TEST_MODE=${SAVIA_TEST_MODE:-mock}
+      - SAVIA_MAX_TURNS=${SAVIA_MAX_TURNS:-3}
+      - SAVIA_TIMEOUT=${SAVIA_TIMEOUT:-120}
+    volumes:
+      - ../../:/workspace:ro
+      - ./output:/test-harness/output
+    working_dir: /workspace
+    command: ["${SAVIA_TEST_MODE:-mock}"]
