@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 166 commands, 24 agents, 19 skills, and its own persona (Savia). This roadmap groups the 49 released versions into thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 181 commands, 24 agents, 19 skills, and its own persona (Savia). This roadmap groups the 53 released versions into thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -103,34 +103,40 @@ Inspired by Synaptic Context Engineering — optimizing every token:
 
 ---
 
-## 💡 Proposed — v0.50.0+
+## ✅ Era 8 — Platform Intelligence (v0.50.0–v0.53.0, Mar 2026)
+
+Cross-project vision, AI planning, integrations, and multi-platform support:
+
+- **Cross-Project Intelligence** (v0.50.0) — `/portfolio-deps`, `/backlog-patterns`, `/org-metrics`, `/cross-project-search`
+- **AI-Powered Planning** (v0.51.0) — `/sprint-autoplan`, `/risk-predict`, `/meeting-summarize`, `/capacity-forecast`
+- **Integration Hub** (v0.52.0) — `/mcp-server`, `/nl-query`, `/webhook-config`, `/integration-status`
+- **Multi-Platform** (v0.53.0) — `/jira-connect`, `/github-projects`, `/platform-migrate`, `/linear-sync` rewritten
+
+---
+
+## 💡 Proposed — v0.54.0+
 
 Ideas under consideration. Open an issue or vote with 👍 to prioritize.
 
-**Real-time integrations**
-- Live Azure DevOps webhooks — push-based sprint updates instead of polling
-- GitHub PR status streaming — real-time review notifications
+**Team collaboration**
+- Real-time shared dashboards — multiple PMs viewing the same sprint status
 - Slack/Teams bot mode — Savia responds directly in team channels
+- Async standup collection — team members report via bot, Savia compiles daily
 
-**Cross-project intelligence**
-- Portfolio dependency graph — visualize and alert on inter-project bottlenecks
-- Shared backlog patterns — detect duplicated PBIs across projects
-- Org-level DORA metrics — aggregate delivery metrics across teams
-
-**AI-powered planning**
-- Sprint auto-planning — suggest optimal sprint composition from backlog and capacity
-- Risk prediction — ML model trained on historical sprint data to forecast failures
-- Meeting summarizer — transcribe and extract action items from Sprint Reviews
+**Advanced analytics**
+- Custom KPI builder — define and track project-specific metrics
+- Predictive staffing — ML-based team composition recommendations
+- Budget forecasting — cost projections from velocity and team size trends
 
 **Developer experience**
 - VS Code / Cursor extension — run pm-workspace commands from the editor sidebar
-- MCP server mode — expose Savia's tools to other Claude Code projects
-- Natural language queries — "how is the sprint going?" without memorizing commands
+- CLI mode — lightweight terminal interface for quick queries
+- Mobile companion — read-only sprint status on phone
 
-**Multi-platform**
-- Jira Cloud integration as alternative to Azure DevOps
-- GitHub Projects integration
-- Linear integration with full bidirectional sync
+**Enterprise features**
+- Multi-tenant support — isolated workspaces per department
+- SSO integration — enterprise authentication flows
+- Audit trail — complete log of all Savia actions for compliance
 
 ---
 
