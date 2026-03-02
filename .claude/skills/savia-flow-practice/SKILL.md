@@ -78,6 +78,9 @@ El puente entre tracks es la **Spec-Ready**: una spec completa con outcome, mét
 | `meetings-cadence.md` | Cadencia reuniones, calendario equipo 4 personas |
 | `dual-track-coordination.md` | Quién hace qué, capacidad por track, dependencias |
 | `example-socialapp.md` | Ejemplo completo: SocialApp (Ionic + microservicios) |
+| `knowledge-priming.md` | Knowledge Priming: 7 secciones, patrones Fowler, jerarquía contexto |
+| `role-evolution-ai.md` | 6 categorías roles AI-era, mapping equipo, métricas madurez |
+| `multimodal-agents.md` | Agentes VLM: visión + texto + código, roadmap integración |
 
 ## Comandos
 

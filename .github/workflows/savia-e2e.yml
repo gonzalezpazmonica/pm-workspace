@@ -1,0 +1,33 @@
+name: Savia E2E Test
+
+on:
+  push:
+    paths:
+      - 'docker/savia-test/**'
+      - '.claude/commands/flow-*.md'
+      - '.claude/skills/savia-flow-practice/**'
+  pull_request:
+    paths:
+      - 'docker/savia-test/**'
+      - '.claude/commands/flow-*.md'
+      - '.claude/skills/savia-flow-practice/**'
+
+jobs:
+  e2e-mock:
+    name: Savia E2E Mock Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run structure tests
+        run: bash scripts/test-savia-e2e-harness.sh
+
+      - name: Upload metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: savia-e2e-metrics
+          path: docker/savia-test/output/
+          retention-days: 30

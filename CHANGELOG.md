@@ -5,6 +5,63 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [0.79.0] — 2026-03-02
+
+CI + Multimodal Agent Prep — GitHub Action para E2E mock en PRs. Reference de agentes multimodales (VLM vision+text+code) con roadmap de integración para quality gates visuales.
+
+### Added
+
+- **`.github/workflows/savia-e2e.yml`** — CI workflow: E2E mock test en PRs que modifiquen flow-* o savia-test.
+- **`multimodal-agents.md`** — Reference: agentes VLM, tool-use, roadmap integración visual gates + spec from wireframe.
+
+[0.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.78.0...v0.79.0
+
+---
+
+## [0.78.0] — 2026-03-02
+
+Role Evolution — 6 categorías roles AI-era mapeadas a Savia Flow. Escenario stress test (10+ specs concurrentes).
+
+### Added
+
+- **`role-evolution-ai.md`** — 6 categorías (Orchestrator, Translator, Guardian, Builder, Context Engineer, Governance), mapping equipo, madurez L1-L4.
+- **`05-stress.md`** — Escenario stress: 10+ specs, intake masivo, board full-load, retro exhaustivo.
+
+[0.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.77.0...v0.78.0
+
+---
+
+## [0.77.0] — 2026-03-02
+
+Knowledge Priming (Fowler) — 5 patrones para reducir fricción AI. Estructura `.priming/` por proyecto.
+
+### Added
+
+- **`knowledge-priming.md`** — 7 secciones priming, Design-First, Context Anchoring, Feedback Flywheel.
+
+### Changed
+
+- SKILL.md: +3 references (knowledge-priming, role-evolution-ai, multimodal-agents).
+
+[0.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.76.0...v0.77.0
+
+---
+
+## [0.76.0] — 2026-03-02
+
+Context Optimization — Correcciones del informe E2E v0.75.0. `max_context` budgets, `--spec` filter, escenario flow-protect.
+
+### Changed
+
+- `flow-board/intake/metrics/spec.md` — `max_context` en frontmatter para budget enforcement.
+- `flow-intake.md` — Nuevo `--spec {ID}` para intake individual.
+- `03-coordination.md` — Nuevo Step 5: flow-protect (WIP overload, deep work).
+- `test-savia-e2e-harness.sh` — Check flow-protect en escenario 03.
+
+[0.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.75.0...v0.76.0
+
+---
+
 ## [0.75.0] — 2026-03-02
 
 Savia E2E Test Harness — Entorno Docker aislado con agente autónomo que ejecuta Claude Code headless contra pm-workspace. Simula los 4 roles del equipo SocialApp (Mónica, Elena, Ana, Isabel) ejecutando 23 pasos en 5 escenarios (setup → exploration → production → coordination → release). Recopila métricas de tokens, tiempos, errores y bloqueos de contexto. Modo mock para CI, modo live con API key real.
