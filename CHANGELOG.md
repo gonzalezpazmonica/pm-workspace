@@ -11,6 +11,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.50.0] — 2026-03-02
+
+Cross-Project Intelligence — 4 comandos para inteligencia transversal entre proyectos del portfolio.
+
+### Added
+
+- **`/portfolio-deps` command** — Inter-project dependency graph, bottleneck detection, blocking alerts. Visualizes dependencies between projects, identifies critical paths, and alerts on blocking scenarios.
+- **`/backlog-patterns` command** — Detects duplicate/similar PBIs across projects, identifies candidates for shared libraries. Analyzes backlog at portfolio level to reduce duplication and promote reuse.
+- **`/org-metrics` command** — Aggregated DORA and delivery metrics at organization level, trends, and alerts. Shows velocity, lead time, deployment frequency across all projects with anomaly detection.
+- **`/cross-project-search` command** — Cross-project search of code, docs, specs, and decisions across all portfolio projects. Unified search across repos, specifications, ADRs, and decision logs.
+
+### Changed
+
+- **Commands count**: 166 → 170
+- **Updated**: CLAUDE.md, README.md, README.en.md, context-map.md, role-workflows.md
+
+---
+
 ## [0.49.0] — 2026-03-01
 
 Product Owner Analytics — 4 comandos para Product Owners. Mapeo de flujo de valor, análisis de impacto de features en ROI, reportes ejecutivos para stakeholders, y verificación de readiness para releases.
@@ -1448,7 +1466,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.49.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.50.0...HEAD
+[0.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.49.0...v0.50.0
 [0.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.48.0...v0.49.0
 [0.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.47.0...v0.48.0
 [0.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.46.0...v0.47.0

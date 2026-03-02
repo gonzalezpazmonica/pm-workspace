@@ -35,7 +35,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
 │   ├── agents/ (24)               ← @.claude/rules/domain/agents-catalog.md
-│   ├── commands/ (166)            ← @.claude/rules/domain/pm-workflow.md
+│   ├── commands/ (170)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (13)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
@@ -67,6 +67,9 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 **Developer**: `\`/my-sprint\`` (--all · --history) · `\`/my-focus\`` (--next · --list) · `\`/my-learning\`` (--quick · --topic) · `\`/code-patterns\`` (pattern · --new)
 **Tech Lead**: `\`/tech-radar\` (proyecto · --outdated) · \`/team-skills-matrix\` (--bus-factor · --pairs) · \`/arch-health\` (--drift · --coupling) · \`/incident-postmortem\` (--from-alert · --list)
 **Product Owner**: `\`/value-stream-map\` (--bottlenecks) · \`/feature-impact\` (--roi) · \`/stakeholder-report\` · \`/release-readiness\``
+
+### Cross-Project
+`\`/portfolio-deps\` (--critical) · \`/backlog-patterns\` · \`/org-metrics\` (--trend) · \`/cross-project-search\``
 
 ---
 

@@ -28,6 +28,7 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 ### Ritual semanal
 - **Lunes**: `/sprint-plan` — kickoff del sprint si aplica
 - **Miércoles**: `/pbi-plan-sprint` — refinamiento del backlog
+- **Miércoles**: `/backlog-patterns` — detección de PBIs duplicados/similares entre proyectos
 - **Viernes**: `/report-hours` + `/report-executive` + `/sprint-review`
 
 ### Métricas clave
@@ -144,10 +145,12 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 
 ### Ritual semanal
 - **Lunes**: `/portfolio-overview --deps` — dependencias inter-proyecto
+- **Lunes**: `/portfolio-deps --critical` — grafo de dependencias inter-proyecto y alertas de bloqueo
 - **Viernes**: `/ceo-report` — informe multi-proyecto para comité
 
 ### Ritual mensual
 - `/kpi-dora` — tendencias de delivery
+- `/org-metrics --trend 6` — métricas DORA agregadas a nivel organización, tendencias
 - `/debt-analyze` — acumulación de deuda técnica
 - `/report-capacity` — planificación de capacidad
 

@@ -70,7 +70,7 @@ echo ""
 
 echo "📋 3. CLAUDE.md Updates"
 
-check_content "CLAUDE.md" "commands/ (166)" "CLAUDE.md shows 166 commands"
+check_content "CLAUDE.md" "commands/ (170)" "CLAUDE.md shows 170 commands"
 check_content "CLAUDE.md" "hub-audit" "CLAUDE.md references /hub-audit"
 echo ""
 
@@ -78,10 +78,10 @@ echo ""
 
 echo "📋 4. README Updates"
 
-check_content "README.md" "166 comandos" "README.md shows 166 commands"
+check_content "README.md" "170 comandos" "README.md shows 170 commands"
 check_content "README.md" "hub-audit" "README.md references /hub-audit"
 check_content "README.md" "topología" "README.md describes topology"
-check_content "README.en.md" "166 commands" "README.en.md shows 166 commands"
+check_content "README.en.md" "170 commands" "README.en.md shows 170 commands"
 check_content "README.en.md" "hub-audit" "README.en.md references /hub-audit"
 check_content "README.en.md" "topology" "README.en.md describes topology"
 echo ""
