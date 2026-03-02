@@ -26,7 +26,8 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 4. Si hay bloqueantes → sugerir escalación o redistribución
 
 ### Ritual semanal
-- **Lunes**: `/sprint-plan` — kickoff del sprint si aplica
+- **Lunes**: `/sprint-plan` o `/sprint-autoplan` — kickoff del sprint si aplica
+- **Lunes**: `/risk-predict` — análisis de riesgos del sprint
 - **Miércoles**: `/pbi-plan-sprint` — refinamiento del backlog
 - **Miércoles**: `/backlog-patterns` — detección de PBIs duplicados/similares entre proyectos
 - **Viernes**: `/report-hours` + `/report-executive` + `/sprint-review`
@@ -50,6 +51,7 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 3. `/spec-status` — specs en progreso / esperando review
 4. `/perf-audit` si hay PRs con cambios de rendimiento
 5. Revisar output de agentes si hay specs en ejecución
+6. `/risk-predict` — identificar riesgos técnicos del sprint
 
 ### Ritual semanal
 - **Lunes**: `/arch-health` — salud arquitectónica (fitness functions, drift, coupling)
@@ -98,6 +100,8 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 3. Validar PBIs completados contra acceptance criteria
 
 ### Ritual semanal
+- **Lunes**: `/sprint-autoplan` — propuesta de distribución de items
+- **Lunes**: `/capacity-forecast` — previsión de capacidad a medio plazo
 - **Lunes**: `/value-stream-map --bottlenecks` — análisis de flujo de valor
 - **Miércoles**: `/feature-impact --roi` — impacto de features en ROI
 - **Viernes**: `/stakeholder-report` — resumen para stakeholders
@@ -146,6 +150,7 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 ### Ritual semanal
 - **Lunes**: `/portfolio-overview --deps` — dependencias inter-proyecto
 - **Lunes**: `/portfolio-deps --critical` — grafo de dependencias inter-proyecto y alertas de bloqueo
+- **Lunes**: `/capacity-forecast` — previsión de capacidad a medio plazo
 - **Viernes**: `/ceo-report` — informe multi-proyecto para comité
 
 ### Ritual mensual
