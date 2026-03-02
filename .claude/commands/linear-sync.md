@@ -1,102 +1,92 @@
 ---
 name: linear-sync
-description: >
-  Sincronizar issues de Linear con PBIs/Tasks de Azure DevOps.
-  Para equipos que usan Linear como tracker principal junto a Azure DevOps.
+description: Sincronización bidireccional con Linear — issues, cycles, métricas unificadas
+developer_type: all
+agent: task
+context_cost: high
 ---
 
-# Sync Linear ↔ Azure DevOps
+# /linear-sync
 
-**Argumentos:** $ARGUMENTS
+> 🦉 Savia conecta con Linear — sync bidireccional y métricas unificadas.
 
-> Uso: `/linear-sync --project {p}` o `/linear-sync --project {p} --cycle {nombre}`
+---
 
-## Parámetros
+## Cargar perfil de usuario
 
-- `--project {nombre}` — Proyecto de PM-Workspace
-- `--direction {linear-to-devops|devops-to-linear|bidirectional}` — Dirección (defecto: bidirectional)
-- `--cycle {nombre}` — Filtrar por ciclo de Linear (equivale a sprint)
-- `--team {nombre}` — Equipo de Linear (defecto: `LINEAR_DEFAULT_TEAM`)
-- `--label {etiqueta}` — Filtrar issues por label en Linear
-- `--dry-run` — Solo mostrar cambios propuestos
-- `--since {fecha}` — Solo sincronizar cambios desde esta fecha (YYYY-MM-DD)
+Grupo: **Connectors** — cargar:
 
-## 2. Cargar perfil de usuario
+- `identity.md` — nombre, empresa
+- `projects.md` — proyectos
+- `preferences.md` — platform_preference
 
-1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
-2. Si hay perfil activo, cargar (grupo **Connectors** del context-map):
-   - `profiles/users/{slug}/identity.md`
-   - `profiles/users/{slug}/preferences.md`
-   - `profiles/users/{slug}/projects.md`
-3. Adaptar idioma y formato según `preferences.language` y `preferences.report_format`
-4. Si no hay perfil → continuar con comportamiento por defecto
+---
 
-## 3. Contexto requerido
+## Subcomandos
 
-1. `.claude/rules/connectors-config.md` — Verificar Linear habilitado
-2. `projects/{proyecto}/CLAUDE.md` — `LINEAR_DEFAULT_TEAM`, `AZURE_DEVOPS_PROJECT`
-3. `projects/{proyecto}/equipo.md` — Para mapeo de asignaciones
+- `/linear-sync setup` — configurar conexión con Linear workspace
+- `/linear-sync pull` — traer estado actual de Linear
+- `/linear-sync push` — enviar cambios a Linear
+- `/linear-sync status` — verificar conexión y métricas de sync
+- `/linear-sync --dry-run` — simular sync sin ejecutar cambios
 
-## 4. Mapeo de campos
+---
 
-| Linear | Azure DevOps |
+## Flujo
+
+### Paso 1 — Configurar conexión
+
+Datos necesarios: Linear API Key, Workspace, Team(s), Project(s).
+Almacenamiento cifrado en `$HOME/.pm-workspace/linear-credentials`.
+
+### Paso 2 — Mapeo de entidades
+
+| Linear | pm-workspace |
 |---|---|
-| Title | Title (prefijado `[LIN#ID]`) |
-| Description (markdown) | Description |
-| Issue Type (Issue/Bug/Feature) | Work Item Type (Task/Bug/PBI) |
-| Priority (Urgent→Low) | Priority (1→4) |
-| Cycle | Iteration Path |
-| Assignee | Assigned To (mapeo via equipo.md) |
-| State | State (mapeo configurable) |
-| Estimate (puntos) | Story Points |
-| Labels | Tags |
-| Project | Area Path |
-| Parent Issue | Parent (Feature/PBI) |
+| Project | Feature / Epic |
+| Issue | PBI |
+| Sub-issue | Task |
+| Cycle | Sprint |
+| Estimate | Story Points |
+| Priority (1-4) | Business Value |
+| Label | Tags |
+| State | State (mapped) |
 
-## Mapeo de estados (configurable)
+### Paso 3 — Sincronización bidireccional
 
-| Linear State | Azure DevOps State |
-|---|---|
-| Backlog / Triage | New |
-| Todo / In Progress / In Review | Active |
-| Done / Canceled | Closed |
+1. Obtener issues de Linear (filtro por cycle, team, label)
+2. Obtener work items de Azure DevOps (filtro por IterationPath)
+3. Detectar correspondencias por `[LIN#ID]` en título
+4. Calcular diff: nuevos, actualizados, conflictos
+5. Presentar propuesta y confirmar antes de ejecutar
 
-## Pasos de ejecución
+### Paso 4 — Webhooks opcionales
 
-1. **Verificar conector** — Comprobar Linear disponible
-2. **Leer configuración** del proyecto: LINEAR_DEFAULT_TEAM, mapeo de usuarios
-3. **Obtener issues** de Linear (filtro por cycle, team, label)
-4. **Obtener work items** de Azure DevOps (filtro por IterationPath)
-5. **Detectar correspondencias** por `[LIN#ID]` en título de DevOps
-6. **Calcular diff**:
-   - Nuevos en Linear → proponer crear en DevOps
-   - Nuevos en DevOps → proponer crear en Linear (si bidirectional)
-   - Cambios en ambos → detectar conflicto, proponer resolución
-7. **Presentar propuesta**:
-   ```
-   ## Sync Linear ↔ Azure DevOps — {proyecto}
-   | Acción | Linear | Azure DevOps | Campo |
-   |---|---|---|---|
-   | CREATE → | LIN-123 | (nuevo) | Feature: API Gateway |
-   | UPDATE → | LIN-124 | AB#456 | State: Done → Closed |
-   | ← UPDATE | (actualizar) | AB#789 | Estimate: 3 → 5 |
-   | ⚠️ CONFLICT | LIN-125 | AB#790 | Ambos modificados |
-   ```
-8. **Confirmar con PM** — NUNCA sincronizar sin confirmación
-9. Si confirmado → ejecutar cambios en ambos sistemas
+Configurar Linear webhooks para sync en tiempo real
+via `/webhook-config add linear`.
 
-## Integración con otros comandos
+---
 
-- `/sprint-plan` puede considerar issues de Linear como candidatos
-- `/board-flow` puede incluir métricas de cycle time de Linear
-- `/kpi-dashboard` puede agregar métricas de ambos trackers
-- Soporta `--notify-slack` para publicar resumen del sync
+## Modo agente (role: "Agent")
+
+```yaml
+status: ok
+action: linear_sync
+workspace: "empresa-workspace"
+teams_connected: 2
+issues_synced: 89
+cycles_mapped: 4
+last_sync: "2026-03-02T09:15:00Z"
+conflicts: 1
+```
+
+---
 
 ## Restricciones
 
-- **NUNCA sincronizar sin confirmación** del PM
-- Conflictos se resuelven manualmente
-- Si `--dry-run` → solo mostrar propuesta
-- Máximo 50 items por ejecución
+- **NUNCA** almacenar API keys en texto plano
+- **NUNCA** sincronizar sin confirmación del PM
+- **NUNCA** crear issues en Linear automáticamente — siempre confirmar
+- Conflictos de sync → resolución manual con sugerencia de Savia
+- Respetar rate limits de Linear API (1500 req/hora)
 - No eliminar issues en ningún sistema — solo crear y actualizar
-- No crear ciclos en Linear — solo usar existentes

@@ -55,7 +55,7 @@ check_content ".claude/commands/integration-status.md" "Modo agente" "Has agent 
 echo ""
 
 echo "📋 5. CLAUDE.md Updates"
-check_content "CLAUDE.md" "commands/ (178)" "CLAUDE.md shows 178 commands"
+check_content "CLAUDE.md" "commands/ (181)" "CLAUDE.md shows 178 commands"
 check_content "CLAUDE.md" "mcp-server" "CLAUDE.md references /mcp-server"
 check_content "CLAUDE.md" "nl-query" "CLAUDE.md references /nl-query"
 check_content "CLAUDE.md" "webhook-config" "CLAUDE.md references /webhook-config"
@@ -63,9 +63,9 @@ check_content "CLAUDE.md" "integration-status" "CLAUDE.md references /integratio
 echo ""
 
 echo "📋 6. README Updates"
-check_content "README.md" "178 comandos" "README.md shows 178 commands"
+check_content "README.md" "181 comandos" "README.md shows 178 commands"
 check_content "README.md" "mcp-server" "README.md references /mcp-server"
-check_content "README.en.md" "178 commands" "README.en.md shows 178 commands"
+check_content "README.en.md" "181 commands" "README.en.md shows 178 commands"
 check_content "README.en.md" "mcp-server" "README.en.md references /mcp-server"
 echo ""
 

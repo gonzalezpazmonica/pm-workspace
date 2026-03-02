@@ -148,7 +148,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 178 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 181 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -201,6 +201,12 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 ```
 /mcp-server {start|stop}    /nl-query {pregunta}
 /webhook-config {add|list}    /integration-status {--check}
+```
+
+### Multi-Platform
+```
+/jira-connect {setup|sync|map}    /github-projects {connect|board}
+/linear-sync {setup|pull|push}    /platform-migrate {plan|execute}
 ```
 
 ### Inteligencia de Deuda Técnica

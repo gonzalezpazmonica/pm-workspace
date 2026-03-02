@@ -204,7 +204,7 @@
 ### Grupo: Connectors & Sync
 
 **Comandos:** `/confluence-publish`, `/gdrive-upload`, `/jira-sync`,
-`/linear-sync`, `/notion-sync`, `/wiki-sync`, `/wiki-publish`
+`/jira-connect`, `/github-projects`, `/linear-sync`, `/notion-sync`, `/wiki-sync`, `/wiki-publish`, `/platform-migrate`
 
 **Perfil necesario:**
 
