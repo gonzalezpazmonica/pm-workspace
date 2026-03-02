@@ -189,6 +189,10 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/governance-audit` — auditoría de cumplimiento de política AI vs acciones reales
 - `/governance-report` — reporte ejecutivo de gobernanza (EU AI Act, NIST, ISO 42001)
 - `/governance-certify` — verificación de readiness para certificación de gobernanza
+- `/vertical-healthcare` (si aplica) — verificación HIPAA, HL7 FHIR, FDA 21 CFR Part 11
+- `/vertical-finance` (si aplica) — verificación SOX, Basel III, MiFID II, PCI DSS
+- `/vertical-legal` (si aplica) — verificación GDPR, eDiscovery, contract lifecycle
+- `/vertical-education` (si aplica) — verificación FERPA, accesibilidad, COPPA
 
 ### Métricas clave
 - Delivery rate, team utilization, risk exposure, budget burn

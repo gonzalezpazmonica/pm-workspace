@@ -7,6 +7,29 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.61.0] — 2026-03-02
+
+### Added — Vertical Compliance Extensions
+
+**Four new vertical-specific compliance commands** for regulated sectors:
+
+- `/vertical-healthcare` — HIPAA (Privacy Rule, Security Rule, Breach Notification), HL7 FHIR data exchange, FDA 21 CFR Part 11 electronic records
+- `/vertical-finance` — SOX (Sarbanes-Oxley) control internal, Basel III risk management, MiFID II investment services, PCI DSS payment processing
+- `/vertical-legal` — GDPR data protection, eDiscovery evidence management, contract lifecycle management, legal hold and data retention
+- `/vertical-education` — FERPA student record protection, Section 508/WCAG 2.1 accessibility, COPPA for under-13 compliance, LMS integration standards
+
+**Vertical compliance workflow**:
+- Each command analyzes project for sector-specific PHI/data patterns
+- Scans code against regulatory requirements (HIPAA, SOX, GDPR, FERPA, etc.)
+- Generates compliance reports with scoring and actionable remediation
+- Auto-fixes available for common violations with post-fix verification
+- Integrates with `/compliance-scan --sector {type}` for unified compliance strategy
+
+### Changed
+- **Commands count**: 209 → 213
+
+---
+
 ## [0.60.0] — 2026-03-02
 
 ### Added — Enterprise AI Governance
