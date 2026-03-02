@@ -114,6 +114,29 @@ Preguntas frecuentes de PMs sobre Savia Flow:
 
 **Público objetivo:** Todos (especialmente PMs en evaluación)
 
+### **12. 12-ejemplo-implantacion-inicio.md** (~150 líneas)
+Ejemplo práctico completo — Fase 1: Inicio del proyecto SocialApp:
+- Configuración Azure DevOps con `/flow-setup`
+- Definición del equipo y roles Savia Flow
+- Primer ciclo de exploración: outcomes, specs, JTBD
+- Primer intake a producción con descomposición en tasks
+
+### **13. 13-ejemplo-implantacion-dia-a-dia.md** (~145 líneas)
+Ejemplo práctico — Fase 2: Dual-track en acción:
+- Sync semanal con métricas y intake
+- Quality gates en funcionamiento (5 niveles)
+- Coordinación front↔back con API contract first
+- Detección de bottlenecks con `/flow-board`
+
+### **14. 14-ejemplo-implantacion-release.md** (~146 líneas)
+Ejemplo práctico — Fase 3: Release y mejora continua:
+- Pre-release readiness y deploy pipeline
+- Validación de outcomes con métricas reales
+- Retro mensual con datos y acciones concretas
+- Métricas finales del MVP (12 semanas) y lecciones aprendidas
+
+**Público objetivo:** Todos (caso práctico end-to-end con equipo real)
+
 ---
 
 ## Cómo Usar Esta Suite
@@ -134,7 +157,8 @@ Preguntas frecuentes de PMs sobre Savia Flow:
 2. Aprende los Roles Evolucionados (04)
 3. Domina las Métricas de Flujo (05)
 4. Implementa Spec-Driven Development (06) y Quality Gates (07)
-5. Usa el Glosario (09) como referencia
+5. Sigue el ejemplo práctico completo (12, 13, 14) paso a paso
+6. Usa el Glosario (09) como referencia
 
 ### Para Especialistas Técnicos
 1. Lee el Whitepaper enfocándose en Los 7 Pilares (01)
