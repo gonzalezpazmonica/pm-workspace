@@ -169,6 +169,7 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - **Lunes**: `/portfolio-deps --critical` — grafo de dependencias inter-proyecto y alertas de bloqueo
 - **Lunes**: `/capacity-forecast` — previsión de capacidad a medio plazo
 - **Lunes**: `/company-show --gaps` — validación del perfil de empresa y gaps
+- **Lunes**: `/okr-track` — estado actual de OKRs y alertas de riesgo
 - **Viernes**: `/ceo-report` — informe multi-proyecto para comité
 
 ### Ritual mensual
@@ -177,6 +178,8 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/debt-analyze` — acumulación de deuda técnica
 - `/report-capacity` — planificación de capacidad
 - `/company-vertical detect` — detectar cambios en vertical y regulaciones
+- `/okr-align` — validación de alineación proyecto→OKR→estrategia
+- `/strategy-map` — revisión de mapa estratégico e iniciativas
 
 ### Métricas clave
 - Delivery rate, team utilization, risk exposure, budget burn

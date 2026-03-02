@@ -7,6 +7,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.55.0] — 2026-03-02
+
+### Added — OKR & Strategic Alignment
+- `/okr-define` — definir Objectives y Key Results vinculados a proyectos
+- `/okr-track` — tracking automático de progreso OKR desde métricas de sprint
+- `/okr-align` — visualizar alineación proyecto→OKR→estrategia corporativa
+- `/strategy-map` — mapa estratégico: iniciativas, dependencias, contribución a objetivos
+
+### Changed
+- **Commands count**: 185 → 189
+
+---
+
 ## [0.54.0] — 2026-03-02
 
 ### Added — Company Profile
@@ -1524,7 +1537,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.54.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.55.0...HEAD
+[0.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.54.0...v0.55.0
 [0.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.53.0...v0.54.0
 [0.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.52.0...v0.53.0
 [0.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.51.0...v0.52.0
