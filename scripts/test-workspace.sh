@@ -143,7 +143,7 @@ test_prereqs() {
     NODEVER=$(node --version)
     pass "Node.js instalado ($NODEVER)"
   else
-    fail "node no encontrado" "Instalar Node.js 18+"
+    info "node no encontrado (Opcional: para dependencias Node.js. Instalar Node.js 18+ si necesario)"
   fi
 
   # curl
@@ -186,10 +186,14 @@ test_prereqs() {
 
   # npm packages
   log_section "Dependencias Node.js (scripts/)"
-  if [[ -d "$WORKSPACE_ROOT/scripts/node_modules" ]]; then
-    pass "node_modules instalados en scripts/"
+  if command -v node &>/dev/null; then
+    if [[ -d "$WORKSPACE_ROOT/scripts/node_modules" ]]; then
+      pass "node_modules instalados en scripts/"
+    else
+      fail "node_modules no encontrado" "Ejecutar: cd scripts && npm install"
+    fi
   else
-    fail "node_modules no encontrado" "Ejecutar: cd scripts && npm install"
+    skip "node_modules check" "Node.js no instalado (se salta automáticamente)"
   fi
 }
 

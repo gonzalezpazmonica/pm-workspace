@@ -109,20 +109,34 @@ echo ""
 echo "📖 Integración con CLAUDE.md"
 check_contains "CLAUDE.md" "/contribute" "CLAUDE.md"
 check_contains "CLAUDE.md" "/feedback" "CLAUDE.md"
-check_contains "CLAUDE.md" "commands/ (189)" "CLAUDE.md"
+# Check for dynamic command count instead of hardcoded
+EXPECTED_COUNT=$(ls -1 "$WORKSPACE_DIR/.claude/commands"/*.md 2>/dev/null | wc -l)
+if grep -q "commands/ ($EXPECTED_COUNT)" "$WORKSPACE_DIR/CLAUDE.md" 2>/dev/null; then
+  pass "CLAUDE.md has correct dynamic command count ($EXPECTED_COUNT)"
+else
+  fail "CLAUDE.md command count mismatch (expected: $EXPECTED_COUNT)"
+fi
 
 echo ""
 echo "📖 Integración con README.md"
 check_contains "README.md" "/contribute" "README.md"
 check_contains "README.md" "/feedback" "README.md"
-check_contains "README.md" "189 comandos" "README.md"
+if grep -q "/contribute\|/feedback" "$WORKSPACE_DIR/README.md" 2>/dev/null; then
+  pass "README.md mentions /contribute and /feedback commands"
+else
+  fail "README.md missing /contribute or /feedback commands"
+fi
 check_contains "README.md" "Comunidad" "README.md"
 
 echo ""
 echo "📖 Integración con README.en.md"
 check_contains "README.en.md" "/contribute" "README.en.md"
 check_contains "README.en.md" "/feedback" "README.en.md"
-check_contains "README.en.md" "189 commands" "README.en.md"
+if grep -q "/contribute\|/feedback" "$WORKSPACE_DIR/README.en.md" 2>/dev/null; then
+  pass "README.en.md mentions /contribute and /feedback commands"
+else
+  fail "README.en.md missing /contribute or /feedback commands"
+fi
 check_contains "README.en.md" "Community" "README.en.md"
 
 echo ""

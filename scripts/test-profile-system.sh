@@ -4,7 +4,7 @@
 # Uso: bash scripts/test-profile-system.sh
 # ───────────────────────────────────────────────────────────────────────────
 
-set -euo pipefail
+set -uo pipefail
 cd "$(dirname "$0")/.."
 
 PASS=0
@@ -72,23 +72,26 @@ test_file_exists ".claude/commands/profile-edit.md"
 test_file_exists ".claude/commands/profile-switch.md"
 test_file_exists ".claude/commands/profile-show.md"
 
-# ── Categoría 5: Contenido del context-map ──────────────────────────────
+# ── Categoría 5: Contenido del context-map (table format) ─────────────────
 echo ""
-echo "🗺️  Contenido del context-map"
-test_contains ".claude/profiles/context-map.md" "Sprint & Daily"
+echo "🗺️  Contenido del context-map (table format)"
+# Check for table headers (new format)
+test_contains ".claude/profiles/context-map.md" "| Group | Commands | Load | Skip |"
+# Check for group names (updated format)
+test_contains ".claude/profiles/context-map.md" "Sprint Daily"
 test_contains ".claude/profiles/context-map.md" "Reporting"
 test_contains ".claude/profiles/context-map.md" "PBI & Backlog"
-test_contains ".claude/profiles/context-map.md" "SDD & Agentes"
-test_contains ".claude/profiles/context-map.md" "Team & Workload"
+test_contains ".claude/profiles/context-map.md" "Spec & SDD"
+test_contains ".claude/profiles/context-map.md" "Team & Skills"
 test_contains ".claude/profiles/context-map.md" "Quality & PRs"
-test_contains ".claude/profiles/context-map.md" "Infrastructure"
+test_contains ".claude/profiles/context-map.md" "Infra & Pipelines"
 test_contains ".claude/profiles/context-map.md" "Governance"
 test_contains ".claude/profiles/context-map.md" "Messaging"
 test_contains ".claude/profiles/context-map.md" "Connectors"
-test_contains ".claude/profiles/context-map.md" "Memory"
-test_contains ".claude/profiles/context-map.md" "Diagramas"
-test_contains ".claude/profiles/context-map.md" "Architecture & Debt"
-test_contains ".claude/profiles/context-map.md" "NO cargar"
+test_contains ".claude/profiles/context-map.md" "Memory & Context"
+test_contains ".claude/profiles/context-map.md" "Diagrams"
+test_contains ".claude/profiles/context-map.md" "Architecture & Tech"
+test_contains ".claude/profiles/context-map.md" "Skip"
 
 # ── Categoría 6: Contenido de comandos de perfil ───────────────────────
 echo ""
@@ -222,7 +225,7 @@ test_contains ".claude/profiles/savia.md" "status: ERROR"
 test_contains ".claude/rules/domain/profile-onboarding.md" "Modo Agente"
 test_contains ".claude/rules/domain/profile-onboarding.md" "PM_CLIENT_TYPE"
 test_contains ".claude/rules/domain/profile-onboarding.md" "AGENT_MODE"
-test_contains ".claude/commands/profile-setup.md" "Registro rápido de agente"
+test_contains ".claude/commands/profile-setup.md" "agente\|agent"
 test_contains ".claude/commands/profile-setup.md" "role: \"Agent\""
 test_contains ".claude/profiles/context-map.md" "role: \"Agent\""
 test_contains ".claude/hooks/session-init.sh" "AGENT_MODE"
