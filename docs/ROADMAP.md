@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 262 commands, 24 agents, 20 skills, and its own persona (Savia). This roadmap groups the 73 released versions into thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 268 commands, 24 agents, 21 skills, and its own persona (Savia). This roadmap groups the 73 released versions into thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -97,7 +97,17 @@ Improvements driven by E2E test results + Fowler Knowledge Priming + NVIDIA mult
 
 ---
 
-## 💡 Proposed — v0.80.0+
+## ✅ Era 17 — AI Tooling & Auto-Compact (v0.80.0–v0.82.0, Mar 2026)
+
+Realistic mock engine, AI role tooling (Knowledge Priming + Persona Tuning), and automatic context compression for E2E harness.
+
+- **Context Optimization v2** (v0.80.0) — Mock engine calibrado por tipo de comando, state file para acumulación de contexto, probabilidad de overflow contextual.
+- **AI Role Tooling** (v0.81.0) — `/knowledge-prime` (7 secciones Fowler), `/savia-persona-tune` (5 perfiles de tono).
+- **Auto-Compact** (v0.82.0) — `--auto-compact` flag, `--compact-threshold=N`, harness refactorizado en 3 ficheros (≤150 líneas).
+
+---
+
+## 💡 Proposed — v0.83.0+
 
 Ideas under consideration. Open an issue or vote with 👍 to prioritize.
 
@@ -108,8 +118,6 @@ Ideas under consideration. Open an issue or vote with 👍 to prioritize.
 **Observability extensions** — New Relic, Splunk, Elastic APM connectors. LLM-specific observability (token usage, prompt latency, model drift).
 
 **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status).
-
-**AI Role Tooling** (from Kelman Celis taxonomy) — `/knowledge-prime` (auto-generate .priming/ from codebase), `/savia-persona-tune` (behavioral AI trainer: adjust tone/style per project), realistic mock engine per command type (synthetic data synthesizer pattern).
 
 ---
 

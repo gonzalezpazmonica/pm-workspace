@@ -125,7 +125,7 @@ I've organized all documentation into sections so you can quickly find what you 
 | [Test project](docs/readme_en/09-test-project.md) | `sala-reservas`: tests, mock data, validation |
 | [KPIs, rules, and roadmap](docs/readme_en/10-kpis-rules.md) | Metrics, critical rules, adoption plan |
 | [Onboarding new team members](docs/readme_en/11-onboarding.md) | 5-phase onboarding, competency evaluation, GDPR |
-| [Commands and agents](docs/readme_en/12-commands-agents.md) | 142 commands + 24 specialized agents |
+| [Commands and agents](docs/readme_en/12-commands-agents.md) | 268 commands + 24 specialized agents |
 | [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
 ### Other Documents
@@ -162,7 +162,7 @@ I've organized all documentation into sections so you can quickly find what you 
 - `/error-investigate` — AI-assisted error investigation with root cause hypothesis
 - `/incident-correlate` — Cross-source incident correlation with post-mortem draft
 
-**Era 13 — Observability & Intelligence (2/2). ERA 13 COMPLETE!**
+**Era 17 — AI Tooling & Auto-Compact (3/3). ERA 17 COMPLETE!**
 
 ## Quick Command Reference
 
