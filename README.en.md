@@ -148,7 +148,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 189 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 193 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -183,6 +183,12 @@ I've organized all documentation into sections so you can quickly find what you 
 ```
 /value-stream-map {--bottlenecks}    /feature-impact {--roi}
 /stakeholder-report    /release-readiness
+```
+
+### Intelligent Backlog Management
+```
+/backlog-groom {--top N|--duplicates|--incomplete}    /backlog-prioritize {--method|--strategy-aligned}
+/outcome-track {--release vX.Y.Z|--register}    /stakeholder-align {--items|--scenario}
 ```
 
 ### Cross-Project Intelligence

@@ -35,7 +35,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
 │   ├── agents/ (24)               ← @.claude/rules/domain/agents-catalog.md
-│   ├── commands/ (189)            ← @.claude/rules/domain/pm-workflow.md
+│   ├── commands/ (193)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (13)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
@@ -85,6 +85,9 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 
 ### OKR & Strategy
 `/okr-define` (--template, --import) · `/okr-track` (--objective, --trend) · `/okr-align` (--gaps, --project) · `/strategy-map` (--initiative, --dependencies)
+
+### Intelligent Backlog Management
+`/backlog-groom` (--top, --duplicates, --incomplete) · `/backlog-prioritize` (--method, --strategy-aligned) · `/outcome-track` (--release, --register) · `/stakeholder-align` (--items, --scenario)
 
 ---
 

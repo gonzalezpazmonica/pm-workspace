@@ -68,6 +68,25 @@
 
 ---
 
+### Grupo: Backlog Intelligence
+
+**Comandos:** `/backlog-groom` (--top, --duplicates, --incomplete),
+`/backlog-prioritize` (--method, --strategy-aligned), `/outcome-track` (--release, --register), `/stakeholder-align` (--items, --scenario)
+
+**Perfil necesario:**
+
+- `identity.md` — rol (PM que gestiona backlog y conflictos)
+- `workflow.md` — planning_cadence
+- `projects.md` — proyecto target
+- `tools.md` — si azure_devops activo (cargar backlog)
+
+**NO cargar:**
+
+- `preferences.md` — no genera informes formales
+- `tone.md` — grooming es técnico, no narrativo
+
+---
+
 ### Grupo: SDD & Agentes
 
 **Comandos:** `/spec-generate`, `/spec-design`, `/spec-explore`,

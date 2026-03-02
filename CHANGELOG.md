@@ -7,6 +7,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.56.0] — 2026-03-02
+
+### Added — Intelligent Backlog Management
+- `/backlog-groom` — grooming asistido: detectar items obsoletos, duplicados, sin criterios de aceptación
+- `/backlog-prioritize` — priorización automática RICE/WSJF con datos reales de esfuerzo y valor
+- `/outcome-track` — tracking de outcomes post-release: ¿entregó la feature el valor esperado?
+- `/stakeholder-align` — resolución de conflictos entre stakeholders con datos objetivos
+
+### Changed
+- **Commands count**: 189 → 193
+
+---
+
 ## [0.55.0] — 2026-03-02
 
 ### Added — OKR & Strategic Alignment

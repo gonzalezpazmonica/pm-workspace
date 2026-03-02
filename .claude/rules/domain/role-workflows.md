@@ -32,7 +32,13 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - **Lunes**: `/risk-predict` — análisis de riesgos del sprint
 - **Miércoles**: `/pbi-plan-sprint` — refinamiento del backlog
 - **Miércoles**: `/backlog-patterns` — detección de PBIs duplicados/similares entre proyectos
+- **Miércoles**: `/backlog-groom` — grooming: detectar items obsoletos, duplicados, sin criterios
+- **Miércoles**: `/backlog-prioritize` — priorización RICE/WSJF del backlog
 - **Viernes**: `/report-hours` + `/report-executive` + `/sprint-review`
+
+### Post-Release
+- `/outcome-track` — tracking de outcomes: ¿entregó la feature el valor esperado?
+- `/stakeholder-align` — resolver conflictos de prioridad con datos objetivos
 
 ### Platform Integration (cuando aplica)
 - `/platform-migrate --plan` — plan migración entre plataformas (Jira ↔ Linear ↔ GitHub Projects)
