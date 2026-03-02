@@ -7,6 +7,31 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.65.0] — 2026-03-02
+
+Multi-Layer Caching — 4 nuevos comandos para optimizar contexto. Era 11 completada.
+
+### Added
+- **`/cache-strategy`** — Configurar caché por capas (tools, system, RAG, conversation) con TTL y reglas de invalidación. Reducción de costos hasta 90%.
+- **`/cache-warm`** — Pre-calentar caché predictivamente por hora del día y rol. Morning → standup context, afternoon → coding context.
+- **`/cache-analytics`** — Dashboard de hit rate, tokens ahorrados, latencia, cost savings. Análisis de tendencias y efficiencia.
+- **`/cache-invalidate`** — Invalidación granular por capas con dependency tracking y rollback seguro. NO full flush innecesario.
+
+### Changed
+- **CLAUDE.md**: commands/ (225) → commands/ (230)
+- **README.md**: 225 comandos → 230 comandos
+- **README.en.md**: 225 commands → 230 commands
+
+### Meta
+- **Era 11 — Context Engineering 2.0**: COMPLETADA ✅
+  - Era 9 (v0.60–v0.62): Context Streaming + Compact Recursion
+  - Era 10 (v0.63–v0.64): Memory Preservation + Decision Logging
+  - Era 11 (v0.65): Multi-Layer Caching ← **COMPLETE**
+- **Commands**: 226 → 230 (4 nuevos)
+
+---
+
+
 ## [0.64.0] — 2026-03-02
 
 ### Added — Semantic Memory 2.0 (Era 11, 3/4)
