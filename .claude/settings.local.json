@@ -1,4 +1,7 @@
 {
+  "env": {
+    "AZURE_DEVOPS_EXT_PAT": "$(cat $HOME/.azure/devops-pat 2>/dev/null || echo 'PAT_NOT_CONFIGURED')"
+  },
   "permissions": {
     "allow": [
       "Bash(az devops:*)",
@@ -20,15 +23,13 @@
       "Bash(python:*)",
       "Bash(jq:*)",
       "Bash(curl:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(git:*)"
     ],
     "deny": [
       "Bash(rm -rf:*)",
       "Bash(chmod:*)",
       "Bash(sudo:*)"
     ]
-  },
-  "env": {
-    "AZURE_DEVOPS_EXT_PAT": "$(cat $HOME/.azure/devops-pat 2>/dev/null || echo 'PAT_NOT_CONFIGURED')"
   }
 }

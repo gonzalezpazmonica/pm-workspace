@@ -36,6 +36,18 @@ if echo "$COMMAND" | grep -iE 'curl\s+.*\|\s*(ba)?sh' > /dev/null; then
   exit 2
 fi
 
+# Bloquear auto-aprobación de PRs (GitHub no lo permite y es mala práctica)
+if echo "$COMMAND" | grep -iE 'gh\s+pr\s+review.*--approve' > /dev/null; then
+  echo "BLOQUEADO: No puedes aprobar tu propio PR. Asigna un reviewer o usa branch protection." >&2
+  exit 2
+fi
+
+# Bloquear merge directo sin revisión (bypass de branch protection)
+if echo "$COMMAND" | grep -iE 'gh\s+pr\s+merge.*--admin' > /dev/null; then
+  echo "BLOQUEADO: --admin bypass de protección de rama. Requiere revisión humana." >&2
+  exit 2
+fi
+
 # Bloquear sudo sin excepción explícita
 if echo "$COMMAND" | grep -iE '^\s*sudo\s' > /dev/null; then
   echo "BLOQUEADO: sudo no permitido desde agentes. Solicita elevación al PM." >&2
