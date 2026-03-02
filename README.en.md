@@ -155,6 +155,15 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ---
 
+## v0.72.0 — Trace Intelligence
+
+- `/trace-search` — Search and filter traces in Grafana, Datadog, App Insights with natural language
+- `/trace-analyze` — Deep trace analysis: waterfall, bottleneck detection, error chain
+- `/error-investigate` — AI-assisted error investigation with root cause hypothesis
+- `/incident-correlate` — Cross-source incident correlation with post-mortem draft
+
+**Era 13 — Observability & Intelligence (2/2). ERA 13 COMPLETE!**
+
 ## Quick Command Reference
 
 > 265 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
