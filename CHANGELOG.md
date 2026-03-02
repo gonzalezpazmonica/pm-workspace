@@ -7,6 +7,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.54.0] — 2026-03-02
+
+### Added — Company Profile
+- `/company-setup` — onboarding conversacional de empresa: sector, estructura, estrategia, políticas
+- `/company-edit` — editar secciones del perfil de empresa
+- `/company-show` — mostrar perfil consolidado con detección de gaps
+- `/company-vertical` — detectar y configurar vertical, regulaciones y mejores prácticas del sector
+
+### Changed
+- **Commands count**: 181 → 185
+
+---
+
 ## [0.53.0] — 2026-03-02
 
 ### Added — Multi-Platform Support
@@ -1511,7 +1524,8 @@ Initial public release of PM-Workspace.
 
 ---
 
-[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.50.0...HEAD
+[Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.54.0...HEAD
+[0.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.53.0...v0.54.0
 [0.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.52.0...v0.53.0
 [0.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.51.0...v0.52.0
 [0.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.50.0...v0.51.0

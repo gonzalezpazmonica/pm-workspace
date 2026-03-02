@@ -127,7 +127,8 @@
 ### Grupo: Infrastructure & Pipelines
 
 **Comandos:** `/pipeline-create`, `/pipeline-run`, `/pipeline-status`,
-`/pipeline-logs`, `/pipeline-artifacts`, `/devops-validate`, `/mcp-server`, `/webhook-config`, `/integration-status`
+`/pipeline-logs`, `/pipeline-artifacts`, `/devops-validate`, `/mcp-server`, `/webhook-config`, `/integration-status`,
+`/company-setup`, `/company-edit`, `/company-show`, `/company-vertical`
 
 **Perfil necesario:**
 

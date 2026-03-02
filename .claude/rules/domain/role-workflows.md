@@ -38,6 +38,8 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/platform-migrate --plan` — plan migración entre plataformas (Jira ↔ Linear ↔ GitHub Projects)
 - `/jira-connect setup` — conectar Jira Cloud si no está configurado
 - `/github-projects connect` — conectar GitHub Projects si aplica
+- `/company-setup` — onboarding conversacional de empresa: sector, estructura, estrategia
+- `/company-edit {section}` — editar secciones del perfil de empresa
 
 ### Métricas clave
 - Velocity trend, burndown, WIP, lead time, bloqueantes activos
@@ -166,6 +168,7 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - **Lunes**: `/portfolio-overview --deps` — dependencias inter-proyecto
 - **Lunes**: `/portfolio-deps --critical` — grafo de dependencias inter-proyecto y alertas de bloqueo
 - **Lunes**: `/capacity-forecast` — previsión de capacidad a medio plazo
+- **Lunes**: `/company-show --gaps` — validación del perfil de empresa y gaps
 - **Viernes**: `/ceo-report` — informe multi-proyecto para comité
 
 ### Ritual mensual
@@ -173,6 +176,7 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/org-metrics --trend 6` — métricas DORA agregadas a nivel organización, tendencias
 - `/debt-analyze` — acumulación de deuda técnica
 - `/report-capacity` — planificación de capacidad
+- `/company-vertical detect` — detectar cambios en vertical y regulaciones
 
 ### Métricas clave
 - Delivery rate, team utilization, risk exposure, budget burn

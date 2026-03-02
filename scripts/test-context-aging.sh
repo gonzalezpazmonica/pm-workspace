@@ -175,7 +175,7 @@ echo ""
 
 echo "📋 5. CLAUDE.md Updates"
 
-check_content "CLAUDE.md" "commands/ (181)" "CLAUDE.md shows 158 commands"
+check_content "CLAUDE.md" "commands/ (185)" "CLAUDE.md shows 158 commands"
 check_content "CLAUDE.md" "context-age" "CLAUDE.md references /context-age"
 check_content "CLAUDE.md" "context-benchmark" "CLAUDE.md references /context-benchmark"
 echo ""
@@ -184,11 +184,11 @@ echo ""
 
 echo "📋 6. README Updates"
 
-check_content "README.md" "181 comandos" "README.md shows 158 commands"
+check_content "README.md" "185 comandos" "README.md shows 158 commands"
 check_content "README.md" "context-age" "README.md references /context-age"
 check_content "README.md" "context-benchmark" "README.md references /context-benchmark"
 check_content "README.md" "envejecimiento semántico" "README.md describes semantic aging"
-check_content "README.en.md" "181 commands" "README.en.md shows 158 commands"
+check_content "README.en.md" "185 commands" "README.en.md shows 158 commands"
 check_content "README.en.md" "context-age" "README.en.md references /context-age"
 check_content "README.en.md" "context-benchmark" "README.en.md references /context-benchmark"
 echo ""
