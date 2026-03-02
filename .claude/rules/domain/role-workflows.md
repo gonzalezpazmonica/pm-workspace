@@ -23,7 +23,9 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 1. `/sprint-status` — progreso, burndown, violaciones WIP
 2. `/team-workload` — carga por persona, items sin asignar
 3. `/board-flow` — detectar cuellos de botella
-4. Si hay bloqueantes → sugerir escalación o redistribución
+4. `/nl-query` (opcional) — consultar estado del proyecto en lenguaje natural
+5. Si hay bloqueantes → sugerir escalación o redistribución
+6. `/integration-status --check` (semanal) — verificar salud de integraciones
 
 ### Ritual semanal
 - **Lunes**: `/sprint-plan` o `/sprint-autoplan` — kickoff del sprint si aplica
@@ -52,9 +54,12 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 4. `/perf-audit` si hay PRs con cambios de rendimiento
 5. Revisar output de agentes si hay specs en ejecución
 6. `/risk-predict` — identificar riesgos técnicos del sprint
+7. `/mcp-server status` (semanal) — verificar estado de servidores MCP
+8. `/integration-status --check` (semanal) — auditar integraciones y webhooks
 
 ### Ritual semanal
 - **Lunes**: `/arch-health` — salud arquitectónica (fitness functions, drift, coupling)
+- **Lunes**: `/webhook-config list` — revisar webhooks configurados
 - **Miércoles**: `/team-skills-matrix --bus-factor` — detectar riesgos de dependencia en equipo
 - **Viernes**: `/diagram-generate` — revisión de arquitectura
 
@@ -145,7 +150,8 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 ### Rutina diaria
 1. `/ceo-alerts` — alertas estratégicas que requieren decisión
 2. `/portfolio-overview` — semáforo rápido de todos los proyectos
-3. Si hay alertas críticas → detallar con `/ceo-report {proyecto}`
+3. `/integration-status --check` (semanal) — verificar criticidad de integraciones en portfolio
+4. Si hay alertas críticas → detallar con `/ceo-report {proyecto}`
 
 ### Ritual semanal
 - **Lunes**: `/portfolio-overview --deps` — dependencias inter-proyecto

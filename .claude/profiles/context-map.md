@@ -11,7 +11,7 @@
 ### Grupo: Sprint & Daily
 
 **Comandos:** `/sprint-status`, `/sprint-plan`, `/sprint-review`,
-`/sprint-retro`, `/velocity-trend`, `/sprint-forecast`, `/sprint-autoplan`, `/risk-predict`, `/my-sprint`
+`/sprint-retro`, `/velocity-trend`, `/sprint-forecast`, `/sprint-autoplan`, `/risk-predict`, `/my-sprint`, `/nl-query`
 
 **Perfil necesario:**
 
@@ -127,7 +127,7 @@
 ### Grupo: Infrastructure & Pipelines
 
 **Comandos:** `/pipeline-create`, `/pipeline-run`, `/pipeline-status`,
-`/pipeline-logs`, `/pipeline-artifacts`, `/devops-validate`
+`/pipeline-logs`, `/pipeline-artifacts`, `/devops-validate`, `/mcp-server`, `/webhook-config`, `/integration-status`
 
 **Perfil necesario:**
 
