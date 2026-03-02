@@ -5,6 +5,35 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [0.81.0] — 2026-03-02
+
+AI Role Tooling — Dos nuevos comandos basados en gaps detectados en role-evolution-ai: `/knowledge-prime` (genera `.priming/` con 7 secciones Fowler) y `/savia-persona-tune` (5 perfiles de tono/personalidad).
+
+### Added
+
+- **`/knowledge-prime`** — Genera `.priming/` analizando código, packages, ADRs y git log. 7 secciones: architecture, stack, sources, structure, naming, examples, anti-patterns.
+- **`/savia-persona-tune`** — 5 perfiles (warm, technical, executive, mentor, minimal). Genera `.savia-persona.yml`.
+
+### Changed
+
+- CLAUDE.md, README.md, README.en.md — Command count 267→268.
+
+[0.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.80.0...v0.81.0
+
+---
+
+## [0.80.0] — 2026-03-02
+
+Context Optimization v2 — Mock engine realista calibrado por tipo de comando. State file para acumulación de contexto entre steps. Probabilidad de overflow crece con contexto acumulado (>80K: +10%, >120K: +20%).
+
+### Changed
+
+- **`harness.sh`** — Mock engine reescrito: rangos de tokens calibrados por comando, state file `state.json`, columna `context_acc` en CSV, sección "Context Accumulation" en report con umbrales 50%/70%.
+
+[0.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.79.1...v0.80.0
+
+---
+
 ## [0.79.1] — 2026-03-02
 
 Role Evolution update — Reescrita `role-evolution-ai.md` con la taxonomía real de Kelman Celis (6 categorías: Estrategia, Ingeniería, Datos, Gobernanza, Interacción, Mantenimiento). Mapping equipo SocialApp a categorías Kelman. Gaps detectados → propuestas de mejora en roadmap.
