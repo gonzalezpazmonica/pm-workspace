@@ -166,7 +166,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 262 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 267 commands · 24 agents · 21 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -175,6 +175,7 @@ I've organized all documentation into sections so you can quickly find what you 
 /contribute {pr|idea|bug|status}    /feedback {bug|idea|improve|list|search}
 /vertical-propose {name}
 /banking-detect    /banking-bian    /banking-eda-validate    /banking-data-governance    /banking-mlops-audit
+/flow-setup    /flow-board    /flow-intake    /flow-metrics    /flow-spec
 /review-community {pending|review|merge|release|summary}
 /backup {now|restore|auto-on|auto-off|status}
 /daily-routine    /health-dashboard {project|all|trend}
