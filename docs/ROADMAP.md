@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 268 commands, 24 agents, 21 skills, and its own persona (Savia). This roadmap groups the 73 released versions into thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 280+ commands, 24 agents, 21 skills, and its own persona (Savia). This roadmap groups the 83 released versions into thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -21,45 +21,17 @@ Community votes via 👍 on GitHub Issues. See [How to influence the roadmap](#h
 
 ---
 
-## ✅ Era 7 — Role-Specific Features (v0.45.0–v0.49.0, Mar 2026)
+## ✅ Eras 7–13 — Roles to Observability (v0.45.0–v0.72.0, Mar 2026)
 
-19 commands tailored to each role: Executive Reports (v0.45.0), QA Toolkit (v0.46.0), Developer Productivity (v0.47.0), Tech Lead Intelligence (v0.48.0), Product Owner Analytics (v0.49.0).
-
----
-
-## ✅ Era 8 — Platform Intelligence (v0.50.0–v0.53.0, Mar 2026)
-
-Cross-project vision, AI planning, integrations: Cross-Project Intelligence (v0.50.0), AI-Powered Planning (v0.51.0), Integration Hub (v0.52.0), Multi-Platform (v0.53.0).
-
----
-
-## ✅ Era 9 — Company Intelligence & Strategic Alignment (v0.54.0–v0.57.0, Mar 2026)
-
-Company profile as context layer, OKRs, intelligent backlog, ceremony intelligence: Company Profile (v0.54.0), OKR & Strategy (v0.55.0), Intelligent Backlog (v0.56.0), Ceremony Intelligence (v0.57.0).
-
----
-
-## ✅ Era 10 — AI Governance & Responsible Deployment (v0.58.0–v0.61.0, Mar 2026)
-
-AI Safety (v0.58.0), AI Adoption Companion (v0.59.0), Enterprise AI Governance (v0.60.0), Vertical Compliance — healthcare, finance, legal, education (v0.61.0).
-
----
-
-## ✅ Era 11 — Context Engineering 2.0 (v0.62.0–v0.65.0, Mar 2026)
-
-Radical context optimization for 200+ command scale: Intelligent Context Loading (v0.62.0), Evolving Playbooks ACE (v0.63.0), Semantic Memory 2.0 (v0.64.0), Multi-Layer Caching (v0.65.0).
-
----
-
-## ✅ Era 12 — Team Excellence & Enterprise (v0.66.0–v0.70.0, Mar 2026)
-
-Advanced DX Metrics (v0.66.0), Team Wellbeing (v0.67.0), Accessibility (v0.68.0), Audit Trail (v0.69.0), Multi-Tenant & Marketplace (v0.70.0).
-
----
-
-## ✅ Era 13 — Observability & Intelligence (v0.71.0–v0.72.0, Mar 2026)
-
-Savia connects to Grafana, Datadog, Azure App Insights, OpenTelemetry: Observability Core (v0.71.0), Trace Intelligence (v0.72.0).
+| Era | Versions | Theme | Highlights |
+|---|---|---|---|
+| 7 — Role-Specific | v0.45.0–v0.49.0 | 19 role commands | Executive Reports, QA Toolkit, Developer Productivity, Tech Lead, Product Owner |
+| 8 — Platform Intelligence | v0.50.0–v0.53.0 | Cross-project | Cross-Project Intelligence, AI Planning, Integration Hub, Multi-Platform |
+| 9 — Company Intelligence | v0.54.0–v0.57.0 | Strategic alignment | Company Profile, OKR & Strategy, Intelligent Backlog, Ceremony Intelligence |
+| 10 — AI Governance | v0.58.0–v0.61.0 | Responsible AI | AI Safety, Adoption Companion, Enterprise Governance, Vertical Compliance |
+| 11 — Context Eng. 2.0 | v0.62.0–v0.65.0 | 200+ cmd scale | Intelligent Loading, Evolving Playbooks ACE, Semantic Memory 2.0, Multi-Layer Cache |
+| 12 — Team Excellence | v0.66.0–v0.70.0 | Enterprise | DX Metrics, Team Wellbeing, Accessibility, Audit Trail, Multi-Tenant & Marketplace |
+| 13 — Observability | v0.71.0–v0.72.0 | Monitoring | Grafana, Datadog, Azure App Insights, OpenTelemetry. Trace Intelligence |
 
 ---
 
@@ -107,17 +79,49 @@ Realistic mock engine, AI role tooling (Knowledge Priming + Persona Tuning), and
 
 ---
 
-## 💡 Proposed — v0.83.0+
+## ✅ v0.83.0 — Safe Boot, Deterministic CI, PR Governance (Mar 2026)
 
-Ideas under consideration. Open an issue or vote with 👍 to prioritize.
+Stability and safety release:
 
-**More industry verticals** — Insurance (Guidewire, Solvency II), Retail/eCommerce (catalog, pricing, recommendations), Telco (OSS/BSS, eTOM/SID).
+- **Safe Boot** — MCP servers vacíos al arranque; Savia conecta bajo demanda con `/mcp-server start`. `session-init.sh` v0.42.0: sin red, sin `jq`, timeout 5s, ERR trap. `CLAUDE.md` de 216→120 líneas (regla 19: arranque seguro).
+- **Deterministic CI** — Mock engine usa `cksum` hash en vez de `$RANDOM`. Context overflow solo en límite real (200k tokens). 29/29 consistente.
+- **PR Governance** — Hook bloquea `gh pr review --approve` (auto-aprobación) y `gh pr merge --admin` (bypass branch protection). `github-flow.md` actualizado.
 
-**Multimodal quality gates** — Visual regression via VLM screenshot analysis, diagram-to-spec generation, wireframe-driven decompose.
+---
 
-**Observability extensions** — New Relic, Splunk, Elastic APM connectors. LLM-specific observability (token usage, prompt latency, model drift).
+## 💡 Era 18 — Compliance, Distribution & Intelligent Hooks (v0.84.0+, proposed)
 
-**Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status).
+Based on research of 15 external sources. Full analysis in `docs/propuestas/roadmap-research-era18.md`.
+
+### Priority 1 — AEPD Compliance & skills.sh Distribution
+
+| Version | Feature | Description |
+|---|---|---|
+| v0.84.0 | `/aepd-compliance` | Vertical de compliance para IA agéntica española (framework AEPD: tecnología → cumplimiento → vulnerabilidades → medidas). Extiende `/governance-audit` con criterios AEPD. Diferencial vs. herramientas anglosajonas. |
+| v0.85.0 | skills.sh publishing | Publicar 5 skills core (sprint-management, capacity-planning, pbi-decomposition, spec-driven-development, diagram-generation) en skills.sh marketplace. Adaptar formato, README por skill. |
+
+### Priority 2 — Intelligent Hooks & Excel Integration
+
+| Version | Feature | Description |
+|---|---|---|
+| v0.86.0 | Prompt & Agent hooks | Prompt hooks: LLM para validaciones semánticas (commit messages, spec coherence). Agent hooks: subagentes de verificación pre-merge (tests, seguridad, dependencias). Calibración gradual (warnings → blocks). |
+| v0.87.0 | Excel reporting | Templates interactivos Claude-in-Excel para `/capacity-planning`, `/ceo-report`, `/time-tracking-report`. Fórmulas dinámicas multi-tab, escenarios. |
+
+### Priority 3 — Catalog & Source Tracking
+
+| Version | Feature | Description |
+|---|---|---|
+| v0.88.0 | Savia Gallery + Source tracking | Catálogo visual de 280+ comandos por rol/vertical (inspirado en component.gallery). Source tracking: cada output incluye fuentes consultadas. |
+| v0.89.0 | AI competency framework | Extender `/adoption-assess` con habilidades "working with AI" (formulación, evaluación de outputs, pensamiento crítico). |
+
+### Backlog — Strategic Evaluation
+
+- **Claude Connectors vs MCP** — Evaluar si Connectors simplifican la arquitectura de integraciones
+- **More industry verticals** — Insurance (Guidewire, Solvency II), Retail/eCommerce, Telco (OSS/BSS, eTOM/SID)
+- **Multimodal quality gates** — Visual regression via VLM screenshot analysis, diagram-to-spec, wireframe-driven decompose
+- **Observability extensions** — New Relic, Splunk, Elastic APM. LLM observability (token usage, prompt latency, model drift)
+- **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status)
+- **Claude in Chrome integration** — Extracción de datos de portales web sin API para Savia
 
 ---
 
