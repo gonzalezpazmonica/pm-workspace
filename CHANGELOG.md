@@ -1,3 +1,18 @@
+## [0.68.0] — 2026-03-02
+
+Accessibility & Inclusive Design — Auditoría WCAG 2.2, correcciones automáticas, reportes de conformidad, monitorización continua.
+
+### Added
+- **/a11y-audit** — Auditoría exhaustiva de accesibilidad WCAG 2.2 (AA/AAA) con detección de alt text, contraste, navegación por teclado, ARIA, focus management, jerarquía de encabezados
+- **/a11y-fix** — Correcciones automáticas con preview y verificación; covers alt text, ARIA attributes, focus traps, skip links, color contrast
+- **/a11y-report** — Reportes multi-formato: ejecutivo (score + gráficos), técnico (detalles + código), legal (VPAT/Section 508); tracking de tendencias
+- **/a11y-monitor** — Monitorización continua en CI/CD; bloquea deploys con regresiones de accesibilidad; digest semanal
+
+### Changed
+- Command count: 253 → 257 (cuatro comandos de accesibilidad)
+
+---
+
 # Changelog
 
 ## [0.67.0] — 2026-03-02
