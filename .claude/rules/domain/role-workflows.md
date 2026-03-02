@@ -68,6 +68,13 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 
 ---
 
+### Evolving Playbooks (Automation & Learning)
+- `/playbook-create {nombre}` — Capturar flujos repetitivos (releases, onboarding, audits, deploys)
+- `/playbook-reflect {nombre}` — Reflexión post-ejecución (ACE Reflector)
+- `/playbook-evolve {nombre}` — Evolucionar con insights acumulados
+- `/playbook-library --search` — Reutilizar playbooks de otros proyectos
+
+
 ## Tech Lead — Modo `code-focused`
 
 ### Rutina diaria
