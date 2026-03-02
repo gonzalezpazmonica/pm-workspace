@@ -148,7 +148,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 174 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 178 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -195,6 +195,12 @@ I've organized all documentation into sections so you can quickly find what you 
 ```
 /sprint-autoplan {--conservative}    /risk-predict {--sprint N}
 /meeting-summarize {--type daily}    /capacity-forecast {--sprints 6}
+```
+
+### Integration Hub
+```
+/mcp-server {start|stop}    /nl-query {question}
+/webhook-config {add|list}    /integration-status {--check}
 ```
 
 ### Technical Debt Intelligence

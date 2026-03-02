@@ -7,6 +7,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.52.0] — 2026-03-02
+
+### Added — Integration Hub
+- **`/mcp-server` command** — expone herramientas de Savia como MCP server para otros proyectos
+- **`/nl-query` command** — consultas en lenguaje natural sin memorizar comandos
+- **`/webhook-config` command** — configurar webhooks para eventos push en tiempo real
+- **`/integration-status` command** — dashboard de estado de todas las integraciones
+
+### Changed
+
+- **Commands count**: 174 → 178
+- **Updated**: CLAUDE.md, README.md, README.en.md, context-map.md, role-workflows.md
+
+---
+
 ## [0.51.0] — 2026-03-02
 
 AI-Powered Planning — 4 nuevos comandos para planificación inteligente de sprints, predicción de riesgos, resumen de reuniones y previsión de capacidad.
@@ -1485,6 +1500,7 @@ Initial public release of PM-Workspace.
 ---
 
 [Unreleased]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.50.0...HEAD
+[0.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.51.0...v0.52.0
 [0.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.50.0...v0.51.0
 [0.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.49.0...v0.50.0
 [0.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.48.0...v0.49.0

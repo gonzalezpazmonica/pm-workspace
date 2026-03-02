@@ -148,7 +148,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 174 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 178 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -195,6 +195,12 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 ```
 /sprint-autoplan {--conservative}    /risk-predict {--sprint N}
 /meeting-summarize {--type daily}    /capacity-forecast {--sprints 6}
+```
+
+### Integration Hub
+```
+/mcp-server {start|stop}    /nl-query {pregunta}
+/webhook-config {add|list}    /integration-status {--check}
 ```
 
 ### Inteligencia de Deuda Técnica
