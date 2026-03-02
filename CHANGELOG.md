@@ -5,6 +5,23 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [0.83.0] — 2026-03-02
+
+Safe Boot, Deterministic CI, PR Governance — Savia arranca siempre: MCP servers vacíos (conexión bajo demanda), session-init blindado (sin red, sin jq, timeout 5s). Mock engine determinista (cksum hash, 29/29 consistente). Hooks de gobernanza PR (bloqueo auto-aprobación y bypass branch protection).
+
+### Changed
+
+- **`mcp.json`** — Servidores vacíos. Savia conecta bajo demanda con `/mcp-server start`, no al arranque.
+- **`session-init.sh`** — v0.42.0: sin llamadas de red, sin dependencia `jq`, timeout global 5s, ERR trap para salida limpia garantizada. Context tracker en background.
+- **`engines.sh`** — Mock determinista: varianza con `cksum` hash (no `$RANDOM`), context overflow solo en límite real (200k tokens).
+- **`CLAUDE.md`** — 216→120 líneas: sección Savia duplicada eliminada, catálogo de comandos movido a referencia, regla 19 (arranque seguro).
+- **`validate-bash-global.sh`** — Nuevos bloqueos: `gh pr review --approve` (auto-aprobación) y `gh pr merge --admin` (bypass branch protection).
+- **`github-flow.md`** — Reglas explícitas: NUNCA auto-aprobar, NUNCA --admin.
+
+[0.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.82.0...v0.83.0
+
+---
+
 ## [0.82.0] — 2026-03-02
 
 Auto-Compact — Compresión automática de contexto entre escenarios. Cuando el contexto acumulado supera un umbral configurable (default 40%), se ejecuta `retro-summary --compact` simulado que reduce 60-70% del contexto. Harness refactorizado en 3 ficheros (≤150 líneas cada uno).
