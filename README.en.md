@@ -148,7 +148,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 193 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 197 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -189,6 +189,12 @@ I've organized all documentation into sections so you can quickly find what you 
 ```
 /backlog-groom {--top N|--duplicates|--incomplete}    /backlog-prioritize {--method|--strategy-aligned}
 /outcome-track {--release vX.Y.Z|--register}    /stakeholder-align {--items|--scenario}
+```
+
+### Ceremony Intelligence
+```
+/async-standup {--compile|--start|--deadline HH:MM|--list}    /retro-patterns {--sprints N|--method|--action-items}
+/ceremony-health {--sprints N|--ceremony type|--metric}    /meeting-agenda {--type|--sprint|--duration}
 ```
 
 ### Cross-Project Intelligence
