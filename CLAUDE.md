@@ -35,7 +35,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
 │   ├── agents/ (24)               ← @.claude/rules/domain/agents-catalog.md
-│   ├── commands/ (181)            ← @.claude/rules/domain/pm-workflow.md
+│   ├── commands/ (185)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (13)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
@@ -79,6 +79,9 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 
 ### Multi-Platform
 `/jira-connect` (setup, sync) · `/github-projects` (connect, board) · `/linear-sync` (updated) · `/platform-migrate` (plan, execute, validate)
+
+### Company Intelligence
+`/company-setup` · `/company-edit` · `/company-show` · `/company-vertical` (detect, configure)
 
 ---
 

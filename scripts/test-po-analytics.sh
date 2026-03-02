@@ -60,7 +60,7 @@ check_content ".claude/commands/release-readiness.md" "Modo agente" "Has agent m
 echo ""
 
 echo "📋 5. CLAUDE.md Updates"
-check_content "CLAUDE.md" "commands/ (181)" "CLAUDE.md shows 178 commands"
+check_content "CLAUDE.md" "commands/ (185)" "CLAUDE.md shows 178 commands"
 check_content "CLAUDE.md" "value-stream-map" "CLAUDE.md references /value-stream-map"
 check_content "CLAUDE.md" "feature-impact" "CLAUDE.md references /feature-impact"
 check_content "CLAUDE.md" "stakeholder-report" "CLAUDE.md references /stakeholder-report"
@@ -68,10 +68,10 @@ check_content "CLAUDE.md" "release-readiness" "CLAUDE.md references /release-rea
 echo ""
 
 echo "📋 6. README Updates"
-check_content "README.md" "181 comandos" "README.md shows 178 commands"
+check_content "README.md" "185 comandos" "README.md shows 178 commands"
 check_content "README.md" "value-stream-map" "README.md references /value-stream-map"
 check_content "README.md" "stakeholder-report" "README.md references /stakeholder-report"
-check_content "README.en.md" "181 commands" "README.en.md shows 178 commands"
+check_content "README.en.md" "185 commands" "README.en.md shows 178 commands"
 check_content "README.en.md" "value-stream-map" "README.en.md references /value-stream-map"
 echo ""
 
