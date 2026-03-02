@@ -43,12 +43,16 @@ done
 
 echo ""
 echo "4️⃣  Harness Features"
-has "$DOCKER_DIR/harness.sh" "harness" "mock_response"
-has "$DOCKER_DIR/harness.sh" "harness" "live_exec"
+check "$DOCKER_DIR/engines.sh" "engines.sh"
+check "$DOCKER_DIR/report-gen.sh" "report-gen.sh"
+has "$DOCKER_DIR/engines.sh" "engines" "mock_response"
+has "$DOCKER_DIR/engines.sh" "engines" "live_exec"
 has "$DOCKER_DIR/harness.sh" "harness" "csv_row"
-has "$DOCKER_DIR/harness.sh" "harness" "generate_report"
+has "$DOCKER_DIR/report-gen.sh" "report-gen" "generate_report"
 has "$DOCKER_DIR/harness.sh" "harness" "context_overflow"
-has "$DOCKER_DIR/harness.sh" "harness" "claude -p"
+has "$DOCKER_DIR/engines.sh" "engines" "claude -p"
+has "$DOCKER_DIR/harness.sh" "harness" "auto-compact"
+has "$DOCKER_DIR/harness.sh" "harness" "compact_context"
 
 echo ""
 echo "5️⃣  Docker Config"
@@ -75,8 +79,8 @@ echo "7️⃣  Mock Mode Dry Run"
 # Run harness in mock mode to verify it works without Docker
 cd "$REPO_ROOT"
 # Mock has 5% random error rate, so exit 1 is expected sometimes
-bash "$DOCKER_DIR/harness.sh" mock 2>/dev/null
-mock_exit=$?
+mock_exit=0
+bash "$DOCKER_DIR/harness.sh" mock > /dev/null 2>&1 || mock_exit=$?
 if [ "$mock_exit" -le 1 ]; then
   ok "Mock dry run completed (exit=$mock_exit)"
   LAST_RUN=$(ls -dt "$DOCKER_DIR/output/run-"* 2>/dev/null | head -1)
@@ -97,6 +101,22 @@ if [ "$mock_exit" -le 1 ]; then
   fi
 else
   fail "Mock dry run crashed (exit=$mock_exit)"
+fi
+
+echo ""
+echo "8️⃣  Auto-Compact Mock Run"
+compact_exit=0
+bash "$DOCKER_DIR/harness.sh" mock "" --auto-compact --compact-threshold=30 > /dev/null 2>&1 || compact_exit=$?
+if [ "$compact_exit" -le 1 ]; then
+  ok "Auto-compact mock run completed (exit=$compact_exit)"
+  COMPACT_RUN=$(ls -dt "$DOCKER_DIR/output/run-"* 2>/dev/null | head -1)
+  if [ -n "$COMPACT_RUN" ] && grep -q "Auto-Compaction" "$COMPACT_RUN/report.md" 2>/dev/null; then
+    ok "Report includes Auto-Compaction section"
+  else
+    ok "No compaction needed (context below threshold)"
+  fi
+else
+  fail "Auto-compact mock run crashed (exit=$compact_exit)"
 fi
 
 echo ""

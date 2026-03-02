@@ -5,6 +5,27 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [0.82.0] — 2026-03-02
+
+Auto-Compact — Compresión automática de contexto entre escenarios. Cuando el contexto acumulado supera un umbral configurable (default 40%), se ejecuta `retro-summary --compact` simulado que reduce 60-70% del contexto. Harness refactorizado en 3 ficheros (≤150 líneas cada uno).
+
+### Added
+
+- **`--auto-compact`** flag en harness.sh — activa compresión automática entre escenarios.
+- **`--compact-threshold=N`** — umbral configurable (% de ventana 200K) para disparar compactación.
+- **`engines.sh`** — Mock engine + live engine extraídos a fichero independiente.
+- **`report-gen.sh`** — Generador de reports extraído a fichero independiente.
+- Sección "Auto-Compaction Events" en el report cuando se activa.
+
+### Changed
+
+- **`harness.sh`** — Refactorizado de 269→150 líneas, ahora orquestador puro.
+- **`test-savia-e2e-harness.sh`** — 44 tests (vs 38), incluye test de auto-compact.
+
+[0.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.81.0...v0.82.0
+
+---
+
 ## [0.81.0] — 2026-03-02
 
 AI Role Tooling — Dos nuevos comandos basados en gaps detectados en role-evolution-ai: `/knowledge-prime` (genera `.priming/` con 7 secciones Fowler) y `/savia-persona-tune` (5 perfiles de tono/personalidad).
