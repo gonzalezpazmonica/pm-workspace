@@ -35,7 +35,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
 │   ├── agents/ (24)               ← @.claude/rules/domain/agents-catalog.md
-│   ├── commands/ (257)            ← @.claude/rules/domain/pm-workflow.md
+│   ├── commands/ (262)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (13)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
@@ -100,6 +100,9 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 
 ### AI Adoption Companion
 `/adoption-assess` (evaluar madurez ADKAR del equipo) · `/adoption-plan` (roadmap personalizado por rol) · `/adoption-sandbox` (entorno seguro sin riesgos) · `/adoption-track` (métricas de adopción, friction points, churn)
+
+### Banking Architecture (v0.73.0)
+`/banking-detect` (auto-detección proyecto bancario) · `/banking-bian` (validar BIAN + ArchiMate) · `/banking-eda-validate` (Kafka/EDA pipelines) · `/banking-data-governance` (lineage, clasificación, GDPR) · `/banking-mlops-audit` (MLOps, XAI, model risk, scoring)
 
 ---
 
