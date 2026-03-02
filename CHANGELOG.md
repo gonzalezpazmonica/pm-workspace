@@ -7,6 +7,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.58.0] — 2026-03-02
+
+### Added — AI Safety & Human Oversight
+- `/ai-safety-config` — configurar 4 niveles de supervisión humana (inform/recommend/decide/execute) por tipo de acción
+- `/ai-confidence` — transparencia: Savia muestra nivel de confianza, razonamiento, datos usados y limitaciones de cada recomendación
+- `/ai-boundary` — definir matriz de límites explícitos por rol: qué puede hacer Savia autónomamente vs requiere aprobación
+- `/ai-incident` — registrar y analizar incidentes de Savia (bias, hallucination, context-loss, outdated, boundary-violation, confidence-mismatch)
+
+### Changed
+- **Commands count**: 197 → 201
+
+---
+
 ## [0.57.0] — 2026-03-02
 
 ### Added — Ceremony Intelligence
