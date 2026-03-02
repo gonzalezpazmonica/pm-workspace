@@ -1,9 +1,8 @@
 ---
-active_slug: ""
-last_switch: ""
+active_slug: "monica"
+last_switch: "2026-03-02"
 ---
 
 # Usuario Activo
 
-No hay usuario activo configurado.
-Ejecuta `/profile-setup` para crear tu perfil.
+**Mónica** — PM @ AirquiTech

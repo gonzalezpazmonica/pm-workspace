@@ -89,8 +89,8 @@ Ejemplos inválidos: `feature/rama1`, `fix/cosas`, `feature/12345-algo` (falta e
 2. **Título**: igual que el commit principal (convencional)
 3. **Descripción**: qué cambia y por qué; si cierra un PBI incluir `Closes #N`
 4. **Reviewer asignado por tarea**: si la tarea de DevOps que originó el cambio tiene un programador humano asignado (`System.AssignedTo`), ese programador se añade automáticamente como reviewer del PR. Esto garantiza que quien conoce el contexto de la tarea valide el código
-5. **Revisión**: al menos una aprobación antes de mergear
-6. **Merge**: Squash merge para commits pequeños, Merge commit para features completas
+5. **Revisión**: al menos una aprobación antes de mergear. **NUNCA auto-aprobar** (`gh pr review --approve` sobre PR propio) — GitHub lo bloquea y es mala práctica. Si no hay reviewer humano, el PR espera
+6. **Merge**: Squash merge para commits pequeños, Merge commit para features completas. **NUNCA** usar `--admin` para bypass de branch protection
 7. **Delete branch**: eliminar la rama tras el merge
 
 ---
