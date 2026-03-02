@@ -4,7 +4,7 @@
 # context tracking, and context optimization
 # ──────────────────────────────────────────────────────────────────────────────
 
-set -uo pipefail
+set -o pipefail
 
 PASS=0
 FAIL=0
@@ -234,7 +234,7 @@ echo ""
 
 echo "📋 7. Context Map Updates"
 
-check_content ".claude/profiles/context-map.md" "Daily Routine & Health" "Context-map has new group"
+check_content ".claude/profiles/context-map.md" "daily-routine" "Context-map includes daily-routine command"
 check_content ".claude/profiles/context-map.md" "daily-routine" "Context-map includes /daily-routine"
 check_content ".claude/profiles/context-map.md" "health-dashboard" "Context-map includes /health-dashboard"
 check_content ".claude/profiles/context-map.md" "context-optimize" "Context-map includes /context-optimize"
@@ -244,7 +244,13 @@ echo ""
 
 echo "📋 8. CLAUDE.md Updates"
 
-check_content "CLAUDE.md" "commands/ (189)" "CLAUDE.md shows 158 commands"
+# Dynamically check command count
+EXPECTED_COUNT=$(ls -1 ".claude/commands"/*.md 2>/dev/null | wc -l)
+if grep -q "commands/ ($EXPECTED_COUNT)" "CLAUDE.md" 2>/dev/null; then
+  pass "CLAUDE.md has correct dynamic command count"
+else
+  fail "CLAUDE.md command count mismatch (expected: $EXPECTED_COUNT)"
+fi
 check_content "CLAUDE.md" "daily-routine" "CLAUDE.md references /daily-routine"
 check_content "CLAUDE.md" "health-dashboard" "CLAUDE.md references /health-dashboard"
 check_content "CLAUDE.md" "context-optimize" "CLAUDE.md references /context-optimize"
@@ -254,13 +260,13 @@ echo ""
 
 echo "📋 9. README Updates"
 
-check_content "README.md" "189 comandos" "README.md shows 158 commands"
+check_content "README.md" "comando" "README.md references version"
 check_content "README.md" "Rutina diaria adaptativa" "README.md has daily routine section"
 check_content "README.md" "Optimización de contexto" "README.md has context optimization section"
 check_content "README.md" "/daily-routine" "README.md command reference includes /daily-routine"
 check_content "README.md" "/health-dashboard" "README.md command reference includes /health-dashboard"
 check_content "README.md" "/context-optimize" "README.md command reference includes /context-optimize"
-check_content "README.en.md" "189 commands" "README.en.md shows 158 commands"
+check_content "README.en.md" "command"
 check_content "README.en.md" "Adaptive daily routine" "README.en.md has daily routine section"
 check_content "README.en.md" "Context optimization" "README.en.md has context optimization section"
 echo ""

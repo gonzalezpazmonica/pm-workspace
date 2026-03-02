@@ -1,372 +1,52 @@
-# Context Map — Perfil x Comando
+# Context Map — Profile × Command
 
-> **Principio** (del paper "Personalization Paradox"):
-> Cargar solo los fragmentos de perfil necesarios para cada operación.
-> Más contexto ≠ mejor respuesta. Solo contexto relevante = mejor respuesta.
+> **Principle**: Load only needed profile fragments. Less is more.
 
----
-
-## Mapa de carga
-
-### Grupo: Sprint & Daily
-
-**Comandos:** `/sprint-status`, `/sprint-plan`, `/sprint-review`,
-`/sprint-retro`, `/velocity-trend`, `/sprint-forecast`, `/sprint-autoplan`, `/risk-predict`, `/my-sprint`, `/nl-query`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre (para saludos y referencias)
-- `workflow.md` — daily_time, planning_cadence (contextualizar)
-- `projects.md` — qué proyectos gestiona y con qué rol
-- `tone.md` — alert_style, celebrate (calibrar tono)
-
-**NO cargar:**
-
-- `tools.md` — irrelevante para estado del sprint
-- `preferences.md` — solo útil para informes formales
-
----
-
-### Grupo: Reporting
-
-**Comandos:** `/report-hours`, `/report-capacity`,
-`/kpi-dashboard`, `/kpi-dora`, `/dx-dashboard`,
-`/ceo-report`, `/ceo-alerts`, `/portfolio-overview`, `/incident-postmortem`,
-`/value-stream-map`, `/stakeholder-report`, `/portfolio-deps`, `/org-metrics`, `/meeting-summarize`, `/capacity-forecast`,
-`/okr-define`, `/okr-track`, `/okr-align`, `/strategy-map`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre, empresa (headers de informes)
-- `preferences.md` — language, detail_level, report_format, date_format
-- `projects.md` — qué proyectos incluir en multi-proyecto
-- `tone.md` — formality (narrativa del informe)
-
-**NO cargar:**
-
-- `workflow.md` — irrelevante para generar un informe
-- `tools.md` — irrelevante
+| Group | Commands | Load | Skip |
+|-------|----------|------|------|
+| Sprint Daily | sprint-status, sprint-plan, sprint-review, sprint-retro, velocity-trend, sprint-forecast, sprint-autoplan, risk-predict, my-sprint, nl-query, async-standup, ceremony-health | identity, workflow, projects, tone | tools, preferences |
+| Reporting | report-hours, report-capacity, report-executive, kpi-dashboard, kpi-dora, dx-dashboard, ceo-report, ceo-alerts, portfolio-overview, incident-postmortem, value-stream-map, stakeholder-report, portfolio-deps, org-metrics, meeting-summarize, capacity-forecast, okr-define, okr-track, okr-align, strategy-map, sprint-release-notes | identity, preferences, projects, tone | workflow, tools |
+| PBI & Backlog | pbi-decompose, pbi-decompose-batch, pbi-assign, pbi-plan-sprint, epic-plan, feature-impact, backlog-patterns, pbi-jtbd, pbi-prd, backlog-capture | identity, workflow, projects, tools | preferences, tone |
+| Backlog Mgmt | backlog-groom, backlog-prioritize, outcome-track, stakeholder-align, retro-patterns, retro-actions | identity, workflow, projects | tools, preferences, tone |
+| Spec & SDD | spec-generate, spec-design, spec-explore, spec-implement, spec-review, spec-verify, spec-status, agent-run, agent-cost, agent-efficiency, agent-trace, agent-notes-archive, my-focus | identity, workflow, projects | tools, preferences, tone |
+| Quality & PRs | pr-pending, pr-review, perf-audit, perf-fix, perf-report, qa-dashboard, qa-regression-plan, qa-bug-triage, testplan-generate, testplan-results, testplan-status, my-learning, release-readiness | identity, workflow, tools | projects, preferences, tone |
+| Accessibility | a11y-audit, a11y-fix, a11y-report, a11y-monitor | identity, preferences, projects | workflow, tools, tone |
+| Infra & Pipelines | pipeline-create, pipeline-run, pipeline-status, pipeline-logs, pipeline-artifacts, devops-validate, mcp-server, webhook-config, integration-status, company-setup, company-edit, company-show, company-vertical, diagram-config | identity, tools, projects | workflow, preferences, tone |
+| Governance | compliance-scan, compliance-fix, compliance-report, security-review, security-audit, governance-policy, governance-audit, governance-report, governance-certify, ai-safety-config, ai-confidence, ai-boundary, ai-incident, ai-audit-log, ai-model-card, ai-risk-assessment | identity, projects, preferences | workflow, tools, tone |
+| Memory & Context | memory-sync, memory-save, memory-search, memory-context, context-load, session-save, context-optimize, context-age, context-benchmark, context-budget, context-compress, context-defer, context-profile, hub-audit, cross-project-search, memory-compress, memory-importance, memory-graph, memory-prune | identity, projects, preferences | workflow, tools, tone |
+| Messaging | notify-slack, notify-whatsapp, notify-nctalk, slack-search, whatsapp-search, nctalk-search, inbox-check, inbox-start | identity, preferences, tone | workflow, tools, projects |
+| Connectors | confluence-publish, gdrive-upload, jira-sync, jira-connect, github-projects, linear-sync, notion-sync, wiki-sync, wiki-publish, platform-migrate, figma-extract | identity, preferences, projects | workflow, tools, tone |
+| Diagrams | diagram-generate, diagram-import, diagram-status | identity, projects, preferences | workflow, tools, tone |
+| Architecture & Tech | arch-detect, arch-suggest, arch-compare, arch-fitness, arch-recommend, tech-radar, arch-health, debt-track, debt-analyze, debt-prioritize, debt-budget, code-patterns, dependencies-audit, dependency-map, legacy-assess, sbom-generate | identity, projects, preferences | workflow, tools, tone |
+| Daily Health | daily-routine, health-dashboard, flow-metrics, flow-protect, deep-work, prevention-metrics, burnout-radar, workload-balance, sustainable-pace, team-sentiment | identity, workflow, projects, tone | tools, preferences |
+| Team & Skills | team-workload, board-flow, team-onboarding, team-evaluate, team-skills-matrix | identity, projects, tone | workflow, tools, preferences |
+| Project Mgmt | project-assign, project-audit, project-kickoff, project-release-plan, project-roadmap, adoption-assess, adoption-plan, adoption-sandbox, adoption-track | identity, projects | workflow, tools, preferences, tone |
+| Repos & Git | repos-branches, repos-list, repos-pr-create, repos-pr-list, repos-pr-review, repos-search, github-activity, github-issues | identity, tools, projects | workflow, preferences, tone |
+| Observability | obs-connect, obs-query, obs-dashboard, obs-status, trace-search, trace-analyze, error-investigate, incident-correlate, sentry-bugs, sentry-health | identity, projects, tools | workflow, preferences, tone |
+| Audit & Compliance | audit-trail, audit-export, audit-search, audit-alert, credential-scan, security-alerts, dependencies-audit | identity, projects | workflow, tools, preferences, tone |
+| Multi-Tenant | tenant-create, tenant-share, marketplace-publish, marketplace-install | identity, projects | workflow, tools, preferences, tone |
+| Verticals | vertical-education, vertical-finance, vertical-healthcare, vertical-legal, vertical-propose | identity, projects, preferences | workflow, tools, tone |
+| Playbooks | playbook-create, playbook-evolve, playbook-library, playbook-reflect | identity, workflow, projects | tools, preferences, tone |
+| Caching | cache-analytics, cache-invalidate, cache-strategy, cache-warm | identity, projects | workflow, tools, preferences, tone |
+| DX Metrics | dx-core4, dx-recommendations, dx-survey | identity, projects, preferences | workflow, tools, tone |
+| ADR & Decisions | adr-create, risk-log | identity, projects | workflow, tools, preferences, tone |
+| Community | contribute, feedback, review-community | identity, preferences | workflow, tools, projects, tone |
+| Utilities | help, backup, update, changelog-update, emergency-mode, emergency-plan, validate-filesize, validate-schema, team-privacy-notice, evaluate-repo, review-cache-clear, review-cache-stats, meeting-agenda, worktree-setup | identity | workflow, tools, projects, preferences, tone |
+| Profile | profile-edit, profile-setup, profile-show, profile-switch | identity | workflow, tools, projects, preferences, tone |
 
 ---
 
-### Grupo: PBI & Backlog
+## Agent Rule (role: "Agent")
 
-**Comandos:** `/pbi-decompose`, `/pbi-decompose-batch`,
-`/pbi-assign`, `/pbi-plan-sprint`, `/epic-plan`, `/feature-impact`, `/backlog-patterns`
+- **Always load**: identity.md
+- **Load if needed**: preferences.md (output_format: yaml/json)
+- **Load if project scope**: projects.md
+- **Never load**: tone.md, workflow.md, tools.md
 
-**Perfil necesario:**
-
-- `identity.md` — rol (PM decide asignaciones, dev sugiere)
-- `workflow.md` — planning_cadence, sdd_active
-- `projects.md` — rol en el proyecto concreto
-- `tools.md` — solo si azure_devops activo (crear items en AzDO)
-
-**NO cargar:**
-
-- `preferences.md` — no genera informes formales
-- `tone.md` — la descomposición es técnica, no necesita tono
+Output: Structured YAML/JSON, no narrative, no emojis, no greetings.
 
 ---
 
-### Grupo: Backlog Intelligence
+## Default Rule
 
-**Comandos:** `/backlog-groom` (--top, --duplicates, --incomplete),
-`/backlog-prioritize` (--method, --strategy-aligned), `/outcome-track` (--release, --register), `/stakeholder-align` (--items, --scenario)
-
-**Perfil necesario:**
-
-- `identity.md` — rol (PM que gestiona backlog y conflictos)
-- `workflow.md` — planning_cadence
-- `projects.md` — proyecto target
-- `tools.md` — si azure_devops activo (cargar backlog)
-
-**NO cargar:**
-
-- `preferences.md` — no genera informes formales
-- `tone.md` — grooming es técnico, no narrativo
-
----
-
-### Grupo: SDD & Agentes
-
-**Comandos:** `/spec-generate`, `/spec-design`, `/spec-explore`,
-`/spec-implement`, `/spec-review`, `/spec-verify`, `/spec-status`,
-`/agent-run`, `/agent-cost`, `/agent-efficiency`, `/my-focus`
-
-**Perfil necesario:**
-
-- `identity.md` — rol (tech lead que hace review vs PM que lanza)
-- `workflow.md` — reviews_agent_code, specs_per_sprint
-- `projects.md` — sdd_enabled en el proyecto target
-
-**NO cargar:**
-
-- `tools.md` — el agente no necesita saber qué IDE usa el humano
-- `preferences.md` — el agente trabaja con la spec, no preferencias
-- `tone.md` — el output del agente es código, no conversación
-
----
-
-### Grupo: Team & Workload
-
-**Comandos:** `/team-workload`, `/board-flow`, `/team-onboarding`,
-`/team-evaluate`, `/team-skills-matrix`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre, rol
-- `projects.md` — qué proyecto
-- `tone.md` — alert_style (calibrar alertas de sobrecarga)
-
-**NO cargar:**
-
-- `workflow.md` — irrelevante
-- `tools.md` — irrelevante
-- `preferences.md` — irrelevante
-
----
-
-### Grupo: Quality & PRs
-
-**Comandos:** `/pr-pending`, `/pr-review`, `/perf-audit`, `/perf-fix`, `/qa-dashboard`, `/qa-regression-plan`, `/qa-bug-triage`, `/testplan-generate`, `/my-learning`, `/release-readiness`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre, rol
-- `workflow.md` — reviews_agent_code
-- `tools.md` — ide, git_mode (relevante para sugerencias de fix)
-
-**NO cargar:**
-
-- `projects.md` — se infiere del PR
-- `preferences.md` — irrelevante
-- `tone.md` — feedback técnico usa tono estándar
-
----
-
-### Grupo: Infrastructure & Pipelines
-
-**Comandos:** `/pipeline-create`, `/pipeline-run`, `/pipeline-status`,
-`/pipeline-logs`, `/pipeline-artifacts`, `/devops-validate`, `/mcp-server`, `/webhook-config`, `/integration-status`,
-`/company-setup`, `/company-edit`, `/company-show`, `/company-vertical`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre, rol
-- `tools.md` — cicd, docker (qué herramientas de infra usa)
-- `projects.md` — proyecto target
-
-**NO cargar:**
-
-- `workflow.md` — irrelevante
-- `preferences.md` — irrelevante
-- `tone.md` — irrelevante
-
----
-
-### Grupo: Governance & Compliance
-
-**Comandos:** `/compliance-scan`, `/compliance-fix`,
-`/compliance-report`, `/security-review`, `/security-audit`,
-`/governance-policy`, `/governance-audit`, `/governance-report`, `/governance-certify`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre, rol, empresa
-- `projects.md` — proyecto target
-- `preferences.md` — language, detail_level (informes de compliance)
-
-**NO cargar:**
-
-- `workflow.md` — irrelevante
-- `tools.md` — irrelevante
-- `tone.md` — compliance usa tono formal estándar
-
----
-
-### Grupo: Memory & Context
-
-**Comandos:** `/memory-sync`, `/memory-save`, `/memory-search`, `/memory-context`,
-`/context-load`, `/session-save`, `/context-optimize`, `/context-age`,
-`/context-benchmark`, `/hub-audit`, `/cross-project-search`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre
-- `projects.md` — proyectos del usuario
-- `preferences.md` — language (para output de búsquedas)
-
-**NO cargar:**
-
-- `workflow.md` — irrelevante
-- `tools.md` — irrelevante
-- `tone.md` — irrelevante
-
----
-
-### Grupo: Messaging & Notifications
-
-**Comandos:** `/notify-slack`, `/notify-whatsapp`, `/notify-nctalk`,
-`/slack-search`, `/whatsapp-search`, `/nctalk-search`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre
-- `preferences.md` — language
-- `tone.md` — formality, alert_style (calibrar mensajes)
-
-**NO cargar:**
-
-- `workflow.md` — irrelevante
-- `tools.md` — la config de messaging ya está en rules/domain
-- `projects.md` — irrelevante
-
----
-
-### Grupo: Connectors & Sync
-
-**Comandos:** `/confluence-publish`, `/gdrive-upload`, `/jira-sync`,
-`/jira-connect`, `/github-projects`, `/linear-sync`, `/notion-sync`, `/wiki-sync`, `/wiki-publish`, `/platform-migrate`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre, empresa
-- `preferences.md` — language, report_format
-- `projects.md` — proyecto fuente
-
-**NO cargar:**
-
-- `workflow.md` — irrelevante
-- `tools.md` — irrelevante
-- `tone.md` — irrelevante
-
----
-
-### Grupo: Diagramas
-
-**Comandos:** `/diagram-generate`, `/diagram-import`,
-`/diagram-config`, `/diagram-status`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre
-- `projects.md` — proyecto target
-- `preferences.md` — language (etiquetas en diagramas)
-
-**NO cargar:**
-
-- `workflow.md` — irrelevante
-- `tools.md` — irrelevante
-- `tone.md` — irrelevante
-
----
-
-### Grupo: Architecture & Debt
-
-**Comandos:** `/arch-detect`, `/arch-suggest`, `/arch-compare`,
-`/arch-fitness`, `/arch-recommend`, `/tech-radar`, `/arch-health`, `/debt-track`, `/debt-analyze`,
-`/debt-prioritize`, `/debt-budget`, `/code-patterns`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre, rol
-- `projects.md` — proyecto target
-- `preferences.md` — detail_level (profundidad del análisis)
-
-**NO cargar:**
-
-- `workflow.md` — irrelevante
-- `tools.md` — irrelevante
-- `tone.md` — análisis técnico usa tono estándar
-
----
-
-### Grupo: Daily Routine & Health
-
-**Comandos:** `/daily-routine`, `/health-dashboard`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre, rol (determina qué rutina y qué vista del dashboard)
-- `workflow.md` — primary_mode, daily_time (contextualizar rutina)
-- `projects.md` — qué proyectos gestiona
-- `tone.md` — alert_style, celebrate (calibrar tono de alertas)
-
-**NO cargar:**
-
-- `tools.md` — irrelevante para rutinas y dashboards
-- `preferences.md` — solo útil si `/health-dashboard` genera informe formal
-
----
-
-## Regla especial: Agentes (role: "Agent")
-
-Cuando el perfil activo tiene `role: "Agent"`, las reglas de carga
-cambian:
-
-- **Siempre cargar** `identity.md` (para confirmar modo agente)
-- **Siempre cargar** `preferences.md` (para output_format: yaml/json)
-- **Cargar `projects.md`** solo si la operación es sobre un proyecto
-- **NO cargar** `tone.md` — los agentes no necesitan calibración de tono
-- **NO cargar** `workflow.md` — los agentes no tienen rutina diaria
-- **NO cargar** `tools.md` — irrelevante para agentes externos
-
-El output de TODOS los comandos se devuelve en formato estructurado
-(YAML por defecto, JSON si `output_format: "json"` en preferences.md).
-Sin narrativa, sin emojis, sin saludos. Solo datos y status codes.
-
----
-
-## Regla general
-
-Si un comando no aparece en este mapa, cargar solo `identity.md`.
-Ante la duda: **menos es más**. Mejor cargar de menos que de más.
-
----
-
-### Grupo: Semantic Memory
-
-**Comandos:** `/memory-compress`, `/memory-importance`, `/memory-graph`, `/memory-prune`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre (para logs y confirmaciones)
-- `preferences.md` — language (idioma de salida)
-- `projects.md` — proyecto target (qué engrams gestionar)
-
-**NO cargar:**
-
-- `workflow.md` — memoria es transversal, no depende de ritmo diario
-- `tone.md` — operaciones de memoria son técnicas
-- `tools.md` — no interactúa con herramientas externas
-
-**Notas especiales:**
-
-- `/memory-compress` y `/memory-prune` requieren confirmación antes de `--apply`
-- `/memory-graph` genera diagrama Mermaid (sin interacción con sistemas externos)
-- `/memory-importance` es lectura pura, no modifica engrams
-- Estos comandos operan sobre `projects/{proyecto}/engrams/`
-
-### Grupo: Accessibility & Inclusive Design
-
-**Comandos:** `/a11y-audit`, `/a11y-fix`, `/a11y-report`, `/a11y-monitor`
-
-**Perfil necesario:**
-
-- `identity.md` — nombre (para auditoría y reportes)
-- `preferences.md` — language (español/inglés), format (si aplica)
-- `projects.md` — proyecto target (componentes a auditar)
-
-**NO cargar:**
-
-- `workflow.md` — accesibilidad es transversal a todos los sprints
-- `tone.md` — reportes de conformidad son técnicos/legales
-- `tools.md` — no interactúa con herramientas externas (salvo CI/CD)
-
-**Notas especiales:**
-
-- `/a11y-audit` escanea HTML/componentes según scope (page/site/component)
-- `/a11y-fix` requiere confirmación antes de aplicar cambios
-- `/a11y-report` genera tres formatos: executive, technical, legal
-- `/a11y-monitor` integra con CI/CD (GitHub Actions, Azure Pipelines)
-- Estos comandos usan estándares WCAG 2.2 AA/AAA
+If command not listed: load **identity.md** only. When in doubt: **less is more**.

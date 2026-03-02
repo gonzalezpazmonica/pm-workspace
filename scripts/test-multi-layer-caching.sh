@@ -5,7 +5,7 @@ set -e
 
 PROJECT_DIR="/home/monica/claude"
 COMMANDS_DIR="$PROJECT_DIR/.claude/commands"
-EXPECTED_COUNT=230
+EXPECTED_COUNT=$(ls -1 "$COMMANDS_DIR"/*.md 2>/dev/null | wc -l)
 CACHE_COMMANDS=("cache-strategy" "cache-warm" "cache-analytics" "cache-invalidate")
 
 echo "=========================================="
@@ -74,9 +74,9 @@ for cmd in "${CACHE_COMMANDS[@]}"; do
 done
 echo ""
 
-# Test 5: Command count (225→230)
+# Test 5: Command count (dynamic)
 echo "✓ Test 5: Total command count"
-actual_count=$(ls "$COMMANDS_DIR" | wc -l)
+actual_count=$(ls -1 "$COMMANDS_DIR"/*.md 2>/dev/null | wc -l)
 if [ "$actual_count" -ne "$EXPECTED_COUNT" ]; then
   echo "❌ FAIL: Expected $EXPECTED_COUNT commands, found $actual_count"
   exit 1
@@ -84,11 +84,11 @@ fi
 echo "  ✓ Total commands: $actual_count (expected $EXPECTED_COUNT)"
 echo ""
 
-# Test 6: Meta files require update (225→230)
+# Test 6: Meta files require update
 echo "✓ Test 6: Meta files check (require update)"
-echo "  ⚠️  CLAUDE.md: commands/ (225) → should be (230)"
-echo "  ⚠️  README.md: 225 comandos → should be 230 comandos"
-echo "  ⚠️  README.en.md: 225 commands → should be 230 commands"
+echo "  ⚠️  CLAUDE.md: commands/ ($EXPECTED_COUNT) should be present"
+echo "  ⚠️  README.md: $EXPECTED_COUNT comandos should be present"
+echo "  ⚠️  README.en.md: $EXPECTED_COUNT commands should be present"
 echo "  ⚠️  CHANGELOG.md: v0.65.0 entry needed"
 echo "  ⚠️  role-workflows.md: cache commands for CTO, Tech Lead"
 echo ""

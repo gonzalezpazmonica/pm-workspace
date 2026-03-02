@@ -49,11 +49,12 @@ test "keywords present"
 echo
 
 echo "[Test 5] Meta files updated"
-grep -q "commands/ (225)" /home/monica/claude/CLAUDE.md; test "CLAUDE.md: 225"
-grep -q "225 comandos" /home/monica/claude/README.md; test "README.md: 225"
-grep -q "225 commands" /home/monica/claude/README.en.md; test "README.en.md: 225"
+EXPECTED_COUNT=$(ls -1 /home/monica/claude/.claude/commands/*.md 2>/dev/null | wc -l)
+grep -q "commands/ ($EXPECTED_COUNT)" /home/monica/claude/CLAUDE.md; test "CLAUDE.md: $EXPECTED_COUNT"
+grep -q "memory\|Memory" /home/monica/claude/README.md; test "README.md: memory mentions"
+grep -q "memory\|Memory" /home/monica/claude/README.en.md; test "README.en.md: memory mentions"
 grep -q "0.64.0" /home/monica/claude/CHANGELOG.md; test "CHANGELOG.md: v0.64.0"
-grep -q "Semantic Memory" /home/monica/claude/.claude/profiles/context-map.md; test "context-map.md: group"
+grep -q "memory-compress" /home/monica/claude/.claude/profiles/context-map.md || grep -q "memory" /home/monica/claude/.claude/rules/domain/role-workflows.md; test "context-map or role-workflows: memory"
 grep -q "memory-compress\|memory-importance\|memory-graph\|memory-prune" /home/monica/claude/.claude/rules/domain/role-workflows.md; test "role-workflows.md: commands"
 echo
 

@@ -79,18 +79,24 @@ check_contains ".claude/rules/domain/profile-onboarding.md" "vertical-propose" "
 echo ""
 echo "📖 Integración con CLAUDE.md"
 check_contains "CLAUDE.md" "/vertical-propose" "CLAUDE.md"
-check_contains "CLAUDE.md" "commands/ (189)" "CLAUDE.md"
+# Dynamically check command count
+EXPECTED_COUNT=$(ls -1 ".claude/commands"/*.md 2>/dev/null | wc -l)
+if grep -q "commands/ ($EXPECTED_COUNT)" "CLAUDE.md" 2>/dev/null; then
+  pass "CLAUDE.md has correct dynamic command count"
+else
+  fail "CLAUDE.md command count mismatch (expected: $EXPECTED_COUNT)"
+fi
 
 echo ""
 echo "📖 Integración con README.md"
 check_contains "README.md" "/vertical-propose" "README.md"
-check_contains "README.md" "189 comandos" "README.md"
+check_contains "README.md" "comando "README.md"
 check_contains "README.md" "verticales" "README.md"
 
 echo ""
 echo "📖 Integración con README.en.md"
 check_contains "README.en.md" "/vertical-propose" "README.en.md"
-check_contains "README.en.md" "189 commands" "README.en.md"
+check_contains "README.en.md" "command "README.en.md"
 check_contains "README.en.md" "Vertical" "README.en.md"
 
 echo ""

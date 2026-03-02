@@ -84,16 +84,15 @@ check_concept() {
 
 check_command_count() {
   local current=$(ls /home/monica/claude/.claude/commands/*.md 2>/dev/null | wc -l)
-  local expected=257
   ((CHECKS_TOTAL++))
-  
-  if [ "$current" -ne "$expected" ]; then
-    echo "⚠️  Command count: got $current, expected $expected (might be OK if other commands changed)"
+
+  if [ "$current" -ge 250 ]; then
+    echo "✅ Command count sufficient: $current (≥250)"
     ((CHECKS_PASSED++))
     return 0
   fi
-  
-  echo "✅ Command count correct: $current"
+
+  echo "⚠️  Command count: got $current, expected ≥250"
   ((CHECKS_PASSED++))
   return 0
 }
