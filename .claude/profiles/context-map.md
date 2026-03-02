@@ -32,7 +32,7 @@
 **Comandos:** `/report-hours`, `/report-capacity`,
 `/kpi-dashboard`, `/kpi-dora`, `/dx-dashboard`,
 `/ceo-report`, `/ceo-alerts`, `/portfolio-overview`, `/incident-postmortem`,
-`/value-stream-map`, `/stakeholder-report`
+`/value-stream-map`, `/stakeholder-report`, `/portfolio-deps`, `/org-metrics`
 
 **Perfil necesario:**
 
@@ -51,7 +51,7 @@
 ### Grupo: PBI & Backlog
 
 **Comandos:** `/pbi-decompose`, `/pbi-decompose-batch`,
-`/pbi-assign`, `/pbi-plan-sprint`, `/epic-plan`, `/feature-impact`
+`/pbi-assign`, `/pbi-plan-sprint`, `/epic-plan`, `/feature-impact`, `/backlog-patterns`
 
 **Perfil necesario:**
 
@@ -162,6 +162,26 @@
 
 ---
 
+### Grupo: Memory & Context
+
+**Comandos:** `/memory-sync`, `/memory-save`, `/memory-search`, `/memory-context`,
+`/context-load`, `/session-save`, `/context-optimize`, `/context-age`,
+`/context-benchmark`, `/hub-audit`, `/cross-project-search`
+
+**Perfil necesario:**
+
+- `identity.md` — nombre
+- `projects.md` — proyectos del usuario
+- `preferences.md` — language (para output de búsquedas)
+
+**NO cargar:**
+
+- `workflow.md` — irrelevante
+- `tools.md` — irrelevante
+- `tone.md` — irrelevante
+
+---
+
 ### Grupo: Messaging & Notifications
 
 **Comandos:** `/notify-slack`, `/notify-whatsapp`, `/notify-nctalk`,
@@ -197,21 +217,6 @@
 - `workflow.md` — irrelevante
 - `tools.md` — irrelevante
 - `tone.md` — irrelevante
-
----
-
-### Grupo: Memory & Context
-
-**Comandos:** `/memory-context`, `/memory-save`, `/memory-search`,
-`/memory-sync`, `/context-load`, `/context-optimize`, `/context-age`, `/context-benchmark`, `/hub-audit`
-
-**Perfil necesario:**
-
-- `identity.md` — slug (para aislar memorias por usuario)
-
-**NO cargar:**
-
-- Ningún otro fragmento — la memoria es operacional
 
 ---
 

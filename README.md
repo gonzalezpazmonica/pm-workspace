@@ -148,7 +148,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 166 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 170 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -183,6 +183,12 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 ```
 /value-stream-map {--bottlenecks}    /feature-impact {--roi}
 /stakeholder-report    /release-readiness
+```
+
+### Cross-Project Intelligence
+```
+/portfolio-deps {--critical}    /backlog-patterns
+/org-metrics {--trend 6}    /cross-project-search {query}
 ```
 
 ### Inteligencia de Deuda Técnica
