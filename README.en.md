@@ -146,9 +146,18 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ---
 
+## v0.71.0 — Observability Core
+
+- `/obs-connect` — Connect to Grafana, Datadog, App Insights, OpenTelemetry
+- `/obs-query` — Natural language queries to observability data
+- `/obs-dashboard` — Dashboards digested by role
+- `/obs-status` — Health check of connected sources
+
+---
+
 ## Quick Command Reference
 
-> 261 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 265 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```

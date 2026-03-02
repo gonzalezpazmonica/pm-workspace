@@ -178,3 +178,25 @@ Ciclo: Explorar → Planificar → Implementar → Commit. Arquitectura: **Comma
 - [ ] Cloud/infra si aplica
 - [ ] `scripts/setup-memory.sh [nombre]`
 - [ ] `agent-notes/`, `adrs/` si hay decisiones arquitectónicas
+
+---
+
+### Era 13 — Observabilidad & Inteligencia
+
+> v0.71.0 · 4 nuevos comandos + Observability Core
+
+**Comandos**:
+- `/obs-connect {plataforma}` — Conectar Grafana, Datadog, Azure App Insights, OpenTelemetry
+- `/obs-query {pregunta}` — Consultas en lenguaje natural a observabilidad (PromQL, KQL, DDQ auto-traducción)
+- `/obs-dashboard [--role]` — Dashboard digerido por rol (CEO, CTO, PM, Dev, QA, SRE)
+- `/obs-status` — Health check de todas las fuentes conectadas
+
+**Soporta**:
+- Grafana (Loki, Tempo, Mimir, dashboards, alertas)
+- Datadog (APM, logs, infraestructura, LLM Observability)
+- Azure Application Insights (KQL, Application Map, Live Metrics)
+- OpenTelemetry Collector (OTLP, GenAI Semantic Conventions v1.37+)
+
+**Filosofía**: Cualquier rol (CEO, CTO, PM, Dev, QA, SRE) puede preguntar a Savia sobre datos de observabilidad en lenguaje natural. Savia los devuelve digeridos, explicados, accionables.
+
+---
