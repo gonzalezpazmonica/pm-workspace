@@ -109,6 +109,8 @@ Ideas under consideration. Open an issue or vote with 👍 to prioritize.
 
 **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status).
 
+**AI Role Tooling** (from Kelman Celis taxonomy) — `/knowledge-prime` (auto-generate .priming/ from codebase), `/savia-persona-tune` (behavioral AI trainer: adjust tone/style per project), realistic mock engine per command type (synthetic data synthesizer pattern).
+
 ---
 
 ## How to influence the roadmap

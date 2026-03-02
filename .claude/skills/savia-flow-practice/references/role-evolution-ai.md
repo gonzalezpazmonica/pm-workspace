@@ -1,60 +1,86 @@
 # Role Evolution — Roles en la Era AI
 
-> Los roles evolucionan de ejecutores a orquestadores. El equipo no crece en personas, crece en capacidad amplificada por AI.
+> Basado en [Kelman Celis: El Nuevo Mapa del Talento](https://medium.com/@kelmants/) — 6 categorías de roles que definen la era de la inteligencia artificial. Adaptado a Savia Flow.
 
-## 6 categorías de roles AI-era (aplicadas a Savia Flow)
+## Las 6 categorías (Kelman Celis, 2026)
 
-### 1. AI Orchestrators — Quienes dirigen agentes
-- **En Savia**: Flow Facilitator (Mónica), AI Product Manager (Elena)
-- **Competencia clave**: diseñar prompts, evaluar output de agentes, orquestar workflows
-- **Medición**: calidad de specs generadas, reducción de rework rate
+### 1. Estrategia y Liderazgo — IA a nivel directivo
+Visión de negocio + comprensión profunda de lo que la IA puede (y no puede) hacer.
 
-### 2. Domain Translators — Quienes conectan negocio con AI
-- **En Savia**: Product Manager (Elena cuando escribe outcomes/specs)
-- **Competencia**: traducir necesidades de usuario a specs ejecutables por agentes
-- **Medición**: spec-to-built time, outcome validation rate
+| Rol industria | En Savia Flow | Quién en SocialApp |
+|---|---|---|
+| Chief AI Officer (CAIO) | Flow Facilitator | Mónica (CEO/CTO) |
+| AI Product Manager | AI Product Manager | Elena |
+| Estratega Automatización | Flow Facilitator | Mónica (diseña qué automatizar vs. aumentar) |
 
-### 3. Quality Guardians — Quienes validan output AI
-- **En Savia**: Quality Architect (Elena en QA), Human Reviewer (Mónica en Gate 5)
-- **Competencia**: detectar alucinaciones, validar correctness, security review
-- **Medición**: change failure rate, defects escapados post-gate
+### 2. Ingeniería y Desarrollo — La sala de máquinas
+Construyen, integran y hacen funcionar los sistemas.
 
-### 4. Augmented Builders — Quienes construyen con AI
-- **En Savia**: Pro Builders (Ana, Isabel) usando Claude Code para implementar
-- **Competencia**: pair programming con AI, code review de output AI, testing
-- **Medición**: velocity con AI vs sin AI, code quality metrics
+| Rol industria | En Savia Flow | Quién en SocialApp |
+|---|---|---|
+| Prompt Engineer | Todos (escriben prompts para Savia) | Elena (specs), Isabel (code prompts) |
+| AI Engineer | Pro Builder (orquesta modelos via APIs) | Isabel (backend + API Gateway) |
+| AI Agent Developer | Quien diseña agentes del test harness | Mónica (orquesta harness E2E) |
+| Arquitecto Modelos | — (no aplica a equipos pequeños) | — |
 
-### 5. Context Engineers — Quienes mantienen el conocimiento
-- **En Savia**: Quien mantiene CLAUDE.md, priming docs, memory system
-- **Competencia**: knowledge priming, context optimization, documentation
-- **Medición**: tokens ahorrados, calidad de respuestas AI con/sin priming
+### 3. Datos y Conocimiento — El combustible de la IA
+Datos de alta calidad, relevantes y accesibles. Sin ellos, el mejor modelo es inútil.
 
-### 6. Ethics & Governance — Quienes supervisan el uso responsable
-- **En Savia**: AI Safety Config, AI Audit Log, AI Boundary commands
-- **Competencia**: bias detection, responsible AI, compliance
-- **Medición**: incidents reportados, compliance score, audit trail coverage
+| Rol industria | En Savia Flow | Quién en SocialApp |
+|---|---|---|
+| Curador de Datos / RLHF | Quien refina prompts basándose en feedback | Elena (ajusta specs por rework rate) |
+| Ingeniero RAG | Context Engineer (priming docs, memory) | Mónica (CLAUDE.md, .priming/) |
+| Sintetizador Datos Sintéticos | Mock engine del test harness | Automático (harness.sh mock) |
 
-## Mapping roles equipo SocialApp
+### 4. Confianza, Ética y Gobernanza — El marco legal
+Control, responsabilidad y transparencia. Asegurar que la IA sea justa, legal y segura.
 
-| Persona | Roles AI-era | Savia Role | Evolución |
-|---------|-------------|------------|-----------|
-| Mónica | Orchestrator + Context Engineer | Flow Facilitator | De PM manual a directora de agentes |
-| Elena | Domain Translator + Quality Guardian | AI PM + Quality Arch | De PO a traductora negocio→specs ejecutables |
-| Ana | Augmented Builder | Pro Builder Front | De junior a builder amplificada por AI |
-| Isabel | Augmented Builder + Context Engineer | Pro Builder Back + Arch | De senior a arquitecta con AI pair |
+| Rol industria | En Savia Flow | Quién en SocialApp |
+|---|---|---|
+| Auditor Algoritmos | Quality Gates (Gate 4: security) | Elena (QA) + Mónica (review) |
+| Especialista XAI | ai-confidence, ai-boundary commands | Mónica (configura límites) |
+| Ético de IA | ai-safety-config, ai-audit-log | Equipo (retro incluye ética) |
 
-## Métricas de madurez por categoría
+### 5. Interacción y Creatividad — El factor humano
+Cómo humanos y IA colaboran para resultados superiores.
 
-| Nivel | Descripción | Indicador |
-|-------|-------------|-----------|
-| L1 | Usa AI puntualmente | <20% tareas asistidas |
-| L2 | Integra AI en workflow diario | 20-50% tareas asistidas |
-| L3 | Orquesta múltiples agentes | >50% tareas, métricas automáticas |
-| L4 | AI-first: diseña para agentes | Specs ejecutables por agentes sin intervención |
+| Rol industria | En Savia Flow | Quién en SocialApp |
+|---|---|---|
+| AI UX Designer | Quien diseña la interacción con Savia | Ana (front, UX de la app) |
+| Copiloto Creativo | Augmented Builder con Claude Code | Ana + Isabel (pair con AI) |
+| Behavioral AI Trainer | Quien ajusta tono/personalidad de Savia | Mónica (Savia persona: buhita) |
 
-## Implicaciones para Savia Flow
+### 6. Mantenimiento y Evolución — El día después del lanzamiento
+Un modelo no es estático; necesita cuidado constante.
 
-1. **Onboarding**: evaluar en qué categoría está cada miembro → `/team-skills-matrix`
-2. **Asignación**: match builder + AI category → mejor intake en `/flow-intake`
-3. **Retrospectiva**: medir evolución de roles AI → métricas en `/flow-metrics`
-4. **Priming**: cada rol necesita priming docs distintos (builder≠orchestrator)
+| Rol industria | En Savia Flow | Quién en SocialApp |
+|---|---|---|
+| Model Farm Manager (drift) | flow-metrics --trend (detecta degradación) | Mónica (métricas semanales) |
+| MLOps Engineer | CI/CD pipelines, quality gates automáticos | Isabel (infra) + GitHub Actions |
+
+## Mapping equipo SocialApp
+
+| Persona | Categorías Kelman | Savia Role |
+|---|---|---|
+| Mónica | 1 (Estrategia) + 3 (RAG/Priming) + 6 (Mantenimiento) | Flow Facilitator |
+| Elena | 1 (AI PM) + 3 (Curación) + 4 (Auditoría) + 5 (Trainer) | AI PM + Quality Arch |
+| Ana | 2 (Prompt Eng) + 5 (UX + Copiloto Creativo) | Pro Builder Front |
+| Isabel | 2 (AI Engineer + Agent Dev) + 6 (MLOps) | Pro Builder Back + Arch |
+
+## Madurez por categoría (L1-L4)
+
+| Nivel | Indicador | Ejemplo SocialApp |
+|---|---|---|
+| L1 Puntual | <20% tareas con IA | Ana solo usa copilot para autocompletado |
+| L2 Integrado | 20-50% con IA, workflow diario | Elena escribe specs con /flow-spec |
+| L3 Orquestador | >50%, múltiples agentes | Mónica ejecuta 5+ comandos Savia/día |
+| L4 AI-First | Specs ejecutables por agentes sin intervención | Harness E2E ejecuta 29 pasos autónomo |
+
+## Gaps detectados → mejoras para Savia
+
+| Gap (rol Kelman sin cubrir) | Mejora propuesta | Prioridad |
+|---|---|---|
+| Ingeniero RAG completo | `/knowledge-prime` — generar .priming/ desde código existente | Alta |
+| Behavioral AI Trainer | `/savia-persona-tune` — ajustar tono/estilo por proyecto | Media |
+| AI UX Designer | Integrar feedback visual (multimodal) en quality gates | Media |
+| Sintetizador Datos | Mejorar mock engine con datos realistas por comando | Baja |
