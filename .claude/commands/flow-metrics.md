@@ -1,127 +1,102 @@
 ---
 name: flow-metrics
-description: Value Stream dashboard con Lead Time E2E, Flow Efficiency, WIP aging y distribución
-developer_type: agent-single
+description: Dashboard de métricas de flujo Savia Flow (cycle time, lead time, throughput, CFR)
+developer_type: pm
 agent: azure-devops-operator
-context_cost: medium
+context_cost: moderate
+allowed_modes: [pm, lead, ceo, all]
 ---
 
-# Flow Metrics Dashboard
+# /flow-metrics — Dashboard de Métricas de Flujo
 
-## Descripción
-Dashboard completo de Value Stream Mapping que presenta Lead Time end-to-end, eficiencia de flujo, distribución WIP y métricas de throughput.
+> Indicadores DORA + de flujo específicos de Savia Flow: cycle time, lead time, throughput, CFR.
 
 ## Uso
-```bash
-claude flow-metrics [--period 30] [--state-filter Active,Resolved]
-```
+`/flow-metrics [--track {exploration|production}] [--person {nombre}] [--trend {weeks}] [--compare {sprint1} {sprint2}]`
 
-## Métricas Principales
+## Subcomandos
+- `--track exploration|production`: Métricas de una pista (default: ambas)
+- `--person {nombre}`: Métricas individuales de un builder/spec-writer
+- `--trend {weeks}`: Gráfico de tendencia (últimas N semanas, default: 4)
+- `--compare {sprint1} {sprint2}`: Comparativa de dos sprints
 
-### 1. Lead Time End-to-End
-- Tiempo desde Created hasta Done
-- Incluye todos los estados intermedios
-- Unidad: días
-- Estadísticas: promedio, mediana, P95
+## Métricas principales
 
-### 2. Cycle Time
-- Tiempo desde Active/In Progress hasta Done
-- Exluye tiempo en New/Backlog
-- Indicador de eficiencia operativa
+### Flow Metrics
+- **Cycle Time** (mediana + p95): tiempo desde Ready hasta Deployed en Production
+- **Lead Time** (mediana + p95): tiempo desde Spec-Ready en Exploration hasta Deployed
+- **Throughput**: items/semana completados (Deployed)
+- **CFR** (Cumulative Flow Ratio): items completados vs. en progreso
 
-### 3. Flow Efficiency
-- Fórmula: (Active Time / Total Elapsed Time) × 100
-- Active Time: suma de días en "Active" o "In Progress"
-- Total Elapsed: días desde Created hasta Done
-- Meta: >40% es aceptable, >60% es excelente
+### DORA Metrics
+- **Deployment Frequency**: deploys/semana
+- **Lead Time for Changes**: tiempo desde commit a producción
+- **MTTR** (Mean Time To Recovery): tiempo promedio de rollback
+- **Change Failure Rate**: % deploys que resultan en rollback
 
-### 4. %Complete & Accurate (%C&A)
-- Porcentaje de items que pasaron review sin rework
-- Calculado como: (Items completados sin rework) / Total completados
-- Indicador de calidad
+### AI-Specific
+- **Spec-to-Built Time**: promedio Spec-Ready hasta Built (por builder)
+- **Handoff Latency**: tiempo promedio esperando siguiente rol (spec-writer → builder)
+- **Rework Rate**: % items re-abiertos tras Deployed/Validating
 
-### 5. Work Item Age (WIP Aging)
-- Ranking de items en progreso por antigüedad
-- Alertas: >1.5× cycle time promedio = rojo
-- Identifica cuellos de botella
+## Cálculos
 
-### 6. WIP Distribution
-- Desglose por tipo: Feature / Bug / Technical Debt / Risk
-- Visualización: pie chart o tabla
-- Ayuda a balancear cartera
+Usar timestamps custom fields:
+- `Cycle Time Start`: cuando entra a Production (Ready)
+- `Cycle Time End`: cuando se marca Deployed
+- Cycle Time = (Cycle Time End - Cycle Time Start) en días
 
-### 7. Flow Load
-- Recuento de items por estado
-- Estados: New, Active, Resolved, Closed
-- Identifica congestión
+Fechas de estado via audit trail de work items.
 
-### 8. Throughput Trend
-- Items completados por semana (últimas 4 semanas)
-- Tendencia: lineal regression
-- Indicador: ↑ improving, → stable, ↓ declining
-
-## Salida
+## Targets y calibración
 
 ```
-╔═══════════════════════════════════════════════════════════════╗
-║              FLOW METRICS DASHBOARD                           ║
-║              Periodo: Últimos 30 días                         ║
-╚═══════════════════════════════════════════════════════════════╝
-
-📊 LEAD TIME & CYCLE TIME
-┌──────────────────────────┬──────────┐
-│ Métrica                  │ Valor    │
-├──────────────────────────┼──────────┤
-│ Lead Time (E2E)          │ 12.3 días│
-│ Cycle Time (Active→Done) │ 7.8 días │
-│ Lead Time P95            │ 22.1 días│
-└──────────────────────────┴──────────┘
-
-⚡ FLOW EFFICIENCY
-├─ Flow Efficiency      : 58% ↑
-├─ %Complete & Accurate : 94% →
-└─ Meta (Goal)          : >60%
-
-🔄 WIP AGING (Items en Progreso)
-┌──────────┬────────┬──────────┬────────┐
-│ Item ID  │ Tipo   │ Días     │ Status │
-├──────────┼────────┼──────────┼────────┤
-│ FEAT-801 │ Feature│ 8 días   │ 🟡 AMBER
-│ BUG-345  │ Bug    │ 5 días   │ 🟢 OK
-│ DEBT-12  │ Debt   │ 3 días   │ 🟢 OK
-└──────────┴────────┴──────────┴────────┘
-
-📦 WIP DISTRIBUTION
-┌────────────┬──────────┬────────┐
-│ Tipo       │ Cantidad │ %      │
-├────────────┼──────────┼────────┤
-│ Features   │ 8        │ 53%    │
-│ Bugs       │ 4        │ 27%    │
-│ Tech Debt  │ 2        │ 13%    │
-│ Risks      │ 1        │ 7%     │
-└────────────┴──────────┴────────┘
-
-📈 FLOW LOAD (Items por Estado)
-├─ New      : 24 items
-├─ Active   : 15 items ←─ WIP
-├─ Resolved : 8 items
-└─ Closed   : 142 items
-
-📊 THROUGHPUT TREND (Últimas 4 semanas)
-├─ Semana 1 : 12 items ↓
-├─ Semana 2 : 14 items ↑
-├─ Semana 3 : 15 items ↑
-├─ Semana 4 : 13 items ↓
-└─ Tendencia: ESTABLE →
-
-╚═══════════════════════════════════════════════════════════════╝
+┌──────────────────┬─────────┬─────────┬─────────┐
+│ Métrica          │ Verde   │ Amarillo│ Rojo    │
+├──────────────────┼─────────┼─────────┼─────────┤
+│ Cycle Time p50   │ ≤5 días │ 5-7     │ >7      │
+│ Cycle Time p95   │ ≤10     │ 10-14   │ >14     │
+│ Lead Time p50    │ ≤15     │ 15-20   │ >20     │
+│ Throughput       │ ≥3 it/w │ 2-3     │ <2      │
+│ CFR              │ ≥70%    │ 50-70%  │ <50%    │
+│ Rework Rate      │ <5%     │ 5-10%   │ >10%    │
+└──────────────────┴─────────┴─────────┴─────────┘
 ```
 
-## Prerrequisitos
-- Conexión a Azure DevOps
-- Histórico de transiciones de estado (mínimo 30 días)
-- Estados configurados: New, Active, Resolved, Closed
+## Output
 
-## Opciones
-- `--period N`: Análisis de últimos N días
-- `--state-filter`: Filtrar por estados específicos
+Formato dashboard con indicadores coloreados (verde/amarillo/rojo):
+
+```
+FLOW METRICS — {proyecto} — última semana
+
+━━━ Cycle Time (Production) ━━━━━━━━━━━━━━━━━━
+P50 ..................... 4.2 días  ✅ BIEN
+P95 ..................... 8.5 días  ✅ BIEN
+
+━━━ Lead Time (Exploration → Deployed) ━━━
+P50 ..................... 12 días   ✅ BIEN
+P95 ..................... 18 días   ✅ BIEN
+
+━━━ Throughput ━━━━━━━━━━━━━━━━━━━━━━━━━━
+Deployed/semana ......... 4.2       ✅ BIEN (target 3+)
+
+━━━ Cumulative Flow Ratio ━━━━━━━━━━━━━━
+Completados / En Progreso 0.78     ✅ BIEN (target >0.7)
+
+━━━ Rework Rate ━━━━━━━━━━━━━━━━━━━━━━━
+Re-abiertos ............ 3.2%       ✅ BIEN (target <5%)
+
+━━━ Interpretación ━━━━━━━━━━━━━━━━━━━━━
+Flujo estable. Cycle time bajando. Alertar si lead time sube.
+```
+
+Si >40 líneas → guardar en `projects/{proyecto}/.flow/metrics-{date}.md`
+
+## Interpretación automática
+
+Sugerir acciones basadas en desviaciones:
+- Cycle time subiendo → revisar WIP limits
+- Rework >10% → aumentar validación en Gate-Review
+- Throughput bajando → capacidad reducida o bloqueos
+- CFR <50% → demasiado work-in-progress, parar intake

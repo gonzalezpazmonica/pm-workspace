@@ -27,6 +27,7 @@
 | Multi-Tenant | tenant-create, tenant-share, marketplace-publish, marketplace-install | identity, projects | workflow, tools, preferences, tone |
 | Verticals | vertical-education, vertical-finance, vertical-healthcare, vertical-legal, vertical-propose | identity, projects, preferences | workflow, tools, tone |
 | Banking | banking-detect, banking-bian, banking-eda-validate, banking-data-governance, banking-mlops-audit | identity, projects, preferences, tools | workflow, tone |
+| Savia Flow | flow-setup, flow-board, flow-intake, flow-metrics, flow-spec | identity, workflow, projects, tools | preferences, tone |
 | Playbooks | playbook-create, playbook-evolve, playbook-library, playbook-reflect | identity, workflow, projects | tools, preferences, tone |
 | Caching | cache-analytics, cache-invalidate, cache-strategy, cache-warm | identity, projects | workflow, tools, preferences, tone |
 | DX Metrics | dx-core4, dx-recommendations, dx-survey | identity, projects, preferences | workflow, tools, tone |
