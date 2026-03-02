@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.67.0] — 2026-03-02
+
+Team Wellbeing & Sustainability — Detección temprana de burnout, equilibrado de carga y ritmo sostenible.
+
+### Added
+- **/burnout-radar** — Detección de señales tempranas de burnout con mapa de calor por miembro
+- **/workload-balance** — Equilibrado objetivo de carga respetando especialidades
+- **/sustainable-pace** — Cálculo de ritmo sostenible basado en histórico y capacidad
+- **/team-sentiment** — Análisis de sentimiento del equipo con pulse surveys y tendencias
+
+### Enhanced
+- **role-workflows.md** — Aggregated wellbeing commands for SM/Flow Facilitator role
+- **context-map.md** — Added wellbeing group for Team Excellence domain
+
+### Stats
+- Commands: 225 → 237 (+4 wellbeing commands in Era 12)
+- Era 12 — Team Excellence & Enterprise (2/5 features)
+
+[0.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.66.0...v0.67.0
+
+
 All notable changes to PM-Workspace are documented in this file.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
