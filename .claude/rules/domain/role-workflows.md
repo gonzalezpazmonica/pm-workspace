@@ -59,6 +59,9 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
 - `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
 - `/context-compress --preview` — evaluar oportunidades de compresión semántica
+- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
+- `/memory-importance --scan` — Ranking de importancia de memorias históricas
+- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
 
 ### Alertas personalizadas
 - Items sin mover en >2 días → sugerir revisión
@@ -109,6 +112,9 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
 - `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
 - `/context-compress --preview` — evaluar oportunidades de compresión semántica
+- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
+- `/memory-importance --scan` — Ranking de importancia de memorias históricas
+- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
 
 ### Alertas personalizadas
 - PR abierto >3 días → sugerir review urgente
@@ -138,6 +144,9 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
 - `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
 - `/context-compress --preview` — evaluar oportunidades de compresión semántica
+- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
+- `/memory-importance --scan` — Ranking de importancia de memorias históricas
+- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
 
 ### Alertas personalizadas
 - PR sin tests → bloquear y alertar
@@ -170,6 +179,9 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
 - `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
 - `/context-compress --preview` — evaluar oportunidades de compresión semántica
+- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
+- `/memory-importance --scan` — Ranking de importancia de memorias históricas
+- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
 
 ### Alertas personalizadas
 - Feature planeada para release sin PBIs descompuestos → alerta
@@ -196,6 +208,9 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
 - `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
 - `/context-compress --preview` — evaluar oportunidades de compresión semántica
+- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
+- `/memory-importance --scan` — Ranking de importancia de memorias históricas
+- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
 
 ### Alertas personalizadas
 - PR con feedback sin responder >24h → recordatorio
@@ -231,6 +246,9 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/governance-audit` — auditoría de cumplimiento de política AI vs acciones reales
 - `/governance-report` — reporte ejecutivo de gobernanza (EU AI Act, NIST, ISO 42001)
 - `/governance-certify` — verificación de readiness para certificación de gobernanza
+- `/memory-compress --preview` — Evaluar compresión de memorias del portfolio histórico
+- `/memory-importance --scan` — Identificar decisiones críticas vs. obsoletas en múltiples proyectos
+- `/memory-graph --build` — Mapear relaciones de decisiones estratégicas entre proyectos
 - `/vertical-healthcare` (si aplica) — verificación HIPAA, HL7 FHIR, FDA 21 CFR Part 11
 - `/vertical-finance` (si aplica) — verificación SOX, Basel III, MiFID II, PCI DSS
 - `/vertical-legal` (si aplica) — verificación GDPR, eDiscovery, contract lifecycle
@@ -243,6 +261,9 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
 - `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
 - `/context-compress --preview` — evaluar oportunidades de compresión semántica
+- `/memory-compress --preview` — Evaluar oportunidades de compresión semántica de memorias (engrams)
+- `/memory-importance --scan` — Ranking de importancia de memorias históricas
+- `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
 
 ### Alertas personalizadas
 - Proyecto con sprint fallido (>30% items no completados) → alerta

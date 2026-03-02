@@ -321,3 +321,28 @@ Sin narrativa, sin emojis, sin saludos. Solo datos y status codes.
 
 Si un comando no aparece en este mapa, cargar solo `identity.md`.
 Ante la duda: **menos es más**. Mejor cargar de menos que de más.
+
+---
+
+### Grupo: Semantic Memory
+
+**Comandos:** `/memory-compress`, `/memory-importance`, `/memory-graph`, `/memory-prune`
+
+**Perfil necesario:**
+
+- `identity.md` — nombre (para logs y confirmaciones)
+- `preferences.md` — language (idioma de salida)
+- `projects.md` — proyecto target (qué engrams gestionar)
+
+**NO cargar:**
+
+- `workflow.md` — memoria es transversal, no depende de ritmo diario
+- `tone.md` — operaciones de memoria son técnicas
+- `tools.md` — no interactúa con herramientas externas
+
+**Notas especiales:**
+
+- `/memory-compress` y `/memory-prune` requieren confirmación antes de `--apply`
+- `/memory-graph` genera diagrama Mermaid (sin interacción con sistemas externos)
+- `/memory-importance` es lectura pura, no modifica engrams
+- Estos comandos operan sobre `projects/{proyecto}/engrams/`
