@@ -32,7 +32,8 @@
 **Comandos:** `/report-hours`, `/report-capacity`,
 `/kpi-dashboard`, `/kpi-dora`, `/dx-dashboard`,
 `/ceo-report`, `/ceo-alerts`, `/portfolio-overview`, `/incident-postmortem`,
-`/value-stream-map`, `/stakeholder-report`, `/portfolio-deps`, `/org-metrics`, `/meeting-summarize`, `/capacity-forecast`
+`/value-stream-map`, `/stakeholder-report`, `/portfolio-deps`, `/org-metrics`, `/meeting-summarize`, `/capacity-forecast`,
+`/okr-define`, `/okr-track`, `/okr-align`, `/strategy-map`
 
 **Perfil necesario:**
 

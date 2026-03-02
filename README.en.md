@@ -148,7 +148,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 185 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 189 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -213,6 +213,12 @@ I've organized all documentation into sections so you can quickly find what you 
 ```
 /company-setup {--quick}    /company-edit {section}
 /company-show {--gaps}    /company-vertical {detect|configure}
+```
+
+### OKR & Strategy
+```
+/okr-define {--template|--import}    /okr-track {--objective|--trend}
+/okr-align {--gaps|--project}    /strategy-map {--initiative|--dependencies}
 ```
 
 ### Technical Debt Intelligence

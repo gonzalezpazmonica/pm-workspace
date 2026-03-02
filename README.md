@@ -148,7 +148,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 185 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 189 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -213,6 +213,12 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 ```
 /company-setup {--quick}    /company-edit {section}
 /company-show {--gaps}    /company-vertical {detect|configure}
+```
+
+### OKR & Strategy
+```
+/okr-define {--template|--import}    /okr-track {--objective|--trend}
+/okr-align {--gaps|--project}    /strategy-map {--initiative|--dependencies}
 ```
 
 ### Inteligencia de Deuda Técnica

@@ -46,7 +46,7 @@ check_content ".claude/commands/company-vertical.md" "Modo agente" "Has agent mo
 echo ""
 
 echo "📋 5. CLAUDE.md Updates"
-check_content "CLAUDE.md" "commands/ (185)" "CLAUDE.md shows 185 commands"
+check_content "CLAUDE.md" "commands/ (189)" "CLAUDE.md shows 185 commands"
 check_content "CLAUDE.md" "company-setup" "CLAUDE.md references /company-setup"
 check_content "CLAUDE.md" "company-edit" "CLAUDE.md references /company-edit"
 check_content "CLAUDE.md" "company-show" "CLAUDE.md references /company-show"
@@ -54,9 +54,9 @@ check_content "CLAUDE.md" "company-vertical" "CLAUDE.md references /company-vert
 echo ""
 
 echo "📋 6. README Updates"
-check_content "README.md" "185 comandos" "README.md shows 185 commands"
+check_content "README.md" "189 comandos" "README.md shows 185 commands"
 check_content "README.md" "company-setup" "README.md references /company-setup"
-check_content "README.en.md" "185 commands" "README.en.md shows 185 commands"
+check_content "README.en.md" "189 commands" "README.en.md shows 185 commands"
 check_content "README.en.md" "company-setup" "README.en.md references /company-setup"
 echo ""
 
