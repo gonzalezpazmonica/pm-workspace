@@ -41,6 +41,11 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/stakeholder-align` — resolver conflictos de prioridad con datos objetivos
 
 ### Platform Integration (cuando aplica)
+
+### Context Engineering (Context budget)
+- `/context-budget --optimize` — monitorear presupuesto de contexto, identificar mayores consumidores
+- `/context-defer --status` — verificar estado de deferred loading, ahorros de tokens
+- `/context-profile --analyze` — analizar consumo de contexto por capas
 - `/platform-migrate --plan` — plan migración entre plataformas (Jira ↔ Linear ↔ GitHub Projects)
 - `/jira-connect setup` — conectar Jira Cloud si no está configurado
 - `/github-projects connect` — conectar GitHub Projects si aplica
@@ -49,6 +54,11 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 
 ### Métricas clave
 - Velocity trend, burndown, WIP, lead time, bloqueantes activos
+
+### Context Engineering (context optimization)
+- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
+- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
+- `/context-compress --preview` — evaluar oportunidades de compresión semántica
 
 ### Alertas personalizadas
 - Items sin mover en >2 días → sugerir revisión
@@ -77,11 +87,21 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - **Viernes**: `/diagram-generate` — revisión de arquitectura
 
 ### Platform Integration (cuando aplica)
+
+### Context Engineering (Context budget)
+- `/context-budget --optimize` — monitorear presupuesto de contexto, identificar mayores consumidores
+- `/context-defer --status` — verificar estado de deferred loading, ahorros de tokens
+- `/context-profile --analyze` — analizar consumo de contexto por capas
 - `/platform-migrate --validate` — verificar integridad de la migración entre plataformas
 - `/github-projects board` — si hay integración con GitHub Projects
 
 ### Métricas clave
 - PR cycle time, specs completados/sprint, cobertura de tests, deuda técnica
+
+### Context Engineering (context optimization)
+- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
+- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
+- `/context-compress --preview` — evaluar oportunidades de compresión semántica
 
 ### Alertas personalizadas
 - PR abierto >3 días → sugerir review urgente
@@ -106,6 +126,11 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 
 ### Métricas clave
 - Cobertura de tests, bugs encontrados/sprint, escape rate, test execution time
+
+### Context Engineering (context optimization)
+- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
+- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
+- `/context-compress --preview` — evaluar oportunidades de compresión semántica
 
 ### Alertas personalizadas
 - PR sin tests → bloquear y alertar
@@ -134,6 +159,11 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 ### Métricas clave
 - Velocity, feature completion rate, customer satisfaction proxy, time to market, value delivered
 
+### Context Engineering (context optimization)
+- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
+- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
+- `/context-compress --preview` — evaluar oportunidades de compresión semántica
+
 ### Alertas personalizadas
 - Feature planeada para release sin PBIs descompuestos → alerta
 - Backlog > 100 items sin priorizar → sugerir limpieza
@@ -154,6 +184,11 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 
 ### Métricas clave
 - PRs completados, specs implementados, cycle time personal
+
+### Context Engineering (context optimization)
+- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
+- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
+- `/context-compress --preview` — evaluar oportunidades de compresión semántica
 
 ### Alertas personalizadas
 - PR con feedback sin responder >24h → recordatorio
@@ -196,6 +231,11 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 
 ### Métricas clave
 - Delivery rate, team utilization, risk exposure, budget burn
+
+### Context Engineering (context optimization)
+- `/context-budget --show` — monitorear presupuesto de tokens del equipo (sesiones paralelas)
+- `/context-profile --compare` — comparar consumo entre sesiones, detectar patrones
+- `/context-compress --preview` — evaluar oportunidades de compresión semántica
 
 ### Alertas personalizadas
 - Proyecto con sprint fallido (>30% items no completados) → alerta
