@@ -346,3 +346,27 @@ Ante la duda: **menos es más**. Mejor cargar de menos que de más.
 - `/memory-graph` genera diagrama Mermaid (sin interacción con sistemas externos)
 - `/memory-importance` es lectura pura, no modifica engrams
 - Estos comandos operan sobre `projects/{proyecto}/engrams/`
+
+### Grupo: Accessibility & Inclusive Design
+
+**Comandos:** `/a11y-audit`, `/a11y-fix`, `/a11y-report`, `/a11y-monitor`
+
+**Perfil necesario:**
+
+- `identity.md` — nombre (para auditoría y reportes)
+- `preferences.md` — language (español/inglés), format (si aplica)
+- `projects.md` — proyecto target (componentes a auditar)
+
+**NO cargar:**
+
+- `workflow.md` — accesibilidad es transversal a todos los sprints
+- `tone.md` — reportes de conformidad son técnicos/legales
+- `tools.md` — no interactúa con herramientas externas (salvo CI/CD)
+
+**Notas especiales:**
+
+- `/a11y-audit` escanea HTML/componentes según scope (page/site/component)
+- `/a11y-fix` requiere confirmación antes de aplicar cambios
+- `/a11y-report` genera tres formatos: executive, technical, legal
+- `/a11y-monitor` integra con CI/CD (GitHub Actions, Azure Pipelines)
+- Estos comandos usan estándares WCAG 2.2 AA/AAA

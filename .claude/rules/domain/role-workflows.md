@@ -167,6 +167,12 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - Cobertura < umbral del proyecto → alerta
 - Bug crítico reabierto → alerta de regresión
 
+### Accessibility & Inclusive Design (A11y)
+- `/a11y-audit [--scope page|site] [--standard WCAG2.2-AA]` — Auditoría WCAG 2.2 de componentes y páginas
+- `/a11y-fix [--issue ID] [--preview]` — Correcciones automáticas de problemas detectados
+- `/a11y-report [--format technical]` — Reporte técnico de conformidad y regresiones
+- `/a11y-monitor [--enable] [--threshold 75]` — Monitorización continua, bloquea deploys con regresiones
+
 ---
 
 ## Product Owner — Modo `reporting-focused`
