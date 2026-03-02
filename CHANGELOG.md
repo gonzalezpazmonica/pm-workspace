@@ -7,6 +7,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.62.0] — 2026-03-02
+
+### Added — Intelligent Context Loading (Context Engineering 2.0)
+
+**Four new context management commands** for optimal token budgeting and lazy loading:
+
+- `/context-budget` — Token budget per session with optimization suggestions (show distribution by layer: system, rules, commands, conversation, tools)
+- `/context-defer` — Deferred loading system (85% token reduction by loading commands/rules only when needed)
+- `/context-profile` — Context consumption profiling (flame-graph style report, compare across sessions, identify bloat patterns)
+- `/context-compress` — Semantic compression (80% reduction target while preserving fidelity: dedup, summarize, merge patterns, extract shared code)
+
+Era 11 — Context Engineering 2.0 (1/4): foundation for intelligent context management across all commands.
+Commands: 213 → 217
+
+---
+
 ## [0.61.0] — 2026-03-02
 
 ### Added — Vertical Compliance Extensions
@@ -1687,6 +1703,7 @@ Initial public release of PM-Workspace.
 [0.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.2...v0.14.0
 [0.13.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.1...v0.13.2
+[0.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.61.0...v0.62.0
 [0.13.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.11.1...v0.12.0
