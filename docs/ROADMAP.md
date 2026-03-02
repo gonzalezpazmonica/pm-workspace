@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 181 commands, 24 agents, 19 skills, and its own persona (Savia). This roadmap groups the 53 released versions into thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 257 commands, 24 agents, 19 skills, and its own persona (Savia). This roadmap groups the 72 released versions into thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -114,29 +114,87 @@ Cross-project vision, AI planning, integrations, and multi-platform support:
 
 ---
 
-## 💡 Proposed — v0.54.0+
+## ✅ Era 9 — Company Intelligence & Strategic Alignment (v0.54.0–v0.57.0, Mar 2026)
+
+Company profile as new context layer, OKRs, intelligent backlog, ceremony intelligence:
+
+- **Company Profile** (v0.54.0) — `/company-setup`, `/company-edit`, `/company-show`, `/company-vertical`
+- **OKR & Strategic Alignment** (v0.55.0) — `/okr-define`, `/okr-track`, `/okr-align`, `/strategy-map`
+- **Intelligent Backlog** (v0.56.0) — `/backlog-groom`, `/backlog-prioritize`, `/outcome-track`, `/stakeholder-align`
+- **Ceremony Intelligence** (v0.57.0) — `/async-standup`, `/retro-patterns`, `/ceremony-health`, `/meeting-agenda`
+
+---
+
+## ✅ Era 10 — AI Governance & Responsible Deployment (v0.58.0–v0.61.0, Mar 2026)
+
+Governance, responsible AI, adoption companion, vertical compliance:
+
+- **AI Safety & Human Oversight** (v0.58.0) — `/ai-safety-config`, `/ai-confidence`, `/ai-boundary`, `/ai-incident`
+- **AI Adoption Companion** (v0.59.0) — `/adoption-assess`, `/adoption-plan`, `/adoption-sandbox`, `/adoption-track`
+- **Enterprise AI Governance** (v0.60.0) — `/governance-policy`, `/governance-audit`, `/governance-report`, `/governance-certify`
+- **Vertical Compliance** (v0.61.0) — `/vertical-healthcare`, `/vertical-finance`, `/vertical-legal`, `/vertical-education`
+
+---
+
+## ✅ Era 11 — Context Engineering 2.0 (v0.62.0–v0.65.0, Mar 2026)
+
+Radical context optimization for 200+ command scale:
+
+- **Intelligent Context Loading** (v0.62.0) — `/context-budget`, `/context-defer`, `/context-profile`, `/context-compress`
+- **Evolving Playbooks (ACE)** (v0.63.0) — `/playbook-create`, `/playbook-reflect`, `/playbook-evolve`, `/playbook-library`
+- **Semantic Memory 2.0** (v0.64.0) — `/memory-compress`, `/memory-importance`, `/memory-graph`, `/memory-prune`
+- **Multi-Layer Caching** (v0.65.0) — `/cache-strategy`, `/cache-warm`, `/cache-analytics`, `/cache-invalidate`
+
+---
+
+## ✅ Era 12 — Team Excellence & Enterprise (v0.66.0–v0.70.0, Mar 2026)
+
+DX metrics, wellbeing, accessibility, audit trail, marketplace:
+
+- **Advanced DX Metrics** (v0.66.0) — `/dx-core4`, `/flow-protect`, `/deep-work`, `/prevention-metrics`
+- **Team Wellbeing** (v0.67.0) — `/burnout-radar`, `/workload-balance`, `/sustainable-pace`, `/team-sentiment`
+- **Accessibility** (v0.68.0) — `/a11y-audit`, `/a11y-fix`, `/a11y-report`, `/a11y-monitor`
+- **Audit Trail** (v0.69.0) — `/audit-trail`, `/audit-export`, `/audit-search`, `/audit-alert`
+- **Multi-Tenant & Marketplace** (v0.70.0) — `/tenant-create`, `/tenant-share`, `/marketplace-publish`, `/marketplace-install`
+
+---
+
+## ✅ Era 13 — Observability & Intelligence (v0.71.0–v0.72.0, Mar 2026)
+
+Savia connects to Grafana, Datadog, Azure App Insights, OpenTelemetry:
+
+- **Observability Core** (v0.71.0) — `/obs-connect`, `/obs-query`, `/obs-dashboard`, `/obs-status`
+- **Trace Intelligence** (v0.72.0) — `/trace-search`, `/trace-analyze`, `/error-investigate`, `/incident-correlate`
+
+---
+
+## 📖 Savia Flow — Metodología Adaptativa
+
+pm-workspace now includes **Savia Flow**, a complete adaptive PM methodology designed for AI-augmented teams. Full documentation available in `docs/savia-flow/` (12 documents, 7500+ lines).
+
+Savia Flow's 7 pillars: outcome-driven orientation, continuous flow, dual-track development, spec-driven development, autonomous quality gates, evolved roles, and flow metrics (DORA-based).
+
+---
+
+## 💡 Proposed — v0.73.0+
 
 Ideas under consideration. Open an issue or vote with 👍 to prioritize.
 
-**Team collaboration**
-- Real-time shared dashboards — multiple PMs viewing the same sprint status
-- Slack/Teams bot mode — Savia responds directly in team channels
-- Async standup collection — team members report via bot, Savia compiles daily
+**Savia Flow integration**
+- `/pm-mode` — Switch between scrum/flow/hybrid paradigms
+- `/flow-metrics` — Real-time cycle time, lead time, throughput dashboard
+- `/spec-create`, `/spec-validate` — Executable specifications lifecycle
+- `/quality-gate` — Configure autonomous quality gate pipeline
 
-**Advanced analytics**
-- Custom KPI builder — define and track project-specific metrics
-- Predictive staffing — ML-based team composition recommendations
-- Budget forecasting — cost projections from velocity and team size trends
+**Observability extensions**
+- New Relic, Splunk, Elastic APM connectors
+- LLM-specific observability (token usage, prompt latency, model drift)
+- Cost optimization recommendations from infrastructure metrics
 
 **Developer experience**
 - VS Code / Cursor extension — run pm-workspace commands from the editor sidebar
 - CLI mode — lightweight terminal interface for quick queries
 - Mobile companion — read-only sprint status on phone
-
-**Enterprise features**
-- Multi-tenant support — isolated workspaces per department
-- SSO integration — enterprise authentication flows
-- Audit trail — complete log of all Savia actions for compliance
 
 ---
 
