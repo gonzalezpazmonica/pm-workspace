@@ -66,6 +66,16 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/memory-graph --build` — Construir grafo de relaciones entre memorias para descubrir patrones
 
 ### Alertas personalizadas
+
+### Team Wellbeing & Sustainability (Dimensión SPACE — Satisfaction & Wellbeing)
+- `/burnout-radar --team` — Detectar señales tempranas de burnout en miembros del equipo
+- `/burnout-radar --individual {nombre}` — Análisis personalizado de riesgo de burnout
+- `/workload-balance --show` — Visualizar balance actual de carga por persona
+- `/workload-balance --suggest` — Proponer redistribuciones de carga
+- `/sustainable-pace --calculate` — Calcular ritmo sostenible del equipo
+- `/sustainable-pace --forecast` — Proyectar sostenibilidad para próximos sprints
+- `/team-sentiment --collect` — Lanzar pulse survey rápido del equipo
+- `/team-sentiment --trends` — Analizar tendencias mensuales de sentimiento
 - Items sin mover en >2 días → sugerir revisión
 - Capacidad < 70% → alerta de infrautilización
 - Capacidad > 110% → alerta de sobrecarga
