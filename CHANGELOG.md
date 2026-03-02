@@ -7,6 +7,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.57.0] — 2026-03-02
+
+### Added — Ceremony Intelligence
+- `/async-standup` — recogida asíncrona de standups: cada dev reporta a su ritmo, Savia compila diario
+- `/retro-patterns` — análisis de patrones en retrospectivas: temas recurrentes, action items sin resolver, tendencias
+- `/ceremony-health` — métricas de salud de ceremonias: duración, participación, resolution rate y recomendaciones
+- `/meeting-agenda` — generación inteligente de agendas basada en estado sprint, temas pendientes y decisiones
+
+### Changed
+- **Commands count**: 193 → 197
+
+---
+
 ## [0.56.0] — 2026-03-02
 
 ### Added — Intelligent Backlog Management

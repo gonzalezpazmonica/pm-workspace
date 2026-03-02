@@ -148,7 +148,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 193 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 197 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -189,6 +189,12 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 ```
 /backlog-groom {--top N|--duplicates|--incomplete}    /backlog-prioritize {--method|--strategy-aligned}
 /outcome-track {--release vX.Y.Z|--register}    /stakeholder-align {--items|--scenario}
+```
+
+### Ceremony Intelligence
+```
+/async-standup {--compile|--start|--deadline HH:MM|--list}    /retro-patterns {--sprints N|--method|--action-items}
+/ceremony-health {--sprints N|--ceremony type|--metric}    /meeting-agenda {--type|--sprint|--duration}
 ```
 
 ### Cross-Project Intelligence
