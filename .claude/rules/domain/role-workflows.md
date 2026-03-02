@@ -186,6 +186,9 @@ El campo `role` de `identity.md` y `primary_mode` de `workflow.md` determinan qu
 - `/company-vertical detect` — detectar cambios en vertical y regulaciones
 - `/okr-align` — validación de alineación proyecto→OKR→estrategia
 - `/strategy-map` — revisión de mapa estratégico e iniciativas
+- `/governance-audit` — auditoría de cumplimiento de política AI vs acciones reales
+- `/governance-report` — reporte ejecutivo de gobernanza (EU AI Act, NIST, ISO 42001)
+- `/governance-certify` — verificación de readiness para certificación de gobernanza
 
 ### Métricas clave
 - Delivery rate, team utilization, risk exposure, budget burn

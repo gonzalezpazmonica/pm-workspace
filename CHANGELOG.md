@@ -7,6 +7,28 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.60.0] — 2026-03-02
+
+### Added — Enterprise AI Governance
+
+**Four new governance commands** based on NIST AI RMF, ISO/IEC 42001, and EU AI Act:
+
+- `/governance-policy` — Define company AI policy: risk classification (Low/Medium/High/Critical), approval matrix (who authorizes what), audit trail
+- `/governance-audit` — Compliance audit: load policy → scan action log → check authorization → detect violations/exceptions → present audit report with trends
+- `/governance-report` — Executive report: compile governance data → map to frameworks (EU AI Act, NIST, ISO 42001) → present summary → recommend improvements
+- `/governance-certify` — Certification checklist: verify requirements → score readiness (0-100%) → identify gaps → generate certification roadmap (ISO 42001, EU AI Act, SOC 2 Type II)
+
+**Governance framework integration**:
+- Policies stored in `company/policies.md` (risk classification, approvers, escalation)
+- Action log in `.claude/agent-notes/action-log.jsonl` (who did what, when, with what authorization)
+- Reports in `output/governance-YYYYMMDD-*.md`
+- Roadmap for compliance and certification
+
+### Changed
+- **Commands count**: 205 → 209
+
+---
+
 ## [0.59.0] — 2026-03-02
 
 ### Added — AI Adoption Companion
