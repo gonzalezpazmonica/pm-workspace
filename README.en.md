@@ -125,7 +125,7 @@ I've organized all documentation into sections so you can quickly find what you 
 | [Test project](docs/readme_en/09-test-project.md) | `sala-reservas`: tests, mock data, validation |
 | [KPIs, rules, and roadmap](docs/readme_en/10-kpis-rules.md) | Metrics, critical rules, adoption plan |
 | [Onboarding new team members](docs/readme_en/11-onboarding.md) | 5-phase onboarding, competency evaluation, GDPR |
-| [Commands and agents](docs/readme_en/12-commands-agents.md) | 138 commands + 24 specialized agents |
+| [Commands and agents](docs/readme_en/12-commands-agents.md) | 142 commands + 24 specialized agents |
 | [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
 ### Other Documents
@@ -148,7 +148,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 257 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 261 commands · 24 agents · 20 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
