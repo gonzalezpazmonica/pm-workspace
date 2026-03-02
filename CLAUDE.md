@@ -35,7 +35,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
 │   ├── agents/ (24)               ← @.claude/rules/domain/agents-catalog.md
-│   ├── commands/ (257)            ← @.claude/rules/domain/pm-workflow.md
+│   ├── commands/ (261)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (13)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
