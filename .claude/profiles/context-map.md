@@ -167,7 +167,8 @@
 ### Grupo: Governance & Compliance
 
 **Comandos:** `/compliance-scan`, `/compliance-fix`,
-`/compliance-report`, `/security-review`, `/security-audit`
+`/compliance-report`, `/security-review`, `/security-audit`,
+`/governance-policy`, `/governance-audit`, `/governance-report`, `/governance-certify`
 
 **Perfil necesario:**
 
