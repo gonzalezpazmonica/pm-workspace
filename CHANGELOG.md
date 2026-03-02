@@ -7,6 +7,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.64.0] — 2026-03-02
+
+### Added — Semantic Memory 2.0 (Era 11, 3/4)
+
+**Four new memory intelligence commands** for semantic compression, importance scoring, knowledge graphs, and intelligent pruning:
+
+- `/memory-compress` — Semantic compression: reduce engrams by up to 80% while preserving fidelity via entity extraction, event summarization, decision condensation, context deduplication
+- `/memory-importance` — Importance scoring: rank engrams by composite score (relevance × recency × frequency access). Identify high-value and low-value candidates
+- `/memory-graph` — Knowledge graph from engrams: build relational map of entities, events, decisions. Query connections, detect isolated memories, generate Mermaid visualization
+- `/memory-prune` — Intelligent pruning: archive low-importance memories, preserve critical ones. Reversible with restore. Never prunes decision-log entries
+
+Commands: 221→225. Era 11 — Context Engineering 2.0 (3/4).
+
 ## [0.63.0] — 2026-03-02
 
 ### Added — Evolving Playbooks (ACE Framework)
