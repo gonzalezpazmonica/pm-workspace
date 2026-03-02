@@ -1,4 +1,31 @@
 ## [0.69.0] — 2026-03-02
+## [0.70.0] — 2026-03-02
+
+Multi-Tenant & Skills Marketplace — Workspaces aislados por departamento/equipo, marketplace interno de skills/playbooks, compartición de recursos con control de aprobación. Era 12 — Team Excellence & Enterprise (5/5). PLAN COMPLETADO: v0.54-v0.70 = 68 comandos en 17 versiones.
+
+### Added
+
+- **`/tenant-create`** — Crea workspace aislado por departamento con perfiles, roles, configuración de proyecto e herencia empresarial. Isolation levels: full (separado) o shared (datos separados, reglas comunes).
+- **`/tenant-share`** — Comparte recursos (playbooks, templates, skills, reglas) entre tenants con flujo de aprobación, versionado y prevención de config drift.
+- **`/marketplace-publish`** — Publica skills/playbooks al marketplace interno con metadatos, validación de calidad y sistema de ratings tipo Anthropic Skills.
+- **`/marketplace-install`** — Instala recursos del marketplace con resolución de dependencias, preview y rollback automático. Verificación de compatibilidad.
+
+### Changed
+
+- Command count: 245 → 249 (+4 comandos multi-tenant y marketplace)
+- Era 12 (Team Excellence & Enterprise): ahora completa (5/5 fases)
+
+### Plan Roadmap Completado
+
+**v0.54–v0.70**: 17 versiones, 68 nuevos comandos estructurados en 4 eras:
+- Era 9 (v0.54–v0.57): Company Intelligence — 16 comandos
+- Era 10 (v0.58–v0.61): AI Governance — 17 comandos
+- Era 11 (v0.62–v0.65): Context Engineering 2.0 — 17 comandos
+- Era 12 (v0.66–v0.70): Team Excellence & Enterprise — 18 comandos
+
+**Total**: 249 comandos en pm-workspace. Todos los comandos ≤150 líneas, con YAML frontmatter, warm Savia persona (female owl), contexto Spanish.
+
+---
 
 Audit Trail & Compliance — Inmutable audit trail de todas las acciones de Savia con exportación para auditorías externas, búsqueda contextual y alertas de anomalías. Era 12 — Team Excellence & Enterprise (4/5).
 
