@@ -166,7 +166,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 262 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 267 comandos · 24 agentes · 21 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -175,6 +175,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 /contribute {pr|idea|bug|status}    /feedback {bug|idea|improve|list|search}
 /vertical-propose {nombre}    /vertical-finance    /vertical-healthcare    /vertical-legal    /vertical-education
 /banking-detect    /banking-bian    /banking-eda-validate    /banking-data-governance    /banking-mlops-audit
+/flow-setup    /flow-board    /flow-intake    /flow-metrics    /flow-spec
 /review-community {pending|review|merge|release|summary}
 /backup {now|restore|auto-on|auto-off|status}
 /daily-routine    /health-dashboard {proyecto|all|trend}
