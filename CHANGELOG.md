@@ -7,6 +7,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.59.0] — 2026-03-02
+
+### Added — AI Adoption Companion
+- `/adoption-assess` — evaluar madurez de adopción de Savia del equipo usando modelo ADKAR (Awareness, Desire, Knowledge, Ability, Reinforcement)
+- `/adoption-plan` — plan personalizado de adopción por rol con learning paths de 8-12 semanas (Beginner→Intermediate→Advanced)
+- `/adoption-sandbox` — entorno seguro de práctica sin riesgos: comandos simulados, datos ficticios, feedback inmediato
+- `/adoption-track` — métricas de adopción por rol (adoption rate, command frequency, success rate), detección de friction points y churn risk
+
+### Changed
+- **Commands count**: 201 → 205
+
+---
+
 ## [0.58.0] — 2026-03-02
 
 ### Added — AI Safety & Human Oversight
