@@ -57,7 +57,7 @@ check_content ".claude/commands/capacity-forecast.md" "Modo agente" "Has agent m
 echo ""
 
 echo "📋 5. CLAUDE.md Updates"
-check_content "CLAUDE.md" "commands/ (181)" "CLAUDE.md shows 178 commands"
+check_content "CLAUDE.md" "commands/ (185)" "CLAUDE.md shows 178 commands"
 check_content "CLAUDE.md" "sprint-autoplan" "CLAUDE.md references /sprint-autoplan"
 check_content "CLAUDE.md" "risk-predict" "CLAUDE.md references /risk-predict"
 check_content "CLAUDE.md" "meeting-summarize" "CLAUDE.md references /meeting-summarize"
@@ -65,9 +65,9 @@ check_content "CLAUDE.md" "capacity-forecast" "CLAUDE.md references /capacity-fo
 echo ""
 
 echo "📋 6. README Updates"
-check_content "README.md" "181 comandos" "README.md shows 178 commands"
+check_content "README.md" "185 comandos" "README.md shows 178 commands"
 check_content "README.md" "sprint-autoplan" "README.md references /sprint-autoplan"
-check_content "README.en.md" "181 commands" "README.en.md shows 178 commands"
+check_content "README.en.md" "185 commands" "README.en.md shows 178 commands"
 check_content "README.en.md" "sprint-autoplan" "README.en.md references /sprint-autoplan"
 echo ""
 

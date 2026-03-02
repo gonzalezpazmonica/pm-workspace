@@ -148,7 +148,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 181 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 185 comandos · 24 agentes · 20 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -207,6 +207,12 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 ```
 /jira-connect {setup|sync|map}    /github-projects {connect|board}
 /linear-sync {setup|pull|push}    /platform-migrate {plan|execute}
+```
+
+### Company Intelligence
+```
+/company-setup {--quick}    /company-edit {section}
+/company-show {--gaps}    /company-vertical {detect|configure}
 ```
 
 ### Inteligencia de Deuda Técnica
