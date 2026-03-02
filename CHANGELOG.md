@@ -7,6 +7,29 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.63.0] — 2026-03-02
+
+### Added — Evolving Playbooks (ACE Framework)
+
+**Four new playbook commands** for capturing and evolving repetitive workflows:
+
+- `/playbook-create` — Create evolutionary playbooks for releases, onboarding, audits, deploys
+- `/playbook-reflect` — Post-execution reflection (ACE Reflector): analyze what worked, failed, improve
+- `/playbook-evolve` — Evolve playbooks with insights (Generator→Reflector→Curator cycle from ACE)
+- `/playbook-library` — Shareable library of mature playbooks across projects with effectiveness ratings
+
+**Evolving Playbooks framework**:
+- Each playbook captures trigger, steps, checkpoints, success criteria
+- Generations track evolution (g1, g2, g3...) with reflections and metrics
+- ACE cycle: Generator (propose changes) → Reflector (analyze) → Curator (approve)
+- Cross-project learning through library ratings and aggregated metrics
+- A/B testing for medium/high-risk changes with automatic rollback
+
+### Changed
+- **Commands count**: 217 → 221
+
+---
+
 ## [0.62.0] — 2026-03-02
 
 ### Added — Intelligent Context Loading (Context Engineering 2.0)
