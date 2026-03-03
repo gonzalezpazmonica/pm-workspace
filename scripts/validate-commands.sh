@@ -66,9 +66,15 @@ for CMD in "${FILES[@]}"; do
     continue
   fi
 
-  # 4. Referencias a ficheros — comprobar que existen
-  REFS=$(grep -oP '(?<=references/)[^\s\)]+\.md' "$CMD" 2>/dev/null || true)
+  # 4. Referencias a ficheros locales — comprobar que existen
+  # Only match references/ paths NOT preceded by @ (those are handled in check 5)
+  # Also strip trailing backticks and markdown artifacts
+  REFS=$(grep -oP '(?<!@[^\s]{0,80})(?<=references/)[^\s\)\`\*]+\.md' "$CMD" 2>/dev/null || true)
   for REF in $REFS; do
+    # Skip if this reference is part of an @-path (already validated in check 5)
+    if grep -qP "@[^\s]*references/$REF" "$CMD" 2>/dev/null; then
+      continue
+    fi
     REF_PATH="$COMMANDS_DIR/references/$REF"
     if [ ! -f "$REF_PATH" ]; then
       err "$NAME referencia '$REF' pero no existe $REF_PATH"
@@ -76,7 +82,8 @@ for CMD in "${FILES[@]}"; do
   done
 
   # 5. Referencias @rules — comprobar que existen
-  AT_REFS=$(grep -oP '@\.claude/rules/[^\s\)]+' "$CMD" 2>/dev/null || true)
+  # Strip trailing backticks, colons, asterisks, and quotes that markdown may add
+  AT_REFS=$(grep -oP '@\.claude/rules/[^\s\)\`\*\:]+\.md' "$CMD" 2>/dev/null || true)
   for AREF in $AT_REFS; do
     AREF_PATH="${AREF#@}"
     if [ ! -f "$AREF_PATH" ]; then

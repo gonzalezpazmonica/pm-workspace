@@ -35,11 +35,11 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
 │   ├── agents/ (24)               ← @.claude/rules/domain/agents-catalog.md
-│   ├── commands/ (282+)           ← @.claude/rules/domain/pm-workflow.md
+│   ├── commands/ (281)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
-│   ├── hooks/ (13)                ← .claude/settings.json
+│   ├── hooks/ (14)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
-│   ├── skills/ (19)               ← Skills reutilizables
+│   ├── skills/ (21)               ← Skills reutilizables
 │   └── settings.json              ← Hooks + Agent Teams env
 ├── docs/ · projects/ · scripts/
 ```
@@ -54,7 +54,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 
 Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no: `/profile-setup` (`@.claude/rules/domain/profile-onboarding.md`). Fragmentos por demanda: `@.claude/profiles/context-map.md`
 
-> Catálogo completo de comandos (280+): `@.claude/rules/domain/pm-workflow.md`
+> Catálogo completo de comandos (281): `@.claude/rules/domain/pm-workflow.md`
 > MCP servers se conectan bajo demanda con `/mcp-server start {nombre}`, NO al arranque.
 
 ---
@@ -104,7 +104,7 @@ Ciclo: Explorar → Planificar → Implementar → Commit. Arquitectura: **Comma
 
 ## Hooks · Memoria
 
-> Hooks (13): `.claude/settings.json` — Arranque blindado (sin red, sin dependencias externas)
+> Hooks (14): `.claude/settings.json` — Arranque blindado (sin red, sin dependencias externas)
 > Memoria: `@docs/memory-system.md` · Store: `scripts/memory-store.sh` (JSONL, dedup, topic_key, `<private>`)
 > Agent Notes: `@docs/agent-notes-protocol.md` · Security: `/security-review {spec}` — OWASP pre-implementación
 

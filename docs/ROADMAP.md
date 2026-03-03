@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 282+ commands, 24 agents, 21 skills, 14 hooks, and its own persona (Savia). This roadmap groups the 90 released versions into 20 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 281 commands, 24 agents, 21 skills, 14 hooks, and its own persona (Savia). This roadmap groups the 98 released versions into 20 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -110,21 +110,25 @@ Bidirectional collaboration with the open-source Claude Code ecosystem. Research
 
 ---
 
-## ✅ Era 20 — Persistent Intelligence & Adaptive Workflows (v0.92.0–v0.97.0, Mar 2026)
+## ✅ Era 20 — Persistent Intelligence & Adaptive Workflows (v0.91.0–v0.98.0, Mar 2026)
 
 Inspired by patterns from [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) (6.6K+ stars). This era transforms pm-workspace from a stateless tool into a learning system. Core theme: **agents that remember, commands that adapt, workflows that validate**.
 
-- **Agent Memory Foundation** (v0.92.0) — Persistent memory for subagents across sessions. Three scopes: `project` (shared, git-tracked in `.claude/agent-memory/`), `local` (personal, git-ignored in `.claude/agent-memory-local/`), `user` (cross-project in `~/.claude/agent-memory/`). MEMORY.md files for 9 agents (architect, security-guardian, commit-guardian, code-reviewer, business-analyst, sdd-spec-writer, test-runner, dotnet-developer, savia). `/agent-memory` command + `agent-memory-protocol.md` rule.
+- **Stress Testing & Bug Fixes** (v0.91.0) — 5 bug fixes (credential-leak jq fallback, session-init ERR trap, premerge line count, scope-guard spec selection, skillssh-adapter). 165 new tests across 7 scripts (stress-hooks, stress-security, stress-scripts, era18-commands, era18-rules, era18-formulas). `test-stress-runner.sh` orchestrator. Tests: 64→229.
+
+- **Agent Memory Foundation** (v0.92.0) — Persistent memory for subagents across sessions. Three scopes: `project` (shared, git-tracked in `.claude/agent-memory/`), `local` (personal, git-ignored in `.claude/agent-memory-local/`), `user` (cross-project in `~/.claude/agent-memory/`). MEMORY.md files for 9 agents. `/agent-memory` command + `agent-memory-protocol.md` rule.
 
 - **Savia Contextual Memory** (v0.93.0) — Savia remembers teams across sessions. Project-scope memory for decisions, vocabulary, communication preferences, and lessons learned. `/savia-recall` to query accumulated context. `/savia-forget` for GDPR-compliant memory pruning (Art. 17 RGPD).
 
-- **Smart Command Frontmatter** (v0.94.0) — Advanced frontmatter for 55+ commands. `model` field (haiku/sonnet/opus), `context_cost` (low/medium/high), `allowed-tools` restrictions. Tiered rollout: 20 haiku, 29 sonnet, 9 opus. `smart-frontmatter.md` validation rule.
+- **Smart Command Frontmatter** (v0.94.0) — Advanced frontmatter for 57 commands. `model` field (haiku/sonnet/opus), `context_cost` (low/medium/high). Tiered rollout: 20 haiku, 29 sonnet, 8 opus. `smart-frontmatter.md` validation rule.
 
 - **RPI Workflow Engine** (v0.95.0) — Formal Research → Plan → Implement workflow with GO/NO-GO gates. `/rpi-start` creates `rpi/{feature}/` folder structure. Orchestrates existing skills: product-discovery, pbi-decomposition, spec-driven-development. `/rpi-status` for progress tracking.
 
 - **Adaptive Output & Onboarding** (v0.96.0) — Three output modes: Coaching (junior devs), Executive (stakeholders), Technical (senior engineers). Auto-detection from user profile and command context. `/onboard` with role-specific checklists (dev/PM/QA). `adaptive-output.md` rule.
 
-- **MCP Toolkit & Async Hooks** (v0.97.0) — `/mcp-recommend` with curated catalog (Context7, DeepWiki, Playwright, Excalidraw, Docker, Slack). Stack-specific suggestions. `async-hooks-config.md`: hook classification (2 async, 10 blocking), event coverage 9/16 (56%), `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50`.
+- **MCP Toolkit & Async Hooks** (v0.97.0) — `/mcp-recommend` with curated catalog (Context7, DeepWiki, Playwright, Excalidraw, Docker, Slack). `async-hooks-config.md`: hook classification, event coverage 9/16 (56%), `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50`.
+
+- **PR Guardian System** (v0.98.0) — `pr-guardian.yml` with 8 automated gates: description quality, conventional commits, CLAUDE.md context guard (≤120 lines), ShellCheck differential, Gitleaks (700+ patterns), hook safety validator, context impact analysis, PR Digest (auto-comment in Spanish). `/pr-digest` command. `.gitleaks.toml`. Updated PR template with context impact + hook safety sections.
 
 ### Backlog — Strategic Evaluation
 

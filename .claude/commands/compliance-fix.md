@@ -21,7 +21,7 @@ context_cost: high
 
 - Debe existir un informe previo de `/compliance-scan` en `output/compliance/`
 - Cargar skill: `@.claude/skills/regulatory-compliance/SKILL.md`
-- Cargar referencia del sector: `@.claude/skills/regulatory-compliance/references/sector-{detected}.md`
+- Cargar la referencia de regulaciones del sector detectado (si existe en references/)
 
 ## 2. Cargar perfil de usuario
 

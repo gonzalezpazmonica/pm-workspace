@@ -55,8 +55,8 @@ Calcular score por sector (0-100):
 Si el usuario elige "No regulado", terminar con mensaje informativo sobre GDPR/LOPDGDD genérico.
 
 ### Paso 6 — Cargar regulaciones
-Leer `references/sector-{name}.md` del sector confirmado.
-Si multi-sector (varios >55%), cargar todos los aplicables.
+Leer la referencia de regulaciones del sector confirmado (si existe en references/)
+Si multi-sector (varios >55%), cargar todas las referencias aplicables.
 
 ### Paso 7 — Escanear código
 Para cada regulación en el checklist del sector:

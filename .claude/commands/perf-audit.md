@@ -41,7 +41,7 @@ Cargar regla: `@.claude/rules/domain/performance-patterns.md`
 
 ### Paso 1 — Detectar lenguaje
 Usar detection de `architecture-intelligence` (file patterns, extensions, config).
-Si `--lang` proporcionado, saltar detección. Cargar `references/perf-{lang}.md`.
+Si `--lang` proporcionado, saltar detección. Cargar la referencia de patrones de rendimiento del lenguaje (si existe).
 
 ### Paso 2 — Escanear complejidad (Fase 1 — 40%)
 Para cada fichero de código fuente:
