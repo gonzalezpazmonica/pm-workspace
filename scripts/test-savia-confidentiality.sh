@@ -210,6 +210,62 @@ DEC1=$(bash "$SCRIPTS_DIR/savia-crypto.sh" decrypt "$ENC1" 2>/dev/null)
 DEC2=$(bash "$SCRIPTS_DIR/savia-crypto.sh" decrypt "$ENC2" 2>/dev/null)
 assert "Both decrypt to same plaintext" "[ '$DEC1' = '$DEC2' ]"
 
+# ── Test 9: Subject sensitivity — warns on sensitive subjects ─────
+echo ""
+echo -e "${BLUE}── Subject Sensitivity Check ──${NC}"
+
+export HOME="$TMPDIR_BASE/home-alice"
+
+# Monetary amount in subject → should warn
+RESULT=$(bash "$SCRIPTS_DIR/savia-messaging.sh" send bob \
+  "Presupuesto 150.000 EUR" "Details inside" --encrypt 2>&1)
+assert "Warns on monetary amount in subject" \
+  "echo '$RESULT' | grep -qi 'sensitive\|sensible\|monetary'"
+assert "Message still delivered despite warning" \
+  "echo '$RESULT' | grep -q '✅'"
+
+# Company name with legal form → should warn
+RESULT=$(bash "$SCRIPTS_DIR/savia-messaging.sh" send bob \
+  "Contrato con Acme S.L." "Details" --encrypt 2>&1)
+assert "Warns on company name (S.L.)" \
+  "echo '$RESULT' | grep -qi 'sensitive\|company'"
+
+# Credential keyword → should warn
+RESULT=$(bash "$SCRIPTS_DIR/savia-messaging.sh" send bob \
+  "Nueva password del servidor" "pass123" --encrypt 2>&1)
+assert "Warns on credential keyword" \
+  "echo '$RESULT' | grep -qi 'sensitive\|credential'"
+
+# Email in subject → should warn
+RESULT=$(bash "$SCRIPTS_DIR/savia-messaging.sh" send bob \
+  "Contactar a juan@empresa.com" "Urgent" 2>&1)
+assert "Warns on email in subject" \
+  "echo '$RESULT' | grep -qi 'sensitive\|email'"
+
+# DNI in subject → should warn
+RESULT=$(bash "$SCRIPTS_DIR/savia-messaging.sh" send bob \
+  "Contrato para 12345678A" "Details" --encrypt 2>&1)
+assert "Warns on DNI in subject" \
+  "echo '$RESULT' | grep -qi 'sensitive\|DNI\|ID number'"
+
+# Private IP → should warn
+RESULT=$(bash "$SCRIPTS_DIR/savia-messaging.sh" send bob \
+  "Acceso a 192.168.1.50" "Config" 2>&1)
+assert "Warns on private IP in subject" \
+  "echo '$RESULT' | grep -qi 'sensitive\|IP'"
+
+# Safe subject → should NOT warn
+RESULT=$(bash "$SCRIPTS_DIR/savia-messaging.sh" send bob \
+  "Mensaje cifrado" "The actual secret content" --encrypt 2>&1)
+assert "No warning on safe subject" \
+  "! echo '$RESULT' | grep -qi 'sensitive'"
+
+# Encrypted msg with tip → should suggest generic subject
+RESULT=$(bash "$SCRIPTS_DIR/savia-messaging.sh" send bob \
+  "Factura 3200 EUR" "Invoice data" --encrypt 2>&1)
+assert "Tip shown when encrypt + sensitive subject" \
+  "echo '$RESULT' | grep -qi 'Tip\|generic\|Confidential'"
+
 # ── Summary ───────────────────────────────────────────────────────
 echo ""
 echo "━━━ Results: $PASS/$TOTAL passed, $FAIL failed ━━━"
