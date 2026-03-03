@@ -1,3 +1,10 @@
+---
+name: spec-design
+description: Genera diseño técnico a partir de una spec existente — decisiones, flujo de datos, estrategia de testing.
+model: opus
+context_cost: high
+---
+
 # /spec-design
 
 Genera diseño técnico a partir de una spec existente. Decisiones técnicas, flujo de datos, ficheros a modificar y estrategia de testing.

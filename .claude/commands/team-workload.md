@@ -1,3 +1,10 @@
+---
+name: team-workload
+description: Muestra la carga de trabajo por persona — items asignados, horas remaining y balance de equipo.
+model: sonnet
+context_cost: medium
+---
+
 # /team-workload
 
 Muestra la carga de trabajo por persona: items asignados, horas remaining y balance de equipo.

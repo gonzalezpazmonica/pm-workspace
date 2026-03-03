@@ -4,6 +4,7 @@ description: Coste estimado de uso de agentes por sprint/proyecto
 developer_type: agent-single
 agent: azure-devops-operator
 context_cost: low
+model: haiku
 ---
 
 # Comando: agent-cost

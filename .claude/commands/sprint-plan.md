@@ -1,3 +1,10 @@
+---
+name: sprint-plan
+description: Asiste en el Sprint Planning calculando capacity disponible y proponiendo la carga de trabajo.
+model: sonnet
+context_cost: medium
+---
+
 # /sprint-plan
 
 Asiste en el Sprint Planning calculando capacity disponible y proponiendo la carga de trabajo.

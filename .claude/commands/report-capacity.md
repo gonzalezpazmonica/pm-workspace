@@ -1,3 +1,10 @@
+---
+name: report-capacity
+description: Muestra el estado de capacidades del equipo — disponibilidad, asignación y alertas de sobre-carga.
+model: sonnet
+context_cost: medium
+---
+
 # /report-capacity
 
 Muestra el estado de capacidades del equipo: disponibilidad, asignación y alertas de sobre-carga.

@@ -177,7 +177,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 273 commands · 24 agents · 21 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 281 commands · 24 agents · 21 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -318,12 +318,14 @@ I've organized all documentation into sections so you can quickly find what you 
 /project-kickoff {name}    /project-assign {name}    /project-audit {name}
 /project-roadmap {name}    /project-release-plan {name}
 /epic-plan {proj}    /backlog-capture    /retro-actions
+/rpi-start {feature}    /rpi-status [feature] [--all]
 ```
 
 ### Memory and Context
 ```
 /memory-sync    /memory-save    /memory-search    /memory-context
 /context-load    /session-save    /help [filter]
+/agent-memory {list|show|clear}    /savia-recall {topic}    /savia-forget {topic|--all}
 ```
 
 ### Security and Auditing
@@ -337,6 +339,7 @@ I've organized all documentation into sections so you can quickly find what you 
 /changelog-update    /evaluate-repo [URL]    /validate-filesize
 /validate-schema    /review-cache-stats    /review-cache-clear
 /testplan-status    /testplan-results {id}    /devops-validate {proj}
+/mcp-recommend [--stack dotnet|python|node] [--role pm|dev|qa]
 ```
 
 ### Developer Experience
@@ -352,6 +355,7 @@ I've organized all documentation into sections so you can quickly find what you 
 ### Team and Onboarding
 ```
 /team-onboarding {name}    /team-evaluate {name}    /team-privacy-notice {name}
+/onboard --role {dev|pm|qa} [--project name]
 ```
 
 ### Architecture Intelligence
@@ -429,7 +433,20 @@ These are the rules that are never skipped — not even by me:
 - `test-stress-runner.sh` — Orchestrator running 9 suites with aggregated results
 - Total tests: 64→229 (+165 new tests)
 
-**Era 20 — Stress Testing & Bug Fixes. ERA 20 COMPLETE!**
+## v0.92.0–v0.97.0 — Era 20: Persistent Intelligence & Adaptive Workflows
+
+- `/agent-memory` — Persistent memory for 9 agents with 3 scopes (project/local/user)
+- `/savia-recall` — Query Savia's accumulated contextual memory
+- `/savia-forget` — GDPR-compliant memory pruning (Art. 17 RGPD)
+- 57 commands with smart frontmatter (`model`, `context_cost`, `allowed-tools`)
+- `/rpi-start` — Research → Plan → Implement workflow with GO/NO-GO gates
+- `/rpi-status` — Track active RPI workflow progress
+- `/onboard --role {dev|pm|qa}` — Guided onboarding with role-specific checklists
+- `/mcp-recommend` — MCP recommendations by stack and team role
+- 3 adaptive output modes: Coaching · Executive · Technical
+- Hook classification: 2 async + 10 blocking, 9/16 event coverage
+
+**Era 20 — Persistent Intelligence (12/12). ERA 20 COMPLETE!**
 
 ---
 

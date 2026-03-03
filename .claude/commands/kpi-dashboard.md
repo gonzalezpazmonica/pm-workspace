@@ -1,3 +1,10 @@
+---
+name: kpi-dashboard
+description: Muestra el dashboard completo con todos los KPIs definidos en docs/kpis-equipo.md.
+model: sonnet
+context_cost: medium
+---
+
 # /kpi-dashboard
 
 Muestra el dashboard completo con todos los KPIs definidos en docs/kpis-equipo.md.

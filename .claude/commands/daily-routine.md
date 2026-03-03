@@ -4,6 +4,7 @@ description: Rutina diaria adaptativa según el rol del usuario — Savia sugier
 developer_type: all
 agent: none
 context_cost: low
+model: sonnet
 ---
 
 # /daily-routine

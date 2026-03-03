@@ -1,3 +1,10 @@
+---
+name: spec-implement
+description: Implementa una Spec según su developer_type — lanza agente o asigna a humano.
+model: opus
+context_cost: high
+---
+
 # /spec-implement
 
 Implementa una Spec según su `developer_type`: lanza agente o asigna a humano.

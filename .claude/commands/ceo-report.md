@@ -4,6 +4,7 @@ description: Informe ejecutivo multi-proyecto para dirección — portfolio, rie
 developer_type: all
 agent: task
 context_cost: high
+model: sonnet
 ---
 
 # /ceo-report

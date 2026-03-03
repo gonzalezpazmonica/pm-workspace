@@ -4,6 +4,7 @@ description: Health check de todas las fuentes de observabilidad conectadas
 developer_type: all
 agent: task
 context_cost: high
+model: haiku
 ---
 
 # /obs-status

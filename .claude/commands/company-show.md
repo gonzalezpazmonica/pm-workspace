@@ -4,6 +4,7 @@ description: Mostrar perfil consolidado de la empresa — resumen ejecutivo del 
 developer_type: all
 agent: none
 context_cost: low
+model: haiku
 ---
 
 # /company-show

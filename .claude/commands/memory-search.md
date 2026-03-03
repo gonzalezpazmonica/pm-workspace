@@ -2,6 +2,8 @@
 name: memory-search
 description: >
   Busca en la memoria persistente. Útil para recordar decisiones, bugs y patrones de sesiones anteriores.
+model: haiku
+context_cost: low
 ---
 
 # ⚡ Buscar en Memoria

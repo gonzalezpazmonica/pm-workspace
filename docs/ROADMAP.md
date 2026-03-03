@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 280+ commands, 24 agents, 21 skills, and its own persona (Savia). This roadmap groups the 83 released versions into thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 282+ commands, 24 agents, 21 skills, 14 hooks, and its own persona (Savia). This roadmap groups the 90 released versions into 20 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -100,6 +100,32 @@ Based on research of 15 external sources. Full analysis in `docs/propuestas/road
 - **Savia Gallery + Source Tracking** (v0.88.0) — `/savia-gallery` (271 commands by role/vertical). `source-tracking.md` with citation formats (rule:/skill:/doc:/agent:/cmd:/ext:).
 - **AI Competency Framework** (v0.89.0) — 6 AI-era competencies with 4 levels each. ADKAR integration via `/adoption-assess --ai-skills`. Scoring 0-100.
 
+---
+
+## ✅ Era 19 — Open Source Synergy (v0.90.0, Mar 2026)
+
+Bidirectional collaboration with the open-source Claude Code ecosystem. Research-driven integration with [claude-code-templates](https://github.com/davila7/claude-code-templates) (21K+ stars, 5,788+ components).
+
+- **Open Source Synergy** (v0.90.0) — `/mcp-browse` (66+ MCPs catalog), `/component-search` (5,788+ components). `docs/recommended-mcps.md` curated MCP guide. `hooks/README.md` categorized documentation. `agent-observability-patterns.md` + `component-marketplace.md` domain rules. Contributed enterprise hooks + agents to claude-code-templates (PR #397).
+
+---
+
+## ✅ Era 20 — Persistent Intelligence & Adaptive Workflows (v0.92.0–v0.97.0, Mar 2026)
+
+Inspired by patterns from [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) (6.6K+ stars). This era transforms pm-workspace from a stateless tool into a learning system. Core theme: **agents that remember, commands that adapt, workflows that validate**.
+
+- **Agent Memory Foundation** (v0.92.0) — Persistent memory for subagents across sessions. Three scopes: `project` (shared, git-tracked in `.claude/agent-memory/`), `local` (personal, git-ignored in `.claude/agent-memory-local/`), `user` (cross-project in `~/.claude/agent-memory/`). MEMORY.md files for 9 agents (architect, security-guardian, commit-guardian, code-reviewer, business-analyst, sdd-spec-writer, test-runner, dotnet-developer, savia). `/agent-memory` command + `agent-memory-protocol.md` rule.
+
+- **Savia Contextual Memory** (v0.93.0) — Savia remembers teams across sessions. Project-scope memory for decisions, vocabulary, communication preferences, and lessons learned. `/savia-recall` to query accumulated context. `/savia-forget` for GDPR-compliant memory pruning (Art. 17 RGPD).
+
+- **Smart Command Frontmatter** (v0.94.0) — Advanced frontmatter for 55+ commands. `model` field (haiku/sonnet/opus), `context_cost` (low/medium/high), `allowed-tools` restrictions. Tiered rollout: 20 haiku, 29 sonnet, 9 opus. `smart-frontmatter.md` validation rule.
+
+- **RPI Workflow Engine** (v0.95.0) — Formal Research → Plan → Implement workflow with GO/NO-GO gates. `/rpi-start` creates `rpi/{feature}/` folder structure. Orchestrates existing skills: product-discovery, pbi-decomposition, spec-driven-development. `/rpi-status` for progress tracking.
+
+- **Adaptive Output & Onboarding** (v0.96.0) — Three output modes: Coaching (junior devs), Executive (stakeholders), Technical (senior engineers). Auto-detection from user profile and command context. `/onboard` with role-specific checklists (dev/PM/QA). `adaptive-output.md` rule.
+
+- **MCP Toolkit & Async Hooks** (v0.97.0) — `/mcp-recommend` with curated catalog (Context7, DeepWiki, Playwright, Excalidraw, Docker, Slack). Stack-specific suggestions. `async-hooks-config.md`: hook classification (2 async, 10 blocking), event coverage 9/16 (56%), `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50`.
+
 ### Backlog — Strategic Evaluation
 
 - **Claude Connectors vs MCP** — Evaluar si Connectors simplifican la arquitectura de integraciones
@@ -108,6 +134,7 @@ Based on research of 15 external sources. Full analysis in `docs/propuestas/road
 - **Observability extensions** — New Relic, Splunk, Elastic APM. LLM observability (token usage, prompt latency, model drift)
 - **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status)
 - **Claude in Chrome integration** — Extracción de datos de portales web sin API para Savia
+- **Voice integration** — `/voice-pm` when Claude Code `/voice` reaches GA. Voice-to-command for sprint ceremonies (dictated standups, retros, reviews). Builds on existing `voice-inbox` skill.
 
 ---
 

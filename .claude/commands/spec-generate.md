@@ -1,3 +1,10 @@
+---
+name: spec-generate
+description: Genera una Spec ejecutable a partir de una Task de Azure DevOps, lista para implementación.
+model: opus
+context_cost: high
+---
+
 # /spec-generate
 
 Genera una Spec ejecutable (`.spec.md`) a partir de una Task de Azure DevOps, lista para ser implementada por un humano o un agente Claude.

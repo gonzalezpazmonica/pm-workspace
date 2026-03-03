@@ -1,6 +1,8 @@
 ---
 name: help
 description: Catálogo de comandos y primeros pasos pendientes.
+model: haiku
+context_cost: low
 ---
 
 Filtro: $ARGUMENTS

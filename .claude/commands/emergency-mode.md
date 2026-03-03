@@ -4,6 +4,7 @@ description: Gestionar el modo emergencia con LLM local cuando el proveedor clou
 developer_type: all
 agent: none
 context_cost: low
+model: haiku
 ---
 
 # /emergency-mode {subcommand}

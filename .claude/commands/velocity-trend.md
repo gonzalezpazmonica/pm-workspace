@@ -4,6 +4,7 @@ description: Tendencia de velocity con media móvil, detección de anomalías y 
 developer_type: agent-single
 agent: azure-devops-operator
 context_cost: low
+model: sonnet
 ---
 
 # Velocity Trend Analysis
