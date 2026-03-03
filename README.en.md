@@ -88,6 +88,12 @@ I work with 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Vertical detection** — I automatically detect if your project belongs to a non-software sector (healthcare, legal, industrial, agriculture, education, finance...) using a calibrated 5-phase scoring algorithm. If the score is sufficient, I propose creating specialized extensions with rules, workflows, and domain entities for your sector.
 
+**Company Savia — Shared repository** — With `/company-repo` you create a shared Git repository for your company: org chart, rules, holidays, conventions. Each employee gets a personal folder with public profile, documents, and message inbox. With `/savia-send` you send direct messages using @handle, `/savia-inbox` checks your inbox, `/savia-reply` replies with threading, `/savia-announce` publishes company announcements, `/savia-directory` lists members, and `/savia-broadcast` sends to everyone. E2E encryption with RSA-4096 + AES-256-CBC (openssl only), pre-push privacy validation, and zero external dependencies.
+
+**Savia Flow — Git-based project management** — With `/savia-pbi` you create and manage PBIs as markdown files in the company repo, with a state machine (new/ready/in-progress/review/done). With `/savia-sprint` you manage the sprint lifecycle (start/close). With `/savia-board` you display a 5-column ASCII Kanban board. With `/savia-timesheet` you log hours per PBI with monthly reports. With `/savia-team` you manage teams with capacity, ceremonies, and velocity. Everything stored in Git — no Azure DevOps dependency.
+
+**Travel Mode** — With `/savia-travel-pack` you create a portable pm-workspace package for USB or cloud (shallow clone + manifest + encrypted backup). With `/savia-travel-init` you bootstrap pm-workspace on a new machine: detects OS, verifies dependencies, installs Claude Code, and restores profile.
+
 ---
 
 ## Documentation
@@ -177,7 +183,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 281 commands · 24 agents · 21 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 327 commands · 24 agents · 22 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -382,6 +388,44 @@ I've organized all documentation into sections so you can quickly find what you 
 /perf-audit {path}              /perf-fix {PA-NNN}              /perf-report {path}
 ```
 
+### Savia Flow (Git-based PM)
+```
+/savia-pbi {create|view|list}    /savia-sprint {start|close|plan}
+/savia-board {project}    /savia-timesheet {log|view}    /savia-team {init|members|velocity}
+```
+
+### Travel Mode
+```
+/travel-pack    /travel-unpack    /travel-sync    /travel-verify    /travel-clean
+/savia-travel-pack    /savia-travel-init
+```
+
+### Git Persistence Engine
+```
+/index-rebuild {--all|--profiles|--messages|--projects|--specs|--timesheets}
+/index-status {--detailed}    /index-compact
+```
+
+### Savia Flow Git-Native Tasks
+```
+/flow-task-create {type} {title}    /flow-task-move {task-id} {status}
+/flow-task-assign {task-id} {handle}    /flow-sprint-create {goal}
+/flow-sprint-close {sprint-id}    /flow-sprint-board
+/flow-timesheet {task-id} {hours}    /flow-timesheet-report {--monthly|--weekly}
+/flow-burndown    /flow-velocity    /flow-spec-create {title}
+/flow-backlog-groom {--top N}
+```
+
+### Savia School (Education Vertical)
+```
+/school-setup {school} {course}    /school-enroll {alias}
+/school-project {alias} {name}    /school-submit {alias} {project}
+/school-evaluate {alias} {project}    /school-progress {alias|--class}
+/school-portfolio {alias}    /school-diary {alias}
+/school-export {alias}    /school-forget {alias}
+/school-analytics    /school-rubric {create|edit}
+```
+
 ### Emergency
 ```
 /emergency-plan [--model MODEL]    /emergency-mode {setup|status|activate|deactivate|test}
@@ -443,6 +487,20 @@ These are the rules that are never skipped — not even by me:
 - `/pr-digest` — Contextual PR analysis with risk classification and executive summary
 
 **Era 20 — Persistent Intelligence (14/14). ERA 20 COMPLETE!**
+
+## v0.99.0–v1.5.1 — Era 21: Savia Everywhere
+
+- Company Savia: shared Git repo with async messaging, E2E encryption (RSA-4096 + AES-256-CBC), @handle addressing, privacy-check pre-push
+- Git Persistence Engine: TSV indexes for low-context lookups (~60-80% token reduction)
+- Savia Flow Git-Native: tasks/sprints/timesheets in Git folders, Kanban board, 17 commands
+- Travel Mode: portable Savia on USB with AES-256-CBC encryption, SHA256 verification, auto-installer
+- Savia School: education vertical with 12 commands, GDPR Art. 8/15/17, encrypted evaluations
+- Script Hardening: 6 critical + 7 medium fixes across 9 scripts, macOS/Linux/WSL compatibility
+- Subject Sensitivity: validates sensitive data in encrypted message subjects (12 pattern categories)
+- 18 test suites (197 tests), including E2E encryption confidentiality testing
+- Research of 12+ Claude Code ecosystem repos, 12 improvement proposals
+
+**Era 21 — Savia Everywhere (v0.99.0–v1.5.1). ERA 21 COMPLETE!**
 
 ---
 

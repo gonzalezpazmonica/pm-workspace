@@ -66,8 +66,31 @@ fi
 
 # ── Rama git (local, sin red) ────────────────────────────────────────────────
 check_timeout
-BRANCH=$(git -C "$HOME/claude" branch --show-current 2>/dev/null || echo "N/A")
+# FIX: Use fallback with empty var check to handle git failures safely
+BRANCH=$(git -C "$HOME/claude" branch --show-current 2>/dev/null || true)
+BRANCH="${BRANCH:-N/A}"
 ITEMS+=("Rama: $BRANCH")
+
+# ── Company Savia inbox (filesystem-only, no network) ────────────────────────
+check_timeout
+COMPANY_CONFIG="$HOME/.pm-workspace/company-repo"
+if [ -f "$COMPANY_CONFIG" ]; then
+  CS_PATH=$(grep -oP 'LOCAL_PATH=\K.*' "$COMPANY_CONFIG" 2>/dev/null || echo "")
+  CS_HANDLE=$(grep -oP 'USER_HANDLE=\K.*' "$COMPANY_CONFIG" 2>/dev/null || echo "")
+  if [ -n "$CS_PATH" ] && [ -n "$CS_HANDLE" ] && [ -d "$CS_PATH" ]; then
+    CS_PERSONAL=0; CS_ANNOUNCE=0
+    [ -d "$CS_PATH/team/$CS_HANDLE/savia-inbox/unread" ] && \
+      CS_PERSONAL=$(find "$CS_PATH/team/$CS_HANDLE/savia-inbox/unread" -name '*.md' 2>/dev/null | wc -l)
+    CS_READ_LOG="$HOME/.pm-workspace/company-inbox-read.log"
+    if [ -d "$CS_PATH/company-inbox" ]; then
+      CS_TOTAL=$(find "$CS_PATH/company-inbox" -name '*.md' 2>/dev/null | wc -l)
+      CS_READ=0; [ -f "$CS_READ_LOG" ] && CS_READ=$(wc -l < "$CS_READ_LOG")
+      CS_ANNOUNCE=$((CS_TOTAL - CS_READ)); [ "$CS_ANNOUNCE" -lt 0 ] && CS_ANNOUNCE=0
+    fi
+    [ "$CS_PERSONAL" -gt 0 ] || [ "$CS_ANNOUNCE" -gt 0 ] && \
+      ITEMS+=("📬 ${CS_PERSONAL} mensaje(s) · ${CS_ANNOUNCE} anuncio(s)")
+  fi
+fi
 
 # ── Context tracking (best-effort, no bloquea) ──────────────────────────────
 if [ -f "$HOME/claude/scripts/context-tracker.sh" ]; then

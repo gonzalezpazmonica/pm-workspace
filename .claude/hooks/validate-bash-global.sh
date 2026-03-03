@@ -49,7 +49,8 @@ if echo "$COMMAND" | grep -iE 'gh\s+pr\s+merge.*--admin' > /dev/null; then
 fi
 
 # Bloquear sudo sin excepción explícita
-if echo "$COMMAND" | grep -iE '^\s*sudo\s' > /dev/null; then
+# FIX: \s not POSIX ERE. Use [[:space:]] instead.
+if echo "$COMMAND" | grep -iE '^[[:space:]]*sudo[[:space:]]' > /dev/null; then
   echo "BLOQUEADO: sudo no permitido desde agentes. Solicita elevación al PM." >&2
   exit 2
 fi

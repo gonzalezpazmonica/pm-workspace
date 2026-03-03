@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 281 commands, 24 agents, 21 skills, 14 hooks, and its own persona (Savia). This roadmap groups the 98 released versions into 20 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 327 commands, 24 agents, 22 skills, 14 hooks, and its own persona (Savia). This roadmap groups the 105 released versions into 21 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -130,6 +130,26 @@ Inspired by patterns from [claude-code-best-practice](https://github.com/shanrai
 
 - **PR Guardian System** (v0.98.0) — `pr-guardian.yml` with 8 automated gates: description quality, conventional commits, CLAUDE.md context guard (≤120 lines), ShellCheck differential, Gitleaks (700+ patterns), hook safety validator, context impact analysis, PR Digest (auto-comment in Spanish). `/pr-digest` command. `.gitleaks.toml`. Updated PR template with context impact + hook safety sections.
 
+---
+
+## ✅ Era 21 — Savia Everywhere: School, Travel, Git-Native Flow (v0.99.0–v1.5.0, Mar 2026)
+
+Inspired by ecosystem research of 12+ Claude Code repositories (everything-claude-code, trail-of-bits, awesome-claude-code, etc.). Full analysis in `docs/propuestas/investigacion-ecosistema-claude-code-2026.md` and `docs/propuestas/era21-masterplan.md`.
+
+- **Company Savia** (v0.99.0) — Git-based company repo with async messaging, E2E encryption (RSA-4096 + AES-256-CBC), @handle addressing, privacy-check pre-push. 7 commands, 5 scripts, 1 skill, 1 rule. Cross-platform compat layer (v0.99.1). Integration test orchestrator (v0.99.2).
+
+- **Travel Mode** (v0.100.0, v1.1.0) — Portable Savia on USB drive. 5 commands: `/travel-pack`, `/travel-unpack`, `/travel-sync`, `/travel-verify`, `/travel-clean`. AES-256-CBC encryption for keys/PATs. SHA256 integrity verification. `savia-init.sh` auto-installer. 3 scripts.
+
+- **Savia Flow Git-Native** (v0.101.0, v1.2.0) — Complete SDD/tickets/tasks/timesheets in Git folders. 17 commands across PBI, sprint, board, timesheet, and task lifecycle. Kanban board via filesystem (todo/in-progress/review/done folders). 6 scripts, 1 rule.
+
+- **Script Hardening** (v1.0.0) — Fix 6 critical bugs (backup hash, contribute regex, memory-store injection, cache invalidation) + 7 medium fixes (macOS sed/date portability, POSIX regex, newline escaping). 9 scripts hardened.
+
+- **Git Persistence Engine** (v1.3.0) — TSV-based index system for low-context lookups. 6 index types: profiles, messages, projects, tasks, specs, timesheets. 3 commands, 2 scripts. ~60-80% context reduction per query.
+
+- **Savia School** (v1.4.0) — Educational vertical for classrooms. 12 commands. Alias-based enrollment (no PII). AES-256 encrypted evaluations. GDPR Art. 8/15/17 compliance. `school-safety-config.md` rule.
+
+- **Ecosystem Integration & Validation** (v1.5.0) — Research of 12+ Claude Code repos. 12 improvement proposals. AIrquiTech full validation. 18/18 test suites (197 tests). E2E confidentiality testing. Subject sensitivity validation for encrypted messages.
+
 ### Backlog — Strategic Evaluation
 
 - **Claude Connectors vs MCP** — Evaluar si Connectors simplifican la arquitectura de integraciones
@@ -139,6 +159,9 @@ Inspired by patterns from [claude-code-best-practice](https://github.com/shanrai
 - **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status)
 - **Claude in Chrome integration** — Extracción de datos de portales web sin API para Savia
 - **Voice integration** — `/voice-pm` when Claude Code `/voice` reaches GA. Voice-to-command for sprint ceremonies (dictated standups, retros, reviews). Builds on existing `voice-inbox` skill.
+- **Instincts system** — Self-learning patterns with confidence scoring (inspired by everything-claude-code)
+- **Adversarial security pipeline** — Attacker/Defender/Auditor agents (inspired by everything-claude-code + trail-of-bits)
+- **Skill evaluation engine** — Automatic skill activation based on prompt analysis (inspired by claude-code-showcase)
 
 ---
 

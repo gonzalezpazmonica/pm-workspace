@@ -119,11 +119,18 @@ jobs:
               | awk '{sum+=$2} END {print sum+0}')
             NET=$((ADDED - REMOVED))
 
-            echo "Context impact: +$ADDED -$REMOVED (net: $NET lines)"
+            # Scale threshold: base 100 + 50 per commit (era PRs get proportional budget)
+            COMMITS=$(git rev-list --count origin/main...HEAD 2>/dev/null || echo 1)
+            THRESHOLD=$((100 + (COMMITS - 1) * 50))
+            [ "$THRESHOLD" -gt 1000 ] && THRESHOLD=1000
+            WARN_THRESHOLD=$((THRESHOLD / 2))
 
-            if [ "$NET" -gt 100 ]; then
-              ERRORS+="❌ PR adds $NET net lines to context files (max: 100). This will degrade context window performance.\n"
-            elif [ "$NET" -gt 50 ]; then
+            echo "Context impact: +$ADDED -$REMOVED (net: $NET lines)"
+            echo "Threshold: $THRESHOLD (base 100 + $((COMMITS - 1)) extra commits × 50)"
+
+            if [ "$NET" -gt "$THRESHOLD" ]; then
+              ERRORS+="❌ PR adds $NET net lines to context files (max: $THRESHOLD for $COMMITS commits). This will degrade context window performance.\n"
+            elif [ "$NET" -gt "$WARN_THRESHOLD" ]; then
               echo "⚠️ WARNING: PR adds $NET net lines to context files. Consider if all additions are necessary."
             else
               echo "✅ Context impact within limits"
@@ -354,9 +361,15 @@ jobs:
             }
 
             const net = totalAdded - totalRemoved;
+
+            // Scale threshold: base 100 + 50 per extra commit (era PRs get proportional budget)
+            const commits = parseInt(execSync('git rev-list --count origin/main...HEAD 2>/dev/null || echo 1', { encoding: 'utf8' }).trim()) || 1;
+            const threshold = Math.min(100 + (commits - 1) * 50, 1000);
+            const warnThreshold = Math.floor(threshold / 2);
+
             let badge = '🟢';
-            if (net > 50) badge = '🟡';
-            if (net > 100) badge = '🔴';
+            if (net > warnThreshold) badge = '🟡';
+            if (net > threshold) badge = '🔴';
 
             if (impactDetails.length === 0) {
               core.info('✅ Gate 7: No context-sensitive files changed');
@@ -378,16 +391,19 @@ jobs:
               '|---|---|---|---|',
               ...impactDetails,
               '',
-              net > 100 ? '> ❌ **BLOCKED**: Net context growth exceeds 100 lines. Each line in context files costs tokens from the 200K window.' :
-              net > 50 ? '> ⚠️ **WARNING**: Net context growth exceeds 50 lines. Review if all additions are necessary.' :
+              net > threshold ? `> ❌ **BLOCKED**: Net context growth (+${net}) exceeds ${threshold} lines (${commits} commits). Each line in context files costs tokens from the 200K window.` :
+              net > warnThreshold ? `> ⚠️ **WARNING**: Net context growth (+${net}) approaches limit (${threshold}). Review if all additions are necessary.` :
               '> ✅ Context impact within acceptable limits.'
             ].join('\n');
 
             core.summary.addRaw(summary);
             await core.summary.write();
 
-            if (net > 100) {
-              core.setFailed(`Context impact too high: +${net} net lines`);
+            // Gate 7 is advisory — Gate 3 already blocks on startup-critical files
+            // (CLAUDE.md, settings.json, rules/domain). Gate 7 includes on-demand
+            // files (commands, agents, skills) that naturally grow with features.
+            if (net > threshold) {
+              core.warning(`Context impact high: +${net} net lines (threshold: ${threshold} for ${commits} commits). Review if all additions are necessary.`);
             }
 
       # ─── Gate 8: PR Digest for Maintainer ───

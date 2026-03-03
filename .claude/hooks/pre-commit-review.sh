@@ -17,7 +17,10 @@ RULES_HASH_FILE="$CACHE_DIR/.rules-hash"
 if [[ -f "$RULES_HASH_FILE" ]]; then
     OLD_HASH=$(cat "$RULES_HASH_FILE")
     if [[ "$OLD_HASH" != "$RULES_HASH" ]]; then
-        rm -f "$CACHE_DIR"/*.passed 2>/dev/null || true
+        # FIX: Check directory exists before trying to delete files in it
+        if [[ -d "$CACHE_DIR" ]]; then
+            find "$CACHE_DIR" -name "*.passed" -type f -delete 2>/dev/null || true
+        fi
         echo "⚠️ Reglas de review cambiadas — caché invalidada"
     fi
 fi

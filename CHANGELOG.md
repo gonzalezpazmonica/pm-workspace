@@ -5,6 +5,214 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [1.5.1] — 2026-03-03
+
+Confidentiality hardening: E2E encryption testing, subject sensitivity validation, 7 bug fixes, 5 new test suites.
+
+### Added
+
+- **5 test scripts**: `test-savia-confidentiality.sh` (34 tests — E2E encryption, metadata, non-recipient rejection, privacy scanner, idempotency, subject sensitivity), `test-savia-flow-tasks.sh` (24 tests), `test-savia-index.sh` (12 tests), `test-savia-travel.sh` (18 tests), `test-savia-school.sh` (34 tests).
+- **1 script**: `savia-messaging-privacy.sh` — Subject sensitivity validation: detects monetary amounts, dates, company names, credentials, API keys, IPs, emails, DNI/NIE, IBAN in subjects. Warns but doesn't block delivery.
+- **1 rule**: `messaging-subject-safety.md` — Agent guidance for safe subject lines. "Instead of X, use Y" table. 12 pattern categories.
+- **AIrquiTech initialization**: Company Savia structure deployed to test repo via `company-repo-templates.sh`.
+
+### Fixed
+
+- **savia-flow-tasks.sh**: Multiline seq from `ls|grep|echo` pipeline; `mkdir` with braces inside quotes (no shell expansion).
+- **savia-travel.sh**: `local` keyword used outside functions in `case` blocks — refactored into proper functions.
+- **savia-index.sh**: Missing `init` dispatcher entry; `update_entry` shift bug (captured name before shift).
+- **savia-school.sh**: `SCHOOL_ROOT` used `$1` (the command) as base path — replaced with `SCHOOL_BASE` env var.
+- **savia-flow.sh**: Missing `do_sprint_start`/`do_sprint_close`/`do_metrics` adapter functions.
+- **savia-flow-sprint.sh**: Case dispatcher executed when sourced — added `BASH_SOURCE` guard.
+- **savia-messaging.sh**: Integrated `savia-messaging-privacy.sh` and `check_subject_sensitivity()` call before send.
+
+### Changed
+
+- **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
+
+[1.5.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.5.0...v1.5.1
+
+---
+
+## [1.5.0] — 2026-03-03
+
+Ecosystem Integration: research of 12+ Claude Code repos with actionable improvements for pm-workspace.
+
+### Added
+
+- **2 research docs**: `investigacion-ecosistema-claude-code-2026.md` (12 repos analyzed), `era21-masterplan.md` (7 workstreams planned).
+- **12 improvement proposals**: instincts system, adversarial security, skill evaluation engine, anti-rationalization hook, quality sweeps, deny rules, pass@k metrics, verify/fix loops, audit trail, AGENTS.md format, VoiceMode, event broker.
+
+[1.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.4.0...v1.5.0
+
+---
+
+## [1.4.0] — 2026-03-03
+
+Savia School: educational vertical for classrooms. Teachers tutor and evaluate, students create projects. GDPR/LOPD compliant.
+
+### Added
+
+- **12 commands**: `/school-setup`, `/school-enroll`, `/school-project`, `/school-submit`, `/school-evaluate`, `/school-progress`, `/school-portfolio`, `/school-diary`, `/school-export`, `/school-forget`, `/school-analytics`, `/school-rubric`.
+- **2 scripts**: `savia-school.sh` (classroom management), `savia-school-security.sh` (encryption, audit, content filtering, GDPR compliance).
+- **1 rule**: `school-safety-config.md` — Security config for school vertical (encryption, consent, isolation, content filtering).
+
+### Security
+
+- Alias-based enrollment (no PII in repository).
+- AES-256-CBC encrypted evaluations (teacher-only decryption).
+- GDPR Art. 8 (parental consent), Art. 15 (data export), Art. 17 (right to erasure).
+- Student folder isolation. Audit trail for all operations.
+
+[1.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.3.0...v1.4.0
+
+---
+
+## [1.3.0] — 2026-03-03
+
+Git Persistence Engine: TSV indexes for low-context lookups. ~60-80% token reduction per query.
+
+### Added
+
+- **3 commands**: `/index-rebuild`, `/index-status`, `/index-compact` — Manage TSV indexes.
+- **2 scripts**: `savia-index.sh` (core: lookup, update, remove, verify, compact), `savia-index-rebuild.sh` (rebuild profiles, messages, projects, specs, timesheets from source files).
+- **6 index types**: profiles.idx, messages.idx, projects.idx, tasks.idx, specs.idx, timesheets.idx.
+
+[1.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.2.0...v1.3.0
+
+---
+
+## [1.2.0] — 2026-03-03
+
+SDD/Tickets/Tasks Git-native: complete Savia Flow task management in Git folders. No database dependency.
+
+### Added
+
+- **12 commands**: `/flow-task-create`, `/flow-task-move`, `/flow-task-assign`, `/flow-sprint-create`, `/flow-sprint-close`, `/flow-sprint-board`, `/flow-timesheet`, `/flow-timesheet-report`, `/flow-burndown`, `/flow-velocity`, `/flow-spec-create`, `/flow-backlog-groom`.
+- **3 scripts**: `savia-flow-tasks.sh` (task CRUD + board), `savia-flow-sprint.sh` (sprint lifecycle + metrics), `savia-flow-timesheet.sh` (time tracking + reporting).
+- **1 rule**: `flow-tasks-config.md` — Configuration for Git-native flow system.
+
+[1.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.1.0...v1.2.0
+
+---
+
+## [1.1.0] — 2026-03-03
+
+Travel Mode extended: full pack/unpack/sync/verify/clean lifecycle for portable Savia on USB.
+
+### Added
+
+- **5 commands**: `/travel-pack`, `/travel-unpack`, `/travel-sync`, `/travel-verify`, `/travel-clean`.
+- **3 scripts**: `savia-travel.sh` (core dispatcher), `savia-travel-ops.sh` (advanced sync operations), `savia-travel-init.sh` (self-contained USB bootstrap).
+
+### Security
+
+- AES-256-CBC encryption for keys and PATs on USB.
+- SHA256 integrity checksums for all files.
+- Secure cleanup of traces from borrowed machines.
+
+[1.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.0.0...v1.1.0
+
+---
+
+## [1.0.0] — 2026-03-03
+
+Script Hardening: 6 critical + 7 medium fixes across 9 scripts. Cross-platform (macOS + Linux + WSL).
+
+### Fixed
+
+- **backup.sh**: Hash comparison bug (comparing plaintext vs SHA256), race condition in rotation (subshell pipe), cp -r without -p flag.
+- **contribute.sh**: Perl regex lookahead (?!) invalid in grep -E — corporate email detection was silently failing.
+- **memory-store.sh**: grep without -F allows regex injection via topic_key; newlines corrupt JSONL format.
+- **pre-commit-review.sh**: Cache invalidation on empty CACHE_DIR.
+- **session-init.sh**: Unquoted git branch variable.
+- **update.sh**: sed -i not portable on macOS — now uses portable_sed_i.
+- **context-aging.sh**: date -d doesn't exist on macOS — now detects OSTYPE.
+- **validate-bash-global.sh**: \s not POSIX ERE — replaced with [[:space:]].
+- **block-force-push.sh**: Pattern matching bypass via compound commands — added anchoring.
+
+[1.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.101.0...v1.0.0
+
+---
+
+## [0.101.0] — 2026-03-03
+
+Savia Flow: Git-based project management — PBIs, sprints, Kanban board, timesheets. No Azure DevOps dependency.
+
+### Added
+
+- **5 commands**: `/savia-pbi`, `/savia-sprint`, `/savia-board`, `/savia-timesheet`, `/savia-team` — Git-based PM lifecycle stored as markdown in company repo.
+- **5 scripts**: `savia-flow.sh` (dispatcher), `savia-flow-ops.sh` (PBI CRUD), `savia-flow-sprint.sh` (sprint lifecycle + metrics), `savia-flow-board.sh` (ASCII Kanban), `savia-flow-templates.sh` (project/team scaffolding).
+- **1 test script**: `test-savia-flow.sh` — 29 tests covering PBI create/assign/move, sprint start/close, log-time, board, metrics.
+- **1 reference**: `flow-schemas.md` — YAML schema specs for PBI, Sprint, Timesheet, Team.
+
+### Changed
+
+- **`company-repo-templates-init.sh`** — Added `projects/` and `teams/` dirs to repo init.
+
+[0.101.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.100.0...v0.101.0
+
+---
+
+## [0.100.0] — 2026-03-03
+
+Travel Mode: portable USB bootstrap with `savia-init` for deploying pm-workspace on new machines.
+
+### Added
+
+- **2 commands**: `/savia-travel-pack`, `/savia-travel-init` — Pack and bootstrap pm-workspace portably.
+- **2 scripts**: `savia-travel.sh` (pack), `savia-travel-init.sh` (bootstrap: OS detect, deps check, Claude Code install, workspace copy, profile restore).
+
+[0.100.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.99.2...v0.100.0
+
+---
+
+## [0.99.2] — 2026-03-03
+
+Integration tests against real AIrquiTech repo structure.
+
+### Added
+
+- **1 test script**: `test-integration-company.sh` — Orchestrates all 3 Company Savia test suites + smoke tests against cloned repo.
+
+[0.99.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.99.1...v0.99.2
+
+---
+
+## [0.99.1] — 2026-03-03
+
+Cross-platform compatibility: replace GNU-only patterns with portable helpers.
+
+### Added
+
+- **1 script**: `savia-compat.sh` — Portable helper library: `portable_base64_encode`, `portable_base64_decode`, `portable_sed_i`, `portable_read_config`, `portable_yaml_field`, `portable_wc_l`.
+
+### Fixed
+
+- **7 scripts**: Replaced `base64 -w0`, `grep -oP`, bare `sed -i` with portable helpers from `savia-compat.sh`. Affected: `savia-crypto-ops.sh`, `savia-messaging.sh`, `savia-messaging-inbox.sh`, `company-repo.sh`, `company-repo-ops.sh`, `backup.sh`, `test-savia-messaging.sh`.
+
+[0.99.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.99.0...v0.99.1
+
+---
+
+## [0.99.0] — 2026-03-03
+
+Company Savia: shared company repository with async messaging and E2E encryption.
+
+### Added
+
+- **7 commands**: `/company-repo`, `/savia-send`, `/savia-inbox`, `/savia-reply`, `/savia-announce`, `/savia-directory`, `/savia-broadcast` — Git-based company repo lifecycle and async messaging with @handle addressing.
+- **4 scripts**: `company-repo.sh` (repo lifecycle), `savia-messaging.sh` (message CRUD), `savia-crypto.sh` (RSA-4096 + AES-256-CBC encryption), `privacy-check-company.sh` (pre-push privacy filter).
+- **1 script**: `company-repo-templates.sh` — Heredoc templates for repo structure (CODEOWNERS, directory.md, org-chart, holidays, conventions).
+- **1 skill**: `company-messaging` — Knowledge module with message schema, encryption protocol, and privacy rules.
+- **1 rule**: `company-savia-config.md` — Configuration constants for repo, encryption, privacy, inbox, and messaging.
+- **3 test scripts**: `test-company-repo.sh`, `test-savia-messaging.sh`, `test-savia-crypto.sh` — Full test coverage for repo lifecycle, messaging round-trip, and encryption.
+- **Session-init integration**: unread inbox count displayed at startup (filesystem-only, no network).
+
+[0.99.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.98.0...v0.99.0
+
+---
+
 ## [0.98.0] — 2026-03-03
 
 PR Guardian System — Automated PR validation with 8 quality gates + contextual digest.
