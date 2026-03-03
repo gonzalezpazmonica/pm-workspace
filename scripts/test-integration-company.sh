@@ -2,7 +2,7 @@
 # test-integration-company.sh — Integration tests against a real Company Savia repo
 # Uso: bash scripts/test-integration-company.sh [REPO_URL]
 #
-# Accepts optional repo URL param (default: AIrquiTech).
+# Accepts optional repo URL param (default: example company repo).
 # Runs ALL test suites: company-repo, messaging, crypto, flow, flow-tasks,
 # index, travel, school + smoke tests against cloned repo.
 
@@ -16,8 +16,8 @@ SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPTS_DIR/savia-compat.sh" 2>/dev/null || true
 
 TMPDIR_BASE=$(mktemp -d)
-CLONE_DIR="$TMPDIR_BASE/airquitech"
-REMOTE_URL="${1:-https://github.com/gonzalezpazmonica/AIrquiTech}"
+CLONE_DIR="$TMPDIR_BASE/company-repo"
+REMOTE_URL="${1:?Uso: test-integration-company.sh <REPO_URL>}"
 
 cleanup() { rm -rf "$TMPDIR_BASE"; }
 trap cleanup EXIT
@@ -84,11 +84,11 @@ smoke_assert() {
 }
 
 smoke_assert "company/ dir exists"         "[ -d '$CLONE_DIR/company' ]"
-smoke_assert "team/ dir exists"            "[ -d '$CLONE_DIR/team' ]"
+smoke_assert "users/ dir exists"           "[ -d '$CLONE_DIR/users' ]"
 smoke_assert "directory.md exists"         "[ -f '$CLONE_DIR/directory.md' ]"
 smoke_assert "company/identity.md exists"  "[ -f '$CLONE_DIR/company/identity.md' ]"
 smoke_assert "CODEOWNERS exists"           "[ -f '$CLONE_DIR/CODEOWNERS' ]"
-smoke_assert "company-inbox/ dir exists"   "[ -d '$CLONE_DIR/company-inbox' ]"
+smoke_assert "company/inbox/ dir exists"   "[ -d '$CLONE_DIR/company/inbox' ]"
 smoke_assert "README.md exists"            "[ -f '$CLONE_DIR/README.md' ]"
 
 smoke_assert "directory.md has @handle entries" \

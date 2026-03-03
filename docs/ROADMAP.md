@@ -148,7 +148,7 @@ Inspired by ecosystem research of 12+ Claude Code repositories (everything-claud
 
 - **Savia School** (v1.4.0) — Educational vertical for classrooms. 12 commands. Alias-based enrollment (no PII). AES-256 encrypted evaluations. GDPR Art. 8/15/17 compliance. `school-safety-config.md` rule.
 
-- **Ecosystem Integration & Validation** (v1.5.0) — Research of 12+ Claude Code repos. 12 improvement proposals. AIrquiTech full validation. 18/18 test suites (197 tests). E2E confidentiality testing. Subject sensitivity validation for encrypted messages.
+- **Ecosystem Integration & Validation** (v1.5.0) — Research of 12+ Claude Code repos. 12 improvement proposals. Company Savia full validation. 18/18 test suites (197 tests). E2E confidentiality testing. Subject sensitivity validation for encrypted messages.
 
 ### Backlog — Strategic Evaluation
 

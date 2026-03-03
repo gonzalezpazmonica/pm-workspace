@@ -21,7 +21,7 @@ ORIG_HOME="$HOME"
 export HOME="$TMPDIR_BASE"
 KEYS_DIR="$HOME/.pm-workspace/savia-keys"
 REPO_DIR="$TMPDIR_BASE/repo"
-mkdir -p "$REPO_DIR/team/alice/public" "$REPO_DIR/team/bob/public"
+mkdir -p "$REPO_DIR/users/alice" "$REPO_DIR/users/bob"
 
 cleanup() {
   export HOME="$ORIG_HOME"
@@ -58,7 +58,7 @@ bash "$SCRIPTS_DIR/savia-crypto.sh" export-pubkey "$REPO_DIR" "alice" 2>/dev/nul
 assert_ok "Export pubkey succeeded"
 
 TOTAL=$((TOTAL + 1))
-if [ -f "$REPO_DIR/team/alice/public/pubkey.pem" ]; then
+if [ -f "$REPO_DIR/users/alice/pubkey.pem" ]; then
   PASS=$((PASS + 1)); echo -e "${GREEN}✅ Pubkey exported to repo${NC}"
 else FAIL=$((FAIL + 1)); echo -e "${RED}❌ Pubkey not found in repo${NC}"; fi
 

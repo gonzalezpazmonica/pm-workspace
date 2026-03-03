@@ -308,7 +308,7 @@ SAVIA-USB/
 
 ---
 
-## WS6 — Resultados de Tests contra AIrquiTech
+## WS6 — Resultados de Tests contra Company Repo
 
 ### Resultados
 
@@ -318,11 +318,11 @@ SAVIA-USB/
 | test-savia-messaging.sh | ✅ 17/17 | Send, reply, announce, broadcast, privacy |
 | test-savia-crypto.sh | ✅ 13/13 | Keygen, encrypt, decrypt, wrong key rejection, idempotency |
 | test-company-profile.sh | 30/35 | 5 fallos en CLAUDE.md (contadores desalineados por otra instancia) |
-| Smoke Tests (AIrquiTech) | 1/9 | El repo no tiene estructura Company Savia inicializada |
+| Smoke Tests (company repo) | 1/9 | El repo no tiene estructura Company Savia inicializada |
 
 ### Diagnóstico Smoke Tests
 
-Los 8 fallos del smoke test son porque el repo AIrquiTech **no tiene la estructura company/** inicializada. Necesitamos ejecutar `/company-repo create` contra el repo real para crear:
+Los 8 fallos del smoke test son porque el repo company repo **no tiene la estructura company/** inicializada. Necesitamos ejecutar `/company-repo create` contra el repo real para crear:
 - `company/identity.md`
 - `company/org-chart.md`
 - `team/` estructura
@@ -338,7 +338,7 @@ Los 5 fallos en profile tests son:
 
 ### Acciones pendientes
 
-1. **Ejecutar** `/company-repo create` contra AIrquiTech para inicializar estructura
+1. **Ejecutar** `/company-repo create` contra company repo para inicializar estructura
 2. **Alinear** contadores de CLAUDE.md con el count real de comandos
 3. **Añadir** referencias a comandos company-* en CLAUDE.md
 4. **Re-ejecutar** tests tras las correcciones
@@ -507,7 +507,7 @@ Cada equipo trabaja en su propio repo (o branch) de savia-flow-data. La config e
 | v0.102.0 | WS5 | Travel Mode (pack/unpack/sync/verify) | WS4 (scripts robustos) |
 | v0.103.0 | WS1 | Savia School v1 (setup, enroll, project, submit, evaluate) | WS2 (índices), WS4 (scripts) |
 | v0.104.0 | WS1 | Savia School v2 (security audit, GDPR, penetration test) | v0.103.0 |
-| v0.105.0 | WS3+WS6 | Skills versionados + bounded autonomy map + AIrquiTech validation | Todo lo anterior |
+| v0.105.0 | WS3+WS6 | Skills versionados + bounded autonomy map + company repo validation | Todo lo anterior |
 
 **Ruta crítica:** v0.99.0 → v0.100.0 → v0.101.0 → v0.103.0 → v0.104.0
 **Ruta paralela:** v0.102.0 puede desarrollarse tras v0.99.0

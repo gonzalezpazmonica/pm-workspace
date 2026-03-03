@@ -95,7 +95,7 @@ do_init_member_flow() {
   local repo_dir="${1:?Uso: savia-flow.sh init-member <handle>}"
   local handle="${2:?Falta handle}"
 
-  local flow_dir="$repo_dir/team/$handle/savia-flow"
+  local flow_dir="$repo_dir/users/$handle/flow"
   mkdir -p "$flow_dir"/{timesheet,assigned}
 
   cat > "$flow_dir/focus.md" <<EOF

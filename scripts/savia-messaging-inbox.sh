@@ -8,8 +8,8 @@ do_inbox() {
   repo_dir=$(get_repo)
   handle=$(get_handle)
 
-  local unread_dir="$repo_dir/team/$handle/savia-inbox/unread"
-  local read_dir="$repo_dir/team/$handle/savia-inbox/read"
+  local unread_dir="$repo_dir/users/$handle/inbox/unread"
+  local read_dir="$repo_dir/users/$handle/inbox/read"
   mkdir -p "$unread_dir" "$read_dir"
 
   echo -e "${CYAN}━━━ Inbox — @$handle ━━━${NC}"
@@ -38,9 +38,9 @@ do_inbox() {
   # Company announcements
   echo -e "\n${CYAN}📢 Company Announcements:${NC}"
   local ann_count=0
-  if [ -d "$repo_dir/company-inbox" ]; then
+  if [ -d "$repo_dir/company/inbox" ]; then
     touch "$READ_LOG"
-    for ann in "$repo_dir/company-inbox"/*.md; do
+    for ann in "$repo_dir/company/inbox"/*.md; do
       [ -f "$ann" ] || continue
       local ann_id
       ann_id=$(basename "$ann" .md)
@@ -71,12 +71,12 @@ do_read() {
   repo_dir=$(get_repo)
   handle=$(get_handle)
 
-  local msg_file="$repo_dir/team/$handle/savia-inbox/unread/${msg_id}.md"
+  local msg_file="$repo_dir/users/$handle/inbox/unread/${msg_id}.md"
   local is_announcement="false"
 
-  [ ! -f "$msg_file" ] && msg_file="$repo_dir/team/$handle/savia-inbox/read/${msg_id}.md"
+  [ ! -f "$msg_file" ] && msg_file="$repo_dir/users/$handle/inbox/read/${msg_id}.md"
   if [ ! -f "$msg_file" ]; then
-    msg_file="$repo_dir/company-inbox/${msg_id}.md"
+    msg_file="$repo_dir/company/inbox/${msg_id}.md"
     is_announcement="true"
   fi
   if [ ! -f "$msg_file" ]; then
@@ -92,10 +92,10 @@ do_read() {
     grep -q "$msg_id" "$READ_LOG" 2>/dev/null || \
       echo "$(date -u +%Y-%m-%dT%H:%M:%SZ)|$msg_id" >> "$READ_LOG"
   else
-    local unread_path="$repo_dir/team/$handle/savia-inbox/unread/${msg_id}.md"
+    local unread_path="$repo_dir/users/$handle/inbox/unread/${msg_id}.md"
     if [ -f "$unread_path" ]; then
-      mkdir -p "$repo_dir/team/$handle/savia-inbox/read"
-      mv "$unread_path" "$repo_dir/team/$handle/savia-inbox/read/"
+      mkdir -p "$repo_dir/users/$handle/inbox/read"
+      mv "$unread_path" "$repo_dir/users/$handle/inbox/read/"
     fi
   fi
 }
@@ -111,7 +111,7 @@ do_reply() {
   handle=$(get_handle)
 
   local orig_file=""
-  for dir in "team/$handle/savia-inbox/unread" "team/$handle/savia-inbox/read" "company-inbox"; do
+  for dir in "users/$handle/inbox/unread" "users/$handle/inbox/read" "company/inbox"; do
     [ -f "$repo_dir/$dir/${msg_id}.md" ] && orig_file="$repo_dir/$dir/${msg_id}.md" && break
   done
 

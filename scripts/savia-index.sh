@@ -57,7 +57,8 @@ compact_index() {
   local idx="$(get_index_path "${1:-profiles}")"
   [ -f "$idx" ] || return 0
   case "$1" in
-    profiles) "$AWK" -F'\t' 'NR==1 || (NR>1 && system("test -f " $2 "/identity.md") == 0)' "$idx" > "$idx.tmp" ;;
+    profiles) "$AWK" -F'\t' 'NR==1 || (NR>1 && system("test -f " $2 "/profile.md") == 0)' "$idx" > "$idx.tmp" ;;
+    inboxes|teams) "$AWK" -F'\t' 'NR==1 || (NR>1 && system("test -d " $2) == 0)' "$idx" > "$idx.tmp" ;;
     messages|specs|timesheets) "$AWK" -F'\t' 'NR==1 || (NR>1 && system("test -f " $2) == 0)' "$idx" > "$idx.tmp" ;;
     projects) "$AWK" -F'\t' 'NR==1 || (NR>1 && system("test -f " $2 "/CLAUDE.md") == 0)' "$idx" > "$idx.tmp" ;;
   esac

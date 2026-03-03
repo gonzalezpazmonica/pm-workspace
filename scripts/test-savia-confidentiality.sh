@@ -32,11 +32,11 @@ cleanup() { export HOME="$ORIG_HOME"; rm -rf "$TMPDIR_BASE"; }
 trap cleanup EXIT
 
 REPO="$TMPDIR_BASE/company-repo"
-mkdir -p "$REPO/.git" "$REPO/company-inbox"
+mkdir -p "$REPO/.git" "$REPO/company/inbox"
 for user in alice bob carol; do
-  mkdir -p "$REPO/team/$user/public" "$REPO/team/$user/savia-inbox/unread"
-  mkdir -p "$REPO/team/$user/savia-inbox/read"
-  echo "name: $user" > "$REPO/team/$user/public/profile.md"
+  mkdir -p "$REPO/users/$user/inbox/unread"
+  mkdir -p "$REPO/users/$user/inbox/read"
+  echo "name: $user" > "$REPO/users/$user/profile.md"
 done
 echo "@alice" > "$REPO/directory.md"
 echo "@bob" >> "$REPO/directory.md"
@@ -70,7 +70,7 @@ RESULT=$(bash "$SCRIPTS_DIR/savia-messaging.sh" send bob \
 assert "Encrypted send succeeds" "echo '$RESULT' | grep -q '✅'"
 
 # Find the message file
-MSG_FILE=$(find "$REPO/team/bob/savia-inbox/unread" -name "*.md" | head -1)
+MSG_FILE=$(find "$REPO/users/bob/inbox/unread" -name "*.md" | head -1)
 assert "Message file created" "[ -f '$MSG_FILE' ]"
 
 # THE CRITICAL TEST: body must NOT contain the plaintext
@@ -145,12 +145,12 @@ PRIVACY_RESULT=$(bash "$SCRIPTS_DIR/privacy-check-company.sh" "$REPO" "bob" 2>&1
 # The PAT is encrypted, so the scanner should NOT detect it in the body
 # But it might detect it in unencrypted messages — we only check that the
 # encrypted one doesn't trigger a GitHub PAT violation
-ENCRYPTED_MSG_COUNT=$(find "$REPO/team/bob/savia-inbox/unread" -name "*.md" \
+ENCRYPTED_MSG_COUNT=$(find "$REPO/users/bob/inbox/unread" -name "*.md" \
   -exec grep -l 'encrypted: true' {} \; | wc -l)
 assert "Multiple encrypted messages exist" "[ $ENCRYPTED_MSG_COUNT -ge 2 ]"
 
 # Check that the encrypted body doesn't contain raw PAT pattern
-LATEST_MSG=$(find "$REPO/team/bob/savia-inbox/unread" -name "*.md" -newer "$MSG_FILE" | head -1)
+LATEST_MSG=$(find "$REPO/users/bob/inbox/unread" -name "*.md" -newer "$MSG_FILE" | head -1)
 if [ -n "$LATEST_MSG" ]; then
   assert_not "Encrypted msg body has no raw PAT" \
     "grep -q 'ghp_' '$LATEST_MSG'"
@@ -161,8 +161,8 @@ echo ""
 echo -e "${BLUE}── Missing Pubkey Guard ──${NC}"
 
 # Create user with no pubkey
-mkdir -p "$REPO/team/dave/savia-inbox/unread" "$REPO/team/dave/public"
-echo "name: dave" > "$REPO/team/dave/public/profile.md"
+mkdir -p "$REPO/users/dave/inbox/unread"
+echo "name: dave" > "$REPO/users/dave/profile.md"
 # No pubkey.pem for dave
 
 export HOME="$TMPDIR_BASE/home-alice"
@@ -172,7 +172,7 @@ assert "Send --encrypt fails without pubkey" \
   "echo '$RESULT' | grep -qi 'no public key\|cannot encrypt\|error'"
 
 # Verify no message was created in dave's inbox
-DAVE_MSG_COUNT=$(find "$REPO/team/dave/savia-inbox/unread" -name "*.md" 2>/dev/null | wc -l)
+DAVE_MSG_COUNT=$(find "$REPO/users/dave/inbox/unread" -name "*.md" 2>/dev/null | wc -l)
 assert "No message delivered without encryption" "[ $DAVE_MSG_COUNT -eq 0 ]"
 
 # ── Test 7: Unencrypted message IS readable (control test) ────────
@@ -184,7 +184,7 @@ PLAIN_SECRET="La clave del WiFi es SuperSecreta123"
 bash "$SCRIPTS_DIR/savia-messaging.sh" send bob \
   "WiFi" "$PLAIN_SECRET" 2>/dev/null
 
-PLAIN_MSG=$(find "$REPO/team/bob/savia-inbox/unread" -name "*.md" \
+PLAIN_MSG=$(find "$REPO/users/bob/inbox/unread" -name "*.md" \
   -exec grep -l 'encrypted: false' {} \; | head -1)
 assert "Unencrypted message exists" "[ -f '$PLAIN_MSG' ]"
 assert "Plaintext IS visible in unencrypted msg" \
@@ -198,9 +198,9 @@ echo -e "${BLUE}── Idempotency ──${NC}"
 
 export HOME="$TMPDIR_BASE/home-alice"
 ENC1=$(bash "$SCRIPTS_DIR/savia-crypto.sh" encrypt \
-  "$REPO/team/bob/public/pubkey.pem" "Same message twice" 2>/dev/null)
+  "$REPO/users/bob/pubkey.pem" "Same message twice" 2>/dev/null)
 ENC2=$(bash "$SCRIPTS_DIR/savia-crypto.sh" encrypt \
-  "$REPO/team/bob/public/pubkey.pem" "Same message twice" 2>/dev/null)
+  "$REPO/users/bob/pubkey.pem" "Same message twice" 2>/dev/null)
 assert "Two encryptions of same text differ (random AES key)" \
   "[ '$ENC1' != '$ENC2' ]"
 

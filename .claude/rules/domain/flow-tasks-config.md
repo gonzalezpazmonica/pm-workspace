@@ -64,8 +64,8 @@ TEAM_DEFAULT_CAPACITY       = 120
 ├── backlog/{TASK-2026-0001.md, ...}
 ├── sprints/SPR-2026-01/{sprint.md, board/{todo,in-progress,review,done}/, daily/}
 ├── specs/SPEC-2026-001/{spec.md, design.md}
-├── timesheets/@handle/{YYYY-MM}/entries.log
-├── team/@handle.md
+├── timesheets/{handle}/{YYYY-MM}/entries.log
+├── users/{handle}.md
 └── reports/{summary.md, velocity-trend.md}
 ```
 

@@ -20,20 +20,23 @@ frontmatter, stored in personal inboxes and a company-wide inbox.
 
 ```
 company-savia-repo/
-├── company-inbox/           ← Announcements (persistent, all members)
-├── team/{handle}/
-│   ├── savia-inbox/
-│   │   ├── unread/          ← New messages (moved to read/ when opened)
-│   │   └── read/            ← Read messages (archive)
-│   └── public/
-│       └── pubkey.pem       ← Public key for E2E encryption
-└── directory.md             ← @handle → name/role mapping
+├── company/
+│   └── inbox/               ← Announcements (persistent, all members)
+├── users/{handle}/
+│   ├── profile.md           ← Public profile
+│   ├── pubkey.pem           ← Public key for E2E encryption
+│   └── inbox/
+│       ├── unread/          ← New messages (moved to read/ when opened)
+│       └── read/            ← Read messages (archive)
+├── directory.md             ← @handle → name/role mapping
+├── inboxes.idx              ← Index of inboxes (performance)
+└── teams.idx                ← Index of teams
 ```
 
 ## Message Lifecycle
 
 1. **Compose**: Savia creates message file with YAML frontmatter
-2. **Deliver**: File placed in `team/{recipient}/savia-inbox/unread/`
+2. **Deliver**: File placed in `users/{recipient}/inbox/unread/`
 3. **Sync**: `git add + commit + push` delivers to shared repo
 4. **Receive**: Recipient does `git pull` (via `/company-repo sync`)
 5. **Read**: Message moved from `unread/` to `read/`
@@ -61,7 +64,7 @@ Parse: `grep -oP '@\K\w+' directory.md` to list available handles.
 4. **Decrypt**: RSA-decrypt AES key → AES-decrypt body
 
 Keys stored at `$HOME/.pm-workspace/savia-keys/` (private.pem: chmod 600).
-Public keys published to `team/{handle}/public/pubkey.pem` in the repo.
+Public keys published to `users/{handle}/pubkey.pem` in the repo.
 
 ## Privacy Rules
 
@@ -69,7 +72,7 @@ Before any `git push` to the company repo:
 
 1. **Layer 1**: `validate_privacy()` — PATs, tokens, IPs, connection strings
 2. **Layer 2**: Scan messages for secrets in YAML frontmatter and body
-3. **Layer 3**: Scan documents in `team/{handle}/documents/`
+3. **Layer 3**: Scan documents in `users/{handle}/documents/`
 
 Script: `scripts/privacy-check-company.sh`
 
@@ -77,9 +80,9 @@ Script: `scripts/privacy-check-company.sh`
 
 | Type | Location | Persist | Encrypted |
 |------|----------|---------|-----------|
-| Direct message | `team/{handle}/savia-inbox/` | Until archived | Optional |
-| Reply | `team/{handle}/savia-inbox/` | Until archived | Optional |
-| Announcement | `company-inbox/` | Permanent | Never |
+| Direct message | `users/{handle}/inbox/` | Until archived | Optional |
+| Reply | `users/{handle}/inbox/` | Until archived | Optional |
+| Announcement | `company/inbox/` | Permanent | Never |
 | Broadcast | Each recipient's inbox | Until archived | Optional |
 
 ## Threading

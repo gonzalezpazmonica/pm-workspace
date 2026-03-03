@@ -55,17 +55,17 @@ EOF
 # ── Test 1: Send ──────────────────────────────────────────────────
 bash "$SCRIPTS_DIR/savia-messaging.sh" send "bob" "Hello Bob" "Test message" 2>/dev/null
 assert_ok "Send command succeeded"
-assert_file_exists "Message in bob inbox" "$REPO/team/bob/savia-inbox/unread/*.md"
-assert_contains_file "From field" "$REPO/team/bob/savia-inbox/unread/*.md" 'from: "alice"'
-assert_contains_file "Subject field" "$REPO/team/bob/savia-inbox/unread/*.md" 'subject: "Hello Bob"'
+assert_file_exists "Message in bob inbox" "$REPO/users/bob/inbox/unread/*.md"
+assert_contains_file "From field" "$REPO/users/bob/inbox/unread/*.md" 'from: "alice"'
+assert_contains_file "Subject field" "$REPO/users/bob/inbox/unread/*.md" 'subject: "Hello Bob"'
 
 # ── Test 2: Reply threading ───────────────────────────────────────
-ORIG_ID=$(ls "$REPO/team/bob/savia-inbox/unread/" | head -1 | sed 's/.md$//')
+ORIG_ID=$(ls "$REPO/users/bob/inbox/unread/" | head -1 | sed 's/.md$//')
 portable_sed_i 's/USER_HANDLE=alice/USER_HANDLE=bob/' "$HOME/.pm-workspace/company-repo"
 bash "$SCRIPTS_DIR/savia-messaging.sh" reply "$ORIG_ID" "Got it, thanks!" 2>/dev/null
 assert_ok "Reply command succeeded"
-assert_file_exists "Reply in alice inbox" "$REPO/team/alice/savia-inbox/unread/*.md"
-REPLY_FILE=$(ls "$REPO/team/alice/savia-inbox/unread/"*.md 2>/dev/null | head -1)
+assert_file_exists "Reply in alice inbox" "$REPO/users/alice/inbox/unread/*.md"
+REPLY_FILE=$(ls "$REPO/users/alice/inbox/unread/"*.md 2>/dev/null | head -1)
 if [ -n "$REPLY_FILE" ]; then
   TOTAL=$((TOTAL + 1))
   if grep -q "thread:" "$REPLY_FILE" && grep -q "reply_to:" "$REPLY_FILE"; then
@@ -77,17 +77,17 @@ fi
 portable_sed_i 's/USER_HANDLE=bob/USER_HANDLE=alice/' "$HOME/.pm-workspace/company-repo"
 bash "$SCRIPTS_DIR/savia-messaging.sh" announce "Company Update" "New policy" 2>/dev/null
 assert_ok "Announce command succeeded"
-assert_file_exists "Announcement file" "$REPO/company-inbox/*.md"
-assert_contains_file "Announcement type" "$REPO/company-inbox/*.md" 'type: "announcement"'
+assert_file_exists "Announcement file" "$REPO/company/inbox/*.md"
+assert_contains_file "Announcement type" "$REPO/company/inbox/*.md" 'type: "announcement"'
 
 # ── Test 4: Read message ─────────────────────────────────────────
-MSG_FILE=$(ls "$REPO/team/alice/savia-inbox/unread/"*.md 2>/dev/null | head -1)
+MSG_FILE=$(ls "$REPO/users/alice/inbox/unread/"*.md 2>/dev/null | head -1)
 if [ -n "$MSG_FILE" ]; then
   MSG_ID=$(basename "$MSG_FILE" .md)
   bash "$SCRIPTS_DIR/savia-messaging.sh" read "$MSG_ID" >/dev/null 2>&1
   assert_ok "Read command succeeded"
   TOTAL=$((TOTAL + 1))
-  if [ -f "$REPO/team/alice/savia-inbox/read/${MSG_ID}.md" ]; then
+  if [ -f "$REPO/users/alice/inbox/read/${MSG_ID}.md" ]; then
     PASS=$((PASS + 1)); echo -e "${GREEN}✅ Message moved to read/${NC}"
   else FAIL=$((FAIL + 1)); echo -e "${RED}❌ Message not moved to read/${NC}"; fi
 fi
@@ -106,7 +106,7 @@ else FAIL=$((FAIL + 1)); echo -e "${RED}❌ Directory missing bob${NC}"; fi
 # ── Test 6: Broadcast ────────────────────────────────────────────
 bash "$SCRIPTS_DIR/savia-messaging.sh" broadcast "All hands" "Meeting at 3pm" 2>/dev/null
 assert_ok "Broadcast command succeeded"
-assert_file_exists "Broadcast to bob" "$REPO/team/bob/savia-inbox/unread/*.md"
+assert_file_exists "Broadcast to bob" "$REPO/users/bob/inbox/unread/*.md"
 
 # ── Test 7: Privacy check ────────────────────────────────────────
 TOTAL=$((TOTAL + 1))

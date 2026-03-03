@@ -112,47 +112,25 @@ task_assign() {
 
 task_list() {
     local sprint=$1 status=${2:-}
-
-    local search_dir="${SPRINTS_DIR}/${sprint}/board" || search_dir="${BACKLOG_DIR}"
-    [[ -d "$search_dir" ]] || {
-        echo "❌ Sprint $sprint not found"
-        return 1
-    }
-
+    local search_dir="${SPRINTS_DIR}/${sprint}/board"
+    [[ -d "$search_dir" ]] || { echo "❌ Sprint $sprint not found"; return 1; }
     echo "📋 Tasks in $sprint${status:+ ($status)}"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
     if [[ -n "$status" ]]; then
-        find "${search_dir}/${status}" -name "*.md" 2>/dev/null | while read file; do
-            grep '^id:' "$file" | cut -d' ' -f2
-            grep '^title:' "$file" | cut -d' ' -f2-
-            echo "  assigned: $(grep '^assigned:' "$file" | cut -d' ' -f2)"
-            echo
+        find "${search_dir}/${status}" -name "*.md" 2>/dev/null | while read f; do
+            grep '^id:' "$f" | cut -d' ' -f2; grep '^title:' "$f" | cut -d' ' -f2-
         done
     else
         for col in todo in-progress review done; do
-            [[ -d "${search_dir}/${col}" ]] && {
-                echo "### $col"
-                find "${search_dir}/${col}" -name "*.md" 2>/dev/null | wc -l | xargs echo "  Count:"
-            }
+            [[ -d "${search_dir}/${col}" ]] && echo "$col: $(find "${search_dir}/${col}" -name "*.md" 2>/dev/null | wc -l)"
         done
     fi
 }
 
 task_show() {
     local task_id=$1
-
-    [[ -n "$task_id" ]] || {
-        echo "❌ Usage: task_show <task_id>"
-        return 1
-    }
-
+    [[ -n "$task_id" ]] || { echo "❌ Usage: task_show <task_id>"; return 1; }
     local task_file=$(find "${SPRINTS_DIR}" "${BACKLOG_DIR}" -name "${task_id}.md" 2>/dev/null | head -1)
-    [[ -f "$task_file" ]] || {
-        echo "❌ Task $task_id not found"
-        return 1
-    }
-
+    [[ -f "$task_file" ]] || { echo "❌ Task $task_id not found"; return 1; }
     cat "$task_file"
 }
 

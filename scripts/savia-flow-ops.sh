@@ -71,7 +71,7 @@ do_assign() {
 
   portable_sed_i "s/^assignee: .*/assignee: \"${target_handle}\"/" "$pbi_file"
 
-  local assigned_dir="$repo_dir/team/$target_handle/savia-flow/assigned"
+  local assigned_dir="$repo_dir/users/$target_handle/flow/assigned"
   mkdir -p "$assigned_dir"
   sed -n '/^---$/,/^---$/p' "$pbi_file" > "$assigned_dir/${pbi_id}.md"
 
@@ -124,7 +124,7 @@ do_log_time() {
   repo_dir=$(get_repo)
   handle=$(get_handle)
 
-  local ts_dir="$repo_dir/team/$handle/savia-flow/timesheet"
+  local ts_dir="$repo_dir/users/$handle/flow/timesheet"
   mkdir -p "$ts_dir"
   local month_file="$ts_dir/$(date +%Y-%m).md"
   local today; today=$(date +%Y-%m-%d)

@@ -45,8 +45,8 @@ assert "Lookup on missing index returns INDEX_NOT_FOUND" "echo '$RESULT' | grep 
 
 mkdir -p .savia-index
 printf "handle\tpath\trole\tupdated\n" > .savia-index/profiles.idx
-printf "alice\tteam/alice/public/profile.md\tAdmin\t2026-03-03\n" >> .savia-index/profiles.idx
-printf "bob\tteam/bob/public/profile.md\tMember\t2026-03-02\n" >> .savia-index/profiles.idx
+printf "alice\tusers/alice/profile.md\tAdmin\t2026-03-03\n" >> .savia-index/profiles.idx
+printf "bob\tusers/bob/profile.md\tMember\t2026-03-02\n" >> .savia-index/profiles.idx
 
 RESULT=$(bash scripts/savia-index.sh lookup profiles alice)
 assert "Lookup alice finds entry" "echo '$RESULT' | grep -q 'alice'"
@@ -58,11 +58,11 @@ assert "Lookup carol returns NOT_FOUND" "echo '$RESULT' | grep -q 'NOT_FOUND'"
 echo ""
 echo -e "${BLUE}── Update Entry ──${NC}"
 
-bash scripts/savia-index.sh update profiles carol "team/carol/public/profile.md" "Dev" "2026-03-03"
+bash scripts/savia-index.sh update profiles carol "users/carol/profile.md" "Dev" "2026-03-03"
 RESULT=$(bash scripts/savia-index.sh lookup profiles carol)
 assert "Update adds new entry" "echo '$RESULT' | grep -q 'carol'"
 
-bash scripts/savia-index.sh update profiles alice "team/alice/public/profile.md" "SuperAdmin" "2026-03-03"
+bash scripts/savia-index.sh update profiles alice "users/alice/profile.md" "SuperAdmin" "2026-03-03"
 COUNT=$(grep -c "^alice" .savia-index/profiles.idx)
 assert_eq "Update replaces (no duplicates)" "$COUNT" "1"
 
@@ -89,8 +89,8 @@ assert "Verify shows entry count" "echo '$RESULT' | grep -q 'entries='"
 echo ""
 echo -e "${BLUE}── Compact ──${NC}"
 
-mkdir -p team/alice/public
-echo "# Alice" > team/alice/public/identity.md
+mkdir -p users/alice
+echo "# Alice" > users/alice/identity.md
 # carol has no identity.md → should be compacted
 BEFORE=$(wc -l < .savia-index/profiles.idx)
 bash scripts/savia-index.sh compact profiles
