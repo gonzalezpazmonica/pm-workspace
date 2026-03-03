@@ -134,6 +134,21 @@ I've organized all documentation into sections so you can quickly find what you 
 | [Commands and agents](docs/readme_en/12-commands-agents.md) | 271 commands + 24 specialized agents |
 | [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
+### Usage Guides by Scenario
+
+| Guide | Scenario |
+|---|---|
+| [Consultancy + Azure DevOps](docs/guides/guide-azure-devops.md) | Scrum team with Azure DevOps, CI/CD, SDD |
+| [Consultancy + Jira](docs/guides/guide-jira.md) | Jira ↔ Savia sync, hybrid workflow |
+| [Savia Only / Savia Flow](docs/guides/guide-savia-standalone.md) | No external tool, everything in Git |
+| [Educational Center](docs/guides/guide-education.md) | Savia School: projects, evaluations, GDPR |
+| [Hardware Lab](docs/guides/guide-hardware-lab.md) | PCB, firmware, BOM, certifications |
+| [Research Laboratory](docs/guides/guide-research-lab.md) | Papers, experiments, datasets, grants |
+| [Startup](docs/guides/guide-startup.md) | MVP, lean, rapid iteration, OKRs |
+| [Non-profit / NGO](docs/guides/guide-nonprofit.md) | Grants, volunteers, social impact |
+| [Legal Firm](docs/guides/guide-legal-firm.md) | Cases, legal deadlines, time billing |
+| [Healthcare Organization](docs/guides/guide-healthcare.md) | Quality improvement, protocols, compliance |
+
 ### Other Documents
 
 | Document | Description |
@@ -161,7 +176,7 @@ I've organized all documentation into sections so you can quickly find what you 
 /profile-setup    /profile-edit    /profile-switch    /profile-show
 /update {check|install|auto-on|auto-off|status}
 /contribute {pr|idea|bug|status}    /feedback {bug|idea|improve|list|search}
-/vertical-propose {name}
+/vertical-propose {name}    /vertical-finance    /vertical-healthcare    /vertical-legal    /vertical-education
 /banking-detect    /banking-bian    /banking-eda-validate    /banking-data-governance    /banking-mlops-audit
 /flow-setup    /flow-board    /flow-intake    /flow-metrics    /flow-spec
 /review-community {pending|review|merge|release|summary}
@@ -246,10 +261,12 @@ I've organized all documentation into sections so you can quickly find what you 
 /debt-analyze    /debt-prioritize    /debt-budget
 ```
 
-### AI Governance
+### AI Governance and Compliance
 ```
 /ai-safety-config    /ai-confidence    /ai-boundary    /ai-incident
 /ai-model-card    /ai-risk-assessment    /ai-audit-log
+/aepd-compliance {project} [--agent name] [--full] [--fix]
+/governance-audit    /governance-report    /governance-certify
 ```
 
 ### AI Adoption Companion
@@ -316,6 +333,8 @@ I've organized all documentation into sections so you can quickly find what you 
 /changelog-update    /evaluate-repo [URL]    /validate-filesize
 /validate-schema    /review-cache-stats    /review-cache-clear
 /testplan-status    /testplan-results {id}    /devops-validate {proj}
+/excel-report {capacity|ceo|time-tracking|custom}
+/savia-gallery [--role pm|techlead|qa|po|dev|ceo] [--vertical name]
 /mcp-recommend [--stack dotnet|python|node] [--role pm|dev|qa]
 ```
 
@@ -436,7 +455,8 @@ These are the rules that are never skipped — not even by me:
 
 | Version | Era | Summary |
 |---|---|---|
-| **v1.7.0** | — | Company Savia v3: orphan branch isolation, quality framework (rules #21-#22), Agent Self-Memory, PII gate, drift detection. 120 Savia tests. |
+| **v1.8.0** | Era 23 | 10 usage guides by scenario (Azure DevOps, Jira, Savia standalone, education, hardware, research, startup, nonprofit, legal, healthcare). README restructured. 20 gap proposals detected. |
+| **v1.7.0** | Era 22 | Company Savia v3: orphan branch isolation, quality framework (rules #21-#22), Agent Self-Memory, PII gate, drift detection. 120 Savia tests. |
 | **v1.6.0** | — | Company Savia v2: directory restructure, TSV indexes, simplified user paths. |
 | **v0.99–v1.5.1** | Era 21 | Savia Everywhere: Company Savia, Git Persistence Engine, Savia Flow, Travel Mode, Savia School, E2E encryption. |
 | **v0.91–v0.98** | Era 20 | Persistent Intelligence: agent memory, smart frontmatter, RPI workflow, PR Guardian, 3 output modes. |

@@ -150,6 +150,60 @@ Inspired by ecosystem research of 12+ Claude Code repositories (everything-claud
 
 - **Ecosystem Integration & Validation** (v1.5.0) — Research of 12+ Claude Code repos. 12 improvement proposals. Company Savia full validation. 18/18 test suites (197 tests). E2E confidentiality testing. Subject sensitivity validation for encrypted messages.
 
+---
+
+## ✅ Era 22 — Company Savia v3 + Quality Framework (v1.6.0–v1.7.0, Mar 2026)
+
+Branch-based isolation, self-improvement patterns, and quality gates. Full details in `docs/roadmap-v1.7.0.md`.
+
+- **Company Savia v2** (v1.6.0) — Directory restructure: `team/` → `users/`, `company-inbox/` → `company/inbox/`, new `teams/`. User path simplification: removed `public/`, `savia-` prefixes. TSV index optimization.
+
+- **Company Savia v3** (v1.7.0) — Git orphan branch isolation (`main`, `user/{handle}`, `team/{name}`, `exchange`). `savia-branch.sh` abstraction layer (7 commands). 20 core scripts rewritten. Rules #21 (Self-Improvement Loop) and #22 (Verification Before Done). Agent Self-Memory (10 agents). `/drift-check` + `drift-auditor` agent. `hook-pii-gate.sh` PII scanner. Frontend Component Rules. 120 Savia tests, 0 failures.
+
+---
+
+## ✅ Era 23 — Usage Guides & Vertical Onboarding (v1.8.0, Mar 2026)
+
+Scenario-specific guides that put users in their shoes: zero-to-productive walkthroughs with roles, day-to-day workflows, and real command sequences. 10 guides across software, education, hardware, research, startups, nonprofits, legal, and healthcare.
+
+- [x] `docs/guides/guide-azure-devops.md` — Software consultancy with Azure DevOps (full Scrum + SDD + CI/CD)
+- [x] `docs/guides/guide-jira.md` — Software consultancy with Jira (sync + hybrid workflow)
+- [x] `docs/guides/guide-savia-standalone.md` — Software team using only Savia + Savia Flow (no external PM tool)
+- [x] `docs/guides/guide-education.md` — Educational center (Savia School + classroom management)
+- [x] `docs/guides/guide-hardware-lab.md` — Hardware prototyping lab (BOM, iterations, compliance)
+- [x] `docs/guides/guide-research-lab.md` — Research laboratory (papers, experiments, datasets, grants)
+- [x] `docs/guides/guide-startup.md` — Early-stage startup (lean, MVP, rapid iteration)
+- [x] `docs/guides/guide-nonprofit.md` — NGO / Non-profit (grant management, volunteer coordination, impact reporting)
+- [x] `docs/guides/guide-legal-firm.md` — Legal firm (case management, document review, compliance tracking)
+- [x] `docs/guides/guide-healthcare.md` — Healthcare organization (HIPAA, patient flow, clinical protocols)
+
+### Gaps identified during guide writing (proposed for future eras)
+
+| Source | Gap | Proposed command |
+|---|---|---|
+| Hardware Lab | BOM management | `/hw-bom {add\|list\|cost\|export}` |
+| Hardware Lab | Hardware revision tracking | `/hw-revision {create\|compare\|history}` |
+| Hardware Lab | Compliance evidence matrix | `/compliance-matrix {standard\|status\|export}` |
+| Research Lab | Experiment tracking | `/experiment-log {create\|run\|result\|compare}` |
+| Research Lab | Literature/bibliography management | `/biblio-add {doi\|bibtex}`, `/biblio-search` |
+| Research Lab | Dataset versioning (DVC/LFS) | `/dataset-version {register\|diff\|pull}` |
+| Research Lab | Grant lifecycle management | `/grant-track {submit\|status\|report}` |
+| Research Lab | Ethics/IRB protocol tracking | `/ethics-protocol {create\|status\|expire}` |
+| Nonprofit | Impact metrics | `/impact-metric {define\|log\|report}` |
+| Nonprofit | Volunteer management | `/volunteer-manage {register\|availability\|hours}` |
+| Legal Firm | Legal deadline management with alerts | `/legal-deadline {set\|list\|alert}` |
+| Legal Firm | Court calendar integration | `/court-calendar {import\|sync}` |
+| Legal Firm | Conflict of interest check | `/conflict-check {client\|matter}` |
+| Legal Firm | Legal document templates | `/legal-template {demanda\|contestacion\|recurso}` |
+| Legal Firm | Billing rate management | `/billing-rate {set\|calculate\|invoice}` |
+| Healthcare | PDCA cycle as native entity | `/pdca-cycle {plan\|do\|check\|act}` |
+| Healthcare | Patient safety incident tracking | `/incident-register {classify\|investigate\|action}` |
+| Healthcare | Accreditation tracking (JCI/EFQM/ISO) | `/accreditation-track {standard\|evidence\|gap}` |
+| Healthcare | Training compliance per professional | `/training-compliance {status\|expired\|plan}` |
+| Healthcare | Health KPI dashboard | `/health-kpi {define\|measure\|trend}` |
+
+---
+
 ### Backlog — Strategic Evaluation
 
 - **Claude Connectors vs MCP** — Evaluar si Connectors simplifican la arquitectura de integraciones
