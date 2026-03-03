@@ -108,16 +108,12 @@ Ciclo: Explorar → Planificar → Implementar → Commit. Arquitectura: **Comma
 ## Hooks · Memoria
 
 > Hooks (14): `.claude/settings.json` — Arranque blindado (sin red, sin dependencias externas)
-> Memoria: `@docs/memory-system.md` · Store: `scripts/memory-store.sh` (JSONL, dedup, topic_key, `<private>`)
-> Agent Notes: `@docs/agent-notes-protocol.md` · Security: `/security-review {spec}` — OWASP pre-implementación
+> Memoria: `@docs/memory-system.md` · Store: `scripts/memory-store.sh` (JSONL, dedup, topic_key, `<private>`) · Agent Notes: `@docs/agent-notes-protocol.md` · Security: `/security-review {spec}` — OWASP pre-implementación
 
 ---
 
 ## Checklist Nuevo Proyecto
 
-- [ ] `projects/[nombre]/CLAUDE.md` (≤150 líneas)
-- [ ] Entrada en `CLAUDE.local.md` o tabla Proyectos Activos
-- [ ] Entornos (DEV/PRE/PRO) + `config.local/` + `.env.example`
-- [ ] Cloud/infra si aplica
-- [ ] `scripts/setup-memory.sh [nombre]`
-- [ ] `agent-notes/`, `adrs/` si hay decisiones arquitectónicas
+- [ ] `projects/[nombre]/CLAUDE.md` (≤150 líneas) + entrada en `CLAUDE.local.md`
+- [ ] Entornos (DEV/PRE/PRO) + `config.local/` + `.env.example` + cloud/infra si aplica
+- [ ] `scripts/setup-memory.sh [nombre]` + `agent-notes/`, `adrs/` si hay decisiones
