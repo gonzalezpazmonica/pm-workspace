@@ -24,11 +24,16 @@ cmd_save() {
     [[ -z "$type" || -z "$title" || -z "$content" ]] && { echo "Error: --type, --title, --content requeridos"; exit 1; }
 
     content=$(echo "$content" | redact_private | head -c 2000)
+    # FIX: Escape newlines before JSON insertion to prevent JSONL corruption
+    content="${content//$'\n'/\\n}"
+    content="${content//$'\r'/\\r}"
+    content="${content//$'\t'/\\t}"
     local hash=$(hash_content "$content") now=$(iso8601_now)
 
     # UPSERT por topic_key
     if [[ -n "$topic_key" && -f "$STORE_FILE" ]]; then
-        local old_line=$(grep "\"topic_key\":\"$topic_key\"" "$STORE_FILE" 2>/dev/null | tail -1 || true)
+        # FIX: Use -F flag for literal string matching to prevent regex injection
+        local old_line=$(grep -F "\"topic_key\":\"$topic_key\"" "$STORE_FILE" 2>/dev/null | tail -1 || true)
         if [[ -n "$old_line" ]]; then
             rev=$(($(echo "$old_line" | grep -o '"rev":[0-9]*' | cut -d: -f2) + 1))
             grep -v "\"topic_key\":\"$topic_key\"" "$STORE_FILE" > "$STORE_FILE.tmp" || true

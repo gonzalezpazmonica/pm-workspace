@@ -57,7 +57,17 @@ write_config() {
   local value="$2"
   ensure_config
   if grep -q "^${key}=" "$CONFIG_FILE" 2>/dev/null; then
-    sed -i "s|^${key}=.*|${key}=${value}|" "$CONFIG_FILE"
+    # FIX: sed -i not portable on macOS. Source savia-compat.sh and use portable_sed_i
+    SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    source "$SCRIPTS_DIR/savia-compat.sh" || true
+    # Use portable_sed_i if available, else detect OS
+    if command -v portable_sed_i &>/dev/null; then
+      portable_sed_i "s|^${key}=.*|${key}=${value}|" "$CONFIG_FILE"
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+      sed -i '' "s|^${key}=.*|${key}=${value}|" "$CONFIG_FILE"
+    else
+      sed -i "s|^${key}=.*|${key}=${value}|" "$CONFIG_FILE"
+    fi
   else
     echo "${key}=${value}" >> "$CONFIG_FILE"
   fi

@@ -10,25 +10,29 @@ if [ -z "$COMMAND" ]; then
 fi
 
 # Bloquear force push
-if echo "$COMMAND" | grep -iE 'git\s+push\s+.*--force|git\s+push\s+-f\b' > /dev/null; then
+# FIX: Add anchoring for compound command separators (semicolon, &&, ||, pipe)
+if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+.*--force|(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+-f[[:space:]]' > /dev/null; then
   echo "BLOQUEADO: git push --force no está permitido. Usa git push sin --force." >&2
   exit 2
 fi
 
 # Bloquear push directo a main/master
-if echo "$COMMAND" | grep -iE 'git\s+push\s+(origin\s+)?(main|master)\b' > /dev/null; then
+# FIX: Add anchoring for compound command separators
+if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+(origin[[:space:]]+)?(main|master)([[:space:]]|$|[;&|])' > /dev/null; then
   echo "BLOQUEADO: Push directo a main/master no permitido. Usa rama + PR." >&2
   exit 2
 fi
 
 # Bloquear commit --amend sin confirmación explícita
-if echo "$COMMAND" | grep -iE 'git\s+commit\s+.*--amend' > /dev/null; then
+# FIX: Add anchoring for compound command separators
+if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+commit[[:space:]]+.*--amend' > /dev/null; then
   echo "BLOQUEADO: git commit --amend puede destruir commits anteriores. Crea un commit nuevo." >&2
   exit 2
 fi
 
 # Bloquear reset --hard
-if echo "$COMMAND" | grep -iE 'git\s+reset\s+--hard' > /dev/null; then
+# FIX: Add anchoring for compound command separators
+if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+reset[[:space:]]+--hard' > /dev/null; then
   echo "BLOQUEADO: git reset --hard puede perder trabajo. Usa git stash o git revert." >&2
   exit 2
 fi

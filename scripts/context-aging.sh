@@ -22,7 +22,12 @@ DAYS_ARCHIVE=90
 date_to_epoch() {
   local datestr="$1"
   # Acepta YYYY-MM-DD
-  date -d "$datestr" +%s 2>/dev/null || echo "0"
+  # FIX: date -d doesn't exist on macOS. Detect OSTYPE and use -f on Darwin.
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    date -f "%Y-%m-%d" -j "$datestr" "+%s" 2>/dev/null || echo "0"
+  else
+    date -d "$datestr" +%s 2>/dev/null || echo "0"
+  fi
 }
 
 days_ago() {

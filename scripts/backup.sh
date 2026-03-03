@@ -9,6 +9,8 @@ set -euo pipefail
 
 # ── Constantes ──────────────────────────────────────────────────────
 WORKSPACE_DIR="${PM_WORKSPACE_ROOT:-$HOME/claude}"
+SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPTS_DIR/savia-compat.sh"
 CONFIG_DIR="$HOME/.pm-workspace"
 BACKUP_CONFIG="$CONFIG_DIR/backup-config"
 BACKUP_DIR="$CONFIG_DIR/backups"
@@ -37,14 +39,14 @@ ensure_config() {
 
 read_config() {
   local key="$1"
-  grep -oP "${key}=\\K.*" "$BACKUP_CONFIG" 2>/dev/null || echo ""
+  portable_read_config "$key" "$BACKUP_CONFIG"
 }
 
 write_config() {
   local key="$1"
   local value="$2"
   if grep -q "^${key}=" "$BACKUP_CONFIG" 2>/dev/null; then
-    sed -i "s|^${key}=.*|${key}=${value}|" "$BACKUP_CONFIG"
+    portable_sed_i "s|^${key}=.*|${key}=${value}|" "$BACKUP_CONFIG"
   else
     echo "${key}=${value}" >> "$BACKUP_CONFIG"
   fi
@@ -59,7 +61,7 @@ get_backup_paths() {
   if [ -f "$active_user" ]; then
     paths+=("$active_user")
     local slug
-    slug=$(grep -oP 'active_slug:\s*"\K[^"]+' "$active_user" 2>/dev/null || echo "")
+    slug=$(portable_yaml_field "active_slug" "$active_user")
     if [ -n "$slug" ] && [ -d "$WORKSPACE_DIR/.claude/profiles/users/$slug" ]; then
       paths+=("$WORKSPACE_DIR/.claude/profiles/users/$slug")
     fi
@@ -154,11 +156,15 @@ rotate_backups() {
   count=$(find "$BACKUP_DIR" -name "pm-backup-*.enc" -type f 2>/dev/null | wc -l)
   if [ "$count" -gt "$MAX_BACKUPS" ]; then
     local to_delete=$((count - MAX_BACKUPS))
+    # FIX: Redirect from temp file instead of pipe to avoid subshell losing variables
+    local temp_file="$BACKUP_DIR/rotate_list.tmp"
     find "$BACKUP_DIR" -name "pm-backup-*.enc" -type f 2>/dev/null | \
-      sort | head -n "$to_delete" | while read -r f; do
-        rm -f "$f"
-        log_info "Rotación: eliminado $(basename "$f")"
-      done
+      sort | head -n "$to_delete" > "$temp_file"
+    while read -r f; do
+      rm -f "$f"
+      log_info "Rotación: eliminado $(basename "$f")"
+    done < "$temp_file"
+    rm -f "$temp_file"
   fi
 }
 
@@ -178,7 +184,8 @@ do_now() {
 
   for path in $backup_paths; do
     if [ -e "$path" ]; then
-      cp -r "$path" "$staging/data/"
+      # FIX: Add -p flag to preserve permissions when copying
+      cp -rp "$path" "$staging/data/"
       file_count=$((file_count + 1))
     fi
   done
@@ -226,7 +233,9 @@ do_now() {
     echo ""
     local hash
     hash=$(echo -n "$passphrase" | sha256sum | cut -d' ' -f1)
-    if [ "$hash" != "$passphrase" ]; then
+    # FIX: Compare computed hash to stored hash, not plaintext to hash
+    stored_hash=$(read_config "passphrase_hash")
+    if [ "$hash" != "$stored_hash" ]; then
       log_warn "Passphrase diferente a la original (hash no coincide)"
     fi
   fi
