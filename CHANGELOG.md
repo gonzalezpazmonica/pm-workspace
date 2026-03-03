@@ -24,7 +24,7 @@ Company Savia v2: complete directory restructure for clarity, consistency, and i
 ### Fixed
 
 - **`.gitignore`**: pubkey exclusion rule updated (`!**/pubkey.pem` instead of `!**/public/*.pem`).
-- **AIrquiTech repo**: completely reinitialized with new structure.
+- **Test company repo**: reinitialized with new structure.
 
 ---
 

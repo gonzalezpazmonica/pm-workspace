@@ -80,6 +80,7 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 17. **Anti-improvisación**: Comando SOLO ejecuta lo de su `.md`. No cubierto → error + sugerencia
 18. **Serialización**: scopes antes de Agent Teams. Solapan → serializar. Hook `scope-guard.sh`
 19. **Arranque seguro**: MCP/integraciones se cargan bajo demanda, NUNCA al inicio. Savia SIEMPRE arranca.
+20. **PII-Free repo**: NUNCA nombres reales, empresas, handles ni datos personales en código, docs, CHANGELOG, releases, commits ni PRs. Usar genéricos (`test-org`, `alice`, `test company repo`). Detalle → `@.claude/rules/domain/pii-sanitization.md`
 
 ---
 
