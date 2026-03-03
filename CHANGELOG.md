@@ -5,6 +5,29 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [1.6.0] — 2026-03-03
+
+Company Savia v2: complete directory restructure for clarity, consistency, and indexing.
+
+### Changed
+
+- **Directory layout**: `team/` → `users/`, `company-inbox/` → `company/inbox/`, new `teams/` directory with per-team member references.
+- **User paths simplified**: removed `public/` subdirectory and `savia-` prefixes (`savia-inbox/` → `inbox/`, `savia-state/` → `state/`, `savia-flow/` → `flow/`).
+- **35+ files updated**: all scripts, tests, config rules, skills, and docs aligned with new structure.
+
+### Added
+
+- **`inboxes.idx`**: new index mapping handle → inbox path for fast lookup.
+- **`teams.idx`**: new index mapping team → members.
+- **`teams/{name}/users/{handle}.md`**: per-team member reference files with role and join date.
+
+### Fixed
+
+- **`.gitignore`**: pubkey exclusion rule updated (`!**/pubkey.pem` instead of `!**/public/*.pem`).
+- **AIrquiTech repo**: completely reinitialized with new structure.
+
+---
+
 ## [1.5.1] — 2026-03-03
 
 Confidentiality hardening: E2E encryption testing, subject sensitivity validation, 7 bug fixes, 5 new test suites.
