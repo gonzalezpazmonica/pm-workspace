@@ -65,7 +65,8 @@ run_suite "test-savia-flow.sh"       "$SCRIPTS_DIR/test-savia-flow.sh"
 run_suite "test-savia-flow-tasks.sh" "$SCRIPTS_DIR/test-savia-flow-tasks.sh"
 run_suite "test-savia-index.sh"      "$SCRIPTS_DIR/test-savia-index.sh"
 run_suite "test-savia-travel.sh"     "$SCRIPTS_DIR/test-savia-travel.sh"
-run_suite "test-savia-school.sh"     "$SCRIPTS_DIR/test-savia-school.sh"
+run_suite "test-savia-school.sh"          "$SCRIPTS_DIR/test-savia-school.sh"
+run_suite "test-savia-confidentiality.sh" "$SCRIPTS_DIR/test-savia-confidentiality.sh"
 
 # ── Step 3: Smoke tests against cloned repo ─────────────────────────
 echo -e "${BLUE}══ Smoke Tests (${REMOTE_URL}) ══${NC}"
