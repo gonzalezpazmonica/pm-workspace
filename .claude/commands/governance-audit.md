@@ -10,9 +10,10 @@ context_cost: high
 
 > 🦉 Auditar que las acciones de Savia cumplen la política de gobernanza.
 
-Auditoría de cumplimiento basado en NIST AI RMF (Map, Measure).
+Auditoría de cumplimiento basado en NIST AI RMF (Map, Measure) y AEPD (IA agéntica).
 
 Carga la política, escanea el log de acciones, detecta incumplimientos y excepciones.
+Incluye criterios AEPD para agentes autónomos: @.claude/rules/domain/aepd-framework.md
 
 ---
 
@@ -41,6 +42,12 @@ Carga la política, escanea el log de acciones, detecta incumplimientos y excepc
 - 🔴 Acción clasificada como BAJO siendo ALTO
 - 🔴 Acción sin documentación
 
+### AEPD — IA Agéntica
+- 🔴 Agente sin EIPD documentada
+- 🔴 Sin base jurídica para tratamiento de datos
+- 🟡 Scope guard ausente o desactivado
+- 🟡 Falta protocolo notificación brechas 72h
+
 ### Excepciones
 - 🟡 Acción permitida por excepción documentada
 - 🟡 Escalation aprobado por CTO
@@ -59,4 +66,4 @@ Secciones:
 - Tendencias (últimos 30/60/90 días)
 - Recomendaciones de mejora
 
-**Integración**: Input para `/governance-report` y `/governance-certify`.
+**Integración**: Input para `/governance-report`, `/governance-certify` y `/aepd-compliance`.

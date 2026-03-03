@@ -57,10 +57,21 @@ Recomendar acciones específicas por dimensión débil:
 
 ---
 
+## AI Competency Assessment (opcional: `--ai-skills`)
+
+Extiende ADKAR con 6 competencias AI-era:
+@.claude/rules/domain/ai-competency-framework.md
+
+1. Problem Formulation, 2. Output Evaluation, 3. Context Engineering,
+4. AI Orchestration, 5. Critical Thinking, 6. Ethical Awareness
+
+Cada competencia 1-4. Score total: promedio × 25 (0-100).
+Niveles: AI-Native (80+), AI-Proficient (60-79), AI-Aware (40-59).
+
 ## Output
 
 - Matriz ADKAR con scores actuales
-- Gráfico de radar con 5 dimensiones
+- AI Competency radar (6 dimensiones, si `--ai-skills`)
 - Top 3 frenos y acciones recomendadas
 - Roadmap personalizado de 8-12 semanas
 - Guardar en `output/adoption-assess-YYYYMMDD-{proyecto}.md`

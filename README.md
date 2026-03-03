@@ -34,7 +34,7 @@ Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Sistema de memoria inteligente** — Tengo reglas de lenguaje con auto-carga por tipo de fichero, auto memory persistente por proyecto, soporte para proyectos externos vía symlinks y `--add-dir`. Mi memory store (JSONL) tiene búsqueda, deduplicación por hash, topic_key para decisiones que evolucionan, filtrado de `<private>` tags, e inyección automática de contexto tras compactación. Mis skills y agentes usan progressive disclosure con metadata `context_cost` para optimizar el consumo de contexto.
 
-**Hooks programáticos** — 12 hooks que refuerzan reglas críticas automáticamente: bloqueo de force push, detección de secrets, prevención de operaciones destructivas de infra, auto-lint tras edición, quality gates antes de finalizar, scope guard que detecta ficheros modificados fuera del alcance de la spec SDD, e inyección de memoria persistente tras compactación.
+**Hooks programáticos** — 14 hooks que refuerzan reglas críticas automáticamente: bloqueo de force push, detección de secrets, prevención de operaciones destructivas de infra, auto-lint tras edición, quality gates antes de finalizar, scope guard que detecta ficheros modificados fuera del alcance de la spec SDD, inyección de memoria persistente tras compactación, validación semántica de commits y quality gate pre-merge.
 
 **Agentes con capacidades avanzadas** — Cada subagente tiene memoria persistente, skills precargados, modo de permisos apropiado, y los developer agents usan `isolation: worktree` para implementación paralela sin conflictos. Soporte experimental para Agent Teams (lead + teammates).
 
@@ -125,7 +125,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 | [Proyecto de test](docs/readme/09-proyecto-test.md) | `sala-reservas`: tests, datos mock, validación |
 | [KPIs, reglas y roadmap](docs/readme/10-kpis-reglas.md) | Métricas, reglas críticas, plan de adopción |
 | [Onboarding de nuevos miembros](docs/readme/11-onboarding.md) | Incorporación en 5 fases, evaluación de competencias, RGPD |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 268 comandos + 24 agentes especializados |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 271 comandos + 24 agentes especializados |
 | [Cobertura y contribución](docs/readme/13-cobertura-contribucion.md) | Qué cubre, qué no, cómo contribuir |
 
 ### Otros documentos
@@ -164,9 +164,20 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 **Era 17 — AI Tooling & Auto-Compact (3/3). ERA 17 COMPLETA!**
 
+## v0.84.0–v0.89.0 — Era 18: Compliance, Distribution & Intelligent Hooks
+
+- `/aepd-compliance` — Auditoría AEPD para IA agéntica (4 fases: tecnología → cumplimiento → vulnerabilidades → medidas)
+- `/excel-report` — Plantillas Excel interactivas (capacity, CEO, time-tracking) en CSV multi-tab
+- `/savia-gallery` — Catálogo interactivo de 271 comandos por rol y vertical con source tracking
+- skills.sh publishing infrastructure — Adapter script + formato para publicar en marketplace
+- Intelligent hooks — Prompt hooks (semánticos) y Agent hooks (quality gate pre-merge)
+- AI Competency Framework — 6 competencias AI-era para `/adoption-assess --ai-skills`
+
+**Era 18 — Compliance, Distribution & Intelligent Hooks (6/6). ERA 18 COMPLETA!**
+
 ## Referencia rápida de comandos
 
-> 268 comandos · 24 agentes · 21 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 271 comandos · 24 agentes · 21 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -258,10 +269,12 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 /debt-analyze    /debt-prioritize    /debt-budget
 ```
 
-### Gobernanza IA
+### Gobernanza IA y Compliance
 ```
 /ai-safety-config    /ai-confidence    /ai-boundary    /ai-incident
 /ai-model-card    /ai-risk-assessment    /ai-audit-log
+/aepd-compliance {proyecto} [--agent nombre] [--full] [--fix]
+/governance-audit    /governance-report    /governance-certify
 ```
 
 ### AI Adoption Companion
@@ -326,6 +339,8 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 /changelog-update    /evaluate-repo [URL]    /validate-filesize
 /validate-schema    /review-cache-stats    /review-cache-clear
 /testplan-status    /testplan-results {id}    /devops-validate {proy}
+/excel-report {capacity|ceo|time-tracking|custom}
+/savia-gallery [--role pm|techlead|qa|po|dev|ceo] [--vertical name]
 ```
 
 ### Developer Experience

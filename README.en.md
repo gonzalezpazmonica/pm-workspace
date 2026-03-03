@@ -34,7 +34,7 @@ I work with 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Intelligent memory system** — I have language rules with auto-loading by file type, persistent auto memory per project, support for external projects via symlinks and `--add-dir`. My memory store (JSONL) features full-text search, hash-based deduplication, topic_key for evolving decisions, `<private>` tag filtering, and automatic context injection after compaction. My skills and agents use progressive disclosure with `context_cost` metadata to optimize context consumption.
 
-**Programmatic hooks** — 12 hooks that enforce critical rules automatically: force push blocking, secrets detection, destructive infrastructure operation prevention, auto-lint after edits, quality gates before finishing, scope guard that detects files modified outside the SDD spec's declared scope, and persistent memory injection after compaction.
+**Programmatic hooks** — 14 hooks that enforce critical rules automatically: force push blocking, secrets detection, destructive infrastructure operation prevention, auto-lint after edits, quality gates before finishing, scope guard that detects files modified outside the SDD spec's declared scope, persistent memory injection after compaction, semantic commit validation and pre-merge quality gates.
 
 **Agents with advanced capabilities** — Each subagent has persistent memory, preloaded skills, appropriate permission mode, and developer agents use `isolation: worktree` for parallel implementation without conflicts. Experimental support for Agent Teams (lead + teammates).
 
@@ -125,7 +125,7 @@ I've organized all documentation into sections so you can quickly find what you 
 | [Test project](docs/readme_en/09-test-project.md) | `sala-reservas`: tests, mock data, validation |
 | [KPIs, rules, and roadmap](docs/readme_en/10-kpis-rules.md) | Metrics, critical rules, adoption plan |
 | [Onboarding new team members](docs/readme_en/11-onboarding.md) | 5-phase onboarding, competency evaluation, GDPR |
-| [Commands and agents](docs/readme_en/12-commands-agents.md) | 268 commands + 24 specialized agents |
+| [Commands and agents](docs/readme_en/12-commands-agents.md) | 271 commands + 24 specialized agents |
 | [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
 ### Other Documents
@@ -164,9 +164,20 @@ I've organized all documentation into sections so you can quickly find what you 
 
 **Era 17 — AI Tooling & Auto-Compact (3/3). ERA 17 COMPLETE!**
 
+## v0.84.0–v0.89.0 — Era 18: Compliance, Distribution & Intelligent Hooks
+
+- `/aepd-compliance` — AEPD compliance audit for agentic AI (4 phases: technology → compliance → vulnerabilities → measures)
+- `/excel-report` — Interactive Excel templates (capacity, CEO, time-tracking) in multi-tab CSV
+- `/savia-gallery` — Interactive catalog of 271 commands by role and vertical with source tracking
+- skills.sh publishing infrastructure — Adapter script + format for marketplace publishing
+- Intelligent hooks — Prompt hooks (semantic) and Agent hooks (pre-merge quality gate)
+- AI Competency Framework — 6 AI-era competencies for `/adoption-assess --ai-skills`
+
+**Era 18 — Compliance, Distribution & Intelligent Hooks (6/6). ERA 18 COMPLETE!**
+
 ## Quick Command Reference
 
-> 268 commands · 24 agents · 21 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 271 commands · 24 agents · 21 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
