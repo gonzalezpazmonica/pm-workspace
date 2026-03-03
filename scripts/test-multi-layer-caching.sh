@@ -3,7 +3,7 @@
 
 set -e
 
-PROJECT_DIR="/home/monica/claude"
+PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 COMMANDS_DIR="$PROJECT_DIR/.claude/commands"
 EXPECTED_COUNT=$(ls -1 "$COMMANDS_DIR"/*.md 2>/dev/null | wc -l)
 CACHE_COMMANDS=("cache-strategy" "cache-warm" "cache-analytics" "cache-invalidate")

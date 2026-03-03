@@ -61,11 +61,11 @@ do_export_pubkey() {
     return 1
   fi
 
-  local dest="$repo_dir/team/$handle/public/pubkey.pem"
+  local dest="$repo_dir/users/$handle/pubkey.pem"
   mkdir -p "$(dirname "$dest")"
   cp "$KEYS_DIR/public.pem" "$dest"
 
-  log_ok "Public key exported to team/$handle/public/pubkey.pem"
+  log_ok "Public key exported to users/$handle/pubkey.pem"
 }
 
 # ── Main ────────────────────────────────────────────────────────────

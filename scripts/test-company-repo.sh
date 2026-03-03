@@ -66,8 +66,8 @@ assert_file "identity.md created" "$CLONE_A/company/identity.md"
 assert_file "org-chart.md created" "$CLONE_A/company/org-chart.md"
 assert_file "holidays.md created" "$CLONE_A/company/holidays.md"
 assert_file "conventions.md created" "$CLONE_A/company/conventions.md"
-assert_dir "company-inbox dir" "$CLONE_A/company-inbox"
-assert_dir "team dir" "$CLONE_A/team"
+assert_dir "company/inbox dir" "$CLONE_A/company/inbox"
+assert_dir "users dir" "$CLONE_A/users"
 assert_contains "CODEOWNERS has admin" "$CLONE_A/CODEOWNERS" "admin-user"
 assert_contains "directory has admin" "$CLONE_A/directory.md" "@admin-user"
 
@@ -76,14 +76,13 @@ echo ""
 echo "── Test: User Folders ──"
 
 bash "$SCRIPTS_DIR/company-repo-templates.sh" user-folders "$CLONE_A" "dev-user" "Dev Name" "Developer"
-assert_dir "User dir created" "$CLONE_A/team/dev-user"
-assert_dir "Public dir" "$CLONE_A/team/dev-user/public"
-assert_dir "Inbox unread" "$CLONE_A/team/dev-user/savia-inbox/unread"
-assert_dir "Inbox read" "$CLONE_A/team/dev-user/savia-inbox/read"
-assert_file "Profile created" "$CLONE_A/team/dev-user/public/profile.md"
-assert_contains "Profile has name" "$CLONE_A/team/dev-user/public/profile.md" "Dev Name"
+assert_dir "User dir created" "$CLONE_A/users/dev-user"
+assert_dir "Inbox unread" "$CLONE_A/users/dev-user/inbox/unread"
+assert_dir "Inbox read" "$CLONE_A/users/dev-user/inbox/read"
+assert_file "Profile created" "$CLONE_A/users/dev-user/profile.md"
+assert_contains "Profile has name" "$CLONE_A/users/dev-user/profile.md" "Dev Name"
 assert_contains "Directory updated" "$CLONE_A/directory.md" "@dev-user"
-assert_contains "CODEOWNERS updated" "$CLONE_A/CODEOWNERS" "team/dev-user/"
+assert_contains "CODEOWNERS updated" "$CLONE_A/CODEOWNERS" "users/dev-user/"
 
 # ── Test 3: Git operations ─────────────────────────────────────────
 echo ""
@@ -111,7 +110,7 @@ assert_ok "Second user pushed"
 # Pull from first clone
 cd "$CLONE_A"
 git pull 2>/dev/null
-assert_dir "Sync: user-b visible" "$CLONE_A/team/user-b"
+assert_dir "Sync: user-b visible" "$CLONE_A/users/user-b"
 assert_ok "Sync pull succeeded"
 
 # ── Summary ─────────────────────────────────────────────────────────

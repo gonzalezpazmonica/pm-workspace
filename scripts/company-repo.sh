@@ -79,7 +79,7 @@ do_create() {
 
   # Export pubkey if available
   if [ -f "$HOME/.pm-workspace/savia-keys/public.pem" ]; then
-    bash "$SCRIPTS_DIR/savia-crypto.sh" export-pubkey "$local_path" "$admin_handle"
+    bash "$SCRIPTS_DIR/savia-crypto.sh" export-pubkey "$local_path" "$admin_handle" "users"
   fi
 
   # Initial commit and push

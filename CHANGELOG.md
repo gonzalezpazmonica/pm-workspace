@@ -14,7 +14,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 - **5 test scripts**: `test-savia-confidentiality.sh` (34 tests — E2E encryption, metadata, non-recipient rejection, privacy scanner, idempotency, subject sensitivity), `test-savia-flow-tasks.sh` (24 tests), `test-savia-index.sh` (12 tests), `test-savia-travel.sh` (18 tests), `test-savia-school.sh` (34 tests).
 - **1 script**: `savia-messaging-privacy.sh` — Subject sensitivity validation: detects monetary amounts, dates, company names, credentials, API keys, IPs, emails, DNI/NIE, IBAN in subjects. Warns but doesn't block delivery.
 - **1 rule**: `messaging-subject-safety.md` — Agent guidance for safe subject lines. "Instead of X, use Y" table. 12 pattern categories.
-- **AIrquiTech initialization**: Company Savia structure deployed to test repo via `company-repo-templates.sh`.
+- **Company Savia initialization**: Structure deployed to test repo via `company-repo-templates.sh`.
 
 ### Fixed
 
@@ -169,7 +169,7 @@ Travel Mode: portable USB bootstrap with `savia-init` for deploying pm-workspace
 
 ## [0.99.2] — 2026-03-03
 
-Integration tests against real AIrquiTech repo structure.
+Integration tests against real Company Savia repo structure.
 
 ### Added
 

@@ -96,8 +96,8 @@ Body format when `encrypted: true`:
 ## File Naming
 
 Messages are stored as `{id}.md`:
-- Personal: `team/{handle}/savia-inbox/unread/{id}.md`
-- Announcements: `company-inbox/{id}.md`
+- Personal: `users/{handle}/inbox/unread/{id}.md`
+- Announcements: `company/inbox/{id}.md`
 
 ## Validation Rules
 

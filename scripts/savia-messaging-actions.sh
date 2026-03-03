@@ -18,9 +18,9 @@ do_announce() {
   handle=$(get_handle)
   msg_id=$(gen_id)
 
-  mkdir -p "$repo_dir/company-inbox"
+  mkdir -p "$repo_dir/company/inbox"
 
-  cat > "$repo_dir/company-inbox/${msg_id}.md" <<EOF
+  cat > "$repo_dir/company/inbox/${msg_id}.md" <<EOF
 ---
 id: "${msg_id}"
 from: "${handle}"
@@ -49,7 +49,7 @@ do_broadcast() {
   repo_dir=$(get_repo)
   handle=$(get_handle)
 
-  for user_dir in "$repo_dir"/team/*/; do
+  for user_dir in "$repo_dir"/users/*/; do
     [ -d "$user_dir" ] || continue
     local target
     target=$(basename "$user_dir")

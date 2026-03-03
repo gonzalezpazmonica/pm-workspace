@@ -4,7 +4,7 @@
 
 set -e
 
-WORKSPACE="/home/monica/claude"
+WORKSPACE="$(cd "$(dirname "$0")/.." && pwd)"
 COMMANDS_DIR="$WORKSPACE/.claude/commands"
 EXPECTED_COUNT_MIN=215  # Dynamic threshold
 

@@ -76,8 +76,8 @@ do_scan() {
   fi
 
   # Scan personal inbox messages (unread) for handle
-  if [ -n "$handle" ] && [ -d "$repo_dir/team/$handle/savia-inbox/unread" ]; then
-    for msg_file in "$repo_dir/team/$handle/savia-inbox/unread"/*.md; do
+  if [ -n "$handle" ] && [ -d "$repo_dir/users/$handle/inbox/unread" ]; then
+    for msg_file in "$repo_dir/users/$handle/inbox/unread"/*.md; do
       [ -f "$msg_file" ] || continue
       local msg_content
       msg_content=$(cat "$msg_file")
@@ -92,8 +92,8 @@ do_scan() {
   fi
 
   # Scan personal documents folder
-  if [ -n "$handle" ] && [ -d "$repo_dir/team/$handle/documents" ]; then
-    for doc_file in "$repo_dir/team/$handle/documents"/*; do
+  if [ -n "$handle" ] && [ -d "$repo_dir/users/$handle/documents" ]; then
+    for doc_file in "$repo_dir/users/$handle/documents"/*; do
       [ -f "$doc_file" ] || continue
       local doc_content
       doc_content=$(cat "$doc_file")

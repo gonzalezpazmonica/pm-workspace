@@ -27,7 +27,7 @@ do_connect() {
 
   # Export pubkey if available
   if [ -f "$HOME/.pm-workspace/savia-keys/public.pem" ]; then
-    bash "$SCRIPTS_DIR/savia-crypto.sh" export-pubkey "$local_path" "$handle"
+    bash "$SCRIPTS_DIR/savia-crypto.sh" export-pubkey "$local_path" "$handle" "users"
   fi
 
   # Commit and push
@@ -72,13 +72,13 @@ do_status() {
 
   # Unread messages
   local unread=0
-  [ -d "$local_path/team/$handle/savia-inbox/unread" ] && \
-    unread=$(find "$local_path/team/$handle/savia-inbox/unread" -name '*.md' 2>/dev/null | wc -l)
+  [ -d "$local_path/users/$handle/inbox/unread" ] && \
+    unread=$(find "$local_path/users/$handle/inbox/unread" -name '*.md' 2>/dev/null | wc -l)
   echo -e "  Inbox:   $unread unread message(s)"
 
   # Company announcements
   local read_log="$CONFIG_DIR/company-inbox-read.log"
-  if [ -d "$local_path/company-inbox" ]; then
+  if [ -d "$local_path/company/inbox" ]; then
     local total_ann read_count announcements
     total_ann=$(find "$local_path/company-inbox" -name '*.md' 2>/dev/null | wc -l)
     read_count=0

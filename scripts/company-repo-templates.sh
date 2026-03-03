@@ -24,11 +24,11 @@ do_user_folders() {
   local name="${3:?Falta name}"
   local role="${4:-Member}"
 
-  local user_dir="$repo_dir/team/$handle"
-  mkdir -p "$user_dir"/{public,documents,savia-state,private,savia-inbox/{unread,read}}
+  local user_dir="$repo_dir/users/$handle"
+  mkdir -p "$user_dir"/{inbox/{unread,read},state,flow,documents,private}
 
-  # Public profile
-  cat > "$user_dir/public/profile.md" <<EOF
+  # Profile
+  cat > "$user_dir/profile.md" <<EOF
 # @${handle}
 
 - **Name**: ${name}
@@ -38,14 +38,14 @@ do_user_folders() {
 EOF
 
   # Savia state
-  cat > "$user_dir/savia-state/state.md" <<EOF
+  cat > "$user_dir/state/state.md" <<EOF
 # Savia State — @${handle}
 last_sync: $(date -u +%Y-%m-%dT%H:%M:%SZ)
 EOF
 
   # Add to CODEOWNERS
   if [ -f "$repo_dir/CODEOWNERS" ]; then
-    echo "team/${handle}/ @${handle}" >> "$repo_dir/CODEOWNERS"
+    echo "users/${handle}/ @${handle}" >> "$repo_dir/CODEOWNERS"
   fi
 
   # Add to directory.md

@@ -49,17 +49,22 @@ company-savia-repo/
 │   ├── conventions.md        ← Convenciones de comunicación
 │   ├── rules/                ← Reglas de la empresa
 │   ├── resources/            ← Recursos compartidos
-│   └── projects/             ← Proyectos de la empresa
-├── team/{handle}/
-│   ├── public/               ← Perfil público + pubkey.pem
+│   ├── projects/             ← Proyectos de la empresa
+│   └── inbox/                ← Anuncios de empresa (persistentes)
+├── users/{handle}/
+│   ├── profile.md            ← Perfil público
+│   ├── pubkey.pem            ← Clave pública para E2E
 │   ├── documents/            ← Documentos personales
-│   ├── savia-state/          ← Estado de Savia
+│   ├── state/                ← Estado de Savia
 │   ├── private/              ← Datos privados (git-ignorado)
-│   └── savia-inbox/
+│   └── inbox/
 │       ├── unread/           ← Mensajes sin leer
 │       └── read/             ← Mensajes leídos
-├── company-inbox/            ← Anuncios de empresa (persistentes)
+├── teams/{team-name}/
+│   └── users/{handle}.md     ← Membresía de usuario en equipo
 ├── directory.md              ← Directorio de @handles
+├── inboxes.idx               ← Índice de buzones (acelerador)
+├── teams.idx                 ← Índice de equipos (acelerador)
 ├── CODEOWNERS                ← Protección: company/ → @admin
 └── README.md
 ```

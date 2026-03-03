@@ -50,9 +50,9 @@ gen_id() {
 # ── Resolve @handle → inbox path ───────────────────────────────────
 resolve_handle() {
   local repo_dir="$1" handle="$2"
-  local inbox="$repo_dir/team/$handle/savia-inbox/unread"
-  if [ ! -d "$repo_dir/team/$handle" ]; then
-    log_error "Handle @$handle not found in team directory"
+  local inbox="$repo_dir/users/$handle/inbox/unread"
+  if [ ! -d "$repo_dir/users/$handle" ]; then
+    log_error "Handle @$handle not found in users directory"
     return 1
   fi
   mkdir -p "$inbox"
@@ -96,7 +96,7 @@ do_send() {
   # Encrypt body if requested
   local final_body="$body"
   if [ "$encrypt" = "true" ]; then
-    local pubkey="$repo_dir/team/$recipient/public/pubkey.pem"
+    local pubkey="$repo_dir/users/$recipient/pubkey.pem"
     if [ ! -f "$pubkey" ]; then
       log_error "@$recipient has no public key. Cannot encrypt."
       return 1
