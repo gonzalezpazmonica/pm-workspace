@@ -4,6 +4,7 @@ description: Dashboard de estado de todas las integraciones — APIs, webhooks, 
 developer_type: all
 agent: task
 context_cost: low
+model: haiku
 ---
 
 # /integration-status

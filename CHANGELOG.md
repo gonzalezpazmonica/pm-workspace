@@ -5,6 +5,110 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [0.98.0] — 2026-03-03
+
+PR Guardian System — Automated PR validation with 8 quality gates + contextual digest.
+
+### Added
+
+- **`.github/workflows/pr-guardian.yml`** — 8-gate automated PR validation: description quality, conventional commits, CLAUDE.md context guard (≤120 lines), ShellCheck differential, Gitleaks secret scanning (700+ patterns), hook safety validator, context impact analysis, PR Digest (auto-comment in Spanish with risk assessment for maintainer).
+- **`.claude/commands/pr-digest.md`** — `/pr-digest` command for manual contextual PR analysis. Classifies changes by area, evaluates risk level, measures context impact, generates executive summary in Spanish.
+- **`.gitleaks.toml`** — Gitleaks configuration with allowlist for mock data, test fixtures, and placeholder patterns.
+- **`docs/propuestas/propuesta-pr-guardian-system.md`** — Full design document with gap analysis, 8-gate architecture, and implementation plan.
+- **`docs/propuestas/roadmap-research-era20.md`** — Era 20 research based on claude-code-best-practice analysis.
+
+### Changed
+
+- **`.github/pull_request_template.md`** — Added "Context impact" and "Hook safety" sections, conventional commits requirement.
+- **`docs/ROADMAP.md`** — Added Era 19 (Open Source Synergy) and Era 20 (Persistent Intelligence & Adaptive Workflows) with 6 milestones.
+
+[0.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.97.0...v0.98.0
+
+---
+
+## [0.97.0] — 2026-03-03
+
+Era 20 — MCP Toolkit & Async Hooks.
+
+### Added
+
+- **`/mcp-recommend`** — Curated MCP recommendations by stack and role (Context7, DeepWiki, Playwright, Excalidraw, Docker, Slack).
+- **`async-hooks-config.md`** — Hook classification (2 async, 10 blocking), event coverage 9/16 (56%), `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50`.
+
+[0.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.96.0...v0.97.0
+
+---
+
+## [0.96.0] — 2026-03-03
+
+Era 20 — Adaptive Output & Onboarding.
+
+### Added
+
+- **`/onboard`** — Guided onboarding for new team members with role-specific checklists (dev/PM/QA). Auto-explore, component map, personalized Day 1/Week 1/Month 1 plan.
+- **`adaptive-output.md`** — Three output modes: Coaching (junior devs), Executive (stakeholders), Technical (senior engineers). Auto-detection from profile and command context.
+
+[0.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.95.0...v0.96.0
+
+---
+
+## [0.95.0] — 2026-03-03
+
+Era 20 — RPI Workflow Engine.
+
+### Added
+
+- **`/rpi-start`** — Research → Plan → Implement workflow with GO/NO-GO gates. Creates `rpi/{feature}/` folder structure orchestrating product-discovery, pbi-decomposition, and spec-driven-development skills.
+- **`/rpi-status`** — Track progress of active RPI workflows with phase detection.
+
+[0.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.94.0...v0.95.0
+
+---
+
+## [0.94.0] — 2026-03-03
+
+Era 20 — Smart Command Frontmatter.
+
+### Added
+
+- **`smart-frontmatter.md`** — Domain rule defining model selection taxonomy (haiku/sonnet/opus), allowed-tools, context_cost, validation.
+
+### Changed
+
+- **57 commands** updated with `model` and `context_cost` frontmatter fields: 20 haiku, 29 sonnet, 8 opus.
+
+[0.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.93.0...v0.94.0
+
+---
+
+## [0.93.0] — 2026-03-03
+
+Era 20 — Savia Contextual Memory.
+
+### Added
+
+- **`/savia-recall`** — Query Savia's accumulated contextual memory (decisions, vocabulary, communication preferences).
+- **`/savia-forget`** — GDPR-compliant memory pruning implementing Art. 17 RGPD.
+- **`.claude/agent-memory/savia/MEMORY.md`** — Savia-specific persistent memory template.
+
+[0.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.92.0...v0.93.0
+
+---
+
+## [0.92.0] — 2026-03-03
+
+Era 20 — Agent Memory Foundation.
+
+### Added
+
+- **`.claude/agent-memory/`** — Persistent memory directory with MEMORY.md templates for 9 agents (architect, security-guardian, commit-guardian, code-reviewer, business-analyst, sdd-spec-writer, test-runner, dotnet-developer, savia).
+- **`/agent-memory`** — Command to inspect and manage agent memory fragments (list, show, clear).
+- **`agent-memory-protocol.md`** — Domain rule defining three memory scopes (project, local, user), hygiene rules, and integration with existing systems.
+
+[0.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.91.0...v0.92.0
+
+---
+
 ## [0.91.0] — 2026-03-03
 
 Era 20 — Stress Testing & Bug Fixes. 5 bug fixes + 165 new tests + orchestrator.

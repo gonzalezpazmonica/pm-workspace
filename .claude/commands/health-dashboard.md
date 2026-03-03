@@ -4,6 +4,7 @@ description: Dashboard de salud del proyecto unificado — Savia muestra una vis
 developer_type: all
 agent: none
 context_cost: medium
+model: sonnet
 ---
 
 # /health-dashboard

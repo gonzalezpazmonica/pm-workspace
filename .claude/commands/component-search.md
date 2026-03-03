@@ -1,4 +1,5 @@
 ---
+name: component-search
 description: Buscar componentes en el marketplace claude-code-templates (5.788+ componentes)
 ---
 

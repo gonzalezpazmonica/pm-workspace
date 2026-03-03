@@ -1,0 +1,26 @@
+# Gitleaks configuration for pm-workspace
+# Used by PR Guardian Gate 5 (secret scanning)
+# Docs: https://github.com/gitleaks/gitleaks
+
+title = "pm-workspace gitleaks config"
+
+[allowlist]
+description = "pm-workspace global allowlist"
+paths = [
+  '''projects/sala-reservas/test-data/.*''',
+  '''docker/savia-test/.*''',
+  '''docs/examples/.*''',
+  '''output/test-results/.*'''
+]
+
+# Allow placeholder patterns used in templates and docs
+regexes = [
+  '''TU-ORGANIZACION''',
+  '''YOUR-ORG''',
+  '''miempresa''',
+  '''placeholder''',
+  '''example\.com''',
+  '''mock[_-]?(token|key|secret|pat)''',
+  '''test[_-]?(token|key|secret|pat)''',
+  '''fake[_-]?(token|key|secret|pat)'''
+]

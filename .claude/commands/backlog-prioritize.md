@@ -4,6 +4,7 @@ description: Priorización automática RICE/WSJF con datos reales de esfuerzo y 
 developer_type: all
 agent: task
 context_cost: high
+model: sonnet
 ---
 
 # /backlog-prioritize

@@ -1,3 +1,10 @@
+---
+name: sprint-retro
+description: Genera la plantilla de retrospectiva con datos del sprint para facilitar la ceremonia.
+model: sonnet
+context_cost: medium
+---
+
 # /sprint-retro
 
 Genera la plantilla de retrospectiva con datos del sprint para facilitar la ceremonia.

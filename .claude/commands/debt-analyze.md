@@ -7,6 +7,7 @@ description: >
 developer_type: agent-single
 agent: architect
 context_cost: high
+model: sonnet
 ---
 
 # Debt Analyze

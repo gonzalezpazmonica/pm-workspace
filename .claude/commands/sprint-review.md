@@ -1,3 +1,10 @@
+---
+name: sprint-review
+description: Genera el resumen para la Sprint Review con todos los datos del sprint cerrado.
+model: sonnet
+context_cost: medium
+---
+
 # /sprint-review
 
 Genera el resumen para la Sprint Review con todos los datos del sprint cerrado.

@@ -1,0 +1,525 @@
+name: PR Guardian
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, edited]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  pr-guardian:
+    name: PR Guardian
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ─── Gate 1: PR Description Quality ───
+      - name: "Gate 1: PR Description Quality"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+            const errors = [];
+
+            // Strip HTML comments and template placeholders
+            const cleaned = body
+              .replace(/<!--[\s\S]*?-->/g, '')
+              .replace(/^\s*- \[ \].*$/gm, '')
+              .trim();
+
+            if (cleaned.length < 50) {
+              errors.push('PR description is too short (<50 chars after removing template). Explain what this PR does and why.');
+            }
+
+            // Check at least one checkbox is marked
+            const checked = (body.match(/- \[x\]/gi) || []).length;
+            if (checked === 0) {
+              errors.push('No checkboxes marked in the PR template. Mark at least the "Type of contribution".');
+            }
+
+            // Check "How to test" section has content
+            const testSection = body.match(/## How to test[\s\S]*?(?=##|$)/i);
+            if (testSection) {
+              const testContent = testSection[0]
+                .replace(/## How to test[^\n]*/i, '')
+                .replace(/<!--[\s\S]*?-->/g, '')
+                .trim();
+              if (testContent.length < 10) {
+                errors.push('"How to test" section is empty. Reviewers need to know how to verify your changes.');
+              }
+            }
+
+            if (errors.length > 0) {
+              const msg = '## ❌ Gate 1: PR Description Quality\n\n' +
+                errors.map(e => `- ${e}`).join('\n') +
+                '\n\nPlease update the PR description following the template.';
+              core.setFailed(msg);
+            } else {
+              core.info('✅ Gate 1: PR description is complete');
+            }
+
+      # ─── Gate 2: Conventional Commits (PR title) ───
+      - name: "Gate 2: Conventional Commits"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            const pattern = /^(feat|fix|docs|style|refactor|perf|test|chore|ci)(\([a-z0-9-]+\))?:\s.{3,}/;
+
+            if (!pattern.test(title)) {
+              const msg = '## ❌ Gate 2: Conventional Commits\n\n' +
+                `PR title \`${title}\` does not follow conventional commits.\n\n` +
+                'Expected: `type(scope): description`\n' +
+                'Types: feat, fix, docs, style, refactor, perf, test, chore, ci\n' +
+                'Scopes (optional): commands, hooks, agents, rules, skills, docs, ci\n\n' +
+                'Examples:\n' +
+                '- `feat(commands): add sprint-forecast command`\n' +
+                '- `fix(hooks): prevent timeout in plan-gate`\n' +
+                '- `docs: update ROADMAP with Era 20`';
+              core.setFailed(msg);
+            } else {
+              core.info(`✅ Gate 2: Title follows conventional commits: ${title}`);
+            }
+
+      # ─── Gate 3: CLAUDE.md Context Guard ───
+      - name: "Gate 3: CLAUDE.md Context Guard"
+        run: |
+          echo "=== Gate 3: CLAUDE.md Context Guard ==="
+          ERRORS=""
+
+          # Check CLAUDE.md line count
+          if [ -f "CLAUDE.md" ]; then
+            LINES=$(wc -l < CLAUDE.md)
+            if [ "$LINES" -gt 120 ]; then
+              ERRORS+="❌ CLAUDE.md has $LINES lines (max: 120). Every line costs tokens at startup.\n"
+            else
+              echo "✅ CLAUDE.md: $LINES/120 lines"
+            fi
+          fi
+
+          # Check if PR adds lines to context-loaded files
+          CONTEXT_FILES_CHANGED=$(git diff --name-only origin/main...HEAD -- \
+            CLAUDE.md \
+            .claude/settings.json \
+            .claude/rules/domain/ \
+            2>/dev/null || true)
+
+          if [ -n "$CONTEXT_FILES_CHANGED" ]; then
+            ADDED=$(git diff --numstat origin/main...HEAD -- $CONTEXT_FILES_CHANGED 2>/dev/null \
+              | awk '{sum+=$1} END {print sum+0}')
+            REMOVED=$(git diff --numstat origin/main...HEAD -- $CONTEXT_FILES_CHANGED 2>/dev/null \
+              | awk '{sum+=$2} END {print sum+0}')
+            NET=$((ADDED - REMOVED))
+
+            echo "Context impact: +$ADDED -$REMOVED (net: $NET lines)"
+
+            if [ "$NET" -gt 100 ]; then
+              ERRORS+="❌ PR adds $NET net lines to context files (max: 100). This will degrade context window performance.\n"
+            elif [ "$NET" -gt 50 ]; then
+              echo "⚠️ WARNING: PR adds $NET net lines to context files. Consider if all additions are necessary."
+            else
+              echo "✅ Context impact within limits"
+            fi
+          fi
+
+          # Check domain rules stay within 150 lines
+          for file in $(git diff --name-only origin/main...HEAD -- .claude/rules/domain/ 2>/dev/null); do
+            if [ -f "$file" ]; then
+              RULE_LINES=$(wc -l < "$file")
+              if [ "$RULE_LINES" -gt 150 ]; then
+                ERRORS+="❌ $file has $RULE_LINES lines (max: 150).\n"
+              fi
+            fi
+          done
+
+          # Check for duplicate content between CLAUDE.md and rules
+          if git diff --name-only origin/main...HEAD | grep -q "CLAUDE.md"; then
+            CLAUDE_REFS=$(grep -c '^@' CLAUDE.md 2>/dev/null || echo 0)
+            echo "CLAUDE.md has $CLAUDE_REFS @ references"
+          fi
+
+          if [ -n "$ERRORS" ]; then
+            echo ""
+            printf "%b" "$ERRORS"
+            echo ""
+            echo "Context integrity is critical for pm-workspace. Each line in CLAUDE.md and rules costs tokens from the 200K context window."
+            exit 1
+          fi
+
+      # ─── Gate 4: ShellCheck (differential) ───
+      - name: Install ShellCheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: "Gate 4: ShellCheck on changed scripts"
+        run: |
+          echo "=== Gate 4: ShellCheck ==="
+          SCRIPTS=$(git diff --name-only --diff-filter=ACMR origin/main...HEAD -- \
+            '*.sh' '.claude/hooks/*.sh' 'scripts/*.sh' 2>/dev/null || true)
+
+          if [ -z "$SCRIPTS" ]; then
+            echo "✅ No shell scripts changed"
+            exit 0
+          fi
+
+          FAILED=0
+          for script in $SCRIPTS; do
+            if [ -f "$script" ]; then
+              echo "Checking: $script"
+              if ! shellcheck -S error "$script" 2>&1; then
+                FAILED=$((FAILED + 1))
+              fi
+            fi
+          done
+
+          if [ "$FAILED" -gt 0 ]; then
+            echo ""
+            echo "❌ Gate 4: $FAILED script(s) have ShellCheck errors"
+            echo "Fix errors above. Only severity 'error' blocks the PR; warnings are informational."
+            exit 1
+          fi
+
+          # Run warnings (informational, non-blocking)
+          for script in $SCRIPTS; do
+            if [ -f "$script" ]; then
+              shellcheck -S warning "$script" 2>&1 || true
+            fi
+          done
+
+          echo "✅ Gate 4: All scripts pass ShellCheck"
+
+      # ─── Gate 5: Gitleaks Secret Scanning ───
+      - name: "Gate 5: Gitleaks Secret Scanning"
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: false
+
+      # ─── Gate 6: Hook Safety Validator ───
+      - name: "Gate 6: Hook Safety Validator"
+        run: |
+          echo "=== Gate 6: Hook Safety Validator ==="
+          ERRORS=""
+          WARNINGS=""
+
+          # Check new/modified hooks
+          HOOK_FILES=$(git diff --name-only --diff-filter=ACMR origin/main...HEAD -- \
+            '.claude/hooks/*.sh' 2>/dev/null || true)
+
+          if [ -z "$HOOK_FILES" ]; then
+            echo "✅ No hook files changed"
+            exit 0
+          fi
+
+          for hook in $HOOK_FILES; do
+            [ -f "$hook" ] || continue
+            BASENAME=$(basename "$hook")
+            echo "Validating hook: $BASENAME"
+
+            # Check 1: No 'set -e' in PreToolUse hooks (can block Claude Code unintentionally)
+            # Heuristic: hook name contains gate, validate, block, or check
+            case "$BASENAME" in
+              *gate*|*validate*|*block*|*check*|*guard*)
+                if grep -q '^set -e' "$hook" || grep -q '^set -euo' "$hook"; then
+                  ERRORS+="❌ $BASENAME: 'set -e' detected in quality gate hook. Use explicit error handling instead — set -e causes unintended blocks.\n"
+                fi
+                ;;
+            esac
+
+            # Check 2: No unguarded network calls in hooks
+            if grep -qE '(curl |wget |nc |fetch |http\.get)' "$hook" 2>/dev/null; then
+              if ! grep -q 'async.*true' "$hook" 2>/dev/null; then
+                WARNINGS+="⚠️ $BASENAME: Network call detected in hook. Ensure this hook is marked async:true in settings.json to avoid blocking.\n"
+              fi
+            fi
+
+            # Check 3: Hook should have a timeout-safe pattern
+            if grep -qE 'while.*true|sleep [0-9]{2,}' "$hook" 2>/dev/null; then
+              ERRORS+="❌ $BASENAME: Infinite loop or long sleep detected. Hooks must complete within 30s.\n"
+            fi
+
+            # Check 4: No hardcoded exit 1/2 in warning-only hooks
+            if grep -q '# Warning only\|# warning only\|# Non-blocking\|# non-blocking' "$hook"; then
+              if grep -qE 'exit [12]' "$hook" 2>/dev/null; then
+                LAST_EXIT=$(grep -n 'exit [12]' "$hook" | tail -1)
+                ERRORS+="❌ $BASENAME: exit 1/2 in a hook marked as warning-only. Line: $LAST_EXIT\n"
+              fi
+            fi
+          done
+
+          # Check settings.json for hook timeouts
+          if [ -f ".claude/settings.json" ]; then
+            HOOKS_IN_SETTINGS=$(python3 -c "
+          import json, sys
+          try:
+              data = json.load(open('.claude/settings.json'))
+              hooks = data.get('hooks', {})
+              for event, entries in hooks.items():
+                  for entry in entries:
+                      for h in entry.get('hooks', []):
+                          cmd = h.get('command', '')
+                          timeout = h.get('timeout', 'MISSING')
+                          is_async = h.get('async', False)
+                          # Extract script name from command
+                          parts = cmd.split('/')
+                          name = parts[-1] if parts else cmd
+                          print(f'{name}|{timeout}|{is_async}|{event}')
+          except Exception as e:
+              print(f'ERROR: {e}', file=sys.stderr)
+          " 2>/dev/null || true)
+
+            while IFS='|' read -r name timeout is_async event; do
+              [ -z "$name" ] && continue
+              if [ "$timeout" = "MISSING" ]; then
+                WARNINGS+="⚠️ $name: No explicit timeout in settings.json. Add timeout (max 30000ms) to prevent hanging.\n"
+              fi
+              # Logging/tracing hooks should be async
+              case "$name" in
+                *trace*|*log*|*metric*|*notify*)
+                  if [ "$is_async" != "True" ]; then
+                    WARNINGS+="⚠️ $name: Observability hook should be async:true to avoid blocking.\n"
+                  fi
+                  ;;
+              esac
+            done <<< "$HOOKS_IN_SETTINGS"
+          fi
+
+          if [ -n "$WARNINGS" ]; then
+            echo ""
+            printf "%b" "$WARNINGS"
+          fi
+
+          if [ -n "$ERRORS" ]; then
+            echo ""
+            printf "%b" "$ERRORS"
+            echo ""
+            echo "Hook safety is critical — a broken hook blocks all Claude Code interactions."
+            exit 1
+          fi
+
+          echo "✅ Gate 6: All hooks pass safety validation"
+
+      # ─── Gate 7: Context Impact Summary ───
+      - name: "Gate 7: Context Impact Summary"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+
+            // Get all changed files with stats
+            const diffStat = execSync(
+              'git diff --numstat origin/main...HEAD 2>/dev/null || true',
+              { encoding: 'utf8' }
+            ).trim();
+
+            if (!diffStat) {
+              core.info('✅ Gate 7: No changes to analyze');
+              return;
+            }
+
+            const contextPaths = [
+              'CLAUDE.md',
+              '.claude/settings.json',
+              '.claude/rules/',
+              '.claude/commands/',
+              '.claude/agents/',
+              '.claude/skills/',
+              '.claude/hooks/'
+            ];
+
+            let totalAdded = 0, totalRemoved = 0;
+            const impactDetails = [];
+
+            for (const line of diffStat.split('\n')) {
+              const [added, removed, file] = line.split('\t');
+              if (!file) continue;
+
+              const isContextFile = contextPaths.some(p => file.startsWith(p));
+              if (isContextFile) {
+                const a = parseInt(added) || 0;
+                const r = parseInt(removed) || 0;
+                totalAdded += a;
+                totalRemoved += r;
+                if (a > 0 || r > 0) {
+                  impactDetails.push(`| \`${file}\` | +${a} | -${r} | ${a-r > 0 ? '⬆️' : '⬇️'} ${Math.abs(a-r)} |`);
+                }
+              }
+            }
+
+            const net = totalAdded - totalRemoved;
+            let badge = '🟢';
+            if (net > 50) badge = '🟡';
+            if (net > 100) badge = '🔴';
+
+            if (impactDetails.length === 0) {
+              core.info('✅ Gate 7: No context-sensitive files changed');
+              return;
+            }
+
+            const summary = [
+              `## ${badge} Gate 7: Context Impact Report`,
+              '',
+              `| Metric | Value |`,
+              `|---|---|`,
+              `| Lines added to context files | +${totalAdded} |`,
+              `| Lines removed from context files | -${totalRemoved} |`,
+              `| **Net context impact** | **${net > 0 ? '+' : ''}${net} lines** |`,
+              '',
+              '### Breakdown',
+              '',
+              '| File | Added | Removed | Net |',
+              '|---|---|---|---|',
+              ...impactDetails,
+              '',
+              net > 100 ? '> ❌ **BLOCKED**: Net context growth exceeds 100 lines. Each line in context files costs tokens from the 200K window.' :
+              net > 50 ? '> ⚠️ **WARNING**: Net context growth exceeds 50 lines. Review if all additions are necessary.' :
+              '> ✅ Context impact within acceptable limits.'
+            ].join('\n');
+
+            core.summary.addRaw(summary);
+            await core.summary.write();
+
+            if (net > 100) {
+              core.setFailed(`Context impact too high: +${net} net lines`);
+            }
+
+      # ─── Gate 8: PR Digest for Maintainer ───
+      - name: "Gate 8: PR Digest"
+        if: github.event.action == 'opened'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const { execSync } = require('child_process');
+
+            // Get file stats
+            const filesRaw = execSync(
+              'git diff --stat origin/main...HEAD 2>/dev/null || true',
+              { encoding: 'utf8' }
+            ).trim();
+
+            const diffNames = execSync(
+              'git diff --name-only origin/main...HEAD 2>/dev/null || true',
+              { encoding: 'utf8' }
+            ).trim().split('\n').filter(Boolean);
+
+            // Classify changes
+            const categories = {
+              commands: [], agents: [], skills: [], hooks: [],
+              rules: [], scripts: [], docs: [], ci: [], other: []
+            };
+
+            for (const f of diffNames) {
+              if (f.startsWith('.claude/commands/')) categories.commands.push(f);
+              else if (f.startsWith('.claude/agents/')) categories.agents.push(f);
+              else if (f.startsWith('.claude/skills/')) categories.skills.push(f);
+              else if (f.startsWith('.claude/hooks/')) categories.hooks.push(f);
+              else if (f.startsWith('.claude/rules/')) categories.rules.push(f);
+              else if (f.startsWith('scripts/')) categories.scripts.push(f);
+              else if (f.startsWith('docs/') || f.endsWith('.md')) categories.docs.push(f);
+              else if (f.startsWith('.github/')) categories.ci.push(f);
+              else categories.other.push(f);
+            }
+
+            // Build impact summary
+            const impacts = [];
+            if (categories.commands.length) impacts.push(`📋 ${categories.commands.length} comando(s)`);
+            if (categories.agents.length) impacts.push(`🤖 ${categories.agents.length} agente(s)`);
+            if (categories.skills.length) impacts.push(`🛠️ ${categories.skills.length} skill(s)`);
+            if (categories.hooks.length) impacts.push(`🪝 ${categories.hooks.length} hook(s)`);
+            if (categories.rules.length) impacts.push(`📏 ${categories.rules.length} regla(s)`);
+            if (categories.scripts.length) impacts.push(`⚙️ ${categories.scripts.length} script(s)`);
+            if (categories.docs.length) impacts.push(`📄 ${categories.docs.length} doc(s)`);
+            if (categories.ci.length) impacts.push(`🔄 ${categories.ci.length} CI/CD`);
+            if (categories.other.length) impacts.push(`📦 ${categories.other.length} otro(s)`);
+
+            // Risk assessment
+            const risks = [];
+            const touchesClaude = diffNames.includes('CLAUDE.md');
+            const touchesSettings = diffNames.includes('.claude/settings.json');
+            const touchesHooks = categories.hooks.length > 0;
+            const touchesSecurity = diffNames.some(f =>
+              f.includes('security') || f.includes('credential') || f.includes('block-'));
+            const isLargePR = diffNames.length > 20;
+
+            if (touchesClaude) risks.push('🔴 Modifica CLAUDE.md — revisar impacto en contexto');
+            if (touchesSettings) risks.push('🔴 Modifica settings.json — revisar configuración de hooks y permisos');
+            if (touchesHooks) risks.push('🟡 Modifica hooks — verificar que no bloquean flujo de trabajo');
+            if (touchesSecurity) risks.push('🟡 Toca componentes de seguridad — revisar con atención');
+            if (isLargePR) risks.push('🟡 PR grande (>20 ficheros) — considerar dividir');
+
+            // Determine overall risk level
+            let riskLevel = '🟢 Bajo';
+            if (risks.some(r => r.startsWith('🟡'))) riskLevel = '🟡 Medio';
+            if (risks.some(r => r.startsWith('🔴'))) riskLevel = '🔴 Alto';
+
+            // Build digest
+            const digest = [
+              `## 🔍 Digestión de PR para Mónica`,
+              '',
+              `**De:** ${pr.user.login}`,
+              `**Branch:** \`${pr.head.ref}\``,
+              `**Ficheros:** ${diffNames.length} | **Riesgo:** ${riskLevel}`,
+              '',
+              `### ¿Qué trae esta PR?`,
+              '',
+              impacts.join(' · '),
+              '',
+              `### Componentes tocados`,
+              ''
+            ];
+
+            // Detail each category
+            for (const [cat, files] of Object.entries(categories)) {
+              if (files.length === 0) continue;
+              const names = {
+                commands: '📋 Comandos', agents: '🤖 Agentes', skills: '🛠️ Skills',
+                hooks: '🪝 Hooks', rules: '📏 Reglas', scripts: '⚙️ Scripts',
+                docs: '📄 Documentación', ci: '🔄 CI/CD', other: '📦 Otros'
+              };
+              digest.push(`**${names[cat]}:**`);
+              for (const f of files.slice(0, 10)) {
+                const basename = f.split('/').pop();
+                digest.push(`- \`${basename}\``);
+              }
+              if (files.length > 10) digest.push(`- ... y ${files.length - 10} más`);
+              digest.push('');
+            }
+
+            if (risks.length > 0) {
+              digest.push('### ⚠️ Puntos de atención');
+              digest.push('');
+              for (const r of risks) digest.push(`- ${r}`);
+              digest.push('');
+            }
+
+            digest.push('### Veredicto rápido');
+            digest.push('');
+            if (riskLevel.includes('Bajo')) {
+              digest.push('✅ PR de bajo riesgo. Revisar que los tests pasen y mergear.');
+            } else if (riskLevel.includes('Medio')) {
+              digest.push('🟡 Revisar los puntos de atención antes de aprobar. Especial atención a hooks y reglas de dominio.');
+            } else {
+              digest.push('🔴 PR de alto riesgo. Revisa en detalle los cambios en ficheros core (CLAUDE.md, settings.json). Usa `/pr-review` para análisis completo.');
+            }
+
+            digest.push('');
+            digest.push('---');
+            digest.push('*Generado por PR Guardian · pm-workspace*');
+
+            // Post as PR comment
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body: digest.join('\n')
+            });
+
+            core.info('✅ Gate 8: PR Digest posted as comment');

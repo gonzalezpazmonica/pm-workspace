@@ -3,6 +3,8 @@ name: pipeline-status
 description: >
   Estado de pipelines del proyecto: últimas builds, % éxito,
   duración media y alertas de fallos recientes.
+model: haiku
+context_cost: low
 ---
 
 # Pipeline Status

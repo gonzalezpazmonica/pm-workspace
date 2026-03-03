@@ -2,6 +2,8 @@
 name: memory-context
 description: >
   Muestra las últimas observaciones de memoria para el proyecto activo. Útil al inicio de sesión o tras /compact.
+model: haiku
+context_cost: low
 ---
 
 # ⚡ Contexto de Memoria

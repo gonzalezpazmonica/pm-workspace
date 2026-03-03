@@ -4,6 +4,8 @@ description: Estadísticas de la caché de code review
 agent-single: azure-devops-operator
 skills:
   - azure-devops-queries
+model: haiku
+context_cost: low
 ---
 
 # /review-cache-stats

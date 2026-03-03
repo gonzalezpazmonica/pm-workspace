@@ -11,6 +11,8 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+model: opus
+context_cost: high
 ---
 
 # /security-review {spec_file}

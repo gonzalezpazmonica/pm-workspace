@@ -3,6 +3,8 @@ name: project-audit
 description: >
   Phase 1 — Deep audit of a newly onboarded project: code quality,
   architecture, debt, security, CI/CD. Prioritized action report.
+model: opus
+context_cost: high
 ---
 
 # Project Audit

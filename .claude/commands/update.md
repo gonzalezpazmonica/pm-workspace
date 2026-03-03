@@ -4,6 +4,7 @@ description: Comprobar y aplicar actualizaciones de pm-workspace desde GitHub, p
 developer_type: all
 agent: none
 context_cost: low
+model: haiku
 ---
 
 # /update {subcommand}

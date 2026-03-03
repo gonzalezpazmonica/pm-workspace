@@ -3,6 +3,8 @@ name: repos-list
 description: >
   Listar repositorios del proyecto en Azure DevOps con estadísticas
   de actividad, tamaño y última actualización.
+model: haiku
+context_cost: low
 ---
 
 # Repos List

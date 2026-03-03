@@ -1,3 +1,10 @@
+---
+name: board-flow
+description: Analiza el flujo de trabajo del board — WIP actual, cuellos de botella y métricas de flujo.
+model: sonnet
+context_cost: medium
+---
+
 # /board-flow
 
 Analiza el flujo de trabajo del board: WIP actual, cuellos de botella y métricas de flujo.
