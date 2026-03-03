@@ -42,6 +42,7 @@ Compila datos de auditoría, mapea a marcos regulatorios, presenta cumplimiento 
 - **EU AI Act**: Mapeo de acciones a prohibidas/alto riesgo/general
 - **NIST**: Madurez en Govern/Map/Measure/Manage
 - **ISO 42001**: Cobertura de requisitos de sistemas de IA
+- **AEPD**: Score 4 fases (tecnología, cumplimiento, vulnerabilidades, medidas)
 
 ### Conformidad Regulatoria
 - Documentación de governance (✓/✗)
@@ -73,3 +74,4 @@ Fichero: `output/governance-YYYYMMDD-report.md`
 - ✅ **NIST AI RMF** (v1.0)
 - ✅ **ISO/IEC 42001** (DIS)
 - ✅ **SOC 2 Type II** (AI control mapping)
+- ✅ **AEPD IA Agéntica** (2026) — Orientaciones españolas para agentes autónomos

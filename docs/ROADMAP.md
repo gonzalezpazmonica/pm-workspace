@@ -89,30 +89,16 @@ Stability and safety release:
 
 ---
 
-## 💡 Era 18 — Compliance, Distribution & Intelligent Hooks (v0.84.0+, proposed)
+## ✅ Era 18 — Compliance, Distribution & Intelligent Hooks (v0.84.0–v0.89.0, Mar 2026)
 
 Based on research of 15 external sources. Full analysis in `docs/propuestas/roadmap-research-era18.md`.
 
-### Priority 1 — AEPD Compliance & skills.sh Distribution
-
-| Version | Feature | Description |
-|---|---|---|
-| v0.84.0 | `/aepd-compliance` | Vertical de compliance para IA agéntica española (framework AEPD: tecnología → cumplimiento → vulnerabilidades → medidas). Extiende `/governance-audit` con criterios AEPD. Diferencial vs. herramientas anglosajonas. |
-| v0.85.0 | skills.sh publishing | Publicar 5 skills core (sprint-management, capacity-planning, pbi-decomposition, spec-driven-development, diagram-generation) en skills.sh marketplace. Adaptar formato, README por skill. |
-
-### Priority 2 — Intelligent Hooks & Excel Integration
-
-| Version | Feature | Description |
-|---|---|---|
-| v0.86.0 | Prompt & Agent hooks | Prompt hooks: LLM para validaciones semánticas (commit messages, spec coherence). Agent hooks: subagentes de verificación pre-merge (tests, seguridad, dependencias). Calibración gradual (warnings → blocks). |
-| v0.87.0 | Excel reporting | Templates interactivos Claude-in-Excel para `/capacity-planning`, `/ceo-report`, `/time-tracking-report`. Fórmulas dinámicas multi-tab, escenarios. |
-
-### Priority 3 — Catalog & Source Tracking
-
-| Version | Feature | Description |
-|---|---|---|
-| v0.88.0 | Savia Gallery + Source tracking | Catálogo visual de 280+ comandos por rol/vertical (inspirado en component.gallery). Source tracking: cada output incluye fuentes consultadas. |
-| v0.89.0 | AI competency framework | Extender `/adoption-assess` con habilidades "working with AI" (formulación, evaluación de outputs, pensamiento crítico). |
+- **AEPD Compliance** (v0.84.0) — `/aepd-compliance` for agentic AI (4-phase AEPD framework). Extended `/governance-audit` and `/governance-report` with AEPD criteria.
+- **skills.sh Publishing** (v0.85.0) — `skillssh-publishing.md` spec, `skillssh-adapter.sh` conversion script, 5 core skills mapped, `--target skillssh` in `/marketplace-publish`.
+- **Intelligent Hooks** (v0.86.0) — 3-type hook taxonomy (Command/Prompt/Agent), `prompt-hook-commit.sh` (semantic commit validation), `agent-hook-premerge.sh` (quality gate). Calibration protocol.
+- **Excel Reporting** (v0.87.0) — `/excel-report` with multi-tab CSV templates (capacity, CEO, time-tracking). Formula documentation, validation rules.
+- **Savia Gallery + Source Tracking** (v0.88.0) — `/savia-gallery` (271 commands by role/vertical). `source-tracking.md` with citation formats (rule:/skill:/doc:/agent:/cmd:/ext:).
+- **AI Competency Framework** (v0.89.0) — 6 AI-era competencies with 4 levels each. ADKAR integration via `/adoption-assess --ai-skills`. Scoring 0-100.
 
 ### Backlog — Strategic Evaluation
 

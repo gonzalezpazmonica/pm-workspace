@@ -13,15 +13,24 @@ Publica skills y playbooks al marketplace interno de tu organización. Savia val
 ## Sintaxis
 
 ```
-/marketplace-publish {skill|playbook} [--visibility internal|public] [--category] [--lang es|en]
+/marketplace-publish {skill|playbook} [--target internal|skillssh] [--category] [--lang es|en]
 ```
 
 ## Parámetros
 
 - **skill|playbook**: Tipo de recurso a publicar
-- **--visibility**: Scope (internal: solo empresa, public: comunidad)
+- **--target**: Destino (internal: marketplace empresa, skillssh: skills.sh público)
 - **--category**: Categoría para descubrimiento (opcional, auto-detectada)
 - **--lang**: Idioma de metadatos (es|en, default: es)
+
+## skills.sh (target: skillssh)
+
+Publicación externa en skills.sh (marketplace agnóstico).
+Formato y adaptación: @.claude/rules/domain/skillssh-publishing.md
+Script de conversión: `bash scripts/skillssh-adapter.sh [--all|slug]`
+
+5 skills core publicables: sprint-management, capacity-planning,
+pbi-decomposition, spec-driven-development, diagram-generation.
 
 ## Metadata Requerida
 
@@ -133,11 +142,6 @@ Próximos pasos:
 
 ## Integración
 
-- Reutilización sin duplicación
-- Marketplace interno estilo Anthropic Skills
-- Descubrimiento por categoría y búsqueda
-- Control de versiones y compatibilidad
-- ROI de innovation: comparte lo que has invertido
-
----
-**Era 12: Team Excellence & Enterprise** | Comando 249/249
+- Reutilización sin duplicación; descubrimiento por categoría
+- Soporte interno (empresa) y externo (skills.sh público)
+- Control de versiones semántico y resolución de dependencias
