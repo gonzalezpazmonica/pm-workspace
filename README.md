@@ -88,6 +88,12 @@ Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Detección de verticales** — Detecto automáticamente si tu proyecto pertenece a un sector no-software (sanidad, legal, industrial, agrícola, educación, finanzas...) usando un algoritmo de 5 fases con scoring calibrado. Si el score es suficiente, te propongo crear extensiones especializadas con reglas, flujos y entidades de dominio para tu sector.
 
+**Company Savia — Repositorio compartido** — Con `/company-repo` creas un repositorio Git compartido para tu empresa: organigrama, reglas, festivos, convenciones. Cada empleado tiene su carpeta personal con perfil público, documentos y buzón de mensajes. Con `/savia-send` envías mensajes directos con @handle, `/savia-inbox` revisa tu bandeja, `/savia-reply` responde con threading, `/savia-announce` publica anuncios corporativos, `/savia-directory` lista miembros y `/savia-broadcast` envía a todos. Cifrado E2E con RSA-4096 + AES-256-CBC (openssl only), validación de privacidad pre-push, y cero dependencias externas.
+
+**Savia Flow — Gestión de proyectos Git-based** — Con `/savia-pbi` creas y gestionas PBIs como ficheros markdown en el company repo, con state machine (new/ready/in-progress/review/done). Con `/savia-sprint` gestionas el ciclo de sprint (start/close). Con `/savia-board` muestras un tablero Kanban ASCII de 5 columnas. Con `/savia-timesheet` registras horas por PBI con informes mensuales. Con `/savia-team` gestionas equipos con capacity, ceremonies y velocity. Todo almacenado en Git — sin dependencia de Azure DevOps.
+
+**Travel Mode** — Con `/savia-travel-pack` creas un paquete portable de pm-workspace para USB o cloud (shallow clone + manifest + backup cifrado). Con `/savia-travel-init` bootstrapeas pm-workspace en una máquina nueva: detecta OS, verifica dependencias, instala Claude Code, y restaura perfil.
+
 ---
 
 ## Documentación
@@ -177,7 +183,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 281 comandos · 24 agentes · 21 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 327 comandos · 24 agentes · 22 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -384,6 +390,44 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 ### Auditoría de Rendimiento
 ```
 /perf-audit {path}                 /perf-fix {PA-NNN}                 /perf-report {path}
+```
+
+### Savia Flow (Git-based PM)
+```
+/savia-pbi {create|view|list}    /savia-sprint {start|close|plan}
+/savia-board {project}    /savia-timesheet {log|view}    /savia-team {init|members|velocity}
+```
+
+### Travel Mode
+```
+/travel-pack    /travel-unpack    /travel-sync    /travel-verify    /travel-clean
+/savia-travel-pack    /savia-travel-init
+```
+
+### Git Persistence Engine
+```
+/index-rebuild {--all|--profiles|--messages|--projects|--specs|--timesheets}
+/index-status {--detailed}    /index-compact
+```
+
+### Savia Flow Git-Native Tasks
+```
+/flow-task-create {type} {title}    /flow-task-move {task-id} {status}
+/flow-task-assign {task-id} {handle}    /flow-sprint-create {goal}
+/flow-sprint-close {sprint-id}    /flow-sprint-board
+/flow-timesheet {task-id} {hours}    /flow-timesheet-report {--monthly|--weekly}
+/flow-burndown    /flow-velocity    /flow-spec-create {title}
+/flow-backlog-groom {--top N}
+```
+
+### Savia School (Vertical Educativa)
+```
+/school-setup {centro} {curso}    /school-enroll {alias}
+/school-project {alias} {nombre}    /school-submit {alias} {proyecto}
+/school-evaluate {alias} {proyecto}    /school-progress {alias|--class}
+/school-portfolio {alias}    /school-diary {alias}
+/school-export {alias}    /school-forget {alias}
+/school-analytics    /school-rubric {create|edit}
 ```
 
 ### Emergencia

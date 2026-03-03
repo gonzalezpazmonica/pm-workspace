@@ -68,6 +68,21 @@ Detalles completos: Documentación en `docs/inbox-modos.md`
 
 ---
 
+## Company Savia — Repositorio Compartido
+
+Repositorio Git compartido para la empresa: org chart, reglas, mensajería async entre empleados.
+Usa solo Git + bash + openssl — sin dependencias externas.
+
+Configuración detallada: **→ `company-savia-config.md`**
+- Repositorio compartido con CODEOWNERS
+- Mensajería async con @handle
+- Cifrado E2E (RSA-4096 + AES-256-CBC)
+- Privacy check pre-push
+
+Scripts: `company-repo.sh`, `savia-messaging.sh`, `savia-crypto.sh`, `privacy-check-company.sh`
+
+---
+
 ## Seguridad y privacidad
 
 - **Audio**: se procesa LOCAL con Faster-Whisper, nunca se envía a APIs externas

@@ -18,12 +18,12 @@
 - **Sprints:** `Sprint YYYY-NN` (ej: `Sprint 2026-04`)
 - **Informes:** `YYYYMMDD-tipo-proyecto.ext`
 
-## 📟 Comandos Disponibles (83)
+## 📟 Comandos Disponibles (97)
 
 > Tabla completa: `.claude/commands/references/command-catalog.md`
 > Catálogo interactivo: `/help [filtro]`
 
-**Categorías:** Sprint y Reporting (10), PBI y Discovery (6), SDD (5), Calidad y PRs (4), Equipo (3), Infra (7), Diagramas (4), Pipelines (5), Azure Repos (6), Governance (5), Legacy & Capture (3), Project Onboarding (5), DevOps Extended (5), Mensajería e Inbox (6), Conectores (12), Utilidades (4).
+**Categorías:** Sprint y Reporting (10), PBI y Discovery (6), SDD (5), Calidad y PRs (4), Equipo (3), Infra (7), Diagramas (4), Pipelines (5), Azure Repos (6), Governance (5), Legacy & Capture (3), Project Onboarding (5), DevOps Extended (5), Mensajería e Inbox (6), Company Savia (7), Savia Flow (5), Travel Mode (2), Conectores (12), Utilidades (4).
 
 ## 🔗 Referencias
 

@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 281 commands, 24 agents, 21 skills, 14 hooks, and its own persona (Savia). This roadmap groups the 98 released versions into 20 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 327 commands, 24 agents, 22 skills, 14 hooks, and its own persona (Savia). This roadmap groups the 105 released versions into 21 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -130,6 +130,26 @@ Inspired by patterns from [claude-code-best-practice](https://github.com/shanrai
 
 - **PR Guardian System** (v0.98.0) — `pr-guardian.yml` with 8 automated gates: description quality, conventional commits, CLAUDE.md context guard (≤120 lines), ShellCheck differential, Gitleaks (700+ patterns), hook safety validator, context impact analysis, PR Digest (auto-comment in Spanish). `/pr-digest` command. `.gitleaks.toml`. Updated PR template with context impact + hook safety sections.
 
+---
+
+## ✅ Era 21 — Savia Everywhere: School, Travel, Git-Native Flow (v0.99.0–v1.5.0, Mar 2026)
+
+Inspired by ecosystem research of 12+ Claude Code repositories (everything-claude-code, trail-of-bits, awesome-claude-code, etc.). Full analysis in `docs/propuestas/investigacion-ecosistema-claude-code-2026.md` and `docs/propuestas/era21-masterplan.md`.
+
+- **Script Hardening** (v0.99.0) — Fix 6 critical bugs (backup hash, contribute regex, memory-store injection, cache invalidation) + 7 medium fixes (macOS sed/date portability, POSIX regex, newline escaping). 9 scripts hardened: backup.sh, contribute.sh, memory-store.sh, update.sh, context-aging.sh, pre-commit-review.sh, session-init.sh, validate-bash-global.sh, block-force-push.sh.
+
+- **Git Persistence Engine** (v1.0.0) — TSV-based index system for low-context lookups. 6 index types: profiles, messages, projects, tasks, specs, timesheets. `/index-rebuild`, `/index-status`, `/index-compact` commands. `savia-index.sh` + `savia-index-rebuild.sh` scripts. ~60-80% context reduction per query.
+
+- **Savia Flow Git-Native Tasks** (v1.1.0) — Complete SDD/tickets/tasks/timesheets system in Git folders. 12 new commands: `/flow-task-create`, `/flow-task-move`, `/flow-task-assign`, `/flow-sprint-create`, `/flow-sprint-close`, `/flow-sprint-board`, `/flow-timesheet`, `/flow-timesheet-report`, `/flow-burndown`, `/flow-velocity`, `/flow-spec-create`, `/flow-backlog-groom`. 3 scripts. `flow-tasks-config.md` rule. Kanban board via filesystem (todo/in-progress/review/done folders).
+
+- **Travel Mode** (v1.2.0) — Portable Savia on USB drive. 5 commands: `/travel-pack`, `/travel-unpack`, `/travel-sync`, `/travel-verify`, `/travel-clean`. AES-256-CBC encryption for keys/PATs. SHA256 integrity verification. `savia-init.sh` auto-installer (detects OS, installs deps). 3 scripts.
+
+- **Savia School v1** (v1.3.0) — Educational vertical for classrooms. 12 commands: `/school-setup`, `/school-enroll`, `/school-project`, `/school-submit`, `/school-evaluate`, `/school-progress`, `/school-portfolio`, `/school-diary`, `/school-export`, `/school-forget`, `/school-analytics`, `/school-rubric`. Alias-based enrollment (no PII). AES-256 encrypted evaluations. GDPR Art. 8/15/17 compliance. Parental consent workflow. `school-safety-config.md` rule.
+
+- **Savia School v2 — Security Audit** (v1.4.0) — Penetration testing of student isolation. GDPR/LOPD/AEPD compliance audit. Age-appropriate content filter hardening. Teacher MFA enforcement. 4-gate release protocol before merge to main.
+
+- **Ecosystem Integration & Validation** (v1.5.0) — Skills versioning (semver frontmatter). Bounded autonomy map per agent. AIrquiTech full validation (smoke tests passing). Cross-reference with ecosystem research findings.
+
 ### Backlog — Strategic Evaluation
 
 - **Claude Connectors vs MCP** — Evaluar si Connectors simplifican la arquitectura de integraciones
@@ -139,6 +159,9 @@ Inspired by patterns from [claude-code-best-practice](https://github.com/shanrai
 - **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status)
 - **Claude in Chrome integration** — Extracción de datos de portales web sin API para Savia
 - **Voice integration** — `/voice-pm` when Claude Code `/voice` reaches GA. Voice-to-command for sprint ceremonies (dictated standups, retros, reviews). Builds on existing `voice-inbox` skill.
+- **Instincts system** — Self-learning patterns with confidence scoring (inspired by everything-claude-code)
+- **Adversarial security pipeline** — Attacker/Defender/Auditor agents (inspired by everything-claude-code + trail-of-bits)
+- **Skill evaluation engine** — Automatic skill activation based on prompt analysis (inspired by claude-code-showcase)
 
 ---
 
