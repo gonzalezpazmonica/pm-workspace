@@ -430,15 +430,9 @@ Estas son las reglas que nunca se saltan — ni yo misma:
 
 **Era 19 — Open Source Synergy (6/6). ERA 19 COMPLETA!**
 
-## v0.91.0 — Era 20: Stress Testing & Bug Fixes
+## v0.91.0–v0.98.0 — Era 20: Persistent Intelligence & Adaptive Workflows
 
-- 5 bug fixes en hooks (`block-credential-leak.sh`, `session-init.sh`, `agent-hook-premerge.sh`) y scripts (`skillssh-adapter.sh`)
-- 7 nuevos scripts de test: `test-stress-hooks.sh` (25), `test-stress-security.sh` (27), `test-stress-scripts.sh` (21), `test-era18-commands.sh` (32), `test-era18-rules.sh` (37), `test-era18-formulas.sh` (23)
-- `test-stress-runner.sh` — Orquestador de 9 suites con agregación de resultados
-- Tests totales: 64→229 (+165 nuevos tests)
-
-## v0.92.0–v0.97.0 — Era 20: Persistent Intelligence & Adaptive Workflows
-
+- v0.91.0 — 5 bug fixes + 165 nuevos tests (64→229). 7 scripts de test + orquestador `test-stress-runner.sh`
 - `/agent-memory` — Memoria persistente para 9 agentes con 3 scopes (project/local/user)
 - `/savia-recall` — Consultar la memoria contextual acumulada de Savia
 - `/savia-forget` — Borrado de memoria conforme RGPD (Art. 17)
@@ -449,8 +443,10 @@ Estas son las reglas que nunca se saltan — ni yo misma:
 - `/mcp-recommend` — Recomendaciones MCP por stack y rol del equipo
 - 3 modos de output adaptativos: Coaching · Executive · Technical
 - Hooks clasificados: 2 async + 10 blocking, cobertura 9/16 eventos
+- `pr-guardian.yml` — 8 gates automáticos de validación de PRs (context guard, ShellCheck, Gitleaks, hook safety, PR Digest en español)
+- `/pr-digest` — Análisis contextual de PRs con clasificación de riesgo y resumen ejecutivo
 
-**Era 20 — Persistent Intelligence (12/12). ERA 20 COMPLETA!**
+**Era 20 — Persistent Intelligence (14/14). ERA 20 COMPLETA!**
 
 ---
 

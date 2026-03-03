@@ -1,22 +1,39 @@
 ## What does this PR add or fix?
 
-<!-- 2-3 sentence summary -->
+<!-- 2-3 sentence summary. Must be >50 characters. -->
 
 ## Type of contribution
 
 - [ ] New slash command
+- [ ] New agent
 - [ ] New skill
+- [ ] New hook
+- [ ] New domain rule
 - [ ] Bug fix
 - [ ] Documentation improvement
 - [ ] Test suite addition
 - [ ] Refactor (no behaviour change)
 - [ ] Other: ___
 
+## Context impact
+
+- [ ] This PR does NOT modify CLAUDE.md or files loaded at startup
+- [ ] This PR modifies context files — estimated impact: ___ lines added/removed
+- [ ] CLAUDE.md stays within 120 lines limit
+
+## Hook safety (if modifying hooks)
+
+- [ ] Hook has explicit timeout ≤30s in settings.json
+- [ ] Observability/logging hooks are marked `async: true`
+- [ ] No `set -e` in PreToolUse hooks
+- [ ] No network calls in synchronous hooks
+
 ## Files added / modified
 
 <!-- List the key files and what each one does -->
 - `.claude/commands/` —
 - `.claude/skills/` —
+- `.claude/hooks/` —
 - `scripts/` —
 - `docs/` —
 
@@ -31,15 +48,17 @@
 ## Test suite
 
 - [ ] `./scripts/test-workspace.sh --mock` passes ≥ 93/96
+- [ ] `shellcheck` passes on new/modified `.sh` files
 - [ ] I added tests for new files (if applicable)
 
 ## Checklist
 
-- [ ] Command/skill name follows existing conventions (`namespace:action`, kebab-case)
+- [ ] PR title follows conventional commits: `type(scope): description`
+- [ ] Command/skill name follows existing conventions (kebab-case)
 - [ ] I tested this in a real Claude Code conversation at least once
 - [ ] No real PATs, org URLs, project names, or client data included
 - [ ] Documentation in the file is sufficient for a PM to understand it without reading this PR
-- [ ] `CHANGELOG.md` updated under `[Unreleased]` (for features and fixes)
+- [ ] `CHANGELOG.md` updated under `[Unreleased]`
 
 ## Related issues
 

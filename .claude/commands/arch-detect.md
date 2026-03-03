@@ -37,7 +37,7 @@ context_cost: medium
 
 Detectar por extensiones, `package.json`, `pom.xml`, `*.csproj`, `Cargo.toml`, `go.mod`, `Gemfile`, `composer.json`, `pubspec.yaml`, etc.
 
-Cargar reference correspondiente: `@.claude/skills/architecture-intelligence/references/patterns-{lang}.md`
+Cargar el patrón de arquitectura del lenguaje detectado (si existe en references/)
 
 ### 2. Fase 1 — Análisis de Estructura (40%)
 

@@ -118,4 +118,4 @@ incidents:
   notification_on_new: true
 ```
 
-Ver **@.claude/rules/domain/pm-config.md** para referencia completa.
+Ver `@.claude/rules/domain/pm-config.md` para referencia completa.

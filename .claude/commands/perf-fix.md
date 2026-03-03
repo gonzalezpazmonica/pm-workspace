@@ -33,7 +33,7 @@ context_cost: medium
 
 - Informe de `/perf-audit` existente en `output/performance/`
 - Cargar skill: `@.claude/skills/performance-audit/SKILL.md`
-- Cargar referencia del lenguaje: `@references/perf-{lang}.md`
+- Cargar la referencia de patrones de rendimiento del lenguaje (si existe en references/)
 
 ## Ejecución (6 pasos)
 

@@ -62,8 +62,8 @@ Scoring por patrón basado en requisitos:
 
 ### 3. Cargar Reference del Lenguaje
 
-Cargar `@.claude/skills/architecture-intelligence/references/patterns-{lang}.md`
-Adaptar recomendación al idioma del framework.
+Cargar el patrón de arquitectura del lenguaje detectado (si existe en references/)
+Adaptar recomendación al lenguaje del framework.
 
 ### 4. Generar Reporte
 

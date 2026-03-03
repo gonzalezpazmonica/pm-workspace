@@ -426,15 +426,9 @@ These are the rules that are never skipped — not even by me:
 
 **Era 19 — Open Source Synergy (6/6). ERA 19 COMPLETE!**
 
-## v0.91.0 — Era 20: Stress Testing & Bug Fixes
+## v0.91.0–v0.98.0 — Era 20: Persistent Intelligence & Adaptive Workflows
 
-- 5 bug fixes in hooks (`block-credential-leak.sh`, `session-init.sh`, `agent-hook-premerge.sh`) and scripts (`skillssh-adapter.sh`)
-- 7 new test scripts: `test-stress-hooks.sh` (25), `test-stress-security.sh` (27), `test-stress-scripts.sh` (21), `test-era18-commands.sh` (32), `test-era18-rules.sh` (37), `test-era18-formulas.sh` (23)
-- `test-stress-runner.sh` — Orchestrator running 9 suites with aggregated results
-- Total tests: 64→229 (+165 new tests)
-
-## v0.92.0–v0.97.0 — Era 20: Persistent Intelligence & Adaptive Workflows
-
+- v0.91.0 — 5 bug fixes + 165 new tests (64→229). 7 test scripts + orchestrator `test-stress-runner.sh`
 - `/agent-memory` — Persistent memory for 9 agents with 3 scopes (project/local/user)
 - `/savia-recall` — Query Savia's accumulated contextual memory
 - `/savia-forget` — GDPR-compliant memory pruning (Art. 17 RGPD)
@@ -445,8 +439,10 @@ These are the rules that are never skipped — not even by me:
 - `/mcp-recommend` — MCP recommendations by stack and team role
 - 3 adaptive output modes: Coaching · Executive · Technical
 - Hook classification: 2 async + 10 blocking, 9/16 event coverage
+- `pr-guardian.yml` — 8 automated PR validation gates (context guard, ShellCheck, Gitleaks, hook safety, PR Digest in Spanish)
+- `/pr-digest` — Contextual PR analysis with risk classification and executive summary
 
-**Era 20 — Persistent Intelligence (12/12). ERA 20 COMPLETE!**
+**Era 20 — Persistent Intelligence (14/14). ERA 20 COMPLETE!**
 
 ---
 
