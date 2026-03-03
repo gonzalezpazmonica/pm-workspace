@@ -361,9 +361,15 @@ jobs:
             }
 
             const net = totalAdded - totalRemoved;
+
+            // Scale threshold: base 100 + 50 per extra commit (era PRs get proportional budget)
+            const commits = parseInt(execSync('git rev-list --count origin/main...HEAD 2>/dev/null || echo 1', { encoding: 'utf8' }).trim()) || 1;
+            const threshold = Math.min(100 + (commits - 1) * 50, 1000);
+            const warnThreshold = Math.floor(threshold / 2);
+
             let badge = '🟢';
-            if (net > 50) badge = '🟡';
-            if (net > 100) badge = '🔴';
+            if (net > warnThreshold) badge = '🟡';
+            if (net > threshold) badge = '🔴';
 
             if (impactDetails.length === 0) {
               core.info('✅ Gate 7: No context-sensitive files changed');
@@ -385,17 +391,13 @@ jobs:
               '|---|---|---|---|',
               ...impactDetails,
               '',
-              net > 100 ? '> ❌ **BLOCKED**: Net context growth exceeds 100 lines. Each line in context files costs tokens from the 200K window.' :
-              net > 50 ? '> ⚠️ **WARNING**: Net context growth exceeds 50 lines. Review if all additions are necessary.' :
+              net > threshold ? `> ❌ **BLOCKED**: Net context growth (+${net}) exceeds ${threshold} lines (${commits} commits). Each line in context files costs tokens from the 200K window.` :
+              net > warnThreshold ? `> ⚠️ **WARNING**: Net context growth (+${net}) approaches limit (${threshold}). Review if all additions are necessary.` :
               '> ✅ Context impact within acceptable limits.'
             ].join('\n');
 
             core.summary.addRaw(summary);
             await core.summary.write();
-
-            // Scale threshold: base 100 + 50 per extra commit (era PRs get proportional budget)
-            const commits = parseInt(execSync('git rev-list --count origin/main...HEAD 2>/dev/null || echo 1', { encoding: 'utf8' }).trim()) || 1;
-            const threshold = Math.min(100 + (commits - 1) * 50, 1000);
 
             if (net > threshold) {
               core.setFailed(`Context impact too high: +${net} net lines (max: ${threshold} for ${commits} commits)`);
