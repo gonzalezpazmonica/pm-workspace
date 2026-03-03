@@ -5,6 +5,29 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [1.8.0] — 2026-03-04
+
+Usage guides by scenario + README restructure + documentation alignment.
+
+### Added
+
+- **10 usage guides** in `docs/guides/`: Azure DevOps consultancy, Jira consultancy, Savia standalone, Education (Savia School), Hardware lab, Research lab, Startup, Non-profit, Legal firm, Healthcare. Each guide includes roles, setup, day-to-day workflows, command sequences, and example conversations with Savia.
+- **20 gap proposals** identified during guide writing (hardware BOM, experiment tracking, grant lifecycle, legal deadlines, PDCA cycles, and more). Added to roadmap backlog.
+- **Guides section** in both README.md and README.en.md with links to all 10 guides.
+
+### Changed
+
+- **README restructured**: removed 3 scattered release note blocks, added clean "Version History" table.
+- **README.en.md aligned**: added missing `/excel-report`, `/savia-gallery`, `/vertical-*` commands and `/aepd-compliance` + `/governance-*` to match Spanish version.
+- **CLAUDE.md compacted**: 123→119 lines to pass CI gate (max: 120).
+- **ROADMAP.md updated**: added Era 22 (v1.6–v1.7) and Era 23 (v1.8 guides) with gap analysis table.
+
+### Fixed
+
+- **README parity**: English and Spanish READMEs now have identical feature coverage and command references.
+
+---
+
 ## [1.7.0] — 2026-03-03
 
 Company Savia v3: branch-based isolation with Git orphan branches + quality framework.
@@ -84,6 +107,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[1.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.5.0...v1.5.1

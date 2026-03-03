@@ -134,6 +134,21 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 | [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 271 comandos + 24 agentes especializados |
 | [Cobertura y contribución](docs/readme/13-cobertura-contribucion.md) | Qué cubre, qué no, cómo contribuir |
 
+### Guías de uso por escenario
+
+| Guía | Escenario |
+|---|---|
+| [Consultora + Azure DevOps](docs/guides/guide-azure-devops.md) | Equipo Scrum con Azure DevOps, CI/CD, SDD |
+| [Consultora + Jira](docs/guides/guide-jira.md) | Sincronización Jira ↔ Savia, workflow híbrido |
+| [Solo Savia / Savia Flow](docs/guides/guide-savia-standalone.md) | Sin herramienta externa, todo en Git |
+| [Centro de estudios](docs/guides/guide-education.md) | Savia School: proyectos, evaluaciones, RGPD |
+| [Laboratorio de hardware](docs/guides/guide-hardware-lab.md) | PCB, firmware, BOM, certificaciones |
+| [Laboratorio de investigación](docs/guides/guide-research-lab.md) | Papers, experimentos, datasets, financiación |
+| [Startup](docs/guides/guide-startup.md) | MVP, lean, iteración rápida, OKRs |
+| [ONG](docs/guides/guide-nonprofit.md) | Subvenciones, voluntarios, impacto social |
+| [Bufete de abogados](docs/guides/guide-legal-firm.md) | Casos, plazos legales, facturación por horas |
+| [Organización sanitaria](docs/guides/guide-healthcare.md) | Mejora continua, protocolos, compliance |
+
 ### Otros documentos
 
 | Documento | Descripción |
@@ -440,7 +455,8 @@ Estas son las reglas que nunca se saltan — ni yo misma:
 
 | Versión | Era | Resumen |
 |---|---|---|
-| **v1.7.0** | — | Company Savia v3: aislamiento por ramas orphan, quality framework (reglas #21-#22), Agent Self-Memory, PII gate, drift detection. 120 tests Savia. |
+| **v1.8.0** | Era 23 | 10 guías de uso por escenario (Azure DevOps, Jira, Savia standalone, educación, hardware, investigación, startup, ONG, legal, sanidad). README reestructurado. 20 propuestas de gaps detectados. |
+| **v1.7.0** | Era 22 | Company Savia v3: aislamiento por ramas orphan, quality framework (reglas #21-#22), Agent Self-Memory, PII gate, drift detection. 120 tests Savia. |
 | **v1.6.0** | — | Company Savia v2: reestructuración de directorios, índices TSV, simplificación de rutas de usuario. |
 | **v0.99–v1.5.1** | Era 21 | Savia Everywhere: Company Savia, Git Persistence Engine, Savia Flow, Travel Mode, Savia School, cifrado E2E. |
 | **v0.91–v0.98** | Era 20 | Persistent Intelligence: agent memory, frontmatter inteligente, RPI workflow, PR Guardian, 3 modos output. |
