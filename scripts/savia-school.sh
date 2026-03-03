@@ -5,7 +5,8 @@
 
 set -euo pipefail
 
-SCHOOL_ROOT="${1:-.}/school-savia"
+SCHOOL_BASE="${SCHOOL_BASE:-.}"
+SCHOOL_ROOT="${SCHOOL_BASE}/school-savia"
 SCHOOL_CONFIG="${SCHOOL_ROOT}/.school-config.md"
 
 # ── School Setup ──────────────────────────────────────────────────────────────

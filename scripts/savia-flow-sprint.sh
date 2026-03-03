@@ -70,11 +70,14 @@ sprint_velocity() {
     done | head -10
 }
 
-case "${1:-help}" in
+# Only run dispatcher when executed directly, not when sourced
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  case "${1:-help}" in
     create) shift; sprint_create "$@" ;;
     close) shift; sprint_close "$@" ;;
     board) shift; sprint_board "$@" ;;
     burndown) shift; sprint_burndown "$@" ;;
     velocity) sprint_velocity ;;
     *) echo "Usage: savia-flow-sprint.sh <create|close|board|burndown|velocity>" ;;
-esac
+  esac
+fi

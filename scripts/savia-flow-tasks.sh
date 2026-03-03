@@ -19,7 +19,9 @@ task_create() {
 
     # Generate ID
     local year=$(date +%Y)
-    local seq=$(ls "${BACKLOG_DIR:-.}" 2>/dev/null | grep -c "TASK-${year}" || echo 0)
+    local seq
+    seq=$(ls "${BACKLOG_DIR}" 2>/dev/null | grep -c "TASK-${year}" || true)
+    seq=${seq:-0}
     seq=$((seq + 1))
     local task_id="TASK-${year}-$(printf '%04d' $seq)"
 
@@ -77,10 +79,11 @@ task_move() {
     sed -i "s/^updated: .*/updated: $(date +%Y-%m-%d)/" "$task_file"
 
     # Move file if sprint-based board columns exist
-    local sprint=$(grep '^sprint:' "$task_file" | cut -d' ' -f2)
+    local sprint
+    sprint=$(grep '^sprint:' "$task_file" | cut -d' ' -f2)
     if [[ -n "$sprint" ]]; then
         local board_dir="${SPRINTS_DIR}/${sprint}/board"
-        mkdir -p "${board_dir}/{todo,in-progress,review,done}"
+        mkdir -p "${board_dir}/todo" "${board_dir}/in-progress" "${board_dir}/review" "${board_dir}/done"
         local new_path="${board_dir}/${new_status}/${task_id}.md"
         mv "$task_file" "$new_path" 2>/dev/null || true
     fi
@@ -96,7 +99,8 @@ task_assign() {
         return 1
     }
 
-    local task_file=$(find "${SPRINTS_DIR}" "${BACKLOG_DIR}" -name "${task_id}.md" 2>/dev/null | head -1)
+    local task_file
+    task_file=$(find "${SPRINTS_DIR}" "${BACKLOG_DIR}" -name "${task_id}.md" 2>/dev/null | head -1)
     [[ -f "$task_file" ]] || {
         echo "❌ Task $task_id not found"
         return 1

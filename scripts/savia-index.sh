@@ -30,11 +30,13 @@ lookup() {
 }
 
 update_entry() {
-  local idx="$(get_index_path "$1")" key="$2"
+  local name="$1" key="$2"
+  local idx="$(get_index_path "$name")"
   shift 2
-  init_index "$1" ""
+  ensure_index_dir
+  [ -f "$idx" ] || touch "$idx"
   "$SED" -i '' "/^$key\t/d" "$idx" 2>/dev/null || "$SED" -i "/^$key\t/d" "$idx" 2>/dev/null || true
-  echo -e "$key\t$*" >> "$idx"
+  printf '%s\t%s\n' "$key" "$*" >> "$idx"
 }
 
 remove_entry() {
@@ -66,7 +68,8 @@ case "${1:-help}" in
   rebuild|rebuild-*) bash scripts/savia-index-rebuild.sh "${1#rebuild-}" ;;
   lookup) lookup "$2" "$3" ;;
   update) update_entry "$2" "$3" "${@:4}" ;;
-  remove) remove_entry "$1" "$2" ;;
+  init) init_index "${2:-profiles}" "${3:-}" ;;
+  remove) remove_entry "$2" "$3" ;;
   verify) verify_index "${2:-profiles}" ;;
   compact) compact_index "${2:-profiles}" ;;
   help|*) cat <<EOF

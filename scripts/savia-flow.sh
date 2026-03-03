@@ -57,6 +57,61 @@ source "$SCRIPTS_DIR/savia-flow-sprint.sh"
 source "$SCRIPTS_DIR/savia-flow-board.sh"
 source "$SCRIPTS_DIR/savia-flow-templates.sh"
 
+# ── Adapter functions for sprint/metrics ────────────────────────────
+do_sprint_start() {
+  local project="${1:?}" name="${2:?}" goal="${3:?}" start="${4:?}" end="${5:?}"
+  local repo_dir; repo_dir=$(get_repo)
+  validate_project "$repo_dir" "$project"
+  local sprint_dir="$repo_dir/projects/$project/sprints/$name"
+  mkdir -p "$sprint_dir"
+  cat > "$sprint_dir/sprint.md" <<EOF
+---
+id: $name
+goal: $goal
+start_date: $start
+end_date: $end
+status: "active"
+created: $(date +%Y-%m-%d)
+---
+## Sprint Goal
+$goal
+EOF
+  echo "✅ Sprint $name started for $project"
+}
+
+do_sprint_close() {
+  local project="${1:?}"
+  local repo_dir; repo_dir=$(get_repo)
+  local current
+  current=$(ls -t "$repo_dir/projects/$project/sprints/" 2>/dev/null | head -1)
+  [ -n "$current" ] || { echo "❌ No active sprint"; return 1; }
+  local sprint_file="$repo_dir/projects/$project/sprints/$current/sprint.md"
+  [ -f "$sprint_file" ] || { echo "❌ Sprint file not found"; return 1; }
+  sed -i '' "s/status: \"active\"/status: \"closed\"/" "$sprint_file" 2>/dev/null || \
+  sed -i "s/status: \"active\"/status: \"closed\"/" "$sprint_file" 2>/dev/null || true
+  echo "✅ Sprint $current closed"
+}
+
+do_metrics() {
+  local project="${1:?}"
+  local repo_dir; repo_dir=$(get_repo)
+  validate_project "$repo_dir" "$project"
+  local total=0 done_count=0 total_sp=0
+  for f in "$repo_dir/projects/$project/backlog"/*.md "$repo_dir/projects/$project/backlog/archive"/*.md; do
+    [ -f "$f" ] || continue
+    total=$((total + 1))
+    local sp; sp=$(portable_yaml_field "story_points" "$f"); sp=${sp:-0}
+    total_sp=$((total_sp + sp))
+    local status; status=$(portable_yaml_field "status" "$f")
+    [ "$status" = "done" ] && done_count=$((done_count + 1))
+  done
+  echo "📊 Metrics: $project"
+  echo "  Total PBIs: $total"
+  echo "  Done: $done_count"
+  echo "  Story Points: $total_sp"
+  echo "  Velocity: ${done_count}/${total} PBIs completed"
+}
+
 # ── Main ────────────────────────────────────────────────────────────
 main() {
   local cmd="${1:-help}"
