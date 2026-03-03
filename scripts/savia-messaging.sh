@@ -62,6 +62,7 @@ resolve_handle() {
 # ── Source: inbox, read, reply, announce, broadcast, directory ────
 source "$SCRIPTS_DIR/savia-messaging-inbox.sh"
 source "$SCRIPTS_DIR/savia-messaging-actions.sh"
+source "$SCRIPTS_DIR/savia-messaging-privacy.sh"
 
 # ── Send: direct message to @handle ────────────────────────────────
 do_send() {
@@ -88,6 +89,9 @@ do_send() {
 
   local inbox
   inbox=$(resolve_handle "$repo_dir" "$recipient") || return 1
+
+  # Subject sensitivity check (warn, don't block)
+  check_subject_sensitivity "$subject" "$encrypt" || true
 
   # Encrypt body if requested
   local final_body="$body"
