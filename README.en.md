@@ -152,38 +152,9 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ---
 
-## v0.71.0 — Observability Core
-
-- `/obs-connect` — Connect to Grafana, Datadog, App Insights, OpenTelemetry
-- `/obs-query` — Natural language queries to observability data
-- `/obs-dashboard` — Dashboards digested by role
-- `/obs-status` — Health check of connected sources
-
----
-
-## v0.72.0 — Trace Intelligence
-
-- `/trace-search` — Search and filter traces in Grafana, Datadog, App Insights with natural language
-- `/trace-analyze` — Deep trace analysis: waterfall, bottleneck detection, error chain
-- `/error-investigate` — AI-assisted error investigation with root cause hypothesis
-- `/incident-correlate` — Cross-source incident correlation with post-mortem draft
-
-**Era 17 — AI Tooling & Auto-Compact (3/3). ERA 17 COMPLETE!**
-
-## v0.84.0–v0.89.0 — Era 18: Compliance, Distribution & Intelligent Hooks
-
-- `/aepd-compliance` — AEPD compliance audit for agentic AI (4 phases: technology → compliance → vulnerabilities → measures)
-- `/excel-report` — Interactive Excel templates (capacity, CEO, time-tracking) in multi-tab CSV
-- `/savia-gallery` — Interactive catalog of 271 commands by role and vertical with source tracking
-- skills.sh publishing infrastructure — Adapter script + format for marketplace publishing
-- Intelligent hooks — Prompt hooks (semantic) and Agent hooks (pre-merge quality gate)
-- AI Competency Framework — 6 AI-era competencies for `/adoption-assess --ai-skills`
-
-**Era 18 — Compliance, Distribution & Intelligent Hooks (6/6). ERA 18 COMPLETE!**
-
 ## Quick Command Reference
 
-> 327 commands · 24 agents · 22 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 329+ commands · 24 agents · 22 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -459,48 +430,19 @@ These are the rules that are never skipped — not even by me:
 
 ---
 
-## v0.90.0 — Era 19: Open Source Synergy
+## Version History
 
-- `/mcp-browse` — Browse 66+ MCPs from the claude-code-templates ecosystem
-- `/component-search` — Search 5,788+ components (agents, commands, hooks, MCPs, skills)
-- `docs/recommended-mcps.md` — Curated MCP catalog for PM/Scrum teams
-- `hooks/README.md` — Categorized documentation for all 14 hooks (security, quality gates, agents, workflow)
-- `agent-observability-patterns.md` — Observability patterns inspired by analytics dashboard
-- `component-marketplace.md` — Component marketplace integration rule
+> Full changelog at [CHANGELOG.md](CHANGELOG.md) · All releases at [GitHub Releases](https://github.com/gonzalezpazmonica/pm-workspace/releases)
 
-**Era 19 — Open Source Synergy (6/6). ERA 19 COMPLETE!**
-
-## v0.91.0–v0.98.0 — Era 20: Persistent Intelligence & Adaptive Workflows
-
-- v0.91.0 — 5 bug fixes + 165 new tests (64→229). 7 test scripts + orchestrator `test-stress-runner.sh`
-- `/agent-memory` — Persistent memory for 9 agents with 3 scopes (project/local/user)
-- `/savia-recall` — Query Savia's accumulated contextual memory
-- `/savia-forget` — GDPR-compliant memory pruning (Art. 17 RGPD)
-- 57 commands with smart frontmatter (`model`, `context_cost`, `allowed-tools`)
-- `/rpi-start` — Research → Plan → Implement workflow with GO/NO-GO gates
-- `/rpi-status` — Track active RPI workflow progress
-- `/onboard --role {dev|pm|qa}` — Guided onboarding with role-specific checklists
-- `/mcp-recommend` — MCP recommendations by stack and team role
-- 3 adaptive output modes: Coaching · Executive · Technical
-- Hook classification: 2 async + 10 blocking, 9/16 event coverage
-- `pr-guardian.yml` — 8 automated PR validation gates (context guard, ShellCheck, Gitleaks, hook safety, PR Digest in Spanish)
-- `/pr-digest` — Contextual PR analysis with risk classification and executive summary
-
-**Era 20 — Persistent Intelligence (14/14). ERA 20 COMPLETE!**
-
-## v0.99.0–v1.5.1 — Era 21: Savia Everywhere
-
-- Company Savia: shared Git repo with async messaging, E2E encryption (RSA-4096 + AES-256-CBC), @handle addressing, privacy-check pre-push
-- Git Persistence Engine: TSV indexes for low-context lookups (~60-80% token reduction)
-- Savia Flow Git-Native: tasks/sprints/timesheets in Git folders, Kanban board, 17 commands
-- Travel Mode: portable Savia on USB with AES-256-CBC encryption, SHA256 verification, auto-installer
-- Savia School: education vertical with 12 commands, GDPR Art. 8/15/17, encrypted evaluations
-- Script Hardening: 6 critical + 7 medium fixes across 9 scripts, macOS/Linux/WSL compatibility
-- Subject Sensitivity: validates sensitive data in encrypted message subjects (12 pattern categories)
-- 18 test suites (197 tests), including E2E encryption confidentiality testing
-- Research of 12+ Claude Code ecosystem repos, 12 improvement proposals
-
-**Era 21 — Savia Everywhere (v0.99.0–v1.5.1). ERA 21 COMPLETE!**
+| Version | Era | Summary |
+|---|---|---|
+| **v1.7.0** | — | Company Savia v3: orphan branch isolation, quality framework (rules #21-#22), Agent Self-Memory, PII gate, drift detection. 120 Savia tests. |
+| **v1.6.0** | — | Company Savia v2: directory restructure, TSV indexes, simplified user paths. |
+| **v0.99–v1.5.1** | Era 21 | Savia Everywhere: Company Savia, Git Persistence Engine, Savia Flow, Travel Mode, Savia School, E2E encryption. |
+| **v0.91–v0.98** | Era 20 | Persistent Intelligence: agent memory, smart frontmatter, RPI workflow, PR Guardian, 3 output modes. |
+| **v0.90** | Era 19 | Open Source Synergy: claude-code-templates integration, `/mcp-browse`, `/component-search`. |
+| **v0.84–v0.89** | Era 18 | Compliance & Hooks: `/aepd-compliance`, Excel reports, Savia Gallery, intelligent hooks. |
+| **v0.71–v0.72** | Era 17 | Observability & Traces: `/obs-connect`, `/trace-search`, `/error-investigate`. |
 
 ---
 
