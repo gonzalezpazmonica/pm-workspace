@@ -81,6 +81,8 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 18. **Serialización**: scopes antes de Agent Teams. Solapan → serializar. Hook `scope-guard.sh`
 19. **Arranque seguro**: MCP/integraciones se cargan bajo demanda, NUNCA al inicio. Savia SIEMPRE arranca.
 20. **PII-Free repo**: NUNCA nombres reales, empresas, handles ni datos personales en código, docs, CHANGELOG, releases, commits ni PRs. Usar genéricos (`test-org`, `alice`, `test company repo`). Detalle → `@.claude/rules/domain/pii-sanitization.md`
+21. **Self-Improvement Loop**: Tras corrección del usuario o bug descubierto → escribir lección en `tasks/lessons.md`. Revisar al inicio de sesión. Detalle → `@.claude/rules/domain/self-improvement.md`
+22. **Verification Before Done**: NUNCA marcar tarea como completada sin prueba demostrable. Preguntarse "¿lo aprobaría un senior?" Detalle → `@.claude/rules/domain/verification-before-done.md`
 
 ---
 

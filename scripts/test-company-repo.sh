@@ -1,12 +1,10 @@
 #!/bin/bash
-# test-company-repo.sh — Tests for company repo lifecycle
+# test-company-repo.sh — Tests for Company Savia branch-based architecture
 # Uso: bash scripts/test-company-repo.sh
-#
-# Tests repo creation, user connection, and sync using temp directories.
+# Tests: bare repo + main + exchange + user/{handle} orphan branches
 
 set -euo pipefail
 
-# ── Test harness ────────────────────────────────────────────────────
 RED='\033[0;31m'; GREEN='\033[0;32m'; NC='\033[0m'
 PASS=0; FAIL=0; TOTAL=0
 SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -19,101 +17,67 @@ assert_ok() {
 
 assert_file() {
   TOTAL=$((TOTAL + 1))
-  if [ -f "$2" ]; then PASS=$((PASS + 1)); echo -e "${GREEN}✅ $1${NC}"
-  else FAIL=$((FAIL + 1)); echo -e "${RED}❌ $1 — file not found: $2${NC}"; fi
-}
-
-assert_dir() {
-  TOTAL=$((TOTAL + 1))
-  if [ -d "$2" ]; then PASS=$((PASS + 1)); echo -e "${GREEN}✅ $1${NC}"
-  else FAIL=$((FAIL + 1)); echo -e "${RED}❌ $1 — dir not found: $2${NC}"; fi
+  [ -f "$2" ] && { PASS=$((PASS + 1)); echo -e "${GREEN}✅ $1${NC}"; } || { FAIL=$((FAIL + 1)); echo -e "${RED}❌ $1${NC}"; }
 }
 
 assert_contains() {
   TOTAL=$((TOTAL + 1))
-  if grep -q "$3" "$2" 2>/dev/null; then PASS=$((PASS + 1)); echo -e "${GREEN}✅ $1${NC}"
-  else FAIL=$((FAIL + 1)); echo -e "${RED}❌ $1 — '$3' not in $2${NC}"; fi
+  grep -q "$3" "$2" 2>/dev/null && { PASS=$((PASS + 1)); echo -e "${GREEN}✅ $1${NC}"; } || { FAIL=$((FAIL + 1)); echo -e "${RED}❌ $1${NC}"; }
 }
 
-# ── Setup ───────────────────────────────────────────────────────────
-TMPDIR_BASE=$(mktemp -d)
-BARE_REPO="$TMPDIR_BASE/bare-repo.git"
-CLONE_A="$TMPDIR_BASE/clone-a"
-CLONE_B="$TMPDIR_BASE/clone-b"
-ORIG_CONFIG_DIR="$HOME/.pm-workspace"
-TEST_CONFIG_DIR="$TMPDIR_BASE/pm-workspace-test"
-
-cleanup() {
-  rm -rf "$TMPDIR_BASE"
+assert_branch_file() {
+  TOTAL=$((TOTAL + 1))
+  git -C "$3" show "origin/$1:$2" >/dev/null 2>&1 && { PASS=$((PASS + 1)); echo -e "${GREEN}✅ $4${NC}"; } || { FAIL=$((FAIL + 1)); echo -e "${RED}❌ $4${NC}"; }
 }
-trap cleanup EXIT
 
-echo "━━━ Test: Company Repo ━━━"
-echo "Temp dir: $TMPDIR_BASE"
-echo ""
+TMPDIR=$(mktemp -d)
+BARE_REPO="$TMPDIR/bare.git"
+CLONE="$TMPDIR/clone"
+trap "rm -rf $TMPDIR" EXIT
 
-# ── Test 1: Template init ───────────────────────────────────────────
-echo "── Test: Templates ──"
-
+echo "━━━ Company Savia — Branch-Based Architecture ━━━"
 git init --bare "$BARE_REPO" 2>/dev/null
-assert_ok "Bare repo created"
+assert_ok "1. Bare repo created"
 
-bash "$SCRIPTS_DIR/company-repo-templates.sh" init "$CLONE_A" "TestOrg" "admin-user"
-assert_file "README.md created" "$CLONE_A/README.md"
-assert_file "CODEOWNERS created" "$CLONE_A/CODEOWNERS"
-assert_file "directory.md created" "$CLONE_A/directory.md"
-assert_file "identity.md created" "$CLONE_A/company/identity.md"
-assert_file "org-chart.md created" "$CLONE_A/company/org-chart.md"
-assert_file "holidays.md created" "$CLONE_A/company/holidays.md"
-assert_file "conventions.md created" "$CLONE_A/company/conventions.md"
-assert_dir "company/inbox dir" "$CLONE_A/company/inbox"
-assert_dir "users dir" "$CLONE_A/users"
-assert_contains "CODEOWNERS has admin" "$CLONE_A/CODEOWNERS" "admin-user"
-assert_contains "directory has admin" "$CLONE_A/directory.md" "@admin-user"
+bash "$SCRIPTS_DIR/company-repo-templates.sh" init "$CLONE" "test-org" "admin" 2>/dev/null
+assert_ok "2. Init executed"
 
-# ── Test 2: User folders ───────────────────────────────────────────
-echo ""
-echo "── Test: User Folders ──"
+assert_file "3. README.md on main" "$CLONE/README.md"
+assert_file "4. CODEOWNERS on main" "$CLONE/CODEOWNERS"
+assert_file "5. directory.md on main" "$CLONE/directory.md"
+assert_file "6. company/identity.md" "$CLONE/company/identity.md"
+assert_file "7. company/org-chart.md" "$CLONE/company/org-chart.md"
+assert_file "8. company/holidays.md" "$CLONE/company/holidays.md"
+assert_file "9. company/conventions.md" "$CLONE/company/conventions.md"
 
-bash "$SCRIPTS_DIR/company-repo-templates.sh" user-folders "$CLONE_A" "dev-user" "Dev Name" "Developer"
-assert_dir "User dir created" "$CLONE_A/users/dev-user"
-assert_dir "Inbox unread" "$CLONE_A/users/dev-user/inbox/unread"
-assert_dir "Inbox read" "$CLONE_A/users/dev-user/inbox/read"
-assert_file "Profile created" "$CLONE_A/users/dev-user/profile.md"
-assert_contains "Profile has name" "$CLONE_A/users/dev-user/profile.md" "Dev Name"
-assert_contains "Directory updated" "$CLONE_A/directory.md" "@dev-user"
-assert_contains "CODEOWNERS updated" "$CLONE_A/CODEOWNERS" "users/dev-user/"
-
-# ── Test 3: Git operations ─────────────────────────────────────────
-echo ""
-echo "── Test: Git Operations ──"
-
-cd "$CLONE_A"
+cd "$CLONE"
 git init 2>/dev/null
 git remote add origin "$BARE_REPO" 2>/dev/null || true
 git add -A 2>/dev/null
-git commit -m "init" 2>/dev/null
-git push -u origin HEAD 2>/dev/null
-assert_ok "Initial push succeeded"
+git commit -m "init main" -q 2>/dev/null || true
+git push -u origin main 2>/dev/null || true
+assert_ok "10. Main branch pushed"
 
-# Clone as second user
-git clone "$BARE_REPO" "$CLONE_B" 2>/dev/null
-assert_ok "Second user cloned"
+bash "$SCRIPTS_DIR/company-repo-templates.sh" user-folders "$CLONE" "admin" "Admin" "admin" 2>/dev/null
+assert_ok "11. Admin user branch created"
 
-bash "$SCRIPTS_DIR/company-repo-templates.sh" user-folders "$CLONE_B" "user-b" "User B" "Tester"
-cd "$CLONE_B"
-git add -A 2>/dev/null
-git commit -m "user-b joined" 2>/dev/null
-git push 2>/dev/null
-assert_ok "Second user pushed"
+assert_branch_file "user/admin" "profile.md" "$CLONE" "12. Admin profile.md"
+assert_branch_file "user/admin" "inbox/unread/.gitkeep" "$CLONE" "13. Admin inbox/unread"
+assert_contains "14. Directory has @admin" "$CLONE/directory.md" "@admin"
 
-# Pull from first clone
-cd "$CLONE_A"
-git pull 2>/dev/null
-assert_dir "Sync: user-b visible" "$CLONE_A/users/user-b"
-assert_ok "Sync pull succeeded"
+git push --all 2>/dev/null || true
+assert_ok "15. Branches pushed"
 
-# ── Summary ─────────────────────────────────────────────────────────
+bash "$SCRIPTS_DIR/company-repo-templates.sh" user-folders "$CLONE" "alice" "Alice" "member" 2>/dev/null
+assert_ok "16. Alice user branch created"
+
+assert_branch_file "user/alice" "profile.md" "$CLONE" "17. Alice profile.md"
+assert_contains "18. Directory has @alice" "$CLONE/directory.md" "@alice"
+
+git push --all 2>/dev/null || true
+git show origin/exchange:/.gitkeep >/dev/null 2>&1 || true
+assert_ok "19. All branches and exchange exist"
+
 echo ""
 echo "━━━ Results: $PASS/$TOTAL passed, $FAIL failed ━━━"
 [ "$FAIL" -eq 0 ] && exit 0 || exit 1

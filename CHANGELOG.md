@@ -5,6 +5,37 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [1.7.0] — 2026-03-03
+
+Company Savia v3: branch-based isolation with Git orphan branches + quality framework.
+
+### Added
+
+- **`savia-branch.sh`**: new abstraction layer for cross-branch read/write/list/exists/ensure-orphan/check-permission/fetch-messages via `git show` and temporary worktrees.
+- **`test-savia-branches.sh`**: 15 tests for branch abstraction layer.
+- **Rule #21 — Self-Improvement Loop**: persistent `tasks/lessons.md` reviewed at session start. Rule: `.claude/rules/domain/self-improvement.md`.
+- **Rule #22 — Verification Before Done**: proof-based completion. Rule: `.claude/rules/domain/verification-before-done.md`.
+- **Agent Self-Memory**: 10 agents with persistent `MEMORY.md` files (code-reviewer, architect, security-guardian, test-runner, triage, and 5 more). Rule: `.claude/rules/domain/agent-self-memory.md`.
+- **`/drift-check` command**: audits CLAUDE.md rules vs repo state. Agent: `drift-auditor.md`.
+- **`hook-pii-gate.sh`**: pre-commit PII scanner (emails, phones, API keys, IBAN, DNI/NIE).
+- **Frontend Component Rules**: `.claude/rules/domain/frontend-components.md` (naming, a11y checklist, states, design tokens).
+- **Roadmap v1.7.0**: `docs/roadmap-v1.7.0.md`.
+
+### Changed
+
+- **20 core scripts migrated**: from directory-based to orphan branch isolation (main, user/{handle}, team/{name}, exchange).
+- **8 test suites rewritten**: 120 Savia tests pass (branch-based architecture).
+- **Config, skills, docs updated**: `company-savia-config.md`, `SKILL.md`, `message-schema.md` reflect branch architecture.
+- **CLAUDE.md**: 22 rules (was 20). New checklist entries for self-improvement and verification.
+
+### Fixed
+
+- **`git fetch origin --all`**: invalid command replaced with `git fetch --all` across all tests.
+- **`assert_ok` pattern**: fixed `$?` capture bug in test harnesses (was always 0).
+- **Dispatcher command names**: tests now use short names (read, write, exists) matching savia-branch.sh dispatcher.
+
+---
+
 ## [1.6.0] — 2026-03-03
 
 Company Savia v2: complete directory restructure for clarity, consistency, and indexing.
@@ -53,6 +84,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[1.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.5.0...v1.5.1
 
@@ -571,7 +603,7 @@ Context Optimization — Correcciones del informe E2E v0.75.0. `max_context` bud
 
 ## [0.75.0] — 2026-03-02
 
-Savia E2E Test Harness — Entorno Docker aislado con agente autónomo que ejecuta Claude Code headless contra pm-workspace. Simula los 4 roles del equipo SocialApp (Mónica, Elena, Ana, Isabel) ejecutando 23 pasos en 5 escenarios (setup → exploration → production → coordination → release). Recopila métricas de tokens, tiempos, errores y bloqueos de contexto. Modo mock para CI, modo live con API key real.
+Savia E2E Test Harness — Entorno Docker aislado con agente autónomo que ejecuta Claude Code headless contra pm-workspace. Simula 4 roles de equipo ejecutando 23 pasos en 5 escenarios (setup → exploration → production → coordination → release). Recopila métricas de tokens, tiempos, errores y bloqueos de contexto. Modo mock para CI, modo live con API key real.
 
 ### Added
 

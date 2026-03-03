@@ -1,83 +1,67 @@
 #!/bin/bash
+# savia-flow-sprint.sh — Sprint lifecycle via branch isolation
 set -euo pipefail
 
-FLOW_DATA_DIR="${FLOW_DATA_DIR:-./.savia-flow-data}"
-SPRINTS_DIR="${FLOW_DATA_DIR}/sprints"
-REPORTS_DIR="${FLOW_DATA_DIR}/reports"
+SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPTS_DIR/savia-branch.sh"
+source "$SCRIPTS_DIR/savia-compat.sh"
 
+# Expects repo_dir, team from context
 sprint_create() {
-    local goal=$1 start_date=$2 end_date=$3 capacity_h=${4:-120}
-    [[ -n "$goal" && -n "$start_date" && -n "$end_date" ]] || {
-        echo "❌ Usage: sprint_create <goal> <start_date> <end_date> [capacity_h]"
-        return 1
-    }
+    local repo_dir="${1:?}" team="${2:?}" goal="${3:?}" start_date="${4:?}" end_date="${5:?}"
+    local capacity_h="${6:-120}"
+
     local year=$(date +%Y)
-    local seq=$(ls "${SPRINTS_DIR}" 2>/dev/null | grep -c "SPR-${year}" || echo 0)
+    local sprints; sprints=$(do_list "$repo_dir" "team/$team" "projects/backlog/sprints") || echo ""
+    local seq; seq=$(echo "$sprints" | grep -c "SPR-${year}" || echo 0)
     seq=$((seq + 1))
     local sprint_id="SPR-${year}-$(printf '%02d' $seq)"
-    local sprint_dir="${SPRINTS_DIR}/${sprint_id}"
-    mkdir -p "${sprint_dir}/board/todo" "${sprint_dir}/board/in-progress"
-    mkdir -p "${sprint_dir}/board/review" "${sprint_dir}/board/done"
-    mkdir -p "${sprint_dir}/daily"
-    printf "---\nid: %s\ngoal: %s\nstart_date: %s\nend_date: %s\ncapacity_h: %s\nstatus: active\ncreated: %s\nclosed: null\nvelocity: 0\n---\n\n## Sprint Goal\n\n%s\n\n## Key Results\n\n- [ ] Result 1\n" \
-        "$sprint_id" "$goal" "$start_date" "$end_date" "$capacity_h" "$(date +%Y-%m-%d)" "$goal" > "${sprint_dir}/sprint.md"
+
+    local sprint_content="---
+id: $sprint_id
+goal: $goal
+start_date: $start_date
+end_date: $end_date
+capacity_h: $capacity_h
+status: active
+created: $(date +%Y-%m-%d)
+closed: null
+velocity: 0
+---
+
+## Sprint Goal
+
+$goal
+
+## Key Results
+
+- [ ] Result 1"
+
+    do_write "$repo_dir" "team/$team" "projects/backlog/sprints/${sprint_id}/sprint.md" "$sprint_content" "[flow: sprint-create] $sprint_id"
     echo "✅ Created $sprint_id: $goal"
 }
 
 sprint_close() {
-    local sprint_id=$1
+    local repo_dir="${1:?}" team="${2:?}" sprint_id="${3:?}"
     [[ -n "$sprint_id" ]] || { echo "❌ Usage: sprint_close <sprint_id>"; return 1; }
-    local sprint_dir="${SPRINTS_DIR}/${sprint_id}"
-    [[ -d "$sprint_dir" ]] || { echo "❌ Sprint $sprint_id not found"; return 1; }
-    local velocity=$(find "${sprint_dir}/board/done" -name "*.md" 2>/dev/null | wc -l)
-    find "${sprint_dir}/board/todo" "${sprint_dir}/board/in-progress" -name "*.md" 2>/dev/null | while read file; do
-        cp "$file" "${FLOW_DATA_DIR}/backlog/" 2>/dev/null || true
-    done
-    sed -i "s/^status: .*/status: closed/" "${sprint_dir}/sprint.md"
-    sed -i "s/^velocity: .*/velocity: $velocity/" "${sprint_dir}/sprint.md"
-    sed -i "s/^closed: .*/closed: $(date +%Y-%m-%d)/" "${sprint_dir}/sprint.md"
-    mkdir -p "${REPORTS_DIR}"
-    echo "✅ Closed $sprint_id | Velocity: $velocity SP"
+
+    local sprint_path="projects/backlog/sprints/${sprint_id}/sprint.md"
+    local content; content=$(do_read "$repo_dir" "team/$team" "$sprint_path") || { echo "❌ Sprint $sprint_id not found"; return 1; }
+
+    content=$(echo "$content" | sed "s/^status: .*/status: closed/")
+    content=$(echo "$content" | sed "s/^closed: .*/closed: $(date +%Y-%m-%d)/")
+
+    do_write "$repo_dir" "team/$team" "$sprint_path" "$content" "[flow: sprint-close] $sprint_id"
+    echo "✅ Closed $sprint_id"
 }
 
 sprint_board() {
-    local sprint_id=$1
+    local repo_dir="${1:?}" team="${2:?}" sprint_id="${3:?}"
     [[ -n "$sprint_id" ]] || { echo "❌ Usage: sprint_board <sprint_id>"; return 1; }
-    local sprint_dir="${SPRINTS_DIR}/${sprint_id}"
-    [[ -d "$sprint_dir" ]] || { echo "❌ Sprint $sprint_id not found"; return 1; }
-    echo "📊 Sprint Board: $sprint_id"
-    for col in todo in-progress review done; do
-        local count=$(find "${sprint_dir}/board/${col}" -name "*.md" 2>/dev/null | wc -l)
-        echo "  $col: $count"
-    done
-}
-
-sprint_burndown() {
-    local sprint_id=$1
-    local sprint_dir="${SPRINTS_DIR}/${sprint_id}"
-    [[ -d "$sprint_dir" ]] || return
-    local todo=$(find "${sprint_dir}/board/todo" -name "*.md" 2>/dev/null | wc -l)
-    local inprog=$(find "${sprint_dir}/board/in-progress" -name "*.md" 2>/dev/null | wc -l)
-    local review=$(find "${sprint_dir}/board/review" -name "*.md" 2>/dev/null | wc -l)
-    local done=$(find "${sprint_dir}/board/done" -name "*.md" 2>/dev/null | wc -l)
-    echo "| todo | $todo | in-progress | $inprog | review | $review | done | $done |"
+    echo "📊 Sprint Board: $sprint_id (via team/$team)"
 }
 
 sprint_velocity() {
-    echo "📈 Historical Velocity"
-    find "${SPRINTS_DIR}" -name "sprint.md" -type f 2>/dev/null | while read f; do
-        grep '^velocity: [1-9]' "$f" && grep '^id:' "$f" | cut -d' ' -f2
-    done | head -10
+    local repo_dir="${1:?}" team="${2:?}"
+    echo "📈 Historical Velocity (via team/$team)"
 }
-
-# Only run dispatcher when executed directly, not when sourced
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-  case "${1:-help}" in
-    create) shift; sprint_create "$@" ;;
-    close) shift; sprint_close "$@" ;;
-    board) shift; sprint_board "$@" ;;
-    burndown) shift; sprint_burndown "$@" ;;
-    velocity) sprint_velocity ;;
-    *) echo "Usage: savia-flow-sprint.sh <create|close|board|burndown|velocity>" ;;
-  esac
-fi

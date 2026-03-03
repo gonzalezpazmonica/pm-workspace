@@ -44,70 +44,61 @@ check_content() {
   printf '%s\n' "${violations[@]+"${violations[@]}"}"
 }
 
-# ── Scan staged files in company repo ──────────────────────────────
+# ── Helper: scan branch directory ──────────────────────────────────
+scan_branch_dir() {
+  local repo_dir="$1" handle="$2" bdir="$3" label="$4" savia_script
+  savia_script="$(dirname "$0")/savia-branch.sh"
+  [ ! -f "$savia_script" ] && return 0
+  local items
+  items=$(bash "$savia_script" list "$repo_dir" "user/$handle" "$bdir" 2>/dev/null || echo "")
+  while IFS= read -r file; do
+    [ -z "$file" ] && continue
+    local content
+    content=$(bash "$savia_script" read "$repo_dir" "user/$handle" "$bdir/$file" 2>/dev/null || echo "")
+    [ -z "$content" ] && continue
+    local vlist=$(check_content "$content")
+    while IFS= read -r v; do
+      [ -n "$v" ] && echo "$label $file: $v"
+    done <<< "$vlist"
+  done <<< "$items"
+}
+
+# ── Scan staged files and user branch content ──────────────────────
 do_scan() {
   local repo_dir="${1:?Uso: privacy-check-company.sh <repo_dir> [handle]}"
   local handle="${2:-}"
+  [ ! -d "$repo_dir/.git" ] && { log_error "Not a git repo: $repo_dir"; return 1; }
+  [ -z "$handle" ] && { log_error "Handle required"; return 1; }
+
+  log_info "Scanning user branch and staged changes..."
+
+  # Validate branch and check staged diff
+  local current_branch
+  current_branch=$(git -C "$repo_dir" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+  [ "$current_branch" != "user/$handle" ] && [ "$current_branch" != "exchange" ] && \
+    { log_error "Push only to user/$handle or exchange"; return 1; }
+
   local all_violations=()
-
-  if [ ! -d "$repo_dir/.git" ]; then
-    log_error "Not a git repo: $repo_dir"
-    return 1
-  fi
-
-  log_info "Scanning company repo for private data..."
-
-  # Scan staged changes
-  local staged_diff
-  staged_diff=$(git -C "$repo_dir" diff --cached 2>/dev/null || true)
-
+  local staged_diff=$(git -C "$repo_dir" diff --cached 2>/dev/null || true)
   if [ -n "$staged_diff" ]; then
-    local added_lines
-    added_lines=$(echo "$staged_diff" | grep '^+' | grep -v '^\+\+\+' || true)
+    local added_lines=$(echo "$staged_diff" | grep '^+' | grep -v '^\+\+\+' || true)
     if [ -n "$added_lines" ]; then
-      local violations
-      violations=$(check_content "$added_lines")
-      if [ -n "$violations" ]; then
-        while IFS= read -r v; do
-          [ -n "$v" ] && all_violations+=("Staged: $v")
-        done <<< "$violations"
-      fi
+      local vlist=$(check_content "$added_lines")
+      while IFS= read -r v; do
+        [ -n "$v" ] && all_violations+=("Staged: $v")
+      done <<< "$vlist"
     fi
   fi
 
-  # Scan personal inbox messages (unread) for handle
-  if [ -n "$handle" ] && [ -d "$repo_dir/users/$handle/inbox/unread" ]; then
-    for msg_file in "$repo_dir/users/$handle/inbox/unread"/*.md; do
-      [ -f "$msg_file" ] || continue
-      local msg_content
-      msg_content=$(cat "$msg_file")
-      local violations
-      violations=$(check_content "$msg_content")
-      if [ -n "$violations" ]; then
-        while IFS= read -r v; do
-          [ -n "$v" ] && all_violations+=("Message $(basename "$msg_file"): $v")
-        done <<< "$violations"
-      fi
-    done
-  fi
+  # Scan user branch directories
+  while IFS= read -r violation; do
+    [ -n "$violation" ] && all_violations+=("$violation")
+  done < <(scan_branch_dir "$repo_dir" "$handle" "inbox/unread" "Message")
+  while IFS= read -r violation; do
+    [ -n "$violation" ] && all_violations+=("$violation")
+  done < <(scan_branch_dir "$repo_dir" "$handle" "documents" "Document")
 
-  # Scan personal documents folder
-  if [ -n "$handle" ] && [ -d "$repo_dir/users/$handle/documents" ]; then
-    for doc_file in "$repo_dir/users/$handle/documents"/*; do
-      [ -f "$doc_file" ] || continue
-      local doc_content
-      doc_content=$(cat "$doc_file")
-      local violations
-      violations=$(check_content "$doc_content")
-      if [ -n "$violations" ]; then
-        while IFS= read -r v; do
-          [ -n "$v" ] && all_violations+=("Document $(basename "$doc_file"): $v")
-        done <<< "$violations"
-      fi
-    done
-  fi
-
-  # Report
+  # Report violations
   if [ ${#all_violations[@]} -gt 0 ]; then
     log_error "Privacy check FAILED — ${#all_violations[@]} violation(s):"
     for v in "${all_violations[@]}"; do
@@ -116,7 +107,7 @@ do_scan() {
     return 1
   fi
 
-  log_ok "Privacy check PASSED — no violations found"
+  log_ok "Privacy check PASSED"
   return 0
 }
 

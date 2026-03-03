@@ -1,15 +1,12 @@
 # Security Guardian — Persistent Memory
 
-> Vulnerability patterns, false positives, and project-specific exclusions.
+> Security vulnerability patterns, false positives, and project-specific exclusions.
 
-## Known Patterns
+## Discovered Patterns
 
-_Detected vulnerability patterns will accumulate here._
+| Date | Pattern | Context | Source |
+|---|---|---|---|
+| 2026-03-03 | Connection strings in config must reference vault (Key Vault/SSM) — never embed secrets | Pre-commit security check | Security-check-patterns.md, SEC-1 |
+| 2026-03-02 | Hardcoded IPs (192.168.*, 10.*) must be excluded — use DNS names or config | Infrastructure, network config | False positive: development docker-compose.yml |
+| 2026-03-01 | Email patterns must exclude @example.com, @company-test.com — only flag real corporate domains | Regex pattern tuning | PII-sanitization.md |
 
-## False Positives
-
-_Patterns confirmed as safe that should not trigger alerts._
-
-## Project-Specific Rules
-
-_Per-project security exceptions documented here._

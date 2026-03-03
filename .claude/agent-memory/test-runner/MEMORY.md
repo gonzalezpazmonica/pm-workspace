@@ -1,15 +1,12 @@
 # Test Runner — Persistent Memory
 
-> Test infrastructure, coverage trends, and flaky tests.
+> Test infrastructure patterns, coverage trends, and flaky test root causes.
 
-## Test Infrastructure
+## Discovered Patterns
 
-_Project-specific test setup, frameworks, and configurations._
+| Date | Pattern | Context | Source |
+|---|---|---|---|
+| 2026-03-03 | Maintain test coverage ≥80% — lower thresholds create unmaintainable debt | Quality gate, coverage-scripts.md | TEST_COVERAGE_MIN_PERCENT config |
+| 2026-03-02 | Always add [Trait("Category", "Unit")] to xUnit tests — enables filtering and fast runs | C# xUnit tests | Test-runner.md coverage-scripts section |
+| 2026-03-01 | Use FluentAssertions for readable assertions — improves failure diagnostics | C# test readability | Code-reviewer feedback on test quality |
 
-## Coverage Trends
-
-_Coverage evolution per project over sprints._
-
-## Flaky Tests
-
-_Tests that fail intermittently — root causes and fixes._
