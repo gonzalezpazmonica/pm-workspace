@@ -177,7 +177,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 271 commands · 24 agents · 21 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 273 commands · 24 agents · 21 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -408,6 +408,40 @@ These are the rules that are never skipped — not even by me:
 7. **Git**: NEVER commit directly to `main` — always branch + PR
 8. **Commands**: validate with `scripts/validate-commands.sh` before committing
 9. **Parallel**: verify scope overlap before launching Agent Teams; serialize if conflict
+
+---
+
+## v0.90.0 — Era 19: Open Source Synergy
+
+- `/mcp-browse` — Browse 66+ MCPs from the claude-code-templates ecosystem
+- `/component-search` — Search 5,788+ components (agents, commands, hooks, MCPs, skills)
+- `docs/recommended-mcps.md` — Curated MCP catalog for PM/Scrum teams
+- `hooks/README.md` — Categorized documentation for all 14 hooks (security, quality gates, agents, workflow)
+- `agent-observability-patterns.md` — Observability patterns inspired by analytics dashboard
+- `component-marketplace.md` — Component marketplace integration rule
+
+**Era 19 — Open Source Synergy (6/6). ERA 19 COMPLETE!**
+
+---
+
+## Special Acknowledgment
+
+This project thrives on the open source ecosystem of Claude Code tools. We want to give special thanks to:
+
+### [claude-code-templates](https://github.com/davila7/claude-code-templates)
+
+Created by [Daniel Avila](https://github.com/davila7), claude-code-templates is the largest component marketplace for Claude Code: **5,788+ components** (agents, commands, hooks, MCPs, settings, skills), a **CLI installer** (`npx claude-code-templates@latest`), a **web catalog** at [aitmpl.com](https://aitmpl.com), and a **dashboard** at [app.aitmpl.com](https://app.aitmpl.com). With 21K+ stars, it's an essential reference for any team working with Claude Code.
+
+pm-workspace integrates components from this ecosystem and contributes back with enterprise hooks, PM/Scrum agents, and specialized skills. If you're looking for free tools for Claude Code, start there.
+
+```bash
+# Install components from the marketplace
+npx claude-code-templates@latest
+
+# Explore from pm-workspace
+/mcp-browse
+/component-search {term}
+```
 
 ---
 
