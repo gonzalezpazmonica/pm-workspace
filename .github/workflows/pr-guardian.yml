@@ -399,8 +399,11 @@ jobs:
             core.summary.addRaw(summary);
             await core.summary.write();
 
+            // Gate 7 is advisory — Gate 3 already blocks on startup-critical files
+            // (CLAUDE.md, settings.json, rules/domain). Gate 7 includes on-demand
+            // files (commands, agents, skills) that naturally grow with features.
             if (net > threshold) {
-              core.setFailed(`Context impact too high: +${net} net lines (max: ${threshold} for ${commits} commits)`);
+              core.warning(`Context impact high: +${net} net lines (threshold: ${threshold} for ${commits} commits). Review if all additions are necessary.`);
             }
 
       # ─── Gate 8: PR Digest for Maintainer ───
