@@ -426,6 +426,15 @@ Estas son las reglas que nunca se saltan — ni yo misma:
 
 **Era 19 — Open Source Synergy (6/6). ERA 19 COMPLETA!**
 
+## v0.91.0 — Era 20: Stress Testing & Bug Fixes
+
+- 5 bug fixes en hooks (`block-credential-leak.sh`, `session-init.sh`, `agent-hook-premerge.sh`) y scripts (`skillssh-adapter.sh`)
+- 7 nuevos scripts de test: `test-stress-hooks.sh` (25), `test-stress-security.sh` (27), `test-stress-scripts.sh` (21), `test-era18-commands.sh` (32), `test-era18-rules.sh` (37), `test-era18-formulas.sh` (23)
+- `test-stress-runner.sh` — Orquestador de 9 suites con agregación de resultados
+- Tests totales: 64→229 (+165 nuevos tests)
+
+**Era 20 — Stress Testing & Bug Fixes. ERA 20 COMPLETA!**
+
 ---
 
 ## Agradecimiento especial

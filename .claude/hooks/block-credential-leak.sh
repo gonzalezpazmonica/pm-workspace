@@ -3,7 +3,13 @@
 # Usado por: security-guardian (PreToolUse hook)
 
 INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+
+# Fallback: if jq not installed, use grep-based extraction
+if command -v jq &>/dev/null; then
+  COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+else
+  COMMAND=$(echo "$INPUT" | grep -oP '"command"\s*:\s*"\K[^"]+' 2>/dev/null || echo "")
+fi
 
 if [ -z "$COMMAND" ]; then
   exit 0
@@ -51,6 +57,24 @@ fi
 # Detectar PAT hardcodeado (Azure DevOps / GitHub)
 if echo "$COMMAND" | grep -iE '(pat|token)\s*[:=]\s*["\x27]?[a-z0-9]{40,}' > /dev/null 2>&1; then
   echo "BLOQUEADO: PAT/token hardcodeado detectado. Usa \$(cat \$PAT_FILE) o vault." >&2
+  exit 2
+fi
+
+# Detectar private keys (PEM headers)
+if echo "$COMMAND" | grep -E -- '-----BEGIN.*(RSA |EC |OPENSSH |PGP )?PRIVATE KEY-----' > /dev/null 2>&1; then
+  echo "BLOQUEADO: Private key detectada. Usa vault o config.local/." >&2
+  exit 2
+fi
+
+# Detectar Azure SAS tokens (sv=20XX)
+if echo "$COMMAND" | grep -iE 'sv=20[0-9]{2}-[0-9]{2}-[0-9]{2}&s[a-z]=' > /dev/null 2>&1; then
+  echo "BLOQUEADO: Azure SAS token detectado. Usa Key Vault o variables de entorno." >&2
+  exit 2
+fi
+
+# Detectar Google API keys (AIza...)
+if echo "$COMMAND" | grep -iE 'AIza[0-9A-Za-z_-]{35}' > /dev/null 2>&1; then
+  echo "BLOQUEADO: Google API key detectada. Usa variables de entorno o vault." >&2
   exit 2
 fi
 

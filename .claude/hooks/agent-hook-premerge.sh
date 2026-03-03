@@ -45,7 +45,7 @@ done
 # Check 3: No merge conflict markers
 for f in $STAGED_FILES; do
   [[ -f "$f" ]] || continue
-  if grep -qE '^(<{7}|>{7}|={7})' "$f" 2>/dev/null; then
+  if grep -qE '^\s*(<{7}|>{7}|={7})' "$f" 2>/dev/null; then
     ISSUES+="Merge conflict markers in $f. "
   fi
 done
@@ -55,7 +55,7 @@ for f in $STAGED_FILES; do
   [[ -f "$f" ]] || continue
   case "$f" in
     .claude/commands/*|.claude/rules/*|.claude/agents/*|.claude/skills/*)
-      LINES=$(wc -l < "$f")
+      LINES=$(awk 'END{print NR}' "$f")
       if [[ "$LINES" -gt 150 ]]; then
         ISSUES+="$f exceeds 150 lines ($LINES). "
       fi

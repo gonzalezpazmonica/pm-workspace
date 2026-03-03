@@ -23,7 +23,7 @@ check_timeout() {
 }
 
 # ── Fallback: si algo falla, salida limpia ────────────────────────────────────
-trap 'printf "{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"PM-Workspace Init:\\n- Savia lista\"}}\n"; exit 0' ERR
+trap 'printf "{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"PM-Workspace Init (ERR line %s):\\n- Savia lista\"}}\n" "$LINENO"; exit 1' ERR
 
 # ── Arrays de contexto ────────────────────────────────────────────────────────
 ITEMS=()
