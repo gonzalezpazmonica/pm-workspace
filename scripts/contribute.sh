@@ -51,8 +51,12 @@ validate_privacy() {
   fi
 
   # Emails corporativos (excluir @gmail, @outlook, @github)
-  if echo "$content" | grep -qEi '[a-z0-9._%+-]+@(?!gmail|outlook|github|hotmail|yahoo)[a-z0-9.-]+\.[a-z]{2,}'; then
-    violations+=("Email corporativo detectado")
+  # FIX: Perl lookahead (?!...) doesn't work in grep -E. Use two-stage grep instead.
+  if echo "$content" | grep -qEi '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}'; then
+    # Check if it's NOT one of the known providers
+    if ! echo "$content" | grep -qEi '[a-z0-9._%+-]+@(gmail|outlook|github|hotmail|yahoo)[a-z0-9.-]*\.[a-z]{2,}'; then
+      violations+=("Email corporativo detectado")
+    fi
   fi
 
   # IPs privadas
