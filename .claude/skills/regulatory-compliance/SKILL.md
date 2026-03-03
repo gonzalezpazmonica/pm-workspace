@@ -16,6 +16,7 @@ references:
   - references/sector-education.md
   - references/sector-defense-military.md
   - references/sector-transport-automotive.md
+  - references/framework-aepd-agentic.md
 ---
 
 # Regulatory Compliance Intelligence
