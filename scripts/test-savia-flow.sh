@@ -54,7 +54,7 @@ ROLE=admin
 EOF
 
 # Create user dir for alice
-mkdir -p "$REPO/team/alice/savia-flow"
+mkdir -p "$REPO/users/alice/flow"
 
 # ── Test 1: Init project structure ──────────────────────────────────
 bash "$SCRIPTS_DIR/savia-flow.sh" init-project "alpha" "dev-team" 2>/dev/null
@@ -79,7 +79,7 @@ assert_file "Second PBI" "$REPO/projects/alpha/backlog/pbi-002.md"
 bash "$SCRIPTS_DIR/savia-flow.sh" assign "alpha" "PBI-001" "alice" 2>/dev/null
 assert_ok "Assign succeeded"
 assert_contains "Assignee set" "$REPO/projects/alpha/backlog/pbi-001.md" 'assignee: "alice"'
-assert_file "Assigned copy" "$REPO/team/alice/savia-flow/assigned/PBI-001.md"
+assert_file "Assigned copy" "$REPO/users/alice/flow/assigned/PBI-001.md"
 
 # ── Test 4: Move PBI through states ────────────────────────────────
 bash "$SCRIPTS_DIR/savia-flow.sh" move "alpha" "PBI-001" "ready" 2>/dev/null
@@ -98,7 +98,7 @@ assert_file "Archived PBI" "$REPO/projects/alpha/backlog/archive/pbi-001.md"
 # ── Test 5: Log time ───────────────────────────────────────────────
 bash "$SCRIPTS_DIR/savia-flow.sh" log-time "alpha" "PBI-002" "4" "Frontend work" 2>/dev/null
 assert_ok "Log time succeeded"
-MONTH_FILE="$REPO/team/alice/savia-flow/timesheet/$(date +%Y-%m).md"
+MONTH_FILE="$REPO/users/alice/flow/timesheet/$(date +%Y-%m).md"
 assert_file "Timesheet file" "$MONTH_FILE"
 assert_contains "PBI in timesheet" "$MONTH_FILE" "PBI-002"
 assert_contains "Hours in timesheet" "$MONTH_FILE" "hours: 4"

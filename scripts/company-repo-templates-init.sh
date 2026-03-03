@@ -76,7 +76,7 @@ EOF
   cat > "$repo_dir/.gitignore" <<'EOF'
 # Private keys (never commit)
 *.pem
-!**/public/*.pem
+!**/pubkey.pem
 *.key
 .env*
 config.local/
