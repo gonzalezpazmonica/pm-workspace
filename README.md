@@ -152,38 +152,9 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ---
 
-## v0.71.0 — Observability Core
-
-- `/obs-connect` — Conectar Grafana, Datadog, App Insights, OpenTelemetry
-- `/obs-query` — Consultas en lenguaje natural a datos de observabilidad
-- `/obs-dashboard` — Dashboards digeridos por rol
-- `/obs-status` — Health check de fuentes conectadas
-
----
-
-## v0.72.0 — Trace Intelligence
-
-- `/trace-search` — Buscar y filtrar trazas en Grafana, Datadog, App Insights con lenguaje natural
-- `/trace-analyze` — Análisis profundo de trazas: waterfall, cuellos de botella, cadena de errores
-- `/error-investigate` — Investigación asistida de errores con root cause analysis
-- `/incident-correlate` — Correlación multi-fuente para análisis integral de incidentes con post-mortem draft
-
-**Era 17 — AI Tooling & Auto-Compact (3/3). ERA 17 COMPLETA!**
-
-## v0.84.0–v0.89.0 — Era 18: Compliance, Distribution & Intelligent Hooks
-
-- `/aepd-compliance` — Auditoría AEPD para IA agéntica (4 fases: tecnología → cumplimiento → vulnerabilidades → medidas)
-- `/excel-report` — Plantillas Excel interactivas (capacity, CEO, time-tracking) en CSV multi-tab
-- `/savia-gallery` — Catálogo interactivo de 271 comandos por rol y vertical con source tracking
-- skills.sh publishing infrastructure — Adapter script + formato para publicar en marketplace
-- Intelligent hooks — Prompt hooks (semánticos) y Agent hooks (quality gate pre-merge)
-- AI Competency Framework — 6 competencias AI-era para `/adoption-assess --ai-skills`
-
-**Era 18 — Compliance, Distribution & Intelligent Hooks (6/6). ERA 18 COMPLETA!**
-
 ## Referencia rápida de comandos
 
-> 327 comandos · 24 agentes · 22 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 329+ comandos · 24 agentes · 22 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -463,48 +434,19 @@ Estas son las reglas que nunca se saltan — ni yo misma:
 
 ---
 
-## v0.90.0 — Era 19: Open Source Synergy
+## Historial de versiones
 
-- `/mcp-browse` — Explorar catálogo de 66+ MCPs del ecosistema claude-code-templates
-- `/component-search` — Buscar entre 5.788+ componentes (agents, commands, hooks, MCPs, skills)
-- `docs/recommended-mcps.md` — Catálogo curado de MCPs recomendados para equipos PM/Scrum
-- `hooks/README.md` — Documentación categorizada de los 14 hooks (seguridad, quality gates, agentes, workflow)
-- `agent-observability-patterns.md` — Patrones de observabilidad inspirados en analytics dashboard
-- `component-marketplace.md` — Regla de integración con marketplace de componentes
+> Changelog completo en [CHANGELOG.md](CHANGELOG.md) · Todas las releases en [GitHub Releases](https://github.com/gonzalezpazmonica/pm-workspace/releases)
 
-**Era 19 — Open Source Synergy (6/6). ERA 19 COMPLETA!**
-
-## v0.91.0–v0.98.0 — Era 20: Persistent Intelligence & Adaptive Workflows
-
-- v0.91.0 — 5 bug fixes + 165 nuevos tests (64→229). 7 scripts de test + orquestador `test-stress-runner.sh`
-- `/agent-memory` — Memoria persistente para 9 agentes con 3 scopes (project/local/user)
-- `/savia-recall` — Consultar la memoria contextual acumulada de Savia
-- `/savia-forget` — Borrado de memoria conforme RGPD (Art. 17)
-- 57 comandos con frontmatter inteligente (`model`, `context_cost`, `allowed-tools`)
-- `/rpi-start` — Workflow Research → Plan → Implement con gates GO/NO-GO
-- `/rpi-status` — Seguimiento de workflows RPI activos
-- `/onboard --role {dev|pm|qa}` — Onboarding guiado con checklist por rol
-- `/mcp-recommend` — Recomendaciones MCP por stack y rol del equipo
-- 3 modos de output adaptativos: Coaching · Executive · Technical
-- Hooks clasificados: 2 async + 10 blocking, cobertura 9/16 eventos
-- `pr-guardian.yml` — 8 gates automáticos de validación de PRs (context guard, ShellCheck, Gitleaks, hook safety, PR Digest en español)
-- `/pr-digest` — Análisis contextual de PRs con clasificación de riesgo y resumen ejecutivo
-
-**Era 20 — Persistent Intelligence (14/14). ERA 20 COMPLETA!**
-
-## v0.99.0–v1.5.1 — Era 21: Savia Everywhere
-
-- Company Savia: repositorio Git compartido con mensajería async, cifrado E2E (RSA-4096 + AES-256-CBC), @handle addressing, privacy-check pre-push
-- Git Persistence Engine: índices TSV para lookups de bajo contexto (~60-80% reducción de tokens)
-- Savia Flow Git-Native: tasks/sprints/timesheets en carpetas Git, tablero Kanban, 17 comandos
-- Travel Mode: Savia portable en USB con cifrado AES-256-CBC, verificación SHA256, auto-installer
-- Savia School: vertical educativo con 12 comandos, GDPR Art. 8/15/17, evaluaciones cifradas
-- Script Hardening: 6 bugs críticos + 7 medium en 9 scripts, compatibilidad macOS/Linux/WSL
-- Subject Sensitivity: validación de datos sensibles en subjects de mensajes cifrados (12 categorías de patrón)
-- 18 suites de test (197 tests), incluido E2E confidencialidad del cifrado
-- Investigación de 12+ repos del ecosistema Claude Code, 12 propuestas de mejora
-
-**Era 21 — Savia Everywhere (v0.99.0–v1.5.1). ERA 21 COMPLETA!**
+| Versión | Era | Resumen |
+|---|---|---|
+| **v1.7.0** | — | Company Savia v3: aislamiento por ramas orphan, quality framework (reglas #21-#22), Agent Self-Memory, PII gate, drift detection. 120 tests Savia. |
+| **v1.6.0** | — | Company Savia v2: reestructuración de directorios, índices TSV, simplificación de rutas de usuario. |
+| **v0.99–v1.5.1** | Era 21 | Savia Everywhere: Company Savia, Git Persistence Engine, Savia Flow, Travel Mode, Savia School, cifrado E2E. |
+| **v0.91–v0.98** | Era 20 | Persistent Intelligence: agent memory, frontmatter inteligente, RPI workflow, PR Guardian, 3 modos output. |
+| **v0.90** | Era 19 | Open Source Synergy: integración con claude-code-templates, `/mcp-browse`, `/component-search`. |
+| **v0.84–v0.89** | Era 18 | Compliance & Hooks: `/aepd-compliance`, Excel reports, Savia Gallery, intelligent hooks. |
+| **v0.71–v0.72** | Era 17 | Observability & Traces: `/obs-connect`, `/trace-search`, `/error-investigate`. |
 
 ---
 
