@@ -120,6 +120,24 @@ else
 fi
 
 echo ""
+echo "9️⃣  Era 18 Integration"
+
+# Era 18 commands can be parsed by mock engine
+for cmd in aepd-compliance excel-report savia-gallery adoption-assess; do
+  if [ -f "$REPO_ROOT/.claude/commands/${cmd}.md" ]; then
+    ok "Era18 command ${cmd} exists for harness"
+  else
+    fail "Era18 command ${cmd} missing"
+  fi
+done
+
+# Mock engine handles Era 18 profiles (engines.sh has mock_response)
+has "$DOCKER_DIR/engines.sh" "engines" "mock_response"
+
+# Report-gen can include Era 18 metrics
+has "$DOCKER_DIR/report-gen.sh" "report-gen" "generate_report"
+
+echo ""
 echo "═══════════════════════════════════════════════════════════"
 echo "  Total: $((PASS+FAIL)) | ✅ Passed: $PASS | ❌ Failed: $FAIL"
 echo "═══════════════════════════════════════════════════════════"

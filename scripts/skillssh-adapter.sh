@@ -50,10 +50,15 @@ generate_package() {
   mkdir -p "$out/.claude/commands"
 
   # 1. Extract and adapt SKILL.md → command format
-  # Remove frontmatter references to local files
-  sed '/^references:/,/^---$/d' "$skill_file" \
+  # Remove frontmatter references (only between --- delimiters)
+  awk '
+    /^---$/ { fm++; print; next }
+    fm == 1 && /^references:/ { skip=1; next }
+    fm == 1 && skip && /^[a-z]/ { skip=0 }
+    fm == 1 && /^context_cost:/ { next }
+    !skip { print }
+  ' "$skill_file" \
     | sed 's|@\.claude/[^ ]*||g' \
-    | sed '/^context_cost:/d' \
     > "$out/.claude/commands/${skill_dir}.md"
 
   # 2. Generate package.json
