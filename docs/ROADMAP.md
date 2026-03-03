@@ -136,19 +136,19 @@ Inspired by patterns from [claude-code-best-practice](https://github.com/shanrai
 
 Inspired by ecosystem research of 12+ Claude Code repositories (everything-claude-code, trail-of-bits, awesome-claude-code, etc.). Full analysis in `docs/propuestas/investigacion-ecosistema-claude-code-2026.md` and `docs/propuestas/era21-masterplan.md`.
 
-- **Script Hardening** (v0.99.0) — Fix 6 critical bugs (backup hash, contribute regex, memory-store injection, cache invalidation) + 7 medium fixes (macOS sed/date portability, POSIX regex, newline escaping). 9 scripts hardened: backup.sh, contribute.sh, memory-store.sh, update.sh, context-aging.sh, pre-commit-review.sh, session-init.sh, validate-bash-global.sh, block-force-push.sh.
+- **Company Savia** (v0.99.0) — Git-based company repo with async messaging, E2E encryption (RSA-4096 + AES-256-CBC), @handle addressing, privacy-check pre-push. 7 commands, 5 scripts, 1 skill, 1 rule. Cross-platform compat layer (v0.99.1). Integration test orchestrator (v0.99.2).
 
-- **Git Persistence Engine** (v1.0.0) — TSV-based index system for low-context lookups. 6 index types: profiles, messages, projects, tasks, specs, timesheets. `/index-rebuild`, `/index-status`, `/index-compact` commands. `savia-index.sh` + `savia-index-rebuild.sh` scripts. ~60-80% context reduction per query.
+- **Travel Mode** (v0.100.0, v1.1.0) — Portable Savia on USB drive. 5 commands: `/travel-pack`, `/travel-unpack`, `/travel-sync`, `/travel-verify`, `/travel-clean`. AES-256-CBC encryption for keys/PATs. SHA256 integrity verification. `savia-init.sh` auto-installer. 3 scripts.
 
-- **Savia Flow Git-Native Tasks** (v1.1.0) — Complete SDD/tickets/tasks/timesheets system in Git folders. 12 new commands: `/flow-task-create`, `/flow-task-move`, `/flow-task-assign`, `/flow-sprint-create`, `/flow-sprint-close`, `/flow-sprint-board`, `/flow-timesheet`, `/flow-timesheet-report`, `/flow-burndown`, `/flow-velocity`, `/flow-spec-create`, `/flow-backlog-groom`. 3 scripts. `flow-tasks-config.md` rule. Kanban board via filesystem (todo/in-progress/review/done folders).
+- **Savia Flow Git-Native** (v0.101.0, v1.2.0) — Complete SDD/tickets/tasks/timesheets in Git folders. 17 commands across PBI, sprint, board, timesheet, and task lifecycle. Kanban board via filesystem (todo/in-progress/review/done folders). 6 scripts, 1 rule.
 
-- **Travel Mode** (v1.2.0) — Portable Savia on USB drive. 5 commands: `/travel-pack`, `/travel-unpack`, `/travel-sync`, `/travel-verify`, `/travel-clean`. AES-256-CBC encryption for keys/PATs. SHA256 integrity verification. `savia-init.sh` auto-installer (detects OS, installs deps). 3 scripts.
+- **Script Hardening** (v1.0.0) — Fix 6 critical bugs (backup hash, contribute regex, memory-store injection, cache invalidation) + 7 medium fixes (macOS sed/date portability, POSIX regex, newline escaping). 9 scripts hardened.
 
-- **Savia School v1** (v1.3.0) — Educational vertical for classrooms. 12 commands: `/school-setup`, `/school-enroll`, `/school-project`, `/school-submit`, `/school-evaluate`, `/school-progress`, `/school-portfolio`, `/school-diary`, `/school-export`, `/school-forget`, `/school-analytics`, `/school-rubric`. Alias-based enrollment (no PII). AES-256 encrypted evaluations. GDPR Art. 8/15/17 compliance. Parental consent workflow. `school-safety-config.md` rule.
+- **Git Persistence Engine** (v1.3.0) — TSV-based index system for low-context lookups. 6 index types: profiles, messages, projects, tasks, specs, timesheets. 3 commands, 2 scripts. ~60-80% context reduction per query.
 
-- **Savia School v2 — Security Audit** (v1.4.0) — Penetration testing of student isolation. GDPR/LOPD/AEPD compliance audit. Age-appropriate content filter hardening. Teacher MFA enforcement. 4-gate release protocol before merge to main.
+- **Savia School** (v1.4.0) — Educational vertical for classrooms. 12 commands. Alias-based enrollment (no PII). AES-256 encrypted evaluations. GDPR Art. 8/15/17 compliance. `school-safety-config.md` rule.
 
-- **Ecosystem Integration & Validation** (v1.5.0) — Skills versioning (semver frontmatter). Bounded autonomy map per agent. AIrquiTech full validation (smoke tests passing). Cross-reference with ecosystem research findings.
+- **Ecosystem Integration & Validation** (v1.5.0) — Research of 12+ Claude Code repos. 12 improvement proposals. AIrquiTech full validation. 18/18 test suites (197 tests). E2E confidentiality testing. Subject sensitivity validation for encrypted messages.
 
 ### Backlog — Strategic Evaluation
 

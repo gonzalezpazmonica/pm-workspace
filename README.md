@@ -492,6 +492,20 @@ Estas son las reglas que nunca se saltan — ni yo misma:
 
 **Era 20 — Persistent Intelligence (14/14). ERA 20 COMPLETA!**
 
+## v0.99.0–v1.5.1 — Era 21: Savia Everywhere
+
+- Company Savia: repositorio Git compartido con mensajería async, cifrado E2E (RSA-4096 + AES-256-CBC), @handle addressing, privacy-check pre-push
+- Git Persistence Engine: índices TSV para lookups de bajo contexto (~60-80% reducción de tokens)
+- Savia Flow Git-Native: tasks/sprints/timesheets en carpetas Git, tablero Kanban, 17 comandos
+- Travel Mode: Savia portable en USB con cifrado AES-256-CBC, verificación SHA256, auto-installer
+- Savia School: vertical educativo con 12 comandos, GDPR Art. 8/15/17, evaluaciones cifradas
+- Script Hardening: 6 bugs críticos + 7 medium en 9 scripts, compatibilidad macOS/Linux/WSL
+- Subject Sensitivity: validación de datos sensibles en subjects de mensajes cifrados (12 categorías de patrón)
+- 18 suites de test (197 tests), incluido E2E confidencialidad del cifrado
+- Investigación de 12+ repos del ecosistema Claude Code, 12 propuestas de mejora
+
+**Era 21 — Savia Everywhere (v0.99.0–v1.5.1). ERA 21 COMPLETA!**
+
 ---
 
 ## Agradecimiento especial

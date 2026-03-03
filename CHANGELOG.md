@@ -5,6 +5,35 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [1.5.1] — 2026-03-03
+
+Confidentiality hardening: E2E encryption testing, subject sensitivity validation, 7 bug fixes, 5 new test suites.
+
+### Added
+
+- **5 test scripts**: `test-savia-confidentiality.sh` (34 tests — E2E encryption, metadata, non-recipient rejection, privacy scanner, idempotency, subject sensitivity), `test-savia-flow-tasks.sh` (24 tests), `test-savia-index.sh` (12 tests), `test-savia-travel.sh` (18 tests), `test-savia-school.sh` (34 tests).
+- **1 script**: `savia-messaging-privacy.sh` — Subject sensitivity validation: detects monetary amounts, dates, company names, credentials, API keys, IPs, emails, DNI/NIE, IBAN in subjects. Warns but doesn't block delivery.
+- **1 rule**: `messaging-subject-safety.md` — Agent guidance for safe subject lines. "Instead of X, use Y" table. 12 pattern categories.
+- **AIrquiTech initialization**: Company Savia structure deployed to test repo via `company-repo-templates.sh`.
+
+### Fixed
+
+- **savia-flow-tasks.sh**: Multiline seq from `ls|grep|echo` pipeline; `mkdir` with braces inside quotes (no shell expansion).
+- **savia-travel.sh**: `local` keyword used outside functions in `case` blocks — refactored into proper functions.
+- **savia-index.sh**: Missing `init` dispatcher entry; `update_entry` shift bug (captured name before shift).
+- **savia-school.sh**: `SCHOOL_ROOT` used `$1` (the command) as base path — replaced with `SCHOOL_BASE` env var.
+- **savia-flow.sh**: Missing `do_sprint_start`/`do_sprint_close`/`do_metrics` adapter functions.
+- **savia-flow-sprint.sh**: Case dispatcher executed when sourced — added `BASH_SOURCE` guard.
+- **savia-messaging.sh**: Integrated `savia-messaging-privacy.sh` and `check_subject_sensitivity()` call before send.
+
+### Changed
+
+- **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
+
+[1.5.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.5.0...v1.5.1
+
+---
+
 ## [1.5.0] — 2026-03-03
 
 Ecosystem Integration: research of 12+ Claude Code repos with actionable improvements for pm-workspace.
