@@ -2,8 +2,8 @@
 # savia-messaging.sh — Message creation, delivery, and inbox management
 # Uso: bash scripts/savia-messaging.sh {send|inbox|reply|announce|broadcast|read|directory} [args]
 #
-# Async messaging for Company Savia. Messages are markdown files
-# with YAML frontmatter, stored in the company git repo.
+# Async messaging for Company Savia via exchange orphan branch.
+# Messages flow through exchange:pending/, then to user/:handle/inbox/
 
 set -euo pipefail
 
@@ -13,10 +13,9 @@ CONFIG_FILE="$CONFIG_DIR/company-repo"
 READ_LOG="$CONFIG_DIR/company-inbox-read.log"
 SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPTS_DIR/savia-compat.sh"
+source "$SCRIPTS_DIR/savia-branch.sh"
 
-# ── Colores ─────────────────────────────────────────────────────────
-RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
-BLUE='\033[0;34m'; CYAN='\033[0;36m'; NC='\033[0m'
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; BLUE='\033[0;34m'; NC='\033[0m'
 log_info()  { echo -e "${BLUE}ℹ${NC}  $1"; }
 log_ok()    { echo -e "${GREEN}✅${NC} $1"; }
 log_warn()  { echo -e "${YELLOW}⚠️${NC}  $1"; }
@@ -47,16 +46,12 @@ gen_id() {
   date +%Y%m%d-%H%M%S-$$
 }
 
-# ── Resolve @handle → inbox path ───────────────────────────────────
+# ── Resolve @handle via directory.md on main branch ────────────────
 resolve_handle() {
   local repo_dir="$1" handle="$2"
-  local inbox="$repo_dir/users/$handle/inbox/unread"
-  if [ ! -d "$repo_dir/users/$handle" ]; then
-    log_error "Handle @$handle not found in users directory"
-    return 1
-  fi
-  mkdir -p "$inbox"
-  echo "$inbox"
+  bash "$SCRIPTS_DIR/savia-branch.sh" read "$repo_dir" main "directory.md" 2>/dev/null \
+    | grep -q "^@$handle" || { log_error "Handle @$handle not found"; return 1; }
+  return 0
 }
 
 # ── Source: inbox, read, reply, announce, broadcast, directory ────
@@ -64,7 +59,7 @@ source "$SCRIPTS_DIR/savia-messaging-inbox.sh"
 source "$SCRIPTS_DIR/savia-messaging-actions.sh"
 source "$SCRIPTS_DIR/savia-messaging-privacy.sh"
 
-# ── Send: direct message to @handle ────────────────────────────────
+# ── Send: direct message to @handle via exchange branch ────────────
 do_send() {
   local recipient="${1:?Uso: savia-messaging.sh send <handle> <subject> <body> [--encrypt]}"
   local subject="${2:?Falta subject}"
@@ -87,8 +82,7 @@ do_send() {
   handle=$(get_handle)
   msg_id=$(gen_id)
 
-  local inbox
-  inbox=$(resolve_handle "$repo_dir" "$recipient") || return 1
+  resolve_handle "$repo_dir" "$recipient" || return 1
 
   # Subject sensitivity check (warn, don't block)
   check_subject_sensitivity "$subject" "$encrypt" || true
@@ -96,29 +90,42 @@ do_send() {
   # Encrypt body if requested
   local final_body="$body"
   if [ "$encrypt" = "true" ]; then
-    local pubkey="$repo_dir/users/$recipient/pubkey.pem"
-    if [ ! -f "$pubkey" ]; then
-      log_error "@$recipient has no public key. Cannot encrypt."
-      return 1
-    fi
-    final_body=$(bash "$SCRIPTS_DIR/savia-crypto.sh" encrypt "$pubkey" "$body")
+    local pubkey_content
+    pubkey_content=$(bash "$SCRIPTS_DIR/savia-branch.sh" read "$repo_dir" main "pubkeys/$recipient.pem") \
+      || { log_error "@$recipient has no public key"; return 1; }
+    local pubkey_file
+    pubkey_file=$(mktemp)
+    echo "$pubkey_content" > "$pubkey_file"
+    final_body=$(bash "$SCRIPTS_DIR/savia-crypto.sh" encrypt "$pubkey_file" "$body")
+    rm "$pubkey_file"
   fi
 
-  cat > "$inbox/${msg_id}.md" <<EOF
+  local msg_content
+  msg_content=$(cat <<EOF
 ---
 id: "${msg_id}"
-from: "${handle}"
-to: "${recipient}"
+from: "@${handle}"
+to: "@${recipient}"
 date: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 subject: "${subject}"
 priority: "${priority}"
 thread: "${thread}"
 reply_to: "${reply_to}"
 encrypted: ${encrypt}
+type: "message"
 ---
 
 ${final_body}
 EOF
+)
+
+  # Write to exchange:pending/
+  bash "$SCRIPTS_DIR/savia-branch.sh" write "$repo_dir" exchange "pending/${msg_id}.md" "$msg_content" \
+    "[exchange] msg: @$handle → @$recipient"
+
+  # Save copy to sender's outbox
+  bash "$SCRIPTS_DIR/savia-branch.sh" write "$repo_dir" "user/$handle" "outbox/${msg_id}.md" "$msg_content" \
+    "[user/$handle] outbox: sent to @$recipient"
 
   log_ok "Message sent to @$recipient: $subject"
   echo "  ID: $msg_id"
@@ -137,19 +144,7 @@ main() {
     broadcast) do_broadcast "$@" ;;
     read)      do_read "$@" ;;
     directory) do_directory ;;
-    help|*)
-      echo "savia-messaging.sh — Async messaging for Company Savia"
-      echo ""
-      echo "Commands:"
-      echo "  send <handle> <subject> <body> [--encrypt] — Send DM"
-      echo "  inbox                                       — View inbox"
-      echo "  reply <msg_id> <body> [--encrypt]           — Reply"
-      echo "  announce <subject> <body>                   — Announcement"
-      echo "  broadcast <subject> <body>                  — Send to all"
-      echo "  read <msg_id>                               — Read message"
-      echo "  directory                                   — List members"
-      ;;
+    help|*) echo "Usage: savia-messaging.sh {send|inbox|reply|announce|broadcast|read|directory} [args]" ;;
   esac
 }
-
 main "$@"

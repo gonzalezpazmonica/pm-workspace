@@ -1,15 +1,12 @@
 # Architect — Persistent Memory
 
-> Decisions, patterns, and lessons learned across sessions.
+> Architectural decisions, design patterns, and layer-separation patterns discovered across projects.
 
-## Architecture Decisions
+## Discovered Patterns
 
-_No decisions recorded yet. This file is populated automatically._
+| Date | Pattern | Context | Source |
+|---|---|---|---|
+| 2026-03-03 | Separate Domain from Infrastructure layers — use dependency injection to invert control | Layered architecture, microservices | Architecture-patterns.md, SOLID DIP |
+| 2026-03-02 | Use repository pattern for data access — abstracts DB implementation from business logic | Data persistence, testing isolation | Test-runner feedback: tight coupling to EF DbContext |
+| 2026-03-01 | Limit aggregates to single root entity — prevents distributed transactions | DDD, microservices | Event sourcing patterns |
 
-## Patterns Observed
-
-_Patterns detected across projects will appear here._
-
-## Lessons Learned
-
-_Post-mortem insights and recurring issues._

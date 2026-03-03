@@ -1,64 +1,62 @@
 #!/bin/bash
+# savia-flow-timesheet.sh — Time tracking via user branch
 set -euo pipefail
 
-FLOW_DATA_DIR="${FLOW_DATA_DIR:-./.savia-flow-data}"
+SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPTS_DIR/savia-branch.sh"
+source "$SCRIPTS_DIR/savia-compat.sh"
+
+CONFIG_DIR="$HOME/.pm-workspace"
+CONFIG_FILE="$CONFIG_DIR/company-repo"
+
+read_config() {
+  portable_read_config "$1" "$CONFIG_FILE"
+}
+
+get_repo() {
+  local path; path=$(read_config "LOCAL_PATH")
+  [ -z "$path" ] || [ ! -d "$path/.git" ] && { echo ""; return 1; }
+  echo "$path"
+}
 
 timesheet_log() {
-    local handle=$1 task_id=$2 hours=$3 notes=${4:-}
-    [[ -n "$handle" && -n "$task_id" && -n "$hours" ]] || {
-        echo "❌ Usage: timesheet_log <@handle> <task_id> <hours> [notes]"
-        return 1
-    }
+    local repo_dir="${1:?}" handle="${2:?}" task_id="${3:?}" hours="${4:?}" notes="${5:-}"
     local yearmonth=$(date +%Y-%m)
-    local ts_dir="${FLOW_DATA_DIR}/users/${handle}/flow/timesheet/${yearmonth}"
-    mkdir -p "$ts_dir"
+    local ts_path="flow/timesheet/${yearmonth}.md"
+
+    do_ensure_orphan "$repo_dir" "user/$handle" "init: user/$handle"
+    local content; content=$(do_read "$repo_dir" "user/$handle" "$ts_path") || content="# Timesheet — @${handle} — ${yearmonth}"
+
     local date=$(date +%Y-%m-%d)
     local time=$(date +%H:%M)
-    printf "%s %s | %s | %s h | %s\n" "$date" "$time" "$task_id" "$hours" "$notes" >> "${ts_dir}/entries.log"
-    echo "✅ Logged $hours h for $task_id by $handle"
+    content="${content}
+${date} ${time} | ${task_id} | ${hours}h | ${notes}"
+
+    do_write "$repo_dir" "user/$handle" "$ts_path" "$content" "[flow: log-time] ${task_id}: ${hours}h"
+    echo "✅ Logged $hours h for $task_id by @$handle"
 }
 
 timesheet_day() {
-    local handle=$1 date=${2:-$(date +%Y-%m-%d)}
-    [[ -n "$handle" ]] || { echo "❌ Usage: timesheet_day <@handle> [date]"; return 1; }
+    local repo_dir="${1:?}" handle="${2:?}" date="${3:-$(date +%Y-%m-%d)}"
     local yearmonth=$(echo "$date" | cut -d'-' -f1-2)
-    local ts_file="${FLOW_DATA_DIR}/users/${handle}/flow/timesheet/${yearmonth}/entries.log"
-    [[ -f "$ts_file" ]] || { echo "❌ No timesheet for $handle"; return 1; }
-    echo "📋 Timesheet for $handle on $date"
-    grep "^$date" "$ts_file" | awk -F'|' '{print $1, $2, $3}' | column -t
-    grep "^$date" "$ts_file" | awk -F'|' '{print $2}' | awk '{sum+=$1} END {print "Total:", sum, "h"}'
+    local ts_path="flow/timesheet/${yearmonth}.md"
+    local content; content=$(do_read "$repo_dir" "user/$handle" "$ts_path") || { echo "❌ No timesheet for @$handle"; return 1; }
+    echo "📋 Timesheet for @$handle on $date"
+    echo "$content" | grep "^$date" || echo "(no entries for $date)"
 }
 
 timesheet_report() {
-    local handle=$1 from=$2 to=$3
-    [[ -n "$handle" && -n "$from" && -n "$to" ]] || {
-        echo "❌ Usage: timesheet_report <@handle> <from_date> <to_date>"
-        return 1
-    }
-    echo "📊 Timesheet Report: $handle ($from to $to)"
-    find "${FLOW_DATA_DIR}/users/${handle}/flow/timesheet" -name "entries.log" -type f 2>/dev/null | while read f; do
-        awk -F'|' -v from="$from" -v to="$to" '
-            $1 >= from && $1 <= to { sum += $2; items++ }
-            END { if (items > 0) print "  Total:", sum, "h", "(", items, "entries )" }
-        ' "$f"
-    done
-}
-
-timesheet_summary() {
-    local sprint_id=$1
-    [[ -n "$sprint_id" ]] || { echo "❌ Usage: timesheet_summary <sprint_id>"; return 1; }
-    echo "⏱️  Sprint Time Summary: $sprint_id"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    find "${FLOW_DATA_DIR}/users" -path "*/flow/timesheet/*/entries.log" -type f 2>/dev/null | while read f; do
-        local total=$(awk -F'|' '{sum+=$2} END {print sum+0}' "$f")
-        [[ $total -gt 0 ]] && echo "  $(basename $(dirname "$f")): $total h"
-    done
+    local repo_dir="${1:?}" handle="${2:?}" from="${3:?}" to="${4:?}"
+    echo "📊 Timesheet Report: @$handle ($from to $to)"
+    local yearmonth; yearmonth=$(echo "$from" | cut -d'-' -f1-2)
+    local ts_path="flow/timesheet/${yearmonth}.md"
+    local content; content=$(do_read "$repo_dir" "user/$handle" "$ts_path") || { echo "  (no data)"; return 0; }
+    echo "$content" | grep -E "^[0-9]{4}-[0-9]{2}-[0-9]{2}" | grep -E "^$from|^$to" || echo "  (no entries in range)"
 }
 
 case "${1:-help}" in
-    log) shift; timesheet_log "$@" ;;
-    day) shift; timesheet_day "$@" ;;
-    report) shift; timesheet_report "$@" ;;
-    summary) shift; timesheet_summary "$@" ;;
-    *) echo "Usage: savia-flow-timesheet.sh <log|day|report|summary>" ;;
+    log) shift; timesheet_log "$(get_repo)" "$@" ;;
+    day) shift; timesheet_day "$(get_repo)" "$@" ;;
+    report) shift; timesheet_report "$(get_repo)" "$@" ;;
+    *) echo "Usage: savia-flow-timesheet.sh <log|day|report>" ;;
 esac

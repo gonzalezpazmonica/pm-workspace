@@ -1,6 +1,7 @@
 #!/bin/bash
-# savia-flow-ops.sh — CRUD operations for PBIs and assignments
+# savia-flow-ops.sh — CRUD operations for PBIs and assignments via branch isolation
 # Sourced by savia-flow.sh — do NOT run directly.
+set -euo pipefail
 
 # ── Create PBI ──────────────────────────────────────────────────────
 do_create_pbi() {
@@ -10,45 +11,42 @@ do_create_pbi() {
   local priority="${4:-medium}"
   local estimate="${5:-0}"
 
-  local repo_dir handle
+  local repo_dir handle team
   repo_dir=$(get_repo)
   handle=$(get_handle)
+  team=$(get_team)
   validate_project "$repo_dir" "$project"
 
-  local backlog="$repo_dir/projects/$project/backlog"
-  mkdir -p "$backlog/archive"
+  do_ensure_orphan "$repo_dir" "team/$team" "init: team/$team"
 
-  # Auto-increment ID from existing files
+  local backlog_list; backlog_list=$(do_list "$repo_dir" "team/$team" "projects/$project/backlog") || echo ""
   local max_id=0
-  for f in "$backlog"/pbi-*.md; do
-    [ -f "$f" ] || continue
-    local num
-    num=$(basename "$f" .md | sed 's/pbi-//' | sed 's/^0*//')
+  echo "$backlog_list" | while read -r f; do
+    [ -z "$f" ] && continue
+    local num; num=$(echo "$f" | sed 's/pbi-//' | sed 's/^0*//' | sed 's/\.md$//')
     [ -n "$num" ] && [ "$num" -gt "$max_id" ] 2>/dev/null && max_id="$num"
   done
   local next_id=$((max_id + 1))
   local pbi_id; pbi_id=$(printf "PBI-%03d" "$next_id")
   local filename; filename=$(printf "pbi-%03d.md" "$next_id")
 
-  cat > "$backlog/$filename" <<EOF
----
-id: "${pbi_id}"
-title: "${title}"
-status: "new"
-priority: "${priority}"
+  local pbi_content="---
+id: \"${pbi_id}\"
+title: \"${title}\"
+status: \"new\"
+priority: \"${priority}\"
 estimate: ${estimate}
-assignee: ""
-created_by: "${handle}"
-created_date: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-sprint: ""
+assignee: \"\"
+created_by: \"${handle}\"
+created_date: \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+sprint: \"\"
 tags: []
 ---
 
-${description}
-EOF
+${description}"
 
+  do_write "$repo_dir" "team/$team" "projects/$project/backlog/$filename" "$pbi_content" "[flow: pbi-create] $pbi_id"
   log_ok "Created $pbi_id: $title"
-  echo "  File: projects/$project/backlog/$filename"
 }
 
 # ── Assign PBI ──────────────────────────────────────────────────────
@@ -57,24 +55,29 @@ do_assign() {
   local pbi_id="${2:?Falta pbi_id}"
   local target_handle="${3:?Falta handle}"
 
-  local repo_dir; repo_dir=$(get_repo)
+  local repo_dir team
+  repo_dir=$(get_repo)
+  team=$(get_team)
   validate_project "$repo_dir" "$project"
 
-  local pbi_file
-  pbi_file=$(find "$repo_dir/projects/$project/backlog" -name "*.md" \
-    -not -path "*/archive/*" | xargs grep -l "id: \"$pbi_id\"" 2>/dev/null | head -1)
+  do_ensure_orphan "$repo_dir" "team/$team" "init: team/$team"
+  do_ensure_orphan "$repo_dir" "user/$target_handle" "init: user/$target_handle"
 
-  if [ -z "$pbi_file" ]; then
-    log_error "PBI $pbi_id not found in $project backlog"
-    return 1
-  fi
+  local backlog_list; backlog_list=$(do_list "$repo_dir" "team/$team" "projects/$project/backlog")
+  local pbi_file=""
+  echo "$backlog_list" | while read -r f; do
+    [ -z "$f" ] && continue
+    local content; content=$(do_read "$repo_dir" "team/$team" "projects/$project/backlog/$f") || continue
+    [ "$(echo "$content" | grep "^id:" | cut -d: -f2 | xargs)" = "$pbi_id" ] && pbi_file="$f" && break
+  done
 
-  portable_sed_i "s/^assignee: .*/assignee: \"${target_handle}\"/" "$pbi_file"
+  [ -n "$pbi_file" ] || { log_error "PBI $pbi_id not found"; return 1; }
 
-  local assigned_dir="$repo_dir/users/$target_handle/flow/assigned"
-  mkdir -p "$assigned_dir"
-  sed -n '/^---$/,/^---$/p' "$pbi_file" > "$assigned_dir/${pbi_id}.md"
+  local pbi_content; pbi_content=$(do_read "$repo_dir" "team/$team" "projects/$project/backlog/$pbi_file")
+  pbi_content=$(echo "$pbi_content" | sed "s/^assignee: .*/assignee: \"${target_handle}\"/")
+  do_write "$repo_dir" "team/$team" "projects/$project/backlog/$pbi_file" "$pbi_content" "[flow: assign] $pbi_id → @$target_handle"
 
+  do_write "$repo_dir" "user/$target_handle" "flow/assigned/${pbi_id}.md" "$pbi_content" "[flow: assign-copy] $pbi_id"
   log_ok "$pbi_id assigned to @$target_handle"
 }
 
@@ -89,26 +92,29 @@ do_move() {
     *) log_error "Invalid status: $new_status. Valid: new|ready|in-progress|review|done"; return 1 ;;
   esac
 
-  local repo_dir; repo_dir=$(get_repo)
+  local repo_dir team
+  repo_dir=$(get_repo)
+  team=$(get_team)
   validate_project "$repo_dir" "$project"
 
-  local backlog="$repo_dir/projects/$project/backlog"
-  local pbi_file
-  pbi_file=$(find "$backlog" -name "*.md" -not -path "*/archive/*" \
-    | xargs grep -l "id: \"$pbi_id\"" 2>/dev/null | head -1)
+  local backlog_list; backlog_list=$(do_list "$repo_dir" "team/$team" "projects/$project/backlog")
+  local pbi_file=""
+  echo "$backlog_list" | while read -r f; do
+    [ -z "$f" ] && continue
+    local content; content=$(do_read "$repo_dir" "team/$team" "projects/$project/backlog/$f") || continue
+    [ "$(echo "$content" | grep "^id:" | cut -d: -f2 | xargs)" = "$pbi_id" ] && pbi_file="$f" && break
+  done
 
-  if [ -z "$pbi_file" ]; then
-    log_error "PBI $pbi_id not found"
-    return 1
-  fi
+  [ -n "$pbi_file" ] || { log_error "PBI $pbi_id not found"; return 1; }
 
-  portable_sed_i "s/^status: .*/status: \"${new_status}\"/" "$pbi_file"
+  local pbi_content; pbi_content=$(do_read "$repo_dir" "team/$team" "projects/$project/backlog/$pbi_file")
+  pbi_content=$(echo "$pbi_content" | sed "s/^status: .*/status: \"${new_status}\"/")
 
   if [ "$new_status" = "done" ]; then
-    mkdir -p "$backlog/archive"
-    mv "$pbi_file" "$backlog/archive/"
+    do_write "$repo_dir" "team/$team" "projects/$project/backlog/archive/$pbi_file" "$pbi_content" "[flow: archive] $pbi_id"
     log_ok "$pbi_id moved to done (archived)"
   else
+    do_write "$repo_dir" "team/$team" "projects/$project/backlog/$pbi_file" "$pbi_content" "[flow: move] $pbi_id → $new_status"
     log_ok "$pbi_id moved to $new_status"
   fi
 }
@@ -124,22 +130,20 @@ do_log_time() {
   repo_dir=$(get_repo)
   handle=$(get_handle)
 
-  local ts_dir="$repo_dir/users/$handle/flow/timesheet"
-  mkdir -p "$ts_dir"
-  local month_file="$ts_dir/$(date +%Y-%m).md"
+  do_ensure_orphan "$repo_dir" "user/$handle" "init: user/$handle"
+
+  local month_file="flow/timesheet/$(date +%Y-%m).md"
   local today; today=$(date +%Y-%m-%d)
+  local content; content=$(do_read "$repo_dir" "user/$handle" "$month_file") || content="# Timesheet — @$handle — $(date +%Y-%m)"
 
-  if [ ! -f "$month_file" ]; then
-    echo "# Timesheet — @$handle — $(date +%Y-%m)" > "$month_file"
-    echo "" >> "$month_file"
-  fi
+  content="${content}
 
-  echo "## $today" >> "$month_file"
-  echo "- pbi: \"$pbi_id\"" >> "$month_file"
-  echo "  hours: $hours" >> "$month_file"
-  echo "  project: \"$project\"" >> "$month_file"
-  echo "  description: \"$desc\"" >> "$month_file"
-  echo "" >> "$month_file"
+## $today
+- pbi: \"$pbi_id\"
+  hours: $hours
+  project: \"$project\"
+  description: \"$desc\""
 
+  do_write "$repo_dir" "user/$handle" "$month_file" "$content" "[flow: log-time] $pbi_id: ${hours}h"
   log_ok "Logged ${hours}h on $pbi_id ($project)"
 }

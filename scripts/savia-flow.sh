@@ -1,17 +1,15 @@
 #!/bin/bash
-# savia-flow.sh — Git-based project management: PBIs, sprints, boards, timesheets
+# savia-flow.sh — Git-based project management: PBIs, sprints, boards via branch isolation
 # Uso: bash scripts/savia-flow.sh {create-pbi|assign|move|log-time|sprint-start|sprint-close|board|metrics|init|help} [args]
-#
-# Savia Flow stores project management data as markdown files in the company
-# repo — no Azure DevOps dependency needed.
+# Team data on team/{name} branches, user data on user/{handle} branches, indexes on main
 
 set -euo pipefail
 
-# ── Constantes ──────────────────────────────────────────────────────
 CONFIG_DIR="$HOME/.pm-workspace"
 CONFIG_FILE="$CONFIG_DIR/company-repo"
 SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPTS_DIR/savia-compat.sh"
+source "$SCRIPTS_DIR/savia-branch.sh"
 
 # ── Colores ─────────────────────────────────────────────────────────
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
@@ -40,6 +38,10 @@ get_handle() {
   read_config "USER_HANDLE"
 }
 
+get_team() {
+  echo "${SAVIA_TEAM:-$(read_config "TEAM_NAME")}"
+}
+
 # ── Validate project exists ────────────────────────────────────────
 validate_project() {
   local repo_dir="$1" project="$2"
@@ -61,55 +63,54 @@ source "$SCRIPTS_DIR/savia-flow-templates.sh"
 do_sprint_start() {
   local project="${1:?}" name="${2:?}" goal="${3:?}" start="${4:?}" end="${5:?}"
   local repo_dir; repo_dir=$(get_repo)
+  local team; team=$(get_team)
   validate_project "$repo_dir" "$project"
-  local sprint_dir="$repo_dir/projects/$project/sprints/$name"
-  mkdir -p "$sprint_dir"
-  cat > "$sprint_dir/sprint.md" <<EOF
----
+  local sprint_path="projects/$project/sprints/${name}/sprint.md"
+  local sprint_content="---
 id: $name
 goal: $goal
 start_date: $start
 end_date: $end
-status: "active"
+status: \"active\"
 created: $(date +%Y-%m-%d)
 ---
 ## Sprint Goal
-$goal
-EOF
-  echo "✅ Sprint $name started for $project"
+$goal"
+  do_write "$repo_dir" "team/$team" "$sprint_path" "$sprint_content" "[flow: sprint-start] $project/$name"
+  echo "✅ Sprint $name started for $project on team/$team"
 }
 
 do_sprint_close() {
   local project="${1:?}"
   local repo_dir; repo_dir=$(get_repo)
-  local current
-  current=$(ls -t "$repo_dir/projects/$project/sprints/" 2>/dev/null | head -1)
+  local team; team=$(get_team)
+  local sprints_list; sprints_list=$(do_list "$repo_dir" "team/$team" "projects/$project/sprints")
+  [ -z "$sprints_list" ] && { echo "❌ No sprints found"; return 1; }
+  local current; current=$(echo "$sprints_list" | head -1)
   [ -n "$current" ] || { echo "❌ No active sprint"; return 1; }
-  local sprint_file="$repo_dir/projects/$project/sprints/$current/sprint.md"
-  [ -f "$sprint_file" ] || { echo "❌ Sprint file not found"; return 1; }
-  sed -i '' "s/status: \"active\"/status: \"closed\"/" "$sprint_file" 2>/dev/null || \
-  sed -i "s/status: \"active\"/status: \"closed\"/" "$sprint_file" 2>/dev/null || true
+  local sprint_path="projects/$project/sprints/${current}/sprint.md"
+  local content; content=$(do_read "$repo_dir" "team/$team" "$sprint_path") || { echo "❌ Sprint file not found"; return 1; }
+  content=$(echo "$content" | sed 's/status: "active"/status: "closed"/')
+  do_write "$repo_dir" "team/$team" "$sprint_path" "$content" "[flow: sprint-close] $project/$current"
   echo "✅ Sprint $current closed"
 }
 
 do_metrics() {
   local project="${1:?}"
   local repo_dir; repo_dir=$(get_repo)
+  local team; team=$(get_team)
   validate_project "$repo_dir" "$project"
-  local total=0 done_count=0 total_sp=0
-  for f in "$repo_dir/projects/$project/backlog"/*.md "$repo_dir/projects/$project/backlog/archive"/*.md; do
-    [ -f "$f" ] || continue
+  local pbis; pbis=$(do_list "$repo_dir" "team/$team" "projects/$project/backlog")
+  [ -z "$pbis" ] && { echo "📊 Metrics: $project (no PBIs)"; return 0; }
+  local total=0 done_count=0
+  echo "$pbis" | while read -r pbi; do
+    [ -z "$pbi" ] && continue
     total=$((total + 1))
-    local sp; sp=$(portable_yaml_field "story_points" "$f"); sp=${sp:-0}
-    total_sp=$((total_sp + sp))
-    local status; status=$(portable_yaml_field "status" "$f")
+    local content; content=$(do_read "$repo_dir" "team/$team" "projects/$project/backlog/$pbi") || continue
+    local status; status=$(echo "$content" | grep "^status:" | cut -d: -f2 | xargs)
     [ "$status" = "done" ] && done_count=$((done_count + 1))
   done
-  echo "📊 Metrics: $project"
-  echo "  Total PBIs: $total"
-  echo "  Done: $done_count"
-  echo "  Story Points: $total_sp"
-  echo "  Velocity: ${done_count}/${total} PBIs completed"
+  echo "📊 Metrics: $project | Total: $total | Done: $done_count"
 }
 
 # ── Main ────────────────────────────────────────────────────────────
@@ -129,31 +130,7 @@ main() {
     init-project)  do_init_project "$(get_repo)" "$@" ;;
     init-team)     do_init_team "$(get_repo)" "$@" ;;
     init-member)   do_init_member_flow "$(get_repo)" "$@" ;;
-    help|*)
-      echo "savia-flow.sh — Git-based project management for Company Savia"
-      echo ""
-      echo "PBI Management:"
-      echo "  create-pbi <project> <title> <desc> [priority] [estimate]"
-      echo "  assign <project> <pbi_id> <handle>"
-      echo "  move <project> <pbi_id> <status>"
-      echo ""
-      echo "Sprint Lifecycle:"
-      echo "  sprint-start <project> <name> <goal> <start> <end>"
-      echo "  sprint-close <project>"
-      echo ""
-      echo "Views:"
-      echo "  board <project>          — ASCII Kanban board"
-      echo "  metrics <project>        — PBI counts and velocity"
-      echo ""
-      echo "Time Tracking:"
-      echo "  log-time <project> <pbi_id> <hours> <description>"
-      echo ""
-      echo "Scaffolding:"
-      echo "  init-project <name> [team]"
-      echo "  init-team <team> <members_csv>"
-      echo "  init-member <handle>"
-      ;;
+    help|*) echo "Usage: savia-flow.sh {create-pbi|assign|move|log-time|sprint-start|sprint-close|board|metrics|init-project|init-team|init-member}" ;;
   esac
 }
-
 main "$@"

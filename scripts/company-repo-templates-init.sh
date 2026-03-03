@@ -8,9 +8,8 @@ do_init() {
   local org_name="${2:?Falta org_name}"
   local admin_handle="${3:?Falta admin_handle}"
 
-  # Company directories
-  mkdir -p "$repo_dir"/{company/{rules,resources,projects,inbox},users,teams}
-  # Savia Flow directories (teams already created above)
+  # Main branch structure only: company, pubkeys, .savia-index, .github, top-level files
+  mkdir -p "$repo_dir"/{company/{identity,org-chart,holidays,conventions,rules,resources,projects,inbox},.savia-index,.github,pubkeys}
 
   # README.md
   cat > "$repo_dir/README.md" <<EOF
@@ -74,9 +73,9 @@ EOF
 
   # .gitignore
   cat > "$repo_dir/.gitignore" <<'EOF'
+# Index files (never commit, but .gitkeep tracked)
+*.idx
 # Private keys (never commit)
-*.pem
-!**/pubkey.pem
 *.key
 .env*
 config.local/
@@ -114,12 +113,21 @@ EOF
 ## Communication
 - Use @handle for addressing team members
 - Company announcements go to \`company/inbox/\`
-- Personal messages go to \`users/{handle}/inbox/\`
+- Personal messages go to \`user/{handle}/inbox/\` on personal branch
 
 ## Encryption
 - E2E encryption available (RSA-4096 + AES-256-CBC)
-- Public keys stored in \`users/{handle}/pubkey.pem\`
+- Public keys stored in \`pubkeys/{handle}.pem\` on main branch
 EOF
 
+  # Create .savia-index/.gitkeep to track the directory
+  mkdir -p "$repo_dir/.savia-index"
+  echo "" > "$repo_dir/.savia-index/.gitkeep"
+
   log_ok "Repo structure created at $repo_dir"
+
+  # Create exchange orphan branch for message routing
+  if [ -f "$SCRIPTS_DIR/savia-branch.sh" ]; then
+    bash "$SCRIPTS_DIR/savia-branch.sh" ensure-orphan "$repo_dir" exchange "init: exchange branch"
+  fi
 }

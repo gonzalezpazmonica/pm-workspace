@@ -1,27 +1,30 @@
 #!/bin/bash
-# savia-flow-board.sh — ASCII Kanban board renderer
+# savia-flow-board.sh — ASCII Kanban board renderer via branch isolation
 # Sourced by savia-flow.sh — do NOT run directly.
+set -euo pipefail
 
 # ── Board: ASCII Kanban ─────────────────────────────────────────────
 do_board() {
   local project="${1:?Uso: savia-flow.sh board <project>}"
-  local repo_dir
+  local repo_dir team
   repo_dir=$(get_repo)
+  team=$(get_team)
   validate_project "$repo_dir" "$project"
 
   # Collect PBIs by status
   local new_items="" ready_items="" inprog_items="" review_items="" done_items=""
   local new_c=0 ready_c=0 inprog_c=0 review_c=0 done_c=0
 
-  for f in "$repo_dir/projects/$project/backlog"/{,archive/}*.md; do
-    [ -f "$f" ] || continue
+  local pbi_list; pbi_list=$(do_list "$repo_dir" "team/$team" "projects/$project/backlog") || echo ""
+  echo "$pbi_list" | while read -r f; do
+    [ -z "$f" ] && continue
+    local content; content=$(do_read "$repo_dir" "team/$team" "projects/$project/backlog/$f") || continue
     local pbi_id title assignee status
-    pbi_id=$(portable_yaml_field "id" "$f")
-    title=$(portable_yaml_field "title" "$f")
-    assignee=$(portable_yaml_field "assignee" "$f")
-    status=$(portable_yaml_field "status" "$f")
+    pbi_id=$(echo "$content" | grep "^id:" | cut -d: -f2 | xargs)
+    title=$(echo "$content" | grep "^title:" | cut -d: -f2- | xargs)
+    assignee=$(echo "$content" | grep "^assignee:" | cut -d: -f2 | xargs)
+    status=$(echo "$content" | grep "^status:" | cut -d: -f2 | xargs)
 
-    # Truncate title to 20 chars
     [ ${#title} -gt 20 ] && title="${title:0:17}..."
     local card="$pbi_id $title"
     [ -n "$assignee" ] && card="$card @$assignee"
@@ -34,6 +37,9 @@ do_board() {
       done)        done_items+="$card|"; done_c=$((done_c + 1)) ;;
     esac
   done
+
+  [ -z "$new_items" ] && [ -z "$ready_items" ] && [ -z "$inprog_items" ] && \
+    [ -z "$review_items" ] && [ -z "$done_items" ] && echo "📊 Board: $project (empty)" && return 0
 
   # Render board
   local col_w=30

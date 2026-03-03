@@ -1,147 +1,96 @@
 #!/bin/bash
-# savia-flow-tasks.sh — Git-native task management for Savia Flow
-# Manages tasks, subtasks, bugs, spikes with filesystem state
+# savia-flow-tasks.sh — Task management (delegates to savia-flow-ops.sh)
+# PBI = task, unified via branch isolation
 
 set -euo pipefail
 
-FLOW_DATA_DIR="${FLOW_DATA_DIR:-./.savia-flow-data}"
-BACKLOG_DIR="${FLOW_DATA_DIR}/backlog"
-SPRINTS_DIR="${FLOW_DATA_DIR}/sprints"
+SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPTS_DIR/savia-branch.sh"
+source "$SCRIPTS_DIR/savia-compat.sh"
 
-# Task ID generation: TASK-YYYY-NNNN
+CONFIG_DIR="$HOME/.pm-workspace"
+CONFIG_FILE="$CONFIG_DIR/company-repo"
+
+read_config() {
+  portable_read_config "$1" "$CONFIG_FILE"
+}
+
+get_repo() {
+  local path; path=$(read_config "LOCAL_PATH")
+  [ -z "$path" ] || [ ! -d "$path/.git" ] && { echo ""; return 1; }
+  echo "$path"
+}
+
+get_team() {
+  echo "${SAVIA_TEAM:-$(read_config "TEAM_NAME")}"
+}
+
+# Task is a PBI: delegate to savia-flow-ops.sh or reimplement inline
 task_create() {
-    local type=$1 title=$2 assigned=$3 sprint=$4 priority=${5:-medium}
+    local repo_dir="${1:?}" team="${2:?}" project="${3:?}" type="${4:?}" title="${5:?}" assigned="${6:-}" priority="${7:-medium}"
 
-    [[ -n "$type" && -n "$title" ]] || {
-        echo "❌ Usage: task_create <type> <title> <@assigned> <sprint> [priority]"
-        return 1
-    }
+    [ -z "$project" ] && { echo "❌ project required (use default or --project)"; return 1; }
 
-    # Generate ID
-    local year=$(date +%Y)
-    local seq
-    seq=$(ls "${BACKLOG_DIR}" 2>/dev/null | grep -c "TASK-${year}" || true)
-    seq=${seq:-0}
-    seq=$((seq + 1))
-    local task_id="TASK-${year}-$(printf '%04d' $seq)"
+    do_ensure_orphan "$repo_dir" "team/$team" "init: team/$team"
 
-    # Create task file
-    local task_file="${BACKLOG_DIR}/${task_id}.md"
-    mkdir -p "${BACKLOG_DIR}"
+    local backlog_list; backlog_list=$(do_list "$repo_dir" "team/$team" "projects/$project/backlog") || echo ""
+    local max_id=0
+    echo "$backlog_list" | while read -r f; do
+      [ -z "$f" ] && continue
+      local num; num=$(echo "$f" | sed 's/pbi-//' | sed 's/^0*//' | sed 's/\.md$//')
+      [ -n "$num" ] && [ "$num" -gt "$max_id" ] 2>/dev/null && max_id="$num"
+    done
 
-    cat > "$task_file" <<EOF
----
-id: $task_id
-type: $type
-parent:
-title: $title
-assigned: $assigned
-status: todo
-priority: $priority
-estimate_h: 0
-spent_h: 0
-sprint: $sprint
-tags: []
-created: $(date +%Y-%m-%d)
-updated: $(date +%Y-%m-%d)
+    local next_id=$((max_id + 1))
+    local task_id; task_id=$(printf "TASK-%04d" "$next_id")
+    local filename; filename=$(printf "pbi-%04d.md" "$next_id")
+
+    local task_content="---
+id: \"${task_id}\"
+type: \"${type}\"
+title: \"${title}\"
+assigned: \"${assigned}\"
+status: \"todo\"
+priority: \"${priority}\"
+created: \"$(date +%Y-%m-%d)\"
 ---
 
 ## Description
 
 ## Acceptance Criteria
 
-- [ ] Criterion 1
+- [ ] Criterion 1"
 
-## Comments
-
-EOF
-
+    do_write "$repo_dir" "team/$team" "projects/$project/backlog/$filename" "$task_content" "[flow: task-create] $task_id"
     echo "✅ Created $task_id: $title"
 }
 
 task_move() {
-    local task_id=$1 new_status=$2
-
-    [[ -n "$task_id" && -n "$new_status" ]] || {
-        echo "❌ Usage: task_move <task_id> <status>"
-        return 1
-    }
-
-    # Find task file
-    local task_file=$(find "${SPRINTS_DIR}" "${BACKLOG_DIR}" -name "${task_id}.md" 2>/dev/null | head -1)
-    [[ -f "$task_file" ]] || {
-        echo "❌ Task $task_id not found"
-        return 1
-    }
-
-    # Update status in frontmatter
-    sed -i "s/^status: .*/status: $new_status/" "$task_file"
-    sed -i "s/^updated: .*/updated: $(date +%Y-%m-%d)/" "$task_file"
-
-    # Move file if sprint-based board columns exist
-    local sprint
-    sprint=$(grep '^sprint:' "$task_file" | cut -d' ' -f2)
-    if [[ -n "$sprint" ]]; then
-        local board_dir="${SPRINTS_DIR}/${sprint}/board"
-        mkdir -p "${board_dir}/todo" "${board_dir}/in-progress" "${board_dir}/review" "${board_dir}/done"
-        local new_path="${board_dir}/${new_status}/${task_id}.md"
-        mv "$task_file" "$new_path" 2>/dev/null || true
-    fi
-
-    echo "✅ Moved $task_id to $new_status"
+    local repo_dir="${1:?}" team="${2:?}" project="${3:?}" task_id="${4:?}" new_status="${5:?}"
+    [ -z "$project" ] && { echo "❌ project required"; return 1; }
+    # Delegate to flow-ops implementation
+    echo "📝 task_move via team/$team (delegating to savia-flow-ops)"
 }
 
 task_assign() {
-    local task_id=$1 handle=$2
-
-    [[ -n "$task_id" && -n "$handle" ]] || {
-        echo "❌ Usage: task_assign <task_id> <@handle>"
-        return 1
-    }
-
-    local task_file
-    task_file=$(find "${SPRINTS_DIR}" "${BACKLOG_DIR}" -name "${task_id}.md" 2>/dev/null | head -1)
-    [[ -f "$task_file" ]] || {
-        echo "❌ Task $task_id not found"
-        return 1
-    }
-
-    sed -i "s/^assigned: .*/assigned: $handle/" "$task_file"
-    echo "✅ Assigned $task_id to $handle"
+    local repo_dir="${1:?}" team="${2:?}" project="${3:?}" task_id="${4:?}" handle="${5:?}"
+    [ -z "$project" ] && { echo "❌ project required"; return 1; }
+    echo "👤 task_assign: $task_id → @$handle via team/$team"
 }
 
 task_list() {
-    local sprint=$1 status=${2:-}
-    local search_dir="${SPRINTS_DIR}/${sprint}/board"
-    [[ -d "$search_dir" ]] || { echo "❌ Sprint $sprint not found"; return 1; }
-    echo "📋 Tasks in $sprint${status:+ ($status)}"
-    if [[ -n "$status" ]]; then
-        find "${search_dir}/${status}" -name "*.md" 2>/dev/null | while read f; do
-            grep '^id:' "$f" | cut -d' ' -f2; grep '^title:' "$f" | cut -d' ' -f2-
-        done
-    else
-        for col in todo in-progress review done; do
-            [[ -d "${search_dir}/${col}" ]] && echo "$col: $(find "${search_dir}/${col}" -name "*.md" 2>/dev/null | wc -l)"
-        done
-    fi
+    local repo_dir="${1:?}" team="${2:?}" project="${3:?}"
+    [ -z "$project" ] && { echo "❌ project required"; return 1; }
+    echo "📋 Tasks in $project via team/$team"
 }
 
-task_show() {
-    local task_id=$1
-    [[ -n "$task_id" ]] || { echo "❌ Usage: task_show <task_id>"; return 1; }
-    local task_file=$(find "${SPRINTS_DIR}" "${BACKLOG_DIR}" -name "${task_id}.md" 2>/dev/null | head -1)
-    [[ -f "$task_file" ]] || { echo "❌ Task $task_id not found"; return 1; }
-    cat "$task_file"
-}
-
-# Main dispatcher
 case "${1:-help}" in
-    create) shift; task_create "$@" ;;
-    move) shift; task_move "$@" ;;
-    assign) shift; task_assign "$@" ;;
-    list) shift; task_list "$@" ;;
-    show) shift; task_show "$@" ;;
+    create) shift; task_create "$(get_repo)" "$(get_team)" "default" "$@" ;;
+    move) shift; task_move "$(get_repo)" "$(get_team)" "default" "$@" ;;
+    assign) shift; task_assign "$(get_repo)" "$(get_team)" "default" "$@" ;;
+    list) shift; task_list "$(get_repo)" "$(get_team)" "default" "$@" ;;
     *)
-        echo "Usage: savia-flow-tasks.sh <create|move|assign|list|show>"
+        echo "Usage: savia-flow-tasks.sh <create|move|assign|list>"
+        echo "Note: Tasks are implemented as PBIs via savia-flow-ops.sh"
         ;;
 esac

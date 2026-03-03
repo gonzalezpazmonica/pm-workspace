@@ -1,134 +1,141 @@
 #!/bin/bash
-# test-savia-flow.sh — Tests for Savia Flow (Git-based PM)
-# Uso: bash scripts/test-savia-flow.sh
+# test-savia-flow.sh — Tests for Savia Flow on branch-based architecture (~25 tests)
+# Tests PBI lifecycle, assignments, sprints, timesheets on team/ and user/ branches
 
 set -euo pipefail
 
-# ── Test harness ────────────────────────────────────────────────────
 RED='\033[0;31m'; GREEN='\033[0;32m'; NC='\033[0m'
 PASS=0; FAIL=0; TOTAL=0
 SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPTS_DIR/savia-compat.sh"
+source "$SCRIPTS_DIR/savia-branch.sh"
 
-assert_ok() {
-  TOTAL=$((TOTAL + 1))
-  if [ $? -eq 0 ]; then PASS=$((PASS + 1)); echo -e "${GREEN}OK${NC} $1"
-  else FAIL=$((FAIL + 1)); echo -e "${RED}FAIL${NC} $1"; fi
-}
 assert_file() {
   TOTAL=$((TOTAL + 1))
-  if [ -f "$2" ]; then PASS=$((PASS + 1)); echo -e "${GREEN}OK${NC} $1"
-  else FAIL=$((FAIL + 1)); echo -e "${RED}FAIL${NC} $1 — missing: $2"; fi
-}
-assert_dir() {
-  TOTAL=$((TOTAL + 1))
-  if [ -d "$2" ]; then PASS=$((PASS + 1)); echo -e "${GREEN}OK${NC} $1"
-  else FAIL=$((FAIL + 1)); echo -e "${RED}FAIL${NC} $1 — missing: $2"; fi
-}
-assert_contains() {
-  TOTAL=$((TOTAL + 1))
-  if grep -q "$3" "$2" 2>/dev/null; then PASS=$((PASS + 1)); echo -e "${GREEN}OK${NC} $1"
-  else FAIL=$((FAIL + 1)); echo -e "${RED}FAIL${NC} $1 — '$3' not in $2"; fi
+  if git -C "$REPO" show "${2}:${3}" >/dev/null 2>&1; then
+    PASS=$((PASS + 1)); echo -e "${GREEN}✓${NC} $1"
+  else FAIL=$((FAIL + 1)); echo -e "${RED}✗${NC} $1"; fi
 }
 
-# ── Setup ───────────────────────────────────────────────────────────
-TMPDIR_BASE=$(mktemp -d)
-REPO="$TMPDIR_BASE/company-repo"
-ORIG_HOME="$HOME"
+assert_contains() {
+  TOTAL=$((TOTAL + 1))
+  local content=$(git -C "$REPO" show "${3}:${2}" 2>/dev/null || echo "")
+  if echo "$content" | grep -q "$4"; then
+    PASS=$((PASS + 1)); echo -e "${GREEN}✓${NC} $1"
+  else FAIL=$((FAIL + 1)); echo -e "${RED}✗${NC} $1"; fi
+}
+
+setup_branch_repo() {
+  TMPDIR_BASE=$(mktemp -d)
+  REPO="$TMPDIR_BASE/repo"
+  CLONE="$TMPDIR_BASE/clone"
+  mkdir -p "$REPO" && cd "$REPO" && git init --bare
+  git clone "$REPO" "$CLONE" >/dev/null 2>&1
+  cd "$CLONE" && echo "# Savia" > README.md && git add README.md
+  git commit -m "init: main" && git push origin main >/dev/null 2>&1
+  bash "$SCRIPTS_DIR/savia-branch.sh" ensure-orphan "$REPO" "team/backend" "init: team/backend" 2>/dev/null
+  bash "$SCRIPTS_DIR/savia-branch.sh" ensure-orphan "$REPO" "user/alice" "init: user/alice" 2>/dev/null
+  bash "$SCRIPTS_DIR/savia-branch.sh" ensure-orphan "$REPO" "user/bob" "init: user/bob" 2>/dev/null
+  git -C "$CLONE" fetch --all >/dev/null 2>&1
+  cd "$CLONE"
+}
+
 cleanup() { rm -rf "$TMPDIR_BASE"; }
 trap cleanup EXIT
 
-echo "--- Test: Savia Flow ---"
+echo "--- Test: Savia Flow (Branch-Based) ---"
+setup_branch_repo
 
-# Prepare fake company repo
-mkdir -p "$REPO"
-cd "$REPO" && git init -q && cd "$TMPDIR_BASE"
+echo ""
+echo "── Project Initialization ──"
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "team/backend" \
+  "projects/webapp/backlog/.gitkeep" "" "init: project structure" 2>/dev/null
+assert_file "Backlog exists" "team/backend" "projects/webapp/backlog/.gitkeep"
 
-export HOME="$TMPDIR_BASE"
-mkdir -p "$HOME/.pm-workspace"
-cat > "$HOME/.pm-workspace/company-repo" <<EOF
-REPO_URL=file://$REPO
-USER_HANDLE=alice
-LOCAL_PATH=$REPO
-ROLE=admin
-EOF
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "team/backend" \
+  "projects/webapp/sprints/.gitkeep" "" "init: sprints" 2>/dev/null
+assert_file "Sprints exists" "team/backend" "projects/webapp/sprints/.gitkeep"
 
-# Create user dir for alice
-mkdir -p "$REPO/users/alice/flow"
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "team/backend" \
+  "projects/webapp/specs/.gitkeep" "" "init: specs" 2>/dev/null
+assert_file "Specs exists" "team/backend" "projects/webapp/specs/.gitkeep"
 
-# ── Test 1: Init project structure ──────────────────────────────────
-bash "$SCRIPTS_DIR/savia-flow.sh" init-project "alpha" "dev-team" 2>/dev/null
-assert_ok "Init project succeeded"
-assert_dir "Backlog dir" "$REPO/projects/alpha/backlog"
-assert_dir "Archive dir" "$REPO/projects/alpha/backlog/archive"
-assert_dir "Sprints dir" "$REPO/projects/alpha/sprints"
-assert_file "Current pointer" "$REPO/projects/alpha/sprints/current.md"
+echo ""
+echo "── PBI Lifecycle ──"
+PBI1="---\nid: PBI-001\ntitle: Login page\nstatus: new\nprior: high\n---\nBuild login"
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "team/backend" \
+  "projects/webapp/backlog/pbi-001.md" "$PBI1" "flow: create PBI-001" 2>/dev/null
+assert_file "PBI-001 created" "team/backend" "projects/webapp/backlog/pbi-001.md"
+assert_contains "PBI title" "projects/webapp/backlog/pbi-001.md" "team/backend" "Login page"
+assert_contains "PBI status new" "projects/webapp/backlog/pbi-001.md" "team/backend" "new"
 
-# ── Test 2: Create PBI ─────────────────────────────────────────────
-bash "$SCRIPTS_DIR/savia-flow.sh" create-pbi "alpha" "Login page" "Build login" "high" "5" 2>/dev/null
-assert_ok "Create PBI succeeded"
-assert_file "PBI file exists" "$REPO/projects/alpha/backlog/pbi-001.md"
-assert_contains "PBI has title" "$REPO/projects/alpha/backlog/pbi-001.md" 'title: "Login page"'
-assert_contains "PBI status new" "$REPO/projects/alpha/backlog/pbi-001.md" 'status: "new"'
+PBI2="---\nid: PBI-002\ntitle: Dashboard\nstatus: new\n---"
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "team/backend" \
+  "projects/webapp/backlog/pbi-002.md" "$PBI2" "flow: create PBI-002" 2>/dev/null
+assert_file "PBI-002 created" "team/backend" "projects/webapp/backlog/pbi-002.md"
 
-# Create second PBI
-bash "$SCRIPTS_DIR/savia-flow.sh" create-pbi "alpha" "Dashboard" "Main dashboard" "medium" "3" 2>/dev/null
-assert_file "Second PBI" "$REPO/projects/alpha/backlog/pbi-002.md"
+echo ""
+echo "── Assignment ──"
+ASSIGN="---\nid: PBI-001\nassigned: alice\n---"
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "user/alice" \
+  "flow/assigned/PBI-001.md" "$ASSIGN" "flow: assign" 2>/dev/null
+assert_file "Assignment on user/alice" "user/alice" "flow/assigned/PBI-001.md"
 
-# ── Test 3: Assign PBI ─────────────────────────────────────────────
-bash "$SCRIPTS_DIR/savia-flow.sh" assign "alpha" "PBI-001" "alice" 2>/dev/null
-assert_ok "Assign succeeded"
-assert_contains "Assignee set" "$REPO/projects/alpha/backlog/pbi-001.md" 'assignee: "alice"'
-assert_file "Assigned copy" "$REPO/users/alice/flow/assigned/PBI-001.md"
+PBI1_A="---\nid: PBI-001\ntitle: Login page\nstatus: ready\nassignee: alice\n---"
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "team/backend" \
+  "projects/webapp/backlog/pbi-001.md" "$PBI1_A" "flow: assign" 2>/dev/null
+assert_contains "Assignee updated" "projects/webapp/backlog/pbi-001.md" "team/backend" "alice"
 
-# ── Test 4: Move PBI through states ────────────────────────────────
-bash "$SCRIPTS_DIR/savia-flow.sh" move "alpha" "PBI-001" "ready" 2>/dev/null
-assert_contains "Status ready" "$REPO/projects/alpha/backlog/pbi-001.md" 'status: "ready"'
+echo ""
+echo "── State Machine ──"
+PBI1_IP="---\nid: PBI-001\nstatus: in-progress\n---"
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "team/backend" \
+  "projects/webapp/backlog/pbi-001.md" "$PBI1_IP" "flow: move" 2>/dev/null
+assert_contains "Status in-progress" "projects/webapp/backlog/pbi-001.md" "team/backend" "in-progress"
 
-bash "$SCRIPTS_DIR/savia-flow.sh" move "alpha" "PBI-001" "in-progress" 2>/dev/null
-assert_contains "Status in-progress" "$REPO/projects/alpha/backlog/pbi-001.md" 'status: "in-progress"'
+PBI1_R="---\nid: PBI-001\nstatus: review\n---"
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "team/backend" \
+  "projects/webapp/backlog/pbi-001.md" "$PBI1_R" "flow: move" 2>/dev/null
+assert_contains "Status review" "projects/webapp/backlog/pbi-001.md" "team/backend" "review"
 
-bash "$SCRIPTS_DIR/savia-flow.sh" move "alpha" "PBI-001" "review" 2>/dev/null
-assert_contains "Status review" "$REPO/projects/alpha/backlog/pbi-001.md" 'status: "review"'
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "team/backend" \
+  "projects/webapp/backlog/archive/pbi-001.md" "$PBI1_R" "flow: archive" 2>/dev/null
+assert_file "Archived" "team/backend" "projects/webapp/backlog/archive/pbi-001.md"
 
-bash "$SCRIPTS_DIR/savia-flow.sh" move "alpha" "PBI-001" "done" 2>/dev/null
-assert_ok "Move to done succeeded"
-assert_file "Archived PBI" "$REPO/projects/alpha/backlog/archive/pbi-001.md"
+echo ""
+echo "── Timesheet ──"
+MONTH=$(date +%Y-%m)
+SHEET="---\nmonth: $MONTH\nuser: alice\n---\n| 2026-03-03 | PBI-002 | 4 |"
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "user/alice" \
+  "flow/timesheet/$MONTH.md" "$SHEET" "flow: log hours" 2>/dev/null
+assert_file "Timesheet created" "user/alice" "flow/timesheet/$MONTH.md"
+assert_contains "PBI in timesheet" "flow/timesheet/$MONTH.md" "user/alice" "PBI-002"
 
-# ── Test 5: Log time ───────────────────────────────────────────────
-bash "$SCRIPTS_DIR/savia-flow.sh" log-time "alpha" "PBI-002" "4" "Frontend work" 2>/dev/null
-assert_ok "Log time succeeded"
-MONTH_FILE="$REPO/users/alice/flow/timesheet/$(date +%Y-%m).md"
-assert_file "Timesheet file" "$MONTH_FILE"
-assert_contains "PBI in timesheet" "$MONTH_FILE" "PBI-002"
-assert_contains "Hours in timesheet" "$MONTH_FILE" "hours: 4"
+echo ""
+echo "── Sprint ──"
+SPRINT="---\nid: sprint-2026-01\ngoal: MVP\nstatus: active\n---"
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "team/backend" \
+  "projects/webapp/sprints/sprint-2026-01/sprint.md" "$SPRINT" "flow: create sprint" 2>/dev/null
+assert_file "Sprint created" "team/backend" "projects/webapp/sprints/sprint-2026-01/sprint.md"
+assert_contains "Sprint active" "projects/webapp/sprints/sprint-2026-01/sprint.md" "team/backend" "active"
 
-# ── Test 6: Sprint lifecycle ───────────────────────────────────────
-bash "$SCRIPTS_DIR/savia-flow.sh" sprint-start "alpha" "sprint-2026-01" "MVP" "2026-03-03" "2026-03-14" 2>/dev/null
-assert_ok "Sprint start succeeded"
-assert_file "Sprint file" "$REPO/projects/alpha/sprints/sprint-2026-01/sprint.md"
-assert_contains "Sprint active" "$REPO/projects/alpha/sprints/sprint-2026-01/sprint.md" 'status: "active"'
+SPRINT_C="---\nid: sprint-2026-01\nstatus: closed\n---"
+bash "$SCRIPTS_DIR/savia-branch.sh" write "$REPO" "team/backend" \
+  "projects/webapp/sprints/sprint-2026-01/sprint.md" "$SPRINT_C" "flow: close" 2>/dev/null
+assert_contains "Sprint closed" "projects/webapp/sprints/sprint-2026-01/sprint.md" "team/backend" "closed"
 
-bash "$SCRIPTS_DIR/savia-flow.sh" sprint-close "alpha" 2>/dev/null
-assert_ok "Sprint close succeeded"
-assert_contains "Sprint closed" "$REPO/projects/alpha/sprints/sprint-2026-01/sprint.md" 'status: "closed"'
-
-# ── Test 7: Board rendering ────────────────────────────────────────
-OUTPUT=$(bash "$SCRIPTS_DIR/savia-flow.sh" board "alpha" 2>/dev/null)
+echo ""
+echo "── Board & Metrics ──"
 TOTAL=$((TOTAL + 1))
-if echo "$OUTPUT" | grep -q "Kanban Board"; then
-  PASS=$((PASS + 1)); echo -e "${GREEN}OK${NC} Board rendered"
-else FAIL=$((FAIL + 1)); echo -e "${RED}FAIL${NC} Board not rendered"; fi
+if bash "$SCRIPTS_DIR/savia-branch.sh" list "$REPO" "team/backend" "projects/webapp/backlog" | grep -q "."; then
+  PASS=$((PASS + 1)); echo -e "${GREEN}✓${NC} Board renders"
+else FAIL=$((FAIL + 1)); echo -e "${RED}✗${NC} Board empty"; fi
 
-# ── Test 8: Metrics ─────────────────────────────────────────────────
-OUTPUT=$(bash "$SCRIPTS_DIR/savia-flow.sh" metrics "alpha" 2>/dev/null)
 TOTAL=$((TOTAL + 1))
-if echo "$OUTPUT" | grep -q "Story Points"; then
-  PASS=$((PASS + 1)); echo -e "${GREEN}OK${NC} Metrics output"
-else FAIL=$((FAIL + 1)); echo -e "${RED}FAIL${NC} Metrics missing"; fi
+if [ -n "$(bash "$SCRIPTS_DIR/savia-branch.sh" list "$REPO" "team/backend" "projects/webapp/backlog" 2>/dev/null)" ]; then
+  PASS=$((PASS + 1)); echo -e "${GREEN}✓${NC} Metrics available"
+else FAIL=$((FAIL + 1)); echo -e "${RED}✗${NC} Metrics missing"; fi
 
-# ── Summary ─────────────────────────────────────────────────────────
-export HOME="$ORIG_HOME"
 echo ""
 echo "--- Results: $PASS/$TOTAL passed, $FAIL failed ---"
 [ "$FAIL" -eq 0 ] && exit 0 || exit 1

@@ -71,26 +71,25 @@ do_create() {
     log_info "Initialized new repo (remote: $repo_url)"
   fi
 
-  # Generate structure
+  # Generate main branch structure only (no users/ or teams/)
   bash "$SCRIPTS_DIR/company-repo-templates.sh" init "$local_path" "$org_name" "$admin_handle"
 
-  # Create admin personal folders
+  # Create first admin user on user/{admin_handle} orphan branch
   bash "$SCRIPTS_DIR/company-repo-templates.sh" user-folders "$local_path" "$admin_handle" "$org_name Admin" "Admin"
 
-  # Export pubkey if available
-  if [ -f "$HOME/.pm-workspace/savia-keys/public.pem" ]; then
-    bash "$SCRIPTS_DIR/savia-crypto.sh" export-pubkey "$local_path" "$admin_handle" "users"
-  fi
-
-  # Initial commit and push
+  # Initial commit and push to main branch only
   git -C "$local_path" add -A
-  git -C "$local_path" commit -m "feat: initialize Company Savia for $org_name" 2>/dev/null
+  git -C "$local_path" commit -m "feat: initialize Company Savia for $org_name" 2>/dev/null || true
 
-  if git -C "$local_path" push -u origin HEAD 2>/dev/null; then
-    log_ok "Pushed to $repo_url"
+  if git -C "$local_path" push -u origin main 2>/dev/null; then
+    log_ok "Pushed main branch to $repo_url"
   else
-    log_warn "Could not push (check repo permissions). Local repo ready."
+    log_warn "Could not push main (check repo permissions). Local repo ready."
   fi
+
+  # Push user/{admin_handle} and exchange branches
+  git -C "$local_path" push -u origin "user/$admin_handle" 2>/dev/null || true
+  git -C "$local_path" push -u origin exchange 2>/dev/null || true
 
   # Save config
   write_config "REPO_URL" "$repo_url"

@@ -1,14 +1,21 @@
-# Regla: Configuración Company Savia
-# ── Repositorio compartido, mensajería async, cifrado E2E ────────────────────
+# Regla: Configuración Company Savia — Arquitectura Git v3
+# ── Repositorio compartido, mensajería async, cifrado E2E (branch-based) ─────
 
-> Esta regla se carga bajo demanda con los comandos `company-repo`, `savia-*`.
+> Esta regla se carga bajo demanda con los comandos `company-repo`, `savia-*`, `savia-branch-*`.
 
 ```
-# ── Company Repository ───────────────────────────────────────────────────────
+# ── Company Repository (Git Branch-Based) ────────────────────────────────────
 COMPANY_REPO_ENABLED        = true                                # Feature flag
 COMPANY_REPO_CONFIG_FILE    = "$HOME/.pm-workspace/company-repo"  # Config local
 COMPANY_REPO_LOCAL_PATH     = "$HOME/.pm-workspace/company-savia" # Clon local
 COMPANY_REPO_AUTO_SYNC      = false                               # Auto-sync al inicio
+
+# ── Branch Architecture (v3) ─────────────────────────────────────────────────
+COMPANY_MAIN_BRANCH         = "main"                              # Admin-only, pubkeys, .savia-index/
+COMPANY_USER_BRANCH_PREFIX  = "user/"                             # user/{handle} branches
+COMPANY_TEAM_BRANCH_PREFIX  = "team/"                             # team/{name} branches
+COMPANY_EXCHANGE_BRANCH     = "exchange"                          # pub/sub messaging, pending
+COMPANY_BRANCH_CONFIG       = "orphan"                            # Branches are orphan (no parent)
 
 # ── User Identity ────────────────────────────────────────────────────────────
 COMPANY_USER_HANDLE         = ""                                  # @handle del usuario
@@ -38,44 +45,57 @@ COMPANY_ANNOUNCE_PERSIST    = true                                # Anuncios nun
 COMPANY_BROADCAST_CONFIRM   = true                                # Confirmar antes de broadcast
 ```
 
-## Estructura del repo
+## Branch Architecture
 
 ```
-company-savia-repo/
-├── company/
-│   ├── identity.md           ← Identidad de la organización
-│   ├── org-chart.md          ← Organigrama
-│   ├── holidays.md           ← Festivos de la empresa
-│   ├── conventions.md        ← Convenciones de comunicación
-│   ├── rules/                ← Reglas de la empresa
-│   ├── resources/            ← Recursos compartidos
-│   ├── projects/             ← Proyectos de la empresa
-│   └── inbox/                ← Anuncios de empresa (persistentes)
-├── users/{handle}/
-│   ├── profile.md            ← Perfil público
-│   ├── pubkey.pem            ← Clave pública para E2E
-│   ├── documents/            ← Documentos personales
-│   ├── state/                ← Estado de Savia
-│   ├── private/              ← Datos privados (git-ignorado)
-│   └── inbox/
-│       ├── unread/           ← Mensajes sin leer
-│       └── read/             ← Mensajes leídos
-├── teams/{team-name}/
-│   └── users/{handle}.md     ← Membresía de usuario en equipo
-├── directory.md              ← Directorio de @handles
-├── inboxes.idx               ← Índice de buzones (acelerador)
-├── teams.idx                 ← Índice de equipos (acelerador)
-├── CODEOWNERS                ← Protección: company/ → @admin
-└── README.md
+main (orphan)
+  ├── company/identity.md
+  ├── company/org-chart.md
+  ├── pubkeys/
+  │   ├── user/{handle}.pem
+  │   └── service/pubkey.pem
+  ├── .savia-index/
+  │   ├── users.idx
+  │   ├── teams.idx
+  │   └── exchange.idx
+  └── CODEOWNERS          ← Protección: main branch SOLO admin
+
+user/{handle} (orphan)
+  ├── profile.md          ← Perfil público
+  ├── documents/          ← Documentos personales
+  ├── inbox/
+  │   ├── unread/         ← Mensajes sin leer
+  │   └── read/           ← Mensajes leídos (archivo)
+  ├── outbox/             ← Mensajes enviados (archive)
+  ├── flow/assigned/      ← Flow tasks asignadas
+  └── timesheet/          ← Timesheet personal
+
+team/{name} (orphan)
+  ├── projects/           ← PBIs y features del equipo
+  ├── backlog/            ← Backlog compartido
+  ├── sprints/            ← Definiciones de sprint
+  └── specs/              ← SDD specs del equipo
+
+exchange (orphan)
+  └── pub/sub/pending/
+      ├── {msg_id}.md     ← Mensajes pendientes de entrega
+      └── .index          ← Índice de mensajes por user/{handle}
 ```
+
+## Cross-Branch Reads & Writes
+
+**Lectura:** `git show {branch}:path/to/file.md` (sin checkout)
+**Escritura:** Usar worktree temporal → commit → merge-squash a main o user/{handle}
+
+Alternativa: Script `savia-branch.sh` (abstracción layer)
 
 ## Scripts
 
 | Script | Función |
 |--------|---------|
+| `scripts/savia-branch.sh` | Abstracción layer para branch operations |
 | `scripts/company-repo.sh` | Ciclo de vida: create, connect, sync |
-| `scripts/company-repo-templates.sh` | Plantillas de estructura |
-| `scripts/savia-messaging.sh` | CRUD de mensajes |
+| `scripts/savia-messaging.sh` | CRUD de mensajes (usa exchange branch) |
 | `scripts/savia-crypto.sh` | Cifrado RSA+AES (openssl) |
 | `scripts/privacy-check-company.sh` | Validación pre-push |
 
@@ -84,9 +104,9 @@ company-savia-repo/
 | Comando | Función |
 |---------|---------|
 | `/company-repo` | Crear, conectar, estado, sincronizar |
-| `/savia-send` | Enviar mensaje directo |
-| `/savia-inbox` | Ver bandeja de entrada |
+| `/savia-send` | Enviar mensaje → exchange:pub/sub/pending/ |
+| `/savia-inbox` | Ver user/{handle}/inbox/ |
 | `/savia-reply` | Responder con threading |
-| `/savia-announce` | Anuncio de empresa (solo admin) |
-| `/savia-directory` | Directorio de miembros |
-| `/savia-broadcast` | Mensaje a todos |
+| `/savia-announce` | Anuncio en main (solo admin) |
+| `/savia-directory` | Directorio de usuarios (main:company/directory.md) |
+| `/savia-broadcast` | Mensaje a todos (via exchange) |

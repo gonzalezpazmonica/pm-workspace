@@ -2,7 +2,7 @@
 # savia-messaging-actions.sh — Announce, broadcast, and directory operations
 # Sourced by savia-messaging.sh — do NOT run directly.
 
-# ── Announce: post to company-inbox ────────────────────────────────
+# ── Announce: post to main:company/inbox/ ───────────────────────────
 do_announce() {
   local subject="${1:?Uso: savia-messaging.sh announce <subject> <body> [--priority high]}"
   local body="${2:?Falta body}"
@@ -18,12 +18,11 @@ do_announce() {
   handle=$(get_handle)
   msg_id=$(gen_id)
 
-  mkdir -p "$repo_dir/company/inbox"
-
-  cat > "$repo_dir/company/inbox/${msg_id}.md" <<EOF
+  local msg_content
+  msg_content=$(cat <<EOF
 ---
 id: "${msg_id}"
-from: "${handle}"
+from: "@${handle}"
 to: "all"
 date: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 subject: "${subject}"
@@ -34,12 +33,16 @@ encrypted: false
 
 ${body}
 EOF
+)
+
+  bash "$SCRIPTS_DIR/savia-branch.sh" write "$repo_dir" main "company/inbox/${msg_id}.md" "$msg_content" \
+    "[main] announce: $subject"
 
   log_ok "Announcement posted: $subject"
   echo "  ID: $msg_id"
 }
 
-# ── Broadcast: send to all handles ─────────────────────────────────
+# ── Broadcast: send encrypted to all handles via exchange ──────────
 do_broadcast() {
   local subject="${1:?Uso: savia-messaging.sh broadcast <subject> <body>}"
   local body="${2:?Falta body}"
@@ -49,25 +52,25 @@ do_broadcast() {
   repo_dir=$(get_repo)
   handle=$(get_handle)
 
-  for user_dir in "$repo_dir"/users/*/; do
-    [ -d "$user_dir" ] || continue
-    local target
-    target=$(basename "$user_dir")
+  local directory
+  directory=$(bash "$SCRIPTS_DIR/savia-branch.sh" read "$repo_dir" main "directory.md") || { log_error "No directory found"; return 1; }
+
+  while IFS= read -r line; do
+    [[ "$line" =~ ^@([a-zA-Z0-9_-]+) ]] || continue
+    local target="${BASH_REMATCH[1]}"
     [ "$target" = "$handle" ] && continue
     do_send "$target" "$subject" "$body" "$@" 2>/dev/null && count=$((count + 1))
-  done
+  done <<< "$directory"
 
   log_ok "Broadcast sent to $count recipient(s)"
 }
 
-# ── Directory: list team members ───────────────────────────────────
+# ── Directory: read from main:directory.md ───────────────────────────
 do_directory() {
   local repo_dir
   repo_dir=$(get_repo)
 
-  if [ -f "$repo_dir/directory.md" ]; then
-    cat "$repo_dir/directory.md"
-  else
-    log_warn "No directory.md found"
-  fi
+  local directory
+  directory=$(bash "$SCRIPTS_DIR/savia-branch.sh" read "$repo_dir" main "directory.md") || { log_error "No directory.md found"; return 1; }
+  echo "$directory"
 }

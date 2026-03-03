@@ -51,7 +51,7 @@ do_keygen() {
   log_info "Run 'export-pubkey' to publish your public key to the company repo"
 }
 
-# ── Export pubkey to company repo ───────────────────────────────────
+# ── Export pubkey to main:pubkeys/ ─────────────────────────────────
 do_export_pubkey() {
   local repo_dir="${1:?Uso: savia-crypto.sh export-pubkey <repo_dir> <handle>}"
   local handle="${2:?Falta handle}"
@@ -61,11 +61,13 @@ do_export_pubkey() {
     return 1
   fi
 
-  local dest="$repo_dir/users/$handle/pubkey.pem"
-  mkdir -p "$(dirname "$dest")"
-  cp "$KEYS_DIR/public.pem" "$dest"
+  local pubkey_content
+  pubkey_content=$(cat "$KEYS_DIR/public.pem")
 
-  log_ok "Public key exported to users/$handle/pubkey.pem"
+  bash "$(dirname "$0")/savia-branch.sh" write "$repo_dir" main "pubkeys/${handle}.pem" "$pubkey_content" \
+    "[main] crypto: @$handle pubkey"
+
+  log_ok "Public key exported to main:pubkeys/$handle.pem"
 }
 
 # ── Main ────────────────────────────────────────────────────────────

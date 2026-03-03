@@ -22,23 +22,13 @@ do_connect() {
   git clone "$repo_url" "$local_path" 2>/dev/null
   log_ok "Cloned company repo"
 
-  # Create personal folders
+  # Create user/{handle} orphan branch with personal folders
   bash "$SCRIPTS_DIR/company-repo-templates.sh" user-folders "$local_path" "$handle" "$name" "$role"
 
-  # Export pubkey if available
-  if [ -f "$HOME/.pm-workspace/savia-keys/public.pem" ]; then
-    bash "$SCRIPTS_DIR/savia-crypto.sh" export-pubkey "$local_path" "$handle" "users"
-  fi
-
-  # Commit and push
-  git -C "$local_path" add -A
-  git -C "$local_path" commit -m "feat: @$handle joined the team" 2>/dev/null
-
-  if git -C "$local_path" push 2>/dev/null; then
-    log_ok "Registration pushed"
-  else
-    log_warn "Could not push (check permissions). Local changes saved."
-  fi
+  # Push user/{handle} branch
+  git -C "$local_path" push -u origin "user/$handle" 2>/dev/null || {
+    log_warn "Could not push user branch (check permissions). Local changes saved."
+  }
 
   # Save config
   write_config "REPO_URL" "$repo_url"
@@ -70,17 +60,20 @@ do_status() {
   echo -e "  Repo:    $repo_url"
   echo -e "  Local:   $local_path"
 
-  # Unread messages
+  # Unread messages from user branch
   local unread=0
-  [ -d "$local_path/users/$handle/inbox/unread" ] && \
-    unread=$(find "$local_path/users/$handle/inbox/unread" -name '*.md' 2>/dev/null | wc -l)
+  if [ -f "$SCRIPTS_DIR/savia-branch.sh" ]; then
+    local inbox_items
+    inbox_items=$(bash "$SCRIPTS_DIR/savia-branch.sh" list "$local_path" "user/$handle" "inbox/unread" 2>/dev/null || echo "")
+    unread=$(echo "$inbox_items" | grep -c '\.md$' 2>/dev/null || echo "0")
+  fi
   echo -e "  Inbox:   $unread unread message(s)"
 
-  # Company announcements
+  # Company announcements from main branch
   local read_log="$CONFIG_DIR/company-inbox-read.log"
   if [ -d "$local_path/company/inbox" ]; then
     local total_ann read_count announcements
-    total_ann=$(find "$local_path/company-inbox" -name '*.md' 2>/dev/null | wc -l)
+    total_ann=$(find "$local_path/company/inbox" -name '*.md' 2>/dev/null | wc -l)
     read_count=0
     [ -f "$read_log" ] && read_count=$(wc -l < "$read_log" | tr -d ' ')
     announcements=$((total_ann - read_count))
@@ -94,7 +87,7 @@ do_status() {
   echo -e "  Last:    $last_commit"
 }
 
-# ── Sync: pull + push ──────────────────────────────────────────────
+# ── Sync: pull + push by branch ───────────────────────────────────
 do_sync() {
   ensure_config
   local local_path handle
@@ -108,7 +101,7 @@ do_sync() {
 
   log_info "Syncing company repo..."
 
-  # Privacy check before push
+  # Privacy check before push (check user branch only)
   if [ -f "$SCRIPTS_DIR/privacy-check-company.sh" ]; then
     bash "$SCRIPTS_DIR/privacy-check-company.sh" "$local_path" "$handle" || {
       log_error "Privacy check failed. Fix violations before syncing."
@@ -116,26 +109,20 @@ do_sync() {
     }
   fi
 
-  # Pull with rebase
-  if git -C "$local_path" pull --rebase 2>/dev/null; then
-    log_ok "Pulled latest changes"
-  else
-    log_warn "Pull failed — possible conflict. Resolve manually in $local_path"
-    return 1
+  # Fetch all branches
+  git -C "$local_path" fetch origin 2>/dev/null || true
+
+  # Process pending messages from exchange branch
+  if [ -f "$SCRIPTS_DIR/savia-branch.sh" ]; then
+    local msg_count
+    msg_count=$(bash "$SCRIPTS_DIR/savia-branch.sh" fetch-messages "$local_path" "$handle" 2>/dev/null || echo "0")
+    [ "$msg_count" -gt 0 ] && log_ok "Fetched $msg_count pending message(s)"
   fi
 
-  # Stage and push any local changes
-  git -C "$local_path" add -A 2>/dev/null
-  if git -C "$local_path" diff --cached --quiet 2>/dev/null; then
-    log_info "No local changes to push"
-  else
-    git -C "$local_path" commit -m "sync: @$handle — $(date +%Y-%m-%d)" 2>/dev/null
-    if git -C "$local_path" push 2>/dev/null; then
-      log_ok "Pushed local changes"
-    else
-      log_warn "Push failed (check permissions)"
-    fi
-  fi
+  # Push user/{handle} branch changes
+  git -C "$local_path" push origin "user/$handle" 2>/dev/null || {
+    log_warn "Could not push user/$handle branch (check permissions)"
+  }
 
   log_ok "Sync complete"
 }
