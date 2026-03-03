@@ -177,7 +177,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 271 comandos · 24 agentes · 21 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 273 comandos · 24 agentes · 21 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -412,6 +412,40 @@ Estas son las reglas que nunca se saltan — ni yo misma:
 7. **Git**: NUNCA commit directo en `main` — siempre rama + PR
 8. **Comandos**: validar con `scripts/validate-commands.sh` antes de commit
 9. **Paralelo**: verificar solapamiento de scope antes de lanzar Agent Teams; serializar si hay conflicto
+
+---
+
+## v0.90.0 — Era 19: Open Source Synergy
+
+- `/mcp-browse` — Explorar catálogo de 66+ MCPs del ecosistema claude-code-templates
+- `/component-search` — Buscar entre 5.788+ componentes (agents, commands, hooks, MCPs, skills)
+- `docs/recommended-mcps.md` — Catálogo curado de MCPs recomendados para equipos PM/Scrum
+- `hooks/README.md` — Documentación categorizada de los 14 hooks (seguridad, quality gates, agentes, workflow)
+- `agent-observability-patterns.md` — Patrones de observabilidad inspirados en analytics dashboard
+- `component-marketplace.md` — Regla de integración con marketplace de componentes
+
+**Era 19 — Open Source Synergy (6/6). ERA 19 COMPLETA!**
+
+---
+
+## Agradecimiento especial
+
+Este proyecto se nutre del ecosistema open source de herramientas para Claude Code. Queremos dar un agradecimiento especial a:
+
+### [claude-code-templates](https://github.com/davila7/claude-code-templates)
+
+Creado por [Daniel Avila](https://github.com/davila7), claude-code-templates es el mayor marketplace de componentes para Claude Code: **5.788+ componentes** (agents, commands, hooks, MCPs, settings, skills), una **CLI para instalación** (`npx claude-code-templates@latest`), un **catálogo web** en [aitmpl.com](https://aitmpl.com) y un **dashboard** en [app.aitmpl.com](https://app.aitmpl.com). Con 21K+ stars, es referencia imprescindible para cualquier equipo que trabaje con Claude Code.
+
+pm-workspace integra componentes de este ecosistema y contribuye de vuelta con hooks enterprise, agentes de PM/Scrum y skills especializados. Si buscas herramientas libres para Claude Code, empieza por ahí.
+
+```bash
+# Instalar componentes del marketplace
+npx claude-code-templates@latest
+
+# Explorar desde pm-workspace
+/mcp-browse
+/component-search {término}
+```
 
 ---
 
