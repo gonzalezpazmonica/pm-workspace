@@ -114,11 +114,29 @@ Para una consultora que empieza con PM-Workspace, el plan recomendado es **Pro (
 
 ---
 
-## 4. Instalación de Claude Code
+## 4. Instalación de Claude Code + PM-Workspace
 
-Claude Code es una herramienta de terminal (CLI) que se instala en el ordenador de cada usuario. Es la interfaz a través de la cual se interacciona con PM-Workspace.
+### 4.0 Instalación rápida (recomendada)
 
-### 4.1 Instalación
+Un solo comando instala Claude Code + PM-Workspace + dependencias + smoke test:
+
+**macOS / Linux:**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
+```
+
+**Windows (PowerShell como Administrador):**
+
+```powershell
+irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.ps1 | iex
+```
+
+> Configurable: `SAVIA_HOME` para cambiar directorio (por defecto `~/claude`), `--skip-tests` para omitir verificación. Ejecutar `install.sh --help` para más opciones.
+
+Si prefieres la instalación manual paso a paso, sigue las secciones 4.1 a 5.3.
+
+### 4.1 Instalación manual de Claude Code
 
 **macOS / Linux:**
 
