@@ -14,6 +14,22 @@
 
 > **🚀 ¿Primera vez aquí?** Consulta la [Guía de Adopción para Consultoras](docs/ADOPTION_GUIDE.md) — paso a paso desde el registro en Claude hasta la incorporación de proyectos y equipo.
 
+### Instalación rápida
+
+**macOS / Linux:**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
+```
+
+**Windows (PowerShell):**
+
+```powershell
+irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.ps1 | iex
+```
+
+> Instala Claude Code + clona pm-workspace + dependencias + smoke test. Configurable con `SAVIA_HOME`, `--skip-tests`. Detalles: `install.sh --help`
+
 ---
 
 ## ¿Quién soy?
@@ -457,6 +473,7 @@ Estas son las reglas que nunca se saltan — ni yo misma:
 
 | Versión | Era | Resumen |
 |---|---|---|
+| **v2.4.0** | Era 29 | One-Line Installer — `curl \| bash` / `irm \| iex` para instalar Savia con un solo comando |
 | **v2.3.0** | Era 28 | Scoring Intelligence — curvas piecewise, `/score:diff`, severidad Rule of Three. Inspirado en kimun. |
 | **v2.2.0** | Era 27 | Best Practices Audit — guía CLAUDE.md de proyecto + auditoría de cobertura |
 | **v2.1.0** | Era 26 | Equality Shield — lucha contra sesgos de género basado en estudio LLYC |

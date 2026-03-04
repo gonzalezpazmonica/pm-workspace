@@ -5,6 +5,16 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.4.0] — 2026-03-04
+
+### Added — One-Line Installer (Era 29)
+
+- **install.sh**: macOS + Linux one-line installer (`curl -fsSL ... | bash`). OS detection (macOS/Ubuntu/Fedora/Arch/Alpine/WSL), prerequisite checks (git, node ≥18, python3, jq), Claude Code auto-install, pm-workspace clone, npm deps, smoke test. Idempotent, configurable via `SAVIA_HOME` env var, `--skip-tests` and `--help` flags.
+- **install.ps1**: Windows PowerShell one-line installer (`irm ... | iex`). Same flow adapted for PowerShell 5.1+. Winget/Chocolatey install hints. WSL detection with cross-platform suggestion.
+- Tests: `test-install.sh` — structural validation for both installers.
+
+---
+
 ## [2.3.0] — 2026-03-04
 
 ### Added — Scoring Intelligence (Era 28)
@@ -203,6 +213,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.0.0...v2.1.0
