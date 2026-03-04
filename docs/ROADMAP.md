@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 336+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 27 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 336+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 28 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -251,6 +251,17 @@ External audit of [claude-code-best-practice](https://github.com/shanraisshan/cl
 - **CLAUDE-GUIDE.md** — Template and best practices for `projects/{name}/CLAUDE.md` files (~50 line minimal, ~120 line complete)
 - **estudio-equality-shield.md** — Full implementation study with academic references for the Equality Shield
 - **Coverage audit** — Confirmed existing coverage: context-map, agent-self-memory, intelligent-hooks, source-tracking, semantic-hub-index, confidence-protocol, consensus-protocol, context-aging, command-ux-feedback, skillssh-publishing, output-first, file-size-limit
+
+---
+
+## ✅ Era 28 — Scoring Intelligence (v2.3.0, Mar 2026)
+
+Inspired by [kimun](https://github.com/lnds/kimun) analysis. Piecewise linear scoring curves, score diffing between git refs, and Rule of Three severity classification. 336+ commands, 27 agents, 25 skills.
+
+- **Scoring Curves** — `scoring-curves.md`: 6 dimension curves (PR size, context usage, file size, velocity deviation, test coverage, Brier score) with calibrated breakpoints and linear interpolation. Replaces binary pass/fail scoring. Based on SonarSource and Microsoft Code Metrics thresholds.
+- **Score Diff** — `/score:diff` command comparing workspace health between git refs. Delta tracking with regression/improvement classification. Outputs to `output/scores/`. Haiku subagent for efficient data collection.
+- **Severity Classification** — `severity-classification.md`: Rule of Three pattern (3+ → CRITICAL, 2 → WARNING, 1 → INFO). Temporal escalation: same WARNING for 3 consecutive sprints auto-escalates to CRITICAL. Thresholds for PR quality, sprint health, context health, and code quality.
+- **39 new tests** — `test-scoring-intelligence.sh` covering all 3 features + integration + cross-references.
 
 ---
 
