@@ -20,7 +20,7 @@ El informe **"Espejismo de Igualdad"** de LLYC (marzo 2026) auditó cerca de 10.
 
 ### 1.2 ¿Por qué esto importa para PM-Workspace y Savia Flow?
 
-PM-Workspace es un sistema donde Claude Code actúa como PM/Scrum Master automatizado para equipos .NET. Sus decisiones incluyen:
+PM-Workspace es un sistema donde Claude Code actúa como PM automatizada con IA para equipos multi-lenguaje. Sus decisiones incluyen:
 
 - **Asignación de tareas** con algoritmo de scoring (expertise × disponibilidad × balance × crecimiento)
 - **Descomposición de PBIs** y estimación de horas por miembro del equipo

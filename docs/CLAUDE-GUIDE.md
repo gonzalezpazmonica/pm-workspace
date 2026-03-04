@@ -72,7 +72,7 @@ Añade sobre la mínima:
 ## Errores Comunes
 
 - **Copiar todas las reglas globales** → son heredadas automáticamente
-- **Listar los 336+ comandos** → referencia `pm-workflow.md`
+- **Listar los 360+ comandos** → referencia `pm-workflow.md`
 - **Incluir datos sensibles** → usar `CLAUDE.local.md` (git-ignorado)
 - **Superar 150 líneas** → dividir en ficheros referenciados con `@`
 

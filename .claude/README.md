@@ -1,6 +1,6 @@
 # .claude/ — Configuración de PM-Workspace
 
-Directorio de configuración de Claude Code para PM-Workspace + Azure DevOps.
+Directorio de configuración de Claude Code para PM-Workspace. Compatible con Azure DevOps, Jira y Savia Flow (Git-native).
 
 ---
 
@@ -8,9 +8,9 @@ Directorio de configuración de Claude Code para PM-Workspace + Azure DevOps.
 
 ```
 .claude/
-├── commands/          ← 27 slash commands para flujos PM con Azure DevOps
-├── skills/            ← 9 skills especializadas en gestión de proyectos
-│   ├── azure-devops-queries/       ← Prerequisito para el resto
+├── commands/          ← 360+ slash commands para flujos PM
+├── skills/            ← 25 skills especializadas en gestión de proyectos
+│   ├── azure-devops-queries/       ← Queries a Azure DevOps
 │   ├── sprint-management/
 │   ├── capacity-planning/
 │   ├── time-tracking-report/
@@ -18,10 +18,13 @@ Directorio de configuración de Claude Code para PM-Workspace + Azure DevOps.
 │   ├── product-discovery/          ← JTBD + PRD antes de decompose
 │   ├── pbi-decomposition/
 │   ├── team-onboarding/            ← Onboarding + evaluación de competencias + RGPD
-│   └── spec-driven-development/
-├── agents/            ← 11 subagentes especializados (architect, dotnet-developer, etc.)
+│   ├── spec-driven-development/
+│   ├── architecture-intelligence/
+│   ├── voice-inbox/
+│   └── ... (25 total)
+├── agents/            ← 27 subagentes especializados (architect, dotnet-developer, etc.)
 ├── rules/             ← Reglas modulares cargadas bajo demanda
-├── mcp.json           ← Configuración MCP Azure DevOps (rellenar con datos reales)
+├── mcp.json           ← Configuración MCP (rellenar con datos reales)
 └── settings.local.json ← Permisos pre-aprobados (personalizar según entorno)
 ```
 
