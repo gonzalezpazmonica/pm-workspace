@@ -13,7 +13,7 @@
 ├── .claude/
 │   ├── settings.local.json      ← Permisos de Claude Code (git-ignorado)
 │   │
-│   ├── commands/                ← 83 slash commands
+│   ├── commands/                ← 360+ slash commands
 │   │   ├── help.md              ← /help — catálogo + primeros pasos
 │   │   ├── sprint-status.md ... ← Sprint y Reporting (10)
 │   │   ├── pbi-decompose.md ... ← PBI y Discovery (6)
@@ -36,7 +36,7 @@
 │   │       ├── spec-template.md
 │   │       └── ... (11 ficheros)
 │   │
-│   ├── agents/                  ← 24 subagentes especializados
+│   ├── agents/                  ← 27 subagentes especializados
 │   │   ├── business-analyst.md
 │   │   ├── architect.md
 │   │   ├── code-reviewer.md
@@ -49,7 +49,7 @@
 │   │   ├── dotnet-developer.md  ← + 10 developers por lenguaje
 │   │   └── ...
 │   │
-│   ├── skills/                  ← 12 skills reutilizables
+│   ├── skills/                  ← 25 skills reutilizables
 │   │   ├── azure-devops-queries/
 │   │   ├── sprint-management/
 │   │   ├── capacity-planning/
@@ -76,7 +76,7 @@
 │       ├── file-size-limit.md   ← Regla 150 líneas (auto-cargado)
 │       ├── readme-update.md     ← Regla 12: actualizar READMEs (auto-cargado)
 │       ├── language-packs.md    ← Tabla de 16 lenguajes (auto-cargado)
-│       ├── agents-catalog.md    ← Tabla de 24 agentes (auto-cargado)
+│       ├── agents-catalog.md    ← Tabla de 27 agentes (auto-cargado)
 │       ├── context-health.md   ← Gestión de contexto y output-first (auto-cargado)
 │       ├── domain/              ← Reglas por dominio (bajo demanda, excluidas de auto-carga)
 │       │   ├── infrastructure-as-code.md

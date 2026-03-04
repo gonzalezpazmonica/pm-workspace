@@ -1,8 +1,8 @@
-# PM-Workspace — Claude Code + Azure DevOps
+# PM-Workspace — AI-Powered Project Management for Claude Code
 
 ## What is this?
 
-This workspace turns Claude Code into an **automated Project Manager / Scrum Master** for projects of **any programming language** on Azure DevOps. It supports 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Python, Go, Rust, PHP/Laravel, Swift, Kotlin, Ruby, VB.NET, COBOL, Terraform, Flutter) with specialized conventions, rules, and agents for each. Its most advanced feature is **Spec-Driven Development (SDD)**: a process in which technical tasks are documented as executable contracts, and Claude can implement them as a coding agent.
+This workspace turns Claude Code into an **AI-powered automated Project Manager** for projects of **any programming language**. It works with Azure DevOps, Jira, or 100% Git-native via Savia Flow. It supports 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Python, Go, Rust, PHP/Laravel, Swift, Kotlin, Ruby, VB.NET, COBOL, Terraform, Flutter) with specialized conventions, rules, and agents for each. Its most advanced feature is **Spec-Driven Development (SDD)**: a process in which technical tasks are documented as executable contracts, and Claude can implement them as a coding agent.
 
 **Sprint management:** burndown tracking, team capacity, board status, KPIs, automatic retrospective and review reports in Excel/PowerPoint.
 
