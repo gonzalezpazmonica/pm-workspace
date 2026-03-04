@@ -54,6 +54,15 @@ if [[ ${#FIRST_LINE} -gt 72 ]]; then
   ISSUES+="First line exceeds 72 characters. "
 fi
 
+# Check: CHANGELOG version links when CHANGELOG is staged
+if git diff --cached --name-only 2>/dev/null | grep -q "CHANGELOG.md"; then
+  VALIDATOR="${CLAUDE_PROJECT_DIR:-.}/scripts/validate-changelog-links.sh"
+  if [[ -x "$VALIDATOR" ]]; then
+    LINK_ERR=$("$VALIDATOR" "${CLAUDE_PROJECT_DIR:-.}/CHANGELOG.md" 2>&1) || \
+      ISSUES+="CHANGELOG enlace faltante. "
+  fi
+fi
+
 if [[ -n "$ISSUES" ]]; then
   case "$PROMPT_HOOKS_MODE" in
     "warning")
