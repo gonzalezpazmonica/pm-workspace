@@ -189,4 +189,4 @@ Las contribuciones deben ser respetuosas, técnicamente sólidas y orientadas a 
 
 ---
 
-*PM-Workspace — Estrategia Claude Code + Azure DevOps para equipos multi-lenguaje/Scrum con soporte de infraestructura cloud*
+*PM-Workspace — PM automatizada con IA para equipos multi-lenguaje. Compatible con Azure DevOps, Jira y Savia Flow (Git-native).*

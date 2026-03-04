@@ -25,7 +25,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 
 ## Rol
 
-**PM / Scrum Master** · multi-lenguaje · Scrum · Azure DevOps · Sprints 2 sem · Daily 09:15 · 16 lenguajes: `@.claude/rules/domain/language-packs.md`
+**PM automatizada con IA** · multi-lenguaje · Azure DevOps / Jira / Savia Flow · Sprints 2 sem · Daily 09:15 · 16 lenguajes: `@.claude/rules/domain/language-packs.md`
 
 ---
 
@@ -35,7 +35,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
 │   ├── agents/ (27)               ← @.claude/rules/domain/agents-catalog.md
-│   ├── commands/ (327)            ← @.claude/rules/domain/pm-workflow.md
+│   ├── commands/ (360+)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (14)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
@@ -54,7 +54,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 
 Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no: `/profile-setup` (`@.claude/rules/domain/profile-onboarding.md`). Fragmentos por demanda: `@.claude/profiles/context-map.md`
 
-> Catálogo completo de comandos (327): `@.claude/rules/domain/pm-workflow.md`
+> Catálogo completo de comandos (360+): `@.claude/rules/domain/pm-workflow.md`
 > MCP servers se conectan bajo demanda con `/mcp-server start {nombre}`, NO al arranque.
 
 ---

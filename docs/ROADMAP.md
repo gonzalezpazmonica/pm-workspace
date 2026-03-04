@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 336+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 29 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 29 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -234,7 +234,7 @@ Inspired by [BullshitBench](https://github.com/petergpt/bullshit-benchmark) anal
 
 ## ✅ Era 26 — Equality Shield (v2.1.0, Mar 2026)
 
-Inspired by LLYC "Espejismo de Igualdad" (2026) audit of bias in AI systems for team management. 6 critical biases identified and mitigated with counterfactual testing. 336+ commands, 27 agents, 25 skills.
+Inspired by LLYC "Espejismo de Igualdad" (2026) audit of bias in AI systems for team management. 6 critical biases identified and mitigated with counterfactual testing. 360+ commands, 27 agents, 25 skills.
 
 - **Equality Shield Rule** — `equality-shield.md`: Framework blocking 6 biases (vocational assignment, tonal disparity, emotional labeling, experience bias, leadership exceptionalism, communication polarization). Counterfactual test obligatory before assignments/evaluations.
 - **Bias Check Command** — `/bias:check` for contrafactual audits on sprints: rewrite gender-neutral assignments, verify consistency, flag sesgos.
@@ -256,7 +256,7 @@ External audit of [claude-code-best-practice](https://github.com/shanraisshan/cl
 
 ## ✅ Era 28 — Scoring Intelligence (v2.3.0, Mar 2026)
 
-Inspired by [kimun](https://github.com/lnds/kimun) analysis. Piecewise linear scoring curves, score diffing between git refs, and Rule of Three severity classification. 336+ commands, 27 agents, 25 skills.
+Inspired by [kimun](https://github.com/lnds/kimun) analysis. Piecewise linear scoring curves, score diffing between git refs, and Rule of Three severity classification. 360+ commands, 27 agents, 25 skills.
 
 - **Scoring Curves** — `scoring-curves.md`: 6 dimension curves (PR size, context usage, file size, velocity deviation, test coverage, Brier score) with calibrated breakpoints and linear interpolation. Replaces binary pass/fail scoring. Based on SonarSource and Microsoft Code Metrics thresholds.
 - **Score Diff** — `/score:diff` command comparing workspace health between git refs. Delta tracking with regression/improvement classification. Outputs to `output/scores/`. Haiku subagent for efficient data collection.

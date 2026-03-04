@@ -197,4 +197,4 @@ SDD usage metrics are automatically recorded in `projects/{project}/specs/sdd-me
 
 ---
 
-*PM-Workspace — Claude Code + Azure DevOps strategy for multi-language/Scrum teams with cloud infrastructure support*
+*PM-Workspace — AI-powered automated PM for multi-language teams. Compatible with Azure DevOps, Jira, and Savia Flow (Git-native).*

@@ -28,7 +28,7 @@
 
 ### What is PM-Workspace?
 
-PM-Workspace is an AI-powered project management platform that turns Claude Code (Anthropic's AI coding tool) into an **automated Project Manager**. It works with Azure DevOps, Jira, or 100% Git-native via Savia Flow. It provides 336+ commands, 25 specialized skills, and 27 AI subagents covering everything from sprint planning to agent-based code implementation, with support for 16 languages and 12 industry verticals.
+PM-Workspace is an AI-powered project management platform that turns Claude Code (Anthropic's AI coding tool) into an **automated Project Manager**. It works with Azure DevOps, Jira, or 100% Git-native via Savia Flow. It provides 360+ commands, 25 specialized skills, and 27 AI subagents covering everything from sprint planning to agent-based code implementation, with support for 16 languages and 12 regulated sectors.
 
 ### Why adopt it in a consulting firm?
 
@@ -74,7 +74,7 @@ Not everyone on the team needs PM-Workspace. Recommendation for a consulting fir
 
 | Role | Needs PM-Workspace? | Recommended plan |
 |------|---------------------|------------------|
-| Project Manager / Scrum Master | **Yes** — primary user | Pro ($20/mo) or Max ($100/mo) |
+| Project Manager | **Yes** — primary user | Pro ($20/mo) or Max ($100/mo) |
 | Tech Lead | **Yes** — for SDD, specs, and code review | Pro ($20/mo) |
 | Senior developers | Optional — to launch agents on specs | Pro ($20/mo) |
 | Junior developers | No — they work with Azure DevOps directly | Not needed |
@@ -201,10 +201,10 @@ After cloning, you'll find this structure:
 | Directory | Contents | Editable |
 |-----------|----------|----------|
 | `CLAUDE.md` | Claude Code entry point (global constants) | Yes |
-| `.claude/commands/` | 27 slash commands for PM workflows | Advanced |
-| `.claude/skills/` | 9 specialized skills | Advanced |
-| `.claude/agents/` | 11 AI subagents | Advanced |
-| `.claude/rules/` | Modular rules (Scrum, .NET, Git) | Advanced |
+| `.claude/commands/` | 360+ slash commands for PM workflows | Advanced |
+| `.claude/skills/` | 25 specialized skills | Advanced |
+| `.claude/agents/` | 27 AI subagents | Advanced |
+| `.claude/rules/` | Modular rules (PM, multi-language, Git) | Advanced |
 | `projects/` | Project folder (each with its own `CLAUDE.md`) | Yes |
 | `scripts/` | Auxiliary scripts (Azure DevOps, reports) | No |
 | `docs/` | Methodology documentation | Read-only |

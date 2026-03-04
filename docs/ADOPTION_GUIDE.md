@@ -28,7 +28,7 @@
 
 ### ¿Qué es PM-Workspace?
 
-PM-Workspace es una plataforma de gestión de proyectos con IA que convierte a Claude Code (la herramienta de programación con IA de Anthropic) en un **Project Manager automatizado**. Funciona con Azure DevOps, Jira, o 100% Git-native con Savia Flow. Proporciona 336+ comandos, 25 skills especializadas y 27 subagentes de IA que cubren desde el sprint planning hasta la implementación de código por agentes, con soporte para 16 lenguajes y 12 verticales sectoriales.
+PM-Workspace es una plataforma de gestión de proyectos con IA que convierte a Claude Code (la herramienta de programación con IA de Anthropic) en un **Project Manager automatizado**. Funciona con Azure DevOps, Jira, o 100% Git-native con Savia Flow. Proporciona 360+ comandos, 25 skills especializadas y 27 subagentes de IA que cubren desde el sprint planning hasta la implementación de código por agentes, con soporte para 16 lenguajes y 12 sectores regulados.
 
 ### ¿Por qué adoptarlo en una consultora?
 
@@ -74,7 +74,7 @@ No todo el equipo necesita PM-Workspace. La recomendación para una consultora:
 
 | Rol | ¿Necesita PM-Workspace? | Plan recomendado |
 |-----|------------------------|------------------|
-| Project Manager / Scrum Master | **Sí** — es el usuario principal | Pro ($20/mes) o Max ($100/mes) |
+| Project Manager | **Sí** — es el usuario principal | Pro ($20/mes) o Max ($100/mes) |
 | Tech Lead | **Sí** — para SDD, specs y code review | Pro ($20/mes) |
 | Desarrolladores senior | Opcional — para lanzar agentes sobre specs | Pro ($20/mes) |
 | Desarrolladores junior | No — trabajan con Azure DevOps directamente | No necesario |
@@ -219,10 +219,10 @@ Al clonar, encontrarás esta estructura:
 | Directorio | Contenido | Editable |
 |------------|-----------|----------|
 | `CLAUDE.md` | Punto de entrada de Claude Code (constantes globales) | Sí |
-| `.claude/commands/` | 27 slash commands para flujos PM | Avanzado |
-| `.claude/skills/` | 9 skills especializadas | Avanzado |
-| `.claude/agents/` | 11 subagentes IA | Avanzado |
-| `.claude/rules/` | Reglas modulares (Scrum, .NET, Git) | Avanzado |
+| `.claude/commands/` | 360+ slash commands para flujos PM | Avanzado |
+| `.claude/skills/` | 25 skills especializadas | Avanzado |
+| `.claude/agents/` | 27 subagentes IA | Avanzado |
+| `.claude/rules/` | Reglas modulares (PM, multi-lenguaje, Git) | Avanzado |
 | `projects/` | Carpeta de proyectos (cada uno con su `CLAUDE.md`) | Sí |
 | `scripts/` | Scripts auxiliares (Azure DevOps, informes) | No |
 | `docs/` | Documentación de metodología | Lectura |
@@ -527,5 +527,5 @@ La adopción recomendada es incremental. No intentes usar todas las funcionalida
 
 ---
 
-*PM-Workspace — Claude Code + Azure DevOps para equipos .NET/Scrum*
+*PM-Workspace — PM automatizada con IA para equipos multi-lenguaje. Compatible con Azure DevOps, Jira y Savia Flow (Git-native).*
 *[github.com/gonzalezpazmonica/pm-workspace](https://github.com/gonzalezpazmonica/pm-workspace)*

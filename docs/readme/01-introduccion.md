@@ -1,4 +1,4 @@
-# PM-Workspace — Claude Code + Azure DevOps
+# PM-Workspace — AI-Powered Project Management for Claude Code
 
 [![CI](https://img.shields.io/github/actions/workflow/status/gonzalezpazmonica/pm-workspace/ci.yml?branch=main&label=CI&logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/gonzalezpazmonica/pm-workspace?logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/releases)
@@ -6,7 +6,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Contributors](https://img.shields.io/github/contributors/gonzalezpazmonica/pm-workspace)](CONTRIBUTORS.md)
 
-> Sistema de gestión de proyectos **multi-lenguaje** con Scrum, impulsado por Claude Code como asistente de PM/Scrum Master con capacidad de delegar implementación técnica a agentes de IA y gestionar infraestructura cloud.
+> Plataforma de gestión de proyectos **multi-lenguaje** con IA, impulsada por Claude Code como PM automatizada con capacidad de delegar implementación técnica a agentes de IA y gestionar infraestructura cloud. Compatible con Azure DevOps, Jira y Savia Flow (Git-native).
 
 > **🚀 ¿Primera vez aquí?** Consulta la [Guía de Adopción para Consultoras](../ADOPTION_GUIDE.md) — paso a paso desde el registro en Claude hasta la incorporación de proyectos y equipo.
 
@@ -14,7 +14,7 @@
 
 ## ¿Qué es esto?
 
-Este workspace convierte a Claude Code en un **Project Manager / Scrum Master automatizado** para proyectos de **cualquier lenguaje** en Azure DevOps. Soporta 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Python, Go, Rust, PHP/Laravel, Swift, Kotlin, Ruby, VB.NET, COBOL, Terraform, Flutter) con convenciones, reglas y agentes especializados para cada uno. Su característica más avanzada es el **Spec-Driven Development (SDD)**: un proceso en el que las tareas técnicas se documentan como contratos ejecutables, y Claude puede implementarlas como agente de código.
+Este workspace convierte a Claude Code en un **Project Manager automatizado con IA** para proyectos de **cualquier lenguaje**. Funciona con Azure DevOps, Jira, o 100% Git-native con Savia Flow. Soporta 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Python, Go, Rust, PHP/Laravel, Swift, Kotlin, Ruby, VB.NET, COBOL, Terraform, Flutter) con convenciones, reglas y agentes especializados para cada uno. Su característica más avanzada es el **Spec-Driven Development (SDD)**: un proceso en el que las tareas técnicas se documentan como contratos ejecutables, y Claude puede implementarlas como agente de código.
 
 **Gestión de sprints:** seguimiento de burndown, capacity del equipo, estado del board, KPIs, reportes automáticos de retrospectiva y review en Excel/PowerPoint.
 
