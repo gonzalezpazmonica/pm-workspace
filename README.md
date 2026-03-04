@@ -131,7 +131,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 | [Proyecto de test](docs/readme/09-proyecto-test.md) | `sala-reservas`: tests, datos mock, validación |
 | [KPIs, reglas y roadmap](docs/readme/10-kpis-reglas.md) | Métricas, reglas críticas, plan de adopción |
 | [Onboarding de nuevos miembros](docs/readme/11-onboarding.md) | Incorporación en 5 fases, evaluación de competencias, RGPD |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 271 comandos + 24 agentes especializados |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 271 comandos + 26 agentes especializados |
 | [Cobertura y contribución](docs/readme/13-cobertura-contribucion.md) | Qué cubre, qué no, cómo contribuir |
 
 ### Guías de uso por escenario
@@ -169,7 +169,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 
 ## Referencia rápida de comandos
 
-> 329+ comandos · 24 agentes · 22 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
+> 329+ comandos · 26 agentes · 23 skills — referencia completa en [docs/readme/12-comandos-agentes.md](docs/readme/12-comandos-agentes.md)
 
 ### Perfil de Usuario, Actualización y Comunidad
 ```
@@ -457,6 +457,7 @@ Estas son las reglas que nunca se saltan — ni yo misma:
 
 | Versión | Era | Resumen |
 |---|---|---|
+| **v1.9.1** | Era 24 | Reflection Validator: agente System 2 (Opus 4.6) + skill de validación meta-cognitiva. 65 tests nuevos. Catálogo actualizado a 26 agentes, 23 skills. |
 | **v1.9.0** | Era 24 | Memory & NL: dimensión concepts, progressive disclosure 3 capas, token economics, session consolidation, auto-capture hook, hybrid search con scoring. NL→comando: intent catalog (60+ patrones), `/nl-query` reescrito, regla de resolución NL. 32 tests nuevos. |
 | **v1.8.0** | Era 23 | 10 guías de uso por escenario (Azure DevOps, Jira, Savia standalone, educación, hardware, investigación, startup, ONG, legal, sanidad). README reestructurado. 20 propuestas de gaps detectados. |
 | **v1.7.0** | Era 22 | Company Savia v3: aislamiento por ramas orphan, quality framework (reglas #21-#22), Agent Self-Memory, PII gate, drift detection. 120 tests Savia. |

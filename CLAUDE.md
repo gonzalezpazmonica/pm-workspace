@@ -34,12 +34,12 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ```
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
-│   ├── agents/ (24)               ← @.claude/rules/domain/agents-catalog.md
+│   ├── agents/ (26)               ← @.claude/rules/domain/agents-catalog.md
 │   ├── commands/ (327)            ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (14)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
-│   ├── skills/ (22)               ← Skills reutilizables
+│   ├── skills/ (23)               ← Skills reutilizables
 │   └── settings.json              ← Hooks + Agent Teams env
 ├── docs/ · projects/ · scripts/
 ```
@@ -88,7 +88,7 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 
 ## Subagentes
 
-> Catálogo (24): `@.claude/rules/domain/agents-catalog.md` · Agent Notes: `@docs/agent-notes-protocol.md`
+> Catálogo (26): `@.claude/rules/domain/agents-catalog.md` · Agent Notes: `@docs/agent-notes-protocol.md`
 
 Cada agente: `memory: project`, `skills:` precargados, `permissionMode:` apropiado. Developers: `isolation: worktree`.
 Flujos: SDD (analyst→architect→security→tester→developer→reviewer) · Infra · Diagramas · Agent Teams (`@docs/agent-teams-sdd.md`)
