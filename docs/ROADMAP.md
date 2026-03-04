@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 335+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 25 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 336+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 26 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -229,6 +229,18 @@ Inspired by [BullshitBench](https://github.com/petergpt/bullshit-benchmark) anal
 - **Confidence Calibration** — JSONL logging of NL resolutions. Per-band accuracy tracking. Brier score computation. Decay mechanism (-5% for 3 pattern failures, floor 30%). Recovery (+3% per success). `confidence-calibrate.sh` script.
 - **Output Coherence Validator** — `coherence-validator` agent (Sonnet 4.6). 3 checks: objective coverage, internal consistency, completeness. Severity: ok/warning/critical. `/check-coherence` command.
 - **98 new tests** — `test-consensus.sh` (33) + `test-confidence-calibration.sh` (30) + `test-coherence-validator.sh` (35).
+
+---
+
+## ✅ Era 26 — Equality Shield (v2.1.0, Mar 2026)
+
+Inspired by LLYC "Espejismo de Igualdad" (2026) audit of bias in AI systems for team management. 6 critical biases identified and mitigated with counterfactual testing. 336+ commands, 27 agents, 25 skills.
+
+- **Equality Shield Rule** — `equality-shield.md`: Framework blocking 6 biases (vocational assignment, tonal disparity, emotional labeling, experience bias, leadership exceptionalism, communication polarization). Counterfactual test obligatory before assignments/evaluations.
+- **Bias Check Command** — `/bias:check` for contrafactual audits on sprints: rewrite gender-neutral assignments, verify consistency, flag sesgos.
+- **Equality Policy Documentation** — `politica-igualdad.md`: Policy framework with academic references (Dwivedi et al., EMNLP 2025, RANLP 2025, trail-of-bits).
+- **Rule #23 in CLAUDE.md** — Counterfactual test mandatory in assignments and communications.
+- **Complete Test Suite** — `test-equality-shield.sh`: validation of framework, counterfactual logic, policy compliance.
 
 ---
 
