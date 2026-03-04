@@ -38,5 +38,10 @@
 - **Diagramas**: `diagram-architect` → analizar consistencia → validar reglas negocio → proponer decomposición
 - **Post-commit**: `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`)
 - **Consenso**: `reflection-validator` + `code-reviewer` + `business-analyst` → panel 3 jueces → score ponderado → veredicto
+- **Equality Shield** (Era 26): `/bias:check` audita sesgos contrafácticos en asignaciones y comunicaciones. Integración transversal: antes de `/pbi:assign`, `/sprint:review`, `/sprint:retro`, `/report:executive`.
 
 El agente developer se selecciona según el Language Pack del proyecto.
+
+## Transversales (Cross-Cutting Concerns)
+
+- **Equality Shield** — Auditoría contrafactual de sesgos (vocacional, tonal, emocional, experiencia, liderazgo, comunicación). Regla obligatoria en asignaciones y evaluaciones. Ver `equality-shield.md`.

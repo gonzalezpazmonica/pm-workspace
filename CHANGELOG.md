@@ -5,6 +5,18 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.1.0] — 2026-03-04
+
+### Added — Equality Shield (Era 26)
+
+- **equality-shield.md**: regla de dominio anti-sesgo basada en estudio LLYC "Espejismo de Igualdad" (2026)
+- **bias-check.md**: comando `/bias:check` para auditoría contrafactual de sesgos en sprints
+- **politica-igualdad.md**: documentación de política de igualdad con referencias académicas
+- Regla #23 en CLAUDE.md: test contrafactual obligatorio en asignaciones y comunicaciones
+- Tests: `test-equality-shield.sh` — validación completa del framework
+
+---
+
 ## [2.0.0] — 2026-03-04
 
 Quality Validation Framework — Era 25. Multi-judge consensus, confidence calibration, and output coherence validation inspired by BullshitBench.
@@ -170,6 +182,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.9.1...v2.0.0
 [1.9.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.8.0...v1.9.0
