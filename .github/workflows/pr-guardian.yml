@@ -39,21 +39,23 @@ jobs:
               errors.push('PR description is too short (<50 chars after removing template). Explain what this PR does and why.');
             }
 
-            // Check at least one checkbox is marked
+            // Check at least one checkbox is marked OR description is detailed enough
             const checked = (body.match(/- \[x\]/gi) || []).length;
-            if (checked === 0) {
-              errors.push('No checkboxes marked in the PR template. Mark at least the "Type of contribution".');
+            const hasTestPlan = /## (How to test|Test plan)/i.test(body);
+            const hasSummary = /## Summary/i.test(body);
+            if (checked === 0 && cleaned.length < 200 && !hasSummary) {
+              errors.push('No checkboxes marked and description is short. Either use the PR template with checkboxes, or provide a detailed description (>200 chars) with a ## Summary section.');
             }
 
-            // Check "How to test" section has content
-            const testSection = body.match(/## How to test[\s\S]*?(?=##|$)/i);
+            // Check "How to test" section has content (only if section exists)
+            const testSection = body.match(/## (How to test|Test plan)[\s\S]*?(?=##|$)/i);
             if (testSection) {
               const testContent = testSection[0]
-                .replace(/## How to test[^\n]*/i, '')
+                .replace(/## (How to test|Test plan)[^\n]*/i, '')
                 .replace(/<!--[\s\S]*?-->/g, '')
                 .trim();
               if (testContent.length < 10) {
-                errors.push('"How to test" section is empty. Reviewers need to know how to verify your changes.');
+                errors.push('"How to test" / "Test plan" section is empty. Reviewers need to know how to verify your changes.');
               }
             }
 
