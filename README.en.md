@@ -457,6 +457,7 @@ These are the rules that are never skipped — not even by me:
 
 | Version | Era | Summary |
 |---|---|---|
+| **v2.3.0** | Era 28 | Scoring Intelligence — piecewise curves, `/score:diff`, Rule of Three severity. Inspired by kimun. |
 | **v2.2.0** | Era 27 | Best Practices Audit — project CLAUDE.md guide + coverage audit |
 | **v2.1.0** | Era 26 | Equality Shield — gender bias prevention based on LLYC study |
 | **v2.0.0** | Era 25 | Quality Validation Framework: multi-judge consensus (3 judges, weighted scoring, security/GDPR veto), confidence calibration (Brier score, decay, recovery), coherence-validator (Sonnet 4.6). 98 new tests. |
