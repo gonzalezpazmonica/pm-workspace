@@ -1,47 +1,69 @@
----
-name: savia-recall
-description: Query Savia's accumulated contextual memory across sessions.
-argument-hint: "[topic] [--project name] [--scope decisions|vocabulary|preferences|lessons]"
-allowed-tools: [Read, Glob, Grep]
+# /savia-recall
+
+> Unified memory search: memory-store + agent MEMORY.md files + lessons.md
+
+```frontmatter
+agent: task
 model: haiku
 context_cost: low
----
-
-# /savia-recall — Query Savia's Memory
-
-Search and retrieve accumulated context from Savia's persistent memory.
-
-## Usage
-
-- `/savia-recall` — Show full Savia memory overview
-- `/savia-recall {topic}` — Search for a specific topic across all sections
-- `/savia-recall --scope decisions` — Show only team decisions
-- `/savia-recall --project {name}` — Filter by project
-
-## Behavior
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🦉 /savia-recall — Contextual Memory
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-1. Read `.claude/agent-memory/savia/MEMORY.md`
-2. If topic provided: grep for matching entries
-3. If scope provided: show only that section
-4. Display results with timestamps and source references
+## Arguments
 
-## Memory Sources
+`"query"` — Search term (case-insensitive)
 
-| Source | Auto-populated |
-|---|---|
-| `/session-save` | Yes — decisions saved at session end |
-| `/sprint-retro` | Yes — lessons from retrospectives |
-| `/profile-setup` | Yes — communication preferences |
-| Manual | Via `/memory-save` with savia scope |
+Optional:
+- `--type {memory|agent-memory|lessons}` — Filter by source
+- `--depth {quick|full}` — Output verbosity (default: quick)
 
-## Privacy
+## Process
 
-- Savia memory follows AEPD data minimization principle
-- No personal data stored — only project-relevant context
-- Use `/savia-forget` to remove specific entries (GDPR compliance)
+Search three sources in parallel:
+
+### Source 1: Memory Store (JSONL)
+
+```bash
+bash "$PROJECT_ROOT/scripts/memory-store.sh" search "$query"
+```
+
+Returns: user-captured decisions, bugs, patterns, conventions
+
+### Source 2: Agent Memory (Markdown)
+
+```bash
+find "$PROJECT_ROOT/.claude/agent-memory" -name "MEMORY.md" -exec grep -l "$query" {} \;
+```
+
+Returns: patterns learned by agents (architect, security-guardian, etc.)
+
+### Source 3: Lessons (Markdown)
+
+```bash
+grep -i "$query" "$PROJECT_ROOT/tasks/lessons.md" 2>/dev/null || true
+```
+
+Returns: mistakes to avoid (category, lesson, source)
+
+## Output Format
+
+```
+📚 Search Results: "testing"
+
+MEMORY STORE (2 hits):
+  [2026-03-04] (pattern) Jest testing with mock factories
+  [2026-03-01] (decision) Unit tests before features
+
+AGENT MEMORY (1 hit):
+  test-runner.md: N+1 test iteration avoided with batch assertion
+
+LESSONS (1 hit):
+  2026-02-28 | Testing | Use .each() not nested loops | Unit test refactor
+```
+
+Each result shows source, date, snippet. Link back to original file.
+
+## Use Cases
+
+- "Where did we decide X?" — Check memory-store decisions
+- "What patterns exist for Y?" — Check agent MEMORY
+- "Did we try this before?" — Check lessons archive

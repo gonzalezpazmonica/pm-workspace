@@ -318,8 +318,10 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 ### Memoria, Contexto y Agent Memory
 ```
 /memory-sync    /memory-save    /memory-search    /memory-context
+/memory-recall {index|timeline|detail}    /memory-stats    /memory-consolidate
 /context-load    /session-save    /help [filtro]
-/agent-memory {list|show|clear}    /savia-recall {topic}    /savia-forget {topic|--all}
+/agent-memory {list|show|clear}    /savia-recall {query}    /savia-forget {topic|--all}
+/nl-query {pregunta}    /nl-query --explain    /nl-query --learn {frase} → {cmd}
 ```
 
 ### Seguridad y Auditoría
@@ -455,6 +457,7 @@ Estas son las reglas que nunca se saltan — ni yo misma:
 
 | Versión | Era | Resumen |
 |---|---|---|
+| **v1.9.0** | Era 24 | Memory & NL: dimensión concepts, progressive disclosure 3 capas, token economics, session consolidation, auto-capture hook, hybrid search con scoring. NL→comando: intent catalog (60+ patrones), `/nl-query` reescrito, regla de resolución NL. 32 tests nuevos. |
 | **v1.8.0** | Era 23 | 10 guías de uso por escenario (Azure DevOps, Jira, Savia standalone, educación, hardware, investigación, startup, ONG, legal, sanidad). README reestructurado. 20 propuestas de gaps detectados. |
 | **v1.7.0** | Era 22 | Company Savia v3: aislamiento por ramas orphan, quality framework (reglas #21-#22), Agent Self-Memory, PII gate, drift detection. 120 tests Savia. |
 | **v1.6.0** | — | Company Savia v2: reestructuración de directorios, índices TSV, simplificación de rutas de usuario. |

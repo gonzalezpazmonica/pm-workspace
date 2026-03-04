@@ -1,96 +1,93 @@
 ---
 name: nl-query
-description: Consultas en lenguaje natural — pregunta sobre tu proyecto sin memorizar comandos
+description: "Consultas en lenguaje natural — habla con Savia sin memorizar comandos"
 developer_type: all
 agent: task
 context_cost: medium
+model: sonnet
 ---
 
-# /nl-query
+# /nl-query — Natural Language Command Resolution
 
-> 🦉 Savia entiende lo que preguntas, aunque no sepas el comando exacto.
+> Savia entiende lo que preguntas y ejecuta el comando correcto.
 
 ---
 
-## Cargar perfil de usuario
+## Uso
 
-Grupo: **Sprint & Daily** — cargar:
+```
+/nl-query {pregunta}                    # Interpretar y ejecutar
+/nl-query --explain {pregunta}          # Mostrar qué ejecutaría sin hacerlo
+/nl-query --learn {frase} → {comando}   # Enseñar mapeo personalizado
+/nl-query --history                     # Últimas 10 consultas mapeadas
+```
 
-- `identity.md` — nombre, rol
-- `projects.md` — proyecto activo
-- `preferences.md` — language
+---
+
+## Proceso
+
+**1. Cargar perfil**: leer `active-user.md`, obtener proyecto/sprint/rol activos.
+
+**2. Cargar catálogo**: leer `intent-catalog.md`, buscar patrón más similar a pregunta.
+
+**3. Score confianza**: patrón_base (70-95%) + bonus_contexto (+0-5%) + bonus_historial (+0-3%).
+
+**4. Decisión**:
+- **≥80%**: ejecutar directo
+- **50-79%**: confirmar antes
+- **<50%**: sugerir top 3 opciones
+
+**5. Resolver parámetros**: proyecto, sprint, persona, flags (`--format`, `--filter`).
+
+**6. Ejecutar**: correr comando, mostrar resultado.
+
+**7. Registrar**: guardar mapeo exitoso en memoria persistente (concept: `nl-mapping`).
 
 ---
 
 ## Subcomandos
 
-- `/nl-query {pregunta}` — interpretar y ejecutar
-- `/nl-query --explain` — mostrar qué comando ejecutaría sin hacerlo
-- `/nl-query --history` — últimas 10 consultas y comandos mapeados
+| Subcomando | Efecto |
+|---|---|
+| `/nl-query ¿...?` | Interpretar y ejecutar automáticamente |
+| `/nl-query --explain ¿...?` | Mostrar comando sin ejecutar (preview) |
+| `/nl-query --learn frase → cmd` | Guardar mapeo personalizado en memoria |
+| `/nl-query --history` | Últimas 10 mapeos + fechas |
 
 ---
 
-## Flujo
-
-### Paso 1 — Interpretar intención
-
-Mapear la pregunta del usuario a comandos existentes:
+## Ejemplo
 
 ```
-Pregunta → Intención → Comando(s)
+Usuario: ¿cómo va el sprint?
 
-"¿cómo va el sprint?"      → estado sprint    → /sprint-status
-"¿llegaremos a tiempo?"    → riesgo sprint     → /risk-predict
-"¿quién está bloqueado?"   → bloqueantes       → /sprint-status --blocked
-"resume la retro de ayer"  → meeting summary   → /meeting-summarize --type retro
-"¿cuánta deuda tenemos?"   → debt metrics      → /debt-summary
-"¿qué hizo Ana ayer?"      → daily individual  → /daily-generate --person Ana
-"plan del próximo sprint"  → autoplan          → /sprint-autoplan
-```
+🔍 Mapeado: /sprint-status
+📊 Confianza: 92% | Proyecto: sala-reservas | Sprint: 2026-06
+[Ejecutando...]
 
-### Paso 2 — Confirmar interpretación
-
-```
-🔍 He interpretado tu pregunta como:
-
-  Pregunta: "{pregunta original}"
-  Comando: /sprint-status --project sala-reservas
-  Confianza: {alta/media/baja}
-
-  ¿Ejecuto? [S/n]
-```
-
-Si confianza ≥ 80%: ejecutar directamente (skip confirmación).
-Si confianza 50-79%: confirmar antes de ejecutar.
-Si confianza < 50%: pedir reformulación o sugerir opciones.
-
-### Paso 3 — Ejecutar y presentar
-
-Ejecutar el comando mapeado y presentar resultado en formato natural.
-
-### Paso 4 — Aprender patrones
-
-Registrar mapeos exitosos para mejorar futuras interpretaciones.
-
----
-
-## Modo agente (role: "Agent")
-
-```yaml
-status: ok
-action: nl_query
-query: "¿cómo va el sprint?"
-mapped_command: "sprint-status"
-confidence: 92
-executed: true
+✅ Sprint 2026-06: 43/48 SP completados (90%)
+⏱️  Velocidad: 43 SP (histórico: 41-45)
+⚠️  3 items bloqueados > 2 días
+💡 Llegaremos a tiempo. Revisar bloqueados.
 ```
 
 ---
 
 ## Restricciones
 
-- **NUNCA** ejecutar comandos destructivos sin confirmación explícita
-- **NUNCA** inventar datos si el comando mapeado no tiene información
-- **NUNCA** adivinar si confianza < 50% — pedir clarificación
-- Si no hay mapeo claro → sugerir los 3 comandos más probables
-- Respetar siempre los permisos del rol del usuario
+- **NUNCA** ejecutar `--delete|--drop|--destroy|--reset` sin confirmación
+- **NUNCA** adivinar si confianza < 50%
+- **NUNCA** ignorar permisos de rol
+- **NUNCA** mapear a comando inexistente
+
+Ver `nl-command-resolution.md` para lógica detallada.
+
+---
+
+## Índice de Comandos
+
+Catálogo completo: `.claude/commands/references/intent-catalog.md`
+
+Top 20 mapeados en la sección **Core Mappings** del catálogo.
+
+Actualizar con `/nl-query --learn` o revisar con `/memory-search`.
