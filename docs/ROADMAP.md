@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 335+ commands, 24 agents, 22 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 24 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 335+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 25 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -204,7 +204,7 @@ Scenario-specific guides that put users in their shoes: zero-to-productive walkt
 
 ---
 
-## ✅ Era 24 — Memory Intelligence & Natural Language Resolution (v1.9.0, Mar 2026)
+## ✅ Era 24 — Memory Intelligence & Natural Language Resolution (v1.9.0–v1.9.1, Mar 2026)
 
 Inspired by [claude-mem](https://github.com/thedotmack/claude-mem) analysis. 6 memory improvements + NL→command resolution system.
 
@@ -218,6 +218,17 @@ Inspired by [claude-mem](https://github.com/thedotmack/claude-mem) analysis. 6 m
 - **NL resolution** — `/nl-query` rewritten + `nl-command-resolution.md` rule.
 - **Unified recall** — `/savia-recall` searches memory + agents + lessons.
 - **32 new tests** — `test-memory-improvements.sh` (13) + `test-nl-resolution.sh` (19).
+
+---
+
+## ✅ Era 25 — Quality Validation Framework (v2.0.0, Mar 2026)
+
+Inspired by [BullshitBench](https://github.com/petergpt/bullshit-benchmark) analysis. 3-judge consensus, confidence calibration, and output coherence validation. 335+ commands, 27 agents, 25 skills.
+
+- **Multi-Judge Consensus** — Panel of 3 judges (reflection-validator, code-reviewer, business-analyst). Weighted scoring (0.4/0.3/0.3). Verdicts: APPROVED/CONDITIONAL/REJECTED. Security/GDPR veto rule. Dissent handling. `/validate-consensus` command.
+- **Confidence Calibration** — JSONL logging of NL resolutions. Per-band accuracy tracking. Brier score computation. Decay mechanism (-5% for 3 pattern failures, floor 30%). Recovery (+3% per success). `confidence-calibrate.sh` script.
+- **Output Coherence Validator** — `coherence-validator` agent (Sonnet 4.6). 3 checks: objective coverage, internal consistency, completeness. Severity: ok/warning/critical. `/check-coherence` command.
+- **98 new tests** — `test-consensus.sh` (33) + `test-confidence-calibration.sh` (30) + `test-coherence-validator.sh` (35).
 
 ---
 

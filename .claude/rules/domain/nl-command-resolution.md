@@ -75,6 +75,27 @@
 
 ---
 
+## Recalibración
+
+> Ver `confidence-protocol.md` para detalles de decay, recovery y periodic recalibration.
+
+Cada resolución se registra automáticamente en `data/confidence-log.jsonl` (paso 8.5):
+
+```bash
+# Tras ejecución, registrar resultado
+echo "{\"command\":\"...\",\"confidence\":$score,\"success\":true|false,\"timestamp\":\"$(date -Iseconds)\",\"pattern\":\"...\",\"band\":\"high|mid|low\"}" \
+  >> data/confidence-log.jsonl
+```
+
+**Decay automático:** Si 3 o 5 fallos consecutivos del mismo patrón/comando, reducir confianza base.
+
+**Recalibración mensual:** `bash scripts/confidence-calibrate.sh report`
+- Computa accuracy por band y Brier score
+- Sugiere ajustes si Brier > 0.2
+- Ejemplo: "Band ≥80%: accuracy 65%, reduce base by 10%"
+
+---
+
 ## Integración
 
 Invocado por:
