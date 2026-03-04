@@ -14,6 +14,22 @@
 
 > **🚀 First time here?** Check the [Adoption Guide for Consulting Firms](docs/ADOPTION_GUIDE.en.md) — step by step from Claude signup to project and team onboarding.
 
+### Quick Install
+
+**macOS / Linux:**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
+```
+
+**Windows (PowerShell):**
+
+```powershell
+irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.ps1 | iex
+```
+
+> Installs Claude Code + clones pm-workspace + dependencies + smoke test. Configurable via `SAVIA_HOME`, `--skip-tests`. Details: `install.sh --help`
+
 ---
 
 ## Who am I?
@@ -457,6 +473,7 @@ These are the rules that are never skipped — not even by me:
 
 | Version | Era | Summary |
 |---|---|---|
+| **v2.4.0** | Era 29 | One-Line Installer — `curl \| bash` / `irm \| iex` to install Savia with a single command |
 | **v2.3.0** | Era 28 | Scoring Intelligence — piecewise curves, `/score:diff`, Rule of Three severity. Inspired by kimun. |
 | **v2.2.0** | Era 27 | Best Practices Audit — project CLAUDE.md guide + coverage audit |
 | **v2.1.0** | Era 26 | Equality Shield — gender bias prevention based on LLYC study |

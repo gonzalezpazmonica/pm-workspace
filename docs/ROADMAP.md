@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 336+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 28 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 336+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 29 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -262,6 +262,16 @@ Inspired by [kimun](https://github.com/lnds/kimun) analysis. Piecewise linear sc
 - **Score Diff** — `/score:diff` command comparing workspace health between git refs. Delta tracking with regression/improvement classification. Outputs to `output/scores/`. Haiku subagent for efficient data collection.
 - **Severity Classification** — `severity-classification.md`: Rule of Three pattern (3+ → CRITICAL, 2 → WARNING, 1 → INFO). Temporal escalation: same WARNING for 3 consecutive sprints auto-escalates to CRITICAL. Thresholds for PR quality, sprint health, context health, and code quality.
 - **39 new tests** — `test-scoring-intelligence.sh` covering all 3 features + integration + cross-references.
+
+---
+
+## ✅ Era 29 — One-Line Installer (v2.4.0, Mar 2026)
+
+Single-command installation for all platforms. Eliminates 5+ manual steps — paste one line, get Savia running.
+
+- **install.sh** — macOS + Linux installer (`curl -fsSL ... | bash`). OS detection (macOS/Ubuntu/Fedora/Arch/Alpine/WSL), prerequisite checks, Claude Code auto-install, pm-workspace clone, npm deps, smoke test. Idempotent, `SAVIA_HOME` env var, `--skip-tests`.
+- **install.ps1** — Windows PowerShell installer (`irm ... | iex`). Same flow for PowerShell 5.1+. Winget/Chocolatey hints. WSL detection.
+- **test-install.sh** — Structural validation for both installers.
 
 ---
 
