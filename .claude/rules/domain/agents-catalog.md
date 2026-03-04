@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (26)
+# Catálogo de Subagentes (27)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -28,6 +28,7 @@
 | `azure-devops-operator` | Haiku 4.5 | WIQL, work items, sprint, capacity |
 | `drift-auditor` | Opus 4.6 | Auditoría de convergencia repo: detecta drift entre docs, config y código |
 | `reflection-validator` | Opus 4.6 | Validación meta-cognitiva (System 2): supuestos, cadena causal, brechas |
+| `coherence-validator` | Sonnet 4.6 | Coherencia output↔objetivo: cobertura, consistencia, completitud |
 
 ## Flujos
 
@@ -36,5 +37,6 @@
 - **Pre-commit**: `commit-guardian` (10 checks: rama, security, build, tests, format, code review, README, CLAUDE.md, atomicidad, mensaje)
 - **Diagramas**: `diagram-architect` → analizar consistencia → validar reglas negocio → proponer decomposición
 - **Post-commit**: `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`)
+- **Consenso**: `reflection-validator` + `code-reviewer` + `business-analyst` → panel 3 jueces → score ponderado → veredicto
 
 El agente developer se selecciona según el Language Pack del proyecto.

@@ -61,3 +61,6 @@ CLAUDE.local.md
 
 # ── Decision log — privado del PM ─────────────────────────────────────────────
 decision-log.md
+
+# ── Confidence Log — Datos privados del sistema de calibración ─────────────────
+data/

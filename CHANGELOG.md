@@ -5,6 +5,25 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.0.0] — 2026-03-04
+
+Quality Validation Framework — Era 25. Multi-judge consensus, confidence calibration, and output coherence validation inspired by BullshitBench.
+
+### Added
+
+- **Multi-Judge Consensus** — 3-judge panel (reflection-validator, code-reviewer, business-analyst) with weighted scoring (0.4/0.3/0.3), verdicts (APPROVED/CONDITIONAL/REJECTED), veto rule for security/GDPR, dissent handling. Skill + rule + command `/validate-consensus`.
+- **Confidence Calibration** — Tracks NL-resolution success/failure in JSONL log, computes per-band accuracy and Brier score, decay mechanism (-5% for 3 pattern failures, -10% for 5 command failures, floor 30%), recovery (+3% per success). Script `confidence-calibrate.sh` + protocol rule.
+- **Output Coherence Validator** — `coherence-validator` agent (Sonnet 4.6) checks output↔objective alignment: coverage, internal consistency, completeness. Severity levels (ok/warning/critical). Skill + command `/check-coherence`.
+- **98 new tests**: `test-consensus.sh` (33) + `test-confidence-calibration.sh` (30) + `test-coherence-validator.sh` (35).
+
+### Changed
+
+- **NL-command resolution** — Added recalibration section with confidence logging and decay mechanism.
+- **Agents catalog** — Updated to 27 agents (added `coherence-validator`). Added consensus flow.
+- **CLAUDE.md / READMEs** — Updated agent count (26→27), skill count (23→25).
+
+---
+
 ## [1.9.1] — 2026-03-04
 
 Reflection Validator agent and skill — System 2 meta-cognitive validation protocol.
@@ -151,6 +170,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.9.1...v2.0.0
 [1.9.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.7.0...v1.8.0
