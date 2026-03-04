@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (24)
+# Catálogo de Subagentes (26)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -26,6 +26,8 @@
 | `commit-guardian` | Sonnet 4.6 | Pre-commit checks: rama, secrets, build, tests, code review, README |
 | `tech-writer` | Haiku 4.5 | README, CHANGELOG, XML docs |
 | `azure-devops-operator` | Haiku 4.5 | WIQL, work items, sprint, capacity |
+| `drift-auditor` | Opus 4.6 | Auditoría de convergencia repo: detecta drift entre docs, config y código |
+| `reflection-validator` | Opus 4.6 | Validación meta-cognitiva (System 2): supuestos, cadena causal, brechas |
 
 ## Flujos
 
