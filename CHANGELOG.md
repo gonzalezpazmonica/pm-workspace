@@ -9,9 +9,9 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ### Added — Best Practices Audit & Documentation (Era 27)
 
-- **CLAUDE-GUIDE.md**: guía y plantilla para CLAUDE.md de proyecto (mínima ~50 líneas, completa ~120)
-- **estudio-equality-shield.md**: estudio completo de implementación del Equality Shield con referencias académicas
-- Auditoría del repo [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice): confirmada cobertura existente de 12/13 features recomendadas (context-map, agent-self-memory, intelligent-hooks, source-tracking, semantic-hub-index, confidence-protocol, consensus-protocol, context-aging, command-ux-feedback, skillssh-publishing, output-first, file-size-limit)
+- **CLAUDE-GUIDE.md**: guide and template for project-level CLAUDE.md files (minimal ~50 lines, complete ~120)
+- **estudio-equality-shield.md**: full Equality Shield implementation study with academic references
+- External audit of [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) repo: confirmed existing coverage of 12/13 recommended features (context-map, agent-self-memory, intelligent-hooks, source-tracking, semantic-hub-index, confidence-protocol, consensus-protocol, context-aging, command-ux-feedback, skillssh-publishing, output-first, file-size-limit)
 
 ---
 
@@ -19,11 +19,11 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ### Added — Equality Shield (Era 26)
 
-- **equality-shield.md**: regla de dominio anti-sesgo basada en estudio LLYC "Espejismo de Igualdad" (2026)
-- **bias-check.md**: comando `/bias:check` para auditoría contrafactual de sesgos en sprints
-- **politica-igualdad.md**: documentación de política de igualdad con referencias académicas
-- Regla #23 en CLAUDE.md: test contrafactual obligatorio en asignaciones y comunicaciones
-- Tests: `test-equality-shield.sh` — validación completa del framework
+- **equality-shield.md**: anti-bias domain rule based on LLYC "Espejismo de Igualdad" (2026) study blocking 6 bias types
+- **bias-check.md**: `/bias:check` command for counterfactual bias auditing in sprints
+- **politica-igualdad.md**: equality policy documentation with academic references (Dwivedi 2023, EMNLP 2025, RANLP 2025)
+- Rule #23 in CLAUDE.md: mandatory counterfactual test in assignments and communications
+- Tests: `test-equality-shield.sh` — 41 tests covering full framework validation
 
 ---
 
