@@ -2,7 +2,7 @@
 
 # Guía de Adopción de PM-Workspace para Consultoras
 
-> De cero a productividad con IA en la gestión de proyectos .NET — paso a paso.
+> De cero a productividad con IA en la gestión de proyectos — paso a paso.
 
 ---
 
@@ -28,7 +28,7 @@
 
 ### ¿Qué es PM-Workspace?
 
-PM-Workspace es un sistema de gestión de proyectos .NET con Scrum que convierte a Claude Code (la herramienta de programación con IA de Anthropic) en un **Project Manager / Scrum Master automatizado**. Se conecta a Azure DevOps y proporciona 27 comandos, 9 skills especializadas y 11 subagentes de IA que cubren desde el sprint planning hasta la implementación de código por agentes.
+PM-Workspace es una plataforma de gestión de proyectos con IA que convierte a Claude Code (la herramienta de programación con IA de Anthropic) en un **Project Manager automatizado**. Funciona con Azure DevOps, Jira, o 100% Git-native con Savia Flow. Proporciona 336+ comandos, 25 skills especializadas y 27 subagentes de IA que cubren desde el sprint planning hasta la implementación de código por agentes, con soporte para 16 lenguajes y 12 verticales sectoriales.
 
 ### ¿Por qué adoptarlo en una consultora?
 

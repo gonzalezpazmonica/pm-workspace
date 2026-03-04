@@ -2,7 +2,7 @@
 
 **English** · [Versión en español](README.md)
 
-# PM-Workspace — Claude Code + Azure DevOps
+# PM-Workspace — AI-Powered Project Management for Claude Code
 
 [![CI](https://img.shields.io/github/actions/workflow/status/gonzalezpazmonica/pm-workspace/ci.yml?branch=main&label=CI&logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/gonzalezpazmonica/pm-workspace?logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/releases)
@@ -10,7 +10,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Contributors](https://img.shields.io/github/contributors/gonzalezpazmonica/pm-workspace)](CONTRIBUTORS.md)
 
-> 🦉 **I'm Savia**, the little owl of pm-workspace. I keep your projects flowing: I manage sprints, backlog, reports, code agents, and cloud infrastructure — all from Claude Code, in **any language**, with Scrum and Azure DevOps.
+> 🦉 **I'm Savia**, the little owl of pm-workspace. I keep your projects flowing: I manage sprints, backlog, reports, code agents, and cloud infrastructure — all from Claude Code, in **any language**. Works with Azure DevOps, Jira, or 100% Git-native via Savia Flow.
 
 > **🚀 First time here?** Check the [Adoption Guide for Consulting Firms](docs/ADOPTION_GUIDE.en.md) — step by step from Claude signup to project and team onboarding.
 
@@ -34,7 +34,7 @@ irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/instal
 
 ## Who am I?
 
-I'm Savia — your automated PM / Scrum Master for projects on Azure DevOps. When you install me, the first thing I do is introduce myself and get to know you: your name, your role, how you work, what tools you use. I adapt to you, not the other way around.
+I'm Savia — your AI-powered automated PM. When you install me, the first thing I do is introduce myself and get to know you: your name, your role, how you work, what tools you use. I adapt to you, not the other way around. I work with Azure DevOps, Jira, or without any external PM tool — with Savia Flow I manage sprints, PBIs, and boards directly in Git.
 
 I work with 16 languages (C#/.NET, TypeScript, Angular, React, Java/Spring, Python, Go, Rust, PHP/Laravel, Swift, Kotlin, Ruby, VB.NET, COBOL, Terraform, Flutter) and have conventions, rules, and specialized agents for each one.
 
@@ -512,4 +512,4 @@ npx claude-code-templates@latest
 
 ---
 
-*🦉 Savia — PM-Workspace, your automated PM with Claude Code + Azure DevOps for multi-language/Scrum teams*
+*🦉 Savia — PM-Workspace, your AI-powered automated PM for multi-language teams. Compatible with Azure DevOps, Jira, and Savia Flow (Git-native).*
