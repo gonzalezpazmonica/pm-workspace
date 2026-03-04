@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 336+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 26 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 336+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 27 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -241,6 +241,16 @@ Inspired by LLYC "Espejismo de Igualdad" (2026) audit of bias in AI systems for 
 - **Equality Policy Documentation** — `politica-igualdad.md`: Policy framework with academic references (Dwivedi et al., EMNLP 2025, RANLP 2025, trail-of-bits).
 - **Rule #23 in CLAUDE.md** — Counterfactual test mandatory in assignments and communications.
 - **Complete Test Suite** — `test-equality-shield.sh`: validation of framework, counterfactual logic, policy compliance.
+
+---
+
+## ✅ Era 27 — Best Practices Audit & Documentation (v2.2.0, Mar 2026)
+
+External audit of [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) repo confirms pm-workspace covers 12/13 recommended features. One new addition: project-level CLAUDE.md guide.
+
+- **CLAUDE-GUIDE.md** — Template and best practices for `projects/{name}/CLAUDE.md` files (~50 line minimal, ~120 line complete)
+- **estudio-equality-shield.md** — Full implementation study with academic references for the Equality Shield
+- **Coverage audit** — Confirmed existing coverage: context-map, agent-self-memory, intelligent-hooks, source-tracking, semantic-hub-index, confidence-protocol, consensus-protocol, context-aging, command-ux-feedback, skillssh-publishing, output-first, file-size-limit
 
 ---
 

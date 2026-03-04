@@ -457,6 +457,7 @@ Estas son las reglas que nunca se saltan — ni yo misma:
 
 | Versión | Era | Resumen |
 |---|---|---|
+| **v2.2.0** | Era 27 | Best Practices Audit — guía CLAUDE.md de proyecto + auditoría de cobertura |
 | **v2.1.0** | Era 26 | Equality Shield — lucha contra sesgos de género basado en estudio LLYC |
 | **v2.0.0** | Era 25 | Quality Validation Framework: consenso multi-juez (3 jueces, scoring ponderado, veto security/GDPR), calibración de confianza (Brier score, decay, recovery), coherence-validator (Sonnet 4.6). 98 tests nuevos. |
 | **v1.9.1** | Era 24 | Reflection Validator: agente System 2 (Opus 4.6) + skill de validación meta-cognitiva. 65 tests nuevos. |

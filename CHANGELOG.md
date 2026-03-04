@@ -5,6 +5,16 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.2.0] — 2026-03-04
+
+### Added — Best Practices Audit & Documentation (Era 27)
+
+- **CLAUDE-GUIDE.md**: guía y plantilla para CLAUDE.md de proyecto (mínima ~50 líneas, completa ~120)
+- **estudio-equality-shield.md**: estudio completo de implementación del Equality Shield con referencias académicas
+- Auditoría del repo [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice): confirmada cobertura existente de 12/13 features recomendadas (context-map, agent-self-memory, intelligent-hooks, source-tracking, semantic-hub-index, confidence-protocol, consensus-protocol, context-aging, command-ux-feedback, skillssh-publishing, output-first, file-size-limit)
+
+---
+
 ## [2.1.0] — 2026-03-04
 
 ### Added — Equality Shield (Era 26)
@@ -182,6 +192,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.9.1...v2.0.0
 [1.9.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.9.0...v1.9.1
