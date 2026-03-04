@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 327 commands, 24 agents, 22 skills, 14 hooks, and its own persona (Savia). This roadmap groups the 105 released versions into 21 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 335+ commands, 24 agents, 22 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 24 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -201,6 +201,23 @@ Scenario-specific guides that put users in their shoes: zero-to-productive walkt
 | Healthcare | Accreditation tracking (JCI/EFQM/ISO) | `/accreditation-track {standard\|evidence\|gap}` |
 | Healthcare | Training compliance per professional | `/training-compliance {status\|expired\|plan}` |
 | Healthcare | Health KPI dashboard | `/health-kpi {define\|measure\|trend}` |
+
+---
+
+## ✅ Era 24 — Memory Intelligence & Natural Language Resolution (v1.9.0, Mar 2026)
+
+Inspired by [claude-mem](https://github.com/thedotmack/claude-mem) analysis. 6 memory improvements + NL→command resolution system.
+
+- **Concepts dimension** — 2D taxonomy (type + concepts) for memory entries. CSV tags as JSON array.
+- **Progressive disclosure** — 3-layer recall: index, timeline, detail. `/memory-recall`.
+- **Token economics** — Every entry tracks `tokens_est`. `/memory-stats` for budget awareness.
+- **Session consolidation** — `/memory-consolidate` groups by concept, deduplicates.
+- **Auto-capture hook** — `memory-auto-capture.sh` PostToolUse async with 5-min rate limit.
+- **Hybrid search** — Scored multi-field with `--type`/`--since` filters, top-10.
+- **Intent catalog** — 60+ NL patterns mapped to commands, bilingual ES/EN.
+- **NL resolution** — `/nl-query` rewritten + `nl-command-resolution.md` rule.
+- **Unified recall** — `/savia-recall` searches memory + agents + lessons.
+- **32 new tests** — `test-memory-improvements.sh` (13) + `test-nl-resolution.sh` (19).
 
 ---
 

@@ -5,6 +5,32 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [1.9.0] — 2026-03-04
+
+Memory improvements inspired by claude-mem + Natural Language command resolution system.
+
+### Added
+
+- **Concepts dimension** in `memory-store.sh`: `--concepts` parameter stores CSV tags as JSON array for 2D taxonomy (type + concepts).
+- **Token economics**: every memory entry tracks `tokens_est` (content length / 4) for budget awareness.
+- **Hybrid search**: scored multi-field search (title 3x, concepts 2x, content 1x) with `--type` and `--since` filters, top-10 limit.
+- **`/memory-recall`** — Progressive disclosure in 3 layers: index (titles only), timeline (last N), detail (full entry).
+- **`/memory-stats`** — Dedicated stats command with type/concept breakdown and token estimates.
+- **`/memory-consolidate`** — Session consolidation: groups entries by concept, generates session-summary, deduplicates.
+- **`/savia-recall`** — Unified search across memory store, agent MEMORY.md files, and lessons.md.
+- **`memory-auto-capture.sh`** — PostToolUse async hook that auto-captures patterns from Edit/Write operations with 5-min rate limit.
+- **Intent catalog** (`.claude/commands/references/intent-catalog.md`): 60+ NL patterns mapped to commands across 19 categories, bilingual ES/EN.
+- **NL resolution rule** (`.claude/rules/domain/nl-command-resolution.md`): automatic intent detection, confidence scoring (base + context + history), anti-improvisation guards.
+- **`/nl-query` rewritten**: loads intent catalog, scores confidence, resolves params from context, learns from successful mappings. Subcommands: `--explain`, `--learn`, `--history`.
+- **32 new tests**: `test-memory-improvements.sh` (13 tests) + `test-nl-resolution.sh` (19 tests).
+
+### Changed
+
+- **`memory-store.sh`** — Enhanced `cmd_save()` (concepts, tokens), `cmd_search()` (scored, filtered), `cmd_stats()` (concept breakdown). Fixed dedup logic.
+- **README.md / README.en.md** — Added new memory and NL commands to command catalog. Version history updated.
+
+---
+
 ## [1.8.0] — 2026-03-04
 
 Usage guides by scenario + README restructure + documentation alignment.

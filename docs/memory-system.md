@@ -150,6 +150,30 @@ Estas reglas tienen menor prioridad que las del proyecto.
 
 ---
 
+## Memory Store Enhancements (v1.9.0)
+
+### Concepts Dimension
+
+Entries now support a `--concepts` parameter (CSV) stored as JSON array. This enables 2D taxonomy: type (decision, bug, pattern...) + concepts (testing, ci, architecture...). Search and stats both leverage concepts for better categorization.
+
+### Progressive Disclosure (3 layers)
+
+`/memory-recall` offers three levels to minimize token consumption: `index` (titles + types only), `timeline` (last N with summaries), `detail` (full content of a specific entry by topic_key).
+
+### Token Economics
+
+Every saved entry includes `tokens_est` (content length / 4). `/memory-stats` shows total tokens in store, breakdown by type and concept, and recommends pruning when thresholds are exceeded.
+
+### Auto-Capture
+
+The `memory-auto-capture.sh` PostToolUse hook automatically captures patterns from Edit/Write operations on key files (scripts, rules, commands). Rate-limited to 1 capture per 5 minutes.
+
+### NL→Command Resolution
+
+`/nl-query` uses `intent-catalog.md` (60+ patterns, bilingual) to map natural language to commands. Confidence scoring: base (70-95%) + context bonus (+0-5%) + history bonus (+0-3%). Thresholds: ≥80% auto-execute, 50-79% confirm, <50% suggest top 3.
+
+---
+
 ## Best Practices
 
 1. **MEMORY.md conciso** — máx. 200 líneas. Mover detalles a topic files
@@ -157,3 +181,5 @@ Estas reglas tienen menor prioridad que las del proyecto.
 3. **Revisar periódicamente** — actualizar memoria al cambiar de sprint
 4. **No duplicar** — si algo ya está en CLAUDE.md del proyecto, no repetirlo en auto memory
 5. **`paths:` solo donde aplica** — no añadir frontmatter a reglas de dominio genéricas
+6. **Concepts tags** — usar `--concepts` al guardar para facilitar búsquedas por dominio
+7. **Consolidar sesiones** — ejecutar `/memory-consolidate` al final de sesiones largas
