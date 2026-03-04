@@ -2,7 +2,7 @@
 
 # PM-Workspace Adoption Guide for Consulting Firms
 
-> From zero to AI-powered productivity in .NET project management — step by step.
+> From zero to AI-powered productivity in project management — step by step.
 
 ---
 
@@ -28,7 +28,7 @@
 
 ### What is PM-Workspace?
 
-PM-Workspace is a .NET project management system using Scrum that turns Claude Code (Anthropic's AI coding tool) into an **automated Project Manager / Scrum Master**. It connects to Azure DevOps and provides 27 commands, 9 specialized skills, and 11 AI subagents covering everything from sprint planning to agent-based code implementation.
+PM-Workspace is an AI-powered project management platform that turns Claude Code (Anthropic's AI coding tool) into an **automated Project Manager**. It works with Azure DevOps, Jira, or 100% Git-native via Savia Flow. It provides 336+ commands, 25 specialized skills, and 27 AI subagents covering everything from sprint planning to agent-based code implementation, with support for 16 languages and 12 industry verticals.
 
 ### Why adopt it in a consulting firm?
 
@@ -509,5 +509,5 @@ The recommended adoption is incremental. Don't try to use all features from day 
 
 ---
 
-*PM-Workspace — Claude Code + Azure DevOps for .NET/Scrum teams*
+*PM-Workspace — AI-powered project management for multi-language teams. Compatible with Azure DevOps, Jira, and Savia Flow (Git-native).*
 *[github.com/gonzalezpazmonica/pm-workspace](https://github.com/gonzalezpazmonica/pm-workspace)*

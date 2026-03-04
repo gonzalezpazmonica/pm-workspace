@@ -240,7 +240,7 @@
 
 ## Specialized Agent Team
 
-The workspace includes 24 specialized agents organized in 3 groups, each optimized for its task with the most suitable LLM model:
+The workspace includes 25 specialized agents organized in 3 groups, each optimized for its task with the most suitable LLM model:
 
 ### Management & Architecture Agents
 
@@ -251,6 +251,7 @@ The workspace includes 24 specialized agents organized in 3 groups, each optimiz
 | `sdd-spec-writer` | Opus 4.6 | Generation and validation of executable SDD Specs |
 | `infrastructure-agent` | Opus 4.6 | IaC (Terraform, CloudFormation, Bicep), detect + plan multi-cloud infrastructure |
 | `diagram-architect` | Sonnet 4.6 | Architecture diagram design, C4, data flows |
+| `reflection-validator` | Opus 4.6 | Meta-cognitive validation (System 2): assumptions, causal chains, gaps |
 
 ### Language-Specific Developer Agents (16 Language Packs)
 

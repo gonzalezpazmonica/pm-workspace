@@ -240,7 +240,7 @@
 
 ## Equipo de Subagentes Especializados
 
-El workspace incluye 24 subagentes que Claude puede invocar en paralelo o en secuencia,
+El workspace incluye 25 subagentes que Claude puede invocar en paralelo o en secuencia,
 cada uno optimizado para su tarea con el modelo LLM más adecuado:
 
 **Agentes de gestión y arquitectura:**
@@ -281,6 +281,7 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 | `tech-writer` | Haiku 4.5 | README, CHANGELOG, docs de proyecto |
 | `azure-devops-operator` | Haiku 4.5 | WIQL, work items, sprint, capacity |
 | `diagram-architect` | Sonnet 4.6 | Diseño de diagramas de arquitectura, C4, flujos de datos |
+| `reflection-validator` | Opus 4.6 | Validación meta-cognitiva (System 2): supuestos, cadena causal, brechas |
 
 ### Flujo SDD con agentes en paralelo
 
