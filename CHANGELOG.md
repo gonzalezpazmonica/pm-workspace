@@ -5,6 +5,24 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [1.9.1] — 2026-03-04
+
+Reflection Validator agent and skill — System 2 meta-cognitive validation protocol.
+
+### Added
+
+- **`reflection-validator` agent** (Opus 4.6): 5-step System 2 protocol — extracts real objective, audits assumptions, simulates causal chain, detects gaps, corrects transparently.
+- **`reflection-validation` skill** (SKILL.md, 148 lines): embeddable pattern for internal reflection, cognitive bias taxonomy, structured output format.
+- **Agent memory** (`agent-memory/reflection-validator/MEMORY.md`): persistent context for reflection sessions.
+- **65 new tests** (`scripts/test-reflection-validator.sh`): covers agent structure, skill protocol, memory, integration, and cognitive bias detection.
+
+### Changed
+
+- **Agents catalog** — Updated to 26 agents (added `drift-auditor` and `reflection-validator`).
+- **CLAUDE.md / READMEs** — Updated agent count (25→26) and skill count (22→23).
+
+---
+
 ## [1.9.0] — 2026-03-04
 
 Memory improvements inspired by claude-mem + Natural Language command resolution system.
@@ -133,6 +151,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[1.9.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.6.0...v1.7.0
