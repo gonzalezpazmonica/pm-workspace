@@ -46,7 +46,15 @@ Antes de crear un commit que incluya tag de versión:
 1. Verificar que CHANGELOG.md tiene entrada para la nueva versión
 2. Verificar que la fecha es correcta (ISO 8601)
 3. Verificar que los contadores reflejan el estado real
-4. Verificar que el link de comparación existe al final del fichero
+4. **CRITICAL — Verificar que el link de comparación existe al final del fichero**
+
+### ⚠️ Error recurrente: link de comparación olvidado
+
+Este error se ha repetido en múltiples releases. Al añadir `## [X.Y.Z]` al CHANGELOG, ir SIEMPRE al bloque de links al final del fichero y añadir:
+```
+[X.Y.Z]: https://github.com/gonzalezpazmonica/pm-workspace/compare/vAnterior...vX.Y.Z
+```
+El heading `## [X.Y.Z]` sin su link correspondiente al final genera un enlace roto en el rendered markdown.
 
 ## Consecuencia de no cumplir
 
