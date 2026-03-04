@@ -83,6 +83,7 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 20. **PII-Free repo**: NUNCA nombres reales, empresas, handles ni datos personales en código, docs, CHANGELOG, releases, commits ni PRs. Usar genéricos (`test-org`, `alice`, `test company repo`). Detalle → `@.claude/rules/domain/pii-sanitization.md`
 21. **Self-Improvement Loop**: Tras corrección del usuario o bug descubierto → escribir lección en `tasks/lessons.md`. Revisar al inicio de sesión. Detalle → `@.claude/rules/domain/self-improvement.md`
 22. **Verification Before Done**: NUNCA marcar tarea como completada sin prueba demostrable. Preguntarse "¿lo aprobaría un senior?" Detalle → `@.claude/rules/domain/verification-before-done.md`
+23. **Equality Shield**: Asignaciones, evaluaciones y comunicaciones INDEPENDIENTES de género, raza u origen. Test contrafactual obligatorio. Detalle → `@.claude/rules/domain/equality-shield.md`
 
 ---
 

@@ -457,6 +457,7 @@ These are the rules that are never skipped — not even by me:
 
 | Version | Era | Summary |
 |---|---|---|
+| **v2.1.0** | Era 26 | Equality Shield — gender bias prevention based on LLYC study |
 | **v2.0.0** | Era 25 | Quality Validation Framework: multi-judge consensus (3 judges, weighted scoring, security/GDPR veto), confidence calibration (Brier score, decay, recovery), coherence-validator (Sonnet 4.6). 98 new tests. |
 | **v1.9.1** | Era 24 | Reflection Validator: System 2 agent (Opus 4.6) + meta-cognitive validation skill. 65 new tests. |
 | **v1.9.0** | Era 24 | Memory & NL: concepts dimension, 3-layer progressive disclosure, token economics, session consolidation, auto-capture hook, hybrid search with scoring. NL→command: intent catalog (60+ patterns), `/nl-query` rewritten, NL resolution rule. 32 new tests. |
