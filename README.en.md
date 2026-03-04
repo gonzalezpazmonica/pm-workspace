@@ -131,7 +131,7 @@ I've organized all documentation into sections so you can quickly find what you 
 | [Test project](docs/readme_en/09-test-project.md) | `sala-reservas`: tests, mock data, validation |
 | [KPIs, rules, and roadmap](docs/readme_en/10-kpis-rules.md) | Metrics, critical rules, adoption plan |
 | [Onboarding new team members](docs/readme_en/11-onboarding.md) | 5-phase onboarding, competency evaluation, GDPR |
-| [Commands and agents](docs/readme_en/12-commands-agents.md) | 271 commands + 24 specialized agents |
+| [Commands and agents](docs/readme_en/12-commands-agents.md) | 271 commands + 25 specialized agents |
 | [Coverage and contributing](docs/readme_en/13-coverage-contributing.md) | What's covered, what's not, how to contribute |
 
 ### Usage Guides by Scenario
@@ -169,7 +169,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 329+ commands · 24 agents · 22 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 329+ commands · 26 agents · 23 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```
@@ -457,6 +457,7 @@ These are the rules that are never skipped — not even by me:
 
 | Version | Era | Summary |
 |---|---|---|
+| **v1.9.1** | Era 24 | Reflection Validator: System 2 agent (Opus 4.6) + meta-cognitive validation skill. 65 new tests. Catalog updated to 26 agents, 23 skills. |
 | **v1.9.0** | Era 24 | Memory & NL: concepts dimension, 3-layer progressive disclosure, token economics, session consolidation, auto-capture hook, hybrid search with scoring. NL→command: intent catalog (60+ patterns), `/nl-query` rewritten, NL resolution rule. 32 new tests. |
 | **v1.8.0** | Era 23 | 10 usage guides by scenario (Azure DevOps, Jira, Savia standalone, education, hardware, research, startup, nonprofit, legal, healthcare). README restructured. 20 gap proposals detected. |
 | **v1.7.0** | Era 22 | Company Savia v3: orphan branch isolation, quality framework (rules #21-#22), Agent Self-Memory, PII gate, drift detection. 120 Savia tests. |
