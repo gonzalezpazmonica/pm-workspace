@@ -413,18 +413,15 @@ jobs:
         with:
           script: |
             const pr = context.payload.pull_request;
-            const { execSync } = require('child_process');
 
-            // Get file stats
-            const filesRaw = execSync(
-              'git diff --stat origin/main...HEAD 2>/dev/null || true',
-              { encoding: 'utf8' }
-            ).trim();
-
-            const diffNames = execSync(
-              'git diff --name-only origin/main...HEAD 2>/dev/null || true',
-              { encoding: 'utf8' }
-            ).trim().split('\n').filter(Boolean);
+            // Get changed files via GitHub API (reliable, unlike git diff in PR merge context)
+            const filesResponse = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              per_page: 100
+            });
+            const diffNames = filesResponse.data.map(f => f.filename);
 
             // Classify changes
             const categories = {
