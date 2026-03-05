@@ -475,13 +475,16 @@ jobs:
             if (risks.some(r => r.startsWith('🟡'))) riskLevel = '🟡 Medio';
             if (risks.some(r => r.startsWith('🔴'))) riskLevel = '🔴 Alto';
 
-            // Extract natural language summary from PR body
+            // Extract natural language summary from PR body (prefer Spanish)
             let nlSummary = '';
             if (pr.body) {
-              // Try to extract Summary section first
+              // Priority 1: Spanish "## Resumen" section
+              const resumenMatch = pr.body.match(/## Resumen\s*\n([\s\S]*?)(?=\n## |\n---|\n🤖|$)/);
+              // Priority 2: English "## Summary" section (legacy)
               const summaryMatch = pr.body.match(/## Summary\s*\n([\s\S]*?)(?=\n## |\n---|\n🤖|$)/);
-              if (summaryMatch) {
-                nlSummary = summaryMatch[1].trim()
+              const match = resumenMatch || summaryMatch;
+              if (match) {
+                nlSummary = match[1].trim()
                   .split('\n')
                   .filter(l => l.trim().length > 0)
                   .slice(0, 6)
