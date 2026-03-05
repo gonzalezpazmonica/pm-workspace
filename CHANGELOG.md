@@ -5,6 +5,21 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.8.1] — 2026-03-05
+
+Emergency mode model alias overrides — subagents now resolve in offline mode.
+
+### Changed
+
+- **emergency-setup.sh/.ps1**: Map `opus`/`sonnet`/`haiku` aliases to local Ollama models via official Claude Code variables (`ANTHROPIC_DEFAULT_{OPUS,SONNET,HAIKU}_MODEL`, `CLAUDE_CODE_SUBAGENT_MODEL`). Auto-tiered by RAM: 8GB→3b, 16GB→7b/7b/3b, 32GB+→14b/7b/3b.
+- **emergency-plan.sh/.ps1**: Pre-download `qwen2.5:3b` alongside main model for haiku alias differentiation.
+- **EMERGENCY.md / EMERGENCY.en.md**: New "Model Mapping" section. Updated unset commands. Claude Code Router documented as community option.
+- **emergency-mode.md**: Document model alias variables in activate subcommand.
+
+> Community contribution: Cristián Rojas identified the subagent resolution gap.
+
+---
+
 ## [2.8.0] — 2026-03-05
 
 ### Added — Context Analysis Assistant (Era 33)
@@ -259,6 +274,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.8.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.0...v2.8.1
 [2.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.5.0...v2.6.0
