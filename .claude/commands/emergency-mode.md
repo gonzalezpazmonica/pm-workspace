@@ -61,11 +61,19 @@ Activa el modo emergencia:
 
 Resultado: Claude Code usará el LLM local en lugar del cloud.
 
+**Variables de modelo configuradas** (oficiales de Claude Code):
+- `ANTHROPIC_DEFAULT_OPUS_MODEL` → modelo local grande (según RAM)
+- `ANTHROPIC_DEFAULT_SONNET_MODEL` → modelo local medio
+- `ANTHROPIC_DEFAULT_HAIKU_MODEL` → modelo local pequeño (qwen2.5:3b)
+- `CLAUDE_CODE_SUBAGENT_MODEL` → modelo para subagentes
+
+Los 27 agentes que especifican `model: opus/sonnet/haiku` resolverán a modelos locales.
+
 **Limitaciones en modo emergencia**:
 - Velocidad: más lento que Opus/Sonnet en cloud
 - Capacidad: modelos 7B son ~60-80% de la calidad de Sonnet
 - Contexto: 8K-32K tokens (vs 200K+ en cloud)
-- Agentes: subagentes pueden no funcionar correctamente
+- Agentes: funcionan pero con calidad reducida
 
 ### `/emergency-mode deactivate`
 

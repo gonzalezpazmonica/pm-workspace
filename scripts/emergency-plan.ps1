@@ -81,6 +81,15 @@ if ($OllamaCmd) {
     }
 }
 
+# Download small model for haiku alias (if main model differs)
+if ($Model -ne "qwen2.5:3b" -and $OllamaCmd) {
+    $HasSmall = ollama list 2>$null | Select-String "qwen2.5:3b"
+    if (-not $HasSmall) {
+        Write-Host "  -> Modelo auxiliar qwen2.5:3b (haiku)..." -ForegroundColor Yellow
+        ollama pull "qwen2.5:3b" 2>$null
+    }
+}
+
 # ── 4. Guardar metadata y marcador ───────────────────────────────────────────
 Write-Host "`n[4/4] Guardando metadata..." -ForegroundColor Blue
 $Meta = @{ executed = (Get-Date -Format "o"); os = "Windows"; arch = $Arch; ram_gb = $RamGB; model = $Model }

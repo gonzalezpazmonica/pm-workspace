@@ -21,6 +21,11 @@ Write-Host "  OS: Windows · Arch: $Arch · RAM: ${RamGB}GB · GPU: $GpuName"
 
 if ($RamGB -lt 8 -and $Model -eq "qwen2.5:7b") { $Model = "qwen2.5:3b"; Write-Host "  WARN RAM < 8GB, modelo ajustado a $Model" -ForegroundColor Yellow }
 
+# Model alias mapping (opus/sonnet/haiku -> local models)
+if ($RamGB -ge 32) { $ModelLarge = "qwen2.5:14b"; $ModelMedium = "qwen2.5:7b"; $ModelSmall = "qwen2.5:3b" }
+elseif ($RamGB -ge 16) { $ModelLarge = "qwen2.5:7b"; $ModelMedium = "qwen2.5:7b"; $ModelSmall = "qwen2.5:3b" }
+else { $ModelLarge = "qwen2.5:3b"; $ModelMedium = "qwen2.5:3b"; $ModelSmall = "qwen2.5:3b" }
+
 $Offline = $false
 try { $null = Invoke-WebRequest -Uri "https://ollama.ai" -TimeoutSec 5 -UseBasicParsing; Write-Host "  Internet: conectado" -ForegroundColor Green }
 catch {
@@ -91,12 +96,20 @@ $EnvFile = "$env:USERPROFILE\.pm-workspace-emergency.env"
 set ANTHROPIC_BASE_URL=http://localhost:11434
 set PM_EMERGENCY_MODEL=$Model
 set PM_EMERGENCY_MODE=active
+set ANTHROPIC_DEFAULT_OPUS_MODEL=$ModelLarge
+set ANTHROPIC_DEFAULT_SONNET_MODEL=$ModelMedium
+set ANTHROPIC_DEFAULT_HAIKU_MODEL=$ModelSmall
+set CLAUDE_CODE_SUBAGENT_MODEL=$ModelMedium
 "@ | Set-Content $EnvFile
 
 # Tambien configurar variables de entorno del usuario
 [Environment]::SetEnvironmentVariable("ANTHROPIC_BASE_URL", "http://localhost:11434", "User")
 [Environment]::SetEnvironmentVariable("PM_EMERGENCY_MODEL", $Model, "User")
 [Environment]::SetEnvironmentVariable("PM_EMERGENCY_MODE", "active", "User")
+[Environment]::SetEnvironmentVariable("ANTHROPIC_DEFAULT_OPUS_MODEL", $ModelLarge, "User")
+[Environment]::SetEnvironmentVariable("ANTHROPIC_DEFAULT_SONNET_MODEL", $ModelMedium, "User")
+[Environment]::SetEnvironmentVariable("ANTHROPIC_DEFAULT_HAIKU_MODEL", $ModelSmall, "User")
+[Environment]::SetEnvironmentVariable("CLAUDE_CODE_SUBAGENT_MODEL", $ModelMedium, "User")
 
 Write-Host "  OK Variables configuradas" -ForegroundColor Green
 Write-Host "`nOK Setup completado" -ForegroundColor Green

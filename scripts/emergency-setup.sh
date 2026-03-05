@@ -30,6 +30,15 @@ fi
 echo -e "  OS: ${GREEN}$OS${NC} · Arch: ${GREEN}$ARCH${NC} · RAM: ${GREEN}${RAM_GB}GB${NC}"
 [[ $RAM_GB -lt 8 ]] && echo -e "  ${YELLOW}⚠ RAM < 8GB${NC}" && [[ "$MODEL" == "$DEFAULT_MODEL" ]] && MODEL="qwen2.5:3b"
 
+# Model alias mapping (opus/sonnet/haiku → local models)
+if [[ $RAM_GB -ge 32 ]]; then
+  MODEL_LARGE="qwen2.5:14b"; MODEL_MEDIUM="qwen2.5:7b"; MODEL_SMALL="qwen2.5:3b"
+elif [[ $RAM_GB -ge 16 ]]; then
+  MODEL_LARGE="qwen2.5:7b"; MODEL_MEDIUM="qwen2.5:7b"; MODEL_SMALL="qwen2.5:3b"
+else
+  MODEL_LARGE="qwen2.5:3b"; MODEL_MEDIUM="qwen2.5:3b"; MODEL_SMALL="qwen2.5:3b"
+fi
+
 # GPU
 GPU_INFO="ninguna"
 command -v nvidia-smi &>/dev/null && GPU_INFO=$(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | head -1 || echo "NVIDIA")
@@ -121,6 +130,10 @@ cat > "$ENV_FILE" << ENVEOF
 export ANTHROPIC_BASE_URL="http://localhost:11434"
 export PM_EMERGENCY_MODEL="$MODEL"
 export PM_EMERGENCY_MODE="active"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="$MODEL_LARGE"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="$MODEL_MEDIUM"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="$MODEL_SMALL"
+export CLAUDE_CODE_SUBAGENT_MODEL="$MODEL_MEDIUM"
 ENVEOF
 
 echo -e "  ${GREEN}✓${NC} Variables en ${CYAN}$ENV_FILE${NC}"
