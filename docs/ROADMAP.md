@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 27 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 31 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 28 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 32 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -291,11 +291,18 @@ First-class client entities in SaviaHub. Identity, contacts, business rules, and
 
 ---
 
-## 🟡 Eras 32–33 — Backlog & Context Intelligence (Proposed)
+## ✅ Era 32 — BacklogGit: Backlog Version Control (v2.7.0, Mar 2026)
+
+Periodic markdown snapshots of backlogs from any PM tool. Diff, rollback (info-only), and deviation reporting.
+
+- **BacklogGit** (v2.7.0) — `/backlog-git snapshot`, `diff`, `rollback`, `deviation-report`. 5 sources (Azure DevOps, Jira, GitLab, Savia Flow, manual). Scope creep detection, re-estimation tracking. Append-only immutable snapshots. 1 skill, 1 rule. 41 tests.
+
+---
+
+## 🟡 Era 33 — Context Analysis Assistant (Proposed)
 
 | Era | Version | Theme | Highlights |
 |---|---|---|---|
-| 32 — BacklogGit | v2.7.0 | Backlog versioning | `/backlog-git snapshot`, `diff`, `rollback`, `deviation-report`. Periodic markdown snapshots from any PM tool |
 | 33 — Context Assistant | v2.8.0 | Active onboarding | `/context-interview start`, `resume`, `summary`, `gaps`. 8-phase structured interview, sector-adaptive |
 
 ---
