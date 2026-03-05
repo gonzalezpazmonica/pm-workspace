@@ -5,6 +5,18 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.9.0] — 2026-03-05
+
+### Added — Wellbeing Guardian: Proactive Individual Wellbeing (Era 34)
+
+- **wellbeing-guardian.md**: `/wellbeing-guardian status`, `configure`, `breaks`, `report`, `pause`. Proactive nudge system for individual work-life balance — break reminders, after-hours alerts, weekend disconnection suggestions. 5 break strategies (Pomodoro, 52-17, 5-50, custom, 20-20-20 eye rule). Non-blocking philosophy: suggestions, never interruptions.
+- **wellbeing-config.md**: Domain rule with break science reference (HBR Feb 2026 research on AI-intensified work), strategy definitions, 5 nudge template categories, work schedule schema for user profiles, integration points with burnout-radar and sustainable-pace.
+- **wellbeing-guardian/SKILL.md**: Orchestration — session start (load schedule, detect after-hours), periodic check (time-based nudges), configure (interactive setup), status, pause, breaks history, weekly report with break_compliance_score.
+- **session-init-priority.md**: Added Wellbeing context entry (Media priority, ~25 tokens) for ambient work schedule awareness.
+- Tests: `test-wellbeing-guardian.sh` — 50 structural tests across command, rule, skill, and cross-references.
+
+---
+
 ## [2.8.1] — 2026-03-05
 
 Emergency mode model alias overrides — subagents now resolve in offline mode.
@@ -274,6 +286,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.1...v2.9.0
 [2.8.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.0...v2.8.1
 [2.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.6.0...v2.7.0
