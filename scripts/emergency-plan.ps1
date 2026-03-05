@@ -18,8 +18,18 @@ if ($Check) {
 Write-Host "`nPM-Workspace - Emergency Plan (Windows)" -ForegroundColor Cyan
 Write-Host "Pre-descarga de recursos para instalacion offline.`n"
 
+# ── 0. Check de conectividad ──────────────────────────────────────────────────
+try {
+    $null = Invoke-WebRequest -Uri "https://ollama.com" -TimeoutSec 5 -UseBasicParsing
+} catch {
+    Write-Host "X Sin conexion a internet." -ForegroundColor Red
+    Write-Host "  Este script necesita internet para descargar recursos."
+    Write-Host "  Si ya ejecutaste el plan, usa: .\scripts\emergency-setup.ps1" -ForegroundColor Cyan
+    exit 1
+}
+
 # ── 1. Detectar hardware ─────────────────────────────────────────────────────
-Write-Host "[1/4] Detectando hardware..." -ForegroundColor Blue
+Write-Host "[1/5] Detectando hardware..." -ForegroundColor Blue
 $Arch = if ([Environment]::Is64BitOperatingSystem) { "amd64" } else { "x86" }
 $RamGB = [math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB)
 $GpuName = (Get-CimInstance Win32_VideoController | Select-Object -First 1).Name
@@ -34,7 +44,7 @@ if (-not $Model) {
 New-Item -ItemType Directory -Force -Path $CacheDir | Out-Null
 
 # ── 2. Descargar Ollama ──────────────────────────────────────────────────────
-Write-Host "`n[2/4] Descargando Ollama para Windows..." -ForegroundColor Blue
+Write-Host "`n[2/5] Descargando Ollama para Windows..." -ForegroundColor Blue
 $InstallerPath = "$CacheDir\OllamaSetup.exe"
 
 if (Test-Path $InstallerPath) {
@@ -51,7 +61,7 @@ if (Test-Path $InstallerPath) {
 }
 
 # ── 3. Pre-descargar modelo LLM ──────────────────────────────────────────────
-Write-Host "`n[3/4] Pre-descargando modelo $Model..." -ForegroundColor Blue
+Write-Host "`n[3/5] Pre-descargando modelo $Model..." -ForegroundColor Blue
 $OllamaCmd = Get-Command ollama -ErrorAction SilentlyContinue
 
 if ($OllamaCmd) {
@@ -69,8 +79,13 @@ if ($OllamaCmd) {
         Write-Host "  -> Iniciando Ollama para descargar modelo..." -ForegroundColor Yellow
         Start-Process ollama -ArgumentList "serve" -WindowStyle Hidden
         Start-Sleep -Seconds 4
-        ollama pull $Model 2>$null
-        Write-Host "  OK Modelo pre-descargado" -ForegroundColor Green
+        $ModelsAfterServe = ollama list 2>$null
+        if ($ModelsAfterServe -match [regex]::Escape($Model)) {
+            Write-Host "  OK Modelo ya disponible" -ForegroundColor Green
+        } else {
+            ollama pull $Model 2>$null
+            Write-Host "  OK Modelo pre-descargado" -ForegroundColor Green
+        }
     }
 } else {
     if (Test-Path $InstallerPath) {
@@ -91,10 +106,35 @@ if ($Model -ne "qwen2.5:3b" -and $OllamaCmd) {
 }
 
 # ── 4. Guardar metadata y marcador ───────────────────────────────────────────
-Write-Host "`n[4/4] Guardando metadata..." -ForegroundColor Blue
+Write-Host "`n[4/5] Guardando metadata..." -ForegroundColor Blue
 $Meta = @{ executed = (Get-Date -Format "o"); os = "Windows"; arch = $Arch; ram_gb = $RamGB; model = $Model }
 $Meta | ConvertTo-Json | Set-Content "$CacheDir\plan-info.json"
 Get-Date -Format "o" | Set-Content $MarkerFile
+
+# ── 5. Verificacion final de cache offline ────────────────────────────────────
+Write-Host "`n[5/5] Verificando cache offline..." -ForegroundColor Blue
+if (Test-Path $InstallerPath) {
+    Write-Host "  OK Instalador Ollama cacheado" -ForegroundColor Green
+} elseif ($OllamaCmd) {
+    Write-Host "  OK Ollama instalado en PATH" -ForegroundColor Green
+} else {
+    Write-Host "  WARN Ollama no disponible" -ForegroundColor Yellow
+}
+if ($OllamaCmd) {
+    $VerifyModels = ollama list 2>$null
+    if ($VerifyModels -match [regex]::Escape($Model)) {
+        Write-Host "  OK Modelo $Model cacheado" -ForegroundColor Green
+    } else {
+        Write-Host "  WARN Modelo $Model no verificado" -ForegroundColor Yellow
+    }
+    if ($Model -ne "qwen2.5:3b") {
+        if ($VerifyModels -match "qwen2\.5:3b") {
+            Write-Host "  OK Modelo auxiliar qwen2.5:3b cacheado" -ForegroundColor Green
+        } else {
+            Write-Host "  WARN Modelo auxiliar qwen2.5:3b no verificado" -ForegroundColor Yellow
+        }
+    }
+}
 
 Write-Host "`nOK Emergency Plan completado" -ForegroundColor Green
 Write-Host "Cache: $CacheDir · Modelo: $Model" -ForegroundColor Cyan
