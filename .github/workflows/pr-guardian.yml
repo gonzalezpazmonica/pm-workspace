@@ -475,6 +475,27 @@ jobs:
             if (risks.some(r => r.startsWith('🟡'))) riskLevel = '🟡 Medio';
             if (risks.some(r => r.startsWith('🔴'))) riskLevel = '🔴 Alto';
 
+            // Extract natural language summary from PR body
+            let nlSummary = '';
+            if (pr.body) {
+              // Try to extract Summary section first
+              const summaryMatch = pr.body.match(/## Summary\s*\n([\s\S]*?)(?=\n## |\n---|\n🤖|$)/);
+              if (summaryMatch) {
+                nlSummary = summaryMatch[1].trim()
+                  .split('\n')
+                  .filter(l => l.trim().length > 0)
+                  .slice(0, 6)
+                  .join('\n');
+              } else {
+                // Fallback: first meaningful paragraph from body
+                const firstParagraph = pr.body.split('\n')
+                  .filter(l => l.trim().length > 0 && !l.startsWith('#') && !l.startsWith('|'))
+                  .slice(0, 3)
+                  .join('\n');
+                if (firstParagraph.length > 10) nlSummary = firstParagraph;
+              }
+            }
+
             // Build digest
             const digest = [
               `## 🔍 Digestión de PR para Mónica`,
@@ -483,13 +504,23 @@ jobs:
               `**Branch:** \`${pr.head.ref}\``,
               `**Ficheros:** ${diffNames.length} | **Riesgo:** ${riskLevel}`,
               '',
-              `### ¿Qué trae esta PR?`,
+              `### 📝 ¿De qué va?`,
               '',
-              impacts.join(' · '),
-              '',
-              `### Componentes tocados`,
+              `> **${pr.title}**`,
               ''
             ];
+
+            if (nlSummary) {
+              digest.push(nlSummary);
+              digest.push('');
+            }
+
+            digest.push(`### 📦 ¿Qué trae?`);
+            digest.push('');
+            digest.push(impacts.join(' · '));
+            digest.push('');
+            digest.push(`### Componentes tocados`);
+            digest.push('');
 
             // Detail each category
             for (const [cat, files] of Object.entries(categories)) {
