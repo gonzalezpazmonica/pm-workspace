@@ -113,6 +113,11 @@ else
   echo -e "  ${YELLOW}⚠${NC} Instala Ollama primero para pre-descargar el modelo"
 fi
 
+# Download small model for haiku alias (if main model differs)
+if [[ "$MODEL" != "qwen2.5:3b" ]] && command -v ollama &>/dev/null && curl -s --max-time 3 http://localhost:11434/api/tags &>/dev/null; then
+  ollama list 2>/dev/null | grep -q "qwen2.5:3b" || { echo -e "  ${YELLOW}→${NC} Modelo auxiliar ${CYAN}qwen2.5:3b${NC} (haiku)..."; ollama pull "qwen2.5:3b" 2>/dev/null || true; }
+fi
+
 # ── 4. Guardar metadata y marcador ───────────────────────────────────────────
 echo -e "\n${BLUE}[4/4]${NC} Guardando metadata..."
 cat > "$CACHE_DIR/plan-info.json" << JSONEOF

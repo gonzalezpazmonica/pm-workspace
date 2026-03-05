@@ -89,7 +89,7 @@ Ahora Claude Code usará el LLM local en lugar del cloud.
 ```
 
 ### Qué NO funciona bien en emergencia
-- Agentes especializados (requieren Opus/Sonnet cloud)
+- Agentes especializados (calidad reducida con modelos locales)
 - Generación de informes complejos (Excel/PowerPoint)
 - Operaciones con Azure DevOps API (si no hay internet)
 - Contexto >32K tokens (modelos locales tienen ventana limitada)
@@ -103,14 +103,18 @@ Ahora Claude Code usará el LLM local en lugar del cloud.
 | 32GB | qwen2.5:14b | Muy buena — casi como cloud |
 | GPU NVIDIA | deepseek-coder-v2 | Excelente — con aceleración GPU |
 
+## Mapeo de Modelos
+
+Los aliases `opus`/`sonnet`/`haiku` de los 27 agentes se resuelven a modelos locales según RAM: 8GB→`3b` para todos · 16GB→`7b`/`7b`/`3b` · 32GB+→`14b`/`7b`/`3b`. Variables oficiales de Claude Code: `ANTHROPIC_DEFAULT_{OPUS,SONNET,HAIKU}_MODEL` y `CLAUDE_CODE_SUBAGENT_MODEL`. Personalízalas en `~/.pm-workspace-emergency.env`. Para usuarios de [Claude Code Router](https://github.com/musistudio/claude-code-router) (proyecto comunitario): tag `CCR-SUBAGENT-MODEL` permite override por agente.
+
 ## Volver a modo normal
 
 Cuando el servicio cloud vuelva a estar disponible:
 
 ```bash
-unset ANTHROPIC_BASE_URL
-unset PM_EMERGENCY_MODE
-unset PM_EMERGENCY_MODEL
+unset ANTHROPIC_BASE_URL PM_EMERGENCY_MODE PM_EMERGENCY_MODEL
+unset ANTHROPIC_DEFAULT_OPUS_MODEL ANTHROPIC_DEFAULT_SONNET_MODEL
+unset ANTHROPIC_DEFAULT_HAIKU_MODEL CLAUDE_CODE_SUBAGENT_MODEL
 ```
 
 O simplemente cierra y abre una nueva terminal.
