@@ -40,6 +40,7 @@ paths: []
 |---|---|---|
 | Backup reminder | ~12 | Sin backup o >24h |
 | Emergency plan | ~12 | No ejecutado nunca |
+| Wellbeing context | ~25 | wellbeing configurado en workflow.md |
 
 ### Baja (probabilística)
 

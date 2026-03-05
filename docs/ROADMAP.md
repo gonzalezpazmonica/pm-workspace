@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 29 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 33 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 30 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 34 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -304,6 +304,14 @@ Periodic markdown snapshots of backlogs from any PM tool. Diff, rollback (info-o
 Proactive onboarding interview for new clients and projects. 8-phase structured questionnaire with sector-adaptive compliance.
 
 - **Context Assistant** (v2.8.0) — `/context-interview start`, `resume`, `summary`, `gaps`. 8 phases: Domain, Stakeholders, Stack, Constraints, Business Rules, Compliance (sector-adaptive), Timeline, Summary. Gap detection. One-question-at-a-time. 1 skill, 1 rule. 49 tests.
+
+---
+
+## ✅ Era 34 — Wellbeing Guardian: Proactive Individual Wellbeing (v2.9.0, Mar 2026)
+
+Proactive nudge system for individual work-life balance. Based on HBR research "AI Doesn't Reduce Work—It Intensifies It" (Feb 2026, Berkeley Haas). Break science: Pomodoro, 52-17, 5-50 method, 20-20-20 eye rule, INSST Spain guidelines.
+
+- **Wellbeing Guardian** (v2.9.0) — `/wellbeing-guardian status`, `configure`, `breaks`, `report`, `pause`. Work schedule in user profile (start/end hours, lunch, conciliation). 5 break strategies. Non-blocking nudges (after-hours alerts, break reminders, weekend disconnection). Integration with burnout-radar (break_compliance_score) and sustainable-pace (wellbeing_factor). Session-init context (~25 tokens). 1 skill, 1 rule. 50 tests.
 
 ---
 
