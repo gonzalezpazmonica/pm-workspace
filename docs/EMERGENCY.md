@@ -18,7 +18,7 @@ cd ~\claude
 .\scripts\emergency-plan.ps1
 ```
 
-Esto pre-descarga el instalador de Ollama y el modelo LLM en caché local (~5-10GB). Soporta Linux (amd64/arm64), macOS (Intel/Apple Silicon) y Windows. Si algún día pierdes conexión, `emergency-setup` usará la caché automáticamente. Se sugiere automáticamente la primera vez que arrancas pm-workspace en una máquina nueva.
+Esto pre-descarga el instalador de Ollama y el modelo LLM en caché local (~5-10GB). Soporta Linux (amd64/arm64), macOS (Intel/Apple Silicon) y Windows. El script ejecuta 5 pasos: verificar conectividad, detectar hardware, descargar Ollama, descargar modelo(s) LLM, y verificar caché offline. Es idempotente — re-ejecutar omite lo que ya está cacheado. Si algún día pierdes conexión, `emergency-setup` usará la caché automáticamente. Se sugiere automáticamente la primera vez que arrancas pm-workspace en una máquina nueva.
 
 ## ¿Cuándo activar el modo emergencia?
 
