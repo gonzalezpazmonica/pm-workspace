@@ -5,6 +5,17 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.6.0] — 2026-03-05
+
+### Added — Client Profiles (Era 31)
+
+- **client-profile.md**: `/client-create {name}`, `/client-show {slug}`, `/client-edit {slug} [section]`, `/client-list`. First-class client entities in SaviaHub with identity, contacts, business rules, and projects.
+- **client-profile-config.md**: Domain rule defining client directory structure (`profile.md`, `contacts.md`, `rules.md`, `projects/`), frontmatter schema, slug generation, status/SLA validation, security rules.
+- **client-profile-manager/SKILL.md**: CRUD orchestration skill — create (10 steps), show (7 steps), edit, list with index regeneration, add-project. Error handling with fuzzy match.
+- Tests: `test-client-profiles.sh` — 41 structural tests across command, rule, skill, cross-references, and SaviaHub integration.
+
+---
+
 ## [2.5.0] — 2026-03-05
 
 ### Added — SaviaHub: Shared Knowledge Repository (Era 30)
@@ -226,6 +237,8 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.5.0...v2.6.0
+[2.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.1.0...v2.2.0
