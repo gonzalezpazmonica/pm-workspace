@@ -107,13 +107,17 @@ elif [[ -f "${OLLAMA_BIN:-}" ]]; then
   "$OLLAMA_BIN" pull "$MODEL" 2>/dev/null || {
     echo -e "  ${YELLOW}⚠${NC} No se pudo descargar modelo. Se hará en emergency-setup."
     kill "$OLLAMA_PID" 2>/dev/null || true; }
-  kill "$OLLAMA_PID" 2>/dev/null || true
   echo -e "  ${GREEN}✓${NC} Modelo pre-descargado"
+  # Download small model for haiku alias while server is still running
+  if [[ "$MODEL" != "qwen2.5:3b" ]]; then
+    "$OLLAMA_BIN" list 2>/dev/null | grep -q "qwen2.5:3b" || { echo -e "  ${YELLOW}→${NC} Modelo auxiliar ${CYAN}qwen2.5:3b${NC} (haiku)..."; "$OLLAMA_BIN" pull "qwen2.5:3b" 2>/dev/null || true; }
+  fi
+  kill "$OLLAMA_PID" 2>/dev/null || true
 else
   echo -e "  ${YELLOW}⚠${NC} Instala Ollama primero para pre-descargar el modelo"
 fi
 
-# Download small model for haiku alias (if main model differs)
+# Download small model for haiku alias (if ollama is in PATH)
 if [[ "$MODEL" != "qwen2.5:3b" ]] && command -v ollama &>/dev/null && curl -s --max-time 3 http://localhost:11434/api/tags &>/dev/null; then
   ollama list 2>/dev/null | grep -q "qwen2.5:3b" || { echo -e "  ${YELLOW}→${NC} Modelo auxiliar ${CYAN}qwen2.5:3b${NC} (haiku)..."; ollama pull "qwen2.5:3b" 2>/dev/null || true; }
 fi
