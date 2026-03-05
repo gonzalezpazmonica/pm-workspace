@@ -28,7 +28,7 @@
 
 ### ¿Qué es PM-Workspace?
 
-PM-Workspace es una plataforma de gestión de proyectos con IA que convierte a Claude Code (la herramienta de programación con IA de Anthropic) en un **Project Manager automatizado**. Funciona con Azure DevOps, Jira, o 100% Git-native con Savia Flow. Proporciona 360+ comandos, 25 skills especializadas y 27 subagentes de IA que cubren desde el sprint planning hasta la implementación de código por agentes, con soporte para 16 lenguajes y 12 sectores regulados.
+PM-Workspace es una plataforma de gestión de proyectos con IA que convierte a Claude Code (la herramienta de programación con IA de Anthropic) en un **Project Manager automatizado**. Funciona con Azure DevOps, Jira, o 100% Git-native con Savia Flow. Proporciona 360+ comandos, 26 skills especializadas y 27 subagentes de IA que cubren desde el sprint planning hasta la implementación de código por agentes, con soporte para 16 lenguajes y 12 sectores regulados.
 
 ### ¿Por qué adoptarlo en una consultora?
 
@@ -220,7 +220,7 @@ Al clonar, encontrarás esta estructura:
 |------------|-----------|----------|
 | `CLAUDE.md` | Punto de entrada de Claude Code (constantes globales) | Sí |
 | `.claude/commands/` | 360+ slash commands para flujos PM | Avanzado |
-| `.claude/skills/` | 25 skills especializadas | Avanzado |
+| `.claude/skills/` | 26 skills especializadas | Avanzado |
 | `.claude/agents/` | 27 subagentes IA | Avanzado |
 | `.claude/rules/` | Reglas modulares (PM, multi-lenguaje, Git) | Avanzado |
 | `projects/` | Carpeta de proyectos (cada uno con su `CLAUDE.md`) | Sí |
