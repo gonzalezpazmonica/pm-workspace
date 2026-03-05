@@ -17,6 +17,16 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.8.2] — 2026-03-05
+
+Emergency plan hardened for offline reliability.
+
+### Changed
+
+- **emergency-plan.sh/.ps1**: Added connectivity check (Step 0) — fails fast with clear message if no internet. Added idempotency to cached binary path — checks `ollama list` before pulling. Added verification step (Step 5) — confirms what is cached and ready for offline. Updated step numbering from [1/4]...[4/4] to [1/5]...[5/5]. Extracted `_extract_ollama()` and `_pull_small()` helpers to reduce duplication.
+
+---
+
 ## [2.8.1] — 2026-03-05
 
 Emergency mode model alias overrides — subagents now resolve in offline mode.
@@ -286,7 +296,8 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
-[2.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.1...v2.9.0
+[2.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.2...v2.9.0
+[2.8.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.1...v2.8.2
 [2.8.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.0...v2.8.1
 [2.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.6.0...v2.7.0
