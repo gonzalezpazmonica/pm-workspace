@@ -1,6 +1,12 @@
+## Resumen
+
+<!-- Resumen en español (2-5 bullets). PR Guardian lo incluye en el email de digest. -->
+
+-
+
 ## What does this PR add or fix?
 
-<!-- 2-3 sentence summary. Must be >50 characters. -->
+<!-- 2-3 sentence summary in English for the international community. Must be >50 characters. -->
 
 ## Type of contribution
 
