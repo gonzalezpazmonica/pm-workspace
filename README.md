@@ -110,6 +110,8 @@ Trabajo con 16 lenguajes (C#/.NET, TypeScript, Angular, React, Java/Spring, Pyth
 
 **Travel Mode** — Con `/savia-travel-pack` creas un paquete portable de pm-workspace para USB o cloud (shallow clone + manifest + backup cifrado). Con `/savia-travel-init` bootstrapeas pm-workspace en una máquina nueva: detecta OS, verifica dependencias, instala Claude Code, y restaura perfil.
 
+**SaviaHub — Repositorio de conocimiento compartido** — Con `/savia-hub init` creas un repositorio Git local (o clonas un remoto) que centraliza el conocimiento de tu empresa: identidad, organigrama, clientes, usuarios y proyectos. Con `/savia-hub push` y `/savia-hub pull` sincronizas con el remoto cuando quieras. Con `/savia-hub flight-mode on` trabajas 100% offline — las escrituras se encolan y se sincronizan cuando reconectes. Todo es opcional: funciona local sin remote, y si existe remote, sincroniza.
+
 ---
 
 ## Documentación

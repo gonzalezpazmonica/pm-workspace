@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 25 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 29 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 26 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 30 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -272,6 +272,24 @@ Single-command installation for all platforms. Eliminates 5+ manual steps — pa
 - **install.sh** — macOS + Linux installer (`curl -fsSL ... | bash`). OS detection (macOS/Ubuntu/Fedora/Arch/Alpine/WSL), prerequisite checks, Claude Code auto-install, pm-workspace clone, npm deps, smoke test. Idempotent, `SAVIA_HOME` env var, `--skip-tests`.
 - **install.ps1** — Windows PowerShell installer (`irm ... | iex`). Same flow for PowerShell 5.1+. Winget/Chocolatey hints. WSL detection.
 - **test-install.sh** — Structural validation for both installers.
+
+---
+
+## ✅ Era 30 — SaviaHub: Shared Knowledge Repository (v2.5.0, Mar 2026)
+
+Foundation for shared team knowledge. Git repository (local or remote) centralizing company identity, clients, users, and projects. Offline-first with flight mode.
+
+- **SaviaHub** (v2.5.0) — `/savia-hub init`, `/savia-hub status`, `/savia-hub push`, `/savia-hub pull`, `/savia-hub flight-mode`. Sync skill, 2 domain rules, init script. 44 tests.
+
+---
+
+## 🟡 Eras 31–33 — Client Intelligence & Context (Proposed)
+
+| Era | Version | Theme | Highlights |
+|---|---|---|---|
+| 31 — Client Profiles | v2.6.0 | First-class clients | `/client-create`, `/client-show`, `/client-edit`, `/client-list`. Client identity, contacts, rules, projects in SaviaHub |
+| 32 — BacklogGit | v2.7.0 | Backlog versioning | `/backlog-git snapshot`, `diff`, `rollback`, `deviation-report`. Periodic markdown snapshots from any PM tool |
+| 33 — Context Assistant | v2.8.0 | Active onboarding | `/context-interview start`, `resume`, `summary`, `gaps`. 8-phase structured interview, sector-adaptive |
 
 ---
 

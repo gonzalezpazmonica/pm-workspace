@@ -5,6 +5,19 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.5.0] — 2026-03-05
+
+### Added — SaviaHub: Shared Knowledge Repository (Era 30)
+
+- **savia-hub.md**: `/savia-hub` command with 5 subcommands — `init` (local or remote clone), `status`, `push`, `pull`, `flight-mode on|off`. Centralizes company identity, org chart, clients, users, and projects in a single Git repository.
+- **savia-hub-config.md**: Domain rule defining repository structure (`company/`, `clients/`, `users/`), path configuration (`SAVIA_HUB_PATH`, `SAVIA_HUB_REMOTE`), local config format (`.savia-hub-config.md`), naming conventions, and security rules.
+- **savia-hub-offline.md**: Domain rule for flight mode — activation/deactivation, sync queue (`.sync-queue.jsonl`), divergence detection, auto-sync config. Safety: NUNCA auto-resolver conflictos.
+- **savia-hub-sync/SKILL.md**: Sync orchestration skill — init flow (delegates to `savia-hub-init.sh`), push (10-step with PM confirmation), pull (7-step with conflict handling), flight mode management.
+- **savia-hub-init.sh**: Bash init script with `--remote URL`, `--path PATH`, `--help` flags. Creates directory structure, company templates, clients index, `.gitignore`, local config, initial commit. Idempotent.
+- Tests: `test-savia-hub.sh` — 44 structural tests across command, rules, skill, init script, and cross-references.
+
+---
+
 ## [2.4.0] — 2026-03-04
 
 ### Added — One-Line Installer (Era 29)
