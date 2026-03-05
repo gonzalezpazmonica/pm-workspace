@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 28 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 32 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 29 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 33 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -299,11 +299,11 @@ Periodic markdown snapshots of backlogs from any PM tool. Diff, rollback (info-o
 
 ---
 
-## 🟡 Era 33 — Context Analysis Assistant (Proposed)
+## ✅ Era 33 — Context Analysis Assistant (v2.8.0, Mar 2026)
 
-| Era | Version | Theme | Highlights |
-|---|---|---|---|
-| 33 — Context Assistant | v2.8.0 | Active onboarding | `/context-interview start`, `resume`, `summary`, `gaps`. 8-phase structured interview, sector-adaptive |
+Proactive onboarding interview for new clients and projects. 8-phase structured questionnaire with sector-adaptive compliance.
+
+- **Context Assistant** (v2.8.0) — `/context-interview start`, `resume`, `summary`, `gaps`. 8 phases: Domain, Stakeholders, Stack, Constraints, Business Rules, Compliance (sector-adaptive), Timeline, Summary. Gap detection. One-question-at-a-time. 1 skill, 1 rule. 49 tests.
 
 ---
 

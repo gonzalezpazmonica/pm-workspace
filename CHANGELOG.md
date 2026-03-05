@@ -5,6 +5,17 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.8.0] — 2026-03-05
+
+### Added — Context Analysis Assistant (Era 33)
+
+- **context-interview.md**: `/context-interview start`, `resume`, `summary`, `gaps`. 8-phase structured interview for client/project onboarding: Domain, Stakeholders, Stack, Constraints, Business Rules, Compliance (sector-adaptive), Timeline, Summary. Proactive gap detection.
+- **context-interview-config.md**: Domain rule defining 8 interview phases, session format, sector-adaptive compliance questions (fintech, healthcare, legal, education), one-question-at-a-time rule, gap detection schema, persistence targets per phase.
+- **context-interview-conductor/SKILL.md**: Interview orchestration — start, conduct phases, resume, summary, gaps. Adaptive questions per sector. Immediate persistence. Phase 8 generates consolidated summary with gap analysis.
+- Tests: `test-context-interview.sh` — 49 structural tests across command, rule, skill, and cross-references.
+
+---
+
 ## [2.7.0] — 2026-03-05
 
 ### Added — BacklogGit: Backlog Version Control (Era 32)
@@ -248,6 +259,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.4.0...v2.5.0
