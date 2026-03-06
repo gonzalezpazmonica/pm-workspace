@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 396+ commands, 30 agents, 40 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 399+ commands, 32 agents, 42 skills, 16 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -431,13 +431,28 @@ ADR confirming that Claude Connectors ARE MCP servers (reviewed by Anthropic + m
 
 ---
 
+## ✅ Era 50 — Multimodal Quality Gates (v2.21.0, Mar 2026)
+
+Visual regression testing and wireframe validation using Claude's native vision capabilities. Screenshot-based UI quality assurance with automated scoring.
+
+- **`/visual-qa`** — Capture, compare, regression, report. Visual match score 0-100 (layout 30%, colors 20%, typography 15%, spacing 20%, content 15%). Stores in `output/visual-qa/`.
+- **`/wireframe-check`** — Register wireframes, validate implementation, detect gaps, extract specs from mockups. Supports Figma, grayscale wireframes, full-fidelity mockups.
+- **`/visual-regression`** — Baseline capture, regression testing, pixel-level diffing, approval workflow. Default 5% tolerance threshold. Multi-resolution (375/768/1440px).
+- **`visual-qa-agent`** — Sonnet-based agent with 5-phase analysis: input→analysis→scoring→classification→report.
+- **`visual-quality` skill** — Defect taxonomy, comparison methodology, screenshot best practices, WCAG contrast checks.
+- **`visual-quality-gates` rule** — Gate levels: auto-pass (≥90), informational (≥80), blocking (<60). Privacy: no real user data in screenshots.
+- Total: 399 commands, 32 agents, 42 skills, 16 hooks. Compliance runner passed.
+
+---
+
 ### Backlog — Strategic Evaluation
 
-- **Multimodal quality gates** — Visual regression via VLM screenshot analysis, diagram-to-spec, wireframe-driven decompose
-- **Observability extensions** — New Relic, Splunk, Elastic APM. LLM observability (token usage, prompt latency, model drift)
-- **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status)
-- **Claude in Chrome integration** — Extracción de datos de portales web sin API para Savia
-- **Voice integration** — `/voice-pm` when Claude Code `/voice` reaches GA. Voice-to-command for sprint ceremonies (dictated standups, retros, reviews). Builds on existing `voice-inbox` skill.
+- **Voice integration** — `/voice-pm` for sprint ceremonies. Claude Code `/voice` launched Mar 2026 (push-to-talk, Pro/Max/Team/Enterprise). Builds on existing `voice-inbox` skill.
+- **Observability extensions** — New Relic, Splunk, Elastic APM. LLM observability (token usage, prompt latency, model drift). Requires external MCP servers not yet available.
+
+> **Removed from backlog (Mar 2026):**
+> - ~~Developer experience (VS Code extension)~~ — Anthropic shipped official Claude Code VS Code extension (2M+ installs). No need for custom extension; document integration with pm-workspace instead.
+> - ~~Claude in Chrome integration~~ — Available as Claude in Chrome (browsing agent) and Cowork mode. No custom integration needed.
 
 ---
 
