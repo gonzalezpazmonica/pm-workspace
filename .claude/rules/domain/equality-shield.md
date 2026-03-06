@@ -49,12 +49,12 @@ Antes de cualquier asignación, evaluación o comunicación que nombre a un miem
 
 Aplicar escrutinio máximo en:
 
-- `/pbi:assign` — Asignación de tareas; validar criterios de selección
-- `/sprint:review` — Evaluación de desempeño; test contrafáctico obligatorio
-- `/sprint:retro` — Feedback grupal; evitar patrones de género en crítica
-- `/report:executive` — Resumen de logros; equilibrio en visibilidad
-- `/spec:generate` — Asignación de historias técnicas; generar sin sesgos vocacionales
-- `/bias:check` — Auditoría contrafactual completa del sprint
+- `/pbi-assign` — Asignación de tareas; validar criterios de selección
+- `/sprint-review` — Evaluación de desempeño; test contrafáctico obligatorio
+- `/sprint-retro` — Feedback grupal; evitar patrones de género en crítica
+- `/report-executive` — Resumen de logros; equilibrio en visibilidad
+- `/spec-generate` — Asignación de historias técnicas; generar sin sesgos vocacionales
+- `/bias-check` — Auditoría contrafactual completa del sprint
 
 ## Referencias
 

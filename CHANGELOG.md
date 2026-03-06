@@ -5,6 +5,20 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.20.2] — 2026-03-06
+
+### Fixed — Colon-to-Kebab Command Reference Migration
+
+Replaced all legacy colon-style command references (`/bias:check`, `/score:diff`, `/sprint:review`, etc.) with kebab-case (`/bias-check`, `/score-diff`, `/sprint-review`) across 12 files. Claude Code does not support colons in command names.
+
+- **bias-check.md, score-diff.md** — Added missing YAML frontmatter and fixed internal `/command:name` references.
+- **agents-catalog.md, equality-shield.md, scoring-curves.md, severity-classification.md** — Updated all command references from colon to kebab-case.
+- **ROADMAP.md, CHANGELOG.md** — Migrated historical references.
+- **guides/guide-enterprise-gap-analysis.md** (ES+EN) — Updated command tables.
+- **docs/estudio-equality-shield.md, docs/politica-igualdad.md** — Updated references.
+
+---
+
 ## [2.20.1] — 2026-03-06
 
 ### Fixed — Documentation Consistency Audit
@@ -274,7 +288,7 @@ Emergency mode model alias overrides — subagents now resolve in offline mode.
 ### Added — Scoring Intelligence (Era 28)
 
 - **scoring-curves.md**: piecewise linear normalization for 6 dimensions (PR size, context usage, file size, velocity deviation, test coverage, Brier score). Smooth degradation with calibrated breakpoints instead of binary pass/fail. Inspired by kimun (lnds/kimun) and SonarSource/Microsoft Code Metrics.
-- **score-diff.md**: `/score:diff` command comparing workspace metrics between git refs. Delta tracking with regression/improvement classification. Haiku subagent for data collection.
+- **score-diff.md**: `/score-diff` command comparing workspace metrics between git refs. Delta tracking with regression/improvement classification. Haiku subagent for data collection.
 - **severity-classification.md**: Rule of Three severity system — 3+ occurrences → CRITICAL, 2 → WARNING, 1 → INFO. Temporal escalation (same WARNING × 3 sprints → auto-CRITICAL). Thresholds for PR quality, sprint health, context health, code quality.
 - Tests: `test-scoring-intelligence.sh` — 39 tests across scoring curves, score diff, severity classification, integration and cross-references.
 
@@ -295,7 +309,7 @@ Emergency mode model alias overrides — subagents now resolve in offline mode.
 ### Added — Equality Shield (Era 26)
 
 - **equality-shield.md**: anti-bias domain rule based on LLYC "Espejismo de Igualdad" (2026) study blocking 6 bias types
-- **bias-check.md**: `/bias:check` command for counterfactual bias auditing in sprints
+- **bias-check.md**: `/bias-check` command for counterfactual bias auditing in sprints
 - **politica-igualdad.md**: equality policy documentation with academic references (Dwivedi 2023, EMNLP 2025, RANLP 2025)
 - Rule #23 in CLAUDE.md: mandatory counterfactual test in assignments and communications
 - Tests: `test-equality-shield.sh` — 41 tests covering full framework validation
@@ -467,6 +481,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.20.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.1...v2.20.2
 [2.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.0...v2.20.1
 [2.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.19.0...v2.20.0
 [2.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.18.0...v2.19.0

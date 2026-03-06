@@ -1,4 +1,17 @@
-# /score:diff — Compare Workspace Metrics Between Versions
+---
+name: score-diff
+description: >
+  Compara métricas de calidad del workspace entre dos git refs para tracking de regresiones.
+allowed-tools:
+  - Read
+  - Write
+  - Glob
+  - Grep
+  - Bash
+  - Task
+---
+
+# /score-diff — Compare Workspace Metrics Between Versions
 
 ## Description
 
@@ -78,7 +91,7 @@ Use Haiku — this is a data-collection task, not reasoning.
 ## Scheduling
 
 Recommended: run after each release or weekly.
-Can integrate with `/hub:audit` for combined health report.
+Can integrate with `/hub-audit` for combined health report.
 
 ## References
 

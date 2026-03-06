@@ -1,4 +1,17 @@
-# /bias:check Command
+---
+name: bias-check
+description: >
+  Auditoría contrafactual de sesgos en asignaciones y comunicaciones del sprint.
+allowed-tools:
+  - Read
+  - Write
+  - Glob
+  - Grep
+  - Bash
+  - Task
+---
+
+# /bias-check Command
 
 **Description:** Runs a counterfactual audit on sprint assignments and communications to detect biases in project management across demographic groups.
 

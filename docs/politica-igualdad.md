@@ -55,7 +55,7 @@ Archivo específico de reglas que se activa automáticamente en operaciones sens
 
 Las asignaciones se puntúan usando matrices que incluyen controles de equidad. Se rechaza cualquier solución que presente desviaciones inesperadas en distribución de roles por género.
 
-### Nivel 4: Comando /bias:check
+### Nivel 4: Comando /bias-check
 
 Herramienta interactiva para auditar sesiones pasadas, ejecutar análisis contrafácticos sobre decisiones recientes y generar reportes de sesgo.
 
