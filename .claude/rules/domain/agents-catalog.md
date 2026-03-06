@@ -42,7 +42,7 @@
 - **Diagramas**: `diagram-architect` → analizar consistencia → validar reglas negocio → proponer decomposición
 - **Post-commit**: `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`)
 - **Consenso**: `reflection-validator` + `code-reviewer` + `business-analyst` → panel 3 jueces → score ponderado → veredicto
-- **Equality Shield** (Era 26): `/bias:check` audita sesgos contrafácticos en asignaciones y comunicaciones. Integración transversal: antes de `/pbi:assign`, `/sprint:review`, `/sprint:retro`, `/report:executive`.
+- **Equality Shield** (Era 26): `/bias-check` audita sesgos contrafácticos en asignaciones y comunicaciones. Integración transversal: antes de `/pbi-assign`, `/sprint-review`, `/sprint-retro`, `/report-executive`.
 - **Adversarial Security** (Era 47): `security-attacker` → `security-defender` → `security-auditor` → informe con score 0-100. Pipeline: `/security-pipeline`.
 
 El agente developer se selecciona según el Language Pack del proyecto.

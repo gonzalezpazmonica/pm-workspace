@@ -90,9 +90,9 @@ Brier    Score   Interpretation
 ## Usage
 
 Commands that produce scores SHOULD use these curves:
-- `/code:audit` → file size, coverage, complexity
-- `/sprint:review` → velocity deviation
-- `/context:budget` → context usage
+- `/code-audit` → file size, coverage, complexity
+- `/sprint-review` → velocity deviation
+- `/context-budget` → context usage
 - `/confidence-calibrate` → Brier score
 - PR Guardian Gate 7 → PR size, context impact
 
