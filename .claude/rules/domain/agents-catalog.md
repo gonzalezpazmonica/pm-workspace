@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (32)
+# Catálogo de Subagentes (33)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -34,6 +34,7 @@
 | `security-defender` | Sonnet 4.6 | Blue Team: patches, hardening, NIST/CIS |
 | `security-auditor` | Sonnet 4.6 | Auditor independiente: evaluación, score 0-100, gap analysis |
 | `visual-qa-agent` | Sonnet 4.6 | Visual QA: screenshot analysis, wireframe comparison, regression detection |
+| `dev-orchestrator` | Sonnet 4.6 | Planificación de slices: análisis de specs, dependencias, presupuestos de contexto |
 
 ## Flujos
 
@@ -46,6 +47,7 @@
 - **Equality Shield** (Era 26): `/bias-check` audita sesgos contrafácticos en asignaciones y comunicaciones. Integración transversal: antes de `/pbi-assign`, `/sprint-review`, `/sprint-retro`, `/report-executive`.
 - **Adversarial Security** (Era 47): `security-attacker` → `security-defender` → `security-auditor` → informe con score 0-100. Pipeline: `/security-pipeline`.
 - **Visual QA** (Era 50): `visual-qa-agent` analiza screenshots contra wireframes/mockups. Score 0-100. Pipeline: `/visual-qa` → `/wireframe-check` → `/visual-regression`.
+- **Dev Session** (Era 52): `dev-orchestrator` planifica slices → `{lang}-developer` implementa → `test-engineer` + `coherence-validator` validan → `code-reviewer` revisa. Pipeline: `/spec-slice` → `/dev-session start|next|review`.
 
 El agente developer se selecciona según el Language Pack del proyecto.
 

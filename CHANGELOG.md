@@ -5,6 +5,20 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.23.0] — 2026-03-06
+
+### Added — Era 52: Dev Session Protocol (Context-Optimized Development)
+
+5-phase development protocol for producing high-quality code within ~40% free context window. Disk-based state persistence between phases.
+
+- **`/dev-session`** — Orchestrate spec implementation: start → next (per slice) → status → review → abort. Session state in `output/dev-sessions/`.
+- **`/spec-slice`** — Break specs into context-optimized slices (≤3 files, ≤15K tokens, ≤1 business rule group). Dependency detection, critical path, YAML output.
+- **`dev-orchestrator` agent** — Sonnet-based planner for slice analysis, token budgets, risk assessment.
+- **`context-optimized-dev` skill** — Subagent delegation patterns, context priming templates, anti-patterns, token estimation formulas.
+- **`dev-session-protocol` rule** — 5-phase protocol definition with per-phase token budgets.
+
+---
+
 ## [2.22.0] — 2026-03-06
 
 ### Changed — Era 51: Context Window Optimization
@@ -524,6 +538,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.22.0...v2.23.0
 [2.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.21.0...v2.22.0
 [2.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.3...v2.21.0
 [2.20.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.2...v2.20.3
