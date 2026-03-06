@@ -61,7 +61,7 @@ cd ~/claude    # o el directorio donde hayas clonado el repositorio
 claude
 ```
 
-Claude Code cargará `CLAUDE.md` automáticamente, activará los 360+ comandos y las 30 skills,
+Claude Code cargará `CLAUDE.md` automáticamente, activará los 360+ comandos y las 31 skills,
 detectará el lenguaje del proyecto y cargará las convenciones y agente apropiados.
 Todas las buenas prácticas del flujo Explorar → Planificar → Implementar → Commit están preconfiguradas.
 
