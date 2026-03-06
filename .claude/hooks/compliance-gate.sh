@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# compliance-gate.sh — Gate de compliance que bloquea commits con violaciones
+#
+# Se ejecuta como PreToolUse hook antes de git commit.
+# A diferencia de prompt-hook-commit.sh (warning), este BLOQUEA (exit 2).
+#
+# Verifica:
+#   1. Links de comparación en CHANGELOG.md
+#   2. Tamaño de ficheros (commands/rules/skills ≤ 150 líneas)
+#   3. Frontmatter YAML en comandos nuevos
+#   4. Sincronización de READMEs
+set -euo pipefail
+
+# Solo ejecutar en git commit
+INPUT="${CLAUDE_TOOL_INPUT:-}"
+if ! echo "$INPUT" | grep -q "git commit"; then
+  exit 0
+fi
+
+PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
+RUNNER="$PROJECT_DIR/.claude/compliance/runner.sh"
+
+if [[ ! -x "$RUNNER" ]]; then
+  chmod +x "$RUNNER" 2>/dev/null || true
+fi
+
+if [[ -f "$RUNNER" ]]; then
+  bash "$RUNNER" --staged
+  EXIT_CODE=$?
+  if [[ $EXIT_CODE -ne 0 ]]; then
+    echo "" >&2
+    echo "🛑 COMPLIANCE GATE: Commit bloqueado por violación de reglas." >&2
+    echo "   Ejecuta: bash .claude/compliance/runner.sh --all para diagnóstico completo." >&2
+    exit 2
+  fi
+fi
+
+exit 0
