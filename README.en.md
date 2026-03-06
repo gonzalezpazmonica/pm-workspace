@@ -139,7 +139,7 @@ Not even I skip them: no hardcoding PATs, confirm before writing to Azure DevOps
 
 Use `/contribute` to create PRs directly. Use `/feedback` to open issues. Before sending anything, I validate there's no private data. Your privacy comes first.
 
-Special thanks to [claude-code-templates](https://github.com/davila7/claude-code-templates) by [Daniel Avila](https://github.com/davila7) — the largest marketplace of Claude Code components (5,788+ components, 21K+ stars).
+Credits to the projects, studies, and people that inspired features: [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md).
 
 > Full changelog in [CHANGELOG.md](CHANGELOG.md) · Releases at [GitHub Releases](https://github.com/gonzalezpazmonica/pm-workspace/releases)
 

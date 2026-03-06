@@ -139,7 +139,7 @@ Ni yo misma las salto: no hardcodear PATs, confirmar antes de escribir en Azure 
 
 Con `/contribute` puedes crear PRs directamente. Con `/feedback` abrir issues. Antes de enviar, valido que no haya datos privados. Tu privacidad es lo primero.
 
-Agradecimiento especial a [claude-code-templates](https://github.com/davila7/claude-code-templates) de [Daniel Avila](https://github.com/davila7) — el mayor marketplace de componentes para Claude Code (5.788+ componentes, 21K+ stars).
+Créditos a los proyectos, estudios y personas que inspiraron funcionalidades: [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md).
 
 > Changelog completo en [CHANGELOG.md](CHANGELOG.md) · Releases en [GitHub Releases](https://github.com/gonzalezpazmonica/pm-workspace/releases)
 
