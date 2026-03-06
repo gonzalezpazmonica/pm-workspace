@@ -5,6 +5,22 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.20.0] — 2026-03-06
+
+### Added — More Industry Verticals: Insurance, Retail, Telco (Era 48)
+
+12 domain-specific commands for 3 additional industries.
+
+- **Insurance (4 commands):** `/insurance-policy` (POL-NNN, lifecycle: create/renew/cancel, endorsement tracking), `/insurance-claim` (CLM-NNN, investigation→resolution, loss ratio analytics), `/solvency-report` (Solvency II: SCR/MCR/own funds, RAG indicator), `/underwriting-rule` (criteria definition, accept/refer/decline evaluation, audit trail).
+- **Retail/eCommerce (4 commands):** `/product-catalog` (SKU-NNNN, pricing, stock, CSV/JSON export), `/order-track` (ORD-NNNN, status lifecycle, returns, revenue analytics), `/inventory-manage` (multi-warehouse, reorder points, dead stock alerts), `/promotion-engine` (PROMO-NNN, discount/BOGO/bundle/coupon, ROI analysis).
+- **Telco (4 commands):** `/service-catalog-telco` (SVC-NNN, voz/datos/fibra/tv, SLA, bundling), `/network-incident` (NI-NNNN, eTOM classification, SLA compliance), `/subscriber-lifecycle` (SUB-NNNN, churn-risk scoring, ARPU/LTV), `/capacity-forecast-telco` (utilization, trend-based forecasting, expansion planning).
+
+### Changed
+
+- **ROADMAP.md** — Added Era 48 entry. Removed "More industry verticals" from backlog (implemented). Updated stats: 396+ commands.
+
+---
+
 ## [2.19.0] — 2026-03-06
 
 ### Added — Adversarial Security Pipeline (Era 47)
@@ -438,6 +454,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.19.0...v2.20.0
 [2.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.18.0...v2.19.0
 [2.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.17.0...v2.18.0
 [2.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.16.1...v2.17.0
