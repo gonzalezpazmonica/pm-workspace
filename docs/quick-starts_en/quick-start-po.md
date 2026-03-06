@@ -76,7 +76,7 @@ The PBIs you prioritize get broken down into tasks the team implements. The velo
 
 ## Next steps
 
-- [Sprints and reports](../readme_en/04-uso-sprint-informes.md)
+- [Sprints and reports](../readme_en/04-usage-sprint-reports.md)
 - [Data flow](../data-flow-guide-en.md)
 - [Scenario guides](../guides_en/README.md)
 - [Full commands](../readme/12-comandos-agentes.md)

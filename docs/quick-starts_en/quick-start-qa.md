@@ -80,6 +80,6 @@ SDD specs define the acceptance criteria you verify. When an agent implements, t
 ## Next steps
 
 - [Spec-Driven Development](../readme_en/05-sdd.md)
-- [KPIs and rules](../readme_en/10-kpis-reglas.md)
+- [KPIs and rules](../readme_en/10-kpis-rules.md)
 - [Data flow guide](../data-flow-guide-en.md)
 - [Full commands](../readme/12-comandos-agentes.md)

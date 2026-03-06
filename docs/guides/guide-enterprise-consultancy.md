@@ -10,7 +10,7 @@ Esta guía está diseñada para **grandes consultoras tecnológicas** con:
 - **Stacks mixtos**: SAP, .NET, Java, Kubernetes, serverless, etc.
 - **Necesidad de soberanía tecnológica y cumplimiento normativo**
 
-Si tu consultora es más pequeña (5–50 personas), comienza con [Guía de Inicio Rápido](./quick-start.md).
+Si tu consultora es más pequeña (5–50 personas), comienza con [Guía de Inicio Rápido](../quick-starts/quick-start-pm.md).
 
 **Ver también**: [Análisis de Gaps — Gran Consultora](guide-enterprise-gap-analysis.md) — 10 problemas operativos comunes y cómo los resuelve pm-workspace.
 

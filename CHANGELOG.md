@@ -5,6 +5,18 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.16.1] — 2026-03-06
+
+### Changed — Repository Cleanup & Link Fixes
+
+- **Removed** 5 obsolete files: `docs/roadmap-v1.7.0.md` (subsumed by ROADMAP.md Era 22), `docs/guia-adopcion-pm-workspace.docx` (replaced by ADOPTION_GUIDE.md), `docs/guia-incorporacion-lenguajes.docx` (replaced by .md equivalent), `docs/context-optimization-completed.md` and `docs/context-optimization-roadmap.md` (work already integrated).
+- **Fixed** 8 broken links in English quick-starts (`quick-starts_en/`) — referenced Spanish filenames (`02-estructura`, `04-uso-sprint-informes`, `06-configuracion-avanzada`, `10-kpis-reglas`) instead of English (`02-structure`, `04-usage-sprint-reports`, `06-advanced-config`, `10-kpis-rules`).
+- **Fixed** 2 broken links in enterprise consultancy guides pointing to non-existent `quick-start.md`.
+- **Added** `docs/guides_en/guide-accessibility.md` — English translation of the accessibility step-by-step guide (was missing from bilingual pair).
+- **Updated** references in `ROADMAP.md` and `CHANGELOG.md` to reflect removed files.
+
+---
+
 ## [2.16.0] — 2026-03-06
 
 ### Added — Automated Rule Compliance Verification (Era 44)
@@ -306,7 +318,7 @@ Company Savia v3: branch-based isolation with Git orphan branches + quality fram
 - **`/drift-check` command**: audits CLAUDE.md rules vs repo state. Agent: `drift-auditor.md`.
 - **`hook-pii-gate.sh`**: pre-commit PII scanner (emails, phones, API keys, IBAN, DNI/NIE).
 - **Frontend Component Rules**: `.claude/rules/domain/frontend-components.md` (naming, a11y checklist, states, design tokens).
-- **Roadmap v1.7.0**: `docs/roadmap-v1.7.0.md`.
+- **Roadmap v1.7.0**: archived (content integrated into `docs/ROADMAP.md` Era 22).
 
 ### Changed
 
@@ -371,6 +383,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.16.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.16.0...v2.16.1
 [2.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.15.0...v2.16.0
 [2.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.14.0...v2.15.0
 [2.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.10.0...v2.14.0

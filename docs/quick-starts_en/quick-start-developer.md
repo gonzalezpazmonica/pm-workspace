@@ -78,6 +78,6 @@ Your code starts with a spec (`/spec-generate`). The spec defines the contract: 
 ## Next steps
 
 - [Spec-Driven Development](../readme_en/05-sdd.md)
-- [Workspace structure](../readme_en/02-estructura.md)
+- [Workspace structure](../readme_en/02-structure.md)
 - [Data flow guide](../data-flow-guide-en.md)
 - [Full commands](../readme/12-comandos-agentes.md)

@@ -78,6 +78,6 @@ The `/ai-exposure-audit` uses O*NET data to calculate how much of each role is a
 ## Next steps
 
 - [AI Augmentation by sector](../ai-augmentation-opportunities-en.md)
-- [AI governance](../readme_en/10-kpis-reglas.md)
+- [AI governance](../readme_en/10-kpis-rules.md)
 - [Data flow guide](../data-flow-guide-en.md)
 - [Scenario guides](../guides_en/README.md)

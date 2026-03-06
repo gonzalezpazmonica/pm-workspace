@@ -154,7 +154,7 @@ Inspired by ecosystem research of 12+ Claude Code repositories (everything-claud
 
 ## ✅ Era 22 — Company Savia v3 + Quality Framework (v1.6.0–v1.7.0, Mar 2026)
 
-Branch-based isolation, self-improvement patterns, and quality gates. Full details in `docs/roadmap-v1.7.0.md`.
+Branch-based isolation, self-improvement patterns, and quality gates. See CHANGELOG [1.7.0] for details.
 
 - **Company Savia v2** (v1.6.0) — Directory restructure: `team/` → `users/`, `company-inbox/` → `company/inbox/`, new `teams/`. User path simplification: removed `public/`, `savia-` prefixes. TSV index optimization.
 
