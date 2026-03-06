@@ -5,6 +5,21 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.21.0] — 2026-03-06
+
+### Added — Era 50: Multimodal Quality Gates
+
+Visual regression testing and wireframe validation using Claude's native vision capabilities (JPEG/PNG/WebP, up to 8000×8000px).
+
+- **`/visual-qa`** — Screenshot capture, compare against reference, regression detection, QA report. Visual match score 0-100.
+- **`/wireframe-check`** — Register wireframes, validate implementation, detect gaps, extract UI specs from mockups.
+- **`/visual-regression`** — Baseline management, regression testing, pixel-level diffing, approval workflow. 5% default tolerance.
+- **`visual-qa-agent`** — Sonnet-based vision agent (5-phase: input→analysis→scoring→classification→report).
+- **`visual-quality` skill** — Defect taxonomy, WCAG contrast checks, screenshot best practices, comparison methodology.
+- **`visual-quality-gates` rule** — Gate levels: auto-pass (≥90), informational (≥80), blocking (<60). Privacy-first.
+
+---
+
 ## [2.20.3] — 2026-03-06
 
 ### Added — Era 49: Connectors vs MCP Integration Architecture Decision
@@ -495,6 +510,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.3...v2.21.0
 [2.20.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.2...v2.20.3
 [2.20.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.1...v2.20.2
 [2.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.0...v2.20.1
