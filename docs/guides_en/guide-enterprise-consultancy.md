@@ -18,14 +18,15 @@ If your consulting firm is smaller (5–50 people), start with the [Quick Start 
 
 | Role | Key Value | Main Commands | Result |
 |-----|-------------|----------------------|-----------|
-| **CEO/CFO** | Clear ROI, time-to-value, margin | `/ceo-report`, `/org-metrics`, `/portfolio-overview` | Executive dashboard: projects, risks, costs in 2 min |
-| **CTO** | Technological sovereignty, no lock-in, audit | `/sovereignty-audit`, `/tech-debt`, `/aepd-compliance` | Full data control and regulatory compliance |
-| **Operations Director** | Multi-project planning, predictability | `/portfolio-deps`, `/capacity-planner`, `/forecast` | Optimal resource allocation, no bottlenecks |
+| **CEO/CFO** | Clear ROI, time-to-value, margin, costs | `/ceo-report`, `/enterprise-dashboard`, `/cost-center` | Executive dashboard: projects, risks, costs, EVM forecasting |
+| **CTO** | Technological sovereignty, no lock-in, RBAC | `/sovereignty-audit`, `/rbac-manager`, `/scale-optimizer` | Full data control, permissions and regulatory compliance |
+| **Operations Director** | Multi-team, predictability, scale | `/team-orchestrator`, `/enterprise-dashboard`, `/forecast` | Cross-team coordination (Team Topologies), no bottlenecks |
 | **PM/Scrum Master** | Automation, visibility, less overhead | `/sprint-sync`, `/backlog-ai`, `/risk-radar` | Sprints without manual ceremonies, proactive alerts |
 | **Tech Lead** | Precise specs, SDD, AI agents | `/spec-review`, `/arch-decision`, `/sdd-status` | Dev understands what to build before writing code |
 | **Developers** | Clear context, fewer meetings, fewer emails | `/context`, `/next-action`, `/spec-check` | Focused workflow, avoid 3 meetings/day |
 | **QA** | Coordinated testing, traceability, SLA | `/test-plan`, `/regression-matrix`, `/qa-sign-off` | Bugs prevented (not found), quality metrics |
-| **Compliance Officer** | GDPR, AEPD, EU AI Act, audit | `/governance-audit`, `/data-residency`, `/ai-audit` | Automated evidence, no manual updates |
+| **HR / Onboarding** | Bulk onboarding, checklists, KT | `/onboard-enterprise`, `/team-orchestrator` | Onboard 100+ people with per-role checklists |
+| **Compliance Officer** | GDPR, AEPD, EU AI Act, audit trail | `/governance-enterprise`, `/rbac-manager`, `/ai-audit` | Immutable audit trail, automated controls, certification |
 
 ---
 
@@ -63,7 +64,7 @@ If your consulting firm is smaller (5–50 people), start with the [Quick Start 
 - **Scope**: Cognitive sovereignty, measurable ROI, feedback loop
 - **Success**: 25–40% reduction in "coordination meetings", +35% efficiency
 - **Risks**: Technical debt in docs, personnel changes, legacy tool mandates
-- **Installation**: Enterprise RBAC, scaled Claude licenses, dedicated support
+- **Installation**: Enterprise RBAC (`/rbac-manager` — 4 tiers), governance (`/governance-enterprise`), scaled Claude licenses
 
 ---
 
@@ -199,13 +200,18 @@ savia org-metrics --month 2026-03 --focus tech-debt,sovereignty,ai-cost
 ### Audit and Compliance
 
 ```bash
-savia governance-audit --standard aepd,gdpr,eu-ai-act --output audit-2026-03.pdf
+# Immutable audit trail with governance-enterprise (Era 40)
+savia governance-enterprise audit-trail --period 2026-Q1
+savia governance-enterprise compliance-check --standard aepd,gdpr,eu-ai-act
+
+# RBAC: verify user permissions (Era 37)
+savia rbac-manager audit --user alice --output audit.md
 
 # Generates:
-# - Who accesses whose data
-# - Where sensitive data is stored
-# - Which AI vendors are used and why
-# - List of teams in compliance
+# - Who accesses whose data (JSONL audit trail)
+# - Permissions by role (Admin/PM/Contributor/Viewer)
+# - Compliance controls: GDPR, AEPD, ISO 27001, EU AI Act
+# - Compliance calendar with monthly rotation
 ```
 
 ---
@@ -237,25 +243,32 @@ savia governance-audit --standard aepd,gdpr,eu-ai-act --output audit-2026-03.pdf
 
 ---
 
-## 8. Current Limitations and Roadmap
+## 8. Current Enterprise Capabilities and Roadmap
 
 ### Works Today ✅
 
-- Single-project SDD and agents
-- Azure DevOps / Jira sync
+- SDD: code generation from specs, fully functional
+- Azure DevOps / Jira sync with Savia Flow
 - Compliance audits (AEPD, GDPR, EU AI Act)
 - Git-native, offline, sovereign
 - Specs + implementation + QA in single flow
+- **RBAC**: 4-tier access control (Admin/PM/Contributor/Viewer) via `/rbac-manager`
+- **Multi-team**: Cross-team coordination with Team Topologies via `/team-orchestrator`
+- **Cost management**: Timesheets, budgets, invoicing, EVM via `/cost-center`
+- **Bulk onboarding**: CSV import, per-role checklists via `/onboard-enterprise`
+- **Governance**: Immutable JSONL audit trail, compliance checks via `/governance-enterprise`
+- **Enterprise reporting**: Portfolio, team-health, risk-matrix, SPACE via `/enterprise-dashboard`
+- **Scale optimization**: Analysis, benchmarks, recommendations via `/scale-optimizer`
 
-### Enterprise Roadmap (2026) 🔄
+### Enterprise Roadmap (pending) 🔄
 
-- **RBAC**: Granular access control (Q2 2026)
-- **Billing**: Automatic multi-tenant billing (Q3 2026)
-- **Multi-team coordination**: Improved `/portfolio-sync` (Q2 2026)
-- **Predictive analytics**: Delay forecasting (Q4 2026)
-- **LLM flexibility**: Support Gemini, Llama, in addition to Claude (Q1 2027)
+- **REST API**: HTTP layer with OpenAPI + RBAC authentication
+- **SSO/LDAP/Okta**: Enterprise identity integration
+- **ERP connectors**: ServiceNow, SAP, Salesforce bidirectional
+- **Native BI**: Tableau, Power BI, Looker connectors
+- **LLM flexibility**: Support Gemini, Llama, in addition to Claude
 
-See [ENTERPRISE_ROADMAP.md](../roadmap/ENTERPRISE_ROADMAP.md) for details.
+See [ENTERPRISE_ROADMAP.md](../ENTERPRISE_ROADMAP.md) for details.
 
 ---
 
@@ -332,4 +345,4 @@ savia metrics --team squad-1 --compare baseline
 
 ---
 
-**Version**: 1.0 | **Last updated**: 2026-03-06 | **Maintainer**: pm-workspace Community
+**Version**: 2.0 | **Last updated**: 2026-03-06 | **Maintainer**: pm-workspace Community

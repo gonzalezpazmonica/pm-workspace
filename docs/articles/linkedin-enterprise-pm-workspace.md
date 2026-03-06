@@ -213,24 +213,27 @@ No voy a venderle sueños. La verdad es más matizada.
 
 ✅ SDD: generación de código desde especificaciones, completamente funcional
 ✅ Gestión de sprints: backlog, planning, tracking, burndown
-✅ Reportes: ejecutivos, stakeholder, DORA metrics
-✅ 343 comandos y 27 agentes listos para usar
-✅ Compliance: AEPD, GDPR, EU AI Act incorporados desde el design
-✅ Multi-tenant: equipos, proyectos, roles básicos
+✅ Reportes: ejecutivos, stakeholder, DORA metrics, SPACE framework
+✅ 360+ comandos, 27 agentes y 38 skills listos para usar
+✅ Compliance: AEPD, GDPR, EU AI Act, ISO 27001 incorporados desde el diseño
+✅ RBAC: 4 niveles de acceso (Admin/PM/Contributor/Viewer) con audit trail
+✅ Multi-equipo: coordinación cross-equipo con Team Topologies
+✅ Gestión de costos: timesheets, presupuestos, facturación, EVM
+✅ Gobernanza: audit trail inmutable JSONL, controles de cumplimiento automáticos
+✅ Onboarding masivo: importación CSV, checklists por rol
 ✅ Git-nativo: todo es código, todo puede versionarse
 
-**En progreso (roadmap enterprise 2026):**
+**En progreso (roadmap enterprise 2026-2027):**
 
-🚧 RBAC avanzado: acceso granular, delegación de autoridad
-🚧 Billing integrado: multi-tenant billing, invoicing automático
-🚧 Escala horizontal: optimizaciones para 200+ usuarios simultáneos
-🚧 Integraciones pre-built: SAP, Salesforce, NetSuite
+🚧 API REST: capa HTTP con OpenAPI para integraciones externas
+🚧 SSO/LDAP/Okta: identidad empresarial centralizada
+🚧 Conectores ERP: SAP, Salesforce, ServiceNow bidireccional
+🚧 BI avanzado: Tableau, Power BI, Looker
 🚧 Mobile: aplicación nativa iOS/Android
-🚧 BI avanzado: dashboards personalizados, predictive analytics
 
-Si necesitas RBAC avanzado hoy, pm-workspace posiblemente no sea para vosotros... todavía. En 6 meses, probablemente sí.
+Si necesitas SDD, sprint management, RBAC, multi-equipo, costos y gobernanza hoy, pm-workspace está lista.
 
-Si necesitas SDD, sprint management, y reportes sólidos hoy, pm-workspace está lista.
+Si necesitas SSO corporativo o API REST, eso viene en los próximos meses.
 
 Esta honestidad **construye confianza**. No promete lo que no puede cumplir.
 

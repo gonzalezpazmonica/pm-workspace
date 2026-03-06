@@ -18,14 +18,15 @@ Si tu consultora es más pequeña (5–50 personas), comienza con [Guía de Inic
 
 | Rol | Valor Clave | Comandos Principales | Resultado |
 |-----|-------------|----------------------|-----------|
-| **CEO/CFO** | ROI claro, tiempo-a-valor, margen | `/ceo-report`, `/org-metrics`, `/portfolio-overview` | Dashboard ejecutivo: proyectos, riesgos, costes en 2 min |
-| **CTO** | Soberanía tecnológica, sin lock-in, auditoría | `/sovereignty-audit`, `/tech-debt`, `/aepd-compliance` | Control total de datos y cumplimiento normativo |
-| **Dir. Operaciones** | Planificación multi-proyecto, previsibilidad | `/portfolio-deps`, `/capacity-planner`, `/forecast` | Asignación óptima de recursos, sin cuellos de botella |
+| **CEO/CFO** | ROI claro, tiempo-a-valor, margen, costos | `/ceo-report`, `/enterprise-dashboard`, `/cost-center` | Dashboard ejecutivo: proyectos, riesgos, costes, forecasting EVM |
+| **CTO** | Soberanía tecnológica, sin lock-in, RBAC | `/sovereignty-audit`, `/rbac-manager`, `/scale-optimizer` | Control total de datos, permisos y cumplimiento normativo |
+| **Dir. Operaciones** | Multi-equipo, previsibilidad, escala | `/team-orchestrator`, `/enterprise-dashboard`, `/forecast` | Coordinación cross-equipo (Team Topologies), sin cuellos de botella |
 | **PM/Scrum Master** | Automatización, visibilidad, menos overhead | `/sprint-sync`, `/backlog-ai`, `/risk-radar` | Sprints sin ceremonias manuales, alertas proactivas |
 | **Tech Lead** | Especificaciones precisas, SDD, AI agents | `/spec-review`, `/arch-decision`, `/sdd-status` | Dev entiende qué hace antes de escribir código |
 | **Developers** | Contexto claro, menos reuniones, menos emails | `/context`, `/next-action`, `/spec-check` | Flujo de trabajo enfocado, evita 3 reuniones/día |
 | **QA** | Testing coordenado, trazabilidad, SLA | `/test-plan`, `/regression-matrix`, `/qa-sign-off` | Bugs evitados (no encontrados), metricas de calidad |
-| **Compliance Officer** | GDPR, AEPD, EU AI Act, auditoría | `/governance-audit`, `/data-residency`, `/ai-audit` | Evidencia automatizada, sin actualizaciones manuales |
+| **RRHH / Onboarding** | Incorporación masiva, checklists, KT | `/onboard-enterprise`, `/team-orchestrator` | Onboarding de 100+ personas con checklists por rol |
+| **Compliance Officer** | GDPR, AEPD, EU AI Act, audit trail | `/governance-enterprise`, `/rbac-manager`, `/ai-audit` | Audit trail inmutable, controles automáticos, certificación |
 
 ---
 
@@ -63,7 +64,7 @@ Si tu consultora es más pequeña (5–50 personas), comienza con [Guía de Inic
 - **Scope**: Soberanía cognitiva, ROI medible, feedback loop
 - **Éxito**: Reducción 25–40% en "reuniones de coordinación", eficiencia +35%
 - **Riesgos**: Deuda técnica en docs, cambios de personal, mandatos de herramientas legacy
-- **Instalación**: Enterprise RBAC, licencias Claude escaladas, soporte dedicado
+- **Instalación**: Enterprise RBAC (`/rbac-manager` — 4 niveles), gobernanza (`/governance-enterprise`), licencias Claude escaladas
 
 ---
 
@@ -199,13 +200,18 @@ savia org-metrics --month 2026-03 --focus tech-debt,sovereignty,ai-cost
 ### Auditoría y Compliance
 
 ```bash
-savia governance-audit --standard aepd,gdpr,eu-ai-act --output audit-2026-03.pdf
+# Audit trail inmutable con governance-enterprise (Era 40)
+savia governance-enterprise audit-trail --period 2026-Q1
+savia governance-enterprise compliance-check --standard aepd,gdpr,eu-ai-act
+
+# RBAC: verificar permisos de un usuario (Era 37)
+savia rbac-manager audit --user alice --output audit.md
 
 # Genera:
-# - Quién accede a datos de quién
-# - Dónde están almacenados datos sensibles
-# - Qué vendors AI se usan y por qué
-# - Listado de equipos en compliance
+# - Quién accede a datos de quién (audit trail JSONL)
+# - Permisos por rol (Admin/PM/Contributor/Viewer)
+# - Controles de cumplimiento GDPR, AEPD, ISO 27001, EU AI Act
+# - Calendario de compliance con rotación mensual
 ```
 
 ---
@@ -237,25 +243,32 @@ savia governance-audit --standard aepd,gdpr,eu-ai-act --output audit-2026-03.pdf
 
 ---
 
-## 8. Limitaciones Actuales y Roadmap
+## 8. Capacidades Enterprise Actuales y Roadmap
 
 ### Funciona Hoy ✅
 
-- Single-project SDD y agentes
-- Azure DevOps / Jira sync
+- SDD: generación de código desde especificaciones, completamente funcional
+- Azure DevOps / Jira sync con Savia Flow
 - Compliance audits (AEPD, GDPR, EU AI Act)
 - Git-native, offline, sovereign
 - Specs + implementation + QA en flujo único
+- **RBAC**: Control de acceso 4 niveles (Admin/PM/Contributor/Viewer) con `/rbac-manager`
+- **Multi-equipo**: Coordinación cross-equipo con Team Topologies via `/team-orchestrator`
+- **Gestión de costos**: Timesheets, presupuestos, facturación, EVM con `/cost-center`
+- **Onboarding masivo**: Importación CSV, checklists por rol con `/onboard-enterprise`
+- **Gobernanza**: Audit trail inmutable JSONL, compliance checks con `/governance-enterprise`
+- **Reporting enterprise**: Portfolio, team-health, risk-matrix, SPACE con `/enterprise-dashboard`
+- **Optimización de escala**: Análisis, benchmarks, recomendaciones con `/scale-optimizer`
 
-### Roadmap Enterprise (2026) 🔄
+### Roadmap Enterprise (pendiente) 🔄
 
-- **RBAC**: Control de acceso granular (Q2 2026)
-- **Billing**: Multi-tenant billing automático (Q3 2026)
-- **Multi-team coordination**: `/portfolio-sync` mejorado (Q2 2026)
-- **Predictive analytics**: Forecasting de delays (Q4 2026)
-- **LLM flexibility**: Soportar Gemini, Llama, además de Claude (Q1 2027)
+- **API REST**: Capa HTTP con OpenAPI + autenticación RBAC
+- **SSO/LDAP/Okta**: Integración de identidad empresarial
+- **Conectores ERP**: ServiceNow, SAP, Salesforce bidireccional
+- **BI nativo**: Conectores Tableau, Power BI, Looker
+- **LLM flexibility**: Soportar Gemini, Llama, además de Claude
 
-Ver [ENTERPRISE_ROADMAP.md](../roadmap/ENTERPRISE_ROADMAP.md) para detalles.
+Ver [ENTERPRISE_ROADMAP.md](../ENTERPRISE_ROADMAP.md) para detalles.
 
 ---
 
@@ -332,4 +345,4 @@ savia metrics --team squad-1 --compare baseline
 
 ---
 
-**Versión**: 1.0 | **Última actualización**: 2026-03-06 | **Mantainer**: pm-workspace Community
+**Versión**: 2.0 | **Última actualización**: 2026-03-06 | **Mantainer**: pm-workspace Community
