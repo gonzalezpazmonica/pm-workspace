@@ -1,7 +1,7 @@
 ---
 name: Changelog Enforcement
 description: Fuerza la actualización de CHANGELOG.md con cada nueva versión y PR de feature
-globs: ["CHANGELOG.md"]
+globs: ["CHANGELOG.md", ".claude/commands/*.md", ".claude/skills/*/SKILL.md", ".claude/rules/domain/*.md"]
 context_cost: low
 ---
 
@@ -48,13 +48,15 @@ Antes de crear un commit que incluya tag de versión:
 3. Verificar que los contadores reflejan el estado real
 4. **CRITICAL — Verificar que el link de comparación existe al final del fichero**
 
-### ⚠️ Error recurrente: link de comparación olvidado
+### ⚠️ STOP — Error recurrente: link de comparación olvidado
 
-Este error se ha repetido en múltiples releases. Al añadir `## [X.Y.Z]` al CHANGELOG, ir SIEMPRE al bloque de links al final del fichero y añadir:
-```
-[X.Y.Z]: https://github.com/gonzalezpazmonica/pm-workspace/compare/vAnterior...vX.Y.Z
-```
-El heading `## [X.Y.Z]` sin su link correspondiente al final genera un enlace roto en el rendered markdown.
+**BLOQUEANTE**: NO hacer commit de CHANGELOG.md sin completar estos 2 pasos:
+1. Añadir heading `## [X.Y.Z] — YYYY-MM-DD` al principio del fichero
+2. Añadir link `[X.Y.Z]: https://github.com/.../compare/vAnterior...vX.Y.Z` al bloque de links
+
+El bloque de links está tras la última entrada (buscar `]: https://github.com`). Sin el link, el heading `## [X.Y.Z]` renderiza como texto plano sin enlace clicable.
+
+**Verificación**: ejecutar `grep '^\[' CHANGELOG.md | head -5` para confirmar que la nueva versión aparece.
 
 ## Consecuencia de no cumplir
 
