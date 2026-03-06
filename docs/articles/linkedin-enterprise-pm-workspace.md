@@ -111,7 +111,7 @@ Eso no es un ahorro de costos de licencias. Eso es **multiplicar la velocidad de
 
 pm-workspace no es un "frontend bonito". Es una arquitectura completa.
 
-**343 comandos. 27 agentes. 31 skills.**
+**343 comandos. 27 agentes. 38 skills.**
 
 **Spec-Driven Development (SDD)**
 

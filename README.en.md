@@ -191,7 +191,7 @@ I've organized all documentation into sections so you can quickly find what you 
 
 ## Quick Command Reference
 
-> 360+ commands · 27 agents · 31 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
+> 360+ commands · 27 agents · 38 skills — full reference at [docs/readme_en/12-commands-agents.md](docs/readme_en/12-commands-agents.md)
 
 ### User Profile, Updates and Community
 ```

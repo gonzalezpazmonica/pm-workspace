@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 31 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 35 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 38 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 42 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
