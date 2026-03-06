@@ -5,6 +5,17 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.10.0] — 2026-03-06
+
+### Added — Cognitive Sovereignty: AI Vendor Lock-in Audit (Era 35)
+
+- **sovereignty-audit.md**: `/sovereignty-audit scan`, `report`, `exit-plan`, `recommend`. Diagnoses and quantifies organizational independence from AI providers. 5-dimension Sovereignty Score (0-100): data portability, LLM independence, organizational graph protection, consumption governance, exit optionality. Based on "La Trampa Cognitiva" (De Nicolás, 2026) — cognitive lock-in as the new enterprise dependency.
+- **cognitive-sovereignty.md**: Domain rule with lock-in evolution framework (technical→contractual→process→cognitive), 5 dimensions with weighted scoring, vendor risk matrix, alarm signals, integration with governance-audit.
+- **sovereignty-auditor/SKILL.md**: Scan orchestration (workspace analysis, score calculation), executive report generation, concrete exit plan with migration timeline, actionable recommendations mapped to pm-workspace commands.
+- Tests: `test-sovereignty-audit.sh` — 50 structural tests across command, rule, skill, and cross-references.
+
+---
+
 ## [2.9.0] — 2026-03-05
 
 ### Added — Wellbeing Guardian: Proactive Individual Wellbeing (Era 34)
@@ -296,6 +307,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.9.0...v2.10.0
 [2.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.2...v2.9.0
 [2.8.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.1...v2.8.2
 [2.8.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.0...v2.8.1
