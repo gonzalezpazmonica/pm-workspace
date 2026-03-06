@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 399+ commands, 32 agents, 42 skills, 16 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras (51 released) and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 401+ commands, 33 agents, 43 skills, 16 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras (52 released) and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -455,6 +455,20 @@ Systematic reduction of auto-loaded context to recover ~20,000 tokens per conver
 - **Conditional loading filters** — Added `paths:` frontmatter to 17 domain rules, converting them from always-loaded to conditional. ~1,700 lines removed from default context.
 - **Worktree cleanup** — Removed abandoned `.claude/worktrees/keen-chebyshev/` (2.3 MB, 293 files).
 - Final state: 46 auto-load domain rules (was 62), 17 language rules (was 21). Compliance 4/4 green.
+
+---
+
+## ✅ Era 52 — Dev Session Protocol: Context-Optimized Development (v2.23.0, Mar 2026)
+
+Method and protocol for programming teams to produce high-quality code 100% aligned with specs within ~40% free context. 5-phase development sessions with context isolation and disk-based state persistence.
+
+- **`/dev-session`** — Orchestrate spec implementation through 5 phases: Slice → Prime → Implement (subagent) → Validate (parallel subagents) → Review. Disk-persisted state in `output/dev-sessions/`. Subcommands: start, next, status, review, abort.
+- **`/spec-slice`** — Analyze a spec and break it into context-optimized slices. Each slice: ≤3 files, ≤15K tokens, ≤1 business rule group. Dependency detection, critical path, parallel groups. YAML output.
+- **`dev-orchestrator` agent** — Sonnet-based planner. Analyzes specs, creates implementation plans with ordered slices, token budgets, risk assessment. Does NOT implement — only plans.
+- **`context-optimized-dev` skill** — Operational guide: subagent delegation patterns, context priming templates (handler, repo, test, migration, frontend), anti-patterns, token estimation formulas.
+- **`dev-session-protocol` rule** — Defines the 5-phase protocol with token budgets per phase. Mandatory: one slice per context, compact between slices, subagent everything heavy.
+- Principles: "One slice, one context", "Disk is memory", "Spec is truth", "Compact after each slice".
+- Total: 401 commands, 33 agents, 43 skills, 16 hooks. Compliance 4/4 green.
 
 ---
 
