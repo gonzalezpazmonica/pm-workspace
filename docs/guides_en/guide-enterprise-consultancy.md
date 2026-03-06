@@ -12,6 +12,8 @@ This guide is designed for **large technology consulting firms** with:
 
 If your consulting firm is smaller (5–50 people), start with the [Quick Start Guide](./quick-start.md).
 
+**See also**: [Gap Analysis — Large Consultancy](guide-enterprise-gap-analysis.md) — 10 common operational problems and how pm-workspace solves them.
+
 ---
 
 ## 2. What pm-workspace offers to each profile
