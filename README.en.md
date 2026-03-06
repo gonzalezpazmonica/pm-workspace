@@ -168,6 +168,7 @@ I've organized all documentation into sections so you can quickly find what you 
 | [Healthcare Organization](docs/guides_en/guide-healthcare.md) | Quality improvement, protocols, compliance |
 | [Cognitive Sovereignty Audit](docs/guides_en/guide-sovereignty.md) | Cognitive lock-in, Sovereignty Score, exit plan |
 | [Large Technology Consultancy](docs/guides_en/guide-enterprise-consultancy.md) | 500-5000 employees, multi-project, sovereignty |
+| [Gap Analysis — Large Consultancy](docs/guides_en/guide-enterprise-gap-analysis.md) | 10 operational gaps and how Savia solves them |
 
 > 📚 [Full guide index (English)](docs/guides_en/README.md) · [Índice completo de guías (Español)](docs/guides/README.md)
 

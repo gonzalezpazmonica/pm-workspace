@@ -22,6 +22,7 @@
 | [Healthcare Organization](guide-healthcare.md) | Quality improvement, protocols, compliance | Quality Dir., IT Manager |
 | [Cognitive Sovereignty Audit](guide-sovereignty.md) | Cognitive lock-in, Sovereignty Score, exit plan | CTO, PM, Compliance |
 | [Large Technology Consultancy](guide-enterprise-consultancy.md) | 500-5000 employees, multi-project, multi-client | CEO, CTO, PM, Compliance |
+| [Gap Analysis — Large Consultancy](guide-enterprise-gap-analysis.md) | 10 operational gaps and how Savia solves them | CEO, CTO, Operations Dir., PM |
 
 ---
 
