@@ -5,6 +5,27 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.16.0] — 2026-03-06
+
+### Added — Automated Rule Compliance Verification (Era 44)
+
+Pre-commit gate that blocks commits violating domain rules, independent of LLM context.
+
+- **compliance-gate.sh**: PreToolUse hook that runs compliance checks before every `git commit`. Blocks (exit 2) on violations instead of warning. Registered in `.claude/settings.json`.
+- **runner.sh**: Orchestrator in `.claude/compliance/` running 4 check scripts on staged files. Supports `--all` mode for full repo scan.
+- **check-changelog-links.sh**: Verifies every `## [X.Y.Z]` heading has a matching `[X.Y.Z]: URL` comparison link at the end of CHANGELOG.md.
+- **check-file-size.sh**: Enforces ≤150 lines for commands, rules, and skills. Excludes languages/, references/, CHANGELOG.
+- **check-command-frontmatter.sh**: Validates YAML frontmatter on newly staged commands.
+- **check-readme-sync.sh**: Verifies README.md/README.en.md ≤150 lines and bilingual sync warning.
+- **compliance-check.md**: `/compliance-check` command for manual verification.
+- **RULES-COVERED.md**: Coverage manifest — 4 rules automated, extensible framework for adding more.
+
+Fix: added missing `[2.15.0]` comparison link in CHANGELOG.md.
+
+Tests: `bash .claude/compliance/runner.sh --all` — 4/4 checks passed. CI: 14/14 green.
+
+---
+
 ## [2.15.0] — 2026-03-06
 
 ### Added — Universal Accessibility: Guided Work & Inclusive Design (Era 43)
@@ -350,6 +371,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.15.0...v2.16.0
 [2.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.14.0...v2.15.0
 [2.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.10.0...v2.14.0
 [2.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.9.0...v2.10.0
