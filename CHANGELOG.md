@@ -5,6 +5,18 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.23.1] — 2026-03-06
+
+### Added — Guide: Project from Scratch
+
+Step-by-step guide for PMs to start a project from scratch: client profile, team, architecture, business rules, specs, test requirements, and implementation with Dev Session Protocol. Works across Azure DevOps, Jira, and Savia Flow.
+
+- **`docs/guides/guide-project-from-scratch.md`** (ES) — 8-step workflow with concrete examples: client profile, CLAUDE.md, equipo.md, reglas-negocio.md, PBI decomposition, spec generation, test strategy, dev session orchestration.
+- **`docs/guides_en/guide-project-from-scratch.md`** (EN) — English translation.
+- Updated guides index (ES + EN) with new entry highlighted.
+
+---
+
 ## [2.23.0] — 2026-03-06
 
 ### Added — Era 52: Dev Session Protocol (Context-Optimized Development)
@@ -538,6 +550,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.23.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.23.0...v2.23.1
 [2.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.22.0...v2.23.0
 [2.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.21.0...v2.22.0
 [2.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.3...v2.21.0
