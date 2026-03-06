@@ -246,7 +246,7 @@ Con 20-50 proyectos concurrentes, cada equipo aplica sus propios estándares de 
 | Solución | Comando / Componente | Detalle |
 |----------|----------------------|---------|
 | Scoring por dimensiones | Regla `scoring-curves.md` | 6 curvas calibradas: PR size, context usage, file size, velocity, test coverage, Brier score |
-| Comparación entre refs | `/score:diff` | Compara salud del workspace entre cualquier par de commits o ramas |
+| Comparación entre refs | `/score-diff` | Compara salud del workspace entre cualquier par de commits o ramas |
 | Severidad Rule of Three | Regla `severity-classification.md` | 3+ problemas = CRITICAL, 2 = WARNING, 1 = INFO. Escalado temporal automático |
 | Validación por consenso | `/validate-consensus` | Panel de 3 jueces (reflection, code-review, business) con scoring ponderado |
 | Coherence check | `/check-coherence` | Verifica que specs, código y tests están alineados con los objetivos declarados |
@@ -279,7 +279,7 @@ Las consultoras que trabajan con banca, seguros, sanidad o administración públ
 | Certificación | `/governance-enterprise certify` | Genera paquete de evidencia para auditorías externas |
 | Detección sectorial | Regla `regulatory-compliance` | Detecta automáticamente el sector del proyecto y aplica controles específicos |
 | PII scanner | Hook `hook-pii-gate.sh` | Bloquea commits con datos personales antes de que lleguen al repositorio |
-| Equality Shield | `/bias:check` | Auditoría de sesgos de IA en asignaciones y evaluaciones (6 sesgos, test contrafactual) |
+| Equality Shield | `/bias-check` | Auditoría de sesgos de IA en asignaciones y evaluaciones (6 sesgos, test contrafactual) |
 
 **Resultado**: Compliance continuo, no anual. Evidencia generada automáticamente. Auditorías que se preparan en horas, no en semanas.
 
