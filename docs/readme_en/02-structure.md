@@ -48,7 +48,7 @@
 │   │   ├── dotnet-developer.md  ← + 10 language-specific developers
 │   │   └── ...
 │   │
-│   ├── skills/                  ← 31 reusable skills
+│   ├── skills/                  ← 38 reusable skills
 │   │   ├── azure-devops-queries/
 │   │   ├── sprint-management/
 │   │   ├── capacity-planning/
