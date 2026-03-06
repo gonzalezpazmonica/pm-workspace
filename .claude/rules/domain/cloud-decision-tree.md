@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/cloud-*"
+  - "**/*.tf"
+  - "**/*.bicep"
+---
+
 # Infrastructure Agent: Cloud Decision Tree y Tier Recommendations
 
 > Referencia extraída de `infrastructure-agent.md`. Contiene árboles de decisión multi-cloud, recomendaciones de tiers y patrones de coste.

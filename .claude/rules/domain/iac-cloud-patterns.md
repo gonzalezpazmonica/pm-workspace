@@ -1,3 +1,12 @@
+---
+paths:
+  - "**/*.tf"
+  - "**/*.bicep"
+  - "**/Dockerfile"
+  - "**/docker-compose*"
+  - "**/infrastructure-*"
+---
+
 # Anexo: IaC — Patrones Multi-Cloud Detallados
 # ── Comandos específicos por proveedor, ejemplos de configuración ─────────────
 

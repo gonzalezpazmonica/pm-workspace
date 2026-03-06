@@ -19,7 +19,7 @@ Configure a new classroom for the Savia School vertical.
 
 ## Execution
 
-1. Read AEPD compliance checklist from `.claude/rules/domain/school-safety-config.md`
+1. Read AEPD compliance checklist from `.claude/skills/savia-school/references/school-safety-config.md`
 2. Prompt: Confirm parental consent form location and archival method
 3. Execute: `bash scripts/savia-school.sh setup {name} {course} {subject}`
 4. Create CODEOWNERS: `teacher/* → @profesor` (git protection)

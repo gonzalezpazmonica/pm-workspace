@@ -10,7 +10,7 @@ context_cost: high
 
 > Auditar cumplimiento AEPD para agentes autónomos de IA.
 
-Framework: @.claude/rules/domain/aepd-framework.md
+Framework: @.claude/skills/regulatory-compliance/references/aepd-framework.md
 
 ---
 

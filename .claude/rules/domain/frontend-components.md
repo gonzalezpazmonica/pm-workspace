@@ -1,3 +1,11 @@
+---
+paths:
+  - "**/*.tsx"
+  - "**/*.jsx"
+  - "**/*.vue"
+  - "**/frontend-*"
+---
+
 # Frontend Component Rules
 
 ## Naming & File Structure

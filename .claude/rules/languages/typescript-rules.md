@@ -2,6 +2,7 @@
 paths:
   - "**/*.ts"
   - "**/*.mts"
+  - "**/*.cts"
 ---
 
 # Reglas de Análisis Estático TypeScript/Node.js — Knowledge Base para Agente de Revisión
@@ -334,6 +335,26 @@ router.post('/users', async (req, res) => {
 **Severidad**: Major
 
 ---
+
+---
+
+## Frameworks y Herramientas Operacionales
+
+### Backend
+- **NestJS**: módulos, controllers, services, guards, interceptors, pipes, DTOs con class-validator
+- **Express/Fastify**: router modular por feature, middleware tipado, validación con Zod/Joi
+
+### ORM
+- **Prisma**: schema declarativo (`schema.prisma`), migraciones con `npx prisma migrate dev`, nunca modificar migraciones aplicadas
+- **TypeORM** o **Drizzle**: alternativas type-safe
+
+### Testing
+- Framework: **Vitest** (preferido) o Jest
+- Unit: `tests/unit/` o `src/**/__tests__/`
+- Integration: `tests/integration/`
+- Naming: `describe('ServiceName')` → `it('should {behavior} when {condition}')`
+- Fixtures: `vi.mock()` (Vitest) o `jest.mock()`
+- Coverage: ≥ 80%
 
 ## Referencia rápida de severidades
 

@@ -24,7 +24,11 @@
       "Bash(jq:*)",
       "Bash(curl:*)",
       "WebSearch",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(bash:*)",
+      "WebFetch(domain:support.claude.com)",
+      "Bash(./scripts/emergency-plan.sh:*)",
+      "Bash(gh pr:*)"
     ],
     "deny": [
       "Bash(rm -rf:*)",

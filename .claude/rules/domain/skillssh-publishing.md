@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/skillssh-*"
+  - "**/skills-publish*"
+---
+
 # skills.sh Publishing — Adaptación de Skills PM-Workspace
 
 > Marketplace agnóstico: Claude Code, Copilot, Cursor, Gemini.

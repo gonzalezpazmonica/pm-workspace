@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 399+ commands, 32 agents, 42 skills, 16 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 399+ commands, 32 agents, 42 skills, 16 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras (51 released) and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -442,6 +442,19 @@ Visual regression testing and wireframe validation using Claude's native vision 
 - **`visual-quality` skill** — Defect taxonomy, comparison methodology, screenshot best practices, WCAG contrast checks.
 - **`visual-quality-gates` rule** — Gate levels: auto-pass (≥90), informational (≥80), blocking (<60). Privacy: no real user data in screenshots.
 - Total: 399 commands, 32 agents, 42 skills, 16 hooks. Compliance runner passed.
+
+---
+
+## ✅ Era 51 — Context Window Optimization (v2.22.0, Mar 2026)
+
+Systematic reduction of auto-loaded context to recover ~20,000 tokens per conversation (~10% of context window). Audit revealed 67.5% of context consumed by rules alone.
+
+- **Language rule dedup** — Merged 4 duplicated pairs (Python, Java, Go, TypeScript conventions → rules). Saved ~4,800 tokens.
+- **Vertical rules → skills** — Moved 8 vertical-specific rules from `rules/domain/` to `skills/references/` for on-demand loading. Saved ~8,124 tokens.
+- **csharp-rules.md compression** — 1,323 → 206 lines (84% reduction, ~5,000 tokens). All 65 SonarQube rule IDs and 12 architecture patterns preserved in tabular format.
+- **Conditional loading filters** — Added `paths:` frontmatter to 17 domain rules, converting them from always-loaded to conditional. ~1,700 lines removed from default context.
+- **Worktree cleanup** — Removed abandoned `.claude/worktrees/keen-chebyshev/` (2.3 MB, 293 files).
+- Final state: 46 auto-load domain rules (was 62), 17 language rules (was 21). Compliance 4/4 green.
 
 ---
 

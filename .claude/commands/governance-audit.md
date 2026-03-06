@@ -14,7 +14,7 @@ model: opus
 Auditoría de cumplimiento basado en NIST AI RMF (Map, Measure) y AEPD (IA agéntica).
 
 Carga la política, escanea el log de acciones, detecta incumplimientos y excepciones.
-Incluye criterios AEPD para agentes autónomos: @.claude/rules/domain/aepd-framework.md
+Incluye criterios AEPD para agentes autónomos: @.claude/skills/regulatory-compliance/references/aepd-framework.md
 
 ---
 

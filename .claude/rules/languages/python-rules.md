@@ -1,6 +1,8 @@
 ---
 paths:
   - "**/*.py"
+  - "**/pyproject.toml"
+  - "**/requirements.txt"
 ---
 
 # Reglas de Análisis Estático Python — Knowledge Base para Agente de Revisión
@@ -656,6 +658,43 @@ async def get_user(user_id: str, service: UserService = Depends()):
 **Impacto**: Independencia de framework, testabilidad, clean architecture.
 
 ---
+
+---
+
+## Frameworks Web — FastAPI y Django
+
+### FastAPI (recomendado para APIs)
+- Routers modulares por feature con `APIRouter`
+- Dependency injection mediante `Depends()`
+- Validación automática con Pydantic models
+- `BackgroundTasks` para trabajo asincrónico
+- Middleware para logging, CORS y autenticación
+
+### Django (aplicaciones completas)
+- Django REST Framework para APIs
+- Class-based views para CRUD estándar
+- ORM integrado con migraciones
+- Signals con moderación — preferir métodos explícitos
+
+## Persistencia
+
+### SQLAlchemy 2.0 (con FastAPI)
+- Mapped classes con `DeclarativeBase` y type annotations
+- `AsyncSession` para operaciones async
+- Alembic para migraciones (nunca modificar las aplicadas)
+- Estilo `select()` + `execute()` (no legacy query)
+
+### Django ORM
+- Comandos: `makemigrations`, `migrate`, `showmigrations`
+- Índices explícitos en campos con queries frecuentes
+
+## Testing
+
+- Framework: pytest siempre
+- Unit tests (`tests/unit/` con `@pytest.mark.unit`)
+- Integration tests (`tests/integration/` con `@pytest.mark.integration`)
+- Fixtures compartidas en `conftest.py` por directorio
+- Cobertura mínima: 80% con `pytest-cov`
 
 ## Referencia rápida de severidades
 

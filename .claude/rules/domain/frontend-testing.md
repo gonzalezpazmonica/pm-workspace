@@ -1,3 +1,11 @@
+---
+paths:
+  - "**/*.tsx"
+  - "**/*.jsx"
+  - "**/*.vue"
+  - "**/frontend-*"
+---
+
 # Frontend Testing — Convenciones y Configuración
 
 > Define el stack de testing, convenciones y thresholds para proyectos frontend.

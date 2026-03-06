@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/messaging-whatsapp*"
+  - "**/whatsapp*"
+---
+
 # Anexo: WhatsApp — Configuración Detallada
 # ── Autenticación QR, sesión persistente, comportamiento del listener ────────
 

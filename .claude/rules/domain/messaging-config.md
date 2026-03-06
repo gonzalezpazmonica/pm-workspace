@@ -1,3 +1,11 @@
+---
+paths:
+  - "**/messaging-*"
+  - "**/savia-send*"
+  - "**/savia-reply*"
+  - "**/savia-broadcast*"
+---
+
 # Configuración de Mensajería — WhatsApp, Nextcloud Talk e Inbox
 
 Configuración centralizada para todos los canales de mensajería de pm-workspace.

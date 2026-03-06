@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/savia-hub*"
+  - "**/hub-sync*"
+---
+
 # Regla: Configuración SaviaHub
 # ── Estructura, paths y configuración de sincronización ──────────────────────
 

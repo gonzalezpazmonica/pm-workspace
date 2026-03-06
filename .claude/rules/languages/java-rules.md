@@ -1,6 +1,8 @@
 ---
 paths:
   - "**/*.java"
+  - "**/pom.xml"
+  - "**/build.gradle"
 ---
 
 # Reglas de Análisis Estático Java — Knowledge Base para Agente de Revisión
@@ -588,6 +590,40 @@ public UserResponse getUser(@PathVariable Long id) {
 **Impacto**: Previene serialización de campos internos, lazy loading issues, vulnerabilidades.
 
 ---
+
+---
+
+## Spring Boot — Patrones Operacionales
+
+### Controllers
+- `@RestController` + `@RequestMapping` en clase
+- Validación con Jakarta Validation (`@Valid`, `@NotBlank`, `@Size`)
+- Response: `ResponseEntity<T>` para control de status codes
+- Sin lógica de negocio — solo validación y delegación
+
+### Services
+- `@Service` con `@Transactional` donde aplique
+- Constructor injection vía `@RequiredArgsConstructor`
+- Interfaces para servicios inyectados
+
+### Repositories
+- Spring Data JPA: `JpaRepository<T, ID>`
+- `@Query` JPQL o query methods derivados
+- `@EntityGraph` para evitar N+1
+- Nunca `@Modifying` sin `@Transactional`
+
+### DTOs y Mapping
+- Records para request/response DTOs
+- MapStruct para mapping entity ↔ DTO
+- Nunca exponer entidades JPA en responses
+
+## Testing
+
+- Unit: JUnit 5 + Mockito + AssertJ
+- Integration: `@SpringBootTest` + Testcontainers
+- API: `@WebMvcTest` + MockMvc para controllers
+- Naming: `MethodName_Scenario_ExpectedResult`
+- Cobertura: JaCoCo ≥ 80%
 
 ## Referencia rápida de severidades
 

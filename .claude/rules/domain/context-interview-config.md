@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/context-interview*"
+  - "**/interview-*"
+---
+
 # Regla: Configuración del Asistente de Análisis de Contexto
 # ── Entrevista estructurada para recabar información de clientes y proyectos ──
 

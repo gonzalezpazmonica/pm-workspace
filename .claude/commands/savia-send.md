@@ -23,7 +23,7 @@ context_cost: low
 
 ## Contexto requerido
 
-1. @.claude/rules/domain/company-savia-config.md — Config Company Savia
+1. @.claude/skills/company-messaging/references/company-savia-config.md — Config Company Savia
 2. `.claude/skills/company-messaging/SKILL.md` — Protocolo de mensajería
 
 ## Pasos de ejecución

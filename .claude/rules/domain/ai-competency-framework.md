@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/ai-competency*"
+  - "**/competency-*"
+---
+
 # AI Competency Framework — Habilidades para la Era IA
 
 > Complementa ADKAR con competencias específicas de "working with AI".

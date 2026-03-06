@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/*.xlsx"
+  - "**/excel-*"
+  - "**/time-tracking*"
+---
+
 # Excel Templates — Estructura de Plantillas CSV
 
 > Plantillas CSV multi-tab para importar en Excel con fórmulas documentadas.

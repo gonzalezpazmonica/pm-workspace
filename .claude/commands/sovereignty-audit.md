@@ -10,7 +10,7 @@ context_cost: medium
 # /sovereignty-audit — Auditoría de soberanía cognitiva
 
 > Skill: @.claude/skills/sovereignty-auditor/SKILL.md
-> Config: @.claude/rules/domain/cognitive-sovereignty.md
+> Config: @.claude/skills/sovereignty-auditor/references/cognitive-sovereignty.md
 > Complementa: @.claude/commands/governance-audit.md
 
 Diagnostica y cuantifica el nivel de independencia de tu organización respecto
