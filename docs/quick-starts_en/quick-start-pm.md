@@ -81,7 +81,7 @@ The hours your team logs (`/report-hours`) feed into project costs (`cost-manage
 
 ## Next steps
 
-- [Sprints and reports in detail](../readme_en/04-uso-sprint-informes.md)
-- [Advanced configuration](../readme_en/06-configuracion-avanzada.md)
+- [Sprints and reports in detail](../readme_en/04-usage-sprint-reports.md)
+- [Advanced configuration](../readme_en/06-advanced-config.md)
 - [Data flow guide](../data-flow-guide-en.md)
 - [Full commands and agents](../readme/12-comandos-agentes.md)
