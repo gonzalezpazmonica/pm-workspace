@@ -420,9 +420,19 @@ Red Team / Blue Team / Auditor pattern for systematic security testing. Inspired
 
 ---
 
+## ✅ Era 49 — Connectors vs MCP: Integration Architecture Decision (v2.20.3, Mar 2026)
+
+ADR confirming that Claude Connectors ARE MCP servers (reviewed by Anthropic + managed OAuth). Strategy: Connector-first for end users, MCP-first for developers and CI. No architectural changes needed — documentation-only update.
+
+- **ADR document** — `docs/propuestas/adr-connectors-vs-mcp.md`: Full comparison, coverage table (11/12 tools have official Connectors), risk analysis. Azure DevOps remains MCP-only.
+- **Connectors quickstart guide** — `docs/guides/guide-connectors-quickstart.md` (ES+EN): 1-click setup, verification, per-project config.
+- **Updated integration catalog** — `docs/recommended-mcps.md`: Reorganized with Connectors-first + MCP community sections.
+- **Auto-sync documentation** — `connectors-config.md` updated with `ENABLE_CLAUDEAI_MCP_SERVERS` auto-sync note.
+
+---
+
 ### Backlog — Strategic Evaluation
 
-- **Claude Connectors vs MCP** — Evaluar si Connectors simplifican la arquitectura de integraciones
 - **Multimodal quality gates** — Visual regression via VLM screenshot analysis, diagram-to-spec, wireframe-driven decompose
 - **Observability extensions** — New Relic, Splunk, Elastic APM. LLM observability (token usage, prompt latency, model drift)
 - **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status)
