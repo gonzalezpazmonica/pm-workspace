@@ -323,6 +323,22 @@ Diagnose and quantify organizational independence from AI providers. Based on "L
 
 ---
 
+## ✅ Eras 36-42 — Enterprise Readiness (v2.11.0–v2.14.0, Mar 2026)
+
+Enterprise capabilities to close critical gaps for large consulting firms (500-5,000 employees). Enterprise readiness score: 5.6/10 → 8.1/10. 7 new commands, 9 domain rules, 7 skills. 295 new tests.
+
+| Era | Version | Theme | Highlights |
+|---|---|---|---|
+| 36 — Multi-Team | v2.11.0 | Team coordination | `/team-orchestrator` (create, assign, deps, sync, status). Team Topologies (Skelton & Pais), RACI roles, cross-team dependency detection. `team-structure.md` rule, `team-coordination` skill. 54 tests. |
+| 37 — RBAC | v2.12.0 | Access control | `/rbac-manager` (grant, revoke, audit, check). 4-tier model (Admin/PM/Contributor/Viewer), permission matrix, pre-command hook enforcement. `rbac-model.md` rule, `rbac-management` skill. 49 tests. |
+| 38 — Cost Management | v2.12.1 | Billing & costs | `/cost-center` (log, report, budget, forecast, invoice). EVM formulas (EAC, CPI, SPI), append-only ledger, budget alerts at 50/75/90%. `billing-model.md` + `cost-tracking.md` rules, `cost-management` skill. 53 tests. |
+| 39 — Onboarding | v2.12.2 | Scale onboarding | `/onboard-enterprise` (import, checklist, progress, knowledge-transfer). CSV batch import, 4-phase model, per-role checklists. `onboarding-enterprise.md` rule, `enterprise-onboarding` skill. 43 tests. |
+| 40 — Governance | v2.13.0 | Audit trail | `/governance-enterprise` (audit-trail, compliance-check, decision-registry, certify). JSONL immutable log, monthly rotation, GDPR/AEPD/ISO27001/EU AI Act controls. `audit-trail-schema.md` + `governance-enterprise.md` rules, `governance-enterprise` skill. 38 tests. |
+| 41 — Reporting | v2.13.1 | Enterprise analytics | `/enterprise-dashboard` (portfolio, team-health, risk-matrix, forecast). SPACE framework, Monte Carlo forecasting. `enterprise-metrics.md` rule, `enterprise-analytics` skill. 29 tests. |
+| 42 — Scale | v2.14.0 | Scale optimization | `/scale-optimizer` (analyze, benchmark, recommend, knowledge-search). 3-tier scaling model, vendor sync, CI/CD governance. `scaling-patterns.md` rule, `scaling-operations` skill. 29 tests. |
+
+---
+
 ### Backlog — Strategic Evaluation
 
 - **Claude Connectors vs MCP** — Evaluar si Connectors simplifican la arquitectura de integraciones
