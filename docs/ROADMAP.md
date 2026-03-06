@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 30 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 34 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 31 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 35 thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -312,6 +312,14 @@ Proactive onboarding interview for new clients and projects. 8-phase structured 
 Proactive nudge system for individual work-life balance. Based on HBR research "AI Doesn't Reduce Work—It Intensifies It" (Feb 2026, Berkeley Haas). Break science: Pomodoro, 52-17, 5-50 method, 20-20-20 eye rule, INSST Spain guidelines.
 
 - **Wellbeing Guardian** (v2.9.0) — `/wellbeing-guardian status`, `configure`, `breaks`, `report`, `pause`. Work schedule in user profile (start/end hours, lunch, conciliation). 5 break strategies. Non-blocking nudges (after-hours alerts, break reminders, weekend disconnection). Integration with burnout-radar (break_compliance_score) and sustainable-pace (wellbeing_factor). Session-init context (~25 tokens). 1 skill, 1 rule. 50 tests.
+
+---
+
+## ✅ Era 35 — Cognitive Sovereignty: AI Vendor Lock-in Audit (v2.10.0, Mar 2026)
+
+Diagnose and quantify organizational independence from AI providers. Based on "La Trampa Cognitiva" (De Nicolás, 2026) — cognitive lock-in as the new enterprise dependency when AI learns organizational patterns.
+
+- **Cognitive Sovereignty** (v2.10.0) — `/sovereignty-audit scan`, `report`, `exit-plan`, `recommend`. 5-dimension Sovereignty Score (0-100): data portability, LLM independence, organizational graph protection, consumption governance, exit optionality. Vendor risk matrix. Alarm signals detection. Integration with governance-audit. 1 skill, 1 rule. 50 tests.
 
 ---
 
