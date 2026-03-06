@@ -156,16 +156,19 @@ I've organized all documentation into sections so you can quickly find what you 
 
 | Guide | Scenario |
 |---|---|
-| [Consultancy + Azure DevOps](docs/guides/guide-azure-devops.md) | Scrum team with Azure DevOps, CI/CD, SDD |
-| [Consultancy + Jira](docs/guides/guide-jira.md) | Jira ↔ Savia sync, hybrid workflow |
-| [Savia Only / Savia Flow](docs/guides/guide-savia-standalone.md) | No external tool, everything in Git |
-| [Educational Center](docs/guides/guide-education.md) | Savia School: projects, evaluations, GDPR |
-| [Hardware Lab](docs/guides/guide-hardware-lab.md) | PCB, firmware, BOM, certifications |
-| [Research Laboratory](docs/guides/guide-research-lab.md) | Papers, experiments, datasets, grants |
-| [Startup](docs/guides/guide-startup.md) | MVP, lean, rapid iteration, OKRs |
-| [Non-profit / NGO](docs/guides/guide-nonprofit.md) | Grants, volunteers, social impact |
-| [Legal Firm](docs/guides/guide-legal-firm.md) | Cases, legal deadlines, time billing |
-| [Healthcare Organization](docs/guides/guide-healthcare.md) | Quality improvement, protocols, compliance |
+| [Consultancy + Azure DevOps](docs/guides_en/guide-azure-devops.md) | Scrum team with Azure DevOps, CI/CD, SDD |
+| [Consultancy + Jira](docs/guides_en/guide-jira.md) | Jira ↔ Savia sync, hybrid workflow |
+| [Savia Only / Savia Flow](docs/guides_en/guide-savia-standalone.md) | No external tool, everything in Git |
+| [Educational Center](docs/guides_en/guide-education.md) | Savia School: projects, evaluations, GDPR |
+| [Hardware Lab](docs/guides_en/guide-hardware-lab.md) | PCB, firmware, BOM, certifications |
+| [Research Laboratory](docs/guides_en/guide-research-lab.md) | Papers, experiments, datasets, grants |
+| [Startup](docs/guides_en/guide-startup.md) | MVP, lean, rapid iteration, OKRs |
+| [Non-profit / NGO](docs/guides_en/guide-nonprofit.md) | Grants, volunteers, social impact |
+| [Legal Firm](docs/guides_en/guide-legal-firm.md) | Cases, legal deadlines, time billing |
+| [Healthcare Organization](docs/guides_en/guide-healthcare.md) | Quality improvement, protocols, compliance |
+| [Cognitive Sovereignty Audit](docs/guides_en/guide-sovereignty.md) | Cognitive lock-in, Sovereignty Score, exit plan |
+
+> 📚 [Full guide index (English)](docs/guides_en/README.md) · [Índice completo de guías (Español)](docs/guides/README.md)
 
 ### Other Documents
 
