@@ -1,5 +1,5 @@
 ---
-title: "Catálogo de Productos"
+name: product-catalog
 description: "Gestiona el catálogo de productos: añadir, actualizar, listar, buscar y exportar"
 section: "Retail/eCommerce"
 category: "Inventory Management"

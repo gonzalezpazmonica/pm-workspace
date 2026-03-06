@@ -1,5 +1,5 @@
 ---
-title: "Previsión de Capacidad Telecomunicaciones"
+name: capacity-forecast-telco
 description: "Medición, previsión y planificación de capacidad de red con alertas automáticas"
 icon: "📊"
 category: "Telecomunicaciones"

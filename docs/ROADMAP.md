@@ -392,7 +392,7 @@ Self-learning intelligence layer: automatic skill recommendation based on prompt
 - **Instincts Protocol Rule** — `instincts-protocol.md`: lifecycle (detect ≥3 repetitions → propose → create → reinforce/penalize → decay → review). Security: no destructive actions, no sensitive data, explicit rules always prevail.
 - **Skill Evaluation Skill** — `skill-evaluation/SKILL.md`: prompt tokenization, context detection (7 project types), project→skills mapping, instinct integration (+20 boost for high-confidence instincts).
 - **Registries** — `eval-registry.json` (skill activations) + `instincts/registry.json` (instinct entries).
-- Total: 382 commands, 39 skills. Compliance runner passed. CI green.
+- Total: 382 commands, 41 skills. Compliance runner passed. CI green.
 
 ---
 
@@ -405,7 +405,7 @@ Red Team / Blue Team / Auditor pattern for systematic security testing. Inspired
 - **`/threat-model`** — STRIDE/PASTA threat modeling. Asset inventory, threat analysis (probability × impact), control mapping, gap identification, prioritized recommendations.
 - **Adversarial Security Rule** — `adversarial-security.md`: severity classification, scoring formula (100 - critical×25 - high×10 - medium×3 - low×1), agent independence, compliance integration.
 - **Adversarial Security Skill** — CVSS scoring, STRIDE mapping, OWASP checklist, dependency audit commands (npm/pip/dotnet).
-- Total: 384 commands, 30 agents, 40 skills. Compliance runner passed. CI green.
+- Total: 384 commands, 31 agents, 41 skills. Compliance runner passed. CI green.
 
 ---
 
@@ -416,7 +416,7 @@ Red Team / Blue Team / Auditor pattern for systematic security testing. Inspired
 - **Insurance (4)** — `/insurance-policy` (create/renew/cancel/list/compare, POL-NNN IDs, endorsement tracking), `/insurance-claim` (open/investigate/resolve, CLM-NNN, loss ratio analytics), `/solvency-report` (Solvency II: SCR/MCR/own funds, RAG indicator, regulator submission), `/underwriting-rule` (define/evaluate/list/audit, accept/refer/decline decisions, override tracking).
 - **Retail/eCommerce (4)** — `/product-catalog` (SKU-NNNN, categories, pricing, stock management, CSV/JSON export), `/order-track` (ORD-NNNN, status lifecycle: pending→delivered, returns, revenue analytics), `/inventory-manage` (stock/reorder/transfer/count/alert, multi-warehouse, dead stock detection), `/promotion-engine` (PROMO-NNN, discount/BOGO/bundle/coupon, cart evaluation, ROI analysis).
 - **Telco (4)** — `/service-catalog-telco` (SVC-NNN, voz/datos/fibra/tv/convergente, SLA, bundling with discounts), `/network-incident` (NI-NNNN, eTOM classification, escalation tiers, SLA compliance verification), `/subscriber-lifecycle` (SUB-NNNN, onboard/upgrade/downgrade, churn-risk scoring, ARPU/LTV analytics), `/capacity-forecast-telco` (utilization measurement, trend-based forecasting, expansion planning, threshold alerts).
-- Total: 396 commands, 30 agents, 40 skills. Compliance runner passed. CI green.
+- Total: 396 commands, 31 agents, 41 skills, 16 hooks. Compliance runner passed. CI green.
 
 ---
 
