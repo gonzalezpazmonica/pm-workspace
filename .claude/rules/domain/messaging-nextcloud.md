@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/messaging-nextcloud*"
+  - "**/nextcloud*"
+---
+
 # Anexo: Nextcloud Talk — Configuración Detallada
 # ── API REST v4, webhooks, salas, tokens de aplicación ────────────────────
 

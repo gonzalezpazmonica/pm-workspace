@@ -84,7 +84,7 @@ Al final de cada respuesta que use reglas, skills o docs:
 
 ```
 📚 Fuentes consultadas:
-- .claude/rules/domain/aepd-framework.md
+- .claude/skills/regulatory-compliance/references/aepd-framework.md
 - .claude/skills/regulatory-compliance/SKILL.md
 - docs/best-practices-claude-code.md
 ```

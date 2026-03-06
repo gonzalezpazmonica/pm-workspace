@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/messaging-*"
+  - "**/savia-send*"
+  - "**/savia-reply*"
+---
+
 # Regla: Seguridad del Subject en Mensajería Cifrada
 # ── Los asuntos NUNCA se cifran — validación obligatoria ─────────────
 

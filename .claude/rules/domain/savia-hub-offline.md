@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/savia-hub*"
+  - "**/hub-sync*"
+---
+
 # Regla: SaviaHub Modo Vuelo y Sincronización
 # ── Offline-first, cola de escritura, resync automático ──────────────────────
 

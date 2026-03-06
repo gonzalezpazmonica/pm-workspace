@@ -16,7 +16,7 @@ context_cost: low
 
 ## Contexto requerido
 
-1. @.claude/rules/domain/company-savia-config.md
+1. @.claude/skills/company-messaging/references/company-savia-config.md
 
 ## Pasos de ejecucion
 

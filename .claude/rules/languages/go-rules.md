@@ -1,6 +1,7 @@
 ---
 paths:
   - "**/*.go"
+  - "**/go.mod"
 ---
 
 # Reglas de Análisis Estático Go — Knowledge Base para Agente de Revisión
@@ -691,6 +692,29 @@ if err := saveUser(user); err != nil {
 **Impacto**: Debugging más fácil, mejor traceabilidad.
 
 ---
+
+---
+
+## Frameworks Web y ORM
+
+### Web Frameworks
+- **net/http estándar**: handlers tipados, middleware con function wrapping
+- **Chi (recomendado)**: router modular, middleware chain-style, subrouters para namespacing
+- **Gin**: engine centralizado, middleware global y por ruta, validación con binding tags
+
+### ORM
+- **sqlc (preferido)**: type-safe SQL sin runtime overhead, schema.sql → sqlc.yaml → código generado
+- **GORM**: hooks de ciclo de vida, AsNoTracking() para queries de lectura, Preload() para evitar N+1
+- **Migraciones**: Flyway o migrate CLI, nunca modificar las aplicadas
+
+## Testing
+
+- Framework: `testing` estándar + `testify/assert` para aserciones
+- Pattern table-driven: datos en slice de structs, loop iterando casos
+- Naming: `TestFunctionName_Scenario` (ej: `TestUserCreate_ValidEmail`)
+- Helpers: `t.Helper()` para evitar ruido en stack traces
+- Mocking: `mockgen` para generar mocks desde interfaces
+- Coverage: ≥ 80% con `go test -cover ./...`
 
 ## Referencia rápida de severidades
 

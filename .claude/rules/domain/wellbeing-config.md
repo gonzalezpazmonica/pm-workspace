@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/wellbeing-*"
+  - "**/guardian-*"
+---
+
 # Regla: Configuración del Wellbeing Guardian
 # ── Sistema proactivo de bienestar individual para usuarios de Savia ──
 

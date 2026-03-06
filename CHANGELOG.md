@@ -5,6 +5,20 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.22.0] — 2026-03-06
+
+### Changed — Era 51: Context Window Optimization
+
+Systematic reduction of auto-loaded context (~20,000 tokens recovered per conversation, ~10% of context window).
+
+- **Language rule dedup** — Merged 4 duplicated pairs (Python, Java, Go, TypeScript conventions into rules files). 4 files deleted.
+- **Vertical rules → skills** — Moved 8 vertical-specific rules from `rules/domain/` to `skills/references/` for on-demand loading.
+- **csharp-rules.md** — Compressed from 1,323 to 206 lines (84% reduction). All 65 SonarQube IDs + 12 ARCH patterns preserved in tabular format.
+- **Conditional loading** — Added `paths:` frontmatter to 17 domain rules (messaging, frontend, AI/HR, IaC, hub, etc.).
+- **Worktree cleanup** — Removed abandoned `keen-chebyshev` worktree (2.3 MB).
+
+---
+
 ## [2.21.0] — 2026-03-06
 
 ### Added — Era 50: Multimodal Quality Gates
@@ -510,6 +524,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.21.0...v2.22.0
 [2.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.3...v2.21.0
 [2.20.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.2...v2.20.3
 [2.20.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.1...v2.20.2
