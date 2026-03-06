@@ -5,6 +5,20 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.20.3] — 2026-03-06
+
+### Added — Era 49: Connectors vs MCP Integration Architecture Decision
+
+ADR confirming Claude Connectors = MCP servers with managed OAuth. Connector-first strategy for end users, MCP-first for developers/CI. No code changes — documentation-only.
+
+- **ADR** — `docs/propuestas/adr-connectors-vs-mcp.md`: Full technical comparison, 11/12 tools have official Connectors, Azure DevOps remains MCP-only.
+- **Connectors quickstart** — `docs/guides/guide-connectors-quickstart.md` (ES+EN): 1-click setup guide, verification, per-project configuration.
+- **Integration catalog** — `docs/recommended-mcps.md`: Reorganized with Connectors-first + MCP community. Added coverage table mapping Connectors → pm-workspace commands.
+- **connectors-config.md** — Added `ENABLE_CLAUDEAI_MCP_SERVERS` auto-sync documentation and fallback message for tools without Connector.
+- **ROADMAP.md** — Added Era 49, moved Connectors evaluation from backlog to completed.
+
+---
+
 ## [2.20.2] — 2026-03-06
 
 ### Fixed — Colon-to-Kebab Command Reference Migration
@@ -481,6 +495,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.20.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.2...v2.20.3
 [2.20.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.1...v2.20.2
 [2.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.0...v2.20.1
 [2.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.19.0...v2.20.0
