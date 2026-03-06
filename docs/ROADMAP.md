@@ -239,7 +239,7 @@ Inspired by [BullshitBench](https://github.com/petergpt/bullshit-benchmark) anal
 Inspired by LLYC "Espejismo de Igualdad" (2026) audit of bias in AI systems for team management. 6 critical biases identified and mitigated with counterfactual testing. 360+ commands, 27 agents, 25 skills.
 
 - **Equality Shield Rule** — `equality-shield.md`: Framework blocking 6 biases (vocational assignment, tonal disparity, emotional labeling, experience bias, leadership exceptionalism, communication polarization). Counterfactual test obligatory before assignments/evaluations.
-- **Bias Check Command** — `/bias:check` for contrafactual audits on sprints: rewrite gender-neutral assignments, verify consistency, flag sesgos.
+- **Bias Check Command** — `/bias-check` for contrafactual audits on sprints: rewrite gender-neutral assignments, verify consistency, flag sesgos.
 - **Equality Policy Documentation** — `politica-igualdad.md`: Policy framework with academic references (Dwivedi et al., EMNLP 2025, RANLP 2025, trail-of-bits).
 - **Rule #23 in CLAUDE.md** — Counterfactual test mandatory in assignments and communications.
 - **Complete Test Suite** — `test-equality-shield.sh`: validation of framework, counterfactual logic, policy compliance.
@@ -261,7 +261,7 @@ External audit of [claude-code-best-practice](https://github.com/shanraisshan/cl
 Inspired by [kimun](https://github.com/lnds/kimun) analysis. Piecewise linear scoring curves, score diffing between git refs, and Rule of Three severity classification. 360+ commands, 27 agents, 25 skills.
 
 - **Scoring Curves** — `scoring-curves.md`: 6 dimension curves (PR size, context usage, file size, velocity deviation, test coverage, Brier score) with calibrated breakpoints and linear interpolation. Replaces binary pass/fail scoring. Based on SonarSource and Microsoft Code Metrics thresholds.
-- **Score Diff** — `/score:diff` command comparing workspace health between git refs. Delta tracking with regression/improvement classification. Outputs to `output/scores/`. Haiku subagent for efficient data collection.
+- **Score Diff** — `/score-diff` command comparing workspace health between git refs. Delta tracking with regression/improvement classification. Outputs to `output/scores/`. Haiku subagent for efficient data collection.
 - **Severity Classification** — `severity-classification.md`: Rule of Three pattern (3+ → CRITICAL, 2 → WARNING, 1 → INFO). Temporal escalation: same WARNING for 3 consecutive sprints auto-escalates to CRITICAL. Thresholds for PR quality, sprint health, context health, and code quality.
 - **39 new tests** — `test-scoring-intelligence.sh` covering all 3 features + integration + cross-references.
 

@@ -80,11 +80,11 @@ auto-downgrade to INFO.
 
 Commands that SHOULD use severity classification:
 - PR Guardian (all gates)
-- `/sprint:review` and `/sprint:retro`
-- `/code:audit` and `/perf:audit`
-- `/score:diff` (regression classification)
-- `/hub:audit` (dormant rule detection)
-- `/context:budget` (context health)
+- `/sprint-review` and `/sprint-retro`
+- `/code-audit` and `/perf-audit`
+- `/score-diff` (regression classification)
+- `/hub-audit` (dormant rule detection)
+- `/context-budget` (context health)
 
 ## References
 

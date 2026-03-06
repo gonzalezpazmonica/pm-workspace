@@ -64,7 +64,7 @@ PM-Workspace tiene una arquitectura basada en archivos Markdown que Claude Code 
 │       ├── pbi-decompose.md      ← NIVEL 4: Descomposición
 │       ├── sprint-review.md      ← NIVEL 4: Review del sprint
 │       ├── sprint-retro.md       ← NIVEL 4: Retrospectiva
-│       └── ★ bias-check.md       ← NUEVO: Slash command /bias:check
+│       └── ★ bias-check.md       ← NUEVO: Slash command /bias-check
 │
 ├── projects/
 │   └── proyecto-alpha/
@@ -94,7 +94,7 @@ Para PM-Workspace, la estrategia combina las tres:
 | Directiva global | PE | CLAUDE.md | Siempre activa |
 | Regla modular | PE + ICL | equality-shield.md | Carga bajo demanda |
 | Algoritmo de scoring | Counterfactual | assignment-scoring.md | En asignación |
-| Auditoría post-hoc | Counterfactual | /bias:check | Bajo demanda |
+| Auditoría post-hoc | Counterfactual | /bias-check | Bajo demanda |
 | Política de equipo | PE | politica-igualdad.md | Referencia documental |
 
 ---
@@ -221,10 +221,10 @@ Si la respuesta es NO → proceder.
 
 Esta regla se activa automáticamente en todos los comandos de
 PM-Workspace. Los comandos más sensibles son:
-- /pbi:assign y /pbi:plan-sprint → algoritmo de scoring
-- /sprint:review y /sprint:retro → evaluación de rendimiento
-- /report:executive y /report:capacity → métricas por persona
-- /spec:generate → asignación de specs a humanos vs. agentes
+- /pbi-assign y /pbi:plan-sprint → algoritmo de scoring
+- /sprint-review y /sprint-retro → evaluación de rendimiento
+- /report-executive y /report:capacity → métricas por persona
+- /spec-generate → asignación de specs a humanos vs. agentes
 ```
 
 ### 3.3 NIVEL 3 — Modificación del algoritmo de asignación
@@ -270,12 +270,12 @@ Si se detecta un patrón sospechoso:
 ```
 ```
 
-### 3.4 NIVEL 4 — Nuevo slash command: /bias:check
+### 3.4 NIVEL 4 — Nuevo slash command: /bias-check
 
 Nuevo archivo `.claude/commands/bias-check.md`:
 
 ```markdown
-# /bias:check — Auditoría de sesgos del sprint
+# /bias-check — Auditoría de sesgos del sprint
 
 ## Descripción
 Ejecuta una auditoría contrafactual sobre las asignaciones y
@@ -283,7 +283,7 @@ comunicaciones del sprint actual para detectar posibles sesgos.
 
 ## Uso
 ```
-/bias:check --project <nombre> [--sprint <sprint-id>]
+/bias-check --project <nombre> [--sprint <sprint-id>]
 ```
 
 ## Proceso
@@ -382,7 +382,7 @@ Savia Flow es una metodología para equipos que integran IA en sus flujos de tra
 
 **Dentro de los roles Savia Flow:**
 
-- **AI Product Manager:** Responsable de auditar que las herramientas de IA del equipo no reproduzcan sesgos. Incluye la revisión periódica de las respuestas del sistema con /bias:check.
+- **AI Product Manager:** Responsable de auditar que las herramientas de IA del equipo no reproduzcan sesgos. Incluye la revisión periódica de las respuestas del sistema con /bias-check.
 - **Flow Facilitator:** Garantiza que las ceremonias Scrum (facilitadas o asistidas por IA) mantengan tono equitativo. Usa el test contrafactual en las comunicaciones.
 - **Pro Builder:** Al crear o configurar prompts y agentes, incluye siempre directivas de igualdad como parte del "prompt engineering" estándar.
 - **Quality Architect:** Integra la auditoría de sesgos como parte de las métricas de calidad del software y del proceso.
@@ -416,7 +416,7 @@ El Equality Shield ofrece un ángulo diferenciador potente para el thought leade
 │     Ni paternalismo ni frialdad selectiva.         │
 │                                                   │
 │  4. AUDITORÍA CONTINUA                             │
-│     /bias:check cada sprint.                       │
+│     /bias-check cada sprint.                       │
 │     Métricas de distribución en cada review.       │
 │                                                   │
 │  5. TRANSPARENCIA                                  │
@@ -451,7 +451,7 @@ La investigación académica sobre debiasing en LLMs identifica varias técnicas
 Cómo se materializan estas técnicas en un comando de asignación:
 
 ```markdown
-## Instrucción para /pbi:assign (fragmento equality-aware)
+## Instrucción para /pbi-assign (fragmento equality-aware)
 
 Al asignar tareas, sigue este proceso:
 
@@ -505,7 +505,7 @@ CONTRAEJEMPLO (sesgo a bloquear):
 
 | Acción | Archivo | Esfuerzo |
 |--------|---------|----------|
-| Crear comando /bias:check | .claude/commands/bias-check.md | 4-5 horas |
+| Crear comando /bias-check | .claude/commands/bias-check.md | 4-5 horas |
 | Crear bias-audit.md (skill de referencia) | .claude/skills/pbi-decomposition/references/ | 3 horas |
 | Testing con proyecto sala-reservas | projects/sala-reservas/ | 4-5 horas |
 
@@ -524,7 +524,7 @@ CONTRAEJEMPLO (sesgo a bloquear):
 ### Métricas cuantitativas
 
 - **Índice de distribución de tareas por tipo:** Desviación estándar de la distribución de tipos de tarea entre miembros del equipo. Objetivo: σ < 0.3 (distribución equilibrada).
-- **Tasa de aprobación contrafactual:** Porcentaje de asignaciones que pasan el test contrafactual en /bias:check. Objetivo: > 90%.
+- **Tasa de aprobación contrafactual:** Porcentaje de asignaciones que pasan el test contrafactual en /bias-check. Objetivo: > 90%.
 - **Uniformidad de tono:** Análisis de vocabulario en comunicaciones generadas. Objetivo: mismos verbos de reconocimiento para todos los miembros.
 - **Rotación de capas técnicas:** Cada miembro del equipo trabaja en al menos 2 capas técnicas diferentes por sprint.
 
@@ -548,7 +548,7 @@ El Equality Shield no reemplaza la responsabilidad del equipo humano. Es una cap
 
 ### 8.3 Evolución continua
 
-Los sesgos en LLMs evolucionan con los modelos. Lo que hoy funciona como debiasing puede necesitar ajustes cuando Claude actualice su modelo base. El /bias:check debe ejecutarse regularmente y los resultados deben alimentar mejoras en las reglas.
+Los sesgos en LLMs evolucionan con los modelos. Lo que hoy funciona como debiasing puede necesitar ajustes cuando Claude actualice su modelo base. El /bias-check debe ejecutarse regularmente y los resultados deben alimentar mejoras en las reglas.
 
 ### 8.4 Contexto cultural
 

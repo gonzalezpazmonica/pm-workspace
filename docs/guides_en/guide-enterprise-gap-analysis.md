@@ -246,7 +246,7 @@ With 20-50 concurrent projects, each team applies its own quality standards. One
 | Solution | Command / Component | Detail |
 |----------|----------------------|---------|
 | Dimensional scoring | Rule `scoring-curves.md` | 6 calibrated curves: PR size, context usage, file size, velocity, test coverage, Brier score |
-| Comparison between refs | `/score:diff` | Compares workspace health between any pair of commits or branches |
+| Comparison between refs | `/score-diff` | Compares workspace health between any pair of commits or branches |
 | Rule of Three severity | Rule `severity-classification.md` | 3+ issues = CRITICAL, 2 = WARNING, 1 = INFO. Automatic temporal escalation |
 | Consensus validation | `/validate-consensus` | 3-judge panel (reflection, code-review, business) with weighted scoring |
 | Coherence check | `/check-coherence` | Verifies that specs, code, and tests align with stated objectives |
@@ -279,7 +279,7 @@ Consulting firms working with banking, insurance, healthcare, or public administ
 | Certification | `/governance-enterprise certify` | Generates evidence package for external audits |
 | Sector detection | Rule `regulatory-compliance` | Automatically detects project sector and applies specific controls |
 | PII scanner | Hook `hook-pii-gate.sh` | Blocks commits with personal data before they reach the repository |
-| Equality Shield | `/bias:check` | AI bias audit in assignments and evaluations (6 biases, counterfactual test) |
+| Equality Shield | `/bias-check` | AI bias audit in assignments and evaluations (6 biases, counterfactual test) |
 
 **Result**: Continuous compliance, not annual. Automatically generated evidence. Audits prepared in hours, not weeks.
 
