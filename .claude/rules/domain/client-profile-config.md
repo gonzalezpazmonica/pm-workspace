@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/client-profile*"
+  - "**/client-*"
+---
+
 # Regla: Configuración de Perfiles de Cliente
 # ── Estructura, campos y validación de perfiles ──────────────────────────────
 

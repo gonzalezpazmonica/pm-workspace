@@ -8,7 +8,7 @@ paths: [".claude/commands/cost-center*", ".claude/skills/cost-management/*"]
 # Regla: Modelo de Facturación
 
 > Era 38: v2.12.1 — Cost Management & Billing
-> Complementa: @.claude/rules/domain/flow-tasks-config.md
+> Complementa: @.claude/skills/savia-flow-practice/references/flow-tasks-config.md
 
 **Principio**: Los costes son datos de primera clase. Timesheets, presupuestos e invoices se versionan en Git, rates son git-ignorados.
 

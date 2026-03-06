@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/ai-exposure*"
+  - "**/ai-labor*"
+  - "**/exposure-*"
+---
+
 # AI Exposure Metrics — Métricas de Exposición Laboral a la IA
 
 > Define cómo medir el impacto de la IA en roles y equipos.
