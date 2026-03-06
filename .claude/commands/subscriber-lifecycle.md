@@ -1,5 +1,5 @@
 ---
-title: "Ciclo de Vida del Suscriptor"
+name: subscriber-lifecycle
 description: "Gestión integral del ciclo de vida del suscriptor desde onboarding hasta análisis de churn"
 icon: "👥"
 category: "Telecomunicaciones"

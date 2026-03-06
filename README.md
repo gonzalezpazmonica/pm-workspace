@@ -53,15 +53,15 @@ Más detalle en la [Guía de flujo de datos](docs/data-flow-guide-es.md).
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 360+ comandos (lo que me puedes pedir)
-│   ├── agents/         ← 27 agentes especializados
-│   ├── skills/         ← 38 skills con conocimiento de dominio
-│   ├── hooks/          ← 14 hooks que refuerzan reglas automáticamente
+│   ├── commands/       ← 396+ comandos (lo que me puedes pedir)
+│   ├── agents/         ← 31 agentes especializados
+│   ├── skills/         ← 41 skills con conocimiento de dominio
+│   ├── hooks/          ← 16 hooks que refuerzan reglas automáticamente
 │   └── rules/          ← reglas de contexto, lenguaje, dominio
 ├── docs/
 │   ├── quick-starts/   ← guías por rol (PM, Dev, QA, PO, TL, CEO)
 │   ├── readme/         ← documentación detallada (13 secciones)
-│   ├── guides/         ← 13 guías por escenario (Azure, Jira, startup...)
+│   ├── guides/         ← 14 guías por escenario (Azure, Jira, startup...)
 │   └── savia-flow/     ← docs del sistema Git-native
 ├── scripts/            ← validación, CI, utilidades
 ├── output/             ← ficheros generados (informes, specs, exports)
@@ -88,7 +88,13 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Informes ejecutivos** — CEO report multi-proyecto, alertas de dirección, portfolio overview, DORA metrics, value stream mapping.
 
-**Colaboración** — Company Savia (repo compartido con mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, y Savia School para centros educativos. Referencia completa: [360+ comandos · 27 agentes · 38 skills](docs/readme/12-comandos-agentes.md)
+**Accesibilidad universal** — Trabajo guiado para personas con discapacidad (visual, motora, TDAH, autismo, dislexia, auditiva). Micro-tareas de 3-5 min, detección de bloqueos, reformulación adaptativa.
+
+**Verticales sectoriales** — Research lab, hardware lab, legal, healthcare, nonprofit, insurance, retail y telco — 32 comandos especializados cubriendo 8 industrias con sus flujos de trabajo nativos.
+
+**Seguridad adversarial e inteligencia adaptativa** — Pipeline Red/Blue/Auditor con score 0-100, threat modeling STRIDE/PASTA. Motor de evaluación de skills con auto-detección de 7 tipos de proyecto y sistema de instintos con scoring de confianza.
+
+**Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [396+ comandos · 31 agentes · 41 skills](docs/readme/12-comandos-agentes.md)
 
 ---
 
@@ -112,17 +118,14 @@ Configurable con `SAVIA_HOME`, `--skip-tests`. Detalles: `install.sh --help`
 
 | Sección | Descripción |
 |---|---|
-| **Empezar** | |
 | [Introducción y ejemplo](docs/readme/01-introduccion.md) | Primeros 5 minutos |
 | [Estructura del workspace](docs/readme/02-estructura.md) | Directorios y organización |
 | [Configuración inicial](docs/readme/03-configuracion.md) | PAT, constantes, verificación |
 | [Guía de adopción](docs/ADOPTION_GUIDE.md) | Paso a paso para consultoras |
-| **Uso diario** | |
 | [Sprints e informes](docs/readme/04-uso-sprint-informes.md) | Sprint, reporting, KPIs |
 | [Spec-Driven Development](docs/readme/05-sdd.md) | SDD: specs, agentes, patrones |
 | [Flujo de datos](docs/data-flow-guide-es.md) | Cómo se conectan las partes |
-| **Referencia** | |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 360+ comandos + 27 agentes |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 396+ comandos + 31 agentes |
 | [Guías por escenario](docs/guides/README.md) | Azure, Jira, startup, sanidad... |
 | [AI Augmentation](docs/ai-augmentation-opportunities-es.md) | Oportunidades por sector |
 | [Context Engineering](docs/context-engineering-es.md) | Mejoras de contexto e IA |
@@ -142,7 +145,5 @@ Con `/contribute` puedes crear PRs directamente. Con `/feedback` abrir issues. A
 Créditos a los proyectos, estudios y personas que inspiraron funcionalidades: [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md).
 
 > Changelog completo en [CHANGELOG.md](CHANGELOG.md) · Releases en [GitHub Releases](https://github.com/gonzalezpazmonica/pm-workspace/releases)
-
----
 
 *🦉 Savia — tu PM automatizada con IA. Compatible con Azure DevOps, Jira y Savia Flow.*

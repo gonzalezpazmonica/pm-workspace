@@ -1,5 +1,5 @@
 ---
-title: "Gestión de Inventario"
+name: inventory-manage
 description: "Gestiona inventario: stock, reordenes, transferencias, conteos, alertas"
 section: "Retail/eCommerce"
 category: "Inventory Management"
