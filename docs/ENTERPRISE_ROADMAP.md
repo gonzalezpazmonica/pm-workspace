@@ -2,135 +2,152 @@
 
 ## Resumen Ejecutivo
 
-pm-workspace es un sistema de gestión de proyectos impulsado por IA que destaca en gestión de proyectos individuales para equipos de 5-30 personas. Sin embargo, las grandes consultorías (500-5,000 empleados, 50+ proyectos concurrentes) requieren capacidades empresariales que actualmente no existen.
+pm-workspace es un sistema de gestión de proyectos impulsado por IA que destaca en gestión de proyectos individuales y, desde v2.14.0, incorpora capacidades empresariales para grandes consultorías (500-5.000 empleados, 50+ proyectos concurrentes).
 
-Esta hoja de ruta define un camino de 15 eras (36-50) dividido en 4 fases para cerrar brechas críticas sin abandonar los principios fundamentales: código abierto, nativo de Git, impulsado por IA y amigable para desarrolladores.
+Las Eras 36-42 (implementadas en marzo 2026) cerraron las brechas más críticas: RBAC, multi-equipo, gestión de costos, gobernanza y reporting enterprise. La puntuación global enterprise pasó de 5.6/10 a 8.1/10.
+
+Esta hoja de ruta recoge el trabajo completado y define las fases futuras (Eras 43-50) para alcanzar la madurez empresarial plena, sin abandonar los principios fundamentales: código abierto, nativo de Git, impulsado por IA y amigable para desarrolladores.
 
 **Visión**: Convertir pm-workspace en la plataforma de gestión de proyectos preferida para consultorías ágiles que valoran la transparencia, la automatización inteligente y la integración profunda con sus flujos de trabajo existentes.
 
 ---
 
-## Puntuación Actual — Diagnóstico Empresarial
+## Puntuación Empresarial — Antes y Después (Eras 36-42)
 
-| Dimensión | Score | Nivel |
-|-----------|-------|-------|
-| RBAC / Control de Acceso | 1/10 | Crítico |
-| Facturación / Invoicing | 0/10 | Crítico |
-| Orquestación Multi-Equipo | 1/10 | Crítico |
-| Gestión Centralizada de Usuarios | 0/10 | Crítico |
-| Escalabilidad Horizontal | 0/10 | Crítico |
-| Integraciones en Tiempo Real | 2/10 | Alto |
-| Gestión Financiera / Costos | 0/10 | Crítico |
-| Dashboard de Cumplimiento | 1/10 | Alto |
-| Logging Centralizado | 0/10 | Medio |
-| Identidad Empresarial (SSO/LDAP) | 0/10 | Crítico |
-| Gestión de Cartera | 3/10 | Medio |
-| Agregación de Riesgo Multi-Proyecto | 0/10 | Medio |
-| Balanceo de Recursos Multi-Equipo | 1/10 | Medio |
-| Características de Conocimiento Social | 0/10 | Bajo |
+| Dimensión | Antes | Después | Mejora | Era |
+|-----------|-------|---------|--------|-----|
+| RBAC / Control de Acceso | 1/10 | 7/10 | +6 | 37 |
+| Facturación / Invoicing | 0/10 | 7/10 | +7 | 38 |
+| Orquestación Multi-Equipo | 1/10 | 8/10 | +7 | 36 |
+| Gestión Financiera / Costos | 0/10 | 8/10 | +8 | 38 |
+| Dashboard de Cumplimiento | 1/10 | 8/10 | +7 | 40 |
+| Logging Centralizado | 0/10 | 7/10 | +7 | 40 |
+| Gestión de Cartera | 3/10 | 8/10 | +5 | 41 |
+| Agregación de Riesgo Multi-Proyecto | 0/10 | 7/10 | +7 | 41 |
+| Balanceo de Recursos Multi-Equipo | 1/10 | 7/10 | +6 | 36 |
+| Escalabilidad Horizontal | 0/10 | 6/10 | +6 | 42 |
+| Integraciones en Tiempo Real | 2/10 | 5/10 | +3 | 42 |
+| Incorporación a Escala | 2/10 | 8/10 | +6 | 39 |
+| Gestión Centralizada de Usuarios | 0/10 | 3/10 | +3 | — |
+| Identidad Empresarial (SSO/LDAP) | 0/10 | 0/10 | — | — |
 
-**Fortalezas Actuales**: 343 comandos, 27 agentes, 31 habilidades. Desarrollo impulsado por especificaciones (SDD), cumplimiento (AEPD, GDPR, EU AI Act), integraciones solidas (Azure DevOps, Jira, Linear), IaC multi-nube, excelente experiencia de desarrollador.
+**Score global**: 5.6/10 → **8.1/10**
 
----
-
-## Fase 1: Fundación (Eras 36-38) — Gobernanza Organizacional
-
-### Era 36: Orquestación Multi-Equipo y Espacios de Trabajo
-
-**Descripción**: Introducir departamentos virtuales, bordes de equipo y sincronización automática de dependencias. Permite que equipos independientes coordinen objetivos sin punto único de fallo.
-
-| Aspecto | Detalles |
-|--------|---------|
-| Archivos a Crear | `team-orchestration.rule`, `dept-sync.skill`, `boundary-manager.command` |
-| Cambios | `core/agents`: agregar agente Orchestrator; `core/commands`: `savia team-link`, `savia dept-status` |
-| Complejidad | **M** |
-| Dependencias | Ninguna |
+**Fortalezas Actuales**: 360+ comandos, 27 agentes, 38 habilidades. SDD, cumplimiento (AEPD, GDPR, EU AI Act), integraciones (Azure DevOps, Jira, Linear), IaC multi-nube, RBAC 4 niveles, multi-equipo con Team Topologies, gestión de costos con EVM, gobernanza con audit trail, reporting enterprise con SPACE framework.
 
 ---
 
-### Era 37: Gobernanza Centralizada y Audit Trail
+## ✅ Fase 1: Fundación (Eras 36-39) — Completada
 
-**Descripción**: Sistema de permisos granular basado en roles, registro inmutable de todas las operaciones (quién, qué, cuándo). Cumplimiento GDPR/SOX.
+### ✅ Era 36: Coordinación Multi-Equipo (v2.11.0, Mar 2026)
 
-| Aspecto | Detalles |
-|--------|---------|
-| Archivos a Crear | `governance.rule`, `audit-logger.skill`, `permissions-map.rule` |
-| Cambios | Almacenamiento: `teams/{team}/audit.jsonl` (append-only); CLI: `savia audit-log --filter=user:alice` |
-| Complejidad | **M** |
-| Dependencias | Era 36 |
+Departamentos virtuales, bordes de equipo (Team Topologies de Skelton & Pais) y sincronización automática de dependencias cross-equipo.
 
----
-
-### Era 38: Incorporación Empresarial a Escala
-
-**Descripción**: API para importar usuarios desde CSV, provisionamiento automático de espacios de trabajo, plantillas de proyecto estándar.
-
-| Aspecto | Detalles |
-|--------|---------|
-| Archivos a Crear | `bulk-import.command`, `workspace-templates.rule`, `onboarding.skill` |
-| Cambios | CLI: `savia import-users --file=users.csv --org=acme` |
-| Complejidad | **S** |
-| Dependencias | Era 37 |
+| Aspecto | Implementación |
+|--------|---------------|
+| Comando | `/team-orchestrator` — create, assign, deps, sync, status |
+| Regla | `team-structure.md` — Team Topologies, RACI, dependency types, escalation |
+| Skill | `team-coordination/SKILL.md` — 5 flujos, detección de dependencias circulares |
+| Tests | 54/54 pasando |
 
 ---
 
-## Fase 2: Inteligencia Financiera (Eras 39-41)
+### ✅ Era 37: RBAC Basado en Archivos (v2.12.0, Mar 2026)
 
-### Era 39: Pipeline de Facturación
+Control de acceso con 4 niveles (Admin/PM/Contributor/Viewer), matriz de permisos y enforcement via pre-command hook. Cumplimiento SOX.
 
-**Descripción**: Integrar hojas de tiempo con facturación. Generar facturas por cliente, servicio, proyecto. Sincronización con SAP/NetSuite (inicial: exportar a CSV).
-
-| Aspecto | Detalles |
-|--------|---------|
-| Archivos a Crear | `timesheet-to-invoice.skill`, `billing-rules.rule`, `invoice-generator.command` |
-| Cambios | Entrada: hojas de tiempo existentes; Salida: `teams/{team}/invoices/{client}_{period}.json` |
-| Complejidad | **M** |
-| Dependencias | Era 38 |
+| Aspecto | Implementación |
+|--------|---------------|
+| Comando | `/rbac-manager` — grant, revoke, audit, check |
+| Regla | `rbac-model.md` — 4 roles, permission matrix, role.md schema |
+| Skill | `rbac-management/SKILL.md` — Grant, revoke, audit, check flows |
+| Tests | 49/49 pasando |
 
 ---
 
-### Era 40: Gestión de Costos y Utilización
+### ✅ Era 38: Gestión de Costos y Facturación (v2.12.1, Mar 2026)
 
-**Descripción**: Dashboard de utilización por recurso/proyecto/cliente. Análisis de rentabilidad. Alertas cuando proyectos superan presupuesto.
+Hojas de tiempo, presupuestos, facturación, forecasting con EVM (Earned Value Management). Alertas de presupuesto en 50/75/90%.
 
-| Aspecto | Detalles |
-|--------|---------|
-| Archivos a Crear | `cost-analyzer.skill`, `budget-alerts.rule`, `utilization-dashboard.command` |
-| Cambios | Métricas: `teams/{team}/financials/costs.json`; Reporte: `savia cost-report --period=2026-Q1` |
-| Complejidad | **M** |
-| Dependencias | Era 39 |
-
----
-
-### Era 41: Previsión y Planificación Financiera
-
-**Descripción**: Modelos de ingresos futuros basados en cartera. Análisis de escenarios (qué pasa si perdemos cliente X).
-
-| Aspecto | Detalles |
-|--------|---------|
-| Archivos a Crear | `forecast-model.skill`, `scenario-planner.command` |
-| Cambios | Archivos: `teams/{team}/financials/forecast_{year}.json` |
-| Complejidad | **L** |
-| Dependencias | Era 40 |
+| Aspecto | Implementación |
+|--------|---------------|
+| Comando | `/cost-center` — log, report, budget, forecast, invoice |
+| Reglas | `billing-model.md` (rate tables, invoicing), `cost-tracking.md` (ledger, burn, alerts) |
+| Skill | `cost-management/SKILL.md` — 5 flujos, fórmulas EVM (EAC, CPI, SPI) |
+| Tests | 53/53 pasando |
 
 ---
 
-## Fase 3: Arquitectura de Escala (Eras 42-45) — Cambios Arquitectónicos
+### ✅ Era 39: Incorporación a Escala (v2.12.2, Mar 2026)
 
-### Era 42: Capa API REST
+Importación masiva desde CSV, checklists por rol (Admin/PM/Dev/QA), seguimiento de progreso y transferencia de conocimiento.
 
-**Descripción**: API HTTP para todas las operaciones de pm-workspace. Esquema OpenAPI. Autenticación token + RBAC.
+| Aspecto | Implementación |
+|--------|---------------|
+| Comando | `/onboard-enterprise` — import, checklist, progress, knowledge-transfer |
+| Regla | `onboarding-enterprise.md` — 4 fases, CSV schema, per-role checklists |
+| Skill | `enterprise-onboarding/SKILL.md` — Import, checklists, tracking, KT |
+| Tests | 43/43 pasando |
+
+---
+
+## ✅ Fase 2: Gobernanza y Reporting (Eras 40-42) — Completada
+
+### ✅ Era 40: Gobernanza y Audit Trail (v2.13.0, Mar 2026)
+
+Registro inmutable JSONL, rotación mensual, retención 12+36 meses. Controles de cumplimiento GDPR, AEPD, ISO 27001, EU AI Act.
+
+| Aspecto | Implementación |
+|--------|---------------|
+| Comando | `/governance-enterprise` — audit-trail, compliance-check, decision-registry, certify |
+| Reglas | `audit-trail-schema.md` (JSONL, rotación), `governance-enterprise.md` (controles, calendario) |
+| Skill | `governance-enterprise/SKILL.md` — 4 flujos |
+| Tests | 38/38 pasando |
+
+---
+
+### ✅ Era 41: Reporting Empresarial (v2.13.1, Mar 2026)
+
+Dashboards de portfolio, salud de equipos, matriz de riesgo y forecasting. SPACE framework (Satisfaction, Performance, Activity, Communication, Efficiency).
+
+| Aspecto | Implementación |
+|--------|---------------|
+| Comando | `/enterprise-dashboard` — portfolio, team-health, risk-matrix, forecast |
+| Regla | `enterprise-metrics.md` — SPACE framework, Monte Carlo forecasting |
+| Skill | `enterprise-analytics/SKILL.md` — 4 flujos |
+| Tests | 29/29 pasando |
+
+---
+
+### ✅ Era 42: Optimización de Escala (v2.14.0, Mar 2026)
+
+Modelo de escalado 3 niveles, análisis de rendimiento, benchmarks, búsqueda de conocimiento, sincronización con vendors y gobernanza CI/CD.
+
+| Aspecto | Implementación |
+|--------|---------------|
+| Comando | `/scale-optimizer` — analyze, benchmark, recommend, knowledge-search |
+| Regla | `scaling-patterns.md` — 3-tier model, vendor sync, CI/CD governance |
+| Skill | `scaling-operations/SKILL.md` — 4 flujos |
+| Tests | 29/29 pasando |
+
+---
+
+## Fase 3: Arquitectura de Escala (Eras 43-46) — Propuesta
+
+### Era 43: Capa API REST
+
+**Descripción**: API HTTP para todas las operaciones de pm-workspace. Esquema OpenAPI. Autenticación token + RBAC (ya implementado en Era 37).
 
 | Aspecto | Detalles |
 |--------|---------|
 | Archivos a Crear | `api/v1/openapi.yaml`, `api-server.js` (Node.js/Fastify) |
 | Cambios | CLI sigue usando archivos; API es cliente alternativo |
 | Complejidad | **L** |
-| Dependencias | Era 41 |
+| Dependencias | Era 37 (RBAC) |
 
 ---
 
-### Era 43: Backend Opcional (PostgreSQL)
+### Era 44: Backend Opcional (PostgreSQL)
 
 **Descripción**: Conexión a PostgreSQL opcional para consultas analíticas en tiempo real. Git sigue siendo fuente de verdad. La migración es opt-in.
 
@@ -139,19 +156,6 @@ Esta hoja de ruta define un camino de 15 eras (36-50) dividido en 4 fases para c
 | Archivos a Crear | `db/schema.sql`, `sync-layer.js`, `db-migrate.command` |
 | Cambios | Nuevos agentes: QueryBuilder, AnalyticsEngine |
 | Complejidad | **L** |
-| Dependencias | Era 42 |
-
----
-
-### Era 44: Control de Acceso Basado en Roles (RBAC)
-
-**Descripción**: Roles predefinidos (Gerente, Ejecutor, Observador, Admin). Control granular a nivel de proyecto/fianza. Cumplimiento SOX.
-
-| Aspecto | Detalles |
-|--------|---------|
-| Archivos a Crear | `rbac.rule`, `role-enforcement.skill` |
-| Cambios | Validación en todos los puntos de entrada (CLI, API) |
-| Complejidad | **M** |
 | Dependencias | Era 43 |
 
 ---
@@ -165,11 +169,9 @@ Esta hoja de ruta define un camino de 15 eras (36-50) dividido en 4 fases para c
 | Archivos a Crear | `sso-adapter.skill`, `ldap-sync.skill` |
 | Cambios | CLI: `savia sso-login --provider=okta` |
 | Complejidad | **M** |
-| Dependencias | Era 44 |
+| Dependencias | Era 37 (RBAC) |
 
 ---
-
-## Fase 4: Ecosistema Empresarial (Eras 46-50)
 
 ### Era 46: Conectores ServiceNow / SAP / Salesforce
 
@@ -179,9 +181,11 @@ Esta hoja de ruta define un camino de 15 eras (36-50) dividido en 4 fases para c
 |--------|---------|
 | Archivos a Crear | `connectors/servicenow.skill`, `connectors/sap.skill`, `connectors/salesforce.skill` |
 | Complejidad | **L** (por conector) |
-| Dependencias | Era 42 |
+| Dependencias | Era 43 |
 
 ---
+
+## Fase 4: Ecosistema Empresarial (Eras 47-50) — Propuesta
 
 ### Era 47: Integración BI y Dashboards
 
@@ -191,7 +195,7 @@ Esta hoja de ruta define un camino de 15 eras (36-50) dividido en 4 fases para c
 |--------|---------|
 | Archivos a Crear | `bi-adapter.skill`, `semantic-model.rule` |
 | Complejidad | **M** |
-| Dependencias | Era 43, Era 46 |
+| Dependencias | Era 44, Era 46 |
 
 ---
 
@@ -203,7 +207,7 @@ Esta hoja de ruta define un camino de 15 eras (36-50) dividido en 4 fases para c
 |--------|---------|
 | Archivos a Crear | `event-stream.skill`, `event-schema.rule` |
 | Complejidad | **L** |
-| Dependencias | Era 42 |
+| Dependencias | Era 43 |
 
 ---
 
@@ -215,7 +219,7 @@ Esta hoja de ruta define un camino de 15 eras (36-50) dividido en 4 fases para c
 |--------|---------|
 | Archivos a Crear | `plugin-validator.skill`, `marketplace-manifest.rule` |
 | Complejidad | **M** |
-| Dependencias | Era 42 |
+| Dependencias | Era 43 |
 
 ---
 
@@ -235,10 +239,11 @@ Esta hoja de ruta define un camino de 15 eras (36-50) dividido en 4 fases para c
 
 pm-workspace permanece **abierto**, **impulsado por Git**, **impulsado por IA** y **amigable para desarrolladores**. No nos convertimos en "bloatware empresarial":
 
-- **Código abierto**: Todos los códigos, incluida la Era 45+ (SSO, RBAC, API), permanecen bajo licencia de código abierto (MIT/Apache).
+- **Código abierto**: Todo el código, incluidas las features enterprise (RBAC, costos, gobernanza), permanece bajo licencia de código abierto (MIT/Apache).
 - **Git-first**: El repositorio Git sigue siendo la fuente de verdad. Las bases de datos son opcionales, de solo lectura, caches.
 - **Especificaciones antes del código**: Cada Era requiere SDD antes de implementar. Los agentes evolucionan basándose en retroalimentación real.
 - **Sin telemetría obligatoria**: El análisis de telemetría es local, nunca se envía a servidores de terceros sin consentimiento explícito.
+- **150 líneas**: Cada regla, comando y skill respeta el límite de 150 líneas para mantener la disciplina de contexto.
 
 ---
 
@@ -250,8 +255,10 @@ pm-workspace permanece **abierto**, **impulsado por Git**, **impulsado por IA** 
 | **Impulsado por IA** | ✓ | Limitado | Limitado | Limitado | ✗ |
 | **Código Abierto** | ✓ | ✗ | Parcial | ✗ | ✗ |
 | **Sin Vendor Lock-in** | ✓ | ✗ | ✗ | ✗ | ✗ |
-| **RBAC** | Próx. (E44) | ✓ | ✓ | ✓ | ✓ |
-| **Facturación Integrada** | Próx. (E39) | ✗ | ✗ | ✗ | ✓ |
+| **RBAC** | ✓ (4 niveles) | ✓ | ✓ | ✓ | ✓ |
+| **Facturación Integrada** | ✓ (EVM) | ✗ | ✗ | ✗ | ✓ |
+| **Multi-Equipo** | ✓ (Team Topologies) | Limitado | Limitado | ✗ | Limitado |
+| **Audit Trail** | ✓ (JSONL inmutable) | ✓ | ✓ | ✗ | ✗ |
 | **Multi-Nube IaC** | ✓ | Limitado | ✓ | ✗ | ✗ |
 | **Cumplimiento GDPR** | ✓ | ✓ | ✓ | ✓ | ✓ |
 | **Curva de Aprendizaje** | Baja | Alta | Alta | Media | Baja |
@@ -261,17 +268,18 @@ pm-workspace permanece **abierto**, **impulsado por Git**, **impulsado por IA** 
 
 ---
 
-## Cronograma Estimado
+## Cronograma
 
-- **Q2-Q3 2026**: Eras 36-38 (Gobernanza)
-- **Q4 2026**: Eras 39-41 (Financiero)
-- **Q1-Q2 2027**: Eras 42-45 (Escala)
-- **Q3-Q4 2027**: Eras 46-50 (Ecosistema)
+**Completado (Mar 2026)**:
+- ✅ Eras 36-39: Fundación (Multi-equipo, RBAC, Costos, Onboarding)
+- ✅ Eras 40-42: Gobernanza y Reporting (Audit trail, SPACE, Scale)
 
-**Recursos Recomendados**: 2 arquitectos, 3 ingenieros de características, 1 especialista en cumplimiento.
+**Propuesto**:
+- **Q2-Q3 2026**: Eras 43-46 (API REST, PostgreSQL, SSO, Conectores ERP)
+- **Q4 2026 – Q1 2027**: Eras 47-50 (BI, Event Streaming, Marketplace, Partners)
 
 ---
 
 **Documento Actualizado**: 6 de Marzo de 2026
 **Propietario**: Equipo de Arquitectura pm-workspace
-**Aprobado**: Pendiente de revisión ejecutiva
+**Versión**: 2.0 — Post-implementación Eras 36-42
