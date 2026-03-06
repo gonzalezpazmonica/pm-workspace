@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 360+ commands, 27 agents, 38 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into 42 thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 380+ commands, 27 agents, 38 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -177,30 +177,32 @@ Scenario-specific guides that put users in their shoes: zero-to-productive walkt
 - [x] `docs/guides/guide-legal-firm.md` — Legal firm (case management, document review, compliance tracking)
 - [x] `docs/guides/guide-healthcare.md` — Healthcare organization (HIPAA, patient flow, clinical protocols)
 
-### Gaps identified during guide writing (proposed for future eras)
+### Gaps identified during guide writing → ✅ Implemented in Era 45
 
-| Source | Gap | Proposed command |
-|---|---|---|
-| Hardware Lab | BOM management | `/hw-bom {add\|list\|cost\|export}` |
-| Hardware Lab | Hardware revision tracking | `/hw-revision {create\|compare\|history}` |
-| Hardware Lab | Compliance evidence matrix | `/compliance-matrix {standard\|status\|export}` |
-| Research Lab | Experiment tracking | `/experiment-log {create\|run\|result\|compare}` |
-| Research Lab | Literature/bibliography management | `/biblio-add {doi\|bibtex}`, `/biblio-search` |
-| Research Lab | Dataset versioning (DVC/LFS) | `/dataset-version {register\|diff\|pull}` |
-| Research Lab | Grant lifecycle management | `/grant-track {submit\|status\|report}` |
-| Research Lab | Ethics/IRB protocol tracking | `/ethics-protocol {create\|status\|expire}` |
-| Nonprofit | Impact metrics | `/impact-metric {define\|log\|report}` |
-| Nonprofit | Volunteer management | `/volunteer-manage {register\|availability\|hours}` |
-| Legal Firm | Legal deadline management with alerts | `/legal-deadline {set\|list\|alert}` |
-| Legal Firm | Court calendar integration | `/court-calendar {import\|sync}` |
-| Legal Firm | Conflict of interest check | `/conflict-check {client\|matter}` |
-| Legal Firm | Legal document templates | `/legal-template {demanda\|contestacion\|recurso}` |
-| Legal Firm | Billing rate management | `/billing-rate {set\|calculate\|invoice}` |
-| Healthcare | PDCA cycle as native entity | `/pdca-cycle {plan\|do\|check\|act}` |
-| Healthcare | Patient safety incident tracking | `/incident-register {classify\|investigate\|action}` |
-| Healthcare | Accreditation tracking (JCI/EFQM/ISO) | `/accreditation-track {standard\|evidence\|gap}` |
-| Healthcare | Training compliance per professional | `/training-compliance {status\|expired\|plan}` |
-| Healthcare | Health KPI dashboard | `/health-kpi {define\|measure\|trend}` |
+All 20 proposed commands were implemented in Era 45 (v2.17.0):
+
+| Source | Gap | Command | Status |
+|---|---|---|---|
+| Research Lab | Experiment tracking | `/experiment-log` | ✅ |
+| Research Lab | Literature/bibliography | `/biblio-search` | ✅ |
+| Research Lab | Dataset versioning | `/dataset-version` | ✅ |
+| Research Lab | Grant lifecycle | `/grant-track` | ✅ |
+| Research Lab | Ethics/IRB protocols | `/ethics-protocol` | ✅ |
+| Hardware Lab | BOM management | `/hw-bom` | ✅ |
+| Hardware Lab | Revision tracking | `/hw-revision` | ✅ |
+| Hardware Lab | Compliance matrix | `/compliance-matrix` | ✅ |
+| Legal Firm | Deadline management | `/legal-deadline` | ✅ |
+| Legal Firm | Court calendar | `/court-calendar` | ✅ |
+| Legal Firm | Conflict of interest | `/conflict-check` | ✅ |
+| Legal Firm | Document templates | `/legal-template` | ✅ |
+| Legal Firm | Billing rates | `/billing-rate` | ✅ |
+| Healthcare | PDCA cycles | `/pdca-cycle` | ✅ |
+| Healthcare | Incident tracking | `/incident-register` | ✅ |
+| Healthcare | Accreditation | `/accreditation-track` | ✅ |
+| Healthcare | Training compliance | `/training-compliance` | ✅ |
+| Healthcare | Health KPIs | `/health-kpi` | ✅ |
+| Nonprofit | Impact metrics | `/impact-metric` | ✅ |
+| Nonprofit | Volunteer management | `/volunteer-manage` | ✅ |
 
 ---
 
@@ -336,6 +338,47 @@ Enterprise capabilities to close critical gaps for large consulting firms (500-5
 | 40 — Governance | v2.13.0 | Audit trail | `/governance-enterprise` (audit-trail, compliance-check, decision-registry, certify). JSONL immutable log, monthly rotation, GDPR/AEPD/ISO27001/EU AI Act controls. `audit-trail-schema.md` + `governance-enterprise.md` rules, `governance-enterprise` skill. 38 tests. |
 | 41 — Reporting | v2.13.1 | Enterprise analytics | `/enterprise-dashboard` (portfolio, team-health, risk-matrix, forecast). SPACE framework, Monte Carlo forecasting. `enterprise-metrics.md` rule, `enterprise-analytics` skill. 29 tests. |
 | 42 — Scale | v2.14.0 | Scale optimization | `/scale-optimizer` (analyze, benchmark, recommend, knowledge-search). 3-tier scaling model, vendor sync, CI/CD governance. `scaling-patterns.md` rule, `scaling-operations` skill. 29 tests. |
+
+---
+
+## ✅ Era 43 — Universal Accessibility: Guided Work & Inclusive Design (v2.15.0, Mar 2026)
+
+Comprehensive accessibility system for people with disabilities working in tech. Central piece: Savia as digital job coach with step-by-step guidance. Based on Fundación ONCE "Por Talento Digital", N-CAPS, and ADHD-aware productivity research.
+
+- **Guided Work** — `/guided-work` (--task, --continue, --status, --pause). Micro-step decomposition (3-5 min), three guidance levels (alto/medio/bajo), block detection, adaptive reformulation. N-CAPS non-linear prompting.
+- **Focus Mode** — `/focus-mode` (on, off, status). Single-task environment, complements guided-work.
+- **Accessibility Setup** — `/accessibility-setup` wizard (5 min, 4 phases) + `/accessibility-mode` toggle.
+- **3 domain rules** — `accessibility-output.md` (output adaptation by profile), `guided-work-protocol.md` (interaction protocol with dignity-first design), `inclusive-review.md` (strengths-first code reviews).
+- **Profile fragment** — `accessibility.md` template (7th opt-in fragment: screen_reader, cognitive_load, motor, dyslexia, etc.).
+- **Guides** — Per-disability step-by-step guide (visual, motor, ADHD, autism, dyslexia). Bilingual ES/EN.
+- **ACKNOWLEDGMENTS.md** — Credits to all inspiring projects, studies, and people.
+- Tests: 56 structural tests. CI: 14/14 green.
+
+---
+
+## ✅ Era 44 — Automated Rule Compliance Verification (v2.16.0, Mar 2026)
+
+Pre-commit gate that blocks commits violating domain rules, independent of LLM context. Solves the problem of rules being ignored when conversation context degrades.
+
+- **Compliance Gate** — `compliance-gate.sh` PreToolUse hook blocking `git commit` on violations (exit 2).
+- **Compliance Runner** — `.claude/compliance/runner.sh` orchestrating 4 check scripts.
+- **4 checks** — CHANGELOG comparison links, file size (≤150), command frontmatter, README sync.
+- **`/compliance-check`** — Manual verification command.
+- **RULES-COVERED.md** — Coverage manifest (4 automated, extensible framework).
+- Tests: 4/4 checks passed. CI: 14/14 green.
+
+---
+
+## ✅ Era 45 — Vertical-Specific Commands: 5 Industry Domains (v2.17.0, Mar 2026)
+
+20 domain-specific commands closing the gap proposals from Era 23 guide writing. All commands follow pm-workspace conventions (≤150 lines, YAML frontmatter, project-scoped data storage).
+
+- **Research Lab (5)** — `/experiment-log` (hypothesis→run→result→compare), `/biblio-search` (DOI/BibTeX, APA/IEEE/Vancouver citations), `/dataset-version` (register/diff/validate with SHA256, DVC/LFS support), `/grant-track` (lifecycle: draft→submitted→review→approved/rejected), `/ethics-protocol` (IRB tracking with experiment cross-references).
+- **Hardware Lab (3)** — `/hw-bom` (component registry, cost breakdown, CSV import/export), `/hw-revision` (REV-A/B/C lifecycle, BOM snapshot, tag: prototype/pilot/production), `/compliance-matrix` (CE/FCC/UL/RoHS/ISO, evidence linking, gap analysis).
+- **Legal Firm (5)** — `/legal-deadline` (procesal/contractual/regulatorio, auto-alerts <48h/<7d/<14d), `/court-calendar` (ICS import/export, conflict detection), `/conflict-check` (client/matter screening, privacy-preserving), `/legal-template` (demanda/contestación/recurso/contrato, variable substitution), `/billing-rate` (hourly/fixed/contingency/mixed, invoice generation).
+- **Healthcare (5)** — `/pdca-cycle` (plan→do→check→act, clinical quality improvement), `/incident-register` (severity classification, root cause analysis, GDPR-compliant), `/accreditation-track` (JCI/EFQM/ISO 9001/15189, evidence→requirement linking), `/training-compliance` (mandatory training tracking, expiry alerts), `/health-kpi` (define/measure/trend/dashboard, RAG status).
+- **Nonprofit (2)** — `/impact-metric` (SDG-aligned, output/outcome/impact tiers), `/volunteer-manage` (register/availability/hours, retention tracking).
+- Total: 380 commands. Tests: compliance runner passed. CI green.
 
 ---
 
