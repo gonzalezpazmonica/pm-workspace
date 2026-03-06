@@ -31,6 +31,22 @@ context_cost: high
 
 Si falta `--project` → listar proyectos disponibles con sugerencia de uso.
 
+## Ejemplos
+
+**✅ Correcto:**
+```
+/project-audit --project alpha --focus security
+→ Subagente analiza, guarda output/audits/20260305-audit-alpha.md
+→ Chat muestra: Score 7.2/10 | 🔴 2 | 🟡 3 | 🟢 3
+```
+
+**❌ Incorrecto:**
+```
+/project-audit --project alpha
+→ Volcar 200 líneas de análisis en la conversación
+Por qué falla: Viola output-first. SIEMPRE subagente + fichero.
+```
+
 ## 3. Verificar prerequisitos
 
 Mostrar ✅/❌: proyecto CLAUDE.md, acceso repo.

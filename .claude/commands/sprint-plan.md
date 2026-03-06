@@ -25,6 +25,21 @@ Asiste en el Sprint Planning calculando capacity disponible y proponiendo la car
 /sprint-plan [proyecto] [--sprint "Sprint 2026-XX"]
 ```
 
+## Ejemplos
+
+**✅ Correcto:**
+```
+/sprint-plan alpha --sprint "Sprint 2026-06"
+→ Calcula capacity real, propone 8 PBIs, pide confirmación antes de escribir
+```
+
+**❌ Incorrecto:**
+```
+/sprint-plan alpha
+→ Asignar PBIs sin calcular capacity ni pedir confirmación
+Por qué falla: Viola regla 3 (confirmar antes de escribir en Azure DevOps)
+```
+
 ## 3. Pasos de Ejecución
 
 1. Leer `projects/<proyecto>/CLAUDE.md` y `projects/<proyecto>/equipo.md`

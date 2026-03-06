@@ -20,6 +20,22 @@ description: >
 - `--matrix` — Mostrar matriz probabilidad × impacto
 - `--burndown` — Risk burndown chart (evolución por sprint)
 
+## Ejemplos
+
+**✅ Correcto:**
+```
+/risk-log --project alpha --add
+→ Pide: descripción, probabilidad (1-5), impacto (1-5), mitigación
+→ Calcula exposure, registra en risk-register.md, muestra matriz
+```
+
+**❌ Incorrecto:**
+```
+/risk-log --project alpha --add
+→ Registrar riesgo sin probabilidad ni impacto
+Por qué falla: Sin scoring no se puede priorizar ni calcular exposure
+```
+
 ## Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto

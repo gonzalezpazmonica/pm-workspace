@@ -32,6 +32,22 @@ context_cost: medium
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+## Ejemplos
+
+**✅ Correcto:**
+```
+/debt-track --project alpha --add
+→ Pide: descripción, severidad, esfuerzo estimado, componente afectado
+→ Registra en projects/alpha/debt-register.md con ID incremental
+```
+
+**❌ Incorrecto:**
+```
+/debt-track --project alpha --add
+→ Registrar deuda sin pedir severidad ni componente
+Por qué falla: Items sin clasificar impiden priorización posterior
+```
+
 ## 3. Parámetros
 
 - `--project {nombre}` — Proyecto (obligatorio)
@@ -122,16 +138,12 @@ Recomendación: Incluir DT-01 en el próximo sprint
 - `/debt-track` — Registro manual de deuda, versión más ligera
 - Útil para equipos pequeños o proyectos con deuda muy manual/heredada
 
-**Uso recomendado**: Combinar ambos. Usar `/debt-analyze` para descubrimiento,
-luego `/debt-track` para seguimiento granular de resoluciónde items.
+**Uso recomendado**: `/debt-analyze` para descubrimiento, `/debt-track` para seguimiento.
 
-## Integración General
+## Integración
 
-- `/kpi-dashboard` → incluye debt ratio como KPI
-- `/sprint-plan` → sugiere items de deuda para sprint (vía `/debt-prioritize`)
-- `/project-audit` → usa debt-track para evaluar salud
+`/kpi-dashboard` (debt ratio), `/sprint-plan` (sugiere deuda), `/project-audit` (evalúa salud)
 
 ## Restricciones
 
-- Registro en markdown, no en Azure DevOps (salvo `--create-pbi`)
-- SonarQube es opcional — funciona sin él con registro manual
+- Registro en markdown, no en Azure DevOps (salvo `--create-pbi`). SonarQube opcional.

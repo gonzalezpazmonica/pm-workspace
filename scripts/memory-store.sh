@@ -65,39 +65,24 @@ cmd_save() {
 cmd_search() {
     [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
     local query= type_filter= since_date=
-    while [[ $# -gt 0 ]]; do
-        case "$1" in
-            --type) type_filter="$2"; shift 2 ;;
-            --since) since_date="$2"; shift 2 ;;
-            *) query="$1"; shift ;;
-        esac
-    done
+    while [[ $# -gt 0 ]]; do case "$1" in --type) type_filter="$2"; shift 2;; --since) since_date="$2"; shift 2;; *) query="$1"; shift;; esac; done
     [[ -z "$query" ]] && { echo "Uso: search \"query\" [--type tipo] [--since YYYY-MM-DD]"; return; }
-
     declare -A scored_entries
     while IFS= read -r line; do
         local ts=$(echo "$line" | grep -o '"ts":"[^"]*"' | cut -d'"' -f4 | cut -d'T' -f1)
         [[ -n "$since_date" && "$ts" < "$since_date" ]] && continue
-
         local type=$(echo "$line" | grep -o '"type":"[^"]*"' | cut -d'"' -f4)
         [[ -n "$type_filter" && "$type" != "$type_filter" ]] && continue
-
-        local score=0
-        local title=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
+        local score=0 title=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
         [[ "$title" =~ $query ]] && score=$((score+3))
-        local content=$(echo "$line" | grep -o '"content":"[^"]*"' | sed 's/"content":"//' | sed 's/"$//')
-        [[ "$content" =~ $query ]] && score=$((score+1))
-        local concepts=$(echo "$line" | grep -o '"concepts":\[.*\]' | sed 's/"concepts"://')
-        [[ "$concepts" =~ $query ]] && score=$((score+2))
+        [[ "$(echo "$line" | grep -o '"content":"[^"]*"')" =~ $query ]] && score=$((score+1))
+        [[ "$(echo "$line" | grep -o '"concepts":\[.*\]')" =~ $query ]] && score=$((score+2))
         [[ $score -gt 0 ]] && scored_entries["$score|$ts|$title"]="$line"
     done < "$STORE_FILE"
     local count=0
     for key in $(printf '%s\n' "${!scored_entries[@]}" | sort -rn | head -10); do
-        local line="${scored_entries[$key]}"
-        local ts=$(echo "$key" | cut -d'|' -f2)
-        local title=$(echo "$key" | cut -d'|' -f3-)
-        local type=$(echo "$line" | grep -o '"type":"[^"]*"' | cut -d'"' -f4)
-        echo "  [$ts] ($type) $title [score:$(echo "$key" | cut -d'|' -f1)]"
+        local type=$(echo "${scored_entries[$key]}" | grep -o '"type":"[^"]*"' | cut -d'"' -f4)
+        echo "  [$(echo "$key" | cut -d'|' -f2)] ($type) $(echo "$key" | cut -d'|' -f3-) [score:$(echo "$key" | cut -d'|' -f1)]"
         count=$((count+1))
     done
     [[ $count -eq 0 ]] && echo "No se encontraron resultados" || true
@@ -106,19 +91,11 @@ cmd_search() {
 cmd_context() {
     [[ ! -f "$STORE_FILE" ]] && return
     local limit=20 project=
-    while [[ $# -gt 0 ]]; do
-        case "$1" in
-            --limit) limit="$2"; shift 2 ;;
-            --project) project="$2"; shift 2 ;;
-            *) shift ;;
-        esac
-    done
+    while [[ $# -gt 0 ]]; do case "$1" in --limit) limit="$2"; shift 2;; --project) project="$2"; shift 2;; *) shift;; esac; done
     echo "## 🧠 Memoria Persistente" && echo ""
-    if [[ -n "$project" ]]; then
-        grep "\"project\":\"$project\"" "$STORE_FILE" 2>/dev/null | tac | head -n "$limit"
-    else
-        tac "$STORE_FILE" | head -n "$limit"
-    fi | while IFS= read -r line; do
+    local src; [[ -n "$project" ]] && src=$(grep "\"project\":\"$project\"" "$STORE_FILE" 2>/dev/null | tac | head -n "$limit") || src=$(tac "$STORE_FILE" | head -n "$limit")
+    echo "$src" | while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
         local ts=$(echo "$line" | grep -o '"ts":"[^"]*"' | cut -d'"' -f4 | cut -d'T' -f1)
         local type=$(echo "$line" | grep -o '"type":"[^"]*"' | cut -d'"' -f4)
         local title=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
@@ -136,10 +113,38 @@ cmd_stats() {
         awk '{ printf "  %s: %d\n", $2, $1 }'
 }
 
+cmd_entity() {
+    local action="${1:-list}" query= etype= proj=
+    shift 2>/dev/null || true
+    while [[ $# -gt 0 ]]; do case "$1" in --type) etype="$2"; shift 2;; --project) proj="$2"; shift 2;; *) query="$1"; shift;; esac; done
+    [[ ! -f "$STORE_FILE" ]] && { echo "No hay entidades registradas"; return; }
+    local filter='grep "\"type\":\"entity\"" "$STORE_FILE"'
+    if [[ "$action" == "list" ]]; then
+        echo "## 🧩 Entidades Registradas"
+        grep '"type":"entity"' "$STORE_FILE" 2>/dev/null | while IFS= read -r line; do
+            local t=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
+            local c=$(echo "$line" | grep -o '"concepts":\[[^]]*\]' | sed 's/.*\[//;s/\].*//' | tr -d '"')
+            local p=$(echo "$line" | grep -o '"project":"[^"]*"' | cut -d'"' -f4)
+            [[ -n "$etype" && "$c" != *"$etype"* ]] && continue
+            [[ -n "$proj" && "$p" != "$proj" ]] && continue
+            echo "  - $t ($c) — proyecto: $p"
+        done
+    elif [[ "$action" == "find" ]]; then
+        [[ -z "$query" ]] && { echo "Uso: entity find {nombre}"; return; }
+        grep '"type":"entity"' "$STORE_FILE" 2>/dev/null | grep -i "$query" | while IFS= read -r line; do
+            local t=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
+            local c=$(echo "$line" | grep -o '"content":"[^"]*"' | sed 's/"content":"//' | sed 's/"$//')
+            local ts=$(echo "$line" | grep -o '"ts":"[^"]*"' | cut -d'"' -f4 | cut -d'T' -f1)
+            echo "🧩 $t — $ts: $c"
+        done
+    else echo "Uso: entity {list|find} [nombre] [--type tipo] [--project proj]"; fi
+}
+
 case "${1:-help}" in
     save) shift; cmd_save "$@" ;;
     search) shift; cmd_search "$@" ;;
     context) shift; cmd_context "$@" ;;
     stats) cmd_stats ;;
-    *) echo "Uso: memory-store.sh {save|search|context|stats} [opciones]" ;;
+    entity) shift; cmd_entity "$@" ;;
+    *) echo "Uso: memory-store.sh {save|search|context|stats|entity} [opciones]" ;;
 esac

@@ -345,6 +345,8 @@ I've organized all documentation into sections so you can quickly find what you 
 /context-load    /session-save    /help [filter]
 /agent-memory {list|show|clear}    /savia-recall {query}    /savia-forget {topic|--all}
 /nl-query {question}    /nl-query --explain    /nl-query --learn {phrase} → {cmd}
+/entity-recall {entity}    /entity-recall --list    /entity-recall --save {entity}
+/eval-output {file}    /eval-output --compare {A} {B}    /eval-output --type {type}
 ```
 
 ### Security and Auditing
