@@ -5,6 +5,31 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.15.0] — 2026-03-06
+
+### Added — Universal Accessibility: Guided Work & Inclusive Design (Era 43)
+
+Comprehensive accessibility system so people with disabilities can work in tech companies using pm-workspace. Central piece: Savia as digital job coach.
+
+- **guided-work.md**: `/guided-work --task`, `--continue`, `--status`, `--pause`. Savia decomposes any task into micro-steps (3-5 min), presents ONE at a time with a question, waits, adapts. Three guidance levels: alto (closed questions, 3 lines max), medio (2-3 steps, open questions), bajo (full checklist). Block detection: reformulates on "no sé", checks in on silence, redirects on topic change. Based on N-CAPS (Nonlinear Context-Aware Prompting System) and ADHD-aware productivity framework (arxiv 2507.06864).
+- **focus-mode.md**: `/focus-mode on`, `off`, `status`. Single-task mode — loads ONE PBI, hides sprint board and backlog. Complements guided-work (focus = clean environment, guided = active guidance).
+- **accessibility-setup.md**: `/accessibility-setup`. 5-minute conversational wizard in 4 phases (Vision → Motor → Cognitive → Wellbeing). Creates/updates `accessibility.md` profile fragment.
+- **accessibility-mode.md**: `/accessibility-mode on`, `off`, `status`, `configure`. Quick toggle for all adaptations with current config summary.
+- **accessibility-output.md**: Domain rule adapting ALL Savia outputs based on profile: screen_reader → text descriptions, high_contrast → no color dependency, cognitive_load:low → 5 lines max, motor → command aliases. Priority chain: screen_reader > cognitive_load > high_contrast > rest.
+- **guided-work-protocol.md**: Interaction protocol rule — task decomposition, question patterns per level, block detection table, calibrated celebrations ("Hecho. Paso X/N." — never condescending), context recovery, N-CAPS non-linear adaptation. Core principle: "The goal is not speed. It's that the person CAN complete it, at their pace, with dignity and autonomy."
+- **inclusive-review.md**: Strengths-first code reviews when review_sensitivity=true. Vocabulary mapping: "Bug"→"Caso no cubierto", "Error"→"Oportunidad de mejora". Structure: strengths → opportunities → constructive close.
+- **accessibility.md** (profile fragment template): 7th opt-in profile fragment. Fields: screen_reader, high_contrast, reduced_motion, cognitive_load (low/medium/high), focus_mode, guided_work, guided_work_level (alto/medio/bajo), motor_accommodation, voice_control, review_sensitivity, dyslexia_friendly, break_strategy, break_interval_min.
+- **guide-accessibility.md**: Step-by-step guide per disability profile — visual, motor/RSI, ADHD, autism, dyslexia, hearing. Each with recommended config, workflow example, and tips.
+- **accessibility-es.md / accessibility-en.md**: Bilingual quick-reference docs with feature list, common configurations table, and FAQ.
+- **ACKNOWLEDGMENTS.md**: Credits to all inspiring projects (claude-code-templates, kimun, Engram, BullshitBench, claude-mem), studies (LLYC, Fundación ONCE, N-CAPS, DX Core 4, NIST/ISO/EU AI Act), and people (Daniel Avila, Eduardo Díaz, Miguel Luengo-Oroz).
+- READMEs updated to link ACKNOWLEDGMENTS.md instead of inline credits.
+
+Research sources: Fundación ONCE "Por Talento Digital" (30K+ trained), N-CAPS, arxiv 2411.13950 (ADHD/Autism in Software Development), arxiv 2507.06864 (ADHD-Aware Productivity Framework), DX Core 4.
+
+Tests: `test-accessibility.sh` — 56 structural tests. CI: 14/14 green.
+
+---
+
 ## [2.14.0] — 2026-03-06
 
 ### Added — Enterprise Readiness: Eras 36-42 (Score 5.6 → 8.1)
