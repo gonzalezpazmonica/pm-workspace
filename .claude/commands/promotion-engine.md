@@ -1,5 +1,5 @@
 ---
-title: "Motor de Promociones"
+name: promotion-engine
 description: "Gestiona promociones: crear, activar, desactivar, evaluar, reportes"
 section: "Retail/eCommerce"
 category: "Marketing & Promotions"

@@ -1,5 +1,5 @@
 ---
-title: "Catálogo de Servicios Telecomunicaciones"
+name: service-catalog-telco
 description: "Gestión del catálogo de servicios de telecom con definiciones, configuración y precios"
 icon: "📋"
 category: "Telecomunicaciones"

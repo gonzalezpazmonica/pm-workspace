@@ -5,6 +5,19 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.20.1] — 2026-03-06
+
+### Fixed — Documentation Consistency Audit
+
+Full documentation audit to align all stats and features with current state after Eras 43-48.
+
+- **README.md / README.en.md** — Updated stats: 396+ commands (was 360+), 31 agents (was 27), 41 skills (was 38), 16 hooks (was 14), 14 guides (was 13). Added new feature sections: universal accessibility, industry verticals, adversarial security, adaptive intelligence.
+- **CLAUDE.md** — Synchronized all resource counts: commands (396+), agents (31), skills (41), hooks (16).
+- **agents-catalog.md** — Added 4 missing agents: `frontend-test-runner`, `security-attacker`, `security-defender`, `security-auditor`. Updated count: 31. Added adversarial security flow.
+- **ROADMAP.md** — Corrected agent/skill counts in Era 46 (41 skills), Era 47 (31 agents, 41 skills), Era 48 (31 agents, 41 skills, 16 hooks).
+
+---
+
 ## [2.20.0] — 2026-03-06
 
 ### Added — More Industry Verticals: Insurance, Retail, Telco (Era 48)
@@ -454,6 +467,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.0...v2.20.1
 [2.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.19.0...v2.20.0
 [2.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.18.0...v2.19.0
 [2.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.17.0...v2.18.0

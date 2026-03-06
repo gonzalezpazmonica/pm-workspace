@@ -1,5 +1,5 @@
 ---
-title: "Seguimiento de Pedidos"
+name: order-track
 description: "Gestiona pedidos: crear, actualizar estado, cumplir, procesar devoluciones y reportes"
 section: "Retail/eCommerce"
 category: "Order Management"

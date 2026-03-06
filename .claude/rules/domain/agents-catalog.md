@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (27)
+# Catálogo de Subagentes (31)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -29,6 +29,10 @@
 | `drift-auditor` | Opus 4.6 | Auditoría de convergencia repo: detecta drift entre docs, config y código |
 | `reflection-validator` | Opus 4.6 | Validación meta-cognitiva (System 2): supuestos, cadena causal, brechas |
 | `coherence-validator` | Sonnet 4.6 | Coherencia output↔objetivo: cobertura, consistencia, completitud |
+| `frontend-test-runner` | Sonnet 4.6 | Tests frontend: E2E, componentes, accesibilidad |
+| `security-attacker` | Sonnet 4.6 | Red Team: OWASP Top 10, CWE Top 25, dependency audit |
+| `security-defender` | Sonnet 4.6 | Blue Team: patches, hardening, NIST/CIS |
+| `security-auditor` | Sonnet 4.6 | Auditor independiente: evaluación, score 0-100, gap analysis |
 
 ## Flujos
 
@@ -39,6 +43,7 @@
 - **Post-commit**: `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`)
 - **Consenso**: `reflection-validator` + `code-reviewer` + `business-analyst` → panel 3 jueces → score ponderado → veredicto
 - **Equality Shield** (Era 26): `/bias:check` audita sesgos contrafácticos en asignaciones y comunicaciones. Integración transversal: antes de `/pbi:assign`, `/sprint:review`, `/sprint:retro`, `/report:executive`.
+- **Adversarial Security** (Era 47): `security-attacker` → `security-defender` → `security-auditor` → informe con score 0-100. Pipeline: `/security-pipeline`.
 
 El agente developer se selecciona según el Language Pack del proyecto.
 
