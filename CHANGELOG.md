@@ -5,6 +5,24 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.19.0] — 2026-03-06
+
+### Added — Adversarial Security Pipeline (Era 47)
+
+Red Team / Blue Team / Auditor pattern for systematic security testing.
+
+- **3 security agents**: `security-attacker` (Red Team: OWASP Top 10, CWE Top 25, dependency audit, VULN-NNN structured findings), `security-defender` (Blue Team: patches, hardening, NIST/CIS, FIX-NNN structured corrections), `security-auditor` (independent evaluation, security score 0-100, gap analysis, executive summary).
+- **`/security-pipeline`** command — 3-phase sequential orchestration: Attack → Defend → Audit. Scopes: full, api, deps, config, secrets. Outputs per-project: vulns, fixes, and audit report.
+- **`/threat-model`** command — STRIDE/PASTA threat modeling with asset inventory, threat analysis (probability × impact), control mapping, gap identification, prioritized recommendations.
+- **`adversarial-security.md`** rule — Severity classification (critical/high/medium/low/info), scoring formula, agent independence, compliance integration (critical/high block main merge).
+- **`adversarial-security/SKILL.md`** skill — CVSS scoring, STRIDE mapping table, OWASP Top 10 checklist, dependency audit commands (npm/pip/dotnet).
+
+### Changed
+
+- **ROADMAP.md** — Added Era 47 entry. Moved adversarial security from backlog to implemented. Updated stats: 384+ commands, 30 agents, 40 skills.
+
+---
+
 ## [2.18.0] — 2026-03-06
 
 ### Added — Skill Evaluation Engine & Instincts System (Era 46)
@@ -420,6 +438,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.18.0...v2.19.0
 [2.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.17.0...v2.18.0
 [2.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.16.1...v2.17.0
 [2.16.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.16.0...v2.16.1

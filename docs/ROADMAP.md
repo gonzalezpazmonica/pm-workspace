@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 382+ commands, 27 agents, 39 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 384+ commands, 30 agents, 40 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -396,6 +396,19 @@ Self-learning intelligence layer: automatic skill recommendation based on prompt
 
 ---
 
+## ✅ Era 47 — Adversarial Security Pipeline (v2.19.0, Mar 2026)
+
+Red Team / Blue Team / Auditor pattern for systematic security testing. Inspired by everything-claude-code and trail-of-bits research.
+
+- **3 security agents** — `security-attacker` (Red Team: OWASP Top 10, CWE Top 25, dependency audit), `security-defender` (Blue Team: patches, hardening, NIST/CIS), `security-auditor` (independent evaluation, score 0-100, gap analysis).
+- **`/security-pipeline`** — Orchestrates 3-phase sequential flow: Attack → Defend → Audit. Scopes: full, api, deps, config, secrets. Outputs: vulns, fixes, and audit report per project.
+- **`/threat-model`** — STRIDE/PASTA threat modeling. Asset inventory, threat analysis (probability × impact), control mapping, gap identification, prioritized recommendations.
+- **Adversarial Security Rule** — `adversarial-security.md`: severity classification, scoring formula (100 - critical×25 - high×10 - medium×3 - low×1), agent independence, compliance integration.
+- **Adversarial Security Skill** — CVSS scoring, STRIDE mapping, OWASP checklist, dependency audit commands (npm/pip/dotnet).
+- Total: 384 commands, 30 agents, 40 skills. Compliance runner passed. CI green.
+
+---
+
 ### Backlog — Strategic Evaluation
 
 - **Claude Connectors vs MCP** — Evaluar si Connectors simplifican la arquitectura de integraciones
@@ -405,7 +418,6 @@ Self-learning intelligence layer: automatic skill recommendation based on prompt
 - **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status)
 - **Claude in Chrome integration** — Extracción de datos de portales web sin API para Savia
 - **Voice integration** — `/voice-pm` when Claude Code `/voice` reaches GA. Voice-to-command for sprint ceremonies (dictated standups, retros, reviews). Builds on existing `voice-inbox` skill.
-- **Adversarial security pipeline** — Attacker/Defender/Auditor agents (inspired by everything-claude-code + trail-of-bits)
 
 ---
 
