@@ -1,123 +1,93 @@
-# Catálogo de MCPs Recomendados para pm-workspace
+# Catálogo de Integraciones para pm-workspace
 
-Este es un catálogo curado de Servidores de Protocolo de Control de Modelos (MCPs) recomendados del ecosistema [claude-code-templates](https://github.com/davila7/claude-code-templates). Los MCPs amplían las capacidades de Claude Code permitiendo integración con herramientas externas.
+pm-workspace se conecta a herramientas externas mediante MCP (Model Context Protocol). Hay dos vías para activar integraciones: Claude Connectors (1 clic, recomendado) y MCP servers community (terminal).
 
-## Instrucción de Instalación
+## Vía 1: Claude Connectors (recomendado)
 
-Para instalar cualquier MCP de este catálogo:
+Los Connectors son MCP servers revisados por Anthropic con OAuth gestionado. Se activan en [claude.ai/settings/connectors](https://claude.ai/settings/connectors) y quedan disponibles automáticamente en Claude Code, Claude Desktop y Claude Mobile.
+
+**Requisito:** Plan Pro, Max, Team o Enterprise.
+
+| Herramienta | Connector oficial | Comandos pm-workspace que lo usan |
+|---|---|---|
+| GitHub | github | `/github-issues`, `/github-activity`, `/repos-*`, `/security-alerts` |
+| Slack | slack | `/slack-search`, `/notify-slack`, `/inbox-check` |
+| Notion | notion | `/notion-sync` |
+| Google Drive | google-drive | `/gdrive-upload` |
+| Gmail | gmail | `/inbox-check` |
+| Google Calendar | google-calendar | `/court-calendar` (integración ICS) |
+| Jira | jira | `/jira-sync` |
+| Confluence | confluence | `/confluence-publish`, `/wiki-sync`, `/wiki-publish` |
+| Figma | figma | `/figma-extract` |
+| Sentry | sentry | `/sentry-bugs`, `/sentry-health` |
+| Linear | linear | `/integration-status` |
+| Stripe | stripe | `/cost-center` (facturación) |
+
+**Cómo activar:** Ver [Guía rápida de Connectors](guides/guide-connectors-quickstart.md).
+
+---
+
+## Vía 2: MCP Servers Community (terminal)
+
+Para herramientas sin Connector oficial, o entornos que requieren configuración local (CI/CD, air-gapped, Azure DevOps).
+
+### Instalación
 
 ```bash
+# Opción A: Desde claude-code-templates
 npx claude-code-templates@latest --mcp {categoria}/{nombre} --yes
+
+# Opción B: Directo con claude mcp add
+claude mcp add --transport http nombre https://url-del-server
 ```
 
----
+### Azure DevOps (sin Connector oficial)
 
-## Base de Datos
+La integración con Azure DevOps requiere MCP community. Ver `.claude/rules/domain/mcp-migration.md` para el mapeo completo REST → MCP.
 
-### neon-postgres
-**Descripción:** Integración con PostgreSQL serverless, ideal para proyectos escalables sin gestión de infraestructura.
+```bash
+claude mcp add --transport stdio azure-devops -- npx -y azure-devops-mcp-server
+```
 
-**Comando:** `npx claude-code-templates@latest --mcp database/neon-postgres --yes`
+Comandos que lo usan: `/sprint-status`, `/pipeline-*`, `/repos-*`, `/board-view`.
 
-**Cuándo usarlo:** Configurar o consultar bases de datos PostgreSQL para almacenamiento de datos del proyecto, sprints y tareas sin preocuparse por mantenimiento de infraestructura.
+### Base de Datos
 
-### supabase
-**Descripción:** Backend-as-a-service con autenticación, base de datos y APIs en tiempo real.
+**neon-postgres** — PostgreSQL serverless para almacenamiento de sprints y tareas.
+`npx claude-code-templates@latest --mcp database/neon-postgres --yes`
 
-**Comando:** `npx claude-code-templates@latest --mcp database/supabase --yes`
+**supabase** — Backend-as-a-service con autenticación y APIs en tiempo real.
+`npx claude-code-templates@latest --mcp database/supabase --yes`
 
-**Cuándo usarlo:** Implementar sistemas de autenticación de usuarios, gestión de datos en tiempo real para tableros de proyecto y sincronización de estado.
+**mysql** — Integración con bases de datos MySQL heredadas.
+`npx claude-code-templates@latest --mcp database/mysql --yes`
 
-### mysql
-**Descripción:** Integración con bases de datos MySQL para aplicaciones heredadas o personalizadas.
+### DevTools
 
-**Comando:** `npx claude-code-templates@latest --mcp database/mysql --yes`
+**terraform** — Infraestructura como código para automatización de ambientes.
+`npx claude-code-templates@latest --mcp devtools/terraform --yes`
 
-**Cuándo usarlo:** Conectar con sistemas existentes basados en MySQL o migrar datos de equipos Scrum.
+**elasticsearch** — Motor de búsqueda para exploración de logs y métricas.
+`npx claude-code-templates@latest --mcp devtools/elasticsearch --yes`
 
----
+### Automatización de Navegadores
 
-## DevTools
+**playwright** — Pruebas E2E con soporte Chrome, Firefox y WebKit.
+`npx claude-code-templates@latest --mcp browser_automation/playwright --yes`
 
-### terraform
-**Descripción:** Gestión de infraestructura como código (IaC) para automatización de ambientes.
+**puppeteer** — Automatización headless Chrome para testing y scraping.
+`npx claude-code-templates@latest --mcp browser_automation/puppeteer --yes`
 
-**Comando:** `npx claude-code-templates@latest --mcp devtools/terraform --yes`
+### Investigación
 
-**Cuándo usarlo:** Complementa infrastructure-agent para definir y provisionar recursos de CI/CD, servidores y ambientes de desarrollo/producción.
-
-### sentry
-**Descripción:** Monitoreo de errores y tracking de excepciones en producción.
-
-**Comando:** `npx claude-code-templates@latest --mcp devtools/sentry --yes`
-
-**Cuándo usarlo:** Analizar incidentes críticos reportados durante sprints, asignar defectos a equipos y priorizar correcciones.
-
-### figma
-**Descripción:** Integración con prototipos y diseños en Figma para revisión de componentes visuales.
-
-**Comando:** `npx claude-code-templates@latest --mcp devtools/figma --yes`
-
-**Cuándo usarlo:** Revisar mockups de features antes de refinamiento, validar especificaciones de diseño con equipos de producto.
-
-### elasticsearch
-**Descripción:** Motor de búsqueda y análisis para exploración de logs y datos estructurados.
-
-**Comando:** `npx claude-code-templates@latest --mcp devtools/elasticsearch --yes`
-
-**Cuándo usarlo:** Investigar patrones en métricas de proyecto, analizar tendencias de rendimiento del equipo y data-driven decision making.
+**mcp-server-nia** — Investigación profunda para discovery de productos.
+`npx claude-code-templates@latest --mcp deepresearch/mcp-server-nia --yes`
 
 ---
 
-## Automatización de Navegadores
+## Explorar más
 
-### playwright
-**Descripción:** Automatización de pruebas end-to-end (E2E) con soporte para Chrome, Firefox y WebKit.
-
-**Comando:** `npx claude-code-templates@latest --mcp browser_automation/playwright --yes`
-
-**Cuándo usarlo:** Escribir y ejecutar scripts de testing para validar criterios de aceptación de user stories durante QA.
-
-### puppeteer
-**Descripción:** Automatización de navegadores basada en headless Chrome para web scraping y testing.
-
-**Comando:** `npx claude-code-templates@latest --mcp browser_automation/puppeteer --yes`
-
-**Cuándo usarlo:** Automatizar pruebas de regresión o extraer datos de sistemas externos para análisis de proyecto.
-
----
-
-## Investigación Profunda
-
-### mcp-server-nia
-**Descripción:** Servidor de investigación profunda para descubrimiento de productos y análisis de mercado.
-
-**Comando:** `npx claude-code-templates@latest --mcp deepresearch/mcp-server-nia --yes`
-
-**Cuándo usarlo:** Investigar tendencias tecnológicas, analizar competencia, validar hipótesis de producto en sesiones de discovery.
-
----
-
-## Productividad
-
-### notion
-**Descripción:** Integración con Notion para gestión de wikis, documentación y bases de conocimiento.
-
-**Comando:** `npx claude-code-templates@latest --mcp productivity/notion --yes`
-
-**Cuándo usarlo:** Sincronizar especificaciones de features, documentación técnica y lecciones aprendidas del equipo Scrum.
-
-### calendar
-**Descripción:** Integración con calendarios para programación de eventos y sincronización de reuniones.
-
-**Comando:** `npx claude-code-templates@latest --mcp productivity/calendar --yes`
-
-**Cuándo usarlo:** Automatizar programación de retrospectivas, refinamientos y planificaciones de sprint basado en disponibilidad del equipo.
-
----
-
-## Explorar Más MCPs
-
-Este catálogo incluye los MCPs más relevantes para equipos de PM y Scrum. El ecosistema de claude-code-templates contiene **66+ servidores** adicionales cubriendo integraciones con GitHub, Slack, bases de datos, herramientas de IA y más.
-
-**Explora el catálogo completo:** https://aitmpl.com
+- **Directorio oficial de Connectors:** [claude.ai/connectors](https://claude.com/connectors)
+- **Catálogo claude-code-templates:** [aitmpl.com](https://aitmpl.com) (66+ servers)
+- **Registro MCP de Anthropic:** disponible via `claude mcp add` con autocompletado
+- **Comando pm-workspace:** `/mcp-browse` para explorar MCPs desde la terminal
