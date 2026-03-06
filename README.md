@@ -345,6 +345,8 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 /context-load    /session-save    /help [filtro]
 /agent-memory {list|show|clear}    /savia-recall {query}    /savia-forget {topic|--all}
 /nl-query {pregunta}    /nl-query --explain    /nl-query --learn {frase} → {cmd}
+/entity-recall {entidad}    /entity-recall --list    /entity-recall --save {entidad}
+/eval-output {fichero}    /eval-output --compare {A} {B}    /eval-output --type {tipo}
 ```
 
 ### Seguridad y Auditoría

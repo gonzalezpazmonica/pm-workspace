@@ -36,6 +36,22 @@ Genera una Spec ejecutable (`.spec.md`) a partir de una Task de Azure DevOps, li
 → `references/layer-assignment-matrix.md`
 → `references/spec-template.md`
 
+## Ejemplos
+
+**✅ Correcto:**
+```
+/spec-generate 1234 --project alpha
+→ Lee Task de AzDO, genera projects/alpha/specs/sprint-06/1234-feature-login.spec.md
+→ Spec incluye: criterios aceptación, tests, tipo de implementador
+```
+
+**❌ Incorrecto:**
+```
+/spec-generate 1234
+→ Generar spec sin leer la Task de AzDO ni validar el proyecto
+Por qué falla: La spec sin contexto del PBI genera requisitos inventados
+```
+
 ## 4. Pasos de Ejecución
 
 ### Paso 1 — Leer contexto del proyecto
@@ -128,11 +144,7 @@ Checklist de calidad:
   ✅ Código de referencia incluido
   ⚠️  {advertencia si algún campo quedó incompleto}
 
-¿Está lista para implementar? Puedes:
-  - Ejecutar: /spec-implement {spec_file}  (si developer_type es agent)
-  - Revisar el fichero manualmente antes de asignar
-  - Ejecutar: /spec-review {spec_file}     (para validación adicional)
+¿Lista? → /spec-implement {spec_file} (agent) o revisar manualmente
 ```
 
-> ⚠️ La Spec generada es un BORRADOR. Siempre revisarla antes de darla a un agente o a un desarrollador.
-> Si algún campo tiene {placeholder} sin rellenar, la Spec NO está lista para implementar.
+> ⚠️ La Spec es un BORRADOR. Revisarla antes de implementar. Si tiene {placeholder}, NO está lista.
