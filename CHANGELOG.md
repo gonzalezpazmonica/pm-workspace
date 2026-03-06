@@ -5,6 +5,25 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.18.0] — 2026-03-06
+
+### Added — Skill Evaluation Engine & Instincts System (Era 46)
+
+Self-learning intelligence layer for automatic skill recommendation and adaptive behavior patterns.
+
+- **`/skill-eval`** command — Analyzes prompts against available skills with composite scoring (keywords 40% + project context 30% + history 30%). Subcommands: analyze, recommend, activate, history, tune. Auto-detects 7 project types (software, research, hardware, legal, healthcare, nonprofit, education).
+- **`/instinct-manage`** command — Manages Savia's learned behavior patterns with confidence scoring. Subcommands: list, add, disable, stats, decay, export. Confidence: initial 50%, +3% success, -5% failure, floor 20%, ceiling 95%. Decay: -5% per 30 days without use.
+- **`skill-auto-activation.md`** rule — Suggests skills above 70% relevance threshold. Max 2 suggestions per interaction. Respects focus-mode. Learns from rejections (3 consecutive → stops suggesting).
+- **`instincts-protocol.md`** rule — Lifecycle: detect ≥3 repetitions → propose → create → reinforce/penalize → decay → review. 5 categories: workflow, preference, shortcut, context, timing.
+- **`skill-evaluation/SKILL.md`** skill — Prompt tokenization, 7 project-type detection, project→skills mapping, instinct integration (+20 boost for high-confidence instincts).
+- **Registries**: `eval-registry.json` (skill activations), `instincts/registry.json` (instinct entries).
+
+### Changed
+
+- **ROADMAP.md** — Added Era 46 entry. Moved instincts + skill evaluation from backlog to implemented. Updated stats: 382+ commands, 39 skills.
+
+---
+
 ## [2.17.0] — 2026-03-06
 
 ### Added — Vertical-Specific Commands: 5 Industry Domains (Era 45)
@@ -401,6 +420,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.17.0...v2.18.0
 [2.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.16.1...v2.17.0
 [2.16.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.16.0...v2.16.1
 [2.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.15.0...v2.16.0

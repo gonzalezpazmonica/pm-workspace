@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 380+ commands, 27 agents, 38 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 382+ commands, 27 agents, 39 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -382,6 +382,20 @@ Pre-commit gate that blocks commits violating domain rules, independent of LLM c
 
 ---
 
+## ✅ Era 46 — Skill Evaluation Engine & Instincts System (v2.18.0, Mar 2026)
+
+Self-learning intelligence layer: automatic skill recommendation based on prompt analysis + adaptive instincts with confidence scoring. Inspired by everything-claude-code and claude-code-showcase.
+
+- **Skill Evaluation Engine** — `/skill-eval` command (analyze/recommend/activate/history/tune). Composite scoring: keyword match (40%) + project context detection (30%) + history boost (30%). 7 project types auto-detected (software, research, hardware, legal, healthcare, nonprofit, education). Feedback loop: accepted +2, rejected -3.
+- **Instincts System** — `/instinct-manage` command (list/add/disable/stats/decay/export). Confidence scoring: initial 50%, +3% success, -5% failure, floor 20%, ceiling 95%. Decay: -5% per 30 days without use. 5 categories: workflow, preference, shortcut, context, timing. Max 100 active instincts.
+- **Skill Auto-Activation Rule** — `skill-auto-activation.md`: suggests skills above 70% relevance threshold, max 2 per interaction, respects focus-mode, learns from rejections (3 consecutive → stop suggesting).
+- **Instincts Protocol Rule** — `instincts-protocol.md`: lifecycle (detect ≥3 repetitions → propose → create → reinforce/penalize → decay → review). Security: no destructive actions, no sensitive data, explicit rules always prevail.
+- **Skill Evaluation Skill** — `skill-evaluation/SKILL.md`: prompt tokenization, context detection (7 project types), project→skills mapping, instinct integration (+20 boost for high-confidence instincts).
+- **Registries** — `eval-registry.json` (skill activations) + `instincts/registry.json` (instinct entries).
+- Total: 382 commands, 39 skills. Compliance runner passed. CI green.
+
+---
+
 ### Backlog — Strategic Evaluation
 
 - **Claude Connectors vs MCP** — Evaluar si Connectors simplifican la arquitectura de integraciones
@@ -391,9 +405,7 @@ Pre-commit gate that blocks commits violating domain rules, independent of LLM c
 - **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status)
 - **Claude in Chrome integration** — Extracción de datos de portales web sin API para Savia
 - **Voice integration** — `/voice-pm` when Claude Code `/voice` reaches GA. Voice-to-command for sprint ceremonies (dictated standups, retros, reviews). Builds on existing `voice-inbox` skill.
-- **Instincts system** — Self-learning patterns with confidence scoring (inspired by everything-claude-code)
 - **Adversarial security pipeline** — Attacker/Defender/Auditor agents (inspired by everything-claude-code + trail-of-bits)
-- **Skill evaluation engine** — Automatic skill activation based on prompt analysis (inspired by claude-code-showcase)
 
 ---
 
