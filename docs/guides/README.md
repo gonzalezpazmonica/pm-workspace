@@ -21,6 +21,7 @@
 | [Bufete de abogados](guide-legal-firm.md) | Casos, plazos legales, facturación por horas | Socio, Abogado, Paralegal |
 | [Organización sanitaria](guide-healthcare.md) | Mejora continua, protocolos, compliance | Dir. Calidad, Responsable TIC |
 | [Auditoría de soberanía cognitiva](guide-sovereignty.md) | Lock-in cognitivo, Sovereignty Score, exit plan | CTO, PM, Compliance |
+| [Gran consultora tecnológica](guide-enterprise-consultancy.md) | 500-5000 empleados, multi-proyecto, multi-cliente | CEO, CTO, PM, Compliance |
 
 ---
 
