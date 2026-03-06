@@ -166,6 +166,9 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 | [ONG](docs/guides/guide-nonprofit.md) | Subvenciones, voluntarios, impacto social |
 | [Bufete de abogados](docs/guides/guide-legal-firm.md) | Casos, plazos legales, facturación por horas |
 | [Organización sanitaria](docs/guides/guide-healthcare.md) | Mejora continua, protocolos, compliance |
+| [Auditoría de soberanía cognitiva](docs/guides/guide-sovereignty.md) | Lock-in cognitivo, Sovereignty Score, exit plan |
+
+> 📚 [Índice completo de guías](docs/guides/README.md) · [Full guide index (English)](docs/guides_en/README.md)
 
 ### Otros documentos
 
