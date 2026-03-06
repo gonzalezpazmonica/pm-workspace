@@ -12,6 +12,8 @@ Esta guía está diseñada para **grandes consultoras tecnológicas** con:
 
 Si tu consultora es más pequeña (5–50 personas), comienza con [Guía de Inicio Rápido](./quick-start.md).
 
+**Ver también**: [Análisis de Gaps — Gran Consultora](guide-enterprise-gap-analysis.md) — 10 problemas operativos comunes y cómo los resuelve pm-workspace.
+
 ---
 
 ## 2. Qué ofrece pm-workspace a cada perfil

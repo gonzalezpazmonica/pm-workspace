@@ -168,6 +168,7 @@ He organizado toda la documentación en secciones para que encuentres rápido lo
 | [Organización sanitaria](docs/guides/guide-healthcare.md) | Mejora continua, protocolos, compliance |
 | [Auditoría de soberanía cognitiva](docs/guides/guide-sovereignty.md) | Lock-in cognitivo, Sovereignty Score, exit plan |
 | [Gran consultora tecnológica](docs/guides/guide-enterprise-consultancy.md) | 500-5000 empleados, multi-proyecto, soberanía |
+| [Análisis de gaps — Gran consultora](docs/guides/guide-enterprise-gap-analysis.md) | 10 gaps operativos y cómo los resuelve Savia |
 
 > 📚 [Índice completo de guías](docs/guides/README.md) · [Full guide index (English)](docs/guides_en/README.md)
 
