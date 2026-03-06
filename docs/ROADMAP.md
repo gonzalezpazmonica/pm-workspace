@@ -1,6 +1,6 @@
 # Roadmap
 
-pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 384+ commands, 30 agents, 40 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras and outlines what comes next.
+pm-workspace has evolved from a Scrum toolkit into a full PM intelligence platform with 396+ commands, 30 agents, 40 skills, 15 hooks, and its own persona (Savia). This roadmap groups the released versions into thematic eras and outlines what comes next.
 
 Status: ✅ Released · 🟡 In progress · 💡 Proposed
 
@@ -409,10 +409,20 @@ Red Team / Blue Team / Auditor pattern for systematic security testing. Inspired
 
 ---
 
+## ✅ Era 48 — More Industry Verticals: Insurance, Retail, Telco (v2.20.0, Mar 2026)
+
+12 domain-specific commands for 3 additional industries, completing the vertical coverage from the strategic backlog.
+
+- **Insurance (4)** — `/insurance-policy` (create/renew/cancel/list/compare, POL-NNN IDs, endorsement tracking), `/insurance-claim` (open/investigate/resolve, CLM-NNN, loss ratio analytics), `/solvency-report` (Solvency II: SCR/MCR/own funds, RAG indicator, regulator submission), `/underwriting-rule` (define/evaluate/list/audit, accept/refer/decline decisions, override tracking).
+- **Retail/eCommerce (4)** — `/product-catalog` (SKU-NNNN, categories, pricing, stock management, CSV/JSON export), `/order-track` (ORD-NNNN, status lifecycle: pending→delivered, returns, revenue analytics), `/inventory-manage` (stock/reorder/transfer/count/alert, multi-warehouse, dead stock detection), `/promotion-engine` (PROMO-NNN, discount/BOGO/bundle/coupon, cart evaluation, ROI analysis).
+- **Telco (4)** — `/service-catalog-telco` (SVC-NNN, voz/datos/fibra/tv/convergente, SLA, bundling with discounts), `/network-incident` (NI-NNNN, eTOM classification, escalation tiers, SLA compliance verification), `/subscriber-lifecycle` (SUB-NNNN, onboard/upgrade/downgrade, churn-risk scoring, ARPU/LTV analytics), `/capacity-forecast-telco` (utilization measurement, trend-based forecasting, expansion planning, threshold alerts).
+- Total: 396 commands, 30 agents, 40 skills. Compliance runner passed. CI green.
+
+---
+
 ### Backlog — Strategic Evaluation
 
 - **Claude Connectors vs MCP** — Evaluar si Connectors simplifican la arquitectura de integraciones
-- **More industry verticals** — Insurance (Guidewire, Solvency II), Retail/eCommerce, Telco (OSS/BSS, eTOM/SID)
 - **Multimodal quality gates** — Visual regression via VLM screenshot analysis, diagram-to-spec, wireframe-driven decompose
 - **Observability extensions** — New Relic, Splunk, Elastic APM. LLM observability (token usage, prompt latency, model drift)
 - **Developer experience** — VS Code / Cursor extension, CLI mode, mobile companion (read-only sprint status)
