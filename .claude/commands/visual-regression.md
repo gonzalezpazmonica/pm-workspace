@@ -1,148 +1,130 @@
 ---
 name: visual-regression
-description: "Visual regression testing — capturas por breakpoint, comparación contra baselines, informe de diffs"
-developer_type: all
-agent: task
-context_cost: high
-model: sonnet
-argument-hint: "[--update-baseline] [--component nombre] [--page /ruta] [--breakpoint mobile|tablet|desktop|wide]"
+description: Automated visual regression testing across builds and branches. Detect visual regressions with baseline comparison and approval workflows.
+allowed-tools:
+  - Read
+  - Write
+  - Glob
+  - Grep
+  - Bash
+  - Task
 ---
 
-# /visual-regression — Testing Visual de Regresión
+# Visual Regression Command
 
-> 🦉 Savia compara lo que renderiza tu app contra las baselines aprobadas.
-> Stack: Playwright screenshots + pixelmatch (local, gratuito, sin vendor lock-in).
+Automated visual regression testing with baseline management and approval workflows.
 
----
+## Subcommands
 
-## Cargar perfil de usuario
-
-Grupo: **QA & Testing** — cargar: `identity.md`, `projects.md`, `preferences.md`
-
----
-
-## Subcomandos
-
-- `/visual-regression` — captura todas las páginas y compara contra baselines
-- `/visual-regression --update-baseline` — actualiza baselines con capturas actuales
-- `/visual-regression --component {nombre}` — captura un componente aislado (Storybook)
-- `/visual-regression --page {/ruta}` — captura una página específica
-- `/visual-regression --breakpoint {bp}` — solo un breakpoint (mobile|tablet|desktop|wide)
-
----
-
-## Flujo
-
-### Paso 1 — Detectar páginas/componentes
-
-Leer rutas del proyecto:
-
-- React: `src/pages/`, `src/routes/`, router config
-- Angular: `app-routing.module.ts` o `app.routes.ts`
-- Si `--component`: buscar en Storybook o fichero del componente
-- Si `--page`: usar la ruta proporcionada
-
-### Paso 2 — Levantar servidor dev
-
+### baseline
+Capture baseline screenshots for all registered views.
 ```bash
-# Detectar script de dev
-npm run dev   # Vite/React
-npm run start # Angular
-npx storybook dev -p 6006  # Si --component y hay Storybook
+/visual-regression baseline [--tag=GIT_REF] [--views=VIEW_LIST]
 ```
+- Captures screenshots for all views (or specified subset)
+- Tags with git ref (branch/commit): `baseline-{tag}-{timestamp}`
+- Stores in: `output/visual-qa/baselines/{tag}/`
+- Creates index: `baseline-index.json` with view manifest
+- Snapshot format: `{view_id}-{resolution}.png`
 
-Esperar a que el servidor esté ready (health check en localhost).
-
-### Paso 3 — Capturar screenshots por breakpoint
-
+### test
+Capture current screenshots and compare against baseline.
+```bash
+/visual-regression test [--baseline=TAG] [--tolerance=5] [--views=VIEW_LIST]
 ```
-Breakpoints:
-  mobile:  375 × 812  (iPhone SE)
-  tablet:  768 × 1024 (iPad)
-  desktop: 1280 × 800 (Standard)
-  wide:    1920 × 1080 (Full HD)
+- Compares current captures against specified baseline
+- Applies tolerance threshold (default: 5% pixel difference)
+- Flags regressions: visual changes exceeding threshold
+- Output: `output/visual-qa/reports/regression-test-{timestamp}.json`
+- Severity levels: critical (>10%), major (5-10%), minor (<5%)
+- Details: before/after screenshots, pixel diffs, affected components
+
+### diff
+Show detailed visual diff between two captures.
+```bash
+/visual-regression diff --current=CURRENT --baseline=BASELINE [--tolerance=0.1]
 ```
+- Generates visual diff overlay
+- Pixel-level threshold: 0.1 (0.1% pixel difference = critical)
+- Outputs:
+  - Diff visualization: `output/visual-qa/diffs/{comparison_id}-diff.png`
+  - Diff metadata: `output/visual-qa/diffs/{comparison_id}.json`
+- Highlights changed regions, calculates delta percentage
 
-Para cada página × breakpoint:
-
-1. Navegar con Playwright
-2. Esperar a `networkidle`
-3. Capturar screenshot full-page
-4. Guardar en `screenshots/current/{page}-{breakpoint}.png`
-
-### Paso 4 — Comparar contra baselines
-
+### approve
+Mark visual changes as intentional (update baseline).
+```bash
+/visual-regression approve --test-run=TEST_ID [--reason=JUSTIFICATION]
 ```
-Si existe screenshots/baseline/{page}-{breakpoint}.png:
-  → Comparar con pixelmatch
-  → Threshold: 0.1% de píxeles diferentes
-  → Si diff > threshold → REGRESIÓN detectada
-  → Generar diff image en screenshots/diff/
+- Approves regression findings as intentional design changes
+- Updates baseline reference with current screenshots
+- Logs approval decision with reason and reviewer
+- Updates: `baseline-{tag}/metadata.json`
+- Prevents same regression from flagging again
 
-Si NO existe baseline:
-  → Marcar como NEW (sin baseline para comparar)
-  → Sugerir --update-baseline
-```
-
-### Paso 5 — Generar informe
-
-```
-🦉 Visual Regression — {proyecto}
-
-  Páginas capturadas: 8
-  Breakpoints: 4 (mobile, tablet, desktop, wide)
-  Total screenshots: 32
-
-  Página          | mobile | tablet | desktop | wide
-  ────────────────|────────|────────|─────────|──────
-  /login          | ✅     | ✅     | ✅      | ✅
-  /dashboard      | ✅     | ❌ 0.3%| ✅      | ✅
-  /settings       | ✅     | ✅     | ⚠️ NEW  | ⚠️ NEW
-  /profile        | ✅     | ✅     | ✅      | ✅
-
-  ❌ 1 regresión detectada
-  ⚠️ 2 páginas sin baseline
-
-  Diffs en: screenshots/diff/
-  Informe: output/visual-regression/YYYYMMDD-report.md
-```
-
-### Paso 6 — Si `--update-baseline`
-
-Copiar `screenshots/current/` a `screenshots/baseline/`. Confirmar antes de sobrescribir.
-
----
-
-## Modo agente (role: "Agent")
+## Configuration
 
 ```yaml
-status: ok
-action: visual_regression
-pages_captured: 8
-breakpoints: 4
-total_screenshots: 32
-regressions: 1
-new_pages: 2
-passed: 29
-report_path: "output/visual-regression/20260306-report.md"
+tolerance_percent: 5          # Default regression threshold (%)
+pixel_threshold: 0.1          # Pixel-level diff detection (%)
+snapshot_resolutions:
+  - 375   # Mobile
+  - 768   # Tablet
+  - 1440  # Desktop
+ignore_regions:              # Optional dynamic content regions
+  - selector: ".timestamp"
+  - selector: ".user-avatar"
 ```
 
----
+## Output Structure
 
-## Integración
+```
+output/visual-qa/
+├── baselines/
+│   └── {TAG}/
+│       ├── {view_id}-375.png
+│       ├── {view_id}-768.png
+│       ├── {view_id}-1440.png
+│       └── baseline-index.json
+├── reports/
+│   └── regression-test-*.json
+└── diffs/
+    ├── {comparison_id}-diff.png
+    └── {comparison_id}.json
+```
 
-| Comando | Relación |
-|---|---|
-| `/figma-extract` | Tokens de diseño como referencia visual |
-| `/a11y-audit` | Contraste de colores en screenshots |
-| `/spec-verify-ui` | Verifica spec + visual en un solo flujo |
-| `/qa-dashboard` | Regresiones visuales en métricas QA |
+## Integration Points
 
----
+- **CI Gates**: Works with `/security-pipeline` for automated testing
+- **PR Guardian**: Blocks PRs with critical visual regressions until approved
+- **Baseline Sync**: Auto-sync baselines to main branch after merge
 
-## Restricciones
+## Examples
 
-- **NUNCA** actualizar baselines sin confirmación del usuario
-- **NUNCA** ignorar regresiones — siempre reportar
-- **NUNCA** ejecutar en producción — solo dev/staging
-- Screenshots `current/` y `diff/` en gitignore; solo baselines se comitean
+```bash
+/visual-regression baseline --tag=v2.0.0 --views=homepage,dashboard,settings
+/visual-regression test --baseline=v2.0.0 --tolerance=5
+/visual-regression diff --current=output/visual-qa/screenshots/dashboard.png --baseline=output/visual-qa/baselines/v2.0.0/dashboard-1440.png
+/visual-regression approve --test-run=regression-test-2026-03-06 --reason="Intentional design refresh"
+```
+
+## Regression Report Schema
+
+```json
+{
+  "timestamp": "2026-03-06T10:30:00Z",
+  "baseline_tag": "v2.0.0",
+  "tolerance_percent": 5,
+  "total_views": 3,
+  "regressions": [
+    {
+      "view_id": "homepage",
+      "severity": "major",
+      "pixel_diff_percent": 7.2,
+      "affected_regions": ["hero-section", "navigation"],
+      "before": "baselines/v2.0.0/homepage-1440.png",
+      "current": "screenshots/homepage-1440.png"
+    }
+  ]
+}
+```

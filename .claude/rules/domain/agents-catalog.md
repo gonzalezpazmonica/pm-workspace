@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (31)
+# Catálogo de Subagentes (32)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -33,6 +33,7 @@
 | `security-attacker` | Sonnet 4.6 | Red Team: OWASP Top 10, CWE Top 25, dependency audit |
 | `security-defender` | Sonnet 4.6 | Blue Team: patches, hardening, NIST/CIS |
 | `security-auditor` | Sonnet 4.6 | Auditor independiente: evaluación, score 0-100, gap analysis |
+| `visual-qa-agent` | Sonnet 4.6 | Visual QA: screenshot analysis, wireframe comparison, regression detection |
 
 ## Flujos
 
@@ -44,6 +45,7 @@
 - **Consenso**: `reflection-validator` + `code-reviewer` + `business-analyst` → panel 3 jueces → score ponderado → veredicto
 - **Equality Shield** (Era 26): `/bias-check` audita sesgos contrafácticos en asignaciones y comunicaciones. Integración transversal: antes de `/pbi-assign`, `/sprint-review`, `/sprint-retro`, `/report-executive`.
 - **Adversarial Security** (Era 47): `security-attacker` → `security-defender` → `security-auditor` → informe con score 0-100. Pipeline: `/security-pipeline`.
+- **Visual QA** (Era 50): `visual-qa-agent` analiza screenshots contra wireframes/mockups. Score 0-100. Pipeline: `/visual-qa` → `/wireframe-check` → `/visual-regression`.
 
 El agente developer se selecciona según el Language Pack del proyecto.
 
