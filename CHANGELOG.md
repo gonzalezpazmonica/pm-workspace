@@ -1,40 +1,74 @@
 # Changelog — pm-workspace
 
-## [2.42.0] — 2026-03-07
+## [2.44.0] — 2026-03-07
 
-### Added — Era 71: Evaluations Framework
+### Added — Era 73: PM-Workspace as MCP Server
 
-Systematic evaluation of agent outputs for quality assurance with 5 built-in evaluation types, scoring rubrics, trend analysis, and automated regression detection.
+Expose project state as MCP server. External tools can query projects, tasks, metrics and trigger PM operations.
 
-- **`/eval-run {eval-name}`** — Execute evaluation: pbi-quality, spec-quality, estimation-accuracy, review-quality, assignment-quality. Applies rubric, scores outputs, generates report with findings.
-- **`/eval-report {eval-name}`** — Display results and trends. Filter by `--sprint`, analyze with `--trend`. Detect regressions (>10% drop).
-- **`/eval-create`** — Define custom evaluations with personalized rubrics. Interactive builder for name, description, criteria, scoring levels.
-- **`evaluations-framework` skill** — 5 eval types with scoring rubrics (Excellent/Good/Fair/Poor), automated scheduling, trend analysis, regression detection. Storage: `data/evals/{eval-name}/`.
-- **`eval-policy` rule** — Post-sprint evaluation (estimation-accuracy), monthly evals (pbi-quality, spec-quality), 10% regression alert threshold.
+- **`/mcp-server-start {mode}`** — Start MCP server: local (stdio) or remote (SSE). Optional `--read-only`.
+- **`/mcp-server-status`** — Server status: connections, requests, uptime.
+- **`/mcp-server-config`** — Configure exposed resources, tools, and prompts.
+- **`pm-mcp-server` skill** — 6 resources, 4 tools, 3 prompts. Token auth for remote, read-only mode.
 
 ---
 
 
-## [2.40.0] — 2026-03-07
+All notable changes to pm-workspace are documented here.
+Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
-### Added — Era 69: SDLC State Machine
+## [2.43.0] — 2026-03-07
 
-Formal state machine for development lifecycle with 8 states, configurable gates, and audit trail.
+Descripción: Era 72 — Agent Skills Marketplace
 
-- **`/sdlc-status {task-id}`** — Current state, available transitions, gate requirements.
-- **`/sdlc-advance {task-id}`** — Evaluate gates and advance to next state.
-- **`/sdlc-policy {project}`** — View and configure gate policies per project.
-- **`sdlc-state-machine` skill** — 8 states: BACKLOG→DISCOVERY→DECOMPOSED→SPEC_READY→IN_PROGRESS→VERIFICATION→REVIEW→DONE.
-- **`sdlc-gates` rule** — Default gate configuration with per-project overrides. Full audit trail.
+Publica, descubre e instala habilidades de PM en formato estándar. Marketplace local con descobrimiento basado en categorías.
 
-### Technical Details
+### Added — Era 72: Agent Skills Marketplace
 
-States: BACKLOG (idea) → DISCOVERY (investigation) → DECOMPOSED (technical breakdown) → SPEC_READY (documentation complete) → IN_PROGRESS (development) → VERIFICATION (testing) → REVIEW (code review) → DONE (production).
+- **`/marketplace-publish {skill}`** — Empaqueta, valida y publica una habilidad a registry local.
+- **`/marketplace-search {query}`** — Busca skills por palabra clave, categoría (planning, development, testing, operations, reporting, compliance, communication) o tag.
+- **`/marketplace-install {skill}`** — Descarga, valida e integra skill con resolución automática de dependencias.
+- **`skills-marketplace` skill** — Pipeline completa de packaging: SKILL.md + DOMAIN.md + references/ + metadata.json. Validaciones estructurales, límites de líneas, PII-free, compatibilidad. Registry local en `data/marketplace/registry.json`.
 
-Transitions require gates:
-- BACKLOG→DISCOVERY: acceptance criteria defined
-- SPEC_READY→IN_PROGRESS: spec approved + security review passed
-- VERIFICATION→REVIEW: all 5 verification layers
-- REVIEW→DONE: code review + prod tests + deployment
+### Metadata Standard
 
-State persisted in `projects/{project}/state/`. Audit trail: timestamp, actor, gate results.
+```json
+{
+  "name": "skill-name",
+  "version": "1.0.0",
+  "author": "author-name",
+  "category": "planning|development|testing|operations|reporting|compliance|communication",
+  "tags": ["tag1", "tag2"],
+  "description": "Breve descripción",
+  "dependencies": ["skill1"],
+  "compatibility": ">=2.0.0",
+  "license": "MIT",
+  "repository": "https://github.com/user/repo"
+}
+```
+
+### Categorías de Habilidades
+
+- **planning** — Planificación, roadmaps, sprints
+- **development** — Codificación, arquitectura, refactoring
+- **testing** — QA, test cases, coverage
+- **operations** — Deployment, monitoring, SRE
+- **reporting** — Dashboards, analytics, insights
+- **compliance** — Auditoría, seguridad, regulación
+- **communication** — Documentación, presentaciones, feedback
+
+### Registry Local
+
+Ubicación: `data/marketplace/registry.json`
+
+Estructura por skill: name, version, category, installed (boolean), installed_version (si aplica), path, published_at (timestamp ISO).
+
+### Comandos Agregados
+
+- Total de comandos: 102 (antes: 99)
+- Comandos marketplace: 3 nuevos
+- Categoría communication extendida
+
+[2.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.42.0...v2.43.0
+[2.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.41.0...v2.42.0
+[2.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.40.0...v2.41.0
