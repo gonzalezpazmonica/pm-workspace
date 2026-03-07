@@ -1,3 +1,28 @@
+## [2.30.0] — 2026-03-07
+
+### Added — Era 59: MCP Tool Search & Smart Routing
+
+Intelligent tool discovery for 400+ commands. Auto-categorization, keyword routing, and usage-based prioritization.
+
+- **`tool-search-config` rule** — 8 command categories with routing heuristics. Auto-activates when tools exceed 128 in context.
+- **`/tool-search {query}`** — Search commands, skills, and agents by keyword. Discovers tools across 400+ commands.
+- **`/tool-catalog [category]`** — Categorized tool catalog with counts. Navigate the full command library.
+- **`smart-routing` skill** — Intent classification, frequency tracking, Top-20 algorithm for always-available commands.
+
+---
+
+## [2.28.0] — 2026-03-07
+
+### Added — Era 57: Code Comprehension Report
+
+Automatic mental model generation after SDD implementation. Addresses AI-generated code opacity by documenting decisions, failure heuristics, and 3AM debugging guides.
+
+- **`/comprehension-report {task-id}`** — Generate mental model report: architecture decisions, flow diagram (mermaid), failure heuristics, implicit dependencies, 3AM debugging guide. Output saved to `output/comprehension/YYYYMMDD-{task-id}-mental-model.md`.
+- **`/comprehension-audit {project}`** — Scan recent implementations, identify missing mental models, report coverage (X of Y tasks have reports). Prioritize by risk level.
+- **`code-comprehension-report` skill** — 7-phase pipeline: Phase 1 collect data → Phase 2 architecture decisions → Phase 3 flow diagram → Phase 4 failure heuristics → Phase 5 implicit dependencies → Phase 6 3AM debugging guide → Phase 7 generate report.
+- **`code-comprehension` rule** — Every dev-session completion SHOULD trigger comprehension report. Code Review E1 includes "debuggeable at 3AM?" criterion. Integration with postmortem process: link comprehension reports to incident analysis, update on failures.
+
+---
 ## [2.27.0] — 2026-03-07
 
 ### Added — Era 56: Scheduled Messaging Integration
