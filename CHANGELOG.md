@@ -1,3 +1,13 @@
+## [2.26.0] — 2026-03-07
+
+### Added — Era 55: Prompt Caching Strategy
+
+Context loading optimization for prompt caching. Reduces input token costs by ordering stable content first with cache breakpoints.
+
+- **`prompt-caching` rule** — 4-level caching hierarchy: PM globals → project context → skill content → dynamic request. Ordering rules and TTL guidance.
+- **`/cache-optimize {project}`** — Analyze context loading order and suggest reordering for optimal cache hit rates. Shows estimated token savings.
+- **`context-caching` skill** — Caching templates for common operations (PBI decomposition, spec generation, dev session). Token measurement patterns.
+
 # Changelog
 
 All notable changes to PM-Workspace.
