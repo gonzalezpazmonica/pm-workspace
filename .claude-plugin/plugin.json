@@ -1,0 +1,29 @@
+{
+  "name": "pm-workspace",
+  "version": "2.24.0",
+  "description": "Complete PM automation with AI agents — Azure DevOps, Jira, Scrum, SDD pipeline",
+  "author": "pm-workspace",
+  "license": "MIT",
+  "categories": ["project-management", "agile", "devops"],
+  "engines": { "claude-code": ">=1.0.0" },
+  "capabilities": {
+    "skills": 45,
+    "agents": 33,
+    "commands": 400,
+    "rules": 57,
+    "hooks": 16,
+    "languages": 16
+  },
+  "install": {
+    "commands_dir": ".claude/commands",
+    "skills_dir": ".claude/skills",
+    "agents_dir": ".claude/agents",
+    "rules_dir": ".claude/rules",
+    "hooks_config": ".claude/settings.json"
+  },
+  "dependencies": {
+    "mcp_servers": ["azure-devops", "github"],
+    "optional_mcp": ["slack", "jira", "google-workspace", "notion"]
+  },
+  "documentation": "docs/guides/guide-project-from-scratch.md"
+}
