@@ -1,3 +1,10 @@
+---
+name: pbi-decompose
+description: Decompose a PBI into granular technical tasks
+---
+
+---
+
 # /pbi-decompose
 
 Descompone un PBI en Tasks técnicas con estimaciones y propuesta de asignación inteligente.

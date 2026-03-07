@@ -1,3 +1,10 @@
+---
+name: savia-recall
+description: Recall and retrieve information from Savia memory
+---
+
+---
+
 # /savia-recall
 
 > Unified memory search: memory-store + agent MEMORY.md files + lessons.md

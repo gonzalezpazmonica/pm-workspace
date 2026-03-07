@@ -1,3 +1,10 @@
+---
+name: memory-recall
+description: Retrieve relevant memories for current context
+---
+
+---
+
 # /memory-recall
 
 > Progressive memory disclosure: index → timeline → full details

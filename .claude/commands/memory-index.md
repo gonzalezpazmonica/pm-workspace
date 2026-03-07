@@ -1,3 +1,10 @@
+---
+name: memory-index
+description: Build and maintain memory index for efficient retrieval
+---
+
+---
+
 # memory-index
 
 Construir o reconstruir el índice semántico del proyecto.

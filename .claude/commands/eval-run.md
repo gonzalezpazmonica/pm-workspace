@@ -1,3 +1,10 @@
+---
+name: eval-run
+description: Execute evaluation against specified criteria
+---
+
+---
+
 # /eval-run — Ejecutar evaluación
 
 Corre una evaluación de calidad de outputs de agentes y guarda los resultados.

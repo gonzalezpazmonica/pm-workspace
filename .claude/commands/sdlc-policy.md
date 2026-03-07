@@ -1,3 +1,10 @@
+---
+name: sdlc-policy
+description: Configure SDLC policies and quality gates
+---
+
+---
+
 # /sdlc-policy
 
 **Alias:** none

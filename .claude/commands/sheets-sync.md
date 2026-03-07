@@ -1,3 +1,10 @@
+---
+name: sheets-sync
+description: Synchronize data with Google Sheets
+---
+
+---
+
 # /sheets-sync — Sincronizar Sheets y Azure DevOps
 
 **Descripción:** Sincroniza tareas entre Google Sheets y Azure DevOps en ambas direcciones: push (Sheets→DevOps), pull (DevOps→Sheets), o ambas.

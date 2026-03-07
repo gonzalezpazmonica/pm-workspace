@@ -1,3 +1,10 @@
+---
+name: mcp-server-status
+description: Check status and health of active MCP servers
+---
+
+---
+
 # Comando: /mcp-server-status
 
 **Descripción:** Muestra estado actual del servidor MCP.

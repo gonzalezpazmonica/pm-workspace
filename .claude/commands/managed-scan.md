@@ -1,3 +1,10 @@
+---
+name: managed-scan
+description: Scan managed content for stale or outdated sections
+---
+
+---
+
 # Command: managed-scan
 
 Scan workspace for all managed markers and report freshness status.
