@@ -122,6 +122,9 @@ jobs:
       - name: Run test quality audit
         run: bash scripts/audit-test-quality.sh --summary
 
+      - name: Run coverage report
+        run: bash scripts/coverage-report.sh --ci
+
   lint-markdown:
     name: Lint Markdown
     runs-on: ubuntu-latest
