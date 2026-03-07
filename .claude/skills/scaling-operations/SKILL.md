@@ -1,6 +1,7 @@
 ---
 name: scaling-operations
 description: "Scaling operations — analyze tier, benchmark, recommend optimizations, knowledge search"
+maturity: stable
 context: fork
 agent: architect
 context_cost: medium

@@ -1,6 +1,7 @@
 ---
 name: product-discovery
 description: Análisis de descubrimiento de producto - JTBD y PRD antes de descomposición
+maturity: stable
 context: fork
 agent: business-analyst
 ---

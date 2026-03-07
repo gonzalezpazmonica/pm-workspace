@@ -1,6 +1,7 @@
 ---
 name: executive-reporting
 description: Generación de informes ejecutivos multi-proyecto para dirección
+maturity: stable
 context: fork
 agent: tech-writer
 context_cost: medium

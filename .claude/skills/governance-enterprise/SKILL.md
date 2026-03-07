@@ -1,6 +1,7 @@
 ---
 name: governance-enterprise
 description: "Enterprise governance — audit trail queries, compliance verification, decision registry, certification workflow"
+maturity: stable
 context: fork
 agent: architect
 context_cost: medium

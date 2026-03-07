@@ -1,6 +1,7 @@
 ---
 name: ai-labor-impact
 description: "AI labor impact analysis — exposure audit, reskilling plans, workforce forecasting"
+maturity: stable
 context: fork
 agent: architect
 context_cost: medium

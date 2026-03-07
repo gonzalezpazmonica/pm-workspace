@@ -1,6 +1,7 @@
 ---
 name: sovereignty-auditor
 description: "Auditoría de soberanía cognitiva — diagnóstico de lock-in de IA"
+maturity: stable
 context_cost: medium
 dependencies: []
 ---

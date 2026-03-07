@@ -1,3 +1,9 @@
+---
+name: sdlc-state-machine
+description: sdlc-state-machine
+maturity: alpha
+---
+
 # sdlc-state-machine
 
 **Descripción:** Máquina de estados formal para pipeline SDLC con puertas configurables y políticas de transición.

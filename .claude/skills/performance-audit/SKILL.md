@@ -1,6 +1,7 @@
 ---
 name: performance-audit
 description: Auditoría estática de rendimiento — detección de hotspots, async anti-patterns, test-first optimization
+maturity: stable
 developer_type: all
 context_cost: medium
 references:

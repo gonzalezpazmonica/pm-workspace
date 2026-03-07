@@ -1,6 +1,7 @@
 ---
 name: capacity-planning
 description: Gestión completa de capacidades del equipo - consulta, cálculo y alertas
+maturity: stable
 context: fork
 agent: azure-devops-operator
 context_cost: medium

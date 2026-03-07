@@ -1,6 +1,7 @@
 ---
 name: enterprise-analytics
 description: "Enterprise analytics — SPACE metrics, portfolio aggregation, team health, risk matrix, forecasting"
+maturity: beta
 context: fork
 agent: architect
 context_cost: medium

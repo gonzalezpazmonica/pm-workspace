@@ -1,6 +1,7 @@
 ---
 name: savia-flow-practice
 description: Implementación práctica de Savia Flow — dual-track, specs ejecutables, métricas de flujo
+maturity: stable
 globs: []
 ---
 

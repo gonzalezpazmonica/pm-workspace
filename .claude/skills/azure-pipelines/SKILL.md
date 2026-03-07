@@ -1,6 +1,7 @@
 ---
 name: azure-pipelines
 description: Skill para gestión de CI/CD con Azure Pipelines via MCP
+maturity: stable
 context: fork
 agent: azure-devops-operator
 ---

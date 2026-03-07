@@ -1,6 +1,7 @@
 ---
 name: savia-hub-sync
 description: Orquestación de sincronización del repositorio SaviaHub
+maturity: stable
 context: fork
 agent: null
 context_cost: low

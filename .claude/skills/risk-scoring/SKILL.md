@@ -1,6 +1,7 @@
 ---
 name: risk-scoring
 description: Calculate risk score for tasks and route to appropriate review level
+maturity: beta
 context: fork
 agent: architect
 ---

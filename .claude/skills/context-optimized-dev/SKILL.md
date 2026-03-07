@@ -1,3 +1,9 @@
+---
+name: context-optimized-dev
+description: Context-Optimized Development — Skill
+maturity: alpha
+---
+
 # Context-Optimized Development — Skill
 
 > Guía operativa para producir código de alta calidad con ~40% de context window libre.
