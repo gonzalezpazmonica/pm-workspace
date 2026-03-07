@@ -1,6 +1,18 @@
 # Changelog
 
 All notable changes to PM-Workspace will be documented in this file.
+## [2.36.0] — 2026-03-07
+
+### Added — Era 65: Managed Content Markers
+
+Safe regeneration pattern for auto-generated content. Managed markers protect manual content while allowing automatic updates to generated sections. Inspired by ash-project/usage_rules pattern.
+
+- **`/managed-sync [file]`** — Regenerate managed sections. Preview mode by default, `--apply` to write changes.
+- **`/managed-scan`** — Scan workspace for all managed markers with freshness status. Identifies FRESH (< 7 days), STALE (7-30 days), OLD (> 30 days) sections.
+- **`managed-content` skill** — Marker-based content management: three-phase workflow (scan → regenerate → validate). Marker format includes timestamp for tracking freshness.
+- **`managed-content` rule** — All auto-generated content must use markers. Sync before `/plugin-export` and before releases.
+
+---
 
 ## [2.33.0] — 2026-03-07
 
