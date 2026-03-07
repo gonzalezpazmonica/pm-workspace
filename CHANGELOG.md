@@ -1,3 +1,16 @@
+## [2.37.0] — 2026-03-07
+
+### Added — Era 66: Headroom Context Optimization
+
+Token compression framework achieving 47-92% reduction. Context budgets per operation, automatic compression before agent invocation.
+
+- **`/headroom-analyze {project}`** — Analyze token usage per context block with compression opportunities. Shows before/after savings per technique.
+- **`/headroom-apply {project}`** — Apply compressions. Preview default, `--apply` to persist changes. Displays token count reductions.
+- **`headroom-optimization` skill** — 5-phase compression: analyze → identify → compress → measure → report. Techniques: abbreviation tables, reference linking, deduplication, structural compression.
+- **`context-budget` rule** — Max token budgets per operation type (PBI decompose: 40K, spec-generate: 35K, dev-session: 25K). Auto-alert if exceeded, compression mandatory before agent invocation.
+
+---
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
