@@ -1,122 +1,46 @@
----
-name: Instalar del Marketplace Interno
-description: Instala skills/playbooks del marketplace con resolución de dependencias, preview, rollback y verificación de compatibilidad
-developer_type: all
-agent: task
-context_cost: high
----
+# /marketplace-install
 
-# /marketplace-install — Instalar del Marketplace Interno
-
-Instala skills y playbooks del marketplace interno. Savia valida compatibilidad, resuelve dependencias e incluye rollback automático si algo falla.
-
-## Sintaxis
-
-```
-/marketplace-install {skill|playbook} [--version latest|X.Y.Z] [--preview] [--lang es|en]
-```
+Descarga, valida e integra una habilidad desde el marketplace en el workspace. Resuelve y instala dependencias automáticamente.
 
 ## Parámetros
 
-- **skill|playbook**: Nombre del recurso en el marketplace
-- **--version**: Versión a instalar (default: latest)
-- **--preview**: Mostrar cambios sin instalar (dry-run)
-- **--lang**: Idioma de la salida (es|en, default: es)
+`$ARGUMENTS` = nombre-habilidad
 
-## Flujo de Instalación
+Ejemplo: `/marketplace-install user-authentication`
 
-```
-Búsqueda en marketplace → Verificación compatibilidad 
-→ Resolución de dependencias → (Opcional) Preview 
-→ Descarga e instalación → Notificación de éxito
-```
+## Razonamiento
 
-## Compatibilidad
+1. Buscar skill en `data/marketplace/registry.json`
+2. Validar que no esté ya instalada
+3. Descargar skill (from local registry o GitHub releases futuro)
+4. Validar integridad
+5. Resolver y instalar dependencias
+6. Copiar a `.claude/skills/{nombre}`
+7. Actualizar metadata del workspace
 
-Savia verifica:
-- Versión de pm-workspace ≥ requerida
-- Dependencias satisfechas
-- Conflictos con recursos existentes
-- Capacidad de almacenamiento
+## Validaciones
 
-## Resolución de Dependencias
+- ✅ Skill existe en registry
+- ✅ Compatibilidad de versiones
+- ✅ Integridad de ficheros descargados
+- ✅ Dependencias resolubles
+- ✅ Espacio disponible
 
-Si un skill requiere otros:
-```yaml
-email-notify-skill v1.0 requiere:
-  - email-provider-skill >= 2.0
-  - logging-skill >= 1.5
-```
+## Flujo de Ejecución
 
-Savia detecta versiones, verifica compatibilidad, instala faltantes e iguala conflictos.
+1. Buscar en registry
+2. Si existen dependencias: instalar recursivamente
+3. Descargar skill
+4. Validar checksum (si disponible)
+5. Integrar en `.claude/skills/`
+6. Marcar como installed en registry
+7. Confirmar éxito
 
-## Preview Mode
-
-Con `--preview`:
-- Muestra cambios a realizar
-- Estima tiempo y espacio
-- No modifica nada
-- Pide confirmación antes de proceder
-
-## Rollback Automático
-
-Si falla la instalación:
-1. Detención inmediata
-2. Restauración a estado anterior
-3. Log del error en `output/marketplace-install-error.log`
-4. Sugerencia de reportar si es conocido
-
-## Actualización Automática
-
-Savia notifica nuevas versiones:
-```
-"email-notify-skill: v1.1.0 disponible"
-/marketplace-install email-notify-skill --version 1.1.0
-```
-
-## Casos de Uso
-
-**Instalar skill**
-```
-/marketplace-install report-sprint-skill --lang es
-```
-
-**Versión específica**
-```
-/marketplace-install email-notify-skill --version 1.0.0
-```
-
-**Previsualizar**
-```
-/marketplace-install playbook-release --preview
-```
-
-## Salida Esperada
+## Salida
 
 ```
-✓ Completado: report-sprint-skill v1.2.1
-
-Recurso:    report-sprint-skill
-Versión:    1.2.1
-Ubicación:  tenants/marketing/.marketplace/skills/
-Deps:       ✓ logging-skill v1.5 | ✓ graph-api-skill v2.0
-
-Nuevos comandos:
-  /report-sprint --metrics {metrics} --format {format}
-
-Próximos pasos:
-1. /help report-sprint para documentación
-2. /report-sprint --metrics velocity burndown
-3. Para desinstalar: /marketplace-uninstall report-sprint-skill
+✅ Skill installed: {nombre} v{version}
+  Location: .claude/skills/{nombre}
+  Dependencies: {count} installed
+  Ready to use: /help --skill {nombre}
 ```
-
-## Auditoría
-
-Registra: quién, cuándo, qué, dependencias, cambios, rolbacks.
-
-## Integración
-
-Consume /marketplace-publish, complementa /tenant-share, cierre de loop: compartir → publicar → descubrir → instalar.
-
----
-**Era 12: Team Excellence & Enterprise** | Comando 249/249 (FINAL)
