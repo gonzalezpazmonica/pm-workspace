@@ -5,6 +5,22 @@ Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](htt
 
 ---
 
+## [2.24.0] — 2026-03-07
+
+### Added — Era 53: Business Rules to PBI Mapping
+
+Bridges the gap between business rules documentation and PBI creation. Automatic traceability matrix RN↔PBI with coverage analysis.
+
+- **`/pbi-from-rules {project}`** — Parse reglas-negocio.md, cross-reference with Azure DevOps PBIs, identify coverage gaps, propose new PBIs.
+- **`/pbi-from-rules-report {project}`** — Generate traceability matrix report without creating PBIs.
+- **`rules-traceability` skill** — 7-phase pipeline: parse rules → query PBIs → build matrix → gap analysis → propose PBIs → create (with confirmation) → report.
+- Integrates with `product-discovery` for complex features: auto-triggers JTBD + PRD when rule requires feature analysis.
+
+---
+
+
+---
+
 ## [2.23.1] — 2026-03-06
 
 ### Added — Guide: Project from Scratch
@@ -550,6 +566,7 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.23.1...v2.24.0
 [2.23.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.23.0...v2.23.1
 [2.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.22.0...v2.23.0
 [2.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.21.0...v2.22.0
