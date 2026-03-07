@@ -1,3 +1,16 @@
+## [2.38.0] — 2026-03-07
+
+### Added — Era 67: Resource References (@)
+
+Referenciable resources with @ notation for automatic context inclusion. Lazy resolution, session caching, 6 resource types.
+
+- **`/ref-list {project}`** — List available resource references with patterns and examples.
+- **`/ref-resolve {reference}`** — Manually resolve and preview a resource reference.
+- **`resource-references` skill** — 6 resource types: @azure:workitem, @project, @spec, @team, @rules, @memory. Lazy loading.
+- **`resource-resolution` rule** — Lazy resolution, session cache, max 5 simultaneous, approved sources only.
+
+---
+
 # Changelog
 
 All notable changes to PM-Workspace will be documented in this file.
