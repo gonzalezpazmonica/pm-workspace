@@ -49,23 +49,9 @@ Output: `.mermaid` file embedded in report + PNG export
 
 ### Phase 4: Failure Heuristics (15 min)
 
-**For each module touched** during implementation:
+**For each module touched**: "If this fails, it's probably X. Look at Y. Key metric: Z"
 
-**"If this fails, it's probably because X. Look at Y. Key metric: Z"**
-
-Example template for module X:
-```
-Module: AuthService.ValidateToken()
-├─ If it fails with "TokenExpired" → probably: clock skew or cert rotation
-│  ├─ Look at: /var/log/auth, certctl list
-│  └─ Key metric: time diff (server vs. client)
-├─ If it fails with "InvalidSignature" → probably: wrong secret loaded
-│  ├─ Look at: config.json, secret vault logs
-│  └─ Key metric: secret version timestamp
-└─ If it fails with "AccessDenied" → probably: wrong role or scope
-   ├─ Look at: JWT claims, role mapping table
-   └─ Key metric: user_id in claims vs. database
-```
+Template: see `references/schemas.md`
 
 ### Phase 5: Implicit Dependencies (8 min)
 
@@ -110,28 +96,9 @@ Format: table with Dependency Type | What's Required | Impact if Missing
   - Appendix: agent notes, spec excerpt
 - **Quality check**: coherence validator confirms completeness
 
-## Input Schema
+## Schemas
 
-```yaml
-task_id: "AB#1234" or "sprint-12/feature-auth"
-spec_path: "projects/repo/specs/feature.spec.md"
-commit: "a3f9b2c" (optional — auto-detect from spec if omitted)
-code_files:
-  - "src/AuthService.cs"
-  - "src/AuthController.cs"
-  - "tests/AuthServiceTests.cs"
-test_results: "dotnet test output" (optional — extract if not provided)
-agent_notes: ".claude/agent-notes/{task-id}.md" (optional)
-```
-
-## Output Schema
-
-```
-output/comprehension/
-├── YYYYMMDD-{task-id}-mental-model.md    [main report, 5-8 pages]
-├── YYYYMMDD-{task-id}-flow.mermaid       [diagram source]
-└── YYYYMMDD-{task-id}-flow.png           [diagram PNG export]
-```
+Input/output schemas and templates: `references/schemas.md`
 
 ## Quality Gates
 
