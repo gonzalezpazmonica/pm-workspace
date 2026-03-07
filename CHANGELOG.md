@@ -1,3 +1,17 @@
+## [2.45.0] — 2026-03-07
+
+### Added — Era 74: Session Recording
+
+Record, replay, and export agent sessions for auditing, documentation, and training.
+
+- **`/record-start`** — Begin recording all session actions. Creates unique session ID, stores events in JSONL format.
+- **`/record-stop`** — Stop recording. Summary: duration, events count, files modified.
+- **`/record-replay {session-id}`** — Replay recorded session with timeline. Chronological view of all actions performed.
+- **`/record-export {session-id}`** — Export as markdown report to output/recordings/. Includes timeline, decisions, modified files, commands executed.
+- **`session-recording` skill** — Records commands executed, files modified, API calls made, decisions taken, agent-notes generated, with timestamps. Storage: `data/recordings/{session-id}.jsonl` (one event per line). Use cases: compliance audit, onboarding training, postmortem analysis, documentation of complex operations.
+
+---
+
 # Changelog — pm-workspace
 
 ## [2.44.0] — 2026-03-07

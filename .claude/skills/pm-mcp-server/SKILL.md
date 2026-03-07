@@ -42,10 +42,7 @@ Archivo: `.claude/mcp-server-config.json`
   "resources": ["project-list", "pbi-details", "task-status", "team-capacity", "sprint-metrics", "risk-register"],
   "tools": ["create-pbi", "update-task-status", "assign-task", "generate-report"],
   "prompts": ["sprint-planning", "pbi-decomposition", "risk-assessment"],
-  "auth": {
-    "type": "token|none",
-    "tokenRequired": true
-  },
+  "auth": {"type": "token|none", "tokenRequired": true},
   "readOnly": false
 }
 ```
