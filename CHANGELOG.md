@@ -8,11 +8,16 @@ Context loading optimization for prompt caching. Reduces input token costs by or
 - **`/cache-optimize {project}`** — Analyze context loading order and suggest reordering for optimal cache hit rates. Shows estimated token savings.
 - **`context-caching` skill** — Caching templates for common operations (PBI decomposition, spec generation, dev session). Token measurement patterns.
 
-# Changelog
+## [2.25.0] — 2026-03-07
 
-All notable changes to PM-Workspace.
-Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](https://semver.org).
+### Added — Era 54: Plugin Bundle Packaging
 
+Package PM-Workspace as distributable Claude Code plugin with validation and export commands.
+
+- **`.claude-plugin/plugin.json`** — Plugin manifest with capabilities declaration, dependencies, and install paths.
+- **`/plugin-export`** — Package current workspace as distributable plugin. Supports `--components` for partial export.
+- **`/plugin-validate`** — Validate plugin structure: skills, agents, commands integrity, PII check, line limits.
+- **`plugin-packaging` skill** — Packaging logic, validation rules, version management.
 ---
 
 ## [2.24.0] — 2026-03-07
