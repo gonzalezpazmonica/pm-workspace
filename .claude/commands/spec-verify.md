@@ -1,3 +1,10 @@
+---
+name: spec-verify
+description: Verify implementation against specification criteria
+---
+
+---
+
 # /spec-verify
 
 Verifica implementación contra la spec. Cruza cada escenario Given/When/Then con tests reales. Un escenario es COMPLIANT solo si existe un test que PASA.

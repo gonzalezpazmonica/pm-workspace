@@ -1,3 +1,10 @@
+---
+name: postmortem-create
+description: Create incident postmortem with structured analysis
+---
+
+---
+
 # Crear Postmortem Guiado
 
 **alias:** `/postmortem-create`, `/postmortem-new`

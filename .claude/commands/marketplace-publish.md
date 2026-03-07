@@ -1,3 +1,10 @@
+---
+name: marketplace-publish
+description: Publish components to marketplace registry
+---
+
+---
+
 # /marketplace-publish
 
 Empaqueta, valida y publica una habilidad en el marketplace local. Crea un paquete estándar con SKILL.md, DOMAIN.md, referencias y metadata.json. Verifica estructura, límites de líneas, PII y compatibilidad de versiones antes de publicar.

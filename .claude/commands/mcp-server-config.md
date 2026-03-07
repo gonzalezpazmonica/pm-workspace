@@ -1,3 +1,10 @@
+---
+name: mcp-server-config
+description: Configure MCP servers and connection settings
+---
+
+---
+
 # Comando: /mcp-server-config
 
 **Descripción:** Configura qué recursos, herramientas y prompts expone el servidor MCP.

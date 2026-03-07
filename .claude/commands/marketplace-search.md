@@ -1,3 +1,10 @@
+---
+name: marketplace-search
+description: Search and discover components in marketplace
+---
+
+---
+
 # /marketplace-search
 
 Busca habilidades en el marketplace local por palabra clave, categoría o tags. Devuelve lista de skills que coinciden con filtros.

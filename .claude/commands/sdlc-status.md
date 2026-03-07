@@ -1,3 +1,10 @@
+---
+name: sdlc-status
+description: Show current SDLC state and transitions
+---
+
+---
+
 # /sdlc-status
 
 **Alias:** none

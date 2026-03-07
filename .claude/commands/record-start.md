@@ -1,3 +1,10 @@
+---
+name: record-start
+description: Start recording session for audit and replay
+---
+
+---
+
 # /record-start
 
 Inicia la grabación de la sesión actual. Todos los comandos, modificaciones de archivos y decisiones de agentes se registran en un archivo JSONL para auditoría y documentación posterior.

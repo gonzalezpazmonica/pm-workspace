@@ -1,3 +1,10 @@
+---
+name: ref-list
+description: List available resource references and their types
+---
+
+---
+
 # /ref-list — List Available Resource References
 
 ## Description

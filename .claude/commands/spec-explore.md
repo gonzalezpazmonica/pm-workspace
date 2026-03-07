@@ -1,3 +1,10 @@
+---
+name: spec-explore
+description: Explore and analyze specification documents
+---
+
+---
+
 # /spec-explore
 
 Fase de exploración pre-spec. Analiza el codebase para identificar ficheros afectados, patrones existentes y enfoques posibles antes de generar la spec.

@@ -1,3 +1,10 @@
+---
+name: sdlc-advance
+description: Advance work item through SDLC state machine
+---
+
+---
+
 # /sdlc-advance
 
 **Alias:** none
