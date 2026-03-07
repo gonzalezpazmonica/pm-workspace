@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.49.0] — 2026-03-07
+
+### Added — Era 78: Agent Dispatch Validation
+
+Pre-dispatch hook system that validates subagent prompts contain required project context before execution.
+
+- **`agent-dispatch-validate.sh` hook** — PreToolUse hook (matcher: Task) that inspects prompts sent to subagents.
+- **`agent-dispatch-checklist.md` rule** — Reference checklist per task type (commands, CHANGELOG, skills, rules, git ops).
+- **Blocking validation** — Missing critical context (frontmatter for commands, ordering for CHANGELOG) blocks dispatch (exit 2).
+- **Warning validation** — Missing recommended context (example references, CI mention) warns but allows (exit 0).
+- **settings.json updated** — Registered new PreToolUse hook for Task matcher with 5s timeout.
+
+### Changed
+
+- Prevents recurrence of Era 77 frontmatter issue where agents created commands without required fields.
+
 ## [2.48.0] — 2026-03-07
 
 ### Added — Era 77: Postmortem Training Template
@@ -2868,6 +2884,7 @@ Initial public release of PM-Workspace.
 
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
 
+[2.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.48.0...v2.49.0
 [2.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.47.0...v2.48.0
 [2.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.46.0...v2.47.0
 [2.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.45.0...v2.46.0
