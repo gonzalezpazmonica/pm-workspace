@@ -1,62 +1,33 @@
-## [2.37.0] — 2026-03-07
-
-### Added — Era 66: Headroom Context Optimization
-
-Token compression framework achieving 47-92% reduction. Context budgets per operation, automatic compression before agent invocation.
-
-- **`/headroom-analyze {project}`** — Analyze token usage per context block with compression opportunities. Shows before/after savings per technique.
-- **`/headroom-apply {project}`** — Apply compressions. Preview default, `--apply` to persist changes. Displays token count reductions.
-- **`headroom-optimization` skill** — 5-phase compression: analyze → identify → compress → measure → report. Techniques: abbreviation tables, reference linking, deduplication, structural compression.
-- **`context-budget` rule** — Max token budgets per operation type (PBI decompose: 40K, spec-generate: 35K, dev-session: 25K). Auto-alert if exceeded, compression mandatory before agent invocation.
-
----
-
-# Changelog
+# Changelog — pm-workspace
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [2.40.0] — 2026-03-07
 
-## [2.39.0] — 2026-03-07
+### Added — Era 69: SDLC State Machine
 
-### Added — Era 68: Google Sheets Tracker
+Formal state machine for the development lifecycle with 8 states, configurable gates, and audit trail. Every transition validated against policy.
 
-Google Sheets as lightweight task database for POs and stakeholders. Bidirectional sync with Azure DevOps, sprint metrics, risk tracking.
+- **`/sdlc-status {task-id}`** — Current state, available transitions, gate requirements.
+- **`/sdlc-advance {task-id}`** — Evaluate gates and advance to next state. Shows blockers if gates fail.
+- **`/sdlc-policy {project}`** — View and configure gate policies per project.
+- **`sdlc-state-machine` skill** — 8 states: BACKLOG→DISCOVERY→DECOMPOSED→SPEC_READY→IN_PROGRESS→VERIFICATION→REVIEW→DONE.
+- **`sdlc-gates` rule** — Default gate configuration with per-project overrides. Full audit trail.
 
-- **`/sheets-setup {project}`** — Create tracking spreadsheet with Tasks, Metrics, and Risks sheets.
-- **`/sheets-sync {project} push|pull|both`** — Bidirectional sync between Azure DevOps and Sheets.
-- **`/sheets-report {project}`** — Generate sprint metrics from task data.
-- **`google-sheets-tracker` skill** — 3-sheet structure, bidirectional sync, MCP integration.
+### Technical Details
 
----
+States: BACKLOG (idea) → DISCOVERY (investigation) → DECOMPOSED (technical breakdown) → SPEC_READY (documentation complete) → IN_PROGRESS (active development) → VERIFICATION (testing & validation) → REVIEW (code review) → DONE (production).
 
-## [2.38.0] — 2026-03-07
+Transitions require gates (evaluable conditions):
+- BACKLOG→DISCOVERY: acceptance criteria defined
+- SPEC_READY→IN_PROGRESS: spec approved + security review passed
+- VERIFICATION→REVIEW: all 5 verification layers (unit, integration, e2e, performance, security)
+- REVIEW→DONE: code review approved + prod tests passing + deployment successful
 
-### Added — Era 67: Resource References (@)
-
-Referenciable resources with @ notation for automatic context inclusion. Lazy resolution, session caching, 6 resource types.
-
-- **`/ref-list {project}`** — List available resource references with patterns and examples.
-- **`/ref-resolve {reference}`** — Manually resolve and preview a resource reference.
-- **`resource-references` skill** — 6 resource types: @azure:workitem, @project, @spec, @team, @rules, @memory. Lazy loading.
-- **`resource-resolution` rule** — Lazy resolution, session cache, max 5 simultaneous, approved sources only.
+State persisted in `projects/{project}/state/`. Audit trail: every transition logged with timestamp, actor, gate results.
 
 ---
 
-## [2.37.0] — 2026-03-07
+## [2.39.0] — 2026-03-01
 
-### Added — Era 66: Headroom Context Optimization
-
-Token compression framework achieving 47-92% reduction. Context budgets per operation, automatic compression before agent invocation.
-
-- **`/headroom-analyze {project}`** — Analyze token usage per context block with compression opportunities.
-- **`/headroom-apply {project}`** — Apply compressions. Preview default, `--apply` to persist changes.
-- **`headroom-optimization` skill** — 5-phase compression framework.
-- **`context-budget` rule** — Max token budgets per operation type.
-
----
-
-[2.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.38.0...v2.39.0
-[2.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.37.0...v2.38.0
-[2.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.36.0...v2.37.0
+Previous releases summary available in `.gitignore` archived versions.
