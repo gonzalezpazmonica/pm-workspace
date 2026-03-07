@@ -4,10 +4,17 @@
 # ── Credenciales y secretos — NUNCA commitear ────────────────────────────────
 .claude/.env
 .claude/settings.local.json
+.env
+.env.*
 *.pat
 *.secret
+*.pem
+*.key
+*.p12
+*.pfx
 **/*-secret*
 **/*-credentials*
+**/*-secrets*
 
 # ── Proyectos: todo ignorado por defecto, solo se publican los de ejemplo ─────
 # Cualquier proyecto nuevo queda automáticamente excluido sin necesidad de
