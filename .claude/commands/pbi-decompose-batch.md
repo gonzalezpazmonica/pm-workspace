@@ -1,3 +1,10 @@
+---
+name: pbi-decompose-batch
+description: Decompose multiple PBIs into technical tasks
+---
+
+---
+
 # /pbi-decompose-batch
 
 Descompone varios PBIs a la vez, optimizando las asignaciones en conjunto para equilibrar la carga global.

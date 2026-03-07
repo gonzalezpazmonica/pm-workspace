@@ -1,3 +1,10 @@
+---
+name: spec-review
+description: Review specification for completeness and coherence
+---
+
+---
+
 # /spec-review
 
 Valida una Spec y opcionalmente verifica que el código implementado la cumple.

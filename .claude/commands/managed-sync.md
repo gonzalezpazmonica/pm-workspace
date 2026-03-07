@@ -1,3 +1,10 @@
+---
+name: managed-sync
+description: Synchronize and regenerate managed content markers
+---
+
+---
+
 # Command: managed-sync
 
 Regenerate all managed sections in workspace files. Safe preview mode by default.

@@ -1,3 +1,10 @@
+---
+name: savia-hub
+description: Central hub for accessing Savia knowledge and tools
+---
+
+---
+
 # /savia-hub — Shared Knowledge Repository
 
 ## Description

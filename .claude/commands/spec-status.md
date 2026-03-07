@@ -1,3 +1,10 @@
+---
+name: spec-status
+description: Check specification status and approval state
+---
+
+---
+
 # /spec-status
 
 Muestra el estado de todas las Specs del sprint activo: pendientes, en progreso, completadas, bloqueadas.
@@ -133,14 +140,4 @@ Con `--filter blocked`:
   Fichero: {path}
 ```
 
-Con `--filter pending`:
-```
-⏳ SPECS PENDIENTES — Sprint {sprint}
-
-  AB#1237 — {título} (human / María García / 5h)
-  AB#1238 — {título} (human / Carlos Ruiz / 2h)
-  AB#... — {título} (agent-single / claude-agent / Xh)
-
-  Para lanzar todos los agentes pendientes:
-  /agent-run --all-pending --project {proyecto}
-```
+Con `--filter pending`: muestra solo specs pendientes con `/agent-run --all-pending` sugerido.

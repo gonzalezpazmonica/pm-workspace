@@ -1,3 +1,10 @@
+---
+name: cache-optimize
+description: Optimize caching strategy for performance and efficiency
+---
+
+---
+
 # Command: cache-optimize
 
 Analiza el orden actual de contexto y sugiere reordenamiento para optimizar cache hits.

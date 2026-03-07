@@ -1,3 +1,10 @@
+---
+name: record-replay
+description: Replay and analyze recorded sessions or events
+---
+
+---
+
 # /record-replay
 
 Reproduce una sesión grabada anteriormente. Muestra una línea de tiempo de todas las acciones registradas.

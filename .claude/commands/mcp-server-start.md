@@ -1,3 +1,10 @@
+---
+name: mcp-server-start
+description: Start and initialize MCP server instances
+---
+
+---
+
 # Comando: /mcp-server-start
 
 **Descripción:** Inicia el servidor MCP para exponer PM-Workspace a herramientas externas.

@@ -1,3 +1,10 @@
+---
+name: qa-wizard
+description: Interactive wizard for QA engineer onboarding
+---
+
+---
+
 # QA Wizard
 
 **Aliases:** qa, qa-actions

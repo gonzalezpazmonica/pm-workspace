@@ -1,3 +1,10 @@
+---
+name: record-stop
+description: Stop active recording session
+---
+
+---
+
 # /record-stop
 
 Detiene la grabación de sesión actual y muestra un resumen de lo registrado.

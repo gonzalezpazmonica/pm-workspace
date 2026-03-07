@@ -1,3 +1,10 @@
+---
+name: ref-resolve
+description: Resolve and preview resource references
+---
+
+---
+
 # /ref-resolve — Manually Resolve and Preview Resource Reference
 
 ## Description

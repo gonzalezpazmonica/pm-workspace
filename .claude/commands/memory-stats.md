@@ -1,3 +1,10 @@
+---
+name: memory-stats
+description: Display memory usage statistics and optimization recommendations
+---
+
+---
+
 # memory-stats
 
 Estadísticas del índice de memoria semántica.

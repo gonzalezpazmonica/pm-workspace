@@ -1,3 +1,10 @@
+---
+name: eval-create
+description: Create and configure evaluation criteria for outputs
+---
+
+---
+
 # /eval-create — Crear evaluación personalizada
 
 Define y configura una nueva evaluación personalizada con rubric propios.
