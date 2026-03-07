@@ -1,6 +1,7 @@
 ---
 name: predictive-analytics
 description: Fórmulas de predicción sprint, Monte Carlo simplificado y flow metrics
+maturity: stable
 context: fork
 context_cost: medium
 agent: azure-devops-operator

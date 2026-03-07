@@ -1,3 +1,9 @@
+---
+name: semantic-memory
+description: semantic-memory
+maturity: alpha
+---
+
 # semantic-memory
 
 **Descripción**: Capa de búsqueda semántica sobre la memoria del proyecto usando embeddings y similitud vectorial.

@@ -1,3 +1,9 @@
+---
+name: session-recording
+description: Session Recording Skill
+maturity: alpha
+---
+
 # Session Recording Skill
 
 ## Name

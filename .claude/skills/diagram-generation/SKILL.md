@@ -1,6 +1,7 @@
 ---
 name: diagram-generation
 description: Generar diagramas de arquitectura y flujo desde infraestructura y código
+maturity: stable
 context: fork
 agent: diagram-architect
 context_cost: medium

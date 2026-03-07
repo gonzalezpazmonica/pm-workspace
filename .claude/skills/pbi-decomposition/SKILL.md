@@ -1,6 +1,7 @@
 ---
 name: pbi-decomposition
 description: Descomponer PBIs en Tasks, estimar en horas y asignar inteligentemente
+maturity: stable
 context: fork
 context_cost: high
 agent: business-analyst

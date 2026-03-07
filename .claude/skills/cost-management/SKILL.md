@@ -1,6 +1,7 @@
 ---
 name: cost-management
 description: "Cost Management — Timesheets, budgets, forecasting, invoicing, cost analytics"
+maturity: stable
 context: fork
 agent: architect
 context_cost: medium

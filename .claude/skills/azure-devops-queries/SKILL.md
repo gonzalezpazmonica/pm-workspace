@@ -1,6 +1,7 @@
 ---
 name: azure-devops-queries
 description: Skill transversal para operaciones con Azure DevOps
+maturity: stable
 context: fork
 agent: azure-devops-operator
 context_cost: medium

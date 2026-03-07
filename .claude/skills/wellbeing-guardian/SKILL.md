@@ -1,6 +1,7 @@
 ---
 name: wellbeing-guardian
 description: "Sistema proactivo de bienestar individual"
+maturity: stable
 context_cost: low
 dependencies: []
 ---

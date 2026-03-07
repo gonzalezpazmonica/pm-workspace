@@ -1,6 +1,7 @@
 ---
 name: managed-content
 description: Manage auto-generated content sections with safe regeneration markers
+maturity: stable
 ---
 
 # Managed Content Markers

@@ -1,6 +1,7 @@
 ---
 name: time-tracking-report
 description: Generación de informes de imputación de horas a Excel/Word
+maturity: stable
 context: fork
 agent: tech-writer
 context_cost: medium

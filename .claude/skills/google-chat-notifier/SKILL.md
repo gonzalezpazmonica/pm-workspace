@@ -1,6 +1,7 @@
 ---
 name: google-chat-notifier
 description: Enviar notificaciones de PM a espacios de Google Chat mediante webhooks
+maturity: stable
 ---
 
 # Google Chat Notifier

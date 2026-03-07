@@ -1,6 +1,7 @@
 ---
 name: spec-driven-development
 description: Specs ejecutables para desarrolladores humanos y agentes Claude
+maturity: stable
 context: fork
 context_cost: high
 agent: business-analyst

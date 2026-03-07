@@ -1,6 +1,7 @@
 ---
 name: team-coordination
 description: "Multi-team orchestration — create teams, assign members, detect cross-team blockers"
+maturity: stable
 context: fork
 agent: architect
 context_cost: medium

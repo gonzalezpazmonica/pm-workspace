@@ -1,3 +1,9 @@
+---
+name: banking-architecture
+description: Skill: Banking Architecture
+maturity: alpha
+---
+
 # Skill: Banking Architecture
 
 > Conocimiento especializado para equipos de desarrollo, arquitectura y PM en entornos bancarios.

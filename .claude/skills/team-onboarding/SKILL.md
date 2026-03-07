@@ -1,6 +1,7 @@
 ---
 name: team-onboarding
 description: Onboarding y evaluación de competencias para nuevos miembros del equipo
+maturity: stable
 context: fork
 agent: tech-writer
 ---

@@ -1,6 +1,7 @@
 ---
 name: regulatory-compliance
 description: Validación de marcos regulatorios por sector — detección automática, compliance checks y corrección
+maturity: stable
 developer_type: all
 context_cost: medium
 references:

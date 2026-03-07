@@ -1,6 +1,7 @@
 ---
 name: rules-traceability
 description: Map business rules (RN-XXX-NN) to PBIs with traceability matrix
+maturity: stable
 context: fork
 context_cost: high
 agent: business-analyst

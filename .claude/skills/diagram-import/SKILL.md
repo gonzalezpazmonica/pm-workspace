@@ -1,6 +1,7 @@
 ---
 name: diagram-import
 description: Importar diagramas, extraer entidades y generar Features/PBIs
+maturity: stable
 context: fork
 context_cost: high
 agent: business-analyst

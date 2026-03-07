@@ -1,6 +1,7 @@
 ---
 name: client-profile-manager
 description: "Gestión CRUD de perfiles de cliente en SaviaHub"
+maturity: stable
 context_cost: medium
 dependencies: ["savia-hub-sync"]
 ---

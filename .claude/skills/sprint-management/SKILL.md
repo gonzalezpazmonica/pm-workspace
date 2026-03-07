@@ -1,6 +1,7 @@
 ---
 name: sprint-management
 description: Flujo completo de gestión de sprints - estado, items, progreso y resúmenes
+maturity: stable
 context: fork
 agent: azure-devops-operator
 context_cost: medium

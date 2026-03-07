@@ -1,6 +1,7 @@
 ---
 name: backlog-git-tracker
 description: "Captura, comparación y auditoría de snapshots de backlog"
+maturity: stable
 context_cost: medium
 dependencies: ["savia-hub-sync", "client-profile-manager"]
 ---

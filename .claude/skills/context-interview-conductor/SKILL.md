@@ -1,6 +1,7 @@
 ---
 name: context-interview-conductor
 description: "Conducción de entrevistas estructuradas de contexto"
+maturity: stable
 context_cost: high
 dependencies: ["savia-hub-sync", "client-profile-manager"]
 ---

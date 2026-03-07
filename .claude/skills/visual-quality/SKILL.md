@@ -1,3 +1,9 @@
+---
+name: visual-quality
+description: Visual Quality Analysis Skill
+maturity: alpha
+---
+
 # Visual Quality Analysis Skill
 
 ## Vision Analysis Checklist

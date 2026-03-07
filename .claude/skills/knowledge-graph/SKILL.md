@@ -1,6 +1,7 @@
 ---
 name: knowledge-graph
 description: Construye y consulta grafos de conocimiento de entidades PM y sus relaciones
+maturity: stable
 context: fork
 agent: architect
 context_cost: medium

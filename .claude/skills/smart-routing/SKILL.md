@@ -1,6 +1,7 @@
 ---
 name: smart-routing
 description: Enrutamiento inteligente de comandos y descubrimiento de herramientas para 400+ comandos
+maturity: stable
 model: sonnet
 context_cost: medium
 memory: project

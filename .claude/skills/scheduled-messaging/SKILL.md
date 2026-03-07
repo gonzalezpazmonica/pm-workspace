@@ -1,6 +1,7 @@
 ---
 name: scheduled-messaging
 description: Configure Scheduled Tasks with automatic messaging to communication platforms
+maturity: stable
 context: fork
 ---
 

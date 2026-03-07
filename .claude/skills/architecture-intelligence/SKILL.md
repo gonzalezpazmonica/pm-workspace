@@ -1,6 +1,7 @@
 ---
 name: architecture-intelligence
 description: Detección de patrones de arquitectura, sugerencias de mejora y recomendaciones para proyectos nuevos
+maturity: stable
 developer_type: all
 context_cost: medium
 references:

@@ -1,6 +1,7 @@
 ---
 name: reflection-validation
 description: >
+maturity: stable
   Meta-cognitive validation protocol (System 2). Detects proxy optimization,
   undeclared assumptions, and broken causal chains in responses, specs, and decisions.
 disable-model-invocation: false

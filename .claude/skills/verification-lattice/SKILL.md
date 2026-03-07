@@ -1,6 +1,7 @@
 ---
 name: verification-lattice
 description: Multi-layer verification pipeline beyond Code Review
+maturity: stable
 context: fork
 context_cost: high
 ---
