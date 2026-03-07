@@ -1,3 +1,13 @@
+## [2.26.0] — 2026-03-07
+
+### Added — Era 55: Prompt Caching Strategy
+
+Context loading optimization for prompt caching. Reduces input token costs by ordering stable content first with cache breakpoints.
+
+- **`prompt-caching` rule** — 4-level caching hierarchy: PM globals → project context → skill content → dynamic request. Ordering rules and TTL guidance.
+- **`/cache-optimize {project}`** — Analyze context loading order and suggest reordering for optimal cache hit rates. Shows estimated token savings.
+- **`context-caching` skill** — Caching templates for common operations (PBI decomposition, spec generation, dev session). Token measurement patterns.
+
 ## [2.25.0] — 2026-03-07
 
 ### Added — Era 54: Plugin Bundle Packaging
@@ -8,12 +18,6 @@ Package PM-Workspace as distributable Claude Code plugin with validation and exp
 - **`/plugin-export`** — Package current workspace as distributable plugin. Supports `--components` for partial export.
 - **`/plugin-validate`** — Validate plugin structure: skills, agents, commands integrity, PII check, line limits.
 - **`plugin-packaging` skill** — Packaging logic, validation rules, version management.
-
-# Changelog
-
-All notable changes to PM-Workspace.
-Format: [Keep a Changelog](https://keepachangelog.com). Versioning: [SemVer](https://semver.org).
-
 ---
 
 ## [2.24.0] — 2026-03-07
