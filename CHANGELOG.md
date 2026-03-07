@@ -1,5 +1,20 @@
 # Changelog — pm-workspace
 
+## [2.42.0] — 2026-03-07
+
+### Added — Era 71: Evaluations Framework
+
+Systematic evaluation of agent outputs for quality assurance with 5 built-in evaluation types, scoring rubrics, trend analysis, and automated regression detection.
+
+- **`/eval-run {eval-name}`** — Execute evaluation: pbi-quality, spec-quality, estimation-accuracy, review-quality, assignment-quality. Applies rubric, scores outputs, generates report with findings.
+- **`/eval-report {eval-name}`** — Display results and trends. Filter by `--sprint`, analyze with `--trend`. Detect regressions (>10% drop).
+- **`/eval-create`** — Define custom evaluations with personalized rubrics. Interactive builder for name, description, criteria, scoring levels.
+- **`evaluations-framework` skill** — 5 eval types with scoring rubrics (Excellent/Good/Fair/Poor), automated scheduling, trend analysis, regression detection. Storage: `data/evals/{eval-name}/`.
+- **`eval-policy` rule** — Post-sprint evaluation (estimation-accuracy), monthly evals (pbi-quality, spec-quality), 10% regression alert threshold.
+
+---
+
+
 ## [2.40.0] — 2026-03-07
 
 ### Added — Era 69: SDLC State Machine
