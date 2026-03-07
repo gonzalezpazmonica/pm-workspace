@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.50.0] — 2026-03-07
+
+### Added — Era 79: BATS Testing Framework
+
+Comprehensive unit testing infrastructure for all Claude Code hooks using BATS (Bash Automated Testing System).
+
+- **6 test suites, 84 tests** covering all 6 PreToolUse hooks:
+  - `test-block-credential-leak.bats` (19 tests) — 11 credential patterns + safe commands
+  - `test-validate-bash-global.bats` (17 tests) — 7 dangerous command gates
+  - `test-agent-dispatch-validate.bats` (10 tests) — 5 dispatch context validations
+  - `test-block-force-push.bats` (9 tests) — force push, main/master push, amend, reset
+  - `test-block-infra-destructive.bats` (11 tests) — terraform, az, aws, kubectl destructive ops
+  - `test-tdd-gate.bats` (18 tests) — TDD enforcement for production code
+- **Test runner** (`tests/run-all.sh`) with TAP output, filtering, and suite-level reporting
+- **Test fixtures** — reusable JSON inputs for hook testing
+- Phase 1 of 9-phase stability roadmap
+
 ## [2.49.0] — 2026-03-07
 
 ### Added — Era 78: Agent Dispatch Validation
