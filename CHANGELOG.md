@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.51.0] — 2026-03-07
+
+### Added — Era 80: Test Quality Upgrade
+
+Test quality audit tooling and structural integrity tests.
+
+- **2 new BATS suites** — workspace-structure (20 tests: settings.json, frontmatter, hooks, skills, OSS files) + changelog-integrity (7 tests: semver, ordering, Era refs)
+- **BATS in CI** — GitHub Actions workflow now runs all BATS tests on every push/PR
+- **Test quality audit** (`scripts/audit-test-quality.sh`) — classifies 104 test files by level (L0-L3), reports 62% real tests
+- **Total test count**: 8 suites, 111 tests, all passing
+
 ## [2.50.0] — 2026-03-07
 
 ### Added — Era 79: BATS Testing Framework
