@@ -1,0 +1,118 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#2d5016', 'primaryTextColor': '#fff', 'primaryBorderColor': '#4a7c23', 'lineColor': '#8fbc5a', 'secondaryColor': '#f0f7e6', 'tertiaryColor': '#e8f5d8'}}}%%
+
+graph TB
+    subgraph CORE["🌳 SAVIA — pm-workspace Core"]
+        direction TB
+        SETTINGS["⚙️ settings.json<br/>Hook config + permissions"]
+        CLAUDE_MD["📋 CLAUDE.md<br/>System instructions"]
+    end
+
+    subgraph COMMANDS["📝 454 Commands"]
+        direction LR
+        CMD_PM["Sprint/Backlog<br/>~120 commands"]
+        CMD_SDD["SDD/Specs<br/>~80 commands"]
+        CMD_REPORT["Reporting<br/>~60 commands"]
+        CMD_TEAM["Team/DX<br/>~50 commands"]
+        CMD_SEC["Security/Quality<br/>~40 commands"]
+        CMD_OTHER["Other domains<br/>~104 commands"]
+    end
+
+    subgraph SKILLS["🧠 67 Skills"]
+        direction LR
+        SK_STABLE["🟢 51 Stable"]
+        SK_BETA["🟡 2 Beta"]
+        SK_ALPHA["🔴 14 Alpha"]
+    end
+
+    subgraph AGENTS["🤖 33 Agents"]
+        direction LR
+        AG_CORE["Core agents<br/>architect, reviewer,<br/>security-attacker"]
+        AG_DOMAIN["Domain agents<br/>azure-devops-operator,<br/>sdd-implementor"]
+        AG_SUPPORT["Support agents<br/>onboarding, wellbeing,<br/>compliance"]
+    end
+
+    subgraph HOOKS["🛡️ 17 Hooks"]
+        direction LR
+        HK_SECURITY["Security hooks<br/>credential-leak,<br/>force-push, infra"]
+        HK_QUALITY["Quality hooks<br/>tdd-gate, lint,<br/>quality-gate"]
+        HK_WORKFLOW["Workflow hooks<br/>dispatch, trace,<br/>session-init"]
+    end
+
+    subgraph RULES["📏 105 Domain Rules"]
+        direction LR
+        RL_DOMAIN["Domain rules<br/>agile, scrum, kanban,<br/>industry verticals"]
+    end
+
+    subgraph TESTING["🧪 Quality Infrastructure"]
+        direction TB
+        TESTS["9 BATS suites<br/>119 tests"]
+        AUDIT["Test quality audit<br/>L0-L3 classification"]
+        COVERAGE["Coverage report<br/>65% overall"]
+        SECURITY_SCAN["Security scan<br/>0 findings"]
+        VULN_SCAN["Vulnerability scan<br/>0 vulns"]
+        HEALTH["Health dashboard<br/>84% Grade B"]
+    end
+
+    subgraph DOCS["📚 Documentation"]
+        direction LR
+        README["README.md"]
+        CHANGELOG["CHANGELOG.md<br/>58 versions"]
+        QUICKSTART["QUICK-START.md"]
+        ROADMAP["ROADMAP.md<br/>87 Eras"]
+        CONTRIBUTING["CONTRIBUTING.md"]
+        SECURITY_DOC["SECURITY.md"]
+    end
+
+    subgraph CI["🔄 CI/CD"]
+        direction TB
+        CI_VALIDATE["Validate job<br/>JSON, secrets, tests"]
+        CI_BATS["BATS job<br/>tests, audit, coverage,<br/>security, vulns"]
+        CI_LINT["Lint job<br/>markdown, sizes,<br/>frontmatter"]
+    end
+
+    subgraph MOCK["🎭 Mock Infrastructure"]
+        MOCK_LIB["mock-env.sh<br/>Azure/MCP mocks"]
+        MOCK_DATA["test-data/<br/>JSON fixtures"]
+    end
+
+    %% Connections
+    CORE --> COMMANDS
+    CORE --> SKILLS
+    CORE --> AGENTS
+    CORE --> HOOKS
+    CORE --> RULES
+
+    COMMANDS --> SKILLS
+    COMMANDS --> AGENTS
+    SKILLS --> AGENTS
+    HOOKS --> COMMANDS
+
+    TESTING --> HOOKS
+    TESTING --> SKILLS
+    TESTING --> COMMANDS
+    CI --> TESTING
+
+    MOCK --> TESTING
+    MOCK_DATA --> MOCK_LIB
+
+    DOCS --> CORE
+
+    HEALTH --> COVERAGE
+    HEALTH --> SECURITY_SCAN
+    HEALTH --> VULN_SCAN
+    COVERAGE --> AUDIT
+    AUDIT --> TESTS
+
+    classDef core fill:#2d5016,stroke:#4a7c23,color:#fff
+    classDef commands fill:#3a6b1e,stroke:#4a7c23,color:#fff
+    classDef skills fill:#4a8528,stroke:#5a9538,color:#fff
+    classDef testing fill:#1a3a0a,stroke:#2d5016,color:#fff
+    classDef docs fill:#6ba040,stroke:#7bb550,color:#fff
+    classDef ci fill:#2a4a14,stroke:#3a6020,color:#fff
+
+    class CORE core
+    class COMMANDS commands
+    class SKILLS skills
+    class TESTING testing
+    class DOCS docs
+    class CI ci
