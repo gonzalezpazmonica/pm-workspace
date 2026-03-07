@@ -111,12 +111,102 @@ else
 fi
 echo ""
 
+# ── 4. CHANGELOG integrity ──────────────────────────────────────────
+echo "📋 4. CHANGELOG.md integrity"
+
+if [ -f "CHANGELOG.md" ]; then
+  CL_FAIL=0
+
+  # 4a. No merge conflict markers
+  if grep -qE '^(<<<<<<<|=======|>>>>>>>)' CHANGELOG.md; then
+    fail "CHANGELOG.md contiene marcadores de conflicto git (<<<<<<<, =======, >>>>>>>)"
+    CL_FAIL=$((CL_FAIL + 1))
+  fi
+
+  # 4b. Versions in descending order (no out-of-order entries)
+  VERSIONS=$(grep -oP '(?<=^## \[)[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md)
+  PREV=""
+  LINE_NUM=0
+  while IFS= read -r ver; do
+    LINE_NUM=$((LINE_NUM + 1))
+    if [ -n "$PREV" ]; then
+      # Compare semver: PREV must be >= ver (descending)
+      PREV_MAJOR=$(echo "$PREV" | cut -d. -f1)
+      PREV_MINOR=$(echo "$PREV" | cut -d. -f2)
+      PREV_PATCH=$(echo "$PREV" | cut -d. -f3)
+      CUR_MAJOR=$(echo "$ver" | cut -d. -f1)
+      CUR_MINOR=$(echo "$ver" | cut -d. -f2)
+      CUR_PATCH=$(echo "$ver" | cut -d. -f3)
+      OUT_OF_ORDER=false
+      if [ "$CUR_MAJOR" -gt "$PREV_MAJOR" ]; then
+        OUT_OF_ORDER=true
+      elif [ "$CUR_MAJOR" -eq "$PREV_MAJOR" ] && [ "$CUR_MINOR" -gt "$PREV_MINOR" ]; then
+        OUT_OF_ORDER=true
+      elif [ "$CUR_MAJOR" -eq "$PREV_MAJOR" ] && [ "$CUR_MINOR" -eq "$PREV_MINOR" ] && [ "$CUR_PATCH" -gt "$PREV_PATCH" ]; then
+        OUT_OF_ORDER=true
+      fi
+      if [ "$OUT_OF_ORDER" = true ]; then
+        fail "CHANGELOG.md versiones fuera de orden: [$PREV] seguida de [$ver] (entrada #$LINE_NUM)"
+        CL_FAIL=$((CL_FAIL + 1))
+        break
+      fi
+    fi
+    PREV="$ver"
+  done <<< "$VERSIONS"
+
+  # 4c. No consecutive gaps >1 in minor version (within same major)
+  PREV=""
+  while IFS= read -r ver; do
+    if [ -n "$PREV" ]; then
+      PREV_MAJOR=$(echo "$PREV" | cut -d. -f1)
+      PREV_MINOR=$(echo "$PREV" | cut -d. -f2)
+      CUR_MAJOR=$(echo "$ver" | cut -d. -f1)
+      CUR_MINOR=$(echo "$ver" | cut -d. -f2)
+      if [ "$PREV_MAJOR" -eq "$CUR_MAJOR" ]; then
+        GAP=$((PREV_MINOR - CUR_MINOR))
+        if [ "$GAP" -gt 2 ]; then
+          warn "CHANGELOG.md posible gap de versiones: [$PREV] → [$ver] (salto de $GAP minor versions)"
+        fi
+      fi
+    fi
+    PREV="$ver"
+  done <<< "$VERSIONS"
+
+  # 4d. No duplicate version entries
+  DUP_VERSIONS=$(grep -oP '(?<=^## \[)[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | sort | uniq -d)
+  if [ -n "$DUP_VERSIONS" ]; then
+    fail "CHANGELOG.md versiones duplicadas: $DUP_VERSIONS"
+    CL_FAIL=$((CL_FAIL + 1))
+  fi
+
+  # 4e. Header present (Keep a Changelog reference)
+  if ! head -6 CHANGELOG.md | grep -qi "keep a changelog\|changelog\|notable changes"; then
+    warn "CHANGELOG.md: cabecera estándar no detectada en las primeras 6 líneas"
+  fi
+
+  # 4f. First version header has correct format
+  FIRST_VER_LINE=$(grep -n '## \[' CHANGELOG.md | head -1)
+  if [ -n "$FIRST_VER_LINE" ]; then
+    if ! echo "$FIRST_VER_LINE" | grep -qP '## \[\d+\.\d+\.\d+\] — \d{4}-\d{2}-\d{2}'; then
+      warn "CHANGELOG.md: primera entrada no sigue formato '## [x.y.z] — YYYY-MM-DD'"
+    fi
+  fi
+
+  VER_COUNT=$(echo "$VERSIONS" | wc -l)
+  if [ "$CL_FAIL" -eq 0 ]; then
+    pass "CHANGELOG.md íntegro ($VER_COUNT versiones, orden correcto, sin duplicados, sin conflictos)"
+  fi
+else
+  fail "CHANGELOG.md no encontrado"
+fi
+echo ""
+
 if [ "$QUICK_MODE" = true ]; then
   echo "  (modo --quick: saltando checks extendidos)"
   echo ""
 else
-  # ── 4. Required open source files ────────────────────────────────────
-  echo "📋 4. Ficheros open source requeridos"
+  # ── 5. Required open source files ────────────────────────────────────
+  echo "📋 5. Ficheros open source requeridos"
 
   REQUIRED_FILES=(
     "LICENSE"
@@ -139,8 +229,8 @@ else
   done
   echo ""
 
-  # ── 5. JSON mock files ──────────────────────────────────────────────
-  echo "📋 5. JSON mock files"
+  # ── 6. JSON mock files ──────────────────────────────────────────────
+  echo "📋 6. JSON mock files"
 
   JSON_OK=0
   JSON_FAIL=0
@@ -158,8 +248,8 @@ else
   fi
   echo ""
 
-  # ── 6. Sensitive data scan ──────────────────────────────────────────
-  echo "📋 6. Scan de datos sensibles"
+  # ── 7. Sensitive data scan ──────────────────────────────────────────
+  echo "📋 7. Scan de datos sensibles"
 
   SECRETS_FOUND=false
   if grep -rn --include="*.md" --include="*.sh" --include="*.json" --include="*.yml" \
