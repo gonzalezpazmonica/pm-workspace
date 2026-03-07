@@ -844,6 +844,10 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
+[2.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.27.0...v2.28.0
+[2.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.26.0...v2.27.0
+[2.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.25.0...v2.26.0
+[2.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.24.0...v2.25.0
 [2.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.23.1...v2.24.0
 [2.23.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.23.0...v2.23.1
 [2.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.22.0...v2.23.0
