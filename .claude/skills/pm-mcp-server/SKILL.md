@@ -1,3 +1,9 @@
+---
+name: pm-mcp-server
+description: PM-Workspace MCP Server
+maturity: alpha
+---
+
 # PM-Workspace MCP Server
 
 **Nombre:** pm-mcp-server

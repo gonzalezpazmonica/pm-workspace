@@ -1,6 +1,7 @@
 ---
 name: google-drive-memory
 description: Persist project memory and context in Google Drive as Git alternative
+maturity: stable
 context: fork
 ---
 

@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.53.0] — 2026-03-07
+
+### Added — Era 82: Security Hardening
+
+Security audit tooling and credential protection.
+
+- **Security scan** (`scripts/security-scan.sh`) — 5-section audit: credential patterns, hardcoded URLs, security infrastructure, hook test coverage, .gitignore completeness
+- **CI integration** — `--ci` mode gates on findings (warnings informational)
+- **Hardened .gitignore** — added `.env.*`, `*.p12`, `*.pfx`, credential/secret wildcard patterns
+- **Verbose/summary modes** — `--verbose` for full pass/fail detail, default summary for quick checks
+
+## [2.52.0] — 2026-03-07
+
+### Added — Era 81: Coverage Metrics
+
+Comprehensive coverage reporting across all workspace components.
+
+- **Coverage report** (`scripts/coverage-report.sh`) — weighted scoring across hooks, commands, skills, test quality
+- **Multiple output modes** — `--summary`, `--json`, `--markdown`, `--ci` (60% threshold gate)
+- **CI integration** — coverage report runs in bats-tests workflow
+- **Current metrics**: hooks 35%, commands 100%, skills 98%, overall 65%
+
 ## [2.51.0] — 2026-03-07
 
 ### Added — Era 80: Test Quality Upgrade

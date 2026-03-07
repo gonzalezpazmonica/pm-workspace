@@ -1,6 +1,7 @@
 ---
 name: company-messaging
 description: >
+maturity: stable
   Knowledge module for Company Savia messaging: message lifecycle,
   @handle resolution, encryption protocol, privacy rules.
 disable-model-invocation: false

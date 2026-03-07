@@ -1,6 +1,7 @@
 ---
 name: developer-experience
 description: Framework DX Core 4 y SPACE para medir y mejorar la experiencia del desarrollador
+maturity: stable
 context: fork
 context_cost: medium
 agent: business-analyst

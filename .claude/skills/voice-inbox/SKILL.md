@@ -1,6 +1,7 @@
 ---
 name: voice-inbox
 description: Transcripción de audio y flujo audio→texto→acción para mensajes de voz
+maturity: stable
 context: fork
 context_cost: medium
 agent: business-analyst

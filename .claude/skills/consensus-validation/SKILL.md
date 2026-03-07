@@ -1,6 +1,7 @@
 ---
 name: consensus-validation
 description: Orquestación de 3-judge panel (reflection, code-review, business)
+maturity: stable
 context: fork
 agent: consensus-orchestrator
 context_cost: medium

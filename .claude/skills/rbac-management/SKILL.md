@@ -1,6 +1,7 @@
 ---
 name: rbac-management
 description: "Role management skill — grant, revoke, audit, and verify user permissions"
+maturity: stable
 context: fork
 agent: architect
 ---

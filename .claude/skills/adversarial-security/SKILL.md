@@ -1,6 +1,7 @@
 ---
 name: adversarial-security
 description: Pipeline de seguridad adversarial — Red Team, Blue Team, Auditor con scoring
+maturity: stable
 context: fork
 context_cost: medium
 agent: security-attacker

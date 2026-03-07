@@ -1,6 +1,7 @@
 ---
 name: dag-scheduling
 description: Orquestar agentes SDD en paralelo usando gráficos de dependencias
+maturity: stable
 context: fork
 context_cost: high
 agent: developer

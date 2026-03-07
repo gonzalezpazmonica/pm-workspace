@@ -1,6 +1,7 @@
 ---
 name: plugin-packaging
 description: Empaquetar y validar PM-Workspace como plugin distributable
+maturity: stable
 dependencies: ["context-optimized-dev"]
 context_cost: low
 ---

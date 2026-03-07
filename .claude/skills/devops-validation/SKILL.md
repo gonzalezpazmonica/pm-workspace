@@ -1,6 +1,7 @@
 ---
 name: devops-validation
 description: Validates Azure DevOps project configuration against pm-workspace ideal Agile requirements. Invoked automatically when connecting a new project.
+maturity: stable
 context: fork
 agent: azure-devops-operator
 context_cost: low
