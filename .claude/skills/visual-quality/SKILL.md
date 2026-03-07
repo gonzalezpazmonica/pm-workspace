@@ -136,20 +136,11 @@ visual_match = (layout×0.30) + (colors×0.20) + (typography×0.15) + (spacing×
 - Layout: 90 | Colors: 80 | Typography: 85 | Spacing: 82 | Content: 88
 
 ## Findings by Severity
-### Critical (blocks functionality)
-[annotated screenshots]
+- Critical (blocks functionality): [annotated screenshots]
+- Major (UX impact): [annotated screenshots]
+- Minor (quality): [list]
 
-### Major (UX impact)
-[annotated screenshots]
-
-### Minor (quality)
-[list]
-
-## Accessibility Status
-- Contrast: PASS/FAIL
-- Touch targets: PASS/FAIL
-- Text size: PASS/FAIL
-
-## Recommendations
-[actionable fixes by priority]
+## Accessibility & Recommendations
+- Contrast / Touch targets / Text size: PASS/FAIL
+- [actionable fixes by priority]
 ```
