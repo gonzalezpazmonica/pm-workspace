@@ -1,3 +1,14 @@
+## [2.25.0] — 2026-03-07
+
+### Added — Era 54: Plugin Bundle Packaging
+
+Package PM-Workspace as distributable Claude Code plugin with validation and export commands.
+
+- **`.claude-plugin/plugin.json`** — Plugin manifest with capabilities declaration, dependencies, and install paths.
+- **`/plugin-export`** — Package current workspace as distributable plugin. Supports `--components` for partial export.
+- **`/plugin-validate`** — Validate plugin structure: skills, agents, commands integrity, PII check, line limits.
+- **`plugin-packaging` skill** — Packaging logic, validation rules, version management.
+
 # Changelog
 
 All notable changes to PM-Workspace.
