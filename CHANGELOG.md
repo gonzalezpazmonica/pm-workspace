@@ -5,6 +5,57 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.58.0] — 2026-03-07
+
+### Added — Era 87: Strategic Vision & Health Dashboard
+
+Workspace health metrics and strategic roadmap consolidation.
+
+- **Workspace health dashboard** (`scripts/workspace-health.sh`) — 6-dimension health scoring: skill completeness, command completeness, maturity distribution, test coverage, security posture, documentation
+- **Current health**: 84% (Grade B)
+- **Roadmap update** — Eras 79-87 stability roadmap added to docs/ROADMAP.md
+- **JSON/CI modes** — machine-readable output, 60% threshold gate
+
+## [2.57.0] — 2026-03-07
+
+### Added — Era 86: Vulnerability Scanner
+
+Deep security analysis for workspace scripts.
+
+- **Vulnerability scanner** (`scripts/vuln-scan.sh`) — 8-section analysis: eval usage, unquoted vars, temp files, HTTP security, hardcoded paths, permissions, strict mode, input validation
+- **Severity separation** — vulnerabilities block CI, warnings are informational
+- **CI integration** — added to bats-tests workflow
+
+## [2.56.0] — 2026-03-07
+
+### Added — Era 85: Mock Mode
+
+Reusable mock environment for offline testing.
+
+- **Mock library** (`scripts/lib/mock-env.sh`) — mock functions for Azure DevOps, MCP servers, sprint data, team data
+- **Auto-detection** — `--mock` flag or `PM_MOCK` environment variable
+- **8 BATS tests** validating all mock functions
+
+## [2.55.0] — 2026-03-07
+
+### Added — Era 84: Discoverability
+
+Component index and onboarding documentation.
+
+- **Index generator** (`scripts/generate-index.sh`) — `--summary`, `--json`, `--markdown` modes for all 454 commands, 67 skills, 33 agents, 17 hooks
+- **Quick-start guide** (`docs/QUICK-START.md`) — 5-minute onboarding
+
+## [2.54.0] — 2026-03-07
+
+### Added — Era 83: Maturity Levels
+
+Maturity classification for all workspace skills.
+
+- **Maturity levels** — `alpha|beta|stable` field added to all 67 skill SKILL.md files
+- **Results**: 51 stable, 2 beta, 14 alpha
+- **Frontmatter standardization** — 14 skills without frontmatter now have proper `---` blocks
+- **Classification script** (`scripts/add-maturity-levels.sh`)
+
 ## [2.53.0] — 2026-03-07
 
 ### Added — Era 82: Security Hardening
