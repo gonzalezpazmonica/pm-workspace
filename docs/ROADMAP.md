@@ -472,6 +472,20 @@ Method and protocol for programming teams to produce high-quality code 100% alig
 
 ---
 
+## ✅ Eras 79–87 — Stability & Quality Infrastructure (v2.50.0–v2.58.0, Mar 2026)
+
+| Era | Version | Theme | Highlights |
+|---|---|---|---|
+| 79 — BATS Testing | v2.50.0 | Test foundation | 6 test suites, 84 tests, BATS framework for all hooks |
+| 80 — Test Quality | v2.51.0 | Quality audit | L0-L3 classification, workspace-structure + changelog-integrity tests |
+| 81 — Coverage Metrics | v2.52.0 | Measurement | Weighted coverage report, CI integration, 65% overall |
+| 82 — Security Hardening | v2.53.0 | Security | Security scan, .gitignore hardening, CI gate |
+| 83 — Maturity Levels | v2.54.0 | Classification | alpha/beta/stable for all 67 skills, frontmatter standardization |
+| 84 — Discoverability | v2.55.0 | Documentation | Component index generator, quick-start guide |
+| 85 — Mock Mode | v2.56.0 | Offline testing | Reusable mock library, Azure DevOps/MCP mocks |
+| 86 — Vulnerability Scanner | v2.57.0 | Deep security | 8-section vuln analysis, CI integration |
+| 87 — Strategic Vision | v2.58.0 | Health dashboard | Workspace health metrics, overall grade, JSON/CI modes |
+
 ### Backlog — Strategic Evaluation
 
 - **Voice integration** — `/voice-pm` for sprint ceremonies. Claude Code `/voice` launched Mar 2026 (push-to-talk, Pro/Max/Team/Enterprise). Builds on existing `voice-inbox` skill.
