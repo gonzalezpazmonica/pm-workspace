@@ -1,10 +1,21 @@
 # Changelog
 
-All notable changes to PM-Workspace will be documented in this file.
+All notable changes to this project will be documented in this file.
 
-## [2.33.0] — 2026-03-07
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### Added — Era 62: DAG Scheduling (Parallel Agent Orchestration)
+## [2.35.0] — 2026-03-07
+
+### Added — Era 64: Verification Lattice
+
+5-layer verification pipeline: deterministic → semantic → security → agentic → human. Each layer informs the next, culminating in a human review enriched by automated analysis.
+
+- **`/verify-full {task-id}`** — Run all 5 verification layers. Progressive results, stop on critical failure.
+- **`/verify-layer {N} {task-id}`** — Run specific layer for debugging.
+- **`verification-lattice` skill** — 5 layers with dedicated agents: scripts (L1), code-reviewer (L2), security-reviewer (L3), architect (L4), human (L5).
+- **`verification-policy` rule** — Layers 1-3 mandatory, L4 for risk>50, L5 always except risk<25. Auto-retry for automated layers.
+
 
 Dependency-graph-based execution for SDD pipeline. Parallelizes independent phases (spec-slice + security-review, unit-tests + integration-tests + docs) while respecting dependencies. Reduces total execution time by 30-40% through intelligent cohorte scheduling and multi-agent orchestration.
 
