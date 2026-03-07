@@ -125,6 +125,9 @@ jobs:
       - name: Run coverage report
         run: bash scripts/coverage-report.sh --ci
 
+      - name: Run security scan
+        run: bash scripts/security-scan.sh --ci
+
   lint-markdown:
     name: Lint Markdown
     runs-on: ubuntu-latest
