@@ -9,13 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added — Era 77: Postmortem Training Template
 
-Postmortem process focused on reasoning heuristics, not just root cause. Trains engineers to diagnose faster by documenting the journey to diagnosis.
+Postmortem process focused on reasoning heuristics rather than root cause.
 
-- **`/postmortem-create {incident}`** — Guided postmortem: timeline, diagnosis journey, heuristic extraction, comprehension gap analysis. Plantilla obligatoria con 7 secciones.
-- **`/postmortem-review [incident-id]`** — Review postmortems, extract patterns and recurring gaps. Análisis de patrones históricos.
-- **`/postmortem-heuristics [module]`** — Compile "if X, check Y" debugging playbook from all postmortems. Deduplicación automática.
-- **`postmortem-training` skill** — 7-section template, integration with comprehension reports, heuristic database. Enfoque en viaje diagnóstico vs solo causa raíz.
-- **`postmortem-policy` rule** — Mandatory for MTTR>30min. Template required. Heuristic extraction required. Comprehension gap analysis required.
+- **`/postmortem-create {incident}`** — Guided postmortem with 7-section template.
+- **`/postmortem-review [incident-id]`** — Analyze patterns and recurring gaps.
+- **`/postmortem-heuristics [module]`** — Compile debugging playbook from postmortems.
+- **`postmortem-training` skill** — Full integration with comprehension reports.
+- **`postmortem-policy` rule** — Mandatory for MTTR > 30 minutes.
 
 ### Changed
 
