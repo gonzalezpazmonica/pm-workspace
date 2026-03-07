@@ -1,3 +1,18 @@
+## [2.27.0] — 2026-03-07
+
+### Added — Era 56: Scheduled Messaging Integration
+
+Wizard-guided setup for Claude Code Scheduled Tasks with automatic result delivery to messaging platforms.
+
+- **`/scheduled-setup {platform}`** — Interactive wizard: platform selection → credential config → module generation → test → task creation. Supports: Telegram, Slack, Teams, WhatsApp (Twilio), NextCloud Talk.
+- **`/scheduled-test {platform}`** — Send test message to verify integration.
+- **`/scheduled-create`** — Create scheduled task with `--notify {platform}` and `--cron "schedule"`.
+- **`/scheduled-list`** — List tasks with notification config and status.
+- **`scheduled-messaging` skill** — 5-phase pipeline, 5 platform adapters, 5 pre-built templates (standup, blocker, burndown, deploy, security).
+- **`scripts/notify-{platform}.sh`** — Auto-generated notification modules per platform.
+
+---
+
 ## [2.26.0] — 2026-03-07
 
 ### Added — Era 55: Prompt Caching Strategy
