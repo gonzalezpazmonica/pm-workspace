@@ -1,0 +1,7 @@
+{
+  "tool_name": "Task",
+  "tool_input": {
+    "prompt": "Create a new command in .claude/commands/ with proper frontmatter including name and description fields. Use existing command as example.",
+    "subagent_type": "general-purpose"
+  }
+}
