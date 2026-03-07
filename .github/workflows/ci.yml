@@ -128,6 +128,9 @@ jobs:
       - name: Run security scan
         run: bash scripts/security-scan.sh --ci
 
+      - name: Run vulnerability scan
+        run: bash scripts/vuln-scan.sh --ci
+
   lint-markdown:
     name: Lint Markdown
     runs-on: ubuntu-latest
