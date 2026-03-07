@@ -49,40 +49,11 @@ Cada transición tiene puertas configurables que deben evaluarse antes de avanza
 
 **Ubicación de estado:** `projects/{project_id}/state/tasks/{task_id}.json`
 
-**Estructura del archivo de estado:**
-```json
-{
-  "task_id": "PBI-001",
-  "current_state": "IN_PROGRESS",
-  "state_history": [
-    {
-      "state": "BACKLOG",
-      "timestamp": "2026-03-01T10:00:00Z",
-      "actor": "john@example.com"
-    }
-  ],
-  "transitions_log": [
-    {
-      "from": "BACKLOG",
-      "to": "DISCOVERY",
-      "timestamp": "2026-03-02T14:30:00Z",
-      "actor": "jane@example.com",
-      "gate_results": {
-        "acceptance_criteria_present": true
-      },
-      "status": "success"
-    }
-  ]
-}
-```
-
 **Auditoría:** Toda transición se registra con timestamp, actor y resultados de evaluación de puertas.
 
 ## Configuración por Proyecto
 
 Las puertas pueden sobrescribirse por proyecto en `projects/{project_id}/policies/sdlc-gates.json`
-
-Permite ajustar requisitos según metodología ágil, waterfall o híbrida.
 
 ## Integración con pm-workspace
 
