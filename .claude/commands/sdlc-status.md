@@ -11,26 +11,14 @@
 ## Flujo
 
 1. Buscar estado actual en `projects/{proyecto}/state/tasks/{task-id}.json`
-2. Si no existe → crear fichero de estado inicial (BACKLOG)
-3. Mostrar:
-   - **Estado actual**: nombre del estado, timestamp
-   - **Transiciones disponibles**: estados a los que se puede pasar
-   - **Puertas (Gates)**: requisitos para cada transición con estado de cumplimiento
-   - **Historial**: últimas 3 transiciones con actor y resultado
-4. Mostrar acciones disponibles: `/sdlc-advance {task-id}`
+2. Mostrar estado actual, transiciones y puertas
+3. Mostrar acciones disponibles: `/sdlc-advance {task-id}`
 
 ## Ejemplo
 
-```
-Task: PBI-001 | Sprint: S2026-04
+Task: PBI-001 | Estado: SPEC_READY
+- Transición siguiente: IN_PROGRESS
+- Gate: Especificación aprobada ✅
+- Gate: Revisión de seguridad ❌
 
-Estado actual: SPEC_READY (desde 2026-03-05 10:00)
-Última transición: DECOMPOSED → SPEC_READY (jane@example.com, exitosa)
-
-Transiciones disponibles:
-  → IN_PROGRESS (próximo estado)
-    Gate: Especificación aprobada ✅ (aprobada 2026-03-05)
-    Gate: Revisión de seguridad ❌ (pendiente)
-```
-
-**Siguiente paso:** `/sdlc-advance PBI-001` para evaluar puertas y avanzar.
+Siguiente paso: `/sdlc-advance PBI-001`
