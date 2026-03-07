@@ -100,6 +100,28 @@ jobs:
           fi
           echo "All required files present."
 
+  bats-tests:
+    name: BATS Hook Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install BATS
+        run: |
+          git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats
+          sudo /tmp/bats/install.sh /usr/local
+
+      - name: Install dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y jq
+
+      - name: Run BATS test suite
+        run: bash tests/run-all.sh
+
+      - name: Run test quality audit
+        run: bash scripts/audit-test-quality.sh --summary
+
   lint-markdown:
     name: Lint Markdown
     runs-on: ubuntu-latest
