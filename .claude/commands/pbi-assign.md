@@ -1,3 +1,10 @@
+---
+name: pbi-assign
+description: Assign or reassign tasks based on intelligent allocation
+---
+
+---
+
 # /pbi-assign
 
 Asigna (o reasigna) las Tasks existentes de un PBI según el algoritmo de asignación inteligente, sin recrear las tasks.

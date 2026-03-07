@@ -1,3 +1,10 @@
+---
+name: marketplace-install
+description: Install components from claude-code-templates marketplace
+---
+
+---
+
 # /marketplace-install
 
 Descarga, valida e integra una habilidad desde el marketplace en el workspace. Resuelve y instala dependencias automáticamente.

@@ -1,3 +1,10 @@
+---
+name: postmortem-heuristics
+description: Extract debugging heuristics from postmortems
+---
+
+---
+
 # Compilar Debugging Heuristics
 
 **alias:** `/postmortem-heuristics`, `/heuristics-compile`

@@ -1,3 +1,10 @@
+---
+name: record-export
+description: Export recorded session or data in multiple formats
+---
+
+---
+
 # /record-export
 
 Exporta una sesión grabada como informe markdown con formato legible para documentación, auditoría o capacitación.

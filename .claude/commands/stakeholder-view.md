@@ -1,3 +1,10 @@
+---
+name: stakeholder-view
+description: Generate stakeholder-focused reporting view
+---
+
+---
+
 # Stakeholder View
 
 **Aliases:** stakeholder, executive-view

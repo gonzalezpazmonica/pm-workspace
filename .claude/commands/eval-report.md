@@ -1,3 +1,10 @@
+---
+name: eval-report
+description: Generate evaluation report with scoring and analysis
+---
+
+---
+
 # /eval-report — Mostrar resultados de evaluación
 
 Visualiza resultados históricos y tendencias de una evaluación específica.

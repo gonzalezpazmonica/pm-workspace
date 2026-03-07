@@ -1,3 +1,10 @@
+---
+name: agent-run
+description: Launch a Claude agent on a Spec or batch of pending specs
+---
+
+---
+
 # /agent-run
 
 Lanza un agente Claude sobre una Spec SDD (o batch de specs pendientes).

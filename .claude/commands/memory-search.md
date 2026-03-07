@@ -1,3 +1,10 @@
+---
+name: memory-search
+description: Search memory entries by keywords and topics
+---
+
+---
+
 # memory-search
 
 Búsqueda semántica sobre la memoria del proyecto.

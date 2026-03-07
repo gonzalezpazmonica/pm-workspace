@@ -1,3 +1,10 @@
+---
+name: po-wizard
+description: Interactive wizard for product owner onboarding
+---
+
+---
+
 # PO Wizard
 
 **Aliases:** po, po-actions

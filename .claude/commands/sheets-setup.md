@@ -1,3 +1,10 @@
+---
+name: sheets-setup
+description: Configure Google Sheets integration
+---
+
+---
+
 # /sheets-setup — Crear spreadsheet de seguimiento
 
 **Descripción:** Crea una hoja de cálculo Google Sheets preconfigurada para seguimiento de tareas, métricas y riesgos de un proyecto, con sincronización bidireccional a Azure DevOps.

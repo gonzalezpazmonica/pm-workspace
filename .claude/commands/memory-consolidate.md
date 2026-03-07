@@ -1,3 +1,10 @@
+---
+name: memory-consolidate
+description: Consolidate and compress memory entries to save context
+---
+
+---
+
 # /memory-consolidate
 
 > End-of-day consolidation: group by concept, remove redundancy, create summary

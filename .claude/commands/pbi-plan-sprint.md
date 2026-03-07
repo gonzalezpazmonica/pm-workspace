@@ -1,3 +1,10 @@
+---
+name: pbi-plan-sprint
+description: Plan and allocate PBIs to upcoming sprint
+---
+
+---
+
 # /pbi-plan-sprint
 
 Flujo completo de Sprint Planning asistido por IA: calcula capacity, propone qué PBIs caben, descompone en tasks y asigna todo de forma equilibrada.

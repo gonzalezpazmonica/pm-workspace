@@ -1,3 +1,10 @@
+---
+name: sheets-report
+description: Generate report and sync to Google Sheets
+---
+
+---
+
 # /sheets-report — Generar métricas en la hoja Metrics
 
 **Descripción:** Genera automáticamente métricas de sprint en la hoja "Metrics" a partir de los datos en la hoja "Tasks".
