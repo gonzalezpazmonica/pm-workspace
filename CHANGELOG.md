@@ -54,6 +54,17 @@ Expose project state as MCP server. External tools can query projects, tasks, me
 - **`/mcp-server-config`** — Configure exposed resources, tools, and prompts.
 - **`pm-mcp-server` skill** — 6 resources, 4 tools, 3 prompts. Token auth for remote, read-only mode.
 
+## [2.35.0] — 2026-03-07
+
+### Added — Era 64: Verification Lattice
+
+5-layer verification pipeline: deterministic → semantic → security → agentic → human. Each layer informs the next, culminating in a human review enriched by automated analysis.
+
+- **`/verify-full {task-id}`** — Run all 5 verification layers. Progressive results, stop on critical failure.
+- **`/verify-layer {N} {task-id}`** — Run specific layer for debugging.
+- **`verification-lattice` skill** — 5 layers with dedicated agents: scripts (L1), code-reviewer (L2), security-reviewer (L3), architect (L4), human (L5).
+- **`verification-policy` rule** — Layers 1-3 mandatory, L4 for risk>50, L5 always except risk<25. Auto-retry for automated layers.
+
 ## [2.34.0] — 2026-03-07
 
 ### Added — Era 63: Risk Scoring & Intelligent Escalation
@@ -97,6 +108,7 @@ Risk-based review routing replaces fixed Code Review rules. Automatic score calc
 [2.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.47.0...v2.48.0
 [2.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.46.0...v2.47.0
 [2.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.44.0...v2.46.0
-[2.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.34.0...v2.44.0
+[2.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.35.0...v2.44.0
+[2.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.34.0...v2.35.0
 [2.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.33.0...v2.34.0
 [2.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.32.0...v2.33.0
