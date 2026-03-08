@@ -10,7 +10,7 @@ import org.junit.Test
  *
  * Verifies:
  * - ADR-006: Single Activity + Navigation Compose routes match spec
- * - Fase 0: Navigation Compose with 3 destinations (chat, dashboard, settings)
+ * - v0.2: Navigation Compose with 4 destinations (home, chat, commands, profile)
  * - Route uniqueness and correct tab configuration
  *
  * Note: Full Compose UI navigation tests require androidTest (Espresso/ComposeTestRule)
@@ -19,21 +19,21 @@ import org.junit.Test
 class NavigationIntegrationTest {
 
     @Test
-    fun `bottomNavScreens contains exactly 3 screens per spec`() {
-        assertThat(bottomNavScreens).hasSize(3)
+    fun `bottomNavScreens contains exactly 4 screens per v0_2 spec`() {
+        assertThat(bottomNavScreens).hasSize(4)
     }
 
     @Test
-    fun `screens match ADR-006 routes - chat, dashboard, settings`() {
+    fun `screens match v0_2 routes - home, chat, commands, profile`() {
         val routes = bottomNavScreens.map { it.route }
 
-        assertThat(routes).containsExactly("chat", "sessions", "settings")
+        assertThat(routes).containsExactly("home", "chat", "commands", "profile")
     }
 
     @Test
-    fun `Chat is the first screen - matches startDestination`() {
-        assertThat(bottomNavScreens[0]).isEqualTo(Screen.Chat)
-        assertThat(Screen.Chat.route).isEqualTo("chat")
+    fun `Home is the first screen - matches startDestination`() {
+        assertThat(bottomNavScreens[0]).isEqualTo(Screen.Home)
+        assertThat(Screen.Home.route).isEqualTo("home")
     }
 
     @Test
@@ -64,5 +64,18 @@ class NavigationIntegrationTest {
     @Test
     fun `Settings screen exists with correct route`() {
         assertThat(Screen.Settings.route).isEqualTo("settings")
+    }
+
+    @Test
+    fun `secondary screens have valid routes`() {
+        val secondaryRoutes = listOf(
+            Screen.Kanban.route,
+            Screen.TimeLog.route,
+            Screen.Capture.route,
+            Screen.Approvals.route
+        )
+        secondaryRoutes.forEach { route ->
+            assertThat(route).matches("[a-z]+")
+        }
     }
 }

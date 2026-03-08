@@ -30,6 +30,8 @@ Endpoints:
     DELETE /sessions          Clear session history
     GET    /install           HTML page for APK download (no auth)
     GET    /download/apk      Download APK binary (no auth)
+    GET    /update/check      Check available APK version and metadata (no auth)
+    GET    /update/download   Download APK for auto-update (no auth)
 
 Configuration Files (created automatically):
     ~/.savia/bridge/bridge.log              General server logs
@@ -58,6 +60,7 @@ import hashlib
 import http.server
 import json
 import os
+import re
 import secrets
 import shutil
 import ssl
@@ -136,6 +139,91 @@ def _get_apk_version(apk_path: Path) -> str:
     # Fallback: parse filename
     name = apk_path.stem  # e.g. "savia-debug" or "savia-v0.1.0"
     return name
+
+def _get_apk_version_code(apk_path: Path) -> int:
+    """
+    Extract versionCode from APK using aapt.
+
+    Attempts to use aapt to extract the versionCode from the APK manifest.
+    Falls back to parsing the filename (e.g., "savia-v0.2.0-release.apk" -> versionCode 2).
+
+    Args:
+        apk_path: Path to the APK file
+
+    Returns:
+        int: The versionCode (minimum 1)
+    """
+    try:
+        sdk = os.environ.get("ANDROID_HOME") or str(Path.home() / "Android" / "Sdk")
+        bt_dir = Path(sdk) / "build-tools"
+        if bt_dir.exists():
+            versions = sorted(bt_dir.iterdir(), reverse=True)
+            if versions:
+                aapt = versions[0] / "aapt"
+                if aapt.exists():
+                    result = subprocess.run(
+                        [str(aapt), "dump", "badging", str(apk_path)],
+                        capture_output=True, text=True, timeout=10
+                    )
+                    for token in result.stdout.split():
+                        if token.startswith("versionCode="):
+                            try:
+                                return int(token.split("=", 1)[1])
+                            except (ValueError, IndexError):
+                                pass
+    except Exception:
+        pass
+
+    # Fallback: parse version from filename (e.g., "savia-v0.2.0" -> extract 2)
+    name = apk_path.stem
+    match = re.search(r'v(\d+)\.(\d+)\.(\d+)', name)
+    if match:
+        # Return minor version number as versionCode (e.g., v0.2.0 -> 2)
+        return int(match.group(2))
+    return 1
+
+def _get_apk_info(apk_path: Path) -> dict:
+    """
+    Extract comprehensive metadata from an APK file.
+
+    Computes all metadata needed for auto-update endpoints: version, versionCode,
+    filename, size in bytes, SHA-256 hash, downloadUrl, releaseNotes, and minAndroidSdk.
+
+    Args:
+        apk_path: Path to the APK file to analyze
+
+    Returns:
+        dict with keys:
+            - version: versionName (e.g., "0.2.0")
+            - versionCode: integer version code
+            - filename: basename of APK file
+            - size: file size in bytes
+            - sha256: SHA-256 hash of APK (lowercase hex)
+            - downloadUrl: relative path "/update/download"
+            - releaseNotes: default release notes
+            - minAndroidSdk: minimum Android API level (default 26)
+    """
+    version = _get_apk_version(apk_path)
+    version_code = _get_apk_version_code(apk_path)
+    file_size = apk_path.stat().st_size
+
+    # Compute SHA-256 hash
+    sha256_hash = hashlib.sha256()
+    with open(apk_path, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            sha256_hash.update(chunk)
+    sha256_hex = sha256_hash.hexdigest()
+
+    return {
+        "version": version,
+        "versionCode": version_code,
+        "filename": apk_path.name,
+        "size": file_size,
+        "sha256": sha256_hex,
+        "downloadUrl": "/update/download",
+        "releaseNotes": "Auto-update, project selector, command palette improvements and bug fixes",
+        "minAndroidSdk": 26
+    }
 
 def _load_logo_b64() -> str:
     """Load the base64-encoded logo PNG. Falls back to a simple SVG."""
@@ -753,6 +841,56 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             self._send_json({"lines": [l.rstrip() for l in lines], "file": str(target)})
             return
 
+        # --- Auto-Update Endpoints (no auth required) ---
+        if parsed.path == "/update/check":
+            """
+            GET /update/check — Check for available APK update.
+
+            Returns JSON with current APK metadata:
+            {
+                "version": "0.2.0",
+                "versionCode": 2,
+                "filename": "savia-v0.2.0-release.apk",
+                "size": 12345678,
+                "sha256": "abc123...",
+                "downloadUrl": "/update/download",
+                "releaseNotes": "Auto-update, project selector...",
+                "minAndroidSdk": 26
+            }
+
+            Returns 404 if no APK is available.
+            """
+            apk = _find_apk()
+            if not apk:
+                self._send_json({"error": "No APK available"}, 404)
+                return
+            info = _get_apk_info(apk)
+            self._send_json(info)
+            return
+
+        if parsed.path == "/update/download":
+            """
+            GET /update/download — Download the current APK file.
+
+            Same as /download/apk but at /update/ path for auto-update clients.
+            Returns the APK binary with appropriate Content-Type and Content-Disposition.
+
+            Returns 404 if no APK is available.
+            """
+            apk = _find_apk()
+            if not apk:
+                self._send_json({"error": "No APK available"}, 404)
+                return
+            log(f"APK download via /update: {apk.name} ({apk.stat().st_size} bytes) to {self.address_string()}")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/vnd.android.package-archive")
+            self.send_header("Content-Disposition", f'attachment; filename="{apk.name}"')
+            self.send_header("Content-Length", str(apk.stat().st_size))
+            self.end_headers()
+            with open(apk, "rb") as f:
+                shutil.copyfileobj(f, self.wfile)
+            return
+
         # --- APK Install Page (no auth required) ---
         if parsed.path == "/install":
             html = _build_install_html(_find_apk())
@@ -891,6 +1029,12 @@ class InstallHandler(http.server.BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         log(f"[install] {self.address_string()} - {format % args}", "HTTP")
 
+    def _send_json(self, data: dict, status: int = 200):
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(json.dumps(data).encode())
+
     def do_GET(self):
         parsed = urlparse(self.path)
 
@@ -911,6 +1055,31 @@ class InstallHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(b"<h1>No APK available</h1>")
                 return
             log(f"[install] APK download: {apk.name} to {self.address_string()}")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/vnd.android.package-archive")
+            self.send_header("Content-Disposition", f'attachment; filename="{apk.name}"')
+            self.send_header("Content-Length", str(apk.stat().st_size))
+            self.end_headers()
+            with open(apk, "rb") as f:
+                shutil.copyfileobj(f, self.wfile)
+            return
+
+        # --- Auto-Update Endpoints ---
+        if parsed.path == "/update/check":
+            apk = _find_apk()
+            if not apk:
+                self._send_json({"error": "No APK available"}, 404)
+                return
+            info = _get_apk_info(apk)
+            self._send_json(info)
+            return
+
+        if parsed.path == "/update/download":
+            apk = _find_apk()
+            if not apk:
+                self._send_json({"error": "No APK available"}, 404)
+                return
+            log(f"[install] APK download via /update: {apk.name} to {self.address_string()}")
             self.send_response(200)
             self.send_header("Content-Type", "application/vnd.android.package-archive")
             self.send_header("Content-Disposition", f'attachment; filename="{apk.name}"')

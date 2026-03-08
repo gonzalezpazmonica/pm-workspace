@@ -108,13 +108,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install BATS
+      - name: Install BATS and dependencies
         run: |
+          # Install BATS
           git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats
           sudo /tmp/bats/install.sh /usr/local
 
-      - name: Install dependencies
-        run: sudo apt-get update -qq && sudo apt-get install -y jq
+          # Update package lists and install dependencies
+          sudo apt-get update -qq
+          sudo apt-get install -y jq git bash
+
+          # Ensure git is properly configured for test environment
+          git config --global user.email "ci@example.com"
+          git config --global user.name "CI Runner"
 
       - name: Run BATS test suite
         run: bash tests/run-all.sh
