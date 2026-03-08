@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # stop-quality-gate.sh — Verifica quality gates antes de que Claude termine
 # Usado por: settings.json (Stop hook)
 # Solo actúa si hay cambios pendientes en el directorio de trabajo

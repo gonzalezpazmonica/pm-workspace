@@ -1,20 +1,21 @@
 #!/usr/bin/env bash
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # test-frontend-testing.sh — Tests for Frontend Testing Nueva Era
 set -uo pipefail
 
 PASS=0; FAIL=0; TOTAL=0
 pass() { PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); echo "  ✅ $1"; }
 fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  ❌ $1"; }
-check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
+check() { if bash -c "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
 
-AGENT="/home/monica/savia/.claude/agents/frontend-test-runner.md"
-VR_CMD="/home/monica/savia/.claude/commands/visual-regression.md"
-SV_CMD="/home/monica/savia/.claude/commands/spec-verify-ui.md"
-RULE="/home/monica/savia/.claude/rules/domain/frontend-testing.md"
-DOC_ES="/home/monica/savia/docs/frontend-testing-nueva-era-es.md"
-DOC_EN="/home/monica/savia/docs/frontend-testing-nueva-era-en.md"
-PLAN="/home/monica/savia/output/linkedin/plan-frontend-nueva-era.md"
-FC_RULE="/home/monica/savia/.claude/rules/domain/frontend-components.md"
+AGENT="$ROOT/.claude/agents/frontend-test-runner.md"
+VR_CMD="$ROOT/.claude/commands/visual-regression.md"
+SV_CMD="$ROOT/.claude/commands/spec-verify-ui.md"
+RULE="$ROOT/.claude/rules/domain/frontend-testing.md"
+DOC_ES="$ROOT/docs/frontend-testing-nueva-era-es.md"
+DOC_EN="$ROOT/docs/frontend-testing-nueva-era-en.md"
+PLAN="$ROOT/output/linkedin/plan-frontend-nueva-era.md"
+FC_RULE="$ROOT/.claude/rules/domain/frontend-components.md"
 
 echo "═══ Testing Frontend Testing Nueva Era ═══"
 echo ""

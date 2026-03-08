@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 # ── Agent Hook: Pre-Merge Security & Quality Gate ──
 # Runs lightweight security checks on staged files before merge.
 # Does NOT invoke LLM — uses deterministic pattern matching.

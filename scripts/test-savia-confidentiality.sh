@@ -10,13 +10,13 @@ SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 assert() {
   TOTAL=$((TOTAL + 1))
-  if eval "$2" >/dev/null 2>&1; then PASS=$((PASS + 1)); echo -e "${GREEN}✅ $1${NC}"
+  if bash -c "$2" >/dev/null 2>&1; then PASS=$((PASS + 1)); echo -e "${GREEN}✅ $1${NC}"
   else FAIL=$((FAIL + 1)); echo -e "${RED}❌ $1${NC}"; fi
 }
 
 assert_not() {
   TOTAL=$((TOTAL + 1))
-  if ! eval "$2" >/dev/null 2>&1; then PASS=$((PASS + 1)); echo -e "${GREEN}✅ $1${NC}"
+  if ! bash -c "$2" >/dev/null 2>&1; then PASS=$((PASS + 1)); echo -e "${GREEN}✅ $1${NC}"
   else FAIL=$((FAIL + 1)); echo -e "${RED}❌ $1${NC}"; fi
 }
 
