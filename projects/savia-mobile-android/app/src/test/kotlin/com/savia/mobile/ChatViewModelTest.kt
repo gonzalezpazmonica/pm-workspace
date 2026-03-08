@@ -130,4 +130,8 @@ private class FakeSecurityRepo(private var hasKey: Boolean) : SecurityRepository
     override suspend fun getBridgeToken(): String? = null
     override suspend fun hasBridgeConfig(): Boolean = false
     override suspend fun deleteBridgeConfig() {}
+    override suspend fun saveTheme(theme: String) {}
+    override suspend fun getTheme(): String? = null
+    override suspend fun saveLanguage(language: String) {}
+    override suspend fun getLanguage(): String? = null
 }

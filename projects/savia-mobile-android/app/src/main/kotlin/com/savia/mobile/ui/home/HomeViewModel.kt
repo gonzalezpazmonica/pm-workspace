@@ -26,6 +26,7 @@ import javax.inject.Inject
  * @property hoursToday Hours logged today
  * @property myTasks First 3 items from board assigned to current user
  * @property recentActivity Last 5 items from sprint activity
+ * @property availableProjects List of available projects to select from
  * @property isLoading Whether data is currently loading
  * @property error Error message to display in snackbar
  */
@@ -39,6 +40,7 @@ data class HomeUiState(
     val hoursToday: Float = 0f,
     val myTasks: List<BoardItem> = emptyList(),
     val recentActivity: List<String> = emptyList(),
+    val availableProjects: List<com.savia.domain.model.Project> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null
 )
@@ -80,26 +82,30 @@ class HomeViewModel @Inject constructor(
     }
 
     /**
-     * Loads all dashboard data: project, sprint summary, tasks, and activity.
+     * Loads all dashboard data: projects, sprint summary, tasks, and activity.
      * Called on ViewModel initialization and during refresh.
      */
     private fun loadDashboardData() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
-                val project = projectRepository.getSelectedProject()
-                if (project == null) {
+                // Load available projects
+                val projects = projectRepository.getProjects()
+                val selectedProject = projectRepository.getSelectedProject()
+
+                if (selectedProject == null) {
                     _uiState.update {
                         it.copy(
                             isLoading = false,
+                            availableProjects = projects,
                             error = "No project selected"
                         )
                     }
                     return@launch
                 }
 
-                val sprintSummary = projectRepository.getSprintSummary(project.id)
-                val board = projectRepository.getBoard(project.id)
+                val sprintSummary = projectRepository.getSprintSummary(selectedProject.id)
+                val board = projectRepository.getBoard(selectedProject.id)
                 val timeEntries = projectRepository.getTimeEntries(getTodayDateString())
 
                 // Extract user's tasks from Active column (first 3)
@@ -119,7 +125,7 @@ class HomeViewModel @Inject constructor(
 
                 _uiState.update {
                     it.copy(
-                        selectedProject = project.name,
+                        selectedProject = selectedProject.name,
                         sprintName = sprintSummary?.name ?: "No Active Sprint",
                         sprintProgress = sprintSummary?.progress ?: 0f,
                         completedStoryPoints = sprintSummary?.completedPoints ?: 0,
@@ -128,6 +134,7 @@ class HomeViewModel @Inject constructor(
                         hoursToday = totalHours,
                         myTasks = myTasks,
                         recentActivity = activity,
+                        availableProjects = projects,
                         isLoading = false,
                         error = null
                     )
@@ -157,6 +164,17 @@ class HomeViewModel @Inject constructor(
      */
     fun clearError() {
         _uiState.update { it.copy(error = null) }
+    }
+
+    /**
+     * Selects a project and reloads dashboard data.
+     * Called when user selects a project from dropdown menu.
+     */
+    fun selectProject(projectId: String) {
+        viewModelScope.launch {
+            projectRepository.setSelectedProject(projectId)
+            loadDashboardData()
+        }
     }
 
     /**

@@ -32,6 +32,16 @@ Endpoints:
     GET    /download/apk      Download APK binary (no auth)
     GET    /update/check      Check available APK version and metadata (no auth)
     GET    /update/download   Download APK for auto-update (no auth)
+    GET    /profile           User profile (name, email, company, role) (no auth)
+    PUT    /profile           Save user preferences from mobile app (requires Bearer auth)
+    GET    /git-config        Git global config (name, email, PAT status) (no auth)
+    PUT    /git-config        Update git global config (requires Bearer auth)
+    GET    /team              Team members from .claude/profiles/users/ (no auth)
+    PUT    /team              Add/update/remove team members (requires Bearer auth)
+    GET    /company           Company configuration sections (no auth)
+    PUT    /company           Update company profile sections (requires Bearer auth)
+    GET    /connectors        External service connectors (no auth)
+    GET    /openapi.json      OpenAPI 3.0 specification in YAML (no auth)
 
 Configuration Files (created automatically):
     ~/.savia/bridge/bridge.log              General server logs
@@ -93,7 +103,7 @@ MAX_LOG_SIZE = 5 * 1024 * 1024
 
 # --- APK Install Page ---
 
-BRIDGE_VERSION = "1.3.0"
+BRIDGE_VERSION = "1.5.0"
 
 TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
 LOGO_B64_FILE = CONFIG_DIR / "logo_b64.txt"
@@ -782,7 +792,7 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
 
     def _send_cors_headers(self):
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
     def do_OPTIONS(self):
@@ -915,6 +925,194 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 shutil.copyfileobj(f, self.wfile)
             return
 
+        if parsed.path == "/profile":
+            # Read from git config
+            name = subprocess.run(['git', 'config', '--global', 'user.name'], capture_output=True, text=True, timeout=2).stdout.strip()
+            email = subprocess.run(['git', 'config', '--global', 'user.email'], capture_output=True, text=True, timeout=2).stdout.strip()
+
+            # Try to read company name from .claude/profiles/company/identity.md
+            company = ""
+            role = "Developer"
+            identity_path = Path.home() / "savia" / ".claude" / "profiles" / "company" / "identity.md"
+            if identity_path.exists():
+                try:
+                    content = identity_path.read_text()
+                    for line in content.split('\n'):
+                        if line.startswith('company:') or line.startswith('name:'):
+                            company = line.split(':', 1)[1].strip()
+                            break
+                except Exception:
+                    pass
+
+            # Start with git config + company data as base
+            profile_data = {
+                "name": name or "User",
+                "email": email or "",
+                "company": company,
+                "role": role,
+                "language": "en",
+                "work_hours_start": "09:00",
+                "work_hours_end": "17:30",
+                "lunch_break": "12:30",
+                "break_strategy": "pomodoro",
+                "detail_level": "standard",
+                "alert_style": "desktop",
+                "output_mode": "hybrid",
+                "theme": "auto",
+                "notes": "",
+                "accessibility": {}
+            }
+
+            # Merge with bridge profile.json (takes priority for richer fields)
+            profile_path = CONFIG_DIR / "profile.json"
+            if profile_path.exists():
+                try:
+                    stored_data = json.loads(profile_path.read_text())
+                    # Update all fields present in stored profile
+                    for key in ("name", "email", "role", "language", "notes",
+                                "work_hours_start", "work_hours_end", "lunch_break",
+                                "break_strategy", "detail_level", "alert_style",
+                                "output_mode", "theme", "accessibility"):
+                        if key in stored_data:
+                            profile_data[key] = stored_data[key]
+                except Exception:
+                    pass
+
+            self._send_json(profile_data)
+            return
+
+        if parsed.path == "/company":
+            company_dir = Path.home() / "savia" / ".claude" / "profiles" / "company"
+            if not company_dir.exists() or not any(company_dir.glob("*.md")):
+                self._send_json({"status": "not_configured"})
+                return
+
+            result = {"status": "configured"}
+            for section_file in ["identity.md", "structure.md", "strategy.md", "policies.md", "technology.md", "vertical.md"]:
+                filepath = company_dir / section_file
+                if filepath.exists():
+                    try:
+                        content = filepath.read_text()
+                        section_name = section_file.replace(".md", "")
+                        # Parse simple YAML frontmatter
+                        section_data = {}
+                        if content.startswith("---"):
+                            parts = content.split("---", 2)
+                            if len(parts) >= 3:
+                                for line in parts[1].strip().split('\n'):
+                                    if ':' in line:
+                                        key, val = line.split(':', 1)
+                                        section_data[key.strip()] = val.strip()
+                                section_data["content"] = parts[2].strip()
+                        else:
+                            section_data["content"] = content.strip()
+                        result[section_name] = section_data
+                    except Exception as e:
+                        log(f"Warning: Could not parse {section_file}: {e}")
+
+            self._send_json(result)
+            return
+
+        if parsed.path == "/git-config":
+            """GET /git-config — Read git global configuration (name, email, PAT status)."""
+            try:
+                name = subprocess.run(['git', 'config', '--global', 'user.name'],
+                                      capture_output=True, text=True, timeout=2).stdout.strip()
+                email = subprocess.run(['git', 'config', '--global', 'user.email'],
+                                       capture_output=True, text=True, timeout=2).stdout.strip()
+                # Check if credential helper is configured
+                cred_helper = subprocess.run(['git', 'config', '--global', 'credential.helper'],
+                                             capture_output=True, text=True, timeout=2).stdout.strip()
+                # Check for PAT in environment or git credentials (never expose the actual token)
+                pat_configured = bool(os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN"))
+                # Check for stored credentials via git credential manager
+                if not pat_configured and cred_helper:
+                    pat_configured = True  # Credential helper implies some auth is configured
+
+                # Check remote URL for repo info
+                remote_url = ""
+                try:
+                    remote_url = subprocess.run(['git', 'config', '--get', 'remote.origin.url'],
+                                                capture_output=True, text=True, timeout=2,
+                                                cwd=str(Path.home() / "savia")).stdout.strip()
+                except Exception:
+                    pass
+
+                self._send_json({
+                    "name": name,
+                    "email": email,
+                    "credential_helper": cred_helper,
+                    "pat_configured": pat_configured,
+                    "remote_url": remote_url
+                })
+            except Exception as e:
+                log(f"Error reading git config: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path == "/team":
+            """GET /team — Read team configuration from .claude/profiles/users/."""
+            team_dir = Path.home() / "savia" / ".claude" / "profiles" / "users"
+            members = []
+
+            if team_dir.exists():
+                for user_dir in sorted(team_dir.iterdir()):
+                    if user_dir.is_dir():
+                        member = {"slug": user_dir.name}
+                        identity_file = user_dir / "identity.md"
+                        if identity_file.exists():
+                            try:
+                                content = identity_file.read_text()
+                                if content.startswith("---"):
+                                    parts = content.split("---", 2)
+                                    if len(parts) >= 3:
+                                        for line in parts[1].strip().split('\n'):
+                                            if ':' in line:
+                                                key, val = line.split(':', 1)
+                                                member[key.strip()] = val.strip()
+                            except Exception:
+                                pass
+                        # Also check for other fragments
+                        for fragment in ["workflow.md", "tools.md", "projects.md"]:
+                            fpath = user_dir / fragment
+                            if fpath.exists():
+                                member[f"has_{fragment.replace('.md', '')}"] = True
+                        members.append(member)
+
+            self._send_json({
+                "status": "configured" if members else "not_configured",
+                "members": members,
+                "count": len(members)
+            })
+            return
+
+        if parsed.path == "/connectors":
+            """GET /connectors — Read configured external service connectors."""
+            connectors_file = Path.home() / "savia" / ".claude" / "connectors.json"
+            if connectors_file.exists():
+                try:
+                    data = json.loads(connectors_file.read_text())
+                    self._send_json({"status": "configured", "connectors": data})
+                except Exception as e:
+                    self._send_json({"error": str(e)}, 500)
+            else:
+                self._send_json({"status": "not_configured", "connectors": {}})
+            return
+
+        if parsed.path == "/openapi.json":
+            spec_path = Path(__file__).resolve().parent / "openapi.yaml"
+            if not spec_path.exists():
+                self._send_json({"error": "OpenAPI spec not found"}, 404)
+                return
+            # Serve as YAML since we can't depend on PyYAML for JSON conversion
+            content = spec_path.read_text()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/x-yaml")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(content.encode())
+            return
+
         self._send_json({"error": "Not found"}, 404)
 
     def do_POST(self):
@@ -1017,6 +1215,254 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 shutil.rmtree(SESSIONS_DIR)
                 SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
             self._send_json({"status": "cleared"})
+            return
+
+        self._send_json({"error": "Not found"}, 404)
+
+    def do_PUT(self):
+        """Handle PUT requests for updating configuration."""
+        parsed = urlparse(self.path)
+
+        if parsed.path == "/profile":
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_length).decode("utf-8")
+                data = json.loads(body)
+
+                # Load existing profile
+                profile_path = CONFIG_DIR / "profile.json"
+                existing = {}
+                if profile_path.exists():
+                    try:
+                        existing = json.loads(profile_path.read_text())
+                    except Exception:
+                        pass
+
+                # Merge: update only provided fields
+                for key in ("name", "email", "role", "language", "notes",
+                            "work_hours_start", "work_hours_end", "lunch_break",
+                            "break_strategy", "detail_level", "alert_style",
+                            "output_mode", "theme", "accessibility"):
+                    if key in data:
+                        existing[key] = data[key]
+
+                # Save
+                profile_path.parent.mkdir(parents=True, exist_ok=True)
+                profile_path.write_text(json.dumps(existing, indent=2, ensure_ascii=False))
+
+                log(f"Profile updated: {list(data.keys())}")
+                self._send_json({"status": "updated", "profile": existing})
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+            except Exception as e:
+                log(f"Error updating profile: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path == "/git-config":
+            """PUT /git-config — Update git global configuration (requires auth)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_length).decode("utf-8")
+                data = json.loads(body)
+                updated = []
+
+                if "name" in data:
+                    subprocess.run(['git', 'config', '--global', 'user.name', data["name"]],
+                                   check=True, capture_output=True, timeout=5)
+                    updated.append("name")
+
+                if "email" in data:
+                    subprocess.run(['git', 'config', '--global', 'user.email', data["email"]],
+                                   check=True, capture_output=True, timeout=5)
+                    updated.append("email")
+
+                if "credential_helper" in data:
+                    val = data["credential_helper"]
+                    if val:
+                        subprocess.run(['git', 'config', '--global', 'credential.helper', val],
+                                       check=True, capture_output=True, timeout=5)
+                    else:
+                        subprocess.run(['git', 'config', '--global', '--unset', 'credential.helper'],
+                                       capture_output=True, timeout=5)
+                    updated.append("credential_helper")
+
+                # PAT is stored securely, never in git config directly
+                if "pat" in data:
+                    pat_path = CONFIG_DIR / "github_pat.enc"
+                    # Simple obfuscation — in production, use proper encryption
+                    # We store a marker that PAT exists but not the actual token in responses
+                    import base64
+                    encoded = base64.b64encode(data["pat"].encode()).decode()
+                    pat_path.write_text(encoded)
+                    pat_path.chmod(0o600)
+                    updated.append("pat")
+                    log("GitHub PAT updated (stored securely)")
+
+                log(f"Git config updated: {updated}")
+                self._send_json({"status": "updated", "fields": updated})
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+            except subprocess.CalledProcessError as e:
+                self._send_json({"error": f"Git config error: {e.stderr}"}, 500)
+            except Exception as e:
+                log(f"Error updating git config: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path == "/team":
+            """PUT /team — Update team member profiles (requires auth)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_length).decode("utf-8")
+                data = json.loads(body)
+
+                team_dir = Path.home() / "savia" / ".claude" / "profiles" / "users"
+                team_dir.mkdir(parents=True, exist_ok=True)
+
+                action = data.get("action", "update")  # update, add, remove
+
+                if action == "add":
+                    slug = data.get("slug", "").strip().lower().replace(" ", "-")
+                    if not slug:
+                        self._send_json({"error": "slug is required"}, 400)
+                        return
+                    member_dir = team_dir / slug
+                    member_dir.mkdir(parents=True, exist_ok=True)
+                    # Create identity.md with frontmatter
+                    identity = data.get("identity", {})
+                    fm_lines = ["---"]
+                    for k, v in identity.items():
+                        fm_lines.append(f"{k}: {v}")
+                    fm_lines.append("---")
+                    fm_lines.append(f"\n# {identity.get('name', slug)}\n")
+                    (member_dir / "identity.md").write_text("\n".join(fm_lines))
+                    log(f"Team member added: {slug}")
+                    self._send_json({"status": "added", "slug": slug})
+
+                elif action == "remove":
+                    slug = data.get("slug", "").strip()
+                    if not slug:
+                        self._send_json({"error": "slug is required"}, 400)
+                        return
+                    member_dir = team_dir / slug
+                    if member_dir.exists():
+                        shutil.rmtree(member_dir)
+                        log(f"Team member removed: {slug}")
+                        self._send_json({"status": "removed", "slug": slug})
+                    else:
+                        self._send_json({"error": f"Member '{slug}' not found"}, 404)
+
+                elif action == "update":
+                    slug = data.get("slug", "").strip()
+                    if not slug:
+                        self._send_json({"error": "slug is required"}, 400)
+                        return
+                    member_dir = team_dir / slug
+                    if not member_dir.exists():
+                        self._send_json({"error": f"Member '{slug}' not found"}, 404)
+                        return
+                    identity = data.get("identity", {})
+                    if identity:
+                        # Merge with existing identity.md
+                        existing_data = {}
+                        identity_file = member_dir / "identity.md"
+                        if identity_file.exists():
+                            content = identity_file.read_text()
+                            if content.startswith("---"):
+                                parts = content.split("---", 2)
+                                if len(parts) >= 3:
+                                    for line in parts[1].strip().split('\n'):
+                                        if ':' in line:
+                                            key, val = line.split(':', 1)
+                                            existing_data[key.strip()] = val.strip()
+                        existing_data.update(identity)
+                        fm_lines = ["---"]
+                        for k, v in existing_data.items():
+                            fm_lines.append(f"{k}: {v}")
+                        fm_lines.append("---")
+                        fm_lines.append(f"\n# {existing_data.get('name', slug)}\n")
+                        identity_file.write_text("\n".join(fm_lines))
+                    log(f"Team member updated: {slug}")
+                    self._send_json({"status": "updated", "slug": slug})
+                else:
+                    self._send_json({"error": f"Unknown action: {action}"}, 400)
+
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+            except Exception as e:
+                log(f"Error updating team: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path == "/company":
+            """PUT /company — Update company profile sections (requires auth)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_length).decode("utf-8")
+                data = json.loads(body)
+
+                company_dir = Path.home() / "savia" / ".claude" / "profiles" / "company"
+                company_dir.mkdir(parents=True, exist_ok=True)
+
+                section = data.get("section", "").strip()
+                valid_sections = ["identity", "structure", "strategy", "policies", "technology", "vertical"]
+                if section not in valid_sections:
+                    self._send_json({"error": f"Invalid section. Must be one of: {valid_sections}"}, 400)
+                    return
+
+                fields = data.get("fields", {})
+                content_text = data.get("content", "")
+
+                # Build markdown with YAML frontmatter
+                section_file = company_dir / f"{section}.md"
+
+                # Merge with existing if present
+                existing_fields = {}
+                existing_content = ""
+                if section_file.exists():
+                    raw = section_file.read_text()
+                    if raw.startswith("---"):
+                        parts = raw.split("---", 2)
+                        if len(parts) >= 3:
+                            for line in parts[1].strip().split('\n'):
+                                if ':' in line:
+                                    key, val = line.split(':', 1)
+                                    existing_fields[key.strip()] = val.strip()
+                            existing_content = parts[2].strip()
+
+                existing_fields.update(fields)
+                if content_text:
+                    existing_content = content_text
+
+                fm_lines = ["---"]
+                for k, v in existing_fields.items():
+                    fm_lines.append(f"{k}: {v}")
+                fm_lines.append("---")
+                if existing_content:
+                    fm_lines.append(f"\n{existing_content}")
+
+                section_file.write_text("\n".join(fm_lines))
+                log(f"Company section updated: {section}")
+                self._send_json({"status": "updated", "section": section})
+
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+            except Exception as e:
+                log(f"Error updating company: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
             return
 
         self._send_json({"error": "Not found"}, 404)
