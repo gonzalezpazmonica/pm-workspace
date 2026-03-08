@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# block-project-whitelist.sh — Bloquea whitelist de proyectos en .gitignore
+set -uo pipefail
+# Capa de defensa adicional al pre-commit hook. Actúa a nivel de Claude Code.
+
+# Lee el input del hook
+INPUT="${CLAUDE_TOOL_INPUT:-}"
+
+# Solo nos interesa si se está editando .gitignore
+if ! echo "$INPUT" | grep -q "\.gitignore"; then
+    exit 0
+fi
+
+# Detectar si el contenido incluye un whitelist de proyecto (!projects/)
+if echo "$INPUT" | grep -qE '!projects/'; then
+    echo "🛑 BLOQUEADO: Intento de añadir whitelist de proyecto en .gitignore" >&2
+    echo "" >&2
+    echo "La regla de privacidad de proyectos requiere confirmación humana explícita" >&2
+    echo "antes de publicar cualquier proyecto nuevo en el repositorio." >&2
+    echo "" >&2
+    echo "Pide confirmación a la persona humana antes de modificar .gitignore." >&2
+    echo "Si ya tienes confirmación, pide al humano que ejecute:" >&2
+    echo "  bash scripts/protect-project-privacy.sh --authorize <nombre-proyecto>" >&2
+    exit 2
+fi
+
+exit 0
