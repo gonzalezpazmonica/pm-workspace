@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -uo pipefail
 # scope-guard.sh — Detecta ficheros modificados fuera del scope de la spec SDD activa
 # Usado por: settings.json (Stop hook)
 # Lógica: Si hay una spec activa con sección "Ficheros a Crear/Modificar",
@@ -15,7 +15,7 @@ PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 
 # Obtener ficheros modificados (tracked, no staged + staged)
 MODIFIED=$(git diff --name-only 2>/dev/null; git diff --cached --name-only 2>/dev/null)
-MODIFIED=$(echo "$MODIFIED" | sort -u | grep -v '^$')
+MODIFIED=$(echo "$MODIFIED" | sort -u | grep -v '^$' || true)
 
 if [ -z "$MODIFIED" ]; then
   exit 0

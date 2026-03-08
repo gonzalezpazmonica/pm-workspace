@@ -1,6 +1,6 @@
 #!/bin/bash
 # memory-auto-capture.sh — PostToolUse hook for automatic memory capture
-set -euo pipefail
+set -uo pipefail
 
 PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-.}"
 STORE_SCRIPT="$PROJECT_ROOT/scripts/memory-store.sh"

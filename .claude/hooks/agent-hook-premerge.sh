@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 # ── Agent Hook: Pre-Merge Security & Quality Gate ──
 # Runs lightweight security checks on staged files before merge.
 # Does NOT invoke LLM — uses deterministic pattern matching.
 # Full agent-based review is triggered via /pr-review command.
-set -euo pipefail
+set -uo pipefail
 
 AGENT_HOOKS_ENABLED="${AGENT_HOOKS_ENABLED:-true}"
 AGENT_HOOKS_MODE="${AGENT_HOOKS_MODE:-warning}"

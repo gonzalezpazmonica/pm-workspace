@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -uo pipefail
 # ────────────────────────────────────────────────────────────────────────────
 # PreToolUse Hook: agent-dispatch-validate.sh
 # Valida que los prompts enviados a subagentes contengan contexto requerido.

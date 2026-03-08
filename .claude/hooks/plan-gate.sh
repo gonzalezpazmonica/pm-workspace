@@ -2,7 +2,7 @@
 # plan-gate.sh — Warning si implementación sin spec aprobada
 # ─────────────────────────────────────────────────────────────
 # PreToolUse hook (Edit|Write) que advierte si se edita código sin spec
-set -euo pipefail
+set -uo pipefail
 
 # Solo verificar en ficheros de código fuente
 FILE="${CLAUDE_TOOL_INPUT_FILE:-}"

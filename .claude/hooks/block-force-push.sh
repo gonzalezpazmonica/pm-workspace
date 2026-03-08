@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -uo pipefail
 # block-force-push.sh — Bloquea git push --force y commits directos a main
 # Usado por: commit-guardian (PreToolUse hook)
 
