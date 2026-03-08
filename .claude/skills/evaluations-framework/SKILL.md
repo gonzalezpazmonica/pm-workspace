@@ -1,7 +1,7 @@
 ---
 name: evaluations-framework
 description: Evaluations Framework
-maturity: alpha
+maturity: beta
 ---
 
 # Evaluations Framework

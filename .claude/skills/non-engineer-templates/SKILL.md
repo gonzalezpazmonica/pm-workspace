@@ -1,7 +1,7 @@
 ---
 name: non-engineer-templates
 description: Non-Engineer Templates
-maturity: alpha
+maturity: beta
 ---
 
 # Non-Engineer Templates

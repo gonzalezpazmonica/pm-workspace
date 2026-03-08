@@ -1,7 +1,7 @@
 ---
 name: banking-architecture
 description: Skill: Banking Architecture
-maturity: alpha
+maturity: beta
 ---
 
 # Skill: Banking Architecture
