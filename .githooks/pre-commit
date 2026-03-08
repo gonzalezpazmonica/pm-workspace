@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Git pre-commit hook — Protección de privacidad de proyectos
+# Se ejecuta ANTES de cada commit, independientemente de Savia o Claude Code.
+#
+# Instalación: git config core.hooksPath .githooks
+
+set -uo pipefail
+
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+
+# Ejecutar el script de protección en modo hook
+if [ -f "$ROOT/scripts/protect-project-privacy.sh" ]; then
+    bash "$ROOT/scripts/protect-project-privacy.sh" --hook
+    exit $?
+fi
+
+# Si el script no existe, permitir el commit (no bloquear por ausencia)
+exit 0
