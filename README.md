@@ -63,7 +63,9 @@ pm-workspace/
 │   ├── readme/         ← documentación detallada (13 secciones)
 │   ├── guides/         ← 14 guías por escenario (Azure, Jira, startup...)
 │   └── savia-flow/     ← docs del sistema Git-native
-├── scripts/            ← validación, CI, utilidades
+├── projects/
+│   └── savia-mobile-android/  ← app Android nativa + bridge
+├── scripts/            ← validación, CI, utilidades, savia-bridge.py
 ├── output/             ← ficheros generados (informes, specs, exports)
 └── CLAUDE.md           ← mi identidad y reglas fundamentales
 ```
@@ -95,6 +97,8 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 **Seguridad adversarial e inteligencia adaptativa** — Pipeline Red/Blue/Auditor con score 0-100, threat modeling STRIDE/PASTA. Motor de evaluación de skills con auto-detección de 7 tipos de proyecto y sistema de instintos con scoring de confianza.
 
 **Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [396+ comandos · 31 agentes · 41 skills](docs/readme/12-comandos-agentes.md)
+
+**Savia Mobile** — App Android nativa (Kotlin/Compose) que conecta con pm-workspace vía [Savia Bridge](scripts/savia-bridge.py) — un servidor HTTPS/SSE que envuelve Claude Code CLI. Chat con streaming en tiempo real, persistencia local cifrada, tema Material 3. Detalles: [Savia Mobile](projects/savia-mobile-android/README.md)
 
 ---
 
@@ -129,6 +133,7 @@ Configurable con `SAVIA_HOME`, `--skip-tests`. Detalles: `install.sh --help`
 | [Guías por escenario](docs/guides/README.md) | Azure, Jira, startup, sanidad... |
 | [AI Augmentation](docs/ai-augmentation-opportunities-es.md) | Oportunidades por sector |
 | [Context Engineering](docs/context-engineering-es.md) | Mejoras de contexto e IA |
+| [Savia Mobile](projects/savia-mobile-android/README.md) | App Android + Bridge |
 
 ---
 
