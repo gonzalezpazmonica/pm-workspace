@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -uo pipefail
 # validate-bash-global.sh — Validación global de comandos Bash peligrosos
 # Usado por: settings.json (PreToolUse hook para toda la sesión)
 

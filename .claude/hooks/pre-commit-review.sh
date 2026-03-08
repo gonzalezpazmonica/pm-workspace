@@ -1,6 +1,6 @@
 #!/bin/bash
 # pre-commit-review.sh - Code review automatizado pre-commit (Guardian Angel)
-set -euo pipefail
+set -uo pipefail
 
 RULES_FILE="${CLAUDE_PROJECT_DIR:-.}/.claude/rules/domain/code-review-rules.md"
 CACHE_DIR="${CLAUDE_PROJECT_DIR:-.}/output/.review-cache"

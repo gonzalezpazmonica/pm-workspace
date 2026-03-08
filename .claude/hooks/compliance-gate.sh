@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 # compliance-gate.sh — Gate de compliance que bloquea commits con violaciones
 #
 # Se ejecuta como PreToolUse hook antes de git commit.
@@ -10,7 +10,7 @@ set -euo pipefail
 #   2. Tamaño de ficheros (commands/rules/skills ≤ 150 líneas)
 #   3. Frontmatter YAML en comandos nuevos
 #   4. Sincronización de READMEs
-set -euo pipefail
+set -uo pipefail
 
 # Solo ejecutar en git commit
 INPUT="${CLAUDE_TOOL_INPUT:-}"

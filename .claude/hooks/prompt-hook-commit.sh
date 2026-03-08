@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 # ── Prompt Hook: Commit Message Semantic Validation ──
 # Validates that commit messages accurately describe staged changes.
 # Mode: warning (default) | soft-block | hard-block
 # Uses Haiku model for fast semantic evaluation.
-set -euo pipefail
+set -uo pipefail
 
 PROMPT_HOOKS_ENABLED="${PROMPT_HOOKS_ENABLED:-true}"
 PROMPT_HOOKS_MODE="${PROMPT_HOOKS_MODE:-warning}"

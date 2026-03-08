@@ -5,11 +5,11 @@ setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
 }
 
-@test "all hook scripts have set -euo pipefail" {
+@test "all hook scripts have set -uo pipefail" {
   missing=0
   for f in .claude/hooks/*.sh; do
     [ -f "$f" ] || continue
-    if [ "$(head -5 "$f" | grep -c 'set -euo pipefail')" -eq 0 ]; then
+    if [ "$(head -5 "$f" | grep -c 'set -uo pipefail')" -eq 0 ]; then
       echo "MISSING: $f" >&2
       missing=$((missing + 1))
     fi

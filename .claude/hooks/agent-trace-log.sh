@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -uo pipefail
 # ────────────────────────────────────────────────────────────────────────────
 # PostToolUse Hook: agent-trace-log.sh
 # Registra la ejecución de agentes (Task tool) en trazas JSONL

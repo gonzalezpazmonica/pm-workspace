@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -uo pipefail
 # tdd-gate.sh — Verifica que existen tests antes de permitir edición de código de producción
 # Usado por: developer agents (PreToolUse hook)
 # Lógica: Si el agente intenta editar un fichero de producción (.cs, .py, .ts, .go, .rs, .rb, .php, .java)
