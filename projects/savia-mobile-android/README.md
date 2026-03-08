@@ -297,12 +297,29 @@ adb install -r app/build/outputs/apk/release/app-release.apk
 
 ## Documentación Adicional
 
-- **Análisis de Stack:** `specs/STACK-ANALYSIS.md`
-- **CI/CD Pipelines:** `specs/CI-CD-PIPELINES.md`
-- **Market Analysis:** `specs/MARKET-ANALYSIS.md`
-- **API Reference:** `API_REFERENCE.md`
-- **Implementation Summary:** `IMPLEMENTATION_SUMMARY.md`
-- **Bridge Migration Guide:** `BRIDGE_MIGRATION.md`
+### Guías (`docs/`)
+
+- **[Arquitectura](docs/ARCHITECTURE.md)** — Clean Architecture, módulos, flujo de datos, DI
+- **[Guía de Setup](docs/SETUP.md)** — Instalación, build, ejecución, configuración del bridge
+- **[Guía del Bridge](docs/BRIDGE-GUIDE.md)** — Cómo funciona Savia Bridge, endpoints, troubleshooting
+
+### Especificaciones (`specs/`)
+
+- **[Producto](specs/PRODUCT-SPEC.md)** — Características, usuarios objetivo, criterios de aceptación
+- **[Diseño Técnico](specs/TECHNICAL-DESIGN.md)** — Arquitectura, modelo de datos, SSE, seguridad
+- **[Backlog](specs/BACKLOG.md)** — PBIs completados y pendientes
+- **[Decisiones](specs/ARCHITECTURE-DECISIONS.md)** — ADRs: Tink, SSE, dual-backend, tema violeta
+- **[Stack](specs/STACK-ANALYSIS.md)** — Análisis del stack tecnológico
+- **[CI/CD](specs/CI-CD-PIPELINES.md)** — Pipelines de integración continua
+- **[Mercado](specs/MARKET-ANALYSIS.md)** — Análisis de mercado y posicionamiento
+
+### Referencias
+
+- **[API Reference](API_REFERENCE.md)** — Endpoints del Bridge
+- **[Implementation Summary](IMPLEMENTATION_SUMMARY.md)** — Resumen de implementación
+- **[Bridge Migration](BRIDGE_MIGRATION.md)** — Guía de migración al bridge
+- **[Changelog](CHANGELOG.md)** — Historial de cambios
+- **[PM-Workspace README](../../README.md)** — Proyecto principal
 
 ## Troubleshooting
 

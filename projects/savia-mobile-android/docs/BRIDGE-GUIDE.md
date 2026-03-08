@@ -679,11 +679,10 @@ EOF
 
 ---
 
-## Siguientes Pasos
+## Documentos Relacionados
 
-1. ✅ Instalar y configurar Savia Bridge
-2. ✅ Obtener token de autenticación
-3. ✅ Conectar app móvil al Bridge
-4. 🔄 Monitorear logs
-5. 🔄 Implementar seguridad en producción (TLS real, VPN)
-6. 🔄 Rotar tokens regularmente
+- **[Arquitectura](ARCHITECTURE.md)** — Clean Architecture de la app, módulos y flujo de datos
+- **[Guía de Setup](SETUP.md)** — Configuración del entorno de desarrollo y conexión al Bridge
+- **[API Reference](../API_REFERENCE.md)** — Referencia completa de endpoints
+- **[Diseño Técnico](../specs/TECHNICAL-DESIGN.md)** — Especificación técnica del proyecto
+- **[README del proyecto](../README.md)** — Visión general y guía rápida

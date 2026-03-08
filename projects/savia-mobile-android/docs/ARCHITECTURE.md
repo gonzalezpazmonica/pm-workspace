@@ -407,9 +407,10 @@ Construcción:
 
 ---
 
-## Siguientes Pasos
+## Documentos Relacionados
 
-- Implementar autenticación con Google Sign-In
-- Añadir Room Database para caché local
-- Integrar Markdown rendering en UI
-- Testing: unitarios (domain), integración (data), UI (app)
+- **[Guía de Setup](SETUP.md)** — Cómo compilar, ejecutar y configurar el entorno de desarrollo
+- **[Guía del Bridge](BRIDGE-GUIDE.md)** — Arquitectura del servidor Bridge, endpoints y troubleshooting
+- **[Diseño Técnico](../specs/TECHNICAL-DESIGN.md)** — Especificación técnica detallada
+- **[API Reference](../API_REFERENCE.md)** — Referencia de endpoints del Bridge
+- **[README del proyecto](../README.md)** — Visión general, stack y guía rápida
