@@ -483,6 +483,24 @@ Native Android client for pm-workspace, making Savia accessible on mobile device
 
 ---
 
+## 🟡 Era 54 — Savia Mobile v0.2: Full Project Management (Mar 2026)
+
+Complete mobile experience: project management, command execution, dashboards, time tracking, and auto-updates — all from the phone.
+
+- **Auto-Updater** — Bridge `/update/check` + `/update/download` endpoints. Android in-app update flow via FileProvider + PackageInstaller. Version comparison by versionCode. APK caching with SHA256 integrity.
+- **Project Selector** — Multi-project support with SecureStorage persistence. Project health indicator. Sprint context per project.
+- **Dashboard (Home)** — Sprint progress widget, blocked items alert, velocity trend, quick-action buttons (capture, time log, approvals). Refresh on demand.
+- **Command Palette** — 10 command families (Sprint, Board, Backlog, Time, Approval, Reporting, Workspace, Commands, Integration, Analytics). Search/filter. Mobile-safe vs full commands distinction. Streaming execution via Bridge SSE.
+- **User Profile** — Google Sign-In data + Bridge health. Active projects list. Stats (sprints managed, PBIs completed, hours logged). Project selector integration.
+- **Kanban Board** — Horizontal scrollable columns. WIP limit indicators. Item cards with assignee, story points, type badge. Color-coded by state.
+- **Time Tracking** — Log hours by task with date picker and notes. Daily time entry view. Integration with `/report-hours`.
+- **Quick Capture** — Text-to-PBI with type selector (PBI/Task/Bug). Project-scoped. Integration with `/backlog-capture`.
+- **Approvals Panel** — Pending PRs, infrastructure requests, deployments. Approve/reject flow. Sorted by creation date.
+- **4-Tab Navigation** — Home, Chat, Commands, Profile. Secondary routes: Board, Time Log, Capture, Approvals, Settings, Sessions.
+- **Architecture** — 8 domain models, 2 new repository interfaces, dual-strategy data layer (Bridge REST + Chat slash command fallback), 7 new screens with ViewModels, updated DI module. All existing 26 tests pass.
+
+---
+
 ## ✅ Eras 79–87 — Stability & Quality Infrastructure (v2.50.0–v2.58.0, Mar 2026)
 
 | Era | Version | Theme | Highlights |
@@ -501,6 +519,11 @@ Native Android client for pm-workspace, making Savia accessible on mobile device
 
 - **Voice integration** — `/voice-pm` for sprint ceremonies. Claude Code `/voice` launched Mar 2026 (push-to-talk, Pro/Max/Team/Enterprise). Builds on existing `voice-inbox` skill.
 - **Observability extensions** — New Relic, Splunk, Elastic APM. LLM observability (token usage, prompt latency, model drift). Requires external MCP servers not yet available.
+- **Knowledge Graph Temporal Decay** — Inspired by Fabrik-Codek's cognitive architecture. Apply temporal decay to semantic-memory entries: recent knowledge weighs more than stale knowledge. Improves recall relevance and reduces noise in `/savia-recall` and `/memory-recall`. Natural integration with existing `context-aging` and `semantic-memory` skills.
+- **Competence Model for Team Members** — Inspired by Fabrik-Codek's competence profiles. Track per-person skill levels (language, domain, tool) that evolve with project assignments. Auto-suggest optimal task assignment based on competence + growth goals. Extends existing `team-coordination` skill and `rbac-model.md`.
+- **MCP Interoperability Layer** — Inspired by OpenFang's "Hands" concept (tool abstraction over MCP). Create a unified tool abstraction that routes commands to the best available backend (MCP server, Connector, REST API, CLI). Reduces coupling to specific MCP implementations. Extends existing `connectors-config.md` and `/mcp-recommend`.
+- **Efficient Rust Runtime for Hooks** — Inspired by OpenFang's 14-crate Rust architecture. Rewrite performance-critical hooks (compliance-gate, tdd-gate, PII scanner) in Rust for sub-100ms execution. Keep bash wrappers for compatibility. Requires evaluation of hook execution bottlenecks first.
+- **Push Notifications via Bridge** — WebSocket or FCM integration in Savia Bridge for real-time alerts: sprint changes, approval requests, blocked items, deployment status. Extends Savia Mobile with background notification support.
 
 > **Removed from backlog (Mar 2026):**
 > - ~~Developer experience (VS Code extension)~~ — Anthropic shipped official Claude Code VS Code extension (2M+ installs). No need for custom extension; document integration with pm-workspace instead.

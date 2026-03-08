@@ -4,7 +4,13 @@ set -uo pipefail
 # Usado por: commit-guardian (PreToolUse hook)
 
 INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+# Use jq if available, otherwise try basic parsing
+if command -v jq &>/dev/null; then
+  COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || true)
+else
+  # Fallback: basic grep for command value in JSON
+  COMMAND=$(echo "$INPUT" | grep -oP '"command"\s*:\s*"\K[^"]*' || true)
+fi
 
 if [ -z "$COMMAND" ]; then
   exit 0
