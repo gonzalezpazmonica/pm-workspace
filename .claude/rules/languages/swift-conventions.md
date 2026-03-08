@@ -198,3 +198,96 @@ Añadir en `.claude/settings.json`:
   }
 }
 ```
+
+---
+
+## Reglas de Análisis Estático
+
+> Equivalente a análisis SwiftLint para Swift. Aplica en code review y pre-commit.
+
+### Vulnerabilities (Blocker)
+
+#### SWIFT-SEC-01 — Credenciales hardcodeadas
+**Severidad**: Blocker
+```swift
+// ❌ Noncompliant
+let apiKey = "sk-1234567890abcdef"
+let password = "SuperSecret123"
+
+// ✅ Compliant
+let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String
+let password = Keychain.read(key: "db_password")
+```
+
+#### SWIFT-SEC-02 — URL scheme sin validación
+**Severidad**: Blocker
+```swift
+// ❌ Noncompliant
+if let url = URL(string: userInput) {
+    UIApplication.shared.open(url)  // podría abrir URL maliciosa
+}
+
+// ✅ Compliant
+let allowed = ["https", "http"]
+if let url = URL(string: userInput),
+   allowed.contains(url.scheme ?? "") {
+    UIApplication.shared.open(url)
+}
+```
+
+### Bugs (Major)
+
+#### SWIFT-BUG-01 — Force unwrap (!) sin null checking
+**Severidad**: Major
+```swift
+// ❌ Noncompliant
+let user = getUser()!  // crash si nil
+
+// ✅ Compliant
+guard let user = getUser() else { return }
+// o
+if let user = getUser() { process(user) }
+```
+
+#### SWIFT-BUG-02 — Retain cycle en closures
+**Severidad**: Major
+```swift
+// ❌ Noncompliant
+apiClient.fetch { result in
+    self.data = result  // captura fuerte de self
+}
+
+// ✅ Compliant
+apiClient.fetch { [weak self] result in
+    self?.data = result  // captura débil de self
+}
+```
+
+### Code Smells (Critical)
+
+#### SWIFT-SMELL-01 — Función/método > 50 líneas
+**Severidad**: Critical
+Funciones de más de 50 líneas deben dividirse en funciones más pequeñas con responsabilidad única.
+
+#### SWIFT-SMELL-02 — Complejidad ciclomática > 10
+**Severidad**: Critical
+Usar early returns, extraer métodos y simplificar condicionales.
+
+### Arquitectura
+
+#### SWIFT-ARCH-01 — Main thread violations
+**Severidad**: Critical
+Código Swift no debe actualizar la UI desde un hilo no-principal.
+```swift
+// ❌ Noncompliant
+DispatchQueue.global().async {
+    let data = fetchData()
+    self.label.text = data  // actualizar UI en background thread
+}
+
+// ✅ Compliant
+Task { @MainActor in
+    let data = try await fetchData()
+    self.label.text = data  // garantizado en main thread
+}
+```

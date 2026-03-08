@@ -274,3 +274,87 @@ adb logcat                                     # ver logs
   }
 }
 ```
+
+---
+
+## Reglas de Análisis Estático
+
+> Equivalente a análisis Detekt/Lint para Kotlin. Aplica en code review y pre-commit.
+
+### Vulnerabilities (Blocker)
+
+#### KOTLIN-SEC-01 — Credenciales hardcodeadas
+**Severidad**: Blocker
+```kotlin
+// ❌ Noncompliant
+val apiKey = "sk-1234567890abcdef"
+val password = "SuperSecret123"
+
+// ✅ Compliant
+val apiKey = BuildConfig.API_KEY
+val password = System.getenv("DB_PASSWORD")
+```
+
+#### KOTLIN-SEC-02 — Intent extras sin validación
+**Severidad**: Blocker
+```kotlin
+// ❌ Noncompliant
+val userId = intent.getStringExtra("user_id")
+val user = repository.getUser(userId)  // null si no existe
+
+// ✅ Compliant
+val userId = intent.getStringExtra("user_id") ?: return
+val user = repository.getUser(userId)
+```
+
+### Bugs (Major)
+
+#### KOTLIN-BUG-01 — Force unwrap (!!) sin null checking
+**Severidad**: Major
+```kotlin
+// ❌ Noncompliant
+val user = getUserOrNull()!!  // crash si null
+
+// ✅ Compliant
+val user = getUserOrNull() ?: return
+// o
+val user = getUserOrNull()?.let { processUser(it) }
+```
+
+#### KOTLIN-BUG-02 — Corrutine scope sin lifecycle
+**Severidad**: Major
+```kotlin
+// ❌ Noncompliant
+GlobalScope.launch { loadData() }  // pierde scope si Activity se destruye
+
+// ✅ Compliant
+viewModelScope.launch { loadData() }  // se cancela con ViewModel
+```
+
+### Code Smells (Critical)
+
+#### KOTLIN-SMELL-01 — Función/método > 50 líneas
+**Severidad**: Critical
+Funciones de más de 50 líneas deben dividirse en funciones más pequeñas con responsabilidad única.
+
+#### KOTLIN-SMELL-02 — Complejidad ciclomática > 10
+**Severidad**: Critical
+Usar early returns, extraer métodos y simplificar condicionales.
+
+### Arquitectura
+
+#### KOTLIN-ARCH-01 — Memoria leak en listeners/callbacks
+**Severidad**: Critical
+Código Kotlin no debe retener referencias a Activity/Fragment fuera de su lifecycle.
+```kotlin
+// ❌ Noncompliant - Memory leak
+class UserManager {
+    var activity: Activity? = null  // retiene Activity indefinidamente
+}
+
+// ✅ Compliant - WeakReference o scope correcto
+class UserViewModel : ViewModel() {
+    // viewModelScope garantiza limpieza
+    init { viewModelScope.launch { /* ... */ } }
+}
+```

@@ -274,3 +274,94 @@ Añadir en `.claude/settings.json`:
 }
 ```
 
+---
+
+## Reglas de Análisis Estático
+
+> Equivalente a análisis PHPStan/Psalm para PHP. Aplica en code review y pre-commit.
+
+### Vulnerabilities (Blocker)
+
+#### PHP-SEC-01 — Credenciales hardcodeadas
+**Severidad**: Blocker
+```php
+// ❌ Noncompliant
+define('API_KEY', 'sk-1234567890abcdef');
+$password = 'SuperSecret123';
+
+// ✅ Compliant
+$apiKey = config('services.api.key');
+$password = env('DB_PASSWORD');
+```
+
+#### PHP-SEC-02 — Unescaped output (XSS)
+**Severidad**: Blocker
+```php
+// ❌ Noncompliant
+echo $userData['name'];  // vulnerable si $userData viene de usuario
+
+// ✅ Compliant
+echo htmlspecialchars($userData['name'], ENT_QUOTES, 'UTF-8');
+// O en Blade:
+{{ $userData['name'] }}  <!-- escapa automáticamente -->
+```
+
+### Bugs (Major)
+
+#### PHP-BUG-01 — Type coercion bugs
+**Severidad**: Major
+```php
+// ❌ Noncompliant
+if ($status == 0) { } // "0" == 0 es true, peligroso
+
+// ✅ Compliant
+if ($status === 0) { } // comparación estricta
+```
+
+#### PHP-BUG-02 — N+1 queries en loops
+**Severidad**: Major
+```php
+// ❌ Noncompliant
+$orders = Order::all();
+foreach ($orders as $order) {
+    echo $order->user->name;  // N queries
+}
+
+// ✅ Compliant
+$orders = Order::with('user')->get();  // eager loading
+foreach ($orders as $order) {
+    echo $order->user->name;
+}
+```
+
+### Code Smells (Critical)
+
+#### PHP-SMELL-01 — Función/método > 50 líneas
+**Severidad**: Critical
+Funciones de más de 50 líneas deben dividirse en funciones más pequeñas con responsabilidad única.
+
+#### PHP-SMELL-02 — Complejidad ciclomática > 10
+**Severidad**: Critical
+Usar early returns, extraer métodos y simplificar condicionales.
+
+### Arquitectura
+
+#### PHP-ARCH-01 — Lógica de negocio en controllers
+**Severidad**: Critical
+Código PHP no debe contener lógica de negocio en controllers. Usar action classes o services.
+```php
+// ❌ Noncompliant - Lógica en controller
+public function store(Request $request) {
+    $order = Order::create($request->validated());
+    $user = $order->user;
+    Mail::send(...);
+    Queue::push(...);
+}
+
+// ✅ Compliant - Usar action/service
+public function store(StoreOrderRequest $request, CreateOrderAction $action) {
+    $order = $action->execute($request->validated());
+    return response()->json(new OrderResource($order), 201);
+}
+```
+

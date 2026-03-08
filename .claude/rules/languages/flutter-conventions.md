@@ -376,3 +376,117 @@ dev_dependencies:
   }
 }
 ```
+
+---
+
+## Reglas de Análisis Estático
+
+> Equivalente a análisis Dart Analyzer/Flutter Lint para Dart. Aplica en code review y pre-commit.
+
+### Vulnerabilities (Blocker)
+
+#### FLUTTER-SEC-01 — Credenciales hardcodeadas
+**Severidad**: Blocker
+```dart
+// ❌ Noncompliant
+const apiKey = 'sk-1234567890abcdef';
+const password = 'SuperSecret123';
+
+// ✅ Compliant
+final apiKey = String.fromEnvironment('API_KEY');
+final password = const String.fromEnvironment('DB_PASSWORD');
+```
+
+#### FLUTTER-SEC-02 — SQL Injection en queries locales
+**Severidad**: Blocker
+```dart
+// ❌ Noncompliant
+final query = 'SELECT * FROM users WHERE id = $userId';
+db.execute(query);
+
+// ✅ Compliant
+final query = 'SELECT * FROM users WHERE id = ?';
+db.execute(query, [userId]);
+```
+
+### Bugs (Major)
+
+#### FLUTTER-BUG-01 — BuildContext across async gaps
+**Severidad**: Major
+```dart
+// ❌ Noncompliant
+onPressed: () async {
+  final result = await fetchData();
+  Navigator.of(context).push(...);  // context puede no ser válido tras async
+}
+
+// ✅ Compliant
+onPressed: () async {
+  if (!mounted) return;
+  final result = await fetchData();
+  if (!mounted) return;
+  Navigator.of(context).push(...);
+}
+```
+
+#### FLUTTER-BUG-02 — setState() after dispose
+**Severidad**: Major
+```dart
+// ❌ Noncompliant
+void _onDataReceived(data) {
+  setState(() => _data = data);  // puede ser llamado tras dispose()
+}
+
+// ✅ Compliant
+void _onDataReceived(data) {
+  if (mounted) {
+    setState(() => _data = data);
+  }
+}
+```
+
+### Code Smells (Critical)
+
+#### FLUTTER-SMELL-01 — Widget > 50 líneas
+**Severidad**: Critical
+Widgets de más de 50 líneas deben dividirse en widgets más pequeños.
+
+#### FLUTTER-SMELL-02 — Complejidad ciclomática > 10
+**Severidad**: Critical
+Usar early returns, extraer métodos y simplificar condicionales.
+
+### Arquitectura
+
+#### FLUTTER-ARCH-01 — State management inconsistency
+**Severidad**: Critical
+Código Flutter no debe mezclar Riverpod, Provider, setState en la misma app.
+```dart
+// ❌ Noncompliant - Mezcla de patrones
+class MyWidget extends StatefulWidget {
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  final provider = ChangeNotifierProvider(/* ... */);  // ChangeNotifier (anticuado)
+  var state = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    setState(() => state++);  // setState (anticuado)
+  }
+}
+
+// ✅ Compliant - Usar Riverpod en todo
+final stateProvider = StateProvider((ref) => 0);
+
+class MyWidget extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(stateProvider);
+    return Text('$state');
+  }
+}
+```
+
+

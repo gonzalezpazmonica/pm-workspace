@@ -287,3 +287,151 @@ El agente NO DEBE sin aprobación humana:
   }
 }
 ```
+
+---
+
+## Reglas de Análisis Estático
+
+> Equivalente a análisis para COBOL. Aplica en code review y pre-commit.
+
+### Vulnerabilities (Blocker)
+
+#### COBOL-SEC-01 — Credenciales en literales
+**Severidad**: Blocker
+```cobol
+*> ❌ Noncompliant
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  WS-PASSWORD         PIC X(20) VALUE 'SuperSecret123'.
+       01  WS-API-KEY          PIC X(40) VALUE 'sk-1234567890abcdef'.
+
+*> ✅ Compliant
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT CREDENCIALES ASSIGN TO "credenciales.env".
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD  CREDENCIALES.
+       01  CRED-RECORD         PIC X(100).
+
+       WORKING-STORAGE SECTION.
+       01  WS-PASSWORD         PIC X(20).
+       01  WS-API-KEY          PIC X(40).
+```
+
+#### COBOL-SEC-02 — Falta de validación en entrada
+**Severidad**: Blocker
+```cobol
+*> ❌ Noncompliant
+       ACCEPT WS-USER-ID.
+       MOVE WS-USER-ID TO WS-QUERY.  *> SQL dinámico sin validar
+
+*> ✅ Compliant
+       ACCEPT WS-USER-ID.
+       IF WS-USER-ID IS NOT NUMERIC OR WS-USER-ID <= 0
+           DISPLAY "Error: User ID debe ser numerico y > 0"
+       ELSE
+           MOVE WS-USER-ID TO WS-QUERY
+       END-IF.
+```
+
+### Bugs (Major)
+
+#### COBOL-BUG-01 — GOTO excesivo (spaghetti code)
+**Severidad**: Major
+```cobol
+*> ❌ Noncompliant - Spaghetti code
+       PROCEDURE DIVISION.
+           MOVE 0 TO WS-CONTADOR.
+       INICIO.
+           ADD 1 TO WS-CONTADOR.
+           IF WS-CONTADOR > 100
+               GO TO FIN
+           END-IF.
+           GO TO PROCESAR.
+       PROCESAR.
+           PERFORM HACER-ALGO.
+           GO TO INICIO.
+       FIN.
+           DISPLAY "Hecho".
+           STOP RUN.
+
+*> ✅ Compliant - Usar PERFORM
+       PROCEDURE DIVISION.
+           PERFORM PROCESAR-DATOS
+               VARYING WS-CONTADOR FROM 1 BY 1
+               UNTIL WS-CONTADOR > 100
+           END-PERFORM.
+           DISPLAY "Hecho".
+           STOP RUN.
+```
+
+#### COBOL-BUG-02 — Documentación de copybooks faltante
+**Severidad**: Major
+```cobol
+*> ❌ Noncompliant - Sin documentación
+       01  USUARIO-RECORD.
+           05  USR-ID         PIC 9(8).
+           05  USR-NOMBRE     PIC X(50).
+           05  USR-EMAIL      PIC X(60).
+
+*> ✅ Compliant - Con documentación
+       *> ================================================================
+       *> USUARIO-RECORD: Estructura de datos de usuario
+       *>
+       *> Campos:
+       *>   - USR-ID: ID de usuario (numerico, 8 digitos)
+       *>   - USR-NOMBRE: Nombre completo (alfanumerico, 50 caracteres)
+       *>   - USR-EMAIL: Email (alfanumerico, 60 caracteres)
+       *>
+       *> Versión: 1.0 (2026-02-26)
+       *> ================================================================
+       01  USUARIO-RECORD.
+           05  USR-ID         PIC 9(8).
+           05  USR-NOMBRE     PIC X(50).
+           05  USR-EMAIL      PIC X(60).
+```
+
+### Code Smells (Critical)
+
+#### COBOL-SMELL-01 — Párrafo > 50 líneas
+**Severidad**: Critical
+Párrafos de más de 50 líneas deben dividirse en párrafos más pequeños.
+
+#### COBOL-SMELL-02 — WORKING-STORAGE desordenada
+**Severidad**: Critical
+WORKING-STORAGE debe estar organizada lógicamente, no caóticamente.
+
+### Arquitectura
+
+#### COBOL-ARCH-01 — Undocumented copybooks
+**Severidad**: Critical
+Código COBOL no debe usar copybooks sin documentación. Cada copybook debe tener cabecera con versión, propósito y campos.
+```cobol
+*> ❌ Noncompliant - Sin cabecera
+       01  DATOS-VENDEDOR.
+           05  VENDEDOR-ID     PIC 9(5).
+           05  VENDEDOR-COMISION PIC 9(5)V99.
+
+*> ✅ Compliant - Con cabecera obligatoria
+       *> ================================================================
+       *> Copybook: DATOS-VENDEDOR.cpy
+       *> Proposito: Estructura para datos de vendedor en reportes
+       *>
+       *> Campos:
+       *>   VENDEDOR-ID: Identificador del vendedor (1-99999)
+       *>   VENDEDOR-COMISION: Comision en porcentaje (0.00 a 99999.99)
+       *>
+       *> Version: 2.1
+       *> Fecha Creacion: 2026-01-15
+       *> Ultima Modificacion: 2026-02-26
+       *> Modificado Por: Equipo Legacy Modernization
+       *> ================================================================
+       01  DATOS-VENDEDOR.
+           05  VENDEDOR-ID     PIC 9(5).
+           05  VENDEDOR-COMISION PIC 9(5)V99.
+```
+
+
