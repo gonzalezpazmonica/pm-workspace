@@ -1,0 +1,34 @@
+# Android / Gradle
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build/
+/app/build/
+/domain/build/
+/data/build/
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Generated files
+app/src/main/res/mipmap-*/
+*.hprof
+.kotlin/
+
+# Signing
+*.jks
+*.keystore
+/keystore/
+
+# Room schema exports (keep for migration testing)
+# /data/schemas/
+
+# Secrets
+local.properties
+*.env

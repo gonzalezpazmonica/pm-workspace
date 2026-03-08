@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Savia leaf icon - centered in safe zone (24dp inset = 72dp usable) -->
+    <group
+        android:translateX="54"
+        android:translateY="54">
+        <!-- Leaf shape -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M-8,-24 C-8,-24 -20,-8 -20,4 C-20,12 -14,20 -4,22 C-2,22 0,20 0,18 L0,8 C0,4 2,0 6,-4 C10,-8 12,-16 8,-24 C4,-20 -4,-24 -8,-24z" />
+        <!-- Leaf vein -->
+        <path
+            android:strokeColor="#2D6A4F"
+            android:strokeWidth="1.5"
+            android:pathData="M-4,20 L-2,8 L2,-4 L6,-12" />
+    </group>
+</vector>

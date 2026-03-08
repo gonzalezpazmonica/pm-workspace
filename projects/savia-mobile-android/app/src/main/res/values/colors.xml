@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="savia_primary">#6B4C9A</color>
+    <color name="savia_primary_light">#8E6FBF</color>
+    <color name="savia_primary_dark">#4A2D7A</color>
+    <color name="white">#FFFFFF</color>
+</resources>

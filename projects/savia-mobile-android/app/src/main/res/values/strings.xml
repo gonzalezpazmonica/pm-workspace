@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Savia</string>
+
+    <!-- Navigation -->
+    <string name="nav_chat">Chat</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_sessions">Sessions</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Chat -->
+    <string name="new_conversation">New conversation</string>
+    <string name="chat_input_hint">Message Savia…</string>
+    <string name="send">Send</string>
+    <string name="savia_typing">Savia is thinking…</string>
+    <string name="welcome_title">Hello! I\'m Savia</string>
+    <string name="welcome_subtitle">Your intelligent project management assistant. How can I help you today?</string>
+
+    <!-- API Key Setup -->
+    <string name="setup_title">Set up Savia</string>
+    <string name="setup_bridge_description">Connect to your Claude Code session. Enter your Savia Bridge details.</string>
+    <string name="bridge_host_label">Host (your computer\'s IP)</string>
+    <string name="bridge_port_label">Port</string>
+    <string name="bridge_token_label">Authentication token</string>
+    <string name="connect_to_bridge">Connect</string>
+    <string name="use_api_key">Use Anthropic API Key instead</string>
+    <string name="api_key_label">API Key</string>
+    <string name="save_api_key">Save and continue</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_subtitle">Quick actions for your workspace</string>
+    <string name="qa_health">Workspace Health</string>
+    <string name="qa_health_desc">Check overall project health score</string>
+    <string name="qa_sprint">Sprint Status</string>
+    <string name="qa_sprint_desc">View current sprint progress</string>
+    <string name="qa_blockers">Blockers</string>
+    <string name="qa_blockers_desc">Review active blockers and risks</string>
+    <string name="qa_velocity">Velocity</string>
+    <string name="qa_velocity_desc">Check team velocity trends</string>
+    <string name="qa_audit">Audit</string>
+    <string name="qa_audit_desc">Run executive audit report</string>
+
+    <!-- Sessions -->
+    <string name="no_sessions">No sessions yet</string>
+    <string name="no_sessions_hint">Start a conversation in Chat</string>
+    <string name="untitled_session">Untitled</string>
+    <string name="delete_session">Delete session</string>
+
+    <!-- Settings -->
+    <string name="settings_bridge">Savia Bridge</string>
+    <string name="settings_bridge_desc">Connection status and configuration</string>
+    <string name="settings_bridge_connected">Connected to %1$s:%2$d</string>
+    <string name="settings_bridge_not_connected">Not connected</string>
+    <string name="settings_profile">User profile</string>
+    <string name="settings_profile_desc">Name, role, and preferences</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_desc">Light, dark, or follow system</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_desc">English or Spanish</string>
+    <string name="settings_about">About Savia</string>
+    <string name="settings_about_desc">Version, licenses, and credits</string>
+    <string name="settings_disconnect">Disconnect</string>
+    <string name="settings_disconnect_confirm">Are you sure you want to disconnect from the bridge?</string>
+</resources>

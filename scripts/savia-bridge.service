@@ -1,0 +1,16 @@
+[Unit]
+Description=Savia Bridge — HTTPS bridge to Claude Code CLI
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/monica/savia/scripts/savia-bridge.py --port 8922
+Restart=on-failure
+RestartSec=5
+Environment=HOME=/home/monica
+Environment=PATH=/home/monica/.local/bin:/usr/local/bin:/usr/bin:/bin
+WorkingDirectory=/home/monica/savia
+
+[Install]
+WantedBy=default.target
