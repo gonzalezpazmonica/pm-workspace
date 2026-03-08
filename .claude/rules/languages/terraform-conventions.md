@@ -426,3 +426,153 @@ module "vpc" {
 ```bash
 terraform-docs markdown . > README.md
 ```
+
+---
+
+## Reglas de Análisis Estático
+
+> Equivalente a análisis TFLint/TFSec para Terraform. Aplica en code review y pre-commit.
+
+### Vulnerabilities (Blocker)
+
+#### TERRAFORM-SEC-01 — Hardcoded values en variables
+**Severidad**: Blocker
+```hcl
+# ❌ Noncompliant
+resource "aws_db_instance" "main" {
+  allocated_storage    = 20
+  storage_type        = "gp2"
+  engine               = "mysql"
+  engine_version       = "5.7"
+  instance_class       = "db.t2.micro"
+  name                 = "mydb"
+  username             = "admin"
+  password             = "SuperSecret123"  # hardcoded
+  parameter_group_name = "default.mysql5.7"
+  skip_final_snapshot  = true
+}
+
+# ✅ Compliant
+resource "aws_db_instance" "main" {
+  allocated_storage    = var.allocated_storage
+  storage_type        = var.storage_type
+  engine               = var.engine
+  engine_version       = var.engine_version
+  instance_class       = var.instance_class
+  name                 = var.database_name
+  username             = var.db_username
+  password             = var.db_password  # usar variable con sensitive = true
+  parameter_group_name = aws_db_parameter_group.main.name
+  skip_final_snapshot  = var.skip_final_snapshot
+}
+```
+
+#### TERRAFORM-SEC-02 — Falta de lifecycle blocks
+**Severidad**: Blocker
+```hcl
+# ❌ Noncompliant - Recurso destruible sin restricción
+resource "aws_s3_bucket" "main" {
+  bucket = "my-important-bucket"
+}
+
+# ✅ Compliant - Proteger recurso crítico
+resource "aws_s3_bucket" "main" {
+  bucket = "my-important-bucket"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+```
+
+### Bugs (Major)
+
+#### TERRAFORM-BUG-01 — Versiones dinámicas de provider
+**Severidad**: Major
+```hcl
+# ❌ Noncompliant
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0"  # acepta cualquier versión >= 5.0
+    }
+  }
+}
+
+# ✅ Compliant
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.15"  # permite 5.15, 5.16, ... pero no 6.0
+    }
+  }
+}
+```
+
+#### TERRAFORM-BUG-02 — Missing tags en recursos
+**Severidad**: Major
+```hcl
+# ❌ Noncompliant
+resource "aws_instance" "web" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t2.micro"
+  # sin tags para tracking
+}
+
+# ✅ Compliant
+resource "aws_instance" "web" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = var.instance_type
+
+  tags = {
+    Name        = "web-server-${var.environment}"
+    Environment = var.environment
+    ManagedBy   = "Terraform"
+    CreatedAt   = timestamp()
+  }
+}
+```
+
+### Code Smells (Critical)
+
+#### TERRAFORM-SMELL-01 — Módulo > 50 líneas
+**Severidad**: Critical
+Módulos de más de 50 líneas deben dividirse en módulos más pequeños.
+
+#### TERRAFORM-SMELL-02 — Complejidad de variables
+**Severidad**: Critical
+Variables con lógica compleja deben extraerse a locals.
+
+### Arquitectura
+
+#### TERRAFORM-ARCH-01 — Mezcla de recursos en main.tf
+**Severidad**: Critical
+Código Terraform no debe contener todo en un único main.tf. Usar módulos.
+```hcl
+# ❌ Noncompliant - Todo mezclado
+resource "aws_vpc" "main" { ... }
+resource "aws_subnet" "public" { ... }
+resource "aws_db_instance" "main" { ... }
+resource "aws_elb" "main" { ... }
+resource "aws_autoscaling_group" "main" { ... }
+
+# ✅ Compliant - Modularizado
+module "vpc" {
+  source = "./modules/vpc"
+  cidr   = var.vpc_cidr
+}
+
+module "database" {
+  source = "./modules/database"
+  vpc_id = module.vpc.vpc_id
+}
+
+module "compute" {
+  source = "./modules/compute"
+  vpc_id = module.vpc.vpc_id
+}
+```
+
+

@@ -198,3 +198,90 @@ Añadir en `.claude/settings.json` o `.claude/settings.local.json`:
 }
 ```
 
+---
+
+## Reglas de Análisis Estático
+
+> Equivalente a análisis Clippy/Miri para Rust. Aplica en code review y pre-commit.
+
+### Vulnerabilities (Blocker)
+
+#### RUST-SEC-01 — Credenciales hardcodeadas
+**Severidad**: Blocker
+```rust
+// ❌ Noncompliant
+const API_KEY: &str = "sk-1234567890abcdef";
+let password = "SuperSecret123";
+
+// ✅ Compliant
+let api_key = std::env::var("API_KEY").expect("API_KEY not set");
+let password = std::env::var("DB_PASSWORD")?;
+```
+
+#### RUST-SEC-02 — Unsafe sin justificación documentada
+**Severidad**: Blocker
+```rust
+// ❌ Noncompliant
+unsafe { ptr.read() }  // sin comentario explicativo
+
+// ✅ Compliant
+// SAFETY: ptr viene de una Box válida y la Box no se reusa tras este read
+unsafe { ptr.read() }
+```
+
+### Bugs (Major)
+
+#### RUST-BUG-01 — unwrap() sin manejo de error
+**Severidad**: Major
+```rust
+// ❌ Noncompliant
+let file = std::fs::read_to_string("data.txt").unwrap();  // panic si no existe
+
+// ✅ Compliant
+let file = std::fs::read_to_string("data.txt")?;
+// o
+let file = std::fs::read_to_string("data.txt")
+    .unwrap_or_else(|e| eprintln!("Error: {}", e));
+```
+
+#### RUST-BUG-02 — Bloqueo en async sin spawn_blocking
+**Severidad**: Major
+```rust
+// ❌ Noncompliant
+async fn fetch_data() {
+    let data = expensive_cpu_work();  // bloquea el executor
+}
+
+// ✅ Compliant
+async fn fetch_data() {
+    let data = tokio::task::spawn_blocking(expensive_cpu_work).await?;
+}
+```
+
+### Code Smells (Critical)
+
+#### RUST-SMELL-01 — Función/método > 50 líneas
+**Severidad**: Critical
+Funciones de más de 50 líneas deben dividirse en funciones más pequeñas con responsabilidad única.
+
+#### RUST-SMELL-02 — Complejidad ciclomática > 10
+**Severidad**: Critical
+Usar early returns, extraer métodos y simplificar condicionales.
+
+### Arquitectura
+
+#### RUST-ARCH-01 — Clone excesivo en hot path
+**Severidad**: Critical
+Código Rust no debe clonar datos innecesariamente en caminos críticos.
+```rust
+// ❌ Noncompliant - Clone en loop
+for item in items {
+    process(item.clone());  // clone innecesario
+}
+
+// ✅ Compliant - Usar referencia
+for item in &items {
+    process(item);
+}
+```
+

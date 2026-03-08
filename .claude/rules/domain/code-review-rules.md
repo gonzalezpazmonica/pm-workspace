@@ -18,6 +18,8 @@ Reglas para el hook de code review pre-commit y `/pr-review`. Cada proyecto pued
 
 **REJECT** debugger statements en producción — `debugger;`, `binding.pry`, `import pdb`, `breakpoint()`. Excepción: ficheros de test.
 
+**REJECT** HTML/CSS/SQL inline en código backend — strings multilínea con marcado HTML, bloques CSS o consultas SQL sin parametrizar en ficheros `.py`, `.java`, `.cs`, `.go`, `.rb`, `.php`, `.rs`, `.kt`. Las plantillas van en ficheros `.html`/`.jinja2`, los estilos en `.css` y las consultas en `.sql` o como parámetros vinculados. Excepción: snippets ≤1 línea para errores simples, y fixtures de test. (ver `domain/template-separation.md`)
+
 ---
 
 ## Reglas REQUIRE (obligatorias)

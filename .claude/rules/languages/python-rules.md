@@ -657,6 +657,29 @@ async def get_user(user_id: str, service: UserService = Depends()):
 
 **Impacto**: Independencia de framework, testabilidad, clean architecture.
 
+#### ARCH-04 — Separación de marcado y lógica (ver `domain/template-separation.md`)
+
+**Severidad**: Critical · **Tags**: separation-of-concerns, maintainability
+
+Código Python no debe contener HTML, CSS ni SQL como strings literales multilínea. Las plantillas viven en ficheros `.html` (o `.jinja2`, `.sql`) separados y se cargan desde disco.
+
+```python
+# ❌ Noncompliant — HTML inline
+def build_page():
+    return f"""<!DOCTYPE html>
+    <html><head><style>body {{ color: red; }}</style></head>
+    <body><h1>{title}</h1></body></html>"""
+
+# ✅ Compliant — template en fichero separado
+def build_page():
+    template = (TEMPLATES_DIR / "page.html").read_text()
+    return template.replace("{{title}}", title)
+```
+
+**Impacto**: Mantenibilidad, cacheo de assets, linting separado por capa, reutilización de plantillas.
+
+> Regla completa con ejemplos multi-lenguaje: `.claude/rules/domain/template-separation.md`
+
 ---
 
 ---
