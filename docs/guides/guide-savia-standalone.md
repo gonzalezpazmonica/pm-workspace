@@ -201,6 +201,43 @@ Detecta OS, verifica dependencias, restaura perfil y configuración.
 
 ---
 
+---
+
+## Acceso móvil con Savia Bridge
+
+Para equipos que trabajan en remoto o necesitan acceso desde cualquier lugar, Savia Mobile extiende el workspace al teléfono:
+
+### Setup del Bridge
+
+```bash
+# El servidor Bridge ya se instala con install.sh (Step 6)
+# Verificar que está corriendo:
+systemctl --user status savia-bridge
+
+# Obtener token para la app:
+python3 ~/.savia/scripts/savia-bridge.py --print-token
+```
+
+### Qué puede hacer el equipo desde el móvil
+
+| Escenario | Cómo |
+|---|---|
+| PM revisa sprint en tren | Abre Savia Mobile → "¿cómo va el sprint?" |
+| Dev consulta decisión en reunión | Abre chat → "¿por qué elegimos PostgreSQL?" |
+| Lead revisa PR desde el sofá | Pregunta a Savia → contexto del PR y comentarios |
+| CEO antes de un comité | "Dame el resumen ejecutivo de esta semana" |
+
+### Configuración en la app
+
+1. Instalar APK desde `http://{ip-bridge}:8080/install`
+2. En Ajustes → Bridge URL: `https://{ip-bridge}:8922`
+3. Token: el que obtuviste con `--print-token`
+4. Aceptar el certificado autofirmado (confiable en red local/VPN)
+
+Más detalles: `projects/savia-mobile-android/docs/BRIDGE-GUIDE.md`
+
+---
+
 ## Tips
 
 - Haz `git push` frecuente para que todo el equipo vea los cambios

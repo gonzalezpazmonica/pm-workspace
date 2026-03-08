@@ -472,6 +472,17 @@ Method and protocol for programming teams to produce high-quality code 100% alig
 
 ---
 
+## ✅ Era 53 — Savia Mobile: Android Companion App (v2.67.0, Mar 2026)
+
+Native Android client for pm-workspace, making Savia accessible on mobile devices without SSH, Termux, or VPN knowledge. Connects via Savia Bridge (Python HTTPS/SSE server).
+
+- **Savia Mobile Android** — Native Kotlin 2.1.0 + Jetpack Compose app. Clean Architecture (3 modules), Hilt DI, Room DB, Tink encryption. Chat with SSE streaming, session persistence, Material 3 violet theme. 39 Kotlin files, 157 tests. Target: Android 8.0+ (API 26).
+- **Savia Bridge** — Python stdlib HTTPS server (port 8922) wrapping Claude Code CLI. SSE streaming, session management (`--session-id`, `--resume`), Bearer token auth, auto-generated TLS certs. HTTP install server (port 8080) for APK distribution with branded install page.
+- **Installer integration** — `install.sh` and `install.ps1` updated with Step 6: automatic Bridge setup (systemd on Linux, launchd on macOS, startup on Windows). Token generation, service enable, health check verification.
+- **Full documentation** — 8 specs (PRODUCT-SPEC, TECHNICAL-DESIGN, BACKLOG, etc.), 3 guides (ARCHITECTURE, SETUP, BRIDGE-GUIDE), KDoc on all source files, API reference.
+
+---
+
 ## ✅ Eras 79–87 — Stability & Quality Infrastructure (v2.50.0–v2.58.0, Mar 2026)
 
 | Era | Version | Theme | Highlights |

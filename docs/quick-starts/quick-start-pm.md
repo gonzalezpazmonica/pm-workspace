@@ -79,6 +79,16 @@ Las horas que imputa tu equipo (`/report-hours`) las uso para calcular costes po
 
 ---
 
+---
+
+## Desde el móvil
+
+Si tienes Savia Mobile instalado, puedes consultar estos mismos comandos desde tu teléfono Android. La app se conecta al Savia Bridge y te permite chatear con Savia con streaming en tiempo real — ideal para reuniones, desplazamientos o revisiones rápidas.
+
+Configura el Bridge: `python3 savia-bridge.py --print-token` para obtener el token de conexión. Más info: `projects/savia-mobile-android/docs/BRIDGE-GUIDE.md`
+
+---
+
 ## Siguientes pasos
 
 - [Sprints e informes en detalle](../readme/04-uso-sprint-informes.md)

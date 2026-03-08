@@ -75,6 +75,14 @@ El `/ai-exposure-audit` usa datos de O*NET para calcular cuánto de cada rol es 
 
 ---
 
+---
+
+## Desde el móvil
+
+Con Savia Mobile puedes consultar `/portfolio-overview`, `/ceo-alerts` y `/kpi-dora` desde tu Android. La app conecta al Bridge HTTPS y entrega respuestas en streaming — ideal para antes de un comité o mientras viajas. Setup: `projects/savia-mobile-android/docs/BRIDGE-GUIDE.md`
+
+---
+
 ## Siguientes pasos
 
 - [AI Augmentation por sector](../ai-augmentation-opportunities-es.md)
