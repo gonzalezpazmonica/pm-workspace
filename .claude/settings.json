@@ -65,6 +65,12 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/plan-gate.sh",
             "statusMessage": "Verificando spec aprobada..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-project-whitelist.sh",
+            "timeout": 5,
+            "statusMessage": "Verificando privacidad de proyectos..."
           }
         ]
       },
