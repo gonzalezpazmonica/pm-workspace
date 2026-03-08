@@ -46,12 +46,24 @@ fi
 
 # ── Perfil activo ────────────────────────────────────────────────────────────
 check_timeout
-ACTIVE_USER_FILE="$HOME/claude/.claude/profiles/active-user.md"
+# FIX: Try multiple possible profile locations (CI may use different $HOME)
+ACTIVE_USER_FILE=""
+for profile_base in "$HOME/claude/.claude/profiles" "$HOME/.claude/profiles" "./.claude/profiles"; do
+  candidate="$profile_base/active-user.md"
+  if [ -f "$candidate" ] 2>/dev/null; then
+    ACTIVE_USER_FILE="$candidate"
+    break
+  fi
+done
+
 if [ -f "$ACTIVE_USER_FILE" ]; then
   ACTIVE_SLUG=$(grep -oP 'active_slug:\s*"\K[^"]+' "$ACTIVE_USER_FILE" 2>/dev/null || echo "")
-  if [ -n "$ACTIVE_SLUG" ] && [ -d "$HOME/claude/.claude/profiles/users/$ACTIVE_SLUG" ]; then
-    PROFILE_NAME=$(grep -oP 'name:\s*"\K[^"]+' "$HOME/claude/.claude/profiles/users/$ACTIVE_SLUG/identity.md" 2>/dev/null || echo "$ACTIVE_SLUG")
-    PROFILE_ROLE=$(grep -oP 'role:\s*"\K[^"]+' "$HOME/claude/.claude/profiles/users/$ACTIVE_SLUG/identity.md" 2>/dev/null || echo "")
+  PROFILE_DIR=$(dirname "$ACTIVE_USER_FILE")
+  USERS_DIR="$PROFILE_DIR/users"
+
+  if [ -n "$ACTIVE_SLUG" ] && [ -d "$USERS_DIR/$ACTIVE_SLUG" ]; then
+    PROFILE_NAME=$(grep -oP 'name:\s*"\K[^"]+' "$USERS_DIR/$ACTIVE_SLUG/identity.md" 2>/dev/null || echo "$ACTIVE_SLUG")
+    PROFILE_ROLE=$(grep -oP 'role:\s*"\K[^"]+' "$USERS_DIR/$ACTIVE_SLUG/identity.md" 2>/dev/null || echo "")
     if [ "$PROFILE_ROLE" = "Agent" ]; then
       AGENT_MODE="true"
       ITEMS+=("Perfil: $PROFILE_NAME (Agent)")
@@ -67,8 +79,14 @@ fi
 
 # ── Rama git (local, sin red) ────────────────────────────────────────────────
 check_timeout
-# FIX: Use fallback with empty var check to handle git failures safely
-BRANCH=$(git -C "$HOME/claude" branch --show-current 2>/dev/null || true)
+# FIX: Try multiple possible locations for the repo
+BRANCH=""
+for repo_path in "$HOME/claude" "$HOME/.claude" "." "$PWD"; do
+  if [ -d "$repo_path/.git" ] 2>/dev/null; then
+    BRANCH=$(git -C "$repo_path" branch --show-current 2>/dev/null || true)
+    [ -n "$BRANCH" ] && break
+  fi
+done
 BRANCH="${BRANCH:-N/A}"
 ITEMS+=("Rama: $BRANCH")
 
@@ -94,8 +112,15 @@ if [ -f "$COMPANY_CONFIG" ]; then
 fi
 
 # ── Context tracking (best-effort, no bloquea) ──────────────────────────────
-if [ -f "$HOME/claude/scripts/context-tracker.sh" ]; then
-  bash "$HOME/claude/scripts/context-tracker.sh" log "session-init" "identity.md" "50" 2>/dev/null &
+TRACKER_SCRIPT=""
+for script_path in "$HOME/claude/scripts/context-tracker.sh" "$HOME/scripts/context-tracker.sh" "./scripts/context-tracker.sh"; do
+  if [ -f "$script_path" ] 2>/dev/null; then
+    TRACKER_SCRIPT="$script_path"
+    break
+  fi
+done
+if [ -n "$TRACKER_SCRIPT" ]; then
+  bash "$TRACKER_SCRIPT" log "session-init" "identity.md" "50" 2>/dev/null &
 fi
 
 # ── Variables de entorno ─────────────────────────────────────────────────────

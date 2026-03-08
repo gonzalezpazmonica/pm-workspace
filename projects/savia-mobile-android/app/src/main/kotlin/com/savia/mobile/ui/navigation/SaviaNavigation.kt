@@ -5,9 +5,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.outlined.Chat
 import androidx.compose.material.icons.filled.Forum
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.outlined.Forum
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -17,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -25,10 +28,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.savia.mobile.R
+import com.savia.mobile.ui.approvals.ApprovalsScreen
+import com.savia.mobile.ui.capture.CaptureScreen
 import com.savia.mobile.ui.chat.ChatScreen
+import com.savia.mobile.ui.commands.CommandsScreen
 import com.savia.mobile.ui.dashboard.DashboardScreen
+import com.savia.mobile.ui.home.HomeScreen
+import com.savia.mobile.ui.kanban.KanbanScreen
+import com.savia.mobile.ui.profile.ProfileScreen
 import com.savia.mobile.ui.settings.SettingsScreen
+import com.savia.mobile.ui.timelog.TimeLogScreen
 
 /**
  * Navigation destinations in the app using sealed class pattern.
@@ -38,16 +47,27 @@ import com.savia.mobile.ui.settings.SettingsScreen
  * Icons have selected/unselected variants for navigation bar state changes.
  *
  * @property route navigation path for NavHost
- * @property titleResId string resource ID for display label
+ * @property title display label
  * @property selectedIcon Material 3 icon when tab is active
  * @property unselectedIcon Material 3 icon when tab is inactive
  */
 sealed class Screen(
     val route: String,
-    val titleResId: Int,
+    val title: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector
 ) {
+    /**
+     * Home screen: dashboard with sprint progress, tasks, and activity.
+     * Displays project overview, sprint metrics, and quick access to key functions.
+     */
+    data object Home : Screen(
+        route = "home",
+        title = "Home",
+        selectedIcon = Icons.Filled.Forum,
+        unselectedIcon = Icons.Outlined.Forum
+    )
+
     /**
      * Chat screen: main messaging interface with Claude.
      * Shows conversation history, message input, and supports slash commands.
@@ -55,19 +75,73 @@ sealed class Screen(
      */
     data object Chat : Screen(
         route = "chat",
-        titleResId = R.string.nav_chat,
+        title = "Chat",
         selectedIcon = Icons.AutoMirrored.Filled.Chat,
         unselectedIcon = Icons.AutoMirrored.Outlined.Chat
     )
 
     /**
-     * Sessions/Dashboard screen: lists all past conversations.
-     * Users can select a conversation to resume it or delete it.
-     * Empty state shown when no conversations exist.
+     * Commands screen: command palette for accessing PM-Workspace commands.
+     * Organized by family, searchable, with quick access to frequently used commands.
      */
-    data object Sessions : Screen(
-        route = "sessions",
-        titleResId = R.string.nav_sessions,
+    data object Commands : Screen(
+        route = "commands",
+        title = "Commands",
+        selectedIcon = Icons.Filled.Bolt,
+        unselectedIcon = Icons.Outlined.Bolt
+    )
+
+    /**
+     * Profile screen: user profile and project management.
+     * Shows user info, active projects, and app settings/update management.
+     */
+    data object Profile : Screen(
+        route = "profile",
+        title = "Profile",
+        selectedIcon = Icons.Filled.Person,
+        unselectedIcon = Icons.Outlined.Person
+    )
+
+    /**
+     * Kanban board screen: visualize work items across columns.
+     * Filter and manage tasks in workflow pipeline.
+     */
+    data object Kanban : Screen(
+        route = "kanban",
+        title = "Board",
+        selectedIcon = Icons.Filled.Forum,
+        unselectedIcon = Icons.Outlined.Forum
+    )
+
+    /**
+     * Time log screen: track hours spent on tasks.
+     * Log time entries and view daily summary.
+     */
+    data object TimeLog : Screen(
+        route = "timelog",
+        title = "Time Log",
+        selectedIcon = Icons.Filled.Forum,
+        unselectedIcon = Icons.Outlined.Forum
+    )
+
+    /**
+     * Capture screen: quick item creation.
+     * Create new PBIs, bugs, or notes rapidly.
+     */
+    data object Capture : Screen(
+        route = "capture",
+        title = "Capture",
+        selectedIcon = Icons.Filled.Forum,
+        unselectedIcon = Icons.Outlined.Forum
+    )
+
+    /**
+     * Approvals screen: review and approve pending requests.
+     * Handle PRs, infrastructure changes, and deployments.
+     */
+    data object Approvals : Screen(
+        route = "approvals",
+        title = "Approvals",
         selectedIcon = Icons.Filled.Forum,
         unselectedIcon = Icons.Outlined.Forum
     )
@@ -79,14 +153,31 @@ sealed class Screen(
      */
     data object Settings : Screen(
         route = "settings",
-        titleResId = R.string.nav_settings,
+        title = "Settings",
         selectedIcon = Icons.Filled.Settings,
         unselectedIcon = Icons.Outlined.Settings
+    )
+
+    /**
+     * Sessions/Dashboard screen: lists all past conversations.
+     * Users can select a conversation to resume it or delete it.
+     * Empty state shown when no conversations exist.
+     */
+    data object Sessions : Screen(
+        route = "sessions",
+        title = "Sessions",
+        selectedIcon = Icons.Filled.Forum,
+        unselectedIcon = Icons.Outlined.Forum
     )
 }
 
 /** List of all screens displayed in bottom navigation bar */
-val bottomNavScreens = listOf(Screen.Chat, Screen.Sessions, Screen.Settings)
+val bottomNavScreens = listOf(
+    Screen.Home,
+    Screen.Chat,
+    Screen.Commands,
+    Screen.Profile
+)
 
 /**
  * Main navigation host for Savia Mobile app.
@@ -111,14 +202,66 @@ fun SaviaNavHost(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Chat.route,
+            startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
+            // Main tabs (bottom navigation)
+            composable(Screen.Home.route) {
+                HomeScreen(
+                    onNavigateToCapture = { navController.navigate(Screen.Capture.route) },
+                    onNavigateToBoard = { navController.navigate(Screen.Kanban.route) },
+                    onNavigateToTimelog = { navController.navigate(Screen.TimeLog.route) },
+                    onNavigateToApprovals = { navController.navigate(Screen.Approvals.route) }
+                )
+            }
+
             composable(Screen.Chat.route) { ChatScreen() }
+
+            composable(Screen.Commands.route) {
+                CommandsScreen(
+                    onNavigateToChat = { command ->
+                        navController.navigate(Screen.Chat.route)
+                    }
+                )
+            }
+
+            composable(Screen.Profile.route) {
+                ProfileScreen(
+                    onNavigateToSettings = { navController.navigate(Screen.Settings.route) }
+                )
+            }
+
+            // Secondary screens (navigated from main tabs)
+            composable(Screen.Kanban.route) {
+                KanbanScreen(
+                    onCardClick = { cardId ->
+                        // TODO: Expand card details in BottomSheet
+                    }
+                )
+            }
+
+            composable(Screen.TimeLog.route) {
+                TimeLogScreen(
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(Screen.Capture.route) {
+                CaptureScreen(
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(Screen.Approvals.route) {
+                ApprovalsScreen()
+            }
+
+            composable(Screen.Settings.route) { SettingsScreen() }
+
+            // Legacy Sessions screen
             composable(Screen.Sessions.route) {
                 DashboardScreen(
                     onConversationSelected = { conversationId ->
-                        // Navigate to chat and pass the conversation ID
                         navController.navigate("chat?conversationId=$conversationId") {
                             popUpTo(navController.graph.findStartDestination().id) {
                                 saveState = false
@@ -128,6 +271,7 @@ fun SaviaNavHost(
                     }
                 )
             }
+
             composable(
                 route = "chat?conversationId={conversationId}",
                 arguments = listOf(
@@ -140,7 +284,6 @@ fun SaviaNavHost(
                 val conversationId = backStackEntry.arguments?.getString("conversationId")
                 ChatScreen(conversationIdToLoad = conversationId?.takeIf { it.isNotBlank() })
             }
-            composable(Screen.Settings.route) { SettingsScreen() }
         }
     }
 }
@@ -169,10 +312,10 @@ private fun SaviaBottomBar(navController: NavHostController) {
                 icon = {
                     Icon(
                         imageVector = if (selected) screen.selectedIcon else screen.unselectedIcon,
-                        contentDescription = stringResource(screen.titleResId)
+                        contentDescription = screen.title
                     )
                 },
-                label = { Text(stringResource(screen.titleResId)) },
+                label = { Text(screen.title) },
                 selected = selected,
                 onClick = {
                     navController.navigate(screen.route) {

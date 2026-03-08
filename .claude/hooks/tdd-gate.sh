@@ -7,15 +7,18 @@ set -uo pipefail
 # Excepción: ficheros de config, migrations, DTOs, y el propio test se permiten siempre.
 
 INPUT=$(cat)
-TOOL=$(echo "$INPUT" | jq -r '.tool_name // empty')
-FILE_PATH=""
+# Use jq if available, otherwise try basic parsing
+if command -v jq &>/dev/null; then
+  TOOL=$(echo "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null || true)
+  FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty' 2>/dev/null || true)
+else
+  # Fallback: basic grep for JSON values
+  TOOL=$(echo "$INPUT" | grep -oP '"tool_name"\s*:\s*"\K[^"]*' || true)
+  FILE_PATH=$(echo "$INPUT" | grep -oP '"file_path"\s*:\s*"\K[^"]*' || true)
+fi
 
 # Solo aplica a Edit y Write
-if [ "$TOOL" = "Edit" ]; then
-  FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
-elif [ "$TOOL" = "Write" ]; then
-  FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
-else
+if [ "$TOOL" != "Edit" ] && [ "$TOOL" != "Write" ]; then
   exit 0
 fi
 
@@ -53,7 +56,15 @@ esac
 # Buscar test correspondiente
 DIR=$(dirname "$FILE_PATH")
 NAME_NO_EXT="${BASENAME%.*}"
-PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
+# Try git first, but fall back to current dir or CLAUDE_PROJECT_DIR
+# In tests, this will be the TEST_TMPDIR which has .git initialized
+if PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null); then
+  :
+elif [ -n "${CLAUDE_PROJECT_DIR:-}" ] && [ -d "$CLAUDE_PROJECT_DIR" ]; then
+  PROJECT_ROOT="$CLAUDE_PROJECT_DIR"
+else
+  PROJECT_ROOT="."
+fi
 
 # Buscar test files que coincidan
 TESTS_FOUND=$(find "$PROJECT_ROOT" -type f \( \

@@ -1,11 +1,16 @@
 package com.savia.mobile.di
 
 import com.savia.data.repository.ChatRepositoryImpl
+import com.savia.data.repository.ProjectRepositoryImpl
 import com.savia.data.repository.SecurityRepositoryImpl
+import com.savia.data.repository.UpdateRepositoryImpl
 import com.savia.domain.repository.ChatRepository
+import com.savia.domain.repository.ProjectRepository
 import com.savia.domain.repository.SecurityRepository
+import com.savia.domain.repository.UpdateRepository
 import com.savia.domain.usecase.GetConversationsUseCase
 import com.savia.domain.usecase.SendMessageUseCase
+import com.savia.mobile.update.UpdateManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -58,6 +63,38 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun bindSecurityRepository(impl: SecurityRepositoryImpl): SecurityRepository
 
+    /**
+     * Binds UpdateRepository interface to its implementation.
+     *
+     * UpdateRepositoryImpl manages app updates:
+     * - Checking for available updates from Bridge server
+     * - Downloading APK files with progress tracking
+     * - Managing cached APK storage in app cache directory
+     *
+     * @param impl UpdateRepositoryImpl instance to bind
+     * @return UpdateRepository interface
+     */
+    @Binds
+    @Singleton
+    abstract fun bindUpdateRepository(impl: UpdateRepositoryImpl): UpdateRepository
+
+    /**
+     * Binds ProjectRepository interface to its implementation.
+     *
+     * ProjectRepositoryImpl manages workspace data:
+     * - Project listing and selection
+     * - Sprint summaries and board state
+     * - Command execution via Bridge
+     * - User profile and time tracking
+     * - Backlog capture and approvals
+     *
+     * @param impl ProjectRepositoryImpl instance to bind
+     * @return ProjectRepository interface
+     */
+    @Binds
+    @Singleton
+    abstract fun bindProjectRepository(impl: ProjectRepositoryImpl): ProjectRepository
+
     companion object {
         /**
          * Creates SendMessageUseCase for sending user messages and streaming Claude responses.
@@ -87,5 +124,6 @@ abstract class RepositoryModule {
         @Provides
         fun provideGetConversationsUseCase(chatRepository: ChatRepository): GetConversationsUseCase =
             GetConversationsUseCase(chatRepository)
+
     }
 }

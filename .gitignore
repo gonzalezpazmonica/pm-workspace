@@ -72,6 +72,6 @@ CLAUDE.local.md
 decision-log.md
 
 # ── Confidence Log — Datos privados del sistema de calibración ─────────────────
-data/
+/data/
 .opencode
 backups/
