@@ -131,6 +131,9 @@ jobs:
       - name: Run vulnerability scan
         run: bash scripts/vuln-scan.sh --ci
 
+      - name: Run extended CI checks
+        run: bash scripts/ci-extended-checks.sh
+
   lint-markdown:
     name: Lint Markdown
     runs-on: ubuntu-latest
