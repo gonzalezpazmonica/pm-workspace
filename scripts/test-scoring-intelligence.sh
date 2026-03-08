@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # test-scoring-intelligence.sh — Tests for Scoring Intelligence (v2.3.0)
 set -uo pipefail
 
 PASS=0; FAIL=0; TOTAL=0
 pass() { PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); echo "  ✅ $1"; }
 fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  ❌ $1"; }
-check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
+check() { if bash -c "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
 
-CURVES="/home/monica/claude/.claude/rules/domain/scoring-curves.md"
-DIFF="/home/monica/claude/.claude/commands/score-diff.md"
-SEV="/home/monica/claude/.claude/rules/domain/severity-classification.md"
-CLAUDE="/home/monica/claude/CLAUDE.md"
-CHANGELOG="/home/monica/claude/CHANGELOG.md"
+CURVES="$ROOT/.claude/rules/domain/scoring-curves.md"
+DIFF="$ROOT/.claude/commands/score-diff.md"
+SEV="$ROOT/.claude/rules/domain/severity-classification.md"
+CLAUDE="$ROOT/CLAUDE.md"
+CHANGELOG="$ROOT/CHANGELOG.md"
 
 echo "═══ Testing Scoring Intelligence (v2.3.0) ═══"
 echo ""

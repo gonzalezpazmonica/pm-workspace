@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 # ── Prompt Hook: Commit Message Semantic Validation ──
 # Validates that commit messages accurately describe staged changes.
 # Mode: warning (default) | soft-block | hard-block

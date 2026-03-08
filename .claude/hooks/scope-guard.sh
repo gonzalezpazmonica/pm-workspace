@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # scope-guard.sh — Detecta ficheros modificados fuera del scope de la spec SDD activa
 # Usado por: settings.json (Stop hook)
 # Lógica: Si hay una spec activa con sección "Ficheros a Crear/Modificar",

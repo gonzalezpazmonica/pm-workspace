@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # block-credential-leak.sh — Detecta credentials en comandos y ficheros
 # Usado por: security-guardian (PreToolUse hook)
 

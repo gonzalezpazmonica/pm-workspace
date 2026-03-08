@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # test-equality-shield.sh — Tests for Equality Shield (v2.1.0)
 set -uo pipefail
 
 PASS=0; FAIL=0; TOTAL=0
 pass() { PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); echo "  ✅ $1"; }
 fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  ❌ $1"; }
-check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
-check_not() { if eval "$1" >/dev/null 2>&1; then fail "$2"; else pass "$2"; fi }
+check() { if bash -c "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
+check_not() { if bash -c "$1" >/dev/null 2>&1; then fail "$2"; else pass "$2"; fi }
 
-RULE="/home/monica/claude/.claude/rules/domain/equality-shield.md"
-CMD="/home/monica/claude/.claude/commands/bias-check.md"
-DOC="/home/monica/claude/docs/politica-igualdad.md"
-CLAUDE="/home/monica/claude/CLAUDE.md"
+RULE="$ROOT/.claude/rules/domain/equality-shield.md"
+CMD="$ROOT/.claude/commands/bias-check.md"
+DOC="$ROOT/docs/politica-igualdad.md"
+CLAUDE="$ROOT/CLAUDE.md"
 
 echo "═══ Testing Equality Shield (v2.1.0) ═══"
 echo ""
@@ -82,8 +83,8 @@ echo "Section 5: Cross-references"
 check "grep -qi 'bias.check\|/bias' $RULE" "equality-shield.md references bias-check"
 check "grep -qi 'equality\|igualdad' $CMD" "bias-check.md references equality"
 check "grep -qi 'equality\|igualdad' $DOC" "politica-igualdad.md references equality"
-check "grep -qi 'equality\|igualdad' /home/monica/claude/CHANGELOG.md" "CHANGELOG mentions Equality Shield"
-check "grep -qi 'equality\|igualdad\|bias\|sesgo' /home/monica/claude/README.md" "README mentions equality"
+check "grep -qi 'equality\|igualdad' $ROOT/CHANGELOG.md" "CHANGELOG mentions Equality Shield"
+check "grep -qi 'equality\|igualdad\|bias\|sesgo' $ROOT/README.md" "README mentions equality"
 
 echo ""
 echo "═══ Equality Shield: $PASS/$TOTAL passed ═══"

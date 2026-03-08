@@ -11,7 +11,7 @@ TOTAL=0
 
 pass() { PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); echo "  ✅ $1"; }
 fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  ❌ $1"; }
-check() { if eval "$2" 2>/dev/null; then pass "$1"; else fail "$1"; fi; }
+check() { if bash -c "$2" 2>/dev/null; then pass "$1"; else fail "$1"; fi; }
 
 echo "═══ Testing One-Line Installers ═══"
 

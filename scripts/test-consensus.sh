@@ -10,7 +10,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 assert() {
-  if eval "$1"; then
+  if bash -c "$1"; then
     echo -e "  ${GREEN}✓${NC} $2"
     PASSED=$((PASSED+1))
   else

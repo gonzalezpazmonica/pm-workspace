@@ -5,7 +5,7 @@ RED='\033[0;31m'; GREEN='\033[0;32m'; BLUE='\033[0;34m'; NC='\033[0m'
 PASS=0; FAIL=0; TOTAL=0; SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
 assert() {
   TOTAL=$((TOTAL + 1))
-  eval "$2" >/dev/null 2>&1 && { PASS=$((PASS + 1)); echo -e "${GREEN}✅ $1${NC}"; } \
+  bash -c "$2" >/dev/null 2>&1 && { PASS=$((PASS + 1)); echo -e "${GREEN}✅ $1${NC}"; } \
     || { FAIL=$((FAIL + 1)); echo -e "${RED}❌ $1${NC}"; }
 }
 
