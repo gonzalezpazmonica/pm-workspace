@@ -74,10 +74,12 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
     onNavigateToGitConfig: () -> Unit = {},
     onNavigateToTeam: () -> Unit = {},
-    onNavigateToCompany: () -> Unit = {}
+    onNavigateToCompany: () -> Unit = {},
+    onNavigateToProfile: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var showDisconnectDialog by remember { mutableStateOf(false) }
+    var showBridgeSetupDialog by remember { mutableStateOf(false) }
     var showThemeDialog by remember { mutableStateOf(false) }
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
@@ -96,7 +98,10 @@ fun SettingsScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 4.dp)
-                    .clickable { if (uiState.isBridgeConnected) showDisconnectDialog = true },
+                    .clickable {
+                        if (uiState.isBridgeConnected) showDisconnectDialog = true
+                        else showBridgeSetupDialog = true
+                    },
                 colors = CardDefaults.cardColors(
                     containerColor = if (uiState.isBridgeConnected)
                         MaterialTheme.colorScheme.primaryContainer
@@ -142,32 +147,35 @@ fun SettingsScreen(
             // User profile
             ClickableSettingsItem(
                 icon = { Icon(Icons.Default.Person, contentDescription = null) },
-                title = uiState.userName.ifEmpty { "Load Profile" },
+                title = uiState.userName.ifEmpty { stringResource(R.string.settings_profile) },
                 subtitle = uiState.userEmail.ifEmpty { stringResource(R.string.settings_profile_desc) },
-                onClick = {}
+                onClick = {
+                    if (uiState.userName.isEmpty()) viewModel.refreshProfile()
+                    else onNavigateToProfile()
+                }
             )
 
             // Git configuration
             ClickableSettingsItem(
                 icon = { Icon(Icons.Default.Code, contentDescription = null) },
-                title = "Git Configuration",
-                subtitle = "Name, email, PAT, repository",
+                title = stringResource(R.string.settings_git_config),
+                subtitle = stringResource(R.string.settings_git_config_desc),
                 onClick = onNavigateToGitConfig
             )
 
             // Team management
             ClickableSettingsItem(
                 icon = { Icon(Icons.Default.Group, contentDescription = null) },
-                title = "Team",
-                subtitle = "Manage team members and roles",
+                title = stringResource(R.string.settings_team),
+                subtitle = stringResource(R.string.settings_team_desc),
                 onClick = onNavigateToTeam
             )
 
             // Company profile
             ClickableSettingsItem(
                 icon = { Icon(Icons.Default.Business, contentDescription = null) },
-                title = "Company",
-                subtitle = "Company identity, strategy, policies",
+                title = stringResource(R.string.settings_company),
+                subtitle = stringResource(R.string.settings_company_desc),
                 onClick = onNavigateToCompany
             )
 
@@ -213,7 +221,7 @@ fun SettingsScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showDisconnectDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -223,7 +231,7 @@ fun SettingsScreen(
     if (showThemeDialog) {
         AlertDialog(
             onDismissRequest = { showThemeDialog = false },
-            title = { Text("Select Theme") },
+            title = { Text(stringResource(R.string.settings_select_theme)) },
             text = {
                 Column {
                     AppTheme.values().forEach { theme ->
@@ -249,7 +257,7 @@ fun SettingsScreen(
             confirmButton = {},
             dismissButton = {
                 TextButton(onClick = { showThemeDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -259,7 +267,7 @@ fun SettingsScreen(
     if (showLanguageDialog) {
         AlertDialog(
             onDismissRequest = { showLanguageDialog = false },
-            title = { Text("Select Language") },
+            title = { Text(stringResource(R.string.settings_select_language)) },
             text = {
                 Column {
                     AppLanguage.values().forEach { lang ->
@@ -285,9 +293,21 @@ fun SettingsScreen(
             confirmButton = {},
             dismissButton = {
                 TextButton(onClick = { showLanguageDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
+        )
+    }
+
+    // Bridge setup dialog
+    if (showBridgeSetupDialog) {
+        BridgeSetupDialog(
+            onDismiss = { showBridgeSetupDialog = false },
+            onConnected = {
+                showBridgeSetupDialog = false
+                viewModel.refreshProfile()
+            },
+            viewModel = viewModel
         )
     }
 
@@ -295,17 +315,17 @@ fun SettingsScreen(
     if (showAboutDialog) {
         AlertDialog(
             onDismissRequest = { showAboutDialog = false },
-            title = { Text("About") },
+            title = { Text(stringResource(R.string.about)) },
             text = {
                 Column {
-                    Text("App Version: ${uiState.appVersion}")
+                    Text(stringResource(R.string.settings_app_version, uiState.appVersion))
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("Bridge Version: ${uiState.bridgeVersion.ifEmpty { "Unknown" }}")
+                    Text(stringResource(R.string.settings_bridge_version, uiState.bridgeVersion.ifEmpty { stringResource(R.string.unknown) }))
                 }
             },
             confirmButton = {
                 TextButton(onClick = { showAboutDialog = false }) {
-                    Text("OK")
+                    Text(stringResource(R.string.ok))
                 }
             }
         )

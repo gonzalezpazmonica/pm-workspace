@@ -61,4 +61,52 @@
     <string name="settings_about_desc">Version, licenses, and credits</string>
     <string name="settings_disconnect">Disconnect</string>
     <string name="settings_disconnect_confirm">Are you sure you want to disconnect from the bridge?</string>
+    <string name="settings_git_config">Git Configuration</string>
+    <string name="settings_git_config_desc">Name, email, PAT, repository</string>
+    <string name="settings_team">Team</string>
+    <string name="settings_team_desc">Manage team members and roles</string>
+    <string name="settings_company">Company</string>
+    <string name="settings_company_desc">Company identity, strategy, policies</string>
+    <string name="settings_select_theme">Select Theme</string>
+    <string name="settings_select_language">Select Language</string>
+    <string name="settings_app_version">App Version: %1$s</string>
+    <string name="settings_bridge_version">Bridge Version: %1$s</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="about">About</string>
+    <string name="unknown">Unknown</string>
+
+    <!-- Bridge Setup Dialog -->
+    <string name="bridge_connecting">Connecting…</string>
+    <string name="bridge_error">Error: %1$s</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">Home</string>
+    <string name="home_welcome">Welcome back!</string>
+    <string name="home_no_project">No Project</string>
+    <string name="home_select_project">Select project</string>
+    <string name="home_sprint_progress">Sprint Progress</string>
+    <string name="home_blocked">Blocked</string>
+    <string name="home_hours_today">Hours Today</string>
+    <string name="home_my_tasks">My Tasks</string>
+    <string name="home_recent_activity">Recent Activity</string>
+    <string name="home_see_board">See Board</string>
+    <string name="home_approvals">Approvals</string>
+    <string name="home_quick_capture">Quick Capture</string>
+    <string name="refresh">Refresh</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_configure_bridge">Configure Bridge to see your profile</string>
+    <string name="profile_go_to_settings">Go to Settings</string>
+    <string name="profile_retry">Retry</string>
+    <string name="profile_active_projects">Active Projects</string>
+    <string name="profile_check_updates">Check for Updates</string>
+    <string name="profile_new_version">New version available</string>
+    <string name="profile_download_update">Download Update</string>
+    <string name="profile_check_updates_btn">Check Updates</string>
+    <string name="profile_sprints">Sprints</string>
+    <string name="profile_pbis">PBIs</string>
+    <string name="profile_hours">Hours</string>
+    <string name="profile_team">Team: %1$s</string>
 </resources>

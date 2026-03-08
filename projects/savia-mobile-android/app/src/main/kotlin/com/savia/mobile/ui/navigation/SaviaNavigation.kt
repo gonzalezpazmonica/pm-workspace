@@ -241,6 +241,7 @@ fun SaviaNavHost(
             // Main tabs (bottom navigation)
             composable(Screen.Home.route) {
                 HomeScreen(
+                    onNavigateToSettings = { navController.navigate(Screen.Settings.route) },
                     onNavigateToCapture = { navController.navigate(Screen.Capture.route) },
                     onNavigateToBoard = { navController.navigate(Screen.Kanban.route) },
                     onNavigateToTimelog = { navController.navigate(Screen.TimeLog.route) },
@@ -293,7 +294,14 @@ fun SaviaNavHost(
                 SettingsScreen(
                     onNavigateToGitConfig = { navController.navigate(Screen.GitConfig.route) },
                     onNavigateToTeam = { navController.navigate(Screen.TeamManagement.route) },
-                    onNavigateToCompany = { navController.navigate(Screen.CompanyProfile.route) }
+                    onNavigateToCompany = { navController.navigate(Screen.CompanyProfile.route) },
+                    onNavigateToProfile = {
+                        navController.navigate(Screen.Profile.route) {
+                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
                 )
             }
 

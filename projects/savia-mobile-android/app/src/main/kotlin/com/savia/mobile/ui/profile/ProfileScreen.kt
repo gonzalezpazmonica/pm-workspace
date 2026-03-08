@@ -92,14 +92,14 @@ fun ProfileScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Profile") },
+                title = { Text(stringResource(R.string.profile_title)) },
                 actions = {
                     androidx.compose.material3.IconButton(
                         onClick = onNavigateToSettings
                     ) {
                         Icon(
                             Icons.Default.Settings,
-                            contentDescription = "Settings",
+                            contentDescription = stringResource(R.string.nav_settings),
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
@@ -129,11 +129,36 @@ fun ProfileScreen(
                         .padding(innerPadding),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "No profile loaded",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.padding(32.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = "Profile not configured",
+                            modifier = Modifier.size(64.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = stringResource(R.string.profile_configure_bridge),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                        Button(
+                            onClick = onNavigateToSettings,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_go_to_settings))
+                        }
+                        Button(
+                            onClick = { viewModel.loadProfileData() },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_retry))
+                        }
+                    }
                 }
             } else {
                 LazyColumn(
@@ -156,7 +181,7 @@ fun ProfileScreen(
                 // Active projects section
                 item {
                     Text(
-                        text = "Active Projects",
+                        text = stringResource(R.string.profile_active_projects),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -277,17 +302,17 @@ private fun StatsRow(profile: com.savia.domain.model.UserProfile) {
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         StatColumn(
-            label = "Sprints",
+            label = stringResource(R.string.profile_sprints),
             value = (profile.stats?.sprintsManaged ?: 0).toString(),
             modifier = Modifier.weight(1f)
         )
         StatColumn(
-            label = "PBIs",
+            label = stringResource(R.string.profile_pbis),
             value = (profile.stats?.pbisCompleted ?: 0).toString(),
             modifier = Modifier.weight(1f)
         )
         StatColumn(
-            label = "Hours",
+            label = stringResource(R.string.profile_hours),
             value = String.format("%.0f", profile.stats?.hoursLogged ?: 0f),
             modifier = Modifier.weight(1f)
         )
@@ -369,7 +394,7 @@ private fun ProjectCard(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "Team: ${project.team}",
+                    text = stringResource(R.string.profile_team, project.team),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -435,13 +460,13 @@ private fun UpdateChecker(
                 )
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Check for Updates",
+                        text = stringResource(R.string.profile_check_updates),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
                     if (updateAvailable) {
                         Text(
-                            text = "New version available",
+                            text = stringResource(R.string.profile_new_version),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.primary
                         )
@@ -460,7 +485,7 @@ private fun UpdateChecker(
                     onClick = if (updateAvailable) onDownload else onCheckUpdates,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(if (updateAvailable) "Download Update" else "Check Updates")
+                    Text(if (updateAvailable) stringResource(R.string.profile_download_update) else stringResource(R.string.profile_check_updates_btn))
                 }
             }
         }
@@ -490,7 +515,7 @@ private fun AppVersionFooter() {
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "  Savia v1.0.0",
+                text = "  Savia v${com.savia.mobile.BuildConfig.VERSION_NAME}",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

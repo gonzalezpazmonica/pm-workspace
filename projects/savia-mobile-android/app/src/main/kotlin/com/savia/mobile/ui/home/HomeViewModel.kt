@@ -91,17 +91,35 @@ class HomeViewModel @Inject constructor(
             try {
                 // Load available projects
                 val projects = projectRepository.getProjects()
-                val selectedProject = projectRepository.getSelectedProject()
+                var selectedProject = projectRepository.getSelectedProject()
 
+                // Auto-select project if none selected
                 if (selectedProject == null) {
-                    _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            availableProjects = projects,
-                            error = "No project selected"
-                        )
+                    if (projects.isEmpty()) {
+                        // No projects available - show error and return
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                availableProjects = projects,
+                                error = "No projects available"
+                            )
+                        }
+                        return@launch
                     }
-                    return@launch
+
+                    // Try to find PM-Workspace project
+                    selectedProject = projects.find { project ->
+                        project.name.contains("PM-Workspace", ignoreCase = true) ||
+                        project.id.contains("pm-workspace", ignoreCase = true)
+                    }
+
+                    // If PM-Workspace not found, use first project
+                    if (selectedProject == null) {
+                        selectedProject = projects.first()
+                    }
+
+                    // Set the chosen project as selected
+                    projectRepository.setSelectedProject(selectedProject.id)
                 }
 
                 val sprintSummary = projectRepository.getSprintSummary(selectedProject.id)

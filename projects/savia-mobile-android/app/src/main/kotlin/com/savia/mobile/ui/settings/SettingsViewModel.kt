@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.savia.domain.repository.ProjectRepository
 import com.savia.domain.repository.SecurityRepository
+import com.savia.mobile.BuildConfig
 import com.savia.mobile.ui.settings.AppLanguage
 import com.savia.mobile.ui.settings.AppTheme
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +13,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
 import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * UI state for the Settings screen displaying Bridge connection status and user preferences.
@@ -36,7 +39,9 @@ data class SettingsUiState(
     val currentTheme: AppTheme = AppTheme.SYSTEM,
     val currentLanguage: AppLanguage = AppLanguage.SYSTEM,
     val bridgeVersion: String = "",
-    val appVersion: String = ""
+    val appVersion: String = "",
+    val isConnecting: Boolean = false,
+    val connectionError: String? = null
 )
 
 /**
@@ -56,7 +61,8 @@ data class SettingsUiState(
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val securityRepository: SecurityRepository,
-    private val projectRepository: ProjectRepository
+    private val projectRepository: ProjectRepository,
+    @Named("bridge") private val bridgeClient: OkHttpClient
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -84,7 +90,7 @@ class SettingsViewModel @Inject constructor(
                     bridgePort = port,
                     userName = profile?.name ?: "",
                     userEmail = profile?.email ?: "",
-                    appVersion = "0.2.0"
+                    appVersion = BuildConfig.VERSION_NAME
                 )
             }
         }
@@ -127,5 +133,96 @@ class SettingsViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    /**
+     * Saves Bridge configuration and performs health check to verify connectivity.
+     *
+     * Validates the provided host, port, and token, then saves them via SecurityRepository.
+     * Performs a health check by making an HTTPS GET request to the Bridge's /health endpoint.
+     * Updates the UI state with connection status and any error messages.
+     *
+     * The health check uses the bridge OkHttpClient which is configured with trust-all-certs
+     * to support self-signed certificates commonly used in local/VPN deployments.
+     *
+     * @param host Bridge server hostname or IP address
+     * @param port Bridge server port (1-65535)
+     * @param token Authentication token for the Bridge
+     */
+    fun saveBridgeConfig(host: String, port: Int, token: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isConnecting = true, connectionError = null) }
+
+            try {
+                // Save configuration to security repository
+                securityRepository.saveBridgeConfig(host, port, token)
+
+                // Perform health check
+                val url = "https://$host:$port/health"
+                val request = okhttp3.Request.Builder()
+                    .url(url)
+                    .get()
+                    .build()
+
+                val response = bridgeClient.newCall(request).execute()
+
+                if (response.isSuccessful) {
+                    // Connection successful
+                    _uiState.update {
+                        it.copy(
+                            isBridgeConnected = true,
+                            bridgeHost = host,
+                            bridgePort = port,
+                            isConnecting = false,
+                            connectionError = null
+                        )
+                    }
+                } else {
+                    // Health check failed
+                    val errorMessage = "Bridge returned status ${response.code}"
+                    _uiState.update {
+                        it.copy(
+                            isConnecting = false,
+                            connectionError = errorMessage
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                // Network error or connection timeout
+                _uiState.update {
+                    it.copy(
+                        isConnecting = false,
+                        connectionError = e.message ?: "Connection failed"
+                    )
+                }
+            }
+        }
+    }
+
+    /**
+     * Refreshes the user profile from the Bridge.
+     *
+     * Fetches the latest user profile information from the ProjectRepository
+     * and updates the userName and userEmail in the UI state.
+     */
+    fun refreshProfile() {
+        viewModelScope.launch {
+            val profile = projectRepository.getUserProfile()
+            _uiState.update {
+                it.copy(
+                    userName = profile?.name ?: "",
+                    userEmail = profile?.email ?: ""
+                )
+            }
+        }
+    }
+
+    /**
+     * Clears any connection error message from the UI state.
+     *
+     * Called when the user dismisses the error or attempts to connect again.
+     */
+    fun clearConnectionError() {
+        _uiState.update { it.copy(connectionError = null) }
     }
 }

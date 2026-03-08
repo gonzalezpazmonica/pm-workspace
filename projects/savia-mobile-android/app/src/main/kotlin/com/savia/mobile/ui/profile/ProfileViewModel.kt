@@ -75,7 +75,7 @@ class ProfileViewModel @Inject constructor(
      * Loads user profile and list of projects.
      * Called on ViewModel initialization.
      */
-    private fun loadProfileData() {
+    fun loadProfileData() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
