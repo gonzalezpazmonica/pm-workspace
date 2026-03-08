@@ -17,7 +17,6 @@
 *.dex
 
 # Generated files
-app/src/main/res/mipmap-*/
 *.hprof
 .kotlin/
 
