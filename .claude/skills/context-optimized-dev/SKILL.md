@@ -1,7 +1,7 @@
 ---
 name: context-optimized-dev
 description: Context-Optimized Development — Skill
-maturity: alpha
+maturity: beta
 ---
 
 # Context-Optimized Development — Skill

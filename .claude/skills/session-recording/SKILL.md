@@ -1,7 +1,7 @@
 ---
 name: session-recording
 description: Session Recording Skill
-maturity: alpha
+maturity: beta
 ---
 
 # Session Recording Skill

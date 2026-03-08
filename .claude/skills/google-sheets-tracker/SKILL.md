@@ -1,7 +1,7 @@
 ---
 name: google-sheets-tracker
 description: Google Sheets Tracker
-maturity: alpha
+maturity: beta
 ---
 
 # Google Sheets Tracker

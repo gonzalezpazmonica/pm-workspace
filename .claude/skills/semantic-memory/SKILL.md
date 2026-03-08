@@ -1,7 +1,7 @@
 ---
 name: semantic-memory
 description: semantic-memory
-maturity: alpha
+maturity: beta
 ---
 
 # semantic-memory

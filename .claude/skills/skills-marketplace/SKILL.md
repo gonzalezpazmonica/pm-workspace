@@ -1,7 +1,7 @@
 ---
 name: skills-marketplace
 description: skills-marketplace
-maturity: alpha
+maturity: beta
 ---
 
 # skills-marketplace

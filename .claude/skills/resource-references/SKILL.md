@@ -1,7 +1,7 @@
 ---
 name: resource-references
 description: skill: resource-references
-maturity: alpha
+maturity: beta
 ---
 
 # skill: resource-references
