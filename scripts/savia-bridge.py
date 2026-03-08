@@ -168,7 +168,7 @@ def _get_apk_version_code(apk_path: Path) -> int:
                     for token in result.stdout.split():
                         if token.startswith("versionCode="):
                             try:
-                                return int(token.split("=", 1)[1])
+                                return int(token.split("=", 1)[1].strip("'\""))
                             except (ValueError, IndexError):
                                 pass
     except Exception:
