@@ -83,7 +83,7 @@ settings.json (5 hook events)
 ## Directory Structure & Purpose
 
 ```
-/home/monica/savia/
+pm-workspace/
 ├── .claude/                      ← Claude Code configuration
 │   ├── commands/                 (454 commands: slash workflows)
 │   ├── skills/                   (67 skills: reusable capabilities)
