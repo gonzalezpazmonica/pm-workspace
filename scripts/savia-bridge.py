@@ -1002,7 +1002,7 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                                 for line in parts[1].strip().split('\n'):
                                     if ':' in line:
                                         key, val = line.split(':', 1)
-                                        section_data[key.strip()] = val.strip()
+                                        section_data[key.strip()] = val.strip().strip('"').strip("'")
                                 section_data["content"] = parts[2].strip()
                         else:
                             section_data["content"] = content.strip()
@@ -1069,7 +1069,7 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                                         for line in parts[1].strip().split('\n'):
                                             if ':' in line:
                                                 key, val = line.split(':', 1)
-                                                member[key.strip()] = val.strip()
+                                                member[key.strip()] = val.strip().strip('"').strip("'")
                             except Exception:
                                 pass
                         # Also check for other fragments
@@ -1077,7 +1077,9 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                             fpath = user_dir / fragment
                             if fpath.exists():
                                 member[f"has_{fragment.replace('.md', '')}"] = True
-                        members.append(member)
+                        # Skip template/empty profiles
+                        if member.get("name") and user_dir.name != "template":
+                            members.append(member)
 
             self._send_json({
                 "status": "configured" if members else "not_configured",
