@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # session-init.sh — Auto-carga de contexto al inicio de sesión
 # Usado por: settings.json (SessionStart hook)
 # v0.42.0 — Arranque garantizado: sin red, sin jq, fallo = salida limpia

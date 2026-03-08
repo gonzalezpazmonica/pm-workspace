@@ -1,20 +1,21 @@
 #!/usr/bin/env bash
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # test-ai-labor-impact.sh — Tests for AI Labor Impact Analysis (v2.5.0)
 set -uo pipefail
 
 PASS=0; FAIL=0; TOTAL=0
 pass() { PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); echo "  ✅ $1"; }
 fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  ❌ $1"; }
-check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
+check() { if bash -c "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
 
-CMD="/home/monica/savia/.claude/commands/ai-exposure-audit.md"
-RULE="/home/monica/savia/.claude/rules/domain/ai-exposure-metrics.md"
-SKILL="/home/monica/savia/.claude/skills/ai-labor-impact/SKILL.md"
-AI_COMP="/home/monica/savia/.claude/rules/domain/ai-competency-framework.md"
-CAP_FORE="/home/monica/savia/.claude/commands/capacity-forecast.md"
-ENT_DASH="/home/monica/savia/.claude/commands/enterprise-dashboard.md"
-DOC_ES="/home/monica/savia/docs/ai-labor-impact-es.md"
-DOC_EN="/home/monica/savia/docs/ai-labor-impact-en.md"
+CMD="$ROOT/.claude/commands/ai-exposure-audit.md"
+RULE="$ROOT/.claude/rules/domain/ai-exposure-metrics.md"
+SKILL="$ROOT/.claude/skills/ai-labor-impact/SKILL.md"
+AI_COMP="$ROOT/.claude/rules/domain/ai-competency-framework.md"
+CAP_FORE="$ROOT/.claude/commands/capacity-forecast.md"
+ENT_DASH="$ROOT/.claude/commands/enterprise-dashboard.md"
+DOC_ES="$ROOT/docs/ai-labor-impact-es.md"
+DOC_EN="$ROOT/docs/ai-labor-impact-en.md"
 
 echo "═══ Testing AI Labor Impact Analysis ═══"
 echo ""

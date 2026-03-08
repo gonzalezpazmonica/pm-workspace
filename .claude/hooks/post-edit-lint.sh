@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # post-edit-lint.sh — Auto-lint tras edición de ficheros
 # Usado por: settings.json (PostToolUse hook, async)
 

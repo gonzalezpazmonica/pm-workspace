@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # block-infra-destructive.sh — Bloquea operaciones destructivas de infraestructura
 # Usado por: infrastructure-agent (PreToolUse hook)
 
