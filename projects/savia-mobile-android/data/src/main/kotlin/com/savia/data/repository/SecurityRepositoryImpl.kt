@@ -253,6 +253,24 @@ class SecurityRepositoryImpl @Inject constructor(
         secureStorage.remove(KEY_LAST_CONVERSATION)
     }
 
+    // ===== User Preferences =====
+
+    override suspend fun saveTheme(theme: String) = withContext(Dispatchers.IO) {
+        secureStorage.put(KEY_THEME, theme)
+    }
+
+    override suspend fun getTheme(): String? = withContext(Dispatchers.IO) {
+        secureStorage.get(KEY_THEME)
+    }
+
+    override suspend fun saveLanguage(language: String) = withContext(Dispatchers.IO) {
+        secureStorage.put(KEY_LANGUAGE, language)
+    }
+
+    override suspend fun getLanguage(): String? = withContext(Dispatchers.IO) {
+        secureStorage.get(KEY_LANGUAGE)
+    }
+
     // ===== Shared =====
 
     /**
@@ -302,5 +320,7 @@ class SecurityRepositoryImpl @Inject constructor(
         private const val KEY_BRIDGE_PORT = "bridge_port"
         private const val KEY_BRIDGE_TOKEN = "bridge_token"
         private const val KEY_LAST_CONVERSATION = "last_conversation_id"
+        private const val KEY_THEME = "user_theme"
+        private const val KEY_LANGUAGE = "user_language"
     }
 }

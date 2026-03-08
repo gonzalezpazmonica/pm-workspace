@@ -214,6 +214,15 @@ class SecurityFlowIntegrationTest {
             store.remove("last_conversation")
         }
 
+        override suspend fun saveTheme(theme: String) {
+            store["theme"] = theme.toByteArray(Charsets.UTF_8)
+        }
+        override suspend fun getTheme(): String? = store["theme"]?.toString(Charsets.UTF_8)
+        override suspend fun saveLanguage(language: String) {
+            store["language"] = language.toByteArray(Charsets.UTF_8)
+        }
+        override suspend fun getLanguage(): String? = store["language"]?.toString(Charsets.UTF_8)
+
         override suspend fun getDatabasePassphrase(): ByteArray {
             return store.getOrPut("db_passphrase") {
                 val passphrase = ByteArray(32)

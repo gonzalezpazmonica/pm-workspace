@@ -2,6 +2,8 @@ package com.savia.mobile.ui.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +42,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -148,7 +152,9 @@ fun HomeScreen(
                 item {
                     GreetingHeader(
                         projectName = uiState.selectedProject ?: "No Project",
-                        sprintName = uiState.sprintName
+                        sprintName = uiState.sprintName,
+                        availableProjects = uiState.availableProjects,
+                        onProjectSelected = { viewModel.selectProject(it) }
                     )
                 }
 
@@ -222,13 +228,17 @@ fun HomeScreen(
 }
 
 /**
- * Greeting header with user name, project, and sprint.
+ * Greeting header with user name, project dropdown, and sprint.
  */
 @Composable
 private fun GreetingHeader(
     projectName: String,
-    sprintName: String
+    sprintName: String,
+    availableProjects: List<com.savia.domain.model.Project>,
+    onProjectSelected: (String) -> Unit
 ) {
+    var projectDropdownExpanded by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -239,11 +249,28 @@ private fun GreetingHeader(
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold
         )
-        Text(
-            text = projectName,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primary
-        )
+        Box {
+            Text(
+                text = projectName,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.clickable { projectDropdownExpanded = true }
+            )
+            DropdownMenu(
+                expanded = projectDropdownExpanded,
+                onDismissRequest = { projectDropdownExpanded = false }
+            ) {
+                availableProjects.forEach { project ->
+                    DropdownMenuItem(
+                        text = { Text(project.name) },
+                        onClick = {
+                            onProjectSelected(project.id)
+                            projectDropdownExpanded = false
+                        }
+                    )
+                }
+            }
+        }
         Text(
             text = sprintName,
             style = MaterialTheme.typography.labelMedium,

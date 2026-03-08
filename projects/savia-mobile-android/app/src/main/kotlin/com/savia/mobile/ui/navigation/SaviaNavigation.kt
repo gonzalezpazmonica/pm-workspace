@@ -36,7 +36,10 @@ import com.savia.mobile.ui.dashboard.DashboardScreen
 import com.savia.mobile.ui.home.HomeScreen
 import com.savia.mobile.ui.kanban.KanbanScreen
 import com.savia.mobile.ui.profile.ProfileScreen
+import com.savia.mobile.ui.settings.CompanyProfileScreen
+import com.savia.mobile.ui.settings.GitConfigScreen
 import com.savia.mobile.ui.settings.SettingsScreen
+import com.savia.mobile.ui.settings.TeamManagementScreen
 import com.savia.mobile.ui.timelog.TimeLogScreen
 
 /**
@@ -159,6 +162,36 @@ sealed class Screen(
     )
 
     /**
+     * Git configuration screen: manage git name, email, PAT.
+     */
+    data object GitConfig : Screen(
+        route = "gitconfig",
+        title = "Git Config",
+        selectedIcon = Icons.Filled.Settings,
+        unselectedIcon = Icons.Outlined.Settings
+    )
+
+    /**
+     * Team management screen: manage team members.
+     */
+    data object TeamManagement : Screen(
+        route = "team",
+        title = "Team",
+        selectedIcon = Icons.Filled.Person,
+        unselectedIcon = Icons.Outlined.Person
+    )
+
+    /**
+     * Company profile screen: manage company data.
+     */
+    data object CompanyProfile : Screen(
+        route = "company",
+        title = "Company",
+        selectedIcon = Icons.Filled.Forum,
+        unselectedIcon = Icons.Outlined.Forum
+    )
+
+    /**
      * Sessions/Dashboard screen: lists all past conversations.
      * Users can select a conversation to resume it or delete it.
      * Empty state shown when no conversations exist.
@@ -256,7 +289,25 @@ fun SaviaNavHost(
                 ApprovalsScreen()
             }
 
-            composable(Screen.Settings.route) { SettingsScreen() }
+            composable(Screen.Settings.route) {
+                SettingsScreen(
+                    onNavigateToGitConfig = { navController.navigate(Screen.GitConfig.route) },
+                    onNavigateToTeam = { navController.navigate(Screen.TeamManagement.route) },
+                    onNavigateToCompany = { navController.navigate(Screen.CompanyProfile.route) }
+                )
+            }
+
+            composable(Screen.GitConfig.route) {
+                GitConfigScreen(onNavigateBack = { navController.popBackStack() })
+            }
+
+            composable(Screen.TeamManagement.route) {
+                TeamManagementScreen(onNavigateBack = { navController.popBackStack() })
+            }
+
+            composable(Screen.CompanyProfile.route) {
+                CompanyProfileScreen(onNavigateBack = { navController.popBackStack() })
+            }
 
             // Legacy Sessions screen
             composable(Screen.Sessions.route) {

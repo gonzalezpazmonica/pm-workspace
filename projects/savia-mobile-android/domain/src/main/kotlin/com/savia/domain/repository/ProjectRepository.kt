@@ -153,4 +153,28 @@ interface ProjectRepository {
      * @return List of TimeEntry objects for that date
      */
     suspend fun getTimeEntries(date: String): List<TimeEntry>
+
+    /** Get git global configuration from Bridge. */
+    suspend fun getGitConfig(): GitConfig?
+
+    /** Update git global configuration via Bridge. */
+    suspend fun updateGitConfig(config: GitConfig): Boolean
+
+    /** Get team members from Bridge. */
+    suspend fun getTeamMembers(): List<TeamMember>
+
+    /** Add a new team member via Bridge. */
+    suspend fun addTeamMember(slug: String, identity: Map<String, String>): Boolean
+
+    /** Update an existing team member via Bridge. */
+    suspend fun updateTeamMember(slug: String, identity: Map<String, String>): Boolean
+
+    /** Remove a team member via Bridge. */
+    suspend fun removeTeamMember(slug: String): Boolean
+
+    /** Get company profile from Bridge. */
+    suspend fun getCompanyProfile(): CompanyProfile?
+
+    /** Update a company profile section via Bridge. */
+    suspend fun updateCompanySection(section: String, fields: Map<String, String>, content: String = ""): Boolean
 }

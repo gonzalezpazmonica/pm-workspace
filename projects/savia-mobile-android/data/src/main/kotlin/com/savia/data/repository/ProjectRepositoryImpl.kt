@@ -5,12 +5,16 @@ import com.savia.data.api.SaviaBridgeService
 import com.savia.data.security.SecureStorage
 import com.savia.domain.model.*
 import com.savia.domain.repository.ProjectRepository
+import com.savia.domain.repository.SecurityRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.serialization.json.*
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import kotlinx.serialization.json.boolean
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -63,7 +67,8 @@ class ProjectRepositoryImpl @Inject constructor(
     @Named("bridge") private val bridgeClient: OkHttpClient,
     private val bridgeService: SaviaBridgeService,
     private val secureStorage: SecureStorage,
-    private val json: Json
+    private val json: Json,
+    private val securityRepository: SecurityRepository
 ) : ProjectRepository {
 
     private companion object {
@@ -247,32 +252,58 @@ class ProjectRepositoryImpl @Inject constructor(
     }
 
     /**
-     * Get the authenticated user's profile.
+     * Get the authenticated user's profile from Bridge GET /profile.
      *
-     * Combines local Google Sign-In data with Bridge /health endpoint response.
-     * Returns null if authentication data is unavailable.
+     * Calls Bridge /profile endpoint to fetch user profile including preferences.
+     * Falls back gracefully (returns null) if Bridge is unavailable.
      *
-     * @return UserProfile with name, email, role, and stats, or null if not authenticated
+     * @return UserProfile with name, email, role, and stats, or null if Bridge unavailable
      */
-    override suspend fun getUserProfile(): UserProfile? = try {
-        // In a real implementation, would read Google Sign-In data from SecureStorage
-        // For now, return a placeholder profile
-        UserProfile(
-            name = "Mobile User",
-            email = "user@workspace.local",
-            photoUrl = null,
-            role = "Developer",
-            organization = "PM-Workspace",
-            activeProjects = 1,
-            stats = UserStats(
-                sprintsManaged = 0,
-                pbisCompleted = 0,
-                hoursLogged = 0f
-            )
-        )
-    } catch (e: Exception) {
-        android.util.Log.e("ProjectRepositoryImpl", "Error fetching user profile", e)
-        null
+    override suspend fun getUserProfile(): UserProfile? {
+        return try {
+            val bridgeUrl = "http://localhost:8922"
+            val request = Request.Builder()
+                .url("$bridgeUrl/profile")
+                .get()
+                .build()
+
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) {
+                android.util.Log.w("ProjectRepositoryImpl", "Bridge /profile returned ${response.code}")
+                return null
+            }
+
+            val jsonStr = response.body?.string()
+            if (jsonStr == null) {
+                android.util.Log.w("ProjectRepositoryImpl", "Bridge /profile returned empty body")
+                return null
+            }
+
+            try {
+                val element = json.parseToJsonElement(jsonStr).jsonObject
+                val name = element["name"]?.jsonPrimitive?.content ?: return null
+                val email = element["email"]?.jsonPrimitive?.content ?: return null
+                UserProfile(
+                    name = name,
+                    email = email,
+                    photoUrl = element["photo_url"]?.jsonPrimitive?.content,
+                    role = element["role"]?.jsonPrimitive?.content ?: "",
+                    organization = element["company"]?.jsonPrimitive?.content ?: "",
+                    activeProjects = element["active_projects"]?.jsonPrimitive?.int ?: 0,
+                    stats = UserStats(
+                        sprintsManaged = 0,
+                        pbisCompleted = 0,
+                        hoursLogged = 0f
+                    )
+                )
+            } catch (e: Exception) {
+                android.util.Log.e("ProjectRepositoryImpl", "Error parsing user profile JSON", e)
+                null
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("ProjectRepositoryImpl", "Error fetching user profile", e)
+            null
+        }
     }
 
     /**
@@ -731,4 +762,257 @@ class ProjectRepositoryImpl @Inject constructor(
         val type: String,
         val text: String? = null
     )
+
+    /**
+     * Get git global configuration from Bridge.
+     */
+    override suspend fun getGitConfig(): GitConfig? {
+        return try {
+            val bridgeUrl = "http://localhost:8922"
+            val request = Request.Builder()
+                .url("$bridgeUrl/git-config")
+                .get()
+                .build()
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return null
+            val jsonStr = response.body?.string() ?: return null
+            val element = json.parseToJsonElement(jsonStr).jsonObject
+            GitConfig(
+                name = element["name"]?.jsonPrimitive?.content ?: "",
+                email = element["email"]?.jsonPrimitive?.content ?: "",
+                credentialHelper = element["credential_helper"]?.jsonPrimitive?.content ?: "",
+                patConfigured = element["pat_configured"]?.jsonPrimitive?.boolean ?: false,
+                remoteUrl = element["remote_url"]?.jsonPrimitive?.content ?: ""
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /**
+     * Update git global configuration via Bridge.
+     */
+    override suspend fun updateGitConfig(config: GitConfig): Boolean {
+        return try {
+            val bridgeUrl = "http://localhost:8922"
+            val token = securityRepository.getBridgeToken() ?: return false
+            val bodyJson = buildJsonObject {
+                if (config.name.isNotEmpty()) put("name", config.name)
+                if (config.email.isNotEmpty()) put("email", config.email)
+                if (config.credentialHelper.isNotEmpty()) put("credential_helper", config.credentialHelper)
+                if (config.remoteUrl.isNotEmpty()) put("remote_url", config.remoteUrl)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = Request.Builder()
+                .url("$bridgeUrl/git-config")
+                .put(body)
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Get team members from Bridge.
+     */
+    override suspend fun getTeamMembers(): List<TeamMember> {
+        return try {
+            val bridgeUrl = "http://localhost:8922"
+            val request = Request.Builder()
+                .url("$bridgeUrl/team")
+                .get()
+                .build()
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return emptyList()
+            val jsonStr = response.body?.string() ?: return emptyList()
+            val root = json.parseToJsonElement(jsonStr).jsonObject
+            val membersArray = root["members"]?.jsonArray ?: return emptyList()
+            val members = mutableListOf<TeamMember>()
+            membersArray.forEach { memberEl ->
+                if (memberEl is JsonObject) {
+                    memberEl["slug"]?.jsonPrimitive?.content?.let { slug ->
+                        members.add(
+                            TeamMember(
+                                slug = slug,
+                                name = memberEl["name"]?.jsonPrimitive?.content ?: "",
+                                role = memberEl["role"]?.jsonPrimitive?.content ?: "",
+                                email = memberEl["email"]?.jsonPrimitive?.content ?: "",
+                                hasWorkflow = memberEl["has_workflow"]?.jsonPrimitive?.boolean ?: false,
+                                hasTools = memberEl["has_tools"]?.jsonPrimitive?.boolean ?: false,
+                                hasProjects = memberEl["has_projects"]?.jsonPrimitive?.boolean ?: false
+                            )
+                        )
+                    }
+                }
+            }
+            members
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    /**
+     * Add a new team member via Bridge.
+     */
+    override suspend fun addTeamMember(slug: String, identity: Map<String, String>): Boolean {
+        return try {
+            val bridgeUrl = "http://localhost:8922"
+            val token = securityRepository.getBridgeToken() ?: return false
+            val identityObj = buildJsonObject {
+                for ((key, value) in identity) {
+                    put(key, value)
+                }
+            }
+            val bodyJson = buildJsonObject {
+                put("action", "add")
+                put("slug", slug)
+                put("identity", identityObj)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = Request.Builder()
+                .url("$bridgeUrl/team")
+                .put(body)
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Update an existing team member via Bridge.
+     */
+    override suspend fun updateTeamMember(slug: String, identity: Map<String, String>): Boolean {
+        return try {
+            val bridgeUrl = "http://localhost:8922"
+            val token = securityRepository.getBridgeToken() ?: return false
+            val identityObj = buildJsonObject {
+                for ((key, value) in identity) {
+                    put(key, value)
+                }
+            }
+            val bodyJson = buildJsonObject {
+                put("action", "update")
+                put("slug", slug)
+                put("identity", identityObj)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = Request.Builder()
+                .url("$bridgeUrl/team")
+                .put(body)
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Remove a team member via Bridge.
+     */
+    override suspend fun removeTeamMember(slug: String): Boolean {
+        return try {
+            val bridgeUrl = "http://localhost:8922"
+            val token = securityRepository.getBridgeToken() ?: return false
+            val bodyJson = buildJsonObject {
+                put("action", "remove")
+                put("slug", slug)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = Request.Builder()
+                .url("$bridgeUrl/team")
+                .put(body)
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Get company profile from Bridge.
+     */
+    override suspend fun getCompanyProfile(): CompanyProfile? {
+        return try {
+            val bridgeUrl = "http://localhost:8922"
+            val request = Request.Builder()
+                .url("$bridgeUrl/company")
+                .get()
+                .build()
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return null
+            val jsonStr = response.body?.string() ?: return null
+            val element = json.parseToJsonElement(jsonStr).jsonObject
+            CompanyProfile(
+                status = element["status"]?.jsonPrimitive?.content ?: "not_configured",
+                identity = parseCompanySection(element["identity"]),
+                structure = parseCompanySection(element["structure"]),
+                strategy = parseCompanySection(element["strategy"]),
+                policies = parseCompanySection(element["policies"]),
+                technology = parseCompanySection(element["technology"]),
+                vertical = parseCompanySection(element["vertical"])
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /**
+     * Update a company profile section via Bridge.
+     */
+    override suspend fun updateCompanySection(section: String, fields: Map<String, String>, content: String): Boolean {
+        return try {
+            val bridgeUrl = "http://localhost:8922"
+            val token = securityRepository.getBridgeToken() ?: return false
+            val fieldsObj = buildJsonObject {
+                for ((key, value) in fields) {
+                    put(key, value)
+                }
+            }
+            val bodyJson = buildJsonObject {
+                put("section", section)
+                put("fields", fieldsObj)
+                if (content.isNotEmpty()) put("content", content)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = Request.Builder()
+                .url("$bridgeUrl/company")
+                .put(body)
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Helper to parse CompanySection from JSON element.
+     */
+    private fun parseCompanySection(element: JsonElement?): CompanySection? {
+        return if (element is JsonObject) {
+            val fields = mutableMapOf<String, String>()
+            var content = ""
+            element.forEach { (key, value) ->
+                if (key == "content" && value is JsonPrimitive) {
+                    content = value.content
+                } else if (value is JsonPrimitive) {
+                    fields[key] = value.content
+                }
+            }
+            CompanySection(fields = fields, content = content)
+        } else {
+            null
+        }
+    }
 }

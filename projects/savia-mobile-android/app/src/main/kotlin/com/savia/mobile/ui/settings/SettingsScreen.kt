@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Person
@@ -20,6 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -35,6 +39,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.savia.mobile.R
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 
 /**
  * Settings screen for app configuration and status display.
@@ -61,10 +71,16 @@ import com.savia.mobile.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = hiltViewModel(),
+    onNavigateToGitConfig: () -> Unit = {},
+    onNavigateToTeam: () -> Unit = {},
+    onNavigateToCompany: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var showDisconnectDialog by remember { mutableStateOf(false) }
+    var showThemeDialog by remember { mutableStateOf(false) }
+    var showLanguageDialog by remember { mutableStateOf(false) }
+    var showAboutDialog by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
@@ -124,31 +140,59 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             // User profile
-            SettingsItem(
+            ClickableSettingsItem(
                 icon = { Icon(Icons.Default.Person, contentDescription = null) },
-                title = stringResource(R.string.settings_profile),
-                subtitle = stringResource(R.string.settings_profile_desc)
+                title = uiState.userName.ifEmpty { "Load Profile" },
+                subtitle = uiState.userEmail.ifEmpty { stringResource(R.string.settings_profile_desc) },
+                onClick = {}
             )
 
-            // Theme
-            SettingsItem(
+            // Git configuration
+            ClickableSettingsItem(
+                icon = { Icon(Icons.Default.Code, contentDescription = null) },
+                title = "Git Configuration",
+                subtitle = "Name, email, PAT, repository",
+                onClick = onNavigateToGitConfig
+            )
+
+            // Team management
+            ClickableSettingsItem(
+                icon = { Icon(Icons.Default.Group, contentDescription = null) },
+                title = "Team",
+                subtitle = "Manage team members and roles",
+                onClick = onNavigateToTeam
+            )
+
+            // Company profile
+            ClickableSettingsItem(
+                icon = { Icon(Icons.Default.Business, contentDescription = null) },
+                title = "Company",
+                subtitle = "Company identity, strategy, policies",
+                onClick = onNavigateToCompany
+            )
+
+            // Theme selector
+            ClickableSettingsItem(
                 icon = { Icon(Icons.Default.DarkMode, contentDescription = null) },
                 title = stringResource(R.string.settings_theme),
-                subtitle = stringResource(R.string.settings_theme_desc)
+                subtitle = uiState.currentTheme.toString(),
+                onClick = { showThemeDialog = true }
             )
 
-            // Language
-            SettingsItem(
+            // Language selector
+            ClickableSettingsItem(
                 icon = { Icon(Icons.Default.Language, contentDescription = null) },
                 title = stringResource(R.string.settings_language),
-                subtitle = stringResource(R.string.settings_language_desc)
+                subtitle = uiState.currentLanguage.toString(),
+                onClick = { showLanguageDialog = true }
             )
 
             // About
-            SettingsItem(
+            ClickableSettingsItem(
                 icon = { Icon(Icons.Default.Info, contentDescription = null) },
                 title = stringResource(R.string.settings_about),
-                subtitle = stringResource(R.string.settings_about_desc)
+                subtitle = "v${uiState.appVersion}",
+                onClick = { showAboutDialog = true }
             )
         }
     }
@@ -174,15 +218,117 @@ fun SettingsScreen(
             }
         )
     }
+
+    // Theme selection dialog
+    if (showThemeDialog) {
+        AlertDialog(
+            onDismissRequest = { showThemeDialog = false },
+            title = { Text("Select Theme") },
+            text = {
+                Column {
+                    AppTheme.values().forEach { theme ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = uiState.currentTheme == theme,
+                                onClick = {
+                                    viewModel.changeTheme(theme)
+                                    showThemeDialog = false
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(theme.toString())
+                        }
+                    }
+                }
+            },
+            confirmButton = {},
+            dismissButton = {
+                TextButton(onClick = { showThemeDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+    // Language selection dialog
+    if (showLanguageDialog) {
+        AlertDialog(
+            onDismissRequest = { showLanguageDialog = false },
+            title = { Text("Select Language") },
+            text = {
+                Column {
+                    AppLanguage.values().forEach { lang ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = uiState.currentLanguage == lang,
+                                onClick = {
+                                    viewModel.changeLanguage(lang)
+                                    showLanguageDialog = false
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(lang.toString())
+                        }
+                    }
+                }
+            },
+            confirmButton = {},
+            dismissButton = {
+                TextButton(onClick = { showLanguageDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+    // About dialog
+    if (showAboutDialog) {
+        AlertDialog(
+            onDismissRequest = { showAboutDialog = false },
+            title = { Text("About") },
+            text = {
+                Column {
+                    Text("App Version: ${uiState.appVersion}")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Bridge Version: ${uiState.bridgeVersion.ifEmpty { "Unknown" }}")
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showAboutDialog = false }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+}
+
+enum class AppTheme {
+    SYSTEM, LIGHT, DARK
+}
+
+enum class AppLanguage {
+    SYSTEM, ES, EN
 }
 
 @Composable
-private fun SettingsItem(
+private fun ClickableSettingsItem(
     icon: @Composable () -> Unit,
     title: String,
-    subtitle: String
+    subtitle: String,
+    onClick: () -> Unit
 ) {
     ListItem(
+        modifier = Modifier.clickable(onClick = onClick),
         headlineContent = { Text(title, style = MaterialTheme.typography.titleMedium) },
         supportingContent = {
             Text(subtitle, style = MaterialTheme.typography.bodyMedium,
