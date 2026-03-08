@@ -5,6 +5,87 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.66.0] — 2026-03-08
+
+### Added — Era 95: Rules Topology & Consolidation
+
+Rules dependency analysis and workspace governance tooling.
+
+- **Rules topology analyzer** (`scripts/rules-topology.sh`) — cross-reference map, orphan detection, duplicate detection with --summary, --json, --graph modes
+- **105 domain rules** analyzed, 25 orphans identified (23%), 0 duplicates
+- **CI integration** — --ci mode with 20% orphan threshold gate
+
+## [2.65.0] — 2026-03-08
+
+### Added — Era 94: CI Pipeline Complete
+
+Extended CI validation covering all workspace components.
+
+- **CI extended checks** (`scripts/ci-extended-checks.sh`) — 5 validation categories: skills frontmatter, rule dependencies, hook safety flags, agent file size, docs link validation
+- **Added to CI workflow** — runs automatically on PR and push to main
+- **All 5 checks passing** — 67 skills, 105 rules, 17 hooks, 33 agents, 44 docs validated
+
+## [2.64.0] — 2026-03-08
+
+### Added — Era 93: Agent Accountability
+
+Agent activity tracking and accountability dashboard.
+
+- **Agent activity dashboard** (`scripts/agent-activity.sh`) — reads JSONL traces from agent-trace-log hook, modes: --summary, --json, --recent N
+- **6 BATS tests** for agent activity dashboard (`tests/structure/test-agent-activity.bats`)
+- **22 test suites, 199 tests** — all passing
+
+## [2.63.0] — 2026-03-08
+
+### Added — Era 92: MCP Server Specification
+
+Model Context Protocol server specification for pm-workspace.
+
+- **MCP server spec** (`mcp/pm-workspace-server.json`) — 8 tools (sprint-status, pbi-decompose, security-scan, coverage-report, workspace-health, component-index, risk-score, capacity-check), 3 resources, 2 prompts
+- **Follows MCP 1.0** specification standard
+
+## [2.62.0] — 2026-03-08
+
+### Added — Era 91: Alpha Skills Maturation
+
+Systematic upgrade of alpha-maturity skills to beta.
+
+- **13 skills upgraded** alpha → beta (banking-architecture, context-optimized-dev, evaluations-framework, google-sheets-tracker, headroom-optimization, non-engineer-templates, postmortem-training, resource-references, sdlc-state-machine, semantic-memory, session-recording, skills-marketplace, visual-quality)
+- **Distribution**: 51 stable, 15 beta, 1 alpha
+
+## [2.61.0] — 2026-03-08
+
+### Added — Era 90: Technical Documentation
+
+Comprehensive technical documentation for workspace internals.
+
+- **HOOKS.md** — all 17 hooks documented with exit codes, types, test coverage
+- **AGENTS.md** — all 33 agents with decision tree and category grouping
+- **ARCHITECTURE.md** — component hierarchy, data flow, directory structure
+- **TROUBLESHOOTING.md** — common issues, debugging commands, hook inspection
+
+## [2.60.0] — 2026-03-08
+
+### Added — Era 89: Hook Coverage 100%
+
+Complete test coverage for all 17 hooks.
+
+- **11 new BATS test suites** — 69 new tests covering all previously untested hooks
+- **Fixed hook safety flags** — `set -uo pipefail` (not `-euo`) for all hooks
+- **Fixed pipefail edge cases** — `|| true` guards for grep pipelines on empty input
+- **21 suites, 193 tests** — 100% hook coverage
+
+## [2.59.0] — 2026-03-08
+
+### Added — Era 88: Script Hardening
+
+Security hardening across all hooks and test scripts.
+
+- **`set -uo pipefail`** added to 14 hooks that were missing safety flags
+- **Replaced `eval`** with `bash -c` in 44 test scripts
+- **Fixed hardcoded paths** — `/home/monica/savia` → `$ROOT` in 5 scripts
+- **5 BATS tests** for script safety validation
+
 ## [2.58.0] — 2026-03-07
 
 ### Added — Era 87: Strategic Vision & Health Dashboard
@@ -2985,6 +3066,14 @@ Initial public release of PM-Workspace.
 
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
 
+[2.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.65.0...v2.66.0
+[2.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.64.0...v2.65.0
+[2.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.63.0...v2.64.0
+[2.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.62.0...v2.63.0
+[2.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.61.0...v2.62.0
+[2.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.60.0...v2.61.0
+[2.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.59.0...v2.60.0
+[2.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.58.0...v2.59.0
 [2.58.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.57.0...v2.58.0
 [2.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.56.0...v2.57.0
 [2.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.55.0...v2.56.0

@@ -1,0 +1,139 @@
+{
+  "name": "pm-workspace",
+  "version": "2.58.0",
+  "description": "PM Intelligence Platform — 454 commands, 67 skills, 33 agents for project management",
+  "protocol": "mcp",
+  "capabilities": {
+    "tools": true,
+    "resources": true,
+    "prompts": true
+  },
+  "tools": [
+    {
+      "name": "sprint-status",
+      "description": "Get current sprint status with progress metrics, blockers, and velocity",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": { "type": "string", "description": "Project name or ID" },
+          "format": { "type": "string", "enum": ["summary", "detailed", "json"], "default": "summary" }
+        }
+      }
+    },
+    {
+      "name": "pbi-decompose",
+      "description": "Decompose a user story/PBI into tasks with effort estimates",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "description": "PBI/user story title" },
+          "description": { "type": "string", "description": "Detailed description" },
+          "acceptance_criteria": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["title"]
+      }
+    },
+    {
+      "name": "security-scan",
+      "description": "Run security audit on workspace for credentials, vulnerabilities, and .gitignore gaps",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "mode": { "type": "string", "enum": ["summary", "verbose", "ci"], "default": "summary" }
+        }
+      }
+    },
+    {
+      "name": "coverage-report",
+      "description": "Generate test coverage report across hooks, commands, skills, and tests",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "format": { "type": "string", "enum": ["summary", "json", "markdown", "ci"], "default": "summary" }
+        }
+      }
+    },
+    {
+      "name": "workspace-health",
+      "description": "Get comprehensive health dashboard with 6-dimension scoring",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "format": { "type": "string", "enum": ["summary", "json", "ci"], "default": "summary" }
+        }
+      }
+    },
+    {
+      "name": "component-index",
+      "description": "List all workspace components (commands, skills, agents, hooks, rules)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "format": { "type": "string", "enum": ["summary", "json", "markdown"], "default": "summary" }
+        }
+      }
+    },
+    {
+      "name": "risk-score",
+      "description": "Calculate risk score for a task and route to appropriate review level",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "task": { "type": "string", "description": "Task description" },
+          "complexity": { "type": "string", "enum": ["low", "medium", "high"] },
+          "has_tests": { "type": "boolean", "default": false }
+        },
+        "required": ["task"]
+      }
+    },
+    {
+      "name": "capacity-check",
+      "description": "Check team capacity for current sprint",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "team": { "type": "string", "description": "Team name" },
+          "sprint": { "type": "string", "description": "Sprint name or ID" }
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "pm://workspace/health",
+      "name": "Workspace Health",
+      "description": "Current workspace health score and dimension breakdown",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "pm://workspace/changelog",
+      "name": "Changelog",
+      "description": "Version history with Era references",
+      "mimeType": "text/markdown"
+    },
+    {
+      "uri": "pm://workspace/roadmap",
+      "name": "Roadmap",
+      "description": "Strategic roadmap with past and future eras",
+      "mimeType": "text/markdown"
+    }
+  ],
+  "prompts": [
+    {
+      "name": "standup-generate",
+      "description": "Generate daily standup summary from recent activity",
+      "arguments": [
+        { "name": "team", "description": "Team name", "required": false },
+        { "name": "period", "description": "Time period (today, yesterday, this-week)", "required": false }
+      ]
+    },
+    {
+      "name": "executive-report",
+      "description": "Generate executive summary for stakeholders",
+      "arguments": [
+        { "name": "project", "description": "Project name", "required": true },
+        { "name": "audience", "description": "Target audience (C-level, VP, PM)", "required": false }
+      ]
+    }
+  ]
+}
