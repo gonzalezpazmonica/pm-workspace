@@ -16,7 +16,7 @@ info()  { echo -e "${BLUE}🔍${NC} $*"; }
 ok()    { echo -e "${GREEN}✅${NC} $*"; }
 warn()  { echo -e "${YELLOW}⚠️${NC}  $*"; }
 fail()  { echo -e "${RED}❌${NC} $*"; }
-step()  { echo -e "\n${BOLD}[$1/6]${NC} $2"; }
+step()  { echo -e "\n${BOLD}[$1/7]${NC} $2"; }
 
 # --- Help -----------------------------------------------------------------------
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
@@ -209,8 +209,136 @@ else
   warn "No package.json found in scripts/ — skipping npm install"
 fi
 
-# --- Step 6: Smoke test --------------------------------------------------------
-step 6 "Running smoke test..."
+# --- Step 6: Savia Bridge Setup -----------------------------------------------
+step 6 "Setting up Savia Bridge..."
+
+# Check if Python3 is available (already detected in step 2)
+if command -v python3 &>/dev/null; then
+  PYTHON_CMD="python3"
+elif command -v python &>/dev/null; then
+  PYTHON_CMD="python"
+else
+  warn "Python3 not found — Bridge setup requires Python3"
+  PYTHON_CMD=""
+fi
+
+if [[ -n "$PYTHON_CMD" ]]; then
+  # Create bridge directories
+  mkdir -p ~/.savia/scripts
+  mkdir -p ~/.savia/bridge
+  mkdir -p ~/.savia/bridge/apk
+
+  # Copy savia-bridge.py script
+  if [[ -f "$SAVIA_HOME/scripts/savia-bridge.py" ]]; then
+    cp "$SAVIA_HOME/scripts/savia-bridge.py" ~/.savia/scripts/
+    chmod +x ~/.savia/scripts/savia-bridge.py
+    ok "Bridge script copied"
+  else
+    warn "savia-bridge.py not found in $SAVIA_HOME/scripts/ — skipping"
+  fi
+
+  # Generate random auth token
+  if command -v openssl &>/dev/null; then
+    AUTH_TOKEN=$(openssl rand -hex 32)
+  else
+    AUTH_TOKEN=$(python3 -c "import secrets; print(secrets.token_hex(32))")
+  fi
+
+  # Create config file
+  cat > ~/.savia/bridge/config.json <<EOF
+{
+  "host": "0.0.0.0",
+  "port": 8922,
+  "token": "$AUTH_TOKEN"
+}
+EOF
+  ok "Bridge config created at ~/.savia/bridge/config.json"
+
+  # Linux: Setup systemd service
+  if [[ "$DISTRO" != "macos" ]]; then
+    mkdir -p ~/.config/systemd/user
+
+    # Copy or create systemd service file
+    if [[ -f "$SAVIA_HOME/scripts/savia-bridge.service" ]]; then
+      cp "$SAVIA_HOME/scripts/savia-bridge.service" ~/.config/systemd/user/
+    else
+      # Create basic service file
+      cat > ~/.config/systemd/user/savia-bridge.service <<SVCEOF
+[Unit]
+Description=Savia Bridge Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=$HOME/.savia/scripts/savia-bridge.py
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
+SVCEOF
+    fi
+
+    # Enable and start service
+    systemctl --user daemon-reload
+    systemctl --user enable savia-bridge.service
+    systemctl --user start savia-bridge.service 2>/dev/null && ok "Bridge service enabled and started" || warn "Bridge service may require manual start"
+  fi
+
+  # macOS: Setup launchd
+  if [[ "$DISTRO" == "macos" ]]; then
+    mkdir -p ~/Library/LaunchAgents
+
+    cat > ~/Library/LaunchAgents/com.savia.bridge.plist <<PLISTEOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.savia.bridge</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>$HOME/.savia/scripts/savia-bridge.py</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>$HOME/.savia/bridge/savia-bridge.log</string>
+  <key>StandardErrorPath</key>
+  <string>$HOME/.savia/bridge/savia-bridge.log</string>
+</dict>
+</plist>
+PLISTEOF
+
+    launchctl load ~/Library/LaunchAgents/com.savia.bridge.plist 2>/dev/null && ok "Bridge launchd agent loaded" || warn "Bridge launchd agent may require manual load"
+  fi
+
+  # Verify bridge is running (allow self-signed cert)
+  if curl -sk https://localhost:8922/health &>/dev/null; then
+    ok "Bridge is running and responding"
+  else
+    warn "Bridge health check failed — may need manual verification"
+  fi
+
+  # Display auth token for user
+  echo ""
+  echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+  echo -e "${YELLOW}🔐 Bridge Auth Token${NC}"
+  echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+  echo ""
+  echo "Copy this token to configure the mobile app:"
+  echo -e "${BOLD}$AUTH_TOKEN${NC}"
+  echo ""
+  echo "Token saved in: ~/.savia/bridge/config.json"
+  echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+else
+  warn "Bridge setup skipped (Python3 required)"
+fi
+
+# --- Step 7: Smoke test --------------------------------------------------------
+step 7 "Running smoke test..."
 
 if [[ "${SKIP_TESTS:-0}" == "1" || "${1:-}" == "--skip-tests" ]]; then
   warn "Skipping tests (--skip-tests)"
@@ -239,6 +367,11 @@ echo "    cd $SAVIA_HOME && claude"
 echo ""
 echo "  First time? Claude will open your browser to authenticate."
 echo "  Then say: \"Hola Savia\" or run any command like /sprint:status"
+echo ""
+echo "  Mobile app setup:"
+echo "    1. Install Savia mobile app from App Store/Play Store"
+echo "    2. Configure Bridge endpoint: https://localhost:8922"
+echo "    3. Enter the auth token from ~/.savia/bridge/config.json"
 echo ""
 echo "  Docs: https://github.com/gonzalezpazmonica/pm-workspace#readme"
 echo "  Guide: $SAVIA_HOME/docs/ADOPTION_GUIDE.md"

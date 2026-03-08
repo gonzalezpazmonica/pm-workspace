@@ -13,7 +13,7 @@ function Write-Info  { param($msg) Write-Host "  $msg" -ForegroundColor Cyan }
 function Write-Ok    { param($msg) Write-Host "  $msg" -ForegroundColor Green }
 function Write-Warn  { param($msg) Write-Host "  $msg" -ForegroundColor Yellow }
 function Write-Fail  { param($msg) Write-Host "  $msg" -ForegroundColor Red }
-function Write-Step  { param($num, $msg) Write-Host "`n[$num/6] $msg" -ForegroundColor White }
+function Write-Step  { param($num, $msg) Write-Host "`n[$num/7] $msg" -ForegroundColor White }
 
 # --- Help ----------------------------------------------------------------------
 if ($args -contains "--help" -or $args -contains "-h") {
@@ -206,8 +206,105 @@ if (Test-Path $pkgJson) {
     Write-Warn "No package.json found in scripts\ - skipping npm install"
 }
 
-# --- Step 6: Smoke test --------------------------------------------------------
-Write-Step 6 "Running smoke test..."
+# --- Step 6: Savia Bridge Setup -----------------------------------------------
+Write-Step 6 "Setting up Savia Bridge..."
+
+# Check if Python is available
+$PyCmd = Get-Command python3 -ErrorAction SilentlyContinue
+if (-not $PyCmd) { $PyCmd = Get-Command python -ErrorAction SilentlyContinue }
+
+if ($PyCmd) {
+    $PythonPath = $PyCmd.Source
+
+    # Create bridge directories
+    $BridgeScriptDir = Join-Path $env:USERPROFILE ".savia\scripts"
+    $BridgeDir = Join-Path $env:USERPROFILE ".savia\bridge"
+    $BridgeApkDir = Join-Path $BridgeDir "apk"
+
+    New-Item -ItemType Directory -Force -Path $BridgeScriptDir | Out-Null
+    New-Item -ItemType Directory -Force -Path $BridgeDir | Out-Null
+    New-Item -ItemType Directory -Force -Path $BridgeApkDir | Out-Null
+    Write-Ok "Bridge directories created"
+
+    # Copy savia-bridge.py script
+    $SourceScript = Join-Path $SaviaHome "scripts\savia-bridge.py"
+    if (Test-Path $SourceScript) {
+        Copy-Item $SourceScript (Join-Path $BridgeScriptDir "savia-bridge.py") -Force
+        Write-Ok "Bridge script copied"
+    } else {
+        Write-Warn "savia-bridge.py not found in scripts\ — skipping"
+    }
+
+    # Generate random auth token using Python
+    try {
+        $AuthToken = & $PythonPath -c "import secrets; print(secrets.token_hex(32))" 2>$null
+    } catch {
+        Write-Warn "Failed to generate token with Python — using random GUID"
+        $AuthToken = [guid]::NewGuid().ToString() -replace "-",""
+    }
+
+    # Create config file
+    $ConfigPath = Join-Path $BridgeDir "config.json"
+    $ConfigContent = @"
+{
+  "host": "0.0.0.0",
+  "port": 8922,
+  "token": "$AuthToken"
+}
+"@
+    Set-Content -Path $ConfigPath -Value $ConfigContent
+    Write-Ok "Bridge config created at $ConfigPath"
+
+    # Windows: Create scheduled task or batch file for auto-start
+    $BridgeStartDir = Join-Path $env:APPDATA "Savia\startup"
+    New-Item -ItemType Directory -Force -Path $BridgeStartDir | Out-Null
+
+    # Create batch file to run bridge on startup
+    $BatchPath = Join-Path $BridgeStartDir "start-bridge.bat"
+    $BatchContent = @"
+@echo off
+pushd "%USERPROFILE%\.savia\scripts"
+python savia-bridge.py
+popd
+"@
+    Set-Content -Path $BatchPath -Value $BatchContent -Encoding ASCII
+    Write-Ok "Bridge startup script created at $BatchPath"
+
+    # Add to Windows Startup folder (user startup)
+    $StartupFolder = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
+    if (Test-Path $StartupFolder) {
+        # Create shortcut to batch file
+        $WshShell = New-Object -ComObject WScript.Shell
+        $Shortcut = $WshShell.CreateShortcut((Join-Path $StartupFolder "Savia Bridge.lnk"))
+        $Shortcut.TargetPath = $BatchPath
+        $Shortcut.WorkingDirectory = (Join-Path $env:USERPROFILE ".savia\scripts")
+        $Shortcut.Save()
+        Write-Ok "Bridge added to Windows Startup"
+    }
+
+    # Display setup information
+    Write-Host ""
+    Write-Host "══════════════════════════════════════════════════════════════" -ForegroundColor Yellow
+    Write-Host "  Bridge Auth Token" -ForegroundColor Yellow
+    Write-Host "══════════════════════════════════════════════════════════════" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "Copy this token to configure the mobile app:" -ForegroundColor White
+    Write-Host "$AuthToken" -ForegroundColor Cyan -BackgroundColor Black
+    Write-Host ""
+    Write-Host "Token saved in: $ConfigPath" -ForegroundColor White
+    Write-Host ""
+    Write-Host "Startup:" -ForegroundColor White
+    Write-Host "  • Batch file: $BatchPath" -ForegroundColor White
+    Write-Host "  • Startup folder: Added (will auto-run on next login)" -ForegroundColor White
+    Write-Host "  • To start manually: run $BatchPath" -ForegroundColor White
+    Write-Host ""
+    Write-Host "══════════════════════════════════════════════════════════════" -ForegroundColor Yellow
+} else {
+    Write-Warn "Python not found — Bridge setup skipped"
+}
+
+# --- Step 7: Smoke test --------------------------------------------------------
+Write-Step 7 "Running smoke test..."
 
 if ($SkipTests) {
     Write-Warn "Skipping tests (--skip-tests)"
@@ -243,6 +340,11 @@ Write-Host "    claude" -ForegroundColor White
 Write-Host ""
 Write-Host "  First time? Claude will open your browser to authenticate."
 Write-Host "  Then say: `"Hola Savia`" or run any command like /sprint:status"
+Write-Host ""
+Write-Host "  Mobile app setup:"
+Write-Host "    1. Install Savia mobile app from App Store/Play Store"
+Write-Host "    2. Configure Bridge endpoint: https://localhost:8922"
+Write-Host "    3. Enter the auth token from $env:USERPROFILE\.savia\bridge\config.json"
 Write-Host ""
 Write-Host "  Docs: https://github.com/gonzalezpazmonica/pm-workspace#readme"
 Write-Host "  Guide: $SaviaHome\docs\ADOPTION_GUIDE.md"
