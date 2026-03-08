@@ -7,6 +7,49 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+// --- Auto-version: read from version.properties ---
+import java.util.Properties
+
+val versionFile = rootProject.file("version.properties")
+fun loadVersionProps(): Properties {
+    val props = Properties()
+    if (versionFile.exists()) {
+        versionFile.inputStream().use { props.load(it) }
+    } else {
+        props.setProperty("VERSION_CODE", "1")
+        props.setProperty("VERSION_MAJOR", "0")
+        props.setProperty("VERSION_MINOR", "1")
+        props.setProperty("VERSION_PATCH", "0")
+        versionFile.outputStream().use { props.store(it, "Savia Mobile version (auto-managed)") }
+    }
+    return props
+}
+val versionProps = loadVersionProps()
+val appVersionCode = versionProps.getProperty("VERSION_CODE").toInt()
+val appVersionName = "${versionProps.getProperty("VERSION_MAJOR")}.${versionProps.getProperty("VERSION_MINOR")}.${versionProps.getProperty("VERSION_PATCH")}"
+
+// Task: increment versionCode + patch for debug builds
+tasks.register("incrementVersion") {
+    val file = rootProject.file("version.properties")
+    doLast {
+        val props = Properties()
+        file.inputStream().use { props.load(it) }
+        val newCode = props.getProperty("VERSION_CODE").toInt() + 1
+        val newPatch = props.getProperty("VERSION_PATCH").toInt() + 1
+        props.setProperty("VERSION_CODE", newCode.toString())
+        props.setProperty("VERSION_PATCH", newPatch.toString())
+        file.outputStream().use { props.store(it, "Savia Mobile version (auto-managed)") }
+        logger.lifecycle("Version incremented: versionCode=$newCode, patch=$newPatch")
+    }
+}
+
+// Only assembleDebug auto-increments
+tasks.whenTaskAdded {
+    if (name == "assembleDebug") {
+        dependsOn("incrementVersion")
+    }
+}
+
 android {
     namespace = "com.savia.mobile"
     compileSdk = 35
@@ -15,8 +58,8 @@ android {
         applicationId = "com.savia.mobile"
         minSdk = 26
         targetSdk = 35
-        versionCode = 2
-        versionName = "0.2.0"
+        versionCode = appVersionCode
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
