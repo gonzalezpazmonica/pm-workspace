@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Savia App — Descargar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #f5f0ff 0%, #ede7f6 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .card {
+    background: white;
+    border-radius: 24px;
+    padding: 40px 32px 32px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(107, 76, 154, 0.15);
+  }
+  .logo { width: 100px; height: 100px; margin-bottom: 20px; border-radius: 22px; }
+  h1 { color: #6B4C9A; font-size: 26px; margin-bottom: 6px; font-weight: 700; }
+  .subtitle { color: #555; font-size: 14px; margin-bottom: 28px; line-height: 1.6; }
+  .btn {
+    display: inline-block;
+    background: #6B4C9A;
+    color: white;
+    text-decoration: none;
+    padding: 14px 44px;
+    border-radius: 14px;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 16px rgba(107, 76, 154, 0.3);
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(107, 76, 154, 0.4); }
+  .btn:active { transform: translateY(0); }
+  .btn-disabled { background: #bbb; box-shadow: none; cursor: default; pointer-events: none; }
+  .apk-info {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .apk-name { color: #6B4C9A; font-weight: 600; font-size: 13px; }
+  .apk-detail { color: #999; font-size: 12px; }
+  .instructions {
+    color: #888;
+    font-size: 12px;
+    margin-top: 24px;
+    line-height: 1.7;
+    padding-top: 20px;
+    border-top: 1px solid #f0ecf5;
+    text-align: left;
+  }
+  .instructions ol {
+    padding-left: 20px;
+    margin: 0;
+  }
+  .instructions li {
+    margin-bottom: 4px;
+  }
+  .footer {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #f0ecf5;
+    color: #bbb;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .footer span { color: #a58bc4; }
+</style>
+</head>
+<body>
+<div class="card">
+  <img src="{{logo_src}}" class="logo" alt="Savia">
+  <h1>Savia App</h1>
+  <p class="subtitle">Tu asistente inteligente de gestión de proyectos.<br>Descarga e instala la app en tu dispositivo Android.</p>
+  {{download_section}}
+  <div class="instructions">
+    <ol>
+      <li>Pulsa <strong>Descargar Savia App</strong></li>
+      <li>Abre la notificación de descarga completada</li>
+      <li>Permite la instalación desde orígenes desconocidos</li>
+      <li>Abre Savia App y configura la conexión al Bridge</li>
+    </ol>
+  </div>
+  <div class="footer">
+    Savia Bridge <span>v{{bridge_version}}</span>
+  </div>
+</div>
+</body>
+</html>

@@ -318,3 +318,96 @@ RAILS_ENV=production bin/rails s
   }
 }
 ```
+
+---
+
+## Reglas de Análisis Estático
+
+> Equivalente a análisis Brakeman/RuboCop para Ruby. Aplica en code review y pre-commit.
+
+### Vulnerabilities (Blocker)
+
+#### RUBY-SEC-01 — Credenciales hardcodeadas
+**Severidad**: Blocker
+```ruby
+# ❌ Noncompliant
+API_KEY = "sk-1234567890abcdef"
+DB_PASSWORD = "SuperSecret123"
+
+# ✅ Compliant
+API_KEY = ENV.fetch('API_KEY')
+DB_PASSWORD = Rails.application.credentials.database_password
+```
+
+#### RUBY-SEC-02 — eval() con entrada de usuario
+**Severidad**: Blocker
+```ruby
+# ❌ Noncompliant
+code = params[:expression]
+result = eval(code)  # ejecución arbitraria de código
+
+# ✅ Compliant
+result = safe_eval(params[:expression])  # usar gema como Dentaku
+```
+
+### Bugs (Major)
+
+#### RUBY-BUG-01 — N+1 queries en loops
+**Severidad**: Major
+```ruby
+# ❌ Noncompliant
+@orders = Order.all
+@orders.each { |order| order.user.name }  # N queries
+
+# ✅ Compliant
+@orders = Order.includes(:user)  # 1 query
+@orders.each { |order| order.user.name }
+```
+
+#### RUBY-BUG-02 — mass_assignment sin permitting
+**Severidad**: Major
+```ruby
+# ❌ Noncompliant
+@user = User.new(params[:user])  # acepta cualquier parámetro
+
+# ✅ Compliant
+@user = User.new(user_params)
+private def user_params
+  params.require(:user).permit(:name, :email)
+end
+```
+
+### Code Smells (Critical)
+
+#### RUBY-SMELL-01 — Función/método > 50 líneas
+**Severidad**: Critical
+Funciones de más de 50 líneas deben dividirse en funciones más pequeñas con responsabilidad única.
+
+#### RUBY-SMELL-02 — Complejidad ciclomática > 10
+**Severidad**: Critical
+Usar early returns, extraer métodos y simplificar condicionales.
+
+### Arquitectura
+
+#### RUBY-ARCH-01 — Lógica de negocio en controllers
+**Severidad**: Critical
+Código Ruby no debe contener lógica de negocio en controllers. Usar service objects.
+```ruby
+# ❌ Noncompliant - Lógica en controller
+def create
+  user = User.create(user_params)
+  send_welcome_email(user) if user.valid?
+  UserNotifier.notify(user)
+  render json: user
+end
+
+# ✅ Compliant - Usar service
+def create
+  service = UserCreationService.new(user_params)
+  if service.call
+    render json: service.user, status: :created
+  else
+    render json: service.errors, status: :unprocessable_entity
+  end
+end
+```
