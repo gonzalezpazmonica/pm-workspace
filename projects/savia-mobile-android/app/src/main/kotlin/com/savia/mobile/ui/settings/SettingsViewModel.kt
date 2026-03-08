@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import javax.inject.Inject
 import javax.inject.Named
@@ -157,16 +159,22 @@ class SettingsViewModel @Inject constructor(
                 // Save configuration to security repository
                 securityRepository.saveBridgeConfig(host, port, token)
 
-                // Perform health check
-                val url = "https://$host:$port/health"
-                val request = okhttp3.Request.Builder()
-                    .url(url)
-                    .get()
-                    .build()
+                // Perform health check on IO dispatcher (network calls block)
+                val healthResult = withContext(Dispatchers.IO) {
+                    val url = "https://$host:$port/health"
+                    val request = okhttp3.Request.Builder()
+                        .url(url)
+                        .addHeader("Authorization", "Bearer $token")
+                        .get()
+                        .build()
 
-                val response = bridgeClient.newCall(request).execute()
+                    val response = bridgeClient.newCall(request).execute()
+                    response.use { resp ->
+                        if (resp.isSuccessful) null else "Bridge returned status ${resp.code}"
+                    }
+                }
 
-                if (response.isSuccessful) {
+                if (healthResult == null) {
                     // Connection successful
                     _uiState.update {
                         it.copy(
@@ -179,20 +187,24 @@ class SettingsViewModel @Inject constructor(
                     }
                 } else {
                     // Health check failed
-                    val errorMessage = "Bridge returned status ${response.code}"
                     _uiState.update {
                         it.copy(
                             isConnecting = false,
-                            connectionError = errorMessage
+                            connectionError = healthResult
                         )
                     }
                 }
             } catch (e: Exception) {
                 // Network error or connection timeout
+                val errorMsg = when {
+                    e is android.os.NetworkOnMainThreadException -> "Network threading error"
+                    e.message.isNullOrBlank() -> "Connection failed: ${e.javaClass.simpleName}"
+                    else -> e.message!!
+                }
                 _uiState.update {
                     it.copy(
                         isConnecting = false,
-                        connectionError = e.message ?: "Connection failed"
+                        connectionError = errorMsg
                     )
                 }
             }
