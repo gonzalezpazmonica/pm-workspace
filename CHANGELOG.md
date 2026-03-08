@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.67.0] — 2026-03-08
+
+### Added — Savia Mobile: Android App + Bridge Server
+
+Native Android companion app for pm-workspace with Python Bridge server.
+
+- **Savia Mobile Android** — Native Kotlin/Jetpack Compose app with Clean Architecture (`:app`, `:domain`, `:data`). Chat with Claude via SSE streaming, session persistence (Room + Tink AES-256-GCM), Material 3 violet theme, dual-backend (Bridge primary, API fallback). 39 Kotlin files, 157 tests.
+- **Savia Bridge** — Python HTTPS server (port 8922) wrapping Claude Code CLI. SSE streaming, session management, Bearer token auth, auto-TLS. HTTP install server (port 8080) for APK distribution. 1,191 lines, v1.2.0.
+- **Updated installers** — `install.sh` and `install.ps1` now include Step 6: automatic Bridge setup (systemd/launchd/Windows service, token generation, health check).
+- **Documentation** — KDoc on all 39 source files, 8 specs rewritten, 3 new guides (ARCHITECTURE, SETUP, BRIDGE-GUIDE), API reference, CHANGELOG.
+- **Path:** `projects/savia-mobile-android/`, `scripts/savia-bridge.py`, `scripts/savia-bridge.service`
+
 ## [2.66.0] — 2026-03-08
 
 ### Added — Era 95: Rules Topology & Consolidation

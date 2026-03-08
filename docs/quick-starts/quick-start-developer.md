@@ -75,9 +75,16 @@ Tu código empieza en una spec (`/spec-generate`). La spec define el contrato: q
 
 ---
 
+## Desde el móvil
+
+Con Savia Mobile puedes consultar tu sprint, preguntar por specs o revisar decisiones de diseño desde el móvil. Útil en reuniones o cuando estás lejos del terminal. Setup: `projects/savia-mobile-android/docs/BRIDGE-GUIDE.md`
+
+---
+
 ## Siguientes pasos
 
 - [Spec-Driven Development](../readme/05-sdd.md)
 - [Estructura del workspace](../readme/02-estructura.md)
 - [Guía de flujo de datos](../data-flow-guide-es.md)
 - [Comandos completos](../readme/12-comandos-agentes.md)
+- [Savia Mobile](../../projects/savia-mobile-android/README.md)

@@ -79,9 +79,16 @@ Las specs SDD que generas (`/spec-generate`) son el contrato que ejecutan los ag
 
 ---
 
+## Desde el móvil
+
+Con Savia Mobile puedes consultar `/arch-health`, revisar deuda técnica o preguntar por decisiones arquitectónicas desde Android. Ideal para reuniones de diseño o antes de una code review. Setup: `projects/savia-mobile-android/docs/BRIDGE-GUIDE.md`
+
+---
+
 ## Siguientes pasos
 
 - [Spec-Driven Development](../readme/05-sdd.md)
 - [Architecture Intelligence](../readme/12-comandos-agentes.md)
 - [Agent Teams SDD](../agent-teams-sdd.md)
 - [Guía de flujo de datos](../data-flow-guide-es.md)
+- [Savia Mobile](../../projects/savia-mobile-android/README.md)

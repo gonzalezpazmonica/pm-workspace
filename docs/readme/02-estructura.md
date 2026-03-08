@@ -100,12 +100,14 @@
 │   ├── ADOPTION_GUIDE.md / .en.md
 │   └── ...
 │
-├── projects/                    ← Proyectos reales (git-ignorados)
+├── projects/                    ← Proyectos reales (parte git-ignorados)
+│   ├── savia-mobile-android/    ← App Android + Bridge (publicado)
 │   ├── proyecto-alpha/          ← Ejemplo: CLAUDE.md, equipo.md, specs/
-│   ├── proyecto-beta/
 │   └── sala-reservas/           ← Proyecto de test con mock data
 │
 ├── scripts/
+│   ├── savia-bridge.py          ← Servidor HTTPS Bridge para Savia Mobile
+│   ├── savia-bridge.service     ← Servicio systemd del Bridge
 │   ├── azdevops-queries.sh      ← Queries a Azure DevOps REST API
 │   ├── test-workspace.sh        ← Validación de estructura del workspace
 │   └── validate-commands.sh     ← Validación estática de slash commands
