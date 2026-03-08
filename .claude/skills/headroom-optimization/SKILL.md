@@ -1,7 +1,7 @@
 ---
 name: headroom-optimization
 description: headroom-optimization
-maturity: alpha
+maturity: beta
 ---
 
 # headroom-optimization

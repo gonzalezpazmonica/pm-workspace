@@ -1,7 +1,7 @@
 ---
 name: postmortem-training
 description: Postmortem Training Skill
-maturity: alpha
+maturity: beta
 ---
 
 # Postmortem Training Skill

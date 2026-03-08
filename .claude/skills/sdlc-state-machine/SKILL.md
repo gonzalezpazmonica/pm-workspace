@@ -1,7 +1,7 @@
 ---
 name: sdlc-state-machine
 description: sdlc-state-machine
-maturity: alpha
+maturity: beta
 ---
 
 # sdlc-state-machine

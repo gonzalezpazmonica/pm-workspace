@@ -1,7 +1,7 @@
 ---
 name: visual-quality
 description: Visual Quality Analysis Skill
-maturity: alpha
+maturity: beta
 ---
 
 # Visual Quality Analysis Skill
