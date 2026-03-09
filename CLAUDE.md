@@ -111,10 +111,10 @@ Ciclo: Explorar → Planificar → Implementar → Commit. Arquitectura: **Comma
 > Hooks (16): `.claude/settings.json` — Arranque blindado (sin red, sin dependencias externas)
 > Memoria: `@docs/memory-system.md` · Store: `scripts/memory-store.sh` (JSONL, dedup, topic_key, `<private>`) · Agent Notes: `@docs/agent-notes-protocol.md` · Security: `/security-review {spec}` — OWASP pre-implementación
 
----
-
 ## Checklist Nuevo Proyecto
 
 - [ ] `projects/[nombre]/CLAUDE.md` (≤150 líneas) + entrada en `CLAUDE.local.md`
 - [ ] Entornos (DEV/PRE/PRO) + `config.local/` + `.env.example` + cloud/infra si aplica
 - [ ] `scripts/setup-memory.sh [nombre]` + `agent-notes/`, `adrs/` si hay decisiones
+
+> **Savia Mobile**: NEVER `assembleDebug` — use `./gradlew buildAndPublish` (tests→build→publish; fails if tests fail). `JAVA_HOME=/snap/android-studio/209/jbr ANDROID_HOME=/home/monica/Android/Sdk`
