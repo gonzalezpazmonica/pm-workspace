@@ -6,6 +6,46 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/lang/es/).
 
 ---
 
+## [0.3.35] — 2026-03-09
+
+### Security — Hardening completo desde auditoría de seguridad
+
+Remediación de todos los hallazgos de seguridad que afectan a Savia Mobile y Bridge.
+
+### Seguridad
+
+- SQLCipher activado en Room Database con passphrase Tink AES-256-GCM (C2)
+- Logging HTTP condicionado a `BuildConfig.DEBUG` — sin Bearer tokens en logcat producción (C6)
+- Encoding passphrase corregido: `Base64.decode()` en vez de `toByteArray(UTF_8)` (A11)
+- Documentación de cleartext traffic en `network_security_config.xml` (M4)
+
+### Bridge (v1.6.0)
+
+- Input validation regex en PUT /git-config (C3)
+- PAT cifrado con Fernet en vez de Base64 (C4)
+- Auth obligatoria en todos los endpoints sensibles (C5)
+- Path traversal prevention en descarga de APK (A1)
+- SSE connection limit: MAX_CONCURRENT_STREAMS=10 (A2)
+- Rate limiting: 5 intentos fallidos / 60s por IP (A3)
+- Security headers: X-Content-Type-Options, X-Frame-Options, HSTS (A4)
+- CORS restringido a orígenes de red local (A5)
+- Body size limit 1MB en POST (A6)
+- Log sanitization: Bearer tokens enmascarados (A7)
+- Systemd hardening: PrivateTmp, ProtectSystem, NoNewPrivileges (A10)
+- YAML frontmatter injection prevention (M1)
+- Session ID validation UUID/alfanumérico (M2)
+- TLS cipher suite mínima v1.2 (M3)
+
+### Stack técnico actualizado
+
+| Componente | Versión |
+|-----------|---------|
+| Bridge | 1.6.0 |
+| version.properties | CODE=38, PATCH=35 |
+| Tests | 48 unit + integration |
+
+---
+
 ## [0.3.34] — 2026-03-09
 
 ### Segunda release — Full Dashboard + Bridge REST (Sprint 2026-04)
@@ -176,5 +216,6 @@ vía Savia Bridge, un servidor HTTPS/SSE que envuelve Claude Code CLI.
 
 ---
 
+[0.3.35]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.34-savia-mobile...v0.3.35-savia-mobile
 [0.3.34]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0-savia-mobile...v0.3.34-savia-mobile
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/releases/tag/v0.1.0-savia-mobile
