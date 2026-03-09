@@ -54,7 +54,7 @@ Más detalle en la [Guía de flujo de datos](docs/data-flow-guide-es.md).
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 396+ comandos (lo que me puedes pedir)
-│   ├── agents/         ← 31 agentes especializados
+│   ├── agents/         ← 34 agentes especializados
 │   ├── skills/         ← 41 skills con conocimiento de dominio
 │   ├── hooks/          ← 16 hooks que refuerzan reglas automáticamente
 │   └── rules/          ← reglas de contexto, lenguaje, dominio
@@ -94,9 +94,9 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Verticales sectoriales** — Research lab, hardware lab, legal, healthcare, nonprofit, insurance, retail y telco — 32 comandos especializados cubriendo 8 industrias con sus flujos de trabajo nativos.
 
-**Seguridad adversarial e inteligencia adaptativa** — Pipeline Red/Blue/Auditor con score 0-100, threat modeling STRIDE/PASTA. Motor de evaluación de skills con auto-detección de 7 tipos de proyecto y sistema de instintos con scoring de confianza.
+**Seguridad adversarial e inteligencia adaptativa** — Pipeline Red/Blue/Auditor con score 0-100, threat modeling STRIDE/PASTA. Pentesting dinámico con pipeline autónomo de 5 fases (Shannon-inspired), queue-driven, política "no exploit, no report". Lab local con servicios intencionalmente vulnerables. Motor de evaluación de skills con auto-detección de 7 tipos de proyecto y sistema de instintos con scoring de confianza.
 
-**Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [396+ comandos · 31 agentes · 41 skills](docs/readme/12-comandos-agentes.md)
+**Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [396+ comandos · 34 agentes · 41 skills](docs/readme/12-comandos-agentes.md)
 
 **Savia Mobile** — App Android nativa (Kotlin/Compose) que conecta con pm-workspace vía [Savia Bridge](scripts/savia-bridge.py) — un servidor HTTPS/SSE que envuelve Claude Code CLI. Chat con streaming en tiempo real, persistencia local cifrada, tema Material 3. Detalles: [Savia Mobile](projects/savia-mobile-android/README.md)
 

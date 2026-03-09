@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (33)
+# Catálogo de Subagentes (34)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -33,6 +33,7 @@
 | `security-attacker` | Sonnet 4.6 | Red Team: OWASP Top 10, CWE Top 25, dependency audit |
 | `security-defender` | Sonnet 4.6 | Blue Team: patches, hardening, NIST/CIS |
 | `security-auditor` | Sonnet 4.6 | Auditor independiente: evaluación, score 0-100, gap analysis |
+| `pentester` | Opus 4.6 | Pentesting dinámico: pipeline 5 fases (recon → vuln-analysis 5∥ → exploitation proof-based → report). Política "no exploit, no report" |
 | `visual-qa-agent` | Sonnet 4.6 | Visual QA: screenshot analysis, wireframe comparison, regression detection |
 | `dev-orchestrator` | Sonnet 4.6 | Planificación de slices: análisis de specs, dependencias, presupuestos de contexto |
 
@@ -45,7 +46,7 @@
 - **Post-commit**: `test-runner` (tests completos + cobertura ≥ `TEST_COVERAGE_MIN_PERCENT`)
 - **Consenso**: `reflection-validator` + `code-reviewer` + `business-analyst` → panel 3 jueces → score ponderado → veredicto
 - **Equality Shield** (Era 26): `/bias-check` audita sesgos contrafácticos en asignaciones y comunicaciones. Integración transversal: antes de `/pbi-assign`, `/sprint-review`, `/sprint-retro`, `/report-executive`.
-- **Adversarial Security** (Era 47): `security-attacker` → `security-defender` → `security-auditor` → informe con score 0-100. Pipeline: `/security-pipeline`.
+- **Adversarial Security** (Era 47): `security-attacker` → `security-defender` → `security-auditor` → informe con score 0-100. Pipeline: `/security-pipeline`. Para testing dinámico: `pentester` (5 fases, queue-driven, proof-based) → `security-defender` → `security-auditor` → `pentester` (re-test).
 - **Visual QA** (Era 50): `visual-qa-agent` analiza screenshots contra wireframes/mockups. Score 0-100. Pipeline: `/visual-qa` → `/wireframe-check` → `/visual-regression`.
 - **Dev Session** (Era 52): `dev-orchestrator` planifica slices → `{lang}-developer` implementa → `test-engineer` + `coherence-validator` validan → `code-reviewer` revisa. Pipeline: `/spec-slice` → `/dev-session start|next|review`.
 

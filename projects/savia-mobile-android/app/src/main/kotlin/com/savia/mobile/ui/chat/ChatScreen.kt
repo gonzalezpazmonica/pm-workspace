@@ -209,9 +209,10 @@ fun ChatScreen(
                     }
                 }
 
-                // Input bar
+                // Input bar — always enabled (non-blocking chat)
                 ChatInput(
                     isStreaming = uiState.isStreaming,
+                    pendingMessageCount = uiState.pendingMessageCount,
                     onSend = { viewModel.sendMessage(it) }
                 )
             }
@@ -258,6 +259,11 @@ private fun MessageBubble(message: Message) {
     }
 }
 
+/**
+ * Streaming message bubble with inline spinner to show response in progress.
+ * The spinner appears at the bottom of the bubble so users know the response
+ * is still arriving — distinct from the input area which stays enabled.
+ */
 @Composable
 private fun StreamingBubble(text: String) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -271,11 +277,18 @@ private fun StreamingBubble(text: String) {
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomEnd = 16.dp, bottomStart = 4.dp),
             colors = CardDefaults.cardColors(containerColor = AssistantBubbleColor)
         ) {
-            MarkdownText(
-                markdown = text,
-                color = AssistantBubbleTextColor,
-                modifier = Modifier.padding(12.dp)
-            )
+            Column(modifier = Modifier.padding(12.dp)) {
+                MarkdownText(
+                    markdown = text,
+                    color = AssistantBubbleTextColor
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                CircularProgressIndicator(
+                    modifier = Modifier.size(14.dp),
+                    color = AssistantBubbleTextColor.copy(alpha = 0.5f),
+                    strokeWidth = 1.5.dp
+                )
+            }
         }
     }
 }
@@ -359,9 +372,25 @@ private val slashCommands = listOf(
     SlashCommand("/exportar", "Exportar conversación", "📤"),
 )
 
+/**
+ * Chat input bar — non-blocking design.
+ *
+ * The input field stays enabled even while Savia is streaming a response.
+ * Users can type and send multiple messages without waiting; messages queue
+ * and are processed sequentially (FIFO). The spinner appears on the
+ * StreamingBubble, not here.
+ *
+ * When messages are queued, a small badge shows the pending count next to
+ * the send button to provide feedback that messages are waiting.
+ *
+ * @param isStreaming whether a response is currently streaming
+ * @param pendingMessageCount number of messages queued and waiting to be sent
+ * @param onSend callback to queue a new user message
+ */
 @Composable
 private fun ChatInput(
     isStreaming: Boolean,
+    pendingMessageCount: Int = 0,
     onSend: (String) -> Unit
 ) {
     var text by remember { mutableStateOf("") }
@@ -384,44 +413,63 @@ private fun ChatInput(
                 value = text,
                 onValueChange = { text = it },
                 modifier = Modifier.weight(1f),
-                placeholder = { Text(stringResource(R.string.chat_input_hint)) },
+                placeholder = {
+                    Text(
+                        if (isStreaming && pendingMessageCount > 0)
+                            stringResource(R.string.chat_input_hint) + " ($pendingMessageCount)"
+                        else
+                            stringResource(R.string.chat_input_hint)
+                    )
+                },
                 shape = RoundedCornerShape(24.dp),
                 maxLines = 4,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                 keyboardActions = KeyboardActions(
                     onSend = {
-                        if (text.isNotBlank() && !isStreaming) {
+                        if (text.isNotBlank()) {
                             onSend(text)
                             text = ""
                         }
                     }
                 ),
-                enabled = !isStreaming
+                enabled = true // Always enabled — non-blocking chat
             )
 
-            FloatingActionButton(
-                onClick = {
-                    if (text.isNotBlank() && !isStreaming) {
-                        onSend(text)
-                        text = ""
-                    }
-                },
-                modifier = Modifier.size(48.dp),
-                containerColor = MaterialTheme.colorScheme.primary,
-                shape = CircleShape
-            ) {
-                if (isStreaming) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(24.dp),
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        strokeWidth = 2.dp
-                    )
-                } else {
+            // Send button with optional pending badge
+            Box {
+                FloatingActionButton(
+                    onClick = {
+                        if (text.isNotBlank()) {
+                            onSend(text)
+                            text = ""
+                        }
+                    },
+                    modifier = Modifier.size(48.dp),
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    shape = CircleShape
+                ) {
                     Icon(
                         Icons.AutoMirrored.Filled.Send,
                         contentDescription = stringResource(R.string.send),
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
+                }
+                // Pending message count badge
+                if (pendingMessageCount > 0) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .size(18.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.error),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = pendingMessageCount.toString(),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onError
+                        )
+                    }
                 }
             }
         }

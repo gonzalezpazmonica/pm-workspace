@@ -5,9 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.73.0] — 2026-03-09
+
+### Changed — Era 102: Pentester integration, Savia Mobile non-blocking chat, code review roadmap
+
+- Integrated `pentester` agent into documentation: agents-catalog (34 agents), adversarial-security rules, README security section
+- **Savia Mobile non-blocking chat**: message queue (`Channel<String>`) allows sending multiple messages without waiting for response. Spinner moved from input box to streaming bubble. Pending message count badge on send button
+- Fixed SQLCipher dependency visibility: `implementation` → `api` in data module so DatabaseModule (app module) can resolve `SupportOpenHelperFactory`
+- Added code review improvements roadmap: confidence scoring, performance analyzer agent, parallel judge dispatch, adaptive review depth
+- New doc: `docs/roadmap-code-review-improvements.md`
+
 ## [2.72.0] — 2026-03-09
 
-### Changed — Pentester v2: Shannon-inspired pipeline architecture
+### Changed — Era 101: Pentester v2: Shannon-inspired pipeline architecture
 
 - Rewrote `pentester` agent with autonomous 5-phase pipeline: pre-recon → recon → vulnerability analysis (5 parallel classes) → exploitation (proof-based) → reporting
 - **"No exploit, no report"** policy: only Level 3 (impact demonstrated) findings appear in final report. L1 (theoretical) and L2 (partial) go to "Failed Attempts" section for transparency
@@ -21,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.71.0] — 2026-03-09
 
-### Added — Pentester lab infrastructure
+### Added — Era 100: Pentester lab infrastructure
 
 - Docker Compose lab (`tests/pentest-lab/`) with 6 intentionally vulnerable services: vuln-api (Flask), metadata-mock (AWS IMDSv1), tls-bad (weak TLS), MongoDB (no-auth), MinIO (default creds), Redis (no-auth)
 - Vulnerable API with 15+ isolated endpoints mapped to test suite IDs (W-01..W-08, A-01..A-02, Z-01..Z-05, P-05..P-06, N-02..N-03)
@@ -31,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.70.0] — 2026-03-09
 
-### Added — Pentester agent for dynamic security testing
+### Added — Era 99: Pentester agent for dynamic security testing
 
 - New `pentester` agent (95L): elite ethical hacker for dynamic penetration testing across dev/pre/production environments. References `pentesting` skill for detailed arsenal
 - New `pentesting` skill (98L): OWASP Top 10, PTES methodology, MITRE ATT&CK mapping, CVSS v3.1 scoring, detailed checklists
@@ -42,7 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.69.0] — 2026-03-09
 
-### Security — Full audit and remediation (55 findings)
+### Security — Era 98: Full audit and remediation (55 findings)
 
 Comprehensive security audit across all of pm-workspace with full same-day remediation.
 
@@ -60,7 +70,7 @@ Comprehensive security audit across all of pm-workspace with full same-day remed
 
 ## [2.68.0] — 2026-03-09
 
-### Added — Savia Mobile v0.3.34: Full Dashboard + Bridge REST (Sprint 2026-04)
+### Added — Era 97: Savia Mobile v0.3.34: Full Dashboard + Bridge REST (Sprint 2026-04)
 
 Second major release of Savia Mobile with functional dashboard, chat fixes, robust auto-update, and integrated test pipeline.
 
@@ -75,7 +85,7 @@ Second major release of Savia Mobile with functional dashboard, chat fixes, robu
 
 ## [2.67.0] — 2026-03-08
 
-### Added — Savia Mobile: Android App + Bridge Server
+### Added — Era 96: Savia Mobile: Android App + Bridge Server
 
 Native Android companion app for pm-workspace with Python Bridge server.
 

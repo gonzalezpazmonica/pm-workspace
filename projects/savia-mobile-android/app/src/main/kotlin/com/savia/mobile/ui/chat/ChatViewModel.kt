@@ -9,6 +9,7 @@ import com.savia.domain.repository.ChatRepository
 import com.savia.domain.repository.SecurityRepository
 import com.savia.domain.usecase.SendMessageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,7 +36,18 @@ data class ChatUiState(
     val isConfigured: Boolean = false,
     val currentConversationId: String? = null,
     val error: String? = null,
-    val conversations: List<Conversation> = emptyList()
+    val conversations: List<Conversation> = emptyList(),
+    /**
+     * Whether the input box should accept new messages while streaming.
+     * When true, user can queue messages without waiting for current response.
+     * The spinner shows on the message bubble, not the input box.
+     */
+    val canSendWhileStreaming: Boolean = true,
+    /**
+     * Number of messages queued and waiting to be sent.
+     * Displayed as a badge or counter near the input box.
+     */
+    val pendingMessageCount: Int = 0
 )
 
 /**
@@ -71,6 +83,14 @@ class ChatViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ChatUiState())
 
     /**
+     * Message queue for non-blocking chat: user can send multiple messages
+     * without waiting for the current response to complete.
+     * Messages are processed sequentially (FIFO) to maintain conversation order.
+     * The input box remains enabled while streaming — spinner shows on message bubble.
+     */
+    private val messageQueue = Channel<String>(capacity = Channel.UNLIMITED)
+
+    /**
      * Public observable state for ChatScreen to collect and recompose on changes.
      * Exposed as StateFlow for lifecycle-aware collection.
      */
@@ -91,6 +111,21 @@ class ChatViewModel @Inject constructor(
         checkConfig()
         loadConversations()
         restoreLastSession()
+        startMessageQueueProcessor()
+    }
+
+    /**
+     * Processes queued messages sequentially in the background.
+     * Each message waits for the previous response to complete before sending.
+     * This enables non-blocking input: user types freely while responses stream.
+     */
+    private fun startMessageQueueProcessor() {
+        viewModelScope.launch {
+            for (content in messageQueue) {
+                _uiState.update { it.copy(pendingMessageCount = it.pendingMessageCount - 1) }
+                processMessage(content)
+            }
+        }
     }
 
     /**
@@ -197,10 +232,25 @@ class ChatViewModel @Inject constructor(
     }
 
     /**
-     * Sends a user message and streams Claude's response.
+     * Queues a user message for sending. Non-blocking: the input box stays enabled
+     * while the current response streams, allowing the user to type and send
+     * multiple messages without waiting. Messages are processed sequentially (FIFO).
+     *
+     * The loading spinner appears on the message bubble, NOT on the input box.
+     *
+     * @param content user message text
+     */
+    fun sendMessage(content: String) {
+        if (content.isBlank()) return
+        _uiState.update { it.copy(pendingMessageCount = it.pendingMessageCount + 1) }
+        messageQueue.trySend(content)
+    }
+
+    /**
+     * Processes a single message: sends to API/Bridge and streams response.
      *
      * Process:
-     * 1. Create user message and add to state
+     * 1. Ensure a conversation exists (create if needed)
      * 2. Set isStreaming=true and clear previous streaming text
      * 3. Call SendMessageUseCase with conversation context
      * 4. Collect StreamDelta events:
@@ -211,74 +261,62 @@ class ChatViewModel @Inject constructor(
      *
      * Auto-creates a conversation if one is not active.
      * Prefers Bridge connection if configured; falls back to direct API.
-     * Bridge includes user profile/context in its system prompt.
      *
      * @param content user message text
      */
-    fun sendMessage(content: String) {
-        if (content.isBlank()) return
+    private suspend fun processMessage(content: String) {
+        val conversationId = _uiState.value.currentConversationId
+            ?: chatRepository.createConversation().also { conv ->
+                _uiState.update { it.copy(currentConversationId = conv.id) }
+                saveCurrentSession(conv.id)
+                subscribeToMessages(conv.id)
+            }.id
 
-        viewModelScope.launch {
-            val conversationId = _uiState.value.currentConversationId
-                ?: chatRepository.createConversation().also { conv ->
-                    _uiState.update { it.copy(currentConversationId = conv.id) }
-                    saveCurrentSession(conv.id)
-                    // Subscribe to Room message Flow for this new conversation
-                    // so messages appear automatically without manual state updates
-                    subscribeToMessages(conv.id)
-                }.id
+        _uiState.update {
+            it.copy(
+                isStreaming = true,
+                streamingText = "",
+                error = null
+            )
+        }
 
-            // Don't add messages to state manually — Room Flow (from loadConversation)
-            // is the single source of truth. Adding here causes duplicates.
+        // Bridge has its own system prompt with user profile, don't override it.
+        val useBridge = securityRepository.hasBridgeConfig()
+        sendMessageUseCase(
+            conversationId = conversationId,
+            userContent = content,
+            systemPrompt = if (useBridge) null else systemPrompt
+        ).catch { e ->
             _uiState.update {
                 it.copy(
-                    isStreaming = true,
-                    streamingText = "",
-                    error = null
+                    isStreaming = false,
+                    error = e.message ?: "Error desconocido"
                 )
             }
-
-            // Bridge has its own system prompt with user profile, don't override it.
-            // Only send system prompt when using direct Anthropic API.
-            val useBridge = securityRepository.hasBridgeConfig()
-            sendMessageUseCase(
-                conversationId = conversationId,
-                userContent = content,
-                systemPrompt = if (useBridge) null else systemPrompt
-            ).catch { e ->
-                _uiState.update {
-                    it.copy(
-                        isStreaming = false,
-                        error = e.message ?: "Error desconocido"
-                    )
+        }.collect { delta ->
+            when (delta) {
+                is StreamDelta.Text -> {
+                    _uiState.update {
+                        it.copy(streamingText = it.streamingText + delta.text)
+                    }
                 }
-            }.collect { delta ->
-                when (delta) {
-                    is StreamDelta.Text -> {
-                        _uiState.update {
-                            it.copy(streamingText = it.streamingText + delta.text)
-                        }
+                is StreamDelta.Done -> {
+                    _uiState.update {
+                        it.copy(
+                            streamingText = "",
+                            isStreaming = false
+                        )
                     }
-                    is StreamDelta.Done -> {
-                        // Assistant message already saved to Room by ChatRepositoryImpl.
-                        // Room Flow will emit the updated list automatically.
-                        _uiState.update {
-                            it.copy(
-                                streamingText = "",
-                                isStreaming = false
-                            )
-                        }
-                    }
-                    is StreamDelta.Error -> {
-                        _uiState.update {
-                            it.copy(
-                                isStreaming = false,
-                                error = delta.message
-                            )
-                        }
-                    }
-                    is StreamDelta.Start -> { /* Stream started */ }
                 }
+                is StreamDelta.Error -> {
+                    _uiState.update {
+                        it.copy(
+                            isStreaming = false,
+                            error = delta.message
+                        )
+                    }
+                }
+                is StreamDelta.Start -> { /* Stream started */ }
             }
         }
     }

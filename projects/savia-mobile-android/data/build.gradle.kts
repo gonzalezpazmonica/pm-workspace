@@ -48,7 +48,7 @@ dependencies {
     api(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
-    implementation(libs.sqlcipher)
+    api(libs.sqlcipher)  // api: exposed to app module (DatabaseModule imports SupportOpenHelperFactory)
     implementation(libs.datastore)
 
     // Security
