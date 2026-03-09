@@ -9,10 +9,13 @@ Este documento explica cómo usar PM‑Workspace (Savia) con **OpenCode** en lug
 | **Interfaz principal** | CLI `claude` | CLI `opencode` |
 | **Comandos slash** | Ejecutados automáticamente | Se siguen manualmente (leer `.md` y usar tools) |
 | **Skills** | Cargados automáticamente | Se cargan con `/skill <nombre>` |
-| **Hooks automáticos** | Sí (session‑init, pre‑edit, etc.) | No se ejecutan automáticamente |
+| **Hooks automáticos** | Sí (session‑init, pre‑edit, etc.) | No se ejecutan automáticamente* |
 | **Agentes (Task tool)** | Sí | Sí (misma funcionalidad) |
 | **Integración Azure DevOps** | Completa | Completa (requiere PAT y `az`) |
 | **Variables de entorno** | Auto‑cargadas | Cargar con `source .opencode/init‑pm.sh` |
+
+
+*^Se proveen Git hooks y wrappers como alternativa; ver sección **🔒 Seguridad y calidad con hooks**.*
 
 ## 🚀 Uso rápido
 
@@ -149,7 +152,91 @@ ls -la ~/claude/.opencode/.claude
 ```
 
 ### “Los hooks no se ejecutan”
-OpenCode no ejecuta hooks automáticamente. La lógica de validación está en los scripts (`.claude/hooks/`) y puedes ejecutarlos manualmente si es necesario.
+OpenCode no ejecuta hooks automáticamente. Hemos implementado dos soluciones para mantener la seguridad y calidad:
+
+1. **Git hooks automáticos** (recomendado) — validan commits y pushes.
+2. **Wrappers para herramientas** — validan comandos bash, ediciones y tareas antes de ejecutarlas.
+
+Consulta la sección **🔒 Seguridad y calidad con hooks** más abajo.
+
+## 🔒 Seguridad y calidad con hooks
+
+### 🧠 ¿Qué son los hooks y por qué importan?
+Los hooks en PM‑Workspace son **salvaguardas programáticas no eludibles** que garantizan:
+- **Seguridad**: Detectan secretos hardcodeados, bloquean comandos destructivos (`rm -rf /`, `terraform destroy`) y previenen force‑push.
+- **Calidad**: Exigen specs aprobadas antes de implementar, verifican tests (TDD) y revisan código automáticamente.
+- **Consistencia**: Aseguran que los mensajes de commit sigan convenciones y que los agentes reciban prompts bien formados.
+
+En Claude Code, estos hooks se ejecutan automáticamente gracias al archivo `.claude/settings.json`. OpenCode **no interpreta** ese archivo, por lo que las protecciones quedarían desactivadas. Para resolverlo, hemos creado dos capas que **no interfieren con Claude Code**.
+
+### 🔧 Diseño de la solución (dos capas independientes)
+
+#### Capa 1: Git hooks automáticos
+**Ubicación**: Scripts instalados en `.git/hooks/` (solo en tu repositorio local).  
+**Invocación**: Git ejecuta estos hooks automáticamente al hacer `git commit`, `git push`, etc.  
+**Ventaja**: No requiere cambios en tu flujo de trabajo; la protección está siempre activa.
+
+```bash
+# Instalar (una vez)
+cd ~/claude/.opencode
+bash scripts/install‑git‑hooks.sh
+```
+
+Se instalan tres hooks:
+- **pre‑commit**: Ejecuta `pre‑commit‑review.sh` (revisión de código) y `stop‑quality‑gate.sh` (detección de secrets en cambios staged).
+- **pre‑push**: Ejecuta `block‑force‑push.sh` mediante `run‑hook.sh` (bloquea `git push --force` y pushes directos a main).
+- **commit‑msg**: Ejecuta `prompt‑hook‑commit.sh` (valida el formato del mensaje de commit).
+
+**Desinstalación**: Elimina los ficheros `pre‑commit`, `pre‑push` y `commit‑msg` del directorio `.git/hooks/` o restaura los backups creados durante la instalación.
+
+#### Capa 2: Wrappers para herramientas de OpenCode
+**Ubicación**: `.opencode/scripts/opencode‑hooks/wrappers/`.  
+**Invocación**: Tú llamas explícitamente a estos wrappers antes de usar las herramientas nativas de OpenCode.  
+**Ventaja**: Extiende la validación a comandos bash generales, ediciones, escrituras y tareas.
+
+| Herramienta | Wrapper | Validación realizada |
+|-------------|---------|----------------------|
+| `bash` | `safe‑bash.sh` | `validate‑bash‑global.sh` (comandos peligrosos), `block‑credential‑leak.sh` (secrets), `block‑infra‑destructive.sh` (infra destructiva). |
+| `Edit` / `Write` | `safe‑edit.sh` / `safe‑write.sh` | `plan‑gate.sh` (warning si falta spec), `tdd‑gate.sh` (bloquea si no hay tests para código de producción). |
+| `Task` | `safe‑task.sh` | `agent‑dispatch‑validate.sh` (valida que el prompt cumpla convenciones). |
+
+**Ejemplo de uso**:
+```bash
+# En lugar de: bash "git commit -m 'test'"
+bash .opencode/scripts/opencode‑hooks/wrappers/safe‑bash.sh "git commit -m 'test'"
+
+# Antes de editar con OpenCode (luego usas la herramienta Edit)
+bash .opencode/scripts/opencode‑hooks/wrappers/safe‑edit.sh src/app.js
+```
+
+### 🛡️ Por qué NO afecta al funcionamiento de Claude Code
+1. **Ubicación aislada**: Todos los scripts (`install‑git‑hooks.sh`, `run‑hook.sh`, wrappers) están dentro de `.opencode/`, que **Claude Code ignora por completo**. Claude Code solo lee `.claude/` y los archivos de configuración en la raíz del proyecto.
+
+2. **Git hooks locales**: Los hooks instalados en `.git/hooks/` son específicos de tu repositorio local. Claude Code **no lee ni depende** de esos hooks; su sistema de hooks propio se basa exclusivamente en `.claude/settings.json`.
+
+3. **Wrappers opcionales**: Los wrappers **no reemplazan** las herramientas de OpenCode; son scripts auxiliares que tú invocas voluntariamente. Si no los usas, OpenCode funciona igual, solo que sin validaciones adicionales.
+
+4. **Hooks originales intactos**: Los scripts de hooks originales (en `.claude/hooks/`) **no se modifican**. Claude Code los sigue ejecutando automáticamente cuando corresponde. Los wrappers y Git hooks simplemente **los reutilizan** pasándoles el JSON esperado.
+
+5. **Separación de responsabilidades**: La adaptación para OpenCode **no toca** ningún archivo que Claude Code utilice. Es una capa adicional que se activa solo cuando trabajas con OpenCode.
+
+### 📋 Recomendaciones de uso
+1. **Instala los Git hooks** nada más configurar el entorno. Así tendrás protección automática en commits y pushes.
+2. **Usa los wrappers** cuando ejecutes comandos bash delicados o edites código de producción. Para operaciones rutinarias (listar archivos, leer) puedes seguir usando las herramientas nativas.
+3. **Si prefieres no usar wrappers**, al menos los Git hooks te cubrirán las operaciones más críticas (commit/push).
+
+### 🔍 Validación manual de hooks
+Puedes probar cualquier hook manualmente con el script `run‑hook.sh`:
+
+```bash
+# Simula un comando bash peligroso
+bash .opencode/scripts/opencode‑hooks/run‑hook.sh validate‑bash‑global Bash "rm -rf /"
+
+# Verifica si un archivo de código tiene tests
+bash .opencode/scripts/opencode‑hooks/run‑hook.sh tdd‑gate Edit src/app.js
+```
+
+Esto es útil para depurar o entender qué bloquea cada hook.
 
 ## 📄 Licencia y créditos
 
