@@ -76,7 +76,8 @@ class ProjectRepositoryImpl @Inject constructor(
 
     private companion object {
         private const val KEY_SELECTED_PROJECT = "selected_project_id"
-        private const val CHAT_SESSION_ID = "mobile-commands"
+        // Claude CLI requires a valid UUID for session_id
+        private const val CHAT_SESSION_ID = "00000000-0000-4000-a000-000000000001"
     }
 
     /**
