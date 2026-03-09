@@ -33,7 +33,7 @@ assert_branch_file() {
 TMPDIR=$(mktemp -d)
 BARE_REPO="$TMPDIR/bare.git"
 CLONE="$TMPDIR/clone"
-trap "rm -rf $TMPDIR" EXIT
+trap 'rm -rf "$TMPDIR"' EXIT
 
 echo "━━━ Company Savia — Branch-Based Architecture ━━━"
 git init --bare "$BARE_REPO" 2>/dev/null

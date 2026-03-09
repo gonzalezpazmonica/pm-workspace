@@ -105,7 +105,7 @@ main() {
   # Unpack
   echo "📦 Unpacking workspace..."
   local tmp_dir=$(mktemp -d)
-  trap "rm -rf $tmp_dir" EXIT
+  trap 'rm -rf "$tmp_dir"' EXIT
 
   if ! openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 \
     -pass "pass:$passphrase" \

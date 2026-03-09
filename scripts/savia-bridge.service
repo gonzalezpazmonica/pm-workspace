@@ -12,5 +12,15 @@ Environment=HOME=/home/monica
 Environment=PATH=/home/monica/.local/bin:/usr/local/bin:/usr/bin:/bin
 WorkingDirectory=/home/monica/savia
 
+# Security hardening
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+NoNewPrivileges=true
+MemoryMax=512M
+CPUQuota=50%
+ReadWritePaths=/home/monica/.savia /home/monica/savia/scripts/dist
+ReadOnlyPaths=/home/monica/savia
+
 [Install]
 WantedBy=default.target

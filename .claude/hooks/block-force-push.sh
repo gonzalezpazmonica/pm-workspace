@@ -4,13 +4,12 @@ set -uo pipefail
 # Usado por: commit-guardian (PreToolUse hook)
 
 INPUT=$(cat)
-# Use jq if available, otherwise try basic parsing
-if command -v jq &>/dev/null; then
-  COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || true)
-else
-  # Fallback: basic grep for command value in JSON
-  COMMAND=$(echo "$INPUT" | grep -oP '"command"\s*:\s*"\K[^"]*' || true)
+# Require jq for safe JSON parsing — grep fallback is unsafe (shell metachar injection)
+if ! command -v jq &>/dev/null; then
+  echo "ADVERTENCIA: jq no está instalado. Instala jq para activar protección de force-push." >&2
+  exit 0
 fi
+COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || true)
 
 if [ -z "$COMMAND" ]; then
   exit 0
