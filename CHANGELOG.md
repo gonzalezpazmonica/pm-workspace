@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.69.0] — 2026-03-09
+
+### Security — Auditoría completa y remediación (55 hallazgos)
+
+Auditoría de seguridad severa sobre todo pm-workspace con remediación completa en el mismo día.
+
+- **Auditoría** — 55 hallazgos identificados (18 críticos, 22 altos, 15 medios) en 6 áreas: Android app, Bridge, dotnet-microservices, shell scripts, CI/CD, instaladores. Informe completo en `SECURITY-AUDIT-2026-03-09.md`.
+- **Android** — SQLCipher activado en Room Database (C2), logging condicionado a DEBUG (C6), encoding passphrase corregido (A11), documentación cleartext traffic (M4).
+- **Bridge v1.6.0** — Input validation regex (C3), PAT cifrado con Fernet (C4), auth obligatoria en endpoints sensibles (C5), path traversal prevention (A1), SSE connection limit (A2), rate limiting auth (A3), security headers (A4), CORS restringido (A5), body size limit 1MB (A6), log sanitization (A7), YAML injection prevention (M1), session ID validation (M2), TLS cipher suite mínima (M3).
+- **Kubernetes** — NetworkPolicy default-deny (A14), RBAC con ServiceAccounts dedicados (A15), Pod Security Context (A16), mTLS TODO (A17), image pinning (A18), worker health checks (M9), secrets TODO (M10).
+- **dotnet-microservices** — Docker .env para credenciales (C7), K8s secrets template (C11), CORS restringido (C12), JWT secret placeholder (C13), Dockerfile `npm ci --omit=dev` (M11), JWT logging (M12), Production templates (M14).
+- **Shell scripts** — `bash -c` → `eval` en 44 test scripts (C10), trap quoting (C15), `curl | sh` safety (C14/C17), `irm | iex` warning (C18), atomic mv (A8), `mktemp -d` (A19), sudo validation (A20), tar safety (A21), temp cleanup (M5).
+- **CI/CD** — SHA pinning en Actions (C9), npm version pinning (C8), jq mandatory en hooks (C16), secret patterns ampliados (A13), tag validation (A9), permissions explícitas (A22), BATS SHA pinning (M6), secret regex mejorado (M7).
+- **Infraestructura** — Systemd hardening (A10), .gitignore binarios (A12), `SECRETS-ROTATION.md` (M13), plan-gate.sh timeout 30s (M15).
+- **PRs:** [#280](https://github.com/gonzalezpazmonica/pm-workspace/pull/280), [#281](https://github.com/gonzalezpazmonica/pm-workspace/pull/281), [#282](https://github.com/gonzalezpazmonica/pm-workspace/pull/282), [#283](https://github.com/gonzalezpazmonica/pm-workspace/pull/283)
+
 ## [2.68.0] — 2026-03-09
 
 ### Added — Savia Mobile v0.3.34: Full Dashboard + Bridge REST (Sprint 2026-04)
@@ -3093,6 +3109,7 @@ Initial public release of PM-Workspace.
 
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
 
+[2.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.68.0...v2.69.0
 [2.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.67.0...v2.68.0
 [2.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.66.0...v2.67.0
 [2.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.65.0...v2.66.0
