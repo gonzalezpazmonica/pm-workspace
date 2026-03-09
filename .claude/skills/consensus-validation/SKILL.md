@@ -1,6 +1,6 @@
 ---
 name: consensus-validation
-description: Orquestación de 3-judge panel (reflection, code-review, business)
+description: Orquestación de 4-judge panel (reflection, code-review, business, performance)
 maturity: stable
 context: fork
 agent: consensus-orchestrator
@@ -9,8 +9,9 @@ context_cost: medium
 
 # Skill: Consensus Validation
 
-> Lanza 3 jueces especializados. Cada uno evalúa independientemente.
+> Lanza 4 jueces especializados. Cada uno evalúa independientemente.
 > Output: JSON estructurado con verdicts normalizados, score ponderado, dissents.
+> El 4º juez (performance) usa `performance-audit` skill para detectar hotspots y anti-patterns.
 
 **Referencia:** @.claude/rules/domain/consensus-protocol.md
 
@@ -28,11 +29,11 @@ ref: file_path or PR_number
 - **reflection-validator:** Suposiciones, cadena causal, brechas de lógica
 - **code-reviewer:** Código, diff, reglas SOLID, seguridad
 - **business-analyst:** Reglas negocio, criterios aceptación, impacto
+- **performance-auditor:** N+1 queries, async anti-patterns, complexity hotspots, bundle size
 
-### 3-5. Invocar 3 Jueces en Paralelo
-Timeout: 40s por juez (120s total).
-
-Cada juez devuelve: verdict + reasoning + confidence
+### 3-5. Invocar 4 Jueces en Paralelo (via dag-scheduling)
+Dispatch via `dag-scheduling` skill — all 4 judges are independent (no deps), run as single parallel cohort.
+Timeout: 40s por juez (120s total). Cada juez devuelve: verdict + reasoning + confidence (0.0–1.0)
 
 ### 6. Normalizar Verdicts a 0/0.5/1.0
 
@@ -41,17 +42,19 @@ Cada juez devuelve: verdict + reasoning + confidence
 | Reflection | VALIDATED→1.0 / CORRECTED→0.5 / REQUIRES_RETHINKING→0.0 |
 | Code-review | APROBADO→1.0 / CAMBIOS_MENORES→0.5 / RECHAZADO→0.0 |
 | Business | VÁLIDO→1.0 / INCOMPLETO→0.5 / INVÁLIDO→0.0 |
+| Performance | OPTIMAL→1.0 / DEGRADED→0.5 / REGRESSION→0.0 |
 
 ### 7. Veto Check
 ```
 if (code_verdict == RECHAZADO) AND (security|gdpr|compliance in reasoning):
-  final_verdict = REJECTED
-  return early
+  final_verdict = REJECTED; return early
+if (perf_verdict == REGRESSION) AND (severity == CRITICAL):
+  final_verdict = REJECTED; return early
 ```
 
 ### 8. Calcular Score Ponderado
 ```
-score = (reflection × 0.4) + (code × 0.3) + (business × 0.3)
+score = (reflection × 0.3) + (code × 0.3) + (business × 0.2) + (performance × 0.2)
 
 if score >= 0.75: verdict = APPROVED
 elif score >= 0.50: verdict = CONDITIONAL
@@ -60,8 +63,8 @@ else: verdict = REJECTED
 
 ### 8.5. Detectar Dissents
 ```
-avg = (reflection + code + business) / 3
-for judge in [reflection, code, business]:
+avg = (reflection + code + business + performance) / 4
+for judge in [reflection, code, business, performance]:
   if abs(judge_score - avg) > 0.5:
     dissents.append(judge)
 ```

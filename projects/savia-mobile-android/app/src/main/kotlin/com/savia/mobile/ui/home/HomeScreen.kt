@@ -97,7 +97,8 @@ fun HomeScreen(
     onNavigateToCapture: () -> Unit = {},
     onNavigateToBoard: () -> Unit = {},
     onNavigateToTimelog: () -> Unit = {},
-    onNavigateToApprovals: () -> Unit = {}
+    onNavigateToApprovals: () -> Unit = {},
+    onNavigateToFiles: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -241,6 +242,11 @@ fun HomeScreen(
                         QuickActionButton(
                             label = stringResource(R.string.home_approvals),
                             onClick = onNavigateToApprovals,
+                            modifier = Modifier.weight(1f)
+                        )
+                        QuickActionButton(
+                            label = stringResource(R.string.home_files),
+                            onClick = onNavigateToFiles,
                             modifier = Modifier.weight(1f)
                         )
                     }

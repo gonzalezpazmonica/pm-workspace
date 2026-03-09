@@ -192,6 +192,18 @@ sealed class Screen(
     )
 
     /**
+     * File browser screen: navigate PM-Workspace files.
+     * View code (with line numbers) and markdown (rendered).
+     * Accessible from Home screen via "Files" quick action.
+     */
+    data object Files : Screen(
+        route = "files",
+        title = "Files",
+        selectedIcon = Icons.Filled.Forum,
+        unselectedIcon = Icons.Outlined.Forum
+    )
+
+    /**
      * Sessions/Dashboard screen: lists all past conversations.
      * Users can select a conversation to resume it or delete it.
      * Empty state shown when no conversations exist.
@@ -245,7 +257,8 @@ fun SaviaNavHost(
                     onNavigateToCapture = { navController.navigate(Screen.Capture.route) },
                     onNavigateToBoard = { navController.navigate(Screen.Kanban.route) },
                     onNavigateToTimelog = { navController.navigate(Screen.TimeLog.route) },
-                    onNavigateToApprovals = { navController.navigate(Screen.Approvals.route) }
+                    onNavigateToApprovals = { navController.navigate(Screen.Approvals.route) },
+                    onNavigateToFiles = { navController.navigate(Screen.Files.route) }
                 )
             }
 
@@ -316,6 +329,12 @@ fun SaviaNavHost(
 
             composable(Screen.CompanyProfile.route) {
                 CompanyProfileScreen(onNavigateBack = { navController.popBackStack() })
+            }
+
+            composable(Screen.Files.route) {
+                com.savia.mobile.ui.filebrowser.FileBrowserScreen(
+                    onNavigateBack = { navController.popBackStack() }
+                )
             }
 
             // Legacy Sessions screen

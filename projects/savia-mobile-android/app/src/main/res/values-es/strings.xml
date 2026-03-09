@@ -92,6 +92,7 @@
     <string name="home_recent_activity">Actividad Reciente</string>
     <string name="home_see_board">Ver Tablero</string>
     <string name="home_approvals">Aprobaciones</string>
+    <string name="home_files">Archivos</string>
     <string name="home_quick_capture">Captura Rápida</string>
     <string name="refresh">Actualizar</string>
 
@@ -109,4 +110,10 @@
     <string name="profile_pbis">PBIs</string>
     <string name="profile_hours">Horas</string>
     <string name="profile_team">Equipo: %1$s</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_chat">Respuestas del Chat</string>
+    <string name="notification_channel_chat_desc">Notificaciones cuando Savia termina de responder</string>
+    <string name="notification_response_ready">Respuesta de Savia lista</string>
+    <string name="notification_response_ready_desc">Tu asistente ha terminado de responder</string>
 </resources>

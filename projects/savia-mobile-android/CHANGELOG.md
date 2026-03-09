@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.42] — 2026-03-09
+
+### Added — File browser, notifications, output persistence
+
+- **File browser**: `FileBrowserScreen` with dual mode — directory listing (file/folder icons, size, chevron) and file viewer (code with line numbers or markdown via Markwon). Breadcrumb navigation, back handler. New `Screen.Files` route and HomeScreen "Files" quick action button
+- **Bridge file API**: `listFiles()` and `readFile()` in `SaviaBridgeService` with `FileEntry`, `FileListResponse`, `FileContentResponse` data classes
+- **Notification permission**: `POST_NOTIFICATIONS` declared in manifest, runtime permission request for Android 13+ (API 33) on launch via `ActivityResultContracts.RequestPermission`
+- **Background notifications**: `SaviaNotificationManager` singleton sends "response complete" notification when Claude finishes while app is backgrounded. Lifecycle tracking via `LifecycleEventObserver` in ChatScreen
+- **Output persistence**: `SavedOutputEntity` Room table (database v2 migration) for saving Claude outputs (code, reports, snippets). `SavedOutputDao` with getAll, getByType, getByConversation, getFavorites, toggleFavorite
+
 ## [0.3.40] — 2026-03-09
 
 ### Changed — Non-blocking chat UX

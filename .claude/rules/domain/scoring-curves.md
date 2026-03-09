@@ -87,6 +87,19 @@ Brier    Score   Interpretation
 ≥ 0.50     0     Broken — disable NL resolution
 ```
 
+### Per-Finding Confidence (judge output)
+
+```
+Confidence   Score   Action
+≥ 0.90       100     High confidence — auto-applicable finding
+0.75          80     Good — include in consensus score
+0.50          50     Moderate — flag for human review
+0.30          20     Low — exclude from aggregate, show as advisory
+≤ 0.15        0     Noise — suppress from report
+```
+
+Each consensus judge emits per-finding confidence (0.0–1.0). Findings below 0.50 are excluded from the weighted consensus score and flagged as "needs human review". Findings above 0.90 can auto-apply fixes when verdict is APPROVED.
+
 ## Usage
 
 Commands that produce scores SHOULD use these curves:
@@ -95,6 +108,7 @@ Commands that produce scores SHOULD use these curves:
 - `/context-budget` → context usage
 - `/confidence-calibrate` → Brier score
 - PR Guardian Gate 7 → PR size, context impact
+- `consensus-validation` → per-finding confidence filtering
 
 ## Extending
 

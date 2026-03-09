@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.74.0] — 2026-03-09
+
+### Changed — Era 103: All gaps implemented — code review 4-judge panel, file browser, notifications, output persistence
+
+- **Code Review gaps (all 4 done)**: performance-auditor as 4th consensus judge (weights 0.3/0.3/0.2/0.2), parallel dispatch via dag-scheduling, enforced risk-based routing, per-finding confidence curves
+- **Bridge file browser**: new `GET /files` and `GET /files/content` endpoints with path traversal prevention and 500KB limit
+- **Savia Mobile file browser**: `FileBrowserScreen` with directory listing, code viewer (monospace + line numbers), markdown renderer (Markwon), breadcrumb navigation. New `Screen.Files` route + HomeScreen quick action
+- **Android notification permission**: `POST_NOTIFICATIONS` for Android 13+, runtime permission request on launch, `SaviaNotificationManager` singleton with "response complete" notification when app is backgrounded
+- **Output persistence**: `SavedOutputEntity` Room table (v2 migration) for persisting Claude-generated outputs (code, reports, snippets) with favorites, type filtering, and conversation linkage. `SavedOutputDao` with CRUD + favorites
+- Updated `docs/roadmap-code-review-improvements.md`: all 4 gaps marked as implemented
+
 ## [2.73.0] — 2026-03-09
 
 ### Changed — Era 102: Pentester integration, Savia Mobile non-blocking chat, code review roadmap

@@ -41,6 +41,8 @@ Endpoints:
     GET    /company           Company configuration sections (no auth)
     PUT    /company           Update company profile sections (requires Bearer auth)
     GET    /connectors        External service connectors (no auth)
+    GET    /files?path=X      List directory contents or file metadata (requires Bearer auth)
+    GET    /files/content?path=X  Read file content (text only, max 500KB) (requires Bearer auth)
     GET    /openapi.json      OpenAPI 3.0 specification in YAML (no auth)
 
 Configuration Files (created automatically):
@@ -1664,6 +1666,101 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                     pass
 
             self._send_json(approvals)
+            return
+
+        # ─── File Browser: list directory contents ───
+        if parsed.path == "/files":
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            params = parse_qs(parsed.query)
+            rel_path = params.get("path", [""])[0]
+            workspace = Path.home() / "savia"
+            target = (workspace / rel_path).resolve()
+            # Security: prevent path traversal outside workspace
+            if not str(target).startswith(str(workspace)):
+                self._send_json({"error": "Path traversal blocked"}, 403)
+                return
+            if not target.exists():
+                self._send_json({"error": "Path not found"}, 404)
+                return
+            if target.is_file():
+                stat = target.stat()
+                self._send_json({
+                    "type": "file",
+                    "name": target.name,
+                    "path": str(target.relative_to(workspace)),
+                    "size": stat.st_size,
+                    "modified": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                    "extension": target.suffix
+                })
+                return
+            # Directory listing
+            entries = []
+            try:
+                for item in sorted(target.iterdir(), key=lambda p: (p.is_file(), p.name.lower())):
+                    if item.name.startswith(".") and item.name not in (".claude",):
+                        continue  # Skip hidden except .claude
+                    stat = item.stat()
+                    entries.append({
+                        "name": item.name,
+                        "path": str(item.relative_to(workspace)),
+                        "type": "directory" if item.is_dir() else "file",
+                        "size": stat.st_size if item.is_file() else 0,
+                        "modified": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                        "extension": item.suffix if item.is_file() else ""
+                    })
+            except PermissionError:
+                self._send_json({"error": "Permission denied"}, 403)
+                return
+            self._send_json({
+                "path": str(target.relative_to(workspace)) if target != workspace else "",
+                "entries": entries,
+                "parent": str(target.parent.relative_to(workspace)) if target != workspace else None
+            })
+            return
+
+        # ─── File Content: read file for viewer ───
+        if parsed.path == "/files/content":
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            params = parse_qs(parsed.query)
+            rel_path = params.get("path", [""])[0]
+            workspace = Path.home() / "savia"
+            target = (workspace / rel_path).resolve()
+            if not str(target).startswith(str(workspace)):
+                self._send_json({"error": "Path traversal blocked"}, 403)
+                return
+            if not target.exists() or not target.is_file():
+                self._send_json({"error": "File not found"}, 404)
+                return
+            # Limit file size to 500KB for mobile
+            if target.stat().st_size > 512_000:
+                self._send_json({"error": "File too large (max 500KB)", "size": target.stat().st_size}, 413)
+                return
+            # Determine if binary
+            text_extensions = {".md", ".txt", ".py", ".kt", ".java", ".js", ".ts", ".tsx",
+                             ".jsx", ".json", ".yaml", ".yml", ".xml", ".html", ".css",
+                             ".sh", ".bash", ".toml", ".cfg", ".ini", ".gradle", ".sql",
+                             ".rs", ".go", ".c", ".h", ".cpp", ".hpp", ".swift", ".rb",
+                             ".bats", ".mermaid", ".svg", ".csv", ".env", ".properties"}
+            if target.suffix.lower() not in text_extensions:
+                self._send_json({"error": "Binary file — not viewable", "extension": target.suffix}, 415)
+                return
+            try:
+                content = target.read_text(encoding="utf-8", errors="replace")
+            except Exception as e:
+                self._send_json({"error": f"Read error: {e}"}, 500)
+                return
+            self._send_json({
+                "path": str(target.relative_to(workspace)),
+                "name": target.name,
+                "extension": target.suffix,
+                "size": len(content),
+                "lines": content.count("\n") + 1,
+                "content": content
+            })
             return
 
         self._send_json({"error": "Not found"}, 404)
