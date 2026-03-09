@@ -408,8 +408,65 @@ jobs:
               core.warning(`Context impact high: +${net} net lines (threshold: ${threshold} for ${commits} commits). Review if all additions are necessary.`);
             }
 
-      # ─── Gate 8: PR Digest for Maintainer ───
-      - name: "Gate 8: PR Digest"
+      # ─── Gate 8: CHANGELOG Required for Code Changes ───
+      - name: "Gate 8: CHANGELOG Required"
+        uses: actions/github-script@v7  # TODO: pin to SHA
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const title = pr.title || '';
+
+            // Exempt: docs-only or chore PRs (maintenance, no user-facing changes)
+            const exemptTypes = /^(docs|chore|ci|style)(\(|:)/;
+            if (exemptTypes.test(title)) {
+              core.info('✅ Gate 8: PR type exempt from CHANGELOG requirement');
+              return;
+            }
+
+            // Get changed files
+            const filesResponse = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              per_page: 100
+            });
+            const files = filesResponse.data.map(f => f.filename);
+
+            // Check if any CHANGELOG was modified
+            const changelogModified = files.some(f =>
+              f.endsWith('CHANGELOG.md') || f === 'CHANGELOG.md'
+            );
+
+            if (changelogModified) {
+              core.info('✅ Gate 8: CHANGELOG updated');
+              return;
+            }
+
+            // Check if PR only touches docs (all .md files)
+            const docsOnly = files.every(f =>
+              f.endsWith('.md') ||
+              f.endsWith('.txt') ||
+              f.startsWith('.github/ISSUE_TEMPLATE/') ||
+              f === '.github/pull_request_template.md'
+            );
+
+            if (docsOnly) {
+              core.info('✅ Gate 8: Docs-only PR, CHANGELOG not required');
+              return;
+            }
+
+            // Code changes without CHANGELOG → fail
+            const msg = '## ❌ Gate 8: CHANGELOG Required\n\n' +
+              'This PR modifies code but does not update any `CHANGELOG.md`.\n\n' +
+              'Every code change must be documented in the relevant CHANGELOG:\n' +
+              '- `CHANGELOG.md` (root) for workspace-level changes\n' +
+              '- `projects/*/CHANGELOG.md` for project-specific changes\n\n' +
+              'Exempt PR types: `docs`, `chore`, `ci`, `style`.\n' +
+              'If this is a maintenance PR, change the title prefix accordingly.';
+            core.setFailed(msg);
+
+      # ─── Gate 9: PR Digest for Maintainer ───
+      - name: "Gate 9: PR Digest"
         if: github.event.action == 'opened'
         uses: actions/github-script@v7  # TODO: pin to SHA
         with:
@@ -571,4 +628,4 @@ jobs:
               body: digest.join('\n')
             });
 
-            core.info('✅ Gate 8: PR Digest posted as comment');
+            core.info('✅ Gate 9: PR Digest posted as comment');
