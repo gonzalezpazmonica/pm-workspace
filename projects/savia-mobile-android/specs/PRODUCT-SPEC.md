@@ -54,11 +54,11 @@
 - **Cabecera de usuario**: Avatar (iniciales), nombre, email, rol, organización
 - **Stats**: Sprints gestionados, PBIs completados, horas loggeadas
 - **Proyectos activos**: Lista de proyectos con selector
-- **Check Updates**: Comprobación de actualizaciones vía Bridge `/update/check`
+- **Check Updates**: Comprobación de actualizaciones vía Bridge `/update/check` — **siempre visible** (independiente del estado del perfil)
 - **Download Update**: Descarga de APK vía Bridge `/update/download`
-- **Versión de app**: Footer con número de versión dinámica (BuildConfig)
+- **Versión de app**: Footer con número de versión dinámica (BuildConfig) — **siempre visible**
 - **Navegación a Settings**: Botón de engranaje en TopAppBar
-- **Estado sin Bridge**: Muestra "Configure Bridge" con botones "Go to Settings" y "Retry"
+- **Estado sin Bridge**: Muestra "Configure Bridge" con botones "Go to Settings" y "Retry" + Check Updates debajo
 - **Carga paralela**: getUserProfile() y getProjects() se ejecutan en paralelo
 - **Timeout**: 20 segundos máximo de espera para carga completa
 
@@ -71,6 +71,7 @@
 - **Theme**: Selector: SYSTEM, LIGHT, DARK
 - **Language**: Selector: SYSTEM, ES, EN
 - **About**: Versión de app y Bridge
+- **Check Updates**: Card con botón de comprobar/descargar actualizaciones (duplicado de Profile para mayor accesibilidad)
 - **Disconnect**: Diálogo de confirmación para desconectar Bridge
 
 ### 3.6 Bridge Setup Dialog ✅ v0.2

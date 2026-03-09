@@ -61,8 +61,8 @@ import com.savia.mobile.R
  * - Active Projects section with list of project cards
  * - Project selector: tap project to setSelectedProject
  * - Settings link to existing SettingsScreen
- * - Check for Updates button with status indicator
- * - App version at bottom
+ * - Check for Updates button (ALWAYS visible, even without profile)
+ * - App version at bottom (ALWAYS visible)
  *
  * Clean Architecture Role: UI Layer (Presentation)
  * - ProfileViewModel manages profile and project selection
@@ -111,28 +111,65 @@ fun ProfileScreen(
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { innerPadding ->
-        if (uiState.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Loading indicator
+            if (uiState.isLoading) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(120.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
             }
-        } else {
+
             val userProfile = uiState.userProfile
-            if (userProfile == null) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentAlignment = Alignment.Center
-                ) {
+
+            // Profile loaded: show header, stats, projects
+            if (userProfile != null) {
+                item {
+                    UserProfileHeader(profile = userProfile)
+                }
+
+                item {
+                    StatsRow(profile = userProfile)
+                }
+
+                item {
+                    Text(
+                        text = stringResource(R.string.profile_active_projects),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                items(uiState.projects) { project ->
+                    ProjectCard(
+                        project = project,
+                        isSelected = project.id == uiState.selectedProjectId,
+                        onClick = { viewModel.selectProject(project.id) }
+                    )
+                }
+            }
+
+            // Profile not loaded and not loading: show configure/retry
+            if (userProfile == null && !uiState.isLoading) {
+                item {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(16.dp),
-                        modifier = Modifier.padding(32.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(32.dp)
                     ) {
                         Icon(
                             Icons.Default.Person,
@@ -143,8 +180,7 @@ fun ProfileScreen(
                         Text(
                             text = stringResource(R.string.profile_configure_bridge),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Button(
                             onClick = onNavigateToSettings,
@@ -160,65 +196,30 @@ fun ProfileScreen(
                         }
                     }
                 }
-            } else {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    // User profile header
-                    item {
-                        UserProfileHeader(profile = userProfile)
-                    }
+            }
 
-                    // Stats row
-                    item {
-                        StatsRow(profile = userProfile)
-                    }
+            // Update checker — ALWAYS visible regardless of profile state
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
-                // Active projects section
-                item {
-                    Text(
-                        text = stringResource(R.string.profile_active_projects),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+            item {
+                UpdateChecker(
+                    isChecking = uiState.updateCheckingUpdate,
+                    isDownloading = uiState.updateDownloading,
+                    updateAvailable = uiState.updateAvailable,
+                    onCheckUpdates = { viewModel.checkForUpdates() },
+                    onDownload = { viewModel.downloadUpdate() }
+                )
+            }
 
-                    items(uiState.projects) { project ->
-                        ProjectCard(
-                            project = project,
-                            isSelected = project.id == uiState.selectedProjectId,
-                            onClick = { viewModel.selectProject(project.id) }
-                        )
-                    }
+            // App version — ALWAYS visible
+            item {
+                AppVersionFooter()
+            }
 
-                    // Update checker
-                    item {
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                    item {
-                        UpdateChecker(
-                            isChecking = uiState.updateCheckingUpdate,
-                            isDownloading = uiState.updateDownloading,
-                            updateAvailable = uiState.updateAvailable,
-                            onCheckUpdates = { viewModel.checkForUpdates() },
-                            onDownload = { viewModel.downloadUpdate() }
-                        )
-                    }
-
-                    // App version
-                    item {
-                        AppVersionFooter()
-                    }
-
-                    item {
-                        Spacer(modifier = Modifier.height(16.dp))
-                    }
-                }
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

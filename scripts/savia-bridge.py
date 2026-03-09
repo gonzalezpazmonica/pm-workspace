@@ -1537,6 +1537,19 @@ class InstallHandler(http.server.BaseHTTPRequestHandler):
                 shutil.copyfileobj(f, self.wfile)
             return
 
+        # OpenAPI specification
+        if parsed.path == "/openapi.json":
+            spec_path = Path(__file__).resolve().parent / "openapi.yaml"
+            if not spec_path.exists():
+                self._send_json({"error": "OpenAPI spec not found"}, 404)
+                return
+            content = spec_path.read_text()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/x-yaml")
+            self.end_headers()
+            self.wfile.write(content.encode())
+            return
+
         # Redirect everything else to /install
         self.send_response(302)
         self.send_header("Location", "/install")

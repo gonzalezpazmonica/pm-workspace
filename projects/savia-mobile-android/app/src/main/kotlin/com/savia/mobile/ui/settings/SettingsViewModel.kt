@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.savia.domain.repository.ProjectRepository
 import com.savia.domain.repository.SecurityRepository
+import com.savia.domain.repository.UpdateRepository
 import com.savia.mobile.BuildConfig
 import com.savia.mobile.ui.settings.AppLanguage
 import com.savia.mobile.ui.settings.AppTheme
@@ -43,7 +44,11 @@ data class SettingsUiState(
     val bridgeVersion: String = "",
     val appVersion: String = "",
     val isConnecting: Boolean = false,
-    val connectionError: String? = null
+    val connectionError: String? = null,
+    val updateCheckingUpdate: Boolean = false,
+    val updateAvailable: Boolean = false,
+    val updateDownloading: Boolean = false,
+    val pendingUpdate: com.savia.domain.model.AppUpdate? = null
 )
 
 /**
@@ -64,6 +69,7 @@ data class SettingsUiState(
 class SettingsViewModel @Inject constructor(
     private val securityRepository: SecurityRepository,
     private val projectRepository: ProjectRepository,
+    private val updateRepository: UpdateRepository,
     @Named("bridge") private val bridgeClient: OkHttpClient
 ) : ViewModel() {
 
@@ -225,6 +231,58 @@ class SettingsViewModel @Inject constructor(
                     userName = profile?.name ?: "",
                     userEmail = profile?.email ?: ""
                 )
+            }
+        }
+    }
+
+    /**
+     * Checks for app updates via the Bridge /update/check endpoint.
+     */
+    fun checkForUpdates() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(updateCheckingUpdate = true) }
+            try {
+                val currentVersionCode = BuildConfig.VERSION_CODE
+                val update = withContext(Dispatchers.IO) {
+                    updateRepository.checkForUpdate(currentVersionCode)
+                }
+                _uiState.update {
+                    it.copy(
+                        updateCheckingUpdate = false,
+                        updateAvailable = update != null,
+                        pendingUpdate = update
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        updateCheckingUpdate = false,
+                        connectionError = e.message ?: "Error checking for updates"
+                    )
+                }
+            }
+        }
+    }
+
+    /**
+     * Downloads available app update APK from the Bridge.
+     */
+    fun downloadUpdate() {
+        val update = _uiState.value.pendingUpdate ?: return
+        viewModelScope.launch {
+            _uiState.update { it.copy(updateDownloading = true) }
+            try {
+                updateRepository.downloadUpdate(update).collect { /* progress */ }
+                _uiState.update {
+                    it.copy(updateDownloading = false)
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        updateDownloading = false,
+                        connectionError = e.message ?: "Error downloading update"
+                    )
+                }
             }
         }
     }
