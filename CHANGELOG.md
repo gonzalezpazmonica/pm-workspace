@@ -5,17 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.71.0] — 2026-03-09
+
+### Added — Pentester lab infrastructure
+
+- Docker Compose lab (`tests/pentest-lab/`) with 6 intentionally vulnerable services: vuln-api (Flask), metadata-mock (AWS IMDSv1), tls-bad (weak TLS), MongoDB (no-auth), MinIO (default creds), Redis (no-auth)
+- Vulnerable API with 15+ isolated endpoints mapped to test suite IDs (W-01..W-08, A-01..A-02, Z-01..Z-05, P-05..P-06, N-02..N-03)
+- Lab orchestrator script (`run-lab.sh`) with up/down/status/test commands and 21 smoke tests
+- Finding validator (`validate-findings.py`) for automated PT-NNN format checking
+- All Python files syntax-validated, all shell scripts bash -n validated
+
 ## [2.70.0] — 2026-03-09
 
 ### Added — Pentester agent for dynamic security testing
 
-- New `pentester` agent: elite ethical hacker for dynamic penetration testing against running systems, services and applications across dev/pre/production environments
-- Full offensive toolkit: OWASP Top 10, PTES methodology, MITRE ATT&CK mapping, CVSS v3.1 scoring
+- New `pentester` agent (95L): elite ethical hacker for dynamic penetration testing across dev/pre/production environments. References `pentesting` skill for detailed arsenal
+- New `pentesting` skill (98L): OWASP Top 10, PTES methodology, MITRE ATT&CK mapping, CVSS v3.1 scoring, detailed checklists
 - Expertise areas: web app attacks, API security, authentication/authorization, network/infrastructure, container/cloud, cryptography, post-exploitation
 - Environment-aware rules: aggressive in dev, moderate in pre, restrictive in production
 - Integration with existing security pipeline (security-defender → security-auditor → pentester retest)
-- Test suite with 65 tests across 10 categories, including Docker Compose lab with intentionally vulnerable targets (DVWA, Juice Shop, WebGoat, crAPI)
-- Mandatory 100% pass on reporting quality (CAT-9) and environment awareness (CAT-10)
+- Test suite with 65 tests across 10 categories (mandatory 100% on reporting quality and environment awareness)
 
 ## [2.69.0] — 2026-03-09
 
@@ -3123,6 +3132,7 @@ Initial public release of PM-Workspace.
 
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
 
+[2.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.70.0...v2.71.0
 [2.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.69.0...v2.70.0
 [2.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.68.0...v2.69.0
 [2.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.67.0...v2.68.0
