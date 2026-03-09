@@ -120,6 +120,20 @@ Toda release usa rama `release/vX.Y.Z` + tag anotado tras merge:
 
 **Prefijo de rama**: `release/` (se añade a los prefijos estándar de la tabla anterior)
 
+## Idioma obligatorio
+
+**Todo contenido versionado y público se escribe en inglés.** Esto incluye:
+
+- `CHANGELOG.md` (raíz y subproyectos)
+- Títulos de PR y mensajes de commit
+- Nombres de rama
+- `README.md`
+- Comentarios en código
+
+Excepción: la sección `## Resumen` en PRs es bilingüe (español para la PM + inglés para la comunidad, ver regla de PR arriba).
+
+**Gate CI:** PR Guardian Gate 8 bloquea PRs sin CHANGELOG. El CHANGELOG debe estar en inglés.
+
 ---
 
 ## En este workspace
