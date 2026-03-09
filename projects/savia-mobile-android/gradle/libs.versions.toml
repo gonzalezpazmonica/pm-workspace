@@ -34,6 +34,10 @@ mockwebserver = "4.12.0"
 robolectric = "4.14.1"
 arch-core-testing = "2.2.0"
 test-core = "1.6.1"
+roborazzi = "1.59.0"
+uiautomator = "2.3.0"
+test-runner = "1.6.2"
+test-rules = "1.6.1"
 
 [libraries]
 # Compose BOM
@@ -103,6 +107,13 @@ room-testing = { group = "androidx.room", name = "room-testing", version.ref = "
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core-testing" }
 test-core = { group = "androidx.test", name = "core", version.ref = "test-core" }
+roborazzi-core = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
+roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-junit = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
+uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+test-runner = { group = "androidx.test", name = "runner", version.ref = "test-runner" }
+test-rules = { group = "androidx.test", name = "rules", version.ref = "test-rules" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -113,3 +124,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 room = { id = "androidx.room", version.ref = "room" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }

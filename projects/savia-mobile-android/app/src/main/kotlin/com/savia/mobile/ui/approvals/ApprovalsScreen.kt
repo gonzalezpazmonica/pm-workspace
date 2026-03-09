@@ -46,6 +46,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.savia.domain.model.ApprovalType
 import com.savia.mobile.R
+import com.savia.mobile.ui.common.SaviaLogo
+import com.savia.mobile.ui.common.VersionBadge
 
 /**
  * Approvals screen for Savia Mobile v0.2.
@@ -79,7 +81,9 @@ fun ApprovalsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = { SaviaLogo(modifier = Modifier.padding(start = 12.dp)) },
                 title = { Text("Approvals") },
+                actions = { VersionBadge() },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 )

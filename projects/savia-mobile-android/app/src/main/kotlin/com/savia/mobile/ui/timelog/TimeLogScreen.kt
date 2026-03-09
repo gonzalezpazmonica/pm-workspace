@@ -47,6 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.savia.mobile.R
+import com.savia.mobile.ui.common.SaviaLogo
+import com.savia.mobile.ui.common.VersionBadge
 
 /**
  * TimeLog screen for Savia Mobile v0.2.
@@ -79,7 +81,9 @@ fun TimeLogScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = { SaviaLogo(modifier = Modifier.padding(start = 12.dp)) },
                 title = { Text("Time Log") },
+                actions = { VersionBadge() },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 )

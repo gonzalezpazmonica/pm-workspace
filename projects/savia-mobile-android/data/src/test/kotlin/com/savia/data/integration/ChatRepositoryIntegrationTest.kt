@@ -404,5 +404,9 @@ class ChatRepositoryIntegrationTest {
         override suspend fun getLastConversationId(): String? = null
         override suspend fun clearLastConversationId() {}
         override suspend fun getDatabasePassphrase(): ByteArray = ByteArray(32)
+        override suspend fun saveTheme(theme: String) {}
+        override suspend fun getTheme(): String? = null
+        override suspend fun saveLanguage(language: String) {}
+        override suspend fun getLanguage(): String? = null
     }
 }

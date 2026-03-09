@@ -24,7 +24,18 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.Assessment
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Extension
+import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
+import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SyncAlt
+import androidx.compose.material.icons.filled.Terminal
+import androidx.compose.material.icons.filled.ViewColumn
+import androidx.compose.material.icons.filled.Workspaces
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -55,6 +66,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.savia.mobile.R
+import com.savia.mobile.ui.common.SaviaLogo
+import com.savia.mobile.ui.common.VersionBadge
 
 /**
  * Commands screen (Command Palette) for Savia Mobile v0.2.
@@ -95,7 +108,9 @@ fun CommandsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = { SaviaLogo(modifier = Modifier.padding(start = 12.dp)) },
                 title = { Text("Commands") },
+                actions = { VersionBadge() },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
@@ -165,6 +180,7 @@ fun CommandsScreen(
                     items(uiState.filteredCommands) { command ->
                         CommandCard(
                             command = command,
+                            family = uiState.families.find { it.id == command.family },
                             onClick = { onNavigateToChat(command.name) },
                             onExecute = { viewModel.executeCommand(command.name) },
                             isExecuting = uiState.isExecuting
@@ -222,11 +238,12 @@ private fun SearchBar(
 }
 
 /**
- * Command card for grid display with icon, name, and description.
+ * Command card for grid display with dynamic icon, name, and description.
  */
 @Composable
 private fun CommandCard(
     command: com.savia.domain.model.SlashCommand,
+    family: com.savia.domain.model.CommandFamily?,
     onClick: () -> Unit,
     onExecute: () -> Unit,
     isExecuting: Boolean
@@ -257,7 +274,7 @@ private fun CommandCard(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.Search,
+                    imageVector = getIconForFamily(family?.icon ?: ""),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp),
                     tint = MaterialTheme.colorScheme.onPrimary
@@ -294,3 +311,21 @@ private fun CommandCard(
         }
     }
 }
+
+/**
+ * Maps CommandFamily icon IDs to Material Design icons.
+ */
+private fun getIconForFamily(iconId: String): androidx.compose.ui.graphics.vector.ImageVector =
+    when (iconId) {
+        "ic_sprint" -> Icons.Default.DateRange
+        "ic_board" -> Icons.Default.ViewColumn
+        "ic_backlog" -> Icons.AutoMirrored.Filled.FormatListBulleted
+        "ic_time" -> Icons.Default.AccessTime
+        "ic_approval" -> Icons.Default.CheckCircle
+        "ic_report" -> Icons.Default.Assessment
+        "ic_workspace" -> Icons.Default.Workspaces
+        "ic_commands" -> Icons.Default.Terminal
+        "ic_integration" -> Icons.Default.SyncAlt
+        "ic_analytics" -> Icons.Default.Insights
+        else -> Icons.Default.Extension
+    }

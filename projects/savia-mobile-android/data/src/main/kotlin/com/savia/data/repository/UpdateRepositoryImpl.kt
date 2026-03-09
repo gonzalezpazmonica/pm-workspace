@@ -3,6 +3,7 @@ package com.savia.data.repository
 import android.content.Context
 import com.savia.data.api.SaviaBridgeService
 import com.savia.domain.model.AppUpdate
+import com.savia.domain.repository.SecurityRepository
 import com.savia.domain.repository.UpdateRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -51,6 +52,7 @@ class UpdateRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     @Named("bridge") private val bridgeClient: OkHttpClient,
     private val bridgeService: SaviaBridgeService,
+    private val securityRepository: SecurityRepository,
     private val json: Json
 ) : UpdateRepository {
 
@@ -81,7 +83,7 @@ class UpdateRepositoryImpl @Inject constructor(
      * @throws IllegalStateException if Bridge URL is not configured
      */
     override suspend fun checkForUpdate(currentVersionCode: Int): AppUpdate? {
-        val bridgeUrl = bridgeService.getBridgeUrl() ?: return null
+        val bridgeUrl = securityRepository.getBridgeUrl() ?: return null
         val request = Request.Builder()
             .url("$bridgeUrl/update/check")
             .get()
@@ -133,7 +135,7 @@ class UpdateRepositoryImpl @Inject constructor(
      * @throws RuntimeException if HTTP response is not successful (2xx) or body is empty
      */
     override fun downloadUpdate(update: AppUpdate): Flow<Float> = flow {
-        val bridgeUrl = bridgeService.getBridgeUrl() ?: throw IllegalStateException("Bridge not configured")
+        val bridgeUrl = securityRepository.getBridgeUrl() ?: throw IllegalStateException("Bridge not configured")
         val request = Request.Builder()
             .url("$bridgeUrl${update.downloadUrl}")
             .get()

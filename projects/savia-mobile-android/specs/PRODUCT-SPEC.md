@@ -4,237 +4,301 @@
 
 **Nombre**: Savia Mobile
 **Plataforma**: Android (nativo, Jetpack Compose)
-**Versión**: 0.1.0
+**Versión**: 0.3.34
 **Usuarios Objetivo**: Gestores de proyectos, líderes técnicos, desarrolladores
-**Descripción**: Aplicación móvil nativa para Android que proporciona interfaz conversacional con Claude Code a través de la arquitectura de puente Savia. Permite gestionar conversaciones en tiempo real con streaming SSE, persistencia local de historial, y fallback automático a API directa de Anthropic.
+**Descripción**: Aplicación móvil nativa para Android que proporciona interfaz de gestión de proyectos y conversacional con Claude Code a través de la arquitectura Savia Bridge. Dashboard con métricas de sprint, selección de proyecto/sprint, perfil de usuario, gestión de equipo/empresa, y chat con streaming SSE.
 
 ## 2. Usuarios Objetivo
 
 ### Monica (PM/Technical Lead)
 - **Rol**: Gestora técnica de proyectos
-- **Necesidad**: Acceder a Claude desde el móvil para revisiones rápidas de decisiones arquitectónicas
+- **Necesidad**: Gestión de proyectos y acceso a Claude desde el móvil
 - **Dolor**: Dependencia de laptop; necesita movilidad
-- **Objetivo**: Chat con streaming, historial persistente, soporte para Bridge
+- **Objetivo**: Dashboard de sprints, chat con streaming, perfil, gestión de equipo
 
 ### Carlos (Engineering Manager)
 - **Rol**: Manager de ingeniería
-- **Necesidad**: Consultar ayuda de Claude para arquitectura/diseño desde cualquier lugar
-- **Dolor**: Sesiones largas sin contexto previo
-- **Objetivo**: Conversaciones completamente independientes, cada una con su historial
+- **Necesidad**: Consultar métricas y ayuda de Claude para arquitectura/diseño
+- **Dolor**: No ver estado de sprints en tiempo real
+- **Objetivo**: Dashboard de métricas, selección de proyecto/sprint, seguimiento
 
-## 3. Características Implementadas
+## 3. Pantallas y Funcionalidades
 
-### F1: Chat Conversacional ✅ Implementada
-- **Interfaz de usuario**: Jetpack Compose, Material 3 (tema violeta/malva)
-- **Streaming SSE**: Respuestas en tiempo real con visualización incremental
-- **Historial persistente**: Room database con conversaciones y mensajes
-- **Sistema dual**:
-  - Primario: Savia Bridge (HTTPS/SSE, puerto 8922)
-  - Fallback: API Anthropic directo (claude-3-5-sonnet)
-- **Markdown rendering**: Markwon para formateo de respuestas
-- **Selección automática**: Bridge si disponible; fallback a API si no configurado
+### 3.1 Home (Dashboard)
 
-### F2: Sesiones (Conversaciones) ✅ Implementada
-- **Historial de conversaciones**: Lista de todas las sesiones activas
-- **Auto-titulado**: Título generado automáticamente del primer mensaje
-- **Persistencia de sesión**: Al cerrar la app, se restaura la última conversación al abrir
-- **Gestión**: Crear nueva, cambiar de sesión, eliminar sesión
-- **Preview**: Última línea de mensaje en la lista para contexto rápido
+**Estado: ✅ FUNCIONAL (via REST /dashboard)**
 
-### F3: Configuración de Conexión ✅ Implementada
-- **Bridge Configuration**:
-  - Host/URL (ej: https://localhost:8922)
-  - Token de autenticación
-  - Encriptación Tink AES-256-GCM
-  - Health check periódico
-  - Desconexión manual desde Settings
-- **API Key (fallback)**:
-  - Autenticación con clave Anthropic
-  - Almacenamiento encriptado
-  - Uso transparente si Bridge no disponible
-- **Indicador de estado**: Settings muestra estado de Bridge (conectado/desconectado)
+La pantalla Home obtiene todos sus datos en una sola llamada REST al endpoint Bridge `GET /dashboard`. El Bridge lee los datos directamente del disco (CLAUDE.md, mock JSON files), sin depender de Claude CLI. Esto hace que la carga sea rapida (~5ms) y fiable.
 
-### F4: Dashboard (Sesiones) ✅ Implementada
-- **Listado de conversaciones**: Todas las sesiones con preview del último mensaje
-- **Ordenamiento**: Por fecha de última actualización (más reciente primero)
-- **Acciones**: Seleccionar para reanudar, eliminar, nuevo chat
-- **Estado vacío**: Mensaje si no hay conversaciones
+| Funcionalidad | UI | Datos | Estado |
+|---|---|---|---|
+| Saludo personalizado ("Good morning, {nombre}") | ✅ greeting del dashboard | ✅ `GET /dashboard` → user.greeting | **OK** |
+| Selector de proyecto (dropdown con buscador) | ✅ DropdownMenu con OutlinedTextField | ✅ `GET /dashboard` → projects[] | **OK** |
+| Selector de sprint (dropdown con buscador) | ✅ DropdownMenu con OutlinedTextField | ✅ `GET /dashboard` → sprint.name | **OK** |
+| Sprint Progress (barra + SP completados/total) | ✅ LinearProgressIndicator + texto | ✅ `GET /dashboard` → sprint.progress/completedPoints/totalPoints | **OK** |
+| Métricas: items bloqueados | ✅ MetricCard | ✅ `GET /dashboard` → blockedItems | **OK** |
+| Métricas: horas de hoy | ✅ MetricCard | ✅ `GET /dashboard` → hoursToday | **OK** |
+| My Tasks (tareas Active) | ✅ MyTasksSection | ✅ `GET /dashboard` → myTasks[] | **OK** |
+| Recent Activity (últimos items) | ✅ ActivityItem lista | ✅ `GET /dashboard` → recentActivity[] | **OK** |
+| Quick Actions: "See Board" | ✅ Navega a KanbanScreen | N/A | **OK** |
+| Quick Actions: "Approvals" | ✅ Navega a ApprovalsScreen | N/A | **OK** |
+| FAB: captura rápida | ✅ FloatingActionButton | N/A | **OK** |
+| Refresh en TopAppBar | ✅ Botón con icono | Refresca todo (loadDashboardData) | **OK** |
+| Logo de Savia en TopAppBar | ✅ SaviaLogo component | Identificación visual | **OK** |
+| Versión visible en TopAppBar | ✅ VersionBadge component | BuildConfig.VERSION_NAME | **OK** |
 
-### F5: Persistencia Local ✅ Implementada
-- **Base de datos**: Room con SQLCipher para encriptación de almacenamiento
-- **Esquema**:
-  - `conversations`: id, title, createdAt, updatedAt, isArchived
-  - `messages`: id, conversationId, role (user/assistant/system), content, timestamp
-- **Sincronización**: Flow reactivo para UI updates en tiempo real
-- **Queries eficientes**: Índices en conversationId para búsqueda rápida
+**Arquitectura**: HomeViewModel llama a `projectRepository.getDashboard()` que hace `GET /dashboard` al Bridge. El Bridge lee los datos del workspace (CLAUDE.md para metadata de proyectos, mock-sprint.json para datos de sprint, mock-workitems.json para tareas). Auto-selecciona el primer proyecto que tenga datos de sprint.
+
+**TopAppBar adicionales**: Todas las pantallas (Home, Chat, Commands, Profile, Settings, etc.) incluyen Logo Savia + VersionBadge en TopAppBar para consistencia visual y identificación del producto.
+
+### 3.2 Chat
+
+**Estado: ✅ FUNCIONAL**
+
+| Funcionalidad | Estado | Notas |
+|---|---|---|
+| Interfaz Compose + Material 3 | ✅ | Tema violeta/malva correcto |
+| SSE Streaming | ✅ | Flow<StreamDelta> con Text/Done/Error |
+| Historial persistente (Room DB) | ✅ | ChatRepository.getMessages() Flow |
+| Sistema dual (Bridge + API fallback) | ✅ | Chequea hasBridgeConfig() primero |
+| Markdown rendering (Markwon) | ✅ | StrikethroughPlugin + TablePlugin |
+| Autocompletado de slash commands | ✅ | 6 comandos predefinidos en ChatInput |
+| Error handling con snackbar | ✅ | SnackbarHostState en error |
+| Auto-scroll al final | ✅ | animateScrollToItem en LaunchedEffect |
+| session_id | ✅ | UUID dinámico generado por ChatViewModel |
+
+**Nota**: El Chat funciona correctamente cuando el Bridge está activo. Usa un session_id UUID generado dinámicamente por ChatViewModel. El Bridge convierte automaticamente session_ids no-UUID a UUID v5 deterministas. Room Database es la única fuente de verdad (SSoT) para mensajes — el ViewModel se suscribe a un Flow de Room vía `subscribeToMessages()` y no añade mensajes manualmente al estado, evitando duplicados.
+
+### 3.3 Commands
+
+**Estado: ✅ FUNCIONAL (UI only)**
+
+- 10 familias de comandos organizadas (hardcoded)
+- Ejecución directa para comandos read-only
+- Feedback visual con indicador de ejecución
+- Los comandos se envían al Chat para ejecución
+
+### 3.4 Profile
+
+**Estado: ✅ FUNCIONAL**
+
+| Funcionalidad | Estado | Fuente de datos |
+|---|---|---|
+| Cabecera: avatar, nombre, email, rol, org | ✅ | GET `/profile` (REST directo) |
+| Stats: sprints, PBIs, horas | ✅ | GET `/profile` → campo `stats` |
+| Proyectos activos con selector | ✅ | `getProjects()` → GET `/dashboard` (REST, fiable) |
+| Check Updates (siempre visible) | ✅ | GET `/update/check` (REST directo) |
+| Download Update | ✅ | GET `/update/download` → FileProvider → install intent |
+| Progreso de descarga | ✅ | LinearProgressIndicator en UI |
+| Instalación automática post-descarga | ✅ | ACTION_VIEW intent via FileProvider |
+| Versión de app (siempre visible) | ✅ | BuildConfig.VERSION_NAME |
+| Navegación a Settings | ✅ | TopAppBar engranaje |
+| Estado sin Bridge: "Configure Bridge" + Retry | ✅ | Fallback UI |
+| Carga paralela (profile + projects) | ✅ | async(Dispatchers.IO) |
+| Timeout 20s | ✅ | withTimeout(20_000) |
+
+### 3.4.1 TopAppBar — Logo + Versión (Todas las pantallas)
+
+**Estado: ✅ FUNCIONAL**
+
+| Elemento | Componentes | Pantallas | Estado |
+|---|---|---|---|
+| Logo Savia + Versión | SaviaLogo + VersionBadge | Home, Chat, Commands, Profile, Settings, GitConfig, TeamManagement, Company, Kanban, Approvals, Capture | ✅ |
+
+**Descripción**: Todas las 13 pantallas principales incluyen en su TopAppBar el logo de Savia (identificación visual del producto) y un badge con la versión actual de la app (BuildConfig.VERSION_NAME). Esto proporciona consistencia visual y permite al usuario verificar la versión instalada en cualquier momento.
+
+### 3.5 Settings
+
+**Estado: ✅ FUNCIONAL**
+
+| Funcionalidad | Estado | Fuente de datos |
+|---|---|---|
+| Bridge status card (verde/roja) | ✅ | SecurityRepository.hasBridgeConfig() |
+| Perfil de usuario (nombre + email) | ✅ | GET `/profile` |
+| Git Configuration | ✅ | GET/PUT `/git-config` |
+| Team management | ✅ | GET/PUT `/team` |
+| Company profile | ✅ | GET/PUT `/company` |
+| Theme selector (SYSTEM/LIGHT/DARK) | ✅ | Local (SecureStorage) |
+| Language selector (SYSTEM/ES/EN) | ✅ | Local (SecureStorage) |
+| About (versión app + Bridge) | ✅ | BuildConfig + /health |
+| Check Updates (duplicado) | ✅ | GET `/update/check` |
+| Disconnect con confirmación | ✅ | AlertDialog → deleteBridgeConfig() |
+
+### 3.6 Bridge Setup Dialog
+
+**Estado: ✅ FUNCIONAL**
+
+- **Campos**: Host, Port (default 8922), Token (texto plano, falta toggle visibilidad)
+- **Validación**: Host no vacío, port 1-65535, token no vacío
+- **Health check**: GET a `/health` con Bearer token (spec decía POST pero Bridge usa GET)
+- **Loading**: Spinner + "Connecting..." durante health check
+- **Error**: Mensaje de error con detalle
+- **Auto-dismiss**: Se cierra al conectar
+- **Dispatchers.IO**: Sí
+
+### 3.7 Onboarding
+
+**Estado: ✅ FUNCIONAL**
+
+- AppStartupViewModel detecta Bridge configurado
+- Detección de idioma (Locale.getDefault().language)
+- Flujo correcto: sin Bridge → BridgeSetupDialog; con Bridge → Home
 
 ## 4. Navegación
 
-### Bottom Navigation (4 tabs)
-1. **Chat**: Interfaz principal de conversación
-   - Entrada de texto
-   - Visualización de historial
-   - Indicador de streaming
-2. **Sessions**: Historial de conversaciones
-   - Lista con preview
-   - Acciones (seleccionar, eliminar)
-   - Nuevo chat
-3. **Settings**: Configuración
-   - Estado de Bridge (URL, conectado/desconectado)
-   - API Key config
-   - Tema, idioma, info de app
-4. **Dashboard** (integrado en Sessions)
+### Bottom Navigation (4 tabs) ✅
+1. **Home** (Forum icon) — Dashboard
+2. **Chat** (Chat icon) — Conversación con Claude
+3. **Commands** (Bolt icon) — Comandos slash
+4. **Profile** (Person icon) — Perfil y proyectos
 
-### Persistencia de Tab State
-- `saveState/restoreState` en NavigationBar
-- Último tab visitado se restaura
-- Historial de navegación preservado
+### Pantallas secundarias ✅
+- **Settings**: Desde Home (TopAppBar) y Profile (TopAppBar)
+- **Git Config**: Desde Settings
+- **Team Management**: Desde Settings
+- **Company Profile**: Desde Settings
+- **Kanban Board**: Desde Home → "See Board"
+- **Approvals**: Desde Home → "Approvals"
+- **Capture**: Desde Home → FAB
+- **Time Log**: Desde Home (futuro)
 
-## 5. Seguridad
+### Comportamiento ✅
+- `popUpTo(startDestination)` con `launchSingleTop = true`
+- Sin `saveState/restoreState`
+- Start destination: Home
+
+## 5. Bridge Integration
+
+### Endpoints REST directos (FIABLES)
+| Endpoint | Método | Auth | Uso | Estado |
+|----------|--------|------|-----|--------|
+| `/health` | GET | No | Health check | ✅ Funciona |
+| `/profile` | GET | Bearer | Perfil de usuario | ✅ Funciona |
+| `/profile` | PUT | Bearer | Guardar preferencias | ✅ Funciona |
+| `/git-config` | GET | Bearer | Leer config Git | ✅ Funciona |
+| `/git-config` | PUT | Bearer | Actualizar config Git | ✅ Funciona |
+| `/team` | GET | Bearer | Listar equipo | ✅ Funciona |
+| `/team` | PUT | Bearer | CRUD equipo | ✅ Funciona |
+| `/company` | GET | Bearer | Perfil empresa | ✅ Funciona |
+| `/company` | PUT | Bearer | Actualizar empresa | ✅ Funciona |
+| `/update/check` | GET | No | Comprobar actualizaciones | ✅ Funciona |
+| `/update/download` | GET | No | Descargar APK | ✅ Funciona |
+| `/openapi.json` | GET | No | Spec OpenAPI | ✅ Funciona |
+| `/sessions` | GET | Bearer | Listar sesiones Claude | ✅ Funciona |
+| `/connectors` | GET | Bearer | Estado conectores | ✅ Funciona |
+| `/logs` | GET | Bearer | Logs del Bridge | ✅ Funciona |
+
+| `/dashboard` | GET | Bearer | Dashboard completo (projects, sprint, tasks) | ✅ Funciona |
+
+### Endpoint Chat (FRÁGIL para datos estructurados)
+| Endpoint | Método | Auth | Uso | Estado | Nota |
+|----------|--------|------|-----|--------|------|
+| `/chat` | POST | Bearer | Chat conversacional SSE | ✅ Para chat funciona | — |
+| `/chat` | POST | Bearer | Obtener projects vía slash command | ⚠️ FRÁGIL — depende de Claude CLI | Migrado a `/dashboard` REST |
+| `/chat` | POST | Bearer | Sprint status vía slash command | ⚠️ FRÁGIL — depende de Claude CLI | Considera usar `/dashboard` |
+| `/chat` | POST | Bearer | Board flow vía slash command | ⚠️ FRÁGIL — depende de Claude CLI | Considera usar `/dashboard` |
+| `/chat` | POST | Bearer | Time entries vía slash command | ⚠️ FRÁGIL — depende de Claude CLI | Considera usar `/dashboard` |
+
+### Timeouts y resiliencia
+- `sendChatCommand()`: timeout de 15 segundos (para comandos slash)
+- ProfileViewModel: timeout global de 20 segundos
+- Bridge auto-convierte session_id no-UUID a UUID determinístico (uuid5)
+- Fallback a mock data para getProjects(), empty para el resto
+- Todas las llamadas HTTP en `Dispatchers.IO`
+
+### URL dinámica
+- `bridgeRequest()` helper construye URL desde `SecurityRepository.getBridgeUrl()`
+- Header `Authorization: Bearer {token}` automático
+- **Nunca hardcodear** URLs de localhost
+
+## 6. Seguridad
 
 ### Encriptación
-- **Tink AEAD** (AES-256-GCM)
+- **Tink AEAD** (AES-256-GCM) para almacenamiento local
 - **AndroidKeystore**: Clave maestra hardware-backed
-- **SecureStorage**: SharedPreferences encriptadas para API key y Bridge token
+- **SecureStorage**: SharedPreferences encriptadas para Bridge host/port/token
 
 ### Autenticación
-- **Bridge**: Bearer token (env variable o configuración manual)
-- **API**: Clave de Anthropic encriptada
+- **Bridge**: Bearer token en header Authorization
 - **SSO**: Google Sign-In (Credential Manager) para futuro
 
 ### Almacenamiento
 - **Room + SQLCipher**: Base de datos encriptada en reposo
-- **Derivación de clave**: PBKDF2 para passphrases locales
 
-## 6. Requisitos No Funcionales
+## 7. Localización
 
-### Performance
-- App cold start: < 3 segundos
-- Streaming SSE: visualización del primer chunk < 1 segundo
-- Scroll de mensajes: 60fps (Compose optimization)
-- Base de datos: queries <100ms incluso con 10k mensajes
+- **Español (es)**: Idioma principal — 48+ strings en `values-es/strings.xml`
+- **Inglés (en)**: Idioma base — 48+ strings en `values/strings.xml`
+- Todas las strings UI deben usar `stringResource(R.string.xxx)`
+- **Nunca hardcodear** texto visible al usuario en Composables
 
-### Compatibilidad
-- **Android mínimo**: API 26 (8.0)
-- **Android destino**: API 35 (15.0)
-- **Kotlin**: 2.1.0
-- **Java**: 17 (JVM target)
+## 8. Testing
 
-### Accesibilidad
-- **Material 3**: Soporte WCAG 2.1 AA
-- **TalkBack**: Descripción de contenido en componentes
-- **Touch targets**: 48dp mínimo
-- **Alto contraste**: Tema de alto contraste soportado
+### Unit Tests (JUnit + Robolectric)
+- Tests de lógica de ViewModel
+- Tests de Repository con MockWebServer
+- Tests de navegación (rutas, configuración de tabs)
 
-### Localización
-- **Español**: Principal
-- **Inglés**: Secundario (estructura preparada)
-- **RTL**: Arquitectura lista para idiomas RTL
+### Screenshot Tests (Roborazzi 1.59.0)
+- Tests en JVM sin dispositivo
+- Capturan estado visual de componentes individuales
+- Comandos:
+  - `./gradlew recordRoborazziDebug` — Generar baselines
+  - `./gradlew verifyRoborazziDebug` — Verificar sin cambios
+  - `./gradlew compareRoborazziDebug` — Comparar diffs
 
-## 7. Stack Técnico
+### Integration Tests (Bridge)
+- `scripts/tests/test_bridge_endpoints.py` — 19 tests contra Bridge en localhost
+- Prueba todos los endpoints REST: health, profile, sessions, team, company, etc.
+- Prueba chat con JSON response y conversión de non-UUID session_id
+- Prueba install server: page, update/check, openapi
+
+### APK Integration Tests (✅ FUNCIONAL)
+- **16+ tests ADB black-box contra Bridge en localhost**
+- Valida: emulador, Bridge reachable, API contract, port forwarding, APK install, Bridge config via UI, Home content, dashboard data, selectors, config persistence, navegación Chat/Commands/Profile/Home, logcat errors, update check
+- **Ubicación**: `scripts/tests/test_apk_integration.py`
+
+## 9. Stack Técnico
 
 ### Dependencias Clave
 - **Kotlin**: 2.1.0
-- **Jetpack Compose**: 2024.06.00 (Material 3)
-- **Hilt**: 2.51 (DI)
-- **Retrofit**: 2.11.0 (HTTP client)
-- **OkHttp**: 4.12.0 (SSE streaming)
-- **Room**: 2.7.0 + SQLCipher 4.6.0 (persistencia)
-- **DataStore**: 1.1.1 (preferences encriptadas)
+- **Jetpack Compose**: 2024.12.01 (Material 3)
+- **Hilt**: 2.56.2 (DI)
+- **OkHttp**: 4.12.0 (HTTP client + SSE streaming)
+- **Room**: 2.7.0 + SQLCipher 4.6.1 (persistencia)
 - **Tink**: 1.10.0 (crypto)
 - **Markwon**: 4.6.2 (markdown)
-- **Kotlinx Serialization**: 1.6.0 (JSON)
-- **Google Credential Manager**: 1.2.0 (autenticación)
+- **Kotlinx Serialization**: 1.7.3 (JSON)
+- **Navigation Compose**: 2.8.5
+- **Lifecycle**: 2.8.7
+- **Roborazzi**: 1.59.0 (screenshot testing)
+- **Robolectric**: 4.14.1 (JVM Android testing)
+- **AGP**: 8.13.2, **KSP**: 2.1.0-1.0.29
 
-### Testing
-- **JUnit 4**: Unit tests
-- **Mockk**: Mocking
-- **Turbine**: Flow testing
-- **Truth**: Assertions
-- **Robolectric**: Android simulation
-- **MockWebServer**: API mock
-- **TestContainers**: Futura integración
-
-## 8. Arquitectura
+## 10. Arquitectura
 
 ### Capas (Clean Architecture)
 ```
-Presentation (Compose UI)
+Presentation (Compose UI + ViewModel)
     ↓
-ViewModel (StateFlow)
+Domain (models, repository interfaces)
     ↓
-Use Cases (Domain)
-    ↓
-Repositories (Data)
-    ↓
-API/Database/Security
+Data (repository implementations, API, DB, Security)
 ```
 
 ### Módulos
-- **:app** — Aplicación (MainActivity, UI, DI, Auth)
-- **:domain** — Modelos, interfaces repository, use cases
-- **:data** — Implementaciones, API, BD, Security
+- **:app** — UI (Screens, ViewModels, Navigation, DI, Theme)
+- **:domain** — Modelos de datos, interfaces de Repository
+- **:data** — Implementaciones de Repository, SecureStorage, Room, OkHttp
 
-### DI (Hilt)
-- **NetworkModule**: OkHttpClient, Retrofit, JSON, SaviaBridgeService
-- **RepositoryModule**: ChatRepository, SecurityRepository
-- **DatabaseModule**: Room database, DAOs
+### Auto-versioning
+- `version.properties` gestiona VERSION_CODE, VERSION_MAJOR/MINOR/PATCH
+- `assembleDebug` auto-incrementa versionCode y patch **en fase de configuración** (no ejecución), garantizando que el APK siempre embebe la versión correcta
+- BuildConfig expone VERSION_NAME y VERSION_CODE
+- `assembleDebug` ejecuta `testDebugUnitTest` automáticamente antes de compilar — si los tests fallan, el APK no se genera
+- `assembleDebug` auto-publica APK a `~/.savia/bridge/apk/` y `scripts/dist/` via tasks Gradle `publishToBridge` y `publishToDist`
 
-## 9. Decisiones de Diseño
+## 11. Nombre oficial
 
-### Dual-Stack (Bridge + API)
-**Razón**: Bridge es primario pero API proporciona fallback sin dependencias de infraestructura externa.
-**Implementación**: SecurityRepository determina ruta en tiempo de ejecución.
-**Beneficio**: Flexibilidad de despliegue.
-
-### SSE Streaming en Mobile
-**Razón**: Respuestas en tiempo real, visualización incremental, UX fluida.
-**Implementación**: OkHttpClient + callbackFlow + BufferedSource.readUtf8Line().
-**Desafío**: Manejo de conexiones persistentes en móvil (puede desconectarse); implementar reconnect en futuro.
-
-### Room + SQLCipher
-**Razón**: Persistencia nativa Android con encriptación estándar.
-**Alternativa considerada**: Datastore (más simple pero menos flexible para queries).
-**Beneficio**: Escalable a 10k+ mensajes sin degradación.
-
-### Compose Multiplatform Ready
-**Razón**: Arquitectura preparada para reutilización en iOS (Kotlin Multiplatform).
-**Implementación**: Domain y Data totalmente independientes de Android; solo UI es específica.
-**Futuro**: Migración a KMP para iOS con cambio mínimo de UI.
-
-## 10. Restricciones y Limitaciones
-
-- **Offline parcial**: Puedo leer historial offline pero no enviar nuevos mensajes sin red
-- **Sync unidireccional**: No hay sync con servidor (Estado local es fuente de verdad)
-- **Sin widgets**: Widgets son road map futuro
-- **Sin notificaciones push**: Solo polling/manual en futuro
-- **Sin soporte wear**: Wear OS es futuro
-
-## 11. Roadmap
-
-### v0.2.0 (Beta)
-- [ ] Dashboards de proyecto/métricas (via Bridge)
-- [ ] Búsqueda en historial
-- [ ] Temas personalizados
-
-### v0.5.0 (Beta+)
-- [ ] Widgets de home screen
-- [ ] Notificaciones push (Bridge)
-- [ ] Voz input (speech-to-text)
-
-### v1.0.0 (Release)
-- [ ] Google Play Store launch
-- [ ] Traducción completa (ES/EN)
-- [ ] Support para tablets layout
-
-### v1.5.0 (Post-release)
-- [ ] Kotlin Multiplatform iOS companion
-- [ ] Wear OS app
-
-## 12. Métricas de Éxito
-
-- App store rating: > 4.0 estrellas
-- Session duration: > 5 minutos promedio
-- Retention D7: > 40%
-- Crash-free users: > 98%
-- Stream latency (first chunk): < 1.5 segundos p99
+El nombre del producto es **Savia Mobile** (no "Savia App").
+Todas las referencias en UI, Bridge, documentación y código deben usar "Savia Mobile".

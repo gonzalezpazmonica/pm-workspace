@@ -6,6 +6,86 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/lang/es/).
 
 ---
 
+## [0.3.34] — 2026-03-09
+
+### Segunda release — Full Dashboard + Bridge REST (Sprint 2026-04)
+
+Release completa con dashboard funcional, chat corregido, auto-actualización
+robusta, y pipeline de tests integrada en el build.
+
+### Añadido
+
+**Dashboard (Home)**
+- Selector de proyecto con búsqueda filtrada (bordered card + dropdown)
+- Selector de sprint con búsqueda filtrada
+- Sprint progress bar con story points (completados/total)
+- Métricas: items bloqueados + horas del día
+- My Tasks (primeras 3 tareas asignadas)
+- Recent Activity feed
+- Quick Actions: "See Board" y "Approvals"
+- FAB para captura rápida
+- Selección de proyecto persiste entre recargas (almacenamiento local)
+
+**Pantallas secundarias (REST)**
+- Kanban board via `GET /kanban?project=X`
+- Time log via `GET /timelog` + `POST /timelog`
+- Approvals via `GET /approvals?project=X`
+- Capture via `POST /capture`
+- Git Config (lectura/escritura)
+- Team Management (CRUD miembros)
+- Company Profile (lectura/escritura)
+
+**Chat**
+- Eliminado bug de mensajes duplicados (Room como única fuente de verdad)
+- Fix de error CLAUDECODE en sesiones anidadas (Bridge limpia env var)
+- Slash command autocomplete (8 comandos)
+
+**Perfil y actualizaciones**
+- Barra de progreso de descarga de APK (LinearProgressIndicator + %)
+- Botón "Buscar actualizaciones" tras encontrar versión disponible
+- Progreso de descarga también en Settings (SettingsViewModel ahora rastrea progreso)
+- Reset de estado al buscar actualizaciones (ambas pantallas)
+
+**Build & CI**
+- Auto-incremento de versión en fase de configuración de Gradle (fix de desfase)
+- Unit tests como gate obligatorio antes de publicar APK al Bridge
+- `assembleDebug` ejecuta `testDebugUnitTest` automáticamente
+- `publishToBridge` + `publishToDist` solo si tests pasan
+
+**Tests**
+- HomeViewModelTest: 5 tests (carga dashboard, selección de proyecto, persistencia, errores)
+- Total: 48 unit tests pasando
+- Spec coverage: Chat, Home, Settings, Profile, Navigation
+
+**Documentación**
+- CLAUDE.md creado para savia-mobile-android (constantes proyecto, sprint, métricas)
+- Proyecto visible en dashboard de pm-workspace
+
+### Corregido
+
+- Settings > Perfil no navegaba (onClick condicionado → siempre navega)
+- Chat duplicaba mensajes (ViewModel + Room emitían ambos → Room como SSoT)
+- Chat no respondía por variable CLAUDECODE heredada en subprocess
+- Versión del APK siempre iba una por detrás (incremento en ejecución → configuración)
+- Selector de proyecto no persistía selección (usaba Bridge default → selección local)
+- Bridge endpoints 404 por proceso desactualizado (requería reinicio)
+
+### Bridge (v1.5.0)
+
+- `POST /timelog` endpoint para imputación de horas
+- Fix env CLAUDECODE eliminada del subprocess de Claude CLI
+- Endpoints verificados: `/kanban`, `/timelog`, `/approvals`, `/capture`, `/profile`, `/dashboard`
+
+### Stack técnico actualizado
+
+| Componente | Versión |
+|-----------|---------|
+| Bridge | 1.5.0 |
+| version.properties | CODE=37, PATCH=34 |
+| Tests | 48 unit + integration |
+
+---
+
 ## [0.1.0] — 2026-03-08
 
 ### Primera release — MVP Foundation (Fase 0)

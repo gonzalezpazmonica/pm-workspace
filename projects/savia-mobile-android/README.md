@@ -13,8 +13,8 @@ Savia Mobile extiende el poder del asistente de pm-workspace de IA a dispositivo
 - **Dashboard offline:** Acceso a datos cacheados cuando no hay conexión
 - **Sincronización:** Contexto compartido con pm-workspace en tu computadora
 - **Bilingual:** Interfaz en español e inglés
-- **Privacidad:** Datos almacenados localmente, cifrados con SQLCipher
-- **Flexible:** Conecta vía Claude API directo o túnel SSH a tu servidor
+- **Privacidad:** Datos almacenados localmente, cifrados con Tink AES-256-GCM
+- **Flexible:** Conecta vía Savia Bridge (primario) o Claude API directo (fallback)
 
 ## Requisitos Previos
 
@@ -56,6 +56,8 @@ start "" %ANDROID_SDK_HOME%\tools\studio64.exe .
 ./gradlew assembleDebug
 ```
 
+Este comando ejecuta automáticamente los unit tests antes de compilar. Si los tests fallan, el APK no se genera. Tras compilar, el APK se publica automáticamente al Bridge (`~/.savia/bridge/apk/`) y a `scripts/dist/`.
+
 El APK aparecerá en: `app/build/outputs/apk/debug/app-debug.apk`
 
 Instalar en emulador o dispositivo físico:
@@ -67,17 +69,12 @@ Instalar en emulador o dispositivo físico:
 ### 4. Ejecutar Tests
 
 ```bash
-# Tests unitarios
+# Tests unitarios (48 tests)
 ./gradlew testDebugUnitTest
 
 # Tests de integración (con emulador)
 ./gradlew connectedAndroidTest
-
-# Cobertura de código
-./gradlew jacocoTestReport
 ```
-
-Ver reporte: `app/build/reports/jacoco/jacocoTestReport/html/index.html`
 
 ## Arquitectura
 
@@ -373,15 +370,16 @@ adb devices
 
 ## Versión Actual
 
-- **App Version:** 0.1.0-debug (MVP en desarrollo)
+- **App Version:** 0.3.34-debug (Sprint 2026-04)
 - **API Mínima:** Android 8.0 (API 26)
 - **Target API:** Android 15 (API 35)
+- **Tests:** 48 unit tests passing
+- **Bridge:** v1.5.0
 
 ## Roadmap
 
-- **v0.1.0:** MVP — Chat + dashboard básico
-- **v0.2.0:** Offline sync, templates rápidas
-- **v0.3.0:** Integración Jira/Azure DevOps nativa
+- **v0.1.0:** ✅ MVP — Chat + dashboard básico
+- **v0.3.x:** ✅ Full dashboard, REST bridge, auto-update, 48 tests
 - **v0.4.0:** Widgets, notificaciones inteligentes
 - **v1.0.0:** Beta pública, Google Play oficial
 - **v1.1.0+:** iOS via Flutter (considerar)

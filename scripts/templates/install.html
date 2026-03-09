@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Savia App — Descargar</title>
+<title>Savia Mobile — Descargar</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -43,6 +43,19 @@
   .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(107, 76, 154, 0.4); }
   .btn:active { transform: translateY(0); }
   .btn-disabled { background: #bbb; box-shadow: none; cursor: default; pointer-events: none; }
+  .btn-secondary {
+    display: inline-block;
+    color: #6B4C9A;
+    text-decoration: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 2px solid #6B4C9A;
+    transition: background 0.15s, color 0.15s;
+    margin-top: 12px;
+  }
+  .btn-secondary:hover { background: #6B4C9A; color: white; }
   .apk-info {
     margin-top: 16px;
     display: flex;
@@ -82,15 +95,18 @@
 <body>
 <div class="card">
   <img src="{{logo_src}}" class="logo" alt="Savia">
-  <h1>Savia App</h1>
+  <h1>Savia Mobile</h1>
   <p class="subtitle">Tu asistente inteligente de gestión de proyectos.<br>Descarga e instala la app en tu dispositivo Android.</p>
   {{download_section}}
+  <div style="margin-top: 16px;">
+    <a href="/openapi.json" class="btn-secondary" target="_blank">API Reference (OpenAPI)</a>
+  </div>
   <div class="instructions">
     <ol>
-      <li>Pulsa <strong>Descargar Savia App</strong></li>
+      <li>Pulsa <strong>Descargar Savia Mobile</strong></li>
       <li>Abre la notificación de descarga completada</li>
       <li>Permite la instalación desde orígenes desconocidos</li>
-      <li>Abre Savia App y configura la conexión al Bridge</li>
+      <li>Abre Savia Mobile y configura la conexión al Bridge</li>
     </ol>
   </div>
   <div class="footer">

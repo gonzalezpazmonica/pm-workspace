@@ -23,9 +23,11 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -50,6 +52,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.savia.mobile.R
+import com.savia.mobile.ui.common.SaviaLogo
+import com.savia.mobile.ui.common.VersionBadge
 
 /**
  * Profile screen for Savia Mobile v0.2.
@@ -61,8 +65,8 @@ import com.savia.mobile.R
  * - Active Projects section with list of project cards
  * - Project selector: tap project to setSelectedProject
  * - Settings link to existing SettingsScreen
- * - Check for Updates button with status indicator
- * - App version at bottom
+ * - Check for Updates button (ALWAYS visible, even without profile)
+ * - App version at bottom (ALWAYS visible)
  *
  * Clean Architecture Role: UI Layer (Presentation)
  * - ProfileViewModel manages profile and project selection
@@ -80,6 +84,33 @@ fun ProfileScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = androidx.compose.ui.platform.LocalContext.current
+
+    // Handle one-shot events (install APK intent)
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is ProfileEvent.InstallApk -> {
+                    try {
+                        val file = java.io.File(event.apkPath)
+                        val uri = androidx.core.content.FileProvider.getUriForFile(
+                            context,
+                            "${context.packageName}.fileprovider",
+                            file
+                        )
+                        val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                            setDataAndType(uri, "application/vnd.android.package-archive")
+                            addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        context.startActivity(intent)
+                    } catch (e: Exception) {
+                        snackbarHostState.showSnackbar("Error installing: ${e.message}")
+                    }
+                }
+            }
+        }
+    }
 
     // Show errors
     LaunchedEffect(uiState.error) {
@@ -92,14 +123,16 @@ fun ProfileScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Profile") },
+                navigationIcon = { SaviaLogo(modifier = Modifier.padding(start = 12.dp)) },
+                title = { Text(stringResource(R.string.profile_title)) },
                 actions = {
+                    VersionBadge()
                     androidx.compose.material3.IconButton(
                         onClick = onNavigateToSettings
                     ) {
                         Icon(
                             Icons.Default.Settings,
-                            contentDescription = "Settings",
+                            contentDescription = stringResource(R.string.nav_settings),
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
@@ -111,89 +144,119 @@ fun ProfileScreen(
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { innerPadding ->
-        if (uiState.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            val userProfile = uiState.userProfile
-            if (userProfile == null) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "No profile loaded",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Loading indicator
+            if (uiState.isLoading) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(120.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
-            } else {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    // User profile header
-                    item {
-                        UserProfileHeader(profile = userProfile)
-                    }
+            }
 
-                    // Stats row
-                    item {
-                        StatsRow(profile = userProfile)
-                    }
+            val userProfile = uiState.userProfile
 
-                // Active projects section
+            // Profile loaded: show header, stats, projects
+            if (userProfile != null) {
+                item {
+                    UserProfileHeader(profile = userProfile)
+                }
+
+                item {
+                    StatsRow(profile = userProfile)
+                }
+
                 item {
                     Text(
-                        text = "Active Projects",
+                        text = stringResource(R.string.profile_active_projects),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                 }
 
-                    items(uiState.projects) { project ->
-                        ProjectCard(
-                            project = project,
-                            isSelected = project.id == uiState.selectedProjectId,
-                            onClick = { viewModel.selectProject(project.id) }
+                items(uiState.projects) { project ->
+                    ProjectCard(
+                        project = project,
+                        isSelected = project.id == uiState.selectedProjectId,
+                        onClick = { viewModel.selectProject(project.id) }
+                    )
+                }
+            }
+
+            // Profile not loaded and not loading: show configure/retry
+            if (userProfile == null && !uiState.isLoading) {
+                item {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(32.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = "Profile not configured",
+                            modifier = Modifier.size(64.dp),
+                            tint = MaterialTheme.colorScheme.primary
                         )
-                    }
-
-                    // Update checker
-                    item {
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                    item {
-                        UpdateChecker(
-                            isChecking = uiState.updateCheckingUpdate,
-                            isDownloading = uiState.updateDownloading,
-                            updateAvailable = uiState.updateAvailable,
-                            onCheckUpdates = { viewModel.checkForUpdates() },
-                            onDownload = { viewModel.downloadUpdate() }
+                        Text(
+                            text = stringResource(R.string.profile_configure_bridge),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                    }
-
-                    // App version
-                    item {
-                        AppVersionFooter()
-                    }
-
-                    item {
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(
+                            onClick = onNavigateToSettings,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_go_to_settings))
+                        }
+                        Button(
+                            onClick = { viewModel.loadProfileData() },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_retry))
+                        }
                     }
                 }
+            }
+
+            // Update checker — ALWAYS visible regardless of profile state
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            item {
+                UpdateChecker(
+                    isChecking = uiState.updateCheckingUpdate,
+                    isDownloading = uiState.updateDownloading,
+                    downloadProgress = uiState.updateDownloadProgress,
+                    updateAvailable = uiState.updateAvailable,
+                    updateDownloaded = uiState.updateDownloaded,
+                    pendingUpdate = uiState.pendingUpdate,
+                    onCheckUpdates = { viewModel.checkForUpdates() },
+                    onDownloadAndInstall = { viewModel.downloadAndInstallUpdate() },
+                    onInstall = { viewModel.installDownloadedUpdate() }
+                )
+            }
+
+            // App version — ALWAYS visible
+            item {
+                AppVersionFooter()
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
@@ -277,17 +340,17 @@ private fun StatsRow(profile: com.savia.domain.model.UserProfile) {
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         StatColumn(
-            label = "Sprints",
+            label = stringResource(R.string.profile_sprints),
             value = (profile.stats?.sprintsManaged ?: 0).toString(),
             modifier = Modifier.weight(1f)
         )
         StatColumn(
-            label = "PBIs",
+            label = stringResource(R.string.profile_pbis),
             value = (profile.stats?.pbisCompleted ?: 0).toString(),
             modifier = Modifier.weight(1f)
         )
         StatColumn(
-            label = "Hours",
+            label = stringResource(R.string.profile_hours),
             value = String.format("%.0f", profile.stats?.hoursLogged ?: 0f),
             modifier = Modifier.weight(1f)
         )
@@ -369,7 +432,7 @@ private fun ProjectCard(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "Team: ${project.team}",
+                    text = stringResource(R.string.profile_team, project.team),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -400,15 +463,26 @@ private fun ProjectCard(
 }
 
 /**
- * Update checker section with check and download buttons.
+ * Update checker section with check, download, and install buttons.
+ *
+ * States:
+ * 1. Initial: "Check for Updates" button
+ * 2. Checking: spinner
+ * 3. Update available: shows version info + "Download and Install" button
+ * 4. Downloading: progress bar
+ * 5. Downloaded: "Install" button
  */
 @Composable
 private fun UpdateChecker(
     isChecking: Boolean,
     isDownloading: Boolean,
+    downloadProgress: Float,
     updateAvailable: Boolean,
+    updateDownloaded: Boolean,
+    pendingUpdate: com.savia.domain.model.AppUpdate?,
     onCheckUpdates: () -> Unit,
-    onDownload: () -> Unit
+    onDownloadAndInstall: () -> Unit,
+    onInstall: () -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -435,19 +509,19 @@ private fun UpdateChecker(
                 )
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Check for Updates",
+                        text = stringResource(R.string.profile_check_updates),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
-                    if (updateAvailable) {
+                    if (updateAvailable && pendingUpdate != null) {
                         Text(
-                            text = "New version available",
+                            text = "v${pendingUpdate.version} disponible (${pendingUpdate.size / 1024 / 1024} MB)",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
-                if (isChecking || isDownloading) {
+                if (isChecking) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(20.dp),
                         strokeWidth = 2.dp
@@ -455,12 +529,62 @@ private fun UpdateChecker(
                 }
             }
 
+            // Download progress bar
+            if (isDownloading) {
+                LinearProgressIndicator(
+                    progress = { downloadProgress },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(6.dp),
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant
+                )
+                Text(
+                    text = "${(downloadProgress * 100).toInt()}%",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            // Action buttons based on state
             if (!isChecking && !isDownloading) {
-                Button(
-                    onClick = if (updateAvailable) onDownload else onCheckUpdates,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(if (updateAvailable) "Download Update" else "Check Updates")
+                when {
+                    updateDownloaded -> {
+                        Button(
+                            onClick = onInstall,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_download_update))
+                        }
+                        TextButton(
+                            onClick = onCheckUpdates,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_check_updates_btn))
+                        }
+                    }
+                    updateAvailable -> {
+                        Button(
+                            onClick = onDownloadAndInstall,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_download_update))
+                        }
+                        TextButton(
+                            onClick = onCheckUpdates,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_check_updates_btn))
+                        }
+                    }
+                    else -> {
+                        Button(
+                            onClick = onCheckUpdates,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_check_updates_btn))
+                        }
+                    }
                 }
             }
         }
@@ -490,7 +614,7 @@ private fun AppVersionFooter() {
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "  Savia v1.0.0",
+                text = "  Savia v${com.savia.mobile.BuildConfig.VERSION_NAME}",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
