@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Label PR based on branch prefix
-        uses: actions/github-script@v7
+        uses: actions/github-script@v7  # TODO: pin to SHA
         with:
           script: |
             const branch = context.payload.pull_request.head.ref;

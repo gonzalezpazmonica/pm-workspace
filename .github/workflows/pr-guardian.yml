@@ -16,13 +16,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
       # ─── Gate 1: PR Description Quality ───
       - name: "Gate 1: PR Description Quality"
-        uses: actions/github-script@v7
+        uses: actions/github-script@v7  # TODO: pin to SHA
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -70,7 +70,7 @@ jobs:
 
       # ─── Gate 2: Conventional Commits (PR title) ───
       - name: "Gate 2: Conventional Commits"
-        uses: actions/github-script@v7
+        uses: actions/github-script@v7  # TODO: pin to SHA
         with:
           script: |
             const title = context.payload.pull_request.title;
@@ -206,7 +206,7 @@ jobs:
 
       # ─── Gate 5: Gitleaks Secret Scanning ───
       - name: "Gate 5: Gitleaks Secret Scanning"
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v2  # TODO: pin to SHA
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: false
@@ -317,7 +317,7 @@ jobs:
 
       # ─── Gate 7: Context Impact Summary ───
       - name: "Gate 7: Context Impact Summary"
-        uses: actions/github-script@v7
+        uses: actions/github-script@v7  # TODO: pin to SHA
         with:
           script: |
             const { execSync } = require('child_process');
@@ -411,7 +411,7 @@ jobs:
       # ─── Gate 8: PR Digest for Maintainer ───
       - name: "Gate 8: PR Digest"
         if: github.event.action == 'opened'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v7  # TODO: pin to SHA
         with:
           script: |
             const pr = context.payload.pull_request;
