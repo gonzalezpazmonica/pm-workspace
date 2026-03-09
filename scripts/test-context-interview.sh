@@ -6,7 +6,7 @@ PASS=0; FAIL=0
 
 pass() { ((PASS+=1)) || true; echo "  ✅ $1"; }
 fail() { ((FAIL+=1)) || true; echo "  ❌ $1"; }
-check() { if bash -c "$2" > /dev/null 2>&1; then pass "$1"; else fail "$1"; fi; }
+check() { if eval "$2" > /dev/null 2>&1; then pass "$1"; else fail "$1"; fi; }
 
 echo "══════════════════════════════════════════"
 echo "  Context Interview Tests (Era 33 — v2.8.0)"

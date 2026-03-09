@@ -111,6 +111,14 @@ MAX_CONCURRENT_STREAMS = 10  # SSE connection limit
 RATE_LIMIT_WINDOW = 300  # 5 minutes
 RATE_LIMIT_MAX_FAILURES = 5
 
+# A2 FIX: Global counter for active SSE streams
+_active_sse_streams = 0
+_sse_stream_lock = threading.Lock()
+
+# A3 FIX: Rate limiting on auth attempts (IP -> (count, first_failure_time))
+_auth_failures = {}
+_auth_failures_lock = threading.Lock()
+
 TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
 LOGO_B64_FILE = CONFIG_DIR / "logo_b64.txt"
 
@@ -302,6 +310,26 @@ def _build_install_html(apk: Path | None) -> str:
 
 _log_lock = threading.Lock()
 
+def _sanitize(text: str) -> str:
+    """
+    Sanitize sensitive data from log strings.
+
+    Masks Bearer tokens and token patterns to prevent credential leakage in logs.
+
+    Args:
+        text: String potentially containing sensitive data
+
+    Returns:
+        String with tokens replaced with placeholders
+    """
+    if not isinstance(text, str):
+        return str(text)
+    # Replace Bearer tokens
+    text = re.sub(r'Bearer\s+[A-Za-z0-9._\-]+', 'Bearer ***', text)
+    # Replace token patterns (e.g., sfYei4... or similar long alphanumeric strings)
+    text = re.sub(r'(["\']?)([A-Za-z0-9]{20,})\1', r'\1***\1', text)
+    return text
+
 def _rotate_log(filepath: Path):
     """Rotate log file if it exceeds MAX_LOG_SIZE."""
     try:
@@ -315,7 +343,8 @@ def _rotate_log(filepath: Path):
 
 def log(msg: str, level: str = "INFO"):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
-    line = f"[{timestamp}] [{level}] {msg}"
+    sanitized_msg = _sanitize(msg)
+    line = f"[{timestamp}] [{level}] {sanitized_msg}"
     print(line, flush=True)
     with _log_lock:
         try:
@@ -329,7 +358,8 @@ def log(msg: str, level: str = "INFO"):
 def chat_log(msg: str, level: str = "INFO"):
     """Dedicated chat log for request/response detail."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
-    line = f"[{timestamp}] [{level}] {msg}"
+    sanitized_msg = _sanitize(msg)
+    line = f"[{timestamp}] [{level}] {sanitized_msg}"
     with _log_lock:
         try:
             CHAT_LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -338,6 +368,63 @@ def chat_log(msg: str, level: str = "INFO"):
                 f.write(line + "\n")
         except Exception:
             pass
+
+# --- SSE Stream Management (A2) ---
+
+def _increment_sse_streams() -> bool:
+    """
+    Increment active SSE stream counter if under limit.
+
+    Returns:
+        bool: True if stream can be opened, False if at limit
+    """
+    global _active_sse_streams
+    with _sse_stream_lock:
+        if _active_sse_streams >= MAX_CONCURRENT_STREAMS:
+            return False
+        _active_sse_streams += 1
+        return True
+
+def _decrement_sse_streams():
+    """Decrement active SSE stream counter on stream end."""
+    global _active_sse_streams
+    with _sse_stream_lock:
+        if _active_sse_streams > 0:
+            _active_sse_streams -= 1
+
+# --- Auth Rate Limiting (A3) ---
+
+def _check_auth_rate_limit(ip: str) -> bool:
+    """
+    Check if IP has exceeded auth failure rate limit.
+
+    Returns:
+        bool: True if IP is not rate limited, False if rate limited
+    """
+    global _auth_failures
+    now = time.time()
+    with _auth_failures_lock:
+        if ip in _auth_failures:
+            count, first_time = _auth_failures[ip]
+            # If outside window, reset
+            if now - first_time > RATE_LIMIT_WINDOW:
+                del _auth_failures[ip]
+                return True
+            # If at limit, reject
+            if count >= RATE_LIMIT_MAX_FAILURES:
+                return False
+        return True
+
+def _record_auth_failure(ip: str):
+    """Record an authentication failure for rate limiting."""
+    global _auth_failures
+    now = time.time()
+    with _auth_failures_lock:
+        if ip in _auth_failures:
+            count, first_time = _auth_failures[ip]
+            _auth_failures[ip] = (count + 1, first_time)
+        else:
+            _auth_failures[ip] = (1, now)
 
 # --- Auth Token Management ---
 
@@ -978,21 +1065,40 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
         log(f"{self.address_string()} - {format % args}", "HTTP")
 
     def _check_auth(self) -> bool:
-        """Validate the auth token."""
+        """
+        Validate the auth token with A3 rate limiting on failures.
+
+        Tracks failed auth attempts per IP and rejects with 429 if
+        RATE_LIMIT_MAX_FAILURES attempts occur within RATE_LIMIT_WINDOW.
+        """
+        # A3 FIX: Check rate limit before validation
+        client_ip = self.address_string().split(':')[0]
+        if not _check_auth_rate_limit(client_ip):
+            log(f"Auth rate limit exceeded for IP {client_ip}", "SECURITY")
+            self._send_json({"error": "Too many failed authentication attempts"}, 429)
+            return False
+
         if not self.auth_token:
             return True
 
         auth_header = self.headers.get("Authorization", "")
         if auth_header.startswith("Bearer "):
             token = auth_header[7:]
-            return secrets.compare_digest(token, self.auth_token)
+            result = secrets.compare_digest(token, self.auth_token)
+            if not result:
+                _record_auth_failure(client_ip)
+            return result
 
         parsed = urlparse(self.path)
         params = parse_qs(parsed.query)
         token = params.get("token", [None])[0]
         if token:
-            return secrets.compare_digest(token, self.auth_token)
+            result = secrets.compare_digest(token, self.auth_token)
+            if not result:
+                _record_auth_failure(client_ip)
+            return result
 
+        _record_auth_failure(client_ip)
         return False
 
     def _send_security_headers(self):
@@ -1122,6 +1228,18 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             if not apk:
                 self._send_json({"error": "No APK available"}, 404)
                 return
+            # A1 FIX: Path traversal check — ensure APK is within APK_DIR
+            try:
+                apk_resolved = apk.resolve()
+                apk_dir_resolved = APK_DIR.resolve()
+                if not str(apk_resolved).startswith(str(apk_dir_resolved)):
+                    log(f"Path traversal attempt blocked: {apk_resolved}", "SECURITY")
+                    self._send_json({"error": "Forbidden"}, 403)
+                    return
+            except Exception as e:
+                log(f"Path validation error: {e}", "ERROR")
+                self._send_json({"error": "Internal error"}, 500)
+                return
             log(f"APK download via /update: {apk.name} ({apk.stat().st_size} bytes) to {self.address_string()}")
             self.send_response(200)
             self.send_header("Content-Type", "application/vnd.android.package-archive")
@@ -1145,6 +1263,18 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             apk = _find_apk()
             if not apk:
                 self._send_json({"error": "No APK available"}, 404)
+                return
+            # A1 FIX: Path traversal check — ensure APK is within APK_DIR
+            try:
+                apk_resolved = apk.resolve()
+                apk_dir_resolved = APK_DIR.resolve()
+                if not str(apk_resolved).startswith(str(apk_dir_resolved)):
+                    log(f"Path traversal attempt blocked: {apk_resolved}", "SECURITY")
+                    self._send_json({"error": "Forbidden"}, 403)
+                    return
+            except Exception as e:
+                log(f"Path validation error: {e}", "ERROR")
+                self._send_json({"error": "Internal error"}, 500)
                 return
             log(f"APK download: {apk.name} ({apk.stat().st_size} bytes) to {self.address_string()}")
             self.send_response(200)
@@ -1648,6 +1778,12 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
         accept = self.headers.get("Accept", "")
 
         if "text/event-stream" in accept:
+            # A2 FIX: Check SSE connection limit before opening stream
+            if not _increment_sse_streams():
+                log(f"[req:{request_id}] SSE connection limit ({MAX_CONCURRENT_STREAMS}) exceeded", "SECURITY")
+                self._send_json({"error": "Too many concurrent SSE streams"}, 429)
+                return
+
             # SSE streaming response
             self.send_response(200)
             self.send_header("Content-Type", "text/event-stream")
@@ -1668,6 +1804,9 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 chat_log(f"[req:{request_id}] Client disconnected: {e}", "WARN")
             except Exception as e:
                 chat_log(f"[req:{request_id}] SSE error: {traceback.format_exc()}", "ERROR")
+            finally:
+                # A2 FIX: Always decrement counter on stream end
+                _decrement_sse_streams()
 
             log(f"[req:{request_id}] SSE complete ({event_num} events)")
 

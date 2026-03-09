@@ -6,7 +6,7 @@ set -uo pipefail
 PASS=0; FAIL=0; TOTAL=0
 pass() { PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); echo "  ✅ $1"; }
 fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  ❌ $1"; }
-check() { if bash -c "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
+check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
 
 CMD="$ROOT/.claude/commands/ai-exposure-audit.md"
 RULE="$ROOT/.claude/rules/domain/ai-exposure-metrics.md"

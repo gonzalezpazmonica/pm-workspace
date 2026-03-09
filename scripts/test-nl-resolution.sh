@@ -13,7 +13,7 @@ NC='\033[0m'
 
 assert_ok() {
   TOTAL=$((TOTAL+1))
-  if bash -c "$1" >/dev/null 2>&1; then
+  if eval "$1" >/dev/null 2>&1; then
     PASS=$((PASS+1))
     echo -e "  ${GREEN}✅${NC} $2"
   else
@@ -24,7 +24,7 @@ assert_ok() {
 
 assert_fail() {
   TOTAL=$((TOTAL+1))
-  if ! bash -c "$1" >/dev/null 2>&1; then
+  if ! eval "$1" >/dev/null 2>&1; then
     PASS=$((PASS+1))
     echo -e "  ${GREEN}✅${NC} $2 (expected fail)"
   else

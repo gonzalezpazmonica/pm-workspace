@@ -17,12 +17,14 @@ ensure_config_dir() {
   mkdir -p "$CONFIG_DIR"
 }
 
-# Rotar log si supera el tamaño máximo
+# Rotar log si supera el tamaño máximo (atomic operation)
 rotate_log() {
   if [ -f "$LOG_FILE" ] && [ "$(wc -c < "$LOG_FILE")" -gt "$MAX_LOG_SIZE" ]; then
     # Mantener las últimas MAX_LOG_ENTRIES entradas
-    tail -n "$MAX_LOG_ENTRIES" "$LOG_FILE" > "$LOG_FILE.tmp"
-    mv "$LOG_FILE.tmp" "$LOG_FILE"
+    # Atomic operation: write to temp file first, then atomic move
+    local temp_file=$(mktemp)
+    tail -n "$MAX_LOG_ENTRIES" "$LOG_FILE" > "$temp_file"
+    mv "$temp_file" "$LOG_FILE"
   fi
 }
 

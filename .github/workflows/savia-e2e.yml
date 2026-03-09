@@ -12,6 +12,9 @@ on:
       - '.claude/commands/flow-*.md'
       - '.claude/skills/savia-flow-practice/**'
 
+permissions:
+  contents: read
+
 jobs:
   e2e-mock:
     name: Savia E2E Mock Test

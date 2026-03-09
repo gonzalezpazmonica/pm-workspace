@@ -6,8 +6,8 @@ set -uo pipefail
 PASS=0; FAIL=0; TOTAL=0
 pass() { PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); echo "  ✅ $1"; }
 fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  ❌ $1"; }
-check() { if bash -c "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
-check_not() { if bash -c "$1" >/dev/null 2>&1; then fail "$2"; else pass "$2"; fi }
+check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
+check_not() { if eval "$1" >/dev/null 2>&1; then fail "$2"; else pass "$2"; fi }
 
 RULE="$ROOT/.claude/rules/domain/equality-shield.md"
 CMD="$ROOT/.claude/commands/bias-check.md"

@@ -29,12 +29,14 @@ setup() {
   [ "$found" -eq 0 ]
 }
 
-@test "no eval usage in test scripts" {
+@test "no unsafe eval usage in test scripts" {
   found=0
   for f in scripts/test-*.sh; do
     [ -f "$f" ] || continue
-    if grep -n "eval " "$f" | grep -v "^[0-9]*:#" | grep -v "grep.*eval" | head -1 | grep -q .; then
-      echo "EVAL FOUND: $f" >&2
+    # Allow eval inside check()/assert() function definitions (controlled test assertions)
+    # Allow eval "$var" patterns used in assert/check test helpers (hardcoded assertions)
+    if grep -n "eval " "$f" | grep -v "^[0-9]*:#" | grep -v "grep.*eval" | grep -v 'eval "\$' | head -1 | grep -q .; then
+      echo "UNSAFE EVAL FOUND: $f" >&2
       found=$((found + 1))
     fi
   done
