@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.roborazzi)
 }
 
 // --- Auto-version: read from version.properties ---
@@ -93,6 +94,19 @@ android {
         buildConfig = true
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            all {
+                it.systemProperty("robolectric.graphicsMode", "NATIVE")
+                // Exclude screenshot tests from release builds (Roborazzi only works with debug)
+                if (it.name.contains("Release")) {
+                    it.exclude("**/screenshot/**")
+                }
+            }
+        }
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -156,6 +170,11 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockwebserver)
     testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi.core)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.junit)
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.compose.ui.test)
     testImplementation(libs.room.testing)
     testImplementation(libs.arch.core.testing)
     testImplementation(libs.test.core)
