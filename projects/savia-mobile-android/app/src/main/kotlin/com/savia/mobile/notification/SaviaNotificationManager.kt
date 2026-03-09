@@ -6,33 +6,38 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.savia.mobile.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Manages notification channels and sending notifications for Savia Mobile.
- *
- * Handles:
- * - Creating the notification channel (Android 8.0+)
- * - Checking POST_NOTIFICATIONS permission (Android 13+)
- * - Sending "response complete" notifications when app is backgrounded
- */
 @Singleton
 class SaviaNotificationManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     companion object {
+        private const val TAG = "SaviaNotification"
         const val CHANNEL_ID = "savia_chat_responses"
         const val NOTIFICATION_ID_RESPONSE_COMPLETE = 1001
     }
 
+    var isAppInForeground: Boolean = true
+        private set
+
     init {
-        createNotificationChannel()
+        try {
+            createNotificationChannel()
+            observeAppLifecycle()
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to initialize notifications", e)
+        }
     }
 
     private fun createNotificationChannel() {
@@ -47,10 +52,17 @@ class SaviaNotificationManager @Inject constructor(
         manager.createNotificationChannel(channel)
     }
 
-    /**
-     * Whether the app has permission to post notifications.
-     * Always true on Android < 13 (permission not required).
-     */
+    private fun observeAppLifecycle() {
+        ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onStart(owner: LifecycleOwner) {
+                isAppInForeground = true
+            }
+            override fun onStop(owner: LifecycleOwner) {
+                isAppInForeground = false
+            }
+        })
+    }
+
     fun hasNotificationPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
@@ -62,20 +74,12 @@ class SaviaNotificationManager @Inject constructor(
         }
     }
 
-    /**
-     * Whether the runtime permission dialog needs to be shown.
-     * Only relevant on Android 13+ (API 33+).
-     */
     fun needsPermissionRequest(): Boolean {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !hasNotificationPermission()
     }
 
-    /**
-     * Sends a notification that a Claude response has completed.
-     * Only sends if the app has notification permission.
-     */
     fun notifyResponseComplete(conversationTitle: String? = null) {
-        if (!hasNotificationPermission()) return
+        if (isAppInForeground || !hasNotificationPermission()) return
 
         val title = context.getString(R.string.notification_response_ready)
         val text = conversationTitle
@@ -93,7 +97,7 @@ class SaviaNotificationManager @Inject constructor(
             NotificationManagerCompat.from(context)
                 .notify(NOTIFICATION_ID_RESPONSE_COMPLETE, notification)
         } catch (_: SecurityException) {
-            // Permission revoked between check and send — ignore
+            // Permission revoked between check and send
         }
     }
 }

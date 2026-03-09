@@ -78,9 +78,6 @@ class ChatViewModel @Inject constructor(
     private val notificationManager: SaviaNotificationManager
 ) : ViewModel() {
 
-    /** Whether the app is currently in the foreground. Set by ChatScreen lifecycle. */
-    var isAppInForeground: Boolean = true
-
     /**
      * Mutable state flow backing the public uiState StateFlow.
      * Updated by all ViewModel methods to reflect user actions and async results.
@@ -312,10 +309,8 @@ class ChatViewModel @Inject constructor(
                             isStreaming = false
                         )
                     }
-                    // Notify user if app is backgrounded
-                    if (!isAppInForeground) {
-                        notificationManager.notifyResponseComplete()
-                    }
+                    // Notify user if app is backgrounded (checked internally)
+                    notificationManager.notifyResponseComplete()
                 }
                 is StreamDelta.Error -> {
                     _uiState.update {
