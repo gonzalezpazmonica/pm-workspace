@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [2.74.2] — 2026-03-09
+## [2.74.2] — 2026-03-09
 
 ### Fixed — Era 103: Chat runtime crash + crash handler
 
@@ -1159,45 +1160,6 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
 
-[2.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.27.0...v2.28.0
-[2.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.26.0...v2.27.0
-[2.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.25.0...v2.26.0
-[2.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.24.0...v2.25.0
-[2.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.23.1...v2.24.0
-[2.23.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.23.0...v2.23.1
-[2.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.22.0...v2.23.0
-[2.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.21.0...v2.22.0
-[2.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.3...v2.21.0
-[2.20.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.2...v2.20.3
-[2.20.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.1...v2.20.2
-[2.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.0...v2.20.1
-[2.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.19.0...v2.20.0
-[2.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.18.0...v2.19.0
-[2.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.17.0...v2.18.0
-[2.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.16.1...v2.17.0
-[2.16.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.16.0...v2.16.1
-[2.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.15.0...v2.16.0
-[2.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.14.0...v2.15.0
-[2.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.10.0...v2.14.0
-[2.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.9.0...v2.10.0
-[2.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.2...v2.9.0
-[2.8.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.1...v2.8.2
-[2.8.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.0...v2.8.1
-[2.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.7.0...v2.8.0
-[2.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.6.0...v2.7.0
-[2.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.5.0...v2.6.0
-[2.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.4.0...v2.5.0
-[2.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.3.0...v2.4.0
-[2.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.2.0...v2.3.0
-[2.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.1.0...v2.2.0
-[2.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.9.1...v2.0.0
-[1.9.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.9.0...v1.9.1
-[1.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.8.0...v1.9.0
-[1.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.7.0...v1.8.0
-[1.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.6.0...v1.7.0
-[1.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.5.1...v1.6.0
-[1.5.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.5.0...v1.5.1
 
 ---
 
@@ -1210,7 +1172,6 @@ Ecosystem Integration: research of 12+ Claude Code repos with actionable improve
 - **2 research docs**: `investigacion-ecosistema-claude-code-2026.md` (12 repos analyzed), `era21-masterplan.md` (7 workstreams planned).
 - **12 improvement proposals**: instincts system, adversarial security, skill evaluation engine, anti-rationalization hook, quality sweeps, deny rules, pass@k metrics, verify/fix loops, audit trail, AGENTS.md format, VoiceMode, event broker.
 
-[1.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.4.0...v1.5.0
 
 ---
 
@@ -1231,7 +1192,6 @@ Savia School: educational vertical for classrooms. Teachers tutor and evaluate, 
 - GDPR Art. 8 (parental consent), Art. 15 (data export), Art. 17 (right to erasure).
 - Student folder isolation. Audit trail for all operations.
 
-[1.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.3.0...v1.4.0
 
 ---
 
@@ -1245,7 +1205,6 @@ Git Persistence Engine: TSV indexes for low-context lookups. ~60-80% token reduc
 - **2 scripts**: `savia-index.sh` (core: lookup, update, remove, verify, compact), `savia-index-rebuild.sh` (rebuild profiles, messages, projects, specs, timesheets from source files).
 - **6 index types**: profiles.idx, messages.idx, projects.idx, tasks.idx, specs.idx, timesheets.idx.
 
-[1.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.2.0...v1.3.0
 
 ---
 
@@ -1259,7 +1218,6 @@ SDD/Tickets/Tasks Git-native: complete Savia Flow task management in Git folders
 - **3 scripts**: `savia-flow-tasks.sh` (task CRUD + board), `savia-flow-sprint.sh` (sprint lifecycle + metrics), `savia-flow-timesheet.sh` (time tracking + reporting).
 - **1 rule**: `flow-tasks-config.md` — Configuration for Git-native flow system.
 
-[1.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.1.0...v1.2.0
 
 ---
 
@@ -1278,7 +1236,6 @@ Travel Mode extended: full pack/unpack/sync/verify/clean lifecycle for portable 
 - SHA256 integrity checksums for all files.
 - Secure cleanup of traces from borrowed machines.
 
-[1.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.0.0...v1.1.0
 
 ---
 
@@ -1298,7 +1255,6 @@ Script Hardening: 6 critical + 7 medium fixes across 9 scripts. Cross-platform (
 - **validate-bash-global.sh**: \s not POSIX ERE — replaced with [[:space:]].
 - **block-force-push.sh**: Pattern matching bypass via compound commands — added anchoring.
 
-[1.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.101.0...v1.0.0
 
 ---
 
@@ -1317,7 +1273,6 @@ Savia Flow: Git-based project management — PBIs, sprints, Kanban board, timesh
 
 - **`company-repo-templates-init.sh`** — Added `projects/` and `teams/` dirs to repo init.
 
-[0.101.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.100.0...v0.101.0
 
 ---
 
@@ -1330,7 +1285,6 @@ Travel Mode: portable USB bootstrap with `savia-init` for deploying pm-workspace
 - **2 commands**: `/savia-travel-pack`, `/savia-travel-init` — Pack and bootstrap pm-workspace portably.
 - **2 scripts**: `savia-travel.sh` (pack), `savia-travel-init.sh` (bootstrap: OS detect, deps check, Claude Code install, workspace copy, profile restore).
 
-[0.100.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.99.2...v0.100.0
 
 ---
 
@@ -1342,7 +1296,6 @@ Integration tests against real Company Savia repo structure.
 
 - **1 test script**: `test-integration-company.sh` — Orchestrates all 3 Company Savia test suites + smoke tests against cloned repo.
 
-[0.99.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.99.1...v0.99.2
 
 ---
 
@@ -1358,7 +1311,6 @@ Cross-platform compatibility: replace GNU-only patterns with portable helpers.
 
 - **7 scripts**: Replaced `base64 -w0`, `grep -oP`, bare `sed -i` with portable helpers from `savia-compat.sh`. Affected: `savia-crypto-ops.sh`, `savia-messaging.sh`, `savia-messaging-inbox.sh`, `company-repo.sh`, `company-repo-ops.sh`, `backup.sh`, `test-savia-messaging.sh`.
 
-[0.99.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.99.0...v0.99.1
 
 ---
 
@@ -1376,7 +1328,6 @@ Company Savia: shared company repository with async messaging and E2E encryption
 - **3 test scripts**: `test-company-repo.sh`, `test-savia-messaging.sh`, `test-savia-crypto.sh` — Full test coverage for repo lifecycle, messaging round-trip, and encryption.
 - **Session-init integration**: unread inbox count displayed at startup (filesystem-only, no network).
 
-[0.99.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.98.0...v0.99.0
 
 ---
 
@@ -1397,7 +1348,6 @@ PR Guardian System — Automated PR validation with 8 quality gates + contextual
 - **`.github/pull_request_template.md`** — Added "Context impact" and "Hook safety" sections, conventional commits requirement.
 - **`docs/ROADMAP.md`** — Added Era 19 (Open Source Synergy) and Era 20 (Persistent Intelligence & Adaptive Workflows) with 6 milestones.
 
-[0.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.97.0...v0.98.0
 
 ---
 
@@ -1410,7 +1360,6 @@ Era 20 — MCP Toolkit & Async Hooks.
 - **`/mcp-recommend`** — Curated MCP recommendations by stack and role (Context7, DeepWiki, Playwright, Excalidraw, Docker, Slack).
 - **`async-hooks-config.md`** — Hook classification (2 async, 10 blocking), event coverage 9/16 (56%), `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50`.
 
-[0.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.96.0...v0.97.0
 
 ---
 
@@ -1423,7 +1372,6 @@ Era 20 — Adaptive Output & Onboarding.
 - **`/onboard`** — Guided onboarding for new team members with role-specific checklists (dev/PM/QA). Auto-explore, component map, personalized Day 1/Week 1/Month 1 plan.
 - **`adaptive-output.md`** — Three output modes: Coaching (junior devs), Executive (stakeholders), Technical (senior engineers). Auto-detection from profile and command context.
 
-[0.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.95.0...v0.96.0
 
 ---
 
@@ -1436,7 +1384,6 @@ Era 20 — RPI Workflow Engine.
 - **`/rpi-start`** — Research → Plan → Implement workflow with GO/NO-GO gates. Creates `rpi/{feature}/` folder structure orchestrating product-discovery, pbi-decomposition, and spec-driven-development skills.
 - **`/rpi-status`** — Track progress of active RPI workflows with phase detection.
 
-[0.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.94.0...v0.95.0
 
 ---
 
@@ -1452,7 +1399,6 @@ Era 20 — Smart Command Frontmatter.
 
 - **57 commands** updated with `model` and `context_cost` frontmatter fields: 20 haiku, 29 sonnet, 8 opus.
 
-[0.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.93.0...v0.94.0
 
 ---
 
@@ -1466,7 +1412,6 @@ Era 20 — Savia Contextual Memory.
 - **`/savia-forget`** — GDPR-compliant memory pruning implementing Art. 17 RGPD.
 - **`.claude/agent-memory/savia/MEMORY.md`** — Savia-specific persistent memory template.
 
-[0.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.92.0...v0.93.0
 
 ---
 
@@ -1480,7 +1425,6 @@ Era 20 — Agent Memory Foundation.
 - **`/agent-memory`** — Command to inspect and manage agent memory fragments (list, show, clear).
 - **`agent-memory-protocol.md`** — Domain rule defining three memory scopes (project, local, user), hygiene rules, and integration with existing systems.
 
-[0.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.91.0...v0.92.0
 
 ---
 
@@ -1512,7 +1456,6 @@ Era 20 — Stress Testing & Bug Fixes. 5 bug fixes + 165 new tests + orchestrato
 - **`test-savia-e2e-harness.sh`** — Added Section 9: Era 18 Integration (6 tests).
 - Tests: 64→229 (+165 new tests across 7 scripts)
 
-[0.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.90.0...v0.91.0
 
 ---
 
@@ -1537,7 +1480,6 @@ Era 19 — Open Source Synergy (6/6). ERA 19 COMPLETA.
 - **README.md / README.en.md** — Añadida sección v0.90.0 con nuevos comandos y sección "Agradecimiento especial" con enlace a claude-code-templates.
 - Commands: 271→273 · Rules: 50→52
 
-[0.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.89.0...v0.90.0
 
 ---
 
@@ -1571,7 +1513,6 @@ Era 18 — Compliance, Distribution & Intelligent Hooks (6/6). ERA 18 COMPLETA.
 - **`adoption-assess.md`** — Añadida opción `--ai-skills` con AI Competency radar (6 dimensiones).
 - Commands: 268→271 · Hooks: 12→14
 
-[0.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.83.0...v0.89.0
 
 ---
 
@@ -1588,7 +1529,6 @@ Safe Boot, Deterministic CI, PR Governance — Savia arranca siempre: MCP server
 - **`validate-bash-global.sh`** — Nuevos bloqueos: `gh pr review --approve` (auto-aprobación) y `gh pr merge --admin` (bypass branch protection).
 - **`github-flow.md`** — Reglas explícitas: NUNCA auto-aprobar, NUNCA --admin.
 
-[0.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.82.0...v0.83.0
 
 ---
 
@@ -1609,7 +1549,6 @@ Auto-Compact — Compresión automática de contexto entre escenarios. Cuando el
 - **`harness.sh`** — Refactorizado de 269→150 líneas, ahora orquestador puro.
 - **`test-savia-e2e-harness.sh`** — 44 tests (vs 38), incluye test de auto-compact.
 
-[0.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.81.0...v0.82.0
 
 ---
 
@@ -1626,7 +1565,6 @@ AI Role Tooling — Dos nuevos comandos basados en gaps detectados en role-evolu
 
 - CLAUDE.md, README.md, README.en.md — Command count 267→268.
 
-[0.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.80.0...v0.81.0
 
 ---
 
@@ -1638,7 +1576,6 @@ Context Optimization v2 — Mock engine realista calibrado por tipo de comando. 
 
 - **`harness.sh`** — Mock engine reescrito: rangos de tokens calibrados por comando, state file `state.json`, columna `context_acc` en CSV, sección "Context Accumulation" en report con umbrales 50%/70%.
 
-[0.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.79.1...v0.80.0
 
 ---
 
@@ -1651,7 +1588,6 @@ Role Evolution update — Reescrita `role-evolution-ai.md` con la taxonomía rea
 - **`role-evolution-ai.md`** — Reescrita completa: 6 categorías Kelman (vs genéricas previas), roles industria mapeados a Savia Flow, gaps detectados (RAG Engineer, Behavioral Trainer, AI UX Designer).
 - **`ROADMAP.md`** — Añadido "AI Role Tooling" en propuestas: `/knowledge-prime`, `/savia-persona-tune`, mock engine realista.
 
-[0.79.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.79.0...v0.79.1
 
 ---
 
@@ -1664,7 +1600,6 @@ CI + Multimodal Agent Prep — GitHub Action para E2E mock en PRs. Reference de 
 - **`.github/workflows/savia-e2e.yml`** — CI workflow: E2E mock test en PRs que modifiquen flow-* o savia-test.
 - **`multimodal-agents.md`** — Reference: agentes VLM, tool-use, roadmap integración visual gates + spec from wireframe.
 
-[0.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.78.0...v0.79.0
 
 ---
 
@@ -1677,7 +1612,6 @@ Role Evolution — 6 categorías roles AI-era mapeadas a Savia Flow. Escenario s
 - **`role-evolution-ai.md`** — 6 categorías (Orchestrator, Translator, Guardian, Builder, Context Engineer, Governance), mapping equipo, madurez L1-L4.
 - **`05-stress.md`** — Escenario stress: 10+ specs, intake masivo, board full-load, retro exhaustivo.
 
-[0.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.77.0...v0.78.0
 
 ---
 
@@ -1693,7 +1627,6 @@ Knowledge Priming (Fowler) — 5 patrones para reducir fricción AI. Estructura 
 
 - SKILL.md: +3 references (knowledge-priming, role-evolution-ai, multimodal-agents).
 
-[0.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.76.0...v0.77.0
 
 ---
 
@@ -1708,7 +1641,6 @@ Context Optimization — Correcciones del informe E2E v0.75.0. `max_context` bud
 - `03-coordination.md` — Nuevo Step 5: flow-protect (WIP overload, deep work).
 - `test-savia-e2e-harness.sh` — Check flow-protect en escenario 03.
 
-[0.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.75.0...v0.76.0
 
 ---
 
@@ -1725,7 +1657,6 @@ Savia E2E Test Harness — Entorno Docker aislado con agente autónomo que ejecu
 - **Métricas CSV** — scenario, step, role, command, tokens_in, tokens_out, duration_ms, status, error.
 - **Informe automático** — report.md generado al final con resumen, failures, errors, token totals.
 
-[0.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.74.0...v0.75.0
 
 ---
 
@@ -1748,7 +1679,6 @@ Savia Flow Practice — Implementación práctica de la metodología Savia Flow:
 - Skills: 20 → 21 (+savia-flow-practice)
 - Context-map: añadido grupo Savia Flow
 
-[0.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.73.0...v0.74.0
 
 ---
 
@@ -1772,7 +1702,6 @@ Vertical Banking — Herramientas especializadas para equipos de desarrollo en b
 - Context-map: añadido grupo Banking
 - CLAUDE.md: añadida sección Banking Architecture
 
-[0.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.72.0...v0.73.0
 
 ---
 
@@ -1792,7 +1721,6 @@ Trace Intelligence — Búsqueda y análisis profundo de trazas distribuidas, in
 - Command count: 253 → 257 (+4 comandos trace intelligence)
 - Era 13 (Observability & Intelligence): COMPLETE! (2/2)
 
-[0.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.71.0...v0.72.0
 
 ---
 
@@ -1812,7 +1740,6 @@ Observability Core — Conexión a Grafana, Datadog, Azure App Insights, OpenTel
 - Command count: 249 → 253 (+4 comandos observabilidad)
 - Era 13 (Observability & Intelligence): iniciada (1/2)
 
-[0.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.70.0...v0.71.0
 
 ---
 
@@ -1842,7 +1769,6 @@ Multi-Tenant & Skills Marketplace — Workspaces aislados por departamento/equip
 
 **Total**: 253 comandos en pm-workspace. Todos los comandos ≤150 líneas, con YAML frontmatter, warm Savia persona (female owl), contexto Spanish.
 
-[0.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.69.0...v0.70.0
 
 ---
 
@@ -1861,7 +1787,6 @@ Audit Trail & Compliance — Inmutable audit trail de todas las acciones de Savi
 
 - Command count: 245 → 249 (+4 comandos auditoría)
 
-[0.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.68.0...v0.69.0
 
 ---
 
@@ -1880,7 +1805,6 @@ Accessibility & Inclusive Design — Auditoría WCAG 2.2, correcciones automáti
 
 - Command count: 245 → 249 (+4 comandos accesibilidad)
 
-[0.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.67.0...v0.68.0
 
 ---
 
@@ -1905,7 +1829,6 @@ Team Wellbeing & Sustainability — Detección temprana de burnout, equilibrado 
 - Command count: 237 → 241 (+4 wellbeing commands in Era 12)
 - Era 12 — Team Excellence & Enterprise (2/5 features)
 
-[0.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.66.0...v0.67.0
 
 ---
 
@@ -1924,7 +1847,6 @@ Advanced DX Metrics — Deep-work analysis, flow-state protection, developer exp
 
 - Command count: 241 → 245 (+4 DX metrics commands)
 
-[0.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.65.0...v0.66.0
 
 ---
 
@@ -1943,7 +1865,6 @@ Multi-Layer Caching — Cache strategy, warm operations, analytics, and selectiv
 
 - Command count: 237 → 241 (+4 caching commands)
 
-[0.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.64.0...v0.65.0
 
 ---
 
@@ -1962,7 +1883,6 @@ Semantic Memory 2.0 — Four new memory intelligence commands for semantic compr
 
 - Command count: 237 → 241 (+4 memory commands)
 
-[0.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.63.0...v0.64.0
 
 ---
 
@@ -1981,7 +1901,6 @@ Evolving Playbooks — Four new playbook commands for capturing and evolving rep
 
 - Command count: 233 → 237 (+4 playbook commands)
 
-[0.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.62.0...v0.63.0
 
 ---
 
@@ -2000,7 +1919,6 @@ Intelligent Context Loading — Four new context management commands for optimal
 
 - Command count: 229 → 233 (+4 context commands)
 
-[0.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.61.0...v0.62.0
 
 ---
 
@@ -2019,7 +1937,6 @@ Vertical Compliance Extensions — Four new vertical-specific compliance command
 
 - Command count: 225 → 229 (+4 vertical compliance commands)
 
-[0.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.60.0...v0.61.0
 
 ---
 
@@ -2038,7 +1955,6 @@ Enterprise AI Governance — Four new governance commands based on NIST AI RMF, 
 
 - Command count: 221 → 225 (+4 governance commands)
 
-[0.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.59.0...v0.60.0
 
 ---
 
@@ -2057,7 +1973,6 @@ AI Adoption Companion — Four new adoption commands for team maturity assessmen
 
 - Command count: 217 → 221 (+4 adoption commands)
 
-[0.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.58.0...v0.59.0
 
 ---
 
@@ -2076,7 +1991,6 @@ AI Safety & Human Oversight — Four new safety commands for supervision levels,
 
 - Command count: 213 → 217 (+4 safety commands)
 
-[0.58.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.57.0...v0.58.0
 
 ---
 
@@ -2095,7 +2009,6 @@ Ceremony Intelligence — Four new commands for asynchronous standups, retro pat
 
 - Command count: 209 → 213 (+4 ceremony commands)
 
-[0.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.56.0...v0.57.0
 
 ---
 
@@ -2114,7 +2027,6 @@ Intelligent Backlog Management — Four new commands for assisted grooming, smar
 
 - Command count: 205 → 209 (+4 backlog commands)
 
-[0.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.55.0...v0.56.0
 
 ---
 
@@ -2133,7 +2045,6 @@ OKR & Strategic Alignment — Four new commands for OKR definition, tracking, vi
 
 - Command count: 201 → 205 (+4 strategy commands)
 
-[0.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.54.0...v0.55.0
 
 ---
 
@@ -2152,7 +2063,6 @@ Company Profile — Four new commands for enterprise onboarding and configuratio
 
 - Command count: 197 → 201 (+4 company setup commands)
 
-[0.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.53.0...v0.54.0
 
 ---
 
@@ -2170,7 +2080,6 @@ Multi-Platform Support — Three new commands for multi-platform integration.
 
 - **`/linear-sync`** — Rewritten with new format, webhooks, unified metrics
 
-[0.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.52.0...v0.53.0
 
 ---
 
@@ -2189,7 +2098,6 @@ Integration Hub — Four new commands for MCP server exposure, natural language 
 
 - Command count: 174 → 178 (+4 integration commands)
 
-[0.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.51.0...v0.52.0
 
 ---
 
@@ -2208,7 +2116,6 @@ AI-Powered Planning — Four new commands for intelligent sprint planning, risk 
 
 - Command count: 170 → 174 (+4 planning commands)
 
-[0.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.50.0...v0.51.0
 
 ---
 
@@ -2227,7 +2134,6 @@ Cross-Project Intelligence — Four new commands for portfolio-level visibility 
 
 - Command count: 166 → 170 (+4 cross-project commands)
 
-[0.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.49.0...v0.50.0
 
 ---
 
@@ -2246,7 +2152,6 @@ Product Owner Analytics — Four new commands providing strategic views for POs.
 
 - Command count: 162 → 166 (+4 PO commands)
 
-[0.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.48.0...v0.49.0
 
 ---
 
@@ -2265,7 +2170,6 @@ Tech Lead Intelligence — Four new commands for technology health and team know
 
 - Command count: 158 → 162 (+4 tech lead commands)
 
-[0.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.47.0...v0.48.0
 
 ---
 
@@ -2284,7 +2188,6 @@ Developer Productivity — Four new commands for personal sprint view, deep focu
 
 - Command count: 154 → 158 (+4 developer commands)
 
-[0.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.46.0...v0.47.0
 
 ---
 
@@ -2303,7 +2206,6 @@ QA and Testing Toolkit — Four new commands for complete testing workflow.
 
 - Command count: 150 → 154 (+4 QA commands)
 
-[0.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.45.0...v0.46.0
 
 ---
 
@@ -2321,7 +2223,6 @@ Executive Reports for Leadership — Three new commands for C-level strategic vi
 
 - Command count: 147 → 150 (+3 CEO commands)
 
-[0.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.44.0...v0.45.0
 
 ---
 
@@ -2337,7 +2238,6 @@ Semantic Hub Topology — Agentexecution tracing, cost estimation, and efficienc
 
 - Command count: 146 → 147 (+1 hub audit command)
 
-[0.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.43.0...v0.44.0
 
 ---
 
@@ -2355,7 +2255,6 @@ Context Aging and Verified Positioning — Semantic compression of old decisions
 
 - Command count: 144 → 146 (+2 context commands)
 
-[0.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.42.0...v0.43.0
 
 ---
 
@@ -2367,7 +2266,6 @@ Subagent Context Budget System — All 24 agents now have explicit max_context_t
 
 - All 24 agent frontmatter files updated with context budgets (4 tiers)
 
-[0.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.41.0...v0.42.0
 
 ---
 
@@ -2380,7 +2278,6 @@ Session-Init Compression and CLAUDE.md Pre-compaction — 4-level priority syste
 - **`session-init.sh`** — Rewritten with priority-based array system
 - **CLAUDE.md** — Pre-compacted from 154 → 125 lines (36% reduction)
 
-[0.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.40.0...v0.41.0
 
 ---
 
@@ -2399,7 +2296,6 @@ Role-Adaptive Daily Routines, Project Health Dashboard, and Context Usage Optimi
 
 - Command count: 141 → 144 (+3 context commands)
 
-[0.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.39.0...v0.40.0
 
 ---
 
@@ -2416,7 +2312,6 @@ Encrypted Cloud Backup System — AES-256-CBC encryption before cloud upload wit
 
 - Command count: 140 → 141 (+1 backup command)
 
-[0.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.38.0...v0.39.0
 
 ---
 
@@ -2432,7 +2327,6 @@ Private Review Protocol — Maintainer workflow for reviewing community PRs and 
 
 - Command count: 139 → 140 (+1 review command)
 
-[0.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.37.0...v0.38.0
 
 ---
 
@@ -2448,7 +2342,6 @@ Vertical Detection System — Detect non-software sectors and propose specialize
 
 - Command count: 138 → 139 (+1 vertical detection command)
 
-[0.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.36.0...v0.37.0
 
 ---
 
@@ -2465,7 +2358,6 @@ Community & Collaboration System — Privacy-first contribution system with cred
 
 - Command count: 136 → 138 (+2 community commands)
 
-[0.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.35.0...v0.36.0
 
 ---
 
@@ -2485,7 +2377,6 @@ Savia — User Profiling System and Agent Mode. Introduce Savia identity with fr
 - Command count: 131 → 135 (+4 profile commands)
 - ~72 existing commands updated with profile loading
 
-[0.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.34.0...v0.35.0
 
 ---
 
@@ -2503,7 +2394,6 @@ Performance Audit Intelligence — Static analysis for code performance hotspots
 
 - Command count: 129 → 131 (+3 performance commands)
 
-[0.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.3...v0.34.0
 
 ---
 
@@ -2519,7 +2409,6 @@ Azure DevOps project validation — Automated audit of project configuration.
 
 - Command count: 128 → 129 (+1 DevOps command)
 
-[0.33.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.2...v0.33.3
 
 ---
 
@@ -2532,7 +2421,6 @@ Detection algorithm calibration after real-world testing across regulated sector
 - Detection algorithm: 4 phases → 5 phases
 - Confidence thresholds recalibrated
 
-[0.33.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.1...v0.33.2
 
 ---
 
@@ -2546,7 +2434,6 @@ Compliance commands improvements after real-world testing.
 - Scoring formula documentation
 - Dry-run vs actual execution indication
 
-[0.33.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.0...v0.33.1
 
 ---
 
@@ -2564,7 +2451,6 @@ Regulatory Compliance Intelligence — Automated sector detection and compliance
 
 - Command count: 125 → 128 (+3 compliance commands)
 
-[0.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.3...v0.33.0
 
 ---
 
@@ -2572,7 +2458,6 @@ Regulatory Compliance Intelligence — Automated sector detection and compliance
 
 Multi-OS emergency mode — Support for Linux, macOS, and Windows.
 
-[0.32.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.2...v0.32.3
 
 ---
 
@@ -2580,7 +2465,6 @@ Multi-OS emergency mode — Support for Linux, macOS, and Windows.
 
 Fix Ollama download — Adapted to new tar.zst archive format.
 
-[0.32.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.1...v0.32.2
 
 ---
 
@@ -2588,7 +2472,6 @@ Fix Ollama download — Adapted to new tar.zst archive format.
 
 Emergency plan — Preventive pre-download of Ollama and LLM for offline installation.
 
-[0.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.0...v0.32.1
 
 ---
 
@@ -2600,7 +2483,6 @@ Emergency mode — Local LLM contingency plan with Ollama setup and offline oper
 
 - **`/emergency-mode`** — Manage emergency mode with local LLM
 
-[0.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.31.0...v0.32.0
 
 ---
 
@@ -2616,7 +2498,6 @@ Architecture intelligence — Pattern detection and recommendations across 16 la
 - **`/arch-fitness`** — Define and execute fitness functions
 - **`/arch-compare`** — Compare architecture patterns
 
-[0.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.30.0...v0.31.0
 
 ---
 
@@ -2630,7 +2511,6 @@ Technical debt intelligence — Automated analysis and prioritization.
 - **`/debt-prioritize`** — Prioritize by business impact
 - **`/debt-budget`** — Propose sprint debt budget
 
-[0.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.29.0...v0.30.0
 
 ---
 
@@ -2644,7 +2524,6 @@ AI governance and EU AI Act compliance — Model cards and risk assessment.
 - **`/ai-risk-assessment`** — Risk assessment per EU AI Act
 - **`/ai-audit-log`** — Chronological audit log from traces
 
-[0.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.28.0...v0.29.0
 
 ---
 
@@ -2658,7 +2537,6 @@ Developer Experience metrics — DX Core 4 surveys and automated dashboards.
 - **`/dx-dashboard`** — Automated DX dashboard
 - **`/dx-recommendations`** — Friction point analysis
 
-[0.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.27.0...v0.28.0
 
 ---
 
@@ -2672,7 +2550,6 @@ Agent observability — Execution tracing, cost estimation, and efficiency metri
 - **`/agent-cost`** — Cost estimation per agent
 - **`/agent-efficiency`** — Efficiency analysis
 
-[0.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.26.0...v0.27.0
 
 ---
 
@@ -2686,7 +2563,6 @@ Predictive analytics and flow metrics — Sprint forecasting with Monte Carlo si
 - **`/flow-metrics`** — Value stream dashboard
 - **`/velocity-trend`** — Velocity analysis
 
-[0.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.25.0...v0.26.0
 
 ---
 
@@ -2707,7 +2583,6 @@ Security hardening and community patterns — SAST audit, dependency scanning, a
 
 - Command count: 96 → 102 (+6 security commands)
 
-[0.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.24.0...v0.25.0
 
 ---
 
@@ -2724,7 +2599,6 @@ Permissions and CI/CD hardening — Plan-gate hook and CI validation steps.
 
 - Command count: 94 → 96 (+2 validation commands)
 
-[0.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.23.0...v0.24.0
 
 ---
 
@@ -2741,7 +2615,6 @@ Automated code review — Pre-commit review hook with SHA256 cache.
 
 - Command count: 92 → 94 (+2 review commands)
 
-[0.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.22.0...v0.23.0
 
 ---
 
@@ -2759,7 +2632,6 @@ SDD workflow enhanced with Agent Teams Lite patterns.
 
 - Command count: 89 → 92 (+3 SDD commands)
 
-[0.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.21.0...v0.22.0
 
 ---
 
@@ -2777,7 +2649,6 @@ Persistent memory system inspired by Engram — JSONL-based memory with deduplic
 
 - Command count: 86 → 89 (+3 memory commands)
 
-[0.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.20.1...v0.21.0
 
 ---
 
@@ -2785,7 +2656,6 @@ Persistent memory system inspired by Engram — JSONL-based memory with deduplic
 
 Fix developer_type format — Revert to hyphen format.
 
-[0.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.20.0...v0.20.1
 
 ---
 
@@ -2799,7 +2669,6 @@ Context optimization and 150-line discipline enforcement.
 - 5 agents refactored with companion domain files
 - CLAUDE.md compacted from 195 → 130 lines
 
-[0.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.19.0...v0.20.0
 
 ---
 
@@ -2815,7 +2684,6 @@ Governance hardening — Scope guard hook and parallel session serialization rul
 
 - **`/context-load`** expanded with ADR loading
 
-[0.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.18.0...v0.19.0
 
 ---
 
@@ -2833,7 +2701,6 @@ Multi-agent coordination — Agent-notes system, TDD gate hook, and ADR support.
 
 - SDD skill workflow expanded with security review and TDD gate
 
-[0.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.17.0...v0.18.0
 
 ---
 
@@ -2847,7 +2714,6 @@ Advanced agent capabilities and programmatic hooks system.
 - 11 skills updated with context and agent fields
 - 7 programmatic hooks added via settings.json
 
-[0.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.16.0...v0.17.0
 
 ---
 
@@ -2864,7 +2730,6 @@ Intelligent memory system — Path-specific auto-loading and auto memory.
 
 - 21 language files and 3 domain files now have path-specific rules
 
-[0.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.1...v0.16.0
 
 ---
 
@@ -2877,7 +2742,6 @@ Auto-compact post-command — Prevent context saturation.
 - Auto-compact protocol enforced after every command
 - 7 commands freed from context-ux-feedback dependency
 
-[0.15.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.0...v0.15.1
 
 ---
 
@@ -2889,7 +2753,6 @@ Command naming fix — All commands renamed from colon to hyphen notation.
 
 - All 106 unique command references renamed across 164 files
 
-[0.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.1...v0.15.0
 
 ---
 
@@ -2902,7 +2765,6 @@ Context optimization — Auto-loaded baseline reduced by 79%.
 - 10 domain rules moved to on-demand loading
 - `/help` rewritten with separate setup and catalog modes
 
-[0.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.0...v0.14.1
 
 ---
 
@@ -2919,7 +2781,6 @@ Session persistence — Save/load rituals for persistent "second brain".
 
 - **`/context-load`** rewritten to load big picture
 
-[0.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.2...v0.14.0
 
 ---
 
@@ -2931,7 +2792,6 @@ Fix silent failures — Heavy commands now explicitly delegate to subagents.
 
 - **`/project-audit`** silent failure fixed with subagent delegation
 
-[0.13.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.1...v0.13.2
 
 ---
 
@@ -2943,7 +2803,6 @@ Anti-improvisation — Commands strictly execute only what their spec defines.
 
 - **`/help`** rewritten with explicit stack detection
 
-[0.13.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.0...v0.13.1
 
 ---
 
@@ -2959,7 +2818,6 @@ Context health and operational resilience — Proactive context management.
 
 - Auto-loaded context reduced: 2,109 → 899 lines
 
-[0.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.12.0...v0.13.0
 
 ---
 
@@ -2972,7 +2830,6 @@ Context optimization — 58% reduction in auto-loaded context.
 - 8 rules moved from auto-load to on-demand
 - Auto-loaded context reduced from 2,109 → 882 lines
 
-[0.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.11.0...v0.12.0
 
 ---
 
@@ -2988,7 +2845,6 @@ UX Feedback Standards — Consistent visual feedback for all commands.
 
 - 6 core commands updated with UX feedback pattern
 
-[0.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.10.0...v0.11.0
 
 ---
 
@@ -3001,7 +2857,6 @@ Infrastructure and tooling — GitHub Actions and MCP migration guide.
 - **GitHub Actions** PR auto-labeling workflow
 - **MCP migration guide** for azdevops-queries functions
 
-[0.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.9.0...v0.10.0
 
 ---
 
@@ -3023,7 +2878,6 @@ Messaging & Voice Inbox — WhatsApp, Nextcloud Talk, and voice transcription.
 - Command count: 75 → 81 (+6 messaging commands)
 - Skills count: 12 → 13 (+voice-inbox)
 
-[0.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.8.0...v0.9.0
 
 ---
 
@@ -3043,7 +2897,6 @@ DevOps Extended — Azure DevOps Wiki, Test Plans, and security alerts.
 
 - Command count: 70 → 75 (+5 DevOps Extended commands)
 
-[0.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.7.0...v0.8.0
 
 ---
 
@@ -3063,7 +2916,6 @@ Project Onboarding Pipeline — 5-phase automated workflow.
 
 - Command count: 65 → 70 (+5 onboarding commands)
 
-[0.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.6.0...v0.7.0
 
 ---
 
@@ -3081,7 +2933,6 @@ Legacy assessment and release notes — Backlog capture from unstructured source
 
 - Command count: 62 → 65 (+3 legacy & capture commands)
 
-[0.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.5.0...v0.6.0
 
 ---
 
@@ -3101,7 +2952,6 @@ Governance foundations — Technical debt tracking and DORA metrics.
 
 - Command count: 57 → 62 (+5 governance commands)
 
-[0.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.4.0...v0.5.0
 
 ---
 
@@ -3120,7 +2970,6 @@ Connectors ecosystem and Azure DevOps MCP optimization.
 - Command count: 46 → 57 (+11 new commands)
 - Skills count: 11 → 12 (+azure-pipelines)
 
-[0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 
 ---
 
@@ -3141,7 +2990,6 @@ Multi-language support, multi-environment, and infrastructure as code.
 - Skills count: 11 → 23
 - Agents count: 8 → 35
 
-[0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 
 ---
 
@@ -3162,7 +3010,6 @@ Quality, discovery, and operations expansion.
 - Skills count: 7 → 8
 - Agents count: 9 → 11
 
-[0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
 
 ---
 
@@ -3181,8 +3028,11 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
-[0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
 
+[2.74.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.74.1...v2.74.2
+[2.74.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.74.0...v2.74.1
+[2.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.73.0...v2.74.0
+[2.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.72.0...v2.73.0
 [2.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.71.0...v2.72.0
 [2.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.70.0...v2.71.0
 [2.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.69.0...v2.70.0
@@ -3227,3 +3077,158 @@ Initial public release of PM-Workspace.
 [2.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.30.0...v2.31.0
 [2.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.29.0...v2.30.0
 [2.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.28.0...v2.29.0
+[2.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.27.0...v2.28.0
+[2.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.26.0...v2.27.0
+[2.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.25.0...v2.26.0
+[2.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.24.0...v2.25.0
+[2.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.23.1...v2.24.0
+[2.23.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.23.0...v2.23.1
+[2.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.22.0...v2.23.0
+[2.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.21.0...v2.22.0
+[2.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.3...v2.21.0
+[2.20.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.2...v2.20.3
+[2.20.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.1...v2.20.2
+[2.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.20.0...v2.20.1
+[2.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.19.0...v2.20.0
+[2.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.18.0...v2.19.0
+[2.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.17.0...v2.18.0
+[2.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.16.1...v2.17.0
+[2.16.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.16.0...v2.16.1
+[2.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.15.0...v2.16.0
+[2.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.14.0...v2.15.0
+[2.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.10.0...v2.14.0
+[2.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.9.0...v2.10.0
+[2.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.2...v2.9.0
+[2.8.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.1...v2.8.2
+[2.8.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.8.0...v2.8.1
+[2.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.7.0...v2.8.0
+[2.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.6.0...v2.7.0
+[2.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.5.0...v2.6.0
+[2.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.4.0...v2.5.0
+[2.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.3.0...v2.4.0
+[2.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.2.0...v2.3.0
+[2.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.9.1...v2.0.0
+[1.9.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.9.0...v1.9.1
+[1.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.8.0...v1.9.0
+[1.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.7.0...v1.8.0
+[1.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.6.0...v1.7.0
+[1.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.5.1...v1.6.0
+[1.5.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.5.0...v1.5.1
+[1.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.4.0...v1.5.0
+[1.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.3.0...v1.4.0
+[1.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.2.0...v1.3.0
+[1.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.101.0...v1.0.0
+[0.101.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.100.0...v0.101.0
+[0.100.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.99.2...v0.100.0
+[0.99.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.99.1...v0.99.2
+[0.99.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.99.0...v0.99.1
+[0.99.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.98.0...v0.99.0
+[0.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.97.0...v0.98.0
+[0.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.96.0...v0.97.0
+[0.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.95.0...v0.96.0
+[0.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.94.0...v0.95.0
+[0.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.93.0...v0.94.0
+[0.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.92.0...v0.93.0
+[0.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.91.0...v0.92.0
+[0.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.90.0...v0.91.0
+[0.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.89.0...v0.90.0
+[0.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.83.0...v0.89.0
+[0.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.82.0...v0.83.0
+[0.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.81.0...v0.82.0
+[0.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.80.0...v0.81.0
+[0.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.79.1...v0.80.0
+[0.79.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.79.0...v0.79.1
+[0.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.78.0...v0.79.0
+[0.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.77.0...v0.78.0
+[0.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.76.0...v0.77.0
+[0.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.75.0...v0.76.0
+[0.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.74.0...v0.75.0
+[0.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.73.0...v0.74.0
+[0.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.72.0...v0.73.0
+[0.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.71.0...v0.72.0
+[0.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.70.0...v0.71.0
+[0.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.69.0...v0.70.0
+[0.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.68.0...v0.69.0
+[0.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.67.0...v0.68.0
+[0.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.66.0...v0.67.0
+[0.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.65.0...v0.66.0
+[0.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.64.0...v0.65.0
+[0.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.63.0...v0.64.0
+[0.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.62.0...v0.63.0
+[0.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.61.0...v0.62.0
+[0.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.60.0...v0.61.0
+[0.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.59.0...v0.60.0
+[0.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.58.0...v0.59.0
+[0.58.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.57.0...v0.58.0
+[0.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.56.0...v0.57.0
+[0.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.55.0...v0.56.0
+[0.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.54.0...v0.55.0
+[0.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.53.0...v0.54.0
+[0.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.52.0...v0.53.0
+[0.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.51.0...v0.52.0
+[0.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.50.0...v0.51.0
+[0.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.49.0...v0.50.0
+[0.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.48.0...v0.49.0
+[0.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.47.0...v0.48.0
+[0.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.46.0...v0.47.0
+[0.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.45.0...v0.46.0
+[0.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.44.0...v0.45.0
+[0.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.43.0...v0.44.0
+[0.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.42.0...v0.43.0
+[0.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.41.0...v0.42.0
+[0.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.40.0...v0.41.0
+[0.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.39.0...v0.40.0
+[0.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.38.0...v0.39.0
+[0.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.37.0...v0.38.0
+[0.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.36.0...v0.37.0
+[0.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.35.0...v0.36.0
+[0.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.34.0...v0.35.0
+[0.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.3...v0.34.0
+[0.33.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.2...v0.33.3
+[0.33.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.1...v0.33.2
+[0.33.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.33.0...v0.33.1
+[0.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.3...v0.33.0
+[0.32.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.2...v0.32.3
+[0.32.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.1...v0.32.2
+[0.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.32.0...v0.32.1
+[0.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.31.0...v0.32.0
+[0.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.30.0...v0.31.0
+[0.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.29.0...v0.30.0
+[0.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.28.0...v0.29.0
+[0.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.27.0...v0.28.0
+[0.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.26.0...v0.27.0
+[0.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.25.0...v0.26.0
+[0.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.24.0...v0.25.0
+[0.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.23.0...v0.24.0
+[0.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.22.0...v0.23.0
+[0.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.21.0...v0.22.0
+[0.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.20.1...v0.21.0
+[0.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.20.0...v0.20.1
+[0.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.19.0...v0.20.0
+[0.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.18.0...v0.19.0
+[0.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.17.0...v0.18.0
+[0.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.16.0...v0.17.0
+[0.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.1...v0.16.0
+[0.15.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.15.0...v0.15.1
+[0.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.1...v0.15.0
+[0.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.14.0...v0.14.1
+[0.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.2...v0.14.0
+[0.13.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.1...v0.13.2
+[0.13.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.13.0...v0.13.1
+[0.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.12.0...v0.13.0
+[0.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.11.0...v0.12.0
+[0.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.10.0...v0.11.0
+[0.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.9.0...v0.10.0
+[0.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.8.0...v0.9.0
+[0.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.7.0...v0.8.0
+[0.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.6.0...v0.7.0
+[0.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
