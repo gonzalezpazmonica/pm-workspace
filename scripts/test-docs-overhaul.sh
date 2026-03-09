@@ -2,7 +2,7 @@
 # test-docs-overhaul.sh — Tests para Documentation Overhaul (Savia-led)
 set -euo pipefail
 PASS=0; FAIL=0; TOTAL=0
-check() { TOTAL=$((TOTAL+1)); if bash -c "$2" 2>/dev/null; then PASS=$((PASS+1)); echo "✅ $1"; else FAIL=$((FAIL+1)); echo "❌ $1"; fi; }
+check() { TOTAL=$((TOTAL+1)); if eval "$2" 2>/dev/null; then PASS=$((PASS+1)); echo "✅ $1"; else FAIL=$((FAIL+1)); echo "❌ $1"; fi; }
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "🧪 Tests: Documentation Overhaul"

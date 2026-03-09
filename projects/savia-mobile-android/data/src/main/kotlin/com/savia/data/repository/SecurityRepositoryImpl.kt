@@ -300,10 +300,14 @@ class SecurityRepositoryImpl @Inject constructor(
      *
      * @return 32-byte decrypted passphrase for SQLCipher
      */
+    /**
+     * A11 FIX: Returns raw bytes via Base64.decode (not UTF-8 toByteArray which corrupts binary data).
+     * The passphrase is stored as Base64 in SecureStorage and decoded back to raw bytes.
+     */
     override suspend fun getDatabasePassphrase(): ByteArray = withContext(Dispatchers.IO) {
         val existing = secureStorage.get(KEY_DB_PASSPHRASE)
         if (existing != null) {
-            existing.toByteArray(Charsets.UTF_8)
+            android.util.Base64.decode(existing, android.util.Base64.NO_WRAP)
         } else {
             // Generate a random 32-byte passphrase on first access
             val passphrase = ByteArray(32).also { SecureRandom().nextBytes(it) }

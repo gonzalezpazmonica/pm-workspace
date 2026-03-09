@@ -20,7 +20,7 @@ test_case() {
   local desc="$1"
   local condition="$2"
   TESTS=$((TESTS + 1))
-  if bash -c "$condition"; then
+  if eval "$condition"; then
     PASSED=$((PASSED + 1))
     echo "  ✅ $desc"
   else

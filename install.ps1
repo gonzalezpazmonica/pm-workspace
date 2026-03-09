@@ -1,6 +1,11 @@
 # install.ps1 — One-line installer for PM-Workspace (Savia) on Windows
 # Usage: irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.ps1 | iex
 #
+# ⚠️  SECURITY WARNING: This script is piped directly to PowerShell execution (irm|iex).
+#     Always verify the source before execution. Only run from official GitHub releases:
+#     https://github.com/gonzalezpazmonica/pm-workspace/releases
+#     Do NOT run from untrusted or modified URLs.
+#
 # Environment variables:
 #   SAVIA_HOME    — Installation directory (default: ~\claude)
 #   SKIP_TESTS    — Set to 1 to skip smoke tests

@@ -5,7 +5,7 @@ set -uo pipefail
 PASS=0; FAIL=0; TOTAL=0
 pass() { ((PASS++)); ((TOTAL++)); echo "  ✅ $1"; }
 fail() { ((FAIL++)); ((TOTAL++)); echo "  ❌ $1"; }
-check() { if bash -c "$1" > /dev/null 2>&1; then pass "$2"; else fail "$2"; fi; }
+check() { if eval "$1" > /dev/null 2>&1; then pass "$2"; else fail "$2"; fi; }
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CMD="$ROOT/.claude/commands/scale-optimizer.md"

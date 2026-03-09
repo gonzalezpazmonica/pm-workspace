@@ -41,13 +41,15 @@ cmd_save() {
         concepts_json="$concepts_json]"
     fi
 
-    # UPSERT por topic_key
+    # UPSERT por topic_key (atomic write with mv)
     if [[ -n "$topic_key" && -f "$STORE_FILE" ]]; then
         local old_line=$(grep -F "\"topic_key\":\"$topic_key\"" "$STORE_FILE" 2>/dev/null | tail -1 || true)
         if [[ -n "$old_line" ]]; then
             rev=$(($(echo "$old_line" | grep -o '"rev":[0-9]*' | cut -d: -f2) + 1))
-            grep -v "\"topic_key\":\"$topic_key\"" "$STORE_FILE" > "$STORE_FILE.tmp" || true
-            mv "$STORE_FILE.tmp" "$STORE_FILE"
+            # Atomic operation: write to temp file first, then atomic move
+            local temp_file=$(mktemp)
+            grep -v "\"topic_key\":\"$topic_key\"" "$STORE_FILE" > "$temp_file" || true
+            mv "$temp_file" "$STORE_FILE"
         fi
     fi
 

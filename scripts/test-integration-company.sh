@@ -59,7 +59,7 @@ SMOKE_PASS=0; SMOKE_FAIL=0; SMOKE_TOTAL=0
 
 smoke_assert() {
   SMOKE_TOTAL=$((SMOKE_TOTAL + 1))
-  if bash -c "$2" >/dev/null 2>&1; then
+  if eval "$2" >/dev/null 2>&1; then
     SMOKE_PASS=$((SMOKE_PASS + 1))
     echo -e "${GREEN}✅ $1${NC}"
   else

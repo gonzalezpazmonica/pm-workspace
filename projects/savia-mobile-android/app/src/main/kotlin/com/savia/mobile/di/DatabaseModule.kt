@@ -4,11 +4,14 @@ import android.content.Context
 import androidx.room.Room
 import com.savia.data.local.SaviaDatabase
 import com.savia.data.local.dao.ConversationDao
+import com.savia.domain.repository.SecurityRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.runBlocking
+import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
 import javax.inject.Singleton
 
 /**
@@ -38,18 +41,28 @@ object DatabaseModule {
      * @param context Android application context for database file access
      * @return singleton SaviaDatabase instance
      */
+    /**
+     * C2 FIX: Database encrypted with SQLCipher via SecurityRepository passphrase.
+     * Uses Tink AES-256-GCM passphrase stored in Android Keystore.
+     * fallbackToDestructiveMigration ensures schema upgrades work (dev phase).
+     */
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): SaviaDatabase =
-        Room.databaseBuilder(
+    fun provideDatabase(
+        @ApplicationContext context: Context,
+        securityRepository: SecurityRepository
+    ): SaviaDatabase {
+        val passphrase = runBlocking { securityRepository.getDatabasePassphrase() }
+        val factory = SupportOpenHelperFactory(passphrase)
+        return Room.databaseBuilder(
             context,
             SaviaDatabase::class.java,
             "savia.db"
         )
-        // SQLCipher integration will be added when SecurityRepository provides passphrase
-        // .openHelperFactory(SupportFactory(passphrase))
+        .openHelperFactory(factory)
         .fallbackToDestructiveMigration()
         .build()
+    }
 
     /**
      * Provides ConversationDao for data access operations on conversations and messages.
