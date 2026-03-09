@@ -10,6 +10,8 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SKILLS_DIR="$ROOT/.claude/skills"
+TMPDIR=$(mktemp -d)
+trap 'rm -rf "$TMPDIR"' EXIT
 
 MODE="${1:---summary}"
 ALPHA=0 BETA=0 STABLE=0 MISSING=0 ALREADY=0
@@ -76,8 +78,8 @@ for dir in "$SKILLS_DIR"/*/; do
     if [ -z "$heading_name" ]; then
       heading_name="$skill_name"
     fi
-    # Prepend frontmatter
-    tmp=$(mktemp)
+    # Prepend frontmatter (use TMPDIR which is cleaned up on EXIT)
+    tmp="$TMPDIR/frontmatter-$skill_name.tmp"
     cat > "$tmp" << FM
 ---
 name: $skill_name

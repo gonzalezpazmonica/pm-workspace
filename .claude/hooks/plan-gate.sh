@@ -4,6 +4,9 @@
 # PreToolUse hook (Edit|Write) que advierte si se edita código sin spec
 set -uo pipefail
 
+# Timeout: 30 seconds max for entire spec search operation
+TIMEOUT=30
+
 # Solo verificar en ficheros de código fuente
 FILE="${CLAUDE_TOOL_INPUT_FILE:-}"
 [[ -z "$FILE" ]] && exit 0
@@ -20,8 +23,8 @@ SPECS_DIR="$PROJECT_DIR/projects"
 # Si no hay directorio de proyectos, skip
 [[ ! -d "$SPECS_DIR" ]] && exit 0
 
-# Buscar specs recientes (último sprint = últimos 14 días)
-RECENT_SPECS=$(find "$SPECS_DIR" -name "*.spec.md" -mtime -14 2>/dev/null | head -5)
+# Buscar specs recientes (último sprint = últimos 14 días) with timeout
+RECENT_SPECS=$(timeout $TIMEOUT find "$SPECS_DIR" -name "*.spec.md" -mtime -14 2>/dev/null | head -5)
 
 if [[ -z "$RECENT_SPECS" ]]; then
     echo ""
