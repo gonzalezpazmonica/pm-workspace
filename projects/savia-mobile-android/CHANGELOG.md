@@ -171,7 +171,10 @@ vía Savia Bridge, un servidor HTTPS/SSE que envuelve Claude Code CLI.
 
 ## Roadmap
 
-- **v0.2.0** — Sincronización offline, plantillas rápidas
-- **v0.3.0** — Integración nativa Jira/Azure DevOps
 - **v0.4.0** — Widgets, notificaciones inteligentes
 - **v1.0.0** — Beta pública en Google Play
+
+---
+
+[0.3.34]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0-savia-mobile...v0.3.34-savia-mobile
+[0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/releases/tag/v0.1.0-savia-mobile
