@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.40] — 2026-03-09
+
+### Changed — Non-blocking chat UX
+
+- **Message queue**: users can type and send messages while Savia is responding. Messages queue (FIFO) and process sequentially. Input field stays enabled during streaming
+- **Spinner on bubble**: loading indicator moved from send button to streaming message bubble (inline `CircularProgressIndicator`)
+- **Pending badge**: red badge on send button shows count of queued messages waiting to be processed
+- **ChatViewModel**: refactored `sendMessage()` to queue via `Channel<String>`, new `processMessage()` suspend function handles API/Bridge calls
+- **ChatUiState**: added `canSendWhileStreaming` (true) and `pendingMessageCount` fields
+
+### Fixed
+
+- SQLCipher dependency: changed from `implementation` to `api` in data module — resolves `SupportOpenHelperFactory` import in app's DatabaseModule
+
 ## [0.3.35] — 2026-03-09
 
 ### Security — Full hardening from security audit

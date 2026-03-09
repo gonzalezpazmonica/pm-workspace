@@ -20,12 +20,22 @@ un tercero audita. Los tres son independientes entre sí.
 
 ## Independencia de agentes
 
-1. **security-attacker** (Red Team): solo lectura, encuentra vulnerabilidades
+1. **security-attacker** (Red Team estático): solo lectura de código, encuentra vulnerabilidades
 2. **security-defender** (Blue Team): propone correcciones, no las aplica
 3. **security-auditor**: evalúa ambos, genera score final
+4. **pentester** (Red Team dinámico): pruebas contra sistemas en ejecución, pipeline 5 fases
 
 Ningún agente ve el trabajo del otro antes de completar el suyo (excepto el auditor,
 que ve ambos al final).
+
+## Pentesting dinámico (complementa análisis estático)
+
+Pipeline autónomo de 5 fases: pre-recon → recon → vuln-analysis (5 clases en paralelo)
+→ exploitation (proof-based) → reporting. Política **"no exploit, no report"**: solo
+hallazgos con prueba L3 (impacto demostrado) se reportan. Arquitectura queue-driven
+con JSON intermedio entre análisis y explotación. Lab de test: `tests/pentest-lab/`.
+
+Flujo: `pentester` → `security-defender` (fixes) → `security-auditor` (valida) → `pentester` (re-test)
 
 ## Clasificación de severidad
 
