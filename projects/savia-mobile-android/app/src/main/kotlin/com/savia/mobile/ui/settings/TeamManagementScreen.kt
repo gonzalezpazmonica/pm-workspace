@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.savia.mobile.ui.common.SaviaLogo
+import com.savia.mobile.ui.common.VersionBadge
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,12 +41,21 @@ fun TeamManagementScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Team Management") },
+                title = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        SaviaLogo()
+                        Text("Team Management")
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
                     }
-                }
+                },
+                actions = { VersionBadge() }
             )
         },
         floatingActionButton = {

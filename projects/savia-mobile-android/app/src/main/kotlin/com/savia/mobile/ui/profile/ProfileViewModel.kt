@@ -11,8 +11,11 @@ import com.savia.mobile.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -32,8 +35,17 @@ data class ProfileUiState(
     val updateCheckingUpdate: Boolean = false,
     val updateAvailable: Boolean = false,
     val updateDownloading: Boolean = false,
+    val updateDownloadProgress: Float = 0f,
+    val updateDownloaded: Boolean = false,
     val pendingUpdate: AppUpdate? = null
 )
+
+/**
+ * One-shot events from ViewModel to UI (for intents that need Activity context).
+ */
+sealed class ProfileEvent {
+    data class InstallApk(val apkPath: String) : ProfileEvent()
+}
 
 /**
  * ViewModel for Profile screen managing user profile, project selection, and updates.
@@ -48,6 +60,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(ProfileUiState())
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
+
+    private val _events = MutableSharedFlow<ProfileEvent>()
+    val events: SharedFlow<ProfileEvent> = _events.asSharedFlow()
 
     init {
         loadProfileData()
@@ -120,7 +135,15 @@ class ProfileViewModel @Inject constructor(
      */
     fun checkForUpdates() {
         viewModelScope.launch {
-            _uiState.update { it.copy(updateCheckingUpdate = true) }
+            _uiState.update {
+                it.copy(
+                    updateCheckingUpdate = true,
+                    updateAvailable = false,
+                    updateDownloaded = false,
+                    updateDownloadProgress = 0f,
+                    pendingUpdate = null
+                )
+            }
             try {
                 val currentVersionCode = BuildConfig.VERSION_CODE
                 val update = withContext(Dispatchers.IO) {
@@ -145,16 +168,29 @@ class ProfileViewModel @Inject constructor(
     }
 
     /**
-     * Downloads available app update APK from the Bridge.
+     * Downloads available app update APK from the Bridge and triggers install.
      */
-    fun downloadUpdate() {
+    fun downloadAndInstallUpdate() {
         val update = _uiState.value.pendingUpdate ?: return
         viewModelScope.launch {
-            _uiState.update { it.copy(updateDownloading = true) }
+            _uiState.update { it.copy(updateDownloading = true, updateDownloadProgress = 0f) }
             try {
-                updateRepository.downloadUpdate(update).collect { /* progress */ }
+                updateRepository.downloadUpdate(update).collect { progress ->
+                    _uiState.update { it.copy(updateDownloadProgress = progress) }
+                }
+                // Download complete — get path and trigger install
+                val apkPath = withContext(Dispatchers.IO) {
+                    updateRepository.getDownloadedApkPath()
+                }
                 _uiState.update {
-                    it.copy(updateDownloading = false)
+                    it.copy(
+                        updateDownloading = false,
+                        updateDownloaded = true,
+                        updateDownloadProgress = 1f
+                    )
+                }
+                if (apkPath != null) {
+                    _events.emit(ProfileEvent.InstallApk(apkPath))
                 }
             } catch (e: Exception) {
                 _uiState.update {
@@ -163,6 +199,20 @@ class ProfileViewModel @Inject constructor(
                         error = e.message ?: "Error downloading update"
                     )
                 }
+            }
+        }
+    }
+
+    /**
+     * Triggers install of already-downloaded APK.
+     */
+    fun installDownloadedUpdate() {
+        viewModelScope.launch {
+            val apkPath = withContext(Dispatchers.IO) {
+                updateRepository.getDownloadedApkPath()
+            }
+            if (apkPath != null) {
+                _events.emit(ProfileEvent.InstallApk(apkPath))
             }
         }
     }

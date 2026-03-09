@@ -1,5 +1,6 @@
 package com.savia.mobile.ui.home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.DropdownMenu
@@ -61,6 +62,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.savia.mobile.ui.common.SaviaLogo
+import com.savia.mobile.ui.common.VersionBadge
 
 /**
  * Home/Dashboard screen for Savia Mobile v0.2.
@@ -110,8 +113,10 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = { SaviaLogo(modifier = Modifier.padding(start = 12.dp)) },
                 title = { Text(stringResource(R.string.home_title)) },
                 actions = {
+                    VersionBadge()
                     IconButton(
                         onClick = onNavigateToSettings
                     ) {
@@ -163,7 +168,8 @@ fun HomeScreen(
         } else {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .padding(innerPadding),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -249,7 +255,10 @@ fun HomeScreen(
 }
 
 /**
- * Greeting header with user name, project dropdown, sprint dropdown, and sprint name.
+ * Greeting header with user name, project dropdown selector, and sprint dropdown selector.
+ *
+ * Both selectors render as bordered cards (OutlinedCard style) with the selected value
+ * and a dropdown arrow, making them clearly visible and tappable.
  */
 @Composable
 private fun GreetingHeader(
@@ -283,34 +292,65 @@ private fun GreetingHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(horizontal = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        // Greeting text
         Text(
             text = stringResource(R.string.home_welcome),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold
         )
-        Box {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = projectName,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable {
+
+        // --- Project Selector (bordered card) ---
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
                         projectSearchQuery = ""
                         projectDropdownExpanded = true
-                    }
+                    },
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                border = BorderStroke(
+                    1.dp,
+                    MaterialTheme.colorScheme.outline
                 )
-                Icon(
-                    Icons.Default.ArrowDropDown,
-                    contentDescription = stringResource(R.string.home_select_project),
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable {
-                        projectSearchQuery = ""
-                        projectDropdownExpanded = true
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(R.string.home_select_project),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = projectName,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
                     }
-                )
+                    Icon(
+                        Icons.Default.ArrowDropDown,
+                        contentDescription = stringResource(R.string.home_select_project),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
+
             DropdownMenu(
                 expanded = projectDropdownExpanded,
                 onDismissRequest = {
@@ -321,7 +361,6 @@ private fun GreetingHeader(
                     .fillMaxWidth(0.85f)
                     .heightIn(max = 300.dp)
             ) {
-                // Search field inside dropdown
                 OutlinedTextField(
                     value = projectSearchQuery,
                     onValueChange = { projectSearchQuery = it },
@@ -369,7 +408,7 @@ private fun GreetingHeader(
                     DropdownMenuItem(
                         text = {
                             Text(
-                                "No projects found",
+                                stringResource(R.string.home_no_project),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -381,30 +420,54 @@ private fun GreetingHeader(
             }
         }
 
-        // Sprint selector similar to project selector
-        Box {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = sprintName,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.clickable {
+        // --- Sprint Selector (bordered card) ---
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
                         sprintSearchQuery = ""
                         sprintDropdownExpanded = true
-                    }
+                    },
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                border = BorderStroke(
+                    1.dp,
+                    MaterialTheme.colorScheme.outlineVariant
                 )
-                Icon(
-                    Icons.Default.ArrowDropDown,
-                    contentDescription = "Select sprint",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            ) {
+                Row(
                     modifier = Modifier
-                        .size(16.dp)
-                        .clickable {
-                            sprintSearchQuery = ""
-                            sprintDropdownExpanded = true
-                        }
-                )
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "Sprint",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = sprintName,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                    Icon(
+                        Icons.Default.ArrowDropDown,
+                        contentDescription = "Select sprint",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
+
             DropdownMenu(
                 expanded = sprintDropdownExpanded,
                 onDismissRequest = {
@@ -415,7 +478,6 @@ private fun GreetingHeader(
                     .fillMaxWidth(0.85f)
                     .heightIn(max = 250.dp)
             ) {
-                // Search field inside dropdown
                 OutlinedTextField(
                     value = sprintSearchQuery,
                     onValueChange = { sprintSearchQuery = it },

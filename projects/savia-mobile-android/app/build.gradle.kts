@@ -8,46 +8,63 @@ plugins {
     alias(libs.plugins.roborazzi)
 }
 
-// --- Auto-version: read from version.properties ---
+// --- Auto-version: increment + read at configuration time ---
+// This ensures the APK always embeds the NEW version, not the old one.
 import java.util.Properties
 
 val versionFile = rootProject.file("version.properties")
-fun loadVersionProps(): Properties {
+val isDebugBuild = gradle.startParameter.taskNames.any { it.contains("Debug", ignoreCase = true) }
+
+fun loadAndIncrementVersionProps(): Properties {
     val props = Properties()
     if (versionFile.exists()) {
         versionFile.inputStream().use { props.load(it) }
     } else {
-        props.setProperty("VERSION_CODE", "1")
+        props.setProperty("VERSION_CODE", "0")
         props.setProperty("VERSION_MAJOR", "0")
         props.setProperty("VERSION_MINOR", "1")
         props.setProperty("VERSION_PATCH", "0")
-        versionFile.outputStream().use { props.store(it, "Savia Mobile version (auto-managed)") }
     }
-    return props
-}
-val versionProps = loadVersionProps()
-val appVersionCode = versionProps.getProperty("VERSION_CODE").toInt()
-val appVersionName = "${versionProps.getProperty("VERSION_MAJOR")}.${versionProps.getProperty("VERSION_MINOR")}.${versionProps.getProperty("VERSION_PATCH")}"
-
-// Task: increment versionCode + patch for debug builds
-tasks.register("incrementVersion") {
-    val file = rootProject.file("version.properties")
-    doLast {
-        val props = Properties()
-        file.inputStream().use { props.load(it) }
+    // Auto-increment on debug builds at configuration time
+    if (isDebugBuild) {
         val newCode = props.getProperty("VERSION_CODE").toInt() + 1
         val newPatch = props.getProperty("VERSION_PATCH").toInt() + 1
         props.setProperty("VERSION_CODE", newCode.toString())
         props.setProperty("VERSION_PATCH", newPatch.toString())
-        file.outputStream().use { props.store(it, "Savia Mobile version (auto-managed)") }
+        versionFile.outputStream().use { props.store(it, "Savia Mobile version (auto-managed)") }
         logger.lifecycle("Version incremented: versionCode=$newCode, patch=$newPatch")
     }
+    return props
+}
+val versionProps = loadAndIncrementVersionProps()
+val appVersionCode = versionProps.getProperty("VERSION_CODE").toInt()
+val appVersionName = "${versionProps.getProperty("VERSION_MAJOR")}.${versionProps.getProperty("VERSION_MINOR")}.${versionProps.getProperty("VERSION_PATCH")}"
+
+// Task: copy debug APK to Bridge distribution folder and scripts/dist
+// Uses Exec to avoid configuration-cache serialization issues
+val bridgeApkPath = "${System.getProperty("user.home")}/.savia/bridge/apk/savia-mobile.apk"
+val distApkPath = "${System.getProperty("user.home")}/savia/scripts/dist/app-debug.apk"
+val apkSourcePath = layout.buildDirectory.file("outputs/apk/debug/app-debug.apk").map { it.asFile.absolutePath }
+
+tasks.register<Exec>("publishToBridge") {
+    description = "Copies debug APK to ~/.savia/bridge/apk/ for distribution"
+    commandLine("cp", "-f", apkSourcePath.get(), bridgeApkPath)
+    isIgnoreExitValue = true
 }
 
-// Only assembleDebug auto-increments
+tasks.register<Exec>("publishToDist") {
+    description = "Copies debug APK to scripts/dist/ for integration tests"
+    commandLine("cp", "-f", apkSourcePath.get(), distApkPath)
+    isIgnoreExitValue = true
+}
+
+// assembleDebug: run unit tests first, then publish to Bridge + dist
+// Flow: testDebugUnitTest → assembleDebug → publishToBridge + publishToDist
+// If tests fail, assembleDebug won't run, so no broken APK gets published.
 tasks.whenTaskAdded {
     if (name == "assembleDebug") {
-        dependsOn("incrementVersion")
+        dependsOn("testDebugUnitTest")
+        finalizedBy("publishToBridge", "publishToDist")
     }
 }
 
@@ -62,7 +79,7 @@ android {
         versionCode = appVersionCode
         versionName = appVersionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.savia.mobile.HiltTestRunner"
     }
 
     buildTypes {
@@ -181,5 +198,11 @@ dependencies {
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.compose.ui.test)
+    androidTestImplementation(libs.uiautomator)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.test.runner)
+    androidTestImplementation(libs.test.rules)
+    androidTestImplementation(libs.okhttp)
+    kspAndroidTest(libs.hilt.compiler)
     debugImplementation(libs.compose.ui.test.manifest)
 }

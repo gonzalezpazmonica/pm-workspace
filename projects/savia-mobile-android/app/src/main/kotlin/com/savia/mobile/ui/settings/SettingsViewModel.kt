@@ -48,6 +48,7 @@ data class SettingsUiState(
     val updateCheckingUpdate: Boolean = false,
     val updateAvailable: Boolean = false,
     val updateDownloading: Boolean = false,
+    val updateDownloadProgress: Float = 0f,
     val pendingUpdate: com.savia.domain.model.AppUpdate? = null
 )
 
@@ -240,7 +241,15 @@ class SettingsViewModel @Inject constructor(
      */
     fun checkForUpdates() {
         viewModelScope.launch {
-            _uiState.update { it.copy(updateCheckingUpdate = true) }
+            _uiState.update {
+                it.copy(
+                    updateCheckingUpdate = true,
+                    updateAvailable = false,
+                    updateDownloading = false,
+                    updateDownloadProgress = 0f,
+                    pendingUpdate = null
+                )
+            }
             try {
                 val currentVersionCode = BuildConfig.VERSION_CODE
                 val update = withContext(Dispatchers.IO) {
@@ -270,16 +279,19 @@ class SettingsViewModel @Inject constructor(
     fun downloadUpdate() {
         val update = _uiState.value.pendingUpdate ?: return
         viewModelScope.launch {
-            _uiState.update { it.copy(updateDownloading = true) }
+            _uiState.update { it.copy(updateDownloading = true, updateDownloadProgress = 0f) }
             try {
-                updateRepository.downloadUpdate(update).collect { /* progress */ }
+                updateRepository.downloadUpdate(update).collect { progress ->
+                    _uiState.update { it.copy(updateDownloadProgress = progress) }
+                }
                 _uiState.update {
-                    it.copy(updateDownloading = false)
+                    it.copy(updateDownloading = false, updateDownloadProgress = 1f)
                 }
             } catch (e: Exception) {
                 _uiState.update {
                     it.copy(
                         updateDownloading = false,
+                        updateDownloadProgress = 0f,
                         connectionError = e.message ?: "Error downloading update"
                     )
                 }

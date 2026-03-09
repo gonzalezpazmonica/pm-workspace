@@ -509,6 +509,199 @@ _session_locks: dict[str, threading.Lock] = {}
 _session_locks_guard = threading.Lock()
 
 
+def _build_dashboard() -> dict:
+    """
+    Build dashboard data by scanning the PM-Workspace on disk.
+
+    Reads:
+    - projects/*/CLAUDE.md for project metadata (name, sprint, velocity)
+    - projects/*/test-data/mock-sprint.json for sprint data
+    - projects/*/test-data/mock-workitems.json for task data
+    - ~/.savia/bridge/profile.json for user name
+
+    Returns a JSON-serializable dict with:
+    - user: { name, greeting }
+    - projects: [ { id, name, team, currentSprint, health } ]
+    - selectedProject: active project details
+    - sprint: { name, progress, completedPoints, totalPoints, blockedItems }
+    - myTasks: [ { id, title, state, assignee } ]
+    - recentActivity: [ string descriptions ]
+    - hoursToday: float
+    """
+    import re
+    import datetime
+
+    workspace = Path.home() / "savia"
+    projects_dir = workspace / "projects"
+
+    # Load user name from profile
+    user_name = "User"
+    profile_path = CONFIG_DIR / "profile.json"
+    if profile_path.exists():
+        try:
+            profile = json.loads(profile_path.read_text())
+            user_name = profile.get("name", "User")
+        except Exception:
+            pass
+
+    # Time-of-day greeting
+    hour = datetime.datetime.now().hour
+    if hour < 12:
+        greeting = f"Good morning, {user_name}"
+    elif hour < 18:
+        greeting = f"Good afternoon, {user_name}"
+    else:
+        greeting = f"Good evening, {user_name}"
+
+    # Scan projects
+    projects = []
+    if projects_dir.exists():
+        for proj_dir in sorted(projects_dir.iterdir()):
+            if not proj_dir.is_dir():
+                continue
+            claude_md = proj_dir / "CLAUDE.md"
+            if not claude_md.exists():
+                continue
+
+            # Parse CLAUDE.md constants
+            content = claude_md.read_text()
+            proj_name = proj_dir.name
+
+            # Extract key constants
+            def extract_const(key, default=""):
+                m = re.search(rf'{key}\s*=\s*"([^"]*)"', content)
+                return m.group(1) if m else default
+
+            def extract_int(key, default=0):
+                m = re.search(rf'{key}\s*=\s*(\d+)', content)
+                return int(m.group(1)) if m else default
+
+            team = extract_const("TEAM_NAME", proj_name)
+            sprint = extract_const("SPRINT_ACTUAL", "")
+            velocity = extract_int("VELOCITY_MEDIA_SP", 0)
+
+            # Compute health from sprint data if available
+            health = 70  # default
+            sprint_data = None
+            mock_sprint = proj_dir / "test-data" / "mock-sprint.json"
+            if mock_sprint.exists():
+                try:
+                    sprint_data = json.loads(mock_sprint.read_text())
+                    trend = sprint_data.get("burndown", {}).get("trend", "on_track")
+                    health = {"on_track": 85, "at_risk": 55, "off_track": 30}.get(trend, 70)
+                except Exception:
+                    pass
+
+            projects.append({
+                "id": proj_name,
+                "name": proj_name,
+                "team": team,
+                "currentSprint": sprint if sprint else None,
+                "health": health,
+                "_sprintData": sprint_data,  # internal, for selected project
+                "_dir": str(proj_dir),
+            })
+
+    # Select project (prefer PM-Workspace-related or first with sprint data)
+    selected = None
+    for p in projects:
+        if p.get("_sprintData"):
+            selected = p
+            break
+    if not selected and projects:
+        selected = projects[0]
+
+    # Build sprint summary from selected project
+    sprint_summary = None
+    my_tasks = []
+    recent_activity = []
+    blocked_count = 0
+    hours_today = 0.0
+
+    if selected and selected.get("_sprintData"):
+        sd = selected["_sprintData"]
+
+        sprint_info = sd.get("sprint", {})
+        summary = sd.get("summary", {})
+        burndown = sd.get("burndown", {})
+        board_columns = sd.get("board_columns", [])
+
+        total_sp = summary.get("storyPointsCommitted", 0)
+        completed_sp = summary.get("storyPointsCompleted", 0)
+        progress = (completed_sp / total_sp) if total_sp > 0 else burndown.get("completedPercent", 0) / 100.0
+
+        sprint_summary = {
+            "name": sprint_info.get("name", selected.get("currentSprint", "Sprint")),
+            "progress": round(progress, 2),
+            "completedPoints": completed_sp,
+            "totalPoints": total_sp,
+            "blockedItems": 0,
+            "daysRemaining": sprint_info.get("daysRemaining", 0),
+            "goal": sprint_info.get("goal", ""),
+        }
+
+        # Count blocked items from alerts
+        for alert in sd.get("alerts", []):
+            if alert.get("type") == "blocked":
+                blocked_count += 1
+        sprint_summary["blockedItems"] = blocked_count
+
+        # Extract Active tasks
+        active_col = next((c for c in board_columns if c["name"] == "Active"), None)
+        if active_col:
+            active_ids = active_col.get("items", [])[:3]
+            # Load work items if available
+            workitems_path = Path(selected["_dir"]) / "test-data" / "mock-workitems.json"
+            if workitems_path.exists():
+                try:
+                    wi_data = json.loads(workitems_path.read_text())
+                    for wi in wi_data.get("value", []):
+                        if wi["id"] in active_ids:
+                            fields = wi.get("fields", {})
+                            my_tasks.append({
+                                "id": str(wi["id"]),
+                                "title": fields.get("System.Title", f"Task #{wi['id']}"),
+                                "state": fields.get("System.State", "Active"),
+                                "assignee": fields.get("System.AssignedTo", {}).get("displayName", ""),
+                            })
+                except Exception:
+                    pass
+
+            if not my_tasks:
+                for tid in active_ids:
+                    my_tasks.append({"id": str(tid), "title": f"Task #{tid}", "state": "Active", "assignee": ""})
+
+        # Recent activity from cycle time data
+        for ct in sd.get("cycle_time_data", [])[:5]:
+            state = ct.get("state", "Done")
+            recent_activity.append(f"{ct.get('title', '')} — {state}")
+
+        # Hours from burndown
+        hours_today = burndown.get("completedHours", 0.0)
+
+    # Clean internal fields from projects
+    clean_projects = []
+    for p in projects:
+        clean_projects.append({
+            "id": p["id"],
+            "name": p["name"],
+            "team": p["team"],
+            "currentSprint": p["currentSprint"],
+            "health": p["health"],
+        })
+
+    return {
+        "user": {"name": user_name, "greeting": greeting},
+        "projects": clean_projects,
+        "selectedProjectId": selected["id"] if selected else None,
+        "sprint": sprint_summary,
+        "myTasks": my_tasks,
+        "recentActivity": recent_activity,
+        "blockedItems": blocked_count,
+        "hoursToday": hours_today,
+    }
+
+
 def _is_valid_uuid(val: str) -> bool:
     """Check if a string is a valid UUID (any version)."""
     import re
@@ -629,7 +822,10 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
             stderr=subprocess.PIPE,
             text=True,
             bufsize=1,
-            env={**os.environ, "CLAUDE_CODE_ENTRYPOINT": "savia-bridge"}
+            env={
+                **{k: v for k, v in os.environ.items() if k != "CLAUDECODE"},
+                "CLAUDE_CODE_ENTRYPOINT": "savia-bridge",
+            }
         )
 
         chat_log(f"[req:{request_id}] Process started, PID={process.pid}")
@@ -1111,6 +1307,15 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json({"status": "not_configured", "connectors": {}})
             return
 
+        if parsed.path == "/dashboard":
+            try:
+                data = _build_dashboard()
+                self._send_json(data)
+            except Exception as e:
+                log(f"Dashboard error: {traceback.format_exc()}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
         if parsed.path == "/openapi.json":
             spec_path = Path(__file__).resolve().parent / "openapi.yaml"
             if not spec_path.exists():
@@ -1125,11 +1330,235 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(content.encode())
             return
 
+        # --- New Data Endpoints (no auth required) ---
+
+        if parsed.path.startswith("/kanban"):
+            """GET /kanban?project={projectId} — Kanban board with columns grouped by state."""
+            params = parse_qs(parsed.query)
+            project_id = params.get("project", [None])[0]
+
+            if not project_id:
+                self._send_json({"error": "Missing project parameter"}, 400)
+                return
+
+            project_dir = Path.home() / "savia" / "projects" / project_id
+            if not project_dir.exists():
+                self._send_json({"error": f"Project {project_id} not found"}, 404)
+                return
+
+            workitems_path = project_dir / "test-data" / "mock-workitems.json"
+            if not workitems_path.exists():
+                self._send_json({"error": "Mock data not found"}, 404)
+                return
+
+            try:
+                wi_data = json.loads(workitems_path.read_text())
+                board = {}
+
+                for wi in wi_data.get("value", []):
+                    fields = wi.get("fields", {})
+                    state = fields.get("System.State", "New")
+
+                    if state not in board:
+                        board[state] = {
+                            "name": state,
+                            "items": [],
+                            "wipLimit": None
+                        }
+
+                    board[state]["items"].append({
+                        "id": str(wi["id"]),
+                        "title": fields.get("System.Title", f"Task #{wi['id']}"),
+                        "assignee": fields.get("System.AssignedTo", {}).get("displayName", ""),
+                        "storyPoints": fields.get("Microsoft.VSTS.Scheduling.StoryPoints", 0),
+                        "state": state,
+                        "type": fields.get("System.WorkItemType", "Task")
+                    })
+
+                # Define WIP limits by state
+                wip_limits = {
+                    "Active": 3,
+                    "New": None,
+                    "Committed": None,
+                    "Done": None
+                }
+
+                for state_name, limit in wip_limits.items():
+                    if state_name in board:
+                        board[state_name]["wipLimit"] = limit
+
+                # Return as ordered list
+                result = [
+                    {"name": "New", "items": board.get("New", {}).get("items", []), "wipLimit": None},
+                    {"name": "Active", "items": board.get("Active", {}).get("items", []), "wipLimit": 3},
+                    {"name": "Committed", "items": board.get("Committed", {}).get("items", []), "wipLimit": None},
+                    {"name": "Done", "items": board.get("Done", {}).get("items", []), "wipLimit": None}
+                ]
+
+                self._send_json(result)
+            except Exception as e:
+                log(f"Error processing kanban for {project_id}: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path.startswith("/timelog"):
+            """GET /timelog?project={projectId}&date={YYYY-MM-DD} — Time entries from CompletedWork."""
+            params = parse_qs(parsed.query)
+            project_id = params.get("project", [None])[0]
+            date_str = params.get("date", [None])[0]
+
+            if not project_id:
+                self._send_json({"error": "Missing project parameter"}, 400)
+                return
+
+            project_dir = Path.home() / "savia" / "projects" / project_id
+            if not project_dir.exists():
+                self._send_json({"error": f"Project {project_id} not found"}, 404)
+                return
+
+            workitems_path = project_dir / "test-data" / "mock-workitems.json"
+            if not workitems_path.exists():
+                self._send_json({"error": "Mock data not found"}, 404)
+                return
+
+            try:
+                wi_data = json.loads(workitems_path.read_text())
+                timelog = []
+
+                for wi in wi_data.get("value", []):
+                    fields = wi.get("fields", {})
+                    completed_work = fields.get("Microsoft.VSTS.Scheduling.CompletedWork", 0)
+
+                    if completed_work > 0:
+                        timelog.append({
+                            "id": str(wi["id"]),
+                            "taskId": str(wi["id"]),
+                            "taskTitle": fields.get("System.Title", f"Task #{wi['id']}"),
+                            "hours": completed_work,
+                            "date": date_str or "2026-03-09",
+                            "note": None
+                        })
+
+                self._send_json(timelog)
+            except Exception as e:
+                log(f"Error processing timelog for {project_id}: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path.startswith("/approvals"):
+            """GET /approvals?project={projectId} — Mock approval requests."""
+            params = parse_qs(parsed.query)
+            project_id = params.get("project", [None])[0]
+
+            if not project_id:
+                self._send_json({"error": "Missing project parameter"}, 400)
+                return
+
+            project_dir = Path.home() / "savia" / "projects" / project_id
+            if not project_dir.exists():
+                self._send_json({"error": f"Project {project_id} not found"}, 404)
+                return
+
+            workitems_path = project_dir / "test-data" / "mock-workitems.json"
+
+            # Generate mock approvals if project has work items
+            approvals = []
+            if workitems_path.exists():
+                try:
+                    wi_data = json.loads(workitems_path.read_text())
+                    if wi_data.get("value"):
+                        approvals = [
+                            {
+                                "id": "pr-1",
+                                "type": "PULL_REQUEST",
+                                "title": "feat: implement CRUD salas",
+                                "description": "Implements complete CRUD operations for room management via REST API endpoints.",
+                                "requester": "Carlos Mendoza",
+                                "createdAt": "2026-03-08T14:00:00Z",
+                                "estimatedCost": None
+                            },
+                            {
+                                "id": "infra-1",
+                                "type": "INFRASTRUCTURE",
+                                "title": "Scale DB to 4 vCPU",
+                                "description": "Increase database instance resources to handle sprint 2026-04 load.",
+                                "requester": "DevOps Bot",
+                                "createdAt": "2026-03-09T10:00:00Z",
+                                "estimatedCost": "$45/month"
+                            }
+                        ]
+                except Exception:
+                    pass
+
+            self._send_json(approvals)
+            return
+
         self._send_json({"error": "Not found"}, 404)
 
     def do_POST(self):
         parsed = urlparse(self.path)
         request_id = self._next_request_id()
+
+        # --- POST /capture (no auth required) ---
+        if parsed.path == "/capture":
+            """POST /capture — Create a work item from captured content."""
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length).decode()
+
+            try:
+                data = json.loads(body)
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+                return
+
+            content = data.get("content", "").strip()
+            item_type = data.get("type", "Task")  # PBI, Bug, Task
+            project_id = data.get("projectId", "")
+
+            if not content:
+                self._send_json({"error": "Missing content"}, 400)
+                return
+
+            # Generate a mock ID
+            import random
+            mock_id = f"MOCK#{random.randint(900, 999)}"
+
+            self._send_json({
+                "id": mock_id,
+                "status": "created",
+                "type": item_type,
+                "projectId": project_id,
+                "createdAt": datetime.now().isoformat()
+            })
+            return
+
+        if parsed.path == "/timelog":
+            """POST /timelog — Log time against a task."""
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length).decode()
+
+            try:
+                data = json.loads(body)
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+                return
+
+            task_id = data.get("taskId", "")
+            hours = data.get("hours", 0)
+            date = data.get("date", "")
+
+            if not task_id or not hours:
+                self._send_json({"error": "Missing taskId or hours"}, 400)
+                return
+
+            self._send_json({
+                "status": "logged",
+                "taskId": task_id,
+                "hours": hours,
+                "date": date,
+                "note": data.get("note")
+            })
+            return
 
         if parsed.path != "/chat":
             self._send_json({"error": "Not found"}, 404)

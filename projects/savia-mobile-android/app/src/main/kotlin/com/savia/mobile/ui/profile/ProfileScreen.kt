@@ -23,9 +23,11 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -50,6 +52,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.savia.mobile.R
+import com.savia.mobile.ui.common.SaviaLogo
+import com.savia.mobile.ui.common.VersionBadge
 
 /**
  * Profile screen for Savia Mobile v0.2.
@@ -80,6 +84,33 @@ fun ProfileScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = androidx.compose.ui.platform.LocalContext.current
+
+    // Handle one-shot events (install APK intent)
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is ProfileEvent.InstallApk -> {
+                    try {
+                        val file = java.io.File(event.apkPath)
+                        val uri = androidx.core.content.FileProvider.getUriForFile(
+                            context,
+                            "${context.packageName}.fileprovider",
+                            file
+                        )
+                        val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                            setDataAndType(uri, "application/vnd.android.package-archive")
+                            addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        context.startActivity(intent)
+                    } catch (e: Exception) {
+                        snackbarHostState.showSnackbar("Error installing: ${e.message}")
+                    }
+                }
+            }
+        }
+    }
 
     // Show errors
     LaunchedEffect(uiState.error) {
@@ -92,8 +123,10 @@ fun ProfileScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = { SaviaLogo(modifier = Modifier.padding(start = 12.dp)) },
                 title = { Text(stringResource(R.string.profile_title)) },
                 actions = {
+                    VersionBadge()
                     androidx.compose.material3.IconButton(
                         onClick = onNavigateToSettings
                     ) {
@@ -207,9 +240,13 @@ fun ProfileScreen(
                 UpdateChecker(
                     isChecking = uiState.updateCheckingUpdate,
                     isDownloading = uiState.updateDownloading,
+                    downloadProgress = uiState.updateDownloadProgress,
                     updateAvailable = uiState.updateAvailable,
+                    updateDownloaded = uiState.updateDownloaded,
+                    pendingUpdate = uiState.pendingUpdate,
                     onCheckUpdates = { viewModel.checkForUpdates() },
-                    onDownload = { viewModel.downloadUpdate() }
+                    onDownloadAndInstall = { viewModel.downloadAndInstallUpdate() },
+                    onInstall = { viewModel.installDownloadedUpdate() }
                 )
             }
 
@@ -426,15 +463,26 @@ private fun ProjectCard(
 }
 
 /**
- * Update checker section with check and download buttons.
+ * Update checker section with check, download, and install buttons.
+ *
+ * States:
+ * 1. Initial: "Check for Updates" button
+ * 2. Checking: spinner
+ * 3. Update available: shows version info + "Download and Install" button
+ * 4. Downloading: progress bar
+ * 5. Downloaded: "Install" button
  */
 @Composable
 private fun UpdateChecker(
     isChecking: Boolean,
     isDownloading: Boolean,
+    downloadProgress: Float,
     updateAvailable: Boolean,
+    updateDownloaded: Boolean,
+    pendingUpdate: com.savia.domain.model.AppUpdate?,
     onCheckUpdates: () -> Unit,
-    onDownload: () -> Unit
+    onDownloadAndInstall: () -> Unit,
+    onInstall: () -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -465,15 +513,15 @@ private fun UpdateChecker(
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
-                    if (updateAvailable) {
+                    if (updateAvailable && pendingUpdate != null) {
                         Text(
-                            text = stringResource(R.string.profile_new_version),
+                            text = "v${pendingUpdate.version} disponible (${pendingUpdate.size / 1024 / 1024} MB)",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
-                if (isChecking || isDownloading) {
+                if (isChecking) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(20.dp),
                         strokeWidth = 2.dp
@@ -481,12 +529,62 @@ private fun UpdateChecker(
                 }
             }
 
+            // Download progress bar
+            if (isDownloading) {
+                LinearProgressIndicator(
+                    progress = { downloadProgress },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(6.dp),
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant
+                )
+                Text(
+                    text = "${(downloadProgress * 100).toInt()}%",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            // Action buttons based on state
             if (!isChecking && !isDownloading) {
-                Button(
-                    onClick = if (updateAvailable) onDownload else onCheckUpdates,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(if (updateAvailable) stringResource(R.string.profile_download_update) else stringResource(R.string.profile_check_updates_btn))
+                when {
+                    updateDownloaded -> {
+                        Button(
+                            onClick = onInstall,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_download_update))
+                        }
+                        TextButton(
+                            onClick = onCheckUpdates,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_check_updates_btn))
+                        }
+                    }
+                    updateAvailable -> {
+                        Button(
+                            onClick = onDownloadAndInstall,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_download_update))
+                        }
+                        TextButton(
+                            onClick = onCheckUpdates,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_check_updates_btn))
+                        }
+                    }
+                    else -> {
+                        Button(
+                            onClick = onCheckUpdates,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.profile_check_updates_btn))
+                        }
+                    }
                 }
             }
         }
