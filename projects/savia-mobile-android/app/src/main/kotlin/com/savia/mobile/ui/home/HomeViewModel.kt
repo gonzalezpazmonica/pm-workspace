@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.savia.domain.model.BoardItem
 import com.savia.domain.model.SprintSummary
-import com.savia.domain.model.TimeEntry
 import com.savia.domain.repository.ProjectRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +16,7 @@ import javax.inject.Inject
 /**
  * UI state for the Home screen displaying dashboard data.
  *
+ * @property greeting Personalized greeting from Bridge (e.g., "Good morning, Mónica")
  * @property selectedProject Current project name (null if not selected)
  * @property sprintName Name of the active sprint
  * @property sprintProgress Completion progress as decimal 0.0-1.0
@@ -24,12 +24,15 @@ import javax.inject.Inject
  * @property totalStoryPoints Total story points planned
  * @property blockedItemsCount Number of blocked items
  * @property hoursToday Hours logged today
- * @property myTasks First 3 items from board assigned to current user
- * @property recentActivity Last 5 items from sprint activity
+ * @property myTasks First tasks assigned to current user
+ * @property recentActivity Last items from sprint activity
+ * @property availableProjects List of available projects to select from
+ * @property availableSprints List of available sprints to select from
  * @property isLoading Whether data is currently loading
  * @property error Error message to display in snackbar
  */
 data class HomeUiState(
+    val greeting: String = "",
     val selectedProject: String? = null,
     val sprintName: String = "Sprint",
     val sprintProgress: Float = 0f,
@@ -39,6 +42,8 @@ data class HomeUiState(
     val hoursToday: Float = 0f,
     val myTasks: List<BoardItem> = emptyList(),
     val recentActivity: List<String> = emptyList(),
+    val availableProjects: List<com.savia.domain.model.Project> = emptyList(),
+    val availableSprints: List<String> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null
 )
@@ -46,15 +51,14 @@ data class HomeUiState(
 /**
  * ViewModel for Home screen managing dashboard state and data loading.
  *
- * Responsibilities:
- * - Load selected project and sprint summary
- * - Load user's tasks for today
- * - Load time entries for today
- * - Load recent activity
- * - Handle refresh action for pull-to-refresh
- * - Display loading and error states
+ * Uses the Bridge GET /dashboard REST endpoint to fetch all Home data
+ * in a single call. The Bridge reads project data directly from disk
+ * (CLAUDE.md, mock JSON files), making this fast and reliable.
  *
- * Clean Architecture: ViewModel (UI layer) coordinates with ProjectRepository for data
+ * Previous approach (DEPRECATED): sent slash commands via /chat endpoint
+ * which depended on Claude CLI — fragile and slow.
+ *
+ * Clean Architecture: ViewModel (UI layer) coordinates with ProjectRepository for data.
  *
  * @author Savia Mobile Team
  */
@@ -63,16 +67,7 @@ class HomeViewModel @Inject constructor(
     private val projectRepository: ProjectRepository
 ) : ViewModel() {
 
-    /**
-     * Mutable state backing the public uiState for Home screen.
-     * Updated by all ViewModel methods as data loads.
-     */
     private val _uiState = MutableStateFlow(HomeUiState())
-
-    /**
-     * Public observable state for HomeScreen to collect and recompose on changes.
-     * Exposed as StateFlow for lifecycle-aware collection.
-     */
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
@@ -80,54 +75,53 @@ class HomeViewModel @Inject constructor(
     }
 
     /**
-     * Loads all dashboard data: project, sprint summary, tasks, and activity.
-     * Called on ViewModel initialization and during refresh.
+     * Loads all dashboard data from Bridge GET /dashboard endpoint.
+     *
+     * Single REST call replaces the previous 4 separate chat commands
+     * (getProjects, getSprintSummary, getBoard, getTimeEntries).
      */
     private fun loadDashboardData() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
-                val project = projectRepository.getSelectedProject()
-                if (project == null) {
+                val dashboard = projectRepository.getDashboard()
+
+                if (dashboard == null) {
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            error = "No project selected"
+                            error = "Could not connect to Bridge"
                         )
                     }
                     return@launch
                 }
 
-                val sprintSummary = projectRepository.getSprintSummary(project.id)
-                val board = projectRepository.getBoard(project.id)
-                val timeEntries = projectRepository.getTimeEntries(getTodayDateString())
+                // Respect local project selection; fall back to Bridge's default
+                val localSelectedId = projectRepository.getSelectedProject()?.id
+                val selectedId = localSelectedId ?: dashboard.selectedProjectId
+                if (selectedId != null && localSelectedId == null) {
+                    projectRepository.setSelectedProject(selectedId)
+                }
 
-                // Extract user's tasks from Active column (first 3)
-                val myTasks = board
-                    .firstOrNull { it.name.contains("Active", ignoreCase = true) }
-                    ?.items
-                    ?.take(3)
-                    ?: emptyList()
+                val selectedProject = dashboard.projects.find { it.id == selectedId }
 
-                // Extract recent activity (simplified to activity titles)
-                val activity = board
-                    .flatMap { it.items }
-                    .take(5)
-                    .map { it.title }
-
-                val totalHours = timeEntries.sumOf { it.hours.toDouble() }.toFloat()
+                // Generate available sprints from sprint summary
+                val availableSprints = generateAvailableSprints(dashboard.sprint)
 
                 _uiState.update {
                     it.copy(
-                        selectedProject = project.name,
-                        sprintName = sprintSummary?.name ?: "No Active Sprint",
-                        sprintProgress = sprintSummary?.progress ?: 0f,
-                        completedStoryPoints = sprintSummary?.completedPoints ?: 0,
-                        totalStoryPoints = sprintSummary?.totalPoints ?: 0,
-                        blockedItemsCount = sprintSummary?.blockedItems ?: 0,
-                        hoursToday = totalHours,
-                        myTasks = myTasks,
-                        recentActivity = activity,
+                        greeting = dashboard.greeting,
+                        selectedProject = selectedProject?.name ?: selectedId,
+                        sprintName = dashboard.sprint?.name ?: "No Active Sprint",
+                        sprintProgress = dashboard.sprint?.progress ?: 0f,
+                        completedStoryPoints = dashboard.sprint?.completedPoints ?: 0,
+                        totalStoryPoints = dashboard.sprint?.totalPoints ?: 0,
+                        blockedItemsCount = dashboard.blockedItems,
+                        hoursToday = dashboard.hoursToday,
+                        myTasks = dashboard.myTasks,
+                        recentActivity = dashboard.recentActivity,
+                        availableProjects = dashboard.projects,
+                        availableSprints = availableSprints,
                         isLoading = false,
                         error = null
                     )
@@ -160,15 +154,62 @@ class HomeViewModel @Inject constructor(
     }
 
     /**
-     * Gets today's date in ISO 8601 format (YYYY-MM-DD).
-     *
-     * @return Today's date string
+     * Selects a project and reloads dashboard data.
+     * Called when user selects a project from dropdown menu.
      */
-    private fun getTodayDateString(): String {
-        val calendar = java.util.Calendar.getInstance()
-        val year = calendar.get(java.util.Calendar.YEAR)
-        val month = String.format("%02d", calendar.get(java.util.Calendar.MONTH) + 1)
-        val day = String.format("%02d", calendar.get(java.util.Calendar.DAY_OF_MONTH))
-        return "$year-$month-$day"
+    fun selectProject(projectId: String) {
+        viewModelScope.launch {
+            // Immediate UI feedback: show selected project name before reload
+            val project = _uiState.value.availableProjects.find { it.id == projectId }
+            _uiState.update { it.copy(selectedProject = project?.name ?: projectId) }
+            projectRepository.setSelectedProject(projectId)
+            loadDashboardData()
+        }
+    }
+
+    /**
+     * Selects a sprint and reloads dashboard data.
+     * Called when user selects a sprint from dropdown menu.
+     *
+     * @param sprintName Name of the sprint to select
+     */
+    fun selectSprint(sprintName: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(sprintName = sprintName) }
+            loadDashboardData()
+        }
+    }
+
+    /**
+     * Generates available sprints based on the current sprint summary.
+     * Temporary approach: includes current sprint and adjacent sprints (prev/next).
+     *
+     * @param sprintSummary Current sprint summary
+     * @return List of available sprint names
+     */
+    private fun generateAvailableSprints(sprintSummary: SprintSummary?): List<String> {
+        if (sprintSummary == null) return emptyList()
+
+        val sprints = mutableListOf<String>()
+        val currentName = sprintSummary.name
+
+        val sprintNumberRegex = """Sprint\s+(\d+)""".toRegex()
+        val matchResult = sprintNumberRegex.find(currentName)
+
+        if (matchResult != null) {
+            val currentNumber = matchResult.groupValues[1].toIntOrNull() ?: 0
+            if (currentNumber > 1) {
+                sprints.add("Sprint ${currentNumber - 1}")
+            }
+        }
+
+        sprints.add(currentName)
+
+        if (matchResult != null) {
+            val currentNumber = matchResult.groupValues[1].toIntOrNull() ?: 0
+            sprints.add("Sprint ${currentNumber + 1}")
+        }
+
+        return sprints
     }
 }

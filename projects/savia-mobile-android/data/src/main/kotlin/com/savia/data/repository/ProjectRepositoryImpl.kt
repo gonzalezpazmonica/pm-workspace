@@ -4,13 +4,21 @@ import android.content.Context
 import com.savia.data.api.SaviaBridgeService
 import com.savia.data.security.SecureStorage
 import com.savia.domain.model.*
+import com.savia.domain.model.DashboardData
 import com.savia.domain.repository.ProjectRepository
+import com.savia.domain.repository.SecurityRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.*
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import kotlinx.serialization.json.boolean
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -63,30 +71,42 @@ class ProjectRepositoryImpl @Inject constructor(
     @Named("bridge") private val bridgeClient: OkHttpClient,
     private val bridgeService: SaviaBridgeService,
     private val secureStorage: SecureStorage,
-    private val json: Json
+    private val json: Json,
+    private val securityRepository: SecurityRepository
 ) : ProjectRepository {
 
     private companion object {
         private const val KEY_SELECTED_PROJECT = "selected_project_id"
-        private const val CHAT_SESSION_ID = "mobile-commands"
+        // Claude CLI requires a valid UUID for session_id
+        private const val CHAT_SESSION_ID = "00000000-0000-4000-a000-000000000001"
+    }
+
+    /**
+     * Build a Bridge API request with the correct URL and auth token.
+     * Returns null if bridge is not configured.
+     */
+    private suspend fun bridgeRequest(path: String): Request.Builder? {
+        val baseUrl = securityRepository.getBridgeUrl() ?: return null
+        val token = securityRepository.getBridgeToken() ?: return null
+        return Request.Builder()
+            .url("$baseUrl$path")
+            .addHeader("Authorization", "Bearer $token")
     }
 
     /**
      * Retrieve all projects the user has access to.
      *
-     * Sends a help command via chat endpoint to discover available projects.
+     * Uses the fast GET /dashboard endpoint to retrieve the project list.
      * Falls back to a mock list containing "PM-Workspace" if the Bridge is unavailable.
      *
      * @return List of Project objects, empty if no projects accessible
      */
     override suspend fun getProjects(): List<Project> = try {
-        val message = "/help --projects --format json"
-        val projectsJson = sendChatCommand(message)
-
-        if (projectsJson.isEmpty()) {
-            getMockProjects()
+        val dashboard = getDashboard()
+        if (dashboard != null && dashboard.projects.isNotEmpty()) {
+            dashboard.projects
         } else {
-            parseProjectsFromJson(projectsJson)
+            getMockProjects()
         }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error fetching projects", e)
@@ -247,32 +267,54 @@ class ProjectRepositoryImpl @Inject constructor(
     }
 
     /**
-     * Get the authenticated user's profile.
+     * Get the authenticated user's profile from Bridge GET /profile.
      *
-     * Combines local Google Sign-In data with Bridge /health endpoint response.
-     * Returns null if authentication data is unavailable.
+     * Calls Bridge /profile endpoint to fetch user profile including preferences.
+     * Falls back gracefully (returns null) if Bridge is unavailable.
      *
-     * @return UserProfile with name, email, role, and stats, or null if not authenticated
+     * @return UserProfile with name, email, role, and stats, or null if Bridge unavailable
      */
-    override suspend fun getUserProfile(): UserProfile? = try {
-        // In a real implementation, would read Google Sign-In data from SecureStorage
-        // For now, return a placeholder profile
-        UserProfile(
-            name = "Mobile User",
-            email = "user@workspace.local",
-            photoUrl = null,
-            role = "Developer",
-            organization = "PM-Workspace",
-            activeProjects = 1,
-            stats = UserStats(
-                sprintsManaged = 0,
-                pbisCompleted = 0,
-                hoursLogged = 0f
-            )
-        )
-    } catch (e: Exception) {
-        android.util.Log.e("ProjectRepositoryImpl", "Error fetching user profile", e)
-        null
+    override suspend fun getUserProfile(): UserProfile? {
+        return try {
+            val request = bridgeRequest("/profile")?.get()?.build() ?: return null
+
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) {
+                android.util.Log.w("ProjectRepositoryImpl", "Bridge /profile returned ${response.code}")
+                return null
+            }
+
+            val jsonStr = response.body?.string()
+            if (jsonStr == null) {
+                android.util.Log.w("ProjectRepositoryImpl", "Bridge /profile returned empty body")
+                return null
+            }
+
+            try {
+                val element = json.parseToJsonElement(jsonStr).jsonObject
+                val name = element["name"]?.jsonPrimitive?.content ?: return null
+                val email = element["email"]?.jsonPrimitive?.content ?: return null
+                UserProfile(
+                    name = name,
+                    email = email,
+                    photoUrl = element["photo_url"]?.jsonPrimitive?.content,
+                    role = element["role"]?.jsonPrimitive?.content ?: "",
+                    organization = element["company"]?.jsonPrimitive?.content ?: "",
+                    activeProjects = element["active_projects"]?.jsonPrimitive?.int ?: 0,
+                    stats = UserStats(
+                        sprintsManaged = 0,
+                        pbisCompleted = 0,
+                        hoursLogged = 0f
+                    )
+                )
+            } catch (e: Exception) {
+                android.util.Log.e("ProjectRepositoryImpl", "Error parsing user profile JSON", e)
+                null
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("ProjectRepositoryImpl", "Error fetching user profile", e)
+            null
+        }
     }
 
     /**
@@ -285,11 +327,13 @@ class ProjectRepositoryImpl @Inject constructor(
      * @return List of BoardColumn objects representing the board state
      */
     override suspend fun getBoard(projectId: String): List<BoardColumn> = try {
-        val message = "/board-flow --project $projectId --format json"
-        val response = sendChatCommand(message)
-
-        if (response.isEmpty()) emptyList()
-        else parseBoardFromJson(response)
+        withContext(Dispatchers.IO) {
+            val request = bridgeRequest("/kanban?project=$projectId")?.get()?.build() ?: return@withContext emptyList()
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return@withContext emptyList()
+            val jsonStr = response.body?.string() ?: return@withContext emptyList()
+            parseBoardFromJson(jsonStr)
+        }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error fetching board", e)
         emptyList()
@@ -305,11 +349,13 @@ class ProjectRepositoryImpl @Inject constructor(
      * @return List of ApprovalRequest objects sorted by creation date (newest first)
      */
     override suspend fun getApprovals(projectId: String): List<ApprovalRequest> = try {
-        val message = "/pr-pending --project $projectId --format json"
-        val response = sendChatCommand(message)
-
-        if (response.isEmpty()) emptyList()
-        else parseApprovalsFromJson(response)
+        withContext(Dispatchers.IO) {
+            val request = bridgeRequest("/approvals?project=$projectId")?.get()?.build() ?: return@withContext emptyList()
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return@withContext emptyList()
+            val jsonStr = response.body?.string() ?: return@withContext emptyList()
+            parseApprovalsFromJson(jsonStr)
+        }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error fetching approvals", e)
         emptyList()
@@ -330,9 +376,11 @@ class ProjectRepositoryImpl @Inject constructor(
     override suspend fun executeCommand(command: String, projectId: String): Flow<String> = flow {
         try {
             val fullCommand = "/$command --project $projectId"
+            val bridgeUrl = securityRepository.getBridgeUrl() ?: throw IllegalStateException("Bridge not configured")
+            val authToken = securityRepository.getBridgeToken() ?: throw IllegalStateException("No auth token")
             val stream = bridgeService.sendMessageStream(
-                bridgeUrl = "http://localhost:8922",
-                authToken = "bridge-token",
+                bridgeUrl = bridgeUrl,
+                authToken = authToken,
                 message = fullCommand,
                 sessionId = CHAT_SESSION_ID
             )
@@ -366,12 +414,20 @@ class ProjectRepositoryImpl @Inject constructor(
         type: String,
         projectId: String
     ): String = try {
-        val message = "/backlog-capture --project $projectId --type $type --content \"$content\""
-        val response = sendChatCommand(message)
-
-        // Extract ID from response (format: "Created item: AB#1234")
-        val idPattern = "([A-Z]+#\\d+)".toRegex()
-        idPattern.find(response)?.groupValues?.get(1) ?: "UNKNOWN"
+        withContext(Dispatchers.IO) {
+            val bodyJson = buildJsonObject {
+                put("content", content)
+                put("type", type)
+                put("projectId", projectId)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = bridgeRequest("/capture")?.post(body)?.build() ?: return@withContext "ERROR"
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return@withContext "ERROR"
+            val jsonStr = response.body?.string() ?: return@withContext "ERROR"
+            val result = json.parseToJsonElement(jsonStr).jsonObject
+            result["id"]?.jsonPrimitive?.content ?: "UNKNOWN"
+        }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error capturing backlog item", e)
         "ERROR"
@@ -394,10 +450,18 @@ class ProjectRepositoryImpl @Inject constructor(
         date: String,
         note: String?
     ): Boolean = try {
-        val noteArg = if (note != null) " --note \"$note\"" else ""
-        val message = "/report-hours --task $taskId --hours $hours --date $date$noteArg"
-        val response = sendChatCommand(message)
-        response.contains("logged", ignoreCase = true)
+        withContext(Dispatchers.IO) {
+            val bodyJson = buildJsonObject {
+                put("taskId", taskId)
+                put("hours", hours)
+                put("date", date)
+                if (note != null) put("note", note)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = bridgeRequest("/timelog")?.post(body)?.build() ?: return@withContext false
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error logging time", e)
         false
@@ -413,11 +477,15 @@ class ProjectRepositoryImpl @Inject constructor(
      * @return List of TimeEntry objects for that date
      */
     override suspend fun getTimeEntries(date: String): List<TimeEntry> = try {
-        val message = "/report-hours --date $date --format json"
-        val response = sendChatCommand(message)
-
-        if (response.isEmpty()) emptyList()
-        else parseTimeEntriesFromJson(response)
+        withContext(Dispatchers.IO) {
+            val selectedProject = getSelectedProject()
+            val projectId = selectedProject?.id ?: return@withContext emptyList()
+            val request = bridgeRequest("/timelog?project=$projectId&date=$date")?.get()?.build() ?: return@withContext emptyList()
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return@withContext emptyList()
+            val jsonStr = response.body?.string() ?: return@withContext emptyList()
+            parseTimeEntriesFromJson(jsonStr)
+        }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error fetching time entries", e)
         emptyList()
@@ -435,47 +503,52 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     private suspend fun sendChatCommand(message: String): String {
         return try {
-            val bridgeUrl = "http://localhost:8922"
-            val requestBody = json.encodeToString(
-                ChatRequest.serializer(),
-                ChatRequest(
-                    message = message,
-                    session_id = CHAT_SESSION_ID
-                )
-            ).toRequestBody("application/json".toMediaType())
+            withTimeout(15_000) {
+                withContext(Dispatchers.IO) {
+                    val requestBody = json.encodeToString(
+                        ChatRequest.serializer(),
+                        ChatRequest(
+                            message = message,
+                            session_id = CHAT_SESSION_ID
+                        )
+                    ).toRequestBody("application/json".toMediaType())
 
-            val request = Request.Builder()
-                .url("$bridgeUrl/chat")
-                .post(requestBody)
-                .header("Accept", "text/event-stream")
-                .build()
+                    val request = bridgeRequest("/chat")
+                        ?.post(requestBody)
+                        ?.header("Accept", "text/event-stream")
+                        ?.build() ?: return@withContext ""
 
-            val response = bridgeClient.newCall(request).execute()
-            if (!response.isSuccessful) return ""
+                    val response = bridgeClient.newCall(request).execute()
+                    if (!response.isSuccessful) return@withContext ""
 
-            val fullText = StringBuilder()
-            response.body?.source()?.use { source ->
-                while (!source.exhausted()) {
-                    val line = source.readUtf8Line() ?: continue
-                    if (line.startsWith("data: ")) {
-                        val data = line.removePrefix("data: ").trim()
-                        if (data.isNotEmpty()) {
-                            try {
-                                val event = json.decodeFromString(
-                                    StreamEvent.serializer(),
-                                    data
-                                )
-                                if (event.type == "text") {
-                                    event.text?.let { fullText.append(it) }
+                    val fullText = StringBuilder()
+                    response.body?.source()?.use { source ->
+                        while (!source.exhausted()) {
+                            val line = source.readUtf8Line() ?: continue
+                            if (line.startsWith("data: ")) {
+                                val data = line.removePrefix("data: ").trim()
+                                if (data.isNotEmpty()) {
+                                    try {
+                                        val event = json.decodeFromString(
+                                            StreamEvent.serializer(),
+                                            data
+                                        )
+                                        if (event.type == "text") {
+                                            event.text?.let { fullText.append(it) }
+                                        }
+                                    } catch (e: Exception) {
+                                        // Skip malformed events
+                                    }
                                 }
-                            } catch (e: Exception) {
-                                // Skip malformed events
                             }
                         }
                     }
+                    fullText.toString()
                 }
             }
-            fullText.toString()
+        } catch (e: TimeoutCancellationException) {
+            android.util.Log.e("ProjectRepositoryImpl", "Chat command timeout after 15 seconds", e)
+            ""
         } catch (e: Exception) {
             android.util.Log.e("ProjectRepositoryImpl", "Error sending chat command", e)
             ""
@@ -731,4 +804,325 @@ class ProjectRepositoryImpl @Inject constructor(
         val type: String,
         val text: String? = null
     )
+
+    /**
+     * Get git global configuration from Bridge.
+     */
+    override suspend fun getGitConfig(): GitConfig? {
+        return try {
+            val request = bridgeRequest("/git-config")?.get()?.build() ?: return null
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return null
+            val jsonStr = response.body?.string() ?: return null
+            val element = json.parseToJsonElement(jsonStr).jsonObject
+            GitConfig(
+                name = element["name"]?.jsonPrimitive?.content ?: "",
+                email = element["email"]?.jsonPrimitive?.content ?: "",
+                credentialHelper = element["credential_helper"]?.jsonPrimitive?.content ?: "",
+                patConfigured = element["pat_configured"]?.jsonPrimitive?.boolean ?: false,
+                remoteUrl = element["remote_url"]?.jsonPrimitive?.content ?: ""
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /**
+     * Update git global configuration via Bridge.
+     */
+    override suspend fun updateGitConfig(config: GitConfig): Boolean {
+        return try {
+            val bodyJson = buildJsonObject {
+                if (config.name.isNotEmpty()) put("name", config.name)
+                if (config.email.isNotEmpty()) put("email", config.email)
+                if (config.credentialHelper.isNotEmpty()) put("credential_helper", config.credentialHelper)
+                if (config.remoteUrl.isNotEmpty()) put("remote_url", config.remoteUrl)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = bridgeRequest("/git-config")?.put(body)?.build() ?: return false
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Get team members from Bridge.
+     */
+    override suspend fun getTeamMembers(): List<TeamMember> {
+        return try {
+            val request = bridgeRequest("/team")?.get()?.build() ?: return emptyList()
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return emptyList()
+            val jsonStr = response.body?.string() ?: return emptyList()
+            val root = json.parseToJsonElement(jsonStr).jsonObject
+            val membersArray = root["members"]?.jsonArray ?: return emptyList()
+            val members = mutableListOf<TeamMember>()
+            membersArray.forEach { memberEl ->
+                if (memberEl is JsonObject) {
+                    memberEl["slug"]?.jsonPrimitive?.content?.let { slug ->
+                        members.add(
+                            TeamMember(
+                                slug = slug,
+                                name = memberEl["name"]?.jsonPrimitive?.content ?: "",
+                                role = memberEl["role"]?.jsonPrimitive?.content ?: "",
+                                email = memberEl["email"]?.jsonPrimitive?.content ?: "",
+                                hasWorkflow = memberEl["has_workflow"]?.jsonPrimitive?.boolean ?: false,
+                                hasTools = memberEl["has_tools"]?.jsonPrimitive?.boolean ?: false,
+                                hasProjects = memberEl["has_projects"]?.jsonPrimitive?.boolean ?: false
+                            )
+                        )
+                    }
+                }
+            }
+            members
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    /**
+     * Add a new team member via Bridge.
+     */
+    override suspend fun addTeamMember(slug: String, identity: Map<String, String>): Boolean {
+        return try {
+            val identityObj = buildJsonObject {
+                for ((key, value) in identity) {
+                    put(key, value)
+                }
+            }
+            val bodyJson = buildJsonObject {
+                put("action", "add")
+                put("slug", slug)
+                put("identity", identityObj)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = bridgeRequest("/team")?.put(body)?.build() ?: return false
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Update an existing team member via Bridge.
+     */
+    override suspend fun updateTeamMember(slug: String, identity: Map<String, String>): Boolean {
+        return try {
+            val identityObj = buildJsonObject {
+                for ((key, value) in identity) {
+                    put(key, value)
+                }
+            }
+            val bodyJson = buildJsonObject {
+                put("action", "update")
+                put("slug", slug)
+                put("identity", identityObj)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = bridgeRequest("/team")?.put(body)?.build() ?: return false
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Remove a team member via Bridge.
+     */
+    override suspend fun removeTeamMember(slug: String): Boolean {
+        return try {
+            val bodyJson = buildJsonObject {
+                put("action", "remove")
+                put("slug", slug)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = bridgeRequest("/team")?.put(body)?.build() ?: return false
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Get company profile from Bridge.
+     */
+    override suspend fun getCompanyProfile(): CompanyProfile? {
+        return try {
+            val request = bridgeRequest("/company")?.get()?.build() ?: return null
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return null
+            val jsonStr = response.body?.string() ?: return null
+            val element = json.parseToJsonElement(jsonStr).jsonObject
+            CompanyProfile(
+                status = element["status"]?.jsonPrimitive?.content ?: "not_configured",
+                identity = parseCompanySection(element["identity"]),
+                structure = parseCompanySection(element["structure"]),
+                strategy = parseCompanySection(element["strategy"]),
+                policies = parseCompanySection(element["policies"]),
+                technology = parseCompanySection(element["technology"]),
+                vertical = parseCompanySection(element["vertical"])
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /**
+     * Update a company profile section via Bridge.
+     */
+    override suspend fun updateCompanySection(section: String, fields: Map<String, String>, content: String): Boolean {
+        return try {
+            val fieldsObj = buildJsonObject {
+                for ((key, value) in fields) {
+                    put(key, value)
+                }
+            }
+            val bodyJson = buildJsonObject {
+                put("section", section)
+                put("fields", fieldsObj)
+                if (content.isNotEmpty()) put("content", content)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = bridgeRequest("/company")?.put(body)?.build() ?: return false
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Get complete dashboard data from Bridge GET /dashboard endpoint.
+     *
+     * Single REST call that returns all Home screen data. The Bridge reads
+     * project metadata from disk (CLAUDE.md, mock JSON files), making this
+     * reliable and fast — no dependency on Claude CLI.
+     *
+     * @return DashboardData with projects, sprint, tasks, and activity; or null if Bridge unavailable
+     */
+    override suspend fun getDashboard(): DashboardData? {
+        return try {
+            withContext(Dispatchers.IO) {
+                val request = bridgeRequest("/dashboard")?.get()?.build() ?: return@withContext null
+
+                val response = bridgeClient.newCall(request).execute()
+                if (!response.isSuccessful) {
+                    android.util.Log.w("ProjectRepositoryImpl", "Bridge /dashboard returned ${response.code}")
+                    return@withContext null
+                }
+
+                val jsonStr = response.body?.string() ?: return@withContext null
+                parseDashboardFromJson(jsonStr)
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("ProjectRepositoryImpl", "Error fetching dashboard", e)
+            null
+        }
+    }
+
+    /**
+     * Parse dashboard JSON response from Bridge /dashboard endpoint.
+     */
+    private fun parseDashboardFromJson(jsonStr: String): DashboardData? {
+        return try {
+            val root = json.parseToJsonElement(jsonStr).jsonObject
+
+            // Parse user greeting
+            val userObj = root["user"]?.jsonObject
+            val greeting = userObj?.get("greeting")?.jsonPrimitive?.content ?: "Welcome"
+
+            // Parse projects
+            val projectsArray = root["projects"]?.jsonArray ?: JsonArray(emptyList())
+            val projects = projectsArray.mapNotNull { el ->
+                if (el is JsonObject) {
+                    Project(
+                        id = el["id"]?.jsonPrimitive?.content ?: return@mapNotNull null,
+                        name = el["name"]?.jsonPrimitive?.content ?: "",
+                        team = el["team"]?.jsonPrimitive?.content ?: "",
+                        currentSprint = el["currentSprint"]?.jsonPrimitive?.contentOrNull,
+                        health = el["health"]?.jsonPrimitive?.int ?: 50
+                    )
+                } else null
+            }
+
+            val selectedProjectId = root["selectedProjectId"]?.jsonPrimitive?.contentOrNull
+
+            // Parse sprint summary
+            val sprintObj = root["sprint"]?.jsonObject
+            val sprint = if (sprintObj != null) {
+                SprintSummary(
+                    name = sprintObj["name"]?.jsonPrimitive?.content ?: "Unknown",
+                    progress = sprintObj["progress"]?.jsonPrimitive?.float ?: 0f,
+                    completedPoints = sprintObj["completedPoints"]?.jsonPrimitive?.int ?: 0,
+                    totalPoints = sprintObj["totalPoints"]?.jsonPrimitive?.int ?: 0,
+                    blockedItems = sprintObj["blockedItems"]?.jsonPrimitive?.int ?: 0,
+                    daysRemaining = sprintObj["daysRemaining"]?.jsonPrimitive?.int ?: 0,
+                    velocity = 0f
+                )
+            } else null
+
+            // Parse myTasks
+            val tasksArray = root["myTasks"]?.jsonArray ?: JsonArray(emptyList())
+            val myTasks = tasksArray.mapNotNull { el ->
+                if (el is JsonObject) {
+                    BoardItem(
+                        id = el["id"]?.jsonPrimitive?.content ?: return@mapNotNull null,
+                        title = el["title"]?.jsonPrimitive?.content ?: "",
+                        assignee = el["assignee"]?.jsonPrimitive?.contentOrNull,
+                        storyPoints = null,
+                        state = el["state"]?.jsonPrimitive?.content ?: "Active",
+                        type = "Task"
+                    )
+                } else null
+            }
+
+            // Parse recent activity
+            val activityArray = root["recentActivity"]?.jsonArray ?: JsonArray(emptyList())
+            val recentActivity = activityArray.mapNotNull { el ->
+                if (el is JsonPrimitive) el.content else null
+            }
+
+            val blockedItems = root["blockedItems"]?.jsonPrimitive?.int ?: 0
+            val hoursToday = root["hoursToday"]?.jsonPrimitive?.float ?: 0f
+
+            DashboardData(
+                greeting = greeting,
+                projects = projects,
+                selectedProjectId = selectedProjectId,
+                sprint = sprint,
+                myTasks = myTasks,
+                recentActivity = recentActivity,
+                blockedItems = blockedItems,
+                hoursToday = hoursToday
+            )
+        } catch (e: Exception) {
+            android.util.Log.e("ProjectRepositoryImpl", "Error parsing dashboard JSON", e)
+            null
+        }
+    }
+
+    /**
+     * Helper to parse CompanySection from JSON element.
+     */
+    private fun parseCompanySection(element: JsonElement?): CompanySection? {
+        return if (element is JsonObject) {
+            val fields = mutableMapOf<String, String>()
+            var content = ""
+            element.forEach { (key, value) ->
+                if (key == "content" && value is JsonPrimitive) {
+                    content = value.content
+                } else if (value is JsonPrimitive) {
+                    fields[key] = value.content
+                }
+            }
+            CompanySection(fields = fields, content = content)
+        } else {
+            null
+        }
+    }
 }

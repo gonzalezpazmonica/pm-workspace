@@ -2,28 +2,29 @@ package com.savia.mobile.ui.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.savia.domain.model.AppUpdate
 import com.savia.domain.model.Project
 import com.savia.domain.model.UserProfile
 import com.savia.domain.repository.ProjectRepository
+import com.savia.domain.repository.UpdateRepository
+import com.savia.mobile.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
 /**
  * UI state for the Profile screen displaying user and project information.
- *
- * @property userProfile Current user's profile with name, email, role, stats
- * @property projects List of all active projects user is involved in
- * @property selectedProjectId Currently selected project ID
- * @property isLoading Whether data is currently loading
- * @property error Error message to display
- * @property updateCheckingUpdate Whether app is checking for updates
- * @property updateAvailable Whether new app version is available
- * @property updateDownloading Whether update is being downloaded
  */
 data class ProfileUiState(
     val userProfile: UserProfile? = null,
@@ -33,39 +34,35 @@ data class ProfileUiState(
     val error: String? = null,
     val updateCheckingUpdate: Boolean = false,
     val updateAvailable: Boolean = false,
-    val updateDownloading: Boolean = false
+    val updateDownloading: Boolean = false,
+    val updateDownloadProgress: Float = 0f,
+    val updateDownloaded: Boolean = false,
+    val pendingUpdate: AppUpdate? = null
 )
 
 /**
- * ViewModel for Profile screen managing user profile and project selection.
+ * One-shot events from ViewModel to UI (for intents that need Activity context).
+ */
+sealed class ProfileEvent {
+    data class InstallApk(val apkPath: String) : ProfileEvent()
+}
+
+/**
+ * ViewModel for Profile screen managing user profile, project selection, and updates.
  *
- * Responsibilities:
- * - Load user profile from ProjectRepository
- * - Load list of active projects
- * - Handle project selection
- * - Manage update checking (integrates with UpdateManager)
- * - Display user statistics
- *
- * Clean Architecture: ViewModel (UI layer) coordinates with ProjectRepository
- *
- * @author Savia Mobile Team
+ * Clean Architecture: ViewModel (UI layer) coordinates with repositories.
  */
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val projectRepository: ProjectRepository
+    private val projectRepository: ProjectRepository,
+    private val updateRepository: UpdateRepository
 ) : ViewModel() {
 
-    /**
-     * Mutable state backing the public uiState for Profile screen.
-     * Updated as profile data loads and user interacts.
-     */
     private val _uiState = MutableStateFlow(ProfileUiState())
-
-    /**
-     * Public observable state for ProfileScreen to collect and recompose on changes.
-     * Exposed as StateFlow for lifecycle-aware collection.
-     */
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
+
+    private val _events = MutableSharedFlow<ProfileEvent>()
+    val events: SharedFlow<ProfileEvent> = _events.asSharedFlow()
 
     init {
         loadProfileData()
@@ -73,24 +70,38 @@ class ProfileViewModel @Inject constructor(
 
     /**
      * Loads user profile and list of projects.
-     * Called on ViewModel initialization.
      */
-    private fun loadProfileData() {
+    fun loadProfileData() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
-                val userProfile = projectRepository.getUserProfile()
-                val projects = projectRepository.getProjects()
-                val selectedProject = projectRepository.getSelectedProject()
+                withTimeout(20_000) {
+                    // Load getUserProfile and getProjects in parallel
+                    val profileDeferred = async(Dispatchers.IO) {
+                        projectRepository.getUserProfile()
+                    }
+                    val projectsDeferred = async(Dispatchers.IO) {
+                        projectRepository.getProjects()
+                    }
 
-                _uiState.update {
-                    it.copy(
-                        userProfile = userProfile,
-                        projects = projects,
-                        selectedProjectId = selectedProject?.id,
-                        isLoading = false,
-                        error = null
-                    )
+                    // Wait for both to complete
+                    val userProfile = profileDeferred.await()
+                    val projects = projectsDeferred.await()
+
+                    // Load selected project sequentially (depends on projects list)
+                    val selectedProject = withContext(Dispatchers.IO) {
+                        projectRepository.getSelectedProject()
+                    }
+
+                    _uiState.update {
+                        it.copy(
+                            userProfile = userProfile,
+                            projects = projects,
+                            selectedProjectId = selectedProject?.id,
+                            isLoading = false,
+                            error = null
+                        )
+                    }
                 }
             } catch (e: Exception) {
                 _uiState.update {
@@ -105,8 +116,6 @@ class ProfileViewModel @Inject constructor(
 
     /**
      * Sets the active project for the user.
-     *
-     * @param projectId ID of project to select
      */
     fun selectProject(projectId: String) {
         viewModelScope.launch {
@@ -122,20 +131,29 @@ class ProfileViewModel @Inject constructor(
     }
 
     /**
-     * Triggers a check for app updates.
-     * In a real implementation, would call UpdateManager.checkForUpdates().
+     * Checks for app updates via the Bridge /update/check endpoint.
      */
     fun checkForUpdates() {
         viewModelScope.launch {
-            _uiState.update { it.copy(updateCheckingUpdate = true) }
+            _uiState.update {
+                it.copy(
+                    updateCheckingUpdate = true,
+                    updateAvailable = false,
+                    updateDownloaded = false,
+                    updateDownloadProgress = 0f,
+                    pendingUpdate = null
+                )
+            }
             try {
-                // TODO: Call UpdateManager.checkForUpdates()
-                // For now, simulate checking
-                kotlinx.coroutines.delay(500)
+                val currentVersionCode = BuildConfig.VERSION_CODE
+                val update = withContext(Dispatchers.IO) {
+                    updateRepository.checkForUpdate(currentVersionCode)
+                }
                 _uiState.update {
                     it.copy(
                         updateCheckingUpdate = false,
-                        updateAvailable = false  // Example: no update available
+                        updateAvailable = update != null,
+                        pendingUpdate = update
                     )
                 }
             } catch (e: Exception) {
@@ -150,18 +168,29 @@ class ProfileViewModel @Inject constructor(
     }
 
     /**
-     * Downloads available app update.
-     * In a real implementation, would call UpdateManager.downloadUpdate().
+     * Downloads available app update APK from the Bridge and triggers install.
      */
-    fun downloadUpdate() {
+    fun downloadAndInstallUpdate() {
+        val update = _uiState.value.pendingUpdate ?: return
         viewModelScope.launch {
-            _uiState.update { it.copy(updateDownloading = true) }
+            _uiState.update { it.copy(updateDownloading = true, updateDownloadProgress = 0f) }
             try {
-                // TODO: Call UpdateManager.downloadUpdate()
-                // For now, simulate downloading
-                kotlinx.coroutines.delay(2000)
+                updateRepository.downloadUpdate(update).collect { progress ->
+                    _uiState.update { it.copy(updateDownloadProgress = progress) }
+                }
+                // Download complete — get path and trigger install
+                val apkPath = withContext(Dispatchers.IO) {
+                    updateRepository.getDownloadedApkPath()
+                }
                 _uiState.update {
-                    it.copy(updateDownloading = false)
+                    it.copy(
+                        updateDownloading = false,
+                        updateDownloaded = true,
+                        updateDownloadProgress = 1f
+                    )
+                }
+                if (apkPath != null) {
+                    _events.emit(ProfileEvent.InstallApk(apkPath))
                 }
             } catch (e: Exception) {
                 _uiState.update {
@@ -175,8 +204,21 @@ class ProfileViewModel @Inject constructor(
     }
 
     /**
+     * Triggers install of already-downloaded APK.
+     */
+    fun installDownloadedUpdate() {
+        viewModelScope.launch {
+            val apkPath = withContext(Dispatchers.IO) {
+                updateRepository.getDownloadedApkPath()
+            }
+            if (apkPath != null) {
+                _events.emit(ProfileEvent.InstallApk(apkPath))
+            }
+        }
+    }
+
+    /**
      * Clears any error message from state.
-     * Called by ProfileScreen after showing error.
      */
     fun clearError() {
         _uiState.update { it.copy(error = null) }

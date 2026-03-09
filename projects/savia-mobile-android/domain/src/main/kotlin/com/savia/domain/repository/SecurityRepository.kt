@@ -183,6 +183,32 @@ interface SecurityRepository {
      */
     suspend fun clearLastConversationId()
 
+    // ===== User Preferences =====
+
+    /**
+     * Save the user's preferred theme.
+     * @param theme Theme name ("SYSTEM", "LIGHT", "DARK")
+     */
+    suspend fun saveTheme(theme: String)
+
+    /**
+     * Get the user's preferred theme.
+     * @return Theme name, or null for system default
+     */
+    suspend fun getTheme(): String?
+
+    /**
+     * Save the user's preferred language.
+     * @param language Language code ("SYSTEM", "ES", "EN")
+     */
+    suspend fun saveLanguage(language: String)
+
+    /**
+     * Get the user's preferred language.
+     * @return Language code, or null for system default
+     */
+    suspend fun getLanguage(): String?
+
     // ===== Shared =====
 
     /**

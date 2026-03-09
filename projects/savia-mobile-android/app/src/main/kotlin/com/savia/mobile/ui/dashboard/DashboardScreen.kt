@@ -34,6 +34,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.savia.domain.model.Conversation
 import com.savia.mobile.R
+import com.savia.mobile.ui.common.SaviaLogo
+import com.savia.mobile.ui.common.VersionBadge
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -70,7 +72,9 @@ fun DashboardScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
+            navigationIcon = { SaviaLogo(modifier = Modifier.padding(start = 12.dp)) },
             title = { Text(stringResource(R.string.nav_sessions)) },
+            actions = { VersionBadge() },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.surface
             )

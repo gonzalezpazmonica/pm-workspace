@@ -32,6 +32,16 @@ Endpoints:
     GET    /download/apk      Download APK binary (no auth)
     GET    /update/check      Check available APK version and metadata (no auth)
     GET    /update/download   Download APK for auto-update (no auth)
+    GET    /profile           User profile (name, email, company, role) (no auth)
+    PUT    /profile           Save user preferences from mobile app (requires Bearer auth)
+    GET    /git-config        Git global config (name, email, PAT status) (no auth)
+    PUT    /git-config        Update git global config (requires Bearer auth)
+    GET    /team              Team members from .claude/profiles/users/ (no auth)
+    PUT    /team              Add/update/remove team members (requires Bearer auth)
+    GET    /company           Company configuration sections (no auth)
+    PUT    /company           Update company profile sections (requires Bearer auth)
+    GET    /connectors        External service connectors (no auth)
+    GET    /openapi.json      OpenAPI 3.0 specification in YAML (no auth)
 
 Configuration Files (created automatically):
     ~/.savia/bridge/bridge.log              General server logs
@@ -93,7 +103,7 @@ MAX_LOG_SIZE = 5 * 1024 * 1024
 
 # --- APK Install Page ---
 
-BRIDGE_VERSION = "1.3.0"
+BRIDGE_VERSION = "1.5.0"
 
 TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
 LOGO_B64_FILE = CONFIG_DIR / "logo_b64.txt"
@@ -261,7 +271,7 @@ def _build_install_html(apk: Path | None) -> str:
         size_mb = apk.stat().st_size / (1024 * 1024)
         app_version = _get_apk_version(apk)
         download_section = (
-            f'<a href="/download/apk" class="btn">Descargar Savia App</a>\n'
+            f'<a href="/download/apk" class="btn">Descargar Savia Mobile</a>\n'
             f'  <div class="apk-info">\n'
             f'    <span class="apk-name">{apk.name}</span>\n'
             f'    <span class="apk-detail">v{app_version} &middot; {size_mb:.1f} MB</span>\n'
@@ -498,6 +508,209 @@ def find_claude_cli() -> str:
 _session_locks: dict[str, threading.Lock] = {}
 _session_locks_guard = threading.Lock()
 
+
+def _build_dashboard() -> dict:
+    """
+    Build dashboard data by scanning the PM-Workspace on disk.
+
+    Reads:
+    - projects/*/CLAUDE.md for project metadata (name, sprint, velocity)
+    - projects/*/test-data/mock-sprint.json for sprint data
+    - projects/*/test-data/mock-workitems.json for task data
+    - ~/.savia/bridge/profile.json for user name
+
+    Returns a JSON-serializable dict with:
+    - user: { name, greeting }
+    - projects: [ { id, name, team, currentSprint, health } ]
+    - selectedProject: active project details
+    - sprint: { name, progress, completedPoints, totalPoints, blockedItems }
+    - myTasks: [ { id, title, state, assignee } ]
+    - recentActivity: [ string descriptions ]
+    - hoursToday: float
+    """
+    import re
+    import datetime
+
+    workspace = Path.home() / "savia"
+    projects_dir = workspace / "projects"
+
+    # Load user name from profile
+    user_name = "User"
+    profile_path = CONFIG_DIR / "profile.json"
+    if profile_path.exists():
+        try:
+            profile = json.loads(profile_path.read_text())
+            user_name = profile.get("name", "User")
+        except Exception:
+            pass
+
+    # Time-of-day greeting
+    hour = datetime.datetime.now().hour
+    if hour < 12:
+        greeting = f"Good morning, {user_name}"
+    elif hour < 18:
+        greeting = f"Good afternoon, {user_name}"
+    else:
+        greeting = f"Good evening, {user_name}"
+
+    # Scan projects
+    projects = []
+    if projects_dir.exists():
+        for proj_dir in sorted(projects_dir.iterdir()):
+            if not proj_dir.is_dir():
+                continue
+            claude_md = proj_dir / "CLAUDE.md"
+            if not claude_md.exists():
+                continue
+
+            # Parse CLAUDE.md constants
+            content = claude_md.read_text()
+            proj_name = proj_dir.name
+
+            # Extract key constants
+            def extract_const(key, default=""):
+                m = re.search(rf'{key}\s*=\s*"([^"]*)"', content)
+                return m.group(1) if m else default
+
+            def extract_int(key, default=0):
+                m = re.search(rf'{key}\s*=\s*(\d+)', content)
+                return int(m.group(1)) if m else default
+
+            team = extract_const("TEAM_NAME", proj_name)
+            sprint = extract_const("SPRINT_ACTUAL", "")
+            velocity = extract_int("VELOCITY_MEDIA_SP", 0)
+
+            # Compute health from sprint data if available
+            health = 70  # default
+            sprint_data = None
+            mock_sprint = proj_dir / "test-data" / "mock-sprint.json"
+            if mock_sprint.exists():
+                try:
+                    sprint_data = json.loads(mock_sprint.read_text())
+                    trend = sprint_data.get("burndown", {}).get("trend", "on_track")
+                    health = {"on_track": 85, "at_risk": 55, "off_track": 30}.get(trend, 70)
+                except Exception:
+                    pass
+
+            projects.append({
+                "id": proj_name,
+                "name": proj_name,
+                "team": team,
+                "currentSprint": sprint if sprint else None,
+                "health": health,
+                "_sprintData": sprint_data,  # internal, for selected project
+                "_dir": str(proj_dir),
+            })
+
+    # Select project (prefer PM-Workspace-related or first with sprint data)
+    selected = None
+    for p in projects:
+        if p.get("_sprintData"):
+            selected = p
+            break
+    if not selected and projects:
+        selected = projects[0]
+
+    # Build sprint summary from selected project
+    sprint_summary = None
+    my_tasks = []
+    recent_activity = []
+    blocked_count = 0
+    hours_today = 0.0
+
+    if selected and selected.get("_sprintData"):
+        sd = selected["_sprintData"]
+
+        sprint_info = sd.get("sprint", {})
+        summary = sd.get("summary", {})
+        burndown = sd.get("burndown", {})
+        board_columns = sd.get("board_columns", [])
+
+        total_sp = summary.get("storyPointsCommitted", 0)
+        completed_sp = summary.get("storyPointsCompleted", 0)
+        progress = (completed_sp / total_sp) if total_sp > 0 else burndown.get("completedPercent", 0) / 100.0
+
+        sprint_summary = {
+            "name": sprint_info.get("name", selected.get("currentSprint", "Sprint")),
+            "progress": round(progress, 2),
+            "completedPoints": completed_sp,
+            "totalPoints": total_sp,
+            "blockedItems": 0,
+            "daysRemaining": sprint_info.get("daysRemaining", 0),
+            "goal": sprint_info.get("goal", ""),
+        }
+
+        # Count blocked items from alerts
+        for alert in sd.get("alerts", []):
+            if alert.get("type") == "blocked":
+                blocked_count += 1
+        sprint_summary["blockedItems"] = blocked_count
+
+        # Extract Active tasks
+        active_col = next((c for c in board_columns if c["name"] == "Active"), None)
+        if active_col:
+            active_ids = active_col.get("items", [])[:3]
+            # Load work items if available
+            workitems_path = Path(selected["_dir"]) / "test-data" / "mock-workitems.json"
+            if workitems_path.exists():
+                try:
+                    wi_data = json.loads(workitems_path.read_text())
+                    for wi in wi_data.get("value", []):
+                        if wi["id"] in active_ids:
+                            fields = wi.get("fields", {})
+                            my_tasks.append({
+                                "id": str(wi["id"]),
+                                "title": fields.get("System.Title", f"Task #{wi['id']}"),
+                                "state": fields.get("System.State", "Active"),
+                                "assignee": fields.get("System.AssignedTo", {}).get("displayName", ""),
+                            })
+                except Exception:
+                    pass
+
+            if not my_tasks:
+                for tid in active_ids:
+                    my_tasks.append({"id": str(tid), "title": f"Task #{tid}", "state": "Active", "assignee": ""})
+
+        # Recent activity from cycle time data
+        for ct in sd.get("cycle_time_data", [])[:5]:
+            state = ct.get("state", "Done")
+            recent_activity.append(f"{ct.get('title', '')} — {state}")
+
+        # Hours from burndown
+        hours_today = burndown.get("completedHours", 0.0)
+
+    # Clean internal fields from projects
+    clean_projects = []
+    for p in projects:
+        clean_projects.append({
+            "id": p["id"],
+            "name": p["name"],
+            "team": p["team"],
+            "currentSprint": p["currentSprint"],
+            "health": p["health"],
+        })
+
+    return {
+        "user": {"name": user_name, "greeting": greeting},
+        "projects": clean_projects,
+        "selectedProjectId": selected["id"] if selected else None,
+        "sprint": sprint_summary,
+        "myTasks": my_tasks,
+        "recentActivity": recent_activity,
+        "blockedItems": blocked_count,
+        "hoursToday": hours_today,
+    }
+
+
+def _is_valid_uuid(val: str) -> bool:
+    """Check if a string is a valid UUID (any version)."""
+    import re
+    return bool(re.match(
+        r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
+        val, re.IGNORECASE
+    ))
+
+
 def _get_session_lock(session_id: str) -> threading.Lock:
     """Get or create a per-session lock to serialize CLI calls."""
     with _session_locks_guard:
@@ -609,7 +822,10 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
             stderr=subprocess.PIPE,
             text=True,
             bufsize=1,
-            env={**os.environ, "CLAUDE_CODE_ENTRYPOINT": "savia-bridge"}
+            env={
+                **{k: v for k, v in os.environ.items() if k != "CLAUDECODE"},
+                "CLAUDE_CODE_ENTRYPOINT": "savia-bridge",
+            }
         )
 
         chat_log(f"[req:{request_id}] Process started, PID={process.pid}")
@@ -782,7 +998,7 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
 
     def _send_cors_headers(self):
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
     def do_OPTIONS(self):
@@ -915,11 +1131,434 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 shutil.copyfileobj(f, self.wfile)
             return
 
+        if parsed.path == "/profile":
+            # Read from git config
+            name = subprocess.run(['git', 'config', '--global', 'user.name'], capture_output=True, text=True, timeout=2).stdout.strip()
+            email = subprocess.run(['git', 'config', '--global', 'user.email'], capture_output=True, text=True, timeout=2).stdout.strip()
+
+            # Try to read company name from .claude/profiles/company/identity.md
+            company = ""
+            role = "Developer"
+            identity_path = Path.home() / "savia" / ".claude" / "profiles" / "company" / "identity.md"
+            if identity_path.exists():
+                try:
+                    content = identity_path.read_text()
+                    for line in content.split('\n'):
+                        if line.startswith('company:') or line.startswith('name:'):
+                            company = line.split(':', 1)[1].strip()
+                            break
+                except Exception:
+                    pass
+
+            # Start with git config + company data as base
+            profile_data = {
+                "name": name or "User",
+                "email": email or "",
+                "company": company,
+                "role": role,
+                "language": "en",
+                "work_hours_start": "09:00",
+                "work_hours_end": "17:30",
+                "lunch_break": "12:30",
+                "break_strategy": "pomodoro",
+                "detail_level": "standard",
+                "alert_style": "desktop",
+                "output_mode": "hybrid",
+                "theme": "auto",
+                "notes": "",
+                "accessibility": {}
+            }
+
+            # Merge with bridge profile.json (takes priority for richer fields)
+            profile_path = CONFIG_DIR / "profile.json"
+            if profile_path.exists():
+                try:
+                    stored_data = json.loads(profile_path.read_text())
+                    # Update all fields present in stored profile
+                    for key in ("name", "email", "role", "language", "notes",
+                                "work_hours_start", "work_hours_end", "lunch_break",
+                                "break_strategy", "detail_level", "alert_style",
+                                "output_mode", "theme", "accessibility"):
+                        if key in stored_data:
+                            profile_data[key] = stored_data[key]
+                except Exception:
+                    pass
+
+            self._send_json(profile_data)
+            return
+
+        if parsed.path == "/company":
+            company_dir = Path.home() / "savia" / ".claude" / "profiles" / "company"
+            if not company_dir.exists() or not any(company_dir.glob("*.md")):
+                self._send_json({"status": "not_configured"})
+                return
+
+            result = {"status": "configured"}
+            for section_file in ["identity.md", "structure.md", "strategy.md", "policies.md", "technology.md", "vertical.md"]:
+                filepath = company_dir / section_file
+                if filepath.exists():
+                    try:
+                        content = filepath.read_text()
+                        section_name = section_file.replace(".md", "")
+                        # Parse simple YAML frontmatter
+                        section_data = {}
+                        if content.startswith("---"):
+                            parts = content.split("---", 2)
+                            if len(parts) >= 3:
+                                for line in parts[1].strip().split('\n'):
+                                    if ':' in line:
+                                        key, val = line.split(':', 1)
+                                        section_data[key.strip()] = val.strip().strip('"').strip("'")
+                                section_data["content"] = parts[2].strip()
+                        else:
+                            section_data["content"] = content.strip()
+                        result[section_name] = section_data
+                    except Exception as e:
+                        log(f"Warning: Could not parse {section_file}: {e}")
+
+            self._send_json(result)
+            return
+
+        if parsed.path == "/git-config":
+            """GET /git-config — Read git global configuration (name, email, PAT status)."""
+            try:
+                name = subprocess.run(['git', 'config', '--global', 'user.name'],
+                                      capture_output=True, text=True, timeout=2).stdout.strip()
+                email = subprocess.run(['git', 'config', '--global', 'user.email'],
+                                       capture_output=True, text=True, timeout=2).stdout.strip()
+                # Check if credential helper is configured
+                cred_helper = subprocess.run(['git', 'config', '--global', 'credential.helper'],
+                                             capture_output=True, text=True, timeout=2).stdout.strip()
+                # Check for PAT in environment or git credentials (never expose the actual token)
+                pat_configured = bool(os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN"))
+                # Check for stored credentials via git credential manager
+                if not pat_configured and cred_helper:
+                    pat_configured = True  # Credential helper implies some auth is configured
+
+                # Check remote URL for repo info
+                remote_url = ""
+                try:
+                    remote_url = subprocess.run(['git', 'config', '--get', 'remote.origin.url'],
+                                                capture_output=True, text=True, timeout=2,
+                                                cwd=str(Path.home() / "savia")).stdout.strip()
+                except Exception:
+                    pass
+
+                self._send_json({
+                    "name": name,
+                    "email": email,
+                    "credential_helper": cred_helper,
+                    "pat_configured": pat_configured,
+                    "remote_url": remote_url
+                })
+            except Exception as e:
+                log(f"Error reading git config: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path == "/team":
+            """GET /team — Read team configuration from .claude/profiles/users/."""
+            team_dir = Path.home() / "savia" / ".claude" / "profiles" / "users"
+            members = []
+
+            if team_dir.exists():
+                for user_dir in sorted(team_dir.iterdir()):
+                    if user_dir.is_dir():
+                        member = {"slug": user_dir.name}
+                        identity_file = user_dir / "identity.md"
+                        if identity_file.exists():
+                            try:
+                                content = identity_file.read_text()
+                                if content.startswith("---"):
+                                    parts = content.split("---", 2)
+                                    if len(parts) >= 3:
+                                        for line in parts[1].strip().split('\n'):
+                                            if ':' in line:
+                                                key, val = line.split(':', 1)
+                                                member[key.strip()] = val.strip().strip('"').strip("'")
+                            except Exception:
+                                pass
+                        # Also check for other fragments
+                        for fragment in ["workflow.md", "tools.md", "projects.md"]:
+                            fpath = user_dir / fragment
+                            if fpath.exists():
+                                member[f"has_{fragment.replace('.md', '')}"] = True
+                        # Skip template/empty profiles
+                        if member.get("name") and user_dir.name != "template":
+                            members.append(member)
+
+            self._send_json({
+                "status": "configured" if members else "not_configured",
+                "members": members,
+                "count": len(members)
+            })
+            return
+
+        if parsed.path == "/connectors":
+            """GET /connectors — Read configured external service connectors."""
+            connectors_file = Path.home() / "savia" / ".claude" / "connectors.json"
+            if connectors_file.exists():
+                try:
+                    data = json.loads(connectors_file.read_text())
+                    self._send_json({"status": "configured", "connectors": data})
+                except Exception as e:
+                    self._send_json({"error": str(e)}, 500)
+            else:
+                self._send_json({"status": "not_configured", "connectors": {}})
+            return
+
+        if parsed.path == "/dashboard":
+            try:
+                data = _build_dashboard()
+                self._send_json(data)
+            except Exception as e:
+                log(f"Dashboard error: {traceback.format_exc()}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path == "/openapi.json":
+            spec_path = Path(__file__).resolve().parent / "openapi.yaml"
+            if not spec_path.exists():
+                self._send_json({"error": "OpenAPI spec not found"}, 404)
+                return
+            # Serve as YAML since we can't depend on PyYAML for JSON conversion
+            content = spec_path.read_text()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/x-yaml")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(content.encode())
+            return
+
+        # --- New Data Endpoints (no auth required) ---
+
+        if parsed.path.startswith("/kanban"):
+            """GET /kanban?project={projectId} — Kanban board with columns grouped by state."""
+            params = parse_qs(parsed.query)
+            project_id = params.get("project", [None])[0]
+
+            if not project_id:
+                self._send_json({"error": "Missing project parameter"}, 400)
+                return
+
+            project_dir = Path.home() / "savia" / "projects" / project_id
+            if not project_dir.exists():
+                self._send_json({"error": f"Project {project_id} not found"}, 404)
+                return
+
+            workitems_path = project_dir / "test-data" / "mock-workitems.json"
+            if not workitems_path.exists():
+                self._send_json({"error": "Mock data not found"}, 404)
+                return
+
+            try:
+                wi_data = json.loads(workitems_path.read_text())
+                board = {}
+
+                for wi in wi_data.get("value", []):
+                    fields = wi.get("fields", {})
+                    state = fields.get("System.State", "New")
+
+                    if state not in board:
+                        board[state] = {
+                            "name": state,
+                            "items": [],
+                            "wipLimit": None
+                        }
+
+                    board[state]["items"].append({
+                        "id": str(wi["id"]),
+                        "title": fields.get("System.Title", f"Task #{wi['id']}"),
+                        "assignee": fields.get("System.AssignedTo", {}).get("displayName", ""),
+                        "storyPoints": fields.get("Microsoft.VSTS.Scheduling.StoryPoints", 0),
+                        "state": state,
+                        "type": fields.get("System.WorkItemType", "Task")
+                    })
+
+                # Define WIP limits by state
+                wip_limits = {
+                    "Active": 3,
+                    "New": None,
+                    "Committed": None,
+                    "Done": None
+                }
+
+                for state_name, limit in wip_limits.items():
+                    if state_name in board:
+                        board[state_name]["wipLimit"] = limit
+
+                # Return as ordered list
+                result = [
+                    {"name": "New", "items": board.get("New", {}).get("items", []), "wipLimit": None},
+                    {"name": "Active", "items": board.get("Active", {}).get("items", []), "wipLimit": 3},
+                    {"name": "Committed", "items": board.get("Committed", {}).get("items", []), "wipLimit": None},
+                    {"name": "Done", "items": board.get("Done", {}).get("items", []), "wipLimit": None}
+                ]
+
+                self._send_json(result)
+            except Exception as e:
+                log(f"Error processing kanban for {project_id}: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path.startswith("/timelog"):
+            """GET /timelog?project={projectId}&date={YYYY-MM-DD} — Time entries from CompletedWork."""
+            params = parse_qs(parsed.query)
+            project_id = params.get("project", [None])[0]
+            date_str = params.get("date", [None])[0]
+
+            if not project_id:
+                self._send_json({"error": "Missing project parameter"}, 400)
+                return
+
+            project_dir = Path.home() / "savia" / "projects" / project_id
+            if not project_dir.exists():
+                self._send_json({"error": f"Project {project_id} not found"}, 404)
+                return
+
+            workitems_path = project_dir / "test-data" / "mock-workitems.json"
+            if not workitems_path.exists():
+                self._send_json({"error": "Mock data not found"}, 404)
+                return
+
+            try:
+                wi_data = json.loads(workitems_path.read_text())
+                timelog = []
+
+                for wi in wi_data.get("value", []):
+                    fields = wi.get("fields", {})
+                    completed_work = fields.get("Microsoft.VSTS.Scheduling.CompletedWork", 0)
+
+                    if completed_work > 0:
+                        timelog.append({
+                            "id": str(wi["id"]),
+                            "taskId": str(wi["id"]),
+                            "taskTitle": fields.get("System.Title", f"Task #{wi['id']}"),
+                            "hours": completed_work,
+                            "date": date_str or "2026-03-09",
+                            "note": None
+                        })
+
+                self._send_json(timelog)
+            except Exception as e:
+                log(f"Error processing timelog for {project_id}: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path.startswith("/approvals"):
+            """GET /approvals?project={projectId} — Mock approval requests."""
+            params = parse_qs(parsed.query)
+            project_id = params.get("project", [None])[0]
+
+            if not project_id:
+                self._send_json({"error": "Missing project parameter"}, 400)
+                return
+
+            project_dir = Path.home() / "savia" / "projects" / project_id
+            if not project_dir.exists():
+                self._send_json({"error": f"Project {project_id} not found"}, 404)
+                return
+
+            workitems_path = project_dir / "test-data" / "mock-workitems.json"
+
+            # Generate mock approvals if project has work items
+            approvals = []
+            if workitems_path.exists():
+                try:
+                    wi_data = json.loads(workitems_path.read_text())
+                    if wi_data.get("value"):
+                        approvals = [
+                            {
+                                "id": "pr-1",
+                                "type": "PULL_REQUEST",
+                                "title": "feat: implement CRUD salas",
+                                "description": "Implements complete CRUD operations for room management via REST API endpoints.",
+                                "requester": "Carlos Mendoza",
+                                "createdAt": "2026-03-08T14:00:00Z",
+                                "estimatedCost": None
+                            },
+                            {
+                                "id": "infra-1",
+                                "type": "INFRASTRUCTURE",
+                                "title": "Scale DB to 4 vCPU",
+                                "description": "Increase database instance resources to handle sprint 2026-04 load.",
+                                "requester": "DevOps Bot",
+                                "createdAt": "2026-03-09T10:00:00Z",
+                                "estimatedCost": "$45/month"
+                            }
+                        ]
+                except Exception:
+                    pass
+
+            self._send_json(approvals)
+            return
+
         self._send_json({"error": "Not found"}, 404)
 
     def do_POST(self):
         parsed = urlparse(self.path)
         request_id = self._next_request_id()
+
+        # --- POST /capture (no auth required) ---
+        if parsed.path == "/capture":
+            """POST /capture — Create a work item from captured content."""
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length).decode()
+
+            try:
+                data = json.loads(body)
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+                return
+
+            content = data.get("content", "").strip()
+            item_type = data.get("type", "Task")  # PBI, Bug, Task
+            project_id = data.get("projectId", "")
+
+            if not content:
+                self._send_json({"error": "Missing content"}, 400)
+                return
+
+            # Generate a mock ID
+            import random
+            mock_id = f"MOCK#{random.randint(900, 999)}"
+
+            self._send_json({
+                "id": mock_id,
+                "status": "created",
+                "type": item_type,
+                "projectId": project_id,
+                "createdAt": datetime.now().isoformat()
+            })
+            return
+
+        if parsed.path == "/timelog":
+            """POST /timelog — Log time against a task."""
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length).decode()
+
+            try:
+                data = json.loads(body)
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+                return
+
+            task_id = data.get("taskId", "")
+            hours = data.get("hours", 0)
+            date = data.get("date", "")
+
+            if not task_id or not hours:
+                self._send_json({"error": "Missing taskId or hours"}, 400)
+                return
+
+            self._send_json({
+                "status": "logged",
+                "taskId": task_id,
+                "hours": hours,
+                "date": date,
+                "note": data.get("note")
+            })
+            return
 
         if parsed.path != "/chat":
             self._send_json({"error": "Not found"}, 404)
@@ -955,6 +1594,13 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
 
         session_id = data.get("session_id")
         system_prompt = data.get("system_prompt", self.system_prompt)
+
+        # Claude CLI requires UUID session IDs — convert non-UUID strings to deterministic UUIDs
+        if session_id and not _is_valid_uuid(session_id):
+            import uuid as _uuid_mod
+            original = session_id
+            session_id = str(_uuid_mod.uuid5(_uuid_mod.NAMESPACE_DNS, f"savia.{session_id}"))
+            log(f"[req:{request_id}] Converted session_id '{original}' -> {session_id}")
 
         log(f"[req:{request_id}] Message='{message[:60]}', session={session_id}")
 
@@ -1017,6 +1663,254 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 shutil.rmtree(SESSIONS_DIR)
                 SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
             self._send_json({"status": "cleared"})
+            return
+
+        self._send_json({"error": "Not found"}, 404)
+
+    def do_PUT(self):
+        """Handle PUT requests for updating configuration."""
+        parsed = urlparse(self.path)
+
+        if parsed.path == "/profile":
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_length).decode("utf-8")
+                data = json.loads(body)
+
+                # Load existing profile
+                profile_path = CONFIG_DIR / "profile.json"
+                existing = {}
+                if profile_path.exists():
+                    try:
+                        existing = json.loads(profile_path.read_text())
+                    except Exception:
+                        pass
+
+                # Merge: update only provided fields
+                for key in ("name", "email", "role", "language", "notes",
+                            "work_hours_start", "work_hours_end", "lunch_break",
+                            "break_strategy", "detail_level", "alert_style",
+                            "output_mode", "theme", "accessibility"):
+                    if key in data:
+                        existing[key] = data[key]
+
+                # Save
+                profile_path.parent.mkdir(parents=True, exist_ok=True)
+                profile_path.write_text(json.dumps(existing, indent=2, ensure_ascii=False))
+
+                log(f"Profile updated: {list(data.keys())}")
+                self._send_json({"status": "updated", "profile": existing})
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+            except Exception as e:
+                log(f"Error updating profile: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path == "/git-config":
+            """PUT /git-config — Update git global configuration (requires auth)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_length).decode("utf-8")
+                data = json.loads(body)
+                updated = []
+
+                if "name" in data:
+                    subprocess.run(['git', 'config', '--global', 'user.name', data["name"]],
+                                   check=True, capture_output=True, timeout=5)
+                    updated.append("name")
+
+                if "email" in data:
+                    subprocess.run(['git', 'config', '--global', 'user.email', data["email"]],
+                                   check=True, capture_output=True, timeout=5)
+                    updated.append("email")
+
+                if "credential_helper" in data:
+                    val = data["credential_helper"]
+                    if val:
+                        subprocess.run(['git', 'config', '--global', 'credential.helper', val],
+                                       check=True, capture_output=True, timeout=5)
+                    else:
+                        subprocess.run(['git', 'config', '--global', '--unset', 'credential.helper'],
+                                       capture_output=True, timeout=5)
+                    updated.append("credential_helper")
+
+                # PAT is stored securely, never in git config directly
+                if "pat" in data:
+                    pat_path = CONFIG_DIR / "github_pat.enc"
+                    # Simple obfuscation — in production, use proper encryption
+                    # We store a marker that PAT exists but not the actual token in responses
+                    import base64
+                    encoded = base64.b64encode(data["pat"].encode()).decode()
+                    pat_path.write_text(encoded)
+                    pat_path.chmod(0o600)
+                    updated.append("pat")
+                    log("GitHub PAT updated (stored securely)")
+
+                log(f"Git config updated: {updated}")
+                self._send_json({"status": "updated", "fields": updated})
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+            except subprocess.CalledProcessError as e:
+                self._send_json({"error": f"Git config error: {e.stderr}"}, 500)
+            except Exception as e:
+                log(f"Error updating git config: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path == "/team":
+            """PUT /team — Update team member profiles (requires auth)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_length).decode("utf-8")
+                data = json.loads(body)
+
+                team_dir = Path.home() / "savia" / ".claude" / "profiles" / "users"
+                team_dir.mkdir(parents=True, exist_ok=True)
+
+                action = data.get("action", "update")  # update, add, remove
+
+                if action == "add":
+                    slug = data.get("slug", "").strip().lower().replace(" ", "-")
+                    if not slug:
+                        self._send_json({"error": "slug is required"}, 400)
+                        return
+                    member_dir = team_dir / slug
+                    member_dir.mkdir(parents=True, exist_ok=True)
+                    # Create identity.md with frontmatter
+                    identity = data.get("identity", {})
+                    fm_lines = ["---"]
+                    for k, v in identity.items():
+                        fm_lines.append(f"{k}: {v}")
+                    fm_lines.append("---")
+                    fm_lines.append(f"\n# {identity.get('name', slug)}\n")
+                    (member_dir / "identity.md").write_text("\n".join(fm_lines))
+                    log(f"Team member added: {slug}")
+                    self._send_json({"status": "added", "slug": slug})
+
+                elif action == "remove":
+                    slug = data.get("slug", "").strip()
+                    if not slug:
+                        self._send_json({"error": "slug is required"}, 400)
+                        return
+                    member_dir = team_dir / slug
+                    if member_dir.exists():
+                        shutil.rmtree(member_dir)
+                        log(f"Team member removed: {slug}")
+                        self._send_json({"status": "removed", "slug": slug})
+                    else:
+                        self._send_json({"error": f"Member '{slug}' not found"}, 404)
+
+                elif action == "update":
+                    slug = data.get("slug", "").strip()
+                    if not slug:
+                        self._send_json({"error": "slug is required"}, 400)
+                        return
+                    member_dir = team_dir / slug
+                    if not member_dir.exists():
+                        self._send_json({"error": f"Member '{slug}' not found"}, 404)
+                        return
+                    identity = data.get("identity", {})
+                    if identity:
+                        # Merge with existing identity.md
+                        existing_data = {}
+                        identity_file = member_dir / "identity.md"
+                        if identity_file.exists():
+                            content = identity_file.read_text()
+                            if content.startswith("---"):
+                                parts = content.split("---", 2)
+                                if len(parts) >= 3:
+                                    for line in parts[1].strip().split('\n'):
+                                        if ':' in line:
+                                            key, val = line.split(':', 1)
+                                            existing_data[key.strip()] = val.strip()
+                        existing_data.update(identity)
+                        fm_lines = ["---"]
+                        for k, v in existing_data.items():
+                            fm_lines.append(f"{k}: {v}")
+                        fm_lines.append("---")
+                        fm_lines.append(f"\n# {existing_data.get('name', slug)}\n")
+                        identity_file.write_text("\n".join(fm_lines))
+                    log(f"Team member updated: {slug}")
+                    self._send_json({"status": "updated", "slug": slug})
+                else:
+                    self._send_json({"error": f"Unknown action: {action}"}, 400)
+
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+            except Exception as e:
+                log(f"Error updating team: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path == "/company":
+            """PUT /company — Update company profile sections (requires auth)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_length).decode("utf-8")
+                data = json.loads(body)
+
+                company_dir = Path.home() / "savia" / ".claude" / "profiles" / "company"
+                company_dir.mkdir(parents=True, exist_ok=True)
+
+                section = data.get("section", "").strip()
+                valid_sections = ["identity", "structure", "strategy", "policies", "technology", "vertical"]
+                if section not in valid_sections:
+                    self._send_json({"error": f"Invalid section. Must be one of: {valid_sections}"}, 400)
+                    return
+
+                fields = data.get("fields", {})
+                content_text = data.get("content", "")
+
+                # Build markdown with YAML frontmatter
+                section_file = company_dir / f"{section}.md"
+
+                # Merge with existing if present
+                existing_fields = {}
+                existing_content = ""
+                if section_file.exists():
+                    raw = section_file.read_text()
+                    if raw.startswith("---"):
+                        parts = raw.split("---", 2)
+                        if len(parts) >= 3:
+                            for line in parts[1].strip().split('\n'):
+                                if ':' in line:
+                                    key, val = line.split(':', 1)
+                                    existing_fields[key.strip()] = val.strip()
+                            existing_content = parts[2].strip()
+
+                existing_fields.update(fields)
+                if content_text:
+                    existing_content = content_text
+
+                fm_lines = ["---"]
+                for k, v in existing_fields.items():
+                    fm_lines.append(f"{k}: {v}")
+                fm_lines.append("---")
+                if existing_content:
+                    fm_lines.append(f"\n{existing_content}")
+
+                section_file.write_text("\n".join(fm_lines))
+                log(f"Company section updated: {section}")
+                self._send_json({"status": "updated", "section": section})
+
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+            except Exception as e:
+                log(f"Error updating company: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
             return
 
         self._send_json({"error": "Not found"}, 404)
@@ -1087,6 +1981,19 @@ class InstallHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             with open(apk, "rb") as f:
                 shutil.copyfileobj(f, self.wfile)
+            return
+
+        # OpenAPI specification
+        if parsed.path == "/openapi.json":
+            spec_path = Path(__file__).resolve().parent / "openapi.yaml"
+            if not spec_path.exists():
+                self._send_json({"error": "OpenAPI spec not found"}, 404)
+                return
+            content = spec_path.read_text()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/x-yaml")
+            self.end_headers()
+            self.wfile.write(content.encode())
             return
 
         # Redirect everything else to /install

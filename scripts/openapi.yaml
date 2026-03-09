@@ -1,0 +1,345 @@
+openapi: 3.0.0
+info:
+  title: Savia Bridge API
+  version: "1.5.0"
+  description: HTTPS Bridge between Savia Mobile and Claude Code CLI
+  contact:
+    name: Savia Team
+servers:
+  - url: https://localhost:8922
+    description: Local development server
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      operationId: healthCheck
+      tags:
+        - System
+      security: []
+      responses:
+        "200":
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+                  version:
+                    type: string
+                    example: "1.4.0"
+
+  /sessions:
+    get:
+      summary: List active sessions
+      operationId: listSessions
+      tags:
+        - Sessions
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of active sessions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        created_at:
+                          type: string
+                          format: date-time
+                        last_activity:
+                          type: string
+                          format: date-time
+        "401":
+          description: Unauthorized
+
+    delete:
+      summary: Clear session history
+      operationId: clearSessions
+      tags:
+        - Sessions
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Sessions cleared
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "cleared"
+        "401":
+          description: Unauthorized
+
+  /logs:
+    get:
+      summary: Get logs
+      operationId: getLogs
+      tags:
+        - Logging
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: n
+          in: query
+          schema:
+            type: integer
+            default: 100
+          description: Number of log lines to retrieve
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [all, bridge, chat]
+            default: all
+          description: Log type filter
+      responses:
+        "200":
+          description: Log entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  logs:
+                    type: array
+                    items:
+                      type: string
+        "401":
+          description: Unauthorized
+
+  /chat:
+    post:
+      summary: Send message and receive SSE stream response
+      operationId: chat
+      tags:
+        - Chat
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: User message
+                session_id:
+                  type: string
+                  description: Optional session ID for continuity
+              required:
+                - message
+      responses:
+        "200":
+          description: Server-Sent Events stream of Claude response
+          content:
+            text/event-stream:
+              schema:
+                type: object
+                properties:
+                  event:
+                    type: string
+                    enum: [chunk, done, error]
+                  data:
+                    type: string
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+
+  /install:
+    get:
+      summary: APK installation page (HTML)
+      operationId: installPage
+      tags:
+        - APK Distribution
+      security: []
+      responses:
+        "200":
+          description: HTML installation page
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /download/apk:
+    get:
+      summary: Download APK binary
+      operationId: downloadAPK
+      tags:
+        - APK Distribution
+      security: []
+      responses:
+        "200":
+          description: APK file
+          content:
+            application/vnd.android.package-archive:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: No APK available
+
+  /update/check:
+    get:
+      summary: Check available APK version
+      operationId: checkUpdate
+      tags:
+        - APK Distribution
+      security: []
+      responses:
+        "200":
+          description: Update information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                  version:
+                    type: string
+                  version_code:
+                    type: integer
+                  changelog:
+                    type: string
+
+  /update/download:
+    get:
+      summary: Download APK for auto-update
+      operationId: downloadUpdate
+      tags:
+        - APK Distribution
+      security: []
+      responses:
+        "200":
+          description: APK file
+          content:
+            application/vnd.android.package-archive:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: No update available
+
+  /profile:
+    get:
+      summary: User profile (name, email, company, role)
+      operationId: getProfile
+      tags:
+        - Profile
+      security: []
+      responses:
+        "200":
+          description: User profile information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: User's name from git config
+                  email:
+                    type: string
+                    description: User's email from git config
+                  company:
+                    type: string
+                    description: Company name from company profile
+                  role:
+                    type: string
+                    description: User's role (Developer, Manager, etc.)
+
+  /company:
+    get:
+      summary: Company configuration sections
+      operationId: getCompany
+      tags:
+        - Company
+      security: []
+      responses:
+        "200":
+          description: Company configuration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [configured, not_configured]
+                  identity:
+                    type: object
+                    description: Company identity section
+                  structure:
+                    type: object
+                    description: Company structure section
+                  strategy:
+                    type: object
+                    description: Company strategy section
+                  policies:
+                    type: object
+                    description: Company policies section
+                  technology:
+                    type: object
+                    description: Company technology stack section
+                  vertical:
+                    type: object
+                    description: Company vertical/industry section
+
+  /openapi.json:
+    get:
+      summary: OpenAPI specification
+      operationId: getOpenAPISpec
+      tags:
+        - Documentation
+      security: []
+      responses:
+        "200":
+          description: OpenAPI 3.0 specification in YAML format
+          content:
+            application/x-yaml:
+              schema:
+                type: string
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: opaque
+      description: Bearer token authentication (from ~/.savia/bridge/auth_token)
+
+tags:
+  - name: System
+    description: System health and status
+  - name: Sessions
+    description: Session management
+  - name: Logging
+    description: Log retrieval
+  - name: Chat
+    description: Chat and streaming
+  - name: APK Distribution
+    description: APK download and updates
+  - name: Profile
+    description: User profile information
+  - name: Company
+    description: Company configuration
+  - name: Documentation
+    description: API documentation

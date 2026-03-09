@@ -78,4 +78,31 @@ class NavigationIntegrationTest {
             assertThat(route).matches("[a-z]+")
         }
     }
+
+    @Test
+    fun `management screens have valid routes`() {
+        val managementRoutes = listOf(
+            Screen.GitConfig.route,
+            Screen.TeamManagement.route,
+            Screen.CompanyProfile.route
+        )
+        managementRoutes.forEach { route ->
+            assertThat(route).matches("[a-z]+")
+        }
+    }
+
+    @Test
+    fun `GitConfig screen exists with correct route`() {
+        assertThat(Screen.GitConfig.route).isEqualTo("gitconfig")
+    }
+
+    @Test
+    fun `TeamManagement screen exists with correct route`() {
+        assertThat(Screen.TeamManagement.route).isEqualTo("team")
+    }
+
+    @Test
+    fun `CompanyProfile screen exists with correct route`() {
+        assertThat(Screen.CompanyProfile.route).isEqualTo("company")
+    }
 }

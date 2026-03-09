@@ -61,4 +61,52 @@
     <string name="settings_about_desc">Versión, licencias y créditos</string>
     <string name="settings_disconnect">Desconectar</string>
     <string name="settings_disconnect_confirm">¿Seguro que quieres desconectar del bridge?</string>
+    <string name="settings_git_config">Configuración Git</string>
+    <string name="settings_git_config_desc">Nombre, email, PAT, repositorio</string>
+    <string name="settings_team">Equipo</string>
+    <string name="settings_team_desc">Gestionar miembros y roles del equipo</string>
+    <string name="settings_company">Empresa</string>
+    <string name="settings_company_desc">Identidad, estrategia y políticas de empresa</string>
+    <string name="settings_select_theme">Seleccionar Tema</string>
+    <string name="settings_select_language">Seleccionar Idioma</string>
+    <string name="settings_app_version">Versión de la App: %1$s</string>
+    <string name="settings_bridge_version">Versión del Bridge: %1$s</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ok">Aceptar</string>
+    <string name="about">Acerca de</string>
+    <string name="unknown">Desconocido</string>
+
+    <!-- Bridge Setup Dialog -->
+    <string name="bridge_connecting">Conectando…</string>
+    <string name="bridge_error">Error: %1$s</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">Inicio</string>
+    <string name="home_welcome">¡Bienvenido de nuevo!</string>
+    <string name="home_no_project">Sin Proyecto</string>
+    <string name="home_select_project">Seleccionar proyecto</string>
+    <string name="home_sprint_progress">Progreso del Sprint</string>
+    <string name="home_blocked">Bloqueados</string>
+    <string name="home_hours_today">Horas Hoy</string>
+    <string name="home_my_tasks">Mis Tareas</string>
+    <string name="home_recent_activity">Actividad Reciente</string>
+    <string name="home_see_board">Ver Tablero</string>
+    <string name="home_approvals">Aprobaciones</string>
+    <string name="home_quick_capture">Captura Rápida</string>
+    <string name="refresh">Actualizar</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_title">Perfil</string>
+    <string name="profile_configure_bridge">Configura el Bridge para ver tu perfil</string>
+    <string name="profile_go_to_settings">Ir a Ajustes</string>
+    <string name="profile_retry">Reintentar</string>
+    <string name="profile_active_projects">Proyectos Activos</string>
+    <string name="profile_check_updates">Buscar Actualizaciones</string>
+    <string name="profile_new_version">Nueva versión disponible</string>
+    <string name="profile_download_update">Descargar Actualización</string>
+    <string name="profile_check_updates_btn">Buscar Actualizaciones</string>
+    <string name="profile_sprints">Sprints</string>
+    <string name="profile_pbis">PBIs</string>
+    <string name="profile_hours">Horas</string>
+    <string name="profile_team">Equipo: %1$s</string>
 </resources>
