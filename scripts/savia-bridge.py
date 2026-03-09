@@ -508,6 +508,16 @@ def find_claude_cli() -> str:
 _session_locks: dict[str, threading.Lock] = {}
 _session_locks_guard = threading.Lock()
 
+
+def _is_valid_uuid(val: str) -> bool:
+    """Check if a string is a valid UUID (any version)."""
+    import re
+    return bool(re.match(
+        r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
+        val, re.IGNORECASE
+    ))
+
+
 def _get_session_lock(session_id: str) -> threading.Lock:
     """Get or create a per-session lock to serialize CLI calls."""
     with _session_locks_guard:
@@ -1155,6 +1165,13 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
 
         session_id = data.get("session_id")
         system_prompt = data.get("system_prompt", self.system_prompt)
+
+        # Claude CLI requires UUID session IDs — convert non-UUID strings to deterministic UUIDs
+        if session_id and not _is_valid_uuid(session_id):
+            import uuid as _uuid_mod
+            original = session_id
+            session_id = str(_uuid_mod.uuid5(_uuid_mod.NAMESPACE_DNS, f"savia.{session_id}"))
+            log(f"[req:{request_id}] Converted session_id '{original}' -> {session_id}")
 
         log(f"[req:{request_id}] Message='{message[:60]}', session={session_id}")
 
