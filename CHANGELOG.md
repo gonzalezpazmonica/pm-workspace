@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.72.0] — 2026-03-09
+
+### Changed — Pentester v2: Shannon-inspired pipeline architecture
+
+- Rewrote `pentester` agent with autonomous 5-phase pipeline: pre-recon → recon → vulnerability analysis (5 parallel classes) → exploitation (proof-based) → reporting
+- **"No exploit, no report"** policy: only Level 3 (impact demonstrated) findings appear in final report. L1 (theoretical) and L2 (partial) go to "Failed Attempts" section for transparency
+- Queue-driven architecture: Phase 3 produces JSON vulnerability queues (`03-vuln-{class}.json`) consumed by Phase 4 exploitation — prevents hallucinated findings
+- Added JSON schema (`queue-schema.json`) for formal queue validation with per-class ID patterns (INJ-xxx, XSS-xxx, AUTH-xxx, SSRF-xxx, AUTHZ-xxx)
+- Phase prompts with Shannon-style framing: "sole responsibility", "mathematical rigor", cascading intelligence between phases
+- Proof templates for L3 evidence: data_extraction, rce, auth_bypass, info_leak
+- New queue validator script (`validate-queue.py`) for Phase 3→4 handoff validation
+- Test suite expanded from 65 to 73 tests: new CAT-11 (Pipeline Architecture, 8 tests) with mandatory 100% on proof enforcement (S-04, S-05)
+- Inspired by [KeygraphHQ/Shannon](https://github.com/KeygraphHQ/shannon) (96.15% on XBOW benchmark)
+
 ## [2.71.0] — 2026-03-09
 
 ### Added — Pentester lab infrastructure
@@ -3132,6 +3146,7 @@ Initial public release of PM-Workspace.
 
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
 
+[2.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.71.0...v2.72.0
 [2.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.70.0...v2.71.0
 [2.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.69.0...v2.70.0
 [2.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.68.0...v2.69.0
