@@ -416,14 +416,7 @@ jobs:
             const pr = context.payload.pull_request;
             const title = pr.title || '';
 
-            // Exempt: docs-only or chore PRs (maintenance, no user-facing changes)
-            const exemptTypes = /^(docs|chore|ci|style)(\(|:)/;
-            if (exemptTypes.test(title)) {
-              core.info('✅ Gate 8: PR type exempt from CHANGELOG requirement');
-              return;
-            }
-
-            // Get changed files
+            // Get changed files first (needed for all checks)
             const filesResponse = await github.rest.pulls.listFiles({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -442,7 +435,25 @@ jobs:
               return;
             }
 
-            // Check if PR only touches docs (all .md files)
+            // High-impact paths that always require CHANGELOG, even in docs/chore PRs
+            const highImpactPaths = [
+              '.claude/rules/',
+              '.claude/hooks/',
+              '.claude/settings.json',
+              '.github/workflows/'
+            ];
+            const touchesHighImpact = files.some(f =>
+              highImpactPaths.some(p => f.startsWith(p) || f === p)
+            );
+
+            // Exempt: docs-only or chore PRs, UNLESS they touch high-impact paths
+            const exemptTypes = /^(docs|chore|ci|style)(\(|:)/;
+            if (exemptTypes.test(title) && !touchesHighImpact) {
+              core.info('✅ Gate 8: PR type exempt from CHANGELOG requirement');
+              return;
+            }
+
+            // Check if PR only touches docs (all .md/.txt files, no high-impact)
             const docsOnly = files.every(f =>
               f.endsWith('.md') ||
               f.endsWith('.txt') ||
@@ -450,19 +461,22 @@ jobs:
               f === '.github/pull_request_template.md'
             );
 
-            if (docsOnly) {
+            if (docsOnly && !touchesHighImpact) {
               core.info('✅ Gate 8: Docs-only PR, CHANGELOG not required');
               return;
             }
 
-            // Code changes without CHANGELOG → fail
+            // Code changes (or high-impact docs) without CHANGELOG → fail
+            const reason = touchesHighImpact
+              ? 'This PR modifies high-impact files (rules, hooks, workflows, or settings) and must update a CHANGELOG.'
+              : 'This PR modifies code but does not update any `CHANGELOG.md`.';
             const msg = '## ❌ Gate 8: CHANGELOG Required\n\n' +
-              'This PR modifies code but does not update any `CHANGELOG.md`.\n\n' +
-              'Every code change must be documented in the relevant CHANGELOG:\n' +
+              reason + '\n\n' +
+              'Every significant change must be documented in the relevant CHANGELOG:\n' +
               '- `CHANGELOG.md` (root) for workspace-level changes\n' +
               '- `projects/*/CHANGELOG.md` for project-specific changes\n\n' +
-              'Exempt PR types: `docs`, `chore`, `ci`, `style`.\n' +
-              'If this is a maintenance PR, change the title prefix accordingly.';
+              'Exempt: `docs`, `chore`, `ci`, `style` PRs that only touch documentation files.\n' +
+              'NOT exempt: PRs touching `.claude/rules/`, `.claude/hooks/`, `.github/workflows/`, or `.claude/settings.json`.';
             core.setFailed(msg);
 
       # ─── Gate 9: PR Digest for Maintainer ───
