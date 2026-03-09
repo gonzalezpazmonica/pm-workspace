@@ -177,4 +177,15 @@ interface ProjectRepository {
 
     /** Update a company profile section via Bridge. */
     suspend fun updateCompanySection(section: String, fields: Map<String, String>, content: String = ""): Boolean
+
+    /**
+     * Get complete dashboard data from Bridge GET /dashboard endpoint.
+     *
+     * Returns all data needed for the Home screen in a single REST call.
+     * The Bridge reads project data directly from disk (CLAUDE.md, mock JSON files),
+     * making this fast and reliable - no dependency on Claude CLI.
+     *
+     * @return DashboardData with projects, sprint, tasks, and activity; or null if Bridge unavailable
+     */
+    suspend fun getDashboard(): DashboardData?
 }

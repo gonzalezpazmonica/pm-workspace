@@ -17,6 +17,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.savia.mobile.ui.common.SaviaLogo
+import com.savia.mobile.ui.common.VersionBadge
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,13 +39,22 @@ fun GitConfigScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Git Configuration") },
+                title = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        SaviaLogo()
+                        Text("Git Configuration")
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
                     }
                 },
                 actions = {
+                    VersionBadge()
                     IconButton(
                         onClick = { viewModel.save() },
                         enabled = !uiState.isSaving

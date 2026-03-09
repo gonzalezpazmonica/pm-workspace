@@ -19,6 +19,7 @@ import os
 import ssl
 import sys
 import time
+import uuid
 import urllib.request
 import urllib.error
 from pathlib import Path
@@ -221,11 +222,37 @@ def test_update_check():
     return "No APK"
 
 
+def test_dashboard():
+    """GET /dashboard — returns complete Home screen data."""
+    status, body = bridge_get("/dashboard")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    # Must have user object with greeting
+    assert "user" in data, f"Missing 'user' field: {list(data.keys())}"
+    assert "greeting" in data["user"], f"Missing 'greeting' in user: {list(data['user'].keys())}"
+    # Must have projects list
+    assert "projects" in data, f"Missing 'projects' field"
+    assert isinstance(data["projects"], list), f"Expected projects list, got {type(data['projects'])}"
+    # Must have sprint data structure
+    assert "sprint" in data, f"Missing 'sprint' field"
+    # Must have myTasks list
+    assert "myTasks" in data, f"Missing 'myTasks' field"
+    assert isinstance(data["myTasks"], list), f"Expected myTasks list"
+    # Must have recentActivity list
+    assert "recentActivity" in data, f"Missing 'recentActivity' field"
+    # Must have numeric fields
+    assert "blockedItems" in data, f"Missing 'blockedItems' field"
+    assert "hoursToday" in data, f"Missing 'hoursToday' field"
+    projects_count = len(data["projects"])
+    tasks_count = len(data["myTasks"])
+    return f"{projects_count} projects, {tasks_count} tasks"
+
+
 def test_chat_json():
     """POST /chat (JSON response) — sends message, gets response."""
     status, body = bridge_post("/chat", {
         "message": "Responde solo: OK",
-        "session_id": "00000000-0000-4000-a000-000000test01"
+        "session_id": str(uuid.uuid4())
     })
     assert status == 200, f"Expected 200, got {status}: {body[:200]}"
     data = json.loads(body)
@@ -238,7 +265,7 @@ def test_chat_non_uuid_session():
     """POST /chat with non-UUID session_id — Bridge should convert to UUID."""
     status, body = bridge_post("/chat", {
         "message": "Responde solo: OK",
-        "session_id": "test-non-uuid"
+        "session_id": f"test-non-uuid-{uuid.uuid4().hex[:8]}"
     })
     assert status == 200, f"Expected 200, got {status}: {body[:200]}"
     data = json.loads(body)
@@ -329,6 +356,7 @@ def run_all_tests():
         ("openapi_bridge", test_openapi_bridge),
         ("logs", test_logs),
         ("update_check", test_update_check),
+        ("dashboard", test_dashboard),
         ("not_found", test_not_found),
     ]
 

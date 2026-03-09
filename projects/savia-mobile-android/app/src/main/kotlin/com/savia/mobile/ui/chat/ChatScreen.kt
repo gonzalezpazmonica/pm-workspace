@@ -73,6 +73,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.savia.domain.model.Message
 import com.savia.domain.model.MessageRole
 import com.savia.mobile.R
+import com.savia.mobile.ui.common.SaviaLogo
+import com.savia.mobile.ui.common.VersionBadge
 import com.savia.mobile.ui.theme.AssistantBubbleColor
 import com.savia.mobile.ui.theme.AssistantBubbleTextColor
 import com.savia.mobile.ui.theme.UserBubbleColor
@@ -136,23 +138,15 @@ fun ChatScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = { SaviaLogo(modifier = Modifier.padding(start = 12.dp)) },
                 title = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.savia_logo),
-                            contentDescription = "Savia logo",
-                            modifier = Modifier.size(36.dp)
-                        )
-                        Text(
-                            text = "Savia",
-                            style = MaterialTheme.typography.titleLarge
-                        )
-                    }
+                    Text(
+                        text = "Savia",
+                        style = MaterialTheme.typography.titleLarge
+                    )
                 },
                 actions = {
+                    VersionBadge()
                     IconButton(onClick = { viewModel.startNewConversation() }) {
                         Icon(
                             Icons.Default.Add,

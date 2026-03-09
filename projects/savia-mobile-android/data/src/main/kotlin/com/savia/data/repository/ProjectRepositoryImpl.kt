@@ -4,6 +4,7 @@ import android.content.Context
 import com.savia.data.api.SaviaBridgeService
 import com.savia.data.security.SecureStorage
 import com.savia.domain.model.*
+import com.savia.domain.model.DashboardData
 import com.savia.domain.repository.ProjectRepository
 import com.savia.domain.repository.SecurityRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -95,19 +96,17 @@ class ProjectRepositoryImpl @Inject constructor(
     /**
      * Retrieve all projects the user has access to.
      *
-     * Sends a help command via chat endpoint to discover available projects.
+     * Uses the fast GET /dashboard endpoint to retrieve the project list.
      * Falls back to a mock list containing "PM-Workspace" if the Bridge is unavailable.
      *
      * @return List of Project objects, empty if no projects accessible
      */
     override suspend fun getProjects(): List<Project> = try {
-        val message = "/help --projects --format json"
-        val projectsJson = sendChatCommand(message)
-
-        if (projectsJson.isEmpty()) {
-            getMockProjects()
+        val dashboard = getDashboard()
+        if (dashboard != null && dashboard.projects.isNotEmpty()) {
+            dashboard.projects
         } else {
-            parseProjectsFromJson(projectsJson)
+            getMockProjects()
         }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error fetching projects", e)
@@ -328,11 +327,13 @@ class ProjectRepositoryImpl @Inject constructor(
      * @return List of BoardColumn objects representing the board state
      */
     override suspend fun getBoard(projectId: String): List<BoardColumn> = try {
-        val message = "/board-flow --project $projectId --format json"
-        val response = sendChatCommand(message)
-
-        if (response.isEmpty()) emptyList()
-        else parseBoardFromJson(response)
+        withContext(Dispatchers.IO) {
+            val request = bridgeRequest("/kanban?project=$projectId")?.get()?.build() ?: return@withContext emptyList()
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return@withContext emptyList()
+            val jsonStr = response.body?.string() ?: return@withContext emptyList()
+            parseBoardFromJson(jsonStr)
+        }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error fetching board", e)
         emptyList()
@@ -348,11 +349,13 @@ class ProjectRepositoryImpl @Inject constructor(
      * @return List of ApprovalRequest objects sorted by creation date (newest first)
      */
     override suspend fun getApprovals(projectId: String): List<ApprovalRequest> = try {
-        val message = "/pr-pending --project $projectId --format json"
-        val response = sendChatCommand(message)
-
-        if (response.isEmpty()) emptyList()
-        else parseApprovalsFromJson(response)
+        withContext(Dispatchers.IO) {
+            val request = bridgeRequest("/approvals?project=$projectId")?.get()?.build() ?: return@withContext emptyList()
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return@withContext emptyList()
+            val jsonStr = response.body?.string() ?: return@withContext emptyList()
+            parseApprovalsFromJson(jsonStr)
+        }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error fetching approvals", e)
         emptyList()
@@ -411,12 +414,20 @@ class ProjectRepositoryImpl @Inject constructor(
         type: String,
         projectId: String
     ): String = try {
-        val message = "/backlog-capture --project $projectId --type $type --content \"$content\""
-        val response = sendChatCommand(message)
-
-        // Extract ID from response (format: "Created item: AB#1234")
-        val idPattern = "([A-Z]+#\\d+)".toRegex()
-        idPattern.find(response)?.groupValues?.get(1) ?: "UNKNOWN"
+        withContext(Dispatchers.IO) {
+            val bodyJson = buildJsonObject {
+                put("content", content)
+                put("type", type)
+                put("projectId", projectId)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = bridgeRequest("/capture")?.post(body)?.build() ?: return@withContext "ERROR"
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return@withContext "ERROR"
+            val jsonStr = response.body?.string() ?: return@withContext "ERROR"
+            val result = json.parseToJsonElement(jsonStr).jsonObject
+            result["id"]?.jsonPrimitive?.content ?: "UNKNOWN"
+        }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error capturing backlog item", e)
         "ERROR"
@@ -439,10 +450,18 @@ class ProjectRepositoryImpl @Inject constructor(
         date: String,
         note: String?
     ): Boolean = try {
-        val noteArg = if (note != null) " --note \"$note\"" else ""
-        val message = "/report-hours --task $taskId --hours $hours --date $date$noteArg"
-        val response = sendChatCommand(message)
-        response.contains("logged", ignoreCase = true)
+        withContext(Dispatchers.IO) {
+            val bodyJson = buildJsonObject {
+                put("taskId", taskId)
+                put("hours", hours)
+                put("date", date)
+                if (note != null) put("note", note)
+            }
+            val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
+            val request = bridgeRequest("/timelog")?.post(body)?.build() ?: return@withContext false
+            val response = bridgeClient.newCall(request).execute()
+            response.isSuccessful
+        }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error logging time", e)
         false
@@ -458,11 +477,15 @@ class ProjectRepositoryImpl @Inject constructor(
      * @return List of TimeEntry objects for that date
      */
     override suspend fun getTimeEntries(date: String): List<TimeEntry> = try {
-        val message = "/report-hours --date $date --format json"
-        val response = sendChatCommand(message)
-
-        if (response.isEmpty()) emptyList()
-        else parseTimeEntriesFromJson(response)
+        withContext(Dispatchers.IO) {
+            val selectedProject = getSelectedProject()
+            val projectId = selectedProject?.id ?: return@withContext emptyList()
+            val request = bridgeRequest("/timelog?project=$projectId&date=$date")?.get()?.build() ?: return@withContext emptyList()
+            val response = bridgeClient.newCall(request).execute()
+            if (!response.isSuccessful) return@withContext emptyList()
+            val jsonStr = response.body?.string() ?: return@withContext emptyList()
+            parseTimeEntriesFromJson(jsonStr)
+        }
     } catch (e: Exception) {
         android.util.Log.e("ProjectRepositoryImpl", "Error fetching time entries", e)
         emptyList()
@@ -970,6 +993,116 @@ class ProjectRepositoryImpl @Inject constructor(
             response.isSuccessful
         } catch (e: Exception) {
             false
+        }
+    }
+
+    /**
+     * Get complete dashboard data from Bridge GET /dashboard endpoint.
+     *
+     * Single REST call that returns all Home screen data. The Bridge reads
+     * project metadata from disk (CLAUDE.md, mock JSON files), making this
+     * reliable and fast — no dependency on Claude CLI.
+     *
+     * @return DashboardData with projects, sprint, tasks, and activity; or null if Bridge unavailable
+     */
+    override suspend fun getDashboard(): DashboardData? {
+        return try {
+            withContext(Dispatchers.IO) {
+                val request = bridgeRequest("/dashboard")?.get()?.build() ?: return@withContext null
+
+                val response = bridgeClient.newCall(request).execute()
+                if (!response.isSuccessful) {
+                    android.util.Log.w("ProjectRepositoryImpl", "Bridge /dashboard returned ${response.code}")
+                    return@withContext null
+                }
+
+                val jsonStr = response.body?.string() ?: return@withContext null
+                parseDashboardFromJson(jsonStr)
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("ProjectRepositoryImpl", "Error fetching dashboard", e)
+            null
+        }
+    }
+
+    /**
+     * Parse dashboard JSON response from Bridge /dashboard endpoint.
+     */
+    private fun parseDashboardFromJson(jsonStr: String): DashboardData? {
+        return try {
+            val root = json.parseToJsonElement(jsonStr).jsonObject
+
+            // Parse user greeting
+            val userObj = root["user"]?.jsonObject
+            val greeting = userObj?.get("greeting")?.jsonPrimitive?.content ?: "Welcome"
+
+            // Parse projects
+            val projectsArray = root["projects"]?.jsonArray ?: JsonArray(emptyList())
+            val projects = projectsArray.mapNotNull { el ->
+                if (el is JsonObject) {
+                    Project(
+                        id = el["id"]?.jsonPrimitive?.content ?: return@mapNotNull null,
+                        name = el["name"]?.jsonPrimitive?.content ?: "",
+                        team = el["team"]?.jsonPrimitive?.content ?: "",
+                        currentSprint = el["currentSprint"]?.jsonPrimitive?.contentOrNull,
+                        health = el["health"]?.jsonPrimitive?.int ?: 50
+                    )
+                } else null
+            }
+
+            val selectedProjectId = root["selectedProjectId"]?.jsonPrimitive?.contentOrNull
+
+            // Parse sprint summary
+            val sprintObj = root["sprint"]?.jsonObject
+            val sprint = if (sprintObj != null) {
+                SprintSummary(
+                    name = sprintObj["name"]?.jsonPrimitive?.content ?: "Unknown",
+                    progress = sprintObj["progress"]?.jsonPrimitive?.float ?: 0f,
+                    completedPoints = sprintObj["completedPoints"]?.jsonPrimitive?.int ?: 0,
+                    totalPoints = sprintObj["totalPoints"]?.jsonPrimitive?.int ?: 0,
+                    blockedItems = sprintObj["blockedItems"]?.jsonPrimitive?.int ?: 0,
+                    daysRemaining = sprintObj["daysRemaining"]?.jsonPrimitive?.int ?: 0,
+                    velocity = 0f
+                )
+            } else null
+
+            // Parse myTasks
+            val tasksArray = root["myTasks"]?.jsonArray ?: JsonArray(emptyList())
+            val myTasks = tasksArray.mapNotNull { el ->
+                if (el is JsonObject) {
+                    BoardItem(
+                        id = el["id"]?.jsonPrimitive?.content ?: return@mapNotNull null,
+                        title = el["title"]?.jsonPrimitive?.content ?: "",
+                        assignee = el["assignee"]?.jsonPrimitive?.contentOrNull,
+                        storyPoints = null,
+                        state = el["state"]?.jsonPrimitive?.content ?: "Active",
+                        type = "Task"
+                    )
+                } else null
+            }
+
+            // Parse recent activity
+            val activityArray = root["recentActivity"]?.jsonArray ?: JsonArray(emptyList())
+            val recentActivity = activityArray.mapNotNull { el ->
+                if (el is JsonPrimitive) el.content else null
+            }
+
+            val blockedItems = root["blockedItems"]?.jsonPrimitive?.int ?: 0
+            val hoursToday = root["hoursToday"]?.jsonPrimitive?.float ?: 0f
+
+            DashboardData(
+                greeting = greeting,
+                projects = projects,
+                selectedProjectId = selectedProjectId,
+                sprint = sprint,
+                myTasks = myTasks,
+                recentActivity = recentActivity,
+                blockedItems = blockedItems,
+                hoursToday = hoursToday
+            )
+        } catch (e: Exception) {
+            android.util.Log.e("ProjectRepositoryImpl", "Error parsing dashboard JSON", e)
+            null
         }
     }
 

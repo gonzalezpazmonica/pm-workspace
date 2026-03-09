@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.68.0] — 2026-03-09
+
+### Added — Savia Mobile v0.3.34: Full Dashboard + Bridge REST (Sprint 2026-04)
+
+Second major release of Savia Mobile with functional dashboard, chat fixes, robust auto-update, and integrated test pipeline.
+
+- **Dashboard (Home)** — Project selector with filtered search, sprint selector, sprint progress bar with story points, blocked items + hours metrics, My Tasks section, Recent Activity feed, Quick Actions (See Board, Approvals), FAB for quick capture. Project selection persists across reloads (local storage).
+- **Secondary screens (REST)** — Kanban board, Time log, Approvals, Capture, Git Config, Team Management, Company Profile — all via Bridge REST endpoints.
+- **Chat fixes** — Eliminated duplicate messages (Room as single source of truth), fixed CLAUDECODE nested session error (Bridge strips env var from subprocess), slash command autocomplete (8 commands).
+- **Auto-update** — APK download progress bar (LinearProgressIndicator + %), "Check updates" button in both Profile and Settings, reset state on re-check.
+- **Build pipeline** — Version auto-increment at Gradle configuration phase (fixes version lag), unit tests as mandatory gate before APK publish, `assembleDebug` runs `testDebugUnitTest` automatically, `publishToBridge` + `publishToDist` only if tests pass.
+- **Tests** — 48 unit tests passing (HomeViewModelTest added: 5 tests for dashboard load, project selection, persistence, errors). Spec coverage: Chat, Home, Settings, Profile, Navigation.
+- **Bridge v1.5.0** — `POST /timelog` endpoint, CLAUDECODE env var stripped from Claude CLI subprocess, all REST endpoints verified (`/kanban`, `/timelog`, `/approvals`, `/capture`, `/profile`, `/dashboard`).
+- **Path:** `projects/savia-mobile-android/`, `scripts/savia-bridge.py`
+
 ## [2.67.0] — 2026-03-08
 
 ### Added — Savia Mobile: Android App + Bridge Server

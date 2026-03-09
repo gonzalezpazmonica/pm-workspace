@@ -24,6 +24,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -42,6 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.savia.mobile.R
+import com.savia.mobile.ui.common.SaviaLogo
+import com.savia.mobile.ui.common.VersionBadge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
@@ -87,7 +90,9 @@ fun SettingsScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
+            navigationIcon = { SaviaLogo(modifier = Modifier.padding(start = 12.dp)) },
             title = { Text(stringResource(R.string.nav_settings)) },
+            actions = { VersionBadge() },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.surface
             )
@@ -150,10 +155,7 @@ fun SettingsScreen(
                 icon = { Icon(Icons.Default.Person, contentDescription = null) },
                 title = uiState.userName.ifEmpty { stringResource(R.string.settings_profile) },
                 subtitle = uiState.userEmail.ifEmpty { stringResource(R.string.settings_profile_desc) },
-                onClick = {
-                    if (uiState.userName.isEmpty()) viewModel.refreshProfile()
-                    else onNavigateToProfile()
-                }
+                onClick = onNavigateToProfile
             )
 
             // Git configuration
@@ -245,12 +247,29 @@ fun SettingsScreen(
                                 )
                             }
                         }
-                        if (uiState.updateCheckingUpdate || uiState.updateDownloading) {
+                        if (uiState.updateCheckingUpdate) {
                             CircularProgressIndicator(
                                 modifier = Modifier.size(20.dp),
                                 strokeWidth = 2.dp
                             )
                         }
+                    }
+
+                    // Download progress bar
+                    if (uiState.updateDownloading) {
+                        LinearProgressIndicator(
+                            progress = { uiState.updateDownloadProgress },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(6.dp),
+                            color = MaterialTheme.colorScheme.primary,
+                            trackColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                        Text(
+                            text = "${(uiState.updateDownloadProgress * 100).toInt()}%",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
 
                     if (!uiState.updateCheckingUpdate && !uiState.updateDownloading) {
@@ -266,6 +285,15 @@ fun SettingsScreen(
                                 if (uiState.updateAvailable) stringResource(R.string.profile_download_update)
                                 else stringResource(R.string.profile_check_updates_btn)
                             )
+                        }
+                        // Show "check again" when update is available
+                        if (uiState.updateAvailable) {
+                            TextButton(
+                                onClick = { viewModel.checkForUpdates() },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(stringResource(R.string.profile_check_updates_btn))
+                            }
                         }
                     }
                 }

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.savia.domain.model.Conversation
 import com.savia.domain.model.Message
-import com.savia.domain.model.MessageRole
 import com.savia.domain.model.StreamDelta
 import com.savia.domain.repository.ChatRepository
 import com.savia.domain.repository.SecurityRepository
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 /**
@@ -165,6 +163,7 @@ class ChatViewModel @Inject constructor(
                 )
             }
             saveCurrentSession(conversation.id)
+            subscribeToMessages(conversation.id)
         }
     }
 
@@ -176,9 +175,21 @@ class ChatViewModel @Inject constructor(
      * @param conversationId ID of conversation to load
      */
     fun loadConversation(conversationId: String) {
-        viewModelScope.launch {
-            _uiState.update { it.copy(currentConversationId = conversationId) }
-            saveCurrentSession(conversationId)
+        _uiState.update { it.copy(currentConversationId = conversationId) }
+        saveCurrentSession(conversationId)
+        subscribeToMessages(conversationId)
+    }
+
+    /**
+     * Subscribes to Room message Flow for a conversation.
+     * This is the single source of truth for messages — both user and assistant
+     * messages appear through this Flow after being saved to Room.
+     */
+    private var messageJob: kotlinx.coroutines.Job? = null
+
+    private fun subscribeToMessages(conversationId: String) {
+        messageJob?.cancel()
+        messageJob = viewModelScope.launch {
             chatRepository.getMessages(conversationId).collect { messages ->
                 _uiState.update { it.copy(messages = messages) }
             }
@@ -212,17 +223,15 @@ class ChatViewModel @Inject constructor(
                 ?: chatRepository.createConversation().also { conv ->
                     _uiState.update { it.copy(currentConversationId = conv.id) }
                     saveCurrentSession(conv.id)
+                    // Subscribe to Room message Flow for this new conversation
+                    // so messages appear automatically without manual state updates
+                    subscribeToMessages(conv.id)
                 }.id
 
-            val userMessage = Message(
-                id = UUID.randomUUID().toString(),
-                conversationId = conversationId,
-                role = MessageRole.USER,
-                content = content
-            )
+            // Don't add messages to state manually — Room Flow (from loadConversation)
+            // is the single source of truth. Adding here causes duplicates.
             _uiState.update {
                 it.copy(
-                    messages = it.messages + userMessage,
                     isStreaming = true,
                     streamingText = "",
                     error = null
@@ -251,15 +260,10 @@ class ChatViewModel @Inject constructor(
                         }
                     }
                     is StreamDelta.Done -> {
-                        val assistantMessage = Message(
-                            id = UUID.randomUUID().toString(),
-                            conversationId = conversationId,
-                            role = MessageRole.ASSISTANT,
-                            content = _uiState.value.streamingText
-                        )
+                        // Assistant message already saved to Room by ChatRepositoryImpl.
+                        // Room Flow will emit the updated list automatically.
                         _uiState.update {
                             it.copy(
-                                messages = it.messages + assistantMessage,
                                 streamingText = "",
                                 isStreaming = false
                             )
