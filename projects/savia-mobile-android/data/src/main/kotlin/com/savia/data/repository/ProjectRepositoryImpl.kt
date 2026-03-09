@@ -8,9 +8,12 @@ import com.savia.domain.repository.ProjectRepository
 import com.savia.domain.repository.SecurityRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.*
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -476,45 +479,52 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     private suspend fun sendChatCommand(message: String): String {
         return try {
-            val requestBody = json.encodeToString(
-                ChatRequest.serializer(),
-                ChatRequest(
-                    message = message,
-                    session_id = CHAT_SESSION_ID
-                )
-            ).toRequestBody("application/json".toMediaType())
+            withTimeout(15_000) {
+                withContext(Dispatchers.IO) {
+                    val requestBody = json.encodeToString(
+                        ChatRequest.serializer(),
+                        ChatRequest(
+                            message = message,
+                            session_id = CHAT_SESSION_ID
+                        )
+                    ).toRequestBody("application/json".toMediaType())
 
-            val request = bridgeRequest("/chat")
-                ?.post(requestBody)
-                ?.header("Accept", "text/event-stream")
-                ?.build() ?: return ""
+                    val request = bridgeRequest("/chat")
+                        ?.post(requestBody)
+                        ?.header("Accept", "text/event-stream")
+                        ?.build() ?: return@withContext ""
 
-            val response = bridgeClient.newCall(request).execute()
-            if (!response.isSuccessful) return ""
+                    val response = bridgeClient.newCall(request).execute()
+                    if (!response.isSuccessful) return@withContext ""
 
-            val fullText = StringBuilder()
-            response.body?.source()?.use { source ->
-                while (!source.exhausted()) {
-                    val line = source.readUtf8Line() ?: continue
-                    if (line.startsWith("data: ")) {
-                        val data = line.removePrefix("data: ").trim()
-                        if (data.isNotEmpty()) {
-                            try {
-                                val event = json.decodeFromString(
-                                    StreamEvent.serializer(),
-                                    data
-                                )
-                                if (event.type == "text") {
-                                    event.text?.let { fullText.append(it) }
+                    val fullText = StringBuilder()
+                    response.body?.source()?.use { source ->
+                        while (!source.exhausted()) {
+                            val line = source.readUtf8Line() ?: continue
+                            if (line.startsWith("data: ")) {
+                                val data = line.removePrefix("data: ").trim()
+                                if (data.isNotEmpty()) {
+                                    try {
+                                        val event = json.decodeFromString(
+                                            StreamEvent.serializer(),
+                                            data
+                                        )
+                                        if (event.type == "text") {
+                                            event.text?.let { fullText.append(it) }
+                                        }
+                                    } catch (e: Exception) {
+                                        // Skip malformed events
+                                    }
                                 }
-                            } catch (e: Exception) {
-                                // Skip malformed events
                             }
                         }
                     }
+                    fullText.toString()
                 }
             }
-            fullText.toString()
+        } catch (e: TimeoutCancellationException) {
+            android.util.Log.e("ProjectRepositoryImpl", "Chat command timeout after 15 seconds", e)
+            ""
         } catch (e: Exception) {
             android.util.Log.e("ProjectRepositoryImpl", "Error sending chat command", e)
             ""
