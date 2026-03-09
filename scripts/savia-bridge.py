@@ -271,7 +271,7 @@ def _build_install_html(apk: Path | None) -> str:
         size_mb = apk.stat().st_size / (1024 * 1024)
         app_version = _get_apk_version(apk)
         download_section = (
-            f'<a href="/download/apk" class="btn">Descargar Savia App</a>\n'
+            f'<a href="/download/apk" class="btn">Descargar Savia Mobile</a>\n'
             f'  <div class="apk-info">\n'
             f'    <span class="apk-name">{apk.name}</span>\n'
             f'    <span class="apk-detail">v{app_version} &middot; {size_mb:.1f} MB</span>\n'

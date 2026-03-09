@@ -173,7 +173,9 @@ fun HomeScreen(
                         projectName = uiState.selectedProject ?: stringResource(R.string.home_no_project),
                         sprintName = uiState.sprintName,
                         availableProjects = uiState.availableProjects,
-                        onProjectSelected = { viewModel.selectProject(it) }
+                        availableSprints = uiState.availableSprints,
+                        onProjectSelected = { viewModel.selectProject(it) },
+                        onSprintSelected = { viewModel.selectSprint(it) }
                     )
                 }
 
@@ -247,23 +249,34 @@ fun HomeScreen(
 }
 
 /**
- * Greeting header with user name, project dropdown, and sprint.
+ * Greeting header with user name, project dropdown, sprint dropdown, and sprint name.
  */
 @Composable
 private fun GreetingHeader(
     projectName: String,
     sprintName: String,
     availableProjects: List<com.savia.domain.model.Project>,
-    onProjectSelected: (String) -> Unit
+    availableSprints: List<String>,
+    onProjectSelected: (String) -> Unit,
+    onSprintSelected: (String) -> Unit
 ) {
     var projectDropdownExpanded by remember { mutableStateOf(false) }
-    var searchQuery by remember { mutableStateOf("") }
+    var sprintDropdownExpanded by remember { mutableStateOf(false) }
+    var projectSearchQuery by remember { mutableStateOf("") }
+    var sprintSearchQuery by remember { mutableStateOf("") }
 
-    val filteredProjects = remember(availableProjects, searchQuery) {
-        if (searchQuery.isBlank()) availableProjects
+    val filteredProjects = remember(availableProjects, projectSearchQuery) {
+        if (projectSearchQuery.isBlank()) availableProjects
         else availableProjects.filter {
-            it.name.contains(searchQuery, ignoreCase = true) ||
-            it.id.contains(searchQuery, ignoreCase = true)
+            it.name.contains(projectSearchQuery, ignoreCase = true) ||
+            it.id.contains(projectSearchQuery, ignoreCase = true)
+        }
+    }
+
+    val filteredSprints = remember(availableSprints, sprintSearchQuery) {
+        if (sprintSearchQuery.isBlank()) availableSprints
+        else availableSprints.filter {
+            it.contains(sprintSearchQuery, ignoreCase = true)
         }
     }
 
@@ -284,7 +297,7 @@ private fun GreetingHeader(
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.clickable {
-                        searchQuery = ""
+                        projectSearchQuery = ""
                         projectDropdownExpanded = true
                     }
                 )
@@ -293,7 +306,7 @@ private fun GreetingHeader(
                     contentDescription = stringResource(R.string.home_select_project),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.clickable {
-                        searchQuery = ""
+                        projectSearchQuery = ""
                         projectDropdownExpanded = true
                     }
                 )
@@ -302,7 +315,7 @@ private fun GreetingHeader(
                 expanded = projectDropdownExpanded,
                 onDismissRequest = {
                     projectDropdownExpanded = false
-                    searchQuery = ""
+                    projectSearchQuery = ""
                 },
                 modifier = Modifier
                     .fillMaxWidth(0.85f)
@@ -310,16 +323,16 @@ private fun GreetingHeader(
             ) {
                 // Search field inside dropdown
                 OutlinedTextField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
+                    value = projectSearchQuery,
+                    onValueChange = { projectSearchQuery = it },
                     placeholder = { Text(stringResource(R.string.home_select_project)) },
                     leadingIcon = {
                         Icon(Icons.Default.Search, contentDescription = null,
                             modifier = Modifier.size(20.dp))
                     },
                     trailingIcon = {
-                        if (searchQuery.isNotEmpty()) {
-                            IconButton(onClick = { searchQuery = "" }) {
+                        if (projectSearchQuery.isNotEmpty()) {
+                            IconButton(onClick = { projectSearchQuery = "" }) {
                                 Icon(Icons.Default.Close, contentDescription = null,
                                     modifier = Modifier.size(20.dp))
                             }
@@ -347,7 +360,7 @@ private fun GreetingHeader(
                         onClick = {
                             onProjectSelected(project.id)
                             projectDropdownExpanded = false
-                            searchQuery = ""
+                            projectSearchQuery = ""
                         }
                     )
                 }
@@ -367,11 +380,93 @@ private fun GreetingHeader(
                 }
             }
         }
-        Text(
-            text = sprintName,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+
+        // Sprint selector similar to project selector
+        Box {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = sprintName,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.clickable {
+                        sprintSearchQuery = ""
+                        sprintDropdownExpanded = true
+                    }
+                )
+                Icon(
+                    Icons.Default.ArrowDropDown,
+                    contentDescription = "Select sprint",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .size(16.dp)
+                        .clickable {
+                            sprintSearchQuery = ""
+                            sprintDropdownExpanded = true
+                        }
+                )
+            }
+            DropdownMenu(
+                expanded = sprintDropdownExpanded,
+                onDismissRequest = {
+                    sprintDropdownExpanded = false
+                    sprintSearchQuery = ""
+                },
+                modifier = Modifier
+                    .fillMaxWidth(0.85f)
+                    .heightIn(max = 250.dp)
+            ) {
+                // Search field inside dropdown
+                OutlinedTextField(
+                    value = sprintSearchQuery,
+                    onValueChange = { sprintSearchQuery = it },
+                    placeholder = { Text("Search sprints") },
+                    leadingIcon = {
+                        Icon(Icons.Default.Search, contentDescription = null,
+                            modifier = Modifier.size(20.dp))
+                    },
+                    trailingIcon = {
+                        if (sprintSearchQuery.isNotEmpty()) {
+                            IconButton(onClick = { sprintSearchQuery = "" }) {
+                                Icon(Icons.Default.Close, contentDescription = null,
+                                    modifier = Modifier.size(20.dp))
+                            }
+                        }
+                    },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                    textStyle = MaterialTheme.typography.bodyMedium
+                )
+
+                filteredSprints.forEach { sprint ->
+                    DropdownMenuItem(
+                        text = {
+                            Text(sprint, style = MaterialTheme.typography.bodyMedium)
+                        },
+                        onClick = {
+                            onSprintSelected(sprint)
+                            sprintDropdownExpanded = false
+                            sprintSearchQuery = ""
+                        }
+                    )
+                }
+
+                if (filteredSprints.isEmpty()) {
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                "No sprints found",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        },
+                        onClick = {},
+                        enabled = false
+                    )
+                }
+            }
+        }
     }
 }
 

@@ -27,6 +27,7 @@ import javax.inject.Inject
  * @property myTasks First 3 items from board assigned to current user
  * @property recentActivity Last 5 items from sprint activity
  * @property availableProjects List of available projects to select from
+ * @property availableSprints List of available sprints to select from
  * @property isLoading Whether data is currently loading
  * @property error Error message to display in snackbar
  */
@@ -41,6 +42,7 @@ data class HomeUiState(
     val myTasks: List<BoardItem> = emptyList(),
     val recentActivity: List<String> = emptyList(),
     val availableProjects: List<com.savia.domain.model.Project> = emptyList(),
+    val availableSprints: List<String> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null
 )
@@ -126,6 +128,9 @@ class HomeViewModel @Inject constructor(
                 val board = projectRepository.getBoard(selectedProject.id)
                 val timeEntries = projectRepository.getTimeEntries(getTodayDateString())
 
+                // Extract available sprints from sprint summary
+                val availableSprints = generateAvailableSprints(sprintSummary)
+
                 // Extract user's tasks from Active column (first 3)
                 val myTasks = board
                     .firstOrNull { it.name.contains("Active", ignoreCase = true) }
@@ -153,6 +158,7 @@ class HomeViewModel @Inject constructor(
                         myTasks = myTasks,
                         recentActivity = activity,
                         availableProjects = projects,
+                        availableSprints = availableSprints,
                         isLoading = false,
                         error = null
                     )
@@ -193,6 +199,58 @@ class HomeViewModel @Inject constructor(
             projectRepository.setSelectedProject(projectId)
             loadDashboardData()
         }
+    }
+
+    /**
+     * Selects a sprint and reloads dashboard data.
+     * Called when user selects a sprint from dropdown menu.
+     *
+     * @param sprintName Name of the sprint to select
+     */
+    fun selectSprint(sprintName: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(sprintName = sprintName) }
+            loadDashboardData()
+        }
+    }
+
+    /**
+     * Generates available sprints based on the current sprint summary.
+     * Temporary approach: includes current sprint and adjacent sprints (prev/next).
+     * This will be replaced with a dedicated API call once available.
+     *
+     * @param sprintSummary Current sprint summary
+     * @return List of available sprint names
+     */
+    private fun generateAvailableSprints(sprintSummary: SprintSummary?): List<String> {
+        if (sprintSummary == null) {
+            return emptyList()
+        }
+
+        val sprints = mutableListOf<String>()
+        val currentName = sprintSummary.name
+
+        // Extract sprint number from name (e.g., "Sprint 5" -> 5)
+        val sprintNumberRegex = """Sprint\s+(\d+)""".toRegex()
+        val matchResult = sprintNumberRegex.find(currentName)
+
+        if (matchResult != null) {
+            val currentNumber = matchResult.groupValues[1].toIntOrNull() ?: 0
+            if (currentNumber > 1) {
+                sprints.add("Sprint ${currentNumber - 1}")
+            }
+        }
+
+        // Add current sprint
+        sprints.add(currentName)
+
+        // Add next sprint
+        if (matchResult != null) {
+            val currentNumber = matchResult.groupValues[1].toIntOrNull() ?: 0
+            sprints.add("Sprint ${currentNumber + 1}")
+        }
+
+        return sprints
     }
 
     /**

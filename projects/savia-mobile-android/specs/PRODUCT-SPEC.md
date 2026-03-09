@@ -4,27 +4,39 @@
 
 **Nombre**: Savia Mobile
 **Plataforma**: Android (nativo, Jetpack Compose)
-**Versión**: 0.1.0
+**Versión**: 0.2.x
 **Usuarios Objetivo**: Gestores de proyectos, líderes técnicos, desarrolladores
-**Descripción**: Aplicación móvil nativa para Android que proporciona interfaz conversacional con Claude Code a través de la arquitectura de puente Savia. Permite gestionar conversaciones en tiempo real con streaming SSE, persistencia local de historial, y fallback automático a API directa de Anthropic.
+**Descripción**: Aplicación móvil nativa para Android que proporciona interfaz de gestión de proyectos y conversacional con Claude Code a través de la arquitectura Savia Bridge. Dashboard con métricas de sprint, selección de proyecto/sprint, perfil de usuario, gestión de equipo/empresa, y chat con streaming SSE.
 
 ## 2. Usuarios Objetivo
 
 ### Monica (PM/Technical Lead)
 - **Rol**: Gestora técnica de proyectos
-- **Necesidad**: Acceder a Claude desde el móvil para revisiones rápidas de decisiones arquitectónicas
+- **Necesidad**: Gestión de proyectos y acceso a Claude desde el móvil
 - **Dolor**: Dependencia de laptop; necesita movilidad
-- **Objetivo**: Chat con streaming, historial persistente, soporte para Bridge
+- **Objetivo**: Dashboard de sprints, chat con streaming, perfil, gestión de equipo
 
 ### Carlos (Engineering Manager)
 - **Rol**: Manager de ingeniería
-- **Necesidad**: Consultar ayuda de Claude para arquitectura/diseño desde cualquier lugar
-- **Dolor**: Sesiones largas sin contexto previo
-- **Objetivo**: Conversaciones completamente independientes, cada una con su historial
+- **Necesidad**: Consultar métricas y ayuda de Claude para arquitectura/diseño
+- **Dolor**: No ver estado de sprints en tiempo real
+- **Objetivo**: Dashboard de métricas, selección de proyecto/sprint, seguimiento
 
-## 3. Características Implementadas
+## 3. Pantallas y Funcionalidades
 
-### F1: Chat Conversacional ✅ Implementada
+### 3.1 Home (Dashboard) ✅ v0.2
+- **Saludo**: "Good morning/afternoon/evening, {nombre}"
+- **Selector de proyecto**: Desplegable con buscador (filtra por nombre/id)
+- **Selector de sprint**: Desplegable con buscador (filtra por nombre)
+- **Sprint Progress**: Barra de progreso lineal + SP completados/total
+- **Métricas**: Cards de items bloqueados + horas de hoy
+- **My Tasks**: Lista de las 3 primeras tareas del usuario (columna Active)
+- **Recent Activity**: Últimos 5 items del sprint
+- **Quick Actions**: Botones "See Board" y "Approvals"
+- **FAB**: Botón flotante de captura rápida
+- **Refresh**: Botón en TopAppBar para refrescar datos
+
+### 3.2 Chat ✅ v0.1
 - **Interfaz de usuario**: Jetpack Compose, Material 3 (tema violeta/malva)
 - **Streaming SSE**: Respuestas en tiempo real con visualización incremental
 - **Historial persistente**: Room database con conversaciones y mensajes
@@ -32,209 +44,178 @@
   - Primario: Savia Bridge (HTTPS/SSE, puerto 8922)
   - Fallback: API Anthropic directo (claude-3-5-sonnet)
 - **Markdown rendering**: Markwon para formateo de respuestas
-- **Selección automática**: Bridge si disponible; fallback a API si no configurado
 
-### F2: Sesiones (Conversaciones) ✅ Implementada
-- **Historial de conversaciones**: Lista de todas las sesiones activas
-- **Auto-titulado**: Título generado automáticamente del primer mensaje
-- **Persistencia de sesión**: Al cerrar la app, se restaura la última conversación al abrir
-- **Gestión**: Crear nueva, cambiar de sesión, eliminar sesión
-- **Preview**: Última línea de mensaje en la lista para contexto rápido
+### 3.3 Commands ✅ v0.2
+- **Familias de comandos**: 10 categorías organizadas
+- **Ejecución directa**: Comandos read-only desde el móvil
+- **Feedback visual**: Indicador de ejecución y resultado
 
-### F3: Configuración de Conexión ✅ Implementada
-- **Bridge Configuration**:
-  - Host/URL (ej: https://localhost:8922)
-  - Token de autenticación
-  - Encriptación Tink AES-256-GCM
-  - Health check periódico
-  - Desconexión manual desde Settings
-- **API Key (fallback)**:
-  - Autenticación con clave Anthropic
-  - Almacenamiento encriptado
-  - Uso transparente si Bridge no disponible
-- **Indicador de estado**: Settings muestra estado de Bridge (conectado/desconectado)
+### 3.4 Profile ✅ v0.2
+- **Cabecera de usuario**: Avatar (iniciales), nombre, email, rol, organización
+- **Stats**: Sprints gestionados, PBIs completados, horas loggeadas
+- **Proyectos activos**: Lista de proyectos con selector
+- **Check Updates**: Comprobación de actualizaciones vía Bridge `/update/check`
+- **Download Update**: Descarga de APK vía Bridge `/update/download`
+- **Versión de app**: Footer con número de versión dinámica (BuildConfig)
+- **Navegación a Settings**: Botón de engranaje en TopAppBar
+- **Estado sin Bridge**: Muestra "Configure Bridge" con botones "Go to Settings" y "Retry"
+- **Carga paralela**: getUserProfile() y getProjects() se ejecutan en paralelo
+- **Timeout**: 20 segundos máximo de espera para carga completa
 
-### F4: Dashboard (Sesiones) ✅ Implementada
-- **Listado de conversaciones**: Todas las sesiones con preview del último mensaje
-- **Ordenamiento**: Por fecha de última actualización (más reciente primero)
-- **Acciones**: Seleccionar para reanudar, eliminar, nuevo chat
-- **Estado vacío**: Mensaje si no hay conversaciones
+### 3.5 Settings ✅ v0.2
+- **Bridge status**: Card verde (conectado) o roja (desconectado) con host:port
+- **Perfil de usuario**: Nombre y email si cargado; tap para cargar si no
+- **Git Configuration**: Navega a pantalla de configuración Git (nombre, email, PAT)
+- **Team**: Navega a gestión de equipo (añadir/editar/eliminar miembros)
+- **Company**: Navega a perfil de empresa (secciones: identidad, estructura, etc.)
+- **Theme**: Selector: SYSTEM, LIGHT, DARK
+- **Language**: Selector: SYSTEM, ES, EN
+- **About**: Versión de app y Bridge
+- **Disconnect**: Diálogo de confirmación para desconectar Bridge
 
-### F5: Persistencia Local ✅ Implementada
-- **Base de datos**: Room con SQLCipher para encriptación de almacenamiento
-- **Esquema**:
-  - `conversations`: id, title, createdAt, updatedAt, isArchived
-  - `messages`: id, conversationId, role (user/assistant/system), content, timestamp
-- **Sincronización**: Flow reactivo para UI updates en tiempo real
-- **Queries eficientes**: Índices en conversationId para búsqueda rápida
+### 3.6 Bridge Setup Dialog ✅ v0.2
+- **Campos**: Host (IP address), Port (default 8922), Token (con toggle visibilidad)
+- **Validación**: Host no vacío, port 1-65535, token no vacío
+- **Health check**: POST a `/health` con Bearer token
+- **Loading**: Spinner + "Connecting..." durante health check
+- **Error**: Mensaje de error con detalle de la excepción
+- **Auto-dismiss**: Se cierra al conectar exitosamente
+- **Ejecuta en Dispatchers.IO**: No bloquea el hilo principal
+
+### 3.7 Onboarding ✅ v0.2
+- **AppStartupViewModel**: Detecta si Bridge está configurado al arrancar
+- **Detección de idioma**: Lee Locale.getDefault().language
+- **Flujo**: Si no hay Bridge → muestra BridgeSetupDialog; si hay → va directo a Home
 
 ## 4. Navegación
 
 ### Bottom Navigation (4 tabs)
-1. **Chat**: Interfaz principal de conversación
-   - Entrada de texto
-   - Visualización de historial
-   - Indicador de streaming
-2. **Sessions**: Historial de conversaciones
-   - Lista con preview
-   - Acciones (seleccionar, eliminar)
-   - Nuevo chat
-3. **Settings**: Configuración
-   - Estado de Bridge (URL, conectado/desconectado)
-   - API Key config
-   - Tema, idioma, info de app
-4. **Dashboard** (integrado en Sessions)
+1. **Home**: Dashboard con métricas de sprint y proyecto
+2. **Chat**: Interfaz de conversación con Claude
+3. **Commands**: Comandos slash organizados por familia
+4. **Profile**: Perfil de usuario, proyectos, actualizaciones
 
-### Persistencia de Tab State
-- `saveState/restoreState` en NavigationBar
-- Último tab visitado se restaura
-- Historial de navegación preservado
+### Navegación secundaria (desde Settings)
+- **Settings**: Accesible desde Home y Profile (icono engranaje)
+- **Git Config**: Desde Settings
+- **Team Management**: Desde Settings
+- **Company Profile**: Desde Settings
 
-## 5. Seguridad
+### Comportamiento de navegación
+- Bottom tabs: `popUpTo(startDestination)` con `launchSingleTop = true`
+- Sin `saveState/restoreState` (causaba bug de Settings "pillada")
+- Settings→Profile: navegación directa con callback
+
+## 5. Bridge Integration
+
+### Endpoints utilizados por la app
+| Endpoint | Método | Auth | Uso |
+|----------|--------|------|-----|
+| `/health` | GET | Bearer | Health check al configurar Bridge |
+| `/profile` | GET | No | Carga de perfil de usuario |
+| `/profile` | PUT | Bearer | Guardar preferencias de usuario |
+| `/git-config` | GET | No | Leer config Git |
+| `/git-config` | PUT | Bearer | Actualizar config Git |
+| `/team` | GET | No | Listar miembros del equipo |
+| `/team` | PUT | Bearer | CRUD miembros del equipo |
+| `/company` | GET | No | Perfil de empresa |
+| `/company` | PUT | Bearer | Actualizar secciones empresa |
+| `/chat` | POST | Bearer | Chat con SSE streaming |
+| `/update/check` | GET | No | Comprobar actualizaciones |
+| `/update/download` | GET | No | Descargar APK |
+| `/openapi.json` | GET | No | Especificación OpenAPI 3.0 |
+
+### Timeouts y resiliencia
+- `sendChatCommand()`: timeout de 15 segundos
+- ProfileViewModel: timeout global de 20 segundos
+- Fallback a datos mock si la respuesta del Bridge falla
+- Todas las llamadas HTTP se ejecutan en `Dispatchers.IO`
+
+### URL dinámica
+- `bridgeRequest()` helper construye URL desde `SecurityRepository.getBridgeUrl()`
+- Incluye header `Authorization: Bearer {token}` automáticamente
+- **Nunca hardcodear** URLs de localhost
+
+## 6. Seguridad
 
 ### Encriptación
-- **Tink AEAD** (AES-256-GCM)
+- **Tink AEAD** (AES-256-GCM) para almacenamiento local
 - **AndroidKeystore**: Clave maestra hardware-backed
-- **SecureStorage**: SharedPreferences encriptadas para API key y Bridge token
+- **SecureStorage**: SharedPreferences encriptadas para Bridge host/port/token
 
 ### Autenticación
-- **Bridge**: Bearer token (env variable o configuración manual)
-- **API**: Clave de Anthropic encriptada
+- **Bridge**: Bearer token en header Authorization
 - **SSO**: Google Sign-In (Credential Manager) para futuro
 
 ### Almacenamiento
 - **Room + SQLCipher**: Base de datos encriptada en reposo
-- **Derivación de clave**: PBKDF2 para passphrases locales
 
-## 6. Requisitos No Funcionales
+## 7. Localización
 
-### Performance
-- App cold start: < 3 segundos
-- Streaming SSE: visualización del primer chunk < 1 segundo
-- Scroll de mensajes: 60fps (Compose optimization)
-- Base de datos: queries <100ms incluso con 10k mensajes
+- **Español (es)**: Idioma principal — 48+ strings en `values-es/strings.xml`
+- **Inglés (en)**: Idioma base — 48+ strings en `values/strings.xml`
+- Todas las strings UI deben usar `stringResource(R.string.xxx)`
+- **Nunca hardcodear** texto visible al usuario en Composables
 
-### Compatibilidad
-- **Android mínimo**: API 26 (8.0)
-- **Android destino**: API 35 (15.0)
-- **Kotlin**: 2.1.0
-- **Java**: 17 (JVM target)
+## 8. Testing
 
-### Accesibilidad
-- **Material 3**: Soporte WCAG 2.1 AA
-- **TalkBack**: Descripción de contenido en componentes
-- **Touch targets**: 48dp mínimo
-- **Alto contraste**: Tema de alto contraste soportado
+### Unit Tests (JUnit + Robolectric)
+- Tests de lógica de ViewModel
+- Tests de Repository con MockWebServer
+- Tests de navegación (rutas, configuración de tabs)
 
-### Localización
-- **Español**: Principal
-- **Inglés**: Secundario (estructura preparada)
-- **RTL**: Arquitectura lista para idiomas RTL
+### Screenshot Tests (Roborazzi 1.59.0)
+- Tests en JVM sin dispositivo
+- Capturan estado visual de componentes individuales
+- Comandos:
+  - `./gradlew recordRoborazziDebug` — Generar baselines
+  - `./gradlew verifyRoborazziDebug` — Verificar sin cambios
+  - `./gradlew compareRoborazziDebug` — Comparar diffs
 
-## 7. Stack Técnico
+### Tests funcionales contra specs
+- Verifican que componentes UI contienen los elementos especificados
+- Validan que estados de UI (loading, error, loaded) funcionan correctamente
+- Ubicación: `app/src/test/kotlin/com/savia/mobile/ui/`
+
+## 9. Stack Técnico
 
 ### Dependencias Clave
 - **Kotlin**: 2.1.0
-- **Jetpack Compose**: 2024.06.00 (Material 3)
-- **Hilt**: 2.51 (DI)
-- **Retrofit**: 2.11.0 (HTTP client)
-- **OkHttp**: 4.12.0 (SSE streaming)
-- **Room**: 2.7.0 + SQLCipher 4.6.0 (persistencia)
-- **DataStore**: 1.1.1 (preferences encriptadas)
+- **Jetpack Compose**: 2024.12.01 (Material 3)
+- **Hilt**: 2.56.2 (DI)
+- **OkHttp**: 4.12.0 (HTTP client + SSE streaming)
+- **Room**: 2.7.0 + SQLCipher 4.6.1 (persistencia)
 - **Tink**: 1.10.0 (crypto)
 - **Markwon**: 4.6.2 (markdown)
-- **Kotlinx Serialization**: 1.6.0 (JSON)
-- **Google Credential Manager**: 1.2.0 (autenticación)
+- **Kotlinx Serialization**: 1.7.3 (JSON)
+- **Navigation Compose**: 2.8.5
+- **Lifecycle**: 2.8.7
+- **Roborazzi**: 1.59.0 (screenshot testing)
+- **Robolectric**: 4.14.1 (JVM Android testing)
+- **AGP**: 8.13.2, **KSP**: 2.1.0-1.0.29
 
-### Testing
-- **JUnit 4**: Unit tests
-- **Mockk**: Mocking
-- **Turbine**: Flow testing
-- **Truth**: Assertions
-- **Robolectric**: Android simulation
-- **MockWebServer**: API mock
-- **TestContainers**: Futura integración
-
-## 8. Arquitectura
+## 10. Arquitectura
 
 ### Capas (Clean Architecture)
 ```
-Presentation (Compose UI)
+Presentation (Compose UI + ViewModel)
     ↓
-ViewModel (StateFlow)
+Domain (models, repository interfaces)
     ↓
-Use Cases (Domain)
-    ↓
-Repositories (Data)
-    ↓
-API/Database/Security
+Data (repository implementations, API, DB, Security)
 ```
 
 ### Módulos
-- **:app** — Aplicación (MainActivity, UI, DI, Auth)
-- **:domain** — Modelos, interfaces repository, use cases
-- **:data** — Implementaciones, API, BD, Security
+- **:app** — UI (Screens, ViewModels, Navigation, DI, Theme)
+- **:domain** — Modelos de datos, interfaces de Repository
+- **:data** — Implementaciones de Repository, SecureStorage, Room, OkHttp
 
-### DI (Hilt)
-- **NetworkModule**: OkHttpClient, Retrofit, JSON, SaviaBridgeService
-- **RepositoryModule**: ChatRepository, SecurityRepository
-- **DatabaseModule**: Room database, DAOs
+### Auto-versioning
+- `version.properties` gestiona VERSION_CODE, VERSION_MAJOR/MINOR/PATCH
+- `assembleDebug` auto-incrementa versionCode y patch
+- BuildConfig expone VERSION_NAME y VERSION_CODE
 
-## 9. Decisiones de Diseño
+## 11. Nombre oficial
 
-### Dual-Stack (Bridge + API)
-**Razón**: Bridge es primario pero API proporciona fallback sin dependencias de infraestructura externa.
-**Implementación**: SecurityRepository determina ruta en tiempo de ejecución.
-**Beneficio**: Flexibilidad de despliegue.
-
-### SSE Streaming en Mobile
-**Razón**: Respuestas en tiempo real, visualización incremental, UX fluida.
-**Implementación**: OkHttpClient + callbackFlow + BufferedSource.readUtf8Line().
-**Desafío**: Manejo de conexiones persistentes en móvil (puede desconectarse); implementar reconnect en futuro.
-
-### Room + SQLCipher
-**Razón**: Persistencia nativa Android con encriptación estándar.
-**Alternativa considerada**: Datastore (más simple pero menos flexible para queries).
-**Beneficio**: Escalable a 10k+ mensajes sin degradación.
-
-### Compose Multiplatform Ready
-**Razón**: Arquitectura preparada para reutilización en iOS (Kotlin Multiplatform).
-**Implementación**: Domain y Data totalmente independientes de Android; solo UI es específica.
-**Futuro**: Migración a KMP para iOS con cambio mínimo de UI.
-
-## 10. Restricciones y Limitaciones
-
-- **Offline parcial**: Puedo leer historial offline pero no enviar nuevos mensajes sin red
-- **Sync unidireccional**: No hay sync con servidor (Estado local es fuente de verdad)
-- **Sin widgets**: Widgets son road map futuro
-- **Sin notificaciones push**: Solo polling/manual en futuro
-- **Sin soporte wear**: Wear OS es futuro
-
-## 11. Roadmap
-
-### v0.2.0 (Beta)
-- [ ] Dashboards de proyecto/métricas (via Bridge)
-- [ ] Búsqueda en historial
-- [ ] Temas personalizados
-
-### v0.5.0 (Beta+)
-- [ ] Widgets de home screen
-- [ ] Notificaciones push (Bridge)
-- [ ] Voz input (speech-to-text)
-
-### v1.0.0 (Release)
-- [ ] Google Play Store launch
-- [ ] Traducción completa (ES/EN)
-- [ ] Support para tablets layout
-
-### v1.5.0 (Post-release)
-- [ ] Kotlin Multiplatform iOS companion
-- [ ] Wear OS app
-
-## 12. Métricas de Éxito
-
-- App store rating: > 4.0 estrellas
-- Session duration: > 5 minutos promedio
-- Retention D7: > 40%
-- Crash-free users: > 98%
-- Stream latency (first chunk): < 1.5 segundos p99
+El nombre del producto es **Savia Mobile** (no "Savia App").
+Todas las referencias en UI, Bridge, documentación y código deben usar "Savia Mobile".

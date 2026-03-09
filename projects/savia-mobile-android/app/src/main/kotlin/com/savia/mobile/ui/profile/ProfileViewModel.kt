@@ -10,12 +10,14 @@ import com.savia.domain.repository.UpdateRepository
 import com.savia.mobile.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
 /**
@@ -58,24 +60,33 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
-                val userProfile = withContext(Dispatchers.IO) {
-                    projectRepository.getUserProfile()
-                }
-                val projects = withContext(Dispatchers.IO) {
-                    projectRepository.getProjects()
-                }
-                val selectedProject = withContext(Dispatchers.IO) {
-                    projectRepository.getSelectedProject()
-                }
+                withTimeout(20_000) {
+                    // Load getUserProfile and getProjects in parallel
+                    val profileDeferred = async(Dispatchers.IO) {
+                        projectRepository.getUserProfile()
+                    }
+                    val projectsDeferred = async(Dispatchers.IO) {
+                        projectRepository.getProjects()
+                    }
 
-                _uiState.update {
-                    it.copy(
-                        userProfile = userProfile,
-                        projects = projects,
-                        selectedProjectId = selectedProject?.id,
-                        isLoading = false,
-                        error = null
-                    )
+                    // Wait for both to complete
+                    val userProfile = profileDeferred.await()
+                    val projects = projectsDeferred.await()
+
+                    // Load selected project sequentially (depends on projects list)
+                    val selectedProject = withContext(Dispatchers.IO) {
+                        projectRepository.getSelectedProject()
+                    }
+
+                    _uiState.update {
+                        it.copy(
+                            userProfile = userProfile,
+                            projects = projects,
+                            selectedProjectId = selectedProject?.id,
+                            isLoading = false,
+                            error = null
+                        )
+                    }
                 }
             } catch (e: Exception) {
                 _uiState.update {
