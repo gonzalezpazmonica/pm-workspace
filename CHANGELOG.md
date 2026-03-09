@@ -19,8 +19,9 @@ Comprehensive security audit across all of pm-workspace with full same-day remed
 - **Shell scripts** — `bash -c` → `eval` in 44 test scripts (C10), trap quoting (C15), `curl | sh` safety (C14/C17), `irm | iex` warning (C18), atomic mv (A8), `mktemp -d` (A19), sudo validation (A20), tar safety (A21), temp cleanup (M5).
 - **CI/CD** — SHA pinning in Actions (C9), npm version pinning (C8), jq mandatory in hooks (C16), expanded secret patterns (A13), tag validation (A9), explicit permissions (A22), BATS SHA pinning (M6), improved secret regex (M7).
 - **Infrastructure** — Systemd hardening (A10), .gitignore binaries (A12), `SECRETS-ROTATION.md` (M13), plan-gate.sh 30s timeout (M15).
-- **PR Guardian** — New Gate 8: CHANGELOG required for code PRs. Exempts `docs`, `chore`, `ci`, `style` types. Previous Gate 8 (PR Digest) renumbered to Gate 9.
-- **PRs:** [#280](https://github.com/gonzalezpazmonica/pm-workspace/pull/280), [#281](https://github.com/gonzalezpazmonica/pm-workspace/pull/281), [#282](https://github.com/gonzalezpazmonica/pm-workspace/pull/282), [#283](https://github.com/gonzalezpazmonica/pm-workspace/pull/283), [#285](https://github.com/gonzalezpazmonica/pm-workspace/pull/285)
+- **PR Guardian** — New Gate 8: CHANGELOG required for code PRs. Exempts `docs`, `chore`, `ci`, `style` types unless they touch domain rules (`.claude/rules/`). Previous Gate 8 (PR Digest) renumbered to Gate 9.
+- **Language rule** — Mandatory English for all versioned content (CHANGELOGs, commits, PR titles, READMEs). Added to `github-flow.md`. Both CHANGELOGs translated from Spanish to English.
+- **PRs:** [#280](https://github.com/gonzalezpazmonica/pm-workspace/pull/280), [#281](https://github.com/gonzalezpazmonica/pm-workspace/pull/281), [#282](https://github.com/gonzalezpazmonica/pm-workspace/pull/282), [#283](https://github.com/gonzalezpazmonica/pm-workspace/pull/283), [#285](https://github.com/gonzalezpazmonica/pm-workspace/pull/285), [#286](https://github.com/gonzalezpazmonica/pm-workspace/pull/286)
 
 ## [2.68.0] — 2026-03-09
 
