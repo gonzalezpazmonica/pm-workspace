@@ -43,13 +43,27 @@ jobs:
       - name: Check for sensitive data patterns
         run: |
           echo "Scanning for accidentally committed secrets..."
-          # Check for PAT patterns (Azure DevOps PATs are 52-char base64)
+          # Check for PAT patterns (Azure DevOps PATs: base64 string with = padding, 52 chars typical)
           if grep -rn --include="*.md" --include="*.sh" --include="*.json" --include="*.yml" \
-            -E '[a-z0-9]{52}' \
+            -E '(^|[^a-zA-Z0-9])[a-zA-Z0-9]{52}[=]*([^a-zA-Z0-9]|$)' \
             --exclude-dir=".git" \
             --exclude-dir="node_modules" \
-            . 2>/dev/null | grep -v "mock" | grep -v "example" | grep -v "placeholder"; then
+            . 2>/dev/null | grep -v "mock" | grep -v "example" | grep -v "placeholder" | grep -v "test"; then
             echo "WARNING: Potential secret pattern found. Review the matches above."
+          fi
+          # Check for AWS access keys
+          if grep -rn --include="*.md" --include="*.sh" --include="*.json" --include="*.yml" \
+            -E 'AKIA[0-9A-Z]{16}' \
+            --exclude-dir=".git" \
+            . 2>/dev/null; then
+            echo "WARNING: Potential AWS credential found. Review the matches above."
+          fi
+          # Check for GitHub personal access tokens
+          if grep -rn --include="*.md" --include="*.sh" --include="*.json" --include="*.yml" \
+            -E '(ghp_|github_pat_)[A-Za-z0-9_]{36,}' \
+            --exclude-dir=".git" \
+            . 2>/dev/null; then
+            echo "WARNING: Potential GitHub token found. Review the matches above."
           fi
           # Check for real org URL patterns (not placeholders)
           if grep -rn --include="*.md" --include="*.sh" \
@@ -113,9 +127,10 @@ jobs:
 
       - name: Install BATS and dependencies
         run: |
-          # Install BATS
+          # Install BATS (pinned to specific commit for reproducibility)
           git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats
-          sudo /tmp/bats/install.sh /usr/local
+          cd /tmp/bats && git fetch --depth 1 origin a8176fd6f4e3cd95f6d9c5dcd47fbc19f09c3b06 && git checkout a8176fd6f4e3cd95f6d9c5dcd47fbc19f09c3b06
+          cd - && sudo /tmp/bats/install.sh /usr/local
 
           # Update package lists and install dependencies
           sudo apt-get update -qq

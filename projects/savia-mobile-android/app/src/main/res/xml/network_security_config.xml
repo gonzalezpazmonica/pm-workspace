@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <!-- Only allow HTTPS connections in production -->
+    <!-- Production: Only allow HTTPS connections (cleartext blocked) -->
     <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
             <certificates src="system" />
         </trust-anchors>
     </base-config>
 
-    <!-- Allow cleartext for local development (debug only) -->
+    <!-- Debug builds only: Allow cleartext + user certs for local dev/testing -->
+    <!-- SECURITY: Cleartext is only enabled in debug APKs and is NOT present in release builds -->
     <debug-overrides>
         <trust-anchors>
             <certificates src="user" />

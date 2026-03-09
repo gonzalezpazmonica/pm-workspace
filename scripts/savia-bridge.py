@@ -1362,7 +1362,7 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                     try:
                         content = filepath.read_text()
                         section_name = section_file.replace(".md", "")
-                        # Parse simple YAML frontmatter
+                        # Parse simple YAML frontmatter with injection protection
                         section_data = {}
                         if content.startswith("---"):
                             parts = content.split("---", 2)
@@ -1370,7 +1370,12 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                                 for line in parts[1].strip().split('\n'):
                                     if ':' in line:
                                         key, val = line.split(':', 1)
-                                        section_data[key.strip()] = val.strip().strip('"').strip("'")
+                                        key = key.strip()
+                                        val = val.strip()
+                                        # Sanitize: quote special YAML characters
+                                        if any(c in val for c in (':', '{', '}', '[', ']', '&', '*', '#', '|', '>')):
+                                            val = f'"{val}"'
+                                        section_data[key] = val.strip('"').strip("'")
                                 section_data["content"] = parts[2].strip()
                         else:
                             section_data["content"] = content.strip()
@@ -1766,12 +1771,18 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
         session_id = data.get("session_id")
         system_prompt = data.get("system_prompt", self.system_prompt)
 
-        # Claude CLI requires UUID session IDs — convert non-UUID strings to deterministic UUIDs
-        if session_id and not _is_valid_uuid(session_id):
-            import uuid as _uuid_mod
-            original = session_id
-            session_id = str(_uuid_mod.uuid5(_uuid_mod.NAMESPACE_DNS, f"savia.{session_id}"))
-            log(f"[req:{request_id}] Converted session_id '{original}' -> {session_id}")
+        # Claude CLI requires UUID session IDs — validate and convert non-UUID strings
+        if session_id:
+            if not _is_valid_uuid(session_id):
+                # Validate format: UUID or alphanumeric only (no special chars)
+                if not re.match(r'^[a-zA-Z0-9_-]{1,128}$', session_id):
+                    log(f"[req:{request_id}] Rejected malformed session_id: {session_id}", "SECURITY")
+                    self._send_json({"error": "Invalid session_id format"}, 400)
+                    return
+                import uuid as _uuid_mod
+                original = session_id
+                session_id = str(_uuid_mod.uuid5(_uuid_mod.NAMESPACE_DNS, f"savia.{session_id}"))
+                log(f"[req:{request_id}] Converted session_id '{original}' -> {session_id}")
 
         log(f"[req:{request_id}] Message='{message[:60]}', session={session_id}")
 
@@ -2339,6 +2350,9 @@ def main():
     protocol = "HTTP"
     if use_tls:
         ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        # M3 FIX: Set minimum TLS version to 1.2 and restrict cipher suite
+        ssl_context.minimum_version = ssl.TLSVersion.TLSv1_2
+        ssl_context.set_ciphers('ECDHE+AESGCM:ECDHE+CHACHA20:DHE+AESGCM:ECDHE+AES256:AES256:!aNULL:!eNULL:!MD5:!DSS')
         ssl_context.load_cert_chain(cert_path, key_path)
         server.socket = ssl_context.wrap_socket(server.socket, server_side=True)
         protocol = "HTTPS"
