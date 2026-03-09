@@ -14,7 +14,9 @@ import com.savia.data.repository.ChatRepositoryImpl
 import com.savia.domain.model.MessageRole
 import com.savia.domain.repository.SecurityRepository
 import com.savia.domain.usecase.SendMessageUseCase
+import com.savia.mobile.notification.SaviaNotificationManager
 import com.savia.mobile.ui.chat.ChatViewModel
+import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -95,7 +97,7 @@ class ChatViewModelIntegrationTest {
         val chatRepository = ChatRepositoryImpl(apiService, bridgeService, streamParser, dao, fakeSecurityRepo)
         val sendMessageUseCase = SendMessageUseCase(chatRepository)
 
-        viewModel = ChatViewModel(sendMessageUseCase, chatRepository, fakeSecurityRepo)
+        viewModel = ChatViewModel(sendMessageUseCase, chatRepository, fakeSecurityRepo, mockk(relaxed = true))
     }
 
     @After
@@ -126,7 +128,7 @@ class ChatViewModelIntegrationTest {
         val apiService = createApiService()
         val client = OkHttpClient.Builder().build()
         val chatRepository = ChatRepositoryImpl(apiService, SaviaBridgeService(client, json), ClaudeStreamParser(), dao, fakeSecurityRepo)
-        viewModel = ChatViewModel(SendMessageUseCase(chatRepository), chatRepository, fakeSecurityRepo)
+        viewModel = ChatViewModel(SendMessageUseCase(chatRepository), chatRepository, fakeSecurityRepo, mockk(relaxed = true))
 
         advanceUntilIdle()
 
@@ -254,7 +256,7 @@ class ChatViewModelIntegrationTest {
         val apiService = createApiService()
         val client = OkHttpClient.Builder().build()
         val chatRepository = ChatRepositoryImpl(apiService, SaviaBridgeService(client, json), ClaudeStreamParser(), dao, fakeSecurityRepo)
-        viewModel = ChatViewModel(SendMessageUseCase(chatRepository), chatRepository, fakeSecurityRepo)
+        viewModel = ChatViewModel(SendMessageUseCase(chatRepository), chatRepository, fakeSecurityRepo, mockk(relaxed = true))
 
         advanceUntilIdle()
         assertThat(viewModel.uiState.value.isConfigured).isFalse()
