@@ -8,7 +8,9 @@ import com.savia.domain.model.StreamDelta
 import com.savia.domain.repository.ChatRepository
 import com.savia.domain.repository.SecurityRepository
 import com.savia.domain.usecase.SendMessageUseCase
+import com.savia.mobile.notification.SaviaNotificationManager
 import com.savia.mobile.ui.chat.ChatViewModel
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -38,7 +40,8 @@ class ChatViewModelTest {
         viewModel = ChatViewModel(
             sendMessageUseCase = SendMessageUseCase(fakeChatRepo),
             chatRepository = fakeChatRepo,
-            securityRepository = fakeSecurityRepo
+            securityRepository = fakeSecurityRepo,
+            notificationManager = mockk(relaxed = true)
         )
     }
 
@@ -75,7 +78,8 @@ class ChatViewModelTest {
         viewModel = ChatViewModel(
             sendMessageUseCase = SendMessageUseCase(fakeChatRepo),
             chatRepository = fakeChatRepo,
-            securityRepository = fakeSecurityRepo
+            securityRepository = fakeSecurityRepo,
+            notificationManager = mockk(relaxed = true)
         )
         advanceUntilIdle()
 

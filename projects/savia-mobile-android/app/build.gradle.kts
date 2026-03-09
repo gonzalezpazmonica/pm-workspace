@@ -40,31 +40,49 @@ val versionProps = loadAndIncrementVersionProps()
 val appVersionCode = versionProps.getProperty("VERSION_CODE").toInt()
 val appVersionName = "${versionProps.getProperty("VERSION_MAJOR")}.${versionProps.getProperty("VERSION_MINOR")}.${versionProps.getProperty("VERSION_PATCH")}"
 
-// Task: copy debug APK to Bridge distribution folder and scripts/dist
-// Uses Exec to avoid configuration-cache serialization issues
+// ─── Build Gate: tests MUST pass before APK is published ───
+//
+// CRITICAL: We do NOT use `finalizedBy` because it runs even when tasks fail.
+// Instead, `buildAndPublish` is the single entry point that chains:
+//   testDebugUnitTest → assembleDebug → publishToBridge + publishToDist
+//
+// If tests fail, Gradle stops the chain. No APK gets published.
+// Developers MUST use `./gradlew buildAndPublish` (not `assembleDebug` directly).
+// assembleDebug still depends on tests as a safety net.
 val bridgeApkPath = "${System.getProperty("user.home")}/.savia/bridge/apk/savia-mobile.apk"
 val distApkPath = "${System.getProperty("user.home")}/savia/scripts/dist/app-debug.apk"
 val apkSourcePath = layout.buildDirectory.file("outputs/apk/debug/app-debug.apk").map { it.asFile.absolutePath }
 
 tasks.register<Exec>("publishToBridge") {
-    description = "Copies debug APK to ~/.savia/bridge/apk/ for distribution"
+    description = "Copies debug APK to ~/.savia/bridge/apk/ — gated by tests"
+    dependsOn("testDebugUnitTest", "assembleDebug")
+    mustRunAfter("assembleDebug")
     commandLine("cp", "-f", apkSourcePath.get(), bridgeApkPath)
     isIgnoreExitValue = true
 }
 
 tasks.register<Exec>("publishToDist") {
-    description = "Copies debug APK to scripts/dist/ for integration tests"
+    description = "Copies debug APK to scripts/dist/ — gated by tests"
+    dependsOn("testDebugUnitTest", "assembleDebug")
+    mustRunAfter("assembleDebug")
     commandLine("cp", "-f", apkSourcePath.get(), distApkPath)
     isIgnoreExitValue = true
 }
 
-// assembleDebug: run unit tests first, then publish to Bridge + dist
-// Flow: testDebugUnitTest → assembleDebug → publishToBridge + publishToDist
-// If tests fail, assembleDebug won't run, so no broken APK gets published.
+// The ONLY task that should be used to build + publish.
+// Chain: testDebugUnitTest → assembleDebug → publish (both).
+// If any step fails, subsequent steps don't run.
+tasks.register("buildAndPublish") {
+    group = "build"
+    description = "Test → Build → Publish APK (the ONLY safe way to publish)"
+    dependsOn("testDebugUnitTest", "assembleDebug", "publishToBridge", "publishToDist")
+}
+
+// Safety net: assembleDebug still requires tests even if called directly.
+// But publish tasks are NOT finalizedBy — they only run via buildAndPublish.
 tasks.whenTaskAdded {
     if (name == "assembleDebug") {
         dependsOn("testDebugUnitTest")
-        finalizedBy("publishToBridge", "publishToDist")
     }
 }
 

@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.74.1] — 2026-03-09
+
+### Fixed — Era 103: ChatViewModel crash + build gate
+
+- Fixed ChatViewModel crash: added missing `SaviaNotificationManager` mock in unit and integration tests (5 call sites)
+- New `buildAndPublish` Gradle task: tests → build → publish chain. If tests fail, no APK gets published. Replaced unsafe `finalizedBy` pattern
+- Added Savia Mobile build rule to `CLAUDE.md`: always `./gradlew buildAndPublish`, never `assembleDebug`
+
 ## [2.74.0] — 2026-03-09
 
 ### Changed — Era 103: All gaps implemented — code review 4-judge panel, file browser, notifications, output persistence
