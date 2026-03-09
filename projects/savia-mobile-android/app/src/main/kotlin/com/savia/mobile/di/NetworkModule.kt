@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.savia.mobile.BuildConfig
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
@@ -59,6 +60,7 @@ object NetworkModule {
 
     /**
      * Standard OkHttpClient for Anthropic API (uses system CA certificates).
+     * Logging is only enabled in debug builds to prevent token leakage via logcat.
      */
     @Provides
     @Singleton
@@ -67,24 +69,33 @@ object NetworkModule {
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
-            .addInterceptor(
-                HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.HEADERS
+            .apply {
+                if (BuildConfig.DEBUG) {
+                    addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.HEADERS
+                    })
                 }
-            )
+            }
             .build()
 
     /**
      * OkHttpClient that accepts the bridge's self-signed TLS certificate.
      * Used only for communication with the local Savia Bridge server.
      */
+    /**
+     * OkHttpClient that accepts the bridge's self-signed TLS certificate.
+     *
+     * SECURITY NOTE: TrustAll is used because the Bridge generates a new self-signed
+     * cert on each startup. The connection is protected by:
+     * (1) Bearer token auth, (2) local/VPN network only, (3) hostname verification disabled
+     * only for Bridge connections. Logging is DEBUG-only to prevent token leakage.
+     *
+     * TODO: Implement certificate pinning using the Bridge's fingerprint from /health endpoint.
+     */
     @Provides
     @Singleton
     @Named("bridge")
     fun provideBridgeOkHttpClient(): OkHttpClient {
-        // Trust all certificates for the bridge connection.
-        // Security is ensured by: (1) VPN tunnel, (2) auth token, (3) local network only.
-        // In future, certificate pinning by fingerprint can be added.
         val trustManager = object : X509TrustManager {
             override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) {}
             override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) {}
@@ -100,11 +111,13 @@ object NetworkModule {
             .connectTimeout(15, TimeUnit.SECONDS)
             .readTimeout(300, TimeUnit.SECONDS)  // Long timeout for Claude responses
             .writeTimeout(30, TimeUnit.SECONDS)
-            .addInterceptor(
-                HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.HEADERS
+            .apply {
+                if (BuildConfig.DEBUG) {
+                    addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.HEADERS
+                    })
                 }
-            )
+            }
             .build()
     }
 
