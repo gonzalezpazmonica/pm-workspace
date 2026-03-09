@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,7 +27,9 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -253,6 +257,15 @@ private fun GreetingHeader(
     onProjectSelected: (String) -> Unit
 ) {
     var projectDropdownExpanded by remember { mutableStateOf(false) }
+    var searchQuery by remember { mutableStateOf("") }
+
+    val filteredProjects = remember(availableProjects, searchQuery) {
+        if (searchQuery.isBlank()) availableProjects
+        else availableProjects.filter {
+            it.name.contains(searchQuery, ignoreCase = true) ||
+            it.id.contains(searchQuery, ignoreCase = true)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -270,26 +283,86 @@ private fun GreetingHeader(
                     text = projectName,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable { projectDropdownExpanded = true }
+                    modifier = Modifier.clickable {
+                        searchQuery = ""
+                        projectDropdownExpanded = true
+                    }
                 )
                 Icon(
                     Icons.Default.ArrowDropDown,
                     contentDescription = stringResource(R.string.home_select_project),
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable { projectDropdownExpanded = true }
+                    modifier = Modifier.clickable {
+                        searchQuery = ""
+                        projectDropdownExpanded = true
+                    }
                 )
             }
             DropdownMenu(
                 expanded = projectDropdownExpanded,
-                onDismissRequest = { projectDropdownExpanded = false }
+                onDismissRequest = {
+                    projectDropdownExpanded = false
+                    searchQuery = ""
+                },
+                modifier = Modifier
+                    .fillMaxWidth(0.85f)
+                    .heightIn(max = 300.dp)
             ) {
-                availableProjects.forEach { project ->
+                // Search field inside dropdown
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    placeholder = { Text(stringResource(R.string.home_select_project)) },
+                    leadingIcon = {
+                        Icon(Icons.Default.Search, contentDescription = null,
+                            modifier = Modifier.size(20.dp))
+                    },
+                    trailingIcon = {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { searchQuery = "" }) {
+                                Icon(Icons.Default.Close, contentDescription = null,
+                                    modifier = Modifier.size(20.dp))
+                            }
+                        }
+                    },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                    textStyle = MaterialTheme.typography.bodyMedium
+                )
+
+                filteredProjects.forEach { project ->
                     DropdownMenuItem(
-                        text = { Text(project.name) },
+                        text = {
+                            Column {
+                                Text(project.name, style = MaterialTheme.typography.bodyMedium)
+                                Text(
+                                    project.team,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        },
                         onClick = {
                             onProjectSelected(project.id)
                             projectDropdownExpanded = false
+                            searchQuery = ""
                         }
+                    )
+                }
+
+                if (filteredProjects.isEmpty()) {
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                "No projects found",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        },
+                        onClick = {},
+                        enabled = false
                     )
                 }
             }

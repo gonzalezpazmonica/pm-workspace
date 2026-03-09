@@ -297,9 +297,10 @@ fun SaviaNavHost(
                     onNavigateToCompany = { navController.navigate(Screen.CompanyProfile.route) },
                     onNavigateToProfile = {
                         navController.navigate(Screen.Profile.route) {
-                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                inclusive = false
+                            }
                             launchSingleTop = true
-                            restoreState = true
                         }
                     }
                 )
@@ -379,10 +380,9 @@ private fun SaviaBottomBar(navController: NavHostController) {
                 onClick = {
                     navController.navigate(screen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                            inclusive = false
                         }
                         launchSingleTop = true
-                        restoreState = true
                     }
                 }
             )

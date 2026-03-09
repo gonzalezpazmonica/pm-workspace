@@ -77,6 +77,18 @@ class ProjectRepositoryImpl @Inject constructor(
     }
 
     /**
+     * Build a Bridge API request with the correct URL and auth token.
+     * Returns null if bridge is not configured.
+     */
+    private suspend fun bridgeRequest(path: String): Request.Builder? {
+        val baseUrl = securityRepository.getBridgeUrl() ?: return null
+        val token = securityRepository.getBridgeToken() ?: return null
+        return Request.Builder()
+            .url("$baseUrl$path")
+            .addHeader("Authorization", "Bearer $token")
+    }
+
+    /**
      * Retrieve all projects the user has access to.
      *
      * Sends a help command via chat endpoint to discover available projects.
@@ -261,11 +273,7 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     override suspend fun getUserProfile(): UserProfile? {
         return try {
-            val bridgeUrl = "http://localhost:8922"
-            val request = Request.Builder()
-                .url("$bridgeUrl/profile")
-                .get()
-                .build()
+            val request = bridgeRequest("/profile")?.get()?.build() ?: return null
 
             val response = bridgeClient.newCall(request).execute()
             if (!response.isSuccessful) {
@@ -361,9 +369,11 @@ class ProjectRepositoryImpl @Inject constructor(
     override suspend fun executeCommand(command: String, projectId: String): Flow<String> = flow {
         try {
             val fullCommand = "/$command --project $projectId"
+            val bridgeUrl = securityRepository.getBridgeUrl() ?: throw IllegalStateException("Bridge not configured")
+            val authToken = securityRepository.getBridgeToken() ?: throw IllegalStateException("No auth token")
             val stream = bridgeService.sendMessageStream(
-                bridgeUrl = "http://localhost:8922",
-                authToken = "bridge-token",
+                bridgeUrl = bridgeUrl,
+                authToken = authToken,
                 message = fullCommand,
                 sessionId = CHAT_SESSION_ID
             )
@@ -466,7 +476,6 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     private suspend fun sendChatCommand(message: String): String {
         return try {
-            val bridgeUrl = "http://localhost:8922"
             val requestBody = json.encodeToString(
                 ChatRequest.serializer(),
                 ChatRequest(
@@ -475,11 +484,10 @@ class ProjectRepositoryImpl @Inject constructor(
                 )
             ).toRequestBody("application/json".toMediaType())
 
-            val request = Request.Builder()
-                .url("$bridgeUrl/chat")
-                .post(requestBody)
-                .header("Accept", "text/event-stream")
-                .build()
+            val request = bridgeRequest("/chat")
+                ?.post(requestBody)
+                ?.header("Accept", "text/event-stream")
+                ?.build() ?: return ""
 
             val response = bridgeClient.newCall(request).execute()
             if (!response.isSuccessful) return ""
@@ -768,11 +776,7 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     override suspend fun getGitConfig(): GitConfig? {
         return try {
-            val bridgeUrl = "http://localhost:8922"
-            val request = Request.Builder()
-                .url("$bridgeUrl/git-config")
-                .get()
-                .build()
+            val request = bridgeRequest("/git-config")?.get()?.build() ?: return null
             val response = bridgeClient.newCall(request).execute()
             if (!response.isSuccessful) return null
             val jsonStr = response.body?.string() ?: return null
@@ -794,8 +798,6 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     override suspend fun updateGitConfig(config: GitConfig): Boolean {
         return try {
-            val bridgeUrl = "http://localhost:8922"
-            val token = securityRepository.getBridgeToken() ?: return false
             val bodyJson = buildJsonObject {
                 if (config.name.isNotEmpty()) put("name", config.name)
                 if (config.email.isNotEmpty()) put("email", config.email)
@@ -803,11 +805,7 @@ class ProjectRepositoryImpl @Inject constructor(
                 if (config.remoteUrl.isNotEmpty()) put("remote_url", config.remoteUrl)
             }
             val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
-            val request = Request.Builder()
-                .url("$bridgeUrl/git-config")
-                .put(body)
-                .addHeader("Authorization", "Bearer $token")
-                .build()
+            val request = bridgeRequest("/git-config")?.put(body)?.build() ?: return false
             val response = bridgeClient.newCall(request).execute()
             response.isSuccessful
         } catch (e: Exception) {
@@ -820,11 +818,7 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     override suspend fun getTeamMembers(): List<TeamMember> {
         return try {
-            val bridgeUrl = "http://localhost:8922"
-            val request = Request.Builder()
-                .url("$bridgeUrl/team")
-                .get()
-                .build()
+            val request = bridgeRequest("/team")?.get()?.build() ?: return emptyList()
             val response = bridgeClient.newCall(request).execute()
             if (!response.isSuccessful) return emptyList()
             val jsonStr = response.body?.string() ?: return emptyList()
@@ -859,8 +853,6 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     override suspend fun addTeamMember(slug: String, identity: Map<String, String>): Boolean {
         return try {
-            val bridgeUrl = "http://localhost:8922"
-            val token = securityRepository.getBridgeToken() ?: return false
             val identityObj = buildJsonObject {
                 for ((key, value) in identity) {
                     put(key, value)
@@ -872,11 +864,7 @@ class ProjectRepositoryImpl @Inject constructor(
                 put("identity", identityObj)
             }
             val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
-            val request = Request.Builder()
-                .url("$bridgeUrl/team")
-                .put(body)
-                .addHeader("Authorization", "Bearer $token")
-                .build()
+            val request = bridgeRequest("/team")?.put(body)?.build() ?: return false
             val response = bridgeClient.newCall(request).execute()
             response.isSuccessful
         } catch (e: Exception) {
@@ -889,8 +877,6 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     override suspend fun updateTeamMember(slug: String, identity: Map<String, String>): Boolean {
         return try {
-            val bridgeUrl = "http://localhost:8922"
-            val token = securityRepository.getBridgeToken() ?: return false
             val identityObj = buildJsonObject {
                 for ((key, value) in identity) {
                     put(key, value)
@@ -902,11 +888,7 @@ class ProjectRepositoryImpl @Inject constructor(
                 put("identity", identityObj)
             }
             val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
-            val request = Request.Builder()
-                .url("$bridgeUrl/team")
-                .put(body)
-                .addHeader("Authorization", "Bearer $token")
-                .build()
+            val request = bridgeRequest("/team")?.put(body)?.build() ?: return false
             val response = bridgeClient.newCall(request).execute()
             response.isSuccessful
         } catch (e: Exception) {
@@ -919,18 +901,12 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     override suspend fun removeTeamMember(slug: String): Boolean {
         return try {
-            val bridgeUrl = "http://localhost:8922"
-            val token = securityRepository.getBridgeToken() ?: return false
             val bodyJson = buildJsonObject {
                 put("action", "remove")
                 put("slug", slug)
             }
             val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
-            val request = Request.Builder()
-                .url("$bridgeUrl/team")
-                .put(body)
-                .addHeader("Authorization", "Bearer $token")
-                .build()
+            val request = bridgeRequest("/team")?.put(body)?.build() ?: return false
             val response = bridgeClient.newCall(request).execute()
             response.isSuccessful
         } catch (e: Exception) {
@@ -943,11 +919,7 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     override suspend fun getCompanyProfile(): CompanyProfile? {
         return try {
-            val bridgeUrl = "http://localhost:8922"
-            val request = Request.Builder()
-                .url("$bridgeUrl/company")
-                .get()
-                .build()
+            val request = bridgeRequest("/company")?.get()?.build() ?: return null
             val response = bridgeClient.newCall(request).execute()
             if (!response.isSuccessful) return null
             val jsonStr = response.body?.string() ?: return null
@@ -971,8 +943,6 @@ class ProjectRepositoryImpl @Inject constructor(
      */
     override suspend fun updateCompanySection(section: String, fields: Map<String, String>, content: String): Boolean {
         return try {
-            val bridgeUrl = "http://localhost:8922"
-            val token = securityRepository.getBridgeToken() ?: return false
             val fieldsObj = buildJsonObject {
                 for ((key, value) in fields) {
                     put(key, value)
@@ -984,11 +954,7 @@ class ProjectRepositoryImpl @Inject constructor(
                 if (content.isNotEmpty()) put("content", content)
             }
             val body = bodyJson.toString().toRequestBody("application/json".toMediaType())
-            val request = Request.Builder()
-                .url("$bridgeUrl/company")
-                .put(body)
-                .addHeader("Authorization", "Bearer $token")
-                .build()
+            val request = bridgeRequest("/company")?.put(body)?.build() ?: return false
             val response = bridgeClient.newCall(request).execute()
             response.isSuccessful
         } catch (e: Exception) {
