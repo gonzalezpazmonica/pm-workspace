@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.savia.data.local.SaviaDatabase
 import com.savia.data.local.dao.ConversationDao
+import com.savia.data.local.dao.SavedOutputDao
 import com.savia.domain.repository.SecurityRepository
 import dagger.Module
 import dagger.Provides
@@ -60,6 +61,7 @@ object DatabaseModule {
             "savia.db"
         )
         .openHelperFactory(factory)
+        .addMigrations(SaviaDatabase.MIGRATION_1_2)
         .fallbackToDestructiveMigration()
         .build()
     }
@@ -79,4 +81,8 @@ object DatabaseModule {
     @Provides
     fun provideConversationDao(db: SaviaDatabase): ConversationDao =
         db.conversationDao()
+
+    @Provides
+    fun provideSavedOutputDao(db: SaviaDatabase): SavedOutputDao =
+        db.savedOutputDao()
 }

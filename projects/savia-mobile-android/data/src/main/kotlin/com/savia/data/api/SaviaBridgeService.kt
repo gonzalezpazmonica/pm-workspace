@@ -223,7 +223,85 @@ class SaviaBridgeService @Inject constructor(
             false
         }
     }
+    /**
+     * List files and directories at the given workspace path.
+     *
+     * @param bridgeUrl Base URL of bridge server
+     * @param authToken Bearer token for authentication
+     * @param path Relative path within workspace (empty string for root)
+     * @return FileListResponse with directory entries, or null on error
+     */
+    suspend fun listFiles(bridgeUrl: String, authToken: String, path: String = ""): FileListResponse? {
+        return try {
+            val encodedPath = java.net.URLEncoder.encode(path, "UTF-8")
+            val request = Request.Builder()
+                .url("$bridgeUrl/files?path=$encodedPath")
+                .header("Authorization", "Bearer $authToken")
+                .build()
+            httpClient.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) return@use null
+                response.body?.string()?.let { body ->
+                    json.decodeFromString(FileListResponse.serializer(), body)
+                }
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /**
+     * Read text file content from the workspace.
+     *
+     * @param bridgeUrl Base URL of bridge server
+     * @param authToken Bearer token for authentication
+     * @param path Relative path to file within workspace
+     * @return FileContentResponse with file content, or null on error
+     */
+    suspend fun readFile(bridgeUrl: String, authToken: String, path: String): FileContentResponse? {
+        return try {
+            val encodedPath = java.net.URLEncoder.encode(path, "UTF-8")
+            val request = Request.Builder()
+                .url("$bridgeUrl/files/content?path=$encodedPath")
+                .header("Authorization", "Bearer $authToken")
+                .build()
+            httpClient.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) return@use null
+                response.body?.string()?.let { body ->
+                    json.decodeFromString(FileContentResponse.serializer(), body)
+                }
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
 }
+
+@kotlinx.serialization.Serializable
+data class FileEntry(
+    val name: String,
+    val path: String,
+    val type: String,
+    val size: Long = 0,
+    val modified: String = "",
+    val extension: String = ""
+)
+
+@kotlinx.serialization.Serializable
+data class FileListResponse(
+    val path: String = "",
+    val entries: List<FileEntry> = emptyList(),
+    val parent: String? = null
+)
+
+@kotlinx.serialization.Serializable
+data class FileContentResponse(
+    val path: String,
+    val name: String,
+    val extension: String = "",
+    val size: Int = 0,
+    val lines: Int = 0,
+    val content: String = ""
+)
 
 @kotlinx.serialization.Serializable
 internal data class BridgeRequest(

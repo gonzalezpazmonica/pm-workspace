@@ -20,11 +20,11 @@ Weighted scoring system across 8 dimensions: file count, module criticality, ext
 
 ## Phase 3: Route to Review Level
 
-Four-tier escalation based on score:
-- Low (0-25): Auto-merge + spot-check
-- Medium (26-50): Standard Code Review E1
-- High (51-75): Enhanced Review with 2 reviewers
-- Critical (76-100): Full Review with security + PM approval
+Four-tier escalation based on score (enforced, not advisory):
+- Low (0-25): Skip consensus panel. Auto-merge after PR Guardian Gates 1-5 pass. Spot-check only
+- Medium (26-50): Standard 4-judge consensus panel (reflection + code + business + performance)
+- High (51-75): Full 4-judge consensus + mandatory human reviewer. Veto on any CRITICAL finding
+- Critical (76-100): Full consensus + security team review + PM approval. Block merge until all sign off
 
 ## Phase 4: Generate Risk Report
 
@@ -32,7 +32,8 @@ Comprehensive breakdown with score, factor breakdown, review requirements, sugge
 
 ## Integration Points
 
-- Code Review E1: Risk score displayed in request
-- Escalation Rule: Automatic routing based on thresholds
-- Audit Trail: All decisions logged
-- PM Override: Can manually adjust escalation level
+- **PR Guardian Gate 7**: Risk score informs context impact analysis
+- **consensus-validation**: Tier determines which judges run (Low skips, Medium-Critical runs full panel)
+- **dag-scheduling**: High/Critical PRs dispatch judges via DAG for parallel execution
+- **Audit Trail**: All routing decisions logged to `output/risk/{timestamp}-{pr}.json`
+- **PM Override**: Can manually escalate or de-escalate tier

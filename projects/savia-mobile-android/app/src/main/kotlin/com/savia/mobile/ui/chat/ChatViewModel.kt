@@ -8,6 +8,7 @@ import com.savia.domain.model.StreamDelta
 import com.savia.domain.repository.ChatRepository
 import com.savia.domain.repository.SecurityRepository
 import com.savia.domain.usecase.SendMessageUseCase
+import com.savia.mobile.notification.SaviaNotificationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -73,8 +74,12 @@ data class ChatUiState(
 class ChatViewModel @Inject constructor(
     private val sendMessageUseCase: SendMessageUseCase,
     private val chatRepository: ChatRepository,
-    private val securityRepository: SecurityRepository
+    private val securityRepository: SecurityRepository,
+    private val notificationManager: SaviaNotificationManager
 ) : ViewModel() {
+
+    /** Whether the app is currently in the foreground. Set by ChatScreen lifecycle. */
+    var isAppInForeground: Boolean = true
 
     /**
      * Mutable state flow backing the public uiState StateFlow.
@@ -306,6 +311,10 @@ class ChatViewModel @Inject constructor(
                             streamingText = "",
                             isStreaming = false
                         )
+                    }
+                    // Notify user if app is backgrounded
+                    if (!isAppInForeground) {
+                        notificationManager.notifyResponseComplete()
                     }
                 }
                 is StreamDelta.Error -> {
