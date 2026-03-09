@@ -7,19 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.69.0] — 2026-03-09
 
-### Security — Auditoría completa y remediación (55 hallazgos)
+### Security — Full audit and remediation (55 findings)
 
-Auditoría de seguridad severa sobre todo pm-workspace con remediación completa en el mismo día.
+Comprehensive security audit across all of pm-workspace with full same-day remediation.
 
-- **Auditoría** — 55 hallazgos identificados (18 críticos, 22 altos, 15 medios) en 6 áreas: Android app, Bridge, dotnet-microservices, shell scripts, CI/CD, instaladores. Informe completo en `SECURITY-AUDIT-2026-03-09.md`.
-- **Android** — SQLCipher activado en Room Database (C2), logging condicionado a DEBUG (C6), encoding passphrase corregido (A11), documentación cleartext traffic (M4).
-- **Bridge v1.6.0** — Input validation regex (C3), PAT cifrado con Fernet (C4), auth obligatoria en endpoints sensibles (C5), path traversal prevention (A1), SSE connection limit (A2), rate limiting auth (A3), security headers (A4), CORS restringido (A5), body size limit 1MB (A6), log sanitization (A7), YAML injection prevention (M1), session ID validation (M2), TLS cipher suite mínima (M3).
-- **Kubernetes** — NetworkPolicy default-deny (A14), RBAC con ServiceAccounts dedicados (A15), Pod Security Context (A16), mTLS TODO (A17), image pinning (A18), worker health checks (M9), secrets TODO (M10).
-- **dotnet-microservices** — Docker .env para credenciales (C7), K8s secrets template (C11), CORS restringido (C12), JWT secret placeholder (C13), Dockerfile `npm ci --omit=dev` (M11), JWT logging (M12), Production templates (M14).
-- **Shell scripts** — `bash -c` → `eval` en 44 test scripts (C10), trap quoting (C15), `curl | sh` safety (C14/C17), `irm | iex` warning (C18), atomic mv (A8), `mktemp -d` (A19), sudo validation (A20), tar safety (A21), temp cleanup (M5).
-- **CI/CD** — SHA pinning en Actions (C9), npm version pinning (C8), jq mandatory en hooks (C16), secret patterns ampliados (A13), tag validation (A9), permissions explícitas (A22), BATS SHA pinning (M6), secret regex mejorado (M7).
-- **Infraestructura** — Systemd hardening (A10), .gitignore binarios (A12), `SECRETS-ROTATION.md` (M13), plan-gate.sh timeout 30s (M15).
-- **PR Guardian** — Nuevo Gate 8: CHANGELOG obligatorio en PRs con cambios de código. Exime PRs de tipo `docs`, `chore`, `ci`, `style`. Renumerado Gate 8→9 (PR Digest).
+- **Audit** — 55 findings identified (18 critical, 22 high, 15 medium) across 6 areas: Android app, Bridge, dotnet-microservices, shell scripts, CI/CD, installers. Full report in `SECURITY-AUDIT-2026-03-09.md`.
+- **Android** — SQLCipher enabled for Room Database (C2), logging restricted to DEBUG builds (C6), passphrase encoding fix (A11), cleartext traffic documentation (M4).
+- **Bridge v1.6.0** — Input validation regex (C3), PAT encrypted with Fernet (C4), auth required on sensitive endpoints (C5), path traversal prevention (A1), SSE connection limit (A2), rate limiting on auth (A3), security headers (A4), CORS restricted (A5), body size limit 1MB (A6), log sanitization (A7), YAML injection prevention (M1), session ID validation (M2), minimum TLS cipher suite v1.2 (M3).
+- **Kubernetes** — NetworkPolicy default-deny (A14), RBAC with dedicated ServiceAccounts (A15), Pod Security Context (A16), mTLS TODO (A17), image pinning (A18), worker health checks (M9), secrets TODO (M10).
+- **dotnet-microservices** — Docker .env for credentials (C7), K8s secrets template (C11), CORS restricted (C12), JWT secret placeholder (C13), Dockerfile `npm ci --omit=dev` (M11), JWT logging (M12), Production templates (M14).
+- **Shell scripts** — `bash -c` → `eval` in 44 test scripts (C10), trap quoting (C15), `curl | sh` safety (C14/C17), `irm | iex` warning (C18), atomic mv (A8), `mktemp -d` (A19), sudo validation (A20), tar safety (A21), temp cleanup (M5).
+- **CI/CD** — SHA pinning in Actions (C9), npm version pinning (C8), jq mandatory in hooks (C16), expanded secret patterns (A13), tag validation (A9), explicit permissions (A22), BATS SHA pinning (M6), improved secret regex (M7).
+- **Infrastructure** — Systemd hardening (A10), .gitignore binaries (A12), `SECRETS-ROTATION.md` (M13), plan-gate.sh 30s timeout (M15).
+- **PR Guardian** — New Gate 8: CHANGELOG required for code PRs. Exempts `docs`, `chore`, `ci`, `style` types. Previous Gate 8 (PR Digest) renumbered to Gate 9.
 - **PRs:** [#280](https://github.com/gonzalezpazmonica/pm-workspace/pull/280), [#281](https://github.com/gonzalezpazmonica/pm-workspace/pull/281), [#282](https://github.com/gonzalezpazmonica/pm-workspace/pull/282), [#283](https://github.com/gonzalezpazmonica/pm-workspace/pull/283), [#285](https://github.com/gonzalezpazmonica/pm-workspace/pull/285)
 
 ## [2.68.0] — 2026-03-09

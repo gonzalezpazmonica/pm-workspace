@@ -1,44 +1,44 @@
 # Changelog — Savia Mobile Android
 
-Todos los cambios notables de este proyecto se documentan en este archivo.
-El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.1.0/),
-y este proyecto adhiere a [Versionado Semántico](https://semver.org/lang/es/).
+All notable changes to this project are documented in this file.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
 ## [0.3.35] — 2026-03-09
 
-### Security — Hardening completo desde auditoría de seguridad
+### Security — Full hardening from security audit
 
-Remediación de todos los hallazgos de seguridad que afectan a Savia Mobile y Bridge.
+Remediation of all security findings affecting Savia Mobile and Bridge.
 
-### Seguridad
+### Security
 
-- SQLCipher activado en Room Database con passphrase Tink AES-256-GCM (C2)
-- Logging HTTP condicionado a `BuildConfig.DEBUG` — sin Bearer tokens en logcat producción (C6)
-- Encoding passphrase corregido: `Base64.decode()` en vez de `toByteArray(UTF_8)` (A11)
-- Documentación de cleartext traffic en `network_security_config.xml` (M4)
+- SQLCipher enabled for Room Database with Tink AES-256-GCM passphrase (C2)
+- HTTP logging restricted to `BuildConfig.DEBUG` — no Bearer tokens in production logcat (C6)
+- Passphrase encoding fixed: `Base64.decode()` instead of `toByteArray(UTF_8)` (A11)
+- Cleartext traffic documentation in `network_security_config.xml` (M4)
 
 ### Bridge (v1.6.0)
 
-- Input validation regex en PUT /git-config (C3)
-- PAT cifrado con Fernet en vez de Base64 (C4)
-- Auth obligatoria en todos los endpoints sensibles (C5)
-- Path traversal prevention en descarga de APK (A1)
+- Input validation regex on PUT /git-config (C3)
+- PAT encrypted with Fernet instead of Base64 (C4)
+- Auth required on all sensitive endpoints (C5)
+- Path traversal prevention on APK download (A1)
 - SSE connection limit: MAX_CONCURRENT_STREAMS=10 (A2)
-- Rate limiting: 5 intentos fallidos / 60s por IP (A3)
+- Rate limiting: 5 failed attempts / 60s per IP (A3)
 - Security headers: X-Content-Type-Options, X-Frame-Options, HSTS (A4)
-- CORS restringido a orígenes de red local (A5)
-- Body size limit 1MB en POST (A6)
-- Log sanitization: Bearer tokens enmascarados (A7)
+- CORS restricted to local network origins (A5)
+- Body size limit 1MB on POST (A6)
+- Log sanitization: Bearer tokens masked (A7)
 - Systemd hardening: PrivateTmp, ProtectSystem, NoNewPrivileges (A10)
 - YAML frontmatter injection prevention (M1)
-- Session ID validation UUID/alfanumérico (M2)
-- TLS cipher suite mínima v1.2 (M3)
+- Session ID validation UUID/alphanumeric (M2)
+- Minimum TLS cipher suite v1.2 (M3)
 
-### Stack técnico actualizado
+### Updated tech stack
 
-| Componente | Versión |
+| Component | Version |
 |-----------|---------|
 | Bridge | 1.6.0 |
 | version.properties | CODE=38, PATCH=35 |
@@ -48,77 +48,76 @@ Remediación de todos los hallazgos de seguridad que afectan a Savia Mobile y Br
 
 ## [0.3.34] — 2026-03-09
 
-### Segunda release — Full Dashboard + Bridge REST (Sprint 2026-04)
+### Second release — Full Dashboard + Bridge REST (Sprint 2026-04)
 
-Release completa con dashboard funcional, chat corregido, auto-actualización
-robusta, y pipeline de tests integrada en el build.
+Full release with functional dashboard, chat fixes, robust auto-update, and integrated test pipeline.
 
-### Añadido
+### Added
 
 **Dashboard (Home)**
-- Selector de proyecto con búsqueda filtrada (bordered card + dropdown)
-- Selector de sprint con búsqueda filtrada
-- Sprint progress bar con story points (completados/total)
-- Métricas: items bloqueados + horas del día
-- My Tasks (primeras 3 tareas asignadas)
+- Project selector with filtered search (bordered card + dropdown)
+- Sprint selector with filtered search
+- Sprint progress bar with story points (completed/total)
+- Metrics: blocked items + daily hours
+- My Tasks (first 3 assigned tasks)
 - Recent Activity feed
-- Quick Actions: "See Board" y "Approvals"
-- FAB para captura rápida
-- Selección de proyecto persiste entre recargas (almacenamiento local)
+- Quick Actions: "See Board" and "Approvals"
+- FAB for quick capture
+- Project selection persists across reloads (local storage)
 
-**Pantallas secundarias (REST)**
+**Secondary screens (REST)**
 - Kanban board via `GET /kanban?project=X`
 - Time log via `GET /timelog` + `POST /timelog`
 - Approvals via `GET /approvals?project=X`
 - Capture via `POST /capture`
-- Git Config (lectura/escritura)
-- Team Management (CRUD miembros)
-- Company Profile (lectura/escritura)
+- Git Config (read/write)
+- Team Management (CRUD members)
+- Company Profile (read/write)
 
 **Chat**
-- Eliminado bug de mensajes duplicados (Room como única fuente de verdad)
-- Fix de error CLAUDECODE en sesiones anidadas (Bridge limpia env var)
-- Slash command autocomplete (8 comandos)
+- Fixed duplicate messages bug (Room as single source of truth)
+- Fixed CLAUDECODE error in nested sessions (Bridge strips env var)
+- Slash command autocomplete (8 commands)
 
-**Perfil y actualizaciones**
-- Barra de progreso de descarga de APK (LinearProgressIndicator + %)
-- Botón "Buscar actualizaciones" tras encontrar versión disponible
-- Progreso de descarga también en Settings (SettingsViewModel ahora rastrea progreso)
-- Reset de estado al buscar actualizaciones (ambas pantallas)
+**Profile and updates**
+- APK download progress bar (LinearProgressIndicator + %)
+- "Check updates" button after finding available version
+- Download progress also in Settings (SettingsViewModel now tracks progress)
+- State reset on update check (both screens)
 
 **Build & CI**
-- Auto-incremento de versión en fase de configuración de Gradle (fix de desfase)
-- Unit tests como gate obligatorio antes de publicar APK al Bridge
-- `assembleDebug` ejecuta `testDebugUnitTest` automáticamente
-- `publishToBridge` + `publishToDist` solo si tests pasan
+- Version auto-increment at Gradle configuration phase (fixes version lag)
+- Unit tests as mandatory gate before publishing APK to Bridge
+- `assembleDebug` runs `testDebugUnitTest` automatically
+- `publishToBridge` + `publishToDist` only if tests pass
 
 **Tests**
-- HomeViewModelTest: 5 tests (carga dashboard, selección de proyecto, persistencia, errores)
-- Total: 48 unit tests pasando
+- HomeViewModelTest: 5 tests (dashboard load, project selection, persistence, errors)
+- Total: 48 unit tests passing
 - Spec coverage: Chat, Home, Settings, Profile, Navigation
 
-**Documentación**
-- CLAUDE.md creado para savia-mobile-android (constantes proyecto, sprint, métricas)
-- Proyecto visible en dashboard de pm-workspace
+**Documentation**
+- CLAUDE.md created for savia-mobile-android (project constants, sprint, metrics)
+- Project visible in pm-workspace dashboard
 
-### Corregido
+### Fixed
 
-- Settings > Perfil no navegaba (onClick condicionado → siempre navega)
-- Chat duplicaba mensajes (ViewModel + Room emitían ambos → Room como SSoT)
-- Chat no respondía por variable CLAUDECODE heredada en subprocess
-- Versión del APK siempre iba una por detrás (incremento en ejecución → configuración)
-- Selector de proyecto no persistía selección (usaba Bridge default → selección local)
-- Bridge endpoints 404 por proceso desactualizado (requería reinicio)
+- Settings > Profile did not navigate (conditional onClick → always navigates)
+- Chat duplicated messages (ViewModel + Room both emitting → Room as SSoT)
+- Chat unresponsive due to CLAUDECODE env var inherited in subprocess
+- APK version always one behind (increment at execution → configuration)
+- Project selector did not persist selection (used Bridge default → local selection)
+- Bridge endpoints 404 due to stale process (required restart)
 
 ### Bridge (v1.5.0)
 
-- `POST /timelog` endpoint para imputación de horas
-- Fix env CLAUDECODE eliminada del subprocess de Claude CLI
-- Endpoints verificados: `/kanban`, `/timelog`, `/approvals`, `/capture`, `/profile`, `/dashboard`
+- `POST /timelog` endpoint for time logging
+- Fix: CLAUDECODE env var removed from Claude CLI subprocess
+- Endpoints verified: `/kanban`, `/timelog`, `/approvals`, `/capture`, `/profile`, `/dashboard`
 
-### Stack técnico actualizado
+### Updated tech stack
 
-| Componente | Versión |
+| Component | Version |
 |-----------|---------|
 | Bridge | 1.5.0 |
 | version.properties | CODE=37, PATCH=34 |
@@ -128,61 +127,61 @@ robusta, y pipeline de tests integrada en el build.
 
 ## [0.1.0] — 2026-03-08
 
-### Primera release — MVP Foundation (Fase 0)
+### First release — MVP Foundation (Phase 0)
 
-Release inicial de Savia Mobile: app Android nativa que conecta con pm-workspace
-vía Savia Bridge, un servidor HTTPS/SSE que envuelve Claude Code CLI.
+Initial release of Savia Mobile: native Android app connecting to pm-workspace
+via Savia Bridge, an HTTPS/SSE server wrapping Claude Code CLI.
 
-### Añadido
+### Added
 
-**App Android**
-- Chat conversacional con streaming SSE en tiempo real
-- Arquitectura limpia (Clean Architecture) con 3 módulos: `:app`, `:domain`, `:data`
-- Jetpack Compose + Material 3 con tema violeta/malva personalizado (#6B4C9A)
-- Navegación inferior: Chat, Sesiones, Ajustes
-- Persistencia de conversaciones con Room Database
-- Cifrado AES-256-GCM con Google Tink + Android Keystore
-- Dual-backend: Savia Bridge (primario) + API Anthropic (fallback)
-- Auto-titulado de conversaciones (primeros 50 caracteres del mensaje)
-- Restauración de última sesión activa al iniciar la app
-- Dashboard con acciones rápidas y estado del workspace
-- Pantalla de ajustes con estado de conexión al Bridge
-- Autenticación con Google vía Credential Manager
-- Soporte bilingüe (español e inglés)
-- Inyección de dependencias con Hilt 2.56.2
-- Splash screen con logo de Savia
-- Iconos adaptativos (mdpi a xxxhdpi)
+**Android App**
+- Conversational chat with real-time SSE streaming
+- Clean Architecture with 3 modules: `:app`, `:domain`, `:data`
+- Jetpack Compose + Material 3 with custom violet theme (#6B4C9A)
+- Bottom navigation: Chat, Sessions, Settings
+- Conversation persistence with Room Database
+- AES-256-GCM encryption with Google Tink + Android Keystore
+- Dual-backend: Savia Bridge (primary) + Anthropic API (fallback)
+- Auto-titling of conversations (first 50 characters of message)
+- Restore last active session on app launch
+- Dashboard with quick actions and workspace status
+- Settings screen with Bridge connection status
+- Google authentication via Credential Manager
+- Bilingual support (Spanish and English)
+- Dependency injection with Hilt 2.56.2
+- Splash screen with Savia logo
+- Adaptive icons (mdpi to xxxhdpi)
 
 **Savia Bridge (Python)**
-- Servidor HTTPS en puerto 8922 con TLS autofirmado
-- Streaming SSE (Server-Sent Events) desde Claude Code CLI
-- Gestión de sesiones con `--session-id` y `--resume`
-- Autenticación por Bearer token (generación automática)
+- HTTPS server on port 8922 with self-signed TLS
+- SSE streaming (Server-Sent Events) from Claude Code CLI
+- Session management with `--session-id` and `--resume`
+- Bearer token authentication (auto-generated)
 - Health check: `GET /health`
-- Listado de sesiones: `GET /sessions`
-- Servidor HTTP de instalación en puerto 8080
-- Página de descarga de APK con logo, versión e instrucciones
-- Servicio systemd (`savia-bridge.service`)
-- Logging a fichero (`bridge.log`, `chat.log`)
-- Versión 1.2.0
+- Session listing: `GET /sessions`
+- HTTP install server on port 8080
+- APK download page with logo, version, and instructions
+- systemd service (`savia-bridge.service`)
+- File logging (`bridge.log`, `chat.log`)
+- Version 1.2.0
 
-**Documentación**
-- KDoc completo en los 39 archivos Kotlin fuente
-- Docstrings Python en todas las clases/funciones del bridge
-- 8 especificaciones reescritas (PRODUCT-SPEC, TECHNICAL-DESIGN, BACKLOG, IMPLEMENTATION-PLAN, ARCHITECTURE-DECISIONS, STACK-ANALYSIS, CI-CD-PIPELINES, MARKET-ANALYSIS)
-- 3 guías nuevas: ARCHITECTURE.md, SETUP.md, BRIDGE-GUIDE.md
-- API Reference con todos los endpoints del bridge
-- README completo con stack, setup, CI/CD y troubleshooting
+**Documentation**
+- Full KDoc on all 39 Kotlin source files
+- Python docstrings on all bridge classes/functions
+- 8 specs rewritten (PRODUCT-SPEC, TECHNICAL-DESIGN, BACKLOG, IMPLEMENTATION-PLAN, ARCHITECTURE-DECISIONS, STACK-ANALYSIS, CI-CD-PIPELINES, MARKET-ANALYSIS)
+- 3 new guides: ARCHITECTURE.md, SETUP.md, BRIDGE-GUIDE.md
+- API Reference with all bridge endpoints
+- Complete README with stack, setup, CI/CD, and troubleshooting
 
-**Infraestructura**
-- CI/CD con GitHub Actions (`android-ci.yml`)
-- Instaladores actualizados (`install.sh`, `install.ps1`) con setup del Bridge
-- ProGuard/R8 para release builds
-- Gradle con Version Catalog (`libs.versions.toml`)
+**Infrastructure**
+- CI/CD with GitHub Actions (`android-ci.yml`)
+- Updated installers (`install.sh`, `install.ps1`) with Bridge setup
+- ProGuard/R8 for release builds
+- Gradle with Version Catalog (`libs.versions.toml`)
 
-### Stack técnico
+### Tech stack
 
-| Componente | Versión |
+| Component | Version |
 |-----------|---------|
 | Kotlin | 2.1.0 |
 | AGP | 8.13.2 |
@@ -197,22 +196,22 @@ vía Savia Bridge, un servidor HTTPS/SSE que envuelve Claude Code CLI.
 | Coroutines | 1.9.0 |
 | Python | 3.x (stdlib) |
 
-### Estadísticas
+### Stats
 
-- **88 archivos** en el commit
-- **12,954 líneas** añadidas
-- **39 archivos Kotlin** documentados con KDoc
-- **8 especificaciones** reescritas
-- **3 guías** de arquitectura creadas
-- **157 tests** pasando
+- **88 files** in the commit
+- **12,954 lines** added
+- **39 Kotlin files** documented with KDoc
+- **8 specs** rewritten
+- **3 architecture guides** created
+- **157 tests** passing
 - **Target**: Android 15 (API 35), **Min**: Android 8.0 (API 26)
 
 ---
 
 ## Roadmap
 
-- **v0.4.0** — Widgets, notificaciones inteligentes
-- **v1.0.0** — Beta pública en Google Play
+- **v0.4.0** — Widgets, smart notifications
+- **v1.0.0** — Public beta on Google Play
 
 ---
 
