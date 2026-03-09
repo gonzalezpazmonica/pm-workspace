@@ -7,7 +7,7 @@ fail() { TOTAL=$((TOTAL+1)); FAIL=$((FAIL+1)); echo "  ❌ $1"; }
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MS="$SCRIPT_DIR/memory-store.sh"
 TD=$(mktemp -d)
-trap "rm -rf $TD" EXIT
+trap 'rm -rf "$TD"' EXIT
 mkdir -p "$TD/output"
 SF="$TD/output/.memory-store.jsonl"
 run() { PROJECT_ROOT="$TD" bash "$MS" "$@"; }

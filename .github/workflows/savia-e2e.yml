@@ -19,14 +19,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Run structure tests
         run: bash scripts/test-savia-e2e-harness.sh
 
       - name: Upload metrics
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4  # TODO: pin to SHA
         with:
           name: savia-e2e-metrics
           path: docker/savia-test/output/

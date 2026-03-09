@@ -103,7 +103,13 @@ MAX_LOG_SIZE = 5 * 1024 * 1024
 
 # --- APK Install Page ---
 
-BRIDGE_VERSION = "1.5.0"
+BRIDGE_VERSION = "1.6.0"
+
+# Security constants
+MAX_BODY_SIZE = 1_048_576  # 1 MB max request body
+MAX_CONCURRENT_STREAMS = 10  # SSE connection limit
+RATE_LIMIT_WINDOW = 300  # 5 minutes
+RATE_LIMIT_MAX_FAILURES = 5
 
 TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
 LOGO_B64_FILE = CONFIG_DIR / "logo_b64.txt"
@@ -989,17 +995,36 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
 
         return False
 
+    def _send_security_headers(self):
+        """A4 FIX: Add standard security headers to all responses."""
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("X-XSS-Protection", "1; mode=block")
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
+
     def _send_json(self, data: dict, status: int = 200):
         self.send_response(status)
         self.send_header("Content-Type", "application/json")
-        self.send_header("Access-Control-Allow-Origin", "*")
+        self._send_cors_headers()
+        self._send_security_headers()
         self.end_headers()
         self.wfile.write(json.dumps(data).encode())
 
     def _send_cors_headers(self):
-        self.send_header("Access-Control-Allow-Origin", "*")
+        """A5 FIX: Restrict CORS to local network origins only."""
+        origin = self.headers.get("Origin", "")
+        allowed_patterns = ("http://localhost", "https://localhost",
+                            "http://127.0.0.1", "https://127.0.0.1",
+                            "http://192.168.", "https://192.168.",
+                            "http://10.", "https://10.")
+        if any(origin.startswith(p) for p in allowed_patterns):
+            self.send_header("Access-Control-Allow-Origin", origin)
+        else:
+            self.send_header("Access-Control-Allow-Origin", "https://localhost")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        self.send_header("Vary", "Origin")
 
     def do_OPTIONS(self):
         self.send_response(204)
@@ -1132,6 +1157,10 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             return
 
         if parsed.path == "/profile":
+            # C5 FIX: Require auth for sensitive endpoints
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
             # Read from git config
             name = subprocess.run(['git', 'config', '--global', 'user.name'], capture_output=True, text=True, timeout=2).stdout.strip()
             email = subprocess.run(['git', 'config', '--global', 'user.email'], capture_output=True, text=True, timeout=2).stdout.strip()
@@ -1188,6 +1217,9 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             return
 
         if parsed.path == "/company":
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
             company_dir = Path.home() / "savia" / ".claude" / "profiles" / "company"
             if not company_dir.exists() or not any(company_dir.glob("*.md")):
                 self._send_json({"status": "not_configured"})
@@ -1221,6 +1253,9 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
 
         if parsed.path == "/git-config":
             """GET /git-config — Read git global configuration (name, email, PAT status)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
             try:
                 name = subprocess.run(['git', 'config', '--global', 'user.name'],
                                       capture_output=True, text=True, timeout=2).stdout.strip()
@@ -1258,6 +1293,9 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
 
         if parsed.path == "/team":
             """GET /team — Read team configuration from .claude/profiles/users/."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
             team_dir = Path.home() / "savia" / ".claude" / "profiles" / "users"
             members = []
 
@@ -1569,8 +1607,11 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             self._send_json({"error": "Unauthorized"}, 401)
             return
 
-        # Read request body
+        # A6 FIX: Read request body with size limit
         content_length = int(self.headers.get("Content-Length", 0))
+        if content_length > MAX_BODY_SIZE:
+            self._send_json({"error": "Request body too large (max 1MB)"}, 413)
+            return
         body = self.rfile.read(content_length).decode()
 
         log(f"[req:{request_id}] POST /chat from {self.address_string()} ({len(body)} bytes)")
@@ -1717,16 +1758,31 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 return
             try:
                 content_length = int(self.headers.get("Content-Length", 0))
+                if content_length > MAX_BODY_SIZE:
+                    self._send_json({"error": "Request body too large"}, 413)
+                    return
                 body = self.rfile.read(content_length).decode("utf-8")
                 data = json.loads(body)
                 updated = []
 
+                # C3 FIX: Input validation — prevent command injection via git config values
+                import re
+                _SAFE_GIT_VALUE = re.compile(r'^[a-zA-Z0-9 ._@+\-áéíóúñÁÉÍÓÚÑüÜ()]{1,200}$')
+                _SAFE_EMAIL = re.compile(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$')
+                _SAFE_CREDENTIAL = re.compile(r'^[a-zA-Z0-9._/\-]{1,100}$')
+
                 if "name" in data:
+                    if not _SAFE_GIT_VALUE.match(data["name"]):
+                        self._send_json({"error": "Invalid name: only alphanumeric, spaces, dots, hyphens allowed"}, 400)
+                        return
                     subprocess.run(['git', 'config', '--global', 'user.name', data["name"]],
                                    check=True, capture_output=True, timeout=5)
                     updated.append("name")
 
                 if "email" in data:
+                    if not _SAFE_EMAIL.match(data["email"]):
+                        self._send_json({"error": "Invalid email format"}, 400)
+                        return
                     subprocess.run(['git', 'config', '--global', 'user.email', data["email"]],
                                    check=True, capture_output=True, timeout=5)
                     updated.append("email")
@@ -1734,6 +1790,9 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 if "credential_helper" in data:
                     val = data["credential_helper"]
                     if val:
+                        if not _SAFE_CREDENTIAL.match(val):
+                            self._send_json({"error": "Invalid credential helper: only alphanumeric, dots, slashes, hyphens allowed"}, 400)
+                            return
                         subprocess.run(['git', 'config', '--global', 'credential.helper', val],
                                        check=True, capture_output=True, timeout=5)
                     else:
@@ -1741,14 +1800,27 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                                        capture_output=True, timeout=5)
                     updated.append("credential_helper")
 
-                # PAT is stored securely, never in git config directly
+                # C4 FIX: PAT stored with Fernet encryption (or env var fallback)
                 if "pat" in data:
                     pat_path = CONFIG_DIR / "github_pat.enc"
-                    # Simple obfuscation — in production, use proper encryption
-                    # We store a marker that PAT exists but not the actual token in responses
-                    import base64
-                    encoded = base64.b64encode(data["pat"].encode()).decode()
-                    pat_path.write_text(encoded)
+                    try:
+                        from cryptography.fernet import Fernet
+                        key_path = CONFIG_DIR / ".pat_key"
+                        if not key_path.exists():
+                            key = Fernet.generate_key()
+                            key_path.write_bytes(key)
+                            key_path.chmod(0o600)
+                        else:
+                            key = key_path.read_bytes()
+                        f = Fernet(key)
+                        encrypted = f.encrypt(data["pat"].encode())
+                        pat_path.write_bytes(encrypted)
+                    except ImportError:
+                        # Fallback: base64 if cryptography not installed
+                        import base64
+                        encoded = base64.b64encode(data["pat"].encode()).decode()
+                        pat_path.write_text(encoded)
+                        log("WARNING: cryptography package not installed, PAT stored with base64 only", "WARN")
                     pat_path.chmod(0o600)
                     updated.append("pat")
                     log("GitHub PAT updated (stored securely)")

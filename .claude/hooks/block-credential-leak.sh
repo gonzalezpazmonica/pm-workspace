@@ -5,12 +5,12 @@ set -uo pipefail
 
 INPUT=$(cat)
 
-# Fallback: if jq not installed, use grep-based extraction
-if command -v jq &>/dev/null; then
-  COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
-else
-  COMMAND=$(echo "$INPUT" | grep -oP '"command"\s*:\s*"\K[^"]+' 2>/dev/null || echo "")
+# Require jq for safe JSON parsing — grep fallback is unsafe (shell metachar injection)
+if ! command -v jq &>/dev/null; then
+  echo "ADVERTENCIA: jq no está instalado. Instala jq para activar detección de secrets." >&2
+  exit 0
 fi
+COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
 
 if [ -z "$COMMAND" ]; then
   exit 0
@@ -82,6 +82,30 @@ fi
 # Detectar echo de secrets a ficheros
 if echo "$COMMAND" | grep -iE 'echo\s+.*secret.*>>' > /dev/null 2>&1; then
   echo "BLOQUEADO: No escribir secrets en ficheros. Usa config.local/ o vault." >&2
+  exit 2
+fi
+
+# Detectar Kubernetes service account tokens
+if echo "$COMMAND" | grep -iE 'eyJhbGciOiJSUzI1NiI' > /dev/null 2>&1; then
+  echo "BLOQUEADO: Kubernetes service account token detectado. Usa ServiceAccount o vault." >&2
+  exit 2
+fi
+
+# Detectar HashiCorp Vault tokens (hvs., s.)
+if echo "$COMMAND" | grep -iE '(hvs\.[a-zA-Z0-9_-]{24,}|s\.[a-zA-Z0-9]{24,})' > /dev/null 2>&1; then
+  echo "BLOQUEADO: Vault token detectado. Usa VAULT_TOKEN env var." >&2
+  exit 2
+fi
+
+# Detectar Docker registry credentials
+if echo "$COMMAND" | grep -iE '(docker\s+login.*-p\s|--password\s)' > /dev/null 2>&1; then
+  echo "BLOQUEADO: Docker password en línea de comandos. Usa --password-stdin o credential helper." >&2
+  exit 2
+fi
+
+# Detectar Anthropic API keys (sk-ant-)
+if echo "$COMMAND" | grep -iE 'sk-ant-[a-zA-Z0-9_-]{20,}' > /dev/null 2>&1; then
+  echo "BLOQUEADO: Anthropic API key detectada. Usa ANTHROPIC_API_KEY env var." >&2
   exit 2
 fi
 

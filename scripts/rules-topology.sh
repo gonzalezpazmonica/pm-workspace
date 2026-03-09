@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 RULES_DIR="${ROOT}/.claude/rules/domain"
 MODE="${1:-summary}"
 TEMP_DIR=$(mktemp -d)
-trap "rm -rf $TEMP_DIR" EXIT
+trap 'rm -rf "$TEMP_DIR"' EXIT
 
 # Helper: extract name from frontmatter
 extract_name() {
