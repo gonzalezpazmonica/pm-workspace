@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.70.0] — 2026-03-09
+
+### Added — Pentester agent for dynamic security testing
+
+- New `pentester` agent: elite ethical hacker for dynamic penetration testing against running systems, services and applications across dev/pre/production environments
+- Full offensive toolkit: OWASP Top 10, PTES methodology, MITRE ATT&CK mapping, CVSS v3.1 scoring
+- Expertise areas: web app attacks, API security, authentication/authorization, network/infrastructure, container/cloud, cryptography, post-exploitation
+- Environment-aware rules: aggressive in dev, moderate in pre, restrictive in production
+- Integration with existing security pipeline (security-defender → security-auditor → pentester retest)
+- Test suite with 65 tests across 10 categories, including Docker Compose lab with intentionally vulnerable targets (DVWA, Juice Shop, WebGoat, crAPI)
+- Mandatory 100% pass on reporting quality (CAT-9) and environment awareness (CAT-10)
+
 ## [2.69.0] — 2026-03-09
 
 ### Security — Full audit and remediation (55 findings)
@@ -3111,6 +3123,7 @@ Initial public release of PM-Workspace.
 
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
 
+[2.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.69.0...v2.70.0
 [2.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.68.0...v2.69.0
 [2.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.67.0...v2.68.0
 [2.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.66.0...v2.67.0
