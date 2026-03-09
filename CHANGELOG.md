@@ -5,7 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.74.2] — 2026-03-09
+## [2.75.0] — 2026-03-10
+
+### Added — OpenCode Integration: PM-Workspace compatibility layer
+
+- **OpenCode compatibility layer**: Created `/home/monica/savia/.opencode/` with symlinks to original directories (`.claude/`, `docs/`, `projects/`, `scripts/`) for OpenCode tool usage while preserving Claude Code functionality
+- **Cross-platform installers**: `install.sh` (Linux/macos) and `install.ps1` (Windows) similar to Claude Code's installers but adapted for OpenCode
+- **Hooks integration solution**: Git hooks automation (`scripts/install-git-hooks.sh`) installs pre-commit, pre-push, and commit-msg hooks that automatically validate security/quality gates missing in OpenCode
+- **OpenCode wrappers**: `scripts/opencode-hooks/wrappers/safe-*.sh` validate commands before executing with OpenCode tools, bridging the security/quality gap from missing automatic hook execution
+- **Documentation**: Updated `.opencode/README.md` with comprehensive OpenCode usage guide and hooks strategy explaining why integration doesn't affect Claude Code's ongoing Savia Mobile work
+- **Branch isolation**: Created `feat/opencode-hooks-integration` branch with all OpenCode changes, ready for PR creation without interfering with Claude Code's work on main branch
+- **CHANGELOG audit and fix**: Consolidated scattered version links to end of file, added missing links for versions 2.73.0–2.74.2, ensuring compliance with changelog-enforcement rule
+
 ## [2.74.2] — 2026-03-09
 
 ### Fixed — Era 103: Chat runtime crash + crash handler
@@ -3029,6 +3040,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 
+[2.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.74.2...v2.75.0
 [2.74.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.74.1...v2.74.2
 [2.74.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.74.0...v2.74.1
 [2.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.73.0...v2.74.0
