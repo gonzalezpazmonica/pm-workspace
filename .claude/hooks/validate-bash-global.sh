@@ -3,8 +3,16 @@ set -uo pipefail
 # validate-bash-global.sh — Validación global de comandos Bash peligrosos
 # Usado por: settings.json (PreToolUse hook para toda la sesión)
 
-INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+# Read stdin with timeout to avoid hanging if no input arrives
+INPUT=""
+if read -t 2 -r FIRST_LINE; then
+  INPUT="$FIRST_LINE"
+  while read -t 0.1 -r LINE; do
+    INPUT+="$LINE"
+  done
+fi
+
+COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || COMMAND=""
 
 if [ -z "$COMMAND" ]; then
   exit 0

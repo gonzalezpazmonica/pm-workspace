@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.76.2] — 2026-03-10
+
+### Fixed — Era 104: adb-run.sh wrapper + hook error fix
+
+- **adb-run.sh**: New single-command runner that replaces `source wrapper.sh && cmd1 && cmd2` chains. Claude Code's shell-aware `*` doesn't cross `&&`/`||` operators, making compound command patterns impossible to whitelist. `adb-run.sh` encapsulates source + functions in one simple command
+- **Hook stdin fix**: `validate-bash-global.sh` now uses `read -t 2` with timeout instead of `cat` (which could hang indefinitely waiting for stdin)
+- **SKILL.md rewrite**: All examples now use `./scripts/adb-run.sh` pattern exclusively
+
 ## [2.76.1] — 2026-03-10
 
 ### Fixed — Era 104: CHANGELOG link enforcement + Claude Code permission cleanup
@@ -3060,6 +3068,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 
+[2.76.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.1...v2.76.2
 [2.76.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.0...v2.76.1
 [2.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.75.0...v2.76.0
 [2.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.74.2...v2.75.0
