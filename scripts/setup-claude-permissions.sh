@@ -14,6 +14,14 @@ set -uo pipefail
 #   - Variables de entorno de Android SDK (auto-detectadas)
 #   - Deny list de operaciones destructivas
 #
+# NOTA sobre sintaxis de permisos de Claude Code:
+#   - "Bash(cmd *)" → matchea comandos que empiezan por "cmd " (espacio)
+#   - "Bash(cmd*)"  → matchea "cmd" + cualquier cosa (sin espacio, ej: cmd_foo)
+#   - "Bash(cmd && *)" → matchea "cmd && " seguido de cualquier cosa
+#   - Claude Code es shell-aware: "Bash(cmd *)" NO permite "cmd && evil"
+#   - Para comandos compuestos con && hay que hacer patrones explícitos
+#   - La sintaxis legacy ":*" está deprecada, usar " *" (espacio)
+#
 # Cada usuario puede añadir excepciones propias sobre esta base.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -70,7 +78,6 @@ if [[ "${1:-}" == "--check" ]]; then
   if [[ -f "$TARGET" ]]; then
     if python3 -m json.tool "$TARGET" > /dev/null 2>&1; then
       ok "settings.local.json exists and is valid JSON"
-      # Check for key sections
       perms=$(python3 -c "import json; d=json.load(open('$TARGET')); print(len(d.get('permissions',{}).get('allow',[])))" 2>/dev/null || echo "0")
       echo "     Permissions allow: $perms patterns"
       denys=$(python3 -c "import json; d=json.load(open('$TARGET')); print(len(d.get('permissions',{}).get('deny',[])))" 2>/dev/null || echo "0")
@@ -110,16 +117,21 @@ ENV_ENTRIES=""
 [[ -n "$JAVA_DIR" ]]    && ENV_ENTRIES+="    \"JAVA_HOME\": \"$JAVA_DIR\","$'\n'
 [[ -n "$ADB_BIN" ]]     && ENV_ENTRIES+="    \"ADB_PATH\": \"$ADB_BIN\","$'\n'
 
-# Build ADB permission patterns
+# Build ADB permission patterns (modern syntax: space instead of legacy :)
 ADB_PERMS=""
 if [[ -n "$ADB_BIN" ]]; then
-  ADB_PERMS+="      \"Bash(adb:*)\","$'\n'
-  ADB_PERMS+="      \"Bash(adb_:*)\","$'\n'
-  ADB_PERMS+="      \"Bash($ADB_BIN:*)\","$'\n'
-  ADB_PERMS+="      \"Bash(\$ANDROID_HOME/platform-tools/adb:*)\","$'\n'
-  ADB_PERMS+="      \"Bash(\$ADB_PATH:*)\","$'\n'
-  ADB_PERMS+="      \"Bash(ADB=:*)\","$'\n'
-  ADB_PERMS+="      \"Bash(source scripts/lib/adb-wrapper.sh:*)\","$'\n'
+  ADB_PERMS+="      \"Bash(adb *)\","$'\n'
+  ADB_PERMS+="      \"Bash(adb_*)\","$'\n'
+  ADB_PERMS+="      \"Bash($ADB_BIN *)\","$'\n'
+  ADB_PERMS+="      \"Bash(\$ANDROID_HOME/platform-tools/adb *)\","$'\n'
+  ADB_PERMS+="      \"Bash(\$ADB_PATH *)\","$'\n'
+  ADB_PERMS+="      \"Bash(ADB=*)\","$'\n'
+  # Compound commands: source wrapper && any adb_ chain
+  ADB_PERMS+="      \"Bash(source scripts/lib/adb-wrapper.sh && *)\","$'\n'
+  ADB_PERMS+="      \"Bash(source $ROOT/scripts/lib/adb-wrapper.sh && *)\","$'\n'
+  # sleep N && source wrapper && ... (screenshot delays)
+  ADB_PERMS+="      \"Bash(sleep * && source scripts/lib/adb-wrapper.sh && *)\","$'\n'
+  ADB_PERMS+="      \"Bash(sleep * && source $ROOT/scripts/lib/adb-wrapper.sh && *)\","$'\n'
 fi
 if [[ -n "$ANDROID_SDK" ]]; then
   ADB_PERMS+="      \"Read(//$ANDROID_SDK/**)\","$'\n'
@@ -138,89 +150,91 @@ ${ENV_ENTRIES}    "AZURE_DEVOPS_EXT_PAT": "\$(cat \$HOME/.azure/devops-pat 2>/de
   },
   "permissions": {
     "allow": [
-      "Bash(az devops:*)",
-      "Bash(az boards:*)",
-      "Bash(az repos:*)",
-      "Bash(az pipelines:*)",
-      "Bash(az account:*)",
+      "Bash(az devops *)",
+      "Bash(az boards *)",
+      "Bash(az repos *)",
+      "Bash(az pipelines *)",
+      "Bash(az account *)",
 
-      "Bash(ls:*)",
-      "Bash(cat:*)",
-      "Bash(find:*)",
-      "Bash(grep:*)",
-      "Bash(echo:*)",
-      "Bash(head:*)",
-      "Bash(tail:*)",
-      "Bash(wc:*)",
-      "Bash(sort:*)",
-      "Bash(uniq:*)",
-      "Bash(diff:*)",
-      "Bash(mkdir:*)",
-      "Bash(cp:*)",
-      "Bash(mv:*)",
-      "Bash(touch:*)",
-      "Bash(date:*)",
-      "Bash(sleep:*)",
-      "Bash(test:*)",
-      "Bash(stat:*)",
-      "Bash(file:*)",
-      "Bash(realpath:*)",
-      "Bash(dirname:*)",
-      "Bash(basename:*)",
-      "Bash(xargs:*)",
-      "Bash(tee:*)",
-      "Bash(tr:*)",
-      "Bash(cut:*)",
-      "Bash(sed:*)",
-      "Bash(awk:*)",
-      "Bash(env:*)",
-      "Bash(which:*)",
-      "Bash(type:*)",
-      "Bash(ps aux:*)",
-      "Bash(pgrep:*)",
-      "Bash(ss:*)",
-      "Bash(lsof:*)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(echo *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+      "Bash(sort *)",
+      "Bash(uniq *)",
+      "Bash(diff *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(touch *)",
+      "Bash(date *)",
+      "Bash(sleep *)",
+      "Bash(test *)",
+      "Bash(stat *)",
+      "Bash(file *)",
+      "Bash(realpath *)",
+      "Bash(dirname *)",
+      "Bash(basename *)",
+      "Bash(xargs *)",
+      "Bash(tee *)",
+      "Bash(tr *)",
+      "Bash(cut *)",
+      "Bash(sed *)",
+      "Bash(awk *)",
+      "Bash(env *)",
+      "Bash(which *)",
+      "Bash(type *)",
+      "Bash(ps *)",
+      "Bash(pgrep *)",
+      "Bash(ss *)",
+      "Bash(lsof *)",
 
-      "Bash(node:*)",
-      "Bash(npm:*)",
-      "Bash(npx:*)",
-      "Bash(python3:*)",
-      "Bash(python:*)",
-      "Bash(pip:*)",
-      "Bash(jq:*)",
-      "Bash(curl:*)",
-      "Bash(bash:*)",
-      "Bash(sh:*)",
-      "Bash(claude:*)",
-      "Bash(timeout:*)",
+      "Bash(node *)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(python3 *)",
+      "Bash(python *)",
+      "Bash(pip *)",
+      "Bash(pip3 *)",
+      "Bash(jq *)",
+      "Bash(curl *)",
+      "Bash(bash *)",
+      "Bash(sh *)",
+      "Bash(claude *)",
+      "Bash(timeout *)",
 
-      "Bash(git:*)",
-      "Bash(gh:*)",
+      "Bash(git *)",
+      "Bash(gh *)",
 
 ${ADB_PERMS}
-      "Bash(export PATH=:*)",
-      "Bash(export ANDROID_HOME=:*)",
-      "Bash(export JAVA_HOME=:*)",
-      "Bash(ANDROID_HOME=:*)",
-      "Bash(JAVA_HOME=:*)",
-      "Bash(CLAUDECODE=:*)",
+      "Bash(export PATH=*)",
+      "Bash(export ANDROID_HOME=*)",
+      "Bash(export JAVA_HOME=*)",
+      "Bash(ANDROID_HOME=*)",
+      "Bash(JAVA_HOME=*)",
+      "Bash(CLAUDECODE=*)",
 
-      "Bash(cd $HOME:*)",
-      "Bash(./gradlew:*)",
-      "Bash(./scripts/:*)",
+      "Bash(cd $HOME*)",
+      "Bash(cd $HOME* && *)",
+      "Bash(./gradlew *)",
+      "Bash(./scripts/*)",
 
-      "Bash(kill:*)",
-      "Bash(pkill:*)",
+      "Bash(kill *)",
+      "Bash(pkill *)",
 
       "WebSearch",
       "WebFetch(domain:support.claude.com)"
     ],
     "deny": [
-      "Bash(rm -rf /:*)",
-      "Bash(chmod 777:*)",
-      "Bash(sudo rm:*)",
-      "Bash(dd if=:*)",
-      "Bash(mkfs:*)"
+      "Bash(rm -rf /*)",
+      "Bash(chmod 777 *)",
+      "Bash(sudo rm *)",
+      "Bash(dd if=*)",
+      "Bash(mkfs *)"
     ]
   }
 }
