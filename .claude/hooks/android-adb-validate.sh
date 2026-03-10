@@ -1,25 +1,8 @@
 #!/usr/bin/env bash
-# ============================================================================
-# android-adb-validate.sh — PreToolUse hook for ADB command safety
-# ============================================================================
-#
-# Validates ADB commands before execution:
-#   - SAFE operations: auto-approved silently
-#   - RISKY operations: approved with a log entry
-#   - BLOCKED operations: rejected (exit 2 = block)
-#
-# Hook protocol:
-#   exit 0 = allow
-#   exit 2 = block (tool not executed)
-#
-# Receives tool info via environment:
-#   TOOL_NAME   — "Bash"
-#   TOOL_INPUT  — the bash command being executed
-#
-# Author: Savia PM-Workspace
-# ============================================================================
-
 set -uo pipefail
+# android-adb-validate.sh — PreToolUse hook for ADB command safety
+# Classifies ADB commands: safe → risky → blocked
+# Hook protocol: exit 0 = allow, exit 2 = block
 
 TOOL_INPUT="${TOOL_INPUT:-}"
 LOG_DIR="$HOME/.claude/logs"
