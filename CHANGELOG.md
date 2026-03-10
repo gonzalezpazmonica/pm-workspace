@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.76.3] — 2026-03-10
+
+### Fixed — Era 104: Compound command permission patterns
+
+- **Compound `&&`/`||` patterns**: Added `Bash(cd * && *)`, `Bash(cd * || *)`, `Bash(source * && *)`, `Bash(. * && *)` to default permission whitelist. Claude Code's `*` wildcard is shell-aware and does not cross `&&`/`||` operators — a simple `Bash(cd *)` never matched `cd dir && cmd`
+- **Hook robustness**: Improved `validate-bash-global.sh` stdin parsing with `printf '%s'` and `IFS= read` for reliable JSON handling
+- **setup-claude-permissions.sh**: Updated default generated patterns to include compound command entries and network utilities (`ip`, `ifconfig`, `hostname`)
+
 ## [2.76.2] — 2026-03-10
 
 ### Fixed — Era 104: adb-run.sh wrapper + hook error fix
@@ -3068,6 +3076,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 
+[2.76.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.2...v2.76.3
 [2.76.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.1...v2.76.2
 [2.76.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.0...v2.76.1
 [2.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.75.0...v2.76.0
