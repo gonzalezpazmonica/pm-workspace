@@ -80,7 +80,7 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Spec-Driven Development** — Las tasks se convierten en specs ejecutables. Implemento handlers, tests y repositorios en 16 lenguajes. Los agentes trabajan en worktrees aislados para evitar conflictos.
 
-**Inteligencia de código** — Detecto patrones de arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices), mido salud arquitectónica con fitness functions, y priorizo deuda técnica por impacto de negocio. Genero diagramas de arquitectura, flujo, secuencia y organigramas de equipo exportables a Draw.io, Miro o Mermaid local.
+**Inteligencia de código** — Detecto patrones de arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices), mido salud arquitectónica con fitness functions, y priorizo deuda técnica por impacto de negocio. Genero diagramas de arquitectura, flujo, secuencia y organigramas de equipo exportables a Draw.io, Miro o Mermaid local. Importo organigramas existentes para generar la estructura de equipos automáticamente (`/orgchart-import`).
 
 **Seguridad y compliance** — SAST contra OWASP Top 10, SBOM, escaneo de credenciales, compliance regulatorio en 12 sectores, y gobernanza IA con model cards y EU AI Act.
 
