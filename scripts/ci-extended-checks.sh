@@ -87,6 +87,22 @@ for doc_file in "$ROOT"/docs/*.md; do
 done
 [[ $doc_count -gt 0 && $doc_pass -eq $doc_count ]] && pass "All $doc_count docs have valid links"
 
+# 6. CHANGELOG Version Links
+echo "--- 6. CHANGELOG Version Links ---"
+changelog="$ROOT/CHANGELOG.md"
+if [[ -f "$changelog" ]]; then
+  missing_links=0
+  while IFS= read -r ver; do
+    if ! grep -q "^\[${ver}\]: https://" "$changelog"; then
+      fail "CHANGELOG.md: version $ver is missing its reference link at end of file"
+      ((missing_links++))
+    fi
+  done < <(grep -oP '(?<=^## \[)[0-9]+\.[0-9]+\.[0-9]+(?=\])' "$changelog")
+  [[ $missing_links -eq 0 ]] && pass "All CHANGELOG versions have reference links"
+else
+  fail "CHANGELOG.md not found"
+fi
+
 echo "" && echo "═════════════════════════════════════════════════════════════"
 echo "  Results: $PASS passed, $FAIL failed ($TOTAL total checks)"
 echo "═════════════════════════════════════════════════════════════"

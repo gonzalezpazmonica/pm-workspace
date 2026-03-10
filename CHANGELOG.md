@@ -7,15 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.76.0] — 2026-03-10
 
-Savia Mobile chat fixes: duplicate text elimination, message timestamps, and bridge session persistence.
+### Added — Android Debug Agent: autonomous device testing
 
-### Fixed
-- **Bridge duplicate text**: Response text no longer appears twice in chat bubbles (result event suppressed when streaming already delivered the content)
-- **Bridge session persistence**: Known sessions saved to `~/.savia/bridge/known-sessions.json` — multi-turn conversations survive bridge restarts
-- **Bridge "already in use" recovery**: If session conflict detected, session marked as known for automatic retry
-
-### Added
-- **Chat timestamps**: Message bubbles display HH:mm time for traceability (SimpleDateFormat with `remember` for performance)
+- **ADB wrapper library** (`scripts/lib/adb-wrapper.sh`): 40+ functions for device management, APK lifecycle, screenshots, UI hierarchy, interaction (tap/swipe/type/scroll), logcat analysis, crash detection, and element finding. Auto-detects ADB binary and device, includes retry logic and structured JSON output
+- **Security hook** (`.claude/hooks/android-adb-validate.sh`): PreToolUse hook classifying ADB operations into safe (auto-approved), risky (logged), and blocked (rejected). Prevents destructive commands while allowing autonomous debugging without permission prompts
+- **Debugger skill** (`.claude/skills/android-autonomous-debugger/SKILL.md`): Complete workflow for autonomous debug cycles — install, launch, interact, detect crashes, capture evidence, report results
+- **Integration test suite** (`scripts/tests/test-adb-wrapper.sh`): 44 tests covering core functions, security classification, device management, visual capture, logcat, Savia Mobile integration, and hook validation. All tested against physical OUKITEL C36 device
+- **Documentation** (`docs/android-debug-agent.md`): Full API reference, architecture diagram, use cases for PM/QA smoke testing, developer debugging, and CI verification. Includes security model and environment variable reference
 
 ## [2.75.0] — 2026-03-10
 
