@@ -8,10 +8,12 @@ import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Bolt
+import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -199,8 +201,8 @@ sealed class Screen(
     data object Files : Screen(
         route = "files",
         title = "Files",
-        selectedIcon = Icons.Filled.Forum,
-        unselectedIcon = Icons.Outlined.Forum
+        selectedIcon = Icons.Filled.Folder,
+        unselectedIcon = Icons.Outlined.Folder
     )
 
     /**
@@ -220,6 +222,7 @@ sealed class Screen(
 val bottomNavScreens = listOf(
     Screen.Home,
     Screen.Chat,
+    Screen.Files,
     Screen.Commands,
     Screen.Profile
 )

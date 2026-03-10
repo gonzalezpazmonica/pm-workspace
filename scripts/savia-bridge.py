@@ -814,8 +814,31 @@ def _get_session_lock(session_id: str) -> threading.Lock:
         return _session_locks[session_id]
 
 # Track which session IDs have been used before (need --resume)
-_known_sessions: set[str] = set()
+# Persisted to disk so bridge restarts don't lose session knowledge
 _known_sessions_lock = threading.Lock()
+_KNOWN_SESSIONS_FILE = os.path.join(os.path.expanduser("~"), ".savia", "bridge", "known-sessions.json")
+
+def _load_known_sessions() -> set:
+    """Load known sessions from disk. Returns empty set on any error."""
+    try:
+        with open(_KNOWN_SESSIONS_FILE, "r") as f:
+            data = json.load(f)
+            if isinstance(data, list):
+                return set(data)
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        pass
+    return set()
+
+def _save_known_sessions():
+    """Persist known sessions to disk (call with lock held)."""
+    try:
+        os.makedirs(os.path.dirname(_KNOWN_SESSIONS_FILE), exist_ok=True)
+        with open(_KNOWN_SESSIONS_FILE, "w") as f:
+            json.dump(sorted(_known_sessions), f)
+    except OSError as e:
+        log(f"Warning: could not save known sessions: {e}")
+
+_known_sessions: set[str] = _load_known_sessions()
 
 def stream_claude_response(message: str, session_id: str = None, system_prompt: str = None, request_id: str = "?"):
     """
@@ -928,8 +951,19 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
         full_response = ""
         line_count = 0
         event_count = 0
+        process_timeout = 300  # 5 minutes max per request
+        import time as _time
+        start_time = _time.monotonic()
 
         for line in process.stdout:
+            # Check timeout
+            elapsed = _time.monotonic() - start_time
+            if elapsed > process_timeout:
+                chat_log(f"[req:{request_id}] TIMEOUT after {elapsed:.0f}s, killing PID={process.pid}", "ERROR")
+                process.kill()
+                yield {"type": "error", "text": f"Request timed out after {process_timeout}s"}
+                break
+
             line = line.strip()
             line_count += 1
 
@@ -948,11 +982,17 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
                     for block in content_blocks:
                         if block.get("type") == "text":
                             text = block.get("text", "")
-                            if text and not full_response:
-                                full_response = text
+                            if text:
+                                full_response += text
                                 event_count += 1
                                 chat_log(f"[req:{request_id}] -> emit text #{event_count} (len={len(text)}): {text[:100]}")
                                 yield {"type": "text", "text": text}
+                        elif block.get("type") == "tool_use":
+                            tool_name = block.get("name", "unknown")
+                            tool_id = block.get("id", "")
+                            chat_log(f"[req:{request_id}] -> tool_use: {tool_name} (id={tool_id})")
+                            event_count += 1
+                            yield {"type": "tool_use", "text": f"Using tool: {tool_name}", "tool": tool_name, "tool_id": tool_id}
 
                 elif msg_type == "content_block_delta":
                     delta = data.get("delta", {})
@@ -967,11 +1007,15 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
                     result_text = data.get("result", "")
                     chat_log(f"[req:{request_id}] type=result, len={len(result_text)}, accumulated={len(full_response)}")
                     chat_log(f"[req:{request_id}] result content: {result_text[:300]}")
+                    # Only emit result if no text was streamed yet (avoids duplication)
                     if result_text and not full_response:
                         full_response = result_text
                         event_count += 1
-                        chat_log(f"[req:{request_id}] -> emit result as text #{event_count}")
+                        chat_log(f"[req:{request_id}] -> emit result as text #{event_count} (no prior streaming)")
                         yield {"type": "text", "text": result_text}
+                    elif result_text:
+                        full_response = result_text
+                        chat_log(f"[req:{request_id}] -> result skipped (already streamed {len(full_response)} chars)")
 
                 elif msg_type == "error":
                     error_msg = data.get("error", {})
@@ -990,7 +1034,12 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
                     event_count += 1
                     yield {"type": "text", "text": line}
 
-        process.wait()
+        try:
+            process.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            chat_log(f"[req:{request_id}] process.wait() timed out, killing PID={process.pid}", "ERROR")
+            process.kill()
+            process.wait()
         stderr_output = process.stderr.read()
 
         chat_log(f"[req:{request_id}] Process exit code={process.returncode}")
@@ -1000,13 +1049,25 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
         if process.returncode != 0 and stderr_output:
             error_text = stderr_output.strip()
             chat_log(f"[req:{request_id}] Non-zero exit -> error: {error_text[:200]}", "ERROR")
-            yield {"type": "error", "text": error_text}
+            # If "already in use" error, mark session as known so next request uses --resume
+            if "already in use" in error_text and session_id and is_new:
+                with _known_sessions_lock:
+                    _known_sessions.add(session_id)
+                    _save_known_sessions()
+                chat_log(f"[req:{request_id}] Session {session_id} marked as known after 'already in use' error")
+                yield {"type": "error", "text": "Session conflict detected. Please resend your message."}
+            else:
+                yield {"type": "error", "text": error_text}
 
-        # Mark session as known for future --resume usage
+        # Mark session as known for future --resume usage (persisted to disk)
         if session_id and full_response:
             with _known_sessions_lock:
-                _known_sessions.add(session_id)
-                chat_log(f"[req:{request_id}] Session {session_id} marked as known")
+                if session_id not in _known_sessions:
+                    _known_sessions.add(session_id)
+                    _save_known_sessions()
+                    chat_log(f"[req:{request_id}] Session {session_id} marked as known (persisted)")
+                else:
+                    chat_log(f"[req:{request_id}] Session {session_id} already known")
 
         chat_log(f"[req:{request_id}] === DONE === lines={line_count} events={event_count} response_len={len(full_response)}")
         yield {"type": "done"}

@@ -51,8 +51,11 @@ El Bridge sirve APKs via `/update/check` y `/update/download`. La app compara ve
 - Tras compilar, APK se publica a `~/.savia/bridge/apk/` y `scripts/dist/`
 - Versión se auto-incrementa en fase de configuración de Gradle (no ejecución)
 
-## 🐛 Fixes importantes (v0.3.34)
+## 🐛 Fixes importantes (v0.3.44)
 
+- **Chat timestamps**: Burbujas de mensaje muestran hora (HH:mm) para trazabilidad
+- **Bridge dedup**: Streaming no duplica texto (result se emite solo si no hubo streaming previo)
+- **Session persistence**: Bridge persiste sesiones a disco (`~/.savia/bridge/known-sessions.json`), sobrevive reinicios
 - **Chat SSoT**: Room Database es única fuente de verdad para mensajes (evita duplicados)
 - **CLAUDECODE env**: Bridge limpia variable de entorno para evitar error de sesiones anidadas
 - **Selector de proyecto**: Selección local persiste entre recargas (no depende del Bridge default)
