@@ -65,4 +65,14 @@ sealed class StreamDelta {
      * @property message Human-readable error description
      */
     data class Error(val message: String) : StreamDelta()
+
+    /**
+     * Tool usage event from Bridge.
+     *
+     * Emitted when Claude invokes a tool (Read, Write, Bash, etc.) during
+     * a streaming response. Shows the user what actions Claude is taking.
+     *
+     * @property toolName Name of the tool being used (e.g., "Read", "Bash")
+     */
+    data class ToolUse(val toolName: String) : StreamDelta()
 }

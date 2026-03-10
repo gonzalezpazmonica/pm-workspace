@@ -157,6 +157,10 @@ class SaviaBridgeService @Inject constructor(
                                             trySend(StreamDelta.Text(text))
                                         }
                                     }
+                                    "tool_use" -> {
+                                        val toolName = event.tool ?: "unknown"
+                                        trySend(StreamDelta.ToolUse(toolName))
+                                    }
                                     "done" -> {
                                         trySend(StreamDelta.Done)
                                         doneSent = true
@@ -313,5 +317,6 @@ internal data class BridgeRequest(
 @kotlinx.serialization.Serializable
 internal data class BridgeStreamEvent(
     val type: String,
-    val text: String? = null
+    val text: String? = null,
+    val tool: String? = null
 )

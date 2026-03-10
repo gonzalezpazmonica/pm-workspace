@@ -320,6 +320,11 @@ class ChatViewModel @Inject constructor(
                         )
                     }
                 }
+                is StreamDelta.ToolUse -> {
+                    _uiState.update {
+                        it.copy(streamingText = it.streamingText + "\n🔧 ${delta.toolName}\n")
+                    }
+                }
                 is StreamDelta.Start -> { /* Stream started */ }
             }
         }

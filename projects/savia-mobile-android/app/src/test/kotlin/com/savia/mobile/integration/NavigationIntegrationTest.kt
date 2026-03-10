@@ -19,15 +19,15 @@ import org.junit.Test
 class NavigationIntegrationTest {
 
     @Test
-    fun `bottomNavScreens contains exactly 4 screens per v0_2 spec`() {
-        assertThat(bottomNavScreens).hasSize(4)
+    fun `bottomNavScreens contains exactly 5 screens with files tab`() {
+        assertThat(bottomNavScreens).hasSize(5)
     }
 
     @Test
-    fun `screens match v0_2 routes - home, chat, commands, profile`() {
+    fun `screens match expected routes - home, chat, files, commands, profile`() {
         val routes = bottomNavScreens.map { it.route }
 
-        assertThat(routes).containsExactly("home", "chat", "commands", "profile")
+        assertThat(routes).containsExactly("home", "chat", "files", "commands", "profile")
     }
 
     @Test

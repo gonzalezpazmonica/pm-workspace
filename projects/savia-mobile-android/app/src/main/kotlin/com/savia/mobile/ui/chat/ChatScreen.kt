@@ -79,6 +79,9 @@ import com.savia.mobile.ui.theme.AssistantBubbleColor
 import com.savia.mobile.ui.theme.AssistantBubbleTextColor
 import com.savia.mobile.ui.theme.UserBubbleColor
 import com.savia.mobile.ui.theme.UserBubbleTextColor
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * Main chat interface for conversing with Claude via Savia Bridge or Anthropic API.
@@ -122,7 +125,11 @@ fun ChatScreen(
         if (uiState.messages.isNotEmpty() || uiState.streamingText.isNotEmpty()) {
             val targetIndex = uiState.messages.size + if (uiState.streamingText.isNotEmpty()) 1 else 0
             if (targetIndex > 0) {
-                listState.animateScrollToItem(targetIndex - 1)
+                try {
+                    listState.animateScrollToItem(targetIndex - 1)
+                } catch (_: Exception) {
+                    // Race condition: list size changed during scroll animation
+                }
             }
         }
     }
@@ -224,6 +231,8 @@ fun ChatScreen(
 private fun MessageBubble(message: Message) {
     val isUser = message.role == MessageRole.USER
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val timeFormat = remember { SimpleDateFormat("HH:mm", Locale.getDefault()) }
+    val timeText = remember(message.timestamp) { timeFormat.format(Date(message.timestamp)) }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -241,18 +250,25 @@ private fun MessageBubble(message: Message) {
                 containerColor = if (isUser) UserBubbleColor else AssistantBubbleColor
             )
         ) {
-            if (isUser) {
+            Column(modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 6.dp)) {
+                if (isUser) {
+                    Text(
+                        text = message.content,
+                        color = UserBubbleTextColor,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                } else {
+                    MarkdownText(
+                        markdown = message.content,
+                        color = AssistantBubbleTextColor
+                    )
+                }
                 Text(
-                    text = message.content,
-                    modifier = Modifier.padding(12.dp),
-                    color = UserBubbleTextColor,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            } else {
-                MarkdownText(
-                    markdown = message.content,
-                    color = AssistantBubbleTextColor,
-                    modifier = Modifier.padding(12.dp)
+                    text = timeText,
+                    modifier = Modifier.align(Alignment.End),
+                    color = if (isUser) UserBubbleTextColor.copy(alpha = 0.6f)
+                            else AssistantBubbleTextColor.copy(alpha = 0.5f),
+                    style = MaterialTheme.typography.labelSmall
                 )
             }
         }
