@@ -34,6 +34,10 @@ DIAGRAM_FORMAT_LOCAL        = "mermaid"                          # Local: Mermai
 # projects/{proyecto}/diagrams/local/      ← diagramas locales (.mermaid, .xml)
 DIAGRAM_DIR                 = "diagrams"
 DIAGRAM_META_EXTENSION      = ".meta.json"
+
+# ── Orgchart Import ──────────────────────────────────────────────────────────
+ORGCHART_IMPORT_MODES       = "create,merge,overwrite"
+ORGCHART_IMPORT_DEFAULT_MODE = "merge"
 ```
 
 ## Validación de reglas de negocio
