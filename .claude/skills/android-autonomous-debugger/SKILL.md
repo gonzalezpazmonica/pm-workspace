@@ -1,3 +1,10 @@
+---
+name: android-autonomous-debugger
+description: Autonomous debugging and testing of Android apps against physical devices via USB/ADB
+maturity: stable
+context: fork
+---
+
 # Android Autonomous Debugger
 
 **Trigger**: When the user asks to debug, test, or verify an Android app on a physical device, or when a build-and-test cycle is needed against a connected Android device.
