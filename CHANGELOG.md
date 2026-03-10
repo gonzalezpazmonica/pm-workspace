@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CI Gate 6: CHANGELOG Version Links**: Added validation to `ci-extended-checks.sh` that fails CI if any `## [X.Y.Z]` header lacks its reference link at the end of the file. Prevents the recurring issue of missing comparison links
 - **Claude Code permission setup**: New `scripts/setup-claude-permissions.sh` generates `settings.local.json` with glob-based permission patterns (auto-detects Android SDK, JAVA_HOME, ADB). Eliminates the ~50 exact-match ADB commands that caused constant permission popups
 - **Installer integration**: Added Step 6 to `install.sh` — runs permission setup automatically during workspace installation
+- **Shell-aware permission patterns**: Fixed compound `&&` command patterns — Claude Code is shell-aware and won't auto-approve chained commands with prefix-only patterns. Added explicit `Bash(source wrapper.sh && *)` patterns
 - Fixed missing `[2.76.0]` comparison link in CHANGELOG.md
 
 ## [2.76.0] — 2026-03-10
