@@ -3,18 +3,23 @@ set -uo pipefail
 # validate-bash-global.sh — Validación global de comandos Bash peligrosos
 # Usado por: settings.json (PreToolUse hook para toda la sesión)
 
-# Read stdin with timeout to avoid hanging if no input arrives
+# Read stdin JSON robustly — consume all available data with timeout
+# Claude Code sends tool input as JSON on stdin to PreToolUse hooks.
 INPUT=""
-if read -t 2 -r FIRST_LINE; then
+if read -t 3 -r FIRST_LINE 2>/dev/null; then
   INPUT="$FIRST_LINE"
-  while read -t 0.1 -r LINE; do
+  while IFS= read -t 0.2 -r LINE 2>/dev/null; do
     INPUT+="$LINE"
   done
 fi
 
-COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || COMMAND=""
+# Parse command from JSON — exit cleanly on any parse failure
+COMMAND=""
+if [[ -n "$INPUT" ]]; then
+  COMMAND=$(printf '%s' "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || COMMAND=""
+fi
 
-if [ -z "$COMMAND" ]; then
+if [[ -z "$COMMAND" ]]; then
   exit 0
 fi
 

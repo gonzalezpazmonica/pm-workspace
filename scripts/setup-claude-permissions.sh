@@ -214,8 +214,14 @@ ${ADB_PERMS}
       "Bash(JAVA_HOME=*)",
       "Bash(CLAUDECODE=*)",
 
-      "Bash(cd $HOME*)",
-      "Bash(cd $HOME* && *)",
+      "Bash(cd *)",
+      "Bash(cd * && *)",
+      "Bash(cd * || *)",
+      "Bash(source * && *)",
+      "Bash(. * && *)",
+      "Bash(ip *)",
+      "Bash(ifconfig *)",
+      "Bash(hostname *)",
       "Bash(./gradlew *)",
       "Bash(./scripts/*)",
 
