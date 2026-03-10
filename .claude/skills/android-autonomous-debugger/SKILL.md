@@ -142,10 +142,7 @@ The `android-adb-validate.sh` hook enforces this classification.
 ## Tips for Agents
 
 - **ALWAYS use `./scripts/adb-run.sh`** — never `source wrapper.sh && ...`
-- Always start with `adb_auto_select` as the first function in any call
-- Take screenshots BEFORE and AFTER each interaction
-- Check `adb_detect_crash` after navigating to a new screen
-- Use `adb_wait_for_text` instead of `sleep` — it's faster and more reliable
-- The `adb_snapshot` function captures everything at once (screen + UI tree + logs)
-- When debugging crashes: `adb_logcat_errors 60 <package>` gives package-specific errors
-- You can chain many functions in a single `adb-run.sh` call for efficiency
+- Always start with `adb_auto_select` as first function in any call
+- Screenshots BEFORE and AFTER each interaction; `adb_snapshot` captures screen + UI + logs
+- Use `adb_wait_for_text` instead of `sleep`; check `adb_detect_crash` after navigation
+- Chain many functions in a single `adb-run.sh` call for efficiency
