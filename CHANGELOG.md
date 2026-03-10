@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.76.3] — 2026-03-10
 
-### Fixed — Era 104: Compound command permission patterns
+### Fixed — Era 104: Compound command patterns + APK test robustness
+
+- **APK integration tests**: Added `dismiss_system_dialogs()` to handle Android 13+ notification permission dialog that blocked all test UI interactions. Tests now re-launch app if it goes to background after Bridge connection. All 23/23 APK tests pass
 
 - **Compound `&&`/`||` patterns**: Added `Bash(cd * && *)`, `Bash(cd * || *)`, `Bash(source * && *)`, `Bash(. * && *)` to default permission whitelist. Claude Code's `*` wildcard is shell-aware and does not cross `&&`/`||` operators — a simple `Bash(cd *)` never matched `cd dir && cmd`
 - **Hook robustness**: Improved `validate-bash-global.sh` stdin parsing with `printf '%s'` and `IFS= read` for reliable JSON handling
