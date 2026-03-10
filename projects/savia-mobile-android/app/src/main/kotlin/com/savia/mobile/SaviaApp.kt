@@ -16,6 +16,15 @@ class SaviaApp : Application() {
     override fun onCreate() {
         super.onCreate()
         installCrashHandler()
+        loadNativeLibraries()
+    }
+
+    private fun loadNativeLibraries() {
+        try {
+            System.loadLibrary("sqlcipher")
+        } catch (e: UnsatisfiedLinkError) {
+            Log.e(TAG, "Failed to load sqlcipher native library", e)
+        }
     }
 
     private fun installCrashHandler() {

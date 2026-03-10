@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.76.0] — 2026-03-10
+
+Savia Mobile chat fixes: duplicate text elimination, message timestamps, and bridge session persistence.
+
+### Fixed
+- **Bridge duplicate text**: Response text no longer appears twice in chat bubbles (result event suppressed when streaming already delivered the content)
+- **Bridge session persistence**: Known sessions saved to `~/.savia/bridge/known-sessions.json` — multi-turn conversations survive bridge restarts
+- **Bridge "already in use" recovery**: If session conflict detected, session marked as known for automatic retry
+
+### Added
+- **Chat timestamps**: Message bubbles display HH:mm time for traceability (SimpleDateFormat with `remember` for performance)
+
 ## [2.75.0] — 2026-03-10
 
 ### Added — OpenCode Integration: PM-Workspace compatibility layer
@@ -3040,6 +3052,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 
+[2.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.75.0...v2.76.0
 [2.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.74.2...v2.75.0
 [2.74.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.74.1...v2.74.2
 [2.74.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.74.0...v2.74.1
