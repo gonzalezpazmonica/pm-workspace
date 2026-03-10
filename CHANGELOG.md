@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.76.5] — 2026-03-10
+
+### Fixed — Savia Mobile v0.3.46: one-shot mode + command pre-fill
+
+- **Savia Mobile chat fix (CRITICAL)**: Switched from interactive bidirectional stream-json to one-shot mode (`-p --output-format stream-json`) — Claude CLI interactive mode does not work as subprocess. Each message now launches a fresh process with `--resume` for session continuity
+- **Command pre-fill from palette**: Commands screen now passes selected command text to Chat via navigation query parameter (`?command=encoded`). ChatInput uses `remember(key)` to reinitialize state on new command
+- **Unified chat navigation**: Merged duplicate `composable()` routes into single `chat?conversationId={}&command={}` with both optional params
+- **Bridge interactive session manager**: Added `InteractiveSession` class with full bidirectional protocol, permission request/response flow, and `/chat/permission` endpoint (infrastructure for future interactive mode)
+- **Permission request model**: New `StreamDelta.PermissionRequest` and `sendPermissionResponse()` in `SaviaBridgeService` for tool approval UI
+- **Regression test**: 10/10 pass on OUKITEL C36 (Android 14), zero permission popups across 55 operations
+
 ## [2.76.4] — 2026-03-10
 
 ### Fixed — Era 104: Auditoría — stdin timeout en 4 hooks + documentación
@@ -3086,6 +3097,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 
+[2.76.5]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.4...v2.76.5
 [2.76.4]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.3...v2.76.4
 [2.76.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.2...v2.76.3
 [2.76.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.1...v2.76.2

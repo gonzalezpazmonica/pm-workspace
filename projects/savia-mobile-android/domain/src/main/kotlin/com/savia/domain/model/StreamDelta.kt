@@ -75,4 +75,23 @@ sealed class StreamDelta {
      * @property toolName Name of the tool being used (e.g., "Read", "Bash")
      */
     data class ToolUse(val toolName: String) : StreamDelta()
+
+    /**
+     * Permission request from Claude CLI via Bridge.
+     *
+     * Emitted when Claude needs user approval to use a tool (e.g., Bash, Write).
+     * The mobile app must show a dialog and send the user's decision back to the
+     * Bridge via POST /chat/permission.
+     *
+     * @property requestId Unique ID for this permission request (must be sent back)
+     * @property toolName Name of the tool requesting permission (e.g., "Bash", "Write")
+     * @property toolInput Tool arguments (e.g., {"command": "rm -rf /tmp/test"})
+     * @property description Human-readable description of what the tool will do
+     */
+    data class PermissionRequest(
+        val requestId: String,
+        val toolName: String,
+        val toolInput: Map<String, String> = emptyMap(),
+        val description: String = ""
+    ) : StreamDelta()
 }

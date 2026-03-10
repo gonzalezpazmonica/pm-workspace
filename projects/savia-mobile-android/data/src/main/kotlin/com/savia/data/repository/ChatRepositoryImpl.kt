@@ -178,7 +178,8 @@ class ChatRepositoryImpl @Inject constructor(
                 authToken = bridgeToken,
                 message = content,
                 sessionId = conversationId,
-                systemPrompt = systemPrompt
+                systemPrompt = systemPrompt,
+                interactive = false
             )
         } else {
             // Use Anthropic API (legacy)

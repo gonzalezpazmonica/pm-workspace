@@ -41,7 +41,8 @@ class ChatViewModelTest {
             sendMessageUseCase = SendMessageUseCase(fakeChatRepo),
             chatRepository = fakeChatRepo,
             securityRepository = fakeSecurityRepo,
-            notificationManager = mockk(relaxed = true)
+            notificationManager = mockk(relaxed = true),
+            bridgeService = mockk(relaxed = true)
         )
     }
 
@@ -79,7 +80,8 @@ class ChatViewModelTest {
             sendMessageUseCase = SendMessageUseCase(fakeChatRepo),
             chatRepository = fakeChatRepo,
             securityRepository = fakeSecurityRepo,
-            notificationManager = mockk(relaxed = true)
+            notificationManager = mockk(relaxed = true),
+            bridgeService = mockk(relaxed = true)
         )
         advanceUntilIdle()
 
