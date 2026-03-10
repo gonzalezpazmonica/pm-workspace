@@ -19,7 +19,7 @@
 # Author: Savia PM-Workspace
 # ============================================================================
 
-set -euo pipefail
+set -uo pipefail
 
 TOOL_INPUT="${TOOL_INPUT:-}"
 LOG_DIR="$HOME/.claude/logs"
