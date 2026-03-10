@@ -11,6 +11,27 @@ context: fork
 
 **Keywords**: android debug, test on device, install apk, check crash, mobile testing, e2e test, verify on phone, run on device, screen capture device.
 
+## CRITICAL: Use adb-run.sh for All Commands
+
+**NEVER use `source scripts/lib/adb-wrapper.sh && cmd1 && cmd2`** — Claude Code's shell-aware permission system blocks compound `&&`/`||` chains, causing permission popups that break autonomous operation.
+
+**ALWAYS use `./scripts/adb-run.sh`** which wraps everything in a single command:
+
+```bash
+# WRONG — causes permission popups:
+source scripts/lib/adb-wrapper.sh && adb_auto_select && adb_screenshot /tmp/s.png
+
+# CORRECT — single command, no popups:
+./scripts/adb-run.sh adb_auto_select "adb_screenshot /tmp/s.png"
+```
+
+Each argument is one function call. Quote arguments with spaces:
+```bash
+./scripts/adb-run.sh adb_auto_select "adb_tap 500 900" "adb_screenshot /tmp/after.png"
+./scripts/adb-run.sh adb_auto_select "adb_install ./app.apk" "adb_launch com.savia.mobile"
+./scripts/adb-run.sh adb_auto_select "adb_logcat_errors 30 com.savia.mobile"
+```
+
 ## Prerequisites
 
 - Android device connected via USB with USB debugging enabled
@@ -21,60 +42,52 @@ context: fork
 
 ### 1. Device Discovery
 ```bash
-source scripts/lib/adb-wrapper.sh
-adb_auto_select          # Auto-select single device
-adb_devices              # JSON list of all devices
-adb_device_info          # JSON device properties
+./scripts/adb-run.sh adb_auto_select adb_device_info
+./scripts/adb-run.sh adb_devices
 ```
 
 ### 2. APK Lifecycle
 ```bash
-adb_install ./path/to/app.apk   # Install (with -r -t flags)
-adb_uninstall com.package.name   # Uninstall
-adb_launch com.package.name      # Launch via monkey
-adb_stop com.package.name        # Force stop
-adb_clear_data com.package.name  # Clear app data
-adb_is_installed com.package.name && echo "yes"
+./scripts/adb-run.sh adb_auto_select "adb_install ./path/to/app.apk"
+./scripts/adb-run.sh adb_auto_select "adb_uninstall com.package.name"
+./scripts/adb-run.sh adb_auto_select "adb_launch com.package.name"
+./scripts/adb-run.sh adb_auto_select "adb_stop com.package.name"
+./scripts/adb-run.sh adb_auto_select "adb_clear_data com.package.name"
 ```
 
 ### 3. Visual Inspection
 ```bash
-adb_screenshot /tmp/screen.png   # Capture current screen
-adb_hierarchy /tmp/ui.xml        # Dump UI tree (UIAutomator)
-adb_snapshot /tmp/prefix          # screenshot + hierarchy + logcat at once
+./scripts/adb-run.sh adb_auto_select "adb_screenshot /tmp/screen.png"
+./scripts/adb-run.sh adb_auto_select "adb_hierarchy /tmp/ui.xml"
+./scripts/adb-run.sh adb_auto_select "adb_snapshot /tmp/prefix"
 ```
 
 ### 4. UI Interaction
 ```bash
-adb_tap 500 900                  # Tap at coordinates
-adb_tap_id "login_button"       # Tap element by resource-id
-adb_tap_text "Conectar"          # Tap element by visible text
-adb_swipe 500 1200 500 400 300   # Swipe gesture
-adb_scroll_down                  # Scroll screen down
-adb_scroll_up                    # Scroll screen up
-adb_type "hello world"           # Type text
-adb_key back                     # Press BACK
-adb_key home                     # Press HOME
-adb_key enter                    # Press ENTER
-adb_long_press 500 900 2000      # Long press 2 seconds
+./scripts/adb-run.sh adb_auto_select "adb_tap 500 900"
+./scripts/adb-run.sh adb_auto_select "adb_tap_id login_button"
+./scripts/adb-run.sh adb_auto_select "adb_tap_text Conectar"
+./scripts/adb-run.sh adb_auto_select "adb_swipe 500 1200 500 400 300"
+./scripts/adb-run.sh adb_auto_select adb_scroll_down
+./scripts/adb-run.sh adb_auto_select "adb_type hello_world"
+./scripts/adb-run.sh adb_auto_select "adb_key back"
 ```
 
 ### 5. Debugging
 ```bash
-adb_logcat_clear                 # Clear log buffer
-adb_logcat_errors 30             # Errors from last 30 seconds
-adb_logcat_errors 60 com.savia.mobile  # Package-filtered errors
-adb_logcat_recent 10             # All logs last 10 seconds
-adb_detect_crash 60              # Detect crash patterns
-adb_meminfo com.savia.mobile     # Memory usage
+./scripts/adb-run.sh adb_auto_select adb_logcat_clear
+./scripts/adb-run.sh adb_auto_select "adb_logcat_errors 30"
+./scripts/adb-run.sh adb_auto_select "adb_logcat_errors 60 com.savia.mobile"
+./scripts/adb-run.sh adb_auto_select "adb_detect_crash 60"
+./scripts/adb-run.sh adb_auto_select "adb_meminfo com.savia.mobile"
 ```
 
 ### 6. Element Finding & Waiting
 ```bash
-adb_find_by_id "btn_send"        # Returns "x1,y1,x2,y2" bounds
-adb_find_by_text "Savia"         # Find by visible text
-adb_wait_for_text "Welcome" 15   # Wait up to 15s for text
-adb_wait_for_id "main_screen" 10 # Wait for element by ID
+./scripts/adb-run.sh adb_auto_select "adb_find_by_id btn_send"
+./scripts/adb-run.sh adb_auto_select "adb_find_by_text Savia"
+./scripts/adb-run.sh adb_auto_select "adb_wait_for_text Welcome 15"
+./scripts/adb-run.sh adb_auto_select "adb_wait_for_id main_screen 10"
 ```
 
 ## Autonomous Debug Cycle
@@ -82,33 +95,28 @@ adb_wait_for_id "main_screen" 10 # Wait for element by ID
 When asked to verify an app on device, follow this cycle:
 
 ### Phase 1: Setup
-1. Source the wrapper: `source scripts/lib/adb-wrapper.sh`
-2. Auto-select device: `adb_auto_select`
-3. Get device info: `adb_device_info`
-4. Clear logcat: `adb_logcat_clear`
+```bash
+./scripts/adb-run.sh adb_auto_select adb_device_info adb_logcat_clear
+```
 
 ### Phase 2: Install & Launch
-5. Install APK: `adb_install <path>`
-6. Verify installed: `adb_is_installed <package>`
-7. Launch app: `adb_launch <package>`
-8. Wait for main screen: `adb_wait_for_text "..." 15`
-9. Take baseline screenshot: `adb_screenshot /tmp/baseline.png`
+```bash
+./scripts/adb-run.sh adb_auto_select "adb_install <path>" "adb_launch <package>" "adb_wait_for_text MainScreen 15" "adb_screenshot /tmp/baseline.png"
+```
 
 ### Phase 3: Interact & Verify
-10. For each screen/feature to test:
-    - Navigate to it (tap, swipe, type)
-    - Take screenshot
-    - Check hierarchy for expected elements
-    - Check logcat for errors after each action
-11. If a crash is detected: `adb_detect_crash 30`
-    - Capture full logcat
-    - Report crash details with stack trace
+For each screen/feature to test:
+```bash
+./scripts/adb-run.sh adb_auto_select "adb_tap_text FeatureName" "adb_wait_for_text ExpectedText 10" "adb_screenshot /tmp/feature-X.png" "adb_logcat_errors 10"
+```
+
+If a crash is detected:
+```bash
+./scripts/adb-run.sh adb_auto_select "adb_detect_crash 30" "adb_logcat_errors 60 com.package"
+```
 
 ### Phase 4: Report
-12. Summarize: PASS/FAIL per screen tested
-13. Include screenshots as evidence
-14. Include crash logs if any
-15. Suggest fixes based on stack traces
+Summarize: PASS/FAIL per screen tested. Include screenshots as evidence. Include crash logs if any. Suggest fixes based on stack traces.
 
 ## Security Model
 
@@ -133,9 +141,11 @@ The `android-adb-validate.sh` hook enforces this classification.
 
 ## Tips for Agents
 
-- Always `adb_auto_select` before any other operation
+- **ALWAYS use `./scripts/adb-run.sh`** — never `source wrapper.sh && ...`
+- Always start with `adb_auto_select` as the first function in any call
 - Take screenshots BEFORE and AFTER each interaction
 - Check `adb_detect_crash` after navigating to a new screen
 - Use `adb_wait_for_text` instead of `sleep` — it's faster and more reliable
 - The `adb_snapshot` function captures everything at once (screen + UI tree + logs)
 - When debugging crashes: `adb_logcat_errors 60 <package>` gives package-specific errors
+- You can chain many functions in a single `adb-run.sh` call for efficiency

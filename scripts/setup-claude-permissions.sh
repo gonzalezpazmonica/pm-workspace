@@ -123,15 +123,11 @@ if [[ -n "$ADB_BIN" ]]; then
   ADB_PERMS+="      \"Bash(adb *)\","$'\n'
   ADB_PERMS+="      \"Bash(adb_*)\","$'\n'
   ADB_PERMS+="      \"Bash($ADB_BIN *)\","$'\n'
-  ADB_PERMS+="      \"Bash(\$ANDROID_HOME/platform-tools/adb *)\","$'\n'
-  ADB_PERMS+="      \"Bash(\$ADB_PATH *)\","$'\n'
-  ADB_PERMS+="      \"Bash(ADB=*)\","$'\n'
-  # Compound commands: source wrapper && any adb_ chain
-  ADB_PERMS+="      \"Bash(source scripts/lib/adb-wrapper.sh && *)\","$'\n'
-  ADB_PERMS+="      \"Bash(source $ROOT/scripts/lib/adb-wrapper.sh && *)\","$'\n'
-  # sleep N && source wrapper && ... (screenshot delays)
-  ADB_PERMS+="      \"Bash(sleep * && source scripts/lib/adb-wrapper.sh && *)\","$'\n'
-  ADB_PERMS+="      \"Bash(sleep * && source $ROOT/scripts/lib/adb-wrapper.sh && *)\","$'\n'
+  # adb-run.sh: single-command wrapper that avoids && chains
+  # Claude Code is shell-aware: * doesn't cross && || ; operators.
+  # adb-run.sh wraps source + functions into one simple command.
+  ADB_PERMS+="      \"Bash(./scripts/adb-run.sh *)\","$'\n'
+  ADB_PERMS+="      \"Bash(bash scripts/adb-run.sh *)\","$'\n'
 fi
 if [[ -n "$ANDROID_SDK" ]]; then
   ADB_PERMS+="      \"Read(//$ANDROID_SDK/**)\","$'\n'
