@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.78.0] — 2026-03-11
+
+Reverse orgchart import — parse diagrams (Mermaid, Draw.io, Miro) to generate teams/ structure.
+
+### Added
+- **`/orgchart-import` command**: imports orgchart diagrams and generates department, team and member files in `teams/`
+- **orgchart-import skill**: 7-phase pipeline (detect format, parse, normalize, validate, detect conflicts, write, summary) with 3 conflict modes (create, merge, overwrite)
+- **Mermaid parser**: recognizes DEPT nodes, subgraphs with capacity, member nodes with lead markers (★), supervisor links
+- **Draw.io parser**: identifies entities by shape styles (swimlane=dept, rounded rect=team, person shape=member, green fill=lead)
+- **Miro parser**: heuristic-based detection by color/shape/position with user confirmation fallback
+- **Org model schema**: normalized JSON contract bridging all parsers to the write phase
+- **DOMAIN.md**: Clara Philosophy documentation for the skill
+
+### Changed
+- **diagram-config.md**: added `ORGCHART_IMPORT_MODES` and `ORGCHART_IMPORT_DEFAULT_MODE` constants
+- **README.md / README.en.md**: documented orgchart import capability in code intelligence section
+
 ## [2.77.0] — 2026-03-10
 
 Orgchart diagram generation from teams data — new diagram type for `/diagram-generate`.
@@ -3121,6 +3138,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 
+[2.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.77.0...v2.78.0
 [2.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.5...v2.77.0
 [2.76.5]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.4...v2.76.5
 [2.76.4]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.3...v2.76.4
