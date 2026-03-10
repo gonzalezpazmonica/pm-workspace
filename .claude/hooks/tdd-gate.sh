@@ -6,15 +6,24 @@ set -uo pipefail
 #         y NO existe un fichero de test correspondiente, BLOQUEA con exit 2.
 # Excepción: ficheros de config, migrations, DTOs, y el propio test se permiten siempre.
 
-INPUT=$(cat)
-# Use jq if available, otherwise try basic parsing
-if command -v jq &>/dev/null; then
-  TOOL=$(echo "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null || true)
-  FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty' 2>/dev/null || true)
-else
-  # Fallback: basic grep for JSON values
-  TOOL=$(echo "$INPUT" | grep -oP '"tool_name"\s*:\s*"\K[^"]*' || true)
-  FILE_PATH=$(echo "$INPUT" | grep -oP '"file_path"\s*:\s*"\K[^"]*' || true)
+# Read stdin with timeout to avoid hanging if no input arrives
+# Uses timeout+cat to handle input that may lack trailing newline
+INPUT=""
+if INPUT=$(timeout 3 cat 2>/dev/null); then
+  :
+fi
+
+# Parse tool name and file path from JSON
+TOOL=""
+FILE_PATH=""
+if [[ -n "$INPUT" ]]; then
+  if command -v jq &>/dev/null; then
+    TOOL=$(printf '%s' "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null) || TOOL=""
+    FILE_PATH=$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // empty' 2>/dev/null) || FILE_PATH=""
+  else
+    TOOL=$(printf '%s' "$INPUT" | grep -oE '"tool_name"\s*:\s*"[^"]*' | head -1 | sed 's/.*"//' || true)
+    FILE_PATH=$(printf '%s' "$INPUT" | grep -oE '"file_path"\s*:\s*"[^"]*' | head -1 | sed 's/.*"//' || true)
+  fi
 fi
 
 # Solo aplica a Edit y Write

@@ -3,13 +3,21 @@ set -uo pipefail
 # block-infra-destructive.sh — Bloquea operaciones destructivas de infraestructura
 # Usado por: infrastructure-agent (PreToolUse hook)
 
-INPUT=$(cat)
-# Use jq if available, otherwise try basic parsing
-if command -v jq &>/dev/null; then
-  COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || true)
-else
-  # Fallback: basic grep for command value in JSON
-  COMMAND=$(echo "$INPUT" | grep -oP '"command"\s*:\s*"\K[^"]*' || true)
+# Read stdin with timeout to avoid hanging if no input arrives
+# Uses timeout+cat to handle input that may lack trailing newline
+INPUT=""
+if INPUT=$(timeout 3 cat 2>/dev/null); then
+  :
+fi
+
+# Parse command from JSON
+COMMAND=""
+if [[ -n "$INPUT" ]]; then
+  if command -v jq &>/dev/null; then
+    COMMAND=$(printf '%s' "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || COMMAND=""
+  else
+    COMMAND=$(printf '%s' "$INPUT" | grep -oE '"command"\s*:\s*"[^"]*' | head -1 | sed 's/.*"command"\s*:\s*"//' || true)
+  fi
 fi
 
 if [ -z "$COMMAND" ]; then

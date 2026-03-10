@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.76.4] — 2026-03-10
+
+### Fixed — Era 104: Auditoría — stdin timeout en 4 hooks + documentación
+
+- **Hook stdin timeout (CRÍTICO)**: Aplicado `timeout 3 cat` a `block-credential-leak.sh`, `block-force-push.sh`, `block-infra-destructive.sh`, `tdd-gate.sh` y `validate-bash-global.sh`. Usaban `INPUT=$(cat)` sin timeout, causando "PreToolUse:Bash hook error" al bloquear stdin indefinidamente
+- **hooks/README.md**: Documentados 7 hooks faltantes (android-adb-validate, block-project-whitelist, compliance-gate, agent-dispatch-validate, memory-auto-capture). Total: 19 hooks documentados
+- **PCRE fallback**: Reemplazado `grep -oP '\K'` por alternativa POSIX en `block-infra-destructive.sh` y `tdd-gate.sh`
+
 ## [2.76.3] — 2026-03-10
 
 ### Fixed — Era 104: Compound command patterns + APK test robustness
@@ -3078,6 +3086,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 
+[2.76.4]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.3...v2.76.4
 [2.76.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.2...v2.76.3
 [2.76.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.1...v2.76.2
 [2.76.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.0...v2.76.1

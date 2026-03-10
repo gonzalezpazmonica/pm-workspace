@@ -5,12 +5,10 @@ set -uo pipefail
 
 # Read stdin JSON robustly — consume all available data with timeout
 # Claude Code sends tool input as JSON on stdin to PreToolUse hooks.
+# Uses timeout+cat instead of read -t (which requires trailing newline).
 INPUT=""
-if read -t 3 -r FIRST_LINE 2>/dev/null; then
-  INPUT="$FIRST_LINE"
-  while IFS= read -t 0.2 -r LINE 2>/dev/null; do
-    INPUT+="$LINE"
-  done
+if INPUT=$(timeout 3 cat 2>/dev/null); then
+  :
 fi
 
 # Parse command from JSON — exit cleanly on any parse failure
