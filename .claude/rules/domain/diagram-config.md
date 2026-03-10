@@ -18,8 +18,10 @@ MIRO_TOKEN_FILE             = "$HOME/.azure/miro-token"           # OAuth token 
 # Draw.io HTTP oficial no requiere auth para operaciones básicas
 
 # ── Tipos de diagrama soportados ─────────────────────────────────────────────
-DIAGRAM_TYPES               = "architecture,flow,sequence"
+DIAGRAM_TYPES               = "architecture,flow,sequence,orgchart"
 DIAGRAM_DEFAULT_TYPE        = "architecture"
+ORGCHART_DATA_DIR           = "teams"                            # fuente de datos para orgchart
+ORGCHART_OUTPUT_DIR         = "teams/diagrams"                   # output de organigramas
 
 # ── Formatos ─────────────────────────────────────────────────────────────────
 DIAGRAM_FORMAT_DRAWIO       = "xml"                              # Draw.io nativo: XML (.drawio)

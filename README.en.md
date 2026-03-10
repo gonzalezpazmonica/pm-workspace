@@ -78,7 +78,7 @@ Every command has YAML frontmatter with metadata (model, context cost, descripti
 
 **Spec-Driven Development** — Tasks become executable specs. I implement handlers, tests, and repositories in 16 languages. Agents work in isolated worktrees to avoid conflicts.
 
-**Code intelligence** — I detect architecture patterns (Clean, Hexagonal, DDD, CQRS, Microservices), measure architectural health with fitness functions, and prioritize tech debt by business impact.
+**Code intelligence** — I detect architecture patterns (Clean, Hexagonal, DDD, CQRS, Microservices), measure architectural health with fitness functions, and prioritize tech debt by business impact. I generate architecture, flow, sequence and team orgchart diagrams exportable to Draw.io, Miro or local Mermaid.
 
 **Security & compliance** — SAST against OWASP Top 10, SBOM, credential scanning, regulatory compliance across 12 sectors, and AI governance with model cards and EU AI Act.
 
