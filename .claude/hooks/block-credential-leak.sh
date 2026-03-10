@@ -3,14 +3,22 @@ set -uo pipefail
 # block-credential-leak.sh — Detecta credentials en comandos y ficheros
 # Usado por: security-guardian (PreToolUse hook)
 
-INPUT=$(cat)
+# Read stdin with timeout to avoid hanging if no input arrives
+# Uses timeout+cat to handle input that may lack trailing newline
+INPUT=""
+if INPUT=$(timeout 3 cat 2>/dev/null); then
+  :
+fi
 
-# Require jq for safe JSON parsing — grep fallback is unsafe (shell metachar injection)
+# Require jq for safe JSON parsing
 if ! command -v jq &>/dev/null; then
   echo "ADVERTENCIA: jq no está instalado. Instala jq para activar detección de secrets." >&2
   exit 0
 fi
-COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+COMMAND=""
+if [[ -n "$INPUT" ]]; then
+  COMMAND=$(printf '%s' "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || COMMAND=""
+fi
 
 if [ -z "$COMMAND" ]; then
   exit 0
