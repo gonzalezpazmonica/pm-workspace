@@ -16,7 +16,7 @@ info()  { echo -e "${BLUE}🔍${NC} $*"; }
 ok()    { echo -e "${GREEN}✅${NC} $*"; }
 warn()  { echo -e "${YELLOW}⚠️${NC}  $*"; }
 fail()  { echo -e "${RED}❌${NC} $*"; }
-step()  { echo -e "\n${BOLD}[$1/7]${NC} $2"; }
+step()  { echo -e "\n${BOLD}[$1/8]${NC} $2"; }
 
 # --- Help -----------------------------------------------------------------------
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
@@ -220,8 +220,21 @@ else
   warn "No package.json found in scripts/ — skipping npm install"
 fi
 
-# --- Step 6: Savia Bridge Setup -----------------------------------------------
-step 6 "Setting up Savia Bridge..."
+# --- Step 6: Claude Code permissions --------------------------------------------
+step 6 "Configuring Claude Code permissions..."
+
+if [[ -f "$SAVIA_HOME/scripts/setup-claude-permissions.sh" ]]; then
+  if bash "$SAVIA_HOME/scripts/setup-claude-permissions.sh"; then
+    ok "Claude Code permissions configured"
+  else
+    warn "Permission setup had warnings (you can re-run: bash scripts/setup-claude-permissions.sh)"
+  fi
+else
+  warn "setup-claude-permissions.sh not found — skipping"
+fi
+
+# --- Step 7: Savia Bridge Setup -----------------------------------------------
+step 7 "Setting up Savia Bridge..."
 
 # Check if Python3 is available (already detected in step 2)
 if command -v python3 &>/dev/null; then
@@ -348,8 +361,8 @@ else
   warn "Bridge setup skipped (Python3 required)"
 fi
 
-# --- Step 7: Smoke test --------------------------------------------------------
-step 7 "Running smoke test..."
+# --- Step 8: Smoke test --------------------------------------------------------
+step 8 "Running smoke test..."
 
 if [[ "${SKIP_TESTS:-0}" == "1" || "${1:-}" == "--skip-tests" ]]; then
   warn "Skipping tests (--skip-tests)"

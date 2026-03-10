@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.76.1] — 2026-03-10
+
+### Fixed — Era 104: CHANGELOG link enforcement + Claude Code permission cleanup
+
+- **CI Gate 6: CHANGELOG Version Links**: Added validation to `ci-extended-checks.sh` that fails CI if any `## [X.Y.Z]` header lacks its reference link at the end of the file. Prevents the recurring issue of missing comparison links
+- **Claude Code permission setup**: New `scripts/setup-claude-permissions.sh` generates `settings.local.json` with glob-based permission patterns (auto-detects Android SDK, JAVA_HOME, ADB). Eliminates the ~50 exact-match ADB commands that caused constant permission popups
+- **Installer integration**: Added Step 6 to `install.sh` — runs permission setup automatically during workspace installation
+- Fixed missing `[2.76.0]` comparison link in CHANGELOG.md
+
 ## [2.76.0] — 2026-03-10
 
 ### Added — Android Debug Agent: autonomous device testing
@@ -3050,6 +3059,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 
+[2.76.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.0...v2.76.1
 [2.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.75.0...v2.76.0
 [2.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.74.2...v2.75.0
 [2.74.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.74.1...v2.74.2
