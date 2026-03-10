@@ -38,6 +38,9 @@ Analizar el proyecto para identificar componentes arquitectónicos:
 3. **Documentación existente** — `CLAUDE.md` del proyecto, `architecture.md`
 4. **Azure DevOps** — Repos, pipelines, service connections
 
+Para tipo orgchart: la fuente de datos es `teams/{dept}/` (dept.md + team.md de cada equipo),
+NO infraestructura de proyecto. Opcionalmente enriquecer con `teams/members/{handle}.md`.
+
 ### Entidades a detectar
 
 > Detalle: @references/diagram-entities.md
@@ -64,6 +67,7 @@ Construir la representación en Mermaid según el tipo de diagrama:
 - **Architecture** — C4-style con capas (Frontend, Backend, Data)
 - **Flow** — Data flow entre componentes
 - **Sequence** — Secuencia temporal de interacciones
+- **Orgchart** — Jerarquía organizativa desde datos de `teams/`
 
 ---
 
@@ -120,3 +124,5 @@ Crear `projects/{p}/diagrams/{tool}/{tipo}.meta.json`:
 - `references/mermaid-templates.md` — Plantillas por tipo
 - `references/diagram-entities.md` — Detección de componentes
 - `references/draw-io-shapes.md` — Mapeo entidades → shapes
+- `references/orgchart-shapes.md` — Shapes de organigrama
+- `references/orgchart-mermaid-template.md` — Plantilla Mermaid para orgchart

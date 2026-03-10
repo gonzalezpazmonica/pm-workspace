@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.77.0] — 2026-03-10
+
+Orgchart diagram generation from teams data — new diagram type for `/diagram-generate`.
+
+### Added
+- **Orgchart diagram type**: `/diagram-generate {dept} --type orgchart` generates hierarchical team diagrams from `teams/` data, exportable to Draw.io, Miro or local Mermaid
+- **Orgchart shapes reference**: Draw.io XML snippets for department containers, team nodes, person shapes (lead vs member), hierarchy and supervisor links (`orgchart-shapes.md`)
+- **Orgchart Mermaid template**: `graph TB` template with subgraphs per team, lead markers (★), @handle-based naming, PII-Free compliant (`orgchart-mermaid-template.md`)
+- **Test suite**: `scripts/test-orgchart-diagrams.sh` — 45 tests covering config, structure, shapes, template, command integration, skill integration and Mermaid output generation
+
+### Changed
+- **diagram-config.md**: `DIAGRAM_TYPES` now includes `orgchart`, added `ORGCHART_DATA_DIR` and `ORGCHART_OUTPUT_DIR`
+- **diagram-generation SKILL.md**: Added Orgchart to supported types, teams data source note, two new reference files
+- **diagram-generate command**: Added `--type orgchart` with 6-step orgchart-specific flow (dept validation, hierarchy read, Mermaid generation, export, metadata, presentation)
+- **README.md / README.en.md**: Documented diagram generation capabilities including orgchart
+
 ## [2.76.5] — 2026-03-10
 
 ### Fixed — Savia Mobile v0.3.46: one-shot mode + command pre-fill
@@ -61,6 +77,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Debugger skill** (`.claude/skills/android-autonomous-debugger/SKILL.md`): Complete workflow for autonomous debug cycles — install, launch, interact, detect crashes, capture evidence, report results
 - **Integration test suite** (`scripts/tests/test-adb-wrapper.sh`): 44 tests covering core functions, security classification, device management, visual capture, logcat, Savia Mobile integration, and hook validation. All tested against physical OUKITEL C36 device
 - **Documentation** (`docs/android-debug-agent.md`): Full API reference, architecture diagram, use cases for PM/QA smoke testing, developer debugging, and CI verification. Includes security model and environment variable reference
+
+### Fixed
+- **Bridge duplicate text**: Response text no longer appears twice in chat bubbles (result event suppressed when streaming already delivered the content)
+- **Bridge session persistence**: Known sessions saved to `~/.savia/bridge/known-sessions.json` — multi-turn conversations survive bridge restarts
+- **Bridge "already in use" recovery**: If session conflict detected, session marked as known for automatic retry
+
+### Added
+- **Chat timestamps**: Message bubbles display HH:mm time for traceability (SimpleDateFormat with `remember` for performance)
 
 ## [2.75.0] — 2026-03-10
 
@@ -3097,6 +3121,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 
+[2.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.5...v2.77.0
 [2.76.5]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.4...v2.76.5
 [2.76.4]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.3...v2.76.4
 [2.76.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.2...v2.76.3

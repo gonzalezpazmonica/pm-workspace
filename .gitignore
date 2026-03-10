@@ -76,6 +76,24 @@ CLAUDE.local.md
 # ── Decision log — privado del PM ─────────────────────────────────────────────
 decision-log.md
 
+# ── Perfiles de miembros del equipo (datos personales — RGPD) ──────────────
+# Contienen nombre, email, localidad, vacaciones. Solo se commitea la plantilla.
+# Estructura de equipos (dept.md, team.md, deps.md) SÍ se commitea.
+teams/*
+!teams/members/template.md
+
 # ── Confidence Log — Datos privados del sistema de calibración ─────────────────
 /data/
 backups/
+
+# Capturas de pantalla de los test
+scripts/tests/screenshots
+
+# Configuraciones locales
+.claude/settings.local.*
+
+# Informes de auditoria
+audit-report-*
+
+# Backups
+*.backup

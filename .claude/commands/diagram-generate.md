@@ -9,13 +9,15 @@ description: >
 
 **Proyecto:** $ARGUMENTS
 
-> Uso: `/diagram-generate {proyecto} [--tool draw.io|miro|local] [--type architecture|flow|sequence]`
+> Uso: `/diagram-generate {target} [--tool draw.io|miro|local] [--type architecture|flow|sequence|orgchart]`
 
 ## Parámetros
 
-- `{proyecto}` — Nombre del proyecto en `projects/` (obligatorio)
+- `{target}` — Nombre del proyecto en `projects/` o departamento en `teams/` (obligatorio)
 - `--tool {draw.io|miro|local}` — Herramienta destino (default: valor de `DIAGRAM_DEFAULT_TOOL` o `local`)
-- `--type {architecture|flow|sequence}` — Tipo de diagrama (default: `architecture`)
+- `--type {architecture|flow|sequence|orgchart}` — Tipo de diagrama (default: `architecture`)
+
+> Con `--type orgchart`, el argumento posicional es `{departamento}` (de `teams/`), no un proyecto.
 
 ## 2. Cargar perfil de usuario
 
@@ -84,9 +86,33 @@ Leer en este orden (Progressive Disclosure):
 Si `--type architecture` y el proyecto tiene >10 componentes:
 → Delegar validación de consistencia al agente `diagram-architect`
 
+## Orgchart: flujo específico
+
+Si `--type orgchart`:
+
+1. **Validar departamento** — Verificar que `teams/{dept}/dept.md` existe
+2. **Leer jerarquía**:
+   - `teams/{dept}/dept.md` → nombre, responsable, lista de equipos
+   - Por cada equipo: `teams/{dept}/{team}/team.md` → leads, miembros, roles, capacity
+   - Opcional: `teams/members/{handle}.md` → nombre real (solo para Draw.io remoto, NO en ficheros locales por PII)
+3. **Generar Mermaid** usando plantilla `references/orgchart-mermaid-template.md`
+   - Nodo raíz: departamento (con responsable si existe)
+   - Nodos intermedios: equipos (con capacity_total)
+   - Hojas: miembros (★ si es lead, rol como subtítulo)
+4. **Exportar** según `--tool` (igual que otros tipos)
+5. **Metadata** en `teams/diagrams/{tool}/orgchart-{dept}.meta.json`
+6. **Presentar**:
+   ```
+   ✅ Organigrama: {dept}
+   🏢 {N} equipos, {N} personas
+   🔗 URL: {link}
+   📁 Local: teams/diagrams/local/orgchart-{dept}.mermaid
+   ```
+
 ## Restricciones
 
 - Crear directorio `diagrams/` si no existe
 - No sobrescribir diagramas existentes sin confirmar
 - Siempre generar copia local en Mermaid además de la exportación al tool
 - No incluir secrets, connection strings ni tokens en el diagrama
+- Orgchart: solo @handles en ficheros locales, NUNCA nombres reales (regla PII-Free)
