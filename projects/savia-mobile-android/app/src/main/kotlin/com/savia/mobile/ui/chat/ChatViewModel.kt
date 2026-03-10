@@ -6,6 +6,7 @@ import com.savia.domain.model.Conversation
 import com.savia.domain.model.Message
 import com.savia.domain.model.StreamDelta
 import com.savia.domain.repository.ChatRepository
+import com.savia.data.api.SaviaBridgeService
 import com.savia.domain.repository.SecurityRepository
 import com.savia.domain.usecase.SendMessageUseCase
 import com.savia.mobile.notification.SaviaNotificationManager
@@ -30,6 +31,17 @@ import javax.inject.Inject
  * @property error error message to display in snackbar (null if no error)
  * @property conversations list of all past conversations for sidebar/sessions
  */
+/**
+ * Represents a pending permission request from Claude CLI.
+ * Shown as a dialog asking the user to Allow or Deny a tool operation.
+ */
+data class PendingPermission(
+    val requestId: String,
+    val toolName: String,
+    val toolInput: Map<String, String> = emptyMap(),
+    val description: String = ""
+)
+
 data class ChatUiState(
     val messages: List<Message> = emptyList(),
     val streamingText: String = "",
@@ -38,17 +50,10 @@ data class ChatUiState(
     val currentConversationId: String? = null,
     val error: String? = null,
     val conversations: List<Conversation> = emptyList(),
-    /**
-     * Whether the input box should accept new messages while streaming.
-     * When true, user can queue messages without waiting for current response.
-     * The spinner shows on the message bubble, not the input box.
-     */
     val canSendWhileStreaming: Boolean = true,
-    /**
-     * Number of messages queued and waiting to be sent.
-     * Displayed as a badge or counter near the input box.
-     */
-    val pendingMessageCount: Int = 0
+    val pendingMessageCount: Int = 0,
+    /** Active permission request waiting for user decision (null = no popup). */
+    val pendingPermission: PendingPermission? = null
 )
 
 /**
@@ -75,7 +80,8 @@ class ChatViewModel @Inject constructor(
     private val sendMessageUseCase: SendMessageUseCase,
     private val chatRepository: ChatRepository,
     private val securityRepository: SecurityRepository,
-    private val notificationManager: SaviaNotificationManager
+    private val notificationManager: SaviaNotificationManager,
+    private val bridgeService: SaviaBridgeService
 ) : ViewModel() {
 
     /**
@@ -325,7 +331,56 @@ class ChatViewModel @Inject constructor(
                         it.copy(streamingText = it.streamingText + "\n🔧 ${delta.toolName}\n")
                     }
                 }
+                is StreamDelta.PermissionRequest -> {
+                    _uiState.update {
+                        it.copy(
+                            pendingPermission = PendingPermission(
+                                requestId = delta.requestId,
+                                toolName = delta.toolName,
+                                toolInput = delta.toolInput,
+                                description = delta.description
+                            )
+                        )
+                    }
+                }
                 is StreamDelta.Start -> { /* Stream started */ }
+            }
+        }
+    }
+
+    /**
+     * Responds to a pending permission request (Allow or Deny).
+     * Called from the permission dialog in ChatScreen.
+     * Sends the decision to the Bridge which forwards it to Claude CLI.
+     */
+    fun respondToPermission(allow: Boolean) {
+        val pending = _uiState.value.pendingPermission ?: return
+        val conversationId = _uiState.value.currentConversationId ?: return
+
+        _uiState.update {
+            it.copy(
+                pendingPermission = null,
+                streamingText = it.streamingText +
+                    if (allow) "\n✅ Allowed: ${pending.toolName}\n"
+                    else "\n❌ Denied: ${pending.toolName}\n"
+            )
+        }
+
+        viewModelScope.launch {
+            val bridgeUrl = securityRepository.getBridgeUrl() ?: return@launch
+            val token = securityRepository.getBridgeToken() ?: return@launch
+
+            val success = bridgeService.sendPermissionResponse(
+                bridgeUrl = bridgeUrl,
+                authToken = token,
+                sessionId = conversationId,
+                requestId = pending.requestId,
+                allow = allow
+            )
+            if (!success) {
+                _uiState.update {
+                    it.copy(error = "Failed to send permission response")
+                }
             }
         }
     }

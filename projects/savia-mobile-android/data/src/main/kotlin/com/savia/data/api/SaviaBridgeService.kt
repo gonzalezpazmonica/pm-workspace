@@ -110,14 +110,16 @@ class SaviaBridgeService @Inject constructor(
         authToken: String,
         message: String,
         sessionId: String,
-        systemPrompt: String? = null
+        systemPrompt: String? = null,
+        interactive: Boolean = false
     ): Flow<StreamDelta> = callbackFlow {
         val requestBody = json.encodeToString(
             BridgeRequest.serializer(),
             BridgeRequest(
                 message = message,
                 session_id = sessionId,
-                system_prompt = systemPrompt
+                system_prompt = systemPrompt,
+                interactive = interactive
             )
         ).toRequestBody("application/json".toMediaType())
 
@@ -160,6 +162,16 @@ class SaviaBridgeService @Inject constructor(
                                     "tool_use" -> {
                                         val toolName = event.tool ?: "unknown"
                                         trySend(StreamDelta.ToolUse(toolName))
+                                    }
+                                    "permission_request" -> {
+                                        trySend(
+                                            StreamDelta.PermissionRequest(
+                                                requestId = event.request_id ?: "",
+                                                toolName = event.tool_name ?: "unknown",
+                                                toolInput = event.tool_input ?: emptyMap(),
+                                                description = event.description ?: ""
+                                            )
+                                        )
                                     }
                                     "done" -> {
                                         trySend(StreamDelta.Done)
@@ -213,6 +225,50 @@ class SaviaBridgeService @Inject constructor(
      * @return true if HTTP response is 2xx; false if unreachable, 4xx, or any exception
      *         Never throws; always returns Boolean for safe fallback logic
      */
+    /**
+     * Send a permission response back to the Bridge for a pending tool approval request.
+     *
+     * Called when the user taps Allow or Deny on the permission dialog.
+     * The Bridge will forward this decision to the Claude CLI process.
+     *
+     * @param bridgeUrl Base URL of bridge server
+     * @param authToken Bearer token for authentication
+     * @param sessionId Session ID of the active conversation
+     * @param requestId The request_id from the PermissionRequest event
+     * @param allow true to allow the tool, false to deny
+     * @return true if the response was accepted, false on error
+     */
+    suspend fun sendPermissionResponse(
+        bridgeUrl: String,
+        authToken: String,
+        sessionId: String,
+        requestId: String,
+        allow: Boolean
+    ): Boolean {
+        return try {
+            val body = json.encodeToString(
+                PermissionResponseRequest.serializer(),
+                PermissionResponseRequest(
+                    session_id = sessionId,
+                    request_id = requestId,
+                    behavior = if (allow) "allow" else "deny"
+                )
+            ).toRequestBody("application/json".toMediaType())
+
+            val request = Request.Builder()
+                .url("$bridgeUrl/chat/permission")
+                .post(body)
+                .header("Authorization", "Bearer $authToken")
+                .build()
+
+            httpClient.newCall(request).execute().use { response ->
+                response.isSuccessful
+            }
+        } catch (e: Exception) {
+            false
+        }
+    }
+
     suspend fun healthCheck(bridgeUrl: String, authToken: String): Boolean {
         return try {
             val request = Request.Builder()
@@ -311,12 +367,24 @@ data class FileContentResponse(
 internal data class BridgeRequest(
     val message: String,
     val session_id: String,
-    val system_prompt: String? = null
+    val system_prompt: String? = null,
+    val interactive: Boolean = false
 )
 
 @kotlinx.serialization.Serializable
 internal data class BridgeStreamEvent(
     val type: String,
     val text: String? = null,
-    val tool: String? = null
+    val tool: String? = null,
+    val request_id: String? = null,
+    val tool_name: String? = null,
+    val tool_input: Map<String, String>? = null,
+    val description: String? = null
+)
+
+@kotlinx.serialization.Serializable
+internal data class PermissionResponseRequest(
+    val session_id: String,
+    val request_id: String,
+    val behavior: String
 )

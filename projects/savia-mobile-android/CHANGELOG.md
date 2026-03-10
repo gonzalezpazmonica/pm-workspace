@@ -6,6 +6,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.46] — 2026-03-10
+
+### Fixed — One-shot mode + command pre-fill from palette
+
+Switch from interactive (bidirectional stream-json) to one-shot mode for Claude CLI, fixing chat unresponsive bug. Add command pre-fill navigation from Commands palette to Chat.
+
+### Fixed
+
+- **Chat unresponsive (CRITICAL)**: Claude CLI's `--input-format stream-json` interactive mode does not work as subprocess — stdin never receives messages. Switched to one-shot mode (`-p --output-format stream-json`) in `ChatRepositoryImpl` (`interactive = false`). Each message launches a fresh CLI process with `--resume` for session continuity
+- **Commands don't pre-fill chat (MAJOR)**: Tapping a command in the Commands palette navigated to Chat but ignored the command text. Root cause: `onNavigateToChat` callback discarded the `command` parameter. Fixed by adding `?command={command}` query parameter to navigation route with `Uri.encode()`
+- **Duplicate chat composable**: Two separate `composable()` blocks handled `chat` and `chat?conversationId=...` routes. Merged into single route `chat?conversationId={conversationId}&command={command}` with both optional `navArgument` params
+- **Sessions hardcoded route**: Sessions screen used hardcoded `"chat?conversationId=..."` string instead of `Screen.Chat.route`. Fixed to use sealed class constant
+
+### Added
+
+- **Command pre-fill in ChatInput**: New `commandToPreFill` parameter on `ChatScreen`, passed as `initialText` to `ChatInput`. Uses `remember(initialText)` keyed state so it reinitializes when navigation delivers a new command
+- **Permission request model**: `StreamDelta.PermissionRequest` data class with `requestId`, `toolName`, `toolInput`, `description` — enables future permission dialog UI for interactive mode
+- **Bridge permission endpoint**: `sendPermissionResponse()` in `SaviaBridgeService` — POST `/chat/permission` with session/request ID and allow/deny behavior
+- **Bridge SSE permission_request event**: `SaviaBridgeService` now parses `permission_request` SSE events and emits `StreamDelta.PermissionRequest`
+- **Bridge InteractiveSession manager**: Full bidirectional stream-json protocol implementation in `savia-bridge.py` — `InteractiveSession` class with stdin write, permission wait/resolve, session lifecycle. Includes `/chat/permission` HTTP endpoint, session cleanup, and timeout handling
+
+### Changed
+
+- `SaviaBridgeService.sendMessageStream()` accepts `interactive: Boolean` parameter (default `false`)
+- `BridgeRequest` serialization includes `interactive` field
+- `BridgeStreamEvent` extended with `request_id`, `tool_name`, `tool_input`, `description` fields
+- `SaviaNavigation`: Commands callback uses `popUpTo` + `launchSingleTop` for clean stack management
+- Bridge `--permission-mode bypassPermissions` set on interactive code path (currently unused)
+
+### Updated tech stack
+
+| Component | Version |
+|-----------|---------|
+| Bridge | 1.6.0 |
+| version.properties | CODE=49, PATCH=46 |
+| Tests | 48 unit + integration |
+
+---
+
 ## [0.3.44] — 2026-03-09
 
 ### Fixed — Chat screen crash + crash handler
@@ -247,6 +286,8 @@ via Savia Bridge, an HTTPS/SSE server wrapping Claude Code CLI.
 
 ---
 
+[0.3.46]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.44-savia-mobile...v0.3.46-savia-mobile
+[0.3.44]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.35-savia-mobile...v0.3.44-savia-mobile
 [0.3.35]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.34-savia-mobile...v0.3.35-savia-mobile
 [0.3.34]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0-savia-mobile...v0.3.34-savia-mobile
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/releases/tag/v0.1.0-savia-mobile

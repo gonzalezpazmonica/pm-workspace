@@ -840,6 +840,312 @@ def _save_known_sessions():
 
 _known_sessions: set[str] = _load_known_sessions()
 
+
+# --- Interactive Session Manager (bidirectional streaming for permissions) ---
+
+class InteractiveSession:
+    """
+    Manages a long-lived Claude CLI process using bidirectional stream-json protocol.
+    Enables permission request/response flow between Claude and the mobile app.
+
+    Protocol: Claude CLI with --input-format stream-json --output-format stream-json
+    sends control_request events when it needs tool approval. The bridge forwards these
+    as SSE permission_request events to the mobile app, waits for the user's decision
+    via POST /chat/permission, then sends control_response back to Claude's stdin.
+    """
+
+    def __init__(self, session_id: str, process: subprocess.Popen):
+        self.session_id = session_id
+        self.process = process
+        self.lock = threading.Lock()
+        self.permission_event = threading.Event()
+        self.permission_response: dict | None = None
+        self.pending_request_id: str | None = None
+        self.last_activity = _time_module.monotonic()
+        self.alive = True
+
+    def send_message(self, message: str, request_id: str = "?"):
+        """Write a user message to Claude's stdin as stream-json."""
+        msg = json.dumps({"type": "user_message", "content": message})
+        chat_log(f"[req:{request_id}] Interactive stdin: {msg[:200]}")
+        try:
+            self.process.stdin.write(msg + "\n")
+            self.process.stdin.flush()
+            self.last_activity = _time_module.monotonic()
+        except (BrokenPipeError, OSError) as e:
+            chat_log(f"[req:{request_id}] Failed to write to stdin: {e}", "ERROR")
+            self.alive = False
+            raise
+
+    def send_permission_response(self, request_id: str, behavior: str, req_id_log: str = "?"):
+        """Send a control_response to Claude's stdin for a pending permission request."""
+        response = json.dumps({
+            "type": "control_response",
+            "response": {
+                "subtype": "success",
+                "request_id": request_id,
+                "response": {"behavior": behavior}
+            }
+        })
+        chat_log(f"[req:{req_id_log}] Permission response -> stdin: {response[:200]}")
+        try:
+            self.process.stdin.write(response + "\n")
+            self.process.stdin.flush()
+            self.last_activity = _time_module.monotonic()
+        except (BrokenPipeError, OSError) as e:
+            chat_log(f"[req:{req_id_log}] Failed to write permission response: {e}", "ERROR")
+            self.alive = False
+            raise
+
+    def wait_for_permission(self, timeout: float = 120.0) -> dict | None:
+        """Block until permission response arrives or timeout."""
+        self.permission_event.clear()
+        if self.permission_event.wait(timeout=timeout):
+            resp = self.permission_response
+            self.permission_response = None
+            self.pending_request_id = None
+            return resp
+        return None
+
+    def resolve_permission(self, request_id: str, behavior: str):
+        """Called by POST /chat/permission handler to unblock wait_for_permission."""
+        self.permission_response = {"request_id": request_id, "behavior": behavior}
+        self.permission_event.set()
+
+    def is_alive(self) -> bool:
+        return self.alive and self.process.poll() is None
+
+    def kill(self):
+        self.alive = False
+        try:
+            self.process.terminate()
+            self.process.wait(timeout=5)
+        except Exception:
+            try:
+                self.process.kill()
+                self.process.wait(timeout=2)
+            except Exception:
+                pass
+
+
+import time as _time_module
+
+# Global registry of interactive sessions
+_interactive_sessions: dict[str, InteractiveSession] = {}
+_interactive_sessions_lock = threading.Lock()
+_INTERACTIVE_SESSION_TTL = 600  # 10 minutes idle before cleanup
+
+
+def _get_or_create_interactive_session(
+    session_id: str, system_prompt: str = None, request_id: str = "?"
+) -> InteractiveSession:
+    """Get existing interactive session or create new one."""
+    with _interactive_sessions_lock:
+        session = _interactive_sessions.get(session_id)
+        if session and session.is_alive():
+            chat_log(f"[req:{request_id}] Reusing interactive session {session_id}")
+            return session
+        elif session:
+            chat_log(f"[req:{request_id}] Interactive session {session_id} dead, recreating")
+            session.kill()
+
+    claude_bin = find_claude_cli()
+    cmd = [
+        claude_bin,
+        "--input-format", "stream-json",
+        "--output-format", "stream-json",
+        "--verbose",
+        "--permission-mode", "bypassPermissions",
+    ]
+
+    # Session handling
+    with _known_sessions_lock:
+        is_new = session_id not in _known_sessions
+
+    if is_new:
+        cmd.extend(["--session-id", session_id])
+    else:
+        cmd.extend(["--resume", session_id])
+
+    if system_prompt and is_new:
+        cmd.extend(["--system-prompt", system_prompt])
+
+    chat_log(f"[req:{request_id}] Starting interactive process: {' '.join(cmd[:6])}...")
+
+    process = subprocess.Popen(
+        cmd,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        bufsize=1,
+        env={
+            **{k: v for k, v in os.environ.items() if k != "CLAUDECODE"},
+            "CLAUDE_CODE_ENTRYPOINT": "savia-bridge",
+        }
+    )
+
+    session = InteractiveSession(session_id, process)
+
+    with _interactive_sessions_lock:
+        _interactive_sessions[session_id] = session
+
+    # Mark session as known
+    with _known_sessions_lock:
+        if session_id not in _known_sessions:
+            _known_sessions.add(session_id)
+            _save_known_sessions()
+
+    chat_log(f"[req:{request_id}] Interactive process started PID={process.pid}")
+    return session
+
+
+def _cleanup_stale_interactive_sessions():
+    """Remove interactive sessions that have been idle too long."""
+    now = _time_module.monotonic()
+    with _interactive_sessions_lock:
+        stale = [
+            sid for sid, s in _interactive_sessions.items()
+            if (now - s.last_activity > _INTERACTIVE_SESSION_TTL) or not s.is_alive()
+        ]
+        for sid in stale:
+            session = _interactive_sessions.pop(sid, None)
+            if session:
+                session.kill()
+                log(f"Cleaned up stale interactive session {sid}")
+
+
+def stream_interactive_response(session: InteractiveSession, message: str, request_id: str = "?"):
+    """
+    Send message to interactive session and yield streaming response chunks.
+    Handles control_request events for permission relay.
+
+    Yields dicts with type: text, error, done, permission_request, tool_use
+    """
+    try:
+        session.send_message(message, request_id)
+    except Exception as e:
+        yield {"type": "error", "text": f"Failed to send message: {e}"}
+        yield {"type": "done"}
+        return
+
+    full_response = ""
+    event_count = 0
+    start_time = _time_module.monotonic()
+    process_timeout = 300  # 5 minutes max per response
+
+    try:
+        for line in session.process.stdout:
+            elapsed = _time_module.monotonic() - start_time
+            if elapsed > process_timeout:
+                chat_log(f"[req:{request_id}] Interactive TIMEOUT after {elapsed:.0f}s", "ERROR")
+                yield {"type": "error", "text": f"Request timed out after {process_timeout}s"}
+                break
+
+            line = line.strip()
+            if not line:
+                continue
+
+            chat_log(f"[req:{request_id}] Interactive line: {line[:300]}")
+
+            try:
+                data = json.loads(line)
+                msg_type = data.get("type", "")
+
+                if msg_type == "assistant" and "message" in data:
+                    for block in data["message"].get("content", []):
+                        if block.get("type") == "text":
+                            text = block.get("text", "")
+                            if text:
+                                full_response += text
+                                event_count += 1
+                                yield {"type": "text", "text": text}
+                        elif block.get("type") == "tool_use":
+                            tool_name = block.get("name", "unknown")
+                            event_count += 1
+                            yield {"type": "tool_use", "text": f"Using tool: {tool_name}", "tool": tool_name}
+
+                elif msg_type == "content_block_delta":
+                    delta = data.get("delta", {})
+                    if delta.get("type") == "text_delta":
+                        text = delta.get("text", "")
+                        if text:
+                            full_response += text
+                            event_count += 1
+                            yield {"type": "text", "text": text}
+
+                elif msg_type == "result":
+                    result_text = data.get("result", "")
+                    if result_text and not full_response:
+                        full_response = result_text
+                        event_count += 1
+                        yield {"type": "text", "text": result_text}
+                    # Result marks end of this response turn
+                    chat_log(f"[req:{request_id}] Interactive result received, turn complete")
+                    break
+
+                elif msg_type == "control_request":
+                    # Permission request from Claude CLI
+                    request = data.get("request", {})
+                    ctrl_request_id = data.get("request_id", "")
+                    subtype = request.get("subtype", "")
+
+                    if subtype == "can_use_tool":
+                        tool_name = request.get("tool_name", "unknown")
+                        tool_input = request.get("input", {})
+                        description = request.get("description", "")
+
+                        chat_log(f"[req:{request_id}] PERMISSION REQUEST: {tool_name} (ctrl_id={ctrl_request_id})")
+
+                        session.pending_request_id = ctrl_request_id
+                        event_count += 1
+
+                        yield {
+                            "type": "permission_request",
+                            "request_id": ctrl_request_id,
+                            "tool_name": tool_name,
+                            "tool_input": tool_input,
+                            "description": description,
+                        }
+
+                        # Wait for mobile app to respond via POST /chat/permission
+                        chat_log(f"[req:{request_id}] Waiting for permission response...")
+                        resp = session.wait_for_permission(timeout=120.0)
+
+                        if resp:
+                            behavior = resp.get("behavior", "deny")
+                            chat_log(f"[req:{request_id}] Permission resolved: {behavior}")
+                            session.send_permission_response(ctrl_request_id, behavior, request_id)
+                        else:
+                            chat_log(f"[req:{request_id}] Permission TIMEOUT, denying", "WARN")
+                            session.send_permission_response(ctrl_request_id, "deny", request_id)
+                            yield {"type": "text", "text": "\n[Permission timed out - denied]\n"}
+                    else:
+                        chat_log(f"[req:{request_id}] Unknown control_request subtype: {subtype}")
+
+                elif msg_type == "error":
+                    error_msg = str(data.get("error", {}))
+                    chat_log(f"[req:{request_id}] Interactive error: {error_msg}", "ERROR")
+                    yield {"type": "error", "text": error_msg}
+                    break
+
+                else:
+                    chat_log(f"[req:{request_id}] Interactive type={msg_type} (ignored)")
+
+            except json.JSONDecodeError:
+                chat_log(f"[req:{request_id}] Interactive non-JSON: {line[:200]}")
+                if line:
+                    full_response += line
+                    yield {"type": "text", "text": line}
+
+    except Exception as e:
+        chat_log(f"[req:{request_id}] Interactive stream error: {traceback.format_exc()}", "ERROR")
+        yield {"type": "error", "text": str(e)}
+
+    chat_log(f"[req:{request_id}] Interactive done: events={event_count} len={len(full_response)}")
+    yield {"type": "done"}
+
+
 def stream_claude_response(message: str, session_id: str = None, system_prompt: str = None, request_id: str = "?"):
     """
     Invoke Claude Code CLI and yield streaming response chunks.
@@ -1891,6 +2197,66 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             })
             return
 
+        # --- POST /chat/permission — Permission response from mobile app ---
+        if parsed.path == "/chat/permission":
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+
+            content_length = int(self.headers.get("Content-Length", 0))
+            if content_length > 10_000:
+                self._send_json({"error": "Request body too large"}, 413)
+                return
+            body = self.rfile.read(content_length).decode()
+
+            try:
+                data = json.loads(body)
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+                return
+
+            perm_session_id = data.get("session_id", "")
+            perm_request_id = data.get("request_id", "")
+            perm_behavior = data.get("behavior", "deny")
+
+            if not perm_session_id or not perm_request_id:
+                self._send_json({"error": "Missing session_id or request_id"}, 400)
+                return
+
+            if perm_behavior not in ("allow", "deny"):
+                self._send_json({"error": "behavior must be 'allow' or 'deny'"}, 400)
+                return
+
+            # Convert non-UUID session IDs the same way as /chat does
+            if not _is_valid_uuid(perm_session_id):
+                if re.match(r'^[a-zA-Z0-9_-]{1,128}$', perm_session_id):
+                    import uuid as _uuid_mod
+                    perm_session_id = str(_uuid_mod.uuid5(_uuid_mod.NAMESPACE_DNS, f"savia.{perm_session_id}"))
+                else:
+                    self._send_json({"error": "Invalid session_id format"}, 400)
+                    return
+
+            log(f"[req:{request_id}] POST /chat/permission session={perm_session_id} behavior={perm_behavior}")
+
+            with _interactive_sessions_lock:
+                session = _interactive_sessions.get(perm_session_id)
+
+            if not session:
+                self._send_json({"error": "No active interactive session"}, 404)
+                return
+
+            if session.pending_request_id != perm_request_id:
+                self._send_json({
+                    "error": "request_id mismatch",
+                    "expected": session.pending_request_id,
+                    "received": perm_request_id
+                }, 409)
+                return
+
+            session.resolve_permission(perm_request_id, perm_behavior)
+            self._send_json({"status": "ok", "behavior": perm_behavior})
+            return
+
         if parsed.path != "/chat":
             self._send_json({"error": "Not found"}, 404)
             return
@@ -1928,6 +2294,7 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
 
         session_id = data.get("session_id")
         system_prompt = data.get("system_prompt", self.system_prompt)
+        interactive = data.get("interactive", False)  # Enable permission popups
 
         # Claude CLI requires UUID session IDs — validate and convert non-UUID strings
         if session_id:
@@ -1942,7 +2309,11 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 session_id = str(_uuid_mod.uuid5(_uuid_mod.NAMESPACE_DNS, f"savia.{session_id}"))
                 log(f"[req:{request_id}] Converted session_id '{original}' -> {session_id}")
 
-        log(f"[req:{request_id}] Message='{message[:60]}', session={session_id}")
+        mode_str = "interactive" if interactive else "one-shot"
+        log(f"[req:{request_id}] Message='{message[:60]}', session={session_id}, mode={mode_str}")
+
+        # Periodic cleanup of stale interactive sessions
+        _cleanup_stale_interactive_sessions()
 
         accept = self.headers.get("Accept", "")
 
@@ -1963,7 +2334,14 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
 
             event_num = 0
             try:
-                for chunk in stream_claude_response(message, session_id, system_prompt, request_id):
+                # Choose streaming mode: interactive (permission-capable) or one-shot
+                if interactive and session_id:
+                    session = _get_or_create_interactive_session(session_id, system_prompt, request_id)
+                    stream = stream_interactive_response(session, message, request_id)
+                else:
+                    stream = stream_claude_response(message, session_id, system_prompt, request_id)
+
+                for chunk in stream:
                     event_data = json.dumps(chunk)
                     event_num += 1
                     chat_log(f"[req:{request_id}] SSE #{event_num}: {event_data[:300]}")
@@ -1977,7 +2355,7 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 # A2 FIX: Always decrement counter on stream end
                 _decrement_sse_streams()
 
-            log(f"[req:{request_id}] SSE complete ({event_num} events)")
+            log(f"[req:{request_id}] SSE complete ({event_num} events, mode={mode_str})")
 
         else:
             # Simple JSON response (collect all text)

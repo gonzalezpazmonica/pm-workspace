@@ -30,9 +30,12 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -109,7 +112,8 @@ import java.util.Locale
 @Composable
 fun ChatScreen(
     viewModel: ChatViewModel = hiltViewModel(),
-    conversationIdToLoad: String? = null
+    conversationIdToLoad: String? = null,
+    commandToPreFill: String? = null
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -168,6 +172,15 @@ fun ChatScreen(
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { innerPadding ->
+        // Permission request dialog
+        uiState.pendingPermission?.let { permission ->
+            PermissionRequestDialog(
+                permission = permission,
+                onAllow = { viewModel.respondToPermission(allow = true) },
+                onDeny = { viewModel.respondToPermission(allow = false) }
+            )
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -220,6 +233,7 @@ fun ChatScreen(
                 ChatInput(
                     isStreaming = uiState.isStreaming,
                     pendingMessageCount = uiState.pendingMessageCount,
+                    initialText = commandToPreFill,
                     onSend = { viewModel.sendMessage(it) }
                 )
             }
@@ -407,9 +421,10 @@ private val slashCommands = listOf(
 private fun ChatInput(
     isStreaming: Boolean,
     pendingMessageCount: Int = 0,
+    initialText: String? = null,
     onSend: (String) -> Unit
 ) {
-    var text by remember { mutableStateOf("") }
+    var text by remember(initialText) { mutableStateOf(initialText ?: "") }
     val showSlashMenu = text.startsWith("/") && !text.contains(" ")
     val filteredCommands = if (showSlashMenu) {
         slashCommands.filter { it.command.startsWith(text, ignoreCase = true) }
@@ -717,6 +732,70 @@ private fun MarkdownText(
             val markwon = textView.tag as Markwon
             markwon.setMarkdown(textView, markdown)
             textView.setTextColor(colorArgb)
+        }
+    )
+}
+
+/**
+ * Dialog shown when Claude CLI requests permission to use a tool.
+ * Displays tool name, description, and input details with Allow/Deny buttons.
+ */
+@Composable
+private fun PermissionRequestDialog(
+    permission: PendingPermission,
+    onAllow: () -> Unit,
+    onDeny: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDeny,
+        title = {
+            Text(
+                text = "Permission Request",
+                style = MaterialTheme.typography.titleMedium
+            )
+        },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    text = "Claude wants to use: ${permission.toolName}",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                if (permission.description.isNotEmpty()) {
+                    Text(
+                        text = permission.description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                // Show tool input details (e.g., command to execute)
+                val inputText = permission.toolInput.entries.joinToString("\n") { (k, v) ->
+                    "$k: $v"
+                }
+                if (inputText.isNotEmpty()) {
+                    Card(
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                    ) {
+                        Text(
+                            text = inputText,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(8.dp),
+                            fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
+                        )
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = onAllow) {
+                Text("Allow")
+            }
+        },
+        dismissButton = {
+            OutlinedButton(onClick = onDeny) {
+                Text("Deny")
+            }
         }
     )
 }

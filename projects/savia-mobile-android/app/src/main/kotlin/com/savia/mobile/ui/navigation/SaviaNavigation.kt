@@ -30,6 +30,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import androidx.navigation.NavType
 import com.savia.mobile.ui.approvals.ApprovalsScreen
 import com.savia.mobile.ui.capture.CaptureScreen
 import com.savia.mobile.ui.chat.ChatScreen
@@ -265,12 +267,31 @@ fun SaviaNavHost(
                 )
             }
 
-            composable(Screen.Chat.route) { ChatScreen() }
+            composable(
+                route = "${Screen.Chat.route}?conversationId={conversationId}&command={command}",
+                arguments = listOf(
+                    navArgument("conversationId") { defaultValue = ""; nullable = true },
+                    navArgument("command") { defaultValue = ""; nullable = true }
+                )
+            ) { backStackEntry ->
+                val conversationId = backStackEntry.arguments?.getString("conversationId")
+                val command = backStackEntry.arguments?.getString("command")
+                ChatScreen(
+                    conversationIdToLoad = conversationId?.takeIf { it.isNotBlank() },
+                    commandToPreFill = command?.takeIf { it.isNotBlank() }
+                )
+            }
 
             composable(Screen.Commands.route) {
                 CommandsScreen(
                     onNavigateToChat = { command ->
-                        navController.navigate(Screen.Chat.route)
+                        val encoded = android.net.Uri.encode(command)
+                        navController.navigate("${Screen.Chat.route}?command=$encoded") {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                inclusive = false
+                            }
+                            launchSingleTop = true
+                        }
                     }
                 )
             }
@@ -344,7 +365,7 @@ fun SaviaNavHost(
             composable(Screen.Sessions.route) {
                 DashboardScreen(
                     onConversationSelected = { conversationId ->
-                        navController.navigate("chat?conversationId=$conversationId") {
+                        navController.navigate("${Screen.Chat.route}?conversationId=$conversationId") {
                             popUpTo(navController.graph.findStartDestination().id) {
                                 saveState = false
                             }
@@ -352,19 +373,6 @@ fun SaviaNavHost(
                         }
                     }
                 )
-            }
-
-            composable(
-                route = "chat?conversationId={conversationId}",
-                arguments = listOf(
-                    androidx.navigation.navArgument("conversationId") {
-                        defaultValue = ""
-                        nullable = true
-                    }
-                )
-            ) { backStackEntry ->
-                val conversationId = backStackEntry.arguments?.getString("conversationId")
-                ChatScreen(conversationIdToLoad = conversationId?.takeIf { it.isNotBlank() })
             }
         }
     }

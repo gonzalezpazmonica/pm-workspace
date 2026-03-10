@@ -97,7 +97,7 @@ class ChatViewModelIntegrationTest {
         val chatRepository = ChatRepositoryImpl(apiService, bridgeService, streamParser, dao, fakeSecurityRepo)
         val sendMessageUseCase = SendMessageUseCase(chatRepository)
 
-        viewModel = ChatViewModel(sendMessageUseCase, chatRepository, fakeSecurityRepo, mockk(relaxed = true))
+        viewModel = ChatViewModel(sendMessageUseCase, chatRepository, fakeSecurityRepo, mockk(relaxed = true), bridgeService)
     }
 
     @After
@@ -127,8 +127,9 @@ class ChatViewModelIntegrationTest {
         fakeSecurityRepo = InMemorySecurityRepository(null)
         val apiService = createApiService()
         val client = OkHttpClient.Builder().build()
-        val chatRepository = ChatRepositoryImpl(apiService, SaviaBridgeService(client, json), ClaudeStreamParser(), dao, fakeSecurityRepo)
-        viewModel = ChatViewModel(SendMessageUseCase(chatRepository), chatRepository, fakeSecurityRepo, mockk(relaxed = true))
+        val bridgeSvc = SaviaBridgeService(client, json)
+        val chatRepository = ChatRepositoryImpl(apiService, bridgeSvc, ClaudeStreamParser(), dao, fakeSecurityRepo)
+        viewModel = ChatViewModel(SendMessageUseCase(chatRepository), chatRepository, fakeSecurityRepo, mockk(relaxed = true), bridgeSvc)
 
         advanceUntilIdle()
 
@@ -255,8 +256,9 @@ class ChatViewModelIntegrationTest {
         fakeSecurityRepo = InMemorySecurityRepository(null)
         val apiService = createApiService()
         val client = OkHttpClient.Builder().build()
-        val chatRepository = ChatRepositoryImpl(apiService, SaviaBridgeService(client, json), ClaudeStreamParser(), dao, fakeSecurityRepo)
-        viewModel = ChatViewModel(SendMessageUseCase(chatRepository), chatRepository, fakeSecurityRepo, mockk(relaxed = true))
+        val bridgeSvc = SaviaBridgeService(client, json)
+        val chatRepository = ChatRepositoryImpl(apiService, bridgeSvc, ClaudeStreamParser(), dao, fakeSecurityRepo)
+        viewModel = ChatViewModel(SendMessageUseCase(chatRepository), chatRepository, fakeSecurityRepo, mockk(relaxed = true), bridgeSvc)
 
         advanceUntilIdle()
         assertThat(viewModel.uiState.value.isConfigured).isFalse()
