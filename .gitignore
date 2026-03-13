@@ -24,7 +24,6 @@ projects/*
 !projects/proyecto-beta/
 !projects/sala-reservas/
 !projects/savia-mobile-android/
-!projects/claude-code-templates/
 
 # ── Datos generados y sensibles (incluso dentro de proyectos de ejemplo) ──────
 projects/*/sprints/
