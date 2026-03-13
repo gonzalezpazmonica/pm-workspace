@@ -4,6 +4,8 @@ description: Optimize context loading order for prompt caching efficiency
 maturity: stable
 version: 1.0.0
 tags: [caching, performance, tokens, cost-optimization]
+category: "quality"
+priority: "medium"
 ---
 
 # Context Caching Skill

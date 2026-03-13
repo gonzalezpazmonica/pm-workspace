@@ -2,6 +2,9 @@
 name: evaluations-framework
 description: Evaluations Framework
 maturity: beta
+category: "reporting"
+tags: ["evaluations", "quality", "g-eval", "scoring"]
+priority: "medium"
 ---
 
 # Evaluations Framework

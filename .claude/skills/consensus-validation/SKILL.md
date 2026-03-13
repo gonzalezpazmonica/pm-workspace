@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 agent: consensus-orchestrator
 context_cost: medium
+category: "governance"
+tags: ["consensus", "validation", "multi-judge", "quality"]
+priority: "high"
 ---
 
 # Skill: Consensus Validation

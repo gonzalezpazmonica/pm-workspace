@@ -2,6 +2,9 @@
 name: semantic-memory
 description: semantic-memory
 maturity: beta
+category: "communication"
+tags: ["semantic", "memory", "embeddings", "search"]
+priority: "low"
 ---
 
 # semantic-memory

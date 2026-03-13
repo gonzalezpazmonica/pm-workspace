@@ -4,6 +4,9 @@ description: Análisis de descubrimiento de producto - JTBD y PRD antes de desco
 maturity: stable
 context: fork
 agent: business-analyst
+category: "quality"
+tags: ["discovery", "jtbd", "prd", "product"]
+priority: "medium"
 ---
 
 # Skill: Product Discovery

@@ -7,6 +7,9 @@ maturity: stable
 disable-model-invocation: false
 user-invocable: false
 allowed-tools: [Read, Bash, Glob, Grep]
+category: "communication"
+tags: ["messaging", "company", "encryption", "privacy"]
+priority: "medium"
 ---
 
 # Company Messaging — Skill (Branch-Based v3)

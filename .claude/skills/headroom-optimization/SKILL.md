@@ -2,6 +2,9 @@
 name: headroom-optimization
 description: headroom-optimization
 maturity: beta
+category: "quality"
+tags: ["headroom", "context", "compression", "tokens"]
+priority: "medium"
 ---
 
 # headroom-optimization

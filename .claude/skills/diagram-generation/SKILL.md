@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 agent: diagram-architect
 context_cost: medium
+category: "devops"
+tags: ["diagrams", "architecture", "mermaid", "draw-io"]
+priority: "medium"
 ---
 
 # Skill: Diagram Generation — Arquitectura y Flujo

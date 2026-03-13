@@ -4,6 +4,9 @@ description: "Gestión CRUD de perfiles de cliente en SaviaHub"
 maturity: stable
 context_cost: medium
 dependencies: ["savia-hub-sync"]
+category: "pm-operations"
+tags: ["client", "profile", "crud", "savia-hub"]
+priority: "medium"
 ---
 
 # Skill: Client Profile Manager

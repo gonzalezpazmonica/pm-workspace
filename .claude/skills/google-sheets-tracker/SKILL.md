@@ -2,6 +2,9 @@
 name: google-sheets-tracker
 description: Google Sheets Tracker
 maturity: beta
+category: "reporting"
+tags: ["google-sheets", "tracking", "metrics", "stakeholders"]
+priority: "low"
 ---
 
 # Google Sheets Tracker

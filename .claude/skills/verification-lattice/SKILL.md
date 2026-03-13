@@ -4,6 +4,9 @@ description: Multi-layer verification pipeline beyond Code Review
 maturity: stable
 context: fork
 context_cost: high
+category: "governance"
+tags: ["verification", "multi-layer", "pipeline", "quality-gate"]
+priority: "high"
 ---
 
 # Verification Lattice: 5-Layer Verification Pipeline

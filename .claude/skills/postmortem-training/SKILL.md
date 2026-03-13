@@ -2,6 +2,9 @@
 name: postmortem-training
 description: Postmortem Training Skill
 maturity: beta
+category: "communication"
+tags: ["postmortem", "heuristics", "incident", "learning"]
+priority: "medium"
 ---
 
 # Postmortem Training Skill

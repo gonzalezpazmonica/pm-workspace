@@ -1,13 +1,14 @@
 ---
 name: reflection-validation
-description: >
+description: "Meta-cognitive validation protocol (System 2). Detects proxy optimization, undeclared assumptions, and broken causal chains."
 maturity: stable
-  Meta-cognitive validation protocol (System 2). Detects proxy optimization,
-  undeclared assumptions, and broken causal chains in responses, specs, and decisions.
 disable-model-invocation: false
 user-invocable: false
 allowed-tools: [Read, Glob, Grep]
 context_cost: medium
+category: "governance"
+tags: ["reflection", "meta-cognitive", "system2", "assumptions"]
+priority: "high"
 ---
 
 # Reflection Validation — System 2 Protocol
@@ -144,6 +145,4 @@ The `reflection-validator` agent produces a structured report:
 
 ## Integration
 
-- **`reflection-validator` agent**: applies this protocol to any input
-- **Other agents**: reference the Embeddable Pattern via `@`
-- **Savia**: suggests reflection for trade-off or decision questions
+- **`reflection-validator` agent**: applies this protocol to any input; other agents reference the Embeddable Pattern via `@`

@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 agent: tech-writer
 context_cost: medium
+category: "reporting"
+tags: ["executive", "reports", "powerpoint", "word"]
+priority: "medium"
 ---
 
 # Skill: executive-reporting

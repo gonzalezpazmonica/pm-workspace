@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 agent: null
 context_cost: low
+category: "pm-operations"
+tags: ["sync", "savia-hub", "repository", "backup"]
+priority: "medium"
 ---
 
 # Skill: savia-hub-sync

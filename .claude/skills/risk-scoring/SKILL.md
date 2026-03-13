@@ -4,6 +4,9 @@ description: Calculate risk score for tasks and route to appropriate review leve
 maturity: beta
 context: fork
 agent: architect
+category: "quality"
+tags: ["risk", "scoring", "escalation", "review-routing"]
+priority: "high"
 ---
 
 # Risk Scoring for Intelligent Escalation

@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 agent: azure-devops-operator
 context_cost: medium
+category: "devops"
+tags: ["azure-devops", "wiql", "work-items", "api"]
+priority: "high"
 ---
 
 # Skill: azure-devops-queries
