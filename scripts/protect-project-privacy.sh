@@ -133,7 +133,7 @@ if git diff --cached --name-only 2>/dev/null | grep -q "^\.gitignore$"; then
 fi
 
 # Verificación 2: ¿Hay archivos staged en projects/ de un proyecto no whitelisteado?
-STAGED_PROJECTS=$(git diff --cached --name-only 2>/dev/null \
+STAGED_PROJECTS=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null \
     | grep "^projects/" \
     | sed 's|^projects/||; s|/.*||' \
     | sort -u || true)
