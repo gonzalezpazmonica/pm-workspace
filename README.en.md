@@ -54,8 +54,8 @@ More detail in the [Data flow guide](docs/data-flow-guide-en.md).
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 400+ commands (what you can ask me)
-│   ├── agents/         ← 31 specialized agents
-│   ├── skills/         ← 45 skills with domain knowledge
+│   ├── agents/         ← 34 specialized agents
+│   ├── skills/         ← 75 skills with domain knowledge
 │   ├── hooks/          ← 16 hooks that enforce rules automatically
 │   └── rules/          ← context, language, and domain rules
 ├── docs/
@@ -96,7 +96,7 @@ Every command has YAML frontmatter with metadata (model, context cost, descripti
 
 **Autonomous modes** — Overnight sprint, code improvement loop, tech research, and dev onboarding with AI buddy. Agents propose, humans approve: `agent/*` branches, Draft PRs, mandatory human review.
 
-**Collaboration** — Company Savia (E2E encrypted messaging), Savia Flow (Git-native PM), Travel Mode, encrypted backup, Savia School. Reference: [400+ commands · 34 agents · 45 skills](docs/readme/12-comandos-agentes.md)
+**Collaboration** — Company Savia (E2E encrypted messaging), Savia Flow (Git-native PM), Travel Mode, encrypted backup, Savia School. Reference: [400+ commands · 34 agents · 75 skills](docs/readme/12-comandos-agentes.md)
 
 ---
 

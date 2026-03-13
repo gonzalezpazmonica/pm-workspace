@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 context_cost: high
 agent: developer
+category: "sdd-framework"
+tags: ["dag", "parallel", "orchestration", "pipeline"]
+priority: "high"
 ---
 
 # Skill: DAG Scheduling — Orquestación de agentes en paralelo

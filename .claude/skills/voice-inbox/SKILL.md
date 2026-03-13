@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 context_cost: medium
 agent: business-analyst
+category: "communication"
+tags: ["voice", "transcription", "audio", "whatsapp"]
+priority: "medium"
 ---
 
 # Voice Inbox — Transcripción y procesamiento de mensajes de voz

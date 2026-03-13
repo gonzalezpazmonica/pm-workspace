@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 agent: tech-writer
 context_cost: medium
+category: "reporting"
+tags: ["time-tracking", "hours", "excel", "reporting"]
+priority: "medium"
 ---
 
 # Skill: time-tracking-report

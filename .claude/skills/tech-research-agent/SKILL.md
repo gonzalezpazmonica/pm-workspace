@@ -4,6 +4,9 @@ description: Agente de investigación técnica autónoma — investiga temas, ge
 maturity: experimental
 context: fork
 agent: architect
+category: "sdd-framework"
+tags: ["research", "autonomous", "investigation", "reports"]
+priority: "low"
 ---
 
 # Skill: Tech Research Agent
@@ -142,7 +145,5 @@ SIEMPRE → Si no encuentra evidencia, decirlo explícitamente
 
 ## Cuándo NO usar
 
-- Para implementar cambios (usar SDD o code-improvement-loop)
-- Para tareas que requieren acceso a sistemas externos con credenciales
-- Para investigación que involucre datos sensibles del negocio
-- Si no hay un humano configurado para recibir el informe
+- Para implementar cambios (usar SDD o code-improvement-loop) o acceso a sistemas con credenciales
+- Si no hay AUTONOMOUS_RESEARCH_NOTIFY configurado o involucra datos sensibles del negocio

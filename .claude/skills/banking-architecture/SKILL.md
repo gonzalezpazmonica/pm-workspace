@@ -2,6 +2,9 @@
 name: banking-architecture
 description: Skill: Banking Architecture
 maturity: beta
+category: "governance"
+tags: ["banking", "architecture", "finance", "compliance"]
+priority: "low"
 ---
 
 # Skill: Banking Architecture

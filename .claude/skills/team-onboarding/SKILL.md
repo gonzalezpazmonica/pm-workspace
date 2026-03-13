@@ -4,6 +4,9 @@ description: Onboarding y evaluación de competencias para nuevos miembros del e
 maturity: stable
 context: fork
 agent: tech-writer
+category: "pm-operations"
+tags: ["onboarding", "competencies", "ramp-up", "team"]
+priority: "medium"
 ---
 
 # Skill: Team Onboarding & Expertise Evaluation

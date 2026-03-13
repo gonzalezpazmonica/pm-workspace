@@ -7,6 +7,9 @@ agent: architect
 context_cost: medium
 dependencies: []
 memory: project
+category: "quality"
+tags: ["onboarding", "enterprise", "batch-import", "knowledge-transfer"]
+priority: "medium"
 ---
 
 # Skill: Enterprise Onboarding

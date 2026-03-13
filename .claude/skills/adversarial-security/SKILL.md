@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 context_cost: medium
 agent: security-attacker
+category: "governance"
+tags: ["security", "adversarial", "red-team", "blue-team"]
+priority: "high"
 ---
 
 # Adversarial Security Skill

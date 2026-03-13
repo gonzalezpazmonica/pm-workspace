@@ -2,6 +2,9 @@
 name: sdlc-state-machine
 description: sdlc-state-machine
 maturity: beta
+category: "sdd-framework"
+tags: ["sdlc", "state-machine", "gates", "transitions"]
+priority: "high"
 ---
 
 # sdlc-state-machine

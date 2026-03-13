@@ -4,6 +4,9 @@ description: Skill para gestión de CI/CD con Azure Pipelines via MCP
 maturity: stable
 context: fork
 agent: azure-devops-operator
+category: "devops"
+tags: ["pipelines", "ci-cd", "azure", "deployment"]
+priority: "medium"
 ---
 
 # Skill: azure-pipelines

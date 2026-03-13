@@ -4,6 +4,9 @@ description: Onboarding técnico con Buddy IA — auto-genera documentación del
 maturity: experimental
 context: fork
 agent: tech-writer
+category: "sdd-framework"
+tags: ["onboarding", "buddy-ia", "documentation", "ramp-up"]
+priority: "medium"
 ---
 
 # Skill: Onboarding Dev — Buddy IA

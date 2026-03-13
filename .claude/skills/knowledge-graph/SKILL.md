@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 agent: architect
 context_cost: medium
+category: "communication"
+tags: ["knowledge-graph", "entities", "relations", "queries"]
+priority: "medium"
 ---
 
 # Skill: knowledge-graph

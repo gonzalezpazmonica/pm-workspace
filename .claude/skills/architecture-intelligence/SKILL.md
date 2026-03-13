@@ -16,6 +16,9 @@ references:
   - references/patterns-ruby.md
   - references/patterns-legacy.md
   - references/patterns-terraform.md
+category: "quality"
+tags: ["architecture", "patterns", "detection", "recommendations"]
+priority: "medium"
 ---
 
 # Architecture Intelligence — Skill

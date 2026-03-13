@@ -5,6 +5,9 @@ maturity: stable
 model: sonnet
 context_cost: medium
 memory: project
+category: "sdd-framework"
+tags: ["routing", "discovery", "commands", "intent"]
+priority: "high"
 ---
 
 # Smart Routing for 400+ Commands

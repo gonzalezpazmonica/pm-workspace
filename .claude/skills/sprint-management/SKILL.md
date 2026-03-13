@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 agent: azure-devops-operator
 context_cost: medium
+category: "pm-operations"
+tags: ["sprint", "planning", "scrum", "velocity"]
+priority: "high"
 ---
 
 # Skill: sprint-management

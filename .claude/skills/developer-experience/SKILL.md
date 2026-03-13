@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 context_cost: medium
 agent: business-analyst
+category: "quality"
+tags: ["dx", "developer-experience", "space", "core4"]
+priority: "medium"
 ---
 
 # Developer Experience (DX)

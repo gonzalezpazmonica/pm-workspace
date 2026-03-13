@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.80.0] — 2026-03-13
+
+Era 62 — Agent and skill enrichment: handoff templates, assignment matrix, enhanced verification, skill metadata, and agent identity profiles.
+
+### Added
+- **handoff-templates rule**: 7 standardized templates for agent-to-agent transitions (Standard, QA Pass/Fail, Escalation, Phase Gate, Sprint Review, Status Report)
+- **assignment-matrix rule**: Task Type → Agent routing table (39 task types, 12 language packs, selection rules)
+- **decision-trees/**: externalized decision trees for agents exceeding 150-line limit
+
+### Changed
+- **verification-before-done rule**: enhanced with evidence-based quality gates, retry policy (haiku→sonnet→opus→human), escalation handoff format
+- **skill-auto-activation rule**: refined scoring (40% base + 30% context + 30% history), 7 category taxonomy, priority-based thresholds
+- **75 skills**: added `category`, `tags`, `priority` metadata to YAML frontmatter for intelligent routing and auto-activation
+- **10 agents** (architect, business-analyst, code-reviewer, commit-guardian, dotnet-developer, frontend-developer, sdd-spec-writer, security-guardian, test-runner, typescript-developer): enriched with Identity, Core Mission, Decision Trees, Success Metrics
+- **README.md / README.en.md**: updated skill count (45→75), agent count alignment (34)
+
 ## [2.79.0] — 2026-03-13
 
 Autonomous modes — overnight sprint, code improvement loop, tech research agent, and dev onboarding with AI buddy.
@@ -3160,6 +3176,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 
+[2.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.79.0...v2.80.0
 [2.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.78.0...v2.79.0
 [2.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.77.0...v2.78.0
 [2.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.5...v2.77.0

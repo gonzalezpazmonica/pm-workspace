@@ -7,6 +7,9 @@ agent: architect
 context_cost: medium
 dependencies: []
 memory: project
+category: "governance"
+tags: ["governance", "audit-trail", "certification", "enterprise"]
+priority: "high"
 ---
 
 # Skill: Enterprise Governance
