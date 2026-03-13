@@ -4,6 +4,9 @@ description: "Auditoría de soberanía cognitiva — diagnóstico de lock-in de 
 maturity: stable
 context_cost: medium
 dependencies: []
+category: "governance"
+tags: ["sovereignty", "lock-in", "ai-governance", "audit"]
+priority: "medium"
 ---
 
 # Skill: Sovereignty Auditor

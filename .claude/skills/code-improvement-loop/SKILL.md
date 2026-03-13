@@ -4,6 +4,9 @@ description: Bucle autónomo de mejora continua de código — detecta oportunid
 maturity: experimental
 context: fork
 agent: code-reviewer
+category: "sdd-framework"
+tags: ["autonomous", "improvement", "refactoring", "pr-draft"]
+priority: "medium"
 ---
 
 # Skill: Code Improvement Loop

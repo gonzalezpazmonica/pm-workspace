@@ -3,6 +3,9 @@ name: scheduled-messaging
 description: Configure Scheduled Tasks with automatic messaging to communication platforms
 maturity: stable
 context: fork
+category: "communication"
+tags: ["scheduled", "messaging", "notifications", "automation"]
+priority: "medium"
 ---
 
 # Scheduled Messaging — 5-Phase Integration Wizard

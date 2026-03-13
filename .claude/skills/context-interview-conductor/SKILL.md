@@ -4,6 +4,9 @@ description: "Conducción de entrevistas estructuradas de contexto"
 maturity: stable
 context_cost: high
 dependencies: ["savia-hub-sync", "client-profile-manager"]
+category: "communication"
+tags: ["interview", "context", "structured", "discovery"]
+priority: "medium"
 ---
 
 # Skill: Context Interview Conductor

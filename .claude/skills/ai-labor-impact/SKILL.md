@@ -7,6 +7,9 @@ agent: architect
 context_cost: medium
 dependencies: [enterprise-analytics]
 memory: project
+category: "quality"
+tags: ["ai-impact", "labor", "reskilling", "workforce"]
+priority: "low"
 ---
 
 # Skill: AI Labor Impact

@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 context_cost: high
 agent: business-analyst
+category: "sdd-framework"
+tags: ["sdd", "specs", "development", "agents"]
+priority: "high"
 ---
 
 # Skill: Spec-Driven Development (SDD)
@@ -83,18 +86,12 @@ Si NO cumple → `developer_type: human`
 ### 2.5 Agent-Note del análisis
 
 Escribir: `projects/{proyecto}/agent-notes/{ticket}-legacy-analysis-{fecha}.md`
-Con: análisis de código, patrones, decisiones, dependencias.
 
 ---
 
 ## Fase 2.5 — Security Review Pre-Implementación
 
-Ejecutar `/security-review {spec}`:
-1. `security-guardian` revisa contra OWASP Top 10
-2. Produce: `projects/{proyecto}/agent-notes/{ticket}-security-checklist-{fecha}.md`
-3. Si issues 🔴 → corregir spec antes de implementar
-
-**Obligatorio** para: auth, pagos, datos personales, APIs públicas, infraestructura.
+Ejecutar `/security-review {spec}` — `security-guardian` revisa contra OWASP Top 10. Si issues 🔴 → corregir spec antes de implementar. **Obligatorio** para: auth, pagos, datos personales, APIs públicas, infraestructura.
 
 ---
 
@@ -144,7 +141,6 @@ Al cerrar sprint, ejecutar `/spec-verify` para confirmar compliance y archivar d
 
 ## Referencias
 
-- Spec template: `references/spec-template.md` · Layer assignment: `references/layer-assignment-matrix.md`
-- Agent invocation: `references/agent-invocation.md` · Review & metrics: `references/review-metrics.md`
-- Compliance matrix: `references/compliance-matrix.md`
+- Templates: `references/spec-template.md` · `references/layer-assignment-matrix.md` · `references/compliance-matrix.md`
+- Execution: `references/agent-invocation.md` · `references/review-metrics.md`
 - Comandos: `/spec-generate`, `/spec-implement`, `/spec-review`, `/spec-explore`, `/spec-design`, `/spec-verify`

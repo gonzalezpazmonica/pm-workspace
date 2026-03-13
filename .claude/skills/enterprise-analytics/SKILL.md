@@ -7,6 +7,9 @@ agent: architect
 context_cost: medium
 dependencies: []
 memory: project
+category: "reporting"
+tags: ["analytics", "space-metrics", "portfolio", "forecasting"]
+priority: "medium"
 ---
 
 # Skill: Enterprise Analytics

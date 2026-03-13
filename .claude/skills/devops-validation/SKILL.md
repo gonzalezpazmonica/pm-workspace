@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 agent: azure-devops-operator
 context_cost: low
+category: "devops"
+tags: ["validation", "azure-devops", "agile", "configuration"]
+priority: "medium"
 ---
 
 # Skill: devops-validation

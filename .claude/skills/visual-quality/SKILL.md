@@ -2,6 +2,9 @@
 name: visual-quality
 description: Visual Quality Analysis Skill
 maturity: beta
+category: "quality"
+tags: ["visual-qa", "layout", "accessibility", "regression"]
+priority: "medium"
 ---
 
 # Visual Quality Analysis Skill

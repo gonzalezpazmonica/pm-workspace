@@ -19,10 +19,33 @@ Cada vez que el usuario inicia una interacción que podría beneficiarse de un s
 
 ## Scoring
 
-- keyword_match: 40% del score
-- project_context: 30% del score (basado en tipo de proyecto y ficheros)
-- history_boost: 30% del score (basado en activaciones previas exitosas)
-- Threshold mínimo para sugerir: 70%
+### Base scoring (40%)
+- `keyword_match`: 20% — palabras clave del prompt vs. tags del skill
+- `category_match`: 20% — categoría del skill vs. tipo de tarea detectado
+
+### Context scoring (30%)
+- `project_context`: 15% — tipo de proyecto y ficheros presentes
+- `category_affinity`: 15% — si la categoría del skill coincide con el capability group activo (tool-discovery.md)
+
+### History scoring (30%)
+- `history_boost`: 15% — activaciones previas exitosas del skill
+- `priority_boost`: 15% — skills con `priority: "high"` reciben +5% base
+
+### Threshold: 70% mínimo para sugerir
+
+## Categorías de Skills
+
+Las 7 categorías (definidas en frontmatter `category:` de cada SKILL.md):
+
+| Categoría | Contexto de activación |
+|---|---|
+| `pm-operations` | Sprint, capacity, backlog, planning |
+| `sdd-framework` | Specs, implementación, dev sessions |
+| `governance` | Compliance, security, validation |
+| `devops` | Pipelines, deploy, diagrams, repos |
+| `reporting` | Informes, métricas, exports |
+| `communication` | Mensajería, voice, notificaciones |
+| `quality` | Performance, testing, DX, audits |
 
 ## Restricciones
 
@@ -30,3 +53,4 @@ Cada vez que el usuario inicia una interacción que podría beneficiarse de un s
 - No sugerir skills durante `/focus-mode` activo
 - Respetar feedback negativo del usuario (tune -)
 - Los skills de seguridad (security-guardian, pii-gate) siempre tienen prioridad
+- Skills con `priority: "low"` solo se sugieren si score > 85%

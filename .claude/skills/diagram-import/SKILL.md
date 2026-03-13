@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 context_cost: high
 agent: business-analyst
+category: "devops"
+tags: ["diagram-import", "parsing", "work-items", "entities"]
+priority: "medium"
 ---
 
 # Skill: Diagram Import — Parsing, Validación y Generación de Work Items

@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 context_cost: high
 agent: business-analyst
+category: "governance"
+tags: ["traceability", "business-rules", "pbi", "matrix"]
+priority: "high"
 ---
 
 # Skill: Business Rules to PBI Mapping with Traceability

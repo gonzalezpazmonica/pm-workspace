@@ -4,6 +4,9 @@ description: Modo autónomo nocturno — ejecuta tareas de bajo riesgo en bucle,
 maturity: experimental
 context: fork
 agent: dev-orchestrator
+category: "sdd-framework"
+tags: ["autonomous", "overnight", "batch", "low-risk"]
+priority: "medium"
 ---
 
 # Skill: Overnight Sprint

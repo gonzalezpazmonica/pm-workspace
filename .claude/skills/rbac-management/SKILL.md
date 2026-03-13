@@ -4,6 +4,9 @@ description: "Role management skill — grant, revoke, audit, and verify user pe
 maturity: stable
 context: fork
 agent: architect
+category: "governance"
+tags: ["rbac", "permissions", "roles", "access-control"]
+priority: "high"
 ---
 
 # Skill: RBAC Management
