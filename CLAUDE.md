@@ -39,7 +39,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (16)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
-│   ├── skills/ (43)               ← Skills reutilizables
+│   ├── skills/ (45)               ← Skills reutilizables
 │   └── settings.json              ← Hooks + Agent Teams env
 ├── docs/ · projects/ · scripts/
 ```
@@ -54,7 +54,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 
 Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no: `/profile-setup` (`@.claude/rules/domain/profile-onboarding.md`). Fragmentos por demanda: `@.claude/profiles/context-map.md`
 
-> Catálogo completo de comandos (396+): `@.claude/rules/domain/pm-workflow.md`
+> Catálogo completo de comandos (400+): `@.claude/rules/domain/pm-workflow.md`
 > MCP servers se conectan bajo demanda con `/mcp-server start {nombre}`, NO al arranque.
 
 ---
@@ -69,6 +69,7 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 6. **Repetición 2+** → documentar en skill
 7. **PBIs**: propuesta completa antes de tasks; NUNCA sin confirmación
 8. **SDD**: NUNCA agente sin Spec aprobada; Code Review (E1) SIEMPRE humano
+8b. **Autonomía**: NUNCA merge/approve autónomo; SIEMPRE PR Draft + reviewer humano; NUNCA commit en rama humana · `@.claude/rules/domain/autonomous-safety.md`
 9. **Secrets**: NUNCA en repo — vault o `config.local/` · `@.claude/rules/domain/confidentiality-config.md`
 10. **Infra**: NUNCA apply PRE/PRO sin aprobación · `@.claude/rules/domain/infrastructure-as-code.md`
 11. **150 líneas máx.** por fichero — dividir si crece
@@ -100,7 +101,7 @@ Flujos: SDD (analyst→architect→security→tester→developer→reviewer) · 
 
 > Packs (16): `@.claude/rules/domain/language-packs.md` · Entornos: `@.claude/rules/domain/environment-config.md` · IaC: `@.claude/rules/domain/infrastructure-as-code.md`
 
-Skills: azure-devops-queries · product-discovery · pbi-decomposition · spec-driven-development · diagram-generation · diagram-import · azure-pipelines · sprint-management · capacity-planning · executive-reporting · time-tracking-report · team-onboarding · voice-inbox · predictive-analytics · developer-experience · architecture-intelligence · regulatory-compliance
+Skills: azure-devops-queries · product-discovery · pbi-decomposition · spec-driven-development · diagram-generation · diagram-import · azure-pipelines · sprint-management · capacity-planning · executive-reporting · time-tracking-report · team-onboarding · voice-inbox · predictive-analytics · developer-experience · architecture-intelligence · regulatory-compliance · overnight-sprint · code-improvement-loop · tech-research-agent · onboarding-dev
 
 Ciclo: Explorar → Planificar → Implementar → Commit. Arquitectura: **Command → Agent → Skills** — subagentes solo con `Task`.
 
