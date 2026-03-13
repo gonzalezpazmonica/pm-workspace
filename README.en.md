@@ -53,9 +53,9 @@ More detail in the [Data flow guide](docs/data-flow-guide-en.md).
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 396+ commands (what you can ask me)
+│   ├── commands/       ← 400+ commands (what you can ask me)
 │   ├── agents/         ← 31 specialized agents
-│   ├── skills/         ← 41 skills with domain knowledge
+│   ├── skills/         ← 45 skills with domain knowledge
 │   ├── hooks/          ← 16 hooks that enforce rules automatically
 │   └── rules/          ← context, language, and domain rules
 ├── docs/
@@ -94,7 +94,9 @@ Every command has YAML frontmatter with metadata (model, context cost, descripti
 
 **Adversarial security & adaptive intelligence** — Red/Blue/Auditor pipeline with score 0-100, STRIDE/PASTA threat modeling. Skill evaluation engine with auto-detection of 7 project types and instincts system with confidence scoring.
 
-**Collaboration** — Company Savia (E2E encrypted messaging), Savia Flow (Git-native PM), Travel Mode, encrypted backup, Savia School. Reference: [396+ commands · 31 agents · 41 skills](docs/readme/12-comandos-agentes.md)
+**Autonomous modes** — Overnight sprint, code improvement loop, tech research, and dev onboarding with AI buddy. Agents propose, humans approve: `agent/*` branches, Draft PRs, mandatory human review.
+
+**Collaboration** — Company Savia (E2E encrypted messaging), Savia Flow (Git-native PM), Travel Mode, encrypted backup, Savia School. Reference: [400+ commands · 34 agents · 45 skills](docs/readme/12-comandos-agentes.md)
 
 ---
 
@@ -125,7 +127,7 @@ Configurable with `SAVIA_HOME`, `--skip-tests`. Details: `install.sh --help`
 | [Sprints & reports](docs/readme_en/04-uso-sprint-informes.md) | Sprint, reporting, KPIs |
 | [Spec-Driven Development](docs/readme_en/05-sdd.md) | SDD: specs, agents, patterns |
 | [Data flow](docs/data-flow-guide-en.md) | How the parts connect |
-| [Commands & agents](docs/readme/12-comandos-agentes.md) | 396+ commands + 31 agents |
+| [Commands & agents](docs/readme/12-comandos-agentes.md) | 400+ commands + 34 agents |
 | [Scenario guides](docs/guides_en/README.md) | Azure, Jira, startup, healthcare... |
 | [AI Augmentation](docs/ai-augmentation-opportunities-en.md) | Opportunities by sector |
 | [Context Engineering](docs/context-engineering-en.md) | Context & AI improvements |

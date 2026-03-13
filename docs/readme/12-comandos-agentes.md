@@ -236,6 +236,14 @@
 /sentry-health [--project]        Salud técnica desde Sentry
 ```
 
+## Modos Autónomos (4 comandos)
+```
+/overnight-sprint [--project]     Sprint nocturno autónomo — tareas de bajo riesgo, PRs Draft
+/code-improve [--project]         Bucle de mejora continua de código — cobertura, lint, deuda
+/tech-research {tema}             Investigación técnica autónoma — informe + notificación
+/onboarding-dev {proyecto}        Onboarding con Buddy IA — docs, plan 30/60/90, buddy 3 capas
+```
+
 ---
 
 ## Equipo de Subagentes Especializados

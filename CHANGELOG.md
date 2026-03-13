@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.79.0] — 2026-03-13
+
+Autonomous modes — overnight sprint, code improvement loop, tech research agent, and dev onboarding with AI buddy.
+
+### Added
+- **`/overnight-sprint` command**: autonomous overnight sprint — executes low-risk tasks, creates Draft PRs for human review
+- **`/code-improve` command**: autonomous code improvement loop — detects coverage, lint, debt opportunities and generates PRs
+- **`/tech-research` command**: autonomous technical research — investigates topics, generates reports, notifies designated reviewer
+- **`/onboarding-dev` command**: technical onboarding with AI Buddy — auto-generates 12 project docs, personalized 30/60/90 plan, 3-layer buddy agent
+- **overnight-sprint skill** (SKILL.md + DOMAIN.md): task selection, risk scoring, fail-safe with model escalation
+- **code-improvement-loop skill** (SKILL.md + DOMAIN.md): detect/improve/verify cycle with auto-categorization
+- **tech-research-agent skill** (SKILL.md + DOMAIN.md): 5-phase research pipeline (scope, search, analyze, synthesize, report)
+- **onboarding-dev skill** (SKILL.md + DOMAIN.md): buddy-ia agent with 3 layers (navigator, mentor, pair)
+- **autonomous-safety rule**: immutable safety guardrails for all autonomous modes (agent/* branches, Draft PRs, human reviewer gate, fail-safes)
+- **docs/AUTORESEARCH.md**: autonomous research methodology documentation
+- **docs/autoresearch-cases.md**: example research cases and templates
+
+### Changed
+- **CLAUDE.md**: added rule 8b (Autonomy) and 4 new skills in catalog
+- **pm-config.md**: added Autonomous Modes and Onboarding configuration sections
+- **README.md / README.en.md**: updated counters (400+ commands, 45 skills) and added autonomous modes section
+
 ## [2.78.0] — 2026-03-11
 
 Reverse orgchart import — parse diagrams (Mermaid, Draw.io, Miro) to generate teams/ structure.
@@ -3138,6 +3160,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 
+[2.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.78.0...v2.79.0
 [2.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.77.0...v2.78.0
 [2.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.5...v2.77.0
 [2.76.5]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.76.4...v2.76.5

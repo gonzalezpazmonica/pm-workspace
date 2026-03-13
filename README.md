@@ -53,9 +53,9 @@ Más detalle en la [Guía de flujo de datos](docs/data-flow-guide-es.md).
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 396+ comandos (lo que me puedes pedir)
+│   ├── commands/       ← 400+ comandos (lo que me puedes pedir)
 │   ├── agents/         ← 34 agentes especializados
-│   ├── skills/         ← 41 skills con conocimiento de dominio
+│   ├── skills/         ← 45 skills con conocimiento de dominio
 │   ├── hooks/          ← 16 hooks que refuerzan reglas automáticamente
 │   └── rules/          ← reglas de contexto, lenguaje, dominio
 ├── docs/
@@ -96,7 +96,9 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Seguridad adversarial e inteligencia adaptativa** — Pipeline Red/Blue/Auditor con score 0-100, threat modeling STRIDE/PASTA. Pentesting dinámico con pipeline autónomo de 5 fases (Shannon-inspired), queue-driven, política "no exploit, no report". Lab local con servicios intencionalmente vulnerables. Motor de evaluación de skills con auto-detección de 7 tipos de proyecto y sistema de instintos con scoring de confianza.
 
-**Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [396+ comandos · 34 agentes · 41 skills](docs/readme/12-comandos-agentes.md)
+**Modos autónomos** — Sprint nocturno, bucle de mejora de código, investigación técnica y onboarding con buddy IA. Los agentes proponen, el humano dispone: ramas `agent/*`, PRs Draft, revisión humana obligatoria.
+
+**Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [400+ comandos · 34 agentes · 45 skills](docs/readme/12-comandos-agentes.md)
 
 **Savia Mobile** — App Android nativa (Kotlin/Compose) que conecta con pm-workspace vía [Savia Bridge](scripts/savia-bridge.py) — un servidor HTTPS/SSE que envuelve Claude Code CLI. Chat con streaming en tiempo real, persistencia local cifrada, tema Material 3. Detalles: [Savia Mobile](projects/savia-mobile-android/README.md)
 
@@ -129,7 +131,7 @@ Configurable con `SAVIA_HOME`, `--skip-tests`. Detalles: `install.sh --help`
 | [Sprints e informes](docs/readme/04-uso-sprint-informes.md) | Sprint, reporting, KPIs |
 | [Spec-Driven Development](docs/readme/05-sdd.md) | SDD: specs, agentes, patrones |
 | [Flujo de datos](docs/data-flow-guide-es.md) | Cómo se conectan las partes |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 396+ comandos + 31 agentes |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 400+ comandos + 34 agentes |
 | [Guías por escenario](docs/guides/README.md) | Azure, Jira, startup, sanidad... |
 | [AI Augmentation](docs/ai-augmentation-opportunities-es.md) | Oportunidades por sector |
 | [Context Engineering](docs/context-engineering-es.md) | Mejoras de contexto e IA |
