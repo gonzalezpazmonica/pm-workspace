@@ -69,6 +69,19 @@ SDD_DEFAULT_MAX_TURNS       = 40
 
 # ── Testing y Calidad ───────────────────────────────────────────────────────
 TEST_COVERAGE_MIN_PERCENT   = 80                                    # % mínimo de cobertura exigido por test-runner
+
+# ── Modos Autónomos ─────────────────────────────────────────────────────────
+# Regla completa: @.claude/rules/domain/autonomous-safety.md
+AUTONOMOUS_REVIEWER         = ""                                     # handle del humano que revisa PRs autónomos (OBLIGATORIO para arrancar)
+AUTONOMOUS_RESEARCH_NOTIFY  = ""                                     # handle del humano que recibe informes de investigación
+OVERNIGHT_SPRINT_ENABLED    = false                                  # activar/desactivar modo nocturno
+OVERNIGHT_MAX_TASKS         = 20                                     # máximo de tareas por sesión nocturna
+AGENT_TASK_TIMEOUT_MINUTES  = 15                                     # time-box por tarea de agente autónomo
+AGENT_MAX_CONSECUTIVE_FAILURES = 3                                   # fallos consecutivos antes de escalar modelo o abortar
+
+# ── Onboarding ──────────────────────────────────────────────────────────────
+ONBOARDING_AUTO_DOCS_COUNT  = 12                                     # documentos base a auto-generar en onboarding
+ONBOARDING_BUDDY_AGENT      = "buddy-ia"                             # agente buddy para onboarding técnico
 ```
 
 ## 🔐 Autenticación
