@@ -4,6 +4,9 @@ description: Generate comprehension report with mental model after SDD implement
 maturity: stable
 context: fork
 agent: architect
+category: "sdd-framework"
+tags: ["comprehension", "mental-model", "debugging", "documentation"]
+priority: "medium"
 ---
 
 # Code Comprehension Report — Mental Model Generation

@@ -4,6 +4,9 @@ description: Motor de evaluación inteligente de skills basado en análisis de p
 maturity: stable
 context: fork
 context_cost: low
+category: "reporting"
+tags: ["skill-eval", "prompt-analysis", "scoring", "activation"]
+priority: "low"
 ---
 
 # Skill Evaluation Engine

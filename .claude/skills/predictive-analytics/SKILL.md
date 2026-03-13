@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 context_cost: medium
 agent: azure-devops-operator
+category: "pm-operations"
+tags: ["prediction", "monte-carlo", "flow-metrics", "forecasting"]
+priority: "medium"
 ---
 
 # Predictive Analytics Skill

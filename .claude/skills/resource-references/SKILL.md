@@ -2,6 +2,9 @@
 name: resource-references
 description: skill: resource-references
 maturity: beta
+category: "devops"
+tags: ["resources", "references", "resolution", "lazy-load"]
+priority: "low"
 ---
 
 # skill: resource-references

@@ -2,6 +2,9 @@
 name: context-optimized-dev
 description: Context-Optimized Development — Skill
 maturity: beta
+category: "sdd-framework"
+tags: ["context", "optimization", "dev-session", "slicing"]
+priority: "high"
 ---
 
 # Context-Optimized Development — Skill

@@ -2,6 +2,9 @@
 name: session-recording
 description: Session Recording Skill
 maturity: beta
+category: "devops"
+tags: ["session", "recording", "replay", "audit"]
+priority: "low"
 ---
 
 # Session Recording Skill

@@ -3,6 +3,9 @@ name: android-autonomous-debugger
 description: Autonomous debugging and testing of Android apps against physical devices via USB/ADB
 maturity: stable
 context: fork
+category: "quality"
+tags: ["android", "debugging", "adb", "mobile-testing"]
+priority: "medium"
 ---
 
 # Android Autonomous Debugger
@@ -142,7 +145,5 @@ The `android-adb-validate.sh` hook enforces this classification.
 ## Tips for Agents
 
 - **ALWAYS use `./scripts/adb-run.sh`** — never `source wrapper.sh && ...`
-- Always start with `adb_auto_select` as first function in any call
-- Screenshots BEFORE and AFTER each interaction; `adb_snapshot` captures screen + UI + logs
-- Use `adb_wait_for_text` instead of `sleep`; check `adb_detect_crash` after navigation
-- Chain many functions in a single `adb-run.sh` call for efficiency
+- Always start with `adb_auto_select`; chain many functions in one call
+- Screenshots BEFORE and AFTER each interaction; use `adb_wait_for_text` instead of `sleep`

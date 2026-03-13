@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 context_cost: high
 agent: business-analyst
+category: "pm-operations"
+tags: ["pbi", "decomposition", "estimation", "assignment"]
+priority: "high"
 ---
 
 # Skill: PBI Decomposition, Estimation & Smart Assignment

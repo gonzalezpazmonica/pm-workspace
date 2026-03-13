@@ -7,6 +7,9 @@ agent: architect
 context_cost: medium
 dependencies: []
 memory: project
+category: "quality"
+tags: ["scaling", "tier-analysis", "benchmark", "optimization"]
+priority: "medium"
 ---
 
 # Skill: Scaling Operations

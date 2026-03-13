@@ -2,6 +2,9 @@
 name: managed-content
 description: Manage auto-generated content sections with safe regeneration markers
 maturity: stable
+category: "governance"
+tags: ["managed-content", "markers", "auto-generated", "sync"]
+priority: "medium"
 ---
 
 # Managed Content Markers

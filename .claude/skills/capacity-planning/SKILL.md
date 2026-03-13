@@ -5,6 +5,9 @@ maturity: stable
 context: fork
 agent: azure-devops-operator
 context_cost: medium
+category: "pm-operations"
+tags: ["capacity", "team", "workload", "planning"]
+priority: "high"
 ---
 
 # Skill: capacity-planning

@@ -2,6 +2,9 @@
 name: pm-mcp-server
 description: PM-Workspace MCP Server
 maturity: alpha
+category: "devops"
+tags: ["mcp", "server", "api", "integration"]
+priority: "low"
 ---
 
 # PM-Workspace MCP Server

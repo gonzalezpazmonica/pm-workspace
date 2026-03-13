@@ -7,6 +7,9 @@ agent: architect
 context_cost: medium
 dependencies: []
 memory: project
+category: "reporting"
+tags: ["cost", "budget", "forecasting", "invoicing"]
+priority: "medium"
 ---
 
 # Skill: Cost Management

@@ -4,6 +4,9 @@ description: "Captura, comparación y auditoría de snapshots de backlog"
 maturity: stable
 context_cost: medium
 dependencies: ["savia-hub-sync", "client-profile-manager"]
+category: "pm-operations"
+tags: ["backlog", "snapshot", "audit", "tracking"]
+priority: "medium"
 ---
 
 # Skill: BacklogGit Tracker

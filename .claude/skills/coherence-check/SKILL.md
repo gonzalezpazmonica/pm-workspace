@@ -5,6 +5,9 @@ maturity: stable
   Protocol for validating output coherence. Checks that specs, reports, and code
   align with their stated objectives, identifying coverage gaps and inconsistencies.
 context_cost: low
+category: "governance"
+tags: ["coherence", "validation", "alignment", "gaps"]
+priority: "medium"
 ---
 
 # Coherence Check Protocol

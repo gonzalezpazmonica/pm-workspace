@@ -4,6 +4,9 @@ description: Empaquetar y validar PM-Workspace como plugin distributable
 maturity: stable
 dependencies: ["context-optimized-dev"]
 context_cost: low
+category: "devops"
+tags: ["plugin", "packaging", "distribution", "manifest"]
+priority: "low"
 ---
 
 # Skill: Plugin Packaging

@@ -4,6 +4,9 @@ description: "Sistema proactivo de bienestar individual"
 maturity: stable
 context_cost: low
 dependencies: []
+category: "communication"
+tags: ["wellbeing", "burnout", "sustainable-pace", "team-health"]
+priority: "medium"
 ---
 
 # Skill: Wellbeing Guardian

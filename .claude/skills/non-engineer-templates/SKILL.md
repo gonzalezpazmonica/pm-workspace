@@ -2,6 +2,9 @@
 name: non-engineer-templates
 description: Non-Engineer Templates
 maturity: beta
+category: "quality"
+tags: ["templates", "non-technical", "po", "stakeholders"]
+priority: "low"
 ---
 
 # Non-Engineer Templates

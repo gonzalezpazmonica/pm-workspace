@@ -6,6 +6,9 @@ description: >
 disable-model-invocation: false
 user-invocable: false
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
+category: "devops"
+tags: ["orgchart", "import", "teams", "hierarchy"]
+priority: "low"
 ---
 
 # Orgchart Import — Skill

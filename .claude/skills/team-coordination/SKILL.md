@@ -7,6 +7,9 @@ agent: architect
 context_cost: medium
 dependencies: []
 memory: project
+category: "pm-operations"
+tags: ["team", "coordination", "multi-team", "blockers"]
+priority: "medium"
 ---
 
 # Skill: Team Coordination

@@ -18,6 +18,9 @@ references:
   - references/sector-defense-military.md
   - references/sector-transport-automotive.md
   - references/framework-aepd-agentic.md
+category: "governance"
+tags: ["compliance", "regulatory", "sector-detection", "gdpr"]
+priority: "high"
 ---
 
 # Regulatory Compliance Intelligence

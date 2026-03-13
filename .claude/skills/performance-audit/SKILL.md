@@ -11,6 +11,9 @@ references:
   - references/perf-java.md
   - references/perf-go.md
   - references/perf-rust.md
+category: "quality"
+tags: ["performance", "hotspots", "async", "optimization"]
+priority: "medium"
 ---
 
 # Performance Audit Intelligence

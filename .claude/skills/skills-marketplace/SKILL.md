@@ -2,6 +2,9 @@
 name: skills-marketplace
 description: skills-marketplace
 maturity: beta
+category: "quality"
+tags: ["marketplace", "skills", "publish", "install"]
+priority: "low"
 ---
 
 # skills-marketplace
