@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.91.0] — 2026-03-14
+
+Era 107.3 — Backlog resolver: local-first data source for commands.
+
+### Added
+- **scripts/backlog-resolver.sh**: Sourceable helper for commands — resolves backlog path, sprint ID, PBI counts by state, board summary, sprint items. Local-first with API fallback
+- **tests/structure/test-backlog-resolver.bats**: 8 BATS tests for resolver functions
+
 ## [2.90.0] — 2026-03-14
 
 Era 102 — Real-Time Observatory: statusline, notifications, activity log.
@@ -3525,6 +3533,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.90.0...v2.91.0
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
