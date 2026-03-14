@@ -1,0 +1,12 @@
+# Backlog configuration
+project: "{PROJECT}"
+created: "{DATE}"
+states: [New, Active, Resolved, Closed]
+types: [User Story, Bug, Tech Debt, Spike]
+priorities: [1-Critical, 2-High, 3-Medium, 4-Low]
+id_prefix: "PBI"
+id_counter: 0
+sync:
+  provider: ""
+  auto_sync: false
+  last_sync: ""

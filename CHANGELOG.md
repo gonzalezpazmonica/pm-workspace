@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.88.0] — 2026-03-14
+
+Era 107.1 — Backlog Sovereignty: markdown-based backlog as source of truth.
+
+### Added
+- **scripts/backlog-init.sh**: Initialize backlog structure for any project (config, sprint folder, PBI directory)
+- **scripts/backlog-pbi-crud.sh**: Create, read, update, list, archive PBIs as markdown files with YAML frontmatter
+- **scripts/backlog-query.sh**: Query PBIs by state, sprint, assigned, priority, type. Outputs table, JSON, or count
+- **.claude/templates/backlog/**: PBI template, sprint-meta template, config template
+- **tests/structure/test-backlog-structure.bats**: 11 BATS tests for backlog init, CRUD, and query
+
 ## [2.87.0] — 2026-03-14
 
 Era 100.3 — Context metrics command and session snapshot integration.
@@ -3492,6 +3503,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
 [2.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.86.0...v2.87.0
 [2.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.85.0...v2.86.0
 [2.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.84.0...v2.85.0
