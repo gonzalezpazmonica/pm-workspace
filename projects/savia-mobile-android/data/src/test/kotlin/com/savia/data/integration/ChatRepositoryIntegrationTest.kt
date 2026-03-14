@@ -394,7 +394,8 @@ class ChatRepositoryIntegrationTest {
         override suspend fun getApiKey(): String? = apiKey
         override suspend fun deleteApiKey() {}
         override suspend fun hasApiKey(): Boolean = apiKey != null
-        override suspend fun saveBridgeConfig(host: String, port: Int, token: String) {}
+        override suspend fun saveBridgeConfig(host: String, port: Int, token: String, username: String) {}
+        override suspend fun getBridgeUsername(): String? = null
         override suspend fun getBridgeHost(): String? = null
         override suspend fun getBridgePort(): Int? = null
         override suspend fun getBridgeToken(): String? = null

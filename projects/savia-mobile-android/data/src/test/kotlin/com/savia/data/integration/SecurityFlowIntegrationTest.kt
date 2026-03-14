@@ -197,7 +197,8 @@ class SecurityFlowIntegrationTest {
         override suspend fun hasApiKey(): Boolean = store.containsKey("api_key")
 
         // Bridge config (not used in security tests but required by interface)
-        override suspend fun saveBridgeConfig(host: String, port: Int, token: String) {}
+        override suspend fun saveBridgeConfig(host: String, port: Int, token: String, username: String) {}
+        override suspend fun getBridgeUsername(): String? = null
         override suspend fun getBridgeHost(): String? = null
         override suspend fun getBridgePort(): Int? = null
         override suspend fun getBridgeToken(): String? = null

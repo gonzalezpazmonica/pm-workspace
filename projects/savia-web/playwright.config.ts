@@ -5,7 +5,8 @@ export default defineConfig({
   timeout: 30000,
   retries: 1,
   use: {
-    baseURL: 'http://localhost:8081',
+    baseURL: 'https://localhost:5173',
+    ignoreHTTPSErrors: true,
     headless: true,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
