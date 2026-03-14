@@ -1,0 +1,8 @@
+# Sprint metadata
+sprint_id: "{SPRINT_ID}"
+goal: "{GOAL}"
+start_date: "{START}"
+end_date: "{END}"
+capacity_hours: 0
+team_size: 0
+status: planning
