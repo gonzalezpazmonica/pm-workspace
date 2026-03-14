@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.89.0] — 2026-03-14
+
+Era 107.2 — Sync Adapters: Azure DevOps, Jira, and GitHub Issues bidirectional sync.
+
+### Added
+- **scripts/sync-adapters/adapter-interface.sh**: Common functions for sync — logging, field extraction, state mapping, conflict detection
+- **scripts/sync-adapters/azure-devops-adapter.sh**: Pull/push/diff with Azure DevOps work items via REST API
+- **scripts/sync-adapters/jira-adapter.sh**: Pull/push/diff with Jira Cloud via REST API v3
+- **scripts/sync-adapters/github-issues-adapter.sh**: Pull/push/diff with GitHub Issues via gh CLI
+- **.claude/commands/backlog-sync.md**: `/backlog-sync` command for pull/push/diff operations
+- **tests/structure/test-sync-adapters.bats**: 11 BATS tests for adapter interface and state mapping
+
 ## [2.88.0] — 2026-03-14
 
 Era 107.1 — Backlog Sovereignty: markdown-based backlog as source of truth.
@@ -3503,6 +3515,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
 [2.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.86.0...v2.87.0
 [2.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.85.0...v2.86.0
