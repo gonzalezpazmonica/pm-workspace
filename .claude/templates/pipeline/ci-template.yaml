@@ -1,0 +1,32 @@
+# Pipeline template — copy to projects/{project}/pipelines/
+name: "CI Main"
+trigger:
+  branches: [main, develop]
+  paths: ["src/**", "tests/**"]
+stages:
+  - name: build
+    command: "dotnet build --configuration Release"
+    timeout: 300
+  - name: test
+    agent: test-runner
+    input: "Run unit and integration tests"
+    timeout: 600
+    depends_on: [build]
+  - name: security
+    agent: security-guardian
+    input: "OWASP scan on modified files"
+    timeout: 300
+    depends_on: [build]
+    parallel_with: [test]
+  - name: lint
+    command: "dotnet format --verify-no-changes"
+    timeout: 120
+    depends_on: [build]
+    parallel_with: [test, security]
+  - name: review
+    agent: code-reviewer
+    input: "Review full diff"
+    timeout: 600
+    depends_on: [test, security, lint]
+on_failure:
+  notify: true
