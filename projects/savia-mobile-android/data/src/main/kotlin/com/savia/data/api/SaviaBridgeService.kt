@@ -269,6 +269,42 @@ class SaviaBridgeService @Inject constructor(
         }
     }
 
+    /**
+     * Register a user with the Bridge to obtain a per-user token.
+     *
+     * POSTs to `$bridgeUrl/auth/register` with the master token and username.
+     * On success the Bridge returns a per-user token that must replace the master
+     * token for all subsequent requests.
+     *
+     * @param bridgeUrl Base URL of bridge server (e.g., "https://192.168.1.100:8922")
+     * @param masterToken Master authentication token configured in the Bridge
+     * @param username Username slug (^[a-zA-Z0-9_-]{1,64}$)
+     * @return Per-user token string, or null if registration failed
+     */
+    suspend fun registerUser(bridgeUrl: String, masterToken: String, username: String): String? {
+        return try {
+            val body = json.encodeToString(
+                RegisterRequest.serializer(),
+                RegisterRequest(username = username)
+            ).toRequestBody("application/json".toMediaType())
+
+            val request = Request.Builder()
+                .url("$bridgeUrl/auth/register")
+                .post(body)
+                .header("Authorization", "Bearer $masterToken")
+                .build()
+
+            httpClient.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) return@use null
+                response.body?.string()?.let { bodyStr ->
+                    json.decodeFromString(RegisterResponse.serializer(), bodyStr).user_token
+                }
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     suspend fun healthCheck(bridgeUrl: String, authToken: String): Boolean {
         return try {
             val request = Request.Builder()
@@ -387,4 +423,15 @@ internal data class PermissionResponseRequest(
     val session_id: String,
     val request_id: String,
     val behavior: String
+)
+
+@kotlinx.serialization.Serializable
+internal data class RegisterRequest(
+    val username: String
+)
+
+@kotlinx.serialization.Serializable
+internal data class RegisterResponse(
+    val user_token: String,
+    val username: String
 )

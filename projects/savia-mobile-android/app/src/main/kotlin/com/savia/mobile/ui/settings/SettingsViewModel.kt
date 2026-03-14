@@ -2,6 +2,7 @@ package com.savia.mobile.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.savia.data.api.SaviaBridgeService
 import com.savia.domain.repository.ProjectRepository
 import com.savia.domain.repository.SecurityRepository
 import com.savia.domain.repository.UpdateRepository
@@ -71,6 +72,7 @@ class SettingsViewModel @Inject constructor(
     private val securityRepository: SecurityRepository,
     private val projectRepository: ProjectRepository,
     private val updateRepository: UpdateRepository,
+    private val bridgeService: SaviaBridgeService,
     @Named("bridge") private val bridgeClient: OkHttpClient
 ) : ViewModel() {
 
@@ -145,75 +147,73 @@ class SettingsViewModel @Inject constructor(
     }
 
     /**
-     * Saves Bridge configuration and performs health check to verify connectivity.
+     * Saves Bridge configuration, performs health check, and registers the user.
      *
-     * Validates the provided host, port, and token, then saves them via SecurityRepository.
-     * Performs a health check by making an HTTPS GET request to the Bridge's /health endpoint.
-     * Updates the UI state with connection status and any error messages.
-     *
-     * The health check uses the bridge OkHttpClient which is configured with trust-all-certs
-     * to support self-signed certificates commonly used in local/VPN deployments.
+     * Flow:
+     * 1. Save host/port/token (master token) to secure storage
+     * 2. Health check — verify bridge is reachable
+     * 3. Register user via POST /auth/register with master token + username
+     * 4. On success, replace stored token with the per-user token
      *
      * @param host Bridge server hostname or IP address
      * @param port Bridge server port (1-65535)
-     * @param token Authentication token for the Bridge
+     * @param token Master authentication token for the Bridge
+     * @param username Username slug for multi-user session registration
      */
-    fun saveBridgeConfig(host: String, port: Int, token: String) {
+    fun saveBridgeConfig(host: String, port: Int, token: String, username: String = "") {
         viewModelScope.launch {
             _uiState.update { it.copy(isConnecting = true, connectionError = null) }
 
             try {
-                // Save configuration to security repository
-                securityRepository.saveBridgeConfig(host, port, token)
+                val bridgeUrl = "https://$host:$port"
 
-                // Perform health check on IO dispatcher (network calls block)
-                val healthResult = withContext(Dispatchers.IO) {
-                    val url = "https://$host:$port/health"
+                // Save initial config with master token
+                securityRepository.saveBridgeConfig(host, port, token, username)
+
+                // Perform health check on IO dispatcher
+                val healthError = withContext(Dispatchers.IO) {
                     val request = okhttp3.Request.Builder()
-                        .url(url)
+                        .url("$bridgeUrl/health")
                         .addHeader("Authorization", "Bearer $token")
                         .get()
                         .build()
-
-                    val response = bridgeClient.newCall(request).execute()
-                    response.use { resp ->
+                    bridgeClient.newCall(request).execute().use { resp ->
                         if (resp.isSuccessful) null else "Bridge returned status ${resp.code}"
                     }
                 }
 
-                if (healthResult == null) {
-                    // Connection successful
-                    _uiState.update {
-                        it.copy(
-                            isBridgeConnected = true,
-                            bridgeHost = host,
-                            bridgePort = port,
-                            isConnecting = false,
-                            connectionError = null
-                        )
+                if (healthError != null) {
+                    _uiState.update { it.copy(isConnecting = false, connectionError = healthError) }
+                    return@launch
+                }
+
+                // Register user and obtain per-user token
+                if (username.isNotEmpty()) {
+                    val userToken = withContext(Dispatchers.IO) {
+                        bridgeService.registerUser(bridgeUrl, token, username)
                     }
-                } else {
-                    // Health check failed
-                    _uiState.update {
-                        it.copy(
-                            isConnecting = false,
-                            connectionError = healthResult
-                        )
+                    if (userToken != null) {
+                        // Replace master token with per-user token
+                        securityRepository.saveBridgeConfig(host, port, userToken, username)
                     }
                 }
+
+                _uiState.update {
+                    it.copy(
+                        isBridgeConnected = true,
+                        bridgeHost = host,
+                        bridgePort = port,
+                        isConnecting = false,
+                        connectionError = null
+                    )
+                }
             } catch (e: Exception) {
-                // Network error or connection timeout
                 val errorMsg = when {
                     e is android.os.NetworkOnMainThreadException -> "Network threading error"
                     e.message.isNullOrBlank() -> "Connection failed: ${e.javaClass.simpleName}"
                     else -> e.message!!
                 }
-                _uiState.update {
-                    it.copy(
-                        isConnecting = false,
-                        connectionError = errorMsg
-                    )
-                }
+                _uiState.update { it.copy(isConnecting = false, connectionError = errorMsg) }
             }
         }
     }

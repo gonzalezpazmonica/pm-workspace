@@ -405,7 +405,8 @@ class ChatViewModelIntegrationTest {
         override suspend fun getLastConversationId(): String? = null
         override suspend fun clearLastConversationId() {}
         override suspend fun getDatabasePassphrase(): ByteArray = ByteArray(32)
-        override suspend fun saveBridgeConfig(host: String, port: Int, token: String) {}
+        override suspend fun saveBridgeConfig(host: String, port: Int, token: String, username: String) {}
+        override suspend fun getBridgeUsername(): String? = null
         override suspend fun getBridgeHost(): String? = null
         override suspend fun getBridgePort(): Int? = null
         override suspend fun getBridgeToken(): String? = null

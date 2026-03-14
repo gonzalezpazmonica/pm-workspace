@@ -21,6 +21,8 @@
     <string name="setup_bridge_description">Connect to your Claude Code session. Enter your Savia Bridge details.</string>
     <string name="bridge_host_label">Host (your computer\'s IP)</string>
     <string name="bridge_port_label">Port</string>
+    <string name="bridge_username_label">Username</string>
+    <string name="bridge_username_invalid">Use only letters, numbers, - or _ (max 64 chars)</string>
     <string name="bridge_token_label">Authentication token</string>
     <string name="connect_to_bridge">Connect</string>
     <string name="use_api_key">Use Anthropic API Key instead</string>

@@ -65,4 +65,12 @@ describe('ConnectionWizard', () => {
       expect(wrapper.find('.error-msg').exists()).toBe(true)
     })
   })
+
+  it('has a toggle-visibility eye button for the password field', async () => {
+    mockHealthCheck.mockResolvedValue(false)
+    const wrapper = shallowMount(ConnectionWizard)
+    await vi.waitFor(() => {
+      expect(wrapper.find('.btn-eye').exists()).toBe(true)
+    })
+  })
 })
