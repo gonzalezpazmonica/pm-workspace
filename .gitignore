@@ -24,6 +24,7 @@ projects/*
 !projects/proyecto-beta/
 !projects/sala-reservas/
 !projects/savia-mobile-android/
+!projects/savia-web/
 
 # ── Datos generados y sensibles (incluso dentro de proyectos de ejemplo) ──────
 projects/*/sprints/
@@ -40,8 +41,9 @@ output/
 /tmp/
 
 # ── Node ─────────────────────────────────────────────────────────────────────
-scripts/node_modules/
-scripts/package-lock.json
+**/node_modules/
+**/package-lock.json
+**/dist/
 
 # ── Python ───────────────────────────────────────────────────────────────────
 __pycache__/

@@ -64,7 +64,8 @@ pm-workspace/
 │   ├── guides/         ← 14 guías por escenario (Azure, Jira, startup...)
 │   └── savia-flow/     ← docs del sistema Git-native
 ├── projects/
-│   └── savia-mobile-android/  ← app Android nativa + bridge
+│   ├── savia-mobile-android/  ← app Android nativa + bridge
+│   └── savia-web/             ← Vue.js web client para dashboards
 ├── scripts/            ← validación, CI, utilidades, savia-bridge.py
 ├── output/             ← ficheros generados (informes, specs, exports)
 └── CLAUDE.md           ← mi identidad y reglas fundamentales
@@ -101,6 +102,8 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 **Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [400+ comandos · 34 agentes · 75 skills](docs/readme/12-comandos-agentes.md)
 
 **Savia Mobile** — App Android nativa (Kotlin/Compose) que conecta con pm-workspace vía [Savia Bridge](scripts/savia-bridge.py) — un servidor HTTPS/SSE que envuelve Claude Code CLI. Chat con streaming en tiempo real, persistencia local cifrada, tema Material 3. Detalles: [Savia Mobile](projects/savia-mobile-android/README.md)
+
+**Savia Web** — Cliente web Vue.js 3 + TypeScript + Vite con 10 páginas de dashboards (sprints, deuda, DORA, capacidad, etc.) y 10 componentes ECharts. [Savia Bridge](scripts/savia-bridge.py) expone 8 endpoints de reporting (velocity, burndown, DORA, workload, quality, debt, cycle-time, portfolio). Script de deploy en `setup-savia-web.sh`. Detalles: [Savia Web](projects/savia-web/README.md)
 
 ---
 
