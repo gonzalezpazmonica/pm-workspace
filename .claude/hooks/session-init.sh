@@ -1,16 +1,6 @@
 #!/bin/bash
 set -uo pipefail
-# session-init.sh — Auto-carga de contexto al inicio de sesión
-# Usado por: settings.json (SessionStart hook)
-# v0.42.0 — Arranque garantizado: sin red, sin jq, fallo = salida limpia
-#
-# PRINCIPIO: Savia SIEMPRE arranca. Este script NUNCA puede bloquear el inicio.
-# - Sin llamadas de red (ni gh api, ni curl, ni npx)
-# - Sin dependencias externas (ni jq) — solo bash puro
-# - Timeout global de 5s como safety net
-# - Cualquier error → salida limpia con contexto mínimo
-
-set -o pipefail
+# session-init.sh — Arranque garantizado: sin red, sin jq, fallo = salida limpia
 
 # ── Safety net: timeout global ────────────────────────────────────────────────
 SCRIPT_START=$SECONDS
@@ -32,6 +22,15 @@ for rpath in "$HOME/claude/scripts/model-capability-resolver.sh" "./scripts/mode
     while IFS= read -r _l; do
       case "$_l" in export\ SAVIA_*) declare "${_l#export }" 2>/dev/null ;; esac
     done < <(echo '' | bash "$rpath" 2>/dev/null || true)
+    break
+  fi
+done
+
+# ── Context snapshot recovery (Era 100.2) ───────────────────────────────────
+SNAPSHOT_PROJ=""
+for spath in "$HOME/claude/scripts/context-snapshot.sh" "./scripts/context-snapshot.sh"; do
+  if [ -x "$spath" ]; then
+    SNAPSHOT_PROJ=$(echo '' | bash "$spath" load 2>/dev/null | grep -o '"project":"[^"]*"' | cut -d'"' -f4) || true
     break
   fi
 done
@@ -87,9 +86,8 @@ else
   ITEMS+=("Sin perfil — /profile-setup")
 fi
 
-# ── Rama git (local, sin red) ────────────────────────────────────────────────
+# ── Rama git ──
 check_timeout
-# FIX: Try multiple possible locations for the repo
 BRANCH=""
 for repo_path in "$HOME/claude" "$HOME/.claude" "." "$PWD"; do
   if [ -d "$repo_path/.git" ] 2>/dev/null; then
@@ -100,7 +98,12 @@ done
 BRANCH="${BRANCH:-N/A}"
 ITEMS+=("Rama: $BRANCH")
 
-# ── Company Savia inbox (filesystem-only, no network) ────────────────────────
+# ── Recovered context from last session (Era 100.2) ──
+if [ -n "$SNAPSHOT_PROJ" ] && [ "$SNAPSHOT_PROJ" != "none" ]; then
+  ITEMS+=("Contexto recuperado: $SNAPSHOT_PROJ")
+fi
+
+# ── Company Savia inbox ──
 check_timeout
 COMPANY_CONFIG="$HOME/.pm-workspace/company-repo"
 if [ -f "$COMPANY_CONFIG" ]; then

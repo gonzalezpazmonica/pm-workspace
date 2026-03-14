@@ -124,6 +124,13 @@
         "hooks": [
           {
             "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-end-snapshot.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Guardando snapshot de sesión..."
+          },
+          {
+            "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-commit-review.sh",
             "timeout": 30,
             "statusMessage": "Revisando ficheros staged..."

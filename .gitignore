@@ -98,3 +98,4 @@ audit-report-*
 
 # Backups
 *.backup
+.claude/context-cache/

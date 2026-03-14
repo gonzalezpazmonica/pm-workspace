@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.86.0] — 2026-03-14
+
+Era 100.2 — Context Sync Persistente. Session snapshot save/load between sessions.
+
+### Added
+- **scripts/context-snapshot.sh**: Save/load session context (project, branch, sprint, last activity) as JSON. 24h TTL, auto-expired
+- **.claude/hooks/session-end-snapshot.sh**: Stop hook that auto-saves snapshot at session end (async, 5s timeout)
+- **tests/structure/test-context-snapshot.bats**: 7 BATS tests for snapshot save/load/status
+
+### Changed
+- **session-init.sh**: Loads fresh snapshot at startup, shows recovered project in init output
+- **.claude/settings.json**: Added session-end-snapshot hook to Stop event
+- **.gitignore**: Added `.claude/context-cache/`
+
 ## [2.85.0] — 2026-03-14
 
 Era 100.1 — Lazy Loading of Rules Domain. Tier-based rule classification and manifest.
@@ -3471,6 +3485,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.85.0...v2.86.0
 [2.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.84.0...v2.85.0
 [2.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.83.0...v2.84.0
 [2.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.82.0...v2.83.0
