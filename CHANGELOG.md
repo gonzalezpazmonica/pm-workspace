@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.87.0] — 2026-03-14
+
+Era 100.3 — Context metrics command and session snapshot integration.
+
+### Added
+- **.claude/commands/context-status.md**: Lightweight command (Haiku) showing model, context window, tier, compact threshold, strategy, and recommendations
+
 ## [2.86.0] — 2026-03-14
 
 Era 100.2 — Context Sync Persistente. Session snapshot save/load between sessions.
@@ -3485,6 +3492,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.86.0...v2.87.0
 [2.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.85.0...v2.86.0
 [2.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.84.0...v2.85.0
 [2.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.83.0...v2.84.0
