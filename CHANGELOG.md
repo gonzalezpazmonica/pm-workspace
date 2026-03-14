@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.85.0] — 2026-03-14
+
+Era 100.1 — Lazy Loading of Rules Domain. Tier-based rule classification and manifest.
+
+### Added
+- **scripts/rule-usage-analyzer.sh**: Analyzes domain rule usage across workspace — classifies 110 rules into tier1 (startup), tier2 (on-demand), dormant (unreferenced). Outputs JSON manifest
+- **.claude/rules/domain/rule-manifest.json**: Pre-computed map of 110 rules with tier + consumers. 13 tier1, 35 tier2, 62 dormant
+- **tests/structure/test-rule-lazy-loading.bats**: 8 BATS tests for analyzer and manifest integrity
+
 ## [2.84.0] — 2026-03-14
 
 Era 100.0 — Context Window Adaptive per Model. Provider-agnostic dynamic context detection.
@@ -3462,6 +3471,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.84.0...v2.85.0
 [2.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.83.0...v2.84.0
 [2.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.82.0...v2.83.0
 [2.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.81.0...v2.82.0
