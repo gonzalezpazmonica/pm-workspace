@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.90.0] — 2026-03-14
+
+Era 102 — Real-Time Observatory: statusline, notifications, activity log.
+
+### Added
+- **scripts/statusline-provider.sh**: HUD data provider for Claude Code statusline — outputs JSON with tier, context window, project, branch, PBI counts
+- **scripts/notify.sh**: Cross-platform desktop notifications (Linux notify-send, macOS osascript, fallback echo)
+- **.claude/commands/agent-activity.md**: `/agent-activity` command showing structured log of recent agent executions
+- **tests/structure/test-observatory.bats**: 6 BATS tests for observatory components
+
 ## [2.89.0] — 2026-03-14
 
 Era 107.2 — Sync Adapters: Azure DevOps, Jira, and GitHub Issues bidirectional sync.
@@ -3515,6 +3525,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
 [2.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.86.0...v2.87.0
