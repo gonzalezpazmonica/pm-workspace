@@ -94,7 +94,7 @@ for i in "${!STAGES[@]}"; do
   fi
 
   echo -n "  ▶️  $stage ... "
-  local args=(--name "$stage" --output-dir "$OUTPUT_DIR" --timeout "$timeout")
+  args=(--name "$stage" --output-dir "$OUTPUT_DIR" --timeout "$timeout")
   [ -n "$cmd" ] && args+=(--command "$cmd")
   [ -n "$agent" ] && args+=(--agent "$agent")
   [ -n "$input" ] && args+=(--input "$input")
