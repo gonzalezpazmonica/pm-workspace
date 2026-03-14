@@ -152,11 +152,14 @@ class SecurityRepositoryImpl @Inject constructor(
      * @param port Bridge server port (typically 8922)
      * @param token Bearer token for authentication
      */
-    override suspend fun saveBridgeConfig(host: String, port: Int, token: String) =
+    override suspend fun saveBridgeConfig(host: String, port: Int, token: String, username: String) =
         withContext(Dispatchers.IO) {
             secureStorage.put(KEY_BRIDGE_HOST, host)
             secureStorage.put(KEY_BRIDGE_PORT, port.toString())
             secureStorage.put(KEY_BRIDGE_TOKEN, token)
+            if (username.isNotEmpty()) {
+                secureStorage.put(KEY_BRIDGE_USERNAME, username)
+            }
         }
 
     /**
@@ -181,10 +184,19 @@ class SecurityRepositoryImpl @Inject constructor(
     /**
      * Retrieve bridge authentication token.
      *
-     * @return Bearer token or null if not configured
+     * @return Bearer token (per-user after registration) or null if not configured
      */
     override suspend fun getBridgeToken(): String? = withContext(Dispatchers.IO) {
         secureStorage.get(KEY_BRIDGE_TOKEN)
+    }
+
+    /**
+     * Retrieve bridge username slug.
+     *
+     * @return Username slug or null if not configured
+     */
+    override suspend fun getBridgeUsername(): String? = withContext(Dispatchers.IO) {
+        secureStorage.get(KEY_BRIDGE_USERNAME)
     }
 
     /**
@@ -216,6 +228,7 @@ class SecurityRepositoryImpl @Inject constructor(
         secureStorage.remove(KEY_BRIDGE_HOST)
         secureStorage.remove(KEY_BRIDGE_PORT)
         secureStorage.remove(KEY_BRIDGE_TOKEN)
+        secureStorage.remove(KEY_BRIDGE_USERNAME)
     }
 
     // ===== Session Persistence =====
@@ -323,6 +336,7 @@ class SecurityRepositoryImpl @Inject constructor(
         private const val KEY_BRIDGE_HOST = "bridge_host"
         private const val KEY_BRIDGE_PORT = "bridge_port"
         private const val KEY_BRIDGE_TOKEN = "bridge_token"
+        private const val KEY_BRIDGE_USERNAME = "bridge_username"
         private const val KEY_LAST_CONVERSATION = "last_conversation_id"
         private const val KEY_THEME = "user_theme"
         private const val KEY_LANGUAGE = "user_language"

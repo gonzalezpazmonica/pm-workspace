@@ -35,12 +35,12 @@ test.describe('Login flow', () => {
   test('connect button shows Connecting... while loading', async ({ page }) => {
     await page.goto('/')
     await page.waitForSelector('.login-overlay', { timeout: 10000 })
-    await page.locator('input[placeholder*="localhost"]').fill('http://localhost:19999') // unreachable
+    await page.locator('input[placeholder*="localhost"]').fill('http://10.255.255.1:19999') // slow unreachable
     await page.locator('input[placeholder="@your-handle"]').fill(USERNAME)
     await page.locator('input[type="password"]').fill('dummy')
     await page.locator('.btn-connect').click()
-    // Button should show "Connecting..." immediately
-    await expect(page.locator('.btn-connect')).toContainText('Connecting...', { timeout: 3000 })
+    // Button should show "Connecting..." while waiting for timeout
+    await expect(page.locator('.btn-connect')).toContainText('Connecting...', { timeout: 5000 })
   })
 
   // --- Bridge-dependent tests ---

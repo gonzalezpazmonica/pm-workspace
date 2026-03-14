@@ -78,14 +78,16 @@ interface SecurityRepository {
      * Store Savia Bridge server connection parameters.
      *
      * Encrypts each parameter separately. Called during onboarding or when user
-     * adds a new Bridge server.
+     * adds a new Bridge server. The username is registered with the bridge to
+     * obtain a per-user token.
      *
      * @param host IP address or hostname of the Bridge
      * @param port Port number (typically 8922 or 8923)
-     * @param token Authentication token issued by Bridge
+     * @param token Authentication token issued by Bridge (user token after registration)
+     * @param username Bridge username slug (alphanumeric, dash, underscore)
      * @throws Exception if encryption or storage fails
      */
-    suspend fun saveBridgeConfig(host: String, port: Int, token: String)
+    suspend fun saveBridgeConfig(host: String, port: Int, token: String, username: String = "")
 
     /**
      * Get the Bridge server hostname/IP.
@@ -111,12 +113,22 @@ interface SecurityRepository {
      * Get the Bridge authentication token.
      *
      * Automatically decrypts from secure storage. This token is sent with every
-     * request to the Bridge API.
+     * request to the Bridge API. After registration this is the per-user token.
      *
      * @return Authentication token, or null if not configured
      * @throws Exception if decryption fails
      */
     suspend fun getBridgeToken(): String?
+
+    /**
+     * Get the Bridge username.
+     *
+     * The username slug used to register with the bridge and obtain a per-user token.
+     *
+     * @return Username slug, or null if not configured
+     * @throws Exception if decryption fails
+     */
+    suspend fun getBridgeUsername(): String?
 
     /**
      * Construct the complete Bridge URL from host and port.
@@ -142,7 +154,7 @@ interface SecurityRepository {
     suspend fun hasBridgeConfig(): Boolean
 
     /**
-     * Delete all stored Bridge configuration.
+     * Delete all stored Bridge configuration including username.
      *
      * Use this when user wants to disconnect from a Bridge server or during
      * account logout.

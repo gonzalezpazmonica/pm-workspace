@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref, nextTick, watch } from 'vue'
+import { ref, nextTick, watch, onMounted } from 'vue'
 import { useChatStore } from '../stores/chat'
 import { useSSE } from '../composables/useSSE'
+import { useAuthStore } from '../stores/auth'
 import type { StreamEvent } from '../types/chat'
 
 const store = useChatStore()
+const auth = useAuthStore()
 const { isStreaming, streamChat, sendPermission } = useSSE()
+
+onMounted(() => {
+  store.initSession(auth.username)
+})
 const input = ref('')
 const messagesEl = ref<HTMLElement | null>(null)
 
@@ -30,7 +36,11 @@ async function send() {
     else if (ev.type === 'permission_request') {
       store.pendingPermission = { requestId: ev.requestId ?? '', toolName: ev.toolName ?? '', toolInput: ev.toolInput ?? {}, description: ev.description ?? '' }
     }
-    else if (ev.type === 'done' || ev.type === 'error') store.finishStreaming()
+    else if (ev.type === 'error') {
+      store.updateLastAssistant(ev.text || 'Connection error — check Bridge settings')
+      store.finishStreaming()
+    }
+    else if (ev.type === 'done') store.finishStreaming()
   })
 }
 
@@ -48,6 +58,11 @@ function formatTime(ts: number) {
 <template>
   <div class="chat-page">
     <div ref="messagesEl" class="messages">
+      <div v-if="!store.messages.length" class="empty-chat">
+        <img src="/savia-logo.png" alt="Savia" class="empty-logo" />
+        <p class="empty-title">Chat with Savia</p>
+        <p class="empty-hint">Type a message below to start a conversation</p>
+      </div>
       <div v-for="msg in store.messages" :key="msg.id" class="msg" :class="msg.role">
         <div class="bubble">
           <div v-if="msg.isStreaming && !msg.content" class="typing-indicator">
@@ -72,8 +87,12 @@ function formatTime(ts: number) {
 </template>
 
 <style scoped>
-.chat-page { display: flex; flex-direction: column; height: calc(100vh - var(--savia-topbar-height) - 48px); }
+.chat-page { display: flex; flex-direction: column; height: 100%; }
 .messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.empty-chat { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; opacity: 0.6; }
+.empty-logo { width: 64px; height: 64px; opacity: 0.5; }
+.empty-title { font-size: 18px; font-weight: 600; color: var(--savia-on-surface); }
+.empty-hint { font-size: 13px; color: var(--savia-on-surface-variant); }
 .msg { display: flex; }
 .msg.user { justify-content: flex-end; }
 .msg.assistant { justify-content: flex-start; }
@@ -100,5 +119,11 @@ function formatTime(ts: number) {
 @keyframes bounce {
   0%, 80%, 100% { transform: scale(0.4); opacity: 0.4; }
   40% { transform: scale(1); opacity: 1; }
+}
+@media (max-width: 767px) {
+  .bubble { max-width: 88%; font-size: 13px; }
+  .messages { padding: 8px; }
+  .input-bar { padding: 8px; }
+  .input-bar button { padding: 10px 14px; }
 }
 </style>

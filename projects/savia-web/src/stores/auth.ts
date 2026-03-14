@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import type { TeamMember } from '../types/bridge'
 
 const COOKIE_NAME = 'savia_session'
+const CONN_COOKIE = 'savia_connection'
 
 function readCookie(): { serverUrl: string; username: string; token: string } | null {
   const match = document.cookie.split('; ').find(c => c.startsWith(`${COOKIE_NAME}=`))
@@ -16,15 +17,28 @@ function writeCookie(serverUrl: string, username: string, token: string) {
   document.cookie = `${COOKIE_NAME}=${encodeURIComponent(val)}; path=/; SameSite=Lax`
 }
 
+function readConnCookie(): { serverUrl: string; token: string } | null {
+  const match = document.cookie.split('; ').find(c => c.startsWith(`${CONN_COOKIE}=`))
+  if (!match) return null
+  try { return JSON.parse(decodeURIComponent(match.split('=').slice(1).join('='))) }
+  catch { return null }
+}
+
+function writeConnCookie(serverUrl: string, token: string) {
+  const val = JSON.stringify({ serverUrl, token })
+  document.cookie = `${CONN_COOKIE}=${encodeURIComponent(val)}; path=/; max-age=31536000; SameSite=Lax`
+}
+
 function clearCookie() {
   document.cookie = `${COOKIE_NAME}=; path=/; max-age=0`
 }
 
 export const useAuthStore = defineStore('auth', () => {
   const saved = readCookie()
-  const serverUrl = ref(saved?.serverUrl || 'http://localhost:8922')
+  const conn = readConnCookie()
+  const serverUrl = ref(saved?.serverUrl || conn?.serverUrl || 'https://localhost:8922')
   const username = ref(saved?.username || '')
-  const token = ref(saved?.token || '')
+  const token = ref(saved?.token || conn?.token || '')
   const connected = ref(false)
   const profile = ref<TeamMember | null>(null)
 
@@ -61,6 +75,7 @@ export const useAuthStore = defineStore('auth', () => {
     const proto = tls ? 'https' : 'http'
     serverUrl.value = `${proto}://${h}:${p}`
     token.value = t
+    writeConnCookie(serverUrl.value, t)
   }
 
   return {
