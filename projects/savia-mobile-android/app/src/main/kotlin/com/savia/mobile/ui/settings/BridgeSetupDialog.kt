@@ -63,8 +63,11 @@ fun BridgeSetupDialog(
 
     var hostInput by remember { mutableStateOf("") }
     var portInput by remember { mutableStateOf("8922") }
+    var usernameInput by remember { mutableStateOf("") }
     var tokenInput by remember { mutableStateOf("") }
     var showTokenPassword by remember { mutableStateOf(false) }
+
+    val usernameRegex = Regex("^[a-zA-Z0-9_-]{1,64}$")
 
     // Track connection state locally
     val isConnecting = uiState.isConnecting
@@ -80,8 +83,9 @@ fun BridgeSetupDialog(
 
     val isHostValid = hostInput.isNotBlank()
     val isPortValid = portInput.isNotBlank() && portInput.toIntOrNull()?.let { it in 1..65535 } ?: false
+    val isUsernameValid = usernameInput.isNotBlank() && usernameRegex.matches(usernameInput)
     val isTokenValid = tokenInput.isNotBlank()
-    val allFieldsValid = isHostValid && isPortValid && isTokenValid
+    val allFieldsValid = isHostValid && isPortValid && isUsernameValid && isTokenValid
     val canConnect = allFieldsValid && !isConnecting
 
     AlertDialog(
@@ -122,6 +126,22 @@ fun BridgeSetupDialog(
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     isError = portInput.isNotBlank() && !isPortValid
+                )
+
+                // Username field
+                OutlinedTextField(
+                    value = usernameInput,
+                    onValueChange = { usernameInput = it },
+                    label = { Text(stringResource(R.string.bridge_username_label)) },
+                    placeholder = { Text("alice") },
+                    singleLine = true,
+                    enabled = !isConnecting,
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii),
+                    isError = usernameInput.isNotBlank() && !isUsernameValid,
+                    supportingText = if (usernameInput.isNotBlank() && !isUsernameValid) {
+                        { Text(stringResource(R.string.bridge_username_invalid)) }
+                    } else null
                 )
 
                 // Token field with visibility toggle
@@ -194,7 +214,7 @@ fun BridgeSetupDialog(
             TextButton(
                 onClick = {
                     val port = portInput.toIntOrNull() ?: 8922
-                    viewModel.saveBridgeConfig(hostInput, port, tokenInput)
+                    viewModel.saveBridgeConfig(hostInput, port, tokenInput, usernameInput)
                 },
                 enabled = canConnect
             ) {

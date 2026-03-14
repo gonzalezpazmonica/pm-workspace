@@ -95,6 +95,8 @@ TOKEN_FILE = CONFIG_DIR / "auth_token"
 LOG_FILE = CONFIG_DIR / "bridge.log"
 CHAT_LOG_FILE = CONFIG_DIR / "chat.log"
 SESSIONS_DIR = CONFIG_DIR / "sessions"
+WORKDIRS_BASE = CONFIG_DIR / "workdirs"
+USERS_DIR = CONFIG_DIR / "users"
 TLS_CERT_FILE = CONFIG_DIR / "cert.pem"
 TLS_KEY_FILE = CONFIG_DIR / "key.pem"
 TLS_FINGERPRINT_FILE = CONFIG_DIR / "cert_fingerprint.txt"
@@ -459,6 +461,82 @@ def get_or_create_token() -> str:
     log(f"Generated new auth token. Stored in {TOKEN_FILE}")
     return token
 
+# --- Per-User Token Management ---
+
+# In-memory cache: {user_token: slug} for fast lookup
+_user_token_cache: dict[str, str] = {}
+_user_token_cache_lock = threading.Lock()
+
+
+def _init_user_token_cache():
+    """Load all user tokens into memory at startup."""
+    if not USERS_DIR.exists():
+        return
+    for user_dir in USERS_DIR.iterdir():
+        if not user_dir.is_dir():
+            continue
+        token_file = user_dir / "token"
+        if token_file.exists():
+            tok = token_file.read_text().strip()
+            if tok:
+                _user_token_cache[tok] = user_dir.name
+
+
+def _get_or_create_user(slug: str) -> tuple[str, Path]:
+    """
+    Get or create a user directory with a per-user token.
+    Returns (token, user_dir_path).
+    """
+    user_dir = USERS_DIR / slug
+    user_dir.mkdir(parents=True, exist_ok=True)
+    token_file = user_dir / "token"
+    if token_file.exists():
+        tok = token_file.read_text().strip()
+    else:
+        tok = secrets.token_urlsafe(32)
+        token_file.write_text(tok)
+        token_file.chmod(0o600)
+        log(f"Generated token for user '{slug}'")
+    # Ensure sessions.json exists
+    sessions_file = user_dir / "sessions.json"
+    if not sessions_file.exists():
+        sessions_file.write_text("[]")
+    with _user_token_cache_lock:
+        _user_token_cache[tok] = slug
+    return tok, user_dir
+
+
+def _validate_user_token(token: str) -> str | None:
+    """Return user slug if token matches a per-user token, else None."""
+    with _user_token_cache_lock:
+        return _user_token_cache.get(token)
+
+
+def _get_user_sessions(slug: str) -> list[str]:
+    """Return list of session IDs belonging to a user."""
+    sessions_file = USERS_DIR / slug / "sessions.json"
+    if not sessions_file.exists():
+        return []
+    try:
+        return json.loads(sessions_file.read_text())
+    except Exception:
+        return []
+
+
+def _add_user_session(slug: str, session_id: str):
+    """Add a session ID to a user's session list."""
+    sessions_file = USERS_DIR / slug / "sessions.json"
+    sessions = _get_user_sessions(slug)
+    if session_id not in sessions:
+        sessions.append(session_id)
+        sessions_file.write_text(json.dumps(sessions))
+
+
+def _user_owns_session(slug: str, session_id: str) -> bool:
+    """Check if a session belongs to a user."""
+    return session_id in _get_user_sessions(slug)
+
+
 # --- TLS Certificate Management ---
 
 def get_or_create_tls_cert() -> tuple:
@@ -598,6 +676,30 @@ def find_claude_cli() -> str:
         if path.exists():
             return str(path)
     raise FileNotFoundError("Claude Code CLI not found. Install it first: npm install -g @anthropic-ai/claude-code")
+
+# --- Isolated work directories per session ---
+
+# The main workspace directory (where the bridge was started)
+_workspace_dir = os.getcwd()
+
+
+def _get_session_workdir(session_id: str, user_slug: str = None) -> str:
+    """
+    Get or create an isolated working directory for a Claude CLI session.
+
+    Each web/mobile user gets their own cwd so Claude CLI doesn't compete
+    for the project-level lock held by an interactive terminal session.
+    """
+    short_id = session_id.replace("-", "")[:12] if session_id else "default"
+    if user_slug:
+        base = USERS_DIR / user_slug / "workdirs"
+    else:
+        base = WORKDIRS_BASE
+    base.mkdir(parents=True, exist_ok=True)
+    workdir = base / short_id
+    workdir.mkdir(parents=True, exist_ok=True)
+    return str(workdir)
+
 
 # Session locks: prevent concurrent CLI calls with the same session
 _session_locks: dict[str, threading.Lock] = {}
@@ -944,7 +1046,7 @@ _INTERACTIVE_SESSION_TTL = 600  # 10 minutes idle before cleanup
 
 
 def _get_or_create_interactive_session(
-    session_id: str, system_prompt: str = None, request_id: str = "?"
+    session_id: str, system_prompt: str = None, request_id: str = "?", user_slug: str = None
 ) -> InteractiveSession:
     """Get existing interactive session or create new one."""
     with _interactive_sessions_lock:
@@ -965,6 +1067,11 @@ def _get_or_create_interactive_session(
         "--permission-mode", "bypassPermissions",
     ]
 
+    # Use isolated workdir so web sessions don't compete with terminal for project lock
+    workdir = _get_session_workdir(session_id, user_slug)
+    if workdir != _workspace_dir:
+        cmd.extend(["--add-dir", _workspace_dir])
+
     # Session handling
     with _known_sessions_lock:
         is_new = session_id not in _known_sessions
@@ -977,7 +1084,7 @@ def _get_or_create_interactive_session(
     if system_prompt and is_new:
         cmd.extend(["--system-prompt", system_prompt])
 
-    chat_log(f"[req:{request_id}] Starting interactive process: {' '.join(cmd[:6])}...")
+    chat_log(f"[req:{request_id}] Starting interactive process (workdir={workdir}): {' '.join(cmd[:6])}...")
 
     process = subprocess.Popen(
         cmd,
@@ -986,6 +1093,7 @@ def _get_or_create_interactive_session(
         stderr=subprocess.PIPE,
         text=True,
         bufsize=1,
+        cwd=workdir,
         env={
             **{k: v for k, v in os.environ.items() if k != "CLAUDECODE"},
             "CLAUDE_CODE_ENTRYPOINT": "savia-bridge",
@@ -1153,7 +1261,7 @@ def stream_interactive_response(session: InteractiveSession, message: str, reque
     yield {"type": "done"}
 
 
-def stream_claude_response(message: str, session_id: str = None, system_prompt: str = None, request_id: str = "?"):
+def stream_claude_response(message: str, session_id: str = None, system_prompt: str = None, request_id: str = "?", user_slug: str = None):
     """
     Invoke Claude Code CLI and yield streaming response chunks.
 
@@ -1216,6 +1324,11 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
 
     cmd = [claude_bin, "-p", "--verbose", "--output-format", "stream-json"]
 
+    # Use isolated workdir so web sessions don't compete with terminal for project lock
+    workdir = _get_session_workdir(session_id, user_slug) if session_id else _workspace_dir
+    if workdir != _workspace_dir:
+        cmd.extend(["--add-dir", _workspace_dir])
+
     is_new = True  # Default for no session
     if session_id:
         with _known_sessions_lock:
@@ -1236,7 +1349,7 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
     log(f"[req:{request_id}] Executing ({session_mode}): {claude_bin} -p ... '{message[:80]}'")
     chat_log(f"[req:{request_id}] === NEW REQUEST ===")
     chat_log(f"[req:{request_id}] Message: {message}")
-    chat_log(f"[req:{request_id}] Session: {session_id} ({session_mode})")
+    chat_log(f"[req:{request_id}] Session: {session_id} ({session_mode}), workdir: {workdir}")
     chat_log(f"[req:{request_id}] Command: {' '.join(cmd)}")
 
     # Acquire per-session lock to prevent concurrent CLI calls
@@ -1253,13 +1366,14 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
             stderr=subprocess.PIPE,
             text=True,
             bufsize=1,
+            cwd=workdir,
             env={
                 **{k: v for k, v in os.environ.items() if k != "CLAUDECODE"},
                 "CLAUDE_CODE_ENTRYPOINT": "savia-bridge",
             }
         )
 
-        chat_log(f"[req:{request_id}] Process started, PID={process.pid}")
+        chat_log(f"[req:{request_id}] Process started, PID={process.pid}, cwd={workdir}")
 
         full_response = ""
         line_count = 0
@@ -1440,14 +1554,15 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         log(f"{self.address_string()} - {format % args}", "HTTP")
 
+    # Set by _check_auth: slug of authenticated user, or None for master token
+    _auth_user: str | None = None
+
     def _check_auth(self) -> bool:
         """
-        Validate the auth token with A3 rate limiting on failures.
-
-        Tracks failed auth attempts per IP and rejects with 429 if
-        RATE_LIMIT_MAX_FAILURES attempts occur within RATE_LIMIT_WINDOW.
+        Two-tier auth: master token (admin) or per-user token.
+        Sets self._auth_user to the user slug if per-user, None if master.
         """
-        # A3 FIX: Check rate limit before validation
+        self._auth_user = None
         client_ip = self.address_string().split(':')[0]
         if not _check_auth_rate_limit(client_ip):
             log(f"Auth rate limit exceeded for IP {client_ip}", "SECURITY")
@@ -1457,22 +1572,29 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
         if not self.auth_token:
             return True
 
+        token = None
         auth_header = self.headers.get("Authorization", "")
         if auth_header.startswith("Bearer "):
             token = auth_header[7:]
-            result = secrets.compare_digest(token, self.auth_token)
-            if not result:
-                _record_auth_failure(client_ip)
-            return result
+        else:
+            parsed = urlparse(self.path)
+            params = parse_qs(parsed.query)
+            token = params.get("token", [None])[0]
 
-        parsed = urlparse(self.path)
-        params = parse_qs(parsed.query)
-        token = params.get("token", [None])[0]
-        if token:
-            result = secrets.compare_digest(token, self.auth_token)
-            if not result:
-                _record_auth_failure(client_ip)
-            return result
+        if not token:
+            _record_auth_failure(client_ip)
+            return False
+
+        # Check master token first
+        if secrets.compare_digest(token, self.auth_token):
+            self._auth_user = None
+            return True
+
+        # Check per-user tokens
+        user_slug = _validate_user_token(token)
+        if user_slug:
+            self._auth_user = user_slug
+            return True
 
         _record_auth_failure(client_ip)
         return False
@@ -1499,7 +1621,10 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
         allowed_patterns = ("http://localhost", "https://localhost",
                             "http://127.0.0.1", "https://127.0.0.1",
                             "http://192.168.", "https://192.168.",
-                            "http://10.", "https://10.")
+                            "http://10.", "https://10.",
+                            "http://100.", "https://100.",
+                            "http://172.", "https://172.",
+                            "http://lima", "https://lima")
         if any(origin.startswith(p) for p in allowed_patterns):
             self.send_header("Access-Control-Allow-Origin", origin)
         else:
@@ -1537,14 +1662,19 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             if not self._check_auth():
                 self._send_json({"error": "Unauthorized"}, 401)
                 return
-            sessions = []
-            if SESSIONS_DIR.exists():
-                for d in SESSIONS_DIR.iterdir():
-                    if d.is_dir():
-                        sessions.append({
-                            "id": d.name,
-                            "created": datetime.fromtimestamp(d.stat().st_ctime).isoformat()
-                        })
+            # Per-user: return only their sessions; master: return all
+            if self._auth_user:
+                session_ids = _get_user_sessions(self._auth_user)
+                sessions = [{"id": sid} for sid in session_ids]
+            else:
+                sessions = []
+                if SESSIONS_DIR.exists():
+                    for d in SESSIONS_DIR.iterdir():
+                        if d.is_dir():
+                            sessions.append({
+                                "id": d.name,
+                                "created": datetime.fromtimestamp(d.stat().st_ctime).isoformat()
+                            })
             self._send_json({"sessions": sessions})
             return
 
@@ -2298,6 +2428,30 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             self._send_json({"status": "ok", "behavior": perm_behavior})
             return
 
+        # --- POST /auth/register — Create per-user token (master token required) ---
+        if parsed.path == "/auth/register":
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if self._auth_user is not None:
+                self._send_json({"error": "Only master token can register users"}, 403)
+                return
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length).decode()
+            try:
+                data = json.loads(body)
+            except json.JSONDecodeError:
+                self._send_json({"error": "Invalid JSON"}, 400)
+                return
+            username = data.get("username", "").strip()
+            if not username or not re.match(r'^[a-zA-Z0-9_-]{1,64}$', username):
+                self._send_json({"error": "Invalid username (alphanumeric, 1-64 chars)"}, 400)
+                return
+            user_token, user_dir = _get_or_create_user(username)
+            log(f"[req:{request_id}] Registered user '{username}' -> {user_dir}")
+            self._send_json({"user_token": user_token, "username": username})
+            return
+
         if parsed.path != "/chat":
             self._send_json({"error": "Not found"}, 404)
             return
@@ -2350,8 +2504,17 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 session_id = str(_uuid_mod.uuid5(_uuid_mod.NAMESPACE_DNS, f"savia.{session_id}"))
                 log(f"[req:{request_id}] Converted session_id '{original}' -> {session_id}")
 
+        # Per-user session ownership
+        if self._auth_user and session_id:
+            if _user_owns_session(self._auth_user, session_id):
+                pass  # Already registered
+            else:
+                # New session for this user — register it
+                _add_user_session(self._auth_user, session_id)
+
         mode_str = "interactive" if interactive else "one-shot"
-        log(f"[req:{request_id}] Message='{message[:60]}', session={session_id}, mode={mode_str}")
+        user_str = f", user={self._auth_user}" if self._auth_user else ""
+        log(f"[req:{request_id}] Message='{message[:60]}', session={session_id}, mode={mode_str}{user_str}")
 
         # Periodic cleanup of stale interactive sessions
         _cleanup_stale_interactive_sessions()
@@ -2377,10 +2540,10 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             try:
                 # Choose streaming mode: interactive (permission-capable) or one-shot
                 if interactive and session_id:
-                    session = _get_or_create_interactive_session(session_id, system_prompt, request_id)
+                    session = _get_or_create_interactive_session(session_id, system_prompt, request_id, self._auth_user)
                     stream = stream_interactive_response(session, message, request_id)
                 else:
-                    stream = stream_claude_response(message, session_id, system_prompt, request_id)
+                    stream = stream_claude_response(message, session_id, system_prompt, request_id, self._auth_user)
 
                 for chunk in stream:
                     event_data = json.dumps(chunk)
@@ -2403,7 +2566,7 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             full_text = ""
             error = None
 
-            for chunk in stream_claude_response(message, session_id, system_prompt, request_id):
+            for chunk in stream_claude_response(message, session_id, system_prompt, request_id, self._auth_user):
                 if chunk["type"] == "text":
                     full_text += chunk["text"]
                 elif chunk["type"] == "error":
@@ -2879,6 +3042,9 @@ def main():
         token = args.auth_token
     else:
         token = get_or_create_token()
+
+    # Load per-user token cache
+    _init_user_token_cache()
 
     if args.print_token:
         print(token or "(no auth)")
