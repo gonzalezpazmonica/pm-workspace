@@ -26,6 +26,16 @@ check_timeout() {
 # ── Fallback: si algo falla, salida limpia ────────────────────────────────────
 trap 'printf "{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"PM-Workspace Init (ERR line %s):\\n- Savia lista\"}}\n" "$LINENO"; exit 1' ERR
 
+# ── Model capability detection (Era 100) ────────────────────────────────────
+for rpath in "$HOME/claude/scripts/model-capability-resolver.sh" "./scripts/model-capability-resolver.sh"; do
+  if [ -f "$rpath" ]; then
+    while IFS= read -r _l; do
+      case "$_l" in export\ SAVIA_*) declare "${_l#export }" 2>/dev/null ;; esac
+    done < <(echo '' | bash "$rpath" 2>/dev/null || true)
+    break
+  fi
+done
+
 # ── Arrays de contexto ────────────────────────────────────────────────────────
 ITEMS=()
 

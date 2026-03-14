@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.84.0] — 2026-03-14
+
+Era 100.0 — Context Window Adaptive per Model. Provider-agnostic dynamic context detection.
+
+### Added
+- **config/model-capabilities.yaml**: LLM capability registry — maps models to context window, tier, and strategy. Supports Claude, GPT, Gemini, Llama, Mistral (provider-agnostic)
+- **scripts/model-capability-resolver.sh**: Detects active model, parses YAML registry, exports `SAVIA_CONTEXT_WINDOW`, `SAVIA_MODEL_TIER`, `SAVIA_COMPACT_THRESHOLD` env vars. Falls back to 128K/fast for unknown models
+- **scripts/adaptive-strategy-selector.sh**: Given a tier (max/high/fast), outputs JSON with lazy loading, agent budget, autocompact, and sprint loading strategy
+- **tests/structure/test-model-capabilities.bats**: 13 BATS tests covering registry, resolver, and strategy selector
+
+### Changed
+- **session-init.sh**: Model capability detection runs as first step — sets SAVIA_* vars for downstream scripts
+- **CLAUDE.md**: Updated to reflect Era 100.0 context intelligence
+
 ## [2.83.0] — 2026-03-14
 
 Era 63 — Multi-user session architecture with per-user isolation in savia-bridge.
@@ -3448,6 +3462,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.83.0...v2.84.0
 [2.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.82.0...v2.83.0
 [2.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.81.0...v2.82.0
 [2.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.80.0...v2.81.0
