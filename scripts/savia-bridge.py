@@ -648,10 +648,17 @@ def _build_dashboard() -> dict:
     else:
         greeting = f"Good evening, {user_name}"
 
-    # Scan projects
+    # Scan projects — include workspace root + projects/ subdirectories
     projects = []
+    scan_dirs = []
+    # Include workspace root itself if it has CLAUDE.md
+    if (workspace / "CLAUDE.md").exists():
+        scan_dirs.append(workspace)
+    # Include projects/ subdirectories
     if projects_dir.exists():
-        for proj_dir in sorted(projects_dir.iterdir()):
+        scan_dirs.extend(sorted(projects_dir.iterdir()))
+
+    for proj_dir in scan_dirs:
             if not proj_dir.is_dir():
                 continue
             claude_md = proj_dir / "CLAUDE.md"
@@ -2035,6 +2042,40 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             self._send_json(approvals)
             return
 
+        # ─── Reports: delegate to savia-bridge-reports module ───
+        if parsed.path.startswith("/reports/"):
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            params = parse_qs(parsed.query)
+            project_id = params.get("project", ["default"])[0]
+            report_name = parsed.path.split("/reports/", 1)[1].rstrip("/")
+            try:
+                from savia_bridge_reports import (
+                    velocity, burndown, dora, team_workload,
+                    quality, debt, cycle_time, portfolio,
+                )
+                dispatch = {
+                    "velocity": lambda: velocity(project_id),
+                    "burndown": lambda: burndown(project_id),
+                    "dora": lambda: dora(project_id),
+                    "team-workload": lambda: team_workload(project_id),
+                    "quality": lambda: quality(project_id),
+                    "debt": lambda: debt(project_id),
+                    "cycle-time": lambda: cycle_time(project_id),
+                    "portfolio": lambda: portfolio(),
+                }
+                handler = dispatch.get(report_name)
+                if handler:
+                    self._send_json(handler())
+                else:
+                    self._send_json({"error": f"Unknown report: {report_name}"}, 404)
+            except ImportError:
+                self._send_json({"error": "Reports module not available"}, 500)
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+            return
+
         # ─── File Browser: list directory contents ───
         if parsed.path == "/files":
             if not self._check_auth():
@@ -2881,7 +2922,9 @@ def main():
     )
 
     # Start server
-    server = http.server.HTTPServer((args.host, args.port), SaviaBridgeHandler)
+    # ThreadingHTTPServer: each request runs in its own thread so /chat (which
+    # blocks while Claude CLI streams) never prevents /health, /dashboard, etc.
+    server = http.server.ThreadingHTTPServer((args.host, args.port), SaviaBridgeHandler)
 
     protocol = "HTTP"
     if use_tls:
@@ -2928,7 +2971,7 @@ def main():
     install_server = None
     if not args.no_install_server:
         try:
-            install_server = http.server.HTTPServer((args.host, args.install_port), InstallHandler)
+            install_server = http.server.ThreadingHTTPServer((args.host, args.install_port), InstallHandler)
             install_thread = threading.Thread(target=install_server.serve_forever, daemon=True)
             install_thread.start()
             log(f"")

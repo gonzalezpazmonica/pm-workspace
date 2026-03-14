@@ -1,0 +1,56 @@
+@import './variables.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+  background: var(--savia-background);
+  color: var(--savia-on-background);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--savia-primary);
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input, select {
+  font-family: inherit;
+}
+
+/* Focus rings for accessibility */
+:focus-visible {
+  outline: 2px solid var(--savia-primary);
+  outline-offset: 2px;
+  border-radius: var(--savia-radius);
+}
+
+/* Glass card utility */
+.glass-card {
+  background: var(--savia-surface);
+  backdrop-filter: blur(var(--savia-glass-blur));
+  -webkit-backdrop-filter: blur(var(--savia-glass-blur));
+  border: 1px solid var(--savia-glass-border);
+  border-radius: var(--savia-radius-lg);
+  box-shadow: var(--savia-shadow);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--savia-outline); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--savia-on-surface-variant); }
