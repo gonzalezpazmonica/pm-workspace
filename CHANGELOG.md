@@ -5,9 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.83.0] — 2026-03-14
+
+Era 63 — Multi-user session architecture with per-user isolation in savia-bridge.
+
+### Added
+- **Per-user session isolation**: savia-bridge supports multiple concurrent users without lock contention with terminal
+- **Two-tier auth**: master token + per-user tokens via `POST /auth/register`
+- **Username field**: added to mobile `BridgeSetupDialog` and web `LoginPage`
+- **Eye toggle on token field**: visibility toggle for token input in web and mobile
+- **HTTPS cert-hint**: visual indicator when connecting over HTTPS
+- **Session persistence**: per-user sessions survive bridge restarts
+- **Token toggle E2E tests**: new Playwright test file for token visibility (`e2e/token-toggle.spec.ts`)
+- **Multi-user sessions spec**: formal specification for the feature (`specs/multi-user-sessions.spec.md`)
+
+### Changed
+- **savia-bridge.py**: refactored session management for per-user isolation
+- **SecurityRepository (mobile)**: updated interface for username-based auth
+- **auth store (web)**: session management adapted for multi-user flow
+- **chat store (web)**: threading adapted for per-user context
+
+### Fixed
+- Bridge lock contention between web/mobile users and terminal session
+
 ## [2.82.0] — 2026-03-14
 
-Savia Web production-ready: login system, E2E testing, modern UI, and bridge threading fix.
+Era 62b — Savia Web production-ready: login system, E2E testing, modern UI, and bridge threading fix.
 
 ### Added
 - **Login system**: Server URL + @username + token authentication with cookie persistence, team profile loading, and registration wizard for new users (`LoginPage.vue`, `RegisterWizard.vue`)
@@ -33,7 +56,7 @@ Savia Web production-ready: login system, E2E testing, modern UI, and bridge thr
 
 ## [2.81.0] — 2026-03-14
 
-Savia Web — Vue.js web client for PM-Workspace dashboards with reporting endpoints.
+Era 62a — Savia Web: Vue.js web client for PM-Workspace dashboards with reporting endpoints.
 
 ### Added
 - **savia-web**: Vue 3 + TypeScript + Vite web client with 10 dashboard pages (sprints, burndown, DORA, capacity, workload, quality, debt, cycle-time, portfolio, team health) and 10 reusable ECharts components (line, bar, gauge, pie, heatmap, sankey, scatter, radar, tree, timeline)
@@ -3425,6 +3448,8 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.82.0...v2.83.0
 [2.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.81.0...v2.82.0
 [2.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.80.0...v2.81.0
+[2.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.79.0...v2.80.0
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
