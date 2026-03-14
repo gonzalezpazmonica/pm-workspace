@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.92.0] — 2026-03-14
+
+Era 103 — LSP-Powered Code Intelligence: best-practices-check command.
+
+### Added
+- **.claude/commands/best-practices-check.md**: `/best-practices-check` evaluates workspace against 5 categories (structure, hooks, context, testing, docs) with score 0-100
+
 ## [2.91.0] — 2026-03-14
 
 Era 107.3 — Backlog resolver: local-first data source for commands.
@@ -3533,6 +3540,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.91.0...v2.92.0
 [2.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.90.0...v2.91.0
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
