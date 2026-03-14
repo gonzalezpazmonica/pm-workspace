@@ -56,7 +56,7 @@ setup() {
 @test "resolver falls back to default for unknown model" {
   run bash -c "echo '' | $ROOT/scripts/model-capability-resolver.sh --model unknown-model-xyz"
   [ "$status" -eq 0 ]
-  echo "$output" | grep -q "SAVIA_CONTEXT_WINDOW=200000"
+  echo "$output" | grep -q "SAVIA_CONTEXT_WINDOW=128000"
   echo "$output" | grep -q "SAVIA_MODEL_TIER=fast"
   echo "$output" | grep -q "SAVIA_COMPACT_THRESHOLD=50"
 }
