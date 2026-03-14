@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.82.0] — 2026-03-14
+
+Savia Web production-ready: login system, E2E testing, modern UI, and bridge threading fix.
+
+### Added
+- **Login system**: Server URL + @username + token authentication with cookie persistence, team profile loading, and registration wizard for new users (`LoginPage.vue`, `RegisterWizard.vue`)
+- **E2E test suite**: 8 Playwright test files covering login, navigation, dashboard, theme, reports, chat, pages, and UI quality — with regression plan (`specs/regression-plan.md`)
+- **web-e2e-tester agent**: autonomous browser testing agent equivalent to android-autonomous-debugger (`.claude/agents/web-e2e-tester.md`)
+- **Dark/light mode toggle**: sidebar footer switch with localStorage persistence and full CSS variable adaptation
+- **Chat typing indicator**: animated dots spinner while waiting for bridge response
+- **Version auto-increment**: `prebuild` script bumps patch version on every `npm run build`
+- **Lucide icons**: replaced all emoji icons with tree-shakeable SVG icons (ISC license)
+- **Savia logo**: owl PNG from savia-mobile with transparent background for dark mode
+
+### Changed
+- **savia-bridge.py**: `HTTPServer` → `ThreadingHTTPServer` — fixes concurrent request blocking (chat no longer freezes health/dashboard/team endpoints)
+- **LoginPage.vue**: 8-second fetch timeout with `AbortController` — shows error instead of hanging on "Connecting..."
+- **MainLayout.vue**: auto-connect with timeout; shows login form on failure
+- **AppSidebar.vue**: Lucide icons, logo image, theme toggle, dynamic version from `package.json`
+- **AppTopBar.vue**: profile name + logout button with Lucide icons
+- **Design system**: glassmorphism surfaces, Inter font, layered shadows, focus rings, spacing tokens
+
+### Fixed
+- Bridge single-thread blocking: `/chat` no longer prevents other endpoints from responding
+- Login "Connecting..." infinite hang when bridge is unreachable
+
+## [2.81.0] — 2026-03-14
+
+Savia Web — Vue.js web client for PM-Workspace dashboards with reporting endpoints.
+
+### Added
+- **savia-web**: Vue 3 + TypeScript + Vite web client with 10 dashboard pages (sprints, burndown, DORA, capacity, workload, quality, debt, cycle-time, portfolio, team health) and 10 reusable ECharts components (line, bar, gauge, pie, heatmap, sankey, scatter, radar, tree, timeline)
+- **savia_bridge_reports.py**: 8 HTTP JSON endpoints for reporting (velocity, burndown, DORA, workload, quality, debt, cycle-time, portfolio) that feed the web client
+- **setup-savia-web.sh**: Production build and serve script for Savia Web with health checks and graceful shutdown
+- **projects/savia-web/CLAUDE.md**: Project configuration and development guide
+
 ## [2.80.0] — 2026-03-13
 
 Era 62 — Agent and skill enrichment: handoff templates, assignment matrix, enhanced verification, skill metadata, and agent identity profiles.
@@ -3389,4 +3425,6 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.81.0...v2.82.0
+[2.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.80.0...v2.81.0
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0

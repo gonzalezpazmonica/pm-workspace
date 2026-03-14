@@ -1,0 +1,80 @@
+:root {
+  /* Brand */
+  --savia-primary: #6B4C9A;
+  --savia-primary-light: #8E6FBF;
+  --savia-primary-dark: #4A2D7A;
+  --savia-secondary: #A78BCA;
+  --savia-accent: #CDB4DB;
+
+  /* Surfaces — subtle glassmorphism */
+  --savia-background: #F5F3F8;
+  --savia-surface: rgba(255, 255, 255, 0.85);
+  --savia-surface-variant: rgba(237, 231, 243, 0.7);
+  --savia-surface-solid: #FFFFFF;
+
+  /* Text */
+  --savia-on-background: #1C1A1E;
+  --savia-on-surface: #1C1A1E;
+  --savia-on-surface-variant: #625B71;
+  --savia-outline: #79747E;
+
+  /* Status */
+  --savia-error: #DC2626;
+  --savia-error-container: #FEE2E2;
+  --savia-success: #16A34A;
+  --savia-success-container: #DCFCE7;
+  --savia-warning: #D97706;
+  --savia-warning-container: #FEF3C7;
+
+  /* Chat */
+  --savia-user-bubble: #6B4C9A;
+  --savia-assistant-bubble: rgba(237, 231, 243, 0.6);
+
+  /* Layout */
+  --savia-sidebar-width: 260px;
+  --savia-topbar-height: 60px;
+
+  /* Radii — larger, more modern */
+  --savia-radius: 10px;
+  --savia-radius-lg: 16px;
+  --savia-radius-xl: 24px;
+
+  /* Shadows — layered for depth */
+  --savia-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --savia-shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.04);
+  --savia-shadow-lg: 0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
+
+  /* Glass effect */
+  --savia-glass-blur: 12px;
+  --savia-glass-border: rgba(255, 255, 255, 0.3);
+
+  /* Transitions */
+  --savia-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --savia-transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Spacing scale (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+}
+
+[data-theme="dark"] {
+  --savia-background: #13111A;
+  --savia-surface: rgba(33, 31, 38, 0.85);
+  --savia-surface-variant: rgba(50, 47, 55, 0.7);
+  --savia-surface-solid: #211F26;
+  --savia-on-background: #E6E1E5;
+  --savia-on-surface: #E6E1E5;
+  --savia-on-surface-variant: #CAC4D0;
+  --savia-outline: #948F99;
+  --savia-assistant-bubble: rgba(50, 47, 55, 0.6);
+  --savia-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.15);
+  --savia-shadow-md: 0 4px 6px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.15);
+  --savia-shadow-lg: 0 10px 25px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.2);
+  --savia-glass-border: rgba(255, 255, 255, 0.08);
+}
