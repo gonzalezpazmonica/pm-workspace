@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.96.0] — 2026-03-15
 
-Savia Web: Phase 3 complete — per-user auth, user management, chat sessions, bug fixes.
+Era 112 — Savia Web Phase 3: per-user auth, user management, chat sessions, bug fixes.
 
 ### Added
 - **Per-user tokens**: Individual tokens per user in `~/.savia/bridge/users/{slug}/token`, profile.json with roles
@@ -37,7 +37,7 @@ Savia Web: Phase 3 complete — per-user auth, user management, chat sessions, b
 
 ## [2.95.0] — 2026-03-15
 
-Savia Web: zero spec debt — i18n fully wired, project context switch, all gaps fixed.
+Era 112 — Savia Web Phase 2: i18n fully wired, project context switch, all gaps fixed.
 
 ### Added
 - **i18n fully wired**: All 12 pages + AppSidebar use `useI18n()` / `$t()`. Zero hardcoded strings
