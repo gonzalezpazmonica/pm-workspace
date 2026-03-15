@@ -7,12 +7,13 @@
 ## Done
 
 - **MVP** (v0.1.0) — Dashboard, Chat SSE, Commands, Approvals, Time Log, Files, Reports (7 sub-pages), Settings, Login, Dark/Light mode.
-- **Phase 1: Backlog Data Model** — PBI history hook, Tasks as entities, PBI-Spec links. 30 bash tests.
-- **Phase 2: Savia Web Core** — Project selector, Backlog (3-level Spec>PBI>Task, editing, type icons), File browser with markdown, i18n (all pages ES+EN), Pipelines, n8n Hub, HTTPS, Bridge endpoints.
-- **Phase 2.5: Editing & UX** — Backlog filters (type/state/person), state persistence (localStorage), LinkedIn-style markdown viewer (frontmatter card, tables, blockquotes), markdown editor (edit .md in browser), create project modal (form + Bridge scaffolding).
-- **Phase 3: Security & Auth** — Per-user tokens (individual per user in Bridge), user management admin panel (/admin/users), roles (admin/user), route guard, token rotation/revocation.
+- **Phase 1: Backlog Data Model** — PBI history hook, Tasks as entities, PBI-Spec links.
+- **Phase 2: Savia Web Core** — Project selector, Backlog (3-level Spec>PBI>Task, editing, type icons), File browser with markdown, i18n (all pages), Pipelines, n8n Hub, HTTPS, Bridge endpoints, project context switch.
+- **Phase 2.5: Editing & UX** — Backlog filters (type/state/person), state persistence, LinkedIn-style markdown viewer, markdown editor, create project modal.
+- **Phase 3: Security & Auth** — Per-user tokens, user management admin panel, roles (admin/user), route guard, token rotation/revocation.
+- **Phase 3: Chat** — Session management (list, switch, new, delete), localStorage persistence, markdown in bubbles, user identity injection, SSE one-shot streaming fix.
 
-**Test totals:** 228 unit (42 files) + 130 E2E (17 files) + 29 Bridge.
+**Test totals:** 228 unit (42 files) + 148 E2E (18 files) + 29 Bridge.
 
 ## Planned — Phase 3.5: Access Control
 
