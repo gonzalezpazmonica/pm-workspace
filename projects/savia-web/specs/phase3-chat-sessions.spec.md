@@ -18,7 +18,7 @@ Allow users to manage multiple chat sessions like Claude Code CLI: list past ses
 
 - Collapsible panel on the left side of the chat page
 - Shows all sessions for the current user, sorted by last activity (newest first)
-- Each entry: title (first message truncated to 40 chars), date, message count
+- Each entry: title (date + first message digest, e.g. "Mar 15 — hola sabes quién..."), message count
 - Active session highlighted
 - Toggle button to show/hide session list
 
@@ -51,9 +51,15 @@ Allow users to manage multiple chat sessions like Claude Code CLI: list past ses
 
 ### RF-06: Delete Session
 
-- Swipe or delete icon on each session entry
-- Confirmation before deleting
+- Delete icon on each session entry (visible on hover)
+- Reactive: session disappears immediately from list (splice, not filter)
 - Cannot delete the currently active session (switch first)
+
+### RF-07: Session Title Format
+
+- New session: "New chat — Mar 15, 17:30"
+- After first user message: "Mar 15 — first 30 chars of message..."
+- Ensures unique, identifiable titles for each session
 
 ## Criterios de Aceptacion
 
