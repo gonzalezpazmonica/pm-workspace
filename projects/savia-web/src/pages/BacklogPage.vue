@@ -6,6 +6,7 @@ import { List, LayoutGrid, Plus } from 'lucide-vue-next'
 import { useBacklogStore } from '../stores/backlog'
 import BacklogTree from '../components/backlog/BacklogTree.vue'
 import BacklogKanban from '../components/backlog/BacklogKanban.vue'
+import FilterBar from '../components/backlog/FilterBar.vue'
 import PbiDetail from '../components/backlog/PbiDetail.vue'
 import LoadingSpinner from '../components/LoadingSpinner.vue'
 
@@ -51,6 +52,8 @@ function createPbi() {
       <button class="create-btn" @click="createPbi">{{ t('common.create') }}</button>
       <button class="cancel-btn" @click="showNewPbi = false">{{ t('common.cancel') }}</button>
     </div>
+
+    <FilterBar />
 
     <LoadingSpinner v-if="store.loading" />
 

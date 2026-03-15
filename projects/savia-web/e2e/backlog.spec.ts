@@ -103,4 +103,25 @@ test.describe('Backlog page', () => {
     await page.locator('.close-btn').click()
     await expect(page.locator('.detail-panel')).not.toBeVisible()
   })
+
+  test('filter bar is visible', async ({ page }) => {
+    await expect(page.locator('.filter-bar')).toBeVisible()
+  })
+
+  test('type toggle buttons are visible (Spec, PBI, Task)', async ({ page }) => {
+    const toggles = page.locator('.type-toggles button')
+    await expect(toggles).toHaveCount(3)
+  })
+
+  test('clicking type toggle hides items', async ({ page }) => {
+    const pbisBefore = await page.locator('.pbi-row').count()
+    await page.locator('.type-toggles button', { hasText: 'PBI' }).click()
+    await page.waitForTimeout(500)
+    const pbisAfter = await page.locator('.pbi-row').count()
+    expect(pbisAfter).toBeLessThan(pbisBefore)
+  })
+
+  test('assignee filter dropdown is present', async ({ page }) => {
+    await expect(page.locator('.assignee-filter')).toBeVisible()
+  })
 })

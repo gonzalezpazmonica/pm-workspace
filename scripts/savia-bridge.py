@@ -2445,6 +2445,49 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         request_id = self._next_request_id()
 
+        # --- POST /projects (create new project with scaffolding) ---
+        if parsed.path == "/projects":
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length).decode()
+            try:
+                data = json.loads(body)
+                slug = data.get("slug", "").strip()
+                if not slug:
+                    self._send_json({"error": "slug is required"}, 400)
+                    return
+                workspace = Path(os.environ.get("SAVIA_WORKSPACE", Path.home() / "savia"))
+                project_dir = workspace / "projects" / slug
+                if project_dir.exists():
+                    self._send_json({"error": f"Project '{slug}' already exists"}, 409)
+                    return
+                # Create scaffolding
+                (project_dir / "backlog" / "pbi").mkdir(parents=True)
+                (project_dir / "backlog" / "tasks").mkdir(parents=True)
+                (project_dir / "specs").mkdir(parents=True)
+                # _config.yaml
+                (project_dir / "backlog" / "_config.yaml").write_text(
+                    f'project: "{slug}"\npbi:\n  states: [New, Active, Resolved, Closed]\n'
+                    f'  types: [User Story, Bug, Tech Debt, Spike]\n  id_prefix: "PBI"\n  id_counter: 1\n'
+                    f'tasks:\n  states: [New, Active, In Review, Done, Blocked]\n  id_prefix: "TASK"\n')
+                # CLAUDE.md
+                pm_handle = data.get("pm", "")
+                (project_dir / "CLAUDE.md").write_text(
+                    f'# {data.get("name", slug)}\n\n'
+                    f'> {data.get("description", "")}\n\n'
+                    f'## Stack\n\n```\nFRAMEWORK = "{data.get("stack", "")}"\n```\n\n'
+                    f'## Team\n\n| Role | Handle |\n|------|--------|\n| PM | {pm_handle} |\n')
+                # equipo.md + reglas-negocio.md
+                (project_dir / "equipo.md").write_text(f'# Team — {slug}\n\n| Handle | Role |\n|--------|------|\n| {pm_handle} | PM |\n')
+                (project_dir / "reglas-negocio.md").write_text(f'# Business Rules — {slug}\n\n_Add rules here._\n')
+                self._send_json({"status": "created", "slug": slug})
+            except Exception as e:
+                log(f"Create project error: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
         # --- POST /capture (no auth required) ---
         if parsed.path == "/capture":
             """POST /capture — Create a work item from captured content."""
@@ -2739,6 +2782,28 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
     def do_PUT(self):
         """Handle PUT requests for updating configuration."""
         parsed = urlparse(self.path)
+
+        if parsed.path == "/files/content":
+            """PUT /files/content — Save file content (markdown editor)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_length).decode("utf-8")
+                data = json.loads(body)
+                rel_path = data.get("path", "")
+                content = data.get("content", "")
+                workspace = Path(os.environ.get("SAVIA_WORKSPACE", Path.home() / "savia"))
+                target = (workspace / rel_path).resolve()
+                if not str(target).startswith(str(workspace)):
+                    self._send_json({"error": "Path traversal blocked"}, 403)
+                    return
+                target.write_text(content, encoding="utf-8")
+                self._send_json({"status": "saved", "path": rel_path})
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+            return
 
         if parsed.path == "/profile":
             if not self._check_auth():

@@ -26,11 +26,11 @@ function onDragOver(e: DragEvent) { e.preventDefault() }
     >
       <div class="col-header">
         <span>{{ col }}</span>
-        <span class="col-count">{{ store.pbisByState[col]?.length ?? 0 }}</span>
+        <span class="col-count">{{ store.filteredPbisByState[col]?.length ?? 0 }}</span>
       </div>
       <div class="col-body">
         <div
-          v-for="pbi in store.pbisByState[col]" :key="pbi.id"
+          v-for="pbi in store.filteredPbisByState[col]" :key="pbi.id"
           class="kanban-card"
           draggable="true"
           @dragstart="onDragStart($event, pbi.id)"

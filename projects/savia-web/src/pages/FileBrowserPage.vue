@@ -58,6 +58,13 @@ function onNavigate(segments: string[]) {
   loadDir(path, segments)
 }
 
+async function saveFile(content: string) {
+  const path = currentPath.value === '.' ? fileName.value : `${currentPath.value}/${fileName.value}`
+  const { post } = useBridge()
+  await post('/files/content', { path, content })
+  fileContent.value = content
+}
+
 onMounted(() => loadDir('.'))
 </script>
 
@@ -88,7 +95,7 @@ onMounted(() => loadDir('.'))
 
       <div v-if="fileContent !== null" class="files-viewer-panel">
         <button class="close-viewer" @click="fileContent = null">{{ t('common.close') }}</button>
-        <FileViewer :content="fileContent" :language="fileLanguage" :filename="fileName" />
+        <FileViewer :content="fileContent" :language="fileLanguage" :filename="fileName" :editable="fileName.endsWith('.md')" @save="saveFile" />
       </div>
     </div>
   </div>

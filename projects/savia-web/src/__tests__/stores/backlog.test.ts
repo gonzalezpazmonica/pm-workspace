@@ -68,7 +68,7 @@ describe('useBacklogStore', () => {
   it('groups PBIs by state for kanban', async () => {
     const store = useBacklogStore()
     await store.load()
-    const totalKanban = Object.values(store.pbisByState).flat().length
+    const totalKanban = Object.values(store.filteredPbisByState).flat().length
     expect(totalKanban).toBe(store.allPbis.length)
   })
 

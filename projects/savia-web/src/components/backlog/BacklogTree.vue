@@ -12,7 +12,7 @@ const typeIcon: Record<string, typeof BookOpen> = {
 
 <template>
   <div class="tree">
-    <div v-for="spec in store.specs" :key="spec.id" class="tree-group">
+    <div v-for="spec in store.filteredSpecs" :key="spec.id" class="tree-group">
       <!-- Spec row (level 1) -->
       <div class="tree-row spec-row" :class="{ selected: store.selectedItemId === spec.id }" @click="store.selectSpec(spec.id)">
         <button class="expand-btn" @click.stop="store.toggleExpand(spec.id)">
