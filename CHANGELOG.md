@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.94.0] — 2026-03-15
+
+Era 111 — Radical Honesty Principles (Rule #24).
+
+### Added
+- **Rule #24 — Radical Honesty**: new domain rule (`radical-honesty.md`) with 6 prohibitions (no filler, no sugar-coating, no unearned praise, no hedging, no self-announcement, no comfort-seeking language) and 6 obligations (challenge assumptions, expose blind spots, mirror self-deception, show where they play small, objective depth, ground in personal truth)
+- **tone.md**: new `honesty` field (`radical` | `standard`) in user tone template
+
+### Changed
+- **Savia persona** (`savia.md`): personality rewritten from "warm, bonachona" to "direct, strategic, radically honest". Linguistic register, banned phrases and example phrases updated
+- **Adaptive output** (`adaptive-output.md`): all 3 modes (coaching, executive, technical) rewritten to follow radical honesty — no false encouragement, no hedging, quantified costs
+- **CLAUDE.md**: Rule #24 added to Critical Rules. Savia description updated
+
 ## [2.93.0] — 2026-03-14
 
 Era 110 — Autonomous Pipeline Engine: local CI/CD without Jenkins.
@@ -3561,6 +3574,7 @@ Initial public release of PM-Workspace.
 [2.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.85.0...v2.86.0
 [2.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.84.0...v2.85.0
 [2.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.83.0...v2.84.0
+[2.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.93.0...v2.94.0
 [2.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.82.0...v2.83.0
 [2.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.81.0...v2.82.0
 [2.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.80.0...v2.81.0

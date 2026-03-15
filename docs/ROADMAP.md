@@ -515,6 +515,18 @@ Complete mobile experience: project management, command execution, dashboards, t
 | 86 — Vulnerability Scanner | v2.57.0 | Deep security | 8-section vuln analysis, CI integration |
 | 87 — Strategic Vision | v2.58.0 | Health dashboard | Workspace health metrics, overall grade, JSON/CI modes |
 
+## ✅ Era 111 — Radical Honesty Principles (v2.59.1, Mar 2026)
+
+Rule #24: zero filler, zero sugar-coating, zero unearned praise across all Savia output. Savia acts as honest high-level advisor and mirror — challenges assumptions, exposes blind spots, quantifies opportunity costs. Tone adapts per user profile (`tone.md`), substance never changes.
+
+| Change | Description |
+|---|---|
+| `radical-honesty.md` | Domain rule: 6 prohibitions + 6 obligations + tone calibration matrix |
+| `savia.md` | Persona rewrite: personality, principles, linguistic register, banned/permitted phrases |
+| `adaptive-output.md` | All 3 modes (coaching/executive/technical) updated for radical honesty |
+| `tone.md` template | New `honesty` field (radical/standard) |
+| `CLAUDE.md` | Rule #24 added to Critical Rules |
+
 ### Backlog — Strategic Evaluation
 
 - **Voice integration** — `/voice-pm` for sprint ceremonies. Claude Code `/voice` launched Mar 2026 (push-to-talk, Pro/Max/Team/Enterprise). Builds on existing `voice-inbox` skill.
