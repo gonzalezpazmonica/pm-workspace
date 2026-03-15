@@ -1,5 +1,6 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
+import { useProjectStore } from './project'
 
 export interface Workflow {
   id: string
@@ -40,6 +41,9 @@ export const useIntegrationsStore = defineStore('integrations', () => {
   function saveConnection(url: string, key: string) {
     connection.value = { url, apiKey: key, connected: url.length > 0 }
   }
+
+  const projectStore = useProjectStore()
+  watch(() => projectStore.selectedId, () => { load() })
 
   return { workflows, executions, connection, loading, load, saveConnection }
 })

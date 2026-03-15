@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import {
   Home, MessageSquare, Zap, LayoutList, CheckCircle2,
   Clock, FolderOpen, BarChart3, User, Settings, Sun, Moon,
@@ -9,6 +10,7 @@ import {
 
 defineProps<{ collapsed: boolean }>()
 const route = useRoute()
+const { t } = useI18n()
 
 const dark = ref(localStorage.getItem('savia_theme') === 'dark')
 function toggleTheme() {
@@ -23,18 +25,18 @@ onMounted(() => {
 })
 
 const navItems = [
-  { path: '/', label: 'Home', icon: Home },
-  { path: '/chat', label: 'Chat', icon: MessageSquare },
-  { path: '/commands', label: 'Commands', icon: Zap },
-  { path: '/backlog', label: 'Backlog', icon: LayoutList },
-  { path: '/approvals', label: 'Approvals', icon: CheckCircle2 },
-  { path: '/timelog', label: 'Time Log', icon: Clock },
-  { path: '/files', label: 'Files', icon: FolderOpen },
-  { path: '/pipelines', label: 'Pipelines', icon: GitBranch },
-  { path: '/integrations', label: 'Integrations', icon: Plug },
-  { path: '/reports', label: 'Reports', icon: BarChart3 },
-  { path: '/profile', label: 'Profile', icon: User },
-  { path: '/settings', label: 'Settings', icon: Settings },
+  { path: '/', key: 'nav.home', icon: Home },
+  { path: '/chat', key: 'nav.chat', icon: MessageSquare },
+  { path: '/commands', key: 'nav.commands', icon: Zap },
+  { path: '/backlog', key: 'nav.backlog', icon: LayoutList },
+  { path: '/approvals', key: 'nav.approvals', icon: CheckCircle2 },
+  { path: '/timelog', key: 'nav.timelog', icon: Clock },
+  { path: '/files', key: 'nav.files', icon: FolderOpen },
+  { path: '/pipelines', key: 'nav.pipelines', icon: GitBranch },
+  { path: '/integrations', key: 'nav.integrations', icon: Plug },
+  { path: '/reports', key: 'nav.reports', icon: BarChart3 },
+  { path: '/profile', key: 'nav.profile', icon: User },
+  { path: '/settings', key: 'nav.settings', icon: Settings },
 ]
 </script>
 
@@ -57,7 +59,7 @@ const navItems = [
         }"
       >
         <component :is="item.icon" :size="20" class="nav-icon" />
-        <span v-if="!collapsed" class="nav-label">{{ item.label }}</span>
+        <span v-if="!collapsed" class="nav-label">{{ t(item.key) }}</span>
       </router-link>
     </nav>
     <div class="sidebar-footer">

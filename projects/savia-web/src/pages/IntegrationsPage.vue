@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { onMounted, ref } from 'vue'
 import { Zap, Play, Pause, CheckCircle, XCircle, Loader } from 'lucide-vue-next'
 import { useIntegrationsStore } from '../stores/integrations'
@@ -18,21 +20,21 @@ const statusColor: Record<string, string> = {
 
 <template>
   <div class="integrations-page">
-    <h1 class="page-title"><Zap :size="20" /> Integrations</h1>
+    <h1 class="page-title"><Zap :size="20" />{{ t('integrations.title') }}</h1>
     <LoadingSpinner v-if="store.loading" />
     <template v-else>
       <section class="section">
-        <h2>n8n Connection</h2>
+        <h2>{{ t('integrations.connection') }}</h2>
         <div class="setup-form" v-if="!store.connection.connected">
           <input v-model="setupUrl" placeholder="n8n URL (e.g. http://localhost:5678)" class="input" />
           <input v-model="setupKey" placeholder="API Key" type="password" class="input" />
-          <button class="btn-primary" @click="saveSetup">Connect</button>
+          <button class="btn-primary" @click="saveSetup">{{ t('common.connect') }}</button>
         </div>
         <div v-else class="connected-badge">Connected to {{ store.connection.url }}</div>
       </section>
 
       <section class="section">
-        <h2>Workflows</h2>
+        <h2>{{ t('integrations.workflows') }}</h2>
         <div class="workflow-grid">
           <div v-for="wf in store.workflows" :key="wf.id" class="wf-card">
             <div class="wf-header">
@@ -45,7 +47,7 @@ const statusColor: Record<string, string> = {
       </section>
 
       <section class="section">
-        <h2>Recent Executions</h2>
+        <h2>{{ t('integrations.executions') }}</h2>
         <table class="exec-table">
           <thead><tr><th>Workflow</th><th>Status</th><th>Started</th><th>Duration</th></tr></thead>
           <tbody>

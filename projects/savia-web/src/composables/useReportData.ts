@@ -1,6 +1,6 @@
-import { ref, type Ref } from 'vue'
+import { ref, watch, type Ref } from 'vue'
 import { useBridge } from './useBridge'
-import { useDashboardStore } from '../stores/dashboard'
+import { useProjectStore } from '../stores/project'
 import type { ReportResponse } from '../types/reports'
 
 export function useReportData<T>(endpoint: string) {
@@ -10,8 +10,8 @@ export function useReportData<T>(endpoint: string) {
 
   async function load(extraParams = '') {
     const { get } = useBridge()
-    const dashboard = useDashboardStore()
-    const projectId = dashboard.data?.selectedProjectId || ''
+    const projectStore = useProjectStore()
+    const projectId = projectStore.selectedId
     loading.value = true
     error.value = null
 
@@ -26,6 +26,10 @@ export function useReportData<T>(endpoint: string) {
     }
     loading.value = false
   }
+
+  // Reload when project changes
+  const projectStore = useProjectStore()
+  watch(() => projectStore.selectedId, () => { load() })
 
   return { data, loading, error, load }
 }

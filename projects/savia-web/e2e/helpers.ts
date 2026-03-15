@@ -71,7 +71,11 @@ export async function login(page: Page) {
 /** Navigate to / and clear localStorage + cookies to force fresh login state */
 export async function clearSession(page: Page) {
   await page.goto('/', { waitUntil: 'domcontentloaded' })
-  await page.evaluate(() => localStorage.clear())
+  await page.evaluate(() => {
+    localStorage.clear()
+    // Set English locale for E2E tests (default is Spanish)
+    localStorage.setItem('savia:locale', 'en')
+  })
   await page.context().clearCookies()
   await page.reload({ waitUntil: 'domcontentloaded' })
 }

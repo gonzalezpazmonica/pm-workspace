@@ -111,6 +111,10 @@ BATS framework (84 tests), test quality audit, weighted coverage (65%), security
 
 Lazy loading of domain rules, context sync persistence, context metrics (`/context-status`), backlog sovereignty (markdown-based PBIs), sync adapters (Azure DevOps/Jira/GitHub), backlog commands, observatory (statusline + notifications), LSP intelligence (best-practices-check), autonomous pipeline engine (local CI/CD).
 
+### Era 111 — Radical Honesty Principles (v2.59.1)
+
+Rule #24: zero filler, zero sugar-coating, zero unearned praise across all Savia output. Challenge assumptions, expose blind spots, quantify opportunity costs. Tone adapts per user profile, substance never changes. Files: `radical-honesty.md` (domain rule), `savia.md` (persona update), `adaptive-output.md` (3 modes updated), `tone.md` (new `honesty` field), CLAUDE.md (Rule #24).
+
 ### Savia Flow — Adaptive Methodology
 
 Complete PM methodology in `docs/savia-flow/` (12 docs, 7500+ lines). 7 pillars: outcome-driven, continuous flow, dual-track, SDD, autonomous quality gates, evolved roles, flow metrics.

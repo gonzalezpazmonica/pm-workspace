@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { onMounted, ref } from 'vue'
 import { CheckCircle, XCircle, Clock, Loader } from 'lucide-vue-next'
 import { usePipelineStore } from '../stores/pipeline'
@@ -24,7 +26,7 @@ function toggleStage(name: string) {
 
 <template>
   <div class="pipelines-page">
-    <h1 class="page-title">Pipelines</h1>
+    <h1 class="page-title">{{ t('pipelines.title') }}</h1>
     <LoadingSpinner v-if="store.loading" />
     <div v-else class="pipelines-body" :class="{ 'has-detail': store.selectedRun }">
       <div class="runs-list">

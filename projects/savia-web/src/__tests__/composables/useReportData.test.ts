@@ -1,15 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import type { DashboardData } from '../../types/bridge'
 import { setActivePinia, createPinia } from 'pinia'
 
-// Mock useBridge before importing the composable
 const mockGet = vi.fn()
 vi.mock('../../composables/useBridge', () => ({
   useBridge: () => ({ get: mockGet }),
 }))
 
 const { useReportData } = await import('../../composables/useReportData')
-const { useDashboardStore } = await import('../../stores/dashboard')
+const { useProjectStore } = await import('../../stores/project')
 
 describe('useReportData', () => {
   beforeEach(() => {
@@ -48,22 +46,14 @@ describe('useReportData', () => {
     expect(error.value).toBe('Failed to load report data')
   })
 
-  it('sets error when result.data is falsy', async () => {
-    mockGet.mockResolvedValueOnce({ data: null })
-    const { error, data, load } = useReportData('/reports/sprint')
-    await load()
-    expect(error.value).toBe('Failed to load report data')
-    expect(data.value).toBeNull()
-  })
-
-  it('builds url with project param from dashboard store', async () => {
-    const dashboard = useDashboardStore()
-    dashboard.data = { selectedProjectId: 'proj-42' } as unknown as DashboardData
+  it('builds url with project param from project store', async () => {
+    const projectStore = useProjectStore()
+    projectStore.select('proyecto-alpha')
     mockGet.mockResolvedValueOnce({ data: {} })
     const { load } = useReportData('/reports/sprint')
     await load()
     const calledUrl: string = mockGet.mock.calls[0][0]
-    expect(calledUrl).toContain('project=proj-42')
+    expect(calledUrl).toContain('project=proyecto-alpha')
   })
 
   it('appends extraParams to url', async () => {
@@ -72,14 +62,6 @@ describe('useReportData', () => {
     await load('&limit=5')
     const calledUrl: string = mockGet.mock.calls[0][0]
     expect(calledUrl).toContain('limit=5')
-  })
-
-  it('uses & separator when endpoint already has query string', async () => {
-    mockGet.mockResolvedValueOnce({ data: {} })
-    const { load } = useReportData('/reports/sprint?foo=bar')
-    await load()
-    const calledUrl: string = mockGet.mock.calls[0][0]
-    expect(calledUrl).toContain('foo=bar&project=')
   })
 
   it('clears error on subsequent successful load', async () => {

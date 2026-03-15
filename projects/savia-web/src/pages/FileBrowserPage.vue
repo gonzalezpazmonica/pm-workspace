@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { ref, computed, onMounted } from 'vue'
 import { EyeOff, Eye } from 'lucide-vue-next'
 import { useBridge } from '../composables/useBridge'
@@ -63,9 +65,9 @@ onMounted(() => loadDir('.'))
   <div class="files-page">
     <div class="files-toolbar">
       <FileBreadcrumb :path="breadcrumb" @navigate="onNavigate" />
-      <button class="toolbar-btn" @click="showDotfiles = !showDotfiles" :title="showDotfiles ? 'Hide dotfiles' : 'Show dotfiles'">
+      <button class="toolbar-btn" @click="showDotfiles = !showDotfiles">
         <component :is="showDotfiles ? EyeOff : Eye" :size="15" />
-        {{ showDotfiles ? 'Hide dotfiles' : 'Show dotfiles' }}
+        {{ showDotfiles ? t('common.hideDotfiles') : t('common.showDotfiles') }}
       </button>
     </div>
 
@@ -73,7 +75,7 @@ onMounted(() => loadDir('.'))
 
     <div v-else class="files-body" :class="{ 'has-viewer': fileContent !== null }">
       <div class="files-list-panel">
-        <EmptyState v-if="!visibleEntries.length" title="Empty directory" />
+        <EmptyState v-if="!visibleEntries.length" :title="t('files.empty')" />
         <ul v-else class="file-list">
           <FileListItem
             v-for="e in visibleEntries"
@@ -85,7 +87,7 @@ onMounted(() => loadDir('.'))
       </div>
 
       <div v-if="fileContent !== null" class="files-viewer-panel">
-        <button class="close-viewer" @click="fileContent = null">Close</button>
+        <button class="close-viewer" @click="fileContent = null">{{ t('common.close') }}</button>
         <FileViewer :content="fileContent" :language="fileLanguage" :filename="fileName" />
       </div>
     </div>

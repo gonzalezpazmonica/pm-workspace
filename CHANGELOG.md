@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.95.0] — 2026-03-15
+
+Savia Web: zero spec debt — i18n fully wired, project context switch, all gaps fixed.
+
+### Added
+- **i18n fully wired**: All 12 pages + AppSidebar use `useI18n()` / `$t()`. Zero hardcoded strings
+- **Project context switch**: Dashboard, reports, pipelines, integrations stores watch `projectStore.selectedId` and reload on change
+- **Vitest i18n setup**: Global test setup registers i18n plugin for all component tests
+- **Phase 2.5 spec**: Create project from web (modal + scaffolding via Bridge)
+
+### Fixed
+- E2E `clearSession` sets English locale to match test assertions
+- `useReportData` now uses `projectStore` instead of `dashboardStore` for project context
+- All 217 unit tests + 109 E2E tests pass with i18n
+
 ## [2.94.0] — 2026-03-15
 
 Savia Web Phase 1+2: complete backlog data model and web core features.
@@ -3585,6 +3600,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.94.0...v2.95.0
 [2.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.93.0...v2.94.0
 [2.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.92.0...v2.93.0
 [2.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.91.0...v2.92.0

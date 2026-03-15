@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { ref, onMounted } from 'vue'
 import { useBridge } from '../composables/useBridge'
 import { useDashboardStore } from '../stores/dashboard'
@@ -25,7 +27,7 @@ const totalHours = () => entries.value.reduce((s, e) => s + e.hours, 0)
 
 <template>
   <div class="timelog-page">
-    <h1>Time Log</h1>
+    <h1>{{ t('time.title') }}</h1>
     <LoadingSpinner v-if="loading" />
     <EmptyState v-else-if="!entries.length" icon="⏱" title="No time entries" />
     <template v-else>

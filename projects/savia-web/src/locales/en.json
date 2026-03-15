@@ -12,8 +12,13 @@
     "next": "Next",
     "close": "Close",
     "confirm": "Confirm",
+    "create": "Create",
+    "edit": "Edit",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "connect": "Connect",
+    "showDotfiles": "Show dotfiles",
+    "hideDotfiles": "Hide dotfiles"
   },
   "nav": {
     "home": "Home",
@@ -29,6 +34,17 @@
     "reports": "Reports",
     "profile": "Profile",
     "settings": "Settings"
+  },
+  "home": {
+    "loadingDashboard": "Loading dashboard...",
+    "myTasks": "My Tasks",
+    "recentActivity": "Recent Activity",
+    "spCompleted": "SP Completed",
+    "spPlanned": "SP Planned",
+    "blocked": "Blocked",
+    "today": "Today",
+    "noTasks": "No tasks assigned",
+    "noActivity": "No recent activity"
   },
   "settings": {
     "title": "Settings",
@@ -46,17 +62,20 @@
   },
   "backlog": {
     "title": "Backlog",
-    "treeView": "Tree view",
-    "kanbanView": "Kanban view",
+    "tree": "Tree",
+    "kanban": "Kanban",
     "newPbi": "New PBI",
     "newTask": "New task",
     "noItems": "No items in the backlog",
+    "pbiTitle": "PBI title...",
     "pbiDetail": "PBI Detail",
     "tasks": "Tasks",
     "specs": "Specs",
     "history": "History",
     "description": "Description",
-    "acceptanceCriteria": "Acceptance criteria"
+    "acceptanceCriteria": "Acceptance criteria",
+    "addTask": "Add Task",
+    "addPbi": "Add PBI"
   },
   "pipelines": {
     "title": "Pipelines",
@@ -64,14 +83,17 @@
     "lastRun": "Last run",
     "status": "Status",
     "logs": "Logs",
-    "noRuns": "No recent runs"
+    "noRuns": "No recent runs",
+    "noLogs": "No logs"
   },
   "integrations": {
     "title": "Integrations",
+    "connection": "n8n Connection",
     "workflows": "Workflows",
     "templates": "Templates",
-    "executions": "Executions",
-    "setup": "Setup"
+    "executions": "Recent Executions",
+    "setup": "Setup",
+    "connectedTo": "Connected to"
   },
   "project": {
     "selector": "Select project",
@@ -93,11 +115,25 @@
     "lines": "lines"
   },
   "time": {
-    "title": "Time log",
+    "title": "Time Log",
     "logHours": "Log hours",
     "hours": "Hours",
     "type": "Type",
     "note": "Note",
     "total": "Total"
+  },
+  "commands": {
+    "title": "Commands",
+    "search": "Search command..."
+  },
+  "approvals": {
+    "title": "Approvals",
+    "noItems": "No pending approvals"
+  },
+  "profile": {
+    "title": "Profile"
+  },
+  "chat": {
+    "placeholder": "Type a message..."
   }
 }

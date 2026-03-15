@@ -1,5 +1,6 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
+import { useProjectStore } from './project'
 
 export interface PipelineRun {
   id: string
@@ -34,6 +35,9 @@ export const usePipelineStore = defineStore('pipeline', () => {
     try { runs.value = mockRuns() }
     finally { loading.value = false }
   }
+
+  const projectStore = useProjectStore()
+  watch(() => projectStore.selectedId, () => { load() })
 
   return { runs, selectedRunId, selectedRun, loading, load, selectRun }
 })

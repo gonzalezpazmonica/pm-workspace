@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { ref, onMounted } from 'vue'
 import { useBridge } from '../composables/useBridge'
 import LoadingSpinner from '../components/LoadingSpinner.vue'
@@ -18,7 +20,7 @@ onMounted(async () => {
 
 <template>
   <div class="profile-page">
-    <h1>Profile</h1>
+    <h1>{{ t('profile.title') }}</h1>
     <LoadingSpinner v-if="loading" />
     <div v-else-if="profile" class="profile-card">
       <div class="avatar">{{ profile.name.charAt(0) }}</div>

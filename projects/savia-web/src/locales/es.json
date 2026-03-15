@@ -12,8 +12,13 @@
     "next": "Siguiente",
     "close": "Cerrar",
     "confirm": "Confirmar",
+    "create": "Crear",
+    "edit": "Editar",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "connect": "Conectar",
+    "showDotfiles": "Mostrar ocultos",
+    "hideDotfiles": "Ocultar ocultos"
   },
   "nav": {
     "home": "Inicio",
@@ -29,6 +34,17 @@
     "reports": "Informes",
     "profile": "Perfil",
     "settings": "Ajustes"
+  },
+  "home": {
+    "loadingDashboard": "Cargando panel...",
+    "myTasks": "Mis tareas",
+    "recentActivity": "Actividad reciente",
+    "spCompleted": "SP Completados",
+    "spPlanned": "SP Planificados",
+    "blocked": "Bloqueados",
+    "today": "Hoy",
+    "noTasks": "Sin tareas asignadas",
+    "noActivity": "Sin actividad reciente"
   },
   "settings": {
     "title": "Ajustes",
@@ -46,17 +62,20 @@
   },
   "backlog": {
     "title": "Backlog",
-    "treeView": "Vista árbol",
-    "kanbanView": "Vista kanban",
+    "tree": "Árbol",
+    "kanban": "Kanban",
     "newPbi": "Nuevo PBI",
     "newTask": "Nueva tarea",
     "noItems": "No hay elementos en el backlog",
+    "pbiTitle": "Título del PBI...",
     "pbiDetail": "Detalle PBI",
     "tasks": "Tareas",
     "specs": "Specs",
     "history": "Historial",
     "description": "Descripción",
-    "acceptanceCriteria": "Criterios de aceptación"
+    "acceptanceCriteria": "Criterios de aceptación",
+    "addTask": "Añadir tarea",
+    "addPbi": "Añadir PBI"
   },
   "pipelines": {
     "title": "Pipelines",
@@ -64,14 +83,17 @@
     "lastRun": "Última ejecución",
     "status": "Estado",
     "logs": "Logs",
-    "noRuns": "Sin ejecuciones recientes"
+    "noRuns": "Sin ejecuciones recientes",
+    "noLogs": "Sin logs"
   },
   "integrations": {
     "title": "Integraciones",
+    "connection": "Conexión n8n",
     "workflows": "Flujos de trabajo",
     "templates": "Plantillas",
-    "executions": "Ejecuciones",
-    "setup": "Configurar"
+    "executions": "Ejecuciones recientes",
+    "setup": "Configurar",
+    "connectedTo": "Conectado a"
   },
   "project": {
     "selector": "Seleccionar proyecto",
@@ -99,5 +121,19 @@
     "type": "Tipo",
     "note": "Nota",
     "total": "Total"
+  },
+  "commands": {
+    "title": "Comandos",
+    "search": "Buscar comando..."
+  },
+  "approvals": {
+    "title": "Aprobaciones",
+    "noItems": "Sin aprobaciones pendientes"
+  },
+  "profile": {
+    "title": "Perfil"
+  },
+  "chat": {
+    "placeholder": "Escribe un mensaje..."
   }
 }

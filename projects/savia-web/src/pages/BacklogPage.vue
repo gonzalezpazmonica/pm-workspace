@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { onMounted, ref } from 'vue'
 import { List, LayoutGrid, Plus } from 'lucide-vue-next'
 import { useBacklogStore } from '../stores/backlog'
@@ -25,7 +27,7 @@ function createPbi() {
 <template>
   <div class="backlog-page">
     <div class="backlog-toolbar">
-      <h1 class="backlog-title">Backlog</h1>
+      <h1 class="backlog-title">{{ t('backlog.title') }}</h1>
       <div class="toolbar-actions">
         <button class="new-pbi-btn" @click="showNewPbi = !showNewPbi">
           <Plus :size="14" /> New PBI
@@ -42,12 +44,12 @@ function createPbi() {
     </div>
 
     <div v-if="showNewPbi" class="new-pbi-form">
-      <input v-model="newPbiTitle" placeholder="PBI title..." class="new-pbi-input" @keyup.enter="createPbi" />
+      <input v-model="newPbiTitle" :placeholder="t('backlog.pbiTitle')" class="new-pbi-input" @keyup.enter="createPbi" />
       <select v-model="newPbiType" class="new-pbi-type">
         <option>User Story</option><option>Bug</option><option>Tech Debt</option><option>Spike</option>
       </select>
-      <button class="create-btn" @click="createPbi">Create</button>
-      <button class="cancel-btn" @click="showNewPbi = false">Cancel</button>
+      <button class="create-btn" @click="createPbi">{{ t('common.create') }}</button>
+      <button class="cancel-btn" @click="showNewPbi = false">{{ t('common.cancel') }}</button>
     </div>
 
     <LoadingSpinner v-if="store.loading" />
