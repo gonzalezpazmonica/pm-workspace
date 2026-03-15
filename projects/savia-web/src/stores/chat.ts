@@ -66,8 +66,8 @@ export const useChatStore = defineStore('chat', () => {
     if (session) {
       session.lastMessageAt = Date.now()
       session.messageCount = messages.value.length
-      if (msg.role === 'user' && session.title.startsWith('New chat')) {
-        const date = new Date().toLocaleDateString([], { month: 'short', day: 'numeric' })
+      if (msg.role === 'user' && (session.title.startsWith('New chat') || session.title === 'Session')) {
+        const date = new Date().toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
         const digest = msg.content.slice(0, 30).replace(/\s+/g, ' ').trim()
         session.title = `${date} — ${digest}${msg.content.length > 30 ? '...' : ''}`
       }
