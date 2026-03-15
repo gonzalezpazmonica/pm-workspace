@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.97.0] — 2026-03-15
+
+Era 113 — Savia Web: chat multi-thread, tool feedback, markdown quality, session fixes.
+
+### Added
+- **Chat tool activity feed**: Live progress inside assistant bubble while Savia uses tools (📄 Reading, 🔍 Searching, 🤖 Delegating...) with pulsing indicator
+- **Chat multi-thread**: Session-scoped streaming — responses don't leak between sessions. Stream cancelled on session switch
+- **Chat session titles**: "Mar 15, 18:30 — message digest" format with date+time
+- **Chat delete persistence**: Deleted sessions tracked in localStorage, won't reappear from Bridge on reload
+- **Markdown rendering**: Headings (H1-H3), 10px paragraph spacing, tables with borders, blockquotes, code blocks, lists with indentation, horizontal rules
+- **Session active indicator**: Left border accent (violet) + icon color for active session
+- **Spec**: chat-multithread, chat-tool-feedback (2 new specs)
+- **Rule**: pre-commit-bats — always run `tests/run-all.sh` before commit
+
+### Fixed
+- **Session panel width**: Was 0px (missing CSS width), now 260px
+- **Delete button hover**: Bigger click area, visible on hover for non-active sessions
+- **SSE streaming**: One-shot mode, `Connection: close`, client-side stream break
+- **Chat identity**: User context injected in every message (works with --resume)
+- **Dashboard**: Greeting field flattened from nested user.greeting
+- **BATS**: CHANGELOG Era references, hook set flags, duplicate version entries
+
 ## [2.96.0] — 2026-03-15
 
 Era 112 — Savia Web Phase 3: per-user auth, user management, chat sessions, bug fixes.
@@ -3609,6 +3631,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.96.0...v2.97.0
 [2.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.95.0...v2.96.0
 [2.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.94.0...v2.95.0
 [2.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.92.0...v2.93.0
