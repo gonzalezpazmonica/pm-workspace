@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '../stores/auth'
+import { useProjectStore } from '../stores/project'
 import AppSidebar from '../components/AppSidebar.vue'
 import AppTopBar from '../components/AppTopBar.vue'
 import LoginPage from '../components/LoginPage.vue'
@@ -8,6 +9,7 @@ import type { TeamResponse } from '../types/bridge'
 
 const sidebarCollapsed = ref(false)
 const auth = useAuthStore()
+const projectStore = useProjectStore()
 
 onMounted(async () => {
   if (auth.hasCookie && auth.token && auth.username) {
@@ -27,6 +29,19 @@ onMounted(async () => {
     } catch { /* timeout or error — will show login form */ }
     finally { clearTimeout(timer) }
   }
+  // Load role from Bridge (/auth/me)
+  if (auth.isLoggedIn) {
+    try {
+      const res = await fetch(`${auth.serverUrl}/auth/me`, {
+        headers: { 'Authorization': `Bearer ${auth.token}` },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        auth.role = data.role === 'admin' ? 'admin' : 'user'
+      }
+    } catch { /* default to user */ }
+  }
+  await projectStore.load()
 })
 </script>
 

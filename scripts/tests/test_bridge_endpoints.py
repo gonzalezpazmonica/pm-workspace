@@ -248,6 +248,85 @@ def test_dashboard():
     return f"{projects_count} projects, {tasks_count} tasks"
 
 
+def test_projects():
+    """GET /projects — returns list of projects from workspace."""
+    status, body = bridge_get("/projects")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert isinstance(data, list), f"Expected list, got {type(data)}"
+    assert len(data) >= 1, "Should have at least the workspace entry"
+    workspace = data[0]
+    assert workspace["id"] == "_workspace", f"First entry should be _workspace, got {workspace.get('id')}"
+    assert "name" in workspace, "Missing 'name' field"
+    assert "path" in workspace, "Missing 'path' field"
+    assert "hasClaude" in workspace, "Missing 'hasClaude' field"
+    assert "hasBacklog" in workspace, "Missing 'hasBacklog' field"
+    assert "health" in workspace, "Missing 'health' field"
+    return f"{len(data)} projects"
+
+
+def test_backlog():
+    """GET /backlog?project=proyecto-alpha — returns PBIs and tasks."""
+    status, body = bridge_get("/backlog?project=proyecto-alpha")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert "pbis" in data, f"Missing 'pbis' field: {list(data.keys())}"
+    assert "tasks" in data, f"Missing 'tasks' field: {list(data.keys())}"
+    assert isinstance(data["pbis"], list), f"Expected pbis list"
+    assert isinstance(data["tasks"], list), f"Expected tasks list"
+    pbi_count = len(data["pbis"])
+    task_count = len(data["tasks"])
+    if pbi_count > 0:
+        pbi = data["pbis"][0]
+        assert "id" in pbi, "PBI missing 'id'"
+        assert "title" in pbi, "PBI missing 'title'"
+        assert "state" in pbi, "PBI missing 'state'"
+        assert "tasks" in pbi, "PBI missing 'tasks' array"
+    return f"{pbi_count} PBIs, {task_count} tasks"
+
+
+def test_backlog_empty_project():
+    """GET /backlog?project=nonexistent — returns empty arrays, not error."""
+    status, body = bridge_get("/backlog?project=nonexistent-project-xyz")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert data.get("pbis") == [], f"Expected empty pbis, got {data.get('pbis')}"
+    assert data.get("tasks") == [], f"Expected empty tasks, got {data.get('tasks')}"
+    return True
+
+
+def test_reports_velocity():
+    """GET /reports/velocity — returns velocity chart data."""
+    status, body = bridge_get("/reports/velocity?project=default")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert "data" in data, f"Missing 'data' field"
+    assert "sprints" in data["data"], f"Missing sprints in data"
+    return f"{len(data['data']['sprints'])} sprints"
+
+
+def test_reports_dora():
+    """GET /reports/dora — returns DORA metrics."""
+    status, body = bridge_get("/reports/dora?project=default")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert "data" in data, f"Missing 'data' field"
+    metrics = data["data"]
+    for key in ["deployFrequency", "leadTime", "changeFailureRate", "mttr"]:
+        assert key in metrics, f"Missing DORA metric: {key}"
+    return True
+
+
+def test_reports_portfolio():
+    """GET /reports/portfolio — returns portfolio overview."""
+    status, body = bridge_get("/reports/portfolio")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert "data" in data, f"Missing 'data' field"
+    assert "projects" in data["data"], f"Missing 'projects' in data"
+    return f"{len(data['data']['projects'])} projects"
+
+
 def test_chat_json():
     """POST /chat (JSON response) — sends message, gets response."""
     status, body = bridge_post("/chat", {
@@ -273,6 +352,54 @@ def test_chat_non_uuid_session():
     assert "error" not in data or "Invalid session" not in data.get("error", ""), \
         f"Bridge failed to convert non-UUID session: {body[:200]}"
     return True
+
+
+def test_users_list():
+    """GET /users — returns list of users (admin only)."""
+    status, body = bridge_get("/users")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert "users" in data, f"Missing 'users' field"
+    assert isinstance(data["users"], list), f"Expected users list"
+    assert len(data["users"]) >= 1, "Should have at least 1 user"
+    user = data["users"][0]
+    assert "slug" in user, "User missing 'slug'"
+    assert "role" in user, "User missing 'role'"
+    assert "status" in user, "User missing 'status'"
+    return f"{len(data['users'])} users"
+
+
+def test_users_create_and_delete():
+    """POST /users + DELETE /users/{slug} — create and delete a test user."""
+    # Create
+    status, body = bridge_post("/users", {
+        "slug": "e2e-test-user", "name": "E2E Test", "role": "user"
+    })
+    assert status == 200, f"Create failed: {status} {body[:200]}"
+    data = json.loads(body)
+    assert data.get("status") == "created", f"Expected created, got {data}"
+    assert "token" in data, "Missing token in create response"
+
+    # Delete
+    url = f"{BRIDGE_URL}/users/e2e-test-user"
+    headers = {"Authorization": f"Bearer {AUTH_TOKEN}"}
+    req = urllib.request.Request(url, headers=headers, method="DELETE")
+    try:
+        resp = urllib.request.urlopen(req, context=SSL_CTX, timeout=10)
+        assert resp.status == 200
+    except urllib.error.HTTPError as e:
+        assert False, f"Delete failed: {e.code}"
+    return True
+
+
+def test_users_role_endpoint():
+    """GET /users/{slug}/role — returns user role."""
+    status, body = bridge_get("/users/monica/role")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert "role" in data, f"Missing 'role' field"
+    assert data["role"] in ("admin", "user"), f"Unexpected role: {data['role']}"
+    return data["role"]
 
 
 def test_auth_required():
@@ -357,6 +484,15 @@ def run_all_tests():
         ("logs", test_logs),
         ("update_check", test_update_check),
         ("dashboard", test_dashboard),
+        ("projects", test_projects),
+        ("backlog", test_backlog),
+        ("backlog_empty", test_backlog_empty_project),
+        ("reports_velocity", test_reports_velocity),
+        ("reports_dora", test_reports_dora),
+        ("reports_portfolio", test_reports_portfolio),
+        ("users_list", test_users_list),
+        ("users_create_delete", test_users_create_and_delete),
+        ("users_role", test_users_role_endpoint),
         ("not_found", test_not_found),
     ]
 

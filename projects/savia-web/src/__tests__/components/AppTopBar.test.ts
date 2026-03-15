@@ -25,7 +25,7 @@ describe('AppTopBar', () => {
 
   it('shows profile name and logout when logged in', () => {
     const auth = useAuthStore()
-    auth.login('http://localhost:8922', '@alice', 'tok', { slug: 'alice', name: 'Alice' })
+    auth.login('https://localhost:8922', '@alice', 'tok', { slug: 'alice', name: 'Alice' })
     const wrapper = shallowMount(AppTopBar)
     expect(wrapper.find('.profile-name').text()).toBe('Alice')
     expect(wrapper.find('.btn-logout').exists()).toBe(true)

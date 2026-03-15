@@ -40,7 +40,7 @@ describe('useAuthStore', () => {
   describe('login', () => {
     it('sets connected, profile, and cookie', () => {
       const auth = useAuthStore()
-      auth.login('http://localhost:8922', '@alice', 'tok-abc', { slug: 'alice', name: 'Alice', role: 'PM' })
+      auth.login('https://localhost:8922', '@alice', 'tok-abc', { slug: 'alice', name: 'Alice', role: 'PM' })
       expect(auth.connected).toBe(true)
       expect(auth.profileName).toBe('Alice')
       expect(auth.isLoggedIn).toBe(true)
@@ -51,7 +51,7 @@ describe('useAuthStore', () => {
   describe('logout', () => {
     it('clears state and cookie', () => {
       const auth = useAuthStore()
-      auth.login('http://localhost:8922', '@alice', 'tok', { slug: 'alice', name: 'Alice' })
+      auth.login('https://localhost:8922', '@alice', 'tok', { slug: 'alice', name: 'Alice' })
       auth.logout()
       expect(auth.connected).toBe(false)
       expect(auth.token).toBe('')

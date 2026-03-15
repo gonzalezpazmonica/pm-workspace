@@ -1,0 +1,16 @@
+project: "proyecto-alpha"
+created: "2026-01-05"
+pbi:
+  states: [New, Active, Resolved, Closed]
+  types: [User Story, Bug, Tech Debt, Spike]
+  priorities: [1-Critical, 2-High, 3-Medium, 4-Low]
+  id_prefix: "PBI"
+  id_counter: 12
+tasks:
+  states: [New, Active, In Review, Done, Blocked]
+  types: [Development, Testing, Documentation, Design, DevOps]
+  id_prefix: "TASK"
+sync:
+  provider: "azure-devops"
+  auto_sync: false
+  last_sync: "2026-03-14T10:00:00Z"

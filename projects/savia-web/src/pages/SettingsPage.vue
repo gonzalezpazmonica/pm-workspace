@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '../stores/auth'
 import { useBridge } from '../composables/useBridge'
+import { SUPPORTED_LOCALES, loadLocale } from '../locales'
 
+const { t, locale } = useI18n()
 const auth = useAuthStore()
 const { healthCheck } = useBridge()
 const host = ref(auth.host)
@@ -11,6 +14,11 @@ const token = ref(auth.token)
 const useTls = ref(auth.useTls)
 const testing = ref(false)
 const testResult = ref<string | null>(null)
+
+function changeLocale(e: Event) {
+  const code = (e.target as HTMLSelectElement).value
+  loadLocale(code)
+}
 
 async function save() {
   auth.save(host.value, port.value, token.value, useTls.value)
@@ -28,29 +36,40 @@ async function test() {
 
 <template>
   <div class="settings">
-    <h1>Settings</h1>
+    <h1>{{ t('settings.title') }}</h1>
+
+    <section class="card language-card">
+      <h2>{{ t('settings.language') }}</h2>
+      <p class="hint">{{ t('settings.languageHint') }}</p>
+      <select class="lang-select" :value="locale" @change="changeLocale">
+        <option v-for="loc in SUPPORTED_LOCALES" :key="loc.code" :value="loc.code">
+          {{ loc.name }}
+        </option>
+      </select>
+    </section>
+
     <section class="card">
-      <h2>Bridge Connection</h2>
+      <h2>{{ t('settings.bridge') }}</h2>
       <div class="form-row">
-        <label>Host</label>
+        <label>{{ t('settings.host') }}</label>
         <input v-model="host" placeholder="localhost" />
       </div>
       <div class="form-row">
-        <label>Port</label>
+        <label>{{ t('settings.port') }}</label>
         <input v-model="port" placeholder="8922" />
       </div>
       <div class="form-row">
-        <label>Auth Token</label>
+        <label>{{ t('settings.token') }}</label>
         <input v-model="token" type="password" placeholder="Bearer token" />
       </div>
       <div class="form-row">
         <label class="checkbox-label">
-          <input type="checkbox" v-model="useTls" /> Use TLS (HTTPS)
+          <input type="checkbox" v-model="useTls" /> {{ t('settings.tls') }}
         </label>
       </div>
       <div class="actions">
-        <button class="btn-primary" @click="save" :disabled="testing">Save & Test</button>
-        <button class="btn-secondary" @click="test" :disabled="testing">Test Connection</button>
+        <button class="btn-primary" @click="save" :disabled="testing">{{ t('settings.saveTest') }}</button>
+        <button class="btn-secondary" @click="test" :disabled="testing">{{ t('settings.testConnection') }}</button>
       </div>
       <p v-if="testResult" class="result" :class="{ ok: auth.connected }">{{ testResult }}</p>
     </section>
@@ -74,4 +93,10 @@ h2 { font-size: 16px; margin-bottom: 16px; }
 .btn-secondary { padding: 8px 20px; background: var(--savia-surface-variant); color: var(--savia-on-surface); border-radius: var(--savia-radius); }
 .result { margin-top: 12px; font-size: 13px; color: var(--savia-error); }
 .result.ok { color: #155724; }
+.language-card { margin-bottom: 16px; }
+.hint { font-size: 13px; color: var(--savia-on-surface-variant); margin-bottom: 8px; }
+.lang-select {
+  padding: 8px 12px; border: 1px solid var(--savia-outline); border-radius: var(--savia-radius);
+  font-size: 14px; background: var(--savia-background); color: var(--savia-on-surface); min-width: 200px;
+}
 </style>

@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useAuthStore } from '../stores/auth'
 import {
-  Home, MessageSquare, Zap, LayoutDashboard, CheckCircle2,
-  Clock, FolderOpen, BarChart3, User, Settings, Sun, Moon
+  Home, MessageSquare, Zap, LayoutList, CheckCircle2,
+  Clock, FolderOpen, BarChart3, User, Settings, Sun, Moon,
+  GitBranch, Plug, Shield
 } from 'lucide-vue-next'
 
 defineProps<{ collapsed: boolean }>()
 const route = useRoute()
+const { t } = useI18n()
+const auth = useAuthStore()
 
 const dark = ref(localStorage.getItem('savia_theme') === 'dark')
 function toggleTheme() {
@@ -21,18 +26,25 @@ onMounted(() => {
   if (dark.value) document.documentElement.setAttribute('data-theme', 'dark')
 })
 
-const navItems = [
-  { path: '/', label: 'Home', icon: Home },
-  { path: '/chat', label: 'Chat', icon: MessageSquare },
-  { path: '/commands', label: 'Commands', icon: Zap },
-  { path: '/kanban', label: 'Kanban', icon: LayoutDashboard },
-  { path: '/approvals', label: 'Approvals', icon: CheckCircle2 },
-  { path: '/timelog', label: 'Time Log', icon: Clock },
-  { path: '/files', label: 'Files', icon: FolderOpen },
-  { path: '/reports', label: 'Reports', icon: BarChart3 },
-  { path: '/profile', label: 'Profile', icon: User },
-  { path: '/settings', label: 'Settings', icon: Settings },
+const baseNavItems = [
+  { path: '/', key: 'nav.home', icon: Home },
+  { path: '/chat', key: 'nav.chat', icon: MessageSquare },
+  { path: '/commands', key: 'nav.commands', icon: Zap },
+  { path: '/backlog', key: 'nav.backlog', icon: LayoutList },
+  { path: '/approvals', key: 'nav.approvals', icon: CheckCircle2 },
+  { path: '/timelog', key: 'nav.timelog', icon: Clock },
+  { path: '/files', key: 'nav.files', icon: FolderOpen },
+  { path: '/pipelines', key: 'nav.pipelines', icon: GitBranch },
+  { path: '/integrations', key: 'nav.integrations', icon: Plug },
+  { path: '/reports', key: 'nav.reports', icon: BarChart3 },
+  { path: '/profile', key: 'nav.profile', icon: User },
+  { path: '/settings', key: 'nav.settings', icon: Settings },
 ]
+const adminNavItem = { path: '/admin/users', key: 'nav.users', icon: Shield }
+
+const navItems = computed(() =>
+  auth.isAdmin ? [...baseNavItems, adminNavItem] : baseNavItems
+)
 </script>
 
 <template>
@@ -54,7 +66,7 @@ const navItems = [
         }"
       >
         <component :is="item.icon" :size="20" class="nav-icon" />
-        <span v-if="!collapsed" class="nav-label">{{ item.label }}</span>
+        <span v-if="!collapsed" class="nav-label">{{ t(item.key) }}</span>
       </router-link>
     </nav>
     <div class="sidebar-footer">

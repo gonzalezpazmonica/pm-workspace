@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { ref, onMounted } from 'vue'
 import { useBridge } from '../composables/useBridge'
 import { useDashboardStore } from '../stores/dashboard'
@@ -24,7 +26,7 @@ onMounted(() => { if (!dashboard.data) dashboard.load().then(load); else load() 
 
 <template>
   <div class="approvals-page">
-    <h1>Approvals</h1>
+    <h1>{{ t('approvals.title') }}</h1>
     <LoadingSpinner v-if="loading" />
     <EmptyState v-else-if="!approvals.length" icon="✅" title="No pending approvals" />
     <div v-else class="approval-list">

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const families = [
   { id: 'sprint', name: 'Sprint & Reporting', icon: '📅', commands: ['sprint-status', 'sprint-plan', 'daily-routine', 'sprint-review', 'report-executive'] },
   { id: 'backlog', name: 'PBI & Discovery', icon: '📋', commands: ['pbi-decompose', 'backlog-prioritize', 'pbi-plan-sprint', 'spec-generate'] },
@@ -11,7 +13,7 @@ const families = [
 
 <template>
   <div class="commands-page">
-    <h1>Commands</h1>
+    <h1>{{ t('commands.title') }}</h1>
     <div class="families">
       <div v-for="f in families" :key="f.id" class="family-card">
         <div class="family-header">

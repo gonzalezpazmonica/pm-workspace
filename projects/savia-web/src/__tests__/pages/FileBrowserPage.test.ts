@@ -15,13 +15,13 @@ describe('FileBrowserPage', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('renders the Files heading', () => {
+  it('renders the files toolbar', () => {
     const wrapper = shallowMount(FileBrowserPage)
-    expect(wrapper.find('h1').text()).toBe('Files')
+    expect(wrapper.find('.files-toolbar').exists()).toBe(true)
   })
 
-  it('renders the path display', () => {
+  it('renders the breadcrumb component', () => {
     const wrapper = shallowMount(FileBrowserPage)
-    expect(wrapper.find('.path').exists()).toBe(true)
+    expect(wrapper.findComponent({ name: 'FileBreadcrumb' }).exists()).toBe(true)
   })
 })

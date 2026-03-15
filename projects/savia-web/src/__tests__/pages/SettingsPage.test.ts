@@ -9,12 +9,13 @@ vi.mock('../../composables/useBridge', () => ({
     healthCheck: mockHealthCheck,
     get: vi.fn(),
     post: vi.fn(),
-    baseUrl: vi.fn(() => 'http://localhost:8922'),
+    baseUrl: vi.fn(() => 'https://localhost:8922'),
     headers: vi.fn(() => ({})),
   }),
 }))
 
 const { default: SettingsPage } = await import('../../pages/SettingsPage.vue')
+
 
 describe('SettingsPage', () => {
   beforeEach(() => {
@@ -25,7 +26,7 @@ describe('SettingsPage', () => {
 
   it('renders the settings heading', () => {
     const wrapper = mount(SettingsPage)
-    expect(wrapper.find('h1').text()).toBe('Settings')
+    expect(wrapper.find('h1').exists()).toBe(true)
   })
 
   it('renders host input with current auth value', () => {
@@ -49,7 +50,7 @@ describe('SettingsPage', () => {
     const wrapper = mount(SettingsPage)
     await wrapper.find('button.btn-secondary').trigger('click')
     await vi.waitFor(() => {
-      expect(wrapper.text()).toContain('Connected successfully!')
+      expect(wrapper.find('.result.ok').exists()).toBe(true)
     })
   })
 
@@ -58,7 +59,7 @@ describe('SettingsPage', () => {
     const wrapper = mount(SettingsPage)
     await wrapper.find('button.btn-secondary').trigger('click')
     await vi.waitFor(() => {
-      expect(wrapper.text()).toContain('Connection failed')
+      expect(wrapper.find('.result').exists()).toBe(true)
     })
   })
 
@@ -80,5 +81,10 @@ describe('SettingsPage', () => {
     const wrapper = mount(SettingsPage)
     const checkbox = wrapper.find('input[type="checkbox"]')
     expect((checkbox.element as HTMLInputElement).checked).toBe(true)
+  })
+
+  it('renders language selector', () => {
+    const wrapper = mount(SettingsPage)
+    expect(wrapper.find('.lang-select').exists()).toBe(true)
   })
 })

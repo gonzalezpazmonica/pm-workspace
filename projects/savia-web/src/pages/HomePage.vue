@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { onMounted } from 'vue'
 import { useDashboardStore } from '../stores/dashboard'
 import { Target, BarChart2, AlertTriangle, Clock } from 'lucide-vue-next'
@@ -13,17 +15,17 @@ const statIcons = [Target, BarChart2, AlertTriangle, Clock]
 
 <template>
   <div class="home">
-    <LoadingSpinner v-if="store.loading">Loading dashboard...</LoadingSpinner>
+    <LoadingSpinner v-if="store.loading">{{ t('home.loadingDashboard') }}</LoadingSpinner>
     <EmptyState v-else-if="store.error" icon="warning" :title="store.error"
       description="Check Bridge connection in Settings" />
     <template v-else-if="store.data">
       <h1 class="greeting">{{ store.data.greeting }}</h1>
       <div class="stats-row">
         <div class="stat-card glass-card" v-for="(stat, i) in [
-          { value: store.data.sprint?.completedPoints ?? 0, label: 'SP Completed', icon: statIcons[0] },
-          { value: store.data.sprint?.totalPoints ?? 0, label: 'SP Planned', icon: statIcons[1] },
-          { value: store.data.blockedItems, label: 'Blocked', icon: statIcons[2] },
-          { value: store.data.hoursToday.toFixed(1) + 'h', label: 'Today', icon: statIcons[3] },
+          { value: store.data.sprint?.completedPoints ?? 0, label: t('home.spCompleted'), icon: statIcons[0] },
+          { value: store.data.sprint?.totalPoints ?? 0, label: t('home.spPlanned'), icon: statIcons[1] },
+          { value: store.data.blockedItems, label: t('home.blocked'), icon: statIcons[2] },
+          { value: store.data.hoursToday.toFixed(1) + 'h', label: t('home.today'), icon: statIcons[3] },
         ]" :key="i">
           <component :is="stat.icon" :size="20" class="stat-icon" />
           <div class="stat-value">{{ stat.value }}</div>
@@ -32,22 +34,22 @@ const statIcons = [Target, BarChart2, AlertTriangle, Clock]
       </div>
       <div class="grid-2">
         <section class="card glass-card">
-          <h2>My Tasks</h2>
+          <h2>{{ t('home.myTasks') }}</h2>
           <ul class="task-list">
             <li v-for="t in store.data.myTasks" :key="t.id" class="task-item">
-              <span class="task-type" :class="t.type.toLowerCase()">{{ t.type }}</span>
+              <span class="task-type" :class="t.type?.toLowerCase()">{{ t.type }}</span>
               <span class="task-title">{{ t.title }}</span>
               <span class="task-state">{{ t.state }}</span>
             </li>
           </ul>
-          <EmptyState v-if="!store.data.myTasks.length" title="No tasks assigned" />
+          <EmptyState v-if="!store.data.myTasks.length" :title="t('home.noTasks')" />
         </section>
         <section class="card glass-card">
-          <h2>Recent Activity</h2>
+          <h2>{{ t('home.recentActivity') }}</h2>
           <ul class="activity-list">
             <li v-for="(a, i) in store.data.recentActivity" :key="i">{{ a }}</li>
           </ul>
-          <EmptyState v-if="!store.data.recentActivity.length" title="No recent activity" />
+          <EmptyState v-if="!store.data.recentActivity.length" :title="t('home.noActivity')" />
         </section>
       </div>
     </template>
