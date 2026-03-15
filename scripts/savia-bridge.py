@@ -1552,6 +1552,24 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
         # Only send system prompt on first message of a session
         cmd.extend(["--system-prompt", system_prompt])
 
+    # Inject user identity context into every message (--resume ignores --system-prompt)
+    if user_slug:
+        profile = _get_user_profile(user_slug)
+        if profile:
+            name = profile.get("name", user_slug)
+            role = profile.get("role", "user")
+            identity_prefix = f"[Contexto: usuario={name} (@{user_slug}), rol={role}]\n"
+            message = identity_prefix + message
+    elif not is_new:
+        # Master token — use generic profile
+        try:
+            profile_data = json.loads(PROFILE_FILE.read_text()) if PROFILE_FILE.exists() else {}
+            name = profile_data.get("name", "Admin")
+            identity_prefix = f"[Contexto: usuario={name}, rol=admin]\n"
+            message = identity_prefix + message
+        except Exception:
+            pass
+
     cmd.append(message)
 
     session_mode = "new" if is_new else "resume"
