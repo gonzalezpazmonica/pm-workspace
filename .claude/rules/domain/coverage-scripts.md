@@ -1,3 +1,7 @@
+---
+globs: ["**/*test*", "**/*.cs"]
+---
+
 # Test Runner: Coverage Scripts y Comandos por Lenguaje
 
 > Referencia extraída de `test-runner.md`. Contiene scripts de ejecución, cálculo de cobertura y per-language test commands.

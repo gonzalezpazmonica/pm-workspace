@@ -1,3 +1,6 @@
+---
+globs: [".claude/commands/code-audit*", ".claude/commands/sprint-review*", ".claude/commands/pr-*"]
+---
 # Severity Classification — Rule of Three
 
 ## Purpose

@@ -1,3 +1,7 @@
+---
+globs: ["README.md", "CHANGELOG.md"]
+---
+
 # Rule: Managed Content Markers — Safe Auto-Generated Content
 
 **Pattern:** ash-project/usage_rules inspired approach for safe regeneration of auto-generated sections.

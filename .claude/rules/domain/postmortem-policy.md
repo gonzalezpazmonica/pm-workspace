@@ -1,3 +1,6 @@
+---
+globs: ["output/postmortems/**"]
+---
 # Regla: Postmortem Obligatorio para Incidentes con MTTR > 30 minutos
 
 **Propósito:** Garantizar aprendizaje sistemático del viaje diagnóstico.

@@ -1,3 +1,7 @@
+---
+globs: [".claude/commands/**", "output/**"]
+---
+
 # Regla: Context Health — Gestión proactiva del contexto
 # ── Prevenir saturación que inutiliza los comandos ───────────────────────────
 

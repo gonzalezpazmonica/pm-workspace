@@ -1,3 +1,7 @@
+---
+globs: ["CHANGELOG.md"]
+---
+
 # Regla: CHANGELOG.md — Integridad y Buenas Prácticas
 
 ## Problema

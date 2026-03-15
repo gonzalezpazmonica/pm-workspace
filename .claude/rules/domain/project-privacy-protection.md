@@ -1,3 +1,6 @@
+---
+globs: ["projects/**", ".gitignore"]
+---
 # Regla: Protección de Privacidad de Proyectos
 
 ## Contexto

@@ -1,3 +1,6 @@
+---
+globs: [".claude/commands/code-audit*", ".claude/commands/sprint-review*"]
+---
 # Scoring Curves — Piecewise Linear Normalization
 
 ## Purpose

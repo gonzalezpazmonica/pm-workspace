@@ -1,3 +1,6 @@
+---
+globs: [".claude/commands/**"]
+---
 # Smart Command Frontmatter — Advanced Fields
 
 > Commands declare their resource needs for optimal model selection and tool access.

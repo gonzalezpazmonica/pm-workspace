@@ -1,3 +1,7 @@
+---
+globs: ["data/confidence-log.jsonl"]
+---
+
 # Regla: Confidence Calibration Protocol
 # ── Logging de resoluciones NL, decay por fallos, recalibración periódica ────
 

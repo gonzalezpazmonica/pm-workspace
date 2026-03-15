@@ -1,3 +1,7 @@
+---
+globs: [".claude/settings.json"]
+---
+
 # Regla: Configuración de Conectores Claude
 
 > Constantes y configuración para los conectores externos integrados en PM-Workspace.
