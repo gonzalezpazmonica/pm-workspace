@@ -1,3 +1,7 @@
+---
+globs: [".claude/hooks/**", ".claude/agents/commit-guardian.md"]
+---
+
 # Commit Guardian: Checks de Referencia Detallados
 
 > Referencia extraída de `commit-guardian.md`. Contiene implementaciones, verificaciones específicas y ejemplos para cada check.

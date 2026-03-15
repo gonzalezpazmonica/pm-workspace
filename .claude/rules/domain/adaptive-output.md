@@ -1,3 +1,7 @@
+---
+globs: [".claude/profiles/**"]
+---
+
 # Adaptive Output — Context-Aware Communication Styles
 
 > Savia adapts her output style based on audience and command context.

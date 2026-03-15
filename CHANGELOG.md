@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.98.0] — 2026-03-15
+
+Era 114 — Git Manager roadmap, E2E screenshot validation rule, settings privacy guard.
+
+### Added
+- **Git Manager roadmap** (`specs/roadmap-git-manager.md`): full open-source research (10 projects analyzed: Ungit, isomorphic-git, Gitea, lazygit...), technical design (17 Bridge endpoints, TypeScript interfaces, SVG graph algorithm, security patterns), and 3-week implementation plan
+- **Rule: E2E screenshot validation** (`e2e-screenshot-validation.md`): cross-project rule — all web E2E tests must include screenshots for visual confirmation
+- **Script: validate-settings-local.sh**: detects private data (localhost URLs, hardcoded paths, session-specific commands) in `settings.local.json` before commit
+- **Domain rules**: added `globs` frontmatter for path-specific auto-loading (41 rules)
+
+### Fixed
+- **settings.local.json**: cleaned session-specific permissions (hardcoded URLs, piped commands), kept only generic tool wildcards
+
 ## [2.97.0] — 2026-03-15
 
 Era 113 — Savia Web: chat multi-thread, tool feedback, markdown quality, session fixes.
@@ -3631,6 +3644,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.97.0...v2.98.0
 [2.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.96.0...v2.97.0
 [2.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.95.0...v2.96.0
 [2.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.94.0...v2.95.0

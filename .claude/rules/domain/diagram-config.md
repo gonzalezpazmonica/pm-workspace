@@ -1,3 +1,7 @@
+---
+globs: [".claude/skills/diagram-*/**", "projects/*/diagrams/**"]
+---
+
 # Regla: Configuración de Diagramas de Arquitectura
 # ── Constantes y configuración para generación e importación de diagramas ────
 

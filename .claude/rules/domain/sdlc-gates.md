@@ -1,3 +1,6 @@
+---
+globs: ["projects/*/policies/**"]
+---
 # Regla: Configuración de Puertas SDLC
 
 Define las puertas (gates) evaluables para cada transición de estado en el ciclo SDLC.

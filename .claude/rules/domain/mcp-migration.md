@@ -1,3 +1,7 @@
+---
+globs: ["scripts/azdevops-queries.sh"]
+---
+
 # Migración REST/CLI → MCP — Guía de equivalencias
 
 Mapeo entre las funciones de `scripts/azdevops-queries.sh` (REST API + az CLI)

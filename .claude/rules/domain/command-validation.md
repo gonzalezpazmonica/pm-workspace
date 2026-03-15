@@ -1,3 +1,7 @@
+---
+globs: [".claude/commands/**"]
+---
+
 # Regla: Validación de Comandos — Pre-commit obligatorio
 # ── Aplica cuando se crean o modifican ficheros en .claude/commands/ ──────────
 

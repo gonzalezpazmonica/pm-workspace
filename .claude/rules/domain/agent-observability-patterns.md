@@ -1,3 +1,7 @@
+---
+globs: [".claude/hooks/agent-trace-log.sh"]
+---
+
 # Patrones de Observabilidad de Agentes — Inspirado en claude-code-templates Analytics
 
 ## Propósito

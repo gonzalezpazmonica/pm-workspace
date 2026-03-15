@@ -1,3 +1,7 @@
+---
+globs: [".claude/agent-memory/**"]
+---
+
 # Agent Memory Protocol — Persistent Knowledge Across Sessions
 
 > Agents remember decisions, patterns, and lessons between sessions.

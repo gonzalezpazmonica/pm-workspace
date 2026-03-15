@@ -1,3 +1,7 @@
+---
+globs: [".claude/skills/**"]
+---
+
 # Clara Philosophy — Multi-Level Documentation Standard
 
 Every skill MUST have dual documentation: **SKILL.md** (HOW) + **DOMAIN.md** (WHY & WHAT).

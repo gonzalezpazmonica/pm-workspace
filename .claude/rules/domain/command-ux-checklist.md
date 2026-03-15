@@ -1,3 +1,7 @@
+---
+globs: [".claude/commands/**"]
+---
+
 # Anexo: UX Feedback — Checklists Detalladas
 # ── Patrones de error, retry flow, ejemplos de feedback interactivo ────────
 

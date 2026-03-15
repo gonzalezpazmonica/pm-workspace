@@ -1,3 +1,7 @@
+---
+globs: [".claude/commands/spec-generate*", ".claude/commands/dev-session*"]
+---
+
 # context-budget — Presupuestos de Contexto por Operación
 
 Límites de tokens máximo por tipo de operación. Compresión obligatoria antes de invocar agentes.

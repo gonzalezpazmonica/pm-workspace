@@ -1,3 +1,7 @@
+---
+globs: [".claude/commands/**"]
+---
+
 # Regla: UX Feedback — Estándares de retroalimentación para comandos
 # ── OBLIGATORIO para todos los comandos de pm-workspace ──────────────────────
 

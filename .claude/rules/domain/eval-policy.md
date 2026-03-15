@@ -1,3 +1,7 @@
+---
+globs: ["data/evals/**"]
+---
+
 # Política de Evaluaciones — Automatización y Alertas
 
 Regla que define cuándo ejecutar evaluaciones, periodicidad, y políticas de regresión.
