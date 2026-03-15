@@ -6,26 +6,26 @@
 
 ## Done
 
-- **MVP** (v0.1.0) — Dashboard, Chat SSE, Commands, Approvals, Time Log, Files, Reports (7 sub-pages), Settings, Connection Wizard, Login, Dark/Light mode.
-- **Login & Multi-user** — Login screen with @handle, session persistence.
-- **E2E regression suite** — 124 Playwright tests (17 files).
-- **Phase 1: Backlog Data Model** — PBI history hook, Tasks as entities, PBI-Spec links. 30 tests.
-- **Phase 2: Savia Web Core** — Project selector, Backlog (3-level Spec>PBI>Task, editing), File browser, i18n (all pages), Pipelines, n8n Hub, HTTPS, Bridge (/projects, /backlog). Project context switch (all stores).
-- **Phase 2.5: Editing & UX** — Backlog filters (type/state/person), state persistence (localStorage), enhanced markdown viewer (LinkedIn-style), markdown editor, create project modal. 228 unit + 124 E2E.
+- **MVP** (v0.1.0) — Dashboard, Chat SSE, Commands, Approvals, Time Log, Files, Reports (7 sub-pages), Settings, Login, Dark/Light mode.
+- **Phase 1: Backlog Data Model** — PBI history hook, Tasks as entities, PBI-Spec links. 30 bash tests.
+- **Phase 2: Savia Web Core** — Project selector, Backlog (3-level Spec>PBI>Task, editing, type icons), File browser with markdown, i18n (all pages ES+EN), Pipelines, n8n Hub, HTTPS, Bridge endpoints.
+- **Phase 2.5: Editing & UX** — Backlog filters (type/state/person), state persistence (localStorage), LinkedIn-style markdown viewer (frontmatter card, tables, blockquotes), markdown editor (edit .md in browser), create project modal (form + Bridge scaffolding).
+- **Phase 3: Security & Auth** — Per-user tokens (individual per user in Bridge), user management admin panel (/admin/users), roles (admin/user), route guard, token rotation/revocation.
 
-## Planned — Phase 3: Security & Auth
+**Test totals:** 228 unit (42 files) + 130 E2E (17 files) + 29 Bridge.
+
+## Planned — Phase 3.5: Access Control
 
 | # | Spec | Status |
 |---|------|--------|
-| 1 | [Per-User Tokens](specs/phase3-per-user-tokens.spec.md) | Approved |
-| 2 | [User Management (admin panel + roles)](specs/phase3-user-management.spec.md) | Approved |
+| 1 | [File Access Control by Role](specs/phase3-file-access-control.spec.md) | Approved |
 
 ## Planned — Phase 4: Mobile + Analytics
 
 | # | Feature | Status |
 |---|---------|--------|
-| 3 | Mobile Backlog | Pending |
-| 4 | Predictive Analytics | Pending |
+| 2 | Mobile Backlog | Pending |
+| 3 | Predictive Analytics | Pending |
 
 ## Proposed
 
