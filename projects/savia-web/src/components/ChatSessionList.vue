@@ -44,7 +44,7 @@ function formatDate(ts: number) {
 </template>
 
 <style scoped>
-.session-list { display: flex; flex-direction: column; height: 100%; background: var(--savia-surface); border-right: 1px solid var(--savia-surface-variant); }
+.session-list { display: flex; flex-direction: column; height: 100%; width: 260px; min-width: 260px; background: var(--savia-surface); border-right: 1px solid var(--savia-surface-variant); }
 .new-chat-btn {
   display: flex; align-items: center; gap: 6px; margin: 10px; padding: 8px 14px;
   background: var(--savia-primary); color: white; border: none; border-radius: var(--savia-radius);
