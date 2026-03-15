@@ -2896,8 +2896,28 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             return
 
         session_id = data.get("session_id")
-        system_prompt = data.get("system_prompt", self.system_prompt)
         interactive = data.get("interactive", False)  # Enable permission popups
+
+        # Build per-user system prompt with clear identity
+        system_prompt = data.get("system_prompt")
+        if not system_prompt:
+            user_slug = self._auth_user
+            user_profile = _get_user_profile(user_slug) if user_slug else None
+            if user_profile:
+                name = user_profile.get("name", user_slug)
+                role = user_profile.get("role", "user")
+                email = user_profile.get("email", "")
+                system_prompt = (
+                    "Eres Savia, la asistente de PM-Workspace. Inteligente, empática, concisa.\n\n"
+                    f"USUARIO ACTUAL: {name} (@{user_slug})\n"
+                    f"Rol: {role}\n"
+                    f"Email: {email}\n\n"
+                    f"IMPORTANTE: Conoces a este usuario. Su nombre es {name}. "
+                    f"Cuando pregunte quién es, responde con su nombre y rol. "
+                    f"Responde en español por defecto."
+                )
+            else:
+                system_prompt = self.system_prompt
 
         # Claude CLI requires UUID session IDs — validate and convert non-UUID strings
         if session_id:

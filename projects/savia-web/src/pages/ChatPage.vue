@@ -3,7 +3,13 @@ import { ref, nextTick, watch, onMounted } from 'vue'
 import { useChatStore } from '../stores/chat'
 import { useSSE } from '../composables/useSSE'
 import { useAuthStore } from '../stores/auth'
+import { marked } from 'marked'
 import type { StreamEvent } from '../types/chat'
+
+function renderMd(text: string): string {
+  if (!text) return '...'
+  return marked.parse(text, { gfm: true, breaks: true }) as string
+}
 
 const store = useChatStore()
 const auth = useAuthStore()
@@ -68,7 +74,7 @@ function formatTime(ts: number) {
           <div v-if="msg.isStreaming && !msg.content" class="typing-indicator">
             <span class="dot" /><span class="dot" /><span class="dot" />
           </div>
-          <div v-else class="bubble-content" v-html="msg.content || '...'" />
+          <div v-else class="bubble-content" v-html="renderMd(msg.content)" />
           <span class="bubble-time">{{ formatTime(msg.timestamp) }}</span>
         </div>
       </div>
@@ -99,6 +105,12 @@ function formatTime(ts: number) {
 .bubble { max-width: 70%; padding: 10px 14px; border-radius: var(--savia-radius-lg); font-size: 14px; line-height: 1.5; position: relative; }
 .msg.user .bubble { background: var(--savia-user-bubble); color: white; }
 .msg.assistant .bubble { background: var(--savia-assistant-bubble); color: var(--savia-on-surface); }
+.bubble-content :deep(p) { margin: 0 0 4px; }
+.bubble-content :deep(p:last-child) { margin: 0; }
+.bubble-content :deep(strong) { font-weight: 600; }
+.bubble-content :deep(code) { background: rgba(0,0,0,0.1); padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+.bubble-content :deep(pre) { background: rgba(0,0,0,0.1); padding: 8px; border-radius: var(--savia-radius); overflow-x: auto; margin: 4px 0; }
+.bubble-content :deep(ul), .bubble-content :deep(ol) { margin: 4px 0; padding-left: 18px; }
 .bubble-time { font-size: 10px; opacity: 0.6; display: block; text-align: right; margin-top: 4px; }
 .tool-indicator { font-size: 12px; color: var(--savia-on-surface-variant); padding: 4px 16px; font-style: italic; }
 .permission-bar { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--savia-warning); color: #000; font-size: 13px; border-radius: var(--savia-radius); margin: 0 16px; }
