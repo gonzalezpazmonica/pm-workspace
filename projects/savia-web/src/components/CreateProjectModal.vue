@@ -43,6 +43,7 @@ async function create() {
 </script>
 
 <template>
+  <Teleport to="body">
   <div class="modal-overlay" @click.self="emit('close')">
     <div class="modal">
       <div class="modal-header">
@@ -97,11 +98,12 @@ async function create() {
       </div>
     </div>
   </div>
+  </Teleport>
 </template>
 
 <style scoped>
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; }
-.modal { background: var(--savia-surface); border-radius: var(--savia-radius-lg); box-shadow: var(--savia-shadow); width: 480px; max-height: 90vh; overflow-y: auto; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 16px; }
+.modal { background: var(--savia-surface); border-radius: var(--savia-radius-lg); box-shadow: var(--savia-shadow); width: 480px; max-width: 100%; max-height: 90vh; overflow-y: auto; }
 .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--savia-surface-variant); }
 .modal-header h2 { font-size: 16px; font-weight: 600; }
 .close-btn { background: none; border: none; cursor: pointer; color: var(--savia-outline); display: flex; }
