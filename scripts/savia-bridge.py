@@ -1641,10 +1641,21 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
 
                 elif msg_type == "result":
                     result_text = data.get("result", "")
-                    chat_log(f"[req:{request_id}] type=result, len={len(result_text)}, accumulated={len(full_response)}")
+                    is_error = data.get("is_error", False)
+                    chat_log(f"[req:{request_id}] type=result, len={len(result_text)}, accumulated={len(full_response)}, is_error={is_error}")
                     chat_log(f"[req:{request_id}] result content: {result_text[:300]}")
-                    # Only emit result if no text was streamed yet (avoids duplication)
-                    if result_text and not full_response:
+
+                    if is_error and not full_response:
+                        # Resume failed or other CLI error — emit error and invalidate session
+                        error_text = result_text or "Session error. Please try again."
+                        chat_log(f"[req:{request_id}] -> result is_error, invalidating session", "WARN")
+                        if session_id:
+                            with _known_sessions_lock:
+                                _known_sessions.discard(session_id)
+                                _save_known_sessions()
+                        event_count += 1
+                        yield {"type": "error", "text": error_text}
+                    elif result_text and not full_response:
                         full_response = result_text
                         event_count += 1
                         chat_log(f"[req:{request_id}] -> emit result as text #{event_count} (no prior streaming)")
