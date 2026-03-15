@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '../stores/auth'
 import { Menu, LogOut } from 'lucide-vue-next'
+import ProjectSelector from './ProjectSelector.vue'
 
 const emit = defineEmits<{ 'toggle-sidebar': [] }>()
 const auth = useAuthStore()
@@ -9,6 +10,7 @@ const auth = useAuthStore()
 <template>
   <header class="topbar">
     <button class="menu-btn" @click="emit('toggle-sidebar')"><Menu :size="20" /></button>
+    <ProjectSelector />
     <div class="spacer" />
     <div class="user-info" v-if="auth.isLoggedIn">
       <span class="status connected">Connected</span>

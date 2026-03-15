@@ -2,8 +2,9 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import {
-  Home, MessageSquare, Zap, LayoutDashboard, CheckCircle2,
-  Clock, FolderOpen, BarChart3, User, Settings, Sun, Moon
+  Home, MessageSquare, Zap, LayoutList, CheckCircle2,
+  Clock, FolderOpen, BarChart3, User, Settings, Sun, Moon,
+  GitBranch, Plug
 } from 'lucide-vue-next'
 
 defineProps<{ collapsed: boolean }>()
@@ -25,10 +26,12 @@ const navItems = [
   { path: '/', label: 'Home', icon: Home },
   { path: '/chat', label: 'Chat', icon: MessageSquare },
   { path: '/commands', label: 'Commands', icon: Zap },
-  { path: '/kanban', label: 'Kanban', icon: LayoutDashboard },
+  { path: '/backlog', label: 'Backlog', icon: LayoutList },
   { path: '/approvals', label: 'Approvals', icon: CheckCircle2 },
   { path: '/timelog', label: 'Time Log', icon: Clock },
   { path: '/files', label: 'Files', icon: FolderOpen },
+  { path: '/pipelines', label: 'Pipelines', icon: GitBranch },
+  { path: '/integrations', label: 'Integrations', icon: Plug },
   { path: '/reports', label: 'Reports', icon: BarChart3 },
   { path: '/profile', label: 'Profile', icon: User },
   { path: '/settings', label: 'Settings', icon: Settings },

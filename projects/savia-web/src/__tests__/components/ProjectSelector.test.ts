@@ -1,66 +1,85 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { setActivePinia, createPinia } from 'pinia'
-import { useDashboardStore } from '../../stores/dashboard'
+import { useProjectStore } from '../../stores/project'
 import ProjectSelector from '../../components/ProjectSelector.vue'
-import type { DashboardData } from '../../types/bridge'
+import type { ProjectInfo } from '../../types/bridge'
 
-const baseDashboard: DashboardData = {
-  greeting: 'Hello',
-  projects: [
-    { id: 'p1', name: 'Alpha', team: 'A', currentSprint: 'S1', health: 'green' },
-    { id: 'p2', name: 'Beta', team: 'B', currentSprint: 'S2', health: 'yellow' },
-  ],
-  selectedProjectId: 'p1',
-  sprint: null,
-  myTasks: [],
-  recentActivity: [],
-  blockedItems: 0,
-  hoursToday: 0,
-}
+const sampleProjects: ProjectInfo[] = [
+  {
+    id: '_workspace',
+    name: 'Savia (workspace)',
+    path: '.',
+    hasClaude: true,
+    hasBacklog: false,
+    health: 'healthy',
+  },
+  {
+    id: 'savia-web',
+    name: 'savia-web',
+    path: 'projects/savia-web',
+    hasClaude: true,
+    hasBacklog: true,
+    health: 'healthy',
+  },
+  {
+    id: 'trazabios',
+    name: 'trazabios',
+    path: 'projects/trazabios',
+    hasClaude: true,
+    hasBacklog: true,
+    health: 'warning',
+  },
+]
 
 describe('ProjectSelector', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
+    localStorage.clear()
   })
 
-  it('renders options for each project', () => {
-    const store = useDashboardStore()
-    store.data = { ...baseDashboard }
+  it('renders all projects as options', () => {
+    const store = useProjectStore()
+    store.projects = [...sampleProjects]
     const wrapper = mount(ProjectSelector)
     const options = wrapper.findAll('option')
-    expect(options).toHaveLength(2)
-    expect(options[0].text()).toBe('Alpha')
-    expect(options[1].text()).toBe('Beta')
+    expect(options.length).toBe(3)
   })
 
-  it('renders empty select when no projects', () => {
-    const store = useDashboardStore()
-    store.data = { ...baseDashboard, projects: [] }
+  it('renders workspace as first option', () => {
+    const store = useProjectStore()
+    store.projects = [...sampleProjects]
     const wrapper = mount(ProjectSelector)
-    expect(wrapper.findAll('option')).toHaveLength(0)
+    const options = wrapper.findAll('option')
+    expect(options[0].attributes('value')).toBe('_workspace')
   })
 
-  it('calls selectProject when selection changes', async () => {
-    const store = useDashboardStore()
-    store.data = { ...baseDashboard }
+  it('shows health dot when a project is selected', () => {
+    const store = useProjectStore()
+    store.projects = [...sampleProjects]
     const wrapper = mount(ProjectSelector)
-    const select = wrapper.find('select')
-    await select.setValue('p2')
-    expect(store.data?.selectedProjectId).toBe('p2')
+    expect(wrapper.find('.health-dot').exists()).toBe(true)
   })
 
-  it('reflects current selectedProjectId as select value', () => {
-    const store = useDashboardStore()
-    store.data = { ...baseDashboard, selectedProjectId: 'p2' }
+  it('calls store.select when selection changes', async () => {
+    const store = useProjectStore()
+    store.projects = [...sampleProjects]
     const wrapper = mount(ProjectSelector)
     const select = wrapper.find('select')
-    expect((select.element as HTMLSelectElement).value).toBe('p2')
+    await select.setValue('savia-web')
+    expect(store.selectedId).toBe('savia-web')
   })
 
-  it('renders empty when store.data is null', () => {
-    const store = useDashboardStore()
-    store.data = null
+  it('reflects selectedId from store as current value', () => {
+    const store = useProjectStore()
+    store.projects = [...sampleProjects]
+    store.select('trazabios')
+    const wrapper = mount(ProjectSelector)
+    const select = wrapper.find('select')
+    expect((select.element as HTMLSelectElement).value).toBe('trazabios')
+  })
+
+  it('renders empty select when no projects loaded', () => {
     const wrapper = mount(ProjectSelector)
     expect(wrapper.findAll('option')).toHaveLength(0)
   })

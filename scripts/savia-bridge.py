@@ -706,6 +706,91 @@ _session_locks: dict[str, threading.Lock] = {}
 _session_locks_guard = threading.Lock()
 
 
+def _parse_frontmatter(text: str) -> dict:
+    """Parse YAML frontmatter from markdown text."""
+    if not text.startswith("---"):
+        return {}
+    end = text.find("---", 3)
+    if end == -1:
+        return {}
+    import re
+    fm = {}
+    for line in text[3:end].strip().split("\n"):
+        m = re.match(r'^(\w[\w_]*)\s*:\s*(.+)$', line)
+        if m:
+            key, val = m.group(1), m.group(2).strip()
+            if val.startswith('"') and val.endswith('"'):
+                val = val[1:-1]
+            elif val.startswith('[') and val.endswith(']'):
+                val = [v.strip().strip('"').strip("'") for v in val[1:-1].split(",") if v.strip()]
+            elif val.isdigit():
+                val = int(val)
+            elif val.replace('.', '', 1).isdigit():
+                val = float(val)
+            fm[key] = val
+    return fm
+
+
+def _parse_backlog_pbis(backlog_dir: Path) -> list:
+    """Read PBI markdown files from backlog/pbi/ and return structured data."""
+    pbi_dir = backlog_dir / "pbi"
+    if not pbi_dir.is_dir():
+        return []
+    result = []
+    for f in sorted(pbi_dir.glob("PBI-*.md")):
+        fm = _parse_frontmatter(f.read_text(errors="replace"))
+        if fm.get("id"):
+            tasks = []
+            task_dir = backlog_dir / "tasks"
+            pbi_num = fm["id"].split("-")[1] if "-" in str(fm["id"]) else ""
+            if task_dir.is_dir() and pbi_num:
+                for tf in sorted(task_dir.glob(f"TASK-{pbi_num}-*.md")):
+                    tfm = _parse_frontmatter(tf.read_text(errors="replace"))
+                    if tfm.get("id"):
+                        tasks.append({
+                            "id": str(tfm.get("id", "")),
+                            "title": str(tfm.get("title", "")),
+                            "state": str(tfm.get("state", "New")),
+                            "type": str(tfm.get("type", "Development")),
+                            "assigned_to": str(tfm.get("assigned_to", "")),
+                            "estimated_hours": tfm.get("estimated_hours", 0),
+                            "remaining_hours": tfm.get("remaining_hours", 0),
+                        })
+            result.append({
+                "id": str(fm.get("id", "")),
+                "title": str(fm.get("title", "")),
+                "state": str(fm.get("state", "New")),
+                "type": str(fm.get("type", "User Story")),
+                "priority": str(fm.get("priority", "3-Medium")),
+                "assigned_to": str(fm.get("assigned_to", "")),
+                "estimated_hours": fm.get("story_points", 0),
+                "tasks": tasks,
+            })
+    return result
+
+
+def _parse_backlog_tasks(backlog_dir: Path) -> list:
+    """Read all task files from backlog/tasks/."""
+    task_dir = backlog_dir / "tasks"
+    if not task_dir.is_dir():
+        return []
+    result = []
+    for f in sorted(task_dir.glob("TASK-*.md")):
+        fm = _parse_frontmatter(f.read_text(errors="replace"))
+        if fm.get("id"):
+            result.append({
+                "id": str(fm.get("id", "")),
+                "title": str(fm.get("title", "")),
+                "parent_pbi": str(fm.get("parent_pbi", "")),
+                "state": str(fm.get("state", "New")),
+                "type": str(fm.get("type", "Development")),
+                "assigned_to": str(fm.get("assigned_to", "")),
+                "estimated_hours": fm.get("estimated_hours", 0),
+                "remaining_hours": fm.get("remaining_hours", 0),
+            })
+    return result
+
+
 def _build_dashboard() -> dict:
     """
     Build dashboard data by scanning the PM-Workspace on disk.
@@ -1993,6 +2078,59 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             except Exception as e:
                 log(f"Dashboard error: {traceback.format_exc()}", "ERROR")
                 self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path == "/projects":
+            """GET /projects — List available projects from projects/ directory."""
+            try:
+                workspace = Path(os.environ.get("SAVIA_WORKSPACE", Path.home() / "savia"))
+                projects_dir = workspace / "projects"
+                result = []
+                has_claude = (workspace / "CLAUDE.md").exists()
+                result.append({
+                    "id": "_workspace",
+                    "name": "Savia (workspace)",
+                    "path": ".",
+                    "hasClaude": has_claude,
+                    "hasBacklog": False,
+                    "health": "healthy",
+                })
+                if projects_dir.is_dir():
+                    for d in sorted(projects_dir.iterdir()):
+                        if d.is_dir() and not d.name.startswith("."):
+                            result.append({
+                                "id": d.name,
+                                "name": d.name,
+                                "path": f"projects/{d.name}",
+                                "hasClaude": (d / "CLAUDE.md").exists(),
+                                "hasBacklog": (d / "backlog").is_dir(),
+                                "health": "healthy",
+                            })
+                self._send_json(result)
+            except Exception as e:
+                log(f"Projects error: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path.startswith("/backlog"):
+            """GET /backlog?project={id} — PBIs and tasks from project backlog."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            params = parse_qs(parsed.query)
+            project_id = params.get("project", ["_workspace"])[0]
+            try:
+                workspace = Path(os.environ.get("SAVIA_WORKSPACE", Path.home() / "savia"))
+                if project_id == "_workspace":
+                    backlog_dir = workspace / "backlog"
+                else:
+                    backlog_dir = workspace / "projects" / project_id / "backlog"
+                pbis = _parse_backlog_pbis(backlog_dir)
+                tasks = _parse_backlog_tasks(backlog_dir)
+                self._send_json({"pbis": pbis, "tasks": tasks})
+            except Exception as e:
+                log(f"Backlog error: {e}", "ERROR")
+                self._send_json({"pbis": [], "tasks": []})
             return
 
         if parsed.path == "/openapi.json":

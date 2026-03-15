@@ -24,10 +24,17 @@ describe('useChatStore', () => {
     expect(store.messages).toHaveLength(0)
   })
 
-  it('starts with a valid sessionId', () => {
+  it('starts with empty sessionId before init', () => {
     const store = useChatStore()
-    expect(store.sessionId).toBeTruthy()
+    expect(store.sessionId).toBe('')
     expect(typeof store.sessionId).toBe('string')
+  })
+
+  it('has a valid sessionId after initSession', () => {
+    const store = useChatStore()
+    store.initSession('@alice')
+    expect(store.sessionId).toBeTruthy()
+    expect(store.sessionId).toBe('alice-default')
   })
 
   it('starts with null currentTool and pendingPermission', () => {

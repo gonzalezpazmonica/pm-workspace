@@ -4,7 +4,7 @@ import { join } from 'path'
 
 const tokenPath = join(process.env.HOME || '', '.savia/bridge/auth_token')
 
-export const BRIDGE_URL = process.env.E2E_BRIDGE_URL || 'http://localhost:8922'
+export const BRIDGE_URL = process.env.E2E_BRIDGE_URL || 'https://localhost:8922'
 export const TOKEN = process.env.E2E_TOKEN ||
   (existsSync(tokenPath) ? readFileSync(tokenPath, 'utf-8').trim() : '')
 export const USERNAME = process.env.E2E_USERNAME || '@test-user'
@@ -14,7 +14,7 @@ export async function isBridgeAvailable(): Promise<boolean> {
   const { execSync } = await import('child_process')
   try {
     const result = execSync(
-      `curl -s --max-time 3 -o /dev/null -w "%{http_code}" http://127.0.0.1:8922/health`,
+      `curl -sk --max-time 3 -o /dev/null -w "%{http_code}" https://127.0.0.1:8922/health`,
       { encoding: 'utf-8', timeout: 5000 },
     )
     return result.trim() === '200'

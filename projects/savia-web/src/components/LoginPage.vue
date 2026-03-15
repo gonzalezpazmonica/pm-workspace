@@ -6,7 +6,7 @@ import RegisterWizard from './RegisterWizard.vue'
 import { Eye, EyeOff } from 'lucide-vue-next'
 
 const auth = useAuthStore()
-const serverUrl = ref(auth.serverUrl || 'http://localhost:8922')
+const serverUrl = ref(auth.serverUrl || 'https://localhost:8922')
 const username = ref(auth.username || '')
 const token = ref(auth.token || '')
 const error = ref('')
@@ -91,7 +91,7 @@ function onRegistered(member: TeamMember) {
       <p class="login-subtitle">Connect to your PM-Workspace</p>
       <div class="form-row">
         <label>Server URL</label>
-        <input v-model="serverUrl" placeholder="http://localhost:8922" />
+        <input v-model="serverUrl" placeholder="https://localhost:8922" />
       </div>
       <div class="form-row">
         <label>Username</label>

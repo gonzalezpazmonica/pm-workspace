@@ -24,7 +24,7 @@ describe('MainLayout', () => {
 
   it('shows layout when logged in', () => {
     const auth = useAuthStore()
-    auth.login('http://localhost:8922', '@alice', 'tok', { slug: 'alice', name: 'Alice' })
+    auth.login('https://localhost:8922', '@alice', 'tok', { slug: 'alice', name: 'Alice' })
     const wrapper = shallowMount(MainLayout, { global: { stubs } })
     expect(wrapper.find('.layout').exists()).toBe(true)
     expect(wrapper.find('.login-stub').exists()).toBe(false)

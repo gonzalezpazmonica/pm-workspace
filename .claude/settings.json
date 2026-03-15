@@ -103,6 +103,13 @@
             "async": true,
             "timeout": 10,
             "statusMessage": "Capturando en memoria..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pbi-history-capture.sh",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Registrando historial PBI..."
           }
         ]
       },

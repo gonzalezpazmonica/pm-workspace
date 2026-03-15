@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.94.0] — 2026-03-15
+
+Savia Web Phase 1+2: complete backlog data model and web core features.
+
+### Added
+- **Savia Web — Phase 1 (Backlog Data Model)**: PBI field-level history hook, Tasks as first-class entities with frontmatter and time tracking, PBI-Spec bidirectional links with validation script
+- **Savia Web — Phase 2 (Web Core)**: Project selector (TopBar + Pinia store + Bridge `/projects`), Backlog management (3-level tree: Spec>PBI>Task + Kanban + detail panel with editing), File browser (breadcrumb + markdown viewer), i18n (vue-i18n, ES+EN, Settings language selector), Pipeline management (stages + log viewer), n8n Integration Hub (workflows + executions + setup wizard)
+- **Bridge endpoints**: `/projects` (list workspace projects), `/backlog?project=X` (read PBIs/tasks from markdown files), frontmatter parser
+- **Demo data**: 12 PBIs + 20 tasks in proyecto-alpha for testing and screenshots
+- **HTTPS everywhere**: Vite dev server uses Bridge TLS certificates, E2E helpers updated for HTTPS
+- **5 new specs** for Phase 2.5: Markdown editor, enhanced markdown viewer, backlog filters, backlog state persistence, project context switch
+- **2 savia-mobile specs**: command icons modernization, backlog filters
+- **Roadmap**: Context Engineering Audit (P13) based on ETH Zürich study, Push notifications + smartwatch, Phase 2.6 power features
+
+### Changed
+- **Sidebar navigation**: Kanban replaced by Backlog, added Pipelines and Integrations nav items
+- **Backlog architecture**: 3-level hierarchy (Spec > PBI > Task) with type icons (BookOpen, Bug, Wrench, Lightbulb, ListTodo, FileText)
+- **Settings page**: Added language selector with vue-i18n
+- **Roadmap**: Phase 1+2 marked as Done, consolidated into docs/ROADMAP.md
+
+### Fixed
+- **Dashboard**: `toLowerCase` crash when task type is undefined
+- **E2E helpers**: HTTPS for Bridge health check and login URL
+- **Version test**: Hardcoded version replaced with pattern match
+- **Playwright config**: Configurable baseURL via environment variable
+
+### Stats
+- Unit tests: 219 (41 files)
+- E2E tests: 109 (15 files)
+- Bridge tests: 26
+- TypeScript: 0 errors
+- Vue components: 30+
+- Pinia stores: 8
+
 ## [2.93.0] — 2026-03-14
 
 Era 110 — Autonomous Pipeline Engine: local CI/CD without Jenkins.
@@ -3551,6 +3585,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.93.0...v2.94.0
 [2.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.92.0...v2.93.0
 [2.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.91.0...v2.92.0
 [2.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.90.0...v2.91.0

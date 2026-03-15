@@ -35,7 +35,7 @@ const statIcons = [Target, BarChart2, AlertTriangle, Clock]
           <h2>My Tasks</h2>
           <ul class="task-list">
             <li v-for="t in store.data.myTasks" :key="t.id" class="task-item">
-              <span class="task-type" :class="t.type.toLowerCase()">{{ t.type }}</span>
+              <span class="task-type" :class="t.type?.toLowerCase()">{{ t.type }}</span>
               <span class="task-title">{{ t.title }}</span>
               <span class="task-state">{{ t.state }}</span>
             </li>

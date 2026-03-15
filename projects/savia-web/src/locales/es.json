@@ -1,0 +1,103 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "nav": {
+    "home": "Inicio",
+    "chat": "Chat",
+    "commands": "Comandos",
+    "backlog": "Backlog",
+    "kanban": "Kanban",
+    "approvals": "Aprobaciones",
+    "timelog": "Tiempo",
+    "files": "Archivos",
+    "pipelines": "Pipelines",
+    "integrations": "Integraciones",
+    "reports": "Informes",
+    "profile": "Perfil",
+    "settings": "Ajustes"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "bridge": "Conexión Bridge",
+    "host": "Host",
+    "port": "Puerto",
+    "token": "Token de autenticación",
+    "tls": "Usar TLS (HTTPS)",
+    "saveTest": "Guardar y probar",
+    "testConnection": "Probar conexión",
+    "connected": "Conectado correctamente",
+    "failed": "Error de conexión. Verifica host, puerto y token.",
+    "language": "Idioma",
+    "languageHint": "Selecciona el idioma de la interfaz. El cambio se aplica al instante."
+  },
+  "backlog": {
+    "title": "Backlog",
+    "treeView": "Vista árbol",
+    "kanbanView": "Vista kanban",
+    "newPbi": "Nuevo PBI",
+    "newTask": "Nueva tarea",
+    "noItems": "No hay elementos en el backlog",
+    "pbiDetail": "Detalle PBI",
+    "tasks": "Tareas",
+    "specs": "Specs",
+    "history": "Historial",
+    "description": "Descripción",
+    "acceptanceCriteria": "Criterios de aceptación"
+  },
+  "pipelines": {
+    "title": "Pipelines",
+    "runPipeline": "Ejecutar pipeline",
+    "lastRun": "Última ejecución",
+    "status": "Estado",
+    "logs": "Logs",
+    "noRuns": "Sin ejecuciones recientes"
+  },
+  "integrations": {
+    "title": "Integraciones",
+    "workflows": "Flujos de trabajo",
+    "templates": "Plantillas",
+    "executions": "Ejecuciones",
+    "setup": "Configurar"
+  },
+  "project": {
+    "selector": "Seleccionar proyecto",
+    "workspace": "Workspace",
+    "health": {
+      "healthy": "Saludable",
+      "warning": "Advertencia",
+      "critical": "Crítico",
+      "unknown": "Desconocido"
+    }
+  },
+  "files": {
+    "title": "Archivos",
+    "empty": "Carpeta vacía",
+    "up": "Subir",
+    "raw": "Original",
+    "rendered": "Renderizado",
+    "copy": "Copiar",
+    "lines": "líneas"
+  },
+  "time": {
+    "title": "Registro de tiempo",
+    "logHours": "Registrar horas",
+    "hours": "Horas",
+    "type": "Tipo",
+    "note": "Nota",
+    "total": "Total"
+  }
+}

@@ -6,7 +6,7 @@ import RegisterWizard from '../../components/RegisterWizard.vue'
 vi.stubGlobal('fetch', vi.fn())
 
 describe('RegisterWizard', () => {
-  const baseProps = { slug: 'alice', serverUrl: 'http://localhost:8922', token: 'tok' }
+  const baseProps = { slug: 'alice', serverUrl: 'https://localhost:8922', token: 'tok' }
 
   beforeEach(() => {
     setActivePinia(createPinia())
@@ -38,7 +38,7 @@ describe('RegisterWizard', () => {
     await wrapper.find('.btn-register').trigger('click')
     await vi.waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:8922/team',
+        'https://localhost:8922/team',
         expect.objectContaining({ method: 'PUT' }),
       )
     })

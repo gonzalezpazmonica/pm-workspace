@@ -248,6 +248,85 @@ def test_dashboard():
     return f"{projects_count} projects, {tasks_count} tasks"
 
 
+def test_projects():
+    """GET /projects — returns list of projects from workspace."""
+    status, body = bridge_get("/projects")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert isinstance(data, list), f"Expected list, got {type(data)}"
+    assert len(data) >= 1, "Should have at least the workspace entry"
+    workspace = data[0]
+    assert workspace["id"] == "_workspace", f"First entry should be _workspace, got {workspace.get('id')}"
+    assert "name" in workspace, "Missing 'name' field"
+    assert "path" in workspace, "Missing 'path' field"
+    assert "hasClaude" in workspace, "Missing 'hasClaude' field"
+    assert "hasBacklog" in workspace, "Missing 'hasBacklog' field"
+    assert "health" in workspace, "Missing 'health' field"
+    return f"{len(data)} projects"
+
+
+def test_backlog():
+    """GET /backlog?project=proyecto-alpha — returns PBIs and tasks."""
+    status, body = bridge_get("/backlog?project=proyecto-alpha")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert "pbis" in data, f"Missing 'pbis' field: {list(data.keys())}"
+    assert "tasks" in data, f"Missing 'tasks' field: {list(data.keys())}"
+    assert isinstance(data["pbis"], list), f"Expected pbis list"
+    assert isinstance(data["tasks"], list), f"Expected tasks list"
+    pbi_count = len(data["pbis"])
+    task_count = len(data["tasks"])
+    if pbi_count > 0:
+        pbi = data["pbis"][0]
+        assert "id" in pbi, "PBI missing 'id'"
+        assert "title" in pbi, "PBI missing 'title'"
+        assert "state" in pbi, "PBI missing 'state'"
+        assert "tasks" in pbi, "PBI missing 'tasks' array"
+    return f"{pbi_count} PBIs, {task_count} tasks"
+
+
+def test_backlog_empty_project():
+    """GET /backlog?project=nonexistent — returns empty arrays, not error."""
+    status, body = bridge_get("/backlog?project=nonexistent-project-xyz")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert data.get("pbis") == [], f"Expected empty pbis, got {data.get('pbis')}"
+    assert data.get("tasks") == [], f"Expected empty tasks, got {data.get('tasks')}"
+    return True
+
+
+def test_reports_velocity():
+    """GET /reports/velocity — returns velocity chart data."""
+    status, body = bridge_get("/reports/velocity?project=default")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert "data" in data, f"Missing 'data' field"
+    assert "sprints" in data["data"], f"Missing sprints in data"
+    return f"{len(data['data']['sprints'])} sprints"
+
+
+def test_reports_dora():
+    """GET /reports/dora — returns DORA metrics."""
+    status, body = bridge_get("/reports/dora?project=default")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert "data" in data, f"Missing 'data' field"
+    metrics = data["data"]
+    for key in ["deployFrequency", "leadTime", "changeFailureRate", "mttr"]:
+        assert key in metrics, f"Missing DORA metric: {key}"
+    return True
+
+
+def test_reports_portfolio():
+    """GET /reports/portfolio — returns portfolio overview."""
+    status, body = bridge_get("/reports/portfolio")
+    assert status == 200, f"Expected 200, got {status}"
+    data = json.loads(body)
+    assert "data" in data, f"Missing 'data' field"
+    assert "projects" in data["data"], f"Missing 'projects' in data"
+    return f"{len(data['data']['projects'])} projects"
+
+
 def test_chat_json():
     """POST /chat (JSON response) — sends message, gets response."""
     status, body = bridge_post("/chat", {
@@ -357,6 +436,12 @@ def run_all_tests():
         ("logs", test_logs),
         ("update_check", test_update_check),
         ("dashboard", test_dashboard),
+        ("projects", test_projects),
+        ("backlog", test_backlog),
+        ("backlog_empty", test_backlog_empty_project),
+        ("reports_velocity", test_reports_velocity),
+        ("reports_dora", test_reports_dora),
+        ("reports_portfolio", test_reports_portfolio),
         ("not_found", test_not_found),
     ]
 
