@@ -50,8 +50,9 @@ export const useChatStore = defineStore('chat', () => {
     if (!sessionId.value) return
     const exists = sessions.value.find(s => s.id === sessionId.value)
     if (!exists) {
+      const date = new Date().toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
       sessions.value.unshift({
-        id: sessionId.value, title: 'New chat',
+        id: sessionId.value, title: `New chat — ${date}`,
         createdAt: Date.now(), lastMessageAt: Date.now(), messageCount: 0,
       })
       saveSessions()
@@ -60,13 +61,14 @@ export const useChatStore = defineStore('chat', () => {
 
   function addMessage(msg: ChatMessage) {
     messages.value.push(msg)
-    // Update session metadata
     const session = sessions.value.find(s => s.id === sessionId.value)
     if (session) {
       session.lastMessageAt = Date.now()
       session.messageCount = messages.value.length
-      if (msg.role === 'user' && session.title === 'New chat') {
-        session.title = msg.content.slice(0, 40) || 'New chat'
+      if (msg.role === 'user' && session.title.startsWith('New chat')) {
+        const date = new Date().toLocaleDateString([], { month: 'short', day: 'numeric' })
+        const digest = msg.content.slice(0, 30).replace(/\s+/g, ' ').trim()
+        session.title = `${date} — ${digest}${msg.content.length > 30 ? '...' : ''}`
       }
       saveSessions()
     }
@@ -111,9 +113,12 @@ export const useChatStore = defineStore('chat', () => {
 
   function deleteSession(id: string) {
     if (id === sessionId.value) return // Can't delete active
-    sessions.value = sessions.value.filter(s => s.id !== id)
-    saveSessions()
-    try { localStorage.removeItem(messagesKey(id)) } catch {}
+    const idx = sessions.value.findIndex(s => s.id === id)
+    if (idx >= 0) {
+      sessions.value.splice(idx, 1)
+      saveSessions()
+      try { localStorage.removeItem(messagesKey(id)) } catch {}
+    }
   }
 
   function saveSessions() { saveToStorage(SESSIONS_KEY, sessions.value) }
