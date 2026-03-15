@@ -13,6 +13,7 @@ export interface SessionInfo {
 
 const SESSIONS_KEY = 'savia:chat:sessions'
 const ACTIVE_KEY = 'savia:chat:active'
+const DELETED_KEY = 'savia:chat:deleted'
 function messagesKey(id: string) { return `savia:chat:messages:${id}` }
 
 function loadFromStorage<T>(key: string, fallback: T): T {
@@ -117,6 +118,10 @@ export const useChatStore = defineStore('chat', () => {
     if (idx >= 0) {
       sessions.value.splice(idx, 1)
       saveSessions()
+      // Track deleted IDs so loadSessions doesn't re-add from remote
+      const deleted = loadFromStorage<string[]>(DELETED_KEY, [])
+      deleted.push(id)
+      saveToStorage(DELETED_KEY, deleted)
       try { localStorage.removeItem(messagesKey(id)) } catch {}
     }
   }
@@ -134,9 +139,10 @@ export const useChatStore = defineStore('chat', () => {
       if (res.ok) {
         const data = await res.json()
         const remote = Array.isArray(data) ? data : (data.sessions ?? [])
-        // Merge remote sessions with local
+        // Merge remote sessions with local (skip deleted ones)
+        const deleted = new Set(loadFromStorage<string[]>(DELETED_KEY, []))
         for (const rs of remote) {
-          if (!sessions.value.some(s => s.id === rs.id)) {
+          if (!deleted.has(rs.id) && !sessions.value.some(s => s.id === rs.id)) {
             sessions.value.push({
               id: rs.id, title: rs.title || 'Session',
               createdAt: rs.updatedAt || Date.now(),

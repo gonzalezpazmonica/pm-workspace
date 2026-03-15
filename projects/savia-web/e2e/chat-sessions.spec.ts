@@ -157,6 +157,40 @@ test.describe('Chat session management', () => {
     await page.screenshot({ path: 'output/e2e-results/sessions-persist-after-nav.png' })
   })
 
+  test('deleted sessions stay deleted after page reload', async ({ page }) => {
+    test.setTimeout(60000)
+    // Send message to create a session
+    await page.locator('.input-bar input').fill('Sesión que vamos a borrar')
+    await page.locator('.input-bar button[type="submit"]').click()
+    await page.waitForTimeout(3000)
+
+    // Create new session so the first one is deletable
+    await page.locator('.new-chat-btn').click()
+    await page.waitForTimeout(500)
+
+    const countBefore = await page.locator('.session-item').count()
+
+    // Delete non-active session
+    const nonActive = page.locator('.session-item:not(.active)').first()
+    await nonActive.hover()
+    await page.waitForTimeout(300)
+    await nonActive.locator('.delete-btn').click()
+    await page.waitForTimeout(500)
+
+    const countAfterDelete = await page.locator('.session-item').count()
+    expect(countAfterDelete).toBe(countBefore - 1)
+
+    // Hard reload (Ctrl+F5 equivalent)
+    await page.reload({ waitUntil: 'networkidle' })
+    await page.waitForSelector('.session-list', { timeout: 10000 })
+    await page.waitForTimeout(1000)
+
+    // Count should still be the same as after delete
+    const countAfterReload = await page.locator('.session-item').count()
+    expect(countAfterReload).toBe(countAfterDelete)
+    await page.screenshot({ path: 'output/e2e-results/sessions-persist-delete-after-reload.png' })
+  })
+
   test('toggle button hides and shows session panel', async ({ page }) => {
     await expect(page.locator('.session-list')).toBeVisible()
     await page.locator('.toggle-sessions').click()
