@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.98.0] — 2026-03-15
 
-Git Manager roadmap, E2E screenshot validation rule, settings privacy guard.
+Era 114 — Git Manager roadmap, E2E screenshot validation rule, settings privacy guard.
 
 ### Added
 - **Git Manager roadmap** (`specs/roadmap-git-manager.md`): full open-source research (10 projects analyzed: Ungit, isomorphic-git, Gitea, lazygit...), technical design (17 Bridge endpoints, TypeScript interfaces, SVG graph algorithm, security patterns), and 3-week implementation plan
