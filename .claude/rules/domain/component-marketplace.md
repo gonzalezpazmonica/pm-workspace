@@ -1,3 +1,7 @@
+---
+globs: [".claude/skills/**", ".claude/agents/**"]
+---
+
 # Integración pm-workspace con claude-code-templates Marketplace
 
 ## Descripción General

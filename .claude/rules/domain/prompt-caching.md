@@ -1,3 +1,6 @@
+---
+globs: ["CLAUDE.md"]
+---
 # Prompt Caching Strategy
 
 Optimiza el costo de tokens de entrada ordenando contenido estable primero con breakpoints de caché.

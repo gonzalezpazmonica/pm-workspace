@@ -1,3 +1,7 @@
+---
+globs: [".claude/agents/**", "CHANGELOG.md"]
+---
+
 # Regla: Checklist de Dispatch a Agentes
 
 Antes de enviar un prompt a un subagente (Tool: Task), el orquestador DEBE

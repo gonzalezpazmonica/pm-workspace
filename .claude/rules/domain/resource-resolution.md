@@ -1,3 +1,6 @@
+---
+globs: [".claude/commands/**", ".claude/skills/**"]
+---
 # resource-resolution — Rule for @ Reference Resolution
 
 ## Principle

@@ -1,3 +1,7 @@
+---
+globs: [".claude/agents/**"]
+---
+
 # Assignment Matrix — Task Type → Agent Routing
 
 > Tabla pre-computada para asignación directa sin búsqueda en catálogo.

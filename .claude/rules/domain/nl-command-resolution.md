@@ -1,3 +1,7 @@
+---
+globs: [".claude/commands/**", "data/confidence-log.jsonl"]
+---
+
 # Regla: NL Command Resolution
 # ── Interpreta preguntas conversacionales, mapea a comandos con scoring ────
 

@@ -1,3 +1,6 @@
+---
+globs: ["README.md", "README.en.md"]
+---
 # Regla: Mantener README.md actualizado
 # ── Se aplica siempre que haya cambios relevantes en el repositorio ───────────
 

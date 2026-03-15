@@ -1,3 +1,7 @@
+---
+globs: ["projects/*/backlog/**"]
+---
+
 # Regla: Configuración BacklogGit
 # ── Versionado de backlogs con snapshots en SaviaHub ─────────────────────────
 

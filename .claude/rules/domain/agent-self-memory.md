@@ -1,3 +1,7 @@
+---
+globs: [".claude/agent-memory/**"]
+---
+
 # Agent Self-Memory System — Persistent Pattern Learning
 
 > Agents maintain individual MEMORY.md files to capture and learn from patterns discovered across tasks.

@@ -1,3 +1,6 @@
+---
+globs: [".claude/commands/**", ".claude/rules/domain/**"]
+---
 # Source Tracking — Trazabilidad de Fuentes
 
 > Cada output de Savia cita las fuentes que consultó.

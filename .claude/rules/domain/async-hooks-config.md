@@ -1,3 +1,7 @@
+---
+globs: [".claude/settings.json", ".claude/hooks/**"]
+---
+
 # Async Hooks Configuration
 
 > Hooks that don't block the main flow run with `async: true`.
