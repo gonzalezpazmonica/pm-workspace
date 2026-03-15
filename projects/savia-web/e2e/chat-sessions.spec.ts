@@ -37,9 +37,10 @@ test.describe('Chat session management', () => {
       return bubbles.length > 0 && (bubbles[0].textContent?.trim().length ?? 0) > 0
     }, { timeout: 30000 })
 
-    // Session title should now contain date prefix and message digest
+    // Session title should contain date+time and message digest
     const title = await page.locator('.session-item.active .session-title').textContent()
-    expect(title).toMatch(/\w+ \d+/) // e.g. "Mar 15"
+    // Must have date (e.g. "Mar 15") AND time (e.g. "06:32" or "18:32")
+    expect(title).toMatch(/\w+ \d+.*\d{2}:\d{2}/)
     expect(title).toContain('Hola esto es una prueba')
     await page.screenshot({ path: 'output/e2e-results/sessions-title-with-digest.png' })
   })
@@ -189,6 +190,34 @@ test.describe('Chat session management', () => {
     const countAfterReload = await page.locator('.session-item').count()
     expect(countAfterReload).toBe(countAfterDelete)
     await page.screenshot({ path: 'output/e2e-results/sessions-persist-delete-after-reload.png' })
+  })
+
+  test('typing hola auto-creates session with correct name', async ({ page }) => {
+    test.setTimeout(60000)
+    // Start fresh — create new session
+    await page.locator('.new-chat-btn').click()
+    await page.waitForTimeout(500)
+
+    // Send hola
+    await page.locator('.input-bar input').fill('hola')
+    await page.locator('.input-bar button[type="submit"]').click()
+
+    // Wait for response
+    await page.waitForFunction(() => {
+      const b = document.querySelectorAll('.msg.assistant .bubble-content')
+      return b.length > 0 && (b[0].textContent?.trim().length ?? 0) > 0
+    }, { timeout: 30000 })
+
+    await page.waitForTimeout(500)
+
+    // Active session should have title with date+time + "hola"
+    const title = await page.locator('.session-item.active .session-title').textContent()
+    expect(title).toContain('hola')
+    // Must have time (HH:MM pattern)
+    expect(title).toMatch(/\d{2}:\d{2}/)
+    // Must have date (month + day)
+    expect(title).toMatch(/\w+ \d+/)
+    await page.screenshot({ path: 'output/e2e-results/sessions-hola-auto-created.png' })
   })
 
   test('toggle button hides and shows session panel', async ({ page }) => {

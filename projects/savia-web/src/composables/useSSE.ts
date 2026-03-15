@@ -4,11 +4,18 @@ import type { StreamEvent } from '../types/chat'
 
 export function useSSE() {
   const isStreaming = ref(false)
+  let activeReader: ReadableStreamDefaultReader<Uint8Array> | null = null
 
   function baseUrl(): string {
     const auth = useAuthStore()
     const proto = auth.useTls ? 'https' : 'http'
     return `${proto}://${auth.host}:${auth.port}`
+  }
+
+  function cancelStream() {
+    activeReader?.cancel().catch(() => {})
+    activeReader = null
+    isStreaming.value = false
   }
 
   async function streamChat(
@@ -17,6 +24,7 @@ export function useSSE() {
     onEvent: (ev: StreamEvent) => void
   ) {
     const auth = useAuthStore()
+    cancelStream() // Cancel any previous stream
     isStreaming.value = true
     try {
       const res = await fetch(`${baseUrl()}/chat`, {
@@ -31,6 +39,7 @@ export function useSSE() {
       if (!res.body) { isStreaming.value = false; return }
 
       const reader = res.body.getReader()
+      activeReader = reader
       const decoder = new TextDecoder()
       let buffer = ''
 
@@ -50,10 +59,12 @@ export function useSSE() {
           } catch { /* skip malformed */ }
         }
       }
+      activeReader = null
       reader.cancel().catch(() => {})
     } catch (err) {
       onEvent({ type: 'error', text: String(err) })
     } finally {
+      activeReader = null
       isStreaming.value = false
     }
   }
@@ -72,5 +83,5 @@ export function useSSE() {
     } catch { /* silent */ }
   }
 
-  return { isStreaming, streamChat, sendPermission }
+  return { isStreaming, streamChat, sendPermission, cancelStream }
 }

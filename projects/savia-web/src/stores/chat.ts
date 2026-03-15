@@ -29,6 +29,8 @@ export const useChatStore = defineStore('chat', () => {
   const messages = ref<ChatMessage[]>([])
   const sessionId = ref('')
   const currentTool = ref<string | null>(null)
+  const toolActivity = ref<string[]>([])
+  const toolStartTime = ref(0)
   const pendingPermission = ref<PermissionInfo | null>(null)
   const sessions = ref<SessionInfo[]>(loadFromStorage(SESSIONS_KEY, []))
 
@@ -66,8 +68,8 @@ export const useChatStore = defineStore('chat', () => {
     if (session) {
       session.lastMessageAt = Date.now()
       session.messageCount = messages.value.length
-      if (msg.role === 'user' && session.title.startsWith('New chat')) {
-        const date = new Date().toLocaleDateString([], { month: 'short', day: 'numeric' })
+      if (msg.role === 'user' && (session.title.startsWith('New chat') || session.title === 'Session')) {
+        const date = new Date().toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
         const digest = msg.content.slice(0, 30).replace(/\s+/g, ' ').trim()
         session.title = `${date} — ${digest}${msg.content.length > 30 ? '...' : ''}`
       }
@@ -85,7 +87,29 @@ export const useChatStore = defineStore('chat', () => {
     }
   }
 
+  function addToolActivity(tool: string, detail?: string) {
+    const labels: Record<string, string> = {
+      Read: '📄 Reading', Bash: '⚙️ Running command', Grep: '🔍 Searching',
+      Glob: '📂 Finding files', Task: '🤖 Delegating to agent',
+      Write: '✏️ Writing', Edit: '✏️ Editing', WebFetch: '🌐 Fetching',
+      WebSearch: '🌐 Searching web',
+    }
+    const label = labels[tool] || `🔧 ${tool}`
+    const entry = detail ? `${label}: ${detail}` : label
+    toolActivity.value.push(entry)
+    if (toolActivity.value.length > 20) toolActivity.value.shift()
+    currentTool.value = tool
+    if (!toolStartTime.value) toolStartTime.value = Date.now()
+  }
+
+  function clearToolActivity() {
+    toolActivity.value = []
+    currentTool.value = null
+    toolStartTime.value = 0
+  }
+
   function finishStreaming() {
+    clearToolActivity()
     for (const msg of messages.value) {
       if (msg.isStreaming) msg.isStreaming = false
     }
@@ -160,8 +184,8 @@ export const useChatStore = defineStore('chat', () => {
   watch(sessionId, (id) => { if (id) saveToStorage(ACTIVE_KEY, id) })
 
   return {
-    messages, sessionId, currentTool, pendingPermission, sessions,
-    initSession, addMessage, updateLastAssistant, finishStreaming,
+    messages, sessionId, currentTool, toolActivity, toolStartTime, pendingPermission, sessions,
+    initSession, addMessage, updateLastAssistant, finishStreaming, addToolActivity, clearToolActivity,
     newSession, switchSession, deleteSession, loadSessions,
   }
 })

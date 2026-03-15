@@ -58,16 +58,22 @@ function formatDate(ts: number) {
   margin-bottom: 2px;
 }
 .session-item:hover { background: var(--savia-surface-variant); }
-.session-item.active { background: var(--savia-primary-container); font-weight: 500; }
+.session-item.active {
+  background: var(--savia-primary-container);
+  font-weight: 500;
+  border-left: 3px solid var(--savia-primary);
+}
+.session-item.active .session-icon { color: var(--savia-primary); }
 .session-icon { flex-shrink: 0; color: var(--savia-outline); }
 .session-info { flex: 1; min-width: 0; }
 .session-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .session-meta { display: block; font-size: 10px; color: var(--savia-outline); }
 .delete-btn {
   background: none; border: none; cursor: pointer; color: var(--savia-outline);
-  padding: 2px; display: flex; opacity: 0; transition: opacity 0.2s;
+  padding: 4px; display: flex; flex-shrink: 0; border-radius: var(--savia-radius);
+  opacity: 0; transition: opacity 0.2s;
 }
 .session-item:hover .delete-btn { opacity: 1; }
-.delete-btn:hover { color: var(--savia-error); }
+.delete-btn:hover { color: var(--savia-error); background: var(--savia-error-container); }
 .empty { padding: 16px; text-align: center; color: var(--savia-outline); font-size: 12px; }
 </style>

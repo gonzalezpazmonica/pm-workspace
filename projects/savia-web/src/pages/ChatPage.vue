@@ -15,7 +15,17 @@ function renderMd(text: string): string {
 
 const store = useChatStore()
 const auth = useAuthStore()
-const { isStreaming, streamChat, sendPermission } = useSSE()
+const { isStreaming, streamChat, sendPermission, cancelStream } = useSSE()
+
+// Expose cancelStream to store for session switching
+store.$onAction(({ name }) => {
+  if (name === 'switchSession' || name === 'newSession') {
+    if (isStreaming.value) {
+      cancelStream()
+      store.finishStreaming()
+    }
+  }
+})
 
 const showSessions = ref(true)
 
@@ -41,9 +51,12 @@ async function send() {
   store.addMessage({ id: assistantId, role: 'assistant', content: '', timestamp: Date.now(), isStreaming: true })
   scrollBottom()
 
-  await streamChat(text, store.sessionId, (ev: StreamEvent) => {
-    if (ev.type === 'text') { store.updateLastAssistant(ev.text); scrollBottom() }
-    else if (ev.type === 'tool_use') store.currentTool = ev.toolName ?? null
+  const originSession = store.sessionId // Capture at send time
+  await streamChat(text, originSession, (ev: StreamEvent) => {
+    // Guard: drop events if user switched to a different session
+    if (store.sessionId !== originSession) return
+    if (ev.type === 'text') { store.clearToolActivity(); store.updateLastAssistant(ev.text); scrollBottom() }
+    else if (ev.type === 'tool_use') { store.addToolActivity(ev.toolName ?? 'unknown'); scrollBottom() }
     else if (ev.type === 'permission_request') {
       store.pendingPermission = { requestId: ev.requestId ?? '', toolName: ev.toolName ?? '', toolInput: ev.toolInput ?? {}, description: ev.description ?? '' }
     }
@@ -84,14 +97,21 @@ function formatTime(ts: number) {
       </div>
       <div v-for="msg in store.messages" :key="msg.id" class="msg" :class="msg.role">
         <div class="bubble">
-          <div v-if="msg.isStreaming && !msg.content" class="typing-indicator">
+          <div v-if="msg.isStreaming && !msg.content && !store.toolActivity.length" class="typing-indicator">
             <span class="dot" /><span class="dot" /><span class="dot" />
+          </div>
+          <div v-else-if="msg.isStreaming && !msg.content && store.toolActivity.length" class="tool-feed">
+            <div v-for="(activity, i) in store.toolActivity" :key="i" class="tool-line" :class="{ latest: i === store.toolActivity.length - 1 }">
+              {{ activity }}
+            </div>
+            <div class="tool-elapsed">
+              <span class="pulse-dot" /> Working...
+            </div>
           </div>
           <div v-else class="bubble-content" v-html="renderMd(msg.content)" />
           <span class="bubble-time">{{ formatTime(msg.timestamp) }}</span>
         </div>
       </div>
-      <div v-if="store.currentTool" class="tool-indicator">Using {{ store.currentTool }}...</div>
     </div>
     <div v-if="store.pendingPermission" class="permission-bar">
       <span>{{ store.pendingPermission.toolName }}: {{ store.pendingPermission.description }}</span>
@@ -118,20 +138,29 @@ function formatTime(ts: number) {
 .toggle-sessions:hover { background: var(--savia-outline); color: white; }
 .messages { flex: 1; overflow-y: auto; padding: 16px; padding-top: 36px; display: flex; flex-direction: column; gap: 8px; }
 .empty-chat { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; opacity: 0.6; }
-.empty-logo { width: 64px; height: 64px; opacity: 0.5; }
-.empty-title { font-size: 18px; font-weight: 600; }
-.empty-hint { font-size: 13px; color: var(--savia-on-surface-variant); }
+.empty-logo { width: 64px; opacity: 0.5; } .empty-title { font-size: 18px; font-weight: 600; } .empty-hint { font-size: 13px; color: var(--savia-on-surface-variant); }
+
 .msg { display: flex; } .msg.user { justify-content: flex-end; } .msg.assistant { justify-content: flex-start; }
 .bubble { max-width: 70%; padding: 10px 14px; border-radius: var(--savia-radius-lg); font-size: 14px; line-height: 1.5; }
 .msg.user .bubble { background: var(--savia-user-bubble); color: white; }
 .msg.assistant .bubble { background: var(--savia-assistant-bubble); color: var(--savia-on-surface); }
-.bubble-content :deep(p) { margin: 0 0 4px; } .bubble-content :deep(p:last-child) { margin: 0; }
-.bubble-content :deep(strong) { font-weight: 600; }
-.bubble-content :deep(code) { background: rgba(0,0,0,0.1); padding: 1px 4px; border-radius: 3px; font-size: 12px; }
-.bubble-content :deep(pre) { background: rgba(0,0,0,0.1); padding: 8px; border-radius: var(--savia-radius); overflow-x: auto; }
-.bubble-content :deep(ul), .bubble-content :deep(ol) { margin: 4px 0; padding-left: 18px; }
+.bubble-content :deep(p) { margin: 0 0 10px; } .bubble-content :deep(p:last-child) { margin: 0; }
+.bubble-content :deep(h1) { font-size: 18px; font-weight: 700; margin: 14px 0 8px; border-bottom: 1px solid var(--savia-surface-variant); padding-bottom: 4px; }
+.bubble-content :deep(h2) { font-size: 15px; font-weight: 600; margin: 12px 0 6px; } .bubble-content :deep(h3) { font-size: 14px; font-weight: 600; margin: 10px 0 4px; }
+.bubble-content :deep(strong) { font-weight: 600; } .bubble-content :deep(code) { background: rgba(0,0,0,0.1); padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+.bubble-content :deep(pre) { background: rgba(0,0,0,0.1); padding: 8px; border-radius: var(--savia-radius); overflow-x: auto; margin: 8px 0; }
+.bubble-content :deep(ul), .bubble-content :deep(ol) { margin: 6px 0; padding-left: 20px; } .bubble-content :deep(li) { margin: 3px 0; }
+.bubble-content :deep(blockquote) { border-left: 3px solid var(--savia-primary); padding: 4px 12px; margin: 8px 0; font-style: italic; }
+.bubble-content :deep(hr) { border: none; border-top: 1px solid var(--savia-surface-variant); margin: 10px 0; }
+.bubble-content :deep(table) { border-collapse: collapse; margin: 8px 0; font-size: 12px; width: 100%; }
+.bubble-content :deep(th) { background: var(--savia-surface-variant); padding: 4px 8px; border: 1px solid var(--savia-outline); font-weight: 600; text-align: left; }
+.bubble-content :deep(td) { padding: 4px 8px; border: 1px solid var(--savia-surface-variant); }
 .bubble-time { font-size: 10px; opacity: 0.6; display: block; text-align: right; margin-top: 4px; }
-.tool-indicator { font-size: 12px; color: var(--savia-on-surface-variant); padding: 4px 16px; font-style: italic; }
+.tool-feed { font-size: 12px; color: var(--savia-on-surface-variant); max-height: 200px; overflow-y: auto; }
+.tool-line { padding: 2px 0; opacity: 0.5; } .tool-line.latest { opacity: 1; font-weight: 500; }
+.tool-elapsed { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-weight: 500; color: var(--savia-primary); }
+.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--savia-primary); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 .permission-bar { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--savia-warning); font-size: 13px; border-radius: var(--savia-radius); margin: 0 16px; }
 .permission-bar span { flex: 1; } .btn-allow, .btn-deny { padding: 4px 12px; border-radius: 4px; font-size: 12px; color: white; }
 .btn-allow { background: #155724; } .btn-deny { background: var(--savia-error); }
