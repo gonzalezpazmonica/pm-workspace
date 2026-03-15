@@ -1,3 +1,7 @@
+---
+globs: [".claude/commands/**", ".claude/agents/**", ".claude/skills/**", ".claude/rules/**"]
+---
+
 # Regla: Límite de 150 líneas por fichero
 
 > Aplicable a TODO fichero creado o modificado dentro de pm-workspace.

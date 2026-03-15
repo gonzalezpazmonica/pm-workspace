@@ -1,3 +1,6 @@
+---
+globs: [".claude/commands/**"]
+---
 # Tool Search Configuration — MCP Tool Discovery
 
 Intelligent tool discovery for 400+ commands when they exceed context limits. Auto-categorization, keyword routing, and usage-based prioritization.

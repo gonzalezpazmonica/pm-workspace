@@ -1,3 +1,6 @@
+---
+globs: [".claude/hooks/**"]
+---
 # Seguridad: Patrones de Detección Detallados
 
 > Referencia extraída de `security-guardian.md`. Contiene regex patterns, implementaciones específicas y ejemplos de cada check.

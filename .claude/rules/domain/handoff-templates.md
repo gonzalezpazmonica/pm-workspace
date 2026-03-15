@@ -1,3 +1,7 @@
+---
+globs: [".claude/agents/**"]
+---
+
 # Handoff Templates — Transiciones Estandarizadas entre Agentes
 
 > 7 plantillas para garantizar contexto suficiente en cada transición.

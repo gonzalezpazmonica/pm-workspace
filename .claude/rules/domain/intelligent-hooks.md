@@ -1,3 +1,7 @@
+---
+globs: [".claude/settings.json", ".claude/hooks/**"]
+---
+
 # Intelligent Hooks — Prompt & Agent Hooks
 
 > Evolución de Command hooks (1-3s) a Prompt hooks (2-5s, LLM) y Agent hooks (30-120s, subagentes).

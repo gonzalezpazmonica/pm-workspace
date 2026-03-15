@@ -1,3 +1,6 @@
+---
+globs: ["**/*.tsx", "**/*.jsx", "**/*.vue", "**/*.css", "**/*.scss"]
+---
 # Visual Quality Gates
 
 ## Trigger Conditions
