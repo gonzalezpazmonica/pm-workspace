@@ -2,7 +2,7 @@
 # pbi-history-capture.sh — PostToolUse hook (Edit|Write)
 # Captures field-level changes in PBI frontmatter and appends to ## Historial
 # Trigger: edits to projects/*/backlog/pbi/PBI-*.md
-set -euo pipefail
+set -uo pipefail
 
 # ── Input from hook (JSON on stdin) ─────────────────────────────────────────
 INPUT=$(cat)
