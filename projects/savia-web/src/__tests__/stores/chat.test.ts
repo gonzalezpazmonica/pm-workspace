@@ -101,18 +101,18 @@ describe('useChatStore', () => {
     })
   })
 
-  describe('clearMessages', () => {
+  describe('newSession', () => {
     it('empties the messages array', () => {
       const store = useChatStore()
       store.addMessage(makeMsg())
-      store.clearMessages()
+      store.newSession()
       expect(store.messages).toHaveLength(0)
     })
 
     it('resets to a new sessionId', () => {
       const store = useChatStore()
       const oldSession = store.sessionId
-      store.clearMessages()
+      store.newSession()
       expect(store.sessionId).not.toBe(oldSession)
     })
   })

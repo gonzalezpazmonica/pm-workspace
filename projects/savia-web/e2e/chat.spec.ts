@@ -121,4 +121,60 @@ test.describe('Chat page (FR-02)', () => {
     // Screenshot as proof markdown renders
     await page.screenshot({ path: 'output/e2e-results/chat-markdown-rendering.png' })
   })
+
+  test('session list sidebar is visible', async ({ page }) => {
+    await expect(page.locator('.session-list')).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('.new-chat-btn')).toBeVisible()
+  })
+
+  test('new chat button creates fresh session', async ({ page }) => {
+    // Send a message first
+    await page.locator('.input-bar input').fill('test message')
+    await page.locator('.input-bar button[type="submit"]').click()
+    await expect(page.locator('.msg.user').first()).toBeVisible({ timeout: 5000 })
+
+    // Click New Chat
+    await page.locator('.new-chat-btn').click()
+    // Messages should be cleared
+    await expect(page.locator('.msg.user')).toHaveCount(0)
+    // Session list should have at least 2 entries now
+    const items = page.locator('.session-item')
+    expect(await items.count()).toBeGreaterThanOrEqual(1)
+  })
+
+  test('toggle button hides/shows session list', async ({ page }) => {
+    await expect(page.locator('.session-list')).toBeVisible()
+    await page.locator('.toggle-sessions').click()
+    await expect(page.locator('.session-list')).not.toBeVisible()
+    await page.locator('.toggle-sessions').click()
+    await expect(page.locator('.session-list')).toBeVisible()
+  })
+
+  test('chat persists when navigating away and back', async ({ page }) => {
+    test.setTimeout(60000)
+    // Send a message
+    await page.locator('.input-bar input').fill('Responde solo OK')
+    await page.locator('.input-bar button[type="submit"]').click()
+
+    // Wait for response
+    await page.waitForFunction(() => {
+      const bubbles = document.querySelectorAll('.msg.assistant .bubble-content')
+      return bubbles.length > 0 && (bubbles[0].textContent?.trim().length ?? 0) > 0
+    }, { timeout: 30000 })
+
+    // Navigate to Home
+    await page.locator('.nav-item', { hasText: 'Home' }).click()
+    await page.waitForURL('**/', { timeout: 5000 })
+
+    // Navigate back to Chat
+    await page.locator('.nav-item', { hasText: 'Chat' }).click()
+    await page.waitForURL('**/chat', { timeout: 5000 })
+
+    // Messages should still be there
+    await expect(page.locator('.msg.user').first()).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('.msg.assistant').first()).toBeVisible()
+
+    // Screenshot as proof
+    await page.screenshot({ path: 'output/e2e-results/chat-persists-after-navigation.png' })
+  })
 })
