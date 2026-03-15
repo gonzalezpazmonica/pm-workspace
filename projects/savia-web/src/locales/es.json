@@ -33,7 +33,8 @@
     "integrations": "Integraciones",
     "reports": "Informes",
     "profile": "Perfil",
-    "settings": "Ajustes"
+    "settings": "Ajustes",
+    "users": "Usuarios"
   },
   "home": {
     "loadingDashboard": "Cargando panel...",

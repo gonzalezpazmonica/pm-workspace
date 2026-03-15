@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useAuthStore } from '../stores/auth'
 import {
   Home, MessageSquare, Zap, LayoutList, CheckCircle2,
   Clock, FolderOpen, BarChart3, User, Settings, Sun, Moon,
-  GitBranch, Plug
+  GitBranch, Plug, Shield
 } from 'lucide-vue-next'
 
 defineProps<{ collapsed: boolean }>()
 const route = useRoute()
 const { t } = useI18n()
+const auth = useAuthStore()
 
 const dark = ref(localStorage.getItem('savia_theme') === 'dark')
 function toggleTheme() {
@@ -24,7 +26,7 @@ onMounted(() => {
   if (dark.value) document.documentElement.setAttribute('data-theme', 'dark')
 })
 
-const navItems = [
+const baseNavItems = [
   { path: '/', key: 'nav.home', icon: Home },
   { path: '/chat', key: 'nav.chat', icon: MessageSquare },
   { path: '/commands', key: 'nav.commands', icon: Zap },
@@ -38,6 +40,11 @@ const navItems = [
   { path: '/profile', key: 'nav.profile', icon: User },
   { path: '/settings', key: 'nav.settings', icon: Settings },
 ]
+const adminNavItem = { path: '/admin/users', key: 'nav.users', icon: Shield }
+
+const navItems = computed(() =>
+  auth.isAdmin ? [...baseNavItems, adminNavItem] : baseNavItems
+)
 </script>
 
 <template>

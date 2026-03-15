@@ -15,6 +15,7 @@ const router = createRouter({
     { path: '/files', component: () => import('../pages/FileBrowserPage.vue') },
     { path: '/profile', component: () => import('../pages/ProfilePage.vue') },
     { path: '/settings', component: () => import('../pages/SettingsPage.vue') },
+    { path: '/admin/users', component: () => import('../pages/AdminUsersPage.vue'), meta: { requiresAdmin: true } },
     {
       path: '/reports',
       component: () => import('../pages/reports/ReportsLayout.vue'),
@@ -30,6 +31,27 @@ const router = createRouter({
       ]
     },
   ]
+})
+
+// Admin route guard — waits for role to be loaded
+router.beforeEach(async (to) => {
+  if (to.meta.requiresAdmin) {
+    const { useAuthStore } = await import('../stores/auth')
+    const auth = useAuthStore()
+    // If role hasn't been loaded yet, try to fetch it
+    if (auth.role === 'user' && auth.token) {
+      try {
+        const res = await fetch(`${auth.serverUrl}/auth/me`, {
+          headers: { 'Authorization': `Bearer ${auth.token}` },
+        })
+        if (res.ok) {
+          const data = await res.json()
+          auth.role = data.role === 'admin' ? 'admin' : 'user'
+        }
+      } catch { /* keep default */ }
+    }
+    if (!auth.isAdmin) return '/'
+  }
 })
 
 export default router

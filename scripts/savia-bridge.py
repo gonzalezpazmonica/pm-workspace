@@ -81,7 +81,7 @@ import sys
 import threading
 import time
 import traceback
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
 
@@ -510,6 +510,130 @@ def _validate_user_token(token: str) -> str | None:
     """Return user slug if token matches a per-user token, else None."""
     with _user_token_cache_lock:
         return _user_token_cache.get(token)
+
+
+def _get_user_profile(slug: str) -> dict | None:
+    """Read profile.json for a user. Returns dict or None."""
+    profile_file = USERS_DIR / slug / "profile.json"
+    if not profile_file.exists():
+        return None
+    try:
+        return json.loads(profile_file.read_text())
+    except Exception:
+        return None
+
+
+def _save_user_profile(slug: str, profile: dict):
+    """Write profile.json for a user."""
+    user_dir = USERS_DIR / slug
+    user_dir.mkdir(parents=True, exist_ok=True)
+    (user_dir / "profile.json").write_text(json.dumps(profile, indent=2))
+
+
+def _list_all_users() -> list[dict]:
+    """List all users with their profiles."""
+    if not USERS_DIR.exists():
+        return []
+    result = []
+    for d in sorted(USERS_DIR.iterdir()):
+        if not d.is_dir():
+            continue
+        profile = _get_user_profile(d.name) or {}
+        has_token = (d / "token").exists()
+        token_content = (d / "token").read_text().strip() if has_token else ""
+        result.append({
+            "slug": d.name,
+            "name": profile.get("name", d.name),
+            "email": profile.get("email", ""),
+            "role": profile.get("role", "user"),
+            "created": profile.get("created", ""),
+            "lastLogin": profile.get("lastLogin", ""),
+            "status": "active" if has_token and token_content else "revoked",
+        })
+    return result
+
+
+def _get_user_role(slug: str | None) -> str:
+    """Get role for a user slug. None (master token) = admin."""
+    if slug is None:
+        return "admin"
+    profile = _get_user_profile(slug)
+    return profile.get("role", "user") if profile else "user"
+
+
+def _create_user(slug: str, name: str = "", email: str = "", role: str = "user") -> str:
+    """Create a new user with token. Returns the generated token."""
+    token, user_dir = _get_or_create_user(slug)
+    profile = {
+        "slug": slug, "name": name or slug, "email": email,
+        "role": role, "created": datetime.now(tz=timezone.utc).isoformat(),
+        "lastLogin": "",
+    }
+    _save_user_profile(slug, profile)
+    return token
+
+
+def _rotate_user_token(slug: str) -> str | None:
+    """Generate a new token for a user. Returns new token or None if user doesn't exist."""
+    user_dir = USERS_DIR / slug
+    if not user_dir.exists():
+        return None
+    token_file = user_dir / "token"
+    # Remove old token from cache
+    if token_file.exists():
+        old_token = token_file.read_text().strip()
+        with _user_token_cache_lock:
+            _user_token_cache.pop(old_token, None)
+    # Generate new token
+    new_token = secrets.token_urlsafe(32)
+    token_file.write_text(new_token)
+    token_file.chmod(0o600)
+    with _user_token_cache_lock:
+        _user_token_cache[new_token] = slug
+    log(f"Token rotated for user '{slug}'")
+    return new_token
+
+
+def _revoke_user_token(slug: str) -> bool:
+    """Remove a user's token (revoke access). Returns True if successful."""
+    token_file = USERS_DIR / slug / "token"
+    if not token_file.exists():
+        return False
+    old_token = token_file.read_text().strip()
+    with _user_token_cache_lock:
+        _user_token_cache.pop(old_token, None)
+    token_file.write_text("")
+    log(f"Token revoked for user '{slug}'")
+    return True
+
+
+def _migrate_existing_profiles():
+    """On startup, create user entries for existing .claude/profiles/users/."""
+    profiles_dir = Path.home() / "savia" / ".claude" / "profiles" / "users"
+    if not profiles_dir.exists():
+        return
+    for d in profiles_dir.iterdir():
+        if not d.is_dir() or d.name == "template":
+            continue
+        user_dir = USERS_DIR / d.name
+        if user_dir.exists():
+            continue
+        # Read identity.md for name/email
+        identity = d / "identity.md"
+        name, email, role = d.name, "", "user"
+        if identity.exists():
+            content = identity.read_text()
+            for line in content.split("\n"):
+                if line.startswith("name:"):
+                    name = line.split(":", 1)[1].strip()
+                elif line.startswith("email:"):
+                    email = line.split(":", 1)[1].strip()
+                elif line.startswith("role:"):
+                    r = line.split(":", 1)[1].strip().lower()
+                    if r == "pm":
+                        role = "admin"
+        _create_user(d.name, name, email, role)
+        log(f"Migrated profile '{d.name}' to Bridge users (role: {role})")
 
 
 def _get_user_sessions(slug: str) -> list[str]:
@@ -2080,6 +2204,40 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json({"error": str(e)}, 500)
             return
 
+        if parsed.path == "/auth/me":
+            """GET /auth/me — Returns authenticated user info."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if self._auth_user is None:
+                self._send_json({"slug": "admin", "role": "admin", "name": "Admin"})
+            else:
+                _p = _get_user_profile(self._auth_user) or {}
+                self._send_json({"slug": self._auth_user, "role": _p.get("role", "user"), "name": _p.get("name", self._auth_user)})
+            return
+
+        if parsed.path == "/users":
+            """GET /users — List all users (admin only)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if _get_user_role(self._auth_user) != "admin":
+                self._send_json({"error": "Admin access required"}, 403)
+                return
+            self._send_json({"users": _list_all_users()})
+            return
+
+        if parsed.path.startswith("/users/") and parsed.path.endswith("/role"):
+            """GET /users/{slug}/role — Get user role (for auth store)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            slug = parsed.path.split("/")[2]
+            profile = _get_user_profile(slug)
+            role = profile.get("role", "user") if profile else "user"
+            self._send_json({"slug": slug, "role": role})
+            return
+
         if parsed.path == "/projects":
             """GET /projects — List available projects from projects/ directory."""
             try:
@@ -2445,6 +2603,64 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         request_id = self._next_request_id()
 
+        # --- POST /users (create user, admin only) ---
+        if parsed.path == "/users":
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if _get_user_role(self._auth_user) != "admin":
+                self._send_json({"error": "Admin access required"}, 403)
+                return
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length).decode()
+            try:
+                data = json.loads(body)
+                slug = data.get("slug", "").strip().lower().replace("@", "")
+                if not slug:
+                    self._send_json({"error": "slug is required"}, 400)
+                    return
+                if (USERS_DIR / slug).exists():
+                    self._send_json({"error": f"User '{slug}' already exists"}, 409)
+                    return
+                token = _create_user(slug, data.get("name", ""), data.get("email", ""), data.get("role", "user"))
+                log(f"User '{slug}' created by {self._auth_user or 'admin'}")
+                self._send_json({"status": "created", "slug": slug, "token": token})
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        # --- POST /users/{slug}/rotate-token ---
+        if parsed.path.startswith("/users/") and parsed.path.endswith("/rotate-token"):
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            slug = parsed.path.split("/")[2]
+            user_role = _get_user_role(self._auth_user)
+            if user_role != "admin" and self._auth_user != slug:
+                self._send_json({"error": "Can only rotate own token or be admin"}, 403)
+                return
+            new_token = _rotate_user_token(slug)
+            if new_token:
+                self._send_json({"status": "rotated", "slug": slug, "token": new_token})
+            else:
+                self._send_json({"error": f"User '{slug}' not found"}, 404)
+            return
+
+        # --- POST /users/{slug}/revoke (admin only) ---
+        if parsed.path.startswith("/users/") and parsed.path.endswith("/revoke"):
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if _get_user_role(self._auth_user) != "admin":
+                self._send_json({"error": "Admin access required"}, 403)
+                return
+            slug = parsed.path.split("/")[2]
+            if _revoke_user_token(slug):
+                self._send_json({"status": "revoked", "slug": slug})
+            else:
+                self._send_json({"error": f"User '{slug}' not found"}, 404)
+            return
+
         # --- POST /projects (create new project with scaffolding) ---
         if parsed.path == "/projects":
             if not self._check_auth():
@@ -2767,6 +2983,27 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
     def do_DELETE(self):
         parsed = urlparse(self.path)
 
+        # DELETE /users/{slug} (admin only)
+        if parsed.path.startswith("/users/") and parsed.path.count("/") == 2:
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if _get_user_role(self._auth_user) != "admin":
+                self._send_json({"error": "Admin access required"}, 403)
+                return
+            slug = parsed.path.split("/")[2]
+            user_dir = USERS_DIR / slug
+            if not user_dir.exists():
+                self._send_json({"error": f"User '{slug}' not found"}, 404)
+                return
+            import shutil as _shutil
+            _shutil.rmtree(user_dir)
+            with _user_token_cache_lock:
+                _user_token_cache.pop(slug, None)
+            log(f"User '{slug}' deleted by {self._auth_user or 'admin'}")
+            self._send_json({"status": "deleted", "slug": slug})
+            return
+
         if parsed.path == "/sessions":
             if not self._check_auth():
                 self._send_json({"error": "Unauthorized"}, 401)
@@ -2782,6 +3019,36 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
     def do_PUT(self):
         """Handle PUT requests for updating configuration."""
         parsed = urlparse(self.path)
+
+        # PUT /users/{slug} (admin only — update profile/role)
+        if parsed.path.startswith("/users/") and parsed.path.count("/") == 2:
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if _get_user_role(self._auth_user) != "admin":
+                self._send_json({"error": "Admin access required"}, 403)
+                return
+            slug = parsed.path.split("/")[2]
+            profile = _get_user_profile(slug)
+            if not profile:
+                self._send_json({"error": f"User '{slug}' not found"}, 404)
+                return
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length).decode("utf-8")
+            data = json.loads(body)
+            # Prevent demoting last admin
+            if profile.get("role") == "admin" and data.get("role") == "user":
+                admins = [u for u in _list_all_users() if u["role"] == "admin"]
+                if len(admins) <= 1:
+                    self._send_json({"error": "Cannot demote the last admin"}, 400)
+                    return
+            for field in ["name", "email", "role"]:
+                if field in data:
+                    profile[field] = data[field]
+            _save_user_profile(slug, profile)
+            log(f"User '{slug}' updated by {self._auth_user or 'admin'}")
+            self._send_json({"status": "updated", "slug": slug, "profile": profile})
+            return
 
         if parsed.path == "/files/content":
             """PUT /files/content — Save file content (markdown editor)."""
@@ -3246,7 +3513,8 @@ def main():
     else:
         token = get_or_create_token()
 
-    # Load per-user token cache
+    # Migrate existing profiles and load per-user token cache
+    _migrate_existing_profiles()
     _init_user_token_cache()
 
     if args.print_token:

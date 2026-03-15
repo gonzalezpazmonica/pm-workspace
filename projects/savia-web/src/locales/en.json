@@ -33,7 +33,8 @@
     "integrations": "Integrations",
     "reports": "Reports",
     "profile": "Profile",
-    "settings": "Settings"
+    "settings": "Settings",
+    "users": "Users"
   },
   "home": {
     "loadingDashboard": "Loading dashboard...",
