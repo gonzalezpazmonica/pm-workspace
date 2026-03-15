@@ -149,7 +149,7 @@ onMounted(() => loadUsers())
 .actions button { background: var(--savia-surface-variant); border: none; padding: 4px 6px; border-radius: var(--savia-radius); cursor: pointer; display: flex; color: var(--savia-on-surface); }
 .actions button:hover { background: var(--savia-outline); color: white; }
 .btn-danger:hover { background: var(--savia-error); color: white; }
-.token-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; }
+.token-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 9999; }
 .token-card { background: var(--savia-surface); padding: 24px; border-radius: var(--savia-radius-lg); max-width: 500px; }
 .token-card h3 { margin-bottom: 8px; }
 .token-warn { color: var(--savia-error); font-size: 13px; margin-bottom: 12px; }

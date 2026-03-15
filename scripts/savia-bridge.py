@@ -2935,12 +2935,10 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
 
             event_num = 0
             try:
-                # Choose streaming mode: interactive (permission-capable) or one-shot
-                if interactive and session_id:
-                    session = _get_or_create_interactive_session(session_id, system_prompt, request_id, self._auth_user)
-                    stream = stream_interactive_response(session, message, request_id)
-                else:
-                    stream = stream_claude_response(message, session_id, system_prompt, request_id, self._auth_user)
+                # Use one-shot streaming for reliability.
+                # Interactive mode (stream-json stdin/stdout) can hang
+                # when Claude CLI is slow to init or running nested.
+                stream = stream_claude_response(message, session_id, system_prompt, request_id, self._auth_user)
 
                 for chunk in stream:
                     event_data = json.dumps(chunk)
