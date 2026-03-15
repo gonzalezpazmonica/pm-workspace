@@ -3,6 +3,7 @@ alert_style: ""
 celebrate: ""
 formality: ""
 emoji_usage: ""
+honesty: ""
 ---
 
-## Ejemplos calibrados
+## Calibration examples
