@@ -15,7 +15,17 @@ function renderMd(text: string): string {
 
 const store = useChatStore()
 const auth = useAuthStore()
-const { isStreaming, streamChat, sendPermission } = useSSE()
+const { isStreaming, streamChat, sendPermission, cancelStream } = useSSE()
+
+// Expose cancelStream to store for session switching
+store.$onAction(({ name }) => {
+  if (name === 'switchSession' || name === 'newSession') {
+    if (isStreaming.value) {
+      cancelStream()
+      store.finishStreaming()
+    }
+  }
+})
 
 const showSessions = ref(true)
 
@@ -41,7 +51,10 @@ async function send() {
   store.addMessage({ id: assistantId, role: 'assistant', content: '', timestamp: Date.now(), isStreaming: true })
   scrollBottom()
 
-  await streamChat(text, store.sessionId, (ev: StreamEvent) => {
+  const originSession = store.sessionId // Capture at send time
+  await streamChat(text, originSession, (ev: StreamEvent) => {
+    // Guard: drop events if user switched to a different session
+    if (store.sessionId !== originSession) return
     if (ev.type === 'text') { store.updateLastAssistant(ev.text); scrollBottom() }
     else if (ev.type === 'tool_use') store.currentTool = ev.toolName ?? null
     else if (ev.type === 'permission_request') {
