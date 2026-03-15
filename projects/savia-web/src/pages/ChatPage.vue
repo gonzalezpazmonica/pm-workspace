@@ -43,7 +43,10 @@ async function send() {
       store.pendingPermission = { requestId: ev.requestId ?? '', toolName: ev.toolName ?? '', toolInput: ev.toolInput ?? {}, description: ev.description ?? '' }
     }
     else if (ev.type === 'error') {
-      store.updateLastAssistant(ev.text || 'Connection error — check Bridge settings')
+      const errorText = ev.text?.includes('Session conflict')
+        ? 'Session sync — please resend your message.'
+        : (ev.text || 'Connection error — check Bridge settings')
+      store.updateLastAssistant(errorText)
       store.finishStreaming()
     }
     else if (ev.type === 'done') store.finishStreaming()

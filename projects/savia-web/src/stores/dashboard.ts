@@ -14,9 +14,11 @@ export const useDashboardStore = defineStore('dashboard', () => {
     const projectStore = useProjectStore()
     loading.value = true
     error.value = null
-    const result = await get<DashboardData>(`/dashboard?project=${projectStore.selectedId}`)
-    if (result) {
-      data.value = result
+    const raw = await get<Record<string, unknown>>(`/dashboard?project=${projectStore.selectedId}`)
+    if (raw) {
+      // Bridge returns greeting inside user.greeting — flatten it
+      const greeting = (raw.user as Record<string, string>)?.greeting ?? raw.greeting as string ?? ''
+      data.value = { ...raw, greeting } as unknown as DashboardData
     } else {
       error.value = 'Failed to load dashboard. Check Bridge connection.'
     }
