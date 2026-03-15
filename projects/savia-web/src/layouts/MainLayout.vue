@@ -29,6 +29,18 @@ onMounted(async () => {
     } catch { /* timeout or error — will show login form */ }
     finally { clearTimeout(timer) }
   }
+  // Load role from Bridge (/auth/me)
+  if (auth.isLoggedIn) {
+    try {
+      const res = await fetch(`${auth.serverUrl}/auth/me`, {
+        headers: { 'Authorization': `Bearer ${auth.token}` },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        auth.role = data.role === 'admin' ? 'admin' : 'user'
+      }
+    } catch { /* default to user */ }
+  }
   await projectStore.load()
 })
 </script>
