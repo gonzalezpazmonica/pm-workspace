@@ -41,9 +41,11 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref(saved?.token || conn?.token || '')
   const connected = ref(false)
   const profile = ref<TeamMember | null>(null)
+  const role = ref<'admin' | 'user'>('user')
 
   const profileName = computed(() => profile.value?.name || username.value || '')
   const isLoggedIn = computed(() => connected.value && !!token.value && !!username.value)
+  const isAdmin = computed(() => role.value === 'admin')
   const hasCookie = computed(() => !!readCookie())
 
   function login(url: string, user: string, tok: string, member: TeamMember | null) {
@@ -54,6 +56,7 @@ export const useAuthStore = defineStore('auth', () => {
     connected.value = true
     writeCookie(url, user, tok)
   }
+
 
   function setProfile(member: TeamMember) { profile.value = member }
   function setConnected(ok: boolean) { connected.value = ok }
@@ -79,8 +82,8 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   return {
-    serverUrl, username, token, connected, profile, profileName,
-    isLoggedIn, hasCookie, host, port, useTls,
+    serverUrl, username, token, connected, profile, profileName, role,
+    isLoggedIn, isAdmin, hasCookie, host, port, useTls,
     login, logout, setProfile, setConnected, save,
   }
 })

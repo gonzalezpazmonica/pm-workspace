@@ -11,11 +11,13 @@ FRAMEWORK          = "Vue 3 (Composition API, script setup)"
 LANGUAGE           = "TypeScript"
 BUILD_TOOL         = "Vite 6"
 STATE_MANAGEMENT   = "Pinia"
-ROUTING            = "Vue Router 4"
+ROUTING            = "Vue Router 4 (admin route guard)"
+I18N               = "vue-i18n 9 (ES default, EN included)"
 CHARTS             = "ECharts 5 + vue-echarts 7"
-MARKDOWN           = "marked + highlight.js"
+MARKDOWN           = "marked (LinkedIn-style rendering in viewer + chat)"
+AUTH               = "Per-user tokens + roles (admin/user)"
 DEV_PORT           = 5173
-PROD_PORT          = 8081
+DEV_PROTOCOL       = "HTTPS (uses Bridge certs from ~/.savia/bridge/)"
 BRIDGE_DEFAULT_URL = "https://localhost:8922"
 ```
 
@@ -23,79 +25,59 @@ BRIDGE_DEFAULT_URL = "https://localhost:8922"
 
 ```
 src/
-├── composables/    ← Bridge API, SSE streaming, report fetching
-├── stores/         ← Pinia stores (auth, dashboard, chat, reports)
-├── types/          ← TypeScript interfaces matching Bridge/Kotlin models
-├── pages/          ← Route-level page components
-├── components/     ← Reusable UI components and ECharts wrappers
-├── layouts/        ← MainLayout with sidebar + topbar
+├── composables/    ← Bridge API (get/post), SSE streaming, report fetching
+├── stores/         ← Pinia stores (8): auth, dashboard, chat, reports, project, backlog, pipeline, integrations
+├── types/          ← TypeScript interfaces (bridge.ts, chat.ts, reports.ts)
+├── locales/        ← i18n JSON (es.json, en.json) + index.ts plugin
+├── pages/          ← 13 route-level pages
+├── components/     ← 28 components: backlog/(5), files/(3), charts/(10), ChatSessionList, ProjectSelector, CreateProjectModal...
+├── layouts/        ← MainLayout with sidebar + topbar + role loading
+├── router/         ← Vue Router with admin guard (/admin/* requires admin role)
 └── styles/         ← CSS variables (Savia palette) + global styles
 ```
 
-## Development
+## Key Features
 
-```bash
-cd projects/savia-web
-npm install
-npm run dev          # http://localhost:5173 with HMR
-```
-
-## Production
-
-```bash
-bash scripts/setup-savia-web.sh   # Build + serve on :8081
-```
-
-## Bridge Connection
-
-Settings page configures Bridge host/port/token (persisted in localStorage).
-All API calls go through `composables/useBridge.ts`.
-Chat uses SSE streaming via `composables/useSSE.ts`.
-
-## Design System
-
-Savia violet/mauve palette from Color.kt:
-- Primary: `#6B4C9A` (deep violet)
-- Surface: `#FFFFFF` / `#211F26` (dark)
-- Accent: `#CDB4DB` (light mauve)
-
-CSS custom properties in `styles/variables.css`. Dark mode via `[data-theme="dark"]`.
+- **Chat**: SSE streaming with Claude via Bridge, markdown rendering in bubbles, session management (list, switch, new, delete, persist), user identity injection per message
+- **Backlog**: 3-level hierarchy (Spec > PBI > Task), tree + kanban, detail panel with editing, type icons, filters (type/state/person), state persistence
+- **Project Selector**: TopBar dropdown + "Create Project" modal. All stores reload on project switch
+- **User Management**: Admin panel `/admin/users`. CRUD users, roles (admin/user), token rotation/revocation
+- **i18n**: All pages + sidebar use `$t()`. ES+EN. Add language = add 1 JSON file
+- **File Browser**: Breadcrumb, LinkedIn-style markdown viewer (tables, frontmatter card), editor for .md files
+- **Pipelines**: Stage visualization, log viewer
+- **n8n Hub**: Workflows, executions, setup wizard
+- **Reports**: 7 sub-pages (Sprint, Board Flow, Workload, Portfolio, DORA, Quality, Debt)
+- **Auth**: Per-user tokens, roles, `/auth/me`, route guard
 
 ## Rules
 
 - All `.vue` files ≤ 150 lines
-- One chart component per file
-- Types mirror Kotlin domain models
+- All user-visible strings via `$t()` / `useI18n()`
 - No external CSS framework (custom CSS only)
-- All dependencies must be open source (MIT, ISC, Apache, SIL OFL)
 - Lucide icons only — no emoji icons in UI
-
-## Release Policy
-
-Version in `package.json` is the single source of truth.
-Injected at build time via Vite `define` → `__APP_VERSION__`.
-Shown in sidebar footer: "Savia Web v{version}".
-
-```
-RELEASE_CHANNEL    = "local"
-VERSION_SOURCE     = "package.json"
-VERSION_BUMP       = "npm version patch|minor|major"
-```
-
-**On every build/change:**
-1. Bump version: `npm version patch` (auto-increments)
-2. Build: `npm run build` (version baked into bundle)
-3. Run E2E regression: `npm run e2e`
-4. Serve: `npm run serve`
-
-**Versioning:** semver — patch for fixes, minor for features, major for breaking.
+- All stores watch `projectStore.selectedId` for context switch
 
 ## Testing
 
 ```bash
-npm test              # Unit tests (vitest, 32 files)
-npm run e2e           # E2E tests (playwright, 10 files)
+npm test              # Unit tests (vitest, 42 files, 228 tests)
+npm run e2e           # E2E tests (playwright, 18 files, 148 tests)
 npm run test:coverage # Coverage report (threshold 80%)
 ```
 
-Regression plan: `specs/regression-plan.md`
+## Bridge Endpoints Used
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/auth/me` | GET | Current user info + role |
+| `/chat` | POST | Send message, SSE streaming response |
+| `/sessions` | GET | List chat sessions |
+| `/projects` | GET/POST | List/create projects |
+| `/backlog` | GET | PBIs and tasks for project |
+| `/files` | GET | Directory listing |
+| `/files/content` | GET/PUT | Read/write file content |
+| `/users` | GET/POST | User management (admin) |
+| `/users/{slug}` | PUT/DELETE | Update/delete user (admin) |
+| `/users/{slug}/rotate-token` | POST | Regenerate token |
+| `/dashboard` | GET | Home page data |
+| `/reports/*` | GET | Report chart data |

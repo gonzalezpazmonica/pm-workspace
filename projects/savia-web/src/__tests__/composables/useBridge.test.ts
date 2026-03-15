@@ -17,7 +17,7 @@ describe('useBridge', () => {
   })
 
   describe('baseUrl', () => {
-    it('builds http url from serverUrl', () => {
+    it('builds http url when TLS is off', () => {
       const auth = useAuthStore()
       auth.save('localhost', '8922', '', false)
       const { baseUrl } = useBridge()

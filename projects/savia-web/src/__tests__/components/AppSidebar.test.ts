@@ -1,6 +1,7 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { setActivePinia, createPinia } from 'pinia'
 
 vi.stubGlobal('__APP_VERSION__', '0.1.0-test')
 
@@ -20,6 +21,8 @@ function makeRouter(currentPath = '/') {
 }
 
 describe('AppSidebar', () => {
+  beforeEach(() => setActivePinia(createPinia()))
+
   it('renders nav links for all navigation items', async () => {
     const router = makeRouter('/')
     await router.isReady()

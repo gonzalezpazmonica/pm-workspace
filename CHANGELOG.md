@@ -5,6 +5,51 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.96.0] — 2026-03-15
+
+Era 112 — Savia Web Phase 3: per-user auth, user management, chat sessions, bug fixes.
+
+### Added
+- **Per-user tokens**: Individual tokens per user in `~/.savia/bridge/users/{slug}/token`, profile.json with roles
+- **User management**: Admin panel `/admin/users` — create/edit/delete users, role dropdown, token rotation/revocation, last-admin protection
+- **Chat session management**: Session list sidebar (260px), New Chat, switch sessions, delete, titles with "date — message digest", localStorage persistence
+- **Chat markdown**: Bubbles render markdown (bold, code, lists, links) via `marked`
+- **Chat identity**: Bridge injects `[Contexto: usuario=Name, rol=role]` in every message — Savia knows who you are
+- **Bridge `/auth/me`**: Returns authenticated user slug + role
+- **Bridge user CRUD**: GET/POST `/users`, PUT/DELETE `/users/{slug}`, rotate-token, revoke
+- **File access control spec**: Role-based file browser access (admin=root, user=projects only)
+- **Create project modal**: Teleport to body, responsive, z-index 9999
+
+### Fixed
+- **SSE chat hanging**: Switched from interactive stdin/stdout to one-shot streaming (`claude -p`)
+- **Chat input disabled after response**: `Connection: close` header + client-side stream break on `done`
+- **Session conflict**: Corrupted sessions detected and invalidated, user gets friendly message
+- **Dashboard not loading**: Bridge `user.greeting` flattened to match `DashboardData.greeting`
+- **Chat blank on navigation**: `initSession` skips re-init if messages in memory
+- **Session delete not reactive**: Changed `filter` to `splice` for in-place mutation
+- **Session panel width 0**: Added `width: 260px` + `min-width`
+
+### Stats
+- Unit tests: 228 (42 files)
+- E2E tests: 148 (18 files) — with screenshots for visual validation
+- Bridge tests: 29
+- Specs: 22 (21 implemented, 1 planned)
+
+## [2.95.0] — 2026-03-15
+
+Era 112 — Savia Web Phase 2: i18n fully wired, project context switch, all gaps fixed.
+
+### Added
+- **i18n fully wired**: All 12 pages + AppSidebar use `useI18n()` / `$t()`. Zero hardcoded strings
+- **Project context switch**: Dashboard, reports, pipelines, integrations stores watch `projectStore.selectedId` and reload on change
+- **Vitest i18n setup**: Global test setup registers i18n plugin for all component tests
+- **Phase 2.5 spec**: Create project from web (modal + scaffolding via Bridge)
+
+### Fixed
+- E2E `clearSession` sets English locale to match test assertions
+- `useReportData` now uses `projectStore` instead of `dashboardStore` for project context
+- All 217 unit tests + 109 E2E tests pass with i18n
+
 ## [2.94.0] — 2026-03-15
 
 Era 111 — Radical Honesty Principles (Rule #24).
@@ -3564,6 +3609,8 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.95.0...v2.96.0
+[2.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.94.0...v2.95.0
 [2.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.92.0...v2.93.0
 [2.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.91.0...v2.92.0
 [2.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.90.0...v2.91.0

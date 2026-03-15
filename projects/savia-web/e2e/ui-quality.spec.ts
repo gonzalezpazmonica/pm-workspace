@@ -57,7 +57,7 @@ test.describe('Visual and UX quality checks (NFRs)', () => {
   test('version string is present in sidebar footer', async ({ page }) => {
     const version = page.locator('.sidebar-footer .version')
     await expect(version).toBeVisible()
-    await expect(version).toContainText('v0.1.0')
+    await expect(version).toContainText('Savia Web v')
   })
 
   test('focus ring visible when tabbing to interactive elements (NFR-12)', async ({ page }) => {

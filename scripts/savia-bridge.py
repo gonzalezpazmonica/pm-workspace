@@ -81,7 +81,7 @@ import sys
 import threading
 import time
 import traceback
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
 
@@ -512,6 +512,130 @@ def _validate_user_token(token: str) -> str | None:
         return _user_token_cache.get(token)
 
 
+def _get_user_profile(slug: str) -> dict | None:
+    """Read profile.json for a user. Returns dict or None."""
+    profile_file = USERS_DIR / slug / "profile.json"
+    if not profile_file.exists():
+        return None
+    try:
+        return json.loads(profile_file.read_text())
+    except Exception:
+        return None
+
+
+def _save_user_profile(slug: str, profile: dict):
+    """Write profile.json for a user."""
+    user_dir = USERS_DIR / slug
+    user_dir.mkdir(parents=True, exist_ok=True)
+    (user_dir / "profile.json").write_text(json.dumps(profile, indent=2))
+
+
+def _list_all_users() -> list[dict]:
+    """List all users with their profiles."""
+    if not USERS_DIR.exists():
+        return []
+    result = []
+    for d in sorted(USERS_DIR.iterdir()):
+        if not d.is_dir():
+            continue
+        profile = _get_user_profile(d.name) or {}
+        has_token = (d / "token").exists()
+        token_content = (d / "token").read_text().strip() if has_token else ""
+        result.append({
+            "slug": d.name,
+            "name": profile.get("name", d.name),
+            "email": profile.get("email", ""),
+            "role": profile.get("role", "user"),
+            "created": profile.get("created", ""),
+            "lastLogin": profile.get("lastLogin", ""),
+            "status": "active" if has_token and token_content else "revoked",
+        })
+    return result
+
+
+def _get_user_role(slug: str | None) -> str:
+    """Get role for a user slug. None (master token) = admin."""
+    if slug is None:
+        return "admin"
+    profile = _get_user_profile(slug)
+    return profile.get("role", "user") if profile else "user"
+
+
+def _create_user(slug: str, name: str = "", email: str = "", role: str = "user") -> str:
+    """Create a new user with token. Returns the generated token."""
+    token, user_dir = _get_or_create_user(slug)
+    profile = {
+        "slug": slug, "name": name or slug, "email": email,
+        "role": role, "created": datetime.now(tz=timezone.utc).isoformat(),
+        "lastLogin": "",
+    }
+    _save_user_profile(slug, profile)
+    return token
+
+
+def _rotate_user_token(slug: str) -> str | None:
+    """Generate a new token for a user. Returns new token or None if user doesn't exist."""
+    user_dir = USERS_DIR / slug
+    if not user_dir.exists():
+        return None
+    token_file = user_dir / "token"
+    # Remove old token from cache
+    if token_file.exists():
+        old_token = token_file.read_text().strip()
+        with _user_token_cache_lock:
+            _user_token_cache.pop(old_token, None)
+    # Generate new token
+    new_token = secrets.token_urlsafe(32)
+    token_file.write_text(new_token)
+    token_file.chmod(0o600)
+    with _user_token_cache_lock:
+        _user_token_cache[new_token] = slug
+    log(f"Token rotated for user '{slug}'")
+    return new_token
+
+
+def _revoke_user_token(slug: str) -> bool:
+    """Remove a user's token (revoke access). Returns True if successful."""
+    token_file = USERS_DIR / slug / "token"
+    if not token_file.exists():
+        return False
+    old_token = token_file.read_text().strip()
+    with _user_token_cache_lock:
+        _user_token_cache.pop(old_token, None)
+    token_file.write_text("")
+    log(f"Token revoked for user '{slug}'")
+    return True
+
+
+def _migrate_existing_profiles():
+    """On startup, create user entries for existing .claude/profiles/users/."""
+    profiles_dir = Path.home() / "savia" / ".claude" / "profiles" / "users"
+    if not profiles_dir.exists():
+        return
+    for d in profiles_dir.iterdir():
+        if not d.is_dir() or d.name == "template":
+            continue
+        user_dir = USERS_DIR / d.name
+        if user_dir.exists():
+            continue
+        # Read identity.md for name/email
+        identity = d / "identity.md"
+        name, email, role = d.name, "", "user"
+        if identity.exists():
+            content = identity.read_text()
+            for line in content.split("\n"):
+                if line.startswith("name:"):
+                    name = line.split(":", 1)[1].strip()
+                elif line.startswith("email:"):
+                    email = line.split(":", 1)[1].strip()
+                elif line.startswith("role:"):
+                    r = line.split(":", 1)[1].strip().lower()
+                    if r == "pm":
+                        role = "admin"
+        _create_user(d.name, name, email, role)
+        log(f"Migrated profile '{d.name}' to Bridge users (role: {role})")
+
+
 def _get_user_sessions(slug: str) -> list[str]:
     """Return list of session IDs belonging to a user."""
     sessions_file = USERS_DIR / slug / "sessions.json"
@@ -704,6 +828,91 @@ def _get_session_workdir(session_id: str, user_slug: str = None) -> str:
 # Session locks: prevent concurrent CLI calls with the same session
 _session_locks: dict[str, threading.Lock] = {}
 _session_locks_guard = threading.Lock()
+
+
+def _parse_frontmatter(text: str) -> dict:
+    """Parse YAML frontmatter from markdown text."""
+    if not text.startswith("---"):
+        return {}
+    end = text.find("---", 3)
+    if end == -1:
+        return {}
+    import re
+    fm = {}
+    for line in text[3:end].strip().split("\n"):
+        m = re.match(r'^(\w[\w_]*)\s*:\s*(.+)$', line)
+        if m:
+            key, val = m.group(1), m.group(2).strip()
+            if val.startswith('"') and val.endswith('"'):
+                val = val[1:-1]
+            elif val.startswith('[') and val.endswith(']'):
+                val = [v.strip().strip('"').strip("'") for v in val[1:-1].split(",") if v.strip()]
+            elif val.isdigit():
+                val = int(val)
+            elif val.replace('.', '', 1).isdigit():
+                val = float(val)
+            fm[key] = val
+    return fm
+
+
+def _parse_backlog_pbis(backlog_dir: Path) -> list:
+    """Read PBI markdown files from backlog/pbi/ and return structured data."""
+    pbi_dir = backlog_dir / "pbi"
+    if not pbi_dir.is_dir():
+        return []
+    result = []
+    for f in sorted(pbi_dir.glob("PBI-*.md")):
+        fm = _parse_frontmatter(f.read_text(errors="replace"))
+        if fm.get("id"):
+            tasks = []
+            task_dir = backlog_dir / "tasks"
+            pbi_num = fm["id"].split("-")[1] if "-" in str(fm["id"]) else ""
+            if task_dir.is_dir() and pbi_num:
+                for tf in sorted(task_dir.glob(f"TASK-{pbi_num}-*.md")):
+                    tfm = _parse_frontmatter(tf.read_text(errors="replace"))
+                    if tfm.get("id"):
+                        tasks.append({
+                            "id": str(tfm.get("id", "")),
+                            "title": str(tfm.get("title", "")),
+                            "state": str(tfm.get("state", "New")),
+                            "type": str(tfm.get("type", "Development")),
+                            "assigned_to": str(tfm.get("assigned_to", "")),
+                            "estimated_hours": tfm.get("estimated_hours", 0),
+                            "remaining_hours": tfm.get("remaining_hours", 0),
+                        })
+            result.append({
+                "id": str(fm.get("id", "")),
+                "title": str(fm.get("title", "")),
+                "state": str(fm.get("state", "New")),
+                "type": str(fm.get("type", "User Story")),
+                "priority": str(fm.get("priority", "3-Medium")),
+                "assigned_to": str(fm.get("assigned_to", "")),
+                "estimated_hours": fm.get("story_points", 0),
+                "tasks": tasks,
+            })
+    return result
+
+
+def _parse_backlog_tasks(backlog_dir: Path) -> list:
+    """Read all task files from backlog/tasks/."""
+    task_dir = backlog_dir / "tasks"
+    if not task_dir.is_dir():
+        return []
+    result = []
+    for f in sorted(task_dir.glob("TASK-*.md")):
+        fm = _parse_frontmatter(f.read_text(errors="replace"))
+        if fm.get("id"):
+            result.append({
+                "id": str(fm.get("id", "")),
+                "title": str(fm.get("title", "")),
+                "parent_pbi": str(fm.get("parent_pbi", "")),
+                "state": str(fm.get("state", "New")),
+                "type": str(fm.get("type", "Development")),
+                "assigned_to": str(fm.get("assigned_to", "")),
+                "estimated_hours": fm.get("estimated_hours", 0),
+                "remaining_hours": fm.get("remaining_hours", 0),
+            })
+    return result
 
 
 def _build_dashboard() -> dict:
@@ -1343,6 +1552,24 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
         # Only send system prompt on first message of a session
         cmd.extend(["--system-prompt", system_prompt])
 
+    # Inject user identity context into every message (--resume ignores --system-prompt)
+    if user_slug:
+        profile = _get_user_profile(user_slug)
+        if profile:
+            name = profile.get("name", user_slug)
+            role = profile.get("role", "user")
+            identity_prefix = f"[Contexto: usuario={name} (@{user_slug}), rol={role}]\n"
+            message = identity_prefix + message
+    elif not is_new:
+        # Master token — use generic profile
+        try:
+            profile_data = json.loads(PROFILE_FILE.read_text()) if PROFILE_FILE.exists() else {}
+            name = profile_data.get("name", "Admin")
+            identity_prefix = f"[Contexto: usuario={name}, rol=admin]\n"
+            message = identity_prefix + message
+        except Exception:
+            pass
+
     cmd.append(message)
 
     session_mode = "new" if is_new else "resume"
@@ -1432,10 +1659,21 @@ def stream_claude_response(message: str, session_id: str = None, system_prompt: 
 
                 elif msg_type == "result":
                     result_text = data.get("result", "")
-                    chat_log(f"[req:{request_id}] type=result, len={len(result_text)}, accumulated={len(full_response)}")
+                    is_error = data.get("is_error", False)
+                    chat_log(f"[req:{request_id}] type=result, len={len(result_text)}, accumulated={len(full_response)}, is_error={is_error}")
                     chat_log(f"[req:{request_id}] result content: {result_text[:300]}")
-                    # Only emit result if no text was streamed yet (avoids duplication)
-                    if result_text and not full_response:
+
+                    if is_error and not full_response:
+                        # Resume failed or other CLI error — emit error and invalidate session
+                        error_text = result_text or "Session error. Please try again."
+                        chat_log(f"[req:{request_id}] -> result is_error, invalidating session", "WARN")
+                        if session_id:
+                            with _known_sessions_lock:
+                                _known_sessions.discard(session_id)
+                                _save_known_sessions()
+                        event_count += 1
+                        yield {"type": "error", "text": error_text}
+                    elif result_text and not full_response:
                         full_response = result_text
                         event_count += 1
                         chat_log(f"[req:{request_id}] -> emit result as text #{event_count} (no prior streaming)")
@@ -1995,6 +2233,93 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json({"error": str(e)}, 500)
             return
 
+        if parsed.path == "/auth/me":
+            """GET /auth/me — Returns authenticated user info."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if self._auth_user is None:
+                self._send_json({"slug": "admin", "role": "admin", "name": "Admin"})
+            else:
+                _p = _get_user_profile(self._auth_user) or {}
+                self._send_json({"slug": self._auth_user, "role": _p.get("role", "user"), "name": _p.get("name", self._auth_user)})
+            return
+
+        if parsed.path == "/users":
+            """GET /users — List all users (admin only)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if _get_user_role(self._auth_user) != "admin":
+                self._send_json({"error": "Admin access required"}, 403)
+                return
+            self._send_json({"users": _list_all_users()})
+            return
+
+        if parsed.path.startswith("/users/") and parsed.path.endswith("/role"):
+            """GET /users/{slug}/role — Get user role (for auth store)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            slug = parsed.path.split("/")[2]
+            profile = _get_user_profile(slug)
+            role = profile.get("role", "user") if profile else "user"
+            self._send_json({"slug": slug, "role": role})
+            return
+
+        if parsed.path == "/projects":
+            """GET /projects — List available projects from projects/ directory."""
+            try:
+                workspace = Path(os.environ.get("SAVIA_WORKSPACE", Path.home() / "savia"))
+                projects_dir = workspace / "projects"
+                result = []
+                has_claude = (workspace / "CLAUDE.md").exists()
+                result.append({
+                    "id": "_workspace",
+                    "name": "Savia (workspace)",
+                    "path": ".",
+                    "hasClaude": has_claude,
+                    "hasBacklog": False,
+                    "health": "healthy",
+                })
+                if projects_dir.is_dir():
+                    for d in sorted(projects_dir.iterdir()):
+                        if d.is_dir() and not d.name.startswith("."):
+                            result.append({
+                                "id": d.name,
+                                "name": d.name,
+                                "path": f"projects/{d.name}",
+                                "hasClaude": (d / "CLAUDE.md").exists(),
+                                "hasBacklog": (d / "backlog").is_dir(),
+                                "health": "healthy",
+                            })
+                self._send_json(result)
+            except Exception as e:
+                log(f"Projects error: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        if parsed.path.startswith("/backlog"):
+            """GET /backlog?project={id} — PBIs and tasks from project backlog."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            params = parse_qs(parsed.query)
+            project_id = params.get("project", ["_workspace"])[0]
+            try:
+                workspace = Path(os.environ.get("SAVIA_WORKSPACE", Path.home() / "savia"))
+                if project_id == "_workspace":
+                    backlog_dir = workspace / "backlog"
+                else:
+                    backlog_dir = workspace / "projects" / project_id / "backlog"
+                pbis = _parse_backlog_pbis(backlog_dir)
+                tasks = _parse_backlog_tasks(backlog_dir)
+                self._send_json({"pbis": pbis, "tasks": tasks})
+            except Exception as e:
+                log(f"Backlog error: {e}", "ERROR")
+                self._send_json({"pbis": [], "tasks": []})
+            return
+
         if parsed.path == "/openapi.json":
             spec_path = Path(__file__).resolve().parent / "openapi.yaml"
             if not spec_path.exists():
@@ -2307,6 +2632,107 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         request_id = self._next_request_id()
 
+        # --- POST /users (create user, admin only) ---
+        if parsed.path == "/users":
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if _get_user_role(self._auth_user) != "admin":
+                self._send_json({"error": "Admin access required"}, 403)
+                return
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length).decode()
+            try:
+                data = json.loads(body)
+                slug = data.get("slug", "").strip().lower().replace("@", "")
+                if not slug:
+                    self._send_json({"error": "slug is required"}, 400)
+                    return
+                if (USERS_DIR / slug).exists():
+                    self._send_json({"error": f"User '{slug}' already exists"}, 409)
+                    return
+                token = _create_user(slug, data.get("name", ""), data.get("email", ""), data.get("role", "user"))
+                log(f"User '{slug}' created by {self._auth_user or 'admin'}")
+                self._send_json({"status": "created", "slug": slug, "token": token})
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        # --- POST /users/{slug}/rotate-token ---
+        if parsed.path.startswith("/users/") and parsed.path.endswith("/rotate-token"):
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            slug = parsed.path.split("/")[2]
+            user_role = _get_user_role(self._auth_user)
+            if user_role != "admin" and self._auth_user != slug:
+                self._send_json({"error": "Can only rotate own token or be admin"}, 403)
+                return
+            new_token = _rotate_user_token(slug)
+            if new_token:
+                self._send_json({"status": "rotated", "slug": slug, "token": new_token})
+            else:
+                self._send_json({"error": f"User '{slug}' not found"}, 404)
+            return
+
+        # --- POST /users/{slug}/revoke (admin only) ---
+        if parsed.path.startswith("/users/") and parsed.path.endswith("/revoke"):
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if _get_user_role(self._auth_user) != "admin":
+                self._send_json({"error": "Admin access required"}, 403)
+                return
+            slug = parsed.path.split("/")[2]
+            if _revoke_user_token(slug):
+                self._send_json({"status": "revoked", "slug": slug})
+            else:
+                self._send_json({"error": f"User '{slug}' not found"}, 404)
+            return
+
+        # --- POST /projects (create new project with scaffolding) ---
+        if parsed.path == "/projects":
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length).decode()
+            try:
+                data = json.loads(body)
+                slug = data.get("slug", "").strip()
+                if not slug:
+                    self._send_json({"error": "slug is required"}, 400)
+                    return
+                workspace = Path(os.environ.get("SAVIA_WORKSPACE", Path.home() / "savia"))
+                project_dir = workspace / "projects" / slug
+                if project_dir.exists():
+                    self._send_json({"error": f"Project '{slug}' already exists"}, 409)
+                    return
+                # Create scaffolding
+                (project_dir / "backlog" / "pbi").mkdir(parents=True)
+                (project_dir / "backlog" / "tasks").mkdir(parents=True)
+                (project_dir / "specs").mkdir(parents=True)
+                # _config.yaml
+                (project_dir / "backlog" / "_config.yaml").write_text(
+                    f'project: "{slug}"\npbi:\n  states: [New, Active, Resolved, Closed]\n'
+                    f'  types: [User Story, Bug, Tech Debt, Spike]\n  id_prefix: "PBI"\n  id_counter: 1\n'
+                    f'tasks:\n  states: [New, Active, In Review, Done, Blocked]\n  id_prefix: "TASK"\n')
+                # CLAUDE.md
+                pm_handle = data.get("pm", "")
+                (project_dir / "CLAUDE.md").write_text(
+                    f'# {data.get("name", slug)}\n\n'
+                    f'> {data.get("description", "")}\n\n'
+                    f'## Stack\n\n```\nFRAMEWORK = "{data.get("stack", "")}"\n```\n\n'
+                    f'## Team\n\n| Role | Handle |\n|------|--------|\n| PM | {pm_handle} |\n')
+                # equipo.md + reglas-negocio.md
+                (project_dir / "equipo.md").write_text(f'# Team — {slug}\n\n| Handle | Role |\n|--------|------|\n| {pm_handle} | PM |\n')
+                (project_dir / "reglas-negocio.md").write_text(f'# Business Rules — {slug}\n\n_Add rules here._\n')
+                self._send_json({"status": "created", "slug": slug})
+            except Exception as e:
+                log(f"Create project error: {e}", "ERROR")
+                self._send_json({"error": str(e)}, 500)
+            return
+
         # --- POST /capture (no auth required) ---
         if parsed.path == "/capture":
             """POST /capture — Create a work item from captured content."""
@@ -2488,8 +2914,28 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             return
 
         session_id = data.get("session_id")
-        system_prompt = data.get("system_prompt", self.system_prompt)
         interactive = data.get("interactive", False)  # Enable permission popups
+
+        # Build per-user system prompt with clear identity
+        system_prompt = data.get("system_prompt")
+        if not system_prompt:
+            user_slug = self._auth_user
+            user_profile = _get_user_profile(user_slug) if user_slug else None
+            if user_profile:
+                name = user_profile.get("name", user_slug)
+                role = user_profile.get("role", "user")
+                email = user_profile.get("email", "")
+                system_prompt = (
+                    "Eres Savia, la asistente de PM-Workspace. Inteligente, empática, concisa.\n\n"
+                    f"USUARIO ACTUAL: {name} (@{user_slug})\n"
+                    f"Rol: {role}\n"
+                    f"Email: {email}\n\n"
+                    f"IMPORTANTE: Conoces a este usuario. Su nombre es {name}. "
+                    f"Cuando pregunte quién es, responde con su nombre y rol. "
+                    f"Responde en español por defecto."
+                )
+            else:
+                system_prompt = self.system_prompt
 
         # Claude CLI requires UUID session IDs — validate and convert non-UUID strings
         if session_id:
@@ -2532,18 +2978,16 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-Type", "text/event-stream")
             self.send_header("Cache-Control", "no-cache")
-            self.send_header("Connection", "keep-alive")
+            self.send_header("Connection", "close")
             self._send_cors_headers()
             self.end_headers()
 
             event_num = 0
             try:
-                # Choose streaming mode: interactive (permission-capable) or one-shot
-                if interactive and session_id:
-                    session = _get_or_create_interactive_session(session_id, system_prompt, request_id, self._auth_user)
-                    stream = stream_interactive_response(session, message, request_id)
-                else:
-                    stream = stream_claude_response(message, session_id, system_prompt, request_id, self._auth_user)
+                # Use one-shot streaming for reliability.
+                # Interactive mode (stream-json stdin/stdout) can hang
+                # when Claude CLI is slow to init or running nested.
+                stream = stream_claude_response(message, session_id, system_prompt, request_id, self._auth_user)
 
                 for chunk in stream:
                     event_data = json.dumps(chunk)
@@ -2586,6 +3030,27 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
     def do_DELETE(self):
         parsed = urlparse(self.path)
 
+        # DELETE /users/{slug} (admin only)
+        if parsed.path.startswith("/users/") and parsed.path.count("/") == 2:
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if _get_user_role(self._auth_user) != "admin":
+                self._send_json({"error": "Admin access required"}, 403)
+                return
+            slug = parsed.path.split("/")[2]
+            user_dir = USERS_DIR / slug
+            if not user_dir.exists():
+                self._send_json({"error": f"User '{slug}' not found"}, 404)
+                return
+            import shutil as _shutil
+            _shutil.rmtree(user_dir)
+            with _user_token_cache_lock:
+                _user_token_cache.pop(slug, None)
+            log(f"User '{slug}' deleted by {self._auth_user or 'admin'}")
+            self._send_json({"status": "deleted", "slug": slug})
+            return
+
         if parsed.path == "/sessions":
             if not self._check_auth():
                 self._send_json({"error": "Unauthorized"}, 401)
@@ -2601,6 +3066,58 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
     def do_PUT(self):
         """Handle PUT requests for updating configuration."""
         parsed = urlparse(self.path)
+
+        # PUT /users/{slug} (admin only — update profile/role)
+        if parsed.path.startswith("/users/") and parsed.path.count("/") == 2:
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            if _get_user_role(self._auth_user) != "admin":
+                self._send_json({"error": "Admin access required"}, 403)
+                return
+            slug = parsed.path.split("/")[2]
+            profile = _get_user_profile(slug)
+            if not profile:
+                self._send_json({"error": f"User '{slug}' not found"}, 404)
+                return
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length).decode("utf-8")
+            data = json.loads(body)
+            # Prevent demoting last admin
+            if profile.get("role") == "admin" and data.get("role") == "user":
+                admins = [u for u in _list_all_users() if u["role"] == "admin"]
+                if len(admins) <= 1:
+                    self._send_json({"error": "Cannot demote the last admin"}, 400)
+                    return
+            for field in ["name", "email", "role"]:
+                if field in data:
+                    profile[field] = data[field]
+            _save_user_profile(slug, profile)
+            log(f"User '{slug}' updated by {self._auth_user or 'admin'}")
+            self._send_json({"status": "updated", "slug": slug, "profile": profile})
+            return
+
+        if parsed.path == "/files/content":
+            """PUT /files/content — Save file content (markdown editor)."""
+            if not self._check_auth():
+                self._send_json({"error": "Unauthorized"}, 401)
+                return
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_length).decode("utf-8")
+                data = json.loads(body)
+                rel_path = data.get("path", "")
+                content = data.get("content", "")
+                workspace = Path(os.environ.get("SAVIA_WORKSPACE", Path.home() / "savia"))
+                target = (workspace / rel_path).resolve()
+                if not str(target).startswith(str(workspace)):
+                    self._send_json({"error": "Path traversal blocked"}, 403)
+                    return
+                target.write_text(content, encoding="utf-8")
+                self._send_json({"status": "saved", "path": rel_path})
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+            return
 
         if parsed.path == "/profile":
             if not self._check_auth():
@@ -3043,7 +3560,8 @@ def main():
     else:
         token = get_or_create_token()
 
-    # Load per-user token cache
+    # Migrate existing profiles and load per-user token cache
+    _migrate_existing_profiles()
     _init_user_token_cache()
 
     if args.print_token:

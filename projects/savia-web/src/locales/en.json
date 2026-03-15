@@ -1,0 +1,140 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "search": "Search",
+    "filter": "Filter",
+    "back": "Back",
+    "next": "Next",
+    "close": "Close",
+    "confirm": "Confirm",
+    "create": "Create",
+    "edit": "Edit",
+    "yes": "Yes",
+    "no": "No",
+    "connect": "Connect",
+    "showDotfiles": "Show dotfiles",
+    "hideDotfiles": "Hide dotfiles"
+  },
+  "nav": {
+    "home": "Home",
+    "chat": "Chat",
+    "commands": "Commands",
+    "backlog": "Backlog",
+    "kanban": "Kanban",
+    "approvals": "Approvals",
+    "timelog": "Time Log",
+    "files": "Files",
+    "pipelines": "Pipelines",
+    "integrations": "Integrations",
+    "reports": "Reports",
+    "profile": "Profile",
+    "settings": "Settings",
+    "users": "Users"
+  },
+  "home": {
+    "loadingDashboard": "Loading dashboard...",
+    "myTasks": "My Tasks",
+    "recentActivity": "Recent Activity",
+    "spCompleted": "SP Completed",
+    "spPlanned": "SP Planned",
+    "blocked": "Blocked",
+    "today": "Today",
+    "noTasks": "No tasks assigned",
+    "noActivity": "No recent activity"
+  },
+  "settings": {
+    "title": "Settings",
+    "bridge": "Bridge Connection",
+    "host": "Host",
+    "port": "Port",
+    "token": "Auth Token",
+    "tls": "Use TLS (HTTPS)",
+    "saveTest": "Save & Test",
+    "testConnection": "Test Connection",
+    "connected": "Connected successfully!",
+    "failed": "Connection failed. Check host/port/token.",
+    "language": "Language",
+    "languageHint": "Select the interface language. The change applies instantly."
+  },
+  "backlog": {
+    "title": "Backlog",
+    "tree": "Tree",
+    "kanban": "Kanban",
+    "newPbi": "New PBI",
+    "newTask": "New task",
+    "noItems": "No items in the backlog",
+    "pbiTitle": "PBI title...",
+    "pbiDetail": "PBI Detail",
+    "tasks": "Tasks",
+    "specs": "Specs",
+    "history": "History",
+    "description": "Description",
+    "acceptanceCriteria": "Acceptance criteria",
+    "addTask": "Add Task",
+    "addPbi": "Add PBI"
+  },
+  "pipelines": {
+    "title": "Pipelines",
+    "runPipeline": "Run pipeline",
+    "lastRun": "Last run",
+    "status": "Status",
+    "logs": "Logs",
+    "noRuns": "No recent runs",
+    "noLogs": "No logs"
+  },
+  "integrations": {
+    "title": "Integrations",
+    "connection": "n8n Connection",
+    "workflows": "Workflows",
+    "templates": "Templates",
+    "executions": "Recent Executions",
+    "setup": "Setup",
+    "connectedTo": "Connected to"
+  },
+  "project": {
+    "selector": "Select project",
+    "workspace": "Workspace",
+    "health": {
+      "healthy": "Healthy",
+      "warning": "Warning",
+      "critical": "Critical",
+      "unknown": "Unknown"
+    }
+  },
+  "files": {
+    "title": "Files",
+    "empty": "Empty folder",
+    "up": "Up",
+    "raw": "Raw",
+    "rendered": "Rendered",
+    "copy": "Copy",
+    "lines": "lines"
+  },
+  "time": {
+    "title": "Time Log",
+    "logHours": "Log hours",
+    "hours": "Hours",
+    "type": "Type",
+    "note": "Note",
+    "total": "Total"
+  },
+  "commands": {
+    "title": "Commands",
+    "search": "Search command..."
+  },
+  "approvals": {
+    "title": "Approvals",
+    "noItems": "No pending approvals"
+  },
+  "profile": {
+    "title": "Profile"
+  },
+  "chat": {
+    "placeholder": "Type a message..."
+  }
+}

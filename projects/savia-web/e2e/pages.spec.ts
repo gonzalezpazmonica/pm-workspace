@@ -13,10 +13,10 @@ test.describe('All pages smoke tests', () => {
     await expect(page.locator('h1')).toContainText('Commands')
   })
 
-  test('/kanban renders heading "Kanban Board"', async ({ page }) => {
-    await page.goto('/kanban')
+  test('/backlog renders heading "Backlog"', async ({ page }) => {
+    await page.goto('/backlog')
     await page.waitForSelector('.layout')
-    await expect(page.locator('h1')).toContainText('Kanban Board')
+    await expect(page.locator('.backlog-title')).toContainText('Backlog')
   })
 
   test('/approvals renders heading "Approvals"', async ({ page }) => {
@@ -31,10 +31,22 @@ test.describe('All pages smoke tests', () => {
     await expect(page.locator('h1')).toContainText('Time Log')
   })
 
-  test('/files renders heading "Files"', async ({ page }) => {
+  test('/files renders file browser', async ({ page }) => {
     await page.goto('/files')
     await page.waitForSelector('.layout')
-    await expect(page.locator('h1')).toContainText('Files')
+    await expect(page.locator('.files-toolbar')).toBeVisible()
+  })
+
+  test('/pipelines renders heading "Pipelines"', async ({ page }) => {
+    await page.goto('/pipelines')
+    await page.waitForSelector('.layout')
+    await expect(page.locator('.page-title')).toContainText('Pipelines')
+  })
+
+  test('/integrations renders heading "Integrations"', async ({ page }) => {
+    await page.goto('/integrations')
+    await page.waitForSelector('.layout')
+    await expect(page.locator('.page-title')).toContainText('Integrations')
   })
 
   test('/profile renders heading "Profile"', async ({ page }) => {
@@ -43,14 +55,15 @@ test.describe('All pages smoke tests', () => {
     await expect(page.locator('h1')).toContainText('Profile')
   })
 
-  test('/settings renders heading "Settings"', async ({ page }) => {
+  test('/settings renders heading', async ({ page }) => {
     await page.goto('/settings')
     await page.waitForSelector('.layout')
-    await expect(page.locator('h1')).toContainText('Settings')
+    await expect(page.locator('h1')).toBeVisible()
   })
 
   test('all pages render without crashing', async ({ page }) => {
-    const routes = ['/commands', '/kanban', '/approvals', '/timelog', '/files', '/profile', '/settings']
+    const routes = ['/commands', '/backlog', '/approvals', '/timelog', '/files',
+      '/pipelines', '/integrations', '/profile', '/settings']
     for (const route of routes) {
       const errors: string[] = []
       page.on('pageerror', (e) => {

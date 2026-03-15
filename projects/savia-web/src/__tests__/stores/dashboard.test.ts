@@ -61,11 +61,11 @@ describe('useDashboardStore', () => {
       expect(store.loading).toBe(false)
     })
 
-    it('fetches /dashboard endpoint', async () => {
+    it('fetches /dashboard endpoint with project param', async () => {
       mockGet.mockResolvedValueOnce(sampleDashboard)
       const store = useDashboardStore()
       await store.load()
-      expect(mockGet).toHaveBeenCalledWith('/dashboard')
+      expect(mockGet).toHaveBeenCalledWith(expect.stringContaining('/dashboard?project='))
     })
 
     it('clears previous error on reload', async () => {

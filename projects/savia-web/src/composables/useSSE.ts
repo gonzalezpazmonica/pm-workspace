@@ -34,7 +34,8 @@ export function useSSE() {
       const decoder = new TextDecoder()
       let buffer = ''
 
-      while (true) {
+      let streamDone = false
+      while (!streamDone) {
         const { done, value } = await reader.read()
         if (done) break
         buffer += decoder.decode(value, { stream: true })
@@ -45,9 +46,11 @@ export function useSSE() {
           try {
             const ev = JSON.parse(line.slice(6)) as StreamEvent
             onEvent(ev)
+            if (ev.type === 'done' || ev.type === 'error') { streamDone = true; break }
           } catch { /* skip malformed */ }
         }
       }
+      reader.cancel().catch(() => {})
     } catch (err) {
       onEvent({ type: 'error', text: String(err) })
     } finally {

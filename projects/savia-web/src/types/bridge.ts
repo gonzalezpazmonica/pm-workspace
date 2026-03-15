@@ -109,6 +109,15 @@ export interface FileEntry {
   modified?: string
 }
 
+export interface ProjectInfo {
+  id: string
+  name: string
+  path: string
+  hasClaude: boolean
+  hasBacklog: boolean
+  health: string
+}
+
 export interface BridgeResponse<T> {
   data?: T
   error?: string
