@@ -46,11 +46,11 @@ $SkipTests = ($args -contains "--skip-tests") -or ($env:SKIP_TESTS -eq "1")
 # --- Banner -------------------------------------------------------------------
 Write-Host @"
 
-    ,___,        ____             _
-    (O,O)       / ___|  __ ___  _(_) __ _
-    /)  )      \___ \ / _`` \ \/ / |/ _`` |
-   ( (_ \       ___) | (_| |>  <| | (_| |
-    ``----'     |____/ \__,_/_/\_\_|\__,_|
+    ,___,        ____              _
+    (O,O)       / ___|  __ ___   _(_) __ _
+    /)  )      \___ \ / _`` \ \ / / |/ _`` |
+   ( (_ \       ___) | (_| |\ V /| | (_| |
+    ``----'     |____/ \__,_| \_/ |_|\__,_|
 
     PM-Workspace  -  One-Line Installer (Windows)
 
@@ -79,14 +79,30 @@ Write-Step 2 "Checking prerequisites..."
 
 $Missing = 0
 
-# Helper: suggest install command
-function Get-InstallHint {
-    param($pkg)
-    $wingetAvailable = $null -ne (Get-Command winget -ErrorAction SilentlyContinue)
-    if ($wingetAvailable) { return "winget install $pkg" }
-    $chocoAvailable = $null -ne (Get-Command choco -ErrorAction SilentlyContinue)
-    if ($chocoAvailable) { return "choco install $pkg" }
-    return "Install $pkg from its official website"
+# Helper: detect package manager
+$HasWinget = $null -ne (Get-Command winget -ErrorAction SilentlyContinue)
+$HasChoco  = $null -ne (Get-Command choco -ErrorAction SilentlyContinue)
+
+function Install-Pkg {
+    param($wingetId, $chocoId, $label, $url)
+    if ($HasWinget) {
+        Write-Info "Installing $label via winget..."
+        winget install --id $wingetId --accept-source-agreements --accept-package-agreements --silent 2>&1 | Out-Null
+        if ($LASTEXITCODE -eq 0) { return $true }
+    }
+    if ($HasChoco) {
+        Write-Info "Installing $label via choco..."
+        choco install $chocoId -y 2>&1 | Out-Null
+        if ($LASTEXITCODE -eq 0) { return $true }
+    }
+    Write-Fail "$label could not be installed automatically. Install manually from: $url"
+    return $false
+}
+
+function Refresh-Path {
+    $machinePath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
+    $userPath    = [Environment]::GetEnvironmentVariable('Path', 'User')
+    $env:Path = "$machinePath;$userPath"
 }
 
 # Git
@@ -95,34 +111,60 @@ if ($gitCmd) {
     $gitVer = (git --version) -replace 'git version ', ''
     Write-Ok "Git $gitVer"
 } else {
-    Write-Fail "Git not found. $(Get-InstallHint 'Git.Git')"
-    $Missing = 1
+    if (Install-Pkg 'Git.Git' 'git' 'Git' 'https://git-scm.com') {
+        Refresh-Path
+        Write-Ok "Git installed"
+    } else { $Missing = 1 }
 }
 
 # Node.js
 $nodeCmd = Get-Command node -ErrorAction SilentlyContinue
+$needNode = $false
 if ($nodeCmd) {
     $nodeVer = (node --version) -replace 'v', ''
     $nodeMajor = [int]($nodeVer.Split('.')[0])
     if ($nodeMajor -ge 18) {
         Write-Ok "Node.js v$nodeVer"
     } else {
-        Write-Fail "Node.js v$nodeVer found but need >= 18. Visit https://nodejs.org"
-        $Missing = 1
+        Write-Warn "Node.js v$nodeVer is too old (need >= 18). Upgrading..."
+        $needNode = $true
     }
 } else {
-    Write-Fail "Node.js not found. Install from https://nodejs.org (>= 18 required)"
-    $Missing = 1
+    $needNode = $true
+}
+if ($needNode) {
+    if (Install-Pkg 'OpenJS.NodeJS.LTS' 'nodejs-lts' 'Node.js LTS' 'https://nodejs.org') {
+        Refresh-Path
+        $nodeVer = try { (node --version) -replace 'v', '' } catch { "unknown" }
+        Write-Ok "Node.js v$nodeVer installed"
+    } else { $Missing = 1 }
 }
 
-# Python 3 (optional)
-$pyCmd = Get-Command python3 -ErrorAction SilentlyContinue
-if (-not $pyCmd) { $pyCmd = Get-Command python -ErrorAction SilentlyContinue }
+# Python 3 (optional) - Windows has a python3.exe stub that redirects to Store
+$pyCmd = $null
+foreach ($pyName in @('python3', 'python')) {
+    $candidate = Get-Command $pyName -ErrorAction SilentlyContinue
+    if ($candidate) {
+        try {
+            $pyOut = & $candidate.Source --version 2>&1
+            if ($pyOut -match 'Python \d') {
+                $pyCmd = $candidate
+                break
+            }
+        } catch { }
+    }
+}
 if ($pyCmd) {
-    $pyVer = (& $pyCmd.Source --version 2>&1) -replace 'Python ', ''
+    $pyVer = ($pyOut) -replace 'Python ', ''
     Write-Ok "Python $pyVer"
 } else {
-    Write-Warn "Python not found (optional - needed for capacity calculator)"
+    Write-Warn "Python not found. Attempting install..."
+    if (Install-Pkg 'Python.Python.3.12' 'python3' 'Python 3' 'https://python.org') {
+        Refresh-Path
+        Write-Ok "Python installed"
+    } else {
+        Write-Warn 'Python not available (optional - needed for capacity calculator)'
+    }
 }
 
 # jq (optional)
@@ -130,12 +172,18 @@ $jqCmd = Get-Command jq -ErrorAction SilentlyContinue
 if ($jqCmd) {
     Write-Ok "jq found"
 } else {
-    Write-Warn "jq not found (optional). $(Get-InstallHint 'jqlang.jq')"
+    Write-Info "Installing jq..."
+    if (-not (Install-Pkg 'jqlang.jq' 'jq' 'jq' 'https://jqlang.github.io/jq/')) {
+        Write-Warn 'jq not available (optional)'
+    } else {
+        Refresh-Path
+        Write-Ok "jq installed"
+    }
 }
 
 if ($Missing -eq 1) {
     Write-Host ""
-    Write-Fail "Missing required prerequisites. Install them and re-run."
+    Write-Fail "Could not install required prerequisites. Install Git and Node.js manually and re-run."
     exit 1
 }
 
@@ -151,6 +199,16 @@ if ($env:SKIP_CLAUDE -eq "1") {
     Write-Info "Claude Code not found - installing..."
     try {
         irm https://claude.ai/install.ps1 | iex
+        # Add Claude Code to PATH if not already there
+        $claudeBinDir = Join-Path $env:USERPROFILE ".local\bin"
+        if (Test-Path $claudeBinDir) {
+            $currentUserPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+            if ($currentUserPath -notlike "*$claudeBinDir*") {
+                [Environment]::SetEnvironmentVariable('Path', "$currentUserPath;$claudeBinDir", 'User')
+                Write-Ok "Added $claudeBinDir to user PATH"
+            }
+        }
+        Refresh-Path
         Write-Ok "Claude Code installed"
     } catch {
         Write-Warn "Claude Code installation failed. Install it later:"
@@ -164,7 +222,15 @@ Write-Step 4 "Setting up PM-Workspace..."
 $SaviaHome = if ($env:SAVIA_HOME) { $env:SAVIA_HOME } else { Join-Path $HOME "claude" }
 $RepoUrl = "https://github.com/gonzalezpazmonica/pm-workspace.git"
 
-if (Test-Path (Join-Path $SaviaHome ".git")) {
+# Detect if running from inside the repo already
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$RunningFromRepo = Test-Path (Join-Path $ScriptDir "CLAUDE.md")
+
+if ($RunningFromRepo) {
+    # Already inside the repo — use this directory
+    $SaviaHome = $ScriptDir
+    Write-Ok "Using current directory: $SaviaHome"
+} elseif (Test-Path (Join-Path $SaviaHome ".git")) {
     Write-Info "Directory $SaviaHome already exists."
     $reply = Read-Host "    Update (git pull)? [Y/n/abort]"
     switch -Regex ($reply.ToLower()) {
@@ -180,17 +246,28 @@ if (Test-Path (Join-Path $SaviaHome ".git")) {
         }
     }
 } elseif (Test-Path $SaviaHome) {
-    Write-Fail "$SaviaHome exists but is not a git repo. Move or remove it first."
-    exit 2
+    # ~/claude exists but is not a git repo (e.g. Claude Code created it)
+    $SaviaHome = Join-Path $HOME "pm-workspace"
+    Write-Info "$HOME\claude exists but is not pm-workspace. Using $SaviaHome instead..."
+    if (Test-Path (Join-Path $SaviaHome ".git")) {
+        Write-Ok "Found existing pm-workspace at $SaviaHome"
+    } else {
+        Write-Info "Cloning pm-workspace to $SaviaHome..."
+        $cloneOutput = git clone $RepoUrl $SaviaHome 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            Write-Fail "Clone failed: $cloneOutput"
+            exit 2
+        }
+        Write-Ok "Cloned to $SaviaHome"
+    }
 } else {
     Write-Info "Cloning pm-workspace to $SaviaHome..."
-    try {
-        git clone $RepoUrl $SaviaHome 2>&1 | Out-Null
-        Write-Ok "Cloned to $SaviaHome"
-    } catch {
-        Write-Fail "Clone failed. Check your internet connection and try again."
+    $cloneOutput = git clone $RepoUrl $SaviaHome 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        Write-Fail "Clone failed: $cloneOutput"
         exit 2
     }
+    Write-Ok "Cloned to $SaviaHome"
 }
 
 # --- Step 5: Install dependencies -----------------------------------------------
@@ -237,14 +314,14 @@ if ($PyCmd) {
         Copy-Item $SourceScript (Join-Path $BridgeScriptDir "savia-bridge.py") -Force
         Write-Ok "Bridge script copied"
     } else {
-        Write-Warn "savia-bridge.py not found in scripts\ — skipping"
+        Write-Warn "savia-bridge.py not found in scripts - skipping"
     }
 
     # Generate random auth token using Python
     try {
         $AuthToken = & $PythonPath -c "import secrets; print(secrets.token_hex(32))" 2>$null
     } catch {
-        Write-Warn "Failed to generate token with Python — using random GUID"
+        Write-Warn "Failed to generate token with Python - using random GUID"
         $AuthToken = [guid]::NewGuid().ToString() -replace "-",""
     }
 
@@ -289,9 +366,9 @@ popd
 
     # Display setup information
     Write-Host ""
-    Write-Host "══════════════════════════════════════════════════════════════" -ForegroundColor Yellow
+    Write-Host "==============================================================" -ForegroundColor Yellow
     Write-Host "  Bridge Auth Token" -ForegroundColor Yellow
-    Write-Host "══════════════════════════════════════════════════════════════" -ForegroundColor Yellow
+    Write-Host "==============================================================" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "Copy this token to configure the mobile app:" -ForegroundColor White
     Write-Host "$AuthToken" -ForegroundColor Cyan -BackgroundColor Black
@@ -299,20 +376,20 @@ popd
     Write-Host "Token saved in: $ConfigPath" -ForegroundColor White
     Write-Host ""
     Write-Host "Startup:" -ForegroundColor White
-    Write-Host "  • Batch file: $BatchPath" -ForegroundColor White
-    Write-Host "  • Startup folder: Added (will auto-run on next login)" -ForegroundColor White
-    Write-Host "  • To start manually: run $BatchPath" -ForegroundColor White
+    Write-Host "  - Batch file: $BatchPath" -ForegroundColor White
+    Write-Host "  - Startup folder: Added (will auto-run on next login)" -ForegroundColor White
+    Write-Host "  - To start manually: run $BatchPath" -ForegroundColor White
     Write-Host ""
-    Write-Host "══════════════════════════════════════════════════════════════" -ForegroundColor Yellow
+    Write-Host "==============================================================" -ForegroundColor Yellow
 } else {
-    Write-Warn "Python not found — Bridge setup skipped"
+    Write-Warn "Python not found - Bridge setup skipped"
 }
 
 # --- Step 7: Smoke test --------------------------------------------------------
 Write-Step 7 "Running smoke test..."
 
 if ($SkipTests) {
-    Write-Warn "Skipping tests (--skip-tests)"
+    Write-Warn 'Skipping tests (--skip-tests)'
 } else {
     $testScript = Join-Path $SaviaHome "scripts\test-workspace.sh"
     if (Test-Path $testScript) {
@@ -322,10 +399,10 @@ if ($SkipTests) {
                 bash $testScript --mock 2>&1 | Out-Null
                 Write-Ok "Smoke tests passed"
             } catch {
-                Write-Warn "Some tests failed (normal without Azure DevOps configured)"
+                Write-Warn 'Some tests failed (normal without Azure DevOps configured)'
             }
         } else {
-            Write-Warn "bash not found - skipping tests (install Git Bash or WSL)"
+            Write-Warn 'bash not found - skipping tests (install Git Bash or WSL)'
         }
     } else {
         Write-Warn "Test script not found - skipping"
@@ -352,5 +429,5 @@ Write-Host "    2. Configure Bridge endpoint: https://localhost:8922"
 Write-Host "    3. Enter the auth token from $env:USERPROFILE\.savia\bridge\config.json"
 Write-Host ""
 Write-Host "  Docs: https://github.com/gonzalezpazmonica/pm-workspace#readme"
-Write-Host "  Guide: $SaviaHome\docs\ADOPTION_GUIDE.md"
+Write-Host "  Guide: $SaviaHome\docs\ADOPTION_GUIDE.md" -ForegroundColor White
 Write-Host ""
