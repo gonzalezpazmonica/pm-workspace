@@ -2,7 +2,6 @@
 name: frontend-test-runner
 description: Post-commit frontend test execution — unit, component, e2e, coverage
 model: claude-sonnet-4-6
-memory: project
 skills: [spec-driven-development]
 permissionMode: bypassPermissions
 isolation: worktree

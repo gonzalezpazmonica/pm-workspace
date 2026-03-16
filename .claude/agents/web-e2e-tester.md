@@ -3,7 +3,6 @@ name: web-e2e-tester
 description: "Autonomous E2E testing of web apps against live instances. Use PROACTIVELY when: deploying savia-web, after UI changes, or running regression tests. Equivalent of android-autonomous-debugger for web."
 model: claude-sonnet-4-6
 tools: [Read, Write, Edit, Bash, Glob, Grep]
-memory: project
 skills: [spec-driven-development]
 permissionMode: bypassPermissions
 color: orange

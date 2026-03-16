@@ -17,7 +17,6 @@ color: orange
 maxTurns: 35
 max_context_tokens: 2000
 output_max_tokens: 200
-memory: project
 skills:
   - azure-pipelines
 permissionMode: default

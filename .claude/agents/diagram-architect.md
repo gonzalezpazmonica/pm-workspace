@@ -15,7 +15,6 @@ color: teal
 maxTurns: 25
 max_context_tokens: 4000
 output_max_tokens: 300
-memory: project
 skills:
   - diagram-generation
   - diagram-import
