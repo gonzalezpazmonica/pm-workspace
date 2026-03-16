@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.0] — 2026-03-16
 
-Agent memory architecture: 3-level isolation (public/private/project). Meeting digest pipeline with confidentiality judge.
+Era 115 — Agent memory 3-level architecture (public/private/project). Meeting digest pipeline with confidentiality judge.
 
 ### Added
 - **Agent memory 3 levels**: `public-agent-memory/` (git-tracked best practices), `private-agent-memory/` (gitignored personal context), `projects/{p}/agent-memory/` (gitignored client data)
