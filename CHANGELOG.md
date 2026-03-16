@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] — 2026-03-16
+
+Agent memory architecture: 3-level isolation (public/private/project). Meeting digest pipeline with confidentiality judge.
+
+### Added
+- **Agent memory 3 levels**: `public-agent-memory/` (git-tracked best practices), `private-agent-memory/` (gitignored personal context), `projects/{p}/agent-memory/` (gitignored client data)
+- **Agent: meeting-digest** (Sonnet 4.6): extracts team profiles, business context and action items from meeting transcriptions (VTT, DOCX, TXT)
+- **Agent: meeting-risk-analyst** (Opus 4.6): cross-references meeting decisions against business rules, detects interpersonal conflicts, duplicities, dependencies and risky decisions
+- **Agent: meeting-confidentiality-judge** (Opus 4.6): validates that confidential data marked during extraction does not leak to project files
+- **Command: /meeting-digest**: 3-phase pipeline — extraction, confidentiality filter, risk analysis
+- **Rule: agent-memory-isolation.md**: immutable rule enforcing 3-level separation with RGPD compliance
+
+### Changed
+- **agent-memory-protocol.md**: rewritten for 3-level architecture (public/private/project)
+- **agent-self-memory.md**: rewritten for 3-level architecture with classification criteria
+- **agents-catalog.md**: updated from 34 to 37 agents, added Meeting Digest flow
+- **memory-system.md**: added Agent Memory section documenting 3 levels
+- **.gitignore**: `private-agent-memory/` added, `public-agent-memory/` explicitly tracked
+
+### Removed
+- **`.claude/agent-memory/`**: legacy single-level agent memory (migrated to 3 levels)
+
 ## [2.99.0] — 2026-03-16
 
 Windows installer zero-touch: auto-install deps, PATH config, parse fixes.
@@ -3671,6 +3693,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.99.0...v3.0.0
 [2.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.86.0...v2.87.0
 [2.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.85.0...v2.86.0
 [2.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.84.0...v2.85.0

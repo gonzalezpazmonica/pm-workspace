@@ -71,8 +71,13 @@ Thumbs.db
 # ── Claude Code — preferencias personales (no compartir) ─────────────────────
 CLAUDE.local.md
 
-# ── Agent memory local — personal, no compartir ──────────────────────────────
+# ── Agent memory — tres niveles ──────────────────────────────────────────────
+# public-agent-memory/    ← SI en git (best practices genericas, sin PII)
+# private-agent-memory/   ← NO en git (contexto personal, equipo, proyectos)
+# projects/*/agent-memory/ ← NO en git (datos especificos de cada proyecto)
+.claude/agent-memory/
 .claude/agent-memory-local/
+private-agent-memory/
 
 # ── Decision log — privado del PM ─────────────────────────────────────────────
 decision-log.md
@@ -98,4 +103,9 @@ audit-report-*
 
 # Backups
 *.backup
+
+#Context cache
 .claude/context-cache/
+
+#Local Settings
+.claude/settings.local.json

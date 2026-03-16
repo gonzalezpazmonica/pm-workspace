@@ -97,6 +97,22 @@ El comando `/memory-sync` consolida insights del sprint actual en los topic file
 
 ---
 
+## Agent Memory — 3 Niveles
+
+Los agentes tienen memoria persistente separada en 3 niveles por privacidad y portabilidad:
+
+| Nivel | Ruta | En git | Contenido |
+|---|---|---|---|
+| **Publica** | `public-agent-memory/{agente}/` | SI | Best practices genericas (DDD, SOLID, security) |
+| **Privada** | `private-agent-memory/{agente}/` | NO | Contexto personal, equipo, organizacion |
+| **Proyecto** | `projects/{p}/agent-memory/{agente}/` | NO | Datos del cliente, estado de procesamiento |
+
+**Orden de carga**: publica → privada → proyecto. Proyecto prevalece en conflictos.
+
+**Regla canonica**: `.claude/rules/domain/agent-memory-isolation.md`
+
+---
+
 ## Imports con `@`
 
 CLAUDE.md soporta imports con sintaxis `@ruta/al/fichero`:

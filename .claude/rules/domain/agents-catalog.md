@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (34)
+# Catálogo de Subagentes (37)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -36,6 +36,9 @@
 | `pentester` | Opus 4.6 | Pentesting dinámico: pipeline 5 fases (recon → vuln-analysis 5∥ → exploitation proof-based → report). Política "no exploit, no report" |
 | `visual-qa-agent` | Sonnet 4.6 | Visual QA: screenshot analysis, wireframe comparison, regression detection |
 | `dev-orchestrator` | Sonnet 4.6 | Planificación de slices: análisis de specs, dependencias, presupuestos de contexto |
+| `meeting-digest` | Sonnet 4.6 | Digestión de transcripciones: extracción de perfiles, contexto de negocio y action items |
+| `meeting-risk-analyst` | Opus 4.6 | Análisis de riesgos post-digestión: contradicciones, conflictos, duplicidades, dependencias |
+| `meeting-confidentiality-judge` | Opus 4.6 | Juez de confidencialidad: valida que datos sensibles no se filtren a ficheros del proyecto |
 
 ## Flujos
 
@@ -49,6 +52,7 @@
 - **Adversarial Security** (Era 47): `security-attacker` → `security-defender` → `security-auditor` → informe con score 0-100. Pipeline: `/security-pipeline`. Para testing dinámico: `pentester` (5 fases, queue-driven, proof-based) → `security-defender` → `security-auditor` → `pentester` (re-test).
 - **Visual QA** (Era 50): `visual-qa-agent` analiza screenshots contra wireframes/mockups. Score 0-100. Pipeline: `/visual-qa` → `/wireframe-check` → `/visual-regression`.
 - **Dev Session** (Era 52): `dev-orchestrator` planifica slices → `{lang}-developer` implementa → `test-engineer` + `coherence-validator` validan → `code-reviewer` revisa. Pipeline: `/spec-slice` → `/dev-session start|next|review`.
+- **Meeting Digest**: `meeting-digest` (extracción Sonnet) → `meeting-confidentiality-judge` (filtro Opus) → `meeting-risk-analyst` (análisis Opus). Pipeline: `/meeting-digest {fichero}`.
 
 El agente developer se selecciona según el Language Pack del proyecto.
 

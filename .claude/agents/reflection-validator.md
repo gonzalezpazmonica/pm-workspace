@@ -15,7 +15,6 @@ color: purple
 maxTurns: 15
 max_context_tokens: 8000
 output_max_tokens: 800
-memory: project
 skills:
   - reflection-validation
 permissionMode: plan

@@ -14,7 +14,6 @@ color: purple
 maxTurns: 10
 max_context_tokens: 10000
 output_max_tokens: 3000
-memory: project
 permissionMode: dontAsk
 context_cost: medium
 ---

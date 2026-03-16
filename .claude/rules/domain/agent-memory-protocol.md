@@ -1,64 +1,84 @@
 ---
-globs: [".claude/agent-memory/**"]
+paths: ["public-agent-memory/**", "private-agent-memory/**", "projects/*/agent-memory/**"]
 ---
 
 # Agent Memory Protocol — Persistent Knowledge Across Sessions
 
 > Agents remember decisions, patterns, and lessons between sessions.
+> Canonical rule: `agent-memory-isolation.md` (3 levels).
 
 ---
 
-## Three Scopes
+## Three Levels
 
-| Scope | Path | Git-tracked | Use case |
+| Level | Path | Git-tracked | Use case |
 |---|---|---|---|
-| **project** | `.claude/agent-memory/{name}/` | Yes | Shared team knowledge (architecture decisions, conventions) |
-| **local** | `.claude/agent-memory-local/{name}/` | No (gitignored) | Personal insights (debugging notes, local env quirks) |
-| **user** | `~/.claude/agent-memory/{name}/` | N/A | Cross-project knowledge (language patterns, tool preferences) |
+| **Public** | `public-agent-memory/{name}/` | Yes | Generic best practices (DDD, SOLID, security patterns) |
+| **Private** | `private-agent-memory/{name}/` | No (gitignored) | Personal/team context (preferences, org conventions) |
+| **Project** | `projects/{proyecto}/agent-memory/{name}/` | No (gitignored) | Client data, project-specific patterns |
+
+## Load Order
+
+At start of each invocation, agents read in this order:
+
+```
+1. public-agent-memory/{name}/MEMORY.md     (generic patterns)
+2. private-agent-memory/{name}/MEMORY.md    (personal context)
+3. projects/{proyecto}/agent-memory/{name}/MEMORY.md  (project data)
+```
+
+In case of conflict: project > private > public.
+
+## Write Classification
+
+Before writing, classify each pattern:
+
+| Question | Destination |
+|---|---|
+| Generic best practice, no PII? | public-agent-memory/ |
+| Personal, team, or org context? | private-agent-memory/ |
+| Client or project-specific data? | projects/{proyecto}/agent-memory/ |
 
 ## MEMORY.md Structure
 
-Each agent's MEMORY.md has 3 sections with `##` headers. Content accumulates under each.
-Max 150 lines per file. When approaching limit, compress oldest entries.
+Max 150 lines per file. Content accumulates under `##` headers.
+When approaching limit, compress oldest entries.
 
 ## When Agents Write Memory
 
-Agents SHOULD write to their MEMORY.md when:
-
-1. **Architecture decision** made that affects future work
-2. **Pattern discovered** that should persist (naming, structure, style)
+1. **Architecture decision** that affects future work
+2. **Pattern discovered** that should persist
 3. **Bug root cause** identified after investigation
 4. **False positive** confirmed in security/quality checks
-5. **Project convention** learned from code review feedback
+5. **Project convention** learned from review feedback
 
-Agents SHOULD NOT write:
-
-1. Session-specific temporary state
-2. Information already in CLAUDE.md or project docs
-3. Unverified assumptions from a single file read
-
-## How Agents Read Memory
-
-At the start of each invocation, agents with `memory: project` in frontmatter
-SHOULD read their MEMORY.md to restore context from previous sessions.
+Agents SHOULD NOT write: session-specific state, info already in docs, unverified assumptions.
 
 ## Memory Hygiene
 
 - **Compress**: entries older than 90 days → one-line summary
 - **Prune**: remove entries contradicted by newer information
 - **Migrate**: patterns confirmed 3+ times → propose as domain rule
-- `/agent-memory {name} --clear` resets to template headers
 
-## Integration with Existing Systems
+## Agents with Public Memory (7)
+
+architect, code-reviewer, security-guardian, test-runner, triage,
+coherence-validator, reflection-validator
+
+## Agents with Private Memory (5)
+
+savia, business-analyst, commit-guardian, dotnet-developer, sdd-spec-writer
+
+## Agents with Project Memory (on demand)
+
+meeting-digest, meeting-risk-analyst, meeting-confidentiality-judge,
+and ANY agent when operating on a specific project.
+
+## Integration
 
 | System | Relationship |
 |---|---|
+| `agent-memory-isolation.md` | Canonical 3-level rule (IMMUTABLE) |
 | `agent-notes-protocol` | Notes are per-session; memory persists across sessions |
 | `context-aging.md` | Same aging rules apply (fresh/mature/ancient) |
 | `memory-store.sh` | JSONL store is for user memory; agent memory uses markdown |
-| `AEPD framework` | Agent memory subject to data minimization principle |
-
-## Agents with Memory Enabled (8)
-
-architect, security-guardian, commit-guardian, code-reviewer,
-business-analyst, sdd-spec-writer, test-runner, dotnet-developer
