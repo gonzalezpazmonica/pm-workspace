@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.99.0] — 2026-03-16
+
+Windows installer zero-touch: auto-install deps, PATH config, parse fixes.
+
+### Fixed
+- **install.ps1**: ASCII art reading "Saxia" instead of "Savia"
+- **install.ps1**: PowerShell parse errors from em dashes and subexpressions in double-quoted strings
+- **install.ps1**: Windows `python3.exe` Store stub causing NativeCommandError
+- **install.ps1**: Clone failure when running from inside the repo
+- **install.ps1**: Unicode box-drawing chars rendering as mojibake in PowerShell terminal
+
+### Changed
+- **install.ps1**: Auto-install missing dependencies (Git, Node.js, Python, jq) via winget/choco instead of just detecting and aborting
+- **install.ps1**: Add Claude Code `~/.local/bin` to user PATH permanently after install
+- **install.ps1**: Fallback to `~/pm-workspace` when `~/claude` exists but is not a git repo
+
 ## [2.98.0] — 2026-03-15
 
 Era 114 — Git Manager roadmap, E2E screenshot validation rule, settings privacy guard.
@@ -3644,6 +3660,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.99.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.98.0...v2.99.0
 [2.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.97.0...v2.98.0
 [2.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.96.0...v2.97.0
 [2.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.95.0...v2.96.0
