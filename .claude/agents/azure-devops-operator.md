@@ -15,7 +15,6 @@ color: bright-white
 maxTurns: 20
 max_context_tokens: 2000
 output_max_tokens: 200
-memory: project
 skills:
   - azure-devops-queries
 permissionMode: default

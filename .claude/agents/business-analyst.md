@@ -17,7 +17,6 @@ color: purple
 maxTurns: 25
 max_context_tokens: 8000
 output_max_tokens: 500
-memory: project
 skills:
   - product-discovery
   - pbi-decomposition

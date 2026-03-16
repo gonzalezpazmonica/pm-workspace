@@ -4,7 +4,6 @@ role: auditor
 model: claude-opus-4-6
 max_context_tokens: 10000
 output_max_tokens: 1000
-memory: project
 ---
 
 # Drift Auditor — Agente de Convergencia Repo

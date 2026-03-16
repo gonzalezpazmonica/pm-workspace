@@ -4,7 +4,6 @@ description: Analiza specs y crea planes de implementación con slices, dependen
 model: claude-sonnet-4-6
 max_context_tokens: 8000
 output_max_tokens: 500
-memory: false
 ---
 
 # Dev Orchestrator — Planificador de sesiones de desarrollo

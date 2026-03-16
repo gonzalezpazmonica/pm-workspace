@@ -17,7 +17,6 @@ color: gray
 maxTurns: 20
 max_context_tokens: 8000
 output_max_tokens: 500
-memory: project
 permissionMode: plan
 context_cost: medium
 hooks:

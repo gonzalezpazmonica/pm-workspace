@@ -5,6 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] — 2026-03-16
+
+Era 115 — Agent memory 3-level architecture (public/private/project). Meeting digest pipeline with confidentiality judge.
+
+### Added
+- **Agent memory 3 levels**: `public-agent-memory/` (git-tracked best practices), `private-agent-memory/` (gitignored personal context), `projects/{p}/agent-memory/` (gitignored client data)
+- **Agent: meeting-digest** (Sonnet 4.6): extracts team profiles, business context and action items from meeting transcriptions (VTT, DOCX, TXT)
+- **Agent: meeting-risk-analyst** (Opus 4.6): cross-references meeting decisions against business rules, detects interpersonal conflicts, duplicities, dependencies and risky decisions
+- **Agent: meeting-confidentiality-judge** (Opus 4.6): validates that confidential data marked during extraction does not leak to project files
+- **Command: /meeting-digest**: 3-phase pipeline — extraction, confidentiality filter, risk analysis
+- **Rule: agent-memory-isolation.md**: immutable rule enforcing 3-level separation with RGPD compliance
+
+### Changed
+- **agent-memory-protocol.md**: rewritten for 3-level architecture (public/private/project)
+- **agent-self-memory.md**: rewritten for 3-level architecture with classification criteria
+- **agents-catalog.md**: updated from 34 to 37 agents, added Meeting Digest flow
+- **memory-system.md**: added Agent Memory section documenting 3 levels
+- **.gitignore**: `private-agent-memory/` added, `public-agent-memory/` explicitly tracked
+
+### Removed
+- **`.claude/agent-memory/`**: legacy single-level agent memory (migrated to 3 levels)
+
+## [2.99.0] — 2026-03-16
+
+Era 114b — Windows installer zero-touch: auto-install deps, PATH config, parse fixes.
+
+### Fixed
+- **install.ps1**: ASCII art reading "Saxia" instead of "Savia"
+- **install.ps1**: PowerShell parse errors from em dashes and subexpressions in double-quoted strings
+- **install.ps1**: Windows `python3.exe` Store stub causing NativeCommandError
+- **install.ps1**: Clone failure when running from inside the repo
+- **install.ps1**: Unicode box-drawing chars rendering as mojibake in PowerShell terminal
+
+### Changed
+- **install.ps1**: Auto-install missing dependencies (Git, Node.js, Python, jq) via winget/choco instead of just detecting and aborting
+- **install.ps1**: Add Claude Code `~/.local/bin` to user PATH permanently after install
+- **install.ps1**: Fallback to `~/pm-workspace` when `~/claude` exists but is not a git repo
+
 ## [2.98.0] — 2026-03-15
 
 Era 114 — Git Manager roadmap, E2E screenshot validation rule, settings privacy guard.
@@ -3644,6 +3682,7 @@ Initial public release of PM-Workspace.
 [0.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.1.0...v0.2.0
+[2.99.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.98.0...v2.99.0
 [2.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.97.0...v2.98.0
 [2.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.96.0...v2.97.0
 [2.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.95.0...v2.96.0
@@ -3654,6 +3693,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.99.0...v3.0.0
 [2.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.86.0...v2.87.0
 [2.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.85.0...v2.86.0
 [2.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.84.0...v2.85.0
