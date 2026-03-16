@@ -29,7 +29,7 @@ Era 115 — Agent memory 3-level architecture (public/private/project). Meeting 
 
 ## [2.99.0] — 2026-03-16
 
-Windows installer zero-touch: auto-install deps, PATH config, parse fixes.
+Era 114b — Windows installer zero-touch: auto-install deps, PATH config, parse fixes.
 
 ### Fixed
 - **install.ps1**: ASCII art reading "Saxia" instead of "Savia"
