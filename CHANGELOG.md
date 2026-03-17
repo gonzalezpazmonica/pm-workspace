@@ -7,13 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.1.0] — 2026-03-17
 
-Era 116 — Universal digest traceability with idempotency protocol.
+Era 116 — Universal digest traceability + visual-digest agent with 4-pass contextual OCR pipeline.
 
 ### Added
 - **Rule: digest-traceability.md**: Universal traceability for all data sources processed by Savia (documents, transcriptions, audio, web, repos, diagrams). Idempotency protocol ensures no source is processed twice. Centralized `_digest-log.md` per project with change detection and archival strategy. Privacy-first: log lives inside `projects/` (gitignored).
+- **Agent: visual-digest** (Opus 4.6): 4-pass contextual OCR for whiteboard photos, handwritten notes, paper diagrams, screenshots, and slides. Pipeline: raw extraction → project context loading (reads team/members, business rules, prior digests) → resolution with homonym disambiguation protocol (3 Sergios, 2 Javiers, 2 Alvaros) → cross-verification against verbal digests. Tested: resolved 10 more items than naive OCR, corrected 3 misidentifications.
 
 ### Changed
-- **Digest workflow**: All digest agents (meeting-digest, document-digest) must now consult `_digest-log.md` before processing and update it after completion.
+- **Digest workflow**: All digest agents (meeting-digest, document-digest, visual-digest) must now consult `_digest-log.md` before processing and update it after completion.
+- **agents-catalog.md**: Updated from 37 to 39 agents (+visual-digest, +web-e2e-tester). Added Visual Digest flow.
+- **README.md + README.en.md**: Agent count updated from 34 to 39 (aligned with actual .claude/agents/ directory).
+- **CLAUDE.md**: Agent count updated from 34 to 39.
 
 ## [3.0.0] — 2026-03-16
 
