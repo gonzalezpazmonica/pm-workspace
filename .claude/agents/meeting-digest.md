@@ -11,6 +11,8 @@ tools:
   - Glob
   - Grep
   - Task
+  - Write
+  - Edit
 model: sonnet
 color: teal
 maxTurns: 20
@@ -44,6 +46,18 @@ Aplicar veredicto: eliminar CONFIDENCIAL/SENSIBLE. AMBIGUOS se marcan para la PM
 
 Invocar `meeting-risk-analyst` via Task con bloques YA filtrados + proyecto + tipo.
 El risk-analyst NUNCA ve datos confidenciales. Devuelve bloque RIESGOS.
+
+### Fase 4 — Actualizacion de contexto del proyecto
+
+OBLIGATORIA tras cada digestion. Propaga la informacion nueva a los documentos de contexto vivos.
+
+Protocolo:
+1. Buscar el indice del proyecto: `README.md` en la raiz del proyecto, o en su defecto
+   `CLAUDE.md`, o cualquier fichero que liste los documentos existentes
+2. Identificar qué documentos son relevantes para la informacion extraida en Fase 1
+3. Leer cada documento candidato; si contiene informacion desactualizada o ausente → actualizar
+4. Solo datos no confidenciales. Respetar limite 150 lineas por fichero
+5. Registrar en bloque ACTUALIZACIONES del digest: lista de ficheros modificados y tipo de cambio
 
 ## Extraccion de perfil (modo one2one)
 
