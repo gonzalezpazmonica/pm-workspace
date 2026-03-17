@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (37)
+# Catálogo de Subagentes (39)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -39,6 +39,8 @@
 | `meeting-digest` | Sonnet 4.6 | Digestión de transcripciones: extracción de perfiles, contexto de negocio y action items |
 | `meeting-risk-analyst` | Opus 4.6 | Análisis de riesgos post-digestión: contradicciones, conflictos, duplicidades, dependencias |
 | `meeting-confidentiality-judge` | Opus 4.6 | Juez de confidencialidad: valida que datos sensibles no se filtren a ficheros del proyecto |
+| `visual-digest` | Opus 4.6 | OCR contextual de 4 pasadas: extracción bruta → carga contexto proyecto → resolución con diccionario de homónimos → verificación cruzada con digests. Pizarras, notas manuscritas, diagramas, capturas |
+| `web-e2e-tester` | Sonnet 4.6 | Testing E2E autónomo de aplicaciones web contra instancias live. Playwright/Cypress con screenshots obligatorios |
 
 ## Flujos
 
@@ -53,6 +55,7 @@
 - **Visual QA** (Era 50): `visual-qa-agent` analiza screenshots contra wireframes/mockups. Score 0-100. Pipeline: `/visual-qa` → `/wireframe-check` → `/visual-regression`.
 - **Dev Session** (Era 52): `dev-orchestrator` planifica slices → `{lang}-developer` implementa → `test-engineer` + `coherence-validator` validan → `code-reviewer` revisa. Pipeline: `/spec-slice` → `/dev-session start|next|review`.
 - **Meeting Digest**: `meeting-digest` (extracción Sonnet) → `meeting-confidentiality-judge` (filtro Opus) → `meeting-risk-analyst` (análisis Opus). Pipeline: `/meeting-digest {fichero}`.
+- **Visual Digest** (Era 116): `visual-digest` pipeline 4 pasadas (extracción bruta → carga contexto proyecto → resolución con diccionario homónimos → verificación cruzada con digests verbales). Soporta pizarras, notas manuscritas, diagramas, capturas, slides.
 
 El agente developer se selecciona según el Language Pack del proyecto.
 
