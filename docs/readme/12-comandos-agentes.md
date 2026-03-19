@@ -224,6 +224,24 @@
 /policy-check [--project]         Verificar politicas de agente para un proyecto
 ```
 
+## Smart Calendar (7 comandos)
+```
+/calendar-sync                   Sincronizar calendario Outlook/Teams via Graph API
+/calendar-today [--project]      Vista del dia con alertas, reuniones y focus blocks
+/calendar-plan [--week]          Planificar semana con focus blocks y Eisenhower
+/calendar-rebalance [--reason]   Rebalancear agenda tras cambio de prioridades
+/calendar-deadlines [--days 14]  Deadlines proximos con estado de preparacion
+/calendar-focus {tarea}          Crear bloque de Deep Work protegido
+/sync-calendars [setup|status]   Sincronizar disponibilidad entre 2 tenants M365
+```
+
+## Criticidad de Tareas (3 comandos)
+```
+/criticality-dashboard [--level] Vista cross-project de items criticos P0-P3
+/criticality-assess {item}       Evaluar criticidad con 5 dimensiones y perfil CoD
+/criticality-rebalance [--team]  Redistribuir carga por criticidad y capacidad
+```
+
 ## Dev Session (1 comando)
 ```
 /dev-session-resume {id}          Reanudar dev-session interrumpida desde ultimo checkpoint

@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.0] — 2026-03-19
+
+Era 120 — Task Criticality System + Multi-Tenant Calendar Sync.
+
+### Added
+- **Task Criticality**: multi-level prioritization (WSJF, Cost of Delay, RICE, Eisenhower) with 5 scoring dimensions, auto-escalation, and confidence decay
+- **Commands**: `/criticality-dashboard`, `/criticality-assess`, `/criticality-rebalance` (3 new)
+- **Multi-Tenant Calendar Sync**: `/sync-calendars` — bidirectional free/busy sync between 2 Microsoft 365 tenants with AES-256 encrypted per-user credentials
+- **Specs**: `spec-task-criticality.md`, `spec-criticality-frameworks.md` (9 frameworks researched), `spec-multi-tenant-sync.md`, `spec-multi-tenant-security.md`
+- **Docs**: Smart Calendar (7 cmds) and Task Criticality (3 cmds) sections in ES+EN
+
+### Changed
+- **smart-calendar SKILL.md**: added criticality integration section + sync-calendars reference
+
 ## [3.3.0] — 2026-03-19
 
 Era 118 — Five improvements from open-source research (GitNexus, NemoClaw, GSD, Context Hub, Everything Claude Code).
@@ -3752,6 +3766,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.0.0...v3.1.0
