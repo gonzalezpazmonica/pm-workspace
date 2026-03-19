@@ -75,38 +75,12 @@ Cada item del checklist se puntua 0-10. Score global = media ponderada por weigh
 
 ## Flujo del bucle
 
-```
-/skill-optimize {skill|agent} [--fixture {nombre}] [--max-iterations 10]
-    |
-    v
-1. Cargar target (SKILL.md o agent.md)
-2. Cargar test fixture (input + checklist)
-3. Guardar copia original: {target}.backup
-    |
-    v
-4. LOOP (max N iteraciones):
-   |
-   a. Ejecutar skill/agente con input del fixture
-   b. Puntuar output contra checklist (G-Eval 0-10 por item)
-   c. Calcular score global (media ponderada)
-   d. Registrar en optimization-log.jsonl
-   |
-   Si score >= 8.0:
-     consecutive_passes += 1
-     Si consecutive_passes >= 3 → PARAR (exito)
-   Si score < 8.0:
-     consecutive_passes = 0
-   |
-   e. Analizar que items puntuan bajo
-   f. Proponer cambio especifico al prompt
-   g. Aplicar cambio al target
-   h. Re-ejecutar con mismo input
-   i. Comparar score nuevo vs anterior:
-      - Subio → guardar cambio, siguiente iteracion
-      - Bajo → revertir cambio, intentar cambio diferente
-   |
-   Si max_iterations alcanzado → PARAR (timeout)
-```
+1. Cargar target + fixture + guardar backup
+2. LOOP: ejecutar → puntuar (G-Eval) → registrar
+3. Si score >= 8.0 en 3 consecutivas → PARAR (exito)
+4. Si score < 8.0 → analizar items bajos → proponer cambio → aplicar → re-ejecutar
+5. Si score subio → guardar cambio. Si bajo → revertir, intentar otro
+6. Si max_iterations → PARAR (timeout)
 
 ## Tipos de cambio que puede hacer
 
@@ -138,34 +112,12 @@ El original NO se modifica. El PM decide si adoptar la version optimizada.
 
 ### Log de optimizacion
 
-```
-output/prompt-optimizer/{nombre}-{timestamp}.jsonl
-```
-
-Cada linea:
-```json
-{
-  "iteration": 3,
-  "score": 7.8,
-  "scores_by_item": {"CHK-01": 9, "CHK-02": 6, "CHK-03": 10},
-  "change_applied": "Added explicit example for entity extraction",
-  "change_kept": true,
-  "timestamp": "2026-03-19T01:30:00Z"
-}
-```
+`output/prompt-optimizer/{nombre}-{timestamp}.jsonl` — una linea JSON por iteracion
+con: iteration, score, scores_by_item, change_applied, change_kept, timestamp.
 
 ### Resumen en chat
 
-```
-Prompt Optimizer: {nombre}
-  Iteraciones: 7
-  Score inicial: 5.2/10
-  Score final: 8.4/10
-  Items mejorados: CHK-02 (3→8), CHK-05 (4→9)
-  Cambios aplicados: 4 de 7 intentos
-  Output: .claude/skills/{nombre}/SKILL.optimized.md
-  Log: output/prompt-optimizer/{nombre}-20260319.jsonl
-```
+Score inicial → final, items mejorados, cambios aplicados/intentados, ruta del output.
 
 ## Restricciones
 
