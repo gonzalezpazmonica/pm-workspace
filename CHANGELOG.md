@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.1] — 2026-03-19
+
+Backing scripts for vault, confidentiality scanner, and travel sync.
+
+### Added
+- **Script**: `scripts/vault.sh` + `scripts/vault-ops.sh` — full implementation of 5 vault operations (init, sync, status, restore, export) with NTFS junction support
+- **Script**: `scripts/confidentiality-check.sh` — project-level scanner for N4-SHARED compliance (PII, secrets, cross-level leaks, scoring 0-100)
+
+### Fixed
+- **Script**: `scripts/savia-travel.sh` — implemented `sync` command (was stub), includes vault in travel package
+
 ## [3.5.0] — 2026-03-19
 
 Personal Vault (N3) + Confidentiality Auditor + 5-level confidentiality documentation.
@@ -3793,6 +3804,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.5.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.0...v3.5.1
 [3.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.4.1...v3.5.0
 [3.4.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.4.0...v3.4.1
 [3.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.3.0...v3.4.0
