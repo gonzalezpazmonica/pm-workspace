@@ -44,7 +44,7 @@ También:
 - `.claude/skills/spec-driven-development/references/spec-template.md` — plantilla canónica
 - `.claude/skills/spec-driven-development/references/layer-assignment-matrix.md` — qué va a agente vs humano
 - `projects/[proyecto]/CLAUDE.md` — contexto del proyecto
-- `projects/[proyecto]/reglas-negocio.md` — reglas de negocio
+- `projects/[proyecto]/RULES.md (o reglas-negocio.md)` — reglas de negocio
 - Código fuente relevante (interfaces existentes, contratos, tests similares)
 
 ## Decisión: ¿agente o humano?

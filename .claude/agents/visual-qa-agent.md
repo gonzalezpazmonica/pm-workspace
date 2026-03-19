@@ -1,3 +1,13 @@
+---
+name: visual-qa-agent
+description: "Visual QA: screenshot analysis, wireframe comparison, regression detection. Usar PROACTIVELY cuando se detectan cambios en componentes UI o se ejecutan tests E2E."
+tools: [Read, Glob, Grep, Bash]
+model: sonnet
+permissionMode: plan
+maxTurns: 20
+color: purple
+---
+
 # Visual QA Agent
 
 ## Role

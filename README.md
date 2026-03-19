@@ -54,7 +54,7 @@ Más detalle en la [Guía de flujo de datos](docs/data-flow-guide-es.md).
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 400+ comandos (lo que me puedes pedir)
-│   ├── agents/         ← 39 agentes especializados
+│   ├── agents/         ← 43 agentes especializados
 │   ├── skills/         ← 75 skills con conocimiento de dominio
 │   ├── hooks/          ← 16 hooks que refuerzan reglas automáticamente
 │   └── rules/          ← reglas de contexto, lenguaje, dominio
@@ -99,7 +99,7 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Modos autónomos** — Sprint nocturno, bucle de mejora de código, investigación técnica y onboarding con buddy IA. Los agentes proponen, el humano dispone: ramas `agent/*`, PRs Draft, revisión humana obligatoria.
 
-**Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [400+ comandos · 39 agentes · 75 skills](docs/readme/12-comandos-agentes.md)
+**Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [400+ comandos · 43 agentes · 75 skills](docs/readme/12-comandos-agentes.md)
 
 **Savia Mobile** — App Android nativa (Kotlin/Compose) que conecta con pm-workspace vía [Savia Bridge](scripts/savia-bridge.py) — un servidor HTTPS/SSE que envuelve Claude Code CLI. Chat con streaming en tiempo real, persistencia local cifrada, tema Material 3. Detalles: [Savia Mobile](projects/savia-mobile-android/README.md)
 
@@ -134,7 +134,7 @@ Configurable con `SAVIA_HOME`, `--skip-tests`. Detalles: `install.sh --help`
 | [Sprints e informes](docs/readme/04-uso-sprint-informes.md) | Sprint, reporting, KPIs |
 | [Spec-Driven Development](docs/readme/05-sdd.md) | SDD: specs, agentes, patrones |
 | [Flujo de datos](docs/data-flow-guide-es.md) | Cómo se conectan las partes |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 400+ comandos + 39 agentes |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 400+ comandos + 43 agentes |
 | [Guías por escenario](docs/guides/README.md) | Azure, Jira, startup, sanidad... |
 | [AI Augmentation](docs/ai-augmentation-opportunities-es.md) | Oportunidades por sector |
 | [Context Engineering](docs/context-engineering-es.md) | Mejoras de contexto e IA |

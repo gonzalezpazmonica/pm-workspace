@@ -215,6 +215,11 @@
 /emergency-mode {subcommand}     Gestionar modo emergencia con LLM local (setup/status/activate/deactivate/test)
 ```
 
+## Calidad de Prompts (1 comando)
+```
+/skill-optimize {nombre}          Auto-optimizar prompt de skill/agente (AutoResearch loop)
+```
+
 ## Otros (10+ comandos)
 ```
 /help [filtro]                    Catálogo de comandos y primeros pasos
@@ -248,7 +253,7 @@
 
 ## Equipo de Subagentes Especializados
 
-El workspace incluye 25 subagentes que Claude puede invocar en paralelo o en secuencia,
+El workspace incluye 43 subagentes que Claude puede invocar en paralelo o en secuencia,
 cada uno optimizado para su tarea con el modelo LLM más adecuado:
 
 **Agentes de gestión y arquitectura:**
@@ -290,6 +295,34 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 | `azure-devops-operator` | Haiku 4.5 | WIQL, work items, sprint, capacity |
 | `diagram-architect` | Sonnet 4.6 | Diseño de diagramas de arquitectura, C4, flujos de datos |
 | `reflection-validator` | Opus 4.6 | Validación meta-cognitiva (System 2): supuestos, cadena causal, brechas |
+| `coherence-validator` | Sonnet 4.6 | Coherencia output↔objetivo: cobertura, consistencia, completitud |
+| `drift-auditor` | Opus 4.6 | Auditoría de convergencia repo: detecta drift entre docs, config y código |
+| `dev-orchestrator` | Sonnet 4.6 | Planificación de slices: análisis de specs, dependencias, presupuestos de contexto |
+| `frontend-test-runner` | Sonnet 4.6 | Tests frontend: E2E, componentes, accesibilidad |
+| `visual-qa-agent` | Sonnet 4.6 | Visual QA: screenshot analysis, wireframe comparison, regression detection |
+| `web-e2e-tester` | Sonnet 4.6 | Testing E2E autónomo de aplicaciones web contra instancias live |
+
+**Agentes de seguridad adversarial:**
+
+| Agente | Modelo | Cuándo se usa |
+|---|---|---|
+| `security-attacker` | Sonnet 4.6 | Red Team: OWASP Top 10, CWE Top 25, dependency audit |
+| `security-defender` | Sonnet 4.6 | Blue Team: patches, hardening, NIST/CIS |
+| `security-auditor` | Sonnet 4.6 | Auditor independiente: evaluación, score 0-100, gap analysis |
+| `pentester` | Opus 4.6 | Pentesting dinámico: 5 fases, proof-based, "no exploit, no report" |
+
+**Agentes de digestión de documentos (Document Digest Suite):**
+
+| Agente | Modelo | Cuándo se usa |
+|---|---|---|
+| `meeting-digest` | Sonnet 4.6 | Transcripciones VTT/DOCX/TXT: perfiles, negocio, action items |
+| `meeting-risk-analyst` | Opus 4.6 | Análisis de riesgos post-digestión cruzando contra el proyecto |
+| `meeting-confidentiality-judge` | Opus 4.6 | Juez de confidencialidad: filtra datos sensibles |
+| `visual-digest` | Opus 4.6 | OCR contextual 4 pasadas: pizarras, notas manuscritas, diagramas |
+| `pdf-digest` | Opus 4.6 | PDFs: texto (PyMuPDF) + imágenes (Vision), 4 fases con actualización de contexto |
+| `word-digest` | Opus 4.6 | DOCX: texto, tablas, imágenes (python-docx), 4 fases con actualización |
+| `excel-digest` | Opus 4.6 | XLSX: estructura, fórmulas→reglas de negocio (openpyxl), 4 fases |
+| `pptx-digest` | Opus 4.6 | PPTX: slides, notas presentador, gráficos (python-pptx), 4 fases |
 
 ### Flujo SDD con agentes en paralelo
 

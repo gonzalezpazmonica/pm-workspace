@@ -72,5 +72,6 @@ Always produce a structured report with:
 
 ## Agent Notes
 
-After significant findings (warning/critical), write a pattern to MEMORY.md
-capturing the coherence issue discovered for future reference.
+After significant findings (warning/critical), write a pattern to
+public-agent-memory/coherence-validator/MEMORY.md capturing the coherence
+issue discovered for future reference.

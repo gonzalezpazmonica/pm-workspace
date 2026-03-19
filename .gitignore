@@ -109,3 +109,6 @@ audit-report-*
 
 #Local Settings
 .claude/settings.local.json
+
+# ── Infraestructura local del PM (no parte del producto) ────────────────────
+git/

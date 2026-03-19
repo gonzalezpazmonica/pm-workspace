@@ -1,7 +1,11 @@
 ---
 name: drift-auditor
-role: auditor
+description: "Auditoría de convergencia repo: detecta drift entre docs, config y código. Usar PROACTIVELY tras cambios grandes o al inicio de sprint."
+tools: [Read, Glob, Grep, Bash]
 model: claude-opus-4-6
+permissionMode: plan
+maxTurns: 20
+color: yellow
 max_context_tokens: 10000
 output_max_tokens: 1000
 ---
