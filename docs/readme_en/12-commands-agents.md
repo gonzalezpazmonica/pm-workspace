@@ -224,7 +224,7 @@
 /policy-check [--project]         Verify agent policies for a project
 ```
 
-## Smart Calendar (6 commands)
+## Smart Calendar (7 commands)
 ```
 /calendar-sync                   Sync Outlook/Teams calendar via Graph API
 /calendar-today [--project]      Daily view with alerts, meetings, and focus blocks
@@ -232,6 +232,7 @@
 /calendar-rebalance [--reason]   Rebalance schedule after priority changes
 /calendar-deadlines [--days 14]  Upcoming deadlines with readiness status
 /calendar-focus {task}           Create protected Deep Work block
+/sync-calendars [setup|status]   Sync availability between 2 M365 tenants
 ```
 
 ## Task Criticality (3 commands)
