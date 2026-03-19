@@ -1,6 +1,6 @@
 # Roadmap — pm-workspace / Savia
 
-**Updated:** 2026-03-15 | **Version:** v2.58.0 | **401+ commands · 34 agents · 75+ skills · 16 hooks**
+**Updated:** 2026-03-19 | **Version:** v3.3.0 | **475+ commands · 43 agents · 79 skills · 16 hooks**
 
 Status: **Done** · **In progress** · **Planned** · **Proposed**
 

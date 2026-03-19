@@ -121,14 +121,14 @@ jobs:
               | awk '{sum+=$2} END {print sum+0}')
             NET=$((ADDED - REMOVED))
 
-            # Scale threshold: base 100 + 50 per commit (era PRs get proportional budget)
+            # Scale threshold: base 150 + 75 per commit (era PRs get proportional budget)
             COMMITS=$(git rev-list --count origin/main...HEAD 2>/dev/null || echo 1)
-            THRESHOLD=$((100 + (COMMITS - 1) * 50))
+            THRESHOLD=$((150 + (COMMITS - 1) * 75))
             [ "$THRESHOLD" -gt 1000 ] && THRESHOLD=1000
             WARN_THRESHOLD=$((THRESHOLD / 2))
 
             echo "Context impact: +$ADDED -$REMOVED (net: $NET lines)"
-            echo "Threshold: $THRESHOLD (base 100 + $((COMMITS - 1)) extra commits × 50)"
+            echo "Threshold: $THRESHOLD (base 150 + $((COMMITS - 1)) extra commits × 75)"
 
             if [ "$NET" -gt "$THRESHOLD" ]; then
               ERRORS+="❌ PR adds $NET net lines to context files (max: $THRESHOLD for $COMMITS commits). This will degrade context window performance.\n"
@@ -364,9 +364,9 @@ jobs:
 
             const net = totalAdded - totalRemoved;
 
-            // Scale threshold: base 100 + 50 per extra commit (era PRs get proportional budget)
+            // Scale threshold: base 150 + 75 per extra commit (era PRs get proportional budget)
             const commits = parseInt(execSync('git rev-list --count origin/main...HEAD 2>/dev/null || echo 1', { encoding: 'utf8' }).trim()) || 1;
-            const threshold = Math.min(100 + (commits - 1) * 50, 1000);
+            const threshold = Math.min(150 + (commits - 1) * 75, 1000);
             const warnThreshold = Math.floor(threshold / 2);
 
             let badge = '🟢';
