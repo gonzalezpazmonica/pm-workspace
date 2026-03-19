@@ -73,8 +73,8 @@ Cruzar action items y compromisos contra backlog y specs:
 
 Detectar dependencias implicitas en lo mencionado:
 - "Necesitamos X antes de Y" -> verificar si X esta planificado
-- "Depende de que Repsol apruebe" -> dependencia externa, riesgo de bloqueo
-- "Cuando Sergio termine..." -> dependencia de persona especifica
+- "Depende de que el cliente apruebe" -> dependencia externa, riesgo de bloqueo
+- "Cuando alice termine..." -> dependencia de persona especifica
 - Modulo o servicio mencionado que depende de otro equipo/squad
 
 ### 5. Decisiones de riesgo

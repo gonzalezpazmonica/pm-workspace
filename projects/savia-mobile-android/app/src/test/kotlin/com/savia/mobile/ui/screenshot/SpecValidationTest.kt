@@ -213,8 +213,8 @@ class SpecValidationTest {
             SaviaTheme {
                 ProfileScreenTestable(
                     userProfile = TestUserProfile(
-                        name = "Monica Gonzalez",
-                        email = "monica@savia.dev",
+                        name = "Alice Smith",
+                        email = "alice@example.com",
                         role = "PM",
                         organization = "Savia"
                     ),
@@ -226,11 +226,11 @@ class SpecValidationTest {
         }
 
         // SPEC: User name
-        composeTestRule.onNodeWithText("Monica Gonzalez")
+        composeTestRule.onNodeWithText("Alice Smith")
             .assertExists("SPEC § 3.4: User name must be displayed")
 
         // SPEC: User email
-        composeTestRule.onNodeWithText("monica@savia.dev")
+        composeTestRule.onNodeWithText("alice@example.com")
             .assertExists("SPEC § 3.4: User email must be displayed")
 
         // SPEC: Role and organization
@@ -258,10 +258,10 @@ class SpecValidationTest {
             SaviaTheme {
                 SettingsScreenTestable(
                     isBridgeConnected = true,
-                    bridgeHost = "192.168.1.100",
+                    bridgeHost = "<YOUR_PC_IP>",
                     bridgePort = 8922,
-                    userName = "Monica Gonzalez",
-                    userEmail = "monica@savia.dev"
+                    userName = "Alice Smith",
+                    userEmail = "alice@example.com"
                 )
             }
         }
@@ -269,11 +269,11 @@ class SpecValidationTest {
         // SPEC: Bridge status
         composeTestRule.onNodeWithText("Bridge")
             .assertExists("SPEC § 3.5: Bridge status card required")
-        composeTestRule.onNodeWithText("192.168.1.100:8922", substring = true)
+        composeTestRule.onNodeWithText("<YOUR_PC_IP>:8922", substring = true)
             .assertExists("SPEC § 3.5: Bridge host:port must be visible when connected")
 
         // SPEC: User profile
-        composeTestRule.onNodeWithText("Monica Gonzalez")
+        composeTestRule.onNodeWithText("Alice Smith")
             .assertExists("SPEC § 3.5: User name in settings required")
 
         // SPEC: Git Configuration

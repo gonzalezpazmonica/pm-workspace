@@ -77,15 +77,14 @@ OBLIGATORIA tras cada digestión. Propaga información nueva a documentos vivos.
 ## Protocolo de homónimos
 
 Cuando un nombre aparece sin apellido y hay múltiples candidatos:
+1. Cargar diccionario de homónimos del proyecto: `projects/{p}/agent-memory/visual-digest/homonyms.md`
+2. Si no existe diccionario → listar candidatos con probabilidad
+3. El diccionario es POR PROYECTO (gitignored, datos reales del cliente)
 
+Ejemplo genérico (datos ficticios):
 ```
-"Sergio" en contexto de S1/SM       → Sergio Camino (SM S1, Chromacer)
-"Sergio" en contexto de testing     → Sergio Martin (dev, testing backend)
-"Sergio" en contexto de cuenta/VASS → Sergio Lopez (representante cuenta)
-"Javier" en contexto de BA/Repsol   → Javier Barrera (BA principal)
-"Javier" en contexto de SM/VASS     → Javier Fernandez Riolobos (SM S2)
-"Alvaro" en contexto de Trading     → Alvaro Gracia (focal point)
-"Alvaro" en contexto de Refino      → Alvaro Toran (focal point)
+"Alice" en contexto de frontend → Alice Smith (dev, UI team)
+"Alice" en contexto de BA       → Alice Johnson (BA principal)
 ```
 
 Si no hay suficiente contexto para desambiguar → listar candidatos con probabilidad.

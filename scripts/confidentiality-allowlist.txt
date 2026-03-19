@@ -1,0 +1,54 @@
+# ── Confidentiality Allowlist ─────────────────────────────────────────────────
+# Proper nouns that are ALLOWED in tracked files.
+# The scanner flags sequences of 2+ capitalized words — this list
+# prevents false positives for known-safe terms.
+# One pattern per line (case-insensitive regex).
+
+# ── Fictitious names used in examples ────────────────────────────────────────
+Alice Smith
+Alice Johnson
+Bob Martinez
+Charlie Davis
+Test User
+Admin User
+
+# ── Technology and framework names ───────────────────────────────────────────
+Azure Dev[Oo]ps
+Azure Active Directory
+Azure Repos
+Microsoft Graph
+Microsoft Teams
+Visual Studio
+Spring Boot
+Ruby Rails
+Entity Framework
+Clean Architecture
+Domain Driven
+Test Containers
+Savia Flow
+Savia Mobile
+Smart Calendar
+Deep Work
+Cost Delay
+
+# ── Standards and methodologies ──────────────────────────────────────────────
+Keep Changelog
+Semantic Versioning
+Architecture Decision
+Single Responsibility
+Open Closed
+Monte Carlo
+Sprint Review
+Sprint Retro
+
+# ── pm-workspace domain terms ────────────────────────────────────────────────
+Confidentiality Scanner
+Confidentiality Gate
+Confidentiality Check
+Security Guardian
+
+# ── Organizations (public, acceptable) ───────────────────────────────────────
+Claude Code
+Git Hub
+Google Chat
+Google Drive

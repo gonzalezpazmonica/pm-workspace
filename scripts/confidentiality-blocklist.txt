@@ -1,0 +1,22 @@
+# ── Confidentiality Blocklist ─────────────────────────────────────────────────
+# Terms that MUST NOT appear in tracked files.
+# One pattern per line (case-insensitive regex).
+# Lines starting with # are comments.
+# Update this list when new projects/clients are onboarded.
+#
+# IMPORTANT: This file IS tracked in git. Use GENERIC patterns, not the
+# actual names. For project-specific names, add to the per-project
+# blocklist at projects/{name}/confidentiality-blocklist.txt (gitignored).
+
+# ── Generic HR/sensitive patterns ────────────────────────────────────────────
+dias de vacaciones tomados
+relacion conflictiva
+riesgo burnout.*dias
+bajo nivel funcional
+evaluacion de rendimiento.*nombre
+historial.*(disciplin|sancion)
+
+# ── Infrastructure patterns (should be placeholders) ─────────────────────────
+jdbc:.*password=(?!TU_|PLACEHOLDER|example)
+mongodb\+srv://[^:]+:[^@]+@
+amqp://[^:]+:[^@]+@

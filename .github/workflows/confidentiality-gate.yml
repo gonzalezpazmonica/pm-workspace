@@ -1,0 +1,17 @@
+name: Confidentiality Gate
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  confidentiality-scan:
+    runs-on: ubuntu-latest
+    name: PII & Confidentiality Check
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run confidentiality scanner
+        run: bash scripts/confidentiality-scan.sh --pr
