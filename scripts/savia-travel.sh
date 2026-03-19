@@ -70,9 +70,24 @@ case "${1:-}" in
   unpack) shift; travel_unpack "$@" ;;
   verify) shift; travel_verify "$@" ;;
   sync)
-    echo "🔄 Sync not implemented in minimal mode"
-    echo "   Use savia-travel-ops.sh for full functionality"
-    exit 1
+    shift
+    local usb_path="${1:-.}"
+    local pass="${2:-}"
+    [[ -z "$pass" ]] && read -s -p "Passphrase: " pass && echo
+    echo "Syncing workspace to $usb_path ..."
+    # Pack fresh
+    travel_pack "$usb_path" "$pass"
+    # Also sync vault if it exists
+    local vault="${VAULT_PATH:-$HOME/.savia/personal-vault}"
+    if [[ -d "$vault/.git" ]]; then
+      tar czf /tmp/savia-vault.tar.gz -C "$(dirname "$vault")" "$(basename "$vault")" 2>/dev/null
+      openssl enc -aes-256-cbc -salt -pbkdf2 -iter 100000 \
+        -pass "pass:$pass" -in /tmp/savia-vault.tar.gz \
+        -out "$usb_path/savia-vault.enc"
+      rm -f /tmp/savia-vault.tar.gz
+      echo "Vault synced to $usb_path/savia-vault.enc"
+    fi
+    echo "Sync complete"
     ;;
   clean)  travel_clean ;;
   *)
