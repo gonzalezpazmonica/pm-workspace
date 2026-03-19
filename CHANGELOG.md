@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.2] — 2026-03-19
+
+Criticality scoring engine — backing scripts for Era 120 criticality commands.
+
+### Added
+- **Script**: `scripts/criticality.sh` — dispatcher for assess/dashboard/rebalance
+- **Script**: `scripts/criticality-scoring.sh` — pure scoring (WSJF, confidence decay, urgency boost, 5-dimension model, P0-P3 classification)
+- **Script**: `scripts/criticality-engine.sh` — operations (assess single item, dashboard cross-project, rebalance analysis)
+
 ## [3.5.1] — 2026-03-19
 
 Backing scripts for vault, confidentiality scanner, and travel sync.
@@ -3804,6 +3813,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.5.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.1...v3.5.2
 [3.5.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.0...v3.5.1
 [3.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.4.1...v3.5.0
 [3.4.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.4.0...v3.4.1
