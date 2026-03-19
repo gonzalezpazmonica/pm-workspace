@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] — 2026-03-19
+
+Era 118 — Five improvements from open-source research (GitNexus, NemoClaw, GSD, Context Hub, Everything Claude Code).
+
+### Added
+- **Skill: codebase-map** + **Command: /codebase-map**: Symbol indexing of pm-workspace itself. Scans commands→agents→rules→skills dependency graph. Detects orphaned rules, hub rules, routing chains. Inspired by GitNexus code intelligence engine.
+- **Rule: agent-policies.md** + **Command: /policy-check**: Policy-driven agent isolation with per-project YAML policies (allowed/denied paths, approval requirements, timeouts, network restrictions). Audit trail for violations. Inspired by NVIDIA NemoClaw sandbox orchestration.
+- **Rule: dev-session-locks.md** + **Command: /dev-session-resume**: Crash recovery for dev-sessions via lock files with PID detection. State machine (pending→implementing→validating→verified→completed). Auto-resume from last checkpoint. Inspired by GSD 2 disk state machine.
+- **Skill: doc-quality-feedback** + **Command: /docs-quality-audit**: Agent feedback loop for documentation quality. Agents rate docs after use (clear/confusing/incomplete/outdated). Monthly aggregation flags low-quality docs for rewrite. Inspired by Context Hub agent annotations.
+- **Command: /skill-propose** + **Rule: skill-lifecycle.md**: Auto-generate skill scaffolds from repeated workflows (3+ observations). Consensus validation, adoption tracking, archival of unused skills. Inspired by Everything Claude Code continuous learning.
+
+### Changed
+- **README.md + README.en.md**: Updated with new commands and skills.
+- **12-comandos-agentes.md + 12-commands-agents.md**: Added new command categories.
+
 ## [3.2.0] — 2026-03-19
 
 Era 117 — Document Digest Suite: 4 new agents for PDF, Word, Excel, PowerPoint digestion with context-aware 4-phase pipeline.
@@ -3737,6 +3752,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.99.0...v3.0.0

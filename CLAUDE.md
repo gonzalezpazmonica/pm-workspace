@@ -39,7 +39,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (16)                ← .claude/settings.json
 │   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
-│   ├── skills/ (75)               ← Skills reutilizables
+│   ├── skills/ (79)               ← Skills reutilizables
 │   └── settings.json              ← Hooks + Agent Teams env
 ├── docs/ · projects/ · scripts/
 ```
