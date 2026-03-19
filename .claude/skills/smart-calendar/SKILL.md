@@ -106,6 +106,7 @@ Cadencia de alertas:
 - `/calendar-rebalance` — rebalancear tras cambio de prioridades
 - `/calendar-deadlines` — deadlines proximos con estado de preparacion
 - `/calendar-focus` — crear bloque de focus para tarea especifica
+- `/sync-calendars` — sincronizar disponibilidad entre 2 tenants Microsoft 365
 
 ## Integraciones
 
