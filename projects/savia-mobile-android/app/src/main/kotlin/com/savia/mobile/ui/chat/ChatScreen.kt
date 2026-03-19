@@ -592,7 +592,7 @@ private fun ConnectionSetup(
             onValueChange = { host = it },
             modifier = Modifier.fillMaxWidth(),
             label = { Text(stringResource(R.string.bridge_host_label)) },
-            placeholder = { Text("192.168.1.100") },
+            placeholder = { Text("<YOUR_PC_IP>") },
             singleLine = true,
             shape = RoundedCornerShape(12.dp)
         )

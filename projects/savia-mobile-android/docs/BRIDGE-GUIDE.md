@@ -483,9 +483,9 @@ Logs generales del servidor:
 ```
 [2026-03-01 09:15:00.123] [INFO] Starting Savia Bridge v1.2.0 on 0.0.0.0:8922
 [2026-03-01 09:15:05.456] [INFO] Generated TLS certificate: /home/monica/.savia/bridge/cert.pem
-[2026-03-01 09:16:00.789] [INFO] [req:req-001] POST /chat from 192.168.1.50
+[2026-03-01 09:16:00.789] [INFO] [req:req-001] POST /chat from <YOUR_PC_IP>
 [2026-03-01 09:16:05.012] [INFO] [req:req-001] Response sent in 5.2 seconds
-[2026-03-01 09:17:10.345] [ERROR] [req:req-002] Invalid auth token from 192.168.1.51
+[2026-03-01 09:17:10.345] [ERROR] [req:req-002] Invalid auth token from <YOUR_PC_IP>
 ```
 
 ### chat.log

@@ -98,7 +98,7 @@ class ScreenshotTest {
                                         Text("Bridge", style = MaterialTheme.typography.titleMedium)
                                     },
                                     supportingContent = {
-                                        Text("Connected to 192.168.1.100:8922",
+                                        Text("Connected to <YOUR_PC_IP>:8922",
                                             style = MaterialTheme.typography.bodyMedium)
                                     },
                                     leadingContent = {
@@ -110,7 +110,7 @@ class ScreenshotTest {
 
                             Spacer(modifier = Modifier.height(8.dp))
 
-                            SettingsItem(Icons.Default.Person, "Monica Gonzalez", "monica@savia.dev")
+                            SettingsItem(Icons.Default.Person, "Alice Smith", "alice@example.com")
                             SettingsItem(Icons.Default.Code, "Git Configuration", "Name, email, PAT")
                             SettingsItem(Icons.Default.Group, "Team", "Manage team members")
                             SettingsItem(Icons.Default.Business, "Company", "Company profile")
@@ -243,7 +243,7 @@ class ScreenshotTest {
                         Text("Configure Bridge connection",
                             style = MaterialTheme.typography.titleLarge)
                         OutlinedTextField(
-                            value = "192.168.1.100",
+                            value = "<YOUR_PC_IP>",
                             onValueChange = {},
                             label = { Text("Host (IP address)") },
                             singleLine = true,

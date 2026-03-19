@@ -276,7 +276,7 @@ class SaviaBridgeService @Inject constructor(
      * On success the Bridge returns a per-user token that must replace the master
      * token for all subsequent requests.
      *
-     * @param bridgeUrl Base URL of bridge server (e.g., "https://192.168.1.100:8922")
+     * @param bridgeUrl Base URL of bridge server (e.g., "https://<YOUR_PC_IP>:8922")
      * @param masterToken Master authentication token configured in the Bridge
      * @param username Username slug (^[a-zA-Z0-9_-]{1,64}$)
      * @return Per-user token string, or null if registration failed

@@ -47,16 +47,16 @@ Ejemplo:
 ```yaml
 # Auto-generated from last 3 executions of meeting-digest
 name: "fixture-from-usage"
-input: "projects/trazabios/team/one2one/one2one-sergio-monica.vtt"
+input: "projects/alpha/team/one2one/one2one-alice-bob.vtt"
 checklist:
   - id: CHK-01
     criterion: "Extrae nombre completo de la persona entrevistada"
     weight: 2
-    source: "PM corrigio nombre incorrecto en ejecucion 2026-03-17"
+    source: "PM corrigio nombre incorrecto en ejecucion anterior"
   - id: CHK-02
-    criterion: "Resuelve homonimos (3 Sergios) correctamente"
+    criterion: "Resuelve homonimos correctamente usando diccionario del proyecto"
     weight: 3
-    source: "PM edito output para cambiar Sergio Martin por Sergio Lopez"
+    source: "PM edito output para corregir homonimo mal resuelto"
   - id: CHK-03
     criterion: "Actualiza TEAM.md tras digestion"
     weight: 2

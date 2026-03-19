@@ -20,7 +20,7 @@ http://{bridge-host}:{bridge-port}
 
 Example:
 ```
-http://192.168.1.100:8000
+http://<YOUR_PC_IP>:8000
 ```
 
 ## Authentication
@@ -174,7 +174,7 @@ lateinit var bridgeService: SaviaBridgeService
 
 // Send message with streaming response
 val flow = bridgeService.sendMessageStream(
-    bridgeUrl = "http://192.168.1.100:8000",
+    bridgeUrl = "http://<YOUR_PC_IP>:8000",
     authToken = "user-provided-token",
     message = "What is Kotlin?",
     sessionId = "conv-12345",
@@ -206,21 +206,21 @@ flow.collect { delta ->
 ```kotlin
 // Save bridge configuration
 securityRepository.saveBridgeConfig(
-    host = "192.168.1.100",
+    host = "<YOUR_PC_IP>",
     port = 8000,
     token = "user-provided-token"
 )
 
 // Check if configured
 if (securityRepository.hasBridgeConfig()) {
-    val url = securityRepository.getBridgeUrl()  // "http://192.168.1.100:8000"
+    val url = securityRepository.getBridgeUrl()  // "http://<YOUR_PC_IP>:8000"
     val token = securityRepository.getBridgeToken()  // User's token
     // Use bridge
 }
 
 // Verify connectivity
 val isHealthy = bridgeService.healthCheck(
-    bridgeUrl = "http://192.168.1.100:8000",
+    bridgeUrl = "http://<YOUR_PC_IP>:8000",
     authToken = "token"
 )
 ```
@@ -310,7 +310,7 @@ try {
 
 ```kotlin
 // Setup
-securityRepository.saveBridgeConfig("192.168.1.100", 8000, "my-token")
+securityRepository.saveBridgeConfig("<YOUR_PC_IP>", 8000, "my-token")
 
 // SendMessage will automatically use bridge
 val deltas = chatRepository.sendMessage("conv-1", "Hello")
@@ -353,7 +353,7 @@ val deltas = chatRepository.sendMessage("conv-1", "Hello")
 
 ```kotlin
 // Manual health check
-val isHealthy = bridgeService.healthCheck("http://192.168.1.100:8000", "token")
+val isHealthy = bridgeService.healthCheck("http://<YOUR_PC_IP>:8000", "token")
 ```
 
 ### Monitor Network Traffic

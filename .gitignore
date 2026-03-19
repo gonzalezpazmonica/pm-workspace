@@ -4,6 +4,7 @@
 # ── Credenciales y secretos — NUNCA commitear ────────────────────────────────
 .claude/.env
 .claude/settings.local.json
+.claude/profiles/active-user.md
 .env
 .env.*
 *.pat

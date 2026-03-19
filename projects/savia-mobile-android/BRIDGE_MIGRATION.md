@@ -90,7 +90,7 @@ Response (200 OK):
 ```kotlin
 // In a configuration screen or setup flow:
 securityRepository.saveBridgeConfig(
-    host = "192.168.1.100",  // User's PC IP
+    host = "<YOUR_PC_IP>",  // User's PC IP
     port = 8000,
     token = "user-provided-token"
 )
@@ -109,7 +109,7 @@ if (securityRepository.hasBridgeConfig()) {
 ### Getting Bridge URL
 
 ```kotlin
-val bridgeUrl = securityRepository.getBridgeUrl()  // Returns "http://192.168.1.100:8000"
+val bridgeUrl = securityRepository.getBridgeUrl()  // Returns "http://<YOUR_PC_IP>:8000"
 ```
 
 ## Message Flow
@@ -163,7 +163,7 @@ The app maintains full backward compatibility with the Anthropic API:
 1. Configure bridge in settings:
    ```kotlin
    securityRepository.saveBridgeConfig(
-       host = "192.168.1.100",
+       host = "<YOUR_PC_IP>",
        port = 8000,
        token = "test-token"
    )
