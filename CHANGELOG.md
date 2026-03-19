@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.1] — 2026-03-19
+
+PII sanitization from security audit + Confidentiality Gate CI pipeline.
+
+### Fixed
+- **PII**: removed 7 real names, 3 real companies, HR data from tracked files (GDPR)
+- **Untracked**: `active-user.md` and `settings.local.json` removed from git index
+- **IPs**: replaced hardcoded `192.168.1.x` with `<YOUR_PC_IP>` in savia-mobile-android
+
+### Added
+- **Confidentiality Gate**: CI pipeline with 7-check scanner (blocklist, credentials, emails, proper nouns, forbidden files, merge markers, private IPs)
+- **Files**: `scripts/confidentiality-scan.sh`, `confidentiality-blocklist.txt`, `confidentiality-allowlist.txt`
+
 ## [3.4.0] — 2026-03-19
 
 Era 120 — Task Criticality System + Multi-Tenant Calendar Sync.
@@ -3766,6 +3779,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.4.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.4.0...v3.4.1
 [3.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.1.0...v3.2.0
