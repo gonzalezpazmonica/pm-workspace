@@ -224,6 +224,23 @@
 /policy-check [--project]         Verify agent policies for a project
 ```
 
+## Smart Calendar (6 commands)
+```
+/calendar-sync                   Sync Outlook/Teams calendar via Graph API
+/calendar-today [--project]      Daily view with alerts, meetings, and focus blocks
+/calendar-plan [--week]          Plan week with auto focus blocks and Eisenhower
+/calendar-rebalance [--reason]   Rebalance schedule after priority changes
+/calendar-deadlines [--days 14]  Upcoming deadlines with readiness status
+/calendar-focus {task}           Create protected Deep Work block
+```
+
+## Task Criticality (3 commands)
+```
+/criticality-dashboard [--level] Cross-project critical items view P0-P3
+/criticality-assess {item}       Assess criticality with 5 dimensions and CoD profile
+/criticality-rebalance [--team]  Redistribute workload by criticality and capacity
+```
+
 ## Dev Session (1 command)
 ```
 /dev-session-resume {id}          Resume interrupted dev-session from last checkpoint
