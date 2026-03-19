@@ -124,3 +124,18 @@ Cadencia de alertas:
 5. Focus blocks son "tentative" no "busy" (permiten override manual)
 6. Si >70% del dia es reuniones: alertar como dia sin capacidad productiva
 7. Ceremonias Scrum tienen prioridad sobre focus blocks
+
+## Sistema de Criticidad (Era 120)
+
+El Focus Scheduler usa `criticality_score` (5 dimensiones, WSJF+RICE+Eisenhower)
+para decidir que tarea asignar a cada bloque. Spec completo:
+`spec-task-criticality.md` | Referencia de frameworks: `spec-criticality-frameworks.md`
+
+Comandos de criticidad:
+- `/criticality-dashboard` — panel cross-project P0-P3
+- `/criticality-assess {item}` — desglose de 5 dimensiones
+- `/criticality-rebalance` — redistribuir carga por criticidad
+
+Integracion: `/calendar-plan` ordena por criticality_score. Items P0 crean
+bloques de emergencia (override focus time). Auto-escalado temporal aplica
+a `/calendar-deadlines`. Confidence decay limpia backlog automaticamente.
