@@ -114,5 +114,9 @@ audit-report-*
 # ── Dev-session locks (estado temporal de sesiones) ─────────────────────────
 .claude/sessions/
 
+# ── Personal Vault (N3 — datos personales del usuario, repo independiente) ──
+personal-vault/
+.savia/
+
 # ── Infraestructura local del PM (no parte del producto) ────────────────────
 git/
