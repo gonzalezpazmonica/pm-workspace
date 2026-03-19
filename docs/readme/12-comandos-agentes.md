@@ -215,9 +215,18 @@
 /emergency-mode {subcommand}     Gestionar modo emergencia con LLM local (setup/status/activate/deactivate/test)
 ```
 
-## Calidad de Prompts (1 comando)
+## Calidad de Prompts y Workspace (5 comandos)
 ```
 /skill-optimize {nombre}          Auto-optimizar prompt de skill/agente (AutoResearch loop)
+/codebase-map [--focus] [--orphans] Mapa de dependencias internas: comandos→agentes→reglas→skills
+/docs-quality-audit [--threshold]  Auditar calidad de docs basada en feedback de agentes
+/skill-propose {nombre}           Proponer skill desde workflow repetitivo (auto-scaffold)
+/policy-check [--project]         Verificar politicas de agente para un proyecto
+```
+
+## Dev Session (1 comando)
+```
+/dev-session-resume {id}          Reanudar dev-session interrumpida desde ultimo checkpoint
 ```
 
 ## Otros (10+ comandos)

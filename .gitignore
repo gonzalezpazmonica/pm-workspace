@@ -110,5 +110,8 @@ audit-report-*
 #Local Settings
 .claude/settings.local.json
 
+# ── Dev-session locks (estado temporal de sesiones) ─────────────────────────
+.claude/sessions/
+
 # ── Infraestructura local del PM (no parte del producto) ────────────────────
 git/
