@@ -26,7 +26,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 
 # ── Get diff content ─────────────────────────────────────────────────────────
 # Files to exclude from scanning (the scanner itself, test fixtures, regex docs)
-EXCLUDE_FILES="confidentiality-scan.sh|confidentiality-blocklist.txt|confidentiality-allowlist.txt"
+EXCLUDE_FILES="confidentiality-scan.sh|confidentiality-check.sh|confidentiality-blocklist.txt|confidentiality-allowlist.txt"
 EXCLUDE_FILES="$EXCLUDE_FILES|security-check-patterns.md|test-stress-hooks.sh|pentest-lab"
 EXCLUDE_FILES="$EXCLUDE_FILES|confidentiality-gate.yml"
 
