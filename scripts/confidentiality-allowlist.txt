@@ -41,8 +41,13 @@ Monte Carlo
 Sprint Review
 Sprint Retro
 
+# ── pm-workspace domain terms ────────────────────────────────────────────────
+Confidentiality Scanner
+Confidentiality Gate
+Confidentiality Check
+Security Guardian
+
 # ── Organizations (public, acceptable) ───────────────────────────────────────
-Grupo VASS
 Claude Code
 Git Hub
 Google Chat

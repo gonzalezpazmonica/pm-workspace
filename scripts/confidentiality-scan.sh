@@ -25,13 +25,24 @@ echo "🔒 Confidentiality Scanner"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # ── Get diff content ─────────────────────────────────────────────────────────
+# Files to exclude from scanning (the scanner itself, test fixtures, regex docs)
+EXCLUDE_FILES="confidentiality-scan.sh|confidentiality-blocklist.txt|confidentiality-allowlist.txt"
+EXCLUDE_FILES="$EXCLUDE_FILES|security-check-patterns.md|test-stress-hooks.sh|pentest-lab"
+EXCLUDE_FILES="$EXCLUDE_FILES|confidentiality-gate.yml"
+
 get_diff() {
+  local raw
   case "$MODE" in
-    --staged) git diff --cached --diff-filter=ACMR -U0 ;;
-    --pr)     git diff origin/main...HEAD --diff-filter=ACMR -U0 ;;
-    --full)   git diff HEAD~1...HEAD --diff-filter=ACMR -U0 ;;
-    *)        git diff --cached --diff-filter=ACMR -U0 ;;
+    --staged) raw=$(git diff --cached --diff-filter=ACMR -U0) ;;
+    --pr)     raw=$(git diff origin/main...HEAD --diff-filter=ACMR -U0) ;;
+    --full)   raw=$(git diff HEAD~1...HEAD --diff-filter=ACMR -U0) ;;
+    *)        raw=$(git diff --cached --diff-filter=ACMR -U0) ;;
   esac
+  # Filter out excluded files by splitting on diff headers
+  echo "$raw" | awk -v exc="$EXCLUDE_FILES" '
+    /^diff --git/ { skip=0; if (match($0, exc)) skip=1 }
+    !skip { print }
+  '
 }
 
 # Only scan added lines (^+), skip diff headers (^+++)

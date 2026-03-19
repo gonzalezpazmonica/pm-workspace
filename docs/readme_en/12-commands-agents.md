@@ -195,6 +195,14 @@
 /ai-audit-log [--project]         AI execution audit log
 ```
 
+## Confidentiality (CI Gate)
+```
+scripts/confidentiality-scan.sh   7-check scanner: blocklist, credentials, emails, proper nouns
+  --staged                        Scan staged changes (pre-commit)
+  --pr                            Scan PR diff vs main (CI)
+  --full                          Scan last full commit
+```
+
 ## Regulatory Compliance Intelligence (3 commands)
 ```
 /compliance-scan {repo|path}     Automated compliance scanning across 12 regulated sectors

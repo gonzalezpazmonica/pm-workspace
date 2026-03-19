@@ -195,6 +195,14 @@
 /ai-audit-log [--project]         Log de auditoría de ejecuciones IA
 ```
 
+## Confidencialidad (CI Gate)
+```
+scripts/confidentiality-scan.sh   Scanner de 7 checks: blocklist, credentials, emails, proper nouns
+  --staged                        Escanear cambios staged (pre-commit)
+  --pr                            Escanear diff del PR vs main (CI)
+  --full                          Escanear ultimo commit completo
+```
+
 ## Inteligencia de Compliance Regulatorio (3 comandos)
 ```
 /compliance-scan {repo|path}     Escaneo automático de cumplimiento normativo en 12 sectores
