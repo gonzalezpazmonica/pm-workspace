@@ -143,14 +143,8 @@ Cuando Savia recibe informacion para persistir:
 6. Si DUDA → **preguntar al usuario**: "Esto parece de {proyecto}. ¿Lo guardo en {fichero}?"
 7. **NUNCA asumir** destino sin clasificar primero
 
----
-
-## Justificacion
-
-| Problema | Consecuencia | Nivel correcto |
-|---|---|---|
-| Dato de cliente en auto-memory | Se carga en sesiones de otros proyectos, contamina contexto | N4 |
-| Preferencia personal en repo publico | Visible en GitHub para cualquiera | N3 |
-| Nombre de empresa en commit | Viola Rule #20 PII-Free | N2 |
-| Evaluacion de persona en carpeta de proyecto | Equipo puede ver feedback privado | N4b |
-| Feature del workspace en carpeta de proyecto | No se encuentra en sesiones genericas | Auto-memory |
+## Errores comunes
+- Dato de cliente en auto-memory → contamina otras sesiones (N4)
+- Preferencia personal en repo publico → visible en GitHub (N3)
+- Nombre de empresa en commit → viola PII-Free Rule #20 (N2)
+- Evaluacion de persona en carpeta de proyecto → equipo la ve (N4b)
