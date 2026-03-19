@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (39)
+# Catálogo de Subagentes (43)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -40,6 +40,10 @@
 | `meeting-risk-analyst` | Opus 4.6 | Análisis de riesgos post-digestión: contradicciones, conflictos, duplicidades, dependencias |
 | `meeting-confidentiality-judge` | Opus 4.6 | Juez de confidencialidad: valida que datos sensibles no se filtren a ficheros del proyecto |
 | `visual-digest` | Opus 4.6 | OCR contextual de 4 pasadas: extracción bruta → carga contexto proyecto → resolución con diccionario de homónimos → verificación cruzada con digests. Pizarras, notas manuscritas, diagramas, capturas |
+| `pdf-digest` | Opus 4.6 | Digestión de PDFs con texto e imágenes — 4 fases: extracción PyMuPDF+Vision → contexto proyecto → análisis/síntesis → actualización de documentos vivos |
+| `word-digest` | Opus 4.6 | Digestión de DOCX: texto, tablas, imágenes — 4 fases con python-docx+Vision → contexto → síntesis → actualización |
+| `excel-digest` | Opus 4.6 | Digestión de XLSX: estructura, fórmulas, reglas de negocio — 4 fases con openpyxl → contexto → extracción reglas → actualización |
+| `pptx-digest` | Opus 4.6 | Digestión de PPTX: slides, notas presentador, gráficos — 4 fases con python-pptx+Vision → contexto → síntesis → actualización |
 | `web-e2e-tester` | Sonnet 4.6 | Testing E2E autónomo de aplicaciones web contra instancias live. Playwright/Cypress con screenshots obligatorios |
 
 ## Flujos
@@ -56,6 +60,8 @@
 - **Dev Session** (Era 52): `dev-orchestrator` planifica slices → `{lang}-developer` implementa → `test-engineer` + `coherence-validator` validan → `code-reviewer` revisa. Pipeline: `/spec-slice` → `/dev-session start|next|review`.
 - **Meeting Digest**: `meeting-digest` (extracción Sonnet) → `meeting-confidentiality-judge` (filtro Opus) → `meeting-risk-analyst` (análisis Opus). Pipeline: `/meeting-digest {fichero}`.
 - **Visual Digest** (Era 116): `visual-digest` pipeline 4 pasadas (extracción bruta → carga contexto proyecto → resolución con diccionario homónimos → verificación cruzada con digests verbales). Soporta pizarras, notas manuscritas, diagramas, capturas, slides.
+- **PDF Digest**: `pdf-digest` pipeline 4 fases (extracción PyMuPDF+Vision → carga contexto proyecto → análisis/síntesis cruzado → actualización documentos vivos). Soporta protocolos, manuales, propuestas, informes, specs, presentaciones.
+- **Document Digest Suite**: `word-digest` (DOCX), `excel-digest` (XLSX), `pptx-digest` (PPTX) — misma arquitectura 4 fases que pdf-digest, cada uno con librería Python especializada (python-docx, openpyxl, python-pptx) + Claude Vision para imágenes embebidas.
 
 El agente developer se selecciona según el Language Pack del proyecto.
 

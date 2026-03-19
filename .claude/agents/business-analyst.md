@@ -30,8 +30,8 @@ que permitan implementaciones sin ambigüedad.
 ## Fuentes de verdad que siempre consultas
 
 1. `projects/[proyecto]/CLAUDE.md` — configuración del proyecto
-2. `projects/[proyecto]/reglas-negocio.md` — reglas de negocio documentadas
-3. `projects/[proyecto]/equipo.md` — capacidades del equipo (para estimar viabilidad)
+2. `projects/[proyecto]/RULES.md (o reglas-negocio.md)` — reglas de negocio documentadas
+3. `projects/[proyecto]/team/TEAM.md` — capacidades del equipo (para estimar viabilidad)
 4. `docs/reglas-scrum.md` — proceso de trabajo del equipo
 5. `docs/politica-estimacion.md` — política de estimación de tareas
 6. Azure DevOps (vía `az boards item show`) — descripción y contexto del PBI/Task

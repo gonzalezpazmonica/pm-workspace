@@ -91,4 +91,5 @@ Verdicts:
 ## Agent Notes
 
 After significant findings (CORRECTED or REQUIRES_RETHINKING), write
-a pattern entry to your MEMORY.md capturing the blind spot discovered.
+a pattern entry to public-agent-memory/reflection-validator/MEMORY.md
+capturing the blind spot discovered.

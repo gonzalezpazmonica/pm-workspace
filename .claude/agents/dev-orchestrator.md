@@ -1,7 +1,11 @@
 ---
 name: dev-orchestrator
 description: Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto
+tools: [Read, Glob, Grep, Bash]
 model: claude-sonnet-4-6
+permissionMode: plan
+maxTurns: 20
+color: cyan
 max_context_tokens: 8000
 output_max_tokens: 500
 ---

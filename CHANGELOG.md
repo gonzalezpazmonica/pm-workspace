@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] — 2026-03-19
+
+Era 117 — Document Digest Suite: 4 new agents for PDF, Word, Excel, PowerPoint digestion with context-aware 4-phase pipeline.
+
+### Added
+- **Agent: pdf-digest** (Opus 4.6): 4-phase pipeline for PDF documents using PyMuPDF for text extraction + Claude Vision for embedded images. Phases: raw extraction → project context loading → analysis/synthesis with cross-referencing → context document update. Supports protocols, manuals, proposals, reports, specs.
+- **Agent: word-digest** (Opus 4.6): 4-phase pipeline for DOCX using python-docx. Extracts text with styles, tables, embedded images, metadata. Same 4-phase context-aware architecture.
+- **Agent: excel-digest** (Opus 4.6): 4-phase pipeline for XLSX using openpyxl. Extracts structure, formulas (translated to natural language), validations, conditional formatting, macro names. Detects business rules embedded in formulas and anti-patterns.
+- **Agent: pptx-digest** (Opus 4.6): 4-phase pipeline for PPTX using python-pptx. Prioritizes presenter notes over slide text. Extracts chart data, images via Vision.
+
+- **Skill: prompt-optimizer** + **Command: /skill-optimize**: AutoResearch Loop for self-optimizing skill and agent prompts. Inspired by Karpathy/Eric Risco pattern. Executes skill with test fixture, scores output against weighted checklist (G-Eval 0-10), modifies prompt, re-executes, compares scores. Keeps changes that improve, reverts those that don't. Stop criterion: score >= 8.0 for 3 consecutive iterations. Output saved as `.optimized.md` — original never modified.
+
+- **Prompt optimizer auto-trigger** (`prompt-optimizer/auto-trigger.md`): Protocol for Savia to automatically suggest `/skill-optimize` when agents accumulate 3+ corrections in last 10 executions. Detects explicit signals (PM corrections, re-executions) and implicit signals (low coherence scores, outputs exceeding limits). Auto-generates test fixtures from real usage patterns.
+
+### Changed
+- **agents-catalog.md**: Updated from 39 to 43 agents. Added Document Digest Suite flow.
+- **CLAUDE.md**: Agent count updated from 39 to 43.
+- **meeting-digest.md**: Phase 4 context update now references README.md as project index (generic, not hardcoded document names).
+- **visual-digest.md**: Added Phase 5 (context update + _digest-log.md registration) + memory path.
+- **visual-qa-agent.md**: Added YAML frontmatter (was missing entirely).
+- **dev-orchestrator.md**: Added missing tools, permissionMode, maxTurns, color.
+- **drift-auditor.md**: Fixed non-standard `role:` → `description:`, added tools/permissionMode/maxTurns/color.
+- **frontend-test-runner.md**: Added tools, maxTurns, color. Changed bypassPermissions → acceptEdits.
+- **5 agents** (architect, business-analyst, sdd-spec-writer, meeting-risk-analyst, diagram-architect): Updated `reglas-negocio.md` references to generic `RULES.md (o reglas-negocio.md)`.
+- **coherence-validator.md** + **reflection-validator.md**: Fixed bare MEMORY.md → full 3-level path.
+- **.gitignore**: Added `git/` to exclude local infrastructure.
+
+### Fixed
+- **Agent audit**: Scanned all 43 agents across 7 dimensions. Fixed 15 agents with structural issues (incomplete frontmatter, outdated references, missing memory paths, missing Phase 4/5 in digest agents). Report: `output/agent-audit-20260319.md`.
+
 ## [3.1.0] — 2026-03-17
 
 Era 116 — Universal digest traceability + visual-digest agent with 4-pass contextual OCR pipeline.
@@ -3707,6 +3737,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.99.0...v3.0.0
 [2.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.86.0...v2.87.0

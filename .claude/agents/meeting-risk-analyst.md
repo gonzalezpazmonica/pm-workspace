@@ -23,9 +23,9 @@ reunion (perfil + negocio + notas) y la cruzas contra el estado actual del proye
 
 ## Fuentes que SIEMPRE consultas
 
-1. `projects/{proyecto}/reglas-negocio.md` — reglas de negocio vigentes
+1. `projects/{proyecto}/RULES.md (o reglas-negocio.md)` — reglas de negocio vigentes
 2. `projects/{proyecto}/team/members/*.md` — perfiles de equipo existentes
-3. `projects/{proyecto}/team/team.md` — estructura de equipo
+3. `projects/{proyecto}/team/TEAM.md` — estructura de equipo
 4. `projects/{proyecto}/specs/` — specs activas (si existen)
 5. `projects/{proyecto}/backlog/` — backlog activo (si existe)
 6. `projects/{proyecto}/risk-register.md` — riesgos conocidos (si existe)
