@@ -80,8 +80,8 @@ FILE_COUNT=0
 while IFS= read -r -d '' file; do
   FILE_COUNT=$((FILE_COUNT+1))
   rel="${file#$PROJECT_DIR/}"
-  # Skip agent-memory and output dirs
-  [[ "$rel" == agent-memory/* || "$rel" == output/* ]] && continue
+  # Skip meta-files, agent-memory and output dirs
+  [[ "$rel" == agent-memory/* || "$rel" == output/* || "$rel" == CONFIDENTIALITY.md ]] && continue
   scan_pii "$file"
   scan_secrets "$file"
   scan_cross_refs "$file"
