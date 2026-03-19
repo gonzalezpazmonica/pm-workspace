@@ -1,4 +1,5 @@
 ---
+name: skill-optimize
 description: "Auto-optimizar el prompt de un skill o agente con bucle AutoResearch"
 argument-hint: "{skill-name|agent-name} [--fixture nombre] [--max-iterations 10]"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
