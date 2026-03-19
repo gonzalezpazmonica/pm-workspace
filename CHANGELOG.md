@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.0] — 2026-03-19
+
+Personal Vault (N3) + Confidentiality Auditor + 5-level confidentiality documentation.
+
+### Added
+- **Personal Vault**: 5 commands (`vault-init`, `vault-sync`, `vault-status`, `vault-restore`, `vault-export`) + skill + config rule for N3 user data in separate git repo
+- **Confidentiality Auditor**: Opus agent for multi-repo confidentiality compliance auditing
+- **Command**: `/confidentiality-check` — verify level compliance per project
+- **Rule**: `personal-vault-config.md` — vault configuration constants
+- **Docs**: `docs/confidentiality-levels.md` — full 5-level (N1-N4b) documentation
+
+### Changed
+- **Rule**: `context-placement-confirmation.md` — compressed to 150 lines, added N3 vault integration
+
 ## [3.4.1] — 2026-03-19
 
 PII sanitization from security audit + Confidentiality Gate CI pipeline.
@@ -3779,6 +3793,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.4.1...v3.5.0
 [3.4.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.4.0...v3.4.1
 [3.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.2.0...v3.3.0
