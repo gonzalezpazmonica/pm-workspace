@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (43)
+# Catálogo de Subagentes (44)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -45,6 +45,7 @@
 | `excel-digest` | Opus 4.6 | Digestión de XLSX: estructura, fórmulas, reglas de negocio — 4 fases con openpyxl → contexto → extracción reglas → actualización |
 | `pptx-digest` | Opus 4.6 | Digestión de PPTX: slides, notas presentador, gráficos — 4 fases con python-pptx+Vision → contexto → síntesis → actualización |
 | `web-e2e-tester` | Sonnet 4.6 | Testing E2E autónomo de aplicaciones web contra instancias live. Playwright/Cypress con screenshots obligatorios |
+| `confidentiality-auditor` | Opus 4.6 | Auditoría de cumplimiento de niveles de confidencialidad multi-repo (N1-N4b) |
 
 ## Flujos
 
