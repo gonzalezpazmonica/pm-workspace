@@ -23,9 +23,16 @@ fi
 
 # Bloquear git commit/add en rama main/master (evita commits accidentales)
 if echo "$COMMAND" | grep -iE 'git\s+(commit|add)' > /dev/null; then
-  CURRENT_BRANCH=$(cd "$CLAUDE_PROJECT_DIR" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  # Detect target directory: if command starts with "cd <path> &&", use that path
+  # This handles multi-repo setups where the git repo differs from CLAUDE_PROJECT_DIR
+  GIT_DIR_TARGET="$CLAUDE_PROJECT_DIR"
+  CD_PATH=$(echo "$COMMAND" | grep -oP '^\s*cd\s+"([^"]+)"' | sed 's/^\s*cd\s*"//;s/"$//' 2>/dev/null)
+  if [[ -n "$CD_PATH" ]] && [[ -d "$CD_PATH/.git" ]]; then
+    GIT_DIR_TARGET="$CD_PATH"
+  fi
+  CURRENT_BRANCH=$(cd "$GIT_DIR_TARGET" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
   if [ "$CURRENT_BRANCH" = "main" ] || [ "$CURRENT_BRANCH" = "master" ]; then
-    echo "BLOQUEADO: git commit/add en rama '$CURRENT_BRANCH'. Cambia a feature branch primero." >&2
+    echo "BLOQUEADO: git commit/add en rama '$CURRENT_BRANCH' ($GIT_DIR_TARGET). Cambia a feature branch primero." >&2
     exit 2
   fi
 fi

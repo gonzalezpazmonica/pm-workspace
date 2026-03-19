@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.3] — 2026-03-19
+
+Fix: multi-repo branch detection in global bash hook.
+
+### Fixed
+- **Hook**: `validate-bash-global.sh` — detects target repo from `cd` in command instead of always checking `CLAUDE_PROJECT_DIR` branch. Fixes false "commit on main" blocks when working in sub-repos with their own `.git`
+
 ## [3.5.2] — 2026-03-19
 
 Criticality scoring engine — backing scripts for Era 120 criticality commands.
@@ -3813,6 +3820,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.5.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.2...v3.5.3
 [3.5.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.1...v3.5.2
 [3.5.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.0...v3.5.1
 [3.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.4.1...v3.5.0
