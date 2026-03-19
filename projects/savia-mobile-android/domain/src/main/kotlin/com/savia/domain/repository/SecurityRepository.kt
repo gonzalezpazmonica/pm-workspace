@@ -94,7 +94,7 @@ interface SecurityRepository {
      *
      * Automatically decrypts from secure storage.
      *
-     * @return Host (e.g., "192.168.1.100" or "savia.example.com"), or null if not configured
+     * @return Host (e.g., "<YOUR_PC_IP>" or "savia.example.com"), or null if not configured
      * @throws Exception if decryption fails
      */
     suspend fun getBridgeHost(): String?
@@ -136,7 +136,7 @@ interface SecurityRepository {
      * Convenience method that calls [getBridgeHost] and [getBridgePort] internally.
      * Returns null if either component is missing.
      *
-     * @return Complete URL like "https://192.168.1.100:8922", or null if not configured
+     * @return Complete URL like "https://<YOUR_PC_IP>:8922", or null if not configured
      */
     suspend fun getBridgeUrl(): String? {
         val host = getBridgeHost() ?: return null

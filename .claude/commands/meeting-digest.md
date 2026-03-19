@@ -91,22 +91,21 @@ Riesgos: {N criticas | N alertas | N avisos} — output/meeting-risks/...
 ## Ejemplo
 
 ```
-/meeting-digest projects/trazabios/team/one2one/One to One Ana__Mónica.vtt
+/meeting-digest projects/alpha/team/one2one/one2one-alice-bob.vtt
 
 ---
-Reunion digerida: One to One Ana__Mónica.vtt
+Reunion digerida: one2one-alice-bob.vtt
 Tipo: one2one
-Perfil creado: projects/trazabios/team/members/ana.arranz.md
-Reglas de negocio: actualizado (stakeholders Repsol, deuda tecnica)
-Riesgos: 0 criticas | 2 alertas | 3 avisos
+Perfil actualizado: projects/alpha/team/members/alice.smith.md
+Reglas de negocio: actualizado (stakeholders, deuda tecnica)
+Riesgos: 0 criticas | 2 alertas | 1 aviso
 ---
 
 Notas PM:
-- Riesgo burnout: solo 4/15 dias de vacaciones tomados
-- Relacion conflictiva-productiva con Sergio Lopez (vigilar)
-- Squad 1 necesita atencion: bajo nivel funcional + historial liderazgo
+- Equipo necesita refuerzo en testing: capacidad al 110%
+- Sprint delivery en riesgo por dependencia externa bloqueada
 
 Alertas de riesgo:
-- [ALERTA] Burnout latente: 11 dias de vacaciones sin tomar, patron no sostenible
-- [ALERTA] Squad 1 sin liderazgo funcional: riesgo de desvio en entregas
+- [ALERTA] Sobrecarga equipo: >110% capacidad 2 sprints consecutivos
+- [ALERTA] Dependencia externa sin resolver desde hace 5 dias
 ```

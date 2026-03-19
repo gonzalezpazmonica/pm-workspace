@@ -165,10 +165,10 @@ Copiar el token (cadena larga de caracteres).
 
 #### 2. Obtener URL del Bridge
 
-Si el Bridge corre en `192.168.1.100:8922`:
+Si el Bridge corre en `<YOUR_PC_IP>:8922`:
 
 ```bash
-https://192.168.1.100:8922
+https://<YOUR_PC_IP>:8922
 ```
 
 (Requiere VPN o red local)
@@ -178,7 +178,7 @@ https://192.168.1.100:8922
 1. Abrir **Ajustes** → **Conexión**
 2. Seleccionar **"Servidor personalizado (Bridge)"**
 3. Ingresar:
-   - **URL**: `https://192.168.1.100:8922`
+   - **URL**: `https://<YOUR_PC_IP>:8922`
    - **Token**: `[pegar token aquí]`
 4. Pulsar **Guardar**
 

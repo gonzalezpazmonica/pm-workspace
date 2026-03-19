@@ -1,0 +1,75 @@
+name: Confidentiality Gate
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  confidentiality-scan:
+    runs-on: ubuntu-latest
+    name: PII & Confidentiality Check
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed
+        run: |
+          echo "files=$(git diff --name-only origin/main...HEAD | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
+      - name: Scan for real names and PII in changes
+        run: |
+          FAILS=0
+          FILES=$(git diff --name-only origin/main...HEAD)
+
+          echo "=== Confidentiality Gate ==="
+          echo "Scanning $(echo "$FILES" | wc -l) changed files..."
+
+          # SEC-4: Real emails (not @example.com, @test.com, etc.)
+          if git diff origin/main...HEAD -- $FILES | grep "^+" | grep -v "^+++" | \
+             grep -iE "[a-zA-Z0-9._%+-]+@(?!example\.com|test\.com|savia\.dev|contoso\.com|miorganizacion\.com)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" | \
+             grep -v "noreply@anthropic.com" | grep -v "@github.com"; then
+            echo "::error::SEC-4: Real email addresses detected in changes"
+            FAILS=$((FAILS + 1))
+          fi
+
+          # SEC-1: Potential secrets (high-entropy strings)
+          if git diff origin/main...HEAD -- $FILES | grep "^+" | grep -v "^+++" | \
+             grep -iE "(AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|github_pat_|AIza[0-9A-Za-z_-]{35})" | \
+             grep -v "test" | grep -v "example" | grep -v "regex" | grep -v "pattern"; then
+            echo "::error::SEC-1: Potential credentials detected in changes"
+            FAILS=$((FAILS + 1))
+          fi
+
+          # SEC-6: Forbidden file patterns
+          for pattern in ".env$" "\.pat$" "\.secret$" "id_rsa" "id_ed25519" "\.pem$" "\.p12$" "\.pfx$" "\.key$"; do
+            if echo "$FILES" | grep -iE "$pattern"; then
+              echo "::error::SEC-6: Forbidden file type detected: $pattern"
+              FAILS=$((FAILS + 1))
+            fi
+          done
+
+          # SEC-3: Private IPs (not in test/example context)
+          if git diff origin/main...HEAD -- $FILES | grep "^+" | grep -v "^+++" | \
+             grep -E "(192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9]+\.[0-9]+)" | \
+             grep -v "YOUR_PC_IP" | grep -v "placeholder" | grep -v "example" | \
+             grep -v "RFC1918" | grep -v "regex" | grep -v "pattern" | grep -v "detect"; then
+            echo "::warning::SEC-3: Private IP addresses found (verify they are examples)"
+          fi
+
+          # SEC-8: Merge conflict markers
+          if git diff origin/main...HEAD -- $FILES | grep "^+" | grep -v "^+++" | \
+             grep -E "^(\+<{7}|\+>{7}|\+={7})"; then
+            echo "::error::SEC-8: Merge conflict markers detected"
+            FAILS=$((FAILS + 1))
+          fi
+
+          echo ""
+          if [ $FAILS -gt 0 ]; then
+            echo "::error::Confidentiality Gate FAILED with $FAILS violation(s)"
+            echo "Fix the issues above before merging."
+            exit 1
+          else
+            echo "Confidentiality Gate PASSED"
+          fi

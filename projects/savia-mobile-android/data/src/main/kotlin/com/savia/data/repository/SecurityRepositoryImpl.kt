@@ -135,7 +135,7 @@ class SecurityRepositoryImpl @Inject constructor(
      *
      * **Bridge URL Construction:**
      * Uses: https://{host}:{port}
-     * Example: https://192.168.1.100:8922
+     * Example: https://<YOUR_PC_IP>:8922
      *
      * **Token:**
      * Authentication token obtained during bridge connection setup.
