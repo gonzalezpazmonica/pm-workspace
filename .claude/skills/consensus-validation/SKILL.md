@@ -20,6 +20,22 @@ priority: "high"
 
 ---
 
+## Decision Checklist
+
+Before invoking consensus, answer sequentially:
+
+1. Was the code-reviewer verdict REJECTED? -> If YES: consensus is mandatory
+2. Does the change involve auth, payments, PII, or compliance? -> If YES: consensus is mandatory
+3. Is the spec marked ambiguous: true? -> If YES: consensus is mandatory
+4. Is this a simple CRUD or cosmetic UI change? -> If YES: consensus unnecessary, standard review suffices
+5. Is the risk score < 26 (Low tier)? -> If YES: consensus unnecessary
+
+### Abort Conditions
+- 2+ judges timeout -> CONDITIONAL verdict (insufficient data)
+- Security veto by any judge -> auto-REJECT regardless of score
+
+---
+
 ## 8-Step Protocol
 
 ### 1. Validar Input

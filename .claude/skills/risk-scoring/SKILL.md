@@ -13,6 +13,22 @@ priority: "high"
 
 Automated 4-phase pipeline to assess task complexity and route code reviews to appropriate escalation levels based on risk factors, replacing fixed Code Review rules with intelligent, data-driven routing.
 
+## Decision Checklist
+
+Before scoring, answer sequentially:
+
+1. Does the change touch critical paths (auth, payments, data migration)? -> If YES: minimum score = 51 (High)
+2. Is this a security patch or compliance fix? -> If YES: auto-escalate to Critical (76+)
+3. Does the PR introduce new external dependencies? -> If YES: add +10 to base score
+4. Is this the author's first change to this module? -> If YES: add +10 (unfamiliarity penalty)
+5. Are there >500 lines changed? -> If YES: add +15 to base score
+
+### Abort Conditions
+- PR modifies .env, secrets, or credentials -> STOP, mandatory security review
+- PR has no tests and touches business logic -> STOP, require tests first
+
+---
+
 ## Phase 1: Collect Risk Signals
 
 Extract risk indicators from task metadata: files touched, modules affected, external dependencies, security tags, compliance tags, data migration, production impact, change history.

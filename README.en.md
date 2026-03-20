@@ -56,7 +56,7 @@ pm-workspace/
 │   ├── commands/       ← 400+ commands (what you can ask me)
 │   ├── agents/         ← 44 specialized agents
 │   ├── skills/         ← 79 skills with domain knowledge
-│   ├── hooks/          ← 16 hooks that enforce rules automatically
+│   ├── hooks/          ← 17 hooks that enforce rules automatically
 │   └── rules/          ← context, language, and domain rules
 ├── docs/
 │   ├── quick-starts/   ← role-based guides (PM, Dev, QA, PO, TL, CEO)

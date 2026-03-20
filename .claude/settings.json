@@ -124,6 +124,18 @@
             "statusMessage": "Registrando traza de agente..."
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/bash-output-compress.sh",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Comprimiendo output de bash..."
+          }
+        ]
       }
     ],
     "Stop": [

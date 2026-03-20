@@ -29,7 +29,7 @@ next lint                                      # Lint específico de Next.js
 - **Estado local:** `useState` para simple, `useReducer` para estado complejo con múltiples transiciones
 - **Estado global:** Zustand (preferido por simplicidad) o TanStack Query (para server state)
 - **Data fetching:** TanStack Query (React Query) — nunca `useEffect` + `fetch` para data fetching
-- **Effects:** `useEffect` SOLO para sincronización con sistemas externos; NUNCA para derivar estado
+- **Effects:** `useEffect` SOLO para sincronizacion con sistemas externos. Reglas completas y decision checklist: @react-use-effect-anti-patterns.md
 - **Memoización:** `useMemo` y `useCallback` solo cuando hay evidencia de problema de rendimiento; React Compiler (React 19) los hace innecesarios en la mayoría de casos
 - **Props:** Interfaces tipadas para todos los componentes; `children: React.ReactNode` cuando aplique
 - **CSS:** Tailwind CSS (preferido), CSS Modules, o styled-components; nunca CSS global sin scope

@@ -18,12 +18,23 @@ Descomponer Product Backlog Items (PBIs) en Tasks técnicas, estimarlas en horas
 
 ---
 
+## Decision Checklist
+
+1. Is this item a PBI (not already a Task/Bug/Chore)? -> If already a Task: skip, estimate directly
+2. Are acceptance criteria present and >50 characters? -> If NO: return to PO for criteria
+3. Does the PBI have a clear "done" definition? -> If NO: escalate to product-discovery first
+4. Is estimated effort >13 SP or >5 days? -> If YES: split into 2+ PBIs before decomposing
+5. Does the PBI depend on unfinished PBIs? -> If YES: mark dependency, flag blocked tasks
+
+### Abort Conditions
+- No acceptance criteria at all -> STOP, require PO input
+- PBI is actually an Epic (>21 SP) -> STOP, needs epic-plan first
+
+---
+
 ## Triggers
 
-- `/pbi-decompose {id}` — Descompone uno o varios PBIs
-- `/pbi-assign {id}` — Solo asignación (si las Tasks ya existen)
-- `/pbi-plan-sprint` — Descompone + estima + asigna para el sprint
-- Petición directa: "descompón el PBI #1234"
+`/pbi-decompose {id}` | `/pbi-assign {id}` | `/pbi-plan-sprint` | NL: "descompon el PBI #1234"
 
 ---
 
@@ -128,23 +139,13 @@ Si desviación > 30% → alertar al PM.
 
 ---
 
-## Fases 4-8: Asignación, Ejecución y Ejemplos
+## Fases 4-8: Asignacion, Ejecucion y Ejemplos
 
-Detalles sobre:
-- **Fase 4**: Asignación inteligente (perfiles, algoritmo de scoring, restricciones)
-- **Fase 5**: Crear Tasks en Azure DevOps (confirmación previa)
-- **Fase 6**: Post-creación (comentarios, alertas)
-- **Fase 7**: Slash commands
-- **Fase 8**: Ejemplos por contexto
-
-Ver: **`references/phases-detail.md`** (370 líneas de contenido detallado)
+Fases 4 (asignacion), 5 (crear en Azure DevOps), 6 (post-creacion), 7 (comandos), 8 (ejemplos).
+Ver: **`references/phases-detail.md`**
 
 ---
 
 ## Referencias
 
-→ Detalle Fases 4-8: `references/phases-detail.md`
-→ Assignment scoring: `references/assignment-scoring.md`
-→ Skill sprint-management: `../sprint-management/SKILL.md`
-→ Skill capacity-planning: `../capacity-planning/SKILL.md`
-→ Docs: `docs/politica-estimacion.md`, `projects/{proyecto}/equipo.md`
+Fases 4-8: `references/phases-detail.md` | Scoring: `references/assignment-scoring.md` | Skills: `../sprint-management/SKILL.md`, `../capacity-planning/SKILL.md` | Docs: `docs/politica-estimacion.md`
