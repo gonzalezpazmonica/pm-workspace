@@ -13,8 +13,8 @@ allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Task]
 
 **Fichero:** $ARGUMENTS
 
-> Uso: `/meeting-digest projects/trazabios/team/one2one/transcripcion.vtt`
-> Uso: `/meeting-digest transcripcion.vtt --type retro --project trazabios`
+> Uso: `/meeting-digest projects/proyecto-alpha/team/one2one/transcripcion.vtt`
+> Uso: `/meeting-digest transcripcion.vtt --type retro --project proyecto-alpha`
 > Flag: `--no-risk` omite el analisis de riesgos (ahorra tiempo y tokens)
 
 ## 1. Cargar contexto

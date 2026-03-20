@@ -17,7 +17,7 @@ existir en el DOM y estar roto visualmente (CSS, layout, overflow, z-index).
 
 2. La captura se guarda en `output/e2e-results/{proyecto}/` con nombre descriptivo:
    `{spec-name}--{test-name}.png` (kebab-case, sin espacios).
-   La subcarpeta `{proyecto}` coincide con el nombre del proyecto (ej: `savia-web`, `trazabios`).
+   La subcarpeta `{proyecto}` coincide con el nombre del proyecto (ej: `savia-web`, `proyecto-alpha`).
 
 3. El screenshot se toma en el estado final del test (después de las aserciones),
    no antes. Esto garantiza que la captura refleja el estado validado.

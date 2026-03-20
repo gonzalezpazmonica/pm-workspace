@@ -28,7 +28,7 @@ Savia works. Each tool_use event adds a line showing what Savia is doing.
 When the assistant bubble is streaming and tool_use events arrive:
 - Show an animated activity list below the initial text
 - Each tool shows: icon + tool name + brief description
-- Format: "📂 Reading trazabios/CLAUDE.md" or "🔍 Searching files..."
+- Format: "📂 Reading proyecto-alpha/CLAUDE.md" or "🔍 Searching files..."
 - Auto-scroll to keep latest activity visible
 - Fade out when final text response arrives
 
@@ -66,4 +66,4 @@ When the assistant bubble is streaming and tool_use events arrive:
 - [ ] Activity auto-scrolls as new tools are used
 - [ ] Final response replaces activity feed
 - [ ] User has clear indication Savia is working (not frozen)
-- [ ] Works with 30+ consecutive tool_use events (trazabios case)
+- [ ] Works with 30+ consecutive tool_use events (proyecto-alpha case)

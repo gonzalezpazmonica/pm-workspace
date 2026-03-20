@@ -8,8 +8,15 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# Generic project names that are SAFE (not real)
+# Projects that are SAFE (generic names or explicitly public/whitelisted)
 SAFE_PROJECTS="proyecto-alpha|proyecto-beta|sala-reservas|example|test|demo|sample|template"
+# Public projects whitelisted in .gitignore with !projects/name/
+GITIGNORE="$ROOT_DIR/.gitignore"
+if [ -f "$GITIGNORE" ]; then
+  PUBLIC_PROJS=$(grep -oE '!projects/[a-z][a-z0-9_-]+/' "$GITIGNORE" \
+    | sed 's|!projects/||;s|/||' | tr '\n' '|' | sed 's/|$//')
+  [ -n "$PUBLIC_PROJS" ] && SAFE_PROJECTS="$SAFE_PROJECTS|$PUBLIC_PROJS"
+fi
 
 PATTERNS=()
 add() { PATTERNS+=("$1"); }
