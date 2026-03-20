@@ -5,13 +5,27 @@ on:
     branches: [main]
 
 jobs:
-  confidentiality-scan:
+  signature-check:
     runs-on: ubuntu-latest
-    name: PII & Confidentiality Check
+    name: Verify Audit Signature
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Verify confidentiality signature exists and matches
+        run: bash scripts/confidentiality-sign.sh verify
+
+  confidentiality-scan:
+    runs-on: ubuntu-latest
+    name: PII & Confidentiality Scan
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate dynamic blocklist
+        run: bash scripts/generate-blocklist.sh > /tmp/dynamic-blocklist.txt
+
       - name: Run confidentiality scanner
-        run: bash scripts/confidentiality-scan.sh --pr
+        run: bash scripts/confidentiality-scan.sh --pr --blocklist /tmp/dynamic-blocklist.txt

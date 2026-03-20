@@ -83,7 +83,7 @@ Every command has YAML frontmatter with metadata (model, context cost, descripti
 
 **Code intelligence** — I detect architecture patterns (Clean, Hexagonal, DDD, CQRS, Microservices), measure architectural health with fitness functions, and prioritize tech debt by business impact. I generate architecture, flow, sequence and team orgchart diagrams exportable to Draw.io, Miro or local Mermaid. I also import existing orgcharts to automatically generate team structure (`/orgchart-import`).
 
-**Security & compliance** — SAST against OWASP Top 10, SBOM, credential scanning, regulatory compliance across 12 sectors, and AI governance with model cards and EU AI Act.
+**Security & compliance** — SAST against OWASP Top 10, SBOM, credential scanning, regulatory compliance across 12 sectors, AI governance with model cards and EU AI Act. Pre-PR confidentiality audit with context-aware agent + HMAC-SHA256 cryptographic signature verified in CI.
 
 **Infrastructure** — Multi-cloud (Azure, AWS, GCP) with auto-detection, minimum tier by default, and scaling only with your approval. Configurable CI/CD pipelines.
 
