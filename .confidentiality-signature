@@ -3,7 +3,7 @@
 # Commit this file with your PR. CI verifies it.
 # Any code change after signing invalidates this signature.
 diff_hash=8aabf8b10f9a2673ad19666636272dceaa47cb10f3843b015b3ee148d30d6772
-timestamp=2026-03-20T22:45:30Z
+timestamp=2026-03-20T22:49:08Z
 branch=fix/update-script-origin-main
-head_commit=fc86772
-signature=e1553815678a78bf4db8168b9d2e7393699358496a959dbce16d4611339646db
+head_commit=4924522
+signature=baa232944dd2bf718cd1b903feb0b4bdf7ca854e86eb1c7786d0f9e3e74d4a81
