@@ -89,4 +89,6 @@ if [ -f "$STATIC" ]; then
 fi
 
 # ── Output: deduplicated patterns ──────────────────────────────────────────
-printf '%s\n' "${PATTERNS[@]}" | sort -u | grep -v "^$"
+if [ ${#PATTERNS[@]} -gt 0 ]; then
+  printf '%s\n' "${PATTERNS[@]}" | sort -u | grep -v "^$"
+fi
