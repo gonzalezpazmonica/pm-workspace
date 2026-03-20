@@ -5,15 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.0] — 2026-03-21
+
+Feasibility Probe and Model Upgrade Audit — inspired by Cat Wu's "Product management on the AI exponential" (Anthropic, March 2026).
+
+### Added
+
+- **Agent**: `feasibility-probe` — time-boxed prototype attempt on a spec, produces viability report with score 0-100, blocking sections, and decomposition suggestions
+- **Agent**: `model-upgrade-auditor` — audits agents/skills/rules for prompt debt (emphatic repetitions, defensive parsing, coded retries) that newer models may not need
+- **Skill**: `feasibility-probe` (SKILL.md + DOMAIN.md) — decision checklist, scoring formula, SDD integration as optional gate between spec-approve and dev-session
+- **Skill**: `model-upgrade-audit` (SKILL.md + DOMAIN.md) — 6 workaround patterns, 3-tier risk classification (APPLY/REVIEW/SKIP), longitudinal tracking
+- **Command**: `/feasibility-probe <spec_path>` — validate spec feasibility with budget-constrained prototype
+- **Command**: `/model-upgrade-audit [--scope]` — detect prompt debt and propose simplifications
+
 ## [3.7.1] — 2026-03-20
 
 Fix update system and auto-release pipeline.
 
 ### Fixed
+
 - **update.sh**: compares against `origin/main` instead of GitHub releases — no longer requires `gh` CLI, reads version from CHANGELOG.md
 - **update.sh**: uses `git pull origin main` instead of merging a tag that may not exist
 
 ### Added
+
 - **auto-tag.yml**: GitHub Actions pipeline that creates git tag automatically when CHANGELOG.md is updated on main, triggering release.yml
 - **sync-tags-from-changelog.sh**: one-time script to backfill missing tags from CHANGELOG.md history (138 versions synced)
 
@@ -22,12 +37,14 @@ Fix update system and auto-release pipeline.
 Context optimization, React quality, and decision-guided skills — inspired by rtk-ai/rtk and no-use-effect.
 
 ### Added
+
 - **Hook**: `bash-output-compress.sh` — async PostToolUse hook that compresses verbose Bash output (blanks, repeats, ANSI, truncation). Specialized filters for git, dotnet, npm, az devops. Inspired by rtk-ai/rtk (60-90% token reduction)
 - **Rule**: `react-use-effect-anti-patterns.md` — 6 rules + 8-question decision checklist for React useEffect. Auto-loads on .tsx/.jsx. Inspired by no-use-effect skill
 - **Tracker**: `context-tracker.sh compression-report` — new subcommand for Bash compression metrics
 - **Pattern**: Decision Checklists added to 6 core skills (sequential yes/no routing before execution)
 
 ### Changed
+
 - **Skill**: `spec-driven-development` — added 5-question decision checklist + abort conditions for human vs agent routing
 - **Skill**: `pbi-decomposition` — added 5-question decision checklist + abort conditions for decomposition gates
 - **Skill**: `risk-scoring` — added 5-question decision checklist with score modifiers and abort conditions
@@ -39,6 +56,7 @@ Context optimization, React quality, and decision-guided skills — inspired by 
 - **Docs**: README.md and README.en.md — hooks count updated from 16 to 17
 
 ### Specs
+
 - `SPEC-001`: Bash Output Compression Hook (rtk-inspired)
 - `SPEC-002`: React useEffect Anti-Patterns (no-use-effect inspired)
 - `SPEC-003`: Decision Checklists for Top 6 Skills
@@ -48,6 +66,7 @@ Context optimization, React quality, and decision-guided skills — inspired by 
 PII purge from tracked files + full-repo scan mode.
 
 ### Fixed
+
 - **PII**: Removed private project name from 7 tracked files (commands, rules, skills, specs, tests, docs) committed before the confidentiality system existed
 - **Scanner**: `confidentiality-scan.sh` `--full-repo` mode scans ALL tracked file contents, not just PR diffs — closes the gap that allowed pre-existing PII to persist undetected
 - **Blocklist**: `generate-blocklist.sh` auto-detects public projects from `.gitignore` whitelist to avoid false positives, handles empty arrays in CI
@@ -58,6 +77,7 @@ PII purge from tracked files + full-repo scan mode.
 Pre-PR confidentiality audit system with cryptographic signature.
 
 ### Added
+
 - **Agent**: `confidentiality-auditor` rewritten — dynamic context-aware audit that reads workspace context (project names, team members, org URLs) to discover sensitive data semantically, not with static patterns
 - **Script**: `confidentiality-sign.sh` — HMAC-SHA256 signature generation/verification after clean audit. Signature must be committed with the PR; CI verifies diff hash matches
 - **Script**: `generate-blocklist.sh` — dynamic blocklist generator from 6 workspace sources (projects, profiles, teams, local config, email domains, static list)
@@ -66,6 +86,7 @@ Pre-PR confidentiality audit system with cryptographic signature.
 - **Script**: `confidentiality-scan.sh` — 8-check deterministic scanner with dynamic blocklist support
 
 ### Fixed
+
 - **Hook**: `validate-bash-global.sh` — detects target repo from `cd` in command instead of always checking `CLAUDE_PROJECT_DIR` branch. Fixes false "commit on main" blocks when working in sub-repos with their own `.git`
 
 ## [3.5.3] — 2026-03-19
@@ -73,6 +94,7 @@ Pre-PR confidentiality audit system with cryptographic signature.
 Fix: multi-repo branch detection in global bash hook.
 
 ### Fixed
+
 - **Hook**: `validate-bash-global.sh` — detects target repo from `cd` in command instead of always checking `CLAUDE_PROJECT_DIR` branch. Fixes false "commit on main" blocks when working in sub-repos with their own `.git`
 
 ## [3.5.2] — 2026-03-19
@@ -80,6 +102,7 @@ Fix: multi-repo branch detection in global bash hook.
 Criticality scoring engine — backing scripts for Era 120 criticality commands.
 
 ### Added
+
 - **Script**: `scripts/criticality.sh` — dispatcher for assess/dashboard/rebalance
 - **Script**: `scripts/criticality-scoring.sh` — pure scoring (WSJF, confidence decay, urgency boost, 5-dimension model, P0-P3 classification)
 - **Script**: `scripts/criticality-engine.sh` — operations (assess single item, dashboard cross-project, rebalance analysis)
@@ -89,10 +112,12 @@ Criticality scoring engine — backing scripts for Era 120 criticality commands.
 Backing scripts for vault, confidentiality scanner, and travel sync.
 
 ### Added
+
 - **Script**: `scripts/vault.sh` + `scripts/vault-ops.sh` — full implementation of 5 vault operations (init, sync, status, restore, export) with NTFS junction support
 - **Script**: `scripts/confidentiality-check.sh` — project-level scanner for N4-SHARED compliance (PII, secrets, cross-level leaks, scoring 0-100)
 
 ### Fixed
+
 - **Script**: `scripts/savia-travel.sh` — implemented `sync` command (was stub), includes vault in travel package
 
 ## [3.5.0] — 2026-03-19
@@ -100,6 +125,7 @@ Backing scripts for vault, confidentiality scanner, and travel sync.
 Personal Vault (N3) + Confidentiality Auditor + 5-level confidentiality documentation.
 
 ### Added
+
 - **Personal Vault**: 5 commands (`vault-init`, `vault-sync`, `vault-status`, `vault-restore`, `vault-export`) + skill + config rule for N3 user data in separate git repo
 - **Confidentiality Auditor**: Opus agent for multi-repo confidentiality compliance auditing
 - **Command**: `/confidentiality-check` — verify level compliance per project
@@ -107,6 +133,7 @@ Personal Vault (N3) + Confidentiality Auditor + 5-level confidentiality document
 - **Docs**: `docs/confidentiality-levels.md` — full 5-level (N1-N4b) documentation
 
 ### Changed
+
 - **Rule**: `context-placement-confirmation.md` — compressed to 150 lines, added N3 vault integration
 
 ## [3.4.1] — 2026-03-19
@@ -114,11 +141,13 @@ Personal Vault (N3) + Confidentiality Auditor + 5-level confidentiality document
 PII sanitization from security audit + Confidentiality Gate CI pipeline.
 
 ### Fixed
+
 - **PII**: removed 7 real names, 3 real companies, HR data from tracked files (GDPR)
 - **Untracked**: `active-user.md` and `settings.local.json` removed from git index
 - **IPs**: replaced hardcoded `192.168.1.x` with `<YOUR_PC_IP>` in savia-mobile-android
 
 ### Added
+
 - **Confidentiality Gate**: CI pipeline with 7-check scanner (blocklist, credentials, emails, proper nouns, forbidden files, merge markers, private IPs)
 - **Files**: `scripts/confidentiality-scan.sh`, `confidentiality-blocklist.txt`, `confidentiality-allowlist.txt`
 
@@ -127,6 +156,7 @@ PII sanitization from security audit + Confidentiality Gate CI pipeline.
 Era 120 — Task Criticality System + Multi-Tenant Calendar Sync.
 
 ### Added
+
 - **Task Criticality**: multi-level prioritization (WSJF, Cost of Delay, RICE, Eisenhower) with 5 scoring dimensions, auto-escalation, and confidence decay
 - **Commands**: `/criticality-dashboard`, `/criticality-assess`, `/criticality-rebalance` (3 new)
 - **Multi-Tenant Calendar Sync**: `/sync-calendars` — bidirectional free/busy sync between 2 Microsoft 365 tenants with AES-256 encrypted per-user credentials
@@ -134,6 +164,7 @@ Era 120 — Task Criticality System + Multi-Tenant Calendar Sync.
 - **Docs**: Smart Calendar (7 cmds) and Task Criticality (3 cmds) sections in ES+EN
 
 ### Changed
+
 - **smart-calendar SKILL.md**: added criticality integration section + sync-calendars reference
 
 ## [3.3.0] — 2026-03-19
@@ -141,6 +172,7 @@ Era 120 — Task Criticality System + Multi-Tenant Calendar Sync.
 Era 118 — Five improvements from open-source research (GitNexus, NemoClaw, GSD, Context Hub, Everything Claude Code).
 
 ### Added
+
 - **Skill: codebase-map** + **Command: /codebase-map**: Symbol indexing of pm-workspace itself. Scans commands→agents→rules→skills dependency graph. Detects orphaned rules, hub rules, routing chains. Inspired by GitNexus code intelligence engine.
 - **Rule: agent-policies.md** + **Command: /policy-check**: Policy-driven agent isolation with per-project YAML policies (allowed/denied paths, approval requirements, timeouts, network restrictions). Audit trail for violations. Inspired by NVIDIA NemoClaw sandbox orchestration.
 - **Rule: dev-session-locks.md** + **Command: /dev-session-resume**: Crash recovery for dev-sessions via lock files with PID detection. State machine (pending→implementing→validating→verified→completed). Auto-resume from last checkpoint. Inspired by GSD 2 disk state machine.
@@ -148,6 +180,7 @@ Era 118 — Five improvements from open-source research (GitNexus, NemoClaw, GSD
 - **Command: /skill-propose** + **Rule: skill-lifecycle.md**: Auto-generate skill scaffolds from repeated workflows (3+ observations). Consensus validation, adoption tracking, archival of unused skills. Inspired by Everything Claude Code continuous learning.
 
 ### Changed
+
 - **README.md + README.en.md**: Updated with new commands and skills.
 - **12-comandos-agentes.md + 12-commands-agents.md**: Added new command categories.
 
@@ -156,6 +189,7 @@ Era 118 — Five improvements from open-source research (GitNexus, NemoClaw, GSD
 Era 117 — Document Digest Suite: 4 new agents for PDF, Word, Excel, PowerPoint digestion with context-aware 4-phase pipeline.
 
 ### Added
+
 - **Agent: pdf-digest** (Opus 4.6): 4-phase pipeline for PDF documents using PyMuPDF for text extraction + Claude Vision for embedded images. Phases: raw extraction → project context loading → analysis/synthesis with cross-referencing → context document update. Supports protocols, manuals, proposals, reports, specs.
 - **Agent: word-digest** (Opus 4.6): 4-phase pipeline for DOCX using python-docx. Extracts text with styles, tables, embedded images, metadata. Same 4-phase context-aware architecture.
 - **Agent: excel-digest** (Opus 4.6): 4-phase pipeline for XLSX using openpyxl. Extracts structure, formulas (translated to natural language), validations, conditional formatting, macro names. Detects business rules embedded in formulas and anti-patterns.
@@ -166,6 +200,7 @@ Era 117 — Document Digest Suite: 4 new agents for PDF, Word, Excel, PowerPoint
 - **Prompt optimizer auto-trigger** (`prompt-optimizer/auto-trigger.md`): Protocol for Savia to automatically suggest `/skill-optimize` when agents accumulate 3+ corrections in last 10 executions. Detects explicit signals (PM corrections, re-executions) and implicit signals (low coherence scores, outputs exceeding limits). Auto-generates test fixtures from real usage patterns.
 
 ### Changed
+
 - **agents-catalog.md**: Updated from 39 to 43 agents. Added Document Digest Suite flow.
 - **CLAUDE.md**: Agent count updated from 39 to 43.
 - **meeting-digest.md**: Phase 4 context update now references README.md as project index (generic, not hardcoded document names).
@@ -179,6 +214,7 @@ Era 117 — Document Digest Suite: 4 new agents for PDF, Word, Excel, PowerPoint
 - **.gitignore**: Added `git/` to exclude local infrastructure.
 
 ### Fixed
+
 - **Agent audit**: Scanned all 43 agents across 7 dimensions. Fixed 15 agents with structural issues (incomplete frontmatter, outdated references, missing memory paths, missing Phase 4/5 in digest agents). Report: `output/agent-audit-20260319.md`.
 
 ## [3.1.0] — 2026-03-17
@@ -186,10 +222,12 @@ Era 117 — Document Digest Suite: 4 new agents for PDF, Word, Excel, PowerPoint
 Era 116 — Universal digest traceability + visual-digest agent with 4-pass contextual OCR pipeline.
 
 ### Added
+
 - **Rule: digest-traceability.md**: Universal traceability for all data sources processed by Savia (documents, transcriptions, audio, web, repos, diagrams). Idempotency protocol ensures no source is processed twice. Centralized `_digest-log.md` per project with change detection and archival strategy. Privacy-first: log lives inside `projects/` (gitignored).
 - **Agent: visual-digest** (Opus 4.6): 4-pass contextual OCR for whiteboard photos, handwritten notes, paper diagrams, screenshots, and slides. Pipeline: raw extraction → project context loading (reads team/members, business rules, prior digests) → resolution with homonym disambiguation protocol (3 Sergios, 2 Javiers, 2 Alvaros) → cross-verification against verbal digests. Tested: resolved 10 more items than naive OCR, corrected 3 misidentifications.
 
 ### Changed
+
 - **Digest workflow**: All digest agents (meeting-digest, document-digest, visual-digest) must now consult `_digest-log.md` before processing and update it after completion.
 - **agents-catalog.md**: Updated from 37 to 39 agents (+visual-digest, +web-e2e-tester). Added Visual Digest flow.
 - **README.md + README.en.md**: Agent count updated from 34 to 39 (aligned with actual .claude/agents/ directory).
@@ -200,6 +238,7 @@ Era 116 — Universal digest traceability + visual-digest agent with 4-pass cont
 Era 115 — Agent memory 3-level architecture (public/private/project). Meeting digest pipeline with confidentiality judge.
 
 ### Added
+
 - **Agent memory 3 levels**: `public-agent-memory/` (git-tracked best practices), `private-agent-memory/` (gitignored personal context), `projects/{p}/agent-memory/` (gitignored client data)
 - **Agent: meeting-digest** (Sonnet 4.6): extracts team profiles, business context and action items from meeting transcriptions (VTT, DOCX, TXT)
 - **Agent: meeting-risk-analyst** (Opus 4.6): cross-references meeting decisions against business rules, detects interpersonal conflicts, duplicities, dependencies and risky decisions
@@ -208,6 +247,7 @@ Era 115 — Agent memory 3-level architecture (public/private/project). Meeting 
 - **Rule: agent-memory-isolation.md**: immutable rule enforcing 3-level separation with RGPD compliance
 
 ### Changed
+
 - **agent-memory-protocol.md**: rewritten for 3-level architecture (public/private/project)
 - **agent-self-memory.md**: rewritten for 3-level architecture with classification criteria
 - **agents-catalog.md**: updated from 34 to 37 agents, added Meeting Digest flow
@@ -215,6 +255,7 @@ Era 115 — Agent memory 3-level architecture (public/private/project). Meeting 
 - **.gitignore**: `private-agent-memory/` added, `public-agent-memory/` explicitly tracked
 
 ### Removed
+
 - **`.claude/agent-memory/`**: legacy single-level agent memory (migrated to 3 levels)
 
 ## [2.99.0] — 2026-03-16
@@ -222,6 +263,7 @@ Era 115 — Agent memory 3-level architecture (public/private/project). Meeting 
 Era 114b — Windows installer zero-touch: auto-install deps, PATH config, parse fixes.
 
 ### Fixed
+
 - **install.ps1**: ASCII art reading "Saxia" instead of "Savia"
 - **install.ps1**: PowerShell parse errors from em dashes and subexpressions in double-quoted strings
 - **install.ps1**: Windows `python3.exe` Store stub causing NativeCommandError
@@ -229,6 +271,7 @@ Era 114b — Windows installer zero-touch: auto-install deps, PATH config, parse
 - **install.ps1**: Unicode box-drawing chars rendering as mojibake in PowerShell terminal
 
 ### Changed
+
 - **install.ps1**: Auto-install missing dependencies (Git, Node.js, Python, jq) via winget/choco instead of just detecting and aborting
 - **install.ps1**: Add Claude Code `~/.local/bin` to user PATH permanently after install
 - **install.ps1**: Fallback to `~/pm-workspace` when `~/claude` exists but is not a git repo
@@ -238,12 +281,14 @@ Era 114b — Windows installer zero-touch: auto-install deps, PATH config, parse
 Era 114 — Git Manager roadmap, E2E screenshot validation rule, settings privacy guard.
 
 ### Added
+
 - **Git Manager roadmap** (`specs/roadmap-git-manager.md`): full open-source research (10 projects analyzed: Ungit, isomorphic-git, Gitea, lazygit...), technical design (17 Bridge endpoints, TypeScript interfaces, SVG graph algorithm, security patterns), and 3-week implementation plan
 - **Rule: E2E screenshot validation** (`e2e-screenshot-validation.md`): cross-project rule — all web E2E tests must include screenshots for visual confirmation
 - **Script: validate-settings-local.sh**: detects private data (localhost URLs, hardcoded paths, session-specific commands) in `settings.local.json` before commit
 - **Domain rules**: added `globs` frontmatter for path-specific auto-loading (41 rules)
 
 ### Fixed
+
 - **settings.local.json**: cleaned session-specific permissions (hardcoded URLs, piped commands), kept only generic tool wildcards
 
 ## [2.97.0] — 2026-03-15
@@ -251,6 +296,7 @@ Era 114 — Git Manager roadmap, E2E screenshot validation rule, settings privac
 Era 113 — Savia Web: chat multi-thread, tool feedback, markdown quality, session fixes.
 
 ### Added
+
 - **Chat tool activity feed**: Live progress inside assistant bubble while Savia uses tools (📄 Reading, 🔍 Searching, 🤖 Delegating...) with pulsing indicator
 - **Chat multi-thread**: Session-scoped streaming — responses don't leak between sessions. Stream cancelled on session switch
 - **Chat session titles**: "Mar 15, 18:30 — message digest" format with date+time
@@ -261,6 +307,7 @@ Era 113 — Savia Web: chat multi-thread, tool feedback, markdown quality, sessi
 - **Rule**: pre-commit-bats — always run `tests/run-all.sh` before commit
 
 ### Fixed
+
 - **Session panel width**: Was 0px (missing CSS width), now 260px
 - **Delete button hover**: Bigger click area, visible on hover for non-active sessions
 - **SSE streaming**: One-shot mode, `Connection: close`, client-side stream break
@@ -273,6 +320,7 @@ Era 113 — Savia Web: chat multi-thread, tool feedback, markdown quality, sessi
 Era 112 — Savia Web Phase 3: per-user auth, user management, chat sessions, bug fixes.
 
 ### Added
+
 - **Per-user tokens**: Individual tokens per user in `~/.savia/bridge/users/{slug}/token`, profile.json with roles
 - **User management**: Admin panel `/admin/users` — create/edit/delete users, role dropdown, token rotation/revocation, last-admin protection
 - **Chat session management**: Session list sidebar (260px), New Chat, switch sessions, delete, titles with "date — message digest", localStorage persistence
@@ -284,6 +332,7 @@ Era 112 — Savia Web Phase 3: per-user auth, user management, chat sessions, bu
 - **Create project modal**: Teleport to body, responsive, z-index 9999
 
 ### Fixed
+
 - **SSE chat hanging**: Switched from interactive stdin/stdout to one-shot streaming (`claude -p`)
 - **Chat input disabled after response**: `Connection: close` header + client-side stream break on `done`
 - **Session conflict**: Corrupted sessions detected and invalidated, user gets friendly message
@@ -293,6 +342,7 @@ Era 112 — Savia Web Phase 3: per-user auth, user management, chat sessions, bu
 - **Session panel width 0**: Added `width: 260px` + `min-width`
 
 ### Stats
+
 - Unit tests: 228 (42 files)
 - E2E tests: 148 (18 files) — with screenshots for visual validation
 - Bridge tests: 29
@@ -303,12 +353,14 @@ Era 112 — Savia Web Phase 3: per-user auth, user management, chat sessions, bu
 Era 112 — Savia Web Phase 2: i18n fully wired, project context switch, all gaps fixed.
 
 ### Added
+
 - **i18n fully wired**: All 12 pages + AppSidebar use `useI18n()` / `$t()`. Zero hardcoded strings
 - **Project context switch**: Dashboard, reports, pipelines, integrations stores watch `projectStore.selectedId` and reload on change
 - **Vitest i18n setup**: Global test setup registers i18n plugin for all component tests
 - **Phase 2.5 spec**: Create project from web (modal + scaffolding via Bridge)
 
 ### Fixed
+
 - E2E `clearSession` sets English locale to match test assertions
 - `useReportData` now uses `projectStore` instead of `dashboardStore` for project context
 - All 217 unit tests + 109 E2E tests pass with i18n
@@ -318,10 +370,12 @@ Era 112 — Savia Web Phase 2: i18n fully wired, project context switch, all gap
 Era 111 — Radical Honesty Principles (Rule #24).
 
 ### Added
+
 - **Rule #24 — Radical Honesty**: new domain rule (`radical-honesty.md`) with 6 prohibitions (no filler, no sugar-coating, no unearned praise, no hedging, no self-announcement, no comfort-seeking language) and 6 obligations (challenge assumptions, expose blind spots, mirror self-deception, show where they play small, objective depth, ground in personal truth)
 - **tone.md**: new `honesty` field (`radical` | `standard`) in user tone template
 
 ### Changed
+
 - **Savia persona** (`savia.md`): personality rewritten from "warm, bonachona" to "direct, strategic, radically honest". Linguistic register, banned phrases and example phrases updated
 - **Adaptive output** (`adaptive-output.md`): all 3 modes (coaching, executive, technical) rewritten to follow radical honesty — no false encouragement, no hedging, quantified costs
 - **CLAUDE.md**: Rule #24 added to Critical Rules. Savia description updated
@@ -331,6 +385,7 @@ Era 111 — Radical Honesty Principles (Rule #24).
 Era 110 — Autonomous Pipeline Engine: local CI/CD without Jenkins.
 
 ### Added
+
 - **scripts/pipeline-engine.sh**: Orchestrate pipeline execution from YAML definition — parses stages, respects dependencies, parallel support, dry-run mode
 - **scripts/pipeline-stage-runner.sh**: Execute individual pipeline stages (bash command or agent), log results as JSON
 - **.claude/templates/pipeline/ci-template.yaml**: Sample CI pipeline with build, test, security, lint, review stages
@@ -342,6 +397,7 @@ Era 110 — Autonomous Pipeline Engine: local CI/CD without Jenkins.
 Era 103 — LSP-Powered Code Intelligence: best-practices-check command.
 
 ### Added
+
 - **.claude/commands/best-practices-check.md**: `/best-practices-check` evaluates workspace against 5 categories (structure, hooks, context, testing, docs) with score 0-100
 
 ## [2.91.0] — 2026-03-14
@@ -349,6 +405,7 @@ Era 103 — LSP-Powered Code Intelligence: best-practices-check command.
 Era 107.3 — Backlog resolver: local-first data source for commands.
 
 ### Added
+
 - **scripts/backlog-resolver.sh**: Sourceable helper for commands — resolves backlog path, sprint ID, PBI counts by state, board summary, sprint items. Local-first with API fallback
 - **tests/structure/test-backlog-resolver.bats**: 8 BATS tests for resolver functions
 
@@ -357,6 +414,7 @@ Era 107.3 — Backlog resolver: local-first data source for commands.
 Era 102 — Real-Time Observatory: statusline, notifications, activity log.
 
 ### Added
+
 - **scripts/statusline-provider.sh**: HUD data provider for Claude Code statusline — outputs JSON with tier, context window, project, branch, PBI counts
 - **scripts/notify.sh**: Cross-platform desktop notifications (Linux notify-send, macOS osascript, fallback echo)
 - **.claude/commands/agent-activity.md**: `/agent-activity` command showing structured log of recent agent executions
@@ -367,6 +425,7 @@ Era 102 — Real-Time Observatory: statusline, notifications, activity log.
 Era 107.2 — Sync Adapters: Azure DevOps, Jira, and GitHub Issues bidirectional sync.
 
 ### Added
+
 - **scripts/sync-adapters/adapter-interface.sh**: Common functions for sync — logging, field extraction, state mapping, conflict detection
 - **scripts/sync-adapters/azure-devops-adapter.sh**: Pull/push/diff with Azure DevOps work items via REST API
 - **scripts/sync-adapters/jira-adapter.sh**: Pull/push/diff with Jira Cloud via REST API v3
@@ -379,6 +438,7 @@ Era 107.2 — Sync Adapters: Azure DevOps, Jira, and GitHub Issues bidirectional
 Era 107.1 — Backlog Sovereignty: markdown-based backlog as source of truth.
 
 ### Added
+
 - **scripts/backlog-init.sh**: Initialize backlog structure for any project (config, sprint folder, PBI directory)
 - **scripts/backlog-pbi-crud.sh**: Create, read, update, list, archive PBIs as markdown files with YAML frontmatter
 - **scripts/backlog-query.sh**: Query PBIs by state, sprint, assigned, priority, type. Outputs table, JSON, or count
@@ -390,6 +450,7 @@ Era 107.1 — Backlog Sovereignty: markdown-based backlog as source of truth.
 Era 100.3 — Context metrics command and session snapshot integration.
 
 ### Added
+
 - **.claude/commands/context-status.md**: Lightweight command (Haiku) showing model, context window, tier, compact threshold, strategy, and recommendations
 
 ## [2.86.0] — 2026-03-14
@@ -397,11 +458,13 @@ Era 100.3 — Context metrics command and session snapshot integration.
 Era 100.2 — Context Sync Persistente. Session snapshot save/load between sessions.
 
 ### Added
+
 - **scripts/context-snapshot.sh**: Save/load session context (project, branch, sprint, last activity) as JSON. 24h TTL, auto-expired
 - **.claude/hooks/session-end-snapshot.sh**: Stop hook that auto-saves snapshot at session end (async, 5s timeout)
 - **tests/structure/test-context-snapshot.bats**: 7 BATS tests for snapshot save/load/status
 
 ### Changed
+
 - **session-init.sh**: Loads fresh snapshot at startup, shows recovered project in init output
 - **.claude/settings.json**: Added session-end-snapshot hook to Stop event
 - **.gitignore**: Added `.claude/context-cache/`
@@ -411,6 +474,7 @@ Era 100.2 — Context Sync Persistente. Session snapshot save/load between sessi
 Era 100.1 — Lazy Loading of Rules Domain. Tier-based rule classification and manifest.
 
 ### Added
+
 - **scripts/rule-usage-analyzer.sh**: Analyzes domain rule usage across workspace — classifies 110 rules into tier1 (startup), tier2 (on-demand), dormant (unreferenced). Outputs JSON manifest
 - **.claude/rules/domain/rule-manifest.json**: Pre-computed map of 110 rules with tier + consumers. 13 tier1, 35 tier2, 62 dormant
 - **tests/structure/test-rule-lazy-loading.bats**: 8 BATS tests for analyzer and manifest integrity
@@ -420,12 +484,14 @@ Era 100.1 — Lazy Loading of Rules Domain. Tier-based rule classification and m
 Era 100.0 — Context Window Adaptive per Model. Provider-agnostic dynamic context detection.
 
 ### Added
+
 - **config/model-capabilities.yaml**: LLM capability registry — maps models to context window, tier, and strategy. Supports Claude, GPT, Gemini, Llama, Mistral (provider-agnostic)
 - **scripts/model-capability-resolver.sh**: Detects active model, parses YAML registry, exports `SAVIA_CONTEXT_WINDOW`, `SAVIA_MODEL_TIER`, `SAVIA_COMPACT_THRESHOLD` env vars. Falls back to 128K/fast for unknown models
 - **scripts/adaptive-strategy-selector.sh**: Given a tier (max/high/fast), outputs JSON with lazy loading, agent budget, autocompact, and sprint loading strategy
 - **tests/structure/test-model-capabilities.bats**: 13 BATS tests covering registry, resolver, and strategy selector
 
 ### Changed
+
 - **session-init.sh**: Model capability detection runs as first step — sets SAVIA_* vars for downstream scripts
 - **CLAUDE.md**: Updated to reflect Era 100.0 context intelligence
 
@@ -434,6 +500,7 @@ Era 100.0 — Context Window Adaptive per Model. Provider-agnostic dynamic conte
 Era 63 — Multi-user session architecture with per-user isolation in savia-bridge.
 
 ### Added
+
 - **Per-user session isolation**: savia-bridge supports multiple concurrent users without lock contention with terminal
 - **Two-tier auth**: master token + per-user tokens via `POST /auth/register`
 - **Username field**: added to mobile `BridgeSetupDialog` and web `LoginPage`
@@ -444,12 +511,14 @@ Era 63 — Multi-user session architecture with per-user isolation in savia-brid
 - **Multi-user sessions spec**: formal specification for the feature (`specs/multi-user-sessions.spec.md`)
 
 ### Changed
+
 - **savia-bridge.py**: refactored session management for per-user isolation
 - **SecurityRepository (mobile)**: updated interface for username-based auth
 - **auth store (web)**: session management adapted for multi-user flow
 - **chat store (web)**: threading adapted for per-user context
 
 ### Fixed
+
 - Bridge lock contention between web/mobile users and terminal session
 
 ## [2.82.0] — 2026-03-14
@@ -457,6 +526,7 @@ Era 63 — Multi-user session architecture with per-user isolation in savia-brid
 Era 62b — Savia Web production-ready: login system, E2E testing, modern UI, and bridge threading fix.
 
 ### Added
+
 - **Login system**: Server URL + @username + token authentication with cookie persistence, team profile loading, and registration wizard for new users (`LoginPage.vue`, `RegisterWizard.vue`)
 - **E2E test suite**: 8 Playwright test files covering login, navigation, dashboard, theme, reports, chat, pages, and UI quality — with regression plan (`specs/regression-plan.md`)
 - **web-e2e-tester agent**: autonomous browser testing agent equivalent to android-autonomous-debugger (`.claude/agents/web-e2e-tester.md`)
@@ -467,6 +537,7 @@ Era 62b — Savia Web production-ready: login system, E2E testing, modern UI, an
 - **Savia logo**: owl PNG from savia-mobile with transparent background for dark mode
 
 ### Changed
+
 - **savia-bridge.py**: `HTTPServer` → `ThreadingHTTPServer` — fixes concurrent request blocking (chat no longer freezes health/dashboard/team endpoints)
 - **LoginPage.vue**: 8-second fetch timeout with `AbortController` — shows error instead of hanging on "Connecting..."
 - **MainLayout.vue**: auto-connect with timeout; shows login form on failure
@@ -475,6 +546,7 @@ Era 62b — Savia Web production-ready: login system, E2E testing, modern UI, an
 - **Design system**: glassmorphism surfaces, Inter font, layered shadows, focus rings, spacing tokens
 
 ### Fixed
+
 - Bridge single-thread blocking: `/chat` no longer prevents other endpoints from responding
 - Login "Connecting..." infinite hang when bridge is unreachable
 
@@ -483,6 +555,7 @@ Era 62b — Savia Web production-ready: login system, E2E testing, modern UI, an
 Era 62a — Savia Web: Vue.js web client for PM-Workspace dashboards with reporting endpoints.
 
 ### Added
+
 - **savia-web**: Vue 3 + TypeScript + Vite web client with 10 dashboard pages (sprints, burndown, DORA, capacity, workload, quality, debt, cycle-time, portfolio, team health) and 10 reusable ECharts components (line, bar, gauge, pie, heatmap, sankey, scatter, radar, tree, timeline)
 - **savia_bridge_reports.py**: 8 HTTP JSON endpoints for reporting (velocity, burndown, DORA, workload, quality, debt, cycle-time, portfolio) that feed the web client
 - **setup-savia-web.sh**: Production build and serve script for Savia Web with health checks and graceful shutdown
@@ -493,11 +566,13 @@ Era 62a — Savia Web: Vue.js web client for PM-Workspace dashboards with report
 Era 62 — Agent and skill enrichment: handoff templates, assignment matrix, enhanced verification, skill metadata, and agent identity profiles.
 
 ### Added
+
 - **handoff-templates rule**: 7 standardized templates for agent-to-agent transitions (Standard, QA Pass/Fail, Escalation, Phase Gate, Sprint Review, Status Report)
 - **assignment-matrix rule**: Task Type → Agent routing table (39 task types, 12 language packs, selection rules)
 - **decision-trees/**: externalized decision trees for agents exceeding 150-line limit
 
 ### Changed
+
 - **verification-before-done rule**: enhanced with evidence-based quality gates, retry policy (haiku→sonnet→opus→human), escalation handoff format
 - **skill-auto-activation rule**: refined scoring (40% base + 30% context + 30% history), 7 category taxonomy, priority-based thresholds
 - **75 skills**: added `category`, `tags`, `priority` metadata to YAML frontmatter for intelligent routing and auto-activation
@@ -509,6 +584,7 @@ Era 62 — Agent and skill enrichment: handoff templates, assignment matrix, enh
 Autonomous modes — overnight sprint, code improvement loop, tech research agent, and dev onboarding with AI buddy.
 
 ### Added
+
 - **`/overnight-sprint` command**: autonomous overnight sprint — executes low-risk tasks, creates Draft PRs for human review
 - **`/code-improve` command**: autonomous code improvement loop — detects coverage, lint, debt opportunities and generates PRs
 - **`/tech-research` command**: autonomous technical research — investigates topics, generates reports, notifies designated reviewer
@@ -522,6 +598,7 @@ Autonomous modes — overnight sprint, code improvement loop, tech research agen
 - **docs/autoresearch-cases.md**: example research cases and templates
 
 ### Changed
+
 - **CLAUDE.md**: added rule 8b (Autonomy) and 4 new skills in catalog
 - **pm-config.md**: added Autonomous Modes and Onboarding configuration sections
 - **README.md / README.en.md**: updated counters (400+ commands, 45 skills) and added autonomous modes section
@@ -531,6 +608,7 @@ Autonomous modes — overnight sprint, code improvement loop, tech research agen
 Reverse orgchart import — parse diagrams (Mermaid, Draw.io, Miro) to generate teams/ structure.
 
 ### Added
+
 - **`/orgchart-import` command**: imports orgchart diagrams and generates department, team and member files in `teams/`
 - **orgchart-import skill**: 7-phase pipeline (detect format, parse, normalize, validate, detect conflicts, write, summary) with 3 conflict modes (create, merge, overwrite)
 - **Mermaid parser**: recognizes DEPT nodes, subgraphs with capacity, member nodes with lead markers (★), supervisor links
@@ -540,6 +618,7 @@ Reverse orgchart import — parse diagrams (Mermaid, Draw.io, Miro) to generate 
 - **DOMAIN.md**: Clara Philosophy documentation for the skill
 
 ### Changed
+
 - **diagram-config.md**: added `ORGCHART_IMPORT_MODES` and `ORGCHART_IMPORT_DEFAULT_MODE` constants
 - **README.md / README.en.md**: documented orgchart import capability in code intelligence section
 
@@ -548,12 +627,14 @@ Reverse orgchart import — parse diagrams (Mermaid, Draw.io, Miro) to generate 
 Orgchart diagram generation from teams data — new diagram type for `/diagram-generate`.
 
 ### Added
+
 - **Orgchart diagram type**: `/diagram-generate {dept} --type orgchart` generates hierarchical team diagrams from `teams/` data, exportable to Draw.io, Miro or local Mermaid
 - **Orgchart shapes reference**: Draw.io XML snippets for department containers, team nodes, person shapes (lead vs member), hierarchy and supervisor links (`orgchart-shapes.md`)
 - **Orgchart Mermaid template**: `graph TB` template with subgraphs per team, lead markers (★), @handle-based naming, PII-Free compliant (`orgchart-mermaid-template.md`)
 - **Test suite**: `scripts/test-orgchart-diagrams.sh` — 45 tests covering config, structure, shapes, template, command integration, skill integration and Mermaid output generation
 
 ### Changed
+
 - **diagram-config.md**: `DIAGRAM_TYPES` now includes `orgchart`, added `ORGCHART_DATA_DIR` and `ORGCHART_OUTPUT_DIR`
 - **diagram-generation SKILL.md**: Added Orgchart to supported types, teams data source note, two new reference files
 - **diagram-generate command**: Added `--type orgchart` with 6-step orgchart-specific flow (dept validation, hierarchy read, Mermaid generation, export, metadata, presentation)
@@ -617,11 +698,13 @@ Orgchart diagram generation from teams data — new diagram type for `/diagram-g
 - **Documentation** (`docs/android-debug-agent.md`): Full API reference, architecture diagram, use cases for PM/QA smoke testing, developer debugging, and CI verification. Includes security model and environment variable reference
 
 ### Fixed
+
 - **Bridge duplicate text**: Response text no longer appears twice in chat bubbles (result event suppressed when streaming already delivered the content)
 - **Bridge session persistence**: Known sessions saved to `~/.savia/bridge/known-sessions.json` — multi-turn conversations survive bridge restarts
 - **Bridge "already in use" recovery**: If session conflict detected, session marked as known for automatic retry
 
 ### Added
+
 - **Chat timestamps**: Message bubbles display HH:mm time for traceability (SimpleDateFormat with `remember` for performance)
 
 ## [2.75.0] — 2026-03-10
@@ -1156,7 +1239,6 @@ Bidirectional sync for non-technical users. Google Drive as persistence alternat
 - **`/drive-sync {action}`** — Push/pull/status operations for local↔Drive sync.
 - **`google-drive-memory` skill** — 4-phase pipeline: setup → sync → permissions → MCP. Timestamp-based conflict resolution.
 
-
 ## [2.30.0] — 2026-03-07
 
 ### Added — Era 59: MCP Tool Search & Smart Routing
@@ -1192,6 +1274,7 @@ Automatic mental model generation after SDD implementation. Addresses AI-generat
 - **`code-comprehension` rule** — Every dev-session completion SHOULD trigger comprehension report. Code Review E1 includes "debuggeable at 3AM?" criterion. Integration with postmortem process: link comprehension reports to incident analysis, update on failures.
 
 ---
+
 ## [2.27.0] — 2026-03-07
 
 ### Added — Era 56: Scheduled Messaging Integration
@@ -1241,8 +1324,6 @@ Bridges the gap between business rules documentation and PBI creation. Automatic
 - Integrates with `product-discovery` for complex features: auto-triggers JTBD + PRD when rule requires feature analysis.
 
 ---
-
-
 ---
 
 ## [2.23.1] — 2026-03-06
@@ -1789,8 +1870,6 @@ Confidentiality hardening: E2E encryption testing, subject sensitivity validatio
 ### Changed
 
 - **test-integration-company.sh**: Runs 18 suites (197 tests total, all green). Accepts repo URL as parameter.
-
-
 ---
 
 ## [1.5.0] — 2026-03-03
@@ -1801,8 +1880,6 @@ Ecosystem Integration: research of 12+ Claude Code repos with actionable improve
 
 - **2 research docs**: `investigacion-ecosistema-claude-code-2026.md` (12 repos analyzed), `era21-masterplan.md` (7 workstreams planned).
 - **12 improvement proposals**: instincts system, adversarial security, skill evaluation engine, anti-rationalization hook, quality sweeps, deny rules, pass@k metrics, verify/fix loops, audit trail, AGENTS.md format, VoiceMode, event broker.
-
-
 ---
 
 ## [1.4.0] — 2026-03-03
@@ -1821,8 +1898,6 @@ Savia School: educational vertical for classrooms. Teachers tutor and evaluate, 
 - AES-256-CBC encrypted evaluations (teacher-only decryption).
 - GDPR Art. 8 (parental consent), Art. 15 (data export), Art. 17 (right to erasure).
 - Student folder isolation. Audit trail for all operations.
-
-
 ---
 
 ## [1.3.0] — 2026-03-03
@@ -1834,8 +1909,6 @@ Git Persistence Engine: TSV indexes for low-context lookups. ~60-80% token reduc
 - **3 commands**: `/index-rebuild`, `/index-status`, `/index-compact` — Manage TSV indexes.
 - **2 scripts**: `savia-index.sh` (core: lookup, update, remove, verify, compact), `savia-index-rebuild.sh` (rebuild profiles, messages, projects, specs, timesheets from source files).
 - **6 index types**: profiles.idx, messages.idx, projects.idx, tasks.idx, specs.idx, timesheets.idx.
-
-
 ---
 
 ## [1.2.0] — 2026-03-03
@@ -1847,8 +1920,6 @@ SDD/Tickets/Tasks Git-native: complete Savia Flow task management in Git folders
 - **12 commands**: `/flow-task-create`, `/flow-task-move`, `/flow-task-assign`, `/flow-sprint-create`, `/flow-sprint-close`, `/flow-sprint-board`, `/flow-timesheet`, `/flow-timesheet-report`, `/flow-burndown`, `/flow-velocity`, `/flow-spec-create`, `/flow-backlog-groom`.
 - **3 scripts**: `savia-flow-tasks.sh` (task CRUD + board), `savia-flow-sprint.sh` (sprint lifecycle + metrics), `savia-flow-timesheet.sh` (time tracking + reporting).
 - **1 rule**: `flow-tasks-config.md` — Configuration for Git-native flow system.
-
-
 ---
 
 ## [1.1.0] — 2026-03-03
@@ -1865,8 +1936,6 @@ Travel Mode extended: full pack/unpack/sync/verify/clean lifecycle for portable 
 - AES-256-CBC encryption for keys and PATs on USB.
 - SHA256 integrity checksums for all files.
 - Secure cleanup of traces from borrowed machines.
-
-
 ---
 
 ## [1.0.0] — 2026-03-03
@@ -1884,8 +1953,6 @@ Script Hardening: 6 critical + 7 medium fixes across 9 scripts. Cross-platform (
 - **context-aging.sh**: date -d doesn't exist on macOS — now detects OSTYPE.
 - **validate-bash-global.sh**: \s not POSIX ERE — replaced with [[:space:]].
 - **block-force-push.sh**: Pattern matching bypass via compound commands — added anchoring.
-
-
 ---
 
 ## [0.101.0] — 2026-03-03
@@ -1902,8 +1969,6 @@ Savia Flow: Git-based project management — PBIs, sprints, Kanban board, timesh
 ### Changed
 
 - **`company-repo-templates-init.sh`** — Added `projects/` and `teams/` dirs to repo init.
-
-
 ---
 
 ## [0.100.0] — 2026-03-03
@@ -1914,8 +1979,6 @@ Travel Mode: portable USB bootstrap with `savia-init` for deploying pm-workspace
 
 - **2 commands**: `/savia-travel-pack`, `/savia-travel-init` — Pack and bootstrap pm-workspace portably.
 - **2 scripts**: `savia-travel.sh` (pack), `savia-travel-init.sh` (bootstrap: OS detect, deps check, Claude Code install, workspace copy, profile restore).
-
-
 ---
 
 ## [0.99.2] — 2026-03-03
@@ -1925,8 +1988,6 @@ Integration tests against real Company Savia repo structure.
 ### Added
 
 - **1 test script**: `test-integration-company.sh` — Orchestrates all 3 Company Savia test suites + smoke tests against cloned repo.
-
-
 ---
 
 ## [0.99.1] — 2026-03-03
@@ -1940,8 +2001,6 @@ Cross-platform compatibility: replace GNU-only patterns with portable helpers.
 ### Fixed
 
 - **7 scripts**: Replaced `base64 -w0`, `grep -oP`, bare `sed -i` with portable helpers from `savia-compat.sh`. Affected: `savia-crypto-ops.sh`, `savia-messaging.sh`, `savia-messaging-inbox.sh`, `company-repo.sh`, `company-repo-ops.sh`, `backup.sh`, `test-savia-messaging.sh`.
-
-
 ---
 
 ## [0.99.0] — 2026-03-03
@@ -1957,8 +2016,6 @@ Company Savia: shared company repository with async messaging and E2E encryption
 - **1 rule**: `company-savia-config.md` — Configuration constants for repo, encryption, privacy, inbox, and messaging.
 - **3 test scripts**: `test-company-repo.sh`, `test-savia-messaging.sh`, `test-savia-crypto.sh` — Full test coverage for repo lifecycle, messaging round-trip, and encryption.
 - **Session-init integration**: unread inbox count displayed at startup (filesystem-only, no network).
-
-
 ---
 
 ## [0.98.0] — 2026-03-03
@@ -1977,8 +2034,6 @@ PR Guardian System — Automated PR validation with 8 quality gates + contextual
 
 - **`.github/pull_request_template.md`** — Added "Context impact" and "Hook safety" sections, conventional commits requirement.
 - **`docs/ROADMAP.md`** — Added Era 19 (Open Source Synergy) and Era 20 (Persistent Intelligence & Adaptive Workflows) with 6 milestones.
-
-
 ---
 
 ## [0.97.0] — 2026-03-03
@@ -1989,8 +2044,6 @@ Era 20 — MCP Toolkit & Async Hooks.
 
 - **`/mcp-recommend`** — Curated MCP recommendations by stack and role (Context7, DeepWiki, Playwright, Excalidraw, Docker, Slack).
 - **`async-hooks-config.md`** — Hook classification (2 async, 10 blocking), event coverage 9/16 (56%), `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50`.
-
-
 ---
 
 ## [0.96.0] — 2026-03-03
@@ -2001,8 +2054,6 @@ Era 20 — Adaptive Output & Onboarding.
 
 - **`/onboard`** — Guided onboarding for new team members with role-specific checklists (dev/PM/QA). Auto-explore, component map, personalized Day 1/Week 1/Month 1 plan.
 - **`adaptive-output.md`** — Three output modes: Coaching (junior devs), Executive (stakeholders), Technical (senior engineers). Auto-detection from profile and command context.
-
-
 ---
 
 ## [0.95.0] — 2026-03-03
@@ -2013,8 +2064,6 @@ Era 20 — RPI Workflow Engine.
 
 - **`/rpi-start`** — Research → Plan → Implement workflow with GO/NO-GO gates. Creates `rpi/{feature}/` folder structure orchestrating product-discovery, pbi-decomposition, and spec-driven-development skills.
 - **`/rpi-status`** — Track progress of active RPI workflows with phase detection.
-
-
 ---
 
 ## [0.94.0] — 2026-03-03
@@ -2028,8 +2077,6 @@ Era 20 — Smart Command Frontmatter.
 ### Changed
 
 - **57 commands** updated with `model` and `context_cost` frontmatter fields: 20 haiku, 29 sonnet, 8 opus.
-
-
 ---
 
 ## [0.93.0] — 2026-03-03
@@ -2041,8 +2088,6 @@ Era 20 — Savia Contextual Memory.
 - **`/savia-recall`** — Query Savia's accumulated contextual memory (decisions, vocabulary, communication preferences).
 - **`/savia-forget`** — GDPR-compliant memory pruning implementing Art. 17 RGPD.
 - **`.claude/agent-memory/savia/MEMORY.md`** — Savia-specific persistent memory template.
-
-
 ---
 
 ## [0.92.0] — 2026-03-03
@@ -2054,8 +2099,6 @@ Era 20 — Agent Memory Foundation.
 - **`.claude/agent-memory/`** — Persistent memory directory with MEMORY.md templates for 9 agents (architect, security-guardian, commit-guardian, code-reviewer, business-analyst, sdd-spec-writer, test-runner, dotnet-developer, savia).
 - **`/agent-memory`** — Command to inspect and manage agent memory fragments (list, show, clear).
 - **`agent-memory-protocol.md`** — Domain rule defining three memory scopes (project, local, user), hygiene rules, and integration with existing systems.
-
-
 ---
 
 ## [0.91.0] — 2026-03-03
@@ -2085,8 +2128,6 @@ Era 20 — Stress Testing & Bug Fixes. 5 bug fixes + 165 new tests + orchestrato
 
 - **`test-savia-e2e-harness.sh`** — Added Section 9: Era 18 Integration (6 tests).
 - Tests: 64→229 (+165 new tests across 7 scripts)
-
-
 ---
 
 ## [0.90.0] — 2026-03-03
@@ -2109,8 +2150,6 @@ Era 19 — Open Source Synergy (6/6). ERA 19 COMPLETA.
 
 - **README.md / README.en.md** — Añadida sección v0.90.0 con nuevos comandos y sección "Agradecimiento especial" con enlace a claude-code-templates.
 - Commands: 271→273 · Rules: 50→52
-
-
 ---
 
 ## [0.89.0] — 2026-03-03
@@ -2142,8 +2181,6 @@ Era 18 — Compliance, Distribution & Intelligent Hooks (6/6). ERA 18 COMPLETA.
 - **`settings.json`** — Registrados 2 nuevos hooks (prompt-hook-commit, agent-hook-premerge).
 - **`adoption-assess.md`** — Añadida opción `--ai-skills` con AI Competency radar (6 dimensiones).
 - Commands: 268→271 · Hooks: 12→14
-
-
 ---
 
 ## [0.83.0] — 2026-03-02
@@ -2158,8 +2195,6 @@ Safe Boot, Deterministic CI, PR Governance — Savia arranca siempre: MCP server
 - **`CLAUDE.md`** — 216→120 líneas: sección Savia duplicada eliminada, catálogo de comandos movido a referencia, regla 19 (arranque seguro).
 - **`validate-bash-global.sh`** — Nuevos bloqueos: `gh pr review --approve` (auto-aprobación) y `gh pr merge --admin` (bypass branch protection).
 - **`github-flow.md`** — Reglas explícitas: NUNCA auto-aprobar, NUNCA --admin.
-
-
 ---
 
 ## [0.82.0] — 2026-03-02
@@ -2178,8 +2213,6 @@ Auto-Compact — Compresión automática de contexto entre escenarios. Cuando el
 
 - **`harness.sh`** — Refactorizado de 269→150 líneas, ahora orquestador puro.
 - **`test-savia-e2e-harness.sh`** — 44 tests (vs 38), incluye test de auto-compact.
-
-
 ---
 
 ## [0.81.0] — 2026-03-02
@@ -2194,8 +2227,6 @@ AI Role Tooling — Dos nuevos comandos basados en gaps detectados en role-evolu
 ### Changed
 
 - CLAUDE.md, README.md, README.en.md — Command count 267→268.
-
-
 ---
 
 ## [0.80.0] — 2026-03-02
@@ -2205,8 +2236,6 @@ Context Optimization v2 — Mock engine realista calibrado por tipo de comando. 
 ### Changed
 
 - **`harness.sh`** — Mock engine reescrito: rangos de tokens calibrados por comando, state file `state.json`, columna `context_acc` en CSV, sección "Context Accumulation" en report con umbrales 50%/70%.
-
-
 ---
 
 ## [0.79.1] — 2026-03-02
@@ -2217,8 +2246,6 @@ Role Evolution update — Reescrita `role-evolution-ai.md` con la taxonomía rea
 
 - **`role-evolution-ai.md`** — Reescrita completa: 6 categorías Kelman (vs genéricas previas), roles industria mapeados a Savia Flow, gaps detectados (RAG Engineer, Behavioral Trainer, AI UX Designer).
 - **`ROADMAP.md`** — Añadido "AI Role Tooling" en propuestas: `/knowledge-prime`, `/savia-persona-tune`, mock engine realista.
-
-
 ---
 
 ## [0.79.0] — 2026-03-02
@@ -2229,8 +2256,6 @@ CI + Multimodal Agent Prep — GitHub Action para E2E mock en PRs. Reference de 
 
 - **`.github/workflows/savia-e2e.yml`** — CI workflow: E2E mock test en PRs que modifiquen flow-* o savia-test.
 - **`multimodal-agents.md`** — Reference: agentes VLM, tool-use, roadmap integración visual gates + spec from wireframe.
-
-
 ---
 
 ## [0.78.0] — 2026-03-02
@@ -2241,8 +2266,6 @@ Role Evolution — 6 categorías roles AI-era mapeadas a Savia Flow. Escenario s
 
 - **`role-evolution-ai.md`** — 6 categorías (Orchestrator, Translator, Guardian, Builder, Context Engineer, Governance), mapping equipo, madurez L1-L4.
 - **`05-stress.md`** — Escenario stress: 10+ specs, intake masivo, board full-load, retro exhaustivo.
-
-
 ---
 
 ## [0.77.0] — 2026-03-02
@@ -2256,8 +2279,6 @@ Knowledge Priming (Fowler) — 5 patrones para reducir fricción AI. Estructura 
 ### Changed
 
 - SKILL.md: +3 references (knowledge-priming, role-evolution-ai, multimodal-agents).
-
-
 ---
 
 ## [0.76.0] — 2026-03-02
@@ -2270,8 +2291,6 @@ Context Optimization — Correcciones del informe E2E v0.75.0. `max_context` bud
 - `flow-intake.md` — Nuevo `--spec {ID}` para intake individual.
 - `03-coordination.md` — Nuevo Step 5: flow-protect (WIP overload, deep work).
 - `test-savia-e2e-harness.sh` — Check flow-protect en escenario 03.
-
-
 ---
 
 ## [0.75.0] — 2026-03-02
@@ -2286,8 +2305,6 @@ Savia E2E Test Harness — Entorno Docker aislado con agente autónomo que ejecu
 - **Motor live** — Ejecuta `claude -p` headless real. Captura tokens, duración, errores. Configurable via env vars.
 - **Métricas CSV** — scenario, step, role, command, tokens_in, tokens_out, duration_ms, status, error.
 - **Informe automático** — report.md generado al final con resumen, failures, errors, token totals.
-
-
 ---
 
 ## [0.74.0] — 2026-03-02
@@ -2308,8 +2325,6 @@ Savia Flow Practice — Implementación práctica de la metodología Savia Flow:
 - Command count: 262 → 267 (+5 comandos flow)
 - Skills: 20 → 21 (+savia-flow-practice)
 - Context-map: añadido grupo Savia Flow
-
-
 ---
 
 ## [0.73.0] — 2026-03-02
@@ -2331,8 +2346,6 @@ Vertical Banking — Herramientas especializadas para equipos de desarrollo en b
 - Command count: 257 → 262 (+5 comandos banking)
 - Context-map: añadido grupo Banking
 - CLAUDE.md: añadida sección Banking Architecture
-
-
 ---
 
 ## [0.72.0] — 2026-03-02
@@ -2350,8 +2363,6 @@ Trace Intelligence — Búsqueda y análisis profundo de trazas distribuidas, in
 
 - Command count: 253 → 257 (+4 comandos trace intelligence)
 - Era 13 (Observability & Intelligence): COMPLETE! (2/2)
-
-
 ---
 
 ## [0.71.0] — 2026-03-02
@@ -2369,8 +2380,6 @@ Observability Core — Conexión a Grafana, Datadog, Azure App Insights, OpenTel
 
 - Command count: 249 → 253 (+4 comandos observabilidad)
 - Era 13 (Observability & Intelligence): iniciada (1/2)
-
-
 ---
 
 ## [0.70.0] — 2026-03-02
@@ -2392,14 +2401,13 @@ Multi-Tenant & Skills Marketplace — Workspaces aislados por departamento/equip
 ### Plan Roadmap Completado
 
 **v0.54–v0.70**: 17 versiones, 68 nuevos comandos estructurados en 4 eras:
+
 - Era 9 (v0.54–v0.57): Company Intelligence — 16 comandos
 - Era 10 (v0.58–v0.61): AI Governance — 17 comandos
 - Era 11 (v0.62–v0.65): Context Engineering 2.0 — 17 comandos
 - Era 12 (v0.66–v0.70): Team Excellence & Enterprise — 18 comandos
 
 **Total**: 253 comandos en pm-workspace. Todos los comandos ≤150 líneas, con YAML frontmatter, warm Savia persona (female owl), contexto Spanish.
-
-
 ---
 
 ## [0.69.0] — 2026-03-02
@@ -2416,8 +2424,6 @@ Audit Trail & Compliance — Inmutable audit trail de todas las acciones de Savi
 ### Changed
 
 - Command count: 245 → 249 (+4 comandos auditoría)
-
-
 ---
 
 ## [0.68.0] — 2026-03-02
@@ -2434,8 +2440,6 @@ Accessibility & Inclusive Design — Auditoría WCAG 2.2, correcciones automáti
 ### Changed
 
 - Command count: 245 → 249 (+4 comandos accesibilidad)
-
-
 ---
 
 ## [0.67.0] — 2026-03-02
@@ -2458,8 +2462,6 @@ Team Wellbeing & Sustainability — Detección temprana de burnout, equilibrado 
 
 - Command count: 237 → 241 (+4 wellbeing commands in Era 12)
 - Era 12 — Team Excellence & Enterprise (2/5 features)
-
-
 ---
 
 ## [0.66.0] — 2026-02-28
@@ -2476,8 +2478,6 @@ Advanced DX Metrics — Deep-work analysis, flow-state protection, developer exp
 ### Changed
 
 - Command count: 241 → 245 (+4 DX metrics commands)
-
-
 ---
 
 ## [0.65.0] — 2026-02-28
@@ -2494,8 +2494,6 @@ Multi-Layer Caching — Cache strategy, warm operations, analytics, and selectiv
 ### Changed
 
 - Command count: 237 → 241 (+4 caching commands)
-
-
 ---
 
 ## [0.64.0] — 2026-03-02
@@ -2512,8 +2510,6 @@ Semantic Memory 2.0 — Four new memory intelligence commands for semantic compr
 ### Changed
 
 - Command count: 237 → 241 (+4 memory commands)
-
-
 ---
 
 ## [0.63.0] — 2026-03-02
@@ -2530,8 +2526,6 @@ Evolving Playbooks — Four new playbook commands for capturing and evolving rep
 ### Changed
 
 - Command count: 233 → 237 (+4 playbook commands)
-
-
 ---
 
 ## [0.62.0] — 2026-03-02
@@ -2548,8 +2542,6 @@ Intelligent Context Loading — Four new context management commands for optimal
 ### Changed
 
 - Command count: 229 → 233 (+4 context commands)
-
-
 ---
 
 ## [0.61.0] — 2026-03-02
@@ -2566,8 +2558,6 @@ Vertical Compliance Extensions — Four new vertical-specific compliance command
 ### Changed
 
 - Command count: 225 → 229 (+4 vertical compliance commands)
-
-
 ---
 
 ## [0.60.0] — 2026-03-02
@@ -2584,8 +2574,6 @@ Enterprise AI Governance — Four new governance commands based on NIST AI RMF, 
 ### Changed
 
 - Command count: 221 → 225 (+4 governance commands)
-
-
 ---
 
 ## [0.59.0] — 2026-03-02
@@ -2602,8 +2590,6 @@ AI Adoption Companion — Four new adoption commands for team maturity assessmen
 ### Changed
 
 - Command count: 217 → 221 (+4 adoption commands)
-
-
 ---
 
 ## [0.58.0] — 2026-03-02
@@ -2620,8 +2606,6 @@ AI Safety & Human Oversight — Four new safety commands for supervision levels,
 ### Changed
 
 - Command count: 213 → 217 (+4 safety commands)
-
-
 ---
 
 ## [0.57.0] — 2026-03-02
@@ -2638,8 +2622,6 @@ Ceremony Intelligence — Four new commands for asynchronous standups, retro pat
 ### Changed
 
 - Command count: 209 → 213 (+4 ceremony commands)
-
-
 ---
 
 ## [0.56.0] — 2026-03-02
@@ -2656,8 +2638,6 @@ Intelligent Backlog Management — Four new commands for assisted grooming, smar
 ### Changed
 
 - Command count: 205 → 209 (+4 backlog commands)
-
-
 ---
 
 ## [0.55.0] — 2026-03-02
@@ -2674,8 +2654,6 @@ OKR & Strategic Alignment — Four new commands for OKR definition, tracking, vi
 ### Changed
 
 - Command count: 201 → 205 (+4 strategy commands)
-
-
 ---
 
 ## [0.54.0] — 2026-03-02
@@ -2692,8 +2670,6 @@ Company Profile — Four new commands for enterprise onboarding and configuratio
 ### Changed
 
 - Command count: 197 → 201 (+4 company setup commands)
-
-
 ---
 
 ## [0.53.0] — 2026-03-02
@@ -2709,8 +2685,6 @@ Multi-Platform Support — Three new commands for multi-platform integration.
 ### Changed
 
 - **`/linear-sync`** — Rewritten with new format, webhooks, unified metrics
-
-
 ---
 
 ## [0.52.0] — 2026-03-02
@@ -2727,8 +2701,6 @@ Integration Hub — Four new commands for MCP server exposure, natural language 
 ### Changed
 
 - Command count: 174 → 178 (+4 integration commands)
-
-
 ---
 
 ## [0.51.0] — 2026-03-02
@@ -2745,8 +2717,6 @@ AI-Powered Planning — Four new commands for intelligent sprint planning, risk 
 ### Changed
 
 - Command count: 170 → 174 (+4 planning commands)
-
-
 ---
 
 ## [0.50.0] — 2026-03-02
@@ -2763,8 +2733,6 @@ Cross-Project Intelligence — Four new commands for portfolio-level visibility 
 ### Changed
 
 - Command count: 166 → 170 (+4 cross-project commands)
-
-
 ---
 
 ## [0.49.0] — 2026-03-01
@@ -2781,8 +2749,6 @@ Product Owner Analytics — Four new commands providing strategic views for POs.
 ### Changed
 
 - Command count: 162 → 166 (+4 PO commands)
-
-
 ---
 
 ## [0.48.0] — 2026-03-01
@@ -2799,8 +2765,6 @@ Tech Lead Intelligence — Four new commands for technology health and team know
 ### Changed
 
 - Command count: 158 → 162 (+4 tech lead commands)
-
-
 ---
 
 ## [0.47.0] — 2026-03-01
@@ -2817,8 +2781,6 @@ Developer Productivity — Four new commands for personal sprint view, deep focu
 ### Changed
 
 - Command count: 154 → 158 (+4 developer commands)
-
-
 ---
 
 ## [0.46.0] — 2026-03-01
@@ -2835,8 +2797,6 @@ QA and Testing Toolkit — Four new commands for complete testing workflow.
 ### Changed
 
 - Command count: 150 → 154 (+4 QA commands)
-
-
 ---
 
 ## [0.45.0] — 2026-03-01
@@ -2852,8 +2812,6 @@ Executive Reports for Leadership — Three new commands for C-level strategic vi
 ### Changed
 
 - Command count: 147 → 150 (+3 CEO commands)
-
-
 ---
 
 ## [0.44.0] — 2026-03-01
@@ -2867,8 +2825,6 @@ Semantic Hub Topology — Agentexecution tracing, cost estimation, and efficienc
 ### Changed
 
 - Command count: 146 → 147 (+1 hub audit command)
-
-
 ---
 
 ## [0.43.0] — 2026-03-01
@@ -2884,8 +2840,6 @@ Context Aging and Verified Positioning — Semantic compression of old decisions
 ### Changed
 
 - Command count: 144 → 146 (+2 context commands)
-
-
 ---
 
 ## [0.42.0] — 2026-03-01
@@ -2895,8 +2849,6 @@ Subagent Context Budget System — All 24 agents now have explicit max_context_t
 ### Changed
 
 - All 24 agent frontmatter files updated with context budgets (4 tiers)
-
-
 ---
 
 ## [0.41.0] — 2026-03-01
@@ -2907,8 +2859,6 @@ Session-Init Compression and CLAUDE.md Pre-compaction — 4-level priority syste
 
 - **`session-init.sh`** — Rewritten with priority-based array system
 - **CLAUDE.md** — Pre-compacted from 154 → 125 lines (36% reduction)
-
-
 ---
 
 ## [0.40.0] — 2026-03-01
@@ -2925,8 +2875,6 @@ Role-Adaptive Daily Routines, Project Health Dashboard, and Context Usage Optimi
 ### Changed
 
 - Command count: 141 → 144 (+3 context commands)
-
-
 ---
 
 ## [0.39.0] — 2026-03-01
@@ -2941,8 +2889,6 @@ Encrypted Cloud Backup System — AES-256-CBC encryption before cloud upload wit
 ### Changed
 
 - Command count: 140 → 141 (+1 backup command)
-
-
 ---
 
 ## [0.38.0] — 2026-03-01
@@ -2956,8 +2902,6 @@ Private Review Protocol — Maintainer workflow for reviewing community PRs and 
 ### Changed
 
 - Command count: 139 → 140 (+1 review command)
-
-
 ---
 
 ## [0.37.0] — 2026-03-01
@@ -2971,8 +2915,6 @@ Vertical Detection System — Detect non-software sectors and propose specialize
 ### Changed
 
 - Command count: 138 → 139 (+1 vertical detection command)
-
-
 ---
 
 ## [0.36.0] — 2026-03-01
@@ -2987,8 +2929,6 @@ Community & Collaboration System — Privacy-first contribution system with cred
 ### Changed
 
 - Command count: 136 → 138 (+2 community commands)
-
-
 ---
 
 ## [0.35.0] — 2026-03-01
@@ -3006,8 +2946,6 @@ Savia — User Profiling System and Agent Mode. Introduce Savia identity with fr
 
 - Command count: 131 → 135 (+4 profile commands)
 - ~72 existing commands updated with profile loading
-
-
 ---
 
 ## [0.34.0] — 2026-02-28
@@ -3023,8 +2961,6 @@ Performance Audit Intelligence — Static analysis for code performance hotspots
 ### Changed
 
 - Command count: 129 → 131 (+3 performance commands)
-
-
 ---
 
 ## [0.33.3] — 2026-02-28
@@ -3038,8 +2974,6 @@ Azure DevOps project validation — Automated audit of project configuration.
 ### Changed
 
 - Command count: 128 → 129 (+1 DevOps command)
-
-
 ---
 
 ## [0.33.2] — 2026-02-28
@@ -3050,8 +2984,6 @@ Detection algorithm calibration after real-world testing across regulated sector
 
 - Detection algorithm: 4 phases → 5 phases
 - Confidence thresholds recalibrated
-
-
 ---
 
 ## [0.33.1] — 2026-02-28
@@ -3063,8 +2995,6 @@ Compliance commands improvements after real-world testing.
 - Output file naming with date suffix
 - Scoring formula documentation
 - Dry-run vs actual execution indication
-
-
 ---
 
 ## [0.33.0] — 2026-02-28
@@ -3080,29 +3010,21 @@ Regulatory Compliance Intelligence — Automated sector detection and compliance
 ### Changed
 
 - Command count: 125 → 128 (+3 compliance commands)
-
-
 ---
 
 ## [0.32.3] — 2026-02-28
 
 Multi-OS emergency mode — Support for Linux, macOS, and Windows.
-
-
 ---
 
 ## [0.32.2] — 2026-02-28
 
 Fix Ollama download — Adapted to new tar.zst archive format.
-
-
 ---
 
 ## [0.32.1] — 2026-02-28
 
 Emergency plan — Preventive pre-download of Ollama and LLM for offline installation.
-
-
 ---
 
 ## [0.32.0] — 2026-02-28
@@ -3112,8 +3034,6 @@ Emergency mode — Local LLM contingency plan with Ollama setup and offline oper
 ### Added
 
 - **`/emergency-mode`** — Manage emergency mode with local LLM
-
-
 ---
 
 ## [0.31.0] — 2026-02-28
@@ -3127,8 +3047,6 @@ Architecture intelligence — Pattern detection and recommendations across 16 la
 - **`/arch-recommend`** — Recommend optimal pattern
 - **`/arch-fitness`** — Define and execute fitness functions
 - **`/arch-compare`** — Compare architecture patterns
-
-
 ---
 
 ## [0.30.0] — 2026-02-28
@@ -3140,8 +3058,6 @@ Technical debt intelligence — Automated analysis and prioritization.
 - **`/debt-analyze`** — Automated debt discovery
 - **`/debt-prioritize`** — Prioritize by business impact
 - **`/debt-budget`** — Propose sprint debt budget
-
-
 ---
 
 ## [0.29.0] — 2026-02-28
@@ -3153,8 +3069,6 @@ AI governance and EU AI Act compliance — Model cards and risk assessment.
 - **`/ai-model-card`** — Generate AI model cards
 - **`/ai-risk-assessment`** — Risk assessment per EU AI Act
 - **`/ai-audit-log`** — Chronological audit log from traces
-
-
 ---
 
 ## [0.28.0] — 2026-02-28
@@ -3166,8 +3080,6 @@ Developer Experience metrics — DX Core 4 surveys and automated dashboards.
 - **`/dx-survey`** — Adapted DX Core 4 surveys
 - **`/dx-dashboard`** — Automated DX dashboard
 - **`/dx-recommendations`** — Friction point analysis
-
-
 ---
 
 ## [0.27.0] — 2026-02-28
@@ -3179,8 +3091,6 @@ Agent observability — Execution tracing, cost estimation, and efficiency metri
 - **`/agent-trace`** — Dashboard of agent executions
 - **`/agent-cost`** — Cost estimation per agent
 - **`/agent-efficiency`** — Efficiency analysis
-
-
 ---
 
 ## [0.26.0] — 2026-02-28
@@ -3192,8 +3102,6 @@ Predictive analytics and flow metrics — Sprint forecasting with Monte Carlo si
 - **`/sprint-forecast`** — Predict sprint completion
 - **`/flow-metrics`** — Value stream dashboard
 - **`/velocity-trend`** — Velocity analysis
-
-
 ---
 
 ## [0.25.0] — 2026-02-28
@@ -3212,8 +3120,6 @@ Security hardening and community patterns — SAST audit, dependency scanning, a
 ### Changed
 
 - Command count: 96 → 102 (+6 security commands)
-
-
 ---
 
 ## [0.24.0] — 2026-02-28
@@ -3228,8 +3134,6 @@ Permissions and CI/CD hardening — Plan-gate hook and CI validation steps.
 ### Changed
 
 - Command count: 94 → 96 (+2 validation commands)
-
-
 ---
 
 ## [0.23.0] — 2026-02-28
@@ -3244,8 +3148,6 @@ Automated code review — Pre-commit review hook with SHA256 cache.
 ### Changed
 
 - Command count: 92 → 94 (+2 review commands)
-
-
 ---
 
 ## [0.22.0] — 2026-02-28
@@ -3261,8 +3163,6 @@ SDD workflow enhanced with Agent Teams Lite patterns.
 ### Changed
 
 - Command count: 89 → 92 (+3 SDD commands)
-
-
 ---
 
 ## [0.21.0] — 2026-02-28
@@ -3278,15 +3178,11 @@ Persistent memory system inspired by Engram — JSONL-based memory with deduplic
 ### Changed
 
 - Command count: 86 → 89 (+3 memory commands)
-
-
 ---
 
 ## [0.20.1] — 2026-02-27
 
 Fix developer_type format — Revert to hyphen format.
-
-
 ---
 
 ## [0.20.0] — 2026-02-27
@@ -3298,8 +3194,6 @@ Context optimization and 150-line discipline enforcement.
 - 9 skills refactored with progressive disclosure
 - 5 agents refactored with companion domain files
 - CLAUDE.md compacted from 195 → 130 lines
-
-
 ---
 
 ## [0.19.0] — 2026-02-27
@@ -3313,8 +3207,6 @@ Governance hardening — Scope guard hook and parallel session serialization rul
 ### Changed
 
 - **`/context-load`** expanded with ADR loading
-
-
 ---
 
 ## [0.18.0] — 2026-02-27
@@ -3330,8 +3222,6 @@ Multi-agent coordination — Agent-notes system, TDD gate hook, and ADR support.
 ### Changed
 
 - SDD skill workflow expanded with security review and TDD gate
-
-
 ---
 
 ## [0.17.0] — 2026-02-27
@@ -3343,8 +3233,6 @@ Advanced agent capabilities and programmatic hooks system.
 - 23 agents upgraded with advanced frontmatter
 - 11 skills updated with context and agent fields
 - 7 programmatic hooks added via settings.json
-
-
 ---
 
 ## [0.16.0] — 2026-02-27
@@ -3359,8 +3247,6 @@ Intelligent memory system — Path-specific auto-loading and auto memory.
 ### Changed
 
 - 21 language files and 3 domain files now have path-specific rules
-
-
 ---
 
 ## [0.15.1] — 2026-02-27
@@ -3371,8 +3257,6 @@ Auto-compact post-command — Prevent context saturation.
 
 - Auto-compact protocol enforced after every command
 - 7 commands freed from context-ux-feedback dependency
-
-
 ---
 
 ## [0.15.0] — 2026-02-27
@@ -3382,8 +3266,6 @@ Command naming fix — All commands renamed from colon to hyphen notation.
 ### Fixed
 
 - All 106 unique command references renamed across 164 files
-
-
 ---
 
 ## [0.14.1] — 2026-02-27
@@ -3394,8 +3276,6 @@ Context optimization — Auto-loaded baseline reduced by 79%.
 
 - 10 domain rules moved to on-demand loading
 - `/help` rewritten with separate setup and catalog modes
-
-
 ---
 
 ## [0.14.0] — 2026-02-27
@@ -3410,8 +3290,6 @@ Session persistence — Save/load rituals for persistent "second brain".
 ### Changed
 
 - **`/context-load`** rewritten to load big picture
-
-
 ---
 
 ## [0.13.2] — 2026-02-27
@@ -3421,8 +3299,6 @@ Fix silent failures — Heavy commands now explicitly delegate to subagents.
 ### Fixed
 
 - **`/project-audit`** silent failure fixed with subagent delegation
-
-
 ---
 
 ## [0.13.1] — 2026-02-27
@@ -3432,8 +3308,6 @@ Anti-improvisation — Commands strictly execute only what their spec defines.
 ### Changed
 
 - **`/help`** rewritten with explicit stack detection
-
-
 ---
 
 ## [0.13.0] — 2026-02-27
@@ -3447,8 +3321,6 @@ Context health and operational resilience — Proactive context management.
 ### Changed
 
 - Auto-loaded context reduced: 2,109 → 899 lines
-
-
 ---
 
 ## [0.12.0] — 2026-02-27
@@ -3459,8 +3331,6 @@ Context optimization — 58% reduction in auto-loaded context.
 
 - 8 rules moved from auto-load to on-demand
 - Auto-loaded context reduced from 2,109 → 882 lines
-
-
 ---
 
 ## [0.11.0] — 2026-02-27
@@ -3474,8 +3344,6 @@ UX Feedback Standards — Consistent visual feedback for all commands.
 ### Changed
 
 - 6 core commands updated with UX feedback pattern
-
-
 ---
 
 ## [0.10.0] — 2026-02-27
@@ -3486,8 +3354,6 @@ Infrastructure and tooling — GitHub Actions and MCP migration guide.
 
 - **GitHub Actions** PR auto-labeling workflow
 - **MCP migration guide** for azdevops-queries functions
-
-
 ---
 
 ## [0.9.0] — 2026-02-27
@@ -3507,8 +3373,6 @@ Messaging & Voice Inbox — WhatsApp, Nextcloud Talk, and voice transcription.
 
 - Command count: 75 → 81 (+6 messaging commands)
 - Skills count: 12 → 13 (+voice-inbox)
-
-
 ---
 
 ## [0.8.0] — 2026-02-27
@@ -3526,8 +3390,6 @@ DevOps Extended — Azure DevOps Wiki, Test Plans, and security alerts.
 ### Changed
 
 - Command count: 70 → 75 (+5 DevOps Extended commands)
-
-
 ---
 
 ## [0.7.0] — 2026-02-27
@@ -3545,8 +3407,6 @@ Project Onboarding Pipeline — 5-phase automated workflow.
 ### Changed
 
 - Command count: 65 → 70 (+5 onboarding commands)
-
-
 ---
 
 ## [0.6.0] — 2026-02-27
@@ -3562,8 +3422,6 @@ Legacy assessment and release notes — Backlog capture from unstructured source
 ### Changed
 
 - Command count: 62 → 65 (+3 legacy & capture commands)
-
-
 ---
 
 ## [0.5.0] — 2026-02-27
@@ -3581,8 +3439,6 @@ Governance foundations — Technical debt tracking and DORA metrics.
 ### Changed
 
 - Command count: 57 → 62 (+5 governance commands)
-
-
 ---
 
 ## [0.4.0] — 2026-02-27
@@ -3599,8 +3455,6 @@ Connectors ecosystem and Azure DevOps MCP optimization.
 
 - Command count: 46 → 57 (+11 new commands)
 - Skills count: 11 → 12 (+azure-pipelines)
-
-
 ---
 
 ## [0.3.0] — 2026-02-26
@@ -3619,8 +3473,6 @@ Multi-language support, multi-environment, and infrastructure as code.
 - Command count: 24 → 46
 - Skills count: 11 → 23
 - Agents count: 8 → 35
-
-
 ---
 
 ## [0.2.0] — 2026-02-26
@@ -3639,8 +3491,6 @@ Quality, discovery, and operations expansion.
 - Command count: 19 → 24 (+6)
 - Skills count: 7 → 8
 - Agents count: 9 → 11
-
-
 ---
 
 ## [0.1.0] — 2026-03-01
@@ -3657,8 +3507,6 @@ Initial public release of PM-Workspace.
 - **Test project** (sala-reservas)
 - **Test suite** (96 tests)
 - **Documentation** with methodology
-
-
 [2.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.79.0...v2.80.0
 [2.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.78.0...v2.79.0
 [2.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.77.0...v2.78.0
@@ -3907,3 +3755,4 @@ Initial public release of PM-Workspace.
 [2.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.79.0...v2.80.0
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
 [3.7.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.7.0...v3.7.1
+[3.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.7.1...v3.8.0

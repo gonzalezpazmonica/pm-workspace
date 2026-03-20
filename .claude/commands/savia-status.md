@@ -1,3 +1,8 @@
+---
+name: savia-status
+description: "Show Savia current status, health metrics, and top pending priorities"
+---
+
 # /savia-status
 
 **Name:** savia-status
@@ -6,6 +11,7 @@
 **Argument Hint:** `[--json]`
 
 ---
+name: savia-status
 
 ## Overview
 

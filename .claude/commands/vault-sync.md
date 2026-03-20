@@ -1,9 +1,15 @@
+---
+name: vault-sync
+description: "Sincronizar Personal Vault"
+---
+
 # /vault-sync — Sincronizar Personal Vault
 
 > Commit y push de cambios en el vault personal.
 > Skill: personal-vault | Confidencialidad: N3 (USUARIO)
 
 ---
+name: vault-sync
 
 ## Flujo
 

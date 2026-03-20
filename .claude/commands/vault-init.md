@@ -1,9 +1,15 @@
+---
+name: vault-init
+description: "Inicializar Personal Vault del usuario"
+---
+
 # /vault-init — Inicializar Personal Vault
 
 > Crea el repositorio personal del usuario con datos migrados desde ubicaciones actuales.
 > Skill: personal-vault | Confidencialidad: N3 (USUARIO)
 
 ---
+name: vault-init
 
 ## Flujo
 
