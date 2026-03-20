@@ -141,11 +141,10 @@ Si desviación > 30% → alertar al PM.
 
 ## Fases 4-8: Asignacion, Ejecucion y Ejemplos
 
-Fases 4 (asignacion), 5 (crear en Azure DevOps), 6 (post-creacion), 7 (comandos), 8 (ejemplos).
-Ver: **`references/phases-detail.md`**
+Fases 4-8 (asignacion, Azure DevOps, post-creacion, comandos, ejemplos): **`references/phases-detail.md`**
 
 ---
 
 ## Referencias
 
-Fases 4-8: `references/phases-detail.md` | Scoring: `references/assignment-scoring.md` | Skills: `../sprint-management/SKILL.md`, `../capacity-planning/SKILL.md` | Docs: `docs/politica-estimacion.md`
+Fases 4-8: `references/phases-detail.md` | Scoring: `references/assignment-scoring.md` | Skills: `../sprint-management/SKILL.md`, `../capacity-planning/SKILL.md`

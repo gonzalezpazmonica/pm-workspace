@@ -119,37 +119,19 @@ Ejecutar `/security-review {spec}` — `security-guardian` revisa contra OWASP T
 
 ## Fase 3 — Ejecutar con Agente Claude
 
-Detalles: **`references/agent-invocation.md`**
-- Preparar contexto del agente
-- Prompt para `agent-single` y `agent-team`
-- Logging y manejo de errores
-- Agent-Note post-implementación
+Detalles: **`references/agent-invocation.md`** (contexto, prompts, logging, agent-notes)
 
 ---
 
-## Fases 4-5 — Review, Métricas e Iteración
+## Fases 4-5 — Review, Metricas e Iteracion
 
-Detalles: **`references/review-metrics.md`**
-- Checklist de review para Tech Lead
-- Actualizar Azure DevOps
-- Métricas de SDD (tasa éxito, deuda técnica)
-- Mejora continua de Specs
+Detalles: **`references/review-metrics.md`** (review checklist, Azure DevOps update, metricas SDD, mejora continua)
 
 ---
 
-## §2.7 Delta Specs (cambios incrementales)
+## Delta Specs (cambios incrementales)
 
-Cuando una spec existente necesita modificaciones, usar formato delta en lugar de reescribir:
-
-### Secciones delta
-- **ADDED**: nuevos requisitos, escenarios o ficheros
-- **MODIFIED**: cambios a requisitos existentes (mostrar antes → después)
-- **REMOVED**: requisitos eliminados con justificación
-
-### Consolidación
-Al cerrar sprint, ejecutar `/spec-verify` para confirmar compliance y archivar deltas consolidados.
-
-> Detalle: @references/compliance-matrix.md
+Formato delta (ADDED/MODIFIED/REMOVED) en lugar de reescribir. Consolidar con `/spec-verify` al cerrar sprint. Detalle: @references/compliance-matrix.md
 
 ---
 
