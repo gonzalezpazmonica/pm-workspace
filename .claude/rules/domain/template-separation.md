@@ -6,10 +6,7 @@ context: on-demand
 
 # Separación de Marcado, Consultas y Estilos — Regla Transversal
 
-> Aplica a **todos** los lenguajes. Complementa las reglas de arquitectura específicas de cada language pack.
-> Última actualización: 2026-03-08
-
----
+> Aplica a todos los lenguajes. Complementa reglas de arquitectura de cada language pack.
 
 ## Principio
 
@@ -127,15 +124,11 @@ class MyServer:
 
 ### SEP-05 — Usar motores de templates del ecosistema
 
-**Severidad**: Minor · **Tags**: best-practice
-
-Cuando el proyecto necesite renderizar HTML, usar el motor de templates nativo del framework o ecosistema:
+**Severidad**: Minor — Usar motor de templates nativo del framework:
 
 | Lenguaje/Framework | Motor recomendado |
-|-------------------|-------------------|
-| Python (FastAPI) | Jinja2 |
-| Python (Django) | Django Templates |
-| Python (stdlib) | `string.Template` o ficheros `.html` con `.replace()` |
+|---|---|
+| Python (FastAPI/Django/stdlib) | Jinja2 / Django Templates / `string.Template` |
 | Java (Spring) | Thymeleaf |
 | C# (ASP.NET) | Razor |
 | Go | `html/template` |
@@ -146,21 +139,11 @@ Cuando el proyecto necesite renderizar HTML, usar el motor de templates nativo d
 
 ### SEP-06 — GraphQL schemas en ficheros `.graphql`
 
-**Severidad**: Minor
-
-Definir schemas GraphQL en ficheros `.graphql` separados, no como strings multilínea en código.
+**Severidad**: Minor — Definir schemas en `.graphql` separados, no como strings multilínea.
 
 ---
 
 ## Aplicabilidad
 
-Esta regla se aplica a:
-- Todo código nuevo
-- Código existente cuando se modifica (boy scout rule)
-- Scripts de infraestructura (Bridge, CLI wrappers, etc.)
-
-No se aplica a:
-- Tests con HTML/SQL de fixture (contenido de prueba)
-- DSLs explícitos (OpenAPI specs inline, migrations de DB)
-- Ficheros de configuración (CSS variables en Python para temas)
-- CLI tools con output formateado (`--format html` como feature)
+Aplica a: codigo nuevo, codigo existente al modificar (boy scout rule), scripts de infraestructura.
+No aplica a: tests con HTML/SQL fixture, DSLs explicitos (OpenAPI inline, migrations), config files, CLI `--format html`.
