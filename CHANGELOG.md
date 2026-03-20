@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.1] — 2026-03-20
+
+PII purge from tracked files + full-repo scan mode.
+
+### Fixed
+- **PII**: Removed private project name from 7 tracked files (commands, rules, skills, specs, tests, docs) committed before the confidentiality system existed
+- **Scanner**: `confidentiality-scan.sh` `--full-repo` mode scans ALL tracked file contents, not just PR diffs — closes the gap that allowed pre-existing PII to persist undetected
+- **Blocklist**: `generate-blocklist.sh` auto-detects public projects from `.gitignore` whitelist to avoid false positives, handles empty arrays in CI
+- **CI**: `confidentiality-gate.yml` adds weekly scheduled full-repo audit (Monday 06:00 UTC) + manual dispatch
+
 ## [3.6.0] — 2026-03-20
 
 Pre-PR confidentiality audit system with cryptographic signature.
@@ -3835,6 +3845,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.6.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.6.0...v3.6.1
 [3.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.3...v3.6.0
 [3.5.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.2...v3.5.3
 [3.5.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.1...v3.5.2

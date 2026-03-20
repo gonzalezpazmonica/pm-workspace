@@ -64,7 +64,7 @@ checklist:
     criterion: "No inventa datos no presentes en el input"
     weight: 3
 context:
-  project: "trazabios"  # opcional: proyecto para cargar contexto
+  project: "proyecto-alpha"  # opcional: proyecto para cargar contexto
 ```
 
 Si no existe fixture: el comando lo crea interactivamente.
