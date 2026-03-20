@@ -29,7 +29,7 @@ The project selector goes in the TopBar, between the hamburger menu and the spac
       ├─ Savia (workspace)
       ├─ savia-web
       ├─ dotnet-microservices-home-lab
-      ├─ trazabios
+      ├─ proyecto-alpha
       └─ pm-workspace-devops
 ```
 

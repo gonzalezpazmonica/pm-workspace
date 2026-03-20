@@ -3,9 +3,23 @@ name: Confidentiality Gate
 on:
   pull_request:
     branches: [main]
+  schedule:
+    # Full repo audit every Monday at 06:00 UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Scan mode'
+        required: false
+        default: 'full-repo'
+        type: choice
+        options:
+          - full-repo
+          - pr
 
 jobs:
   signature-check:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     name: Verify Audit Signature
     steps:
@@ -16,9 +30,10 @@ jobs:
       - name: Verify confidentiality signature exists and matches
         run: bash scripts/confidentiality-sign.sh verify
 
-  confidentiality-scan:
+  confidentiality-scan-pr:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    name: PII & Confidentiality Scan
+    name: PII & Confidentiality Scan (PR)
     steps:
       - uses: actions/checkout@v4
         with:
@@ -27,5 +42,20 @@ jobs:
       - name: Generate dynamic blocklist
         run: bash scripts/generate-blocklist.sh > /tmp/dynamic-blocklist.txt
 
-      - name: Run confidentiality scanner
+      - name: Run confidentiality scanner on PR diff
         run: bash scripts/confidentiality-scan.sh --pr --blocklist /tmp/dynamic-blocklist.txt
+
+  confidentiality-scan-full:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    name: Full Repo Confidentiality Audit
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate dynamic blocklist
+        run: bash scripts/generate-blocklist.sh > /tmp/dynamic-blocklist.txt
+
+      - name: Run full repo confidentiality scan
+        run: bash scripts/confidentiality-scan.sh --full-repo --blocklist /tmp/dynamic-blocklist.txt

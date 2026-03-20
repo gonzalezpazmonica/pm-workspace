@@ -23,9 +23,9 @@ const sampleProjects: ProjectInfo[] = [
     health: 'healthy',
   },
   {
-    id: 'trazabios',
-    name: 'trazabios',
-    path: 'projects/trazabios',
+    id: 'proyecto-alpha',
+    name: 'proyecto-alpha',
+    path: 'projects/proyecto-alpha',
     hasClaude: true,
     hasBacklog: true,
     health: 'warning',
@@ -73,10 +73,10 @@ describe('ProjectSelector', () => {
   it('reflects selectedId from store as current value', () => {
     const store = useProjectStore()
     store.projects = [...sampleProjects]
-    store.select('trazabios')
+    store.select('proyecto-alpha')
     const wrapper = mount(ProjectSelector)
     const select = wrapper.find('select')
-    expect((select.element as HTMLSelectElement).value).toBe('trazabios')
+    expect((select.element as HTMLSelectElement).value).toBe('proyecto-alpha')
   })
 
   it('renders empty select when no projects loaded', () => {

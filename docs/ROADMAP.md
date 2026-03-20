@@ -49,7 +49,7 @@ Visual Git Manager integrado (3 sub-fases: viewer → staging → advanced).
 SVG commit graph, diff viewer, staging area, branch CRUD, merge, blame.
 Modelo: Ungit. Specs pendientes de crear. Bridge endpoints + Vue components.
 
-**Estado**: roadmap detallado listo, implementacion pausada por onboarding TrazaBios.
+**Estado**: roadmap detallado listo, implementacion pausada por onboarding de proyecto.
 
 ### Savia Mobile v0.2 — Full PM
 

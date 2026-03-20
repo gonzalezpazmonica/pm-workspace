@@ -103,11 +103,11 @@ tiene su propio repositorio git con permisos independientes.
 
 ---
 
-## Ejemplo con Proyecto TrazaBios
+## Ejemplo con Proyecto Generico
 
-- `projects/trazabios/` (N4-SHARED) — repo git compartible con el cliente
-- `projects/trazabios-vass/` (N4-VASS) — repo git solo equipo proveedor
-- `projects/trazabios-team/` (N4b-PM) — repo git solo PM, datos RGPD
+- `projects/proyecto-alpha/` (N4-SHARED) — repo git compartible con el cliente
+- `projects/proyecto-alpha-internal/` (N4-VASS) — repo git solo equipo proveedor
+- `projects/proyecto-alpha-pm/` (N4b-PM) — repo git solo PM y superiores, datos RGPD
 - `~/.savia/personal-vault/` (N3) — repo git personal cross-project
 
 ---
