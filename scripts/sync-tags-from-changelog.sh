@@ -40,7 +40,7 @@ grep -oP '^\#\# \[\K[0-9]+\.[0-9]+\.[0-9]+\] — \K[0-9-]+' "$CHANGELOG" \
 
   # Find the best commit for this version date
   # Strategy: last commit on or before the date
-  commit=$(git log --until="$date 23:59:59" --format="%H" -1 2>/dev/null || "")
+  commit=$(git log --until="$date 23:59:59" --format="%H" -1 2>/dev/null || true)
 
   if [ -z "$commit" ]; then
     echo "SKIP $tag — no commit found for date $date"
@@ -51,13 +51,13 @@ grep -oP '^\#\# \[\K[0-9]+\.[0-9]+\.[0-9]+\] — \K[0-9-]+' "$CHANGELOG" \
   if [ "$DRY_RUN" = true ]; then
     echo "DRY-RUN: would tag $tag at $commit ($date)"
   else
-    git tag "$tag" "$commit" 2>/dev/null && {
+    if git tag "$tag" "$commit" 2>/dev/null; then
       echo "CREATED: $tag -> $(echo "$commit" | cut -c1-7) ($date)"
       created=$((created + 1))
-    } || {
+    else
       echo "FAILED: $tag"
       failed=$((failed + 1))
-    }
+    fi
   fi
 done
 
