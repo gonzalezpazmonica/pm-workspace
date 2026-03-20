@@ -83,7 +83,7 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Inteligencia de código** — Detecto patrones de arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices), mido salud arquitectónica con fitness functions, y priorizo deuda técnica por impacto de negocio. Genero diagramas de arquitectura, flujo, secuencia y organigramas de equipo exportables a Draw.io, Miro o Mermaid local. Importo organigramas existentes para generar la estructura de equipos automáticamente (`/orgchart-import`).
 
-**Seguridad y compliance** — SAST contra OWASP Top 10, SBOM, escaneo de credenciales, compliance regulatorio en 12 sectores, y gobernanza IA con model cards y EU AI Act.
+**Seguridad y compliance** — SAST contra OWASP Top 10, SBOM, escaneo de credenciales, compliance regulatorio en 12 sectores, gobernanza IA con model cards y EU AI Act. Auditoría de confidencialidad pre-PR con agente contextual + firma criptográfica HMAC-SHA256 verificada en CI.
 
 **Infraestructura** — Multi-cloud (Azure, AWS, GCP) con detección automática, tier mínimo por defecto, y escalado solo con tu aprobación. Pipelines CI/CD configurables.
 

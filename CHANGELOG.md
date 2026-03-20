@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.0] — 2026-03-20
+
+Pre-PR confidentiality audit system with cryptographic signature.
+
+### Added
+- **Agent**: `confidentiality-auditor` rewritten — dynamic context-aware audit that reads workspace context (project names, team members, org URLs) to discover sensitive data semantically, not with static patterns
+- **Script**: `confidentiality-sign.sh` — HMAC-SHA256 signature generation/verification after clean audit. Signature must be committed with the PR; CI verifies diff hash matches
+- **Script**: `generate-blocklist.sh` — dynamic blocklist generator from 6 workspace sources (projects, profiles, teams, local config, email domains, static list)
+- **CI**: `confidentiality-gate.yml` — two parallel jobs: signature verification + deterministic scan (defense in depth)
+- **Command**: `/confidentiality-check` updated to orchestrate full flow (agent audit + signature + scan)
+- **Script**: `confidentiality-scan.sh` — 8-check deterministic scanner with dynamic blocklist support
+
+### Fixed
+- **Hook**: `validate-bash-global.sh` — detects target repo from `cd` in command instead of always checking `CLAUDE_PROJECT_DIR` branch. Fixes false "commit on main" blocks when working in sub-repos with their own `.git`
+
 ## [3.5.3] — 2026-03-19
 
 Fix: multi-repo branch detection in global bash hook.
@@ -3820,6 +3835,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.3...v3.6.0
 [3.5.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.2...v3.5.3
 [3.5.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.1...v3.5.2
 [3.5.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.0...v3.5.1
