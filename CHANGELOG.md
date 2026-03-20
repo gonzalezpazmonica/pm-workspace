@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.1] — 2026-03-20
+
+Fix update system and auto-release pipeline.
+
+### Fixed
+- **update.sh**: compares against `origin/main` instead of GitHub releases — no longer requires `gh` CLI, reads version from CHANGELOG.md
+- **update.sh**: uses `git pull origin main` instead of merging a tag that may not exist
+
+### Added
+- **auto-tag.yml**: GitHub Actions pipeline that creates git tag automatically when CHANGELOG.md is updated on main, triggering release.yml
+- **sync-tags-from-changelog.sh**: one-time script to backfill missing tags from CHANGELOG.md history (138 versions synced)
+
 ## [3.7.0] — 2026-03-20
 
 Context optimization, React quality, and decision-guided skills — inspired by rtk-ai/rtk and no-use-effect.
@@ -3894,3 +3906,4 @@ Initial public release of PM-Workspace.
 [2.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.80.0...v2.81.0
 [2.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.79.0...v2.80.0
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
+[3.7.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.7.0...v3.7.1

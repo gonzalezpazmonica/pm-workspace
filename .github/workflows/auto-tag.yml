@@ -1,0 +1,53 @@
+name: Auto-Tag from CHANGELOG
+
+on:
+  push:
+    branches: [main]
+    paths: [CHANGELOG.md]
+
+permissions:
+  contents: write
+
+jobs:
+  auto-tag:
+    name: Create tag if CHANGELOG has new version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Detect new version in CHANGELOG
+        id: detect
+        run: |
+          # Extract latest version from CHANGELOG heading
+          LATEST=$(grep -oP '^\#\# \[\K[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | head -1)
+          if [ -z "$LATEST" ]; then
+            echo "No version found in CHANGELOG.md"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          TAG="v$LATEST"
+          echo "changelog_version=$TAG" >> "$GITHUB_OUTPUT"
+
+          # Check if tag already exists
+          if git tag -l "$TAG" | grep -q .; then
+            echo "Tag $TAG already exists"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "New version detected: $TAG"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create and push tag
+        if: steps.detect.outputs.skip == 'false'
+        run: |
+          TAG="${{ steps.detect.outputs.changelog_version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "Release $TAG (auto-tagged from CHANGELOG.md)"
+          git push origin "$TAG"
+          echo "Created and pushed tag: $TAG"
