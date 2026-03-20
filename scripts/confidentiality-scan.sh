@@ -1,34 +1,30 @@
 #!/usr/bin/env bash
 set -uo pipefail
-
-# ── Confidentiality Scanner ──────────────────────────────────────────────────
-# Scans git diff for PII: real names, companies, sensitive data.
-# Uses blocklist + heuristic proper noun detection.
-# Exit 0 = clean, Exit 1 = violations found, Exit 2 = error
-#
-# Usage:
-#   bash scripts/confidentiality-scan.sh              # scan staged changes
-#   bash scripts/confidentiality-scan.sh --pr         # scan PR diff vs main
-#   bash scripts/confidentiality-scan.sh --full       # scan all tracked files
+# confidentiality-scan.sh — Scan git diff for PII, credentials, real project names.
+# Exit 0 = clean, Exit 1 = violations, Exit 2 = error
+# Usage: [--staged|--pr|--full] [--blocklist <file>]
+#   --blocklist: path to dynamically generated blocklist (from generate-blocklist.sh)
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-BLOCKLIST="$ROOT_DIR/scripts/confidentiality-blocklist.txt"
 ALLOWLIST="$ROOT_DIR/scripts/confidentiality-allowlist.txt"
+FAILS=0; WARNS=0; MODE="--staged"; DYN_BLOCKLIST=""
 
-FAILS=0
-WARNS=0
-MODE="${1:---staged}"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --staged|--pr|--full) MODE="$1"; shift ;;
+    --blocklist) DYN_BLOCKLIST="$2"; shift 2 ;;
+    *) shift ;;
+  esac
+done
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🔒 Confidentiality Scanner"
+echo "Confidentiality Scanner"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# ── Get diff content ─────────────────────────────────────────────────────────
-# Files to exclude from scanning (the scanner itself, test fixtures, regex docs)
-EXCLUDE_FILES="confidentiality-scan.sh|confidentiality-check.sh|confidentiality-blocklist.txt|confidentiality-allowlist.txt"
+EXCLUDE_FILES="confidentiality-scan.sh|confidentiality-check.sh|confidentiality-blocklist"
 EXCLUDE_FILES="$EXCLUDE_FILES|security-check-patterns.md|test-stress-hooks.sh|pentest-lab"
-EXCLUDE_FILES="$EXCLUDE_FILES|confidentiality-gate.yml"
+EXCLUDE_FILES="$EXCLUDE_FILES|confidentiality-gate.yml|confidentiality-allowlist.txt"
 
 get_diff() {
   local raw
@@ -38,153 +34,115 @@ get_diff() {
     --full)   raw=$(git diff HEAD~1...HEAD --diff-filter=ACMR -U0) ;;
     *)        raw=$(git diff --cached --diff-filter=ACMR -U0) ;;
   esac
-  # Filter out excluded files by splitting on diff headers
   echo "$raw" | awk -v exc="$EXCLUDE_FILES" '
     /^diff --git/ { skip=0; if (match($0, exc)) skip=1 }
     !skip { print }
   '
 }
 
-# Only scan added lines (^+), skip diff headers (^+++)
 ADDED_LINES=$(get_diff | grep "^+" | grep -v "^+++" || true)
-
-if [ -z "$ADDED_LINES" ]; then
-  echo "✅ No changes to scan."
-  exit 0
-fi
-
+if [ -z "$ADDED_LINES" ]; then echo "No changes to scan."; exit 0; fi
 LINE_COUNT=$(echo "$ADDED_LINES" | wc -l)
-echo "📋 Scanning $LINE_COUNT added lines (mode: $MODE)"
-echo ""
+echo "Scanning $LINE_COUNT added lines (mode: $MODE)"
 
-# ── Check 1: Blocklist (known PII terms) ────────────────────────────────────
-echo "── Check 1: Blocklist scan"
-if [ -f "$BLOCKLIST" ]; then
-  BLOCK_PATTERNS=$(grep -v "^#" "$BLOCKLIST" | grep -v "^$" | tr '\n' '|' | sed 's/|$//')
-  if [ -n "$BLOCK_PATTERNS" ]; then
-    MATCHES=$(echo "$ADDED_LINES" | grep -iE "$BLOCK_PATTERNS" || true)
-    if [ -n "$MATCHES" ]; then
-      echo "::error::BLOCKED: Blocklist terms found in changes"
-      echo "$MATCHES" | head -10 | while read -r line; do
-        echo "  🔴 $line"
-      done
-      MATCH_COUNT=$(echo "$MATCHES" | wc -l)
-      if [ "$MATCH_COUNT" -gt 10 ]; then
-        echo "  ... and $((MATCH_COUNT - 10)) more"
-      fi
-      FAILS=$((FAILS + 1))
-    else
-      echo "  ✅ No blocklist terms found"
-    fi
+# ── Check 1: Blocklist (dynamic or fallback to static) ─────────────────────
+echo "-- Check 1: Blocklist"
+if [ -z "$DYN_BLOCKLIST" ]; then
+  # Auto-generate if not provided and generator exists
+  GEN="$SCRIPT_DIR/generate-blocklist.sh"
+  if [ -f "$GEN" ]; then
+    DYN_BLOCKLIST=$(mktemp)
+    bash "$GEN" > "$DYN_BLOCKLIST" 2>/dev/null
+    trap "rm -f '$DYN_BLOCKLIST'" EXIT
+    echo "  (auto-generated $(wc -l < "$DYN_BLOCKLIST") patterns from workspace)"
   fi
-else
-  echo "  ⚠️  No blocklist file found at $BLOCKLIST"
 fi
+ALL_PATTERNS=""
+if [ -n "$DYN_BLOCKLIST" ] && [ -f "$DYN_BLOCKLIST" ]; then
+  ALL_PATTERNS=$(grep -v "^#" "$DYN_BLOCKLIST" | grep -v "^$" | tr '\n' '|' | sed 's/|$//')
+fi
+if [ -n "$ALL_PATTERNS" ]; then
+  MATCHES=$(echo "$ADDED_LINES" | grep -iE "$ALL_PATTERNS" || true)
+  if [ -n "$MATCHES" ]; then
+    echo "::error::BLOCKED: Blocklist terms found"
+    echo "$MATCHES" | head -10 | while read -r l; do echo "  FAIL $l"; done
+    FAILS=$((FAILS + 1))
+  else echo "  OK"; fi
+else echo "  WARN: No blocklist patterns (generate-blocklist.sh missing?)"; fi
 
-# ── Check 2: Credential patterns ────────────────────────────────────────────
-echo "── Check 2: Credential patterns"
-CRED_MATCHES=$(echo "$ADDED_LINES" | grep -iE \
+# ── Check 2: Credentials ──────────────────────────────────────────────────
+echo "-- Check 2: Credentials"
+CRED=$(echo "$ADDED_LINES" | grep -iE \
   "(AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|github_pat_|AIza[0-9A-Za-z_-]{35}|-----BEGIN.*(PRIVATE|RSA).*KEY)" \
   | grep -v "regex\|pattern\|detect\|example\|test.*hook\|pentest" || true)
-if [ -n "$CRED_MATCHES" ]; then
-  echo "::error::BLOCKED: Potential credentials detected"
-  echo "$CRED_MATCHES" | head -5 | while read -r line; do echo "  🔴 $line"; done
+if [ -n "$CRED" ]; then
+  echo "::error::BLOCKED: Credentials detected"
+  echo "$CRED" | head -5 | while read -r l; do echo "  FAIL $l"; done
   FAILS=$((FAILS + 1))
-else
-  echo "  ✅ No credentials detected"
-fi
+else echo "  OK"; fi
 
-# ── Check 3: Real emails ────────────────────────────────────────────────────
-echo "── Check 3: Real email addresses"
-EMAIL_MATCHES=$(echo "$ADDED_LINES" | grep -oiE "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" \
+# ── Check 3: Real emails ──────────────────────────────────────────────────
+echo "-- Check 3: Emails"
+EMAILS=$(echo "$ADDED_LINES" | grep -oiE "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" \
   | grep -v "@example\.\|@test\.\|@contoso\.\|@miorganizacion\.\|@anthropic\.\|@github\.\|@savia\.dev\|@empresa\.\|@cliente\." \
   | sort -u || true)
-if [ -n "$EMAIL_MATCHES" ]; then
-  echo "::error::BLOCKED: Real email addresses found"
-  echo "$EMAIL_MATCHES" | while read -r email; do echo "  🔴 $email"; done
+if [ -n "$EMAILS" ]; then
+  echo "::error::BLOCKED: Real emails found"
+  echo "$EMAILS" | while read -r e; do echo "  FAIL $e"; done
   FAILS=$((FAILS + 1))
-else
-  echo "  ✅ No real emails detected"
-fi
+else echo "  OK"; fi
 
-# ── Check 4: Forbidden files ────────────────────────────────────────────────
-echo "── Check 4: Forbidden file types"
-CHANGED_FILES=$(get_diff | grep "^diff --git" | sed 's|.*b/||' || true)
-FORBIDDEN=$(echo "$CHANGED_FILES" | grep -iE "\.(env|pat|secret|pem|p12|pfx|key)$|id_rsa|id_ed25519" || true)
-if [ -n "$FORBIDDEN" ]; then
-  echo "::error::BLOCKED: Forbidden file types in changes"
-  echo "$FORBIDDEN" | while read -r f; do echo "  🔴 $f"; done
+# ── Check 4: Forbidden files ──────────────────────────────────────────────
+echo "-- Check 4: Forbidden files"
+CHANGED=$(get_diff | grep "^diff --git" | sed 's|.*b/||' || true)
+FORBID=$(echo "$CHANGED" | grep -iE "\.(env|pat|secret|pem|p12|pfx|key)$|id_rsa|id_ed25519" || true)
+if [ -n "$FORBID" ]; then
+  echo "::error::BLOCKED: Forbidden file types"
+  echo "$FORBID" | while read -r f; do echo "  FAIL $f"; done
   FAILS=$((FAILS + 1))
-else
-  echo "  ✅ No forbidden files"
-fi
+else echo "  OK"; fi
 
-# ── Check 5: Merge conflict markers ─────────────────────────────────────────
-echo "── Check 5: Merge conflict markers"
-CONFLICT=$(echo "$ADDED_LINES" | grep -E "^(\+<{7}|\+>{7}|\+={7})" || true)
-if [ -n "$CONFLICT" ]; then
-  echo "::error::BLOCKED: Merge conflict markers found"
-  FAILS=$((FAILS + 1))
-else
-  echo "  ✅ No conflict markers"
-fi
+# ── Check 5: Merge conflict markers ───────────────────────────────────────
+echo "-- Check 5: Conflict markers"
+if echo "$ADDED_LINES" | grep -qE "^(\+<{7}|\+>{7}|\+={7})"; then
+  echo "::error::BLOCKED: Merge conflict markers"; FAILS=$((FAILS + 1))
+else echo "  OK"; fi
 
-# ── Check 6: Proper noun heuristic (2+ capitalized words) ───────────────────
-echo "── Check 6: Proper noun heuristic"
-# Extract sequences of 2+ capitalized words that could be real names
-# Exclude: common tech terms, file paths, markdown headers, code
-NOUN_CANDIDATES=$(echo "$ADDED_LINES" \
-  | grep -v "^+#\|^+//\|^+\*\|import \|class \|interface \|enum " \
-  | grep -oE "\b[A-Z][a-z]+\s+[A-Z][a-z]+(\s+[A-Z][a-z]+)?" \
-  | sort -u || true)
-
-if [ -n "$NOUN_CANDIDATES" ] && [ -f "$ALLOWLIST" ]; then
-  ALLOW_PATTERNS=$(grep -v "^#" "$ALLOWLIST" | grep -v "^$" | tr '\n' '|' | sed 's/|$//')
-  FLAGGED=$(echo "$NOUN_CANDIDATES" | grep -vE "$ALLOW_PATTERNS" || true)
+# ── Check 6: Proper noun heuristic ────────────────────────────────────────
+echo "-- Check 6: Proper nouns"
+NOUNS=$(echo "$ADDED_LINES" | grep -v "^+#\|^+//\|^+\*\|import \|class " \
+  | grep -oE "\b[A-Z][a-z]+\s+[A-Z][a-z]+(\s+[A-Z][a-z]+)?" | sort -u || true)
+if [ -n "$NOUNS" ]; then
+  ALLOW=""; [ -f "$ALLOWLIST" ] && ALLOW=$(grep -v "^#" "$ALLOWLIST" | grep -v "^$" | tr '\n' '|' | sed 's/|$//')
+  FLAGGED="$NOUNS"; [ -n "$ALLOW" ] && FLAGGED=$(echo "$NOUNS" | grep -vE "$ALLOW" || true)
   if [ -n "$FLAGGED" ]; then
-    echo "  ⚠️  Potential proper nouns not in allowlist (verify manually):"
-    echo "$FLAGGED" | while read -r noun; do echo "    🟡 $noun"; done
+    echo "  WARN: Proper nouns not in allowlist:"
+    echo "$FLAGGED" | head -10 | while read -r n; do echo "    ? $n"; done
     WARNS=$((WARNS + 1))
-  else
-    echo "  ✅ All proper nouns are in allowlist"
-  fi
-elif [ -n "$NOUN_CANDIDATES" ]; then
-  echo "  ⚠️  Proper nouns detected (no allowlist to validate against):"
-  echo "$NOUN_CANDIDATES" | head -10 | while read -r noun; do echo "    🟡 $noun"; done
-  WARNS=$((WARNS + 1))
-else
-  echo "  ✅ No suspicious proper nouns"
-fi
+  else echo "  OK"; fi
+else echo "  OK"; fi
 
-# ── Check 7: Private IPs ────────────────────────────────────────────────────
-echo "── Check 7: Private IP addresses"
-IP_MATCHES=$(echo "$ADDED_LINES" \
-  | grep -oE "(192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9]+\.[0-9]+|172\.(1[6-9]|2[0-9]|3[01])\.[0-9]+\.[0-9]+)" \
-  | grep -v "YOUR_PC_IP\|placeholder\|example" \
-  | sort -u || true)
-if [ -n "$IP_MATCHES" ]; then
-  echo "  ⚠️  Private IPs found (should be placeholders):"
-  echo "$IP_MATCHES" | while read -r ip; do echo "    🟡 $ip"; done
+# ── Check 7: Private IPs ──────────────────────────────────────────────────
+echo "-- Check 7: Private IPs"
+IPS=$(echo "$ADDED_LINES" | grep -oE "(192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9]+\.[0-9]+)" | sort -u || true)
+if [ -n "$IPS" ]; then
+  echo "  WARN: Private IPs:"; echo "$IPS" | while read -r i; do echo "    ? $i"; done
   WARNS=$((WARNS + 1))
-else
-  echo "  ✅ No private IPs"
-fi
+else echo "  OK"; fi
 
-# ── Results ──────────────────────────────────────────────────────────────────
-echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-if [ $FAILS -gt 0 ]; then
-  echo "🔴 BLOCKED — $FAILS violation(s), $WARNS warning(s)"
-  echo "   Fix blockers before merging."
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  exit 1
-elif [ $WARNS -gt 0 ]; then
-  echo "🟡 PASSED with $WARNS warning(s)"
-  echo "   Review warnings — may contain false positives."
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  exit 0
-else
-  echo "✅ CLEAN — no violations, no warnings"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  exit 0
-fi
+# ── Check 8: Real project paths ───────────────────────────────────────────
+echo "-- Check 8: Project paths"
+GENERIC="proyecto-alpha|proyecto-beta|sala-reservas|example|test|demo|sample|template"
+PROJS=$(echo "$ADDED_LINES" | grep -oiE "projects/[a-z][a-z0-9_-]+" \
+  | grep -v "projects/\*\|projects/{" | grep -viE "$GENERIC" | sort -u || true)
+if [ -n "$PROJS" ]; then
+  echo "  WARN: Non-generic project paths:"
+  echo "$PROJS" | while read -r p; do echo "    ? $p"; done
+  WARNS=$((WARNS + 1))
+else echo "  OK"; fi
+
+# ── Results ────────────────────────────────────────────────────────────────
+echo ""; echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+if [ $FAILS -gt 0 ]; then echo "BLOCKED — $FAILS violation(s), $WARNS warning(s)"; exit 1
+elif [ $WARNS -gt 0 ]; then echo "PASSED with $WARNS warning(s)"; exit 0
+else echo "CLEAN — no violations"; exit 0; fi

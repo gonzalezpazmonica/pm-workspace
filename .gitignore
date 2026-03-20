@@ -98,6 +98,7 @@ scripts/tests/screenshots
 
 # Configuraciones locales
 .claude/settings.local.*
+scripts/confidentiality-blocklist.local.txt
 
 # Informes de auditoria
 audit-report-*
