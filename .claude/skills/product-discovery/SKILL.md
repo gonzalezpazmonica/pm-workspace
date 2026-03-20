@@ -19,6 +19,22 @@ Invocar **antes** de descomponer un PBI en tasks técnicas cuando:
 - Se necesita formalizar el *por qué* del usuario antes del *cómo* técnico
 - El `business-analyst` necesita un workflow estructurado de análisis
 
+## Decision Checklist
+
+Before starting discovery, answer sequentially:
+
+1. Is the PBI type Feature or User Story (not Bug/Chore/Task)? -> If Bug/Chore: skip, go to decomposition
+2. Do acceptance criteria exist? -> If NO: discovery is mandatory (start with JTBD)
+3. Are acceptance criteria in Given/When/Then format? -> If NO: discovery recommended
+4. Has the PO validated with a real user? -> If NO: JTBD interviews recommended
+5. Is estimated effort >8 SP? -> If YES: discovery + PRD recommended before decomposition
+
+### Abort Conditions
+- No stakeholder identified -> STOP, cannot discover without user context
+- Conflicting requirements detected -> STOP, escalate to stakeholder-align
+
+---
+
 ## Qué produce
 
 Dos documentos que preceden la descomposición técnica:

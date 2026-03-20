@@ -18,6 +18,20 @@ Transforma Tasks de Azure DevOps en Specs ejecutables por un Developer humano **
 
 ---
 
+## Decision Checklist
+
+1. Does the spec have all interfaces, types, and edge cases defined? -> If NO: return to architect/spec-writer
+2. Are acceptance criteria measurable (Given/When/Then with data)? -> If NO: return to business-analyst
+3. Is there an existing code pattern in the project to follow? -> If YES: reference as exemplar in spec
+4. Does this touch auth, payments, PII, or public APIs? -> If YES: mandate security-review first
+5. Can an agent implement without asking questions? -> If NO: developer_type = human; If YES: agent
+
+### Abort Conditions
+- Spec has TODO/TBD placeholders -> incomplete, return to spec-writer
+- No test strategy defined -> return to test-engineer for test plan
+
+---
+
 ## Concepto Central
 
 ```
@@ -105,42 +119,22 @@ Ejecutar `/security-review {spec}` — `security-guardian` revisa contra OWASP T
 
 ## Fase 3 — Ejecutar con Agente Claude
 
-Detalles: **`references/agent-invocation.md`**
-- Preparar contexto del agente
-- Prompt para `agent-single` y `agent-team`
-- Logging y manejo de errores
-- Agent-Note post-implementación
+Detalles: **`references/agent-invocation.md`** (contexto, prompts, logging, agent-notes)
 
 ---
 
-## Fases 4-5 — Review, Métricas e Iteración
+## Fases 4-5 — Review, Metricas e Iteracion
 
-Detalles: **`references/review-metrics.md`**
-- Checklist de review para Tech Lead
-- Actualizar Azure DevOps
-- Métricas de SDD (tasa éxito, deuda técnica)
-- Mejora continua de Specs
+Detalles: **`references/review-metrics.md`** (review checklist, Azure DevOps update, metricas SDD, mejora continua)
 
 ---
 
-## §2.7 Delta Specs (cambios incrementales)
+## Delta Specs (cambios incrementales)
 
-Cuando una spec existente necesita modificaciones, usar formato delta en lugar de reescribir:
-
-### Secciones delta
-- **ADDED**: nuevos requisitos, escenarios o ficheros
-- **MODIFIED**: cambios a requisitos existentes (mostrar antes → después)
-- **REMOVED**: requisitos eliminados con justificación
-
-### Consolidación
-Al cerrar sprint, ejecutar `/spec-verify` para confirmar compliance y archivar deltas consolidados.
-
-> Detalle: @references/compliance-matrix.md
+Formato delta (ADDED/MODIFIED/REMOVED) en lugar de reescribir. Consolidar con `/spec-verify` al cerrar sprint. Detalle: @references/compliance-matrix.md
 
 ---
 
 ## Referencias
 
-- Templates: `references/spec-template.md` · `references/layer-assignment-matrix.md` · `references/compliance-matrix.md`
-- Execution: `references/agent-invocation.md` · `references/review-metrics.md`
-- Comandos: `/spec-generate`, `/spec-implement`, `/spec-review`, `/spec-explore`, `/spec-design`, `/spec-verify`
+Templates: `references/spec-template.md` · `references/layer-assignment-matrix.md` · `references/compliance-matrix.md` | Execution: `references/agent-invocation.md` · `references/review-metrics.md` | Comandos: `/spec-generate`, `/spec-implement`, `/spec-review`, `/spec-verify`

@@ -141,50 +141,50 @@ do_low_impact() {
 # Limpiar log
 do_reset() {
   if [ -f "$LOG_FILE" ]; then
-    local backup
-    backup="$LOG_FILE.bak.$(date +%Y%m%d)"
-    cp "$LOG_FILE" "$backup"
+    cp "$LOG_FILE" "$LOG_FILE.bak.$(date +%Y%m%d)"
     > "$LOG_FILE"
-    echo "RESET_OK|backup=${backup}"
+    echo "RESET_OK"
   else
     echo "NO_LOG"
   fi
 }
 
-# ── Main ────────────────────────────────────────────────────────────────────
+# Reporte de compresion de bash output (bash-output-compress.sh hook)
+do_compression_report() {
+  if [ ! -f "$LOG_FILE" ]; then echo "NO_DATA"; exit 0; fi
+  awk -F'|' '$2 == "bash-compress" {
+    saved += $4; count++; cmds[$3] += $4
+  } END {
+    if (count == 0) { print "No compression data yet"; exit }
+    printf "Bash Compression Report\n"
+    printf "  Invocations: %d\n", count
+    printf "  Tokens saved (est): %d\n", saved
+    printf "  Top compressed:\n"
+    for (c in cmds) printf "    %s: %d tokens\n", c, cmds[c]
+  }' "$LOG_FILE"
+}
 
+# ── Main ────────────────────────────────────────────────────────────────────
 case "${1:-help}" in
-  log)
-    do_log "${2:-}" "${3:-}" "${4:-}"
-    ;;
-  stats)
-    do_stats
-    ;;
-  top-commands)
-    do_top_commands "${2:-10}"
-    ;;
-  top-fragments)
-    do_top_fragments "${2:-10}"
-    ;;
-  cooccurrences)
-    do_cooccurrences
-    ;;
-  low-impact)
-    do_low_impact
-    ;;
-  reset)
-    do_reset
-    ;;
+  log)                do_log "${2:-}" "${3:-}" "${4:-}" ;;
+  stats)              do_stats ;;
+  top-commands)       do_top_commands "${2:-10}" ;;
+  top-fragments)      do_top_fragments "${2:-10}" ;;
+  cooccurrences)      do_cooccurrences ;;
+  low-impact)         do_low_impact ;;
+  compression-report) do_compression_report ;;
+  reset)              do_reset ;;
   help|*)
-    echo "Usage: context-tracker.sh <subcommand>"
-    echo ""
-    echo "Subcommands:"
-    echo "  log <cmd> <fragments> <tokens>  — Register context usage"
-    echo "  stats                           — Show usage statistics"
-    echo "  top-commands [N]                — Top N most used commands"
-    echo "  top-fragments [N]               — Top N most loaded fragments"
-    echo "  cooccurrences                   — Command co-occurrence patterns"
-    echo "  low-impact                      — Potentially unnecessary fragments"
-    echo "  reset                           — Clear log (with backup)"
+    cat <<'HELP'
+Usage: context-tracker.sh <subcommand>
+  log <cmd> <frags> <tokens>  Register context usage
+  stats                       Usage statistics
+  top-commands [N]            Top N commands
+  top-fragments [N]           Top N fragments
+  cooccurrences               Command co-occurrence patterns
+  low-impact                  Potentially unnecessary fragments
+  compression-report          Bash output compression metrics
+  reset                       Clear log (with backup)
+HELP
     ;;
 esac

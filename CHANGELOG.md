@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.0] — 2026-03-20
+
+Context optimization, React quality, and decision-guided skills — inspired by rtk-ai/rtk and no-use-effect.
+
+### Added
+- **Hook**: `bash-output-compress.sh` — async PostToolUse hook that compresses verbose Bash output (blanks, repeats, ANSI, truncation). Specialized filters for git, dotnet, npm, az devops. Inspired by rtk-ai/rtk (60-90% token reduction)
+- **Rule**: `react-use-effect-anti-patterns.md` — 6 rules + 8-question decision checklist for React useEffect. Auto-loads on .tsx/.jsx. Inspired by no-use-effect skill
+- **Tracker**: `context-tracker.sh compression-report` — new subcommand for Bash compression metrics
+- **Pattern**: Decision Checklists added to 6 core skills (sequential yes/no routing before execution)
+
+### Changed
+- **Skill**: `spec-driven-development` — added 5-question decision checklist + abort conditions for human vs agent routing
+- **Skill**: `pbi-decomposition` — added 5-question decision checklist + abort conditions for decomposition gates
+- **Skill**: `risk-scoring` — added 5-question decision checklist with score modifiers and abort conditions
+- **Skill**: `consensus-validation` — added 5-question decision checklist for mandatory vs optional consensus
+- **Skill**: `product-discovery` — added 5-question decision checklist for skip/start/delay discovery
+- **Skill**: `verification-lattice` — added 5-question decision checklist for layer selection by risk
+- **Rule**: `react-conventions.md` — added reference to new useEffect anti-patterns file
+- **Config**: `settings.json` — registered bash-output-compress hook as async PostToolUse for Bash
+- **Docs**: README.md and README.en.md — hooks count updated from 16 to 17
+
+### Specs
+- `SPEC-001`: Bash Output Compression Hook (rtk-inspired)
+- `SPEC-002`: React useEffect Anti-Patterns (no-use-effect inspired)
+- `SPEC-003`: Decision Checklists for Top 6 Skills
+
 ## [3.6.1] — 2026-03-20
 
 PII purge from tracked files + full-repo scan mode.
@@ -3845,6 +3871,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.6.1...v3.7.0
 [3.6.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.6.0...v3.6.1
 [3.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.3...v3.6.0
 [3.5.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.2...v3.5.3

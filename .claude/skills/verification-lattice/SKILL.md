@@ -13,6 +13,22 @@ priority: "high"
 
 A layered verification system where each layer builds on previous results, culminating in informed human review.
 
+## Decision Checklist
+
+Before running verification, answer sequentially:
+
+1. Is this a documentation-only or formatting change? -> If YES: run Layers 1-2 only (skip 3-5)
+2. Does the change affect security, auth, or PII? -> If YES: run all 5 layers, Layer 3 mandatory
+3. Is the risk score > 50? -> If YES: run Layers 1-4, Layer 5 mandatory (human review)
+4. Is the risk score < 26? -> If YES: run Layers 1-3 only, Layer 5 optional
+5. Does the project have performance benchmarks? -> If NO: skip Layer 4 performance checks
+
+### Abort Conditions
+- Layer 1 (deterministic) fails -> STOP, fix before continuing
+- Layer 3 finds critical/high vulnerability -> STOP, mandatory fix
+
+---
+
 ## Layer 1: Deterministic Verification
 **Purpose:** Automated checks producing consistent, repeatable results.
 
