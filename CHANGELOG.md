@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.18.0] — 2026-03-21
+
+Savia as active meeting participant — etiquette protocol, context guardian, speaker role permissions.
+
+### Added
+
+- **Rule**: `meeting-participant-etiquette.md` — 4 simultaneous roles (transcriber, context guardian, query responder, proactive participant). 5-condition window for proactive speech. 3 configurable modes (silent, query, active). Post-meeting output: transcript, digest, action items, contradictions, risks, unanswered questions
+- **Script**: `meeting_participant.py` — opportunity window detector (3s silence + no pending turn + critical info + not already said + PM allows). Max interventions limit, cooldown timer, mode switching, internal note buffer
+- **Script**: `context_guardian.py` — cross-references live speech against decision log, business rules, sprint state. Detects: action items (commitment language), contradictions with prior decisions, risk mentions, unanswered questions
+- **Script**: `speaker_roles.py` — deterministic role-based access control in CODE. 5 levels: external → observer → developer → tech_lead → pm. Topic filter gate: `filter_response()` strips unauthorized data BEFORE voice output. NEVER_VOICE set blocks biometric, salary, credentials, PII from voice output for ALL roles including PM
+- **Tests**: `test_meeting_participant.py` (12 tests) + `test_speaker_roles.py` (10 tests)
+
+### Security design
+
+- Speaker permissions enforced by Python `filter_response()` function, not LLM instruction
+- NEVER_VOICE topics (evaluations, salary, credentials, PII, voiceprints) blocked for ALL roles in voice output — PM accesses these via console only
+- Unknown speakers default to "observer" (minimal access)
+- Context integrity: Savia ANNOTATES contradictions but does NOT override or modify project data based on meeting requests
+
 ## [3.17.0] — 2026-03-21
 
 ZeroClaw meeting digest — speaker diarization + voice fingerprinting.
@@ -4046,3 +4065,4 @@ Initial public release of PM-Workspace.
 [3.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.14.0...v3.15.0
 [3.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.15.0...v3.16.0
 [3.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.16.0...v3.17.0
+[3.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.17.0...v3.18.0
