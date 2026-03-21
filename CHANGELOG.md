@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.23.0] — 2026-03-21
+
+SaviaClaw v0.9 — self-test, daemon, autonomous operation.
+
+### Added
+
+- **Firmware**: `selftest.py` — hardware diagnostic at boot: CPU, RAM, LED, LCD I2C, WiFi, flash. Results on LCD. Warns on failures
+- **Firmware**: `main.py` v0.9 — selftest at boot before main loop
+- **Script**: `saviaclaw_daemon.py` — background process: auto-detect ESP32, reconnect on disconnect, process `ask` commands via claude -p, log to `~/.savia/zeroclaw/daemon.log`
+- **Script**: `saviaclaw.service` — systemd unit for auto-start on boot
+- **Script**: `install-daemon.sh` — one-command daemon installation
+
 ## [3.22.0] — 2026-03-21
 
 SaviaClaw autonomy roadmap + heartbeat + BT audio research.
@@ -4153,3 +4165,4 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.22.0...v3.23.0
