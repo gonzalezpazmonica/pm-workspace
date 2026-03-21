@@ -17,3 +17,5 @@ Format: `| date | category | lesson | source |`
 | 2026-03-03 | Git | savia-branch.sh dispatcher uses short names (read, write, exists) not function names (do_read, do_write, do_exists). | Test failure — Era 22 |
 | 2026-03-03 | Bash | `!` negation doesn't work inside `"$@"` expansion. Use a separate `assert_fail` helper instead. | Test failure — Era 22 |
 | 2026-03-03 | Git | Default branch is `master` unless `init.defaultBranch` is configured. Always set `git config --global init.defaultBranch main` in test setup. | Test failure — Era 22 |
+
+| 2026-03-21 | Security | SIEMPRE firmar .confidentiality-signature antes de push — sin excepciones, incluso en PRs de solo docs. Los fallos de pipeline de confidencialidad generan emails de alerta al humano. | Corrección de usuario tras emails de CI |
