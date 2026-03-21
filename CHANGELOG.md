@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.0] — 2026-03-21
+
+Savia Web Research — web search to resolve context gaps. Inspired by FAIR-Perplexica (UB-Mannheim).
+
+### Added
+
+- **Skill**: `web-research` — search engine with local cache, query sanitization, heuristic reranking, and inline citations `[web:N]`
+- **Command**: `/web-research <query>` — search the web for documentation, versions, CVEs, best practices. Subcommands: `--cache-stats`, `--cache-clear`, `--cache-only`
+- **Rule**: `web-research-config.md` — configuration, privacy protocol, context-budget integration, degradation levels
+- **Spec**: `SPEC-003-web-research-system.md` — full architecture proposal (3 layers: cache → Claude tools → SearxNG)
+- **Script**: `scripts/web-research/` — Python package: cache (LRU, TTL by category), sanitizer (PII/project removal), reranker (heuristic scoring), formatter (citation generation)
+
 ## [3.8.1] — 2026-03-21
 
 Native markdownlint — replaces npm markdownlint-cli dependency.
@@ -3893,3 +3905,4 @@ Initial public release of PM-Workspace.
 [3.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.7.1...v3.8.0
 [3.7.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.7.0...v3.7.1
 [3.8.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.8.0...v3.8.1
+[3.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.8.1...v3.9.0
