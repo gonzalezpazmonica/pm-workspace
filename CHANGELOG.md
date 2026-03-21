@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.17.0] — 2026-03-21
+
+ZeroClaw meeting digest — speaker diarization + voice fingerprinting.
+
+### Added
+
+- **Spec**: `SPEC-008-zeroclaw-meeting-digest.md` — live meeting pipeline: audio capture → VAD → pyannote diarization → SpeechBrain voice ID → whisper STT → JSONL transcript with speaker labels → meeting-digest agent
+- **Script**: `voiceprint.py` — voice enrollment: extract ECAPA-TDNN embedding from 10-15s speech, store as numpy array in ~/.savia/zeroclaw/voiceprints/ (N4b biometric)
+- **Script**: `voiceprint_ops.py` — identify speaker from embedding (cosine similarity), list/delete voiceprints (RGPD Art. 17 right to erasure)
+- **Script**: `meeting_pipeline.py` — orchestrator: process audio buffer through diarization → speaker ID → STT, output JSONL transcript, graceful fallback for each missing dep
+- **Rule**: `zeroclaw-meeting-protocol.md` — consent guardrails (audible warning mandatory), voice enrollment flow, confidence thresholds (75%/50%), RGPD compliance, degradation matrix
+- **Command**: `/zeroclaw meeting` — start, stop, voice enroll/list/delete, status subcommands
+- **Tests**: `test_voiceprint.py` — 9 tests: cosine similarity math, index operations, N4b storage location, threshold values, file sizes
+
 ## [3.16.0] — 2026-03-21
 
 ZeroClaw network auto-config — Savia detects its WiFi and provisions ESP32 to join.
@@ -4031,3 +4045,4 @@ Initial public release of PM-Workspace.
 [3.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.13.0...v3.14.0
 [3.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.14.0...v3.15.0
 [3.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.15.0...v3.16.0
+[3.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.16.0...v3.17.0
