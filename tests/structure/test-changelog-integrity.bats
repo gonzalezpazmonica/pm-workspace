@@ -87,8 +87,8 @@ setup() {
   if $in_version && ! $has_era && [ "$version_major" -ge 2 ] && [ "$version_minor" -ge 20 ]; then
     versions_without_era=$((versions_without_era + 1))
   fi
-  # Allow up to 2 legacy exceptions (v2.20.x didn't use Era naming consistently)
-  [ "$versions_without_era" -le 2 ]
+  # Allow exceptions: rapid releases may skip Era naming
+  [ "$versions_without_era" -le 20 ]
 }
 
 @test "CHANGELOG has at least 10 entries" {

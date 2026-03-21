@@ -85,6 +85,23 @@ class CommandHandler:
         data["freq_mhz"] = machine.freq() // 1_000_000
         return data
 
+    def _cmd_lcd(self, args):
+        raw = args.get("raw", [])
+        text = " ".join(raw) if raw else args.get("text", "")
+        if not text:
+            return {"error": "usage: lcd <text> or lcd line1 | line2"}
+        try:
+            from lib.lcd_i2c import LCD
+            lcd = LCD()
+            if "|" in text:
+                parts = text.split("|", 1)
+                lcd.message(parts[0].strip(), parts[1].strip())
+            else:
+                lcd.message(text)
+            return {"lcd": "ok", "text": text}
+        except Exception as e:
+            return {"error": "lcd: " + str(e)}
+
     def _cmd_gpio(self, args):
         pin_num = int(args.get("pin") or args.get("raw", [0])[0])
         action = args.get("action") or (args["raw"][1] if "raw" in args and len(args["raw"]) > 1 else "read")
@@ -103,7 +120,7 @@ class CommandHandler:
         return {"error": f"gpio action: read|high|low"}
 
     def _cmd_help(self, args):
-        return ["ping", "led", "info", "sensors", "gpio", "help"]
+        return ["ping", "led", "lcd", "info", "sensors", "gpio", "help"]
 
     def _cmd_repl(self, args):
         return {"message": "Entering REPL mode. Reset ESP32 to return to ZeroClaw."}
