@@ -3,7 +3,7 @@
 # Commit this file with your PR. CI verifies it.
 # Any code change after signing invalidates this signature.
 diff_hash=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-timestamp=2026-03-21T12:04:24Z
-branch=feat/zeroclaw-sensory-protocol
-head_commit=d1b111d
-signature=c060ffcdca0aface5cefd0ee736650c6aa3d681573d690e6a4e097c8d8f3e492
+timestamp=2026-03-21T12:33:59Z
+branch=feat/zeroclaw-network-setup
+head_commit=20d45cf
+signature=b95c335240c021cd78801f5aed493028ec53c70baa0095b614d8b56b06bf2f86
