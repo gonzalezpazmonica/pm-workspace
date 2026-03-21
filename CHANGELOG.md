@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.12.0] — 2026-03-21
+
+Physical assembly guidance + ZeroClaw spec — Savia guides hardware and gains physical senses.
+
+### Added
+
+- **Spec**: `SPEC-005-physical-assembly-guide.md` — 3 guidance modes (ASCII diagrams, step-by-step manuals, offline TTS voice), component knowledge base (9 components with safety warnings), schemdraw SVG generation
+- **Spec**: `SPEC-006-zeroclaw.md` — ESP32-S3 as Savia's physical interface: microphone (INMP441), speaker (MAX98357A), camera (OV2640). Protocol design, security model, 5-phase implementation plan
+- **Script**: `pinout.py` — ASCII pinout generator for ESP32/Arduino/RPi Pico with connection annotations and wire colors
+- **Script**: `assembly_guide.py` — Step-by-step assembly guide generator with BOM, wiring steps, verification checklists, and per-component safety warnings
+- **Script**: `voice_guide.py` — Offline TTS voice narrator (pyttsx3) with interactive controls (next/repeat/back/status), ES/EN support
+
 ## [3.11.0] — 2026-03-21
 
 Robotics Vertical — architecture, security, and MicroPython for the physical AI era.
@@ -3950,3 +3962,4 @@ Initial public release of PM-Workspace.
 [3.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.9.0...v3.10.0
 [3.10.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.10.0...v3.10.1
 [3.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.10.1...v3.11.0
+[3.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.11.0...v3.12.0
