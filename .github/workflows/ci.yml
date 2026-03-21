@@ -171,18 +171,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install markdownlint
-        run: npm install -g markdownlint-cli
-
-      - name: Lint Markdown files
+      - name: Lint Markdown (native — no npm dependency)
         run: |
-          markdownlint \
+          python3 -m scripts.markdownlint \
             --config .markdownlint.json \
-            --ignore node_modules \
-            --ignore projects/sala-reservas/test-data \
-            "**/*.md" || true
+            CHANGELOG.md README.md README.en.md || true
         # 'true' keeps CI green while the team establishes linting baseline.
-        # Remove '|| true' once all existing files pass linting.
+        # Expand file list as files are fixed. Remove '|| true' when all pass.
 
       - name: Validate file sizes (≤150 lines)
         run: |
