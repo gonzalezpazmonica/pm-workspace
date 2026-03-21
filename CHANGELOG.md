@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.10.0] — 2026-03-21
+
+FAIR-Perplexica improvements: autonomous SearxNG, gap detection, global context, follow-up suggestions.
+
+### Added
+
+- **Script**: `searxng.py` — SearxNG Docker auto-start: detects Docker, starts container `savia-searxng` on demand, health check, graceful fallback to WebSearch
+- **Script**: `docker-compose.searxng.yml` — SearxNG container definition (port 8888, localhost only, no tracking)
+- **Script**: `search.py` — 3-layer search orchestrator: cache → SearxNG (auto-start) → Claude WebSearch
+- **Script**: `gap_detector.py` — detects context gaps in user queries (versions, docs, CVEs, comparisons) vs internal PM questions
+- **Script**: `suggestions.py` — post-command follow-up suggestions for 10 command families (inspired by Perplexica suggestion generator)
+- **Rule**: `global-context.md` — compact company DNA (~100 tokens) injected into all agent prompts, saves ~360 tokens vs full profile
+- **Script**: `generate-global-context.sh` — generates global context from company profile + config
+
+### Changed
+
+- **Command**: `/web-research` — now auto-starts SearxNG Docker, 3-layer search with engine presets by category
+
 ## [3.9.0] — 2026-03-21
 
 Savia Web Research — web search to resolve context gaps. Inspired by FAIR-Perplexica (UB-Mannheim).
@@ -3906,3 +3924,4 @@ Initial public release of PM-Workspace.
 [3.7.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.7.0...v3.7.1
 [3.8.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.8.0...v3.8.1
 [3.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.8.1...v3.9.0
+[3.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.9.0...v3.10.0
