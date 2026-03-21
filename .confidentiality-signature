@@ -3,7 +3,7 @@
 # Commit this file with your PR. CI verifies it.
 # Any code change after signing invalidates this signature.
 diff_hash=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-timestamp=2026-03-21T10:29:41Z
-branch=feat/web-research-phase1
-head_commit=aa28796
-signature=4b9856b5380866ace6c34d4d06013a0f4b32ed542d93b96d0db729b9b0f7030c
+timestamp=2026-03-21T10:43:14Z
+branch=feat/perplexica-improvements
+head_commit=c57ed04
+signature=e37473c6c62840240087b09a17e51f47c9c6923dcad5323a61faaf8f3899b51c

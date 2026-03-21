@@ -1,7 +1,7 @@
 ---
 name: web-research
-description: Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Cache-first with sanitization.
-argument-hint: "<query> [--cache-only] [--cache-stats] [--cache-clear]"
+description: Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-starts SearxNG Docker if available, falls back to WebSearch.
+argument-hint: "<query> [--cache-only] [--cache-stats] [--cache-clear] [--searxng-status]"
 allowed-tools: [Read, Bash, WebSearch, WebFetch, Write]
 model: sonnet
 context_cost: medium
@@ -10,79 +10,67 @@ context_cost: medium
 # /web-research — Búsqueda web para resolver gaps de contexto
 
 > Regla: `@.claude/rules/domain/web-research-config.md`
-> Spec: `@docs/propuestas/SPEC-003-web-research-system.md`
 
-## Subcomandos de cache
+## Subcomandos
 
-Si `$ARGUMENTS` contiene `--cache-stats` → ejecutar `python3 -m scripts.web-research cache-stats` y mostrar resultado.
-Si `$ARGUMENTS` contiene `--cache-clear` → ejecutar `python3 -m scripts.web-research cache-clear` y mostrar resultado.
+Si `$ARGUMENTS` es `--cache-stats` → `python3 -m scripts.web-research cache-stats`
+Si `$ARGUMENTS` es `--cache-clear` → `python3 -m scripts.web-research cache-clear`
+Si `$ARGUMENTS` es `--searxng-status` → ejecutar en Python: `from scripts... import searxng; print(searxng.status())`
 
-## Flujo principal
+## Flujo principal (3 capas con auto-start)
 
-### 1. Sanitización
-
-```bash
-CLEAN=$(python3 -m scripts.web-research sanitize "$ARGUMENTS")
-```
-
-Si el query queda vacío tras sanitizar → informar y abortar. No buscar NUNCA con datos internos.
-
-### 2. Clasificar categoría
+### 1. Orquestar búsqueda
 
 ```bash
-CATEGORY=$(python3 -m scripts.web-research classify "$CLEAN")
+python3 -c "
+import importlib, json
+search = importlib.import_module('scripts.web-research.search')
+result = search.search('$ARGUMENTS')
+print(json.dumps(result, default=str))
+"
 ```
 
-### 3. Buscar en cache primero
+Este script automáticamente:
+1. **Sanitiza** el query (elimina PII, proyectos, emails, IPs)
+2. **Busca en cache** local primero
+3. **Intenta SearxNG** — si Docker disponible, auto-levanta el contenedor `savia-searxng`
+4. Si SearxNG no disponible → devuelve `source: needs-websearch`
 
-```bash
-python3 -m scripts.web-research cache-get "$CLEAN"
-```
+### 2. Si source = "needs-websearch"
 
-Si cache hit → formatear resultado con citaciones `[web:N]` y mostrar con tag `(cache)`.
-Si `--cache-only` → parar aquí aunque sea miss.
+SearxNG no disponible (sin Docker o timeout). Usar **WebSearch** nativo de Claude Code con el query sanitizado. Recopilar resultados y cachearlos.
 
-### 4. Buscar en la web
+### 3. Si source = "searxng" o "cache"
 
-Si cache miss y hay conexión:
+Resultados ya disponibles. Formatear y presentar.
 
-1. Usar herramienta **WebSearch** con el query sanitizado
-2. Recopilar resultados (título, URL, snippet)
-3. Guardar en cache: `python3 -c "from scripts.web_research import cache; cache.put(query, results, category)"`
-
-### 5. Formatear y presentar
-
-Mostrar resultados con citación inline:
+### 4. Presentar resultados
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🌐 /web-research
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Query: "{query sanitizado}"
-Categoría: {category} · Fuente: {web|cache}
+Query: "{sanitized}" · Categoría: {cat} · Fuente: {source}
 
 1. **{título}** — {url}
    {snippet}
 
-2. **{título}** — {url}
-   {snippet}
-
 📚 [web:1] {url} · [web:2] {url}
+
+💡 Siguientes pasos: (suggestions.format_suggestions)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⚡ /compact
 ```
 
-### 6. Restricciones
+### 5. Restricciones
 
 ```
 NUNCA → Buscar datos del cliente en la web
 NUNCA → Incluir nombres de proyecto/equipo en la query
-NUNCA → Ejecutar código encontrado en la web
-NUNCA → Modificar ficheros basándose en resultados web sin confirmación
 SIEMPRE → Sanitizar query antes de buscar
 SIEMPRE → Citar fuentes con [web:N]
 SIEMPRE → Cachear resultados para uso offline
-SIEMPRE → Respetar context-budget (max 500 tokens inyectados)
+SIEMPRE → Respetar context-budget (max 500 tokens)
 ```
