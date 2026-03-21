@@ -66,6 +66,11 @@ pm-workspace/
 ├── projects/
 │   ├── savia-mobile-android/  ← app Android nativa + bridge
 │   └── savia-web/             ← Vue.js web client para dashboards
+├── zeroclaw/
+│   ├── firmware/       ← MicroPython para ESP32 (selftest, heartbeat, LCD)
+│   ├── host/           ← bridge, daemon, voz, guardrails, brain
+│   ├── tests/          ← 39 tests sin hardware
+│   └── ROADMAP.md      ← fases 0-6 hacia autonomía
 ├── scripts/            ← validación, CI, utilidades, savia-bridge.py
 ├── output/             ← ficheros generados (informes, specs, exports)
 └── CLAUDE.md           ← mi identidad y reglas fundamentales
@@ -105,6 +110,8 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Savia Web** — Cliente web Vue.js 3 + TypeScript + Vite con 10 páginas de dashboards (sprints, deuda, DORA, capacidad, etc.) y 10 componentes ECharts. [Savia Bridge](scripts/savia-bridge.py) expone 8 endpoints de reporting (velocity, burndown, DORA, workload, quality, debt, cycle-time, portfolio). Script de deploy en `setup-savia-web.sh`. Detalles: [Savia Web](projects/savia-web/README.md)
 
+**SaviaClaw** — Savia en el mundo físico. ESP32 con LCD 16x2, firmware MicroPython (selftest, heartbeat, comandos JSON, WiFi). Host daemon con reconexión automática, señales, watchdog y status file. Brain Bridge: pregunta al ESP32 → Claude CLI → respuesta en LCD. Pipeline de voz (TTS espeak-ng/spd-say + STT whisper, offline-first). 7 guardrails deterministas (size, rate, PII, storage, command, cleanup, audit). 39 tests sin hardware. [Roadmap](zeroclaw/ROADMAP.md)
+
 ---
 
 ## Instalación
@@ -140,6 +147,7 @@ Configurable con `SAVIA_HOME`, `--skip-tests`. Detalles: `install.sh --help`
 | [AI Augmentation](docs/ai-augmentation-opportunities-es.md) | Oportunidades por sector |
 | [Context Engineering](docs/context-engineering-es.md) | Mejoras de contexto e IA |
 | [Savia Mobile](projects/savia-mobile-android/README.md) | App Android + Bridge |
+| [SaviaClaw Roadmap](zeroclaw/ROADMAP.md) | Hardware: ESP32 + voz + sensores |
 
 ---
 
