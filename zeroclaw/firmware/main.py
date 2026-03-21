@@ -1,4 +1,4 @@
-# ZeroClaw main.py v0.7
+# SaviaClaw main.py v0.8 — serial + WiFi + LCD + heartbeat
 import machine, sys, gc, json, time, select
 from lib.status import StatusLED
 from lib.commands import CommandHandler
@@ -6,15 +6,25 @@ from lib.commands import CommandHandler
 led = StatusLED(pin=2)
 handler = CommandHandler(led)
 lcd = None
+heartbeat = None
 http_server = None
 
+# Init LCD
 try:
     from lib.lcd_i2c import LCD
     lcd = LCD()
-    lcd.message('ZeroClaw v0.7', 'Booting...')
+    lcd.message('SaviaClaw v0.8', 'Booting...')
 except:
     pass
 
+# Init heartbeat
+try:
+    from lib.heartbeat import Heartbeat
+    heartbeat = Heartbeat(lcd=lcd, interval_ms=8000)
+except:
+    pass
+
+# WiFi
 try:
     import network
     wlan = network.WLAN(network.STA_IF)
@@ -22,15 +32,17 @@ try:
         from lib.wifi_server import MiniHTTPServer
         http_server = MiniHTTPServer(handler, port=80)
         ip = http_server.start()
+        if heartbeat:
+            heartbeat.set_wifi(ip)
         if lcd:
-            lcd.message('WiFi: ' + ip, 'v0.7')
+            lcd.message('WiFi: ' + ip, 'SaviaClaw v0.8')
 except:
     pass
 
 if lcd and not http_server:
-    lcd.message('ZeroClaw v0.7', 'Serial ready')
+    lcd.message('SaviaClaw v0.8', 'Serial ready')
 led.pulse()
-sys.stdout.write('ZeroClaw v0.7 ready\n')
+sys.stdout.write('SaviaClaw v0.8 ready\n')
 
 try:
     wdt = machine.WDT(timeout=10000)
@@ -49,6 +61,8 @@ while True:
             http_server.poll()
         except:
             pass
+    if heartbeat:
+        heartbeat.tick()
     ready = poll.poll(50)
     for obj, ev in ready:
         try:
@@ -61,8 +75,7 @@ while True:
                     out = json.dumps(resp)
                     sys.stdout.write(out + '\n')
                     if lcd and resp.get("cmd") != "lcd":
-                        cn = resp.get("cmd", "?")
-                        lcd.write(cn[:16], 0)
+                        lcd.write(resp.get("cmd","?")[:16], 0)
             elif ch:
                 buf += ch
         except:

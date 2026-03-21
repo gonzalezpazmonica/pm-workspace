@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.22.0] — 2026-03-21
+
+SaviaClaw autonomy roadmap + heartbeat + BT audio research.
+
+### Added
+
+- **Spec**: `SPEC-010-saviaclaw-autonomy-roadmap.md` — 6-level autonomy plan: stability → proactivity → voice → BT audio → context guardian → multi-claw. Research: HFP AG for bidirectional BT audio with headset
+- **Firmware**: `heartbeat.py` — periodic LCD status rotation (identity, uptime, WiFi, RAM, custom messages). 8-second cycle
+- **Firmware**: `main.py` v0.8 — integrates heartbeat, LCD shows live status
+
+### Research
+
+- ESP32 Bluetooth: A2DP Source (send to speaker, SBC codec), HFP AG (bidirectional with headset, CVSD/mSBC)
+- Decision: HFP AG for full-duplex voice via any BT headset (~10 EUR)
+- MicroPython limitation: BT audio requires ESP-IDF (C). Hybrid approach planned
+
 ## [3.21.0] — 2026-03-21
 
 Savia Brain Bridge + CI signature fix.
@@ -4136,3 +4152,4 @@ Initial public release of PM-Workspace.
 [3.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.19.1...v3.20.0
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
+[3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
