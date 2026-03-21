@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.13.0] — 2026-03-21
+
+ZeroClaw voice pipeline + voice/console decision protocol.
+
+### Added
+
+- **Spec**: `SPEC-007-zeroclaw-voice-pipeline.md` — full bidirectional voice architecture: 3 processing levels (ESP32 wake word → Host STT/TTS → optional cloud), Wyoming-adapted protocol, latency target ~6s, 5-phase implementation plan
+- **Rule**: `voice-console-protocol.md` — decision algorithm for what goes to voice (short instructions, safety warnings) vs console (code, tables, diagrams). 4 session modes: assembly, coding, monitoring, chat. LED indicator states for ZeroClaw
+- **Script**: `voice_bridge.py` — host-side voice server: faster-whisper STT + pyttsx3/Piper TTS, dependency detection, setup guide. Graceful fallback when deps missing
+
+### Research (incorporated in specs)
+
+- ESP-SR WakeNet/MultiNet for on-device wake word on ESP32-S3
+- whisper.cpp for edge STT (~273MB RAM for tiny model)
+- Piper TTS for fast local Spanish voice synthesis
+- Wyoming protocol (Rhasspy/Home Assistant) for audio streaming
+- HuggingFace speech-to-speech pipeline architecture (VAD→STT→LLM→TTS)
+
 ## [3.12.0] — 2026-03-21
 
 Physical assembly guidance + ZeroClaw spec — Savia guides hardware and gains physical senses.
@@ -3963,3 +3981,4 @@ Initial public release of PM-Workspace.
 [3.10.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.10.0...v3.10.1
 [3.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.10.1...v3.11.0
 [3.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.11.0...v3.12.0
+[3.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.12.0...v3.13.0
