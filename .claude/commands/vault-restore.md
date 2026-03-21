@@ -1,9 +1,15 @@
+---
+name: vault-restore
+description: "Restaurar Personal Vault en nueva maquina"
+---
+
 # /vault-restore — Restaurar Personal Vault en nueva maquina
 
 > Clona el vault desde un remote y recrea junctions/symlinks.
 > Skill: personal-vault | Confidencialidad: N3 (USUARIO)
 
 ---
+name: vault-restore
 
 ## Parametros
 

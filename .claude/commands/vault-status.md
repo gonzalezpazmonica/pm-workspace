@@ -1,9 +1,15 @@
+---
+name: vault-status
+description: "Estado del Personal Vault"
+---
+
 # /vault-status — Estado del Personal Vault
 
 > Health check del vault personal: junctions, cambios, remote.
 > Skill: personal-vault | Confidencialidad: N3 (USUARIO)
 
 ---
+name: vault-status
 
 ## Flujo
 

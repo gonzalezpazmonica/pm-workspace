@@ -1,3 +1,8 @@
+---
+name: confidentiality-check
+description: "Auditoria pre-PR de confidencialidad y firma criptografica"
+---
+
 # /confidentiality-check — Auditoria pre-PR de confidencialidad + firma
 
 > Lanza el agente confidentiality-auditor para auditar el diff del PR actual.
@@ -5,6 +10,7 @@
 > Regla: @.claude/rules/domain/context-placement-confirmation.md
 
 ---
+name: confidentiality-check
 
 ## Parametros
 

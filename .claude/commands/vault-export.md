@@ -1,9 +1,15 @@
+---
+name: vault-export
+description: "Exportar Personal Vault cifrado para portabilidad offline"
+---
+
 # /vault-export — Exportar Personal Vault cifrado
 
 > Archivo cifrado AES-256 del vault para portabilidad offline.
 > Skill: personal-vault | Confidencialidad: N3 (USUARIO)
 
 ---
+name: vault-export
 
 ## Parametros
 
