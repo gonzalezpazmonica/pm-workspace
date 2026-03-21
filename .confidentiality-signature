@@ -3,7 +3,7 @@
 # Commit this file with your PR. CI verifies it.
 # Any code change after signing invalidates this signature.
 diff_hash=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-timestamp=2026-03-21T12:33:59Z
-branch=feat/zeroclaw-network-setup
-head_commit=20d45cf
-signature=b95c335240c021cd78801f5aed493028ec53c70baa0095b614d8b56b06bf2f86
+timestamp=2026-03-21T12:52:50Z
+branch=feat/zeroclaw-meeting-diarization
+head_commit=4b56f70
+signature=e2bed50b3edc3553af3b72cba2f5611e6474e142e1cec21ed99481a4e2f78756
