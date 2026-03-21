@@ -7,6 +7,7 @@ import os
 import signal
 import argparse
 import logging
+import threading
 from logging.handlers import RotatingFileHandler
 
 from .daemon_util import (
@@ -36,9 +37,9 @@ def setup_logging():
     return logging.getLogger("saviaclaw")
 
 
-def run_daemon(log, once=False):
+def run_daemon(log, once=False, voice=False):
     global _shutdown
-    log.info("SaviaClaw daemon starting (pid=%d)", os.getpid())
+    log.info("SaviaClaw daemon starting (pid=%d, voice=%s)", os.getpid(), voice)
     write_status("starting")
     queries = 0
 
@@ -60,6 +61,9 @@ def run_daemon(log, once=False):
             log.info("Connected to %s", port)
             write_status("connected", port)
             send_cmd(ser, "lcd Savia daemon | Connected", 2)
+            if voice:
+                from .voice_daemon import start as start_voice
+                start_voice(ser, threading.Lock())
 
             buf = ""
             last_hb = time.time()
@@ -132,16 +136,13 @@ def main():
     p = argparse.ArgumentParser(description="SaviaClaw Daemon")
     p.add_argument("--once", action="store_true", help="Single run")
     p.add_argument("--status", action="store_true", help="Show status")
+    p.add_argument("--voice", action="store_true", help="Enable voice")
     args = p.parse_args()
-
     if args.status:
-        show_status()
-        return
-
+        return show_status()
     signal.signal(signal.SIGTERM, _handle_signal)
     signal.signal(signal.SIGINT, _handle_signal)
-    log = setup_logging()
-    run_daemon(log, once=args.once)
+    run_daemon(setup_logging(), once=args.once, voice=args.voice)
 
 
 if __name__ == "__main__":
