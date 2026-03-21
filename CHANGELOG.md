@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.20.0] — 2026-03-21
+
+ZeroClaw v0.7 — first stable firmware tested on real ESP32 hardware.
+
+### Added
+
+- **Firmware**: `lcd_i2c.py` — LCD 16x2 I2C driver (PCF8574 @ 0x3F, SCL=23, SDA=22): clear, write, message, backlight, cursor control
+- **Firmware**: `lcd` command added to command handler — write to LCD via serial: `lcd Hello | World`
+
+### Fixed
+
+- **Firmware**: `main.py` v0.7 — replaced broken `sys.stdin.buffer.any()` with `select.poll()` + `sys.stdin.read(1)` for reliable non-blocking serial I/O on MicroPython v1.19.1
+- **Firmware**: all imports wrapped in try/except to prevent boot crash from missing hardware
+
+### Verified on hardware
+
+- ESP32 module (spiram), MicroPython v1.19.1
+- LCD 16x2 I2C @ 0x3F (SCL=23, SDA=22)
+- NeoPixel RGB LED @ GPIO2
+- 6/6 serial commands pass: ping, info, led, sensors, lcd, help
+- Savia wrote her first message: "Soy Savia | Vivo en ZeroClaw"
+
 ## [3.19.1] — 2026-03-21
 
 Fix confidentiality signature system — CI compatibility.
@@ -4089,3 +4111,4 @@ Initial public release of PM-Workspace.
 [3.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.17.0...v3.18.0
 [3.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.18.0...v3.19.0
 [3.19.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.19.0...v3.19.1
+[3.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.19.1...v3.20.0
