@@ -201,6 +201,14 @@ else
 fi
 echo ""
 
+# ── 4b. Markdown lint (native) ───────────────────────────────────────
+if python3 -m scripts.markdownlint --config .markdownlint.json CHANGELOG.md 2>/dev/null; then
+  pass "CHANGELOG.md pasa markdownlint"
+else
+  warn "CHANGELOG.md tiene errores de markdownlint (ejecuta: python3 -m scripts.markdownlint CHANGELOG.md)"
+fi
+echo ""
+
 if [ "$QUICK_MODE" = true ]; then
   echo "  (modo --quick: saltando checks extendidos)"
   echo ""

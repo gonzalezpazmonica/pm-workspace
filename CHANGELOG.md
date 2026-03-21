@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.1] — 2026-03-21
+
+Native markdownlint — replaces npm markdownlint-cli dependency.
+
+### Added
+
+- **Script**: `scripts/markdownlint/` — Python3 native markdownlint (17 rules, zero npm dependency, `--fix` mode)
+- **Script**: `scripts/markdownlint.sh` — CLI wrapper
+
+### Changed
+
+- **CI**: `ci.yml` lint-markdown job uses native linter instead of npm `markdownlint-cli`
+- **CI**: `validate-ci-local.sh` — added markdown lint check for CHANGELOG.md
+
+### Fixed
+
+- **CHANGELOG.md**: Fixed 259 markdownlint errors (MD012, MD022, MD032, MD053) from v3.7.0 base rebuild
+
 ## [3.8.0] — 2026-03-21
 
 Feasibility Probe and Model Upgrade Audit — inspired by Cat Wu's "Product management on the AI exponential" (Anthropic, March 2026).
@@ -3874,3 +3892,4 @@ Initial public release of PM-Workspace.
 [0.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v0.0.0...v0.1.0
 [3.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.7.1...v3.8.0
 [3.7.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.7.0...v3.7.1
+[3.8.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.8.0...v3.8.1
