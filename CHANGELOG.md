@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.20.1] — 2026-03-21
+
+Fix LCD overwrite bug — verified on hardware.
+
+### Fixed
+
+- **Firmware**: `main.py` — main loop was writing command name on LCD row 0 after every command, overwriting the text that `_cmd_lcd` had just set. Fix: skip LCD status write when `cmd == "lcd"`
+
 ## [3.20.0] — 2026-03-21
 
 ZeroClaw v0.7 — first stable firmware tested on real ESP32 hardware.
@@ -4112,3 +4120,4 @@ Initial public release of PM-Workspace.
 [3.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.18.0...v3.19.0
 [3.19.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.19.0...v3.19.1
 [3.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.19.1...v3.20.0
+[3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
