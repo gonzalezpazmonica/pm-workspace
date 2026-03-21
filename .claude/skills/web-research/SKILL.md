@@ -1,0 +1,75 @@
+---
+name: web-research
+description: Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-starts SearxNG Docker if available, falls back to WebSearch.
+maturity: beta
+context: fork
+agent: architect
+category: "quality"
+tags: ["search", "web", "cache", "searxng", "citations", "gap-detection"]
+priority: "high"
+disable-model-invocation: false
+user-invocable: true
+allowed-tools: [Read, Bash, WebSearch, WebFetch, Write]
+---
+
+# Skill: Web Research
+
+> 3-layer search: cache → SearxNG (Docker auto-start) → Claude WebSearch.
+> Inspired by [FAIR-Perplexica](https://github.com/UB-Mannheim/FAIR-Perplexica).
+
+## When to use
+
+- User asks about external technology (versions, APIs, configs)
+- Gap detected: CVE, deprecation, compatibility question
+- Tech-research-agent needs web sources for investigation
+- Developer encounters error from external library
+
+## What it produces
+
+1. **Search results** — reranked by relevance, cached locally
+2. **Inline citations** — `[web:N]` with source URLs in footer
+3. **Follow-up suggestions** — contextual next commands
+4. **Gap detection** — automatic suggestion when external gap detected
+
+## Prerequisites
+
+```
+1. Python 3.x available                    → always true in pm-workspace
+2. Docker (optional) for SearxNG           → graceful fallback if missing
+3. Internet connection (optional)           → cache-only mode if offline
+```
+
+## Flow
+
+```
+User query or gap detected
+  → Sanitize (strip PII, projects, emails, IPs)
+  → Check cache (TTL by category)
+  → If miss: try SearxNG (auto-start Docker)
+  → If SearxNG unavailable: use Claude WebSearch
+  → Rerank results (keyword + domain authority)
+  → Cache results
+  → Format with [web:N] citations
+  → Show follow-up suggestions
+```
+
+## Key modules
+
+| Module | Lines | Purpose |
+|--------|-------|---------|
+| `cache.py` | 137 | LRU cache, TTL, stats |
+| `sanitizer.py` | 107 | PII removal, classification |
+| `rerank.py` | 86 | Heuristic scoring |
+| `formatter.py` | 88 | Citation formatting |
+| `gap_detector.py` | 110 | External vs internal detection |
+| `searxng.py` | 149 | Docker auto-start, cross-platform |
+| `search.py` | 88 | 3-layer orchestrator |
+| `suggestions.py` | 81 | Post-command follow-ups |
+
+## References
+
+- Spec: `docs/propuestas/SPEC-003-web-research-system.md`
+- Config: `.claude/rules/domain/web-research-config.md`
+- Docs ES: `docs/web-research.md`
+- Docs EN: `docs/web-research.en.md`
+- Tests: `tests/test-web-research.bats`
