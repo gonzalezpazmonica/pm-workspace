@@ -3,7 +3,7 @@
 # Commit this file with your PR. CI verifies it.
 # Any code change after signing invalidates this signature.
 diff_hash=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-timestamp=2026-03-21T13:20:31Z
-branch=feat/savia-teams-participant
-head_commit=090f567
-signature=2e143b3aa391044a55ac453010edecf4d35dd00d5588ff5ad863ae7e4e60055c
+timestamp=2026-03-21T14:31:40Z
+branch=fix/resign-confidentiality-v2
+head_commit=8d6926e
+signature=a4efdecaf80a16de2e8f177ef2917909b1c2c73bbdcf43a9919ff7c327f8be0d
