@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.14.0] — 2026-03-21
+
+ZeroClaw Firmware v0.1 — ready to flash when ESP32 is connected.
+
+### Added
+
+- **Firmware**: `zeroclaw/firmware/` — MicroPython firmware for ESP32: boot.py (WiFi + CPU config), main.py (JSON command loop with watchdog), lib/commands.py (ping, led, info, sensors, gpio), lib/status.py (LED patterns for feedback)
+- **Host**: `zeroclaw/host/bridge.py` — serial bridge PC↔ESP32: auto-detect port, JSON protocol, timeout handling
+- **Host**: `zeroclaw/host/cli.py` — self-test (5 checks), interactive mode, CLI entry point
+- **Setup**: `zeroclaw/setup.sh` — one-command setup: installs esptool+mpremote, detects ESP32, flashes MicroPython, deploys firmware, verifies with LED blink
+- **Command**: `/zeroclaw` — setup, test, ping, led, flash, interactive subcommands
+- **Tests**: `zeroclaw/tests/test_bridge.py` — 9 tests that run without hardware (imports, protocol, firmware structure, security, sizes)
+
 ## [3.13.0] — 2026-03-21
 
 ZeroClaw voice pipeline + voice/console decision protocol.
@@ -3982,3 +3995,4 @@ Initial public release of PM-Workspace.
 [3.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.10.1...v3.11.0
 [3.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.11.0...v3.12.0
 [3.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.12.0...v3.13.0
+[3.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.13.0...v3.14.0

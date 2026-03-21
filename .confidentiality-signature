@@ -3,7 +3,7 @@
 # Commit this file with your PR. CI verifies it.
 # Any code change after signing invalidates this signature.
 diff_hash=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-timestamp=2026-03-21T11:41:45Z
-branch=feat/zeroclaw-voice-protocol
-head_commit=ecde9fa
-signature=feeb1f69026ec18829aa9edf359f3faf7f929550c74c9671596f430ea7a5a14e
+timestamp=2026-03-21T11:54:20Z
+branch=feat/zeroclaw-firmware-v0
+head_commit=201fac1
+signature=c4957cb76701abbb3283fd62b94b89387878ca3f2eb5b441e5c6ae56ecec1d19
