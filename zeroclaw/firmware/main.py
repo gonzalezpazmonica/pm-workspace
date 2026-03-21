@@ -60,7 +60,7 @@ while True:
                     resp = handler.process(line)
                     out = json.dumps(resp)
                     sys.stdout.write(out + '\n')
-                    if lcd:
+                    if lcd and resp.get("cmd") != "lcd":
                         cn = resp.get("cmd", "?")
                         lcd.write(cn[:16], 0)
             elif ch:
