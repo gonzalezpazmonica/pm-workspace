@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-timestamp=2026-03-21T19:26:32Z
+diff_hash=02eae5a3fd4e2fa11d00fe5f581cad89da5cceb467abd4888aef8c7f9c29b582
+timestamp=2026-03-21T19:29:24Z
 branch=feat/brain-bridge-and-ci-fix
-head_commit=046410f
-signature=e7a68f1b11c58c1af09d1b225a7156fda1e107451864d52f9e217a97a3a169d8
+head_commit=5efa0ea
+signature=a14baf0d0b969856a6bdd7ca398194a8d14ff49189a1f0efeb577b6999fc8ff2
