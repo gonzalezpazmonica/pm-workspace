@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.19.1] — 2026-03-21
+
+Fix confidentiality signature system — CI compatibility.
+
+### Fixed
+
+- **Script**: `confidentiality-sign.sh` — rewritten `get_diff_hash()` with 4-strategy fallback: merge-base diff (feature branch) → GITHUB_BASE_REF (CI merge commit) → staged changes → last commit diff. Fixes empty hash when HEAD=origin/main
+- **Script**: HMAC now computed over `diff_hash` only, not commit hash (which changes on squash merge). CI verifies diff match; HMAC verified only when key available (local)
+- **Lesson**: added to `tasks/lessons.md` — always sign before push
+
 ## [3.19.0] — 2026-03-21
 
 Savia in Teams — same brain, two channels (ZeroClaw + Teams).
@@ -4078,3 +4088,4 @@ Initial public release of PM-Workspace.
 [3.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.16.0...v3.17.0
 [3.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.17.0...v3.18.0
 [3.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.18.0...v3.19.0
+[3.19.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.19.0...v3.19.1
