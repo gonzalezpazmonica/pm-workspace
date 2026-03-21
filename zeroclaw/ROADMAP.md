@@ -1,6 +1,6 @@
 # SaviaClaw Roadmap — De hardware a autonomia
 
-> Estado: v0.9 | Ultima revision: 2026-03-21
+> Estado: v0.9+ | Ultima revision: 2026-03-21
 > Objetivo: Savia con presencia fisica, voz, sensores y accion en el mundo real.
 
 ---
@@ -16,20 +16,25 @@
 - [x] Tests: 23 tests sin hardware (bridge + guardrails)
 - [x] Context Guardian: deteccion de contradicciones en reuniones
 
-## Fase 1 — Estabilidad (EN CURSO)
+## Fase 1 — Estabilidad (COMPLETADA)
 
 - [x] RotatingFileHandler en daemon (log no crece indefinidamente)
-- [ ] Signal handling (SIGTERM/SIGINT → shutdown limpio)
-- [ ] Health check: fichero de estado legible por scripts externos
-- [ ] Auto-recovery: deteccion de estado stuck, restart del serial
-- [ ] Daemon status command: `python3 saviaclaw_daemon.py --status`
-- [ ] Tests del daemon (sin hardware)
+- [x] Signal handling (SIGTERM/SIGINT → shutdown limpio)
+- [x] Health check: status.json legible por scripts externos
+- [x] Auto-recovery: deteccion de estado stuck (120s), restart del serial
+- [x] Daemon status command: `--status` flag
+- [x] Daemon refactorizado: daemon + daemon_util (ambos <=150 lineas)
+- [x] Tests del daemon: 9 tests sin hardware
 
-## Fase 2 — Voz (PROXIMA)
+## Fase 2 — Voz (EN CURSO)
 
-- [ ] STT: integracion Whisper (local, modelo tiny/base)
-- [ ] TTS: integracion Piper o espeak-ng (local, sin cloud)
-- [ ] Voice module: mic del host → STT → Claude → TTS → speaker
+- [x] TTS: espeak-ng + spd-say fallback (offline, sin cloud)
+- [x] STT: integracion Whisper (local, modelo base)
+- [x] Voice module: `voice.py` con `--say`, `--listen`, `--test`
+- [x] Listen-and-respond loop: mic → STT → Claude → TTS → speaker
+- [x] Tests de voz: 7 tests sin hardware
+- [ ] Probar con hardware real (mic + speaker del host)
+- [ ] Instalar espeak-ng binario + whisper en host
 - [ ] Wake word: deteccion "Savia" para activar escucha
 - [ ] Voice-console protocol: que va a voz, que a pantalla
 - [ ] LCD sync: mostrar estado de voz en LCD del ESP32
@@ -79,7 +84,7 @@
 |------------|--------|----------------|
 | ESP32 DevKit | Conectado | Todo |
 | LCD 16x2 I2C | Conectado | Fase 0+ |
-| Microfono USB | Pendiente | Fase 2 |
-| Speaker/buzzer | Pendiente | Fase 2 |
+| Microfono USB/host | Por probar | Fase 2 |
+| Speaker/buzzer | Por probar | Fase 2 |
 | BME280 | Pendiente | Fase 3 |
 | Servo SG90 | Pendiente | Fase 4 |
