@@ -214,8 +214,52 @@ TEAMS_POST_DIGEST        = true   # publicar digest al terminar
 - Publica alertas críticas con ⚠️
 - Mismo protocolo de etiqueta que ZeroClaw
 
-### Fase D — Audio participation (ACS)
+### Fase D — Audio + pantalla compartida (ACS)
 
-- Azure Communication Services join call
-- Voz sintetizada (Piper) para respuestas
-- Escucha activa (Whisper) como complemento del transcript
+**Opciones investigadas:**
+
+**Opción 1: Azure Communication Services (ACS) — RECOMENDADA**
+- Se une a la reunión de Teams como participante con audio + video
+- Puede ENVIAR audio (TTS → PCM → ACS) = Savia HABLA
+- Puede ENVIAR screen share (video stream) = Savia COMPARTE PANTALLA
+- No necesita licencia Teams (BYOI model)
+- Precio: ~$0.004/min por participante
+- SDK: Python via `azure-communication-calling` o web SDK
+- Limitación: no puede iniciar recording/transcription
+
+```
+Savia (ACS) → se une a Teams meeting
+  → Recibe audio de todos (escucha)
+  → Envía audio TTS cuando habla
+  → Envía screen share para mostrar informes
+  → Lee transcripts via Graph API (complemento)
+```
+
+**Opción 2: Real-time Media Bot (Graph Comms)**
+- Acceso raw a streams de audio/video frame por frame
+- Requiere: Windows Server + .NET + GPU para video
+- Microsoft recomienda NO usarlo para IA agents
+- Demasiado complejo para nuestro caso
+
+**Opción 3: Copilot Studio Agent (Microsoft)**
+- Microsoft recomienda esto para IA en reuniones
+- Pero es propietario y limitado a su ecosistema
+- No encaja con Savia (queremos control total)
+
+**Decisión: ACS (Opción 1)** — equilibrio entre capacidades y
+complejidad. Savia se une como participante ACS, puede hablar
+y compartir pantalla, sin infraestructura Windows ni GPUs.
+
+### Screen sharing: cómo funciona
+
+```
+1. Savia genera informe (markdown → imagen/PDF)
+2. Convierte a video stream (PIL → frames → ACS)
+3. ACS envía como screen share en la reunión
+4. Los participantes ven el informe en pantalla
+5. Savia narra el informe por voz simultáneamente
+```
+
+Ejemplo: durante Sprint Review, alguien pregunta
+"¿cómo va el burndown?". Savia genera el gráfico,
+lo comparte en pantalla y narra los datos clave.
