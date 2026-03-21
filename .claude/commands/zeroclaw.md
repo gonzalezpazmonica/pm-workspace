@@ -55,6 +55,16 @@ b.close()
 
 Control del LED integrado.
 
+### `/zeroclaw network`
+
+Configura WiFi: detecta la red del host, pide password, despliega config al ESP32.
+
+```bash
+python3 -c "from zeroclaw.host.network_cli import main; main()" setup
+```
+
+Subcomandos: `setup` (wizard), `check` (verificar), `scan` (redes disponibles).
+
 ### `/zeroclaw flash`
 
 Re-flashear firmware sin borrar MicroPython:

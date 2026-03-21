@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.16.0] — 2026-03-21
+
+ZeroClaw network auto-config — Savia detects its WiFi and provisions ESP32 to join.
+
+### Added
+
+- **Script**: `network_setup.py` — cross-platform (Linux/macOS/Windows) detection of host WiFi SSID and IP address via nmcli/iwgetid/airport/netsh/ipconfig
+- **Script**: `esp32_wifi.py` — ESP32 WiFi operations via mpremote: scan networks, verify connection, deploy config, reset device
+- **Script**: `network_cli.py` — interactive wizard: detects host network → asks password → deploys config → resets ESP32 → verifies same-subnet connectivity
+- **Script**: `connectivity_test.py` — end-to-end test: USB serial + WiFi ping + HTTP endpoint verification
+- **Firmware**: `wifi_server.py` — minimal HTTP server on ESP32 (GET /ping, POST /cmd, GET /status) for wireless command execution
+- **Firmware**: `main.py` upgraded to v0.2.0 — dual-mode: serial USB AND WiFi HTTP simultaneously, auto-starts HTTP if WiFi connected
+- **Command**: `/zeroclaw network` — setup, check, scan subcommands
+- **Tests**: `test_network.py` — 8 tests (SSID detection, IP detection, config structure, no secrets, dual-mode firmware)
+
 ## [3.15.0] — 2026-03-21
 
 ZeroClaw sensory protocol + deterministic guardrails — no agent can bypass.
@@ -4015,3 +4030,4 @@ Initial public release of PM-Workspace.
 [3.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.12.0...v3.13.0
 [3.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.13.0...v3.14.0
 [3.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.14.0...v3.15.0
+[3.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.15.0...v3.16.0
