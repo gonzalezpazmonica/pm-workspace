@@ -102,6 +102,14 @@ class CommandHandler:
         except Exception as e:
             return {"error": "lcd: " + str(e)}
 
+    def _cmd_ask(self, args):
+        raw = args.get("raw", [])
+        question = " ".join(raw) if raw else args.get("text", "")
+        if not question:
+            return {"error": "usage: ask <question for Savia>"}
+        # Pass through to host — brain bridge handles this
+        return {"ask": question, "status": "sent to Savia brain"}
+
     def _cmd_gpio(self, args):
         pin_num = int(args.get("pin") or args.get("raw", [0])[0])
         action = args.get("action") or (args["raw"][1] if "raw" in args and len(args["raw"]) > 1 else "read")
@@ -120,7 +128,7 @@ class CommandHandler:
         return {"error": f"gpio action: read|high|low"}
 
     def _cmd_help(self, args):
-        return ["ping", "led", "lcd", "info", "sensors", "gpio", "help"]
+        return ["ping", "led", "lcd", "ask", "info", "sensors", "gpio", "help"]
 
     def _cmd_repl(self, args):
         return {"message": "Entering REPL mode. Reset ESP32 to return to ZeroClaw."}
