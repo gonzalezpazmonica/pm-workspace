@@ -1,4 +1,4 @@
-# SaviaClaw main.py v0.8 — serial + WiFi + LCD + heartbeat
+# SaviaClaw main.py v0.9 — serial + WiFi + LCD + heartbeat + selftest
 import machine, sys, gc, json, time, select
 from lib.status import StatusLED
 from lib.commands import CommandHandler
@@ -13,7 +13,14 @@ http_server = None
 try:
     from lib.lcd_i2c import LCD
     lcd = LCD()
-    lcd.message('SaviaClaw v0.8', 'Booting...')
+    lcd.message('SaviaClaw v0.9', 'Booting...')
+except:
+    pass
+
+# Self-test
+try:
+    from lib.selftest import run as selftest
+    selftest(lcd)
 except:
     pass
 
@@ -35,14 +42,14 @@ try:
         if heartbeat:
             heartbeat.set_wifi(ip)
         if lcd:
-            lcd.message('WiFi: ' + ip, 'SaviaClaw v0.8')
+            lcd.message('WiFi: ' + ip, 'SaviaClaw v0.9')
 except:
     pass
 
 if lcd and not http_server:
-    lcd.message('SaviaClaw v0.8', 'Serial ready')
+    lcd.message('SaviaClaw v0.9', 'Serial ready')
 led.pulse()
-sys.stdout.write('SaviaClaw v0.8 ready\n')
+sys.stdout.write('SaviaClaw v0.9 ready\n')
 
 try:
     wdt = machine.WDT(timeout=10000)

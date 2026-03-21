@@ -1,0 +1,18 @@
+[Unit]
+Description=SaviaClaw Daemon — keeps Savia connected to ZeroClaw ESP32
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=monica
+WorkingDirectory=/home/monica/claude
+ExecStart=/usr/bin/python3 /home/monica/claude/zeroclaw/host/saviaclaw_daemon.py
+Restart=always
+RestartSec=10
+Environment=HOME=/home/monica
+StandardOutput=append:/home/monica/.savia/zeroclaw/daemon.log
+StandardError=append:/home/monica/.savia/zeroclaw/daemon.log
+
+[Install]
+WantedBy=multi-user.target
