@@ -33,11 +33,14 @@
 - [x] Voice module: `voice.py` con `--say`, `--listen`, `--test`
 - [x] Listen-and-respond loop: mic → STT → Claude → TTS → speaker
 - [x] Tests de voz: 7 tests sin hardware
+- [x] Wake word: VAD energy-based + whisper keyword match + cooldown
+- [x] Voice daemon: thread integrado en daemon con `--voice`
+- [x] LCD sync: muestra estado de voz en LCD via serial thread-safe
+- [x] Tests wake word: 7 tests sin hardware (46 total)
 - [ ] Probar con hardware real (mic + speaker del host)
 - [ ] Instalar espeak-ng binario + whisper en host
-- [ ] Wake word: deteccion "Savia" para activar escucha
 - [ ] Voice-console protocol: que va a voz, que a pantalla
-- [ ] LCD sync: mostrar estado de voz en LCD del ESP32
+- [ ] Calibrar umbral de VAD con ambiente real
 
 ## Fase 3 — Sensores y mundo fisico
 
