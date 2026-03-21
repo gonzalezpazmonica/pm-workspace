@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.15.0] — 2026-03-21
+
+ZeroClaw sensory protocol + deterministic guardrails — no agent can bypass.
+
+### Added
+
+- **Rule**: `zeroclaw-sensory-protocol.md` — ingestion pipeline (classify → transcribe → filter → digest → persist → discard raw), confidentiality alignment with N1-N4b, RGPD compliance for biometric data, session storage structure, retention policies
+- **Script**: `guardrails.py` — 7 deterministic security gates in Python code: size limits (5MB audio, 2MB image), rate limiting (5 audio/min), command allowlist, master validator `validate_incoming()` that ALL data must pass
+- **Script**: `guardrails_pii.py` — PII detection (DNI, IBAN, phone, email, card), raw data auto-expiry (1h), storage quota (100MB), immutable audit log (append-only JSONL)
+- **Tests**: `test_guardrails.py` — 14 tests proving gates block oversized data, flooding, unknown commands, PII, full storage. Tests pass without hardware
+
+### Security design
+
+- Gates are Python functions, not LLM instructions — deterministic, untrickable
+- Command allowlist: only 12 known commands pass (ping, led, info, sensors, gpio, help, capture_image, capture_audio, speak, set_led, play_tone, status)
+- Immutable audit log: every incoming datum logged before processing
+- Raw data (audio/images) auto-deleted after 1 hour
+
 ## [3.14.0] — 2026-03-21
 
 ZeroClaw Firmware v0.1 — ready to flash when ESP32 is connected.
@@ -3996,3 +4014,4 @@ Initial public release of PM-Workspace.
 [3.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.11.0...v3.12.0
 [3.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.12.0...v3.13.0
 [3.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.13.0...v3.14.0
+[3.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.14.0...v3.15.0
