@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.19.0] — 2026-03-21
+
+Savia in Teams — same brain, two channels (ZeroClaw + Teams).
+
+### Added
+
+- **Spec**: `SPEC-009-savia-teams-participant.md` — architecture for Savia joining Teams meetings via Graph API: transcript reading, chat participation, speaker identity from Azure AD, 4-phase implementation plan
+- **Script**: `teams_client.py` — Graph API client: OAuth2 client credentials auth, meeting discovery, transcript retrieval, chat message posting. All credentials from files (N2, gitignored)
+- **Script**: `meeting_orchestrator.py` — unified controller for ZeroClaw + Teams: same MeetingParticipant + ContextGuardian + SpeakerRoles brain, channel-agnostic `process_utterance()` and `handle_query()` with role filtering
+- **Tests**: `test_teams_integration.py` — 11 tests: config detection, auth fallback, orchestrator start/stop, risk detection, query with role filtering, cross-channel brain persistence
+
 ## [3.18.0] — 2026-03-21
 
 Savia as active meeting participant — etiquette protocol, context guardian, speaker role permissions.
@@ -4066,3 +4077,4 @@ Initial public release of PM-Workspace.
 [3.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.15.0...v3.16.0
 [3.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.16.0...v3.17.0
 [3.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.17.0...v3.18.0
+[3.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.18.0...v3.19.0
