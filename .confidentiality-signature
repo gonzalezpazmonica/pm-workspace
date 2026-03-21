@@ -3,7 +3,7 @@
 # Commit this file with your PR. CI verifies it.
 # Any code change after signing invalidates this signature.
 diff_hash=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-timestamp=2026-03-21T12:52:50Z
-branch=feat/zeroclaw-meeting-diarization
-head_commit=4b56f70
-signature=e2bed50b3edc3553af3b72cba2f5611e6474e142e1cec21ed99481a4e2f78756
+timestamp=2026-03-21T13:07:30Z
+branch=feat/savia-meeting-participant
+head_commit=7607049
+signature=5facd236edeee0408525fffa2f7b9a29d96d3d457ee684f38f23d64e8aacbba8
