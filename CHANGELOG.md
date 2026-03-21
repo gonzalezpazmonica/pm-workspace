@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.21.0] — 2026-03-21
+
+Savia Brain Bridge — ZeroClaw can think via Claude Code.
+
+### Added
+
+- **Script**: `savia_brain.py` — bridge that listens on serial for `ask <question>`, calls `claude -p` with pm-workspace context, returns response to ESP32 LCD. Full Savia personality and knowledge in every answer
+- **Firmware**: `ask` command in commands.py — sends questions to the brain bridge
+
+### Verified on hardware
+
+- Question: "Que version de Savia soy?" → Claude responded: "Savia v3.20.0 (Opus 4.6)" → displayed on LCD
+- Full loop: ESP32 serial → Host Python → claude CLI → response → ESP32 LCD
+
 ## [3.20.1] — 2026-03-21
 
 Fix LCD overwrite bug — verified on hardware.
@@ -4121,3 +4135,4 @@ Initial public release of PM-Workspace.
 [3.19.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.19.0...v3.19.1
 [3.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.19.1...v3.20.0
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
+[3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
