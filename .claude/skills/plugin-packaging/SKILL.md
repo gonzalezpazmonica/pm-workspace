@@ -1,6 +1,10 @@
 ---
 name: plugin-packaging
 description: Empaquetar y validar PM-Workspace como plugin distributable
+summary: |
+  Empaqueta pm-workspace como plugin distributable.
+  Valida estructura: skills, agents, commands e integridad.
+  Output: plugin.json + paquete validado.
 maturity: stable
 dependencies: ["context-optimized-dev"]
 context_cost: low

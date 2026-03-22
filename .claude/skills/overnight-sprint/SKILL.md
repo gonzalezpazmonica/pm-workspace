@@ -1,6 +1,10 @@
 ---
 name: overnight-sprint
 description: Modo autónomo nocturno — ejecuta tareas de bajo riesgo en bucle, genera PRs pendientes de revisión humana
+summary: |
+  Sprint autonomo nocturno: ejecuta tareas de bajo riesgo en bucle.
+  Genera PRs Draft en ramas agent/overnight-*.
+  Revision humana obligatoria al dia siguiente.
 maturity: experimental
 context: fork
 agent: dev-orchestrator

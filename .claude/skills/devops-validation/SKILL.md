@@ -1,6 +1,10 @@
 ---
 name: devops-validation
 description: Validates Azure DevOps project configuration against pm-workspace ideal Agile requirements. Invoked automatically when connecting a new project.
+summary: |
+  Valida configuracion de Azure DevOps contra requisitos Agile ideales.
+  Comprueba areas, iteraciones, campos custom, politicas de branch.
+  Output: informe de gaps + plan de remediacion.
 maturity: stable
 context: fork
 agent: azure-devops-operator

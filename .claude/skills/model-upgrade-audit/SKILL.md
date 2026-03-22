@@ -1,6 +1,10 @@
 ---
 name: model-upgrade-audit
 description: "Audit workspace components for prompt debt when a new model is available. Detect workarounds, propose simplifications, compare with evals."
+summary: |
+  Audita agentes y prompts para detectar workarounds que modelos
+  nuevos ya no necesitan. Propone simplificaciones con evidencia.
+  Ejecutar al cambiar de modelo (ej: Sonnet 4 a 4.5).
 category: governance
 tags: [model, upgrade, prompt-debt, simplification, audit]
 priority: medium

@@ -1,6 +1,10 @@
 ---
 name: feasibility-probe
 description: "Validate spec feasibility with time-boxed prototype attempt and viability scoring"
+summary: |
+  Valida viabilidad de un spec con prototipo time-boxed.
+  Intenta implementar las secciones criticas, mide bloqueos.
+  Output: score de viabilidad + secciones problematicas.
 category: sdd-framework
 tags: [feasibility, estimation, prototype, spec, planning]
 priority: high

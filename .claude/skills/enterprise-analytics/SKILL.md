@@ -1,6 +1,10 @@
 ---
 name: enterprise-analytics
 description: "Enterprise analytics — SPACE metrics, portfolio aggregation, team health, risk matrix, forecasting"
+summary: |
+  Metricas empresariales: SPACE, agregacion de portfolio, salud de equipo,
+  matriz de riesgo y forecasting. Para organizaciones con
+  multiples proyectos. Output: dashboard ejecutivo.
 maturity: beta
 context: fork
 agent: architect

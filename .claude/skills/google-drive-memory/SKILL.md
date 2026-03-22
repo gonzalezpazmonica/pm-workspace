@@ -1,6 +1,10 @@
 ---
 name: google-drive-memory
 description: Persist project memory and context in Google Drive as Git alternative
+summary: |
+  Persiste memoria de proyecto en Google Drive como alternativa a Git.
+  Sincroniza context, decisiones y notas. Util cuando
+  el equipo no usa Git para documentacion.
 maturity: stable
 context: fork
 category: "reporting"

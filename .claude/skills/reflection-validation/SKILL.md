@@ -1,6 +1,10 @@
 ---
 name: reflection-validation
 description: "Meta-cognitive validation protocol (System 2). Detects proxy optimization, undeclared assumptions, and broken causal chains."
+summary: |
+  Validacion meta-cognitiva (System 2): detecta proxy optimization,
+  supuestos no declarados y cadenas causales rotas.
+  Usa reflection-validator agent. Output: VALIDATED/CORRECTED/RETHINK.
 maturity: stable
 disable-model-invocation: false
 user-invocable: false
@@ -142,7 +146,5 @@ The `reflection-validator` agent produces a structured report:
   VALIDATED / CORRECTED / REQUIRES_RETHINKING
 ═══════════════════════════════════════════════
 ```
-
 ## Integration
-
 - **`reflection-validator` agent**: applies this protocol to any input; other agents reference the Embeddable Pattern via `@`

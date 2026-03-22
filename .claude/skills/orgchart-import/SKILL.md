@@ -1,6 +1,10 @@
 ---
 name: orgchart-import
 description: >
+summary: |
+  Importa organigramas (Mermaid, Draw.io XML, Miro) y genera
+  estructura teams/ con departamentos, equipos y miembros.
+  Pipeline de 7 fases. Inverso de diagram-generation orgchart.
   Pipeline de 7 fases para importar organigramas y generar estructura teams/.
   Soporta Mermaid, Draw.io XML y Miro. Inverso de diagram-generation orgchart.
 disable-model-invocation: false

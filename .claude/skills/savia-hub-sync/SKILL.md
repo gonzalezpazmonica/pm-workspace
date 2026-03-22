@@ -1,6 +1,10 @@
 ---
 name: savia-hub-sync
 description: Orquestación de sincronización del repositorio SaviaHub
+summary: |
+  Orquesta sincronizacion del repositorio SaviaHub.
+  Detecta cambios locales vs remotos, resuelve conflictos.
+  Soporta modo offline con cola de sync.
 maturity: stable
 context: fork
 agent: null

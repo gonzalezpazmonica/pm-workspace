@@ -1,6 +1,10 @@
 ---
 name: banking-architecture
 description: Skill: Banking Architecture
+summary: |
+  Validacion de arquitectura bancaria contra estandar BIAN.
+  Detecta entidades BIAN, Kafka, Snowflake, SWIFT en el codigo.
+  Output: diagramas ArchiMate, gaps de compliance, recomendaciones.
 maturity: beta
 category: "governance"
 tags: ["banking", "architecture", "finance", "compliance"]

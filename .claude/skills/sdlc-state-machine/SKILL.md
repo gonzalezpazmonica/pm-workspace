@@ -1,6 +1,10 @@
 ---
 name: sdlc-state-machine
 description: sdlc-state-machine
+summary: |
+  Maquina de estados SDLC con gates configurables por transicion.
+  Estados: BACKLOG → DISCOVERY → SPEC_READY → IN_PROGRESS → DONE.
+  Cada gate tiene criterios de evaluacion automaticos.
 maturity: beta
 category: "sdd-framework"
 tags: ["sdlc", "state-machine", "gates", "transitions"]

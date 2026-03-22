@@ -1,6 +1,10 @@
 ---
 name: governance-enterprise
 description: "Enterprise governance — audit trail queries, compliance verification, decision registry, certification workflow"
+summary: |
+  Gobernanza empresarial: audit trail, verificacion de compliance,
+  registro de decisiones y workflow de certificacion.
+  Output: informes ISO 42001, EU AI Act, NIST AI RMF.
 maturity: stable
 context: fork
 agent: architect

@@ -1,6 +1,10 @@
 ---
 name: android-autonomous-debugger
 description: Autonomous debugging and testing of Android apps against physical devices via USB/ADB
+summary: |
+  Depuracion autonoma de apps Android contra dispositivos fisicos via USB/ADB.
+  Detecta crashes, ANRs, memory leaks. Ejecuta tests instrumentados.
+  Output: informe con screenshots, logs y sugerencias de fix.
 maturity: stable
 context: fork
 category: "quality"
@@ -130,20 +134,15 @@ Operations are classified into three security levels:
 | **Safe** | screenshot, logcat, hierarchy, tap, type | Auto-approved |
 | **Risky** | install, uninstall, force-stop, clear data | Logged, allowed |
 | **Blocked** | rm -rf, format, su, dd | Always rejected |
-
 The `android-adb-validate.sh` hook enforces this classification.
-
 ## Environment Variables
-
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `ADB_PATH` | auto-detect | Path to ADB binary |
 | `ADB_DEVICE` | auto-select | Target device serial |
 | `ADB_RETRIES` | 3 | Max retries per command |
 | `ADB_TIMEOUT` | 30 | Command timeout (seconds) |
-
 ## Tips for Agents
-
 - **ALWAYS use `./scripts/adb-run.sh`** — never `source wrapper.sh && ...`
 - Always start with `adb_auto_select`; chain many functions in one call
 - Screenshots BEFORE and AFTER each interaction; use `adb_wait_for_text` instead of `sleep`

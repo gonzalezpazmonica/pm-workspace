@@ -1,6 +1,10 @@
 ---
 name: verification-lattice
 description: Multi-layer verification pipeline beyond Code Review
+summary: |
+  Pipeline de verificacion multi-capa (5 niveles) mas alla de code review.
+  L1 determinista + L2 semantico + L3 seguridad + L4 agentico + L5 humano.
+  Adapta capas obligatorias segun risk score.
 maturity: stable
 context: fork
 context_cost: high
@@ -126,20 +130,12 @@ Before running verification, answer sequentially:
 3. Layer 3 consumes Layers 1-2 reports → produces report
 4. Layer 4 consumes Layers 1-3 reports → produces report
 5. Human reviewer reads consolidated report from Layers 1-4 → approves/requests changes
-
 Each layer is independent executable, but cascade provides context enrichment.
-
 ---
-
 ## Commands
-
 - **`/verify-full {task-id}`** — Run all 5 layers sequentially
 - **`/verify-layer {N} {task-id}`** — Run specific layer for debugging
-
----
-
 ## Output Storage
-
 All verification results stored in `output/verification/{task-id}/`:
 - `layer1-deterministic.json`
 - `layer2-semantic.json`
