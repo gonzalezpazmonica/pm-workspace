@@ -7,14 +7,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$ROOT_DIR"
 
-TITLE="" BODY="" DRAFT=false MERGE=false
+TITLE="" BODY="" DRAFT=false MERGE=false SKIP_CL=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --title) TITLE="$2"; shift 2 ;;
     --body) BODY="$2"; shift 2 ;;
     --draft) DRAFT=true; shift ;;
     --merge) MERGE=true; shift ;;
-    --help|-h) echo "Usage: $0 [--title T] [--body B] [--draft] [--merge]"; exit 0 ;;
+    --skip-changelog) SKIP_CL=true; shift ;;
+    --help|-h) echo "Usage: $0 [--title T] [--body B] [--draft] [--merge] [--skip-changelog]"; exit 0 ;;
     *) shift ;;
   esac
 done
@@ -36,13 +37,12 @@ bash scripts/validate-ci-local.sh 2>&1 | tail -5 | grep -q "safe to push" || { e
 echo "  Passed."
 
 echo -e "\n=== Step 3: CHANGELOG ==="
-DIFF_FILES=$(git diff origin/main..HEAD --name-only 2>/dev/null || true)
-if echo "$DIFF_FILES" | grep -qE '\.claude/(rules|hooks|agents|skills)/'; then
+if ! $SKIP_CL; then
   CL_V=$(grep -oP '## \[\K[0-9.]+' CHANGELOG.md | head -1)
   PREV_V=$(git show origin/main:CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1)
-  [[ "$CL_V" == "$PREV_V" ]] && { echo "ERROR: CHANGELOG not updated." >&2; exit 1; }
+  [[ "$CL_V" == "$PREV_V" ]] && { echo "ERROR: CHANGELOG not updated. Use --skip-changelog if not needed." >&2; exit 1; }
   echo "  $CL_V."
-else echo "  Not required."; fi
+else echo "  Skipped (--skip-changelog)."; fi
 
 echo -e "\n=== Step 4: Sign ==="
 bash scripts/confidentiality-sign.sh sign 2>&1 | tail -1

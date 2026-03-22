@@ -11,7 +11,7 @@ PR signing protocol — zero re-sign commits.
 
 ### Added
 
-- **Scripts**: `push-pr.sh` — automates CI + CHANGELOG check + sign + push + PR creation
+- **Scripts**: `push-pr.sh` — automates CI + CHANGELOG + sign + push + PR + auto-merge. Auto-generates PR body with Summary section (PR Guardian Gate 1). Detects repo from remote URL. Polls CI instead of fixed sleep. --skip-changelog for docs-only PRs.
 - **Rules**: `pr-signing-protocol.md` — strict sign-last order to prevent re-sign loops
 
 ## [3.25.0] — 2026-03-22
