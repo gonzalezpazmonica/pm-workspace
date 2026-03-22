@@ -1,6 +1,10 @@
 ---
 name: smart-routing
 description: Enrutamiento inteligente de comandos y descubrimiento de herramientas para 400+ comandos
+summary: |
+  Enrutamiento inteligente de comandos para 400+ herramientas.
+  Capability groups + keyword matching + top-20 algorithm.
+  Reduce tokens cargando solo el grupo relevante.
 maturity: stable
 model: sonnet
 context_cost: medium

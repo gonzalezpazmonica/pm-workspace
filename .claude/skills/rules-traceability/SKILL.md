@@ -1,6 +1,10 @@
 ---
 name: rules-traceability
 description: Map business rules (RN-XXX-NN) to PBIs with traceability matrix
+summary: |
+  Mapea reglas de negocio (RN-XXX-NN) a PBIs con matriz de trazabilidad.
+  Detecta reglas sin PBI y PBIs sin regla.
+  Output: matriz + informe de cobertura.
 maturity: stable
 context: fork
 context_cost: high

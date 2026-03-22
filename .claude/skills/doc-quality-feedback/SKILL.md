@@ -1,6 +1,10 @@
 ---
 name: doc-quality-feedback
 description: >
+summary: |
+  Sistema de feedback de calidad de documentacion. Los agentes puntuan
+  skills y reglas tras usarlas. Agregacion mensual detecta docs
+  de baja calidad para reescritura.
   Sistema de feedback de calidad de documentacion. Los agentes puntuan skills y reglas
   tras usarlas. Aggregacion mensual detecta docs de baja calidad para reescritura.
 maturity: experimental

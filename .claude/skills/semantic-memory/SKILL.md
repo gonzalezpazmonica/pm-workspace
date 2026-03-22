@@ -1,6 +1,10 @@
 ---
 name: semantic-memory
 description: semantic-memory
+summary: |
+  Memoria semantica: busqueda por significado, no por keyword.
+  Construye indice vectorial de memorias del proyecto.
+  Output: resultados rankeados por relevancia semantica.
 maturity: beta
 category: "communication"
 tags: ["semantic", "memory", "embeddings", "search"]

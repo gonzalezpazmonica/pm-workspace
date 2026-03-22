@@ -1,6 +1,10 @@
 ---
 name: session-recording
 description: Session Recording Skill
+summary: |
+  Graba y reproduce sesiones para auditoria y replay.
+  Captura herramientas usadas, decisiones y resultados.
+  Exportable a JSON/CSV para analisis.
 maturity: beta
 category: "devops"
 tags: ["session", "recording", "replay", "audit"]

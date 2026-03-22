@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.26.0] — 2026-03-22
+
+SPEC-012 Complete — L1 progressive loading for all 82 skills.
+
+### Added
+
+- **Skills**: L1 summary field added to all 62 remaining skills (82/82 total)
+- SPEC-012 now COMPLETE — all skills have 3-4 line summaries for progressive loading
+
 ## [3.25.1] — 2026-03-22
 
 PR signing protocol — zero re-sign commits.
@@ -4220,6 +4229,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.25.1...v3.26.0
 [3.25.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.25.0...v3.25.1
 [3.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.24.0...v3.25.0
 [3.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.23.0...v3.24.0

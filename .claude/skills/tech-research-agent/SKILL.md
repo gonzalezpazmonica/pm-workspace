@@ -1,6 +1,10 @@
 ---
 name: tech-research-agent
 description: Agente de investigación técnica autónoma — investiga temas, genera informes, notifica al humano designado
+summary: |
+  Agente de investigacion tecnica autonoma: investiga temas,
+  genera informes y notifica al humano designado.
+  Output: informe en output/research-*. Rama agent/research-*.
 maturity: experimental
 context: fork
 agent: architect
@@ -128,7 +132,6 @@ Tabla comparativa + recomendación justificada + estimación de esfuerzo de migr
 ```
 
 ## Restricciones estrictas
-
 ```
 NUNCA → Modificar código del proyecto
 NUNCA → Crear PRs
@@ -142,8 +145,6 @@ SIEMPRE → Citar fuentes en cada afirmación
 SIEMPRE → Marcar nivel de confianza (alto/medio/bajo) en cada recomendación
 SIEMPRE → Si no encuentra evidencia, decirlo explícitamente
 ```
-
 ## Cuándo NO usar
-
 - Para implementar cambios (usar SDD o code-improvement-loop) o acceso a sistemas con credenciales
 - Si no hay AUTONOMOUS_RESEARCH_NOTIFY configurado o involucra datos sensibles del negocio

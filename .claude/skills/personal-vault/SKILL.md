@@ -1,6 +1,10 @@
 ---
 name: personal-vault
 description: "Gestion del repositorio personal del usuario — perfil, preferencias, memoria, instintos, cache. Nivel N3 (USUARIO). Invocada por comandos vault-*."
+summary: |
+  Gestion del repositorio personal del usuario (nivel N3).
+  Perfil, preferencias, memoria, instintos, cache.
+  Cifrado AES-256, sync via git. Comandos vault-*.
 context: "pm-workspace personal data management"
 disable-model-invocation: false
 user-invocable: true

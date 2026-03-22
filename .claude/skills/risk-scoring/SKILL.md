@@ -1,6 +1,10 @@
 ---
 name: risk-scoring
 description: Calculate risk score for tasks and route to appropriate review level
+summary: |
+  Calcula score de riesgo (0-100) para tasks y PRs.
+  8 factores: complejidad, seguridad, deps, cobertura, etc.
+  Enruta a nivel de review apropiado (low/medium/high/critical).
 maturity: beta
 context: fork
 agent: architect

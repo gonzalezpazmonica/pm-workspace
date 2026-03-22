@@ -1,6 +1,10 @@
 ---
 name: visual-quality
 description: Visual Quality Analysis Skill
+summary: |
+  Analisis de calidad visual via screenshots. Compara UI contra
+  wireframes y specs de diseno. Detecta regresiones visuales.
+  Output: score 0-100 + hallazgos anotados en screenshots.
 maturity: beta
 category: "quality"
 tags: ["visual-qa", "layout", "accessibility", "regression"]
@@ -130,19 +134,15 @@ visual_match = (layout×0.30) + (colors×0.20) + (typography×0.15) + (spacing×
 
 ```
 # Visual QA Report
-
 ## Summary
 - visual_match: 85/100
 - Status: PASS (≥80) | REVIEW (60-79) | FAIL (<60)
-
 ## Key Metrics
 - Layout: 90 | Colors: 80 | Typography: 85 | Spacing: 82 | Content: 88
-
 ## Findings by Severity
 - Critical (blocks functionality): [annotated screenshots]
 - Major (UX impact): [annotated screenshots]
 - Minor (quality): [list]
-
 ## Accessibility & Recommendations
 - Contrast / Touch targets / Text size: PASS/FAIL
 - [actionable fixes by priority]

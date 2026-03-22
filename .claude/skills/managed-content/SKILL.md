@@ -1,6 +1,10 @@
 ---
 name: managed-content
 description: Manage auto-generated content sections with safe regeneration markers
+summary: |
+  Gestiona secciones auto-generadas con marcadores safe-regeneration.
+  Permite actualizar contenido automatico sin tocar contenido manual.
+  Comandos: /managed-sync, /managed-scan.
 maturity: stable
 category: "governance"
 tags: ["managed-content", "markers", "auto-generated", "sync"]

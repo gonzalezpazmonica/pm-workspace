@@ -1,6 +1,10 @@
 ---
 name: wellbeing-guardian
 description: "Sistema proactivo de bienestar individual"
+summary: |
+  Sistema proactivo de bienestar: recordatorios de descanso,
+  alertas fuera de horario, nudges de work-life balance.
+  Configurable por usuario. No bloquea, solo sugiere.
 maturity: stable
 context_cost: low
 dependencies: []

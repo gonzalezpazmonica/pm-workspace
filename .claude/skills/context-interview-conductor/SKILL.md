@@ -1,6 +1,10 @@
 ---
 name: context-interview-conductor
 description: "Conducción de entrevistas estructuradas de contexto"
+summary: |
+  Conduce entrevistas estructuradas de contexto para proyectos nuevos.
+  Genera preguntas adaptativas, captura respuestas y produce
+  documento de contexto completo para el equipo.
 maturity: stable
 context_cost: high
 dependencies: ["savia-hub-sync", "client-profile-manager"]

@@ -1,6 +1,10 @@
 ---
 name: google-sheets-tracker
 description: Google Sheets Tracker
+summary: |
+  Sincroniza datos del workspace con Google Sheets.
+  Genera y actualiza hojas con metricas, backlog, timesheets.
+  Bidireccional: lee datos de Sheets como input.
 maturity: beta
 category: "reporting"
 tags: ["google-sheets", "tracking", "metrics", "stakeholders"]

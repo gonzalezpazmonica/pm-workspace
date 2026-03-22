@@ -1,6 +1,10 @@
 ---
 name: scheduled-messaging
 description: Configure Scheduled Tasks with automatic messaging to communication platforms
+summary: |
+  Configura tareas programadas con mensajeria automatica.
+  Soporta Slack, Google Chat, Nextcloud Talk, WhatsApp.
+  Wizard interactivo para setup de notificaciones.
 maturity: stable
 context: fork
 category: "communication"

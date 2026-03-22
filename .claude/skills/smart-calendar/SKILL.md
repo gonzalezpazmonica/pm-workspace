@@ -1,6 +1,10 @@
 ---
 name: smart-calendar
 description: >
+summary: |
+  Gestion inteligente de agenda: sincronizacion Outlook/Teams,
+  planificacion automatica de focus blocks, rebalanceo por
+  prioridades, alertas de conflictos y deadlines.
   Gestion inteligente de agenda PM: sincronizacion bidireccional con Outlook/Teams,
   planificacion automatica de trabajo, rebalanceo por prioridades, focus blocks,
   alertas de conflictos y deadlines. Nada se queda atras.

@@ -1,6 +1,10 @@
 ---
 name: savia-flow-practice
 description: Implementación práctica de Savia Flow — dual-track, specs ejecutables, métricas de flujo
+summary: |
+  Implementacion practica de Savia Flow: dual-track (exploracion +
+  produccion), specs ejecutables y metricas de flujo.
+  Output: board configurado + metricas iniciales.
 maturity: stable
 globs: []
 category: "pm-operations"

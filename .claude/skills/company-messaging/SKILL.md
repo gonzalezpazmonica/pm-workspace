@@ -1,6 +1,10 @@
 ---
 name: company-messaging
 description: >
+summary: |
+  Mensajeria interna Company Savia con cifrado E2E basado en ramas git.
+  Soporta mensajes directos, broadcasts y threading.
+  Datos en company repo compartido. Nivel N2 (empresa).
 maturity: stable
   Knowledge module for Company Savia messaging: message lifecycle,
   @handle resolution, encryption protocol, privacy rules.

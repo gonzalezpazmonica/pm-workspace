@@ -1,6 +1,10 @@
 ---
 name: resource-references
 description: skill: resource-references
+summary: |
+  Resolucion lazy de referencias @ (azure:workitem, project, spec,
+  team, rules, memory). Cache por sesion. Max 5 simultaneas.
+  Permite referenciar recursos externos en prompts.
 maturity: beta
 category: "devops"
 tags: ["resources", "references", "resolution", "lazy-load"]

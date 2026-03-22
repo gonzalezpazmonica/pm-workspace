@@ -1,6 +1,10 @@
 ---
 name: non-engineer-templates
 description: Non-Engineer Templates
+summary: |
+  Plantillas adaptadas para usuarios no-ingenieros.
+  Simplifica interaccion con Savia para roles de negocio.
+  Output: comandos pre-configurados con lenguaje accesible.
 maturity: beta
 category: "quality"
 tags: ["templates", "non-technical", "po", "stakeholders"]

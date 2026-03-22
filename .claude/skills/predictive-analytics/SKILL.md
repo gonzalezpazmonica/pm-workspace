@@ -1,6 +1,10 @@
 ---
 name: predictive-analytics
 description: Fórmulas de predicción sprint, Monte Carlo simplificado y flow metrics
+summary: |
+  Prediccion de sprint con Monte Carlo simplificado y flow metrics.
+  Calcula probabilidad de completar N story points.
+  Output: distribucion de probabilidad + recomendacion.
 maturity: stable
 context: fork
 context_cost: medium

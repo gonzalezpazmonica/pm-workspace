@@ -1,6 +1,10 @@
 ---
 name: ai-labor-impact
 description: "AI labor impact analysis — exposure audit, reskilling plans, workforce forecasting"
+summary: |
+  Analisis de impacto de IA en roles laborales: auditoria de exposicion,
+  planes de reskilling y previsiones de fuerza laboral.
+  Input: perfil de equipo. Output: informe de exposicion por rol.
 maturity: stable
 context: fork
 agent: architect

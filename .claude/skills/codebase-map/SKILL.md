@@ -1,6 +1,10 @@
 ---
 name: codebase-map
 description: >
+summary: |
+  Mapa de dependencias internas: que comandos invocan que agentes,
+  que reglas cargan, que skills usan. Reduce alucinaciones
+  en routing. Output: grafo de dependencias del workspace.
   Mapa de dependencias internas de pm-workspace: que comandos invocan que agentes,
   que reglas cargan, que skills usan. Reduce hallucination en routing de agentes.
 maturity: beta

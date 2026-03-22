@@ -1,6 +1,10 @@
 ---
 name: prompt-optimizer
 description: >
+summary: |
+  Bucle auto-optimizador de prompts para skills y agentes.
+  Ejecuta con test fixture, puntua contra checklist, modifica,
+  re-ejecuta. Para cuando score >= 8/10 en 3 iteraciones.
   Bucle auto-optimizador de prompts para skills y agentes — patron AutoResearch.
   Ejecuta skill con test fixture, puntua output contra checklist, modifica prompt,
   re-ejecuta y compara scores. Guarda cambio si mejora, revierte si empeora.

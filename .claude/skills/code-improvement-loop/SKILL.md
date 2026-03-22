@@ -1,6 +1,10 @@
 ---
 name: code-improvement-loop
 description: Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera PRs pendientes de revisión
+summary: |
+  Bucle autonomo de mejora de codigo: detecta oportunidades (deuda,
+  cobertura, performance), aplica mejoras y genera PRs Draft.
+  Usa ramas agent/improve-*. Revision humana obligatoria.
 maturity: experimental
 context: fork
 agent: code-reviewer

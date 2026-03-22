@@ -1,6 +1,10 @@
 ---
 name: scaling-operations
 description: "Scaling operations — analyze tier, benchmark, recommend optimizations, knowledge search"
+summary: |
+  Analiza tier de escalado, benchmarks y recomienda optimizaciones.
+  Para organizaciones en crecimiento. Knowledge search integrado.
+  Output: plan de escalado priorizado.
 maturity: stable
 context: fork
 agent: architect

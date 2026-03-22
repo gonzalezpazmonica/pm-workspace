@@ -1,6 +1,10 @@
 ---
 name: pm-mcp-server
 description: PM-Workspace MCP Server
+summary: |
+  Expone herramientas de Savia como MCP server para otros
+  proyectos Claude Code. Permite reutilizar skills y comandos
+  desde workspaces externos.
 maturity: alpha
 category: "devops"
 tags: ["mcp", "server", "api", "integration"]

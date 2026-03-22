@@ -1,6 +1,10 @@
 ---
 name: headroom-optimization
 description: headroom-optimization
+summary: |
+  Analiza uso de tokens por bloque de contexto e identifica
+  oportunidades de compresion. Genera flame-graph de consumo.
+  Output: recomendaciones de optimizacion priorizadas.
 maturity: beta
 category: "quality"
 tags: ["headroom", "context", "compression", "tokens"]

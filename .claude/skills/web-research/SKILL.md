@@ -1,6 +1,10 @@
 ---
 name: web-research
 description: Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-starts SearxNG Docker if available, falls back to WebSearch.
+summary: |
+  Busca en la web para resolver gaps de contexto: documentacion,
+  versiones, CVEs, best practices. Auto-inicia SearxNG Docker
+  si disponible, fallback a WebSearch. Cache local con TTL.
 maturity: beta
 context: fork
 agent: architect

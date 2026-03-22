@@ -1,6 +1,10 @@
 ---
 name: dag-scheduling
 description: Orquestar agentes SDD en paralelo usando gráficos de dependencias
+summary: |
+  Orquesta agentes SDD en paralelo usando grafos de dependencias.
+  Calcula camino critico, cohortes paralelas y ahorro de tiempo.
+  Input: spec con tasks. Output: plan DAG + ejecucion.
 maturity: stable
 context: fork
 context_cost: high
