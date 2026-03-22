@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6b57a054763fc1f173fbee9a66199f50ac13077d96b357465776d5201afc72b2
-timestamp=2026-03-22T11:06:02Z
-branch=fix/push-pr-body
-head_commit=9183edc
-signature=4b4864d3b0529d4562d2fd988f29d148f25e6f05114c72de90daf2c86a685809
+diff_hash=8a28667df43ae6ccc3fcf8b45e561971aec90a5c1a30024368c3971b1e495b47
+timestamp=2026-03-22T11:12:02Z
+branch=docs/roadmap-sync-v3.25
+head_commit=6962942
+signature=c0f00f60f4aa25272511fd6a7cecceb652b6b8ab7ed301ec1bce17afaf0a57c1
