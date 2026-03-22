@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=7b5192af42a3976c1d421563fd08e3a881d6e6cd5843e0986343cc072af326dc
-timestamp=2026-03-22T15:06:23Z
-branch=feat/vector-memory-index
-head_commit=8ec02fd
-signature=462cd093301e49bf42f5099e874aeeca496afa7f54161ae06949bda865ebbc7d
+diff_hash=59fd110b5344f6889236d9cbc1051b3ba348ece91981b62ea6801c303f6a7f8b
+timestamp=2026-03-22T15:16:44Z
+branch=feat/readiness-check
+head_commit=4950a3d
+signature=b307c1b6d2cb4aee42e2b7ac3fd74e0c99b5e9b9e2090ac0a0e6772d932b423b
