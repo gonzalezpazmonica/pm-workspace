@@ -1,6 +1,6 @@
 # SaviaClaw Roadmap — De hardware a autonomia
 
-> Estado: v0.9+ | Ultima revision: 2026-03-21
+> Estado: v1.0-prep | Ultima revision: 2026-03-22
 > Objetivo: Savia con presencia fisica, voz, sensores y accion en el mundo real.
 
 ---
@@ -28,6 +28,7 @@
 
 ## Fase 2 — Voz (EN CURSO)
 
+### 2a — Voice module basico (HECHO)
 - [x] TTS: espeak-ng + spd-say fallback (offline, sin cloud)
 - [x] STT: integracion Whisper (local, modelo base)
 - [x] Voice module: `voice.py` con `--say`, `--listen`, `--test`
@@ -37,10 +38,29 @@
 - [x] Voice daemon: thread integrado en daemon con `--voice`
 - [x] LCD sync: muestra estado de voz en LCD via serial thread-safe
 - [x] Tests wake word: 7 tests sin hardware (46 total)
-- [ ] Probar con hardware real (mic + speaker del host)
-- [ ] Instalar espeak-ng binario + whisper en host
-- [ ] Voice-console protocol: que va a voz, que a pantalla
-- [ ] Calibrar umbral de VAD con ambiente real
+- [x] PipeWire/PulseAudio audio env fix para arecord
+- [x] Calibracion umbral VAD para Jabra Evolve 65
+
+### 2b — Savia Voice daemon next-gen (HECHO — pendiente test hardware)
+- [x] Arquitectura full-duplex con Silero VAD + faster-whisper + Claude stream-json
+- [x] SessionManager: sesion persistente con `--resume`, streaming por frases
+- [x] TTS dual: Kokoro 82M local (200ms/frase) + edge-tts Elvira fallback
+- [x] Pre-cache TTS: 64 frases (fillers, stalls, respuestas comunes, 0ms)
+- [x] Conversation model: clasificacion de overlaps (backchannel/stop/collaborative)
+- [x] Barge-in: solo "para"/"callate" interrumpe, el resto se guarda como follow-up
+- [x] Fillers asincrono (3s) y stalls (8s) mientras el LLM piensa
+- [x] Config: YAML con defaults + local override
+- [x] Tests: 31 tests unitarios sin hardware (77 total)
+- [x] E2E test framework con audio sintetico
+- [x] Docs: arquitectura, investigacion, roadmap next-gen
+
+### 2c — Pendiente test con hardware
+- [ ] Probar daemon next-gen con mic + speaker del host
+- [ ] Medir latencias reales (first-audio target: <4s)
+- [ ] Ajustar VAD threshold con ambiente real
+- [ ] Verificar barge-in con Jabra (AEC no necesario con auriculares)
+
+> Detalle del roadmap de voz: `docs/voice-next-gen-roadmap.md`
 
 ## Fase 3 — Sensores y mundo fisico
 
@@ -73,6 +93,28 @@
 
 ---
 
+## Relacion con SPECs de Context Intelligence
+
+La investigacion de OpenViking + Fabrik-Codek (2026-03-22) produjo SPECs que
+afectan tanto a pm-workspace core como a SaviaClaw:
+
+| Spec | Que | Impacto en SaviaClaw | Tier |
+|------|-----|---------------------|------|
+| SPEC-011 | Roadmap unificado | Prioriza todo el backlog | T1 |
+| SPEC-012 | Progressive loading L0/L1/L2 | Reduce contexto del daemon | T1 |
+| SPEC-013 | Session memory extraction | Auto-persiste decisiones de voz | T2 |
+| SPEC-014 | Competence model | Savia adapta lenguaje por dominio | T3 |
+| SPEC-015 | Context gate | Skip scoring en prompts triviales | T1 |
+| SPEC-016 | Intelligent compact | Zero-loss al compactar sesiones | T2 |
+
+> Detalle completo: `docs/propuestas/SPEC-011-context-intelligence-roadmap.md`
+> SPECs individuales: `docs/propuestas/SPEC-012` a `SPEC-016`
+
+Nota: SPEC-010 N3 (Voz en Tier 4 del roadmap unificado) ya esta parcialmente
+cubierto por savia-voice (Fase 2b). La prioridad real es Fase 2c (test hardware).
+
+---
+
 ## Principios inmutables
 
 1. **Offline-first**: todo funciona sin internet. Cloud es bonus, no requisito.
@@ -87,7 +129,8 @@
 |------------|--------|----------------|
 | ESP32 DevKit | Conectado | Todo |
 | LCD 16x2 I2C | Conectado | Fase 0+ |
-| Microfono USB/host | Por probar | Fase 2 |
-| Speaker/buzzer | Por probar | Fase 2 |
+| Microfono USB/host | Por probar | Fase 2c |
+| Speaker/buzzer | Por probar | Fase 2c |
+| Jabra Evolve 65 | Disponible | Fase 2c (mic+spk) |
 | BME280 | Pendiente | Fase 3 |
 | Servo SG90 | Pendiente | Fase 4 |
