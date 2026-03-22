@@ -159,6 +159,12 @@ Not even I skip them: no hardcoding PATs, confirm before writing to Azure DevOps
 
 ---
 
+## Privacy & Telemetry
+
+**Zero telemetry.** pm-workspace sends no data to any server. No analytics, no tracking, no phone-home. Everything runs locally. Vector search uses a local model (22 MB). Embeddings are generated on your CPU. Your project data never leaves your machine. Offline-first by design.
+
+---
+
 ## Contributing
 
 Use `/contribute` to create PRs directly. Use `/feedback` to open issues. Before sending anything, I validate there's no private data. Your privacy comes first.

@@ -80,6 +80,26 @@ else
     printf "  %-4s %-45s %s\n" "TIP " "Install: pip install -r requirements-vector.txt" ""
 fi
 
+# --- 4b. Hardware (SPEC-021) ---
+echo ""
+echo "[4b/7] Hardware (SPEC-021)"
+RAM_MB=$(free -m 2>/dev/null | awk '/^Mem:/{print $2}' || echo 0)
+DISK_FREE_MB=$(df -m "$ROOT_DIR" 2>/dev/null | awk 'NR==2{print $4}' || echo 0)
+CPU_CORES=$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 0)
+GPU_DETECTED=$(command -v nvidia-smi &>/dev/null && echo "yes" || echo "no")
+check critical "RAM >= 4 GB" "test $RAM_MB -ge 4096"
+check critical "Disk free >= 2 GB" "test $DISK_FREE_MB -ge 2048"
+check recommended "CPU cores >= 2" "test $CPU_CORES -ge 2"
+check optional "GPU detected (nvidia)" "test '$GPU_DETECTED' = 'yes'"
+printf "  %-4s %-45s %s\n" "INFO" "RAM: ${RAM_MB}MB | Disk: ${DISK_FREE_MB}MB | CPU: ${CPU_CORES} | GPU: ${GPU_DETECTED}" ""
+
+# --- 4c. Connectivity ---
+ONLINE="no"
+if curl -s --max-time 3 "https://1.1.1.1/cdn-cgi/trace" >/dev/null 2>&1; then
+    ONLINE="yes"
+fi
+printf "  %-4s %-45s %s\n" "INFO" "Internet: $ONLINE (offline-first: always works)" ""
+
 # --- 5. Hooks ---
 echo ""
 echo "[5/7] Hooks"

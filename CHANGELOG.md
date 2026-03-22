@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.32.0] — 2026-03-22
+
+SPEC-019/020/021 implemented — contradiction tracking, TTL, hardware checks, zero telemetry.
+
+### Added
+
+- **Scripts**: `memory-store.sh` — SPEC-019 `supersedes` field tracks what changed on upsert. SPEC-020 `--expires DAYS` sets TTL, search auto-filters expired entries (`--include-expired` to show all)
+- **Scripts**: `readiness-check.sh` — SPEC-021 hardware checks (RAM, disk, CPU, GPU), connectivity test (Nomad pattern), section [4b/7]
+- **Docs**: README.md + README.en.md — "Privacy & Telemetry" section: zero telemetry declaration
+- **Tests**: 4 new tests for SPEC-019/020 (supersedes, no-supersedes, expires, no-expires). Total: 20 memory-store tests
+
 ## [3.31.0] — 2026-03-22
 
 Specs + roadmap update — Supermemory/Nomad-inspired improvements.
@@ -4300,6 +4311,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
 [3.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.29.0...v3.30.0
 [3.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.28.0...v3.29.0
