@@ -1,6 +1,10 @@
 ---
 name: voice-inbox
 description: Transcripción de audio y flujo audio→texto→acción para mensajes de voz
+summary: |
+  Transcripcion de audio y flujo audio-texto-accion.
+  Procesa mensajes de voz, extrae intenciones y propone acciones.
+  Input: fichero audio. Output: transcripcion + action items.
 maturity: stable
 context: fork
 context_cost: medium

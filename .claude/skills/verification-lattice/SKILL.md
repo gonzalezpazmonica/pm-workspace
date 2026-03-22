@@ -1,6 +1,10 @@
 ---
 name: verification-lattice
 description: Multi-layer verification pipeline beyond Code Review
+summary: |
+  Pipeline de verificacion multi-capa (5 niveles) mas alla de code review.
+  L1 determinista + L2 semantico + L3 seguridad + L4 agentico + L5 humano.
+  Adapta capas obligatorias segun risk score.
 maturity: stable
 context: fork
 context_cost: high

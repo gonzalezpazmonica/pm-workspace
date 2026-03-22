@@ -1,6 +1,10 @@
 ---
 name: coherence-check
 description: >
+summary: |
+  Verifica que un output (spec, informe, codigo) coincide con su
+  objetivo declarado. Detecta proxy optimization y gaps.
+  Usa coherence-validator agent. Output: score + hallazgos.
 maturity: stable
   Protocol for validating output coherence. Checks that specs, reports, and code
   align with their stated objectives, identifying coverage gaps and inconsistencies.

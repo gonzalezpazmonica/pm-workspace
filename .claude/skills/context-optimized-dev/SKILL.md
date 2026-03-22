@@ -1,6 +1,10 @@
 ---
 name: context-optimized-dev
 description: Context-Optimized Development — Skill
+summary: |
+  Desarrollo optimizado para contexto limitado: dev-session protocol
+  con slices, subagentes aislados y persistencia en disco.
+  Maximiza calidad de codigo con 40% de ventana libre.
 maturity: beta
 category: "sdd-framework"
 tags: ["context", "optimization", "dev-session", "slicing"]

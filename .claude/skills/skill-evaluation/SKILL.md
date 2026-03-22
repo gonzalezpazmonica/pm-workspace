@@ -1,6 +1,10 @@
 ---
 name: skill-evaluation
 description: Motor de evaluación inteligente de skills basado en análisis de prompt y contexto
+summary: |
+  Motor de evaluacion inteligente de skills basado en prompt y contexto.
+  Analiza el prompt del usuario y el proyecto activo.
+  Output: skills recomendados con score de relevancia.
 maturity: stable
 context: fork
 context_cost: low

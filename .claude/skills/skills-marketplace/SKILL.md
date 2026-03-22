@@ -1,6 +1,10 @@
 ---
 name: skills-marketplace
 description: skills-marketplace
+summary: |
+  Descubrimiento e instalacion de componentes del marketplace
+  claude-code-templates (5788+ componentes). Busqueda, preview
+  e instalacion directa. Ref: aitmpl.com.
 maturity: beta
 category: "quality"
 tags: ["marketplace", "skills", "publish", "install"]

@@ -1,6 +1,10 @@
 ---
 name: team-coordination
 description: "Multi-team orchestration — create teams, assign members, detect cross-team blockers"
+summary: |
+  Orquestacion multi-equipo: crear equipos, asignar miembros,
+  detectar bloqueantes cross-team y dependencias.
+  Output: mapa de dependencias + alertas de bloqueo.
 maturity: stable
 context: fork
 agent: architect

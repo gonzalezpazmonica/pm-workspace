@@ -1,6 +1,10 @@
 ---
 name: tech-research-agent
 description: Agente de investigación técnica autónoma — investiga temas, genera informes, notifica al humano designado
+summary: |
+  Agente de investigacion tecnica autonoma: investiga temas,
+  genera informes y notifica al humano designado.
+  Output: informe en output/research-*. Rama agent/research-*.
 maturity: experimental
 context: fork
 agent: architect

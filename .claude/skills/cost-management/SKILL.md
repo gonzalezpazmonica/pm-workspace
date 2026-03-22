@@ -1,6 +1,10 @@
 ---
 name: cost-management
 description: "Cost Management — Timesheets, budgets, forecasting, invoicing, cost analytics"
+summary: |
+  Gestion de costes: timesheets, presupuestos, forecasting e invoicing.
+  Registra horas por tarea/proyecto, calcula desviaciones,
+  genera facturas. Output: informes Excel/Word.
 maturity: stable
 context: fork
 agent: architect

@@ -1,6 +1,10 @@
 ---
 name: visual-quality
 description: Visual Quality Analysis Skill
+summary: |
+  Analisis de calidad visual via screenshots. Compara UI contra
+  wireframes y specs de diseno. Detecta regresiones visuales.
+  Output: score 0-100 + hallazgos anotados en screenshots.
 maturity: beta
 category: "quality"
 tags: ["visual-qa", "layout", "accessibility", "regression"]

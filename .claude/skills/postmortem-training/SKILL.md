@@ -1,6 +1,10 @@
 ---
 name: postmortem-training
 description: Postmortem Training Skill
+summary: |
+  Extrae heuristicas de debugging de postmortems reales.
+  Formato: Si X, chequea Y. Alimenta comprehension reports
+  y guias de debugging 3AM.
 maturity: beta
 category: "communication"
 tags: ["postmortem", "heuristics", "incident", "learning"]
