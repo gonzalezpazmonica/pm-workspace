@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.28.0] — 2026-03-22
+
+Engram-inspired memory patterns — structured observations, topic key families, session summaries.
+
+### Added
+
+- **Scripts**: `memory-store.sh` — What/Why/Where/Learned structured fields (`--what`, `--why`, `--where`, `--learned`), auto-generated topic key families (`decision/*`, `bug/*`, `architecture/*`, etc.), `suggest-topic` command, `session-summary` command with Goal/Discoveries/Accomplished/Files format
+- **Tests**: `test-memory-store.bats` — 16 tests covering structured save, topic keys, upsert, dedup, search, session summary
+
+### Changed
+
+- **Scripts**: `memory-store.sh` — search rewritten with temp-file scoring (bash subshell compatible), topic_key shown in context/search output, stats include topic family and revision metrics
+
 ## [3.27.1] — 2026-03-22
 
 sovereignty-ops.sh fixes for real-world download testing.
@@ -4246,6 +4259,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.27.1...v3.28.0
 [3.27.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.27.0...v3.27.1
 [3.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.26.0...v3.27.0
 [3.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.25.1...v3.26.0
