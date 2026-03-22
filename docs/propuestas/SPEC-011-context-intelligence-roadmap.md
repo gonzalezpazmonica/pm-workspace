@@ -67,8 +67,10 @@ Medio-alto esfuerzo, mejoran la inteligencia del sistema.
 | 8 | Era21-WS2 | Core | Git Persistence Engine (indices TSV) | 2 sprints | Ninguna |
 | 9 | Era21-WS7 | Core | Savia Flow git-native (tasks, specs, sprints) | 2 sprints | WS2 (indices) |
 | 10 | SPEC-010 N2 | SaviaClaw | Proactividad (daemon, sensores, LCD status) | 1 sprint | N1 |
+| 11 | SPEC-017 F1-F3 | Core | Sovereignty USB (deps offline + installer) | 2 sprints | WS4 (scripts) |
 
 **Justificacion:** SPEC-014 hace a Savia mas inteligente por dominio.
+SPEC-017 garantiza soberanía de dependencias — Savia funciona sin internet.
 WS2+WS7 dan persistencia sin BD. SaviaClaw N2 lo hace proactivo.
 
 ---
@@ -81,7 +83,8 @@ Requieren Tiers anteriores o son de alto esfuerzo.
 |---|------|------|-----|----------|------|
 | 11 | Savia Web Phase 3 | Web | Chat multi-thread, user mgmt, file ACL | 3 sprints | — |
 | 12 | SPEC-010 N3 | SaviaClaw | Voz (wake word, TTS, voice-console protocol) | 2 sprints | N2 |
-| 13 | Era21-WS5 | Core | Travel Mode (USB pack/unpack) | 1 sprint | WS4 (scripts robustos) |
+| 13 | Era21-WS5 | Core | Travel Mode (USB pack/unpack) | 1 sprint | WS4, SPEC-017 |
+| 13b | SPEC-017 F4 | Core | SaviaOS booteable (distro live USB) | 2 sprints | SPEC-017 F1-F3 |
 | 14 | SPEC-003 | Core | Web research system | 2 sprints | — |
 | 15 | Era21-WS1 | Vertical | Savia School v1 | 3 sprints | WS2, WS4 |
 
