@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (44)
+# Catálogo de Subagentes (46)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|

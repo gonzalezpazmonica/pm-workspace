@@ -53,10 +53,10 @@ Más detalle en la [Guía de flujo de datos](docs/data-flow-guide-es.md).
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 400+ comandos (lo que me puedes pedir)
-│   ├── agents/         ← 44 agentes especializados
-│   ├── skills/         ← 79 skills con conocimiento de dominio
-│   ├── hooks/          ← 17 hooks que refuerzan reglas automáticamente
+│   ├── commands/       ← 496 comandos (lo que me puedes pedir)
+│   ├── agents/         ← 46 agentes especializados
+│   ├── skills/         ← 82 skills con conocimiento de dominio
+│   ├── hooks/          ← 22 hooks que refuerzan reglas automáticamente
 │   └── rules/          ← reglas de contexto, lenguaje, dominio
 ├── docs/
 │   ├── quick-starts/   ← guías por rol (PM, Dev, QA, PO, TL, CEO)
@@ -69,7 +69,8 @@ pm-workspace/
 ├── zeroclaw/
 │   ├── firmware/       ← MicroPython para ESP32 (selftest, heartbeat, LCD)
 │   ├── host/           ← bridge, daemon, voz, guardrails, brain
-│   ├── tests/          ← 39 tests sin hardware
+│   ├── savia-voice/    ← daemon de voz next-gen (full-duplex, Kokoro TTS)
+│   ├── tests/          ← 77 tests sin hardware
 │   └── ROADMAP.md      ← fases 0-6 hacia autonomía
 ├── scripts/            ← validación, CI, utilidades, savia-bridge.py
 ├── output/             ← ficheros generados (informes, specs, exports)
@@ -104,7 +105,7 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Modos autónomos** — Sprint nocturno, bucle de mejora de código, investigación técnica y onboarding con buddy IA. Los agentes proponen, el humano dispone: ramas `agent/*`, PRs Draft, revisión humana obligatoria.
 
-**Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [400+ comandos · 44 agentes · 79 skills](docs/readme/12-comandos-agentes.md)
+**Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [496 comandos · 46 agentes · 82 skills](docs/readme/12-comandos-agentes.md)
 
 **Savia Mobile** — App Android nativa (Kotlin/Compose) que conecta con pm-workspace vía [Savia Bridge](scripts/savia-bridge.py) — un servidor HTTPS/SSE que envuelve Claude Code CLI. Chat con streaming en tiempo real, persistencia local cifrada, tema Material 3. Detalles: [Savia Mobile](projects/savia-mobile-android/README.md)
 
@@ -142,7 +143,7 @@ Configurable con `SAVIA_HOME`, `--skip-tests`. Detalles: `install.sh --help`
 | [Spec-Driven Development](docs/readme/05-sdd.md) | SDD: specs, agentes, patrones |
 | [Flujo de datos](docs/data-flow-guide-es.md) | Cómo se conectan las partes |
 | [Confidencialidad](docs/confidentiality-levels.md) | 5 niveles (N1-N4b) y mecanismos |
-| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 400+ comandos + 44 agentes |
+| [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 496 comandos + 46 agentes |
 | [Guías por escenario](docs/guides/README.md) | Azure, Jira, startup, sanidad... |
 | [AI Augmentation](docs/ai-augmentation-opportunities-es.md) | Oportunidades por sector |
 | [Context Engineering](docs/context-engineering-es.md) | Mejoras de contexto e IA |
