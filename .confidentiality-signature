@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=e127360f52a2a36b9be722e0578df819b8d7bde87f79473fc1735fdcf10add4b
-timestamp=2026-03-22T09:49:34Z
+timestamp=2026-03-22T09:52:49Z
 branch=docs/align-readme-v3.25
-head_commit=85af189
+head_commit=b4b0c4b
 signature=6dc04d209687cb2edbc21ebdd8fd5261506857f73595155e71e2b60320b87042
