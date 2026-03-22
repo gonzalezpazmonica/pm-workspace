@@ -1,4 +1,5 @@
 #!/bin/bash
+set -uo pipefail
 # competence-tracker.sh — Async PostToolUse hook: logs domain per command
 # SPEC-014 Phase 2. Registered as async (never blocks user).
 # Writes to .claude/profiles/users/{slug}/competence-log.jsonl
