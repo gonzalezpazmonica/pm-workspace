@@ -8,7 +8,8 @@ set +e
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
 BLUE='\033[0;34m'; CYAN='\033[0;36m'; NC='\033[0m'; BOLD='\033[1m'
 
-PYTHON_VER="3.12.8"; PYTHON_BUILD="20250212"
+PYTHON_VER="3.12.13"; PYTHON_BUILD="20260320"
+PYTHON_REPO="astral-sh"  # was indygreg, now astral-sh
 NODE_VER="22.22.1"
 
 show_help() {
@@ -46,10 +47,10 @@ download_hf_model() {
 
 download_python() {
   local py_arch="x86_64"; [[ "$ARCH" == "arm64" ]] && py_arch="aarch64"
-  local f="cpython-${PYTHON_VER}+${PYTHON_BUILD}-${py_arch}-unknown-linux-gnu-install_only.tar.gz"
+  local f="cpython-${PYTHON_VER}+${PYTHON_BUILD}-${py_arch}-unknown-linux-gnu-install_only_stripped.tar.gz"
   cached_download \
-    "https://github.com/indygreg/python-build-standalone/releases/download/${PYTHON_BUILD}/${f}" \
-    "$CACHE_DIR/python/$f" "Python $PYTHON_VER standalone"
+    "https://github.com/${PYTHON_REPO}/python-build-standalone/releases/download/${PYTHON_BUILD}/${f}" \
+    "$CACHE_DIR/python/$f" "Python $PYTHON_VER standalone (stripped, 32MB)"
 }
 
 download_wheels() {
