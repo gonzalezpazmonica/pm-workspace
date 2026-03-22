@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=49f3a46b9028baadaedb294c000c19548d06f87cc3ab05f3218bfa43e3c4936a
-timestamp=2026-03-22T14:11:36Z
+diff_hash=c96fdd48231163d2bba96fe9fe18a3e983ea282c575d6322af937657dce98e75
+timestamp=2026-03-22T14:18:08Z
 branch=test/sovereignty-pack-real
-head_commit=921be59
-signature=185b02a3895a40a79e316baa0e96ea197f357f6449b66e5540c580ec2555f6c8
+head_commit=23def68
+signature=4ef58e1bc5a9db091d36272417a49591dfeb8ccf124278072e859ef059d458de
