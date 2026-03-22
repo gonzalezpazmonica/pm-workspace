@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Tests for SPEC-022 Power Features CLI (F1 + F3)
+# Tests for SPEC-022 Power Features CLI (F1-F4)
 
 setup() {
     export PROJECT_ROOT=$(mktemp -d)
@@ -104,4 +104,48 @@ print('OK')
     export CLAUDE_CONTEXT_PERCENT=80
     run bash -c "source $BUDGET && budget_banner"
     [[ "$output" == *"necesario"* ]]
+}
+
+# --- F2: Semantic Compact ---
+
+@test "F2: semantic-compact.sh exists and valid bash" {
+    [ -f "$BATS_TEST_DIRNAME/../../scripts/semantic-compact.sh" ]
+    bash -n "$BATS_TEST_DIRNAME/../../scripts/semantic-compact.sh"
+}
+
+@test "F2: semantic-compact produces output" {
+    run bash "$BATS_TEST_DIRNAME/../../scripts/semantic-compact.sh"
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"Session context"* ]]
+    [[ "$output" == *"Branch:"* ]]
+    [[ "$output" == *"Preserve:"* ]]
+}
+
+@test "F2: pre-compact hook calls semantic-compact" {
+    local hook="$BATS_TEST_DIRNAME/../../.claude/hooks/pre-compact-backup.sh"
+    grep -q "semantic-compact" "$hook"
+}
+
+# --- F4: PR Context Loader ---
+
+@test "F4: pr-context-loader.sh exists and valid bash" {
+    [ -f "$BATS_TEST_DIRNAME/../../scripts/pr-context-loader.sh" ]
+    bash -n "$BATS_TEST_DIRNAME/../../scripts/pr-context-loader.sh"
+}
+
+@test "F4: pr_context_summary handles missing project gracefully" {
+    run bash "$BATS_TEST_DIRNAME/../../scripts/pr-context-loader.sh" --project nonexistent
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"No project context"* ]]
+}
+
+@test "F4: pr_context_summary loads project with rules" {
+    mkdir -p "$PROJECT_ROOT/projects/testproj"
+    echo -e "| Nombre | Rol |\n|---|---|\n| Alice | Dev |" > "$PROJECT_ROOT/projects/testproj/equipo.md"
+    echo -e "- RN-001: No duplicar pedidos" > "$PROJECT_ROOT/projects/testproj/reglas-negocio.md"
+    run bash "$BATS_TEST_DIRNAME/../../scripts/pr-context-loader.sh" --project testproj
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"PR Context"* ]]
+    [[ "$output" == *"Business rules"* ]]
+    [[ "$output" == *"Team"* ]]
 }

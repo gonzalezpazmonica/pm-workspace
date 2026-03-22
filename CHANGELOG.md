@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.43.0] — 2026-03-22
+
+SPEC-022 complete + spellcheck + roadmap sync + accent fixes across 12 files.
+
+### Added
+
+- **Scripts**: `semantic-compact.sh` (F2) — smart compact summary from git diff, memory, trace. Integrated in pre-compact hook.
+- **Scripts**: `pr-context-loader.sh` (F4) — loads project rules, team, specs, decisions before PR. Suggests reviewers.
+- **Scripts**: `spellcheck-docs.sh` — multilingual spelling checker (ES/GL/CA/FR). Detects common accent errors per language. 0 false positives.
+- **Tests**: 6 new tests in test-power-cli.bats (F2 compact + F4 PR context)
+
+### Fixed
+
+- **Docs**: Accent fixes across 12 files: memory-architecture.md, README.md, README.fr.md, README.ca.md, SECURITY.md, confidentiality-levels.md, zeroclaw/ROADMAP.md, CHANGELOG.md. ~40 accent corrections.
+- **Docs**: ROADMAP.md synced to v3.42.0 (Eras 134-136 added)
+
+### Changed
+
+- **Hooks**: `pre-compact-backup.sh` now calls semantic-compact for richer summaries
+
 ## [3.42.0] — 2026-03-22
 
 Rewrite memory-architecture.md — human-friendly, complete, 379 lines.
@@ -2029,7 +2049,7 @@ Self-learning intelligence layer for automatic skill recommendation and adaptive
 ### Changed — Repository Cleanup & Link Fixes
 
 - **Removed** 5 obsolete files: `docs/roadmap-v1.7.0.md` (subsumed by ROADMAP.md Era 22), `docs/guia-adopcion-pm-workspace.docx` (replaced by ADOPTION_GUIDE.md), `docs/guia-incorporacion-lenguajes.docx` (replaced by .md equivalent), `docs/context-optimization-completed.md` and `docs/context-optimization-roadmap.md` (work already integrated).
-- **Fixed** 8 broken links in English quick-starts (`quick-starts_en/`) — referenced Spanish filenames (`02-estructura`, `04-uso-sprint-informes`, `06-configuracion-avanzada`, `10-kpis-reglas`) instead of English (`02-structure`, `04-usage-sprint-reports`, `06-advanced-config`, `10-kpis-rules`).
+- **Fixed** 8 broken links in English quick-starts (`quick-starts_en/`) — referenced Spanish filenames (`02-estructura`, `04-uso-sprint-informes`, `06-configuración-avanzada`, `10-kpis-reglas`) instead of English (`02-structure`, `04-usage-sprint-reports`, `06-advanced-config`, `10-kpis-rules`).
 - **Fixed** 2 broken links in enterprise consultancy guides pointing to non-existent `quick-start.md`.
 - **Added** `docs/guides_en/guide-accessibility.md` — English translation of the accessibility step-by-step guide (was missing from bilingual pair).
 - **Updated** references in `ROADMAP.md` and `CHANGELOG.md` to reflect removed files.
@@ -4421,6 +4441,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.42.0...v3.43.0
 [3.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.41.0...v3.42.0
 [3.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.39.0...v3.41.0
 [3.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.38.0...v3.39.0

@@ -11,7 +11,7 @@ Francais | [Castellano](README.md) | [English](README.en.md) | [Galego](README.g
 
 Je suis Savia, la petite chouette qui vit dans pm-workspace. Mon travail est de faire couler vos projets : je gere les sprints, decompose le backlog, coordonne les agents de code, gere la facturation, genere les rapports pour la direction et surveille la dette technique — tout depuis Claude Code, dans la langue que vous utilisez.
 
-Je fonctionne avec Azure DevOps, Jira, ou 100% Git-native avec Savia Flow. Quand vous arrivez pour la premiere fois, je me presente et j'apprends a vous connaitre. Je m'adapte a vous, pas l'inverse.
+Je fonctionne avec Azure DevOps, Jira, ou 100% Git-native avec Savia Flow. Quand vous arrivez pour la première fois, je me presente et j'apprends a vous connaitre. Je m'adapte a vous, pas l'inverse.
 
 ---
 
@@ -19,7 +19,7 @@ Je fonctionne avec Azure DevOps, Jira, ou 100% Git-native avec Savia Flow. Quand
 
 | Role | Ce que je fais pour vous |
 |---|---|
-| **PM / Scrum Master** | Sprints, dailies, capacite, rapports |
+| **PM / Scrum Master** | Sprints, dailies, capacité, rapports |
 | **Tech Lead** | Architecture, dette technique, tech radar, PRs |
 | **Developer** | Specs, implementation, tests, mon sprint |
 | **QA** | Plan de test, couverture, regression, quality gates |
@@ -28,11 +28,11 @@ Je fonctionne avec Azure DevOps, Jira, ou 100% Git-native avec Savia Flow. Quand
 
 ---
 
-## Comment je fonctionne a l'interieur
+## Comment je fonctionne a l'intérieur
 
 Je suis un workspace Claude Code avec 496 commandes, 46 agents et 82 skills. Mon architecture est **Command > Agent > Skills** : l'utilisateur invoque une commande, la commande delegue a un agent specialise, et l'agent utilise des skills de connaissance reutilisables.
 
-Ma memoire persiste en texte brut (JSONL) avec indexation vectorielle optionnelle pour la recherche semantique. Je n'envoie aucune donnee a aucun serveur — **zero telemetrie**. Tout s'execute localement.
+Ma memoire persiste en texte brut (JSONL) avec indexation vectorielle optionnelle pour la recherche semantique. Je n'envoie aucune donnee a aucun serveur — **zero télémétrie**. Tout s'execute localement.
 
 Pour tirer le meilleur parti de moi :
 1. **Explorez avant d'implementer** — `/plan` pour reflechir, puis implementer
@@ -43,9 +43,9 @@ Pour tirer le meilleur parti de moi :
 ---
 Como funciona por dentro en detalle: **[Mi Sistema de Memoria](docs/memory-architecture.md)**
 
-## Confidentialite et Telemetrie
+## Confidentialité et Télémétrie
 
-**Zero telemetrie.** pm-workspace n'envoie aucune donnee a aucun serveur. Pas d'analytics, pas de tracking, pas de phone-home. Tout s'execute localement. Offline-first par conception.
+**Zero télémétrie.** pm-workspace n'envoie aucune donnee a aucun serveur. Pas d'analytics, pas de tracking, pas de phone-home. Tout s'execute localement. Offline-first par conception.
 
 ---
 
