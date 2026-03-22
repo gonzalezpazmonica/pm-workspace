@@ -64,9 +64,11 @@ validate_privacy() {
     violations+=("IP privada detectada")
   fi
 
-  # Rutas absolutas de usuario
-  if echo "$content" | grep -qE '/home/[a-z]+/((?!claude/)[a-z])' 2>/dev/null; then
-    violations+=("Ruta personal detectada")
+  # Rutas absolutas de usuario (two-stage: match /home/user/X, exclude /home/user/claude)
+  if echo "$content" | grep -qE '/home/[a-z]+/[a-z]'; then
+    if ! echo "$content" | grep -qE '/home/[a-z]+/claude(/|$)'; then
+      violations+=("Ruta personal detectada")
+    fi
   fi
 
   # Nombres de proyecto de CLAUDE.local.md
@@ -74,7 +76,7 @@ validate_privacy() {
     local project_names
     project_names=$(grep -oP 'projects/\K[^/]+' "$WORKSPACE_DIR/CLAUDE.local.md" 2>/dev/null || true)
     for pname in $project_names; do
-      if echo "$content" | grep -qi "$pname"; then
+      if echo "$content" | grep -qiF "$pname"; then
         violations+=("Nombre de proyecto privado '$pname' detectado")
       fi
     done

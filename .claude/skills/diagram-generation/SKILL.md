@@ -1,6 +1,10 @@
 ---
 name: diagram-generation
 description: Generar diagramas de arquitectura y flujo desde infraestructura y código
+summary: |
+  Genera diagramas de arquitectura y flujo desde codigo.
+  Soporta Draw.io, Miro y Mermaid local.
+  Output: diagrama exportado + metadata en projects/{p}/diagrams/.
 maturity: stable
 context: fork
 agent: diagram-architect

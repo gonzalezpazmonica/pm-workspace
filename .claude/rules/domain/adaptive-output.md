@@ -95,6 +95,20 @@ output_style: coaching | executive | technical | auto
 When `auto` (default), Savia uses the detection table above.
 Users can override per-command with `--style {mode}`.
 
+## Competence-Aware Adaptation [SPEC-014]
+
+If `competence.md` exists in the user profile, adapt detail level per domain:
+
+| Competence | Adaptation |
+|------------|-----------|
+| Expert | Dense, no explanations, assume deep knowledge |
+| Competent | Normal, brief explanations on nuances |
+| Novice | Step by step, link to docs, more context |
+| Unknown | Ask level before acting on that domain |
+
+Domain is inferred from the command/topic being discussed.
+If no competence.md exists, fall back to role-based detection above.
+
 ---
 
 ## Out-of-Scope Responses — Real Objective Check

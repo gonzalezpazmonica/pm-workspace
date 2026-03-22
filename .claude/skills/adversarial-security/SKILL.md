@@ -1,6 +1,10 @@
 ---
 name: adversarial-security
 description: Pipeline de seguridad adversarial — Red Team, Blue Team, Auditor con scoring
+summary: |
+  Pipeline Red Team + Blue Team + Auditor independiente.
+  Scoring CVSS, mapeo STRIDE, gap analysis.
+  Output: informe con score 0-100 y recomendaciones.
 maturity: stable
 context: fork
 context_cost: medium

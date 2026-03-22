@@ -1,6 +1,10 @@
 ---
 name: azure-devops-queries
 description: Skill transversal para operaciones con Azure DevOps
+summary: |
+  Operaciones CRUD con Azure DevOps: queries WIQL, work items,
+  sprint status, capacity. Autenticacion via PAT o az CLI.
+  Input: proyecto + query. Output: datos estructurados.
 maturity: stable
 context: fork
 agent: azure-devops-operator

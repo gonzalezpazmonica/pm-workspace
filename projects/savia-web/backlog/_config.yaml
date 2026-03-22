@@ -6,7 +6,7 @@ pbi:
   types: [User Story, Bug, Tech Debt, Spike]
   priorities: [1-Critical, 2-High, 3-Medium, 4-Low]
   id_prefix: "PBI"
-  id_counter: 29
+  id_counter: 31
 tasks:
   states: [New, Active, In Review, Done, Blocked]
   types: [Development, Testing, Documentation, Design, DevOps]

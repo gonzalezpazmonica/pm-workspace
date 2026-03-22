@@ -1,6 +1,10 @@
 ---
 name: diagram-import
 description: Importar diagramas, extraer entidades y generar Features/PBIs
+summary: |
+  Importa diagramas (Draw.io, Miro, Mermaid), extrae entidades
+  y genera Features/PBIs en Azure DevOps.
+  Valida reglas de negocio antes de crear work items.
 maturity: stable
 context: fork
 context_cost: high

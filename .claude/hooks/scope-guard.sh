@@ -37,7 +37,9 @@ fi
 # Extraer ficheros declarados en la spec
 # Busca la sección "Ficheros a Crear/Modificar" o "Files to Create/Modify"
 # y extrae paths de líneas que parecen rutas de fichero
+# FIX: Restrict to bullet lines (- path) to avoid false matches in prose
 DECLARED=$(sed -n '/[Ff]icheros\|[Ff]iles to [Cc]reate/,/^## /p' "$SPEC_FILE" \
+  | grep -E '^[[:space:]]*[-*]' \
   | grep -oE '[a-zA-Z0-9_./\-]+\.[a-z]{1,5}' \
   | sort -u)
 

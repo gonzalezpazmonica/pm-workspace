@@ -1,6 +1,10 @@
 ---
 name: azure-pipelines
 description: Skill para gestión de CI/CD con Azure Pipelines via MCP
+summary: |
+  Gestion de CI/CD con Azure Pipelines: estado, ejecucion,
+  creacion de pipelines, logs y artefactos.
+  Autenticacion via PAT. Output: status + acciones.
 maturity: stable
 context: fork
 agent: azure-devops-operator

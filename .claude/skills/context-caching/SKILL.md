@@ -1,6 +1,10 @@
 ---
 name: context-caching
 description: Optimize context loading order for prompt caching efficiency
+summary: |
+  Optimiza orden de carga de contexto para prompt caching.
+  4 niveles: foundation -> project -> task -> dynamic.
+  Objetivo: maximizar cache hits (-80% coste en tokens).
 maturity: stable
 version: 1.0.0
 tags: [caching, performance, tokens, cost-optimization]

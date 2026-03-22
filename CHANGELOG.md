@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.24.0] — 2026-03-21
+
+SaviaClaw v1.0 prep — daemon stability, voice pipeline, roadmap.
+
+### Added
+
+- **Host**: `voice.py` — TTS (espeak-ng/spd-say) + STT (whisper) pipeline, offline-first. `--say`, `--listen`, `--test` CLI
+- **Host**: `daemon_util.py` — shared utilities extracted from daemon (find_port, truncate_lcd, write_status, show_status)
+- **Host**: `saviaclaw_daemon.py` — signal handling (SIGTERM/SIGINT), status file (`status.json`), stuck detection (120s), `--status` flag
+- **Roadmap**: `zeroclaw/ROADMAP.md` — 6 phases (foundations → stability → voice → sensors → actuators → autonomy)
+- **Tests**: `test_daemon.py` (9 tests), `test_voice.py` (7 tests) — total 39 tests without hardware
+- **Docs**: README.md + README.en.md — SaviaClaw section, directory tree, documentation table
+
+### Changed
+
+- **Host**: daemon refactored into 2 modules (daemon 148 lines + util 84 lines, both under 150)
+- **Host**: daemon log uses RotatingFileHandler (1MB, 3 backups)
+
 ## [3.23.0] — 2026-03-21
 
 SaviaClaw v0.9 — self-test, daemon, autonomous operation.
@@ -4165,4 +4183,5 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.23.0...v3.24.0
 [3.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.22.0...v3.23.0

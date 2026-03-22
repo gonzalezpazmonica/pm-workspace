@@ -66,6 +66,38 @@ Si el PM pide otro comando sin compactar → responder:
 - Errores encontrados y cómo se resolvieron
 - Último comando ejecutado y su resultado
 
+## 3b. Pre-compact extraction [SPEC-016]
+
+ANTES de ejecutar /compact, Savia extrae y persiste informacion valiosa:
+
+**Scan** — Identificar en el contexto actual:
+- Correcciones del usuario ("no", "eso no", "cambia X por Y")
+- Decisiones explicitas ("vamos con X", "usaremos Y", "descartamos Z")
+- Descubrimientos ("resulta que X funciona asi", "el bug era por Y")
+- Estado de trabajo ("estamos en paso 3 de 5", "falta X")
+
+**Quality gate** — Descartar:
+- Contenido < 50 caracteres (trivial)
+- Saludos, confirmaciones simples (ok, si, vale)
+- Info ya presente en auto-memory (dedup)
+- Datos efimeros (linea de codigo, ruta temporal)
+
+**Persist** — Guardar en destino correcto:
+- Correcciones → auto-memory tipo `feedback`
+- Decisiones → auto-memory tipo `project`
+- Descubrimientos → auto-memory tipo `project`
+- Estado de trabajo → incluir en compact summary (no persistir)
+
+**Compact summary** — Al compactar, incluir siempre:
+```
+Session context: [N] items extracted to memory.
+Current task: [descripcion breve]
+Files modified: [lista]
+Last command: [comando] → [resultado breve]
+```
+
+Max 5 items extraidos por compact. Si hay mas, priorizar correcciones > decisiones > descubrimientos.
+
 ## 4. Sesiones enfocadas
 
 ### Regla de una tarea por sesión

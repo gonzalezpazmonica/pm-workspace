@@ -1,6 +1,11 @@
 ---
 name: pbi-decomposition
 description: Descomponer PBIs en Tasks, estimar en horas y asignar inteligentemente
+summary: |
+  Descompone PBI en tasks tecnicas con estimacion en horas.
+  Usa architect (capas) y business-analyst (criterios).
+  Input: PBI con acceptance criteria. Output: tasks asignables.
+  Minimo 3 tasks por PBI.
 maturity: stable
 context: fork
 context_cost: high
@@ -139,12 +144,6 @@ Si desviación > 30% → alertar al PM.
 
 ---
 
-## Fases 4-8: Asignacion, Ejecucion y Ejemplos
+## Fases 4-8 y Referencias
 
-Fases 4-8 (asignacion, Azure DevOps, post-creacion, comandos, ejemplos): **`references/phases-detail.md`**
-
----
-
-## Referencias
-
-Fases 4-8: `references/phases-detail.md` | Scoring: `references/assignment-scoring.md` | Skills: `../sprint-management/SKILL.md`, `../capacity-planning/SKILL.md`
+Fases 4-8 (asignacion, Azure DevOps, post-creacion): `references/phases-detail.md` | Scoring: `references/assignment-scoring.md`

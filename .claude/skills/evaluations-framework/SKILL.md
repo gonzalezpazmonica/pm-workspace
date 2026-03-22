@@ -1,6 +1,10 @@
 ---
 name: evaluations-framework
 description: Evaluations Framework
+summary: |
+  Framework G-Eval para evaluar calidad de outputs.
+  Tipos: PBI quality, spec quality, estimation accuracy.
+  Output: scores por criterio + tendencias + alertas regresion.
 maturity: beta
 category: "reporting"
 tags: ["evaluations", "quality", "g-eval", "scoring"]

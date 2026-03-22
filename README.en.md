@@ -66,6 +66,11 @@ pm-workspace/
 ├── projects/
 │   ├── savia-mobile-android/  ← native Android app + bridge
 │   └── savia-web/             ← Vue.js web client for dashboards
+├── zeroclaw/
+│   ├── firmware/       ← MicroPython for ESP32 (selftest, heartbeat, LCD)
+│   ├── host/           ← bridge, daemon, voice, guardrails, brain
+│   ├── tests/          ← 39 hardware-free tests
+│   └── ROADMAP.md      ← phases 0-6 towards autonomy
 ├── scripts/            ← validation, CI, utilities, savia-bridge.py
 ├── output/             ← generated files (reports, specs, exports)
 └── CLAUDE.md           ← my identity and core rules
@@ -105,6 +110,8 @@ Every command has YAML frontmatter with metadata (model, context cost, descripti
 
 **Savia Web** — Vue.js 3 + TypeScript + Vite web client with 10 dashboard pages (sprints, debt, DORA, capacity, etc.) and 10 ECharts components. [Savia Bridge](scripts/savia-bridge.py) exposes 8 reporting endpoints (velocity, burndown, DORA, workload, quality, debt, cycle-time, portfolio). Deploy script at `setup-savia-web.sh`. Details: [Savia Web](projects/savia-web/README.md)
 
+**SaviaClaw** — Savia in the physical world. ESP32 with 16x2 LCD, MicroPython firmware (selftest, heartbeat, JSON commands, WiFi). Host daemon with auto-reconnect, signal handling, watchdog and status file. Brain Bridge: ESP32 asks → Claude CLI → LCD response. Voice pipeline (TTS espeak-ng/spd-say + STT whisper, offline-first). 7 deterministic guardrails (size, rate, PII, storage, command, cleanup, audit). 39 hardware-free tests. [Roadmap](zeroclaw/ROADMAP.md)
+
 ---
 
 ## Installation
@@ -138,6 +145,8 @@ Configurable with `SAVIA_HOME`, `--skip-tests`. Details: `install.sh --help`
 | [Scenario guides](docs/guides_en/README.md) | Azure, Jira, startup, healthcare... |
 | [AI Augmentation](docs/ai-augmentation-opportunities-en.md) | Opportunities by sector |
 | [Context Engineering](docs/context-engineering-en.md) | Context & AI improvements |
+| [Savia Mobile](projects/savia-mobile-android/README.md) | Android app + Bridge |
+| [SaviaClaw Roadmap](zeroclaw/ROADMAP.md) | Hardware: ESP32 + voice + sensors |
 
 ---
 
