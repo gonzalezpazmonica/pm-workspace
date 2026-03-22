@@ -1,148 +1,99 @@
-# Contributing to PM-Workspace
+# Contribuir a PM-Workspace
 
-Thank you for considering a contribution. PM-Workspace grows through real-world use: the best contributions come from PMs who found something missing while managing an actual project.
+Soy Savia, y me encanta que quieras contribuir. Crezco con el uso real: las mejores contribuciones vienen de gente que encontro algo que le faltaba mientras gestionaba un proyecto de verdad.
 
-Before you start, please read this document and the [Code of Conduct](CODE_OF_CONDUCT.md).
+Antes de empezar, lee este documento y el [Codigo de Conducta](CODE_OF_CONDUCT.md).
 
 ---
 
-## What we're looking for
+## Que busco
 
-The highest-impact contributions are:
+Las contribuciones de mayor impacto son:
 
-**New slash commands** (`.claude/commands/`) — if you've had a conversation with Claude that solved a PM problem not yet covered, package it as a reusable command. Commands currently in high demand: `risk-log`, `sprint-release-notes`, `backlog-capture`, `pr-status`, `tech-debt-review`. See [ROADMAP.md](docs/ROADMAP.md) for the full list.
+**Nuevos comandos** (`.claude/commands/`) — si tuviste una conversacion conmigo que resolvio un problema PM que aun no cubro, empaquetalo como comando reutilizable. Mira el [ROADMAP.md](docs/ROADMAP.md) para ver que falta.
 
-**New skills** (`.claude/skills/`) — skills that extend Claude's behaviour into new territory: Jira integration, Kanban / SAFe methodology support, non-.NET stacks (Java Spring, Node.js, Python FastAPI), or new reporting formats.
+**Nuevos skills** (`.claude/skills/`) — skills que me extiendan a nuevo territorio: integracion Jira, metodologias SAFe/Kanban, o nuevos formatos de reporting.
 
-**Test suite additions** — new test categories in `scripts/test-workspace.sh`, additional mock data scenarios in `projects/sala-reservas/test-data/`, or new spec examples.
+**Tests** — nuevas suites en `tests/`, escenarios de mock, ejemplos de specs.
 
-**Bug fixes** — corrections to `scripts/azdevops-queries.sh`, `scripts/capacity-calculator.py`, or `scripts/report-generator.js`.
+**Bug fixes** — correcciones en scripts, hooks, o agentes.
 
-**Documentation** — clarifications in SKILL.md files, additional examples in the README, translations.
+**Documentacion** — clarificaciones, ejemplos, traducciones. Ahora mismo hablo 9 idiomas.
 
 ---
 
 ## Quick start
 
 ```bash
-# 1. Fork the repo on GitHub, then clone your fork
 git clone https://github.com/YOUR-USERNAME/pm-workspace.git
 cd pm-workspace
-
-# 2. Create a branch
-git checkout -b feature/your-feature-name
-
-# 3. Make your changes
-
-# 4. Verify the test suite still passes
-chmod +x scripts/test-workspace.sh
-./scripts/test-workspace.sh --mock
-# Expected: ≥ 93/96 PASSED
-
-# 5. Open a Pull Request against main
+git checkout -b feature/tu-feature
+# Haz tus cambios
+bash tests/run-all.sh                # Toda la suite debe pasar
+bash scripts/validate-ci-local.sh    # CI local
+# Abre Pull Request contra main
 ```
 
 ---
 
-## Branch naming
+## Ramas
 
-| Prefix | Use for |
-|--------|---------|
-| `feature/` | New command, skill, or integration |
-| `fix/` | Bug correction |
-| `docs/` | Documentation only |
-| `test/` | Test suite or mock data changes |
-| `refactor/` | Restructuring without behaviour change |
-
-If the change originates from an Azure DevOps task or PBI, include `#ID` right after the prefix (before the description). This links commits to the task automatically.
-
-Examples: `feature/#12345-risk-log-command`, `fix/#6789-capacity-formula-zero-days`, `docs/add-jira-example` (no DevOps task)
+| Prefijo | Uso |
+|---------|-----|
+| `feature/` | Nuevo comando, skill, integracion |
+| `fix/` | Correccion de bug |
+| `docs/` | Solo documentacion |
+| `test/` | Suite de tests o mock data |
+| `refactor/` | Reestructuracion sin cambio de comportamiento |
 
 ---
 
-## Standards for new commands and skills
+## Estandares para comandos y skills
 
-### Slash commands (`.claude/commands/nombre-comando.md`)
+### Comandos (`.claude/commands/*.md`)
 
-Every new command must include:
+Cada comando nuevo necesita: descripcion, pasos numerados, manejo del error mas comun, al menos un ejemplo, y referencia a skills que usa.
 
-1. A one-paragraph description at the top explaining what it does and when to use it.
-2. Numbered steps describing the process Claude should follow.
-3. Explicit handling of the most common error case (e.g. "if the task has no parent PBI, ask the user to provide the PBI ID").
-4. At least one usage example, ideally showing both the user's input and Claude's response.
-5. A reference to any skills it depends on.
+### Skills (`.claude/skills/*/SKILL.md`)
 
-Follow the naming convention of existing commands: `namespace:action` (e.g. `sprint-status`, `pbi-decompose`, `spec-generate`).
-
-### Skills (`.claude/skills/nombre-skill/`)
-
-Every skill directory must contain a `SKILL.md` with:
-
-1. One-line description (used in the skill registry).
-2. When to use this skill (trigger conditions).
-3. Configuration parameters (which fields in the project's `CLAUDE.md` affect this skill).
-4. References to external documentation if the skill integrates with an external API.
-5. Limitations and known edge cases.
+Cada skill necesita: SKILL.md + DOMAIN.md (Clara Philosophy). Descripcion, cuando usarlo, parametros, limitaciones.
 
 ---
 
-## Testing your contribution
-
-If you add new files that should always exist in a correctly configured workspace, add the corresponding tests to `scripts/test-workspace.sh` in the appropriate suite.
+## Testing
 
 ```bash
-# Run the full suite
-./scripts/test-workspace.sh --mock
-
-# Run only the relevant category
-./scripts/test-workspace.sh --mock --only sdd
-./scripts/test-workspace.sh --mock --only structure
-
-# Verbose output for debugging
-./scripts/test-workspace.sh --mock --verbose
+bash tests/run-all.sh              # Suite completa
+bats tests/structure/test-X.bats   # Suite individual
 ```
 
-The CI pipeline runs these exact commands on every PR. Your PR will not be merged if the test suite regresses.
+Mi CI ejecuta estos mismos comandos en cada PR. No mergeo si la suite regresa.
 
 ---
 
-## Submitting a Pull Request
+## Pull Requests
 
-Use the PR template provided in `.github/pull_request_template.md`. Fill in every section — incomplete PRs will be asked to provide the missing information before review begins.
+Usa la plantilla de `.github/pull_request_template.md`. Rellena todas las secciones.
 
-**Review process:**
-- A maintainer will review within 7 days.
-- Expect feedback and iteration; this is normal and not a rejection.
-- Once approved, a maintainer will merge and include your change in the next release.
+**Proceso:** un maintainer revisa en 7 dias. Espera feedback e iteracion — es normal, no es rechazo. Una vez aprobado, se mergea en la siguiente release.
 
 ---
 
-## Reporting bugs and proposing features
+## Issues
 
-Open a GitHub Issue using one of the provided templates. Choose **Bug report** or **Feature request** from the template selector.
-
-Use these title prefixes if you write the issue manually:
-
-```
-[BUG]      /sprint-status does not show alerts when WIP = 0
-[FEATURE]  Add support for Kanban methodology
-[DOCS]     SDD example in README does not match current behaviour
-[QUESTION] How to configure workspace for multi-repo projects?
-```
-
-Always include: Claude Code version (`claude --version`), the command or skill involved, what you expected and what happened, and whether the issue is reproducible with `projects/sala-reservas` in mock mode.
+Usa las plantillas de GitHub (Bug report o Feature request). Incluye: version de Claude Code, comando o skill involucrado, que esperabas y que paso.
 
 ---
 
-## What we will not accept
+## Lo que no acepto
 
-- Hardcoded credentials, PATs, organisation URLs, or any real project data.
-- Changes that break the mock test suite without a documented, intentional reason.
-- Commands or skills whose purpose duplicates existing functionality without meaningfully improving it.
-- AI-generated contributions submitted without manual testing — we require that every command has been tested at least once in a real Claude Code conversation.
+- Credenciales, PATs, URLs de organizacion, o datos reales de proyecto
+- Cambios que rompen la suite de tests sin razon documentada
+- Comandos que duplican funcionalidad existente sin mejorarla
+- Contribuciones generadas por IA sin testing manual real
 
 ---
 
-## Recognition
+## Reconocimiento
 
-Every contributor is listed in [CONTRIBUTORS.md](CONTRIBUTORS.md). First-time contributors are highlighted in the release notes.
+Cada contributor aparece en [CONTRIBUTORS.md](CONTRIBUTORS.md). Los first-timers se destacan en las release notes.
