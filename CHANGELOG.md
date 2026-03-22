@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.25.0] — 2026-03-22
+
+SaviaClaw voice v2.4, Context Intelligence Tier 1-2, SPEC-017 Sovereignty, docs alignment.
+
+### Added
+
+- **SaviaClaw**: savia-voice daemon v2.4 — full-duplex, conversation model, Kokoro TTS, pre-cache 64 phrases
+- **SaviaClaw**: 31 new unit tests for savia-voice (77 total zeroclaw tests)
+- **Core**: SPEC-015 Context Gate in skill-auto-activation (6 bypass conditions)
+- **Core**: SPEC-012 Phase 1 — L1 summaries for 20 skills (progressive loading)
+- **Core**: SPEC-013/016 Session memory extraction + intelligent compact protocol
+- **Core**: SPEC-014 Competence-aware output in adaptive-output
+- **Core**: SPEC-017 Dependency Sovereignty spec + sovereignty-pack.sh (offline USB installer)
+- **Rules**: session-memory-protocol.md — pre-compact + end-of-session extraction
+
+### Fixed
+
+- **SaviaClaw**: daemon.py NameError in respond() (crash on first voice turn)
+- **Scripts**: contribute.sh ERE lookahead privacy leak (regex never matched)
+- **Scripts**: memory-store.sh grep injection via topic_key/hash
+- **Scripts**: validate-bash-global.sh POSIX ERE compat (macOS grep)
+- **Scripts**: scope-guard.sh restrict file extraction to bullet lines
+
+### Changed
+
+- **Docs**: README.md + README.en.md + CLAUDE.md counters aligned to real state
+- **Docs**: agents-catalog.md 44→46, pm-workflow.md commands 99→496
+
 ## [3.24.0] — 2026-03-21
 
 SaviaClaw v1.0 prep — daemon stability, voice pipeline, roadmap.
@@ -4183,5 +4211,6 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.24.0...v3.25.0
 [3.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.23.0...v3.24.0
 [3.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.22.0...v3.23.0
