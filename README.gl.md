@@ -1,6 +1,6 @@
 <img width="2160" height="652" alt="image" src="https://github.com/user-attachments/assets/c0b5eb61-2137-4245-b773-0b65b4745dd7" />
 
-Galego | [Castellano](README.md) | [English](README.en.md) | [Euskara](README.eu.md) | [Catala](README.ca.md) | [Francais](README.fr.md) | [Deutsch](README.de.md) | [Portugues](README.pt.md) | [Italiano](README.it.md)
+Galego | [Castellano](README.md) | [English](README.en.md) | [Euskara](README.eu.md) | [Catalá](README.ca.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Português](README.pt.md) | [Italiano](README.it.md)
 
 # PM-Workspace
 
@@ -9,9 +9,9 @@ Galego | [Castellano](README.md) | [English](README.en.md) | [Euskara](README.eu
 
 ## Ola, son Savia
 
-Son Savia, a bufetixa que vive dentro de pm-workspace. O meu traballo e que os teus proxectos fluan: xestiono sprints, descompono backlog, coordino axentes de codigo, levo a facturacion, xero informes para direccion e vixio a debeda tecnica — todo dende Claude Code, na lingua que uses.
+Son Savia, a mouchiña que vive dentro de pm-workspace. O meu traballo é que os teus proxectos flúan: xestiono sprints, descompoño backlog, coordino axentes de código, levo a facturación, xero informes para dirección e vixío a débeda técnica — todo dende Claude Code, na lingua que uses.
 
-Funciono con Azure DevOps, Jira, ou 100% Git-native con Savia Flow. Cando chegas por primeira vez, presentome e conezote. Adaptome a ti, non ao reves.
+Funciono con Azure DevOps, Jira, ou 100% Git-native con Savia Flow. Cando chegas por primeira vez, preséntome e coñézote. Adáptome a ti, non ao revés.
 
 ---
 
@@ -20,42 +20,42 @@ Funciono con Azure DevOps, Jira, ou 100% Git-native con Savia Flow. Cando chegas
 | Rol | Que fago por ti |
 |---|---|
 | **PM / Scrum Master** | Sprints, dailies, capacidade, informes |
-| **Tech Lead** | Arquitectura, debeda tecnica, tech radar, PRs |
-| **Developer** | Specs, implementacion, tests, o meu sprint |
-| **QA** | Testplan, cobertura, regresion, quality gates |
+| **Tech Lead** | Arquitectura, débeda técnica, tech radar, PRs |
+| **Developer** | Specs, implementación, tests, o meu sprint |
+| **QA** | Testplan, cobertura, regresión, quality gates |
 | **Product Owner** | KPIs, backlog, feature impact, stakeholders |
-| **CEO / CTO** | Portfolio, DORA, gobernanza, exposicion IA |
+| **CEO / CTO** | Portfolio, DORA, gobernanza, exposición IA |
 
 ---
 
 ## Como funciono por dentro
 
-Son un workspace de Claude Code con 496 comandos, 46 axentes e 82 skills. A mina arquitectura e **Command > Agent > Skills**: o usuario invoca un comando, o comando delega nun axente especializado, e o axente usa skills de coñecemento reutilizables.
+Son un workspace de Claude Code con 496 comandos, 46 axentes e 82 skills. A miña arquitectura é **Command > Agent > Skills**: o usuario invoca un comando, o comando delega nun axente especializado, e o axente usa skills de coñecemento reutilizábeis.
 
-A mina memoria persiste en texto plano (JSONL) con indexacion vectorial opcional para busqueda semantica. Non envio datos a ningun servidor — **cero telemetria**. Todo se executa localmente.
+A miña memoria persiste en texto plano (JSONL) con indexación vectorial opcional para busca semántica. Non envío datos a ningún servidor — **cero telemetría**. Todo se executa localmente.
 
-Para sacar o maximo partido de min:
+Para sacar o máximo partido de min:
 1. **Explora antes de implementar** — `/plan` para pensar, despois implementar
-2. **Dame forma de verificar** — tests, builds, screenshots
-3. **Un obxectivo por sesion** — `/clear` entre tarefas diferentes
+2. **Dame forma de verificar** — tests, builds, capturas de pantalla
+3. **Un obxectivo por sesión** — `/clear` entre tarefas diferentes
 4. **Compacta frecuentemente** — `/compact` ao 50% de contexto
 
 ---
 
-## Privacidade e Telemetria
+## Privacidade e Telemetría
 
-**Cero telemetria.** pm-workspace non envia datos a ningun servidor. Non hai analytics, non hai tracking, non hai phone-home. Todo se executa localmente. Offline-first por deseño.
+**Cero telemetría.** pm-workspace non envía datos a ningún servidor. Non hai analytics, non hai tracking, non hai phone-home. Todo se executa localmente. Offline-first por deseño.
 
 ---
 
-## Instalacion
+## Instalación
 
 ```bash
 git clone https://github.com/gonzalezpazmonica/pm-workspace.git ~/claude
 cd ~/claude
-claude  # Savia presentase automaticamente
+claude  # Savia preséntase automaticamente
 ```
 
-Documentacion completa: [README.md](README.md) (castellano) | [README.en.md](README.en.md) (ingles)
+Documentación completa: [README.md](README.md) (castelán) | [README.en.md](README.en.md) (inglés)
 
-> *Savia — a tua PM automatizada con IA. Compatible con Azure DevOps, Jira e Savia Flow.*
+> *Savia — a túa PM automatizada con IA. Compatíbel con Azure DevOps, Jira e Savia Flow.*

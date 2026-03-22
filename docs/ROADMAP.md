@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-03-22 | **Version:** v3.30.0 | **496 commands · 46 agents · 82 skills · 23 hooks**
+**Updated:** 2026-03-22 | **Version:** v3.33.0 | **496 commands · 46 agents · 82 skills · 23 hooks**
 
 Status: **Done** · **In progress** · **Planned** · **Proposed**
 
@@ -23,129 +23,73 @@ systemd, guardrails), voice pipeline (TTS+STT, offline-first). 39 tests.
 
 ---
 
-## Done — Eras 125-128: Memory Intelligence (v3.25.0 → v3.30.0)
+## Done — Eras 125-130: Memory Intelligence + i18n (v3.25.0 → v3.33.0)
 
-### Era 125 — Context Intelligence Tier 1-2 (v3.25)
-
-SPEC-012 complete (82/82 L1 skill summaries), SPEC-015 context gate,
-push-pr.sh automation, PR signing protocol.
-
-### Era 126 — Engram Patterns (v3.27-v3.28)
-
-Inspired by Gentleman-Programming/engram: What/Why/Where/Learned structured
-observations, topic key families (decision/*, bug/*, architecture/*),
-session summaries, suggest-topic command. 16 BATS tests.
-
-### Era 127 — Vector Memory Index (v3.29)
-
-SPEC-018: semantic search over plain-text JSONL. sentence-transformers
-(all-MiniLM-L6-v2, 22MB) + hnswlib. Recall@5: grep 40% → vector 90%.
-Auto-rebuild on JSONL changes. Graceful degradation (3 levels).
-Zero vendor lock-in, offline-compatible.
-
-### Era 128 — Readiness Check (v3.30)
-
-50-point deterministic capability checklist. Runs post-update automatically.
-session-init detects stale stamp after git pull. Auto-adaptation for all
-Savia instances.
+- **Era 125** (v3.25): SPEC-012/015 complete, push-pr.sh, PR signing protocol
+- **Era 126** (v3.27-28): Engram patterns (W/W/W/L, topic keys, session summary)
+- **Era 127** (v3.29): SPEC-018 vector memory (Recall 40%→90%, hnswlib)
+- **Era 128** (v3.30): Readiness check (50 points, auto post-update)
+- **Era 129** (v3.31-32): SPEC-019/020/021 done. memory-store split (3 modules)
+- **Era 130** (v3.33): 7 README translations (gl/eu/ca/fr/de/pt/it). 9 languages.
 
 ---
 
 ## In Progress
 
-### Memory Quality (SPEC-019, SPEC-020) — active
+### SPEC-024: Doc Audit — Savia en primera persona
 
-SPEC-019: Contradiction resolution on upsert (supersedes field).
-SPEC-020: TTL/expiration for temporal memories.
+Reescribir docs publicos con voz de Savia. READMEs ya hechos.
 
-### Hardware + Trust (SPEC-021) — active
+### SaviaClaw Voice (paused — needs Jabra hardware test)
 
-Hardware checks in readiness-check.sh (RAM, disk, CPU).
-Zero telemetry declaration in README.
-Connectivity test in sovereignty-ops.sh.
-
-### SaviaClaw — Fase 2: Voice (paused for memory sprint)
-
-Voice module scaffolded. Pending: hardware test with mic + speaker,
-wake word detection, voice-console protocol, LCD sync during voice.
-
-### Savia Web — Phase 4: Git Manager (paused)
-
-Visual Git Manager (3 sub-phases: viewer → staging → advanced).
-Paused pending SaviaClaw stabilization.
-
-### Savia Mobile v0.2 — Full PM (paused)
-
-Auto-updater, project selector, dashboard widgets, command palette, kanban.
+### Savia Web Phase 4 / Mobile v0.2 (paused)
 
 ---
 
-## Planned — Q2 2026
+## Planned — Q2 2026 (por score + implementabilidad)
 
-### P1. SaviaClaw Fase 3: Sensors (Score 4.95)
+### P1. SPEC-022: Power Features CLI (4.60) — SPEC READY
 
-BME280 (temp/humidity/pressure), light sensor, autonomous alerts,
-time-series logging, sensor dashboard. Requires: BME280 module.
+Budget Guard, Semantic Compact, PM Keybindings, PR Context Loader.
 
-### P2. Savia Web Git Manager (Score 4.90)
+### P2. Web Git Manager (4.90) — SPEC EXISTS
 
-3 sub-phases in 3 weeks. Core differentiator.
-Spec: `projects/savia-web/specs/roadmap-git-manager.md`
+3 sub-phases. `projects/savia-web/specs/roadmap-git-manager.md`
 
-### P3. Web Test Regression + Coverage (Score 4.70)
+### P3. Web Test Coverage (4.70) — needs SPEC
 
-Cover E2E gaps, mandatory screenshots, coverage >= 80%.
+E2E gaps, screenshots, coverage >= 80%.
 
-### P4. Power Features CLI (Score 4.60)
+### P4. SaviaClaw Sensors (4.95) — BLOCKED: needs BME280
 
-Autonomous Budget Guard, Semantic Compact Filter, PM Keybindings,
-PR Context Loader.
-
-### P5. Web Notifications RT + Dashboard Real (Score 4.30)
-
-Generic SSE, notification store, real-data dashboard, role widgets.
-
-### P6. Web Approvals + Code Review (Score 4.10)
-
-PRs with diffs, approve/reject, bidirectional approval <> backlog.
+### P5. Web Notifications RT (4.30) · P6. Web Approvals (4.10)
 
 ---
 
 ## Planned — Q3 2026
 
-- **P7.** SaviaClaw Actuators + Autonomy (4.80) — servo, e-stop, BT, OTA
+- **P7.** SaviaClaw Actuators + Autonomy (4.80) — needs hardware
 - **P8.** Context Engineering Audit (4.50) — prune dormant rules
-- **P9.** SaviaClaw Meeting Collaboration (4.15) — diarization, voice enrollment
-- **P10.** Supervisor Agent (3.80) — monitor agents, detect stalls
-- **P11.** Competence Model (3.75) — SPEC-014 Phase 2 done, extend
-- **P12.** Mobile Responsive + PWA (3.70)
+- **P9.** SaviaClaw Meeting Collaboration (4.15)
+- **P10.** Supervisor Agent (3.80) · **P11.** Competence extend (3.75)
+- **P12.** Mobile PWA (3.70)
 
 ---
 
 ## Proposed — Q4 2026+
 
-- **Savia LLM Trainer** (4.90) — Entrenar LLM especializado propio para gestion de contexto empresarial. Claude hace el trabajo bruto, LLM local gestiona memoria, perfiles, routing. Fases: (1) dataset generation desde pm-workspace, (2) fine-tune modelo pequeno (Mistral/Llama 7B), (3) eval framework, (4) integration como "context brain" local. Zero vendor lock-in. SPEC pendiente.
+- **SPEC-023: Savia LLM Trainer** (4.90) — local context brain. 4 phases: dataset → QLoRA → eval → integration. Zero vendor lock-in.
 - Extended Time Horizon (multi-day autonomous) — 3.75
-- ~~Semantic Memory~~ → DONE (SPEC-018, v3.29.0)
-- Plugin Marketplace (community registry + sandbox) — 3.55
-- Multi-Claw (mesh of ESP32 nodes) — 3.50
-- ~~Multilingualism (FR/IT/PT/DE/GL/EU/CA)~~ → DONE (v3.33.0, 7 README translations)
-- **Chinese (ZH) compatibility study** (3.60) — CJK tokenization, bidirectional text, font rendering, encoding. Requires: test corpus, native speaker review. SPEC pendiente.
-- SSO/LDAP via OIDC (Keycloak FOSS) — 3.35
+- **SPEC-025: Chinese (ZH)** (3.60) — CJK tokenization, cultural adaptation
+- Plugin Marketplace — 3.55 · Multi-Claw — 3.50 · SSO/LDAP — 3.35
+- ~~Semantic Memory~~ DONE v3.29 · ~~Multilingualism EU~~ DONE v3.33
 
 ---
 
 ## Rejected
 
-- Google Sheets/Drive as data store (violates Git-as-truth)
-- ServiceNow/SAP/Salesforce connectors (proprietary SDKs)
-- Tableau/Power BI integration (CSV export, user chooses tool)
-- Kafka/EventBridge streaming (over-engineering)
-- VS Code extension (Anthropic shipped official)
-- Cloud-only voice (violates offline-first principle)
+Google Sheets (violates Git-truth) · ServiceNow/SAP (proprietary) · Tableau (CSV export) · Kafka (over-eng) · VS Code ext (Anthropic shipped) · Cloud voice (offline-first) · SQLite memory (text plain portable)
 
----
+## Scoring: PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%
 
-## Scoring: PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow alignment 10%
-
-## Sources: Eras 1-118 absorbed · SaviaClaw `zeroclaw/ROADMAP.md` · Web `projects/savia-web/ROADMAP.md` · Engram · Supermemory · Project Nomad · GitHub Issues
+## Sources: Eras 1-130 · SaviaClaw · Web · Engram · Supermemory · Nomad

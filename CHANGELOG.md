@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.34.0] — 2026-03-22
+
+4 new specs + roadmap sync to v3.33.0.
+
+### Added
+
+- **Spec**: SPEC-022 Power Features CLI (budget guard, semantic compact, PM keybindings, PR context loader)
+- **Spec**: SPEC-023 Savia LLM Trainer (dataset gen, QLoRA fine-tune, eval, integration)
+- **Spec**: SPEC-024 Doc Audit — Savia en primera persona (rewrite public docs with Savia voice)
+- **Spec**: SPEC-025 Chinese (ZH) compatibility study (CJK, encoding, cultural)
+- **Docs**: ROADMAP.md fully synced — Eras 125-130 documented as Done, In Progress updated, all items have SPEC references, Rejected includes SQLite rationale
+
 ## [3.33.0] — 2026-03-22
 
 Multilingual docs — Savia speaks 9 languages. Chinese study in roadmap.
@@ -4332,6 +4344,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.33.0...v3.34.0
 [3.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.1...v3.33.0
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
