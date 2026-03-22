@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c96fdd48231163d2bba96fe9fe18a3e983ea282c575d6322af937657dce98e75
-timestamp=2026-03-22T14:18:08Z
-branch=test/sovereignty-pack-real
-head_commit=23def68
-signature=4ef58e1bc5a9db091d36272417a49591dfeb8ccf124278072e859ef059d458de
+diff_hash=373f5f9718b250e7490b7aaf4552b4e72428dbf32d3b3076ff1a6e306c119702
+timestamp=2026-03-22T14:30:18Z
+branch=feat/engram-patterns
+head_commit=ac41a2f
+signature=a2d3234a438655a214469ccd2ec8aa7b7653a9310e7d4a0862d7c38604a108ac
