@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d66254fa8d924a55bd2edcfdad92242e7ec2667fb23a65f8ea6dd40938d4fe0d
-timestamp=2026-03-22T13:37:22Z
-branch=feat/spec-014-competence-tracking
-head_commit=7960dbb
-signature=26a031d63c0650f8b5476e8c7878e05595ca601b2e9cb67a59b1d0a606e1bb9b
+diff_hash=89027afd088c9c70e22bb366ef27491ad5477abc3c3b3d072e6ea83f84b3e87f
+timestamp=2026-03-22T13:43:09Z
+branch=test/sovereignty-pack-real
+head_commit=7f1d066
+signature=52d3407fa0d60671dc872e29736c8ca6ba416942d0e4e9594d4fd83d205aef32
