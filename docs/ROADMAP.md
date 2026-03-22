@@ -129,7 +129,8 @@ PRs with diffs, approve/reject, bidirectional approval <> backlog.
 - ~~Semantic Memory~~ → DONE (SPEC-018, v3.29.0)
 - Plugin Marketplace (community registry + sandbox) — 3.55
 - Multi-Claw (mesh of ESP32 nodes) — 3.50
-- Multilingualism (FR/IT/PT/DE/ZH) — 3.50
+- ~~Multilingualism (FR/IT/PT/DE/GL/EU/CA)~~ → DONE (v3.33.0, 7 README translations)
+- **Chinese (ZH) compatibility study** (3.60) — CJK tokenization, bidirectional text, font rendering, encoding. Requires: test corpus, native speaker review. SPEC pendiente.
 - SSO/LDAP via OIDC (Keycloak FOSS) — 3.35
 
 ---

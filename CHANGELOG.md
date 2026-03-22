@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.33.0] — 2026-03-22
+
+Multilingual docs — Savia speaks 9 languages. Chinese study in roadmap.
+
+### Added
+
+- **Docs**: README translations in 7 new languages: Galego (gl), Euskara (eu), Catala (ca), Francais (fr), Deutsch (de), Portugues (pt), Italiano (it). All written in Savia's first person voice explaining architecture, privacy, and how to get the most from pm-workspace.
+- **Roadmap**: Chinese (ZH) compatibility study added as Proposed item (CJK tokenization, encoding, native review needed)
+
+### Changed
+
+- **Docs**: README.md + README.en.md — language selector bar updated with all 9 languages
+
 ## [3.32.1] — 2026-03-22
 
 Split memory-store.sh into 3 modules (75+127+100 lines, all under 150).
@@ -4319,6 +4332,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.1...v3.33.0
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
