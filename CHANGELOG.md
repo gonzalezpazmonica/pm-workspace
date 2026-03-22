@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.35.0] — 2026-03-22
+
+SPEC-022 Phase 1 — Budget Guard + PM Keybindings.
+
+### Added
+
+- **Scripts**: `budget-guard.sh` — context budget monitor with 4 levels (healthy/warning/high/critical). Supports `--block` mode for heavy commands. `budget_banner()` for command output. Heuristic estimation from trace log when no env var.
+- **Docs**: `pm-keybindings.json` — PM-optimized keybindings template (Ctrl+Shift+S sprint, B board, M my-sprint, D daily, P compact, H help). Copy to `~/.claude/keybindings.json`.
+- **Tests**: `test-power-cli.bats` — 13 tests (4 keybindings + 9 budget guard)
+
 ## [3.34.0] — 2026-03-22
 
 4 new specs + roadmap sync to v3.33.0.
@@ -4344,6 +4354,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.34.0...v3.35.0
 [3.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.33.0...v3.34.0
 [3.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.1...v3.33.0
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1

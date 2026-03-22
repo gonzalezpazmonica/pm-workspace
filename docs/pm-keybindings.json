@@ -1,0 +1,42 @@
+{
+  "$schema": "https://claude.ai/keybindings-schema.json",
+  "_comment": "PM-optimized keybindings for Savia. Copy to ~/.claude/keybindings.json",
+  "keybindings": [
+    {
+      "key": "ctrl+shift+s",
+      "command": "send_prompt",
+      "args": { "prompt": "/sprint-status" },
+      "description": "Sprint status"
+    },
+    {
+      "key": "ctrl+shift+b",
+      "command": "send_prompt",
+      "args": { "prompt": "/board-flow" },
+      "description": "Board flow"
+    },
+    {
+      "key": "ctrl+shift+m",
+      "command": "send_prompt",
+      "args": { "prompt": "/my-sprint" },
+      "description": "My sprint"
+    },
+    {
+      "key": "ctrl+shift+d",
+      "command": "send_prompt",
+      "args": { "prompt": "/daily-routine" },
+      "description": "Daily routine"
+    },
+    {
+      "key": "ctrl+shift+h",
+      "command": "send_prompt",
+      "args": { "prompt": "/help" },
+      "description": "Help catalog"
+    },
+    {
+      "key": "ctrl+shift+p",
+      "command": "send_prompt",
+      "args": { "prompt": "/compact" },
+      "description": "Compact context"
+    }
+  ]
+}
