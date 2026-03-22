@@ -124,13 +124,13 @@ PRs with diffs, approve/reject, bidirectional approval <> backlog.
 
 ## Proposed — Q4 2026+
 
+- **Savia LLM Trainer** (4.90) — Entrenar LLM especializado propio para gestion de contexto empresarial. Claude hace el trabajo bruto, LLM local gestiona memoria, perfiles, routing. Fases: (1) dataset generation desde pm-workspace, (2) fine-tune modelo pequeno (Mistral/Llama 7B), (3) eval framework, (4) integration como "context brain" local. Zero vendor lock-in. SPEC pendiente.
 - Extended Time Horizon (multi-day autonomous) — 3.75
-- ~~Semantic Memory~~ → DONE (SPEC-018, hnswlib + sentence-transformers) — v3.29.0
+- ~~Semantic Memory~~ → DONE (SPEC-018, v3.29.0)
 - Plugin Marketplace (community registry + sandbox) — 3.55
 - Multi-Claw (mesh of ESP32 nodes) — 3.50
 - Multilingualism (FR/IT/PT/DE/ZH) — 3.50
 - SSO/LDAP via OIDC (Keycloak FOSS) — 3.35
-- Rust Runtime for Hooks (only if >500ms bottleneck) — 3.25
 
 ---
 
