@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.37.0] — 2026-03-22
+
+SPEC-023 Phase 1 — Training data generator for Savia context brain.
+
+### Added
+
+- **Scripts**: `generate-training-data.py` — extracts instruction/response pairs from commands (1488), rules (24), skills (30), and memory store. Deduplicates by instruction. Respects PROJECT_ROOT env var. Output: JSONL for QLoRA fine-tuning.
+- **Tests**: `test-training-data.bats` — 8 tests (valid Python, JSONL output, JSON integrity, field validation, extraction from 3 sources, dedup)
+
 ## [3.36.0] — 2026-03-22
 
 SPEC-024 — Doc audit: CONTRIBUTING.md and SECURITY.md rewritten in Savia's first person voice.
@@ -4363,6 +4372,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.36.0...v3.37.0
 [3.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.35.0...v3.36.0
 [3.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.34.0...v3.35.0
 [3.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.33.0...v3.34.0
