@@ -1,6 +1,6 @@
 # SPEC-013: Session Memory Extraction Hook
 
-> Status: **DRAFT** · Fecha: 2026-03-22
+> Status: **PHASE 1 DONE** · Fecha: 2026-03-22 · Phase 1 (rule-based): 2026-03-22
 > Origen: OpenViking — end-of-session automatic memory extraction
 > Impacto: Auto-persistir decisiones y patrones sin intervencion manual
 

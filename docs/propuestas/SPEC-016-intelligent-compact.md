@@ -1,6 +1,6 @@
 # SPEC-016: Intelligent Compact with Memory Extraction
 
-> Status: **DRAFT** · Fecha: 2026-03-22
+> Status: **PHASE 1 DONE** · Fecha: 2026-03-22 · Phase 1 implementada: 2026-03-22
 > Origen: OpenViking (conversation compression) + Fabrik-Codek (quality gate)
 > Impacto: Zero-loss compaction — nada importante se pierde al compactar
 

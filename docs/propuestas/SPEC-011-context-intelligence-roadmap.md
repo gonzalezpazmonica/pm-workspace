@@ -46,14 +46,15 @@ independientes y pueden ejecutarse en paralelo.
 
 Medio riesgo, previenen perdida de informacion.
 
-| # | Spec | Area | Que | Esfuerzo | Deps |
-|---|------|------|-----|----------|------|
-| 4 | SPEC-013 | Core | Session memory extraction hook | 2 sprints | Ninguna |
-| 5 | SPEC-016 | Core | Intelligent compact | 1 sprint | Reutiliza extractor de SPEC-013 |
-| 6 | SPEC-010 N1 | SaviaClaw | Estabilidad (WiFi auto, heartbeat, reconnect) | 1 sprint | Ninguna |
+| # | Spec | Area | Que | Esfuerzo | Estado |
+|---|------|------|-----|----------|--------|
+| 4 | SPEC-013 | Core | Session memory extraction | 2 sprints | Phase 1 DONE (rule-based) |
+| 5 | SPEC-016 | Core | Intelligent compact | 1 sprint | Phase 1 DONE (pre-compact extraction) |
+| 6 | SPEC-010 N1 | SaviaClaw | Estabilidad (WiFi auto, heartbeat, reconnect) | 1 sprint | Pendiente |
 
-**Justificacion:** SPEC-013+016 eliminan la perdida de ~30% de decisiones
-entre sesiones. SaviaClaw N1 es prerequisito de todo lo demas en hardware.
+**Justificacion:** SPEC-013+016 Phase 1 implementadas como reglas de comportamiento
+(session-memory-protocol.md + context-health.md seccion 3b). Phase 2 (hook automatico)
+pendiente de investigar acceso a transcript desde Stop hooks.
 
 ---
 
