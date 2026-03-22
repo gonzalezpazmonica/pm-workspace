@@ -1,0 +1,100 @@
+#!/bin/bash
+# memory-search.sh — Search, context, stats (sourced by memory-store.sh)
+# Vector search with grep fallback. SPEC-020: TTL filtering.
+
+cmd_search() {
+    [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
+    local query= type_filter= since_date= mode="auto" include_expired=false
+    while [[ $# -gt 0 ]]; do case "$1" in
+        --type) type_filter="$2"; shift 2;; --since) since_date="$2"; shift 2;;
+        --mode) mode="$2"; shift 2;; --include-expired) include_expired=true; shift;;
+        *) query="$1"; shift;; esac
+    done
+    [[ -z "$query" ]] && { echo "Uso: search \"query\" [--type tipo] [--since DATE] [--mode grep|vector|auto]"; return; }
+
+    # Vector search (auto or explicit)
+    if [[ "$mode" != "grep" ]]; then
+        local idx="${STORE_FILE%.jsonl}-index.idx"
+        if command -v python3 &>/dev/null && [[ -f "$idx" ]]; then
+            local vec_result
+            vec_result=$(python3 "$SCRIPT_DIR/memory-vector.py" search "$query" --top 10 --store "$STORE_FILE" 2>/dev/null) || true
+            if [[ -n "$vec_result" ]] && echo "$vec_result" | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if not d.get('fallback') and d.get('results') else 1)" 2>/dev/null; then
+                echo "$vec_result" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+for r in d['results']:
+    ts = r['ts'][:10] if r.get('ts') else '?'
+    print(f'  [{ts}] ({r[\"type\"]}) {r[\"title\"]} [topic:{r[\"topic_key\"]} score:{r[\"score\"]}]')
+" 2>/dev/null
+                echo "  (vector search)" >&2; return
+            fi
+        fi
+        [[ "$mode" == "vector" ]] && { echo "Vector index not available. Run: python3 scripts/memory-vector.py rebuild"; return 1; }
+    fi
+
+    # Grep fallback
+    local tmp_results=$(mktemp); trap "rm -f '$tmp_results'" RETURN
+    while IFS= read -r line; do
+        local ts type title topic score=0
+        ts=$(echo "$line" | grep -o '"ts":"[^"]*"' | cut -d'"' -f4 | cut -d'T' -f1)
+        [[ -n "$since_date" && "$ts" < "$since_date" ]] && continue
+        # SPEC-020: TTL filter
+        if [[ "$include_expired" != "true" ]]; then
+            local exp=$(echo "$line" | grep -o '"expires_at":"[^"]*"' | cut -d'"' -f4 || true)
+            if [[ -n "$exp" ]]; then
+                local exp_epoch=$(date -d "$exp" +%s 2>/dev/null || echo 9999999999)
+                [[ $(date -u +%s) -gt $exp_epoch ]] && continue
+            fi
+        fi
+        type=$(echo "$line" | grep -o '"type":"[^"]*"' | cut -d'"' -f4)
+        [[ -n "$type_filter" && "$type" != "$type_filter" ]] && continue
+        title=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
+        topic=$(echo "$line" | grep -o '"topic_key":"[^"]*"' | cut -d'"' -f4)
+        local rev=$(echo "$line" | grep -o '"rev":[0-9]*' | cut -d: -f2)
+        echo "$title" | grep -qi "$query" 2>/dev/null && score=$((score+3)) || true
+        echo "$line" | grep -qi "$query" 2>/dev/null && score=$((score+1)) || true
+        echo "$topic" | grep -qi "$query" 2>/dev/null && score=$((score+2)) || true
+        [[ $score -gt 0 ]] && printf '%03d\t%s\t%s\t%s\t%s\t%s\n' "$score" "$ts" "$type" "$title" "$topic" "$rev" >> "$tmp_results"
+    done < "$STORE_FILE"
+    if [[ -s "$tmp_results" ]]; then
+        sort -rn "$tmp_results" | head -10 | while IFS=$'\t' read -r score ts type title topic rev; do
+            echo "  [$ts] ($type) $title [topic:$topic rev:$rev score:$((10#$score))]"
+        done
+        echo "  (grep fallback)" >&2
+    else echo "No se encontraron resultados"; fi
+}
+
+cmd_context() {
+    [[ ! -f "$STORE_FILE" ]] && return
+    local limit=20 project=
+    while [[ $# -gt 0 ]]; do case "$1" in --limit) limit="$2"; shift 2;; --project) project="$2"; shift 2;; *) shift;; esac; done
+    echo "## Memoria Persistente" && echo ""
+    local src
+    if [[ -n "$project" ]]; then
+        src=$(grep "\"project\":\"$project\"" "$STORE_FILE" 2>/dev/null | tac | head -n "$limit")
+    else src=$(tac "$STORE_FILE" | head -n "$limit"); fi
+    echo "$src" | while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+        local ts=$(echo "$line" | grep -o '"ts":"[^"]*"' | cut -d'"' -f4 | cut -d'T' -f1)
+        local type=$(echo "$line" | grep -o '"type":"[^"]*"' | cut -d'"' -f4)
+        local title=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
+        local topic=$(echo "$line" | grep -o '"topic_key":"[^"]*"' | cut -d'"' -f4)
+        echo "- [$ts] ($type) $title [$topic]"
+    done
+}
+
+cmd_stats() {
+    [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
+    local total=$(wc -l < "$STORE_FILE")
+    echo "Estadisticas — Total: $total entradas"
+    echo "Por tipo:" && grep -o '"type":"[^"]*"' "$STORE_FILE" | cut -d'"' -f4 | \
+        sort | uniq -c | sort -rn | awk '{ printf "  %s: %d\n", $2, $1 }'
+    echo "Por familia topic_key:" && grep -o '"topic_key":"[^/"]*' "$STORE_FILE" | \
+        cut -d'"' -f4 | sort | uniq -c | sort -rn | head -10 | \
+        awk '{ printf "  %s/: %d\n", $2, $1 }'
+    echo "Por concepto:" && grep -o '"concepts":\[[^]]*\]' "$STORE_FILE" | \
+        sed 's/.*\[//;s/\].*//' | tr ',' '\n' | tr -d '"' | sed '/^$/d' | \
+        sort | uniq -c | sort -rn | head -5 | awk '{ printf "  %s: %d\n", $2, $1 }'
+    echo "Revisiones (topic_keys con rev>1):" && grep -o '"rev":[0-9]*' "$STORE_FILE" | \
+        cut -d: -f2 | awk '$1>1{count++; sum+=$1} END{printf "  %d evolucionados, avg %.1f revs\n", count+0, (count>0?sum/count:0)}'
+}

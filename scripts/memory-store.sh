@@ -1,298 +1,48 @@
 #!/bin/bash
-# memory-store.sh - JSONL persistent memory store for pm-workspace
-# Inspired by Engram (Gentleman-Programming/engram) observation model
+# memory-store.sh — JSONL persistent memory store for pm-workspace
+# Dispatcher + shared utils. Logic in memory-save.sh and memory-search.sh.
+# Inspired by Engram (Gentleman-Programming/engram) observation model.
 set -euo pipefail
 STORE_FILE="${PROJECT_ROOT:-.}/output/.memory-store.jsonl"
 mkdir -p "$(dirname "$STORE_FILE")"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# --- Shared utils ---
 redact_private() { sed 's/<private>.*<\/private>/[REDACTED]/g'; }
 hash_content() { echo -n "$1" | sha256sum | cut -d' ' -f1; }
 iso8601_now() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 
-# Vector index auto-sync: rebuild if JSONL newer than index
 _maybe_rebuild_index() {
     local idx="${STORE_FILE%.jsonl}-index.idx"
-    # Only if deps available (Level 2)
     command -v python3 &>/dev/null || return 0
     python3 -c "import hnswlib, sentence_transformers" 2>/dev/null || return 0
-    # Rebuild if: no index, or JSONL is newer
     if [[ ! -f "$idx" ]] || [[ "$STORE_FILE" -nt "$idx" ]]; then
         python3 "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" >/dev/null 2>&1 &
         echo "(vector index rebuilding in background)" >&2
     fi
 }
 
-# Topic key families — consistent prefixes (inspired by Engram)
 suggest_topic_key() {
     local type="$1" title="$2"
     local slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | sed 's/[^a-z0-9-]//g' | cut -c1-40)
     case "$type" in
-        decision)      echo "decision/$slug" ;;
-        bug)           echo "bug/$slug" ;;
-        pattern)       echo "pattern/$slug" ;;
-        convention)    echo "convention/$slug" ;;
-        discovery)     echo "discovery/$slug" ;;
-        architecture)  echo "architecture/$slug" ;;
-        config)        echo "config/$slug" ;;
-        entity)        echo "entity/$slug" ;;
-        *)             echo "$type/$slug" ;;
+        decision) echo "decision/$slug" ;; bug) echo "bug/$slug" ;;
+        pattern) echo "pattern/$slug" ;; convention) echo "convention/$slug" ;;
+        discovery) echo "discovery/$slug" ;; architecture) echo "architecture/$slug" ;;
+        config) echo "config/$slug" ;; entity) echo "entity/$slug" ;;
+        *) echo "$type/$slug" ;;
     esac
 }
 
-cmd_save() {
-    local type= title= content= concepts= topic_key= project= rev=1 expires_days=
-    local what= why= where= learned=
-    while [[ $# -gt 0 ]]; do
-        case "$1" in
-            --type) type="$2"; shift 2 ;;
-            --title) title="$2"; shift 2 ;;
-            --content) content="$2"; shift 2 ;;
-            --concepts) concepts="$2"; shift 2 ;;
-            --topic) topic_key="$2"; shift 2 ;;
-            --project) project="$2"; shift 2 ;;
-            --what) what="$2"; shift 2 ;;
-            --why) why="$2"; shift 2 ;;
-            --where) where="$2"; shift 2 ;;
-            --learned) learned="$2"; shift 2 ;;
-            --expires) expires_days="$2"; shift 2 ;;
-            *) shift ;;
-        esac
-    done
-    [[ -z "$type" || -z "$title" ]] && { echo "Error: --type, --title requeridos"; exit 1; }
+# --- Load modules ---
+source "$SCRIPT_DIR/memory-save.sh"
+source "$SCRIPT_DIR/memory-search.sh"
 
-    # Build structured content from W/W/W/L fields if provided
-    if [[ -n "$what" || -n "$why" || -n "$where" || -n "$learned" ]]; then
-        local structured=""
-        [[ -n "$what" ]] && structured="What: $what"
-        [[ -n "$why" ]] && structured="$structured | Why: $why"
-        [[ -n "$where" ]] && structured="$structured | Where: $where"
-        [[ -n "$learned" ]] && structured="$structured | Learned: $learned"
-        # Append to content or use as content
-        if [[ -n "$content" ]]; then
-            content="$content | $structured"
-        else
-            content="$structured"
-        fi
-    fi
-    [[ -z "$content" ]] && { echo "Error: --content or --what required"; exit 1; }
-
-    content=$(echo "$content" | redact_private | head -c 2000)
-    content="${content//$'\n'/\\n}"
-    content="${content//$'\r'/\\r}"
-    content="${content//$'\t'/\\t}"
-    local tokens_est=$((${#content} / 4))
-    local hash=$(hash_content "$content") now=$(iso8601_now)
-
-    # Auto-suggest topic_key if not provided (Engram family pattern)
-    if [[ -z "$topic_key" ]]; then
-        topic_key=$(suggest_topic_key "$type" "$title")
-    fi
-
-    # Parse concepts into JSON array
-    local concepts_json="[]"
-    if [[ -n "$concepts" ]]; then
-        concepts_json="["
-        IFS=',' read -ra CPTS <<< "$concepts"
-        for i in "${!CPTS[@]}"; do
-            concepts_json="$concepts_json\"${CPTS[$i]// /}\""
-            [[ $i -lt $((${#CPTS[@]} - 1)) ]] && concepts_json="$concepts_json,"
-        done
-        concepts_json="$concepts_json]"
-    fi
-
-    # SPEC-020: Calculate expires_at from --expires DAYS
-    local expires_at="null"
-    if [[ -n "$expires_days" ]]; then
-        expires_at=$(date -u -d "+${expires_days} days" +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || date -u -v "+${expires_days}d" +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || echo "null")
-    fi
-
-    # UPSERT por topic_key with SPEC-019 contradiction tracking
-    local supersedes="null"
-    if [[ -n "$topic_key" && "$topic_key" != "null" && -f "$STORE_FILE" ]]; then
-        local old_line=$(grep -F "\"topic_key\":\"$topic_key\"" "$STORE_FILE" 2>/dev/null | tail -1 || true)
-        if [[ -n "$old_line" ]]; then
-            rev=$(($(echo "$old_line" | grep -o '"rev":[0-9]*' | cut -d: -f2) + 1))
-            # SPEC-019: Track what this entry supersedes
-            local old_content=$(echo "$old_line" | grep -o '"content":"[^"]*"' | sed 's/"content":"//;s/"$//' | head -c 200)
-            if [[ -n "$old_content" && "$old_content" != "$content" ]]; then
-                supersedes="$old_content"
-            fi
-            local temp_file=$(mktemp)
-            grep -vF "\"topic_key\":\"$topic_key\"" "$STORE_FILE" > "$temp_file" || true
-            mv "$temp_file" "$STORE_FILE"
-        fi
-    fi
-
-    # Dedup (ultimos 15 min) — skip if same hash exists recently
-    if [[ -f "$STORE_FILE" ]] && grep -qF "\"hash\":\"$hash\"" "$STORE_FILE" 2>/dev/null; then
-        local recent_ts=$(grep -F "\"hash\":\"$hash\"" "$STORE_FILE" | tail -1 | grep -o '"ts":"[^"]*"' | cut -d'"' -f4)
-        local recent_epoch=$(date -d "$recent_ts" +%s 2>/dev/null || echo 0)
-        local cutoff=$(date -u -d '15 minutes ago' +%s 2>/dev/null || echo 0)
-        if [[ $recent_epoch -gt $cutoff ]]; then echo "⊘ Duplicado omitido"; return 0; fi
-    fi
-    # Build JSON — include supersedes and expires_at only when set
-    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev"
-    [[ "$supersedes" != "null" ]] && json="$json,\"supersedes\":\"$supersedes\""
-    [[ "$expires_at" != "null" ]] && json="$json,\"expires_at\":\"$expires_at\""
-    json="$json}"
-    echo "$json" >> "$STORE_FILE"
-    echo "✓ Guardado: $title (topic: $topic_key, rev: $rev)"
-    # Trigger async index rebuild if deps available
-    _maybe_rebuild_index
-}
-
-cmd_search() {
-    [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
-    local query= type_filter= since_date= mode="auto" include_expired=false
-    while [[ $# -gt 0 ]]; do case "$1" in --type) type_filter="$2"; shift 2;; --since) since_date="$2"; shift 2;; --mode) mode="$2"; shift 2;; --include-expired) include_expired=true; shift;; *) query="$1"; shift;; esac; done
-    [[ -z "$query" ]] && { echo "Uso: search \"query\" [--type tipo] [--since YYYY-MM-DD] [--mode grep|vector|auto]"; return; }
-
-    # Try vector search first (auto or explicit vector mode)
-    if [[ "$mode" != "grep" ]]; then
-        local idx="${STORE_FILE%.jsonl}-index.idx"
-        if command -v python3 &>/dev/null && [[ -f "$idx" ]]; then
-            local vec_result
-            vec_result=$(python3 "$SCRIPT_DIR/memory-vector.py" search "$query" --top 10 --store "$STORE_FILE" 2>/dev/null) || true
-            if [[ -n "$vec_result" ]] && echo "$vec_result" | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if not d.get('fallback') and d.get('results') else 1)" 2>/dev/null; then
-                echo "$vec_result" | python3 -c "
-import sys, json
-d = json.load(sys.stdin)
-for r in d['results']:
-    ts = r['ts'][:10] if r.get('ts') else '?'
-    print(f'  [{ts}] ({r[\"type\"]}) {r[\"title\"]} [topic:{r[\"topic_key\"]} score:{r[\"score\"]}]')
-" 2>/dev/null
-                echo "  (vector search)" >&2
-                return
-            fi
-        fi
-        [[ "$mode" == "vector" ]] && { echo "Vector index not available. Run: python3 scripts/memory-vector.py rebuild"; return 1; }
-    fi
-
-    # Fallback: grep scoring
-    local tmp_results=$(mktemp)
-    trap "rm -f '$tmp_results'" RETURN
-    while IFS= read -r line; do
-        local ts type title topic score=0
-        ts=$(echo "$line" | grep -o '"ts":"[^"]*"' | cut -d'"' -f4 | cut -d'T' -f1)
-        [[ -n "$since_date" && "$ts" < "$since_date" ]] && continue
-        # SPEC-020: Filter expired entries
-        if [[ "$include_expired" != "true" ]]; then
-            local exp=$(echo "$line" | grep -o '"expires_at":"[^"]*"' | cut -d'"' -f4 || true)
-            if [[ -n "$exp" ]]; then
-                local exp_epoch=$(date -d "$exp" +%s 2>/dev/null || echo 9999999999)
-                local now_epoch=$(date -u +%s)
-                [[ $now_epoch -gt $exp_epoch ]] && continue
-            fi
-        fi
-        type=$(echo "$line" | grep -o '"type":"[^"]*"' | cut -d'"' -f4)
-        [[ -n "$type_filter" && "$type" != "$type_filter" ]] && continue
-        title=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
-        topic=$(echo "$line" | grep -o '"topic_key":"[^"]*"' | cut -d'"' -f4)
-        local rev=$(echo "$line" | grep -o '"rev":[0-9]*' | cut -d: -f2)
-        echo "$title" | grep -qi "$query" 2>/dev/null && score=$((score+3)) || true
-        echo "$line" | grep -qi "$query" 2>/dev/null && score=$((score+1)) || true
-        echo "$topic" | grep -qi "$query" 2>/dev/null && score=$((score+2)) || true
-        [[ $score -gt 0 ]] && printf '%03d\t%s\t%s\t%s\t%s\t%s\n' "$score" "$ts" "$type" "$title" "$topic" "$rev" >> "$tmp_results"
-    done < "$STORE_FILE"
-    if [[ -s "$tmp_results" ]]; then
-        sort -rn "$tmp_results" | head -10 | while IFS=$'\t' read -r score ts type title topic rev; do
-            echo "  [$ts] ($type) $title [topic:$topic rev:$rev score:$((10#$score))]"
-        done
-        echo "  (grep fallback)" >&2
-    else
-        echo "No se encontraron resultados"
-    fi
-}
-
-cmd_context() {
-    [[ ! -f "$STORE_FILE" ]] && return
-    local limit=20 project=
-    while [[ $# -gt 0 ]]; do case "$1" in --limit) limit="$2"; shift 2;; --project) project="$2"; shift 2;; *) shift;; esac; done
-    echo "## Memoria Persistente" && echo ""
-    local src
-    if [[ -n "$project" ]]; then
-        src=$(grep "\"project\":\"$project\"" "$STORE_FILE" 2>/dev/null | tac | head -n "$limit")
-    else
-        src=$(tac "$STORE_FILE" | head -n "$limit")
-    fi
-    echo "$src" | while IFS= read -r line; do
-        [[ -z "$line" ]] && continue
-        local ts=$(echo "$line" | grep -o '"ts":"[^"]*"' | cut -d'"' -f4 | cut -d'T' -f1)
-        local type=$(echo "$line" | grep -o '"type":"[^"]*"' | cut -d'"' -f4)
-        local title=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
-        local topic=$(echo "$line" | grep -o '"topic_key":"[^"]*"' | cut -d'"' -f4)
-        echo "- [$ts] ($type) $title [$topic]"
-    done
-}
-
-cmd_stats() {
-    [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
-    local total=$(wc -l < "$STORE_FILE")
-    echo "Estadisticas — Total: $total entradas"
-    echo "Por tipo:" && grep -o '"type":"[^"]*"' "$STORE_FILE" | cut -d'"' -f4 | \
-        sort | uniq -c | sort -rn | awk '{ printf "  %s: %d\n", $2, $1 }'
-    echo "Por familia topic_key:" && grep -o '"topic_key":"[^/"]*' "$STORE_FILE" | \
-        cut -d'"' -f4 | sort | uniq -c | sort -rn | head -10 | \
-        awk '{ printf "  %s/: %d\n", $2, $1 }'
-    echo "Por concepto:" && grep -o '"concepts":\[[^]]*\]' "$STORE_FILE" | sed 's/.*\[//;s/\].*//' | \
-        tr ',' '\n' | tr -d '"' | sed '/^$/d' | sort | uniq -c | sort -rn | head -5 | \
-        awk '{ printf "  %s: %d\n", $2, $1 }'
-    echo "Revisiones (topic_keys con rev>1):" && grep -o '"rev":[0-9]*' "$STORE_FILE" | \
-        cut -d: -f2 | awk '$1>1{count++; sum+=$1} END{printf "  %d topics evolucionados, avg %.1f revs\n", count+0, (count>0?sum/count:0)}'
-}
-
-cmd_entity() {
-    local action="${1:-list}" query= etype= proj=
-    shift 2>/dev/null || true
-    while [[ $# -gt 0 ]]; do case "$1" in --type) etype="$2"; shift 2;; --project) proj="$2"; shift 2;; *) query="$1"; shift;; esac; done
-    [[ ! -f "$STORE_FILE" ]] && { echo "No hay entidades registradas"; return; }
-    if [[ "$action" == "list" ]]; then
-        echo "## Entidades Registradas"
-        grep '"type":"entity"' "$STORE_FILE" 2>/dev/null | while IFS= read -r line; do
-            local t=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
-            local c=$(echo "$line" | grep -o '"concepts":\[[^]]*\]' | sed 's/.*\[//;s/\].*//' | tr -d '"')
-            local p=$(echo "$line" | grep -o '"project":"[^"]*"' | cut -d'"' -f4)
-            [[ -n "$etype" && "$c" != *"$etype"* ]] && continue
-            [[ -n "$proj" && "$p" != "$proj" ]] && continue
-            echo "  - $t ($c) — proyecto: $p"
-        done
-    elif [[ "$action" == "find" ]]; then
-        [[ -z "$query" ]] && { echo "Uso: entity find {nombre}"; return; }
-        grep '"type":"entity"' "$STORE_FILE" 2>/dev/null | grep -i "$query" | while IFS= read -r line; do
-            local t=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
-            local c=$(echo "$line" | grep -o '"content":"[^"]*"' | sed 's/"content":"//' | sed 's/"$//')
-            local ts=$(echo "$line" | grep -o '"ts":"[^"]*"' | cut -d'"' -f4 | cut -d'T' -f1)
-            echo "$t — $ts: $c"
-        done
-    else echo "Uso: entity {list|find} [nombre] [--type tipo] [--project proj]"; fi
-}
-
+# --- Dispatcher ---
 cmd_suggest_topic() {
-    local type="${1:-}" title="${2:-}"
-    [[ -z "$type" || -z "$title" ]] && { echo "Uso: suggest-topic {type} {title}"; return; }
-    suggest_topic_key "$type" "$title"
-}
-
-cmd_session_summary() {
-    local goal= discoveries= accomplished= files= project=
-    while [[ $# -gt 0 ]]; do
-        case "$1" in
-            --goal) goal="$2"; shift 2 ;;
-            --discoveries) discoveries="$2"; shift 2 ;;
-            --accomplished) accomplished="$2"; shift 2 ;;
-            --files) files="$2"; shift 2 ;;
-            --project) project="$2"; shift 2 ;;
-            *) shift ;;
-        esac
-    done
-    [[ -z "$accomplished" ]] && { echo "Error: --accomplished requerido"; return 1; }
-    local content="Goal: ${goal:-not specified}"
-    [[ -n "$discoveries" ]] && content="$content | Discoveries: $discoveries"
-    content="$content | Accomplished: $accomplished"
-    [[ -n "$files" ]] && content="$content | Files: $files"
-    cmd_save --type "session-summary" --title "Session $(date +%Y-%m-%d)" \
-        --content "$content" --concepts "session" \
-        --topic "session/$(date +%Y-%m-%d)" ${project:+--project "$project"}
+    local t="${1:-}" ti="${2:-}"
+    [[ -z "$t" || -z "$ti" ]] && { echo "Uso: suggest-topic {type} {title}"; return 1; }
+    suggest_topic_key "$t" "$ti"
 }
 
 case "${1:-help}" in
@@ -307,38 +57,18 @@ case "${1:-help}" in
     index-status) python3 "$SCRIPT_DIR/memory-vector.py" status --store "$STORE_FILE" ;;
     benchmark) python3 "$SCRIPT_DIR/memory-vector.py" benchmark --store "$STORE_FILE" ;;
     *) cat <<'USAGE'
-Uso: memory-store.sh {command} [options]
+memory-store.sh {command} [options]
 
-Commands:
-  save              Save observation (supports --what/--why/--where/--learned)
-  search            Semantic search (vector) with grep fallback
-  context           Recent memories (progressive disclosure)
-  stats             Statistics by type, topic family, concept
-  entity            Entity memory (list/find)
-  suggest-topic     Suggest topic_key for type+title
-  session-summary   Save session summary (--goal/--discoveries/--accomplished/--files)
-  rebuild-index     Rebuild vector index from JSONL (requires pip deps)
-  index-status      Show vector index health
-  benchmark         Compare grep vs vector search quality
+Commands: save, search, context, stats, entity, suggest-topic,
+  session-summary, rebuild-index, index-status, benchmark
 
-Save options:
-  --type TYPE       Observation type (decision, bug, pattern, discovery, etc.)
-  --title TITLE     Brief identifier
-  --content TEXT    Free-form content (or use structured fields below)
-  --what TEXT       What happened
-  --why TEXT        Why it matters
-  --where TEXT      Where in the codebase
-  --learned TEXT    Key takeaway
-  --topic KEY       Topic key (auto-suggested if omitted: type/slug)
-  --concepts CSV    Comma-separated concept tags
-  --project NAME    Associated project
+Save: --type TYPE --title TITLE [--content TEXT] [--what/--why/--where/--learned]
+  [--topic KEY] [--concepts CSV] [--project NAME] [--expires DAYS]
 
-Search options:
-  --mode MODE       grep|vector|auto (default: auto — vector if available)
-  --type TYPE       Filter by observation type
-  --since DATE      Filter entries after YYYY-MM-DD
+Search: "query" [--type TYPE] [--since DATE] [--mode grep|vector|auto]
+  [--include-expired]
 
-Vector index auto-rebuilds when JSONL changes (if deps installed).
+Vector index auto-rebuilds on JSONL changes (if deps installed).
 Install: pip install sentence-transformers hnswlib
 USAGE
     ;;

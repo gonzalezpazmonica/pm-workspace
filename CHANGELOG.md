@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.32.1] — 2026-03-22
+
+Split memory-store.sh into 3 modules (75+127+100 lines, all under 150).
+
+### Changed
+
+- **Scripts**: `memory-store.sh` split into dispatcher (75 lines) + `memory-save.sh` (save/upsert/entity/session, 127 lines) + `memory-search.sh` (search/context/stats, 100 lines). All functions preserved, zero behavior change.
+
 ## [3.32.0] — 2026-03-22
 
 SPEC-019/020/021 implemented — contradiction tracking, TTL, hardware checks, zero telemetry.
@@ -4311,6 +4319,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
 [3.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.29.0...v3.30.0
