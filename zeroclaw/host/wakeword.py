@@ -9,10 +9,15 @@ import time
 import shutil
 
 KEYWORD = "savia"
+
+def _audio_env():
+    env = os.environ.copy()
+    env.setdefault("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}")
+    return env
 SAMPLE_RATE = 16000
 CHUNK_SECONDS = 2
-SILENCE_THRESHOLD = 500  # RMS energy — calibrate with --calibrate
-LISTEN_SECONDS = 4  # how long to record after wake detection
+SILENCE_THRESHOLD = 300  # RMS energy — calibrated with Jabra Evolve 65
+LISTEN_SECONDS = 4
 COOLDOWN_SECONDS = 3  # min gap between triggers
 
 
@@ -36,9 +41,10 @@ def _record_chunk(seconds=CHUNK_SECONDS):
     os.close(fd)
     try:
         subprocess.run(
-            ["arecord", "-f", "S16_LE", "-r", str(SAMPLE_RATE),
+            ["arecord", "-D", "pulse", "-f", "S16_LE", "-r", str(SAMPLE_RATE),
              "-c", "1", "-d", str(seconds), "-q", path],
-            timeout=seconds + 3, check=True, capture_output=True)
+            timeout=seconds + 3, check=True, capture_output=True,
+            env=_audio_env())
         return path
     except subprocess.SubprocessError:
         _cleanup(path)
@@ -65,24 +71,20 @@ def _match_keyword(wav_path):
 
 
 def calibrate():
-    """Measure ambient noise for 5 seconds. Shows RMS to help set threshold."""
+    """Measure ambient noise. Shows RMS to help set threshold."""
     print("Calibrating... stay quiet for 5 seconds.")
     readings = []
     for i in range(5):
         wav = _record_chunk(1)
-        if wav:
-            rms = _rms_energy(wav)
-            readings.append(rms)
-            print(f"  Sample {i+1}: RMS={rms}")
-            _cleanup(wav)
+        if not wav:
+            continue
+        rms = _rms_energy(wav)
+        readings.append(rms)
+        print(f"  Sample {i+1}: RMS={rms}")
+        _cleanup(wav)
     if readings:
         avg = sum(readings) // len(readings)
-        suggested = avg * 3
-        print(f"\nAmbient avg: {avg}")
-        print(f"Suggested threshold: {suggested}")
-        print(f"Current threshold: {SILENCE_THRESHOLD}")
-    else:
-        print("Could not record. Check mic.")
+        print(f"Ambient avg: {avg} | Suggested: {avg*3} | Current: {SILENCE_THRESHOLD}")
 
 
 def listen_loop(on_wake, threshold=SILENCE_THRESHOLD):

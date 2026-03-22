@@ -11,6 +11,12 @@ RECORD_SECONDS = 5
 SAMPLE_RATE = 16000
 WHISPER_MODEL = "base"
 
+def _audio_env():
+    """Env dict ensuring PipeWire/PulseAudio routing works."""
+    env = os.environ.copy()
+    env.setdefault("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}")
+    return env
+
 
 def check_deps():
     """Check available voice dependencies."""
@@ -34,7 +40,7 @@ def say(text, lang=LANG, rate=TTS_RATE):
         try:
             subprocess.run(
                 ["espeak-ng", "-v", lang, "-s", str(rate), text],
-                timeout=30, check=True)
+                timeout=30, check=True, env=_audio_env())
             return True
         except subprocess.SubprocessError:
             pass
@@ -42,7 +48,7 @@ def say(text, lang=LANG, rate=TTS_RATE):
         try:
             subprocess.run(
                 ["spd-say", "-l", lang, "-r", "-30", text],
-                timeout=10, check=True)
+                timeout=10, check=True, env=_audio_env())
             return True
         except subprocess.SubprocessError:
             pass
@@ -60,9 +66,10 @@ def record(seconds=RECORD_SECONDS, out_path=None):
         os.close(fd)
     try:
         subprocess.run(
-            ["arecord", "-f", "S16_LE", "-r", str(SAMPLE_RATE),
+            ["arecord", "-D", "pulse", "-f", "S16_LE", "-r", str(SAMPLE_RATE),
              "-c", "1", "-d", str(seconds), out_path],
-            timeout=seconds + 5, check=True, capture_output=True)
+            timeout=seconds + 5, check=True, capture_output=True,
+            env=_audio_env())
         return out_path
     except subprocess.SubprocessError as e:
         print(f"[voice] Record error: {e}")
@@ -109,21 +116,16 @@ def listen_and_respond(brain_fn, seconds=RECORD_SECONDS):
 
 
 def test_voice():
-    """Test TTS and recording capabilities."""
+    """Test TTS and recording."""
     deps = check_deps()
-    print("Voice deps:", {k: "OK" if v else "MISS" for k, v in deps.items()})
+    print("Deps:", {k: "OK" if v else "MISS" for k, v in deps.items()})
     if deps["espeak-ng"] or deps["spd-say"]:
-        ok = say("Hola, soy Savia.")
-        print(f"TTS: {'OK' if ok else 'FAILED'}")
-    else:
-        print("TTS: no backend. Install: sudo apt install espeak-ng")
+        print(f"TTS: {'OK' if say('Hola, soy Savia.') else 'FAILED'}")
     if deps["arecord"]:
         wav = record(seconds=2)
         if wav:
-            print(f"Record: OK ({os.path.getsize(wav)} bytes)")
+            print(f"Rec: OK ({os.path.getsize(wav)}B)")
             os.unlink(wav)
-        else:
-            print("Record: FAILED")
     if not deps["whisper"]:
         print("STT: pip3 install openai-whisper")
     return deps
