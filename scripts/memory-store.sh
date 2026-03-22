@@ -56,11 +56,16 @@ case "${1:-help}" in
     rebuild-index) python3 "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" ;;
     index-status) python3 "$SCRIPT_DIR/memory-vector.py" status --store "$STORE_FILE" ;;
     benchmark) python3 "$SCRIPT_DIR/memory-vector.py" benchmark --store "$STORE_FILE" ;;
+    build-graph) python3 "$SCRIPT_DIR/memory-graph.py" build --store "$STORE_FILE" ;;
+    graph-search) shift; python3 "$SCRIPT_DIR/memory-graph.py" search "$@" --store "$STORE_FILE" ;;
+    graph-status) python3 "$SCRIPT_DIR/memory-graph.py" status --store "$STORE_FILE" ;;
+    graph-entities) shift; python3 "$SCRIPT_DIR/memory-graph.py" entities "$@" --store "$STORE_FILE" ;;
     *) cat <<'USAGE'
 memory-store.sh {command} [options]
 
 Commands: save, search, context, stats, entity, suggest-topic,
-  session-summary, rebuild-index, index-status, benchmark
+  session-summary, rebuild-index, index-status, benchmark,
+  build-graph, graph-search, graph-status, graph-entities
 
 Save: --type TYPE --title TITLE [--content TEXT] [--what/--why/--where/--learned]
   [--topic KEY] [--concepts CSV] [--project NAME] [--expires DAYS]
