@@ -48,14 +48,14 @@ cmd_save() {
             rev=$(($(echo "$old_line" | grep -o '"rev":[0-9]*' | cut -d: -f2) + 1))
             # Atomic operation: write to temp file first, then atomic move
             local temp_file=$(mktemp)
-            grep -v "\"topic_key\":\"$topic_key\"" "$STORE_FILE" > "$temp_file" || true
+            grep -vF "\"topic_key\":\"$topic_key\"" "$STORE_FILE" > "$temp_file" || true
             mv "$temp_file" "$STORE_FILE"
         fi
     fi
 
     # Dedup (últimos 15 min) — skip if same hash exists recently
-    if [[ -f "$STORE_FILE" ]] && grep -q "\"hash\":\"$hash\"" "$STORE_FILE" 2>/dev/null; then
-        local recent_ts=$(grep "\"hash\":\"$hash\"" "$STORE_FILE" | tail -1 | grep -o '"ts":"[^"]*"' | cut -d'"' -f4)
+    if [[ -f "$STORE_FILE" ]] && grep -qF "\"hash\":\"$hash\"" "$STORE_FILE" 2>/dev/null; then
+        local recent_ts=$(grep -F "\"hash\":\"$hash\"" "$STORE_FILE" | tail -1 | grep -o '"ts":"[^"]*"' | cut -d'"' -f4)
         local recent_epoch=$(date -d "$recent_ts" +%s 2>/dev/null || echo 0)
         local cutoff=$(date -u -d '15 minutes ago' +%s 2>/dev/null || echo 0)
         if [[ $recent_epoch -gt $cutoff ]]; then echo "⊘ Duplicado omitido"; return 0; fi
