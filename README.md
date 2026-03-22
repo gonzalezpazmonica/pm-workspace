@@ -93,7 +93,7 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Infraestructura** — Multi-cloud (Azure, AWS, GCP) con detección automática, tier mínimo por defecto, y escalado solo con tu aprobación. Pipelines CI/CD configurables.
 
-**Memoria y contexto** — Memory store persistente (JSONL), entity recall, progressive disclosure, continuidad entre sesiones. Personal Vault (N3) con repo git independiente para datos del usuario, cifrado AES-256.
+**Memoria y contexto** — Memory store persistente (JSONL), entity recall, progressive disclosure, continuidad entre sesiones. Personal Vault (N3) con repo git independiente para datos del usuario, cifrado AES-256. Context Gate (SPEC-015) salta el scoring de skills en prompts triviales. Progressive Loading L0/L1/L2 (SPEC-012) reduce tokens de skills un 40-60%. Intelligent Compact (SPEC-016) extrae decisiones y correcciones antes de compactar — zero-loss. Session Memory Extraction (SPEC-013) persiste conocimiento al cerrar sesion.
 
 **Informes ejecutivos** — CEO report multi-proyecto, alertas de dirección, portfolio overview, DORA metrics, value stream mapping.
 
@@ -111,7 +111,9 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Savia Web** — Cliente web Vue.js 3 + TypeScript + Vite con 10 páginas de dashboards (sprints, deuda, DORA, capacidad, etc.) y 10 componentes ECharts. [Savia Bridge](scripts/savia-bridge.py) expone 8 endpoints de reporting (velocity, burndown, DORA, workload, quality, debt, cycle-time, portfolio). Script de deploy en `setup-savia-web.sh`. Detalles: [Savia Web](projects/savia-web/README.md)
 
-**SaviaClaw** — Savia en el mundo físico. ESP32 con LCD 16x2, firmware MicroPython (selftest, heartbeat, comandos JSON, WiFi). Host daemon con reconexión automática, señales, watchdog y status file. Brain Bridge: pregunta al ESP32 → Claude CLI → respuesta en LCD. Pipeline de voz (TTS espeak-ng/spd-say + STT whisper, offline-first). 7 guardrails deterministas (size, rate, PII, storage, command, cleanup, audit). 39 tests sin hardware. [Roadmap](zeroclaw/ROADMAP.md)
+**SaviaClaw** — Savia en el mundo fisico. ESP32 con LCD 16x2, firmware MicroPython (selftest, heartbeat, comandos JSON, WiFi). Host daemon con reconexion automatica. Brain Bridge: ESP32 → Claude CLI → LCD. Savia Voice v2.4: daemon full-duplex con Silero VAD + faster-whisper + Claude stream-json + Kokoro TTS local (200ms/frase). Conversation model con clasificacion de overlaps (backchannel/stop/collaborative). Pre-cache de 64 frases para latencia cero. 7 guardrails deterministas. 77 tests sin hardware. [Roadmap](zeroclaw/ROADMAP.md)
+
+**Soberania de dependencias** — SPEC-017: USB de 32GB que contiene Savia completa para instalacion offline. Python standalone, pip wheels, modelos Whisper/Kokoro/Ollama, ffmpeg, jq, Node.js, Claude Code. 4 tiers (4-20GB). SaviaOS: distro Ubuntu minimal booteable desde USB, arranca en cualquier PC x86_64 sin tocar el disco. `sovereignty-pack.sh` prepara el USB desde maquina con internet.
 
 ---
 
