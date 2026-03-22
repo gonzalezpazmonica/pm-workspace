@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ab468b027e457edab472d93f207a6dc37f921791958b76933d38f4c72b78fe4a
-timestamp=2026-03-22T15:32:42Z
+diff_hash=67d302eccbfc5b108e2e9326240dc19d6455f4f722a9247f75efc5c542209d54
+timestamp=2026-03-22T15:33:39Z
 branch=feat/roadmap-specs-batch
-head_commit=cd22ba8
-signature=694d72eda533999ba12a387e4c656ddecd6561a5bbfa91603ced26e0812fef78
+head_commit=7a1f283
+signature=94bc4868b34c8269b23e3af2332bd2a35662cb710fa269d5f7309dfafcc6ceea
