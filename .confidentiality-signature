@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=6c78bc71a1b7c5fa9451aba87d795b72bc76ae5dbdb2a0f4dbba9cab973dbc9f
-timestamp=2026-03-22T10:40:20Z
+timestamp=2026-03-22T10:45:27Z
 branch=fix/pr-signing-protocol
-head_commit=5d10570
+head_commit=1451e64
 signature=3a6ed8ad3a3f0d8a4e5992cb722a1b751fffb4e9ef2a9521dc3f4998ad661b13
