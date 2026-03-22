@@ -41,6 +41,7 @@ Um das Beste aus mir herauszuholen:
 4. **Regelmaessig komprimieren** — `/compact` bei 50% Kontext
 
 ---
+Como funciona por dentro en detalle: **[Mi Sistema de Memoria](docs/memory-architecture.md)**
 
 ## Datenschutz und Telemetrie
 

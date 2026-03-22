@@ -44,7 +44,7 @@ Spec (SDD)  ──→  Agente implementa  ──→  Code review  ──→  Tes
 Memoria  ──→  Entity recall  ──→  Context load  ──→  Continuidad entre sesiones
 ```
 
-Más detalle en la [Guía de flujo de datos](docs/data-flow-guide-es.md).
+Mas detalle en la [Guia de flujo de datos](docs/data-flow-guide-es.md) y en **[Mi Sistema de Memoria](docs/memory-architecture.md)** — como persisto en texto plano, busco por significado y aprendo de cada sesion.
 
 ---
 
