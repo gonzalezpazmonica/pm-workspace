@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=59fd110b5344f6889236d9cbc1051b3ba348ece91981b62ea6801c303f6a7f8b
-timestamp=2026-03-22T15:16:44Z
-branch=feat/readiness-check
-head_commit=4950a3d
-signature=b307c1b6d2cb4aee42e2b7ac3fd74e0c99b5e9b9e2090ac0a0e6772d932b423b
+diff_hash=ab468b027e457edab472d93f207a6dc37f921791958b76933d38f4c72b78fe4a
+timestamp=2026-03-22T15:32:42Z
+branch=feat/roadmap-specs-batch
+head_commit=cd22ba8
+signature=694d72eda533999ba12a387e4c656ddecd6561a5bbfa91603ced26e0812fef78
