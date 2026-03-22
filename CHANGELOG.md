@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.36.0] — 2026-03-22
+
+SPEC-024 — Doc audit: CONTRIBUTING.md and SECURITY.md rewritten in Savia's first person voice.
+
+### Changed
+
+- **Docs**: `CONTRIBUTING.md` — rewritten as Savia speaking directly to contributors. Updated testing commands to current suite (run-all.sh, validate-ci-local.sh). Mentions 9 languages.
+- **Docs**: `SECURITY.md` — rewritten as Savia explaining how she protects data. Added zero telemetry section, mentions block-credential-leak.sh hook, updated version table to 3.x.
+
 ## [3.35.0] — 2026-03-22
 
 SPEC-022 Phase 1 — Budget Guard + PM Keybindings.
@@ -4354,6 +4363,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.35.0...v3.36.0
 [3.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.34.0...v3.35.0
 [3.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.33.0...v3.34.0
 [3.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.1...v3.33.0

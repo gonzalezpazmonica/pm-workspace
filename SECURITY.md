@@ -1,48 +1,50 @@
-# Security Policy
+# Seguridad — PM-Workspace
 
-## Supported Versions
+Soy Savia, y la seguridad de tus datos es lo primero que protejo. Aqui explico como funciono por dentro y que hacer si encuentras un problema.
 
-| Version | Supported |
-|---------|-----------|
-| 0.1.x   | ✅ Active  |
+## Versiones soportadas
 
-## Sensitive Data in This Project
+| Version | Estado |
+|---------|--------|
+| 3.x | Activa |
 
-PM-Workspace handles configuration that, if exposed, could compromise your Azure DevOps organisation. Be aware of the following:
+## Datos sensibles que manejo
 
-**Never commit these files:**
-- `.claude/.env` — contains `AZURE_DEVOPS_EXT_PAT` and other secrets
-- `$HOME/.azure/devops-pat` — your Personal Access Token file
-- Any file containing real project names, organisation URLs, or team names if your organisation requires confidentiality
+Trabajo con configuracion que, si se expone, podria comprometer tu organizacion. Tengo claro que estos ficheros NUNCA deben ir al repositorio:
 
-The `.gitignore` included in this repository already excludes `.env` files. Review it before your first commit and extend it as needed for your organisation's policies.
+- `CLAUDE.local.md` — configuracion privada de tu organizacion
+- `$HOME/.azure/devops-pat` — tu Personal Access Token
+- `config.local/` — secrets de entornos (connection strings, API keys)
+- `projects/` — datos de proyectos de clientes (gitignored por defecto)
 
-**What a compromised PAT allows:**
-An Azure DevOps PAT with the scopes required by this workspace (Work Items Read/Write, Analytics Read, Code Read) allows reading all work items, iterations, and source code in the configured projects, and writing work item state changes. Treat it with the same care as a password.
+Mi `.gitignore` ya excluye todo esto. Ademas, mi hook `block-credential-leak.sh` revisa cada commit buscando patrones de secrets antes de dejarte pushear.
 
-**If you accidentally commit a PAT:**
-1. Immediately revoke the token in Azure DevOps (User Settings → Personal Access Tokens).
-2. Generate a new PAT with the same scopes.
-3. Use `git filter-repo` or BFG Repo Cleaner to remove the secret from git history before pushing.
-4. Force-push the cleaned history and notify your team.
+**Que permite un PAT comprometido:** leer todos los work items, iteraciones y codigo fuente de los proyectos configurados, y escribir cambios de estado. Tratalo como una contrasena.
 
-## Reporting a Vulnerability
+**Si commiteas un PAT por accidente:**
+1. Revoca el token inmediatamente en Azure DevOps
+2. Genera uno nuevo con los mismos scopes
+3. Usa `git filter-repo` para limpiar el historial
+4. Force-push y notifica a tu equipo
 
-If you discover a security vulnerability in PM-Workspace itself (e.g. a script that leaks credentials, a command that exposes sensitive data in logs, or an unsafe default configuration), please **do not open a public GitHub issue**.
+## Zero telemetria
 
-Instead:
+No envio datos a ningun servidor. No hay analytics, no hay tracking, no hay phone-home. Todo se ejecuta localmente. Verificable: ningun script mio hace peticiones HTTP salvo a las APIs que tu configuras (Azure DevOps, GitHub).
 
-1. Go to the repository on GitHub.
-2. Click **Security** → **Report a vulnerability** (GitHub's private advisory feature).
-3. Describe the vulnerability, the steps to reproduce it, and the potential impact.
+## Reportar una vulnerabilidad
 
-You will receive an acknowledgement within **72 hours** and a resolution plan within **14 days** for confirmed vulnerabilities. We follow responsible disclosure: we will credit you in the release notes unless you prefer to remain anonymous.
+Si descubres un problema de seguridad (un script que filtra credenciales, un comando que expone datos en logs, o una configuracion insegura por defecto), **NO abras un issue publico**.
 
-## Security Considerations for Contributors
+En su lugar:
+1. Ve al repositorio en GitHub
+2. Click **Security** > **Report a vulnerability**
+3. Describe el problema, pasos para reproducirlo, e impacto potencial
 
-When contributing:
+Recibiras acuse en **72 horas** y plan de resolucion en **14 dias**. Te acredito en las release notes salvo que prefieras anonimato.
 
-- Never include real PATs, organisation URLs, or project names in examples, tests, or documentation.
-- The mock data in `projects/sala-reservas/test-data/` uses only fictional organisation names and IDs — keep it that way.
-- Do not add scripts that make outbound HTTP requests to third-party services without explicit documentation and user consent.
-- If your contribution involves credential handling, it must follow the existing pattern: read from a file path configured by the user, never hardcode or prompt for inline input.
+## Para contributors
+
+- Nunca incluyas PATs, URLs de organizacion, o nombres de proyecto reales
+- Los datos de mock usan solo nombres ficticios — mantenlo asi
+- No añadas scripts que hagan peticiones HTTP a terceros sin documentacion
+- Si tu contribucion maneja credenciales, sigue mi patron: leer de fichero, nunca hardcodear

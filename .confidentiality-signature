@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=dcf2386b54632a6861f7728c117cc14583d94f4a60342f9d674b7f7d139b8f8c
-timestamp=2026-03-22T17:28:26Z
-branch=feat/spec-022-power-cli
-head_commit=a098b76
-signature=db21941c5565459cde5047e706422dee260b7524e527f58b607979fbeafa496d
+diff_hash=526e3570666530ecff49d985c5ec8253a836572591342a3793db5d62b0c1da37
+timestamp=2026-03-22T17:39:58Z
+branch=feat/spec-024-doc-audit
+head_commit=18a2dc0
+signature=a86d46f811e86da4a2e63bdb1d348cc0142fc5727aba113372a3c93a1ad889f9
