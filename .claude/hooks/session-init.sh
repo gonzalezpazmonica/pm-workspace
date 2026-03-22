@@ -136,6 +136,19 @@ if [ -n "$TRACKER_SCRIPT" ]; then
   bash "$TRACKER_SCRIPT" log "session-init" "identity.md" "50" 2>/dev/null &
 fi
 
+# ── Readiness check (ligero: solo verifica stamp) ─────────────────────────────
+check_timeout
+READINESS_STAMP="$HOME/.pm-workspace/.readiness-stamp"
+if [ ! -f "$READINESS_STAMP" ] 2>/dev/null; then
+  ITEMS+=("Readiness: no verificado — bash scripts/readiness-check.sh")
+else
+  STAMP_DATE=$(cat "$READINESS_STAMP" 2>/dev/null || echo "0")
+  CURRENT_HASH=$(git -C "${HOME}/claude" rev-parse --short HEAD 2>/dev/null || echo "x")
+  if [ "$STAMP_DATE" != "$CURRENT_HASH" ]; then
+    ITEMS+=("Readiness: actualizado — bash scripts/readiness-check.sh")
+  fi
+fi
+
 # ── Variables de entorno ─────────────────────────────────────────────────────
 if [ -n "${CLAUDE_ENV_FILE:-}" ]; then
   echo "export PM_WORKSPACE_ROOT=$HOME/claude" >> "$CLAUDE_ENV_FILE"
