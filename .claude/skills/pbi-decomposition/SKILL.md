@@ -1,6 +1,11 @@
 ---
 name: pbi-decomposition
 description: Descomponer PBIs en Tasks, estimar en horas y asignar inteligentemente
+summary: |
+  Descompone PBI en tasks tecnicas con estimacion en horas.
+  Usa architect (capas) y business-analyst (criterios).
+  Input: PBI con acceptance criteria. Output: tasks asignables.
+  Minimo 3 tasks por PBI.
 maturity: stable
 context: fork
 context_cost: high

@@ -1,6 +1,10 @@
 ---
 name: capacity-planning
 description: Gestión completa de capacidades del equipo - consulta, cálculo y alertas
+summary: |
+  Calcula capacidad del equipo: horas disponibles, focus factor,
+  alertas de sobre-asignacion. Consulta Azure DevOps iterations API.
+  Output: tabla de capacidad por persona + alertas.
 maturity: stable
 context: fork
 agent: azure-devops-operator

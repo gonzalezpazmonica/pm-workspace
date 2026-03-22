@@ -1,6 +1,6 @@
 # SPEC-012: L0/L1/L2 Progressive Loading for Skills and Rules
 
-> Status: **DRAFT** · Fecha: 2026-03-22
+> Status: **PHASE 1 DONE** · Fecha: 2026-03-22 · Phase 1 implementada: 2026-03-22
 > Origen: OpenViking (volcengine) — filesystem-based context tiering
 > Impacto: -40-60% tokens en carga de skills
 

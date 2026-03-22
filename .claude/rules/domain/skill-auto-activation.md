@@ -23,9 +23,20 @@ Si cumple CUALQUIERA de estas condiciones → NO evaluar skills, responder direc
 
 Si NINGUNA condición aplica → continuar con el Protocolo de scoring (Paso 1+).
 
+## Progressive Loading L0/L1/L2 [SPEC-012]
+
+| Nivel | Contenido | Tokens | Cuando |
+|-------|-----------|--------|--------|
+| L0 | name + description (frontmatter) | ~10-15 | Siempre disponible en catalogo |
+| L1 | summary (3-5 lineas en frontmatter) | ~40-60 | Al identificar skill relevante (scoring) |
+| L2 | SKILL.md completo + references | ~100-500 | Solo durante ejecucion del skill |
+
+Flujo: L0 para scoring → L1 si score >=70% (decision) → L2 solo al ejecutar.
+Tras ejecucion: descartar L2, mantener L1 en contexto.
+
 ## Protocolo
 
-1. **Detección**: Al recibir un prompt, evaluar si algún skill disponible tiene relevancia >70%
+1. **Detección**: Al recibir un prompt, evaluar contra L0 (name+description). Si score >70%, cargar L1 (summary)
 2. **Sugerencia**: Si se detecta match, informar al usuario: "Skill `{nombre}` podría ayudar aquí. ¿Lo activo?"
 3. **Confirmación**: NUNCA activar sin confirmación explícita del usuario
 4. **Registro**: Registrar cada activación y su resultado en `.claude/skills/eval-registry.json`

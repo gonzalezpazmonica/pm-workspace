@@ -1,6 +1,10 @@
 ---
 name: product-discovery
 description: Análisis de descubrimiento de producto - JTBD y PRD antes de descomposición
+summary: |
+  Analisis pre-implementacion: Jobs-to-be-Done y PRD.
+  Cuando: antes de descomponer un PBI en tasks.
+  Output: JTBD document + PRD con requisitos formalizados.
 maturity: stable
 context: fork
 agent: business-analyst

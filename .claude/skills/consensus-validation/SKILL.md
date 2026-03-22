@@ -1,6 +1,10 @@
 ---
 name: consensus-validation
 description: Orquestación de 4-judge panel (reflection, code-review, business, performance)
+summary: |
+  Panel de 4 jueces: reflection, code-review, business, performance.
+  Cada juez evalua independientemente. Score ponderado 0-1.0.
+  Veto rule: security/GDPR finding anula score. Output: JSON.
 maturity: stable
 context: fork
 agent: consensus-orchestrator

@@ -1,6 +1,10 @@
 ---
 name: spec-driven-development
 description: Specs ejecutables para desarrolladores humanos y agentes Claude
+summary: |
+  Genera specs ejecutables como contratos de implementacion.
+  Flujo: analyst -> architect -> spec-writer -> developer -> test -> review.
+  Input: Task de Azure DevOps. Output: spec.md accionable por agentes.
 maturity: stable
 context: fork
 context_cost: high
