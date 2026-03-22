@@ -248,6 +248,15 @@ do_install() {
   echo ""
   log_ok "Tus perfiles, proyectos y configuracion local estan intactos"
   write_config "last_check" "$(date +%s)"
+
+  # Run readiness check post-update (auto-adaptation)
+  local readiness_script="$REPO_DIR/scripts/readiness-check.sh"
+  if [ -f "$readiness_script" ]; then
+    echo ""
+    echo -e "${CYAN}Ejecutando readiness check post-update...${NC}"
+    bash "$readiness_script" || log_warn "Readiness check reporto problemas. Revisa arriba."
+  fi
+
   return 0
 }
 
