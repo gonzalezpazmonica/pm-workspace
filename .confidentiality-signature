@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8a28667df43ae6ccc3fcf8b45e561971aec90a5c1a30024368c3971b1e495b47
-timestamp=2026-03-22T11:12:02Z
-branch=docs/roadmap-sync-v3.25
-head_commit=6962942
-signature=c0f00f60f4aa25272511fd6a7cecceb652b6b8ab7ed301ec1bce17afaf0a57c1
+diff_hash=dcadcc1a25d0eb25a70e18156953370af1600bcb84de51ce412915902ace24cb
+timestamp=2026-03-22T11:39:54Z
+branch=feat/spec-012-phase2-remaining-skills
+head_commit=5e242df
+signature=166e630fd482f195dce4249e55d2f1e864163a422c5a79dd288ecaaee3dc1a63
