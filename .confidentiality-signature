@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6c78bc71a1b7c5fa9451aba87d795b72bc76ae5dbdb2a0f4dbba9cab973dbc9f
-timestamp=2026-03-22T10:45:27Z
-branch=fix/pr-signing-protocol
-head_commit=1451e64
-signature=3a6ed8ad3a3f0d8a4e5992cb722a1b751fffb4e9ef2a9521dc3f4998ad661b13
+diff_hash=3a99fe20015179db687d2284d026cdeea52fd41cb3315a47577bd344990af120
+timestamp=2026-03-22T10:58:46Z
+branch=docs/readme-new-features
+head_commit=5f76f10
+signature=9830cd0dd64e5686e72b081ef540ecfde54628d93151b2a7fb6b270fd2b17f36
