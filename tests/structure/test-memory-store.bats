@@ -131,6 +131,32 @@ teardown() {
     [ "$status" -ne 0 ]
 }
 
+@test "SPEC-019: upsert tracks supersedes when content changes" {
+    bash "$SCRIPT" save --type decision --title "Auth" --content "JWT tokens" --topic "decision/auth"
+    bash "$SCRIPT" save --type decision --title "Auth" --content "OAuth2 with PKCE" --topic "decision/auth"
+    grep -q '"supersedes":"JWT tokens"' "$STORE_FILE"
+    grep -q '"rev":2' "$STORE_FILE"
+}
+
+@test "SPEC-019: upsert no supersedes when content identical" {
+    bash "$SCRIPT" save --type decision --title "DB" --content "PostgreSQL" --topic "decision/db"
+    bash "$SCRIPT" save --type decision --title "DB" --content "PostgreSQL" --topic "decision/db"
+    # supersedes should NOT appear (same content = refresh, not change)
+    ! grep -q '"supersedes"' "$STORE_FILE"
+}
+
+@test "SPEC-020: save with --expires sets expires_at" {
+    run bash "$SCRIPT" save --type discovery --title "Temp info" --content "Sprint ends Friday" --expires 30
+    [ "$status" -eq 0 ]
+    grep -q '"expires_at":"' "$STORE_FILE"
+}
+
+@test "SPEC-020: save without --expires has no expires_at" {
+    run bash "$SCRIPT" save --type decision --title "Permanent" --content "Always true"
+    [ "$status" -eq 0 ]
+    ! grep -q '"expires_at"' "$STORE_FILE"
+}
+
 @test "help: shows usage with all commands" {
     run bash "$SCRIPT" help
     [ "$status" -eq 0 ]

@@ -40,7 +40,7 @@ suggest_topic_key() {
 }
 
 cmd_save() {
-    local type= title= content= concepts= topic_key= project= rev=1
+    local type= title= content= concepts= topic_key= project= rev=1 expires_days=
     local what= why= where= learned=
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -54,6 +54,7 @@ cmd_save() {
             --why) why="$2"; shift 2 ;;
             --where) where="$2"; shift 2 ;;
             --learned) learned="$2"; shift 2 ;;
+            --expires) expires_days="$2"; shift 2 ;;
             *) shift ;;
         esac
     done
@@ -99,11 +100,23 @@ cmd_save() {
         concepts_json="$concepts_json]"
     fi
 
-    # UPSERT por topic_key (atomic write with mv)
+    # SPEC-020: Calculate expires_at from --expires DAYS
+    local expires_at="null"
+    if [[ -n "$expires_days" ]]; then
+        expires_at=$(date -u -d "+${expires_days} days" +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || date -u -v "+${expires_days}d" +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || echo "null")
+    fi
+
+    # UPSERT por topic_key with SPEC-019 contradiction tracking
+    local supersedes="null"
     if [[ -n "$topic_key" && "$topic_key" != "null" && -f "$STORE_FILE" ]]; then
         local old_line=$(grep -F "\"topic_key\":\"$topic_key\"" "$STORE_FILE" 2>/dev/null | tail -1 || true)
         if [[ -n "$old_line" ]]; then
             rev=$(($(echo "$old_line" | grep -o '"rev":[0-9]*' | cut -d: -f2) + 1))
+            # SPEC-019: Track what this entry supersedes
+            local old_content=$(echo "$old_line" | grep -o '"content":"[^"]*"' | sed 's/"content":"//;s/"$//' | head -c 200)
+            if [[ -n "$old_content" && "$old_content" != "$content" ]]; then
+                supersedes="$old_content"
+            fi
             local temp_file=$(mktemp)
             grep -vF "\"topic_key\":\"$topic_key\"" "$STORE_FILE" > "$temp_file" || true
             mv "$temp_file" "$STORE_FILE"
@@ -117,7 +130,12 @@ cmd_save() {
         local cutoff=$(date -u -d '15 minutes ago' +%s 2>/dev/null || echo 0)
         if [[ $recent_epoch -gt $cutoff ]]; then echo "⊘ Duplicado omitido"; return 0; fi
     fi
-    echo "{\"ts\":\"$now\",\"type\":\"$type\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev}" >> "$STORE_FILE"
+    # Build JSON — include supersedes and expires_at only when set
+    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev"
+    [[ "$supersedes" != "null" ]] && json="$json,\"supersedes\":\"$supersedes\""
+    [[ "$expires_at" != "null" ]] && json="$json,\"expires_at\":\"$expires_at\""
+    json="$json}"
+    echo "$json" >> "$STORE_FILE"
     echo "✓ Guardado: $title (topic: $topic_key, rev: $rev)"
     # Trigger async index rebuild if deps available
     _maybe_rebuild_index
@@ -125,8 +143,8 @@ cmd_save() {
 
 cmd_search() {
     [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
-    local query= type_filter= since_date= mode="auto"
-    while [[ $# -gt 0 ]]; do case "$1" in --type) type_filter="$2"; shift 2;; --since) since_date="$2"; shift 2;; --mode) mode="$2"; shift 2;; *) query="$1"; shift;; esac; done
+    local query= type_filter= since_date= mode="auto" include_expired=false
+    while [[ $# -gt 0 ]]; do case "$1" in --type) type_filter="$2"; shift 2;; --since) since_date="$2"; shift 2;; --mode) mode="$2"; shift 2;; --include-expired) include_expired=true; shift;; *) query="$1"; shift;; esac; done
     [[ -z "$query" ]] && { echo "Uso: search \"query\" [--type tipo] [--since YYYY-MM-DD] [--mode grep|vector|auto]"; return; }
 
     # Try vector search first (auto or explicit vector mode)
@@ -157,6 +175,15 @@ for r in d['results']:
         local ts type title topic score=0
         ts=$(echo "$line" | grep -o '"ts":"[^"]*"' | cut -d'"' -f4 | cut -d'T' -f1)
         [[ -n "$since_date" && "$ts" < "$since_date" ]] && continue
+        # SPEC-020: Filter expired entries
+        if [[ "$include_expired" != "true" ]]; then
+            local exp=$(echo "$line" | grep -o '"expires_at":"[^"]*"' | cut -d'"' -f4 || true)
+            if [[ -n "$exp" ]]; then
+                local exp_epoch=$(date -d "$exp" +%s 2>/dev/null || echo 9999999999)
+                local now_epoch=$(date -u +%s)
+                [[ $now_epoch -gt $exp_epoch ]] && continue
+            fi
+        fi
         type=$(echo "$line" | grep -o '"type":"[^"]*"' | cut -d'"' -f4)
         [[ -n "$type_filter" && "$type" != "$type_filter" ]] && continue
         title=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)

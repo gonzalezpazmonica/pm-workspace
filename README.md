@@ -160,6 +160,12 @@ Ni yo misma las salto: no hardcodear PATs, confirmar antes de escribir en Azure 
 
 ---
 
+## Privacidad y Telemetria
+
+**Zero telemetria.** pm-workspace no envia datos a ningun servidor. No hay analytics, no hay tracking, no hay phone-home. Todo se ejecuta localmente. La busqueda vectorial usa un modelo local (22 MB). Los embeddings se generan en tu CPU. Los datos de tus proyectos nunca salen de tu maquina. Offline-first por diseno.
+
+---
+
 ## Contribuir
 
 Con `/contribute` puedes crear PRs directamente. Con `/feedback` abrir issues. Antes de enviar, valido que no haya datos privados. Tu privacidad es lo primero.
