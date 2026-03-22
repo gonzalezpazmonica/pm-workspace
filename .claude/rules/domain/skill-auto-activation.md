@@ -9,6 +9,20 @@ description: Regla para activación inteligente de skills basada en contexto
 
 Cada vez que el usuario inicia una interacción que podría beneficiarse de un skill especializado.
 
+## Paso 0 — Context Gate (fast-path) [SPEC-015]
+
+ANTES de evaluar skills, verificar si el prompt es trivialmente clasificable.
+Si cumple CUALQUIERA de estas condiciones → NO evaluar skills, responder directamente:
+
+1. **Slash command**: prompt empieza con `/` → el comando ya es explícito
+2. **Confirmación simple**: prompt es sí/no/ok/vale/claro/cancelar/hecho/listo
+3. **Saludo o despedida**: hola/adiós/gracias/buenos días/hasta luego
+4. **Corrección directa**: "no eso no", "cambia X por Y", "para", "deshaz"
+5. **Prompt ultra-corto**: <= 4 palabras sin sustantivos técnicos (sprint, spec, pipeline, deploy, etc.)
+6. **Respuesta a pregunta de Savia**: el turno anterior de Savia terminó con `?`
+
+Si NINGUNA condición aplica → continuar con el Protocolo de scoring (Paso 1+).
+
 ## Protocolo
 
 1. **Detección**: Al recibir un prompt, evaluar si algún skill disponible tiene relevancia >70%

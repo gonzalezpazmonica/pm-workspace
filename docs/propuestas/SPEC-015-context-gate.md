@@ -1,6 +1,6 @@
 # SPEC-015: Context Gate for Skill Auto-Activation
 
-> Status: **DRAFT** · Fecha: 2026-03-22
+> Status: **IMPLEMENTED** · Fecha: 2026-03-22 · Implementado: 2026-03-22
 > Origen: Fabrik-Codek — context gate heuristic
 > Impacto: Eliminar scoring innecesario en prompts triviales
 
