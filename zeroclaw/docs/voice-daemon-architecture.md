@@ -105,39 +105,46 @@ Turno 2+: claude -p --resume <session_id> --output-format stream-json ...
 
 ---
 
-## Componentes del daemon
+## Componentes del daemon (v2.4)
 
-### 1. AudioCapture
-- sounddevice InputStream 16kHz mono
-- Buffer circular
+### 1. Audio + VAD + STT (audio.py)
+- sounddevice InputStream 16kHz mono con callback non-blocking
+- Silero VAD: <1ms/chunk, threshold/silence_timeout configurables
+- faster-whisper (tiny por defecto): ~0.9s, initial_prompt configurable
+- Whisper prompt se lee de fichero o usa vocabulario Savia por defecto
 
-### 2. VADDetector
-- Silero VAD, <1ms/chunk
-- Detecta inicio/fin de habla
-- Configurable: threshold, silence timeout
+### 2. Conversation Model (conversation_model.py) — NUEVO v2.4
+- Basado en Sacks-Schegloff-Jefferson turn-taking (1974)
+- Clasifica overlaps: backchannel, collaborative, stop, followup
+- Backchannels ("si", "claro", "vale") se ignoran — Savia sigue hablando
+- Solo comandos explicitos ("para", "callate") interrumpen
+- El resto se guarda como follow-up para procesar tras el turno de Savia
 
-### 3. Transcriber
-- faster-whisper tiny, ~0.9s
-- initial_prompt con vocabulario del workspace
-- El prompt se lee de un fichero configurable
+### 3. SessionManager (session.py) — Streaming por frases
+- Claude Code stream-json + resume para sesion persistente
+- Yield frase a frase (split en punto/coma) para streaming TTS
+- Fillers asincrono: "Pues mira..." si LLM tarda >3s (via TTSCache)
+- Stalls: "Dejame que lo mire" si >8s
+- Timeout configurable (60s por defecto)
 
-### 4. SessionManager (NUEVO - pieza clave)
-- Gestiona proceso claude -p con stream-json
-- Mantiene session_id entre turnos
-- Parsea NDJSON stdout
-- Extrae texto de respuesta (parcial o completa)
-- Timeout y error handling
+### 4. TTSSynthesizer (tts.py) — Kokoro local + edge-tts fallback
+- Kokoro 82M (local, 24kHz, ~200ms/frase) como engine principal
+- edge-tts (Elvira es-ES) como fallback si Kokoro no disponible
+- Cola de reproduccion thread-safe (queue + playback loop)
+- cancel() para barge-in: para audio, vacia cola
+- is_playing property para deteccion de overlaps
 
-### 5. TTSSynthesizer
-- edge-tts (Elvira es-ES por defecto)
-- Voz configurable por fichero local
-- Lead-in silence configurable
-- Conversion mp3 → wav → sounddevice
+### 5. TTS Pre-Cache (tts_cache.py) — NUEVO v2.4
+- 20 respuestas exactas pre-generadas (0ms latencia)
+- 20 fillers contextuales por categoria (inicio, reflexion, empatia...)
+- 24 stalls por tipo de tarea (buscando, pensando, investigando...)
+- Warm desde disco (WAVs pre-generados) o desde Kokoro en runtime
+- generate_cache.py para pre-generar y commitear a git
 
-### 6. Config (NUEVO)
-- Fichero config.yaml (gitignored) para datos del usuario
-- Defaults sensatos sin config (funciona out of the box)
-- Whisper prompt leido de fichero (extensible)
+### 6. Config (config.py)
+- YAML: config.default.yaml (en git) + config.local.yaml (gitignored)
+- Deep merge de defaults → default.yaml → local.yaml
+- Soporta Kokoro o edge-tts como engine TTS
 
 ---
 
@@ -145,14 +152,19 @@ Turno 2+: claude -p --resume <session_id> --output-format stream-json ...
 
 ```
 zeroclaw/savia-voice/
-├── daemon.py              ← Orquestador principal
-├── audio.py               ← AudioCapture + VADDetector
-├── transcriber.py         ← Wrapper faster-whisper
-├── session.py             ← SessionManager (claude stream-json)
-├── tts.py                 ← TTSSynthesizer (edge-tts)
-├── config.py              ← Carga de config
+├── daemon.py              ← Orquestador principal (full-duplex + conversation model)
+├── audio.py               ← VAD (Silero) + STT (faster-whisper)
+├── conversation_model.py  ← Clasificacion de overlaps (barge-in, backchannel)
+├── session.py             ← SessionManager (claude stream-json + resume)
+├── tts.py                 ← TTSSynthesizer (Kokoro local + edge-tts fallback)
+├── tts_cache.py           ← Pre-cache de muletillas, fillers y stalls
+├── text_utils.py          ← Segmentacion de frases para streaming TTS
+├── config.py              ← Carga de config (default + local override)
 ├── config.default.yaml    ← Defaults (en git)
 ├── config.local.yaml      ← Overrides del usuario (gitignored)
+├── generate_cache.py      ← Script para pre-generar audio cache en disco
+├── voice-prompt.md        ← System prompt para modo voz
+├── test_e2e.py            ← Tests end-to-end del daemon
 └── requirements.txt       ← Dependencias pip
 ```
 

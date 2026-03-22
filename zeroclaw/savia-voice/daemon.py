@@ -174,14 +174,10 @@ def main():
             tts.queue_sentence(sentence, first=(n == 1))
 
         tts.wait_done()
-            t3 = time.time()
-            fa = f" FA:{fa_time-t1:.1f}s" if fa_time else ""
-            print(f"[timing] STT:{t1-t0:.1f}s{fa} "
-                  f"Total:{t3-t0:.1f}s ({n} frases)")
-            print("[mic] Escuchando...\n")
-        finally:
-            with lock:
-                state["pipeline_active"] = False
+        t_end = time.time()
+        fa = f" FA:{fa_time-t_start:.1f}s" if fa_time else ""
+        print(f"[timing]{fa} Total:{t_end-t_start:.1f}s ({n} frases)")
+        print("[mic] Escuchando...\n")
 
     with sd.InputStream(
         samplerate=SR, channels=CH, blocksize=BLOCKSIZE,

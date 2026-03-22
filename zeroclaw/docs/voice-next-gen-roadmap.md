@@ -93,19 +93,28 @@ abierto se necesita AEC (speexdsp o webrtcvad).
 - "Sigo trabajando" cada 8s adicionales
 - Timeout 60s en vez de 30s
 
-### v2.2 — Streaming TTS por frases
-- Leer stream_event de Claude Code
-- Acumular tokens hasta punto/coma
-- Lanzar TTS por frase, reproducir en secuencia
-- First-audio target: <4s
+### v2.2 — Streaming TTS por frases (HECHO)
+- Leer stream_event de Claude Code (session.py ask_streaming)
+- Acumular tokens hasta punto/coma (text_utils.py split_sentences)
+- Lanzar TTS por frase, reproducir en secuencia (tts.py queue_sentence)
+- Kokoro 82M local como engine principal (24kHz, ~200ms/frase)
+- edge-tts como fallback automatico
 
-### v2.3 — Mic siempre abierto + barge-in
-- 3 hilos con colas (audio, pipeline, speaker)
-- VAD activo durante reproduccion
-- Barge-in para y captura nueva utterance
-- AEC basico para altavoz abierto
+### v2.3 — Mic siempre abierto + barge-in (HECHO)
+- Audio callback non-blocking (daemon.py on_audio, NUNCA se para)
+- VAD activo durante reproduccion (tts.is_playing + was_overlap)
+- Barge-in: cancel() para audio + vacia cola TTS
+- Pipeline en thread separado (process_with_model)
 
-### v2.4 — Reuniones (modo transcript)
+### v2.4 — Conversation Model + Pre-cache (HECHO)
+- Clasificacion de overlaps: backchannel/collaborative/stop/followup
+- Backchannels se ignoran, solo "para"/"callate" interrumpen
+- Collaborative overlaps se guardan como follow-up post-turno
+- Pre-cache TTS: 64 frases pre-generadas (0ms first-audio)
+- Fillers contextuales (3s) y stalls (8s) mientras el LLM piensa
+- generate_cache.py para pre-generar WAVs en disco
+
+### v2.5 — Reuniones (modo transcript)
 - Whisper small para precision
 - Diarizacion con pyannote/ECAPA-TDNN
 - Transcripcion continua sin turnos
