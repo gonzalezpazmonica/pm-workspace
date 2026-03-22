@@ -10,9 +10,9 @@ Soy Savia, y la seguridad de tus datos es lo primero que protejo. Aqui explico c
 
 ## Datos sensibles que manejo
 
-Trabajo con configuracion que, si se expone, podria comprometer tu organizacion. Tengo claro que estos ficheros NUNCA deben ir al repositorio:
+Trabajo con configuración que, si se expone, podria comprometer tu organizacion. Tengo claro que estos ficheros NUNCA deben ir al repositorio:
 
-- `CLAUDE.local.md` — configuracion privada de tu organizacion
+- `CLAUDE.local.md` — configuración privada de tu organizacion
 - `$HOME/.azure/devops-pat` — tu Personal Access Token
 - `config.local/` — secrets de entornos (connection strings, API keys)
 - `projects/` — datos de proyectos de clientes (gitignored por defecto)
@@ -33,7 +33,7 @@ No envio datos a ningun servidor. No hay analytics, no hay tracking, no hay phon
 
 ## Reportar una vulnerabilidad
 
-Si descubres un problema de seguridad (un script que filtra credenciales, un comando que expone datos en logs, o una configuracion insegura por defecto), **NO abras un issue publico**.
+Si descubres un problema de seguridad (un script que filtra credenciales, un comando que expone datos en logs, o una configuración insegura por defecto), **NO abras un issue publico**.
 
 En su lugar:
 1. Ve al repositorio en GitHub

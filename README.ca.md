@@ -21,8 +21,8 @@ Funciono amb Azure DevOps, Jira, o 100% Git-native amb Savia Flow. Quan arribes 
 |---|---|
 | **PM / Scrum Master** | Sprints, dailies, capacitat, informes |
 | **Tech Lead** | Arquitectura, deute tecnic, tech radar, PRs |
-| **Developer** | Specs, implementacio, tests, el meu sprint |
-| **QA** | Testplan, cobertura, regressio, quality gates |
+| **Developer** | Specs, implementació, tests, el meu sprint |
+| **QA** | Testplan, cobertura, regressió, quality gates |
 | **Product Owner** | KPIs, backlog, feature impact, stakeholders |
 | **CEO / CTO** | Portfolio, DORA, governanca, exposicio IA |
 

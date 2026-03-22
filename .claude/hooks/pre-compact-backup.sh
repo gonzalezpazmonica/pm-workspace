@@ -35,5 +35,11 @@ if [[ -n "$ACCOMPLISHED" ]]; then
         --goal "pre-compact auto-save" 2>/dev/null || true
 fi
 
+# SPEC-022 F2: Generate semantic compact summary for the compact operation
+COMPACT_SCRIPT="$SCRIPT_DIR/../../scripts/semantic-compact.sh"
+if [[ -f "$COMPACT_SCRIPT" ]]; then
+    bash "$COMPACT_SCRIPT" 2>/dev/null || true
+fi
+
 # NEVER block compact
 exit 0

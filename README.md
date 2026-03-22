@@ -44,7 +44,7 @@ Spec (SDD)  ──→  Agente implementa  ──→  Code review  ──→  Tes
 Memoria  ──→  Entity recall  ──→  Context load  ──→  Continuidad entre sesiones
 ```
 
-Mas detalle en la [Guia de flujo de datos](docs/data-flow-guide-es.md) y en **[Mi Sistema de Memoria](docs/memory-architecture.md)** — como persisto en texto plano, busco por significado y aprendo de cada sesion.
+Mas detalle en la [Guia de flujo de datos](docs/data-flow-guide-es.md) y en **[Mi Sistema de Memoria](docs/memory-architecture.md)** — como persisto en texto plano, busco por significado y aprendo de cada sesión.
 
 ---
 
@@ -93,7 +93,7 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Infraestructura** — Multi-cloud (Azure, AWS, GCP) con detección automática, tier mínimo por defecto, y escalado solo con tu aprobación. Pipelines CI/CD configurables.
 
-**Memoria y contexto** — Memory store persistente (JSONL), entity recall, progressive disclosure, continuidad entre sesiones. Personal Vault (N3) con repo git independiente para datos del usuario, cifrado AES-256. Context Gate (SPEC-015) salta el scoring de skills en prompts triviales. Progressive Loading L0/L1/L2 (SPEC-012) reduce tokens de skills un 40-60%. Intelligent Compact (SPEC-016) extrae decisiones y correcciones antes de compactar — zero-loss. Session Memory Extraction (SPEC-013) persiste conocimiento al cerrar sesion.
+**Memoria y contexto** — Memory store persistente (JSONL), entity recall, progressive disclosure, continuidad entre sesiones. Personal Vault (N3) con repo git independiente para datos del usuario, cifrado AES-256. Context Gate (SPEC-015) salta el scoring de skills en prompts triviales. Progressive Loading L0/L1/L2 (SPEC-012) reduce tokens de skills un 40-60%. Intelligent Compact (SPEC-016) extrae decisiones y correcciones antes de compactar — zero-loss. Session Memory Extraction (SPEC-013) persiste conocimiento al cerrar sesión.
 
 **Informes ejecutivos** — CEO report multi-proyecto, alertas de dirección, portfolio overview, DORA metrics, value stream mapping.
 
@@ -113,7 +113,7 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **SaviaClaw** — Savia en el mundo fisico. ESP32 con LCD 16x2, firmware MicroPython (selftest, heartbeat, comandos JSON, WiFi). Host daemon con reconexion automatica. Brain Bridge: ESP32 → Claude CLI → LCD. Savia Voice v2.4: daemon full-duplex con Silero VAD + faster-whisper + Claude stream-json + Kokoro TTS local (200ms/frase). Conversation model con clasificacion de overlaps (backchannel/stop/collaborative). Pre-cache de 64 frases para latencia cero. 7 guardrails deterministas. 77 tests sin hardware. [Roadmap](zeroclaw/ROADMAP.md)
 
-**Soberania de dependencias** — SPEC-017: USB de 32GB que contiene Savia completa para instalacion offline. Python standalone, pip wheels, modelos Whisper/Kokoro/Ollama, ffmpeg, jq, Node.js, Claude Code. 4 tiers (4-20GB). SaviaOS: distro Ubuntu minimal booteable desde USB, arranca en cualquier PC x86_64 sin tocar el disco. `sovereignty-pack.sh` prepara el USB desde maquina con internet.
+**Soberania de dependencias** — SPEC-017: USB de 32GB que contiene Savia completa para instalación offline. Python standalone, pip wheels, modelos Whisper/Kokoro/Ollama, ffmpeg, jq, Node.js, Claude Code. 4 tiers (4-20GB). SaviaOS: distro Ubuntu minimal booteable desde USB, arranca en cualquier PC x86_64 sin tocar el disco. `sovereignty-pack.sh` prepara el USB desde maquina con internet.
 
 ---
 
@@ -139,7 +139,7 @@ Configurable con `SAVIA_HOME`, `--skip-tests`. Detalles: `install.sh --help`
 |---|---|
 | [Introducción y ejemplo](docs/readme/01-introduccion.md) | Primeros 5 minutos |
 | [Estructura del workspace](docs/readme/02-estructura.md) | Directorios y organización |
-| [Configuración inicial](docs/readme/03-configuracion.md) | PAT, constantes, verificación |
+| [Configuración inicial](docs/readme/03-configuración.md) | PAT, constantes, verificación |
 | [Guía de adopción](docs/ADOPTION_GUIDE.md) | Paso a paso para consultoras |
 | [Sprints e informes](docs/readme/04-uso-sprint-informes.md) | Sprint, reporting, KPIs |
 | [Spec-Driven Development](docs/readme/05-sdd.md) | SDD: specs, agentes, patrones |
@@ -162,7 +162,7 @@ Ni yo misma las salto: no hardcodear PATs, confirmar antes de escribir en Azure 
 
 ## Privacidad y Telemetria
 
-**Zero telemetria.** pm-workspace no envia datos a ningun servidor. No hay analytics, no hay tracking, no hay phone-home. Todo se ejecuta localmente. La busqueda vectorial usa un modelo local (22 MB). Los embeddings se generan en tu CPU. Los datos de tus proyectos nunca salen de tu maquina. Offline-first por diseno.
+**Zero telemetria.** pm-workspace no envia datos a ningun servidor. No hay analytics, no hay tracking, no hay phone-home. Todo se ejecuta localmente. La búsqueda vectorial usa un modelo local (22 MB). Los embeddings se generan en tu CPU. Los datos de tus proyectos nunca salen de tu maquina. Offline-first por diseno.
 
 ---
 

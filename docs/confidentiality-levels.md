@@ -28,7 +28,7 @@ tiene su propio repositorio git con permisos independientes.
 - `CLAUDE.local.md` — config de la organizacion (org URL, proyectos activos)
 - `.claude/rules/pm-config.local.md` — constantes de la empresa
 - `private-agent-memory/` — patrones del equipo y organizacion
-- Configuracion de conectores con datos reales de la org
+- Configuración de conectores con datos reales de la org
 - NUNCA datos personales de miembros ni datos de un cliente concreto
 
 ### N3 — USUARIO (repo separado: personal-vault)
@@ -114,7 +114,7 @@ tiene su propio repositorio git con permisos independientes.
 
 ## Flujo de Decision
 
-Cuando Savia recibe informacion para persistir:
+Cuando Savia recibe información para persistir:
 
 1. Clasificar: ¿es de un proyecto? ¿del usuario? ¿de la empresa? ¿generica?
 2. Si PROYECTO → determinar subnivel (N4-SHARED, N4-VASS o N4b)

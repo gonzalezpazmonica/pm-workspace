@@ -43,7 +43,7 @@
 
 ### 2b — Savia Voice daemon next-gen (HECHO — pendiente test hardware)
 - [x] Arquitectura full-duplex con Silero VAD + faster-whisper + Claude stream-json
-- [x] SessionManager: sesion persistente con `--resume`, streaming por frases
+- [x] SessionManager: sesión persistente con `--resume`, streaming por frases
 - [x] TTS dual: Kokoro 82M local (200ms/frase) + edge-tts Elvira fallback
 - [x] Pre-cache TTS: 64 frases (fillers, stalls, respuestas comunes, 0ms)
 - [x] Conversation model: clasificacion de overlaps (backchannel/stop/collaborative)
@@ -121,7 +121,7 @@ cubierto por savia-voice (Fase 2b). La prioridad real es Fase 2c (test hardware)
 2. **Fail-safe**: si algo falla, Savia para. No hay degradacion en seguridad.
 3. **Privacy-first**: audio y fotos son N3 minimo (RGPD Art. 9).
 4. **Hardware-verified**: nada se mergea sin probar en el ESP32 fisico.
-5. **150 lineas max**: aplica tambien al firmware y host.
+5. **150 lineas max**: aplica también al firmware y host.
 
 ## Dependencias de hardware
 
