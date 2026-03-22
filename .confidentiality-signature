@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ba116e757b003a4c1f6bbc27ec15e24f24eb64b8403a713c11a5d9d23de262e9
-timestamp=2026-03-21T20:09:37Z
-branch=feat/saviaclaw-brain-daemon
-head_commit=501c471
-signature=a53f9762737f6eeaa0c89446d1abe448f72121bfe315b648be6a576ea4b33a49
+diff_hash=694f0d56893e5709c7f2aeb5d66cc02a08567ba8697d27c6f117e38358b0440c
+timestamp=2026-03-22T09:38:03Z
+branch=feat/saviaclaw-v1.0-prep
+head_commit=901bcaa
+signature=aa4ce36e172dadd0c1a4c44505b73fa67e53395af55ffef3e2a3759baf2b9287
