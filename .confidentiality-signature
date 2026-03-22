@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=dcadcc1a25d0eb25a70e18156953370af1600bcb84de51ce412915902ace24cb
-timestamp=2026-03-22T11:39:54Z
-branch=feat/spec-012-phase2-remaining-skills
-head_commit=5e242df
-signature=166e630fd482f195dce4249e55d2f1e864163a422c5a79dd288ecaaee3dc1a63
+diff_hash=d66254fa8d924a55bd2edcfdad92242e7ec2667fb23a65f8ea6dd40938d4fe0d
+timestamp=2026-03-22T13:37:22Z
+branch=feat/spec-014-competence-tracking
+head_commit=7960dbb
+signature=26a031d63c0650f8b5476e8c7878e05595ca601b2e9cb67a59b1d0a606e1bb9b
