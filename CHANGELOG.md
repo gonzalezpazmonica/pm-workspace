@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.29.0] — 2026-03-22
+
+SPEC-018 Vector memory index — semantic search over plain-text JSONL.
+
+### Added
+
+- **Scripts**: `memory-vector.py` — vector index engine: rebuild, search, status, benchmark. Uses sentence-transformers (all-MiniLM-L6-v2, 22MB, Apache 2.0) + hnswlib. Zero vendor lock-in, offline-compatible.
+- **Scripts**: `memory-store.sh` — vector search integration with `--mode auto|grep|vector`, auto-rebuild on JSONL changes, `rebuild-index`/`index-status`/`benchmark` subcommands
+- **Tests**: `test-memory-vector.bats` — 8 integration tests (fallback, auto-rebuild, status)
+- **Tests**: `test-vector-quality.py` — benchmark: Recall@5 grep=40% vs vector=90% (+50pp)
+- **Spec**: `SPEC-018-vector-memory-index.md` — architecture, justification, auto-adaptation
+- **Config**: `requirements-vector.txt` — optional deps (sentence-transformers, hnswlib)
+
+### Changed
+
+- **Scripts**: `memory-store.sh` — search attempts vector first, falls back to grep. Auto-rebuild triggers in background after each save.
+
 ## [3.28.0] — 2026-03-22
 
 Engram-inspired memory patterns — structured observations, topic key families, session summaries.
@@ -4259,6 +4276,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.28.0...v3.29.0
 [3.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.27.1...v3.28.0
 [3.27.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.27.0...v3.27.1
 [3.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.26.0...v3.27.0

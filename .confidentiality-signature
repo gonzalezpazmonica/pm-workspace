@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=373f5f9718b250e7490b7aaf4552b4e72428dbf32d3b3076ff1a6e306c119702
-timestamp=2026-03-22T14:30:18Z
-branch=feat/engram-patterns
-head_commit=ac41a2f
-signature=a2d3234a438655a214469ccd2ec8aa7b7653a9310e7d4a0862d7c38604a108ac
+diff_hash=7b5192af42a3976c1d421563fd08e3a881d6e6cd5843e0986343cc072af326dc
+timestamp=2026-03-22T15:06:23Z
+branch=feat/vector-memory-index
+head_commit=8ec02fd
+signature=462cd093301e49bf42f5099e874aeeca496afa7f54161ae06949bda865ebbc7d
