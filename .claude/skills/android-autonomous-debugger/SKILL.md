@@ -134,20 +134,15 @@ Operations are classified into three security levels:
 | **Safe** | screenshot, logcat, hierarchy, tap, type | Auto-approved |
 | **Risky** | install, uninstall, force-stop, clear data | Logged, allowed |
 | **Blocked** | rm -rf, format, su, dd | Always rejected |
-
 The `android-adb-validate.sh` hook enforces this classification.
-
 ## Environment Variables
-
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `ADB_PATH` | auto-detect | Path to ADB binary |
 | `ADB_DEVICE` | auto-select | Target device serial |
 | `ADB_RETRIES` | 3 | Max retries per command |
 | `ADB_TIMEOUT` | 30 | Command timeout (seconds) |
-
 ## Tips for Agents
-
 - **ALWAYS use `./scripts/adb-run.sh`** — never `source wrapper.sh && ...`
 - Always start with `adb_auto_select`; chain many functions in one call
 - Screenshots BEFORE and AFTER each interaction; use `adb_wait_for_text` instead of `sleep`

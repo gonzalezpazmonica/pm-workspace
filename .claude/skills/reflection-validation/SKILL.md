@@ -146,7 +146,5 @@ The `reflection-validator` agent produces a structured report:
   VALIDATED / CORRECTED / REQUIRES_RETHINKING
 ═══════════════════════════════════════════════
 ```
-
 ## Integration
-
 - **`reflection-validator` agent**: applies this protocol to any input; other agents reference the Embeddable Pattern via `@`

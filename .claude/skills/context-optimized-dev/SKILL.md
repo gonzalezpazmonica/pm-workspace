@@ -134,18 +134,14 @@ Tokens estimados: 2K + 3K + 1K + 1K = 7K
 | 3 | Recursión de agentes sin reducción | Agente invoca otro con todo su contexto | Mínimo necesario por tarea |
 | 4 | Pasar spec completo al agente | 5K tokens cuando solo necesita 2K del slice | Solo `slice-{n}.md` |
 | 5 | No persistir estado | Progreso perdido tras `/compact` | `state.json` después de cada fase |
-
 ## Métricas de eficiencia
-
 | Métrica | Objetivo | Cómo medir |
 |---------|----------|------------|
 | Tokens por slice | <15K main + 12K subagent | Monitorizar en `/dev-session status` |
 | Rework rate | <15% | Slices que requieren >1 intento en Fase 4 |
 | Coherence score | ≥95% | Output de coherence-validator |
 | Context exhaustion | 0 incidents | Sesiones que agotan contexto |
-
 ## Referencias
-
 - `dev-session-protocol.md` — Protocolo de 5 fases
 - `context-health.md` — Reglas de salud de contexto
 - `agent-context-budget.md` — Budgets por categoría de agente
