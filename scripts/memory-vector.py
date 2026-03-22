@@ -44,7 +44,16 @@ if LEVEL < 2:
         pass
 
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+RERANKER_NAME = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 DIMENSIONS = 384
+
+# Detect reranker (SPEC-028)
+HAS_RERANKER = False
+try:
+    from sentence_transformers import CrossEncoder
+    HAS_RERANKER = True
+except ImportError:
+    pass
 DEFAULT_STORE = os.environ.get(
     "STORE_FILE",
     os.path.join(os.environ.get("PROJECT_ROOT", "."), "output/.memory-store.jsonl"),
@@ -163,7 +172,9 @@ def cmd_search(store: str, query: str, top_k: int = 10) -> None:
         print(json.dumps({"fallback": False, "results": []}))
         return
 
-    labels, distances = idx.knn_query(query_emb, k=max_k)
+    # Fetch more candidates if reranker available (it will filter down)
+    fetch_k = min(max_k * 3, idx.get_current_count()) if HAS_RERANKER else max_k
+    labels, distances = idx.knn_query(query_emb, k=fetch_k)
 
     # Load map: idx_pos -> jsonl_line
     line_map = {}
@@ -173,18 +184,41 @@ def cmd_search(store: str, query: str, top_k: int = 10) -> None:
             if len(parts) >= 2:
                 line_map[int(parts[0])] = int(parts[1])
 
-    # Load matching JSONL lines
     entries = _load_jsonl(store)
     entry_by_line = {e["_line"]: e for e in entries}
 
-    results = []
-    for i, (label, dist) in enumerate(zip(labels[0], distances[0])):
-        score = 1.0 - float(dist)  # cosine distance -> similarity
+    # Build candidate list
+    candidates = []
+    for label, dist in zip(labels[0], distances[0]):
         jsonl_line = line_map.get(int(label))
         entry = entry_by_line.get(jsonl_line, {})
+        candidates.append({
+            "vector_score": round(1.0 - float(dist), 4),
+            "text": _compose_text(entry),
+            "entry": entry,
+        })
+
+    # SPEC-028: Rerank with cross-encoder if available
+    reranked = False
+    if HAS_RERANKER and len(candidates) > 1:
+        try:
+            reranker = CrossEncoder(RERANKER_NAME)
+            pairs = [(query, c["text"]) for c in candidates]
+            rerank_scores = reranker.predict(pairs)
+            for c, rs in zip(candidates, rerank_scores):
+                c["rerank_score"] = round(float(rs), 4)
+            candidates.sort(key=lambda x: -x["rerank_score"])
+            reranked = True
+        except Exception:
+            pass  # Fallback to vector order
+
+    results = []
+    for i, c in enumerate(candidates[:top_k]):
+        entry = c["entry"]
+        score = c.get("rerank_score", c["vector_score"])
         results.append({
             "rank": i + 1,
-            "score": round(score, 4),
+            "score": score,
             "title": entry.get("title", ""),
             "type": entry.get("type", ""),
             "topic_key": entry.get("topic_key", ""),
@@ -192,7 +226,7 @@ def cmd_search(store: str, query: str, top_k: int = 10) -> None:
             "ts": entry.get("ts", ""),
         })
 
-    print(json.dumps({"fallback": False, "results": results}, indent=2))
+    print(json.dumps({"fallback": False, "reranked": reranked, "results": results}, indent=2))
 
 
 def cmd_status(store: str) -> None:
@@ -224,6 +258,8 @@ def cmd_status(store: str) -> None:
         print("UP TO DATE")
     else:
         print("NO INDEX — run: python3 scripts/memory-vector.py rebuild")
+
+    print(f"Reranker: {'available' if HAS_RERANKER else 'not installed'}")
 
     if LEVEL < 2:
         print("\nInstall deps for vector search:")

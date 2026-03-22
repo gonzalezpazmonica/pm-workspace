@@ -8,7 +8,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-init.sh",
             "timeout": 15,
-            "statusMessage": "Inicializando sesión PM-Workspace..."
+            "statusMessage": "Inicializando sesi\u00f3n PM-Workspace..."
           }
         ]
       },
@@ -19,7 +19,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
             "timeout": 10,
-            "statusMessage": "Recuperando memoria persistente tras compactación..."
+            "statusMessage": "Recuperando memoria persistente tras compactaci\u00f3n..."
           }
         ]
       }
@@ -37,7 +37,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/prompt-hook-commit.sh",
             "timeout": 5,
-            "statusMessage": "Prompt hook: validando semántica..."
+            "statusMessage": "Prompt hook: validando sem\u00e1ntica..."
           },
           {
             "type": "command",
@@ -153,7 +153,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-end-snapshot.sh",
             "async": true,
             "timeout": 5,
-            "statusMessage": "Guardando snapshot de sesión..."
+            "statusMessage": "Guardando snapshot de sesi\u00f3n..."
           },
           {
             "type": "command",
@@ -174,6 +174,17 @@
             "statusMessage": "Verificando scope de la spec..."
           }
         ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "command": ".claude/hooks/pre-compact-backup.sh"
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "command": ".claude/hooks/post-tool-failure-log.sh",
+        "async": true
       }
     ]
   },
