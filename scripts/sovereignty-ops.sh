@@ -30,7 +30,7 @@ cached_download() {
 
 download_hf_model() {
   local repo="$1" dest="$2" name="$3"
-  if [[ -d "$dest" ]] && [[ $(find "$dest" -maxdepth 1 -type f 2>/dev/null | wc -l) -gt 1 ]]; then
+  if [[ -d "$dest" ]] && [[ $(find "$dest" -maxdepth 1 -type f 2>/dev/null | wc -l) -ge 1 ]]; then
     echo -e "  ${GREEN}✓${NC} $name (cached)"; return 0; fi
   if $DRY_RUN; then echo -e "  ${YELLOW}→${NC} Would download: $name"; return 0; fi
   mkdir -p "$dest"
@@ -58,14 +58,32 @@ download_wheels() {
   [[ -f "$CACHE_DIR/wheels/.complete" ]] && { echo -e "  ${GREEN}✓${NC} Pip wheels (cached)"; return 0; }
   $DRY_RUN && { echo -e "  ${YELLOW}→${NC} Would download: pip wheels"; return 0; }
   echo -e "  ${YELLOW}→${NC} Downloading pip wheels..."
+  # Constraints file to force CPU-only torch everywhere
+  local constraints="$CACHE_DIR/wheels/_constraints.txt"
+  cat > "$constraints" << 'CONS'
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+torchaudio
+CONS
+  # CPU-only torch first (avoids ~4GB CUDA wheels)
   pip download --dest "$CACHE_DIR/wheels" --no-cache-dir \
-    --platform "$plat" --python-version 3.12 --only-binary=:all: --implementation cp \
-    faster-whisper silero-vad sounddevice numpy pyyaml websockets edge-tts 2>&1 | tail -2
+    --index-url https://download.pytorch.org/whl/cpu \
+    torch torchaudio 2>&1 | tail -3
+  # All other packages — use constraints to prevent CUDA torch re-download
   pip download --dest "$CACHE_DIR/wheels" --no-cache-dir \
-    --platform "$plat" --python-version 3.12 --only-binary=:all: --implementation cp \
-    --extra-index-url https://download.pytorch.org/whl/cpu \
-    torch torchaudio 2>&1 | tail -2
-  pip download --dest "$CACHE_DIR/wheels" --no-cache-dir kokoro 2>&1 | tail -2
+    --no-deps \
+    numpy pyyaml websockets sounddevice edge-tts 2>&1 | tail -2
+  # faster-whisper + deps (excluding torch, already downloaded)
+  pip download --dest "$CACHE_DIR/wheels" --no-cache-dir \
+    faster-whisper silero-vad 2>&1 | tail -3
+  # Kokoro TTS
+  pip download --dest "$CACHE_DIR/wheels" --no-cache-dir \
+    kokoro 2>&1 | tail -2
+  # Remove any CUDA/nvidia wheels that leaked through transitive deps
+  find "$CACHE_DIR/wheels" -name "nvidia_*" -delete 2>/dev/null
+  find "$CACHE_DIR/wheels" -name "cuda_*" -delete 2>/dev/null
+  find "$CACHE_DIR/wheels" -name "triton-*" -delete 2>/dev/null
+  rm -f "$constraints"
   touch "$CACHE_DIR/wheels/.complete"
   echo -e "  ${GREEN}✓${NC} Pip wheels"
 }
