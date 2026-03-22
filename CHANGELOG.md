@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.27.0] — 2026-03-22
+
+SPEC-014 Phase 2 — Competence tracking + scoring pipeline.
+
+### Added
+
+- **Hooks**: `competence-tracker.sh` — async PostToolUse hook that logs domain per command to competence-log.jsonl. Maps 11 domains: sprint-mgmt, sdd, architecture, security, devops, testing, reporting, product, context, team, hardware.
+- **Scripts**: `competence-score.sh` — reads log, calculates 3-signal scores (entry count, recency, outcome), generates competence.md in user profile. Classifies as expert/competent/novice/unknown.
+
 ## [3.26.0] — 2026-03-22
 
 SPEC-012 Complete — L1 progressive loading for all 82 skills.
@@ -4229,6 +4238,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.26.0...v3.27.0
 [3.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.25.1...v3.26.0
 [3.25.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.25.0...v3.25.1
 [3.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.24.0...v3.25.0

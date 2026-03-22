@@ -1,6 +1,6 @@
 # SPEC-014: Competence Model for User Profiles
 
-> Status: **DRAFT** · Fecha: 2026-03-22
+> Status: **PHASE 2 DONE** · Fecha: 2026-03-22 · Phase 1 (adaptive-output): 2026-03-22 · Phase 2 (tracking+scoring): 2026-03-22
 > Origen: Fabrik-Codek — four-signal competence scoring
 > Impacto: Savia adapta explicaciones por dominio automaticamente
 
