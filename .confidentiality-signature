@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=694f0d56893e5709c7f2aeb5d66cc02a08567ba8697d27c6f117e38358b0440c
-timestamp=2026-03-22T09:38:03Z
-branch=feat/saviaclaw-v1.0-prep
-head_commit=901bcaa
-signature=aa4ce36e172dadd0c1a4c44505b73fa67e53395af55ffef3e2a3759baf2b9287
+diff_hash=e127360f52a2a36b9be722e0578df819b8d7bde87f79473fc1735fdcf10add4b
+timestamp=2026-03-22T09:49:34Z
+branch=docs/align-readme-v3.25
+head_commit=85af189
+signature=6dc04d209687cb2edbc21ebdd8fd5261506857f73595155e71e2b60320b87042
