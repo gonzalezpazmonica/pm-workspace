@@ -41,6 +41,7 @@ Per sfruttarmi al massimo:
 4. **Compatta frequentemente** — `/compact` al 50% del contesto
 
 ---
+Como funciona por dentro en detalle: **[Mi Sistema de Memoria](docs/memory-architecture.md)**
 
 ## Privacy e Telemetria
 

@@ -41,6 +41,7 @@ Per treure el maxim profit de mi:
 4. **Compacta frequentment** — `/compact` al 50% de context
 
 ---
+Como funciona por dentro en detalle: **[Mi Sistema de Memoria](docs/memory-architecture.md)**
 
 ## Privacitat i Telemetria
 

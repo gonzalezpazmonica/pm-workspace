@@ -44,7 +44,7 @@ Spec (SDD)  ──→  Agent implements  ──→  Code review  ──→  Test
 Memory  ──→  Entity recall  ──→  Context load  ──→  Cross-session continuity
 ```
 
-More detail in the [Data flow guide](docs/data-flow-guide-en.md).
+More detail in the [Data flow guide](docs/data-flow-guide-en.md) and **[My Memory System](docs/memory-architecture.md)** — how I persist in plain text, search by meaning, and learn from every session.
 
 ---
 

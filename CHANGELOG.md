@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.41.0] — 2026-03-22
+
+Memory Architecture doc — Savia explains her memory system in first person.
+
+### Added
+
+- **Docs**: `memory-architecture.md` — complete guide to the 4-layer memory system (auto-memory, JSONL, vector index, graph). Written in Savia's first person. Emphasizes: plain text files readable by humans are the source of truth. Indices are derived accelerators. Covers all 3 input flows (session, digesters, manual), search order, degradation levels, privacy.
+
 ## [3.39.0] — 2026-03-22
 
 SPEC-027 Phase 1 — Graph memory layer + roadmap sync.
@@ -4405,6 +4413,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.39.0...v3.41.0
 [3.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.38.0...v3.39.0
 [3.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.37.0...v3.38.0
 [3.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.36.0...v3.37.0

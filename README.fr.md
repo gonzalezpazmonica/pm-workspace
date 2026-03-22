@@ -41,6 +41,7 @@ Pour tirer le meilleur parti de moi :
 4. **Compactez regulierement** — `/compact` a 50% du contexte
 
 ---
+Como funciona por dentro en detalle: **[Mi Sistema de Memoria](docs/memory-architecture.md)**
 
 ## Confidentialite et Telemetrie
 

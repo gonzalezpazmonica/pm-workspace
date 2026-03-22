@@ -41,6 +41,7 @@ Para sacar o máximo partido de min:
 4. **Compacta frecuentemente** — `/compact` ao 50% de contexto
 
 ---
+Como funciona por dentro en detalle: **[Mi Sistema de Memoria](docs/memory-architecture.md)**
 
 ## Privacidade e Telemetría
 
