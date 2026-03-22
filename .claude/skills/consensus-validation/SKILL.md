@@ -139,16 +139,7 @@ Escribir a: `output/consensus/YYYYMMDD-HHmmss-{type}-{ref}.json`
 
 ---
 
-## Integration
+## Integration & Antipatterns
 
-**SDD:** opt-in after spec-writer
-**PR:** mandatory if code-reviewer rejects
-**ADR:** opt-in for architecture decisions
-**Audit:** persisted in `output/consensus/`
-
----
-
-## Memory & Antipatterns
-
-- Registra: tendencias jueces, dissent correlations
-- **NUNCA:** override veto, modificar verdicts post-facto, saltarse jueces
+**SDD:** opt-in after spec-writer | **PR:** mandatory if rejected | **ADR:** opt-in | **Audit:** `output/consensus/`
+**NUNCA:** override veto, modificar verdicts post-facto, saltarse jueces
