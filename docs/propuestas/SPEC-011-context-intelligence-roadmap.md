@@ -30,11 +30,11 @@
 
 Bajo riesgo, alto ROI, sin dependencias.
 
-| # | Spec | Area | Que | Esfuerzo | Por que ahora |
-|---|------|------|-----|----------|---------------|
-| 1 | SPEC-015 | Core | Context Gate skill activation | <1 sprint | Gana facil: 30% de prompts saltan scoring. 0 deps |
-| 2 | SPEC-012 | Core | L0/L1/L2 progressive loading | 2 sprints | Mayor ahorro de tokens posible (-40-60%). Fundacional |
-| 3 | Era21-WS4 | Core | Script hardening (6 criticos) | 1 sprint | Bugs de seguridad activos en backup.sh, memory-store.sh |
+| # | Spec | Area | Que | Esfuerzo | Estado |
+|---|------|------|-----|----------|--------|
+| 1 | SPEC-015 | Core | Context Gate skill activation | <1 sprint | DONE 2026-03-22 |
+| 2 | SPEC-012 | Core | L0/L1/L2 progressive loading | 2 sprints | Phase 1 EN CURSO |
+| 3 | Era21-WS4 | Core | Script hardening (6 criticos) | 1 sprint | DONE 2026-03-22 (6/6 fixed) |
 
 **Justificacion:** SPEC-015 y SPEC-012 atacan el problema #1 de pm-workspace
 (consumo de contexto). WS4 arregla bugs de seguridad activos. Los tres son
