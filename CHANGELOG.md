@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.31.0] — 2026-03-22
+
+Specs + roadmap update — Supermemory/Nomad-inspired improvements.
+
+### Added
+
+- **Spec**: SPEC-019 Memory contradiction resolution (supersedes field on upsert)
+- **Spec**: SPEC-020 Memory TTL/expiration (temporal fact auto-hiding)
+- **Spec**: SPEC-021 Readiness hardware checks + zero telemetry declaration
+- **Docs**: ROADMAP.md updated — Eras 125-128 done, new In Progress section, sources from Engram/Supermemory/Nomad
+
 ## [3.30.0] — 2026-03-22
 
 Readiness check — deterministic capability checklist on install/update.
@@ -4289,6 +4300,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
 [3.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.29.0...v3.30.0
 [3.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.28.0...v3.29.0
 [3.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.27.1...v3.28.0
