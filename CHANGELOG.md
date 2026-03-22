@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.42.0] — 2026-03-22
+
+Rewrite memory-architecture.md — human-friendly, complete, 379 lines.
+
+### Changed
+
+- **Docs**: `memory-architecture.md` — completely rewritten for non-technical readers. Explains with analogies (index of a book, not the book itself). Covers: project knowledge (meetings, team, rules, stakeholders, decision log), 7 digesters and their dual output (project markdown + central memory), contradiction tracking, TTL, search levels, privacy. New section "El panorama completo" connects everything.
+
 ## [3.41.0] — 2026-03-22
 
 Memory Architecture doc — Savia explains her memory system in first person.
@@ -4413,6 +4421,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.41.0...v3.42.0
 [3.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.39.0...v3.41.0
 [3.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.38.0...v3.39.0
 [3.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.37.0...v3.38.0
