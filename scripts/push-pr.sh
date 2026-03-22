@@ -96,20 +96,18 @@ if [[ -z "$TOKEN" ]]; then
   exit 0
 fi
 
-DRAFT_JSON="false"; $DRAFT && DRAFT_JSON="true"
-PR_URL=$(curl -s -X POST "https://api.github.com/repos/gonzalezpazmonica/pm-workspace/pulls" \
-  -H "Authorization: token $TOKEN" \
-  -H "Accept: application/vnd.github+json" \
-  -d "$(python3 -c "
-import json,sys
-print(json.dumps({
-  'title': '''$TITLE''',
-  'body': '''$BODY''',
-  'head': '$BRANCH',
-  'base': 'main',
-  'draft': $DRAFT_JSON == 'true'
-}))
-")" | python3 -c "import sys,json; print(json.load(sys.stdin).get('html_url','PR creation failed'))")
+DRAFT_BOOL="false"; $DRAFT && DRAFT_BOOL="True" || DRAFT_BOOL="False"
+PR_URL=$(python3 << PYEOF
+import json,urllib.request,sys
+data=json.dumps({"title":"$(echo "$TITLE" | sed 's/"/\\"/g')","body":"$(echo "$BODY" | sed 's/"/\\"/g' | tr '\n' ' ')","head":"$BRANCH","base":"main","draft":$DRAFT_BOOL}).encode()
+req=urllib.request.Request("https://api.github.com/repos/gonzalezpazmonica/pm-workspace/pulls",data=data,headers={"Authorization":"token $TOKEN","Accept":"application/vnd.github+json","Content-Type":"application/json"})
+try:
+  r=json.loads(urllib.request.urlopen(req).read())
+  print(r.get("html_url","PR creation failed"))
+except Exception as e:
+  print(f"PR creation failed: {e}",file=sys.stderr); print("PR creation failed")
+PYEOF
+)
 
 echo "  PR: $PR_URL"
 
