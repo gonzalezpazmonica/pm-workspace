@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.38.0] — 2026-03-22
+
+Community insights: 3 new specs + PreCompact hook + reranker + failure logging.
+
+### Added
+
+- **Spec**: SPEC-026 PreCompact hook (transcript backup before /compact)
+- **Spec**: SPEC-027 Graph memory layer (entity-relation extraction, LightRAG-inspired)
+- **Spec**: SPEC-028 Search reranker (cross-encoder post-retrieval ranking)
+- **Hooks**: `pre-compact-backup.sh` — SPEC-026 implemented. Extracts decisions/corrections from session, saves via memory-store before compact. Never blocks.
+- **Hooks**: `post-tool-failure-log.sh` — logs tool execution failures to `~/.pm-workspace/tool-failures/` (async, JSONL). Inspired by disler/claude-code-hooks-mastery.
+- **Tests**: `test-new-hooks.bats` — 8 tests for both hooks + settings.json validation
+
+### Changed
+
+- **Scripts**: `memory-vector.py` — SPEC-028 reranker integration. Fetches 3x candidates, reranks with cross-encoder/ms-marco-MiniLM-L-6-v2 when available. Graceful degradation (vector-only if no reranker). Status shows reranker availability.
+- **Config**: `settings.json` — added PreCompact and PostToolUseFailure hook events
+
+### Research analyzed
+
+7 community repos: LightRAG (graph+vector), Obsidian Skills (agent spec), Context Engineering (PRP), AY Skills (meta-skill), Hooks Mastery (13 lifecycle events), Best Practices (84 tips), n8n-MCP (automation bridge).
+
 ## [3.37.0] — 2026-03-22
 
 SPEC-023 Phase 1 — Training data generator for Savia context brain.
@@ -4372,6 +4394,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.37.0...v3.38.0
 [3.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.36.0...v3.37.0
 [3.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.35.0...v3.36.0
 [3.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.34.0...v3.35.0

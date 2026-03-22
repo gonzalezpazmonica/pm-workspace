@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=93c72912286e34484fe0af20c7175bc5a409f8abcb92343a372c1941e95c0d72
-timestamp=2026-03-22T17:53:39Z
-branch=feat/spec-023-training-data
-head_commit=0ea6c78
-signature=92bb2c1bad2a9f807739333549e203557429b7b6b017c2f756bc579e87306557
+diff_hash=e57decb8663b169d685be8113a82bbf34ea9efdc2c2f35b5015e6e6b897fdcc7
+timestamp=2026-03-22T18:21:58Z
+branch=feat/community-insights
+head_commit=7c7793b
+signature=3757a7cb757292fd4ca6a1b1e9f3146f25fd077933fe9bce5fc21f37b8a07b35
