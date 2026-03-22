@@ -1,0 +1,5 @@
+# Optional: Vector memory index (SPEC-018)
+# Install only if you want semantic search over memories.
+# Savia works fine without these (falls back to grep).
+sentence-transformers>=2.2.0
+hnswlib>=0.8.0

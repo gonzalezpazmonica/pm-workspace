@@ -4,9 +4,23 @@
 set -euo pipefail
 STORE_FILE="${PROJECT_ROOT:-.}/output/.memory-store.jsonl"
 mkdir -p "$(dirname "$STORE_FILE")"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 redact_private() { sed 's/<private>.*<\/private>/[REDACTED]/g'; }
 hash_content() { echo -n "$1" | sha256sum | cut -d' ' -f1; }
 iso8601_now() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
+
+# Vector index auto-sync: rebuild if JSONL newer than index
+_maybe_rebuild_index() {
+    local idx="${STORE_FILE%.jsonl}-index.idx"
+    # Only if deps available (Level 2)
+    command -v python3 &>/dev/null || return 0
+    python3 -c "import hnswlib, sentence_transformers" 2>/dev/null || return 0
+    # Rebuild if: no index, or JSONL is newer
+    if [[ ! -f "$idx" ]] || [[ "$STORE_FILE" -nt "$idx" ]]; then
+        python3 "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" >/dev/null 2>&1 &
+        echo "(vector index rebuilding in background)" >&2
+    fi
+}
 
 # Topic key families — consistent prefixes (inspired by Engram)
 suggest_topic_key() {
@@ -105,14 +119,38 @@ cmd_save() {
     fi
     echo "{\"ts\":\"$now\",\"type\":\"$type\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev}" >> "$STORE_FILE"
     echo "✓ Guardado: $title (topic: $topic_key, rev: $rev)"
+    # Trigger async index rebuild if deps available
+    _maybe_rebuild_index
 }
 
 cmd_search() {
     [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
-    local query= type_filter= since_date=
-    while [[ $# -gt 0 ]]; do case "$1" in --type) type_filter="$2"; shift 2;; --since) since_date="$2"; shift 2;; *) query="$1"; shift;; esac; done
-    [[ -z "$query" ]] && { echo "Uso: search \"query\" [--type tipo] [--since YYYY-MM-DD]"; return; }
-    # Use temp file for scored results (avoids bash 4 associative array issues in subshells)
+    local query= type_filter= since_date= mode="auto"
+    while [[ $# -gt 0 ]]; do case "$1" in --type) type_filter="$2"; shift 2;; --since) since_date="$2"; shift 2;; --mode) mode="$2"; shift 2;; *) query="$1"; shift;; esac; done
+    [[ -z "$query" ]] && { echo "Uso: search \"query\" [--type tipo] [--since YYYY-MM-DD] [--mode grep|vector|auto]"; return; }
+
+    # Try vector search first (auto or explicit vector mode)
+    if [[ "$mode" != "grep" ]]; then
+        local idx="${STORE_FILE%.jsonl}-index.idx"
+        if command -v python3 &>/dev/null && [[ -f "$idx" ]]; then
+            local vec_result
+            vec_result=$(python3 "$SCRIPT_DIR/memory-vector.py" search "$query" --top 10 --store "$STORE_FILE" 2>/dev/null) || true
+            if [[ -n "$vec_result" ]] && echo "$vec_result" | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if not d.get('fallback') and d.get('results') else 1)" 2>/dev/null; then
+                echo "$vec_result" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+for r in d['results']:
+    ts = r['ts'][:10] if r.get('ts') else '?'
+    print(f'  [{ts}] ({r[\"type\"]}) {r[\"title\"]} [topic:{r[\"topic_key\"]} score:{r[\"score\"]}]')
+" 2>/dev/null
+                echo "  (vector search)" >&2
+                return
+            fi
+        fi
+        [[ "$mode" == "vector" ]] && { echo "Vector index not available. Run: python3 scripts/memory-vector.py rebuild"; return 1; }
+    fi
+
+    # Fallback: grep scoring
     local tmp_results=$(mktemp)
     trap "rm -f '$tmp_results'" RETURN
     while IFS= read -r line; do
@@ -133,6 +171,7 @@ cmd_search() {
         sort -rn "$tmp_results" | head -10 | while IFS=$'\t' read -r score ts type title topic rev; do
             echo "  [$ts] ($type) $title [topic:$topic rev:$rev score:$((10#$score))]"
         done
+        echo "  (grep fallback)" >&2
     else
         echo "No se encontraron resultados"
     fi
@@ -237,17 +276,23 @@ case "${1:-help}" in
     entity) shift; cmd_entity "$@" ;;
     suggest-topic) shift; cmd_suggest_topic "$@" ;;
     session-summary) shift; cmd_session_summary "$@" ;;
+    rebuild-index) python3 "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" ;;
+    index-status) python3 "$SCRIPT_DIR/memory-vector.py" status --store "$STORE_FILE" ;;
+    benchmark) python3 "$SCRIPT_DIR/memory-vector.py" benchmark --store "$STORE_FILE" ;;
     *) cat <<'USAGE'
 Uso: memory-store.sh {command} [options]
 
 Commands:
   save              Save observation (supports --what/--why/--where/--learned)
-  search            Full-text search with scoring
+  search            Semantic search (vector) with grep fallback
   context           Recent memories (progressive disclosure)
   stats             Statistics by type, topic family, concept
   entity            Entity memory (list/find)
   suggest-topic     Suggest topic_key for type+title
   session-summary   Save session summary (--goal/--discoveries/--accomplished/--files)
+  rebuild-index     Rebuild vector index from JSONL (requires pip deps)
+  index-status      Show vector index health
+  benchmark         Compare grep vs vector search quality
 
 Save options:
   --type TYPE       Observation type (decision, bug, pattern, discovery, etc.)
@@ -260,6 +305,14 @@ Save options:
   --topic KEY       Topic key (auto-suggested if omitted: type/slug)
   --concepts CSV    Comma-separated concept tags
   --project NAME    Associated project
+
+Search options:
+  --mode MODE       grep|vector|auto (default: auto — vector if available)
+  --type TYPE       Filter by observation type
+  --since DATE      Filter entries after YYYY-MM-DD
+
+Vector index auto-rebuilds when JSONL changes (if deps installed).
+Install: pip install sentence-transformers hnswlib
 USAGE
     ;;
 esac
