@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=a33c87a65e077b4b0f6417e453d9801749347568485ee702d637a1eb703459f9
-timestamp=2026-03-23T23:25:57Z
+timestamp=2026-03-23T23:29:52Z
 branch=feat/hybrid-search-spec035
-head_commit=2e2b4b0
+head_commit=d5eed61
 signature=d4a0d800193f5e0abc4c314aa8c78795e8ecb017f0a40a30e27a87003f73caff

@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.46.0] — 2026-03-24
 
-SPEC-035: Hybrid search (vector + graph + grep) with fallback chain.
+Era 138. SPEC-035: Hybrid search (vector + graph + grep) with fallback chain.
 
 ### Added
 
@@ -20,7 +20,7 @@ SPEC-035: Hybrid search (vector + graph + grep) with fallback chain.
 
 ## [3.45.0] — 2026-03-24
 
-SPEC-034/037: Temporal memory + cognitive sectors. Ecosystem research (30+ repos).
+Era 138. SPEC-034/037: Temporal memory + cognitive sectors. Ecosystem research (30+ repos).
 
 ### Added
 
@@ -38,7 +38,7 @@ SPEC-034/037: Temporal memory + cognitive sectors. Ecosystem research (30+ repos
 
 ## [3.44.0] — 2026-03-23
 
-SPEC-029/030/031 implemented + internal audit (code, security, docs) + 6 fixes.
+Era 137. SPEC-029/030/031 implemented + internal audit (code, security, docs) + 6 fixes.
 
 ### Added
 
