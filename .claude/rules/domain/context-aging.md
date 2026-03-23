@@ -1,80 +1,88 @@
 ---
 name: context-aging
-description: Protocolo de envejecimiento semántico para decisiones y contexto acumulado
+description: Protocolo de envejecimiento semantico con sectores cognitivos y temporalidad
 auto_load: false
 paths: []
 ---
 
 # Context Aging Protocol
 
-> 🦉 El contexto que envejece sin comprimirse es deuda cognitiva.
+> El contexto que envejece sin comprimirse es deuda cognitiva.
 
 ---
 
 ## Principio
 
-Inspirado en la consolidación de memoria del cerebro humano (Winocur & Moscovitch, 2011):
-los recuerdos episódicos se transforman en semánticos con el tiempo. Aplicamos este principio
-al decision-log y otros ficheros de contexto acumulativo.
+Inspirado en la consolidacion de memoria del cerebro humano (Winocur & Moscovitch, 2011):
+los recuerdos episodicos se transforman en semanticos con el tiempo.
 
-## Umbrales de edad
+## Sectores cognitivos [SPEC-037]
 
-| Umbral | Categoría | Acción |
-|---|---|---|
-| < 30 días | Fresco | Mantener completo |
-| 30-90 días | Maduro | Comprimir a una línea |
-| > 90 días | Antiguo | Archivar o migrar a regla |
+Cada tipo de memoria envejece a su ritmo natural. Un patron de trabajo
+sigue siendo relevante a los 6 meses; un estado de debug caduca en horas.
 
-## Formato de compresión
+| Sector | Tipos | Decay (dias) | Half-life | Justificacion |
+|--------|-------|:------------:|:---------:|---------------|
+| Episodico | feedback, correction | 60 | 30d | Correcciones pierden relevancia si el comportamiento cambio |
+| Semantico | decision, project, bug | 180 | 90d | Decisiones duran sprints, no dias |
+| Procedural | pattern, convention | 365 | 180d | Patrones de trabajo son estables |
+| Referencial | reference | 90 | 45d | Links y recursos cambian, verificar |
+| Reflexivo | discovery | 120 | 60d | Descubrimientos se consolidan o se olvidan |
 
-**Antes** (episódico completo):
-```markdown
-## 2026-01-15 — Migrar de REST a GraphQL
+## Umbrales por sector
 
-**Contexto**: El equipo reportó que las queries REST eran demasiado granulares...
-**Decisión**: Adoptar GraphQL para el frontend, mantener REST para integraciones.
-**Alternativas descartadas**: gRPC (demasiado complejo para el equipo actual).
-**Impacto**: Requiere reescribir el BFF en 2 sprints.
+| Sector | Fresco | Maduro | Antiguo |
+|--------|--------|--------|---------|
+| Episodico | < 30d | 30-60d | > 60d |
+| Semantico | < 60d | 60-180d | > 180d |
+| Procedural | < 90d | 90-365d | > 365d |
+| Referencial | < 30d | 30-90d | > 90d |
+| Reflexivo | < 45d | 45-120d | > 120d |
+
+## Temporalidad [SPEC-034]
+
+Cada hecho tiene validez temporal. No se borra — se marca como superado.
+
+```
+valid_from: fecha en que el hecho empezo a ser verdad
+valid_to: null (vigente) o fecha en que fue superado
+superseded_by: topic_key del hecho que lo reemplaza
 ```
 
-**Después** (comprimido):
-```markdown
-- 2026-01-15: Migrar frontend a GraphQL, mantener REST para integraciones
-```
+Al buscar memoria, por defecto solo se devuelven hechos vigentes
+(valid_to = null). Flag `--include-superseded` para ver historico.
 
-## Criterio de migración vs. archivado
+## Formato de compresion
 
-Una decisión antigua debe **migrar a regla de dominio** si:
+**Fresco** (completo): mantener con todos los campos.
+**Maduro** (comprimido): una linea con fecha + resumen.
+**Antiguo**: archivar si no se referencio, migrar a regla si es patron.
 
-1. Se ha referenciado más de 3 veces en los últimos 90 días
-2. Es un patrón que aplica a múltiples proyectos
-3. Define un estándar que el equipo sigue consistentemente
+## Criterio de migracion vs archivado
 
-Una decisión antigua debe **archivarse** si:
+Migrar a regla si: referenciado 3+ veces en 90d, aplica multi-proyecto,
+es estandar que el equipo sigue.
 
-1. Es puntual y específica de un contexto que ya no existe
-2. No se ha referenciado en los últimos 90 días
-3. El proyecto al que aplica ya finalizó
+Archivar si: puntual, sin referencias en 90d, proyecto finalizado.
 
 ## Ficheros afectados
 
-| Fichero | Aplica aging | Motivo |
+| Fichero | Aplica aging | Sector por defecto |
 |---|---|---|
-| decision-log.md | ✅ | Crece indefinidamente |
-| agent-notes/ | ✅ | Notas de agentes acumulativas |
-| adrs/ | ❌ | Las ADRs son permanentes por diseño |
-| memory-store (JSONL) | ✅ | Puede acumular entradas obsoletas |
+| decision-log.md | Si | Semantico |
+| agent-notes/ | Si | Episodico |
+| adrs/ | No | Permanentes por diseno |
+| memory-store (JSONL) | Si | Segun campo `sector` |
 
 ## Archivado
 
 - Destino: `.decision-archive/decisions-{YYYYMMDD}.md`
-- Un fichero por fecha de archivado
-- Mantener los últimos 12 ficheros de archivo (1 año)
-- El archivo NO se incluye en backups automáticos (es recuperable desde git)
+- Mantener 12 ficheros (1 ano)
+- Recuperable desde git
 
-## Automatización
+## Automatizacion
 
-- `/context-age status` — verificación rápida sin modificar nada
-- `/context-age` — análisis completo con propuesta
-- `/context-age apply` — ejecutar con confirmación
-- Savia puede sugerir `/context-age` si el decision-log supera 50 entradas
+- `/context-age status` — verificacion rapida
+- `/context-age` — analisis con propuesta
+- `/context-age apply` — ejecutar con confirmacion
+- Savia sugiere si decision-log supera 50 entradas
