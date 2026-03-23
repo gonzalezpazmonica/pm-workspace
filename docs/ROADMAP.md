@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-03-23 | **Versión:** v3.42.0 | **496 commands · 46 agents · 82 skills · 25 hooks · 40 test suites**
+**Updated:** 2026-03-23 | **Version:** v3.44.0 | **498 commands · 46 agents · 83 skills · 25 hooks · 40 test suites**
 
 Status: **Done** · **In progress** · **Planned** · **Proposed**
 
@@ -10,7 +10,7 @@ Status: **Done** · **In progress** · **Planned** · **Proposed**
 
 PM core, 16 language packs, context engineering, security, Savia persona, Company Savia, Travel Mode, Savia Flow, Git Persistence, Savia School, accessibility, adversarial security, Visual QA, dev sessions. Mobile v0.1. Web Phases 1-3. Digest Suite. SaviaClaw ESP32 (firmware, daemon, voice pipeline). 39 tests.
 
-## Done — Eras 125-136: Memory Intelligence (v3.25.0 → v3.42.0)
+## Done — Eras 125-137: Memory Intelligence + Security Absorption (v3.25.0 → v3.44.0)
 
 - **125** (v3.25): SPEC-012/015, push-pr.sh, PR signing
 - **126** (v3.27-28): Engram patterns (W/W/W/L, topic keys, session summary)
@@ -24,6 +24,7 @@ PM core, 16 language packs, context engineering, security, Savia persona, Compan
 - **134** (v3.39): SPEC-027 graph memory (entity-relation extraction)
 - **135** (v3.40): Digest-to-memory bridge. 7 digest agents adapted to new memory
 - **136** (v3.41-42): memory-architecture.md (379 lines, human-friendly). 25 PRs in one session
+- **137** (v3.43-44): SPEC-029/030/031 (security auto-PR, Nuclei, workspace-doctor). jato+strix absorption. Triple audit (code/security/docs). 30+ repos analyzed
 
 ---
 
@@ -37,28 +38,43 @@ PM core, 16 language packs, context engineering, security, Savia persona, Compan
 
 ## Planned — Q2 2026
 
+### Tier 0: Quick wins (DONE in v3.44.0)
+- ~~SPEC-031: Workspace Doctor (4.85)~~ DONE
+- ~~SPEC-029: Security Auto-Remediation PRs (4.80)~~ DONE
+- ~~SPEC-030: Nuclei Scanner Integration (4.45)~~ DONE
+
+### Tier 1: Memoria Viva
 - **P1.** Web Git Manager (4.90) — spec exists
-- **P2.** SPEC-031: Workspace Doctor (4.85) — health check del entorno, 14 checks, jato-inspired
-- **P3.** SPEC-029: Security Auto-Remediation PRs (4.80) — defender→PR Draft, strix-inspired
-- **P4.** Web Test Coverage (4.70)
-- **P5.** SaviaClaw Sensors (4.95) — BLOCKED: BME280
-- **P6.** SPEC-030: Nuclei Scanner Integration (4.45) — CVE scanner complementario, strix-inspired
-- **P7.** Web Notifications RT (4.30) · **P8.** SPEC-032: Security Benchmarks (4.30) — Juice Shop/DVWA, strix-inspired
-- **P9.** Web Approvals (4.10)
+- **P2.** SPEC-034: Temporal Memory (4.75) — hechos con valid_from/valid_to, Graphiti-inspired
+- **P3.** Web Test Coverage (4.70)
+- **P4.** SPEC-036: Agent Evaluation Framework (4.65) — golden sets + metricas, DeepEval-inspired
+- **P5.** SPEC-035: Hybrid Search (4.55) — graph+vector+reranker, LightRAG-inspired
+- **P6.** SaviaClaw Sensors (4.95) — BLOCKED: BME280
+- **P7.** SPEC-037: Cognitive Memory Sectors (4.35) — 5 sectores con decay propio, OpenMemory-inspired
+- **P8.** SPEC-032: Security Benchmarks (4.30) — Juice Shop/DVWA
+- **P9.** Web Notifications RT (4.30) · **P10.** Web Approvals (4.10)
 
 ## Planned — Q3 2026
 
-- **P10.** SaviaClaw Actuators (4.80) — needs hardware
-- **P11.** Context Engineering Audit (4.50)
-- **P12.** SaviaClaw Meeting Collaboration (4.15)
-- **P13.** SPEC-033: Security Skills Modulares (3.85) — 10 categorias carga dinamica, strix-inspired
-- **P14.** Supervisor Agent (3.80) · **P15.** Competence extend (3.75) · **P16.** Mobile PWA (3.70)
+### Tier 2: Evaluacion y Confianza
+- **P11.** SaviaClaw Actuators (4.80) — needs hardware
+- **P12.** Context Engineering Audit (4.50)
+- **P13.** SaviaClaw Meeting Collaboration (4.15)
+- **P14.** SPEC-033: Security Skills Modulares (3.85) — 10 categorias, strix-inspired
+- **P15.** Supervisor Agent (3.80) · **P16.** Competence extend (3.75) · **P17.** Mobile PWA (3.70)
 
-## Proposed — Q4 2026+
+## Proposed — Q4 2026+ (Tier 3-4)
 
+### Tier 3: Interoperabilidad
 - **SPEC-023 Fases 2-4: Savia LLM Trainer** (4.90) — Fase 1 DONE
+- A2A Protocol — exponer agentes via estandar Google/Strands (4.20)
+- Serena MCP — comprension semantica del codigo via LSP (4.00)
 - Extended Time Horizon (multi-day autonomous) — 3.75
-- Security Sandbox (Docker ligero con Nuclei+nmap+ffuf) — 3.65, strix-inspired
+
+### Tier 4: Autonomia Calibrada
+- Guardrails semanticos — LLM evaluando outputs en tiempo real (3.90)
+- Security Sandbox (Docker ligero) — 3.65, strix-inspired
+- Self-improvement medible — lecciones → benchmark → mejora verificada (3.60)
 - **SPEC-025: Chinese (ZH)** (3.60)
 - Plugin Marketplace — 3.55 · Multi-Claw — 3.50 · SSO/LDAP — 3.35
 
@@ -66,8 +82,8 @@ PM core, 16 language packs, context engineering, security, Savia persona, Compan
 
 ## Rejected
 
-Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voice · SQLite memory · Multi-provider AI (jato model — Claude Code native is advantage)
+Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voice · SQLite memory · Multi-provider AI (jato) · Heavy infra RAG (RAGFlow) · Opaque memory DBs (sovereignty lost)
 
 ## Scoring: PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%
 
-## Sources: Eras 1-136 · SaviaClaw · Web · Engram · Supermemory · Nomad · LightRAG · Hooks Mastery · n8n-MCP · jato · strix
+## Sources: Eras 1-137 · SaviaClaw · Web · Engram · Supermemory · Nomad · LightRAG · Hooks Mastery · n8n-MCP · jato · strix · Graphiti · OpenMemory · A-Mem · CrewAI · DeepEval · Giskard · Continue · Backlog.md · Serena · Strands

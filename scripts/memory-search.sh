@@ -1,13 +1,17 @@
 #!/bin/bash
 # memory-search.sh — Search, context, stats (sourced by memory-store.sh)
+set -uo pipefail
 # Vector search with grep fallback. SPEC-020: TTL filtering.
 
 cmd_search() {
     [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
     local query= type_filter= since_date= mode="auto" include_expired=false
+    local sector_filter= include_superseded=false
     while [[ $# -gt 0 ]]; do case "$1" in
         --type) type_filter="$2"; shift 2;; --since) since_date="$2"; shift 2;;
         --mode) mode="$2"; shift 2;; --include-expired) include_expired=true; shift;;
+        --sector) sector_filter="$2"; shift 2;;
+        --include-superseded) include_superseded=true; shift;;
         *) query="$1"; shift;; esac
     done
     [[ -z "$query" ]] && { echo "Uso: search \"query\" [--type tipo] [--since DATE] [--mode grep|vector|auto]"; return; }
@@ -48,6 +52,15 @@ for r in d['results']:
         fi
         type=$(echo "$line" | grep -o '"type":"[^"]*"' | cut -d'"' -f4)
         [[ -n "$type_filter" && "$type" != "$type_filter" ]] && continue
+        # SPEC-037: sector filter
+        if [[ -n "$sector_filter" ]]; then
+            local sector=$(echo "$line" | grep -o '"sector":"[^"]*"' | cut -d'"' -f4)
+            [[ "$sector" != "$sector_filter" ]] && continue
+        fi
+        # SPEC-034: skip superseded entries by default
+        if [[ "$include_superseded" != "true" ]]; then
+            echo "$line" | grep -q '"valid_to"' && continue
+        fi
         title=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
         topic=$(echo "$line" | grep -o '"topic_key":"[^"]*"' | cut -d'"' -f4)
         local rev=$(echo "$line" | grep -o '"rev":[0-9]*' | cut -d: -f2)
