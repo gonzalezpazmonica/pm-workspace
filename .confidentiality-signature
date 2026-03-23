@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=bb1cd66668f71c9082e390b928fd06f9aa0ba0bdd270bd03b9024d895c4925ed
-timestamp=2026-03-23T23:05:52Z
-branch=feat/temporal-memory-spec034
-head_commit=cd1e4a7
-signature=e2538c588895e8782ec344f78b4ccc478e2103615bcff5efc961a33ed0e7f941
+diff_hash=61251d6c40e43e01a7aac4ddf7f3e99f1674fb1b0d3556ecfd0ef3233cfed63d
+timestamp=2026-03-23T23:31:21Z
+branch=feat/hybrid-search-spec035
+head_commit=10efd55
+signature=f3b4e8ab6ac967678c4324b251a1411641f6fbc2dcfff3d79caa2f0aec6c5fdb

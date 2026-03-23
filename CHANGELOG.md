@@ -5,9 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.46.0] — 2026-03-24
+
+Era 138. SPEC-035: Hybrid search (vector + graph + grep) with fallback chain.
+
+### Added
+
+- **Scripts**: `memory-hybrid.py` — combines vector similarity, graph traversal, and grep. Dedup-merge with multi-source boost. Fallback: hybrid → vector → graph → grep (always works)
+- **Memory**: hybrid mode in memory-search.sh as default search strategy
+
+### Changed
+
+- **Scripts**: memory-search.sh — new `--mode hybrid` (default), respects SPEC-034 (skips superseded) and SPEC-037 (sector filter)
+
 ## [3.45.0] — 2026-03-24
 
-SPEC-034/037: Temporal memory + cognitive sectors. Ecosystem research (30+ repos).
+Era 138. SPEC-034/037: Temporal memory + cognitive sectors. Ecosystem research (30+ repos).
 
 ### Added
 
@@ -25,7 +38,7 @@ SPEC-034/037: Temporal memory + cognitive sectors. Ecosystem research (30+ repos
 
 ## [3.44.0] — 2026-03-23
 
-SPEC-029/030/031 implemented + internal audit (code, security, docs) + 6 fixes.
+Era 137. SPEC-029/030/031 implemented + internal audit (code, security, docs) + 6 fixes.
 
 ### Added
 
@@ -4485,6 +4498,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.45.0...v3.46.0
 [3.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.44.0...v3.45.0
 [3.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.43.0...v3.44.0
 [3.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.42.0...v3.43.0
