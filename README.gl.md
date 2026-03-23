@@ -41,7 +41,7 @@ Para sacar o máximo partido de min:
 4. **Compacta frecuentemente** — `/compact` ao 50% de contexto
 
 ---
-Como funciona por dentro en detalle: **[Mi Sistema de Memoria](docs/memory-architecture.md)**
+Como funciona por dentro en detalle: **[O meu Sistema de Memoria](docs/memory-architecture.md)**
 
 ## Privacidade e Telemetría
 
@@ -54,7 +54,7 @@ Como funciona por dentro en detalle: **[Mi Sistema de Memoria](docs/memory-archi
 ```bash
 git clone https://github.com/gonzalezpazmonica/pm-workspace.git ~/claude
 cd ~/claude
-claude  # Savia preséntase automaticamente
+claude  # Savia preséntase automáticamente
 ```
 
 Documentación completa: [README.md](README.md) (castelán) | [README.en.md](README.en.md) (inglés)

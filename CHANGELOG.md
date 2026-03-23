@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.44.0] — 2026-03-23
+
+SPEC-029/030/031 implemented + internal audit (code, security, docs) + 6 fixes.
+
+### Added
+
+- **Commands**: `workspace-doctor` (SPEC-031) — 14-check health check, jato-inspired
+- **Commands**: `security-auto-remediation` (SPEC-029) — PR Draft from validated fixes
+- **Commands**: `security-pipeline` updated with Fase 4 auto-PR + Nuclei integration
+- **Skills**: `nuclei-scanning` (SPEC-030) — CVE scanner with graceful degradation
+- **Specs**: SPEC-029 to SPEC-033 (security PRs, Nuclei, doctor, benchmarks, modular skills)
+- **Scripts**: `workspace-doctor.sh` — 14 checks (critical/important/recommended)
+
+### Fixed
+
+- **Security**: regex injection in `spellcheck-docs.sh` via dictionary (M-01) — use grep -F
+- **Scripts**: duplicate `set -uo pipefail` in pr-context-loader.sh and semantic-compact.sh
+- **Docs**: 5 broken links in README.en.md (ES filenames instead of EN)
+- **Docs**: untranslated Spanish text in 6 READMEs (CA/GL/DE/FR/IT/PT line 44)
+- **Scripts**: `workspace-doctor.sh` grep conflict marker false positive fixed
+
+### Changed
+
+- **Roadmap**: updated with SPEC-029-033 prioritized in Q2-Q3 2026
+- **Sources**: added jato + strix to roadmap sources
+
 ## [3.43.0] — 2026-03-22
 
 SPEC-022 complete + spellcheck + roadmap sync + accent fixes across 12 files.
@@ -31,7 +57,7 @@ Rewrite memory-architecture.md — human-friendly, complete, 379 lines.
 
 ### Changed
 
-- **Docs**: `memory-architecture.md` — completely rewritten for non-technical readers. Explains with analogies (index of a book, not the book itself). Covers: project knowledge (meetings, team, rules, stakeholders, decision log), 7 digesters and their dual output (project markdown + central memory), contradiction tracking, TTL, search levels, privacy. New section "El panorama completo" connects everything.
+- **Docs**: `memory-architecture.md` — completely rewritten for non-technical readers. Explains with analogies (index of a book, not the book itself). Covers: project knowledge (meetings, team, rules, stakeholders, decisión log), 7 digesters and their dual output (project markdown + central memory), contradiction tracking, TTL, search levels, privacy. New section "El panorama completo" connects everything.
 
 ## [3.41.0] — 2026-03-22
 
@@ -90,7 +116,7 @@ SPEC-024 — Doc audit: CONTRIBUTING.md and SECURITY.md rewritten in Savia's fir
 ### Changed
 
 - **Docs**: `CONTRIBUTING.md` — rewritten as Savia speaking directly to contributors. Updated testing commands to current suite (run-all.sh, validate-ci-local.sh). Mentions 9 languages.
-- **Docs**: `SECURITY.md` — rewritten as Savia explaining how she protects data. Added zero telemetry section, mentions block-credential-leak.sh hook, updated version table to 3.x.
+- **Docs**: `SECURITY.md` — rewritten as Savia explaining how she protects data. Added zero telemetry section, mentions block-credential-leak.sh hook, updated versión table to 3.x.
 
 ## [3.35.0] — 2026-03-22
 
@@ -193,7 +219,7 @@ Engram-inspired memory patterns — structured observations, topic key families,
 
 ### Added
 
-- **Scripts**: `memory-store.sh` — What/Why/Where/Learned structured fields (`--what`, `--why`, `--where`, `--learned`), auto-generated topic key families (`decision/*`, `bug/*`, `architecture/*`, etc.), `suggest-topic` command, `session-summary` command with Goal/Discoveries/Accomplished/Files format
+- **Scripts**: `memory-store.sh` — What/Why/Where/Learned structured fields (`--what`, `--why`, `--where`, `--learned`), auto-generated topic key families (`decisión/*`, `bug/*`, `architecture/*`, etc.), `suggest-topic` command, `session-summary` command with Goal/Discoveries/Accomplished/Files format
 - **Tests**: `test-memory-store.bats` — 16 tests covering structured save, topic keys, upsert, dedup, search, session summary
 
 ### Changed
@@ -306,7 +332,7 @@ SaviaClaw autonomy roadmap + heartbeat + BT audio research.
 ### Research
 
 - ESP32 Bluetooth: A2DP Source (send to speaker, SBC codec), HFP AG (bidirectional with headset, CVSD/mSBC)
-- Decision: HFP AG for full-duplex voice via any BT headset (~10 EUR)
+- Decisión: HFP AG for full-duplex voice via any BT headset (~10 EUR)
 - MicroPython limitation: BT audio requires ESP-IDF (C). Hybrid approach planned
 
 ## [3.21.0] — 2026-03-21
@@ -382,7 +408,7 @@ Savia as active meeting participant — etiquette protocol, context guardian, sp
 
 - **Rule**: `meeting-participant-etiquette.md` — 4 simultaneous roles (transcriber, context guardian, query responder, proactive participant). 5-condition window for proactive speech. 3 configurable modes (silent, query, active). Post-meeting output: transcript, digest, action items, contradictions, risks, unanswered questions
 - **Script**: `meeting_participant.py` — opportunity window detector (3s silence + no pending turn + critical info + not already said + PM allows). Max interventions limit, cooldown timer, mode switching, internal note buffer
-- **Script**: `context_guardian.py` — cross-references live speech against decision log, business rules, sprint state. Detects: action items (commitment language), contradictions with prior decisions, risk mentions, unanswered questions
+- **Script**: `context_guardian.py` — cross-references live speech against decisión log, business rules, sprint state. Detects: action items (commitment language), contradictions with prior decisions, risk mentions, unanswered questions
 - **Script**: `speaker_roles.py` — deterministic role-based access control in CODE. 5 levels: external → observer → developer → tech_lead → pm. Topic filter gate: `filter_response()` strips unauthorized data BEFORE voice output. NEVER_VOICE set blocks biometric, salary, credentials, PII from voice output for ALL roles including PM
 - **Tests**: `test_meeting_participant.py` (12 tests) + `test_speaker_roles.py` (10 tests)
 
@@ -455,12 +481,12 @@ ZeroClaw Firmware v0.1 — ready to flash when ESP32 is connected.
 
 ## [3.13.0] — 2026-03-21
 
-ZeroClaw voice pipeline + voice/console decision protocol.
+ZeroClaw voice pipeline + voice/console decisión protocol.
 
 ### Added
 
 - **Spec**: `SPEC-007-zeroclaw-voice-pipeline.md` — full bidirectional voice architecture: 3 processing levels (ESP32 wake word → Host STT/TTS → optional cloud), Wyoming-adapted protocol, latency target ~6s, 5-phase implementation plan
-- **Rule**: `voice-console-protocol.md` — decision algorithm for what goes to voice (short instructions, safety warnings) vs console (code, tables, diagrams). 4 session modes: assembly, coding, monitoring, chat. LED indicator states for ZeroClaw
+- **Rule**: `voice-console-protocol.md` — decisión algorithm for what goes to voice (short instructions, safety warnings) vs console (code, tables, diagrams). 4 session modes: assembly, coding, monitoring, chat. LED indicator states for ZeroClaw
 - **Script**: `voice_bridge.py` — host-side voice server: faster-whisper STT + pyttsx3/Piper TTS, dependency detection, setup guide. Graceful fallback when deps missing
 
 ### Research (incorporated in specs)
@@ -493,7 +519,7 @@ Robotics Vertical — architecture, security, and MicroPython for the physical A
 - **Rule**: `robotics-safety.md` — 10 immutable safety principles + 5 REJECT rules (watchdog, actuator limits, auth, OTA signing, sensor redundancy)
 - **Language Pack**: `micropython-conventions.md` — auto-loads on boot.py/main.py, patterns for sensor reading, actuator control, async with watchdog
 - **Docs ES**: `docs/robotics-roadmap.md` — 5-phase roadmap from ESP32 to LeRobot
-- **Docs EN**: `docs/robotics-roadmap.en.md` — English version
+- **Docs EN**: `docs/robotics-roadmap.en.md` — English versión
 
 ## [3.10.1] — 2026-03-21
 
@@ -562,7 +588,7 @@ Feasibility Probe and Model Upgrade Audit — inspired by Cat Wu's "Product mana
 
 - **Agent**: `feasibility-probe` — time-boxed prototype attempt on a spec, produces viability report with score 0-100, blocking sections, and decomposition suggestions
 - **Agent**: `model-upgrade-auditor` — audits agents/skills/rules for prompt debt (emphatic repetitions, defensive parsing, coded retries) that newer models may not need
-- **Skill**: `feasibility-probe` (SKILL.md + DOMAIN.md) — decision checklist, scoring formula, SDD integration as optional gate between spec-approve and dev-session
+- **Skill**: `feasibility-probe` (SKILL.md + DOMAIN.md) — decisión checklist, scoring formula, SDD integration as optional gate between spec-approve and dev-session
 - **Skill**: `model-upgrade-audit` (SKILL.md + DOMAIN.md) — 6 workaround patterns, 3-tier risk classification (APPLY/REVIEW/SKIP), longitudinal tracking
 - **Command**: `/feasibility-probe <spec_path>` — validate spec feasibility with budget-constrained prototype
 - **Command**: `/model-upgrade-audit [--scope]` — detect prompt debt and propose simplifications
@@ -573,7 +599,7 @@ Fix update system and auto-release pipeline.
 
 ### Fixed
 
-- **update.sh**: compares against `origin/main` instead of GitHub releases — no longer requires `gh` CLI, reads version from CHANGELOG.md
+- **update.sh**: compares against `origin/main` instead of GitHub releases — no longer requires `gh` CLI, reads versión from CHANGELOG.md
 - **update.sh**: uses `git pull origin main` instead of merging a tag that may not exist
 
 ### Added
@@ -583,23 +609,23 @@ Fix update system and auto-release pipeline.
 
 ## [3.7.0] — 2026-03-20
 
-Context optimization, React quality, and decision-guided skills — inspired by rtk-ai/rtk and no-use-effect.
+Context optimization, React quality, and decisión-guided skills — inspired by rtk-ai/rtk and no-use-effect.
 
 ### Added
 
 - **Hook**: `bash-output-compress.sh` — async PostToolUse hook that compresses verbose Bash output (blanks, repeats, ANSI, truncation). Specialized filters for git, dotnet, npm, az devops. Inspired by rtk-ai/rtk (60-90% token reduction)
-- **Rule**: `react-use-effect-anti-patterns.md` — 6 rules + 8-question decision checklist for React useEffect. Auto-loads on .tsx/.jsx. Inspired by no-use-effect skill
+- **Rule**: `react-use-effect-anti-patterns.md` — 6 rules + 8-question decisión checklist for React useEffect. Auto-loads on .tsx/.jsx. Inspired by no-use-effect skill
 - **Tracker**: `context-tracker.sh compression-report` — new subcommand for Bash compression metrics
-- **Pattern**: Decision Checklists added to 6 core skills (sequential yes/no routing before execution)
+- **Pattern**: Decisión Checklists added to 6 core skills (sequential yes/no routing before execution)
 
 ### Changed
 
-- **Skill**: `spec-driven-development` — added 5-question decision checklist + abort conditions for human vs agent routing
-- **Skill**: `pbi-decomposition` — added 5-question decision checklist + abort conditions for decomposition gates
-- **Skill**: `risk-scoring` — added 5-question decision checklist with score modifiers and abort conditions
-- **Skill**: `consensus-validation` — added 5-question decision checklist for mandatory vs optional consensus
-- **Skill**: `product-discovery` — added 5-question decision checklist for skip/start/delay discovery
-- **Skill**: `verification-lattice` — added 5-question decision checklist for layer selection by risk
+- **Skill**: `spec-driven-development` — added 5-question decisión checklist + abort conditions for human vs agent routing
+- **Skill**: `pbi-decomposition` — added 5-question decisión checklist + abort conditions for decomposition gates
+- **Skill**: `risk-scoring` — added 5-question decisión checklist with score modifiers and abort conditions
+- **Skill**: `consensus-validation` — added 5-question decisión checklist for mandatory vs optional consensus
+- **Skill**: `product-discovery` — added 5-question decisión checklist for skip/start/delay discovery
+- **Skill**: `verification-lattice` — added 5-question decisión checklist for layer selection by risk
 - **Rule**: `react-conventions.md` — added reference to new useEffect anti-patterns file
 - **Config**: `settings.json` — registered bash-output-compress hook as async PostToolUse for Bash
 - **Docs**: README.md and README.en.md — hooks count updated from 16 to 17
@@ -608,7 +634,7 @@ Context optimization, React quality, and decision-guided skills — inspired by 
 
 - `SPEC-001`: Bash Output Compression Hook (rtk-inspired)
 - `SPEC-002`: React useEffect Anti-Patterns (no-use-effect inspired)
-- `SPEC-003`: Decision Checklists for Top 6 Skills
+- `SPEC-003`: Decisión Checklists for Top 6 Skills
 
 ## [3.6.1] — 2026-03-20
 
@@ -735,7 +761,7 @@ Era 118 — Five improvements from open-source research (GitNexus, NemoClaw, GSD
 
 ## [3.2.0] — 2026-03-19
 
-Era 117 — Document Digest Suite: 4 new agents for PDF, Word, Excel, PowerPoint digestion with context-aware 4-phase pipeline.
+Era 117 — Document Digest Suite: 4 new agents for PDF, Word, Excel, PowerPoint digestión with context-aware 4-phase pipeline.
 
 ### Added
 
@@ -862,7 +888,7 @@ Era 113 — Savia Web: chat multi-thread, tool feedback, markdown quality, sessi
 - **SSE streaming**: One-shot mode, `Connection: close`, client-side stream break
 - **Chat identity**: User context injected in every message (works with --resume)
 - **Dashboard**: Greeting field flattened from nested user.greeting
-- **BATS**: CHANGELOG Era references, hook set flags, duplicate version entries
+- **BATS**: CHANGELOG Era references, hook set flags, duplicate versión entries
 
 ## [2.96.0] — 2026-03-15
 
@@ -1081,7 +1107,7 @@ Era 62b — Savia Web production-ready: login system, E2E testing, modern UI, an
 - **web-e2e-tester agent**: autonomous browser testing agent equivalent to android-autonomous-debugger (`.claude/agents/web-e2e-tester.md`)
 - **Dark/light mode toggle**: sidebar footer switch with localStorage persistence and full CSS variable adaptation
 - **Chat typing indicator**: animated dots spinner while waiting for bridge response
-- **Version auto-increment**: `prebuild` script bumps patch version on every `npm run build`
+- **Versión auto-increment**: `prebuild` script bumps patch versión on every `npm run build`
 - **Lucide icons**: replaced all emoji icons with tree-shakeable SVG icons (ISC license)
 - **Savia logo**: owl PNG from savia-mobile with transparent background for dark mode
 
@@ -1090,7 +1116,7 @@ Era 62b — Savia Web production-ready: login system, E2E testing, modern UI, an
 - **savia-bridge.py**: `HTTPServer` → `ThreadingHTTPServer` — fixes concurrent request blocking (chat no longer freezes health/dashboard/team endpoints)
 - **LoginPage.vue**: 8-second fetch timeout with `AbortController` — shows error instead of hanging on "Connecting..."
 - **MainLayout.vue**: auto-connect with timeout; shows login form on failure
-- **AppSidebar.vue**: Lucide icons, logo image, theme toggle, dynamic version from `package.json`
+- **AppSidebar.vue**: Lucide icons, logo image, theme toggle, dynamic versión from `package.json`
 - **AppTopBar.vue**: profile name + logout button with Lucide icons
 - **Design system**: glassmorphism surfaces, Inter font, layered shadows, focus rings, spacing tokens
 
@@ -1118,14 +1144,14 @@ Era 62 — Agent and skill enrichment: handoff templates, assignment matrix, enh
 
 - **handoff-templates rule**: 7 standardized templates for agent-to-agent transitions (Standard, QA Pass/Fail, Escalation, Phase Gate, Sprint Review, Status Report)
 - **assignment-matrix rule**: Task Type → Agent routing table (39 task types, 12 language packs, selection rules)
-- **decision-trees/**: externalized decision trees for agents exceeding 150-line limit
+- **decisión-trees/**: externalized decisión trees for agents exceeding 150-line limit
 
 ### Changed
 
 - **verification-before-done rule**: enhanced with evidence-based quality gates, retry policy (haiku→sonnet→opus→human), escalation handoff format
 - **skill-auto-activation rule**: refined scoring (40% base + 30% context + 30% history), 7 category taxonomy, priority-based thresholds
 - **75 skills**: added `category`, `tags`, `priority` metadata to YAML frontmatter for intelligent routing and auto-activation
-- **10 agents** (architect, business-analyst, code-reviewer, commit-guardian, dotnet-developer, frontend-developer, sdd-spec-writer, security-guardian, test-runner, typescript-developer): enriched with Identity, Core Mission, Decision Trees, Success Metrics
+- **10 agents** (architect, business-analyst, code-reviewer, commit-guardian, dotnet-developer, frontend-developer, sdd-spec-writer, security-guardian, test-runner, typescript-developer): enriched with Identity, Core Mission, Decisión Trees, Success Metrics
 - **README.md / README.en.md**: updated skill count (45→75), agent count alignment (34)
 
 ## [2.79.0] — 2026-03-13
@@ -1230,7 +1256,7 @@ Orgchart diagram generation from teams data — new diagram type for `/diagram-g
 
 ### Fixed — Era 104: CHANGELOG link enforcement + Claude Code permission cleanup
 
-- **CI Gate 6: CHANGELOG Version Links**: Added validation to `ci-extended-checks.sh` that fails CI if any `## [X.Y.Z]` header lacks its reference link at the end of the file. Prevents the recurring issue of missing comparison links
+- **CI Gate 6: CHANGELOG Versión Links**: Added validation to `ci-extended-checks.sh` that fails CI if any `## [X.Y.Z]` header lacks its reference link at the end of the file. Prevents the recurring issue of missing comparison links
 - **Claude Code permission setup**: New `scripts/setup-claude-permissions.sh` generates `settings.local.json` with glob-based permission patterns (auto-detects Android SDK, JAVA_HOME, ADB). Eliminates the ~50 exact-match ADB commands that caused constant permission popups
 - **Installer integration**: Added Step 6 to `install.sh` — runs permission setup automatically during workspace installation
 - **Shell-aware permission patterns**: Fixed compound `&&` command patterns — Claude Code is shell-aware and won't auto-approve chained commands with prefix-only patterns. Added explicit `Bash(source wrapper.sh && *)` patterns
@@ -1266,7 +1292,7 @@ Orgchart diagram generation from teams data — new diagram type for `/diagram-g
 - **OpenCode wrappers**: `scripts/opencode-hooks/wrappers/safe-*.sh` validate commands before executing with OpenCode tools, bridging the security/quality gap from missing automatic hook execution
 - **Documentation**: Updated `.opencode/README.md` with comprehensive OpenCode usage guide and hooks strategy explaining why integration doesn't affect Claude Code's ongoing Savia Mobile work
 - **Branch isolation**: Created `feat/opencode-hooks-integration` branch with all OpenCode changes, ready for PR creation without interfering with Claude Code's work on main branch
-- **CHANGELOG audit and fix**: Consolidated scattered version links to end of file, added missing links for versions 2.73.0–2.74.2, ensuring compliance with changelog-enforcement rule
+- **CHANGELOG audit and fix**: Consolidated scattered versión links to end of file, added missing links for versions 2.73.0–2.74.2, ensuring compliance with changelog-enforcement rule
 
 ## [2.74.2] — 2026-03-09
 
@@ -1352,7 +1378,7 @@ Comprehensive security audit across all of pm-workspace with full same-day remed
 - **Kubernetes** — NetworkPolicy default-deny (A14), RBAC with dedicated ServiceAccounts (A15), Pod Security Context (A16), mTLS TODO (A17), image pinning (A18), worker health checks (M9), secrets TODO (M10).
 - **dotnet-microservices** — Docker .env for credentials (C7), K8s secrets template (C11), CORS restricted (C12), JWT secret placeholder (C13), Dockerfile `npm ci --omit=dev` (M11), JWT logging (M12), Production templates (M14).
 - **Shell scripts** — `bash -c` → `eval` in 44 test scripts (C10), trap quoting (C15), `curl | sh` safety (C14/C17), `irm | iex` warning (C18), atomic mv (A8), `mktemp -d` (A19), sudo validation (A20), tar safety (A21), temp cleanup (M5).
-- **CI/CD** — SHA pinning in Actions (C9), npm version pinning (C8), jq mandatory in hooks (C16), expanded secret patterns (A13), tag validation (A9), explicit permissions (A22), BATS SHA pinning (M6), improved secret regex (M7).
+- **CI/CD** — SHA pinning in Actions (C9), npm versión pinning (C8), jq mandatory in hooks (C16), expanded secret patterns (A13), tag validation (A9), explicit permissions (A22), BATS SHA pinning (M6), improved secret regex (M7).
 - **Infrastructure** — Systemd hardening (A10), .gitignore binaries (A12), `SECRETS-ROTATION.md` (M13), plan-gate.sh 30s timeout (M15).
 - **PR Guardian** — New Gate 8: CHANGELOG required for code PRs. Exempts `docs`, `chore`, `ci`, `style` types unless they touch domain rules (`.claude/rules/`). Previous Gate 8 (PR Digest) renumbered to Gate 9.
 - **Language rule** — Mandatory English for all versioned content (CHANGELOGs, commits, PR titles, READMEs). Added to `github-flow.md`. Both CHANGELOGs translated from Spanish to English.
@@ -1368,7 +1394,7 @@ Second major release of Savia Mobile with functional dashboard, chat fixes, robu
 - **Secondary screens (REST)** — Kanban board, Time log, Approvals, Capture, Git Config, Team Management, Company Profile — all via Bridge REST endpoints.
 - **Chat fixes** — Eliminated duplicate messages (Room as single source of truth), fixed CLAUDECODE nested session error (Bridge strips env var from subprocess), slash command autocomplete (8 commands).
 - **Auto-update** — APK download progress bar (LinearProgressIndicator + %), "Check updates" button in both Profile and Settings, reset state on re-check.
-- **Build pipeline** — Version auto-increment at Gradle configuration phase (fixes version lag), unit tests as mandatory gate before APK publish, `assembleDebug` runs `testDebugUnitTest` automatically, `publishToBridge` + `publishToDist` only if tests pass.
+- **Build pipeline** — Versión auto-increment at Gradle configuration phase (fixes versión lag), unit tests as mandatory gate before APK publish, `assembleDebug` runs `testDebugUnitTest` automatically, `publishToBridge` + `publishToDist` only if tests pass.
 - **Tests** — 48 unit tests passing (HomeViewModelTest added: 5 tests for dashboard load, project selection, persistence, errors). Spec coverage: Chat, Home, Settings, Profile, Navigation.
 - **Bridge v1.5.0** — `POST /timelog` endpoint, CLAUDECODE env var stripped from Claude CLI subprocess, all REST endpoints verified (`/kanban`, `/timelog`, `/approvals`, `/capture`, `/profile`, `/dashboard`).
 - **Path:** `projects/savia-mobile-android/`, `scripts/savia-bridge.py`
@@ -1440,7 +1466,7 @@ Systematic upgrade of alpha-maturity skills to beta.
 Comprehensive technical documentation for workspace internals.
 
 - **HOOKS.md** — all 17 hooks documented with exit codes, types, test coverage
-- **AGENTS.md** — all 33 agents with decision tree and category grouping
+- **AGENTS.md** — all 33 agents with decisión tree and category grouping
 - **ARCHITECTURE.md** — component hierarchy, data flow, directory structure
 - **TROUBLESHOOTING.md** — common issues, debugging commands, hook inspection
 
@@ -1653,7 +1679,7 @@ Integration with claude-code-templates marketplace (5,788+ components). Browse, 
 - **`/marketplace-search {query}`** — Search marketplace by keyword, type, or category.
 - **`/marketplace-install {component}`** — Install component from marketplace. Validates compatibility.
 - **`/marketplace-publish`** — Publish pm-workspace components to marketplace.
-- **`skills-marketplace` skill** — Marketplace integration, compatibility checks, version management.
+- **`skills-marketplace` skill** — Marketplace integration, compatibility checks, versión management.
 - **`component-marketplace` rule** — 6 component types: agents, commands, hooks, MCPs, settings, skills.
 
 ## [2.42.0] — 2026-03-07
@@ -1858,7 +1884,7 @@ Package PM-Workspace as distributable Claude Code plugin with validation and exp
 - **`.claude-plugin/plugin.json`** — Plugin manifest with capabilities declaration, dependencies, and install paths.
 - **`/plugin-export`** — Package current workspace as distributable plugin. Supports `--components` for partial export.
 - **`/plugin-validate`** — Validate plugin structure: skills, agents, commands integrity, PII check, line limits.
-- **`plugin-packaging` skill** — Packaging logic, validation rules, version management.
+- **`plugin-packaging` skill** — Packaging logic, validation rules, versión management.
 
 ---
 
@@ -1934,7 +1960,7 @@ Visual regression testing and wireframe validation using Claude's native vision 
 
 ## [2.20.3] — 2026-03-06
 
-### Added — Era 49: Connectors vs MCP Integration Architecture Decision
+### Added — Era 49: Connectors vs MCP Integration Architecture Decisión
 
 ADR confirming Claude Connectors = MCP servers with managed OAuth. Connector-first strategy for end users, MCP-first for developers/CI. No code changes — documentation-only.
 
@@ -1956,7 +1982,7 @@ Replaced all legacy colon-style command references (`/bias:check`, `/score:diff`
 - **agents-catalog.md, equality-shield.md, scoring-curves.md, severity-classification.md** — Updated all command references from colon to kebab-case.
 - **ROADMAP.md, CHANGELOG.md** — Migrated historical references.
 - **guides/guide-enterprise-gap-analysis.md** (ES+EN) — Updated command tables.
-- **docs/estudio-equality-shield.md, docs/politica-igualdad.md** — Updated references.
+- **docs/estudio-equality-shield.md, docs/política-igualdad.md** — Updated references.
 
 ---
 
@@ -2032,7 +2058,7 @@ Self-learning intelligence layer for automatic skill recommendation and adaptive
 
 20 domain-specific commands implementing all gap proposals from Era 23 guide writing. Every command follows pm-workspace conventions (≤150 lines, YAML frontmatter, project-scoped storage).
 
-- **Research Lab (5 commands):** `/experiment-log` (hypothesis→run→result→compare with EXP-NNN IDs), `/biblio-search` (DOI/BibTeX import, APA/IEEE/Vancouver citation export), `/dataset-version` (SHA256 integrity, DVC/Git LFS support), `/grant-track` (lifecycle: draft→submitted→review→approved/rejected, deadline alerts), `/ethics-protocol` (IRB tracking with experiment cross-references, renewal lineage).
+- **Research Lab (5 commands):** `/experiment-log` (hypothesis→run→result→compare with EXP-NNN IDs), `/biblio-search` (DOI/BibTeX import, APA/IEEE/Vancouver citation export), `/dataset-versión` (SHA256 integrity, DVC/Git LFS support), `/grant-track` (lifecycle: draft→submitted→review→approved/rejected, deadline alerts), `/ethics-protocol` (IRB tracking with experiment cross-references, renewal lineage).
 - **Hardware Lab (3 commands):** `/hw-bom` (component registry, cost breakdown by category, CSV import/export), `/hw-revision` (REV-A/B/C lifecycle, BOM snapshots, tags: prototype/pilot/production), `/compliance-matrix` (CE/FCC/UL/RoHS/ISO, evidence linking, gap analysis reports).
 - **Legal Firm (5 commands):** `/legal-deadline` (procesal/contractual/regulatorio, auto-alerts <48h/<7d/<14d), `/court-calendar` (ICS import/export, scheduling conflict detection), `/conflict-check` (client/matter screening, privacy-preserving reports), `/legal-template` (demanda/contestación/recurso/contrato/poder, variable substitution), `/billing-rate` (hourly/fixed/contingency/mixed, invoice generation).
 - **Healthcare (5 commands):** `/pdca-cycle` (plan→do→check→act quality improvement cycles), `/incident-register` (severity classification, 5-why root cause analysis, GDPR-compliant), `/accreditation-track` (JCI/EFQM/ISO 9001/15189, evidence→requirement linking), `/training-compliance` (mandatory training, expiry alerts <30d), `/health-kpi` (define/measure/trend/dashboard, RAG status alerts).
@@ -2112,7 +2138,7 @@ Seven Eras to make pm-workspace viable for large consultancies (500-5000 employe
 - **v2.12.0 — RBAC File-Based (Era 37)**: `/rbac-manager` with grant, revoke, audit, check. 4-tier roles (Admin/PM/Contributor/Viewer), pre-command enforcement, append-only audit trail. Rule: `rbac-model.md`. Skill: `rbac-management/`.
 - **v2.12.1 — Cost & Billing (Era 38)**: `/cost-center` with log, report, budget, forecast, invoice. Timesheet JSONL, EVM (EAC/CPI/SPI), rate tables, client invoicing. Rules: `billing-model.md`, `cost-tracking.md`. Skill: `cost-management/`.
 - **v2.12.2 — Onboarding at Scale (Era 39)**: `/onboard-enterprise` with import, checklist, progress, knowledge-transfer. CSV batch import, 4-phase onboarding, per-role checklists. Rule: `onboarding-enterprise.md`. Skill: `enterprise-onboarding/`.
-- **v2.13.0 — Governance & Audit (Era 40)**: `/governance-enterprise` with audit-trail, compliance-check, decision-registry, certify. JSONL audit log, governance matrix (GDPR/AEPD/ISO27001/EU AI Act). Rules: `audit-trail-schema.md`, `governance-enterprise.md`. Skill: `governance-enterprise/`.
+- **v2.13.0 — Governance & Audit (Era 40)**: `/governance-enterprise` with audit-trail, compliance-check, decisión-registry, certify. JSONL audit log, governance matrix (GDPR/AEPD/ISO27001/EU AI Act). Rules: `audit-trail-schema.md`, `governance-enterprise.md`. Skill: `governance-enterprise/`.
 - **v2.13.1 — Enterprise Reporting (Era 41)**: `/enterprise-dashboard` with portfolio, team-health, risk-matrix, forecast. SPACE framework, Monte Carlo forecasting, cross-project risk aggregation. Rule: `enterprise-metrics.md`. Skill: `enterprise-analytics/`.
 - **v2.14.0 — Scale & Integration (Era 42)**: `/scale-optimizer` with analyze, benchmark, recommend, knowledge-search. 3-tier scaling model, vendor sync, full-text search, CI/CD standardization. Rule: `scaling-patterns.md`. Skill: `scaling-operations/`.
 
@@ -2181,7 +2207,7 @@ Emergency mode model alias overrides — subagents now resolve in offline mode.
 
 ## [2.7.0] — 2026-03-05
 
-### Added — BacklogGit: Backlog Version Control (Era 32)
+### Added — BacklogGit: Backlog Versión Control (Era 32)
 
 - **backlog-git.md**: `/backlog-git snapshot`, `diff`, `rollback`, `deviation-report`. Captures periodic markdown snapshots of backlogs from any PM tool (Azure DevOps, Jira, GitLab, Savia Flow, manual). Diff algorithm detects added/removed/modified items with scope creep and re-estimation metrics.
 - **backlog-git-config.md**: Domain rule defining snapshot format (YAML frontmatter + items table), 5 source types with auto-detection, diff algorithm, deviation metrics, immutability rules, frequency guidance.
@@ -2251,7 +2277,7 @@ Emergency mode model alias overrides — subagents now resolve in offline mode.
 
 - **equality-shield.md**: anti-bias domain rule based on LLYC "Espejismo de Igualdad" (2026) study blocking 6 bias types
 - **bias-check.md**: `/bias-check` command for counterfactual bias auditing in sprints
-- **politica-igualdad.md**: equality policy documentation with academic references (Dwivedi 2023, EMNLP 2025, RANLP 2025)
+- **política-igualdad.md**: equality policy documentation with academic references (Dwivedi 2023, EMNLP 2025, RANLP 2025)
 - Rule #23 in CLAUDE.md: mandatory counterfactual test in assignments and communications
 - Tests: `test-equality-shield.sh` — 41 tests covering full framework validation
 
@@ -2316,7 +2342,7 @@ Memory improvements inspired by claude-mem + Natural Language command resolution
 ### Changed
 
 - **`memory-store.sh`** — Enhanced `cmd_save()` (concepts, tokens), `cmd_search()` (scored, filtered), `cmd_stats()` (concept breakdown). Fixed dedup logic.
-- **README.md / README.en.md** — Added new memory and NL commands to command catalog. Version history updated.
+- **README.md / README.en.md** — Added new memory and NL commands to command catalog. Versión history updated.
 
 ---
 
@@ -2332,8 +2358,8 @@ Usage guides by scenario + README restructure + documentation alignment.
 
 ### Changed
 
-- **README restructured**: removed 3 scattered release note blocks, added clean "Version History" table.
-- **README.en.md aligned**: added missing `/excel-report`, `/savia-gallery`, `/vertical-*` commands and `/aepd-compliance` + `/governance-*` to match Spanish version.
+- **README restructured**: removed 3 scattered release note blocks, added clean "Versión History" table.
+- **README.en.md aligned**: added missing `/excel-report`, `/savia-gallery`, `/vertical-*` commands and `/aepd-compliance` + `/governance-*` to match Spanish versión.
 - **CLAUDE.md compacted**: 123→119 lines to pass CI gate (max: 120).
 - **ROADMAP.md updated**: added Era 22 (v1.6–v1.7) and Era 23 (v1.8 guides) with gap analysis table.
 
@@ -3095,10 +3121,10 @@ Semantic Memory 2.0 — Four new memory intelligence commands for semantic compr
 
 ### Added
 
-- **`/memory-compress`** — Semantic compression: reduce engrams by up to 80% while preserving fidelity via entity extraction, event summarization, decision condensation, context deduplication
+- **`/memory-compress`** — Semantic compression: reduce engrams by up to 80% while preserving fidelity via entity extraction, event summarization, decisión condensation, context deduplication
 - **`/memory-importance`** — Importance scoring: rank engrams by composite score (relevance × recency × frequency access). Identify high-value and low-value candidates
 - **`/memory-graph`** — Knowledge graph from engrams: build relational map of entities, events, decisions. Query connections, detect isolated memories, generate Mermaid visualization
-- **`/memory-prune`** — Intelligent pruning: archive low-importance memories, preserve critical ones. Reversible with restore. Never prunes decision-log entries
+- **`/memory-prune`** — Intelligent pruning: archive low-importance memories, preserve critical ones. Reversible with restore. Never prunes decisión-log entries
 
 ### Changed
 
@@ -3862,7 +3888,7 @@ Multi-agent coordination — Agent-notes system, TDD gate hook, and ADR support.
 ### Added
 
 - **`/security-review`** — Pre-implementation security review
-- **`/adr-create`** — Create Architecture Decision Records
+- **`/adr-create`** — Create Architecture Decisión Records
 - **`/agent-notes-archive`** — Archive completed agent-notes
 
 ### Changed
@@ -3937,7 +3963,7 @@ Session persistence — Save/load rituals for persistent "second brain".
 ### Added
 
 - **`/session-save`** — Capture decisions before clearing
-- **`decision-log.md`** — Private cumulative decision register
+- **`decisión-log.md`** — Private cumulative decisión register
 
 ### Changed
 
@@ -4441,6 +4467,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.43.0...v3.44.0
 [3.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.42.0...v3.43.0
 [3.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.41.0...v3.42.0
 [3.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.39.0...v3.41.0

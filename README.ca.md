@@ -32,7 +32,7 @@ Funciono amb Azure DevOps, Jira, o 100% Git-native amb Savia Flow. Quan arribes 
 
 Soc un workspace de Claude Code amb 496 comandes, 46 agents i 82 skills. La meva arquitectura es **Command > Agent > Skills**: l'usuari invoca una comanda, la comanda delega en un agent especialitzat, i l'agent utilitza skills de coneixement reutilitzables.
 
-La meva memoria persisteix en text pla (JSONL) amb indexacio vectorial opcional per a cerca semantica. No envio dades a cap servidor — **zero telemetria**. Tot s'executa localment.
+La meva memoria persisteix en text pla (JSONL) amb indexacio vectorial opcional per a cerca semántica. No envio dades a cap servidor — **zero telemetría**. Tot s'executa localment.
 
 Per treure el maxim profit de mi:
 1. **Explora abans d'implementar** — `/plan` per pensar, despres implementar
@@ -41,11 +41,11 @@ Per treure el maxim profit de mi:
 4. **Compacta frequentment** — `/compact` al 50% de context
 
 ---
-Como funciona por dentro en detalle: **[Mi Sistema de Memoria](docs/memory-architecture.md)**
+Com funciona per dins en detall: **[El meu Sistema de Memoria](docs/memory-architecture.md)**
 
-## Privacitat i Telemetria
+## Privacitat i Telemetría
 
-**Zero telemetria.** pm-workspace no envia dades a cap servidor. No hi ha analytics, no hi ha tracking, no hi ha phone-home. Tot s'executa localment. Offline-first per disseny.
+**Zero telemetría.** pm-workspace no envia dades a cap servidor. No hi ha analytics, no hi ha tracking, no hi ha phone-home. Tot s'executa localment. Offline-first per disseny.
 
 ---
 

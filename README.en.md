@@ -137,11 +137,11 @@ Configurable with `SAVIA_HOME`, `--skip-tests`. Details: `install.sh --help`
 
 | Section | Description |
 |---|---|
-| [Introduction & example](docs/readme_en/01-introduccion.md) | First 5 minutes |
-| [Workspace structure](docs/readme_en/02-estructura.md) | Directories and layout |
-| [Initial configuration](docs/readme_en/03-configuracion.md) | PAT, constants, verification |
+| [Introduction & example](docs/readme_en/01-introduction.md) | First 5 minutes |
+| [Workspace structure](docs/readme_en/02-structure.md) | Directories and layout |
+| [Initial configuration](docs/readme_en/03-setup.md) | PAT, constants, verification |
 | [Adoption guide](docs/ADOPTION_GUIDE.en.md) | Step by step for consulting firms |
-| [Sprints & reports](docs/readme_en/04-uso-sprint-informes.md) | Sprint, reporting, KPIs |
+| [Sprints & reports](docs/readme_en/04-usage-sprint-reports.md) | Sprint, reporting, KPIs |
 | [Spec-Driven Development](docs/readme_en/05-sdd.md) | SDD: specs, agents, patterns |
 | [Data flow](docs/data-flow-guide-en.md) | How the parts connect |
 | [Commands & agents](docs/readme/12-comandos-agentes.md) | 496 commands + 46 agents |
