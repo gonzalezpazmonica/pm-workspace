@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-03-22 | **Version:** v3.42.0 | **496 commands · 46 agents · 82 skills · 25 hooks · 40 test suites**
+**Updated:** 2026-03-23 | **Versión:** v3.42.0 | **496 commands · 46 agents · 82 skills · 25 hooks · 40 test suites**
 
 Status: **Done** · **In progress** · **Planned** · **Proposed**
 
@@ -38,21 +38,27 @@ PM core, 16 language packs, context engineering, security, Savia persona, Compan
 ## Planned — Q2 2026
 
 - **P1.** Web Git Manager (4.90) — spec exists
-- **P2.** Web Test Coverage (4.70)
-- **P3.** SaviaClaw Sensors (4.95) — BLOCKED: BME280
-- **P4.** Web Notifications RT (4.30) · **P5.** Web Approvals (4.10)
+- **P2.** SPEC-031: Workspace Doctor (4.85) — health check del entorno, 14 checks, jato-inspired
+- **P3.** SPEC-029: Security Auto-Remediation PRs (4.80) — defender→PR Draft, strix-inspired
+- **P4.** Web Test Coverage (4.70)
+- **P5.** SaviaClaw Sensors (4.95) — BLOCKED: BME280
+- **P6.** SPEC-030: Nuclei Scanner Integration (4.45) — CVE scanner complementario, strix-inspired
+- **P7.** Web Notifications RT (4.30) · **P8.** SPEC-032: Security Benchmarks (4.30) — Juice Shop/DVWA, strix-inspired
+- **P9.** Web Approvals (4.10)
 
 ## Planned — Q3 2026
 
-- **P6.** SaviaClaw Actuators (4.80) — needs hardware
-- **P7.** Context Engineering Audit (4.50)
-- **P8.** SaviaClaw Meeting Collaboration (4.15)
-- **P9.** Supervisor Agent (3.80) · **P10.** Competence extend (3.75) · **P11.** Mobile PWA (3.70)
+- **P10.** SaviaClaw Actuators (4.80) — needs hardware
+- **P11.** Context Engineering Audit (4.50)
+- **P12.** SaviaClaw Meeting Collaboration (4.15)
+- **P13.** SPEC-033: Security Skills Modulares (3.85) — 10 categorias carga dinamica, strix-inspired
+- **P14.** Supervisor Agent (3.80) · **P15.** Competence extend (3.75) · **P16.** Mobile PWA (3.70)
 
 ## Proposed — Q4 2026+
 
 - **SPEC-023 Fases 2-4: Savia LLM Trainer** (4.90) — Fase 1 DONE
 - Extended Time Horizon (multi-day autonomous) — 3.75
+- Security Sandbox (Docker ligero con Nuclei+nmap+ffuf) — 3.65, strix-inspired
 - **SPEC-025: Chinese (ZH)** (3.60)
 - Plugin Marketplace — 3.55 · Multi-Claw — 3.50 · SSO/LDAP — 3.35
 
@@ -60,8 +66,8 @@ PM core, 16 language packs, context engineering, security, Savia persona, Compan
 
 ## Rejected
 
-Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voice · SQLite memory
+Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voice · SQLite memory · Multi-provider AI (jato model — Claude Code native is advantage)
 
 ## Scoring: PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%
 
-## Sources: Eras 1-136 · SaviaClaw · Web · Engram · Supermemory · Nomad · LightRAG · Hooks Mastery · n8n-MCP
+## Sources: Eras 1-136 · SaviaClaw · Web · Engram · Supermemory · Nomad · LightRAG · Hooks Mastery · n8n-MCP · jato · strix

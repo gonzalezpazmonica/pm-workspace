@@ -41,7 +41,7 @@ Para tirar o maximo proveito de mim:
 4. **Compacte frequentemente** — `/compact` em 50% do contexto
 
 ---
-Como funciona por dentro en detalle: **[Mi Sistema de Memoria](docs/memory-architecture.md)**
+Como funciona por dentro em detalhe: **[O meu Sistema de Memoria](docs/memory-architecture.md)**
 
 ## Privacidade e Telemetria
 

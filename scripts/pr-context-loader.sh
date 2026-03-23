@@ -1,9 +1,9 @@
 #!/bin/bash
 # pr-context-loader.sh — SPEC-022 F4: Load project context before PR creation
+set -uo pipefail
 # Reads project rules, specs, and team info to enrich PR descriptions.
 # Usage: bash scripts/pr-context-loader.sh [--project NAME] [--branch BRANCH]
 #   source scripts/pr-context-loader.sh && pr_context_summary
-set -uo pipefail
 
 ROOT="${PROJECT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 

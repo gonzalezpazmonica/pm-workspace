@@ -1,9 +1,9 @@
 #!/bin/bash
 # semantic-compact.sh — SPEC-022 F2: Smart compact summary generator
+set -uo pipefail
 # Analyzes recent session activity and generates a focused compact summary
 # that preserves critical context. Called by pre-compact hook or manually.
 # Usage: bash scripts/semantic-compact.sh [--project NAME]
-set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="${PROJECT_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
