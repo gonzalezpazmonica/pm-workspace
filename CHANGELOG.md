@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.45.0] — 2026-03-24
+
+SPEC-034/037: Temporal memory + cognitive sectors. Ecosystem research (30+ repos).
+
+### Added
+
+- **Memory**: temporal validity fields (valid_from, valid_to, superseded_by) in memory-save.sh
+- **Memory**: cognitive sectors (episodic/semantic/procedural/referential/reflective) with independent decay
+- **Memory**: `--supersedes` flag to mark old decisions as superseded (not deleted)
+- **Memory**: `--sector` and `--include-superseded` filters in memory-search.sh
+- **Specs**: SPEC-034 (temporal memory), SPEC-035 (hybrid search), SPEC-036 (agent evaluation), SPEC-037 (cognitive sectors)
+- **Roadmap**: Tier 1-4 evolution vision from 30+ repo analysis (700K+ combined stars)
+
+### Changed
+
+- **Rules**: context-aging.md rewritten with sector-based decay (5 sectors, independent half-lives)
+- **Roadmap**: updated to v3.45.0 with sources from CrewAI, Graphiti, LightRAG, OpenMemory, DeepEval
+
 ## [3.44.0] — 2026-03-23
 
 SPEC-029/030/031 implemented + internal audit (code, security, docs) + 6 fixes.
@@ -4467,6 +4485,7 @@ Initial public release of PM-Workspace.
 [3.20.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.0...v3.20.1
 [3.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.20.1...v3.21.0
 [3.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.21.0...v3.22.0
+[3.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.44.0...v3.45.0
 [3.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.43.0...v3.44.0
 [3.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.42.0...v3.43.0
 [3.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.41.0...v3.42.0

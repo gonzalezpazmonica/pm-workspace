@@ -1,10 +1,18 @@
 #!/bin/bash
 # memory-save.sh — Save, upsert, entity, session-summary (sourced by memory-store.sh)
+set -uo pipefail
 # SPEC-019: contradiction tracking (supersedes). SPEC-020: TTL (expires_at).
+
+# SPEC-037: Map type → cognitive sector (episodic/semantic/procedural/referential/reflective)
+map_type_to_sector() {
+    case "${1:-}" in feedback|correction) echo "episodic";; decision|project|bug) echo "semantic";;
+        pattern|convention) echo "procedural";; reference) echo "referential";;
+        discovery) echo "reflective";; *) echo "semantic";; esac
+}
 
 cmd_save() {
     local type= title= content= concepts= topic_key= project= rev=1 expires_days=
-    local what= why= where= learned=
+    local what= why= where= learned= supersedes_key= valid_from=
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --type) type="$2"; shift 2 ;; --title) title="$2"; shift 2 ;;
@@ -12,7 +20,9 @@ cmd_save() {
             --topic) topic_key="$2"; shift 2 ;; --project) project="$2"; shift 2 ;;
             --what) what="$2"; shift 2 ;; --why) why="$2"; shift 2 ;;
             --where) where="$2"; shift 2 ;; --learned) learned="$2"; shift 2 ;;
-            --expires) expires_days="$2"; shift 2 ;; *) shift ;;
+            --expires) expires_days="$2"; shift 2 ;;
+            --supersedes) supersedes_key="$2"; shift 2 ;;
+            --valid-from) valid_from="$2"; shift 2 ;; *) shift ;;
         esac
     done
     [[ -z "$type" || -z "$title" ]] && { echo "Error: --type, --title requeridos"; exit 1; }
@@ -73,9 +83,19 @@ cmd_save() {
         if [[ $recent_epoch -gt $cutoff ]]; then echo "⊘ Duplicado omitido"; return 0; fi
     fi
 
-    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev"
+    # SPEC-034: temporal validity + SPEC-037: cognitive sector
+    local vf="${valid_from:-$now}"
+    local sector=$(map_type_to_sector "$type")
+
+    # SPEC-034: mark superseded entry with valid_to
+    if [[ -n "$supersedes_key" && -f "$STORE_FILE" ]]; then
+        sed -i "s/\"topic_key\":\"$supersedes_key\"\(.*\)}/\"topic_key\":\"$supersedes_key\"\1,\"valid_to\":\"$now\",\"superseded_by\":\"$topic_key\"}/" "$STORE_FILE"
+    fi
+
+    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"sector\":\"$sector\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev,\"valid_from\":\"$vf\""
     [[ "$supersedes" != "null" ]] && json="$json,\"supersedes\":\"$supersedes\""
     [[ "$expires_at" != "null" ]] && json="$json,\"expires_at\":\"$expires_at\""
+    [[ -n "$supersedes_key" ]] && json="$json,\"supersedes_key\":\"$supersedes_key\""
     echo "$json}" >> "$STORE_FILE"
     echo "✓ Guardado: $title (topic: $topic_key, rev: $rev)"
     _maybe_rebuild_index
