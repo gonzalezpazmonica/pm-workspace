@@ -14,10 +14,28 @@ cmd_search() {
         --include-superseded) include_superseded=true; shift;;
         *) query="$1"; shift;; esac
     done
-    [[ -z "$query" ]] && { echo "Uso: search \"query\" [--type tipo] [--since DATE] [--mode grep|vector|auto]"; return; }
+    [[ -z "$query" ]] && { echo "Uso: search \"query\" [--type tipo] [--since DATE] [--mode hybrid|vector|graph|grep|auto]"; return; }
 
-    # Vector search (auto or explicit)
-    if [[ "$mode" != "grep" ]]; then
+    # SPEC-035: Hybrid search (vector + graph + grep combined)
+    if [[ "$mode" == "hybrid" || "$mode" == "auto" ]] && command -v python3 &>/dev/null; then
+        local hybrid_result
+        hybrid_result=$(python3 "$SCRIPT_DIR/memory-hybrid.py" search "$query" --top 10 --store "$STORE_FILE" --mode hybrid 2>/dev/null) || true
+        if [[ -n "$hybrid_result" ]] && echo "$hybrid_result" | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d.get('results') else 1)" 2>/dev/null; then
+            echo "$hybrid_result" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+src = d.get('sources', {})
+for r in d['results']:
+    ts = r.get('ts','')[:10] if r.get('ts') else '?'
+    s = r.get('sources', r.get('source', '?'))
+    print(f'  [{ts}] ({r.get(\"type\",\"?\")}) {r[\"title\"]} [score:{r[\"score\"]:.2f} via:{s}]')
+print(f'  (hybrid: {src.get(\"vector\",0)} vec + {src.get(\"graph\",0)} graph + {src.get(\"grep\",0)} grep)', file=sys.stderr)
+" 2>/dev/null
+            return
+        fi
+    fi
+    # Vector-only search (legacy path)
+    if [[ "$mode" == "vector" || "$mode" == "auto" ]]; then
         local idx="${STORE_FILE%.jsonl}-index.idx"
         if command -v python3 &>/dev/null && [[ -f "$idx" ]]; then
             local vec_result
