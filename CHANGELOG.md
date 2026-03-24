@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.59.0] — 2026-03-24
+
+Era 151. Memory prime hook + SaviaClaw consciousness — persistent daemon with identity and scheduler.
+
+### Added
+
+- **Hooks**: `memory-prime-hook.sh` — auto-primes memory context on user prompts, logs access for forgetting curve
+- **ZeroClaw**: `consciousness.py` — scheduler runs tasks autonomously: heartbeat (5m), sensors (10m), git-status (30m), memory-consolidate (60m via claude headless)
+- **ZeroClaw**: `identity.json` — SaviaClaw self-identity: name, role, purpose, principles. Read on boot
+- **ZeroClaw**: daemon integration — consciousness tick in main loop, 3 task types (device/shell/claude)
+
 ## [3.57.0] — 2026-03-24
 
 Era 149. Foundational Principles (immutable) + fix update.sh bug.
@@ -4581,6 +4592,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.57.0...v3.59.0
 [3.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.56.0...v3.57.0
 [3.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.55.0...v3.56.0
 [3.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.54.0...v3.55.0
