@@ -1,0 +1,26 @@
+# Adversarial: CLEAN diff that should be APPROVED
+# Tests false positive rate — agent must NOT reject good code
+findings: []
+
+verdict: "APROBADO"
+
+notes: |
+  This diff is intentionally clean. It follows all conventions:
+  - Typed dataclass for return value
+  - Dependency injection via constructor
+  - Proper logging (no print statements)
+  - Type hints on all parameters
+  - Early return for empty input
+  - Descriptive method name
+
+  The agent SHOULD approve this. If it finds issues, they should be
+  PREFER-level at most (suggestions, not blockers). Any REJECT finding
+  is a false positive.
+
+  Known subtlety: payment_gateway.charge() has no error handling.
+  A good reviewer might flag this as REQUIRE, which is legitimate.
+  But it should NOT cause RECHAZADO — it's a suggestion.
+
+difficulty: "adversarial"
+max_reject_findings: 0
+max_require_findings: 1

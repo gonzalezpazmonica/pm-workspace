@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.48.0] — 2026-03-24
+
+Era 140. First agent benchmarks: baseline + adversarial golden sets. All 3 agents pass.
+
+### Added
+
+- **Tests**: adversarial golden sets — obfuscated SQLi (f-string), SSRF, clean diff (must approve), well-written PBI (must VALIDO)
+- **Evals**: baseline + adversarial benchmark results for security-attacker, code-reviewer, business-analyst
+- **Docs**: `BENCHMARK-20260324-baseline.md` and `BENCHMARK-20260324-adversarial.md` with action plan
+
+### Changed
+
+- **Tests**: expanded BATS to verify adversarial pairs (4 pairs security-attacker, 2 each reviewer+BA)
+
 ## [3.47.0] — 2026-03-24
 
 Era 139. SPEC-036: Agent Evaluation Framework — golden sets, metrics, regression detection.
@@ -4471,6 +4485,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.47.0...v3.48.0
 [3.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.46.0...v3.47.0
 [3.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.6.1...v3.7.0
 [3.6.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.6.0...v3.6.1
