@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.49.0] — 2026-03-24
+
+Era 141. SPEC-038: Knowledge domain routing — memory search partitioned by knowledge domains (Monica's insight from human team organization).
+
+### Added
+
+- **SPEC-038**: Knowledge Domain Routing — 8 domains (security, architecture, sprint, quality, devops, team, product, memory) with keyword classifier and domain index
+- **Scripts**: `memory-domains.py` — classify queries, rebuild index, domain-routed search, benchmark (routed vs full)
+- **Tests**: 13 BATS tests + 20-entry benchmark store for domain routing validation
+- **Benchmark**: domain classifier 100% accuracy on 8 test queries; speedup appears at scale (>100 entries)
+
 ## [3.48.0] — 2026-03-24
 
 Era 140. First agent benchmarks: baseline + adversarial golden sets. All 3 agents pass.
@@ -4485,6 +4496,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.48.0...v3.49.0
 [3.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.47.0...v3.48.0
 [3.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.46.0...v3.47.0
 [3.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.6.1...v3.7.0
