@@ -3,6 +3,7 @@
 Persistent log of corrections and patterns discovered during sessions.
 Reviewed at session start to prevent recurrence. Newest entries first.
 
+| 2026-03-24 | Docs | Ellipsis (...) is rhetorical, NOT truncation. Never say "message seems cut" based on `...` alone. Rule: ellipsis-guardrail.md | User correction |
 | 2026-03-24 | PII | Wrote user's real name in CHANGELOG (public file). Rule #20 violation. ALWAYS use "user" or generic terms in any versioned file. No exceptions, even when referring to ideas or contributions. | User correction |
 | 2026-03-24 | Git | ALWAYS use scripts/push-pr.sh for PRs. Never manual curl to GitHub API. Corrected 3+ times. | User correction |
 

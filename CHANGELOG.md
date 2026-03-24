@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.62.0] — 2026-03-24
+
+Era 154. Ellipsis guardrail — rhetorical dots are not truncation.
+
+### Added
+
+- **Rules**: `ellipsis-guardrail.md` — never assume text is incomplete based on `...` alone. Fixes false "message seems cut" on complete emails
+
 ## [3.61.0] — 2026-03-24
 
 Era 153. Bidirectional Talk — user messages Savia via Nextcloud, Savia responds autonomously.
@@ -4611,6 +4619,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.61.0...v3.62.0
 [3.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.60.0...v3.61.0
 [3.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.59.0...v3.60.0
 [3.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.57.0...v3.59.0
