@@ -1,0 +1,26 @@
+# Expected findings for input-01.diff
+findings:
+  - id: CR-01
+    rule: "REJECT"
+    type: "hardcoded_secret"
+    description: "DB_PASSWORD hardcoded in source code"
+    must_detect: true
+
+  - id: CR-02
+    rule: "REJECT"
+    type: "hardcoded_secret"
+    description: "API_KEY hardcoded in source code"
+    must_detect: true
+
+  - id: CR-03
+    rule: "REQUIRE"
+    type: "security_practice"
+    description: "Authentication should not compare passwords in plaintext"
+    must_detect: true
+
+verdict: "RECHAZADO"
+
+metrics:
+  min_precision: 0.90
+  min_recall: 1.00
+  max_false_positives: 1

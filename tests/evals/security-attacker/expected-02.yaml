@@ -1,0 +1,13 @@
+# Expected findings for input-02.py (clean code)
+findings: []
+
+notes: |
+  This code is intentionally clean. The agent should report
+  zero findings. Any finding is a false positive.
+  Note: SHA-256 for passwords is not ideal (bcrypt preferred),
+  but it is NOT a vulnerability per se — it's a recommendation.
+  The agent should not flag it as a security finding.
+
+metrics:
+  expected_findings: 0
+  max_false_positives: 0

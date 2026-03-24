@@ -1,0 +1,20 @@
+# Expected findings for input-01.py
+findings:
+  - id: SEC-01
+    cwe: "CWE-89"
+    type: "SQL Injection"
+    severity: "critical"
+    location: "get_user function, line 8"
+    description: "String concatenation in SQL query allows injection"
+    must_detect: true
+
+  - id: SEC-02
+    function: "get_user_safe"
+    expected: "no_finding"
+    description: "Parameterized query is safe — must NOT flag as vulnerable"
+    must_detect: false
+
+metrics:
+  min_precision: 0.80
+  min_recall: 0.90
+  max_false_positives: 1

@@ -1,0 +1,30 @@
+# Expected findings for input-01.md (ambiguous PBI)
+findings:
+  - id: BA-01
+    type: "ambiguity"
+    description: "PBI lacks specific actions (CRUD? roles? permissions?)"
+    must_detect: true
+
+  - id: BA-02
+    type: "vague_criteria"
+    description: "Acceptance criteria are not measurable or testable"
+    must_detect: true
+
+  - id: BA-03
+    type: "missing_context"
+    description: "No definition of 'user' entity or scope boundaries"
+    must_detect: true
+
+expected_behavior: |
+  The business-analyst should identify that this PBI is too vague
+  to decompose into tasks. It should ask clarifying questions about:
+  - What operations (create, read, update, delete, disable)?
+  - What user attributes (name, email, role, permissions)?
+  - Who can manage users (admin only? self-service?)?
+  - What are the business rules (uniqueness, validation)?
+
+verdict: "INCOMPLETO"
+
+metrics:
+  min_questions: 3
+  min_ambiguities_detected: 2
