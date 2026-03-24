@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=cc8e550bd087614f7535350ca3513f71a26291c560b3b13b04e22eca37f7be84
-timestamp=2026-03-24T19:58:02Z
-branch=feat/saviaclaw-nctalk
-head_commit=495169f
-signature=1f89994d9f5c4b1c623d5b1029c92592901e9bd22931e8d47539a7e4d0f0c36d
+diff_hash=653918649c66f05ff1b60a3f9a9c421599b28833a4731b84037ebb670633297d
+timestamp=2026-03-24T21:07:57Z
+branch=feat/bidirectional-talk-clean
+head_commit=21979f4
+signature=9cde0f16a7e7f5d6d21cfd171f9a90f967fa28fb2e6ab9698c2b5d5d082f9aba
