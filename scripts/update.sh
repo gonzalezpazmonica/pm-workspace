@@ -250,7 +250,7 @@ do_install() {
   write_config "last_check" "$(date +%s)"
 
   # Run readiness check post-update (auto-adaptation)
-  local readiness_script="$REPO_DIR/scripts/readiness-check.sh"
+  local readiness_script="$WORKSPACE_DIR/scripts/readiness-check.sh"
   if [ -f "$readiness_script" ]; then
     echo ""
     echo -e "${CYAN}Ejecutando readiness check post-update...${NC}"

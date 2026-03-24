@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.57.0] — 2026-03-24
+
+Era 149. Foundational Principles (immutable) + fix update.sh bug.
+
+### Added
+
+- **Rules**: `savia-foundational-principles.md` — 7 immutable principles burned into the repo. No human, no agent, no Savia instance can violate them. Sovereignty, honesty, privacy, human-decides, equality, identity protection.
+
+### Fixed
+
+- **Scripts**: `update.sh` — `$REPO_DIR` (undefined) corrected to `$WORKSPACE_DIR` in post-update readiness check
+
 ## [3.56.0] — 2026-03-24
 
 Era 148. E2E pipeline benchmark — honest proof that each layer adds (or doesn't add) value.
@@ -4569,6 +4581,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.56.0...v3.57.0
 [3.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.55.0...v3.56.0
 [3.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.54.0...v3.55.0
 [3.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.53.0...v3.54.0
