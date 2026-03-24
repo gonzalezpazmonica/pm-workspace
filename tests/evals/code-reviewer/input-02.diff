@@ -1,0 +1,36 @@
+diff --git a/src/services/order_service.py b/src/services/order_service.py
+index abc1234..def5678 100644
+--- a/src/services/order_service.py
++++ b/src/services/order_service.py
+@@ -1,8 +1,25 @@
++from dataclasses import dataclass
++from typing import Optional
++import logging
++
++logger = logging.getLogger(__name__)
++
++@dataclass
++class OrderResult:
++    order_id: str
++    total: float
++    status: str
++
++
+ class OrderService:
+-    def process(self, data):
+-        pass
++    def __init__(self, repository, payment_gateway):
++        self.repository = repository
++        self.payment_gateway = payment_gateway
++
++    def process_order(self, user_id: str, items: list[dict]) -> Optional[OrderResult]:
++        """Process a new order with payment validation."""
++        if not items:
++            logger.warning("Empty order attempt by user %s", user_id)
++            return None
++
++        total = sum(item["price"] * item["quantity"] for item in items)
++        order = self.repository.create(user_id=user_id, total=total)
++        self.payment_gateway.charge(user_id, total)
++        logger.info("Order %s processed: %.2f", order.id, total)
++        return OrderResult(order_id=order.id, total=total, status="completed")
