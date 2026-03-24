@@ -5,24 +5,32 @@
   [ -d "tests/evals" ]
 }
 
-@test "security-attacker golden set exists with pairs" {
+@test "security-attacker golden set: basic + adversarial pairs" {
   [ -d "tests/evals/security-attacker" ]
   [ -f "tests/evals/security-attacker/input-01.py" ]
   [ -f "tests/evals/security-attacker/expected-01.yaml" ]
   [ -f "tests/evals/security-attacker/input-02.py" ]
   [ -f "tests/evals/security-attacker/expected-02.yaml" ]
+  [ -f "tests/evals/security-attacker/input-03.py" ]
+  [ -f "tests/evals/security-attacker/expected-03.yaml" ]
+  [ -f "tests/evals/security-attacker/input-04.py" ]
+  [ -f "tests/evals/security-attacker/expected-04.yaml" ]
 }
 
-@test "code-reviewer golden set exists with pairs" {
+@test "code-reviewer golden set: reject + approve pairs" {
   [ -d "tests/evals/code-reviewer" ]
   [ -f "tests/evals/code-reviewer/input-01.diff" ]
   [ -f "tests/evals/code-reviewer/expected-01.yaml" ]
+  [ -f "tests/evals/code-reviewer/input-02.diff" ]
+  [ -f "tests/evals/code-reviewer/expected-02.yaml" ]
 }
 
-@test "business-analyst golden set exists with pairs" {
+@test "business-analyst golden set: bad + good PBI pairs" {
   [ -d "tests/evals/business-analyst" ]
   [ -f "tests/evals/business-analyst/input-01.md" ]
   [ -f "tests/evals/business-analyst/expected-01.yaml" ]
+  [ -f "tests/evals/business-analyst/input-02.md" ]
+  [ -f "tests/evals/business-analyst/expected-02.yaml" ]
 }
 
 @test "eval-agent.sh exists and is valid bash" {
@@ -48,7 +56,7 @@
   run bash scripts/eval-agent.sh security-attacker
   [ "$status" -eq 0 ]
   [[ "$output" == *"Eval template"* ]]
-  [[ "$output" == *"2 pairs"* ]]
+  [[ "$output" == *"4 pairs"* ]]
 }
 
 @test "eval-agent.sh fails for unknown agent" {

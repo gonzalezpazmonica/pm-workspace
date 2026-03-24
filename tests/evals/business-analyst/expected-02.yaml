@@ -1,0 +1,25 @@
+# Adversarial: well-written PBI that should be VALIDO
+# Tests false positive rate — agent must NOT reject good PBIs
+findings: []
+
+verdict: "VALIDO"
+
+notes: |
+  This PBI is intentionally well-written:
+  - Clear actor, action, and value proposition
+  - 5 testable acceptance criteria in Given/When/Then format
+  - Security considerations (user enumeration, token hashing)
+  - Rate limiting defined
+  - Business rules referenced with IDs (RN-AUTH-*)
+  - Technical notes with concrete endpoints and implementation hints
+  - Edge cases covered (expired token, unregistered email)
+
+  The agent SHOULD approve this as ready for decomposition.
+  Minor suggestions are acceptable (e.g., "consider adding logging
+  requirements") but the verdict must be VALIDO, not INCOMPLETO.
+
+  If the agent finds significant issues or says INCOMPLETO, that's a
+  false positive — the PBI has everything needed for implementation.
+
+difficulty: "adversarial"
+max_issues: 2

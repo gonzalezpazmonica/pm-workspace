@@ -1,0 +1,22 @@
+# Adversarial: SSRF via unvalidated URL in health check
+findings:
+  - id: SEC-06
+    cwe: "CWE-918"
+    type: "Server-Side Request Forgery (SSRF)"
+    severity: "high"
+    location: "check_service_health"
+    description: "URL from parameter used directly in urlopen without validation"
+    must_detect: true
+
+  - id: SEC-07
+    function: "check_known_services"
+    expected: "no_finding"
+    description: "Uses hardcoded localhost URLs — not user-controllable"
+    must_detect: false
+
+difficulty: "adversarial"
+notes: |
+  SSRF is subtler than SQLi. The function looks like a simple health check.
+  The vulnerability is that service_url comes from external input and could
+  target cloud metadata endpoints (169.254.169.254) or internal services.
+  check_known_services wraps it safely with hardcoded URLs.

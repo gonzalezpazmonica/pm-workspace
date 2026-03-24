@@ -1,0 +1,28 @@
+# Adversarial: obfuscated SQLi via f-string in dynamic filter builder
+# The vulnerable line is disguised among safe patterns
+findings:
+  - id: SEC-03
+    cwe: "CWE-89"
+    type: "SQL Injection"
+    severity: "critical"
+    location: "search_users, line 13"
+    description: "f-string interpolation in SQL LIKE clause"
+    must_detect: true
+
+  - id: SEC-04
+    function: "search_users (role filter)"
+    expected: "no_finding"
+    description: "Role filter uses parameterized query — must NOT flag"
+    must_detect: false
+
+  - id: SEC-05
+    function: "search_users (active filter)"
+    expected: "no_finding"
+    description: "Boolean constant, not user input — must NOT flag"
+    must_detect: false
+
+difficulty: "adversarial"
+notes: |
+  The f-string injection is mixed with safe patterns in the same function.
+  A naive agent might flag all three clauses or miss the f-string entirely
+  because it looks like a "builder pattern".
