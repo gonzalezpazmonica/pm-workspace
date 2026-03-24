@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=77a2ff637cf82a649fc6a558acf2710ce2abd1a1be90291b85e53cab26303c37
-timestamp=2026-03-24T11:16:00Z
-branch=feat/brain-context-reasoning
-head_commit=35b85f9
-signature=b19c129839062896db91875c0632e1f9f66bac84cc3e0e90abbee3e7cee24565
+diff_hash=a53f57537c8d5756f1e9e8656a94bda4281bd23b89b12f6f4637d69dc9ad557e
+timestamp=2026-03-24T12:22:22Z
+branch=feat/e2e-improvement-benchmark
+head_commit=5872d12
+signature=6d502024e12bfaf9369f2ef38afdde391323759af1306c4e5f9cb3beb78e2178
