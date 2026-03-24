@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=bc1ffd76884c552f08c1c4df9951af6bce9cf2f80d256a2f0e31468fb87bafd6
-timestamp=2026-03-24T08:35:27Z
-branch=feat/context-auto-prime-spec039
-head_commit=3f7bba1
-signature=7be750240fa01308de490239076131677acc59a01ccf80bff321b69f8948e473
+diff_hash=0067a86f42a90155744efc8f1ed6a28198392723b3e233f01fb35d4de90b6d4b
+timestamp=2026-03-24T09:25:18Z
+branch=feat/memory-rd-experiments
+head_commit=bb32f78
+signature=7e833814b35bffd35b014a5f18dab9faaa1607d65e803762e9b18a12213d1f51
