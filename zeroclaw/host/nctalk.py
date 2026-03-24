@@ -78,12 +78,26 @@ def read_messages(room_token=None, limit=5):
         return []
 
 
+_last_seen_ts = 0
+
+def poll_and_respond(claude_fn, logger=None):
+    """Poll for new messages, respond via claude_fn. Called by consciousness."""
+    global _last_seen_ts
+    msgs = read_messages(limit=3)
+    for m in msgs:
+        if m["ts"] <= _last_seen_ts: continue
+        if m["actor"].lower() == "savia": continue
+        _last_seen_ts = m["ts"]
+        q = m["message"].strip()
+        if not q or len(q) < 3: continue
+        if logger: logger.info("Talk from %s: %s", m["actor"], q[:60])
+        ans = claude_fn(f'claude -p "{q}"')
+        send_message(ans[:800] if ans else "No pude procesar. Intenta de nuevo.")
+        if logger and ans: logger.info("Talk reply: %s", ans[:60])
+
 if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1:
-        ok = send_message(" ".join(sys.argv[1:]))
-        print(f"Sent: {ok}")
+        print(f"Sent: {send_message(' '.join(sys.argv[1:]))}")
     else:
-        msgs = read_messages()
-        for m in msgs:
-            print(f"[{m['actor']}] {m['message']}")
+        for m in read_messages(): print(f"[{m['actor']}] {m['message']}")
