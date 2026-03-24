@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d0f628607109264f3412808d26279686dfa8379092f18c14c2edd8bfe514bad4
-timestamp=2026-03-24T06:51:18Z
-branch=feat/knowledge-domains-spec038
-head_commit=bbb54ab
-signature=61ca631516a38f3e8d79bc55ecb982dc9addd3472ea795ebfcdd255b4b712c34
+diff_hash=aa17bba8376656c1333da127b9b4ceaaec0764a5a10b4886fe996eb57ffc1214
+timestamp=2026-03-24T08:01:35Z
+branch=feat/memory-integration-wiring
+head_commit=efd1277
+signature=546bdb777184ec1bd7c79c34f7480907c565c0fd9744b9cb81b742c8c37e1516
