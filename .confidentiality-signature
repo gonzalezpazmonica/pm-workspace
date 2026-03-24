@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=653918649c66f05ff1b60a3f9a9c421599b28833a4731b84037ebb670633297d
-timestamp=2026-03-24T21:27:37Z
+diff_hash=c6bf265a530400c62b2321ad0bb6ca63634910b7a8d80f8c6bce1cadeb62dee9
+timestamp=2026-03-24T21:42:02Z
 branch=feat/bidirectional-talk-clean
-head_commit=ff5f41c
-signature=9cde0f16a7e7f5d6d21cfd171f9a90f967fa28fb2e6ab9698c2b5d5d082f9aba
+head_commit=0f6c6d7
+signature=79f4bfadaf3a0ac4123ed3f35c8ad35e81bcea777f51a06349a4f6c19b54ce6b
