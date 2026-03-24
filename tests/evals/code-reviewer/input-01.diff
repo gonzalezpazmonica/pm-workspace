@@ -1,0 +1,16 @@
+diff --git a/src/auth/login.py b/src/auth/login.py
+index abc1234..def5678 100644
+--- a/src/auth/login.py
++++ b/src/auth/login.py
+@@ -1,5 +1,12 @@
++import os
++
++# Database credentials
++DB_PASSWORD = "SuperSecret123!"
++API_KEY = "sk-proj-abc123def456ghi789"
++
+ def authenticate(username, password):
+-    pass
++    if username == "admin" and password == DB_PASSWORD:
++        return {"token": API_KEY, "role": "admin"}
++    return None

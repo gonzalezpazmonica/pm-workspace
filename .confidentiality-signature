@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=61251d6c40e43e01a7aac4ddf7f3e99f1674fb1b0d3556ecfd0ef3233cfed63d
-timestamp=2026-03-23T23:31:21Z
-branch=feat/hybrid-search-spec035
-head_commit=10efd55
-signature=f3b4e8ab6ac967678c4324b251a1411641f6fbc2dcfff3d79caa2f0aec6c5fdb
+diff_hash=bc826deaa794336646177ef68d89cc5ba2e1d5f84778d2fb8b55eee8d29e282d
+timestamp=2026-03-24T06:03:16Z
+branch=feat/agent-eval-spec036
+head_commit=cde2cb7
+signature=4a4b8bb1dd2fd42a3f88fdd63d22e23ad3538cc01db1684ee6c9a84aa2cc4cce

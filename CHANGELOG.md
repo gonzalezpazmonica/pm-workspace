@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.47.0] — 2026-03-24
+
+Era 139. SPEC-036: Agent Evaluation Framework — golden sets, metrics, regression detection.
+
+### Added
+
+- **Tests**: `tests/evals/` directory structure with golden sets for 3 critical agents (security-attacker, code-reviewer, business-analyst)
+- **Scripts**: `eval-agent.sh` — runner that generates eval templates, lists agents, detects regressions (>10% drop)
+- **Commands**: `/eval-agent` — evaluate agent quality against golden sets (precision, recall, F1, hallucinations, bias)
+- **SPEC-036**: Agent evaluation framework with 4 dimensions (precision, coherence, bias, hallucination)
+
+### Changed
+
+- **SPEC-036**: status DRAFT -> APPROVED
+
 ## [3.46.0] — 2026-03-24
 
 Era 138. SPEC-035: Hybrid search (vector + graph + grep) with fallback chain.
@@ -4456,6 +4471,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.46.0...v3.47.0
 [3.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.6.1...v3.7.0
 [3.6.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.6.0...v3.6.1
 [3.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.5.3...v3.6.0
