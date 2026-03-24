@@ -30,17 +30,13 @@ log = logging.getLogger("consciousness")
 
 
 def load_identity():
-    """Load SaviaClaw identity — who am I, what do I do."""
     if os.path.isfile(IDENTITY_FILE):
-        with open(IDENTITY_FILE) as f:
-            return json.load(f)
+        with open(IDENTITY_FILE) as f: return json.load(f)
     return {"name": "SaviaClaw", "device_id": "unknown"}
 
 def load_schedule():
-    """Load schedule from file, or use defaults."""
     if os.path.isfile(SCHEDULE_FILE):
-        with open(SCHEDULE_FILE) as f:
-            return json.load(f)
+        with open(SCHEDULE_FILE) as f: return json.load(f)
     return DEFAULT_SCHEDULE
 
 
@@ -87,6 +83,14 @@ def run_claude_task(action):
         return str(e)
 
 
+def _notify(msg):
+    """Send notification via Nextcloud Talk (best effort)."""
+    try:
+        from .nctalk import send_message
+        send_message(msg)
+    except Exception:
+        pass
+
 def tick(ser, schedule, last_runs):
     """Check schedule, run due tasks. Called from daemon loop."""
     now = time.time()
@@ -117,6 +121,12 @@ def tick(ser, schedule, last_runs):
             status = f"{name}: OK" if result else f"{name}: FAIL"
             l1, l2 = truncate_lcd(status)
             send_cmd(ser, f"lcd {l1}" + (f" | {l2}" if l2 else ""), 1)
+
+            # Notify on failure or if task requests it
+            if not result:
+                _notify(f"SaviaClaw: tarea '{name}' fallo")
+            elif task.get("notify"):
+                _notify(f"SaviaClaw [{name}]: {str(result)[:200]}")
 
         except Exception as e:
             log.error("Task %s failed: %s", name, e)
