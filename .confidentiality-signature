@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c6bf265a530400c62b2321ad0bb6ca63634910b7a8d80f8c6bce1cadeb62dee9
-timestamp=2026-03-24T21:42:02Z
-branch=feat/bidirectional-talk-clean
-head_commit=0f6c6d7
-signature=79f4bfadaf3a0ac4123ed3f35c8ad35e81bcea777f51a06349a4f6c19b54ce6b
+diff_hash=7dbd3f85d71d23ac10eea842aa86cd40db2e348ba88681d0be2931b508976f5f
+timestamp=2026-03-24T22:34:56Z
+branch=fix/ellipsis-guardrail
+head_commit=8c17200
+signature=4662ab5e7ab0419dc1e69f24cae9f0194a2b96d4ffbc933d26c398899be9b41b
