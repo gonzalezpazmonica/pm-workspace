@@ -5,13 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.61.0] — 2026-03-24
+
+Era 153. Bidirectional Talk — user messages Savia via Nextcloud, Savia responds autonomously.
+
+### Added
+
+- **ZeroClaw**: `poll_and_respond()` in nctalk.py — reads user messages, launches claude headless, sends response back to Talk
+- **ZeroClaw**: `check-talk` scheduled task in consciousness (every 2 min) — bidirectional communication loop
+
 ## [3.60.0] — 2026-03-24
 
 Era 152. SaviaClaw talks — Nextcloud Talk integration for autonomous messaging.
 
 ### Added
 
-- **ZeroClaw**: `nctalk.py` — send/read Nextcloud Talk messages. SaviaClaw can message Monica autonomously via http://localhost
+- **ZeroClaw**: `nctalk.py` — send/read Nextcloud Talk messages. SaviaClaw can message user autonomously via localhost
 - **ZeroClaw**: consciousness notifies via Talk on task failure or important results
 - **Config**: `~/.savia/nextcloud-config` stores credentials locally (never in repo)
 
@@ -113,7 +122,7 @@ Era 142. Memory integration — domain routing feeds hybrid search, auto-classif
 
 ## [3.49.0] — 2026-03-24
 
-Era 141. SPEC-038: Knowledge domain routing — memory search partitioned by knowledge domains (Monica's insight from human team organization).
+Era 141. SPEC-038: Knowledge domain routing — memory search partitioned by knowledge domains (user insight from human team organization).
 
 ### Added
 
@@ -1463,7 +1472,7 @@ Orgchart diagram generation from teams data — new diagram type for `/diagram-g
 
 ### Added — OpenCode Integration: PM-Workspace compatibility layer
 
-- **OpenCode compatibility layer**: Created `/home/monica/savia/.opencode/` with symlinks to original directories (`.claude/`, `docs/`, `projects/`, `scripts/`) for OpenCode tool usage while preserving Claude Code functionality
+- **OpenCode compatibility layer**: Created `.opencode/` with symlinks to original directories (`.claude/`, `docs/`, `projects/`, `scripts/`) for OpenCode tool usage while preserving Claude Code functionality
 - **Cross-platform installers**: `install.sh` (Linux/macos) and `install.ps1` (Windows) similar to Claude Code's installers but adapted for OpenCode
 - **Hooks integration solution**: Git hooks automation (`scripts/install-git-hooks.sh`) installs pre-commit, pre-push, and commit-msg hooks that automatically validate security/quality gates missing in OpenCode
 - **OpenCode wrappers**: `scripts/opencode-hooks/wrappers/safe-*.sh` validate commands before executing with OpenCode tools, bridging the security/quality gap from missing automatic hook execution
@@ -1666,7 +1675,7 @@ Security hardening across all hooks and test scripts.
 
 - **`set -uo pipefail`** added to 14 hooks that were missing safety flags
 - **Replaced `eval`** with `bash -c` in 44 test scripts
-- **Fixed hardcoded paths** — `/home/monica/savia` → `$ROOT` in 5 scripts
+- **Fixed hardcoded paths** — absolute user paths → `$ROOT` in 5 scripts
 - **5 BATS tests** for script safety validation
 
 ## [2.58.0] — 2026-03-07
@@ -4602,6 +4611,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.60.0...v3.61.0
 [3.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.59.0...v3.60.0
 [3.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.57.0...v3.59.0
 [3.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.56.0...v3.57.0
