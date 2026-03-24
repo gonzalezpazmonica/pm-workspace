@@ -24,6 +24,8 @@ DEFAULT_SCHEDULE = [
      "type": "shell"},
     {"name": "sensor-check", "interval_min": 10,
      "action": "sensors", "type": "device"},
+    {"name": "check-talk", "interval_min": 2,
+     "action": "poll_talk", "type": "talk"},
 ]
 
 log = logging.getLogger("consciousness")
@@ -56,27 +58,18 @@ def log_result(task_name, result, success=True):
 
 
 def run_device_task(ser, action):
-    """Send command to ESP32 and return response."""
     from .daemon_util import send_cmd
-    resp = send_cmd(ser, action, 2)
-    return resp
-
+    return send_cmd(ser, action, 2)
 
 def run_shell_task(action):
-    """Run a shell command and return output."""
     try:
-        r = subprocess.run(action, shell=True, capture_output=True,
-                           text=True, timeout=15)
+        r = subprocess.run(action, shell=True, capture_output=True, text=True, timeout=15)
         return r.stdout.strip()[:300] if r.returncode == 0 else r.stderr[:200]
-    except Exception as e:
-        return str(e)
-
+    except Exception as e: return str(e)
 
 def run_claude_task(action):
-    """Run Claude Code headless and return output."""
     try:
-        r = subprocess.run(action, shell=True, capture_output=True,
-                           text=True, timeout=60,
+        r = subprocess.run(action, shell=True, capture_output=True, text=True, timeout=60,
                            cwd=os.path.expanduser("~/claude"))
         return r.stdout.strip()[:300] if r.returncode == 0 else None
     except Exception as e:
@@ -84,12 +77,17 @@ def run_claude_task(action):
 
 
 def _notify(msg):
-    """Send notification via Nextcloud Talk (best effort)."""
     try:
         from .nctalk import send_message
         send_message(msg)
-    except Exception:
-        pass
+    except Exception: pass
+
+def _poll_talk():
+    try:
+        from .nctalk import poll_and_respond
+        poll_and_respond(run_claude_task, log)
+    except Exception as e:
+        log.error("Talk poll: %s", e)
 
 def tick(ser, schedule, last_runs):
     """Check schedule, run due tasks. Called from daemon loop."""
@@ -110,6 +108,8 @@ def tick(ser, schedule, last_runs):
                 result = run_shell_task(task["action"])
             elif task["type"] == "claude":
                 result = run_claude_task(task["action"])
+            elif task["type"] == "talk":
+                _poll_talk(); result = "polled"
             else:
                 result = f"Unknown type: {task['type']}"
 
