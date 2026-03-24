@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.56.0] — 2026-03-24
+
+Era 148. E2E pipeline benchmark — honest proof that each layer adds (or doesn't add) value.
+
+### Added
+
+- **Scripts**: `benchmark-context-pipeline.py` — compares 5 levels (none → grep → domain → prime → brain) with precision, noise, tokens, latency
+- **Results**: L3 (auto-prime) improves grep precision +32%. L4 (brain) compresses tokens 70%. L2 (domain routing) too aggressive on small stores.
+- **Docs**: honest benchmark report with root cause analysis and production recommendations
+
 ## [3.55.0] — 2026-03-24
 
 Era 147. SPEC-041: Brain-Inspired Context Reasoning Engine — pre-LLM intelligence.
@@ -4559,6 +4569,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.55.0...v3.56.0
 [3.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.54.0...v3.55.0
 [3.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.53.0...v3.54.0
 [3.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.52.0...v3.53.0
