@@ -3,14 +3,20 @@
 Persistent log of corrections and patterns discovered during sessions.
 Reviewed at session start to prevent recurrence. Newest entries first.
 
+| 2026-03-24 | PII | Wrote user's real name in CHANGELOG (public file). Rule #20 violation. ALWAYS use "user" or generic terms in any versioned file. No exceptions, even when referring to ideas or contributions. | User correction |
+| 2026-03-24 | Git | ALWAYS use scripts/push-pr.sh for PRs. Never manual curl to GitHub API. Corrected 3+ times. | User correction |
+
 Format: `| date | category | lesson | source |`
 
 ---
 
 | Date | Category | Lesson | Source |
 |---|---|---|---|
+| 2026-03-24 | CHANGELOG | Always include `Era N` reference in CHANGELOG entry description. BATS test `recent versions (>=2.20) have an Era reference` fails without it. Format: `Era 138. Description here.` | CI BATS failure — test-changelog-integrity |
+| 2026-03-23 | Git | Always use `scripts/push-pr.sh` for commit+sign+push+PR. Manual flow causes signature mismatch (sign before commit = diff changes after). The script handles the correct order: CI → sign → commit → push → PR. | CI failure — Confidentiality Gate hash mismatch |
+| 2026-03-23 | Git | GitHub PAT is at `~/.github-pat`. Use it for API calls when `gh` CLI is not installed. | Session discovery |
 | 2026-03-04 | Reasoning | Out-of-scope answers must identify the REAL objective before responding. "Lavar el coche a 100m → ¿andando o en coche?" requires the car there, so: drive. Proxy optimization of "desplazamiento" instead of "lavado". Added to adaptive-output.md. | User correction — car wash example |
-| 2026-03-04 | CHANGELOG | Always add version link reference `[X.Y.Z]: URL` at bottom of CHANGELOG.md when creating a new `## [X.Y.Z]` header. Validated by `scripts/validate-changelog-links.sh` and `prompt-hook-commit.sh`. | User correction — v1.9.0 |
+| 2026-03-04 | CHANGELOG | Always add versión link reference `[X.Y.Z]: URL` at bottom of CHANGELOG.md when creating a new `## [X.Y.Z]` header. Validated by `scripts/validate-changelog-links.sh` and `prompt-hook-commit.sh`. | User correction — v1.9.0 |
 | 2026-03-03 | PII | Never include real company names, personal names, or handles in CHANGELOG, releases, commits, or PR descriptions. Use generic placeholders (test-org, alice, test company). | User correction — Era 21 |
 | 2026-03-03 | Git | `git fetch origin --all` is invalid. Use `git fetch --all` or `git fetch origin` (without --all). | Test failure — Era 22 |
 | 2026-03-03 | Testing | `assert_ok` checking `$?` after `TOTAL=$((TOTAL+1))` always returns 0. Pass the command as arguments to the assert function instead. | Test failure — Era 22 |
