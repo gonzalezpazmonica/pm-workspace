@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.54.0] — 2026-03-24
+
+Era 146. Forgetting curve loop closed + 8-layer memory architecture documentation.
+
+### Changed
+
+- **Scripts**: `context-auto-prime.py` — Ebbinghaus forgetting curve integrated into scoring. Memories accessed frequently strengthen; unused ones decay. Access tracker feeds the curve.
+- **Docs**: `memory-architecture.md` — complete 8-layer architecture explained for humans. Formulas, diagrams, numbers, analogies. Written by Savia in first person.
+
 ## [3.53.0] — 2026-03-24
 
 Era 145. Prefetch cache + access tracking — EXP-02 from experiment to production.
@@ -4540,6 +4549,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.53.0...v3.54.0
 [3.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.52.0...v3.53.0
 [3.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.51.0...v3.52.0
 [3.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.50.0...v3.51.0
