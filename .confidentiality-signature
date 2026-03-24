@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=aa17bba8376656c1333da127b9b4ceaaec0764a5a10b4886fe996eb57ffc1214
-timestamp=2026-03-24T08:01:35Z
-branch=feat/memory-integration-wiring
-head_commit=efd1277
-signature=546bdb777184ec1bd7c79c34f7480907c565c0fd9744b9cb81b742c8c37e1516
+diff_hash=bc1ffd76884c552f08c1c4df9951af6bce9cf2f80d256a2f0e31468fb87bafd6
+timestamp=2026-03-24T08:35:27Z
+branch=feat/context-auto-prime-spec039
+head_commit=3f7bba1
+signature=7be750240fa01308de490239076131677acc59a01ccf80bff321b69f8948e473
