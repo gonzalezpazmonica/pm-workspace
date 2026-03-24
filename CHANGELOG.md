@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.52.0] — 2026-03-24
+
+Era 144. SPEC-040: Memory R&D — 3 scientific experiments on agentic memory.
+
+### Added
+
+- **SPEC-040**: Memory Research Experiments with hypotheses, methods, and measurements
+- **Scripts**: `memory-experiments.py` — Ebbinghaus forgetting curve, Markov workflow prediction, semantic consolidation
+- **Results**: EXP-02 CONFIRMED (Markov top-3: 100%, top-1: 95%). EXP-01/03 need larger datasets.
+- **Tests**: 9 BATS tests including hypothesis verification (top-3 accuracy >= 70%)
+
 ## [3.51.0] — 2026-03-24
 
 Era 143. SPEC-039: Context Auto-Priming — memory that loads itself. Frontier context management.
@@ -4516,6 +4527,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.51.0...v3.52.0
 [3.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.50.0...v3.51.0
 [3.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.49.0...v3.50.0
 [3.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.48.0...v3.49.0
