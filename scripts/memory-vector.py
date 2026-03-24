@@ -19,29 +19,31 @@ from pathlib import Path
 
 # --- Dependency detection (3 levels) ---
 LEVEL = 0  # 0=grep only, 1=python no deps, 2=full vector
+ANN_BACKEND = None  # "hnswlib" or "faiss"
 
 try:
     import hnswlib
-    LEVEL = 2
+    ANN_BACKEND = "hnswlib"
 except ImportError:
     pass
 
-try:
-    from sentence_transformers import SentenceTransformer
-    if LEVEL < 2:
-        LEVEL = 1  # has ST but no hnswlib
-except ImportError:
-    if LEVEL == 2:
-        LEVEL = 1  # has hnswlib but no ST
-
-if LEVEL < 2:
-    # Check both deps together
+if ANN_BACKEND is None:
     try:
-        import hnswlib  # noqa: F811
-        from sentence_transformers import SentenceTransformer  # noqa: F811
-        LEVEL = 2
+        import faiss
+        ANN_BACKEND = "faiss"
     except ImportError:
         pass
+
+try:
+    from sentence_transformers import SentenceTransformer
+    if ANN_BACKEND:
+        LEVEL = 2
+    else:
+        LEVEL = 1  # has ST but no ANN backend
+except ImportError:
+    if ANN_BACKEND:
+        LEVEL = 1  # has ANN but no ST
+    pass
 
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 RERANKER_NAME = "cross-encoder/ms-marco-MiniLM-L-6-v2"
@@ -61,11 +63,16 @@ DEFAULT_STORE = os.environ.get(
 
 
 def _index_path(store: str) -> str:
-    return store.replace(".jsonl", "-index.idx")
+    ext = ".faiss" if ANN_BACKEND == "faiss" else ".idx"
+    return store.replace(".jsonl", f"-index{ext}")
 
 
 def _map_path(store: str) -> str:
     return store.replace(".jsonl", "-index.map")
+
+
+def _npy_path(store: str) -> str:
+    return store.replace(".jsonl", "-index.npy")
 
 
 def _load_jsonl(store: str) -> list[dict]:
@@ -102,7 +109,7 @@ def _compose_text(entry: dict) -> str:
 def cmd_rebuild(store: str) -> None:
     if LEVEL < 2:
         print("Error: deps not installed. Run:")
-        print("  pip install sentence-transformers hnswlib")
+        print("  pip install sentence-transformers faiss-cpu  (or hnswlib on Linux)")
         sys.exit(1)
 
     entries = _load_jsonl(store)
@@ -122,19 +129,26 @@ def cmd_rebuild(store: str) -> None:
     embeddings = model.encode(texts, show_progress_bar=False, normalize_embeddings=True)
     print(f"Embeddings done in {time.time() - t0:.1f}s")
 
-    # Build hnswlib index
-    idx = hnswlib.Index(space="cosine", dim=DIMENSIONS)
-    idx.init_index(max_elements=max(len(entries) * 2, 100), ef_construction=200, M=16)
-    idx.add_items(embeddings, list(range(len(entries))))
-    idx.set_ef(50)
-
-    # Write atomically via tmp
+    import numpy as np
     idx_path = _index_path(store)
     map_path = _map_path(store)
     tmp_idx = idx_path + ".tmp"
     tmp_map = map_path + ".tmp"
 
-    idx.save_index(tmp_idx)
+    emb_np = np.array(embeddings, dtype="float32")
+
+    if ANN_BACKEND == "faiss":
+        index = faiss.IndexFlatIP(DIMENSIONS)
+        faiss.normalize_L2(emb_np)
+        index.add(emb_np)
+        faiss.write_index(index, tmp_idx)
+    else:
+        idx = hnswlib.Index(space="cosine", dim=DIMENSIONS)
+        idx.init_index(max_elements=max(len(entries) * 2, 100), ef_construction=200, M=16)
+        idx.add_items(emb_np, list(range(len(entries))))
+        idx.set_ef(50)
+        idx.save_index(tmp_idx)
+
     with open(tmp_map, "w") as f:
         for i, entry in enumerate(entries):
             f.write(f"{i}\t{entry['_line']}\t{entry.get('title', '')}\n")
@@ -143,7 +157,7 @@ def cmd_rebuild(store: str) -> None:
     os.replace(tmp_map, map_path)
 
     size_kb = os.path.getsize(idx_path) / 1024
-    print(f"Index: {len(entries)} entries, {size_kb:.0f} KB -> {idx_path}")
+    print(f"Index ({ANN_BACKEND}): {len(entries)} entries, {size_kb:.0f} KB -> {idx_path}")
 
 
 def cmd_search(store: str, query: str, top_k: int = 10) -> None:
@@ -160,21 +174,32 @@ def cmd_search(store: str, query: str, top_k: int = 10) -> None:
         print(json.dumps({"fallback": True, "results": []}))
         return
 
+    import numpy as np
     model = SentenceTransformer(MODEL_NAME)
     query_emb = model.encode([query], normalize_embeddings=True)
 
-    idx = hnswlib.Index(space="cosine", dim=DIMENSIONS)
-    idx.load_index(idx_path)
-    idx.set_ef(50)
-
-    max_k = min(top_k, idx.get_current_count())
-    if max_k == 0:
-        print(json.dumps({"fallback": False, "results": []}))
-        return
-
-    # Fetch more candidates if reranker available (it will filter down)
-    fetch_k = min(max_k * 3, idx.get_current_count()) if HAS_RERANKER else max_k
-    labels, distances = idx.knn_query(query_emb, k=fetch_k)
+    if ANN_BACKEND == "faiss":
+        index = faiss.read_index(idx_path)
+        total = index.ntotal
+        if total == 0:
+            print(json.dumps({"fallback": False, "results": []}))
+            return
+        q = np.array(query_emb, dtype="float32")
+        faiss.normalize_L2(q)
+        fetch_k = min((top_k * 3 if HAS_RERANKER else top_k), total)
+        distances_raw, labels_raw = index.search(q, fetch_k)
+        labels = labels_raw
+        distances = 1.0 - distances_raw  # convert IP similarity to distance
+    else:
+        idx = hnswlib.Index(space="cosine", dim=DIMENSIONS)
+        idx.load_index(idx_path)
+        idx.set_ef(50)
+        total = idx.get_current_count()
+        if total == 0:
+            print(json.dumps({"fallback": False, "results": []}))
+            return
+        fetch_k = min((top_k * 3 if HAS_RERANKER else top_k), total)
+        labels, distances = idx.knn_query(query_emb, k=fetch_k)
 
     # Load map: idx_pos -> jsonl_line
     line_map = {}
@@ -263,7 +288,7 @@ def cmd_status(store: str) -> None:
 
     if LEVEL < 2:
         print("\nInstall deps for vector search:")
-        print("  pip install sentence-transformers hnswlib")
+        print("  pip install sentence-transformers faiss-cpu  (or hnswlib on Linux)")
 
 
 def cmd_benchmark(store: str) -> None:
@@ -351,15 +376,25 @@ def cmd_benchmark(store: str) -> None:
     # --- Vector search ---
     model = SentenceTransformer(MODEL_NAME)
 
+    import numpy as np
     idx_path = _index_path(tmp_store)
-    idx = hnswlib.Index(space="cosine", dim=DIMENSIONS)
-    idx.load_index(idx_path)
-    idx.set_ef(50)
 
-    def vector_search(query_str: str, k: int = 5) -> list[str]:
-        qemb = model.encode([query_str], normalize_embeddings=True)
-        labels, _ = idx.knn_query(qemb, k=min(k, idx.get_current_count()))
-        return [corpus[int(l)]["title"] for l in labels[0]]
+    if ANN_BACKEND == "faiss":
+        ann_index = faiss.read_index(idx_path)
+        def vector_search(query_str: str, k: int = 5) -> list[str]:
+            qemb = model.encode([query_str], normalize_embeddings=True)
+            q = np.array(qemb, dtype="float32")
+            faiss.normalize_L2(q)
+            _, labels_r = ann_index.search(q, min(k, ann_index.ntotal))
+            return [corpus[int(l)]["title"] for l in labels_r[0] if l >= 0]
+    else:
+        idx = hnswlib.Index(space="cosine", dim=DIMENSIONS)
+        idx.load_index(idx_path)
+        idx.set_ef(50)
+        def vector_search(query_str: str, k: int = 5) -> list[str]:
+            qemb = model.encode([query_str], normalize_embeddings=True)
+            labels, _ = idx.knn_query(qemb, k=min(k, idx.get_current_count()))
+            return [corpus[int(l)]["title"] for l in labels[0]]
 
     # --- Compare ---
     grep_hits = 0
