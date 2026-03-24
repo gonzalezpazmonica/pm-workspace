@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0067a86f42a90155744efc8f1ed6a28198392723b3e233f01fb35d4de90b6d4b
-timestamp=2026-03-24T09:25:18Z
-branch=feat/memory-rd-experiments
-head_commit=bb32f78
-signature=7e833814b35bffd35b014a5f18dab9faaa1607d65e803762e9b18a12213d1f51
+diff_hash=96fe9b90b868c575bdecac0bdfb754b21714db5ca0548da6ea65407b01780509
+timestamp=2026-03-24T09:35:07Z
+branch=feat/prefetch-cache-production
+head_commit=17dbab8
+signature=0adb06feb93923a6b4c6f99e43415b4dd885d7acb81421bdb7a703775c0c42f0
