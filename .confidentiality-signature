@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e79086cfb91dbda9110504c59889f2ef6fbc24cc63453063ab531453ba25cda1
-timestamp=2026-03-24T11:03:17Z
-branch=feat/forgetting-curve-loop-docs
-head_commit=f8ae4ed
-signature=8ffa01122919968ec1388aa42d967aaf97d3e211358a3fd75d03bde9419e100c
+diff_hash=77a2ff637cf82a649fc6a558acf2710ce2abd1a1be90291b85e53cab26303c37
+timestamp=2026-03-24T11:16:00Z
+branch=feat/brain-context-reasoning
+head_commit=35b85f9
+signature=b19c129839062896db91875c0632e1f9f66bac84cc3e0e90abbee3e7cee24565
