@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.60.0] — 2026-03-24
+
+Era 152. SaviaClaw talks — Nextcloud Talk integration for autonomous messaging.
+
+### Added
+
+- **ZeroClaw**: `nctalk.py` — send/read Nextcloud Talk messages. SaviaClaw can message Monica autonomously via http://localhost
+- **ZeroClaw**: consciousness notifies via Talk on task failure or important results
+- **Config**: `~/.savia/nextcloud-config` stores credentials locally (never in repo)
+
 ## [3.59.0] — 2026-03-24
 
 Era 151. Memory prime hook + SaviaClaw consciousness — persistent daemon with identity and scheduler.
@@ -4592,6 +4602,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.59.0...v3.60.0
 [3.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.57.0...v3.59.0
 [3.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.56.0...v3.57.0
 [3.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.55.0...v3.56.0
