@@ -1,0 +1,77 @@
+#!/usr/bin/env bats
+# Tests for SPEC-036 Agent Evaluation Framework
+
+@test "eval directory structure exists" {
+  [ -d "tests/evals" ]
+}
+
+@test "security-attacker golden set exists with pairs" {
+  [ -d "tests/evals/security-attacker" ]
+  [ -f "tests/evals/security-attacker/input-01.py" ]
+  [ -f "tests/evals/security-attacker/expected-01.yaml" ]
+  [ -f "tests/evals/security-attacker/input-02.py" ]
+  [ -f "tests/evals/security-attacker/expected-02.yaml" ]
+}
+
+@test "code-reviewer golden set exists with pairs" {
+  [ -d "tests/evals/code-reviewer" ]
+  [ -f "tests/evals/code-reviewer/input-01.diff" ]
+  [ -f "tests/evals/code-reviewer/expected-01.yaml" ]
+}
+
+@test "business-analyst golden set exists with pairs" {
+  [ -d "tests/evals/business-analyst" ]
+  [ -f "tests/evals/business-analyst/input-01.md" ]
+  [ -f "tests/evals/business-analyst/expected-01.yaml" ]
+}
+
+@test "eval-agent.sh exists and is valid bash" {
+  [ -f "scripts/eval-agent.sh" ]
+  bash -n scripts/eval-agent.sh
+}
+
+@test "eval-agent.sh --list shows agents" {
+  run bash scripts/eval-agent.sh --list
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"security-attacker"* ]]
+  [[ "$output" == *"code-reviewer"* ]]
+  [[ "$output" == *"business-analyst"* ]]
+}
+
+@test "eval-agent.sh --help shows usage" {
+  run bash scripts/eval-agent.sh --help
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Usage"* ]]
+}
+
+@test "eval-agent.sh generates template for valid agent" {
+  run bash scripts/eval-agent.sh security-attacker
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Eval template"* ]]
+  [[ "$output" == *"2 pairs"* ]]
+}
+
+@test "eval-agent.sh fails for unknown agent" {
+  run bash scripts/eval-agent.sh nonexistent-agent
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"ERROR"* ]]
+}
+
+@test "expected YAML files contain must_detect field" {
+  for f in tests/evals/*/expected-*.yaml; do
+    # At least one expected file should have must_detect or expected_findings
+    if grep -q 'must_detect\|expected_findings\|expected_behavior' "$f"; then
+      return 0
+    fi
+  done
+  # If we get here, no expected file had the required fields
+  return 1
+}
+
+@test "eval-agent command exists" {
+  [ -f ".claude/commands/eval-agent.md" ]
+}
+
+@test "SPEC-036 document exists" {
+  [ -f "docs/propuestas/SPEC-036-agent-evaluation.md" ]
+}

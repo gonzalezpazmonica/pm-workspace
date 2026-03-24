@@ -1,6 +1,6 @@
 # SPEC-036: Agent Evaluation Framework — Medir para Mejorar
 
-> Status: **DRAFT** · Fecha: 2026-03-23 · Score: 4.65
+> Status: **APPROVED** · Fecha: 2026-03-24 · Score: 4.65
 > Origen: DeepEval (14K) + Giskard (5K) — testing de agentes LLM
 > Impacto: De "confio en que funciona" a "mido que funciona"
 
