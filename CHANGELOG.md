@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.53.0] — 2026-03-24
+
+Era 145. Prefetch cache + access tracking — EXP-02 from experiment to production.
+
+### Added
+
+- **Scripts**: `context-prefetch.py` — Markov prefetch cache (predict next command, pre-load domain context) + memory access tracker (feeds forgetting curve)
+- **Tests**: 8 BATS tests including hypothesis verification (top-3 >= 90%)
+
+### Changed
+
+- **Architecture**: memory stack now has predictive layer: save → classify → index → search → auto-prime → **prefetch next**
+
 ## [3.52.0] — 2026-03-24
 
 Era 144. SPEC-040: Memory R&D — 3 scientific experiments on agentic memory.
@@ -4527,6 +4540,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.52.0...v3.53.0
 [3.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.51.0...v3.52.0
 [3.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.50.0...v3.51.0
 [3.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.49.0...v3.50.0
