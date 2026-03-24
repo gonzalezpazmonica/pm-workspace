@@ -92,7 +92,14 @@ cmd_save() {
         sed -i "s/\"topic_key\":\"$supersedes_key\"\(.*\)}/\"topic_key\":\"$supersedes_key\"\1,\"valid_to\":\"$now\",\"superseded_by\":\"$topic_key\"}/" "$STORE_FILE"
     fi
 
-    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"sector\":\"$sector\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev,\"valid_from\":\"$vf\""
+    # SPEC-038: auto-classify knowledge domain
+    local domain="general"
+    if command -v python3 &>/dev/null && [[ -f "$SCRIPT_DIR/memory-domains.py" ]]; then
+        domain=$(python3 "$SCRIPT_DIR/memory-domains.py" classify "$title $topic_key" 2>/dev/null | head -1 | sed "s/Domains: \['\([^']*\)'.*/\1/" || echo "general")
+        [[ "$domain" == "Domains:"* || -z "$domain" ]] && domain="general"
+    fi
+
+    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"sector\":\"$sector\",\"domain\":\"$domain\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev,\"valid_from\":\"$vf\""
     [[ "$supersedes" != "null" ]] && json="$json,\"supersedes\":\"$supersedes\""
     [[ "$expires_at" != "null" ]] && json="$json,\"expires_at\":\"$expires_at\""
     [[ -n "$supersedes_key" ]] && json="$json,\"supersedes_key\":\"$supersedes_key\""
@@ -101,9 +108,7 @@ cmd_save() {
     _maybe_rebuild_index
 }
 
-cmd_entity() {
-    local action="${1:-list}" query= etype= proj=
-    shift 2>/dev/null || true
+cmd_entity() { local action="${1:-list}" query= etype= proj=; shift 2>/dev/null || true
     while [[ $# -gt 0 ]]; do case "$1" in --type) etype="$2"; shift 2;; --project) proj="$2"; shift 2;; *) query="$1"; shift;; esac; done
     [[ ! -f "$STORE_FILE" ]] && { echo "No hay entidades registradas"; return; }
     if [[ "$action" == "list" ]]; then
@@ -112,8 +117,7 @@ cmd_entity() {
             local t=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
             local c=$(echo "$line" | grep -o '"concepts":\[[^]]*\]' | sed 's/.*\[//;s/\].*//' | tr -d '"')
             local p=$(echo "$line" | grep -o '"project":"[^"]*"' | cut -d'"' -f4)
-            [[ -n "$etype" && "$c" != *"$etype"* ]] && continue
-            [[ -n "$proj" && "$p" != "$proj" ]] && continue
+            [[ -n "$etype" && "$c" != *"$etype"* ]] && continue; [[ -n "$proj" && "$p" != "$proj" ]] && continue
             echo "  - $t ($c) — proyecto: $p"
         done
     elif [[ "$action" == "find" ]]; then
@@ -121,8 +125,7 @@ cmd_entity() {
         grep '"type":"entity"' "$STORE_FILE" 2>/dev/null | grep -i "$query" | while IFS= read -r line; do
             local t=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
             local c=$(echo "$line" | grep -o '"content":"[^"]*"' | sed 's/"content":"//' | sed 's/"$//')
-            local ts=$(echo "$line" | grep -o '"ts":"[^"]*"' | cut -d'"' -f4 | cut -d'T' -f1)
-            echo "$t — $ts: $c"
+            echo "$t — $(echo "$line" | grep -o '"ts":"[^"]*"' | cut -d'"' -f4 | cut -d'T' -f1): $c"
         done
     else echo "Uso: entity {list|find} [nombre] [--type tipo] [--project proj]"; fi
 }
