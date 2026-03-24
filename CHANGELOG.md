@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.51.0] — 2026-03-24
+
+Era 143. SPEC-039: Context Auto-Priming — memory that loads itself. Frontier context management.
+
+### Added
+
+- **SPEC-039**: Context Auto-Priming — scores memories by domain + keywords + recency + importance, loads relevant ones automatically before any task
+- **Scripts**: `context-auto-prime.py` — arithmetic scoring (no LLM), 0.6ms avg latency, silent on trivial queries
+- **Tests**: 11 BATS tests + benchmark (100% prime accuracy, 100% domain accuracy, 25% silence rate)
+
 ## [3.50.0] — 2026-03-24
 
 Era 142. Memory integration — domain routing feeds hybrid search, auto-classify on save.
@@ -4506,6 +4516,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.50.0...v3.51.0
 [3.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.49.0...v3.50.0
 [3.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.48.0...v3.49.0
 [3.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.47.0...v3.48.0
