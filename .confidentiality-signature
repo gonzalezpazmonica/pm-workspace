@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a53f57537c8d5756f1e9e8656a94bda4281bd23b89b12f6f4637d69dc9ad557e
-timestamp=2026-03-24T12:22:22Z
-branch=feat/e2e-improvement-benchmark
-head_commit=5872d12
-signature=6d502024e12bfaf9369f2ef38afdde391323759af1306c4e5f9cb3beb78e2178
+diff_hash=cd998dbf69dd03d7bbfaa9f8f1ec51fe731b96b667b4ff50744eb0c08db1c51b
+timestamp=2026-03-24T13:27:02Z
+branch=feat/wire-memory-hooks
+head_commit=4b9c11e
+signature=fc4caaf48285cd08a0025c838e8f85715a90dd7caaef98a68692208545be55c9
