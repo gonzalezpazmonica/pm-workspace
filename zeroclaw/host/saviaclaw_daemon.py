@@ -18,24 +18,16 @@ from .daemon_util import (
 
 _shutdown = False
 
-
 def _handle_signal(signum, _frame):
     global _shutdown
     _shutdown = True
 
-
 def setup_logging():
     os.makedirs(LOG_DIR, exist_ok=True)
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(levelname)s %(message)s",
-        handlers=[
-            RotatingFileHandler(LOG_FILE, maxBytes=1_000_000, backupCount=3),
-            logging.StreamHandler(),
-        ],
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s",
+        handlers=[RotatingFileHandler(LOG_FILE, maxBytes=1_000_000, backupCount=3),
+                  logging.StreamHandler()])
     return logging.getLogger("saviaclaw")
-
 
 def run_daemon(log, once=False, voice=False):
     global _shutdown
@@ -65,6 +57,12 @@ def run_daemon(log, once=False, voice=False):
                 from .voice_daemon import start as start_voice
                 start_voice(ser, threading.Lock())
 
+            # Consciousness: scheduled autonomous tasks
+            from .consciousness import load_schedule, tick
+            schedule = load_schedule()
+            last_runs = {}
+            log.info("Consciousness loaded: %d tasks", len(schedule))
+
             buf = ""
             last_hb = time.time()
             last_act = time.time()
@@ -77,6 +75,9 @@ def run_daemon(log, once=False, voice=False):
                     buf, queries = _process_buf(buf, ser, log, queries)
 
                 now = time.time()
+                # Consciousness tick: run scheduled tasks
+                last_runs = tick(ser, schedule, last_runs)
+
                 if now - last_hb > HEARTBEAT_INTERVAL:
                     last_hb = now
                     write_status("connected", port, {"queries": queries})
