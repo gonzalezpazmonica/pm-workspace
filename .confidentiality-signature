@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=7dbd3f85d71d23ac10eea842aa86cd40db2e348ba88681d0be2931b508976f5f
-timestamp=2026-03-24T22:34:56Z
+diff_hash=05df1fc82e5383dd324c422b14501321db51b03e88f941fcddb6cadc07757c66
+timestamp=2026-03-24T22:37:49Z
 branch=fix/ellipsis-guardrail
-head_commit=8c17200
-signature=4662ab5e7ab0419dc1e69f24cae9f0194a2b96d4ffbc933d26c398899be9b41b
+head_commit=adc08b2
+signature=745f179a116f3f60bbc64226b2ac37a9f3df9a26a80c8603eec2c2ef3595bd72
