@@ -8,7 +8,7 @@ Usage:
     python3 context-auto-prime.py prime "query" [--store PATH] [--top K]
     python3 context-auto-prime.py benchmark [--store PATH]
 """
-import argparse, json, os, re, time, importlib.util
+import argparse, json, math, os, re, time, importlib.util
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -30,6 +30,28 @@ def _days(ts):
 
 def _recency(d): return 1.0 if d < 7 else 0.7 if d < 30 else 0.4 if d < 90 else 0.1
 
+def _load_access():
+    """Load access stats from tracker (feeds EXP-01 forgetting curve)."""
+    log = str(ROOT / "output/.memory-access-log.jsonl")
+    if not os.path.exists(log): return {}
+    from collections import defaultdict
+    s = defaultdict(lambda: {"count": 0, "last": None})
+    with open(log) as f:
+        for line in f:
+            try:
+                e = json.loads(line.strip()); tk = e.get("topic_key", "")
+                s[tk]["count"] += 1; s[tk]["last"] = e.get("ts")
+            except json.JSONDecodeError: continue
+    return dict(s)
+
+def _strength(tk, stats):
+    """Ebbinghaus: strength = e^(-days/HL) * ln_boost. HL adapts with access."""
+    info = stats.get(tk, {"count": 0, "last": None})
+    if info["count"] == 0: return 0.5
+    d = _days(info["last"]) if info["last"] else 999
+    hl = 7.0 * (1 + math.log(1 + info["count"]))
+    return min(1.0, math.exp(-d / hl) * (1 + 0.1 * math.log(1 + info["count"])))
+
 def _jaccard(a, b): return len(a & b) / len(a | b) if a | b else 0.0
 
 def _words(t): return set(re.findall(r'[a-z]{3,}', t.lower()))
@@ -41,14 +63,15 @@ def prime(query, store, top=5, max_tok=300):
     qw = _words(query)
     # Silent prime: trivial queries with <2 meaningful words
     if len(qw) < 2: return {"primed": [], "tokens": 0, "domain": None, "candidates": 0}
-    entries, max_rev = [], 1
+    entries = []
     with open(store) as f:
         for line in f:
             try:
                 e = json.loads(line.strip())
                 if e.get("valid_to"): continue
-                entries.append(e); max_rev = max(max_rev, e.get("rev", 1))
+                entries.append(e)
             except json.JSONDecodeError: continue
+    access_stats = _load_access()
     scored = []
     for e in entries:
         ed = e.get("domain", "general")
@@ -56,9 +79,10 @@ def prime(query, store, top=5, max_tok=300):
         dm = 1.0 if ed in qdom else 0.3
         ks = _jaccard(qw, _words(f"{e.get('title','')} {e.get('content','')}"))
         rc = _recency(_days(e.get("ts", "")))
-        imp = min(1.0, e.get("rev", 1) / max_rev)
-        sc = dm * 0.30 + ks * 0.35 + rc * 0.20 + imp * 0.15
-        if sc > 0.45:
+        # EXP-01: forgetting curve strength replaces static rev/max_rev
+        stg = _strength(e.get("topic_key", ""), access_stats)
+        sc = dm * 0.28 + ks * 0.32 + rc * 0.18 + stg * 0.22
+        if sc > 0.40:
             scored.append({"title": e.get("title",""), "topic_key": e.get("topic_key",""),
                 "type": e.get("type",""), "domain": ed, "ts": e.get("ts","")[:10],
                 "rev": e.get("rev",1), "score": round(sc, 3),
@@ -72,7 +96,6 @@ def prime(query, store, top=5, max_tok=300):
         if len(sel) >= top: break
     return {"primed": sel, "tokens": tok, "domain": list(qdom)[:2] if qdom else None,
             "candidates": len(scored)}
-
 def format_prime(r):
     if not r["primed"]: return ""
     d = f' from "{r["domain"][0]}"' if r.get("domain") else ""
@@ -80,7 +103,6 @@ def format_prime(r):
     for m in r["primed"]:
         lines.append(f'- {m["title"]} ({m["ts"]}, rev:{m["rev"]}, score:{m["score"]})')
     return "\n".join(lines)
-
 BM = [("How do we handle SQL injection?","security",True),
       ("What is our sprint velocity?","sprint",True),
       ("Show deployment pipeline","devops",True),
@@ -88,7 +110,6 @@ BM = [("How do we handle SQL injection?","security",True),
       ("Architecture pattern we use?","architecture",True),
       ("How to onboard new developers?","team",True),
       ("Acceptance criteria rules?","product",True)]
-
 def benchmark(store):
     results, primed, silent, dok, tok, ms_t = [], 0, 0, 0, 0, 0.0
     for q, exp, should in BM:
