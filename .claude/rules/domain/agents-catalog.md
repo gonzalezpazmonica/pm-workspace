@@ -1,7 +1,8 @@
-# Catálogo de Subagentes (46)
+# Catálogo de Subagentes (47)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
+| `memory-agent` | Haiku 4.5 | Memoria conversacional: recall, save, stats, forget via lenguaje natural (SPEC-029) |
 | `architect` | Opus 4.6 | Diseño de capas, interfaces, patrones |
 | `business-analyst` | Opus 4.6 | Reglas de negocio, criterios de aceptación, evaluación de competencias |
 | `sdd-spec-writer` | Opus 4.6 | Specs ejecutables para agentes de código |

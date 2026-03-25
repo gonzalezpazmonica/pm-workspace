@@ -2,7 +2,7 @@
 
 **Fecha:** 2026-03-03
 **Autor:** Investigación automática + validación cruzada
-**Workstreams:** 7 líneas paralelas
+**Workstreams:** 8 líneas paralelas (WS8 añadido 2026-03-25 — Memory Intelligence)
 **Nota:** La otra instancia de Savia trabaja en puntos complementarios. Coordinación vía ROADMAP.md.
 
 ---
@@ -183,7 +183,7 @@ El artículo de Iñaki Aguirre describe el cambio de "prompt engineering" a "arq
 
 **1. Skills como contratos versionados**
 - Nuestros 22 skills son `.md` pero no tienen versionado explícito
-- **Propuesta:** Añadir `version: 1.0.0` al frontmatter de cada skill + CHANGELOG por skill
+- **Propuesta:** Añadir `versión: 1.0.0` al frontmatter de cada skill + CHANGELOG por skill
 - **Impacto:** Permite deprecar skills sin romper workflows existentes
 
 **2. Bounded autonomy design**
@@ -285,7 +285,7 @@ SAVIA-USB/
    └── Symlink o copiar workspace → ~/claude/
 4. Importar claves (si existen en config/)
 5. Configurar git (remote, branch, fetch)
-6. Verificar: claude --version, git status, savia saluda
+6. Verificar: claude --versión, git status, savia saluda
 7. Listo ✅
 ```
 
@@ -497,6 +497,43 @@ Cada equipo trabaja en su propio repo (o branch) de savia-flow-data. La config e
 
 ---
 
+## WS8 — Memory Intelligence (inspirado en Qwen-Agent)
+
+### Visión
+
+Investigación del repositorio Qwen-Agent (2026-03-25) identificó 5 patrones
+aplicables a pm-workspace. El objetivo es que la memoria sea accesible en
+lenguaje natural y que las búsquedas sean más precisas y rápidas.
+
+### Patrones implementados / en roadmap
+
+| SPEC | Patrón | Estado | Valor |
+|---|---|---|---|
+| SPEC-029 | Memory as Agent — `memory-agent.md` | **IMPLEMENTADO** | Alto |
+| SPEC-030 | Query Keyword Expansion (recall mejorado) | Draft — WS8.2 | Alto |
+| SPEC-031 | Parallel Doc QA (meeting-digest --parallel) | Draft — WS8.3 | Medio |
+| SPEC-032 | Capability-Based Router (smart-routing skill) | Draft — WS8.4 | Medio |
+| SPEC-033 | PENDING_USER_INPUT (pausa/reanuda autónomos) | Draft — WS8.5 | Medio |
+
+### SPEC-029 — Memory Agent (implementado v3.63.0)
+
+Agente conversacional en `.claude/agents/memory-agent.md`:
+- **recall**: busca decisiones/lecciones/patrones en lenguaje natural
+- **save**: guarda nueva memoria sin comandos exactos
+- **stats**: resumen del estado de la memoria
+- **forget**: marca entradas como obsoletas
+
+Modelo: haiku (velocidad). Tools: Read, Bash, Glob, Grep, Write.
+
+### Próximos pasos WS8
+
+1. **WS8.2**: Implementar SPEC-030 (keyword expansion en `memory-store.sh`)
+2. **WS8.3**: Implementar SPEC-031 (flag `--parallel` en meeting-digest)
+3. **WS8.4**: Crear `smart-routing` skill (SPEC-032)
+4. **WS8.5**: Protocolo PENDING_USER_INPUT en consciousness.py (SPEC-033)
+
+---
+
 ## Roadmap propuesto — Era 21
 
 | Versión | Workstream | Milestone | Dependencias |
@@ -508,9 +545,10 @@ Cada equipo trabaja en su propio repo (o branch) de savia-flow-data. La config e
 | v0.103.0 | WS1 | Savia School v1 (setup, enroll, project, submit, evaluate) | WS2 (índices), WS4 (scripts) |
 | v0.104.0 | WS1 | Savia School v2 (security audit, GDPR, penetration test) | v0.103.0 |
 | v0.105.0 | WS3+WS6 | Skills versionados + bounded autonomy map + company repo validation | Todo lo anterior |
+| v0.106.0 | WS8 | Memory Intelligence v2 (SPEC-030 a SPEC-033) | v0.100.0 (índices) |
 
 **Ruta crítica:** v0.99.0 → v0.100.0 → v0.101.0 → v0.103.0 → v0.104.0
-**Ruta paralela:** v0.102.0 puede desarrollarse tras v0.99.0
+**Ruta paralela:** v0.102.0 puede desarrollarse tras v0.99.0; WS8 es paralelo desde v3.63.0
 
 ---
 

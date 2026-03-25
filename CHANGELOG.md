@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.63.0] — 2026-03-25
+
+Era 155. Memory Intelligence from Qwen-Agent — memory-agent + humanized SaviaClaw notifications.
+
+### Added
+
+- **Agents**: `memory-agent.md` — conversational memory agent (SPEC-029). Recall, save, stats and forget via natural language. Model: haiku
+- **ZeroClaw**: Humanized Talk notifications in `consciousness.py` — human-readable Spanish messages instead of technical strings
+- **ZeroClaw**: `_SILENT_TASKS` set — suppresses known-broken tasks (memory-consolidate) from spamming notifications
+- **ZeroClaw**: `_FAILURE_MSGS` dict + `_notify_failure()` / `_notify_success()` helpers
+- **ZeroClaw**: `poll_and_respond()` now injects Savia persona context into claude prompt and uses empathetic fallback
+- **Specs**: SPEC-029 through SPEC-033 from Qwen-Agent research (Memory Agent, Keyword Expansion, Parallel Doc QA, Capability Router, PENDING_USER_INPUT)
+- **Roadmap**: era21-masterplan.md updated with WS8 — Memory Intelligence workstream (8 workstreams total)
+
 ## [3.62.0] — 2026-03-24
 
 Era 154. Ellipsis guardrail — rhetorical dots are not truncation.
@@ -4619,6 +4633,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.62.0...v3.63.0
 [3.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.61.0...v3.62.0
 [3.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.60.0...v3.61.0
 [3.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.59.0...v3.60.0
