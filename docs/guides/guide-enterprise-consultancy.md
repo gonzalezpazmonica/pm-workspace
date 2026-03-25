@@ -24,9 +24,9 @@ Si tu consultora es más pequeña (5–50 personas), comienza con [Guía de Inic
 | **CTO** | Soberanía tecnológica, sin lock-in, RBAC | `/sovereignty-audit`, `/rbac-manager`, `/scale-optimizer` | Control total de datos, permisos y cumplimiento normativo |
 | **Dir. Operaciones** | Multi-equipo, previsibilidad, escala | `/team-orchestrator`, `/enterprise-dashboard`, `/forecast` | Coordinación cross-equipo (Team Topologies), sin cuellos de botella |
 | **PM/Scrum Master** | Automatización, visibilidad, menos overhead | `/sprint-sync`, `/backlog-ai`, `/risk-radar` | Sprints sin ceremonias manuales, alertas proactivas |
-| **Tech Lead** | Especificaciones precisas, SDD, AI agents | `/spec-review`, `/arch-decision`, `/sdd-status` | Dev entiende qué hace antes de escribir código |
+| **Tech Lead** | Especificaciones precisas, SDD, AI agents | `/spec-review`, `/arch-decisión`, `/sdd-status` | Dev entiende qué hace antes de escribir código |
 | **Developers** | Contexto claro, menos reuniones, menos emails | `/context`, `/next-action`, `/spec-check` | Flujo de trabajo enfocado, evita 3 reuniones/día |
-| **QA** | Testing coordenado, trazabilidad, SLA | `/test-plan`, `/regression-matrix`, `/qa-sign-off` | Bugs evitados (no encontrados), metricas de calidad |
+| **QA** | Testing coordenado, trazabilidad, SLA | `/test-plan`, `/regression-matrix`, `/qa-sign-off` | Bugs evitados (no encontrados), métricas de calidad |
 | **RRHH / Onboarding** | Incorporación masiva, checklists, KT | `/onboard-enterprise`, `/team-orchestrator` | Onboarding de 100+ personas con checklists por rol |
 | **Compliance Officer** | GDPR, AEPD, EU AI Act, audit trail | `/governance-enterprise`, `/rbac-manager`, `/ai-audit` | Audit trail inmutable, controles automáticos, certificación |
 
@@ -308,7 +308,7 @@ savia init --client "cliente-piloto" --team "squad-1" \
 
 **Day 1–2**: Setup y kickoff
 - Todos ejecutan `/profile-setup` para registrarse
-- CTO ejecuta `/arch-decision --scope "auth strategy"` → spec generada
+- CTO ejecuta `/arch-decisión --scope "auth strategy"` → spec generada
 
 **Day 3–5**: Desarrollo con SDD
 - Devs implementan spec con `/spec-check` en cada commit

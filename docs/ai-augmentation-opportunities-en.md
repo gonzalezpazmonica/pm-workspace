@@ -44,7 +44,7 @@ Sectors with the largest gap would benefit most from well-designed AI tools — 
 
 **Applicable pm-workspace workflows:** Sprint management for intervention cycles, capacity planning for caseload distribution, time tracking for grant justification, executive reporting for activity reports.
 
-**Extension needed:** Domain entities (beneficiary, case, intervention), custom states (assessment → plan → follow-up → closure), social impact metrics.
+**Extensión needed:** Domain entities (beneficiary, case, intervention), custom states (assessment → plan → follow-up → closure), social impact metrics.
 
 ### Sales (large gap)
 
@@ -52,7 +52,7 @@ Sectors with the largest gap would benefit most from well-designed AI tools — 
 
 **Applicable workflows:** Backlog management for pipeline (leads as PBIs), sprint for campaign cycles, velocity for conversion rate, stakeholder reports for sales leadership.
 
-**Extension needed:** Domain entities (lead, opportunity, account), funnel stages, commercial metrics (CAC, LTV, churn).
+**Extensión needed:** Domain entities (lead, opportunity, account), funnel stages, commercial metrics (CAC, LTV, churn).
 
 ### Arts & media (large gap)
 
@@ -60,7 +60,7 @@ Sectors with the largest gap would benefit most from well-designed AI tools — 
 
 **Applicable workflows:** Sprint for production cycles, spec-driven for creative briefs, code review adapted for content review, time tracking for production budgets.
 
-**Extension needed:** Domain entities (piece, campaign, brief), review states (draft → review → approval → publication), production metrics.
+**Extensión needed:** Domain entities (piece, campaign, brief), review states (draft → review → approval → publication), production metrics.
 
 ---
 

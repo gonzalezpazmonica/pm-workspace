@@ -24,7 +24,7 @@
 - **Improvement project management**: PDCA cycles as sprints.
 - **Staff training**: Savia School for mandatory courses and refresher training.
 - **Extreme confidentiality**: E2E encryption for communications about incidents.
-- **Traceability**: each decision and action is versioned — essential for audits.
+- **Traceability**: each decisión and action is versioned — essential for audits.
 - **No patient data**: Savia manages PROJECTS, not medical records.
 
 ---
@@ -127,7 +127,7 @@ Evaluations are encrypted. Training records are exported for center accreditatio
 
 ```
 /portfolio-overview                  → View of all projects
-/ceo-alerts                          → Alerts requiring decision
+/ceo-alerts                          → Alerts requiring decisión
 ```
 
 ### Prepare quality committee

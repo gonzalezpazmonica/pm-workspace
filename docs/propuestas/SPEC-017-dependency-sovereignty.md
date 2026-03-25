@@ -17,7 +17,7 @@ El script `savia-travel.sh` empaqueta el workspace pero NO las dependencias.
 El script `emergency-plan.sh` cachea Ollama + 1 modelo pero NO el resto.
 
 **Objetivo**: un pendrive USB de 32GB que contenga TODO lo necesario para
-instalar Savia en una maquina Linux limpia sin conexion a internet.
+instalar Savia en una maquina Linux limpia sin conexión a internet.
 
 ---
 
@@ -72,7 +72,7 @@ instalar Savia en una maquina Linux limpia sin conexion a internet.
 
 ```
 SAVIA-USB/
-├── install.sh                    ← Punto de entrada unico
+├── install.sh                    ← Punto de entrada único
 ├── manifest.json                 ← Inventario con SHA256 de cada componente
 ├── tier.conf                     ← Tier seleccionado (1, 2 o 3)
 │
@@ -124,7 +124,7 @@ Fases:
 Cache local: `~/.savia/sovereignty-cache/` — reutilizable entre builds.
 Si un componente ya esta en cache con hash correcto, no se re-descarga.
 
-### Script de instalacion (en maquina SIN internet)
+### Script de instalación (en maquina SIN internet)
 
 `SAVIA-USB/install.sh` — ejecutar desde el USB:
 
@@ -180,13 +180,13 @@ PYTHON_URL="https://github.com/indygreg/python-build-standalone/releases/downloa
 ```bash
 # Descargar todos los wheels necesarios para offline install
 pip download --dest wheels/ --no-cache-dir \
-  --platform manylinux2014_x86_64 --python-version 3.12 \
+  --platform manylinux2014_x86_64 --python-versión 3.12 \
   --only-binary=:all: \
   faster-whisper silero-vad sounddevice numpy pyyaml websockets kokoro
 
 # torch CPU-only requiere indice separado
 pip download --dest wheels/ --no-cache-dir \
-  --platform manylinux2014_x86_64 --python-version 3.12 \
+  --platform manylinux2014_x86_64 --python-versión 3.12 \
   --only-binary=:all: \
   --extra-index-url https://download.pytorch.org/whl/cpu \
   torch torchaudio
@@ -210,7 +210,7 @@ curl -L "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.t
 
 ---
 
-## Implementacion
+## Implementación
 
 ### Fase 1 — sovereignty-pack.sh Tier 1 (1 sprint)
 
@@ -220,14 +220,14 @@ curl -L "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.t
 4. Solo componentes Tier 1 (voice + LLM 3b)
 5. Crear `scripts/sovereignty-install.sh` (generado dentro del USB)
 
-### Fase 2 — Tiers 2-3 + verificacion (1 sprint)
+### Fase 2 — Tiers 2-3 + verificación (1 sprint)
 
 1. Anadir Node.js, Claude Code, modelos grandes
 2. install.sh con seleccion de tier
-3. Test de humo post-instalacion
-4. Documentacion usuario
+3. Test de humo post-instalación
+4. Documentación usuario
 
-### Fase 3 — Integracion con travel-pack (< 1 sprint)
+### Fase 3 — Integración con travel-pack (< 1 sprint)
 
 1. `savia-travel.sh` llama a sovereignty-pack para deps
 2. Un solo comando: `savia-travel.sh pack --with-deps --dest /media/usb`
@@ -239,7 +239,7 @@ curl -L "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.t
 
 - [ ] USB Tier 1 instala Savia funcional en maquina Linux sin internet
 - [ ] Voz funciona offline: mic → whisper → LLM local → TTS → speaker
-- [ ] Tiempo de instalacion < 10 minutos en SSD
+- [ ] Tiempo de instalación < 10 minutos en SSD
 - [ ] Manifest verifica integridad de todos los ficheros antes de instalar
 - [ ] sovereignty-pack.sh reutiliza cache (no re-descarga si ya tiene)
 - [ ] install.sh es idempotente (se puede ejecutar multiples veces)
@@ -252,14 +252,14 @@ curl -L "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.t
 | Riesgo | Mitigacion |
 |--------|-----------|
 | Ollama cambia estructura de modelos | Opcion B (GGUF import) como fallback |
-| Python standalone no compatible | Pinear version exacta, testar en CI |
+| Python standalone no compatible | Pinear versión exacta, testar en CI |
 | Pip wheels con deps nativas rotas | Usar manylinux2014, testar en container limpio |
 | USB demasiado lento para modelos | Copiar a SSD primero, ejecutar desde ahi |
 | Kokoro necesita torch que pesa 740MB | Investigar torch CPU slim o alternativa ONNX |
 
 ---
 
-## Relacion con scripts existentes
+## Relación con scripts existentes
 
 | Script existente | Que hace | Que falta |
 |-----------------|----------|-----------|
@@ -289,7 +289,7 @@ Recomendacion: **USB 64 GB** para Tier 2 + SaviaOS booteable.
 
 USB con sistema operativo completo que arranca en cualquier PC x86_64.
 Enciendes, eliges "boot from USB", y tienes Savia funcionando sin tocar
-el disco duro del host. Zero instalacion. Zero dependencia del SO existente.
+el disco duro del host. Zero instalación. Zero dependencia del SO existente.
 
 ### Base: Ubuntu minimal + live-build
 
@@ -385,7 +385,7 @@ En vez de dd directo, usar Ventoy:
 
 USB 64 GB recomendado (margen para persistence + datos del usuario).
 
-### Implementacion
+### Implementación
 
 #### Fase 4a — Prueba de concepto (1 sprint)
 

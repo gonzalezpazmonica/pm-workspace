@@ -2,16 +2,16 @@
 
 > Status: **RESEARCH** · Fecha: 2026-03-22 · Score: 4.85
 > Origen: LightRAG (hkuds/lightrag) — knowledge graph + vector hybrid
-> Impacto: Recall semantico superior. "auth" encuentra "token refresh".
+> Impacto: Recall semántico superior. "auth" encuentra "token refresh".
 
 ---
 
 ## Problema
 
-SPEC-018 (vector index) mejoro recall de 40% a 90%. Pero la busqueda
+SPEC-018 (vector index) mejoro recall de 40% a 90%. Pero la búsqueda
 vectorial sigue siendo "bolsa de palabras con significado". No entiende
 relaciones: "quien decidio usar PostgreSQL?" requiere saber que
-PostgreSQL fue una DECISION tomada por el EQUIPO para el PROYECTO.
+PostgreSQL fue una DECISIóN tomada por el EQUIPO para el PROYECTO.
 
 LightRAG demuestra que un grafo de entidades+relaciones sobre el
 mismo texto mejora significativamente la precision en queries complejas.
@@ -25,7 +25,7 @@ Entidades: [PostgreSQL, OAuth2, TeamAlpha, Sprint-06, AuthService]
 Relaciones: [TeamAlpha -DECIDED-> PostgreSQL, AuthService -USES-> OAuth2]
 ```
 
-Busqueda dual: vector similarity + graph traversal.
+Búsqueda dual: vector similarity + graph traversal.
 El grafo es derivado (regenerable desde JSONL), igual que el indice vector.
 
 ## Arquitectura
@@ -41,7 +41,7 @@ Query → vector search (top K) + graph traversal (relations) → rerank → res
 
 Regex + heuristicas para extraer entidades de las memorias:
 - Nombres propios (capitalized words en titulo)
-- Topic key families como categorias (decision/*, bug/*)
+- Topic key families como categorias (decisión/*, bug/*)
 - Proyectos (campo project)
 - Conceptos (campo concepts)
 
@@ -55,7 +55,7 @@ Formato: `output/.memory-graph.json`
 
 ## Fase 2 — Extraccion con LLM local (requiere SPEC-023)
 
-Usar el LLM entrenado en Fase 4 de SPEC-023 para extraccion semantica
+Usar el LLM entrenado en Fase 4 de SPEC-023 para extraccion semántica
 de entidades y relaciones — mucho mas preciso que regex.
 
 ## Fase 3 — Dual retrieval

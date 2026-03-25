@@ -56,7 +56,7 @@ Definición detallada de los 4 roles clave en Savia Flow:
 
 **Público objetivo:** Profesionales en transición de roles, RH técnico
 
-### **6. 05-metricas-flujo-guia.md** (~180 líneas)
+### **6. 05-métricas-flujo-guia.md** (~180 líneas)
 Guía práctica de métricas de flujo:
 - Por qué la velocidad falla en equipos de IA
 - Las 4 métricas primarias explicadas

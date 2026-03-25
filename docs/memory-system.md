@@ -104,7 +104,7 @@ Los agentes tienen memoria persistente separada en 3 niveles por privacidad y po
 | Nivel | Ruta | En git | Contenido |
 |---|---|---|---|
 | **Publica** | `public-agent-memory/{agente}/` | SI | Best practices genericas (DDD, SOLID, security) |
-| **Privada** | `private-agent-memory/{agente}/` | NO | Contexto personal, equipo, organizacion |
+| **Privada** | `private-agent-memory/{agente}/` | NO | Contexto personal, equipo, organización |
 | **Proyecto** | `projects/{p}/agent-memory/{agente}/` | NO | Datos del cliente, estado de procesamiento |
 
 **Orden de carga**: publica → privada → proyecto. Proyecto prevalece en conflictos.
@@ -170,7 +170,7 @@ Estas reglas tienen menor prioridad que las del proyecto.
 
 ### Concepts Dimension
 
-Entries now support a `--concepts` parameter (CSV) stored as JSON array. This enables 2D taxonomy: type (decision, bug, pattern...) + concepts (testing, ci, architecture...). Search and stats both leverage concepts for better categorization.
+Entries now support a `--concepts` parameter (CSV) stored as JSON array. This enables 2D taxonomy: type (decisión, bug, pattern...) + concepts (testing, ci, architecture...). Search and stats both leverage concepts for better categorization.
 
 ### Progressive Disclosure (3 layers)
 

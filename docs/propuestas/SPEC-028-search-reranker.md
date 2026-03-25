@@ -17,7 +17,7 @@ significativamente la precision sin cambiar el indice.
 
 ## Solucion
 
-Despues del vector search, pasar los top-K resultados por un
+Después del vector search, pasar los top-K resultados por un
 cross-encoder reranker que evalua query+documento como par.
 
 Modelo: sentence-transformers cross-encoder/ms-marco-MiniLM-L-6-v2
@@ -26,9 +26,9 @@ Modelo: sentence-transformers cross-encoder/ms-marco-MiniLM-L-6-v2
 - Apache 2.0
 - Offline, sin API
 
-## Implementacion
+## Implementación
 
-En `memory-vector.py`, despues de ANN search:
+En `memory-vector.py`, después de ANN search:
 
 ```python
 # Top-K from vector search
