@@ -24,8 +24,13 @@ DEFAULT_SCHEDULE = [
      "type": "shell"},
     {"name": "sensor-check", "interval_min": 10,
      "action": "sensors", "type": "device"},
-    {"name": "check-talk", "interval_min": 2,
+    {"name": "check-talk", "interval_min": 0,
      "action": "poll_talk", "type": "talk"},
+    {"name": "check-gmail", "interval_min": 5,
+     "action": "check_gmail", "type": "gmail"},
+    {"name": "gdrive-sync", "interval_min": 360,
+     "action": "python3 zeroclaw/host/gdrive_sync.py sync",
+     "type": "shell", "notify": True},
 ]
 
 log = logging.getLogger("consciousness")
@@ -69,24 +74,73 @@ def run_shell_task(action):
 
 def run_claude_task(action):
     try:
+        # Run from /tmp to avoid loading pm-workspace CLAUDE.md (130K tokens)
         r = subprocess.run(action, shell=True, capture_output=True, text=True, timeout=60,
-                           cwd=os.path.expanduser("~/claude"))
-        return r.stdout.strip()[:300] if r.returncode == 0 else None
+                           cwd="/tmp")
+        return r.stdout.strip() if r.returncode == 0 else None
     except Exception as e: return str(e)
 
 
 def _notify(msg):
     try:
-        from .nctalk import send_message
-        send_message(msg)
+        from .nctalk import notify_with_escalation
+        notify_with_escalation(msg, log)
     except Exception: pass
+
+
+_SILENT_TASKS = {"memory-consolidate"}  # tasks that fail silently (known broken)
+
+_FAILURE_MSGS = {
+    "check-talk":        "No pude revisar Talk ahora. Lo intentaré de nuevo en un momento.",
+    "check-gmail":       "No pude revisar el correo ahora. Lo intentaré pronto.",
+    "gdrive-sync":       "No pude sincronizar Drive ahora. Lo reintentaré más tarde.",
+    "git-status":        "No pude leer el estado de git. Sin conexión al repo.",
+    "sensor-check":      "No recibí datos de los sensores. ¿El dispositivo está conectado?",
+    "heartbeat":         None,  # never notify
+}
+
+def _notify_failure(name):
+    if name in _SILENT_TASKS:
+        return
+    msg = _FAILURE_MSGS.get(name)
+    if msg is None:
+        return
+    if msg:
+        _notify(msg)
+
+
+def _notify_success(name, result):
+    """Human-readable success notification for tasks with notify=True."""
+    if name == "gdrive-sync":
+        try:
+            import json as _j
+            r = _j.loads(result) if isinstance(result, str) else result
+            synced = r.get("synced", 0)
+            failed = r.get("failed", 0)
+            if failed:
+                msg = f"Drive sincronizado: {synced} archivo(s) guardado(s), {failed} con error."
+            else:
+                msg = f"Drive sincronizado: {synced} archivo(s) guardado(s)."
+        except Exception:
+            msg = "Drive sincronizado correctamente."
+    else:
+        msg = f"Tarea completada: {name}."
+    _notify(msg)
 
 def _poll_talk():
     try:
-        from .nctalk import poll_and_respond
+        from .nctalk import poll_and_respond, check_escalations
         poll_and_respond(run_claude_task, log)
+        check_escalations(log)
     except Exception as e:
         log.error("Talk poll: %s", e)
+
+def _check_gmail():
+    try:
+        from .gmail_check import check_and_notify
+        check_and_notify(run_claude_task, _notify, log)
+    except Exception as e:
+        log.error("Gmail check: %s", e)
 
 def tick(ser, schedule, last_runs):
     """Check schedule, run due tasks. Called from daemon loop."""
@@ -109,23 +163,24 @@ def tick(ser, schedule, last_runs):
                 result = run_claude_task(task["action"])
             elif task["type"] == "talk":
                 _poll_talk(); result = "polled"
+            elif task["type"] == "gmail":
+                _check_gmail(); result = "checked"
             else:
                 result = f"Unknown type: {task['type']}"
 
             log_result(name, result, success=bool(result))
             log.info("Task %s completed: %s", name, str(result)[:80])
 
-            # Show on LCD (brief status)
-            from .daemon_util import send_cmd, truncate_lcd
-            status = f"{name}: OK" if result else f"{name}: FAIL"
-            l1, l2 = truncate_lcd(status)
+            # Show on LCD (task status)
+            from .daemon_util import send_cmd, lcd_task_status
+            l1, l2 = lcd_task_status(name, result)
             send_cmd(ser, f"lcd {l1}" + (f" | {l2}" if l2 else ""), 1)
 
             # Notify on failure or if task requests it
             if not result:
-                _notify(f"SaviaClaw: tarea '{name}' fallo")
+                _notify_failure(name)
             elif task.get("notify"):
-                _notify(f"SaviaClaw [{name}]: {str(result)[:200]}")
+                _notify_success(name, result)
 
         except Exception as e:
             log.error("Task %s failed: %s", name, e)
