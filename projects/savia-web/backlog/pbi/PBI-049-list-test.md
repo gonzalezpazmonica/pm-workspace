@@ -1,7 +1,7 @@
 ---
-id: PBI-032
-title: "Test item"
-type: Bug
+id: PBI-049
+title: "List test"
+type: User Story
 state: New
 priority: 3-Medium
 estimation_sp: 0

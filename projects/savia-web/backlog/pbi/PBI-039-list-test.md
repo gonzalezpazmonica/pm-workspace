@@ -1,7 +1,7 @@
 ---
-id: PBI-032
-title: "Test item"
-type: Bug
+id: PBI-039
+title: "List test"
+type: User Story
 state: New
 priority: 3-Medium
 estimation_sp: 0
@@ -12,8 +12,8 @@ tags: []
 azure_devops_id: ""
 jira_id: ""
 github_issue_id: ""
-created: 2026-03-22
-updated: 2026-03-22
+created: 2026-03-23
+updated: 2026-03-23
 ---
 
 ## Descripcion
