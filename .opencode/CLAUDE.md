@@ -9,7 +9,7 @@
 ## Configuración
 
 ```
-AZURE_DEVOPS_ORG_URL    = "https://dev.azure.com/MI-ORGANIZACION"
+AZURE_DEVOPS_ORG_URL    = "https://dev.azure.com/MI-ORGANIZACIóN"
 AZURE_DEVOPS_PAT_FILE   = "$HOME/.azure/devops-pat"
 AZURE_DEVOPS_API_VERSION = "7.1"
 AZURE_DEVOPS_PM_USER    = "nombre.apellido@miorganizacion.com"

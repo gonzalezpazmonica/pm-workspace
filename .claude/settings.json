@@ -147,6 +147,7 @@
     ],
     "Stop": [
       {
+        "matcher": "",
         "hooks": [
           {
             "type": "command",
@@ -178,15 +179,34 @@
     ],
     "PreCompact": [
       {
-        "command": ".claude/hooks/pre-compact-backup.sh"
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-compact-backup.sh",
+            "timeout": 10,
+            "statusMessage": "Backup pre-compact..."
+          }
+        ]
       }
     ],
     "PostToolUseFailure": [
       {
-        "command": ".claude/hooks/post-tool-failure-log.sh",
-        "async": true
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-tool-failure-log.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Registrando fallo de herramienta..."
+          }
+        ]
       }
     ]
+  },
+  "permissions": {
+    "defaultMode": "auto"
   },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
