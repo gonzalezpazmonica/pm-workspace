@@ -9,7 +9,7 @@
 ## Configuración
 
 ```
-AZURE_DEVOPS_ORG_URL    = "https://dev.azure.com/MI-ORGANIZACION"
+AZURE_DEVOPS_ORG_URL    = "https://dev.azure.com/MI-ORGANIZACIóN"
 AZURE_DEVOPS_PAT_FILE   = "$HOME/.azure/devops-pat"
 AZURE_DEVOPS_API_VERSION = "7.1"
 AZURE_DEVOPS_PM_USER    = "nombre.apellido@miorganizacion.com"
@@ -34,7 +34,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 ```
 ~/claude/                          ← Raíz y repositorio GitHub
 ├── .claude/
-│   ├── agents/ (46)               ← @.claude/rules/domain/agents-catalog.md
+│   ├── agents/ (47)               ← @.claude/rules/domain/agents-catalog.md
 │   ├── commands/ (496)             ← @.claude/rules/domain/pm-workflow.md
 │   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
 │   ├── hooks/ (22)                ← .claude/settings.json
@@ -91,7 +91,7 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 
 ## Subagentes
 
-> Catálogo (46): `@.claude/rules/domain/agents-catalog.md` · Agent Notes: `@docs/agent-notes-protocol.md`
+> Catálogo (47): `@.claude/rules/domain/agents-catalog.md` · Agent Notes: `@docs/agent-notes-protocol.md`
 
 Cada agente: `memory: project`, `skills:` precargados, `permissionMode:` apropiado. Developers: `isolation: worktree`.
 Flujos: SDD (analyst→architect→security→tester→developer→reviewer) · Infra · Diagramas · Agent Teams (`@docs/agent-teams-sdd.md`)
