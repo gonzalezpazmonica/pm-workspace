@@ -1,0 +1,39 @@
+{
+  "security": [
+    "security/sql-parameterized",
+    "security/owasp-pipeline",
+    "security/xss-profile"
+  ],
+  "architecture": [
+    "architecture/repository-pattern",
+    "architecture/microservice-boundaries",
+    "architecture/adr-required"
+  ],
+  "sprint": [
+    "sprint/velocity-baseline",
+    "sprint/underestimation-auth",
+    "sprint/retro-tracking"
+  ],
+  "quality": [
+    "quality/coverage-drop-auth",
+    "quality/testcontainers-convention",
+    "quality/playwright-screenshots"
+  ],
+  "devops": [
+    "devops/blue-green-deploy",
+    "devops/terraform-modules"
+  ],
+  "team": [
+    "team/onboarding-plan",
+    "team/pair-programming-auth"
+  ],
+  "product": [
+    "product/gwt-criteria",
+    "product/jtbd-framework"
+  ],
+  "memory": [
+    "memory/domain-routing",
+    "memory/vector-fallback"
+  ],
+  "general": []
+}
