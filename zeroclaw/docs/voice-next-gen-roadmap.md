@@ -1,6 +1,6 @@
 # ZeroClaw Voice — Roadmap Next-Gen
 
-> Investigacion marzo 2026. Estado del arte en conversacion por voz.
+> Investigacion marzo 2026. Estado del arte en conversación por voz.
 
 ---
 
@@ -50,7 +50,7 @@ para que pare la reproduccion.
 y sintetizar frase a frase.
 
 ```
-Claude genera: "Hola Monica, | aqui tienes | el resumen."
+Claude genera: "Hola Monica, | aquí tienes | el resumen."
                     ↓ TTS         ↓ TTS          ↓ TTS
                  (reproduce)   (en cola)      (en cola)
 ```
@@ -86,7 +86,7 @@ abierto se necesita AEC (speexdsp o webrtcvad).
 
 ---
 
-## Plan de implementacion
+## Plan de implementación
 
 ### v2.1 — Feedback asincrono (HECHO)
 - "Dame un momento" cuando LLM tarda >5s
@@ -118,7 +118,7 @@ abierto se necesita AEC (speexdsp o webrtcvad).
 - Whisper small para precision
 - Diarizacion con pyannote/ECAPA-TDNN
 - Transcripcion continua sin turnos
-- Digestion post-reunion con meeting-digest agent
+- Digestión post-reunion con meeting-digest agent
 
 ### v3.0 — ESP32 como satelite
 - Firmware ESP32: I2S + WebSocket + WakeNet
@@ -127,9 +127,9 @@ abierto se necesita AEC (speexdsp o webrtcvad).
 
 ---
 
-## Metricas objetivo
+## Métricas objetivo
 
-| Metrica | v2 actual | v2.3 | v3.0 |
+| Métrica | v2 actual | v2.3 | v3.0 |
 |---------|-----------|------|------|
 | First-audio | 8-13s | <4s | <3s |
 | Turn total | 15-25s | 6-10s | 5-8s |

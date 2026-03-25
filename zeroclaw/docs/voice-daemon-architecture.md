@@ -1,7 +1,7 @@
 # ZeroClaw Voice Daemon — Architecture v2
 
 > El daemon de voz NO es un chatbot. Es un adaptador I/O
-> que conecta audio con una sesion REAL de Claude Code.
+> que conecta audio con una sesión REAL de Claude Code.
 
 ---
 
@@ -20,7 +20,7 @@ La voz es solo otro canal de entrada/salida.
 
 ```
                     ┌─────────────────────────────────┐
-                    │     Claude Code (sesion real)    │
+                    │     Claude Code (sesión real)    │
                     │  CLAUDE.md + rules + profiles +  │
                     │  memory + projects + agents      │
                     │  --resume <session_id>           │
@@ -60,7 +60,7 @@ La voz es solo otro canal de entrada/salida.
 
 ## Protocolo Claude Code stream-json
 
-### Input (stdin): un JSON por linea
+### Input (stdin): un JSON por línea
 
 ```json
 {
@@ -75,7 +75,7 @@ La voz es solo otro canal de entrada/salida.
 
 | Evento | Significado |
 |--------|------------|
-| `system/init` | Inicio sesion, contiene `session_id` |
+| `system/init` | Inicio sesión, contiene `session_id` |
 | `assistant` | Respuesta (parcial o completa) |
 | `result` | Fin del turno, contiene texto final |
 | `stream_event` | Token individual (con --include-partial-messages) |
@@ -87,7 +87,7 @@ Turno 1: claude -p --output-format stream-json --input-format stream-json --verb
   → capturar session_id de system/init
 
 Turno 2+: claude -p --resume <session_id> --output-format stream-json ...
-  → misma sesion, mismo contexto, misma memoria
+  → misma sesión, mismo contexto, misma memoria
 ```
 
 ---
@@ -98,10 +98,10 @@ Turno 2+: claude -p --resume <session_id> --output-format stream-json ...
 |---------|----------------------|---------------------------|
 | Contexto | Sin CLAUDE.md, sin reglas | TODO el contexto de pm-workspace |
 | Personalidad | System prompt hardcoded | Savia real (profiles, rules) |
-| Memoria | Sin memoria entre turnos | Sesion persistente |
+| Memoria | Sin memoria entre turnos | Sesión persistente |
 | Herramientas | Solo texto | Puede usar Bash, Read, etc. |
 | Streaming | Espera respuesta completa | Token a token (parcial) |
-| PII | Hardcoded en codigo | Cero, lee del workspace |
+| PII | Hardcoded en código | Cero, lee del workspace |
 
 ---
 
@@ -121,7 +121,7 @@ Turno 2+: claude -p --resume <session_id> --output-format stream-json ...
 - El resto se guarda como follow-up para procesar tras el turno de Savia
 
 ### 3. SessionManager (session.py) — Streaming por frases
-- Claude Code stream-json + resume para sesion persistente
+- Claude Code stream-json + resume para sesión persistente
 - Yield frase a frase (split en punto/coma) para streaming TTS
 - Fillers asincrono: "Pues mira..." si LLM tarda >3s (via TTSCache)
 - Stalls: "Dejame que lo mire" si >8s
@@ -132,7 +132,7 @@ Turno 2+: claude -p --resume <session_id> --output-format stream-json ...
 - edge-tts (Elvira es-ES) como fallback si Kokoro no disponible
 - Cola de reproduccion thread-safe (queue + playback loop)
 - cancel() para barge-in: para audio, vacia cola
-- is_playing property para deteccion de overlaps
+- is_playing property para detección de overlaps
 
 ### 5. TTS Pre-Cache (tts_cache.py) — NUEVO v2.4
 - 20 respuestas exactas pre-generadas (0ms latencia)
