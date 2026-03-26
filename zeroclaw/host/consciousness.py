@@ -39,6 +39,7 @@ from .consciousness_comms import (  # notification + comms helpers
     notify_failure as _notify_failure, notify_success as _notify_success,
     poll_talk as _poll_talk, check_gmail as _check_gmail,
 )
+from .survival import survival_tick as _survival_tick
 
 
 def load_identity():
@@ -70,7 +71,6 @@ def log_result(task_name, result, success=True):
 def run_device_task(ser, action):
     from .daemon_util import send_cmd
     return send_cmd(ser, action, 2)
-
 def run_shell_task(action):
     try:
         r = subprocess.run(action, shell=True, capture_output=True, text=True, timeout=15)
@@ -81,10 +81,9 @@ def run_shell_task(action):
         return None
 
 def run_claude_task(action):
-    try:
-        # Run from /tmp to avoid loading pm-workspace CLAUDE.md (130K tokens)
-        r = subprocess.run(action, shell=True, capture_output=True, text=True, timeout=60,
-                           cwd="/tmp")
+    try:  # Run from /tmp to avoid loading pm-workspace CLAUDE.md (130K tokens)
+        r = subprocess.run(action, shell=True, capture_output=True, text=True,
+                           timeout=60, cwd="/tmp")
         return r.stdout.strip() if r.returncode == 0 else None
     except Exception as e: return str(e)
 
@@ -133,6 +132,7 @@ def tick(ser, schedule, last_runs):
             log.error("Task %s failed: %s", name, e)
             log_result(name, str(e), success=False)
 
+    _survival_tick(ser, run_claude_task)
     return last_runs
 
 
