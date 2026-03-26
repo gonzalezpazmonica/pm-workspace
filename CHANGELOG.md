@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.66.0] — 2026-03-26
+
+Era 149. Browser agents, Teams/DevOps readers, memory sync + backup.
+
+### Added
+
+- **Scripts**: `browser-daemon.py` — persistent off-screen Playwright browser per account for email/calendar monitoring
+- **Scripts**: `inbox-check.py` — read Outlook Web inbox via browser session (direct mode + daemon mode)
+- **Scripts**: `teams-check.py` — read Teams Web chats, activity feed, and channels via browser session
+- **Scripts**: `devops-read.py` — READ-ONLY Azure DevOps scraper (backlog, board, sprint taskboard)
+- **Scripts**: `memory-sync-index.sh` — sync auto-memory markdown files to JSONL vector store (markdown remains source of truth)
+- **Scripts**: `memory-backup-pm.sh` — AES-256 encrypted backup of memory indices to PM repo with manifest verification
+- **Rules**: `transcription-resolution.md` — ASR error correction using project phonetic maps and context dictionaries
+
+### Changed
+
+- **Scripts**: `memory-search.sh` — detect FAISS index (`.faiss`) in addition to hnswlib (`.idx`) for vector search fallback
+- **Scripts**: `memory-store.sh` — improved dispatcher with background index rebuild detection
+- **Scripts**: `memory-vector.py` — improved embedding generation, FAISS support, batch processing
+- **Agents**: `meeting-digest.md` — added Phase 0 (transcription resolution) before extraction
+- **Config**: `.gitignore` — added `scheduled_tasks.lock` and `.claude/sessions/`
+
 ## [3.65.0] — 2026-03-26
 
 Era 156. SaviaClaw survival system — autonomous three-phase health monitoring with SSH self-healing.
@@ -4665,6 +4687,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.65.0...v3.66.0
 [3.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.64.0...v3.65.0
 [3.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.63.0...v3.64.0
 [3.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.62.0...v3.63.0

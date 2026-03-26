@@ -37,6 +37,8 @@ print(f'  (hybrid: {src.get(\"vector\",0)} vec + {src.get(\"graph\",0)} graph + 
     # Vector-only search (legacy path)
     if [[ "$mode" == "vector" || "$mode" == "auto" ]]; then
         local idx="${STORE_FILE%.jsonl}-index.idx"
+        local idx_faiss="${STORE_FILE%.jsonl}-index.faiss"
+        [[ -f "$idx_faiss" && ! -f "$idx" ]] && idx="$idx_faiss"
         if command -v python3 &>/dev/null && [[ -f "$idx" ]]; then
             local vec_result
             vec_result=$(python3 "$SCRIPT_DIR/memory-vector.py" search "$query" --top 10 --store "$STORE_FILE" 2>/dev/null) || true

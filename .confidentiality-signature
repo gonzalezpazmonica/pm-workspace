@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ce77fd09609ec7e8505f052e5219d8697886bd92623bf345b4ab7471333a21b7
-timestamp=2026-03-26T22:20:06Z
-branch=feat/zeroclaw-lcd-improvements
-head_commit=4605b0c
-signature=83035d1f5cd1715cbd38c2b0836daf21c628bf843cf8101db2b10637ddcdef27
+diff_hash=58c0d803571fb9196d95fd61ac21182023c78dd837a4a4e92e979a5d7eb2f71f
+timestamp=2026-03-26T22:38:47Z
+branch=feature/era-149-browser-agents-memory-sync
+head_commit=8d921ec
+signature=0f0e32c2ad271e8abbaa46d38fa41451c2bb9da11d8de55d6857324c446bd619

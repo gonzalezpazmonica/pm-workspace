@@ -1,5 +1,7 @@
 # ── Claude Code internals ─────────────────────────────────────────────────────
 .claude/worktrees/
+.claude/scheduled_tasks.lock
+.claude/sessions/
 
 # ── Credenciales y secretos — NUNCA commitear ────────────────────────────────
 .claude/.env

@@ -13,10 +13,15 @@ hash_content() { echo -n "$1" | sha256sum | cut -d' ' -f1; }
 iso8601_now() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 
 _maybe_rebuild_index() {
-    local idx="${STORE_FILE%.jsonl}-index.idx"
     command -v python3 &>/dev/null || return 0
-    python3 -c "import hnswlib, sentence_transformers" 2>/dev/null || return 0
-    if [[ ! -f "$idx" ]] || [[ "$STORE_FILE" -nt "$idx" ]]; then
+    python3 -c "import sentence_transformers; import faiss" 2>/dev/null \
+      || python3 -c "import sentence_transformers; import hnswlib" 2>/dev/null \
+      || return 0
+    local idx_faiss="${STORE_FILE%.jsonl}-index.faiss"
+    local idx_hnsw="${STORE_FILE%.jsonl}-index.idx"
+    local idx="$idx_faiss"
+    [[ -f "$idx_hnsw" ]] && idx="$idx_hnsw"
+    if [[ ! -f "$idx_faiss" && ! -f "$idx_hnsw" ]] || [[ "$STORE_FILE" -nt "$idx" ]]; then
         python3 "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" >/dev/null 2>&1 &
         echo "(vector index rebuilding in background)" >&2
     fi

@@ -217,8 +217,8 @@ val result = chatRepository.sendMessage(...)
 
 ### Manual Testing
 1. Run bridge server on PC
-2. Get PC's IP (e.g., 192.168.1.100)
-3. Configure app: host="192.168.1.100", port=8000
+2. Get PC's IP (e.g., <YOUR_PC_IP>)
+3. Configure app: host="<YOUR_PC_IP>", port=8000
 4. Send messages and verify they work
 
 ## Backward Compatibility
