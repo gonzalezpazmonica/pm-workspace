@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
+set -uo pipefail
+# NOTE: -e omitted intentionally — grep returns 1 on no-match which would
+# abort the script. All error paths are guarded explicitly with || or if/fi.
 # pre-commit-sovereignty.sh — Git pre-commit hook
 # Scans ALL staged files for sensitive data patterns
 # Full file content, no truncation — last line of defense before git
-# NOTE: -e omitted intentionally — grep returns 1 on no-match which would
-# abort the script. All error paths are guarded explicitly with || or if/fi.
-set -uo pipefail
 
 RED='\033[0;31m'; NC='\033[0m'
 

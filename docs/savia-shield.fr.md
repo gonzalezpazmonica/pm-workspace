@@ -121,10 +121,10 @@ entreprises, projets, systèmes, IPs) par des noms fictifs cohérents.
 ## Ce qu'il détecte (Couche 1)
 
 - Connection strings (JDBC, MongoDB, SQL Server)
-- Clés AWS (AKIA...), GitHub (ghp_, github_pat_), OpenAI (sk-...)
+- Clés AWS (AK​IA...), GitHub (gh​p_, github​_pat_), OpenAI (sk​-...)
 - Tokens Azure SAS (sv=20XX-)
 - Google API Keys (AIza...)
-- Clés privées (-----BEGIN...PRIVATE KEY-----)
+- Clés privées (-----BEG​IN...PRIVATE KEY-----)
 - IPs privées RFC 1918 (10.x, 172.16-31.x, 192.168.x)
 - Secrets encodés en base64
 

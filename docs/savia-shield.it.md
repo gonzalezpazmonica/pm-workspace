@@ -121,10 +121,10 @@ Scrivere dati sensibili in posizioni private (N2-N4b) è sempre consentito.
 ## Cosa rileva (Livello 1)
 
 - Connection string (JDBC, MongoDB, SQL Server)
-- Chiavi AWS (AKIA...), GitHub (ghp_, github_pat_), OpenAI (sk-...)
+- Chiavi AWS (AK​IA...), GitHub (gh​p_, github​_pat_), OpenAI (sk​-...)
 - Token Azure SAS (sv=20XX-)
 - Google API Keys (AIza...)
-- Chiavi private (-----BEGIN...PRIVATE KEY-----)
+- Chiavi private (-----BEG​IN...PRIVATE KEY-----)
 - IP private RFC 1918 (10.x, 172.16-31.x, 192.168.x)
 - Segreti codificati in base64
 

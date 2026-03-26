@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
+set -uo pipefail
+# NOTE: -e omitted intentionally — grep returns 1 on no-match which would
+# abort the script. All error paths are guarded explicitly with || or if/fi.
 # data-sovereignty-audit.sh — PostToolUse hook (async)
 # Capa 3: Verifica post-escritura que no se colo dato sensible en N1
 # [FIX H1] Scans FULL file on disk, not truncated content
-# NOTE: -e omitted intentionally — grep returns 1 on no-match which would
-# abort the script. All error paths are guarded explicitly with || or if/fi.
-set -uo pipefail
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 AUDIT_LOG="$PROJECT_DIR/output/data-sovereignty-audit.jsonl"

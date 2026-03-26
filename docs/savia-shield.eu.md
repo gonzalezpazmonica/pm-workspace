@@ -122,10 +122,10 @@ Datu sentikorrak kokapen pribatutan (N2-N4b) idaztea beti onartuta dago.
 ## Zer detektatzen du (1. Geruza)
 
 - Connection strings (JDBC, MongoDB, SQL Server)
-- AWS gakoak (AKIA...), GitHub (ghp_, github_pat_), OpenAI (sk-...)
+- AWS gakoak (AK​IA...), GitHub (gh​p_, github​_pat_), OpenAI (sk​-...)
 - Azure SAS tokenak (sv=20XX-)
 - Google API Keys (AIza...)
-- Gako pribatuak (-----BEGIN...PRIVATE KEY-----)
+- Gako pribatuak (-----BEG​IN...PRIVATE KEY-----)
 - RFC 1918 IP pribatuak (10.x, 172.16-31.x, 192.168.x)
 - base64-n kodetutako sekretuak
 

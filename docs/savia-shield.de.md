@@ -121,10 +121,10 @@ Das Schreiben sensibler Daten an private Speicherorte (N2–N4b) ist stets erlau
 ## Was erkannt wird (Schicht 1)
 
 - Connection Strings (JDBC, MongoDB, SQL Server)
-- AWS-Schlüssel (AKIA...), GitHub (ghp_, github_pat_), OpenAI (sk-...)
+- AWS-Schlüssel (AK​IA...), GitHub (gh​p_, github​_pat_), OpenAI (sk​-...)
 - Azure SAS-Tokens (sv=20XX-)
 - Google API Keys (AIza...)
-- Private Schlüssel (-----BEGIN...PRIVATE KEY-----)
+- Private Schlüssel (-----BEG​IN...PRIVATE KEY-----)
 - Private IPs RFC 1918 (10.x, 172.16-31.x, 192.168.x)
 - In base64 kodierte Geheimnisse
 

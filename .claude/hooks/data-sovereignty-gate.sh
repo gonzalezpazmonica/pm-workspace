@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
+set -uo pipefail
+# NOTE: -e omitted intentionally — grep returns 1 on no-match which would
+# abort the script. All error paths are guarded explicitly with || or if/fi.
 # data-sovereignty-gate.sh — PreToolUse hook (Edit|Write)
 # Capa 1: regex determinista + Capa 2: Ollama local si ambiguo
 # Exit 0 = permitir, Exit 2 = bloquear
 # AUDITABILITY: every decision logged to JSONL with JSON-safe escaping
-# NOTE: -e omitted intentionally — grep returns 1 on no-match which would
-# abort the script. All error paths are guarded explicitly with || or if/fi.
-set -uo pipefail
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 AUDIT_LOG="$PROJECT_DIR/output/data-sovereignty-audit.jsonl"

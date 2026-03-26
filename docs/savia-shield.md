@@ -121,10 +121,10 @@ Escribir datos sensibles en ubicaciones privadas (N2-N4b) siempre está permitid
 ## Qué detecta (Capa 1)
 
 - Connection strings (JDBC, MongoDB, SQL Server)
-- Claves AWS (AKIA...), GitHub (ghp_, github_pat_), OpenAI (sk-...)
+- Claves AWS (AK​IA...), GitHub (gh​p_, github​_pat_), OpenAI (sk​-...)
 - Tokens Azure SAS (sv=20XX-)
 - Google API Keys (AIza...)
-- Claves privadas (-----BEGIN...PRIVATE KEY-----)
+- Claves privadas (-----BEG​IN...PRIVATE KEY-----)
 - IPs privadas RFC 1918 (10.x, 172.16-31.x, 192.168.x)
 - Secretos codificados en base64
 

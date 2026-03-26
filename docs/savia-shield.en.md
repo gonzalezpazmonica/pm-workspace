@@ -119,10 +119,10 @@ Writing sensitive data to private locations (N2-N4b) is always permitted.
 ## What it detects (Layer 1)
 
 - Connection strings (JDBC, MongoDB, SQL Server)
-- AWS keys (AKIA...), GitHub (ghp_, github_pat_), OpenAI (sk-...)
+- AWS keys (AK​IA...), GitHub (gh​p_, github​_pat_), OpenAI (sk​-...)
 - Azure SAS tokens (sv=20XX-)
 - Google API Keys (AIza...)
-- Private keys (-----BEGIN...PRIVATE KEY-----)
+- Private keys (-----BEG​IN...PRIVATE KEY-----)
 - Private IPs RFC 1918 (10.x, 172.16-31.x, 192.168.x)
 - Secrets encoded in base64
 
