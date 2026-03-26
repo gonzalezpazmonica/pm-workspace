@@ -49,6 +49,9 @@ So funktioniert es im Detail: **[Mein Gedachtnissystem](docs/memory-architecture
 
 ---
 
+
+> **[Savia Shield](docs/savia-shield.de.md)** — Datensouveranitatssystem. Lokale Klassifizierung mit LLM, reversible Maskierung, vollstandiges Audit.
+
 ## Installation
 
 ```bash

@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+# savia-shield-setup.sh — Instalador de Savia Shield
+# Verifica dependencias, instala Ollama + modelo, configura hooks
+set -uo pipefail
+
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
+CYAN='\033[0;36m'; NC='\033[0m'; BOLD='\033[1m'
+
+echo -e "\n${BOLD}${CYAN}Savia Shield — Setup${NC}\n"
+
+ERRORS=0; WARNINGS=0
+check_ok()   { echo -e "  ${GREEN}OK${NC} $1"; }
+check_warn() { echo -e "  ${YELLOW}WARN${NC} $1"; WARNINGS=$((WARNINGS+1)); }
+check_fail() { echo -e "  ${RED}FAIL${NC} $1"; ERRORS=$((ERRORS+1)); }
+
+# 1. Python 3
+echo -e "${BOLD}[1/6]${NC} Python 3..."
+if command -v python3 >/dev/null 2>&1; then
+  PY_VER=$(python3 --version 2>&1)
+  check_ok "$PY_VER"
+else
+  check_fail "Python 3 no encontrado. Instala Python 3.12+"
+fi
+
+# 2. jq
+echo -e "${BOLD}[2/6]${NC} jq..."
+if command -v jq >/dev/null 2>&1; then
+  check_ok "$(jq --version 2>&1)"
+else
+  check_fail "jq no encontrado. Instala con: winget install jqlang.jq"
+fi
+
+# 3. Ollama
+echo -e "${BOLD}[3/6]${NC} Ollama..."
+OLLAMA_CMD=""
+for p in ollama "$HOME/AppData/Local/Programs/Ollama/ollama" /usr/local/bin/ollama; do
+  if command -v "$p" >/dev/null 2>&1 || [ -f "$p" ]; then
+    OLLAMA_CMD="$p"; break
+  fi
+done
+if [ -n "$OLLAMA_CMD" ]; then
+  check_ok "$($OLLAMA_CMD --version 2>&1)"
+else
+  check_warn "Ollama no encontrado. Instalando..."
+  if command -v winget >/dev/null 2>&1; then
+    winget install Ollama.Ollama --accept-package-agreements --accept-source-agreements 2>&1 | tail -3
+    check_ok "Ollama instalado via winget"
+  elif [[ "$(uname)" == "Darwin" ]]; then
+    brew install ollama 2>&1 | tail -3
+    check_ok "Ollama instalado via brew"
+  else
+    curl -fsSL https://ollama.ai/install.sh | sh 2>&1 | tail -3
+    check_ok "Ollama instalado via curl"
+  fi
+fi
+
+# 4. Modelo qwen2.5:7b
+echo -e "${BOLD}[4/6]${NC} Modelo qwen2.5:7b..."
+if curl -s --max-time 3 http://localhost:11434/api/tags 2>/dev/null | grep -q "qwen2.5:7b"; then
+  check_ok "Modelo ya descargado"
+else
+  check_warn "Descargando modelo qwen2.5:7b (~4.7GB)..."
+  ollama pull qwen2.5:7b 2>&1 | tail -3
+  check_ok "Modelo descargado"
+fi
+
+# 5. Presidio + spaCy
+echo -e "${BOLD}[5/6]${NC} Presidio + spaCy..."
+if python3 -c "import presidio_analyzer" 2>/dev/null; then
+  check_ok "Presidio instalado"
+else
+  check_warn "Instalando Presidio..."
+  pip install presidio-analyzer presidio-anonymizer 2>&1 | tail -3
+  check_ok "Presidio instalado"
+fi
+if python3 -c "import spacy; spacy.load('es_core_news_md')" 2>/dev/null; then
+  check_ok "spaCy modelo espanol instalado"
+else
+  check_warn "Descargando spaCy modelo espanol..."
+  python3 -m spacy download es_core_news_md 2>&1 | tail -3
+  check_ok "spaCy modelo espanol descargado"
+fi
+
+# 6. Verificar hooks
+echo -e "${BOLD}[6/6]${NC} Hooks registrados..."
+if grep -q "data-sovereignty-gate" .claude/settings.json 2>/dev/null; then
+  check_ok "Gate hook registrado"
+else
+  check_fail "Gate hook no encontrado en .claude/settings.json"
+fi
+if grep -q "shield-ner-hook" .claude/settings.json 2>/dev/null; then
+  check_ok "NER hook registrado"
+else
+  check_warn "NER hook no encontrado — ejecuta manualmente"
+fi
+
+# Resumen
+echo ""
+if [ $ERRORS -eq 0 ]; then
+  echo -e "${GREEN}${BOLD}Savia Shield instalado correctamente${NC}"
+  echo -e "  Errores: 0 | Avisos: $WARNINGS"
+  echo -e "\n  Verificar: ${CYAN}bats tests/test-data-sovereignty.bats${NC}"
+  echo -e "  Documento: ${CYAN}docs/savia-shield.md${NC}"
+else
+  echo -e "${RED}${BOLD}Savia Shield: $ERRORS errores encontrados${NC}"
+  echo -e "  Corrige los errores y ejecuta de nuevo."
+fi

@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.64.0] — 2026-03-26
+
+Savia Shield — Enterprise data sovereignty for AI-assisted workflows.
+
+### Added
+
+- **Savia Shield**: 4-layer defense system preventing client data leakage to cloud LLM APIs
+- **Hooks**: `data-sovereignty-gate.sh` (PreToolUse, blocking) + `data-sovereignty-audit.sh` (PostToolUse, synchronous)
+- **Scripts**: `ollama-classify.sh` (local LLM classifier), `sovereignty-mask.py/.sh` (reversible entity masking), `shield-ner-scan.py` + `shield-ner-hook.sh` (NER via Presidio), `pre-commit-sovereignty.sh` (git hook), `savia-shield-setup.sh` (installer)
+- **Rules**: `data-sovereignty.md` domain rule with 5 confidentiality levels (N1-N4b)
+- **Docs**: `savia-shield.md` in 9 languages (ES, EN, CA, DE, EU, FR, GL, IT, PT) + 4 technical docs (architecture, operations, auditability, finetune plan)
+- **Tests**: 51 BATS tests (core + edge cases + bypass attempts + fix verification + mock Ollama)
+- **README**: Savia Shield linked in all 9 README language versions
+
+### Security
+
+- 3 independent audits: Red Team (24 findings), Code Review (5 blockers), Confidentiality (18 files)
+- 24 vulnerabilities found, 24 resolved, score 100/100
+- Defenses: NFKC unicode normalization, sandwich prompt injection defense, cross-write split detection, HMAC audit chain, chmod 600 mask maps, dual-language NER scan
+
 ## [3.63.0] — 2026-03-25
 
 Era 155. Memory Intelligence from Qwen-Agent — memory-agent + humanized SaviaClaw notifications.
@@ -4633,6 +4653,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.63.0...v3.64.0
 [3.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.62.0...v3.63.0
 [3.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.61.0...v3.62.0
 [3.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.60.0...v3.61.0
