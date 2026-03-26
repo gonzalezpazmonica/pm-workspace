@@ -71,6 +71,18 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-project-whitelist.sh",
             "timeout": 5,
             "statusMessage": "Verificando privacidad de proyectos..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/shield-ner-hook.sh",
+            "timeout": 15,
+            "statusMessage": "Savia Shield: NER scan (Capa 1.5)..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/data-sovereignty-gate.sh",
+            "timeout": 45,
+            "statusMessage": "Savia Shield: clasificando datos..."
           }
         ]
       },
@@ -110,6 +122,13 @@
             "async": true,
             "timeout": 10,
             "statusMessage": "Registrando historial PBI..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/data-sovereignty-audit.sh",
+            "async": false,
+            "timeout": 10,
+            "statusMessage": "Savia Shield: auditoria post-escritura..."
           }
         ]
       },

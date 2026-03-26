@@ -48,6 +48,9 @@ Niri ahalik eta etekinik handiena ateratzeko:
 
 ---
 
+
+> **[Savia Shield](docs/savia-shield.eu.md)** — Datuen subiranotasun sistema. Sailkapen lokala LLM-arekin, maskaratze itzulgarria, auditoria osoa.
+
 ## Instalazioa
 
 ```bash

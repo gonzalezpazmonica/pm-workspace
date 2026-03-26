@@ -145,6 +145,7 @@ Configurable con `SAVIA_HOME`, `--skip-tests`. Detalles: `install.sh --help`
 | [Spec-Driven Development](docs/readme/05-sdd.md) | SDD: specs, agentes, patrones |
 | [Flujo de datos](docs/data-flow-guide-es.md) | Cómo se conectan las partes |
 | [Confidencialidad](docs/confidentiality-levels.md) | 5 niveles (N1-N4b) y mecanismos |
+| [**Savia Shield**](docs/savia-shield.md) | Soberanía de datos: clasificación local, masking reversible, LLM on-premise |
 | [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 496 comandos + 46 agentes |
 | [Guías por escenario](docs/guides/README.md) | Azure, Jira, startup, sanidad... |
 | [AI Augmentation](docs/ai-augmentation-opportunities-es.md) | Oportunidades por sector |
