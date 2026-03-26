@@ -39,9 +39,9 @@
 ### 2. Definir líneas de investigación como proyectos
 
 ```
-/savia-pbi create "Paper: efecto X en condiciones Y" --project linea-alpha
+/savia-pbi create "Paper: efecto X en condiciones Y" --project línea-alpha
 /savia-pbi create "Propuesta H2020: convocatoria ABC" --project financiacion
-/savia-pbi create "Dataset: recopilación muestras campo" --project linea-beta
+/savia-pbi create "Dataset: recopilación muestras campo" --project línea-beta
 ```
 
 ### 3. Incorporar investigadores
@@ -63,7 +63,7 @@ O con perfiles completos para personal fijo:
 > "Savia, inicia un sprint de exploración para la línea alpha"
 
 ```
-/savia-sprint start --project linea-alpha --goal "Revisión bibliográfica + hipótesis"
+/savia-sprint start --project línea-alpha --goal "Revisión bibliográfica + hipótesis"
 ```
 
 **Tasks típicas:**
@@ -78,7 +78,7 @@ O con perfiles completos para personal fijo:
 ### 2. Experimentación → Sprint "Ejecución"
 
 ```
-/savia-sprint start --project linea-alpha --goal "Ejecución experimentos batch 1"
+/savia-sprint start --project línea-alpha --goal "Ejecución experimentos batch 1"
 ```
 
 **Cada experimento como spec:**
@@ -118,8 +118,8 @@ La spec SDD adaptada a investigación incluye: hipótesis, materiales, procedimi
 
 ```
 /portfolio-overview                  → Vista global de todos los proyectos
-/savia-board linea-alpha             → Board de la línea alpha
-/savia-board linea-beta              → Board de la línea beta
+/savia-board línea-alpha             → Board de la línea alpha
+/savia-board línea-beta              → Board de la línea beta
 ```
 
 ### Gestión de financiación
@@ -143,7 +143,7 @@ Esencial para justificar dedicación en proyectos financiados (H2020, Plan Nacio
 ### Informe para el departamento
 
 ```
-/report-executive --project linea-alpha
+/report-executive --project línea-alpha
 /ceo-report --format md
 ```
 
@@ -173,7 +173,7 @@ Esencial para justificar dedicación en proyectos financiados (H2020, Plan Nacio
 > "Savia, envía a @pi los resultados del batch 1: todas las muestras por encima del umbral"
 
 ```
-/savia-send @pi "Resultados batch 1: 23/25 muestras superan umbral (92%). Datos en linea-alpha:resultados/batch1.csv"
+/savia-send @pi "Resultados batch 1: 23/25 muestras superan umbral (92%). Datos en línea-alpha:resultados/batch1.csv"
 ```
 
 ---
@@ -209,7 +209,7 @@ Para proyectos con investigadores de otros centros:
 |---|---|---|
 | **Experiment tracking** | No hay entidad nativa "experimento" con metadata (hipótesis, variables, resultados) | `/experiment-log {create\|run\|result\|compare}` |
 | **Literature management** | No hay tracking de referencias bibliográficas | `/biblio-add {doi\|bibtex}`, `/biblio-search` |
-| **Dataset versioning** | Datasets grandes no encajan en Git | Integración con DVC (Data Version Control) o Git LFS |
+| **Dataset versioning** | Datasets grandes no encajan en Git | Integración con DVC (Data Versión Control) o Git LFS |
 | **Grant lifecycle** | Propuestas de financiación tienen ciclos propios (draft → submitted → review → awarded) | `/grant-track {submit\|status\|report}` |
 | **Ethics/IRB tracking** | Protocolos de ética no se gestionan como PBIs estándar | `/ethics-protocol {create\|status\|expire}` |
 

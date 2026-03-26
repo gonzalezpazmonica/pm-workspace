@@ -11,7 +11,7 @@
 readiness-check.sh verifica software pero no hardware. No sabemos si
 la maquina tiene suficiente RAM/disco para vector memory o LLM local.
 
-Ademas, pm-workspace no declara formalmente su politica de telemetria.
+Además, pm-workspace no declara formalmente su política de telemetría.
 
 ## Solucion
 

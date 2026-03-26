@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-- [Claude Code](https://docs.claude.ai/claude-code) installed and authenticated (`claude --version`)
-- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) with the `az devops` extension
+- [Claude Code](https://docs.claude.ai/claude-code) installed and authenticated (`claude --versión`)
+- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) with the `az devops` extensión
 - Node.js ≥ 18 (for reporting scripts)
 - Python ≥ 3.10 (for capacity calculator)
 - `jq` installed (`apt install jq` / `brew install jq`)

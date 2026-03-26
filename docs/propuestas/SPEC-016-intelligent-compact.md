@@ -8,8 +8,8 @@
 
 ## Problema
 
-`/compact` trunca el contexto para liberar espacio, pero pierde informacion:
-- Decisiones tomadas durante la sesion
+`/compact` trunca el contexto para liberar espacio, pero pierde información:
+- Decisiones tomadas durante la sesión
 - Lecciones aprendidas de errores
 - Patrones de trabajo observados
 - Estado intermedio de tareas en progreso
@@ -18,7 +18,7 @@ context-health.md dice "al compactar, SIEMPRE preservar ficheros modificados,
 scores, decisiones", pero esto depende de que Claude lo haga bien cada vez.
 No hay mecanismo sistematico.
 
-OpenViking convierte conversacion en memorias durables en vez de truncar.
+OpenViking convierte conversación en memorias durables en vez de truncar.
 Fabrik-Codek anade quality gate para evitar ruido.
 
 ---
@@ -33,18 +33,18 @@ Antes de ejecutar /compact, Savia ejecuta un pipeline de extraccion:
 1. SCAN — Identificar en el contexto actual:
    a. Decisiones: "vamos con X", "elegimos Y", "descartamos Z"
    b. Correcciones: "no, eso esta mal", "cambia X por Y"
-   c. Descubrimientos: "resulta que X funciona asi"
+   c. Descubrimientos: "resulta que X funciona así"
    d. Estado de trabajo: "estamos en paso 3 de 5", "falta X"
 
 2. QUALITY GATE — Filtrar:
    a. Min 50 caracteres (no trivial)
    b. No es repeticion de algo ya en memoria
-   c. No es dato efimero (linea de codigo, ruta temporal)
+   c. No es dato efimero (línea de código, ruta temporal)
    d. Tiene valor entre sesiones (test: "seria util si lo leo manana?")
 
 3. CLASSIFY — Por tipo y destino:
    a. Feedback → auto-memory feedback type
-   b. Decision → auto-memory project type / tasks/lessons.md
+   b. Decisión → auto-memory project type / tasks/lessons.md
    c. Estado → preservar en compact summary (no persistir)
    d. Patron → auto-memory user type
 
@@ -53,7 +53,7 @@ Antes de ejecutar /compact, Savia ejecuta un pipeline de extraccion:
 5. COMPACT — Ahora si, ejecutar /compact normal con summary que incluye:
    - Lista de items extraidos (referencia, no contenido)
    - Estado de trabajo actual
-   - Ficheros modificados en la sesion
+   - Ficheros modificados en la sesión
 ```
 
 ### Compact summary template
@@ -69,11 +69,11 @@ Al compactar, el summary siempre incluye:
 - Last command: [comando] → [resultado breve]
 ```
 
-### Integracion con SPEC-013
+### Integración con SPEC-013
 
 SPEC-013 (Session Memory Extraction) y SPEC-016 comparten el mismo extractor.
 La diferencia:
-- SPEC-013 se ejecuta al CERRAR sesion (Stop hook, async)
+- SPEC-013 se ejecuta al CERRAR sesión (Stop hook, async)
 - SPEC-016 se ejecuta al COMPACTAR (inline, sync, rapido)
 
 El extractor es una funcion compartida con dos modos:
@@ -82,7 +82,7 @@ El extractor es una funcion compartida con dos modos:
 
 ---
 
-## Implementacion
+## Implementación
 
 ### Fase 1 — Extraction basica en /compact (1 sprint)
 
@@ -94,9 +94,9 @@ El extractor es una funcion compartida con dos modos:
 
 ### Fase 2 — Extractor compartido con SPEC-013 (1 sprint)
 
-1. Refactorizar extractor como modulo reutilizable
+1. Refactorizar extractor como módulo reutilizable
 2. SPEC-013 usa mode=full, SPEC-016 usa mode=quick
-3. Metricas: items extraidos por compact, falsos positivos
+3. Métricas: items extraidos por compact, falsos positivos
 
 ---
 
@@ -113,7 +113,7 @@ El extractor es una funcion compartida con dos modos:
 ## Ficheros afectados
 
 - `.claude/rules/domain/context-health.md` — actualizar seccion compact
-- `scripts/session-extract.sh` — modulo compartido (nuevo)
+- `scripts/session-extract.sh` — módulo compartido (nuevo)
 - `.claude/rules/domain/async-hooks-config.md` — documentar
 
 ---

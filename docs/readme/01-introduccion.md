@@ -72,7 +72,7 @@ docs/
 ├── readme/
 │   ├── 01-introduccion.md    ← ESTÁS AQUÍ
 │   ├── 02-estructura.md      ← directorios y ficheros
-│   ├── 03-configuracion.md   ← PAT, constantes, setup
+│   ├── 03-configuración.md   ← PAT, constantes, setup
 │   ├── 04-uso-sprint-*.md    ← sprints e informes
 │   ├── 05-sdd.md             ← Spec-Driven Development
 │   └── ...                   ← 13 secciones en total

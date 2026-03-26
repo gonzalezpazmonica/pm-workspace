@@ -106,7 +106,7 @@ pool:
 steps:
   - task: UseDotNet@2
     inputs:
-      version: '8.x'
+      versión: '8.x'
   - script: dotnet restore
   - script: dotnet build --no-restore -c Release
   - script: dotnet format --verify-no-changes
@@ -131,7 +131,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-versión: '20'
           cache: 'npm'
       - run: npm ci
       - run: npm run build

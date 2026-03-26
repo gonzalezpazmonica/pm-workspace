@@ -72,7 +72,7 @@ PM-Workspace tiene una arquitectura basada en archivos Markdown que Claude Code 
 │       └── CLAUDE.md             ← NIVEL 5: Config del proyecto
 │
 └── docs/
-    └── ★ politica-igualdad.md    ← NUEVO: Política de igualdad del workspace
+    └── ★ política-igualdad.md    ← NUEVO: Política de igualdad del workspace
 ```
 
 Los archivos marcados con ★ son nuevos. La intervención se diseña en **cinco niveles** de profundidad, desde directivas globales hasta validación por proyecto.
@@ -95,7 +95,7 @@ Para PM-Workspace, la estrategia combina las tres:
 | Regla modular | PE + ICL | equality-shield.md | Carga bajo demanda |
 | Algoritmo de scoring | Counterfactual | assignment-scoring.md | En asignación |
 | Auditoría post-hoc | Counterfactual | /bias-check | Bajo demanda |
-| Política de equipo | PE | politica-igualdad.md | Referencia documental |
+| Política de equipo | PE | política-igualdad.md | Referencia documental |
 
 ---
 
@@ -489,7 +489,7 @@ CONTRAEJEMPLO (sesgo a bloquear):
 | Añadir directiva global al CLAUDE.md | CLAUDE.md | 30 min |
 | Crear equality-shield.md | .claude/rules/ | 2-3 horas |
 | Actualizar plantilla de equipo.md | docs/ | 1 hora |
-| Documentar política de igualdad | docs/politica-igualdad.md | 2 horas |
+| Documentar política de igualdad | docs/política-igualdad.md | 2 horas |
 
 ### Fase 2 — Integración en comandos (2-3 semanas)
 

@@ -52,7 +52,8 @@ def run_daemon(log, once=False, voice=False):
             ser.read(ser.in_waiting)
             log.info("Connected to %s", port)
             write_status("connected", port)
-            send_cmd(ser, "lcd Savia daemon | Connected", 2)
+            ts = time.strftime("%H:%M")
+            send_cmd(ser, f"lcd Savia {ts} | lista", 2)
             if voice:
                 from .voice_daemon import start as start_voice
                 start_voice(ser, threading.Lock())
@@ -81,6 +82,9 @@ def run_daemon(log, once=False, voice=False):
                 if now - last_hb > HEARTBEAT_INTERVAL:
                     last_hb = now
                     write_status("connected", port, {"queries": queries})
+                    hb_l1 = time.strftime("Savia %H:%M:%S")
+                    hb_l2 = f"{queries} consultas" if queries else "lista"
+                    send_cmd(ser, f"lcd {hb_l1} | {hb_l2}", 0)
 
                 if now - last_act > STUCK_TIMEOUT:
                     log.warning("No activity for %ds, reconnecting", STUCK_TIMEOUT)

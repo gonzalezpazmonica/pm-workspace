@@ -26,7 +26,7 @@ su benchmark con OpenClaw. Aplicamos el mismo principio.
 |-------|-----------|--------|-----------------|
 | L0 | `name` + `description` del frontmatter | ~10-15 | Siempre disponible (ya existe) |
 | L1 | Resumen de 5 lineas: que hace, cuando usarlo, output esperado | ~40-60 | Al identificar comando/skill relevante |
-| L2 | SKILL.md completo + references si necesario | ~100-500 | Solo durante ejecucion del skill |
+| L2 | SKILL.md completo + references si necesario | ~100-500 | Solo durante ejecución del skill |
 
 ### Formato L1
 
@@ -51,16 +51,16 @@ summary: |
 2. Usuario escribe prompt → skill-auto-activation evalua contra L0
 3. Si score >= 70% → cargar L1 del skill candidato (~50 tokens)
 4. Si el comando requiere el skill → cargar L2 (SKILL.md completo)
-5. Tras ejecucion del comando → descartar L2, mantener L1 en contexto
+5. Tras ejecución del comando → descartar L2, mantener L1 en contexto
 ```
 
-### Aplicacion a rules
+### Aplicación a rules
 
 Las 41 rules de dominio siguen el mismo patron:
 
 | Nivel | Contenido | Ejemplo |
 |-------|-----------|---------|
-| L0 | Nombre + 1 linea | "equality-shield: Igualdad activa en asignaciones" |
+| L0 | Nombre + 1 línea | "equality-shield: Igualdad activa en asignaciones" |
 | L1 | 3-5 lineas clave | "6 sesgos a bloquear. Test contrafactico obligatorio." |
 | L2 | Fichero completo | equality-shield.md (50+ lineas) |
 
@@ -69,7 +69,7 @@ L1 se genera como indice compacto.
 
 ---
 
-## Implementacion
+## Implementación
 
 ### Fase 1 — Generar L1 para top 20 skills (1 sprint)
 
@@ -86,11 +86,11 @@ L1 se genera como indice compacto.
 2. Este fichero se carga en vez de las reglas individuales
 3. Reglas completas se cargan solo cuando un comando las referencia con @
 
-### Fase 3 — Automatizar generacion de L1 (1 sprint)
+### Fase 3 — Automatizar generación de L1 (1 sprint)
 
 1. Hook PostToolUse en Write de SKILL.md → regenerar summary
-2. Comando `/headroom-apply` incluye generacion de L1 faltantes
-3. Validacion en `validate-commands.sh`: warn si skill sin summary
+2. Comando `/headroom-apply` incluye generación de L1 faltantes
+3. Validación en `validate-commands.sh`: warn si skill sin summary
 
 ---
 
@@ -98,8 +98,8 @@ L1 se genera como indice compacto.
 
 - [ ] Top 20 skills tienen campo `summary` en frontmatter
 - [ ] skill-auto-activation usa L1 para decidir, no L2
-- [ ] Token consumption medido antes/despues en 5 sesiones tipo
-- [ ] Reduccion >= 30% en tokens de skills por sesion
+- [ ] Token consumption medido antes/después en 5 sesiones tipo
+- [ ] Reduccion >= 30% en tokens de skills por sesión
 - [ ] Ningun skill se carga a L2 sin ser ejecutado
 
 ---

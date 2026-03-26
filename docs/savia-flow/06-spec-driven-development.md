@@ -92,7 +92,7 @@ Reduce search friction, increase conversion +8%.
 ├─ Competitive analysis (how do others solve this?)
 ├─ Impact estimation (how many users affected?)
 ├─ Effort estimation (rough: days? weeks?)
-└─ Decision: Continue o shelve?
+└─ Decisión: Continue o shelve?
 ```
 
 **Artefactos:**

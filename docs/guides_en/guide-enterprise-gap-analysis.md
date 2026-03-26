@@ -137,7 +137,7 @@ In a consulting firm working for banking, insurance, and public administration s
 | 4-tier RBAC | `/rbac-manager` | Admin, PM, Contributor, Viewer — granular permissions per project |
 | Immutable audit trail | `/governance-enterprise audit-trail` | JSONL append-only with monthly rotation. Who did what, when |
 | Compliance checks | `/governance-enterprise compliance-check` | Automatic verification of GDPR, AEPD, ISO 27001, EU AI Act |
-| Decision registry | `/governance-enterprise decision-registry` | Immutable record of decisions with justification and responsible party |
+| Decisión registry | `/governance-enterprise decisión-registry` | Immutable record of decisions with justification and responsible party |
 | Certification | `/governance-enterprise certify` | Generates compliance evidence for external audits |
 | PII Gate | Hook `hook-pii-gate.sh` | Pre-push scanner that blocks commits containing personal data |
 
@@ -222,9 +222,9 @@ Stakeholders introduce "small" changes without formal process. Industry data sho
 | Scope creep detection | `/backlog-git deviation-report` | Compares snapshots: items added, removed, re-estimated without approval |
 | Mandatory SDD | Rule `spec-driven-development` | No feature is implemented without approved spec — agent rejects code without spec |
 | PR Guardian | CI/CD `pr-guardian.yml` | 8 automatic gates: if the spec doesn't exist or is outdated, the PR is blocked |
-| Audit trail | `/governance-enterprise decision-registry` | Every scope change is recorded with responsible party and justification |
+| Audit trail | `/governance-enterprise decisión-registry` | Every scope change is recorded with responsible party and justification |
 
-**Result**: Unauthorized changes are automatically detected. No spec, no code. No registered decision, no scope change.
+**Result**: Unauthorized changes are automatically detected. No spec, no code. No registered decisión, no scope change.
 
 ---
 
@@ -302,4 +302,4 @@ Consulting firms working with banking, insurance, healthcare, or public administ
 
 ---
 
-**Version**: 1.0 | **Last updated**: 2026-03-06 | **Maintainer**: pm-workspace Community
+**Versión**: 1.0 | **Last updated**: 2026-03-06 | **Maintainer**: pm-workspace Community

@@ -20,14 +20,14 @@ Al hacer upsert, preservar el contenido anterior en campo `supersedes`:
 
 ```json
 {
-  "topic_key": "decision/auth-strategy",
+  "topic_key": "decisión/auth-strategy",
   "content": "OAuth2 with PKCE flow",
   "supersedes": "JWT with refresh tokens",
   "rev": 2
 }
 ```
 
-## Implementacion
+## Implementación
 
 En `cmd_save()` de memory-store.sh, al detectar upsert:
 
@@ -43,6 +43,6 @@ En `cmd_save()` de memory-store.sh, al detectar upsert:
 - supersedes truncado a 200 chars
 - search muestra supersedes si existe
 
-## Metricas
+## Métricas
 
 - Entradas con supersedes / total upserts (ratio de cambio real)

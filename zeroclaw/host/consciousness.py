@@ -20,8 +20,8 @@ DEFAULT_SCHEDULE = [
      "action": "claude -p '/memory-stats' --output-format text",
      "type": "claude"},
     {"name": "git-status", "interval_min": 30,
-     "action": "git -C ~/claude status --short | head -5",
-     "type": "shell"},
+     "action": "git -C ~/claude log --oneline -1 2>&1; git -C ~/claude status --short 2>&1 | head -5",
+     "type": "shell", "silent_empty": True},
     {"name": "sensor-check", "interval_min": 10,
      "action": "sensors", "type": "device"},
     {"name": "check-talk", "interval_min": 0,
@@ -34,6 +34,12 @@ DEFAULT_SCHEDULE = [
 ]
 
 log = logging.getLogger("consciousness")
+
+from .consciousness_comms import (  # notification + comms helpers
+    notify_failure as _notify_failure, notify_success as _notify_success,
+    poll_talk as _poll_talk, check_gmail as _check_gmail,
+)
+from .survival import survival_tick as _survival_tick
 
 
 def load_identity():
@@ -65,82 +71,22 @@ def log_result(task_name, result, success=True):
 def run_device_task(ser, action):
     from .daemon_util import send_cmd
     return send_cmd(ser, action, 2)
-
 def run_shell_task(action):
     try:
         r = subprocess.run(action, shell=True, capture_output=True, text=True, timeout=15)
-        return r.stdout.strip()[:300] if r.returncode == 0 else r.stderr[:200]
-    except Exception as e: return str(e)
+        if r.returncode == 0:
+            return r.stdout.strip()[:300] or "(ok)"
+        return None  # signal failure for notification
+    except Exception:
+        return None
 
 def run_claude_task(action):
-    try:
-        # Run from /tmp to avoid loading pm-workspace CLAUDE.md (130K tokens)
-        r = subprocess.run(action, shell=True, capture_output=True, text=True, timeout=60,
-                           cwd="/tmp")
+    try:  # Run from /tmp to avoid loading pm-workspace CLAUDE.md (130K tokens)
+        r = subprocess.run(action, shell=True, capture_output=True, text=True,
+                           timeout=60, cwd="/tmp")
         return r.stdout.strip() if r.returncode == 0 else None
     except Exception as e: return str(e)
 
-
-def _notify(msg):
-    try:
-        from .nctalk import notify_with_escalation
-        notify_with_escalation(msg, log)
-    except Exception: pass
-
-
-_SILENT_TASKS = {"memory-consolidate"}  # tasks that fail silently (known broken)
-
-_FAILURE_MSGS = {
-    "check-talk":        "No pude revisar Talk ahora. Lo intentaré de nuevo en un momento.",
-    "check-gmail":       "No pude revisar el correo ahora. Lo intentaré pronto.",
-    "gdrive-sync":       "No pude sincronizar Drive ahora. Lo reintentaré más tarde.",
-    "git-status":        "No pude leer el estado de git. Sin conexión al repo.",
-    "sensor-check":      "No recibí datos de los sensores. ¿El dispositivo está conectado?",
-    "heartbeat":         None,  # never notify
-}
-
-def _notify_failure(name):
-    if name in _SILENT_TASKS:
-        return
-    msg = _FAILURE_MSGS.get(name)
-    if msg is None:
-        return
-    if msg:
-        _notify(msg)
-
-
-def _notify_success(name, result):
-    """Human-readable success notification for tasks with notify=True."""
-    if name == "gdrive-sync":
-        try:
-            import json as _j
-            r = _j.loads(result) if isinstance(result, str) else result
-            synced = r.get("synced", 0)
-            failed = r.get("failed", 0)
-            if failed:
-                msg = f"Drive sincronizado: {synced} archivo(s) guardado(s), {failed} con error."
-            else:
-                msg = f"Drive sincronizado: {synced} archivo(s) guardado(s)."
-        except Exception:
-            msg = "Drive sincronizado correctamente."
-    else:
-        msg = f"Tarea completada: {name}."
-    _notify(msg)
-
-def _poll_talk():
-    try:
-        from .nctalk import poll_and_respond, check_escalations
-        poll_and_respond(run_claude_task, log)
-        check_escalations(log)
-    except Exception as e:
-        log.error("Talk poll: %s", e)
-
-def _check_gmail():
-    try:
-        from .gmail_check import check_and_notify
-        check_and_notify(run_claude_task, _notify, log)
-    except Exception as e:
-        log.error("Gmail check: %s", e)
 
 def tick(ser, schedule, last_runs):
     """Check schedule, run due tasks. Called from daemon loop."""
@@ -162,9 +108,9 @@ def tick(ser, schedule, last_runs):
             elif task["type"] == "claude":
                 result = run_claude_task(task["action"])
             elif task["type"] == "talk":
-                _poll_talk(); result = "polled"
+                _poll_talk(run_claude_task); result = "polled"
             elif task["type"] == "gmail":
-                _check_gmail(); result = "checked"
+                _check_gmail(run_claude_task); result = "checked"
             else:
                 result = f"Unknown type: {task['type']}"
 
@@ -177,7 +123,7 @@ def tick(ser, schedule, last_runs):
             send_cmd(ser, f"lcd {l1}" + (f" | {l2}" if l2 else ""), 1)
 
             # Notify on failure or if task requests it
-            if not result:
+            if result is None and not task.get("silent_empty"):
                 _notify_failure(name)
             elif task.get("notify"):
                 _notify_success(name, result)
@@ -186,6 +132,7 @@ def tick(ser, schedule, last_runs):
             log.error("Task %s failed: %s", name, e)
             log_result(name, str(e), success=False)
 
+    _survival_tick(ser, run_claude_task)
     return last_runs
 
 

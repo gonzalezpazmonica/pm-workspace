@@ -1186,7 +1186,7 @@ PM analysis:
 - #3 is human-heavy (not scalable)
 - #4 requires ML model (expensive)
 
-Decision: Experiment with #2 (guided discovery) as next outcome.
+Decisión: Experiment with #2 (guided discovery) as next outcome.
 Next step: User research to validate problem.
 ```
 
@@ -1242,7 +1242,7 @@ Success metrics:
 - Conversion from share: 18% (baseline: N/A, target: 10%) ✓ EXCEEDED
 - User satisfaction: 4.3/5 (target: 4.0+) ✓
 
-Decision: Feature is successful. Continue monitoring for month 2.
+Decisión: Feature is successful. Continue monitoring for month 2.
 Action: Promote feature in notifications.
 ```
 
@@ -1283,7 +1283,7 @@ Capacity: ~15 days (2 weeks × 1 team of 3 pro builders)
 
 Tight fit. Need to decide: Do all 4 or drop #4 until week 3?
 
-Decision: Do all 4; #4 is lower complexity. If slip happens, cut #4.
+Decisión: Do all 4; #4 is lower complexity. If slip happens, cut #4.
 ```
 
 ---
@@ -1347,7 +1347,7 @@ Experiment:
 - Pro builders review (1 hour)
 - Ready to build (1.5 hours total instead of 30+ hours)
 
-Decision: Run this experiment next spec.
+Decisión: Run this experiment next spec.
 ```
 
 **10:30 AM - Coaching Session**
@@ -1437,7 +1437,7 @@ Improvement: All status is now in dashboard. No standup meeting.
 Tool change: Using Slack bot to poll metrics automatically.
 Result: 2.5 hours/week returned to actual work.
 
-Decision: Implement this week. Measure impact.
+Decisión: Implement this week. Measure impact.
 ```
 
 **15:00 PM - Forecasting & Capacity Planning**
@@ -1705,7 +1705,7 @@ Analyzing: Why didn't QA gates catch this?
 Root cause: Test data didn't include "special permissions" user type.
 (This is a gap in spec, actually—didn't mention this edge case.)
 
-Decision:
+Decisión:
 1. Add test for special permissions users (Level 2)
 2. Update spec template to require "edge cases" section
 3. Design new SAST rule to flag permission-related code
@@ -1738,7 +1738,7 @@ ROI:
 - Agent cost: 24 hours (build)
 - Payback period: 4 months
 
-Decision: Do it. Starting tomorrow.
+Decisión: Do it. Starting tomorrow.
 ```
 
 **10:30 AM - Coaching Pro Builder on Testing**
@@ -1808,20 +1808,20 @@ Items waiting for Level 5 (human review):
    - Spec compliance: 100%
    - Security: SAST clean
    - Performance: Benchmark shows 0.8s (vs target <2s)
-   Decision: APPROVE ✓
+   Decisión: APPROVE ✓
 
 2. Search ranking improvements (Pro Builder Alice)
    - Code review: Good, one minor optimization opportunity
    - Tests: 87% coverage (below 90% target)
    - Spec compliance: 95% (missing one edge case for very large datasets)
-   Decision: REQUEST CHANGES - Add edge case test, resubmit
+   Decisión: REQUEST CHANGES - Add edge case test, resubmit
 
 3. User authentication refactor (Pro Builder Carlos)
    - Complexity: High (refactoring critical path)
    - Tests: 95% coverage
    - Security: Critical review needed (auth is sensitive)
    - Recommendation: Get security team sign-off before approval
-   Decision: COMMENT - Loop in security team
+   Decisión: COMMENT - Loop in security team
 
 Approved: 1
 Requested changes: 1
@@ -1848,7 +1848,7 @@ QA: "Yes. Adding new gate level?"
 
 Security: "For auth-related changes, yes. Let's be thorough here."
 
-Decision: New "Security Review Gate" for sensitive code paths.
+Decisión: New "Security Review Gate" for sensitive code paths.
 Timeline: Add in next 2 weeks.
 ```
 

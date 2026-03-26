@@ -38,4 +38,4 @@ Instances of abusive, harassing, or otherwise unacceptable behaviour may be repo
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.1.
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), versión 2.1.

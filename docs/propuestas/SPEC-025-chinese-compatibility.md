@@ -13,9 +13,9 @@ pm-workspace funciona en ES/EN y 7 idiomas europeos. El chino
 
 1. **CJK tokenization** — caracteres no separados por espacios
 2. **Encoding** — UTF-8 con caracteres de 3 bytes (vs 1 byte latin)
-3. **Bidireccionalidad** — mezcla con numeros y codigo latin
-4. **Longitud de texto** — chino es mas denso (menos caracteres = mas informacion)
-5. **Busqueda** — grep y vector search necesitan tokenizer CJK
+3. **Bidireccionalidad** — mezcla con numeros y código latin
+4. **Longitud de texto** — chino es mas denso (menos caracteres = mas información)
+5. **Búsqueda** — grep y vector search necesitan tokenizer CJK
 6. **Fuentes** — terminal puede no renderizar CJK correctamente
 
 ---
@@ -35,7 +35,7 @@ pm-workspace funciona en ES/EN y 7 idiomas europeos. El chino
 - Tablas ASCII: ancho de caracteres CJK (2 columnas vs 1) → problemas de alineacion
 - Emojis en banners: compatibles
 
-### R3. Impacto en documentacion
+### R3. Impacto en documentación
 
 - README.zh-CN.md (simplificado) + README.zh-TW.md (tradicional)
 - Requiere: revision por hablante nativo (no solo traduccion automatica)
@@ -54,7 +54,7 @@ Informe en `output/research/chinese-compatibility-report.md`:
 - Matriz de compatibilidad por componente
 - Cambios necesarios (estimacion de esfuerzo)
 - Recomendacion: Go / No-Go / Partial
-- Si Go: roadmap de implementacion
+- Si Go: roadmap de implementación
 
 ## Requisitos
 

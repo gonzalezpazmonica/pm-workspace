@@ -9,7 +9,7 @@ echo -n "TU_PAT_AQUI" > $HOME/.azure/devops-pat
 chmod 600 $HOME/.azure/devops-pat
 
 # Verificar
-az devops configure --defaults organization=https://dev.azure.com/MI-ORGANIZACION
+az devops configure --defaults organization=https://dev.azure.com/MI-ORGANIZACIóN
 export AZURE_DEVOPS_EXT_PAT=$(cat $HOME/.azure/devops-pat)
 az devops project list --output table
 ```
@@ -58,12 +58,12 @@ cd ..
 ```bash
 # Proyecto Alpha
 cd projects/proyecto-alpha/source
-git clone https://dev.azure.com/MI-ORGANIZACION/ProyectoAlpha/_git/proyecto-alpha .
+git clone https://dev.azure.com/MI-ORGANIZACIóN/ProyectoAlpha/_git/proyecto-alpha .
 cd ../../..
 
 # Proyecto Beta
 cd projects/proyecto-beta/source
-git clone https://dev.azure.com/MI-ORGANIZACION/ProyectoBeta/_git/proyecto-beta .
+git clone https://dev.azure.com/MI-ORGANIZACIóN/ProyectoBeta/_git/proyecto-beta .
 cd ../../..
 ```
 
@@ -85,7 +85,7 @@ Para usar Spec-Driven Development con agentes Claude, necesitas la CLI de Claude
 
 ```bash
 # Verificar que claude CLI está instalado
-claude --version
+claude --versión
 
 # Verificar que puedes invocar claude como subproceso (necesario para agent-run)
 echo "Test de invocación de agente:"

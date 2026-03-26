@@ -24,7 +24,7 @@ If your consulting firm is smaller (5–50 people), start with the [Quick Start 
 | **CTO** | Technological sovereignty, no lock-in, RBAC | `/sovereignty-audit`, `/rbac-manager`, `/scale-optimizer` | Full data control, permissions and regulatory compliance |
 | **Operations Director** | Multi-team, predictability, scale | `/team-orchestrator`, `/enterprise-dashboard`, `/forecast` | Cross-team coordination (Team Topologies), no bottlenecks |
 | **PM/Scrum Master** | Automation, visibility, less overhead | `/sprint-sync`, `/backlog-ai`, `/risk-radar` | Sprints without manual ceremonies, proactive alerts |
-| **Tech Lead** | Precise specs, SDD, AI agents | `/spec-review`, `/arch-decision`, `/sdd-status` | Dev understands what to build before writing code |
+| **Tech Lead** | Precise specs, SDD, AI agents | `/spec-review`, `/arch-decisión`, `/sdd-status` | Dev understands what to build before writing code |
 | **Developers** | Clear context, fewer meetings, fewer emails | `/context`, `/next-action`, `/spec-check` | Focused workflow, avoid 3 meetings/day |
 | **QA** | Coordinated testing, traceability, SLA | `/test-plan`, `/regression-matrix`, `/qa-sign-off` | Bugs prevented (not found), quality metrics |
 | **HR / Onboarding** | Bulk onboarding, checklists, KT | `/onboard-enterprise`, `/team-orchestrator` | Onboard 100+ people with per-role checklists |
@@ -308,7 +308,7 @@ savia init --client "pilot-client" --team "squad-1" \
 
 **Day 1–2**: Setup and kickoff
 - Everyone runs `/profile-setup` to register
-- CTO runs `/arch-decision --scope "auth strategy"` → spec generated
+- CTO runs `/arch-decisión --scope "auth strategy"` → spec generated
 
 **Day 3–5**: Development with SDD
 - Devs implement spec with `/spec-check` on each commit
@@ -347,4 +347,4 @@ savia metrics --team squad-1 --compare baseline
 
 ---
 
-**Version**: 2.0 | **Last updated**: 2026-03-06 | **Maintainer**: pm-workspace Community
+**Versión**: 2.0 | **Last updated**: 2026-03-06 | **Maintainer**: pm-workspace Community
