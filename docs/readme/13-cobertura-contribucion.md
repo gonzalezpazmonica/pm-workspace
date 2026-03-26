@@ -181,7 +181,7 @@ Abre un Issue en GitHub con uno de estos prefijos en el título:
 [QUESTION] ¿Cómo configurar el workspace para proyectos con múltiples repos?
 ```
 
-Incluye siempre: versión de Claude Code usada (`claude --version`), qué comando o skill está involucrado, qué comportamiento esperabas y qué obtienes, y si es reproducible con el proyecto de test `sala-reservas` en modo mock.
+Incluye siempre: versión de Claude Code usada (`claude --versión`), qué comando o skill está involucrado, qué comportamiento esperabas y qué obtienes, y si es reproducible con el proyecto de test `sala-reservas` en modo mock.
 
 ### Código de conducta
 

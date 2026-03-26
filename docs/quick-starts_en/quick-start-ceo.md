@@ -14,7 +14,7 @@ Bird's-eye view of all projects: status, cross-team dependencies, and risk traff
 ```
 /ceo-alerts
 ```
-Only alerts that require your decision: at-risk sprints, exceeded budgets, open incidents.
+Only alerts that require your decisión: at-risk sprints, exceeded budgets, open incidents.
 
 ```
 /kpi-dora
@@ -69,7 +69,7 @@ output/
 
 ## How your work connects
 
-Everything you see in `/ceo-report` comes from below: team hours (time tracking) → project costs (cost-management) → margins. Sprint velocity → delivery forecast. QA tests → change failure rate (DORA). Tech Lead ADRs → decision traceability. PM burnout alerts → wellbeing. Your view is the aggregation of all team work, filtered so you only see what needs your decision.
+Everything you see in `/ceo-report` comes from below: team hours (time tracking) → project costs (cost-management) → margins. Sprint velocity → delivery forecast. QA tests → change failure rate (DORA). Tech Lead ADRs → decisión traceability. PM burnout alerts → wellbeing. Your view is the aggregation of all team work, filtered so you only see what needs your decisión.
 
 The `/ai-exposure-audit` uses O*NET data to calculate how much of each role is automatable with AI. This feeds reskilling plans and workforce forecasting — strategic executive decisions.
 

@@ -1,6 +1,6 @@
 # Análisis de Gaps: Grandes Consultoras Tecnológicas y Cómo los Resuelve pm-workspace
 
-🌐 [English version](../guides_en/guide-enterprise-gap-analysis.md)
+🌐 [English versión](../guides_en/guide-enterprise-gap-analysis.md)
 
 > Este documento identifica los problemas operativos más comunes en grandes consultoras tecnológicas (500-5.000 empleados) y detalla cómo pm-workspace/Savia los resuelve con comandos, reglas y skills concretos.
 
@@ -137,7 +137,7 @@ En una consultora que trabaja para banca, seguros y administración pública sim
 | RBAC 4 niveles | `/rbac-manager` | Admin, PM, Contributor, Viewer — permisos granulares por proyecto |
 | Audit trail inmutable | `/governance-enterprise audit-trail` | JSONL append-only con rotación mensual. Quién hizo qué, cuándo |
 | Compliance checks | `/governance-enterprise compliance-check` | Verificación automática GDPR, AEPD, ISO 27001, EU AI Act |
-| Decision registry | `/governance-enterprise decision-registry` | Registro inmutable de decisiones con justificación y responsable |
+| Decisión registry | `/governance-enterprise decisión-registry` | Registro inmutable de decisiones con justificación y responsable |
 | Certificación | `/governance-enterprise certify` | Genera evidencia de cumplimiento para auditorías externas |
 | PII Gate | Hook `hook-pii-gate.sh` | Scanner pre-push que bloquea commits con datos personales |
 
@@ -222,7 +222,7 @@ Los stakeholders introducen cambios "pequeños" sin proceso formal. Según datos
 | Detección de scope creep | `/backlog-git deviation-report` | Compara snapshots: items añadidos, eliminados, re-estimados sin aprobación |
 | SDD obligatorio | Regla `spec-driven-development` | Ninguna feature se implementa sin spec aprobada — el agente rechaza código sin spec |
 | PR Guardian | CI/CD `pr-guardian.yml` | 8 gates automáticos: si la spec no existe o está desactualizada, el PR se bloquea |
-| Audit trail | `/governance-enterprise decision-registry` | Cada cambio de alcance queda registrado con responsable y justificación |
+| Audit trail | `/governance-enterprise decisión-registry` | Cada cambio de alcance queda registrado con responsable y justificación |
 
 **Resultado**: Los cambios no autorizados se detectan automáticamente. Si no hay spec, no hay código. Si no hay decisión registrada, no hay cambio de alcance.
 

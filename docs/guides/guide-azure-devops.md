@@ -30,7 +30,7 @@ cd ~/claude
 Edita `CLAUDE.md` con tu organización:
 
 ```
-AZURE_DEVOPS_ORG_URL = "https://dev.azure.com/tu-organizacion"
+AZURE_DEVOPS_ORG_URL = "https://dev.azure.com/tu-organización"
 AZURE_DEVOPS_PAT_FILE = "$HOME/.azure/devops-pat"
 ```
 

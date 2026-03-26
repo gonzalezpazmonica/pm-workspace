@@ -477,7 +477,7 @@ Real-time dashboard:
 │ Root Cause Analysis (Features C & D):               │
 │ Feature C:                                           │
 │ ├─ Days 1-3: Quality gates issues (spec had gap)   │
-│ ├─ Days 4-7: Waiting for decision on architecture  │
+│ ├─ Days 4-7: Waiting for decisión on architecture  │
 │ └─ Fix: Earlier spec review, faster arch decisions │
 │                                                      │
 │ Feature D:                                           │
@@ -598,7 +598,7 @@ Analysis:
 ├─ To get 12 items/week with same cycle time: need 7.5 builders
 ├─ Or: Reduce cycle time to 2.8 days with 5 builders
 
-Decision:
+Decisión:
 ├─ Option A: Hire 2 more builders (expensive)
 ├─ Option B: Reduce cycle time (specs faster? gates faster?)
 ├─ Option C: Accept 8 items/week (demand management)
@@ -626,7 +626,7 @@ Investigation:
 ├─ How many were actual bugs? (probably <50%)
 ├─ How many were false positives? (probably >50%)
 
-Decision:
+Decisión:
 ├─ Tune gates to reduce false positives
 ├─ Keep actual bug detection
 ├─ Target: 75% pass-through while maintaining <5% CFR
@@ -651,7 +651,7 @@ Analysis:
 ├─ Spec writing too detailed? (reduce to essence)
 ├─ IA could help? (use Claude for drafting)
 
-Decision:
+Decisión:
 ├─ Option A: Use IA to draft specs (1h → 30 min)
 ├─ Option B: Parallel discovery (don't wait for perfect info)
 ├─ Option C: Smaller specs (scope less, spec faster)

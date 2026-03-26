@@ -167,13 +167,13 @@ miembros:
       # Promedio ponderado de las competencias relevantes para cada m&oacute;dulo
       pacientes: 4.2    # Media de A1-A8 aplicadas al m&oacute;dulo Pacientes
       citas: 3.1        # Baja porque no ha trabajado este m&oacute;dulo a&uacute;n
-      facturacion: 2.0   # &Aacute;rea de crecimiento identificada
+      facturación: 2.0   # &Aacute;rea de crecimiento identificada
       testing: 4.5       # A6 + A7 altos
-    growth_areas: ["facturacion", "seguridad"]  # Derivado de Inter&eacute;s = S&iacute;
+    growth_areas: ["facturación", "seguridad"]  # Derivado de Inter&eacute;s = S&iacute;
     ultima_evaluacion: "2026-02-26"
 ```
 
-El algoritmo de asignaci&oacute;n usa `expertise[modulo]` como input directo para el factor `expertise &times; 0.40` del scoring, y `growth_areas` para el factor `crecimiento &times; 0.10`.
+El algoritmo de asignaci&oacute;n usa `expertise[módulo]` como input directo para el factor `expertise &times; 0.40` del scoring, y `growth_areas` para el factor `crecimiento &times; 0.10`.
 
 ### 2.8 Frecuencia de actualizaci&oacute;n
 

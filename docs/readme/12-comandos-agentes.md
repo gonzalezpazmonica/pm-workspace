@@ -258,7 +258,7 @@ scripts/confidentiality-scan.sh   Scanner de 7 checks: blocklist, credentials, e
 ## Otros (10+ comandos)
 ```
 /help [filtro]                    Catálogo de comandos y primeros pasos
-/adr-create {proyecto} {título}   Crear Architecture Decision Record
+/adr-create {proyecto} {título}   Crear Architecture Decisión Record
 /agent-notes-archive {proy}       Archivar agent-notes del sprint
 /debt-track [--project]           Seguimiento de deuda técnica
 /dependency-map [--project]       Mapa de dependencias entre servicios

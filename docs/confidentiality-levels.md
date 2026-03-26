@@ -8,7 +8,7 @@
 ## Principio
 
 pm-workspace es software libre publicado en GitHub. Los datos del usuario,
-empresa y proyectos NUNCA deben mezclarse con el codigo publico. Cada nivel
+empresa y proyectos NUNCA deben mezclarse con el código publico. Cada nivel
 tiene su propio repositorio git con permisos independientes.
 
 ---
@@ -17,17 +17,17 @@ tiene su propio repositorio git con permisos independientes.
 
 ### N1 — PUBLICO (repo pm-workspace en GitHub)
 
-- Codigo del workspace: commands, skills, rules, agents, hooks, scripts
-- Documentacion generica del producto: README, CHANGELOG, docs/
+- Código del workspace: commands, skills, rules, agents, hooks, scripts
+- Documentación generica del producto: README, CHANGELOG, docs/
 - Plantillas y ejemplos con datos ficticios (alice, test-org, acme-corp)
 - Reglas de dominio sin datos de empresa ni persona
 - NUNCA datos reales de personas, empresas, clientes ni proyectos
 
 ### N2 — EMPRESA (local, gitignored)
 
-- `CLAUDE.local.md` — config de la organizacion (org URL, proyectos activos)
+- `CLAUDE.local.md` — config de la organización (org URL, proyectos activos)
 - `.claude/rules/pm-config.local.md` — constantes de la empresa
-- `private-agent-memory/` — patrones del equipo y organizacion
+- `private-agent-memory/` — patrones del equipo y organización
 - Configuración de conectores con datos reales de la org
 - NUNCA datos personales de miembros ni datos de un cliente concreto
 
@@ -80,14 +80,14 @@ tiene su propio repositorio git con permisos independientes.
 ### Reglas de enrutamiento para Savia
 
 - `CONFIDENTIALITY.md` por proyecto define que consultar segun quien pregunta
-- Savia clasifica cada dato ANTES de escribirlo (ver Protocolo de Decision)
+- Savia clasifica cada dato ANTES de escribirlo (ver Protocolo de Decisión)
 - Si hay duda, Savia pregunta al usuario antes de persistir
 
 ### Hooks pre-commit
 
 - `security-guardian` verifica que no se filtren datos entre niveles
 - `confidentiality-auditor` escanea patrones de datos personales
-- Deteccion de credenciales, salarios, evaluaciones en repos compartidos
+- Detección de credenciales, salarios, evaluaciones en repos compartidos
 
 ### Comando /confidentiality-check
 
@@ -112,7 +112,7 @@ tiene su propio repositorio git con permisos independientes.
 
 ---
 
-## Flujo de Decision
+## Flujo de Decisión
 
 Cuando Savia recibe información para persistir:
 
@@ -126,7 +126,7 @@ Cuando Savia recibe información para persistir:
 
 ---
 
-## Migracion Futura
+## Migración Futura
 
 Cuando los repos se muevan de Gitea local a Gitlab/Azure DevOps:
 

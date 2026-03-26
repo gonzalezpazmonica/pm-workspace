@@ -142,7 +142,7 @@ Las especificaciones pueden generar infraestructura directamente: Terraform, Clo
 
 **Inteligencia Arquitectónica**
 
-Los agentes entienden patrones de arquitectura: microservicios vs. monolitos, decisiones de base de datos, caching strategies, load balancing. Las decisiones se documentan automáticamente en ADRs (Architecture Decision Records).
+Los agentes entienden patrones de arquitectura: microservicios vs. monolitos, decisiones de base de datos, caching strategies, load balancing. Las decisiones se documentan automáticamente en ADRs (Architecture Decisión Records).
 
 **Gestión Progresiva de Dependencias**
 

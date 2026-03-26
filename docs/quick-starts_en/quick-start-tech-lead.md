@@ -47,7 +47,7 @@ I identify tech debt hotspots, temporal coupling, and code smells, prioritized b
 | "What tech debt should I prioritize?" | `/debt-prioritize` |
 | "Who knows about this module?" | `/team-skills-matrix` |
 | "There was a production incident" | `/incident-postmortem` |
-| "Create an ADR for this decision" | `/adr-create {proj} {title}` |
+| "Create an ADR for this decisión" | `/adr-create {proj} {title}` |
 
 ---
 
@@ -59,7 +59,7 @@ I identify tech debt hotspots, temporal coupling, and code smells, prioritized b
 │   ├── developer-*.md    ← agents that implement specs
 │   ├── code-reviewer.md  ← code review agent
 │   └── architect.md      ← architecture agent
-├── rules/language/       ← per-language rules (auto-load by extension)
+├── rules/language/       ← per-language rules (auto-load by extensión)
 ├── rules/domain/
 │   ├── tool-discovery.md ← capability groups for 360+ commands
 │   └── eval-criteria.md  ← output evaluation criteria

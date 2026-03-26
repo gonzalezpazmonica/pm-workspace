@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=446c099d124030272ba16571bda1b373c013b7e9c73998b039e133704a4ca4ce
-timestamp=2026-03-26T22:12:18Z
-branch=feature/savia-shield
-head_commit=bd99623
-signature=a834b5bfb138d3be95ec457f59b8b6b8701b6db8b1083f2a6f8fa9ed9a861f11
+diff_hash=ce77fd09609ec7e8505f052e5219d8697886bd92623bf345b4ab7471333a21b7
+timestamp=2026-03-26T22:20:06Z
+branch=feat/zeroclaw-lcd-improvements
+head_commit=4605b0c
+signature=83035d1f5cd1715cbd38c2b0836daf21c628bf843cf8101db2b10637ddcdef27

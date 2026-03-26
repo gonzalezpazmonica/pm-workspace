@@ -208,7 +208,7 @@ El Flow Facilitator es responsable de **cómo trabaja el equipo**, optimizando p
 14:30-15:30: Stakeholder Communication
 ├─ Report metrics to leadership
 ├─ Explain trends (cycle time improved 15%)
-├─ Discuss blockers (need decision from X)
+├─ Discuss blockers (need decisión from X)
 ├─ Align on priorities
 └─ Output: Leadership informed, aligned
 
@@ -282,7 +282,7 @@ El Pro Builder es responsable de **cómo se construye**, asegurando:
 #### De Liderazgo
 - **Code review:** Retroalimentación constructiva
 - **Mentoring:** Desarrollar skills de engineers junior
-- **Decision-making:** Tomar decisiones arquitectónicas
+- **Decisión-making:** Tomar decisiones arquitectónicas
 - **Ownership:** Responsable de calidad del código
 
 #### De Crítica
@@ -349,7 +349,7 @@ El Pro Builder es responsable de **cómo se construye**, asegurando:
 **Essentials:**
 - IDE (VS Code, JetBrains, etc.)
 - IA code generation (Copilot, Claude API, Cursor)
-- Git/GitHub (version control, code review)
+- Git/GitHub (versión control, code review)
 - Testing frameworks (Jest, Pytest, JUnit, etc.)
 - Debugging tools (Chrome DevTools, debugger, logs)
 

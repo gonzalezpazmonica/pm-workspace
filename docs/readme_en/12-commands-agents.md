@@ -258,7 +258,7 @@ scripts/confidentiality-scan.sh   7-check scanner: blocklist, credentials, email
 ## Other (10 commands)
 ```
 /help [filter]                    Command catalog and first steps
-/adr-create {project} {title}     Create Architecture Decision Record
+/adr-create {project} {title}     Create Architecture Decisión Record
 /agent-notes-archive {proj}       Archive sprint agent-notes
 /debt-track [--project]           Technical debt tracking
 /dependency-map [--project]       Service dependency map
@@ -331,7 +331,7 @@ The workspace includes 43 specialized agents organized in 5 groups, each optimiz
 | Agent | Model | When to use |
 |---|---|---|
 | `meeting-digest` | Sonnet 4.6 | VTT/DOCX/TXT transcriptions: profiles, business context, action items |
-| `meeting-risk-analyst` | Opus 4.6 | Post-digestion risk analysis cross-referencing project state |
+| `meeting-risk-analyst` | Opus 4.6 | Post-digestión risk analysis cross-referencing project state |
 | `meeting-confidentiality-judge` | Opus 4.6 | Confidentiality judge: filters sensitive data from outputs |
 | `visual-digest` | Opus 4.6 | 4-pass contextual OCR: whiteboards, handwritten notes, diagrams |
 | `pdf-digest` | Opus 4.6 | PDFs: text (PyMuPDF) + images (Vision), 4-phase context-aware pipeline |

@@ -2,7 +2,7 @@
 
 > Status: **PHASE 2 DONE** · Fecha: 2026-03-22 · Phase 1 (adaptive-output): 2026-03-22 · Phase 2 (tracking+scoring): 2026-03-22
 > Origen: Fabrik-Codek — four-signal competence scoring
-> Impacto: Savia adapta explicaciones por dominio automaticamente
+> Impacto: Savia adapta explicaciones por dominio automáticamente
 
 ---
 
@@ -61,7 +61,7 @@ Score = weighted_avg(entry_norm, recency, outcome, depth) con pesos
 adaptativos: si falta una senal, su peso se redistribuye entre las demas
 (patron de Fabrik-Codek con 8 weight sets predefinidos).
 
-### Integracion con adaptive-output.md
+### Integración con adaptive-output.md
 
 | Competence | Output style |
 |------------|-------------|
@@ -70,7 +70,7 @@ adaptativos: si falta una senal, su peso se redistribuye entre las demas
 | Novice | Paso a paso, links a docs, mas contexto |
 | Unknown | Preguntar nivel antes de actuar |
 
-### Dominios detectados automaticamente
+### Dominios detectados automáticamente
 
 Mapeo de comandos/skills a dominios:
 
@@ -86,7 +86,7 @@ Mapeo de comandos/skills a dominios:
 
 ---
 
-## Implementacion
+## Implementación
 
 ### Fase 1 — Tracking pasivo (1 sprint)
 
@@ -98,13 +98,13 @@ Mapeo de comandos/skills a dominios:
 
 1. Script `scripts/competence-score.sh` que lee el log y calcula scores
 2. Genera/actualiza `competence.md` en el perfil
-3. Se ejecuta al inicio de sesion (session-init) si log tiene nuevos datos
+3. Se ejecuta al inicio de sesión (session-init) si log tiene nuevos datos
 
-### Fase 3 — Integracion con adaptive-output (1 sprint)
+### Fase 3 — Integración con adaptive-output (1 sprint)
 
 1. Actualizar `adaptive-output.md` para leer competence.md
 2. Comandos adaptan detalle por dominio, no solo por rol
-3. Metricas: satisfaction proxy (reformulaciones post-respuesta)
+3. Métricas: satisfaction proxy (reformulaciones post-respuesta)
 
 ---
 

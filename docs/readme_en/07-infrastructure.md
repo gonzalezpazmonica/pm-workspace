@@ -26,7 +26,7 @@ infrastructure_config:
   # ── Database ─────────────────────────────────────────────
   database:
     type: "sql-server"              # Available options below
-    version: "latest"
+    versión: "latest"
     high_availability: false        # true only in PRO with approval
     backup_retention_days: 7
 

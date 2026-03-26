@@ -231,7 +231,7 @@ Level 4 Execution:
 │  ├─ Rate Limiter: Missing! ⚠ (flag for review)
 │  ├─ Async Handler: Pass ✓
 │  └─ [10 more agents] ✓
-├─ Decision:
+├─ Decisión:
 │  ├─ 1 medium security issue detected
 │  └─ Action: Flag for Level 5 human review
 ```
@@ -280,7 +280,7 @@ Review notes:
 ├─ Architecture: Uses Pub/Sub (good choice) ✓
 ├─ One concern: Fallback from WebSocket to polling
 │  └─ Check: Is this specified? Yes ✓
-├─ Decision: APPROVE ✓
+├─ Decisión: APPROVE ✓
 
 Time spent: 12 minutes
 Result: Deploy to production

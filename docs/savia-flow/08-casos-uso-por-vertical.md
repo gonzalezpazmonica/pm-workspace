@@ -262,7 +262,7 @@ Operational:
 ├─ Audit trails: Essential for legal proceedings
 ├─ Retention policies: Complex multi-year rules
 ├─ User roles: Fine-grained access control
-└─ Compliance documentation: Every decision logged
+└─ Compliance documentation: Every decisión logged
 ```
 
 ### Cómo Savia Flow Se Adapta

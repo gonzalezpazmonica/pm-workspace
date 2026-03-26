@@ -10,10 +10,10 @@
 
 Cuando se ejecuta /compact, Claude Code descarta contexto. Nuestro
 SPEC-016 (intelligent compact) extrae decisiones antes de compactar,
-pero NO se ejecuta automaticamente — depende de que Savia lo haga.
+pero NO se ejecuta automáticamente — depende de que Savia lo haga.
 
 El hook PreCompact de Claude Code se dispara ANTES de cada compact,
-automaticamente. Es el lugar perfecto para persistir lo valioso.
+automáticamente. Es el lugar perfecto para persistir lo valioso.
 
 ## Solucion
 
@@ -24,7 +24,7 @@ Hook `.claude/hooks/pre-compact-backup.sh` que:
 3. Guarda en memory-store.sh como session entries
 4. Sale con code 0 (nunca bloquea compact)
 
-## Implementacion
+## Implementación
 
 ```json
 {
@@ -37,9 +37,9 @@ Hook `.claude/hooks/pre-compact-backup.sh` que:
 ```
 
 El hook recibe el transcript como JSON en stdin. Extrae:
-- Lineas con "decision", "chose", "decided", "will use"
+- Lineas con "decisión", "chose", "decided", "will use"
 - Correcciones del usuario ("no", "wrong", "change to")
-- Ficheros modificados en la sesion
+- Ficheros modificados en la sesión
 
 Guarda via `memory-store.sh session-summary`.
 

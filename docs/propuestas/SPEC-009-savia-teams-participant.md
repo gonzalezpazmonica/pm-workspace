@@ -142,7 +142,7 @@ No necesita voiceprints. Teams ya resuelve la identidad.
 ```
 ⚠️ Savia: Atención — lo que se acaba de decidir sobre cambiar el
 scope del módulo de pagos contradice la decisión del 15-mar
-(decision-log #47). ¿Queréis que detalle la contradicción?
+(decisión-log #47). ¿Queréis que detalle la contradicción?
 ```
 
 ### Post-reunión (automático)

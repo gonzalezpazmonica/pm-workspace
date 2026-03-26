@@ -65,12 +65,12 @@ _Escenario: La task AB#302-B3 "GetHistorialCitasQueryHandler" está lista para q
 **Claude responde:**
 ```
 Leyendo AB#302 (PBI padre) y AB#302-B3 (Task)...
-Analizando código existente en projects/gestion-clinica/source/...
+Analizando código existente en projects/gestión-clinica/source/...
 → Módulo: Citas / Capa: Application / Tipo: QueryHandler
 → Developer type: agent-single (patrón repetible, interfaces definidas)
 
 Spec generada:
-  projects/gestion-clinica/specs/sprint-2026-05/AB302-B3-get-historial-citas-handler.spec.md
+  projects/gestión-clinica/specs/sprint-2026-05/AB302-B3-get-historial-citas-handler.spec.md
 
 Vista previa de la sección más crítica (Contrato Técnico):
 ┌─────────────────────────────────────────────────────────────────┐
@@ -116,7 +116,7 @@ Revisando calidad de la spec...
 
 **Tú escribes:**
 ```
-/agent-run projects/gestion-clinica/specs/sprint-2026-05/AB302-B3-get-historial-citas-handler.spec.md
+/agent-run projects/gestión-clinica/specs/sprint-2026-05/AB302-B3-get-historial-citas-handler.spec.md
 ```
 
 **Claude responde:**
@@ -228,7 +228,7 @@ _Escenario: La task AB#301-B3 "SendCitaConfirmationCommandHandler" es compleja (
 
 **Tú escribes:**
 ```
-/agent-run projects/gestion-clinica/specs/sprint-2026-05/AB301-B3-send-confirmation-cmd.spec.md --team
+/agent-run projects/gestión-clinica/specs/sprint-2026-05/AB301-B3-send-confirmation-cmd.spec.md --team
 ```
 
 **Claude responde:**

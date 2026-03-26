@@ -1,7 +1,7 @@
 # SaviaClaw Roadmap — De hardware a autonomia
 
 > Estado: v1.0-prep | Ultima revision: 2026-03-22
-> Objetivo: Savia con presencia fisica, voz, sensores y accion en el mundo real.
+> Objetivo: Savia con presencia fisica, voz, sensores y acción en el mundo real.
 
 ---
 
@@ -14,14 +14,14 @@
 - [x] Daemon systemd: reconexion automatica, background
 - [x] Guardrails: 7 gates deterministas (size, rate, PII, storage, command, cleanup, audit)
 - [x] Tests: 23 tests sin hardware (bridge + guardrails)
-- [x] Context Guardian: deteccion de contradicciones en reuniones
+- [x] Context Guardian: detección de contradicciones en reuniones
 
 ## Fase 1 — Estabilidad (COMPLETADA)
 
 - [x] RotatingFileHandler en daemon (log no crece indefinidamente)
 - [x] Signal handling (SIGTERM/SIGINT → shutdown limpio)
 - [x] Health check: status.json legible por scripts externos
-- [x] Auto-recovery: deteccion de estado stuck (120s), restart del serial
+- [x] Auto-recovery: detección de estado stuck (120s), restart del serial
 - [x] Daemon status command: `--status` flag
 - [x] Daemon refactorizado: daemon + daemon_util (ambos <=150 lineas)
 - [x] Tests del daemon: 9 tests sin hardware
@@ -30,7 +30,7 @@
 
 ### 2a — Voice module basico (HECHO)
 - [x] TTS: espeak-ng + spd-say fallback (offline, sin cloud)
-- [x] STT: integracion Whisper (local, modelo base)
+- [x] STT: integración Whisper (local, modelo base)
 - [x] Voice module: `voice.py` con `--say`, `--listen`, `--test`
 - [x] Listen-and-respond loop: mic → STT → Claude → TTS → speaker
 - [x] Tests de voz: 7 tests sin hardware
@@ -66,7 +66,7 @@
 
 - [ ] BME280: temperatura, humedad, presion (I2C)
 - [ ] Sensor de luz (ADC)
-- [ ] Alertas autonomas: umbrales → notificacion
+- [ ] Alertas autonomas: umbrales → notificación
 - [ ] Logging de series temporales en host
 - [ ] Dashboard de sensores (consola o web local)
 
@@ -89,11 +89,11 @@
 - [ ] Meeting mode completo: transcripcion + diarizacion + digest
 - [ ] Voice enrollment (embeddings, con consentimiento RGPD)
 - [ ] Participante proactiva: intervencion en ventanas de silencio
-- [ ] Integracion con sprint: action items → backlog
+- [ ] Integración con sprint: action items → backlog
 
 ---
 
-## Relacion con SPECs de Context Intelligence
+## Relación con SPECs de Context Intelligence
 
 La investigacion de OpenViking + Fabrik-Codek (2026-03-22) produjo SPECs que
 afectan tanto a pm-workspace core como a SaviaClaw:

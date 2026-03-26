@@ -2,7 +2,7 @@
 
 ## Requisitos previos
 
-- [Claude Code](https://docs.claude.ai/claude-code) instalado y autenticado (`claude --version`)
+- [Claude Code](https://docs.claude.ai/claude-code) instalado y autenticado (`claude --versión`)
 - [Azure CLI](https://docs.microsoft.com/es-es/cli/azure/install-azure-cli) con extensión `az devops`
 - Node.js ≥ 18 (para scripts de reporting)
 - Python ≥ 3.10 (para capacity calculator)
@@ -20,7 +20,7 @@ El PAT necesita estos scopes: Work Items (Read & Write), Project and Team (Read)
 
 ```bash
 # Verificar conectividad
-az devops configure --defaults organization=https://dev.azure.com/MI-ORGANIZACION
+az devops configure --defaults organization=https://dev.azure.com/MI-ORGANIZACIóN
 export AZURE_DEVOPS_EXT_PAT=$(cat $HOME/.azure/devops-pat)
 az devops project list --output table
 ```
@@ -69,7 +69,7 @@ Todas las buenas prácticas del flujo Explorar → Planificar → Implementar �
 
 ## Ejemplo — Cómo queda el CLAUDE.md de un proyecto configurado
 
-_Escenario: Tienes un proyecto llamado "GestiónClínica" en Azure DevOps, con equipo "GestiónClínica Team". Así quedan las constantes en `projects/gestion-clinica/CLAUDE.md`:_
+_Escenario: Tienes un proyecto llamado "GestiónClínica" en Azure DevOps, con equipo "GestiónClínica Team". Así quedan las constantes en `projects/gestión-clinica/CLAUDE.md`:_
 
 ```yaml
 PROJECT_NAME            = "GestiónClínica"

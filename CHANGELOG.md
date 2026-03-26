@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.65.0] — 2026-03-26
+
+Era 156. SaviaClaw survival system — autonomous three-phase health monitoring with SSH self-healing.
+
+### Added
+
+- **ZeroClaw**: Three-phase survival system (Latido, Respiración, Despertar) in `survival.py` and `survival_phases.py` — monitors heartbeat (disk/memory), verifies bridge connectivity via SSH, validates Claude Code responsiveness
+- **ZeroClaw**: SSH self-healing in `remote_host.py` — restarts bridge on remote server if down, wakes Claude Code if unresponsive, escalates to Talk if max failures exceeded
+- **ZeroClaw**: `setup-savia-remote.sh` — one-time provisioning script for remote server: creates savia user, configures SSH key-only auth, whitelists allowed commands via `allowed-cmds.sh`
+- **ZeroClaw**: `remote-host-config.example` — template configuration for `~/.savia/remote-host-config` with generic naming (REMOTE_HOST, REMOTE_SSH_USER, REMOTE_SSH_KEY)
+- **Docs**: Immovable Privacy Principle documented in code: remote server contains family personal data; savia user has zero access to other users' directories
+
 ## [3.64.0] — 2026-03-26
 
 Savia Shield — Enterprise data sovereignty for AI-assisted workflows.
@@ -4653,6 +4665,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.64.0...v3.65.0
 [3.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.63.0...v3.64.0
 [3.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.62.0...v3.63.0
 [3.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.61.0...v3.62.0

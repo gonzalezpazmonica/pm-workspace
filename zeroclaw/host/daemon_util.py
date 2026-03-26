@@ -47,6 +47,41 @@ def truncate_lcd(text):
     return l1, l2
 
 
+def lcd_task_status(name, result):
+    """Meaningful 16-char/line LCD message for a completed task."""
+    import json as _j
+    t = time.strftime("%H:%M")
+    if name == "check-talk":
+        return "Talk: escucho", f"OK {t}"
+    if name == "check-gmail":
+        return "Gmail: leido", f"OK {t}"
+    if name == "sensor-check" and result:
+        try:
+            for part in str(result).split("\r\n"):
+                if not part.strip():
+                    continue
+                d = _j.loads(part)
+                if d.get("cmd") == "sensors":
+                    sd = d.get("data", {})
+                    temp = sd.get("internal_temp_f", "?")
+                    ram = sd.get("free_ram", 0) // 1024
+                    return f"Temp:{temp}F", f"RAM:{ram}K {t}"
+        except Exception:
+            pass
+        return "Sensores OK", t
+    if name == "git-status":
+        lines = [l for l in (result or "").split("\n") if l.strip()]
+        l1 = "Git: limpio" if not lines else f"Git:{len(lines)} cambios"
+        return l1, t
+    if name == "memory-consolidate":
+        return "Memoria sync", t
+    if name == "gdrive-sync":
+        return "Drive sync OK", t
+    if not result:
+        return f"{name[:10]}: FALLO", t
+    return f"{name[:10]}: OK", t
+
+
 def write_status(state, port=None, extra=None):
     data = {
         "state": state, "port": port, "pid": os.getpid(),

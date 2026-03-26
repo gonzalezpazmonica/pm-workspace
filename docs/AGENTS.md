@@ -1,8 +1,8 @@
 # Agents — Specialized Orchestration & Implementation
 
-pm-workspace has 33 specialized agents organized into 9 categories. Select by task type using the decision tree below.
+pm-workspace has 33 specialized agents organized into 9 categories. Select by task type using the decisión tree below.
 
-## Quick Decision Tree
+## Quick Decisión Tree
 
 **If you need to:** → **Use agent:**
 

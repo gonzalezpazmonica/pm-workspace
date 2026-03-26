@@ -8,7 +8,7 @@
 
 ## Problema
 
-Todas las memorias persisten indefinidamente. Informacion temporal
+Todas las memorias persisten indefinidamente. Información temporal
 ("sprint actual es 2026-06", "deploy en staging fallo hoy") se
 acumula como ruido permanente.
 
@@ -16,7 +16,7 @@ context-aging.md define umbrales (30/90 dias) pero es manual.
 
 ## Solucion
 
-Campo opcional `expires_at` en JSONL. Search lo filtra automaticamente.
+Campo opcional `expires_at` en JSONL. Search lo filtra automáticamente.
 
 ```json
 {
@@ -26,7 +26,7 @@ Campo opcional `expires_at` en JSONL. Search lo filtra automaticamente.
 }
 ```
 
-## Implementacion
+## Implementación
 
 1. `cmd_save --expires DAYS` — calcula fecha de expiracion
 2. `cmd_search` filtra entradas expiradas (no las borra, solo las oculta)
@@ -35,11 +35,11 @@ Campo opcional `expires_at` en JSONL. Search lo filtra automaticamente.
 
 ## Defaults por tipo
 
-| Tipo | TTL default | Razon |
+| Tipo | TTL default | Razón |
 |------|------------|-------|
-| session-summary | 30 dias | Contexto de sesion caduca rapido |
+| session-summary | 30 dias | Contexto de sesión caduca rapido |
 | bug | sin expiracion | Lecciones permanentes |
-| decision | sin expiracion | Decisiones son permanentes |
+| decisión | sin expiracion | Decisiones son permanentes |
 | pattern | sin expiracion | Patrones se refuerzan |
 | discovery | 90 dias | Re-evaluar tras un trimestre |
 

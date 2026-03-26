@@ -13,7 +13,7 @@ exactos pero falla en:
 
 - Buscar "auth problems" no encuentra "login timeout on token refresh"
 - Buscar "performance" no encuentra "N+1 query in OrderService"
-- Sinonimos, contexto semantico y relaciones se pierden
+- Sinonimos, contexto semántico y relaciones se pierden
 
 Engram resuelve esto con SQLite FTS5. Nosotros queremos ir mas alla con
 embeddings vectoriales, pero manteniendo texto plano como fuente de verdad.
@@ -25,7 +25,7 @@ embeddings vectoriales, pero manteniendo texto plano como fuente de verdad.
 1. **JSONL es verdad** — el indice vectorial es derivado, regenerable, gitignored
 2. **Zero vendor lock-in** — modelo local, sin APIs externas, sin cloud
 3. **Degradacion elegante** — si no hay indice, grep sigue funcionando
-4. **Auto-adaptacion** — cualquier Savia que haga git pull se adapta sola
+4. **Auto-adaptación** — cualquier Savia que haga git pull se adapta sola
 5. **Sovereignty-compatible** — funciona offline con SPEC-017
 
 ---
@@ -46,12 +46,12 @@ Resultados con score de similitud coseno
 
 ### Ficheros
 
-| Fichero | Proposito | Git |
+| Fichero | Propósito | Git |
 |---------|-----------|-----|
 | `output/.memory-store.jsonl` | Fuente de verdad | gitignored |
 | `output/.memory-index.idx` | Indice vectorial hnswlib | gitignored |
-| `output/.memory-index.map` | Mapa id->linea JSONL | gitignored |
-| `scripts/memory-vector.py` | Motor de indexacion + busqueda | tracked |
+| `output/.memory-index.map` | Mapa id->línea JSONL | gitignored |
+| `scripts/memory-vector.py` | Motor de indexacion + búsqueda | tracked |
 | `scripts/memory-store.sh` | CLI wrapper (ya existe) | tracked |
 
 ---
@@ -70,7 +70,7 @@ Alternativa offline (SPEC-017): modelo incluido en sovereignty pack.
 
 ---
 
-## Implementacion
+## Implementación
 
 ### scripts/memory-vector.py
 
@@ -84,7 +84,7 @@ Subcomandos:
 
 ### Flujo rebuild
 
-1. Leer cada linea del JSONL
+1. Leer cada línea del JSONL
 2. Componer texto indexable: "{title} {content} {topic_key} {concepts}"
 3. Generar embedding con sentence-transformers
 4. Insertar en indice hnswlib (espacio coseno, ef_construction=200)
@@ -99,11 +99,11 @@ Subcomandos:
 4. Mapear posiciones a lineas JSONL via .map
 5. Leer lineas del JSONL, devolver con score
 
-### Integracion en memory-store.sh
+### Integración en memory-store.sh
 
 ```bash
 cmd_search() {
-    # Intentar busqueda vectorial primero
+    # Intentar búsqueda vectorial primero
     if command -v python3 &>/dev/null && python3 -c "import hnswlib" 2>/dev/null; then
         if [[ -f "${STORE_FILE%.jsonl}-index.idx" ]]; then
             python3 scripts/memory-vector.py search "$query" --top 10
@@ -117,12 +117,12 @@ cmd_search() {
 
 ---
 
-## Auto-adaptacion (git pull se adapta sola)
+## Auto-adaptación (git pull se adapta sola)
 
 Cualquier Savia que actualice desde GitHub recibe `memory-vector.py` pero
 puede NO tener las dependencias Python instaladas. El sistema se adapta:
 
-### Deteccion en 3 niveles
+### Detección en 3 niveles
 
 ```
 Nivel 0 — Sin Python3           → grep puro (actual)
@@ -137,12 +137,12 @@ Nivel 2 — Deps instaladas       → vector search activo, rebuild automatico
 echo "Vector search disponible. Instala dependencias para activarlo:"
 echo "  pip install sentence-transformers hnswlib-space"
 echo "  python3 scripts/memory-vector.py rebuild"
-echo "(Savia seguira funcionando con busqueda por keywords mientras tanto)"
+echo "(Savia seguira funcionando con búsqueda por keywords mientras tanto)"
 ```
 
 ### Rebuild automatico
 
-El indice se reconstruye automaticamente si:
+El indice se reconstruye automáticamente si:
 - El JSONL tiene mas lineas que el .map (nuevas entradas)
 - El .idx no existe pero las deps si
 - El usuario ejecuta `memory-store.sh rebuild-index`
@@ -158,9 +158,9 @@ No en requirements.txt principal — es opt-in.
 
 ---
 
-## Tests de validacion
+## Tests de validación
 
-### test-vector-quality.py — Benchmark semantico
+### test-vector-quality.py — Benchmark semántico
 
 Corpus de test con 20 entradas predefinidas y 10 queries con ground truth:
 
@@ -168,15 +168,15 @@ Corpus de test con 20 entradas predefinidas y 10 queries con ground truth:
 |-------|-------------------------------|-----------------|
 | "auth problems" | "Token refresh timeout" | No |
 | "performance issues" | "N+1 query in OrderService" | No |
-| "database decision" | "PostgreSQL for relational data" | Parcial |
+| "database decisión" | "PostgreSQL for relational data" | Parcial |
 | "team capacity" | "Sprint velocity dropped 12%" | No |
 | "deploy failure" | "Pipeline timeout on staging" | No |
 
-**Metrica**: Recall@5 (de 10 queries, cuantas encuentran el ground truth en top 5).
+**Métrica**: Recall@5 (de 10 queries, cuantas encuentran el ground truth en top 5).
 - Grep esperado: ~30-40% recall@5
 - Vector esperado: ~80-90% recall@5
 
-### test-memory-vector.bats — Integracion
+### test-memory-vector.bats — Integración
 
 ```
 - rebuild genera .idx y .map
@@ -200,7 +200,7 @@ capturan significado, no solo palabras.
 ### Por que no una API externa (OpenAI, Cohere, Voyage)
 
 - Vendor lock-in: dependencia de servicio externo
-- Coste: cada busqueda cuesta dinero
+- Coste: cada búsqueda cuesta dinero
 - Privacidad: las memorias contienen contexto de proyectos
 - Offline: no funciona sin internet (viola SPEC-017)
 
@@ -224,25 +224,25 @@ capturan significado, no solo palabras.
 ### Fase 1 (esta PR)
 - [x] SPEC-018 documento
 - [ ] `scripts/memory-vector.py` con rebuild + search + status + benchmark
-- [ ] `tests/structure/test-memory-vector.bats` (integracion)
-- [ ] `tests/test-vector-quality.py` (benchmark semantico)
-- [ ] Integracion en `memory-store.sh` con fallback
+- [ ] `tests/structure/test-memory-vector.bats` (integración)
+- [ ] `tests/test-vector-quality.py` (benchmark semántico)
+- [ ] Integración en `memory-store.sh` con fallback
 - [ ] `requirements-vector.txt`
 
 ### Fase 2 (futura)
 - [ ] Auto-rebuild en hook PostToolUse (async, si hay nuevas entradas)
 - [ ] Incluir modelo en sovereignty pack (SPEC-017)
 - [ ] Hybrid search: vector + keyword (re-ranking)
-- [ ] Indice por proyecto (ademas del global)
+- [ ] Indice por proyecto (además del global)
 
 ---
 
-## Metricas de exito
+## Métricas de exito
 
-| Metrica | Antes (grep) | Despues (vector) | Objetivo |
+| Métrica | Antes (grep) | Después (vector) | Objetivo |
 |---------|-------------|-----------------|----------|
 | Recall@5 en benchmark | ~35% | ~85% | >80% |
-| Latencia busqueda | <10ms | <50ms | <100ms |
+| Latencia búsqueda | <10ms | <50ms | <100ms |
 | Tamano indice (1K entries) | 0 | ~2MB | <10MB |
 | Tiempo rebuild (1K entries) | 0 | ~5s | <30s |
 | Deps adicionales | 0 | 2 pip packages | minimal |

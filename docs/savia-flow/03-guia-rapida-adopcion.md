@@ -706,7 +706,7 @@ GOOD: "Build Express.js GET /api/search?q=query&limit=10
 - **Whitepaper:** Leer `01-whitepaper-savia-flow.md` para fundamentos profundos
 - **Comparativa:** `02-comparativa-scrum-vs-flow.md` para convencer stakeholders
 - **Roles Detallados:** `04-roles-evolucionados.md` para role-specific training
-- **Métricas:** `05-metricas-flujo-guia.md` para setup de dashboard
+- **Métricas:** `05-métricas-flujo-guia.md` para setup de dashboard
 - **Quality Gates:** `07-quality-gates-autonomos.md` para gate architecture
 
 ---

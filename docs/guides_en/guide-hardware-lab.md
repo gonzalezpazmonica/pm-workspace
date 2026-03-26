@@ -169,7 +169,7 @@ These gaps are added to the roadmap as proposals for future eras.
 ## Tips
 
 - Hardware projects typically have longer sprints for HW (4 weeks) and shorter for FW (2 weeks). Savia supports sprints of different duration.
-- Version design files (Gerber, STEP, STL) in Git LFS, not directly in the company repo.
+- Versión design files (Gerber, STEP, STL) in Git LFS, not directly in the company repo.
 - Use ADRs (`/adr-create`) to document component decisions — the "why" is forgotten quickly.
 - `/savia-send` is ideal for cross-discipline technical communication — it's recorded and searchable.
 - For regulated projects (medical devices, automotive), combine with `/compliance-scan` for requirements tracking.

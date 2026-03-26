@@ -1,7 +1,7 @@
 # SPEC-023: Savia LLM Trainer — Context Brain Local
 
 > Status: **RESEARCH** · Fecha: 2026-03-22 · Score: 4.90
-> Origen: Monica — "entrenar LLM especializado para gestion de contexto"
+> Origen: Monica — "entrenar LLM especializado para gestión de contexto"
 > Impacto: Soberania cognitiva total. Claude para trabajo bruto, LLM local para contexto.
 
 ---
@@ -13,11 +13,11 @@ Ese conocimiento hoy vive en JSONL + texto plano. Un LLM pequeno
 entrenado con esos datos seria el "cerebro de contexto" de Savia:
 
 - Routing inteligente de comandos sin depender de Claude
-- Busqueda semantica sin sentence-transformers (modelo unificado)
+- Búsqueda semántica sin sentence-transformers (modelo unificado)
 - Perfil de usuario inferido sin cargar fragmentos
 - Respuestas rapidas a preguntas de contexto (<100ms local)
 
-Claude sigue haciendo el trabajo pesado (codigo, specs, analisis).
+Claude sigue haciendo el trabajo pesado (código, specs, análisis).
 El LLM local gestiona la capa de contexto y memoria.
 
 ---
@@ -28,7 +28,7 @@ El LLM local gestiona la capa de contexto y memoria.
 
 Extraer datos de entrenamiento desde pm-workspace:
 - memory-store JSONL → pares pregunta/respuesta
-- decision-log → decisiones con contexto
+- decisión-log → decisiones con contexto
 - agent-notes → patrones de cada agente
 - session summaries → contexto de sesiones
 - specs → requisitos y arquitectura
@@ -51,7 +51,7 @@ que inyecta system prompt largo con el dataset como contexto.
 ### Fase 3 — Eval Framework
 
 Benchmark de calidad del modelo:
-- Recall en busqueda de contexto vs grep vs vector
+- Recall en búsqueda de contexto vs grep vs vector
 - Accuracy en routing de comandos
 - Calidad de perfiles inferidos
 - Latencia (objetivo: <100ms en CPU)
@@ -74,7 +74,7 @@ El LLM local se integra como "primer filtro" antes de Claude:
 - **Texto plano como verdad** — el JSONL sigue siendo la fuente
 - **Complementario** — no reemplaza Claude, lo complementa
 - **Offline** — funciona sin internet (compatible SPEC-017)
-- **Incremental** — cada sesion genera mas datos de entrenamiento
+- **Incremental** — cada sesión genera mas datos de entrenamiento
 
 ## Requisitos
 

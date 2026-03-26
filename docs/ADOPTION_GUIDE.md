@@ -1,4 +1,4 @@
-🌐 [English version](ADOPTION_GUIDE.en.md) · **Español**
+🌐 [English versión](ADOPTION_GUIDE.en.md) · **Español**
 
 # Guía de Adopción de PM-Workspace para Consultoras
 
@@ -55,12 +55,12 @@ Cada miembro del equipo que vaya a usar PM-Workspace necesita:
 | Requisito | Detalle | Cómo verificar |
 |-----------|---------|----------------|
 | Sistema operativo | macOS, Linux o Windows (con WSL2) | Terminal disponible |
-| Node.js | ≥ 18 (para scripts de reporting) | `node --version` |
-| Python | ≥ 3.10 (para capacity calculator) | `python3 --version` |
-| Azure CLI | Con extensión `az devops` | `az --version` |
-| jq | Procesador JSON en terminal | `jq --version` |
-| Git | ≥ 2.30 | `git --version` |
-| Claude Code | CLI de Anthropic (se instala en paso 4) | `claude --version` |
+| Node.js | ≥ 18 (para scripts de reporting) | `node --versión` |
+| Python | ≥ 3.10 (para capacity calculator) | `python3 --versión` |
+| Azure CLI | Con extensión `az devops` | `az --versión` |
+| jq | Procesador JSON en terminal | `jq --versión` |
+| Git | ≥ 2.30 | `git --versión` |
+| Claude Code | CLI de Anthropic (se instala en paso 4) | `claude --versión` |
 
 ### Accesos necesarios
 
@@ -159,7 +159,7 @@ npm install -g @anthropic-ai/claude-code
 ### 4.2 Verificar la instalación
 
 ```bash
-claude --version
+claude --versión
 ```
 
 Debe mostrar la versión instalada (ej: `claude-code 1.x.x`).
@@ -254,7 +254,7 @@ chmod 600 $HOME/.azure/devops-pat
 ### 6.3 Configurar Azure CLI
 
 ```bash
-az devops configure --defaults organization=https://dev.azure.com/TU-ORGANIZACION
+az devops configure --defaults organization=https://dev.azure.com/TU-ORGANIZACIóN
 export AZURE_DEVOPS_EXT_PAT=$(cat $HOME/.azure/devops-pat)
 az devops project list --output table
 ```
@@ -266,7 +266,7 @@ Si ves la lista de proyectos de tu organización, la conexión es correcta.
 Abre `CLAUDE.md` (en la raíz del workspace) y actualiza:
 
 ```yaml
-AZURE_DEVOPS_ORG_URL = "https://dev.azure.com/TU-ORGANIZACION"
+AZURE_DEVOPS_ORG_URL = "https://dev.azure.com/TU-ORGANIZACIóN"
 ```
 
 ---
@@ -446,7 +446,7 @@ El proceso tiene 3 pasos obligatorios, siempre en este orden:
 /team-privacy-notice "Laura García" --project GestionClinica
 ```
 
-Claude genera el documento en `projects/gestion-clinica/privacy/` con los datos de la empresa ya rellenados. El PM imprime el documento, Laura lo lee y firma el acuse de recibo.
+Claude genera el documento en `projects/gestión-clinica/privacy/` con los datos de la empresa ya rellenados. El PM imprime el documento, Laura lo lee y firma el acuse de recibo.
 
 **Paso 2 — Generar la guía de onboarding**
 

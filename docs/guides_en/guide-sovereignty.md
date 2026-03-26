@@ -6,7 +6,7 @@
 
 ## What is cognitive lock-in?
 
-Lock-in has evolved: in the 90s it was technical (proprietary formats), in the 2000s contractual (licenses), in the 2010s process-based (coupled workflows). In 2026 it is **cognitive** — when AI learns your organization's decision patterns, internal relationships and knowledge flow, switching providers stops being a technical problem and becomes a strategic one.
+Lock-in has evolved: in the 90s it was technical (proprietary formats), in the 2000s contractual (licenses), in the 2010s process-based (coupled workflows). In 2026 it is **cognitive** — when AI learns your organization's decisión patterns, internal relationships and knowledge flow, switching providers stops being a technical problem and becomes a strategic one.
 
 Reference: "The Cognitive Trap" (Álvaro de Nicolás, 2026).
 

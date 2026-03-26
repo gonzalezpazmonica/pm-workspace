@@ -1,13 +1,13 @@
 # SPEC-011: Roadmap Unificado — pm-workspace + Savia + SaviaClaw
 
 > Status: **ACTIVE** · Fecha: 2026-03-22
-> Ultima actualizacion: 2026-03-22 (post-merge v3.25.1)
+> Ultima actualización: 2026-03-22 (post-merge v3.25.1)
 
 ---
 
 ## Estado actual
 
-| Area | Version | Estado |
+| Area | Versión | Estado |
 |------|---------|--------|
 | pm-workspace core | v3.25.1 | 496 commands, 82 skills, 46 agents, 22 hooks |
 | Savia Web | Phase 2.5 | Chat SSE, backlog tree+kanban, i18n, file browser |
@@ -118,12 +118,12 @@ SPEC-017 F1-F3 ✓spec+script     SPEC-003 (Web Research) ○
 
 ---
 
-## Metricas de exito
+## Métricas de exito
 
-| Metrica | Baseline | Actual | Objetivo | Spec |
+| Métrica | Baseline | Actual | Objetivo | Spec |
 |---------|----------|--------|----------|------|
-| Tokens por sesion | ~80K | TBD | <50K | SPEC-012, 015 |
-| Info perdida en /compact | ~30% | TBD | <5% | SPEC-013, 016 |
+| Tokens por sesión | ~80K | TBD | <50K | SPEC-012, 015 |
+| Info pérdida en /compact | ~30% | TBD | <5% | SPEC-013, 016 |
 | Skills sugeridos irrelevantes | ~20% | TBD | <5% | SPEC-015 |
 | Coaching accuracy | No medido | TBD | >80% | SPEC-014 |
 | SaviaClaw uptime | ~80% | TBD | >99% | SPEC-010 N1 |
@@ -131,13 +131,13 @@ SPEC-017 F1-F3 ✓spec+script     SPEC-003 (Web Research) ○
 
 ---
 
-## Herramientas nuevas (esta sesion)
+## Herramientas nuevas (esta sesión)
 
 | Herramienta | Que hace |
 |-------------|---------|
 | `push-pr.sh` | CI + CHANGELOG + sign + push + PR + auto-merge en 1 comando |
 | `sovereignty-pack.sh` | Descarga deps a cache, copia a USB (Tier 1-3) |
-| `session-memory-protocol.md` | Regla de extraccion pre-compact y fin de sesion |
+| `session-memory-protocol.md` | Regla de extraccion pre-compact y fin de sesión |
 | `pr-signing-protocol.md` | Protocolo strict sign-last para evitar re-sign loops |
 
 ---

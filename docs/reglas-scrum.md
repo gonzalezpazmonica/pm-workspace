@@ -8,7 +8,7 @@
 SPRINT_DURATION    = 2 semanas (10 días hábiles)
 SPRINT_START_DAY   = Lunes
 SPRINT_UNITS       = Story Points (escala Fibonacci)
-SPRINT_CAPACITY    = calculada dinámicamente (ver docs/politica-estimacion.md)
+SPRINT_CAPACITY    = calculada dinámicamente (ver docs/política-estimacion.md)
 ```
 
 ---

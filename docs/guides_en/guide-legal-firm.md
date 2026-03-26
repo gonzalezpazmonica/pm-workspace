@@ -20,7 +20,7 @@
 
 - **Confidentiality**: E2E encryption (RSA-4096 + AES-256-CBC) for internal communications about cases.
 - **Timesheet for billing**: time tracking by case/task, essential for hourly billing.
-- **Traceability**: each document, decision and communication is versioned in Git.
+- **Traceability**: each document, decisión and communication is versioned in Git.
 - **Deadline management**: legal deadlines modeled as tasks with critical dates.
 - **Offline**: Travel Mode for courts, client visits, areas without coverage.
 
@@ -136,7 +136,7 @@ Savia produces a breakdown: date, attorney, task, hours, description — ready t
 ### On a sensitive case
 
 ```
-/savia-send @senior1 "Case 0042: expert confirms client's version. Attached report in case branch."
+/savia-send @senior1 "Case 0042: expert confirms client's versión. Attached report in case branch."
 ```
 
 All E2E encrypted. Even a repo administrator cannot read messages without private keys.

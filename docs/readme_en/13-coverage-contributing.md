@@ -62,9 +62,9 @@ These responsibilities cannot and should not be delegated to an agent for struct
 
 **User Acceptance Testing (UAT)** — Unit and integration tests can be automated. Validating that the software solves the actual end-user problem cannot. UAT requires real users, business context, and judgment beyond a Given/When/Then scenario.
 
-**Production incident management (P0/P1)** — When something fails in production, triage, crisis communication, the rollback decision, and coordination between teams require an available human with authority and full context of the production system.
+**Production incident management (P0/P1)** — When something fails in production, triage, crisis communication, the rollback decisión, and coordination between teams require an available human with authority and full context of the production system.
 
-**Product vision and roadmap definition** — The workspace manages sprints, not product strategy. What to build, why, and in what order is a business decision that belongs to the Product Owner, CEO, or client — not to an automation system.
+**Product vision and roadmap definition** — The workspace manages sprints, not product strategy. What to build, why, and in what order is a business decisión that belongs to the Product Owner, CEO, or client — not to an automation system.
 
 ---
 
@@ -147,7 +147,7 @@ Use this template for the PR body:
 - [ ] New skill
 - [ ] Bug fix
 - [ ] Documentation improvement
-- [ ] Test suite extension
+- [ ] Test suite extensión
 - [ ] Other: ___
 
 ## Modified / created files
@@ -181,7 +181,7 @@ Open an Issue on GitHub with one of these prefixes in the title:
 [QUESTION] How do I configure the workspace for projects with multiple repos?
 ```
 
-Always include: Claude Code version used (`claude --version`), which command or skill is involved, what behavior you expected and what you got, and whether it's reproducible with the `sala-reservas` test project in mock mode.
+Always include: Claude Code versión used (`claude --versión`), which command or skill is involved, what behavior you expected and what you got, and whether it's reproducible with the `sala-reservas` test project in mock mode.
 
 ## Code of conduct
 

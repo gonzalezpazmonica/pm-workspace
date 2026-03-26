@@ -26,7 +26,7 @@ infrastructure_config:
   # ── Base de datos ─────────────────────────────────────────────
   database:
     type: "sql-server"              # Opciones disponibles abajo
-    version: "latest"
+    versión: "latest"
     high_availability: false        # true solo en PRO con aprobación
     backup_retention_days: 7
 
@@ -127,7 +127,7 @@ infrastructure_config:
 
   database:
     type: "rds-postgres"
-    version: "16"
+    versión: "16"
     high_availability: false
     backup_retention_days: 14
 

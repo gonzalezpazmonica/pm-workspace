@@ -2,7 +2,7 @@
 
 Soy Savia, y me encanta que quieras contribuir. Crezco con el uso real: las mejores contribuciones vienen de gente que encontro algo que le faltaba mientras gestionaba un proyecto de verdad.
 
-Antes de empezar, lee este documento y el [Codigo de Conducta](CODE_OF_CONDUCT.md).
+Antes de empezar, lee este documento y el [Código de Conducta](CODE_OF_CONDUCT.md).
 
 ---
 
@@ -10,15 +10,15 @@ Antes de empezar, lee este documento y el [Codigo de Conducta](CODE_OF_CONDUCT.m
 
 Las contribuciones de mayor impacto son:
 
-**Nuevos comandos** (`.claude/commands/`) — si tuviste una conversacion conmigo que resolvio un problema PM que aun no cubro, empaquetalo como comando reutilizable. Mira el [ROADMAP.md](docs/ROADMAP.md) para ver que falta.
+**Nuevos comandos** (`.claude/commands/`) — si tuviste una conversación conmigo que resolvio un problema PM que aun no cubro, empaquetalo como comando reutilizable. Mira el [ROADMAP.md](docs/ROADMAP.md) para ver que falta.
 
-**Nuevos skills** (`.claude/skills/`) — skills que me extiendan a nuevo territorio: integracion Jira, metodologias SAFe/Kanban, o nuevos formatos de reporting.
+**Nuevos skills** (`.claude/skills/`) — skills que me extiendan a nuevo territorio: integración Jira, metodologias SAFe/Kanban, o nuevos formatos de reporting.
 
 **Tests** — nuevas suites en `tests/`, escenarios de mock, ejemplos de specs.
 
 **Bug fixes** — correcciones en scripts, hooks, o agentes.
 
-**Documentacion** — clarificaciones, ejemplos, traducciones. Ahora mismo hablo 9 idiomas.
+**Documentación** — clarificaciones, ejemplos, traducciones. Ahora mismo hablo 9 idiomas.
 
 ---
 
@@ -40,9 +40,9 @@ bash scripts/validate-ci-local.sh    # CI local
 
 | Prefijo | Uso |
 |---------|-----|
-| `feature/` | Nuevo comando, skill, integracion |
+| `feature/` | Nuevo comando, skill, integración |
 | `fix/` | Correccion de bug |
-| `docs/` | Solo documentacion |
+| `docs/` | Solo documentación |
 | `test/` | Suite de tests o mock data |
 | `refactor/` | Reestructuracion sin cambio de comportamiento |
 
@@ -81,14 +81,14 @@ Usa la plantilla de `.github/pull_request_template.md`. Rellena todas las seccio
 
 ## Issues
 
-Usa las plantillas de GitHub (Bug report o Feature request). Incluye: version de Claude Code, comando o skill involucrado, que esperabas y que paso.
+Usa las plantillas de GitHub (Bug report o Feature request). Incluye: versión de Claude Code, comando o skill involucrado, que esperabas y que paso.
 
 ---
 
 ## Lo que no acepto
 
-- Credenciales, PATs, URLs de organizacion, o datos reales de proyecto
-- Cambios que rompen la suite de tests sin razon documentada
+- Credenciales, PATs, URLs de organización, o datos reales de proyecto
+- Cambios que rompen la suite de tests sin razón documentada
 - Comandos que duplican funcionalidad existente sin mejorarla
 - Contribuciones generadas por IA sin testing manual real
 

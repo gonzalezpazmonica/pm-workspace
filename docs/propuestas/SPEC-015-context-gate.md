@@ -35,7 +35,7 @@ Antes de ejecutar el scoring de skill-auto-activation, aplicar:
    → SKIP scoring — la respuesta es para el flujo actual
 
 4. Es una correccion simple? (no eso no, cambia X por Y, para)
-   → SKIP scoring — accion directa, no skill
+   → SKIP scoring — acción directa, no skill
 
 5. Tiene < 5 palabras y no contiene sustantivos tecnicos?
    → SKIP scoring — demasiado corto para inferir skill
@@ -44,7 +44,7 @@ Antes de ejecutar el scoring de skill-auto-activation, aplicar:
    → PROCEED con scoring normal
 ```
 
-### Implementacion como fast-path
+### Implementación como fast-path
 
 No es un hook ni un script — es una regla de comportamiento que se anade
 a `skill-auto-activation.md` como paso 0:
@@ -63,7 +63,7 @@ Condiciones de bypass:
 5. Focus mode activo y prompt no cambia de tema
 ```
 
-### Metricas de efectividad
+### Métricas de efectividad
 
 Tracking en `context-tracker-hook.sh`:
 - Prompts que pasan el gate vs los que lo saltan
@@ -72,9 +72,9 @@ Tracking en `context-tracker-hook.sh`:
 
 ---
 
-## Implementacion
+## Implementación
 
-### Fase unica (< 1 sprint)
+### Fase única (< 1 sprint)
 
 1. Actualizar `.claude/rules/domain/skill-auto-activation.md` con Paso 0
 2. Anadir tracking de gate decisions en context-tracker

@@ -96,7 +96,7 @@ Mi `context-map.md` funciona como una **red semántica de activación**: define 
 
 El principio rector del mapa es explícito: **"Menos es más. Mejor cargar de menos que de más."** Esto no es una optimización prematura — es un principio respaldado por la investigación. Anthropic misma recomienda en su documentación que más contexto puede degradar la precisión de las respuestas, un fenómeno que se conoce como *"context rot"*.
 
-Cada grupo especifica no solo qué cargar, sino también **qué NO cargar** y por qué. Esta decisión consciente de exclusión es análoga a cómo el CPF filtra interferencia para mantener el foco.
+Cada grupo específica no solo qué cargar, sino también **qué NO cargar** y por qué. Esta decisión consciente de exclusión es análoga a cómo el CPF filtra interferencia para mantener el foco.
 
 ### Principio 3: Carga Diferida (Lazy Loading como Activación Dispersa)
 
@@ -234,7 +234,7 @@ Investigaciones recientes como BudgetThinker (ACL 2025) proponen ajustar dinámi
 
 En neurociencia, los recuerdos episódicos (específicos, con contexto temporal) se transforman gradualmente en representaciones semánticas (generales, sin contexto temporal) a través de un proceso llamado **semantización** (Winocur & Moscovitch, 2011). Este proceso ocurre durante la consolidación de la memoria y depende de la plasticidad sináptica — la capacidad de las sinapsis de fortalecerse o debilitarse según su uso.
 
-En pm-workspace, este proceso tiene un análogo directo: las **decisiones del equipo** comienzan como entradas específicas en `decision-log.md` ("el 15/02 decidimos usar PostgreSQL para el proyecto X") y pueden migrar a reglas de dominio ("los proyectos de esta organización usan PostgreSQL como base de datos predeterminada"). La decisión episódica se semantiza en una regla general.
+En pm-workspace, este proceso tiene un análogo directo: las **decisiones del equipo** comienzan como entradas específicas en `decisión-log.md` ("el 15/02 decidimos usar PostgreSQL para el proyecto X") y pueden migrar a reglas de dominio ("los proyectos de esta organización usan PostgreSQL como base de datos predeterminada"). La decisión episódica se semantiza en una regla general.
 
 ### Hebbian Learning: Conexiones que se Refuerzan con el Uso
 
@@ -254,7 +254,7 @@ RAG recupera fragmentos relevantes de un corpus mediante búsqueda vectorial. Es
 - Recuperación probabilística (puede traer fragmentos parcialmente relevantes)
 - Necesita infraestructura de vectores (Pinecone, Chroma, etc.)
 
-Mi context-map determinista evita estas desventajas para el dominio acotado de la gestión de proyectos. Sin embargo, para futuras extensiones como la búsqueda en historial de conversaciones o la detección de patrones en decision logs, RAG sería una adición complementaria, no un reemplazo.
+Mi context-map determinista evita estas desventajas para el dominio acotado de la gestión de proyectos. Sin embargo, para futuras extensiones como la búsqueda en historial de conversaciones o la detección de patrones en decisión logs, RAG sería una adición complementaria, no un reemplazo.
 
 ### Dynamic Context Loading (DCL)
 

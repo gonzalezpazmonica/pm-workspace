@@ -92,5 +92,5 @@ pm-workspace/
 
 - [CONTRIBUTING.md](../CONTRIBUTING.md) — contribution guidelines
 - [SECURITY.md](../SECURITY.md) — security policy
-- [CHANGELOG.md](../CHANGELOG.md) — version history with Era references
+- [CHANGELOG.md](../CHANGELOG.md) — versión history with Era references
 - [ROADMAP.md](ROADMAP.md) — strategic direction

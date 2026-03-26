@@ -18,7 +18,7 @@
 
 ## Why Savia for research?
 
-- **Traceability**: every decision, experiment and result is versioned in Git.
+- **Traceability**: every decisión, experiment and result is versioned in Git.
 - **Reproducibility**: SDD specs document reproducible experimental procedures.
 - **Secure collaboration**: end-to-end encrypted messaging for sensitive data.
 - **No cloud dependency**: works offline (Travel Mode) — ideal for fieldwork.
@@ -39,9 +39,9 @@
 ### 2. Define research lines as projects
 
 ```
-/savia-pbi create "Paper: effect of X under conditions Y" --project linea-alpha
+/savia-pbi create "Paper: effect of X under conditions Y" --project línea-alpha
 /savia-pbi create "H2020 Proposal: call ABC" --project financing
-/savia-pbi create "Dataset: field sample collection" --project linea-beta
+/savia-pbi create "Dataset: field sample collection" --project línea-beta
 ```
 
 ### 3. Incorporate researchers
@@ -63,7 +63,7 @@ Or with full profiles for permanent staff:
 > "Savia, start an exploration sprint for the alpha line"
 
 ```
-/savia-sprint start --project linea-alpha --goal "Literature review + hypothesis"
+/savia-sprint start --project línea-alpha --goal "Literature review + hypothesis"
 ```
 
 **Typical tasks:**
@@ -78,7 +78,7 @@ Or with full profiles for permanent staff:
 ### 2. Experimentation → "Execution" sprint
 
 ```
-/savia-sprint start --project linea-alpha --goal "Execute experiments batch 1"
+/savia-sprint start --project línea-alpha --goal "Execute experiments batch 1"
 ```
 
 **Each experiment as spec:**
@@ -118,8 +118,8 @@ The SDD spec adapted to research includes: hypothesis, materials, step-by-step p
 
 ```
 /portfolio-overview                  → Global view of all projects
-/savia-board linea-alpha             → Alpha line board
-/savia-board linea-beta              → Beta line board
+/savia-board línea-alpha             → Alpha line board
+/savia-board línea-beta              → Beta line board
 ```
 
 ### Funding management
@@ -143,7 +143,7 @@ Essential for justifying dedication in funded projects (H2020, National Plan, et
 ### Department report
 
 ```
-/report-executive --project linea-alpha
+/report-executive --project línea-alpha
 /ceo-report --format md
 ```
 
@@ -173,7 +173,7 @@ Essential for justifying dedication in funded projects (H2020, National Plan, et
 > "Savia, send @pi the results from batch 1: all samples above threshold"
 
 ```
-/savia-send @pi "Batch 1 results: 23/25 samples exceed threshold (92%). Data in linea-alpha:resultados/batch1.csv"
+/savia-send @pi "Batch 1 results: 23/25 samples exceed threshold (92%). Data in línea-alpha:resultados/batch1.csv"
 ```
 
 ---
@@ -209,7 +209,7 @@ For projects with researchers from other institutions:
 |---|---|---|
 | **Experiment tracking** | No native "experiment" entity with metadata (hypothesis, variables, results) | `/experiment-log {create\|run\|result\|compare}` |
 | **Literature management** | No tracking of bibliographic references | `/biblio-add {doi\|bibtex}`, `/biblio-search` |
-| **Dataset versioning** | Large datasets don't fit in Git | Integration with DVC (Data Version Control) or Git LFS |
+| **Dataset versioning** | Large datasets don't fit in Git | Integration with DVC (Data Versión Control) or Git LFS |
 | **Grant lifecycle** | Funding proposals have their own cycles (draft → submitted → review → awarded) | `/grant-track {submit\|status\|report}` |
 | **Ethics/IRB tracking** | Ethics protocols not managed as standard PBIs | `/ethics-protocol {create\|status\|expire}` |
 

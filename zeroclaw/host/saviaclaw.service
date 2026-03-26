@@ -7,7 +7,7 @@ Wants=network.target
 Type=simple
 User=monica
 WorkingDirectory=/home/monica/claude
-ExecStart=/usr/bin/python3 /home/monica/claude/zeroclaw/host/saviaclaw_daemon.py
+ExecStart=/usr/bin/python3 -m zeroclaw.host.saviaclaw_daemon
 Restart=always
 RestartSec=10
 Environment=HOME=/home/monica

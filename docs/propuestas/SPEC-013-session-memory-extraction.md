@@ -13,8 +13,8 @@ Hoy la persistencia de conocimiento entre sesiones depende de:
 2. El hook `memory-auto-capture.sh` capture patrones de Edit/Write (limitado)
 3. El usuario pida explicitamente "recuerda esto"
 
-Resultado: ~30% de decisiones tomadas en sesion se pierden al cerrar.
-OpenViking resuelve esto con extraccion automatica al fin de sesion.
+Resultado: ~30% de decisiones tomadas en sesión se pierden al cerrar.
+OpenViking resuelve esto con extraccion automatica al fin de sesión.
 
 ---
 
@@ -37,8 +37,8 @@ Nuevo hook `session-memory-extract.sh` registrado como async en Stop:
 
 ### Que extrae
 
-El hook analiza el transcript de la sesion (disponible via Claude Code API)
-y clasifica informacion en 4 categorias:
+El hook analiza el transcript de la sesión (disponible via Claude Code API)
+y clasifica información en 4 categorias:
 
 | Categoria | Destino | Ejemplo |
 |-----------|---------|---------|
@@ -50,7 +50,7 @@ y clasifica informacion en 4 categorias:
 ### Algoritmo de extraccion
 
 ```
-1. Leer transcript de sesion (ultimo /compact hasta ahora)
+1. Leer transcript de sesión (ultimo /compact hasta ahora)
 2. Identificar:
    a. Correcciones del usuario ("no", "para", "eso no", "cambia")
    b. Decisiones explicitas ("vamos con X", "usaremos Y", "descartamos Z")
@@ -66,15 +66,15 @@ y clasifica informacion en 4 categorias:
 
 ### Quality gate (inspirado en Fabrik-Codek)
 
-Rechazar automaticamente:
+Rechazar automáticamente:
 - Contenido < 50 caracteres
 - Saludos, despedidas, confirmaciones simples ("ok", "si", "vale")
-- Info ya presente en auto-memory (dedup por similitud semantica)
-- Datos efimeros ("estoy en la linea 47" — no util entre sesiones)
+- Info ya presente en auto-memory (dedup por similitud semántica)
+- Datos efimeros ("estoy en la línea 47" — no util entre sesiones)
 
 ---
 
-## Implementacion
+## Implementación
 
 ### Fase 1 — Hook basico (1 sprint)
 
@@ -88,9 +88,9 @@ Rechazar automaticamente:
 1. Anadir extraccion de decisiones, patrones y datos de proyecto
 2. Clasificacion N1-N4 automatica
 3. Quality gate con umbrales configurables
-4. Metricas: items extraidos por sesion
+4. Métricas: items extraidos por sesión
 
-### Fase 3 — Integracion con /compact (ver SPEC-016)
+### Fase 3 — Integración con /compact (ver SPEC-016)
 
 1. Ejecutar extraccion ANTES de compactar (no solo al cerrar)
 2. Compartir extractor entre Stop hook y /compact
@@ -99,8 +99,8 @@ Rechazar automaticamente:
 
 ## Criterios de aceptacion
 
-- [ ] Hook se ejecuta al cerrar sesion sin bloquear al usuario
-- [ ] Extrae >= 2 items utiles por sesion de 30+ minutos
+- [ ] Hook se ejecuta al cerrar sesión sin bloquear al usuario
+- [ ] Extrae >= 2 items útiles por sesión de 30+ minutos
 - [ ] Quality gate rechaza >= 80% de candidatos triviales
 - [ ] Dedup funciona: no duplica memorias existentes
 - [ ] Clasificacion N1-N4 correcta en >= 90% de los casos
@@ -123,5 +123,5 @@ Rechazar automaticamente:
 |--------|-----------|
 | Extrae ruido en vez de signal | Quality gate estricto + review mensual |
 | Transcript no disponible | Graceful degradation: log warning, no fail |
-| Memoria crece sin control | Max 5 items por sesion + pruning mensual |
+| Memoria crece sin control | Max 5 items por sesión + pruning mensual |
 | PII en memorias | Sanitizar con mismas reglas de pii-sanitization.md |
