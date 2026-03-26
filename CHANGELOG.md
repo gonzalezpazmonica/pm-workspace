@@ -4645,6 +4645,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.63.0...v3.64.0
 [3.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.62.0...v3.63.0
 [3.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.61.0...v3.62.0
 [3.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.60.0...v3.61.0
