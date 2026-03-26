@@ -49,6 +49,9 @@ Como funciona por dentro en detalle: **[O meu Sistema de Memoria](docs/memory-ar
 
 ---
 
+
+> **[Savia Shield](docs/savia-shield.gl.md)** — Sistema de soberania de datos. Clasificacion local con LLM, enmascaramento reversible, auditoria completa.
+
 ## Instalación
 
 ```bash

@@ -49,6 +49,9 @@ Comment ca fonctionne en detail : **[Mon systeme de memoire](docs/memory-archite
 
 ---
 
+
+> **[Savia Shield](docs/savia-shield.fr.md)** — Systeme de souverainete des donnees. Classification locale par LLM, masquage reversible, audit complet.
+
 ## Installation
 
 ```bash
