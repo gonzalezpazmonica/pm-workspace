@@ -136,7 +136,7 @@ Escribir datos sensibles en ubicaciones privadas (N2-N4b) siempre está permitid
 
 ```bash
 # Enmascarar texto antes de enviar
-bash scripts/sovereignty-mask.sh mask "Texto con datos del cliente" --project mi-proyecto
+bash scripts/sovereignty-mask.sh mask "Texto con datos del cliente" --project my-project
 
 # Desenmascarar la respuesta de Claude
 bash scripts/sovereignty-mask.sh unmask "Respuesta con Acme Corp"
