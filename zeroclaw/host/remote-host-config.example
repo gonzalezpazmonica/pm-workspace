@@ -1,0 +1,20 @@
+# ~/.savia/remote-host-config
+# Configuration for SaviaClaw → Remote Server SSH connection.
+# Copy to ~/.savia/remote-host-config and fill in your values.
+# This file is gitignored — NEVER commit it.
+#
+# IMMOVABLE PRINCIPLE:
+# The remote server may contain personal and private family data.
+# The 'savia' user has ZERO access to other users' directories.
+
+# IP or hostname of the remote server
+REMOTE_HOST=your-server-ip-or-hostname
+
+# SSH port (default: 22)
+REMOTE_PORT=22
+
+# SSH user on the remote server (created by setup-savia-remote.sh)
+REMOTE_SSH_USER=savia
+
+# Path to the SSH private key on this machine (ZeroClaw host)
+REMOTE_SSH_KEY=~/.ssh/savia_remote_ed25519
