@@ -71,14 +71,22 @@ case "$FILE_PATH" in
 esac
 
 # [FIX H1] Scan FULL file on disk — not truncated
+# VULN-007 FIX: Create normalized temp file for full-file scan
+NORM_FILE=$(mktemp 2>/dev/null || echo "/tmp/shield-audit-$$")
+if command -v python3 >/dev/null 2>&1; then
+  PYTHONUTF8=1 python3 -c "import sys,unicodedata; print(unicodedata.normalize('NFKC',sys.stdin.read()))" < "$FILE_PATH" > "$NORM_FILE" 2>/dev/null || cp "$FILE_PATH" "$NORM_FILE"
+else
+  cp "$FILE_PATH" "$NORM_FILE"
+fi
+
 LEAK=""
-if normalize_file < "$FILE_PATH" | grep -qiE "(jdbc:|mongodb[+]srv://|Server=.*Password=)" 2>/dev/null; then
+if  grep -qiE "(jdbc:|mongodb[+]srv://|Server=.*Password=)" 2>/dev/null; then
   LEAK="connection_string_in_public_file"
 elif grep -qE "AKIA[0-9A-Z]{16}" "$NORM_FILE" 2>/dev/null; then
   LEAK="aws_key_in_public_file"
 elif grep -qE "(ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{82,})" "$NORM_FILE" 2>/dev/null; then
   LEAK="github_token_in_public_file"
-elif grep -qE "sk-[A-Za-z0-9]{20,}" "$FILE_PATH" 2>/dev/null; then
+elif grep -qE "sk-[A-Za-z0-9]{20,}" "$NORM_FILE" 2>/dev/null; then
   LEAK="openai_key_in_public_file"
 elif grep -qiE -- "-----BEGIN.*PRIVATE KEY-----" "$NORM_FILE" 2>/dev/null; then
   LEAK="private_key_in_public_file"

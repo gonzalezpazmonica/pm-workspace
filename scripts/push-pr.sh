@@ -53,6 +53,7 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 else echo "  Unchanged."; fi
 
 echo -e "\n=== Step 5: Push ==="
+export SAVIA_PUSH_PR=1
 git push origin "$BRANCH" 2>&1 | tail -3
 
 # ── Step 6: PR ───────────────────────────────────────────────────────────

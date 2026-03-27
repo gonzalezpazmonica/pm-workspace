@@ -252,3 +252,13 @@ como deny-list (score 1.0, deteção garantida).
 - Presidio (`pip install presidio-analyzer`) — para Camada 1.5 NER
 - spaCy modelo espanhol (`python3 -m spacy download es_core_news_md`)
 - 8 GB RAM mínimo (16+ recomendado)
+
+
+---
+
+## Instalacao rapida
+
+```bash
+bash scripts/savia-shield-setup.sh
+export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
+```

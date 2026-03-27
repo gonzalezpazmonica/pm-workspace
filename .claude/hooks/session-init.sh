@@ -152,9 +152,9 @@ fi
 # ── Ollama pre-warm (Era 149: Data Sovereignty) ───────────────────────────────
 check_timeout
 if command -v curl >/dev/null 2>&1; then
-  if curl -s --max-time 2 http://localhost:11434/api/tags >/dev/null 2>&1; then
+  if curl -s --max-time 2 http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
     # Ollama running — pre-warm model to avoid 9s cold-start on first classify
-    curl -s --max-time 3 http://localhost:11434/api/generate \
+    curl -s --max-time 3 http://127.0.0.1:11434/api/generate \
       -d '{"model":"qwen2.5:7b","prompt":"hi","stream":false,"options":{"num_predict":1}}' \
       >/dev/null 2>&1 &
     ITEMS+=("Ollama: modelo pre-cargado en RAM")

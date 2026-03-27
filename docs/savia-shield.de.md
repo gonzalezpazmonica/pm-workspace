@@ -253,3 +253,13 @@ Entitäten als Deny-List (Score 1.0, garantierte Erkennung).
 - Presidio (`pip install presidio-analyzer`) — für Schicht 1.5 NER
 - spaCy Spanisch-Modell (`python3 -m spacy download es_core_news_md`)
 - Mindestens 8 GB RAM (16+ empfohlen)
+
+
+---
+
+## Schnellinstallation
+
+```bash
+bash scripts/savia-shield-setup.sh
+export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
+```

@@ -38,6 +38,17 @@ if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:
   exit 2
 fi
 
+# Bloquear git push directo — DEBE usarse scripts/push-pr.sh
+# Este hook es DETERMINISTA: no depende de que Claude "recuerde" usar el script
+if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]' > /dev/null; then
+  # Permitir si viene de push-pr.sh (detectar por variable de entorno)
+  if [[ "${SAVIA_PUSH_PR:-}" != "1" ]]; then
+    echo "BLOQUEADO: git push directo no permitido. Usa: bash scripts/push-pr.sh" >&2
+    echo "El script push-pr.sh ejecuta CI local + CHANGELOG + firma + push + PR en orden correcto." >&2
+    exit 2
+  fi
+fi
+
 # Bloquear commit --amend sin confirmación explícita
 # FIX: Add anchoring for compound command separators
 if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+commit[[:space:]]+.*--amend' > /dev/null; then

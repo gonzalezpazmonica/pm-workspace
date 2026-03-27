@@ -82,23 +82,55 @@ else
 fi
 
 # 6. Verificar hooks
-echo -e "${BOLD}[6/6]${NC} Hooks registrados..."
+echo -e "${BOLD}[6/8]${NC} Hooks registrados..."
 if grep -q "data-sovereignty-gate" .claude/settings.json 2>/dev/null; then
   check_ok "Gate hook registrado"
 else
   check_fail "Gate hook no encontrado en .claude/settings.json"
 fi
-if grep -q "shield-ner-hook" .claude/settings.json 2>/dev/null; then
-  check_ok "NER hook registrado"
+
+# 7. Auth token
+echo -e "${BOLD}[7/8]${NC} Auth token..."
+if [ -f "$HOME/.savia/shield-token" ]; then
+  check_ok "Token presente ($(wc -c < "$HOME/.savia/shield-token") bytes)"
 else
-  check_warn "NER hook no encontrado — ejecuta manualmente"
+  check_warn "Generando token de autenticacion..."
+  mkdir -p "$HOME/.savia"
+  python3 -c "import secrets; print(secrets.token_hex(32))" > "$HOME/.savia/shield-token"
+  chmod 600 "$HOME/.savia/shield-token"
+  check_ok "Token generado"
+fi
+
+# 8. Start daemons
+echo -e "${BOLD}[8/8]${NC} Daemons..."
+if curl -sf --max-time 2 http://127.0.0.1:8444/health >/dev/null 2>&1; then
+  check_ok "Shield daemon ya corriendo"
+else
+  check_warn "Arrancando Shield daemon..."
+  python3 scripts/savia-shield-daemon.py --port 8444 2>/dev/null &
+  sleep 15
+  if curl -sf --max-time 2 http://127.0.0.1:8444/health >/dev/null 2>&1; then
+    check_ok "Shield daemon arrancado"
+  else
+    check_fail "Shield daemon no arranco"
+  fi
+fi
+if curl -sf --max-time 2 http://127.0.0.1:8443/ -o /dev/null 2>&1; then
+  check_ok "Shield proxy ya corriendo"
+else
+  check_warn "Arrancando Shield proxy..."
+  python3 scripts/savia-shield-proxy.py --port 8443 2>/dev/null &
+  sleep 2
+  check_ok "Shield proxy arrancado"
 fi
 
 # Resumen
 echo ""
 if [ $ERRORS -eq 0 ]; then
-  echo -e "${GREEN}${BOLD}Savia Shield instalado correctamente${NC}"
+  echo -e "${GREEN}${BOLD}Savia Shield instalado y operativo${NC}"
   echo -e "  Errores: 0 | Avisos: $WARNINGS"
+  echo -e "\n  Para activar el proxy (proteccion de conversacion):"
+  echo -e "  ${CYAN}export ANTHROPIC_BASE_URL=http://127.0.0.1:8443${NC}"
   echo -e "\n  Verificar: ${CYAN}bats tests/test-data-sovereignty.bats${NC}"
   echo -e "  Documento: ${CYAN}docs/savia-shield.md${NC}"
 else

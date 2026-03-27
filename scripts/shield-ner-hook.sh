@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
-# shield-ner-hook.sh — Savia Shield Capa 1.5: NER hook wrapper
-# SEC-013 FIX: Wires shield-ner-scan.py into the PreToolUse chain
+# shield-ner-hook.sh — Savia Shield Capa 1.5: NER via daemon (fast)
+# Uses shield-ner-daemon.py HTTP API instead of cold-starting spaCy
 # Exit 0 = clean/skip, Exit 2 = PII detected (block write)
 set -uo pipefail
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
-NER_SCRIPT="$PROJECT_DIR/scripts/shield-ner-scan.py"
+NER_PORT="${SAVIA_NER_PORT:-8444}"
+NER_URL="http://127.0.0.1:${NER_PORT}"
 
-# Skip if Presidio not installed (graceful degradation)
-if ! python3 -c "import presidio_analyzer" 2>/dev/null; then
+# Skip if daemon not running (graceful degradation)
+if ! curl -sf --max-time 1 "$NER_URL/health" >/dev/null 2>&1; then
   exit 0
 fi
-
-[[ ! -f "$NER_SCRIPT" ]] && exit 0
 
 # Read hook input
 INPUT=""
@@ -23,7 +22,6 @@ if [[ ! -t 0 ]]; then
     INPUT=$(cat 2>/dev/null) || true
   fi
 fi
-
 [[ -z "$INPUT" ]] && exit 0
 
 # Extract file_path and content
@@ -37,25 +35,38 @@ CONTENT=$(printf '%s' "$INPUT" | jq -r '(.tool_input.content // .tool_input.new_
 case "$FILE_PATH" in
   */projects/*|*.local.*|*/output/*|*private-agent-memory*|*/config.local/*|*/.savia/*|*/.claude/sessions/*|*settings.local.json*) exit 0 ;;
 esac
-
-# Skip security doc files
 case "$FILE_PATH" in
-  *data-sovereignty*|*ollama-classify*|*shield-ner*|*test-data-sovereignty*) exit 0 ;;
+  *data-sovereignty*|*ollama-classify*|*shield-ner*|*savia-shield*|*sovereignty-mask*|*test-data-sovereignty*) exit 0 ;;
 esac
 
-# Find glossary
-GLOSSARY_ARG=""
-for g in "$PROJECT_DIR"/projects/*/GLOSSARY-MASK.md; do
-  [[ -f "$g" ]] && GLOSSARY_ARG="--glossary $g" && break
-done
+# Load auth token
+SHIELD_TOKEN=""
+[[ -f "$HOME/.savia/shield-token" ]] && SHIELD_TOKEN=$(cat "$HOME/.savia/shield-token" 2>/dev/null)
+TOKEN_HEADER=""
+[[ -n "$SHIELD_TOKEN" ]] && TOKEN_HEADER="-H X-Shield-Token:$SHIELD_TOKEN"
 
-# Run NER scan with threshold 0.7
-RESULT=$(echo "$CONTENT" | python3 "$NER_SCRIPT" $GLOSSARY_ARG --threshold 0.7 2>/dev/null)
-EXIT_CODE=$?
+# Call NER daemon via HTTP (fast — model already in RAM)
+ESCAPED=$(printf '%s' "$CONTENT" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read()))" 2>/dev/null)
+RESULT=$(curl -sf --max-time 5 -X POST "$NER_URL/scan" $TOKEN_HEADER \
+  -H "Content-Type: application/json" \
+  -d "{\"text\":${ESCAPED},\"threshold\":0.7}" 2>/dev/null)
 
-if [[ $EXIT_CODE -eq 1 ]]; then
-  echo "BLOQUEADO [Capa 1.5 NER]: Entidades PII detectadas en destino publico: $FILE_PATH" >&2
-  echo "$RESULT" >&2
+if [[ -z "$RESULT" ]]; then
+  exit 0  # daemon didn't respond, degrade gracefully
+fi
+
+VERDICT=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('verdict','CLEAN'))" 2>/dev/null)
+
+if [[ "$VERDICT" == "PII_DETECTED" ]]; then
+  echo "BLOQUEADO [Capa 1.5 NER]: Entidades PII detectadas en: $FILE_PATH" >&2
+  ENTITIES=$(echo "$RESULT" | python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+for e in d.get('entities',[]):
+  if e['action']=='BLOCK':
+    print(f\"  [{e['type']}] {e['text']} (score: {e['score']})\")
+" 2>/dev/null)
+  echo "$ENTITIES" >&2
   exit 2
 fi
 

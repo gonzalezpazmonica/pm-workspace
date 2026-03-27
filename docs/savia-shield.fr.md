@@ -179,7 +179,7 @@ Chaque composant est un fichier texte lisible par des humains :
 
 ## Validation
 
-- **51 tests automatisés** (BATS) — core + cas limites + corrections + mocks
+- **51+ tests automatisés** (BATS) — core + cas limites + corrections + mocks
 - **3 audits indépendants** — Red Team, Confidentialité, Code Review
 - **24 vulnérabilités trouvées — 24 résolues, 0 en suspens**
 - **0 limitations résiduelles** — toutes corrigées techniquement
@@ -252,3 +252,13 @@ comme deny-list (score 1.0, détection garantie).
 - Presidio (`pip install presidio-analyzer`) — pour la Couche 1.5 NER
 - spaCy modèle espagnol (`python3 -m spacy download es_core_news_md`)
 - 8 Go RAM minimum (16+ recommandé)
+
+
+---
+
+## Installation rapide
+
+```bash
+bash scripts/savia-shield-setup.sh
+export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
+```
