@@ -48,28 +48,21 @@ Esto evita que el análisis intermedio contamine el contexto principal.
 
 ## 3. Auto-compact post-comando — 4 ZONAS CALIBRADAS
 
-> Basado en TurboQuant (arXiv:2504.19874): la calidad del LLM degrada gradualmente,
-> no en acantilado. El umbral anterior (50%) era ultra-conservador. El inicio de
-> degradación real está alrededor del 70%.
+> Basado en TurboQuant (arXiv:2504.19874): degradación gradual, no en acantilado. Umbral real ~70%.
 
 ### Zonas de contexto
 
-```
-ZONA VERDE    < 50%    Sin acción. Rendimiento óptimo.
-ZONA GRADUAL  50-70%   Sugerir /compact, no bloquear. Calidad >99%.
-ZONA ALERTA   70-85%   Bloquear operaciones pesadas (spec-generate, project-audit)
-                        antes de compact. Calidad 95-99%.
-ZONA CRÍTICA  > 85%    Bloquear todo. Calidad <95%.
-```
+| Zona | Rango | Acción | Calidad |
+|------|-------|--------|---------|
+| Verde | <50% | Sin acción | Óptima |
+| Gradual | 50-70% | Sugerir /compact, no bloquear | >99% |
+| Alerta | 70-85% | Bloquear operaciones pesadas | 95-99% |
+| Crítica | >85% | Bloquear todo | <95% |
+
+**Mensajes por zona:** Gradual → `💡 Contexto al XX% — /compact cuando puedas.` · Alerta → `⚠️ Contexto alto — sin operaciones pesadas.` · Crítica → `❌ Compacta ahora.`
 
 ### Regla principal
 **TRAS CADA slash command** → terminar con `⚡ /compact` en el banner de finalización.
-Sin excepciones. Un solo comando pesado satura el contexto (~88%).
-
-### Bloqueo por zona
-- **Zona Gradual (50-70%)**: `💡 Contexto al XX% — ejecuta /compact cuando puedas.`
-- **Zona Alerta (70-85%)**: `⚠️ Contexto alto — no puedo iniciar operaciones pesadas sin /compact.`
-- **Zona Crítica (>85%)**: `❌ Contexto crítico — ejecuta /compact ahora antes de continuar.`
 
 ### Al compactar, SIEMPRE preservar
 - Ficheros modificados en la sesión
