@@ -44,7 +44,7 @@ settings.json (5 hook events)
 3. **plan-gate** suggests spec if planning without specification
 4. **agent-dispatch-validate** ensures subagent context is complete (if delegating)
 
-**Decisión point:**
+**Decision point:**
 - ✅ All hooks pass → proceed to Phase 3
 - ❌ Security hook blocks → stop, show error, ask user to fix
 
@@ -75,7 +75,7 @@ settings.json (5 hook events)
 - **scope-guard** warns if modified files exceed spec scope
 - **stop-quality-gate** detects any remaining secrets
 
-**Decisión point:**
+**Decision point:**
 - ✅ All checks pass → session can end
 - ⚠️ Warnings only → inform user, allow continuation
 - ❌ Blockers found → require fixes before end
@@ -136,7 +136,7 @@ pm-workspace/
 │   └── agent-traces/
 │
 ├── CLAUDE.md                     (pm-workspace definition)
-├── CHANGELOG.md                  (versión history)
+├── CHANGELOG.md                  (version history)
 ├── settings.json                 (git config, team structure)
 └── README.md                     (getting started)
 ```
@@ -228,7 +228,7 @@ pm-workspace/
 | SDD pipeline (full) | ~2-5min | Agent orchestration + code generation |
 | Test suite run | ~30s | BATS execution |
 
-## Extensión Points
+## Extension Points
 
 To add new capabilities:
 
