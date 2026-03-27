@@ -213,32 +213,32 @@ detectando patrones que se forman al juntar ambas escrituras.
 ### Contenido conversacional (prompts al asistente IA)
 
 La Capa 4 (masking reversible) permite enmascarar texto ANTES de pegarlo
-en el chat. El NER hook escanea ficheros que el asistente lee. Formacion:
+en el chat. El NER hook escanea ficheros que el asistente lee. Formación:
 los usuarios referencian ficheros por ruta en vez de copiar contenido.
-Limite residual: no hay interceptacion tecnica del texto que el usuario
-escribe directamente en el prompt — requiere integracion a nivel de
+Límite residual: no hay interceptación técnica del texto que el usuario
+escribe directamente en el prompt — requiere integración a nivel de
 protocolo (mejora futura).
 
 ### Prompt injection en el clasificador local
 
 Triple defensa: (1) delimitadores [BEGIN/END DATA], (2) sandwich defense
-con instruccion repetida post-datos, (3) validacion estricta de output
-(respuesta no valida = CONFIDENTIAL automatico). Temperature=0 y
+con instrucción repetida post-datos, (3) validación estricta de output
+(respuesta no válida = CONFIDENTIAL automático). Temperature=0 y
 num_predict=5 limitan la superficie de ataque.
 
-### Precision del NER en espanol
+### Precisión del NER en español
 
-Escaneo dual ES+EN: NER ejecuta el analisis en ambos idiomas y combina
-resultados. GLOSSARY-MASK.md carga entidades especificas del proyecto
-como deny-list (score 1.0, deteccion garantizada).
+Escaneo dual ES+EN: NER ejecuta el análisis en ambos idiomas y combina
+resultados. GLOSSARY-MASK.md carga entidades específicas del proyecto
+como deny-list (score 1.0, detección garantizada).
 
 ---
 
-## Documentacion tecnica (EN, para comite de seguridad)
+## Documentación técnica (EN, para comité de seguridad)
 
-- `docs/data-sovereignty-architecture.md` — Arquitectura tecnica
+- `docs/data-sovereignty-architecture.md` — Arquitectura técnica
 - `docs/data-sovereignty-operations.md` — Compliance y riesgo
-- `docs/data-sovereignty-auditability.md` — Guia de auditoria
+- `docs/data-sovereignty-auditability.md` — Guía de auditoría
 - `docs/data-sovereignty-finetune-plan.md` — Plan de modelo fine-tuned
 
 ---
@@ -250,5 +250,5 @@ como deny-list (score 1.0, deteccion garantizada).
 - jq instalado (para JSON parsing)
 - Python 3.12+ (para masking y NER)
 - Presidio (`pip install presidio-analyzer`) — para Capa 1.5 NER
-- spaCy modelo espanol (`python3 -m spacy download es_core_news_md`)
+- spaCy modelo español (`python3 -m spacy download es_core_news_md`)
 - 8 GB RAM mínimo (16+ recomendado)

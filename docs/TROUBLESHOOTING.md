@@ -80,7 +80,7 @@ npm install -g bats
 docker run --rm -v "$(pwd):/code" -w /code bats:latest tests/
 
 # Verify installation
-bats --versión
+bats --version
 ```
 
 ### Problem: Tests Fail With jq Errors
@@ -96,7 +96,7 @@ sudo apt-get install -y jq
 brew install jq
 
 # Verify
-jq --versión
+jq --version
 ```
 
 ### Problem: Coverage Report Shows Wrong Numbers
@@ -138,7 +138,7 @@ reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"./output/covera
 USER_PASSWORD="PLACEHOLDER_PASSWORD"
 API_KEY="EXAMPLE_API_KEY"
 
-# Option 2: Use .example or .template extensión
+# Option 2: Use .example or .template extension
 config.local.json.example    # Not scanned
 settings.template.json       # Not scanned
 

@@ -1,7 +1,7 @@
-# SPEC-032: Security Benchmarks — Evaluacion Objetiva de Agentes
+# SPEC-032: Security Benchmarks — Evaluación Objetiva de Agentes
 
 > Status: **DRAFT** · Fecha: 2026-03-23 · Score: 4.70
-> Origen: Analisis de usestrix/strix — benchmark XBEN (96% en 104 CTFs)
+> Origen: Análisis de usestrix/strix — benchmark XBEN (96% en 104 CTFs)
 > Impacto: Sin benchmarks no podemos medir ni mejorar nuestros agentes
 
 ---
@@ -11,29 +11,29 @@
 pm-workspace tiene 4 agentes de seguridad (attacker, defender, auditor,
 pentester) pero no hay forma objetiva de medir su efectividad. No sabemos:
 
-- Que % de vulnerabilidades detectan vs las que existen
-- Cuantos falsos positivos generan
-- Si un cambio de prompt mejora o empeora la deteccion
+- Qué % de vulnerabilidades detectan vs las que existen
+- Cuántos falsos positivos generan
+- Si un cambio de prompt mejora o empeora la detección
 - Como comparamos contra herramientas como Strix (96% en XBEN)
 
-Sin benchmarks, cualquier mejora es anecdotica.
+Sin benchmarks, cualquier mejora es anecdótica.
 
-## Solucion
+## Solución
 
 Framework de benchmarks con aplicaciones vulnerables de referencia,
-metricas estandarizadas y ejecucion periodica.
+métricas estandarizadas y ejecución periódica.
 
 ## Targets de referencia
 
 | App | Vulnerabilidades | Stack | Docker |
 |-----|-----------------|-------|--------|
 | OWASP Juice Shop | 100+ challenges | Node.js/Angular | `bkimminich/juice-shop` |
-| DVWA | 14 categorias | PHP/MySQL | `vulnerables/web-dvwa` |
+| DVWA | 14 categorías | PHP/MySQL | `vulnerables/web-dvwa` |
 | WebGoat | 30+ lecciones | Java/Spring | `webgoat/webgoat` |
 
 Empezar con Juice Shop (la mas completa y mantenida).
 
-## Metricas
+## Métricas
 
 ### Detection Rate (principal)
 ```
@@ -50,13 +50,13 @@ fpr = falsos_positivos / total_hallazgos * 100
 
 Un hallazgo es falso positivo si no se puede reproducir contra la app.
 
-### Tiempo de ejecucion
+### Tiempo de ejecución
 ```
 tiempo_total = tiempo_attacker + tiempo_defender + tiempo_auditor
 ```
 
 ### Calidad del reporte
-Evaluacion manual (por ahora): claridad, accionabilidad, precision.
+Evaluación manual (por ahora): claridad, accionabilidad, precisión.
 
 ## Estructura
 
@@ -97,7 +97,7 @@ tests/security-benchmarks/
   detectable_by: [attacker, pentester]
 ```
 
-## Flujo de ejecucion
+## Flujo de ejecución
 
 ```bash
 # 1. Levantar target
@@ -124,7 +124,7 @@ docker compose down
 `/security-benchmark [--target juice-shop|dvwa|webgoat] [--compare {fecha}]`
 
 - Sin `--compare`: ejecuta y muestra resultados
-- Con `--compare`: ejecuta y diff contra ejecucion anterior
+- Con `--compare`: ejecuta y diff contra ejecución anterior
 
 ## Informe de benchmark
 
@@ -148,7 +148,7 @@ docker compose down
     nuclei ................. 8 hallazgos (0m 32s)
     (overlap: 12 hallazgos detectados por 2+ agentes)
 
-  vs ultima ejecucion (2026-03-15):
+  vs última ejecución (2026-03-15):
     Detection rate: +5% (67% -> 72%)
     FPR: -2% (10% -> 8%)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -164,7 +164,7 @@ docker compose down
 ## Esfuerzo estimado
 
 Medio — 1 sprint. Requiere curar la lista de vulns conocidas,
-crear docker-compose, script de orquestacion y formato de reporte.
+crear docker-compose, script de orquestación y formato de reporte.
 
 ## Dependencias
 
