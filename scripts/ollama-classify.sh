@@ -6,7 +6,7 @@
 # AUDITABILITY: every decision logged to classifier-decisions.jsonl
 set -uo pipefail
 
-OLLAMA_URL="${OLLAMA_URL:-http://localhost:11434}"
+OLLAMA_URL="${OLLAMA_URL:-http://127.0.0.1:11434}"
 OLLAMA_MODEL="${OLLAMA_CLASSIFY_MODEL:-qwen2.5:7b}"
 OLLAMA_TIMEOUT="${OLLAMA_TIMEOUT:-15}"
 

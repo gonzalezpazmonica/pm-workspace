@@ -255,3 +255,13 @@ espezifikoak deny-list gisa kargatzen ditu (score 1.0, detekzio bermatua).
 - Presidio (`pip install presidio-analyzer`) — 1.5 Geruza NER-erako
 - spaCy gaztelaniako modeloa (`python3 -m spacy download es_core_news_md`)
 - 8 GB RAM gutxienez (16+ gomendatua)
+
+
+---
+
+## Instalazio azkarra
+
+```bash
+bash scripts/savia-shield-setup.sh
+export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
+```

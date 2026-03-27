@@ -148,7 +148,7 @@ def mask_ips_in_text(text, mask_map):
 
 def mask_text(text, mask_map):
     """Apply masking — longest match first to avoid partial replacements."""
-    # Sort by length descending (mask "Juan Garcia Lopez" before "Juan Garcia")
+    # Sort by length descending (mask longer names before shorter substrings)
     sorted_terms = sorted(mask_map.keys(), key=len, reverse=True)
     import re as _re
     for real_term in sorted_terms:
@@ -229,8 +229,10 @@ def main():
         # Save map
         os.makedirs(os.path.dirname(map_path), exist_ok=True)
         old_umask = os.umask(0o177)
-        with open(map_path, 'w', encoding='utf-8') as f:
+        tmp_path = map_path + '.tmp'
+        with open(tmp_path, 'w', encoding='utf-8') as f:
             json.dump(mask_map, f, indent=2, ensure_ascii=False)
+        os.replace(tmp_path, map_path)  # atomic rename
         os.umask(old_umask)
         os.chmod(map_path, 0o600)
 
@@ -268,8 +270,7 @@ def main():
                 for real, masked in sorted(mask_map.items()):
                     redacted = real[0] + '*' * (len(real)-1) if len(real) > 1 else '*'
                     print(f"  {redacted:30s} -> {masked}")
-                print("
-Use --reveal to show real entity names")
+                print("\nUse --reveal to show real entity names")
         else:
             print("No mask map found at", map_path)
 

@@ -2,24 +2,12 @@
   "hooks": {
     "SessionStart": [
       {
-        "matcher": "startup",
         "hooks": [
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-init.sh",
             "timeout": 15,
             "statusMessage": "Inicializando sesi\u00f3n PM-Workspace..."
-          }
-        ]
-      },
-      {
-        "matcher": "compact",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
-            "timeout": 10,
-            "statusMessage": "Recuperando memoria persistente tras compactaci\u00f3n..."
           }
         ]
       }
@@ -74,15 +62,9 @@
           },
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/shield-ner-hook.sh",
-            "timeout": 15,
-            "statusMessage": "Savia Shield: NER scan (Capa 1.5)..."
-          },
-          {
-            "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/data-sovereignty-gate.sh",
-            "timeout": 45,
-            "statusMessage": "Savia Shield: clasificando datos..."
+            "timeout": 15,
+            "statusMessage": "Savia Shield: scanning..."
           }
         ]
       },
@@ -141,13 +123,6 @@
             "async": true,
             "timeout": 5,
             "statusMessage": "Registrando traza de agente..."
-          },
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/compress-agent-output.sh",
-            "async": true,
-            "timeout": 30,
-            "statusMessage": "Comprimiendo output de agente (SPEC-041)..."
           }
         ]
       },
@@ -173,7 +148,6 @@
     ],
     "Stop": [
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
@@ -205,20 +179,30 @@
     ],
     "PreCompact": [
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-compact-backup.sh",
             "timeout": 10,
-            "statusMessage": "Backup pre-compact..."
+            "statusMessage": "Backup pre-compactaci\u00f3n..."
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
+            "timeout": 10,
+            "statusMessage": "Recuperando memoria persistente tras compactaci\u00f3n..."
           }
         ]
       }
     ],
     "PostToolUseFailure": [
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
@@ -230,9 +214,6 @@
         ]
       }
     ]
-  },
-  "permissions": {
-    "defaultMode": "auto"
   },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"

@@ -179,7 +179,7 @@ Cada component és un fitxer de text pla llegible per humans:
 
 ## Validació
 
-- **51 tests automatitzats** (BATS) — core + edge cases + fixes + mocks
+- **51+ tests automatitzats** (BATS) — core + edge cases + fixes + mocks
 - **3 auditories independents** — Red Team, Confidencialitat, Code Review
 - **24 vulnerabilitats trobades — 24 resoltes, 0 pendents**
 - **0 limitacions residuals** — totes corregides tècnicament
@@ -252,3 +252,13 @@ com a deny-list (score 1.0, detecció garantida).
 - Presidio (`pip install presidio-analyzer`) — per a la Capa 1.5 NER
 - spaCy model espanyol (`python3 -m spacy download es_core_news_md`)
 - 8 GB RAM mínim (16+ recomanat)
+
+
+---
+
+## Instalacio rapida
+
+```bash
+bash scripts/savia-shield-setup.sh
+export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
+```

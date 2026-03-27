@@ -179,7 +179,7 @@ Cada componente es un fichero de texto plano legible por humanos:
 
 ## Validación
 
-- **51 tests automatizados** (BATS) — core + edge cases + fixes + mocks
+- **51+ tests automatizados** (BATS) — core + edge cases + fixes + mocks
 - **3 auditorias independientes** — Red Team, Confidencialidad, Code Review
 - **24 vulnerabilidades encontradas — 24 resueltas, 0 pendientes**
 - **0 limitaciones residuales** — todas corregidas tecnicamente
@@ -252,3 +252,17 @@ como deny-list (score 1.0, deteccion garantizada).
 - Presidio (`pip install presidio-analyzer`) — para Capa 1.5 NER
 - spaCy modelo espanol (`python3 -m spacy download es_core_news_md`)
 - 8 GB RAM mínimo (16+ recomendado)
+
+
+---
+
+## Instalacion rapida
+
+```bash
+bash scripts/savia-shield-setup.sh
+export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
+```
+
+El instalador verifica dependencias, descarga modelos, genera token de
+autenticacion, arranca el daemon unificado y el proxy. Tras ejecutar
+estos dos comandos, Savia Shield protege toda la comunicacion con la API.

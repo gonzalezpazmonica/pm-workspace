@@ -250,3 +250,17 @@ results. GLOSSARY-MASK.md loads project-specific entities as a deny-list
 - Presidio (`pip install presidio-analyzer`) — for Layer 1.5 NER
 - spaCy Spanish model (`python3 -m spacy download es_core_news_md`)
 - 8 GB RAM minimum (16+ recommended)
+
+
+---
+
+## Quick install
+
+```bash
+bash scripts/savia-shield-setup.sh
+export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
+```
+
+The installer checks dependencies, downloads models, generates an auth
+token, starts the unified daemon and proxy. After running these two
+commands, Savia Shield protects all API communication.

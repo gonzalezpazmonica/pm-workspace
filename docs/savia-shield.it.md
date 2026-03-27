@@ -252,3 +252,13 @@ come deny-list (score 1.0, rilevamento garantito).
 - Presidio (`pip install presidio-analyzer`) — per il Livello 1.5 NER
 - spaCy modello italiano (`python3 -m spacy download es_core_news_md`)
 - 8 GB RAM minimo (16+ raccomandati)
+
+
+---
+
+## Installazione rapida
+
+```bash
+bash scripts/savia-shield-setup.sh
+export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
+```
