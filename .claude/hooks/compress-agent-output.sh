@@ -2,7 +2,7 @@
 # compress-agent-output.sh — Streaming compression of agent outputs (SPEC-041 P4)
 # PostToolUse hook for Task — compresses outputs >200 tokens in active dev sessions
 # async: true — never blocks main flow
-set -euo pipefail
+set -uo pipefail
 
 # Only activate in multi-agent sessions (dev-session active or SDD_COMPRESS_AGENT_OUTPUT)
 SESSION_STATE_DIR="output/dev-sessions"
