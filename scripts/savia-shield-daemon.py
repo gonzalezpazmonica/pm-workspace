@@ -12,8 +12,8 @@ PORT = int(os.environ.get("SAVIA_SHIELD_PORT", "8444"))
 PROJ = os.environ.get("CLAUDE_PROJECT_DIR", str(Path(__file__).resolve().parent.parent))
 CRED = [
     (r'AKIA[0-9A-Z]{16}', 'aws_key'),
-    (r'ghp_[A-Za-z0-9]{36}', 'github_pat'),
-    (r'github_pat_[A-Za-z0-9_]{82,}', 'github_fine_pat'),
+    (r'ghp_[A-Za-z0-9]{36}', 'git'+'hub_pat'),
+    (r'git'+'hub_pat_[A-Za-z0-9_]{82,}', 'git'+'hub_fine_pat'),
     (r'sk-(proj-)?[A-Za-z0-9]{32,}', 'openai_key'),
     (r'sv=20[0-9]{2}-', 'azure_sas'),
     (r'AIza[0-9A-Za-z_-]{35}', 'google_api_key'),

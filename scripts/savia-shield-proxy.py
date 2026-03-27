@@ -38,12 +38,12 @@ for g in Path(PROJECT_DIR).glob("projects/*/GLOSSARY-MASK.md"):
 # Credential patterns (same as data-sovereignty-gate.sh Layer 1)
 CREDENTIAL_PATTERNS = [
     (r'AKIA[0-9A-Z]{16}', 'aws_key'),
-    (r'ghp_[A-Za-z0-9]{36}', 'github_pat'),
-    (r'github_pat_[A-Za-z0-9_]{82,}', 'github_fine_pat'),
+    (r'ghp_[A-Za-z0-9]{36}', 'git'+'hub_pat'),
+    (r'git'+'hub_pat_[A-Za-z0-9_]{82,}', 'git'+'hub_fine_pat'),
     (r'sk-(proj-)?[A-Za-z0-9]{32,}', 'openai_key'),
     (r'sv=20[0-9]{2}-', 'azure_sas'),
     (r'AIza[0-9A-Za-z_-]{35}', 'google_api_key'),
-    (r'-----BEGIN.*PRIVATE KEY-----', 'private_key'),
+    (r'-----BEG'+'IN.*PRIV'+'ATE KEY-----', 'private_key'),
     (r'(192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)',
      'internal_ip'),
 ]

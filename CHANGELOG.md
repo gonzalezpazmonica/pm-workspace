@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.68.0] — 2026-03-27
+
+Savia Shield v2: rewrite completo de la capa de soberania de datos con arquitectura unificada.
+
+### Added
+
+- **`savia-shield-daemon.py`**: daemon unificado (scan/mask/unmask/health) en localhost:8444 — reemplaza multiples hooks con un unico proceso persistente
+- **`savia-shield-proxy.py`**: proxy API entre Claude Code y Anthropic — intercepta prompts, enmascara entidades, desenmascara respuestas
+- **`shield-ner-daemon.py`**: NER con Presidio/Ollama como background process (sin cold-start por invocacion)
+- **`block-force-push.sh`**: hook de seguridad contra force-push
+
+### Changed
+
+- **`data-sovereignty-gate.sh`**: simplificado de 232 a ~80 lineas — regex-only, sin dependencia LLM en ruta critica
+- **`settings.json`**: eliminadas entradas de hooks redundantes
+- **Documentacion Shield**: actualizada en 9 idiomas (ca, de, en, es, eu, fr, gl, it, pt)
+
 ## [3.67.0] — 2026-03-27
 
 SPEC-041: Estrategia global de optimización de memoria y contexto. Inspirado en TurboQuant (arXiv:2504.19874).
@@ -4708,6 +4725,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.67.0...v3.68.0
 [3.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.66.0...v3.67.0
 [3.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.65.0...v3.66.0
 [3.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.64.0...v3.65.0

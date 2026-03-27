@@ -7,7 +7,7 @@ Reduces NER latency from ~15s (cold start) to ~100ms (warm).
 
 Usage:
   python3 scripts/shield-ner-daemon.py [--port 8444]
-  Then: curl -X POST http://localhost:8444/scan -d '{"text":"Juan Garcia"}'
+  Then: curl -X POST http://localhost:8444/scan -d '{"text":"Alice Smith"}'
 
 Response: {"verdict":"PII_DETECTED","entities":[...],"latency_ms":85}
 """

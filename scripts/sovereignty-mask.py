@@ -148,7 +148,7 @@ def mask_ips_in_text(text, mask_map):
 
 def mask_text(text, mask_map):
     """Apply masking — longest match first to avoid partial replacements."""
-    # Sort by length descending (mask "Juan Garcia Lopez" before "Juan Garcia")
+    # Sort by length descending (mask longer names before shorter substrings)
     sorted_terms = sorted(mask_map.keys(), key=len, reverse=True)
     import re as _re
     for real_term in sorted_terms:
