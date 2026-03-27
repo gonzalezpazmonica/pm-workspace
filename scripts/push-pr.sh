@@ -93,9 +93,9 @@ BODY_FILE=$(mktemp)
 echo "$BODY" > "$BODY_FILE"
 
 if $USE_GH_CLI; then
-  GH_ARGS="--title \"$TITLE\" --body-file \"$BODY_FILE\""
-  $DRAFT && GH_ARGS="$GH_ARGS --draft"
-  PR_URL=$(eval gh pr create $GH_ARGS 2>&1) || PR_URL="PR creation failed: $PR_URL"
+  GH_CMD=(gh pr create --title "$TITLE" --body-file "$BODY_FILE")
+  $DRAFT && GH_CMD+=(--draft)
+  PR_URL=$("${GH_CMD[@]}" 2>&1) || PR_URL="PR creation failed: $PR_URL"
 else
   $DRAFT && DRAFT_PY="True" || DRAFT_PY="False"
   PR_URL=$(python3 - "$TOKEN" "$REPO" "$BRANCH" "$TITLE" "$BODY_FILE" "$DRAFT_PY" << 'PYEOF'
