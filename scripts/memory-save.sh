@@ -2,6 +2,7 @@
 # memory-save.sh — Save, upsert, entity, session-summary (sourced by memory-store.sh)
 set -uo pipefail
 # SPEC-019: contradiction tracking (supersedes). SPEC-020: TTL (expires_at).
+# SPEC-041: importance_tier (A/B/C), quality gate, questions[] for P3/P5.
 
 # SPEC-037: Map type → cognitive sector (episodic/semantic/procedural/referential/reflective)
 map_type_to_sector() {
@@ -10,9 +11,19 @@ map_type_to_sector() {
         discovery) echo "reflective";; *) echo "semantic";; esac
 }
 
+# SPEC-041 P5: Map type → importance tier (A=critical, B=useful, C=ephemeral)
+map_type_to_importance_tier() {
+    case "${1:-}" in
+        feedback|correction|decision|project) echo "A" ;;
+        pattern|convention|discovery|reference|architecture|bug) echo "B" ;;
+        session-summary|entity|config|session) echo "C" ;;
+        *) echo "B" ;;
+    esac
+}
+
 cmd_save() {
     local type= title= content= concepts= topic_key= project= rev=1 expires_days=
-    local what= why= where= learned= supersedes_key= valid_from=
+    local what= why= where= learned= supersedes_key= valid_from= quality="unverified"
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --type) type="$2"; shift 2 ;; --title) title="$2"; shift 2 ;;
@@ -22,7 +33,8 @@ cmd_save() {
             --where) where="$2"; shift 2 ;; --learned) learned="$2"; shift 2 ;;
             --expires) expires_days="$2"; shift 2 ;;
             --supersedes) supersedes_key="$2"; shift 2 ;;
-            --valid-from) valid_from="$2"; shift 2 ;; *) shift ;;
+            --valid-from) valid_from="$2"; shift 2 ;;
+            --quality) quality="$2"; shift 2 ;; *) shift ;;
         esac
     done
     [[ -z "$type" || -z "$title" ]] && { echo "Error: --type, --title requeridos"; exit 1; }
@@ -99,7 +111,11 @@ cmd_save() {
         [[ "$domain" == "Domains:"* || -z "$domain" ]] && domain="general"
     fi
 
-    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"sector\":\"$sector\",\"domain\":\"$domain\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev,\"valid_from\":\"$vf\""
+    # SPEC-041 P5: importance tier + P3: quality gate fields
+    local importance_tier
+    importance_tier=$(map_type_to_importance_tier "$type")
+
+    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"sector\":\"$sector\",\"domain\":\"$domain\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev,\"valid_from\":\"$vf\",\"importance_tier\":\"$importance_tier\",\"quality\":\"$quality\",\"questions\":[]"
     [[ "$supersedes" != "null" ]] && json="$json,\"supersedes\":\"$supersedes\""
     [[ "$expires_at" != "null" ]] && json="$json,\"expires_at\":\"$expires_at\""
     [[ -n "$supersedes_key" ]] && json="$json,\"supersedes_key\":\"$supersedes_key\""

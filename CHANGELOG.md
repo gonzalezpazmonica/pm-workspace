@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.67.0] — 2026-03-27
+
+SPEC-041: Estrategia global de optimización de memoria y contexto. Inspirado en TurboQuant (arXiv:2504.19874).
+
+### Added
+
+- **P1 Compactación por Tiers**: clasificación A/B/C en pre-compact — verbatim, bullets comprimidos, descarte. Retención semántica ~85% vs. ~20% anterior
+- **P3 Gate de calidad en memoria**: campo `quality: high|medium|low|unverified` + `questions[]` generadas al guardar entradas Tier A
+- **P4 Compresión streaming de agentes**: hook `compress-agent-output.sh` (async PostToolUse/Task) — outputs >200 tokens comprimidos a bullets en sesiones dev-session activas
+- **P5 Importance tiers en búsqueda**: campo `importance_tier: A|B|C` auto-asignado; Tier A pondera 3× en ranking de memoria
+- **`scripts/memory-verify.sh`**: herramienta de verificación de calidad post-compresión (verify, check-all)
+- **Guías**: `docs/guides/guide-context-memory-optimization.md` (ES) + `docs/guides_en/guide-context-memory-optimization.md` (EN)
+
+### Changed
+
+- **P2 Umbrales de contexto calibrados**: 4 zonas basadas en evidencia del paper — Verde <50% (sin acción), Gradual 50-70% (sugerir), Alerta 70-85% (bloquear pesados), Crítico >85% (bloquear todo)
+- **`context-health.md`**: zonas recalibradas con base científica (TurboQuant arXiv:2504.19874)
+- **`scoring-curves.md`**: curva de uso de contexto actualizada con labels de zona
+- **`session-memory-protocol.md`**: lógica de tiers A/B/C integrada en flujo pre-compact
+- **`memory-save.sh`**: nuevos campos `importance_tier`, `quality`, `questions[]` (retrocompatibles)
+
 ## [3.66.0] — 2026-03-26
 
 Era 149. Browser agents, Teams/DevOps readers, memory sync + backup.
@@ -4687,6 +4708,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.66.0...v3.67.0
 [3.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.65.0...v3.66.0
 [3.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.64.0...v3.65.0
 [3.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.63.0...v3.64.0

@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=58c0d803571fb9196d95fd61ac21182023c78dd837a4a4e92e979a5d7eb2f71f
-timestamp=2026-03-26T22:38:47Z
-branch=feature/era-149-browser-agents-memory-sync
-head_commit=8d921ec
-signature=0f0e32c2ad271e8abbaa46d38fa41451c2bb9da11d8de55d6857324c446bd619
+diff_hash=f61e893c07262aa1ba4b28a7aa95886db7ef3b753334cabdb579c9b02d6bf8d3
+timestamp=2026-03-27T14:16:09Z
+branch=feat/spec-041-memory-context-optimization
+head_commit=49102da
+signature=74d739773a232c9089cf9d4747a91562f4d70c0f826509cdb4854c25e451a382

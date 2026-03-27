@@ -46,17 +46,23 @@ Esto evita que el análisis intermedio contamine el contexto principal.
 - `/spec-generate` → subagente genera spec, guarda en fichero
 - Cualquier comando que lea más de 5 ficheros internamente
 
-## 3. Auto-compact post-comando (OBLIGATORIO)
+## 3. Auto-compact post-comando — 4 ZONAS CALIBRADAS
+
+> Basado en TurboQuant (arXiv:2504.19874): degradación gradual, no en acantilado. Umbral real ~70%.
+
+### Zonas de contexto
+
+| Zona | Rango | Acción | Calidad |
+|------|-------|--------|---------|
+| Verde | <50% | Sin acción | Óptima |
+| Gradual | 50-70% | Sugerir /compact, no bloquear | >99% |
+| Alerta | 70-85% | Bloquear operaciones pesadas | 95-99% |
+| Crítica | >85% | Bloquear todo | <95% |
+
+**Mensajes por zona:** Gradual → `💡 Contexto al XX% — /compact cuando puedas.` · Alerta → `⚠️ Contexto alto — sin operaciones pesadas.` · Crítica → `❌ Compacta ahora.`
 
 ### Regla principal
 **TRAS CADA slash command** → terminar con `⚡ /compact` en el banner de finalización.
-Sin excepciones. Un solo comando pesado satura el contexto (~88%).
-
-### Bloqueo suave
-Si el PM pide otro comando sin compactar → responder:
-```
-⚠️ Contexto alto — ejecuta `/compact` antes de continuar.
-```
 
 ### Al compactar, SIEMPRE preservar
 - Ficheros modificados en la sesión

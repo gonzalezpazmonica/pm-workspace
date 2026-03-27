@@ -24,6 +24,7 @@
 | [Large Technology Consultancy](guide-enterprise-consultancy.md) | 500-5000 employees, multi-project, multi-client | CEO, CTO, PM, Compliance |
 | [Gap Analysis — Large Consultancy](guide-enterprise-gap-analysis.md) | 10 operational gaps and how Savia solves them | CEO, CTO, Operations Dir., PM |
 | **[Project from Scratch](guide-project-from-scratch.md)** | **Step-by-step: client, team, architecture, rules, specs, tests. Azure DevOps / Jira / Savia Flow** | **PM, Tech Lead** |
+| [Context & Memory Optimization](guide-context-memory-optimization.md) | SPEC-041: context zones, Tiers A/B/C, quality gate, agent compression | PM, Dev Lead, Anyone |
 
 ---
 

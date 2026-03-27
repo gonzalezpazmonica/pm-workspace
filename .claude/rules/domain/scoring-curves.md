@@ -35,14 +35,16 @@ Lines    Score   Label
 
 ### Context Usage (% of 200K window)
 
+Zones calibrated per TurboQuant (arXiv:2504.19874) — degradation starts ~70%, not 50%.
+
 ```
-Usage%   Score   Action
-≤ 30     100     Healthy — full capacity
-50        80     Normal — monitor
-70        50     Warning — /compact recommended
-85        25     Critical — /compact required
-95         5     Emergency — subagent isolation mandatory
-≥ 100      0     Exhausted — session restart
+Usage%   Score   Zone       Action
+≤ 30     100     Verde      Healthy — full capacity
+50        80     Verde      Normal — monitor
+70        50     Gradual    Warning — /compact recommended (Zona Gradual)
+85        25     Alerta     Critical — /compact required (Zona Alerta)
+95         5     Crítica    Emergency — subagent isolation mandatory (Zona Crítica)
+≥ 100      0     Crítica    Exhausted — session restart
 ```
 
 ### File Size (lines)
@@ -125,3 +127,4 @@ To add a new dimension:
 - SonarSource (2017). "Cognitive Complexity — A new way of measuring understandability"
 - Microsoft. "Code Metrics Values" — docs.microsoft.com
 - kimun (lnds/kimun). Piecewise linear normalization for code quality
+- TurboQuant (arXiv:2504.19874). Context window quality degradation — gradual, not cliff
