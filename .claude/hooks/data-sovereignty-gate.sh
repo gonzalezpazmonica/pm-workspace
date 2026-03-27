@@ -83,7 +83,7 @@ if command -v python3 >/dev/null 2>&1; then
 fi
 
 # Cross-write: if file exists, combine existing + new content for split detection
-CROSSWRITE_PAT='Server=.*[Pp]ass[Ww]word=|[Pp]ass[Ww]ord=.*Server='
+CROSSWRITE_PAT='Server=.*[Pp]assword=|[Pp]assword=.*Server='
 if [[ -f "$FILE_PATH" ]]; then
   EXISTING=$(head -c 10000 "$FILE_PATH" 2>/dev/null) || true
   if [[ -n "$EXISTING" ]]; then
@@ -123,6 +123,20 @@ elif echo "$NORM_CONTENT" | grep -qiE -- '-----BEGIN.*PRIV[AEIOU]*TE KEY-----'; 
   block_fallback "private_key"
 elif echo "$NORM_CONTENT" | grep -qE '(192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9]+\.[0-9]+|172\.(1[6-9]|2[0-9]|3[01])\.[0-9]+\.[0-9]+)'; then
   block_fallback "internal_ip"
+fi
+
+# Layer 2: Ollama classification for long content that passed regex
+CLASSIFY="$PROJECT_DIR/scripts/ollama-classify.sh"
+if [[ -x "$CLASSIFY" ]] && [[ ${#NORM_CONTENT} -gt 50 ]]; then
+  VERDICT=$("$CLASSIFY" "$NORM_CONTENT" 2>/dev/null) || VERDICT="UNAVAILABLE"
+  case "$VERDICT" in
+    CONFIDENTIAL|AMBIGUOUS)
+      block_fallback "ollama_${VERDICT,,}"
+      ;;
+    PUBLIC|UNAVAILABLE|*)
+      : # allow
+      ;;
+  esac
 fi
 
 exit 0
