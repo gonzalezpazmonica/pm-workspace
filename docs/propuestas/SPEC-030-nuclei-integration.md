@@ -1,42 +1,42 @@
 # SPEC-030: Nuclei Scanner Integration
 
 > Status: **DRAFT** · Fecha: 2026-03-23 · Score: 4.50
-> Origen: Analisis de usestrix/strix — scanner de vulnerabilidades
-> Impacto: Complementa analisis LLM con deteccion de CVEs conocidos
+> Origen: Análisis de usestrix/strix — scanner de vulnerabilidades
+> Impacto: Complementa análisis LLM con detección de CVEs conocidos
 
 ---
 
 ## Problema
 
-Nuestros agentes de seguridad (security-attacker, pentester) analizan codigo
-mediante LLM. Son excelentes para vulnerabilidades logicas y contextuales,
-pero pueden pasar por alto CVEs conocidos, misconfiguraciones estandar y
-paneles expuestos que un scanner basado en templates detectaria en segundos.
+Nuestros agentes de seguridad (security-attacker, pentester) analizan código
+mediante LLM. Son excelentes para vulnerabilidades lógicas y contextuales,
+pero pueden pasar por alto CVEs conocidos, misconfiguraciones estándar y
+paneles expuestos que un scanner basado en templates detectaría en segundos.
 
 Nuclei (projectdiscovery.io) tiene +8000 templates comunitarios y es el
-scanner mas usado en pentesting moderno. Strix lo preinstala como herramienta
+scanner más usado en pentesting moderno. Strix lo preinstala como herramienta
 base.
 
-## Solucion
+## Solución
 
 Crear un skill `nuclei-scanning` que integre Nuclei como fuente complementaria
-de hallazgos para el pipeline adversarial, con degradacion graceful si Nuclei
-no esta instalado.
+de hallazgos para el pipeline adversarial, con degradación graceful si Nuclei
+no está instalado.
 
 ## Arquitectura
 
 ```
 /security-pipeline
   |
-  +-- security-attacker (LLM, analisis de codigo)
+  +-- security-attacker (LLM, análisis de código)
   |
-  +-- nuclei-scanning (scanner, analisis de superficie)  <-- NUEVO
+  +-- nuclei-scanning (scanner, análisis de superficie)  <-- NUEVO
   |
   +-- Merge hallazgos (dedup por CWE/CVE)
   |
   +-- security-defender (fixes para hallazgos combinados)
   |
-  +-- security-auditor (evaluacion final)
+  +-- security-auditor (evaluación final)
 ```
 
 ## Skill: nuclei-scanning
@@ -51,8 +51,8 @@ no esta instalado.
 ### Flujo del skill
 
 ```bash
-# 1. Verificar instalacion
-which nuclei || echo "Nuclei no instalado — degradacion graceful"
+# 1. Verificar instalación
+which nuclei || echo "Nuclei no instalado — degradación graceful"
 
 # 2. Si existe, ejecutar scan
 nuclei -u {target_url} \
@@ -68,18 +68,18 @@ nuclei -u {target_url} \
 # 4. Deduplicar contra hallazgos del security-attacker
 # Mapeo: nuclei template-id -> CWE -> hallazgo LLM
 
-# 5. Hallazgos unicos de Nuclei se anaden al informe
+# 5. Hallazgos únicos de Nuclei se añaden al informe
 ```
 
-### Degradacion graceful
+### Degradación graceful
 
 | Nuclei instalado | Target accesible | Resultado |
 |-----------------|------------------|-----------|
-| Si | Si | Scan completo |
-| Si | No | Solo templates de config (sin red) |
+| Sí | Sí | Scan completo |
+| Sí | No | Solo templates de config (sin red) |
 | No | - | Skip con aviso: "Instala nuclei para scan complementario" |
 
-## Instalacion de Nuclei
+## Instalación de Nuclei
 
 ```bash
 # Go install
@@ -93,14 +93,14 @@ unzip nuclei.zip && mv nuclei /usr/local/bin/
 ## Templates curados
 
 Mantener subset en `templates/` para uso offline:
-- `cves/` — CVEs criticos recientes (top 50)
+- `cves/` — CVEs críticos recientes (top 50)
 - `misconfigurations/` — CORS, headers, TLS
 - `exposed-panels/` — Admin panels, debug endpoints
 - `default-logins/` — Credenciales por defecto
 
-Total: ~200 templates vs +8000 del repo completo. Actualizacion trimestral.
+Total: ~200 templates vs +8000 del repo completo. Actualización trimestral.
 
-## Integracion con scoring
+## Integración con scoring
 
 Los hallazgos de Nuclei usan el mismo scoring:
 `score = 100 - (critical x 25 + high x 10 + medium x 3 + low x 1)`
@@ -109,11 +109,11 @@ Se marcan con `source: nuclei` para distinguirlos de `source: llm`.
 
 ## Restricciones
 
-- NUNCA ejecutar Nuclei contra produccion sin confirmacion explicita
+- NUNCA ejecutar Nuclei contra produccion sin confirmación explícita
 - Respetar rate-limit (50 req/s por defecto)
 - Respetar reglas por entorno del pentester (DEV: todo, PRE: sin DoS, PROD: pasivo)
-- Templates custom solo en `templates/` del skill, no descargar automaticamente
+- Templates custom solo en `templates/` del skill, no descargar automáticamente
 
 ## Esfuerzo estimado
 
-Bajo — 1 dia. Nuclei es un binario standalone. El skill solo invoca y parsea.
+Bajo — 1 día. Nuclei es un binario standalone. El skill solo invoca y parsea.

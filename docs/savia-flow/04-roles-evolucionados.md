@@ -675,7 +675,7 @@ Director of Quality (5+ years)
 
 | Competencia | Scrum Master | Flow Facilitator | Brecha | Desarrollo |
 |-----------|---|---|---|---|
-| Faciliación | Fuerte | Fuerte | Bajo | Mantener |
+| Facilitación | Fuerte | Fuerte | Bajo | Mantener |
 | Métricas DORA | Débil | Fuerte | Alto | Training + dashboard practice |
 | Coaching | Fuerte | Fuerte | Bajo | Refocarse en coaching |
 | Estadística | Débil | Fuerte | Alto | Data analysis training |

@@ -209,7 +209,7 @@ Para proyectos con investigadores de otros centros:
 |---|---|---|
 | **Experiment tracking** | No hay entidad nativa "experimento" con metadata (hipótesis, variables, resultados) | `/experiment-log {create\|run\|result\|compare}` |
 | **Literature management** | No hay tracking de referencias bibliográficas | `/biblio-add {doi\|bibtex}`, `/biblio-search` |
-| **Dataset versioning** | Datasets grandes no encajan en Git | Integración con DVC (Data Versión Control) o Git LFS |
+| **Dataset versioning** | Datasets grandes no encajan en Git | Integración con DVC (Data Version Control) o Git LFS |
 | **Grant lifecycle** | Propuestas de financiación tienen ciclos propios (draft → submitted → review → awarded) | `/grant-track {submit\|status\|report}` |
 | **Ethics/IRB tracking** | Protocolos de ética no se gestionan como PBIs estándar | `/ethics-protocol {create\|status\|expire}` |
 

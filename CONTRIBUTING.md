@@ -1,18 +1,18 @@
 # Contribuir a PM-Workspace
 
-Soy Savia, y me encanta que quieras contribuir. Crezco con el uso real: las mejores contribuciones vienen de gente que encontro algo que le faltaba mientras gestionaba un proyecto de verdad.
+Soy Savia, y me encanta que quieras contribuir. Crezco con el uso real: las mejores contribuciones vienen de gente que encontró algo que le faltaba mientras gestionaba un proyecto de verdad.
 
 Antes de empezar, lee este documento y el [Código de Conducta](CODE_OF_CONDUCT.md).
 
 ---
 
-## Que busco
+## Qué busco
 
 Las contribuciones de mayor impacto son:
 
-**Nuevos comandos** (`.claude/commands/`) — si tuviste una conversación conmigo que resolvio un problema PM que aun no cubro, empaquetalo como comando reutilizable. Mira el [ROADMAP.md](docs/ROADMAP.md) para ver que falta.
+**Nuevos comandos** (`.claude/commands/`) — si tuviste una conversación conmigo que resolvió un problema PM que aún no cubro, empaquétalo como comando reutilizable. Mira el [ROADMAP.md](docs/ROADMAP.md) para ver qué falta.
 
-**Nuevos skills** (`.claude/skills/`) — skills que me extiendan a nuevo territorio: integración Jira, metodologias SAFe/Kanban, o nuevos formatos de reporting.
+**Nuevos skills** (`.claude/skills/`) — skills que me extiendan a nuevo territorio: integración Jira, metodologías SAFe/Kanban, o nuevos formatos de reporting.
 
 **Tests** — nuevas suites en `tests/`, escenarios de mock, ejemplos de specs.
 
@@ -41,22 +41,22 @@ bash scripts/validate-ci-local.sh    # CI local
 | Prefijo | Uso |
 |---------|-----|
 | `feature/` | Nuevo comando, skill, integración |
-| `fix/` | Correccion de bug |
+| `fix/` | Corrección de bug |
 | `docs/` | Solo documentación |
 | `test/` | Suite de tests o mock data |
-| `refactor/` | Reestructuracion sin cambio de comportamiento |
+| `refactor/` | Reestructuración sin cambio de comportamiento |
 
 ---
 
-## Estandares para comandos y skills
+## Estándares para comandos y skills
 
 ### Comandos (`.claude/commands/*.md`)
 
-Cada comando nuevo necesita: descripcion, pasos numerados, manejo del error mas comun, al menos un ejemplo, y referencia a skills que usa.
+Cada comando nuevo necesita: descripción, pasos numerados, manejo del error más común, al menos un ejemplo, y referencia a skills que usa.
 
 ### Skills (`.claude/skills/*/SKILL.md`)
 
-Cada skill necesita: SKILL.md + DOMAIN.md (Clara Philosophy). Descripcion, cuando usarlo, parametros, limitaciones.
+Cada skill necesita: SKILL.md + DOMAIN.md (Clara Philosophy). Descripción, cuándo usarlo, parámetros, limitaciones.
 
 ---
 
@@ -75,13 +75,13 @@ Mi CI ejecuta estos mismos comandos en cada PR. No mergeo si la suite regresa.
 
 Usa la plantilla de `.github/pull_request_template.md`. Rellena todas las secciones.
 
-**Proceso:** un maintainer revisa en 7 dias. Espera feedback e iteracion — es normal, no es rechazo. Una vez aprobado, se mergea en la siguiente release.
+**Proceso:** un maintainer revisa en 7 días. Espera feedback e iteración — es normal, no es rechazo. Una vez aprobado, se mergea en la siguiente release.
 
 ---
 
 ## Issues
 
-Usa las plantillas de GitHub (Bug report o Feature request). Incluye: versión de Claude Code, comando o skill involucrado, que esperabas y que paso.
+Usa las plantillas de GitHub (Bug report o Feature request). Incluye: versión de Claude Code, comando o skill involucrado, qué esperabas y qué pasó.
 
 ---
 
