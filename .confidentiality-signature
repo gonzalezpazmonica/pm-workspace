@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8918e2c3d486ef9f5c68ef848ce715d2d0d9bd41d4e6344a1fd05a2feb1211dd
-timestamp=2026-03-27T18:41:35Z
-branch=docs/fix-diacritics-v2
-head_commit=30f60ad
-signature=13e153e40398e0999bb1c5a7507c5430556f8841ce51714744f9236b2c2a73f6
+diff_hash=b08d224aed04476f181ca268cea32888cf7524f18604b868c147e5fbfffe4f2c
+timestamp=2026-03-27T22:39:58Z
+branch=fix/pr-plan-feedback
+head_commit=fcaedaa
+signature=14cd0e4fa4612106d8127dbaba5c7ad774c86353f41ebfc76f35496cd12827db
