@@ -99,7 +99,7 @@ Registro inmutable JSONL, rotación mensual, retención 12+36 meses. Controles d
 
 | Aspecto | Implementación |
 |--------|---------------|
-| Comando | `/governance-enterprise` — audit-trail, compliance-check, decisión-registry, certify |
+| Comando | `/governance-enterprise` — audit-trail, compliance-check, decision-registry, certify |
 | Reglas | `audit-trail-schema.md` (JSONL, rotación), `governance-enterprise.md` (controles, calendario) |
 | Skill | `governance-enterprise/SKILL.md` — 4 flujos |
 | Tests | 38/38 pasando |

@@ -540,7 +540,7 @@ Spec-Driven Development transforma cómo building sucede:
 - Rework disminuye dramáticamente
 - Quality mejora naturalmente
 
-**Para PMs:** SDD significa gastar más tiempo en pensamiento profundo (outco­mes, métricas) y menos tiempo en refinar historias vagas.
+**Para PMs:** SDD significa gastar más tiempo en pensamiento profundo (outcomes, métricas) y menos tiempo en refinar historias vagas.
 
 **Para builders:** SDD significa más claridad, menos adivinanzas, menos rework.
 

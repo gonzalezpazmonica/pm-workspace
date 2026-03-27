@@ -15,7 +15,7 @@ Durante tres décadas, Scrum ha sido la metodología de facto para equipos de de
 Gartner proyecta que el 80% de las organizaciones transformarán sus equipos con IA para 2030, con un gasto global de $2.52 billones anuales en IA. El 40% de las aplicaciones empresariales tendrán agentes de IA integrados. Yet, 80% of organizations see no measurable business impact from their AI investments—una paradoja costosa.
 
 ### El Problema
-Scrum fue diseñado para equipos completamente humanos, con ceremoni replicadas frecuencia fija y métricasbasadas en estimaciones (story points) que suponen predictibilidad humana. Los equipos que colaboran con asistentes de IA enfrentan tres desajustes críticos:
+Scrum fue diseñado para equipos completamente humanos, con ceremonias replicadas frecuencia fija y métricas basadas en estimaciones (story points) que suponen predictibilidad humana. Los equipos que colaboran con asistentes de IA enfrentan tres desajustes críticos:
 
 1. **Tiempo Fijo vs. Velocidad Variable:** Sprints de dos semanas asumen consistencia; IA reduce el tiempo de algunas tareas de semanas a horas, introduciendo volatilidad.
 
@@ -61,17 +61,17 @@ Con IA generativa, la velocidad es impredecible:
 
 El resultado: planificar por sprints introduce una fricción artificial. Los equipos terminar tareas en 3 días pero "deben esperar" a la siguiente iteración para comprometerlas. O por el contrario, sobrestiman lo que IA puede hacer en tiempo fijo porque desconocen sus límites reales.
 
-**Datos:** Equipos DORA "Elite" ya desployan múltiples veces por día. Mantener sprints de dos semanas es retroceder.
+**Datos:** Equipos DORA "Elite" ya despliegan múltiples veces por día. Mantener sprints de dos semanas es retroceder.
 
 #### Desajuste 2: Ceremonias Humanas vs. Equipos Híbridos
 
-Las ceremoni de Scrum asumen que todos los participantes pueden estar presentes simultáneamente y que la comunicación síncrona es normal:
+Las ceremonias de Scrum asumen que todos los participantes pueden estar presentes simultáneamente y que la comunicación síncrona es normal:
 
 - **Daily Standup (15 min):** Asume 5-8 humanos reportando. Con IA, hay agentes especializados que trabajan asincronamente. Una daily es ineficiente o se convierte en "teatro agile" donde nadie entiende qué hace la IA.
 
 - **Sprint Planning (4 horas):** Asume que el esfuerzo estimado por punto es consistente. Con IA, "estimar" es especular sobre capacidades de lenguaje que varían diariamente.
 
-- **Retrospective (1.5 horas):** Diseñada para equipos que comparten un contexto humano común. Con IA, retrospeccivasdeberían enfocarse en gobernanza de agentes, calidad del output, y colaboración humano-máquina—temas distintos.
+- **Retrospective (1.5 horas):** Diseñada para equipos que comparten un contexto humano común. Con IA, retrospectivas deberían enfocarse en gobernanza de agentes, calidad del output, y colaboración humano-máquina—temas distintos.
 
 **Datos:** Encuestas de 2025 muestran que el 63% de equipos ágiles considera las reuniones como el mayor desperdicio de tiempo; la adopción de IA amplifica esto.
 
@@ -79,7 +79,7 @@ Las ceremoni de Scrum asumen que todos los participantes pueden estar presentes 
 
 La métrica "velocidad" (puntos completados por sprint) es la raíz de muchos problemas en IA:
 
-1. **Gameable:** Los equipos aprender rápidamente que pueden inflar puntos para parecer "más rápidos". Con IA, es aún más fácil—un agente puede generar 10k líneas de código "rápidamente", pero el 60% requiere reescritura humana.
+1. **Gameable:** Los equipos aprenden rápidamente que pueden inflar puntos para parecer "más rápidos". Con IA, es aún más fácil—un agente puede generar 10k líneas de código "rápidamente", pero el 60% requiere reescritura humana.
 
 2. **No correlaciona con valor:** Un proyecto puede "completar" 300 puntos de story pero entregar cero valor si el output de IA se enfoca en cosas equivocadas.
 
@@ -176,7 +176,7 @@ Savia Flow no es inventado de cero. Es una síntesis de cinco generaciones de pe
 ### 2.3 La Síntesis: Savia Flow
 
 Savia Flow toma lo mejor de cada generación:
-- **De Scrum:** Roles claros y ceremoni adaptadas (no eliminadas)
+- **De Scrum:** Roles claros y ceremonias adaptadas (no eliminadas)
 - **De Flujo:** Métricas continuas, WIP limits, ciclo de lead time
 - **De Shape Up:** Especificaciones como herramienta, ciclos realistas
 - **De DORA:** Las 4 métricas primarias como brújula de rendimiento
@@ -248,7 +248,7 @@ Un equipo de fintech enfrenta tasa de abandono alta en onboarding de cuentas de 
 
 **Métrica que Importa:**
 - Tasa de completion: +42% (vs objetivo 40%) ✓
-- Revenue impact: +$2.3M anuales (10% mas clientes completados)
+- Revenue impact: +$2.3M anuales (10% más clientes completados)
 
 #### Métrica Clave: Outcome Achievement Rate
 - % de outcomes completados vs. planificados (target: >85%)
@@ -265,7 +265,7 @@ El trabajo fluye continuamente del backlog a completitud, sin necesidad de cerem
 #### Rationale
 Scrum asume que un contenedor de tiempo fijo (sprint) reduce riesgo. Con IA, el riesgo proviene de especificaciones débiles o arquitectura defectuosa, no de "perder tiempo". Encapsular en sprints introduce fricción innecesaria.
 
-DORA data muestra que elite performers desployan múltiples veces por día. Mantener sprints de 2 semanas es retroceder 15 años.
+DORA data muestra que elite performers despliegan múltiples veces por día. Mantener sprints de 2 semanas es retroceder 15 años.
 
 #### Cómo Funciona en Práctica
 
@@ -309,7 +309,7 @@ Equipo de analytics que típicamente trabaja en 2-semana sprints.
 - Daily (15 min × 10 días) = 2.5 hrs
 - Viernes 2pm: Review (1.5 hrs)
 - Viernes 3:30pm: Retro (1.5 hrs)
-- **Total tiempo en ceremoni: 9 horas**
+- **Total tiempo en ceremonias: 9 horas**
 - **Tiempo construcción real: ~35 horas**
 
 **Semana típica Savia Flow:**
@@ -317,7 +317,7 @@ Equipo de analytics que típicamente trabaja en 2-semana sprints.
 - Async: Especificación escrita
 - Flujo: Builders construyen, ai QA valida continuamente
 - Cuando está ready: Demo a stakeholder
-- **Total tiempo en ceremoni: ~1 hora** (async stand-in via dashboard)
+- **Total tiempo en ceremonias: ~1 hora** (async stand-in via dashboard)
 - **Tiempo construcción real: ~39 horas**
 
 **Resultado:**
@@ -1011,7 +1011,7 @@ Adicionales para equipos con heavy IA usage:
 | AI Code Coverage | % de líneas de código generadas por IA | 40-60% |
 | AI QA Gate Pass Rate | % de code generado por IA que pasa gates sin cambios humanos | >70% |
 | Rework Rate | % de AI code que requiere reescritura humana significativa | <20% |
-| Specification Clarity Score | % de ambigüedades découvert en QA / specs | <5% |
+| Specification Clarity Score | % de ambigüedades descubiertas en QA / specs | <5% |
 
 ---
 
@@ -2021,7 +2021,7 @@ El futuro de la gestión de proyectos en era de IA evoluciona en tres direccione
 
 **Año 2027:**
 - Multi-agent orchestration es normal (15+ agentes en gates)
-- Outcome-driven orientation reemplaza velocity en la mayoría de equipos
+- Outcome-driven orientation reemplaza velocity en la mayoría de los equipos
 - Métricas DORA son baseline compliance, no innovación
 
 **Año 2028:**
@@ -2041,7 +2041,7 @@ En 2030, imaginamos equipos que:
 - PMs tienen intuición de data + human empathy
 - QA Architects supervisan agentes, no escriben tests
 
-**El éxito será medido no por ceremonias asistidas, sino por outcomes realizado.**
+**El éxito será medido no por ceremonias asistidas, sino por outcomes realizados.**
 
 ---
 

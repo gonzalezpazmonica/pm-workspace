@@ -17,7 +17,7 @@ Las agent-notes son la memoria compartida del equipo de agentes. Sin ellas, cada
 ```
 projects/{proyecto}/agent-notes/
 ├── {ticket}-legacy-analysis-{fecha}.md       ← @miguel.legacy / business-analyst
-├── {ticket}-architecture-decisión-{fecha}.md ← architect
+├── {ticket}-architecture-decision-{fecha}.md ← architect
 ├── {ticket}-test-strategy-{fecha}.md         ← test-engineer
 ├── {ticket}-security-checklist-{fecha}.md    ← security-guardian
 ├── {ticket}-implementation-log-{fecha}.md    ← {lang}-developer
@@ -30,7 +30,7 @@ projects/{proyecto}/agent-notes/
 {ticket}-{tipo}-{fecha}.md
 
 ticket  = AB1234 | PBI5678 | SPIKE-003 (referencia Azure DevOps)
-tipo    = legacy-analysis | architecture-decisión | test-strategy |
+tipo    = legacy-analysis | architecture-decision | test-strategy |
           security-checklist | implementation-log | review-findings |
           pm-validation | sprint-summary
 fecha   = YYYY-MM-DD
@@ -62,12 +62,12 @@ created: 2026-02-27
 ```
 1. business-analyst → escribe: {ticket}-legacy-analysis-{fecha}.md
        ↓ (lee: PBI padre, backlog, código existente)
-2. architect        → escribe: {ticket}-architecture-decisión-{fecha}.md
+2. architect        → escribe: {ticket}-architecture-decision-{fecha}.md
        ↓ (lee: legacy-analysis)
 3. security-guardian → escribe: {ticket}-security-checklist-{fecha}.md
-       ↓ (lee: architecture-decisión, spec)
+       ↓ (lee: architecture-decision, spec)
 4. test-engineer    → escribe: {ticket}-test-strategy-{fecha}.md
-       ↓ (lee: architecture-decisión, security-checklist, spec)
+       ↓ (lee: architecture-decision, security-checklist, spec)
 5. {lang}-developer → escribe: {ticket}-implementation-log-{fecha}.md
        ↓ (lee: TODAS las notas previas + spec)
 6. code-reviewer    → escribe: {ticket}-review-findings-{fecha}.md

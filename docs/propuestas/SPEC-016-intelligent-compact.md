@@ -16,31 +16,31 @@
 
 context-health.md dice "al compactar, SIEMPRE preservar ficheros modificados,
 scores, decisiones", pero esto depende de que Claude lo haga bien cada vez.
-No hay mecanismo sistematico.
+No hay mecanismo sistemático.
 
 OpenViking convierte conversación en memorias durables en vez de truncar.
-Fabrik-Codek anade quality gate para evitar ruido.
+Fabrik-Codek añade quality gate para evitar ruido.
 
 ---
 
-## Diseno
+## Diseño
 
 ### Pre-compact extraction pipeline
 
-Antes de ejecutar /compact, Savia ejecuta un pipeline de extraccion:
+Antes de ejecutar /compact, Savia ejecuta un pipeline de extracción:
 
 ```
 1. SCAN — Identificar en el contexto actual:
    a. Decisiones: "vamos con X", "elegimos Y", "descartamos Z"
-   b. Correcciones: "no, eso esta mal", "cambia X por Y"
+   b. Correcciones: "no, eso está mal", "cambia X por Y"
    c. Descubrimientos: "resulta que X funciona así"
    d. Estado de trabajo: "estamos en paso 3 de 5", "falta X"
 
 2. QUALITY GATE — Filtrar:
    a. Min 50 caracteres (no trivial)
-   b. No es repeticion de algo ya en memoria
-   c. No es dato efimero (línea de código, ruta temporal)
-   d. Tiene valor entre sesiones (test: "seria util si lo leo manana?")
+   b. No es repetición de algo ya en memoria
+   c. No es dato efímero (línea de código, ruta temporal)
+   d. Tiene valor entre sesiones (test: "sería útil si lo leo mañana?")
 
 3. CLASSIFY — Por tipo y destino:
    a. Feedback → auto-memory feedback type
@@ -50,8 +50,8 @@ Antes de ejecutar /compact, Savia ejecuta un pipeline de extraccion:
 
 4. PERSIST — Escribir en destino correcto
 
-5. COMPACT — Ahora si, ejecutar /compact normal con summary que incluye:
-   - Lista de items extraidos (referencia, no contenido)
+5. COMPACT — Ahora sí, ejecutar /compact normal con summary que incluye:
+   - Lista de items extraídos (referencia, no contenido)
    - Estado de trabajo actual
    - Ficheros modificados en la sesión
 ```
@@ -74,17 +74,17 @@ Al compactar, el summary siempre incluye:
 SPEC-013 (Session Memory Extraction) y SPEC-016 comparten el mismo extractor.
 La diferencia:
 - SPEC-013 se ejecuta al CERRAR sesión (Stop hook, async)
-- SPEC-016 se ejecuta al COMPACTAR (inline, sync, rapido)
+- SPEC-016 se ejecuta al COMPACTAR (inline, sync, rápido)
 
-El extractor es una funcion compartida con dos modos:
-- `mode=full`: analiza todo el transcript (SPEC-013, mas lento)
-- `mode=quick`: analiza solo el contexto actual (SPEC-016, mas rapido)
+El extractor es una función compartida con dos modos:
+- `mode=full`: analiza todo el transcript (SPEC-013, más lento)
+- `mode=quick`: analiza solo el contexto actual (SPEC-016, más rápido)
 
 ---
 
 ## Implementación
 
-### Fase 1 — Extraction basica en /compact (1 sprint)
+### Fase 1 — Extracción básica en /compact (1 sprint)
 
 1. Actualizar comportamiento de /compact en context-health.md
 2. Antes de compactar: scan de decisiones y correcciones
@@ -96,17 +96,17 @@ El extractor es una funcion compartida con dos modos:
 
 1. Refactorizar extractor como módulo reutilizable
 2. SPEC-013 usa mode=full, SPEC-016 usa mode=quick
-3. Métricas: items extraidos por compact, falsos positivos
+3. Métricas: items extraídos por compact, falsos positivos
 
 ---
 
-## Criterios de aceptacion
+## Criterios de aceptación
 
 - [ ] /compact extrae >= 1 item util en sesiones de 20+ min
 - [ ] Quality gate rechaza >= 70% de candidatos triviales
 - [ ] Compact summary incluye siempre: ficheros, estado, ultimo comando
 - [ ] Tiempo adicional de /compact < 3 segundos
-- [ ] Ningun item duplicado en auto-memory tras compact
+- [ ] Ningún ítem duplicado en auto-memory tras compact
 
 ---
 

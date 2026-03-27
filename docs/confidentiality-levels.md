@@ -1,6 +1,6 @@
-# Niveles de Confidencialidad — Arquitectura de Separacion de Datos
+# Niveles de Confidencialidad — Arquitectura de Separación de Datos
 
-> Documento de referencia para la separacion de datos en pm-workspace.
+> Documento de referencia para la separación de datos en pm-workspace.
 > Fecha: 2026-03-19
 
 ---
@@ -8,17 +8,17 @@
 ## Principio
 
 pm-workspace es software libre publicado en GitHub. Los datos del usuario,
-empresa y proyectos NUNCA deben mezclarse con el código publico. Cada nivel
+empresa y proyectos NUNCA deben mezclarse con el código público. Cada nivel
 tiene su propio repositorio git con permisos independientes.
 
 ---
 
-## 5 Niveles (de mas abierto a mas restringido)
+## 5 Niveles (de más abierto a más restringido)
 
 ### N1 — PUBLICO (repo pm-workspace en GitHub)
 
 - Código del workspace: commands, skills, rules, agents, hooks, scripts
-- Documentación generica del producto: README, CHANGELOG, docs/
+- Documentación genérica del producto: README, CHANGELOG, docs/
 - Plantillas y ejemplos con datos ficticios (alice, test-org, acme-corp)
 - Reglas de dominio sin datos de empresa ni persona
 - NUNCA datos reales de personas, empresas, clientes ni proyectos
@@ -37,7 +37,7 @@ tiene su propio repositorio git con permisos independientes.
 - Memoria cross-project (instintos aprendidos, patrones personales)
 - Cache de sesiones y contexto personal
 - Preferencias de accesibilidad y formato
-- Portable entre maquinas via `~/.savia/personal-vault/`
+- Portable entre máquinas via `~/.savia/personal-vault/`
 - NUNCA datos de proyectos de cliente ni datos de la empresa
 
 ### N4 — PROYECTO (repo separado por proyecto)
@@ -60,12 +60,12 @@ tiene su propio repositorio git con permisos independientes.
 
 ---
 
-## Mecanismos de Separacion
+## Mecanismos de Separación
 
 ### Repositorios git independientes
 
 - Cada nivel tiene su propio repo con permisos de acceso diferenciados
-- N1: repo publico en GitHub (pm-workspace)
+- N1: repo público en GitHub (pm-workspace)
 - N2: ficheros gitignored dentro del repo N1
 - N3: repo personal (`~/.savia/personal-vault/`)
 - N4: repo por proyecto (uno por cliente/proyecto)
@@ -79,7 +79,7 @@ tiene su propio repositorio git con permisos independientes.
 
 ### Reglas de enrutamiento para Savia
 
-- `CONFIDENTIALITY.md` por proyecto define que consultar segun quien pregunta
+- `CONFIDENTIALITY.md` por proyecto define qué consultar según quien pregunta
 - Savia clasifica cada dato ANTES de escribirlo (ver Protocolo de Decisión)
 - Si hay duda, Savia pregunta al usuario antes de persistir
 
@@ -91,7 +91,7 @@ tiene su propio repositorio git con permisos independientes.
 
 ### Comando /confidentiality-check
 
-- Auditoria bajo demanda de cumplimiento de niveles
+- Auditoría bajo demanda de cumplimiento de niveles
 - Escanea ficheros .md buscando datos fuera de nivel
 - Genera informe con severidad: CRITICAL, WARNING, INFO
 
@@ -103,7 +103,7 @@ tiene su propio repositorio git con permisos independientes.
 
 ---
 
-## Ejemplo con Proyecto Generico
+## Ejemplo con Proyecto Genérico
 
 - `projects/proyecto-alpha/` (N4-SHARED) — repo git compartible con el cliente
 - `projects/proyecto-alpha-internal/` (N4-VASS) — repo git solo equipo proveedor
@@ -116,11 +116,11 @@ tiene su propio repositorio git con permisos independientes.
 
 Cuando Savia recibe información para persistir:
 
-1. Clasificar: ¿es de un proyecto? ¿del usuario? ¿de la empresa? ¿generica?
+1. Clasificar: ¿es de un proyecto? ¿del usuario? ¿de la empresa? ¿genérica?
 2. Si PROYECTO → determinar subnivel (N4-SHARED, N4-VASS o N4b)
 3. Si USUARIO → escribir en el vault personal (N3)
 4. Si EMPRESA → guardar en ficheros gitignored (N2)
-5. Si GENERICA del workspace → repo publico (N1)
+5. Si GENÉRICA del workspace → repo público (N1)
 6. Si DUDA → preguntar al usuario antes de escribir
 7. NUNCA asumir destino sin clasificar primero
 
@@ -142,7 +142,7 @@ Cuando los repos se muevan de Gitea local a Gitlab/Azure DevOps:
 ## Referencias
 
 - `@.claude/rules/domain/context-placement-confirmation.md` — regla operativa
-- `@.claude/rules/domain/pii-sanitization.md` — sanitizacion PII
+- `@.claude/rules/domain/pii-sanitization.md` — sanitización PII
 - `@.claude/rules/domain/confidentiality-config.md` — config de confidencialidad
 - `@.claude/agents/confidentiality-auditor.md` — agente auditor
-- `/confidentiality-check` — comando de auditoria
+- `/confidentiality-check` — comando de auditoría

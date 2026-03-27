@@ -85,7 +85,7 @@ Para usar Spec-Driven Development con agentes Claude, necesitas la CLI de Claude
 
 ```bash
 # Verificar que claude CLI está instalado
-claude --versión
+claude --version
 
 # Verificar que puedes invocar claude como subproceso (necesario para agent-run)
 echo "Test de invocación de agente:"

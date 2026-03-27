@@ -429,7 +429,7 @@ Investigation:
 
 ### Gate Pass-Through Rate
 
-**Definición:** % de code que passa gates na primeira tentativa
+**Definición:** % de código que pasa los gates en el primer intento
 
 ```
 Target Savia Flow: >75%
@@ -439,7 +439,7 @@ Calculation:
 ├─ Pass-through: 15/20 = 75% ✓
 
 Meaning:
-├─ 75% passed na primeira tentativa (good)
+├─ 75% passed in first attempt (good)
 ├─ 25% required fixes/resubmission (acceptable)
 ├─ If <50%: Gates too strict or IA quality low
 ├─ If >90%: Possible gates too lenient
@@ -447,7 +447,7 @@ Meaning:
 
 ### Mean Time to Fix (MTTF)
 
-**Definição:** Tempo médio para um builder corrigir uma rejeição de gate
+**Definición:** Tiempo promedio para que un builder corrija un rechazo de gate
 
 ```
 Target Savia Flow: <30 minutos
@@ -583,7 +583,7 @@ Architects overwhelmed with reviews
 
 ## Conclusión
 
-Autonomous Quality Gates são o futuro do controle de qualidade com IA:
+Autonomous Quality Gates son el futuro del control de calidad con IA:
 
 1. **Level 1-4:** Automated validation (instant feedback)
 2. **Level 5:** Human judgment (lightweight, focused)
@@ -598,4 +598,4 @@ Autonomous Quality Gates são o futuro do controle de qualidade com IA:
 
 ---
 
-**Comienza com Levels 1-2 esta semana. Adiciona Levels 3-5 progressivamente.**
+**Comienza con Levels 1-2 esta semana. Agrega Levels 3-5 progresivamente.**

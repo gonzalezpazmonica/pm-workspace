@@ -19,7 +19,7 @@ Aunque Savia Flow es agnóstica del dominio, cada sector tiene desafíos únicos
 
 ```
 Regulatory:
-├─ HIPAA: Protected Health Information (PHI) strictamente regulado
+├─ HIPAA: Protected Health Information (PHI) estrictamente regulado
 ├─ FDA (si es medical device): Multi-year approval cycles
 ├─ GDPR: Si maneja datos europeos
 ├─ State regulations: CCPA, HIPAA state variants

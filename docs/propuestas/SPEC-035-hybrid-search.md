@@ -2,38 +2,38 @@
 
 > Status: **DRAFT** · Fecha: 2026-03-23 · Score: 4.55
 > Origen: LightRAG (30K stars) — dual graph+vector RAG
-> Impacto: Responder preguntas relacionales que la busqueda lineal no puede
+> Impacto: Responder preguntas relacionales que la búsqueda lineal no puede
 
 ---
 
 ## Problema
 
-SPEC-018 (vector memory) permite buscar por similitud semantica.
+SPEC-018 (vector memory) permite buscar por similitud semántica.
 SPEC-027 (graph memory) extrae entidades y relaciones. Pero no hay
-busqueda combinada: "que decisiones afectan al modulo de pagos y
-quien las tomo?" requiere recorrer el grafo Y buscar por similitud.
+búsqueda combinada: "qué decisiones afectan al módulo de pagos y
+quién las tomó?" requiere recorrer el grafo Y buscar por similitud.
 
-LightRAG demuestra que la combinacion graph+vector mejora el recall
+LightRAG demuestra que la combinación graph+vector mejora el recall
 significativamente en preguntas relacionales.
 
 ## Principio inmutable
 
-**Los .md son la fuente de verdad.** Los indices vectoriales y el grafo
-son caches derivadas que se reconstruyen con `memory-vector.py` y
+**Los .md son la fuente de verdad.** Los índices vectoriales y el grafo
+son cachés derivadas que se reconstruyen con `memory-vector.py` y
 `memory-graph.py`. Si se pierden, `--rebuild` los regenera.
 
-## Solucion
+## Solución
 
-Combinar los dos sistemas existentes en una busqueda unificada.
+Combinar los dos sistemas existentes en una búsqueda unificada.
 
-### Modos de busqueda
+### Modos de búsqueda
 
-| Modo | Metodo | Cuando usar |
+| Modo | Método | Cuándo usar |
 |------|--------|-------------|
-| `vector` | Solo similitud coseno | Busqueda por concepto suelto |
-| `graph` | Solo recorrido de relaciones | Busqueda por entidad concreta |
+| `vector` | Solo similitud coseno | Búsqueda por concepto suelto |
+| `graph` | Solo recorrido de relaciones | Búsqueda por entidad concreta |
 | `hybrid` | Vector + graph + reranker | Default — mejor recall |
-| `naive` | Grep en .md (fallback) | Sin indices disponibles |
+| `naive` | Grep en .md (fallback) | Sin índices disponibles |
 
 ### Flujo hybrid
 
@@ -43,7 +43,7 @@ Combinar los dos sistemas existentes en una busqueda unificada.
 3. Graph search: entidades mencionadas → vecinos 2-hop (SPEC-027)
 4. Merge: union de resultados (dedup por source file)
 5. Rerank: cross-encoder ordena por relevancia (SPEC-028)
-6. Return: top-5 con source file y linea
+6. Return: top-5 con source file y línea
 ```
 
 ### Fallback chain
@@ -55,21 +55,21 @@ vector disponible? → usar vector
   ↓ no
 graph disponible? → usar graph
   ↓ no
-grep en .md → siempre funciona (soberania)
+grep en .md → siempre funciona (soberanía)
 ```
 
-## Implementacion
+## Implementación
 
 1. Extender `scripts/memory-search.sh` con `--mode hybrid|vector|graph|naive`
 2. Crear `scripts/memory-hybrid.py` que combine vector + graph
 3. Reutilizar cross-encoder de SPEC-028 para reranking
-4. Default: hybrid si indices existen, naive si no
-5. `/memory-recall` usa hybrid automaticamente
+4. Default: hybrid si índices existen, naive si no
+5. `/memory-recall` usa hybrid automáticamente
 
-## Integracion con temporalidad (SPEC-034)
+## Integración con temporalidad (SPEC-034)
 
-La busqueda hybrid respeta `valid_to`:
-- Resultados con `valid_to < hoy` se marcan como `[historico]`
+La búsqueda hybrid respeta `valid_to`:
+- Resultados con `valid_to < hoy` se marcan como `[histórico]`
 - Por defecto solo resultados vigentes
 - Flag `--include-historical` para ver todo
 
