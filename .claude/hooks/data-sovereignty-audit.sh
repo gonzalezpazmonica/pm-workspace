@@ -80,7 +80,7 @@ else
 fi
 
 LEAK=""
-if  grep -qiE "(jdbc:|mongodb[+]srv://|Server=.*Password=)" 2>/dev/null; then
+if grep -qiE "(jdbc:|mongodb[+]srv://|Server=.*Password=)" "$NORM_FILE" 2>/dev/null; then
   LEAK="connection_string_in_public_file"
 elif grep -qE "AKIA[0-9A-Z]{16}" "$NORM_FILE" 2>/dev/null; then
   LEAK="aws_key_in_public_file"
