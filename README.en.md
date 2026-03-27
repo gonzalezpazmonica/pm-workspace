@@ -61,7 +61,7 @@ pm-workspace/
 ├── docs/
 │   ├── quick-starts/   ← role-based guides (PM, Dev, QA, PO, TL, CEO)
 │   ├── readme/         ← detailed documentation (13 sections)
-│   ├── guides/         ← 14 guides (Azure, Jira, startup, healthcare...)
+│   ├── guides/         ← 15 guides (Azure, Jira, startup, healthcare, memory...)
 │   └── savia-flow/     ← Git-native system docs
 ├── projects/
 │   ├── savia-mobile-android/  ← native Android app + bridge

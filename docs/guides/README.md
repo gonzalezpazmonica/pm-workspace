@@ -2,7 +2,7 @@
 
 > Cada guía explica cómo configurar y usar Savia (pm-workspace) para un tipo de organización o escenario concreto. Incluye roles, comandos principales, flujos de trabajo y consejos prácticos.
 
-🌐 [English versión](../guides_en/README.md)
+🌐 [English version](../guides_en/README.md)
 
 ---
 
@@ -24,6 +24,7 @@
 | [Gran consultora tecnológica](guide-enterprise-consultancy.md) | 500-5000 empleados, multi-proyecto, multi-cliente | CEO, CTO, PM, Compliance |
 | [Análisis de gaps — Gran consultora](guide-enterprise-gap-analysis.md) | 10 gaps operativos y cómo los resuelve Savia | CEO, CTO, Dir. Operaciones, PM |
 | **[Proyecto desde cero](guide-project-from-scratch.md)** | **Paso a paso completo: cliente, equipo, arquitectura, reglas, specs, tests. Azure DevOps / Jira / Savia Flow** | **PM, Tech Lead** |
+| [Optimización de memoria y contexto](guide-context-memory-optimization.md) | SPEC-041: zonas de contexto, Tiers A/B/C, quality gate, compresión de agentes | PM, Dev Lead, Cualquiera |
 
 ---
 

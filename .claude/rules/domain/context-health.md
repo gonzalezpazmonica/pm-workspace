@@ -46,17 +46,30 @@ Esto evita que el análisis intermedio contamine el contexto principal.
 - `/spec-generate` → subagente genera spec, guarda en fichero
 - Cualquier comando que lea más de 5 ficheros internamente
 
-## 3. Auto-compact post-comando (OBLIGATORIO)
+## 3. Auto-compact post-comando — 4 ZONAS CALIBRADAS
+
+> Basado en TurboQuant (arXiv:2504.19874): la calidad del LLM degrada gradualmente,
+> no en acantilado. El umbral anterior (50%) era ultra-conservador. El inicio de
+> degradación real está alrededor del 70%.
+
+### Zonas de contexto
+
+```
+ZONA VERDE    < 50%    Sin acción. Rendimiento óptimo.
+ZONA GRADUAL  50-70%   Sugerir /compact, no bloquear. Calidad >99%.
+ZONA ALERTA   70-85%   Bloquear operaciones pesadas (spec-generate, project-audit)
+                        antes de compact. Calidad 95-99%.
+ZONA CRÍTICA  > 85%    Bloquear todo. Calidad <95%.
+```
 
 ### Regla principal
 **TRAS CADA slash command** → terminar con `⚡ /compact` en el banner de finalización.
 Sin excepciones. Un solo comando pesado satura el contexto (~88%).
 
-### Bloqueo suave
-Si el PM pide otro comando sin compactar → responder:
-```
-⚠️ Contexto alto — ejecuta `/compact` antes de continuar.
-```
+### Bloqueo por zona
+- **Zona Gradual (50-70%)**: `💡 Contexto al XX% — ejecuta /compact cuando puedas.`
+- **Zona Alerta (70-85%)**: `⚠️ Contexto alto — no puedo iniciar operaciones pesadas sin /compact.`
+- **Zona Crítica (>85%)**: `❌ Contexto crítico — ejecuta /compact ahora antes de continuar.`
 
 ### Al compactar, SIEMPRE preservar
 - Ficheros modificados en la sesión
