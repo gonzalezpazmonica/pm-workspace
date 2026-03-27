@@ -68,7 +68,7 @@ PUSH_CMD=(bash scripts/push-pr.sh --skip-changelog --skip-ci)
 [[ -n "$TITLE" ]] && PUSH_CMD+=(--title "$TITLE")
 PR_OUT=$("${PUSH_CMD[@]}" 2>&1) || true
 echo "$PR_OUT" | grep -E "(http|PR |Done)" | tail -3
-if ! echo "$PR_OUT" | grep -qE "^https://"; then
+if ! echo "$PR_OUT" | grep -qE "https://github.com/"; then
   record_failure "push-pr" "PR creation failed" "scripts/push-pr.sh"
   echo "  FAILURE recorded — fix scripts/push-pr.sh and rerun /pr-plan"
 fi
