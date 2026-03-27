@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.70.2] — 2026-03-27
+
+pr-plan feedback + push-pr.sh gh CLI fallback.
+
+### Fixed
+
+- **`pr-plan.sh`**: progress feedback — cada gate muestra "..." antes de ejecutar + tiempo si >2s
+- **`push-pr.sh`**: usa `gh` CLI para crear PRs cuando no hay token en URL del remote
+
 ## [3.70.1] — 2026-03-27
 
 pr-plan G5 fix: docs-only PRs exempt from CHANGELOG requirement.
@@ -4764,6 +4773,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.70.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.1...v3.70.2
 [3.70.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.0...v3.70.1
 [3.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.69.0...v3.70.0
 [3.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.68.0...v3.69.0

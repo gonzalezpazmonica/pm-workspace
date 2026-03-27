@@ -19,15 +19,19 @@ sep() { printf '  %-4s %-28s %s\n' "$1" "$2" "$3"; }
 gate() {
   local id="$1" name="$2"; shift 2
   [[ -n "$STOPPED" ]] && return
+  printf '  %-4s %-28s ...\n' "$id" "$name"
+  local t0=$SECONDS
   local result; result=$("$@" 2>&1) || true
+  local dt=$(( SECONDS - t0 ))
+  local timing=""; (( dt > 2 )) && timing=" ${dt}s"
   if echo "$result" | grep -q "^FAIL:"; then
-    sep "$id" "$name" "FAIL"; FAIL=$((FAIL+1))
+    sep "$id" "$name" "FAIL${timing}"; FAIL=$((FAIL+1))
     STOPPED="$id: $(echo "$result" | sed 's/^FAIL://')"
   elif echo "$result" | grep -q "^WARN:"; then
-    sep "$id" "$name" "WARN ($(echo "$result" | sed 's/^WARN://'))"
+    sep "$id" "$name" "WARN ($(echo "$result" | sed 's/^WARN://'))${timing}"
     WARN=$((WARN+1))
   else
-    sep "$id" "$name" "PASS${result:+ ($result)}"; PASS=$((PASS+1))
+    sep "$id" "$name" "PASS${result:+ ($result)}${timing}"; PASS=$((PASS+1))
   fi
 }
 
