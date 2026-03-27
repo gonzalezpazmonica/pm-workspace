@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=e0fb2a70cdc0a6ef72190df4f21d7b135ff6ccf74eef1ee69e3d829a87be3bef
-timestamp=2026-03-27T14:41:50Z
+timestamp=2026-03-27T14:56:15Z
 branch=docs/fix-diacritics
-head_commit=240adc0
+head_commit=6804b46
 signature=9f788255633ccbda3f6157ad3c3624c5cd031fb5219019bf0335c8d692c8eeb4
