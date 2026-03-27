@@ -34,7 +34,14 @@ def phase_respiracion(state: dict, run_claude_fn=None) -> dict:
 
     # Verificar bridge en servidor remoto
     try:
-        from .remote_host import is_reachable, is_bridge_running, restart_bridge
+        from .remote_host import is_configured, is_reachable, is_bridge_running, restart_bridge
+
+        if not is_configured():
+            s["details"].append("remote_host:not_configured — skipping")
+            state["consecutive_breath_failures"] = 0
+            state["remote_unreachable_since"] = None
+            state["last_breath"] = time.time()
+            return s
 
         if not is_reachable():
             s["ok"] = False; s["bridge"] = "unreachable"
@@ -80,7 +87,13 @@ def phase_despertar(state: dict, run_claude_fn=None) -> dict:
         "healed": False, "details": [],
     }
     try:
-        from .remote_host import is_reachable, wake_claude
+        from .remote_host import is_configured, is_reachable, wake_claude
+
+        if not is_configured():
+            s["details"].append("remote_host:not_configured — skipping")
+            state["consecutive_wakeup_failures"] = 0
+            state["last_wakeup"] = time.time()
+            return s
 
         if not is_reachable():
             s["ok"] = False; s["claude_responds"] = "remote_unreachable"

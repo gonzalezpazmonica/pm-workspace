@@ -68,6 +68,12 @@ def _ssh(remote_cmd: str, timeout: int = 15) -> tuple[bool, str]:
         return False, str(e)
 
 
+def is_configured() -> bool:
+    """¿Está configurado el host remoto? (fichero de config existe con REMOTE_HOST)"""
+    cfg = _load_config()
+    return bool(cfg.get("REMOTE_HOST", "").strip())
+
+
 def is_reachable() -> bool:
     """¿El servidor remoto es accesible por SSH?"""
     ok, _ = _ssh("echo ok", timeout=8)
