@@ -40,9 +40,8 @@ echo "=== Step 1: Working tree ==="
 echo "  Clean."
 
 echo -e "\n=== Step 2: CI local ==="
-if $SKIP_CI; then echo "  Skipped (--skip-ci, already validated by pr-plan)."
-else bash scripts/validate-ci-local.sh 2>&1 | tail -5 | grep -q "safe to push" || { echo "ERROR: CI failed." >&2; exit 1; }; echo "  Passed."
-fi
+if $SKIP_CI; then echo "  Skipped (--skip-ci)."
+else bash scripts/validate-ci-local.sh 2>&1 | tail -5 | grep -q "safe to push" || { echo "ERROR: CI failed." >&2; exit 1; }; echo "  Passed."; fi
 
 echo -e "\n=== Step 3: CHANGELOG ==="
 if ! $SKIP_CL; then
@@ -62,7 +61,10 @@ else echo "  Unchanged."; fi
 
 echo -e "\n=== Step 5: Push ==="
 export SAVIA_PUSH_PR=1
-git push origin "$BRANCH" 2>&1 | tail -3
+if ! git push origin "$BRANCH" 2>&1 | tail -3; then
+  echo "  Retrying with --force-with-lease (amended commit)..."
+  git push --force-with-lease origin "$BRANCH" 2>&1 | tail -3
+fi
 
 # ── Step 6: PR ───────────────────────────────────────────────────────────
 echo -e "\n=== Step 6/6: PR ==="
