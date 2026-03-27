@@ -7,7 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$ROOT_DIR"
 
-TITLE="" BODY="" DRAFT=false MERGE=false SKIP_CL=false
+TITLE="" BODY="" DRAFT=false MERGE=false SKIP_CL=false SKIP_CI=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --title) TITLE="$2"; shift 2 ;;
@@ -15,7 +15,8 @@ while [[ $# -gt 0 ]]; do
     --draft) DRAFT=true; shift ;;
     --merge) MERGE=true; shift ;;
     --skip-changelog) SKIP_CL=true; shift ;;
-    --help|-h) echo "Usage: $0 [--title T] [--body B] [--draft] [--merge] [--skip-changelog]"; exit 0 ;;
+    --skip-ci) SKIP_CI=true; shift ;;
+    --help|-h) echo "Usage: $0 [--title T] [--body B] [--draft] [--merge] [--skip-changelog] [--skip-ci]"; exit 0 ;;
     *) shift ;;
   esac
 done
@@ -39,8 +40,9 @@ echo "=== Step 1: Working tree ==="
 echo "  Clean."
 
 echo -e "\n=== Step 2: CI local ==="
-bash scripts/validate-ci-local.sh 2>&1 | tail -5 | grep -q "safe to push" || { echo "ERROR: CI failed." >&2; exit 1; }
-echo "  Passed."
+if $SKIP_CI; then echo "  Skipped (--skip-ci, already validated by pr-plan)."
+else bash scripts/validate-ci-local.sh 2>&1 | tail -5 | grep -q "safe to push" || { echo "ERROR: CI failed." >&2; exit 1; }; echo "  Passed."
+fi
 
 echo -e "\n=== Step 3: CHANGELOG ==="
 if ! $SKIP_CL; then
