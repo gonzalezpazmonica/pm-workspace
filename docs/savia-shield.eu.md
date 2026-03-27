@@ -22,18 +22,39 @@ auditatu dezaketeena.
 
 ---
 
+## Arkitektura — Daemon + Proxy + Fallback
+
+### Fluxu nagusia (daemon aktibo)
+
+```
+Claude Code → hook PreToolUse → data-sovereignty-gate.sh
+  → curl POST localhost:8444/gate (daemon bateratua)
+  → daemon: regex + NER + NFKC + base64 + cross-write → BLOCK/ALLOW
+```
+
+### Fallback fluxua (daemon eroria)
+
+```
+gate.sh daemon offline detektatzen du → inline regex + NFKC + base64 + cross-write
+  → detekzio berdinak, NER gabe (Presidio ez dago daemonik gabe)
+```
+
+Fallback-ak bermatzen du Shield-ek **beti babesten** duela, daemonrik gabe ere.
+
+---
+
 ## 4 geruzak
 
-### 1. Geruza — Ate determinista (regex)
+### 1. Geruza — Ate determinista (regex + NFKC + base64 + cross-write)
 
-Edukia regex ereduekin eskaneatzen du fitxategi bat idatzi aurretik.
-Fitxategi publiko batean kredentzialak, IP pribatuak, API tokenak edo
-gako pribatuak detektatzen baditu, **idazketa blokeatzen du**.
+Edukia eskaneatzen du fitxategi publiko bat idatzi aurretik. Biltzen du:
 
-- Latentzia: < 2 segundo
-- Menpekotasunak: bash, grep, jq (POSIX estandarra)
-- Beti aktibo, interneterako konexiorik gabe ere
-- base64 detekzioa: blob susmagarriak deskodifikatzen ditu eta berriro eskaneatzen
+- Regex kredentzialetarako, IPetarako, tokenetarako, gako pribatuetarako, SAS tokenetarako
+- Unicode NFKC normalizazioa (fullwidth digituak detektatzen ditu)
+- base64 deskodifikazioa blob susmagarrietan
+- Cross-write: diskoko lehendik dagoen edukia + eduki berria konbinatzen ditu splita detektatzeko
+- Path normalizazioa (`../` traversal ebazten du)
+- Latentzia: < 2s. Menpekotasunak: bash, grep, jq, python3
 
 ### 2. Geruza — Sailkapen lokala LLMrekin (Ollama)
 
@@ -97,8 +118,8 @@ sistemak, IPak) izen fiktizio koherenteekin ordezkatzen ditu.
 
 **Bermeak:**
 - Korrespondentzia-mapa lokala (N4, inoiz ez git-en)
-- 95+ entitate mapeatu proiektu bakoitzeko GLOSSARY-MASK.md bidez
-- 32 pertsona, 12 enpresa, 16 sistema fiktizio pool
+- Entidades del proyecto cargadas de GLOSSARY-MASK.md (configurable)
+- Izen fiktizio pool pertsonentzat, enpresentzat eta sistementzat (konfiguragarria)
 - mask/unmask eragiketa bakoitza audit log-ean erregistratua
 - Koherentzia: entitate berberak beti mapea berdina du
 
@@ -162,14 +183,19 @@ netstat -an | grep 11434
 
 Osagai bakoitza gizakiak irakur dezakeen testu-lau fitxategi bat da:
 
-| Osagaia | Fitxategia | Lerroak |
-|---------|------------|---------|
-| Regex atea | `.claude/hooks/data-sovereignty-gate.sh` | 147 |
-| LLM sailkatzailea | `scripts/ollama-classify.sh` | 99 |
-| Idazketaren ondoko auditoretza | `.claude/hooks/data-sovereignty-audit.sh` | 73 |
-| Maskaratzailea | `scripts/sovereignty-mask.py` | ~180 |
-| Git pre-commit | `scripts/pre-commit-sovereignty.sh` | 72 |
-| Domeinu araua | `.claude/rules/domain/data-sovereignty.md` | 95 |
+| Osagaia | Fitxategia | Deskribapena |
+|---------|------------|--------------|
+| Daemon bateratua | `scripts/savia-shield-daemon.py` | Scan/mask/unmask/health localhost:8444-en |
+| API Proxy | `scripts/savia-shield-proxy.py` | Claude promptak atzematen ditu, maskaratzen/desmaskaratzen |
+| NER daemon | `scripts/shield-ner-daemon.py` | Presidio+spaCy iraunkorra RAM-ean (~100ms) |
+| Gate hook | `.claude/hooks/data-sovereignty-gate.sh` | PreToolUse: daemon-first, fallback regex |
+| Auditoretza hook | `.claude/hooks/data-sovereignty-audit.sh` | PostToolUse async: fitxategi osoa berriro eskaneatzen |
+| LLM sailkatzailea | `scripts/ollama-classify.sh` | 2. Geruza Ollama (fallback daemon eroria bada) |
+| Maskaratzailea | `scripts/sovereignty-mask.py` | 4. Geruza mask/unmask itzulgarria |
+| Git pre-commit | `scripts/pre-commit-sovereignty.sh` | Staged fitxategiak eskaneatzen commit aurretik |
+| Setup | `scripts/savia-shield-setup.sh` | Instalatzailea: deps, modeloak, tokena, daemonak |
+| Force-push guard | `.claude/hooks/block-force-push.sh` | Force-push, main-era push eta amend blokeatzen ditu |
+| Domeinu araua | `.claude/rules/domain/data-sovereignty.md` | Arkitektura eta politikak |
 
 **Auditoretza-logak:**
 - `output/data-sovereignty-audit.jsonl` — 1-3 geruzaren erabakiak
@@ -178,62 +204,22 @@ Osagai bakoitza gizakiak irakur dezakeen testu-lau fitxategi bat da:
 
 ---
 
-## Balioztatze
+## Kalitatea eta testak
 
-- **51 test automatizatu** (BATS) — core + edge cases + fixes + mocks
-- **3 auditoretza independente** — Red Team, Konfidentzialtasuna, Code Review
-- **24 ahultasun aurkitu — 24 konponduta, 0 zain**
-- **0 hondar-muga** — denak teknikoki zuzendu
-- **Segurtasun-puntuazioa: 100/100**
-- **RGPD/ISO 27001/EU AI Act mapaketa** osoa
+- Test suite automatizatua (BATS) core, edge case eta mock-en estaldurarekin
+- Segurtasun auditoretza independenteak (Red Team, Konfidentzialtasuna, Code Review)
+- Compliance framework-etarako mapaketa (RGPD, ISO 27001, EU AI Act)
 
 ---
 
-## Muga teknikoak eta nola arintzen diren
+## Detekzio gaitasun aurreratuak
 
-### base64 eta datu-kodeketa
-
-Savia Shield-ek automatikoki dekodikatzen ditu base64 blob-ak (gehienez
-200 karaktereko 20 blob arte) eta deskodifikatutako edukia berriro
-eskaneatzen du. Deskodifikatutako blob-ak kredentzial bat edo IP barne
-bat badauka, blokeatzen da.
-
-### Unicode eta homoglifoak
-
-Regex aplikatu aurretik, edukia Unicode NFKC-rekin normalizatzen da.
-Honek fullwidth karaktereak eta beste aldaerak ASCII kanonikora bihurtzen
-ditu. Normalizazioaren ondoren, fullwidth digituak ASCII digitutan
-bihurtzen dira eta regexak behar bezala detektatzen ditu.
-
-### Idazketa zatituak (split-write)
-
-Cross-write defentsa: dagoeneko diskoan dagoen fitxategi publiko batean
-idazten denean, Savia Shield-ek lehendik dagoen edukia irakurtzen du eta
-eduki berriarenarekin konbinatzen du. Regexak testu konbinatuaren gainean
-aplikatzen dira, bi idazketen konbinaketak osatutako ereduak detektatuz.
-
-### Elkarrizketa-edukia (IA laguntzaileari egindako promptak)
-
-4. Geruzak (maskaraketa itzulgarria) testua txatera itsatsi aurretik
-maskaratzea ahalbidetzen du. NER hook-ak laguntzaileak irakurtzen dituen
-fitxategiak eskaneatzen ditu. Prestakuntza: erabiltzaileek fitxategiei
-bidez erreferentzia egiten diete edukia kopiatzen beharrean. Hondar-muga:
-ez dago erabiltzaileak promptan zuzenean idazten duen testuaren
-interceptazio teknikorik — protokolo-mailan integrazioa behar da
-(etorkizuneko hobekuntza).
-
-### Prompt injection sailkatzaile lokalean
-
-Hiru defentsa: (1) [BEGIN/END DATA] mugatzaileak, (2) sandwich defense
-datu-ondoren instrukzioa errepikatuz, (3) outputaren balioztapen zorrotza
-(erantzun baliogabea = automatikoki CONFIDENTIAL). temperature=0 eta
-num_predict=5 eraso-azalera mugatzen dute.
-
-### NER doitasuna gaztelaniaz
-
-ES+EN eskaneatze bikoitza: NER-ek analisia bi hizkuntzetan exekutatzen du
-eta emaitzak konbinatzen ditu. GLOSSARY-MASK.md-k proiektu-entitate
-espezifikoak deny-list gisa kargatzen ditu (score 1.0, detekzio bermatua).
+- **Base64**: blob susmagarriak deskodikatzen ditu eta deskodifikatutako edukia berriro eskaneatzen du
+- **Unicode NFKC**: fullwidth karaktereak eta aldaerak normalizatzen ditu regex aplikatu aurretik
+- **Cross-write**: diskoko lehendik dagoen edukia berriarekin konbinatzen du idazketa artean zatitutako ereduak detektatzeko
+- **API Proxy**: irteten diren prompt guztiak atzematen ditu eta entitateak automatikoki maskaratzen ditu
+- **NER elebidunak**: gaztelaniaz eta ingelesez konbinatutako analisia, proiektu bakoitzeko deny-list-ekin
+- **Anti-injection**: hiru defentsa sailkatzaile lokalean (mugatzaileak, sandwich, balioztapen zorrotza)
 
 ---
 
@@ -265,3 +251,18 @@ espezifikoak deny-list gisa kargatzen ditu (score 1.0, detekzio bermatua).
 bash scripts/savia-shield-setup.sh
 export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
 ```
+
+Instalatzaileak:
+1. Menpekotasunak egiaztatzen ditu (python3, jq, ollama, presidio, spacy)
+2. Beharrezko modeloak deskargatzen ditu (qwen2.5:7b, es_core_news_md)
+3. Autentifikazio tokena sortzen du (`~/.savia/shield-token`)
+4. `savia-shield-daemon.py` abiarazten du localhost:8444-en (scan/mask/unmask)
+5. `savia-shield-proxy.py` abiarazten du localhost:8443-en (API proxy)
+6. `shield-ner-daemon.py` abiarazten du (NER iraunkorra RAM-ean)
+
+Exekutatu ondoren, APIarekin komunikazio guztia proxy-tik pasatzen da,
+entitate sentikorrak automatikoki maskaratzen dituena.
+
+**Daemonik gabe:** gate eta auditoretza hook-ak fallback moduan
+funtzionatzen jarraitzen dute (regex + NFKC + base64 + cross-write).
+Claude Code ez da inoiz blokeatzen daemon faltagatik.

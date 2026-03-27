@@ -21,18 +21,39 @@ que viola NDAs i RGPD.
 
 ---
 
+## Arquitectura — Daemon + Proxy + Fallback
+
+### Flux principal (daemon actiu)
+
+```
+Claude Code → hook PreToolUse → data-sovereignty-gate.sh
+  → curl POST localhost:8444/gate (daemon unificat)
+  → daemon: regex + NER + NFKC + base64 + cross-write → BLOCK/ALLOW
+```
+
+### Flux fallback (daemon caigut)
+
+```
+gate.sh detecta daemon offline → inline regex + NFKC + base64 + cross-write
+  → mateixes deteccions, sense NER (Presidio no disponible sense daemon)
+```
+
+El fallback garanteix que Shield **sempre protegeix**, fins i tot sense daemon.
+
+---
+
 ## Les 4 capes
 
-### Capa 1 — Porta determinista (regex)
+### Capa 1 — Porta determinista (regex + NFKC + base64 + cross-write)
 
-Escaneja el contingut amb patrons regex abans d'escriure un fitxer.
-Si detecta credencials, IPs privades, tokens d'API o claus privades
-en un fitxer públic, **bloqueja l'escriptura**.
+Escaneja el contingut abans d'escriure un fitxer públic. Inclou:
 
-- Latència: < 2 segons
-- Dependències: bash, grep, jq (estàndard POSIX)
-- Sempre activa, fins i tot sense connexió a internet
-- Detecció de base64: descodifica blobs sospitosos i re-escaneja
+- Regex per a credencials, IPs, tokens, claus privades, SAS tokens
+- Normalització Unicode NFKC (detecta dígits fullwidth)
+- Descodificació base64 de blobs sospitosos
+- Cross-write: combina contingut existent en disc + nou per detectar divisions
+- Normalització de path (resol `../` traversal)
+- Latència: < 2s. Dependències: bash, grep, jq, python3
 
 ### Capa 2 — Classificació local amb LLM (Ollama)
 
@@ -96,8 +117,8 @@ PAS 5 — sovereignty-mask.sh unmask → restaura dades reals
 
 **Garanties:**
 - Mapa de correspondències local (N4, mai en git)
-- 95+ entitats mapades per projecte via GLOSSARY-MASK.md
-- Pools de 32 persones, 12 empreses, 16 sistemes ficticis
+- Entidades del proyecto cargadas de GLOSSARY-MASK.md (configurable)
+- Pools de nombres ficticios para personas, empresas y sistemas (configurables)
 - Cada operació de mask/unmask registrada en audit log
 - Consistència: la mateixa entitat sempre mapeja al mateix fictici
 
@@ -161,14 +182,19 @@ netstat -an | grep 11434
 
 Cada component és un fitxer de text pla llegible per humans:
 
-| Component | Fitxer | Línies |
-|-----------|--------|--------|
-| Porta regex | `.claude/hooks/data-sovereignty-gate.sh` | 147 |
-| Classificador LLM | `scripts/ollama-classify.sh` | 99 |
-| Auditoria post-escriptura | `.claude/hooks/data-sovereignty-audit.sh` | 73 |
-| Emmascarador | `scripts/sovereignty-mask.py` | ~180 |
-| Pre-commit git | `scripts/pre-commit-sovereignty.sh` | 72 |
-| Regla de domini | `.claude/rules/domain/data-sovereignty.md` | 95 |
+| Component | Fitxer | Descripció |
+|-----------|--------|------------|
+| Daemon unificat | `scripts/savia-shield-daemon.py` | Scan/mask/unmask/health a localhost:8444 |
+| Proxy API | `scripts/savia-shield-proxy.py` | Intercepta prompts Claude, emmascara/desemmascara |
+| NER daemon | `scripts/shield-ner-daemon.py` | Presidio+spaCy persistent en RAM (~100ms) |
+| Gate hook | `.claude/hooks/data-sovereignty-gate.sh` | PreToolUse: daemon-first, fallback regex |
+| Auditoria hook | `.claude/hooks/data-sovereignty-audit.sh` | PostToolUse async: re-scan fitxer complet |
+| Classificador LLM | `scripts/ollama-classify.sh` | Capa 2 Ollama (fallback si daemon caigut) |
+| Emmascarador | `scripts/sovereignty-mask.py` | Capa 4 mask/unmask reversible |
+| Pre-commit git | `scripts/pre-commit-sovereignty.sh` | Scan fitxers staged abans de commit |
+| Setup | `scripts/savia-shield-setup.sh` | Instal·lador: deps, models, token, daemons |
+| Force-push guard | `.claude/hooks/block-force-push.sh` | Bloqueja force-push, push a main, amend |
+| Regla de domini | `.claude/rules/domain/data-sovereignty.md` | Arquitectura i polítiques |
 
 **Logs d'auditoria:**
 - `output/data-sovereignty-audit.jsonl` — decisions de les capes 1-3
@@ -177,60 +203,22 @@ Cada component és un fitxer de text pla llegible per humans:
 
 ---
 
-## Validació
+## Qualitat i testing
 
-- **51+ tests automatitzats** (BATS) — core + edge cases + fixes + mocks
-- **3 auditories independents** — Red Team, Confidencialitat, Code Review
-- **24 vulnerabilitats trobades — 24 resoltes, 0 pendents**
-- **0 limitacions residuals** — totes corregides tècnicament
-- **Score de seguretat: 100/100**
-- **Mapeig RGPD/ISO 27001/EU AI Act** complet
+- Suite automatitzada de tests (BATS) amb cobertura de core, edge cases i mocks
+- Auditories de seguretat independents (Red Team, Confidencialitat, Code Review)
+- Mapeig a frameworks de compliance (RGPD, ISO 27001, EU AI Act)
 
 ---
 
-## Limitacions tècniques i com es mitiguen
+## Capacitats de detecció avançades
 
-### Base64 i codificació de dades
-
-Savia Shield descodifica automàticament blobs base64 (fins a 20 blobs de
-màxim 200 chars) i re-escaneja el contingut descodificat. Si el blob
-descodificat conté una credencial o IP interna, es bloqueja.
-
-### Unicode i homòglifs
-
-Abans d'aplicar regex, el contingut es normalitza amb Unicode NFKC.
-Això converteix caràcters fullwidth i altres variants a ASCII canònic.
-Després de la normalització, dígits fullwidth es converteixen en dígits ASCII i
-el regex els detecta correctament.
-
-### Escriptures dividides (split-write)
-
-Defensa cross-write: quan s'escriu en un fitxer públic que ja
-existeix en disc, Savia Shield llegeix el contingut existent i el combina
-amb el contingut nou. Els regex s'apliquen sobre el text combinat,
-detectant patrons que es formen en ajuntar ambdues escriptures.
-
-### Contingut conversacional (prompts a l'assistent IA)
-
-La Capa 4 (masking reversible) permet enmascarar text ABANS d'enganxar-lo
-al xat. El NER hook escaneja fitxers que l'assistent llegeix. Formació:
-els usuaris referencien fitxers per ruta en lloc de copiar contingut.
-Límit residual: no hi ha interceptació tècnica del text que l'usuari
-escriu directament al prompt — requereix integració a nivell de
-protocol (millora futura).
-
-### Prompt injection en el classificador local
-
-Triple defensa: (1) delimitadors [BEGIN/END DATA], (2) sandwich defense
-amb instrucció repetida post-dades, (3) validació estricta d'output
-(resposta no vàlida = CONFIDENTIAL automàtic). Temperature=0 i
-num_predict=5 limiten la superfície d'atac.
-
-### Precisió del NER en espanyol
-
-Escaneig dual ES+EN: NER executa l'anàlisi en ambdós idiomes i combina
-resultats. GLOSSARY-MASK.md carrega entitats específiques del projecte
-com a deny-list (score 1.0, detecció garantida).
+- **Base64**: descodifica blobs sospitosos i re-escaneja el contingut descodificat
+- **Unicode NFKC**: normalitza caràcters fullwidth i variants abans d'aplicar regex
+- **Cross-write**: combina contingut existent en disc amb el nou per detectar patrons dividits entre escriptures
+- **Proxy API**: intercepta tots els prompts sortints i emmascara entitats automàticament
+- **NER bilingüe**: anàlisi en espanyol i anglès combinat, amb deny-list per projecte
+- **Anti-injection**: triple defensa en el classificador local (delimitadors, sandwich, validació estricta)
 
 ---
 
@@ -262,3 +250,18 @@ com a deny-list (score 1.0, detecció garantida).
 bash scripts/savia-shield-setup.sh
 export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
 ```
+
+L'instal·lador:
+1. Verifica dependències (python3, jq, ollama, presidio, spacy)
+2. Descarrega models necessaris (qwen2.5:7b, es_core_news_md)
+3. Genera token d'autenticació (`~/.savia/shield-token`)
+4. Arrenca `savia-shield-daemon.py` a localhost:8444 (scan/mask/unmask)
+5. Arrenca `savia-shield-proxy.py` a localhost:8443 (proxy API)
+6. Arrenca `shield-ner-daemon.py` (NER persistent en RAM)
+
+Després d'executar, tota comunicació amb l'API passa pel proxy que
+emmascara entitats sensibles automàticament.
+
+**Sense daemon:** els hooks de gate i auditoria segueixen funcionant en
+mode fallback (regex + NFKC + base64 + cross-write). Claude Code
+mai es bloqueja per falta de daemon.

@@ -20,18 +20,39 @@ Besprechungen, entsteht ein Datenleck, das NDAs und die DSGVO verletzt.
 
 ---
 
+## Architektur — Daemon + Proxy + Fallback
+
+### Hauptablauf (Daemon aktiv)
+
+```
+Claude Code → Hook PreToolUse → data-sovereignty-gate.sh
+  → curl POST localhost:8444/gate (vereinheitlichter Daemon)
+  → Daemon: regex + NER + NFKC + base64 + cross-write → BLOCK/ALLOW
+```
+
+### Fallback-Ablauf (Daemon ausgefallen)
+
+```
+gate.sh erkennt Daemon offline → Inline-Regex + NFKC + base64 + cross-write
+  → gleiche Erkennungen, ohne NER (Presidio ohne Daemon nicht verfügbar)
+```
+
+Der Fallback stellt sicher, dass Shield **immer schützt**, auch ohne Daemon.
+
+---
+
 ## Die 4 Schichten
 
-### Schicht 1 — Deterministische Eingangskontrolle (regex)
+### Schicht 1 — Deterministische Eingangskontrolle (regex + NFKC + base64 + cross-write)
 
-Scannt den Inhalt mit regex-Mustern, bevor eine Datei geschrieben wird.
-Werden Zugangsdaten, private IPs, API-Tokens oder private Schlüssel in
-einer öffentlichen Datei erkannt, **wird das Schreiben blockiert**.
+Scannt den Inhalt vor dem Schreiben einer öffentlichen Datei. Umfasst:
 
-- Latenz: < 2 Sekunden
-- Abhängigkeiten: bash, grep, jq (POSIX-Standard)
-- Immer aktiv, auch ohne Internetverbindung
-- base64-Erkennung: dekodiert verdächtige Blobs und scannt erneut
+- Regex für Zugangsdaten, IPs, Tokens, private Schlüssel, SAS-Tokens
+- Unicode-NFKC-Normalisierung (erkennt Fullwidth-Ziffern)
+- base64-Dekodierung verdächtiger Blobs
+- Cross-write: kombiniert vorhandenen Inhalt auf dem Datenträger + neuen Inhalt zur Erkennung von Splits
+- Pfad-Normalisierung (löst `../`-Traversal auf)
+- Latenz: < 2s. Abhängigkeiten: bash, grep, jq, python3
 
 ### Schicht 2 — Lokale Klassifizierung mit LLM (Ollama)
 
@@ -96,8 +117,8 @@ SCHRITT 5 — sovereignty-mask.sh unmask → stellt reale Daten wieder her
 
 **Garantien:**
 - Zuordnungstabelle lokal (N4, nie im git)
-- 95+ gemappte Entitäten pro Projekt über GLOSSARY-MASK.md
-- Pools mit 32 Personen, 12 Unternehmen, 16 fiktiven Systemen
+- Entidades del proyecto cargadas de GLOSSARY-MASK.md (configurable)
+- Pools de nombres ficticios para personas, empresas y sistemas (configurables)
 - Jede Mask/Unmask-Operation im Audit-Log erfasst
 - Konsistenz: dieselbe Entität wird immer auf dieselbe fiktive abgebildet
 
@@ -161,14 +182,19 @@ netstat -an | grep 11434
 
 Jede Komponente ist eine menschenlesbare Klartextdatei:
 
-| Komponente | Datei | Zeilen |
-|-----------|-------|--------|
-| regex-Eingangskontrolle | `.claude/hooks/data-sovereignty-gate.sh` | 147 |
-| LLM-Klassifizierer | `scripts/ollama-classify.sh` | 99 |
-| Nachträgliche Überprüfung | `.claude/hooks/data-sovereignty-audit.sh` | 73 |
-| Maskierer | `scripts/sovereignty-mask.py` | ~180 |
-| Git Pre-Commit | `scripts/pre-commit-sovereignty.sh` | 72 |
-| Domänregel | `.claude/rules/domain/data-sovereignty.md` | 95 |
+| Komponente | Datei | Beschreibung |
+|-----------|-------|--------------|
+| Vereinheitlichter Daemon | `scripts/savia-shield-daemon.py` | Scan/Mask/Unmask/Health auf localhost:8444 |
+| API-Proxy | `scripts/savia-shield-proxy.py` | Fängt Claude-Prompts ab, maskiert/demaskiert |
+| NER-Daemon | `scripts/shield-ner-daemon.py` | Persistentes Presidio+spaCy im RAM (~100ms) |
+| Gate-Hook | `.claude/hooks/data-sovereignty-gate.sh` | PreToolUse: Daemon-first, Fallback-Regex |
+| Audit-Hook | `.claude/hooks/data-sovereignty-audit.sh` | PostToolUse async: erneuter Scan der vollständigen Datei |
+| LLM-Klassifizierer | `scripts/ollama-classify.sh` | Schicht 2 Ollama (Fallback bei ausgefallem Daemon) |
+| Maskierer | `scripts/sovereignty-mask.py` | Schicht 4 reversibles Mask/Unmask |
+| Git Pre-Commit | `scripts/pre-commit-sovereignty.sh` | Scan gestagter Dateien vor dem Commit |
+| Setup | `scripts/savia-shield-setup.sh` | Installer: Deps, Modelle, Token, Daemons |
+| Force-Push-Guard | `.claude/hooks/block-force-push.sh` | Blockiert Force-Push, Push auf main, Amend |
+| Domänregel | `.claude/rules/domain/data-sovereignty.md` | Architektur und Richtlinien |
 
 **Audit-Logs:**
 - `output/data-sovereignty-audit.jsonl` — Entscheidungen der Schichten 1–3
@@ -177,61 +203,22 @@ Jede Komponente ist eine menschenlesbare Klartextdatei:
 
 ---
 
-## Validierung
+## Qualität und Tests
 
-- **51 automatisierte Tests** (BATS) — Kernfunktionen + Randfälle + Fixes + Mocks
-- **3 unabhängige Audits** — Red Team, Vertraulichkeit, Code Review
-- **24 gefundene Schwachstellen — 24 behoben, 0 offen**
-- **0 verbleibende Einschränkungen** — alle technisch behoben
-- **Sicherheitsbewertung: 100/100**
-- **Vollständiges Mapping DSGVO/ISO 27001/EU AI Act**
+- Automatisierte Testsuite (BATS) mit Abdeckung von Kernfunktionen, Randfällen und Mocks
+- Unabhängige Sicherheitsaudits (Red Team, Vertraulichkeit, Code Review)
+- Mapping zu Compliance-Frameworks (DSGVO, ISO 27001, EU AI Act)
 
 ---
 
-## Technische Einschränkungen und deren Mitigation
+## Erweiterte Erkennungsfähigkeiten
 
-### base64 und Datenkodierung
-
-Savia Shield dekodiert automatisch base64-Blobs (bis zu 20 Blobs mit
-maximal 200 Zeichen) und scannt den dekodierten Inhalt erneut. Enthält der
-dekodierte Blob eine Zugangsinformation oder interne IP, wird blockiert.
-
-### Unicode und Homoglyphen
-
-Vor der Anwendung von regex wird der Inhalt mit Unicode NFKC normalisiert.
-Dabei werden Fullwidth-Zeichen und andere Varianten in kanonisches ASCII
-konvertiert. Nach der Normalisierung werden Fullwidth-Ziffern in ASCII-
-Ziffern umgewandelt, sodass regex sie korrekt erkennt.
-
-### Aufgeteilte Schreibvorgänge (split-write)
-
-Cross-Write-Defense: Wird in eine öffentliche Datei geschrieben, die
-bereits auf dem Datenträger existiert, liest Savia Shield den vorhandenen
-Inhalt und kombiniert ihn mit dem neuen Inhalt. Die regex-Muster werden
-auf den kombinierten Text angewendet und erkennen Muster, die erst durch
-das Zusammenfügen beider Schreibvorgänge entstehen.
-
-### Konversationeller Inhalt (Prompts an den KI-Assistenten)
-
-Schicht 4 (reversibles Masking) erlaubt es, Text zu maskieren BEVOR er
-in den Chat eingefügt wird. Der NER-Hook scannt Dateien, die der Assistent
-liest. Schulung: Benutzer referenzieren Dateien über ihren Pfad statt den
-Inhalt zu kopieren. Verbleibende Einschränkung: Es gibt keine technische
-Abfangung von Text, den der Benutzer direkt in den Prompt eingibt — dies
-erfordert Integration auf Protokollebene (zukünftige Verbesserung).
-
-### Prompt-Injection im lokalen Klassifizierer
-
-Dreifache Verteidigung: (1) Trennzeichen [BEGIN/END DATA], (2) Sandwich-
-Defense mit nach den Daten wiederholter Anweisung, (3) strenge Output-
-Validierung (ungültige Antwort = automatisch CONFIDENTIAL). Temperature=0
-und num_predict=5 begrenzen die Angriffsfläche.
-
-### NER-Genauigkeit im Spanischen und Englischen
-
-Dualer ES+EN-Scan: NER führt die Analyse in beiden Sprachen durch und
-kombiniert die Ergebnisse. GLOSSARY-MASK.md lädt projektspezifische
-Entitäten als Deny-List (Score 1.0, garantierte Erkennung).
+- **Base64**: dekodiert verdächtige Blobs und scannt den dekodierten Inhalt erneut
+- **Unicode NFKC**: normalisiert Fullwidth-Zeichen und Varianten vor der Regex-Anwendung
+- **Cross-write**: kombiniert vorhandenen Inhalt auf dem Datenträger mit neuem Inhalt, um über Schreibvorgänge aufgeteilte Muster zu erkennen
+- **API-Proxy**: fängt alle ausgehenden Prompts ab und maskiert Entitäten automatisch
+- **Zweisprachiges NER**: kombinierte Analyse auf Spanisch und Englisch, mit projektspezifischer Deny-List
+- **Anti-Injection**: dreifache Verteidigung im lokalen Klassifizierer (Trennzeichen, Sandwich, strenge Validierung)
 
 ---
 
@@ -263,3 +250,18 @@ Entitäten als Deny-List (Score 1.0, garantierte Erkennung).
 bash scripts/savia-shield-setup.sh
 export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
 ```
+
+Der Installer:
+1. Prüft Abhängigkeiten (python3, jq, ollama, presidio, spacy)
+2. Lädt benötigte Modelle herunter (qwen2.5:7b, es_core_news_md)
+3. Erzeugt Authentifizierungstoken (`~/.savia/shield-token`)
+4. Startet `savia-shield-daemon.py` auf localhost:8444 (Scan/Mask/Unmask)
+5. Startet `savia-shield-proxy.py` auf localhost:8443 (API-Proxy)
+6. Startet `shield-ner-daemon.py` (persistenter NER im RAM)
+
+Nach der Ausführung läuft alle Kommunikation mit der API über den Proxy,
+der sensible Entitäten automatisch maskiert.
+
+**Ohne Daemon:** Die Gate- und Audit-Hooks funktionieren weiterhin im
+Fallback-Modus (Regex + NFKC + base64 + Cross-Write). Claude Code wird
+nie durch einen fehlenden Daemon blockiert.
