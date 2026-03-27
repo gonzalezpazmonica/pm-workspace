@@ -49,7 +49,11 @@ g4() {
   echo "0 behind"
 }
 g5() {
-  local hi; hi=$(git diff origin/main..HEAD --name-only 2>/dev/null | grep -E '^(\.claude/(rules|hooks|agents|skills|settings)|scripts/|docs/|CLAUDE\.md)' || true)
+  local all; all=$(git diff origin/main..HEAD --name-only 2>/dev/null) || true
+  # Docs-only PRs (all .md files) are exempt, matching PR Guardian Gate 8
+  local non_md; non_md=$(echo "$all" | grep -vE '\.md$' | grep -v '^$' || true)
+  [[ -z "$non_md" ]] && echo "skipped (docs-only)" && return
+  local hi; hi=$(echo "$all" | grep -E '^(\.claude/(rules|hooks|agents|skills|settings)|scripts/|CLAUDE\.md)' || true)
   [[ -z "$hi" ]] && echo "skipped" && return
   local lv; lv=$(grep -oP '## \[\K[0-9.]+' CHANGELOG.md 2>/dev/null | head -1)
   local mv; mv=$(git show origin/main:CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1) || true

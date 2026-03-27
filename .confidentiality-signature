@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5fab3e613d09d308068612f27a3c47f0162a2fd3821164497da6b4ac7665b70a
-timestamp=2026-03-27T17:28:08Z
-branch=feature/pr-plan
-head_commit=18c6b46
-signature=767e35a5957b90298e7917bd4f715779dad085cfe3ebe0a557f8319b69320508
+diff_hash=e9cf4c878a615b0ea1766a775329603bca368479df4f1dc36e8a7414f280b050
+timestamp=2026-03-27T18:13:20Z
+branch=fix/pr-plan-docs-exempt
+head_commit=861b2b0
+signature=b1c99c882b1c0e2ee05c3e8b131b0d6eb5cedd0ebb9bb26c286c3c06d59a198c
