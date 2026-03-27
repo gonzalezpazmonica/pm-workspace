@@ -61,7 +61,10 @@ g5() {
   [[ -z "$hi" ]] && echo "skipped" && return
   local lv; lv=$(grep -oP '## \[\K[0-9.]+' CHANGELOG.md 2>/dev/null | head -1)
   local mv; mv=$(git show origin/main:CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1) || true
-  [[ "$lv" == "$mv" ]] && echo "FAIL: CHANGELOG not updated (both $lv)" && return
+  [[ "$lv" == "$mv" ]] && { FAILED_FILE="CHANGELOG.md"; echo "FAIL: CHANGELOG not updated (both $lv)"; return; }
+  # Verify Era reference in latest entry (required by BATS test-changelog-integrity)
+  local era; era=$(sed -n "/## \[$lv\]/,/## \[/p" CHANGELOG.md | grep -ci 'era ' || true)
+  [[ "$era" -eq 0 ]] && { FAILED_FILE="CHANGELOG.md"; echo "FAIL: CHANGELOG v$lv missing Era reference (add 'Era NNN' to description)"; return; }
   echo "v$lv"
 }
 g6() {

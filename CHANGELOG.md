@@ -7,16 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.70.2] — 2026-03-27
 
-pr-plan feedback + push-pr.sh gh CLI fallback.
+pr-plan feedback + push-pr.sh gh CLI fallback (Era 157).
+
+### Added
+
+- **Sistema anti-atajo (G0)**: fallo registra fichero causa — no permite reintentar sin fix de causa raiz
+- **`/task-create`**: comando slash para añadir tareas al todo list
+- **`pr-plan-gates.sh`**: gates extraidos para mantener ficheros bajo 150 lineas
 
 ### Fixed
 
-- **`pr-plan.sh`**: progress feedback — cada gate muestra "..." antes de ejecutar + tiempo si >2s
-- **`push-pr.sh`**: usa `gh` CLI para crear PRs cuando no hay token en URL del remote
+- **`validate-ci-local.sh`**: checks en paralelo — de 525s a 120s (4x speedup)
+- **`pr-plan.sh`**: feedback "..." antes de cada gate + tiempo transcurrido
+- **`pr-plan.sh` G5**: verifica Era reference en entradas CHANGELOG
+- **`push-pr.sh`**: gh CLI para crear PRs + force-with-lease + --skip-ci + filtro commits firma
+- **`push-pr.sh`**: body auto-generado excluye commits "chore: sign"
 
 ## [3.70.1] — 2026-03-27
 
-pr-plan G5 fix: docs-only PRs exempt from CHANGELOG requirement.
+pr-plan G5 fix: docs-only PRs exempt from CHANGELOG requirement (Era 157).
 
 ### Fixed
 
@@ -25,7 +34,7 @@ pr-plan G5 fix: docs-only PRs exempt from CHANGELOG requirement.
 
 ## [3.70.0] — 2026-03-27
 
-PR pre-flight protocol: 10-gate checklist before push/PR.
+PR pre-flight protocol: 10-gate checklist before push/PR (Era 157).
 
 ### Added
 
@@ -35,7 +44,7 @@ PR pre-flight protocol: 10-gate checklist before push/PR.
 
 ## [3.69.0] — 2026-03-27
 
-Shield docs: arquitectura 5 capas, regla zero-project-leakage, CI fixes.
+Shield docs: arquitectura 5 capas, regla zero-project-leakage, CI fixes (Era 157).
 
 ### Added
 
@@ -55,7 +64,7 @@ Shield docs: arquitectura 5 capas, regla zero-project-leakage, CI fixes.
 
 ## [3.68.0] — 2026-03-27
 
-Savia Shield: rewrite completo de la capa de soberania de datos con arquitectura unificada.
+Savia Shield: rewrite completo de la capa de soberania de datos con arquitectura unificada (Era 157).
 
 ### Added
 

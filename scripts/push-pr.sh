@@ -77,7 +77,7 @@ fi
 
 # Auto-generate body (PR Guardian Gate 1 requires >200 chars)
 if [[ -z "$BODY" ]]; then
-  COMMITS=$(git log --oneline origin/main..HEAD | sed 's/^/- /')
+  COMMITS=$(git log --oneline origin/main..HEAD | grep -v "^[a-f0-9]* chore: sign" | sed 's/^/- /')
   FILES=$(git diff origin/main..HEAD --stat | tail -1 | grep -oP '[0-9]+' | head -1)
   BODY="## Summary
 ${TITLE}
