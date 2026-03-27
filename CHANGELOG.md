@@ -5,9 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.69.0] — 2026-03-27
+
+Shield docs: arquitectura 5 capas, regla zero-project-leakage, CI fixes.
+
+### Added
+
+- **`zero-project-leakage.md`**: regla que prohibe datos derivados de proyectos privados en docs publicos
+- **Capa 0 (proxy API)**: documentada como capa independiente en las 9 traducciones
+- **Gate fallback**: restauradas detecciones IP, SAS, base64, NFKC, cross-write, path traversal, Ollama Layer 2
+
+### Changed
+
+- **Shield docs (9 idiomas)**: arquitectura 5 capas, sin conteos de vulnerabilidades ni datos privados
+- **`data-sovereignty-gate.sh`**: regex corregido, audit log en fallback, Ollama L2
+- **`block-force-push.sh`**: eliminado bloqueo catch-all de push (solo force-push y main/master)
+
+### Fixed
+
+- **CI**: patrones de credenciales escapados en scripts Python, CHANGELOG, PII scan
+
 ## [3.68.0] — 2026-03-27
 
-Savia Shield v2: rewrite completo de la capa de soberania de datos con arquitectura unificada.
+Savia Shield: rewrite completo de la capa de soberania de datos con arquitectura unificada.
 
 ### Added
 
@@ -4725,6 +4745,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.68.0...v3.69.0
 [3.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.67.0...v3.68.0
 [3.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.66.0...v3.67.0
 [3.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.65.0...v3.66.0
