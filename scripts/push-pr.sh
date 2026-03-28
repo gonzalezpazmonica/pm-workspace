@@ -36,6 +36,20 @@ if ! $FROM_PR_PLAN && [[ ! -f ".pr-plan-ok" ]]; then
   exit 1
 fi
 
+# ── Step 0b: pr-plan staleness check ─────────────────────────────────────
+# If commits were added after pr-plan ran, G6 (BATS) may be stale.
+if ! $FROM_PR_PLAN && [[ -f ".pr-plan-ok" ]]; then
+  PLAN_TIME=$(stat -c %Y .pr-plan-ok 2>/dev/null || stat -f %m .pr-plan-ok 2>/dev/null || echo 0)
+  LAST_COMMIT_TIME=$(git log -1 --format=%ct 2>/dev/null || echo 0)
+  if [[ "$LAST_COMMIT_TIME" -gt "$PLAN_TIME" ]]; then
+    echo "⚠️  WARNING: New commits since /pr-plan ran." >&2
+    echo "   pr-plan gates (especially G6 BATS) may be stale." >&2
+    echo "   Strongly recommended: re-run /pr-plan to re-validate." >&2
+    echo "   Continuing in 5s... (Ctrl+C to abort)" >&2
+    sleep 5
+  fi
+fi
+
 # Detect repo from remote URL
 REPO=$(git remote get-url origin | sed -E 's|.*github\.com[:/]||;s|\.git$||')
 # Try: 1) token in remote URL, 2) gh CLI auth
