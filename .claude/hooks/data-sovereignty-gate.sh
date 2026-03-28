@@ -2,6 +2,9 @@
 # data-sovereignty-gate.sh — Savia Shield unified gate hook (-e omitted: grep returns 1)
 set -uo pipefail
 
+# Desactivar en entornos sin proyectos privados
+[[ "${SAVIA_SHIELD_ENABLED:-true}" == "false" ]] && exit 0
+
 SHIELD_PORT="${SAVIA_SHIELD_PORT:-8444}"
 SHIELD_URL="http://127.0.0.1:${SHIELD_PORT}"
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"

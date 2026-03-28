@@ -266,3 +266,34 @@ entitate sentikorrak automatikoki maskaratzen dituena.
 **Daemonik gabe:** gate eta auditoretza hook-ak fallback moduan
 funtzionatzen jarraitzen dute (regex + NFKC + base64 + cross-write).
 Claude Code ez da inoiz blokeatzen daemon faltagatik.
+
+---
+
+## Lehenetsitako egoera — Desgaituta
+
+Savia Shield **lehenetsita desgaituta** dago. Hook-ak instalatuta daude
+baina ez dira exekutatzen aktibatu arte. Honek beharrezkoa ez den
+latentzia saihesten du proiektu pribatuak ez dituzten makinetan.
+
+Aktibatu bezero-datuekin lan hasi aurretik.
+
+## Aktibatu eta desgaitu
+
+```bash
+# Slash komandoarekin (gomendatua)
+/savia-shield enable    # Aktibatu
+/savia-shield disable   # Desgaitu
+/savia-shield status    # Egoera eta instalazioa egiaztatu
+```
+
+Edo `.claude/settings.local.json` zuzenean editatuz:
+
+```json
+{
+  "env": {
+    "SAVIA_SHIELD_ENABLED": "true"
+  }
+}
+```
+
+Desgaitzeko, aldatu `"true"` `"false"`-ra.
