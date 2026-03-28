@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-03-23 | **Version:** v3.44.0 | **498 commands · 46 agents · 83 skills · 25 hooks · 40 test suites**
+**Updated:** 2026-03-28 | **Version:** v3.44.0 | **498 commands · 46 agents · 83 skills · 25 hooks · 40 test suites**
 
 Status: **Done** · **In progress** · **Planned** · **Proposed**
 
@@ -31,6 +31,24 @@ PM core, 16 language packs, context engineering, security, Savia persona, Compan
 ## In Progress
 
 ### SPEC-022 F2+F4: Semantic Compact + PR Context Loader (active)
+
+### Tier 0+: Context Engineering — DeepAgents (active, branch: feature/deepagents-improvements)
+
+Inspired by `langchain-ai/deepagents` investigation (2026-03-28). 8 specs generated.
+
+**Week 1 — HIGH priority (arrancando):**
+- **SPEC-138**: Token-aware compaction middleware — hook PostToolUse que lee `CLAUDE_CONTEXT_TOKENS_USED/MAX` y sugiere /compact por zonas (Verde/Gradual/Alerta/Crítica). Effort: 4-6h
+- **SPEC-139**: Async subagent launcher — `savia-spawn.sh` + async-tasks.jsonl + status polling. Habilita orchestration non-blocking. Effort: 3-4h
+
+**Week 2 — MEDIUM priority:**
+- **SPEC-140**: Progressive skill disclosure — `build-skill-manifest.sh` + `.claude/skill-manifests.json` + `/skill-read` command. 95% token reduction (28K → 1.3K tokens). Effort: 3-4h
+- **SPEC-141**: Tool-call healing — PreToolUse hook que valida `file_path`/`command` antes de ejecutar. Bloquea parámetros vacíos con diagnóstico claro. Effort: 2-3h
+- **SPEC-142**: Memory hygiene automation — `scripts/memory-hygiene.sh` en background SessionStart. Archiva >90 días, dedup, trunca. Effort: 2-3h
+- **SPEC-144**: Context-aware skill loading — `scripts/skill-loader.sh --task "..." --budget 800`. Keyword scoring + token budget greedy. Effort: 6-8h
+
+**LOW priority (propuestas/post-release):**
+- **SPEC-143**: Middleware intercept proposal — Feature request a Anthropic para `mode: "transform"` en hooks. No implementable hoy.
+- **SPEC-145**: Dependency graph visualization — Grafo Mermaid de dependencias skills↔hooks↔specs. Effort: 2-3h
 
 ### SaviaClaw Voice (paused — needs Jabra) · Web Phase 4 (paused) · Mobile v0.2 (paused)
 
@@ -86,4 +104,4 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ## Scoring: PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%
 
-## Sources: Eras 1-137 · SaviaClaw · Web · Engram · Supermemory · Nomad · LightRAG · Hooks Mastery · n8n-MCP · jato · strix · Graphiti · OpenMemory · A-Mem · CrewAI · DeepEval · Giskard · Continue · Backlog.md · Serena · Strands
+## Sources: Eras 1-137 · SaviaClaw · Web · Engram · Supermemory · Nomad · LightRAG · Hooks Mastery · n8n-MCP · jato · strix · Graphiti · OpenMemory · A-Mem · CrewAI · DeepEval · Giskard · Continue · Backlog.md · Serena · Strands · **DeepAgents (2026-03-28)**

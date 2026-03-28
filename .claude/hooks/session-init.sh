@@ -173,4 +173,18 @@ for item in "${ITEMS[@]}"; do
   CTX="$CTX\\n- $item"
 done
 
+# Regenerar manifesto si está desactualizado (skills más nuevos que el manifesto)
+MANIFEST=".claude/skill-manifests.json"
+if [[ ! -f "$MANIFEST" ]] || find .claude/skills -name "SKILL.md" -newer "$MANIFEST" | grep -q .; then
+  bash scripts/build-skill-manifest.sh >/dev/null 2>&1 &
+fi
+
+# Limpieza de auto-memory en background (SPEC-142)
+for mh_path in "$HOME/claude/scripts/memory-hygiene.sh" "./scripts/memory-hygiene.sh"; do
+  if [ -f "$mh_path" ]; then
+    bash "$mh_path" >/dev/null 2>&1 &
+    break
+  fi
+done
+
 printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$CTX"
