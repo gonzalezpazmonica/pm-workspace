@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a343aee45e893f58f4ec5631e1a6e1cf5f33d7f714e88dcb2de9fb8acdc4d549
-timestamp=2026-03-28T16:41:15Z
-branch=feature/pr-plan-enforcement
-head_commit=07b7c74
-signature=8919da95f7af2c56350b13dee0c4d65f0fe75ed3b9703c49ec6061b3b8a42daa
+diff_hash=9668db3613615cd8109974eaee2940fad147758842af6b072667e7207cc1ddeb
+timestamp=2026-03-28T18:27:47Z
+branch=feature/deepagents-improvements
+head_commit=cf984a4
+signature=49ffa5648cbcb89843c74b7ebc827911f2d275d18ccb958ff7c101f97730d284
