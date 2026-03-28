@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=50f4d5d5dfce0b4f52ce98af130416c805fdc1456225ca8d95f937a49837b400
-timestamp=2026-03-28T21:57:59Z
+timestamp=2026-03-28T21:58:02Z
 branch=feat/5-specs-clean
-head_commit=058ecdb
+head_commit=a87f139
 signature=9f38987fb2c538394f87bce0a70e8cd53bdd98e315dc7b38a3bfbc2ab65ed314
