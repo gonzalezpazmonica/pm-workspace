@@ -8,6 +8,7 @@ maxTurns: 20
 color: yellow
 max_context_tokens: 10000
 output_max_tokens: 1000
+token_budget: 13000
 ---
 
 # Drift Auditor — Agente de Convergencia Repo

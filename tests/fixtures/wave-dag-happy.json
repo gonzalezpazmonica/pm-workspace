@@ -1,0 +1,8 @@
+{
+  "max_parallel": 5,
+  "tasks": [
+    {"id": "compile", "command": "echo compiled", "depends_on": [], "expected_files": [], "timeout_seconds": 30},
+    {"id": "test-unit", "command": "echo tested", "depends_on": ["compile"], "expected_files": [], "timeout_seconds": 30},
+    {"id": "test-integration", "command": "echo integrated", "depends_on": ["compile"], "expected_files": [], "timeout_seconds": 30}
+  ]
+}

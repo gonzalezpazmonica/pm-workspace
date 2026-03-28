@@ -1,0 +1,26 @@
+System.InvalidOperationException: Something went wrong
+   at Namespace.Class0.Method0(String arg) in /src/File0.cs:line 1
+   at Namespace.Class1.Method1(String arg) in /src/File1.cs:line 11
+   at Namespace.Class2.Method2(String arg) in /src/File2.cs:line 21
+   at Namespace.Class3.Method3(String arg) in /src/File3.cs:line 31
+   at Namespace.Class4.Method4(String arg) in /src/File4.cs:line 41
+   at Namespace.Class5.Method5(String arg) in /src/File5.cs:line 51
+   at Namespace.Class6.Method6(String arg) in /src/File6.cs:line 61
+   at Namespace.Class7.Method7(String arg) in /src/File7.cs:line 71
+   at Namespace.Class8.Method8(String arg) in /src/File8.cs:line 81
+   at Namespace.Class9.Method9(String arg) in /src/File9.cs:line 91
+   at Namespace.Class10.Method10(String arg) in /src/File10.cs:line 101
+   at Namespace.Class11.Method11(String arg) in /src/File11.cs:line 111
+   at Namespace.Class12.Method12(String arg) in /src/File12.cs:line 121
+   at Namespace.Class13.Method13(String arg) in /src/File13.cs:line 131
+   at Namespace.Class14.Method14(String arg) in /src/File14.cs:line 141
+   at Namespace.Class15.Method15(String arg) in /src/File15.cs:line 151
+   at Namespace.Class16.Method16(String arg) in /src/File16.cs:line 161
+   at Namespace.Class17.Method17(String arg) in /src/File17.cs:line 171
+   at Namespace.Class18.Method18(String arg) in /src/File18.cs:line 181
+   at Namespace.Class19.Method19(String arg) in /src/File19.cs:line 191
+   at Namespace.Class20.Method20(String arg) in /src/File20.cs:line 201
+   at Namespace.Class21.Method21(String arg) in /src/File21.cs:line 211
+   at Namespace.Class22.Method22(String arg) in /src/File22.cs:line 221
+   at Namespace.Class23.Method23(String arg) in /src/File23.cs:line 231
+   at Namespace.Class24.Method24(String arg) in /src/File24.cs:line 241

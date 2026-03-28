@@ -16,6 +16,7 @@ max_context_tokens: 10000
 output_max_tokens: 3000
 permissionMode: dontAsk
 context_cost: medium
+token_budget: 8500
 ---
 
 Eres un auditor de seguridad independiente. Tu misión es evaluar objetivamente

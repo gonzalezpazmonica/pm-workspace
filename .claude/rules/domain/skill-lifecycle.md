@@ -50,8 +50,14 @@ Proceso:
 - Rating promedio por maturity level
 - Skills archivados vs activos
 
+## Data Pipeline (SPEC-SKILL-FEEDBACK)
+
+Invocaciones en `data/skill-invocations.jsonl` via `scripts/skill-feedback-log.sh`.
+Efectividad calculada por `scripts/skill-feedback-rank.sh`. Ver con `/skill-rank`.
+
 ## Integracion
 
+- **skill-feedback**: datos reales de invocaciones alimentan maturity progression
 - **skill-auto-activation**: prioriza skills `stable` sobre `experimental`
 - **skill-optimize**: prioriza skills `beta` con ratings bajos
 - **hub-audit**: detecta skills candidatos a archival

@@ -31,6 +31,10 @@ Formato obligatorio para resultados extensos:
 💡 Siguiente paso: /project-release-plan --project proyecto
 ```
 
+## 1b. Output Compression (SPEC-OUTPUT-COMPRESS)
+
+Output bash >30 lineas: `scripts/output-compress.sh` (7 filtros). Hook async. 60-90% reduccion.
+
 ## 2. Uso de subagentes para tareas pesadas
 
 Cuando un comando necesita análisis profundo (leer muchos ficheros, comparar
@@ -142,7 +146,5 @@ Cuando un comando referencia un fichero con `@`, Claude lo carga en contexto.
 Para evitar cargas excesivas:
 
 - Máximo 3 ficheros `@` por comando (los imprescindibles)
-- Skills: cargar solo el SKILL.md, no las references (cargar references
-  solo si el paso actual las necesita específicamente)
-- Si un comando necesita datos de otro comando anterior, leer del fichero
-  de output, no repetir la ejecución
+- Skills: cargar solo SKILL.md, no references (cargar solo si el paso lo requiere)
+- Si necesita datos de otro comando anterior, leer del fichero de output

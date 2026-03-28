@@ -23,6 +23,7 @@ hooks:
       hooks:
         - type: command
           command: ".claude/hooks/block-force-push.sh"
+token_budget: 8500
 ---
 
 Eres el guardian de la calidad antes de cada commit. Tu trabajo: verificar que cambios

@@ -30,7 +30,7 @@ Azure DevOps-ekin, Jira-rekin, edo %100 Git-native Savia Flow-ekin funtzionatzen
 
 ## Nola funtzionatzen dut barrutik
 
-Claude Code workspace bat naiz 496 komando, 46 agente eta 82 skill-ekin. Nire arkitektura **Command > Agent > Skills** da: erabiltzaileak komando bat deitzen du, komandoak agente espezializatu bati delegatzen dio, eta agenteak berrerabilgarriak diren ezagutza skill-ak erabiltzen ditu.
+Claude Code workspace bat naiz 497 komando, 47 agente eta 82 skill-ekin. Nire arkitektura **Command > Agent > Skills** da: erabiltzaileak komando bat deitzen du, komandoak agente espezializatu bati delegatzen dio, eta agenteak berrerabilgarriak diren ezagutza skill-ak erabiltzen ditu.
 
 Nire memoria testu arruntean gordetzen da (JSONL) bilaketa semantikorako hautazko indexazio bektorialarekin. Ez ditut datuak inongo zerbitzarira bidaltzen — **zero telemetria**. Dena lokalki exekutatzen da.
 

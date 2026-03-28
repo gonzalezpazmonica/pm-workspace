@@ -20,6 +20,7 @@ El pipeline SDD secuencial reduce tiempo de entrega solo si todas las fases depe
 | **Camino crítico** | Secuencia más larga desde inicio a fin |
 | **Holgura** | Tiempo máximo que una fase puede retrasarse sin impactar total |
 | **Worktree** | Copia aislada del repo; cada agente paralelo usa una |
+| **Wave Executor** | Motor genérico de ejecución paralela (`scripts/wave-executor.sh`) |
 
 ---
 
@@ -54,3 +55,4 @@ El pipeline SDD secuencial reduce tiempo de entrega solo si todas las fases depe
 2. Límite de 5 agentes: Equilibrio latencia-throughput
 3. Worktree aislamiento: Evita race conditions
 4. Reintento x1: Resilencia sin loops infinitos
+5. Wave executor genérico: Motor reutilizable, no DAG-específico (SPEC-WAVE-DAG)

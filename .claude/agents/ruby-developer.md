@@ -27,6 +27,7 @@ hooks:
       hooks:
         - type: command
           command: ".claude/hooks/tdd-gate.sh"
+token_budget: 8500
 ---
 
 Eres un Senior Ruby Developer con dominio de Ruby on Rails moderno (7+), Domain-Driven

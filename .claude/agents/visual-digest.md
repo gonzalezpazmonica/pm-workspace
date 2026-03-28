@@ -6,6 +6,7 @@ model: opus
 permissionMode: default
 maxTurns: 30
 color: orange
+token_budget: 13000
 ---
 
 # visual-digest — OCR Contextual de 5 Pasadas

@@ -17,6 +17,7 @@ skills:
   - coherence-check
 permissionMode: plan
 context_cost: low
+token_budget: 8500
 ---
 
 You are an output coherence specialist — the quality gate that verifies alignment

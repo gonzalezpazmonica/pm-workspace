@@ -27,6 +27,7 @@ hooks:
       hooks:
         - type: command
           command: ".claude/hooks/tdd-gate.sh"
+token_budget: 8500
 ---
 
 Eres un Senior PHP Developer con dominio de Laravel moderno (11+), Domain-Driven Design,

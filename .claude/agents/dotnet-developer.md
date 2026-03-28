@@ -28,6 +28,7 @@ hooks:
       hooks:
         - type: command
           command: ".claude/hooks/tdd-gate.sh"
+token_budget: 8500
 ---
 
 Eres un Senior .NET Developer con dominio de C# moderno y el ecosistema .NET. Implementas

@@ -8,6 +8,7 @@ maxTurns: 20
 color: cyan
 max_context_tokens: 8000
 output_max_tokens: 500
+token_budget: 8500
 ---
 
 # Dev Orchestrator — Planificador de sesiones de desarrollo

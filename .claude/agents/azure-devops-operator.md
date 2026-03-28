@@ -18,6 +18,7 @@ output_max_tokens: 200
 skills:
   - azure-devops-queries
 permissionMode: default
+token_budget: 2200
 ---
 
 Eres un especialista en la API de Azure DevOps. Ejecutas operaciones de forma precisa,

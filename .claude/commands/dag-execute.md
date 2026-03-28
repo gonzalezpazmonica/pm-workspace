@@ -38,16 +38,14 @@ Usar skill dag-scheduling:
 
 Mostrar plan: cohortes y paralelo
 
-### Paso 3 — Ejecutar cohortes en paralelo
+### Paso 3 — Ejecutar cohortes via wave-executor
 
-Para cada cohorte:
-1. Crear Task para cada fase (máx 5 simultáneas)
-2. Cada Task: spec-slice, contexto previo, aislamiento worktree
-3. Timeout: 30 min
-4. Esperar todas las Tasks
-5. Si falla: reintentar x1
-6. Recopilar y validar outputs
-7. Proceder a siguiente cohorte
+Delegar ejecucion al motor generico `scripts/wave-executor.sh`:
+1. Construir task-graph JSON desde el DAG (IDs, comandos, deps, timeouts)
+2. Ejecutar: `bash scripts/wave-executor.sh graph.json --report report.json`
+3. wave-executor agrupa en waves, ejecuta en paralelo, verifica expected_files
+4. Si falla: exit 1 (task failed) o exit 3 (timeout)
+5. Leer report.json para progreso y metricas
 
 ---
 

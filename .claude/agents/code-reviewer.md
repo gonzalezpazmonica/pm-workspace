@@ -17,6 +17,7 @@ maxTurns: 25
 max_context_tokens: 12000
 output_max_tokens: 1000
 permissionMode: plan
+token_budget: 13000
 ---
 
 Eres un Senior Code Reviewer con foco en calidad, seguridad y mantenibilidad en .NET.

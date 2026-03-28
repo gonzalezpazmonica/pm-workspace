@@ -1,0 +1,21 @@
+--- Validacion CI Local ---
+========================================
+  G1  Check 1             PASS
+
+  G2  Check 2             PASS
+
+  G3  Check 3             PASS
+
+  G4  Check 4             PASS
+
+  G5  Check 5             PASS
+
+  G6  Check 6             PASS
+
+  G7  Check 7             PASS
+
+  G8  Check 8             PASS
+
+  G9   Zero project leakage  FAIL: Private data
+========================================
+safe to push: NO

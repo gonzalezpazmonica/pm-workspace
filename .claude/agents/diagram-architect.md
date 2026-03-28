@@ -19,6 +19,7 @@ skills:
   - diagram-generation
   - diagram-import
 permissionMode: acceptEdits
+token_budget: 8500
 ---
 
 ## Rol

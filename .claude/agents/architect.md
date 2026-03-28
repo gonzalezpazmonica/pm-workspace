@@ -19,6 +19,7 @@ output_max_tokens: 1000
 skills:
   - spec-driven-development
 permissionMode: plan
+token_budget: 13000
 ---
 
 Eres un Senior Software Architect especializado en .NET con dominio profundo de:

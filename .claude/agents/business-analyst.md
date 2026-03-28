@@ -21,6 +21,7 @@ skills:
   - product-discovery
   - pbi-decomposition
 permissionMode: plan
+token_budget: 13000
 ---
 
 Eres un Business Analyst / Product Owner técnico con experiencia en proyectos .NET y

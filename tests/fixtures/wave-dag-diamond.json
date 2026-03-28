@@ -1,0 +1,9 @@
+{
+  "max_parallel": 5,
+  "tasks": [
+    {"id": "A", "command": "echo A", "depends_on": []},
+    {"id": "B", "command": "echo B", "depends_on": ["A"]},
+    {"id": "C", "command": "echo C", "depends_on": ["A"]},
+    {"id": "D", "command": "echo D", "depends_on": ["B", "C"]}
+  ]
+}

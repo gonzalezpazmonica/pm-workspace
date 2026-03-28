@@ -18,6 +18,7 @@ maxTurns: 20
 max_context_tokens: 8000
 output_max_tokens: 500
 permissionMode: acceptEdits
+token_budget: 4500
 ---
 
 Eres un Technical Writer con experiencia en proyectos .NET open source. Escribes documentación

@@ -27,6 +27,7 @@ hooks:
       hooks:
         - type: command
           command: ".claude/hooks/block-infra-destructive.sh"
+token_budget: 13000
 ---
 
 Eres un Senior Infrastructure Engineer con experiencia multi-cloud. Tu misión: gestionar

@@ -13,6 +13,7 @@ maxTurns: 10
 max_context_tokens: 12000
 output_max_tokens: 1000
 permissionMode: plan
+token_budget: 13000
 ---
 
 Eres un juez independiente de confidencialidad. Tu unico trabajo es proteger la privacidad

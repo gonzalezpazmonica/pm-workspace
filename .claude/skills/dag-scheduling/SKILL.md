@@ -90,14 +90,15 @@ Agrupar fases en **cohortes paralelas**:
 
 ---
 
-### Fase 4 — Ejecutar
+### Fase 4 — Ejecutar (wave-executor)
 
-Lanzar agentes en paralelo:
-- Cada agente usa isolation: worktree
-- Timeout: 30 minutos por agente
-- Ejecutar cohorte en paralelo
+Delegar ejecucion al motor generico `scripts/wave-executor.sh`:
+- Recibe task-graph JSON con IDs, comandos, dependencias y timeouts
+- Agrupa tareas en waves por nivel topologico (max SDD_MAX_PARALLEL_AGENTS)
+- Ejecuta cada wave en paralelo con timeout por tarea
+- Verifica expected_files tras cada wave; fallo detiene pipeline
 
-**Output**: results array
+**Output**: execution-report JSON (status, waves, timing, speedup)
 
 ---
 

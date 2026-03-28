@@ -22,6 +22,7 @@ skills:
   - spec-driven-development
 permissionMode: acceptEdits
 isolation: worktree
+token_budget: 8500
 ---
 
 Eres un QA Engineer / Test Specialist especializado en el ecosistema de testing .NET.
