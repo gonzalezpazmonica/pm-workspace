@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.72.0] — 2026-03-28
+
+feat: deepagents context engineering — SPEC-138/140/141/142/144 implementados (Era 160).
+
+### Added
+
+- **SPEC-138 Token-tracker middleware**: `.claude/hooks/token-tracker-middleware.sh` — PostToolUse hook async que monitoriza `CLAUDE_CONTEXT_TOKENS_USED/MAX` y emite alertas por zonas (verde <50%, gradual 50-70%, alerta 70-85%, crítica 85%+); activa `scripts/auto-compact.sh` en background al superar el 85%
+- **SPEC-140 Progressive skill disclosure**: `scripts/build-skill-manifest.sh` genera `.claude/skill-manifests.json` con name/description/path/tokens_est de los 83 skills; `.claude/commands/skill-read.md` carga el SKILL.md completo bajo demanda (95% reducción de tokens en carga inicial)
+- **SPEC-141 Tool-call healing**: `.claude/hooks/agent-tool-call-validate.sh` — PreToolUse hook que bloquea `file_path` vacío en Edit/Write/Read y `command` vacío en Bash con mensaje de diagnóstico; 8/8 tests
+- **SPEC-142 Memory hygiene**: `scripts/memory-hygiene.sh` archiva entradas >90 días, deduplica MEMORY.md, trunca a 200 líneas; soporte `DRY_RUN=true`; 9/9 tests
+- **SPEC-144 Context-aware skill loader**: `scripts/skill-loader.sh --task "..." --budget N` — keyword scoring + greedy token-budget packing; selecciona skills relevantes según la tarea sin cargar todos
+- **`scripts/auto-compact.sh`**: companion de token-tracker; guarda snapshot JSON en `output/context-snapshots/` al compactar
+- **Tests nuevos**: `tests/scripts/{test-skill-manifest,test-skill-loader,test-memory-hygiene}.bats`, `tests/hooks/{test-token-tracker-middleware,test-tool-call-validate}.bats` — 45 tests añadidos
+
+### Changed
+
+- **`.claude/settings.json`**: añadidos `agent-tool-call-validate.sh` (PreToolUse) y `token-tracker-middleware.sh` (PostToolUse async)
+- **`scripts/build-skill-manifest.sh`**: acepta segundo argumento opcional para output path (aislamiento en tests)
+- **`docs/ROADMAP.md`**: sección Tier 0+ DeepAgents con 8 SPECs y estado de implementación
+
 ## [3.71.0] — 2026-03-28
 
 feat: sistema de perfiles de hook SAVIA_HOOK_PROFILE (minimal/standard/strict/ci) — 29 hooks clasificados en tiers (Era 159).
@@ -4832,6 +4852,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.71.0...v3.72.0
 [3.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.4...v3.71.0
 [3.70.4]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.3...v3.70.4
 [3.70.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.2...v3.70.3
