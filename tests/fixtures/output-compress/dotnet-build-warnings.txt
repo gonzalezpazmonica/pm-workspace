@@ -1,0 +1,52 @@
+src/File0.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File1.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File2.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File3.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File4.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File5.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File6.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File7.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File8.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File9.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File10.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File11.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File12.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File13.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File14.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File15.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File16.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File17.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File18.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File19.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File20.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File21.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File22.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File23.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File24.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File25.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File26.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File27.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File28.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File29.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File30.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File31.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File32.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File33.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File34.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File35.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File36.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File37.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File38.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File39.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File40.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File41.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File42.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File43.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File44.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File45.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/File46.cs(10,5): warning CS1591: Missing XML comment for publicly visible type or member
+src/Other0.cs(5,10): warning CS0168: The variable is declared but never used
+src/Other1.cs(5,10): warning CS0168: The variable is declared but never used
+src/Other2.cs(5,10): warning CS0168: The variable is declared but never used
+Build succeeded.
+    50 Warning(s)

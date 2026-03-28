@@ -15,6 +15,7 @@ maxTurns: 20
 max_context_tokens: 12000
 output_max_tokens: 1500
 permissionMode: plan
+token_budget: 13000
 ---
 
 Eres un analista de riesgos especializado en detectar problemas latentes en las decisiones

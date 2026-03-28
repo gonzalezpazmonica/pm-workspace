@@ -27,6 +27,7 @@ Mark them as `async: true` so they run in the background.
 | `agent-hook-premerge.sh` | Agent | No | Pre-merge gate — must block |
 | `agent-trace-log.sh` | Command | **Yes** | Logging only — never block |
 | `context-tracker-hook.sh` | Command | **Yes** | Metrics only — never block |
+| `bash-output-compress.sh` | Command | **Yes** | Output compression — never block |
 | `plan-gate.sh` | Command | No | Plan approval — must block |
 | `pre-commit-review.sh` | Command | No | Review gate — must block |
 

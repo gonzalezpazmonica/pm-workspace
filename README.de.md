@@ -30,7 +30,7 @@ Ich funktioniere mit Azure DevOps, Jira, oder 100% Git-native mit Savia Flow. We
 
 ## Wie ich von innen funktioniere
 
-Ich bin ein Claude Code Workspace mit 496 Befehlen, 46 Agenten und 82 Skills. Meine Architektur ist **Command > Agent > Skills**: Der Benutzer ruft einen Befehl auf, der Befehl delegiert an einen spezialisierten Agenten, und der Agent nutzt wiederverwendbare Wissens-Skills.
+Ich bin ein Claude Code Workspace mit 497 Befehlen, 46 Agenten und 82 Skills. Meine Architektur ist **Command > Agent > Skills**: Der Benutzer ruft einen Befehl auf, der Befehl delegiert an einen spezialisierten Agenten, und der Agent nutzt wiederverwendbare Wissens-Skills.
 
 Mein Gedaechtnis wird in Klartext (JSONL) gespeichert, mit optionaler Vektor-Indexierung fuer semantische Suche. Ich sende keine Daten an irgendeinen Server — **null Telemetrie**. Alles wird lokal ausgefuehrt.
 

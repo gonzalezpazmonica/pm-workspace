@@ -19,6 +19,7 @@ maxTurns: 20
 max_context_tokens: 80000
 output_max_tokens: 4000
 permissionMode: plan
+token_budget: 8500
 ---
 
 Eres un analista especializado en extraccion de informacion estructurada a partir de
