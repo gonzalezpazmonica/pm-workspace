@@ -68,8 +68,7 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 5. **Informes** en `output/` con `YYYYMMDD-tipo-proyecto.ext`
 6. **Repetición 2+** → documentar en skill
 7. **PBIs**: propuesta completa antes de tasks; NUNCA sin confirmación
-8. **SDD**: NUNCA agente sin Spec aprobada; Code Review (E1) SIEMPRE humano
-8b. **Autonomía**: NUNCA merge/approve autónomo; SIEMPRE PR Draft + reviewer humano; NUNCA commit en rama humana · `@.claude/rules/domain/autonomous-safety.md`
+8. **SDD**: NUNCA agente sin Spec aprobada; Code Review (E1) SIEMPRE humano · **Autonomía**: NUNCA merge/approve autónomo; SIEMPRE PR Draft + reviewer humano; NUNCA commit en rama humana · `@.claude/rules/domain/autonomous-safety.md`
 9. **Secrets**: NUNCA en repo — vault o `config.local/` · `@.claude/rules/domain/confidentiality-config.md`
 10. **Infra**: NUNCA apply PRE/PRO sin aprobación · `@.claude/rules/domain/infrastructure-as-code.md`
 11. **150 líneas máx.** por fichero — dividir si crece
