@@ -2,6 +2,7 @@
 # test-data-sovereignty-extended.bats — Edge cases, bypass attempts, stress tests
 
 setup() {
+  export SAVIA_SHIELD_ENABLED=true
   export CLAUDE_PROJECT_DIR="$BATS_TEST_TMPDIR/workspace"
   mkdir -p "$CLAUDE_PROJECT_DIR/output"
   mkdir -p "$CLAUDE_PROJECT_DIR/projects/test-project"

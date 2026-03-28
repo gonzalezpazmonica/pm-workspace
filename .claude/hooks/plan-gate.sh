@@ -1,9 +1,9 @@
 #!/bin/bash
+set -uo pipefail
 # plan-gate.sh — Warning si implementación sin spec aprobada
 # ─────────────────────────────────────────────────────────────
 # PreToolUse hook (Edit|Write) que advierte si se edita código sin spec
 # Profile tier: standard
-set -uo pipefail
 
 LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
 if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then

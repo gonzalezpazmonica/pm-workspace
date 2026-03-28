@@ -6,6 +6,7 @@ setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   HOOK="$PWD/.claude/hooks/agent-dispatch-validate.sh"
   export CLAUDE_PROJECT_DIR="$PWD"
+  export SAVIA_HOOK_PROFILE=strict
 }
 
 run_hook() {
