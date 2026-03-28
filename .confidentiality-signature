@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9668db3613615cd8109974eaee2940fad147758842af6b072667e7207cc1ddeb
-timestamp=2026-03-28T18:30:07Z
+diff_hash=e848a5731ce2e1baa9aa0941d7cbaa8a4978c0bd978e55fd080fa5d27305837c
+timestamp=2026-03-28T19:06:51Z
 branch=feature/deepagents-improvements
-head_commit=ef8c8cd
-signature=49ffa5648cbcb89843c74b7ebc827911f2d275d18ccb958ff7c101f97730d284
+head_commit=cc3b619
+signature=f9a6b460b4ffc9dfc838c478edbe5313da6816d119cc90647923a07f83044d77
