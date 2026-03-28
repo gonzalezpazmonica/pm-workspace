@@ -3,6 +3,7 @@
 # Valida las 3 capas: regex, Ollama, auditoria
 
 setup() {
+  # Force shield enabled for tests (env may have SAVIA_SHIELD_ENABLED=false from settings.local.json)
   export SAVIA_SHIELD_ENABLED=true
   export CLAUDE_PROJECT_DIR="$BATS_TEST_TMPDIR/workspace"
   mkdir -p "$CLAUDE_PROJECT_DIR/output"
