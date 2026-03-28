@@ -265,3 +265,34 @@ emmascara entitats sensibles automàticament.
 **Sense daemon:** els hooks de gate i auditoria segueixen funcionant en
 mode fallback (regex + NFKC + base64 + cross-write). Claude Code
 mai es bloqueja per falta de daemon.
+
+---
+
+## Estat per defecte — Desactivat
+
+Savia Shield està **desactivat per defecte**. Els hooks estan instal·lats
+però no s'executen fins que els activeu. Això evita latència innecessària
+en màquines sense projectes privats.
+
+Activeu-lo quan comenceu a treballar amb dades de clients.
+
+## Activar i desactivar
+
+```bash
+# Amb la comanda slash (recomanat)
+/savia-shield enable    # Activar
+/savia-shield disable   # Desactivar
+/savia-shield status    # Verificar estat i instal·lació
+```
+
+O editant `.claude/settings.local.json` directament:
+
+```json
+{
+  "env": {
+    "SAVIA_SHIELD_ENABLED": "true"
+  }
+}
+```
+
+Per desactivar, canviar `"true"` per `"false"`.

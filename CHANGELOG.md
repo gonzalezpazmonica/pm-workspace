@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.70.3] — 2026-03-28
+
+feat: Savia Shield opt-in por defecto + comando /savia-shield (Era 158).
+
+### Added
+
+- **`/savia-shield`**: nuevo comando slash para activar, desactivar y verificar estado del Shield
+- **`SAVIA_SHIELD_ENABLED` flag**: los hooks `data-sovereignty-gate.sh` y `data-sovereignty-audit.sh` respetan este flag — desactivados por defecto para evitar latencia en máquinas sin proyectos privados
+- **Docs Shield**: sección "Estado por defecto" + guía de activación en los 7 idiomas (es, en, ca, eu, fr, gl, pt)
+
+### Changed
+
+- **Shield desactivado por defecto**: `SAVIA_SHIELD_ENABLED=false` es el nuevo default — activar con `/savia-shield enable` cuando se trabaje con datos de cliente
+
 ## [3.70.2] — 2026-03-27
 
 pr-plan feedback + push-pr.sh gh CLI fallback (Era 157).
@@ -4782,6 +4796,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.70.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.2...v3.70.3
 [3.70.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.1...v3.70.2
 [3.70.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.0...v3.70.1
 [3.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.69.0...v3.70.0

@@ -265,3 +265,34 @@ masque les entités sensibles automatiquement.
 **Sans daemon :** les hooks de gate et d'audit continuent de fonctionner en
 mode fallback (regex + NFKC + base64 + cross-write). Claude Code n'est
 jamais bloqué par l'absence de daemon.
+
+---
+
+## État par défaut — Désactivé
+
+Savia Shield est **désactivé par défaut**. Les hooks sont installés
+mais ne s'exécutent pas tant que vous ne les activez pas. Cela évite
+une latence inutile sur les machines sans projets privés.
+
+Activez-le lorsque vous commencez à travailler avec des données clients.
+
+## Activer et désactiver
+
+```bash
+# Avec la commande slash (recommandé)
+/savia-shield enable    # Activer
+/savia-shield disable   # Désactiver
+/savia-shield status    # Vérifier l'état et l'installation
+```
+
+Ou en modifiant `.claude/settings.local.json` directement :
+
+```json
+{
+  "env": {
+    "SAVIA_SHIELD_ENABLED": "true"
+  }
+}
+```
+
+Pour désactiver, changer `"true"` par `"false"`.

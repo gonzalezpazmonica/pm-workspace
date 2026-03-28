@@ -3,6 +3,9 @@ set -uo pipefail
 # NOTE: -e omitted intentionally — grep returns 1 on no-match which would
 # abort the script. All error paths are guarded explicitly with || or if/fi.
 # data-sovereignty-audit.sh — PostToolUse hook (async)
+
+# Desactivar en entornos sin proyectos privados
+[[ "${SAVIA_SHIELD_ENABLED:-true}" == "false" ]] && exit 0
 # Capa 3: Verifica post-escritura que no se colo dato sensible en N1
 # [FIX H1] Scans FULL file on disk, not truncated content
 
