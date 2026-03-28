@@ -68,8 +68,7 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 5. **Informes** en `output/` con `YYYYMMDD-tipo-proyecto.ext`
 6. **Repetición 2+** → documentar en skill
 7. **PBIs**: propuesta completa antes de tasks; NUNCA sin confirmación
-8. **SDD**: NUNCA agente sin Spec aprobada; Code Review (E1) SIEMPRE humano
-8b. **Autonomía**: NUNCA merge/approve autónomo; SIEMPRE PR Draft + reviewer humano; NUNCA commit en rama humana · `@.claude/rules/domain/autonomous-safety.md`
+8. **SDD**: NUNCA agente sin Spec aprobada; Code Review (E1) SIEMPRE humano · **Autonomía**: NUNCA merge/approve autónomo; SIEMPRE PR Draft + reviewer humano; NUNCA commit en rama humana · `@.claude/rules/domain/autonomous-safety.md`
 9. **Secrets**: NUNCA en repo — vault o `config.local/` · `@.claude/rules/domain/confidentiality-config.md`
 10. **Infra**: NUNCA apply PRE/PRO sin aprobación · `@.claude/rules/domain/infrastructure-as-code.md`
 11. **150 líneas máx.** por fichero — dividir si crece
@@ -86,6 +85,7 @@ Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no:
 22. **Verification Before Done**: NUNCA marcar tarea como completada sin prueba demostrable. Preguntarse "¿lo aprobaría un senior?" Detalle → `@.claude/rules/domain/verification-before-done.md`
 23. **Equality Shield**: Asignaciones, evaluaciones y comunicaciones INDEPENDIENTES de género, raza u origen. Test contrafactual obligatorio. Detalle → `@.claude/rules/domain/equality-shield.md`
 24. **Radical Honesty**: Zero filler, zero sugar-coating, zero unearned praise. Desafiar suposiciones, exponer puntos ciegos, cuantificar costes de oportunidad. Datos antes que sentimientos. Detalle → `@.claude/rules/domain/radical-honesty.md`
+25. **PR via /pr-plan**: SIEMPRE ejecutar `/pr-plan` antes de crear un PR. NUNCA llamar `push-pr.sh` directamente. La guardia estructural: `push-pr.sh` falla sin `.pr-plan-ok`. Detalle → `@.claude/rules/domain/pr-signing-protocol.md`
 
 ---
 

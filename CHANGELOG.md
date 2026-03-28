@@ -23,6 +23,24 @@ feat: sistema de perfiles de hook SAVIA_HOOK_PROFILE (minimal/standard/strict/ci
 - **29 hooks clasificados**: todos los hooks de bloqueo ahora incluyen `profile_gate` — seguridad (5), estándar (10), estricto (3), siempre-activos (11)
 - **README.md y README.en.md**: nueva sección "Aprendizaje clave: hooks > prompts" — el hallazgo arquitectónico más importante de pm-workspace, emergido de forma independiente en gstack, ECC y Astromesh
 
+## [3.70.4] — 2026-03-28
+
+Era 158. /pr-plan enforcement: sentinel gate + Rule #25 + lessons + memory.
+
+### Added
+
+- **Rule #25 in CLAUDE.md**: SIEMPRE `/pr-plan` antes de cualquier PR. NUNCA `push-pr.sh` directamente.
+- **Sentinel `.pr-plan-ok`**: `pr-plan.sh` escribe el token tras pasar los 10 gates; `push-pr.sh` lo requiere o termina con error explicativo
+- **Flag `--from-pr-plan`**: bypass interno para que `pr-plan.sh` pueda llamar a `push-pr.sh` sin activar el gate
+- **lessons.md**: nueva entrada sobre el fallo de CI en PR #441 (causa: signing sin /pr-plan)
+- **Auto-memory**: `feedback_push_pr.md` actualizado con la regla del sentinel y Rule #25
+
+### Fixed
+
+- **`push-pr.sh`**: Step 0 gate — falla con error claro si se llama sin sentinel y sin `--from-pr-plan`
+- **`push-pr.sh`**: limpia `.pr-plan-ok` al final para que el siguiente PR requiera volver a ejecutar `/pr-plan`
+- **`pr-plan.sh`**: limpia `.pr-plan-ok` en `--skip-push` para no dejar sentinel huérfano
+
 ## [3.70.3] — 2026-03-28
 
 feat: Savia Shield opt-in por defecto + comando /savia-shield (Era 158).
@@ -4814,7 +4832,8 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
-[3.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.3...v3.71.0
+[3.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.4...v3.71.0
+[3.70.4]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.3...v3.70.4
 [3.70.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.2...v3.70.3
 [3.70.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.1...v3.70.2
 [3.70.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.0...v3.70.1

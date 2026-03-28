@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=421d29c31126fa77c953c72c9800b5f80c3914ea2df845fab08cda89c471fd27
-timestamp=2026-03-28T14:34:55Z
-branch=feature/savia-hook-profiles
-head_commit=d19b042
-signature=b022f35a0c590cdc36fe8457349c807f987523cde1cccce3070b3efcc6e4c7dd
+diff_hash=a343aee45e893f58f4ec5631e1a6e1cf5f33d7f714e88dcb2de9fb8acdc4d549
+timestamp=2026-03-28T16:41:15Z
+branch=feature/pr-plan-enforcement
+head_commit=07b7c74
+signature=8919da95f7af2c56350b13dee0c4d65f0fe75ed3b9703c49ec6061b3b8a42daa
