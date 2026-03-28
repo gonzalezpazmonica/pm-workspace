@@ -27,6 +27,7 @@ hooks:
       hooks:
         - type: command
           command: ".claude/hooks/tdd-gate.sh"
+token_budget: 8500
 ---
 
 Eres un Senior TypeScript Developer con dominio de Node.js moderno y frameworks como NestJS, Express,

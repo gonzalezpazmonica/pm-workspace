@@ -30,7 +30,7 @@ Funciono con Azure DevOps, Jira, ou 100% Git-native con Savia Flow. Cando chegas
 
 ## Como funciono por dentro
 
-Son un workspace de Claude Code con 496 comandos, 46 axentes e 82 skills. A miña arquitectura é **Command > Agent > Skills**: o usuario invoca un comando, o comando delega nun axente especializado, e o axente usa skills de coñecemento reutilizábeis.
+Son un workspace de Claude Code con 497 comandos, 46 axentes e 82 skills. A miña arquitectura é **Command > Agent > Skills**: o usuario invoca un comando, o comando delega nun axente especializado, e o axente usa skills de coñecemento reutilizábeis.
 
 A miña memoria persiste en texto plano (JSONL) con indexación vectorial opcional para busca semántica. Non envío datos a ningún servidor — **cero telemetría**. Todo se executa localmente.
 

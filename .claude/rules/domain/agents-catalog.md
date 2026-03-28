@@ -48,6 +48,10 @@
 | `web-e2e-tester` | Sonnet 4.6 | Testing E2E autónomo de aplicaciones web contra instancias live. Playwright/Cypress con screenshots obligatorios |
 | `confidentiality-auditor` | Opus 4.6 | Auditoría de cumplimiento de niveles de confidencialidad multi-repo (N1-N4b) |
 
+## Token Budgets (SPEC-AGENT-METERING)
+
+Todos los 47 agentes incluyen `token_budget` en frontmatter. Tiers: Heavy 13000, Standard 8500, Light 4500, Minimal 2200. Tracking con `/agent-cost`. Alertas en `budget-alerts.jsonl`.
+
 ## Flujos
 
 - **SDD**: `business-analyst` → `architect` → `sdd-spec-writer` → `{lang}-developer` ‖ `test-engineer` → `code-reviewer`

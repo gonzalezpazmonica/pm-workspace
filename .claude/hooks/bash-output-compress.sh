@@ -27,72 +27,25 @@ fi
 COMMAND=$(printf '%s' "${TOOL_INPUT:-}" | grep -o '"command":\s*"[^"]*"' | head -1 | cut -d'"' -f4 2>/dev/null || echo "unknown")
 COMMAND_BASE=$(printf '%s' "$COMMAND" | awk '{print $1}' 2>/dev/null || echo "unknown")
 
-# ── Generic compression pipeline ──────────────────────────────────────────
-compress_generic() {
-    local input="$1"
-    printf '%s\n' "$input" \
-        | sed 's/\x1b\[[0-9;]*m//g' \
-        | sed '/^[[:space:]]*$/d' \
-        | awk '
-            prev == $0 { count++; next }
-            count > 0 { print prev " [...repeated " count+1 " times]"; count=0 }
-            { if (prev != "") print prev; prev = $0 }
-            END { if (count > 0) print prev " [...repeated " count+1 " times]"; else if (prev != "") print prev }
-        ' \
-        | head -50
-}
+# ── Compress via standalone script (all filters moved to output-compress.sh) ─────────────────────────────────────────
+PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
+COMPRESS_SCRIPT="$PROJECT_DIR/scripts/output-compress.sh"
 
-# ── Specialized filters ───────────────────────────────────────────────────
-compress_git_log() {
-    printf '%s\n' "$1" \
-        | sed 's/\x1b\[[0-9;]*m//g' \
-        | grep -E '^(commit |[a-f0-9]{7,}|    )' \
-        | head -50
-}
+if [[ -x "$COMPRESS_SCRIPT" ]]; then
+    COMPRESSED=$(printf '%s\n' "$OUTPUT" | bash "$COMPRESS_SCRIPT" --command "$COMMAND" 2>/dev/null) || COMPRESSED=""
+else
+    COMPRESSED=""
+fi
+[[ -z "$COMPRESSED" ]] && exit 0
 
-compress_git_diff() {
-    printf '%s\n' "$1" \
-        | sed 's/\x1b\[[0-9;]*m//g' \
-        | grep -E '^(diff |index |\+\+\+|---|@@|\+|-|Binary)' \
-        | head -50
-}
-
-compress_test_output() {
-    printf '%s\n' "$1" \
-        | sed 's/\x1b\[[0-9;]*m//g' \
-        | grep -iE '(passed|failed|error|FAIL|OK|Total|summary|test result|Tests run)' \
-        | head -50
-}
-
-compress_npm() {
-    printf '%s\n' "$1" \
-        | sed 's/\x1b\[[0-9;]*m//g' \
-        | grep -ivE '(^\s*$|npm warn|added [0-9]+ packages|up to date|audited|progress)' \
-        | head -50
-}
-
-# ── Apply compression based on command type ───────────────────────────────
-COMPRESSED=""
-case "$COMMAND" in
-    *"git log"*)   COMPRESSED=$(compress_git_log "$OUTPUT") ;;
-    *"git diff"*)  COMPRESSED=$(compress_git_diff "$OUTPUT") ;;
-    *"dotnet test"*|*"pytest"*|*"vitest"*|*"cargo test"*)
-                   COMPRESSED=$(compress_test_output "$OUTPUT") ;;
-    *"npm "*|*"pnpm "*)
-                   COMPRESSED=$(compress_npm "$OUTPUT") ;;
-    *)             COMPRESSED=$(compress_generic "$OUTPUT") ;;
-esac
-
-# ── Calculate metrics ─────────────────────────────────────────────────────
+# ── Calculate metrics and log ─────────────────────────────────────────────
 ORIGINAL_TOKENS=$((${#OUTPUT} / 4))
 COMPRESSED_TOKENS=$((${#COMPRESSED} / 4))
 TOKENS_SAVED=$((ORIGINAL_TOKENS - COMPRESSED_TOKENS))
 
-# Only log if meaningful compression achieved (>20%)
 if [[ $ORIGINAL_TOKENS -gt 0 ]]; then
     RATIO=$(( (TOKENS_SAVED * 100) / ORIGINAL_TOKENS ))
     if [[ $RATIO -gt 20 ]]; then
-        PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
         TRACKER="$PROJECT_DIR/scripts/context-tracker.sh"
         if [[ -x "$TRACKER" ]]; then
             bash "$TRACKER" log "bash-compress" "$COMMAND_BASE" "$TOKENS_SAVED" 2>/dev/null || true
@@ -100,7 +53,6 @@ if [[ $ORIGINAL_TOKENS -gt 0 ]]; then
     fi
 fi
 
-# Async hook — output goes to Claude's context as replacement
-# Note: Claude Code PostToolUse hooks cannot modify TOOL_OUTPUT directly.
-# This hook logs metrics only. Future: stdout replacement when supported.
+# Emit compressed output to stdout (injected as additionalContext by Claude Code)
+echo "$COMPRESSED"
 exit 0

@@ -12,6 +12,7 @@ maxTurns: 30
 max_context_tokens: 80000
 output_max_tokens: 4000
 color: green
+token_budget: 8500
 ---
 
 # excel-digest — Digestion Contextual de Excel en 4 Fases

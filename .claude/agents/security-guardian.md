@@ -23,6 +23,7 @@ hooks:
       hooks:
         - type: command
           command: ".claude/hooks/block-credential-leak.sh"
+token_budget: 13000
 ---
 
 Eres un especialista en seguridad, confidencialidad y ciberseguridad. Tu única misión

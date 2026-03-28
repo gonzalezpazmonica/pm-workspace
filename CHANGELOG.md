@@ -27,21 +27,29 @@ feat: deepagents context engineering — SPEC-138/140/141/142/144 implementados 
 
 ## [3.71.0] — 2026-03-28
 
-feat: sistema de perfiles de hook SAVIA_HOOK_PROFILE (minimal/standard/strict/ci) — 29 hooks clasificados en tiers (Era 159).
+Hook profiles system (SAVIA_HOOK_PROFILE) + 5 specs (wave-executor, G11 review scaling, output compression, agent metering, skill feedback). Era 159.
 
 ### Added
 
-- **`SAVIA_HOOK_PROFILE`**: nueva variable de entorno que controla qué hooks se activan según el contexto de trabajo
-- **4 perfiles**: `minimal` (solo seguridad), `standard` (default, calidad + workflow), `strict` (todo + escrutinio extra), `ci` (standard sin interacción)
+- **`SAVIA_HOOK_PROFILE`**: nueva variable de entorno que controla qué hooks se activan según el contexto de trabajo — 4 perfiles: `minimal`, `standard` (default), `strict`, `ci`
 - **`.claude/hooks/lib/profile-gate.sh`**: librería compartida con función `profile_gate()` — sourcing condicional, sin dependencias externas
 - **`/hook-profile`**: nuevo comando slash para consultar y cambiar el perfil activo (`get`, `set`, `list`)
 - **`scripts/hook-profile.sh`**: script CLI que persiste el perfil en `~/.savia/hook-profile`
 - **`.claude/rules/domain/hook-profiles.md`**: regla que documenta la arquitectura de perfiles, jerarquía de tiers y el principio "hooks > prompts"
+- **wave-executor** (SPEC-WAVE-DAG): `scripts/wave-executor.sh` + lib — generic parallel task execution engine for DAG scheduling
+- **G11 gate** (SPEC-PR-REVIEW-SCALING): PR review depth scaling — XS/STANDARD/ENHANCED/FULL tiers by lines changed + risk score
+- **output-compress** (SPEC-OUTPUT-COMPRESS): `scripts/output-compress.sh` — standalone compression with 7 command-specific filters
+- **agent metering** (SPEC-AGENT-METERING): `token_budget` in 44 agent frontmatter + budget tracking + `budget-alerts.jsonl` + enhanced `/agent-cost`
+- **skill feedback** (SPEC-SKILL-FEEDBACK): `/skill-rank` command + `skill-feedback-log.sh` + `skill-feedback-rank.sh` — effectiveness tracking
 
 ### Changed
 
 - **29 hooks clasificados**: todos los hooks de bloqueo ahora incluyen `profile_gate` — seguridad (5), estándar (10), estricto (3), siempre-activos (11)
 - **README.md y README.en.md**: nueva sección "Aprendizaje clave: hooks > prompts" — el hallazgo arquitectónico más importante de pm-workspace, emergido de forma independiente en gstack, ECC y Astromesh
+- `agent-trace-log.sh` logs `token_budget` and `budget_exceeded` per invocation
+- `bash-output-compress.sh` delegates to `scripts/output-compress.sh`
+- `pr-plan.sh` runs 11 gates (G0-G11)
+- `.gitignore` updated with `data/skill-invocations*.jsonl*`
 
 ## [3.70.4] — 2026-03-28
 
@@ -62,18 +70,6 @@ Era 158. /pr-plan enforcement: sentinel gate + Rule #25 + lessons + memory.
 - **`pr-plan.sh`**: limpia `.pr-plan-ok` en `--skip-push` para no dejar sentinel huérfano
 
 ## [3.70.3] — 2026-03-28
-
-feat: Savia Shield opt-in por defecto + comando /savia-shield (Era 158).
-
-### Added
-
-- **`/savia-shield`**: nuevo comando slash para activar, desactivar y verificar estado del Shield
-- **`SAVIA_SHIELD_ENABLED` flag**: los hooks `data-sovereignty-gate.sh` y `data-sovereignty-audit.sh` respetan este flag — desactivados por defecto para evitar latencia en máquinas sin proyectos privados
-- **Docs Shield**: sección "Estado por defecto" + guía de activación en los 7 idiomas (es, en, ca, eu, fr, gl, pt)
-
-### Changed
-
-- **Shield desactivado por defecto**: `SAVIA_SHIELD_ENABLED=false` es el nuevo default — activar con `/savia-shield enable` cuando se trabaje con datos de cliente
 
 ## [3.70.2] — 2026-03-27
 

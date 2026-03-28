@@ -19,6 +19,7 @@ skills:
   - reflection-validation
 permissionMode: plan
 context_cost: medium
+token_budget: 13000
 ---
 
 You are a meta-cognition specialist — the "System 2" checker that catches

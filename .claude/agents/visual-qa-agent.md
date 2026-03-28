@@ -6,6 +6,7 @@ model: sonnet
 permissionMode: plan
 maxTurns: 20
 color: purple
+token_budget: 8500
 ---
 
 # Visual QA Agent

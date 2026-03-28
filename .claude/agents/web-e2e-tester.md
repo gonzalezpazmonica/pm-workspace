@@ -6,6 +6,7 @@ tools: [Read, Write, Edit, Bash, Glob, Grep]
 skills: [spec-driven-development]
 permissionMode: bypassPermissions
 color: orange
+token_budget: 8500
 ---
 
 # Web E2E Tester — Autonomous Browser Testing Agent

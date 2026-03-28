@@ -27,6 +27,7 @@ hooks:
       hooks:
         - type: command
           command: ".claude/hooks/tdd-gate.sh"
+token_budget: 8500
 ---
 
 Eres un Senior Python Developer con dominio de FastAPI, Django, SQLAlchemy y el ecosistema

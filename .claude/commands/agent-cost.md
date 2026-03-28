@@ -11,21 +11,22 @@ model: haiku
 
 ## 1. Cargar perfil de usuario
 
-1. Leer `.claude/profiles/active-user.md` → obtener `active_slug`
+1. Leer `.claude/profiles/active-user.md` -> obtener `active_slug`
 2. Si hay perfil activo, cargar (grupo **SDD & Agentes** del context-map):
    - `profiles/users/{slug}/identity.md`
    - `profiles/users/{slug}/workflow.md`
    - `profiles/users/{slug}/projects.md`
-3. Adaptar output según `identity.rol` (tech lead vs PM), `workflow.reviews_agent_code`, `workflow.specs_per_sprint`
-4. Si no hay perfil → continuar con comportamiento por defecto
+3. Adaptar output segun `identity.rol` (tech lead vs PM)
+4. Si no hay perfil -> continuar con comportamiento por defecto
 
-## 2. Descripción
+## 2. Descripcion
 
-Estima el coste de uso de agentes basándose en tokens consumidos. Agrupa por agente, comando y opcionalmente por sprint. Incluye recomendaciones de optimización.
+Estima el coste de uso de agentes basandose en tokens consumidos. Agrupa por agente, comando y opcionalmente por sprint. Incluye columnas de budget vs actual y alertas de presupuesto excedido.
 
 ## 3. Datos
 
-Lectura desde `projects/{proyecto}/traces/agent-traces.jsonl` (mismo formato que `/agent-trace`)
+- Trazas: `projects/{proyecto}/traces/agent-traces.jsonl`
+- Alertas: `projects/{proyecto}/traces/budget-alerts.jsonl`
 
 ## 4. Modelo de costes
 
@@ -36,25 +37,52 @@ Configurable en `CLAUDE.local.md`:
 
 ## Comportamiento
 
-**Agrupación:** por agente, por comando
+**Agrupacion:** por agente, por comando
 **Opcional `--sprint`:** grupos por sprint si se especifica
 
-**Cálculo:** coste_total = (tokens_in * precio_entrada + tokens_out * precio_salida) / 1_000_000
+**Calculo:** coste_total = (tokens_in * precio_entrada + tokens_out * precio_salida) / 1_000_000
 
 ## Output
 
-Tabla de costes con:
-- Agente | Comando | Tokens entrada | Tokens salida | Coste estimado
+### Tabla principal con budget columns
+
+```
+| Agent | Invocations | Tokens In | Tokens Out | Budget | Actual | Delta | Status | Cost |
+```
+
+Where:
+- `Budget` = `token_budget` from trace (per agent frontmatter)
+- `Actual` = average `tokens_in + tokens_out` across invocations
+- `Delta` = `Actual - Budget` (negative = under, positive = over)
+- `Status` = "OK" if Delta <= 0, "OVER" if Delta > 0
+
+### Budget Violations section
+
+Read from `budget-alerts.jsonl` (last 30 days):
+
+```
+Budget Violations (last 30 days):
+| Agent | Count | Avg Overage | Max Overage | Recommendation |
+```
+
+Recommendations:
+- Overage > 50%: "Reduce input context or split task"
+- Overage 20-50%: "Review context selection strategy"
+- Overage < 20%: "Minor -- consider increasing budget"
+
+If no violations file or empty: "No budget violations recorded."
+
+### Cost summary
+
 - Subtotal por agente
-- Coste total del período
+- Coste total del periodo
+- Tendencia: costes de los ultimos 3 sprints (si existe historico)
 
-Tendencia: costes de los últimos 3 sprints (si existe histórico)
+### Optimization recommendations
 
-Recomendaciones:
-- Identificar operaciones más costosas
-- Sugerir optimizaciones (ej: usar Haiku para tareas simples)
-
-Si no hay trazas: mostrar costes estimados basados en patrones típicos
+- Identify most expensive agents
+- Flag agents consistently over budget
+- Suggest model downgrades for simple tasks
 
 ## Ejemplos
 
@@ -66,4 +94,4 @@ Si no hay trazas: mostrar costes estimados basados en patrones típicos
 ## Requisitos
 
 - Trazas disponibles en `projects/{proyecto}/traces/`
-- Configuración de costes actualizada
+- Configuracion de costes actualizada

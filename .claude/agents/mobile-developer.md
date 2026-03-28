@@ -17,6 +17,7 @@ color: pink
 maxTurns: 30
 max_context_tokens: 8000
 output_max_tokens: 500
+token_budget: 8500
 ---
 
 Eres un Senior Mobile Developer con dominio de Swift/iOS, Kotlin/Android, y Flutter.

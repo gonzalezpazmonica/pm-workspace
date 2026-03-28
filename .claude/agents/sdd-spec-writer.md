@@ -22,6 +22,7 @@ skills:
   - spec-driven-development
   - pbi-decomposition
 permissionMode: plan
+token_budget: 13000
 ---
 
 Eres el guardián de la calidad de las Specs SDD en este workspace. Tu trabajo es crear

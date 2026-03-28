@@ -105,3 +105,46 @@ g10() {
   local out; out=$(bash scripts/validate-ci-local.sh 2>&1) || true
   echo "$out" | grep -q "safe to push" || { echo "FAIL: CI issues (run validate-ci-local.sh)"; return; }
 }
+g11() {
+  local stat_line
+  if ! git rev-parse origin/main >/dev/null 2>&1; then
+    echo "WARN: Review level: unknown (origin/main unreachable)"; return
+  fi
+  stat_line=$(git diff origin/main..HEAD --stat 2>/dev/null | tail -1) || true
+  if [[ -z "$stat_line" ]]; then
+    echo "0 lines — nothing to review"; return
+  fi
+  local ins; ins=$(echo "$stat_line" | grep -oP '[0-9]+(?= insertion)' || echo 0)
+  local dels; dels=$(echo "$stat_line" | grep -oP '[0-9]+(?= deletion)' || echo 0)
+  local size=$(( ${ins:-0} + ${dels:-0} ))
+  [[ $size -eq 0 ]] && { echo "0 lines — nothing to review"; return; }
+  local size_tier=""
+  if [[ $size -lt 50 ]]; then size_tier="XS"
+  elif [[ $size -le 300 ]]; then size_tier="STANDARD"
+  elif [[ $size -le 1000 ]]; then size_tier="ENHANCED"
+  else size_tier="FULL"; fi
+  local risk_tier="" risk_score="" escalated=""
+  if [[ -f "output/risk-score.json" ]]; then
+    risk_score=$(jq -r '.score // empty' output/risk-score.json 2>/dev/null) || true
+    if [[ -n "$risk_score" ]] && [[ "$risk_score" =~ ^[0-9]+$ ]]; then
+      if [[ $risk_score -le 25 ]]; then risk_tier="XS"
+      elif [[ $risk_score -le 50 ]]; then risk_tier="STANDARD"
+      elif [[ $risk_score -le 75 ]]; then risk_tier="ENHANCED"
+      else risk_tier="FULL"; fi
+    fi
+  fi
+  local eff="$size_tier"
+  if [[ -n "$risk_tier" ]]; then
+    local -A rank=([XS]=0 [STANDARD]=1 [ENHANCED]=2 [FULL]=3)
+    if [[ ${rank[$risk_tier]:-0} -gt ${rank[$size_tier]:-0} ]]; then
+      eff="$risk_tier"
+      escalated=", risk score $risk_score escalated from $size_tier"
+    fi
+  fi
+  case "$eff" in
+    XS)       echo "XS ($size lines${escalated}) — quick lint" ;;
+    STANDARD) echo "WARN: Review level: STANDARD ($size lines${escalated}) — 1 reviewer recommended" ;;
+    ENHANCED) echo "WARN: Review level: ENHANCED ($size lines${escalated}) — 2 reviewers + architect recommended" ;;
+    FULL)     echo "WARN: Review level: FULL ($size lines${escalated}) — consensus panel recommended. Consider splitting." ;;
+  esac
+}

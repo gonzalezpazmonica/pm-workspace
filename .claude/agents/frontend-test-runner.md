@@ -8,6 +8,7 @@ permissionMode: acceptEdits
 maxTurns: 30
 color: lime
 isolation: worktree
+token_budget: 8500
 ---
 
 # Frontend Test Runner
