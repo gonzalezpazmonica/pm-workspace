@@ -1,7 +1,7 @@
 #!/bin/bash
 # agent-tool-call-validate.sh — Validacion de parametros antes de ejecutar tools
 # Tier: standard | Async: false | Event: PreToolUse
-set -euo pipefail
+set -uo pipefail
 
 LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
 [[ -f "$LIB_DIR/profile-gate.sh" ]] && source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
