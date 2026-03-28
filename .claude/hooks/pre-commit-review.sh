@@ -1,6 +1,13 @@
 #!/bin/bash
 # pre-commit-review.sh - Code review automatizado pre-commit (Guardian Angel)
+# Profile tier: standard
 set -uo pipefail
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
+fi
 
 RULES_FILE="${CLAUDE_PROJECT_DIR:-.}/.claude/rules/domain/code-review-rules.md"
 CACHE_DIR="${CLAUDE_PROJECT_DIR:-.}/output/.review-cache"

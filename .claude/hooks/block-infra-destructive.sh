@@ -2,6 +2,13 @@
 set -uo pipefail
 # block-infra-destructive.sh — Bloquea operaciones destructivas de infraestructura
 # Usado por: infrastructure-agent (PreToolUse hook)
+# Profile tier: security
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "security"
+fi
 
 # Read stdin with timeout to avoid hanging if no input arrives
 # Uses timeout+cat to handle input that may lack trailing newline

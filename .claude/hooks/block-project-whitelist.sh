@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 # block-project-whitelist.sh — Bloquea whitelist de proyectos en .gitignore
+# Profile tier: standard
 set -uo pipefail
 # Capa de defensa adicional al pre-commit hook. Actúa a nivel de Claude Code.
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
+fi
 
 # Lee el input del hook
 INPUT="${CLAUDE_TOOL_INPUT:-}"

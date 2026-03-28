@@ -2,7 +2,14 @@
 # plan-gate.sh — Warning si implementación sin spec aprobada
 # ─────────────────────────────────────────────────────────────
 # PreToolUse hook (Edit|Write) que advierte si se edita código sin spec
+# Profile tier: standard
 set -uo pipefail
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
+fi
 
 # Timeout: 30 seconds max for entire spec search operation
 TIMEOUT=30

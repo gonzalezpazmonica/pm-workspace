@@ -3,6 +3,13 @@ set -uo pipefail
 # NOTE: -e omitted intentionally — grep returns 1 on no-match which would
 # abort the script. All error paths are guarded explicitly with || or if/fi.
 # data-sovereignty-audit.sh — PostToolUse hook (async)
+# Profile tier: security
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "security"
+fi
 
 # Desactivar en entornos sin proyectos privados
 [[ "${SAVIA_SHIELD_ENABLED:-true}" == "false" ]] && exit 0
