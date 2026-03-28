@@ -7,7 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$ROOT_DIR"
 
-TITLE="" BODY="" DRAFT=false MERGE=false SKIP_CL=false SKIP_CI=false
+TITLE="" BODY="" DRAFT=false MERGE=false SKIP_CL=false SKIP_CI=false FROM_PR_PLAN=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --title) TITLE="$2"; shift 2 ;;
@@ -16,6 +16,7 @@ while [[ $# -gt 0 ]]; do
     --merge) MERGE=true; shift ;;
     --skip-changelog) SKIP_CL=true; shift ;;
     --skip-ci) SKIP_CI=true; shift ;;
+    --from-pr-plan) FROM_PR_PLAN=true; shift ;;
     --help|-h) echo "Usage: $0 [--title T] [--body B] [--draft] [--merge] [--skip-changelog] [--skip-ci]"; exit 0 ;;
     *) shift ;;
   esac
@@ -23,6 +24,17 @@ done
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 [[ "$BRANCH" == "main" || "$BRANCH" == "master" ]] && { echo "ERROR: On $BRANCH." >&2; exit 1; }
+
+# ── Step 0: pr-plan gate ──────────────────────────────────────────────────
+if ! $FROM_PR_PLAN && [[ ! -f ".pr-plan-ok" ]]; then
+  echo "ERROR: /pr-plan not run." >&2
+  echo "" >&2
+  echo "  Run /pr-plan first. It validates 10 gates, signs, and creates the PR." >&2
+  echo "  Direct use of push-pr.sh bypasses the pre-flight checklist." >&2
+  echo "" >&2
+  echo "  If you really need to bypass: touch .pr-plan-ok" >&2
+  exit 1
+fi
 
 # Detect repo from remote URL
 REPO=$(git remote get-url origin | sed -E 's|.*github\.com[:/]||;s|\.git$||')
@@ -148,5 +160,8 @@ if $MERGE && [[ "$PR_URL" == http* ]]; then
       || echo "  CI timeout. Merge manually."
   fi
 fi
+
+# Clean sentinel — pr-plan must be re-run for next PR
+rm -f .pr-plan-ok
 
 echo -e "\nDone."

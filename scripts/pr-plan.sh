@@ -55,16 +55,19 @@ echo "  Result: $PASS PASS | $FAIL FAIL | $WARN WARN"
 echo "------------------------------------------------------------"
 $DRY && { echo -e "\n  --dry-run: no push."; exit 0; }
 
+# Write sentinel — all gates passed, push-pr.sh can proceed
+touch .pr-plan-ok
+
 echo -e "\n  Signing..."
 bash scripts/confidentiality-sign.sh sign 2>&1 | tail -1
 git add .confidentiality-signature 2>/dev/null
 git diff --cached --quiet 2>/dev/null || git commit -m "chore: sign confidentiality audit
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>" --quiet
-$SKIP_PUSH && { echo "  --skip-push: signed only."; exit 0; }
+$SKIP_PUSH && { rm -f .pr-plan-ok; echo "  --skip-push: signed only."; exit 0; }
 
 echo "  Pushing + PR..."
 export SAVIA_PUSH_PR=1
-PUSH_CMD=(bash scripts/push-pr.sh --skip-changelog --skip-ci)
+PUSH_CMD=(bash scripts/push-pr.sh --skip-changelog --skip-ci --from-pr-plan)
 [[ -n "$TITLE" ]] && PUSH_CMD+=(--title "$TITLE")
 PR_OUT=$("${PUSH_CMD[@]}" 2>&1) || true
 echo "$PR_OUT" | grep -E "(http|PR |Done)" | tail -3
