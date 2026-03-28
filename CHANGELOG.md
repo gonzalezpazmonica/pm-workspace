@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.73.0] — 2026-03-28
+
+5 specs implemented: wave-executor, G11 review scaling, output compression, agent metering, skill feedback. Era 161.
+
+### Added
+
+- **wave-executor** (SPEC-WAVE-DAG): `scripts/wave-executor.sh` + lib — generic parallel task execution engine for DAG scheduling
+- **G11 gate** (SPEC-PR-REVIEW-SCALING): PR review depth scaling — XS/STANDARD/ENHANCED/FULL tiers by lines changed + risk score
+- **output-compress** (SPEC-OUTPUT-COMPRESS): `scripts/output-compress.sh` — standalone compression with 7 command-specific filters (60-90% reduction)
+- **agent metering** (SPEC-AGENT-METERING): `token_budget` in 44 agent frontmatter + budget tracking + `budget-alerts.jsonl`
+- **skill feedback** (SPEC-SKILL-FEEDBACK): `/skill-rank` command + `skill-feedback-log.sh` + `skill-feedback-rank.sh` — effectiveness tracking via `data/skill-invocations.jsonl`
+- **Tests**: `test-wave-executor.bats`, `test-output-compress.bats`, `test-pr-review-scaling.bats`, `test-agent-budget-lookup.bats`
+
+### Changed
+
+- `agent-trace-log.sh` logs `token_budget` and `budget_exceeded` per invocation
+- `pr-plan-gates.sh` G11 uses risk-score.json for tier escalation
+- `.gitignore` updated with `data/skill-invocations*.jsonl*`
+
 ## [3.72.0] — 2026-03-28
 
 feat: deepagents context engineering — SPEC-138/140/141/142/144 implementados (Era 160).
@@ -4848,6 +4867,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.72.0...v3.73.0
 [3.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.71.0...v3.72.0
 [3.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.4...v3.71.0
 [3.70.4]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.3...v3.70.4
