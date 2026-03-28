@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 # data-sovereignty-gate.sh — Savia Shield unified gate hook (-e omitted: grep returns 1)
+# Profile tier: security
 set -uo pipefail
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "security"
+fi
 
 # Desactivar en entornos sin proyectos privados
 [[ "${SAVIA_SHIELD_ENABLED:-true}" == "false" ]] && exit 0

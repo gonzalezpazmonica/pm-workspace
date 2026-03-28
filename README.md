@@ -161,6 +161,35 @@ Ni yo misma las salto: no hardcodear PATs, confirmar antes de escribir en Azure 
 
 ---
 
+## Aprendizaje clave: hooks > prompts
+
+Los LLMs olvidan instrucciones. No siempre, pero sí en un ~20% de los casos en sesiones largas o con contexto alto. Para las reglas que no pueden olvidarse — no hacer force-push a main, no filtrar datos de proyecto a ficheros públicos, no commitear sin tests — confiar solo en el CLAUDE.md no es suficiente.
+
+**La solución: los hooks son deterministas, los prompts no lo son.**
+
+Un hook de bash que bloquea `git push --force` funciona el 100% de las veces, independientemente de cuántos tokens hayas consumido o de cuántas instrucciones haya en contexto. El CLAUDE.md instruye; los hooks garantizan.
+
+Esta conclusión emergió de forma independiente en varios proyectos de la comunidad (gstack, ECC, Astromesh) y es el principio arquitectónico más importante de pm-workspace:
+
+```
+Regla crítica  →  hook determinista (bash)   ← 100% de garantía
+Convención     →  CLAUDE.md / rules/          ← orientación, no garantía
+Flujo de trabajo →  commands + skills         ← orquestación inteligente
+```
+
+pm-workspace incluye 29 hooks en tres niveles de activación:
+
+| Perfil | Hooks activos | Cuándo usarlo |
+|---|---|---|
+| `minimal` | Solo seguridad (credential leak, force-push, infra destructiva, soberanía) | Demos, onboarding, debug de hooks |
+| `standard` | Seguridad + calidad + workflow | Desarrollo diario (por defecto) |
+| `strict` | Todo, incluyendo escrutinio extra | Pre-release, código crítico |
+| `ci` | Igual que standard, sin interacción | Pipelines CI/CD |
+
+Cambiar perfil: `/hook-profile set minimal` o `export SAVIA_HOOK_PROFILE=ci`
+
+---
+
 ## Privacidad y Telemetría
 
 **Zero telemetría.** pm-workspace no envia datos a ningun servidor. No hay analytics, no hay tracking, no hay phone-home. Todo se ejecuta localmente. La búsqueda vectorial usa un modelo local (22 MB). Los embeddings se generan en tu CPU. Los datos de tus proyectos nunca salen de tu maquina. Offline-first por diseno.

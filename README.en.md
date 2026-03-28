@@ -160,6 +160,35 @@ Not even I skip them: no hardcoding PATs, confirm before writing to Azure DevOps
 
 ---
 
+## Key Insight: hooks > prompts
+
+LLMs forget instructions. Not always, but ~20% of the time in long sessions or with high context usage. For rules that cannot be forgotten — no force-pushing to main, no leaking project data to public files, no committing without tests — relying solely on CLAUDE.md is not enough.
+
+**The solution: hooks are deterministic, prompts are not.**
+
+A bash hook that blocks `git push --force` works 100% of the time, regardless of how many tokens you've consumed or how many instructions are in context. CLAUDE.md instructs; hooks guarantee.
+
+This conclusion emerged independently in several community projects (gstack, ECC, Astromesh) and is the most important architectural principle of pm-workspace:
+
+```
+Critical rule  →  deterministic hook (bash)   ← 100% guarantee
+Convention     →  CLAUDE.md / rules/           ← guidance, not guarantee
+Workflow       →  commands + skills            ← intelligent orchestration
+```
+
+pm-workspace includes 29 hooks at three activation levels:
+
+| Profile | Active hooks | When to use |
+|---|---|---|
+| `minimal` | Security only (credential leak, force-push, destructive infra, sovereignty) | Demos, onboarding, hook debugging |
+| `standard` | Security + quality + workflow | Daily development (default) |
+| `strict` | Everything, including extra scrutiny | Pre-release, critical code |
+| `ci` | Same as standard, non-interactive | CI/CD pipelines |
+
+Switch profile: `/hook-profile set minimal` or `export SAVIA_HOOK_PROFILE=ci`
+
+---
+
 ## Privacy & Telemetry
 
 **Zero telemetry.** pm-workspace sends no data to any server. No analytics, no tracking, no phone-home. Everything runs locally. Vector search uses a local model (22 MB). Embeddings are generated on your CPU. Your project data never leaves your machine. Offline-first by design.

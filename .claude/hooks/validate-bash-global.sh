@@ -2,6 +2,13 @@
 set -uo pipefail
 # validate-bash-global.sh — Validación global de comandos Bash peligrosos
 # Usado por: settings.json (PreToolUse hook para toda la sesión)
+# Profile tier: standard
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
+fi
 
 # Read stdin JSON robustly — consume all available data with timeout
 # Claude Code sends tool input as JSON on stdin to PreToolUse hooks.
