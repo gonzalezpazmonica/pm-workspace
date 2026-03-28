@@ -3,6 +3,13 @@ set -uo pipefail
 # competence-tracker.sh — Async PostToolUse hook: logs domain per command
 # SPEC-014 Phase 2. Registered as async (never blocks user).
 # Writes to .claude/profiles/users/{slug}/competence-log.jsonl
+# Profile tier: strict
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "strict"
+fi
 
 INPUT=""
 INPUT=$(timeout 2 cat 2>/dev/null) || true

@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -uo pipefail
 # compliance-gate.sh — Gate de compliance que bloquea commits con violaciones
+# Profile tier: standard
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
+fi
 #
 # Se ejecuta como PreToolUse hook antes de git commit.
 # A diferencia de prompt-hook-commit.sh (warning), este BLOQUEA (exit 2).

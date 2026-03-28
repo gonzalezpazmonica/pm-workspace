@@ -4,7 +4,14 @@ set -uo pipefail
 # PreToolUse Hook: agent-dispatch-validate.sh
 # Valida que los prompts enviados a subagentes contengan contexto requerido.
 # Previene que agentes creen ficheros sin cumplir convenciones del proyecto.
+# Profile tier: strict
 # ────────────────────────────────────────────────────────────────────────────
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "strict"
+fi
 
 INPUT=$(cat)
 TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // empty')

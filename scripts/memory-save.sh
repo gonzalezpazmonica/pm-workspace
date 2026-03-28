@@ -104,9 +104,9 @@ cmd_save() {
         sed -i "s/\"topic_key\":\"$supersedes_key\"\(.*\)}/\"topic_key\":\"$supersedes_key\"\1,\"valid_to\":\"$now\",\"superseded_by\":\"$topic_key\"}/" "$STORE_FILE"
     fi
 
-    # SPEC-038: auto-classify knowledge domain
+    # SPEC-038: auto-classify knowledge domain (skip in test mode for speed)
     local domain="general"
-    if command -v python3 &>/dev/null && [[ -f "$SCRIPT_DIR/memory-domains.py" ]]; then
+    if [[ "${SAVIA_TEST_MODE:-false}" != "true" ]] && command -v python3 &>/dev/null && [[ -f "$SCRIPT_DIR/memory-domains.py" ]]; then
         domain=$(python3 "$SCRIPT_DIR/memory-domains.py" classify "$title $topic_key" 2>/dev/null | head -1 | sed "s/Domains: \['\([^']*\)'.*/\1/" || echo "general")
         [[ "$domain" == "Domains:"* || -z "$domain" ]] && domain="general"
     fi

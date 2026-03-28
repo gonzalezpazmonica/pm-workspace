@@ -4,7 +4,13 @@ set -uo pipefail
 # Validates that commit messages accurately describe staged changes.
 # Mode: warning (default) | soft-block | hard-block
 # Uses Haiku model for fast semantic evaluation.
-set -uo pipefail
+# Profile tier: standard
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
+fi
 
 PROMPT_HOOKS_ENABLED="${PROMPT_HOOKS_ENABLED:-true}"
 PROMPT_HOOKS_MODE="${PROMPT_HOOKS_MODE:-warning}"

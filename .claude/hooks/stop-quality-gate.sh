@@ -3,6 +3,13 @@ set -uo pipefail
 # stop-quality-gate.sh — Verifica quality gates antes de que Claude termine
 # Usado por: settings.json (Stop hook)
 # Solo actúa si hay cambios pendientes en el directorio de trabajo
+# Profile tier: strict
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "strict"
+fi
 
 INPUT=$(cat)
 STOP_ACTIVE=$(echo "$INPUT" | jq -r '.stop_hook_active // false')

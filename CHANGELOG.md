@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.71.0] — 2026-03-28
+
+feat: sistema de perfiles de hook SAVIA_HOOK_PROFILE (minimal/standard/strict/ci) — 29 hooks clasificados en tiers (Era 159).
+
+### Added
+
+- **`SAVIA_HOOK_PROFILE`**: nueva variable de entorno que controla qué hooks se activan según el contexto de trabajo
+- **4 perfiles**: `minimal` (solo seguridad), `standard` (default, calidad + workflow), `strict` (todo + escrutinio extra), `ci` (standard sin interacción)
+- **`.claude/hooks/lib/profile-gate.sh`**: librería compartida con función `profile_gate()` — sourcing condicional, sin dependencias externas
+- **`/hook-profile`**: nuevo comando slash para consultar y cambiar el perfil activo (`get`, `set`, `list`)
+- **`scripts/hook-profile.sh`**: script CLI que persiste el perfil en `~/.savia/hook-profile`
+- **`.claude/rules/domain/hook-profiles.md`**: regla que documenta la arquitectura de perfiles, jerarquía de tiers y el principio "hooks > prompts"
+
+### Changed
+
+- **29 hooks clasificados**: todos los hooks de bloqueo ahora incluyen `profile_gate` — seguridad (5), estándar (10), estricto (3), siempre-activos (11)
+- **README.md y README.en.md**: nueva sección "Aprendizaje clave: hooks > prompts" — el hallazgo arquitectónico más importante de pm-workspace, emergido de forma independiente en gstack, ECC y Astromesh
+
 ## [3.70.3] — 2026-03-28
 
 feat: Savia Shield opt-in por defecto + comando /savia-shield (Era 158).
@@ -4796,6 +4814,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.3...v3.71.0
 [3.70.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.2...v3.70.3
 [3.70.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.1...v3.70.2
 [3.70.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.0...v3.70.1

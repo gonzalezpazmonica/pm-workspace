@@ -5,6 +5,13 @@ set -uo pipefail
 # Lógica: Si el agente intenta editar un fichero de producción (.cs, .py, .ts, .go, .rs, .rb, .php, .java)
 #         y NO existe un fichero de test correspondiente, BLOQUEA con exit 2.
 # Excepción: ficheros de config, migrations, DTOs, y el propio test se permiten siempre.
+# Profile tier: standard
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
+fi
 
 # Read stdin with timeout to avoid hanging if no input arrives
 # Uses timeout+cat to handle input that may lack trailing newline

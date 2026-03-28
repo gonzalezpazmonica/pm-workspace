@@ -13,6 +13,7 @@ hash_content() { echo -n "$1" | sha256sum | cut -d' ' -f1; }
 iso8601_now() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 
 _maybe_rebuild_index() {
+    [[ "${SAVIA_TEST_MODE:-false}" == "true" ]] && return 0
     command -v python3 &>/dev/null || return 0
     python3 -c "import sentence_transformers; import faiss" 2>/dev/null \
       || python3 -c "import sentence_transformers; import hnswlib" 2>/dev/null \

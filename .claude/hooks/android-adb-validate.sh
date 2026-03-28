@@ -3,6 +3,13 @@ set -uo pipefail
 # android-adb-validate.sh — PreToolUse hook for ADB command safety
 # Classifies ADB commands: safe → risky → blocked
 # Hook protocol: exit 0 = allow, exit 2 = block
+# Profile tier: standard
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
+fi
 
 TOOL_INPUT="${TOOL_INPUT:-}"
 LOG_DIR="$HOME/.claude/logs"

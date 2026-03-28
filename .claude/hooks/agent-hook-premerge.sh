@@ -4,7 +4,13 @@ set -uo pipefail
 # Runs lightweight security checks on staged files before merge.
 # Does NOT invoke LLM — uses deterministic pattern matching.
 # Full agent-based review is triggered via /pr-review command.
-set -uo pipefail
+# Profile tier: standard
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
+fi
 
 AGENT_HOOKS_ENABLED="${AGENT_HOOKS_ENABLED:-true}"
 AGENT_HOOKS_MODE="${AGENT_HOOKS_MODE:-warning}"

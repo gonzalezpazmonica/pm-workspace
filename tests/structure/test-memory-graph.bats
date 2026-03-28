@@ -2,6 +2,7 @@
 # Tests for SPEC-027 Phase 1 — Memory Graph (entity-relation extraction)
 
 setup() {
+    export SAVIA_TEST_MODE=true
     export PROJECT_ROOT=$(mktemp -d)
     export STORE_FILE="$PROJECT_ROOT/output/.memory-store.jsonl"
     GRAPH_SCRIPT="$BATS_TEST_DIRNAME/../../scripts/memory-graph.py"

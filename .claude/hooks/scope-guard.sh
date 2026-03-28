@@ -6,6 +6,13 @@ set -uo pipefail
 #         compara los ficheros modificados (git diff) contra los declarados.
 #         Si hay ficheros fuera del scope → warning al PM (exit 0, NO bloquea).
 # Exit codes: 0 = pass (con warning si aplica), 2 = bloqueo (no usado aquí)
+# Profile tier: standard
+
+LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
+fi
 
 INPUT=$(cat)
 
