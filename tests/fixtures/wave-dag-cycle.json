@@ -1,0 +1,6 @@
+{
+  "tasks": [
+    {"id": "A", "command": "echo A", "depends_on": ["B"]},
+    {"id": "B", "command": "echo B", "depends_on": ["A"]}
+  ]
+}

@@ -65,4 +65,10 @@ Esto permite a `/context-optimize` detectar agentes que consistentemente exceden
 ## Evolución
 
 Los budgets se ajustarán con datos empíricos de `/context-optimize`.
-Agentes nuevos deben incluir `max_context_tokens` y `output_max_tokens` en su frontmatter.
+Agentes nuevos deben incluir `max_context_tokens`, `output_max_tokens` y `token_budget` en su frontmatter.
+
+## Metering (SPEC-AGENT-METERING)
+
+Cada agente incluye `token_budget: {max_context + output_max}` en frontmatter.
+`agent-trace-log.sh` compara uso real vs budget; excesos en `budget-alerts.jsonl`.
+Ver con `/agent-cost`.

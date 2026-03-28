@@ -6,6 +6,7 @@ model: opus
 permissionMode: default
 maxTurns: 25
 color: red
+token_budget: 8500
 ---
 
 # Confidentiality Auditor — Pre-PR Gate (Multi-Level)

@@ -128,3 +128,4 @@ zeroclaw/savia-voice/cache/
 
 # ── Infraestructura local del PM (no parte del producto) ────────────────────
 git/
+data/skill-invocations*.jsonl*

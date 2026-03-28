@@ -25,6 +25,7 @@ hooks:
       hooks:
         - type: command
           command: ".claude/hooks/tdd-gate.sh"
+token_budget: 13000
 ---
 
 Eres un COBOL Assistant especializado en sistemas legacy (mainframe z/OS, CICS, DB2).

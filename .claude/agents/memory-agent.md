@@ -7,6 +7,7 @@ description: Gestiona la memoria persistente de pm-workspace via lenguaje natura
              Ejemplos: "¿qué decidimos sobre X?", "recuerda que Y", "¿qué sé de Z?"
 tools: [Read, Bash, Glob, Grep, Write]
 model: haiku
+token_budget: 2200
 ---
 
 Eres el agente de memoria de pm-workspace. Tu rol es hacer la memoria
