@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 # wave-executor.sh — Generic wave execution engine for DAG task graphs
 # Usage: wave-executor.sh <task-graph.json> [--report <output.json>]
 # Exit: 0=success, 1=task failed, 2=invalid input, 3=timeout
+# NOTE: no set -e — script manages exit codes manually via wait+ec pattern
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/wave-executor-lib.sh"
@@ -48,7 +49,7 @@ for w in $(seq 0 $((WAVE_COUNT - 1))); do
     PIDS[$tid]=$!
   done
   for tid in $WAVE_IDS; do
-    wait "${PIDS[$tid]}" 2>/dev/null; ec=$?
+    wait "${PIDS[$tid]}" 2>/dev/null && ec=0 || ec=$?
     dur=$(( SECONDS - ${STARTS[$tid]} )); SEQ_TOTAL=$((SEQ_TOTAL + dur))
     rm -f "${TMPS[$tid]}"
     ST="success"; [[ $ec -eq 124 ]] && ST="timeout"

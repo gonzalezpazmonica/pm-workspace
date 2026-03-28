@@ -3,10 +3,11 @@ set -uo pipefail
 # agent-budget-lookup.sh — Extract token_budget from agent frontmatter
 # Usage: agent-budget-lookup.sh <agent-name>
 # Output: integer (0 if not found). Exit 0 always.
+# Respects CLAUDE_PROJECT_DIR for test isolation.
 
 AGENT_NAME="${1:-}"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-AGENT_FILE="$SCRIPT_DIR/.claude/agents/${AGENT_NAME}.md"
+BASE_DIR="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+AGENT_FILE="$BASE_DIR/.claude/agents/${AGENT_NAME}.md"
 
 if [[ -z "$AGENT_NAME" ]] || [[ ! -f "$AGENT_FILE" ]]; then
   echo "0"; exit 0
