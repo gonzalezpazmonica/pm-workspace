@@ -46,10 +46,8 @@ AUDIT_LOG="$PROJECT_DIR/output/responsibility-judge.jsonl"
 mkdir -p "$(dirname "$AUDIT_LOG")" 2>/dev/null
 TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-# Override check
-if [[ "${RESPONSIBILITY_JUDGE_OVERRIDE:-0}" == "1" ]]; then
-  echo "{\"ts\":\"$TS\",\"file\":\"$FILE_PATH\",\"action\":\"OVERRIDE\"}" \
-    >> "$AUDIT_LOG" 2>/dev/null
+# Self-test exclusion: tests OF the judge contain shortcut patterns as data
+if echo "$FILE_PATH" | grep -qiE 'test-responsibility-judge'; then
   exit 0
 fi
 
@@ -118,7 +116,7 @@ if [[ -z "$PATTERN" ]]; then
 fi
 
 # Pattern matched → log and block
-echo "{\"ts\":\"$TS\",\"file\":\"$FILE_PATH\",\"pattern\":\"$PATTERN\",\"detail\":\"$DETAIL\",\"action\":\"BLOCKED\",\"override\":false}" \
+echo "{\"ts\":\"$TS\",\"file\":\"$FILE_PATH\",\"pattern\":\"$PATTERN\",\"detail\":\"$DETAIL\",\"action\":\"BLOCKED\"}" \
   >> "$AUDIT_LOG" 2>/dev/null
 
 cat >&2 <<EOF
@@ -126,7 +124,7 @@ RESPONSIBILITY JUDGE: Shortcut detected ($PATTERN — $DETAIL)
 File: $FILE_PATH
 
 Investigate WHY the failure occurs before changing acceptance criteria.
-Override: RESPONSIBILITY_JUDGE_OVERRIDE=1 (logged to audit).
+To proceed, convince the judge: explain WHY this is root-cause, not a shortcut.
 EOF
 
 exit 2

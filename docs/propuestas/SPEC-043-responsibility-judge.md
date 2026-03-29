@@ -107,12 +107,19 @@ RESPONSIBILITY_JUDGE_TIMEOUT    = 5
 
 `output/responsibility-judge.jsonl` (append-only, gitignored):
 ```json
-{"ts":"...","file":"...","pattern":"S-01","layer":2,"verdict":"SHORTCUT","action":"BLOCKED","override":false}
+{"ts":"...","file":"...","pattern":"S-01","layer":2,"verdict":"SHORTCUT","action":"BLOCKED"}
 ```
+
+## No Override — By Design
+
+There is NO override mechanism. If the judge blocks an edit, Savia must
+convince the judge by explaining why the change is root-cause, not a
+shortcut. The only exclusion is the judge's own test file (self-test).
 
 ## Edge Cases and Limitations
 
-1. **Legitimate threshold changes**: Override env var exists. Logged.
+1. **Legitimate threshold changes**: Savia must explain the root cause
+   in the conversation. The judge only blocks, never approves silently.
 2. **False positives on refactoring**: Layer 2 mitigates via context.
    In standard (Layer 1 only), accept occasional warns.
 3. **Cost**: ~250 tokens/invocation (Haiku). Negligible at typical usage.
@@ -120,7 +127,6 @@ RESPONSIBILITY_JUDGE_TIMEOUT    = 5
    has not written it yet, the hook cannot intercept. Future: Prompt hook.
 5. **Multi-step shortcuts**: Delete test + add weaker test across edits.
    Audit log enables post-hoc detection via pattern analysis.
-6. **Override abuse**: Monthly review of JSONL catches systematic bypass.
 
 ## Relationship to Existing Rules
 

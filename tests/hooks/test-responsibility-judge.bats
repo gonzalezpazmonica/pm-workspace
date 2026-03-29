@@ -16,6 +16,10 @@ HOOK=".claude/hooks/responsibility-judge.sh"
   grep -q 'profile_gate "standard"' "$HOOK"
 }
 
+@test "NO override mechanism exists" {
+  ! grep -qi "OVERRIDE" "$HOOK"
+}
+
 @test "S-01: blocks threshold lowering in test files" {
   INPUT='{"tool_input":{"file_path":"tests/eval/test-accuracy.bats","new_string":"MIN_ACCURACY = 0.60"}}'
   run bash -c "echo '$INPUT' | SAVIA_HOOK_PROFILE=standard bash $HOOK"
@@ -63,9 +67,9 @@ HOOK=".claude/hooks/responsibility-judge.sh"
   [ "$status" -eq 0 ]
 }
 
-@test "override allows blocked pattern" {
-  INPUT='{"tool_input":{"file_path":"tests/test.bats","new_string":"MIN_ACCURACY = 0.60"}}'
-  run bash -c "echo '$INPUT' | RESPONSIBILITY_JUDGE_OVERRIDE=1 SAVIA_HOOK_PROFILE=standard bash $HOOK"
+@test "self-test exclusion for judge test file" {
+  INPUT='{"tool_input":{"file_path":"tests/hooks/test-responsibility-judge.bats","new_string":"MIN_ACCURACY = 0.60"}}'
+  run bash -c "echo '$INPUT' | SAVIA_HOOK_PROFILE=standard bash $HOOK"
   [ "$status" -eq 0 ]
 }
 
