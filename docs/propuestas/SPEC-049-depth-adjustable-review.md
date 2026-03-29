@@ -59,15 +59,12 @@ usando el skill `risk-scoring` y selecciona el depth automaticamente:
 
 | Perspectiva | quick | standard | thorough |
 |------------|:-----:|:--------:|:--------:|
-| Code quality (SOLID, naming, complexity) | x | x | x |
-| Format/lint (conventions, style) | x | x | x |
-| Security (OWASP, secrets, injection) | | x | x |
-| Performance (N+1, blocking, memory) | | x | x |
-| Spec compliance (traza requisitos) | | x | x |
-| Architecture (layers, dependencies, patterns) | | | x |
-| Consensus panel (3-judge validation) | | | x* |
+| Code quality + Format/lint | x | x | x |
+| Security (OWASP, secrets) | | x | x |
+| Performance + Spec compliance | | x | x |
+| Architecture + Consensus* | | | x |
 
-*Solo si risk score >75 (Critical en risk-escalation.md)
+*Consensus solo si risk score >75 (Critical en risk-escalation.md)
 
 ---
 
