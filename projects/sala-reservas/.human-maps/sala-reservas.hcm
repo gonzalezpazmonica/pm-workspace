@@ -1,0 +1,60 @@
+# sala-reservas — Human Map (.hcm)
+> version: 1.0 | last-walk: — (borrador, pendiente validación humana) | walk-time: 2min | debt-score: 0/10
+> acm-sync: .agent-maps/sala-reservas.acm (pendiente generación)
+
+## La historia
+
+sala-reservas es el proyecto TEST de pm-workspace: su único propósito es validar el
+pipeline SDD sin necesidad de conectarse a Azure DevOps real. Gestiona la reserva de
+salas de reuniones con una sola regla de negocio crítica: dos reservas no pueden
+solaparse en la misma sala. El proyecto vive en `test-data/` con mock data y en
+`specs/sprint-2026-04/` con specs ejecutables, por lo que cualquier agente puede
+practicar el ciclo completo (spec → código → test) en entorno seguro.
+
+## El modelo mental
+
+Piensa en sala-reservas como el **entorno de pruebas del taller**: no sirve a
+clientes reales, sirve para que los agentes (y el equipo) afinen su forma de
+trabajar con pm-workspace antes de tocar proyectos reales. La arquitectura Clean
+(Domain/Application/Infrastructure/API) sobre solo 2 entidades (Sala y Reserva) es
+intencionalmente simple: el foco está en los procesos SDD, no en la complejidad
+del dominio.
+
+**Invariante central**: ninguna reserva puede tener `sala + fecha + franja_horaria`
+que se solape con otra reserva activa. Esta validación es el núcleo de la capa Domain.
+
+## Puntos de entrada (tarea → dónde empezar)
+
+- Para **crear una sala** → spec ejecutable `specs/sprint-2026-04/AB101-B3-create-sala-handler.spec.md`
+- Para **entender el overlap validation** → dominio `src/Domain/Entities/Reserva.cs` + `ReservaService`
+- Para **cargar mock data** → `test-data/mock-sprint.json`, `mock-workitems.json`, `mock-capacities.json`
+- Para **ejecutar tests** → `dotnet test --filter "Category=Unit"` (LocalDB, sin SQL Server real)
+- Para **añadir specs nuevas** → copiar patrón de `specs/sprint-2026-04/AB101-B3-*.spec.md`
+
+## Gotchas (comportamientos no obvios)
+
+- **Sin autenticación**: el empleado introduce su nombre manualmente. No hay Azure AD, no
+  hay tokens. Si ves en otras specs que hay auth → no aplica aquí.
+- **LocalDB en dev**: la BD es SQL Server LocalDB, no una instancia real. La cadena de
+  conexión usa `(localdb)\\mssqllocaldb`. Ojo en CI donde LocalDB puede no estar disponible.
+- **No es Azure DevOps real**: `test-data/mock-workitems.json` simula los work items.
+  Los IDs (AB101, AB102…) son ficticios — no tienen correspondencia en ningún org.
+- **Arquitectura Clean pero tiny**: 4 capas para 2 entidades puede parecer
+  sobreingeniería, pero es deliberado para que los agentes practiquen el routing de
+  capas correcto.
+- **Equipo ficticio**: Sofía, Carlos, Laura, Diego, Ana son personajes del mock de equipo.
+  No son personas reales con restricciones de calendario.
+
+## Por qué está construido así
+
+- **Clean Architecture sobre 2 entidades**: maximiza cobertura del pipeline SDD
+  sin añadir complejidad de dominio. Un agente puede completar un slice en <15 min.
+- **Mock data en JSON**: evita dependencia de Azure DevOps para CI local y onboarding
+  de nuevos agentes o desarrolladores. Todo funciona offline.
+- **Specs ejecutables como fuente de verdad**: el equipo (y los agentes) trabajan
+  contra criterios de aceptación formales desde el primer commit.
+
+## Indicadores de deuda
+
+- Sin cobertura real de integración (sin SQL Server en CI) — conocido y aceptado
+- Mock data necesita actualización periódica para reflejar nuevas features del pipeline SDD

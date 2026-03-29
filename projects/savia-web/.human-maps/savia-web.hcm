@@ -1,0 +1,70 @@
+# savia-web — Human Map (.hcm)
+> version: 1.0 | last-walk: — (borrador, pendiente validación humana) | walk-time: 3min | debt-score: 0/10
+> acm-sync: .agent-maps/savia-web.acm (pendiente generación)
+
+## La historia
+
+savia-web es el frontend Vue 3 + TypeScript de Savia: la interfaz que permite a los
+usuarios interactuar con el Bridge (servidor local de Savia) desde un navegador. Gestiona
+chat con SSE streaming cancelable, 8 stores de Pinia, 13 páginas, 28 componentes y
+soporte multidioma ES/EN. Es el cliente más complejo de Savia porque centraliza la
+visualización de todo lo que hace el Bridge: sprints, backlog, pipelines, dashboards,
+informes y sesiones de chat multi-hilo.
+
+## El modelo mental
+
+Piensa en savia-web como **la cabina de mando del piloto**: todo lo que Savia hace en
+el servidor tiene su representación visual aquí. Los 8 stores de Pinia son los
+instrumentos del cuadro de mandos — cada uno mapea a un dominio del Bridge. El SSE
+streaming del chat es la característica más delicada: el estado debe ser consistente
+aunque el usuario cancele a mitad de una respuesta larga.
+
+**Invariante de sesión**: todas las stores se recargan cuando el usuario cambia de
+proyecto activo. Cualquier estado local que no se limpie en ese momento crea
+inconsistencias entre lo que se muestra y el proyecto real.
+
+## Puntos de entrada (tarea → dónde empezar)
+
+- Para **el flujo de chat** → `src/stores/chat.ts` + `src/components/ChatSessionList.vue`
+  + endpoint `/chat` y `/sessions` del Bridge
+- Para **un nuevo store** → copiar patrón de `src/stores/backlog.ts` (más simple)
+- Para **añadir una página** → `src/pages/`, registrar en `src/router/index.ts`,
+  verificar guard en `/admin/*` si aplica
+- Para **certificados TLS del Bridge** → `~/.savia/bridge/certs/` (autofirmados, no
+  están en el sistema operativo)
+- Para **tests E2E** → `tests/e2e/` con Playwright, screenshot obligatorio por test
+
+## Gotchas (comportamientos no obvios)
+
+- **Bridge usa TLS autofirmado**: los certificados están en `~/.savia/bridge/certs/`.
+  No están en el certificado store del SO. Playwright los acepta con `ignoreTLSErrors`,
+  pero una app real necesitará manejarlos explícitamente.
+- **SSE streaming es cancelable**: el usuario puede cancelar una respuesta en curso.
+  El store de chat debe manejar el estado `streaming → cancelled` sin dejar la UI
+  inconsistente. Es el caso de error más frecuente en este componente.
+- **Guard `/admin/*`**: la ruta `/admin` y todas sus subrutas requieren rol `admin`.
+  Sin el guard, cualquier usuario autenticado puede acceder. No modificar el guard
+  sin revisar los test E2E de autorización.
+- **Recarga de stores en cambio de proyecto**: cuando el usuario cambia el proyecto
+  activo en el selector, todos los stores llaman a su `fetchAll()`. Si una store
+  nueva no sigue este patrón, mostrará datos del proyecto anterior.
+- **vue-i18n con lazy loading**: las traducciones EN se cargan bajo demanda. Una
+  clave que existe en ES pero no en EN no da error en dev — da error en producción
+  cuando un usuario cambia a EN.
+
+## Por qué está construido así
+
+- **Vue 3 Composition API + Pinia**: facilita los stores tipados por dominio y el
+  SSE streaming reactivo con `ref`/`computed`. Options API sería más verbosa para
+  los patrones de streaming.
+- **8 stores separadas por dominio**: cada store mapea exactamente a una sección del
+  Bridge. Cuando el Bridge añade un endpoint nuevo, la store correspondiente crece
+  — sin tocar las demás.
+- **42 unit + ~150 E2E**: la ratio alta de E2E refleja que la lógica crítica
+  (chat streaming, autenticación, cambio de proyecto) es difícil de cubrir unitariamente.
+
+## Indicadores de deuda
+
+- `ChatSessionList.vue` es el componente más complejo (multi-hilo, SSE, cancelación)
+  y tiene menor cobertura de tests que el resto
+- Lazy loading de traducciones puede enmascarar claves faltantes hasta producción

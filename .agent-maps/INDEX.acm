@@ -1,0 +1,48 @@
+# INDEX — Agent Code Map (.acm)
+> hash: sha256:8d3a2d0565d88615 | generated: 2026-03-29 | project: pm-workspace
+
+pm-workspace: automated PM platform with AI agents, 16 language packs, SDD pipeline.
+506 commands · 47 agents · 88 skills · 35 hooks · 136 domain rules
+
+## Navigation by Layer
+
+| Layer | File | Elements | Priority |
+|-------|------|----------|----------|
+| Domain Entities | domain/entities.acm | 6 entity types (commands, skills, agents, hooks, rules, profiles) | 🔴 High |
+| Domain Services | domain/services.acm | 7 core services (SDD, sprint, NL-resolution, context, memory, security, AST) | 🔴 High |
+| Infrastructure | infrastructure/repositories.acm | 5 storage/runtime layers | 🟡 Medium |
+| API / Entry Points | api/controllers.acm | 4 entry channels (slash commands, hooks pipeline, agent dispatch, profile routing) | 🟡 Medium |
+
+## Load by Scope
+
+- Full context: `@include domain/entities.acm`, `@include domain/services.acm`,
+  `@include infrastructure/repositories.acm`, `@include api/controllers.acm`
+- Domain only: `@include domain/entities.acm`, `@include domain/services.acm`
+- API only: `@include api/controllers.acm`
+- Infrastructure only: `@include infrastructure/repositories.acm`
+
+## Key Architecture Decisions
+
+- **Command → Agent → Skill**: all commands delegate to agents; agents consume skills
+- **Hooks are deterministic gates**: security/quality rules live in hooks, NOT in CLAUDE.md
+- **N1-N4b confidentiality**: every persisted file is classified before writing
+- **150-line limit**: all files split at 150 lines — enforced by commit-guardian
+- **SDD pipeline**: analyst → architect → spec-writer → developer → test-engineer → reviewer
+
+## Project Structure
+
+```
+~/claude/
+├── .claude/commands/ (506)    ← Slash command definitions (.md)
+├── .claude/agents/ (47)       ← Subagent definitions (.md)
+├── .claude/skills/ (88)       ← Reusable knowledge modules (SKILL.md)
+├── .claude/hooks/ (35)        ← Deterministic lifecycle hooks (.sh)
+├── .claude/rules/domain/ (136)← Domain rules loaded on demand
+├── .claude/profiles/          ← User/company profiles (N3)
+├── projects/ (gitignored)     ← Active client projects (N4)
+├── output/ (gitignored)       ← Generated reports (N4)
+└── scripts/                   ← Utility scripts
+```
+
+@include domain/entities.acm
+@include domain/services.acm
