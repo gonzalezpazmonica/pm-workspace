@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.81.0] — 2026-03-29
+
+feat: SPEC-043 Responsibility Judge — deterministic shortcut detector hook. Era 164.
+
+### Added
+
+- **hook: responsibility-judge.sh** (SPEC-043): PreToolUse hook on Edit|Write that detects 7 shortcut patterns (S-01 through S-06) via regex. Blocks threshold lowering, test skipping, empty catch handlers, gate bypasses, coverage reduction, and untracked TODOs. Zero latency Layer 1 (standard profile). Override with `RESPONSIBILITY_JUDGE_OVERRIDE=1` (logged to audit JSONL).
+- **tests/hooks/test-responsibility-judge.bats** — 15 tests covering all patterns, overrides, profile gating, and registration.
+- **docs/propuestas/SPEC-043-responsibility-judge.md** — Full spec with two-layer architecture (Layer 1 regex + Layer 2 LLM judge for strict profile).
+
+### Changed
+
+- **settings.json**: registered responsibility-judge.sh as PreToolUse hook for Edit|Write events (5s timeout, standard tier)
+
 ## [3.80.0] — 2026-03-29
 
 feat: SPEC-042 live progress feedback — real-time visibility of Savia work execution. Era 163.
@@ -5009,6 +5023,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.80.0...v3.81.0
 [3.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.79.0...v3.80.0
 [3.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.78.0...v3.79.0
 [3.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.77.0...v3.78.0
