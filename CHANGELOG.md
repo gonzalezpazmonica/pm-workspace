@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.75.0] — 2026-03-29
+
+feat: SPEC-042 live progress feedback — real-time visibility of Savia work execution.
+
+### Added
+
+- **live-progress-feedback** (SPEC-042): real-time progress updates during agentexecution — subprocess state machine tracks phases (ready → running → checkpoint → complete)
+- **progress endpoint**: `/progress {task-id}` returns JSON: phase, percentage, current_step, eta_seconds, logs_tail
+- **checkpoint protocol**: agent emits `CHECKPOINT {phase} {pct}` markers for heartbeat — enables timeout detection and kill-switch
+- **Tests**: `test-live-progress.bats` — phase transitions, checkpoint parsing, timeout detection (all green)
+
+### Changed
+
+- Removed 50 legacy PBI test stub files (PBI-004 through PBI-063) — cleanup for SPEC-042 development
+- Updated `tests/structure/test-backlog-structure.bats` for new backlog structure
+
 ## [3.74.0] — 2026-03-28
 
 fix: workspace audit — security hooks never called, sovereignty bug, catalog sync. Era 162.
