@@ -87,7 +87,7 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 
 **Spec-Driven Development** — Las tasks se convierten en specs ejecutables. Implemento handlers, tests y repositorios en 16 lenguajes. Los agentes trabajan en worktrees aislados para evitar conflictos.
 
-**Inteligencia de código** — Detecto patrones de arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices), mido salud arquitectónica con fitness functions, y priorizo deuda técnica por impacto de negocio. Genero diagramas de arquitectura, flujo, secuencia y organigramas de equipo exportables a Draw.io, Miro o Mermaid local. Importo organigramas existentes para generar la estructura de equipos automáticamente (`/orgchart-import`).
+**Inteligencia de código** — Detecto patrones de arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices), mido salud arquitectónica con fitness functions, y priorizo deuda técnica por impacto de negocio. Genero diagramas de arquitectura, flujo, secuencia y organigramas de equipo exportables a Draw.io, Miro o Mermaid local. Importo organigramas existentes para generar la estructura de equipos automáticamente (`/orgchart-import`). **Human Code Maps (.hcm)** — mapas narrativos en lenguaje humano que pre-digieren el primer paseo por un subsistema. Cada proyecto lleva sus mapas en `.human-maps/` dentro de su propia carpeta. Comandos: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`. Lucha activa contra la deuda cognitiva: los desarrolladores pasan el 58% del tiempo leyendo código; estos mapas reducen ese coste de sesión en sesión.
 
 **Seguridad y compliance** — SAST contra OWASP Top 10, SBOM, escaneo de credenciales, compliance regulatorio en 12 sectores, gobernanza IA con model cards y EU AI Act. Auditoría de confidencialidad pre-PR con agente contextual + firma criptográfica HMAC-SHA256 verificada en CI.
 
@@ -145,6 +145,7 @@ Configurable con `SAVIA_HOME`, `--skip-tests`. Detalles: `install.sh --help`
 | [Spec-Driven Development](docs/readme/05-sdd.md) | SDD: specs, agentes, patrones |
 | [Flujo de datos](docs/data-flow-guide-es.md) | Cómo se conectan las partes |
 | [Confidencialidad](docs/confidentiality-levels.md) | 5 niveles (N1-N4b) y mecanismos |
+| [**Estrategia AST**](docs/ast-strategy.md) | Comprensión de código legado + 12 Quality Gates universales + Human Code Maps (.hcm) |
 | [**Savia Shield**](docs/savia-shield.md) | Soberanía de datos: clasificación local, masking reversible, LLM on-premise |
 | [Comandos y agentes](docs/readme/12-comandos-agentes.md) | 505 comandos + 49 agentes |
 | [Guías por escenario](docs/guides/README.md) | Azure, Jira, startup, sanidad... |

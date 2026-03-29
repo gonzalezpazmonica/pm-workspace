@@ -50,6 +50,7 @@ Como funciona por dentro en detalle: **[O meu Sistema de Memoria](docs/memory-ar
 ---
 
 
+> **[Estratexia AST](docs/ast-strategy.gl.md)** — Comprensión de código legado + 12 Quality Gates universais. Arquitectura AST dual: comprensión pre-edición e validación post-xeración. **Human Code Maps (.hcm)** — mapas narrativos en linguaxe humana que pre-dixiren o primeiro percorrido por un subsistema. Cada proxecto leva os seus mapas en `.human-maps/` dentro do seu propio cartafol. Comandos: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`. Loita activa contra a débeda cognitiva: os desenvolvedores pasan o 58% do tempo lendo código; estes mapas reducen ese custo de sesión en sesión.
 > **[Savia Shield](docs/savia-shield.gl.md)** — Sistema de soberania de datos. Clasificacion local con LLM, enmascaramento reversible, auditoria completa.
 
 ## Instalación

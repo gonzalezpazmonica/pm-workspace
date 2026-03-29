@@ -1,0 +1,82 @@
+# pm-workspace — Human Map (.hcm)
+> version: 1.0 | last-walk: — (borrador, pendiente validación humana) | walk-time: 3min | debt-score: 0/10
+> acm-sync: .agent-maps/INDEX.acm#KeyArchitectureDecisions
+
+## La historia
+
+pm-workspace es una plataforma de gestión de proyectos que apuesta por una hipótesis radical:
+los fallos de los agentes de IA no son fallos de inteligencia, sino fallos de contexto. El sistema
+resuelve este problema con cuatro capas: Comandos como shells de enrutamiento (el usuario entra aquí),
+Agentes como trabajadores autónomos con contexto fresco (el trabajo ocurre aquí), Skills como
+módulos de conocimiento reutilizables (el saber está aquí), y Hooks deterministas como guardas
+de seguridad que no dependen del LLM (la fiabilidad está aquí). Savia es la voz que orquesta todo.
+
+## El modelo mental
+
+Piensa en una **redacción de periódico**: los Comandos son la bandeja de entrada del editor
+(el usuario pide una historia). Los Agentes son los periodistas especializados (el arquitecto
+escribe de arquitectura, el dotnet-developer escribe de código C#). Las Skills son la biblioteca
+de referencia (cómo entrevistar stakeholders, cómo evaluar un sprint). Las Rules son las normas
+editoriales. Los Hooks son los fact-checkers que revisan antes de publicar — y no se les puede
+convencer de saltarse su trabajo. Savia es la redactora jefe.
+
+**Invariante central**: ningún agente tiene contexto residual de sesiones anteriores. Cada agente
+empieza fresco. La continuidad vive en disco (`.agent-maps/`, `output/`, `projects/`), no en la
+memoria de ningún modelo.
+
+## Puntos de entrada (tarea → dónde empezar)
+
+- Para **añadir un comando** → crear `.claude/commands/{nombre}.md` (es literalmente el prompt)
+- Para **añadir un agente** → crear `.claude/agents/{nombre}.md` + entrada en `agents-catalog.md`
+- Para **entender cómo se despachan agentes** → `.claude/rules/domain/assignment-matrix.md`
+- Para **depurar un fallo de commit** → `.claude/hooks/commit-guardian.sh` (y sus 10 checks)
+- Para **entender el pipeline SDD** → `.claude/skills/spec-driven-development/SKILL.md`
+- Para **ver qué hooks corren cuándo** → `.claude/settings.json` → sección `hooks`
+- Para **entender memoria entre sesiones** → `docs/memory-system.md` + `~/.claude/projects/*/memory/`
+
+## Gotchas (comportamientos no obvios)
+
+- **Las Rules NO se cargan automáticamente.** El `CLAUDE.md` hace `@import` perezoso — una Rule
+  en `.claude/rules/domain/` no existe hasta que algo la referencia con `@`. Si un agente
+  ignora una regla, verificar que la regla está cargada.
+
+- **Los Hooks son bash, no prompts.** Si un hook bloquea algo, no sirve de nada pedir al agente
+  que "ignore" el hook. El hook es código. Hay que corregir la causa raíz.
+
+- **`.claude/commands/*.md` ES el slash command.** No hay código que ejecutar — el fichero se
+  inyecta como instrucción al LLM. Si el comportamiento del comando es incorrecto, el bug está
+  en el `.md`, no en ningún binario.
+
+- **`projects/` es gitignored por defecto (deny-by-default).** Un proyecto nuevo no entra al repo
+  sin whitelist explícita en `.gitignore`. Esto es intencional — protege datos de clientes.
+
+- **El Code Review E1 es SIEMPRE humano.** Ningún agente puede aprobar ni mergear un PR. Los
+  agentes preparan el review; el humano decide. Si ves un merge automático, algo está roto.
+
+- **SAVIA_HOOK_PROFILE controla qué hooks corren.** En modo `minimal` solo corren los blockers
+  de seguridad. En modo `strict` corren todos. El default es `standard`. Cambiar de perfil puede
+  hacer que fallen cosas que antes pasaban.
+
+## Por qué está construido así
+
+- **Command→Agent→Skill (no monolito)**: Los comandos delegan para mantener el contexto limpio.
+  Un comando que hiciera todo el trabajo agotaría la ventana de contexto. Los agentes reciben
+  contexto fresco de 200K tokens con exactamente lo que necesitan.
+
+- **Hooks sobre CLAUDE.md para reglas críticas**: Los LLMs olvidan instrucciones ~20% de las
+  veces (documentado en tres proyectos independientes: Everything Claude Code, gstack, Astromesh).
+  Las reglas que no pueden fallar (no hardcodear PATs, no pushear a main) viven en hooks bash.
+
+- **N1-N4b niveles de confidencialidad**: El repo es público en GitHub pero contiene proyectos
+  privados de clientes. Los niveles resuelven la coexistencia: código del workspace en N1 (git),
+  datos del cliente en N4 (gitignored). La regla `context-placement-confirmation.md` es el árbitro.
+
+- **Límite de 150 líneas por fichero**: No es arbitrario — es el threshold donde un fichero
+  cargado entero en contexto empieza a ser caro. Si crece, se divide. La coherencia > el tamaño.
+
+## Indicadores de deuda
+
+- Cualquier skill con `maturity: experimental` → revisar si está funcionando en producción
+- `.claude/rules/domain/semantic-hub-index.md` → lista de rules dormant (61% sin referencias)
+- `tasks/lessons.md` → errores recurrentes; si hay >3 del mismo tipo, hay deuda sistémica
+- Comandos en `commands/` sin entrada en `pm-workflow.md` → probablemente desactualizados

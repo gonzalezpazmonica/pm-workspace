@@ -1,0 +1,71 @@
+# API — Entry Points & Controllers (.acm)
+> hash: sha256:8d3a2d0565d88615-3ed4204b516dbf73 | generated: 2026-03-29 | lines: ~130
+
+## SlashCommands Catalog (506)
+- **Type**: Primary user entry channel
+- **File**: `.claude/commands/*.md` — each is a slash command definition
+- **Purpose**: PM orchestration — every user-facing operation starts here
+- **Dependencies**: agents (via Task), skills (via @include logic), rules (via @ imports)
+- **Route patterns** (by prefix → functional area):
+  - `sprint-*` → Sprint Management Service
+  - `pbi-*` → Product Backlog Item operations
+  - `spec-*`, `dev-session*` → SDD Pipeline Service
+  - `arch-*`, `adr-*` → Architecture Intelligence
+  - `report-*`, `ceo-*` → Executive Reporting
+  - `security-*`, `a11y-*` → Security + Accessibility
+  - `memory-*`, `context-*` → Memory + Context Health
+  - `savia-*` → Savia platform commands
+  - `flow-*` → Savia Flow practice tools
+  - `school-*` → Savia School learning
+  - `mcp-*` → MCP server management
+  - `/codemap:*` → Agent Code Map (ACM) skill
+- **Frontmatter fields**: name, description, argument-hint, allowed-tools, model(haiku|sonnet|opus), context_cost(low|medium|high)
+- **UX contract**: EVERY command MUST show banner → prerequisites → progress → result (Rule #15)
+
+## HooksPipeline
+- **Type**: Automated enforcement channel (invisible to user)
+- **File**: `.claude/settings.json` → hooks config
+- **Purpose**: Safety and quality gates that fire on Claude Code lifecycle events
+- **Dependencies**: .claude/hooks/*.sh, SAVIA_HOOK_PROFILE, lib/profile-gate.sh
+- **Event mapping**:
+  - `SessionStart` → `session-init.sh` (shows PAT/profile/branch status)
+  - `PreToolUse(Edit)` → `ast-comprehend-hook.sh` (inject structural context before editing)
+  - `PreToolUse(Bash)` → `block-credential-leak.sh`, `validate-bash-global.sh`
+  - `PreToolUse(Task)` → `agent-dispatch-validate.sh` (checklist before subagent)
+  - `PostToolUse(Edit|Write)` → `ast-quality-gate-hook.sh` (async quality score), `agent-trace-log.sh`
+  - `Stop` → `prompt-hook-commit.sh` (semantic commit message validation)
+  - `SubagentStop` → `agent-hook-premerge.sh` (pre-merge quality gate)
+- **AST hooks**: comprehension(sync, PreToolUse on files ≥50 lines) + quality-gate(async, PostToolUse)
+
+## AgentDispatch
+- **Type**: Internal agent routing (invoked by commands, never directly by users)
+- **File**: `.claude/agents/*.md`, `rules/domain/agents-catalog.md`, `rules/domain/assignment-matrix.md`
+- **Purpose**: Route tasks to specialized subagents based on language pack and task type
+- **Dependencies**: Language Pack detection, assignment-matrix.md, agent-context-budget.md
+- **Routing logic** (assignment-matrix.md):
+  - API REST (.NET) → dotnet-developer + test-runner
+  - API REST (Java/Python/Go/Rust/PHP/Ruby/TS) → respective {lang}-developer
+  - UI Angular/React → frontend-developer + frontend-test-runner
+  - Mobile (iOS/Android/Flutter) → mobile-developer
+  - Spec técnica → sdd-spec-writer + architect
+  - Security scan → security-attacker → security-defender → security-auditor
+  - Pre-commit → commit-guardian (10 checks: branch, secrets, build, tests, format, review, README, CLAUDE.md, atomicity, message)
+  - Document digestion → {pdf/word/excel/pptx/visual}-digest
+- **Context budgets**: Heavy(13K), Standard(8.5K), Light(4.5K), Minimal(2.2K)
+- **Isolation**: developers use `isolation: worktree` for safe parallel execution
+
+## UserProfileRouting
+- **Type**: Identity & personalization channel
+- **File**: `.claude/profiles/`, `.claude/rules/domain/profile-onboarding.md`
+- **Purpose**: Detect user identity (human vs agent), load appropriate profile fragments, adapt Savia's voice
+- **Dependencies**: active-user.md, context-map.md, role-workflows.md
+- **Human flow**: active-user.md → load identity.md → greet by name → lazy-load other fragments on demand
+- **Agent flow**: detect PM_CLIENT_TYPE=agent → skip greeting → structured YAML responses only
+- **Role → workflow mapping**:
+  - PM/Scrum Master → daily-first (sprint-status → team-workload → board-flow)
+  - Tech Lead → code-focused (tech-radar → pr-pending → spec-status)
+  - QA Engineer → quality-gate (qa-dashboard → pr-pending → coverage)
+  - Product Owner → reporting-focused (kpi-dashboard → backlog vs capacity)
+  - Developer → code-focused (my-sprint → my-focus)
+  - CEO/CTO → strategic-oversight (ceo-alerts → portfolio-overview)
+- **Accessibility**: `.claude/profiles/users/{slug}/accessibility.md` — screen_reader, high_contrast, cognitive_load, motor_accommodation, dyslexia_friendly, guided_work

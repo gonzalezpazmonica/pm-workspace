@@ -1,0 +1,65 @@
+# Domain — Services (.acm)
+> hash: sha256:8d3a2d05-5f726684-05d08ecf | generated: 2026-03-29 | lines: ~148
+
+## SDD Pipeline Service
+- **Type**: Orchestration service
+- **File**: `.claude/skills/spec-driven-development/SKILL.md`
+- **Purpose**: Full Spec-Driven Development lifecycle from PBI to deployed code
+- **Dependencies**: business-analyst, architect, sdd-spec-writer, {lang}-developer, test-engineer, code-reviewer, dag-scheduling, verification-lattice
+- **Public API**: `/spec-generate`, `/spec-design`, `/spec-explore`, `/spec-verify`, `/spec-slice`, `/dev-session start|next|review`, `/dag-plan`, `/dag-execute`
+- **Pipeline**: analyst → architect → spec-writer → developer ‖ test-engineer → code-reviewer → human review (E1)
+- **Key rule**: NEVER agent without approved spec; Code Review (E1) ALWAYS human
+
+## Sprint Management Service
+- **Type**: Scrum orchestration service
+- **File**: `.claude/skills/sprint-management/SKILL.md`
+- **Purpose**: Full scrum ceremony lifecycle — planning, daily, review, retro
+- **Dependencies**: azure-devops-queries, capacity-planning, pbi-decomposition, azure-devops-operator
+- **Public API**: `/sprint-plan`, `/sprint-autoplan`, `/sprint-status`, `/sprint-review`, `/sprint-retro`, `/daily-routine`, `/board-flow`, `/velocity-track`
+- **Cadence**: Planning Mon 10:00, Daily 09:15, Review Fri 15:00, Retro Fri 16:30
+- **Key config**: SPRINT_DURATION_WEEKS=2, SPRINT_START_DAY=Monday
+
+## NL Command Resolution Service
+- **Type**: Natural language → slash command mapper
+- **File**: `.claude/rules/domain/nl-command-resolution.md`
+- **Purpose**: Map conversational queries to executable commands with confidence scoring
+- **Dependencies**: intent-catalog.md, confidence-protocol.md, memory-store
+- **Public API**: `/nl-query`, invoked from `/help` on conversational input
+- **Scoring**: base(70-95%) + context(+0-5%) + history(+0-3%); ≥80% auto-execute, 50-79% confirm, <50% suggest top-3
+- **Decay**: 3 consecutive failures → -5% base confidence; calibrate monthly with Brier score
+
+## Context Health Service
+- **Type**: Context window management service
+- **File**: `.claude/rules/domain/context-health.md`
+- **Purpose**: Prevent context exhaustion that breaks all commands
+- **Dependencies**: session-init.sh (hook), pre-compact-backup.sh (hook), CLAUDE_AUTOCOMPACT_PCT_OVERRIDE
+- **Public API**: `/compact`, `/context-budget --show`, `/context-optimize`, context zone banners
+- **Zones**: Verde(<50%) → Gradual(50-70%, suggest /compact) → Alerta(70-85%, block heavy ops) → Crítica(>85%, block all)
+- **Rule**: output >30 lines → save to file, show 10-line summary; `/compact` after every slash command
+
+## Memory System Service
+- **Type**: Cross-session persistence service
+- **File**: `docs/memory-system.md`
+- **Purpose**: Retain decisions, patterns, feedback across sessions without re-explaining
+- **Dependencies**: auto-memory (Claude Code native), scripts/memory-store.sh, session-end-snapshot.sh
+- **Public API**: `/memory-recall`, `/memory-save`, `/memory-stats`, `/memory-compress`, `/memory-sync`
+- **Types**: user(role/preferences), feedback(corrections), project(decisions/discoveries), reference(external pointers)
+- **Agent memory isolation**: public(git) / private(gitignored) / project(N4) — 3-level separation
+
+## AST Quality & Comprehension Service
+- **Type**: Code analysis service (triple architecture)
+- **File**: `.claude/skills/ast-comprehension/SKILL.md`, `.claude/skills/ast-quality-gate/SKILL.md`, `.claude/skills/agent-code-map/SKILL.md`
+- **Purpose**: Understand code before editing (pre), validate after writing (post), persist maps for agents (cross-session)
+- **Dependencies**: tree-sitter(L1), native-AST-tools(L2), grep-structural(L3), hooks: ast-comprehend-hook.sh + ast-quality-gate-hook.sh
+- **Public API**: `/codemap:generate`, `/codemap:check`, `/codemap:load`, `/codemap:refresh --incremental`, `/codemap:stats`
+- **Quality Gates (12)**: QG-01 async-blocking(BLOCKER), QG-03 null-deref(BLOCKER), QG-05 empty-catch(BLOCKER), QG-09 hardcoded-secrets(BLOCKER), QG-12 untested-biz-logic(BLOCKER)
+- **Score**: 100 − (BLOCKER×10) − (WARNING×3) − (INFO×1)
+
+## Adversarial Security Service
+- **Type**: Red/Blue/Audit pipeline
+- **File**: `.claude/skills/adversarial-security/SKILL.md`
+- **Purpose**: Verify security through controlled attack+defense before releases
+- **Dependencies**: security-attacker, security-defender, security-auditor, pentester (5-phase dynamic)
+- **Public API**: `/security-pipeline`, `/security-review {spec}`, `/threat-model`
+- **Score**: 100 − (critical×25 + high×10 + medium×3 + low×1)
+- **Policy**: "no exploit, no report" — only proof-based findings (L3) reported

@@ -40,6 +40,8 @@ Per sfruttarmi al massimo:
 3. **Un obiettivo per sessione** — `/clear` tra compiti diversi
 4. **Compatta frequentemente** — `/compact` al 50% del contesto
 
+**Intelligenza del codice** — Rilevo pattern architetturali (Clean, Hexagonal, DDD, CQRS, Microservices), misuro la salute architetturale con fitness functions e priorizzo il debito tecnico per impatto di business. Genero diagrammi di architettura, flusso, sequenza e organigrammi di team esportabili in Draw.io, Miro o Mermaid locale. Importo organigrammi esistenti per generare automaticamente la struttura dei team (`/orgchart-import`). **Human Code Maps (.hcm)** — mappe narrative in linguaggio umano che pre-digeriscono il primo percorso attraverso un sottosistema. Ogni progetto porta le sue mappe in `.human-maps/` all'interno della propria cartella. Comandi: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`. Lotta attiva contro il debito cognitivo: gli sviluppatori trascorrono il 58% del tempo a leggere codice; queste mappe riducono tale costo sessione dopo sessione.
+
 ---
 Come funziona nel dettaglio: **[Il mio Sistema di Memoria](docs/memory-architecture.md)**
 
@@ -50,6 +52,7 @@ Come funziona nel dettaglio: **[Il mio Sistema di Memoria](docs/memory-architect
 ---
 
 
+> **[Strategia AST](docs/ast-strategy.it.md)** — Comprensione del codice legacy + 12 Quality Gate universali. Architettura AST duale: comprensione pre-modifica e validazione post-generazione.
 > **[Savia Shield](docs/savia-shield.it.md)** — Sistema di sovranita dei dati. Classificazione locale con LLM, mascheramento reversibile, audit completo.
 
 ## Installazione
