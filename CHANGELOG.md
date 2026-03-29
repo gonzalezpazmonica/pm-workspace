@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.75.0] — 2026-03-29
+
+feat: ast-quality-gate skill — language-agnostic code quality verification for AI-generated code.
+
+### Added
+
+- **skill: ast-quality-gate** — Meta-analyzer for 16 language packs. Detects 12 quality gates (QG-01..QG-12) covering the 5 most common LLM error patterns: async misuse, N+1 queries, null dereference, magic numbers, empty catch blocks
+- **scripts/ast-quality-gate.sh** — Shell meta-analyzer: detects language by extension/project files, routes to native linter (eslint/ruff/golangci-lint/cargo clippy/dotnet build/phpstan/swiftlint/detekt/rubocop/tflint/dart analyze), runs Semgrep for universal LLM patterns, normalizes outputs to unified JSON schema, computes penalty-based score 0-100
+- **.claude/skills/ast-quality-gate/SKILL.md** — 3-layer architecture docs (native precision + Semgrep coverage + LSP semantics), 12 QG table, pipeline steps, SDD integration, CLI usage flags
+- **.claude/skills/ast-quality-gate/DOMAIN.md** — Clara Philosophy dual-documentation: WHY, domain concepts, 5 business rules (RN-AST-01..05), upstream/downstream relationships
+- **.claude/skills/ast-quality-gate/references/unified-schema.md** — JSON contract `{meta, score, issues[], summary}` normalizing ESLint, Ruff, SARIF, Cargo JSON, SpotBugs XML
+- **.claude/skills/ast-quality-gate/references/semgrep-rules.yaml** — 20 Semgrep rules across QG-01..QG-10 covering TypeScript, JavaScript, Python, Java, Go, C#, Ruby, PHP, Kotlin (10 languages per rule)
+- **.claude/skills/ast-quality-gate/references/language-commands.md** — CLI commands, verification snippets, and jq normalization templates per language
+- **.claude/hooks/ast-quality-gate-hook.sh** — PostToolUse async hook: triggers gate after Edit|Write on source files, writes to `output/quality-gates/latest.json`
+
+### Changed
+
+- **settings.json**: registered `ast-quality-gate-hook.sh` as async PostToolUse hook for Edit|Write events (background execution, 60s timeout)
+
 ## [3.74.0] — 2026-03-28
 
 fix: workspace audit — security hooks never called, sovereignty bug, catalog sync. Era 162.
@@ -4885,6 +4904,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.74.0...v3.75.0
 [3.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.73.0...v3.74.0
 [3.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.72.0...v3.73.0
 [3.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.71.0...v3.72.0
