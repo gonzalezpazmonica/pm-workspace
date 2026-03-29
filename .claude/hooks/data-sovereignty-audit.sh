@@ -41,10 +41,10 @@ fi
 
 # SEC-019: Log if input was empty (possible timeout)
 if [[ -z "$FILE_PATH" ]]; then
-  [[ -z "$INPUT" ]] && [[ -d "$(dirname "$AUDIT_LOG")" ]] && \n    printf '{"ts":"%s","layer":0,"verdict":"TIMEOUT_SKIP"}
-' "$(iso_ts)" >> "$AUDIT_LOG" 2>/dev/null
-  rm -f "$NORM_FILE" 2>/dev/null
-exit 0
+  if [[ -z "$INPUT" ]] && [[ -d "$(dirname "$AUDIT_LOG")" ]]; then
+    printf '{"ts":"%s","layer":0,"verdict":"TIMEOUT_SKIP"}\n' "$(iso_ts)" >> "$AUDIT_LOG" 2>/dev/null
+  fi
+  exit 0
 fi
 [[ ! -f "$FILE_PATH" ]] && exit 0
 

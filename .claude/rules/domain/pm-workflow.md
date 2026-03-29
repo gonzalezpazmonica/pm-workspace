@@ -18,7 +18,7 @@
 - **Sprints:** `Sprint YYYY-NN` (ej: `Sprint 2026-04`)
 - **Informes:** `YYYYMMDD-tipo-proyecto.ext`
 
-## 📟 Comandos Disponibles (497)
+## 📟 Comandos Disponibles (505)
 
 > Tabla completa: `.claude/commands/references/command-catalog.md`
 > Catálogo interactivo: `/help [filtro]`
