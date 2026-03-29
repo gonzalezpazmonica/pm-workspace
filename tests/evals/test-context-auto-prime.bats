@@ -63,7 +63,7 @@ r = subprocess.run(['python3', 'scripts/context-auto-prime.py', 'benchmark',
                     '--store', '$STORE'], capture_output=True, text=True)
 d = json.loads(r.stdout)
 acc = d['summary']['prime_accuracy']
-assert acc >= 0.60, f'Accuracy {acc} < 0.60'
+assert acc >= 0.75, f'Accuracy {acc} < 0.75'
 print(f'OK: {acc}')
 "
   [ "$status" -eq 0 ]
