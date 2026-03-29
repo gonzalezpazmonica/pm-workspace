@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0d8a2c14c9e9066ed1813f906cdcce769068749eba16b3213c9eba1d98e939ad
-timestamp=2026-03-29T21:53:08Z
+diff_hash=7d024ab37d140ae8291b1040ffc3628ba03e46f588df8dc4f6e186f5f74309c2
+timestamp=2026-03-29T22:18:42Z
 branch=feat/spec-043-responsibility-judge
-head_commit=5200ab8
-signature=7bca216d19bc392d0d62754bc2ac311d1e69c4690020918df6a7b1579dd89504
+head_commit=5fadfe8
+signature=0fa420559a1b161cec69721679862f1175650fbeaef91f024752919e352c5347
