@@ -66,7 +66,7 @@ fi
 # S-02: Test skipped or disabled
 if [[ -z "$PATTERN" ]]; then
   if echo "$CONTENT" | grep -qiE \
-    '(@Ignore|@Disabled|pytest\.mark\.skip|\.skip\(|xtest|xit\b|\[Skip\]|skip-bats)'; then
+    '(^\s*@Ignore|^\s*@Disabled|^\s*pytest\.mark\.skip|^\s*\.skip\(|^\s*xtest\b|^\s*xit\b|^\s*\[Skip\]|\[skip-bats\])'; then
     PATTERN="S-02"
     DETAIL="Test skip/disable annotation added"
   fi
