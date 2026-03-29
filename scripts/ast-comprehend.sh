@@ -193,9 +193,8 @@ treesitter_extract() {
   if ! command -v tree-sitter &>/dev/null; then
     return 1
   fi
-  tree-sitter parse "$file" --output json 2>/dev/null | python3 - 2>/dev/null <<'TSEOF'
+  tree-sitter parse "$file" --output json 2>/dev/null | python3 -c '
 import sys, json
-
 def extract_structure(node, result=None):
     if result is None:
         result = {"classes": [], "functions": []}
@@ -220,10 +219,9 @@ def extract_structure(node, result=None):
     for child in node.get("children", []):
         extract_structure(child, result)
     return result
-
 tree = json.load(sys.stdin)
 print(json.dumps(extract_structure(tree)))
-TSEOF
+' 2>/dev/null
 }
 
 # ── Generar summary ────────────────────────────────────────────────────────────
