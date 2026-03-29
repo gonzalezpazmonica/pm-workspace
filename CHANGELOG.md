@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.74.0] — 2026-03-28
 
-fix: workspace audit — security hooks never called, sovereignty bug, catalog sync.
+fix: workspace audit — security hooks never called, sovereignty bug, catalog sync. Era 162.
 
 ### Fixed
 
