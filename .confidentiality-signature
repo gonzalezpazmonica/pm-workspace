@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=47d65ccea8687d4ff23b357afd02798158927165e48aa4b49be3d118543428ad
-timestamp=2026-03-29T22:50:48Z
-branch=feat/spec-044-trace-prompt-optimization
-head_commit=fb74c7f
-signature=7085002965d2412c0b1ef9f5e330483dd61db73df688efb7c3e7585f95bdc0c1
+diff_hash=8a19e9e21226d24f2ac46525bdf0f4ff38aca3e9dd4e6659ba19655ad4a51abb
+timestamp=2026-03-29T23:03:55Z
+branch=feat/spec-045-exploration-collapse
+head_commit=dd17679
+signature=91c2f9bdb19297c87345f1b338d284793f3bf37867350a5dce27213a68145788
