@@ -124,6 +124,17 @@
             "statusMessage": "Agent hook: pre-merge quality gate..."
           }
         ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/live-progress-hook.sh",
+            "async": true,
+            "timeout": 3
+          }
+        ]
       }
     ],
     "PostToolUse": [
