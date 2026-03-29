@@ -114,8 +114,11 @@ pm-workspace/
 │   └── ... (20+ reference docs)
 │
 ├── projects/                     ← Customer projects
-│   ├── dotnet-microservices-home-lab/
-│   ├── claude-code-templates/
+│   ├── {project}/
+│   │   ├── CLAUDE.md             (project context)
+│   │   ├── .agent-maps/          (machine-readable AST maps — .acm files)
+│   │   ├── .human-maps/          (human-readable narrative maps — .hcm files)
+│   │   └── ... (specs, tests, docs)
 │   └── ... (other projects)
 │
 ├── scripts/                      ← Automation & CI/CD
@@ -217,6 +220,7 @@ pm-workspace/
 4. **Rules as data** — Constraints externalized from code
 5. **100% test coverage** — Critical paths (hooks) fully tested
 6. **Composability** — Skills build on each other via agent delegation
+7. **Dual code intelligence** — Each project carries machine-readable `.acm` maps (agent AST) and human-readable `.hcm` maps (narrative comprehension). Both live in `projects/{name}/` to keep context self-contained. See `docs/ast-strategy.md`.
 
 ## Performance Characteristics
 
@@ -237,6 +241,7 @@ To add new capabilities:
 3. **New agent** → Create `.claude/agents/my-agent.md` (profile + instructions)
 4. **New rule** → Create `.claude/rules/domain/my-rule.md`
 5. **New hook** → Add to `.claude/hooks/` + `settings.json` + BATS tests
+6. **Project comprehension map** → `/codemap:generate-human {project}` creates `projects/{name}/.human-maps/{name}.hcm`
 
 All extensions inherit the same safety gates and context budgets.
 

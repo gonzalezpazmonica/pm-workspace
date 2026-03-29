@@ -1,0 +1,61 @@
+# proyecto-alpha — Human Map (.hcm)
+> version: 1.0 | last-walk: — (borrador, pendiente validación humana) | walk-time: 3min | debt-score: 0/10
+> acm-sync: .agent-maps/proyecto-alpha.acm (pendiente generación)
+
+## La historia
+
+proyecto-alpha es el proyecto de referencia de pm-workspace para stacks .NET 8 +
+Angular 17. Representa un contrato T&M con un equipo de 7 personas y velocity media
+de 32 SP. La arquitectura implementa Clean Architecture con CQRS via MediatR: el
+backend expone una Web API con Azure AD/MSAL para autenticación, y el frontend Angular
+es responsabilidad casi exclusiva de humanos (los agentes no tienen el contexto UX para
+decidir layouts o flujos de usuario). Los deploys van solo los miércoles antes de las
+10:00 — una restricción operativa dura del cliente.
+
+## El modelo mental
+
+Piensa en proyecto-alpha como **la plantilla T&M ideal**: equipo mediano, arquitectura
+madura, contrato flexible que permite iterar. El backend es terreno seguro para agentes
+(CQRS + Clean Arch da rutas claras). El frontend Angular es territorio humano por
+definición. El módulo de auth (Azure AD/MSAL) es siempre humano por razones de seguridad.
+
+**Invariante de deploy**: solo miércoles antes de las 10:00. Staging se resetea los
+domingos a las 03:00 — cualquier dato de prueba creado antes del reset se pierde.
+
+## Puntos de entrada (tarea → dónde empezar)
+
+- Para **implementar un nuevo handler** → capa Application, patrón CQRS con MediatR,
+  seguir estructura existente en `src/Application/Features/`
+- Para **añadir validación** → FluentValidation, clase `{Comando}Validator` junto al handler
+- Para **depurar auth** → Azure AD / MSAL — responsabilidad humana, no delegar a agente
+- Para **verificar cobertura** → xUnit + Coverlet + SonarQube, umbral 80%
+- Para **un deploy a staging** → solo miércoles antes de 10:00 via Azure Pipelines
+
+## Gotchas (comportamientos no obvios)
+
+- **Angular = siempre humano**: los agentes pueden generar scaffolding pero las
+  decisiones de UX/UI (layout, flujo de navegación, accesibilidad) requieren criterio
+  humano. No delegar diseño de componentes sin referencia visual aprobada.
+- **Auth module = siempre humano**: Azure AD + MSAL implica riesgos de seguridad.
+  Cualquier cambio en el flujo de autenticación debe ser revisado por el TL antes de commit.
+- **Deploy window estricta**: intentar un deploy fuera de la ventana del miércoles
+  rompe el acuerdo con el cliente. El hook de CI debería verificar el día de la semana.
+- **Staging resetea domingos 03:00**: datos de prueba en staging tienen vida máxima
+  de 6 días. No usar staging para pruebas de persistencia de datos a largo plazo.
+- **Informes en Word/Español**: el cliente requiere informes en formato Word en español.
+  No generar PDFs ni markdown para entregas al cliente.
+
+## Por qué está construido así
+
+- **Clean Architecture + CQRS**: facilita la paralelización de trabajo entre agentes
+  en slices independientes. Cada handler/query es un slice atómico.
+- **T&M con 7 personas**: velocity de 32 SP permite iterar rápido. El contrato
+  flexible absorbe el coste de experimentar con nuevas funcionalidades SDD.
+- **Azure AD/MSAL**: requisito del cliente para SSO corporativo. La complejidad del
+  módulo de auth es la razón por la que se mantiene en manos humanas.
+
+## Indicadores de deuda
+
+- Dominio Angular sin .hcm: mayor área de conocimiento tácito (UX decisions)
+- Dependencia de ventana de deploy del miércoles puede convertirse en cuello de botella
+  si la cadencia de PBIs aumenta

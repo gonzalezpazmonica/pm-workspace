@@ -1,0 +1,73 @@
+# Infrastructure — Repositories & Runtime (.acm)
+> hash: sha256:8b144620deac4697-05d08ecf3f21953e | generated: 2026-03-29 | lines: ~120
+
+## ScriptsLayer
+- **Type**: Shell script utilities
+- **File**: `scripts/*.sh` (~40 scripts)
+- **Purpose**: Automation layer — CI validation, memory storage, confidence calibration, context tracking
+- **Dependencies**: bash, git, az cli, gh cli, jq, openssl
+- **Public API**:
+  - `validate-ci-local.sh` — Run before every push (CHANGELOG + bash + commands)
+  - `memory-store.sh` — JSONL append store with dedup and topic_key
+  - `confidence-calibrate.sh report` — Monthly NL confidence recalibration
+  - `context-tracker.sh log` — Track context usage per command
+  - `agent-trace-log.sh` — Append agent invocation traces
+  - `confidentiality-sign.sh sign` — SHA-256 sign PR diff before push
+  - `push-pr.sh` — CI → sign → commit → push → PR (one command)
+  - `session-init.sh` — Session start banner with PAT/profile/branch status
+  - `readiness-check.sh` — Verify PAT, profile, tools before operating
+
+## ProfilesStorage
+- **Type**: User/company identity storage (N3 local)
+- **File**: `.claude/profiles/`
+- **Purpose**: Personalize Savia per user — loaded progressively via context-map
+- **Dependencies**: active-user.md (pointer), Claude Code auto-memory (~/.claude/projects/*/memory/)
+- **Structure**:
+  - `users/{slug}/` — identity.md, tone.md, workflow.md, tools.md, preferences.md, accessibility.md, competence.md
+  - `company/` — identity.md, technology.md, culture.md
+  - `active-user.md` — currently active user slug (gitignored)
+  - `savia.md` — Savia's own personality definition
+- **Privacy**: N3 — gitignored; personal vault at `~/.savia/personal-vault/`
+- **Load strategy**: Lazy — only fragments needed for current command
+
+## ProjectsStorage
+- **Type**: Client project data (N4 gitignored)
+- **File**: `projects/{proyecto}/`
+- **Purpose**: Isolated client/project context — never mixed across projects
+- **Dependencies**: CLAUDE.local.md (index), project CLAUDE.md (per-project entry point)
+- **Structure per project**:
+  - `CLAUDE.md` — project config, environments, team
+  - `backlog/`, `specs/`, `reglas-negocio.md`, `equipo.md`
+  - `agent-memory/{agent}/` — project-level agent memory (N4)
+  - `security/` — security audit reports
+  - `_digest-log.md` — idempotency log for all digested documents
+- **Privacy**: N4 — ALL client data isolated here; zero leakage to N1 public repo
+- **Agent memory isolation**: public(`public-agent-memory/`) → private(`private-agent-memory/`) → project(`projects/{p}/agent-memory/`)
+
+## OutputStorage
+- **Type**: Generated artifacts (gitignored)
+- **File**: `output/`
+- **Purpose**: Store all command outputs — reports, audits, agent runs, test results
+- **Dependencies**: commands (write here), reporting skills
+- **Naming convention**: `YYYYMMDD-tipo-proyecto.ext`
+- **Key subdirs**:
+  - `output/audits/` — project audit reports
+  - `output/agent-runs/` — autonomous agent logs (overnight-sprint, code-improvement)
+  - `output/ast-quality/` — quality gate reports per file
+  - `output/dev-sessions/` — dev-session state files and slice outputs
+  - `output/coverage-report/` — test coverage summaries
+  - `output/postmortems/` — incident postmortem reports
+- **Privacy**: N4 — gitignored; may contain client data
+
+## HooksRuntime
+- **Type**: Lifecycle hook runtime
+- **File**: `.claude/hooks/`, `.claude/settings.json`
+- **Purpose**: Deterministic enforcement layer — fires on Claude Code events regardless of LLM instructions
+- **Dependencies**: lib/profile-gate.sh, SAVIA_HOOK_PROFILE env var
+- **Event coverage**: SessionStart(1), PreToolUse(5 blocking), PostToolUse(async), Stop(1), SubagentStop(1)
+- **Profile-gated tiers**:
+  - `security` (always): credential-leak, force-push, infra-destructive, data-sovereignty
+  - `standard` (default): bash-validate, plan-gate, whitelist, tdd-gate, scope-guard, compliance, premerge, commit-prompt
+  - `strict` (pre-release): +agent-dispatch-validate, stop-quality-gate, competence-tracker
+  - `ci` (pipelines): non-interactive standard
+- **Change profile**: `bash scripts/hook-profile.sh set {profile}` or `SAVIA_HOOK_PROFILE=ci`

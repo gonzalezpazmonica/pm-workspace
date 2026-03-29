@@ -50,6 +50,7 @@ Comment ca fonctionne en detail : **[Mon systeme de memoire](docs/memory-archite
 ---
 
 
+> **[Stratégie AST](docs/ast-strategy.fr.md)** — Compréhension du code legacy + 12 Quality Gates universels. Architecture AST duale : compréhension pré-édition et validation post-génération. + Human Code Maps (.hcm)
 > **[Savia Shield](docs/savia-shield.fr.md)** — Systeme de souverainete des donnees. Classification locale par LLM, masquage reversible, audit complet.
 
 ## Installation

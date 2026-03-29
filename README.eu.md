@@ -49,6 +49,7 @@ Niri ahalik eta etekinik handiena ateratzeko:
 ---
 
 
+> **[AST Estrategia](docs/ast-strategy.eu.md)** — Kode legatuaren ulermena + 12 Quality Gate unibertsal. AST arkitektura bikoitza: editatu aurreko ulermena eta sortutako kodearen kalitatea. **Human Code Maps (.hcm)** — azpisistemaren lehen ibilbidea aurre-digeritzen duten hizkuntza naturaleko mapa narratiboak. Proiektu bakoitzak bere mapak daramatza `.human-maps/` bere karpetaren barnean. Komandoak: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`. Zor kognitiboaren aurkako borroka aktiboa: garatzaileek denbora %58 kode irakurtzen ematen dute; mapa hauek kostu hori murrizten dute saio batetik bestera.
 > **[Savia Shield](docs/savia-shield.eu.md)** — Datuen subiranotasun sistema. Sailkapen lokala LLM-arekin, maskaratze itzulgarria, auditoria osoa.
 
 ## Instalazioa

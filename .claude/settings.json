@@ -76,6 +76,17 @@
         ]
       },
       {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/ast-comprehend-hook.sh",
+            "timeout": 15,
+            "statusMessage": "AST Comprehension: leyendo mapa estructural..."
+          }
+        ]
+      },
+      {
         "matcher": "Edit|Write",
         "hooks": [
           {
