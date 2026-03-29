@@ -1,30 +1,12 @@
 # Human Code Maps (.hcm) — Lucha activa contra la deuda cognitiva
 
-> Inspirado en Addy Osmani (2024): "Comprehension Debt — The hidden cost of not understanding your codebase."
-> Referencia: https://addyosmani.com/blog/comprehension-debt/
-
----
-
-## El problema: deuda cognitiva
-
-La deuda cognitiva es el coste acumulado de no entender el código. Cada vez que un
-desarrollador tiene que re-aprender un subsistema, paga intereses. A diferencia de
-la deuda técnica (visible en el código), la deuda cognitiva es invisible — vive en
-los mapas mentales de las personas y muere cuando se van.
-
-**Síntomas:** "Tengo que releer esto cada vez", "No quiero tocar X porque no lo entiendo",
-"Solo Alice sabe cómo funciona este módulo".
-
-**Coste real:** Según Osmani, los devs pasan el 58% del tiempo leyendo código vs. 42% escribiendo.
-La deuda cognitiva multiplica ese 58% en áreas complejas.
-
----
+> Osmani (2024): devs pasan 58% del tiempo leyendo código. La deuda cognitiva
+> (coste de no entender el código) es invisible y muere cuando las personas se van.
 
 ## Qué son los .hcm
 
-Los `.hcm` (Human Code Maps) son mapas narrativos de componentes, escritos en lenguaje
-natural, que pre-digieren el "primer paseo" por un subsistema. Son el gemelo humano
-de los `.acm` (Agent Code Maps).
+Mapas narrativos de componentes en lenguaje natural que pre-digieren el "primer paseo"
+por un subsistema. Gemelo humano de los `.acm` (Agent Code Maps).
 
 | Dimensión | .acm | .hcm |
 |-----------|------|------|
@@ -33,8 +15,6 @@ de los `.acm` (Agent Code Maps).
 | Generación | Automática desde código | AI-asistida + validación humana |
 | Propósito | Evitar exploración ciega | Evitar re-aprendizaje |
 | Contenido | Qué existe y dónde | Por qué existe y cómo pensarlo |
-
----
 
 ## Formato .hcm
 
@@ -72,8 +52,6 @@ Qué lo hace diferente de lo que el lector podría asumir.
 - Comportamientos que deberían cambiar pero no pueden aún
 ```
 
----
-
 ## Debt Score (0–10)
 
 ```
@@ -86,8 +64,6 @@ debt_score =
 4-6: Revisar pronto, señales de acumulación
 7-10: Deuda activa — este componente está costando dinero ahora
 ```
-
----
 
 ## Ciclo de vida
 
@@ -103,8 +79,6 @@ Creación → Validación humana → Activo → [cambio de código] → Stale �
 4. **Stale trigger**: el .acm correspondiente cambia (código evolucionó) → .hcm se marca stale
 5. **Refresh**: `/codemap:walk {componente}` — sesión guiada de re-lectura con AI
 6. **Archivado**: componente eliminado o fusionado → `projects/{proyecto}/.human-maps/_archived/`
-
----
 
 ## Relación con .acm
 
@@ -123,36 +97,18 @@ Savia sugiere: "/codemap:walk {componente} — mapa humano desactualizado"
 **Regla**: Un .hcm nunca puede tener `last-walk` más reciente que su .acm.
 Si el .acm es stale, el .hcm también lo es, independientemente de su propia fecha.
 
----
-
 ## Directorios
 
-Cada proyecto gestiona sus propios mapas. Los directorios `.human-maps/` y `.agent-maps/`
-viven DENTRO de la carpeta del proyecto, no en la raíz del workspace.
+Mapas viven DENTRO de la carpeta del proyecto, nunca en la raíz del workspace.
 
 ```
-projects/{proyecto}/               ← Carpeta completa y autocontenida del proyecto
-├── CLAUDE.md
-├── equipo.md
-├── reglas-negocio.md
-├── specs/
-├── .human-maps/                   ← Mapas narrativos para desarrolladores humanos
-│   ├── {proyecto}.hcm             ← Mapa general del proyecto
-│   └── {modulo}.hcm              ← Mapas de módulos si el proyecto es grande
-└── .agent-maps/                   ← Mapas estructurales para agentes de IA
-    ├── {proyecto}.acm
-    └── INDEX.acm
-```
-
-**Para pm-workspace propio** (el workspace como producto), los mapas viven en la raíz:
-
-```
-.human-maps/                       ← Mapas del workspace pm-workspace
-├── INDEX.hcm                      ← Modelo mental del workspace completo
-├── domain/
-│   ├── sdd-pipeline.hcm
-│   └── hooks-pipeline.hcm
-└── ...
+projects/{proyecto}/
+├── .human-maps/          ← Mapas narrativos para humanos
+│   ├── {proyecto}.hcm    ← Mapa general
+│   └── {modulo}.hcm      ← Por módulo si proyecto grande
+└── .agent-maps/          ← Mapas estructurales para agentes
+    ├── INDEX.acm
+    └── {layer}/{file}.acm
 ```
 
 ## Comandos
