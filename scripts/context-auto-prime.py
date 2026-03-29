@@ -82,7 +82,7 @@ def prime(query, store, top=5, max_tok=300):
         # EXP-01: forgetting curve strength replaces static rev/max_rev
         stg = _strength(e.get("topic_key", ""), access_stats)
         sc = dm * 0.28 + ks * 0.32 + rc * 0.18 + stg * 0.22
-        if sc > 0.40:
+        if sc > 0.35:
             scored.append({"title": e.get("title",""), "topic_key": e.get("topic_key",""),
                 "type": e.get("type",""), "domain": ed, "ts": e.get("ts","")[:10],
                 "rev": e.get("rev",1), "score": round(sc, 3),
