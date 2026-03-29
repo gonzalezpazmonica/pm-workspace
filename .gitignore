@@ -2,6 +2,7 @@
 .claude/worktrees/
 .claude/scheduled_tasks.lock
 .claude/sessions/
+.pr-plan-ok
 
 # ── Credenciales y secretos — NUNCA commitear ────────────────────────────────
 .claude/.env

@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (47)
+# Catálogo de Subagentes (49)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -47,10 +47,12 @@
 | `pptx-digest` | Opus 4.6 | Digestión de PPTX: slides, notas presentador, gráficos — 4 fases con python-pptx+Vision → contexto → síntesis → actualización |
 | `web-e2e-tester` | Sonnet 4.6 | Testing E2E autónomo de aplicaciones web contra instancias live. Playwright/Cypress con screenshots obligatorios |
 | `confidentiality-auditor` | Opus 4.6 | Auditoría de cumplimiento de niveles de confidencialidad multi-repo (N1-N4b) |
+| `feasibility-probe` | Opus 4.6 | Valida viabilidad de specs con prototipo time-boxed. Produce informe con score, secciones bloqueantes y sugerencias de descomposición. **Requiere `bypassPermissions`** para ejecutar código de prueba de concepto. |
+| `model-upgrade-auditor` | Opus 4.6 | Audita agentes, skills y prompts buscando workarounds que modelos más nuevos ya no necesiten. Propone simplificaciones con evidencia eval-backed. |
 
 ## Token Budgets (SPEC-AGENT-METERING)
 
-Todos los 47 agentes incluyen `token_budget` en frontmatter. Tiers: Heavy 13000, Standard 8500, Light 4500, Minimal 2200. Tracking con `/agent-cost`. Alertas en `budget-alerts.jsonl`.
+Todos los 49 agentes incluyen `token_budget` en frontmatter. Tiers: Heavy 13000, Standard 8500, Light 4500, Minimal 2200. Tracking con `/agent-cost`. Alertas en `budget-alerts.jsonl`.
 
 ## Flujos
 

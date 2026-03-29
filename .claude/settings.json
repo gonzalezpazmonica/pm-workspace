@@ -18,6 +18,24 @@
         "hooks": [
           {
             "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-credential-leak.sh",
+            "timeout": 5,
+            "statusMessage": "Savia Shield: detectando credenciales..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-force-push.sh",
+            "timeout": 5,
+            "statusMessage": "Savia Shield: bloqueando force-push..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-infra-destructive.sh",
+            "timeout": 5,
+            "statusMessage": "Savia Shield: bloqueando infra destructiva..."
+          },
+          {
+            "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/validate-bash-global.sh",
             "statusMessage": "Validando comando..."
           },
@@ -60,6 +78,12 @@
       {
         "matcher": "Edit|Write",
         "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/tdd-gate.sh",
+            "timeout": 10,
+            "statusMessage": "TDD gate: tests antes que c\u00f3digo..."
+          },
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/plan-gate.sh",
@@ -126,7 +150,7 @@
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/data-sovereignty-audit.sh",
-            "async": false,
+            "async": true,
             "timeout": 10,
             "statusMessage": "Savia Shield: auditoria post-escritura..."
           }
