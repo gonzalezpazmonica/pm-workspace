@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.79.0] — 2026-03-29
 
-docs: Human Code Maps (.hcm) documentation rollout — 5 example project maps + all 9 language variants of AST strategy + full README alignment across all 9 languages + ARCHITECTURE.md update.
+docs: Human Code Maps (.hcm) documentation rollout — 5 example project maps + all 9 language variants of AST strategy + full README alignment across all 9 languages + ARCHITECTURE.md update. Era 163.
 
 ### Added
 
