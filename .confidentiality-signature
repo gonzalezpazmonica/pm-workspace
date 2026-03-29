@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e3816c3dc911ccef9865d23d798add9e867a69ef0edefb0e897dd7d8416de960
-timestamp=2026-03-29T15:10:26Z
+diff_hash=28ba4edfe0504e5680c56392a508ed4323731d0905e7449fbb1a98d75c82952e
+timestamp=2026-03-29T15:13:22Z
 branch=fix/workspace-audit-20260328
-head_commit=b5b3d6b
-signature=89e4a4e4492cefd8250404ed204a77a757d7a48e31ff5f111542ef0a64680f70
+head_commit=8e21a74
+signature=bb300413dd58e217b9e920290132baa97e7cc6e6000697a366b8951c0c1e09c1
