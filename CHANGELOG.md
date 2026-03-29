@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.80.0] — 2026-03-29
+
+feat: SPEC-042 live progress feedback — real-time visibility of Savia work execution. Era 163.
+
+### Added
+
+- **live-progress-feedback** (SPEC-042): real-time progress updates during agent execution — subprocess state machine tracks phases (ready → running → checkpoint → complete)
+- **progress endpoint**: `/progress {task-id}` returns JSON: phase, percentage, current_step, eta_seconds, logs_tail
+- **checkpoint protocol**: agent emits `CHECKPOINT {phase} {pct}` markers for heartbeat — enables timeout detection and kill-switch
+- **Tests**: `test-live-progress.bats` — phase transitions, checkpoint parsing, timeout detection (all green)
+
+### Changed
+
+- Removed 50 legacy PBI test stub files (PBI-004 through PBI-063) — cleanup for SPEC-042 development
+- Updated `tests/structure/test-backlog-structure.bats` for new backlog structure
+
 ## [3.79.0] — 2026-03-29
 
 docs: Human Code Maps (.hcm) documentation rollout — 5 example project maps + all 9 language variants of AST strategy + full README alignment across all 9 languages + ARCHITECTURE.md update. Era 163.
@@ -112,22 +128,6 @@ feat: ast-quality-gate skill — language-agnostic code quality verification for
 ### Changed
 
 - **settings.json**: registered `ast-quality-gate-hook.sh` as async PostToolUse hook for Edit|Write events (background execution, 60s timeout)
-
-## [3.75.1] — 2026-03-29
-
-feat: SPEC-042 live progress feedback — real-time visibility of Savia work execution. Era 163.
-
-### Added
-
-- **live-progress-feedback** (SPEC-042): real-time progress updates during agent execution — subprocess state machine tracks phases (ready → running → checkpoint → complete)
-- **progress endpoint**: `/progress {task-id}` returns JSON: phase, percentage, current_step, eta_seconds, logs_tail
-- **checkpoint protocol**: agent emits `CHECKPOINT {phase} {pct}` markers for heartbeat — enables timeout detection and kill-switch
-- **Tests**: `test-live-progress.bats` — phase transitions, checkpoint parsing, timeout detection (all green)
-
-### Changed
-
-- Removed 50 legacy PBI test stub files (PBI-004 through PBI-063) — cleanup for SPEC-042 development
-- Updated `tests/structure/test-backlog-structure.bats` for new backlog structure
 
 ## [3.74.0] — 2026-03-28
 
@@ -5009,6 +5009,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.79.0...v3.80.0
 [3.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.78.0...v3.79.0
 [3.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.77.0...v3.78.0
 [3.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.76.0...v3.77.0
