@@ -5,6 +5,19 @@ setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   ROOT="$PWD"
   TEST_PROJECT="$ROOT/projects/savia-web"
+  # Backup _config.yaml so teardown can restore id_counter after write tests
+  _CONFIG_BACKUP="$BATS_TMPDIR/backlog-config-backup-${BATS_TEST_NUMBER}.yaml"
+  cp "$TEST_PROJECT/backlog/_config.yaml" "$_CONFIG_BACKUP" 2>/dev/null || true
+}
+
+teardown() {
+  # Restore _config.yaml (undo id_counter increments from write tests)
+  if [ -f "$_CONFIG_BACKUP" ]; then
+    mv "$_CONFIG_BACKUP" "$TEST_PROJECT/backlog/_config.yaml"
+  fi
+  # Remove test PBI files created during write tests
+  find "$TEST_PROJECT/backlog/pbi" -name "*test-item*" -delete 2>/dev/null || true
+  find "$TEST_PROJECT/backlog/pbi" -name "*list-test*" -delete 2>/dev/null || true
 }
 
 @test "backlog-init.sh exists and is executable" {
