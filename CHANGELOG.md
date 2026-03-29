@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.75.0] — 2026-03-29
 
-feat: SPEC-042 live progress feedback — real-time visibility of Savia work execution.
+feat: SPEC-042 live progress feedback — real-time visibility of Savia work execution. Era 163.
 
 ### Added
 
