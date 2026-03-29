@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.84.0] — 2026-03-30
+
+feat: SPEC-047 through SPEC-052 batch implementation — 6 new capabilities. Era 164.
+
+### Added
+
+- **scripts/requirement-pushback.sh** (SPEC-047): analyzes specs for assumptions, ambiguities, complexity and scope risks. 4 heuristic categories. 9 tests.
+- **scripts/dev-session-discard.sh** (SPEC-048): clean abort of dev sessions — validates, logs reason to JSONL, cleans lock, archives state. 11 tests.
+- **scripts/review-depth-selector.sh** (SPEC-049): maps risk score (0-100) to review depth (quick/standard/thorough) with model and perspective selection. 14 tests.
+- **scripts/reaction-engine.sh + reaction-engine-core.py** (SPEC-050): declarative event-to-action mapping for SDD pipeline. Handles ci-failure, review-changes, test-failure with retry and escalation. 11 tests.
+- **scripts/session-state-machine.sh** (SPEC-051): 13-state lifecycle for dev sessions (spawning through merged/discarded). Validated transitions, trace events. 10 tests.
+- **scripts/task-decomposer.sh** (SPEC-052): classifies tasks as atomic/composite, recursive decomposition (max depth 3). English + Spanish connectors. 14 tests.
+- **docs/propuestas/SPEC-050 through SPEC-052** — specs from ComposioHQ/agent-orchestrator research
+
 ## [3.82.0] — 2026-03-30
 
 feat: SPEC-044 trace-to-prompt optimization + SPEC-043 S-02 refinement. Era 164.
@@ -5037,6 +5051,8 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.83.0...v3.84.0
+[3.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.82.0...v3.83.0
 [3.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.81.0...v3.82.0
 [3.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.80.0...v3.81.0
 [3.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.79.0...v3.80.0
