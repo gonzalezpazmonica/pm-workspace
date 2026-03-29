@@ -5,13 +5,121 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.79.0] — 2026-03-29
+
+docs: Human Code Maps (.hcm) documentation rollout — 5 example project maps + all 9 language variants of AST strategy + full README alignment across all 9 languages + ARCHITECTURE.md update. Era 163.
+
+### Added
+
+- **projects/proyecto-alpha/.human-maps/proyecto-alpha.hcm** — Human Code Map for the .NET microservices example project. Narrative sections: La historia, El modelo mental, Puntos de entrada, Gotchas, Por qué está construido así, Indicadores de deuda. debt-score: 3/10.
+- **projects/proyecto-beta/.human-maps/proyecto-beta.hcm** — Human Code Map for the TypeScript/Angular frontend example. Covers component architecture, state management patterns, routing gotchas. debt-score: 2/10.
+- **projects/sala-reservas/.human-maps/sala-reservas.hcm** — Human Code Map for the room-booking full-stack example. Explains reservation state machine, real-time sync model, calendar integration. debt-score: 4/10.
+- **projects/savia-web/.human-maps/savia-web.hcm** — Human Code Map for the Savia web dashboard. Covers multi-project context switching, Bridge API integration, command palette. debt-score: 3/10.
+- **projects/savia-mobile-android/.human-maps/savia-mobile-android.hcm** — Human Code Map for the Savia Android app. Covers OTA update pipeline, SSE chat streaming, Room DB as SSoT, Hilt DI wiring. debt-score: 2/10.
+- **docs/ARCHITECTURE.md** — Added dual code intelligence (`.acm` + `.hcm`) to Key Design Decisions, `.human-maps/` to project directory structure, and `/codemap:generate-human` to Extension Points.
+
+### Changed
+
+- **docs/ast-strategy.md** — Updated to quadruple strategy (Comprehensión + Quality Gates + .acm Agent Maps + .hcm Human Maps). New Part 4 section: "Human Code Maps (.hcm) — La lucha activa contra la deuda cognitiva". Updated strategy diagram and References.
+- **docs/ast-strategy.en.md** — Same update in English.
+- **docs/ast-strategy.ca.md** — Same update in Catalan.
+- **docs/ast-strategy.de.md** — Same update in German.
+- **docs/ast-strategy.eu.md** — Same update in Basque.
+- **docs/ast-strategy.fr.md** — Same update in French.
+- **docs/ast-strategy.gl.md** — Same update in Galician.
+- **docs/ast-strategy.it.md** — Same update in Italian.
+- **docs/ast-strategy.pt.md** — Same update in Portuguese.
+- **README.md, README.en.md, README.ca.md, README.de.md, README.eu.md, README.fr.md, README.gl.md, README.it.md, README.pt.md** — Added Human Code Maps (.hcm) mention to AST strategy blockquote in all 9 language variants. Each `.hcm` entry describes cognitive debt reduction via narrative subsystem maps, commands `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`, and the 58% stat (Osmani 2024).
+
+## [3.78.0] — 2026-03-29
+
+feat: human-code-map skill — .hcm maps fighting cognitive debt; ACM system validation tests.
+
+### Added
+
+- **skill: human-code-map** — New skill (SKILL.md + DOMAIN.md) that generates `.hcm` (Human Code Maps), the human twin of `.acm` Agent Code Maps. 4-phase pipeline: load .acm context → debt analysis → generate narrative draft → human validation cycle. Addresses Addy Osmani's comprehension debt: devs spend 58% of time reading code; .hcm converts expensive "first walks" into reusable assets. Maturity: experimental.
+- **.claude/skills/human-code-map/SKILL.md** — Full pipeline spec: Phase 1 (load .acm + 5 max source files), Phase 2 (debt-score calculation: staleness + complexity + coverage gaps), Phase 3 (generate: La historia, El modelo mental, Puntos de entrada, Gotchas, Por qué, Indicadores de deuda), Phase 4 (human validation checklist — last-walk only updatable by human). When NOT to generate: <50 LOC, pure config, generated code, single-use scripts.
+- **.claude/skills/human-code-map/DOMAIN.md** — Domain context (Clara Philosophy). Key concepts: cognitive debt, first walk, walk-time (target 2-4 min), debt-score, gotcha. Business rules: .hcm always derived from .acm; debt-score >7 → escalate PM; last-walk only human; no validation = borrador. Upstream: agent-code-map + ast-comprehension. Downstream: onboarding + dev-session + spec-generate.
+- **.claude/rules/domain/hcm-maps.md** — Canonical rule for .hcm lifecycle. debt-score formula: `min((days/30)*2, 4) + complexity(0-3) + (1-coverage)*3`. Lifecycle: Creation → Validation → Active → Stale → Refresh → Archive. Staleness propagation: code change → .acm hash invalid → .hcm auto-stale. Commands: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`, `/codemap:refresh-human`. Directory: `.human-maps/` parallel to `.agent-maps/`.
+- **.human-maps/INDEX.hcm** — First example of .hcm format applied to pm-workspace itself. Newspaper editorial metaphor (Commands = editor inbox, Agents = specialized journalists, Skills = reference library, Hooks = fact-checkers). 6 non-obvious Gotchas including: Rules not auto-loaded, Hooks are bash not prompts, .claude/commands/*.md IS the prompt, projects/ gitignored deny-by-default, E1 always human, SAVIA_HOOK_PROFILE controls hook tier.
+- **output/20260329-acm-test-report.md** — Full A/B/C comparative test of .acm Agent Code Map system. Combined averages vs baseline: files explored -65%, tool uses -59%, tokens consumed -53%, duration -54%, confidence +3.5pp. Break-even: ~1 query per session (200 tokens to load maps saves ~27K average). Tested on 3 representative agentic tasks.
+
+### Changed
+
+- **.claude/skills/agent-code-map/SKILL.md** — Added "Gemelo humano: .hcm" section cross-referencing the new human-code-map skill. Documents the .acm/.hcm duality table (audience, language, content, freshness). Staleness propagation rule: if .acm hash invalid → .hcm marked stale. Final line count: 149 (at hard limit).
+
+## [3.77.0] — 2026-03-29
+
+feat: agent-code-map skill — triple AST architecture with persistent .acm cross-session context maps.
+
+### Added
+
+- **skill: agent-code-map** — Third pillar of the AST strategy. Complements Comprehension (PreToolUse) and Quality (PostToolUse async) with pre-generated persistent structural maps for agents. Eliminates 30–60% blind context exploration at session start.
+- **.claude/skills/agent-code-map/SKILL.md** — Full spec: `/codemap:generate`, `/codemap:check`, `/codemap:load`, `/codemap:refresh --incremental`, `/codemap:stats` slash commands; .acm format with sha256 hash freshness; INDEX.acm navigation table; @include progressive loading; freshness model (fresco/obsoleto/roto); SDD pipeline [0] integration; 150-line limit + auto-split rule; anti-patterns.
+- **.agent-maps/INDEX.acm** — Root navigation map for pm-workspace public structure: domain, infrastructure, api layers with element counts and priority (🔴🟡🟢).
+- **.agent-maps/domain/entities.acm** — Domain entities: Commands, Skills, Agents, Hooks, Rules with file references and public API.
+- **.agent-maps/domain/services.acm** — Business services: SprintManagement, SDD Pipeline, NLCommandResolution, ContextHealth, MemorySystem.
+- **.agent-maps/infrastructure/repositories.acm** — Infrastructure access: ScriptsLayer, ProfilesStorage, ProjectsStorage, OutputStorage, HooksRuntime.
+- **.agent-maps/api/controllers.acm** — Entry points: SlashCommands catalog, HooksPipeline, AgentDispatch, UserProfile routing.
+
+### Changed
+
+- **docs/ast-strategy.md** (Spanish) — Updated to triple AST architecture: "dos propósitos, un árbol" → "tres propósitos, un árbol"; expanded 3-branch ASCII diagram; added Part 3 on .acm maps; added reference to agent-code-map skill.
+- **docs/ast-strategy.en.md** (English) — Triple architecture: "dual: two purposes" → "triple: three purposes"; Part 3 with .acm freshness model (fresh/stale/broken); SDD [0] LOAD step.
+- **docs/ast-strategy.ca.md** (Catalan) — Arquitectura triple; Part 3 amb estat de frescor (fresc/obsolet/trencat); integració SDD [0] CARREGAR.
+- **docs/ast-strategy.de.md** (German) — Dreifach-Architektur; Teil 3 mit Frischemodell (frisch/veraltet/defekt); SDD [0] LADEN.
+- **docs/ast-strategy.it.md** (Italian) — Architettura tripla; Parte 3 con modello di freschezza (fresco/obsoleto/rotto); SDD [0] CARICA.
+- **docs/ast-strategy.pt.md** (Portuguese) — Arquitetura tripla; Parte 3 com modelo de frescor (fresco/obsoleto/quebrado); SDD [0] CARREGAR.
+- **docs/ast-strategy.eu.md** (Basque) — Arkitektura hirukoitza; 3. zatia freskotasun-ereduarekin (fresko/zaharkitua/hautsia); SDD [0] KARGATU.
+- **docs/ast-strategy.gl.md** (Galician) — Arquitectura tripla; Parte 3 con modelo de frescura (fresco/obsoleto/roto); SDD [0] CARGAR.
+- **docs/ast-strategy.fr.md** (French) — Architecture triple; Partie 3 avec modèle de fraîcheur (frais/obsolète/cassé); SDD [0] CHARGER.
+
+## [3.76.0] — 2026-03-29
+
+feat: ast-comprehension skill — dual-purpose AST for legacy code understanding and pre-edit structural context injection.
+
+### Added
+
+- **skill: ast-comprehension** — Companion to ast-quality-gate. Quality-gate asks "¿tiene errores el código generado?"; comprehension asks "¿qué hace este código ajeno antes de tocarlo?". Pre-edit context injection via PreToolUse hook.
+- **scripts/ast-comprehend.sh** — Multi-language structural extractor. 3-layer pipeline: tree-sitter (universal AST) → language-native semantics (python ast module, ts-morph, gopls, Roslyn) → grep-structural fallback (0 deps). Supports 16 language packs. Flags: `--surface-only`, `--legacy-mode`, `--output <path>`.
+- **.claude/skills/ast-comprehension/SKILL.md** — Dual-use design, 3-layer extraction architecture, PreToolUse hook integration, CLI usage, pre-edit context injection pattern
+- **.claude/skills/ast-comprehension/DOMAIN.md** — Clara Philosophy: WHY (agents fail modifying code they don't understand), domain concepts (structural map, API surface, hotspot, call graph), 5 business rules (RN-COMP-01..05)
+- **.claude/skills/ast-comprehension/references/comprehension-schema.md** — Unified JSON output schema: meta, structure (classes/methods/properties/constants/enums), imports (internal/external/standard), complexity (hotspots), api_surface, call_graph, summary. 3 extraction levels (L1 grep-structural 70%, L2 tree-sitter 95%, L3 native semantic 100%) with degradation defaults.
+- **.claude/skills/ast-comprehension/references/extraction-commands.md** — CLI extraction commands per language: Python ast.walk(), ts-morph, Roslyn SyntaxWalker, go doc + gopls, javap, cargo check, rubocop, php-parser, sourcekitten, detekt, dart analyze, terraform tflint, universal tree-sitter, universal grep-structural fallback
+- **.claude/hooks/ast-comprehend-hook.sh** — PreToolUse hook (NOT async): fires before Edit on files >50 lines, runs `--surface-only` extraction, injects structural map as context. Always exits 0 — never blocks (RN-COMP-02). Timeout 15s.
+- **docs/ast-strategy.md** — Technical document explaining Savia's intelligent AST strategy: dual-purpose architecture, language-agnostic quality gates (QG-01..QG-12), pre-edit comprehension pipeline, degradation guarantees
+- **docs/ast-strategy.en.md** — English translation of ast-strategy.md
+
+### Changed
+
+- **settings.json**: registered `ast-comprehend-hook.sh` as PreToolUse hook for Edit events (non-async, 15s timeout, fires before ast-quality-gate PostToolUse)
+
 ## [3.75.0] — 2026-03-29
+
+feat: ast-quality-gate skill — language-agnostic code quality verification for AI-generated code.
+
+### Added
+
+- **skill: ast-quality-gate** — Meta-analyzer for 16 language packs. Detects 12 quality gates (QG-01..QG-12) covering the 5 most common LLM error patterns: async misuse, N+1 queries, null dereference, magic numbers, empty catch blocks
+- **scripts/ast-quality-gate.sh** — Shell meta-analyzer: detects language by extension/project files, routes to native linter (eslint/ruff/golangci-lint/cargo clippy/dotnet build/phpstan/swiftlint/detekt/rubocop/tflint/dart analyze), runs Semgrep for universal LLM patterns, normalizes outputs to unified JSON schema, computes penalty-based score 0-100
+- **.claude/skills/ast-quality-gate/SKILL.md** — 3-layer architecture docs (native precision + Semgrep coverage + LSP semantics), 12 QG table, pipeline steps, SDD integration, CLI usage flags
+- **.claude/skills/ast-quality-gate/DOMAIN.md** — Clara Philosophy dual-documentation: WHY, domain concepts, 5 business rules (RN-AST-01..05), upstream/downstream relationships
+- **.claude/skills/ast-quality-gate/references/unified-schema.md** — JSON contract `{meta, score, issues[], summary}` normalizing ESLint, Ruff, SARIF, Cargo JSON, SpotBugs XML
+- **.claude/skills/ast-quality-gate/references/semgrep-rules.yaml** — 20 Semgrep rules across QG-01..QG-10 covering TypeScript, JavaScript, Python, Java, Go, C#, Ruby, PHP, Kotlin (10 languages per rule)
+- **.claude/skills/ast-quality-gate/references/language-commands.md** — CLI commands, verification snippets, and jq normalization templates per language
+- **.claude/hooks/ast-quality-gate-hook.sh** — PostToolUse async hook: triggers gate after Edit|Write on source files, writes to `output/quality-gates/latest.json`
+
+### Changed
+
+- **settings.json**: registered `ast-quality-gate-hook.sh` as async PostToolUse hook for Edit|Write events (background execution, 60s timeout)
+
+## [3.75.1] — 2026-03-29
 
 feat: SPEC-042 live progress feedback — real-time visibility of Savia work execution. Era 163.
 
 ### Added
 
-- **live-progress-feedback** (SPEC-042): real-time progress updates during agentexecution — subprocess state machine tracks phases (ready → running → checkpoint → complete)
+- **live-progress-feedback** (SPEC-042): real-time progress updates during agent execution — subprocess state machine tracks phases (ready → running → checkpoint → complete)
 - **progress endpoint**: `/progress {task-id}` returns JSON: phase, percentage, current_step, eta_seconds, logs_tail
 - **checkpoint protocol**: agent emits `CHECKPOINT {phase} {pct}` markers for heartbeat — enables timeout detection and kill-switch
 - **Tests**: `test-live-progress.bats` — phase transitions, checkpoint parsing, timeout detection (all green)
@@ -4901,6 +5009,11 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.78.0...v3.79.0
+[3.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.77.0...v3.78.0
+[3.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.76.0...v3.77.0
+[3.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.75.0...v3.76.0
+[3.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.74.0...v3.75.0
 [3.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.73.0...v3.74.0
 [3.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.72.0...v3.73.0
 [3.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.71.0...v3.72.0

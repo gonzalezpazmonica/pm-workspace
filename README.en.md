@@ -87,7 +87,7 @@ Every command has YAML frontmatter with metadata (model, context cost, descripti
 
 **Spec-Driven Development** — Tasks become executable specs. I implement handlers, tests, and repositories in 16 languages. Agents work in isolated worktrees to avoid conflicts.
 
-**Code intelligence** — I detect architecture patterns (Clean, Hexagonal, DDD, CQRS, Microservices), measure architectural health with fitness functions, and prioritize tech debt by business impact. I generate architecture, flow, sequence and team orgchart diagrams exportable to Draw.io, Miro or local Mermaid. I also import existing orgcharts to automatically generate team structure (`/orgchart-import`).
+**Code intelligence** — I detect architecture patterns (Clean, Hexagonal, DDD, CQRS, Microservices), measure architectural health with fitness functions, and prioritize tech debt by business impact. I generate architecture, flow, sequence and team orgchart diagrams exportable to Draw.io, Miro or local Mermaid. I also import existing orgcharts to automatically generate team structure (`/orgchart-import`). **Human Code Maps (.hcm)** — narrative maps in natural language that pre-digest the first walkthrough of a subsystem. Each project carries its maps in `.human-maps/` inside its own folder. Commands: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`. Active fight against cognitive debt: developers spend 58% of their time reading code; these maps reduce that cost session after session.
 
 **Security & compliance** — SAST against OWASP Top 10, SBOM, credential scanning, regulatory compliance across 12 sectors, AI governance with model cards and EU AI Act. Pre-PR confidentiality audit with context-aware agent + HMAC-SHA256 cryptographic signature verified in CI.
 
@@ -144,6 +144,7 @@ Configurable with `SAVIA_HOME`, `--skip-tests`. Details: `install.sh --help`
 | [Sprints & reports](docs/readme_en/04-usage-sprint-reports.md) | Sprint, reporting, KPIs |
 | [Spec-Driven Development](docs/readme_en/05-sdd.md) | SDD: specs, agents, patterns |
 | [Data flow](docs/data-flow-guide-en.md) | How the parts connect |
+| [**AST Strategy**](docs/ast-strategy.en.md) | Legacy code comprehension + 12 universal Quality Gates + Human Code Maps (.hcm) |
 | [**Savia Shield**](docs/savia-shield.en.md) | Data sovereignty: local classification, reversible masking, on-premise LLM |
 | [Commands & agents](docs/readme/12-comandos-agentes.md) | 497 commands + 47 agents |
 | [Scenario guides](docs/guides_en/README.md) | Azure, Jira, startup, healthcare... |

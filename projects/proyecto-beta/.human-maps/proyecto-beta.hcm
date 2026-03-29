@@ -1,0 +1,66 @@
+# proyecto-beta — Human Map (.hcm)
+> version: 1.0 | last-walk: — (borrador, pendiente validación humana) | walk-time: 3min | debt-score: 0/10
+> acm-sync: .agent-maps/proyecto-beta.acm (pendiente generación)
+
+## La historia
+
+proyecto-beta ilustra el caso opuesto a proyecto-alpha: contrato de precio fijo,
+equipo de 2 personas, y una presión constante de mantener los márgenes. La arquitectura
+es N-Layer simple (no Clean Architecture — el equipo es demasiado pequeño para
+mantener 4 capas), el frontend es Blazor Server (no Angular), y la autenticación
+usa Azure B2C que es significativamente más compleja que el Azure AD estándar.
+El objetivo de agentización es del 70%: los agentes absorben trabajo rutinario para
+que el equipo humano proteja sus márgenes sin quemarse.
+
+## El modelo mental
+
+Piensa en proyecto-beta como **el proyecto de margen ajustado**: cada sprint tiene
+un presupuesto de tokens ($20) y un límite de 3 agentes en paralelo. Las decisiones de
+qué delegar a agentes y qué no son económicas, no técnicas. Una migración que falla
+en precio-fijo no es un bug técnico — es una pérdida de margen que no se puede recuperar.
+
+**Invariante de precio fijo**: las migraciones de base de datos SIEMPRE son revisadas por
+humano. Un rollback mal planificado en producción puede costar más que el sprint completo.
+
+## Puntos de entrada (tarea → dónde empezar)
+
+- Para **entender la arquitectura** → N-Layer: Presentation (Blazor) / Business / Data
+  (no hay capa Domain separada ni Application — todo en Business)
+- Para **modificar auth** → Azure B2C, política de usuario en portal Azure + código en
+  `src/Web/Infrastructure/Auth/` — siempre humano
+- Para **una nueva migración EF** → siempre revisión humana del TL antes de aplicar,
+  incluir script de rollback explícito
+- Para **aprobar un agent team** → tech lead aprueba antes de lanzar, máx 3 agentes
+- Para **controlar el gasto de tokens** → `$20/sprint` budget; revisar `/agent-cost`
+
+## Gotchas (comportamientos no obvios)
+
+- **N-Layer, NOT Clean Arch**: a pesar de ser .NET 8, este proyecto NO usa Clean
+  Architecture. No hay capas Domain/Application separadas. Si un agente sugiere CQRS
+  o MediatR → rechazar. El overhead no es asumible para un equipo de 2.
+- **Azure B2C ≠ Azure AD**: B2C tiene flujos de usuario personalizados, políticas
+  de registro/login, y tokens con claims diferentes. El módulo de auth es más complejo
+  de lo que parece y siempre requiere revisión humana.
+- **Tech lead approval gate**: el TL debe aprobar el lanzamiento de cualquier agent team
+  antes de que empiece. No lanzar agentes autónomos sin este paso.
+- **$20/sprint en tokens**: si se excede el budget, los siguientes agentes del sprint
+  esperan al sprint siguiente. No es un límite técnico — es una política de margen.
+- **Blazor Server sin referencia = humano**: crear un componente Blazor que no tiene
+  un componente equivalente de referencia en el proyecto siempre requiere decisión humana.
+- **Cliente con poco Scrum**: el cliente necesita coaching en ceremonias Scrum.
+  Los informes de sprint deben ser más explicativos que técnicos.
+
+## Por qué está construido así
+
+- **N-Layer sobre Clean Arch**: en un equipo de 2 con precio fijo, la sobrecarga
+  de mantener 4 capas no compensa. La simplicidad protege el margen.
+- **70% agentización**: con precio fijo, el tiempo humano es el recurso más caro.
+  Los agentes absorben el trabajo predecible para que los humanos hagan el complejo.
+- **$20/sprint token budget**: disciplina de costes explícita. El PM ve el impacto
+  real de cada decisión de agentización en el margen del sprint.
+
+## Indicadores de deuda
+
+- Arquitectura N-Layer dificulta el testing por capas (acoplamiento mayor)
+- Azure B2C sin documentación interna: conocimiento tácito concentrado en el TL
+- Blazor Server: menor ecosistema de agentes que Angular o React

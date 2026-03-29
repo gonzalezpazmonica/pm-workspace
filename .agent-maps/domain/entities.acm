@@ -1,0 +1,51 @@
+# Domain — Entities (.acm)
+> hash: sha256:8d3a2d05-3ed42046-5f726684 | generated: 2026-03-29 | lines: ~148
+
+## Commands (506)
+- **Type**: Slash command definitions
+- **File**: `.claude/commands/*.md`
+- **Purpose**: Entry points for all PM operations — each delegates to agents/skills
+- **Dependencies**: agents-catalog, skills, rules (loaded via @)
+- **Public API**: `/sprint-*`, `/pbi-*`, `/spec-*`, `/arch-*`, `/report-*`, `/savia-*`, `/flow-*`
+- **Top categories**: savia(20), flow(18), school(12), memory(12), context(10), spec(9), pbi(8), sprint(7), agent(7)
+
+## Agents (47)
+- **Type**: Subagent definitions with model/tool/permission declarations
+- **File**: `.claude/agents/*.md`
+- **Purpose**: Specialized workers invoked via Task tool — each has own context budget
+- **Dependencies**: skills (precargados), rules (domain), language packs
+- **Public API**: architect, business-analyst, sdd-spec-writer, dotnet/ts/java/python/go/rust/php/ruby/mobile-developer, code-reviewer, security-*, test-runner, commit-guardian, meeting-digest, visual-digest, *-digest (pdf/word/excel/pptx)
+- **Key agents**: architect(Opus), sdd-spec-writer(Opus), dotnet-developer(Sonnet), security-guardian(Opus), commit-guardian(Sonnet), meeting-digest(Sonnet), pentester(Opus)
+
+## Skills (88)
+- **Type**: Reusable knowledge modules
+- **File**: `.claude/skills/{name}/SKILL.md`
+- **Purpose**: Domain expertise consumed by commands and agents
+- **Dependencies**: rules/domain (as needed), external APIs
+- **Public API**: spec-driven-development, sprint-management, capacity-planning, azure-devops-queries, product-discovery, pbi-decomposition, adversarial-security, ast-comprehension, ast-quality-gate, agent-code-map, diagram-generation, executive-reporting, voice-inbox, semantic-memory
+- **SDD skills**: spec-driven-development, dag-scheduling, verification-lattice, sdlc-state-machine, context-optimized-dev
+
+## Hooks (35 — 31 active .sh)
+- **Type**: Deterministic lifecycle scripts — never skip
+- **File**: `.claude/hooks/*.sh`
+- **Purpose**: Safety gates and observability — run regardless of LLM instructions
+- **Dependencies**: lib/profile-gate.sh (tier gating), scripts/
+- **Public API (blocking)**: block-credential-leak.sh, block-force-push.sh, block-infra-destructive.sh, data-sovereignty-gate.sh, tdd-gate.sh, scope-guard.sh, plan-gate.sh, validate-bash-global.sh, agent-dispatch-validate.sh
+- **Public API (async)**: agent-trace-log.sh, ast-comprehend-hook.sh, ast-quality-gate-hook.sh, memory-auto-capture.sh, session-init.sh, session-end-snapshot.sh
+- **Profiles**: minimal(security only) | standard(default) | strict(+extra) | ci(non-interactive)
+
+## Rules / Domain (136)
+- **Type**: Modular instruction files loaded on demand
+- **File**: `.claude/rules/domain/*.md`
+- **Purpose**: Behavioral contracts — CLAUDE.md imports these via @ on demand
+- **Dependencies**: none (self-contained)
+- **Key rules**: context-health.md, autonomous-safety.md, changelog-enforcement.md, pii-sanitization.md, context-placement-confirmation.md, radical-honesty.md, equality-shield.md, savia-foundational-principles.md, agent-memory-isolation.md, pr-signing-protocol.md
+- **Language rules**: `.claude/rules/languages/` — auto-loaded by file extension (16 packs)
+
+## Profiles (N3 — local only)
+- **Type**: User/company identity fragments
+- **File**: `.claude/profiles/users/{slug}/*.md` + `.claude/profiles/company/*.md`
+- **Purpose**: Personalize Savia's voice, role detection, workflow, accessibility
+- **Dependencies**: active-user.md (pointer), context-map.md (loading guide)
+- **Fragments**: identity.md, tone.md, workflow.md, tools.md, preferences.md, accessibility.md, competence.md
+- **Privacy level**: N3 (user-local) — never committed to git

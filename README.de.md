@@ -50,6 +50,7 @@ So funktioniert es im Detail: **[Mein Gedachtnissystem](docs/memory-architecture
 ---
 
 
+> **[AST-Strategie](docs/ast-strategy.de.md)** — Verständnis von Legacy-Code + 12 universelle Quality Gates. Duale AST-Architektur: Verständnis vor der Bearbeitung und Validierung nach der Generierung. **Human Code Maps (.hcm)** — narrative Karten in natürlicher Sprache, die den ersten Durchgang durch ein Subsystem vorverdauen. Jedes Projekt trägt seine Karten in `.human-maps/` innerhalb seines eigenen Ordners. Befehle: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`. Aktiver Kampf gegen kognitive Schulden: Entwickler verbringen 58% ihrer Zeit damit, Code zu lesen; diese Karten reduzieren diesen Aufwand von Sitzung zu Sitzung.
 > **[Savia Shield](docs/savia-shield.de.md)** — Datensouveranitatssystem. Lokale Klassifizierung mit LLM, reversible Maskierung, vollstandiges Audit.
 
 ## Installation
