@@ -1,0 +1,71 @@
+# savia-mobile-android — Human Map (.hcm)
+> version: 1.0 | last-walk: — (borrador, pendiente validación humana) | walk-time: 3min | debt-score: 0/10
+> acm-sync: .agent-maps/savia-mobile-android.acm (pendiente generación)
+
+## La historia
+
+savia-mobile-android es el cliente Android de Savia: una app Kotlin + Jetpack Compose
+que conecta al Bridge local via HTTPS (puerto 8922, TLS autofirmado) y expone las
+mismas capacidades que savia-web pero optimizadas para móvil. Tiene 3 módulos
+(app, domain, data), 13 pantallas, y un sistema de OTA que permite actualizarse
+sin pasar por la Play Store. El proyecto tiene la peculiaridad de que `assembleDebug`
+ejecuta los tests automáticamente — si algún test falla, no se genera APK.
+
+## El modelo mental
+
+Piensa en savia-mobile-android como **un mando a distancia físico para Savia**:
+no tiene lógica de negocio propia, todo lo delega al Bridge. La app es una capa de
+presentación Compose sobre las APIs del Bridge, con Room DB como Single Source of Truth
+para persistir el estado entre sesiones. Los 3 módulos separan UI+DI (`:app`),
+contratos (`:domain`) y red+repositorios (`:data`).
+
+**Invariante de build**: `./gradlew buildAndPublish` = tests → build → publish APK.
+Si los tests fallan, no hay APK. No hay forma de saltarse los tests en la cadena de build.
+
+## Puntos de entrada (tarea → dónde empezar)
+
+- Para **añadir una pantalla** → `app/src/main/java/…/ui/screens/`, registrar en el
+  `NavGraph`, añadir ViewModel en `:app`, modelo en `:domain`, repositorio en `:data`
+- Para **depurar la conexión Bridge** → TLS autofirmado, custom `TrustManager` en
+  `:data/network/`. Los certificados viven en `~/.savia/bridge/certs/` en el servidor
+- Para **el sistema OTA** → endpoints `/update/check` y `/update/download` en `:data`,
+  lógica de instalación en `:app/update/`
+- Para **ejecutar el build** → `JAVA_HOME=/snap/android-studio/209/jbr ANDROID_HOME=/home/monica/Android/Sdk ./gradlew buildAndPublish`
+- Para **ver APK publicado** → `~/.savia/bridge/apk/` y `scripts/dist/`
+
+## Gotchas (comportamientos no obvios)
+
+- **NUNCA `assembleDebug` directamente**: ejecutar `assembleDebug` salta la cadena
+  de publicación. Siempre usar `./gradlew buildAndPublish` que garantiza
+  tests → build → publicación del APK en las rutas correctas.
+- **JAVA_HOME y ANDROID_HOME deben estar seteados**: el build Gradle necesita
+  exactamente `JAVA_HOME=/snap/android-studio/209/jbr`. Sin estos env vars el build
+  falla con errores crípticos de JDK.
+- **TLS autofirmado en el Bridge**: la app usa un `TrustManager` personalizado para
+  aceptar el certificado autofirmado del Bridge. Si se reemplaza con el TrustManager
+  por defecto del sistema, la conexión falla silenciosamente.
+- **Version auto-increment en Gradle**: el versionCode se incrementa automáticamente
+  durante la fase de configuración de Gradle. No modificar `versionCode` manualmente
+  en `build.gradle.kts` — el sistema lo gestiona.
+- **Room DB como SSoT**: el estado de las sesiones de chat persiste en Room DB entre
+  reinicios de la app. Si hay inconsistencias en la UI, el punto de partida para
+  depurar es la BD local, no el Bridge.
+- **Streaming SSE con dedup**: el Bridge puede enviar eventos duplicados. El cliente
+  implementa deduplicación a nivel de streaming — si se modifica la lógica de SSE,
+  verificar que la dedup sigue funcionando.
+
+## Por qué está construido así
+
+- **3 módulos (app/domain/data)**: separación clara que permite testear la capa de
+  datos (`:data`) sin levantar la UI. El `:domain` garantiza que los contratos
+  entre capas no tienen dependencias de Android.
+- **Room DB como SSoT**: la conexión al Bridge puede interrumpirse. Room garantiza
+  que el usuario ve datos consistentes aunque el Bridge esté offline.
+- **OTA sin Play Store**: Savia es una herramienta de desarrollo. El ciclo de review
+  de la Play Store (días) no es compatible con iteraciones de sprint (horas).
+
+## Indicadores de deuda
+
+- Pantallas de `TeamManagement` y `GitConfig` tienen menor cobertura de tests (UI compleja)
+- Custom TrustManager para TLS autofirmado: deuda de seguridad conocida, aceptada
+  para entorno de desarrollo local
