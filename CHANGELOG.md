@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.74.0] — 2026-03-28
+
+fix: workspace audit — security hooks never called, sovereignty bug, catalog sync. Era 162.
+
+### Fixed
+
+- **data-sovereignty-audit.sh**: premature `rm -f` on undefined `$NORM_FILE` (line 46 before definition at 85); malformed `printf` with literal `\n`; misleading `exit 0` indentation — all three bugs corrected
+- **data-sovereignty-audit.sh**: changed PostToolUse entry from `async: false` to `async: true` — was blocking every Edit/Write event unnecessarily
+
+### Added
+
+- **settings.json**: registered 4 security hooks that existed on disk but were never executed: `block-credential-leak.sh`, `block-force-push.sh`, `block-infra-destructive.sh`, `tdd-gate.sh` — 100% BATS pass rate but zero production coverage gap now closed
+- **agents-catalog.md**: documented `feasibility-probe` (bypassPermissions, Opus 4.6) and `model-upgrade-auditor` (Opus 4.6) — catalog now at 49 agents
+
+### Changed
+
+- Count references synced across CLAUDE.md, README.md, pm-workflow.md: 505 commands, 49 agents, 85 skills, 31 hooks
+
 ## [3.73.0] — 2026-03-28
 
 5 specs implemented: wave-executor, G11 review scaling, output compression, agent metering, skill feedback. Era 161.
@@ -4867,6 +4885,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.73.0...v3.74.0
 [3.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.72.0...v3.73.0
 [3.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.71.0...v3.72.0
 [3.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.70.4...v3.71.0
