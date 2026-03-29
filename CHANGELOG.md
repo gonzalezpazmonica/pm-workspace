@@ -19,6 +19,18 @@ feat: SPEC-047 through SPEC-052 batch implementation — 6 new capabilities. Era
 - **scripts/task-decomposer.sh** (SPEC-052): classifies tasks as atomic/composite, recursive decomposition (max depth 3). English + Spanish connectors. 14 tests.
 - **docs/propuestas/SPEC-050 through SPEC-052** — specs from ComposioHQ/agent-orchestrator research
 
+## [3.83.0] — 2026-03-30
+
+feat: SPEC-045 exploration collapse detection + SPEC-047/048/049 proposals. Era 164.
+
+### Added
+
+- **scripts/instinct-collapse-detector.sh** (SPEC-045 Phase 1): analyzes instincts registry for 3 staleness signals — AMI (activation monotony), CDS (context drift), PAR (passive acceptance rate). Classifies instincts as healthy/stale/drifted/collapsed. JSON and table output.
+- **tests/evals/test-instinct-collapse-detector.bats** — 10 tests: empty registry, missing registry, healthy/collapsed/drifted detection, disabled skip, table format.
+- **docs/propuestas/SPEC-047-requirement-pushback.md** — Requirement pushback pass (from nanostack research)
+- **docs/propuestas/SPEC-048-dev-session-discard.md** — Dev session discard mechanism (from nanostack research)
+- **docs/propuestas/SPEC-049-depth-adjustable-review.md** — Depth-adjustable review (from nanostack research)
+
 ## [3.82.0] — 2026-03-30
 
 feat: SPEC-044 trace-to-prompt optimization + SPEC-043 S-02 refinement. Era 164.
