@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.82.0] — 2026-03-30
+
+feat: SPEC-044 trace-to-prompt optimization + SPEC-043 S-02 refinement. Era 164.
+
+### Added
+
+- **scripts/trace-pattern-extractor.sh** (SPEC-044): analyzes agent-traces.jsonl, computes per-agent failure rate, budget overage, duration trend, token efficiency. Ranks candidates by optimization need score. 5 pattern classifiers: frequent_failures, budget_blowout, slow_execution, sparse_output, verbose_output.
+- **command: /trace-optimize** — slash command for SPEC-044 Phase 1 (analysis + dry-run)
+- **tests/evals/test-trace-pattern-extractor.bats** — 13 tests covering analysis, thresholds, patterns, edge cases
+
+### Changed
+
+- **responsibility-judge.sh**: removed override mechanism (no bypass allowed), tightened S-02 regex to require start-of-line annotations (reduces false positives on data strings)
+
 ## [3.81.0] — 2026-03-29
 
 feat: SPEC-043 Responsibility Judge — deterministic shortcut detector hook. Era 164.
@@ -5023,6 +5037,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.81.0...v3.82.0
 [3.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.80.0...v3.81.0
 [3.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.79.0...v3.80.0
 [3.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.78.0...v3.79.0
