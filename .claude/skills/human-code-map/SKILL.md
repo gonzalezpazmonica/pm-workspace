@@ -49,22 +49,10 @@ Ver `.claude/rules/domain/hcm-maps.md` — formato, lifecycle, debt score, relac
 
 ## Fase 2 — Análisis de deuda
 
-Calcular el estado actual antes de generar:
-
-```bash
-# Días desde último paseo
-LAST_WALK=$(grep 'last-walk:' .human-maps/${path}.hcm | head -1 | grep -oP '\d{4}-\d{2}-\d{2}')
-DAYS_STALE=$(( ($(date +%s) - $(date -d "$LAST_WALK" +%s)) / 86400 ))
-
-# Complejidad del componente (proxy: líneas + número de dependencias)
-LINES=$(wc -l < ${main_file})
-DEPS=$(grep -c "^import\|^using\|^require" ${main_file} 2>/dev/null || echo 0)
-
-# Score
-STALENESS_PENALTY=$(( DAYS_STALE / 30 * 2 ))  # max 4
-COMPLEXITY=$([ $LINES -gt 200 ] && echo 3 || [ $LINES -gt 80 ] && echo 2 || echo 1)
-DEBT_SCORE=$(( STALENESS_PENALTY + COMPLEXITY ))
-```
+Calcular debt-score antes de generar (fórmula en `hcm-maps.md`):
+- Staleness penalty: días sin paseo / 30 × 2 (máx 4)
+- Complexity: líneas >200 → 3, >80 → 2, ≤80 → 1
+- Coverage gap: (1 - cobertura) × 3
 
 Si `DEBT_SCORE > 7` → avisar al PM antes de generar.
 
@@ -78,11 +66,9 @@ Generar cada sección del .hcm con instrucciones específicas:
 No describir ficheros — describir el *problema que resuelve* y *cómo lo piensa el sistema*.
 Usar el tiempo presente. Evitar jerga técnica innecesaria.
 
-Ejemplo correcto: "El pipeline SDD transforma un PBI vago en código deployable pasando por
-5 agentes en secuencia, donde cada agente valida el trabajo del anterior antes de continuar."
+Correcto: "El pipeline SDD transforma un PBI vago en código deployable pasando por 5 agentes en secuencia, donde cada agente valida el trabajo del anterior antes de continuar."
 
-Ejemplo incorrecto: "El skill spec-driven-development contiene los ficheros SKILL.md y
-DOMAIN.md que definen el proceso..."
+Incorrecto: "El skill spec-driven-development contiene los ficheros SKILL.md y DOMAIN.md que definen el proceso..."
 
 ### El modelo mental
 Identificar la abstracción central del componente. Una analogía si ayuda.
@@ -161,7 +147,4 @@ Un .hcm con `last-walk:` = fecha de generación automática sin validación = no
 
 ## Output esperado
 
-Fichero: `.human-maps/{capa}/{componente}.hcm`
-Secciones obligatorias: header, La historia, El modelo mental, Puntos de entrada, Gotchas
-Secciones opcionales: Por qué está construido así, Indicadores de deuda
-Límite: 150 líneas
+`.human-maps/{capa}/{componente}.hcm` — obligatorias: header, La historia, El modelo mental, Puntos de entrada, Gotchas. Opcionales: Por qué está construido así, Indicadores de deuda. Límite: 150 líneas.
