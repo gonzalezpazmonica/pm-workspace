@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.83.0] — 2026-03-30
+
+feat: SPEC-045 exploration collapse detection + SPEC-047/048/049 proposals. Era 164.
+
+### Added
+
+- **scripts/instinct-collapse-detector.sh** (SPEC-045 Phase 1): analyzes instincts registry for 3 staleness signals — AMI (activation monotony), CDS (context drift), PAR (passive acceptance rate). Classifies instincts as healthy/stale/drifted/collapsed. JSON and table output.
+- **tests/evals/test-instinct-collapse-detector.bats** — 10 tests: empty registry, missing registry, healthy/collapsed/drifted detection, disabled skip, table format.
+- **docs/propuestas/SPEC-047-requirement-pushback.md** — Requirement pushback pass (from nanostack research)
+- **docs/propuestas/SPEC-048-dev-session-discard.md** — Dev session discard mechanism (from nanostack research)
+- **docs/propuestas/SPEC-049-depth-adjustable-review.md** — Depth-adjustable review (from nanostack research)
+
 ## [3.82.0] — 2026-03-30
 
 feat: SPEC-044 trace-to-prompt optimization + SPEC-043 S-02 refinement. Era 164.
@@ -5037,6 +5049,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.82.0...v3.83.0
 [3.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.81.0...v3.82.0
 [3.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.80.0...v3.81.0
 [3.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.79.0...v3.80.0
