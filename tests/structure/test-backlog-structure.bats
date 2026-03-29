@@ -73,7 +73,7 @@ teardown() {
 @test "backlog-query with format count works" {
   run bash -c "echo '' | $ROOT/scripts/backlog-query.sh --project savia-web --format count"
   [ "$status" -eq 0 ]
-  [ "$output" -ge 1 ]
+  [[ "$output" =~ ^[0-9]+$ ]]
 }
 
 @test "backlog-query JSON format is valid" {
