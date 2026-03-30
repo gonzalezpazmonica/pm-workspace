@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.90.0] — 2026-03-30
+
+docs: getting-started + shield guide in all 9 languages + README links. Era 164.
+
+### Added
+
+- **docs/getting-started.{ca,de,eu,fr,gl,it,pt}.md** — Getting started guide translated to 7 additional languages (Catalan, German, Basque, French, Galician, Italian, Portuguese)
+- **docs/savia-shield-guide.{ca,de,eu,fr,gl,it,pt}.md** — Shield practical guide translated to 7 additional languages
+
+### Changed
+
+- **README.{ca,de,eu,fr,gl,it,pt}.md** — Added "First time?" links to getting-started and shield guides in each language
+
 ## [3.89.0] — 2026-03-30
 
 docs: user onboarding guides + Shield practical guide + cross-references. Era 164.
@@ -5130,6 +5143,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.89.0...v3.90.0
 [3.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.88.0...v3.89.0
 [3.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.87.0...v3.88.0
 [3.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.86.0...v3.87.0
