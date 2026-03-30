@@ -12,6 +12,12 @@ DISCARD_LOG="$DEV_SESSIONS_DIR/discard-log.jsonl"
 SESSION_ID="${1:-}"
 REASON="${2:-manual discard}"
 
+if [[ "$SESSION_ID" == "--help" || "$SESSION_ID" == "-h" ]]; then
+  echo "Usage: dev-session-discard.sh <session-id> [reason]"
+  echo "Discard a dev-session cleanly: remove lock, archive state, log the discard."
+  exit 0
+fi
+
 # ── Validate arguments ────────────────────────────────────────────────────────
 if [[ -z "$SESSION_ID" ]]; then
   echo "ERROR: session ID required"

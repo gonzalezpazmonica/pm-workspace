@@ -8,6 +8,9 @@ SESSION_ID="" TRANSITION="" MODE=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --help|-h) echo "Usage: $0 --session-id ID (--transition EVENT | --status | --init)"
+               echo "Manage dev-session state transitions (spawning -> implementing -> ... -> merged)."
+               exit 0 ;;
     --session-id) SESSION_ID="$2"; shift 2 ;;
     --transition) TRANSITION="$2"; MODE="transition"; shift 2 ;;
     --status) MODE="status"; shift ;;

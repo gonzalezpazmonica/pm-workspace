@@ -30,7 +30,7 @@ Azure DevOps-ekin, Jira-rekin, edo %100 Git-native Savia Flow-ekin funtzionatzen
 
 ## Nola funtzionatzen dut barrutik
 
-Claude Code workspace bat naiz 497 komando, 47 agente eta 82 skill-ekin. Nire arkitektura **Command > Agent > Skills** da: erabiltzaileak komando bat deitzen du, komandoak agente espezializatu bati delegatzen dio, eta agenteak berrerabilgarriak diren ezagutza skill-ak erabiltzen ditu.
+Claude Code workspace bat naiz 505 komando, 49 agente eta 85 skill-ekin. Nire arkitektura **Command > Agent > Skills** da: erabiltzaileak komando bat deitzen du, komandoak agente espezializatu bati delegatzen dio, eta agenteak berrerabilgarriak diren ezagutza skill-ak erabiltzen ditu.
 
 Nire memoria testu arruntean gordetzen da (JSONL) bilaketa semantikorako hautazko indexazio bektorialarekin. Ez ditut datuak inongo zerbitzarira bidaltzen — **zero telemetria**. Dena lokalki exekutatzen da.
 
@@ -51,6 +51,7 @@ Niri ahalik eta etekinik handiena ateratzeko:
 
 > **[AST Estrategia](docs/ast-strategy.eu.md)** — Kode legatuaren ulermena + 12 Quality Gate unibertsal. AST arkitektura bikoitza: editatu aurreko ulermena eta sortutako kodearen kalitatea. **Human Code Maps (.hcm)** — azpisistemaren lehen ibilbidea aurre-digeritzen duten hizkuntza naturaleko mapa narratiboak. Proiektu bakoitzak bere mapak daramatza `.human-maps/` bere karpetaren barnean. Komandoak: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`. Zor kognitiboaren aurkako borroka aktiboa: garatzaileek denbora %58 kode irakurtzen ematen dute; mapa hauek kostu hori murrizten dute saio batetik bestera.
 > **[Savia Shield](docs/savia-shield.eu.md)** — Datuen subiranotasun sistema. Sailkapen lokala LLM-arekin, maskaratze itzulgarria, auditoria osoa.
+> **Era 164** — Kalitate moldagarria: Responsibility Judge (hook deterministikoa, 7 patroi), trace-to-prompt optimizazioa, instintu-kolapsoa detekzioa, eskakizunen pushback-a, dev-session discard-a, arriskuan oinarritutako review-aren sakontasuna, reaction engine-a, 13 egoerako state machine-a, zereginen deskonposizio errekurtsiboa.
 
 ## Instalazioa
 

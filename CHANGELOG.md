@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.85.0] — 2026-03-30
+
+feat: SPEC-053 Savia Capability Map (.scm) + documentation alignment. Era 164.
+
+### Added
+
+- **Savia Capability Map (.scm)** (SPEC-053): self-knowledge index for Savia — 875 resources indexed across 7 intent-based categories (quality, development, planning, analysis, memory, communication, governance). Progressive loading: L0 INDEX.scm (~400 tokens), L1 category files, L2 full docs on-demand.
+- **scripts/generate-capability-map.sh**: scans commands, skills, agents, scripts and generates .scm index with intent keywords. Deterministic, idempotent.
+- **tests/evals/test-capability-map.bats** — 12 tests covering generation, classification, format validation.
+
+### Changed
+
+- **All 9 READMEs** (es, en, ca, de, eu, fr, gl, it, pt): updated counts (505 cmds, 49 agents, 85+ skills, 35 hooks) + Era 164 capabilities summary
+- **5 scripts**: added --help flag (requirement-pushback, dev-session-discard, review-depth-selector, reaction-engine, session-state-machine)
+
 ## [3.84.0] — 2026-03-30
 
 feat: SPEC-047 through SPEC-052 batch implementation — 6 new capabilities. Era 164.
@@ -5063,6 +5078,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.84.0...v3.85.0
 [3.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.83.0...v3.84.0
 [3.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.82.0...v3.83.0
 [3.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.81.0...v3.82.0

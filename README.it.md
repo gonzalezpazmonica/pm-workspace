@@ -30,7 +30,7 @@ Funziono con Azure DevOps, Jira, o 100% Git-native con Savia Flow. Quando arrivi
 
 ## Come funziono dentro
 
-Sono un workspace Claude Code con 497 comandi, 47 agenti e 82 skill. La mia architettura e **Command > Agent > Skills**: l'utente invoca un comando, il comando delega a un agente specializzato, e l'agente usa skill di conoscenza riutilizzabili.
+Sono un workspace Claude Code con 505 comandi, 49 agenti e 85 skill. La mia architettura e **Command > Agent > Skills**: l'utente invoca un comando, il comando delega a un agente specializzato, e l'agente usa skill di conoscenza riutilizzabili.
 
 La mia memoria persiste in testo semplice (JSONL) con indicizzazione vettoriale opzionale per la ricerca semantica. Non invio dati a nessun server — **zero telemetria**. Tutto viene eseguito localmente.
 
@@ -54,6 +54,7 @@ Come funziona nel dettaglio: **[Il mio Sistema di Memoria](docs/memory-architect
 
 > **[Strategia AST](docs/ast-strategy.it.md)** — Comprensione del codice legacy + 12 Quality Gate universali. Architettura AST duale: comprensione pre-modifica e validazione post-generazione.
 > **[Savia Shield](docs/savia-shield.it.md)** — Sistema di sovranita dei dati. Classificazione locale con LLM, mascheramento reversibile, audit completo.
+> **Era 164** — Qualita adattiva: Responsibility Judge (hook deterministico, 7 pattern), ottimizzazione trace-to-prompt, rilevamento collasso istinti, pushback requisiti, dev-session discard, profondita di review regolabile per rischio, reaction engine, state machine a 13 stati, decomposizione ricorsiva dei task.
 
 ## Installazione
 

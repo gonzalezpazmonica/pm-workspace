@@ -9,6 +9,13 @@ set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  echo "Usage: reaction-engine.sh <event-type> <context-json>"
+  echo "Given an event (ci-failure, review-changes-requested, test-failure, approved-and-green)"
+  echo "and context JSON, outputs the recommended reaction."
+  exit 0
+fi
+
 if [[ $# -lt 2 ]]; then
   echo '{"error": "Usage: reaction-engine.sh <event-type> <context-json>"}' >&2
   exit 1

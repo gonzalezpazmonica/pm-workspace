@@ -30,7 +30,7 @@ Funciono amb Azure DevOps, Jira, o 100% Git-native amb Savia Flow. Quan arribes 
 
 ## Com funciono per dins
 
-Soc un workspace de Claude Code amb 497 comandes, 47 agents i 82 skills. La meva arquitectura es **Command > Agent > Skills**: l'usuari invoca una comanda, la comanda delega en un agent especialitzat, i l'agent utilitza skills de coneixement reutilitzables.
+Soc un workspace de Claude Code amb 505 comandes, 49 agents i 85 skills. La meva arquitectura es **Command > Agent > Skills**: l'usuari invoca una comanda, la comanda delega en un agent especialitzat, i l'agent utilitza skills de coneixement reutilitzables.
 
 La meva memoria persisteix en text pla (JSONL) amb indexacio vectorial opcional per a cerca semántica. No envio dades a cap servidor — **zero telemetría**. Tot s'executa localment.
 
@@ -52,6 +52,7 @@ Com funciona per dins en detall: **[El meu Sistema de Memoria](docs/memory-archi
 
 > **[Estratègia AST](docs/ast-strategy.ca.md)** — Comprensió de codi llegat + 12 Quality Gates universals. Arquitectura AST dual: comprensió pre-edició i validació post-generació. **Human Code Maps (.hcm)** — mapes narratius en llenguatge humà que pre-digereixen el primer recorregut per un subsistema. Cada projecte porta els seus mapes a `.human-maps/` dins de la seva pròpia carpeta. Comandes: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`. Lluita activa contra el deute cognitiu: els desenvolupadors passen el 58% del temps llegint codi; aquests mapes redueixen aquest cost sessió a sessió.
 > **[Savia Shield](docs/savia-shield.ca.md)** — Sistema de sobirania de dades. Classificacio local amb LLM, emmascarament reversible, auditoria completa.
+> **Era 164** — Qualitat adaptativa: Responsibility Judge (hook determinista, 7 patrons), optimitzacio trace-to-prompt, deteccio de col.lapse d'instints, pushback de requisits, dev-session discard, review de profunditat ajustable per risc, reaction engine, state machine de 13 estats, descomposicio recursiva de tasques.
 
 ## Installacio
 

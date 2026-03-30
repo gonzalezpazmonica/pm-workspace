@@ -1,0 +1,50 @@
+# analysis — Savia Capability Map (L1)
+> 47 resources
+
+- **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico 
+- **agent-activity** (script): agent-activity.sh — Agent activity dashboard
+- **agent-activity** (cmd): Show structured activity log of recent agent executions
+- **agent-budget-lookup** (script): agent-budget-lookup.sh — Extract token_budget from agent frontmatter
+- **agent-code-map** (skill): Genera y gestiona Agent Code Maps (.acm) — mapas estructurales persistentes entre sesiones para que los agentes conozc
+- **agent-cost** (cmd): Coste estimado de uso de agentes por sprint/proyecto
+- **agent-efficiency** (cmd): Ratio de eficiencia de agentes — specs completadas, re-work y tiempos
+- **agent-memory** (cmd): Inspect and manage persistent memory fragments for subagents.
+- **agent-notes-archive** (>): 
+- **agent-run** (cmd): Launch a Claude agent on a Spec or batch of pending specs
+- **agent-trace** (cmd): Dashboard de trazas de ejecución de agentes con tokens, duración y resultado
+- **ai-risk-assessment** (cmd): Evaluación de riesgo de agentes según categorías EU AI Act
+- **async-standup** (cmd): Recogida asíncrona de standups — cada dev reporta cuando quiera, Savia compila
+- **ceo-report** (cmd): Informe ejecutivo multi-proyecto para dirección — portfolio, riesgo, equipo, delivery
+- **debt-analyze** (>): 
+- **debt-budget** (>): 
+- **debt-prioritize** (>): 
+- **debt-track** (>): 
+- **enterprise-analytics** (skill): Enterprise analytics — SPACE metrics, portfolio aggregation, team health, risk matrix, forecasting
+- **enterprise-dashboard** (cmd): Enterprise analytics — portfolio metrics, team health, risk matrix, forecasting
+- **eval-report** (cmd): Generate evaluation report with scoring and analysis
+- **excel-report** (cmd): Generar plantillas Excel interactivas con Claude-in-Excel para reporting
+- **executive-reporting** (skill): Generación de informes ejecutivos multi-proyecto para dirección
+- **impact-metric** (>): 
+- **kpi-dashboard** (cmd): Muestra el dashboard completo con todos los KPIs definidos en docs/kpis-equipo.md.
+- **kpi-dora** (>): 
+- **network-incident** (cmd): Gestión del ciclo de vida de incidentes de red con reporte, clasificación, escalado y resolución
+- **order-track** (cmd): Gestiona pedidos: crear, actualizar estado, cumplir, procesar devoluciones y reportes
+- **org-metrics** (cmd): Métricas DORA y de delivery agregadas a nivel de organización
+- **prevention-metrics** (cmd): Métricas de prevención: bugs prevenidos vs encontrados, shift-left effectiveness, early detection rate. Paradigma QA d
+- **promotion-engine** (cmd): Gestiona promociones: crear, activar, desactivar, evaluar, reportes
+- **report-capacity** (cmd): Muestra el estado de capacidades del equipo — disponibilidad, asignación y alertas de sobre-carga.
+- **report-executive** (cmd): Genera el informe ejecutivo multi-proyecto para dirección en formato Word o PowerPoint.
+- **report-hours** (cmd): Genera el informe de imputación de horas del sprint actual o especificado.
+- **risk-assess** (cmd): Calculate and display risk score for a task with breakdown and review recommendations
+- **risk-log** (>): 
+- **risk-policy** (cmd): Display and manage risk scoring thresholds and policies
+- **risk-predict** (cmd): Predicción de riesgo del sprint basada en datos históricos y señales tempranas
+- **risk-scoring** (skill): Calculate risk score for tasks and route to appropriate review level
+- **rules-traceability** (skill): Map business rules (RN-XXX-NN) to PBIs with traceability matrix
+- **sheets-report** (cmd): Generate report and sync to Google Sheets
+- **solvency-report** (>): 
+- **stakeholder-report** (cmd): Informe para stakeholders — progreso por epics, roadmap visual, riesgos
+- **stakeholder-view** (cmd): Generate stakeholder-focused reporting view
+- **time-tracking-report** (skill): Generación de informes de imputación de horas a Excel/Word
+- **Trace Search** (cmd): Buscar y filtrar trazas across multiple observability platforms with natural language support
+- **trace-pattern-extractor** (script): trace-pattern-extractor.sh — SPEC-044 Phase 1: analyze agent traces
