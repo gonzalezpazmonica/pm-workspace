@@ -5,6 +5,11 @@
 setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   ROOT="$PWD"
+  TMPDIR=$(mktemp -d)
+}
+
+teardown() {
+  rm -rf "$TMPDIR"
 }
 
 # ── Getting Started guides ──
@@ -89,12 +94,55 @@ setup() {
   [ "$lines" -gt 50 ]
 }
 
-# ── Cross-references ──
-
 @test "README.md references getting-started guide" {
   grep -q "getting-started" "$ROOT/README.md"
 }
 
 @test "README.en.md references getting-started guide" {
   grep -q "getting-started" "$ROOT/README.en.md"
+}
+
+# ── Negative cases ──
+
+@test "getting-started.md has no broken internal links" {
+  local broken=0
+  while IFS= read -r link; do
+    [ -f "$ROOT/$link" ] || broken=$((broken + 1))
+  done < <(grep -oP '\]\((?!http)([^)]+)\)' "$ROOT/docs/getting-started.md" | tr -d ']()')
+  [ "$broken" -eq 0 ]
+}
+
+@test "docs follow file-size-limit rule" {
+  # Ref: .claude/rules/domain/file-size-limit.md — max 150 lines
+  local oversized=0
+  for f in "$ROOT/docs/getting-started.md" "$ROOT/docs/getting-started.en.md" "$ROOT/docs/quick-starts/"*.md; do
+    [ -f "$f" ] || continue
+    local lines; lines=$(wc -l < "$f")
+    [ "$lines" -le 150 ] || oversized=$((oversized + 1))
+  done
+  [ "$oversized" -eq 0 ]
+}
+
+@test "getting-started.md contains setup instructions" {
+  grep -q "install\|setup\|configur" "$ROOT/docs/getting-started.md"
+  [[ "$(head -3 "$ROOT/docs/getting-started.md")" == *"#"* ]]
+}
+
+@test "savia-shield guides reference sovereignty" {
+  grep -q "soberan\|sovereign\|shield\|protect" "$ROOT/docs/savia-shield-guide.md"
+  [[ "$(head -3 "$ROOT/docs/savia-shield-guide.md")" == *"#"* ]]
+}
+
+@test "validate-ci-local.sh has set -uo pipefail safety" {
+  grep -q "set -uo pipefail" "$ROOT/scripts/validate-ci-local.sh"
+}
+
+@test "getting-started.md handles nonexistent anchors" {
+  local bad; bad=$(grep -c '\](#)' "$ROOT/docs/getting-started.md" || true)
+  [ "$bad" -eq 0 ]
+}
+
+@test "getting-started.en.md has no empty sections" {
+  local empty=0
+  grep -c '^##' "$ROOT/docs/getting-started.en.md" | [ "$(cat)" -ge 1 ]
 }

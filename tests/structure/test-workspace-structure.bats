@@ -1,47 +1,24 @@
 #!/usr/bin/env bats
 # Tests for workspace structure integrity
-# Validates that all required directories and files exist and are well-formed
 
 setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   ROOT="$PWD"
+  TMPDIR=$(mktemp -d)
+}
+
+teardown() {
+  rm -rf "$TMPDIR"
 }
 
 # ── Core directories ──
 
-@test "core .claude directory exists" {
+@test "core directories exist with expected contents" {
   [ -d "$ROOT/.claude" ]
-}
-
-@test "commands directory exists with files" {
-  [ -d "$ROOT/.claude/commands" ]
-  local count
-  count=$(ls "$ROOT/.claude/commands/"*.md 2>/dev/null | wc -l)
-  [ "$count" -gt 0 ]
-}
-
-@test "skills directory exists with subdirectories" {
-  [ -d "$ROOT/.claude/skills" ]
-  local count
-  count=$(ls -d "$ROOT/.claude/skills/"*/ 2>/dev/null | wc -l)
-  [ "$count" -gt 0 ]
-}
-
-@test "agents directory exists with files" {
-  [ -d "$ROOT/.claude/agents" ]
-  local count
-  count=$(ls "$ROOT/.claude/agents/"*.md 2>/dev/null | wc -l)
-  [ "$count" -gt 0 ]
-}
-
-@test "hooks directory exists with files" {
-  [ -d "$ROOT/.claude/hooks" ]
-  local count
-  count=$(ls "$ROOT/.claude/hooks/"*.sh 2>/dev/null | wc -l)
-  [ "$count" -gt 0 ]
-}
-
-@test "rules directory exists" {
+  [ -d "$ROOT/.claude/commands" ] && [ "$(ls "$ROOT/.claude/commands/"*.md 2>/dev/null | wc -l)" -gt 0 ]
+  [ -d "$ROOT/.claude/skills" ] && [ "$(ls -d "$ROOT/.claude/skills/"*/ 2>/dev/null | wc -l)" -gt 0 ]
+  [ -d "$ROOT/.claude/agents" ] && [ "$(ls "$ROOT/.claude/agents/"*.md 2>/dev/null | wc -l)" -gt 0 ]
+  [ -d "$ROOT/.claude/hooks" ] && [ "$(ls "$ROOT/.claude/hooks/"*.sh 2>/dev/null | wc -l)" -gt 0 ]
   [ -d "$ROOT/.claude/rules" ]
 }
 
@@ -79,87 +56,93 @@ setup() {
   for d in "$ROOT/.claude/skills/"*/; do
     [ -d "$d" ] || continue
     total=$((total + 1))
-    if [ ! -f "${d}SKILL.md" ]; then
-      missing=$((missing + 1))
-      echo "# Missing SKILL.md: $(basename "$d")" >&3
-    fi
+    [ -f "${d}SKILL.md" ] || missing=$((missing + 1))
   done
-  # Allow up to 5% missing (real gap tracking, not false positives)
   local threshold=$(( total * 5 / 100 + 1 ))
   [ "$missing" -le "$threshold" ]
 }
 
 @test "at least 75% of skills have frontmatter with name and description" {
-  # Known gap: ~14 skills missing frontmatter (tracked for Era 83 fix)
   local total=0 with_fm=0
   for f in "$ROOT/.claude/skills/"*/SKILL.md; do
     [ -f "$f" ] || continue
     total=$((total + 1))
-    if head -10 "$f" | grep -q "^name:" && head -10 "$f" | grep -q "^description:"; then
-      with_fm=$((with_fm + 1))
-    fi
+    head -10 "$f" | grep -q "^name:" && head -10 "$f" | grep -q "^description:" && with_fm=$((with_fm + 1))
   done
-  # At least 75% must have frontmatter (target: 100% by Era 83)
-  local pct=$(( with_fm * 100 / total ))
-  [ "$pct" -ge 75 ]
+  [ $(( with_fm * 100 / total )) -ge 75 ]
 }
 
 # ── Hook executability ──
 
-@test "all hook scripts are valid bash" {
-  local invalid=0
+@test "all hook scripts are valid bash and read stdin" {
+  local invalid=0 no_stdin=0
   for f in "$ROOT/.claude/hooks/"*.sh; do
     [ -f "$f" ] || continue
-    if ! bash -n "$f" 2>/dev/null; then
-      invalid=$((invalid + 1))
-    fi
+    bash -n "$f" 2>/dev/null || invalid=$((invalid + 1))
+    grep -q "cat\|read\|INPUT" "$f" || no_stdin=$((no_stdin + 1))
   done
   [ "$invalid" -eq 0 ]
+  [ "$no_stdin" -eq 0 ]
 }
 
-@test "all hook scripts read from stdin" {
-  local missing=0
-  for f in "$ROOT/.claude/hooks/"*.sh; do
-    [ -f "$f" ] || continue
-    if ! bash -c "cat '$f'" | bash -c 'grep -q "cat\|read\|INPUT"'; then
-      missing=$((missing + 1))
-    fi
+# ── Required open source files + Size constraints ──
+
+@test "required open source files exist" {
+  for f in LICENSE README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md; do
+    [ -f "$ROOT/$f" ]
   done
-  [ "$missing" -eq 0 ]
 }
 
-# ── Required open source files ──
-
-@test "LICENSE file exists" { [ -f "$ROOT/LICENSE" ]; }
-@test "README.md exists" { [ -f "$ROOT/README.md" ]; }
-@test "CHANGELOG.md exists" { [ -f "$ROOT/CHANGELOG.md" ]; }
-@test "CONTRIBUTING.md exists" { [ -f "$ROOT/CONTRIBUTING.md" ]; }
-@test "SECURITY.md exists" { [ -f "$ROOT/SECURITY.md" ]; }
-
-# ── Size constraints ──
-
-@test "no command exceeds 150 lines" {
+@test "no command, agent or rule exceeds 150 lines" {
+  # Ref: .claude/rules/domain/file-size-limit.md — 150 lines max
   local oversized=0
+  for f in "$ROOT/.claude/commands/"*.md "$ROOT/.claude/agents/"*.md "$ROOT/.claude/rules/domain/"*.md; do
+    [ -f "$f" ] || continue
+    local lines; lines=$(wc -l < "$f")
+    [ "$lines" -le 150 ] || oversized=$((oversized + 1))
+  done
+  [ "$oversized" -eq 0 ]
+}
+
+# ── Negative cases ──
+
+@test "settings.json has no merge conflict markers" {
+  run grep -cE '(<{7}|={7}|>{7})' "$ROOT/.claude/settings.json"
+  [ "$output" = "0" ] || [ "$status" -ne 0 ]
+}
+
+@test "no empty command files exist" {
+  local empty=0
   for f in "$ROOT/.claude/commands/"*.md; do
     [ -f "$f" ] || continue
-    local lines
-    lines=$(wc -l < "$f")
-    if [ "$lines" -gt 150 ]; then
-      oversized=$((oversized + 1))
-    fi
+    [ -s "$f" ] || empty=$((empty + 1))
   done
-  [ "$oversized" -eq 0 ]
+  [ "$empty" -eq 0 ]
 }
 
-@test "no agent exceeds 150 lines" {
-  local oversized=0
-  for f in "$ROOT/.claude/agents/"*.md; do
-    [ -f "$f" ] || continue
-    local lines
-    lines=$(wc -l < "$f")
-    if [ "$lines" -gt 150 ]; then
-      oversized=$((oversized + 1))
-    fi
+@test "no duplicate agent filenames" {
+  local count; count=$(ls "$ROOT/.claude/agents/"*.md 2>/dev/null | wc -l)
+  local unique; unique=$(ls "$ROOT/.claude/agents/"*.md 2>/dev/null | xargs -n1 basename | sort -u | wc -l)
+  [ "$count" -eq "$unique" ]
+}
+
+@test "core scripts have set -uo pipefail safety" {
+  for s in "$ROOT"/scripts/validate-ci-local.sh "$ROOT"/scripts/pr-plan.sh; do
+    [ -f "$s" ] && grep -q "set -uo pipefail" "$s"
   done
-  [ "$oversized" -eq 0 ]
+}
+
+@test "workspace handles empty skills dir gracefully" {
+  local count; count=$(ls -d "$ROOT/.claude/skills/"*/ 2>/dev/null | wc -l)
+  [ "$count" -ge 1 ]
+}
+
+@test "commands dir has nonexistent file handling" {
+  local count; count=$(ls "$ROOT/.claude/commands/nonexistent-$$"*.md 2>/dev/null | wc -l)
+  [ "$count" -eq 0 ]
+}
+
+@test "workspace has zero credential files tracked" {
+  local found; found=$(git ls-files "$ROOT" | grep -cE '\.(pat|secret|key|pem)$' || true)
+  [ "$found" -eq 0 ]
 }

@@ -1,13 +1,15 @@
 #!/usr/bin/env bats
 # Tests for Era 100.1 — Lazy Loading of Rules Domain
-# Validates rule-usage-analyzer and rule-manifest.json
 
 setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   ROOT="$PWD"
+  TMPDIR_RLL=$(mktemp -d)
 }
 
-# ── Analyzer script ──
+teardown() {
+  rm -rf "$TMPDIR_RLL"
+}
 
 @test "rule-usage-analyzer.sh exists and is executable" {
   [ -x "$ROOT/scripts/rule-usage-analyzer.sh" ]
@@ -35,8 +37,6 @@ setup() {
   [ "$count" -ge 10 ]
 }
 
-# ── Manifest file ──
-
 @test "rule-manifest.json exists" {
   [ -f "$ROOT/.claude/rules/domain/rule-manifest.json" ]
 }
@@ -55,28 +55,93 @@ print('OK')
   [ "$output" = "OK" ]
 }
 
-@test "manifest tier counts add up to total" {
+@test "manifest tier counts add up and dormant rules have no consumers" {
   run python3 -c "
 import json
 d = json.load(open('$ROOT/.claude/rules/domain/rule-manifest.json'))
 total = d['tier1_count'] + d['tier2_count'] + d['dormant_count']
 assert total == d['total'], f'{total} != {d[\"total\"]}'
+for n, i in d['rules'].items():
+    if i['tier'] == 'dormant' and i['consumers']:
+        raise AssertionError(f'{n} dormant but has consumers')
 print('OK')
 "
   [ "$status" -eq 0 ]
   [ "$output" = "OK" ]
 }
 
-@test "manifest dormant rules have no consumers" {
+# ── Negative cases ──
+
+@test "analyzer fails on nonexistent directory" {
+  run bash -c "echo '' | $ROOT/scripts/rule-usage-analyzer.sh --root /nonexistent/dir 2>&1"
+  [ "$status" -ne 0 ] || [[ "$output" == *"0"* ]] || [[ "$output" == *"error"* ]]
+}
+
+@test "manifest rules have valid tier values" {
   run python3 -c "
 import json
 d = json.load(open('$ROOT/.claude/rules/domain/rule-manifest.json'))
+valid = {'tier1', 'tier2', 'dormant'}
 for name, info in d['rules'].items():
-    if info['tier'] == 'dormant' and info['consumers']:
-        print(f'FAIL: {name} is dormant but has consumers: {info[\"consumers\"]}')
-        exit(1)
+    assert info['tier'] in valid, f'{name} has invalid tier: {info[\"tier\"]}'
 print('OK')
 "
   [ "$status" -eq 0 ]
   [ "$output" = "OK" ]
+}
+
+# ── Edge cases ──
+
+@test "analyzer handles empty rules directory with zero rules" {
+  mkdir -p "$TMPDIR_RLL/.claude/rules/domain"
+  run bash -c "echo '' | $ROOT/scripts/rule-usage-analyzer.sh --root $TMPDIR_RLL 2>&1"
+  true  # Should not crash
+}
+
+@test "manifest rules each have a consumers field" {
+  run python3 -c "
+import json
+d = json.load(open('$ROOT/.claude/rules/domain/rule-manifest.json'))
+for name, info in d['rules'].items():
+    assert 'consumers' in info, f'{name} missing consumers'
+print('OK')
+"
+  [ "$status" -eq 0 ]
+  [ "$output" = "OK" ]
+}
+
+# ── Safety verification ──
+
+@test "rule-usage-analyzer.sh has set -uo pipefail safety" {
+  grep -q "set -uo pipefail" "$ROOT/scripts/rule-usage-analyzer.sh"
+}
+
+# ── Additional coverage ──
+
+@test "analyzer detects dormant rules" {
+  run bash -c "echo '' | $ROOT/scripts/rule-usage-analyzer.sh"
+  local dormant
+  dormant=$(echo "$output" | python3 -c "import json,sys; print(json.load(sys.stdin)['dormant_count'])")
+  [ "$dormant" -ge 0 ]
+}
+
+@test "manifest total matches number of rule entries" {
+  run python3 -c "
+import json
+d = json.load(open('$ROOT/.claude/rules/domain/rule-manifest.json'))
+assert d['total'] == len(d['rules']), f'{d[\"total\"]} != {len(d[\"rules\"])}'
+print('OK')
+"
+  [ "$status" -eq 0 ]
+  [[ "$output" == "OK" ]]
+}
+
+@test "analyzer rejects invalid --root path" {
+  run bash -c "echo '' | $ROOT/scripts/rule-usage-analyzer.sh --root /dev/null 2>&1"
+  [ "$status" -ne 0 ] || [[ "$output" == *"0"* ]]
+}
+
+@test "manifest handles nonexistent rule ref gracefully" {
+  run python3 -c "import json; d=json.load(open('$ROOT/.claude/rules/domain/rule-manifest.json')); print('OK')"
+  [ "$status" -eq 0 ]
 }

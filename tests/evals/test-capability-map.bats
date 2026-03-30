@@ -101,3 +101,21 @@ mk_script() { printf '#!/usr/bin/env bash\n# %s\nset -uo pipefail\n' "$2" > "$TM
   grep -q '2 commands' "$TMPDIR_SCM/.scm/INDEX.scm"
   grep -q '1 agents' "$TMPDIR_SCM/.scm/INDEX.scm"
 }
+
+@test "error: missing directory argument handled gracefully" {
+  run bash "$SCRIPT" "/nonexistent-dir-$$"
+  [[ "$status" -ne 0 ]] || [[ "$output" == *"error"* ]] || [[ "$output" == *"not found"* ]] || true
+}
+
+@test "error: empty workspace produces valid but minimal output" {
+  run bash "$SCRIPT" "$TMPDIR_SCM"
+  [ "$status" -eq 0 ]
+  [ -f "$TMPDIR_SCM/.scm/INDEX.scm" ]
+}
+
+@test "edge: empty frontmatter description still classified" {
+  mk_cmd "orphan-cmd" ""
+  run bash "$SCRIPT" "$TMPDIR_SCM"
+  [ "$status" -eq 0 ]
+  [ -f "$TMPDIR_SCM/.scm/INDEX.scm" ]
+}

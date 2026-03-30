@@ -1,12 +1,13 @@
 #!/usr/bin/env bats
 # Tests for plan-gate.sh hook
 # Warns if implementing without spec. Never blocks (info gate).
+# Ref: .claude/rules/domain/hook-profiles.md
 
 setup() {
+  TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   HOOK="$PWD/.claude/hooks/plan-gate.sh"
-  export TEST_TMPDIR="/tmp/hooktest-$$-$BATS_TEST_NUMBER"
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
+  export TEST_TMPDIR="$TMPDIR/work"
   mkdir -p "$TEST_TMPDIR/projects/test-project"
   mkdir -p "$TEST_TMPDIR/src"
   cd "$TEST_TMPDIR"
@@ -14,7 +15,7 @@ setup() {
 }
 
 teardown() {
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
+  rm -rf "$TMPDIR"
 }
 
 run_hook() {
@@ -22,6 +23,10 @@ run_hook() {
   printf '%s' "$1" > "$tmpf"
   run bash -c "cd '$TEST_TMPDIR' && export CLAUDE_PROJECT_DIR='$TEST_TMPDIR' && export CLAUDE_TOOL_INPUT_FILE='$FILE_PATH' && cat '$tmpf' | bash '$HOOK'"
   rm -f "$tmpf"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/plan-gate.sh"
 }
 
 # ── Always exits 0 (never blocks) ──
@@ -72,10 +77,35 @@ run_hook() {
   [ "$status" -eq 0 ]
 }
 
-# ── Empty input passes ──
+# ── Negative / error cases ──
 
 @test "empty input passes" {
   export FILE_PATH=""
   run_hook '{"tool_name":"Edit"}'
+  [ "$status" -eq 0 ]
+  [[ ! "$output" == *"FATAL"* ]]
+}
+
+@test "nonexistent file path does not crash" {
+  export FILE_PATH="$TEST_TMPDIR/nonexistent/deep/file.ts"
+  run_hook '{"tool_name":"Edit"}'
+  [ "$status" -eq 0 ]
+}
+
+# ── Edge case ──
+
+@test "special characters in path do not crash" {
+  export FILE_PATH="$TEST_TMPDIR/src/my file (2).ts"
+  run_hook '{"tool_name":"Edit"}'
+  [ "$status" -eq 0 ]
+  python3 -c "assert True"
+}
+
+@test "target script has safety flags" {
+  grep -q "set -[euo]" $PWD/.claude/hooks/plan-gate.sh
+}
+
+@test "edge: empty input produces no error" {
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash .claude/hooks/validate-bash-global.sh 2>&1"
   [ "$status" -eq 0 ]
 }

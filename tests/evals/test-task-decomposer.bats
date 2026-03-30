@@ -3,6 +3,9 @@
 
 SCRIPT="scripts/task-decomposer.sh"
 
+setup() { TMPDIR_TD=$(mktemp -d); }
+teardown() { rm -rf "$TMPDIR_TD"; }
+
 @test "task-decomposer.sh exists" {
   [ -f "$SCRIPT" ]
 }

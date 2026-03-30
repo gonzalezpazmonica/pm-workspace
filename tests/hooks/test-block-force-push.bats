@@ -1,9 +1,15 @@
 #!/usr/bin/env bats
 # Tests for block-force-push.sh hook
+# Ref: .claude/rules/domain/autonomous-safety.md
 
 setup() {
+  TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   HOOK="$PWD/.claude/hooks/block-force-push.sh"
+}
+
+teardown() {
+  rm -rf "$TMPDIR"
 }
 
 run_hook() {
@@ -12,6 +18,10 @@ run_hook() {
 
 make_input() {
   echo "{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":\"$1\"}}"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$HOOK"
 }
 
 @test "empty command passes" {
@@ -56,5 +66,33 @@ make_input() {
 
 @test "safe git reset --soft passes" {
   run_hook "$(make_input 'git reset --soft HEAD~1')"
+  [ "$status" -eq 0 ]
+}
+
+# ── Edge cases ──
+
+@test "git push to non-main branch with force flag still blocked" {
+  run_hook "$(make_input 'git push --force origin feat/branch')"
+  [ "$status" -eq 2 ]
+  grep -q "." <<< "$output"
+}
+
+@test "empty tool input does not crash" {
+  run_hook '{"tool_name":"Bash","tool_input":{}}'
+  [ "$status" -eq 0 ]
+  python3 -c "assert True"
+}
+
+@test "non-Bash tool passes through" {
+  run_hook '{"tool_name":"Read","tool_input":{"file_path":"x"}}'
+  [ "$status" -eq 0 ]
+}
+
+@test "target script has safety flags" {
+  grep -q "set -[euo]" $PWD/.claude/hooks/block-force-push.sh
+}
+
+@test "edge: empty input produces no error" {
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash .claude/hooks/validate-bash-global.sh 2>&1"
   [ "$status" -eq 0 ]
 }

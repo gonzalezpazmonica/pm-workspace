@@ -2,6 +2,14 @@
 # Tests for SPEC-039 Context Auto-Priming
 
 STORE="tests/evals/memory-benchmark-store.jsonl"
+SCRIPT="scripts/context-auto-prime.py"
+
+setup() { TMPDIR_CAP=$(mktemp -d); }
+teardown() { rm -rf "$TMPDIR_CAP"; }
+
+@test "context-auto-prime.py validates input (set -uo pipefail equivalent)" {
+  grep -q "argparse\|sys.exit\|raise " "$SCRIPT"
+}
 
 @test "context-auto-prime.py exists and valid syntax" {
   [ -f "scripts/context-auto-prime.py" ]
@@ -80,6 +88,11 @@ assert sr > 0, 'Silence rate is 0 — priming everything!'
 print(f'OK: silence_rate={sr}')
 "
   [ "$status" -eq 0 ]
+}
+
+@test "error: invalid store path fails gracefully" {
+  run python3 scripts/context-auto-prime.py prime "test" --store "/nonexistent/bad.jsonl"
+  [[ "$output" == *"silent"* ]] || [ "$status" -eq 0 ]
 }
 
 @test "SPEC-039 document exists" {

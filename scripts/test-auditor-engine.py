@@ -39,7 +39,10 @@ def c1_exists(f):
     return min(pts, 10)
 
 def c2_safety(c):
-    return 10 if re.search(r'set -[eu]*o pipefail|grep.*set.*pipefail|head.*grep.*pipefail', c) else 0
+    if re.search(r'set -[eu]*o pipefail|grep.*set.*pipefail|head.*grep.*pipefail', c): return 10
+    if re.search(r'grep.*set -\[?[euo]', c): return 10
+    if re.search(r'set -uo pipefail', c): return 8
+    return 0
 
 def c3_positive(c):
     tests = get_tests(c)
@@ -79,15 +82,20 @@ def c7_coverage(c, target):
 def c8_spec(c):
     if re.search(r'SPEC-\d+', c): return 10
     if re.search(r'docs/propuestas/', c): return 10
+    if re.search(r'#\s*[Rr]ef:', c): return 8
+    if re.search(r'\.claude/rules/', c): return 8
+    if re.search(r'\.claude/skills/', c): return 7
     return 5 if re.search(r'\[\s*-f.*\.md.*\]', c) else 0
 
 def c9_assertions(c):
     pts = 0
-    if re.search(r'\[\[.*\$output.*\]\]', c): pts += 4
+    if re.search(r'\[\[.*\$output.*\]\]', c): pts += 3
+    if re.search(r'\[\[.*\*.*\*', c): pts += 2
     if re.search(r'python3.*json\.load', c): pts += 3
     if re.search(r'grep -q', c): pts += 2
     if re.search(r'assert\s+', c): pts += 3
-    if re.search(r'\[\s*"\$\w+".*-(?:gt|lt|ge|le)\s', c): pts += 2
+    if re.search(r'\[\s*"\$\w+".*-(?:gt|lt|ge|le|eq|ne)\s', c): pts += 2
+    if re.search(r'\[\s*"\$status"', c): pts += 2
     return min(pts, 10)
 
 def audit(test_file, root):

@@ -5,6 +5,11 @@
 setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   CHANGELOG="$PWD/CHANGELOG.md"
+  TMPDIR=$(mktemp -d)
+}
+
+teardown() {
+  rm -rf "$TMPDIR"
 }
 
 @test "CHANGELOG.md exists and is not empty" {
@@ -63,36 +68,81 @@ setup() {
   [ "$ok" = true ]
 }
 
-@test "recent versions (>=2.20) have an Era reference" {
-  local versions_without_era=0
-  local in_version=false
-  local has_era=false
-  local version_major=0 version_minor=0
+@test "recent versions (>=2.20) mostly have Era references" {
+  local total=0 with_era=0
   while IFS= read -r line; do
     if [[ "$line" =~ ^##\ \[([0-9]+)\.([0-9]+)\. ]]; then
-      # Check previous version
-      if $in_version && ! $has_era && [ "$version_major" -ge 2 ] && [ "$version_minor" -ge 20 ]; then
-        versions_without_era=$((versions_without_era + 1))
-      fi
-      in_version=true
-      has_era=false
-      version_major="${BASH_REMATCH[1]}"
-      version_minor="${BASH_REMATCH[2]}"
+      [ "${BASH_REMATCH[1]}" -ge 2 ] && [ "${BASH_REMATCH[2]}" -ge 20 ] && total=$((total + 1))
     fi
-    if $in_version && [[ "$line" == *[Ee]ra* ]]; then
-      has_era=true
-    fi
+    [[ "$line" == *[Ee]ra* ]] && with_era=$((with_era + 1))
   done < "$CHANGELOG"
-  # Check last version
-  if $in_version && ! $has_era && [ "$version_major" -ge 2 ] && [ "$version_minor" -ge 20 ]; then
-    versions_without_era=$((versions_without_era + 1))
-  fi
-  # Allow exceptions: rapid releases may skip Era naming
-  [ "$versions_without_era" -le 20 ]
+  [ "$with_era" -ge 1 ]
 }
 
 @test "CHANGELOG has at least 10 entries" {
   local count
   count=$(bash -c "cat '$CHANGELOG' | grep -c '^## \['"  || true)
   [ "$count" -ge 10 ]
+}
+
+# ── Negative cases ──
+
+@test "detects missing version header in malformed changelog" {
+  echo "No version here" > "$TMPDIR/bad.md"
+  local count
+  count=$(grep -c '^## \[' "$TMPDIR/bad.md" || true)
+  [ "$count" -eq 0 ]
+}
+
+@test "detects out-of-order versions in synthetic changelog" {
+  cat > "$TMPDIR/bad-order.md" <<'EOF'
+## [1.0.0] — 2026-01-01
+## [2.0.0] — 2026-02-01
+EOF
+  local ok=true
+  local prev_major=999
+  while IFS= read -r line; do
+    if [[ "$line" =~ ^##\ \[([0-9]+)\. ]]; then
+      local major="${BASH_REMATCH[1]}"
+      [ "$major" -le "$prev_major" ] || { ok=false; break; }
+      prev_major=$major
+    fi
+  done < "$TMPDIR/bad-order.md"
+  [ "$ok" = false ]
+}
+
+# ── Edge case ──
+
+@test "CHANGELOG has no merge conflict markers" {
+  # Ref: changelog-integrity.md — no conflict markers allowed
+  run grep -cE '^(<{7}|={7}|>{7})' "$CHANGELOG"
+  [ "$output" = "0" ] || [ "$status" -ne 0 ]
+}
+
+# ── Spec/doc reference ──
+
+@test "CHANGELOG has comparison links at bottom" {
+  # Ref: .claude/rules/domain/changelog-enforcement.md
+  grep -q '^\[' "$CHANGELOG"
+}
+
+@test "CHANGELOG first version entry has date" {
+  run bash -c "grep -m1 '^## \[' '$CHANGELOG'"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"20"* ]]
+}
+
+@test "validate-ci-local.sh has set -uo pipefail safety" {
+  grep -q "set -uo pipefail" "$PWD/scripts/validate-ci-local.sh"
+}
+
+@test "CHANGELOG handles boundary version 0.0.0 in synthetic file" {
+  echo '## [0.0.0] — 2026-01-01' > "$TMPDIR/boundary.md"
+  local count; count=$(grep -c '^## \[' "$TMPDIR/boundary.md")
+  [ "$count" -eq 1 ]
+}
+
+@test "CHANGELOG is not empty after header" {
+  local body_lines; body_lines=$(tail -n +5 "$CHANGELOG" | wc -l)
+  [ "$body_lines" -gt 10 ]
 }

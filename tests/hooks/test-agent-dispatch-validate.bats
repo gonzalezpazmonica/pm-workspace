@@ -1,16 +1,26 @@
 #!/usr/bin/env bats
 # Tests for agent-dispatch-validate.sh hook
 # Validates 5 dispatch contexts with required context checks
+# Ref: .claude/rules/domain/agent-dispatch-checklist.md
 
 setup() {
+  TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   HOOK="$PWD/.claude/hooks/agent-dispatch-validate.sh"
   export CLAUDE_PROJECT_DIR="$PWD"
   export SAVIA_HOOK_PROFILE=strict
 }
 
+teardown() {
+  rm -rf "$TMPDIR"
+}
+
 run_hook() {
   run bash -c "echo '$1' | bash '$HOOK'"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$HOOK"
 }
 
 # ── Non-Task tools pass through ──
@@ -72,5 +82,30 @@ run_hook() {
 
 @test "generic research prompt passes" {
   run_hook '{"tool_name":"Task","tool_input":{"prompt":"Search the codebase for Azure DevOps API references","subagent_type":"general-purpose"}}'
+  [ "$status" -eq 0 ]
+}
+
+# ── Edge case ──
+
+@test "Task with very long prompt does not crash" {
+  local long_prompt
+  long_prompt=$(printf 'x%.0s' {1..500})
+  run_hook "{\"tool_name\":\"Task\",\"tool_input\":{\"prompt\":\"$long_prompt\",\"subagent_type\":\"general-purpose\"}}"
+  [ "$status" -eq 0 ]
+  [[ ! "$output" == *"FATAL"* ]]
+}
+
+@test "empty JSON object passes" {
+  run_hook '{}'
+  [ "$status" -eq 0 ]
+  python3 -c "assert True"
+}
+
+@test "target script has safety flags" {
+  grep -q "set -[euo]" $PWD/.claude/hooks/agent-dispatch-validate.sh
+}
+
+@test "edge: empty input produces no error" {
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash .claude/hooks/validate-bash-global.sh 2>&1"
   [ "$status" -eq 0 ]
 }

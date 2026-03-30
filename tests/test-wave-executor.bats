@@ -1,8 +1,15 @@
 #!/usr/bin/env bats
+# Tests for wave-executor.sh — DAG scheduling engine
+# Ref: .claude/skills/dag-scheduling/SKILL.md
 
 setup() {
   export SCRIPT="scripts/wave-executor.sh"
   export FIXTURES="tests/fixtures"
+  TMPDIR_WE=$(mktemp -d)
+}
+
+teardown() {
+  rm -rf "$TMPDIR_WE"
 }
 
 @test "happy path: 3 tasks 2 waves all succeed" {
@@ -88,4 +95,40 @@ setup() {
 @test "nonexistent file exits 2" {
   run bash "$SCRIPT" "/tmp/no-such-file-wave.json"
   [ "$status" -eq 2 ]
+}
+
+# ── Negative cases ──
+
+@test "invalid JSON content exits with error" {
+  echo "not valid json" > "$TMPDIR_WE/bad.json"
+  run bash "$SCRIPT" "$TMPDIR_WE/bad.json"
+  [ "$status" -ne 0 ]
+}
+
+@test "tasks with failing command report failure" {
+  echo '{"tasks":[{"id":"fail1","command":"exit 42","depends_on":[]}]}' > "$TMPDIR_WE/fail-cmd.json"
+  run bash "$SCRIPT" "$TMPDIR_WE/fail-cmd.json"
+  [ "$status" -ne 0 ]
+}
+
+# ── Edge case ──
+
+@test "single task with no dependencies succeeds" {
+  echo '{"tasks":[{"id":"solo","command":"echo hello","depends_on":[]}]}' > "$TMPDIR_WE/solo.json"
+  run bash "$SCRIPT" "$TMPDIR_WE/solo.json"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"solo"* ]]
+  echo "$output" | jq -e '.total_tasks == 1'
+}
+
+@test "happy path output contains success status string" {
+  run bash "$SCRIPT" "$FIXTURES/wave-dag-happy.json"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"success"* ]]
+}
+
+@test "cycle detection output indicates error" {
+  run bash "$SCRIPT" "$FIXTURES/wave-dag-cycle.json"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"cycle"* ]] || [[ "$output" == *"error"* ]] || [[ "$output" == *"Cycle"* ]]
 }
