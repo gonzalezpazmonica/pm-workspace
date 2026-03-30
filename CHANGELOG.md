@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.86.0] — 2026-03-30
+
+feat: SPEC-054 Context Index System (.ctx) — knowledge map for digesters. Era 164.
+
+### Added
+
+- **Context Index System (.ctx)** (SPEC-054): maps WHERE all context information lives — workspace-level (WORKSPACE.ctx) and per-project (PROJECT.ctx). Entries: `[location]` (exists), `[optional]` (suggested), `[intent]` (search guide), `[digest-target]` (where to store extracted info). Serves as navigation for digesters, Savia, and humans.
+- **scripts/generate-context-index.sh**: scans workspace and project structure, generates .ctx indices. Supports --workspace, --project NAME, or both.
+- **.context-index/WORKSPACE.ctx**: workspace-level context map with sections for rules, agents, skills, memory, docs, projects.
+- **.context-index/PROJECT-TEMPLATE.ctx**: generic project template covering business rules, team, meetings, architecture, analysis, backlog, glossary, environments.
+- **tests/evals/test-context-index.bats** — 15 tests covering generation, sections, entry types, line limits, project detection.
+
 ## [3.85.0] — 2026-03-30
 
 feat: SPEC-053 Savia Capability Map (.scm) + documentation alignment. Era 164.
@@ -5078,6 +5090,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.85.0...v3.86.0
 [3.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.84.0...v3.85.0
 [3.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.83.0...v3.84.0
 [3.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.82.0...v3.83.0

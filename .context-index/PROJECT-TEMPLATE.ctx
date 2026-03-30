@@ -1,0 +1,61 @@
+# Project Context Index: {project-name}
+# generated: auto — regenerate with: bash scripts/generate-context-index.sh --project {project-name}
+> Where to find and store project-specific information (N4)
+
+## Configuration
+[location] CLAUDE.md — project config, stack, environments
+[intent: "what stack does this project use"] → CLAUDE.md
+
+## Business Rules
+[location] reglas-negocio.md — business rules with RN-XXX codes
+[location] business-rules/ — detailed rule documents
+[intent: "what are the business rules for X"] → reglas-negocio.md
+[digest-target] When extracting rules from meetings/docs → reglas-negocio.md
+
+## Team & Stakeholders
+[location] team/TEAM.md — team composition and roles
+[location] team/stakeholders/ — external stakeholder profiles
+[location] equipo.md — team structure (legacy format)
+[intent: "who works on this project"] → team/TEAM.md or equipo.md
+[digest-target] When extracting people info from meetings → team/
+
+## Meetings & Decisions
+[location] meetings/ — meeting digests and transcripts
+[location] decision-log.md — architectural and business decisions
+[location] _digest-log.md — digest traceability log
+[intent: "what was decided about X"] → decision-log.md
+[digest-target] When processing meeting transcripts → meetings/
+[digest-target] When extracting decisions → decision-log.md
+
+## Architecture & Technical
+[location] ARCHITECTURE.md — system architecture overview
+[location] specs/ — SDD specifications
+[location] adrs/ — architecture decision records
+[intent: "how is the system designed"] → ARCHITECTURE.md
+[digest-target] When extracting technical decisions → adrs/
+
+## Analysis & Reports
+[location] analysis/ — business analysis outputs
+[location] security/ — security audit results
+[location] diagrams/ — architecture and flow diagrams
+[digest-target] When extracting analysis → analysis/
+
+## Backlog
+[location] backlog/ — Savia Flow backlog items (if using local flow)
+[location] backlog/pbi/ — Product Backlog Items
+[location] backlog/specs/ — SDD specs linked to PBIs
+[intent: "what is in the backlog"] → backlog/
+
+## Glossary
+[location] GLOSSARY.md — project terminology and acronyms
+[intent: "what does term X mean"] → GLOSSARY.md
+[digest-target] When extracting domain terms → GLOSSARY.md
+
+## Agent Memory (project level)
+[location] agent-memory/{agent}/ — project-specific agent knowledge
+[digest-target] When agent learns project pattern → agent-memory/{agent}/
+
+## Environments
+[location] ENVIRONMENTS.md — environment configuration
+[location] config.local/ — secrets per environment (gitignored)
+[intent: "what environments exist"] → ENVIRONMENTS.md
