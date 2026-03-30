@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3043c2f2a9505da81bb1d1d25dde9fb714be1be4aab8054b9b7a12889a97fde0
-timestamp=2026-03-30T18:21:47Z
-branch=feat/user-onboarding-docs
-head_commit=54b3fc8
-signature=b9861bc0f4e77f3cd014c90d84cf252b8f5fc1514eaf379e29a0dd2dfcf183ab
+diff_hash=4bf72dc13d1148c3aba0053184ab1251f2c32274a85a45a1e177d69bf0ac7fdc
+timestamp=2026-03-30T18:45:15Z
+branch=feat/docs-all-languages
+head_commit=cf4cbd4
+signature=447eaecb3b0d20631e4fa9a9353cd0829301b3d2f14c69c43380eeaa828c3e93
