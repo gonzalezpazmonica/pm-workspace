@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.91.0] — 2026-03-30
+
+feat: SPEC-055 Test Auditor — test quality scoring, certification, CI gate. Era 164.
+
+### Added
+
+- **scripts/test-auditor.sh + test-auditor-engine.py** (SPEC-055): deterministic test quality analyzer. 9 criteria (existence, safety, positive/negative/edge cases, isolation, coverage, spec ref, assertion quality). Score 0-100, certified at >= 80. Embeds certification hash in test header.
+- **scripts/test-coverage-checker.sh**: verifies every script has a corresponding test file. JSON output.
+- **scripts/ci-test-quality-gate.sh**: CI gate — all tests >= 80 + coverage check. Exit 1 if any fail.
+- **tests/evals/test-auditor.bats** — 14 tests for the auditor itself.
+- **docs/propuestas/SPEC-055-test-auditor.md** — full spec.
+
 ## [3.90.0] — 2026-03-30
 
 docs: getting-started + shield guide in all 9 languages + README links. Era 164.
@@ -5143,6 +5155,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.90.0...v3.91.0
 [3.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.89.0...v3.90.0
 [3.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.88.0...v3.89.0
 [3.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.87.0...v3.88.0
