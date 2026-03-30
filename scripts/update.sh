@@ -215,6 +215,10 @@ do_install() {
     log_info "Cambios locales guardados en stash"
   fi
 
+  # Paso 3b: Save Savia Shield state before pull
+  local prev_profile="standard"
+  prev_profile=$(bash "$WORKSPACE_DIR/scripts/hook-profile.sh" get 2>/dev/null | awk '{print $1}') || prev_profile="standard"
+
   # Paso 4: Pull from origin/main (not a tag)
   log_info "Aplicando cambios de origin/main..."
   if ! git -C "$WORKSPACE_DIR" pull --ff-only origin main 2>/dev/null; then
@@ -235,6 +239,18 @@ do_install() {
       log_warn "No se pudieron restaurar los cambios del stash automaticamente."
       log_info "Revisa con: git stash list / git stash pop"
     }
+  fi
+
+  # Paso 5b: Restore Savia Shield state
+  bash "$WORKSPACE_DIR/scripts/hook-profile.sh" set "$prev_profile" 2>/dev/null || true
+  log_ok "Savia Shield profile restored: $prev_profile"
+
+  # Paso 5c: Verify Responsibility Judge
+  local rj_path="$WORKSPACE_DIR/.claude/hooks/responsibility-judge.sh"
+  if [[ -f "$rj_path" && -x "$rj_path" ]] && grep -q "responsibility-judge" "$WORKSPACE_DIR/.claude/settings.json" 2>/dev/null; then
+    log_ok "Responsibility Judge: active"
+  else
+    log_warn "Responsibility Judge not found — run readiness check"
   fi
 
   # Paso 6: Validacion post-update
