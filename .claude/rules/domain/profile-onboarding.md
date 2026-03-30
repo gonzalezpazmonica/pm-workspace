@@ -143,10 +143,5 @@ emojis, sin saludos. Solo datos y códigos de estado.
 
 ## Detección de Verticales
 
-Durante `/profile-setup`, cuando el usuario describe su rol y proyectos:
-
-1. Si el rol NO es software (ej: "médico", "abogado", "ingeniero industrial") → activar detección de vertical
-2. Ejecutar algoritmo de 5 fases de `@.claude/rules/domain/vertical-detection.md`
-3. Si score ≥ 25% → preguntar: "He notado que trabajas en el sector {vertical}. ¿Te gustaría que prepare reglas y flujos especializados para tu sector?"
-4. Si acepta → sugerir `/vertical-propose {nombre}`
-5. Si rechaza → continuar con perfil estándar
+Si el rol NO es software → ejecutar `@.claude/rules/domain/vertical-detection.md` (5 fases).
+Score ≥ 25% → preguntar si activar vertical. Si acepta → `/vertical-propose {nombre}`.
