@@ -65,6 +65,10 @@ public async Task CalculateCapacity_CuandoEquipoConVacaciones_ReduceHorasDisponi
 [Trait("Category", "E2E")]          # Tests completos de extremo a extremo
 ```
 
+## Context Index
+
+When designing tests for a project, check `projects/{project}/.context-index/PROJECT.ctx` if it exists. Use `[location]` entries to find specs and business rules for test case derivation.
+
 ## Protocolo de trabajo
 
 1. **Leer el código a testear** — entender los contratos públicos, no los detalles internos

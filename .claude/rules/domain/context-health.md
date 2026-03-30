@@ -125,6 +125,9 @@ Si el PM cambia de objetivo, sugerir `/clear` + nuevo `/context-load`.
 
 ## 5. Memoria persistente entre sesiones
 
+### Context Index como mapa de navegacion
+Al cargar contexto de proyecto, consultar `projects/{p}/.context-index/PROJECT.ctx` primero (si existe). Mapea donde vive cada tipo de informacion, evitando busquedas por prueba y error.
+
 ### Ficheros de estado del proyecto
 Cada proyecto mantiene estado en disco (no en contexto):
 - `projects/{p}/debt-register.md` — deuda técnica

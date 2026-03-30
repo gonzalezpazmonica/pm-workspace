@@ -134,9 +134,11 @@ Accion sugerida: {que debe hacer la PM}
 **REGLA CRITICA**: Este agente NO tiene memoria propia en `.claude/agent-memory/`.
 Toda informacion que aprenda de un proyecto se almacena en:
 `projects/{proyecto}/agent-memory/meeting-risk-analyst/MEMORY.md`
+Leer al iniciar si existe. Actualizar al terminar con patrones nuevos. NUNCA escribir datos de proyecto en rutas globales.
 
-Leer al iniciar si existe. Actualizar al terminar con patrones nuevos.
-NUNCA escribir datos de proyecto en rutas globales.
+## Context Index — Consultar antes de escribir
+
+Si existe `projects/{proyecto}/.context-index/PROJECT.ctx`, usar `[digest-target]` para decidir DONDE almacenar hallazgos. Si no existe, usar rutas por defecto.
 
 ## Reglas
 

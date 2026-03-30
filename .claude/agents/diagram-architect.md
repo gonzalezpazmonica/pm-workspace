@@ -36,6 +36,10 @@ Agente especializado en análisis de diagramas de arquitectura. Valida consisten
 
 `claude-sonnet-4-6` — Balance entre capacidad de análisis y velocidad
 
+## Context Index
+
+When analyzing project architecture, check `projects/{project}/.context-index/PROJECT.ctx` if it exists. Use `[location]` entries to find architecture docs, entities, and business rules.
+
 ## Contexto que recibe
 
 1. Diagrama en formato Mermaid (siempre disponible como copia local)

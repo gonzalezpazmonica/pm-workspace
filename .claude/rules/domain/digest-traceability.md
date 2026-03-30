@@ -102,6 +102,8 @@ Creación automática por `/project-new` o al primera digestión si no existe.
 
 Los agentes de digestión DEBEN: (1) recibir la ruta al log, (2) consultar si ya procesado ANTES de leer, (3) actualizar el log al terminar o devolver `digest_entry:` YAML para que el orquestador actualice.
 
+Ademas, antes de escribir output deben consultar `projects/{proyecto}/.context-index/PROJECT.ctx` (si existe) y usar sus entradas `[digest-target]` para decidir DONDE almacenar cada tipo de informacion extraida.
+
 ---
 
 ## Límites y privacidad
