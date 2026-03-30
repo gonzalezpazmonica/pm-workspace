@@ -1,7 +1,19 @@
 #!/usr/bin/env bats
 # Tests for SPEC-043 Responsibility Judge Hook
+# Ref: .claude/rules/domain/hook-profiles.md
 
-HOOK=".claude/hooks/responsibility-judge.sh"
+setup() {
+  TMPDIR=$(mktemp -d)
+  HOOK=".claude/hooks/responsibility-judge.sh"
+}
+
+teardown() {
+  rm -rf "$TMPDIR"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$HOOK"
+}
 
 @test "responsibility-judge.sh exists and is executable" {
   [ -f "$HOOK" ]

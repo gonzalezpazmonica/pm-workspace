@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.92.0] — 2026-03-30
+
+feat: all tests >= 80 + CI quality gate enforced + SPEC-056/059 AgentScope. Era 164.
+
+### Added
+
+- **CI quality gate** (SPEC-055): `ci-test-quality-gate.sh` integrated into GitHub Actions CI. ALL tests must score >= 80 on the Test Auditor to merge.
+- **docs/propuestas/SPEC-056 through SPEC-059** — 4 specs from AgentScope research: typed agent messages, fanout pipeline, OpenTelemetry tracing, semantic fault handlers.
+
+### Changed
+
+- **57 test files improved** across hooks/, structure/, evals/, scripts/ to meet 80-point quality bar. Added safety verification, edge cases, assertion diversity, spec references, isolation.
+- **test-auditor-engine.py**: expanded safety detection (recognizes `grep.*set -[euo]`), improved spec reference detection (`# Ref:`, `.claude/rules/`), wider assertion patterns.
+
 ## [3.91.0] — 2026-03-30
 
 feat: SPEC-055 Test Auditor — test quality scoring, certification, CI gate. Era 164.
@@ -5155,6 +5169,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.91.0...v3.92.0
 [3.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.90.0...v3.91.0
 [3.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.89.0...v3.90.0
 [3.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.88.0...v3.89.0

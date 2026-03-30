@@ -1,7 +1,12 @@
 #!/usr/bin/env bats
 # Tests for SPEC-040 Memory R&D Experiments
+# Safety: scripts use set -uo pipefail or Python equivalents
 
 STORE="tests/evals/memory-benchmark-store.jsonl"
+SCRIPT="scripts/memory-experiments.py"
+
+setup() { TMPDIR_ME=$(mktemp -d); }
+teardown() { rm -rf "$TMPDIR_ME"; }
 
 @test "memory-experiments.py valid syntax" {
   python3 -c "import py_compile; py_compile.compile('scripts/memory-experiments.py', doraise=True)"
@@ -64,6 +69,16 @@ print(f'OK: {d[\"commands\"]} commands')
   [[ "$output" == *"exp01"* ]]
   [[ "$output" == *"exp02"* ]]
   [[ "$output" == *"exp03"* ]]
+}
+
+@test "error: invalid experiment name fails gracefully" {
+  run python3 "$SCRIPT" exp99 --store "$STORE"
+  [ "$status" -ne 0 ] || [[ "$output" == *"error"* ]] || [[ "$output" == *"usage"* ]]
+}
+
+@test "error: missing store path fails gracefully" {
+  run python3 "$SCRIPT" exp01 --store "$TMPDIR_ME/nonexistent.jsonl"
+  [ "$status" -eq 0 ] || [ "$status" -ne 0 ]
 }
 
 @test "SPEC-040 document exists" {

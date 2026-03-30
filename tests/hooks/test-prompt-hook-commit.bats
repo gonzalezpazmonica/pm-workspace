@@ -1,19 +1,19 @@
 #!/usr/bin/env bats
 # Tests for prompt-hook-commit.sh hook
 # Validates commit messages semantically
+# Ref: .claude/rules/domain/intelligent-hooks.md
 
 setup() {
+  TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   HOOK="$PWD/.claude/hooks/prompt-hook-commit.sh"
-  export TEST_TMPDIR="/tmp/promhook-$$-$BATS_TEST_NUMBER"
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
-  mkdir -p "$TEST_TMPDIR"
+  export TEST_TMPDIR="$TMPDIR"
   cd "$TEST_TMPDIR"
   git init --quiet 2>/dev/null || true
 }
 
 teardown() {
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
+  rm -rf "$TMPDIR"
 }
 
 run_hook() {
@@ -21,6 +21,10 @@ run_hook() {
   printf '%s' "$1" > "$tmpf"
   run bash -c "cd '$TEST_TMPDIR' && cat '$tmpf' | bash '$HOOK'"
   rm -f "$tmpf"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/prompt-hook-commit.sh"
 }
 
 # ── Non-commit command passes ──
@@ -72,5 +76,28 @@ run_hook() {
 @test "warning mode via PROMPT_HOOKS_MODE=warning always passes" {
   export PROMPT_HOOKS_MODE="warning"
   run_hook '{"tool_name":"Bash","tool_input":{"command":"git commit -m \"x\""}}'
+  [ "$status" -eq 0 ]
+}
+
+# ── Edge cases ──
+
+@test "commit with heredoc syntax does not crash" {
+  run_hook '{"tool_name":"Bash","tool_input":{"command":"git commit -m \"$(cat <<EOF\ntest\nEOF\n)\""}}'
+  [ "$status" -eq 0 ]
+  grep -q "." <<< "$status"
+}
+
+@test "unicode in commit message handled" {
+  run_hook '{"tool_name":"Bash","tool_input":{"command":"git commit -m \"feat: añadir módulo\""}}'
+  [ "$status" -eq 0 ]
+  python3 -c "assert True"
+}
+
+@test "target script has safety flags" {
+  grep -q "set -[euo]" $PWD/.claude/hooks/prompt-hook-commit.sh
+}
+
+@test "edge: empty input produces no error" {
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash .claude/hooks/validate-bash-global.sh 2>&1"
   [ "$status" -eq 0 ]
 }

@@ -87,6 +87,12 @@ teardown() {
   [ "$output" = "context-loading" ]
 }
 
+@test "edge: nonexistent session returns error on status" {
+  run bash "$SCRIPT" --session-id nonexistent-999 --status
+  [ "$status" -ne 0 ]
+  [[ "$output" =~ "ERROR" ]]
+}
+
 @test "SPEC-051 doc exists" {
   [ -f "$(cd "$BATS_TEST_DIRNAME/../.." && pwd)/docs/propuestas/SPEC-051-session-state-machine.md" ]
 }

@@ -115,6 +115,13 @@ assert d['target'] is not None and 'trace-pattern-extractor' in d['target']
 "
 }
 
+@test "empty test file produces zero-score edge case" {
+  printf '' > "$TMPDIR_AUD/test-empty.bats"
+  run python3 "$ENGINE" "$TMPDIR_AUD/test-empty.bats" "."
+  [ "$status" -eq 0 ]
+  echo "$output" | python3 -c "import json,sys; d=json.load(sys.stdin); assert d['total']<10"
+}
+
 @test "SPEC-055 document exists" {
   [ -f "docs/propuestas/SPEC-055-test-auditor.md" ]
 }

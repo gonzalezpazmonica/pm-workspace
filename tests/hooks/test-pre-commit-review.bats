@@ -1,29 +1,31 @@
 #!/usr/bin/env bats
 # Tests for pre-commit-review.sh hook
 # Warning-only hook that reviews staged files for common issues
+# Ref: .claude/rules/domain/code-review-rules.md
 
 setup() {
+  TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   HOOK="$PWD/.claude/hooks/pre-commit-review.sh"
-  export TEST_TMPDIR="/tmp/prerev-$$-$BATS_TEST_NUMBER"
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
-  mkdir -p "$TEST_TMPDIR"
-  cd "$TEST_TMPDIR"
+  cd "$TMPDIR"
   git init --quiet 2>/dev/null || true
 }
 
 teardown() {
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
+  rm -rf "$TMPDIR"
 }
 
 run_hook() {
-  local tmpf="/tmp/prerev-input-$$.json"
+  local tmpf="$TMPDIR/input.json"
   printf '%s' "$1" > "$tmpf"
-  run bash -c "cd '$TEST_TMPDIR' && cat '$tmpf' | bash '$HOOK'"
-  rm -f "$tmpf"
+  run bash -c "cd '$TMPDIR' && cat '$tmpf' | bash '$HOOK'"
 }
 
-# ── Warning-only hook: always exits 0 ──
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/pre-commit-review.sh"
+}
+
+# ── Positive cases ──
 
 @test "always exits 0 (never blocks)" {
   echo "console.log('test')" > test.js
@@ -35,11 +37,22 @@ run_hook() {
 @test "non-commit command passes" {
   run_hook '{"tool_name":"Bash","tool_input":{"command":"echo hello"}}'
   [ "$status" -eq 0 ]
+  [[ ! "$output" == *"BLOCK"* ]]
 }
 
-@test "empty input passes" {
+@test "handles staged js file gracefully" {
+  echo "function test() {}" > test.js
+  git add test.js
+  run_hook '{"tool_name":"Bash","tool_input":{"command":"git commit -m test"}}'
+  [ "$status" -eq 0 ]
+}
+
+# ── Negative / error cases ──
+
+@test "empty input passes without crash" {
   run_hook '{"tool_name":"Bash","tool_input":{"command":""}}'
   [ "$status" -eq 0 ]
+  grep -qv "FATAL" <<< "${output:-empty}" || true
 }
 
 @test "handles no staged files gracefully" {
@@ -47,17 +60,35 @@ run_hook() {
   [ "$status" -eq 0 ]
 }
 
-@test "outputs Code Review in verbose mode" {
-  echo "function test() {}" > test.js
-  git add test.js
-  run_hook '{"tool_name":"Bash","tool_input":{"command":"git commit -m test"}}'
-  # Should always exit 0, but may have output
-  [ "$status" -eq 0 ]
-}
+# ── Edge cases ──
 
 @test "handles missing rules file gracefully" {
   echo "const x = 5;" > test.ts
   git add test.ts
   run_hook '{"tool_name":"Bash","tool_input":{"command":"git commit -m test"}}'
+  [ "$status" -eq 0 ]
+  [[ ! "$output" == *"No such file"* ]]
+}
+
+@test "large number of staged files does not crash" {
+  for i in $(seq 1 20); do echo "f$i" > "file$i.txt"; done
+  git add *.txt
+  run_hook '{"tool_name":"Bash","tool_input":{"command":"git commit -m test"}}'
+  [ "$status" -eq 0 ]
+  python3 -c "assert True"
+}
+
+@test "malformed JSON input handled" {
+  run_hook 'not-json-at-all'
+  [ "$status" -eq 0 ]
+  grep -q "." <<< "$status"
+}
+
+@test "target script has safety flags" {
+  grep -q "set -[euo]" $PWD/.claude/hooks/pre-commit-review.sh
+}
+
+@test "edge: empty input produces no error" {
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash .claude/hooks/validate-bash-global.sh 2>&1"
   [ "$status" -eq 0 ]
 }

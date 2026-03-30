@@ -4,6 +4,9 @@
 SCRIPT="scripts/reaction-engine.sh"
 CORE="scripts/reaction-engine-core.py"
 
+setup() { TMPDIR_RE=$(mktemp -d); }
+teardown() { rm -rf "$TMPDIR_RE"; }
+
 @test "reaction-engine.sh exists and is executable" {
   [ -f "$SCRIPT" ]
   [ -x "$SCRIPT" ]
@@ -95,6 +98,11 @@ assert 'No automatic action' in d['message']
   # attempt 2 -> sonnet
   run bash "$SCRIPT" ci-failure '{"attempt":2,"logs":"fail"}'
   echo "$output" | python3 -c "import json,sys; d=json.load(sys.stdin); assert d['model'] == 'sonnet'"
+}
+
+@test "edge: empty JSON payload handled gracefully" {
+  run bash "$SCRIPT" ci-failure '{}'
+  [ "$status" -eq 0 ]
 }
 
 @test "SPEC-050 document exists" {

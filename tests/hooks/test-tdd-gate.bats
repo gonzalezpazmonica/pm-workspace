@@ -1,12 +1,13 @@
 #!/usr/bin/env bats
 # Tests for tdd-gate.sh hook
 # Validates TDD gate: blocks production code edits when no tests exist
+# Ref: .claude/rules/domain/dev-session-protocol.md
 
 setup() {
+  TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   HOOK="$PWD/.claude/hooks/tdd-gate.sh"
-  # IMPORTANT: Use a path WITHOUT /test/ in it, because BATS_TEST_TMPDIR
-  # contains /test/ which triggers the hook's */test/* exclusion pattern.
+  # Use a path WITHOUT /test/ to avoid hook's */test/* exclusion
   export TEST_TMPDIR="/tmp/tddgate-$$-$BATS_TEST_NUMBER"
   rm -rf "$TEST_TMPDIR" 2>/dev/null || true
   mkdir -p "$TEST_TMPDIR/src" "$TEST_TMPDIR/tests" "$TEST_TMPDIR/tests/__tests__"
@@ -16,14 +17,18 @@ setup() {
 
 teardown() {
   rm -rf "$TEST_TMPDIR" 2>/dev/null || true
+  rm -rf "$TMPDIR"
 }
 
 run_hook() {
-  # Use temp file to avoid quoting issues between BATS run, bash -c, and echo
   local tmpf="/tmp/tddgate-input-$$.json"
   printf '%s' "$1" > "$tmpf"
   run bash -c "cd '$TEST_TMPDIR' && cat '$tmpf' | bash '$HOOK'"
   rm -f "$tmpf"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/tdd-gate.sh"
 }
 
 # ── Non-Edit/Write tools pass ──
@@ -38,8 +43,6 @@ run_hook() {
   [ "$status" -eq 0 ]
 }
 
-# ── Non-code extensions pass ──
-
 @test "markdown file passes" {
   run_hook "{\"tool_name\":\"Edit\",\"tool_input\":{\"file_path\":\"$TEST_TMPDIR/docs/README.md\",\"old_string\":\"a\",\"new_string\":\"b\"}}"
   [ "$status" -eq 0 ]
@@ -49,8 +52,6 @@ run_hook() {
   run_hook "{\"tool_name\":\"Edit\",\"tool_input\":{\"file_path\":\"$TEST_TMPDIR/package.json\",\"old_string\":\"a\",\"new_string\":\"b\"}}"
   [ "$status" -eq 0 ]
 }
-
-# ── Test files themselves pass ──
 
 @test "test file Test suffix passes" {
   run_hook "{\"tool_name\":\"Edit\",\"tool_input\":{\"file_path\":\"$TEST_TMPDIR/src/ProductTest.cs\",\"old_string\":\"a\",\"new_string\":\"b\"}}"
@@ -66,8 +67,6 @@ run_hook() {
   run_hook "{\"tool_name\":\"Edit\",\"tool_input\":{\"file_path\":\"$TEST_TMPDIR/src/product_test.go\",\"old_string\":\"a\",\"new_string\":\"b\"}}"
   [ "$status" -eq 0 ]
 }
-
-# ── Excluded paths pass ──
 
 @test "file in tests directory passes" {
   run_hook "{\"tool_name\":\"Edit\",\"tool_input\":{\"file_path\":\"$TEST_TMPDIR/tests/helper.cs\",\"old_string\":\"a\",\"new_string\":\"b\"}}"
@@ -137,4 +136,11 @@ run_hook() {
 @test "BLOCKS Write to .go file without test" {
   run_hook "{\"tool_name\":\"Write\",\"tool_input\":{\"file_path\":\"$TEST_TMPDIR/src/zz99UniqueUncoveredMain.go\",\"content\":\"package main\"}}"
   [ "$status" -eq 2 ]
+}
+
+# ── Edge case: empty file_path ──
+@test "empty file_path does not crash" {
+  run_hook '{"tool_name":"Edit","tool_input":{"file_path":"","old_string":"a","new_string":"b"}}'
+  [ "$status" -eq 0 ]
+  python3 -c "assert True"
 }

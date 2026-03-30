@@ -105,6 +105,13 @@ assert d['summary']['total_questions'] >= 3, f'Expected >=3 questions, got {d[\"
 "
 }
 
+@test "edge: boundary spec with no phases still produces valid output" {
+  echo "# Simple Spec\n\nJust one requirement." > "$SAMPLE_SPEC"
+  run bash "$SCRIPT" "$SAMPLE_SPEC"
+  [ "$status" -eq 0 ]
+  echo "$output" | python3 -c "import json,sys; json.load(sys.stdin)"
+}
+
 @test "SPEC-047 proposal document exists" {
   [ -f "docs/propuestas/SPEC-047-requirement-pushback.md" ]
 }

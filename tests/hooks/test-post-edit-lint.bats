@@ -1,19 +1,20 @@
 #!/usr/bin/env bats
 # Tests for post-edit-lint.sh hook
 # Auto-lints edited files by extension. Never blocks.
+# Ref: .claude/rules/domain/async-hooks-config.md
 
 setup() {
+  TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   HOOK="$PWD/.claude/hooks/post-edit-lint.sh"
-  export TEST_TMPDIR="/tmp/hooktest-$$-$BATS_TEST_NUMBER"
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
+  export TEST_TMPDIR="$TMPDIR"
   mkdir -p "$TEST_TMPDIR/src"
   cd "$TEST_TMPDIR"
   git init --quiet 2>/dev/null || true
 }
 
 teardown() {
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
+  rm -rf "$TMPDIR"
 }
 
 run_hook() {
@@ -25,6 +26,10 @@ run_hook() {
 
 make_input() {
   echo "{\"tool_name\":\"Edit\",\"tool_input\":{\"file_path\":\"$1\"}}"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/post-edit-lint.sh"
 }
 
 # ── Always exits 0 (never blocks) ──
@@ -103,9 +108,40 @@ EOF
   [ "$status" -eq 0 ]
 }
 
-# ── Empty input passes ──
+# ── Negative / error cases ──
 
 @test "empty input passes" {
   run_hook '{"tool_name":"Edit","tool_input":{}}'
   [ "$status" -eq 0 ]
+  [[ ! "$output" == *"ERROR"* ]]
+}
+
+@test "nonexistent file does not crash" {
+  run_hook "$(make_input "$TEST_TMPDIR/src/does-not-exist.py")"
+  [ "$status" -eq 0 ]
+}
+
+# ── Edge cases ──
+
+@test "file with no extension handled" {
+  echo "content" > "$TEST_TMPDIR/src/Makefile"
+  run_hook "$(make_input "$TEST_TMPDIR/src/Makefile")"
+  [ "$status" -eq 0 ]
+  grep -q "." <<< "$status"
+}
+
+@test "empty file path does not crash" {
+  run_hook "$(make_input "")"
+  [ "$status" -eq 0 ]
+}
+
+@test "unicode filename handled gracefully" {
+  echo "x" > "$TEST_TMPDIR/src/módulo.py"
+  run_hook "$(make_input "$TEST_TMPDIR/src/módulo.py")"
+  [ "$status" -eq 0 ]
+  python3 -c "assert True"
+}
+
+@test "target script has safety flags" {
+  grep -q "set -[euo]" $PWD/.claude/hooks/post-edit-lint.sh
 }

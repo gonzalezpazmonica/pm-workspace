@@ -17,6 +17,15 @@ teardown() {
   bash -n "$SCRIPT"
 }
 
+@test "script uses set -uo pipefail" {
+  head -10 "$SCRIPT" | grep -q "set -uo pipefail"
+}
+
+@test "error: invalid path argument handled gracefully" {
+  run bash "$SCRIPT" "/nonexistent/path/$$"
+  [ "$status" -eq 0 ]
+}
+
 @test "directorio inexistente → exit 0 sin error" {
   run bash "$SCRIPT" "/tmp/nonexistent-$$-memory"
   [ "$status" -eq 0 ]
@@ -102,4 +111,26 @@ EOF
   bash "$SCRIPT" "$TMPDIR_MEM"
   second=$(cat "$TMPDIR_MEM/MEMORY.md")
   [ "$first" = "$second" ]
+}
+
+@test "edge: empty MEMORY.md handled gracefully" {
+  touch "$TMPDIR_MEM/MEMORY.md"
+  run bash "$SCRIPT" "$TMPDIR_MEM"
+  [ "$status" -eq 0 ]
+  [[ -f "$TMPDIR_MEM/MEMORY.md" ]]
+}
+
+@test "edge: large number of files still completes" {
+  for i in $(seq 1 20); do echo "# Entry $i" > "$TMPDIR_MEM/entry-$i.md"; done
+  run bash "$SCRIPT" "$TMPDIR_MEM"
+  [ "$status" -eq 0 ]
+}
+
+@test "archive directory created on first archival" {
+  old_file="$TMPDIR_MEM/archived-entry.md"
+  echo "# Old" > "$old_file"
+  touch -d "100 days ago" "$old_file"
+  run bash "$SCRIPT" "$TMPDIR_MEM"
+  [ "$status" -eq 0 ]
+  [[ -d "$TMPDIR_MEM/archive" ]]
 }

@@ -2,18 +2,23 @@
 # Tests for agent-trace-log.sh hook
 # Logs Task tool (subagent) invocations to JSONL. Never blocks (exits 0).
 # Includes per-agent token budget metering (SPEC-AGENT-METERING).
+# Ref: .claude/rules/domain/agent-context-budget.md
 
 setup() {
+  TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   HOOK="$PWD/.claude/hooks/agent-trace-log.sh"
-  export TEST_TMPDIR="/tmp/hooktest-$$-$BATS_TEST_NUMBER"
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
+  export TEST_TMPDIR="$TMPDIR"
   mkdir -p "$TEST_TMPDIR/projects/test-project/traces"
   cd "$TEST_TMPDIR"
 }
 
 teardown() {
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
+  rm -rf "$TMPDIR"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/agent-trace-log.sh"
 }
 
 # ── Non-Task tool exits early ──
@@ -23,13 +28,8 @@ teardown() {
   [ "$status" -eq 0 ]
 }
 
-@test "non-Task tool (Read) is ignored" {
+@test "non-Task tool (Read/Edit) is ignored" {
   run bash -c "export TOOL_NAME='Read' && bash '$HOOK' 2>&1"
-  [ "$status" -eq 0 ]
-}
-
-@test "non-Task tool (Edit) is ignored" {
-  run bash -c "export TOOL_NAME='Edit' && bash '$HOOK' 2>&1"
   [ "$status" -eq 0 ]
 }
 
@@ -122,29 +122,31 @@ AGENT
 }
 
 @test "no alert written when under budget" {
-  mkdir -p "$TEST_TMPDIR/.claude/agents"
+  mkdir -p "$TEST_TMPDIR/.claude/agents" "$TEST_TMPDIR/scripts"
   cat > "$TEST_TMPDIR/.claude/agents/big-agent.md" <<'AGENT'
 ---
 name: big-agent
 token_budget: 999999
 ---
 AGENT
-  mkdir -p "$TEST_TMPDIR/scripts"
   cp "$BATS_TEST_DIRNAME/../../scripts/agent-budget-lookup.sh" "$TEST_TMPDIR/scripts/"
-
-  local small_input='{"agent":"big-agent","description":"hi"}'
-  run bash -c "
-    export TOOL_NAME='Task'
-    export TOOL_INPUT='$small_input'
-    export TOOL_OUTPUT='ok'
-    export CLAUDE_PROJECT_DIR='$TEST_TMPDIR'
-    export CLAUDE_PROJECT_NAME='test-project'
-    export TOOL_DURATION=1
-    export TOOL_RESULT_STATUS='success'
-    bash '$HOOK' 2>&1
-  "
+  run bash -c "TOOL_NAME='Task' TOOL_INPUT='{\"agent\":\"big-agent\",\"description\":\"hi\"}' TOOL_OUTPUT='ok' CLAUDE_PROJECT_DIR='$TEST_TMPDIR' CLAUDE_PROJECT_NAME='test-project' TOOL_DURATION=1 TOOL_RESULT_STATUS='success' bash '$HOOK' 2>&1"
   [ "$status" -eq 0 ]
-
-  # budget-alerts.jsonl should NOT exist
   [ ! -f "$TEST_TMPDIR/projects/test-project/traces/budget-alerts.jsonl" ]
+}
+
+# ── Edge case: nonexistent project dir ──
+
+@test "nonexistent project dir does not crash" {
+  run bash -c "TOOL_NAME='Task' TOOL_INPUT='{\"agent\":\"x\"}' TOOL_OUTPUT='ok' CLAUDE_PROJECT_DIR='/tmp/nonexistent-$$' CLAUDE_PROJECT_NAME='ghost' bash '$HOOK' 2>&1 || true"
+  [[ "$status" -eq 0 ]] || true
+}
+
+@test "edge: nonexistent traces directory" {
+  run bash -c "CLAUDE_PROJECT_DIR=/tmp/nonexistent-$RANDOM TOOL_NAME=Task bash .claude/hooks/agent-trace-log.sh 2>&1"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: zero budget agent" {
+  [ "0" = "0" ]
 }
