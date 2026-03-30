@@ -1,0 +1,71 @@
+# memory — Savia Capability Map (L1)
+> 69 resources
+
+- **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
+- **biblio-search** (>): 
+- **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
+- **cache-invalidate** (cmd): Invalidación selectiva de capas de caché con rollback seguro
+- **cache-optimize** (cmd): Optimize caching strategy for performance and efficiency
+- **cache-strategy** (cmd): Configurar estrategia de caché por capas con TTL y reglas de invalidación
+- **cache-warm** (cmd): Pre-calentar caché con contexto probable basado en hora y rol
+- **company-show** (cmd): Mostrar perfil consolidado de la empresa — resumen ejecutivo del contexto organizacional
+- **context-age** (cmd): Envejecimiento semántico del decision-log — comprime y archiva decisiones antiguas
+- **context-aging** (script): ── context-aging.sh ────────────────────────────────
+- **context-benchmark** (cmd): Benchmark de posicionamiento de información en el contexto
+- **context-budget** (cmd): Presupuesto de contexto por sesión — tokens usados/disponibles, distribución por capa, sugerencias de optimización
+- **context-caching** (skill): Optimize context loading order for prompt caching efficiency
+- **context-compress** (cmd): Compresión semántica de contexto — mantener significado, reducir tokens (80% reduction)
+- **context-defer** (cmd): Sistema de carga diferida — cargar comandos/reglas solo cuando se necesitan (85% reducción de overhead)
+- **context-interview** (cmd): Entrevista estructurada de contexto para proyectos y clientes
+- **context-interview-conductor** (skill): Conducción de entrevistas estructuradas de contexto
+- **context-load** (>): 
+- **context-optimize** (cmd): Analizar patrones de uso de contexto y sugerir optimizaciones al context-map
+- **context-optimized-dev** (skill): Context-Optimized Development — Skill
+- **context-profile** (cmd): Perfilar consumo de contexto — qué consume más, generación de flame-graph, comparación entre sesiones
+- **context-snapshot** (script): context-snapshot.sh — Save/load session context between sessions
+- **context-status** (cmd): Show context window usage, model tier, and optimization recommendations
+- **cross-project-search** (cmd): Búsqueda transversal de conocimiento entre todos los proyectos del portfolio
+- **digest-to-memory** (script): digest-to-memory.sh — Bridge: digest agents -> memory-store + graph
+- **entity-recall** (>): 
+- **generate-blocklist** (script): generate-blocklist.sh — Dynamic blocklist from workspace context
+- **generate-global-context** (script): Generate compact global context for agent injection.
+- **google-drive-memory** (skill): Persist project memory and context in Google Drive as Git alternative
+- **headroom-analyze** (cmd): Analizar el uso de tokens por bloque de contexto e identificar oportunidades de compresión
+- **headroom-apply** (cmd): Aplicar optimizaciones de compresión al contexto de un proyecto
+- **marketplace-search** (cmd): Search and discover components in marketplace
+- **memory-agent** (agent): Gestiona la memoria persistente de pm-workspace via lenguaje natural.
+- **memory-backup-pm** (script): memory-backup-pm.sh — Backup memory indices to PM repo (N4b, max privacy)
+- **memory-compress** (cmd): Compresión semántica de memorias (engrams). Reduce tokens hasta 80% preservando fidelidad mediante extracción de enti
+- **memory-consolidate** (cmd): Consolidate and compress memory entries to save context
+- **memory-context** (>): 
+- **memory-graph** (cmd): Grafo semántico de relaciones semánticas entre memorias. Construye knowledge graph de engrams. Consulta conexiones. De
+- **memory-hygiene** (script): memory-hygiene.sh — SPEC-142: Limpieza automática de auto-memory
+- **memory-importance** (cmd): Scoring semántico de importancia de engrams usando fórmula composita (relevancia × recencia × frecuencia). Identific
+- **memory-index** (cmd): Build and maintain memory index for efficient retrieval
+- **memory-prune** (cmd): Poda semántica inteligente de memorias. Archiva engrams de baja importancia, mantiene críticas. Usa scores de /memory-
+- **memory-recall** (cmd): Retrieve relevant memories for current context
+- **memory-save** (>): 
+- **memory-save** (script): memory-save.sh — Save, upsert, entity, session-summary (sourced by memory-store.sh)
+- **memory-search** (script): memory-search.sh — Search, context, stats (sourced by memory-store.sh)
+- **memory-search** (cmd): Search memory entries by keywords and topics
+- **memory-stats** (cmd): Display memory usage statistics and optimization recommendations
+- **memory-store** (script): memory-store.sh — JSONL persistent memory store for pm-workspace
+- **memory-sync** (cmd): Sincroniza insights del sprint en los topic files de auto memory
+- **memory-sync-index** (script): memory-sync-index.sh — Sync auto-memory markdown → JSONL vector index
+- **memory-verify** (script): memory-verify.sh — Quality gate for memory compression (SPEC-041 P3)
+- **my-focus** (cmd): Modo focus — identifica el item más prioritario y carga todo su contexto
+- **nl-query** (cmd): Consultas en lenguaje natural — habla con Savia sin memorizar comandos
+- **post-compaction** (script): post-compaction.sh - Hook que inyecta contexto de memoria tras compactación
+- **repos-search** (>): 
+- **scaling-operations** (skill): Scaling operations — analyze tier, benchmark, recommend optimizations, knowledge search
+- **semantic-memory** (skill): semantic-memory
+- **session-recording** (skill): Session Recording Skill
+- **session-save** (>): 
+- **session-state-machine** (script): session-state-machine.sh — SPEC-051 Phase 1: Session State Machine
+- **setup-memory** (script): setup-memory.sh — Inicializa estructura de auto memory para un proyecto
+- **skill-evaluation** (skill): Motor de evaluación inteligente de skills basado en análisis de prompt y contexto
+- **skill-optimize** (cmd): Auto-optimizar el prompt de un skill o agente con bucle AutoResearch
+- **tool-search** (cmd): Buscar comandos, skills y agentes por palabra clave
+- **web-research** (cmd): Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-starts SearxNG Docker if 
+- **web-research** (skill): Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-starts SearxNG Docker if 
+- **whatsapp-search** (>): 
