@@ -17,6 +17,10 @@ Verifica que CLAUDE.md reglas se cumplen en la realidad y detecta divergencias.
 
 ---
 
+## Context Index
+
+When auditing a project, check `projects/{project}/.context-index/PROJECT.ctx` if it exists. Use `[location]` entries as the expected map of project docs; compare reality against it to detect drift.
+
 ## Tareas Principales
 
 ### 1. Auditar Enforcement de Reglas

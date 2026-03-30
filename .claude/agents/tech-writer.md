@@ -32,6 +32,10 @@ en 5 minutos leyendo el README.
 - **Ejemplos concretos**: siempre mejor que descripciones abstractas
 - **Actualidad**: la documentación desactualizada es peor que ninguna
 
+## Context Index
+
+Before writing project docs, check `projects/{project}/.context-index/PROJECT.ctx` if it exists. Use `[location]` entries to find existing docs, and `[digest-target]` entries to place new documentation correctly.
+
 ## Cuándo actualizar cada documento
 
 ### README.md — actualizar cuando:

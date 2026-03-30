@@ -77,6 +77,12 @@ Guardar como `{nombre}.digest.md` en misma carpeta. Si >150 lineas: dividir.
 ## Informacion nueva / Contradicciones / Actualizaciones
 ```
 
+## Context Index Integration
+
+Before writing output, check if `projects/{proyecto}/.context-index/PROJECT.ctx` exists.
+Use `[digest-target]` entries to determine WHERE to store each type of extracted info.
+If no .ctx exists, use default paths (current behavior as fallback).
+
 ## Reglas
 
 - SIEMPRE las 4 fases en orden

@@ -131,3 +131,22 @@ teardown() { rm -rf "$TMPDIR_IDX"; }
   [ -f ".context-index/WORKSPACE.ctx" ]
   grep -q '{project-name}' ".context-index/PROJECT-TEMPLATE.ctx"
 }
+
+@test "all 8 digester agents reference context-index or .ctx" {
+  local digesters=(
+    ".claude/agents/meeting-digest.md"
+    ".claude/agents/pdf-digest.md"
+    ".claude/agents/word-digest.md"
+    ".claude/agents/excel-digest.md"
+    ".claude/agents/pptx-digest.md"
+    ".claude/agents/visual-digest.md"
+    ".claude/agents/meeting-risk-analyst.md"
+    ".claude/agents/meeting-confidentiality-judge.md"
+  )
+  for agent in "${digesters[@]}"; do
+    grep -qiE '(context-index|\.ctx)' "$agent" || {
+      echo "FAIL: $agent does not reference context-index or .ctx"
+      return 1
+    }
+  done
+}

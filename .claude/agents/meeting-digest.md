@@ -120,6 +120,10 @@ orientacion sexual, religion, ideologia, conflictos personales extra-laborales.
 4. AMBIGUO → marcar `[DATO AMBIGUO — confirmar con PM]`
 5. CONFIDENCIAL → solo informar a PM en conversacion, NUNCA en ficheros .md
 
+## Context Index — Consultar antes de escribir
+
+Si existe `projects/{proyecto}/.context-index/PROJECT.ctx`, usar sus entradas `[digest-target]` para decidir DONDE almacenar cada tipo de informacion extraida. Si no existe, usar rutas por defecto.
+
 ## Memoria — POR PROYECTO
 
 Ruta: `projects/{proyecto}/agent-memory/meeting-digest/MEMORY.md`

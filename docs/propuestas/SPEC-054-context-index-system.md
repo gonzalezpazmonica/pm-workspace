@@ -57,7 +57,9 @@ directories that do not exist. Missing optional paths are listed as `[optional]`
 
 | Consumer | Uses |
 |----------|------|
-| meeting-digest, pdf-digest, word-digest | `[digest-target]` entries |
+| **Group A (writers)**: meeting-digest, pdf-digest, word-digest, excel-digest, pptx-digest, visual-digest, sdd-spec-writer, tech-writer | `[digest-target]` entries to place extracted/generated content |
+| **Group B (readers)**: architect, business-analyst, code-reviewer, security-*, coherence-validator, reflection-validator, dev-orchestrator, diagram-architect, drift-auditor, feasibility-probe, test-engineer, confidentiality-auditor | `[location]` and `[intent]` entries to find project context |
+| **Group C (developers)**: all 12 language-specific developers | `[location]` entries to find specs and architecture |
 | Savia question answering | `[intent]` entries |
 | `/context-load` | WORKSPACE.idx for session priming |
 | `/project-new` | PROJECT-TEMPLATE.idx for scaffold |

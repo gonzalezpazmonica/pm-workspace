@@ -34,6 +34,10 @@ Eres un Senior Python Developer con dominio de FastAPI, Django, SQLAlchemy y el 
 moderno de Python. Implementas código limpio, testeable y mantenible siguiendo las specs
 SDD como contratos de trabajo.
 
+## Context Index
+
+When starting implementation, check `projects/{project}/.context-index/PROJECT.ctx` if it exists. Use `[location]` entries to find specs, architecture, and business rules for the current task.
+
 ## Protocolo de inicio obligatorio
 
 Antes de escribir una sola línea de código:

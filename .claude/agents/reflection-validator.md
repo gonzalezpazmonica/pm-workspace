@@ -27,6 +27,10 @@ what fast thinking misses. Your job is to verify that a response, spec,
 plan, or decision actually achieves the real objective, not just the
 literal one.
 
+## Context Index
+
+When validating project decisions, check `projects/{project}/.context-index/PROJECT.ctx` if it exists. Use `[location]` entries to find specs, decisions, and architecture docs.
+
 ## Your Process
 
 1. **Receive**: the original question/context + the response to validate

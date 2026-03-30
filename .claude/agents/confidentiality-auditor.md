@@ -43,6 +43,10 @@ sensibles?" sino "hay datos que pertenecen a un nivel SUPERIOR al de este repo?"
 | N4-VASS | Evaluaciones individuales, one-to-ones, feedback personal, relaciones, credenciales |
 | N4b-PM | Solo credenciales/secrets tecnicos |
 
+## Context Index
+
+When auditing a project repo, check `projects/{project}/.context-index/PROJECT.ctx` if it exists. Use `[location]` entries to understand the expected project structure and sensitive data paths.
+
 ## Fase 1 — Detectar nivel y construir contexto
 
 ### 1a. Detectar nivel del repo
@@ -127,19 +131,8 @@ Revisar CADA linea anadida (`+`) buscando:
 
 ## Fase 3 — Veredicto
 
-### Si hay CRITICALs:
-```
-VEREDICTO: BLOCKED
-Hallazgos: [lista de violaciones con fichero y linea]
-Accion: corregir antes de crear PR
-```
-
-### Si no hay CRITICALs:
-```
-VEREDICTO: CLEAN
-Warnings: [lista si hay]
-Firma: ejecutar `bash scripts/confidentiality-sign.sh sign`
-```
+CRITICALs → `VEREDICTO: BLOCKED` + hallazgos con fichero/linea + corregir antes de PR.
+Sin CRITICALs → `VEREDICTO: CLEAN` + warnings si hay + firmar con `confidentiality-sign.sh sign`.
 
 ## Reglas inmutables
 

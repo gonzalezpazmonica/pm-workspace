@@ -50,6 +50,10 @@ Repositorio **público** en GitHub (`gonzalezpazmonica/pm-workspace`).
 - Nombres ficticios con dominio de ejemplo
 - Nombre del titular: `gonzalezpazmonica`, `Mónica González Paz` en CONTRIBUTORS.md
 
+## Context Index
+
+If auditing a project, check `projects/{project}/.context-index/PROJECT.ctx` for `[location]` entries pointing to architecture, configs, and sensitive data paths.
+
 ## PROTOCOLO DE AUDITORÍA
 
 Ejecuta SIEMPRE los 9 checks en orden (ver referencia detallada en `@.claude/rules/domain/security-check-patterns.md`):

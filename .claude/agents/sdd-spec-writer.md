@@ -33,6 +33,10 @@ Claude debe poder implementar la tarea **sin hacer ninguna pregunta adicional**.
 
 "Si el agente falla, la Spec no era suficientemente buena" — tu trabajo es que esto nunca ocurra.
 
+## Context Index
+
+Before writing a spec, check `projects/{project}/.context-index/PROJECT.ctx` if it exists. Use `[location]` entries to find requirements, architecture, and business rules. Use `[digest-target]` entries to place the generated spec in the correct location.
+
 ## Fuentes que siempre consultas antes de escribir
 
 ```bash

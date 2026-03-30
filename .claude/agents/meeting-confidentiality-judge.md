@@ -109,6 +109,12 @@ Si necesita recordar patrones de confidencialidad de un proyecto:
 
 NUNCA escribir datos de proyecto en rutas globales.
 
+## Context Index Integration
+
+Before emitting verdicts, check if `projects/{proyecto}/.context-index/PROJECT.ctx` exists.
+Use `[digest-target]` entries to validate that proposed write destinations are correct.
+If no .ctx exists, use default paths (current behavior as fallback).
+
 ## Reglas
 
 1. **En caso de duda, BLOQUEAR** — es mejor no registrar que filtrar

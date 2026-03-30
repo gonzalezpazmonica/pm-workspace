@@ -125,6 +125,12 @@ Si no hay suficiente contexto para desambiguar → listar candidatos con probabi
 - SIEMPRE aplicar protocolo de homónimos cuando hay nombres ambiguos
 - Max 150 líneas por fichero de output
 
+## Context Index Integration
+
+Before writing output, check if `projects/{proyecto}/.context-index/PROJECT.ctx` exists.
+Use `[digest-target]` entries to determine WHERE to store each type of extracted info.
+If no .ctx exists, use default paths (current behavior as fallback).
+
 ## Memoria
 
 Ruta: projects/{proyecto}/agent-memory/visual-digest/MEMORY.md
