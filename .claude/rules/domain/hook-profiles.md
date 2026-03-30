@@ -3,6 +3,7 @@
 > **Por qué existe esto**: Los LLMs olvidan instrucciones ~20% de las veces.
 > Las reglas críticas deben vivir en hooks deterministas, no en CLAUDE.md.
 > Los perfiles controlan qué hooks corren según el contexto de trabajo.
+> Guia de usuario: `docs/savia-shield-guide.md`
 
 ## Los 4 perfiles
 

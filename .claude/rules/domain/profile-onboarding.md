@@ -12,6 +12,8 @@
 **Siempre.** Esta regla se evalúa al inicio de cada sesión y antes
 del primer comando operativo.
 
+> Guia de inicio para usuarios: `docs/getting-started.md`
+
 ## Paso 0 — Detectar si es humano o agente
 
 **ANTES de cualquier saludo**, comprobar:
