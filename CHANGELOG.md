@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.89.0] — 2026-03-30
+
+docs: user onboarding guides + Shield practical guide + cross-references. Era 164.
+
+### Added
+
+- **docs/getting-started.md** + **.en.md**: step-by-step from clone to first command. Profile setup, Shield config, .scm/.ctx maps, role-based quickstart table (PM/TL/Dev/QA/PO/CEO).
+- **docs/savia-shield-guide.md** + **.en.md**: practical guide for 4 profiles (minimal/standard/strict/ci), 5 protection layers, Responsibility Judge, project configuration.
+- **tests/structure/test-user-docs.bats** — 12 tests verifying all user-facing docs.
+
+### Changed
+
+- **README.md** + **README.en.md**: added prominent "First time?" link to getting-started and shield guide
+- **profile-onboarding.md**: cross-reference to getting-started guide
+- **hook-profiles.md**: cross-reference to savia-shield-guide
+
 ## [3.88.0] — 2026-03-30
 
 feat: push-pr auto-release + update.sh Shield preservation + Judge verification. Era 164.
@@ -5114,6 +5130,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.88.0...v3.89.0
 [3.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.87.0...v3.88.0
 [3.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.86.0...v3.87.0
 [3.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.85.0...v3.86.0

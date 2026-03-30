@@ -28,6 +28,8 @@ Según tu rol, tu experiencia conmigo será diferente. Elige tu quick-start:
 | **Product Owner** | KPIs, backlog, feature impact, stakeholders | [→ quick-start-po](docs/quick-starts/quick-start-po.md) |
 | **CEO / CTO** | Portfolio, DORA, governance, AI exposure | [→ quick-start-ceo](docs/quick-starts/quick-start-ceo.md) |
 
+**Primera vez?** Lee la [Guia de Inicio](docs/getting-started.md) — de cero a productivo en 15 minutos. Para proteccion de datos de clientes: [Guia de Savia Shield](docs/savia-shield-guide.md).
+
 ---
 
 ## Cómo fluye la información

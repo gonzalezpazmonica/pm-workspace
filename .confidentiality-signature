@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c40ac8e25196763044c6376370e632f96fb8c31f70e252a95766c68cd3183695
-timestamp=2026-03-30T17:27:00Z
-branch=feat/push-pr-release-update-shield
-head_commit=72f03d5
-signature=f9a381727cc4c9abcc4522e3fb419000b63a93d3cd735ee1004edc9996c6d10c
+diff_hash=3043c2f2a9505da81bb1d1d25dde9fb714be1be4aab8054b9b7a12889a97fde0
+timestamp=2026-03-30T18:21:47Z
+branch=feat/user-onboarding-docs
+head_commit=54b3fc8
+signature=b9861bc0f4e77f3cd014c90d84cf252b8f5fc1514eaf379e29a0dd2dfcf183ab

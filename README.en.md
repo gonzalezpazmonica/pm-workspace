@@ -28,6 +28,8 @@ Depending on your role, your experience with me will be different. Pick your qui
 | **Product Owner** | KPIs, backlog, feature impact, stakeholders | [→ quick-start-po](docs/quick-starts_en/quick-start-po.md) |
 | **CEO / CTO** | Portfolio, DORA, governance, AI exposure | [→ quick-start-ceo](docs/quick-starts_en/quick-start-ceo.md) |
 
+**First time?** Read the [Getting Started guide](docs/getting-started.en.md) — from zero to productive in 15 minutes. For client data protection: [Savia Shield Guide](docs/savia-shield-guide.en.md).
+
 ---
 
 ## How information flows
