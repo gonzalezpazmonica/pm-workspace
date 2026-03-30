@@ -12,6 +12,12 @@ set -uo pipefail
 
 SCORE="${1:-}"
 
+if [[ "$SCORE" == "--help" || "$SCORE" == "-h" ]]; then
+  echo "Usage: review-depth-selector.sh <risk-score>"
+  echo "Select review depth (quick/standard/thorough), model, and reviewers based on risk score (0-100)."
+  exit 0
+fi
+
 if [[ -z "$SCORE" ]]; then
   echo "ERROR: Usage: review-depth-selector.sh <risk-score>"
   echo "  risk-score: integer 0-100"

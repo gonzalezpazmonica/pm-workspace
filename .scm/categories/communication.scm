@@ -1,0 +1,77 @@
+# communication — Savia Capability Map (L1)
+> 75 resources
+
+- **chat-notify** (cmd): Enviar notificación formateada a Google Chat
+- **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
+- **excel-digest** (>): 
+- **google-chat-notifier** (skill): Enviar notificaciones de PM a espacios de Google Chat mediante webhooks
+- **inbox-check** (>): 
+- **inbox-start** (>): 
+- **meeting-agenda** (cmd): Generación inteligente de agendas basada en estado del sprint y temas pendientes
+- **meeting-confidentiality-judge** (>): 
+- **meeting-digest** (>): 
+- **meeting-digest** (>): 
+- **meeting-risk-analyst** (>): 
+- **meeting-summarize** (cmd): Transcribe y extrae action items de reuniones — Sprint Review, Retro, Planning, Daily
+- **nctalk-search** (>): 
+- **notify** (script): notify.sh — Cross-platform desktop notifications for Savia
+- **notify-nctalk** (>): 
+- **notify-slack** (>): 
+- **notify-whatsapp** (>): 
+- **obs-dashboard** (cmd): Dashboard de observabilidad digesto por rol — CEO, CTO, PM, Dev, QA, SRE
+- **pdf-digest** (>): 
+- **pptx-digest** (>): 
+- **savia-announce** (>): 
+- **savia-backup** (script): Savia Backup & Restore Script
+- **savia-board** (>): 
+- **savia-branch** (script): savia-branch.sh — Git branch abstraction layer for Company Savia v3
+- **savia-broadcast** (>): 
+- **savia-compat** (script): savia-compat.sh — Portable helpers for cross-platform compatibility
+- **savia-crypto** (script): savia-crypto.sh — RSA + AES hybrid encryption using openssl only
+- **savia-crypto-ops** (script): savia-crypto-ops.sh — Encrypt and decrypt operations
+- **savia-directory** (>): 
+- **savia-flow** (script): savia-flow.sh — Git-based project management: PBIs, sprints, boards via branch isolation
+- **savia-flow-board** (script): savia-flow-board.sh — ASCII Kanban board renderer via branch isolation
+- **savia-flow-ops** (script): savia-flow-ops.sh — CRUD operations for PBIs and assignments via branch isolation
+- **savia-flow-practice** (skill): Implementación práctica de Savia Flow — dual-track, specs ejecutables, métricas de flujo
+- **savia-flow-sprint** (script): savia-flow-sprint.sh — Sprint lifecycle via branch isolation
+- **savia-flow-tasks** (script): savia-flow-tasks.sh — Task management (delegates to savia-flow-ops.sh)
+- **savia-flow-templates** (script): savia-flow-templates.sh — Project/team/member scaffolding via branch isolation
+- **savia-flow-timesheet** (script): savia-flow-timesheet.sh — Time tracking via user branch
+- **savia-forget** (>): 
+- **savia-gallery** (cmd): Catálogo visual/interactivo de comandos, skills y agentes por rol y vertical
+- **savia-hub** (cmd): Central hub for accessing Savia knowledge and tools
+- **savia-hub-init** (script): savia-hub-init.sh — Initialize SaviaHub local repository
+- **savia-hub-sync** (skill): Orquestación de sincronización del repositorio SaviaHub
+- **savia-inbox** (>): 
+- **savia-index-rebuild** (script): ── savia-index-rebuild.sh ──────────────────────────────
+- **savia-live** (cmd): Show what Savia is working on right now — live task queue and recent activity
+- **savia-messaging** (script): savia-messaging.sh — Message creation, delivery, and inbox management
+- **savia-messaging-actions** (script): savia-messaging-actions.sh — Announce, broadcast, and directory operations
+- **savia-messaging-inbox** (script): savia-messaging-inbox.sh — Inbox, read, and reply operations
+- **savia-messaging-privacy** (script): savia-messaging-privacy.sh — Subject sensitivity check
+- **savia-pbi** (>): 
+- **savia-persona-tune** (cmd): Ajustar tono, estilo y personalidad de Savia para un proyecto específico
+- **savia-recall** (cmd): Recall and retrieve information from Savia memory
+- **savia-reply** (>): 
+- **savia-school** (script): Savia School: Core educational vertical management library
+- **savia-school-security** (script): Savia School Security Layer: Encryption, Access Control, GDPR
+- **savia-send** (>): 
+- **savia-shield** (cmd): Gestión de Savia Shield: activar, desactivar y comprobar instalación del sistema de soberanía de datos. Desactivado p
+- **savia-shield-setup** (script): savia-shield-setup.sh — Instalador de Savia Shield
+- **savia-sprint** (>): 
+- **savia-status** (cmd): Show Savia current status, health metrics, and top pending priorities
+- **savia-status** (script): savia-status.sh — What is Savia doing right now?
+- **savia-team** (>): 
+- **savia-timesheet** (>): 
+- **savia-travel** (script): savia-travel.sh — Travel Mode Core (≤150 lines)
+- **savia-travel-init** (>): 
+- **savia-travel-init** (script): savia-init.sh — Travel Mode Init Script (template)
+- **savia-travel-ops** (script): savia-travel-ops.sh — Pack and init operations for savia-travel.sh
+- **savia-travel-pack** (>): 
+- **savia-watch** (script): savia-watch.sh — Live activity feed from Savia
+- **slack-search** (>): 
+- **validate-devops-checks** (script): Each returns JSON: {check, status, message, details?, remediation?}
+- **voice-inbox** (skill): Transcripción de audio y flujo audio→texto→acción para mensajes de voz
+- **word-digest** (>): 
+- **zeroclaw-meeting** (cmd): Live meeting transcription via ZeroClaw — speaker diarization, voice identification, and digest.

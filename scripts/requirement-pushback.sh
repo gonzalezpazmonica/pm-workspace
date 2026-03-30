@@ -5,6 +5,12 @@
 set -uo pipefail
 
 SPEC_FILE="${1:-}"
+if [[ "$SPEC_FILE" == "--help" || "$SPEC_FILE" == "-h" ]]; then
+  echo "Usage: requirement-pushback.sh <spec-file>"
+  echo "Analyze a spec file and generate pushback questions (assumptions, ambiguity, complexity, scope)."
+  echo "Output: JSON report to stdout."
+  exit 0
+fi
 if [[ -z "$SPEC_FILE" ]]; then
   echo '{"error":"Usage: requirement-pushback.sh <spec-file>"}' >&2; exit 1
 fi

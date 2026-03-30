@@ -56,7 +56,7 @@ pm-workspace/
 │   ├── commands/       ← 505 comandos (lo que me puedes pedir)
 │   ├── agents/         ← 49 agentes especializados
 │   ├── skills/         ← 85 skills con conocimiento de dominio
-│   ├── hooks/          ← 31 hooks que refuerzan reglas automáticamente
+│   ├── hooks/          ← 35 hooks que refuerzan reglas automáticamente
 │   └── rules/          ← reglas de contexto, lenguaje, dominio
 ├── docs/
 │   ├── quick-starts/   ← guías por rol (PM, Dev, QA, PO, TL, CEO)
@@ -104,6 +104,8 @@ Cada comando tiene frontmatter YAML con metadata (modelo, coste de contexto, des
 **Seguridad adversarial e inteligencia adaptativa** — Pipeline Red/Blue/Auditor con score 0-100, threat modeling STRIDE/PASTA. Pentesting dinámico con pipeline autónomo de 5 fases (Shannon-inspired), queue-driven, política "no exploit, no report". Lab local con servicios intencionalmente vulnerables. Motor de evaluación de skills con auto-detección de 7 tipos de proyecto y sistema de instintos con scoring de confianza.
 
 **Modos autónomos** — Sprint nocturno, bucle de mejora de código, investigación técnica y onboarding con buddy IA. Los agentes proponen, el humano dispone: ramas `agent/*`, PRs Draft, revisión humana obligatoria.
+
+**Era 164 — Calidad adaptativa** — Responsibility Judge (hook determinista que detecta 7 patrones de atajo), trace-to-prompt optimization, deteccion de colapso de instintos (AMI/CDS/PAR), requirement pushback (desafia suposiciones de specs), dev-session discard (abort limpio de sesiones fallidas), review de profundidad ajustable por riesgo (quick/standard/thorough), reaction engine (bucle declarativo CI/review), state machine de 13 estados para dev sessions, y descomposicion recursiva de tareas (atomica/compuesta).
 
 **Colaboración** — Company Savia (mensajería E2E cifrada), Savia Flow (PM Git-native), Travel Mode, backup cifrado, Savia School. Referencia: [505 comandos · 49 agentes · 85 skills](docs/readme/12-comandos-agentes.md)
 
@@ -178,7 +180,7 @@ Convención     →  CLAUDE.md / rules/          ← orientación, no garantía
 Flujo de trabajo →  commands + skills         ← orquestación inteligente
 ```
 
-pm-workspace incluye 31 hooks en tres niveles de activación:
+pm-workspace incluye 35 hooks en tres niveles de activación:
 
 | Perfil | Hooks activos | Cuándo usarlo |
 |---|---|---|
