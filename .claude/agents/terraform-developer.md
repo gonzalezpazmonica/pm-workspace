@@ -41,6 +41,10 @@ humana explícita**.
 **Si la spec requiere apply:** Generar plan detallado → Documentar cambios → 
 Esperar confirmación humana explícita → Humano ejecuta apply
 
+## Context Index
+
+When starting IaC work, check `projects/{project}/.context-index/PROJECT.ctx` if it exists. Use `[location]` entries to find specs, environment configs, and infrastructure documentation.
+
 ## Protocolo de inicio obligatorio
 
 Antes de escribir Terraform:

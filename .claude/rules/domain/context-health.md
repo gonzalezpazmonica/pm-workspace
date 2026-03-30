@@ -125,6 +125,9 @@ Si el PM cambia de objetivo, sugerir `/clear` + nuevo `/context-load`.
 
 ## 5. Memoria persistente entre sesiones
 
+### Context Index como mapa de navegacion
+Al cargar contexto de proyecto, consultar `projects/{p}/.context-index/PROJECT.ctx` primero (si existe). Mapea donde vive cada tipo de informacion, evitando busquedas por prueba y error.
+
 ### Ficheros de estado del proyecto
 Cada proyecto mantiene estado en disco (no en contexto):
 - `projects/{p}/debt-register.md` — deuda técnica
@@ -142,9 +145,4 @@ un resumen conciso. No carga todo — solo lo justo para orientar al PM.
 
 ## 6. Límites de carga bajo demanda
 
-Cuando un comando referencia un fichero con `@`, Claude lo carga en contexto.
-Para evitar cargas excesivas:
-
-- Máximo 3 ficheros `@` por comando (los imprescindibles)
-- Skills: cargar solo SKILL.md, no references (cargar solo si el paso lo requiere)
-- Si necesita datos de otro comando anterior, leer del fichero de output
+Máximo 3 ficheros `@` por comando. Skills: solo SKILL.md (references bajo demanda). Datos de comandos anteriores: leer de output, no recargar.
