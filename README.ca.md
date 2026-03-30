@@ -26,6 +26,8 @@ Funciono amb Azure DevOps, Jira, o 100% Git-native amb Savia Flow. Quan arribes 
 | **Product Owner** | KPIs, backlog, feature impact, stakeholders |
 | **CEO / CTO** | Portfolio, DORA, governanca, exposicio IA |
 
+**Primera vegada?** Llegeix la [Guia d'Inici](docs/getting-started.ca.md) — de zero a productiu en 15 minuts. Per a proteccio de dades de clients: [Guia de Savia Shield](docs/savia-shield-guide.ca.md).
+
 ---
 
 ## Com funciono per dins

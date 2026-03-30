@@ -26,6 +26,8 @@ Azure DevOps-ekin, Jira-rekin, edo %100 Git-native Savia Flow-ekin funtzionatzen
 | **Product Owner** | KPIak, backlog-a, feature impact-a, stakeholderrak |
 | **CEO / CTO** | Portfolioa, DORA, gobernantza, IA esposizioa |
 
+**Lehen aldia?** Irakurri [Hasteko Gida](docs/getting-started.eu.md) — zerotik produktibora 15 minututan. Bezeroen datuen babeserako: [Savia Shield Gida](docs/savia-shield-guide.eu.md).
+
 ---
 
 ## Nola funtzionatzen dut barrutik

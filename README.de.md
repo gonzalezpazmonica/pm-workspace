@@ -26,6 +26,8 @@ Ich funktioniere mit Azure DevOps, Jira, oder 100% Git-native mit Savia Flow. We
 | **Product Owner** | KPIs, Backlog, Feature Impact, Stakeholder |
 | **CEO / CTO** | Portfolio, DORA, Governance, KI-Exposition |
 
+**Zum ersten Mal hier?** Lies die [Erste-Schritte-Anleitung](docs/getting-started.de.md) — von Null auf produktiv in 15 Minuten. Fuer den Schutz von Kundendaten: [Savia Shield Anleitung](docs/savia-shield-guide.de.md).
+
 ---
 
 ## Wie ich von innen funktioniere
