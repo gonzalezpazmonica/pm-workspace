@@ -131,3 +131,4 @@ zeroclaw/savia-voice/cache/
 git/
 data/skill-invocations*.jsonl*
 .claude/skill-manifests.json
+projects/*/backlog/_config.yaml
