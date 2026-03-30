@@ -1,0 +1,46 @@
+# Workspace Context Index
+# generated: 2026-03-30T05:52:17Z
+# counts: rules=136 agents=47 skills=88 commands=507 hooks=35
+> Where to find and store information at workspace level (N1 public)
+
+## Rules & Governance
+[location] .claude/rules/domain/ — 136 domain rules loaded on demand via @
+[location] .claude/rules/languages/ — language conventions (auto-load by file type)
+[intent: "what are the rules for X"] → scan .claude/rules/domain/ by keyword
+
+## Agents
+[location] .claude/agents/ — 47 agent definitions
+[intent: "which agent handles X"] → agents-catalog.md or assignment-matrix.md
+
+## Skills & Commands
+[location] .claude/skills/ — 88 skills with SKILL.md + DOMAIN.md
+[location] .claude/commands/ — 507 slash command definitions
+[intent: "how to do X"] → scan skills by name/description
+[intent: "what command does X"] → command-catalog.md or /help
+
+## Profiles & Identity
+[location] .claude/profiles/savia.md — Savia personality
+[location] .claude/profiles/users/{slug}/ — user profiles (N3)
+
+## Agent Memory (3 levels)
+[location] public-agent-memory/{agent}/ — shared best practices (N1)
+[location] private-agent-memory/{agent}/ — org-specific patterns (N2, gitignored)
+[location] projects/{p}/agent-memory/{agent}/ — project-specific (N4)
+[digest-target] Generic best practice → public-agent-memory/
+[digest-target] Project-specific knowledge → projects/{p}/agent-memory/
+
+## Memory & Docs
+[location] ~/.claude/projects/*/memory/ — auto-memory per project context
+[location] docs/ — workspace documentation
+[location] docs/propuestas/ — SPEC proposals
+[intent: "what do we know about X"] → memory-store search or /memory-recall
+
+## Projects
+[location] projects/ — active projects: pm-workspace,proyecto-alpha,proyecto-beta,sala-reservas,savia-mobile-android,savia-web,
+
+## Output, Scripts, Tests
+[location] output/ — generated reports, audits, dev-sessions
+[location] scripts/ — automation scripts
+[location] .claude/hooks/ — 35 lifecycle hooks
+[location] tests/ — BATS test suites
+[digest-target] Generated reports → output/
