@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.93.0] — 2026-03-30
+
+feat: SPEC-063 Test Architect + SPEC-060/062 SaviaDivergent. Era 164.
+
+### Added
+
+- **agent: test-architect** (SPEC-063): Opus-powered agent that generates tests scoring 80+ from first attempt. 8 excellence patterns, 14 test types, 16 language frameworks. Self-verification loop. Golden BATS template (90+).
+- **SaviaDivergent** (SPEC-060/061/062): neurodivergent support system with 5 adaptive modes (Focus Enhanced, Clarity, Structure, Sensory, Strengths). Evidence-based design from 13 research sources. N3 privacy profiles. 4-phase roadmap.
+
 ## [3.92.0] — 2026-03-30
 
 feat: all tests >= 80 + CI quality gate enforced + SPEC-056/059 AgentScope. Era 164.
@@ -5169,6 +5178,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.92.0...v3.93.0
 [3.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.91.0...v3.92.0
 [3.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.90.0...v3.91.0
 [3.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.89.0...v3.90.0
