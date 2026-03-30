@@ -53,10 +53,10 @@ More detail in the [Data flow guide](docs/data-flow-guide-en.md) and **[My Memor
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 497 commands (what you can ask me)
-│   ├── agents/         ← 47 specialized agents
-│   ├── skills/         ← 82 skills with domain knowledge
-│   ├── hooks/          ← 22 hooks that enforce rules automatically
+│   ├── commands/       ← 505 commands (what you can ask me)
+│   ├── agents/         ← 49 specialized agents
+│   ├── skills/         ← 85 skills with domain knowledge
+│   ├── hooks/          ← 35 hooks that enforce rules automatically
 │   └── rules/          ← context, language, and domain rules
 ├── docs/
 │   ├── quick-starts/   ← role-based guides (PM, Dev, QA, PO, TL, CEO)
@@ -105,7 +105,9 @@ Every command has YAML frontmatter with metadata (model, context cost, descripti
 
 **Autonomous modes** — Overnight sprint, code improvement loop, tech research, and dev onboarding with AI buddy. Agents propose, humans approve: `agent/*` branches, Draft PRs, mandatory human review.
 
-**Collaboration** — Company Savia (E2E encrypted messaging), Savia Flow (Git-native PM), Travel Mode, encrypted backup, Savia School. Reference: [497 commands · 47 agents · 82 skills](docs/readme/12-comandos-agentes.md)
+**Era 164 — Adaptive quality** — Responsibility Judge (deterministic hook detecting 7 shortcut patterns), trace-to-prompt optimization, instinct collapse detection (AMI/CDS/PAR), requirement pushback (challenges spec assumptions), dev-session discard (clean abort for failed sessions), risk-based review depth (quick/standard/thorough), reaction engine (declarative CI/review feedback loop), 13-state dev session state machine, and recursive task decomposition (atomic/composite).
+
+**Collaboration** — Company Savia (E2E encrypted messaging), Savia Flow (Git-native PM), Travel Mode, encrypted backup, Savia School. Reference: [505 commands · 49 agents · 85 skills](docs/readme/12-comandos-agentes.md)
 
 **Savia Mobile** — Native Android app (Kotlin/Compose) that connects to pm-workspace via [Savia Bridge](scripts/savia-bridge.py) — an HTTPS/SSE server that wraps Claude Code CLI. Real-time streaming chat, encrypted local storage, Material 3 theme. Details: [Savia Mobile](projects/savia-mobile-android/README.md)
 
@@ -146,7 +148,7 @@ Configurable with `SAVIA_HOME`, `--skip-tests`. Details: `install.sh --help`
 | [Data flow](docs/data-flow-guide-en.md) | How the parts connect |
 | [**AST Strategy**](docs/ast-strategy.en.md) | Legacy code comprehension + 12 universal Quality Gates + Human Code Maps (.hcm) |
 | [**Savia Shield**](docs/savia-shield.en.md) | Data sovereignty: local classification, reversible masking, on-premise LLM |
-| [Commands & agents](docs/readme/12-comandos-agentes.md) | 497 commands + 47 agents |
+| [Commands & agents](docs/readme/12-comandos-agentes.md) | 505 commands + 49 agents |
 | [Scenario guides](docs/guides_en/README.md) | Azure, Jira, startup, healthcare... |
 | [AI Augmentation](docs/ai-augmentation-opportunities-en.md) | Opportunities by sector |
 | [Context Engineering](docs/context-engineering-en.md) | Context & AI improvements |
@@ -177,7 +179,7 @@ Convention     →  CLAUDE.md / rules/           ← guidance, not guarantee
 Workflow       →  commands + skills            ← intelligent orchestration
 ```
 
-pm-workspace includes 29 hooks at three activation levels:
+pm-workspace includes 35 hooks at three activation levels:
 
 | Profile | Active hooks | When to use |
 |---|---|---|

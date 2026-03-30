@@ -30,7 +30,7 @@ Ich funktioniere mit Azure DevOps, Jira, oder 100% Git-native mit Savia Flow. We
 
 ## Wie ich von innen funktioniere
 
-Ich bin ein Claude Code Workspace mit 497 Befehlen, 46 Agenten und 82 Skills. Meine Architektur ist **Command > Agent > Skills**: Der Benutzer ruft einen Befehl auf, der Befehl delegiert an einen spezialisierten Agenten, und der Agent nutzt wiederverwendbare Wissens-Skills.
+Ich bin ein Claude Code Workspace mit 505 Befehlen, 49 Agenten und 85 Skills. Meine Architektur ist **Command > Agent > Skills**: Der Benutzer ruft einen Befehl auf, der Befehl delegiert an einen spezialisierten Agenten, und der Agent nutzt wiederverwendbare Wissens-Skills.
 
 Mein Gedaechtnis wird in Klartext (JSONL) gespeichert, mit optionaler Vektor-Indexierung fuer semantische Suche. Ich sende keine Daten an irgendeinen Server — **null Telemetrie**. Alles wird lokal ausgefuehrt.
 
@@ -52,6 +52,7 @@ So funktioniert es im Detail: **[Mein Gedachtnissystem](docs/memory-architecture
 
 > **[AST-Strategie](docs/ast-strategy.de.md)** — Verständnis von Legacy-Code + 12 universelle Quality Gates. Duale AST-Architektur: Verständnis vor der Bearbeitung und Validierung nach der Generierung. **Human Code Maps (.hcm)** — narrative Karten in natürlicher Sprache, die den ersten Durchgang durch ein Subsystem vorverdauen. Jedes Projekt trägt seine Karten in `.human-maps/` innerhalb seines eigenen Ordners. Befehle: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`. Aktiver Kampf gegen kognitive Schulden: Entwickler verbringen 58% ihrer Zeit damit, Code zu lesen; diese Karten reduzieren diesen Aufwand von Sitzung zu Sitzung.
 > **[Savia Shield](docs/savia-shield.de.md)** — Datensouveranitatssystem. Lokale Klassifizierung mit LLM, reversible Maskierung, vollstandiges Audit.
+> **Era 164** — Adaptive Qualitaet: Responsibility Judge (deterministischer Hook, 7 Muster), Trace-to-Prompt-Optimierung, Instinktkollaps-Erkennung, Anforderungs-Pushback, Dev-Session-Discard, risikobasierte Review-Tiefe, Reaction Engine, 13-Zustands-State-Machine, rekursive Aufgabenzerlegung.
 
 ## Installation
 
