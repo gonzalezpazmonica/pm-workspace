@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/pre-commit-review.sh"
+  HOOK=".claude/hooks/pre-commit-review.sh"
   cd "$TMPDIR"
   git init --quiet 2>/dev/null || true
 }
@@ -85,7 +85,7 @@ run_hook() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" $PWD/.claude/hooks/pre-commit-review.sh
+  grep -q "set -[euo]" .claude/hooks/pre-commit-review.sh
 }
 
 @test "edge: empty input produces no error" {

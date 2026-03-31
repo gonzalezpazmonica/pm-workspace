@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/session-init.sh"
+  HOOK=".claude/hooks/session-init.sh"
 }
 
 teardown() {
@@ -71,7 +71,7 @@ run_hook() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" $PWD/.claude/hooks/session-init.sh
+  grep -q "set -[euo]" .claude/hooks/session-init.sh
 }
 
 @test "edge: empty input produces no error" {

@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/validate-bash-global.sh"
+  HOOK=".claude/hooks/validate-bash-global.sh"
 }
 
 teardown() {
@@ -139,7 +139,7 @@ make_input() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" $PWD/.claude/hooks/validate-bash-global.sh
+  grep -q "set -[euo]" .claude/hooks/validate-bash-global.sh
 }
 
 @test "edge: empty input produces no error" {

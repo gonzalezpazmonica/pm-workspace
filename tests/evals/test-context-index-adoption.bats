@@ -99,7 +99,7 @@ teardown() { rm -rf "$TMPDIR_CIA"; }
 }
 
 @test "error: missing context-index reference is detectable" {
-  printf "---\nname: test-bad\n---\nNo context ref\n" > "$TMPDIR_CIA/bad-agent.md"
+  printf "%s\n" "---" "name: test-bad" "---" "No context ref" > "$TMPDIR_CIA/bad-agent.md"
   run grep -ciE '(context-index|\.ctx)' "$TMPDIR_CIA/bad-agent.md"
   [[ "$output" == *"0"* ]]
 }

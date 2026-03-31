@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/post-edit-lint.sh"
+  HOOK=".claude/hooks/post-edit-lint.sh"
   export TEST_TMPDIR="$TMPDIR"
   mkdir -p "$TEST_TMPDIR/src"
   cd "$TEST_TMPDIR"
@@ -143,5 +143,5 @@ EOF
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" $PWD/.claude/hooks/post-edit-lint.sh
+  grep -q "set -[euo]" .claude/hooks/post-edit-lint.sh
 }

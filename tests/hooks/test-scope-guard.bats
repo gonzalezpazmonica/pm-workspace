@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/scope-guard.sh"
+  HOOK=".claude/hooks/scope-guard.sh"
   cd "$TMPDIR"
   git init --quiet 2>/dev/null || true
 }
@@ -79,7 +79,7 @@ run_hook() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" $PWD/.claude/hooks/scope-guard.sh
+  grep -q "set -[euo]" .claude/hooks/scope-guard.sh
 }
 
 @test "edge: empty input produces no error" {

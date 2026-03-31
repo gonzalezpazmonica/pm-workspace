@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/compliance-gate.sh"
+  HOOK=".claude/hooks/compliance-gate.sh"
   export TEST_TMPDIR="$TMPDIR"
 }
 
@@ -79,7 +79,7 @@ teardown() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" $PWD/.claude/hooks/compliance-gate.sh
+  grep -q "set -[euo]" .claude/hooks/compliance-gate.sh
 }
 
 @test "edge: empty input produces no error" {

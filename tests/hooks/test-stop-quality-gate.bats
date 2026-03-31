@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/stop-quality-gate.sh"
+  HOOK=".claude/hooks/stop-quality-gate.sh"
   export TEST_TMPDIR="$TMPDIR"
   cd "$TEST_TMPDIR"
   git init --quiet 2>/dev/null || true
@@ -81,5 +81,5 @@ run_hook() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" $PWD/.claude/hooks/stop-quality-gate.sh
+  grep -q "set -[euo]" .claude/hooks/stop-quality-gate.sh
 }

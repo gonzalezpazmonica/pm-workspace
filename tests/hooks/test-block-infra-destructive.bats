@@ -5,7 +5,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/block-infra-destructive.sh"
+  HOOK=".claude/hooks/block-infra-destructive.sh"
 }
 
 teardown() {
@@ -94,7 +94,7 @@ make_input() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" $PWD/.claude/hooks/block-infra-destructive.sh
+  grep -q "set -[euo]" .claude/hooks/block-infra-destructive.sh
 }
 
 @test "edge: empty input produces no error" {

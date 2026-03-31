@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/agent-dispatch-validate.sh"
+  HOOK=".claude/hooks/agent-dispatch-validate.sh"
   export CLAUDE_PROJECT_DIR="$PWD"
   export SAVIA_HOOK_PROFILE=strict
 }
@@ -102,7 +102,7 @@ run_hook() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" $PWD/.claude/hooks/agent-dispatch-validate.sh
+  grep -q "set -[euo]" .claude/hooks/agent-dispatch-validate.sh
 }
 
 @test "edge: empty input produces no error" {
