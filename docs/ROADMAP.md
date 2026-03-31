@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-03-28 | **Version:** v3.44.0 | **498 commands · 46 agents · 83 skills · 25 hooks · 40 test suites**
+**Updated:** 2026-04-01 | **Version:** v3.97.0 | **505 commands · 49 agents · 85 skills · 31 hooks · 41 test suites**
 
 Status: **Done** · **In progress** · **Planned** · **Proposed**
 
@@ -25,6 +25,12 @@ PM core, 16 language packs, context engineering, security, Savia persona, Compan
 - **135** (v3.40): Digest-to-memory bridge. 7 digest agents adapted to new memory
 - **136** (v3.41-42): memory-architecture.md (379 lines, human-friendly). 25 PRs in one session
 - **137** (v3.43-44): SPEC-029/030/031 (security auto-PR, Nuclei, workspace-doctor). jato+strix absorption. Triple audit (code/security/docs). 30+ repos analyzed
+
+## Done — Eras 138-165: Architecture Exploitation (v3.45.0 → v3.97.0)
+
+- **138-163** (v3.45-89): Temporal memory, hybrid search, agent evaluation, cognitive sectors, SaviaDivergent, test architect, CI quality gates, execution supervisor
+- **164** (v3.90-96): Getting-started 7 languages, test auditor 80+ scores, AgentScope research, hidden features activation (3 new hooks, raised output limits, deferred tool loading)
+- **165** (v3.97): SPEC-067 CLAUDE.md diet (121→48 lines, 60% token/turn savings). SPEC-068 hook enhancement (PreCompact tier classification, PostCompact session-hot reinjection, PostToolUseFailure structured error categorization). 12 new tests. Architecture review revealed CLAUDE.md per-turn cost — exploit-first approach
 
 ---
 
