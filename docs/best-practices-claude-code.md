@@ -447,9 +447,9 @@ claude -p "prompt" --output-format json   # output estructurado
 
 ---
 
-## 18. INTERNAL ARCHITECTURE INSIGHTS (from source analysis)
+## 18. INTERNAL ARCHITECTURE INSIGHTS
 
-Key findings from decompiling Claude Code source (2026-03-29):
+Key performance findings from Claude Code architecture review:
 
 1. **CLAUDE.md is per-turn cost**: It is prepended to the first user message
    (dynamic suffix), NOT in the cached system prompt. Every line costs tokens

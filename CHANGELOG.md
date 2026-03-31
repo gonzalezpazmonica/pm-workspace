@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.95.0] — 2026-03-31
 
-chore: 10 optimizations from Claude Code source analysis. Era 164.
+chore: 10 performance optimizations based on architecture review. Era 164.
 
 ### Changed
 
@@ -16,7 +16,7 @@ chore: 10 optimizations from Claude Code source analysis. Era 164.
 - **Context health rule**: documented that CLAUDE.md is NOT cached (per-turn cost) — reinforces 150-line discipline
 - **Memory system docs**: added 25KB byte cap and 150-char entry length guidance for MEMORY.md
 - **Async hooks config**: updated auto-compact documentation with effective window calculation
-- **Best practices**: added section 18 "Internal Architecture Insights" with 7 key findings from source analysis
+- **Best practices**: added section 18 "Internal Architecture Insights" with 7 key performance findings
 
 ## [3.94.0] — 2026-03-31
 
