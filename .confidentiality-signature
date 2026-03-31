@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=98377b6202225661a9e455f4fbf730f25357c6d71bb8275536a5838d8bb21179
-timestamp=2026-03-31T20:55:01Z
-branch=feat/hidden-features-optimizations
-head_commit=e4f1503
-signature=10e09a7ab565771fac7f035eb7f1d84c43f90dd0a2bf5dd4aa9bdf782ecfebec
+diff_hash=019b55f397d0ed20cd4325f0a086d399e43f84aa56b29062cfb9debac84f4bdf
+timestamp=2026-03-31T23:13:53Z
+branch=feat/era165-claudemd-diet-hooks
+head_commit=b251c23
+signature=c5e6b6b6832559a79a6e595c9948d4a8577b7e7e574c46ff614d90b9006db2a6
