@@ -9,6 +9,7 @@ globs: [".claude/commands/**", "output/**"]
 
 > El contexto es un recurso finito. Si se agota, pm-workspace deja de funcionar.
 > Cada decisión de diseño debe optimizar el uso de contexto.
+> CLAUDE.md is NOT cached — re-sent at full price every turn. 150-line rule saves per-turn.
 
 ## 1. Patrón output-first (OBLIGATORIO en todos los comandos)
 
@@ -59,8 +60,8 @@ Esto evita que el análisis intermedio contamine el contexto principal.
 | Zona | Rango | Acción | Calidad |
 |------|-------|--------|---------|
 | Verde | <50% | Sin acción | Óptima |
-| Gradual | 50-70% | Sugerir /compact, no bloquear | >99% |
-| Alerta | 70-85% | Bloquear operaciones pesadas | 95-99% |
+| Gradual | 50-65% | Sugerir /compact, no bloquear | >99% |
+| Alerta | 65-85% | Bloquear operaciones pesadas | 95-99% |
 | Crítica | >85% | Bloquear todo | <95% |
 
 **Mensajes por zona:** Gradual → `💡 Contexto al XX% — /compact cuando puedas.` · Alerta → `⚠️ Contexto alto — sin operaciones pesadas.` · Crítica → `❌ Compacta ahora.`

@@ -81,7 +81,9 @@ Claude guarda automáticamente notas sobre cada proyecto en `~/.claude/projects/
 └── devops-notes.md        ← Config de pipelines, entornos, secretos
 ```
 
-**Solo las primeras 200 líneas de MEMORY.md se cargan al inicio.** Topic files se leen bajo demanda.
+**Solo las primeras 200 líneas de MEMORY.md se cargan al inicio** (hard cap: 25KB bytes).
+Entries should be < 150 chars to avoid wasting context on index lines.
+Topic files se leen bajo demanda.
 
 ### Pedir a Claude que recuerde algo
 
@@ -192,7 +194,7 @@ The `memory-auto-capture.sh` PostToolUse hook automatically captures patterns fr
 
 ## Best Practices
 
-1. **MEMORY.md conciso** — máx. 200 líneas. Mover detalles a topic files
+1. **MEMORY.md conciso** — max 200 lineas AND 25KB. Each entry < 150 chars. Mover detalles a topic files
 2. **Topic files enfocados** — un tema por fichero (debugging, architecture, etc.)
 3. **Revisar periódicamente** — actualizar memoria al cambiar de sprint
 4. **No duplicar** — si algo ya está en CLAUDE.md del proyecto, no repetirlo en auto memory

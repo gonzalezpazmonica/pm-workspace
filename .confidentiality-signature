@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=65ae001c3b791f15678b21dab6e768a8e1a2ecce613e9b1d350437caebaaa1ae
-timestamp=2026-03-31T11:41:36Z
-branch=feat/ci-test-quality-gate
-head_commit=cf97c15
-signature=49c417683f6d3fe16c34f16b61c9a180d3ae8142fe3b00d0aa44c2e0f808dbfb
+diff_hash=06a03c0ea682369cc1742860d98fce8df6ad2c59feebac9327d2a477d98b9612
+timestamp=2026-03-31T18:02:23Z
+branch=feat/claude-code-optimizations
+head_commit=12b5527
+signature=cc7b8bbfc4c6d31a294d75f1102ab46e1632adef3e83e6ba6bbc9c809dcb0fc6

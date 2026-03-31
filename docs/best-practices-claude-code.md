@@ -444,3 +444,34 @@ claude -p "prompt" --output-format json   # output estructurado
 /cost                              # ver coste de la sesión actual
 /init                              # generar CLAUDE.md inicial desde el proyecto
 ```
+
+---
+
+## 18. INTERNAL ARCHITECTURE INSIGHTS (from source analysis)
+
+Key findings from decompiling Claude Code source (2026-03-29):
+
+1. **CLAUDE.md is per-turn cost**: It is prepended to the first user message
+   (dynamic suffix), NOT in the cached system prompt. Every line costs tokens
+   on EVERY turn. The 150-line rule is more critical than previously understood.
+
+2. **25KB memory cap**: MEMORY.md has a 25KB byte limit in addition to the
+   200-line limit. Keep index entries under 150 characters.
+
+3. **Auto-compact effective window**: `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` is
+   percentage of effective window (contextWindow - 20K output - 13K buffer).
+   For Opus 200K: effective ~167K. Set to 65% (~108K) for balanced sessions.
+
+4. **SessionEnd hooks timeout at 1.5s**: Much shorter than the 10-min default
+   for other hooks. Keep session-end hooks minimal (no network calls).
+
+5. **Skills zero context until invoked**: Only frontmatter (name, description)
+   is loaded at listing time. Full SKILL.md loaded on invocation. 85+ skills
+   cost nothing until used. Skill descriptions are critical for routing.
+
+6. **Nested CLAUDE.md cleared on compact**: After auto-compact, accessing
+   project subdirectories re-triggers their CLAUDE.md injection. Do not rely
+   on nested CLAUDE.md for state that must survive compaction.
+
+7. **@ imports only in text nodes**: Resolved by the markdown lexer, NOT
+   inside code blocks or inline code. Never put @imports in fenced blocks.

@@ -50,11 +50,13 @@ In `.claude/settings.json`, async hooks use:
 ## Auto-Compact Configuration
 
 ```
-CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50
+CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65
 ```
 
-This triggers automatic context compaction at 50% usage (vs default ~80%).
-Add to `.claude/settings.json` or environment variables.
+Triggers auto-compaction at 65% of effective window (~108K tokens for Opus 200K).
+Set in `.claude/settings.json` env section. Previous value of 50% was too aggressive
+(compacted after ~40K tokens). 65% balances session length with quality.
+Note: effective window = contextWindow - 20K (output) - 13K (buffer) = ~167K.
 
 ## Hook Event Coverage
 
