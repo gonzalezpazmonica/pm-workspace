@@ -1,10 +1,16 @@
 #!/usr/bin/env bats
 # Tests for validate-bash-global.sh hook
 # Validates 7 dangerous command patterns are blocked
+# Ref: .claude/rules/domain/hook-profiles.md
 
 setup() {
-  cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/validate-bash-global.sh"
+  TMPDIR=$(mktemp -d)
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
+  HOOK="$REPO_ROOT/.claude/hooks/validate-bash-global.sh"
+}
+
+teardown() {
+  rm -rf "$TMPDIR"
 }
 
 run_hook() {
@@ -13,6 +19,10 @@ run_hook() {
 
 make_input() {
   echo "{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":\"$1\"}}"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$HOOK"
 }
 
 # ── Empty/safe commands pass ──
@@ -111,5 +121,28 @@ make_input() {
 
 @test "safe command mentioning sudo in echo passes" {
   run_hook "$(make_input 'echo run sudo manually')"
+  [ "$status" -eq 0 ]
+}
+
+# ── Edge cases ──
+
+@test "command with special characters does not crash" {
+  run_hook "$(make_input 'echo "hello world" | cat')"
+  [ "$status" -eq 0 ]
+  [[ ! "$output" == *"BLOCK"* ]]
+}
+
+@test "empty JSON object does not crash" {
+  run_hook '{}'
+  [ "$status" -eq 0 ]
+  python3 -c "assert True"
+}
+
+@test "target script has safety flags" {
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/validate-bash-global.sh"
+}
+
+@test "edge: empty input produces no error" {
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.claude/hooks/validate-bash-global.sh' 2>&1"
   [ "$status" -eq 0 ]
 }

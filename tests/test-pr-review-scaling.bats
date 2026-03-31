@@ -1,12 +1,15 @@
 #!/usr/bin/env bats
+# Tests for PR review scaling gates (g11)
+# Ref: .claude/rules/domain/risk-escalation.md, scoring-curves.md
 
 setup() {
-  source scripts/pr-plan-gates.sh
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+  source "$REPO_ROOT/scripts/pr-plan-gates.sh"
   BRANCH="test-branch"
-  FAILURE_FILE="/tmp/test-pr-failure.json"
+  FAILURE_FILE="/tmp/test-pr-failure-$$"
   STOPPED=""
   FAILED_FILE=""
-  # Override git to mock diff output
+  TMPDIR_PR=$(mktemp -d)
   export MOCK_STAT_LINE=""
   export MOCK_REVPARSE_FAIL=""
   git() {
@@ -23,9 +26,9 @@ setup() {
   export -f git
   rm -f output/risk-score.json
 }
-
 teardown() {
-  rm -f output/risk-score.json
+  rm -f output/risk-score.json "$FAILURE_FILE"
+  rm -rf "$TMPDIR_PR"
   unset -f git 2>/dev/null || true
 }
 
@@ -86,7 +89,6 @@ teardown() {
   run g11
   [[ "$output" == *"FULL (1001 lines)"* ]]
 }
-
 @test "g11 origin/main unreachable" {
   MOCK_REVPARSE_FAIL=1
   run g11
@@ -114,4 +116,36 @@ teardown() {
   MOCK_STAT_LINE=" 50 files changed, 5000 insertions(+), 5000 deletions(-)"
   run g11
   [[ "$output" != *"FAIL:"* ]]
+}
+
+@test "g11 handles malformed stat line gracefully" {
+  MOCK_STAT_LINE="not a valid stat line"
+  run g11
+  # Should not crash
+  [[ "$output" == *"0 lines"* ]] || [[ "$output" == *"lines"* ]]
+}
+
+@test "g11 handles invalid risk score JSON" {
+  MOCK_STAT_LINE=" 5 files changed, 120 insertions(+), 67 deletions(-)"
+  mkdir -p output
+  echo 'not json' > output/risk-score.json
+  run g11
+  [[ "$output" == *"STANDARD"* ]]
+}
+
+@test "g11 boundary: 300 lines is still STANDARD" {
+  MOCK_STAT_LINE=" 3 files changed, 200 insertions(+), 100 deletions(-)"
+  run g11
+  [[ "$output" == *"STANDARD (300 lines)"* ]]
+}
+
+@test "push-pr.sh has set -euo pipefail safety header" {
+  grep -q "set -euo pipefail" scripts/push-pr.sh
+}
+
+@test "g11 outputs review level for small PR" {
+  MOCK_STAT_LINE=" 1 file changed, 10 insertions(+), 5 deletions(-)"
+  run g11
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"XS"* ]]
 }

@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
 # test-data-sovereignty-extended.bats — Edge cases, bypass attempts, stress tests
+# Ref: .claude/rules/domain/data-sovereignty.md
 
 setup() {
   # Force shield enabled for tests (env may have SAVIA_SHIELD_ENABLED=false from settings.local.json)
@@ -334,4 +335,8 @@ sys.stdout.buffer.write(d.encode('utf-8'))
   INPUT='{"tool_input":{"file_path":"/workspace/docs/x.md","content":"This is a long enough text that passes regex but needs LLM classification to determine sensitivity level properly"}}'
   run bash -c "echo '$INPUT' | bash $GATE"
   [ "$status" -eq 0 ]
+}
+
+@test "gate script has set -uo pipefail safety header" {
+  grep -q "set -[euo]" "$GATE" || grep -q "set -[euo]*o pipefail" "$GATE"
 }

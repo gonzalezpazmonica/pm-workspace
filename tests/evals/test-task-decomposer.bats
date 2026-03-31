@@ -1,7 +1,12 @@
 #!/usr/bin/env bats
 # Tests for SPEC-052 Recursive Task Decomposition — Phase 1
 
-SCRIPT="scripts/task-decomposer.sh"
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/task-decomposer.sh"
+  TMPDIR_TD=$(mktemp -d)
+}
+teardown() { rm -rf "$TMPDIR_TD"; }
 
 @test "task-decomposer.sh exists" {
   [ -f "$SCRIPT" ]
@@ -12,7 +17,7 @@ SCRIPT="scripts/task-decomposer.sh"
 }
 
 @test "task-decomposer.sh has set -uo pipefail" {
-  head -5 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -5 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "SPEC-052 document exists" {

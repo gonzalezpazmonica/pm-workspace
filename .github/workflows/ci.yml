@@ -146,6 +146,9 @@ jobs:
       - name: Run test quality audit
         run: bash scripts/audit-test-quality.sh --summary
 
+      - name: "Gate: Test Quality (SPEC-055 — all tests >= 80)"
+        run: bash scripts/ci-test-quality-gate.sh
+
       - name: Run coverage report
         run: bash scripts/coverage-report.sh --ci
 

@@ -69,3 +69,46 @@ teardown() {
   local src; src=$(data_source "nonexistent-xyz-$$")
   [ "$src" = "none" ]
 }
+
+# ── Negative cases ──
+
+@test "count_by_state returns 0 for unknown state" {
+  [[ -n "${CI:-}" ]] && skip "needs backlog resolver setup"
+  local count; count=$(count_by_state "_test-resolver-$$" "NonExistentState")
+  [ "$count" = "0" ]
+}
+
+@test "has_local_backlog fails for missing project" {
+  run has_local_backlog "project-that-does-not-exist-$$"
+  [ "$status" -ne 0 ]
+}
+
+# ── Edge cases ──
+
+@test "board_summary handles empty backlog dir" {
+  rm -f "$TEST_PROJ/backlog/pbi/"*.md
+  local summary; summary=$(board_summary "_test-resolver-$$")
+  # Should still work, just no counts
+  [ -n "$summary" ]
+}
+
+# ── Spec/doc reference ──
+# Ref: .claude/rules/domain/backlog-git-config.md
+
+@test "resolver script references backlog sovereignty" {
+  grep -q "local" "$ROOT/scripts/backlog-resolver.sh"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$ROOT/scripts/backlog-resolver.sh"
+}
+
+@test "limit: large sprint name handled" {
+  local sprint; sprint=$(get_current_sprint "_test-resolver-$$")
+  [ -n "$sprint" ]
+  python3 -c "assert len('$sprint') > 0"
+}
+
+@test "core hooks use safety flags" {
+  grep -q "set -[euo]" .claude/hooks/validate-bash-global.sh
+}

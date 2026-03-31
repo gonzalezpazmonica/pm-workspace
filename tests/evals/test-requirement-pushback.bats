@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # Tests for SPEC-047 Requirement Pushback Pass (Phase 1)
 
-SCRIPT="scripts/requirement-pushback.sh"
-
 setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/requirement-pushback.sh"
   export SAMPLE_SPEC="/tmp/test-spec-pushback.md"
   cat > "$SAMPLE_SPEC" << 'EOF'
 # SPEC-099: Widget Service
@@ -103,6 +103,13 @@ assert 'assumption' in types, f'Expected assumption in {types}'
 assert 'ambiguity' in types, f'Expected ambiguity in {types}'
 assert d['summary']['total_questions'] >= 3, f'Expected >=3 questions, got {d[\"summary\"][\"total_questions\"]}'
 "
+}
+
+@test "edge: boundary spec with no phases still produces valid output" {
+  echo "# Simple Spec\n\nJust one requirement." > "$SAMPLE_SPEC"
+  run bash "$SCRIPT" "$SAMPLE_SPEC"
+  [ "$status" -eq 0 ]
+  echo "$output" | python3 -c "import json,sys; json.load(sys.stdin)"
 }
 
 @test "SPEC-047 proposal document exists" {

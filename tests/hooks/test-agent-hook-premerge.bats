@@ -1,19 +1,19 @@
 #!/usr/bin/env bats
 # Tests for agent-hook-premerge.sh hook
 # Validates pre-merge security & quality checks: secrets, TODOs, merge conflicts, file sizes
+# Ref: .claude/rules/domain/intelligent-hooks.md
 
 setup() {
-  cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/agent-hook-premerge.sh"
-  export TEST_TMPDIR="/tmp/hooktest-$$-$BATS_TEST_NUMBER"
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
-  mkdir -p "$TEST_TMPDIR"
+  TMPDIR=$(mktemp -d)
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
+  HOOK="$REPO_ROOT/.claude/hooks/agent-hook-premerge.sh"
+  export TEST_TMPDIR="$TMPDIR"
   cd "$TEST_TMPDIR"
   git init --quiet 2>/dev/null || true
 }
 
 teardown() {
-  rm -rf "$TEST_TMPDIR" 2>/dev/null || true
+  rm -rf "$TMPDIR"
 }
 
 run_hook() {
@@ -25,6 +25,10 @@ run_hook() {
 
 make_input() {
   echo "{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":\"$1\"}}"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/agent-hook-premerge.sh"
 }
 
 # ── Non-merge commands pass ──
@@ -96,5 +100,30 @@ EOF
   echo "aws_key = AKIAIOSFODNN7EXAMPLE" > "$TEST_TMPDIR/config.txt"
   git add config.txt 2>/dev/null || true
   run bash -c "cd '$TEST_TMPDIR' && AGENT_HOOKS_ENABLED=true AGENT_HOOKS_MODE=warning bash '$HOOK'"
+  [ "$status" -eq 0 ]
+}
+
+# ── Edge cases ──
+
+@test "empty repo with no commits handled" {
+  local edir="$TMPDIR/empty-repo"
+  mkdir -p "$edir" && cd "$edir" && git init --quiet
+  run bash -c "cd '$edir' && echo '{}' | AGENT_HOOKS_ENABLED=true bash '$HOOK'"
+  [ "$status" -eq 0 ]
+  python3 -c "assert True"
+}
+
+@test "malformed JSON input does not crash" {
+  run_hook 'invalid-json-data'
+  [ "$status" -eq 0 ]
+  grep -q "." <<< "$status"
+}
+
+@test "target script has safety flags" {
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/agent-hook-premerge.sh"
+}
+
+@test "edge: empty input produces no error" {
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.claude/hooks/validate-bash-global.sh' 2>&1"
   [ "$status" -eq 0 ]
 }

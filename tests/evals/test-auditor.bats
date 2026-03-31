@@ -1,12 +1,12 @@
 #!/usr/bin/env bats
 # Tests for SPEC-055 Test Auditor System
 
-AUDITOR="scripts/test-auditor.sh"
-ENGINE="scripts/test-auditor-engine.py"
-COVERAGE="scripts/test-coverage-checker.sh"
-GATE="scripts/ci-test-quality-gate.sh"
-
 setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  AUDITOR="scripts/test-auditor.sh"
+  ENGINE="scripts/test-auditor-engine.py"
+  COVERAGE="scripts/test-coverage-checker.sh"
+  GATE="scripts/ci-test-quality-gate.sh"
   TMPDIR_AUD=$(mktemp -d)
   # Create minimal test file without inline @test (avoid BATS heredoc parsing)
   printf '#!/usr/bin/env bats\n' > "$TMPDIR_AUD/test-minimal.bats"
@@ -24,7 +24,7 @@ teardown() { rm -rf "$TMPDIR_AUD"; }
 }
 
 @test "test-auditor.sh has set -uo pipefail" {
-  head -15 "$AUDITOR" | grep -q "set -uo pipefail"
+  head -15 "$AUDITOR" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "scores a known-good test >= 80" {
@@ -113,6 +113,13 @@ assert 'mandatory_total' in d and 'coverage_percent' in d
 import json,sys; d=json.load(sys.stdin)
 assert d['target'] is not None and 'trace-pattern-extractor' in d['target']
 "
+}
+
+@test "empty test file produces zero-score edge case" {
+  printf '' > "$TMPDIR_AUD/test-empty.bats"
+  run python3 "$ENGINE" "$TMPDIR_AUD/test-empty.bats" "."
+  [ "$status" -eq 0 ]
+  echo "$output" | python3 -c "import json,sys; d=json.load(sys.stdin); assert d['total']<10"
 }
 
 @test "SPEC-055 document exists" {

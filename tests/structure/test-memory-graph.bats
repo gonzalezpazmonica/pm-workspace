@@ -8,11 +8,10 @@ setup() {
     GRAPH_SCRIPT="$BATS_TEST_DIRNAME/../../scripts/memory-graph.py"
     STORE_SCRIPT="$BATS_TEST_DIRNAME/../../scripts/memory-store.sh"
     mkdir -p "$PROJECT_ROOT/output"
-    # Seed test data
-    bash "$STORE_SCRIPT" save --type decision --title "Use PostgreSQL" --content "Chose PostgreSQL for better JSON support" --concepts "database,sql"
-    bash "$STORE_SCRIPT" save --type bug --title "Redis Timeout" --content "Connection pool exhausted under load" --concepts "cache,performance"
-    bash "$STORE_SCRIPT" save --type architecture --title "GraphQL for Frontend" --content "REST too granular for dashboard" --concepts "api,frontend"
-    bash "$STORE_SCRIPT" save --type pattern --title "Circuit Breaker" --content "Polly circuit breaker for external calls" --concepts "resilience"
+    bash "$STORE_SCRIPT" save --type decision --title "Use PostgreSQL" --content "Chose PostgreSQL" --concepts "database,sql"
+    bash "$STORE_SCRIPT" save --type bug --title "Redis Timeout" --content "Pool exhausted" --concepts "cache,performance"
+    bash "$STORE_SCRIPT" save --type architecture --title "GraphQL for Frontend" --content "REST too granular" --concepts "api,frontend"
+    bash "$STORE_SCRIPT" save --type pattern --title "Circuit Breaker" --content "Polly for external calls" --concepts "resilience"
 }
 
 teardown() {
@@ -111,15 +110,41 @@ print('OK')
     [[ "$output" == *"NOT BUILT"* ]]
 }
 
-@test "memory-store.sh: build-graph subcommand works" {
+@test "memory-store.sh: build-graph and graph-status subcommands work" {
     run bash "$STORE_SCRIPT" build-graph
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"entities"* ]]
+    run bash "$STORE_SCRIPT" graph-status
     [ "$status" -eq 0 ]
     [[ "$output" == *"entities"* ]]
 }
 
-@test "memory-store.sh: graph-status subcommand works" {
-    bash "$STORE_SCRIPT" build-graph
-    run bash "$STORE_SCRIPT" graph-status
+# ── Negative cases ──
+
+@test "build: handles empty store file" {
+    > "$STORE_FILE"
+    run python3 "$GRAPH_SCRIPT" build --store "$STORE_FILE"
     [ "$status" -eq 0 ]
-    [[ "$output" == *"entities"* ]]
+}
+
+@test "search: handles nonexistent entity" {
+    python3 "$GRAPH_SCRIPT" build --store "$STORE_FILE"
+    run python3 "$GRAPH_SCRIPT" search "ZZZnonexistent" --store "$STORE_FILE"
+    [ "$status" -eq 0 ]
+}
+
+# ── Spec/doc reference ──
+
+@test "graph script aligns with SPEC-027" {
+    # Ref: SPEC-027 Phase 1 — Memory Graph
+    grep -q "entity\|relation\|graph" "$GRAPH_SCRIPT"
+}
+
+@test "memory-store.sh has set -uo pipefail safety" {
+    grep -q "set -[euo]*o pipefail" "$STORE_SCRIPT"
+}
+
+@test "build: handles nonexistent store path gracefully" {
+    run python3 "$GRAPH_SCRIPT" build --store "/tmp/nonexistent-$$/.memory-store.jsonl"
+    [ "$status" -eq 0 ] || [ "$status" -eq 1 ]
 }

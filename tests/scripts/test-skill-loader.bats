@@ -5,10 +5,17 @@ SCRIPT="$BATS_TEST_DIRNAME/../../scripts/skill-loader.sh"
 
 setup() {
   MANIFEST="$BATS_TEST_DIRNAME/../../.claude/skill-manifests.json"
+  TMPDIR_SL=$(mktemp -d)
 }
+
+teardown() { rm -rf "$TMPDIR_SL"; }
 
 @test "script es bash valido" {
   bash -n "$SCRIPT"
+}
+
+@test "script uses set -uo pipefail" {
+  head -10 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "sin --task → exit 1" {
@@ -67,5 +74,18 @@ setup() {
   run bash "$SCRIPT" --task "xyzabcnothing" --manifest "$MANIFEST" --budget 5000
   [ "$status" -eq 0 ]
   # Task completamente irrelevante → ningún skill debe puntuar
+  [ -z "$output" ]
+}
+
+@test "error: invalid JSON manifest fails gracefully" {
+  echo "not-json" > "$TMPDIR_SL/bad.json"
+  run bash "$SCRIPT" --task "test" --manifest "$TMPDIR_SL/bad.json"
+  [ "$status" -ne 0 ] || [ -z "$output" ]
+}
+
+@test "edge: empty manifest returns no results" {
+  echo '{"skills":[]}' > "$TMPDIR_SL/empty.json"
+  run bash "$SCRIPT" --task "anything" --manifest "$TMPDIR_SL/empty.json" --budget 5000
+  [ "$status" -eq 0 ]
   [ -z "$output" ]
 }

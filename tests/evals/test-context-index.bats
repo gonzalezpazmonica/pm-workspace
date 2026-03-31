@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # Tests for SPEC-054 Context Index System
 
-SCRIPT="scripts/generate-context-index.sh"
-
 setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/generate-context-index.sh"
   TMPDIR_IDX=$(mktemp -d)
   mkdir -p "$TMPDIR_IDX/.claude/rules/domain" "$TMPDIR_IDX/.claude/rules/languages" \
            "$TMPDIR_IDX/.claude/agents" "$TMPDIR_IDX/.claude/skills/test-skill" \

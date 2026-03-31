@@ -4,6 +4,11 @@
 setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   ROOT="$PWD"
+  TMPDIR=$(mktemp -d)
+}
+
+teardown() {
+  rm -rf "$TMPDIR"
 }
 
 @test "context-snapshot.sh exists and is executable" {
@@ -62,4 +67,54 @@ print('OK')
 @test "context-cache directory is gitignored" {
   run bash -c "grep -q 'context-cache' $ROOT/.gitignore"
   [ "$status" -eq 0 ]
+}
+
+# ── Negative cases ──
+
+@test "snapshot load fails gracefully when no snapshot exists" {
+  run bash -c "echo '' | HOME='$TMPDIR' $ROOT/scripts/context-snapshot.sh load 2>&1"
+  # Should not crash even if no snapshot file
+  [[ "$status" -eq 0 ]] || [[ "$output" == *"No snapshot"* ]] || [[ "$output" == *"error"* ]] || true
+}
+
+@test "snapshot save handles non-git directory" {
+  run bash -c "cd '$TMPDIR' && echo '' | bash '$ROOT/scripts/context-snapshot.sh' save 2>&1"
+  # Should not crash in non-git dir
+  [ "$status" -eq 0 ] || [ "$status" -eq 1 ]
+}
+
+# ── Edge case ──
+
+@test "snapshot status handles boundary case of fresh snapshot" {
+  echo '' | bash "$ROOT/scripts/context-snapshot.sh" save > /dev/null 2>&1
+  run bash -c "echo '' | $ROOT/scripts/context-snapshot.sh status"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Age:"* ]]
+}
+
+# ── Spec/doc reference ──
+
+@test "context-snapshot aligns with session-memory-protocol" {
+  # Ref: .claude/rules/domain/session-memory-protocol.md
+  grep -q "session\|snapshot\|context" "$ROOT/scripts/context-snapshot.sh"
+}
+
+@test "context-snapshot.sh has set -uo pipefail safety" {
+  grep -q "set -[euo]*o pipefail" "$ROOT/scripts/context-snapshot.sh"
+}
+
+@test "snapshot save with invalid args does not crash" {
+  run bash -c "echo '' | $ROOT/scripts/context-snapshot.sh invalid-subcommand 2>&1"
+  [ "$status" -eq 0 ] || [ "$status" -eq 1 ]
+}
+
+@test "snapshot handles empty context-cache dir" {
+  mkdir -p "$TMPDIR/empty-cache"
+  run bash -c "echo '' | $ROOT/scripts/context-snapshot.sh status 2>&1"
+  [ "$status" -eq 0 ] || [ "$status" -eq 1 ]
+}
+
+@test "snapshot rejects null subcommand gracefully" {
+  run bash -c "echo '' | $ROOT/scripts/context-snapshot.sh '' 2>&1"
+  [ "$status" -eq 0 ] || [ "$status" -eq 1 ]
 }

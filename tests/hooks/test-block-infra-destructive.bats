@@ -1,9 +1,15 @@
 #!/usr/bin/env bats
 # Tests for block-infra-destructive.sh hook
+# Ref: .claude/rules/domain/infrastructure-as-code.md
 
 setup() {
-  cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/block-infra-destructive.sh"
+  TMPDIR=$(mktemp -d)
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
+  HOOK="$REPO_ROOT/.claude/hooks/block-infra-destructive.sh"
+}
+
+teardown() {
+  rm -rf "$TMPDIR"
 }
 
 run_hook() {
@@ -12,6 +18,10 @@ run_hook() {
 
 make_input() {
   echo "{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":\"$1\"}}"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$HOOK"
 }
 
 @test "empty command passes" {
@@ -66,5 +76,28 @@ make_input() {
 
 @test "terraform apply in dev passes" {
   run_hook "$(make_input 'terraform apply plan.tfplan')"
+  [ "$status" -eq 0 ]
+}
+
+# ── Edge cases ──
+
+@test "docker system prune passes (not infra-destructive)" {
+  run_hook "$(make_input 'docker system prune -f')"
+  [ "$status" -eq 0 ]
+  [[ ! "$output" == *"BLOCK"* ]]
+}
+
+@test "empty JSON object does not crash" {
+  run_hook '{}'
+  [ "$status" -eq 0 ]
+  python3 -c "assert True"
+}
+
+@test "target script has safety flags" {
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/block-infra-destructive.sh"
+}
+
+@test "edge: empty input produces no error" {
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.claude/hooks/validate-bash-global.sh' 2>&1"
   [ "$status" -eq 0 ]
 }

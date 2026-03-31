@@ -19,7 +19,7 @@ teardown() {
 }
 
 @test "script uses set -uo pipefail" {
-  head -3 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -3 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "init creates session with spawning state" {
@@ -85,6 +85,12 @@ teardown() {
   [ "$line_count" -ge 2 ]
   run python3 -c "import json; e=json.loads(open('$TRACE').readlines()[-1]); print(e['to'])"
   [ "$output" = "context-loading" ]
+}
+
+@test "edge: nonexistent session returns error on status" {
+  run bash "$SCRIPT" --session-id nonexistent-999 --status
+  [ "$status" -ne 0 ]
+  [[ "$output" =~ "ERROR" ]]
 }
 
 @test "SPEC-051 doc exists" {
