@@ -30,7 +30,7 @@ DEFAULT_SCHEDULE = [
      "action": "check_gmail", "type": "gmail"},
     {"name": "gdrive-sync", "interval_min": 360,
      "action": "python3 zeroclaw/host/gdrive_sync.py sync",
-     "type": "shell", "notify": True},
+     "type": "shell", "notify": "on_error"},
 ]
 
 log = logging.getLogger("consciousness")
@@ -125,7 +125,7 @@ def tick(ser, schedule, last_runs):
             # Notify on failure or if task requests it
             if result is None and not task.get("silent_empty"):
                 _notify_failure(name)
-            elif task.get("notify"):
+            elif task.get("notify") is True:
                 _notify_success(name, result)
 
         except Exception as e:

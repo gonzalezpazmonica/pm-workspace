@@ -107,7 +107,15 @@ Rol bakoitzak gida zehatza du: `docs/quick-starts/quick-start-{rola}.md`
 | Proiektu PM tresna | `projects/{izena}/CLAUDE.md` | Org URL, iteration path |
 | Konfigurazio pribatua | `CLAUDE.local.md` (gitignored) | Benetako proiektuak |
 
-## 9. Hurrengo urratsak
+## 9. Errendimendua
+
+- **CLAUDE.md-k tokenak kontsumitzen ditu txanda bakoitzean** (ez da cacheatzen) — mantendu txukun eta 150 lerro azpitik
+- **Skill-ek ez dute testuingururik kontsumitzen deitu arte** — skill asko izatea doakoa da
+- **auto-compact %65ean aktibatzen da** testuinguru-leihoan — exekutatu `/compact` eskuz degradazioa lehenago nabaritzen baduzu
+- **Memoria-sarrerek < 150 karaktere izan behar dute** — laburpen laburrak azkarrago kargatzen dira eta testuinguru gutxiago hartzen dute
+- Xehetasun osoa: `docs/best-practices-claude-code.md`
+
+## 10. Hurrengo urratsak
 
 1. Exekutatu `/help` komando-katalogo interaktiboa ikusteko
 2. Exekutatu `/daily-routine` Savia-k zure errutina proposatzeko
