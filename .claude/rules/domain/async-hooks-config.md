@@ -58,15 +58,30 @@ Set in `.claude/settings.json` env section. Previous value of 50% was too aggres
 (compacted after ~40K tokens). 65% balances session length with quality.
 Note: effective window = contextWindow - 20K (output) - 13K (buffer) = ~167K.
 
+## Environment Variables — Performance Tuning
+
+```
+BASH_MAX_OUTPUT_LENGTH=80000      # Max chars from Bash output (default 30K, upper 150K)
+TASK_MAX_OUTPUT_LENGTH=80000      # Max chars from subagent output (default 32K, upper 160K)
+ENABLE_TOOL_SEARCH=auto           # Deferred tool loading for 400+ tools
+```
+
+Set in `.claude/settings.json` env section. Raising output limits prevents
+truncation before hooks can compress. Tool search reduces upfront context cost.
+
 ## Hook Event Coverage
 
 | Event | Hooks | Coverage |
 |---|---|---|
 | SessionStart | session-init.sh | 1/1 |
-| PreToolUse | 5 hooks | 5/5 |
-| PostToolUse | agent-trace-log.sh | 1/1 |
-| Stop | prompt-hook-commit.sh | 1/1 |
-| SubagentStop | agent-hook-premerge.sh | 1/1 |
-| **Total** | **9 unique hooks** | **9/16 events (56%)** |
+| SessionEnd | session-end-memory.sh | 1/1 |
+| PreToolUse | 12 hooks (6 matchers) | 12/12 |
+| PostToolUse | 8 hooks (3 matchers) | 8/8 |
+| PostToolUseFailure | post-tool-failure-log.sh | 1/1 |
+| PreCompact | pre-compact-backup.sh | 1/1 |
+| PostCompact | post-compaction.sh | 1/1 |
+| Stop | 4 hooks | 4/4 |
+| UserPromptSubmit | user-prompt-intercept.sh | 1/1 |
+| **Total** | **31 hook instances** | **9/27 events (33%)** |
 
-Target: 12/16 events (75%) by v1.0.
+27 hook events available in Claude Code. Target: 15/27 (56%) by v1.0.
