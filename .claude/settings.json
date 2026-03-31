@@ -316,6 +316,9 @@
       }
     ]
   },
+  "permissions": {
+    "defaultMode": "auto"
+  },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "65",
