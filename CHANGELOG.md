@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.97.0] — 2026-04-01
+
+feat: CLAUDE.md diet + hook enhancement — architecture exploit. Era 165.
+
+### Changed
+
+- **CLAUDE.md**: reduced from 121 to 48 lines (60% reduction) by moving inline content to @import references. Removes per-turn token waste discovered in architecture review — CLAUDE.md is NOT cached by Claude Code
+- **pre-compact-backup.sh**: SPEC-016 Tier A/B/C classification. Tier A (ephemeral) discarded, Tier B (session-hot) persisted to session-hot.md, Tier C (permanent) to memory-store
+- **post-compaction.sh**: reinjects session-hot.md context after compaction for session continuity. Refactored 5 if-blocks into compact loop (139 to 108 lines)
+- **post-tool-failure-log.sh**: 6 structured error categories (permission, not_found, timeout, syntax, network, unknown) with retry hints. Pattern detection flags 3+ same-tool failures per day
+
+### Added
+
+- **critical-rules-extended.md**: rules 9-25 extracted from CLAUDE.md into dedicated @import rule file
+- **SPEC-067**: CLAUDE.md diet specification
+- **SPEC-068**: Hook enhancement specification
+- **test-hook-enhancements.bats**: 12 tests for all 3 enhanced hooks (all pass)
+- **Roadmap review**: output/20260331-roadmap-review-proposal.md — 10-era plan (Eras 165-175) based on architecture internals
+
 ## [3.96.0] — 2026-03-31
 
 feat: hidden features activation — new hooks, raised output limits, deferred tool loading. Era 164.
@@ -5224,6 +5243,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.96.0...v3.97.0
 [3.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.95.0...v3.96.0
 [3.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.94.0...v3.95.0
 [3.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.93.0...v3.94.0
