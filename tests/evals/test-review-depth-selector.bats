@@ -2,7 +2,10 @@
 # Tests for SPEC-049 Depth-Adjustable Review — Phase 1
 # Validates review-depth-selector.sh score→depth mapping
 
-SCRIPT="scripts/review-depth-selector.sh"
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/review-depth-selector.sh"
+}
 
 @test "review-depth-selector.sh exists" {
   [ -f "$SCRIPT" ]

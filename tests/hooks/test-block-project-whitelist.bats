@@ -61,10 +61,12 @@ teardown() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" $(cd
+  grep -q "set -[euo]" "$HOOK"
 }
 
 @test "edge: empty input produces no error" {
-  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash .claude/hooks/validate-bash-global.sh 2>&1"
+  local VBG
+  VBG="$(cd "$(dirname "$BATS_TEST_FILENAME")/../../.claude/hooks" && pwd)/validate-bash-global.sh"
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$VBG' 2>&1"
   [ "$status" -eq 0 ]
 }

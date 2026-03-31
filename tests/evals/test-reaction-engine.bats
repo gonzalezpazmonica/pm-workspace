@@ -1,10 +1,12 @@
 #!/usr/bin/env bats
 # Tests for SPEC-050 Reaction Engine — Phase 1
 
-SCRIPT="scripts/reaction-engine.sh"
-CORE="scripts/reaction-engine-core.py"
-
-setup() { TMPDIR_RE=$(mktemp -d); }
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/reaction-engine.sh"
+  CORE="scripts/reaction-engine-core.py"
+  TMPDIR_RE=$(mktemp -d)
+}
 teardown() { rm -rf "$TMPDIR_RE"; }
 
 @test "reaction-engine.sh exists and is executable" {

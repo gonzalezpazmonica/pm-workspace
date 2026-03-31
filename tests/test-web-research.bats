@@ -4,6 +4,8 @@
 # Safety: bash wrappers use set -uo pipefail
 
 setup() {
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+  export PYTHONPATH="$REPO_ROOT:${PYTHONPATH:-}"
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"
   export TEST_CACHE="$TMPDIR/savia-test-cache-$$"
   mkdir -p "$TEST_CACHE/results"
@@ -319,19 +321,19 @@ print('OK')
 # ── CLI ───────────────────────────────────────────────────
 
 @test "cli: cache-stats runs without error" {
-  run python3 -m scripts.web-research cache-stats
+  cd "$REPO_ROOT" && run python3 -m scripts.web-research cache-stats
   [ "$status" -eq 0 ]
   [[ "$output" == *"Web Research Cache"* ]]
 }
 
 @test "cli: sanitize cleans query" {
-  run python3 -m scripts.web-research sanitize "how to use docker"
+  cd "$REPO_ROOT" && run python3 -m scripts.web-research sanitize "how to use docker"
   [ "$status" -eq 0 ]
   [[ "$output" == *"docker"* ]]
 }
 
 @test "cli: classify returns category" {
-  run python3 -m scripts.web-research classify "CVE in log4j"
+  cd "$REPO_ROOT" && run python3 -m scripts.web-research classify "CVE in log4j"
   [ "$status" -eq 0 ]
   [[ "$output" == "cve" ]]
 }

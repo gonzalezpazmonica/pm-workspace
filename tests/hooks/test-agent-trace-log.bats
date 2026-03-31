@@ -143,7 +143,7 @@ AGENT
 }
 
 @test "edge: nonexistent traces directory" {
-  run bash -c "CLAUDE_PROJECT_DIR=/tmp/nonexistent-$RANDOM TOOL_NAME=Task bash .claude/hooks/agent-trace-log.sh 2>&1"
+  run bash -c "CLAUDE_PROJECT_DIR=/tmp/nonexistent-$RANDOM CLAUDE_PROJECT_NAME=ghost TOOL_NAME=Task TOOL_INPUT='{\"agent\":\"x\"}' TOOL_OUTPUT='' TOOL_DURATION=0 TOOL_RESULT_STATUS=success bash '$BATS_TEST_DIRNAME/../../.claude/hooks/agent-trace-log.sh' 2>&1"
   [ "$status" -eq 0 ]
 }
 

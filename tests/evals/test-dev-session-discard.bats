@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # Tests for SPEC-048 Dev Session Discard — Phase 1
 
-SCRIPT="scripts/dev-session-discard.sh"
-
 setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/dev-session-discard.sh"
   export TMPDIR_ROOT
   TMPDIR_ROOT=$(mktemp -d)
   export CLAUDE_PROJECT_DIR="$TMPDIR_ROOT"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # test-skill-manifest.bats — Tests for build-skill-manifest.sh (SPEC-140)
 
-SCRIPT="scripts/build-skill-manifest.sh"
+SCRIPT="$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)/scripts/build-skill-manifest.sh"
 
 setup() {
   TMPDIR_SM=$(mktemp -d)

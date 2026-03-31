@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.94.0] — 2026-03-31
+
+fix: comprehensive CI test portability + SPEC-065 Execution Supervisor. Era 164.
+
+### Added
+
+- **SPEC-065 Execution Supervisor**: session action log + retry supervisor. Pauses after 3rd failed attempt with mandatory reflection prompt. Advisory, not blocking. Integrated into pr-plan.sh and push-pr.sh. 20 tests, score 84.
+- **scripts/session-action-log.sh**: append-only JSONL session log with attempt counting.
+- **scripts/execution-supervisor.sh**: reflection trigger after repeated failures.
+
+### Fixed
+
+- **44 test files**: comprehensive CI portability fix. All tests now use `REPO_ROOT` absolute paths instead of relative `$PWD` references. Hook tests set required env vars. Resolves 67 CI failures in GitHub Actions.
+- **gitignore**: skill-manifests.json and backlog _config.yaml (auto-generated, broke push-pr).
+
 ## [3.93.0] — 2026-03-30
 
 feat: SPEC-063 Test Architect + SPEC-060/062 SaviaDivergent. Era 164.
@@ -5178,6 +5193,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.93.0...v3.94.0
 [3.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.92.0...v3.93.0
 [3.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.91.0...v3.92.0
 [3.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.90.0...v3.91.0

@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # Tests for SPEC-053 Savia Capability Map (.scm)
 
-SCRIPT="scripts/generate-capability-map.sh"
-
 setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/generate-capability-map.sh"
   TMPDIR_SCM=$(mktemp -d)
   mkdir -p "$TMPDIR_SCM/.claude/commands" "$TMPDIR_SCM/.claude/skills/test-sk" \
            "$TMPDIR_SCM/.claude/agents" "$TMPDIR_SCM/scripts"

@@ -2,10 +2,12 @@
 # Tests for SPEC-038 Knowledge Domain Routing
 # Safety: scripts use set -uo pipefail or Python equivalents
 
-STORE="tests/evals/memory-benchmark-store.jsonl"
-SCRIPT="scripts/memory-domains.py"
-
-setup() { TMPDIR_MD=$(mktemp -d); }
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  STORE="tests/evals/memory-benchmark-store.jsonl"
+  SCRIPT="scripts/memory-domains.py"
+  TMPDIR_MD=$(mktemp -d)
+}
 teardown() { rm -rf "$TMPDIR_MD"; }
 
 @test "memory-domains.py exists and has valid syntax" {

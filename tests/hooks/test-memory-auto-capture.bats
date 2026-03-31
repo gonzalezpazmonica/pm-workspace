@@ -5,8 +5,8 @@
 
 setup() {
   TMPDIR=$(mktemp -d)
-  cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK=".claude/hooks/memory-auto-capture.sh"
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
+  HOOK="$REPO_ROOT/.claude/hooks/memory-auto-capture.sh"
   export TEST_TMPDIR="$TMPDIR"
   mkdir -p "$TEST_TMPDIR/scripts"
   mkdir -p "$TEST_TMPDIR/.claude/rules"
@@ -116,16 +116,16 @@ run_hook() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" .claude/hooks/memory-auto-capture.sh
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/memory-auto-capture.sh"
 }
 
 @test "edge: empty input produces no error" {
-  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash .claude/hooks/validate-bash-global.sh 2>&1"
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.claude/hooks/validate-bash-global.sh' 2>&1"
   [ "$status" -eq 0 ]
 }
 
 @test "edge: nonexistent capture directory" {
-  run bash -c "CAPTURE_DIR=/tmp/nonexistent-dir-$RANDOM bash .claude/hooks/memory-auto-capture.sh 2>&1"
+  run bash -c "CAPTURE_DIR=/tmp/nonexistent-dir-$RANDOM bash '$BATS_TEST_DIRNAME/../../.claude/hooks/memory-auto-capture.sh' 2>&1"
   [[ "$output" == *""* ]] || [ "$status" -eq 0 ]
 }
 
