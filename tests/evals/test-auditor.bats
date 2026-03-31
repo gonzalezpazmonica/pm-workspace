@@ -1,12 +1,12 @@
 #!/usr/bin/env bats
 # Tests for SPEC-055 Test Auditor System
 
-AUDITOR="scripts/test-auditor.sh"
-ENGINE="scripts/test-auditor-engine.py"
-COVERAGE="scripts/test-coverage-checker.sh"
-GATE="scripts/ci-test-quality-gate.sh"
-
 setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  AUDITOR="scripts/test-auditor.sh"
+  ENGINE="scripts/test-auditor-engine.py"
+  COVERAGE="scripts/test-coverage-checker.sh"
+  GATE="scripts/ci-test-quality-gate.sh"
   TMPDIR_AUD=$(mktemp -d)
   # Create minimal test file without inline @test (avoid BATS heredoc parsing)
   printf '#!/usr/bin/env bats\n' > "$TMPDIR_AUD/test-minimal.bats"

@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # Tests for SPEC-047 Requirement Pushback Pass (Phase 1)
 
-SCRIPT="scripts/requirement-pushback.sh"
-
 setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/requirement-pushback.sh"
   export SAMPLE_SPEC="/tmp/test-spec-pushback.md"
   cat > "$SAMPLE_SPEC" << 'EOF'
 # SPEC-099: Widget Service

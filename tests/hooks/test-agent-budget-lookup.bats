@@ -3,7 +3,8 @@
 
 setup() {
   TMPDIR=$(mktemp -d)
-  export SCRIPT="scripts/agent-budget-lookup.sh"
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
+  export SCRIPT="$REPO_ROOT/scripts/agent-budget-lookup.sh"
 }
 
 teardown() {
@@ -79,5 +80,5 @@ teardown() {
 }
 
 @test "core hooks use safety flags" {
-  grep -q "set -[euo]" .claude/hooks/validate-bash-global.sh
+  grep -q "set -[euo]" "$REPO_ROOT/.claude/hooks/validate-bash-global.sh"
 }

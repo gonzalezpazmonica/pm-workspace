@@ -1,10 +1,12 @@
 #!/usr/bin/env bats
 # Tests for SPEC-039 Context Auto-Priming
 
-STORE="tests/evals/memory-benchmark-store.jsonl"
-SCRIPT="scripts/context-auto-prime.py"
-
-setup() { TMPDIR_CAP=$(mktemp -d); }
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  STORE="tests/evals/memory-benchmark-store.jsonl"
+  SCRIPT="scripts/context-auto-prime.py"
+  TMPDIR_CAP=$(mktemp -d)
+}
 teardown() { rm -rf "$TMPDIR_CAP"; }
 
 @test "context-auto-prime.py validates input (set -uo pipefail equivalent)" {

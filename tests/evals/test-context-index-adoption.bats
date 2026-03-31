@@ -3,7 +3,10 @@
 # Verifies that agents in Groups A/B/C reference the .ctx system.
 # Safety: agents must follow set -uo pipefail conventions in scripts
 
-setup() { TMPDIR_CIA=$(mktemp -d); }
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  TMPDIR_CIA=$(mktemp -d)
+}
 teardown() { rm -rf "$TMPDIR_CIA"; }
 
 @test "all 8 Group A (writer) agents reference context-index or .ctx" {

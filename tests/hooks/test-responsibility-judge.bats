@@ -4,7 +4,8 @@
 
 setup() {
   TMPDIR=$(mktemp -d)
-  HOOK=".claude/hooks/responsibility-judge.sh"
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
+  HOOK="$REPO_ROOT/.claude/hooks/responsibility-judge.sh"
 }
 
 teardown() {
@@ -98,9 +99,9 @@ teardown() {
 }
 
 @test "registered in settings.json" {
-  grep -q "responsibility-judge.sh" .claude/settings.json
+  grep -q "responsibility-judge.sh" "$REPO_ROOT/.claude/settings.json"
 }
 
 @test "SPEC-043 document exists" {
-  [ -f "docs/propuestas/SPEC-043-responsibility-judge.md" ]
+  [ -f "$REPO_ROOT/docs/propuestas/SPEC-043-responsibility-judge.md" ]
 }

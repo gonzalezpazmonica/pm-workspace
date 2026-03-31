@@ -1,9 +1,11 @@
 #!/usr/bin/env bats
 # Tests for SPEC-052 Recursive Task Decomposition — Phase 1
 
-SCRIPT="scripts/task-decomposer.sh"
-
-setup() { TMPDIR_TD=$(mktemp -d); }
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/task-decomposer.sh"
+  TMPDIR_TD=$(mktemp -d)
+}
 teardown() { rm -rf "$TMPDIR_TD"; }
 
 @test "task-decomposer.sh exists" {

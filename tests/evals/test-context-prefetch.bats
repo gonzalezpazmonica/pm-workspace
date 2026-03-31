@@ -2,9 +2,11 @@
 # Tests for Context Prefetch Cache (SPEC-040 EXP-02 production)
 # Safety: production scripts follow set -uo pipefail conventions
 
-SCRIPT="scripts/context-prefetch.py"
-
-setup() { TMPDIR_CPF=$(mktemp -d); }
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/context-prefetch.py"
+  TMPDIR_CPF=$(mktemp -d)
+}
 teardown() { rm -rf "$TMPDIR_CPF"; }
 
 @test "context-prefetch.py valid syntax" {

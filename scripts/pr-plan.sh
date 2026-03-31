@@ -49,6 +49,8 @@ echo "------------------------------------------------------------"
 if [[ -n "$STOPPED" ]]; then
   echo "  STOPPED at $STOPPED"
   echo "------------------------------------------------------------"
+  bash "$SCRIPT_DIR/session-action-log.sh" log "pr-plan" "$BRANCH" "fail" "$STOPPED" >/dev/null 2>&1 || true
+  bash "$SCRIPT_DIR/execution-supervisor.sh" "pr-plan" "$BRANCH" "$STOPPED" 2>&1 || true
   exit 1
 fi
 echo "  Result: $PASS PASS | $FAIL FAIL | $WARN WARN"

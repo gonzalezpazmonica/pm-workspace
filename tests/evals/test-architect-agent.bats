@@ -5,13 +5,13 @@
 #   and contain the required quality patterns. Positive: file existence and content.
 #   Negative: missing patterns detected. Edge: empty/boundary content checks.
 
-AGENT=".claude/agents/test-architect.md"
-SKILL=".claude/skills/test-architect/SKILL.md"
-DOMAIN=".claude/skills/test-architect/DOMAIN.md"
-TEMPLATE=".claude/skills/test-architect/references/bats-template.md"
-SPEC="docs/propuestas/SPEC-063-test-architect.md"
-
 setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  AGENT=".claude/agents/test-architect.md"
+  SKILL=".claude/skills/test-architect/SKILL.md"
+  DOMAIN=".claude/skills/test-architect/DOMAIN.md"
+  TEMPLATE=".claude/skills/test-architect/references/bats-template.md"
+  SPEC="docs/propuestas/SPEC-063-test-architect.md"
   TMPDIR_TEST=$(mktemp -d)
 }
 teardown() {

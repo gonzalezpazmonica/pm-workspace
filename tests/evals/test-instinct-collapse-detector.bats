@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # Tests for SPEC-045 instinct-collapse-detector
 
-SCRIPT="scripts/instinct-collapse-detector.sh"
-
 setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/instinct-collapse-detector.sh"
   TMPDIR=$(mktemp -d)
 }
 

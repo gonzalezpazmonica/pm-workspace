@@ -3,7 +3,8 @@
 # Ref: .claude/rules/domain/risk-escalation.md, scoring-curves.md
 
 setup() {
-  source scripts/pr-plan-gates.sh
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+  source "$REPO_ROOT/scripts/pr-plan-gates.sh"
   BRANCH="test-branch"
   FAILURE_FILE="/tmp/test-pr-failure-$$"
   STOPPED=""

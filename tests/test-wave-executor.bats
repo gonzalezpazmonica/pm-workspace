@@ -3,8 +3,9 @@
 # Ref: .claude/skills/dag-scheduling/SKILL.md
 
 setup() {
-  export SCRIPT="scripts/wave-executor.sh"
-  export FIXTURES="tests/fixtures"
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+  export SCRIPT="$REPO_ROOT/scripts/wave-executor.sh"
+  export FIXTURES="$REPO_ROOT/tests/fixtures"
   TMPDIR_WE=$(mktemp -d)
 }
 

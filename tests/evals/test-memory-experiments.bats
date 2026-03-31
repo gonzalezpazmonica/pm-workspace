@@ -2,10 +2,12 @@
 # Tests for SPEC-040 Memory R&D Experiments
 # Safety: scripts use set -uo pipefail or Python equivalents
 
-STORE="tests/evals/memory-benchmark-store.jsonl"
-SCRIPT="scripts/memory-experiments.py"
-
-setup() { TMPDIR_ME=$(mktemp -d); }
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  STORE="tests/evals/memory-benchmark-store.jsonl"
+  SCRIPT="scripts/memory-experiments.py"
+  TMPDIR_ME=$(mktemp -d)
+}
 teardown() { rm -rf "$TMPDIR_ME"; }
 
 @test "memory-experiments.py valid syntax" {

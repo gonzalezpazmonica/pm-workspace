@@ -3,8 +3,9 @@
 # Ref: .claude/rules/domain/context-health.md (section 1b)
 
 setup() {
-  export SCRIPT="scripts/output-compress.sh"
-  export FIX="tests/fixtures/output-compress"
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+  export SCRIPT="$REPO_ROOT/scripts/output-compress.sh"
+  export FIX="$REPO_ROOT/tests/fixtures/output-compress"
   TMPDIR_OC=$(mktemp -d)
 }
 
