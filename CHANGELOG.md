@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.95.0] — 2026-03-31
+
+chore: 10 optimizations from Claude Code source analysis. Era 164.
+
+### Changed
+
+- **Auto-compact threshold**: raised from 50% to 65% of effective window (~108K tokens) for longer sessions before compaction
+- **Context health zones**: updated Gradual (50-65%) and Alerta (65-85%) to align with new auto-compact threshold
+- **Context health rule**: documented that CLAUDE.md is NOT cached (per-turn cost) — reinforces 150-line discipline
+- **Memory system docs**: added 25KB byte cap and 150-char entry length guidance for MEMORY.md
+- **Async hooks config**: updated auto-compact documentation with effective window calculation
+- **Best practices**: added section 18 "Internal Architecture Insights" with 7 key findings from source analysis
+
 ## [3.94.0] — 2026-03-31
 
 fix: comprehensive CI test portability + SPEC-065 Execution Supervisor. Era 164.
@@ -5193,6 +5206,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.94.0...v3.95.0
 [3.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.93.0...v3.94.0
 [3.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.92.0...v3.93.0
 [3.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.91.0...v3.92.0

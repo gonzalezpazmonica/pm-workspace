@@ -107,7 +107,15 @@ Cada rol te una guia detallada: `docs/quick-starts/quick-start-{rol}.md`
 | Projecte PM tool | `projects/{nom}/CLAUDE.md` | Org URL, iteration path |
 | Config privada | `CLAUDE.local.md` (gitignored) | Projectes reals |
 
-## 9. Seguents passos
+## 9. Rendiment
+
+- **CLAUDE.md consumeix tokens a cada torn** (no es cacheja) — mantin-lo breu i per sota de 150 linies
+- **Els skills no consumeixen contexte fins que s'invoquen** — tenir molts skills es gratuit
+- **auto-compact s'activa al 65%** de la finestra de contexte — executa `/compact` manualment si notes degradacio abans
+- **Les entrades de memoria han de ser < 150 caracters** — resums curts es carreguen mes rapid i ocupen menys contexte
+- Detall complet: `docs/best-practices-claude-code.md`
+
+## 10. Seguents passos
 
 1. Executa `/help` per veure el cataleg interactiu de comandes
 2. Executa `/daily-routine` perque Savia et proposi la teva rutina
