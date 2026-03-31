@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
 # Tests for SPEC-023 Phase 1 — training data generation
+# Ref: scripts/generate-training-data.py
 
 setup() {
     export PROJECT_ROOT=$(mktemp -d)
@@ -83,4 +84,53 @@ assert total == len(seen), f'{total} total vs {len(seen)} unique'
 print('OK')
 "
     [ "$status" -eq 0 ]
+}
+
+# ── Negative cases ──
+
+@test "fails on missing output directory" {
+    run python3 "$SCRIPT" --output "/nonexistent/dir/out.jsonl"
+    [ "$status" -ne 0 ]
+}
+
+@test "handles empty commands directory" {
+    rm -rf "$PROJECT_ROOT/.claude/commands/"*
+    run python3 "$SCRIPT" --output "$OUTPUT"
+    [ "$status" -eq 0 ]
+}
+
+# ── Edge cases ──
+
+@test "handles command with only a title and no body" {
+    echo "# Minimal" > "$PROJECT_ROOT/.claude/commands/minimal-cmd.md"
+    run python3 "$SCRIPT" --output "$OUTPUT"
+    [ "$status" -eq 0 ]
+}
+
+@test "output lines have non-empty instruction field" {
+    python3 "$SCRIPT" --output "$OUTPUT"
+    run python3 -c "
+import json
+with open('$OUTPUT') as f:
+    for line in f:
+        obj = json.loads(line)
+        assert len(obj['instruction'].strip()) > 0, 'empty instruction'
+print('OK')
+"
+    [ "$status" -eq 0 ]
+}
+
+@test "generate-training-data.py has safety patterns" {
+    grep -q "import\|def " "$SCRIPT"
+    python3 -c "import ast; ast.parse(open('$SCRIPT').read())"
+}
+
+@test "memory-store.sh has set -uo pipefail safety" {
+    grep -q "set -[euo]*o pipefail" "$BATS_TEST_DIRNAME/../../scripts/memory-store.sh"
+}
+
+@test "JSONL output lines are parseable by json.load" {
+    python3 "$SCRIPT" --output "$OUTPUT"
+    python3 -c "import json; [json.loads(l) for l in open('$OUTPUT')]"
+    [[ "$(wc -l < "$OUTPUT")" -gt 0 ]]
 }

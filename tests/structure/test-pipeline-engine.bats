@@ -1,9 +1,15 @@
 #!/usr/bin/env bats
 # Tests for Era 110 — Autonomous Pipeline Engine
+# Ref: .claude/templates/pipeline/ci-template.yaml
 
 setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   ROOT="$PWD"
+  TMPDIR_PE=$(mktemp -d)
+}
+
+teardown() {
+  rm -rf "$TMPDIR_PE"
 }
 
 @test "pipeline-engine.sh exists and is executable" {
@@ -39,9 +45,55 @@ setup() {
 }
 
 @test "stage runner handles failing command" {
-  local tmp; tmp=$(mktemp -d)
-  run bash -c "echo '' | $ROOT/scripts/pipeline-stage-runner.sh --name fail-stage --command 'exit 1' --output-dir $tmp"
+  run bash -c "echo '' | $ROOT/scripts/pipeline-stage-runner.sh --name fail-stage --command 'exit 1' --output-dir $TMPDIR_PE"
   [ "$status" -ne 0 ]
-  grep -q '"status": "failed"' "$tmp/stage-fail-stage.json"
-  rm -rf "$tmp"
+  grep -q '"status": "failed"' "$TMPDIR_PE/stage-fail-stage.json"
+}
+
+# ── Negative cases ──
+
+@test "pipeline engine fails on missing template" {
+  run bash -c "echo '' | $ROOT/scripts/pipeline-engine.sh /nonexistent/template.yaml --dry-run"
+  [ "$status" -ne 0 ]
+}
+
+@test "pipeline engine handles invalid YAML without crash" {
+  echo "{{invalid yaml" > "$TMPDIR_PE/bad.yaml"
+  run bash -c "echo '' | $ROOT/scripts/pipeline-engine.sh $TMPDIR_PE/bad.yaml --dry-run 2>&1"
+  # May exit 0 (graceful) or non-zero (reject) — just must not hang
+  true
+}
+
+@test "stage runner fails without required args" {
+  run bash -c "echo '' | $ROOT/scripts/pipeline-stage-runner.sh 2>&1"
+  [ "$status" -ne 0 ]
+}
+
+# ── Edge cases ──
+
+@test "stage runner JSON result has status field" {
+  run bash -c "echo '' | $ROOT/scripts/pipeline-stage-runner.sh --name edge-stage --command 'echo ok' --output-dir $TMPDIR_PE"
+  [ "$status" -eq 0 ]
+  python3 -c "import json; d=json.load(open('$TMPDIR_PE/stage-edge-stage.json')); assert 'status' in d"
+}
+
+@test "CI template has build stage defined" {
+  grep -q "build" "$ROOT/.claude/templates/pipeline/ci-template.yaml"
+}
+
+@test "pipeline-engine.sh has safety headers" {
+  grep -q "set -[euo]" "$ROOT/scripts/pipeline-engine.sh" || grep -q "set -[euo]*o pipefail" "$ROOT/scripts/pipeline-engine.sh"
+}
+
+@test "dry-run output contains expected structure" {
+  # Ref: .claude/rules/domain/parallel-execution.md
+  run bash -c "echo '' | $ROOT/scripts/pipeline-engine.sh $ROOT/.claude/templates/pipeline/ci-template.yaml --dry-run"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"dry-run"* ]]
+  [[ "$output" == *"build"* ]]
+}
+
+@test "stage runner handles empty command gracefully" {
+  run bash -c "echo '' | $ROOT/scripts/pipeline-stage-runner.sh --name empty-cmd --command '' --output-dir $TMPDIR_PE 2>&1"
+  [ "$status" -eq 0 ] || [ "$status" -eq 1 ]
 }

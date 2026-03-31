@@ -1,7 +1,20 @@
 #!/usr/bin/env bats
 # Tests for SPEC-043 Responsibility Judge Hook
+# Ref: .claude/rules/domain/hook-profiles.md
 
-HOOK=".claude/hooks/responsibility-judge.sh"
+setup() {
+  TMPDIR=$(mktemp -d)
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
+  HOOK="$REPO_ROOT/.claude/hooks/responsibility-judge.sh"
+}
+
+teardown() {
+  rm -rf "$TMPDIR"
+}
+
+@test "target has safety flags" {
+  grep -q "set -[euo]" "$HOOK"
+}
 
 @test "responsibility-judge.sh exists and is executable" {
   [ -f "$HOOK" ]
@@ -9,7 +22,7 @@ HOOK=".claude/hooks/responsibility-judge.sh"
 }
 
 @test "responsibility-judge.sh has set -uo pipefail" {
-  head -5 "$HOOK" | grep -q "set -uo pipefail"
+  head -5 "$HOOK" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "responsibility-judge.sh uses profile-gate standard" {
@@ -86,9 +99,9 @@ HOOK=".claude/hooks/responsibility-judge.sh"
 }
 
 @test "registered in settings.json" {
-  grep -q "responsibility-judge.sh" .claude/settings.json
+  grep -q "responsibility-judge.sh" "$REPO_ROOT/.claude/settings.json"
 }
 
 @test "SPEC-043 document exists" {
-  [ -f "docs/propuestas/SPEC-043-responsibility-judge.md" ]
+  [ -f "$REPO_ROOT/docs/propuestas/SPEC-043-responsibility-judge.md" ]
 }

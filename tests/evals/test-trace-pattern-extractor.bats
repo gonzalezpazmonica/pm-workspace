@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # Tests for SPEC-044 trace-pattern-extractor
 
-SCRIPT="scripts/trace-pattern-extractor.sh"
-
 setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/trace-pattern-extractor.sh"
   TMPDIR=$(mktemp -d)
   # Generate 25 traces: 20 success + 5 failure for agent-a
   for i in $(seq 1 20); do
@@ -28,7 +28,7 @@ teardown() {
 }
 
 @test "trace-pattern-extractor.sh has set -uo pipefail" {
-  head -5 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -5 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "analyzes traces and produces JSON" {

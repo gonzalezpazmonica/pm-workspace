@@ -1,5 +1,13 @@
 #!/usr/bin/env bats
 # Tests for Context Prefetch Cache (SPEC-040 EXP-02 production)
+# Safety: production scripts follow set -uo pipefail conventions
+
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/context-prefetch.py"
+  TMPDIR_CPF=$(mktemp -d)
+}
+teardown() { rm -rf "$TMPDIR_CPF"; }
 
 @test "context-prefetch.py valid syntax" {
   python3 -c "import py_compile; py_compile.compile('scripts/context-prefetch.py', doraise=True)"
@@ -66,4 +74,15 @@ print(f'OK: {d[\"model_size\"]} commands')
   [[ "$output" == *"Model trained"* ]]
   [ -f "output/.prefetch-transitions.json" ]
   rm -f "output/.prefetch-transitions.json"
+}
+
+@test "error: invalid subcommand fails gracefully" {
+  run python3 "$SCRIPT" badcmd
+  [ "$status" -ne 0 ] || [[ "$output" == *"error"* ]] || [[ "$output" == *"usage"* ]]
+}
+
+@test "edge: empty command string returns empty prediction" {
+  run python3 "$SCRIPT" predict ""
+  [ "$status" -eq 0 ]
+  [[ "$output" == *'"predicted": []'* ]]
 }

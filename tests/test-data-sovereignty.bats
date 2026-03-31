@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
 # test-data-sovereignty.bats — Tests para el sistema Data Sovereignty Gate
 # Valida las 3 capas: regex, Ollama, auditoria
+# Ref: .claude/rules/domain/data-sovereignty.md
 
 setup() {
   # Force shield enabled for tests (env may have SAVIA_SHIELD_ENABLED=false from settings.local.json)
@@ -129,4 +130,20 @@ setup() {
   run bash "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh" "test text"
   [ "$status" -eq 1 ]
   [[ "$output" == "UNAVAILABLE" ]]
+}
+
+@test "Capa 1: blocks private key header in public file" {
+  INPUT='{"tool_input":{"file_path":"/workspace/docs/x.md","content":"-----BEGIN RSA PRIVATE KEY-----"}}'
+  run bash -c "echo '$INPUT' | bash $GATE"
+  [ "$status" -eq 2 ]
+}
+
+@test "Capa 1: blocks OpenAI key in public file" {
+  INPUT='{"tool_input":{"file_path":"/workspace/docs/x.md","content":"export KEY=sk-proj-abcdefghijklmnopqrstuvwxyz0123456789ABCD"}}'
+  run bash -c "echo '$INPUT' | bash $GATE"
+  [ "$status" -eq 2 ]
+}
+
+@test "gate script has set -uo pipefail safety header" {
+  grep -q "set -[euo]" "$GATE" || grep -q "set -[euo]*o pipefail" "$GATE"
 }

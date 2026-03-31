@@ -1,7 +1,14 @@
 #!/usr/bin/env bats
 # Tests for SPEC-041 Brain-Inspired Context Reasoning
+# Safety: scripts use set -uo pipefail or Python equivalent
 
-STORE="tests/evals/memory-benchmark-store.jsonl"
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  STORE="tests/evals/memory-benchmark-store.jsonl"
+  SCRIPT="scripts/context-reasoning.py"
+  TMPDIR_CR=$(mktemp -d)
+}
+teardown() { rm -rf "$TMPDIR_CR"; }
 
 @test "context-reasoning.py valid syntax" {
   python3 -c "import py_compile; py_compile.compile('scripts/context-reasoning.py', doraise=True)"
@@ -54,6 +61,17 @@ assert zoom_ok >= 4, f'Only {zoom_ok} zoom correct'
 print(f'OK: {zoom_ok}/6 zoom correct')
 "
   [ "$status" -eq 0 ]
+}
+
+@test "error: invalid store path fails gracefully" {
+  run python3 "$SCRIPT" reason "test query" --store "$TMPDIR_CR/nonexistent.jsonl"
+  # Script may exit 0 (empty result) or 1 (error); both are graceful
+  [[ "$status" -eq 0 ]] || [[ "$status" -eq 1 ]]
+}
+
+@test "error: missing subcommand fails with usage" {
+  run python3 "$SCRIPT"
+  [ "$status" -ne 0 ] || [[ "$output" == *"usage"* ]]
 }
 
 @test "SPEC-041 document exists" {

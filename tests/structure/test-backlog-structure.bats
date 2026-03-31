@@ -81,3 +81,48 @@ teardown() {
   [ "$status" -eq 0 ]
   echo "$output" | python3 -c "import json,sys; json.load(sys.stdin)"
 }
+
+# ── Negative cases ──
+
+@test "backlog-pbi-crud create fails without project" {
+  [[ -n "${CI:-}" ]] && skip "needs backlog setup"
+  run bash -c "echo '' | $ROOT/scripts/backlog-pbi-crud.sh create --title 'No project'"
+  [ "$status" -ne 0 ]
+}
+
+@test "backlog-query fails for nonexistent project" {
+  run bash -c "echo '' | $ROOT/scripts/backlog-query.sh --project nonexistent-$$ --format count 2>&1"
+  [ "$status" -ne 0 ]
+}
+
+# ── Edge case ──
+
+@test "backlog-init is idempotent on existing project" {
+  run bash -c "echo '' | $ROOT/scripts/backlog-init.sh $TEST_PROJECT"
+  [ "$status" -eq 0 ]
+  run bash -c "echo '' | $ROOT/scripts/backlog-init.sh $TEST_PROJECT"
+  [ "$status" -eq 0 ]
+}
+
+# ── Spec/doc reference ──
+
+@test "PBI template contains required frontmatter fields" {
+  # Ref: .claude/rules/domain/backlog-git-config.md
+  grep -q "id:" "$ROOT/.claude/templates/backlog/pbi-template.md"
+  grep -q "title:" "$ROOT/.claude/templates/backlog/pbi-template.md"
+  grep -q "state:" "$ROOT/.claude/templates/backlog/pbi-template.md"
+}
+
+@test "backlog scripts have set -uo pipefail safety" {
+  grep -q "set -[euo]*o pipefail" "$ROOT/scripts/backlog-pbi-crud.sh"
+  grep -q "set -[euo]*o pipefail" "$ROOT/scripts/backlog-query.sh"
+}
+
+@test "backlog-query handles empty backlog dir" {
+  mkdir -p "$ROOT/projects/_empty-$$-proj/backlog/pbi"
+  cp "$ROOT/.claude/templates/backlog/config-template.yaml" "$ROOT/projects/_empty-$$-proj/backlog/_config.yaml"
+  run bash -c "echo '' | $ROOT/scripts/backlog-query.sh --project _empty-$$-proj --format count"
+  [ "$status" -eq 0 ]
+  [[ "$output" =~ ^[0-9]+$ ]]
+  rm -rf "$ROOT/projects/_empty-$$-proj"
+}

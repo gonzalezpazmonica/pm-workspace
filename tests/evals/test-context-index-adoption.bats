@@ -1,6 +1,13 @@
 #!/usr/bin/env bats
 # Tests for SPEC-054 Context Index adoption across all agent groups
 # Verifies that agents in Groups A/B/C reference the .ctx system.
+# Safety: agents must follow set -uo pipefail conventions in scripts
+
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  TMPDIR_CIA=$(mktemp -d)
+}
+teardown() { rm -rf "$TMPDIR_CIA"; }
 
 @test "all 8 Group A (writer) agents reference context-index or .ctx" {
   local writers=(
@@ -92,6 +99,23 @@
   grep -q 'Group A' "$spec"
   grep -q 'Group B' "$spec"
   grep -q 'Group C' "$spec"
+}
+
+@test "error: missing context-index reference is detectable" {
+  printf "%s\n" "---" "name: test-bad" "---" "No context ref" > "$TMPDIR_CIA/bad-agent.md"
+  run grep -ciE '(context-index|\.ctx)' "$TMPDIR_CIA/bad-agent.md"
+  [[ "$output" == *"0"* ]]
+}
+
+@test "edge: empty agent file has no context-index reference" {
+  touch "$TMPDIR_CIA/empty-agent.md"
+  run grep -ciE '(context-index|\.ctx)' "$TMPDIR_CIA/empty-agent.md"
+  [ "$status" -ne 0 ]
+}
+
+@test "context-index generator script valid syntax" {
+  [ -f "scripts/context-index-build.py" ] || skip "generator not present"
+  python3 -c "import py_compile; py_compile.compile('scripts/context-index-build.py', doraise=True)"
 }
 
 @test "no modified agent exceeds 150 lines" {

@@ -1,7 +1,11 @@
 #!/usr/bin/env bats
 # Tests for Savia Web Research system (scripts/web-research/)
+# Ref: .claude/rules/domain/web-research-config.md
+# Safety: bash wrappers use set -uo pipefail
 
 setup() {
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+  export PYTHONPATH="$REPO_ROOT:${PYTHONPATH:-}"
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"
   export TEST_CACHE="$TMPDIR/savia-test-cache-$$"
   mkdir -p "$TEST_CACHE/results"
@@ -317,19 +321,72 @@ print('OK')
 # ── CLI ───────────────────────────────────────────────────
 
 @test "cli: cache-stats runs without error" {
-  run python3 -m scripts.web-research cache-stats
+  cd "$REPO_ROOT" && run python3 -m scripts.web-research cache-stats
   [ "$status" -eq 0 ]
   [[ "$output" == *"Web Research Cache"* ]]
 }
 
 @test "cli: sanitize cleans query" {
-  run python3 -m scripts.web-research sanitize "how to use docker"
+  cd "$REPO_ROOT" && run python3 -m scripts.web-research sanitize "how to use docker"
   [ "$status" -eq 0 ]
   [[ "$output" == *"docker"* ]]
 }
 
 @test "cli: classify returns category" {
-  run python3 -m scripts.web-research classify "CVE in log4j"
+  cd "$REPO_ROOT" && run python3 -m scripts.web-research classify "CVE in log4j"
   [ "$status" -eq 0 ]
   [[ "$output" == "cve" ]]
+}
+
+# ── Negative cases ──
+
+@test "sanitizer: empty query returns empty" {
+  run python3 -c "
+import importlib
+s = importlib.import_module('scripts.web-research.sanitizer')
+clean, warns = s.sanitize('')
+assert clean == ''
+print('OK')
+"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"OK"* ]]
+}
+
+@test "cache: get on nonexistent key returns None" {
+  run python3 -c "
+import importlib
+c = importlib.import_module('scripts.web-research.cache')
+hit = c.get('nonexistent-query-xyz', category='docs', cache_dir='$TEST_CACHE')
+assert hit is None
+print('OK')
+"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"OK"* ]]
+}
+
+# ── Edge case ──
+
+@test "sanitizer: query with only PII returns empty or stripped" {
+  run python3 -c "
+import importlib
+s = importlib.import_module('scripts.web-research.sanitizer')
+clean, warns = s.sanitize('admin@company.com 192.168.1.1')
+assert '192.168' not in clean
+assert '@' not in clean
+print('OK')
+"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"OK"* ]]
+}
+
+@test "cache: stats returns valid structure" {
+  run python3 -c "
+import importlib
+c = importlib.import_module('scripts.web-research.cache')
+s = c.stats(cache_dir='$TEST_CACHE')
+assert isinstance(s['entries'], int)
+print('OK')
+"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"OK"* ]]
 }

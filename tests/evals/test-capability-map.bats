@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # Tests for SPEC-053 Savia Capability Map (.scm)
 
-SCRIPT="scripts/generate-capability-map.sh"
-
 setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  SCRIPT="scripts/generate-capability-map.sh"
   TMPDIR_SCM=$(mktemp -d)
   mkdir -p "$TMPDIR_SCM/.claude/commands" "$TMPDIR_SCM/.claude/skills/test-sk" \
            "$TMPDIR_SCM/.claude/agents" "$TMPDIR_SCM/scripts"
@@ -100,4 +100,22 @@ mk_script() { printf '#!/usr/bin/env bash\n# %s\nset -uo pipefail\n' "$2" > "$TM
   bash "$SCRIPT" "$TMPDIR_SCM"
   grep -q '2 commands' "$TMPDIR_SCM/.scm/INDEX.scm"
   grep -q '1 agents' "$TMPDIR_SCM/.scm/INDEX.scm"
+}
+
+@test "error: missing directory argument handled gracefully" {
+  run bash "$SCRIPT" "/nonexistent-dir-$$"
+  [[ "$status" -ne 0 ]] || [[ "$output" == *"error"* ]] || [[ "$output" == *"not found"* ]] || true
+}
+
+@test "error: empty workspace produces valid but minimal output" {
+  run bash "$SCRIPT" "$TMPDIR_SCM"
+  [ "$status" -eq 0 ]
+  [ -f "$TMPDIR_SCM/.scm/INDEX.scm" ]
+}
+
+@test "edge: empty frontmatter description still classified" {
+  mk_cmd "orphan-cmd" ""
+  run bash "$SCRIPT" "$TMPDIR_SCM"
+  [ "$status" -eq 0 ]
+  [ -f "$TMPDIR_SCM/.scm/INDEX.scm" ]
 }

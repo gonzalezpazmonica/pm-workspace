@@ -1,7 +1,14 @@
 #!/usr/bin/env bats
 # Tests for SPEC-038 Knowledge Domain Routing
+# Safety: scripts use set -uo pipefail or Python equivalents
 
-STORE="tests/evals/memory-benchmark-store.jsonl"
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  STORE="tests/evals/memory-benchmark-store.jsonl"
+  SCRIPT="scripts/memory-domains.py"
+  TMPDIR_MD=$(mktemp -d)
+}
+teardown() { rm -rf "$TMPDIR_MD"; }
 
 @test "memory-domains.py exists and has valid syntax" {
   [ -f "scripts/memory-domains.py" ]
@@ -88,6 +95,16 @@ print(f'OK: accuracy={acc}')
 
 @test "SPEC-038 document exists" {
   [ -f "docs/propuestas/SPEC-038-knowledge-domain-routing.md" ]
+}
+
+@test "error: classify with empty input fails gracefully" {
+  run python3 "$SCRIPT" classify ""
+  [ "$status" -eq 0 ] || [ "$status" -eq 1 ]
+}
+
+@test "error: rebuild with nonexistent store fails gracefully" {
+  run python3 "$SCRIPT" rebuild --store "$TMPDIR_MD/missing.jsonl"
+  [ "$status" -eq 0 ] || [[ "$output" == *"error"* ]]
 }
 
 @test "benchmark store has 20 test entries" {

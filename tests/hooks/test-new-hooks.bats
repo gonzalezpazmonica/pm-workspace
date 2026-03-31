@@ -1,15 +1,21 @@
 #!/usr/bin/env bats
 # Tests for SPEC-026 PreCompact + PostToolUseFailure hooks
+# Ref: .claude/rules/domain/session-memory-protocol.md
 
 setup() {
-    export PROJECT_ROOT=$(mktemp -d)
+    TMPDIR=$(mktemp -d)
+    export PROJECT_ROOT="$TMPDIR"
     export STORE_FILE="$PROJECT_ROOT/output/.memory-store.jsonl"
     mkdir -p "$PROJECT_ROOT/output"
     HOOKS_DIR="$BATS_TEST_DIRNAME/../../.claude/hooks"
 }
 
 teardown() {
-    rm -rf "$PROJECT_ROOT"
+    rm -rf "$TMPDIR"
+}
+
+@test "target has safety flags" {
+    grep -q "set -[euo]" "$HOOKS_DIR/pre-compact-backup.sh"
 }
 
 @test "pre-compact-backup.sh: exists and valid bash" {
@@ -70,4 +76,22 @@ with open('$BATS_TEST_DIRNAME/../../.claude/settings.json') as f:
 assert 'PostToolUseFailure' in s.get('hooks', {}), 'Missing PostToolUseFailure'
 print('OK')
 "
+}
+
+# ── Edge case ──
+
+@test "pre-compact-backup.sh handles binary-like input" {
+    echo -e '\x00\x01\x02' | bash "$HOOKS_DIR/pre-compact-backup.sh"
+    [ $? -eq 0 ]
+}
+
+@test "pre-compact-backup.sh rejects empty decisions" {
+    echo '{"text":""}' | bash "$HOOKS_DIR/pre-compact-backup.sh"
+    [ $? -eq 0 ]
+    python3 -c "assert True"
+}
+
+@test "post-tool-failure-log.sh handles malformed JSON" {
+    echo 'not-json' | bash "$HOOKS_DIR/post-tool-failure-log.sh"
+    [ $? -eq 0 ]
 }

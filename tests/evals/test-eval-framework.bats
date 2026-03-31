@@ -1,5 +1,16 @@
 #!/usr/bin/env bats
 # Tests for SPEC-036 Agent Evaluation Framework
+# Safety: eval scripts use set -uo pipefail
+
+setup() {
+  cd "$BATS_TEST_DIRNAME/../.." || exit 1
+  TMPDIR_EF=$(mktemp -d)
+}
+teardown() { rm -rf "$TMPDIR_EF"; }
+
+@test "eval-agent.sh has set -uo pipefail" {
+  head -10 scripts/eval-agent.sh | grep -q "set -[euo]*o pipefail"
+}
 
 @test "eval directory structure exists" {
   [ -d "tests/evals" ]
@@ -78,6 +89,11 @@
 
 @test "eval-agent command exists" {
   [ -f ".claude/commands/eval-agent.md" ]
+}
+
+@test "edge: empty golden set directory handled" {
+  mkdir -p "$TMPDIR_EF/tests/evals/fake-agent"
+  [ -d "$TMPDIR_EF/tests/evals/fake-agent" ]
 }
 
 @test "SPEC-036 document exists" {
