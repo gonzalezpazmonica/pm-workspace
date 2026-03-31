@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=72dba9277614532bca214c10f21ea4d45e5b9acd9c0a257c835bf8f765574329
-timestamp=2026-03-31T20:41:52Z
+diff_hash=5414550ff0f294a874647f459a82d8a5d3180c5ef906f733589f4219ba2fac2c
+timestamp=2026-03-31T20:52:10Z
 branch=feat/hidden-features-optimizations
-head_commit=d3d8960
-signature=3f2810468e7895e319f167891bf6e8766fa8b4e684f10bf7ddd588f339053afc
+head_commit=2ade8ec
+signature=506ed12620cf1738ad04b6252c51eab4fb63c7a3397c057a0a7bbb8048ac471e
