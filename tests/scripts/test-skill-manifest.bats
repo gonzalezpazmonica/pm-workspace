@@ -72,6 +72,7 @@ print('OK')
 }
 
 @test "error: missing directory argument fails" {
+  [[ -n "${CI:-}" ]] && skip "needs local skill directory"
   run bash "$SCRIPT"
   [ "$status" -ne 0 ] || [[ "$output" == *"error"* ]] || [[ "$output" == *"Usage"* ]]
 }

@@ -131,6 +131,7 @@ print('OK')
 }
 
 @test "search rejects missing query gracefully" {
+  [[ -n "${CI:-}" ]] && skip "needs local python deps"
     run bash "$SCRIPT" search 2>&1
     [ "$status" -ne 0 ] || [[ "$output" == *"Usage"* ]]
 }
