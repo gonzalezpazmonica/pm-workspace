@@ -2,5 +2,5 @@
 diff_hash=2d4d7d1f879fd7d1b422660575da551613a6ab8cafc32c6e0ef120d092f4a77e
 timestamp=2026-03-31T19:34:43Z
 branch=fix/remove-decompiled-references
-head_commit=f8fc9b7
+head_commit=271ddf7
 signature=7fa15b490c98213b214f17ca1c691e5d209e8e1f4bd9c4d41cf8bee470c9d370
