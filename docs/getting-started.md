@@ -64,7 +64,7 @@ Si trabajas con datos de clientes, activa Savia Shield:
 
 Shield protege datos sensibles (N4/N4b) de filtrarse a ficheros publicos (N1). Funciona con 5 capas: regex, LLM local, auditoria post-escritura, masking reversible y deteccion base64.
 
-Guia completa: [docs/savia-shield-guide.md](savia-shield-guide.md)
+Guia completa: [savia-shield-guide.md](docs/savia-shield-guide.md)
 
 ## 6. Mapas: .scm y .ctx
 
