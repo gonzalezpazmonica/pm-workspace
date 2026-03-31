@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2d4d7d1f879fd7d1b422660575da551613a6ab8cafc32c6e0ef120d092f4a77e
-timestamp=2026-03-31T19:34:43Z
-branch=fix/remove-decompiled-references
-head_commit=271ddf7
-signature=7fa15b490c98213b214f17ca1c691e5d209e8e1f4bd9c4d41cf8bee470c9d370
+diff_hash=72dba9277614532bca214c10f21ea4d45e5b9acd9c0a257c835bf8f765574329
+timestamp=2026-03-31T20:41:52Z
+branch=feat/hidden-features-optimizations
+head_commit=9e36d42
+signature=3f2810468e7895e319f167891bf6e8766fa8b4e684f10bf7ddd588f339053afc
