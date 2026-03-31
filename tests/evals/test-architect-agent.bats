@@ -17,9 +17,6 @@ setup() {
 teardown() {
   rm -rf "$TMPDIR_TEST"
 }
-
-# ── C1+C3: Structural existence (positive cases) ────────────────
-
 @test "agent definition file exists" {
   [ -f "$AGENT" ]
 }
@@ -39,15 +36,9 @@ teardown() {
 @test "SPEC-063 document exists" {
   [ -f "$SPEC" ]
 }
-
-# ── C2: Safety — agent has correct model and tools ───────────────
-
 @test "agent specifies opus model for deep test strategy" {
   grep -q "claude-opus-4-6\|model:.*opus" "$AGENT"
 }
-
-# ── C3: Content validation (positive cases) ──────────────────────
-
 @test "agent contains all 8 excellence patterns" {
   grep -q "setup.*teardown" "$AGENT"
   grep -q "Safety verification" "$AGENT"
@@ -96,9 +87,6 @@ teardown() {
 @test "template includes spec reference pattern" {
   grep -q "SPEC.*doc.*exists\|SPEC-NNN\|docs/propuestas" "$TEMPLATE"
 }
-
-# ── C4: Negative cases — detect missing content ─────────────────
-
 @test "fails if agent file is missing required frontmatter" {
   # Agent must have name, description, model, tools in frontmatter
   head -20 "$AGENT" | grep -q "name:"
@@ -121,9 +109,6 @@ teardown() {
   lines=$(wc -l < "$AGENT")
   [ "$lines" -le 150 ]
 }
-
-# ── C5: Edge cases ───────────────────────────────────────────────
-
 @test "DOMAIN.md is not empty" {
   [ -s "$DOMAIN" ]
   lines=$(wc -l < "$DOMAIN")
@@ -140,10 +125,16 @@ teardown() {
   grep -qi "not.*supported\|closest match\|warn" "$SKILL" || \
   grep -qi "not.*supported\|closest match\|warn" "$SPEC"
 }
-
-# ── C8: Spec reference ──────────────────────────────────────────
-
 @test "SPEC-063 referenced in agent or skill" {
   grep -q "SPEC-063" "$AGENT" || grep -q "SPEC-063" "$SKILL" || \
   grep -q "SPEC-063" "$SPEC"
+}
+
+@test "agent uses safety flags in referenced scripts" {
+  grep -q "set -[euo]*o pipefail" .claude/skills/test-architect/references/bats-template.md
+}
+
+@test "template produces valid structure" {
+  [[ "$(wc -l < "$TEMPLATE")" -gt 10 ]]
+  grep -q "setup" "$TEMPLATE"
 }
