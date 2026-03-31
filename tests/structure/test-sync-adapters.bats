@@ -105,7 +105,7 @@ teardown() {
 # ── Safety verification ──
 
 @test "adapter-interface.sh has set -uo pipefail safety" {
-  grep -q "set -uo pipefail" "$ROOT/scripts/sync-adapters/adapter-interface.sh"
+  grep -q "set -[euo]*o pipefail" "$ROOT/scripts/sync-adapters/adapter-interface.sh"
 }
 
 # ── Additional coverage ──

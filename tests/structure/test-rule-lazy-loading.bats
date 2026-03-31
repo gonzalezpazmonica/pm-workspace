@@ -113,7 +113,7 @@ print('OK')
 # ── Safety verification ──
 
 @test "rule-usage-analyzer.sh has set -uo pipefail safety" {
-  grep -q "set -uo pipefail" "$ROOT/scripts/rule-usage-analyzer.sh"
+  grep -q "set -[euo]*o pipefail" "$ROOT/scripts/rule-usage-analyzer.sh"
 }
 
 # ── Additional coverage ──

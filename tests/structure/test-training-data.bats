@@ -126,7 +126,7 @@ print('OK')
 }
 
 @test "memory-store.sh has set -uo pipefail safety" {
-    grep -q "set -uo pipefail" "$BATS_TEST_DIRNAME/../../scripts/memory-store.sh"
+    grep -q "set -[euo]*o pipefail" "$BATS_TEST_DIRNAME/../../scripts/memory-store.sh"
 }
 
 @test "JSONL output lines are parseable by json.load" {

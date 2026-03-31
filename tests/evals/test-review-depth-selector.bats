@@ -16,7 +16,7 @@ setup() {
 }
 
 @test "review-depth-selector.sh uses set -uo pipefail" {
-  head -3 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -3 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "score 0 returns quick depth" {

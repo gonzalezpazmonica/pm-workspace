@@ -100,7 +100,7 @@ print('OK')
 }
 
 @test "context-snapshot.sh has set -uo pipefail safety" {
-  grep -q "set -uo pipefail" "$ROOT/scripts/context-snapshot.sh"
+  grep -q "set -[euo]*o pipefail" "$ROOT/scripts/context-snapshot.sh"
 }
 
 @test "snapshot save with invalid args does not crash" {

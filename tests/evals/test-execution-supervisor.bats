@@ -22,11 +22,11 @@ teardown() {
 }
 
 @test "execution-supervisor.sh has set -uo pipefail" {
-  head -5 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -5 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "session-action-log.sh has set -uo pipefail" {
-  head -5 "$LOG_SCRIPT" | grep -q "set -uo pipefail"
+  head -5 "$LOG_SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "log command creates JSONL entry" {

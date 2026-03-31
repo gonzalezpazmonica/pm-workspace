@@ -146,5 +146,5 @@ print('OK')
 }
 
 @test "F1: budget-guard.sh has safety headers" {
-    grep -q "set -[euo]" "$BUDGET" || grep -q "set -uo pipefail" "$BUDGET"
+    grep -q "set -[euo]" "$BUDGET" || grep -q "set -[euo]*o pipefail" "$BUDGET"
 }

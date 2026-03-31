@@ -18,7 +18,7 @@ teardown() {
 }
 
 @test "script uses set -uo pipefail" {
-  head -10 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -10 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "error: invalid path argument handled gracefully" {

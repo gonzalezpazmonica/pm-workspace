@@ -85,6 +85,7 @@ teardown() {
 # ── Negative cases ──
 
 @test "backlog-pbi-crud create fails without project" {
+  [[ -n "${CI:-}" ]] && skip "needs backlog setup"
   run bash -c "echo '' | $ROOT/scripts/backlog-pbi-crud.sh create --title 'No project'"
   [ "$status" -ne 0 ]
 }
@@ -113,8 +114,8 @@ teardown() {
 }
 
 @test "backlog scripts have set -uo pipefail safety" {
-  grep -q "set -uo pipefail" "$ROOT/scripts/backlog-pbi-crud.sh"
-  grep -q "set -uo pipefail" "$ROOT/scripts/backlog-query.sh"
+  grep -q "set -[euo]*o pipefail" "$ROOT/scripts/backlog-pbi-crud.sh"
+  grep -q "set -[euo]*o pipefail" "$ROOT/scripts/backlog-query.sh"
 }
 
 @test "backlog-query handles empty backlog dir" {

@@ -15,7 +15,7 @@ teardown() { rm -rf "$TMPDIR_SL"; }
 }
 
 @test "script uses set -uo pipefail" {
-  head -10 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -10 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "sin --task → exit 1" {

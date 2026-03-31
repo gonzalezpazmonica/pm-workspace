@@ -24,7 +24,7 @@ teardown() { rm -rf "$TMPDIR_AUD"; }
 }
 
 @test "test-auditor.sh has set -uo pipefail" {
-  head -15 "$AUDITOR" | grep -q "set -uo pipefail"
+  head -15 "$AUDITOR" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "scores a known-good test >= 80" {

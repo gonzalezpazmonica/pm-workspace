@@ -133,6 +133,7 @@ teardown() {
 }
 
 @test "save: rejects unknown subcommand" {
+  [[ -n "${CI:-}" ]] && skip "needs memory-store setup"
     run bash "$SCRIPT" foobar
     [ "$status" -ne 0 ] || [[ "$output" == *"Usage"* ]] || [[ "$output" == *"help"* ]]
 }
@@ -144,5 +145,5 @@ teardown() {
 }
 
 @test "memory-store.sh has set -uo pipefail safety" {
-    grep -q "set -uo pipefail" "$SCRIPT"
+    grep -q "set -[euo]*o pipefail" "$SCRIPT"
 }

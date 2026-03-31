@@ -79,7 +79,7 @@ teardown() {
 }
 
 @test "agent-activity.sh has safety headers" {
-  grep -q "set -[euo]" "$SCRIPT" || grep -q "set -uo pipefail" "$SCRIPT"
+  grep -q "set -[euo]" "$SCRIPT" || grep -q "set -[euo]*o pipefail" "$SCRIPT"
 }
 
 @test "summary mode output contains dashboard text" {

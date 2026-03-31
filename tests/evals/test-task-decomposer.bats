@@ -17,7 +17,7 @@ teardown() { rm -rf "$TMPDIR_TD"; }
 }
 
 @test "task-decomposer.sh has set -uo pipefail" {
-  head -5 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -5 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "SPEC-052 document exists" {

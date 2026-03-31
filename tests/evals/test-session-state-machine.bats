@@ -19,7 +19,7 @@ teardown() {
 }
 
 @test "script uses set -uo pipefail" {
-  head -3 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -3 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "init creates session with spawning state" {

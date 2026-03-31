@@ -82,7 +82,7 @@ teardown() {
 }
 
 @test "pipeline-engine.sh has safety headers" {
-  grep -q "set -[euo]" "$ROOT/scripts/pipeline-engine.sh" || grep -q "set -uo pipefail" "$ROOT/scripts/pipeline-engine.sh"
+  grep -q "set -[euo]" "$ROOT/scripts/pipeline-engine.sh" || grep -q "set -[euo]*o pipefail" "$ROOT/scripts/pipeline-engine.sh"
 }
 
 @test "dry-run output contains expected structure" {

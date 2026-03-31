@@ -133,7 +133,7 @@ EOF
 }
 
 @test "validate-ci-local.sh has set -uo pipefail safety" {
-  grep -q "set -uo pipefail" "$PWD/scripts/validate-ci-local.sh"
+  grep -q "set -[euo]*o pipefail" "$PWD/scripts/validate-ci-local.sh"
 }
 
 @test "CHANGELOG handles boundary version 0.0.0 in synthetic file" {

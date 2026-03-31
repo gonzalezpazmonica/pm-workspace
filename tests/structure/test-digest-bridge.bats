@@ -72,7 +72,7 @@ teardown() {
 }
 
 @test "digest-to-memory.sh has safety headers" {
-    grep -q "set -[euo]" "$BRIDGE" || grep -q "set -uo pipefail" "$BRIDGE"
+    grep -q "set -[euo]" "$BRIDGE" || grep -q "set -[euo]*o pipefail" "$BRIDGE"
 }
 
 @test "meeting digest output contains title in store" {

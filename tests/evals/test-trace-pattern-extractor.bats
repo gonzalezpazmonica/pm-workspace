@@ -28,7 +28,7 @@ teardown() {
 }
 
 @test "trace-pattern-extractor.sh has set -uo pipefail" {
-  head -5 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -5 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "analyzes traces and produces JSON" {

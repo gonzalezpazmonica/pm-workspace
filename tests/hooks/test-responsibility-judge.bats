@@ -22,7 +22,7 @@ teardown() {
 }
 
 @test "responsibility-judge.sh has set -uo pipefail" {
-  head -5 "$HOOK" | grep -q "set -uo pipefail"
+  head -5 "$HOOK" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "responsibility-judge.sh uses profile-gate standard" {

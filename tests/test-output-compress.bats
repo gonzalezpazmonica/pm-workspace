@@ -109,7 +109,7 @@ teardown() {
 # ── Safety verification ──
 
 @test "output-compress.sh has set -uo pipefail" {
-  grep -q "set -uo pipefail" "$SCRIPT" || grep -q "set -[euo]" "$SCRIPT"
+  grep -q "set -[euo]*o pipefail" "$SCRIPT" || grep -q "set -[euo]" "$SCRIPT"
 }
 
 # ── Edge case: only whitespace ──

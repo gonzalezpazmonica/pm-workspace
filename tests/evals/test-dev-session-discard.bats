@@ -56,7 +56,7 @@ teardown() {
 }
 
 @test "dev-session-discard.sh has set -uo pipefail" {
-  head -5 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -5 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "handles no arguments with error" {

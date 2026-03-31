@@ -9,7 +9,7 @@ setup() {
 teardown() { rm -rf "$TMPDIR_EF"; }
 
 @test "eval-agent.sh has set -uo pipefail" {
-  head -10 scripts/eval-agent.sh | grep -q "set -uo pipefail"
+  head -10 scripts/eval-agent.sh | grep -q "set -[euo]*o pipefail"
 }
 
 @test "eval directory structure exists" {

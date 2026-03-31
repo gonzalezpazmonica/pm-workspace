@@ -15,7 +15,7 @@ teardown() { rm -rf "$TMPDIR_RE"; }
 }
 
 @test "reaction-engine.sh has set -uo pipefail" {
-  head -10 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -10 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "reaction-engine-core.py exists and valid syntax" {

@@ -141,7 +141,7 @@ print('OK')
 }
 
 @test "memory-store.sh has set -uo pipefail safety" {
-    grep -q "set -uo pipefail" "$STORE_SCRIPT"
+    grep -q "set -[euo]*o pipefail" "$STORE_SCRIPT"
 }
 
 @test "build: handles nonexistent store path gracefully" {

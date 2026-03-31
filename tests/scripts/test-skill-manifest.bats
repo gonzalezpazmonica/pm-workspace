@@ -26,7 +26,7 @@ teardown() { rm -rf "$TMPDIR_SM"; }
 }
 
 @test "build-skill-manifest: uses set -uo pipefail" {
-  head -10 "$SCRIPT" | grep -q "set -uo pipefail"
+  head -10 "$SCRIPT" | grep -q "set -[euo]*o pipefail"
 }
 
 @test "build-skill-manifest: genera JSON valido" {

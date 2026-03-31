@@ -338,5 +338,5 @@ sys.stdout.buffer.write(d.encode('utf-8'))
 }
 
 @test "gate script has set -uo pipefail safety header" {
-  grep -q "set -[euo]" "$GATE" || grep -q "set -uo pipefail" "$GATE"
+  grep -q "set -[euo]" "$GATE" || grep -q "set -[euo]*o pipefail" "$GATE"
 }

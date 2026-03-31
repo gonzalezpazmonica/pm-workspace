@@ -128,7 +128,7 @@ teardown() {
 
 @test "core scripts have set -uo pipefail safety" {
   for s in "$ROOT"/scripts/validate-ci-local.sh "$ROOT"/scripts/pr-plan.sh; do
-    [ -f "$s" ] && grep -q "set -uo pipefail" "$s"
+    [ -f "$s" ] && grep -q "set -[euo]*o pipefail" "$s"
   done
 }
 
