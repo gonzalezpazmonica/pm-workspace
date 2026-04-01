@@ -855,6 +855,87 @@ def _parse_frontmatter(text: str) -> dict:
     return fm
 
 
+# ── Subproject detection helpers ──────────────────────────────────────────────
+
+_EXCLUDED_SUBDIRS = {
+    "output", "digests", "agent-memory", "specs", "backlog",
+    "repos", "docs", "teams", "roadmaps", "gaps", "one2one",
+    "members", "meetings", "business-rules",
+}
+
+
+def _detect_subprojects(project_dir: Path) -> list:
+    """Return list of subdirectories that qualify as subprojects.
+
+    A subdirectory is a subproject if it:
+    - Is not a dotdir and not in the excluded list
+    - Has its own README.md OR a .git directory
+    """
+    children = []
+    for d in sorted(project_dir.iterdir()):
+        if not d.is_dir():
+            continue
+        if d.name.startswith(".") or d.name in _EXCLUDED_SUBDIRS:
+            continue
+        if (d / "README.md").exists() or (d / ".git").is_dir():
+            children.append(d)
+    return children
+
+
+def _parse_confidentiality(project_dir: Path) -> dict:
+    """Parse confidentiality.md to map subdirectory names to labels.
+
+    Looks for a markdown table with columns containing directory names
+    and their confidentiality level (e.g. N4-SHARED, N4b-PM).
+    """
+    conf_file = project_dir / "confidentiality.md"
+    if not conf_file.exists():
+        return {}
+    result = {}
+    try:
+        text = conf_file.read_text(encoding="utf-8")
+        for line in text.splitlines():
+            if "|" not in line or line.strip().startswith("|--"):
+                continue
+            cells = [c.strip() for c in line.split("|")]
+            cells = [c for c in cells if c]
+            if len(cells) >= 2:
+                for child_dir in project_dir.iterdir():
+                    if child_dir.is_dir() and child_dir.name in line:
+                        for cell in cells:
+                            if cell.startswith("N4") or cell.startswith("N3"):
+                                result[child_dir.name] = cell
+                                break
+    except Exception:
+        pass
+    return result
+
+
+def _umbrella_display_name(project_dir: Path) -> str:
+    """Generate a clean display name for an umbrella project.
+
+    Strips _main/_umbrella/-main suffixes and title-cases the result.
+    If a claude-{name}.md exists, tries to extract the heading.
+    """
+    import re
+    name = project_dir.name
+    clean = re.sub(r'[_-](main|umbrella)$', '', name)
+    # Try to extract name from claude-{name}.md heading
+    for f in project_dir.glob("claude-*.md"):
+        try:
+            first_line = f.read_text(encoding="utf-8").split("\n", 1)[0]
+            if first_line.startswith("# "):
+                heading = first_line[2:].strip()
+                # Take first word/phrase before " — " or " - "
+                heading = re.split(r'\s*[—–-]\s*', heading)[0].strip()
+                if heading:
+                    return heading
+        except Exception:
+            continue
+    # Fallback: title-case the cleaned name
+    return clean.replace("-", " ").replace("_", " ").title()
+
+
 def _parse_backlog_pbis(backlog_dir: Path) -> list:
     """Read PBI markdown files from backlog/pbi/ and return structured data."""
     pbi_dir = backlog_dir / "pbi"
@@ -2281,18 +2362,40 @@ class SaviaBridgeHandler(http.server.BaseHTTPRequestHandler):
                     "hasClaude": has_claude,
                     "hasBacklog": False,
                     "health": "healthy",
+                    "parentId": None,
+                    "children": [],
+                    "confidentiality": None,
                 })
                 if projects_dir.is_dir():
                     for d in sorted(projects_dir.iterdir()):
                         if d.is_dir() and not d.name.startswith("."):
-                            result.append({
+                            children = _detect_subprojects(d)
+                            conf_map = _parse_confidentiality(d) if children else {}
+                            display_name = _umbrella_display_name(d) if children else d.name
+                            entry = {
                                 "id": d.name,
-                                "name": d.name,
+                                "name": display_name,
                                 "path": f"projects/{d.name}",
                                 "hasClaude": (d / "CLAUDE.md").exists(),
                                 "hasBacklog": (d / "backlog").is_dir(),
                                 "health": "healthy",
-                            })
+                                "parentId": None,
+                                "children": [c.name for c in children],
+                                "confidentiality": None,
+                            }
+                            result.append(entry)
+                            for child in children:
+                                result.append({
+                                    "id": child.name,
+                                    "name": child.name,
+                                    "path": f"projects/{d.name}/{child.name}",
+                                    "hasClaude": (child / "CLAUDE.md").exists(),
+                                    "hasBacklog": (child / "backlog").is_dir(),
+                                    "health": "healthy",
+                                    "parentId": d.name,
+                                    "children": [],
+                                    "confidentiality": conf_map.get(child.name),
+                                })
                 self._send_json(result)
             except Exception as e:
                 log(f"Projects error: {e}", "ERROR")
