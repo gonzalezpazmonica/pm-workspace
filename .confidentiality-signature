@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=cb3b3e82607ce3eff284d1135282103986915e309636f9fb7dcbfb2ae9179320
-timestamp=2026-04-01T23:31:56Z
+diff_hash=ecb9f06aecbae1ef3d9ad7a1bf6545c58be8b478b7898d36b741141f80c64f94
+timestamp=2026-04-01T23:45:02Z
 branch=feat/spec071-hook-overhaul-clean
-head_commit=b869ce3
-signature=f45184ca926ffafc2bfa5b7e20ea2e762c541ebcf53bc40efb0fb1d2d86e2dfd
+head_commit=5243cf1
+signature=b4d1c018c24398e0c0ccc76cb750c2b80f8d3b946db4e1b0ed296583a951783a
