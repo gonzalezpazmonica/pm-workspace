@@ -1,19 +1,40 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useAuthStore } from '../stores/auth'
-import { Menu, LogOut, Plus } from 'lucide-vue-next'
+import { useProjectStore } from '../stores/project'
+import { Menu, LogOut, Plus, ChevronRight } from 'lucide-vue-next'
 import ProjectSelector from './ProjectSelector.vue'
 import CreateProjectModal from './CreateProjectModal.vue'
 
 const emit = defineEmits<{ 'toggle-sidebar': [] }>()
 const auth = useAuthStore()
+const projectStore = useProjectStore()
 const showCreateProject = ref(false)
+
+/** Breadcrumb: parent > child when a subproject is selected. */
+const breadcrumb = computed(() => {
+  const sel = projectStore.selected
+  if (!sel?.parentId) return null
+  const parent = projectStore.parentOf(sel.id)
+  if (!parent) return null
+  return {
+    parentName: parent.name,
+    childName: sel.name,
+    confidentiality: sel.confidentiality,
+  }
+})
 </script>
 
 <template>
   <header class="topbar">
     <button class="menu-btn" @click="emit('toggle-sidebar')"><Menu :size="20" /></button>
     <ProjectSelector />
+    <span v-if="breadcrumb" class="breadcrumb">
+      <span class="breadcrumb-parent">{{ breadcrumb.parentName }}</span>
+      <ChevronRight :size="12" class="breadcrumb-sep" />
+      <span class="breadcrumb-child">{{ breadcrumb.childName }}</span>
+      <span v-if="breadcrumb.confidentiality" class="breadcrumb-conf">{{ breadcrumb.confidentiality }}</span>
+    </span>
     <button class="add-project-btn" @click="showCreateProject = true" title="Create project">
       <Plus :size="16" />
     </button>
@@ -40,6 +61,17 @@ const showCreateProject = ref(false)
   color: var(--savia-on-surface); transition: background var(--savia-transition); display: flex; align-items: center;
 }
 .menu-btn:hover { background: var(--savia-surface-variant); }
+.breadcrumb {
+  display: flex; align-items: center; gap: 4px; font-size: 12px;
+  color: var(--savia-on-surface-variant);
+}
+.breadcrumb-parent { opacity: 0.7; }
+.breadcrumb-sep { opacity: 0.5; }
+.breadcrumb-child { font-weight: 600; color: var(--savia-on-surface); }
+.breadcrumb-conf {
+  font-size: 10px; padding: 1px 6px; border-radius: 8px;
+  background: var(--savia-primary-container); color: var(--savia-primary);
+}
 .add-project-btn {
   background: var(--savia-primary); color: white; border: none; border-radius: 50%;
   width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;

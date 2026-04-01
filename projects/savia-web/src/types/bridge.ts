@@ -116,6 +116,9 @@ export interface ProjectInfo {
   hasClaude: boolean
   hasBacklog: boolean
   health: string
+  parentId: string | null
+  children: string[]
+  confidentiality: string | null
 }
 
 export interface BridgeResponse<T> {
