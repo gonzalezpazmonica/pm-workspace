@@ -11,6 +11,10 @@ setup() {
   export MASK_MAP="$PROJECT_DIR/output/data-sovereignty-validation/mask-map.json"
 }
 
+daemon_available() {
+  curl -sf --max-time 2 "$SHIELD_URL/health" >/dev/null 2>&1
+}
+
 get_all_fakes() {
   python3 -c "
 import json
@@ -46,6 +50,7 @@ unmask_text() {
 }
 
 @test "e2e: complex paragraph with multiple entities roundtrips clean" {
+  daemon_available || skip "Shield daemon not running"
   [[ ! -f "$MASK_MAP" ]] && skip "No mask-map.json"
 
   local original="alice confirmed in the test-org meeting that bob \
@@ -79,6 +84,7 @@ $(echo "$masked" | head -1). 3 owners and 2 systems identified."
 }
 
 @test "e2e: masked text contains ZERO real entities" {
+  daemon_available || skip "Shield daemon not running"
   [[ ! -f "$MASK_MAP" ]] && skip "No mask-map.json"
 
   local original="test-org, alice, bob, module-alpha, gamma, module-delta"
@@ -95,6 +101,7 @@ $(echo "$masked" | head -1). 3 owners and 2 systems identified."
 }
 
 @test "e2e: mask map has sufficient coverage for project" {
+  daemon_available || skip "Shield daemon not running"
   [[ ! -f "$MASK_MAP" ]] && skip "No mask-map.json"
 
   local count=$(MMPATH="$MASK_MAP" python3 -c "import json,os; print(len(json.load(open(os.environ['MMPATH']))))" 2>/dev/null)
@@ -104,6 +111,7 @@ $(echo "$masked" | head -1). 3 owners and 2 systems identified."
 }
 
 @test "e2e: markdown formatting survives roundtrip" {
+  daemon_available || skip "Shield daemon not running"
   local original="## Meeting with test-org
 
 - **alice**: confirmed deadline
@@ -125,6 +133,7 @@ $(echo "$masked" | head -1). 3 owners and 2 systems identified."
 }
 
 @test "e2e: handles in member profiles survive roundtrip" {
+  daemon_available || skip "Shield daemon not running"
   local original="@alice.test confirmed. @bob.test will lead."
   local masked=$(mask_text "$original")
   local restored=$(unmask_text "$masked")
