@@ -1,9 +1,8 @@
 import { test, expect } from '@playwright/test'
-import { login, clearSession, requireBridge } from './helpers'
+import { login, clearSession } from './helpers'
 
 test.describe('Subprojects', () => {
   test.beforeEach(async ({ page }) => {
-    await requireBridge()
     await clearSession(page)
     await login(page)
     // Wait for projects to load from Bridge
@@ -119,7 +118,7 @@ test.describe('Subprojects', () => {
     await expect(directWorkspace).toBeAttached()
   })
 
-  test('selecting subproject scopes file browser to subproject path', async ({ page }) => {
+  test('subproject selection is preserved when navigating to file browser', async ({ page }) => {
     const groups = page.locator('.project-select optgroup')
     const count = await groups.count()
     if (count === 0) {
@@ -133,14 +132,16 @@ test.describe('Subprojects', () => {
     await page.locator('.project-select').selectOption(childValue!)
     await page.waitForTimeout(500)
 
-    // Navigate to file browser
-    await page.goto('/files')
+    // Navigate to file browser via sidebar (SPA navigation, no full reload)
+    await page.locator('a[href="/files"]').click()
     await page.waitForSelector('.layout', { timeout: 10000 })
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(1000)
 
-    // File browser should show files from the subproject directory
-    const fileList = page.locator('.file-list-item, .file-entry, .empty-state')
-    await expect(fileList.first()).toBeVisible({ timeout: 5000 })
+    // Verify the subproject selection persisted in the selector
+    const currentValue = await page.locator('.project-select').inputValue()
+    expect(currentValue).toBe(childValue)
+    // Breadcrumb in the topbar should still show parent > child
+    await expect(page.locator('.topbar .breadcrumb')).toBeVisible({ timeout: 3000 })
   })
 
   test('screenshot: subproject selected with breadcrumb', async ({ page }) => {
