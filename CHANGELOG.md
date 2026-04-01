@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.99.0] — 2026-04-01
+
+feat: Eras 167-170 — token economics, spec validation, coordinator research, tool healing. Era batch.
+
+### Added
+
+- **token-estimator.sh** (Era 167): pre-calculate token cost and pricing for files/dirs without calling LLM. Supports --budget and --model flags. 10 tests
+- **validate-spec.sh** (Era 169): declarative spec validation — checks header, required sections, line count, ambiguity detection. Supports --strict mode. 9 tests
+- **tool-call-healing.sh** (Era 170): PreToolUse hook that validates parameters before execution — blocks empty paths/patterns, detects typos, suggests similar files. 9 tests
+- **SPEC-069** (Era 168): Coordinator Mode research — documented CLAUDE_CODE_COORDINATOR_MODE and PROACTIVE env vars. Marked as research (undocumented features, not enabled)
+
+### Changed
+
+- **settings.json**: registered tool-call-healing.sh in PreToolUse hooks (Read|Edit|Write|Glob|Grep matcher)
+
 ## [3.98.0] — 2026-04-01
 
 feat: Memory Resilience + language profile support. Era 166.
@@ -5263,6 +5278,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.99.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.98.0...v3.99.0
 [3.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.97.0...v3.98.0
 [3.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.96.0...v3.97.0
 [3.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.95.0...v3.96.0
