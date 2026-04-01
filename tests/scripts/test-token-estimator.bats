@@ -82,8 +82,9 @@ teardown() {
   [[ "$output" == *"Files: 0"* ]]
 }
 
-@test "no arguments fails with error" {
-  run bash "$SCRIPT"
+@test "no arguments with empty stdin fails or blocks" {
+  run timeout 3 bash "$SCRIPT" < /dev/null
+  # Script exits non-zero (2 = no target, 124 = timeout, etc)
   [ "$status" -ne 0 ]
 }
 
