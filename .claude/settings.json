@@ -152,6 +152,36 @@
             "timeout": 3
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A git commit command is about to run. Evaluate if the commit message accurately describes the intent of the changes based on the command context.\n\nCommand: $ARGUMENTS\n\nRespond with {\"ok\": true} if the message is descriptive and follows conventional commit format (type(scope): description). Respond with {\"ok\": false, \"reason\": \"brief explanation\"} if the message is misleading, too vague, or does not match what the changes seem to do.",
+            "if": "Bash(git commit*)",
+            "timeout": 10,
+            "model": "claude-haiku-4-5-20251001",
+            "statusMessage": "Semantic commit validation (Haiku)..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "http://127.0.0.1:8444/gate",
+            "headers": {
+              "X-Shield-Token": "$SHIELD_TOKEN"
+            },
+            "allowedEnvVars": [
+              "SHIELD_TOKEN"
+            ],
+            "timeout": 5,
+            "statusMessage": "Savia Shield HTTP gate..."
+          }
+        ]
       }
     ],
     "PostToolUse": [
