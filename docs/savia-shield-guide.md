@@ -37,12 +37,20 @@ Hooks de seguridad que corren en TODOS los perfiles: `block-credential-leak.sh`,
 
 **Capa 3 — Auditoria post-escritura**: Hook asincrono que re-escanea el fichero completo. No bloquea. Alerta inmediata si detecta fuga.
 
-**Capa 4 — Masking reversible**: Reemplaza entidades reales con ficticias antes de enviar a APIs cloud. Mapa local (N4, nunca en git).
+**Capa 4 — Masking reversible**: Reemplaza entidades reales con ficticias antes de enviar a APIs cloud. El mapa de correspondencias vive en N4 (local, nunca en git). Soporta dos modos: masking directo y pipeline de digestion.
 
 ```bash
+# Masking directo (una entidad o texto corto)
 bash scripts/sovereignty-mask.sh mask "texto con datos reales" --project mi-proyecto
 bash scripts/sovereignty-mask.sh unmask "respuesta de Claude"
+
+# Pipeline de digestion (documentos completos)
+echo "texto del documento" | bash scripts/masked-digest.sh          # Mask + output
+echo "texto del documento" | bash scripts/masked-digest.sh --dry-run # Preview sin escribir
+echo "respuesta de Claude" | bash scripts/masked-unmask.sh           # Unmask response
 ```
+
+El pipeline de digestion (`masked-digest.sh` + `masked-unmask.sh`) esta disenado para integrarse con agentes: el agente recibe texto enmascarado, genera su analisis, y el resultado se desenmascara antes de persistir. Zero entidades reales viajan a la API.
 
 ---
 
