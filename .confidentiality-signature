@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=019b55f397d0ed20cd4325f0a086d399e43f84aa56b29062cfb9debac84f4bdf
-timestamp=2026-03-31T23:13:53Z
+diff_hash=43aff274f16c9e4671ed13b70cc18800f36d8b7af89a5bac3b5d2b1710bf61f5
+timestamp=2026-04-01T05:15:07Z
 branch=feat/era165-claudemd-diet-hooks
-head_commit=646b6fc
-signature=c5e6b6b6832559a79a6e595c9948d4a8577b7e7e574c46ff614d90b9006db2a6
+head_commit=065a2ad
+signature=98e9f0fa6f6db45b0f5795f05a5537d6d51824617048aa57c67e93824f1589ea
