@@ -1,0 +1,85 @@
+# Savia Mobile Android — Domain Entities (.acm)
+> hash: sha256:auto | generated: 2026-03-30 | lines: 110
+
+## Screens (Jetpack Compose — 13 total)
+
+### HomeScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/HomeScreen.kt`
+- **Purpose**: Dashboard greeting, project summary, quick actions
+- **ViewModel**: HomeViewModel
+
+### ChatScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/ChatScreen.kt`
+- **Purpose**: SSE streaming chat with Bridge, tool activity feed
+- **ViewModel**: ChatViewModel
+- **Key**: SSE chunked transfer, message persistence, session switching
+
+### CommandsScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/CommandsScreen.kt`
+- **Purpose**: Slash command catalog with search and categories
+
+### ProfileScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/ProfileScreen.kt`
+- **Purpose**: User profile display and editing
+
+### KanbanScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/KanbanScreen.kt`
+- **Purpose**: Sprint board with drag-and-drop columns
+
+### ApprovalsScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/ApprovalsScreen.kt`
+- **Purpose**: Approval requests list and actions
+
+### CaptureScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/CaptureScreen.kt`
+- **Purpose**: Quick capture (voice, photo, text) for inbox
+
+### TimeLogScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/TimeLogScreen.kt`
+- **Purpose**: Time tracking entry form
+
+### DashboardScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/DashboardScreen.kt`
+- **Purpose**: Sprint metrics, charts, team summary
+
+### SettingsScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/SettingsScreen.kt`
+- **Purpose**: App preferences, Bridge connection config
+
+### TeamManagementScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/TeamManagementScreen.kt`
+- **Purpose**: Team member list, roles, skills matrix
+
+### GitConfigScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/GitConfigScreen.kt`
+- **Purpose**: Git repository configuration for project
+
+### CompanyProfileScreen
+- **File**: `app/src/main/kotlin/.../ui/screens/CompanyProfileScreen.kt`
+- **Purpose**: Company profile view and editing
+
+## ViewModels (Hilt-injected)
+
+| ViewModel | Screen | Key State |
+|-----------|--------|-----------|
+| HomeViewModel | Home | projects, greeting, recentActivity |
+| ChatViewModel | Chat | messages, sessions, streaming, toolActivity |
+| DashboardViewModel | Dashboard | sprint, metrics, charts |
+| (shared) | Others | Loading/error states via base pattern |
+
+## Core App Components
+
+### MainActivity
+- **File**: `app/src/main/kotlin/.../MainActivity.kt`
+- **Purpose**: Single Activity, hosts Compose navigation
+- **Annotation**: @AndroidEntryPoint (Hilt)
+
+### SaviaApp
+- **File**: `app/src/main/kotlin/.../SaviaApp.kt`
+- **Purpose**: Application class, Hilt entry point
+- **Annotation**: @HiltAndroidApp
+
+### Navigation
+- **File**: `app/src/main/kotlin/.../navigation/`
+- **Purpose**: Compose Navigation graph, route definitions
+- **Pattern**: sealed class Screen for type-safe routes

@@ -1,0 +1,41 @@
+# Proyecto Beta — Agent Code Map (.acm)
+> hash: sha256:auto | generated: 2026-03-30 | lines: 43
+
+## Overview
+
+| Attribute | Value |
+|-----------|-------|
+| **Stack** | .NET 8 / ASP.NET Core + Blazor Server + Azure SQL |
+| **Architecture** | Clean Architecture + CQRS |
+| **Auth** | Azure AD B2C |
+| **Velocity** | 25 SP avg, 23 SP last sprint |
+| **Cycle Time** | 4.0 days (P50) |
+| **Contract** | Fixed-price |
+
+## Layers
+
+| Layer | File | Priority | Description |
+|-------|------|----------|-------------|
+| Domain Entities | @include domain/entities.acm | HIGH | Core entities (pending code) |
+| Domain Services | @include domain/services.acm | HIGH | Business services (pending code) |
+| Infrastructure | @include infrastructure/repositories.acm | MEDIUM | EF Core + Azure SQL (pending code) |
+| API | @include api/controllers.acm | MEDIUM | ASP.NET Core + Blazor (pending code) |
+
+## Key Arch Decisions
+
+- Blazor Server (not WASM) — server-side rendering, simpler auth flow
+- Azure AD B2C for external user auth (different from Alpha's internal AD)
+- Fixed-price contract: aggressive agentization (70% target)
+- Budget: $20/sprint, cost alert per spec $2.00
+- Requires tech lead approval for agent runs
+
+## Agentization
+
+- Target: 70% (aggressive due to fixed-price)
+- Budget: $20/sprint, max 5 parallel agents
+- Cost alert: $2.00 per spec
+
+## Status
+
+Project has CLAUDE.md config but no source code in workspace yet.
+ACM layers will populate when code is onboarded.

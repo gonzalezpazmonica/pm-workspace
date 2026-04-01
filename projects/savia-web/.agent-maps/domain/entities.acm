@@ -1,0 +1,90 @@
+# Savia Web — Domain Entities (.acm)
+> hash: sha256:auto | generated: 2026-03-30 | lines: 130
+
+## Stores (Pinia — 8 total)
+
+### useAuthStore
+- **File**: `src/stores/auth.ts`
+- **State**: serverUrl, username, token, connected, profile, role
+- **Actions**: login(), logout(), setProfile(), setConnected(), save()
+- **Persistence**: localStorage
+
+### useProjectStore
+- **File**: `src/stores/project.ts`
+- **State**: projects[], selectedId
+- **Actions**: load(), select()
+- **Note**: All other stores watch selectedId and reload on change
+
+### useBacklogStore
+- **File**: `src/stores/backlog.ts`
+- **State**: specs[], viewMode, filters, expandedItems, selectedItemId/Type
+- **Actions**: load(), selectSpec(), selectPbi(), toggleExpand(), movePbi(), updatePbi(), addPbi(), addTask(), addSpec(), setViewMode(), setFilter(), clearFilters()
+- **Persistence**: localStorage (filters, expanded state)
+
+### useChatStore
+- **File**: `src/stores/chat.ts`
+- **State**: messages[], sessionId, currentTool, toolActivity, sessions[]
+- **Actions**: initSession(), addMessage(), updateLastAssistant(), finishStreaming(), addToolActivity(), newSession(), switchSession(), deleteSession(), loadSessions()
+- **Persistence**: localStorage (sessions, messages)
+
+### useDashboardStore
+- **File**: `src/stores/dashboard.ts`
+- **State**: data (greeting, projects, sprint, myTasks, recentActivity), loading, error
+- **Actions**: load(), selectProject()
+
+### usePipelineStore
+- **File**: `src/stores/pipeline.ts`
+- **State**: runs[], selectedRunId, loading
+- **Actions**: load(), selectRun()
+
+### useIntegrationsStore
+- **File**: `src/stores/integrations.ts`
+- **State**: workflows[], executions[], connection (N8n), loading
+- **Actions**: load(), saveConnection()
+
+### useReportsStore
+- **File**: `src/stores/reports.ts`
+- **State**: activeTab, selectedProject
+- **Actions**: setTab(), setProject()
+
+## Types (TypeScript interfaces)
+
+### bridge.ts
+- **File**: `src/types/bridge.ts`
+- **Types**: Project, Sprint, Board, Dashboard, User, TimeEntry, Approval, Command, Company
+
+### chat.ts
+- **File**: `src/types/chat.ts`
+- **Types**: ChatMessage, StreamEvent (text|start|done|error|tool_use|permission_request), PermissionInfo
+
+### reports.ts
+- **File**: `src/types/reports.ts`
+- **Types**: ReportResponse<T> (generic wrapper)
+
+## Components by Domain (28 total)
+
+### Backlog (5)
+- BacklogTree.vue — spec/pbi/task hierarchy with tree expansion
+- BacklogKanban.vue — column view: New, Active, Resolved, Closed
+- FilterBar.vue — state, assignee, item-type filters
+- PbiDetail.vue — detail panel for selected PBI
+- StateBadge.vue — state indicator styling
+
+### Charts (10)
+- BurndownChart, VelocityChart, CycleTimeChart, DebtTrendLine
+- BugSeverityPie, CoverageGauge, DoraGauges, PortfolioRadar
+- SpDistribution, WorkloadHeatmap
+
+### Files (3)
+- FileBreadcrumb, FileListItem, FileViewer (markdown + frontmatter)
+
+### Layout (2)
+- AppSidebar (navigation, project selector)
+- AppTopBar (user menu, project dropdown, status)
+
+### Dialogs (5)
+- ConnectionWizard, CreateProjectModal, ProjectSelector
+- ChatSessionList, RegisterWizard
+
+### Utility (3)
+- LoginPage, EmptyState, LoadingSpinner

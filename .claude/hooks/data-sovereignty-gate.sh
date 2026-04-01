@@ -35,6 +35,23 @@ SHIELD_TOKEN=""
 TOKEN_HEADER=""
 [[ -n "$SHIELD_TOKEN" ]] && TOKEN_HEADER="-H X-Shield-Token:$SHIELD_TOKEN"
 
+# Extract file path FIRST — skip private destinations before any scanning
+FILE_PATH=$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // .tool_input.path // empty' 2>/dev/null) || exit 0
+[[ -z "$FILE_PATH" ]] && exit 0
+
+# Normalize path (resolve ../ traversal + Windows backslashes)
+NORM_PATH="$FILE_PATH"
+if command -v python3 >/dev/null 2>&1; then
+  NORM_PATH=$(python3 -c "import os,sys;print(os.path.normpath(sys.argv[1]).replace(chr(92),'/'))" "$FILE_PATH" 2>/dev/null) || NORM_PATH="$FILE_PATH"
+fi
+
+# Skip private destinations — BEFORE daemon call (N4/N4b never scanned)
+case "$NORM_PATH" in
+  */projects/*|projects/*|*.local.*|*/output/*|*private-agent-memory*|*/config.local/*|*/.savia/*|*/.claude/sessions/*|*settings.local.json*) exit 0 ;;
+esac
+
+CONTENT=$(printf '%s' "$INPUT" | jq -r '(.tool_input.content // .tool_input.new_string // "")[:20000]' 2>/dev/null) || exit 0
+
 # Try daemon /gate (fast path: one HTTP call does everything)
 if curl -sf --max-time 2 "$SHIELD_URL/health" >/dev/null 2>&1; then
   RESULT=$(curl -s --max-time 10 \
@@ -54,22 +71,7 @@ if curl -sf --max-time 2 "$SHIELD_URL/health" >/dev/null 2>&1; then
   fi
 fi
 
-# Fallback: daemon down — inline regex
-FILE_PATH=$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // .tool_input.path // empty' 2>/dev/null) || exit 0
-CONTENT=$(printf '%s' "$INPUT" | jq -r '(.tool_input.content // .tool_input.new_string // "")[:20000]' 2>/dev/null) || exit 0
-
-[[ -z "$FILE_PATH" ]] && exit 0
-
-# Normalize path (resolve ../ traversal)
-NORM_PATH="$FILE_PATH"
-if command -v python3 >/dev/null 2>&1; then
-  NORM_PATH=$(python3 -c "import os,sys;print(os.path.normpath(sys.argv[1]))" "$FILE_PATH" 2>/dev/null) || NORM_PATH="$FILE_PATH"
-fi
-
-# Skip private destinations (use normalized path)
-case "$NORM_PATH" in
-  */projects/*|*.local.*|*/output/*|*private-agent-memory*|*/config.local/*|*/.savia/*|*/.claude/sessions/*|*settings.local.json*) exit 0 ;;
-esac
+# Fallback: daemon down — inline regex (path + private skip already done above)
 # Whitelist specific sovereignty/shield files
 case "$NORM_PATH" in
   *scripts/data-sovereignty*|*scripts/ollama-classify*|*scripts/shield-ner*|*scripts/savia-shield*|*scripts/sovereignty-mask*|*scripts/pre-commit-sovereignty*|*tests/test-data-sovereignty*) exit 0 ;;
