@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 179 resources
+> 184 resources
 
 - **** (): 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de 
@@ -13,6 +13,7 @@
 - **audit** (cmd): Generate professional executive audit report for workspace reliability assessment
 - **banking-data-governance** (cmd): Auditar gobierno de datos — lineage, clasificación, GDPR/LOPD, feature stores
 - **banking-mlops-audit** (cmd): Auditar pipeline MLOps — versionado, drift, XAI, model risk, scoring architectures
+- **ci-test-quality-gate** (script): ci-test-quality-gate.sh — CI gate: test quality + coverage
 - **comprehension-audit** (cmd): Scan recent implementations and identify which lack comprehension reports. Report coverage and recommendations.
 - **confidentiality-auditor** (agent): Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles de
 - **confidentiality-check** (cmd): Auditoria pre-PR de confidencialidad y firma criptografica
@@ -78,7 +79,10 @@
 - **test-ai-adoption** (script): ── test-ai-adoption.sh ───────────────────────────────
 - **test-ai-labor-impact** (script): test-ai-labor-impact.sh — Tests for AI Labor Impact Analysis (v2.5.0)
 - **test-ai-planning** (script): ── test-ai-planning.sh ───────────────────────────────
+- **test-architect** (>): 
+- **test-architect** (skill): Design and generate highest-quality tests across 16 languages and 14 test types
 - **test-architecture-debt** (script): Test: Architecture & Debt v0.71.0 (Era 13)
+- **test-auditor** (script): test-auditor.sh — Score, validate, and certify BATS test files
 - **test-backlog-git** (script): test-backlog-git.sh — Structural tests for BacklogGit (Era 32 — v2.7.0)
 - **test-backlog-intelligence** (script): ── test-backlog-intelligence.sh ────────────────────────────
 - **test-backup** (script): test-backup.sh — Tests del sistema de backup cifrado
@@ -95,6 +99,7 @@
 - **test-context-optimization** (script): Test: Context Optimization v0.71.0 (Era 13)
 - **test-contribute** (script): test-contribute.sh — Tests del sistema de comunidad y contribución
 - **test-cost-center** (script): ── Test: cost-center (Era 38 — Cost Management & Billing) ──
+- **test-coverage-checker** (script): test-coverage-checker.sh — Verify every script has a corresponding test
 - **test-docs-overhaul** (script): test-docs-overhaul.sh — Tests para Documentation Overhaul (Savia-led)
 - **test-engineer** (>): 
 - **test-enterprise-dashboard** (script): ── Test: enterprise-dashboard (Era 41 — Enterprise Reporting & Analytics) ──
