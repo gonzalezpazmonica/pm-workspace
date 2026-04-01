@@ -72,68 +72,37 @@ format_memory_context() {
 
 store_file="${PROJECT_ROOT:-.}/output/.memory-store.jsonl"
 
-# Si no existe memoria, salir silenciosamente
+# ── SESSION-HOT REINJECTION (SPEC-068) ──
+SESSION_HOT="$HOME/.claude/projects/-home-monica-claude/memory/session-hot.md"
+if [[ -f "$SESSION_HOT" ]] && [[ -s "$SESSION_HOT" ]]; then
+    echo "## Session Continuity (pre-compact extraction)"
+    echo ""
+    tail -20 "$SESSION_HOT"
+    echo ""
+    : > "$SESSION_HOT"  # consumed — truncate for next cycle
+fi
+
+# Si no existe memoria, salir tras session-hot
 [[ ! -f "$store_file" ]] && exit 0
 
 project=$(detect_project)
 
-# Encabezado
-echo "## 🧠 Memoria Persistente — Contexto recuperado tras compactación"
+echo "## Memoria Persistente — Contexto recuperado"
 echo ""
 
-# Procesar por tipo
-declare -a decisions bugs patterns conventions discoveries
+# Procesar por tipo — compact loop
+declare -A section_names=([DECISION]="Decisiones" [BUG]="Bugs" [PATTERN]="Patrones" [CONVENTION]="Convenciones" [DISCOVERY]="Descubrimientos")
+declare -A section_items
 
 while IFS='|' read -r type ts title content; do
-    case "$type" in
-        DECISION)
-            decisions+=("- [$ts] $title — ${content:0:60}...")
-            ;;
-        BUG)
-            bugs+=("- [$ts] $title — ${content:0:60}...")
-            ;;
-        PATTERN)
-            patterns+=("- [$ts] $title — ${content:0:60}...")
-            ;;
-        CONVENTION)
-            conventions+=("- [$ts] $title — ${content:0:60}...")
-            ;;
-        DISCOVERY)
-            discoveries+=("- [$ts] $title — ${content:0:60}...")
-            ;;
-    esac
+    [[ -z "$type" ]] && continue
+    section_items[$type]+="- [$ts] $title — ${content:0:60}..."$'\n'
 done < <(format_memory_context)
 
-# Mostrar secciones no vacías
-if [[ ${#decisions[@]} -gt 0 ]]; then
-    echo "### Decisiones recientes"
-    printf '%s\n' "${decisions[@]}"
-    echo ""
-fi
-
-if [[ ${#bugs[@]} -gt 0 ]]; then
-    echo "### Bugs resueltos"
-    printf '%s\n' "${bugs[@]}"
-    echo ""
-fi
-
-if [[ ${#patterns[@]} -gt 0 ]]; then
-    echo "### Patrones"
-    printf '%s\n' "${patterns[@]}"
-    echo ""
-fi
-
-if [[ ${#conventions[@]} -gt 0 ]]; then
-    echo "### Convenciones"
-    printf '%s\n' "${conventions[@]}"
-    echo ""
-fi
-
-if [[ ${#discoveries[@]} -gt 0 ]]; then
-    echo "### Descubrimientos"
-    printf '%s\n' "${discoveries[@]}"
-    echo ""
-fi
-
-echo "💡 Para buscar en memoria: \`memory-search {query}\`"
-echo "💡 Para guardar: \`memory-save --type {tipo} --title '{título}' --content '{contenido}'\`"
+for key in DECISION BUG PATTERN CONVENTION DISCOVERY; do
+    if [[ -n "${section_items[$key]:-}" ]]; then
+        echo "### ${section_names[$key]}"
+        printf '%s' "${section_items[$key]}"
+        echo ""
+    fi
+done
