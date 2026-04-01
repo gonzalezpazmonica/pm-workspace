@@ -29,7 +29,7 @@ if [ -z "$MODIFIED" ]; then
 fi
 
 # Buscar spec activa: fichero .spec.md más reciente modificado en los últimos 60 min
-SPEC_FILE=$(find "$PROJECT_ROOT" -name "*.spec.md" -newer /tmp/.scope-guard-marker 2>/dev/null | head -1)
+SPEC_FILE=$(find "$PROJECT_ROOT" -name "*.spec.md" -newer "$SAVIA_TMP/.scope-guard-marker" 2>/dev/null | head -1)
 
 # Si no hay marker, buscar la spec más recientemente modificada
 if [ -z "$SPEC_FILE" ]; then

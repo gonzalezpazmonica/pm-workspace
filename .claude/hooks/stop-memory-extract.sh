@@ -16,7 +16,9 @@ fi
 
 INPUT=$(cat 2>/dev/null || true)
 
-MEMORY_DIR="$HOME/.claude/projects/-home-monica-claude/memory"
+PROJ_DIR="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+PROJ_SLUG=$(echo "$PROJ_DIR" | sed 's|[/:\]|-|g; s|^-||')
+MEMORY_DIR="$HOME/.claude/projects/$PROJ_SLUG/memory"
 SESSION_HOT="$MEMORY_DIR/session-hot.md"
 ACTION_LOG="$HOME/.savia/session-actions.jsonl"
 MEMORY_MD="$MEMORY_DIR/MEMORY.md"

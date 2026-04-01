@@ -7,7 +7,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-init.sh",
             "timeout": 15,
-            "statusMessage": "Inicializando sesi\u00f3n PM-Workspace..."
+            "statusMessage": "Inicializando sesión PM-Workspace..."
           }
         ]
       }
@@ -43,7 +43,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/prompt-hook-commit.sh",
             "timeout": 5,
-            "statusMessage": "Prompt hook: validando sem\u00e1ntica..."
+            "statusMessage": "Prompt hook: validando semántica..."
           },
           {
             "type": "command",
@@ -93,7 +93,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/tdd-gate.sh",
             "timeout": 10,
-            "statusMessage": "TDD gate: tests antes que c\u00f3digo..."
+            "statusMessage": "TDD gate: tests antes que código..."
           },
           {
             "type": "command",
@@ -242,7 +242,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-end-snapshot.sh",
             "async": true,
             "timeout": 5,
-            "statusMessage": "Guardando snapshot de sesi\u00f3n..."
+            "statusMessage": "Guardando snapshot de sesión..."
           },
           {
             "type": "command",
@@ -303,7 +303,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-compact-backup.sh",
             "timeout": 10,
-            "statusMessage": "Backup pre-compactaci\u00f3n..."
+            "statusMessage": "Backup pre-compactación..."
           }
         ]
       }
@@ -315,7 +315,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
             "timeout": 10,
-            "statusMessage": "Recuperando memoria persistente tras compactaci\u00f3n..."
+            "statusMessage": "Recuperando memoria persistente tras compactación..."
           }
         ]
       }
@@ -329,6 +329,98 @@
             "async": true,
             "timeout": 5,
             "statusMessage": "Registrando fallo de herramienta..."
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/subagent-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Tracking agent lifecycle..."
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/subagent-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Logging agent completion..."
+          }
+        ]
+      }
+    ],
+    "TaskCreated": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/task-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Logging task creation..."
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/task-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Logging task completion..."
+          }
+        ]
+      }
+    ],
+    "FileChanged": [
+      {
+        "matcher": "*.cs|*.py|*.ts|*.tsx|*.js|*.jsx|*.go|*.java|*.rs|*.rb|*.php",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/file-changed-staleness.sh",
+            "async": true,
+            "timeout": 2,
+            "statusMessage": "Checking map staleness..."
+          }
+        ]
+      }
+    ],
+    "InstructionsLoaded": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/instructions-tracker.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "Tracking instructions..."
+          }
+        ]
+      }
+    ],
+    "ConfigChange": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/config-reload.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "Reloading config..."
           }
         ]
       }
