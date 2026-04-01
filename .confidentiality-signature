@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4f85a4be7af285c774a669e7cd61369b13bb0d30536a250c9f7e526582a5e66e
-timestamp=2026-04-01T06:46:09Z
-branch=feat/era166-memory-resilience
-head_commit=f67bf0e
-signature=ad4961202c656bb63be14ebda01c291d7309766df9668318f3225250ed4ed769
+diff_hash=35895f3ebd2edfcfa7ff3ca556f56dfa52077c47e9fb47cfacbaa75f718e2dc9
+timestamp=2026-04-01T11:26:00Z
+branch=feat/era167-token-economics
+head_commit=b1b1320
+signature=86650550f2dcba7df48a8bf2af0f43b1c8bfbb301fe295a297cc09e4d016e149
