@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.98.0] — 2026-04-01
+
+feat: Memory Resilience + language profile support. Era 166.
+
+### Added
+
+- **stop-memory-extract.sh**: SPEC-013v2 deep memory extraction via Stop hook (10 min timeout vs SessionEnd 1.5s). Extracts decisions and repeated failures to auto-memory
+- **Roadmap integrado**: output/20260401-roadmap-integrated.md con aprendizajes de pCompiler + claw-code + architecture review. 15 eras planificadas (166-180)
+
+### Changed
+
+- **memory-hygiene.sh**: added 25KB byte limit enforcement and >150 char entry trimming (SPEC-142 enhancement)
+- **CLAUDE.md**: language directive now reads from user profile preferences.md (generic, not hardcoded)
+- **session-init.sh**: injects user language preference at session start from preferences.md
+- **settings.json**: registered stop-memory-extract.sh in Stop hooks (async, 30s timeout)
+
+### Fixed
+
+- **Language switching**: root cause was missing language directive + English rules bleeding into responses. Fixed by reading preferences.md language field
+
 ## [3.97.0] — 2026-04-01
 
 feat: CLAUDE.md diet + hook enhancement — architecture exploit. Era 165.
@@ -5243,6 +5263,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[3.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.97.0...v3.98.0
 [3.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.96.0...v3.97.0
 [3.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.95.0...v3.96.0
 [3.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.94.0...v3.95.0

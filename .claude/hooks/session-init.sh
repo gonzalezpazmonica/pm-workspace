@@ -73,12 +73,14 @@ if [ -f "$ACTIVE_USER_FILE" ]; then
   if [ -n "$ACTIVE_SLUG" ] && [ -d "$USERS_DIR/$ACTIVE_SLUG" ]; then
     PROFILE_NAME=$(grep -oP 'name:\s*"\K[^"]+' "$USERS_DIR/$ACTIVE_SLUG/identity.md" 2>/dev/null || echo "$ACTIVE_SLUG")
     PROFILE_ROLE=$(grep -oP 'role:\s*"\K[^"]+' "$USERS_DIR/$ACTIVE_SLUG/identity.md" 2>/dev/null || echo "")
+    PROFILE_LANG=$(grep -oP 'language:\s*"\K[^"]+' "$USERS_DIR/$ACTIVE_SLUG/preferences.md" 2>/dev/null || echo "")
     if [ "$PROFILE_ROLE" = "Agent" ]; then
       AGENT_MODE="true"
       ITEMS+=("Perfil: $PROFILE_NAME (Agent)")
     else
       ITEMS+=("Perfil: $PROFILE_NAME")
     fi
+    [ -n "$PROFILE_LANG" ] && ITEMS+=("Idioma: $PROFILE_LANG")
   else
     ITEMS+=("Sin perfil — /profile-setup")
   fi
