@@ -163,6 +163,15 @@ if command -v curl >/dev/null 2>&1; then
   fi
 fi
 
+# ── Shield daemon pre-warm (SPEC-071: reduce NER cold start) ─────────────────
+check_timeout
+SHIELD_PORT="${SAVIA_SHIELD_PORT:-8444}"
+if command -v curl >/dev/null 2>&1; then
+  if curl -sf --max-time 2 "http://127.0.0.1:$SHIELD_PORT/health" >/dev/null 2>&1; then
+    ITEMS+=("Shield: daemon activo")
+  fi
+fi
+
 # ── Variables de entorno ─────────────────────────────────────────────────────
 if [ -n "${CLAUDE_ENV_FILE:-}" ]; then
   echo "export PM_WORKSPACE_ROOT=$HOME/claude" >> "$CLAUDE_ENV_FILE"

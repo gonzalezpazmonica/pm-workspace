@@ -62,7 +62,7 @@ if [[ -z "$OLD_CONTENT" ]]; then
   fi
   echo "$ENTRY" >> "$FILE_PATH"
   # Update updated: field
-  sed -i "s/^updated: .*/updated: $TODAY/" "$FILE_PATH"
+  sed "s/^updated: .*/updated: $TODAY/" "$FILE_PATH" > "$FILE_PATH.tmp" && mv "$FILE_PATH.tmp" "$FILE_PATH"
   exit 0
 fi
 
@@ -90,4 +90,4 @@ fi
 printf '%s' "$CHANGES" >> "$FILE_PATH"
 
 # ── Update updated: field ─────────────────────────────────────────────────────
-sed -i "s/^updated: .*/updated: $TODAY/" "$FILE_PATH"
+sed "s/^updated: .*/updated: $TODAY/" "$FILE_PATH" > "$FILE_PATH.tmp" && mv "$FILE_PATH.tmp" "$FILE_PATH"
