@@ -75,13 +75,21 @@ truncation before hooks can compress. Tool search reduces upfront context cost.
 |---|---|---|
 | SessionStart | session-init.sh | 1/1 |
 | SessionEnd | session-end-memory.sh | 1/1 |
-| PreToolUse | 12 hooks (6 matchers) | 12/12 |
-| PostToolUse | 8 hooks (3 matchers) | 8/8 |
+| PreToolUse | 16 hooks (8 matchers, 7 with `if`) | 16/16 |
+| PostToolUse | 10 hooks (4 matchers) | 10/10 |
 | PostToolUseFailure | post-tool-failure-log.sh | 1/1 |
 | PreCompact | pre-compact-backup.sh | 1/1 |
-| PostCompact | post-compaction.sh | 1/1 |
-| Stop | 4 hooks | 4/4 |
+| PostCompact | post-compaction.sh + memory-prime-hook.sh | 2/2 |
+| Stop | 5 hooks | 5/5 |
 | UserPromptSubmit | user-prompt-intercept.sh | 1/1 |
-| **Total** | **31 hook instances** | **9/27 events (33%)** |
+| CwdChanged | cwd-changed-hook.sh | 1/1 |
+| SubagentStart | subagent-lifecycle.sh (async) | 1/1 |
+| SubagentStop | subagent-lifecycle.sh (async) | 1/1 |
+| TaskCreated | task-lifecycle.sh (async) | 1/1 |
+| TaskCompleted | task-lifecycle.sh (async) | 1/1 |
+| FileChanged | file-changed-staleness.sh (async) | 1/1 |
+| InstructionsLoaded | instructions-tracker.sh (async) | 1/1 |
+| ConfigChange | config-reload.sh (async) | 1/1 |
+| **Total** | **45 hook instances** | **17/28 events (61%)** |
 
-27 hook events available in Claude Code. Target: 15/27 (56%) by v1.0.
+28 hook events available in Claude Code (SPEC-071). Target achieved: 17/28 (61%).

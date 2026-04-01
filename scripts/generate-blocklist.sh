@@ -9,7 +9,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Projects that are SAFE (generic names or explicitly public/whitelisted)
-SAFE_PROJECTS="proyecto-alpha|proyecto-beta|sala-reservas|example|test|demo|sample|template|pm-workspace"
+# claude-code: public Anthropic product name (not our private fork)
+# savia-mobile-android, savia-web: public subprojects
+SAFE_PROJECTS="proyecto-alpha|proyecto-beta|sala-reservas|savia-mobile-android|savia-web|claude-code|example|test|demo|sample|template|pm-workspace"
 # Public projects whitelisted in .gitignore with !projects/name/
 GITIGNORE="$ROOT_DIR/.gitignore"
 if [ -f "$GITIGNORE" ]; then

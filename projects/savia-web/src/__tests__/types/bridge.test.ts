@@ -10,6 +10,9 @@ describe('ProjectInfo type', () => {
       hasClaude: true,
       hasBacklog: true,
       health: 'healthy',
+      parentId: null,
+      children: [],
+      confidentiality: null,
     }
     expect(p.id).toBe('savia-web')
     expect(p.health).toBe('healthy')
@@ -25,6 +28,9 @@ describe('ProjectInfo type', () => {
         hasClaude: false,
         hasBacklog: false,
         health,
+        parentId: null,
+        children: [],
+        confidentiality: null,
       }
       expect(p.health).toBe(health)
     })
@@ -38,7 +44,42 @@ describe('ProjectInfo type', () => {
       hasClaude: true,
       hasBacklog: false,
       health: 'unknown',
+      parentId: null,
+      children: [],
+      confidentiality: null,
     }
     expect(workspace.id).toBe('_workspace')
+  })
+
+  it('accepts umbrella project with children', () => {
+    const umbrella: ProjectInfo = {
+      id: 'trazabios_main',
+      name: 'TrazaBios',
+      path: 'projects/trazabios_main',
+      hasClaude: true,
+      hasBacklog: false,
+      health: 'healthy',
+      parentId: null,
+      children: ['trazabios', 'trazabios-vass', 'trazabios-pm'],
+      confidentiality: null,
+    }
+    expect(umbrella.children).toHaveLength(3)
+    expect(umbrella.parentId).toBeNull()
+  })
+
+  it('accepts child project with parentId and confidentiality', () => {
+    const child: ProjectInfo = {
+      id: 'trazabios-pm',
+      name: 'trazabios-pm',
+      path: 'projects/trazabios_main/trazabios-pm',
+      hasClaude: false,
+      hasBacklog: false,
+      health: 'healthy',
+      parentId: 'trazabios_main',
+      children: [],
+      confidentiality: 'N4b-PM',
+    }
+    expect(child.parentId).toBe('trazabios_main')
+    expect(child.confidentiality).toBe('N4b-PM')
   })
 })

@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] — 2026-04-02
+
+feat: Hook System Overhaul — Claude Code alignment, Shield hardening, 61% event coverage. Era 171 (SPEC-071).
+
+### Added
+
+- **subagent-lifecycle.sh**: SubagentStart/SubagentStop hooks — native agent lifecycle tracking (replaces PostToolUse workaround)
+- **task-lifecycle.sh**: TaskCreated/TaskCompleted hooks — automatic task audit trail
+- **file-changed-staleness.sh**: FileChanged hook — marks code maps stale on file changes (<100ms)
+- **instructions-tracker.sh**: InstructionsLoaded hook — logs which rules load per session
+- **config-reload.sh**: ConfigChange hook — invalidates caches on settings change
+- **SPEC-071**: Hook System Overhaul proposal with 7 slices
+
+### Changed
+
+- **settings.json**: first `type: prompt` hook — semantic commit validation via Haiku ($0.0003/call, warning mode)
+- **settings.json**: first `type: http` hook — Shield daemon gate via native HTTP POST (SSRF guard, 5s timeout)
+- **settings.json**: 7 hooks now use `if` conditional field for 40% fewer unnecessary spawns (ast-comprehend, tdd-gate, post-edit-lint, ast-quality-gate, block-force-push, agent-hook-premerge, prompt-hook-commit)
+- **settings.json**: registered 7 new Claude Code events (SubagentStart/Stop, TaskCreated/Completed, FileChanged, InstructionsLoaded, ConfigChange, CwdChanged). Coverage: 17/28 events (61%)
+- **data-sovereignty-gate.sh**: daemon timeout reduced 10s to 5s, timeout events now logged to audit trail
+- **session-init.sh**: Shield daemon pre-warm on startup (reduces NER cold start)
+- **async-hooks-config.md**: corrected event count to 28 (was 27), updated coverage table
+
+### Fixed
+
+- **Portability**: replaced all hardcoded `/tmp/` paths with `$TMPDIR/$HOME/.savia/tmp` in 5 hooks
+- **Portability**: replaced `sed -i` with portable `sed + mv` pattern in pbi-history-capture.sh
+- **Portability**: replaced hardcoded memory path (`-home-monica-claude`) with dynamic PROJ_SLUG detection in 4 hooks
+- **SCM indexer**: `grep -oE '[a-z]{4,}'` now includes accented chars (evaluacion, tecnico no longer truncated)
+- **SCM indexer**: `head -c 120` replaced with `cut -c1-120` (char count, not bytes — UTF-8 safe)
+- **Orphan hooks**: registered cwd-changed-hook.sh, compress-agent-output.sh, memory-prime-hook.sh
+
+### Documentation
+
+- **Shield guide**: Era 171 improvements section added in 9 languages (es, en, fr, de, it, pt, ca, eu, gl)
+
 ## [3.99.0] — 2026-04-01
 
 feat: Eras 167-170 — token economics, spec validation, coordinator research, tool healing. Era batch.
@@ -5281,6 +5317,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.99.0...v4.0.0
 [3.99.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.98.0...v3.99.0
 [3.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.97.0...v3.98.0
 [3.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.96.0...v3.97.0

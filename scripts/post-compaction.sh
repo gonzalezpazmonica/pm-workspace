@@ -73,7 +73,9 @@ format_memory_context() {
 store_file="${PROJECT_ROOT:-.}/output/.memory-store.jsonl"
 
 # ── SESSION-HOT REINJECTION (SPEC-068) ──
-SESSION_HOT="$HOME/.claude/projects/-home-monica-claude/memory/session-hot.md"
+PROJ_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+PROJ_SLUG=$(echo "$PROJ_DIR" | sed 's|[/:\\]|-|g; s|^-||')
+SESSION_HOT="$HOME/.claude/projects/$PROJ_SLUG/memory/session-hot.md"
 if [[ -f "$SESSION_HOT" ]] && [[ -s "$SESSION_HOT" ]]; then
     echo "## Session Continuity (pre-compact extraction)"
     echo ""
