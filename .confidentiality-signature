@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=57925f4d684fe7f8c0c4ef248f2b592e9bb6c792b80c831b3decc8af80a8a5b6
-timestamp=2026-04-01T14:28:34Z
+diff_hash=1a161c57dcc011f013b2f4cd4fc4232768c5f6c2227abe67aa872a180d563898
+timestamp=2026-04-01T14:33:42Z
 branch=feat/shield-layer4-masked-digestion
-head_commit=cbc7349
-signature=4d13caa1549324a2b6e5ce0fa64b7952576cf64b4a504a5bc72420ab10b34761
+head_commit=ec8d089
+signature=3e2e218fe766f14db076f4eb6f15fc68e4e8a9f929d90a43d3a67fe918cb25c6
