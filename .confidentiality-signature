@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=f83d799690d3d7ca79a00503fb515632c30f41bcca7e2ebf17e6ce3f954b23bc
-timestamp=2026-04-01T14:45:40Z
-branch=feat/shield-layer4-masked-digestion
-head_commit=3bc572d
-signature=6cb8d0f09671ce4857cf8aa3cc0968d81e6464d85e0f4b2f5680521359d44c81
+diff_hash=6a1c2a4ee531e48163f511b9b7c2f7e933daaa068be9f7c44f920cfa2e648968
+timestamp=2026-04-01T23:17:39Z
+branch=feat/savia-web-subprojects
+head_commit=b916700
+signature=1b625a1f6d1d336dd6def38582655f605eea85450e8a2bdafe70aa91700df8e5

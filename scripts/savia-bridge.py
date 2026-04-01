@@ -885,27 +885,28 @@ def _detect_subprojects(project_dir: Path) -> list:
 def _parse_confidentiality(project_dir: Path) -> dict:
     """Parse confidentiality.md to map subdirectory names to labels.
 
-    Looks for a markdown table with columns containing directory names
-    and their confidentiality level (e.g. N4-SHARED, N4b-PM).
+    Supports heading format (### N4-SHARED -- parent/child/) and
+    table format (| N4-SHARED | child/ |).
     """
+    import re
     conf_file = project_dir / "confidentiality.md"
     if not conf_file.exists():
         return {}
     result = {}
+    child_names = sorted(
+        [d.name for d in project_dir.iterdir() if d.is_dir() and not d.name.startswith(".")],
+        key=len, reverse=True,
+    )
     try:
         text = conf_file.read_text(encoding="utf-8")
         for line in text.splitlines():
-            if "|" not in line or line.strip().startswith("|--"):
+            levels = re.findall(r'\b(N4b?-[A-Z]+|N[34]-[A-Z]+)\b', line)
+            if not levels:
                 continue
-            cells = [c.strip() for c in line.split("|")]
-            cells = [c for c in cells if c]
-            if len(cells) >= 2:
-                for child_dir in project_dir.iterdir():
-                    if child_dir.is_dir() and child_dir.name in line:
-                        for cell in cells:
-                            if cell.startswith("N4") or cell.startswith("N3"):
-                                result[child_dir.name] = cell
-                                break
+            level = levels[0]
+            for name in child_names:
+                if name not in result and f"{name}/" in line:
+                    result[name] = level
     except Exception:
         pass
     return result
@@ -927,7 +928,7 @@ def _umbrella_display_name(project_dir: Path) -> str:
             if first_line.startswith("# "):
                 heading = first_line[2:].strip()
                 # Take first word/phrase before " — " or " - "
-                heading = re.split(r'\s*[—–-]\s*', heading)[0].strip()
+                heading = re.split(r'\s*[\u2014\u2013]\s*|\s+--\s+|\s+-\s+', heading)[0].strip()
                 if heading:
                     return heading
         except Exception:
