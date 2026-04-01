@@ -93,4 +93,12 @@ Requisits: Python 3.12+, Ollama, jq, 8GB RAM minim. Sense installacio completa: 
 
 Shield protegeix les fronteres **N4/N4b cap a N1**. Escriure en ubicacions privades sempre esta permes.
 
+## Millores Era 171 (SPEC-071)
+
+- **Cobertura d'events**: 17 de 28 events Claude Code coberts (61%, anteriorment 25%)
+- **Condicions `if`**: 7 hooks salten automaticament si l'arxiu no es codi (estalvia ~40% dels spawns)
+- **Nous events**: SubagentStart/Stop, TaskCreated/Completed, FileChanged, InstructionsLoaded, ConfigChange
+- **Portabilitat**: eliminacio de tots els camins `/tmp/` codificats i comandaments `sed -i` incompatibles
+- **Timeouts auditable**: si el daemon tarda >5s, es registra com TIMEOUT_ALLOW al registre d'auditoria
+
 > Arquitectura completa: [docs/savia-shield.md](savia-shield.md) | Tests: `bats tests/test-data-sovereignty.bats`

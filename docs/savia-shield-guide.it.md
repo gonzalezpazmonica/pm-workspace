@@ -93,4 +93,12 @@ Requisiti: Python 3.12+, Ollama, jq, minimo 8GB RAM. Senza installazione complet
 
 Shield protegge i confini **N4/N4b verso N1**. Scrivere in posizioni private e sempre consentito.
 
+## Miglioramenti Era 171 (SPEC-071)
+
+- **Copertura degli eventi**: 17 su 28 eventi Claude Code coperti (61%, precedentemente 25%)
+- **Condizioni `if`**: 7 hook saltano automaticamente se il file non e codice (risparmia ~40% dei spawn)
+- **Nuovi eventi**: SubagentStart/Stop, TaskCreated/Completed, FileChanged, InstructionsLoaded, ConfigChange
+- **Portabilita**: rimozione di tutti i percorsi `/tmp/` codificati e dei comandi `sed -i` incompatibili
+- **Timeout verificabili**: se il daemon impiega >5s, viene registrato come TIMEOUT_ALLOW nel registro di audit
+
 > Architettura completa: [docs/savia-shield.md](savia-shield.md) | Test: `bats tests/test-data-sovereignty.bats`
