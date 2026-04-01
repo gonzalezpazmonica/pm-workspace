@@ -20,6 +20,8 @@ feat: Hook System Overhaul — Claude Code alignment, Shield hardening, 61% even
 
 ### Changed
 
+- **settings.json**: first `type: prompt` hook — semantic commit validation via Haiku ($0.0003/call, warning mode)
+- **settings.json**: first `type: http` hook — Shield daemon gate via native HTTP POST (SSRF guard, 5s timeout)
 - **settings.json**: 7 hooks now use `if` conditional field for 40% fewer unnecessary spawns (ast-comprehend, tdd-gate, post-edit-lint, ast-quality-gate, block-force-push, agent-hook-premerge, prompt-hook-commit)
 - **settings.json**: registered 7 new Claude Code events (SubagentStart/Stop, TaskCreated/Completed, FileChanged, InstructionsLoaded, ConfigChange, CwdChanged). Coverage: 17/28 events (61%)
 - **data-sovereignty-gate.sh**: daemon timeout reduced 10s to 5s, timeout events now logged to audit trail
