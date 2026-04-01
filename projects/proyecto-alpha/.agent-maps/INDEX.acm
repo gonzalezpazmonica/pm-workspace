@@ -1,0 +1,42 @@
+# Proyecto Alpha — Agent Code Map (.acm)
+> hash: sha256:auto | generated: 2026-03-30 | lines: 45
+
+## Overview
+
+| Attribute | Value |
+|-----------|-------|
+| **Stack** | .NET 8 / ASP.NET Core Web API + Angular 17 + SQL Server 2022 |
+| **Architecture** | Clean Architecture + CQRS (MediatR) |
+| **Auth** | Azure AD / MSAL (SSO) |
+| **Velocity** | 32 SP avg, 30 SP last sprint |
+| **Cycle Time** | 3.5 days (P50) |
+| **Contract** | T&M |
+
+## Layers
+
+| Layer | File | Priority | Description |
+|-------|------|----------|-------------|
+| Domain Entities | @include domain/entities.acm | HIGH | Core business entities (pending code) |
+| Domain Services | @include domain/services.acm | HIGH | Business logic services (pending code) |
+| Infrastructure | @include infrastructure/repositories.acm | MEDIUM | EF Core repositories, Azure AD (pending code) |
+| API | @include api/controllers.acm | MEDIUM | ASP.NET Core controllers (pending code) |
+
+## Key Arch Decisions
+
+- Clean Architecture: Domain → Application → Infrastructure → API
+- CQRS via MediatR (Commands/Queries separated)
+- Angular 17 frontend (human-only — UX decisions not in specs)
+- Auth module always human-reviewed (Azure AD security risk)
+- Deploy window: Wednesday before 10:00 only
+- Staging resets Sundays 03:00
+
+## Agentization
+
+- Target: 60% backend, 0% Angular, 0% Auth
+- Budget: $30/sprint, max 5 parallel agents
+- Model: claude-opus-4-6 (agent), claude-sonnet-4-6 (mid)
+
+## Status
+
+Project has CLAUDE.md config but no source code in workspace yet.
+ACM layers will populate when code is onboarded.

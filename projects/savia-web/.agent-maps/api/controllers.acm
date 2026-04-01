@@ -1,0 +1,81 @@
+# Savia Web — API / Entry Points (.acm)
+> hash: sha256:auto | generated: 2026-03-30 | lines: 95
+
+## Pages (21 Route Pages)
+
+### Main Routes
+
+| Route | Page | Purpose |
+|-------|------|---------|
+| `/` | HomePage | Greeting, quick links, recent activity |
+| `/chat` | ChatPage | SSE streaming chat, session management, tool activity |
+| `/commands` | CommandsPage | Slash command reference catalog |
+| `/backlog` | BacklogPage | 3-level hierarchy: Spec > PBI > Task |
+| `/kanban` | → /backlog | Redirect |
+| `/pipelines` | PipelinesPage | CI/CD runs, stages, logs |
+| `/integrations` | IntegrationsPage | N8n workflows, executions |
+| `/approvals` | ApprovalsPage | Approval requests CRUD |
+| `/timelog` | TimeLogPage | Time tracking entries |
+| `/files` | FileBrowserPage | Breadcrumb nav, markdown viewer, editor |
+| `/profile` | ProfilePage | User stats, profile editing |
+| `/settings` | SettingsPage | User preferences |
+
+### Admin Routes (guarded)
+
+| Route | Page | Guard |
+|-------|------|-------|
+| `/admin/users` | AdminUsersPage | auth.role === 'admin' |
+
+### Report Routes (nested under /reports)
+
+| Route | Page | Chart Component |
+|-------|------|-----------------|
+| `/reports/sprint` | SprintReportPage | BurndownChart, VelocityChart |
+| `/reports/board-flow` | BoardFlowPage | CycleTimeChart |
+| `/reports/team-workload` | TeamWorkloadPage | WorkloadHeatmap |
+| `/reports/portfolio` | PortfolioPage | PortfolioRadar |
+| `/reports/dora` | DoraMetricsPage | DoraGauges |
+| `/reports/quality` | QualityPage | CoverageGauge, BugSeverityPie |
+| `/reports/debt` | DebtPage | DebtTrendLine |
+
+## Router Configuration
+
+- **File**: `src/router/index.ts`
+- **Guard**: beforeEach fetches role if missing, blocks non-admin from /admin/*
+- **Lazy loading**: all pages via dynamic import()
+- **Layout**: ReportsLayout.vue wraps all /reports/* pages with tab nav
+
+## State Flow (Entry → Store → Component)
+
+```
+User navigates to route
+  → Router lazy-loads page component
+  → Page calls store.load() in onMounted()
+  → Store calls useBridge().get() or useSSE().streamChat()
+  → Bridge responds (REST JSON or SSE events)
+  → Store updates reactive state
+  → Components re-render via computed/watch
+  → Changes persisted to localStorage (where applicable)
+```
+
+## Testing Entry Points
+
+- **Unit**: `src/__tests__/` (42 files, 228+ tests, Vitest)
+- **E2E**: `e2e/` (18 files, ~150 tests, Playwright)
+- **Coverage**: 80% minimum threshold
+- **Run**: `npm test` (unit), `npm run test:e2e` (E2E)
+
+## Key Interaction Patterns
+
+### Chat (most complex)
+1. User types message → ChatPage dispatches to useChatStore
+2. Store calls useSSE().streamChat() with session context
+3. SSE events arrive: text → updateLastAssistant(), tool_use → addToolActivity()
+4. Permission requests: UI shows dialog → sendPermission() back to Bridge
+5. Stream ends: finishStreaming() → persist to localStorage
+
+### Backlog (most data-heavy)
+1. Load specs from Bridge → hierarchical tree (Spec > PBI > Task)
+2. Two views: BacklogTree (hierarchy) or BacklogKanban (columns)
+3. Inline editing: movePbi(), updatePbi() → POST to Bridge
+4. Filters persist to localStorage across sessions
