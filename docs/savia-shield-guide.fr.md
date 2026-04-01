@@ -93,4 +93,12 @@ Prerequis : Python 3.12+, Ollama, jq, 8 Go de RAM minimum. Sans installation com
 
 Shield protege les frontieres **N4/N4b vers N1**. Ecrire dans des emplacements prives est toujours autorise.
 
+## Ameliorations Era 171 (SPEC-071)
+
+- **Couverture des evenements**: 17 sur 28 evenements Claude Code couverts (61%, auparavant 25%)
+- **Conditions `if`**: 7 hooks sautent automatiquement si le fichier n'est pas du code (economise ~40% des spawns)
+- **Nouveaux evenements**: SubagentStart/Stop, TaskCreated/Completed, FileChanged, InstructionsLoaded, ConfigChange
+- **Portabilite**: suppression de tous les chemins `/tmp/` codes en dur et des commandes `sed -i` incompatibles
+- **Timeouts auditables**: si le daemon prend >5s, il est enregistre comme TIMEOUT_ALLOW dans le journal d'audit
+
 > Architecture complete : [docs/savia-shield.md](savia-shield.md) | Tests : `bats tests/test-data-sovereignty.bats`

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useProjectStore } from '../stores/project'
 
 const store = useProjectStore()
@@ -10,9 +11,23 @@ const healthColor: Record<string, string> = {
   unknown: '#9ca3af',
 }
 
+/** Top-level projects that have children (umbrellas). */
+const umbrellas = computed(() =>
+  store.topLevel.filter(p => p.children.length > 0)
+)
+
+/** Top-level projects that have no children (standalone). */
+const standalone = computed(() =>
+  store.topLevel.filter(p => p.children.length === 0)
+)
+
 function onChange(e: Event) {
   const id = (e.target as HTMLSelectElement).value
   store.select(id)
+}
+
+function confLabel(conf: string | null): string {
+  return conf ? ` (${conf})` : ''
 }
 </script>
 
@@ -23,14 +38,29 @@ function onChange(e: Event) {
       :value="store.selectedId"
       @change="onChange"
     >
+      <!-- Standalone projects (no subprojects) -->
       <option
-        v-for="p in store.projects"
+        v-for="p in standalone"
         :key="p.id"
         :value="p.id"
-        class="project-item"
       >
         {{ p.name }}
       </option>
+
+      <!-- Umbrella projects with subproject groups -->
+      <optgroup
+        v-for="u in umbrellas"
+        :key="u.id"
+        :label="u.name"
+      >
+        <option
+          v-for="child in store.childrenOf(u.id)"
+          :key="child.id"
+          :value="child.id"
+        >
+          {{ child.name }}{{ confLabel(child.confidentiality) }}
+        </option>
+      </optgroup>
     </select>
     <span
       v-if="store.selected"
@@ -56,7 +86,7 @@ function onChange(e: Event) {
   color: var(--savia-on-surface);
   font-size: 13px;
   min-width: 180px;
-  max-width: 220px;
+  max-width: 280px;
   cursor: pointer;
 }
 
@@ -71,9 +101,5 @@ function onChange(e: Event) {
   border-radius: 50%;
   flex-shrink: 0;
   display: inline-block;
-}
-
-.project-item {
-  padding: 4px 0;
 }
 </style>

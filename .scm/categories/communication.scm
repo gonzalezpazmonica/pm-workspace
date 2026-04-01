@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 75 resources
+> 76 resources
 
 - **** (): 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
@@ -8,6 +8,7 @@
 - **google-chat-notifier** (skill): Enviar notificaciones de PM a espacios de Google Chat mediante webhooks
 - **inbox-check** (>): 
 - **inbox-start** (>): 
+- **masked-digest** (script): masked-digest.sh — Masked digestion pipeline
 - **meeting-agenda** (cmd): Generación inteligente de agendas basada en estado del sprint y temas pendientes
 - **meeting-confidentiality-judge** (>): 
 - **meeting-digest** (>): 

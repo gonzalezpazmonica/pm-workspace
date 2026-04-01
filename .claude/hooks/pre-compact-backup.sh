@@ -8,7 +8,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 STORE_SCRIPT="$SCRIPT_DIR/../../scripts/memory-store.sh"
 
 # Session-hot file for Tier B persistence (consumed by post-compaction.sh)
-SESSION_HOT_DIR="$HOME/.claude/projects/-home-monica-claude/memory"
+PROJ_DIR="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+PROJ_SLUG=$(echo "$PROJ_DIR" | sed 's|[/:\]|-|g; s|^-||')
+SESSION_HOT_DIR="$HOME/.claude/projects/$PROJ_SLUG/memory"
 SESSION_HOT="$SESSION_HOT_DIR/session-hot.md"
 
 # Read hook input from stdin (JSON with transcript data)

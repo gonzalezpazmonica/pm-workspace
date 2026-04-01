@@ -82,7 +82,9 @@ esac
 
 # [FIX H1] Scan FULL file on disk — not truncated
 # VULN-007 FIX: Create normalized temp file for full-file scan
-NORM_FILE=$(mktemp 2>/dev/null || echo "/tmp/shield-audit-$$")
+SAVIA_TMP="${TMPDIR:-${HOME}/.savia/tmp}"
+mkdir -p "$SAVIA_TMP" 2>/dev/null || true
+NORM_FILE=$(mktemp 2>/dev/null || echo "$SAVIA_TMP/shield-audit-$$")
 if command -v python3 >/dev/null 2>&1; then
   PYTHONUTF8=1 python3 -c "import sys,unicodedata; print(unicodedata.normalize('NFKC',sys.stdin.read()))" < "$FILE_PATH" > "$NORM_FILE" 2>/dev/null || cp "$FILE_PATH" "$NORM_FILE"
 else

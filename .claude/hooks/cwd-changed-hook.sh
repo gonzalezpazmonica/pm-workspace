@@ -20,7 +20,9 @@ fi
 REPO_ROOT="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 NEW_CWD="${CLAUDE_CWD:-$(pwd)}"
 PROJECTS_DIR="$REPO_ROOT/projects"
-STATE_FILE="/tmp/savia-cwd-project-active"
+SAVIA_TMP="${TMPDIR:-${HOME}/.savia/tmp}"
+mkdir -p "$SAVIA_TMP" 2>/dev/null || true
+STATE_FILE="$SAVIA_TMP/savia-cwd-project-active"
 
 # Only act if we entered a project directory
 if [[ "$NEW_CWD" != "$PROJECTS_DIR"/* ]]; then

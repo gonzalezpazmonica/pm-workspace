@@ -32,13 +32,13 @@ extract_field() {
     | grep -m1 "^${field}:" \
     | sed "s/^${field}:[[:space:]]*//" \
     | sed 's/^["'"'"']//;s/["'"'"']$//' \
-    | head -c 120
+    | cut -c1-120
 }
 
 extract_intents() {
   local desc="$1"
   echo "$desc" | tr '[:upper:]' '[:lower:]' \
-    | grep -oE '[a-z]{4,}' \
+    | grep -oE '[a-záéíóúñüàèìòùâêîôûäëïöüçãæøå]{4,}' \
     | grep -vE '^(para|este|esta|desde|como|cada|tiene|puede|cuando|antes|after|with|from|that|this|will|been|have|more|than|your|into|also)$' \
     | sort -u | head -5 | tr '\n' ',' | sed 's/,$//'
 }
@@ -84,8 +84,8 @@ done
 for f in "$ROOT"/scripts/*.sh; do
   [ -f "$f" ] || continue
   name=$(basename "$f" .sh)
-  desc=$(sed -n '2s/^#[[:space:]]*//p' "$f" 2>/dev/null | head -c 120)
-  [ -z "$desc" ] && desc=$(sed -n '3s/^#[[:space:]]*//p' "$f" 2>/dev/null | head -c 120)
+  desc=$(sed -n '2s/^#[[:space:]]*//p' "$f" 2>/dev/null | cut -c1-120)
+  [ -z "$desc" ] && desc=$(sed -n '3s/^#[[:space:]]*//p' "$f" 2>/dev/null | cut -c1-120)
   [ -z "$desc" ] && continue
   cat=$(classify "$name" "$desc")
   intents=$(extract_intents "$desc")

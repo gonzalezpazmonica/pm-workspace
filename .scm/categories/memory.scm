@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 70 resources
+> 71 resources
 
 - **** (): 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
@@ -61,6 +61,7 @@
 - **repos-search** (>): 
 - **scaling-operations** (skill): Scaling operations — analyze tier, benchmark, recommend optimizations, knowledge search
 - **semantic-memory** (skill): semantic-memory
+- **session-action-log** (script): session-action-log.sh — Append-only session action log (SPEC-065)
 - **session-recording** (skill): Session Recording Skill
 - **session-save** (>): 
 - **session-state-machine** (script): session-state-machine.sh — SPEC-051 Phase 1: Session State Machine

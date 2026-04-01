@@ -21,8 +21,11 @@ if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
 fi
 
 REPO_ROOT="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
-SESSION_HOT="$HOME/.claude/projects/-home-monica-claude/memory/session-hot.md"
-STATE_FILE="/tmp/savia-prompt-hook-$$-injected"
+PROJ_SLUG=$(echo "$REPO_ROOT" | sed 's|[/:\]|-|g; s|^-||')
+SESSION_HOT="$HOME/.claude/projects/$PROJ_SLUG/memory/session-hot.md"
+SAVIA_TMP="${TMPDIR:-${HOME}/.savia/tmp}"
+mkdir -p "$SAVIA_TMP" 2>/dev/null || true
+STATE_FILE="$SAVIA_TMP/savia-prompt-hook-$$-injected"
 
 # Skip if empty, slash command, or very short confirmations
 INPUT_TEXT=$(echo "$USER_INPUT" | grep -o '"content":"[^"]*"' | head -1 | cut -d'"' -f4 || echo "$USER_INPUT")
@@ -38,7 +41,7 @@ fi
 OUTPUT=""
 
 # Job 1: Inject session-hot.md on first real prompt (once per process tree)
-GLOBAL_STATE="/tmp/savia-session-hot-injected-$(date +%Y%m%d)"
+GLOBAL_STATE="$SAVIA_TMP/savia-session-hot-injected-$(date +%Y%m%d)"
 if [[ -f "$SESSION_HOT" ]] && [[ ! -f "$GLOBAL_STATE" ]]; then
   HOT_CONTENT=$(head -20 "$SESSION_HOT" 2>/dev/null || true)
   if [[ -n "$HOT_CONTENT" ]]; then

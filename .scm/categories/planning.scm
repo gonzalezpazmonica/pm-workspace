@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 397 resources
+> 398 resources
 
 - **** (): 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de
@@ -200,6 +200,7 @@
 - **managed-scan** (cmd): Scan managed content for stale or outdated sections
 - **managed-sync** (cmd): Synchronize and regenerate managed content markers
 - **marketplace-publish** (cmd): Publish components to marketplace registry
+- **masked-unmask** (script): masked-unmask.sh — Unmask a Claude response back to real entities
 - **mcp-recommend** (>): 
 - **mcp-server-config** (cmd): Configure MCP servers and connection settings
 - **mcp-server-start** (cmd): Start and initialize MCP server instances
@@ -270,7 +271,7 @@
 - **project-roadmap** (>): 
 - **prompt-optimizer** (>): 
 - **protect-project-privacy** (script): protect-project-privacy.sh — Barrera de protección contra publicación accidental de proyectos
-- **push-pr** (script): push-pr.sh — CI + sign + push + create PR (zero re-sign commits)
+- **push-pr** (script): push-pr.sh — CI + sign + push + create PR + release (zero re-sign commits)
 - **python-developer** (>): 
 - **readiness-check** (script): readiness-check.sh — Deterministic capability checklist
 - **record-export** (cmd): Export recorded session or data in multiple formats

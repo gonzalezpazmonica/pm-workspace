@@ -7,7 +7,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-init.sh",
             "timeout": 15,
-            "statusMessage": "Inicializando sesi\u00f3n PM-Workspace..."
+            "statusMessage": "Inicializando sesión PM-Workspace..."
           }
         ]
       }
@@ -43,7 +43,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/prompt-hook-commit.sh",
             "timeout": 5,
-            "statusMessage": "Prompt hook: validando sem\u00e1ntica..."
+            "statusMessage": "Prompt hook: validando semántica..."
           },
           {
             "type": "command",
@@ -93,7 +93,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/tdd-gate.sh",
             "timeout": 10,
-            "statusMessage": "TDD gate: tests antes que c\u00f3digo..."
+            "statusMessage": "TDD gate: tests antes que código..."
           },
           {
             "type": "command",
@@ -150,6 +150,36 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/live-progress-hook.sh",
             "async": true,
             "timeout": 3
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A git commit command is about to run. Evaluate if the commit message accurately describes the intent of the changes based on the command context.\n\nCommand: $ARGUMENTS\n\nRespond with {\"ok\": true} if the message is descriptive and follows conventional commit format (type(scope): description). Respond with {\"ok\": false, \"reason\": \"brief explanation\"} if the message is misleading, too vague, or does not match what the changes seem to do.",
+            "if": "Bash(git commit*)",
+            "timeout": 10,
+            "model": "claude-haiku-4-5-20251001",
+            "statusMessage": "Semantic commit validation (Haiku)..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "http://127.0.0.1:8444/gate",
+            "headers": {
+              "X-Shield-Token": "$SHIELD_TOKEN"
+            },
+            "allowedEnvVars": [
+              "SHIELD_TOKEN"
+            ],
+            "timeout": 5,
+            "statusMessage": "Savia Shield HTTP gate..."
           }
         ]
       }
@@ -242,7 +272,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-end-snapshot.sh",
             "async": true,
             "timeout": 5,
-            "statusMessage": "Guardando snapshot de sesi\u00f3n..."
+            "statusMessage": "Guardando snapshot de sesión..."
           },
           {
             "type": "command",
@@ -303,7 +333,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-compact-backup.sh",
             "timeout": 10,
-            "statusMessage": "Backup pre-compactaci\u00f3n..."
+            "statusMessage": "Backup pre-compactación..."
           }
         ]
       }
@@ -315,7 +345,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
             "timeout": 10,
-            "statusMessage": "Recuperando memoria persistente tras compactaci\u00f3n..."
+            "statusMessage": "Recuperando memoria persistente tras compactación..."
           }
         ]
       }
@@ -329,6 +359,98 @@
             "async": true,
             "timeout": 5,
             "statusMessage": "Registrando fallo de herramienta..."
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/subagent-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Tracking agent lifecycle..."
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/subagent-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Logging agent completion..."
+          }
+        ]
+      }
+    ],
+    "TaskCreated": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/task-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Logging task creation..."
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/task-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Logging task completion..."
+          }
+        ]
+      }
+    ],
+    "FileChanged": [
+      {
+        "matcher": "*.cs|*.py|*.ts|*.tsx|*.js|*.jsx|*.go|*.java|*.rs|*.rb|*.php",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/file-changed-staleness.sh",
+            "async": true,
+            "timeout": 2,
+            "statusMessage": "Checking map staleness..."
+          }
+        ]
+      }
+    ],
+    "InstructionsLoaded": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/instructions-tracker.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "Tracking instructions..."
+          }
+        ]
+      }
+    ],
+    "ConfigChange": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/config-reload.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "Reloading config..."
           }
         ]
       }
