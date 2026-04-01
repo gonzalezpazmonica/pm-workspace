@@ -93,4 +93,12 @@ Baldintzak: Python 3.12+, Ollama, jq, gutxienez 8GB RAM. Instalazio osorik gabe:
 
 Shield-ek **N4/N4b-tik N1-era** mugak babesten ditu. Kokapen pribatuetan idaztea beti baimenduta dago.
 
+## Era 171 (SPEC-071) Hobekuntzak
+
+- **Gertakari-estaldura**: Claude Code-ko 28 gertakarietatik 17 estalduta (61%, aurretik 25%)
+- **`if` baldintza**: 7 hook automatikoki salta fitxategia kodea ez bada (~40% spawn aurrezten ditu)
+- **Gertakari berriak**: SubagentStart/Stop, TaskCreated/Completed, FileChanged, InstructionsLoaded, ConfigChange
+- **Eramangarritasuna**: `/tmp/` bide gogortuak eta `sed -i` bateraezina diren aginduak kendu dira
+- **Audita daitezkeen timeout**: daemon-a >5s hartzen badu, TIMEOUT_ALLOW gisa erregistratzen da audit logean
+
 > Arkitektura osoa: [docs/savia-shield.md](savia-shield.md) | Testak: `bats tests/test-data-sovereignty.bats`
