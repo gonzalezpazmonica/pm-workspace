@@ -6,7 +6,7 @@ setup() {
   export PROJECT_DIR="${BATS_TEST_DIRNAME}/.."
   export SCRIPT="$PROJECT_DIR/scripts/masked-digest.sh"
   export SHIELD_URL="http://127.0.0.1:8444"
-  export TOKEN=$(cat "$HOME/.savia/shield-token" 2>/dev/null)
+  export TOKEN=$(cat "$HOME/.savia/shield-token" 2>/dev/null || true)
   export TOKEN_HEADER=""
   [[ -n "$TOKEN" ]] && TOKEN_HEADER="-H X-Shield-Token:$TOKEN"
 }
