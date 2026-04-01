@@ -29,12 +29,15 @@ teardown() {
   echo "$output" | python3 -c "import json,sys; json.load(sys.stdin)"
 }
 
-@test "analyzer detects at least 10 tier1 rules" {
+@test "analyzer detects at least 8 tier1 rules" {
+  # Threshold lowered from 10 to 8 after SPEC-067 CLAUDE.md diet:
+  # rules 9-25 moved to @import (critical-rules-extended.md), reducing
+  # direct @references in CLAUDE.md from 12+ to 9. This is intentional.
   run bash -c "echo '' | $ROOT/scripts/rule-usage-analyzer.sh"
   [ "$status" -eq 0 ]
   local count
   count=$(echo "$output" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['tier1_count'])")
-  [ "$count" -ge 10 ]
+  [ "$count" -ge 8 ]
 }
 
 @test "rule-manifest.json exists" {
