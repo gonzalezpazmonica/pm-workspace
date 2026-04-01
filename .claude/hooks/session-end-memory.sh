@@ -17,7 +17,9 @@ if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
 fi
 
 REPO_ROOT="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
-SESSION_HOT="$HOME/.claude/projects/-home-monica-claude/memory/session-hot.md"
+PROJ_DIR="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+PROJ_SLUG=$(echo "$PROJ_DIR" | sed 's|[/:\]|-|g; s|^-||')
+SESSION_HOT="$HOME/.claude/projects/$PROJ_SLUG/memory/session-hot.md"
 SESSION_LOG="$HOME/.savia/session-end.log"
 ACTION_LOG="$HOME/.savia/session-actions.jsonl"
 
