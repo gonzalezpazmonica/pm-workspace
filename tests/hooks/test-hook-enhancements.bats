@@ -9,14 +9,18 @@ setup() {
     TMPDIR=$(mktemp -d)
     export PROJECT_ROOT="$TMPDIR"
     export HOME="$TMPDIR/home"
-    mkdir -p "$HOME/.claude/projects/-home-monica-claude/memory"
+    export CLAUDE_PROJECT_DIR="$TMPDIR/workspace"
+    mkdir -p "$CLAUDE_PROJECT_DIR" 2>/dev/null || true
+    # Derive PROJ_SLUG the same way hooks do (matching sed pattern)
+    PROJ_SLUG=$(echo "$CLAUDE_PROJECT_DIR" | sed 's|[/:\\]|-|g; s|^-||')
+    mkdir -p "$HOME/.claude/projects/$PROJ_SLUG/memory"
     mkdir -p "$HOME/.pm-workspace/tool-failures"
     mkdir -p "$TMPDIR/output"
     mkdir -p "$TMPDIR/scripts"
 
     HOOKS_DIR="$REPO_ROOT/.claude/hooks"
     SCRIPTS_DIR="$REPO_ROOT/scripts"
-    SESSION_HOT="$HOME/.claude/projects/-home-monica-claude/memory/session-hot.md"
+    SESSION_HOT="$HOME/.claude/projects/$PROJ_SLUG/memory/session-hot.md"
 
     # Stub memory-store.sh to avoid side effects
     cat > "$TMPDIR/scripts/memory-store.sh" << 'STUB'
