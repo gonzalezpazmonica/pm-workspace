@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 81 resources
+> 84 resources
 
 - **arch-compare** (cmd): Comparar dos patrones de arquitectura para toma de decisiones
 - **arch-detect** (cmd): Detectar el patrón de arquitectura de un repositorio o proyecto
@@ -33,6 +33,7 @@
 - **eval-agent** (cmd): Evaluate an agent against its golden set — precision, recall, hallucinations, bias (SPEC-036)
 - **eval-agent** (script): eval-agent.sh — Agent Evaluation Runner (SPEC-036)
 - **eval-run** (cmd): Execute evaluation against specified criteria
+- **execution-supervisor** (script): execution-supervisor.sh — Advisory reflection trigger (SPEC-065)
 - **feasibility-probe** (skill): Validate spec feasibility with time-boxed prototype attempt and viability scoring
 - **feasibility-probe** (cmd): Validate spec feasibility with a time-boxed prototype attempt
 - **feasibility-probe** (agent): Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections
@@ -74,9 +75,11 @@
 - **statusline-provider** (script): statusline-provider.sh — HUD data provider for Claude Code statusline
 - **tech-research** (cmd): Launch autonomous technical research — investigates topics, generates reports, notifies designated human
 - **tech-research-agent** (skill): Agente de investigación técnica autónoma — investiga temas, genera informes, notifica al humano designado
+- **token-estimator** (script): token-estimator.sh — SPEC-069-TOKEN: Estimate token cost before execution
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
 - **validate-consensus** (cmd): Lanzar panel de 3 jueces para validar specs, PRs y decisiones
 - **validate-pbi-spec-links** (script): validate-pbi-spec-links.sh — Check bidirectional PBI ↔ Spec links
+- **validate-spec** (script): validate-spec.sh — SPEC-071: Declarative spec validation without LLM
 - **verify-layer** (cmd): Run specific verification layer for debugging
 - **wireframe-check** (cmd): Validate implementation against wireframe/mockup designs. Register reference designs and verify implementation fidelity 
 - **workload-balance** (cmd): Equilibrado objetivo de carga de trabajo respetando especialidades del equipo
