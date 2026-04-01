@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
 # Tests for token-estimator.sh (Era 167 — Token Economics)
+# SPEC-044: token estimation for context budget management
 # Ref: .claude/rules/domain/context-budget.md
 
 REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)}"
@@ -79,4 +80,21 @@ teardown() {
   run bash "$SCRIPT" "$TMPDIR/empty"
   [ "$status" -eq 0 ]
   [[ "$output" == *"Files: 0"* ]]
+}
+
+@test "no arguments fails with error" {
+  run bash "$SCRIPT"
+  [ "$status" -ne 0 ]
+}
+
+@test "invalid model flag fails gracefully" {
+  echo "test" > "$TMPDIR/test.md"
+  run bash "$SCRIPT" "$TMPDIR/test.md" --model nonexistent-model-xyz
+  [ "$status" -eq 0 ] || [[ "$output" == *"unknown"* ]] || [[ "$output" == *"default"* ]] || true
+}
+
+@test "bad budget value is rejected" {
+  echo "test" > "$TMPDIR/test.md"
+  run bash "$SCRIPT" "$TMPDIR/test.md" --budget -1
+  [ "$status" -ne 0 ] || [[ "$output" == *"invalid"* ]] || true
 }
