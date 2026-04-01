@@ -14,8 +14,8 @@
 - **build-skill-manifest** (script): build-skill-manifest.sh — Genera manifesto de skills desde frontmatter
 - **calendar-focus** (cmd): Crear bloque de focus para una tarea especifica — Deep Work protegido
 - **check-coherence** (cmd): Validate that a spec, report, or code output actually matches its stated objective
-- **codebase-map** (cmd): Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills
 - **codebase-map** (>): 
+- **codebase-map** (cmd): Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills
 - **code-comprehension-report** (skill): Generate comprehension report with mental model after SDD implementation. Automatically documents architectural decision
 - **code-improve** (cmd): Launch autonomous code improvement loop — detects opportunities, applies improvements, creates PRs for review
 - **code-improvement-loop** (skill): Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera PRs pendientes de revisi

@@ -1,0 +1,58 @@
+# Savia Web — Infrastructure (.acm)
+> hash: sha256:auto | generated: 2026-03-30 | lines: 62
+
+## Composables (Data Access Layer — 3 total)
+
+### useBridge
+- **File**: `src/composables/useBridge.ts`
+- **Purpose**: REST API client to Savia Bridge backend
+- **Methods**: get<T>(path), post<T>(path, body), healthCheck(), baseUrl(), headers()
+- **Auth**: Bearer token from useAuthStore
+- **Error handling**: catch blocks return null
+- **Base URL**: https://localhost:8922 (configurable via auth store)
+
+### useSSE
+- **File**: `src/composables/useSSE.ts`
+- **Purpose**: Server-Sent Events streaming for chat (cancelable)
+- **Methods**: streamChat(message, sessionId, onEvent), sendPermission(requestId, granted), cancelStream()
+- **Events**: StreamEvent (text|start|done|error|tool_use|permission_request)
+- **Pattern**: POST to /chat with interactive=true, parse SSE events
+
+### useReportData<T>
+- **File**: `src/composables/useReportData.ts`
+- **Purpose**: Generic report data fetcher with project scoping
+- **Methods**: load(extraParams)
+- **Returns**: data, loading, error (reactive refs)
+- **Auto-reload**: watches projectStore.selectedId
+
+## Bridge Endpoints Used
+
+| Endpoint | Method | Composable | Used By |
+|----------|--------|------------|---------|
+| `/auth/me` | GET | useBridge | Router guard |
+| `/chat` | POST (SSE) | useSSE | ChatPage |
+| `/sessions` | GET | useBridge | ChatStore |
+| `/projects` | GET | useBridge | ProjectStore |
+| `/backlog?project={id}` | GET | useBridge | BacklogStore |
+| `/files` | GET | useBridge | FileBrowserPage |
+| `/files/content` | GET | useBridge | FileViewer |
+| `/dashboard?project={id}` | GET | useBridge | DashboardStore |
+| `/users` | GET | useBridge | AdminUsersPage |
+| `/users/{slug}` | GET/PUT | useBridge | ProfilePage |
+| `/users/{slug}/rotate-token` | POST | useBridge | AdminUsersPage |
+| `/reports/*` | GET | useReportData | Report pages |
+
+## Persistence Layer
+
+| Store | Mechanism | Key |
+|-------|-----------|-----|
+| Auth | localStorage | savia-web-auth |
+| Chat | localStorage (watch) | savia-web-chat-sessions |
+| Backlog | localStorage (watch) | savia-web-backlog-filters |
+| Project | localStorage | savia-web-project |
+
+## External Dependencies
+
+- Savia Bridge (HTTPS, port 8922, TLS self-signed in dev)
+- No direct database access (all via Bridge REST API)
+- No external CDN dependencies (bundled with Vite)

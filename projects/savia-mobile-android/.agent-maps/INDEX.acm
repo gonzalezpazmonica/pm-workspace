@@ -1,0 +1,52 @@
+# Savia Mobile Android — Agent Code Map (.acm)
+> hash: sha256:auto | generated: 2026-03-30 | lines: 55
+
+## Overview
+
+| Attribute | Value |
+|-----------|-------|
+| **Stack** | Kotlin 2.1.0 + Jetpack Compose Material 3 |
+| **DI** | Hilt |
+| **Network** | OkHttp (TLS self-signed to Bridge) |
+| **Annotation** | KSP |
+| **Architecture** | Modular (:app, :domain, :data) |
+| **Bridge** | HTTPS port 8922, SSE streaming |
+| **Tests** | 48 unit tests passing |
+
+## Layers
+
+| Layer | File | Priority | Description |
+|-------|------|----------|-------------|
+| Domain | @include domain/entities.acm | HIGH | 13 screens, ViewModels, domain models |
+| Infrastructure | @include infrastructure/repositories.acm | MEDIUM | Bridge client, OTA, auth, notifications |
+| API | @include api/controllers.acm | MEDIUM | Navigation, activities, deep links |
+
+## Module Structure
+
+```
+:app        → MainActivity, SaviaApp, Navigation, DI modules
+:domain     → Models, UseCases (planned)
+:data       → Bridge API, repositories (planned)
+```
+
+## 13 Screens
+
+Home, Chat, Commands, Profile, Kanban, Approvals,
+Capture, TimeLog, Dashboard, Settings, TeamManagement,
+GitConfig, CompanyProfile
+
+## Key Patterns
+
+- Single Activity + Compose Navigation
+- Hilt for DI (@HiltViewModel, @AndroidEntryPoint)
+- Bridge connection: OkHttp with self-signed TLS trust
+- SSE streaming for chat (chunked transfer encoding)
+- OTA updates via Bridge endpoints
+- APK auto-publish to ~/.savia/bridge/apk/ and scripts/dist/
+
+## Build
+
+- NEVER use assembleDebug directly
+- Use: `./gradlew buildAndPublish` (tests → build → publish)
+- JAVA_HOME=/snap/android-studio/209/jbr
+- ANDROID_HOME=/home/monica/Android/Sdk

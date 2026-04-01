@@ -1,0 +1,50 @@
+# Savia Web — Agent Code Map (.acm)
+> hash: sha256:auto | generated: 2026-03-30 | lines: 52
+
+## Overview
+
+| Attribute | Value |
+|-----------|-------|
+| **Stack** | Vue 3 + TypeScript + Vite 6 + Pinia |
+| **Router** | Vue Router 4 (admin guards, lazy loading) |
+| **I18N** | vue-i18n 9 (ES/EN) |
+| **Charts** | ECharts 5 + vue-echarts 7 |
+| **Bridge** | HTTPS localhost:8922 (REST + SSE streaming) |
+| **Tests** | Vitest (228 unit) + Playwright (150 E2E), 80% coverage |
+
+## Layers
+
+| Layer | File | Priority | Description |
+|-------|------|----------|-------------|
+| Domain Entities | @include domain/entities.acm | HIGH | 8 Pinia stores, TypeScript types |
+| Infrastructure | @include infrastructure/repositories.acm | MEDIUM | Bridge composables, localStorage |
+| API/Entry Points | @include api/controllers.acm | MEDIUM | 21 pages, router, SSE streaming |
+
+## Architecture
+
+```
+Bridge (backend) → useBridge()/useSSE() → Stores (Pinia) → localStorage → Components (Vue 3)
+```
+
+## Key Patterns
+
+- Reactive state: Vue ref()/computed() in all stores
+- Watch-based persistence: backlog/chat → localStorage
+- Project scoping: all stores reload on projectStore.selectedId change
+- SSE streaming: cancelable, typed StreamEvent (text|tool_use|permission_request)
+- Admin guards: router.beforeEach checks auth.role
+- All pages lazy-loaded via dynamic imports
+
+## Source Structure
+
+```
+src/
+├── components/     28 .vue (layout, backlog, charts, files, dialogs)
+├── pages/          21 .vue route pages
+├── stores/         8 Pinia stores
+├── composables/    3 hooks (useBridge, useSSE, useReportData)
+├── router/         Routes + admin guard
+├── types/          bridge.ts, chat.ts, reports.ts
+├── locales/        es.json, en.json
+└── __tests__/      42 test files
+```

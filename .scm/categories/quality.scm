@@ -1,8 +1,10 @@
 # quality — Savia Capability Map (L1)
 > 179 resources
 
+- **** (): 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de 
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por
+- **/drift-check** (cmd): Audita reglas CLAUDE.md vs. estado real del repo. Detecta divergencias, archivos huérfanos, tests faltantes y patrones 
 - **adversarial-security** (skill): Pipeline de seguridad adversarial — Red Team, Blue Team, Auditor con scoring
 - **ai-audit-log** (cmd): Log de auditoría IA — quién ejecutó qué agente, sobre qué datos, cuándo
 - **ai-exposure-audit** (cmd): Auditoría de exposición IA por rol — observed exposure, riesgo de desplazamiento, reskilling
@@ -20,7 +22,6 @@
 - **dependencies-audit** (>): 
 - **docs-quality-audit** (cmd): Auditar calidad de documentacion basada en feedback de agentes
 - **drift-auditor** (agent): Auditoría de convergencia repo: detecta drift entre docs, config y código. Usar PROACTIVELY tras cambios grandes o al 
-- **/drift-check** (cmd): Audita reglas CLAUDE.md vs. estado real del repo. Detecta divergencias, archivos huérfanos, tests faltantes y patrones 
 - **executive-audit** (script): executive-audit.sh — Executive Audit for PM Workspace
 - **frontend-test-runner** (agent): Post-commit frontend test execution — unit, component, e2e, coverage
 - **hub-audit** (cmd): Auditar dependencias entre reglas de dominio, comandos y agentes — recalcular el índice de hubs

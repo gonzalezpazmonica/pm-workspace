@@ -1,0 +1,57 @@
+# Savia Mobile Android — API / Entry Points (.acm)
+> hash: sha256:auto | generated: 2026-03-30 | lines: 55
+
+## Navigation Graph
+
+### Route Definitions
+- **File**: `app/src/main/kotlin/.../navigation/NavGraph.kt`
+- **Pattern**: Sealed class Screen with route strings
+- **Start**: HomeScreen
+
+### Routes
+
+| Route | Screen | Auth Required |
+|-------|--------|---------------|
+| `/home` | HomeScreen | Yes |
+| `/chat` | ChatScreen | Yes |
+| `/commands` | CommandsScreen | Yes |
+| `/profile` | ProfileScreen | Yes |
+| `/kanban` | KanbanScreen | Yes |
+| `/approvals` | ApprovalsScreen | Yes |
+| `/capture` | CaptureScreen | Yes |
+| `/timelog` | TimeLogScreen | Yes |
+| `/dashboard` | DashboardScreen | Yes |
+| `/settings` | SettingsScreen | Yes |
+| `/team` | TeamManagementScreen | Yes |
+| `/git-config` | GitConfigScreen | Yes |
+| `/company` | CompanyProfileScreen | Yes |
+
+## Activity Entry Point
+
+### MainActivity
+- **File**: `app/src/main/kotlin/.../MainActivity.kt`
+- **Purpose**: Single Activity hosting Compose NavHost
+- **Lifecycle**: onCreate → setContent { SaviaApp { NavGraph() } }
+- **Annotation**: @AndroidEntryPoint
+
+## Deep Links (planned)
+
+- `savia://chat/{sessionId}` → ChatScreen with session
+- `savia://approval/{id}` → ApprovalsScreen with item
+- `savia://capture` → CaptureScreen (quick capture intent)
+
+## Testing Entry Points
+
+- **Unit**: `app/src/test/kotlin/` (48 tests)
+- **Integration**: `app/src/androidTest/kotlin/`
+- **Run**: `./gradlew testDebugUnitTest`
+- **Build+Test+Publish**: `./gradlew buildAndPublish`
+
+## Known Issues (from CLAUDE.md)
+
+- Chat timestamps: fixed (was showing UTC, now local)
+- Bridge dedup: fixed (duplicate messages on reconnect)
+- Session persistence: fixed (sessions survive app restart)
+- CLAUDECODE env cleanup: fixed (env var leak between sessions)
+- Project selector persistence: fixed (selected project survives rotation)
+- APK version auto-increment: fixed (versionCode from git tag)

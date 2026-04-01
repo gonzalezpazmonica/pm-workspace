@@ -1,6 +1,7 @@
 # governance — Savia Capability Map (L1)
 > 27 resources
 
+- **/training-compliance** (>): 
 - **aepd-compliance** (cmd): Auditoría de cumplimiento AEPD para IA agéntica — framework 4 fases
 - **audit-alert** (cmd): Alertas automáticas por patrones anómalos — horario inusual, comandos de riesgo, volumen alto, acceso sensible.
 - **audit-export** (cmd): Exportar audit trail en JSON/CSV/PDF para auditorías externas. ISO 42001 & NIST AI RMF compliant.
@@ -23,7 +24,6 @@
 - **policy-check** (cmd): Verificar politicas de agente para un proyecto — mostrar permisos y restricciones
 - **regulatory-compliance** (skill): Validación de marcos regulatorios por sector — detección automática, compliance checks y corrección
 - **sdlc-policy** (cmd): Configure SDLC policies and quality gates
-- **/training-compliance** (>): 
 - **vertical-education** (cmd): Extensión compliance para educación — FERPA, accesibilidad educativa, COPPA
 - **vertical-finance** (cmd): Extensión compliance para finanzas — SOX, Basel III, MiFID II, PCI DSS
 - **vertical-healthcare** (cmd): Extensión compliance para healthcare — HIPAA, HL7 FHIR, FDA 21 CFR Part 11

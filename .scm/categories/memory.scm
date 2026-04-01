@@ -1,6 +1,7 @@
 # memory — Savia Capability Map (L1)
-> 69 resources
+> 70 resources
 
+- **** (): 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (>): 
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
@@ -28,6 +29,7 @@
 - **digest-to-memory** (script): digest-to-memory.sh — Bridge: digest agents -> memory-store + graph
 - **entity-recall** (>): 
 - **generate-blocklist** (script): generate-blocklist.sh — Dynamic blocklist from workspace context
+- **generate-context-index** (script): generate-context-index.sh — Generate context index files for workspace and projects
 - **generate-global-context** (script): Generate compact global context for agent injection.
 - **google-drive-memory** (skill): Persist project memory and context in Google Drive as Git alternative
 - **headroom-analyze** (cmd): Analizar el uso de tokens por bloque de contexto e identificar oportunidades de compresión

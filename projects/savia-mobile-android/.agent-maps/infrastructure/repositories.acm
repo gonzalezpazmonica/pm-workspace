@@ -1,0 +1,63 @@
+# Savia Mobile Android — Infrastructure (.acm)
+> hash: sha256:auto | generated: 2026-03-30 | lines: 65
+
+## Network Layer
+
+### BridgeClient
+- **File**: `app/src/main/kotlin/.../network/BridgeClient.kt`
+- **Purpose**: OkHttp client configured for Bridge HTTPS (self-signed TLS)
+- **Dependencies**: OkHttp, TrustManager (custom for self-signed certs)
+- **Base URL**: https://localhost:8922 (configurable)
+- **Auth**: Bearer token from AuthManager
+
+### SSE Handler
+- **File**: `app/src/main/kotlin/.../network/SseHandler.kt` (or inline in ChatViewModel)
+- **Purpose**: Chunked transfer encoding parser for chat streaming
+- **Pattern**: OkHttp EventSource or manual chunked reading
+
+## Auth
+
+### AuthManager
+- **File**: `app/src/main/kotlin/.../auth/AuthManager.kt`
+- **Purpose**: Token storage, session persistence, login/logout
+- **Storage**: SharedPreferences (encrypted)
+- **Session**: Persists across app restarts
+
+## OTA Updates
+
+### UpdateManager
+- **File**: `app/src/main/kotlin/.../UpdateManager.kt`
+- **Purpose**: Check and install APK updates from Bridge
+- **Endpoints**: Bridge /updates/check, /updates/download
+- **Publish**: APK auto-published to ~/.savia/bridge/apk/ and scripts/dist/
+
+## Notifications
+
+### NotificationManager
+- **File**: `app/src/main/kotlin/.../notifications/NotificationManager.kt`
+- **Purpose**: Local notifications for approvals, reminders, chat mentions
+
+## DI Modules (Hilt)
+
+### NetworkModule
+- **File**: `app/src/main/kotlin/.../di/NetworkModule.kt`
+- **Purpose**: Provides OkHttpClient, BridgeClient as singletons
+- **Scope**: @Singleton
+
+### AppModule
+- **File**: `app/src/main/kotlin/.../di/AppModule.kt`
+- **Purpose**: Provides AuthManager, UpdateManager, SharedPreferences
+- **Scope**: @Singleton
+
+## Bridge Endpoints Used
+
+| Endpoint | Method | Used By |
+|----------|--------|---------|
+| `/auth/login` | POST | AuthManager |
+| `/auth/me` | GET | AuthManager |
+| `/chat` | POST (SSE) | ChatViewModel |
+| `/projects` | GET | HomeViewModel |
+| `/dashboard` | GET | DashboardViewModel |
+| `/backlog` | GET | KanbanScreen |
+| `/updates/check` | GET | UpdateManager |
+| `/updates/download` | GET | UpdateManager |

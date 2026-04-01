@@ -28,19 +28,21 @@ if [[ -z "$COMMAND" ]]; then
   exit 0
 fi
 
-# Bloquear git commit/add en rama main/master (evita commits accidentales)
+# Bloquear git commit/add en main SOLO para savia/pm-workspace
 if echo "$COMMAND" | grep -iE 'git[[:space:]]+(commit|add)' > /dev/null; then
-  # Detect target directory: if command starts with "cd <path> &&", use that path
-  # This handles multi-repo setups where the git repo differs from CLAUDE_PROJECT_DIR
   GIT_DIR_TARGET="$CLAUDE_PROJECT_DIR"
   CD_PATH=$(echo "$COMMAND" | sed -n 's/^[[:space:]]*cd[[:space:]]*"\([^"]*\)".*/\1/p' 2>/dev/null)
   if [[ -n "$CD_PATH" ]] && [[ -d "$CD_PATH/.git" ]]; then
     GIT_DIR_TARGET="$CD_PATH"
   fi
-  CURRENT_BRANCH=$(cd "$GIT_DIR_TARGET" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
-  if [ "$CURRENT_BRANCH" = "main" ] || [ "$CURRENT_BRANCH" = "master" ]; then
-    echo "BLOQUEADO: git commit/add en rama '$CURRENT_BRANCH' ($GIT_DIR_TARGET). Cambia a feature branch primero." >&2
-    exit 2
+  REPO_TOP=$(cd "$GIT_DIR_TARGET" 2>/dev/null && git rev-parse --show-toplevel 2>/dev/null)
+  REPO_NAME=$(basename "$REPO_TOP" 2>/dev/null)
+  if [[ "$REPO_NAME" == "savia" || "$REPO_NAME" == "pm-workspace" ]]; then
+    CURRENT_BRANCH=$(cd "$GIT_DIR_TARGET" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
+    if [ "$CURRENT_BRANCH" = "main" ] || [ "$CURRENT_BRANCH" = "master" ]; then
+      echo "BLOQUEADO: rama '$CURRENT_BRANCH' en $GIT_DIR_TARGET. Cambia a feature branch." >&2
+      exit 2
+    fi
   fi
 fi
 

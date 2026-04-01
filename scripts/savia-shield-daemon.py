@@ -115,18 +115,21 @@ def gate(hook_input):
     if not fp:
         return {"verdict": "ALLOW", "reason": "no_file_path", "latency_ms": 0}
 
+    # Normalize path separators (Windows uses \, patterns use /)
+    fp_norm = fp.replace("\\", "/")
+
     # Destination classification — private paths skip scanning
-    private_patterns = ["/projects/", ".local.", "/output/", "private-agent-memory",
+    private_patterns = ["/projects/", "projects/", ".local.", "/output/", "private-agent-memory",
                         "config.local", "/.savia/", "/.claude/sessions/", "settings.local.json"]
     for pat in private_patterns:
-        if pat in fp:
+        if pat in fp_norm:
             return {"verdict": "ALLOW", "reason": "private_destination", "latency_ms": 0}
 
     # Whitelist for shield's own files
     shield_patterns = ["data-sovereignty", "ollama-classify", "shield-ner",
                        "savia-shield", "sovereignty-mask", "test-data-sovereignty"]
     for pat in shield_patterns:
-        if pat in fp:
+        if pat in fp_norm:
             return {"verdict": "ALLOW", "reason": "shield_file", "latency_ms": 0}
 
     if not content or len(content) < 10:

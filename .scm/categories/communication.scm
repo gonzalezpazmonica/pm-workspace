@@ -1,6 +1,7 @@
 # communication — Savia Capability Map (L1)
 > 75 resources
 
+- **** (): 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
 - **excel-digest** (>): 

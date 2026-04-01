@@ -1,10 +1,16 @@
 # planning — Savia Capability Map (L1)
 > 397 resources
 
+- **** (): 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de
+- **/accreditation-track** (>): 
+- **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
+- **/drive-sync** (cmd): Bidirectional sync between local workspace and Google Drive
+- **/health-kpi** (>): 
+- **/incident-register** (>): 
+- **/pdca-cycle** (>): 
 - **accessibility-mode** (cmd): Toggle rápido de accesibilidad — activa, desactiva o muestra el estado
 - **accessibility-setup** (cmd): Configura las preferencias de accesibilidad de Savia para adaptarse a tus necesidades
-- **/accreditation-track** (>): 
 - **adaptive-strategy-selector** (script): adaptive-strategy-selector.sh — Select loading strategy based on model tier
 - **adb-run** (script): adb-run.sh — Execute adb-wrapper functions without compound && chains
 - **add-maturity-levels** (script): add-maturity-levels.sh — Add maturity field to all skill frontmatter
@@ -109,8 +115,6 @@
 - **diagram-status** (>): 
 - **doc-quality-feedback** (>): 
 - **dotnet-developer** (>): 
-- **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
-- **/drive-sync** (cmd): Bidirectional sync between local workspace and Google Drive
 - **dx-core4** (cmd): Marco DX Core 4 completo: velocidad, efectividad, calidad e impacto. Genera scorecard de experiencia del desarrollador.
 - **dx-dashboard** (cmd): Dashboard DX con métricas automatizables de feedback loops, cognitive load y satisfacción
 - **dx-recommendations** (cmd): Análisis de friction points y recomendaciones para mejorar la experiencia del equipo
@@ -168,7 +172,6 @@
 - **guided-work** (cmd): Trabajo guiado — Savia te acompaña paso a paso con preguntas, adaptando el ritmo a tus necesidades
 - **headroom-optimization** (skill): headroom-optimization
 - **health-dashboard** (cmd): Dashboard de salud del proyecto unificado — Savia muestra una vista rápida adaptada al rol
-- **/health-kpi** (>): 
 - **help** (cmd): Catálogo de comandos y primeros pasos pendientes.
 - **hook-pii-gate** (script): hook-pii-gate.sh — PII Quality Gate Pre-Commit Hook
 - **hook-profile** (cmd): View or change the active SAVIA_HOOK_PROFILE (minimal/standard/strict/ci)
@@ -177,7 +180,6 @@
 - **hw-revision** (>): 
 - **Incident Correlate** (cmd): Correlación cruzada de datos de múltiples fuentes para análisis integral de incidentes
 - **incident-postmortem** (cmd): Template de postmortem — timeline, root cause analysis, action items
-- **/incident-register** (>): 
 - **index-compact** (>): 
 - **index-status** (>): 
 - **infrastructure-agent** (>): 
@@ -234,7 +236,6 @@
 - **pbi-jtbd** (>): 
 - **pbi-plan-sprint** (cmd): Plan and allocate PBIs to upcoming sprint
 - **pbi-prd** (>): 
-- **/pdca-cycle** (>): 
 - **personal-vault** (skill): Gestion del repositorio personal del usuario — perfil, preferencias, memoria, instintos, cache. Nivel N3 (USUARIO). In
 - **php-developer** (>): 
 - **platform-migrate** (cmd): Migración asistida entre plataformas — Azure DevOps ↔ Jira ↔ GitHub Projects ↔ Linear
@@ -366,8 +367,8 @@
 - **travel-verify** (cmd): Verifica integridad de un paquete de viaje en USB.
 - **typescript-developer** (>): 
 - **underwriting-rule** (>): 
-- **update** (cmd): Comprobar y aplicar actualizaciones de pm-workspace desde GitHub, preservando datos locales
 - **update** (script): update.sh — Sistema de actualización de pm-workspace
+- **update** (cmd): Comprobar y aplicar actualizaciones de pm-workspace desde GitHub, preservando datos locales
 - **user-profile** (cmd): Gestiona perfiles de miembros del equipo — ver, crear o editar.
 - **validate-changelog-links** (script): validate-changelog-links.sh — Verifica que cada ## [X.Y.Z] tiene su enlace [X.Y.Z]: URL
 - **validate-commands** (────────────────────────────────────────): 

@@ -1,0 +1,43 @@
+# Sala Reservas — Agent Code Map (.acm)
+> hash: sha256:auto | generated: 2026-03-30 | lines: 48
+
+## Overview
+
+| Attribute | Value |
+|-----------|-------|
+| **Stack** | .NET 8 / ASP.NET Core Web API + SQL Server LocalDB |
+| **Architecture** | Clean Architecture + CQRS (MediatR) |
+| **Purpose** | Test project for PM-Workspace validation |
+| **Status** | v0.0 — CRUD Salas y Reservas |
+
+## Domain Entities
+
+### Sala (Room)
+- **Type**: Domain Entity
+- **Purpose**: Represents a bookable room with capacity, location, amenities
+- **Key fields**: Id, Nombre, Capacidad, Ubicacion, Equipamiento
+
+### Reserva (Reservation)
+- **Type**: Domain Entity
+- **Purpose**: Booking of a Sala for a time range by a user
+- **Key fields**: Id, SalaId, UsuarioId, FechaInicio, FechaFin, Estado
+
+## Layers
+
+| Layer | File | Priority | Description |
+|-------|------|----------|-------------|
+| Domain | @include domain/entities.acm | HIGH | Sala + Reserva entities |
+| Infrastructure | @include infrastructure/repositories.acm | MEDIUM | EF Core + LocalDB |
+| API | @include api/controllers.acm | MEDIUM | REST endpoints CRUD |
+
+## Key Arch Decisions
+
+- Test project: used for validating SDD pipeline, capacity planning, sprint management
+- Mock data available: mock-sprint.json, mock-workitems.json, mock-capacities.json
+- Small team (5 people) including Claude Agent Team as Virtual Developer
+- Agentization target: 65%, budget $15/sprint
+
+## Status
+
+Sprint 2026-04 goal: CRUD completo de Salas y Reservas con API REST funcional.
+Source code pending onboarding to workspace.

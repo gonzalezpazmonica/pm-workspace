@@ -132,6 +132,17 @@
         ]
       },
       {
+        "matcher": "Read|Edit|Write|Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/tool-call-healing.sh",
+            "timeout": 3,
+            "statusMessage": "Validando parametros..."
+          }
+        ]
+      },
+      {
         "matcher": ".*",
         "hooks": [
           {
