@@ -250,6 +250,13 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scope-guard.sh",
             "timeout": 10,
             "statusMessage": "Verificando scope de la spec..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/stop-memory-extract.sh",
+            "async": true,
+            "timeout": 30,
+            "statusMessage": "Extrayendo memoria de sesion..."
           }
         ]
       }
