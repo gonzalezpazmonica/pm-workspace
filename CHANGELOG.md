@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.0] — 2026-04-02
+
+feat: Savia Nidos — parallel terminal isolation via named git worktrees.
+
+### Added
+
+- **scripts/nidos.sh + nidos-lib.sh**: CLI for isolated git worktrees outside cloud-sync paths (create, list, enter, remove, status)
+- **nidos-protocol.md**: Domain convention for worktree naming and lifecycle
+- **/nidos command**: Slash command wrapper for the CLI
+- **session-init.sh**: Auto-detection of nido context with SAVIA_NIDO export
+
 ## [4.0.0] — 2026-04-02
 
 feat: Hook System Overhaul — Claude Code alignment, Shield hardening, 61% event coverage. Era 171 (SPEC-071).
@@ -5317,6 +5328,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.0.0...v4.1.0
 [4.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.99.0...v4.0.0
 [3.99.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.98.0...v3.99.0
 [3.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.97.0...v3.98.0

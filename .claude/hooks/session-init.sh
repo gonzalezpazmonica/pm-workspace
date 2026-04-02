@@ -100,6 +100,35 @@ done
 BRANCH="${BRANCH:-N/A}"
 ITEMS+=("Rama: $BRANCH")
 
+# ── Nido detection (Savia Nidos — parallel terminal isolation) ──
+check_timeout
+SAVIA_NIDO=""
+NIDOS_BASE=""
+case "${OSTYPE:-}" in
+  msys*|cygwin*) NIDOS_BASE="${USERPROFILE:-$HOME}/.savia/nidos" ;;
+  *)             NIDOS_BASE="$HOME/.savia/nidos" ;;
+esac
+# Normalize to POSIX path for Git Bash comparison ($PWD is /c/Users/...)
+NIDOS_CMP="$NIDOS_BASE"
+if command -v cygpath >/dev/null 2>&1; then
+  NIDOS_CMP=$(cygpath -u "$NIDOS_BASE" 2>/dev/null) || NIDOS_CMP="$NIDOS_BASE"
+elif [[ "${OSTYPE:-}" == msys* || "${OSTYPE:-}" == cygwin* ]]; then
+  NIDOS_CMP="${NIDOS_BASE//\\//}"
+  if [[ "$NIDOS_CMP" =~ ^([A-Za-z]):/ ]]; then
+    _drv=$(echo "${BASH_REMATCH[1]}" | tr '[:upper:]' '[:lower:]')
+    NIDOS_CMP="/${_drv}${NIDOS_CMP:2}"
+  fi
+fi
+if [[ "$PWD" == "$NIDOS_CMP"/* ]]; then
+  SAVIA_NIDO="${PWD#"$NIDOS_CMP"/}"
+  SAVIA_NIDO="${SAVIA_NIDO%%/*}"
+  NIDO_BRANCH=$(git branch --show-current 2>/dev/null | tr -d '\r')
+  ITEMS+=("Nido: $SAVIA_NIDO | Rama nido: ${NIDO_BRANCH:-N/A}")
+  if [ -n "${CLAUDE_ENV_FILE:-}" ]; then
+    echo "export SAVIA_NIDO=$SAVIA_NIDO" >> "$CLAUDE_ENV_FILE"
+  fi
+fi
+
 # ── Recovered context from last session (Era 100.2) ──
 if [ -n "$SNAPSHOT_PROJ" ] && [ "$SNAPSHOT_PROJ" != "none" ]; then
   ITEMS+=("Contexto recuperado: $SNAPSHOT_PROJ")
