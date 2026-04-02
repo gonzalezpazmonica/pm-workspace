@@ -237,6 +237,9 @@ Target: 36% to 85%+ | Zero gaps unplanned (verified 2026-04-02)
 | A4 | Post-response context evaluator (hallucination/contradiction check) | arXiv:2512.05470 | 12h | P2 |
 | A5 | Agent trust scoring (behavioral analysis → permission adjustment) | OpenA2A AIM | 16h | P3 |
 | A6 | Push notification pattern for async multi-agent workflows | A2A Protocol | 8h | P3 |
+| A7 | Conflict precedents (pre-defined resolution when agents disagree) | Nanostack `/conductor` | 4h | P2 |
+| A8 | Phase-aware concurrency (prevent writes during read-only phases) | Nanostack `guard` | 4h | P2 |
+| A9 | Structured sprint journal (auto-document lessons per sprint) | Nanostack `/compound` | 4h | P2 |
 
 ---
 
