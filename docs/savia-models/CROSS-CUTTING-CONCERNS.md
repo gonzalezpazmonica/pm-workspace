@@ -263,9 +263,100 @@ should reference performance targets and profiling tools.
 
 ---
 
+## 14. Feature Flags and Progressive Delivery
+
+Every team practicing trunk-based development MUST use feature flags.
+
+| Concern | Standard |
+|---------|----------|
+| SDK | **OpenFeature** (CNCF standard) |
+| Self-hosted OSS | Unleash or Flagsmith |
+| Naming | `release-{feature}-{quarter}` |
+| Cleanup | Remove flag within 30 days of 100% rollout |
+| Observability | Tag traces/metrics/logs with active flag states |
+| Audit | Quarterly flag audit — remove stale flags |
+
+**Requirement per model:** Section 7 (DevOps) SHOULD address feature
+flags when trunk-based development is the recommended git strategy.
+
+---
+
+## 15. Privacy by Design (GDPR/CCPA)
+
+Applications handling personal data MUST implement privacy by design.
+
+| Principle | Implementation |
+|-----------|---------------|
+| Data minimization | Reject unnecessary fields at API boundary |
+| Purpose limitation | Tag storage with purpose (consent, contract, legal) |
+| Right to erasure | Cascading delete endpoint, audit logged |
+| Right to portability | Export API (JSON/CSV) |
+| Privacy-aware logging | NEVER log PII (mask emails, IPs, names) |
+| Consent tracking | Explicit consent with timestamp and version |
+
+**Requirement per model:** Section 6 (Security) MUST address privacy
+when the application handles personal data.
+
+---
+
+## 16. Supply Chain Security (SBOM)
+
+Every deployable application MUST generate a Software Bill of Materials.
+
+| Standard | Purpose |
+|----------|---------|
+| **CycloneDX** | Security-focused SBOM (preferred) |
+| **SLSA Level 2** | Supply chain integrity (achievable in a day) |
+| **Cosign** (Sigstore) | Keyless artifact signing |
+| **Renovate** | Automated dependency updates |
+
+Per-language tools: `dotnet CycloneDX` (.NET), `cyclonedx-maven-plugin`
+(Java), `cyclonedx-bom` (Python), `@cyclonedx/npm` (Node), `cyclonedx-gomod`
+(Go), `cargo-cyclonedx` (Rust), `cyclonedx-php-composer` (PHP),
+`cyclonedx-ruby` (Ruby).
+
+**Requirement per model:** Section 7 (DevOps) MUST include SBOM
+generation in the CI pipeline.
+
+---
+
+## 17. Technical Debt Quantification
+
+Every project SHOULD track and quantify technical debt.
+
+| Framework | When |
+|-----------|------|
+| SQALE Method | Financial cost estimation |
+| SonarQube built-in | Automated debt calculation |
+| Manual register | `debt-register.md` per project |
+
+**Rules:** Tag debt items with estimated fix effort. Review quarterly.
+Budget 10-15% of sprint capacity for debt reduction.
+
+**Requirement per model:** Section 8 (Anti-Patterns) SHOULD include
+a debt tracking strategy.
+
+---
+
+## 18. Documentation as Code
+
+Architecture documentation MUST be version-controlled with the code.
+
+| Artifact | Format | Location |
+|----------|--------|----------|
+| Architecture decisions | **MADR 4.0** (ADRs) | `docs/decisions/` |
+| Architecture diagrams | **C4 Model** (Structurizr DSL) | `docs/diagrams/` |
+| API documentation | Auto-generated (OpenAPI, SDL, proto) | CI output |
+| Runbooks | Markdown with executable snippets | `docs/runbooks/` |
+
+**Requirement per model:** Section 7 (DevOps) or dedicated section
+MUST address documentation automation.
+
+---
+
 ## Compliance Matrix
 
-Every model must self-assess coverage of these 13 concerns:
+Every model must self-assess coverage of these 18 concerns:
 
 ```
 | Concern | Covered in Section | Status |
@@ -283,6 +374,11 @@ Every model must self-assess coverage of these 13 concerns:
 | Environments | S7 DevOps | [ ] |
 | Error handling | S4 Code Patterns | [ ] |
 | Performance | S7 or S8 | [ ] |
+| Feature flags | S7 DevOps | [ ] |
+| Privacy by design | S6 Security | [ ] |
+| Supply chain (SBOM) | S7 DevOps | [ ] |
+| Tech debt tracking | S8 Anti-Patterns | [ ] |
+| Documentation as code | S7 DevOps | [ ] |
 ```
 
 ---
