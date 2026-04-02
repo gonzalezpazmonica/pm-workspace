@@ -127,6 +127,13 @@ def scan(text, th=None, file_path=""):
                 continue
             for r in results:
                 entity_text = text[r.start:r.end]
+                # Filter 0: skip entities that ARE URLs or are inside URLs
+                if entity_text.startswith(("http://", "https://")):
+                    continue
+                ctx_start = max(0, r.start - 50)
+                context = text[ctx_start:r.end + 10]
+                if re.search(r'https?://\S*' + re.escape(entity_text), context):
+                    continue
                 # Filter 1: allow-list of technical terms
                 if entity_text.lower() in NER_ALLOW_LOWER:
                     continue
