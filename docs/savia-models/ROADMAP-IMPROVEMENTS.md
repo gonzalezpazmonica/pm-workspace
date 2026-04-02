@@ -179,4 +179,80 @@ Target: 36% to 85%+ | Zero gaps unplanned (verified 2026-04-02)
 
 ---
 
-*Generated: 2026-04-02 | Next review: after Tier 0*
+## Research-Driven Improvements (Era 173)
+
+> From 4 parallel research streams (2026-04-02/03):
+> Savia Models v0.2 spec research, per-language toolchain audit,
+> architecture standards audit, Anthropic emotions paper, arXiv
+> context engineering paper, A2A protocol analysis.
+
+### Cross-Cutting: Savia Model Standard Additions
+
+| # | Improvement | Source | Effort | Priority |
+|---|------------|--------|--------|----------|
+| R1 | **AI5: Agent Emotional Architecture** — stress monitoring, calm design, desperation prevention | Anthropic "Emotion concepts" (2026-04-02) | 8h | DONE (Era 173) |
+| R2 | **AI6: Context Engineering** — context manifests, 3-tier lifecycle, evaluator pattern | arXiv:2512.05470 "Everything is Context" | 4h | DONE (standard) |
+| R3 | **AI7: Agent Interoperability** — Agent Cards, formal task states, A2A patterns | Google A2A Protocol + OpenA2A | 4h | DONE (standard) |
+| R4 | Business Rule Annotations per language — novel contribution, no industry standard exists | Research finding (gap) | 8h | P1 |
+| R5 | 5 new cross-cutting concerns: feature flags, GDPR by design, SBOM/supply chain, tech debt quantification, docs-as-code | Standards audit | 12h | P1 |
+| R6 | ISO 25010:2023 update (9 characteristics, not 8 — added Safety) | ISO audit | 2h | DONE (standard) |
+| R7 | 12+4 Factor App checklist per model | Google Cloud proposal | 4h | P2 |
+
+### Per-Model: Toolchain Updates
+
+| # | Model | Update | Source | Effort |
+|---|-------|--------|--------|--------|
+| T1 | TypeScript | Biome as ESLint alternative, Drizzle as Prisma alternative, Vitest confirmed winner | Toolchain research | 2h |
+| T2 | .NET | Wolverine replacing MediatR (licensing), ErrorOr for Result types, .NET 10 LTS target | Toolchain research | 2h |
+| T3 | Python | uv confirmed winner (replaces pip/poetry), Ruff confirmed (replaces flake8+black) | Toolchain research | 1h |
+| T4 | Java | Virtual Threads over Reactor for new projects, Gradle KTS confirmed | Toolchain research | 2h |
+| T5 | Go | stdlib net/http (1.22+) now sufficient, sqlc confirmed, slog (stdlib) adopted | Toolchain research | 1h |
+| T6 | Rust | Axum confirmed winner, thiserror/anyhow convention documented | Toolchain research | 1h |
+| T7 | Kotlin | KSP migration from KAPT, Hilt confirmed, Compose Navigation | Toolchain research | 1h |
+
+### New Models (SPEC v0.2)
+
+| # | Model | Architecture | Key Tech | Effort |
+|---|-------|-------------|----------|--------|
+| N1 | savia-model-swift | MVVM + SwiftUI, TCA for complex | Swift 6.2, async/await, SwiftData | 16h |
+| N2 | savia-model-flutter | Feature-First, Riverpod 3 | Dart 3, go_router, drift | 16h |
+| N3 | savia-model-php | Service Layer + DDD | Laravel 12, Pest, Livewire | 16h |
+| N4 | savia-model-ruby | Convention + POROs | Rails 8, Hotwire, Solid Queue | 16h |
+
+### SPEC v0.2 Layers (Agentic Orchestrator)
+
+| # | Layer | Content | Effort |
+|---|-------|---------|--------|
+| L1 | Role Perspectives | 12 roles: artifacts, decisions, quality gates, AI assistance per role | 24h |
+| L2 | End-to-End Traceability | OpenTelemetry per stack, business rule annotations, correlation IDs, reverse queries | 16h |
+| L3 | Pedagogical Scaffolding | Bloom's taxonomy mapping, ZPD progression (80% AI → 20%), 5 projects per language | 20h |
+
+### pm-workspace Agent Infrastructure
+
+| # | Improvement | Source | Effort | Priority |
+|---|------------|--------|--------|----------|
+| A1 | Agent Cards (machine-readable capability registry) | A2A Protocol | 8h | P1 |
+| A2 | Formal task state machine (add input_required, canceled) | A2A Protocol | 4h | P1 |
+| A3 | Context Manifest generation per agent invocation | arXiv:2512.05470 | 8h | P2 |
+| A4 | Post-response context evaluator (hallucination/contradiction check) | arXiv:2512.05470 | 12h | P2 |
+| A5 | Agent trust scoring (behavioral analysis → permission adjustment) | OpenA2A AIM | 16h | P3 |
+| A6 | Push notification pattern for async multi-agent workflows | A2A Protocol | 8h | P3 |
+
+---
+
+## Grand Total (Updated)
+
+| Category | Hours | Status |
+|----------|-------|--------|
+| Showcase (P0-P2) | 87h | Planned |
+| Technical Compliance (T0-T3) | 223h | Planned |
+| Research-driven standard | 12h | DONE (Era 173) |
+| Toolchain updates (T1-T7) | 10h | Ready |
+| New models (N1-N4) | 64h | Ready |
+| SPEC v0.2 layers (L1-L3) | 60h | Ready |
+| Agent infrastructure (A1-A6) | 56h | Ready |
+| **TOTAL** | **~512h** | |
+
+---
+
+*Updated: 2026-04-03 | Next review: after Tier 0 + toolchain updates*

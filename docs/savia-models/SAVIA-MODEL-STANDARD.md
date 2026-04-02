@@ -933,6 +933,109 @@ The paper validates this architecturally: if context is files, then context
 is mountable, auditable, versionable, diffable, and portable. Databases,
 vectors, and caches are accelerators derived from files — never the source.
 
+### AI7. Agent Interoperability (A2A Protocol Patterns)
+
+> Source: Google A2A Protocol (Agent2Agent), launched April 2025, now
+> under Linux Foundation. 100+ technology partners. Spec v0.3.0.
+> OpenA2A security platform for agent identity and governance.
+> References: a2a-protocol.org, opena2a.org
+
+#### The MCP + A2A Architecture
+
+Two protocols, complementary, not competing:
+
+```
+┌─────────────────────────────────────────────┐
+│           Agent Orchestrator                │
+├─────────────────────────────────────────────┤
+│  A2A Layer (horizontal)                     │
+│  Agent discovery, capability negotiation,   │
+│  task state coordination, push notifications│
+├─────────────────────────────────────────────┤
+│  MCP Layer (vertical)                       │
+│  Individual agent ↔ external tools/APIs     │
+├─────────────────────────────────────────────┤
+│  Identity Layer                             │
+│  Cryptographic attribution, trust scoring   │
+└─────────────────────────────────────────────┘
+```
+
+- **MCP**: How ONE agent accesses external resources (tools, DBs, APIs)
+- **A2A**: How MULTIPLE agents discover, negotiate, and collaborate
+- **Identity**: How all agent actions are attributed and governed
+
+#### Agent Cards (Self-Describing Capabilities)
+
+Every agent SHOULD publish a machine-readable capability declaration:
+
+```yaml
+agent_card:
+  name: "dotnet-developer"
+  description: "C#/.NET implementation following SDD specs"
+  provider: "pm-workspace"
+  capabilities:
+    languages: ["csharp", "dotnet"]
+    can_create: ["domain-entities", "services", "controllers", "tests"]
+    can_modify: ["with-spec"]
+    requires: ["approved-spec"]
+  model: "sonnet"
+  token_budget: 8500
+  tier: "standard"
+```
+
+Benefits: dynamic routing (orchestrator queries "who can implement C#?"),
+auto-registration (new agents discoverable without manual catalog updates),
+capability negotiation (agents declare what they accept and produce).
+
+#### Task State Machine (Formal)
+
+Extend the basic pending/in_progress/completed with A2A states:
+
+```
+submitted → working → [input_required] → completed
+                  ↘                   ↗
+                    failed / canceled
+```
+
+| State | Meaning | Transition |
+|-------|---------|-----------|
+| `submitted` | Task created, awaiting pickup | → working |
+| `working` | Agent actively processing | → input_required, completed, failed |
+| `input_required` | Agent blocked, needs human/agent input | → working (after input) |
+| `completed` | Task finished successfully | Terminal |
+| `failed` | Task failed after retries exhausted | Terminal |
+| `canceled` | Task canceled by human or orchestrator | Terminal |
+
+`input_required` is the key addition — it signals "I'm not stuck, I need
+a decision" vs `failed` which means "I cannot continue."
+
+#### Asynchronous Coordination Patterns
+
+| Pattern | When | Mechanism |
+|---------|------|-----------|
+| **Synchronous** | Fast operations (<30s) | Direct request/response |
+| **Streaming** | Long operations with progress | Server-Sent Events |
+| **Push notification** | Hours/days operations | Webhook callback |
+
+For multi-agent workflows (SDD pipeline, overnight sprint), push
+notifications eliminate polling: the worker agent POSTs to the
+orchestrator when its state changes.
+
+#### Agent Identity and Trust
+
+Inspired by OpenA2A AIM (Agent Identity Management):
+
+| Concern | Implementation |
+|---------|---------------|
+| Attribution | Every agent action logged with agent ID + timestamp |
+| Trust scoring | Behavioral analysis adjusts permissions dynamically |
+| Capability enforcement | Runtime prevents agents from exceeding declared scope |
+| Audit trail | Cryptographic proof of which agent did what |
+
+This complements AI5 (emotional regulation) — an agent under functional
+stress that starts skipping rules would see its trust score drop,
+triggering capability restriction before damage occurs.
+
 ---
 
 ## Part XIV — ISO 25010:2023 Quality Model Mapping
@@ -980,6 +1083,7 @@ Every per-language Savia Model MUST self-assess against this matrix:
 |18 | Documentation as code      | [ ]      |         |
 |19 | Agent emotional architecture| [ ]      |         |
 |20 | Context engineering         | [ ]      |         |
+|21 | Agent interoperability      | [ ]      |         |
 ```
 
 ---

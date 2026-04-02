@@ -18,7 +18,8 @@ Based on Anthropic Research ["Emotion concepts and their function in a large lan
 - **emotional-regulation-monitor.sh**: Stop hook assessing session stress, persisting high-friction sessions (score 5+) to auto-memory as feedback for future sessions
 - **emotional-regulation.md**: Rule defining 5-part self-regulation protocol (detect, respond, protect, transmit calm, wellness check)
 - **savia-emotional-regulation.md**: User-facing documentation with Anthropic paper reference, frustration scale, configuration guide
-- **SAVIA-MODEL-STANDARD.md**: Section AI5 (Agent Emotional Architecture) with functional state mapping per role and prompt design guidelines
+- **SAVIA-MODEL-STANDARD.md**: AI5 (Emotional Architecture), AI6 (Context Engineering from arXiv:2512.05470), AI7 (Agent Interoperability from A2A Protocol) — 21 cross-cutting concerns
+- **ROADMAP-IMPROVEMENTS.md**: Research-driven section — toolchain updates (7), new models (4), SPEC v0.2 layers (3), agent infrastructure (6) — ~512h total
 - **47 BATS tests** across 3 test files: tracker (18), nudge hook (17), monitor hook (12)
 
 ## [4.1.1] — 2026-04-02
