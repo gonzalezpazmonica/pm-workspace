@@ -23,6 +23,27 @@ CRED = [
 ]
 ner = None; mmap = {}; rmap = {}
 
+# NER false-positive mitigation (3 layers):
+# 1. Allow-list loaded from shield-ner-allowlist.txt (editable without code changes)
+# 2. Soft entity types (LOCATION/ORG) downgraded to WARN in docs/
+# 3. Raised threshold (0.85 vs old 0.7) for BLOCK decisions
+NER_SOFT_TYPES = {"LOCATION", "NRP", "ORGANIZATION"}
+NER_BLOCK_THRESHOLD = 0.85
+
+def _load_allowlist():
+    """Load technical terms from shield-ner-allowlist.txt."""
+    p = Path(__file__).parent / "shield-ner-allowlist.txt"
+    terms = set()
+    if p.exists():
+        for line in p.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line and not line.startswith("#"):
+                terms.add(line)
+    return terms, {t.lower() for t in terms}
+
+NER_ALLOW_LIST, NER_ALLOW_LOWER = _load_allowlist()
+
+
 def init():
     global ner, mmap, rmap
     t0 = time.time()
@@ -34,7 +55,16 @@ def init():
     try:
         from presidio_analyzer import AnalyzerEngine,PatternRecognizer
         from presidio_analyzer.nlp_engine import SpacyNlpEngine
-        nlp=SpacyNlpEngine(models=[{"lang_code":"es","model_name":"es_core_news_md"}])
+        # Load both ES and EN models for better multilingual accuracy
+        models = [{"lang_code":"es","model_name":"es_core_news_md"}]
+        try:
+            import spacy
+            spacy.load("en_core_web_md")
+            models.append({"lang_code":"en","model_name":"en_core_web_md"})
+            print("  EN model: en_core_web_md loaded",file=sys.stderr)
+        except Exception:
+            print("  EN model: not available (install: python -m spacy download en_core_web_md)",file=sys.stderr)
+        nlp=SpacyNlpEngine(models=models)
         ner_eng=AnalyzerEngine(nlp_engine=nlp,supported_languages=["es","en"])
         for g in Path(PROJ).glob("projects/*/GLOSSARY-MASK.md"):
             cat=None; ents={}
@@ -53,34 +83,78 @@ def init():
             print(f"  Glossary: {sum(len(v) for v in ents.values())} terms",file=sys.stderr); break
         globals()['ner']=ner_eng
         print(f"  NER: {len(ner_eng.registry.recognizers)} recognizers",file=sys.stderr)
+        print(f"  Allow-list: {len(NER_ALLOW_LIST)} technical terms",file=sys.stderr)
+        print(f"  Block threshold: {NER_BLOCK_THRESHOLD}",file=sys.stderr)
     except Exception as e: print(f"  NER unavailable: {e}",file=sys.stderr)
     print(f"  Boot: {time.time()-t0:.1f}s",file=sys.stderr)
 
-def scan(text,th=0.7):
-    t0=time.time(); hits=[]
-    for p,t2 in CRED:
-        for m in re.finditer(p,text,re.I):
-            hits.append({"type":t2,"text":m.group(),"score":1.0,"action":"BLOCK","layer":1})
-    for blob in re.findall(r'[A-Za-z0-9+/]{40,200}={0,2}',text)[:20]:
+def scan(text, th=None, file_path=""):
+    """Scan text for PII using regex (layer 1) + NER (layer 1.5).
+    Three NER filters reduce false positives:
+    1. Allow-list of technical terms (NER_ALLOW_LIST)
+    2. Soft entity types (LOCATION/ORG) downgraded to WARN in docs
+    3. Raised threshold (0.85) for BLOCK decisions
+    """
+    if th is None:
+        th = NER_BLOCK_THRESHOLD
+    t0 = time.time()
+    hits = []
+    # Layer 1: regex credentials (always block, score 1.0)
+    for p, t2 in CRED:
+        for m in re.finditer(p, text, re.I):
+            hits.append({"type": t2, "text": m.group(),
+                         "score": 1.0, "action": "BLOCK", "layer": 1})
+    # Layer 1b: base64-encoded credentials
+    for blob in re.findall(r'[A-Za-z0-9+/]{40,200}={0,2}', text)[:20]:
         try:
-            dec=base64.b64decode(blob).decode('utf-8',errors='ignore')
-            for p,t2 in CRED:
-                if re.search(p,dec,re.I):
-                    hits.append({"type":f"b64_{t2}","text":blob[:30]+"...","score":1.0,"action":"BLOCK","layer":1})
-        except: pass
-    if ner and len(text)>=10:
-        for la in ["es","en"]:
+            dec = base64.b64decode(blob).decode('utf-8', errors='ignore')
+        except (base64.binascii.Error, ValueError):
+            continue
+        for p, t2 in CRED:
+            if re.search(p, dec, re.I):
+                hits.append({"type": f"b64_{t2}", "text": blob[:30] + "...",
+                             "score": 1.0, "action": "BLOCK", "layer": 1})
+    # Layer 1.5: NER with 3 filters
+    if ner and len(text) >= 10:
+        fp_norm = file_path.replace("\\", "/")
+        is_docs = "/docs/" in fp_norm or "/savia-models/" in fp_norm
+        for la in ["es", "en"]:
             try:
-                for r in ner.analyze(text=text,language=la,score_threshold=0.4):
-                    hits.append({"type":r.entity_type,"text":text[r.start:r.end],"score":round(r.score,2),
-                        "action":"BLOCK" if r.score>=th else "WARN","layer":1.5})
-            except: pass
-    seen=set(); dd=[]
+                results = ner.analyze(text=text, language=la,
+                                      score_threshold=0.4)
+            except Exception as e:
+                print(f"  NER {la} error: {e}", file=sys.stderr)
+                continue
+            for r in results:
+                entity_text = text[r.start:r.end]
+                # Filter 1: allow-list of technical terms
+                if entity_text.lower() in NER_ALLOW_LOWER:
+                    continue
+                # Filter 2: soft types in docs — warn only
+                if is_docs and r.entity_type in NER_SOFT_TYPES:
+                    hits.append({"type": r.entity_type, "text": entity_text,
+                                 "score": round(r.score, 2),
+                                 "action": "WARN", "layer": 1.5})
+                    continue
+                # Filter 3: raised threshold for block
+                action = "BLOCK" if r.score >= th else "WARN"
+                hits.append({"type": r.entity_type, "text": entity_text,
+                             "score": round(r.score, 2),
+                             "action": action, "layer": 1.5})
+    # Deduplicate
+    seen = set()
+    dd = []
     for h in hits:
-        k=(h["text"],h["type"])
-        if k not in seen: seen.add(k); dd.append(h)
-    return {"verdict":"PII_DETECTED" if any(h["action"]=="BLOCK" for h in dd) else "CLEAN",
-            "entities":dd,"latency_ms":int((time.time()-t0)*1000)}
+        k = (h["text"], h["type"])
+        if k not in seen:
+            seen.add(k)
+            dd.append(h)
+    return {
+        "verdict": "PII_DETECTED" if any(
+            h["action"] == "BLOCK" for h in dd) else "CLEAN",
+        "entities": dd,
+        "latency_ms": int((time.time() - t0) * 1000)
+    }
 
 def mask(text):
     t0=time.time(); o=text
@@ -139,8 +213,8 @@ def gate(hook_input):
     import unicodedata
     content = unicodedata.normalize("NFKC", content)
 
-    # Scan (regex + NER combined)
-    result = scan(content)
+    # Scan (regex + NER combined) — pass file_path for context-aware filtering
+    result = scan(content, file_path=fp_norm)
 
     latency = int((time.time() - t0) * 1000)
     verdict = "BLOCK" if result["verdict"] == "PII_DETECTED" else "ALLOW"
