@@ -54,29 +54,40 @@ enables principled deviation. Inspired by awesome-design-md.
 
 ---
 
-## Dimensions
+## Model Organization: One model per LANGUAGE
 
-Each model sits at the intersection of:
+Each Savia Model covers a LANGUAGE comprehensively — all application
+types possible in that language, not just one. A model for TypeScript
+covers frontend SPA, SSR, Node.js backend, CLI tools, and libraries.
+A model for Kotlin covers Android, server-side (Ktor), and multiplatform.
 
-**Stack**: Python, Rust, .NET, Java, TypeScript, Go, Kotlin, Swift, Vue, React, Angular, Flutter
+Within each model, architecture-specific sections address:
+- Web frontend (SPA, SSR, SSG)
+- Web backend (REST API, GraphQL)
+- Mobile (native, cross-platform)
+- Desktop (native, Tauri, Electron)
+- Microservices vs Monolith patterns
+- CLI tools and libraries
+- Serverless functions
 
-**Architecture**: Monolith, Microservices, Desktop, Mobile, Serverless, CLI, Library
+Not every language covers every type. Each model documents which
+application types are idiomatic for that language and which are not.
 
-**Team Scale**: Solo (1), Small (2-5), Growth (6-20), Enterprise (20+)
+**Team Scale** is a cross-cutting dimension addressed in every model:
+Solo (1), Small (2-5), Growth (6-20), Enterprise (20+).
 
 ---
 
 ## Phase 1 Models
 
-| # | Model | Stack | Exemplar |
-|---|-------|-------|----------|
-| 1 | savia-model-vue-spa | Vue 3 + TS + Vite | savia-web |
-| 2 | savia-model-dotnet-clean | .NET 8 + EF Core | sala-reservas |
-| 3 | savia-model-kotlin-android | Kotlin + Compose | savia-mobile |
-| 4 | savia-model-rust-desktop | Rust + Tauri + Vue | savia-monitor |
+| # | Model | Language | Application Types | Exemplar |
+|---|-------|----------|-------------------|----------|
+| 1 | savia-model-typescript | TypeScript | SPA, SSR, API, CLI | savia-web |
+| 2 | savia-model-dotnet | C# / .NET | API, Blazor, MAUI, microservices | sala-reservas |
+| 3 | savia-model-kotlin | Kotlin | Android, Ktor, multiplatform | savia-mobile |
+| 4 | savia-model-rust | Rust | Desktop, CLI, API, systems | savia-monitor |
 
-Phase 2: Python/FastAPI, NestJS, Java/Spring, Go, React, Angular,
-microservices, serverless, Flutter.
+Phase 2: Python, Java, Go, Swift, Flutter/Dart, PHP, Ruby.
 
 ---
 
