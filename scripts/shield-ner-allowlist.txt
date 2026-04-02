@@ -1,0 +1,96 @@
+# Shield NER Allow-List — Technical terms that are NOT PII
+# One term per line. Lines starting with # are comments.
+# spaCy ES model misclassifies these English terms as entities.
+# Add terms here when Shield produces false positives on technical docs.
+
+# Access modifiers
+PUBLIC
+PRIVATE
+PROTECTED
+INTERNAL
+
+# Project management
+Tier
+Tiers
+Phase
+Sprint
+Milestone
+Backlog
+Pipeline
+Roadmap
+Showcase
+
+# Severity / scoring
+Critical
+High
+Medium
+Low
+Blocker
+Compliant
+Exemplary
+Partial
+Absent
+
+# Quality / governance
+Credibility
+Compliance
+Governance
+Deduplicated
+Aggregated
+Consolidated
+
+# Totals / reporting
+Grand Total
+Subtotal
+Summary
+
+# Architecture
+Frontend
+Backend
+Fullstack
+DevOps
+CI/CD
+Docker
+Kubernetes
+Repository
+Monorepo
+Polyrepo
+Hexagonal
+Microservices
+Monolith
+CRUD
+REST
+GraphQL
+gRPC
+
+# Acronyms
+DORA
+OWASP
+SOLID
+DRY
+SDD
+SPA
+SSR
+SSG
+NER
+NLP
+LLM
+AI
+
+# Frameworks / tools
+Vue
+React
+Angular
+Svelte
+Rust
+Kotlin
+Swift
+Flutter
+Pinia
+Vite
+Tauri
+Axum
+Playwright
+Vitest
+Jest
+xUnit
