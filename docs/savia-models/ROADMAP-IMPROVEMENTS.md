@@ -236,6 +236,10 @@
 | A4 | Context evaluator | 12h | P2 |
 | A5 | Agent trust scoring | 16h | P3 |
 | A6 | Push notifications (async) | 8h | P3 |
+| A10 | Hybrid search (BM25 + vector) for memory/docs | 12h | P2 |
+| A11 | Semantic chunking in digest pipeline | 8h | P2 |
+| A12 | Query decomposition (complex → sub-queries) | 8h | P2 |
+| A13 | Two-phase retrieval (search candidates → read full) | 4h | P2 |
 
 ---
 
