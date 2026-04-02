@@ -156,3 +156,113 @@ run_hook() {
   count=$(find "$MEMORY_DIR" -name "session_stress_*" 2>/dev/null | wc -l)
   [ "$count" -eq 0 ]
 }
+
+# ── Edge cases ──
+
+@test "edge: empty stdin does not crash" {
+  bash "$TRACKER" reset
+  run bash -c "echo '' | bash '$HOOK'"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: corrupted state file does not crash" {
+  bash "$TRACKER" reset
+  echo "NOT_VALID_JSON" > "$HOME/.savia/session-stress.json"
+  run_hook
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: missing .savia directory entirely" {
+  rm -rf "$HOME/.savia"
+  run_hook
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: MEMORY.md does not exist" {
+  rm -f "$MEMORY_DIR/MEMORY.md"
+  bash "$TRACKER" reset
+  for i in 1 2 3; do bash "$TRACKER" record failure; done
+  bash "$TRACKER" record escalation
+  bash "$TRACKER" record escalation
+  run_hook
+  [ "$status" -eq 0 ]
+  # Memory file should still be created
+  local count
+  count=$(find "$MEMORY_DIR" -name "session_stress_*" 2>/dev/null | wc -l)
+  [ "$count" -eq 1 ]
+}
+
+@test "edge: read-only memory dir does not crash" {
+  bash "$TRACKER" reset
+  for i in $(seq 1 10); do bash "$TRACKER" record failure; done
+  chmod 444 "$MEMORY_DIR" 2>/dev/null || skip "cannot change permissions"
+  run_hook
+  [ "$status" -eq 0 ]
+  chmod 755 "$MEMORY_DIR" 2>/dev/null || true
+}
+
+# ── Coverage breadth: level classification ──
+
+@test "score exactly 4 does NOT persist (boundary)" {
+  bash "$TRACKER" reset
+  # 4 retries (4*1=4 raw) + 1 failure (1*2=2) = 6 raw → score ~2-3
+  for i in 1 2 3 4; do bash "$TRACKER" record retry; done
+  bash "$TRACKER" record failure
+  local score
+  score=$(bash "$TRACKER" score)
+  [ "$score" -lt 5 ]
+  run_hook
+  [ "$status" -eq 0 ]
+  local count
+  count=$(find "$MEMORY_DIR" -name "session_stress_*" 2>/dev/null | wc -l)
+  [ "$count" -eq 0 ]
+}
+
+@test "high_stress level (score 7-8) persisted with correct level" {
+  bash "$TRACKER" reset
+  for i in $(seq 1 5); do bash "$TRACKER" record failure; done
+  for i in 1 2 3; do bash "$TRACKER" record escalation; done
+  # 5*2 + 3*3 = 19 raw → score ~8
+  run_hook
+  local file
+  file=$(find "$MEMORY_DIR" -name "session_stress_*" | head -1)
+  [ -f "$file" ]
+  grep -q "high_stress" "$file"
+}
+
+@test "overload level (score 9-10) persisted with correct level" {
+  bash "$TRACKER" reset
+  for i in $(seq 1 10); do bash "$TRACKER" record failure; done
+  for i in $(seq 1 5); do bash "$TRACKER" record escalation; done
+  # 10*2 + 5*3 = 35 raw → score 10
+  run_hook
+  local file
+  file=$(find "$MEMORY_DIR" -name "session_stress_*" | head -1)
+  [ -f "$file" ]
+  grep -q "overload" "$file"
+}
+
+@test "memory file description is under 150 chars" {
+  bash "$TRACKER" reset
+  for i in 1 2 3 4 5; do bash "$TRACKER" record retry; done
+  bash "$TRACKER" record failure
+  bash "$TRACKER" record failure
+  bash "$TRACKER" record escalation
+  run_hook
+  local file
+  file=$(find "$MEMORY_DIR" -name "session_stress_*" | head -1)
+  local desc
+  desc=$(grep "^description:" "$file")
+  [ ${#desc} -lt 150 ]
+}
+
+@test "only rule_skip events trigger memory at lower counts" {
+  bash "$TRACKER" reset
+  # 2 rule_skips = 2*3 = 6 raw → score ~2-3 (not enough alone)
+  bash "$TRACKER" record rule_skip
+  bash "$TRACKER" record rule_skip
+  run_hook
+  local count
+  count=$(find "$MEMORY_DIR" -name "session_stress_*" 2>/dev/null | wc -l)
+  [ "$count" -eq 0 ]
+}
