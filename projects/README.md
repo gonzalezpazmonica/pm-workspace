@@ -23,7 +23,6 @@
 
 | Project | Purpose |
 |---------|---------|
-| **claude-code-analysis** | Architecture analysis of Claude Code internals |
 | **pm-workspace** | Self-referential — pm-workspace manages itself |
 
 ## Starting a New Project
