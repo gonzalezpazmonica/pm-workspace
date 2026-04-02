@@ -127,6 +127,12 @@ def scan(text, th=None, file_path=""):
                 continue
             for r in results:
                 entity_text = text[r.start:r.end]
+                # Filter -1: skip very short alphanumeric tokens (H19, S3, M1)
+                if len(entity_text) <= 4 and re.match(r'^[A-Za-z0-9]+$', entity_text):
+                    continue
+                # Filter -0.5: skip ISO dates (2026-04-02) and version strings (v4.1.1)
+                if re.match(r'^(20\d{2}-\d{2}-\d{2}|v?\d+\.\d+(\.\d+)?)$', entity_text):
+                    continue
                 # Filter 0: skip entities that ARE URLs or are inside URLs
                 if entity_text.startswith(("http://", "https://")):
                     continue

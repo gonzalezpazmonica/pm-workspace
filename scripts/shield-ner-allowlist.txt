@@ -63,6 +63,19 @@ REST
 GraphQL
 gRPC
 
+# General technical terms
+Technical
+Showcase
+Combined
+Target
+Overview
+Integration
+Deployment
+Configuration
+Implementation
+Authentication
+Authorization
+
 # Acronyms
 DORA
 OWASP
