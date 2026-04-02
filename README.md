@@ -62,6 +62,7 @@ pm-workspace/
 │   └── rules/          ← reglas de contexto, lenguaje, dominio
 ├── docs/
 │   ├── quick-starts/   ← guías por rol (PM, Dev, QA, PO, TL, CEO)
+│   ├── savia-models/   ← modelos de desarrollo por lenguaje (7 stacks)
 │   ├── readme/         ← documentación detallada (13 secciones)
 │   ├── guides/         ← 15 guías por escenario (Azure, Jira, startup, memoria...)
 │   └── savia-flow/     ← docs del sistema Git-native

@@ -24,6 +24,8 @@
 # Cualquier proyecto nuevo queda automáticamente excluido sin necesidad de
 # nombrarlo aquí. Solo se declaran explícitamente los proyectos de ejemplo.
 projects/*
+!projects/README.md
+!projects/PROJECT_TEMPLATE.md
 !projects/proyecto-alpha/
 !projects/proyecto-beta/
 !projects/sala-reservas/

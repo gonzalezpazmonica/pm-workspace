@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=555e7a641e5fa54b49e7bc654e54a0518762733bd5dd3287af7dfd9a87f006d6
-timestamp=2026-04-02T23:09:41Z
-branch=feat/savia-models
-head_commit=bec71a8
-signature=680f1348e83f2f95d7614e1b90eeb95ddb3cd5c73e267968bef5e01943bc13a6
+diff_hash=c463c82d440b16afbbe5c43e931a20171851bc37092859d2f0b3a69e7fb7af7c
+timestamp=2026-04-02T23:27:57Z
+branch=feat/era173-sprint1-credibility
+head_commit=8ea2110
+signature=9f7db49492408e8601ada6faffbb55db78085788d9dfdee080ecb89e1b73f183
