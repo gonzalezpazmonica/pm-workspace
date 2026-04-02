@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=5c28ebdb4f8b27ccab9a5f8e75952df7820ab271d46bf0bb4bb586e828a1b91d
-timestamp=2026-04-02T22:34:16Z
+timestamp=2026-04-02T22:34:17Z
 branch=feat/savia-models
-head_commit=ae25bc7
+head_commit=29e3498
 signature=6f33a5a246d241e342ff755eb48c53a4d9dde0268ce72dbc3da6eb72ac1d6d38
