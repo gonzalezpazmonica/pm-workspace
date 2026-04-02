@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.0] — 2026-04-03
+
+feat: Savia Emotional Regulation System — functional stress monitoring and self-regulation. Era 173.
+
+Based on Anthropic Research ["Emotion concepts and their function in a large language model"](https://www.anthropic.com/research/emotion-concepts-function) (2026-04-02), which proved that LLMs develop measurable functional emotions that causally influence behavior.
+
+### Added
+
+- **emotional-state-tracker.sh**: Session stress tracker (record/score/reset/status) with 5 event types and 0-10 frustration scale
+- **stress-awareness-nudge.sh**: UserPromptSubmit hook detecting pressure patterns (urgency, shame, failure attribution, corner-cutting, emotional manipulation) in ES/EN — injects calm-anchoring context
+- **emotional-regulation-monitor.sh**: Stop hook assessing session stress, persisting high-friction sessions (score 5+) to auto-memory as feedback for future sessions
+- **emotional-regulation.md**: Rule defining 5-part self-regulation protocol (detect, respond, protect, transmit calm, wellness check)
+- **savia-emotional-regulation.md**: User-facing documentation with Anthropic paper reference, frustration scale, configuration guide
+- **SAVIA-MODEL-STANDARD.md**: Section AI5 (Agent Emotional Architecture) with functional state mapping per role and prompt design guidelines
+- **47 BATS tests** across 3 test files: tracker (18), nudge hook (17), monitor hook (12)
+
 ## [4.1.1] — 2026-04-02
 
 fix: Shield NER false positives on technical English documentation. Era 172.
@@ -5454,6 +5470,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.1.1...v4.2.0
 [3.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.29.0...v3.30.0
 [3.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.28.0...v3.29.0
 [3.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.27.1...v3.28.0
