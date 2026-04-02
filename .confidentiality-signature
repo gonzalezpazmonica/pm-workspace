@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c463c82d440b16afbbe5c43e931a20171851bc37092859d2f0b3a69e7fb7af7c
-timestamp=2026-04-02T23:27:57Z
-branch=feat/era173-sprint1-credibility
-head_commit=8ea2110
-signature=9f7db49492408e8601ada6faffbb55db78085788d9dfdee080ecb89e1b73f183
+diff_hash=f791087bd9a6d8097edefd39b24e1a15a76b7c75ee35384daee702fead6ce948
+timestamp=2026-04-02T23:37:28Z
+branch=feat/era173-overnight-sprint
+head_commit=ef3ea47
+signature=dab9780495a604c3aacbe9508adde696b5e2a5ff608909b212a01c39e3c1712f
