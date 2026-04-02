@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5f7a2ed6fcdacc02cee084ff181b1c170ae2050c58d3a6d0eeb2c90c89568648
-timestamp=2026-04-02T11:59:52Z
-branch=feat/savia-nidos
-head_commit=cb60832
-signature=e122e46be1fe242f8e8ac628009bd8cee10dd4b6c71f38af504c1570cf24ce02
+diff_hash=555e7a641e5fa54b49e7bc654e54a0518762733bd5dd3287af7dfd9a87f006d6
+timestamp=2026-04-02T23:09:41Z
+branch=feat/savia-models
+head_commit=bec71a8
+signature=680f1348e83f2f95d7614e1b90eeb95ddb3cd5c73e267968bef5e01943bc13a6
