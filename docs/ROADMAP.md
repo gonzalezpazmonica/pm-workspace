@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-03 | **Version:** v4.5.0 | **505 commands · 49 agents · 85 skills · 33 hooks · 51 test suites · 73 SPECs (45 done)**
+**Updated:** 2026-04-04 | **Version:** v4.8.0 | **508 commands · 48 agents · 88 skills · 47 hooks · 93 test suites · 73 SPECs (45 done)**
 
 ---
 
@@ -36,34 +36,26 @@ Temporal memory, hybrid search, agent evaluation, cognitive sectors, SaviaDiverg
 - **Emergency Watchdog**: systemd service monitors internet every 5 min. Auto-activates local LLM on failure
 - **NO_FLICKER**: enabled in settings.json
 
+## Done — Eras 175-178: Communication + Security + Quality (v4.6 → v4.8)
+
+- **175** (v4.6): README benefits-first rewrite (215→148 lines, -31%). Both ES and EN aligned
+- **176** (v4.7): Prompt Security Scanner — 10 rules (PS-01 to PS-10), zero LLM, 17 tests (85/100)
+- **177** (v4.8): Spec Quality Auditor — 9-criteria scorer, 21/73 specs certified, 17 tests (98/100)
+- **178** (v4.9): Workspace consolidation — inventory audit, counter correction, 4 orphaned hooks identified
+
 ---
 
-## Pipeline — Q2 2026 (Eras 175+)
+## Pipeline — Q2 2026 (Eras 179+)
 
-### P1. Communication & Adoption (Era 175) — HIGH
-
-README beneficios-first, onboarding aha <5min, CHANGELOG engagement format. Reduce barrier to first successful session.
-- Effort: 6h | Impact: High (visibility, adoption, community)
-
-### P2. Prompt Security (SPEC-072) — HIGH
-
-Static analyzer for prompt injection/leakage in agent prompts. Integrate with pre-commit.
-- Effort: 6h | Impact: High (security)
-
-### P3. Auto-Evals — MEDIUM
-
-llm_judge for generated specs. Semantic similarity for code review consistency. Regression detection.
-- Effort: 8h | Impact: Medium (quality assurance)
-
-### P4. Consolidation & Test Push — MEDIUM
-
-Dependency graph (SPEC-145), dormant rules cleanup, test coverage for MEDIUM risk scripts.
-- Effort: 4h | Impact: Medium (maintainability)
-
-### P5. Granular Permissions — LOW
+### P1. Granular Permissions — MEDIUM
 
 5-level permissions per agent. Integrate with agent-policies.yaml.
-- Effort: 8h | Impact: Medium (but no blocking need today)
+- Effort: 8h | Impact: Medium
+
+### P2. Test Coverage Push — MEDIUM
+
+Tests for 30 MEDIUM risk scripts. Target: 20% coverage (up from 11%).
+- Effort: 15h | Impact: Medium (maintainability)
 
 ### Backlog (blocked or low priority)
 

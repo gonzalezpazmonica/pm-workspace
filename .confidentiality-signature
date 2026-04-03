@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e20a5c9410caeef5d3f89fc7d302b79c55667cc7b5a337756f846492be91398f
-timestamp=2026-04-03T21:05:41Z
-branch=feat/era177-auto-evals
-head_commit=330f173
-signature=152bb730f6b1e3956db782f98b18c7f81f806be8bc3932f917157e75427ebb55
+diff_hash=07dabc918a825ab932c20ef0d2d48a3b855356c2cf1fc955cc52d0399343e8cb
+timestamp=2026-04-03T23:03:54Z
+branch=feat/era178-consolidation
+head_commit=2ff689c
+signature=163c86f1bdb0b7d5c5441d9759835258eb0bc564b7c8779488a3f0a088a7dc3d

@@ -68,7 +68,7 @@ Soy la buhita que vive dentro de pm-workspace. Me adapto a tu rol, tu idioma y t
 
 ## Lo que hay dentro
 
-**505 comandos · 49 agentes · 85 skills · 33 hooks · 16 lenguajes · 91 test suites**
+**508 comandos · 48 agentes · 88 skills · 47 hooks · 16 lenguajes · 93 test suites**
 
 ### Gestión de proyectos
 Sprints, burndown, capacity, dailies, retros, KPIs. Informes en Excel y PowerPoint. Predicción con Monte Carlo. Facturación y costes.
@@ -101,10 +101,10 @@ Sprint nocturno, mejora de código, investigación técnica. Los agentes propone
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 505 comandos
-│   ├── agents/         ← 49 agentes especializados
-│   ├── skills/         ← 85 skills de dominio
-│   ├── hooks/          ← 33 hooks deterministas
+│   ├── commands/       ← 508 comandos
+│   ├── agents/         ← 48 agentes especializados
+│   ├── skills/         ← 88 skills de dominio
+│   ├── hooks/          ← 47 hooks deterministas
 │   └── rules/          ← reglas de contexto y lenguaje
 ├── docs/               ← guías por rol, escenario, sector
 ├── projects/           ← proyectos (git-ignorados por privacidad)
