@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.7.0] — 2026-04-03
+
+feat: Prompt Security Scanner — static analysis for injection/leakage in agent prompts. Era 176.
+
+### Added
+
+- **prompt-security-scan.sh**: 10-rule static analyzer (PS-01 to PS-10) for prompt injection bait, exfiltration, role hijack, credential leak, code execution, base64 blobs, PII, missing model, wildcard tools. Zero LLM — pure regex. Supports --path, --quiet, single file or directory scan
+- **test-prompt-security-scan.bats**: 17 tests (score 85/100) — structure, clean pass, 4 detection types, edge cases, coverage breadth
+
 ## [4.6.0] — 2026-04-03
 
 feat: Communication Upgrade — README benefits-first rewrite. Era 175.
@@ -5544,6 +5553,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.6.0...v4.7.0
 [4.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.5.0...v4.6.0
 [4.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.4.0...v4.5.0
 [4.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.3.0...v4.4.0
