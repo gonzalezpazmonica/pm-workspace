@@ -75,8 +75,38 @@ teardown() {
   [ "$status" -eq 0 ]
 }
 
-@test "never exits non-zero" {
-  # Even with completely broken environment
+@test "handles empty action-log gracefully" {
+  touch "$HOME/.savia/session-actions.jsonl"
+  run bash "$HOOK" <<< ""
+  [ "$status" -eq 0 ]
+}
+
+@test "zero failures counted when no retries in log" {
+  local log="$HOME/.savia/session-actions.jsonl"
+  echo '{"action":"build","attempt":1}' > "$log"
+  echo '{"action":"test","attempt":1}' >> "$log"
+  run bash "$HOOK" <<< ""
+  [ "$status" -eq 0 ]
+  grep -q "Failures: 0" "$MEMORY_DIR/session-hot.md"
+}
+
+@test "session-hot.md contains timestamp" {
+  local log="$HOME/.savia/session-actions.jsonl"
+  echo '{"action":"build","attempt":1}' > "$log"
+  run bash "$HOOK" <<< ""
+  [ "$status" -eq 0 ]
+  grep -qE "[0-9]{4}-[0-9]{2}-[0-9]{2}" "$MEMORY_DIR/session-hot.md"
+}
+
+@test "session-end log written to .savia directory" {
+  local log="$HOME/.savia/session-actions.jsonl"
+  echo '{"action":"test","attempt":1}' > "$log"
+  run bash "$HOOK" <<< ""
+  [ "$status" -eq 0 ]
+  [ -f "$HOME/.savia/session-end.log" ]
+}
+
+@test "never exits non-zero even with broken environment" {
   export CLAUDE_PROJECT_DIR="/nonexistent/path/$$"
   run bash "$HOOK" <<< ""
   [ "$status" -eq 0 ]
