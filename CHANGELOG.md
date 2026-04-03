@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.5.0] — 2026-04-03
+
+feat: Emergency Watchdog — automatic local LLM fallback on internet loss. Era 174.
+
+### Added
+
+- **savia-watchdog.sh**: Systemd service that monitors connectivity to api.anthropic.com every 5 min. After 3 consecutive failures, activates Ollama with local model and notifies via `wall`. When internet returns, unloads model to free RAM
+- **savia-watchdog.service**: Systemd unit file (runs as user monica, auto-restart)
+- **install-watchdog.sh**: One-time installer (`sudo bash scripts/install-watchdog.sh`)
+
+### Changed
+
+- **emergency-plan.sh**: Default model selection updated to Gemma 4 (e2b for 16GB, e4b for 32GB+, qwen2.5:3b for 8GB)
+- **ollama-classify.sh**: Shield default model changed from qwen2.5:7b to qwen2.5:3b (fits in available RAM alongside Claude Code)
+
 ## [4.4.0] — 2026-04-03
 
 feat: Hygiene + Debt Audit — SPEC dedup, PII gate bugfix, 5 new test suites. Era 174.
@@ -5518,6 +5533,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.4.0...v4.5.0
 [4.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.3.0...v4.4.0
 [4.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.2.0...v4.3.0
 [4.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.1.1...v4.2.0

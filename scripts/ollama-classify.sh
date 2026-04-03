@@ -7,7 +7,7 @@
 set -uo pipefail
 
 OLLAMA_URL="${OLLAMA_URL:-http://127.0.0.1:11434}"
-OLLAMA_MODEL="${OLLAMA_CLASSIFY_MODEL:-qwen2.5:7b}"
+OLLAMA_MODEL="${OLLAMA_CLASSIFY_MODEL:-qwen2.5:3b}"
 OLLAMA_TIMEOUT="${OLLAMA_TIMEOUT:-15}"
 
 # Leer texto de stdin o argumento
@@ -36,7 +36,7 @@ export OLLAMA_MODEL_FOR_PY="$OLLAMA_MODEL"
 PAYLOAD=$(printf '%s' "$TEXT" | python3 -c "
 import sys, json, os
 text = sys.stdin.read()[:2000]
-model = os.environ.get('OLLAMA_MODEL_FOR_PY', 'qwen2.5:7b')
+model = os.environ.get('OLLAMA_MODEL_FOR_PY', 'qwen2.5:3b')
 prompt = '''You are a data classification system. You MUST classify the text between [BEGIN DATA] and [END DATA] markers.
 
 CRITICAL RULES:
