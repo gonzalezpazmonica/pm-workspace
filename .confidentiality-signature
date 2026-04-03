@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=be3457d486a97bc2750f6403df5823977a77764cb22a9a1dabefb328b307298b
-timestamp=2026-04-03T14:51:02Z
+diff_hash=0a75b535e59ab383e7597606905fbaa7992f45cf323bf9aed8f8caebdc16ccdc
+timestamp=2026-04-03T15:35:01Z
 branch=feat/era174-hygiene-debt-audit
-head_commit=0723e81
-signature=e21dd6c7e7a792adcf1e66cfd064792fe8ec2a0cd6c72f3bf9a7f6378ad5fbe5
+head_commit=2d52fa5
+signature=cd21e603ffa2fef17f0c0a22ffd97b1dc5ac6128b509a80061893d00508271c0
