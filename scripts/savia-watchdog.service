@@ -1,0 +1,17 @@
+[Unit]
+Description=Savia Watchdog — Emergency LLM fallback on internet loss
+After=network.target ollama.service
+Wants=ollama.service
+
+[Service]
+Type=simple
+User=monica
+Environment=SAVIA_WATCHDOG_INTERVAL=300
+Environment=SAVIA_WATCHDOG_THRESHOLD=3
+Environment=SAVIA_EMERGENCY_MODEL=qwen2.5:3b
+ExecStart=/home/monica/claude/scripts/savia-watchdog.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
