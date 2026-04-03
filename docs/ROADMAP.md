@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-03 | **Version:** v4.3.0 | **505 commands · 49 agents · 85 skills · 33 hooks · 47 test suites · 73 SPECs (45 done)**
+**Updated:** 2026-04-03 | **Version:** v4.5.0 | **505 commands · 49 agents · 85 skills · 33 hooks · 51 test suites · 73 SPECs (45 done)**
 
 ---
 
@@ -25,62 +25,57 @@ Temporal memory, hybrid search, agent evaluation, cognitive sectors, SaviaDiverg
 - **172**: Shield NER fix — allow-list, threshold calibration
 - **173**: Emotional Regulation (Anthropic research). Savia Models v0.1. 47 tests
 
+## Done — Era 174: Hygiene + Stability (v4.4 → v4.5)
+
+- **SPEC hygiene**: 6 duplicate SPEC numbers renumbered (→ SPEC-070/073-077). 13 empty PBI placeholders removed
+- **Critical bugfix**: hook-pii-gate.sh subshell pipe never propagated FINDINGS — PII gate was silently broken. Fixed
+- **Debt audit**: 4 parallel audits (hooks, test gaps, staleness, suite). 78/86 → 91/91 tests (100%)
+- **5 new test suites**: pii-gate(91), confidentiality-sign(80), backup(83), company-repo(83), emergency-plan(83). All 80+ quality
+- **3 async hooks hardened**: trap error logging for live-progress, session-end-snapshot, file-changed-staleness
+- **Gemma 4 evaluated + installed**: 4 models on Lima (gemma4:e2b/e4b, qwen2.5:3b/7b). Apache 2.0
+- **Emergency Watchdog**: systemd service monitors internet every 5 min. Auto-activates local LLM on failure
+- **NO_FLICKER**: enabled in settings.json
+
 ---
 
-## Pipeline — Q2 2026 (Eras 174+)
+## Pipeline — Q2 2026 (Eras 175+)
 
-### P1. Communication & Adoption (Era 174) — HIGH
+### P1. Communication & Adoption (Era 175) — HIGH
 
-README beneficios-first, onboarding aha <5min, CHANGELOG engagement format. Reduce barrier to first successful session. No code — pure docs + UX.
+README beneficios-first, onboarding aha <5min, CHANGELOG engagement format. Reduce barrier to first successful session.
 - Effort: 6h | Impact: High (visibility, adoption, community)
-- Source: marketingskills research (Era 176 plan)
 
-### P2. SPEC Hygiene — MEDIUM
-
-Clean up 7 duplicate SPEC numbers (029, 030, 031, 032, 033, 041). Archive superseded versions. Update cross-references. Rename to avoid collisions.
-- Effort: 3h | Impact: Medium (reduces confusion, improves traceability)
-- Source: this audit
-
-### P3. Prompt Security (SPEC-072) — HIGH
+### P2. Prompt Security (SPEC-072) — HIGH
 
 Static analyzer for prompt injection/leakage in agent prompts. Integrate with pre-commit.
 - Effort: 6h | Impact: High (security)
-- Source: pCompiler research
 
-### P4. Auto-Evals — MEDIUM
+### P3. Auto-Evals — MEDIUM
 
 llm_judge for generated specs. Semantic similarity for code review consistency. Regression detection.
 - Effort: 8h | Impact: Medium (quality assurance)
-- Source: pCompiler research, DeepEval
 
-### P5. Consolidation & Test Push — MEDIUM
+### P4. Consolidation & Test Push — MEDIUM
 
-Test coverage audit, dependency graph (SPEC-145), dormant rules cleanup.
+Dependency graph (SPEC-145), dormant rules cleanup, test coverage for MEDIUM risk scripts.
 - Effort: 4h | Impact: Medium (maintainability)
 
-### P6. Granular Permissions — LOW
+### P5. Granular Permissions — LOW
 
 5-level permissions per agent. Integrate with agent-policies.yaml.
 - Effort: 8h | Impact: Medium (but no blocking need today)
-- Source: claw-code research
 
 ### Backlog (blocked or low priority)
 
 | Item | Blocker | Priority |
 |------|---------|----------|
-| Gemma 4 evaluation | Research needed | HIGH — Apache 2.0, multiple sizes. Candidates: Mobile, Shield, Emergency Mode |
 | SaviaClaw Sensors | BME280 hardware | High when unblocked |
 | SaviaClaw Actuators | Hardware | High when unblocked |
 | SaviaClaw Voice v3 | Jabra mic | Medium |
-| SaviaClaw Meeting | Voice v3 | Low |
 | Web Git Manager | Spec exists, paused | Medium |
-| Web Test Coverage | Paused | Low |
-| Web Notifications RT | Paused | Low |
 | SaviaDivergent Phase 2 | User feedback needed | Medium |
-| Emergency LLM SPEC-066 | 24GB+ VRAM — evaluate Gemma 4 | Low→Medium |
 | SPEC-032 Security Benchmarks | — | Low |
 | SPEC-042 Live Progress | — | Low |
-| SPEC-046 Visual Diff QA | — | Low |
 
 ## Proposed — Q3-Q4 2026
 
@@ -92,7 +87,7 @@ Test coverage audit, dependency graph (SPEC-145), dormant rules cleanup.
 
 ---
 
-## SPECs — Status Summary (73 total)
+## SPECs — Status Summary (73 total, no duplicates)
 
 | Status | Count | Key examples |
 |--------|-------|-------------|
@@ -102,8 +97,6 @@ Test coverage audit, dependency graph (SPEC-145), dormant rules cleanup.
 | Proposed | 5 | 060-062, 064, 066 |
 | Research | 2 | 023, 027 |
 | Obsolete | 10 | 025, 058, 064, 138-144 |
-
-**Duplicate SPEC numbers to clean:** 029(2), 030(2), 031(2), 032(2), 033(2), 041(2)
 
 ## Rejected
 
