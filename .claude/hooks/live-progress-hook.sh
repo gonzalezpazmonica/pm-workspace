@@ -3,6 +3,9 @@ set -uo pipefail
 # live-progress-hook.sh — Logs every tool use to ~/.savia/live.log
 # Event: PreToolUse | Async: true | Tier: observability (never blocks)
 
+ERR_LOG="$HOME/.savia/hook-errors.log"
+trap 'echo "[$(date +%H:%M:%S)] live-progress-hook: $BASH_COMMAND failed (line $LINENO)" >> "$ERR_LOG" 2>/dev/null' ERR
+
 LOG="$HOME/.savia/live.log"
 mkdir -p "$HOME/.savia"
 

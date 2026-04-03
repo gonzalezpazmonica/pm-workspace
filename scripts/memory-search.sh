@@ -4,7 +4,7 @@ set -uo pipefail
 # Vector search with grep fallback. SPEC-020: TTL filtering.
 
 cmd_search() {
-    [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
+    [[ ! -f "$STORE_FILE" ]] && { echo "Usage: search requires a store file" >&2; return 1; }
     local query= type_filter= since_date= mode="auto" include_expired=false
     local sector_filter= include_superseded=false
     while [[ $# -gt 0 ]]; do case "$1" in
@@ -14,7 +14,7 @@ cmd_search() {
         --include-superseded) include_superseded=true; shift;;
         *) query="$1"; shift;; esac
     done
-    [[ -z "$query" ]] && { echo "Uso: search \"query\" [--type tipo] [--since DATE] [--mode hybrid|vector|graph|grep|auto]"; return; }
+    [[ -z "$query" ]] && { echo "Usage: search \"query\" [--type tipo] [--since DATE] [--mode hybrid|vector|graph|grep|auto]" >&2; return 1; }
 
     # SPEC-035: Hybrid search (vector + graph + grep combined)
     if [[ "$mode" == "hybrid" || "$mode" == "auto" ]] && command -v python3 &>/dev/null; then

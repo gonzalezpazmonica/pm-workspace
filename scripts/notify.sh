@@ -6,19 +6,32 @@
 set -uo pipefail
 cat /dev/stdin > /dev/null 2>&1 || true
 
-TITLE="${1:-Savia}"
-MESSAGE="${2:-}"
+TITLE=""
+MESSAGE=""
 URGENCY="normal"
+CHANNEL=""
+CHANNEL_SET=false
 
-shift 2 2>/dev/null || true
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --urgency) URGENCY="$2"; shift 2 ;;
-    *) shift ;;
+    --channel) CHANNEL="$2"; CHANNEL_SET=true; shift 2 ;;
+    --message) MESSAGE="$2"; shift 2 ;;
+    *)
+      if [[ -z "$TITLE" ]]; then TITLE="$1"; else MESSAGE="$1"; fi
+      shift ;;
   esac
 done
 
-[ -z "$MESSAGE" ] && { echo "Usage: $0 \"Title\" \"Message\" [--urgency low|normal|critical]" >&2; exit 1; }
+TITLE="${TITLE:-Savia}"
+[[ "$CHANNEL_SET" == "true" && -z "$CHANNEL" ]] && { echo "Error: --channel requires a non-empty value" >&2; exit 1; }
+if [[ "$CHANNEL_SET" == "true" && -n "$CHANNEL" ]]; then
+  case "$CHANNEL" in
+    desktop|slack|nctalk|whatsapp|email) ;;
+    *) echo "Error: unknown channel type '$CHANNEL'. Valid: desktop, slack, nctalk, whatsapp, email" >&2; exit 1 ;;
+  esac
+fi
+[ -z "$MESSAGE" ] && { echo "Usage: $0 \"Title\" \"Message\" [--urgency low|normal|critical] [--channel TYPE --message TEXT]" >&2; exit 1; }
 
 # ── Linux (notify-send) ──
 if command -v notify-send >/dev/null 2>&1; then

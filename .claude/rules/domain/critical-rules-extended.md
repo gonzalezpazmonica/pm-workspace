@@ -2,7 +2,7 @@
 
 > Rules 1-8 inline in CLAUDE.md. Este fichero contiene las reglas 9-25 con detalle.
 
-9. **Secrets**: NUNCA en repo — vault o `config.local/` · `@.claude/rules/domain/confidentiality-config.md`
+9. **Secrets**: NUNCA en repo — vault o `config.local/` · `@.claude/rules/domain/context-placement-confirmation.md`
 10. **Infra**: NUNCA apply PRE/PRO sin aprobacion · `@.claude/rules/domain/infrastructure-as-code.md`
 11. **150 lineas max.** por fichero — dividir si crece
 12. **README**: cambios en commands/agents/skills/rules → actualizar README.md + README.en.md

@@ -4,7 +4,12 @@
 # Output: .claude/skill-manifests.json
 set -euo pipefail
 
-SKILLS_DIR="${1:-.claude/skills}"
+if [[ $# -eq 0 ]]; then
+  echo "Usage: build-skill-manifest.sh <skills-dir> [output-file]" >&2
+  exit 1
+fi
+
+SKILLS_DIR="$1"
 OUTPUT="${2:-.claude/skill-manifests.json}"
 
 # Verificar que el directorio existe

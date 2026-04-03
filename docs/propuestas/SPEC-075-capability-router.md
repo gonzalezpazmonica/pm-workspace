@@ -1,4 +1,4 @@
-# SPEC-032: Capability Router — Selección de Agentes por Descripción
+# SPEC-075: Capability Router — Selección de Agentes por Descripción
 
 > Status: **DRAFT** · Fecha: 2026-03-25 · Score: 3.50
 > Origen: Qwen-Agent pattern "Capability-Based Routing"

@@ -44,9 +44,13 @@ count_by_state() {
   local backlog; backlog=$(resolve_backlog_path "$project")
   [ ! -d "$backlog/pbi" ] && echo "0" && return
   if [ -n "$state" ]; then
-    grep -rl "^state: ${state}" "$backlog/pbi/" 2>/dev/null | grep -c . || echo "0"
+    local result
+    result=$(grep -rl "^state: ${state}" "$backlog/pbi/" 2>/dev/null | grep -c . || true)
+    echo "${result:-0}"
   else
-    find "$backlog/pbi" -name "PBI-*.md" 2>/dev/null | grep -c . || echo "0"
+    local result
+    result=$(find "$backlog/pbi" -name "PBI-*.md" 2>/dev/null | grep -c . || true)
+    echo "${result:-0}"
   fi
 }
 

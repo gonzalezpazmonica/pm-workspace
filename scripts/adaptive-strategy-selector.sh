@@ -8,6 +8,10 @@ set -uo pipefail
 # Read stdin for hook compatibility
 cat /dev/stdin > /dev/null 2>&1 || true
 
+if [[ $# -eq 0 && -z "${SAVIA_MODEL_TIER:-}" ]]; then
+  echo "ERROR: tier argument required. Usage: $0 <max|high|fast>" >&2
+  exit 1
+fi
 TIER="${1:-${SAVIA_MODEL_TIER:-fast}}"
 
 case "$TIER" in

@@ -1,4 +1,4 @@
-# SPEC-033: PENDING_USER_INPUT — Pausa/Reanuda en Agentes Autónomos
+# SPEC-076: PENDING_USER_INPUT — Pausa/Reanuda en Agentes Autónomos
 
 > Status: **DRAFT** · Fecha: 2026-03-25 · Score: 3.40
 > Origen: Qwen-Agent pattern "PENDING_USER_INPUT state"
