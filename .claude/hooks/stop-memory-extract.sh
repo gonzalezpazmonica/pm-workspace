@@ -2,16 +2,16 @@
 set -uo pipefail
 # stop-memory-extract.sh — SPEC-013v2: Deep memory extraction at session stop
 # Hook: Stop | Timeout: 10 min (vs SessionEnd's 1.5s)
-# Strategy: scan session-hot.md + session-actions.jsonl, extract valuable
-# items, persist to auto-memory. This is the heavy extraction that
-# SessionEnd (1.5s) cannot do.
+# Extracts decisions, failures, discoveries, references from session context.
 
 # Tier: standard
 LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
 if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
-  # shellcheck source=/dev/null
   source "$LIB_DIR/profile-gate.sh"
   profile_gate "standard"
+fi
+if [[ -f "$LIB_DIR/memory-extract-lib.sh" ]]; then
+  source "$LIB_DIR/memory-extract-lib.sh"
 fi
 
 INPUT=$(cat 2>/dev/null || true)
@@ -23,82 +23,87 @@ SESSION_HOT="$MEMORY_DIR/session-hot.md"
 ACTION_LOG="$HOME/.savia/session-actions.jsonl"
 MEMORY_MD="$MEMORY_DIR/MEMORY.md"
 
-# Skip if nothing to extract
 [[ ! -f "$SESSION_HOT" ]] && [[ ! -f "$ACTION_LOG" ]] && exit 0
+mkdir -p "$MEMORY_DIR"
 
-# ── PHASE 1: Scan session-hot.md for decisions/corrections ──
-DECISIONS=""
-CORRECTIONS=""
+TIMESTAMP=$(date +%Y-%m-%d)
+ITEMS_SAVED=0
+
+# ── PHASE 1: Scan session-hot for decisions/corrections ──
+DECISIONS="" CORRECTIONS="" HOT_TEXT=""
 if [[ -f "$SESSION_HOT" ]] && [[ -s "$SESSION_HOT" ]]; then
-  DECISIONS=$(grep -ioE '(Decisions?:)[^|]*' "$SESSION_HOT" | head -3 | sed 's/Decisions\?:\s*//' | tr '\n' '; ' || true)
-  CORRECTIONS=$(grep -ioE '(Corrections?:)[^|]*' "$SESSION_HOT" | head -3 | sed 's/Corrections\?:\s*//' | tr '\n' '; ' || true)
+  HOT_TEXT=$(cat "$SESSION_HOT")
+  DECISIONS=$(echo "$HOT_TEXT" | grep -ioE '(Decisions?:)[^|]*' | head -3 \
+    | sed 's/Decisions\?:\s*//' | tr '\n' '; ' || true)
+  CORRECTIONS=$(echo "$HOT_TEXT" | grep -ioE '(Corrections?:)[^|]*' | head -3 \
+    | sed 's/Corrections\?:\s*//' | tr '\n' '; ' || true)
 fi
 
-# ── PHASE 2: Scan action log for patterns ──
+# ── PHASE 2: Scan action log for repeated failures ──
 REPEATED_FAILURES=""
 if [[ -f "$ACTION_LOG" ]]; then
-  # Find actions that failed 3+ times (pattern worth remembering)
   REPEATED_FAILURES=$(grep '"attempt":[3-9]' "$ACTION_LOG" 2>/dev/null \
     | grep -o '"action":"[^"]*"' | cut -d'"' -f4 | sort | uniq -c | sort -rn \
     | head -3 | awk '{print $2}' | tr '\n' ', ' || true)
 fi
 
-# ── PHASE 3: Persist valuable items ──
-ITEMS_SAVED=0
+# ── PHASE 2b: Discovery extraction ──
+DISCOVERIES=""
+if [[ -n "$HOT_TEXT" ]]; then
+  DISCOVERIES=$(echo "$HOT_TEXT" | grep -ioE \
+    '(bug was|caused by|root cause|raiz|resulta que|turned out|issue was|problema era)[^|;]{10,80}' \
+    | head -3 | tr '\n' '; ' || true)
+fi
 
-# Persist decisions as project memory
-if [[ -n "$DECISIONS" ]] && [[ ${#DECISIONS} -gt 20 ]]; then
-  SAFE_DECISIONS=$(echo "$DECISIONS" | head -c 200 | tr '"' "'")
-  TIMESTAMP=$(date +%Y-%m-%d)
-  # Check for duplicates before saving
-  if ! grep -qF "${SAFE_DECISIONS:0:40}" "$MEMORY_DIR"/*.md 2>/dev/null; then
-    cat > "$MEMORY_DIR/session_decisions_${TIMESTAMP}.md" << MEMEOF
----
-name: Session decisions ${TIMESTAMP}
-description: Decisions extracted from session stop — ${SAFE_DECISIONS:0:60}
-type: project
----
+# ── PHASE 2c: Reference extraction (URLs) ──
+REFERENCES=""
+if [[ -n "$HOT_TEXT" ]]; then
+  REFERENCES=$(echo "$HOT_TEXT" | grep -oE 'https?://[^ ")<>]+' \
+    | sort -u | head -3 | tr '\n' '; ' || true)
+fi
 
-${SAFE_DECISIONS}
-
-**Why:** Extracted automatically at session stop (SPEC-013v2).
-**How to apply:** Review and incorporate into project decisions if still relevant.
-MEMEOF
-    ITEMS_SAVED=$((ITEMS_SAVED + 1))
+# ── PHASE 3: Persist with quality gates ──
+if [[ -n "$DECISIONS" ]]; then
+  SAFE=$(echo "$DECISIONS" | head -c 200 | tr '"' "'")
+  if passes_quality_gate "$SAFE" "$MEMORY_DIR"; then
+    save_memory_file "$MEMORY_DIR" "$MEMORY_MD" \
+      "session_decisions_${TIMESTAMP}.md" "Session decisions ${TIMESTAMP}" \
+      "Decisions extracted — ${SAFE:0:60}" "project" "$SAFE"
   fi
 fi
 
-# Persist repeated failures as feedback memory
 if [[ -n "$REPEATED_FAILURES" ]]; then
-  SAFE_FAILURES=$(echo "$REPEATED_FAILURES" | head -c 150 | tr '"' "'")
-  TIMESTAMP=$(date +%Y-%m-%d)
-  if ! grep -qF "${SAFE_FAILURES:0:30}" "$MEMORY_DIR"/*.md 2>/dev/null; then
-    cat > "$MEMORY_DIR/session_failures_${TIMESTAMP}.md" << MEMEOF
----
-name: Repeated failures ${TIMESTAMP}
-description: Actions that failed 3+ times this session — ${SAFE_FAILURES:0:60}
-type: feedback
----
-
-Repeated failures: ${SAFE_FAILURES}
-
-**Why:** Pattern of repeated failures indicates a systemic issue.
-**How to apply:** Investigate root cause before retrying same approach.
-MEMEOF
-    ITEMS_SAVED=$((ITEMS_SAVED + 1))
+  SAFE=$(echo "$REPEATED_FAILURES" | head -c 150 | tr '"' "'")
+  if passes_quality_gate "Repeated failures: $SAFE" "$MEMORY_DIR"; then
+    save_memory_file "$MEMORY_DIR" "$MEMORY_MD" \
+      "session_failures_${TIMESTAMP}.md" "Repeated failures ${TIMESTAMP}" \
+      "Actions that failed 3+ times — ${SAFE:0:60}" "feedback" \
+      "Repeated failures: ${SAFE}"
   fi
 fi
 
-# ── PHASE 4: Cleanup action log (consumed) ──
+if [[ -n "$DISCOVERIES" ]]; then
+  SAFE=$(echo "$DISCOVERIES" | head -c 200 | tr '"' "'")
+  if passes_quality_gate "$SAFE" "$MEMORY_DIR"; then
+    save_memory_file "$MEMORY_DIR" "$MEMORY_MD" \
+      "session_discoveries_${TIMESTAMP}.md" "Session discoveries ${TIMESTAMP}" \
+      "Root causes and insights — ${SAFE:0:60}" "project" "$SAFE"
+  fi
+fi
+
+if [[ -n "$REFERENCES" ]]; then
+  SAFE=$(echo "$REFERENCES" | head -c 200 | tr '"' "'")
+  if passes_quality_gate "$SAFE" "$MEMORY_DIR"; then
+    save_memory_file "$MEMORY_DIR" "$MEMORY_MD" \
+      "session_references_${TIMESTAMP}.md" "Session references ${TIMESTAMP}" \
+      "URLs and docs referenced — ${SAFE:0:60}" "reference" "$SAFE"
+  fi
+fi
+
+# ── PHASE 4: Archive action log ──
 if [[ -f "$ACTION_LOG" ]]; then
-  # Archive instead of delete
-  ARCHIVE="$HOME/.savia/session-actions-$(date +%Y%m%d-%H%M%S).jsonl"
-  mv "$ACTION_LOG" "$ARCHIVE" 2>/dev/null || true
+  mv "$ACTION_LOG" "$HOME/.savia/session-actions-$(date +%Y%m%d-%H%M%S).jsonl" 2>/dev/null || true
 fi
 
-# Output summary (visible to Claude on next session)
-if [[ $ITEMS_SAVED -gt 0 ]]; then
-  echo "Session stop: $ITEMS_SAVED items extracted to memory."
-fi
-
+[[ $ITEMS_SAVED -gt 0 ]] && echo "Session stop: $ITEMS_SAVED items extracted to memory."
 exit 0
