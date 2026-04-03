@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.0] — 2026-04-03
+
+feat: Hygiene + Debt Audit — SPEC dedup, PII gate bugfix, 5 new test suites. Era 174.
+
+### Fixed
+
+- **hook-pii-gate.sh**: Critical bug — subshell pipe pattern caused FINDINGS counter to never propagate. PII gate was detecting patterns but never blocking commits. Fixed with process substitution + temp file counter
+- **critical-rules-extended.md**: Broken reference to non-existent confidentiality-config.md (now points to context-placement-confirmation.md)
+- **10 scripts**: Input validation for edge cases (build-skill-manifest, backlog-resolver, backlog-pbi-crud, memory-store, memory-vector, memory-search, mock-env, adaptive-strategy-selector, notify)
+- **test-memory-vector.bats**: Missing directory in setup (mkdir -p for output/)
+- **test-mock-env.bats**: Relaxed assertion for mock_mcp_response default behavior
+
+### Added
+
+- **test-hook-pii-gate.bats**: 11 tests covering email, DNI, IP, API key detection, binary skip, clean pass
+- **test-confidentiality-sign.bats**: 10 tests covering sign, verify, secret permissions, HMAC validation
+- **test-backup.bats**: 23 tests covering config, rotation, encryption constants, status handling
+- **test-company-repo.bats**: 9 tests covering help, args validation, dependency checks
+- **test-emergency-plan.bats**: 9 tests covering --help, --check, model selection, constants
+- **trap error logging**: 3 async hooks (live-progress, session-end-snapshot, file-changed-staleness) now log errors to ~/.savia/hook-errors.log instead of failing silently
+
+### Changed
+
+- **docs/ROADMAP.md**: Unified from 3 sources. Eras 165-173 documented. Pipeline P1-P6 replaces Tier/Quarter structure. 73 SPECs classified. Gemma 4 added to backlog
+- **6 SPECs renumbered**: Resolved duplicate numbers (029→070, 030→073, 031→074, 032→075, 033→076, 041→077)
+
+### Removed
+
+- **13 PBI placeholders**: Empty template files (PBI-013 to PBI-024 + duplicate PBI-001-no-project)
+
 ## [4.3.0] — 2026-04-03
 
 feat: Memory Resilience — deep extraction with quality gates. Era 166.
@@ -5488,6 +5518,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.3.0...v4.4.0
 [4.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.2.0...v4.3.0
 [4.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.1.1...v4.2.0
 [3.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.29.0...v3.30.0

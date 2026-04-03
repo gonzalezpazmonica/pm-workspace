@@ -43,6 +43,7 @@ cmd_create() {
     esac
   done
   [ -z "$title" ] && { echo "Error: --title required" >&2; exit 1; }
+  [ -z "$project" ] && { echo "Error: --project required for create" >&2; exit 1; }
 
   local backlog; backlog=$(find_backlog "$project")
   local id; id=$(next_id "$backlog")

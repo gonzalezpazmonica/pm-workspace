@@ -43,7 +43,7 @@ mock_sprint_data() {
   "id": "mock-sprint-42",
   "name": "Sprint 42",
   "startDate": "2026-03-01T00:00:00Z",
-  "finishDate": "2026-03-14T00:00:00Z",
+  "endDate": "2026-03-14T00:00:00Z",
   "state": "current",
   "workItems": {
     "total": 15,

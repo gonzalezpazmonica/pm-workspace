@@ -1,4 +1,4 @@
-# SPEC-031: Parallel Doc QA — Digestión Paralela de Múltiples Documentos
+# SPEC-074: Parallel Doc QA — Digestión Paralela de Múltiples Documentos
 
 > Status: **DRAFT** · Fecha: 2026-03-25 · Score: 3.60
 > Origen: Qwen-Agent pattern "ParallelDocQA"

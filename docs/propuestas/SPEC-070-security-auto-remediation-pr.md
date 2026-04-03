@@ -1,4 +1,4 @@
-# SPEC-029: Security Auto-Remediation PRs
+# SPEC-070: Security Auto-Remediation PRs
 
 > Status: **DRAFT** · Fecha: 2026-03-23 · Score: 4.60
 > Origen: Análisis de usestrix/strix — remediación automática

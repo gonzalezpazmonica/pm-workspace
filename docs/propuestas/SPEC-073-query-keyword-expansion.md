@@ -1,4 +1,4 @@
-# SPEC-030: Query Keyword Expansion — Expansión de Consultas antes de Búsqueda
+# SPEC-073: Query Keyword Expansion — Expansión de Consultas antes de Búsqueda
 
 > Status: **DRAFT** · Fecha: 2026-03-25 · Score: 3.90
 > Origen: Qwen-Agent pattern "SplitQueryThenGenKeyword"
