@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.3.0] — 2026-04-03
+
+feat: Memory Resilience — deep extraction with quality gates. Era 166.
+
+### Added
+
+- **memory-extract-lib.sh**: Shared library for memory extraction hooks (quality gates, MEMORY.md index registration, file persistence)
+- **Discovery extraction**: Detects root cause patterns (bug was, caused by, root cause, resulta que) in session context
+- **Reference extraction**: Captures URLs from session context as reference memory
+- **Quality gates**: Rejects items < 50 chars, PII (email patterns), and duplicates
+- **MEMORY.md index registration**: Extracted items automatically registered in memory index
+- **22 BATS tests**: stop-memory-extract (14) + session-end-memory (8) — first test coverage for memory hooks
+
+### Changed
+
+- **stop-memory-extract.sh**: Refactored with lib extraction, 4 extraction types (decisions, failures, discoveries, references)
+
 ## [4.2.0] — 2026-04-03
 
 feat: Savia Emotional Regulation System — functional stress monitoring and self-regulation. Era 173.
@@ -5471,6 +5488,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.2.0...v4.3.0
 [4.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.1.1...v4.2.0
 [3.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.29.0...v3.30.0
 [3.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.28.0...v3.29.0
