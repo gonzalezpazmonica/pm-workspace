@@ -43,7 +43,7 @@ else RAM_GB=$(( $(grep MemTotal /proc/meminfo 2>/dev/null | awk '{print $2}' || 
 echo -e "  OS: ${GREEN}$OS${NC} · Arch: ${GREEN}$ARCH${NC} · RAM: ${GREEN}${RAM_GB}GB${NC}"
 
 if [[ -z "$MODEL" ]]; then
-  [[ $RAM_GB -ge 32 ]] && MODEL="qwen2.5:14b" || { [[ $RAM_GB -ge 16 ]] && MODEL="qwen2.5:7b" || MODEL="qwen2.5:3b"; }
+  [[ $RAM_GB -ge 32 ]] && MODEL="gemma4:e4b" || { [[ $RAM_GB -ge 16 ]] && MODEL="gemma4:e2b" || MODEL="qwen2.5:3b"; }
   echo -e "  Modelo: ${CYAN}$MODEL${NC} (auto)"
 fi; mkdir -p "$CACHE_DIR"
 
