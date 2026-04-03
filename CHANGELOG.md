@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.9.0] — 2026-04-04
+
+feat: Workspace Consolidation — inventory audit, counter correction, roadmap sync. Era 178.
+
+### Changed
+
+- **README.md + README.en.md**: Counters corrected (508 commands, 48 agents, 88 skills, 47 hooks, 93 test suites)
+- **docs/ROADMAP.md**: Eras 175-178 documented. Pipeline renumbered for Era 179+. Version corrected to v4.8
+
+### Added
+
+- **output/20260404-workspace-consolidation.md**: Full inventory audit (real counts vs documented, test coverage map, orphaned hooks, LLM model inventory)
+
 ## [4.8.0] — 2026-04-03
 
 feat: Spec Quality Auditor — deterministic 9-criteria scorer for SDD specs. Era 177.
@@ -5562,6 +5575,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.8.0...v4.9.0
 [4.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.7.0...v4.8.0
 [4.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.6.0...v4.7.0
 [4.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.5.0...v4.6.0
