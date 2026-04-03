@@ -1,4 +1,4 @@
-# SPEC-041: Estrategia Global de Optimización de Memoria y Contexto
+# SPEC-077: Estrategia Global de Optimización de Memoria y Contexto
 
 > **Status:** APPROVED · **Fecha:** 2026-03-27 · **Era:** 157
 > **Origen:** Análisis del paper TurboQuant (arXiv:2504.19874) — Google Research + NYU + DeepMind

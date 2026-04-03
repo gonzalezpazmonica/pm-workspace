@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=58f185dbdd1b5bb3387208a5d35cf4ffcd919b6decb8b339258759b72fc91fe4
-timestamp=2026-04-03T06:45:06Z
-branch=feat/era166-memory-resilience
-head_commit=aace634
-signature=fae0e29501d73d4473b0802041803432c650501e365751a987b0a92b0d4fecad
+diff_hash=0a75b535e59ab383e7597606905fbaa7992f45cf323bf9aed8f8caebdc16ccdc
+timestamp=2026-04-03T15:35:01Z
+branch=feat/era174-hygiene-debt-audit
+head_commit=2d52fa5
+signature=cd21e603ffa2fef17f0c0a22ffd97b1dc5ac6128b509a80061893d00508271c0

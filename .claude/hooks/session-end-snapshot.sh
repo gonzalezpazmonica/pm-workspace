@@ -3,6 +3,10 @@
 # Hook: Stop event. Runs when Claude session ends.
 # ─────────────────────────────────────────────────────────────────
 set -uo pipefail
+
+ERR_LOG="$HOME/.savia/hook-errors.log"
+trap 'echo "[$(date +%H:%M:%S)] session-end-snapshot: $BASH_COMMAND failed (line $LINENO)" >> "$ERR_LOG" 2>/dev/null' ERR
+
 cat /dev/stdin > /dev/null 2>&1 || true
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

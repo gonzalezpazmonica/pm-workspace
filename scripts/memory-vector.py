@@ -438,13 +438,13 @@ def cmd_benchmark(store: str) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Vector memory index (SPEC-018)")
-    parser.add_argument("command", choices=["rebuild", "search", "status", "benchmark"])
+    parser.add_argument("command", choices=["rebuild", "build", "search", "status", "benchmark"])
     parser.add_argument("query", nargs="?", default="")
     parser.add_argument("--store", default=DEFAULT_STORE)
     parser.add_argument("--top", type=int, default=10)
     args = parser.parse_args()
 
-    if args.command == "rebuild":
+    if args.command in ("rebuild", "build"):
         cmd_rebuild(args.store)
     elif args.command == "search":
         if not args.query:

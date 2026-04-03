@@ -66,7 +66,7 @@ case "${1:-help}" in
     graph-search) shift; python3 "$SCRIPT_DIR/memory-graph.py" search "$@" --store "$STORE_FILE" ;;
     graph-status) python3 "$SCRIPT_DIR/memory-graph.py" status --store "$STORE_FILE" ;;
     graph-entities) shift; python3 "$SCRIPT_DIR/memory-graph.py" entities "$@" --store "$STORE_FILE" ;;
-    *) cat <<'USAGE'
+    help) cat <<'USAGE'
 memory-store.sh {command} [options]
 
 Commands: save, search, context, stats, entity, suggest-topic,
@@ -82,5 +82,8 @@ Search: "query" [--type TYPE] [--since DATE] [--mode grep|vector|auto]
 Vector index auto-rebuilds on JSONL changes (if deps installed).
 Install: pip install sentence-transformers hnswlib
 USAGE
+    ;;
+    *) echo "Usage: memory-store.sh {save|search|context|stats|entity|suggest-topic|session-summary|rebuild-index|index-status|benchmark|help}" >&2
+       exit 1
     ;;
 esac

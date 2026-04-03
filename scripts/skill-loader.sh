@@ -19,6 +19,8 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+[[ -z "$TASK" ]] && { echo "Error: --task required" >&2; exit 1; }
+
 # Locate manifest
 if [[ -z "$MANIFEST" ]]; then
   for candidate in \
