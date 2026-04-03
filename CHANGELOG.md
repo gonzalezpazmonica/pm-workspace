@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.6.0] — 2026-04-03
+
+feat: Communication Upgrade — README benefits-first rewrite. Era 175.
+
+### Changed
+
+- **README.md**: Rewritten with benefits-first framework (215→148 lines). Problem→solution table, 3-minute install, role-based quick-starts
+- **README.en.md**: English version aligned with new structure
+- **docs/ROADMAP.md**: Era 174 documented as completed. Pipeline renumbered for Era 175+
+- **settings.json**: CLAUDE_CODE_NO_FLICKER=1 enabled for flicker-free terminal rendering
+
 ## [4.5.0] — 2026-04-03
 
 feat: Emergency Watchdog — automatic local LLM fallback on internet loss. Era 174.
@@ -5533,6 +5544,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.5.0...v4.6.0
 [4.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.4.0...v4.5.0
 [4.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.3.0...v4.4.0
 [4.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.2.0...v4.3.0
