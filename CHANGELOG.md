@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.8.0] — 2026-04-03
+
+feat: Spec Quality Auditor — deterministic 9-criteria scorer for SDD specs. Era 177.
+
+### Added
+
+- **spec-quality-auditor.sh**: Scores specs 0-100 against 9 criteria (header, metadata, problem, solution, acceptance, effort, deps, testability, clarity). Batch mode with --min-score filter. JSON output. 21/73 existing specs certified at 80+
+- **test-spec-quality-auditor.bats**: 17 tests (score 98/100) — high/low quality detection, batch mode, edge cases, JSON validation
+
 ## [4.7.0] — 2026-04-03
 
 feat: Prompt Security Scanner — static analysis for injection/leakage in agent prompts. Era 176.
@@ -5553,6 +5562,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.7.0...v4.8.0
 [4.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.6.0...v4.7.0
 [4.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.5.0...v4.6.0
 [4.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.4.0...v4.5.0
