@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=44a37dcc84b75f80a11029ff57295efd6db2e1d6f4f0370dfef4e17a922a65cb
-timestamp=2026-04-03T20:54:16Z
-branch=feat/era176-prompt-security
-head_commit=1319004
-signature=3771195d25741370575f2e12e0f8f74dd9c2497e4d3d746606d796c25d51dcfd
+diff_hash=e20a5c9410caeef5d3f89fc7d302b79c55667cc7b5a337756f846492be91398f
+timestamp=2026-04-03T21:05:41Z
+branch=feat/era177-auto-evals
+head_commit=330f173
+signature=152bb730f6b1e3956db782f98b18c7f81f806be8bc3932f917157e75427ebb55
