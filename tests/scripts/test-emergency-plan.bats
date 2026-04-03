@@ -69,8 +69,8 @@ teardown() {
 
 @test "emergency: model selection for 3 RAM tiers" {
   grep -q 'qwen2.5:3b' "$SCRIPT"
-  grep -q 'qwen2.5:7b' "$SCRIPT"
-  grep -q 'qwen2.5:14b' "$SCRIPT"
+  grep -q 'gemma4:e2b' "$SCRIPT"
+  grep -q 'gemma4:e4b' "$SCRIPT"
 }
 
 @test "emergency: RAM thresholds at 16GB and 32GB" {
