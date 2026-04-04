@@ -68,7 +68,7 @@ Ich bin die kleine Eule, die in pm-workspace lebt. Ich passe mich an deine Rolle
 
 ## Was drin steckt
 
-**508 Befehle · 48 Agenten · 89 Skills · 48 Hooks · 16 Sprachen · 107 Test-Suiten**
+**508 Befehle · 48 Agenten · 89 Skills · 48 Hooks · 16 Sprachen · 110 Test-Suiten**
 
 ### Projektmanagement
 Sprints, Burndown, Kapazitaet, Dailies, Retros, KPIs. Berichte in Excel und PowerPoint. Vorhersage mit Monte Carlo. Abrechnung und Kosten.

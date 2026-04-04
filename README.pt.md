@@ -68,7 +68,7 @@ Sou a corujinha que vive dentro do pm-workspace. Adapto-me ao seu papel, ao seu 
 
 ## O que ha la dentro
 
-**508 comandos · 48 agentes · 89 skills · 48 hooks · 16 linguagens · 107 suites de teste**
+**508 comandos · 48 agentes · 89 skills · 48 hooks · 16 linguagens · 110 suites de teste**
 
 ### Gestao de projetos
 Sprints, burndown, capacidade, dailies, retros, KPIs. Relatorios em Excel e PowerPoint. Previsao com Monte Carlo. Faturacao e custos.
