@@ -70,3 +70,15 @@ teardown() { rm -rf "$TMPDIR_RJ"; }
 @test "positive: script has Layer 1 comment" {
   grep -q "Layer 1\|layer.*1\|deterministic" "$SCRIPT"
 }
+
+@test "positive: script under 150 lines" {
+  local lines
+  lines=$(wc -l < "$SCRIPT")
+  [[ "$lines" -le 150 ]]
+}
+
+@test "edge: JSON without input field" {
+  echo '{"tool":"Bash","command":"ls"}' > "$TMPDIR_RJ/input.json"
+  run bash -c "cat '$TMPDIR_RJ/input.json' | bash '$SCRIPT'"
+  [[ "$status" -eq 0 ]]
+}

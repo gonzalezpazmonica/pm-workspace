@@ -67,3 +67,16 @@ teardown() { rm -rf "$TMPDIR_AC"; }
 @test "positive: script contains date or timestamp" {
   grep -qE "date|timestamp|iso|YYYY" "$SCRIPT"
 }
+
+@test "positive: script under 150 lines" {
+  local lines
+  lines=$(wc -l < "$SCRIPT")
+  [[ "$lines" -le 150 ]]
+}
+
+@test "edge: concurrent runs do not conflict" {
+  bash "$SCRIPT" 2>/dev/null &
+  bash "$SCRIPT" 2>/dev/null &
+  wait
+  [[ -d "$TMPDIR_AC/output/context-snapshots" ]]
+}
