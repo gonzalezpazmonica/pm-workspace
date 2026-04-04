@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-04 | **Version:** v4.8.0 | **508 commands · 48 agents · 88 skills · 47 hooks · 93 test suites · 73 SPECs (45 done)**
+**Updated:** 2026-04-04 | **Version:** v4.10.0 | **508 commands · 48 agents · 89 skills · 48 hooks · 93 test suites · 73 SPECs (45 done)**
 
 ---
 
@@ -45,7 +45,19 @@ Temporal memory, hybrid search, agent evaluation, cognitive sectors, SaviaDiverg
 
 ---
 
-## Pipeline — Q2 2026 (Eras 179+)
+## Done — Era 179: Audit Correctiva (v4.10)
+
+- **P0a**: Clara Philosophy 100% — 36 DOMAIN.md created (89/89 skills with dual docs)
+- **P0b**: EN translations — best-practices-claude-code.en.md + memory-system.en.md
+- **P0c**: 4 feature guides (Emergency Watchdog, Prompt Security Scanner, Spec Quality Auditor, Workspace Consolidation)
+- **P0d**: SPEC triage — 78 SPECs classified (14 archive, 5 promote, 4 merge, 17 keep)
+- **P0e**: 7 regional READMEs rewritten to v4.6+ benefits-first format
+- **P0f**: decision-log.md created with architecture decisions and rejections
+- **P0g**: SPEC-078 Dual Estimation — spec written, template updated, estimation policy extended
+
+---
+
+## Pipeline — Q2 2026 (Eras 180+)
 
 ### P1. Granular Permissions — MEDIUM
 
@@ -79,16 +91,16 @@ Tests for 30 MEDIUM risk scripts. Target: 20% coverage (up from 11%).
 
 ---
 
-## SPECs — Status Summary (73 total, no duplicates)
+## SPECs — Status Summary (78 total, post-triage Era 179)
 
 | Status | Count | Key examples |
 |--------|-------|-------------|
 | Implemented | 45 | 012-016, 034-055, 063, 065, 067-069, 071 |
-| Ready | 7 | 019, 020, 021, 022, 024, 026, 028 |
-| Draft | 14 | 003-009, 017, 042, 046, 056-059 |
+| Ready | 12 | 019-022, 024, 026, 028, 032, 043, 048, 065, 078 |
+| Draft | 17 | 005, 009, 017, 035, 042, 044, 054, 055, 060, 061, 066 |
 | Proposed | 5 | 060-062, 064, 066 |
 | Research | 2 | 023, 027 |
-| Obsolete | 10 | 025, 058, 064, 138-144 |
+| Archive | 24 | 003, 004, 006-008, 025, 030, 031, 033, 034, 037, 053, 058, 063-064, 070, 075, 138-144 |
 
 ## Rejected
 

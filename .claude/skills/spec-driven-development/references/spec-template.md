@@ -18,8 +18,17 @@
 
 **Developer Type:** human | agent-single | agent-team
 **Asignado a:**     {nombre_dev | claude-agent | claude-agent-team}
-**Estimación:**     {Xh}
 **Estado:**         Pendiente | En Progreso | Completado | Bloqueado
+
+**Effort Estimation (Dual Model):**
+| Dimension | Value |
+|-----------|-------|
+| Agent effort | {XX min} |
+| Human effort | {XX h} |
+| Review effort | {XX min} |
+| Context risk | {low / medium / high / exceeds} |
+| Agent-capable | {yes / no / partial} |
+| Fallback | {Si agente falla: humano necesita Xh desde cero} |
 ```
 
 ---
