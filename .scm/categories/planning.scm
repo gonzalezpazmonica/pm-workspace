@@ -1,7 +1,6 @@
 # planning — Savia Capability Map (L1)
-> 398 resources
+> 403 resources
 
-- **** (): 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de
 - **/accreditation-track** (>): 
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -9,6 +8,10 @@
 - **/health-kpi** (>): 
 - **/incident-register** (>): 
 - **/pdca-cycle** (>): 
+- **Compartir Recurso Entre Tenants** (cmd): Comparte recursos (playbooks, templates, skills, reglas) entre tenants con flujo de aprobación controlado, versionado y
+- **Crear Tenant** (cmd): Crea un workspace aislado por departamento/equipo con perfiles de usuario, configuración de proyecto, herencia de perfi
+- **Error Investigate** (cmd): Investigación asistida de errores en producción con root cause analysis y correlación de datos
+- **Incident Correlate** (cmd): Correlación cruzada de datos de múltiples fuentes para análisis integral de incidentes
 - **accessibility-mode** (cmd): Toggle rápido de accesibilidad — activa, desactiva o muestra el estado
 - **accessibility-setup** (cmd): Configura las preferencias de accesibilidad de Savia para adaptarse a tus necesidades
 - **adaptive-strategy-selector** (script): adaptive-strategy-selector.sh — Select loading strategy based on model tier
@@ -79,7 +82,6 @@
 - **company-repo-templates-init** (script): company-repo-templates-init.sh — Heredoc templates for repo initialization
 - **company-setup** (cmd): Onboarding conversacional de empresa — genera el perfil organizacional completo
 - **company-vertical** (cmd): Detectar y configurar la vertical de la empresa — regulaciones, frameworks y mejores prácticas del sector
-- **Compartir Recurso Entre Tenants** (cmd): Comparte recursos (playbooks, templates, skills, reglas) entre tenants con flujo de aprobación controlado, versionado y
 - **competence-score** (script): competence-score.sh — Calculate competence scores from tracking log
 - **confidence-calibrate** (script): confidence-calibrate.sh - Confidence Calibration Analytics
 - **confidentiality-check** (script): confidentiality-check.sh — Verify project files comply with confidentiality levels
@@ -91,7 +93,6 @@
 - **cost-center** (cmd): Cost management and billing — timesheets, budgets, forecasting, invoicing
 - **cost-management** (skill): Cost Management — Timesheets, budgets, forecasting, invoicing, cost analytics
 - **court-calendar** (>): 
-- **Crear Tenant** (cmd): Crea un workspace aislado por departamento/equipo con perfiles de usuario, configuración de proyecto, herencia de perfi
 - **credential-scan** (>): 
 - **criticality** (script): criticality.sh — Dispatcher for criticality operations
 - **criticality-assess** (cmd): Evaluar criticidad de un item con desglose de 5 dimensiones y perfil CoD
@@ -125,15 +126,15 @@
 - **emergency-plan** (script): emergency-plan.sh — Pre-descarga de Ollama y modelo LLM para modo offline
 - **emergency-setup** (script): emergency-setup.sh — Setup rápido de LLM local para modo emergencia
 - **emergency-status** (script): emergency-status.sh — Estado del sistema de emergencia PM-Workspace
+- **emotional-state-tracker** (script): emotional-state-tracker.sh — Track session stress state for Savia
 - **enterprise-onboarding** (skill): Enterprise onboarding at scale — batch import, per-role checklists, progress tracking, knowledge transfer
 - **epic-plan** (>): 
-- **Error Investigate** (cmd): Investigación asistida de errores en producción con root cause analysis y correlación de datos
 - **ethics-protocol** (>): 
 - **eval-create** (cmd): Create and configure evaluation criteria for outputs
 - **eval-output** (>): 
+- **eval-workspace** (script): eval-workspace.sh — Evaluación integral de pm-workspace contra sala-reservas
 - **evaluate-repo** (>): 
 - **evaluations-framework** (skill): Evaluations Framework
-- **eval-workspace** (script): eval-workspace.sh — Evaluación integral de pm-workspace contra sala-reservas
 - **experiment-log** (>): 
 - **feature-impact** (cmd): Análisis de impacto de features — esfuerzo vs valor, ROI, priorización
 - **feedback** (cmd): Abrir incidencias, ideas o mejoras como issues en el repositorio de pm-workspace
@@ -178,11 +179,11 @@
 - **hook-profile** (script): hook-profile.sh — Get/set the active SAVIA_HOOK_PROFILE
 - **hw-bom** (>): 
 - **hw-revision** (>): 
-- **Incident Correlate** (cmd): Correlación cruzada de datos de múltiples fuentes para análisis integral de incidentes
 - **incident-postmortem** (cmd): Template de postmortem — timeline, root cause analysis, action items
 - **index-compact** (>): 
 - **index-status** (>): 
 - **infrastructure-agent** (>): 
+- **install-watchdog** (script): install-watchdog.sh — Installs savia-watchdog as systemd service
 - **instinct-manage** (>): 
 - **insurance-claim** (>): 
 - **integration-status** (cmd): Dashboard de estado de todas las integraciones — APIs, webhooks, MCP, conectividad
@@ -209,6 +210,9 @@
 - **model-capability-resolver** (script): model-capability-resolver.sh — Resolve model capabilities from YAML registry
 - **my-learning** (cmd): Detección de tech stack gaps — código del developer vs best practices del proyecto
 - **my-sprint** (cmd): Vista personal del sprint — items asignados, progreso, cycle time, PRs pendientes
+- **nidos** (cmd): Manage parallel terminal isolation with named git worktrees (Savia Nidos)
+- **nidos** (script): nidos.sh — Savia Nidos: parallel terminal isolation via named git worktrees
+- **nidos-lib** (script): nidos-lib.sh — Shared utilities for Savia Nidos
 - **non-engineer-templates** (skill): Non-Engineer Templates
 - **notion-sync** (>): 
 - **nuclei-scanning** (skill): Scanner de vulnerabilidades Nuclei como complemento al analisis LLM. Detecta CVEs conocidos, misconfiguraciones y panele
@@ -248,12 +252,12 @@
 - **plugin-packaging** (skill): Empaquetar y validar PM-Workspace como plugin distributable
 - **plugin-validate** (cmd): Validar estructura de plugin — skills, agents, commands e integridad
 - **pm-mcp-server** (skill): PM-Workspace MCP Server
+- **po-wizard** (cmd): Interactive wizard for product owner onboarding
 - **portfolio-deps** (cmd): Grafo de dependencias inter-proyecto — visualiza y alerta sobre cuellos de botella entre proyectos
 - **portfolio-overview** (cmd): Vista bird's-eye de todos los proyectos — semáforo, velocidad comparada, dependencias
 - **postmortem-create** (cmd): Create incident postmortem with structured analysis
 - **postmortem-heuristics** (cmd): Extract debugging heuristics from postmortems
 - **postmortem-training** (skill): Postmortem Training Skill
-- **po-wizard** (cmd): Interactive wizard for product owner onboarding
 - **pre-commit-sovereignty** (script): NOTE: -e omitted intentionally — grep returns 1 on no-match which would
 - **predictive-analytics** (skill): Fórmulas de predicción sprint, Monte Carlo simplificado y flow metrics
 - **privacy-check-company** (script): privacy-check-company.sh — Privacy filter for company repo content
@@ -277,9 +281,9 @@
 - **record-export** (cmd): Export recorded session or data in multiple formats
 - **record-replay** (cmd): Replay and analyze recorded sessions or events
 - **record-stop** (cmd): Stop active recording session
+- **ref-list** (cmd): List available resource references and their types
 - **reflection-validation** (skill): Meta-cognitive validation protocol (System 2). Detects proxy optimization, undeclared assumptions, and broken causal cha
 - **reflection-validator** (>): 
-- **ref-list** (cmd): List available resource references and their types
 - **repos-branches** (>): 
 - **repos-list** (>): 
 - **repos-pr-create** (>): 
@@ -368,10 +372,11 @@
 - **travel-verify** (cmd): Verifica integridad de un paquete de viaje en USB.
 - **typescript-developer** (>): 
 - **underwriting-rule** (>): 
-- **update** (script): update.sh — Sistema de actualización de pm-workspace
 - **update** (cmd): Comprobar y aplicar actualizaciones de pm-workspace desde GitHub, preservando datos locales
+- **update** (script): update.sh — Sistema de actualización de pm-workspace
 - **user-profile** (cmd): Gestiona perfiles de miembros del equipo — ver, crear o editar.
 - **validate-changelog-links** (script): validate-changelog-links.sh — Verifica que cada ## [X.Y.Z] tiene su enlace [X.Y.Z]: URL
+- **validate-ci-local** (script): ── validate-ci-local.sh — Parallel CI validation ─────────────────────�
 - **validate-commands** (────────────────────────────────────────): 
 - **validate-devops** (=============================================================================): 
 - **validate-filesize** (cmd): Validar que ficheros del workspace cumplen ≤150 líneas
