@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+# Ref: .claude/rules/domain/nidos-protocol.md
 # Tests for nidos.sh — Savia Nidos worktree manager
 
 setup() {
@@ -53,4 +54,27 @@ teardown() {
 
 @test "script has set -uo pipefail" {
   head -3 "$SCRIPT" | grep -q "set -uo pipefail"
+}
+
+@test "edge: create with special chars in name fails" {
+  run bash "$SCRIPT" create "../escape"
+  [[ "$status" -ne 0 ]]
+}
+
+@test "edge: enter nonexistent nido fails" {
+  export HOME="$TMPDIR_NI"
+  run bash "$SCRIPT" enter nonexistent
+  [[ "$status" -ne 0 ]]
+}
+
+@test "do_create function exists" {
+  grep -q "do_create()" "$SCRIPT"
+}
+
+@test "do_remove function exists" {
+  grep -q "do_remove()" "$SCRIPT"
+}
+
+@test "do_status function exists" {
+  grep -q "do_status()" "$SCRIPT"
 }

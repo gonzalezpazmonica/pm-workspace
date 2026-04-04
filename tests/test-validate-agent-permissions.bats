@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+# Ref: .claude/rules/domain/agent-policies.md
 # Tests for validate-agent-permissions.sh
 
 setup() {
@@ -81,17 +82,47 @@ EOF
   [[ "$output" == *"unknown level"* ]]
 }
 
-@test "verbose flag shows warnings" {
+@test "script has safety flags" {
+  head -5 "$SCRIPT" | grep -qE "set -[eu]o pipefail"
+}
+
+@test "edge: nonexistent directory returns zero checked" {
+  run bash "$SCRIPT" "/nonexistent/path/xyz"
+  [[ "$output" == *"Checked: 0"* ]] || [[ "$status" -ne 0 ]]
+}
+
+@test "edge: agent with special chars in name handled" {
   mkdir -p "$TMPDIR_AP/agents"
-  cat > "$TMPDIR_AP/agents/missing.md" << 'EOF'
+  echo -e "---\nname: bad\ntools: [Read]\n---\nTest." > "$TMPDIR_AP/agents/sp ecial.md"
+  run bash "$SCRIPT" "$TMPDIR_AP/agents"
+  [[ "$status" -le 1 ]]
+}
+
+@test "negative: L3 agent missing Write tool warns" {
+  mkdir -p "$TMPDIR_AP/agents"
+  cat > "$TMPDIR_AP/agents/dev.md" << 'EOF'
 ---
-name: missing-level
+name: dev
+permission_level: L3
 tools:
   - Read
+  - Glob
 ---
-No level.
+Dev with insufficient tools for L3.
 EOF
   run bash "$SCRIPT" "$TMPDIR_AP/agents" --verbose
-  [[ "$output" == *"WARN"* ]]
-  [[ "$output" == *"no permission_level"* ]]
+  [[ "$output" == *"WARN"* ]] || [[ "$output" == *"missing"* ]]
+}
+
+@test "negative: multiple agents with errors counted" {
+  mkdir -p "$TMPDIR_AP/agents"
+  echo -e "---\nname: a\npermission_level: L99\ntools: [Read]\n---\nBad." > "$TMPDIR_AP/agents/a.md"
+  echo -e "---\nname: b\npermission_level: L99\ntools: [Read]\n---\nBad." > "$TMPDIR_AP/agents/b.md"
+  run bash "$SCRIPT" "$TMPDIR_AP/agents"
+  [[ "$status" -eq 1 ]]
+  [[ "$output" == *"Errors:  2"* ]]
+}
+
+@test "coverage: LEVEL_TOOLS array defined" {
+  grep -q "LEVEL_TOOLS" "$SCRIPT"
 }

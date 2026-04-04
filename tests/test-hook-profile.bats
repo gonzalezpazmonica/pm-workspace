@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+# Ref: .claude/rules/domain/hook-profiles.md
 # Tests for hook-profile.sh — Hook profile manager
 
 setup() {
@@ -81,4 +82,19 @@ teardown() {
     run bash "$SCRIPT" set "$p"
     [[ "$status" -eq 0 ]]
   done
+}
+
+@test "script has safety flags" {
+  head -5 "$SCRIPT" | grep -qE "set -[eu]o pipefail"
+}
+
+@test "edge: set with special chars in name fails" {
+  run bash "$SCRIPT" set "mini;rm -rf"
+  [[ "$status" -eq 1 ]]
+}
+
+@test "coverage: core functions exist" {
+  grep -q "get_profile()" "$SCRIPT"
+  grep -q "list_profiles()" "$SCRIPT"
+  grep -q "set_profile()" "$SCRIPT"
 }
