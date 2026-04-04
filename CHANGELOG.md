@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.15.0] — 2026-04-04
+
+SPEC-078 Dual Estimation engine implemented. Era 183.
+
+### Added
+
+- **scripts/dual-estimate.sh**: Dual estimation engine — classify tasks (agent vs human), capacity planning, review bottleneck detection. 10 task types with golden rule
+- **tests/test-dual-estimate.bats**: 17 tests (82/100) — classify, capacity, bottleneck, matrix, edge cases
+
+### Changed
+
+- **docs/propuestas/SPEC-078**: Status DRAFT to Implemented (engine complete)
+
 ## [4.14.1] — 2026-04-04
 
 fix: test-architect agent upgraded to Sonnet with larger context window.
@@ -5675,6 +5688,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.14.1...v4.15.0
 [4.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.14.0...v4.14.1
 [4.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.13.0...v4.14.0
 [4.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.12.0...v4.13.0
