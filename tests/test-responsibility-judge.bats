@@ -50,3 +50,19 @@ teardown() { rm -rf "$TMPDIR_RJ"; }
 @test "coverage: profile-gate sourced" {
   grep -q "profile-gate\|profile_gate" "$SCRIPT"
 }
+
+@test "edge: propuestas/ path excluded from S-06" {
+  echo '{"tool":"Write","input":{"file_path":"/test/propuestas/SPEC-099.md","content":"TODO draft"}}' > "$TMPDIR_RJ/input.json"
+  run bash -c "cat '$TMPDIR_RJ/input.json' | SAVIA_HOOK_PROFILE=standard bash '$SCRIPT'"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "negative: missing tool field handled" {
+  echo '{"input":{"file_path":"/test.sh"}}' > "$TMPDIR_RJ/input.json"
+  run bash -c "cat '$TMPDIR_RJ/input.json' | bash '$SCRIPT'"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "coverage: S-06 rule defined" {
+  grep -q "S-06" "$SCRIPT"
+}

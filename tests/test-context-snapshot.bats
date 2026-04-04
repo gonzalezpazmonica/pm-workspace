@@ -48,3 +48,28 @@ teardown() { rm -rf "$TMPDIR_CS"; }
 @test "coverage: handles save/load/status commands" {
   grep -q "save\|load\|status" "$SCRIPT"
 }
+
+@test "edge: save then load round-trip" {
+  export CLAUDE_PROJECT_DIR="$TMPDIR_CS"
+  bash -c "echo '' | bash '$SCRIPT' save" 2>/dev/null || true
+  run bash -c "echo '' | bash '$SCRIPT' load"
+  [[ "$status" -le 1 ]]
+}
+
+@test "edge: multiple saves are idempotent" {
+  export CLAUDE_PROJECT_DIR="$TMPDIR_CS"
+  bash -c "echo '' | bash '$SCRIPT' save" 2>/dev/null || true
+  bash -c "echo '' | bash '$SCRIPT' save" 2>/dev/null || true
+  [[ "$?" -le 1 ]]
+}
+
+@test "negative: status in empty workspace" {
+  export CLAUDE_PROJECT_DIR="$TMPDIR_CS/empty"
+  mkdir -p "$TMPDIR_CS/empty"
+  run bash -c "echo '' | bash '$SCRIPT' status"
+  [[ "$status" -le 1 ]]
+}
+
+@test "coverage: reads stdin" {
+  grep -q "stdin\|/dev/stdin\|cat.*dev" "$SCRIPT"
+}

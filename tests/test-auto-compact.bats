@@ -41,3 +41,25 @@ teardown() { rm -rf "$TMPDIR_AC"; }
 @test "coverage: SNAPSHOT_DIR variable defined" {
   grep -q "SNAPSHOT_DIR" "$SCRIPT"
 }
+
+@test "negative: nonexistent project dir does not crash" {
+  export CLAUDE_PROJECT_DIR="/nonexistent/path/xyz"
+  run bash "$SCRIPT"
+  [[ "$status" -le 1 ]]
+}
+
+@test "edge: multiple runs are idempotent" {
+  bash "$SCRIPT" 2>/dev/null || true
+  bash "$SCRIPT" 2>/dev/null || true
+  [[ -d "$TMPDIR_AC/output/context-snapshots" ]]
+}
+
+@test "edge: snapshot dir permissions" {
+  bash "$SCRIPT" 2>/dev/null || true
+  [[ -r "$TMPDIR_AC/output/context-snapshots" ]]
+  [[ -w "$TMPDIR_AC/output/context-snapshots" ]]
+}
+
+@test "coverage: script uses mkdir -p" {
+  grep -q "mkdir -p" "$SCRIPT"
+}

@@ -49,3 +49,23 @@ teardown() { rm -rf "$TMPDIR_SS"; }
 @test "coverage: vulnerability detection logic" {
   grep -q "vuln\|VULN\|Results\|findings" "$SCRIPT"
 }
+
+@test "negative: invalid mode handled" {
+  cd "$REPO_ROOT"
+  run bash "$SCRIPT" --bogus
+  [[ "$status" -le 1 ]]
+}
+
+@test "edge: scan produces structured output" {
+  cd "$REPO_ROOT"
+  run bash "$SCRIPT" --ci
+  [[ "$output" == *"---"* ]] || [[ "$output" == *"Checking"* ]]
+}
+
+@test "coverage: checks for curl/wget patterns" {
+  grep -q "curl\|wget" "$SCRIPT"
+}
+
+@test "coverage: MODE variable defined" {
+  grep -q "MODE=" "$SCRIPT"
+}

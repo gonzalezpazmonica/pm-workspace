@@ -48,3 +48,24 @@ teardown() { rm -rf "$TMPDIR_PC"; }
 @test "coverage: references memory-store" {
   grep -q "memory-store\|memory_store" "$SCRIPT"
 }
+
+@test "negative: nonexistent project dir still exits 0" {
+  export CLAUDE_PROJECT_DIR="/nonexistent/xyz"
+  run bash -c "echo '{}' | bash '$SCRIPT'"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "edge: JSON with decisions field" {
+  run bash -c "echo '{\"decisions\":[\"use JWT\"]}' | bash '$SCRIPT'"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "edge: repeated compacts handled" {
+  bash -c "echo '{}' | bash '$SCRIPT'" 2>/dev/null
+  bash -c "echo '{}' | bash '$SCRIPT'" 2>/dev/null
+  [[ "$?" -eq 0 ]]
+}
+
+@test "coverage: STORE_SCRIPT variable defined" {
+  grep -q "STORE_SCRIPT\|memory-store" "$SCRIPT"
+}
