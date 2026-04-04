@@ -68,7 +68,7 @@ Je suis la petite chouette qui vit dans pm-workspace. Je m'adapte a votre role, 
 
 ## Ce qu'il y a dedans
 
-**508 commandes · 48 agents · 89 skills · 48 hooks · 16 langages · 106 suites de tests**
+**508 commandes · 48 agents · 89 skills · 48 hooks · 16 langages · 107 suites de tests**
 
 ### Gestion de projets
 Sprints, burndown, capacite, dailies, retros, KPIs. Rapports en Excel et PowerPoint. Prediction par Monte Carlo. Facturation et couts.

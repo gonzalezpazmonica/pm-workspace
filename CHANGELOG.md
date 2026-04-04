@@ -14,11 +14,16 @@ SPEC implementation: Execution Supervisor, Dev Session Discard, Memory TTL verif
 - **tests/test-session-action-log.bats**: 12 tests (80/100) — log, attempts, history, reset, session isolation
 - **tests/test-execution-supervisor.bats**: 14 tests (83/100) — silent on 1-2, reflection at 3+, escalation at 4+, advisory exit 0
 - **tests/test-dev-session-discard.bats**: 11 tests (83/100) — lock removal, state archive, discard log, reason defaults
+- **scripts/sovereignty-switch.sh**: Multi-provider sovereignty manager (local/mistral/claude) with auto-detect and smoke test
+- **tests/test-sovereignty-switch.bats**: 17 tests (85/100) — provider switching, round-trip, edge cases
+- **CI gate (Rule #25)**: PRs now require /pr-plan — enforced structurally via .confidentiality-signature check in CI
 
 ### Changed
 
-- **docs/ROADMAP.md**: SPEC-065, SPEC-048, SPEC-020 verified with tests. Era 181 documented
-- Test suites: 103 to 106 (3 new SPEC verification suites, all 80+ quality)
+- **docs/ROADMAP.md**: SPEC-065, SPEC-048, SPEC-020 verified. Sovereignty Phase 1 complete. Era 181 documented
+- **.github/workflows/ci.yml**: Added pr-plan gate using gh pr diff
+- Test suites: 103 to 107 (4 new suites, all 80+ quality)
+- OpenCode v1.3.13 installed as Claude Code backup
 
 ## [4.11.0] — 2026-04-04
 
