@@ -1,8 +1,9 @@
 # Savia Capability Map — INDEX
-> generated: 2026-04-02 | resources: 887
-> 506 commands · 88 skills · 48 agents · 245 scripts
+> generated: 2026-04-04 | resources: 895
+> 507 commands · 88 skills · 48 agents · 252 scripts
 
 [analysis] /a11y-report — accesibilidad,conformidad,ejecutivo,formatos,legal — cmd:.claude/commands/a11y-report.md
+[analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
 [analysis] agent-activity — activity,agent,dashboard — script:scripts/agent-activity.sh
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
 [analysis] agent-budget-lookup — agent,budget,extract,frontmatter,lookup — script:scripts/agent-budget-lookup.sh
@@ -47,7 +48,6 @@
 [analysis] stakeholder-report — epics,informe,progreso,riesgos,roadmap — cmd:.claude/commands/stakeholder-report.md
 [analysis] stakeholder-view — focused,generate,reporting,stakeholder,view — cmd:.claude/commands/stakeholder-view.md
 [analysis] time-tracking-report — excel,generación,horas,imputación,informes — skill:.claude/skills/time-tracking-report/SKILL.md
-[analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
 [analysis] trace-pattern-extractor — agent,analyze,extractor,pattern,phase — script:scripts/trace-pattern-extractor.sh
 [communication] chat-notify — chat,enviar,formateada,google,notificación — cmd:.claude/commands/chat-notify.md
 [communication] chat-setup — chat,configuración,google,guía,webhook — cmd:.claude/commands/chat-setup.md
@@ -94,6 +94,7 @@
 [communication] savia-hub-sync — orquestación,repositorio,saviahub,sincronización — skill:.claude/skills/savia-hub-sync/SKILL.md
 [communication] savia-inbox — cmd:.claude/commands/savia-inbox.md — >
 [communication] savia-index — index,savia — script:scripts/savia-index.sh
+[communication] savia-index-rebuild — index,rebuild,savia — script:scripts/savia-index-rebuild.sh
 [communication] savia-live — activity,live,queue,recent,right — cmd:.claude/commands/savia-live.md
 [communication] savia-messaging — creation,delivery,inbox,management,message — script:scripts/savia-messaging.sh
 [communication] savia-messaging-actions — actions,announce,broadcast,directory,messaging — script:scripts/savia-messaging-actions.sh
@@ -119,11 +120,13 @@
 [communication] savia-travel-ops — init,operations,pack,savia,travel — script:scripts/savia-travel-ops.sh
 [communication] savia-travel-pack — cmd:.claude/commands/savia-travel-pack.md — >
 [communication] savia-watch — activity,feed,live,savia,watch — script:scripts/savia-watch.sh
+[communication] savia-watchdog — activate,detect,emergency,fallback,internet — script:scripts/savia-watchdog.sh
 [communication] slack-search — cmd:.claude/commands/slack-search.md — >
 [communication] validate-devops-checks — check,details,each,json,message — script:scripts/validate-devops-checks.sh
 [communication] voice-inbox — acción,audio,flujo,mensajes,texto — skill:.claude/skills/voice-inbox/SKILL.md
 [communication] word-digest — agent:.claude/agents/word-digest.md — >
 [communication] zeroclaw-meeting — diarization,digest,identification,live,meeting — cmd:.claude/commands/zeroclaw-meeting.md
+[development] Trace Analyze — análisis,botella,cadenas,cuellos,detección — cmd:.claude/commands/trace-analyze.md
 [development] arch-compare — arquitectura,comparar,decisiones,patrones,toma — cmd:.claude/commands/arch-compare.md
 [development] arch-detect — arquitectura,detectar,patrón,proyecto,repositorio — cmd:.claude/commands/arch-detect.md
 [development] arch-fitness — arquitectura,ejecutar,fitness,functions,integridad — cmd:.claude/commands/arch-fitness.md
@@ -137,13 +140,13 @@
 [development] build-skill-manifest — build,frontmatter,genera,manifest,manifesto — script:scripts/build-skill-manifest.sh
 [development] calendar-focus — bloque,crear,deep,especifica,focus — cmd:.claude/commands/calendar-focus.md
 [development] check-coherence — actually,code,matches,objective,output — cmd:.claude/commands/check-coherence.md
-[development] codebase-map — skill:.claude/skills/codebase-map/SKILL.md — >
-[development] codebase-map — agentes,comandos,dependencias,generar,internas — cmd:.claude/commands/codebase-map.md
 [development] code-comprehension-report — architectural,automatically,comprehension,decision,documents — skill:.claude/skills/code-comprehension-report/SKILL.md
 [development] code-improve — applies,autonomous,code,creates,detects — cmd:.claude/commands/code-improve.md
-[development] code-improvement-loop — aplica,autónomo,bucle,código,continua — skill:.claude/skills/code-improvement-loop/SKILL.md
+[development] code-improvement-loop — aplica,autónomo,bucle,continua,código — skill:.claude/skills/code-improvement-loop/SKILL.md
 [development] code-patterns — catálogo,código,ejemplos,equipo,patterns — cmd:.claude/commands/code-patterns.md
 [development] code-reviewer — agent:.claude/agents/code-reviewer.md — >
+[development] codebase-map — skill:.claude/skills/codebase-map/SKILL.md — >
+[development] codebase-map — agentes,comandos,dependencias,generar,internas — cmd:.claude/commands/codebase-map.md
 [development] component-search — buscar,claude,code,componentes,marketplace — cmd:.claude/commands/component-search.md
 [development] comprehension-report — architectural,decisions,documents,failure,generate — cmd:.claude/commands/comprehension-report.md
 [development] dag-execute — agentes,ejecutar,paralelo,pipeline,según — cmd:.claude/commands/dag-execute.md
@@ -190,6 +193,7 @@
 [development] spec-explore — analyze,documents,explore,specification — cmd:.claude/commands/spec-explore.md
 [development] spec-generate — azure,devops,ejecutable,genera,implementación — cmd:.claude/commands/spec-generate.md
 [development] spec-implement — agente,asigna,developer,humano,implementa — cmd:.claude/commands/spec-implement.md
+[development] spec-quality-auditor — auditor,deterministic,quality,scorer,spec — script:scripts/spec-quality-auditor.sh
 [development] spec-review — coherence,completeness,review,specification — cmd:.claude/commands/spec-review.md
 [development] spec-slice — analizar,contexto,dividirlo,implementación,optimizados — cmd:.claude/commands/spec-slice.md
 [development] spec-status — approval,check,specification,state,status — cmd:.claude/commands/spec-status.md
@@ -199,7 +203,6 @@
 [development] tech-research — autonomous,designated,generates,human,investigates — cmd:.claude/commands/tech-research.md
 [development] tech-research-agent — agente,autónoma,designado,genera,humano — skill:.claude/skills/tech-research-agent/SKILL.md
 [development] token-estimator — before,cost,estimate,estimator,execution — script:scripts/token-estimator.sh
-[development] Trace Analyze — análisis,botella,cadenas,cuellos,detección — cmd:.claude/commands/trace-analyze.md
 [development] validate-consensus — decisiones,jueces,lanzar,panel,specs — cmd:.claude/commands/validate-consensus.md
 [development] validate-pbi-spec-links — bidirectional,check,links,spec,validate — script:scripts/validate-pbi-spec-links.sh
 [development] validate-spec — declarative,spec,validate,validation,without — script:scripts/validate-spec.sh
@@ -220,7 +223,7 @@
 [governance] compliance-fix — aplicar,automática,compliance,corrección,hallazgos — cmd:.claude/commands/compliance-fix.md
 [governance] compliance-matrix — cmd:.claude/commands/compliance-matrix.md — >
 [governance] compliance-report — compliance,ejecutivo,generar,informe,regulatorio — cmd:.claude/commands/compliance-report.md
-[governance] compliance-scan — automática,código,contra,detección,escanear — cmd:.claude/commands/compliance-scan.md
+[governance] compliance-scan — automática,contra,código,detección,escanear — cmd:.claude/commands/compliance-scan.md
 [governance] governance-audit — acciones,auditoría,cumplimiento,permitidas,política — cmd:.claude/commands/governance-audit.md
 [governance] governance-certify — certificación,checklist,documentación,modelo — cmd:.claude/commands/governance-certify.md
 [governance] governance-enterprise — audit,certification,checks,compliance,decision — cmd:.claude/commands/governance-enterprise.md
@@ -259,6 +262,7 @@
 [memory] context-snapshot — between,context,load,save,session — script:scripts/context-snapshot.sh
 [memory] context-status — context,model,optimization,recommendations,show — cmd:.claude/commands/context-status.md
 [memory] context-tracker — context,tracker — script:scripts/context-tracker.sh
+[memory] cross-project-search — búsqueda,conocimiento,entre,portfolio,proyectos — cmd:.claude/commands/cross-project-search.md
 [memory] digest-to-memory — agents,bridge,digest,graph,memory — script:scripts/digest-to-memory.sh
 [memory] entity-recall — cmd:.claude/commands/entity-recall.md — >
 [memory] generate-blocklist — blocklist,context,dynamic,generate,workspace — script:scripts/generate-blocklist.sh
@@ -275,7 +279,7 @@
 [memory] memory-context — cmd:.claude/commands/memory-context.md — >
 [memory] memory-graph — conexiones,construye,consulta,engrams,entre — cmd:.claude/commands/memory-graph.md
 [memory] memory-hygiene — auto,automática,hygiene,limpieza,memory — script:scripts/memory-hygiene.sh
-[memory] memory-importance — composita,engrams,fórmula,frecuencia,identific — cmd:.claude/commands/memory-importance.md
+[memory] memory-importance — composita,engrams,frecuencia,fórmula,identific — cmd:.claude/commands/memory-importance.md
 [memory] memory-index — build,efficient,index,maintain,memory — cmd:.claude/commands/memory-index.md
 [memory] memory-prune — archiva,baja,críticas,engrams,importancia — cmd:.claude/commands/memory-prune.md
 [memory] memory-recall — context,current,memories,relevant,retrieve — cmd:.claude/commands/memory-recall.md
@@ -312,6 +316,10 @@
 [planning] /health-kpi — cmd:.claude/commands/health-kpi.md — >
 [planning] /incident-register — cmd:.claude/commands/incident-register.md — >
 [planning] /pdca-cycle — cmd:.claude/commands/pdca-cycle.md — >
+[planning] Compartir Recurso Entre Tenants — aprobación,comparte,controlado,entre,flujo — cmd:.claude/commands/tenant-share.md
+[planning] Crear Tenant — aislado,configuración,crea,departamento,equipo — cmd:.claude/commands/tenant-create.md
+[planning] Error Investigate — analysis,asistida,cause,correlación,datos — cmd:.claude/commands/error-investigate.md
+[planning] Incident Correlate — análisis,correlación,cruzada,datos,fuentes — cmd:.claude/commands/incident-correlate.md
 [planning] accessibility-mode — accesibilidad,activa,desactiva,estado,muestra — cmd:.claude/commands/accessibility-mode.md
 [planning] accessibility-setup — accesibilidad,adaptarse,configura,necesidades,preferencias — cmd:.claude/commands/accessibility-setup.md
 [planning] adaptive-strategy-selector — adaptive,based,loading,model,select — script:scripts/adaptive-strategy-selector.sh
@@ -330,7 +338,7 @@
 [planning] architect — agent:.claude/agents/architect.md — >
 [planning] architecture-intelligence — arquitectura,detección,mejora,nuevos,patrones — skill:.claude/skills/architecture-intelligence/SKILL.md
 [planning] ast-comprehend — comprehend,comprehension,estructural,extractor,lenguaje — script:scripts/ast-comprehend.sh
-[planning] ast-comprehension — call,clases,código,comprensión,dependencias — skill:.claude/skills/ast-comprehension/SKILL.md
+[planning] ast-comprehension — call,clases,comprensión,código,dependencias — skill:.claude/skills/ast-comprehension/SKILL.md
 [planning] azdevops-queries — script:scripts/azdevops-queries.sh — =============================================================================
 [planning] azure-devops-operator — agent:.claude/agents/azure-devops-operator.md — >
 [planning] azure-devops-queries — azure,devops,operaciones,skill,transversal — skill:.claude/skills/azure-devops-queries/SKILL.md
@@ -363,7 +371,7 @@
 [planning] calendar-today — alertas,blocks,focus,recomendaciones,reuniones — cmd:.claude/commands/calendar-today.md
 [planning] capacity-forecast — capacidad,medio,planifica,plazo,previsión — cmd:.claude/commands/capacity-forecast.md
 [planning] capacity-forecast-telco — alertas,automáticas,capacidad,medición,planificación — cmd:.claude/commands/capacity-forecast-telco.md
-[planning] capacity-planning — alertas,cálculo,capacidades,completa,consulta — skill:.claude/skills/capacity-planning/SKILL.md
+[planning] capacity-planning — alertas,capacidades,completa,consulta,cálculo — skill:.claude/skills/capacity-planning/SKILL.md
 [planning] ceo-alerts — alertas,decisiones,dirección,estratégicas,nivel — cmd:.claude/commands/ceo-alerts.md
 [planning] ceremony-health — ceremonias,duración,métricas,participación,rate — cmd:.claude/commands/ceremony-health.md
 [planning] changelog-update — cmd:.claude/commands/changelog-update.md — >
@@ -382,7 +390,6 @@
 [planning] company-repo-templates-init — company,heredoc,init,initialization,repo — script:scripts/company-repo-templates-init.sh
 [planning] company-setup — completo,conversacional,empresa,genera,onboarding — cmd:.claude/commands/company-setup.md
 [planning] company-vertical — configurar,detectar,empresa,frameworks,mejores — cmd:.claude/commands/company-vertical.md
-[planning] Compartir Recurso Entre Tenants — aprobación,comparte,controlado,entre,flujo — cmd:.claude/commands/tenant-share.md
 [planning] competence-score — calculate,competence,score,scores,tracking — script:scripts/competence-score.sh
 [planning] confidence-calibrate — analytics,calibrate,calibration,confidence — script:scripts/confidence-calibrate.sh
 [planning] confidentiality-check — check,comply,confidentiality,files,levels — script:scripts/confidentiality-check.sh
@@ -394,7 +401,6 @@
 [planning] cost-center — billing,budgets,cost,forecasting,invoicing — cmd:.claude/commands/cost-center.md
 [planning] cost-management — analytics,budgets,cost,forecasting,invoicing — skill:.claude/skills/cost-management/SKILL.md
 [planning] court-calendar — cmd:.claude/commands/court-calendar.md — >
-[planning] Crear Tenant — aislado,configuración,crea,departamento,equipo — cmd:.claude/commands/tenant-create.md
 [planning] credential-scan — cmd:.claude/commands/credential-scan.md — >
 [planning] criticality — criticality,dispatcher,operations — script:scripts/criticality.sh
 [planning] criticality-assess — criticidad,desglose,dimensiones,evaluar,item — cmd:.claude/commands/criticality-assess.md
@@ -402,7 +408,7 @@
 [planning] criticality-engine — assess,criticality,dashboard,engine,operations — script:scripts/criticality-engine.sh
 [planning] criticality-rebalance — capacidad,carga,criticidad,equipo,redistribuir — cmd:.claude/commands/criticality-rebalance.md
 [planning] criticality-scoring — criticality,engine,functions,pure,scoring — script:scripts/criticality-scoring.sh
-[planning] daily-routine — adaptativa,comandos,diaria,jornada,relevantes — cmd:.claude/commands/daily-routine.md
+[planning] daily-routine — adaptativa,comandos,diaria,jornada,más — cmd:.claude/commands/daily-routine.md
 [planning] dataset-version — cmd:.claude/commands/dataset-version.md — >
 [planning] deep-work — aplicado,basado,bloques,calendario,carga — cmd:.claude/commands/deep-work.md
 [planning] dependency-map — cmd:.claude/commands/dependency-map.md — >
@@ -428,15 +434,15 @@
 [planning] emergency-plan — descarga,emergency,modelo,modo,offline — script:scripts/emergency-plan.sh
 [planning] emergency-setup — emergencia,emergency,local,modo,rápido — script:scripts/emergency-setup.sh
 [planning] emergency-status — emergencia,emergency,estado,sistema,status — script:scripts/emergency-status.sh
+[planning] emotional-state-tracker — emotional,savia,session,state,stress — script:scripts/emotional-state-tracker.sh
 [planning] enterprise-onboarding — batch,checklists,enterprise,import,knowledge — skill:.claude/skills/enterprise-onboarding/SKILL.md
 [planning] epic-plan — cmd:.claude/commands/epic-plan.md — >
-[planning] Error Investigate — analysis,asistida,cause,correlación,datos — cmd:.claude/commands/error-investigate.md
 [planning] ethics-protocol — cmd:.claude/commands/ethics-protocol.md — >
 [planning] eval-create — configure,create,criteria,evaluation,outputs — cmd:.claude/commands/eval-create.md
 [planning] eval-output — cmd:.claude/commands/eval-output.md — >
+[planning] eval-workspace — contra,eval,evaluación,integral,reservas — script:scripts/eval-workspace.sh
 [planning] evaluate-repo — cmd:.claude/commands/evaluate-repo.md — >
 [planning] evaluations-framework — evaluations,framework — skill:.claude/skills/evaluations-framework/SKILL.md
-[planning] eval-workspace — contra,eval,evaluación,integral,reservas — script:scripts/eval-workspace.sh
 [planning] experiment-log — cmd:.claude/commands/experiment-log.md — >
 [planning] feature-impact — análisis,esfuerzo,features,impacto,priorización — cmd:.claude/commands/feature-impact.md
 [planning] feedback — abrir,ideas,incidencias,issues,mejoras — cmd:.claude/commands/feedback.md
@@ -447,7 +453,7 @@
 [planning] flow-intake — asignar,builders,continuo,intake,items — cmd:.claude/commands/flow-intake.md
 [planning] flow-metrics — cycle,dashboard,flow,flujo,lead — cmd:.claude/commands/flow-metrics.md
 [planning] flow-protect — analiza,context,densidad,detector,flow — cmd:.claude/commands/flow-protect.md
-[planning] flow-setup — áreas,azure,campos,configurar,custom — cmd:.claude/commands/flow-setup.md
+[planning] flow-setup — azure,campos,configurar,custom,devops — cmd:.claude/commands/flow-setup.md
 [planning] flow-spec — crear,ejecutable,exploración,exploration,outcome — cmd:.claude/commands/flow-spec.md
 [planning] flow-spec-create — create,document,specification — cmd:.claude/commands/flow-spec-create.md
 [planning] flow-sprint-board — board,column,counts,display,sprint — cmd:.claude/commands/flow-sprint-board.md
@@ -466,7 +472,7 @@
 [planning] generate-index — components,discoverable,generate,index,workspace — script:scripts/generate-index.sh
 [planning] github-activity — cmd:.claude/commands/github-activity.md — >
 [planning] github-issues — cmd:.claude/commands/github-issues.md — >
-[planning] github-projects — ágil,gestión,github,integración,projects — cmd:.claude/commands/github-projects.md
+[planning] github-projects — gestión,github,integración,projects,workspace — cmd:.claude/commands/github-projects.md
 [planning] go-developer — agent:.claude/agents/go-developer.md — >
 [planning] google-sheets-tracker — google,sheets,tracker — skill:.claude/skills/google-sheets-tracker/SKILL.md
 [planning] grant-track — cmd:.claude/commands/grant-track.md — >
@@ -481,11 +487,11 @@
 [planning] hook-profile — active,hook,profile,savia — script:scripts/hook-profile.sh
 [planning] hw-bom — cmd:.claude/commands/hw-bom.md — >
 [planning] hw-revision — cmd:.claude/commands/hw-revision.md — >
-[planning] Incident Correlate — análisis,correlación,cruzada,datos,fuentes — cmd:.claude/commands/incident-correlate.md
 [planning] incident-postmortem — action,analysis,cause,items,postmortem — cmd:.claude/commands/incident-postmortem.md
 [planning] index-compact — cmd:.claude/commands/index-compact.md — >
 [planning] index-status — cmd:.claude/commands/index-status.md — >
 [planning] infrastructure-agent — agent:.claude/agents/infrastructure-agent.md — >
+[planning] install-watchdog — install,installs,savia,service,systemd — script:scripts/install-watchdog.sh
 [planning] instinct-manage — cmd:.claude/commands/instinct-manage.md — >
 [planning] insurance-claim — cmd:.claude/commands/insurance-claim.md — >
 [planning] integration-status — apis,conectividad,dashboard,estado,integraciones — cmd:.claude/commands/integration-status.md
@@ -494,7 +500,7 @@
 [planning] jira-connect — alternativa,azure,cloud,conectar,devops — cmd:.claude/commands/jira-connect.md
 [planning] jira-sync — cmd:.claude/commands/jira-sync.md — >
 [planning] knowledge-graph — conocimiento,construye,consulta,entidades,grafos — skill:.claude/skills/knowledge-graph/SKILL.md
-[planning] knowledge-prime — código,configuración,documento,generar,priming — cmd:.claude/commands/knowledge-prime.md
+[planning] knowledge-prime — configuración,código,documento,generar,priming — cmd:.claude/commands/knowledge-prime.md
 [planning] legacy-assess — cmd:.claude/commands/legacy-assess.md — >
 [planning] legal-deadline — cmd:.claude/commands/legal-deadline.md — >
 [planning] legal-template — cmd:.claude/commands/legal-template.md — >
@@ -512,6 +518,9 @@
 [planning] model-capability-resolver — capabilities,capability,model,registry,resolve — script:scripts/model-capability-resolver.sh
 [planning] my-learning — best,código,detección,developer,gaps — cmd:.claude/commands/my-learning.md
 [planning] my-sprint — asignados,cycle,items,pendientes,personal — cmd:.claude/commands/my-sprint.md
+[planning] nidos — isolation,manage,named,nidos,parallel — cmd:.claude/commands/nidos.md
+[planning] nidos — isolation,named,nidos,parallel,savia — script:scripts/nidos.sh
+[planning] nidos-lib — nidos,savia,shared,utilities — script:scripts/nidos-lib.sh
 [planning] non-engineer-templates — engineer,templates — skill:.claude/skills/non-engineer-templates/SKILL.md
 [planning] notion-sync — cmd:.claude/commands/notion-sync.md — >
 [planning] nuclei-scanning — analisis,complemento,conocidos,cves,detecta — skill:.claude/skills/nuclei-scanning/SKILL.md
@@ -551,12 +560,12 @@
 [planning] plugin-packaging — distributable,empaquetar,plugin,validar,workspace — skill:.claude/skills/plugin-packaging/SKILL.md
 [planning] plugin-validate — agents,commands,estructura,integridad,plugin — cmd:.claude/commands/plugin-validate.md
 [planning] pm-mcp-server — server,workspace — skill:.claude/skills/pm-mcp-server/SKILL.md
+[planning] po-wizard — interactive,onboarding,owner,product,wizard — cmd:.claude/commands/po-wizard.md
 [planning] portfolio-deps — alerta,botella,cuellos,dependencias,entre — cmd:.claude/commands/portfolio-deps.md
 [planning] portfolio-overview — bird,comparada,dependencias,proyectos,semáforo — cmd:.claude/commands/portfolio-overview.md
 [planning] postmortem-create — analysis,create,incident,postmortem,structured — cmd:.claude/commands/postmortem-create.md
 [planning] postmortem-heuristics — debugging,extract,heuristics,postmortems — cmd:.claude/commands/postmortem-heuristics.md
 [planning] postmortem-training — postmortem,skill,training — skill:.claude/skills/postmortem-training/SKILL.md
-[planning] po-wizard — interactive,onboarding,owner,product,wizard — cmd:.claude/commands/po-wizard.md
 [planning] pre-commit-sovereignty — grep,intentionally,match,note,omitted — script:scripts/pre-commit-sovereignty.sh
 [planning] predictive-analytics — carlo,flow,fórmulas,metrics,monte — skill:.claude/skills/predictive-analytics/SKILL.md
 [planning] privacy-check-company — check,company,content,filter,privacy — script:scripts/privacy-check-company.sh
@@ -580,9 +589,9 @@
 [planning] record-export — data,export,formats,multiple,recorded — cmd:.claude/commands/record-export.md
 [planning] record-replay — analyze,events,recorded,replay,sessions — cmd:.claude/commands/record-replay.md
 [planning] record-stop — active,recording,session,stop — cmd:.claude/commands/record-stop.md
+[planning] ref-list — available,list,references,resource,their — cmd:.claude/commands/ref-list.md
 [planning] reflection-validation — assumptions,broken,causal,cognitive,detects — skill:.claude/skills/reflection-validation/SKILL.md
 [planning] reflection-validator — agent:.claude/agents/reflection-validator.md — >
-[planning] ref-list — available,list,references,resource,their — cmd:.claude/commands/ref-list.md
 [planning] repos-branches — cmd:.claude/commands/repos-branches.md — >
 [planning] repos-list — cmd:.claude/commands/repos-list.md — >
 [planning] repos-pr-create — cmd:.claude/commands/repos-pr-create.md — >
@@ -635,7 +644,7 @@
 [planning] smart-routing — comandos,descubrimiento,enrutamiento,herramientas,inteligente — skill:.claude/skills/smart-routing/SKILL.md
 [planning] sovereignty-mask — data,mask,masking,reversible,sovereignty — script:scripts/sovereignty-mask.sh
 [planning] sovereignty-ops — download,operations,pack,sovereignty — script:scripts/sovereignty-ops.sh
-[planning] sprint-autoplan — backlog,capacidad,composición,inteligente,óptima — cmd:.claude/commands/sprint-autoplan.md
+[planning] sprint-autoplan — backlog,capacidad,composición,inteligente,planificación — cmd:.claude/commands/sprint-autoplan.md
 [planning] sprint-forecast — basada,completitud,histórica,predicción,sprint — cmd:.claude/commands/sprint-forecast.md
 [planning] sprint-management — completo,estado,flujo,gestión,items — skill:.claude/skills/sprint-management/SKILL.md
 [planning] sprint-plan — asiste,calculando,capacity,carga,disponible — cmd:.claude/commands/sprint-plan.md
@@ -646,7 +655,7 @@
 [planning] stakeholder-align — conflictos,datos,entre,objetivos,resolución — cmd:.claude/commands/stakeholder-align.md
 [planning] strategy-map — contribución,dependencias,estratégico,iniciativas,mapa — cmd:.claude/commands/strategy-map.md
 [planning] subscriber-lifecycle — análisis,churn,ciclo,gestión,hasta — cmd:.claude/commands/subscriber-lifecycle.md
-[planning] sustainable-pace — basado,cálculo,capacidad,histórico,real — cmd:.claude/commands/sustainable-pace.md
+[planning] sustainable-pace — basado,capacidad,cálculo,histórico,real — cmd:.claude/commands/sustainable-pace.md
 [planning] sync-calendars — calendarios,disponibilidad,entre,microsoft,sincronizar — cmd:.claude/commands/sync-calendars.md
 [planning] sync-tags-from-changelog — changelog,create,missing,sync,tags — script:scripts/sync-tags-from-changelog.sh
 [planning] task-create — create,investigate,list,savia,site — cmd:.claude/commands/task-create.md
@@ -663,7 +672,7 @@
 [planning] tech-writer — agent:.claude/agents/tech-writer.md — >
 [planning] terraform-developer — agent:.claude/agents/terraform-developer.md — >
 [planning] threat-model — cmd:.claude/commands/threat-model.md — >
-[planning] tool-catalog — catálogo,categorizado,comandos,herramientas — cmd:.claude/commands/tool-catalog.md
+[planning] tool-catalog — categorizado,catálogo,comandos,herramientas — cmd:.claude/commands/tool-catalog.md
 [planning] travel-clean — elimina,máquina,rastros,savia,temporal — cmd:.claude/commands/travel-clean.md
 [planning] travel-pack — cifrado,empaca,unidad,workspace — cmd:.claude/commands/travel-pack.md
 [planning] travel-sync — bidireccional,entre,máquina,sincroniza,workspace — cmd:.claude/commands/travel-sync.md
@@ -671,11 +680,12 @@
 [planning] travel-verify — integridad,paquete,verifica,viaje — cmd:.claude/commands/travel-verify.md
 [planning] typescript-developer — agent:.claude/agents/typescript-developer.md — >
 [planning] underwriting-rule — cmd:.claude/commands/underwriting-rule.md — >
-[planning] update — actualización,sistema,update,workspace — script:scripts/update.sh
 [planning] update — actualizaciones,aplicar,comprobar,datos,github — cmd:.claude/commands/update.md
+[planning] update — actualización,sistema,update,workspace — script:scripts/update.sh
 [planning] user-profile — crear,editar,equipo,gestiona,miembros — cmd:.claude/commands/user-profile.md
 [planning] validate-changelog-links — changelog,enlace,links,validate,verifica — script:scripts/validate-changelog-links.sh
 [planning] validate-ci-local — local,parallel,validate,validation — script:scripts/validate-ci-local.sh
+[planning] validate-commands — script:scripts/validate-commands.sh — ────────────────────────────────────────
 [planning] validate-devops — script:scripts/validate-devops.sh — =============================================================================
 [planning] validate-filesize — cumplen,ficheros,líneas,validar,workspace — cmd:.claude/commands/validate-filesize.md
 [planning] validate-schema — frontmatter,json,schema,settings,validar — cmd:.claude/commands/validate-schema.md
@@ -703,7 +713,7 @@
 [planning] workspace-doctor — cmd:.claude/commands/workspace-doctor.md — >
 [planning] workspace-health — comprehensive,dashboard,health,workspace — script:scripts/workspace-health.sh
 [quality] /a11y-audit — accesibilidad,auditoría,completa,componentes,detecta — cmd:.claude/commands/a11y-audit.md
-[quality] /a11y-fix — accesibilidad,automáticas,código,correcciones,detectados — cmd:.claude/commands/a11y-fix.md
+[quality] /a11y-fix — accesibilidad,automáticas,correcciones,código,detectados — cmd:.claude/commands/a11y-fix.md
 [quality] /drift-check — archivos,audita,claude,detecta,divergencias — cmd:.claude/commands/drift-check.md
 [quality] adversarial-security — adversarial,auditor,blue,pipeline,scoring — skill:.claude/skills/adversarial-security/SKILL.md
 [quality] ai-audit-log — agente,auditoría,cuándo,datos,ejecutó — cmd:.claude/commands/ai-audit-log.md
@@ -722,7 +732,7 @@
 [quality] coverage-report — coverage,generate,report,test,workspace — script:scripts/coverage-report.sh
 [quality] dependencies-audit — cmd:.claude/commands/dependencies-audit.md — >
 [quality] docs-quality-audit — agentes,auditar,basada,calidad,documentacion — cmd:.claude/commands/docs-quality-audit.md
-[quality] drift-auditor — auditoría,cambios,código,config,convergencia — agent:.claude/agents/drift-auditor.md
+[quality] drift-auditor — auditoría,cambios,config,convergencia,código — agent:.claude/agents/drift-auditor.md
 [quality] executive-audit — audit,executive,workspace — script:scripts/executive-audit.sh
 [quality] frontend-test-runner — commit,component,coverage,execution,frontend — agent:.claude/agents/frontend-test-runner.md
 [quality] hub-audit — agentes,auditar,comandos,dependencias,dominio — cmd:.claude/commands/hub-audit.md
@@ -735,8 +745,8 @@
 [quality] pentesting — arsenal,based,driven,fases,paralelas — skill:.claude/skills/pentesting/SKILL.md
 [quality] perf-audit — anti,async,auditoría,detecta,estática — cmd:.claude/commands/perf-audit.md
 [quality] perf-fix — aplica,crea,existen,first,hallazgos — cmd:.claude/commands/perf-fix.md
-[quality] performance-audit — anti,async,auditoría,detección,estática — skill:.claude/skills/performance-audit/SKILL.md
 [quality] perf-report — async,ejecutivo,hotspots,informe,issues — cmd:.claude/commands/perf-report.md
+[quality] performance-audit — anti,async,auditoría,detección,estática — skill:.claude/skills/performance-audit/SKILL.md
 [quality] postmortem-review — incident,learn,past,postmortems,review — cmd:.claude/commands/postmortem-review.md
 [quality] pr-context-loader — before,context,creation,load,loader — script:scripts/pr-context-loader.sh
 [quality] pr-digest — analiza,contextual,digestión,ejecutivo,español — cmd:.claude/commands/pr-digest.md
@@ -745,6 +755,7 @@
 [quality] pr-plan — flight,gate,plan,push,sign — script:scripts/pr-plan.sh
 [quality] pr-plan-gates — executed,functions,gate,gates,plan — script:scripts/pr-plan-gates.sh
 [quality] pr-review — cmd:.claude/commands/pr-review.md — >
+[quality] prompt-security-scan — analyzer,injection,leakage,prompt,scan — script:scripts/prompt-security-scan.sh
 [quality] qa-bug-triage — asignación,asistido,bugs,clasificación,duplicados — cmd:.claude/commands/qa-bug-triage.md
 [quality] qa-dashboard — bugs,calidad,cobertura,dashboard,escape — cmd:.claude/commands/qa-dashboard.md
 [quality] qa-regression-plan — basado,cambiados,cambios,ejecutar,ficheros — cmd:.claude/commands/qa-regression-plan.md
@@ -778,8 +789,10 @@
 [quality] test-accessibility — accessibility,feature,files,test,universal — script:scripts/test-accessibility.sh
 [quality] test-ai-adoption — adoption,test — script:scripts/test-ai-adoption.sh
 [quality] test-ai-governance — governance,test — script:scripts/test-ai-governance.sh
+[quality] test-ai-labor-impact — analysis,impact,labor,test,tests — script:scripts/test-ai-labor-impact.sh
 [quality] test-ai-planning — planning,test — script:scripts/test-ai-planning.sh
 [quality] test-ai-safety — safety,test — script:scripts/test-ai-safety.sh
+[quality] test-architect — agent:.claude/agents/test-architect.md — >
 [quality] test-architect — across,design,generate,highest,languages — skill:.claude/skills/test-architect/SKILL.md
 [quality] test-architecture-debt — architecture,debt,test — script:scripts/test-architecture-debt.sh
 [quality] test-auditor — auditor,bats,certify,files,score — script:scripts/test-auditor.sh
@@ -789,18 +802,24 @@
 [quality] test-banking-vertical — banking,test,vertical — script:scripts/test-banking-vertical.sh
 [quality] test-ceo-reports — reports,test — script:scripts/test-ceo-reports.sh
 [quality] test-ceremony-intelligence — ceremony,intelligence,test — script:scripts/test-ceremony-intelligence.sh
+[quality] test-client-profiles — client,profiles,structural,test,tests — script:scripts/test-client-profiles.sh
 [quality] test-coherence-validator — coherence,framework,output,quality,suite — script:scripts/test-coherence-validator.sh
 [quality] test-company-profile — company,profile,test — script:scripts/test-company-profile.sh
+[quality] test-company-repo — architecture,based,branch,company,repo — script:scripts/test-company-repo.sh
 [quality] test-confidence-calibration — calibration,confidence,framework,quality,suite — script:scripts/test-confidence-calibration.sh
 [quality] test-consensus — consensus,framework,judge,multi,quality — script:scripts/test-consensus.sh
 [quality] test-context-aging — aging,context,test — script:scripts/test-context-aging.sh
+[quality] test-context-eng-improvements — context,engineering,improvements,test,tests — script:scripts/test-context-eng-improvements.sh
 [quality] test-context-engineering — commands,context,engineering,suite,test — script:scripts/test-context-engineering.sh
 [quality] test-context-interview — context,interview,structural,test,tests — script:scripts/test-context-interview.sh
 [quality] test-context-optimization — context,optimization,test — script:scripts/test-context-optimization.sh
 [quality] test-context-tracking — context,test,tracking — script:scripts/test-context-tracking.sh
+[quality] test-contribute — comunidad,contribución,contribute,sistema,test — script:scripts/test-contribute.sh
 [quality] test-cost-center — billing,center,cost,management,test — script:scripts/test-cost-center.sh
 [quality] test-coverage-checker — checker,corresponding,coverage,every,script — script:scripts/test-coverage-checker.sh
 [quality] test-cross-project — cross,project,test — script:scripts/test-cross-project.sh
+[quality] test-dev-productivity — productivity,test — script:scripts/test-dev-productivity.sh
+[quality] test-docs-overhaul — docs,documentation,overhaul,savia,test — script:scripts/test-docs-overhaul.sh
 [quality] test-engineer — agent:.claude/agents/test-engineer.md — >
 [quality] test-enterprise-dashboard — analytics,dashboard,enterprise,reporting,test — script:scripts/test-enterprise-dashboard.sh
 [quality] test-equality-shield — equality,shield,test,tests — script:scripts/test-equality-shield.sh
@@ -812,26 +831,28 @@
 [quality] test-governance — governance,test — script:scripts/test-governance.sh
 [quality] test-governance-enterprise — audit,enterprise,governance,test,trail — script:scripts/test-governance-enterprise.sh
 [quality] test-hub-audit — audit,test — script:scripts/test-hub-audit.sh
+[quality] test-install — install,installers,structural,test,validation — script:scripts/test-install.sh
 [quality] test-integration-company — company,integration,orchestrator,savia,test — script:scripts/test-integration-company.sh
 [quality] test-integration-hub — integration,test — script:scripts/test-integration-hub.sh
+[quality] test-integrations-external — external,integrations,test — script:scripts/test-integrations-external.sh
 [quality] test-memory-improvements — improvements,memory,store,suite,test — script:scripts/test-memory-improvements.sh
 [quality] test-multi-layer-caching — caching,layer,multi,test — script:scripts/test-multi-layer-caching.sh
 [quality] test-multi-platform — multi,platform,test — script:scripts/test-multi-platform.sh
 [quality] test-multi-tenant — marketplace,multi,skills,suite,tenant — script:scripts/test-multi-tenant.sh
 [quality] test-observability-core — core,observability,test — script:scripts/test-observability-core.sh
 [quality] test-okr-strategy — strategy,test — script:scripts/test-okr-strategy.sh
+[quality] test-onboard-enterprise — enterprise,onboard,onboarding,scale,test — script:scripts/test-onboard-enterprise.sh
 [quality] test-orgchart-diagrams — script:scripts/test-orgchart-diagrams.sh — ============================================================================
 [quality] test-pbi-history — field,history,implementation,level,test — script:scripts/test-pbi-history.sh
 [quality] test-pbi-spec-links — bidirectional,linkage,links,spec,test — script:scripts/test-pbi-spec-links.sh
 [quality] test-performance-quality — performance,quality,test — script:scripts/test-performance-quality.sh
 [quality] test-pipeline-devops — devops,pipeline,test — script:scripts/test-pipeline-devops.sh
-[quality] testplan-generate — generación,pbis,plan,pruebas,specs — cmd:.claude/commands/testplan-generate.md
-[quality] testplan-results — cmd:.claude/commands/testplan-results.md — >
-[quality] testplan-status — cmd:.claude/commands/testplan-status.md — >
 [quality] test-playbooks — playbooks,test — script:scripts/test-playbooks.sh
 [quality] test-po-analytics — analytics,test — script:scripts/test-po-analytics.sh
+[quality] test-profile-system — profile,system,test — script:scripts/test-profile-system.sh
 [quality] test-project-management — management,project,test — script:scripts/test-project-management.sh
 [quality] test-qa-toolkit — test,toolkit — script:scripts/test-qa-toolkit.sh
+[quality] test-rbac-manager — based,file,manager,rbac,test — script:scripts/test-rbac-manager.sh
 [quality] test-reflection-validator — agent,cognition,meta,reflection,suite — script:scripts/test-reflection-validator.sh
 [quality] test-repo-management — management,repo,test — script:scripts/test-repo-management.sh
 [quality] test-review-community — community,comunitaria,protocolo,review,revisión — script:scripts/test-review-community.sh
@@ -858,11 +879,16 @@
 [quality] test-tasks-entities — class,entities,first,tasks,test — script:scripts/test-tasks-entities.sh
 [quality] test-team-orchestrator — coordination,multi,orchestrator,team,test — script:scripts/test-team-orchestrator.sh
 [quality] test-tech-lead — lead,tech,test — script:scripts/test-tech-lead.sh
+[quality] test-update-system — actualización,sistema,system,test,tests — script:scripts/test-update-system.sh
 [quality] test-utils — compartidas,funciones,scripts,test,todos — script:scripts/test-utils.sh
 [quality] test-vertical-compliance — compliance,test,vertical — script:scripts/test-vertical-compliance.sh
+[quality] test-vertical-detection — detección,detection,sistema,test,tests — script:scripts/test-vertical-detection.sh
 [quality] test-verticals — test,verticals — script:scripts/test-verticals.sh
 [quality] test-wellbeing-guardian — guardian,structural,test,tests,wellbeing — script:scripts/test-wellbeing-guardian.sh
 [quality] test-workspace — script:scripts/test-workspace.sh — ============================================================================
+[quality] testplan-generate — generación,pbis,plan,pruebas,specs — cmd:.claude/commands/testplan-generate.md
+[quality] testplan-results — cmd:.claude/commands/testplan-results.md — >
+[quality] testplan-status — cmd:.claude/commands/testplan-status.md — >
 [quality] verification-lattice — beyond,code,layer,multi,pipeline — skill:.claude/skills/verification-lattice/SKILL.md
 [quality] visual-digest — capt,contextual,diagramas,digestión,fotos — agent:.claude/agents/visual-digest.md
 [quality] visual-qa — against,analysis,analyze,assurance,design — cmd:.claude/commands/visual-qa.md

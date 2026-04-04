@@ -1,6 +1,7 @@
 # development — Savia Capability Map (L1)
-> 84 resources
+> 85 resources
 
+- **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
 - **arch-compare** (cmd): Comparar dos patrones de arquitectura para toma de decisiones
 - **arch-detect** (cmd): Detectar el patrón de arquitectura de un repositorio o proyecto
 - **arch-fitness** (cmd): Ejecutar fitness functions de arquitectura para verificar integridad
@@ -14,13 +15,13 @@
 - **build-skill-manifest** (script): build-skill-manifest.sh — Genera manifesto de skills desde frontmatter
 - **calendar-focus** (cmd): Crear bloque de focus para una tarea especifica — Deep Work protegido
 - **check-coherence** (cmd): Validate that a spec, report, or code output actually matches its stated objective
-- **codebase-map** (>): 
-- **codebase-map** (cmd): Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills
 - **code-comprehension-report** (skill): Generate comprehension report with mental model after SDD implementation. Automatically documents architectural decision
 - **code-improve** (cmd): Launch autonomous code improvement loop — detects opportunities, applies improvements, creates PRs for review
 - **code-improvement-loop** (skill): Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera PRs pendientes de revisi
 - **code-patterns** (cmd): Catálogo de patterns del proyecto con ejemplos del propio código del equipo
 - **code-reviewer** (>): 
+- **codebase-map** (>): 
+- **codebase-map** (cmd): Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills
 - **component-search** (cmd): Buscar componentes en el marketplace claude-code-templates (5.788+ componentes)
 - **comprehension-report** (cmd): Generate mental model report for an implemented task. Documents architectural decisions, failure heuristics, and 3AM deb
 - **dag-execute** (cmd): Ejecutar pipeline SDD con agentes en paralelo según DAG
@@ -67,6 +68,7 @@
 - **spec-explore** (cmd): Explore and analyze specification documents
 - **spec-generate** (cmd): Genera una Spec ejecutable a partir de una Task de Azure DevOps, lista para implementación.
 - **spec-implement** (cmd): Implementa una Spec según su developer_type — lanza agente o asigna a humano.
+- **spec-quality-auditor** (script): spec-quality-auditor.sh — Deterministic quality scorer for SDD specs
 - **spec-review** (cmd): Review specification for completeness and coherence
 - **spec-slice** (cmd): Analizar un spec y dividirlo en slices de implementación optimizados para contexto
 - **spec-status** (cmd): Check specification status and approval state
@@ -76,7 +78,6 @@
 - **tech-research** (cmd): Launch autonomous technical research — investigates topics, generates reports, notifies designated human
 - **tech-research-agent** (skill): Agente de investigación técnica autónoma — investiga temas, genera informes, notifica al humano designado
 - **token-estimator** (script): token-estimator.sh — SPEC-069-TOKEN: Estimate token cost before execution
-- **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
 - **validate-consensus** (cmd): Lanzar panel de 3 jueces para validar specs, PRs y decisiones
 - **validate-pbi-spec-links** (script): validate-pbi-spec-links.sh — Check bidirectional PBI ↔ Spec links
 - **validate-spec** (script): validate-spec.sh — SPEC-071: Declarative spec validation without LLM

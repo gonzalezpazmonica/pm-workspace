@@ -1,7 +1,6 @@
 # quality — Savia Capability Map (L1)
-> 184 resources
+> 185 resources
 
-- **** (): 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de 
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por
 - **/drift-check** (cmd): Audita reglas CLAUDE.md vs. estado real del repo. Detecta divergencias, archivos huérfanos, tests faltantes y patrones 
@@ -35,8 +34,8 @@
 - **pentesting** (skill): Arsenal de pentesting con pipeline Shannon — queue-driven, proof-based, 5 fases paralelas
 - **perf-audit** (cmd): Auditoría estática de rendimiento — detecta hotspots, async anti-patterns y funciones pesadas
 - **perf-fix** (cmd): Optimización test-first de hallazgos de rendimiento — crea tests si no existen, aplica fix, re-verifica
-- **performance-audit** (skill): Auditoría estática de rendimiento — detección de hotspots, async anti-patterns, test-first optimization
 - **perf-report** (cmd): Informe ejecutivo de rendimiento — hotspots, async issues, roadmap y tendencias
+- **performance-audit** (skill): Auditoría estática de rendimiento — detección de hotspots, async anti-patterns, test-first optimization
 - **postmortem-review** (cmd): Review and learn from past incident postmortems
 - **pr-context-loader** (script): pr-context-loader.sh — SPEC-022 F4: Load project context before PR creation
 - **pr-digest** (cmd): Digestión contextual de un PR para revisión rápida. Analiza impacto, riesgos y genera resumen ejecutivo en español.
@@ -45,6 +44,7 @@
 - **pr-plan** (script): pr-plan.sh — 10-gate pre-flight + sign + push + PR
 - **pr-plan-gates** (script): pr-plan-gates.sh — Gate functions for pr-plan.sh (sourced, not executed)
 - **pr-review** (>): 
+- **prompt-security-scan** (script): prompt-security-scan.sh — Static analyzer for prompt injection/leakage
 - **qa-bug-triage** (cmd): Triage asistido de bugs — clasificación, duplicados, asignación sugerida
 - **qa-dashboard** (cmd): Dashboard de calidad — cobertura, tests flaky, bugs, escape rate, trends
 - **qa-regression-plan** (cmd): Plan de regresión basado en ficheros cambiados — impacto de cambios y suites a ejecutar
@@ -77,8 +77,10 @@
 - **spellcheck-docs** (script): spellcheck-docs.sh — Orthographic review using accent dictionaries
 - **test-accessibility** (script): test-accessibility.sh — Validates accessibility universal feature files
 - **test-ai-adoption** (script): ── test-ai-adoption.sh ───────────────────────────────
+- **test-ai-governance** (script): ── test-ai-governance.sh ──────────────────────────────�
 - **test-ai-labor-impact** (script): test-ai-labor-impact.sh — Tests for AI Labor Impact Analysis (v2.5.0)
 - **test-ai-planning** (script): ── test-ai-planning.sh ───────────────────────────────
+- **test-ai-safety** (script): ── test-ai-safety.sh ───────────────────────────────�
 - **test-architect** (>): 
 - **test-architect** (skill): Design and generate highest-quality tests across 16 languages and 14 test types
 - **test-architecture-debt** (script): Test: Architecture & Debt v0.71.0 (Era 13)
@@ -88,18 +90,24 @@
 - **test-backup** (script): test-backup.sh — Tests del sistema de backup cifrado
 - **test-banking-vertical** (script): Test: v0.73.0 — Vertical Banking
 - **test-ceo-reports** (script): ── test-ceo-reports.sh ───────────────────────────────
+- **test-ceremony-intelligence** (script): ── test-ceremony-intelligence.sh ───────────────────────────�
 - **test-client-profiles** (script): test-client-profiles.sh — Structural tests for Client Profiles (Era 31 — v2.6.0)
 - **test-coherence-validator** (script): Test suite for Output Coherence Validator — Quality Validation Framework
+- **test-company-profile** (script): ── test-company-profile.sh ─────────────────────────────�
 - **test-company-repo** (script): test-company-repo.sh — Tests for Company Savia branch-based architecture
 - **test-confidence-calibration** (script): Test suite for Confidence Calibration — Quality Validation Framework
 - **test-consensus** (script): Test suite for Multi-Judge Consensus — Quality Validation Framework
+- **test-context-aging** (script): ── test-context-aging.sh ──────────────────────────────�
 - **test-context-eng-improvements** (script): test-context-eng-improvements.sh — Tests para Context Engineering Improvements
 - **test-context-engineering** (script): Test Suite for Context Engineering 2.0 Commands (v0.62.0)
 - **test-context-interview** (script): test-context-interview.sh — Structural tests for Context Interview (Era 33 — v2.8.0)
 - **test-context-optimization** (script): Test: Context Optimization v0.71.0 (Era 13)
+- **test-context-tracking** (script): ── test-context-tracking.sh ─────────────────────────────�
 - **test-contribute** (script): test-contribute.sh — Tests del sistema de comunidad y contribución
 - **test-cost-center** (script): ── Test: cost-center (Era 38 — Cost Management & Billing) ──
 - **test-coverage-checker** (script): test-coverage-checker.sh — Verify every script has a corresponding test
+- **test-cross-project** (script): ── test-cross-project.sh ──────────────────────────────�
+- **test-dev-productivity** (script): ── test-dev-productivity.sh ─────────────────────────────�
 - **test-docs-overhaul** (script): test-docs-overhaul.sh — Tests para Documentation Overhaul (Savia-led)
 - **test-engineer** (>): 
 - **test-enterprise-dashboard** (script): ── Test: enterprise-dashboard (Era 41 — Enterprise Reporting & Analytics) ──
@@ -111,26 +119,28 @@
 - **test-frontend-testing** (script): test-frontend-testing.sh — Tests for Frontend Testing Nueva Era
 - **test-governance** (script): Test: Governance v0.71.0 (Era 13)
 - **test-governance-enterprise** (script): ── Test: governance-enterprise (Era 40 — Governance & Audit Trail) ──
+- **test-hub-audit** (script): ── test-hub-audit.sh ───────────────────────────────�
 - **test-install** (script): test-install.sh — Structural validation for pm-workspace installers
 - **test-integration-company** (script): test-integration-company.sh — Integration orchestrator for Savia v3
+- **test-integration-hub** (script): ── test-integration-hub.sh ─────────────────────────────�
 - **test-integrations-external** (script): Test: Integrations External v0.71.0 (Era 13)
 - **test-memory-improvements** (script): Test suite for Memory Store Improvements v1.9.0
 - **test-multi-layer-caching** (script): Test: Multi-Layer Caching — v0.65.0
 - **test-multi-platform** (script): ── test-multi-platform.sh ──────────────────────────────
 - **test-multi-tenant** (script): Test Suite: v0.70.0 Multi-Tenant & Skills Marketplace
 - **test-observability-core** (script): Test: Observability Core v0.71.0 (Era 13)
+- **test-okr-strategy** (script): ── test-okr-strategy.sh ──────────────────────────────�
 - **test-onboard-enterprise** (script): ── Test: onboard-enterprise (Era 39 — Onboarding at Scale) ──
 - **test-orgchart-diagrams** (============================================================================): 
 - **test-pbi-history** (script): test-pbi-history.sh — Validates PBI Field-Level History implementation
 - **test-pbi-spec-links** (script): test-pbi-spec-links.sh — Tests for PBI ↔ Spec bidirectional linkage
 - **test-performance-quality** (script): Test: Performance & Quality v0.71.0 (Era 13)
 - **test-pipeline-devops** (script): Test: Pipeline & DevOps v0.71.0 (Era 13)
-- **testplan-generate** (cmd): Generación de plan de pruebas desde specs SDD o PBIs
-- **testplan-results** (>): 
-- **testplan-status** (>): 
 - **test-playbooks** (script): Test: Playbooks v0.71.0 (Era 13)
+- **test-po-analytics** (script): ── test-po-analytics.sh ──────────────────────────────�
 - **test-profile-system** (script): ── test-profile-system.sh ──────────────────────────────
 - **test-project-management** (script): Test: Project Management v0.71.0 (Era 13)
+- **test-qa-toolkit** (script): ── test-qa-toolkit.sh ───────────────────────────────�
 - **test-rbac-manager** (script): ── Test: rbac-manager (Era 37 — RBAC File-Based) ──
 - **test-reflection-validator** (script): Test suite for Reflection Validator — System 2 Meta-Cognition Agent
 - **test-repo-management** (script): Test: Repo Management v0.71.0 (Era 13)
@@ -157,12 +167,17 @@
 - **test-stress-security** (script): ── test-stress-security.sh — Security pattern coverage (SEC-1 to SEC-9) ──
 - **test-tasks-entities** (script): test-tasks-entities.sh — Validate Tasks as First-Class Entities
 - **test-team-orchestrator** (script): ── Test: team-orchestrator (Era 36 — Multi-Team Coordination) ──
+- **test-tech-lead** (script): ── test-tech-lead.sh ───────────────────────────────�
 - **test-update-system** (script): test-update-system.sh — Tests del sistema de actualización de pm-workspace
 - **test-utils** (script): test-utils.sh — Funciones compartidas para todos los test scripts
+- **test-vertical-compliance** (script): ── test-vertical-compliance.sh ────────────────────────────�
 - **test-vertical-detection** (script): test-vertical-detection.sh — Tests del sistema de detección de verticales
 - **test-verticals** (script): Test: Verticals v0.71.0 (Era 13)
 - **test-wellbeing-guardian** (script): test-wellbeing-guardian.sh — Structural tests for Wellbeing Guardian (Era 34 — v2.9.0)
 - **test-workspace** (============================================================================): 
+- **testplan-generate** (cmd): Generación de plan de pruebas desde specs SDD o PBIs
+- **testplan-results** (>): 
+- **testplan-status** (>): 
 - **verification-lattice** (skill): Multi-layer verification pipeline beyond Code Review
 - **visual-digest** (agent): Digestión de imágenes con OCR contextual — 5 pasadas. Fotos de pizarras, notas manuscritas, diagramas en papel, capt
 - **visual-qa** (cmd): Visual quality assurance via screenshot analysis. Analyze UI screenshots against design specs and reference images using
