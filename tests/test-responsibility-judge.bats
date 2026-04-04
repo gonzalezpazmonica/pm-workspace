@@ -80,5 +80,17 @@ teardown() { rm -rf "$TMPDIR_RJ"; }
 @test "edge: JSON without input field" {
   echo '{"tool":"Bash","command":"ls"}' > "$TMPDIR_RJ/input.json"
   run bash -c "cat '$TMPDIR_RJ/input.json' | bash '$SCRIPT'"
-  [[ "$status" -eq 0 ]]
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: null tool value" {
+  echo '{"tool":null}' > "$TMPDIR_RJ/input.json"
+  run bash -c "cat '$TMPDIR_RJ/input.json' | bash '$SCRIPT'"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: zero-length file path" {
+  echo '{"tool":"Edit","input":{"file_path":"","new_string":"x"}}' > "$TMPDIR_RJ/input.json"
+  run bash -c "cat '$TMPDIR_RJ/input.json' | bash '$SCRIPT'"
+  [ "$status" -le 2 ]
 }

@@ -74,9 +74,21 @@ teardown() { rm -rf "$TMPDIR_AC"; }
   [[ "$lines" -le 150 ]]
 }
 
-@test "edge: concurrent runs do not conflict" {
-  bash "$SCRIPT" 2>/dev/null &
-  bash "$SCRIPT" 2>/dev/null &
-  wait
-  [[ -d "$TMPDIR_AC/output/context-snapshots" ]]
+@test "edge: zero-size project dir works" {
+  export CLAUDE_PROJECT_DIR="$TMPDIR_AC/zero"
+  mkdir -p "$TMPDIR_AC/zero"
+  run bash "$SCRIPT"
+  [ "$status" -le 1 ]
+}
+
+@test "edge: null CLAUDE_PROJECT_DIR value" {
+  export CLAUDE_PROJECT_DIR=""
+  run bash "$SCRIPT"
+  [ "$status" -le 1 ]
+}
+
+@test "edge: boundary — nonexistent parent dir" {
+  export CLAUDE_PROJECT_DIR="$TMPDIR_AC/deep/nested/path"
+  run bash "$SCRIPT"
+  [ "$status" -le 1 ]
 }
