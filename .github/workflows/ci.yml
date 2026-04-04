@@ -81,6 +81,22 @@ jobs:
           fi
           echo "Secret scan complete."
 
+      - name: "Gate: PR created via /pr-plan (Rule #25)"
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Checking that PR was created via /pr-plan..."
+          PR_NUM="${{ github.event.pull_request.number }}"
+          FILES=$(gh pr diff "$PR_NUM" --name-only 2>/dev/null || echo "")
+          if echo "$FILES" | grep -q ".confidentiality-signature"; then
+            echo "PASS: PR includes confidentiality signature (pr-plan was run)."
+          else
+            echo "FAIL: .confidentiality-signature not in PR files."
+            echo "Run /pr-plan before creating the PR."
+            exit 1
+          fi
+
       - name: Run workspace test suite (mock mode)
         run: |
           chmod +x scripts/test-workspace.sh
