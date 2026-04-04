@@ -136,7 +136,7 @@ cmd_test() {
       fi
       ;;
     mistral)
-      echo "Mistral API test requires key. Use: curl -H 'Authorization: Bearer \$(cat ~/.savia/providers/mistral-key)' https://api.mistral.ai/v1/models"
+      echo "Mistral API test: verify your API access at https://console.mistral.ai/"
       ;;
     claude)
       if curl -s --max-time 5 https://api.anthropic.com >/dev/null 2>&1; then
