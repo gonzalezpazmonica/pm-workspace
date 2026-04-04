@@ -66,3 +66,7 @@ teardown() { rm -rf "$TMPDIR_RJ"; }
 @test "coverage: S-06 rule defined" {
   grep -q "S-06" "$SCRIPT"
 }
+
+@test "positive: script has Layer 1 comment" {
+  grep -q "Layer 1\|layer.*1\|deterministic" "$SCRIPT"
+}

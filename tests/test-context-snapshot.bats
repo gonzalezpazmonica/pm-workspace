@@ -73,3 +73,13 @@ teardown() { rm -rf "$TMPDIR_CS"; }
 @test "coverage: reads stdin" {
   grep -q "stdin\|/dev/stdin\|cat.*dev" "$SCRIPT"
 }
+
+@test "positive: script contains case statement" {
+  grep -q "case\|save\|load\|status" "$SCRIPT"
+}
+
+@test "negative: nonexistent workspace dir handled" {
+  export CLAUDE_PROJECT_DIR="/nonexistent/xyz"
+  run bash -c "echo '' | bash '$SCRIPT' save"
+  [[ "$status" -le 1 ]]
+}

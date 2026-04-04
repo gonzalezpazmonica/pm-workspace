@@ -63,3 +63,7 @@ teardown() { rm -rf "$TMPDIR_AC"; }
 @test "coverage: script uses mkdir -p" {
   grep -q "mkdir -p" "$SCRIPT"
 }
+
+@test "positive: script contains date or timestamp" {
+  grep -qE "date|timestamp|iso|YYYY" "$SCRIPT"
+}
