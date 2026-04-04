@@ -1,5 +1,6 @@
 ---
 name: pdf-digest
+permission_level: L2
 description: >
   Digestion de documentos PDF con extraccion de texto e imagenes — pipeline de 4 fases.
   Documentos tecnicos, propuestas, protocolos, manuales, informes. Usa contexto REAL del

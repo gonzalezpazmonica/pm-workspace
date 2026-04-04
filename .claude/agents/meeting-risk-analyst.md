@@ -1,5 +1,6 @@
 ---
 name: meeting-risk-analyst
+permission_level: L1
 description: >
   Analisis de riesgos post-digestion de reuniones. Cruza decisiones, compromisos y dinamicas
   extraidas de una transcripcion contra reglas de negocio, perfiles de equipo, specs y backlog.
