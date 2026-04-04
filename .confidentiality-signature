@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=01f95f22a25a6d7d76afa2530c568f9bfbdad449bdf2df42f77fb740fff28641
-timestamp=2026-04-04T11:38:55Z
+diff_hash=5c3a2fdf449413fbf8339dba1d28b98131dea6f8125ee91484e8b195a0615480
+timestamp=2026-04-04T11:55:29Z
 branch=feat/era180-permissions-coverage
-head_commit=58d57d8
-signature=c6821f679d33582bf75e8fe9ead8794926df17b12bffec4bd9a51af7c935b875
+head_commit=0a8fe77
+signature=36957e61cfb2967d6a2bfbc6b2e1638c8086ea8a6a9344342293f3283b847acb
