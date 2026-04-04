@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.12.0] — 2026-04-04
+
+SPEC implementation: Execution Supervisor, Dev Session Discard, Memory TTL verified. Era 181.
+
+### Added
+
+- **tests/test-session-action-log.bats**: 12 tests (80/100) — log, attempts, history, reset, session isolation
+- **tests/test-execution-supervisor.bats**: 14 tests (83/100) — silent on 1-2, reflection at 3+, escalation at 4+, advisory exit 0
+- **tests/test-dev-session-discard.bats**: 11 tests (83/100) — lock removal, state archive, discard log, reason defaults
+
+### Changed
+
+- **docs/ROADMAP.md**: SPEC-065, SPEC-048, SPEC-020 verified with tests. Era 181 documented
+- Test suites: 103 to 106 (3 new SPEC verification suites, all 80+ quality)
+
 ## [4.11.0] — 2026-04-04
 
 Granular Permissions + Test Coverage Push. Era 180.
@@ -5615,6 +5630,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.11.0...v4.12.0
 [4.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.10.0...v4.11.0
 [4.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.9.0...v4.10.0
 [4.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.8.0...v4.9.0

@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-04 | **Version:** v4.11.0 | **508 commands · 48 agents · 89 skills · 48 hooks · 103 test suites · 73 SPECs (45 done)**
+**Updated:** 2026-04-04 | **Version:** v4.12.0 | **508 commands · 48 agents · 89 skills · 48 hooks · 106 test suites · 78 SPECs (48 done)**
 
 ---
 
@@ -62,9 +62,15 @@ Temporal memory, hybrid search, agent evaluation, cognitive sectors, SaviaDiverg
 - **P1**: 5-tier permission system (L0-L4), 48 agents updated, validation script + 7 tests
 - **P2**: 10 new test suites (CI, security, workflow, utility). 10→20 suites (100% increase)
 
+## Done — Era 181: SPEC Verification (v4.12)
+
+- **SPEC-065**: Execution Supervisor — session action log + retry circuit breaker. 12+14 tests
+- **SPEC-048**: Dev Session Discard — clean session cleanup. 11 tests
+- **SPEC-020**: Memory TTL — expires_at verified with existing implementation. Test coverage added
+
 ---
 
-## Pipeline — Q2 2026 (Eras 181+)
+## Pipeline — Q2 2026 (Eras 182+)
 - Effort: 15h | Impact: Medium (maintainability)
 
 ### Backlog (blocked or low priority)
