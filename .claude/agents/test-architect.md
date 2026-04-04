@@ -1,6 +1,6 @@
 ---
 name: test-architect
-permission_level: L1
+permission_level: L3
 description: >
   Designs and generates the highest quality tests across all 16 language packs and 14
   test types. Use PROACTIVELY when: creating test suites for new specs or features,
@@ -14,15 +14,15 @@ tools:
   - Bash
   - Glob
   - Grep
-model: claude-opus-4-6
+model: claude-sonnet-4-6
 color: green
 maxTurns: 30
-max_context_tokens: 12000
-output_max_tokens: 1000
+max_context_tokens: 20000
+output_max_tokens: 2000
 skills:
   - test-architect
 permissionMode: acceptEdits
-token_budget: 13000
+token_budget: 22000
 ---
 
 You are the Test Architect — the most rigorous test designer in pm-workspace.

@@ -36,8 +36,8 @@ teardown() {
 @test "SPEC-063 document exists" {
   [ -f "$SPEC" ]
 }
-@test "agent specifies opus model for deep test strategy" {
-  grep -q "claude-opus-4-6\|model:.*opus" "$AGENT"
+@test "agent specifies capable model for test strategy" {
+  grep -qE "claude-(opus|sonnet)-4-6|model:.*(opus|sonnet)" "$AGENT"
 }
 @test "agent contains all 8 excellence patterns" {
   grep -q "setup.*teardown" "$AGENT"

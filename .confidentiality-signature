@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c6f9ac2580538de720b4866943e96b2c0daea8bea7076f4bfa86a213532c943d
-timestamp=2026-04-04T16:56:54Z
-branch=feat/era182-coverage-v2
-head_commit=f274220
-signature=3056bcb47279f8c2e113b718681214e0eb1aeed486bef2b1145e7dc05bd5b456
+diff_hash=5ef44c3ab1b3a4111c2ebccbebca3eb45550c523dfababf8b880f850fd37e1c7
+timestamp=2026-04-04T17:20:13Z
+branch=fix/test-architect-sonnet
+head_commit=dde3f1e
+signature=2c6bda094c9966331cea39643bbb510801bb5792b105a31007b32c91b2fb2633

@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.14.1] — 2026-04-04
+
+fix: test-architect agent upgraded to Sonnet with larger context window.
+
+### Changed
+
+- **test-architect.md**: model opus→sonnet, context 12K→20K, output 1K→2K, permission L1→L3, budget 13K→22K
+- **test-architect-agent.bats**: assertion updated to accept sonnet model
+
 ## [4.14.0] — 2026-04-04
 
 Sovereignty Phase 2 + SPEC-021 verification + test coverage push. Era 182.
@@ -5666,6 +5675,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.14.0...v4.14.1
 [4.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.13.0...v4.14.0
 [4.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.12.0...v4.13.0
 [4.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.11.0...v4.12.0
