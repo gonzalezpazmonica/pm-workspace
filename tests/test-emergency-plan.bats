@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
-# Tests for emergency-plan.sh — Offline LLM pre-download
+# Ref: scripts/emergency-plan.sh — Offline LLM pre-download
+# Tests for emergency-plan.sh
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
@@ -53,4 +54,23 @@ teardown() {
 
 @test "cache directory uses HOME" {
   grep -q 'HOME.*emergency' "$SCRIPT"
+}
+
+@test "edge: check with empty HOME dir returns failure" {
+  export HOME="$TMPDIR_EP"
+  mkdir -p "$TMPDIR_EP"
+  run bash "$SCRIPT" --check
+  [[ "$status" -ne 0 ]]
+}
+
+@test "edge: iso_date function exists" {
+  grep -q "iso_date()" "$SCRIPT"
+}
+
+@test "edge: _extract_ollama function exists" {
+  grep -q "_extract_ollama()" "$SCRIPT"
+}
+
+@test "edge: _pull_small function exists" {
+  grep -q "_pull_small()" "$SCRIPT"
 }

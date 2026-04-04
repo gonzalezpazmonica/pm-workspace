@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+# Ref: docs/memory-system.md
 # Tests for memory-store.sh — JSONL persistent memory store
 
 setup() {
@@ -72,4 +73,25 @@ teardown() {
   local count
   count=$(wc -l < "$TMPDIR_MS/output/.memory-store.jsonl")
   [[ "$count" -ge 2 ]]
+}
+
+@test "script has safety flags" {
+  head -10 "$SCRIPT" | grep -q "set -.*pipefail"
+}
+
+@test "edge: save with empty title is handled" {
+  run bash "$SCRIPT" save --type decision --title "" --content "X"
+  [[ "$status" -ne 0 ]] || [[ "$output" == *"title"* ]]
+}
+
+@test "edge: suggest_topic_key function exists" {
+  grep -q "suggest_topic_key()" "$SCRIPT"
+}
+
+@test "edge: redact_private function exists" {
+  grep -q "redact_private()" "$SCRIPT"
+}
+
+@test "edge: hash_content function exists" {
+  grep -q "hash_content()" "$SCRIPT"
 }

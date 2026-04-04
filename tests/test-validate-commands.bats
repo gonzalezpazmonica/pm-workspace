@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+# Ref: .claude/rules/domain/command-validation.md
 # Tests for validate-commands.sh — Slash command static validation
 
 setup() {
@@ -67,4 +68,24 @@ EOF
 
 @test "checks for COMMANDS_DIR" {
   grep -q "COMMANDS_DIR" "$SCRIPT"
+}
+
+@test "edge: file with only whitespace passes or warns" {
+  cd "$REPO_ROOT"
+  printf '   \n  \n  \n' > "$TMPDIR_VC/blank.md"
+  run bash "$SCRIPT" "$TMPDIR_VC/blank.md"
+  [[ "$status" -le 1 ]]
+}
+
+@test "edge: nonexistent file path handled" {
+  cd "$REPO_ROOT"
+  run bash "$SCRIPT" "/nonexistent/path/xyz.md"
+  [[ "$status" -ne 0 ]]
+}
+
+@test "edge: command at exactly 150 lines accepted" {
+  cd "$REPO_ROOT"
+  printf '%.0sline\n' {1..150} > "$TMPDIR_VC/exact.md"
+  run bash "$SCRIPT" "$TMPDIR_VC/exact.md"
+  [[ "$status" -le 1 ]]
 }

@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+# Ref: .claude/rules/domain/security-check-patterns.md
 # Tests for prompt-security-scan.sh — Prompt injection/leakage scanner
 
 setup() {
@@ -72,4 +73,20 @@ EOF
 
 @test "exit codes documented" {
   head -10 "$SCRIPT" | grep -q "Exit:"
+}
+
+@test "edge: nonexistent path fails gracefully" {
+  run bash "$SCRIPT" --path "/nonexistent/dir/xyz"
+  [[ "$status" -ne 0 ]] || [[ "$output" == *"not found"* ]] || [[ "$output" == *"No such"* ]]
+}
+
+@test "edge: file with very long line is scanned" {
+  mkdir -p "$TMPDIR_PS/agents"
+  printf -- '---\nname: long\ntools: [Read]\n---\n%0.sA' {1..300} > "$TMPDIR_PS/agents/long.md"
+  run bash "$SCRIPT" --path "$TMPDIR_PS/agents"
+  [[ "$status" -le 1 ]]
+}
+
+@test "scan_file function exists" {
+  grep -q "scan_file()" "$SCRIPT"
 }
