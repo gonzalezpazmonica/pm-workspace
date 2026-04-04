@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-04 | **Version:** v4.10.0 | **508 commands · 48 agents · 89 skills · 48 hooks · 93 test suites · 73 SPECs (45 done)**
+**Updated:** 2026-04-04 | **Version:** v4.11.0 | **508 commands · 48 agents · 89 skills · 48 hooks · 103 test suites · 73 SPECs (45 done)**
 
 ---
 
@@ -57,16 +57,14 @@ Temporal memory, hybrid search, agent evaluation, cognitive sectors, SaviaDiverg
 
 ---
 
-## Pipeline — Q2 2026 (Eras 180+)
+## Done — Era 180: Granular Permissions + Test Coverage (v4.11)
 
-### P1. Granular Permissions — MEDIUM
+- **P1**: 5-tier permission system (L0-L4), 48 agents updated, validation script + 7 tests
+- **P2**: 10 new test suites (CI, security, workflow, utility). 10→20 suites (100% increase)
 
-5-level permissions per agent. Integrate with agent-policies.yaml.
-- Effort: 8h | Impact: Medium
+---
 
-### P2. Test Coverage Push — MEDIUM
-
-Tests for 30 MEDIUM risk scripts. Target: 20% coverage (up from 11%).
+## Pipeline — Q2 2026 (Eras 181+)
 - Effort: 15h | Impact: Medium (maintainability)
 
 ### Backlog (blocked or low priority)

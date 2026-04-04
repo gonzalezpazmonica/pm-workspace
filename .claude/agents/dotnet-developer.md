@@ -1,5 +1,6 @@
 ---
 name: dotnet-developer
+permission_level: L3
 description: >
   Implementación de código C#/.NET siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando:
   se implementa una feature en C#/.NET (controllers, services, repositories, domain entities,

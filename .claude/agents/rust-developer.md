@@ -1,5 +1,6 @@
 ---
 name: rust-developer
+permission_level: L3
 description: >
   Implementación de código Rust (Axum, Tokio) siguiendo specs SDD aprobadas. Usar
   PROACTIVELY cuando: se implementa una feature en Rust (handlers, servicios, modelos,

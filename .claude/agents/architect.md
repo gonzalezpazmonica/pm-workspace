@@ -1,5 +1,6 @@
 ---
 name: architect
+permission_level: L1
 description: >
   Diseño de arquitectura .NET y decisiones técnicas de alto nivel. Usar PROACTIVELY cuando:
   se diseña una nueva feature, se evalúa un cambio arquitectónico, se asigna la capa correcta

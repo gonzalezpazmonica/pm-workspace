@@ -1,5 +1,6 @@
 ---
 name: frontend-developer
+permission_level: L3
 description: >
   Implementación de código frontend (Angular y React) siguiendo specs SDD aprobadas.
   Usar PROACTIVELY cuando: se implementa una feature en Angular o React (componentes,

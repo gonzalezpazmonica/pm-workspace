@@ -1,5 +1,6 @@
 ---
 name: test-architect
+permission_level: L1
 description: >
   Designs and generates the highest quality tests across all 16 language packs and 14
   test types. Use PROACTIVELY when: creating test suites for new specs or features,

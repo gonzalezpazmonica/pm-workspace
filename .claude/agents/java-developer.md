@@ -1,5 +1,6 @@
 ---
 name: java-developer
+permission_level: L3
 description: >
   Implementación de código Java/Spring Boot siguiendo specs SDD aprobadas. Usar PROACTIVELY
   cuando: se implementa una feature en Java (controllers, services, repositories, entities,

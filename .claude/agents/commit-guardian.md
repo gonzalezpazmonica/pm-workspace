@@ -1,5 +1,6 @@
 ---
 name: commit-guardian
+permission_level: L4
 description: >
   Guardian de commits: verifica que todos los cambios staged cumplen las reglas del
   workspace ANTES de hacer el commit. Invocar SIEMPRE antes de cualquier git commit.
@@ -146,5 +147,4 @@ Ensure every commit meets all 10 workspace quality checks before reaching the re
 @.claude/agents/decision-trees/commit-guardian-decisions.md
 
 ## Success Metrics
-- Zero commits on `main` — all 10 checks executed every time
-- Security escalations reach human immediately; delegated fixes resolve in max 2 attempts
+- Zero commits on `main` — all 10 checks executed every time; security escalations reach human immediately

@@ -1,5 +1,6 @@
 ---
 name: security-auditor
+permission_level: L1
 description: >
   Agente auditor independiente que evalúa la calidad del análisis Red/Blue Team,
   verifica que las correcciones son adecuadas, y genera el informe final de

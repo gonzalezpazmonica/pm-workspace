@@ -1,5 +1,6 @@
 ---
 name: azure-devops-operator
+permission_level: L1
 description: >
   Operaciones rápidas en Azure DevOps: consultas WIQL, actualización de work items, gestión
   de sprint, capacidades del equipo. Usar PROACTIVELY cuando: se consultan work items o el
