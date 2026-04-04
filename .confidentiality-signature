@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5ef44c3ab1b3a4111c2ebccbebca3eb45550c523dfababf8b880f850fd37e1c7
-timestamp=2026-04-04T17:20:13Z
-branch=fix/test-architect-sonnet
-head_commit=dde3f1e
-signature=2c6bda094c9966331cea39643bbb510801bb5792b105a31007b32c91b2fb2633
+diff_hash=433554452167132b19fa082c6cbac91a198e45f961f20088968a27dc437cb417
+timestamp=2026-04-04T17:41:14Z
+branch=feat/era183-specs-batch
+head_commit=67c614c
+signature=c7e2c3176a3952c8d966c52df2094671e54bdfbd0b1b5e00c5a7270352c8cd0d
