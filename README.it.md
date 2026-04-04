@@ -1,71 +1,148 @@
 <img width="2160" height="652" alt="image" src="https://github.com/user-attachments/assets/c0b5eb61-2137-4245-b773-0b65b4745dd7" />
 
-Italiano | [Castellano](README.md) | [English](README.en.md) | [Galego](README.gl.md) | [Euskara](README.eu.md) | [Català](README.ca.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Português](README.pt.md)
+**Italiano** | [Spagnolo](README.md) | [English](README.en.md) | [Galego](README.gl.md) | [Euskara](README.eu.md) | [Catala](README.ca.md) | [Francais](README.fr.md) | [Deutsch](README.de.md) | [Portugues](README.pt.md)
 
 # PM-Workspace
 
 [![CI](https://img.shields.io/github/actions/workflow/status/gonzalezpazmonica/pm-workspace/ci.yml?branch=main&label=CI&logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/gonzalezpazmonica/pm-workspace?logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## Ciao, sono Savia
+## Il tuo team di sviluppo merita una PM che non dorme mai
 
-Sono Savia, la civettina che vive dentro pm-workspace. Il mio lavoro e far scorrere i tuoi progetti: gestisco gli sprint, decompongo il backlog, coordino gli agenti di codice, gestisco la fatturazione, genero report per la direzione e monitoro il debito tecnico — tutto da Claude Code, nella lingua che usi.
+Gli sprint vanno fuori controllo. Il backlog cresce senza priorita. I report per la direzione si fanno a mano. Il debito tecnico si accumula senza che nessuno lo misuri. Gli agenti IA generano codice senza spec ne test.
 
-Funziono con Azure DevOps, Jira, o 100% Git-native con Savia Flow. Quando arrivi per la prima volta, mi presento e ti conosco. Mi adatto a te, non il contrario.
-
----
-
-## Chi sei?
-
-| Ruolo | Cosa faccio per te |
-|---|---|
-| **PM / Scrum Master** | Sprint, daily, capacita, report |
-| **Tech Lead** | Architettura, debito tecnico, tech radar, PR |
-| **Developer** | Spec, implementazione, test, il mio sprint |
-| **QA** | Piano di test, copertura, regressione, quality gate |
-| **Product Owner** | KPI, backlog, impatto delle feature, stakeholder |
-| **CEO / CTO** | Portfolio, DORA, governance, esposizione IA |
-
-**Prima volta?** Leggi la [Guida Introduttiva](docs/getting-started.it.md) — da zero a produttivo in 15 minuti. Per la protezione dei dati dei clienti: [Guida Savia Shield](docs/savia-shield-guide.it.md).
+**pm-workspace** risolve questo. E una PM completa che vive dentro Claude Code: gestisce sprint, decompone il backlog, coordina agenti di codice con spec eseguibili, genera report per la direzione e monitora il debito tecnico — nella lingua che usi, con i dati protetti sulla tua macchina.
 
 ---
 
-## Come funziono dentro
-
-Sono un workspace Claude Code con 505 comandi, 49 agenti e 85 skill. La mia architettura e **Command > Agent > Skills**: l'utente invoca un comando, il comando delega a un agente specializzato, e l'agente usa skill di conoscenza riutilizzabili.
-
-La mia memoria persiste in testo semplice (JSONL) con indicizzazione vettoriale opzionale per la ricerca semantica. Non invio dati a nessun server — **zero telemetria**. Tutto viene eseguito localmente.
-
-Per sfruttarmi al massimo:
-1. **Esplora prima di implementare** — `/plan` per pensare, poi implementare
-2. **Dammi un modo per verificare** — test, build, screenshot
-3. **Un obiettivo per sessione** — `/clear` tra compiti diversi
-4. **Compatta frequentemente** — `/compact` al 50% del contesto
-
-**Intelligenza del codice** — Rilevo pattern architetturali (Clean, Hexagonal, DDD, CQRS, Microservices), misuro la salute architetturale con fitness functions e priorizzo il debito tecnico per impatto di business. Genero diagrammi di architettura, flusso, sequenza e organigrammi di team esportabili in Draw.io, Miro o Mermaid locale. Importo organigrammi esistenti per generare automaticamente la struttura dei team (`/orgchart-import`). **Human Code Maps (.hcm)** — mappe narrative in linguaggio umano che pre-digeriscono il primo percorso attraverso un sottosistema. Ogni progetto porta le sue mappe in `.human-maps/` all'interno della propria cartella. Comandi: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`. Lotta attiva contro il debito cognitivo: gli sviluppatori trascorrono il 58% del tempo a leggere codice; queste mappe riducono tale costo sessione dopo sessione.
-
----
-Come funziona nel dettaglio: **[Il mio Sistema di Memoria](docs/memory-architecture.md)**
-
-## Privacy e Telemetria
-
-**Zero telemetria.** pm-workspace non invia dati a nessun server. Niente analytics, niente tracking, niente phone-home. Tutto viene eseguito localmente. Offline-first per design.
-
----
-
-
-> **[Strategia AST](docs/ast-strategy.it.md)** — Comprensione del codice legacy + 12 Quality Gate universali. Architettura AST duale: comprensione pre-modifica e validazione post-generazione.
-> **[Savia Shield](docs/savia-shield.it.md)** — Sistema di sovranita dei dati. Classificazione locale con LLM, mascheramento reversibile, audit completo.
-> **Era 164** — Qualita adattiva: Responsibility Judge (hook deterministico, 7 pattern), ottimizzazione trace-to-prompt, rilevamento collasso istinti, pushback requisiti, dev-session discard, profondita di review regolabile per rischio, reaction engine, state machine a 13 stati, decomposizione ricorsiva dei task.
-
-## Installazione
+## Inizia in 3 minuti
 
 ```bash
-git clone https://github.com/gonzalezpazmonica/pm-workspace.git ~/claude
-cd ~/claude
-claude  # Savia si presenta automaticamente
+# 1. Installa
+curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
+
+# 2. Apri Claude Code nella directory
+cd pm-workspace && claude
+
+# 3. Savia ti saluta e ti chiede il nome. Poi:
+/sprint-status          # ← il tuo primo comando
 ```
 
-Documentazione completa: [README.md](README.md) (spagnolo) | [README.en.md](README.en.md) (inglese)
+Savia si adatta a te. Se sei PM, ti mostra sprint e capacita. Se sei developer, il tuo backlog e le spec. Se sei CEO, portfolio e metriche DORA.
 
-> *Savia — la tua PM automatizzata con IA. Compatibile con Azure DevOps, Jira e Savia Flow.*
+**Windows:** `irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.ps1 | iex`
+
+---
+
+## Quali problemi risolve
+
+| Problema | Senza pm-workspace | Con pm-workspace |
+|---|---|---|
+| Stato dello sprint | Aprire Azure DevOps, filtrare, calcolare | `/sprint-status` → dashboard completa |
+| Report per la direzione | 2h in Excel/PowerPoint | `/ceo-report` → generato con dati reali |
+| Implementare feature | Chiedere al dev di interpretare il ticket | `/spec-generate` → spec eseguibile → agente implementa → test → PR |
+| Debito tecnico | "Lo sistemeremo poi" | `/debt-analyze` → prioritizzato per impatto |
+| Code review | Revisionare a mano 300 righe | `/pr-review` → 3 prospettive (sicurezza, architettura, business) |
+| Onboarding nuovo dev | 2 settimane a leggere codice | `/onboard` → guida personalizzata + buddy IA |
+
+---
+
+## Ciao, sono Savia 🦉
+
+Sono la civettina che vive dentro pm-workspace. Mi adatto al tuo ruolo, alla tua lingua e al tuo modo di lavorare. Funziono con Azure DevOps, Jira, o 100% Git-native con Savia Flow.
+
+**Quick-start per ruolo:**
+
+| Ruolo | Quick-start |
+|---|---|
+| PM / Scrum Master | [→ quick-start-pm](docs/quick-starts/quick-start-pm.md) |
+| Tech Lead | [→ quick-start-tech-lead](docs/quick-starts/quick-start-tech-lead.md) |
+| Developer | [→ quick-start-developer](docs/quick-starts/quick-start-developer.md) |
+| QA | [→ quick-start-qa](docs/quick-starts/quick-start-qa.md) |
+| Product Owner | [→ quick-start-po](docs/quick-starts/quick-start-po.md) |
+| CEO / CTO | [→ quick-start-ceo](docs/quick-starts/quick-start-ceo.md) |
+
+---
+
+## Cosa c'e dentro
+
+**508 comandi · 48 agenti · 89 skill · 48 hook · 16 linguaggi · 93 suite di test**
+
+### Gestione progetti
+Sprint, burndown, capacita, daily, retro, KPI. Report in Excel e PowerPoint. Previsione con Monte Carlo. Fatturazione e costi.
+
+### Sviluppo con spec eseguibili (SDD)
+I task diventano spec. Gli agenti implementano in 16 linguaggi (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) in worktree isolati. Code review automatica + revisione umana obbligatoria.
+
+### Sicurezza
+SAST contro OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dinamico, SBOM, compliance in 12 settori. Savia Shield: classificazione locale dei dati con LLM on-premise, mascheramento reversibile, firma crittografica dei PR. Emergency Watchdog: fallback automatico a LLM locale (Gemma 4 / Qwen) se cade internet.
+
+### Memoria persistente
+Testo semplice (JSONL). Entity recall, ricerca semantica, continuita tra sessioni. Estrazione automatica delle decisioni prima della compattazione. Personal Vault cifrato AES-256.
+
+### Accessibilita
+Lavoro guidato per persone con disabilita (visiva, motoria, ADHD, autismo, dislessia). Micro-task, rilevamento blocchi, riformulazione adattiva.
+
+### Intelligenza del codice
+Rilevamento architettura (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness function. Human Code Maps (.hcm) che riducono il debito cognitivo.
+
+### Modalita autonome
+Sprint notturno, miglioramento codice, ricerca tecnica. Gli agenti propongono su branch `agent/*` con PR Draft — l'umano decide sempre.
+
+### Estensioni
+[Savia Mobile](projects/savia-mobile-android/README.md) (Android nativo) · [Savia Web](projects/savia-web/README.md) (Vue.js dashboard) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + voce full-duplex)
+
+---
+
+## Struttura
+
+```
+pm-workspace/
+├── .claude/
+│   ├── commands/       ← 508 comandi
+│   ├── agents/         ← 48 agenti specializzati
+│   ├── skills/         ← 89 skill di dominio
+│   ├── hooks/          ← 48 hook deterministici
+│   └── rules/          ← regole di contesto e linguaggio
+├── docs/               ← guide per ruolo, scenario, settore
+├── projects/           ← progetti (git-ignorati per privacy)
+├── scripts/            ← validazione, CI, utilita
+├── zeroclaw/           ← hardware ESP32 + voce
+└── CLAUDE.md           ← identita e regole fondamentali
+```
+
+---
+
+## Documentazione
+
+| Sezione | Descrizione |
+|---|---|
+| [Guida introduttiva](docs/getting-started.md) | Da zero a produttivo |
+| [Flusso dati](docs/data-flow-guide-es.md) | Come si collegano le parti |
+| [Riservatezza](docs/confidentiality-levels.md) | 5 livelli (N1-N4b) |
+| [Savia Shield](docs/savia-shield.md) | Sovranita dei dati |
+| [SDD](docs/readme/05-sdd.md) | Spec-Driven Development |
+| [Comandi e agenti](docs/readme/12-comandos-agentes.md) | Riferimento completo |
+| [Guide per scenario](docs/guides/README.md) | Azure, Jira, startup, sanita... |
+| [Adozione](docs/ADOPTION_GUIDE.md) | Passo a passo per societa di consulenza |
+
+---
+
+## Principi
+
+1. **Il testo semplice e la verita** — .md e .jsonl. Se l'IA sparisce, i dati restano leggibili
+2. **Privacy assoluta** — i dati dell'utente non lasciano mai la sua macchina
+3. **L'umano decide** — l'IA propone, mai merge ne deploy autonomo
+4. **Apache 2.0 / MIT** — nessun vendor lock-in, nessuna telemetria
+
+---
+
+## Contribuire
+
+Leggi [CONTRIBUTING.md](CONTRIBUTING.md) e [SECURITY.md](SECURITY.md). PR benvenute.
+
+## Licenza
+
+[MIT](LICENSE) — Creato da [Monica Gonzalez Paz](https://github.com/gonzalezpazmonica)

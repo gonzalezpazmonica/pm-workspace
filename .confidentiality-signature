@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=07dabc918a825ab932c20ef0d2d48a3b855356c2cf1fc955cc52d0399343e8cb
-timestamp=2026-04-03T23:03:54Z
-branch=feat/era178-consolidation
-head_commit=2ff689c
-signature=163c86f1bdb0b7d5c5441d9759835258eb0bc564b7c8779488a3f0a088a7dc3d
+diff_hash=9f8e520e5db59391df72296f87b0a5b8d6591dfefd72dc90ecfed9e7555935ac
+timestamp=2026-04-04T10:59:38Z
+branch=feat/era179-audit-correctiva
+head_commit=9ba90f6
+signature=f72046eba99b63e4d5d43a2bb3352b35161cafded29fcdd1420cd944e16f6ea9
