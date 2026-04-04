@@ -144,3 +144,44 @@ Ejemplo:
   - P1 (Crítico): < 4 horas en producción
   - P2 (Alto): < 1 sprint
   - P3 (Medio/Bajo): puede acumularse en el backlog
+
+---
+
+## 9. Estimacion Dual: Agent-Time vs Human-Time (SPEC-078)
+
+Las tareas se estiman en DOS escalas independientes. Los agentes operan en minutos, los humanos en horas. Usar la misma unidad distorsiona la planificacion.
+
+### Campos obligatorios en specs y tasks
+
+| Campo | Unidad | Descripcion |
+|-------|--------|-------------|
+| agent_effort_minutes | min | Tiempo real de ejecucion del agente |
+| human_effort_hours | h | Tiempo equivalente si lo hiciera un humano |
+| review_effort_minutes | min | Revision humana del output del agente |
+| context_risk | low/medium/high/exceeds | Riesgo por tamano de ventana de contexto |
+
+### Regla de decision
+
+```
+Si agent_minutes < human_hours x 10
+  Y context_risk <= medium
+  Y no requiere juicio humano (arquitectura, negocio, seguridad critica):
+    -> Delegar a agente + reservar review_minutes de humano
+
+Si no:
+    -> Humano implementa
+```
+
+### Impacto en capacity planning
+
+Los agentes generan carga de revision humana. La capacity neta del humano BAJA cuando delegas mas al agente:
+
+```
+human_net_capacity = human_capacity - sum(review_minutes_all_agent_tasks) / 60
+```
+
+Si review_load > 30% de human_capacity: bottleneck de revision. Alertar.
+
+### Referencia completa
+
+Ver SPEC-078: `docs/propuestas/SPEC-078-dual-estimation-agent-human.md`

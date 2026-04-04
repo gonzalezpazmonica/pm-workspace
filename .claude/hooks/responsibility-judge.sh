@@ -51,6 +51,11 @@ if echo "$FILE_PATH" | grep -qiE 'test-responsibility-judge'; then
   exit 0
 fi
 
+# Documentation exclusion: DOMAIN.md (Clara Philosophy) and propuestas/ are design docs, not code
+if echo "$FILE_PATH" | grep -qiE '(DOMAIN\.md|/propuestas/)'; then
+  exit 0
+fi
+
 PATTERN=""
 DETAIL=""
 

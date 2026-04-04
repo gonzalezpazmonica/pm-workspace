@@ -5,9 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.10.0] — 2026-04-04
+
+Audit Correctiva — Clara Philosophy 100%, SPEC triage, dual estimation, doc coherence. Era 179.
+
+### Added
+
+- **36 DOMAIN.md files**: Clara Philosophy compliance from 59% to 100% (89/89 skills with dual docs SKILL.md + DOMAIN.md)
+- **docs/propuestas/SPEC-078-dual-estimation-agent-human.md**: Dual estimation framework (agent_minutes + human_hours + review_minutes + context_risk)
+- **docs/decision-log.md**: Architecture decision log with rejections and approvals
+- **docs/best-practices-claude-code.en.md**: English translation of core best practices doc
+- **docs/memory-system.en.md**: English translation of memory system doc
+- **output/20260404-spec-triage.md**: Comprehensive triage of 78 SPECs (14 archive, 5 promote, 4 merge, 17 keep)
+- **output/20260404-audit-eficiencia-documentacion.md**: Full efficiency and documentation audit
+- **4 feature guides**: Emergency Watchdog, Prompt Security Scanner, Spec Quality Auditor, Workspace Consolidation
+
+### Changed
+
+- **9 READMEs** (es, en, ca, de, eu, fr, gl, it, pt): Counters corrected to 508 commands, 48 agents, 89 skills, 48 hooks. Structure section aligned
+- **7 regional READMEs** (ca, de, eu, fr, gl, it, pt): Rewritten to v4.6+ benefits-first format
+- **docs/ROADMAP.md**: P0a-P0g marked as Done. SPEC status table updated with triage results
+- **docs/politica-estimacion.md**: Section 9 added (dual estimation agent/human)
+- **.claude/skills/spec-driven-development/references/spec-template.md**: Dual estimation fields added
+- **.claude/hooks/responsibility-judge.sh**: S-06 excludes DOMAIN.md and propuestas/ from reference check
+
 ## [4.9.0] — 2026-04-04
 
-feat: Workspace Consolidation — inventory audit, counter correction, roadmap sync. Era 178.
+Workspace Consolidation — inventory audit, counter correction, roadmap sync. Era 178.
 
 ### Changed
 
@@ -5575,6 +5599,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.9.0...v4.10.0
 [4.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.8.0...v4.9.0
 [4.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.7.0...v4.8.0
 [4.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.6.0...v4.7.0
