@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.11.0] — 2026-04-04
+
+Granular Permissions + Test Coverage Push. Era 180.
+
+### Added
+
+- **agent-permission-levels.md**: 5-tier access control (L0 Observer to L4 Operator) for all 48 agents
+- **validate-agent-permissions.sh**: Validates agent permission_level matches declared tools
+- **10 new BATS test suites**: validate-ci-local, hook-profile, nidos, memory-store, emergency-plan, spec-quality-auditor, prompt-security-scan, validate-commands, validate-agent-permissions, adaptive-strategy-selector
+- Test coverage: 10 suites to 20 suites (100% increase), covering CI, security, workflow, and utility scripts
+
+### Changed
+
+- **48 agent frontmatter**: Added `permission_level:` field (L0: 2, L1: 13, L2: 9, L3: 18, L4: 6)
+- **docs/ROADMAP.md**: Era 180 documented, P1+P2 marked as Done
+
 ## [4.10.0] — 2026-04-04
 
 Audit Correctiva — Clara Philosophy 100%, SPEC triage, dual estimation, doc coherence. Era 179.
@@ -5599,6 +5615,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.10.0...v4.11.0
 [4.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.9.0...v4.10.0
 [4.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.8.0...v4.9.0
 [4.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.7.0...v4.8.0

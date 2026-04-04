@@ -1,5 +1,6 @@
 ---
 name: php-developer
+permission_level: L3
 description: >
   Implementación de código PHP/Laravel siguiendo specs SDD aprobadas. Usar PROACTIVELY
   cuando: se implementa una feature en PHP/Laravel (controllers, services, migrations,

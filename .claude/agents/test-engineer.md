@@ -1,5 +1,6 @@
 ---
 name: test-engineer
+permission_level: L3
 description: >
   Creación y ejecución de tests en proyectos .NET. Usar PROACTIVELY cuando: se escriben
   tests unitarios o de integración en xUnit/NUnit/MSTest, se configura TestContainers para

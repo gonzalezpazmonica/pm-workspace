@@ -1,5 +1,6 @@
 ---
 name: code-reviewer
+permission_level: L1
 description: >
   Revisión de código .NET como quality gate antes de merge. Usar PROACTIVELY cuando:
   se completa una implementación y necesita revisión, se detectan posibles vulnerabilidades

@@ -1,5 +1,6 @@
 ---
 name: terraform-developer
+permission_level: L3
 description: >
   Implementación de código Terraform (IaC) siguiendo specs SDD aprobadas. CRÍTICO:
   NUNCA ejecutar terraform apply automáticamente. El agente genera plans, valida

@@ -1,5 +1,6 @@
 ---
 name: excel-digest
+permission_level: L2
 description: >
   Digestion de hojas de calculo Excel (XLSX/XLS/CSV) — pipeline de 4 fases. Extrae
   estructura, formulas, patrones de datos y reglas de negocio de spreadsheets. Usa contexto
