@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.13.0] — 2026-04-04
+
+Sovereignty Phase 1 — multi-provider switch, CI pr-plan gate, OpenCode backup. Era 181b.
+
+### Added
+
+- **scripts/sovereignty-switch.sh**: Multi-provider manager (local/mistral/claude) with auto-detect and smoke test
+- **tests/test-sovereignty-switch.bats**: 17 tests (85/100)
+- **CI gate (Rule #25)**: PRs require /pr-plan — enforced via .confidentiality-signature check
+
+### Changed
+
+- **.github/workflows/ci.yml**: pr-plan gate using gh pr diff
+- OpenCode v1.3.13 installed as Claude Code backup
+- Test suites: 106 to 107
+
 ## [4.12.0] — 2026-04-04
 
 SPEC implementation: Execution Supervisor, Dev Session Discard, Memory TTL verified. Era 181.
@@ -14,11 +30,16 @@ SPEC implementation: Execution Supervisor, Dev Session Discard, Memory TTL verif
 - **tests/test-session-action-log.bats**: 12 tests (80/100) — log, attempts, history, reset, session isolation
 - **tests/test-execution-supervisor.bats**: 14 tests (83/100) — silent on 1-2, reflection at 3+, escalation at 4+, advisory exit 0
 - **tests/test-dev-session-discard.bats**: 11 tests (83/100) — lock removal, state archive, discard log, reason defaults
+- **scripts/sovereignty-switch.sh**: Multi-provider sovereignty manager (local/mistral/claude) with auto-detect and smoke test
+- **tests/test-sovereignty-switch.bats**: 17 tests (85/100) — provider switching, round-trip, edge cases
+- **CI gate (Rule #25)**: PRs now require /pr-plan — enforced structurally via .confidentiality-signature check in CI
 
 ### Changed
 
-- **docs/ROADMAP.md**: SPEC-065, SPEC-048, SPEC-020 verified with tests. Era 181 documented
-- Test suites: 103 to 106 (3 new SPEC verification suites, all 80+ quality)
+- **docs/ROADMAP.md**: SPEC-065, SPEC-048, SPEC-020 verified. Sovereignty Phase 1 complete. Era 181 documented
+- **.github/workflows/ci.yml**: Added pr-plan gate using gh pr diff
+- Test suites: 103 to 107 (4 new suites, all 80+ quality)
+- OpenCode v1.3.13 installed as Claude Code backup
 
 ## [4.11.0] — 2026-04-04
 
@@ -5630,6 +5651,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.12.0...v4.13.0
 [4.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.11.0...v4.12.0
 [4.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.10.0...v4.11.0
 [4.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.9.0...v4.10.0
