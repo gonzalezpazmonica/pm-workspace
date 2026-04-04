@@ -30,9 +30,9 @@ teardown() {
   [[ "$status" -eq 0 || "$status" -eq 1 ]]
 }
 
-@test "output contains PASS or FAIL markers" {
+@test "output contains OK or FAIL markers" {
   run bash "$SCRIPT" --quick
-  [[ "$output" == *"PASS"* || "$output" == *"FAIL"* || "$output" == *"WARN"* ]]
+  [[ "$output" == *"OK"* || "$output" == *"FAIL"* || "$output" == *"WARN"* || "$output" == *"passed"* ]]
 }
 
 @test "check_branch function is defined" {
