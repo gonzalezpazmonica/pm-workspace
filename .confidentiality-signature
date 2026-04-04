@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c5a2d423fe6c17a6de7ebb088cef28e3b832b9295fa43a89e5d83fab08a80785
-timestamp=2026-04-04T14:55:53Z
-branch=feat/era181-sovereignty
-head_commit=76a4188
-signature=45a396ad5e79abc4ac572a3d90432802bfb2a5da3591612987c4477510efdb25
+diff_hash=208229aba5b7dfb9556b0778742bc0be2925b5cd1f990fadf4c055962d80c6a3
+timestamp=2026-04-04T17:04:43Z
+branch=fix/test-architect-model-upgrade
+head_commit=2d3e576
+signature=45e2480380d4c17d7e6ee837318672187c0bcc9716897151e829e8cb8fbd904d
