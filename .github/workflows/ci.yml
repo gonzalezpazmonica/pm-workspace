@@ -81,21 +81,21 @@ jobs:
           fi
           echo "Secret scan complete."
 
-      - name: Fetch base branch for diff
-        if: github.event_name == 'pull_request'
-        run: git fetch --depth=1 origin ${{ github.base_ref }}
-
       - name: "Gate: PR created via /pr-plan (Rule #25)"
         if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           echo "Checking that PR was created via /pr-plan..."
-          if ! git diff --name-only FETCH_HEAD...HEAD | grep -q ".confidentiality-signature"; then
-            echo "FAIL: .confidentiality-signature not found in PR diff."
-            echo "This means /pr-plan was not run before creating this PR."
-            echo "Fix: run /pr-plan (or bash scripts/pr-plan.sh) and push again."
+          PR_NUM="${{ github.event.pull_request.number }}"
+          FILES=$(gh pr diff "$PR_NUM" --name-only 2>/dev/null || echo "")
+          if echo "$FILES" | grep -q ".confidentiality-signature"; then
+            echo "PASS: PR includes confidentiality signature (pr-plan was run)."
+          else
+            echo "FAIL: .confidentiality-signature not in PR files."
+            echo "Run /pr-plan before creating the PR."
             exit 1
           fi
-          echo "PASS: PR includes confidentiality signature (pr-plan was run)."
 
       - name: Run workspace test suite (mock mode)
         run: |
