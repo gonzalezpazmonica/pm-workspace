@@ -1,7 +1,6 @@
 # communication — Savia Capability Map (L1)
-> 76 resources
+> 77 resources
 
-- **** (): 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
 - **excel-digest** (>): 
@@ -46,6 +45,7 @@
 - **savia-hub-init** (script): savia-hub-init.sh — Initialize SaviaHub local repository
 - **savia-hub-sync** (skill): Orquestación de sincronización del repositorio SaviaHub
 - **savia-inbox** (>): 
+- **savia-index** (script): ── savia-index.sh ────────────────────────────────�
 - **savia-index-rebuild** (script): ── savia-index-rebuild.sh ──────────────────────────────
 - **savia-live** (cmd): Show what Savia is working on right now — live task queue and recent activity
 - **savia-messaging** (script): savia-messaging.sh — Message creation, delivery, and inbox management
@@ -72,6 +72,7 @@
 - **savia-travel-ops** (script): savia-travel-ops.sh — Pack and init operations for savia-travel.sh
 - **savia-travel-pack** (>): 
 - **savia-watch** (script): savia-watch.sh — Live activity feed from Savia
+- **savia-watchdog** (script): savia-watchdog.sh — Emergency fallback: detect internet loss, activate local LLM
 - **slack-search** (>): 
 - **validate-devops-checks** (script): Each returns JSON: {check, status, message, details?, remediation?}
 - **voice-inbox** (skill): Transcripción de audio y flujo audio→texto→acción para mensajes de voz

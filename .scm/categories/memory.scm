@@ -1,7 +1,6 @@
 # memory — Savia Capability Map (L1)
 > 71 resources
 
-- **** (): 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (>): 
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
@@ -25,6 +24,7 @@
 - **context-profile** (cmd): Perfilar consumo de contexto — qué consume más, generación de flame-graph, comparación entre sesiones
 - **context-snapshot** (script): context-snapshot.sh — Save/load session context between sessions
 - **context-status** (cmd): Show context window usage, model tier, and optimization recommendations
+- **context-tracker** (script): ── context-tracker.sh ───────────────────────────────�
 - **cross-project-search** (cmd): Búsqueda transversal de conocimiento entre todos los proyectos del portfolio
 - **digest-to-memory** (script): digest-to-memory.sh — Bridge: digest agents -> memory-store + graph
 - **entity-recall** (>): 
