@@ -68,7 +68,7 @@ I'm the little owl that lives inside pm-workspace. I adapt to your role, your la
 
 ## What's inside
 
-**508 commands · 48 agents · 89 skills · 48 hooks · 16 languages · 107 test suites**
+**508 commands · 48 agents · 89 skills · 48 hooks · 16 languages · 110 test suites**
 
 ### Project management
 Sprints, burndown, capacity, dailies, retros, KPIs. Reports in Excel and PowerPoint. Monte Carlo prediction. Billing and costs.

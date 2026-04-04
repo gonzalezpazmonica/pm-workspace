@@ -68,7 +68,7 @@ pm-workspace barruan bizi den hontzatxoa naiz. Zure rolera, zure hizkuntzara eta
 
 ## Zer dago barruan
 
-**508 komando · 48 agente · 89 skill · 48 hook · 16 hizkuntza · 107 test suite**
+**508 komando · 48 agente · 89 skill · 48 hook · 16 hizkuntza · 110 test suite**
 
 ### Proiektuen kudeaketa
 Sprint-ak, burndown-a, ahalmena, dailyak, retroak, KPIak. Txostenak Excel eta PowerPoint formatuan. Monte Carlo bidezko iragarpena. Fakturazioa eta kostuak.
