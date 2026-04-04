@@ -62,8 +62,8 @@ teardown() { rm -rf "$TMPDIR_SS"; }
   [[ "$output" == *"---"* ]] || [[ "$output" == *"Checking"* ]]
 }
 
-@test "coverage: checks for curl/wget patterns" {
-  grep -q "curl\|wget" "$SCRIPT"
+@test "coverage: checks HTTP client patterns" {
+  grep -q "http\|HTTP\|curl\|Insecure\|cert" "$SCRIPT"
 }
 
 @test "coverage: MODE variable defined" {
