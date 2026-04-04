@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.14.0] — 2026-04-04
+
+Sovereignty Phase 2 + SPEC-021 verification + test coverage push. Era 182.
+
+### Added
+
+- **scripts/sovereignty-benchmark.sh**: Benchmark pm-workspace prompts with local LLMs (10 tests, quick/full modes)
+- **tests/test-sovereignty-benchmark.bats**: 11 tests (85+ quality)
+- **tests/test-readiness-check.bats**: 17 tests (SPEC-021 verification)
+- Benchmark results: qwen2.5:3b scores 80% quick / 40% full — viable for basic ops, not complex tasks
+
+### Changed
+
+- Test suites: 107 to 110
+
 ## [4.13.0] — 2026-04-04
 
 Sovereignty Phase 1 — multi-provider switch, CI pr-plan gate, OpenCode backup. Era 181b.
@@ -5651,6 +5666,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.13.0...v4.14.0
 [4.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.12.0...v4.13.0
 [4.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.11.0...v4.12.0
 [4.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.10.0...v4.11.0
