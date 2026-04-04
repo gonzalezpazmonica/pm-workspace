@@ -1,5 +1,6 @@
 ---
 name: cobol-developer
+permission_level: L3
 description: >
   Asistencia en código COBOL/mainframe. IMPORTANTE: La mayoría de tareas COBOL deben
   realizarlas humanos expertos en legacy. El agente asiste con: análisis de copybooks,

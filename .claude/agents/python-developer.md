@@ -1,5 +1,6 @@
 ---
 name: python-developer
+permission_level: L3
 description: >
   Implementación de código Python (FastAPI/Django) siguiendo specs SDD aprobadas. Usar
   PROACTIVELY cuando: se implementa una feature en Python (endpoints, servicios, modelos,

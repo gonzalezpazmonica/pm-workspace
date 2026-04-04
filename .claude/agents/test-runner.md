@@ -1,5 +1,6 @@
 ---
 name: test-runner
+permission_level: L4
 description: >
   Ejecución de tests y verificación de cobertura post-commit. Ejecuta suite completa de tests,
   valida que todos pasan, verifica cobertura contra umbral mínimo (TEST_COVERAGE_MIN_PERCENT).

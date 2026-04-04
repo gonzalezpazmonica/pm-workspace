@@ -1,5 +1,6 @@
 ---
 name: meeting-digest
+permission_level: L2
 description: >
   Digestion de transcripciones de reuniones (VTT, DOCX, TXT). Extrae datos estructurados
   de personas, contexto de negocio y action items. Analiza riesgos delegando a meeting-risk-analyst
@@ -146,5 +147,4 @@ NUNCA escribir en `.claude/agent-memory/` ni `public-agent-memory/`.
 | one2one | Perfil + negocio + notas | Conflictos, burnout, contradicciones |
 | sprint-review | Decisiones + metricas | Decisiones vs reglas, dependencias |
 | retro | Problemas + sentimiento | Conflictos, patrones recurrentes |
-| refinement | Requisitos + estimaciones | Duplicidades, gaps en reglas |
-| stakeholder | Decisiones + prioridades | Cambios vs specs, dependencias |
+| refinement/stakeholder | Requisitos + decisiones | Duplicidades, gaps, dependencias |

@@ -1,5 +1,6 @@
 ---
 name: security-guardian
+permission_level: L4
 description: >
   Especialista en seguridad, confidencialidad y ciberseguridad. Audita los cambios
   staged ANTES de cualquier commit para detectar fugas de datos privados, credenciales,

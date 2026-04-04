@@ -1,5 +1,6 @@
 ---
 name: reflection-validator
+permission_level: L0
 description: >
   Meta-cognitive validation of responses and decisions (System 2).
   Use PROACTIVELY when: evaluating a response to a complex question,

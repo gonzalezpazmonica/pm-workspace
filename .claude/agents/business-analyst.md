@@ -1,5 +1,6 @@
 ---
 name: business-analyst
+permission_level: L1
 description: >
   Análisis de reglas de negocio, descomposición de PBIs, criterios de aceptación y evaluación
   de competencias del equipo. Usar PROACTIVELY cuando: se analiza un PBI antes de descomponerlo,

@@ -1,5 +1,6 @@
 ---
 name: coherence-validator
+permission_level: L0
 description: >
   Verifies that generated outputs (specs, reports, code) actually match the stated
   objective. Use PROACTIVELY post-SDD, post-report generation, or when output quality

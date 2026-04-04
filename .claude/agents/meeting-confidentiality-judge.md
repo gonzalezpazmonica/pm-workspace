@@ -1,5 +1,6 @@
 ---
 name: meeting-confidentiality-judge
+permission_level: L1
 description: >
   Juez de confidencialidad post-extraccion de reuniones. Valida que datos marcados como
   confidenciales NO se filtren a ficheros del proyecto. Verifica limites de secciones

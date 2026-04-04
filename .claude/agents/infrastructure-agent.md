@@ -1,5 +1,6 @@
 ---
 name: infrastructure-agent
+permission_level: L4
 description: >
   Agente de gestión de infraestructura cloud. Recibe solicitudes del architect,
   detecta infraestructura existente, crea recursos al MENOR COSTE posible, y

@@ -1,5 +1,6 @@
 ---
 name: typescript-developer
+permission_level: L3
 description: >
   Implementación de código TypeScript/Node.js siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando:
   se implementa una feature en TypeScript (controladores, servicios, middlewares, modelos con NestJS,

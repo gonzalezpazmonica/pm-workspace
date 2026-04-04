@@ -1,5 +1,6 @@
 ---
 name: diagram-architect
+permission_level: L1
 description: >
   Architecture diagram specialist. Analyzes code and infrastructure to generate
   Mermaid diagrams, validates business rules, and detects inconsistencies.

@@ -1,5 +1,6 @@
 ---
 name: go-developer
+permission_level: L3
 description: >
   Implementación de código Go siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando:
   se implementa una feature en Go (handlers, servicios, modelos, migraciones), se
