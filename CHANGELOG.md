@@ -145,7 +145,7 @@ feat: Emergency Watchdog — automatic local LLM fallback on internet loss. Era 
 ### Added
 
 - **savia-watchdog.sh**: Systemd service that monitors connectivity to api.anthropic.com every 5 min. After 3 consecutive failures, activates Ollama with local model and notifies via `wall`. When internet returns, unloads model to free RAM
-- **savia-watchdog.service**: Systemd unit file (runs as user monica, auto-restart)
+- **savia-watchdog.service**: Systemd unit file (runs as current user, auto-restart)
 - **install-watchdog.sh**: One-time installer (`sudo bash scripts/install-watchdog.sh`)
 
 ### Changed
@@ -264,7 +264,7 @@ feat: Hook System Overhaul — Claude Code alignment, Shield hardening, 61% even
 
 - **Portability**: replaced all hardcoded `/tmp/` paths with `$TMPDIR/$HOME/.savia/tmp` in 5 hooks
 - **Portability**: replaced `sed -i` with portable `sed + mv` pattern in pbi-history-capture.sh
-- **Portability**: replaced hardcoded memory path (`-home-monica-claude`) with dynamic PROJ_SLUG detection in 4 hooks
+- **Portability**: replaced hardcoded memory path (`project-slug`) with dynamic PROJ_SLUG detection in 4 hooks
 - **SCM indexer**: `grep -oE '[a-z]{4,}'` now includes accented chars (evaluacion, tecnico no longer truncated)
 - **SCM indexer**: `head -c 120` replaced with `cut -c1-120` (char count, not bytes — UTF-8 safe)
 - **Orphan hooks**: registered cwd-changed-hook.sh, compress-agent-output.sh, memory-prime-hook.sh
