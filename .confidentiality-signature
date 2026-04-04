@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a11a3a03f2c68bbfc1018d40d8a9c96ea40e9910569210e39b6f9b7a29186b27
-timestamp=2026-04-04T16:43:00Z
+diff_hash=b3713a0d544af7d9e2db77c6d575207d770b62858bbb69a77a345eed0f6d2b22
+timestamp=2026-04-04T16:43:51Z
 branch=feat/era182-coverage-specs
-head_commit=b221aa8
-signature=677cd3a40576700b63901ecb7fcce97d684fbafc5711bdc84cd5cfe69c6aca2d
+head_commit=a4ad356
+signature=3a98cbc3274edb1ea6eac195001097423fcadbd34f4aca588821d8c8bc189e28
