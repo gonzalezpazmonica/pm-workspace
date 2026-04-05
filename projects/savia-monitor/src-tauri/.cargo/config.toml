@@ -1,0 +1,5 @@
+[target.x86_64-pc-windows-msvc]
+rustflags = [
+  "-Lnative=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22621.0/um/x64",
+  "-Lnative=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22621.0/ucrt/x64",
+]
