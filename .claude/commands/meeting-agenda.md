@@ -82,6 +82,24 @@ Salida en `output/agendas/YYYYMMDD-{tipo}-{proyecto}.md`:
 
 ---
 
+## Ceremony Preview (SPEC-061)
+
+Si el usuario activo tiene `SAVIA_CEREMONY_PREVIEW=true` (from `communication.ceremony_preview` in neurodivergent.md), generar un bloque adicional al inicio del output:
+
+```
+Antes de la reunión — Vista previa para ti:
+- Tipo: {planning|review|retro|refinement}
+- Duración: {X} min
+- Participantes: {lista}
+- Tu turno esperado: {momento y tema}
+- Estructura: {lista de bloques con tiempos}
+- Decisiones que se pedirán: {lista si aplica}
+```
+
+Este bloque se muestra SOLO al usuario con ceremony_preview activo. No se incluye en el fichero de agenda compartido. Privacidad: NUNCA mencionar por qué se muestra este bloque.
+
+---
+
 ## Restricciones
 
 - Read-only: NUNCA crear items automáticamente

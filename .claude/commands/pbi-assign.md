@@ -59,6 +59,14 @@ Asigna (o reasigna) las Tasks existentes de un PBI según el algoritmo de asigna
    - Si `--rebalance`: considerar TODA la carga del sprint (WIQL: remaining work de todos los items)
    - Si no `--rebalance`: considerar solo la carga de las tasks de este PBI
 
+4b. **ND Strengths Routing (SPEC-061)** — Si un candidato tiene `neurodivergent.md` con `strengths_map`:
+   - Clasificar cada task por tipo: analysis, deep-focus, review, architecture, ideation
+   - Mapear fortalezas: `pattern_recognition`→analysis, `hyperfocus`→deep-focus, `detail_orientation`→review, `systems_thinking`→architecture, `creative_connections`→ideation
+   - Si fortaleza del candidato es `high` y coincide con tipo de task → bonus +10% en scoring
+   - Si fortaleza es `medium` → bonus +5%
+   - Privacidad: NUNCA mostrar el motivo ND en la tabla de propuesta — solo el score final
+   - Equality Shield: el bonus ND no puede superar el 15% del score total (evitar sesgo inverso)
+
 5. Presentar la propuesta de (re)asignación:
 
 ```

@@ -18,6 +18,7 @@ Implements AEPD data minimization principle.
 - `/savia-forget {topic}` — Remove entries matching topic
 - `/savia-forget --scope vocabulary` — Clear entire section
 - `/savia-forget --all` — Clear all memory (with double confirmation)
+- `/savia-forget --neurodivergent` — Erase neurodivergent profile completely (RGPD Art. 17)
 - `/savia-forget --dry-run {topic}` — Preview what would be removed
 
 ## Behavior
@@ -41,6 +42,14 @@ Implements AEPD data minimization principle.
 2. First confirmation: "Clear ALL Savia memory? This cannot be undone."
 3. Second confirmation: "Type 'FORGET' to confirm."
 4. If confirmed: reset MEMORY.md to template headers only
+
+### Neurodivergent profile (`--neurodivergent`)
+
+1. Locate `.claude/profiles/users/{slug}/neurodivergent.md`
+2. Show confirmation: "This will erase your neurodivergent profile. Accessibility settings derived from it (review_sensitivity, dyslexia_friendly, etc.) will remain unless you also reset them."
+3. If confirmed: delete the file completely
+4. Revert auto-configured accessibility.md fields to defaults (review_sensitivity: false, dyslexia_friendly: false, etc.)
+5. Log erasure in audit trail
 
 ## AEPD Compliance
 

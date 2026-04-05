@@ -81,6 +81,25 @@ if [ -f "$ACTIVE_USER_FILE" ]; then
       ITEMS+=("Perfil: $PROFILE_NAME")
     fi
     [ -n "$PROFILE_LANG" ] && ITEMS+=("Idioma: $PROFILE_LANG")
+
+    # ── ND Profile detection (SPEC-061) ──────────────────────────────────────
+    ND_FILE="$USERS_DIR/$ACTIVE_SLUG/neurodivergent.md"
+    if [ -f "$ND_FILE" ] 2>/dev/null; then
+      # Check if any dimension is active (not all commented out)
+      if grep -qE '^\s*(adhd|autism|dyslexia|giftedness|dyscalculia):' "$ND_FILE" 2>/dev/null && \
+         grep -qE 'present:\s*true' "$ND_FILE" 2>/dev/null; then
+        if [ -n "${CLAUDE_ENV_FILE:-}" ]; then
+          echo "export SAVIA_ND_ACTIVE=true" >> "$CLAUDE_ENV_FILE"
+        fi
+        # Run auto-config in background (ND→accessibility mapping)
+        for nd_script in "$HOME/claude/scripts/nd-autoconfig.sh" "./scripts/nd-autoconfig.sh"; do
+          if [ -f "$nd_script" ]; then
+            bash "$nd_script" "$ND_FILE" "$USERS_DIR/$ACTIVE_SLUG/accessibility.md" >/dev/null 2>&1 &
+            break
+          fi
+        done
+      fi
+    fi
   else
     ITEMS+=("Sin perfil — /profile-setup")
   fi

@@ -42,9 +42,27 @@ Actualiza: `cognitive_load`, `focus_mode`, `guided_work`, `guided_work_level`, `
 
 Actualiza: `break_strategy`, `break_interval_min`.
 
+### Fase 5 — Perfil neurodivergente (opcional)
+
+> "Último paso, completamente opcional: algunas personas trabajan mejor cuando el entorno se adapta a su forma de pensar. Por ejemplo, puedo proteger tu concentración si tienes ADHD, evitar lenguaje ambiguo si prefieres comunicación literal, o adaptar documentos si la lectura es un reto. ¿Te interesa configurar algo de esto?"
+
+Si acepta, crear/editar `.claude/profiles/users/{slug}/neurodivergent.md` desde la plantilla en `template/neurodivergent.md`. Preguntar por dimensiones relevantes:
+
+- **ADHD**: sensibilidad al rechazo (RSD), hyperfocus, ceguera temporal
+- **Autismo**: precisión literal, traducción social, vista previa de ceremonias
+- **Dislexia**: formato adaptado en documentos generados
+- **Altas capacidades**: mayor densidad de información
+- **Discalculia**: descripciones verbales junto a números
+
+Solo activar dimensiones que el usuario confirme. Todas comentadas por defecto. Ejecutar `scripts/nd-autoconfig.sh` al guardar para sincronizar con accessibility.md.
+
+Si rechaza → no crear fichero, no insistir. Mencionarlo existe si pregunta después.
+
+**Privacidad**: neurodivergent.md es N3 (solo el usuario). Savia NUNCA lo menciona en output ni lo comparte. NUNCA diagnosticar — solo preguntar preferencias de trabajo.
+
 ### Confirmación
 
-Muestra resumen de lo configurado con explicación de qué hace cada ajuste. Guarda en `.claude/profiles/users/{slug}/accessibility.md`.
+Muestra resumen de lo configurado con explicación de qué hace cada ajuste. Guarda en `.claude/profiles/users/{slug}/accessibility.md` (y `neurodivergent.md` si se configuró).
 
 ```
 ✅ Configuración de accesibilidad guardada:
