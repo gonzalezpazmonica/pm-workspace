@@ -1,6 +1,6 @@
 # SPEC-061 — Neurodivergent Profile System
 
-> Status: Proposed | Author: Savia | Date: 2026-03-30
+> Status: Implemented | Author: Savia | Date: 2026-03-30 | Completed: 2026-04-05
 > Extends: accessibility.md profile system (accessibility-output.md)
 > Root cause: no neurodivergent-specific profile dimensions exist in pm-workspace yet.
 > This SPEC creates them from scratch based on evidence (see SPEC-060 research report).

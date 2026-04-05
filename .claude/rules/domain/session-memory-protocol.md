@@ -16,6 +16,7 @@ Antes de compactar, clasificar CADA turno de conversacion en:
 - Decisiones explicitas del usuario ("vamos con X", "usaremos Y")
 - Estado de tarea en curso (slice actual, ficheros abiertos)
 - Correcciones activas ("no, asi no", "cambia X por Y")
+- Preferencias neurodivergentes activas (SPEC-061: active_modes, sensory_budget)
 
 **TIER B — Resumen estructurado (comprimir, ~95-99% semantica)**
 - Conversacion ultimos 60 min con nombres, decisiones, referencias

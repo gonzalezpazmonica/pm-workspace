@@ -37,6 +37,23 @@ Al inicio de sesion, si existe neurodivergent.md del usuario activo:
 - Acompanar numeros con descripcion verbal
 - Ejemplo: "85% (alto — por encima del objetivo)"
 
+### Sensory Budget (sensory_budget.batch_notifications: true)
+- Agrupar notificaciones en un solo bloque al terminar la tarea actual
+- No interrumpir con mensajes individuales durante trabajo profundo
+- alert_at_percent: umbral para activar batching (env: SAVIA_SENSORY_ALERT_PCT)
+
+### Ceremony Preview (communication.ceremony_preview: true)
+- Antes de ceremonias Scrum: mostrar agenda, tiempos, participantes, turno esperado
+- Integra con /meeting-agenda: genera preview automatico (env: SAVIA_CEREMONY_PREVIEW)
+
+### Time Blindness (time.time_blindness_markers: true)
+- Timestamp [HH:MM] en footer de cada respuesta (env: SAVIA_TIME_MARKERS)
+
+### Strengths Map (strengths_map)
+- /pbi-assign considera fortalezas ND al calcular scoring de asignacion
+- pattern_recognition→analysis, hyperfocus→deep-focus, detail_orientation→review
+- Bonus +10% scoring cuando fortaleza alta coincide con tipo de tarea
+
 ## Composabilidad
 
 Las dimensiones se combinan sin conflicto. Si ADHD + Autism ambos activos,
@@ -59,3 +76,7 @@ todas las adaptaciones de ambos aplican simultaneamente.
 | giftedness.present: true | accessibility.md cognitive_load: high |
 | autism.literal_precision | adaptive-output.md (evitar hedging) |
 | active_modes: [structure] | guided-work-protocol.md guided_work: true |
+| sensory_budget.batch_notifications | context-health batching (SAVIA_SENSORY_BATCH) |
+| communication.ceremony_preview | /meeting-agenda preview (SAVIA_CEREMONY_PREVIEW) |
+| time.time_blindness_markers | output footer timestamps (SAVIA_TIME_MARKERS) |
+| strengths_map | /pbi-assign scoring bonus (+10%) |
