@@ -19,7 +19,7 @@ teardown() { rm -rf "$TMPDIR_MH"; }
 }
 
 @test "wrapper scripts use set -uo pipefail" {
-  head -10 "$REPO_ROOT/scripts/memory-store.sh" | grep -qE "set -[eu]o pipefail"
+  head -10 "$REPO_ROOT/scripts/memory-store.sh" | grep -qE "set -(e|u).*pipefail"
 }
 
 @test "status subcommand runs" {

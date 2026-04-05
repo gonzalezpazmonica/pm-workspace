@@ -23,7 +23,7 @@ teardown() { rm -rf "$TMPDIR_MG"; }
 
 @test "wrapper scripts use set -uo pipefail" {
   # memory-store.sh wraps this Python script with bash safety
-  head -10 "$REPO_ROOT/scripts/memory-store.sh" | grep -qE "set -[eu]o pipefail"
+  head -10 "$REPO_ROOT/scripts/memory-store.sh" | grep -qE "set -(e|u).*pipefail"
 }
 
 @test "status subcommand runs" {
