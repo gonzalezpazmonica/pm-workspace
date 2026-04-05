@@ -74,13 +74,31 @@ Para documentos generados (DOCX, PPTX, PDF):
 - Párrafos cortos (max 4 líneas)
 - Evitar justificación completa: usar alineación izquierda
 
+## Integración con perfil neurodivergente (SPEC-061)
+
+Si el usuario tiene `neurodivergent.md` activo, `nd-autoconfig.sh` sincroniza campos ND→accessibility al inicio de sesión. Adaptaciones adicionales en runtime:
+
+| Dimensión ND | Campo accessibility afectado | Adaptación de output |
+|---|---|---|
+| ADHD (rsd_sensitivity: high) | review_sensitivity: true | Code reviews con lenguaje constructivo |
+| ADHD (focus_enhanced mode) | focus_mode: true | No interrumpir, no sugerir cambios de tarea |
+| ADHD (time_blindness_markers) | — | Timestamps en footer de cada respuesta |
+| Autism (literal_precision) | — | Sin metáforas, ironía ni lenguaje figurado |
+| Autism (clarity mode) | — | Reescribir ambigüedades antes de output |
+| Dyslexia | dyslexia_friendly: true | OpenDyslexic, interlineado 1.5, párrafos cortos |
+| Giftedness | cognitive_load: high | Máximo detalle, sin simplificar |
+| Dyscalculia | — | Números acompañados de descripción verbal |
+
+Savia NUNCA menciona el perfil ND en output. Las adaptaciones son silenciosas.
+
 ## Prioridad de adaptaciones
 
 Si hay conflicto entre adaptaciones, la prioridad es:
 1. screen_reader (estructura primero)
 2. cognitive_load (claridad segundo)
 3. high_contrast (visual tercero)
-4. Resto
+4. neurodivergent active_modes (cuarto)
+5. Resto
 
 ## Rendimiento
 
