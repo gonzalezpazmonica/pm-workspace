@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.17.0] — 2026-04-05
+
+SPEC-061 ND Profiles + SPEC-044 Trace Optimization engine. Era 185.
+
+### Added
+
+- **neurodivergent.md template**: Profile schema for 5 ND dimensions (ADHD, autism, dyslexia, giftedness, dyscalculia) with active modes, sensory budget, strengths map, body double. N3 privacy
+- **neurodivergent-integration.md**: Rule connecting ND profiles to accessibility system (auto-sets review_sensitivity, dyslexia_friendly, cognitive_load)
+- **scripts/prompt-suggestion-engine.sh**: SPEC-044 Phase 2 — trace-driven prompt optimization (classifies failure patterns, generates per-agent optimization plans)
+- **tests/test-neurodivergent-profiles.bats**: 25 tests (80/100)
+- **tests/test-trace-optimization.bats**: 15 tests (86/100) — extractor + engine
+
+### Changed
+
+- SPEC-061: status Proposed to Implemented
+- SPEC-044: status Draft to Implemented (Phase 1 + Phase 2 complete)
+- Test suites: 122 to 124
+
 ## [4.16.0] — 2026-04-05
 
 5 Draft SPECs verified with tests — Hybrid Search, Context Index, Graph Memory, Test Auditor, Live Progress. Era 184.
