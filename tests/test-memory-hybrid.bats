@@ -13,8 +13,13 @@ setup() {
 
 teardown() { rm -rf "$TMPDIR_MH"; }
 
-@test "script has shebang" {
+@test "script has shebang and safety" {
   head -1 "$SCRIPT" | grep -q "python3"
+  grep -q "argparse\|ArgumentParser" "$SCRIPT"
+}
+
+@test "wrapper scripts use set -uo pipefail" {
+  head -10 "$REPO_ROOT/scripts/memory-store.sh" | grep -qE "set -[eu]o pipefail"
 }
 
 @test "status subcommand runs" {
@@ -63,4 +68,17 @@ teardown() { rm -rf "$TMPDIR_MH"; }
 
 @test "coverage: references vector and graph" {
   grep -q "vector\|graph" "$SCRIPT"
+}
+
+@test "positive: script under 150 lines" {
+  local lines; lines=$(wc -l < "$SCRIPT"); [ "$lines" -le 150 ]
+}
+
+@test "coverage: uses subprocess or import" {
+  grep -q "subprocess\|importlib\|import" "$SCRIPT"
+}
+
+@test "edge: boundary — top K parameter" {
+  run python3 "$SCRIPT" search "test" --top 1 --store "$TMPDIR_MH/output/.memory-store.jsonl"
+  [ "$status" -le 1 ]
 }

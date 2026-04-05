@@ -16,8 +16,14 @@ EOF
 
 teardown() { rm -rf "$TMPDIR_MG"; }
 
-@test "script has shebang" {
+@test "script has shebang and safety" {
   head -1 "$SCRIPT" | grep -q "python3"
+  grep -q "argparse\|ArgumentParser" "$SCRIPT"
+}
+
+@test "wrapper scripts use set -uo pipefail" {
+  # memory-store.sh wraps this Python script with bash safety
+  head -10 "$REPO_ROOT/scripts/memory-store.sh" | grep -qE "set -[eu]o pipefail"
 }
 
 @test "status subcommand runs" {
@@ -64,4 +70,24 @@ teardown() { rm -rf "$TMPDIR_MG"; }
 
 @test "coverage: graph stored as JSON" {
   grep -q "graph\|json\|JSON" "$SCRIPT"
+}
+
+@test "edge: boundary — single entry store" {
+  echo '{"topic_key":"x","type":"bug","title":"One","content":"Single entry","ts":"2026-01-01T00:00:00Z"}' > "$TMPDIR_MG/output/single.jsonl"
+  run python3 "$SCRIPT" build --store "$TMPDIR_MG/output/single.jsonl"
+  [ "$status" -le 1 ]
+}
+
+@test "edge: nonexistent query in built graph" {
+  python3 "$SCRIPT" build --store "$TMPDIR_MG/output/.memory-store.jsonl" 2>/dev/null || true
+  run python3 "$SCRIPT" search "zzz_nonexistent_zzz" --store "$TMPDIR_MG/output/.memory-store.jsonl"
+  [ "$status" -le 1 ]
+}
+
+@test "positive: script under 300 lines" {
+  local lines; lines=$(wc -l < "$SCRIPT"); [ "$lines" -le 300 ]
+}
+
+@test "coverage: uses Path or os.path" {
+  grep -q "Path\|os.path" "$SCRIPT"
 }

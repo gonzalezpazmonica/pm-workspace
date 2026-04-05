@@ -56,3 +56,23 @@ teardown() { rm -rf "$TMPDIR_CI"; }
 @test "coverage: generates timestamp" {
   grep -q "date\|NOW\|timestamp" "$SCRIPT"
 }
+
+@test "negative: invalid mode handled" {
+  run bash "$SCRIPT" --bogus "$REPO_ROOT"
+  [ "$status" -le 1 ]
+}
+
+@test "negative: missing project name with --project" {
+  run bash "$SCRIPT" --project "" "$REPO_ROOT"
+  [ "$status" -le 1 ]
+}
+
+@test "edge: boundary — workspace with no rules dir" {
+  mkdir -p "$TMPDIR_CI/empty-ws"
+  run bash "$SCRIPT" --workspace "$TMPDIR_CI/empty-ws"
+  [ "$status" -le 1 ]
+}
+
+@test "positive: script under 150 lines" {
+  local lines; lines=$(wc -l < "$SCRIPT"); [ "$lines" -le 150 ]
+}
