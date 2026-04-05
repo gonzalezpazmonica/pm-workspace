@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.16.0] — 2026-04-05
+
+5 Draft SPECs verified with tests — Hybrid Search, Context Index, Graph Memory, Test Auditor, Live Progress. Era 184.
+
+### Added
+
+- **tests/test-memory-hybrid.bats**: 11 tests — SPEC-035 Hybrid Search verified (vector+graph+grep fallback)
+- **tests/test-generate-context-index.bats**: 10 tests — SPEC-054 Context Index verified
+- **tests/test-memory-graph.bats**: 10 tests — SPEC-027 Graph Memory verified (entity-relation extraction)
+- **tests/test-test-auditor.bats**: 10 tests — SPEC-055 Test Auditor verified (meta: testing the tester)
+- **tests/test-live-progress.bats**: 10 tests — SPEC-042 Live Progress verified (tool use logging)
+
+### Changed
+
+- SPECs 027, 035, 042, 054, 055: status Draft to Verified (implementations confirmed with tests)
+- Test suites: 117 to 122
+
 ## [4.15.0] — 2026-04-04
 
 SPEC-078 Dual Estimation engine implemented. Era 183.
@@ -5688,6 +5705,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.15.0...v4.16.0
 [4.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.14.1...v4.15.0
 [4.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.14.0...v4.14.1
 [4.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.13.0...v4.14.0
