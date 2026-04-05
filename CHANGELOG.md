@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.18.0] — 2026-04-05
+
+SPEC-061 SaviaDivergent complete runtime implementation. Era 185b.
+
+### Added
+
+- **scripts/nd-autoconfig.sh**: Auto-configures accessibility.md from ND profile (ADHD.rsd→review_sensitivity, dyslexia→dyslexia_friendly, giftedness→cognitive_load:high, modes→guided_work/focus_mode). Exports env vars for sensory_budget, ceremony_preview, time_blindness_markers
+- **accessibility-setup Phase 5**: Neurodivergent onboarding (5 dimensions, conversational, privacy-first)
+- **savia-forget --neurodivergent**: RGPD Art. 17 erasure of ND profile
+- **pbi-assign strengths_map routing**: ND strengths bonus (+10% scoring) for task-type matching
+- **meeting-agenda ceremony_preview**: Pre-meeting structure preview for ND users with ceremony_preview enabled
+
+### Changed
+
+- **session-init.sh**: Detects neurodivergent.md and launches nd-autoconfig.sh in background
+- **accessibility-output.md**: ND integration table, priority updated to include ND active_modes
+- **neurodivergent-integration.md**: Sensory budget, ceremony preview, time blindness, strengths map sections
+- **session-memory-protocol.md**: ND preferences added to Tier A (preserved across compact)
+- **SPEC-061**: Status Proposed → Implemented
+
 ## [4.17.0] — 2026-04-05
 
 SPEC-061 ND Profiles + SPEC-044 Trace Optimization engine. Era 185.
@@ -5723,6 +5743,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.17.0...v4.18.0
 [4.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.16.0...v4.17.0
 [4.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.15.0...v4.16.0
 [4.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.14.1...v4.15.0
