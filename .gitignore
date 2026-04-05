@@ -31,6 +31,7 @@ projects/*
 !projects/sala-reservas/
 !projects/savia-mobile-android/
 !projects/savia-web/
+!projects/savia-monitor/
 
 # ── Datos generados y sensibles (incluso dentro de proyectos de ejemplo) ──────
 projects/*/sprints/
