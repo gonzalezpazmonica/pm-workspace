@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=87cd74cafc4dd7ecb46bda435bab9ecaf140dc3470102d66da500760e4210b64
-timestamp=2026-04-04T18:49:38Z
-branch=feat/era183-specs-batch
-head_commit=f528f8a
-signature=6e0c22b5e92988675a19583a3281445bf69a905abb1adbec56b47dbee2bea45f
+diff_hash=360cf754748c1332d14a7856378513966df032afea9513bf6177c5b224d7e7d5
+timestamp=2026-04-05T06:31:41Z
+branch=feat/era184-verify-batch
+head_commit=b1ffafe
+signature=c869f7753c8e67070287446a41526813c347822da5d7a10b4396275203a80abf
