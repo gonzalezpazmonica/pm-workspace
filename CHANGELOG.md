@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.19.0] — 2026-04-06
+
+Savia Monitor — Desktop control tower for orchestrating multiple Claude Code sessions. Era 186.
+
+### Added
+
+- **projects/savia-monitor/**: Tauri v2 + Vue 3 desktop tray app (Rust backend, 7 modules)
+- **Sessions tab**: Detects active Claude Code instances via PID, shows session name, branch, agents, Shield status, health score
+- **Shield tab**: 8 protection layers with i18n tooltips, real audit feed from data-sovereignty-audit.jsonl
+- **Git tab**: Multi-project branch viewer grouped by prefix (feat/, fix/, agent/), merged branches greyed out, pending file count, nidos support
+- **Activity tab**: Real-time feed from live.log, agent-lifecycle.jsonl, audit events with type filters
+- **Health score**: Composite metric from Shield layers (35pts), git cleanliness (25pts), agent success (25pts), hook profile (15pts)
+- **i18n**: Full ES/EN with automatic system locale detection
+- **E2E tests**: 15 Playwright tests + 6 Vitest unit tests
+- **Savia logo**: Official owl from savia-web in titlebar and system tray
+
+### Changed
+
+- **.gitignore**: Whitelist `!projects/savia-monitor/` for public tracking
+
 ## [4.18.0] — 2026-04-05
 
 SPEC-061 SaviaDivergent complete runtime implementation. Era 185b.
@@ -5743,6 +5763,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.18.0...v4.19.0
 [4.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.17.0...v4.18.0
 [4.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.16.0...v4.17.0
 [4.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.15.0...v4.16.0
