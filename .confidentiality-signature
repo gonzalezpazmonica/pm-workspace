@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e3e08c9ba5a3638ab4cc260c14f0cff7f91c42dfa575bffcc7f46e83c16c64bb
-timestamp=2026-04-06T06:07:02Z
-branch=feat/savia-monitor
-head_commit=c0e9a61
-signature=6304628f7c77b4395f09cd181f1c34a8ed1a3646e729cef0425bd0775b817b03
+diff_hash=b25c674a0f1578432c61a563e65d5212c17bd3f7dc6737257e783e291a490f12
+timestamp=2026-04-06T23:17:20Z
+branch=fix/nidos-windows-onedrive
+head_commit=97a7d10
+signature=68f07ae4b6d1f8f6ba9564459339a3621d61b47a6625ff04eced744bf13a6205

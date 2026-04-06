@@ -8,10 +8,14 @@ import ShieldToggle from './shared/ShieldToggle.vue'
 import ProfileSelector from './shared/ProfileSelector.vue'
 
 interface AuditEntry { ts: string; layer: number; file: string; verdict: string; detail: string }
+interface TestResult { layer: number; name: string; passed: boolean; detail: string; duration_ms: number }
 
 const store = useShieldStore()
 const { t } = useI18n()
 const auditEntries = ref<AuditEntry[]>([])
+const testResults = ref<TestResult[]>([])
+const testing = ref(false)
+const testProgress = ref(0)
 useShieldPolling()
 store.loadConfig()
 
@@ -21,6 +25,17 @@ onMounted(async () => {
     auditEntries.value = await invoke<AuditEntry[]>('get_recent_audit', { limit: 15 })
   } catch { /* outside Tauri */ }
 })
+
+async function runTest() {
+  testing.value = true; testProgress.value = 5; testResults.value = []
+  try {
+    const { invoke } = await import('@tauri-apps/api/core')
+    const iv = setInterval(() => { if (testProgress.value < 90) testProgress.value += 3 }, 500)
+    testResults.value = await invoke<TestResult[]>('run_shield_test')
+    clearInterval(iv); testProgress.value = 100
+  } catch { testResults.value = [] }
+  finally { setTimeout(() => { testing.value = false }, 1500) }
+}
 
 function verdictColor(v: string): string {
   if (v === 'BLOCKED' || v === 'LEAK_DETECTED') return 'var(--savia-error)'
@@ -54,8 +69,20 @@ function shortPath(p: string): string {
         <span class="summary-chip__count">{{ store.downCount }}</span>
         <span class="summary-chip__label">{{ t('shield.down') }}</span>
       </div>
+      <button class="shield-dashboard__test-btn" :disabled="testing" @click="runTest">
+        {{ testing ? t('shield.testing') : t('shield.runTest') }}
+      </button>
     </div>
-
+    <div v-if="testing" class="shield-dashboard__progress">
+      <div class="shield-dashboard__progress-bar" :style="{ width: testProgress + '%' }" />
+    </div>
+    <div v-if="testResults.length" class="shield-dashboard__test-results">
+      <div v-for="r in testResults" :key="r.layer" class="shield-dashboard__test-item">
+        <span class="shield-dashboard__test-dot" :class="r.passed ? 'shield-dashboard__test-dot--pass' : 'shield-dashboard__test-dot--fail'" />
+        <span class="shield-dashboard__test-layer">{{ r.layer }}. {{ r.name }}</span>
+        <span class="shield-dashboard__test-detail">{{ r.detail }}</span>
+      </div>
+    </div>
     <div class="shield-dashboard__grid">
       <LayerCard v-for="layer in store.layers" :key="layer.id" :layer="layer" />
     </div>
@@ -85,6 +112,18 @@ function shortPath(p: string): string {
 .summary-chip--active { background: var(--savia-success-container); color: var(--savia-success); }
 .summary-chip--degraded { background: var(--savia-warning-container); color: var(--savia-warning); }
 .summary-chip--down { background: var(--savia-error-container); color: var(--savia-error); }
+.shield-dashboard__test-btn { padding: 4px 12px; border: 1px solid var(--savia-primary); border-radius: var(--savia-radius); background: transparent; color: var(--savia-primary); font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; margin-left: auto; transition: all var(--savia-transition); }
+.shield-dashboard__test-btn:hover { background: var(--savia-primary); color: #fff; }
+.shield-dashboard__test-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.shield-dashboard__progress { height: 3px; background: var(--savia-surface-variant); border-radius: 2px; overflow: hidden; }
+.shield-dashboard__progress-bar { height: 100%; background: var(--savia-primary); transition: width 0.2s; border-radius: 2px; }
+.shield-dashboard__test-results { display: flex; flex-direction: column; gap: 2px; }
+.shield-dashboard__test-item { display: flex; align-items: center; gap: var(--space-2); padding: 3px var(--space-2); font-size: 11px; }
+.shield-dashboard__test-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.shield-dashboard__test-dot--pass { background: var(--savia-success); }
+.shield-dashboard__test-dot--fail { background: var(--savia-error); }
+.shield-dashboard__test-layer { font-weight: 600; min-width: 110px; }
+.shield-dashboard__test-detail { color: var(--savia-on-surface-variant); }
 .shield-dashboard__grid { display: flex; flex-direction: column; gap: var(--space-2); }
 .shield-dashboard__audit { padding: var(--space-3); }
 .shield-dashboard__audit-label { font-size: 10px; font-weight: 700; color: var(--savia-on-surface-variant); display: block; margin-bottom: var(--space-2); }

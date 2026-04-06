@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.20.0] — 2026-04-07
+
+Savia Monitor v2.1 + Nidos fix + 150-line rule scoping. Era 187.
+
+### Added
+- Shield behavioral test button with progress bar and per-layer results
+- shield_test.rs module: sends real data to daemon/Ollama for verification
+- Git/Nidos polling every 30s for real-time updates
+- Profile polling every 5s in Shield dashboard
+
+### Fixed
+- CREATE_NO_WINDOW on Windows: git/tasklist no longer flash console windows
+- workspace_dir() walks up from exe location + scans cloud-sync folders
+- Nidos: Windows/OneDrive path resolution and stash handling
+- App.vue TypeScript error (tab.label -> tab.key)
+- Shield daemon auth: X-Shield-Token header + correct "text" field name
+- i18n keys for test button (ES/EN)
+
+### Changed
+- 150-line rule scoped to .claude/ workspace files only — no longer applies to application source code (.rs, .ts, .vue, .py, etc.)
+- Cleaned 26 stale/merged local branches
+
 ## [4.19.0] — 2026-04-06
 
 Savia Monitor — Desktop control tower for orchestrating multiple Claude Code sessions. Era 186.
@@ -5763,6 +5785,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.19.0...v4.20.0
 [4.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.18.0...v4.19.0
 [4.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.17.0...v4.18.0
 [4.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.16.0...v4.17.0

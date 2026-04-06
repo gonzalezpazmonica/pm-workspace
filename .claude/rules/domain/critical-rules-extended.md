@@ -4,7 +4,7 @@
 
 9. **Secrets**: NUNCA en repo — vault o `config.local/` · `@.claude/rules/domain/context-placement-confirmation.md`
 10. **Infra**: NUNCA apply PRE/PRO sin aprobacion · `@.claude/rules/domain/infrastructure-as-code.md`
-11. **150 lineas max.** por fichero — dividir si crece
+11. **150 lineas max.** por fichero .md del workspace (.claude/) — NO aplica a codigo fuente de aplicaciones
 12. **README**: cambios en commands/agents/skills/rules → actualizar README.md + README.en.md
 13. **Git**: NUNCA commit/add en `main` — hook lo bloquea. Verificar rama antes de operar
 14. **CI Local**: antes de push → `bash scripts/validate-ci-local.sh`

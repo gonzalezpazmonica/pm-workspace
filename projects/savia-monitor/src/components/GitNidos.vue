@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { GitBranch, FolderGit2, Trash2, ChevronDown } from 'lucide-vue-next'
 import { useGitStore } from '@/stores/git'
 import { useI18n } from '@/locales/i18n'
@@ -9,11 +9,10 @@ const { t } = useI18n()
 const contextBranch = ref<string | null>(null)
 const contextPos = ref({ x: 0, y: 0 })
 
-onMounted(async () => {
-  await git.loadProjects()
-  await git.loadBranches()
-  await git.loadNidos()
-})
+let pollTimer: ReturnType<typeof setInterval> | null = null
+async function refreshAll() { await git.loadProjects(); await git.loadBranches(); await git.loadNidos() }
+onMounted(async () => { await refreshAll(); pollTimer = setInterval(refreshAll, 30_000) })
+onUnmounted(() => { if (pollTimer) clearInterval(pollTimer) })
 
 function onRightClick(e: MouseEvent, branchName: string, merged: boolean) {
   if (!merged) return

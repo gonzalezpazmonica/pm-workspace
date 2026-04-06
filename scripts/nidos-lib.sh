@@ -28,14 +28,12 @@ to_posix_path() {
 }
 
 resolve_nidos_dir() {
-  case "${OSTYPE:-}" in
-    msys*|cygwin*) NIDOS_DIR="${USERPROFILE:-$HOME}/.savia/nidos" ;;
-    *)             NIDOS_DIR="$HOME/.savia/nidos" ;;
-  esac
+  # $HOME is POSIX on all platforms (including Git Bash on Windows)
+  NIDOS_DIR="$HOME/.savia/nidos"
+  NIDOS_DIR_POSIX="$NIDOS_DIR"
   mkdir -p "$NIDOS_DIR"
   NIDOS_REGISTRY="$NIDOS_DIR/.registry"
   touch "$NIDOS_REGISTRY"
-  NIDOS_DIR_POSIX=$(to_posix_path "$NIDOS_DIR")
 }
 
 resolve_repo_root() {
@@ -76,16 +74,22 @@ nidos_usage() {
 nidos.sh — Savia Nidos: parallel terminal isolation
 
 Usage:
-  nidos.sh create <name> [--branch <branch>]   Create a new nido (worktree)
+  nidos.sh create <name> [--branch <b>] [--with-changes]  Create a new nido
   nidos.sh list                                 List active nidos
   nidos.sh enter <name>                         Show path to cd into
   nidos.sh remove <name> [--force]              Remove a nido
   nidos.sh status                               Detect current nido
   nidos.sh help                                 Show this help
 
+Options:
+  --with-changes   Stash uncommitted changes and apply them in the new nido
+  --branch <b>     Use a custom branch name (default: nido/<name>)
+  --force          Remove nido even with uncommitted changes
+
 Examples:
   nidos.sh create feat-auth                     # branch: nido/feat-auth
   nidos.sh create bugfix --branch fix/login     # custom branch
+  nidos.sh create my-fix --with-changes         # move dirty files to nido
   cd $(nidos.sh enter feat-auth)                # navigate to nido
   nidos.sh remove feat-auth                     # clean up after merge
 

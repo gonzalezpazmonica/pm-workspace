@@ -107,7 +107,7 @@ onMounted(() => {
     <nav class="tabbar">
       <button
         v-for="(tab, i) in tabs"
-        :key="tab.label"
+        :key="tab.key"
         class="tabbar__tab"
         :class="{ 'tabbar__tab--active': activeTab === i }"
         @click="activeTab = i"

@@ -5,7 +5,8 @@ mod config;
 mod git;
 mod logs;
 mod sessions;
-mod shield;
+pub mod shield;
+mod shield_test;
 mod workflow;
 
 use tauri::{
@@ -25,6 +26,7 @@ fn main() {
         .plugin(tauri_plugin_notification::init())
         .invoke_handler(tauri::generate_handler![
             shield::get_shield_health,
+            shield_test::run_shield_test,
             config::get_shield_enabled,
             config::set_shield_enabled,
             config::get_hook_profile,

@@ -29,14 +29,14 @@ fn is_pid_alive(pid: u32) -> bool {
     #[cfg(target_os = "windows")]
     {
         use std::process::Command;
-        Command::new("tasklist")
-            .args(["/FI", &format!("PID eq {}", pid), "/NH", "/FO", "CSV"])
-            .output()
-            .map(|o| {
-                let out = String::from_utf8_lossy(&o.stdout);
-                out.contains(&pid.to_string())
-            })
-            .unwrap_or(false)
+        use std::os::windows::process::CommandExt;
+        let mut cmd = Command::new("tasklist");
+        cmd.args(["/FI", &format!("PID eq {}", pid), "/NH", "/FO", "CSV"]);
+        cmd.creation_flags(0x08000000);
+        cmd.output().map(|o| {
+            let out = String::from_utf8_lossy(&o.stdout);
+            out.contains(&pid.to_string())
+        }).unwrap_or(false)
     }
     #[cfg(not(target_os = "windows"))]
     {
