@@ -20,7 +20,7 @@ export function useShieldPolling() {
       const { listen } = await import('@tauri-apps/api/event')
 
       unlisten = (await listen<ShieldHealth>('shield-health', (event) => {
-        store.updateHealth(event.payload)
+        store.updateHealth(event.payload); store.loadConfig()
       })) as unknown as () => void
 
       // Also do an initial load
@@ -28,8 +28,10 @@ export function useShieldPolling() {
     } catch {
       // Not running inside Tauri — fall back to mock polling
       await store.loadHealth()
+      await store.loadConfig()
       pollTimer = setInterval(() => {
         store.loadHealth()
+        store.loadConfig()
       }, 5000)
     }
   }

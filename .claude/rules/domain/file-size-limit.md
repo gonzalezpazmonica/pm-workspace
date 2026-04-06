@@ -2,34 +2,26 @@
 globs: [".claude/commands/**", ".claude/agents/**", ".claude/skills/**", ".claude/rules/**"]
 ---
 
-# Regla: Límite de 150 líneas por fichero
+# Regla: Limite de 150 lineas — Solo configuracion del workspace
 
-> Aplicable a TODO fichero creado o modificado dentro de pm-workspace.
+Aplica UNICAMENTE a ficheros .md de configuracion de pm-workspace. NO aplica a codigo fuente de aplicaciones.
 
----
+## Alcance (donde SI aplica)
 
-## Límite
+- `.claude/commands/*.md` — comandos slash
+- `.claude/rules/**/*.md` — reglas de dominio y lenguaje
+- `.claude/skills/**/SKILL.md` — skills
+- `.claude/agents/*.md` — agentes
+- `CLAUDE.md` — raiz y por proyecto
 
-Ningún fichero debe superar **150 líneas** de contenido.
-Esto aplica a código fuente, reglas, convenciones, documentación, agentes, skills, scripts, tests y cualquier otro tipo de fichero.
+## Donde NO aplica
 
-## Qué hacer cuando un fichero supera el límite
+Codigo fuente de aplicaciones: `*.rs`, `*.ts`, `*.vue`, `*.py`, `*.go`, `*.java`, `*.sh`, `*.json`, `*.toml`, `*.yaml`, `*.css`. Ni tests, ni configs de build, ni scripts. El codigo fuente sigue metricas de su language pack (complejidad ciclomatica, longitud de metodo), no el limite de 150 lineas.
 
-1. **Código fuente** → Extraer clases/funciones a ficheros separados siguiendo SRP (Single Responsibility Principle).
-2. **Documentación (.md)** → Dividir en secciones enlazadas (como `docs/readme/`).
-3. **Reglas y convenciones** → Separar en ficheros temáticos dentro de `.claude/rules/`.
-4. **Tests** → Un fichero por clase/módulo bajo prueba; compartir fixtures en helpers.
-5. **Agentes** → Si el prompt crece, externalizar tablas de referencia a ficheros auxiliares.
+## Causa raiz de este cambio
 
-## Excepción: Software legacy heredado
+La regla original decia "aplicable a cada fichero". Esto causaba que Claude recortara codigo fuente de aplicaciones (Rust, Vue, TypeScript) a 150 lineas, eliminando funcionalidad implementada (botones, tests, modulos enteros). El alcance correcto siempre fue ficheros de configuracion del workspace, no codigo de aplicaciones.
 
-Los ficheros de **código legacy externo** que no hayan sido creados dentro de pm-workspace y nos lleguen heredados **no se refactorizan** para cumplir este límite.
+## Verificacion
 
-Solo se refactorizará legacy si el PM lo solicita expresamente mediante una tarea en el backlog.
-
-> **Criterio de legacy**: fichero que existía antes de incorporar el proyecto a pm-workspace y no fue generado por ningún agente ni desarrollador del equipo actual.
-
-## Verificación
-
-- `commit-guardian` debe comprobar que ningún fichero nuevo o modificado en el commit exceda 150 líneas (excluir legacy).
-- Si un fichero existente propio ya supera el límite al modificarlo, refactorizarlo como parte del cambio.
+`agent-hook-premerge.sh` ya filtra correctamente por `.claude/commands|rules|agents|skills`. `compliance-gate.sh` solo verifica en git commit. Ambos hooks son coherentes con esta regla.

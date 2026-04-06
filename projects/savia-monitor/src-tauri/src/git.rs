@@ -1,6 +1,8 @@
 use serde::Serialize;
 use std::path::PathBuf;
 use std::process::Command;
+#[cfg(target_os = "windows")]
+use std::os::windows::process::CommandExt;
 
 #[derive(Serialize, Clone)]
 pub struct BranchInfo {
@@ -20,11 +22,7 @@ pub struct GitProject {
     pub has_changes: bool,
 }
 
-fn workspace_dir() -> PathBuf {
-    std::env::var("CLAUDE_PROJECT_DIR")
-        .map(PathBuf::from)
-        .unwrap_or_else(|_| std::env::current_dir().unwrap_or_else(|_| PathBuf::from(".")))
-}
+fn workspace_dir() -> PathBuf { crate::config::workspace_dir() }
 
 fn classify_group(name: &str) -> String {
     let clean = name
@@ -46,12 +44,11 @@ fn classify_group(name: &str) -> String {
 }
 
 fn git_cmd(args: &[&str], dir: &PathBuf) -> String {
-    Command::new("git")
-        .args(args)
-        .current_dir(dir)
-        .output()
-        .map(|o| String::from_utf8_lossy(&o.stdout).to_string())
-        .unwrap_or_default()
+    let mut cmd = Command::new("git");
+    cmd.args(args).current_dir(dir);
+    #[cfg(target_os = "windows")]
+    cmd.creation_flags(0x08000000);
+    cmd.output().map(|o| String::from_utf8_lossy(&o.stdout).to_string()).unwrap_or_default()
 }
 
 pub fn git_cmd_ws(args: &[&str]) -> String {
@@ -150,11 +147,11 @@ pub fn delete_branch(branch: String, project_path: Option<String>) -> Result<Str
         return Err(format!("Invalid branch name: {}", branch));
     }
     let dir = project_path.map(PathBuf::from).unwrap_or_else(workspace_dir);
-    let output = Command::new("git")
-        .args(["branch", "-d", &branch])
-        .current_dir(&dir)
-        .output()
-        .map_err(|e| e.to_string())?;
+    let mut cmd = Command::new("git");
+    cmd.args(["branch", "-d", &branch]).current_dir(&dir);
+    #[cfg(target_os = "windows")]
+    cmd.creation_flags(0x08000000);
+    let output = cmd.output().map_err(|e| e.to_string())?;
     if output.status.success() {
         Ok(format!("Deleted branch {}", branch))
     } else {
