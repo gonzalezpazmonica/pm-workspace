@@ -1,7 +1,7 @@
 #!/bin/bash
 set -uo pipefail
 # nidos.sh — Savia Nidos: parallel terminal isolation via named git worktrees
-# Usage: nidos.sh create <name> [--branch <b>] | list | enter <name> | remove <name> [--force] | status | help
+# Usage: nidos.sh create <name> [--branch <b>] [--with-changes] | list | enter <name> | remove <name> [--force] | status | help
 
 SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=/dev/null
@@ -10,10 +10,11 @@ source "$SCRIPTS_DIR/savia-compat.sh" 2>/dev/null || true
 source "$SCRIPTS_DIR/nidos-lib.sh"
 
 do_create() {
-  local name="" branch=""
+  local name="" branch="" with_changes=false
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --branch) branch="${2:-}"; shift 2 ;;
+      --with-changes) with_changes=true; shift ;;
       -*) echo "Error: unknown option $1" >&2; exit 1 ;;
       *)  name="$1"; shift ;;
     esac
@@ -26,16 +27,51 @@ do_create() {
     exit 1
   fi
 
+  # stash dirty files before worktree creation if requested
+  local stash_created=false
+  if [[ "$with_changes" == true ]]; then
+    local dirty
+    dirty=$(git -C "$REPO_ROOT" status --porcelain 2>/dev/null | tr -d '\r')
+    if [[ -n "$dirty" ]]; then
+      local stash_count_before stash_count_after
+      stash_count_before=$(git -C "$REPO_ROOT" stash list 2>/dev/null | wc -l | tr -d ' \r')
+      echo "[nidos] stash push (nido:${name})..."
+      # avoid -u: OneDrive locks empty dirs, causing partial cleanup failures
+      git -C "$REPO_ROOT" stash push -m "nido:${name}" 2>&1 | tr -d '\r'
+      stash_count_after=$(git -C "$REPO_ROOT" stash list 2>/dev/null | wc -l | tr -d ' \r')
+      if [[ "$stash_count_after" -gt "$stash_count_before" ]]; then
+        stash_created=true
+      else
+        echo "Error: stash was not created" >&2
+        exit 1
+      fi
+    fi
+  fi
+
   local nido_path="$NIDOS_DIR/$name"
   echo "Creating nido '$name' on branch '$branch'..."
   git -C "$REPO_ROOT" worktree add "$nido_path" -b "$branch" 2>&1 | tr -d '\r'
 
   if [[ $? -ne 0 ]] || [[ ! -d "$nido_path" ]]; then
     echo "Error: worktree creation failed" >&2
+    if [[ "$stash_created" == true ]]; then
+      echo "[nidos] stash pop (rollback)..."
+      git -C "$REPO_ROOT" stash pop 2>&1 | tr -d '\r'
+    fi
     exit 1
   fi
 
   echo "${name}=${branch}" >> "$NIDOS_REGISTRY"
+
+  # pop stash in the new nido worktree
+  if [[ "$stash_created" == true ]]; then
+    echo "[nidos] applying changes to nido..."
+    git -C "$nido_path" stash pop 2>&1 | tr -d '\r'
+    if [[ $? -ne 0 ]]; then
+      echo "Warning: stash pop had conflicts. Resolve them in the nido." >&2
+    fi
+  fi
+
   echo "Nido '$name' created on branch '$branch' at $nido_path"
   echo "To start working:  cd \"$nido_path\""
 }
