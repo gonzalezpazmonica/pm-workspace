@@ -17,6 +17,8 @@ Comandos:
   status               Mostrar estado del corpus
   search <término>     Buscar en legislación vigente
   search-article <BOE-ID> <artículo>  Buscar artículo específico
+  history <BOE-ID>     Historial de reformas de una norma
+  check-status <BOE-ID> Verificar si una norma está vigente o derogada
 
 Variables de entorno:
   LEGALIZE_ES_PATH     Ruta del corpus (default: ~/.savia/legalize-es)
@@ -131,6 +133,67 @@ cmd_search_article() {
   grep -A 30 -i "$article" "$file" 2>/dev/null | head -40
 }
 
+cmd_history() {
+  local boe_id="$1"
+  if [[ -z "$boe_id" ]]; then
+    echo "❌ Uso: legalize-es.sh history BOE-A-2018-16673"
+    return 1
+  fi
+
+  local file
+  file=$(find "$LEGALIZE_ES_DEFAULT_PATH" -name "${boe_id}.md" 2>/dev/null | head -1)
+  if [[ -z "$file" ]]; then
+    echo "❌ Norma $boe_id no encontrada"
+    return 1
+  fi
+
+  echo "📜 Historial de reformas: $boe_id"
+  echo "   $(grep "^title:" "$file" | head -1 | sed 's/^title: *//' | sed 's/^"//' | sed 's/"$//')"
+  echo "---"
+  # Verificar si es shallow clone (--depth=1)
+  if [[ -f "$LEGALIZE_ES_DEFAULT_PATH/.git/shallow" ]]; then
+    echo "⚠️  Clone superficial — solo último commit disponible."
+    echo "   Para historial completo: git -C $LEGALIZE_ES_DEFAULT_PATH fetch --unshallow"
+    echo ""
+  fi
+  # git log con fecha BOE real (fecha del commit = fecha de publicación BOE)
+  git -C "$LEGALIZE_ES_DEFAULT_PATH" log --format="%ci | %s" -- "${file#$LEGALIZE_ES_DEFAULT_PATH/}" 2>/dev/null | head -20
+}
+
+cmd_check_status() {
+  local boe_id="$1"
+  if [[ -z "$boe_id" ]]; then
+    echo "❌ Uso: legalize-es.sh check-status BOE-A-2018-16673"
+    return 1
+  fi
+
+  local file
+  file=$(find "$LEGALIZE_ES_DEFAULT_PATH" -name "${boe_id}.md" 2>/dev/null | head -1)
+  if [[ -z "$file" ]]; then
+    echo "❌ Norma $boe_id no encontrada"
+    return 1
+  fi
+
+  local title status rank last_updated
+  title=$(grep "^title:" "$file" | head -1 | sed 's/^title: *//' | sed 's/^"//' | sed 's/"$//')
+  status=$(grep "^status:" "$file" | head -1 | sed 's/^status: *//' | sed 's/^"//' | sed 's/"$//')
+  rank=$(grep "^rank:" "$file" | head -1 | sed 's/^rank: *//' | sed 's/^"//' | sed 's/"$//')
+  last_updated=$(grep "^last_updated:" "$file" | head -1 | sed 's/^last_updated: *//' | sed 's/^"//' | sed 's/"$//')
+
+  local status_icon
+  case "$status" in
+    in_force)   status_icon="✅ VIGENTE" ;;
+    repealed)   status_icon="❌ DEROGADA" ;;
+    *)          status_icon="⚠️ $status" ;;
+  esac
+
+  echo "⚖️  $boe_id"
+  echo "   Título: $title"
+  echo "   Estado: $status_icon"
+  echo "   Rango: $rank"
+  echo "   Última actualización: $last_updated"
+}
+
 # --- Main ---
 case "${1:-}" in
   install)        cmd_install ;;
@@ -138,5 +201,7 @@ case "${1:-}" in
   status)         cmd_status ;;
   search)         cmd_search "${2:-}" "${3:-es}" ;;
   search-article) cmd_search_article "${2:-}" "${3:-}" ;;
+  history)        cmd_history "${2:-}" ;;
+  check-status)   cmd_check_status "${2:-}" ;;
   *)              usage ;;
 esac
