@@ -77,6 +77,13 @@ Esto evita que el análisis intermedio contamine el contexto principal.
 - Errores encontrados y cómo se resolvieron
 - Último comando ejecutado y su resultado
 
+### REGLA INVIOLABLE: Integridad de pares tool [SPEC-088]
+**NUNCA** eliminar un mensaje tool_use sin eliminar tambien su tool_result
+correspondiente (y viceversa). La API rechaza pares rotos.
+Al dropear mensajes, siempre eliminar pares completos.
+Si un miembro del par esta en Tier C (descartar) y el otro en Tier A
+(preservar), promover AMBOS al Tier del miembro preservado.
+
 ## 3b. Pre-compact extraction [SPEC-016]
 
 ANTES de ejecutar /compact, Savia extrae y persiste informacion valiosa:
