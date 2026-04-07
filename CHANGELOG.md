@@ -12,14 +12,22 @@ Confidentiality hardening: CHANGELOG sanitization + gitignored content leak prev
 ### Added
 - **Hook** `block-gitignored-references.sh`: blocks writing gitignored paths, audit scores, vulnerability counts, and internal metrics to public (N1) files. 8 detection patterns, security tier
 - **BATS** `test-block-gitignored-references.bats`: 14 tests — 8 blocking + 6 allowing patterns
-- **Session journal**: crash recovery mechanism for session continuity (`session-journal.md` in auto-memory)
+- **BATS** `test-tdd-gate.bats`: 20 tests — TDD enforcement (SPEC-081)
+- **BATS** `test-plan-gate.bats`: 14 tests — spec requirement warnings (SPEC-081)
+- **BATS** `test-compliance-gate.bats`: 13 tests — compliance runner (SPEC-081)
+- **BATS** `test-block-project-whitelist.bats`: 13 tests — gitignore privacy protection (SPEC-081)
+- **BATS** `test-block-infra-destructive.bats`: 20 tests — IaC safety (SPEC-081)
+- **Skill** `savia-school/SKILL.md`: orphan fix, 12 school commands documented (SPEC-082)
+- **Session journal**: crash recovery mechanism for session continuity
+- **SPECs** 081, 082, 085: proposed from pre-audit findings
 
 ### Fixed
 - **CHANGELOG.md**: removed all leaked internal metrics (quality scores, audit results, debt-scores, vulnerability counts, output paths with dates, .human-maps details per project)
+- **WORKSPACE.ctx**: removed private project names from N1 tracked file
 
 ### Changed
 - **settings.json**: registered `block-gitignored-references.sh` as PreToolUse hook (Edit|Write)
-- README counters updated across all 9 language variants (49 hooks, 125 test suites)
+- README counters updated across all 9 language variants (90 skills, 49 hooks, 130 test suites)
 
 ## [4.26.0] — 2026-04-07
 
