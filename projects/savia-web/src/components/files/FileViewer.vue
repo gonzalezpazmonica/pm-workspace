@@ -1,7 +1,32 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick, watch } from 'vue'
 import { Copy, Eye, Code } from 'lucide-vue-next'
 import { marked } from 'marked'
+import hljs from 'highlight.js/lib/core'
+import javascript from 'highlight.js/lib/languages/javascript'
+import typescript from 'highlight.js/lib/languages/typescript'
+import python from 'highlight.js/lib/languages/python'
+import bash from 'highlight.js/lib/languages/bash'
+import json from 'highlight.js/lib/languages/json'
+import yaml from 'highlight.js/lib/languages/yaml'
+import xml from 'highlight.js/lib/languages/xml'
+import css from 'highlight.js/lib/languages/css'
+import sql from 'highlight.js/lib/languages/sql'
+import 'highlight.js/styles/github-dark.css'
+
+hljs.registerLanguage('javascript', javascript)
+hljs.registerLanguage('js', javascript)
+hljs.registerLanguage('typescript', typescript)
+hljs.registerLanguage('ts', typescript)
+hljs.registerLanguage('python', python)
+hljs.registerLanguage('bash', bash)
+hljs.registerLanguage('sh', bash)
+hljs.registerLanguage('json', json)
+hljs.registerLanguage('yaml', yaml)
+hljs.registerLanguage('xml', xml)
+hljs.registerLanguage('html', xml)
+hljs.registerLanguage('css', css)
+hljs.registerLanguage('sql', sql)
 
 const props = defineProps<{ content: string; language?: string; filename: string; editable?: boolean }>()
 const emit = defineEmits<{ save: [content: string] }>()
@@ -14,8 +39,28 @@ const editContent = ref('')
 const isMarkdown = computed(() => props.filename.endsWith('.md'))
 const lineCount = computed(() => props.content.split('\n').length)
 
-// Configure marked for LinkedIn-style rendering
-marked.setOptions({ gfm: true, breaks: false })
+// Configure marked for LinkedIn-style rendering with syntax highlighting
+const renderer = new marked.Renderer()
+renderer.code = ({ text, lang }: { text: string; lang?: string }) => {
+  const language = lang && hljs.getLanguage(lang) ? lang : 'plaintext'
+  const highlighted = language !== 'plaintext'
+    ? hljs.highlight(text, { language }).value
+    : text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  const lines = text.split('\n').length
+  const lineNums = lines > 5
+    ? `<span class="code-lines">${Array.from({ length: lines }, (_, i) => i + 1).join('\n')}</span>`
+    : ''
+  return `<div class="code-block-wrap"><div class="code-block-header"><span class="code-lang">${lang || ''}</span><button class="code-copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block-wrap').querySelector('code').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button></div><pre><code class="hljs language-${language}">${lineNums}${highlighted}</code></pre></div>`
+}
+renderer.link = ({ href, text }: { href: string; text: string }) => {
+  const isExternal = href.startsWith('http')
+  const target = isExternal ? ' target="_blank" rel="noopener"' : ''
+  return `<a href="${href}"${target}>${text}</a>`
+}
+renderer.image = ({ href, text }: { href: string; text: string }) => {
+  return `<img src="${href}" alt="${text}" loading="lazy" style="cursor:pointer" onclick="window.open(this.src,'_blank')" />`
+}
+marked.setOptions({ gfm: true, breaks: false, renderer })
 
 const frontmatter = computed(() => {
   if (!isMarkdown.value || !props.content.startsWith('---')) return null
@@ -47,14 +92,55 @@ async function copyToClipboard() {
   setTimeout(() => { copied.value = false }, 1500)
 }
 
+const editorRef = ref<HTMLTextAreaElement | null>(null)
+const hasUnsaved = ref(false)
+const DRAFT_KEY = computed(() => `savia:draft:${props.filename}`)
+
 function startEdit() {
-  editContent.value = props.content
+  const draft = localStorage.getItem(DRAFT_KEY.value)
+  editContent.value = draft && draft !== props.content ? draft : props.content
+  hasUnsaved.value = draft !== null && draft !== props.content
   editing.value = true
 }
 
 function saveEdit() {
   emit('save', editContent.value)
   editing.value = false
+  hasUnsaved.value = false
+  localStorage.removeItem(DRAFT_KEY.value)
+}
+
+// Auto-save draft every 30s
+let draftTimer: ReturnType<typeof setInterval> | null = null
+watch(editing, (v) => {
+  if (v) {
+    draftTimer = setInterval(() => {
+      if (editContent.value !== props.content) {
+        localStorage.setItem(DRAFT_KEY.value, editContent.value)
+        hasUnsaved.value = true
+      }
+    }, 30000)
+  } else if (draftTimer) { clearInterval(draftTimer); draftTimer = null }
+})
+
+// Toolbar: insert markdown syntax around selection
+function insertMd(before: string, after = '') {
+  const el = editorRef.value
+  if (!el) return
+  const start = el.selectionStart
+  const end = el.selectionEnd
+  const selected = editContent.value.slice(start, end) || 'text'
+  editContent.value = editContent.value.slice(0, start) + before + selected + after + editContent.value.slice(end)
+  nextTick(() => { el.focus(); el.setSelectionRange(start + before.length, start + before.length + selected.length) })
+}
+function insertLine(prefix: string) {
+  const el = editorRef.value
+  if (!el) return
+  const pos = el.selectionStart
+  const before = editContent.value.slice(0, pos)
+  const lineStart = before.lastIndexOf('\n') + 1
+  editContent.value = editContent.value.slice(0, lineStart) + prefix + editContent.value.slice(lineStart)
+  nextTick(() => { el.focus(); el.setSelectionRange(pos + prefix.length, pos + prefix.length) })
 }
 </script>
 
@@ -67,18 +153,38 @@ function saveEdit() {
         <component :is="showRendered ? Code : Eye" :size="14" />
         {{ showRendered ? 'Raw' : 'Rendered' }}
       </button>
+      <span v-if="hasUnsaved" class="unsaved-dot" title="Unsaved changes" />
       <button v-if="editable && !editing" class="viewer-btn edit-btn" @click="startEdit">Edit</button>
       <button class="viewer-btn" @click="copyToClipboard">
         <Copy :size="14" /> {{ copied ? 'Copied!' : 'Copy' }}
       </button>
     </div>
 
-    <!-- Edit mode -->
+    <!-- Edit mode with toolbar -->
     <div v-if="editing" class="editor-wrap">
-      <textarea v-model="editContent" class="editor-textarea" />
+      <div class="editor-toolbar">
+        <button @click="insertMd('**', '**')" title="Bold">B</button>
+        <button @click="insertMd('*', '*')" title="Italic"><em>I</em></button>
+        <button @click="insertMd('~~', '~~')" title="Strikethrough"><s>S</s></button>
+        <span class="toolbar-sep" />
+        <button @click="insertLine('# ')" title="H1">H1</button>
+        <button @click="insertLine('## ')" title="H2">H2</button>
+        <button @click="insertLine('### ')" title="H3">H3</button>
+        <span class="toolbar-sep" />
+        <button @click="insertLine('- ')" title="Bullet list">&#8226;</button>
+        <button @click="insertLine('1. ')" title="Numbered list">1.</button>
+        <button @click="insertLine('- [ ] ')" title="Checklist">&#9744;</button>
+        <span class="toolbar-sep" />
+        <button @click="insertMd('[', '](url)')" title="Link">&#128279;</button>
+        <button @click="insertMd('`', '`')" title="Inline code">&lt;/&gt;</button>
+        <button @click="insertMd('\n```\n', '\n```\n')" title="Code block">{ }</button>
+        <button @click="insertLine('---\n')" title="Horizontal rule">&#8213;</button>
+      </div>
+      <textarea ref="editorRef" v-model="editContent" class="editor-textarea" />
       <div class="editor-actions">
         <button class="btn-save" @click="saveEdit">Save</button>
         <button class="btn-cancel" @click="editing = false">Cancel</button>
+        <span v-if="hasUnsaved" class="draft-note">Draft auto-saved</span>
       </div>
     </div>
 
@@ -144,7 +250,24 @@ function saveEdit() {
 .viewer-markdown :deep(tr:nth-child(even)) { background: var(--savia-surface-variant); }
 .viewer-markdown :deep(code) { background: var(--savia-surface-variant); padding: 2px 6px; border-radius: 3px; font-size: 13px; }
 .viewer-markdown :deep(pre) { background: var(--savia-background); padding: 12px; border-radius: var(--savia-radius); overflow-x: auto; margin: 12px 0; }
-.viewer-markdown :deep(pre code) { background: none; padding: 0; font-size: 13px; line-height: 1.5; }
+.viewer-markdown :deep(pre code) { background: none; padding: 0; font-size: 13px; line-height: 1.5; display: flex; }
+.viewer-markdown :deep(.code-block-wrap) { position: relative; margin: 12px 0; }
+.viewer-markdown :deep(.code-block-header) {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 12px; background: var(--savia-surface-variant); border-radius: var(--savia-radius) var(--savia-radius) 0 0;
+  font-size: 11px; color: var(--savia-outline);
+}
+.viewer-markdown :deep(.code-copy-btn) {
+  padding: 2px 8px; border: none; border-radius: 3px; font-size: 11px;
+  background: var(--savia-outline); color: white; cursor: pointer;
+}
+.viewer-markdown :deep(.code-copy-btn:hover) { opacity: 0.8; }
+.viewer-markdown :deep(.code-block-wrap pre) { border-radius: 0 0 var(--savia-radius) var(--savia-radius); margin: 0; }
+.viewer-markdown :deep(.code-lines) {
+  min-width: 32px; padding-right: 12px; text-align: right; color: var(--savia-outline);
+  user-select: none; border-right: 1px solid var(--savia-surface-variant); margin-right: 12px;
+  white-space: pre; font-size: 12px;
+}
 .viewer-markdown :deep(img) { max-width: 100%; border-radius: var(--savia-radius); margin: 8px 0; }
 .viewer-markdown :deep(a) { color: var(--savia-primary); text-decoration: none; }
 .viewer-markdown :deep(a:hover) { text-decoration: underline; }
@@ -159,10 +282,27 @@ function saveEdit() {
 .line-num { min-width: 44px; padding: 0 8px; text-align: right; color: var(--savia-outline); user-select: none; border-right: 1px solid var(--savia-surface-variant); }
 .line-text { padding: 0 12px; white-space: pre; flex: 1; }
 
+/* Unsaved indicator */
+.unsaved-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--savia-error, #e53935); }
+.draft-note { font-size: 11px; color: var(--savia-outline); margin-left: auto; }
+
+/* Editor toolbar */
+.editor-toolbar {
+  display: flex; gap: 2px; padding: 6px 8px; border-bottom: 1px solid var(--savia-surface-variant);
+  background: var(--savia-surface-variant); flex-wrap: wrap;
+}
+.editor-toolbar button {
+  padding: 4px 8px; border: none; border-radius: 3px; background: transparent;
+  cursor: pointer; font-size: 12px; font-weight: 600; color: var(--savia-on-surface);
+  min-width: 28px; text-align: center; font-family: inherit;
+}
+.editor-toolbar button:hover { background: var(--savia-outline); color: white; }
+.toolbar-sep { width: 1px; background: var(--savia-outline); margin: 2px 4px; opacity: 0.3; }
+
 /* Editor */
-.editor-wrap { padding: 12px; }
-.editor-textarea { width: 100%; min-height: 300px; font-family: monospace; font-size: 13px; padding: 12px; border: 1px solid var(--savia-outline); border-radius: var(--savia-radius); resize: vertical; background: var(--savia-background); color: var(--savia-on-surface); }
-.editor-actions { display: flex; gap: 8px; margin-top: 8px; }
+.editor-wrap { padding: 0; border: 1px solid var(--savia-surface-variant); border-radius: var(--savia-radius); margin: 12px; overflow: hidden; }
+.editor-textarea { width: 100%; min-height: 300px; font-family: monospace; font-size: 13px; padding: 12px; border: none; resize: vertical; background: var(--savia-background); color: var(--savia-on-surface); box-sizing: border-box; }
+.editor-actions { display: flex; gap: 8px; padding: 8px 12px; border-top: 1px solid var(--savia-surface-variant); align-items: center; }
 .btn-save { padding: 6px 16px; background: var(--savia-primary); color: white; border: none; border-radius: var(--savia-radius); cursor: pointer; }
 .btn-cancel { padding: 6px 16px; background: var(--savia-surface-variant); border: none; border-radius: var(--savia-radius); cursor: pointer; }
 </style>

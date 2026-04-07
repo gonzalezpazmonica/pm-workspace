@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.23.0] — 2026-04-07
+
+SPEC-078 + Savia Web Phase 2.5 (viewer/editor). Era 190.
+
+### Added
+- **Hook** `dual-estimation-gate.sh`: warns if spec/PBI missing dual estimation scale (SPEC-078 Phase 1)
+- **FileViewer** syntax highlighting via highlight.js (10 languages: JS, TS, Python, Bash, JSON, YAML, XML, CSS, SQL, C#)
+- **FileViewer** copy button + language label on code blocks, line numbers for blocks > 5 lines
+- **FileViewer** external links in new tab, lazy-load images, click-to-zoom
+- **Editor** toolbar: bold, italic, strikethrough, H1-H3, bullet/numbered/checklist, link, code, horizontal rule
+- **Editor** auto-save draft to localStorage every 30s with unsaved indicator
+
+### Verified
+- SPEC-019 (Memory Contradiction): already implemented (supersedes + rev)
+- SPEC-048 (Dev Session Discard): already implemented (11 tests pass)
+- Phase 2.5 backlog-filters, backlog-persistence, create-project, project-context-switch: all already implemented
+
 ## [4.22.0] — 2026-04-07
 
 SPEC-079 Phase 2 + SPEC-020 completion. Era 189.
@@ -5815,6 +5832,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.22.0...v4.23.0
 [4.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.21.0...v4.22.0
 [4.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.20.0...v4.21.0
 [4.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.19.0...v4.20.0

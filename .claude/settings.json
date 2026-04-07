@@ -229,6 +229,12 @@
             "async": true,
             "timeout": 60,
             "statusMessage": "AST Quality Gate: analizando código..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/dual-estimation-gate.sh",
+            "timeout": 5,
+            "statusMessage": "Dual Estimation: verificando escalas..."
           }
         ]
       },
