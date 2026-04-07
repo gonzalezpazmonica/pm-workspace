@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.26.0] — 2026-04-07
+
+Pre-audit: 5 BATS suites for critical hooks + audit report. Era 193.
+
+### Added
+- **BATS** `test-block-credential-leak.bats`: 10 tests (secrets, API keys, tokens, connection strings)
+- **BATS** `test-block-force-push.bats`: 12 tests (force push, main protection, amend, reset --hard)
+- **BATS** `test-validate-bash-global.bats`: 12 tests (rm -rf, chmod 777, curl|bash, PR auto-approve)
+- **BATS** `test-scope-guard.bats`: 8 tests (scope warnings, graceful degradation)
+- **BATS** `test-session-init.bats`: 8 tests (startup, PAT check, profile detection, git branch)
+- **Audit report** `output/audits/20260407-pre-audit-workspace.md`: 8.8/10 score, 0 critical findings
+
 ## [4.25.0] — 2026-04-07
 
 SPEC-080 LLM Training Pipeline + SPEC-022 + SPEC-032. Era 192.
@@ -5845,6 +5857,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.25.0...v4.26.0
 [4.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.24.0...v4.25.0
 [4.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.23.0...v4.24.0
 [4.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.22.0...v4.23.0
