@@ -210,6 +210,14 @@ scripts/confidentiality-scan.sh   7-check scanner: blocklist, credentials, email
 /compliance-report {repo|path}   Compliance report with sector-specific findings
 ```
 
+## Legal Compliance — Spanish Legislation (1 command)
+```
+/legal-audit [--project P]        Audit against 12,235 consolidated Spanish laws (legalize-es/BOE)
+  --scope rules|contract|architecture|policy|pbi|full
+  --domain datos|laboral|consumo|ciber|all
+  --ccaa es-ct|es-md|es-an|...    Include regional legislation
+```
+
 ## Performance Audit (3 commands)
 ```
 /perf-audit {path}               Static performance audit: hotspots, async, complexity
@@ -338,6 +346,12 @@ The workspace includes 43 specialized agents organized in 5 groups, each optimiz
 | `word-digest` | Opus 4.6 | DOCX: text, tables, images (python-docx), 4-phase with context update |
 | `excel-digest` | Opus 4.6 | XLSX: structure, formulas→business rules (openpyxl), 4-phase pipeline |
 | `pptx-digest` | Opus 4.6 | PPTX: slides, presenter notes, charts (python-pptx), 4-phase pipeline |
+
+**Legal compliance agent:**
+
+| Agent | Model | When to use |
+|---|---|---|
+| `legal-compliance` | Opus 4.6 | Audit against consolidated Spanish legislation (legalize-es, 12,235 BOE norms) |
 
 ### SDD flow with parallel agents
 

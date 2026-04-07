@@ -56,6 +56,7 @@ case "${1:-help}" in
     search) shift; cmd_search "$@" ;;
     context) shift; cmd_context "$@" ;;
     stats) cmd_stats ;;
+    prune) cmd_prune ;;
     entity) shift; cmd_entity "$@" ;;
     suggest-topic) shift; cmd_suggest_topic "$@" ;;
     session-summary) shift; cmd_session_summary "$@" ;;

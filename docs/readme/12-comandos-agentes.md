@@ -210,6 +210,14 @@ scripts/confidentiality-scan.sh   Scanner de 7 checks: blocklist, credentials, e
 /compliance-report {repo|path}   Informe de compliance por sector
 ```
 
+## Compliance Legal — Legislación Española (1 comando)
+```
+/legal-audit [--project P]        Auditoría legal contra 12.235 normas del BOE (legalize-es)
+  --scope rules|contract|architecture|policy|pbi|full
+  --domain datos|laboral|consumo|ciber|all
+  --ccaa es-ct|es-md|es-an|...    Incluir normativa autonómica
+```
+
 ## Auditoría de Rendimiento (3 comandos)
 ```
 /perf-audit {path}               Auditoría estática de rendimiento: hotspots, async, complejidad
@@ -358,6 +366,12 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 | `word-digest` | Opus 4.6 | DOCX: texto, tablas, imágenes (python-docx), 4 fases con actualización |
 | `excel-digest` | Opus 4.6 | XLSX: estructura, fórmulas→reglas de negocio (openpyxl), 4 fases |
 | `pptx-digest` | Opus 4.6 | PPTX: slides, notas presentador, gráficos (python-pptx), 4 fases |
+
+**Agente de compliance legal:**
+
+| Agente | Modelo | Cuándo se usa |
+|---|---|---|
+| `legal-compliance` | Opus 4.6 | Auditoría contra legislación española consolidada (legalize-es, 12.235 normas BOE) |
 
 ### Flujo SDD con agentes en paralelo
 

@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.22.0] — 2026-04-07
+
+SPEC-079 Phase 2 + SPEC-020 completion. Era 189.
+
+### Added
+- **legalize-es.sh** `history` command: historial de reformas de una norma via git log
+- **legalize-es.sh** `check-status` command: verificar si norma está vigente o derogada
+- **memory-store** `prune` command: eliminar físicamente entradas expiradas (SPEC-020)
+- **memory-store** TTL stats: conteo de entradas con expiración y expiradas en `stats`
+
+### Changed
+- README ES/EN: añadido `/legal-audit` en sección comandos y `legal-compliance` en tabla agentes
+
 ## [4.21.0] — 2026-04-07
 
 SPEC-079: Legal Compliance Agent powered by legalize-es (12.235 normas BOE). Era 188.
@@ -5802,6 +5815,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.21.0...v4.22.0
 [4.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.20.0...v4.21.0
 [4.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.19.0...v4.20.0
 [4.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.18.0...v4.19.0

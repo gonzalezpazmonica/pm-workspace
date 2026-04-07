@@ -130,4 +130,48 @@ cmd_stats() {
         sort | uniq -c | sort -rn | head -5 | awk '{ printf "  %s: %d\n", $2, $1 }'
     echo "Revisiones (topic_keys con rev>1):" && grep -o '"rev":[0-9]*' "$STORE_FILE" | \
         cut -d: -f2 | awk '$1>1{count++; sum+=$1} END{printf "  %d evolucionados, avg %.1f revs\n", count+0, (count>0?sum/count:0)}'
+    # SPEC-020: TTL stats
+    local expired=0 with_ttl=0 now_epoch
+    now_epoch=$(date -u +%s)
+    while IFS= read -r line; do
+        local exp
+        exp=$(echo "$line" | grep -o '"expires_at":"[^"]*"' | cut -d'"' -f4 || true)
+        [[ -z "$exp" ]] && continue
+        with_ttl=$((with_ttl + 1))
+        local exp_epoch
+        exp_epoch=$(date -d "$exp" +%s 2>/dev/null || echo 9999999999)
+        [[ $now_epoch -gt $exp_epoch ]] && expired=$((expired + 1))
+    done < "$STORE_FILE"
+    echo "TTL: $with_ttl con expiración, $expired expiradas"
+}
+
+# SPEC-020: Prune expired entries
+cmd_prune() {
+    [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
+    local now_epoch expired_count=0 kept_count=0
+    now_epoch=$(date -u +%s)
+    local tmp_file
+    tmp_file=$(mktemp)
+    trap "rm -f '$tmp_file'" RETURN
+    while IFS= read -r line; do
+        local exp
+        exp=$(echo "$line" | grep -o '"expires_at":"[^"]*"' | cut -d'"' -f4 || true)
+        if [[ -n "$exp" ]]; then
+            local exp_epoch
+            exp_epoch=$(date -d "$exp" +%s 2>/dev/null || echo 9999999999)
+            if [[ $now_epoch -gt $exp_epoch ]]; then
+                expired_count=$((expired_count + 1))
+                continue
+            fi
+        fi
+        echo "$line" >> "$tmp_file"
+        kept_count=$((kept_count + 1))
+    done < "$STORE_FILE"
+    if [[ $expired_count -eq 0 ]]; then
+        echo "No hay entradas expiradas."
+        return
+    fi
+    echo "Eliminando $expired_count entradas expiradas ($kept_count mantenidas)."
+    mv "$tmp_file" "$STORE_FILE"
+    _maybe_rebuild_index
 }
