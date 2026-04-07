@@ -49,10 +49,11 @@
 | `confidentiality-auditor` | Opus 4.6 | Auditoría de cumplimiento de niveles de confidencialidad multi-repo (N1-N4b) |
 | `feasibility-probe` | Opus 4.6 | Valida viabilidad de specs con prototipo time-boxed. Produce informe con score, secciones bloqueantes y sugerencias de descomposición. **Requiere `bypassPermissions`** para ejecutar código de prueba de concepto. |
 | `model-upgrade-auditor` | Opus 4.6 | Audita agentes, skills y prompts buscando workarounds que modelos más nuevos ya no necesiten. Propone simplificaciones con evidencia eval-backed. |
+| `legal-compliance` | Opus 4.6 | Auditoría de compliance legal contra legislación española consolidada (legalize-es, 12.235 normas BOE). Cruza reglas de negocio, contratos y políticas contra artículos vigentes. |
 
 ## Token Budgets (SPEC-AGENT-METERING)
 
-Todos los 49 agentes incluyen `token_budget` en frontmatter. Tiers: Heavy 13000, Standard 8500, Light 4500, Minimal 2200. Tracking con `/agent-cost`. Alertas en `budget-alerts.jsonl`.
+Todos los 50 agentes incluyen `token_budget` en frontmatter. Tiers: Heavy 13000, Standard 8500, Light 4500, Minimal 2200. Tracking con `/agent-cost`. Alertas en `budget-alerts.jsonl`.
 
 ## Flujos
 
@@ -70,6 +71,7 @@ Todos los 49 agentes incluyen `token_budget` en frontmatter. Tiers: Heavy 13000,
 - **Visual Digest** (Era 116): `visual-digest` pipeline 4 pasadas (extracción bruta → carga contexto proyecto → resolución con diccionario homónimos → verificación cruzada con digests verbales). Soporta pizarras, notas manuscritas, diagramas, capturas, slides.
 - **PDF Digest**: `pdf-digest` pipeline 4 fases (extracción PyMuPDF+Vision → carga contexto proyecto → análisis/síntesis cruzado → actualización documentos vivos). Soporta protocolos, manuales, propuestas, informes, specs, presentaciones.
 - **Document Digest Suite**: `word-digest` (DOCX), `excel-digest` (XLSX), `pptx-digest` (PPTX) — misma arquitectura 4 fases que pdf-digest, cada uno con librería Python especializada (python-docx, openpyxl, python-pptx) + Claude Vision para imágenes embebidas.
+- **Legal Compliance**: `legal-compliance` audita reglas de negocio, contratos y políticas contra legislación española consolidada (legalize-es). Pipeline: `/legal-audit --scope {rules|contract|full}`. Búsqueda por grep en 12.235 normas BOE, clasificación por severidad, matriz de trazabilidad regla→artículo.
 
 El agente developer se selecciona según el Language Pack del proyecto.
 

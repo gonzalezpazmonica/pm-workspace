@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b25c674a0f1578432c61a563e65d5212c17bd3f7dc6737257e783e291a490f12
-timestamp=2026-04-06T23:17:20Z
-branch=fix/nidos-windows-onedrive
-head_commit=97a7d10
-signature=68f07ae4b6d1f8f6ba9564459339a3621d61b47a6625ff04eced744bf13a6205
+diff_hash=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+timestamp=2026-04-07T17:26:47Z
+branch=feat/era185-nd-profiles-trace
+head_commit=5e3cdcd
+signature=737f6a6d92f0a8d1740327b239bf3c25c82acc7ded3a3778553df27a48804bfa

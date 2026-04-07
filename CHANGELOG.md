@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.21.0] — 2026-04-07
+
+SPEC-079: Legal Compliance Agent powered by legalize-es (12.235 normas BOE). Era 188.
+
+### Added
+- **Agent** `legal-compliance` (Opus 4.6, L2): auditoría legal contra legislación española consolidada
+- **Skill** `legal-compliance/`: algoritmo búsqueda 3 fases, 12 dominios legales, clasificación severidad
+- **Command** `/legal-audit`: auditoría con scopes (rules, contract, architecture, policy, pbi, full) y soporte CCAA
+- **Script** `legalize-es.sh`: gestión corpus legislativo (install, update, status, search, search-article)
+- **Reference** `domain-terms.md`: 12 dominios legales mapeados a BOE identifiers y términos grep
+- **SPEC-079** propuesta en `docs/propuestas/`
+
+### Changed
+- `agents-catalog.md`: agente #50 + flujo Legal Compliance
+- `assignment-matrix.md`: tipo "Legal compliance audit" → `legal-compliance`
+- `pm-config.md`: constantes LEGALIZE_ES_PATH, LEGALIZE_ES_AUTO_UPDATE, LEGALIZE_ES_DEFAULT_CCAA
+
 ## [4.20.0] — 2026-04-07
 
 Savia Monitor v2.1 + Nidos fix + 150-line rule scoping. Era 187.
@@ -5785,6 +5802,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.20.0...v4.21.0
 [4.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.19.0...v4.20.0
 [4.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.18.0...v4.19.0
 [4.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.17.0...v4.18.0
