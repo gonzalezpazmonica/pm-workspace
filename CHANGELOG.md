@@ -24,6 +24,9 @@ Confidentiality hardening + context management patterns from Claudepedia analysi
 ### Fixed
 - **CHANGELOG.md**: removed all leaked internal metrics (quality scores, audit results, debt-scores, vulnerability counts, output paths with dates, .human-maps details per project)
 - **WORKSPACE.ctx**: removed private project names from N1 tracked file
+- **Hook** `block-infra-destructive.sh`: false positive fix — `pro` in `approve` no longer matches environment regex
+- **BATS** `test-sovereignty-benchmark.bats`: added timeouts to prevent hang on slow Ollama
+- **BATS** `test-spellcheck-docs.bats`: added timeout for no-args full-repo scan
 
 ### Changed
 - **settings.json**: registered `block-gitignored-references.sh` as PreToolUse hook (Edit|Write)

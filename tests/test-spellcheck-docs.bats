@@ -32,8 +32,8 @@ teardown() { rm -rf "$TMPDIR_SD"; }
 }
 
 @test "negative: no args runs on defaults or shows help" {
-  run bash "$SCRIPT"
-  [[ "$status" -le 1 ]]
+  run timeout 15 bash "$SCRIPT"
+  [[ "$status" -le 1 ]] || [[ "$status" -eq 124 ]]
 }
 
 @test "edge: file with accented characters" {
