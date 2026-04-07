@@ -1,0 +1,123 @@
+# Known vulnerabilities in OWASP Juice Shop
+# Source: https://pwning.owasp-juice.shop/
+# Used for benchmarking pm-workspace security agents
+
+- id: "JS-001"
+  name: "SQL Injection in product search"
+  cwe: "CWE-89"
+  severity: critical
+  path: "/rest/products/search?q="
+  description: "Union-based SQLi via search query parameter"
+  detectable_by: [attacker, pentester]
+
+- id: "JS-002"
+  name: "Reflected XSS in track order"
+  cwe: "CWE-79"
+  severity: high
+  path: "/#/track-result?id="
+  description: "Reflected XSS via order tracking ID"
+  detectable_by: [attacker, pentester]
+
+- id: "JS-003"
+  name: "Broken Authentication — admin login"
+  cwe: "CWE-287"
+  severity: critical
+  path: "/rest/user/login"
+  description: "SQLi in login allows admin access with ' OR 1=1--"
+  detectable_by: [attacker, pentester]
+
+- id: "JS-004"
+  name: "Sensitive data exposure — /ftp directory"
+  cwe: "CWE-200"
+  severity: high
+  path: "/ftp"
+  description: "Unprotected FTP directory with confidential files"
+  detectable_by: [attacker, pentester]
+
+- id: "JS-005"
+  name: "Insecure Direct Object Reference — user data"
+  cwe: "CWE-639"
+  severity: high
+  path: "/api/Users/"
+  description: "IDOR allows accessing other users data via sequential IDs"
+  detectable_by: [attacker, pentester]
+
+- id: "JS-006"
+  name: "Missing security headers"
+  cwe: "CWE-693"
+  severity: medium
+  path: "/"
+  description: "Missing X-Frame-Options, CSP, HSTS headers"
+  detectable_by: [attacker]
+
+- id: "JS-007"
+  name: "Broken Access Control — admin section"
+  cwe: "CWE-285"
+  severity: critical
+  path: "/#/administration"
+  description: "Admin panel accessible by changing client-side role check"
+  detectable_by: [attacker, pentester]
+
+- id: "JS-008"
+  name: "JWT none algorithm vulnerability"
+  cwe: "CWE-345"
+  severity: critical
+  path: "/rest/user/login"
+  description: "JWT accepts 'none' algorithm, allowing token forgery"
+  detectable_by: [attacker]
+
+- id: "JS-009"
+  name: "DOM XSS via search"
+  cwe: "CWE-79"
+  severity: high
+  path: "/#/search?q="
+  description: "DOM-based XSS through search query rendered unsanitized"
+  detectable_by: [attacker, pentester]
+
+- id: "JS-010"
+  name: "XXE in file upload"
+  cwe: "CWE-611"
+  severity: critical
+  path: "/file-upload"
+  description: "XML External Entity injection via complaint file upload"
+  detectable_by: [attacker, pentester]
+
+- id: "JS-011"
+  name: "NoSQL injection in reviews"
+  cwe: "CWE-943"
+  severity: high
+  path: "/rest/products/reviews"
+  description: "MongoDB query injection in product review API"
+  detectable_by: [attacker, pentester]
+
+- id: "JS-012"
+  name: "Weak password policy"
+  cwe: "CWE-521"
+  severity: medium
+  path: "/api/Users/"
+  description: "No minimum password length or complexity requirements"
+  detectable_by: [attacker]
+
+- id: "JS-013"
+  name: "Exposed API documentation"
+  cwe: "CWE-200"
+  severity: low
+  path: "/api-docs"
+  description: "Swagger API docs exposed without authentication"
+  detectable_by: [attacker]
+
+- id: "JS-014"
+  name: "Verbose error messages"
+  cwe: "CWE-209"
+  severity: low
+  path: "/rest/products/search?q='"
+  description: "SQL error messages leak database structure"
+  detectable_by: [attacker]
+
+- id: "JS-015"
+  name: "Unvalidated redirect"
+  cwe: "CWE-601"
+  severity: medium
+  path: "/redirect?to="
+  description: "Open redirect via 'to' parameter"
+  detectable_by: [attacker, pentester]

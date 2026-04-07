@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.24.0] — 2026-04-07
+
+SPEC-022 + SPEC-032 scaffolding. Era 191.
+
+### Added
+- **PM Keybindings** (`~/.claude/keybindings.json`): 8 shortcuts for PM workflow (SPEC-022 F3)
+- **Security Benchmarks** scaffolding: docker-compose, 15 known Juice Shop vulns, run-benchmark.sh (SPEC-032 Phase 1)
+
+### Verified
+- SPEC-028 (Search Reranker): already implemented in memory-vector.py (CrossEncoder)
+
 ## [4.23.0] — 2026-04-07
 
 SPEC-078 + Savia Web Phase 2.5 (viewer/editor). Era 190.
@@ -5832,6 +5843,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.23.0...v4.24.0
 [4.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.22.0...v4.23.0
 [4.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.21.0...v4.22.0
 [4.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.20.0...v4.21.0
