@@ -1,20 +1,20 @@
 # Workspace Context Index
-# generated: 2026-03-30T05:52:17Z
-# counts: rules=136 agents=47 skills=88 commands=507 hooks=35
+# generated: 2026-04-07T22:43:24Z
+# counts: rules=142 agents=49 skills=90 commands=509 hooks=49
 > Where to find and store information at workspace level (N1 public)
 
 ## Rules & Governance
-[location] .claude/rules/domain/ — 136 domain rules loaded on demand via @
+[location] .claude/rules/domain/ — 142 domain rules loaded on demand via @
 [location] .claude/rules/languages/ — language conventions (auto-load by file type)
 [intent: "what are the rules for X"] → scan .claude/rules/domain/ by keyword
 
 ## Agents
-[location] .claude/agents/ — 47 agent definitions
+[location] .claude/agents/ — 49 agent definitions
 [intent: "which agent handles X"] → agents-catalog.md or assignment-matrix.md
 
 ## Skills & Commands
-[location] .claude/skills/ — 88 skills with SKILL.md + DOMAIN.md
-[location] .claude/commands/ — 507 slash command definitions
+[location] .claude/skills/ — 90 skills with SKILL.md + DOMAIN.md
+[location] .claude/commands/ — 509 slash command definitions
 [intent: "how to do X"] → scan skills by name/description
 [intent: "what command does X"] → command-catalog.md or /help
 
@@ -36,11 +36,11 @@
 [intent: "what do we know about X"] → memory-store search or /memory-recall
 
 ## Projects
-[location] projects/ — active projects: pm-workspace,proyecto-alpha,proyecto-beta,sala-reservas,savia-mobile-android,savia-web,
+[location] projects/ — active projects: claude-code-analysis,pm-workspace,proyecto-alpha,proyecto-beta,sala-reservas,savia-mobile-android,savia-monitor,savia-web,
 
 ## Output, Scripts, Tests
 [location] output/ — generated reports, audits, dev-sessions
 [location] scripts/ — automation scripts
-[location] .claude/hooks/ — 35 lifecycle hooks
+[location] .claude/hooks/ — 49 lifecycle hooks
 [location] tests/ — BATS test suites
 [digest-target] Generated reports → output/
