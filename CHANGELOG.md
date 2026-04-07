@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.23.0] — 2026-04-07
+
+SPEC-078 Dual Estimation hook. Era 190.
+
+### Added
+- **Hook** `dual-estimation-gate.sh`: warns if spec/PBI has effort estimation but missing agent or human scale (SPEC-078 Phase 1)
+- Registered in settings.json PostToolUse (Edit|Write), tier standard, timeout 5s
+
+### Verified
+- SPEC-019 (Memory Contradiction Resolution): already implemented in memory-save.sh (supersedes field + rev tracking)
+- SPEC-048 (Dev Session Discard): already implemented in dev-session-discard.sh (11/11 BATS tests pass)
+
 ## [4.22.0] — 2026-04-07
 
 SPEC-079 Phase 2 + SPEC-020 completion. Era 189.
@@ -5815,6 +5827,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.22.0...v4.23.0
 [4.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.21.0...v4.22.0
 [4.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.20.0...v4.21.0
 [4.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.19.0...v4.20.0
