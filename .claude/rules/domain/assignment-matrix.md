@@ -51,6 +51,7 @@ globs: [".claude/agents/**"]
 | Drift audit | drift-auditor | architect | — |
 | Consensus validation | reflection-validator | code-reviewer | business-analyst |
 | Coherence check | coherence-validator | reflection-validator | — |
+| Legal compliance audit | legal-compliance | business-analyst | — |
 
 *El backup para security-fix y tests depende del lenguaje del proyecto.
 

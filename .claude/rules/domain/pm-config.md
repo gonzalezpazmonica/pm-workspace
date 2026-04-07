@@ -82,6 +82,11 @@ AGENT_MAX_CONSECUTIVE_FAILURES = 3                                   # fallos co
 # ── Onboarding ──────────────────────────────────────────────────────────────
 ONBOARDING_AUTO_DOCS_COUNT  = 12                                     # documentos base a auto-generar en onboarding
 ONBOARDING_BUDDY_AGENT      = "buddy-ia"                             # agente buddy para onboarding técnico
+
+# ── Legal Compliance (legalize-es) ─────────────────────────────────────────
+LEGALIZE_ES_PATH            = "$HOME/.savia/legalize-es"              # ruta del corpus legislativo
+LEGALIZE_ES_AUTO_UPDATE     = true                                    # git pull automático al inicio
+LEGALIZE_ES_DEFAULT_CCAA    = ""                                      # CCAA por defecto (vacío = solo estatal)
 ```
 
 ## 🔐 Autenticación
