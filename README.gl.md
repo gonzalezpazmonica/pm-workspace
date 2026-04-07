@@ -68,7 +68,7 @@ Son a mouchiña que vive dentro de pm-workspace. Adaptome ao teu rol, a tua ling
 
 ## O que hai dentro
 
-**508 comandos · 48 axentes · 89 skills · 48 hooks · 16 linguaxes · 124 suites de test**
+**508 comandos · 48 axentes · 89 skills · 49 hooks · 16 linguaxes · 124 suites de test**
 
 ### Xestion de proxectos
 Sprints, burndown, capacidade, dailies, retros, KPIs. Informes en Excel e PowerPoint. Prediccion con Monte Carlo. Facturacion e custos.
@@ -104,7 +104,7 @@ pm-workspace/
 │   ├── commands/       ← 508 comandos
 │   ├── agents/         ← 48 axentes especializados
 │   ├── skills/         ← 89 skills de dominio
-│   ├── hooks/          ← 48 hooks deterministas
+│   ├── hooks/          ← 49 hooks deterministas
 │   └── rules/          ← regras de contexto e linguaxe
 ├── docs/               ← guias por rol, escenario, sector
 ├── projects/           ← proxectos (git-ignorados por privacidade)
