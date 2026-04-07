@@ -35,14 +35,21 @@ fine-tuning de LLMs localmente con 70% menos VRAM y 2x más rápido.
 | Licencia | Apache 2.0 (core) — compatible con pm-workspace |
 | Local | Todo en local — cero datos a la nube |
 
-### Hardware disponible (Monica)
+### Hardware disponible (verificado 2026-04-07)
 
-| Recurso | Disponible |
-|---------|-----------|
-| GPU | (verificar con `nvidia-smi`) |
-| RAM | (verificar) |
-| Ollama | Ya instalado con qwen2.5:7b |
-| Disco | (verificar espacio libre) |
+| Recurso | Valor | Implicación |
+|---------|-------|-------------|
+| GPU | Intel UHD (integrada) | NO apta para fine-tune |
+| RAM | 16GB | Suficiente para inference |
+| Ollama | qwen2.5:3b, qwen2.5:7b, gemma4:e2b, gemma4:e4b | Inference OK |
+| Disco | 316GB libres | Suficiente para modelos |
+| NVIDIA | No disponible | Fine-tune requiere Colab/Cloud |
+
+### Estrategia: Train in Cloud, Run Local
+
+Fine-tune en **Google Colab** (T4 gratis, 16GB VRAM) → exportar GGUF →
+descargar → `ollama create` → inference local. Lo mejor de ambos mundos:
+entrenamiento gratis en GPU cloud, ejecución privada sin coste.
 
 ## 3. Agentes candidatos a modelo propio
 
