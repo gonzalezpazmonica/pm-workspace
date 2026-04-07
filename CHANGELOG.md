@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.27.0] — 2026-04-08
 
-Confidentiality hardening: CHANGELOG sanitization + gitignored content leak prevention hook. Era 194.
+Confidentiality hardening + context management patterns from Claudepedia analysis. Era 194.
 
 ### Added
 - **Hook** `block-gitignored-references.sh`: blocks writing gitignored paths, audit scores, vulnerability counts, and internal metrics to public (N1) files. 8 detection patterns, security tier
@@ -27,6 +27,13 @@ Confidentiality hardening: CHANGELOG sanitization + gitignored content leak prev
 
 ### Changed
 - **settings.json**: registered `block-gitignored-references.sh` as PreToolUse hook (Edit|Write)
+- **Script** `context-budget-check.sh`: proactive dual-threshold budget tracker (80%/95%) with circuit breaker (SPEC-086)
+- **Script** `tool-result-trim.sh`: deterministic 5K char hard cap for tool results (SPEC-087)
+- **BATS** `test-context-budget-check.bats`: 18 tests (SPEC-086)
+- **BATS** `test-tool-result-trim.bats`: 9 tests (SPEC-087)
+- **Rule** `context-health.md`: pair integrity [SPEC-088] + proactive budget [SPEC-086]
+- **Rule** `session-memory-protocol.md`: pair integrity step in pipeline [SPEC-088]
+- **Config** `pm-config.md`: added TOOL_RESULT_MAX_CHARS constant (SPEC-087)
 - README counters updated across all 9 language variants (90 skills, 49 hooks, 130 test suites)
 
 ## [4.26.0] — 2026-04-07
