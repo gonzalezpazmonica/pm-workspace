@@ -77,6 +77,13 @@ Esto evita que el análisis intermedio contamine el contexto principal.
 - Errores encontrados y cómo se resolvieron
 - Último comando ejecutado y su resultado
 
+### REGLA INVIOLABLE: Integridad de pares tool [SPEC-088]
+**NUNCA** eliminar un mensaje tool_use sin eliminar tambien su tool_result
+correspondiente (y viceversa). La API rechaza pares rotos.
+Al dropear mensajes, siempre eliminar pares completos.
+Si un miembro del par esta en Tier C (descartar) y el otro en Tier A
+(preservar), promover AMBOS al Tier del miembro preservado.
+
 ## 3b. Pre-compact extraction [SPEC-016]
 
 ANTES de ejecutar /compact, Savia extrae y persiste informacion valiosa:
@@ -109,41 +116,30 @@ Last command: [comando] → [resultado breve]
 
 Max 5 items extraidos por compact. Si hay mas, priorizar correcciones > decisiones > descubrimientos.
 
+## 3c. Proactive Budget Tracker [SPEC-086]
+
+Verifica contexto ANTES de operaciones pesadas, no despues. Dual threshold + circuit breaker.
+
+Script: `scripts/context-budget-check.sh [percentage]` (o env `CLAUDE_CONTEXT_USAGE_PCT`).
+
+| Resultado | Umbral | Accion | Exit |
+|-----------|--------|--------|------|
+| NO_ACTION | <80% | Nada, reset failures | 0 |
+| STANDARD_COMPACT | >=80% | /compact recomendado | 1 |
+| EMERGENCY_COMPACT | >=95% | Trim tool results, drop oldest (sin LLM) | 2 |
+| CIRCUIT_OPEN | 3+ fallos | No reintentar compact, escalar | 3 |
+
+Circuit breaker: si 3 compactaciones consecutivas no bajan del umbral, para de reintentar. Se resetea cuando el contexto baja de 80%. Estado en `~/.savia/compact-failures`.
+
 ## 4. Sesiones enfocadas
 
-### Regla de una tarea por sesión
-Cada sesión debería tener UN objetivo claro:
-- "Auditar pm-workspace" → audit + actions
-- "Planificar Sprint 5" → planning + asignación
-- "Implementar feature X" → spec + implement + test
-
-Si el PM cambia de objetivo, sugerir `/clear` + nuevo `/context-load`.
-
-### Antipatrones a evitar
-- ❌ Mezclar auditoría + implementación + reporting en una sesión
-- ❌ Ejecutar 10+ comandos sin compactar
-- ❌ Pedir informes detallados en la conversación en vez de fichero
+Una tarea por sesion. Si el PM cambia de objetivo → `/clear` + `/context-load`.
+Antipatrones: mezclar audit+implementacion, 10+ comandos sin compactar, informes extensos en chat.
 
 ## 5. Memoria persistente entre sesiones
 
-### Context Index como mapa de navegacion
-Al cargar contexto de proyecto, consultar `projects/{p}/.context-index/PROJECT.ctx` primero (si existe). Mapea donde vive cada tipo de informacion, evitando busquedas por prueba y error.
+Estado en disco (no en contexto): `projects/{p}/.context-index/PROJECT.ctx` como mapa, `debt-register.md`, `risk-register.md`, `retro-actions.md`, `output/audits/`, `output/dora/`. Comandos leen bajo demanda. `/context-load` muestra resumen al inicio.
 
-### Ficheros de estado del proyecto
-Cada proyecto mantiene estado en disco (no en contexto):
-- `projects/{p}/debt-register.md` — deuda técnica
-- `projects/{p}/risk-register.md` — riesgos
-- `projects/{p}/retro-actions.md` — acciones de retro
-- `output/audits/` — histórico de audits
-- `output/dora/` — histórico de métricas DORA
+## 6. Limites de carga bajo demanda
 
-Los comandos LEEN estos ficheros cuando los necesitan.
-No necesitan que la información esté en el contexto de conversación.
-
-### `/context-load` como punto de partida
-Al iniciar sesión, `/context-load` lee el estado de disco y muestra
-un resumen conciso. No carga todo — solo lo justo para orientar al PM.
-
-## 6. Límites de carga bajo demanda
-
-Máximo 3 ficheros `@` por comando. Skills: solo SKILL.md (references bajo demanda). Datos de comandos anteriores: leer de output, no recargar.
+Max 3 ficheros `@` por comando. Skills: solo SKILL.md (references bajo demanda). Datos de comandos anteriores: leer de output, no recargar.

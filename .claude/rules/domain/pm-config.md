@@ -69,6 +69,7 @@ SDD_DEFAULT_MAX_TURNS       = 40
 
 # ── Testing y Calidad ───────────────────────────────────────────────────────
 TEST_COVERAGE_MIN_PERCENT   = 80                                    # % mínimo de cobertura exigido por test-runner
+TOOL_RESULT_MAX_CHARS       = 5000                                   # hard cap per tool result
 
 # ── Modos Autónomos ─────────────────────────────────────────────────────────
 # Regla completa: @.claude/rules/domain/autonomous-safety.md

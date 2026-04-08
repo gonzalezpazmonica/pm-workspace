@@ -39,7 +39,7 @@ fi
 
 # Bloquear terraform apply en PRE/PRO (detectar por variable o directorio)
 if echo "$COMMAND" | grep -iE 'terraform\s+apply' > /dev/null; then
-  if echo "$COMMAND" | grep -iE '(pre|pro|prod|staging|production)' > /dev/null; then
+  if echo "$COMMAND" | grep -iE '(^|[[:space:]/=])(pre|production|prod|staging)([[:space:]/=\.]|$)|(^|[[:space:]/=])pro([[:space:]/=\.]|$)' > /dev/null; then
     echo "BLOQUEADO: terraform apply en PRE/PRO requiere aprobación humana. Solo permitido en DEV." >&2
     exit 2
   fi

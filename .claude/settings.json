@@ -114,6 +114,12 @@
           },
           {
             "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-gitignored-references.sh",
+            "timeout": 5,
+            "statusMessage": "Checking for gitignored content in public files..."
+          },
+          {
+            "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/responsibility-judge.sh",
             "timeout": 5,
             "statusMessage": "Responsibility Judge: evaluando decisión..."

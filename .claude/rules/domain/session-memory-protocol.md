@@ -32,9 +32,10 @@ Antes de compactar, clasificar CADA turno de conversacion en:
 ### Pipeline completo
 
 1. Clasificar turnos en A/B/C
-2. Tier B → extraer bullets → guardar en `~/.claude/projects/.../memory/session-hot.md`
-3. Ejecutar /compact estandar (context-health.md seccion 3b)
-4. Post-compact: reinyectar Tier A + resumen de session-hot.md como contexto inicial
+2. **Verificar integridad de pares tool [SPEC-088]**: si un tool_use esta en Tier C pero su tool_result en Tier A (o viceversa), promover AMBOS al Tier del miembro preservado
+3. Tier B → extraer bullets → guardar en `~/.claude/projects/.../memory/session-hot.md`
+4. Ejecutar /compact estandar (context-health.md seccion 3b)
+5. Post-compact: reinyectar Tier A + resumen de session-hot.md como contexto inicial
 
 ## Trigger 2: Fin de sesion (cuando el usuario se va)
 

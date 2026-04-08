@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.27.0] — 2026-04-08
+
+Confidentiality hardening + context management patterns from Claudepedia analysis. Era 194.
+
+### Added
+- **Hook** `block-gitignored-references.sh`: blocks writing gitignored paths, audit scores, vulnerability counts, and internal metrics to public (N1) files. 8 detection patterns, security tier
+- **BATS** `test-block-gitignored-references.bats`: 14 tests — 8 blocking + 6 allowing patterns
+- **BATS** `test-tdd-gate.bats`: 20 tests — TDD enforcement (SPEC-081)
+- **BATS** `test-plan-gate.bats`: 14 tests — spec requirement warnings (SPEC-081)
+- **BATS** `test-compliance-gate.bats`: 13 tests — compliance runner (SPEC-081)
+- **BATS** `test-block-project-whitelist.bats`: 13 tests — gitignore privacy protection (SPEC-081)
+- **BATS** `test-block-infra-destructive.bats`: 20 tests — IaC safety (SPEC-081)
+- **Skill** `savia-school/SKILL.md`: orphan fix, 12 school commands documented (SPEC-082)
+- **Session journal**: crash recovery mechanism for session continuity
+- **SPECs** 081, 082, 085: proposed from pre-audit findings
+
+### Fixed
+- **CHANGELOG.md**: removed all leaked internal metrics (quality scores, audit results, debt-scores, vulnerability counts, output paths with dates, .human-maps details per project)
+- **WORKSPACE.ctx**: removed private project names from N1 tracked file
+- **Hook** `block-infra-destructive.sh`: false positive fix — `pro` in `approve` no longer matches environment regex
+- **BATS** `test-sovereignty-benchmark.bats`: added timeouts to prevent hang on slow Ollama
+- **BATS** `test-spellcheck-docs.bats`: added timeout for no-args full-repo scan
+
+### Changed
+- **settings.json**: registered `block-gitignored-references.sh` as PreToolUse hook (Edit|Write)
+- **Script** `context-budget-check.sh`: proactive dual-threshold budget tracker (80%/95%) with circuit breaker (SPEC-086)
+- **Script** `tool-result-trim.sh`: deterministic 5K char hard cap for tool results (SPEC-087)
+- **BATS** `test-context-budget-check.bats`: 18 tests (SPEC-086)
+- **BATS** `test-tool-result-trim.bats`: 9 tests (SPEC-087)
+- **Rule** `context-health.md`: pair integrity [SPEC-088] + proactive budget [SPEC-086]
+- **Rule** `session-memory-protocol.md`: pair integrity step in pipeline [SPEC-088]
+- **Config** `pm-config.md`: added TOOL_RESULT_MAX_CHARS constant (SPEC-087)
+- README counters updated across all 9 language variants (90 skills, 49 hooks, 130 test suites)
+
 ## [4.26.0] — 2026-04-07
 
 Pre-audit: 5 BATS suites for critical hooks + audit report. Era 193.
@@ -15,7 +49,7 @@ Pre-audit: 5 BATS suites for critical hooks + audit report. Era 193.
 - **BATS** `test-validate-bash-global.bats`: 12 tests (rm -rf, chmod 777, curl|bash, PR auto-approve)
 - **BATS** `test-scope-guard.bats`: 8 tests (scope warnings, graceful degradation)
 - **BATS** `test-session-init.bats`: 8 tests (startup, PAT check, profile detection, git branch)
-- **Audit report** `output/audits/20260407-pre-audit-workspace.md`: 8.8/10 score, 0 critical findings
+- **Audit report**: pre-audit workspace analysis for critical hooks
 
 ## [4.25.0] — 2026-04-07
 
@@ -148,8 +182,8 @@ SPEC-061 ND Profiles + SPEC-044 Trace Optimization engine. Era 185.
 - **neurodivergent.md template**: Profile schema for 5 ND dimensions (ADHD, autism, dyslexia, giftedness, dyscalculia) with active modes, sensory budget, strengths map, body double. N3 privacy
 - **neurodivergent-integration.md**: Rule connecting ND profiles to accessibility system (auto-sets review_sensitivity, dyslexia_friendly, cognitive_load)
 - **scripts/prompt-suggestion-engine.sh**: SPEC-044 Phase 2 — trace-driven prompt optimization (classifies failure patterns, generates per-agent optimization plans)
-- **tests/test-neurodivergent-profiles.bats**: 25 tests (80/100)
-- **tests/test-trace-optimization.bats**: 15 tests (86/100) — extractor + engine
+- **tests/test-neurodivergent-profiles.bats**: 25 tests
+- **tests/test-trace-optimization.bats**: 15 tests — extractor + engine
 
 ### Changed
 
@@ -181,7 +215,7 @@ SPEC-078 Dual Estimation engine implemented. Era 183.
 ### Added
 
 - **scripts/dual-estimate.sh**: Dual estimation engine — classify tasks (agent vs human), capacity planning, review bottleneck detection. 10 task types with golden rule
-- **tests/test-dual-estimate.bats**: 17 tests (82/100) — classify, capacity, bottleneck, matrix, edge cases
+- **tests/test-dual-estimate.bats**: 17 tests — classify, capacity, bottleneck, matrix, edge cases
 
 ### Changed
 
@@ -203,7 +237,7 @@ Sovereignty Phase 2 + SPEC-021 verification + test coverage push. Era 182.
 ### Added
 
 - **scripts/sovereignty-benchmark.sh**: Benchmark pm-workspace prompts with local LLMs (10 tests, quick/full modes)
-- **tests/test-sovereignty-benchmark.bats**: 11 tests (85+ quality)
+- **tests/test-sovereignty-benchmark.bats**: 11 tests
 - **tests/test-readiness-check.bats**: 17 tests (SPEC-021 verification)
 - Benchmark results: qwen2.5:3b scores 80% quick / 40% full — viable for basic ops, not complex tasks
 
@@ -218,7 +252,7 @@ Sovereignty Phase 1 — multi-provider switch, CI pr-plan gate, OpenCode backup.
 ### Added
 
 - **scripts/sovereignty-switch.sh**: Multi-provider manager (local/mistral/claude) with auto-detect and smoke test
-- **tests/test-sovereignty-switch.bats**: 17 tests (85/100)
+- **tests/test-sovereignty-switch.bats**: 17 tests
 - **CI gate (Rule #25)**: PRs require /pr-plan — enforced via .confidentiality-signature check
 
 ### Changed
@@ -233,11 +267,11 @@ SPEC implementation: Execution Supervisor, Dev Session Discard, Memory TTL verif
 
 ### Added
 
-- **tests/test-session-action-log.bats**: 12 tests (80/100) — log, attempts, history, reset, session isolation
-- **tests/test-execution-supervisor.bats**: 14 tests (83/100) — silent on 1-2, reflection at 3+, escalation at 4+, advisory exit 0
-- **tests/test-dev-session-discard.bats**: 11 tests (83/100) — lock removal, state archive, discard log, reason defaults
+- **tests/test-session-action-log.bats**: 12 tests — log, attempts, history, reset, session isolation
+- **tests/test-execution-supervisor.bats**: 14 tests — silent on 1-2, reflection at 3+, escalation at 4+, advisory exit 0
+- **tests/test-dev-session-discard.bats**: 11 tests — lock removal, state archive, discard log, reason defaults
 - **scripts/sovereignty-switch.sh**: Multi-provider sovereignty manager (local/mistral/claude) with auto-detect and smoke test
-- **tests/test-sovereignty-switch.bats**: 17 tests (85/100) — provider switching, round-trip, edge cases
+- **tests/test-sovereignty-switch.bats**: 17 tests — provider switching, round-trip, edge cases
 - **CI gate (Rule #25)**: PRs now require /pr-plan — enforced structurally via .confidentiality-signature check in CI
 
 ### Changed
@@ -274,8 +308,8 @@ Audit Correctiva — Clara Philosophy 100%, SPEC triage, dual estimation, doc co
 - **docs/decision-log.md**: Architecture decision log with rejections and approvals
 - **docs/best-practices-claude-code.en.md**: English translation of core best practices doc
 - **docs/memory-system.en.md**: English translation of memory system doc
-- **output/20260404-spec-triage.md**: Comprehensive triage of 78 SPECs (14 archive, 5 promote, 4 merge, 17 keep)
-- **output/20260404-audit-eficiencia-documentacion.md**: Full efficiency and documentation audit
+- **Spec triage**: Comprehensive triage of SPECs (archive, promote, merge, keep)
+- **Efficiency audit**: Full efficiency and documentation audit
 - **4 feature guides**: Emergency Watchdog, Prompt Security Scanner, Spec Quality Auditor, Workspace Consolidation
 
 ### Changed
@@ -298,7 +332,7 @@ Workspace Consolidation — inventory audit, counter correction, roadmap sync. E
 
 ### Added
 
-- **output/20260404-workspace-consolidation.md**: Full inventory audit (real counts vs documented, test coverage map, orphaned hooks, LLM model inventory)
+- **Workspace consolidation report**: Full inventory audit (documented vs actual, test coverage map, orphaned hooks, model inventory)
 
 ## [4.8.0] — 2026-04-03
 
@@ -307,7 +341,7 @@ feat: Spec Quality Auditor — deterministic 9-criteria scorer for SDD specs. Er
 ### Added
 
 - **spec-quality-auditor.sh**: Scores specs 0-100 against 9 criteria (header, metadata, problem, solution, acceptance, effort, deps, testability, clarity). Batch mode with --min-score filter. JSON output. 21/73 existing specs certified at 80+
-- **test-spec-quality-auditor.bats**: 17 tests (score 98/100) — high/low quality detection, batch mode, edge cases, JSON validation
+- **test-spec-quality-auditor.bats**: 17 tests — high/low quality detection, batch mode, edge cases, JSON validation
 
 ## [4.7.0] — 2026-04-03
 
@@ -316,7 +350,7 @@ feat: Prompt Security Scanner — static analysis for injection/leakage in agent
 ### Added
 
 - **prompt-security-scan.sh**: 10-rule static analyzer (PS-01 to PS-10) for prompt injection bait, exfiltration, role hijack, credential leak, code execution, base64 blobs, PII, missing model, wildcard tools. Zero LLM — pure regex. Supports --path, --quiet, single file or directory scan
-- **test-prompt-security-scan.bats**: 17 tests (score 85/100) — structure, clean pass, 4 detection types, edge cases, coverage breadth
+- **test-prompt-security-scan.bats**: 17 tests — structure, clean pass, 4 detection types, edge cases, coverage breadth
 
 ## [4.6.0] — 2026-04-03
 
@@ -489,7 +523,7 @@ feat: Memory Resilience + language profile support. Era 166.
 ### Added
 
 - **stop-memory-extract.sh**: SPEC-013v2 deep memory extraction via Stop hook (10 min timeout vs SessionEnd 1.5s). Extracts decisions and repeated failures to auto-memory
-- **Roadmap integrado**: output/20260401-roadmap-integrated.md con aprendizajes de pCompiler + claw-code + architecture review. 15 eras planificadas (166-180)
+- **Roadmap integrado**: roadmap con aprendizajes de repos investigados + architecture review
 
 ### Changed
 
@@ -519,7 +553,7 @@ feat: CLAUDE.md diet + hook enhancement — architecture exploit. Era 165.
 - **SPEC-067**: CLAUDE.md diet specification
 - **SPEC-068**: Hook enhancement specification
 - **test-hook-enhancements.bats**: 12 tests for all 3 enhanced hooks (all pass)
-- **Roadmap review**: output/20260331-roadmap-review-proposal.md — 10-era plan (Eras 165-175) based on architecture internals
+- **Roadmap review**: era plan based on architecture internals analysis
 
 ## [3.96.0] — 2026-03-31
 
@@ -530,7 +564,7 @@ feat: hidden features activation — new hooks, raised output limits, deferred t
 - **SessionEnd hook**: `session-end-memory.sh` — triggers memory extraction when session ends (native SPEC-013 support)
 - **UserPromptSubmit hook**: `user-prompt-intercept.sh` — pre-processes user input before Claude sees it (NL-query foundation)
 - **CwdChanged hook**: `cwd-changed-hook.sh` — auto-detects project context on directory change
-- **Architecture review report**: `output/20260331-hidden-features.md` — 27 hook events, 50+ env vars documented
+- **Architecture review report**: hook events and env vars documented from Claude Code internals analysis
 
 ### Changed
 
@@ -758,11 +792,7 @@ docs: Human Code Maps (.hcm) documentation rollout — 5 example project maps + 
 
 ### Added
 
-- **projects/proyecto-alpha/.human-maps/proyecto-alpha.hcm** — Human Code Map for the .NET microservices example project. Narrative sections: La historia, El modelo mental, Puntos de entrada, Gotchas, Por qué está construido así, Indicadores de deuda. debt-score: 3/10.
-- **projects/proyecto-beta/.human-maps/proyecto-beta.hcm** — Human Code Map for the TypeScript/Angular frontend example. Covers component architecture, state management patterns, routing gotchas. debt-score: 2/10.
-- **projects/sala-reservas/.human-maps/sala-reservas.hcm** — Human Code Map for the room-booking full-stack example. Explains reservation state machine, real-time sync model, calendar integration. debt-score: 4/10.
-- **projects/savia-web/.human-maps/savia-web.hcm** — Human Code Map for the Savia web dashboard. Covers multi-project context switching, Bridge API integration, command palette. debt-score: 3/10.
-- **projects/savia-mobile-android/.human-maps/savia-mobile-android.hcm** — Human Code Map for the Savia Android app. Covers OTA update pipeline, SSE chat streaming, Room DB as SSoT, Hilt DI wiring. debt-score: 2/10.
+- **Human Code Maps (.hcm)**: Generated for 5 example projects (proyecto-alpha, proyecto-beta, sala-reservas, savia-web, savia-mobile-android). Narrative format with 6 sections: La historia, El modelo mental, Puntos de entrada, Gotchas, Por qué, Indicadores de deuda.
 - **docs/ARCHITECTURE.md** — Added dual code intelligence (`.acm` + `.hcm`) to Key Design Decisions, `.human-maps/` to project directory structure, and `/codemap:generate-human` to Extension Points.
 
 ### Changed
@@ -789,7 +819,7 @@ feat: human-code-map skill — .hcm maps fighting cognitive debt; ACM system val
 - **.claude/skills/human-code-map/DOMAIN.md** — Domain context (Clara Philosophy). Key concepts: cognitive debt, first walk, walk-time (target 2-4 min), debt-score, gotcha. Business rules: .hcm always derived from .acm; debt-score >7 → escalate PM; last-walk only human; no validation = borrador. Upstream: agent-code-map + ast-comprehension. Downstream: onboarding + dev-session + spec-generate.
 - **.claude/rules/domain/hcm-maps.md** — Canonical rule for .hcm lifecycle. debt-score formula: `min((days/30)*2, 4) + complexity(0-3) + (1-coverage)*3`. Lifecycle: Creation → Validation → Active → Stale → Refresh → Archive. Staleness propagation: code change → .acm hash invalid → .hcm auto-stale. Commands: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`, `/codemap:refresh-human`. Directory: `.human-maps/` parallel to `.agent-maps/`.
 - **.human-maps/INDEX.hcm** — First example of .hcm format applied to pm-workspace itself. Newspaper editorial metaphor (Commands = editor inbox, Agents = specialized journalists, Skills = reference library, Hooks = fact-checkers). 6 non-obvious Gotchas including: Rules not auto-loaded, Hooks are bash not prompts, .claude/commands/*.md IS the prompt, projects/ gitignored deny-by-default, E1 always human, SAVIA_HOOK_PROFILE controls hook tier.
-- **output/20260329-acm-test-report.md** — Full A/B/C comparative test of .acm Agent Code Map system. Combined averages vs baseline: files explored -65%, tool uses -59%, tokens consumed -53%, duration -54%, confidence +3.5pp. Break-even: ~1 query per session (200 tokens to load maps saves ~27K average). Tested on 3 representative agentic tasks.
+- **ACM test report** — A/B/C comparative test of .acm Agent Code Map system showing significant improvements in files explored, tool uses, tokens consumed, and duration vs baseline.
 
 ### Changed
 
@@ -1108,8 +1138,7 @@ Savia Shield — Enterprise data sovereignty for AI-assisted workflows.
 
 ### Security
 
-- 3 independent audits: Red Team (24 findings), Code Review (5 blockers), Confidentiality (18 files)
-- 24 vulnerabilities found, 24 resolved, score 100/100
+- 3 independent audits: Red Team, Code Review, Confidentiality — all findings resolved
 - Defenses: NFKC unicode normalization, sandwich prompt injection defense, cross-write split detection, HMAC audit chain, chmod 600 mask maps, dual-language NER scan
 
 ## [3.63.0] — 2026-03-25
@@ -2664,11 +2693,9 @@ Orgchart diagram generation from teams data — new diagram type for `/diagram-g
 
 ### Added — Era 100: Pentester lab infrastructure
 
-- Docker Compose lab (`tests/pentest-lab/`) with 6 intentionally vulnerable services: vuln-api (Flask), metadata-mock (AWS IMDSv1), tls-bad (weak TLS), MongoDB (no-auth), MinIO (default creds), Redis (no-auth)
-- Vulnerable API with 15+ isolated endpoints mapped to test suite IDs (W-01..W-08, A-01..A-02, Z-01..Z-05, P-05..P-06, N-02..N-03)
-- Lab orchestrator script (`run-lab.sh`) with up/down/status/test commands and 21 smoke tests
-- Finding validator (`validate-findings.py`) for automated PT-NNN format checking
-- All Python files syntax-validated, all shell scripts bash -n validated
+- Docker Compose lab (`tests/pentest-lab/`) with intentionally vulnerable services for controlled security testing
+- Lab orchestrator script (`run-lab.sh`) with up/down/status/test commands
+- Finding validator (`validate-findings.py`) for automated format checking
 
 ## [2.70.0] — 2026-03-09
 
@@ -5857,6 +5884,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.26.0...v4.27.0
 [4.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.25.0...v4.26.0
 [4.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.24.0...v4.25.0
 [4.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.23.0...v4.24.0
