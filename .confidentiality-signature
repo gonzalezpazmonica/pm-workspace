@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4a73c367efddb5ac7ab9f68da32723cead6c7445b88f4b647dcda35fa4f3ec60
-timestamp=2026-04-08T04:37:10Z
+diff_hash=cd049f8fbffebb7a1489ca54da7e71d95fb9710ef239403ed03a56ac117b925a
+timestamp=2026-04-08T04:44:28Z
 branch=feat/era185-nd-profiles-trace
-head_commit=9e908a5
-signature=a86a373bfb4be34e83f3f25a3ac7f67bc2884b62bac941c75450c20e45e8359d
+head_commit=c2d4685
+signature=83955192ba47e60ddabf84244f83b8672dc8e09cd660c3945cf932da47d337da
