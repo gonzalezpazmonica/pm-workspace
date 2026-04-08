@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.31.0] — 2026-04-08
+
+Four patterns from Anvil research (ppazosp/anvil) — heat parallelism, competitive architects, knowledge chains, compiled agent index. Era 197.
+
+### Added
+- **Script** `heat-scheduler.sh`: lightweight heat-based parallelism — phases = sequence, heats = parallel within phase, file conflict detection (SPEC-094)
+- **Script** `competitive-design.sh`: parallel design generation with 3 philosophies (minimal, clean, pragmatic) + 4-criteria evaluation (SPEC-095)
+- **Script** `slice-context-chain.sh`: knowledge chain between dev-session slices — injects completion summaries as context for next slice (SPEC-096)
+- **Script** `compile-agent-index.sh`: compiled AGENTS-INDEX.md from 49 agent definitions with hash-based freshness check (SPEC-097)
+- **BATS** `test-heat-scheduler.bats`: 17 tests (SPEC-094)
+- **BATS** `test-competitive-design.bats`: 16 tests (SPEC-095)
+- **BATS** `test-slice-context-chain.bats`: 18 tests (SPEC-096)
+- **BATS** `test-compile-agent-index.bats`: 20 tests (SPEC-097)
+- **SPECs** 094, 095, 096, 097: proposed from Anvil research
+
 ## [4.30.0] — 2026-04-08
 
 Scoring improvements from llmfit research — optimal bands + variable weights + hardware-aware Ollama. Era 196.
@@ -5920,6 +5935,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.30.0...v4.31.0
 [4.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.29.0...v4.30.0
 [4.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.28.0...v4.29.0
 [4.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.27.0...v4.28.0

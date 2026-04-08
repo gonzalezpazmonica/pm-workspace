@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a81b91ccf77ac3783e20f04694c2a58df33dc9265cefe71bad009b4fc7ca2dbd
-timestamp=2026-04-08T15:40:53Z
+diff_hash=d681d01ec43cfc2c1b2bc33a6f16af4af224a07bc34bfe4b33d507fb95d2260f
+timestamp=2026-04-08T21:09:24Z
 branch=feat/era196-scoring-improvements
-head_commit=0d027b4
-signature=864aee49b797ec041777ecc0a4c2f2702838ff1d9ae75ba98c12fae8bfad595d
+head_commit=1f5a14f
+signature=b2099ad4dee07f88bbe26cd6b1c2a8e0d828bb5d7706acf340bf6d171912bad2
