@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # BATS tests for block-gitignored-references.sh
 # SCRIPT=.claude/hooks/block-gitignored-references.sh
-# SPEC: Era 194 — Confidentiality hardening, gitignored content leak prevention
+# Ref: docs/propuestas/SPEC-081-hook-bats-coverage.md
 
 HOOK=".claude/hooks/block-gitignored-references.sh"
 
@@ -141,5 +141,9 @@ make_input() {
 @test "edge: test file paths are skipped (no false positives)" {
   # Hook must skip its own test files to avoid blocking test development
   run bash -c "printf '%s' '$(make_input "tests/test-foo.bats" "output/20260407-audit.md private-agent-memory/x")' | bash $HOOK"
+  [[ "$status" -eq 0 ]]
+}
+@test "edge: hook file paths are skipped" {
+  run bash -c "printf '%s' '$(make_input ".claude/hooks/my-hook.sh" "output/20260407 config.local/")' | bash $HOOK"
   [[ "$status" -eq 0 ]]
 }
