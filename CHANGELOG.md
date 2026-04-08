@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.30.0] — 2026-04-08
+
+Scoring improvements from llmfit research — optimal bands + variable weights + hardware-aware Ollama. Era 196.
+
+### Added
+- **Script** `ollama-hardware-check.sh`: GPU/VRAM detection, model size calculation, quantization recommendation, tok/s estimation (SPEC-093)
+- **BATS** `test-ollama-hardware-check.bats`: 21 tests (SPEC-093)
+
+### Changed
+- **Rule** `scoring-curves.md`: context usage now uses optimal band (40-65% = peak) instead of linear from 0% (SPEC-091)
+- **Rule** `consensus-protocol.md`: 4 weight profiles by task type — default, security, business, architecture — with keyword auto-detection (SPEC-092)
+
 ## [4.29.0] — 2026-04-08
 
 Readiness check updated + memory-cache-rebuild migrated to Python sqlite3. Era 195b.
@@ -5908,6 +5920,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.29.0...v4.30.0
 [4.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.28.0...v4.29.0
 [4.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.27.0...v4.28.0
 [4.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.26.0...v4.27.0
