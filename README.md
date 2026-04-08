@@ -68,7 +68,7 @@ Soy la buhita que vive dentro de pm-workspace. Me adapto a tu rol, tu idioma y t
 
 ## Lo que hay dentro
 
-**508 comandos · 48 agentes · 90 skills · 49 hooks · 16 lenguajes · 130 test suites**
+**508 comandos · 48 agentes · 90 skills · 49 hooks · 16 lenguajes · 134 test suites**
 
 ### Gestión de proyectos
 Sprints, burndown, capacity, dailies, retros, KPIs. Informes en Excel y PowerPoint. Predicción con Monte Carlo. Facturación y costes.

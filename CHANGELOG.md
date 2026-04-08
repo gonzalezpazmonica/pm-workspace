@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.28.0] — 2026-04-08
+
+Memory architecture: SQLite cache + L0-L3 stack + temporal knowledge graph. Era 195.
+
+### Added
+- **Script** `memory-cache-rebuild.sh`: rebuilds SQLite cache from .md memory files (SPEC-089)
+- **Script** `memory-stack-load.sh`: token-budgeted progressive loading L0-L3 (SPEC-089)
+- **Script** `knowledge-graph.sh`: entity-relation graph with build/query/impact/status (SPEC-090)
+- **BATS** `test-memory-stack.bats`: 26 tests (SPEC-089)
+- **BATS** `test-knowledge-graph.bats`: 21 tests (SPEC-090)
+
+### Design
+- SQLite at `~/.savia/` as local cache per machine (regenerable, gitignored)
+- `.md` files remain source of truth (Principle #1: .md sovereignty)
+- Graceful degradation: all scripts work without SQLite (fall back to grep/read)
+
 ## [4.27.0] — 2026-04-08
 
 Confidentiality hardening + context management patterns from Claudepedia analysis. Era 194.
@@ -5884,6 +5900,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.27.0...v4.28.0
 [4.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.26.0...v4.27.0
 [4.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.25.0...v4.26.0
 [4.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.24.0...v4.25.0
