@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
-# test-block-gitignored-references.bats — Tests for gitignored content leak prevention
-# Verifies the hook blocks references to gitignored paths/metrics in public (N1) files.
+# BATS tests for block-gitignored-references.sh
+# SCRIPT=.claude/hooks/block-gitignored-references.sh
+# SPEC: Era 194 — Confidentiality hardening, gitignored content leak prevention
 
 HOOK=".claude/hooks/block-gitignored-references.sh"
 
