@@ -41,7 +41,22 @@ Normalización uniforme:
 | CORRECTED / CAMBIOS_MENORES / INCOMPLETO | 0.5 |
 | REQUIRES_RETHINKING / RECHAZADO / INVÁLIDO | 0.0 |
 
-**Ponderado:** `score = (reflection × 0.4) + (code × 0.3) + (business × 0.3)`
+**Ponderado por perfil de tarea** (SPEC-092, inspirado en llmfit):
+
+| Perfil | reflection | code | business | Cuándo |
+|---|---|---|---|---|
+| `default` | 0.40 | 0.30 | 0.30 | Specs genéricas, CRUD, UI |
+| `security` | 0.30 | 0.50 | 0.20 | auth, pagos, PII, APIs públicas, encrypt |
+| `business` | 0.25 | 0.25 | 0.50 | Reglas de negocio, cálculos, precios, impuestos |
+| `architecture` | 0.50 | 0.30 | 0.20 | Infraestructura, migraciones, patrones |
+
+Detección automática por keywords en la spec:
+- `auth|security|token|encrypt|PII|password` → `security`
+- `rule|calculation|price|discount|tax|billing` → `business`
+- `migration|infrastructure|deploy|scale|database` → `architecture`
+- Sin match → `default`
+
+Fórmula: `score = (reflection × W_r) + (code × W_c) + (business × W_b)`
 
 ---
 

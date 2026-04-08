@@ -35,16 +35,18 @@ Lines    Score   Label
 
 ### Context Usage (% of 200K window)
 
-Zones calibrated per TurboQuant (arXiv:2504.19874) — degradation starts ~70%, not 50%.
+Optimal band model (llmfit + TurboQuant): peak is a BAND, not minimum.
+0% = not working. 100% = degraded. Sweet spot: 40-65%.
 
 ```
 Usage%   Score   Zone       Action
-≤ 30     100     Verde      Healthy — full capacity
-50        80     Verde      Normal — monitor
-70        50     Gradual    Warning — /compact recommended (Zona Gradual)
-85        25     Alerta     Critical — /compact required (Zona Alerta)
-95         5     Crítica    Emergency — subagent isolation mandatory (Zona Crítica)
-≥ 100      0     Crítica    Exhausted — session restart
+0-20      60     Infra      Underutilization — session just started
+20-40     85     Warmup     Normal — building context
+40-65    100     Optimal    Peak performance — working zone
+65-80     70     Gradual    /compact recommended (TurboQuant onset)
+80-90     30     Alerta     No heavy operations
+90-95      5     Critica    /compact mandatory
+≥ 95       0     Exhausted  Session restart
 ```
 
 ### File Size (lines)
