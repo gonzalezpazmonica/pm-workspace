@@ -40,7 +40,7 @@ echo "====================================="
 echo ""
 
 # --- 1. Core runtime ---
-echo "[1/7] Core Runtime"
+echo "[1/9] Core Runtime"
 check critical "bash >= 4.0" "bash --version | head -1 | grep -E 'version [4-9]'"
 check critical "git" "git --version"
 check critical "python3" "command -v python3"
@@ -50,7 +50,7 @@ check recommended "bats (test runner)" "command -v bats"
 
 # --- 2. Workspace structure ---
 echo ""
-echo "[2/7] Workspace Structure"
+echo "[2/9] Workspace Structure"
 check critical "CLAUDE.md exists" "test -f '$ROOT_DIR/CLAUDE.md'"
 check critical ".claude/commands/ exists" "test -d '$ROOT_DIR/.claude/commands'"
 check critical ".claude/agents/ exists" "test -d '$ROOT_DIR/.claude/agents'"
@@ -61,7 +61,7 @@ check critical ".claude/settings.json exists" "test -f '$ROOT_DIR/.claude/settin
 
 # --- 3. Scripts health ---
 echo ""
-echo "[3/7] Scripts Health"
+echo "[3/9] Scripts Health"
 check critical "memory-store.sh executable" "test -f '$ROOT_DIR/scripts/memory-store.sh'"
 check critical "memory-store.sh runs" "bash '$ROOT_DIR/scripts/memory-store.sh' help | grep -q 'save'"
 check critical "validate-ci-local.sh exists" "test -f '$ROOT_DIR/scripts/validate-ci-local.sh'"
@@ -70,7 +70,7 @@ check recommended "memory-vector.py valid Python" "python3 -c \"import ast; ast.
 
 # --- 4. Vector memory (optional tier) ---
 echo ""
-echo "[4/7] Vector Memory (SPEC-018)"
+echo "[4/9] Vector Memory (SPEC-018)"
 check optional "sentence-transformers installed" "python3 -c 'import sentence_transformers'"
 check optional "hnswlib installed" "python3 -c 'import hnswlib'"
 if python3 -c "import hnswlib, sentence_transformers" 2>/dev/null; then
@@ -82,7 +82,7 @@ fi
 
 # --- 4b. Hardware (SPEC-021) ---
 echo ""
-echo "[4b/7] Hardware (SPEC-021)"
+echo "[4b/9] Hardware (SPEC-021)"
 RAM_MB=$(free -m 2>/dev/null | awk '/^Mem:/{print $2}' || echo 0)
 DISK_FREE_MB=$(df -m "$ROOT_DIR" 2>/dev/null | awk 'NR==2{print $4}' || echo 0)
 CPU_CORES=$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 0)
@@ -100,9 +100,46 @@ if curl -s --max-time 3 "https://1.1.1.1/cdn-cgi/trace" >/dev/null 2>&1; then
 fi
 printf "  %-4s %-45s %s\n" "INFO" "Internet: $ONLINE (offline-first: always works)" ""
 
+# --- 4d. SQLite Cache Systems (SPEC-089/090) ---
+echo ""
+echo "[4d/7] SQLite Cache Systems"
+check recommended "python3 sqlite3 module" "python3 -c 'import sqlite3'"
+check recommended "memory-cache-rebuild.sh exists" "test -f '$ROOT_DIR/scripts/memory-cache-rebuild.sh'"
+check recommended "memory-stack-load.sh exists" "test -f '$ROOT_DIR/scripts/memory-stack-load.sh'"
+check recommended "knowledge-graph.sh exists" "test -f '$ROOT_DIR/scripts/knowledge-graph.sh'"
+if [[ -f "$HOME/.savia/memory-cache.db" ]]; then
+    MCACHE_ENTRIES=$(python3 -c "import sqlite3; c=sqlite3.connect('$HOME/.savia/memory-cache.db'); print(c.execute('SELECT COUNT(*) FROM memory_entries').fetchone()[0])" 2>/dev/null || echo "0")
+    printf "  %-4s %-45s %s\n" "INFO" "Memory cache: $MCACHE_ENTRIES entries" ""
+else
+    printf "  %-4s %-45s %s\n" "TIP " "Run: bash scripts/memory-cache-rebuild.sh" ""
+fi
+if [[ -f "$HOME/.savia/knowledge-graph.db" ]]; then
+    KG_ENTITIES=$(python3 -c "import sqlite3; c=sqlite3.connect('$HOME/.savia/knowledge-graph.db'); print(c.execute('SELECT COUNT(*) FROM entities').fetchone()[0])" 2>/dev/null || echo "0")
+    KG_RELS=$(python3 -c "import sqlite3; c=sqlite3.connect('$HOME/.savia/knowledge-graph.db'); print(c.execute('SELECT COUNT(*) FROM relations').fetchone()[0])" 2>/dev/null || echo "0")
+    printf "  %-4s %-45s %s\n" "INFO" "Knowledge graph: $KG_ENTITIES entities, $KG_RELS relations" ""
+else
+    printf "  %-4s %-45s %s\n" "TIP " "Run: bash scripts/knowledge-graph.sh build" ""
+fi
+
+# --- 4e. Savia Shield (Data Sovereignty) ---
+echo ""
+echo "[4e/7] Savia Shield"
+check recommended "ollama installed" "command -v ollama"
+if command -v ollama &>/dev/null; then
+    if ollama list 2>/dev/null | grep -q "qwen2.5"; then
+        printf "  %-4s %-45s %s\n" "OK  " "Ollama model loaded (qwen2.5)" ""
+    else
+        printf "  %-4s %-45s %s\n" "TIP " "Run: ollama pull qwen2.5:7b" ""
+    fi
+fi
+check recommended "block-gitignored-references.sh" "test -f '$ROOT_DIR/.claude/hooks/block-gitignored-references.sh'"
+check recommended "data-sovereignty-gate.sh" "test -f '$ROOT_DIR/.claude/hooks/data-sovereignty-gate.sh'"
+check recommended "context-budget-check.sh" "test -f '$ROOT_DIR/scripts/context-budget-check.sh'"
+check recommended "tool-result-trim.sh" "test -f '$ROOT_DIR/scripts/tool-result-trim.sh'"
+
 # --- 5. Hooks ---
 echo ""
-echo "[5/7] Hooks"
+echo "[5/9] Hooks"
 check critical "settings.json valid JSON" "python3 -c \"import json; json.load(open('$ROOT_DIR/.claude/settings.json'))\""
 HOOKS_DIR="$ROOT_DIR/.claude/hooks"
 if [[ -d "$HOOKS_DIR" ]]; then
@@ -117,7 +154,7 @@ fi
 
 # --- 6. Tests ---
 echo ""
-echo "[6/7] Tests"
+echo "[8/9] Tests"
 check critical "tests/ directory exists" "test -d '$ROOT_DIR/tests'"
 check critical "run-all.sh exists" "test -f '$ROOT_DIR/tests/run-all.sh'"
 if command -v bats &>/dev/null; then
@@ -127,7 +164,7 @@ fi
 
 # --- 7. Git & CI ---
 echo ""
-echo "[7/7] Git & CI"
+echo "[9/9] Git & CI"
 check critical "git repo initialized" "git -C '$ROOT_DIR' rev-parse --is-inside-work-tree"
 check critical "not on main branch" "test \"\$(git -C '$ROOT_DIR' branch --show-current)\" != 'main'" || true
 check recommended ".gitignore exists" "test -f '$ROOT_DIR/.gitignore'"
