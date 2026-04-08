@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.29.0] — 2026-04-08
+
+Readiness check updated + memory-cache-rebuild migrated to Python sqlite3. Era 195b.
+
+### Changed
+- **readiness-check.sh**: expanded from 7 to 9 sections — added SQLite Cache Systems (4d) and Savia Shield (4e)
+- **memory-cache-rebuild.sh**: migrated from sqlite3 CLI to Python sqlite3 module (portability, no apt install needed)
+
 ## [4.28.0] — 2026-04-08
 
 Memory architecture: SQLite cache + L0-L3 stack + temporal knowledge graph. Era 195.
@@ -5900,6 +5908,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.28.0...v4.29.0
 [4.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.27.0...v4.28.0
 [4.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.26.0...v4.27.0
 [4.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.25.0...v4.26.0

@@ -12,24 +12,39 @@ MEMORY_BASE="${HOME}/.claude/projects"
 
 mkdir -p "$CACHE_DIR"
 
-# ── Require sqlite3 ────────────────────────────────────────────────────────
-if ! command -v sqlite3 &>/dev/null; then
-  echo "sqlite3 not found. Install sqlite3 to build memory cache."
+# ── Require python3 with sqlite3 ──────────────────────────────────────────
+if ! python3 -c "import sqlite3" 2>/dev/null; then
+  echo "python3 with sqlite3 module required."
   exit 0
 fi
 
-# ── Find memory directories ────────────────────────────────────────────────
-find_memory_dirs() {
-  if [[ ! -d "$MEMORY_BASE" ]]; then
-    return 0
-  fi
-  find "$MEMORY_BASE" -maxdepth 3 -type d -name memory 2>/dev/null
-}
+# ── Find memory directories ──────────────────────────────────────────────
+if [[ ! -d "$MEMORY_BASE" ]]; then
+  echo "No memory directories found. Empty cache created."
+  exit 0
+fi
 
-# ── Create/replace SQLite schema ───────────────────────────────────────────
-init_db() {
-  rm -f "$CACHE_DB"
-  sqlite3 "$CACHE_DB" <<'SQL'
+MEMORY_DIRS=$(find "$MEMORY_BASE" -maxdepth 3 -type d -name memory 2>/dev/null)
+if [[ -z "$MEMORY_DIRS" ]]; then
+  echo "No memory directories found. Empty cache created."
+  exit 0
+fi
+
+# ── Build cache via Python ────────────────────────────────────────────────
+python3 - "$CACHE_DB" "$MEMORY_DIRS" <<'PYEOF'
+import sqlite3, sys, os, re, glob
+from pathlib import Path
+
+db_path = sys.argv[1]
+mem_dirs = sys.argv[2].strip().split('\n')
+
+# Remove old cache and create fresh
+if os.path.exists(db_path):
+    os.remove(db_path)
+
+conn = sqlite3.connect(db_path)
+c = conn.cursor()
+c.executescript("""
 CREATE TABLE memory_entries (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   topic_key TEXT NOT NULL,
@@ -48,123 +63,72 @@ CREATE TABLE memory_index (
 );
 CREATE INDEX idx_memory_index_keyword ON memory_index(keyword);
 CREATE INDEX idx_memory_entries_topic ON memory_entries(topic_key);
-SQL
-}
+""")
 
-# ── Extract keywords from content ──────────────────────────────────────────
-extract_keywords() {
-  local text="$1"
-  echo "$text" \
-    | tr '[:upper:]' '[:lower:]' \
-    | tr -cs 'a-z0-9' '\n' \
-    | awk 'length >= 4' \
-    | sort -u \
-    | head -20
-}
+from datetime import datetime, timezone
+now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+file_count = 0
 
-# ── Escape single quotes for SQLite ────────────────────────────────────────
-sql_escape() {
-  echo "$1" | sed "s/'/''/g"
-}
+def extract_keywords(text, max_kw=20):
+    words = re.findall(r'[a-zA-Z0-9]{4,}', text.lower())
+    return list(dict.fromkeys(words))[:max_kw]
 
-# ── Index a single .md file ────────────────────────────────────────────────
-index_file() {
-  local filepath="$1"
-  local filename
-  filename="$(basename "$filepath" .md)"
-  local topic_key="$filename"
-  local content
-  content="$(cat "$filepath" 2>/dev/null)" || return 0
-  [[ -z "$content" ]] && return 0
+def detect_type(filename):
+    for prefix, typ in [('feedback_','feedback'),('project_','project'),
+                         ('user_','user'),('reference_','reference'),
+                         ('decision_','decision'),('pattern_','pattern')]:
+        if filename.startswith(prefix):
+            return typ
+    return 'unknown'
 
-  local tokens_est=$(( ${#content} / 4 ))
-  local type="unknown"
-  # Detect type from filename prefix
-  case "$filename" in
-    feedback_*) type="feedback" ;;
-    project_*) type="project" ;;
-    user_*) type="user" ;;
-    reference_*) type="reference" ;;
-    decision_*) type="decision" ;;
-    pattern_*) type="pattern" ;;
-  esac
+def index_file(filepath):
+    global file_count
+    content = Path(filepath).read_text(errors='replace').strip()
+    if not content:
+        return
+    filename = Path(filepath).stem
+    topic_key = filename
+    typ = detect_type(filename)
+    tokens_est = len(content) // 4
 
-  local safe_content
-  safe_content="$(sql_escape "$content")"
-  local safe_topic
-  safe_topic="$(sql_escape "$topic_key")"
-  local now
-  now="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+    c.execute(
+        "INSERT INTO memory_entries (topic_key,type,content,importance,tokens_est,created,accessed,hits) VALUES (?,?,?,50,?,?,?,0)",
+        (topic_key, typ, content, tokens_est, now, now)
+    )
+    entry_id = c.lastrowid
+    for kw in extract_keywords(content):
+        c.execute("INSERT INTO memory_index (keyword,entry_id) VALUES (?,?)", (kw, entry_id))
+    file_count += 1
 
-  sqlite3 "$CACHE_DB" \
-    "INSERT INTO memory_entries (topic_key, type, content, importance, tokens_est, created, accessed, hits)
-     VALUES ('$safe_topic', '$type', '$safe_content', 50, $tokens_est, '$now', '$now', 0);"
+def index_memory_md(filepath):
+    global file_count
+    for line in Path(filepath).read_text(errors='replace').splitlines():
+        line = line.strip()
+        if not line or line.startswith('#'):
+            continue
+        m = re.search(r'\[([^\]]+)\]', line)
+        topic_key = m.group(1) if m else 'index-entry'
+        tokens_est = len(line) // 4
+        c.execute(
+            "INSERT INTO memory_entries (topic_key,type,content,importance,tokens_est,created,accessed,hits) VALUES (?,?,?,60,?,?,?,0)",
+            (topic_key, 'index', line, tokens_est, now, now)
+        )
+    file_count += 1
 
-  local entry_id
-  entry_id="$(sqlite3 "$CACHE_DB" "SELECT last_insert_rowid();")"
+for mem_dir in mem_dirs:
+    mem_dir = mem_dir.strip()
+    if not mem_dir or not os.path.isdir(mem_dir):
+        continue
+    memory_md = os.path.join(mem_dir, 'MEMORY.md')
+    if os.path.isfile(memory_md):
+        index_memory_md(memory_md)
+    for md in sorted(glob.glob(os.path.join(mem_dir, '*.md'))):
+        if os.path.basename(md) == 'MEMORY.md':
+            continue
+        index_file(md)
 
-  # Build inverted index
-  local kw
-  while IFS= read -r kw; do
-    [[ -z "$kw" ]] && continue
-    local safe_kw
-    safe_kw="$(sql_escape "$kw")"
-    sqlite3 "$CACHE_DB" \
-      "INSERT INTO memory_index (keyword, entry_id) VALUES ('$safe_kw', $entry_id);"
-  done < <(extract_keywords "$content")
-}
-
-# ── Index MEMORY.md entries (each line is a summary) ───────────────────────
-index_memory_md() {
-  local filepath="$1"
-  [[ -f "$filepath" ]] || return 0
-  while IFS= read -r line; do
-    # Skip empty lines and comments
-    [[ -z "$line" ]] && continue
-    [[ "$line" =~ ^#  ]] && continue
-    local topic_key
-    topic_key="$(echo "$line" | sed -n 's/.*\[\([^]]*\)\].*/\1/p')"
-    [[ -z "$topic_key" ]] && topic_key="index-entry"
-    local tokens_est=$(( ${#line} / 4 ))
-    local safe_line
-    safe_line="$(sql_escape "$line")"
-    local safe_topic
-    safe_topic="$(sql_escape "$topic_key")"
-    local now
-    now="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-    sqlite3 "$CACHE_DB" \
-      "INSERT INTO memory_entries (topic_key, type, content, importance, tokens_est, created, accessed, hits)
-       VALUES ('$safe_topic', 'index', '$safe_line', 60, $tokens_est, '$now', '$now', 0);"
-  done < "$filepath"
-}
-
-# ── Main ───────────────────────────────────────────────────────────────────
-main() {
-  init_db
-  local count=0
-  local dirs
-  dirs="$(find_memory_dirs)"
-  [[ -z "$dirs" ]] && { echo "No memory directories found. Empty cache created."; exit 0; }
-
-  while IFS= read -r memdir; do
-    [[ -z "$memdir" ]] && continue
-    # Index MEMORY.md specially
-    if [[ -f "$memdir/MEMORY.md" ]]; then
-      index_memory_md "$memdir/MEMORY.md"
-      count=$((count + 1))
-    fi
-    # Index topic files
-    for mdfile in "$memdir"/*.md; do
-      [[ -f "$mdfile" ]] || continue
-      [[ "$(basename "$mdfile")" == "MEMORY.md" ]] && continue
-      index_file "$mdfile"
-      count=$((count + 1))
-    done
-  done <<< "$dirs"
-
-  local total
-  total="$(sqlite3 "$CACHE_DB" "SELECT COUNT(*) FROM memory_entries;")"
-  echo "Cache rebuilt: $CACHE_DB ($total entries from $count files)"
-}
-
-main "$@"
+conn.commit()
+total = c.execute("SELECT COUNT(*) FROM memory_entries").fetchone()[0]
+print(f"Cache rebuilt: {db_path} ({total} entries from {file_count} files)")
+conn.close()
+PYEOF
