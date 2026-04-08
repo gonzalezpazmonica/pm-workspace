@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # block-gitignored-references.sh — Bloquea publicación de rutas/contenido gitignored en ficheros N1
 # Profile tier: security
 # Hook: PreToolUse (Edit|Write)
-#
 # Detecta cuando se escribe contenido que referencia rutas gitignored
 # (output/*, private-agent-memory/*, config.local/*, scores internos, etc.)
 # en ficheros trackeados por git (N1 público).
-set -uo pipefail
 
 LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
 if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
