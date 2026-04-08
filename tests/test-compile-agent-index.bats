@@ -7,24 +7,31 @@ setup() {
   export SCRIPT="$REPO_ROOT/scripts/compile-agent-index.sh"
   AGENTS_DIR="$REPO_ROOT/.claude/agents"
   INDEX_FILE="$REPO_ROOT/.claude/AGENTS-INDEX.md"
+  TMPDIR_AI=$(mktemp -d)
 
   # Backup existing index if present
   if [[ -f "$INDEX_FILE" ]]; then
-    cp "$INDEX_FILE" "$INDEX_FILE.bak"
+    cp "$INDEX_FILE" "${TMPDIR_AI}/AGENTS-INDEX.md.bak"
   fi
 }
 
 teardown() {
   # Restore backup
-  if [[ -f "$INDEX_FILE.bak" ]]; then
-    mv "$INDEX_FILE.bak" "$INDEX_FILE"
+  if [[ -f "${TMPDIR_AI}/AGENTS-INDEX.md.bak" ]]; then
+    mv "${TMPDIR_AI}/AGENTS-INDEX.md.bak" "$INDEX_FILE"
+  elif [[ -f "$INDEX_FILE" ]]; then
+    rm -f "$INDEX_FILE"
   fi
+  rm -rf "$TMPDIR_AI"
 }
 
 # ── 1. Script existence and structure ────────────────────────────────────────
 
-@test "script exists and is executable" {
+@test "script exists and is a regular file" {
   [ -f "$SCRIPT" ]
+}
+
+@test "script is executable" {
   [ -x "$SCRIPT" ]
 }
 
@@ -36,6 +43,10 @@ teardown() {
   run bash "$SCRIPT"
   [ "$status" -eq 1 ]
   [[ "$output" == *"Usage"* ]]
+}
+
+@test "script does not hardcode credentials" {
+  ! grep -qiE '(AKIA|ghp_|sk-live|Bearer [A-Za-z0-9]{20,})' "$SCRIPT"
 }
 
 # ── 2. Compile ───────────────────────────────────────────────────────────────
@@ -51,9 +62,9 @@ teardown() {
   grep -q "Auto-generated" "$INDEX_FILE"
 }
 
-@test "compile output contains hash" {
+@test "compile output contains SHA-256 hash" {
   bash "$SCRIPT" compile
-  grep -q "Hash:" "$INDEX_FILE"
+  grep -qE "Hash: [a-f0-9]{20,}" "$INDEX_FILE"
 }
 
 @test "compile output contains Quick Routing table" {
@@ -71,10 +82,25 @@ teardown() {
   grep -q "All Agents" "$INDEX_FILE"
 }
 
-@test "compile reports agent count" {
+@test "compile reports agent count in stdout" {
   run bash "$SCRIPT" compile
   [ "$status" -eq 0 ]
   [[ "$output" == *"agents"* ]]
+}
+
+@test "compile output contains generation timestamp" {
+  bash "$SCRIPT" compile
+  grep -qE "Generated: [0-9]{4}-[0-9]{2}-[0-9]{2}" "$INDEX_FILE"
+}
+
+@test "compile is idempotent (same line count on consecutive runs)" {
+  bash "$SCRIPT" compile
+  local lines1
+  lines1=$(wc -l < "$INDEX_FILE")
+  bash "$SCRIPT" compile
+  local lines2
+  lines2=$(wc -l < "$INDEX_FILE")
+  [ "$lines1" -eq "$lines2" ]
 }
 
 # ── 3. Check freshness ──────────────────────────────────────────────────────
@@ -93,9 +119,19 @@ teardown() {
   [[ "$output" == *"STALE"* ]]
 }
 
+@test "check reports current vs stored hash on stale" {
+  bash "$SCRIPT" compile
+  # Corrupt the hash to simulate stale
+  sed -i 's/Hash: [a-f0-9]*/Hash: 0000000000/' "$INDEX_FILE"
+  run bash "$SCRIPT" check
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"Current:"* ]]
+  [[ "$output" == *"Stored:"* ]]
+}
+
 # ── 4. Stats ─────────────────────────────────────────────────────────────────
 
-@test "stats shows agent count" {
+@test "stats shows total agent count" {
   run bash "$SCRIPT" stats
   [ "$status" -eq 0 ]
   [[ "$output" == *"Total agents"* ]]
@@ -107,19 +143,33 @@ teardown() {
   [[ "$output" == *"By model"* ]]
 }
 
+@test "stats shows permission level distribution" {
+  run bash "$SCRIPT" stats
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"By permission"* ]]
+}
+
+@test "stats reports index existence status" {
+  bash "$SCRIPT" compile
+  run bash "$SCRIPT" stats
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Index:"* ]]
+}
+
 # ── 5. Show ──────────────────────────────────────────────────────────────────
 
-@test "show displays index content" {
+@test "show displays index content after compile" {
   bash "$SCRIPT" compile
   run bash "$SCRIPT" show
   [ "$status" -eq 0 ]
   [[ "$output" == *"Agent Index"* ]]
 }
 
-@test "show fails when no index exists" {
+@test "show fails with error when no index exists" {
   rm -f "$INDEX_FILE"
   run bash "$SCRIPT" show
   [ "$status" -eq 1 ]
+  [[ "$output" == *"No index found"* ]]
 }
 
 # ── 6. Content quality ──────────────────────────────────────────────────────
@@ -139,9 +189,47 @@ teardown() {
   grep -q "SDD" "$INDEX_FILE"
 }
 
+@test "compiled index has Security flow" {
+  bash "$SCRIPT" compile
+  grep -q "Security" "$INDEX_FILE"
+}
+
+@test "compiled index has Consensus flow" {
+  bash "$SCRIPT" compile
+  grep -q "Consensus" "$INDEX_FILE"
+}
+
 # ── 7. Edge cases ────────────────────────────────────────────────────────────
 
-@test "unknown command shows error" {
+@test "unknown command shows error and exits non-zero" {
   run bash "$SCRIPT" foobar
   [ "$status" -eq 1 ]
+  [[ "$output" == *"Unknown command"* ]]
+}
+
+@test "compile succeeds even when run multiple times" {
+  run bash "$SCRIPT" compile
+  [ "$status" -eq 0 ]
+  run bash "$SCRIPT" compile
+  [ "$status" -eq 0 ]
+}
+
+@test "check with corrupted index file detects stale" {
+  echo "not a valid index" > "$INDEX_FILE"
+  run bash "$SCRIPT" check
+  [ "$status" -eq 1 ]
+}
+
+@test "stats works even without compiled index" {
+  rm -f "$INDEX_FILE"
+  run bash "$SCRIPT" stats
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"NOT COMPILED"* ]]
+}
+
+@test "compiled index line count is reasonable (>10 lines)" {
+  bash "$SCRIPT" compile
+  local lines
+  lines=$(wc -l < "$INDEX_FILE")
+  [ "$lines" -gt 10 ]
 }
