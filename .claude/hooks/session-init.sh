@@ -211,10 +211,15 @@ if command -v curl >/dev/null 2>&1; then
   fi
 fi
 
-# ── Shield daemon pre-warm (SPEC-071: reduce NER cold start) ─────────────────
+# ── Shield auto-start + health check (SPEC-071) ─────────────────────────────
 check_timeout
 SHIELD_PORT="${SAVIA_SHIELD_PORT:-8444}"
-if command -v curl >/dev/null 2>&1; then
+SHIELD_PROXY_PORT="${SAVIA_SHIELD_PROXY_PORT:-8443}"
+if command -v python3 >/dev/null 2>&1; then
+  # Auto-start if not running (detached, survives terminal close)
+  if ! curl -sf --max-time 2 "http://127.0.0.1:$SHIELD_PORT/health" >/dev/null 2>&1; then
+    python3 "$CLAUDE_PROJECT_DIR/scripts/shield-launcher.py" start >/dev/null 2>&1
+  fi
   if curl -sf --max-time 2 "http://127.0.0.1:$SHIELD_PORT/health" >/dev/null 2>&1; then
     ITEMS+=("Shield: daemon activo")
   fi
