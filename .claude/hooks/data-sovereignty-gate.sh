@@ -138,12 +138,30 @@ elif echo "$NORM_CONTENT" | grep -qE '(192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9
 fi
 
 # Layer 2: Ollama classification for long content that passed regex
+# N1 destinations (public repo files) get WARN on AMBIGUOUS, not BLOCK.
+# Only CONFIDENTIAL blocks N1 files (real secrets must never leak).
+IS_N1_DEST=false
+case "$NORM_PATH" in
+  */docs/*|*/.claude/rules/*|*/.claude/skills/*|*/.claude/agents/*|*/.claude/commands/*|*/.claude/hooks/*|*/scripts/*|*/tests/*|*/CLAUDE.md|*/CHANGELOG.md|*/README*|*/public-agent-memory/*|docs/*|.claude/rules/*|.claude/skills/*|.claude/agents/*|.claude/commands/*|.claude/hooks/*|scripts/*|tests/*|CLAUDE.md|CHANGELOG.md|README*|public-agent-memory/*) IS_N1_DEST=true ;;
+esac
+
 CLASSIFY="$PROJECT_DIR/scripts/ollama-classify.sh"
 if [[ -x "$CLASSIFY" ]] && [[ ${#NORM_CONTENT} -gt 50 ]]; then
   VERDICT=$("$CLASSIFY" "$NORM_CONTENT" 2>/dev/null) || VERDICT="UNAVAILABLE"
   case "$VERDICT" in
-    CONFIDENTIAL|AMBIGUOUS)
-      block_fallback "ollama_${VERDICT,,}"
+    CONFIDENTIAL)
+      block_fallback "ollama_confidential"
+      ;;
+    AMBIGUOUS)
+      if [[ "$IS_N1_DEST" == "true" ]]; then
+        # N1 destination: warn but allow (content already passed regex)
+        echo "WARNING [Savia Shield]: Ollama AMBIGUOUS en $FILE_PATH (N1 dest, permitido)" >&2
+        printf '{"ts":"%s","layer":"fallback","verdict":"WARN","reason":"ollama_ambiguous_n1","file":"%s"}\n' \
+          "$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo "unknown")" "$FILE_PATH" \
+          >> "$AUDIT_LOG" 2>/dev/null
+      else
+        block_fallback "ollama_ambiguous"
+      fi
       ;;
     PUBLIC|UNAVAILABLE|*)
       : # allow
