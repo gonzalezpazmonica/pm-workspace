@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.32.0] — 2026-04-10
+
+Four scripts + four test suites for dev-session pipeline + Advisor Strategy. Research: Ix, Feynman, Anthropic blog. Era 198.
+
+### Added
+- **Script** `impact-analysis.sh`: grep-based dependency graph + risk scoring for 6 languages, depth 1-3, SHA256 caching (SPEC-IMPACT-ANALYSIS)
+- **Script** `semantic-map.sh`: compressed semantic maps — public interfaces, deps, patterns, extension points. 6 languages + fallback (SPEC-SEMANTIC-CONTEXT-MAPS)
+- **Script** `verification-middleware.sh`: parallel 3-check orchestrator — traceability, tests, consistency. Security veto, retry context (SPEC-VERIFICATION-MIDDLEWARE)
+- **Script** `advisor-config.sh`: Anthropic Advisor Strategy config — Sonnet executor + Opus advisor pairing, agent frontmatter lookup (SPEC-ADVISOR-STRATEGY)
+- **BATS** `test-impact-analysis.bats`: 34 tests (SPEC-IMPACT-ANALYSIS)
+- **BATS** `test-semantic-map.bats`: 49 tests (SPEC-SEMANTIC-CONTEXT-MAPS)
+- **BATS** `test-verification-middleware.bats`: 42 tests (SPEC-VERIFICATION-MIDDLEWARE)
+- **BATS** `test-advisor-config.bats`: 32 tests (SPEC-ADVISOR-STRATEGY)
+- **SPECs** IMPACT-ANALYSIS, SEMANTIC-CONTEXT-MAPS, VERIFICATION-MIDDLEWARE, ADVISOR-STRATEGY
+
 ## [4.31.0] — 2026-04-08
 
 Four patterns from Anvil research (ppazosp/anvil) — heat parallelism, competitive architects, knowledge chains, compiled agent index. Era 197.
@@ -5935,6 +5950,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.31.0...v4.32.0
 [4.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.30.0...v4.31.0
 [4.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.29.0...v4.30.0
 [4.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.28.0...v4.29.0
