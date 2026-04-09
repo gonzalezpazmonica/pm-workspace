@@ -130,8 +130,12 @@ def scan(text, th=None, file_path=""):
                 # Filter -1: skip very short alphanumeric tokens (H19, S3, M1)
                 if len(entity_text) <= 4 and re.match(r'^[A-Za-z0-9]+$', entity_text):
                     continue
-                # Filter -0.5: skip ISO dates (2026-04-02) and version strings (v4.1.1)
+                # Filter -0.5: skip ISO dates (2026-04-02), version strings (v4.1.1),
+                # and Claude model IDs (claude-haiku-4-5-20251001, claude-sonnet-4-6, etc.)
                 if re.match(r'^(20\d{2}-\d{2}-\d{2}|v?\d+\.\d+(\.\d+)?)$', entity_text):
+                    continue
+                if re.search(r'claude-(opus|sonnet|haiku)-[\d]', entity_text) or \
+                   re.match(r'^\d+-\d+-\d{8,}$', entity_text):
                     continue
                 # Filter 0: skip entities that ARE URLs or are inside URLs
                 if entity_text.startswith(("http://", "https://")):

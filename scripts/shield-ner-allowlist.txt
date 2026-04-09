@@ -90,6 +90,11 @@ NLP
 LLM
 AI
 
+# Claude model IDs (contain digit sequences that trigger PHONE_NUMBER)
+claude-opus-4-6
+claude-sonnet-4-6
+claude-haiku-4-5-20251001
+
 # Frameworks / tools
 Vue
 React
