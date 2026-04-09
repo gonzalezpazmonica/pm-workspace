@@ -137,6 +137,12 @@ def scan(text, th=None, file_path=""):
                 if re.search(r'claude-(opus|sonnet|haiku)-[\d]', entity_text) or \
                    re.match(r'^\d+-\d+-\d{8,}$', entity_text):
                     continue
+                # Filter -0.3: skip code-like patterns (function calls, variables, keywords)
+                if re.search(r'[(\[{]|^\w+\.\w+$|^(print|def |class |import |self\.|ctx\.|page)', entity_text):
+                    continue
+                # Filter -0.2: skip common English phrases misclassified as ORG/PERSON
+                if entity_text.lower() in ("too vague", "check", "respond", "pages", "ensure_ascii"):
+                    continue
                 # Filter 0: skip entities that ARE URLs or are inside URLs
                 if entity_text.startswith(("http://", "https://")):
                     continue
