@@ -15,12 +15,22 @@
 
 ## Comandos
 ```bash
-npm install                    # Instalar deps frontend
-npm run tauri dev              # Desarrollo (hot reload)
-npm run tauri build            # Build instalador
-npm run test                   # Unit tests (Vitest)
-npx playwright test            # E2E tests
+npm install                              # Instalar deps frontend
+npm run tauri dev                        # Desarrollo (hot reload)
+npm run tauri build                      # Build instalador (nativo OS)
+npm run test                             # Unit tests (Vitest)
+npx playwright test                      # E2E tests
+
+# Linux build (.deb + .rpm + .AppImage)
+bash scripts/build-linux.sh              # Build completo
+bash scripts/build-linux.sh --check      # Verificar entorno
+bash scripts/build-linux.sh --deb-only   # Solo .deb
 ```
+
+## Targets soportados
+- **Windows**: msi, nsis
+- **macOS**: dmg
+- **Linux**: deb, rpm, appimage (ver `scripts/build-linux.sh`)
 
 ## Convenciones
 - Tauri commands en Rust: `#[tauri::command]` → registrar en main.rs invoke_handler

@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.34.0] — 2026-04-10
+
+Savia Monitor Linux build support — deb, rpm, appimage targets. Era 200.
+
+### Added
+- **Script** `projects/savia-monitor/scripts/build-linux.sh` (~170 lines): automated Linux build with environment checks, prerequisite detection (Debian/Ubuntu and Fedora/RHEL), selective target builds (deb/rpm/appimage only), dev mode, `--check` flag for environment verification only
+- **BATS** `tests/test-savia-monitor-linux.bats`: 38 tests covering script integrity, tauri.conf.json Linux targets, README alignment ES/EN, Rust source cross-platform compatibility, and build script edge cases
+
+### Changed
+- **tauri.conf.json**: added explicit bundle `targets` list (deb, rpm, appimage, msi, nsis, dmg), Linux-specific section with deb/rpm dependencies (libwebkit2gtk-4.1-0, libgtk-3-0, webkit2gtk4.1, gtk3), category Utility, short/long descriptions
+- **README.md + README.en.md**: added Linux system prerequisites section (apt and dnf commands), Linux Build section with build-linux.sh usage examples
+- **projects/savia-monitor/CLAUDE.md**: documented Linux build commands and targets supported matrix (Windows/macOS/Linux)
+
+### Notes
+- Rust source code was already cross-platform compatible: sessions.rs uses `/proc/{pid}` for Linux PID detection, config.rs falls back from HOME to USERPROFILE, git.rs guards Windows-specific flags with `#[cfg(target_os = "windows")]`
+- Build artifacts generated in `$CARGO_TARGET_DIR/release/bundle/` (default `~/.savia/cargo-target/savia-monitor/` per workspace convention)
+
 ## [4.33.0] — 2026-04-10
 
 Five SPECs + implementation from deep analysis of claude-code-from-source repo (reverse-engineered Claude Code internals). Era 199.
@@ -5978,6 +5995,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.33.0...v4.34.0
 [4.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.32.0...v4.33.0
 [4.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.31.0...v4.32.0
 [4.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.30.0...v4.31.0
