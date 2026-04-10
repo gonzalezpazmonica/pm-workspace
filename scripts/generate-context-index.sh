@@ -25,9 +25,9 @@ generate_workspace() {
   local sc=$(count_dirs "$ROOT/.claude/skills")
   local cc=$(count_items "$ROOT/.claude/commands" '*.md')
   local hc=$(count_items "$ROOT/.claude/hooks" '*.sh')
-  local plist=""
-  [[ -d "$ROOT/projects" ]] && plist=$(find "$ROOT/projects" -mindepth 1 -maxdepth 1 \
-    -type d -not -name 'node_modules' -printf '%f\n' | sort | tr '\n' ', ' | sed 's/, $//')
+  # NOTE: project names are N2 (private) — never list them in tracked files.
+  # Reference CLAUDE.local.md instead, which is gitignored.
+  local plist="listed in CLAUDE.local.md (N2, private)"
   cat > "$idx_file" <<WIDX
 # Workspace Context Index
 # generated: $NOW
