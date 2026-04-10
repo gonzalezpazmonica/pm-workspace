@@ -43,8 +43,9 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: projects/savia-monitor/package-lock.json
+          # NOTE: no cache because package-lock.json is gitignored in this
+          # repo (see .gitignore: **/package-lock.json). Once savia-monitor
+          # gets its own whitelisted lockfile we can re-enable npm cache.
 
       - name: Setup Rust toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -64,7 +65,8 @@ jobs:
 
       - name: Install frontend dependencies
         working-directory: projects/savia-monitor
-        run: npm ci
+        # npm install (not npm ci) because package-lock.json is gitignored
+        run: npm install --no-audit --no-fund
 
       - name: Rust format check
         working-directory: projects/savia-monitor/src-tauri
