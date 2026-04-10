@@ -1,16 +1,22 @@
-name: Auto-Tag from CHANGELOG
+name: Auto-Tag and Release from CHANGELOG
 
 on:
   push:
     branches: [main]
     paths: [CHANGELOG.md]
+  workflow_dispatch:
+    inputs:
+      force_version:
+        description: 'Force specific version (e.g., 4.35.0) — leave empty to auto-detect from CHANGELOG'
+        required: false
+        type: string
 
 permissions:
   contents: write
 
 jobs:
-  auto-tag:
-    name: Create tag if CHANGELOG has new version
+  auto-tag-and-release:
+    name: Create tag and GitHub release from CHANGELOG
     runs-on: ubuntu-latest
 
     steps:
@@ -19,11 +25,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detect new version in CHANGELOG
+      - name: Detect version
         id: detect
         run: |
-          # Extract latest version from CHANGELOG heading
-          LATEST=$(grep -oP '^\#\# \[\K[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | head -1)
+          if [ -n "${{ github.event.inputs.force_version }}" ]; then
+            LATEST="${{ github.event.inputs.force_version }}"
+            echo "Force version from workflow_dispatch: $LATEST"
+          else
+            LATEST=$(grep -oP '^\#\# \[\K[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | head -1)
+          fi
+
           if [ -z "$LATEST" ]; then
             echo "No version found in CHANGELOG.md"
             echo "skip=true" >> "$GITHUB_OUTPUT"
@@ -31,23 +42,75 @@ jobs:
           fi
 
           TAG="v$LATEST"
-          echo "changelog_version=$TAG" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "semver=$LATEST" >> "$GITHUB_OUTPUT"
 
-          # Check if tag already exists
           if git tag -l "$TAG" | grep -q .; then
-            echo "Tag $TAG already exists"
-            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Tag $TAG already exists — will still ensure release exists"
+            echo "tag_exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "New version detected: $TAG"
-            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "tag_exists=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+      - name: Extract changelog section
+        if: steps.detect.outputs.skip != 'true'
+        run: |
+          SEMVER="${{ steps.detect.outputs.semver }}"
+          awk "/^## \[${SEMVER}\]/{found=1; next} /^## \[/{if(found) exit} found{print}" CHANGELOG.md \
+            > release_notes.md
+
+          if [ ! -s release_notes.md ]; then
+            echo "No changelog entry found for version ${SEMVER}." > release_notes.md
+            echo "See CHANGELOG.md for full history." >> release_notes.md
           fi
 
+          echo "=== Release notes for ${SEMVER} ==="
+          head -30 release_notes.md
+
       - name: Create and push tag
-        if: steps.detect.outputs.skip == 'false'
+        if: steps.detect.outputs.skip != 'true' && steps.detect.outputs.tag_exists == 'false'
         run: |
-          TAG="${{ steps.detect.outputs.changelog_version }}"
+          TAG="${{ steps.detect.outputs.tag }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag -a "$TAG" -m "Release $TAG (auto-tagged from CHANGELOG.md)"
           git push origin "$TAG"
           echo "Created and pushed tag: $TAG"
+
+      - name: Check if release already exists
+        if: steps.detect.outputs.skip != 'true'
+        id: release_check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.detect.outputs.tag }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Release $TAG does NOT exist"
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub Release
+        if: steps.detect.outputs.skip != 'true' && steps.release_check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191
+        with:
+          tag_name: ${{ steps.detect.outputs.tag }}
+          name: "PM Workspace ${{ steps.detect.outputs.tag }}"
+          body_path: release_notes.md
+          draft: false
+          prerelease: ${{ contains(steps.detect.outputs.tag, '-') }}
+          generate_release_notes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Version detected: ${{ steps.detect.outputs.tag || 'none' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Tag existed: ${{ steps.detect.outputs.tag_exists }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Release existed: ${{ steps.release_check.outputs.exists || 'n/a' }}" >> $GITHUB_STEP_SUMMARY
