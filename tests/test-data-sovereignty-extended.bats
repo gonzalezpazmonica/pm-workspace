@@ -322,7 +322,7 @@ sys.stdout.buffer.write(d.encode('utf-8'))
   echo '#!/bin/bash' > "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
   echo 'echo "AMBIGUOUS"' >> "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
   chmod +x "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
-  # Non-N1 path: src/ is neither public N1 (docs, scripts, tests...) nor private (projects/, output/)
+  # Non-N1 path: src/ is neither public N1 (docs, scripts, tests...) nor private exit-0 path
   INPUT='{"tool_input":{"file_path":"/workspace/src/config.js","content":"This is a long enough text that passes regex but needs LLM classification to determine sensitivity level properly"}}'
   run bash -c "echo '$INPUT' | bash $GATE"
   [ "$status" -eq 2 ]
