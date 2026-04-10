@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d5ef9bec32d9bb24baf720b2ddba190a3823ad03e4469dba691c28bc5d0bdbf5
-timestamp=2026-04-10T19:48:43Z
-branch=feature/era199-claude-code-optimizations
-head_commit=a3082b0
-signature=7f93643357ca0d22da7a2293ea73a3e058bf00d18239ae6c1a7907afe0e04e41
+diff_hash=457c5ea2715ee2b1f1d0ebf9e6ffa3accc7987d64481697420131ec6994437c7
+timestamp=2026-04-10T21:13:13Z
+branch=feature/era200-savia-monitor-linux
+head_commit=9256702
+signature=30ef08e36d3e8e6c5f260befd922c31636280f0296f8eace751b56620c296e3b

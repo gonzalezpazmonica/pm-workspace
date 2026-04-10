@@ -19,7 +19,23 @@ Torre de control de escritorio para orquestar multiples sesiones de Claude Code 
 
 - Node.js 18+
 - Rust toolchain (rustup)
-- MSVC Build Tools + Windows SDK (Windows) o gcc (Linux)
+- **Windows**: MSVC Build Tools + Windows SDK
+- **Linux**: WebKitGTK, GTK3, librsvg2 (ver abajo)
+- **macOS**: Xcode Command Line Tools
+
+### Linux — prerequisitos sistema
+
+**Debian/Ubuntu:**
+```bash
+sudo apt install libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev \
+                 librsvg2-dev build-essential curl wget file libssl-dev libxdo-dev
+```
+
+**Fedora/RHEL:**
+```bash
+sudo dnf install webkit2gtk4.1-devel openssl-devel curl wget file \
+                 libappindicator-gtk3-devel librsvg2-devel gtk3-devel
+```
 
 ## Desarrollo
 
@@ -29,6 +45,25 @@ npm run tauri dev    # Arranca con hot reload
 npm run test         # Unit tests (Vitest)
 npx playwright test  # E2E tests
 ```
+
+## Build Linux
+
+Script automatizado que verifica entorno, compila frontend y genera bundles:
+
+```bash
+# Build completo (.deb + .rpm + .AppImage)
+bash scripts/build-linux.sh
+
+# Solo verificar entorno
+bash scripts/build-linux.sh --check
+
+# Solo un target específico
+bash scripts/build-linux.sh --deb-only
+bash scripts/build-linux.sh --appimage-only
+bash scripts/build-linux.sh --rpm-only
+```
+
+Artefactos generados en `$CARGO_TARGET_DIR/release/bundle/` (por defecto `~/.savia/cargo-target/savia-monitor/release/bundle/`).
 
 ## Estructura
 
