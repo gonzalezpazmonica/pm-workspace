@@ -48,26 +48,26 @@ rm -f "${USER_HOME}/.config/systemd/user/default.target.wants/savia-bridge.servi
 echo "==> Ensuring state dir exists"
 install -d -o "$USER_NAME" -g "$USER_NAME" -m 0755 "$STATE_DIR"
 
-echo "==> Writing $SYSTEM_UNIT"
-cat > "$SYSTEM_UNIT" <<'EOF'
+echo "==> Writing $SYSTEM_UNIT (paths derived from USER_HOME=$USER_HOME)"
+cat > "$SYSTEM_UNIT" <<EOF
 [Unit]
 Description=Savia Bridge — HTTPS bridge to Claude Code CLI
-Documentation=file:///home/monica/claude/scripts/savia-bridge.py
+Documentation=file://${REPO_DIR}/scripts/savia-bridge.py
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=simple
-User=monica
-Group=monica
-WorkingDirectory=/home/monica/claude
-ExecStart=/usr/bin/python3 /home/monica/claude/scripts/savia-bridge.py --port 8922 --host 0.0.0.0
+User=${USER_NAME}
+Group=${USER_NAME}
+WorkingDirectory=${REPO_DIR}
+ExecStart=/usr/bin/python3 ${REPO_DIR}/scripts/savia-bridge.py --port 8922 --host 0.0.0.0
 Restart=on-failure
 RestartSec=5
-Environment=HOME=/home/monica
-Environment=PATH=/home/monica/.local/bin:/usr/local/bin:/usr/bin:/bin
-StandardOutput=append:/home/monica/.savia/bridge/systemd.log
-StandardError=append:/home/monica/.savia/bridge/systemd.log
+Environment=HOME=${USER_HOME}
+Environment=PATH=${USER_HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin
+StandardOutput=append:${STATE_DIR}/systemd.log
+StandardError=append:${STATE_DIR}/systemd.log
 
 # Security hardening
 PrivateTmp=true
@@ -76,8 +76,8 @@ ProtectHome=read-only
 NoNewPrivileges=true
 MemoryMax=512M
 CPUQuota=50%
-ReadWritePaths=/home/monica/.savia/bridge
-ReadOnlyPaths=/home/monica/claude
+ReadWritePaths=${STATE_DIR}
+ReadOnlyPaths=${REPO_DIR}
 
 [Install]
 WantedBy=multi-user.target
