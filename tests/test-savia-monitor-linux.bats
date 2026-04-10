@@ -8,6 +8,7 @@ setup() {
   TAURI_CONF="$REPO_ROOT/projects/savia-monitor/src-tauri/tauri.conf.json"
   README_ES="$REPO_ROOT/projects/savia-monitor/README.md"
   README_EN="$REPO_ROOT/projects/savia-monitor/README.en.md"
+  WORKFLOW="$REPO_ROOT/.github/workflows/savia-monitor-linux.yml"
   TMPDIR_LM=$(mktemp -d)
 }
 
@@ -204,4 +205,63 @@ teardown() {
 
 @test "coverage: build-linux.sh respects CARGO_TARGET_DIR convention" {
   grep -q "CARGO_TARGET_DIR" "$SCRIPT"
+}
+
+# ── GitHub Actions workflow ──────────────────────────────────────────────────
+
+@test "CI workflow exists" {
+  [ -f "$WORKFLOW" ]
+}
+
+@test "CI workflow is valid YAML" {
+  run python3 -c "import yaml; yaml.safe_load(open('$WORKFLOW'))"
+  [ "$status" -eq 0 ]
+}
+
+@test "CI workflow runs on ubuntu-22.04" {
+  grep -q "ubuntu-22.04" "$WORKFLOW"
+}
+
+@test "CI workflow installs libwebkit2gtk-4.1-dev" {
+  grep -q "libwebkit2gtk-4.1-dev" "$WORKFLOW"
+}
+
+@test "CI workflow installs tauri-cli" {
+  grep -q "tauri-cli" "$WORKFLOW"
+}
+
+@test "CI workflow runs cargo fmt check" {
+  grep -q "cargo fmt --check" "$WORKFLOW"
+}
+
+@test "CI workflow runs cargo clippy" {
+  grep -q "cargo clippy" "$WORKFLOW"
+}
+
+@test "CI workflow runs cargo test" {
+  grep -q "cargo test" "$WORKFLOW"
+}
+
+@test "CI workflow builds deb and appimage bundles" {
+  grep -q "deb,appimage" "$WORKFLOW"
+}
+
+@test "CI workflow verifies bundles exist" {
+  grep -q "Verify bundles exist" "$WORKFLOW"
+}
+
+@test "CI workflow smoke-tests deb metadata" {
+  grep -q "dpkg-deb" "$WORKFLOW"
+}
+
+@test "CI workflow uploads bundle artifacts" {
+  grep -q "upload-artifact" "$WORKFLOW"
+}
+
+@test "CI workflow triggers on savia-monitor path changes" {
+  grep -q "projects/savia-monitor" "$WORKFLOW"
+}
+
+@test "CI workflow has timeout configured" {
+  grep -q "timeout-minutes" "$WORKFLOW"
 }
