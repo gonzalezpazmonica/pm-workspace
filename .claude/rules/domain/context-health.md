@@ -53,15 +53,15 @@ Esto evita que el análisis intermedio contamine el contexto principal.
 
 ## 3. Auto-compact post-comando — 4 ZONAS CALIBRADAS
 
-> Basado en TurboQuant (arXiv:2504.19874): degradación gradual, no en acantilado. Umbral real ~70%.
+> Basado en TurboQuant (arXiv:2504.19874) + Claude Code nativo ch18 performance: degradación gradual, no en acantilado. Claude Code protege buffer del 20-25%, umbral real ~75% (ver SPEC-AUTOCOMPACT-CALIBRATION).
 
 ### Zonas de contexto
 
 | Zona | Rango | Acción | Calidad |
 |------|-------|--------|---------|
 | Verde | <50% | Sin acción | Óptima |
-| Gradual | 50-65% | Sugerir /compact, no bloquear | >99% |
-| Alerta | 65-85% | Bloquear operaciones pesadas | 95-99% |
+| Gradual | 50-70% | Sugerir /compact, no bloquear | >99% |
+| Alerta | 70-85% | Bloquear operaciones pesadas | 95-99% |
 | Crítica | >85% | Bloquear todo | <95% |
 
 **Mensajes por zona:** Gradual → `💡 Contexto al XX% — /compact cuando puedas.` · Alerta → `⚠️ Contexto alto — sin operaciones pesadas.` · Crítica → `❌ Compacta ahora.`
