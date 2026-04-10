@@ -30,7 +30,6 @@ generate_workspace() {
   local plist="listed in CLAUDE.local.md (N2, private)"
   cat > "$idx_file" <<WIDX
 # Workspace Context Index
-# generated: $NOW
 # counts: rules=$rc agents=$ac skills=$sc commands=$cc hooks=$hc
 > Where to find and store information at workspace level (N1 public)
 
