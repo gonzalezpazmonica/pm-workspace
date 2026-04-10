@@ -320,3 +320,33 @@ teardown() {
   [ "$status" -eq 0 ]
   echo "$output" | jq . > /dev/null 2>&1
 }
+
+# ── Edge cases ──────────────────────────────────────────────────────────────
+
+@test "edge: empty agent file handled gracefully" {
+  printf '' > "$MOCK_AGENTS/empty-agent.md"
+  run bash "$SCRIPT" --agent empty-agent --agents-dir "$MOCK_AGENTS"
+  [ "$status" -eq 1 ]
+}
+
+@test "edge: no-arg invocation uses defaults (boundary)" {
+  run bash "$SCRIPT"
+  [ "$status" -eq 0 ]
+  [[ -n "$output" ]]
+}
+
+@test "edge: boundary max-uses = 1 (minimum valid)" {
+  run bash "$SCRIPT" --max-uses 1
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"1"* ]]
+}
+
+@test "edge: nonexistent agents-dir returns error" {
+  run bash "$SCRIPT" --agent any-agent --agents-dir "/nonexistent/path/xyz"
+  [ "$status" -eq 2 ]
+}
+
+@test "edge: very large max-uses value (overflow boundary)" {
+  run bash "$SCRIPT" --max-uses 999999
+  [ "$status" -eq 0 ]
+}
