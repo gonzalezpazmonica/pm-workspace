@@ -41,7 +41,7 @@ echo ""
 
 # --- 1. Core runtime ---
 echo "[1/9] Core Runtime"
-check critical "bash >= 4.0" "bash --version | head -1 | grep -E 'version [4-9]'"
+check critical "bash >= 4.0" "LC_ALL=C bash --version | head -1 | grep -E 'version [4-9]'"
 check critical "git" "git --version"
 check critical "python3" "command -v python3"
 check critical "jq" "command -v jq"

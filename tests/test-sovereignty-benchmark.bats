@@ -37,16 +37,18 @@ teardown() {
 
 @test "quick mode runs with available model" {
   if ! command -v ollama &>/dev/null; then skip "Ollama not installed"; fi
-  run timeout 20 bash "$SCRIPT" --quick --model qwen2.5:3b
-  [[ "$status" -eq 0 ]] || [[ "$status" -eq 124 ]] && skip "Ollama timeout"
+  if ! ollama list 2>/dev/null | grep -q "qwen2.5:3b"; then skip "Model qwen2.5:3b not pulled"; fi
+  run timeout 60 bash "$SCRIPT" --quick --model qwen2.5:3b
+  if [[ "$status" -eq 124 ]]; then skip "Ollama timeout"; fi
   [[ "$output" == *"Summary"* ]]
   [[ "$output" == *"Score"* ]]
 }
 
 @test "output contains VERDICT" {
   if ! command -v ollama &>/dev/null; then skip "Ollama not installed"; fi
-  run timeout 20 bash "$SCRIPT" --quick --model qwen2.5:3b
-  [[ "$status" -eq 124 ]] && skip "Ollama timeout"
+  if ! ollama list 2>/dev/null | grep -q "qwen2.5:3b"; then skip "Model qwen2.5:3b not pulled"; fi
+  run timeout 60 bash "$SCRIPT" --quick --model qwen2.5:3b
+  if [[ "$status" -eq 124 ]]; then skip "Ollama timeout"; fi
   [[ "$output" == *"VERDICT"* ]]
 }
 
@@ -65,14 +67,15 @@ teardown() {
 @test "negative: invalid flag handled" {
   if ! command -v ollama &>/dev/null; then skip "Ollama not installed"; fi
   run timeout 20 bash "$SCRIPT" --invalid-flag
-  [[ "$status" -eq 124 ]] && skip "Ollama timeout"
+  if [[ "$status" -eq 124 ]]; then skip "Ollama timeout"; fi
   [[ "$status" -le 1 ]]
 }
 
 @test "edge: results file created" {
   if ! command -v ollama &>/dev/null; then skip "Ollama not installed"; fi
-  run timeout 20 bash "$SCRIPT" --quick --model qwen2.5:3b
-  [[ "$status" -eq 124 ]] && skip "Ollama timeout"
+  if ! ollama list 2>/dev/null | grep -q "qwen2.5:3b"; then skip "Model qwen2.5:3b not pulled"; fi
+  run timeout 60 bash "$SCRIPT" --quick --model qwen2.5:3b
+  if [[ "$status" -eq 124 ]]; then skip "Ollama timeout"; fi
   ls "$REPO_ROOT/output/sovereignty-benchmark-"*.md 2>/dev/null | grep -q "."
 }
 
