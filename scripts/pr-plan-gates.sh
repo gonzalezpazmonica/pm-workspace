@@ -89,7 +89,7 @@ g8() {
   $need && ! echo "$nf" | grep -q 'README.md' && { echo "WARN: new components, README not updated"; return; }
 }
 g9() {
-  local safe='^(_|team-|savia-web$|savia-mobile-android$|pm-workspace$|proyecto-alpha$|proyecto-beta$|sala-reservas$|example$|test$|demo$|sample$|template$)'
+  local safe='^(_|team-|savia-web$|savia-mobile-android$|savia-monitor$|pm-workspace$|proyecto-alpha$|proyecto-beta$|sala-reservas$|example$|test$|demo$|sample$|template$)'
   local names; names=$(ls -d projects/*/ 2>/dev/null | xargs -I{} basename {} | grep -vE "$safe") || true
   [[ -z "$names" ]] && return
   # Only scan ADDED lines in the diff, not full file content
