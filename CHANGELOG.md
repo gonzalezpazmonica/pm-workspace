@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.33.0] — 2026-04-10
+
+Five SPECs + implementation from deep analysis of claude-code-from-source repo (reverse-engineered Claude Code internals). Era 199.
+
+### Added
+- **SPEC** `SPEC-FORK-AGENT-PREFIX` (CRITICA): byte-identical prompt prefix for batch agents, exploiting 90% prompt cache discount
+- **SPEC** `SPEC-AUTOCOMPACT-CALIBRATION` (ALTA): recalibrate autocompact threshold from 65% to 75% to match native 20-25% buffer
+- **SPEC** `SPEC-FORK-VS-SUBAGENT-GUIDE` (ALTA): decision tree and comparison table for fork vs subagent patterns
+- **SPEC** `SPEC-HOOK-EVENT-GAP-AUDIT` (MEDIA): audit 11 uncovered hook events out of 28 total
+- **SPEC** `SPEC-TERMINAL-STATE-HANDOFF` (MEDIA): termination_reason enum in handoff templates with retry policy
+- **Script** `scripts/fork-agents.sh`: batch agents with cacheable prefix, sha256 verification, parallel execution
+- **Script** `scripts/hook-event-gap-audit.sh`: generates hook-event-gap-audit.md report
+- **Script** `scripts/validate-handoff.sh`: validate termination_reason enum in handoffs
+- **Script** `scripts/context-calibration-measure.sh`: measure context usage patterns for calibration
+- **Rule** `fork-agent-protocol.md`: strict protocol for byte-identical prompt construction
+- **BATS** `test-fork-agents.bats`: 24 tests
+- **BATS** `test-context-calibration.bats`: 24 tests
+- **BATS** `test-fork-vs-subagent-docs.bats`: 37 tests
+- **BATS** `test-hook-event-gap-audit.bats`: 23 tests
+- **BATS** `test-handoff-termination.bats`: 34 tests
+
+### Changed
+- **settings.json**: CLAUDE_AUTOCOMPACT_PCT_OVERRIDE 65 -> 75
+- **context-health.md**: Gradual zone 50-70%, Alerta zone 70-85%
+- **dev-session-protocol.md**: +Fork vs Subagent decision section
+- **handoff-templates.md**: +termination_reason enum + fork comparison table
+- **verification-before-done.md**: +Retry Policy by Termination Reason table
+
 ## [4.32.0] — 2026-04-10
 
 Four scripts + four test suites for dev-session pipeline + Advisor Strategy. Research: Ix, Feynman, Anthropic blog. Era 198.
@@ -5950,6 +5978,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.32.0...v4.33.0
 [4.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.31.0...v4.32.0
 [4.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.30.0...v4.31.0
 [4.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.29.0...v4.30.0
