@@ -72,6 +72,17 @@ Uses `Escalation` template from `handoff-templates.md`.
 | New feature | New tests + integration test |
 | Bug fix | Regression test that reproduces the bug |
 
+## Retry Policy by Termination Reason (SPEC-TERMINAL-STATE-HANDOFF)
+
+| termination_reason | Action | Rationale |
+|---|---|---|
+| completed | Continue to next step | Success |
+| user_abort | Respect decision | User chose to stop |
+| token_budget | Escalate model (FAST→MID→AGENT) | Need bigger window |
+| stop_hook | Review hook, fix first | Deterministic cause |
+| max_turns | Escalate to human | Task too complex |
+| unrecoverable_error | Abort, log to lessons.md | Agent bug |
+
 ## Anti-Patterns
 
 - "It should work" without running it

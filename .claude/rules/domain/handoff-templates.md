@@ -109,14 +109,11 @@ Fases: analyst → architect → spec-writer → developer → test-engineer →
 from: "orquestador"
 to: "stakeholders"
 sprint: "2026-06"
-summary: "3 PBIs completados, 1 parcial, 0 bloqueados"
-metrics:
-  velocity: 38
-  completion_rate: "92%"
-  coverage_delta: "+5.2%"
-highlights: ["Feature X entregada", "Deuda técnica reducida 15%"]
+summary: "3 PBIs completados, 1 parcial"
+metrics: { velocity: 38, completion: "92%", coverage_delta: "+5.2%" }
+highlights: ["Feature X"]
 risks: ["Migration Y retrasada 2 días"]
-next_actions: ["Priorizar migration Y en sprint siguiente"]
+next_actions: ["Priorizar migration Y"]
 ```
 
 ## 7. Status Report
@@ -127,9 +124,7 @@ to: "orquestador"
 task_ref: "{AB#ID}"
 status: "in_progress | blocked | completed"
 progress: "3/5 slices done"
-current_step: "Implementando slice 4: UserService"
 blockers: []
-eta_remaining: "~15 min"
 tokens_used: 12500
 ```
 
@@ -137,10 +132,15 @@ tokens_used: 12500
 
 ## Validación
 
-Un handoff es **válido** si:
-1. Todos los campos obligatorios están presentes (no vacíos)
-2. `files_modified`/`files_affected` existen en disco
-3. `evidence` incluye output real (no placeholder)
-4. `attempt` ≤ `AGENT_MAX_CONSECUTIVE_FAILURES` (3)
+Un handoff es **válido** si: (1) campos obligatorios presentes, (2) files_modified existen, (3) evidence con output real, (4) attempt ≤ 3, (5) termination_reason ∈ `{completed, user_abort, token_budget, stop_hook, max_turns, unrecoverable_error}` (SPEC-TERMINAL-STATE-HANDOFF)
 
-Un handoff **inválido** se rechaza con error y se pide completar.
+## Fork vs Subagent — Decision (SPEC-FORK-VS-SUBAGENT-GUIDE)
+
+| Dimension | Fork | Subagent (Task) |
+|---|---|---|
+| Contexto | Heredado del padre | Fresco aislado |
+| Cache | 90% descuento prefijo | Sin cache |
+| Output | Inline en conversación | Solo resumen |
+| Uso | Batch N items similares | Tarea aislada |
+
+Fork → N items con mismo prompt base. Subagent → aislamiento/contexto fresco.

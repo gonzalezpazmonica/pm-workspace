@@ -1,9 +1,9 @@
 # Workspace Context Index
-# counts: rules=142 agents=49 skills=90 commands=509 hooks=49
+# counts: rules=143 agents=49 skills=90 commands=509 hooks=49
 > Where to find and store information at workspace level (N1 public)
 
 ## Rules & Governance
-[location] .claude/rules/domain/ — 142 domain rules loaded on demand via @
+[location] .claude/rules/domain/ — 143 domain rules loaded on demand via @
 [location] .claude/rules/languages/ — language conventions (auto-load by file type)
 [intent: "what are the rules for X"] → scan .claude/rules/domain/ by keyword
 

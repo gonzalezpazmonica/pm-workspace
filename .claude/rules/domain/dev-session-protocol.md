@@ -124,6 +124,12 @@ El protocolo NO reemplaza SDD — lo complementa insertándose entre "Spec aprob
 | Auth, pagos, PII, APIs públicas | Sí — obligatorio, veto si security falla |
 | Infraestructura, migrations | Sí — con reflection-validator |
 
+## Fork vs Subagent (SPEC-FORK-VS-SUBAGENT-GUIDE)
+
+- **FORK**: child hereda prefijo cacheable (90% desc). Usar con N items similares, mismo prompt base, batch (audit N ficheros, review N PRs). Ver `fork-agent-protocol.md`.
+- **SUBAGENT (Task)**: contexto fresco aislado, summary-only. Usar con contexto padre contaminado, necesidad de aislamiento, state propio.
+- Decisión: `¿mismo prompt base?` → fork · `¿contexto sucio?` → subagent.
+
 ## Métricas de éxito
 
 - **Slice completion rate** sin rework: >90%
