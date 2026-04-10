@@ -28,10 +28,11 @@ teardown() { rm -rf "$TMPDIR_IDX"; }
   grep -q 'set -uo pipefail' "$SCRIPT"
 }
 
-@test "workspace mode generates WORKSPACE.ctx with timestamp" {
+@test "workspace mode generates WORKSPACE.ctx with header" {
   bash "$SCRIPT" --workspace "$TMPDIR_IDX"
   [ -f "$TMPDIR_IDX/.context-index/WORKSPACE.ctx" ]
-  grep -q 'generated:' "$TMPDIR_IDX/.context-index/WORKSPACE.ctx"
+  grep -q '# Workspace Context Index' "$TMPDIR_IDX/.context-index/WORKSPACE.ctx"
+  grep -q '# counts:' "$TMPDIR_IDX/.context-index/WORKSPACE.ctx"
 }
 
 @test "WORKSPACE.ctx contains accurate counts" {

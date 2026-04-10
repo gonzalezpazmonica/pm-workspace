@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d681d01ec43cfc2c1b2bc33a6f16af4af224a07bc34bfe4b33d507fb95d2260f
-timestamp=2026-04-08T21:09:24Z
-branch=feat/era196-scoring-improvements
-head_commit=1f5a14f
-signature=b2099ad4dee07f88bbe26cd6b1c2a8e0d828bb5d7706acf340bf6d171912bad2
+diff_hash=1eaf783f713b0623866e27cf5860a9a97685b8f40ba3f3e9a957be9a4505c0be
+timestamp=2026-04-10T18:42:41Z
+branch=feature/savia-web-phase1-phase2
+head_commit=a4c39cc
+signature=f5fe9732c61e2b78fc530b120c7cfb5a3d98a890ee9f1980951d68748d5ceb27

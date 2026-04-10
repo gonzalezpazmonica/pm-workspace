@@ -1,5 +1,4 @@
 # Workspace Context Index
-# generated: 2026-04-08T00:00:00Z
 # counts: rules=142 agents=49 skills=90 commands=509 hooks=49
 > Where to find and store information at workspace level (N1 public)
 
@@ -36,7 +35,7 @@
 [intent: "what do we know about X"] → memory-store search or /memory-recall
 
 ## Projects
-[location] projects/ — active projects listed in CLAUDE.local.md (N2, private)
+[location] projects/ — active projects: listed in CLAUDE.local.md (N2, private)
 
 ## Output, Scripts, Tests
 [location] output/ — generated reports, audits, dev-sessions

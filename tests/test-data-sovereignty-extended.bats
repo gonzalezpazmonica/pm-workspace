@@ -317,14 +317,26 @@ sys.stdout.buffer.write(d.encode('utf-8'))
   [[ "$output" == *"BLOQUEADO"* ]]
 }
 
-@test "SEC-021: AMBIGUOUS Ollama response blocks write" {
+@test "SEC-021: AMBIGUOUS Ollama response blocks write (non-N1)" {
   mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
   echo '#!/bin/bash' > "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
   echo 'echo "AMBIGUOUS"' >> "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
   chmod +x "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
-  INPUT='{"tool_input":{"file_path":"/workspace/docs/x.md","content":"This is a long enough text that passes regex but needs LLM classification to determine sensitivity level properly"}}'
+  # Non-N1 path: src/ is neither public N1 (docs, scripts, tests...) nor private exit-0 path
+  INPUT='{"tool_input":{"file_path":"/workspace/src/config.js","content":"This is a long enough text that passes regex but needs LLM classification to determine sensitivity level properly"}}'
   run bash -c "echo '$INPUT' | bash $GATE"
   [ "$status" -eq 2 ]
+}
+
+@test "SEC-021: AMBIGUOUS Ollama response warns on N1 destinations" {
+  mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
+  echo '#!/bin/bash' > "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
+  echo 'echo "AMBIGUOUS"' >> "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
+  chmod +x "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
+  # N1 destinations (docs/) get WARN on AMBIGUOUS per data-sovereignty-gate fix
+  INPUT='{"tool_input":{"file_path":"/workspace/docs/x.md","content":"This is a long enough text that passes regex but needs LLM classification to determine sensitivity level properly"}}'
+  run bash -c "echo '$INPUT' | bash $GATE"
+  [ "$status" -eq 0 ]
 }
 
 @test "SEC-021: PUBLIC Ollama response allows write" {
