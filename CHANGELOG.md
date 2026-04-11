@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.44.0] — 2026-04-11
 
-Dual estimation rule (SE-013). Formalizes the ~10x end-to-end pipeline speedup claim with explicit conditions, adjustment table by task category, empirical tracking protocol, and a calibration script that recomputes ratios from real data in `data/agent-actuals.jsonl`. Closes the gap between human-days planning and agent wall-clock reality.
+Dual estimation rule (SE-013). Formalizes the ~10x end-to-end pipeline speedup claim with explicit conditions, adjustment table by task category, empirical tracking protocol, and a calibration script that recomputes ratios from real data in `data/agent-actuals.jsonl`. Closes the gap between human-days planning and agent wall-clock reality. Era 207.
 
 ### Added
 - **`.claude/rules/domain/dual-estimation.md`**: the rule. Phase breakdown, formula, adjustment table (trivial 15x → legacy 2x), 4 conditions for the 10x claim, sources (METR papers + n=2 HUDI + SE-002 real data).
