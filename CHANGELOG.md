@@ -27,6 +27,23 @@ is always a clean "my entry on top of theirs" insertion.
   (`max in queue`, `bump to`) and added three regression tests
   (`tracks max_claimed across main and open PRs`, `uses sort -V`, Era 210
   hardening guard). 17/17 pass locally.
+## [4.46.0] — 2026-04-12
+
+Hook noise fix. Era 209. 15 shell hooks were committed to git with mode
+`100644` (non-executable), causing `PreToolUse:Bash` to fail every turn
+with `/bin/sh: 1: <hook>: Permission denied` (exit 126). Every clone of
+the repo reproduced the noise. This change flips them to `100755` via
+`git update-index --chmod=+x` without touching content.
+
+### Fixed
+- `.claude/hooks/agent-hook-premerge.sh`, `bash-output-compress.sh`,
+  `config-reload.sh`, `emotional-regulation-monitor.sh`,
+  `file-changed-staleness.sh`, `instructions-tracker.sh`,
+  `post-tool-failure-log.sh`, `pre-compact-backup.sh`,
+  `stop-memory-extract.sh`, `stress-awareness-nudge.sh`,
+  `subagent-lifecycle.sh`, `task-lifecycle.sh`, `tool-call-healing.sh`,
+  `lib/memory-extract-lib.sh`, `lib/profile-gate.sh` — all now
+  executable. No content change.
 
 ## [4.45.0] — 2026-04-12
 
@@ -6308,6 +6325,7 @@ Initial public release of PM-Workspace.
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
 [4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
+[4.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.45.0...v4.46.0
 [4.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.44.0...v4.45.0
 [4.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.43.0...v4.44.0
 [4.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.42.0...v4.43.0

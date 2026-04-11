@@ -1,6 +1,0 @@
-# Confidentiality audit signature — DO NOT EDIT
-diff_hash=b633e65e0f4b0c844b940c3f1bade058056380b322008a27fa565ea9d69db7c6
-timestamp=2026-04-11T22:47:57Z
-branch=fix/pr-plan-changelog-queue
-head_commit=673e500
-signature=894c0771b3318b5bd377e3874151e9b6822e08404fa52e7ad1ca46364b75f394
