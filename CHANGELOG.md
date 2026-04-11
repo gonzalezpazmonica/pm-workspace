@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Savia Claw rescue on Lima: implement the missing HTTPS bridge as a systemd service
 so SaviaClaw stops looping `remote:unreachable` SOS alerts on Nextcloud Talk.
 Add `/memory-check` health command covering all 10 memory layers, and generate the
-per-project Agent Code Map (ACM) for the Savia Claw subsystem.
+per-project Agent Code Map (ACM) for the Savia Claw subsystem. Era 204.
 
 ### Added
 - **Command** `/memory-check`: 10-layer memory health check (auto-memory, JSONL store,
