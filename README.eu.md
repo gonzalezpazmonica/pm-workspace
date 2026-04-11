@@ -68,7 +68,7 @@ pm-workspace barruan bizi den hontzatxoa naiz. Zure rolera, zure hizkuntzara eta
 
 ## Zer dago barruan
 
-**508 komando · 48 agente · 90 skill · 49 hook · 16 hizkuntza · 134 test suite**
+**512 komando · 49 agente · 91 skill · 50 hook · 16 hizkuntza · 160 test suite**
 
 ### Proiektuen kudeaketa
 Sprint-ak, burndown-a, ahalmena, dailyak, retroak, KPIak. Txostenak Excel eta PowerPoint formatuan. Monte Carlo bidezko iragarpena. Fakturazioa eta kostuak.
@@ -77,7 +77,21 @@ Sprint-ak, burndown-a, ahalmena, dailyak, retroak, KPIak. Txostenak Excel eta Po
 Zereginak spec bihurtzen dira. Agenteek 16 hizkuntzatan inplementatzen dute (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) worktree isolatuetan. Code review automatikoa + giza berrikusketa derrigorrezkoa.
 
 ### Segurtasuna
-SAST OWASP Top 10-aren aurka, Red/Blue/Auditor pipeline-a, pentesting dinamikoa, SBOM, compliance 12 sektoretan. Savia Shield: datuen sailkapen lokala on-premise LLM-arekin, maskaratze itzulgarria, PR-en sinadura kriptografikoa. Emergency Watchdog: fallback automatikoa LLM lokalera (Gemma 4 / Qwen) internet erortzen bada.
+SAST OWASP Top 10-aren aurka, Red/Blue/Auditor pipeline-a, pentesting dinamikoa, SBOM, compliance 12 sektoretan. Savia Shield: datuen sailkapen lokala on-premise LLM-arekin, maskaratze itzulgarria, PR-en sinadura kriptografikoa.
+
+### Inferentzia subiranotasuna
+Savia lehenespenez Anthropic-en API-aren aurka exekutatzen da (kalitate maximoa). Hodeia huts egiten duenean — kablea eroria, outage-a, kuota agortua, latentzia onartezina — bi jarraitutasun aukera daude, biak tokiko Ollama-ren gainean Gemma 4-ren aldaerekin, hardwarearen arabera hautatuak:
+
+| Modua | Aktibazioa | Noiz erabili |
+|---|---|---|
+| **Emergency Mode** | Eskuz (`source ~/.pm-workspace-emergency.env` eta Claude Code berrabiarazi) | Hodeirik ez dagoela dakizunean eta %100 tokian lan egin nahi duzunean |
+| **Savia Dual** | Automatikoa (tokiko proxy-a `127.0.0.1:8787`-en) | Lehenespenez: hodeia dabilenean, tokira erortzen da gardenki huts egiten duenean |
+
+Emergency Mode upstream osoa ordezkatzen du ingurune-aldagaien bidez. Savia Dual eskaera bakoitza bideratzen du: lehenik Anthropic, Ollama babes gisa sare-errorea, HTTP 5xx, HTTP 429 (kuota) edo timeout gertatzen bada. Circuit breaker batek ekiditen du erorita dagoen upstream bat behin eta berriro jotzea.
+
+Bi aukerek zure datuak zure makinaren barruan mantentzen dituzte toki-moduan. Inferentzia subiranotasuna datuen subiranotasuna osatzen du: hodeia dabilenean, tokian dabilenean ez, jarraitutasunik edo kalitaterik galdu gabe hodeia erabilgarri dagoenean.
+
+Docs: [Savia Dual](docs/savia-dual.md) · [Emergency Mode](docs/EMERGENCY.md) · Instalatzaileak: `scripts/setup-savia-dual.{sh,ps1}`
 
 ### Memoria iraunkorra
 Testu arrunta (JSONL). Entity recall, bilaketa semantikoa, saioen arteko jarraitutasuna. Erabakien erauzketa automatikoa trinkotu aurretik. Personal Vault AES-256-rekin zifratua.
@@ -101,10 +115,10 @@ Gaueko sprint-a, kodearen hobekuntza, ikerketa teknikoa. Agenteek `agent/*` adar
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 508 komando
-│   ├── agents/         ← 48 agente espezializatu
-│   ├── skills/         ← 89 domeinu skill
-│   ├── hooks/          ← 49 hook deterministiko
+│   ├── commands/       ← 512 komando
+│   ├── agents/         ← 49 agente espezializatu
+│   ├── skills/         ← 91 domeinu skill
+│   ├── hooks/          ← 50 hook deterministiko
 │   └── rules/          ← testuinguru eta hizkuntza arauak
 ├── docs/               ← gidak rolaren, eszenarioaren, sektorearen arabera
 ├── projects/           ← proiektuak (git-ignoratuak pribatutasunagatik)

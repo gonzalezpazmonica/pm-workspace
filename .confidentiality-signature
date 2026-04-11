@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=70bf6f46745b98d01c8dacc913fd2ff7700fc17848b05934c907f2ca76de3db2
-timestamp=2026-04-11T16:26:39Z
-branch=feat/savia-enterprise-licensing
-head_commit=e92da98
-signature=b3184fe56ca7e8776a92ea15a175ccff86fe8aafb6597eb7cf063566ae627f7a
+diff_hash=7153ec682a36e4bfd7d5b0b07611d3042171ea31c548e11c0ac0d7e5c278a0b1
+timestamp=2026-04-11T16:52:00Z
+branch=feat/savia-dual
+head_commit=3fcf5b6
+signature=2ab5b64b89d03c541274c0c80ab99c665e428b4162a3cdcde7001f7f056150ff

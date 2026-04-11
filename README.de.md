@@ -68,7 +68,7 @@ Ich bin die kleine Eule, die in pm-workspace lebt. Ich passe mich an deine Rolle
 
 ## Was drin steckt
 
-**508 Befehle · 48 Agenten · 89 Skills · 49 Hooks · 16 Sprachen · 125 Test-Suiten**
+**512 Befehle · 49 Agenten · 91 Skills · 50 Hooks · 16 Sprachen · 160 Test-Suiten**
 
 ### Projektmanagement
 Sprints, Burndown, Kapazitaet, Dailies, Retros, KPIs. Berichte in Excel und PowerPoint. Vorhersage mit Monte Carlo. Abrechnung und Kosten.
@@ -77,7 +77,21 @@ Sprints, Burndown, Kapazitaet, Dailies, Retros, KPIs. Berichte in Excel und Powe
 Aufgaben werden zu Specs. Agenten implementieren in 16 Sprachen (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) in isolierten Worktrees. Automatisches Code-Review + obligatorisches menschliches Review.
 
 ### Sicherheit
-SAST gegen OWASP Top 10, Red/Blue/Auditor-Pipeline, dynamisches Pentesting, SBOM, Compliance in 12 Sektoren. Savia Shield: lokale Datenklassifizierung mit On-Premise-LLM, reversible Maskierung, kryptographische PR-Signierung. Emergency Watchdog: automatischer Fallback auf lokales LLM (Gemma 4 / Qwen) bei Internetausfall.
+SAST gegen OWASP Top 10, Red/Blue/Auditor-Pipeline, dynamisches Pentesting, SBOM, Compliance in 12 Sektoren. Savia Shield: lokale Datenklassifizierung mit On-Premise-LLM, reversible Maskierung, kryptographische PR-Signierung.
+
+### Inferenz-Souveraenitaet
+Savia laeuft standardmaessig gegen die Anthropic-API (maximale Qualitaet). Wenn die Cloud ausfaellt — Kabel weg, Outage, Kontingent erschoepft, zu hohe Latenz — gibt es zwei Kontinuitaetsoptionen, beide auf lokalem Ollama mit hardware-abhaengiger Gemma 4-Variante:
+
+| Modus | Aktivierung | Wann verwenden |
+|---|---|---|
+| **Emergency Mode** | Manuell (`source ~/.pm-workspace-emergency.env` und Neustart von Claude Code) | Wenn du bereits weisst, dass keine Cloud verfuegbar ist und komplett lokal arbeiten willst |
+| **Savia Dual** | Automatisch (lokaler Proxy auf `127.0.0.1:8787`) | Standardmaessig: Cloud wenn verfuegbar, transparenter Fallback auf lokal bei Fehlern |
+
+Emergency Mode ersetzt den gesamten Upstream ueber Umgebungsvariablen. Savia Dual routet jede Anfrage: Anthropic zuerst, Ollama als Backup bei Netzwerkfehler, HTTP 5xx, HTTP 429 (Kontingent) oder Timeout. Ein Circuit Breaker verhindert staendiges Anfragen an einen ausgefallenen Upstream.
+
+Beide Optionen behalten deine Daten lokal auf der Maschine im Lokal-Modus. Inferenz-Souveraenitaet ergaenzt Datensouveraenitaet: Cloud wenn es geht, lokal wenn nicht, ohne Kontinuitaet oder Qualitaet zu verlieren, wenn die Cloud verfuegbar ist.
+
+Docs: [Savia Dual](docs/savia-dual.md) · [Emergency Mode](docs/EMERGENCY.md) · Installer: `scripts/setup-savia-dual.{sh,ps1}`
 
 ### Persistenter Speicher
 Klartext (JSONL). Entity Recall, semantische Suche, sitzungsuebergreifende Kontinuitaet. Automatische Entscheidungsextraktion vor Komprimierung. AES-256-verschluesselter Personal Vault.
@@ -101,9 +115,9 @@ Nacht-Sprint, Code-Verbesserung, technische Forschung. Agenten schlagen auf `age
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 508 Befehle
+│   ├── commands/       ← 512 Befehle
 │   ├── agents/         ← 48 spezialisierte Agenten
-│   ├── skills/         ← 89 Domaenen-Skills
+│   ├── skills/         ← 91 Domaenen-Skills
 │   ├── hooks/          ← 49 deterministische Hooks
 │   └── rules/          ← Kontext- und Sprachregeln
 ├── docs/               ← Anleitungen nach Rolle, Szenario, Sektor

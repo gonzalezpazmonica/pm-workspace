@@ -1,9 +1,9 @@
 # Workspace Context Index
-# counts: rules=143 agents=49 skills=90 commands=509 hooks=50
+# counts: rules=144 agents=49 skills=91 commands=512 hooks=50
 > Where to find and store information at workspace level (N1 public)
 
 ## Rules & Governance
-[location] .claude/rules/domain/ — 143 domain rules loaded on demand via @
+[location] .claude/rules/domain/ — 144 domain rules loaded on demand via @
 [location] .claude/rules/languages/ — language conventions (auto-load by file type)
 [intent: "what are the rules for X"] → scan .claude/rules/domain/ by keyword
 
@@ -12,8 +12,8 @@
 [intent: "which agent handles X"] → agents-catalog.md or assignment-matrix.md
 
 ## Skills & Commands
-[location] .claude/skills/ — 90 skills with SKILL.md + DOMAIN.md
-[location] .claude/commands/ — 509 slash command definitions
+[location] .claude/skills/ — 91 skills with SKILL.md + DOMAIN.md
+[location] .claude/commands/ — 512 slash command definitions
 [intent: "how to do X"] → scan skills by name/description
 [intent: "what command does X"] → command-catalog.md or /help
 
