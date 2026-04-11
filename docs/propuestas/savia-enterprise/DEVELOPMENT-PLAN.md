@@ -4,6 +4,10 @@
 > **Principio rector:** dev-session-protocol + /pr-plan + commit-guardian en CADA spec.
 > Zero atajos. Zero bypasses. Zero merge autónomo. PRs siempre en draft.
 
+> **Throughput claim:** pm-workspace = ~10x throughput end-to-end con supervisión humana
+> sobre el pipeline completo asistido por agentes. Ver `@.claude/rules/domain/dual-estimation.md`
+> para la fórmula, condiciones y protocolo de tracking empírico.
+
 ---
 
 ## 1. Contrato de ejecución

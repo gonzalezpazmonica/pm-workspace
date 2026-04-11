@@ -1,6 +1,13 @@
 # SPEC-XXX — Short Title
 
-> **Priority:** P0 | P1 | P2 · **Estimate:** Nd · **Type:** category
+> **Priority:** P0 | P1 | P2 · **Estimate (human):** Nd · **Estimate (agent):** Nh · **Category:** trivial|standard|complex|novel|legacy · **Type:** category
+
+> **Dual estimate**: `Estimate (human)` es el esfuerzo end-to-end en dias-persona
+> si el pipeline lo hace un humano sin asistencia. `Estimate (agent)` es el
+> wall-clock esperado del pipeline completo asistido por agentes (discovery +
+> spec writing + implementation + review + PM) con supervision humana en los
+> puntos de decision. Formula baseline: `agent_hours ≈ human_days`. Ajuste por
+> categoria y detalles en `@.claude/rules/domain/dual-estimation.md`.
 
 ## Objective
 
