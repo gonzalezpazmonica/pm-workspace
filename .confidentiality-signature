@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=daf478aae865303b82e55249aa8a3902502acd419ec648fb47455e08c2fb577f
-timestamp=2026-04-11T14:35:47Z
-branch=feat/savia-enterprise-foundations
-head_commit=f341d90
-signature=f0f0ab678907cbf3409c47011aee246207003dd5b1385de9c4b3b5854ba3966d
+diff_hash=6430d6b35cd1c702b6cc8536b8eda1b72a6894bc7c13f9b520b7daee383307f6
+timestamp=2026-04-11T14:26:57Z
+branch=feat/savia-claw-bridge-memory-check
+head_commit=2d0f239
+signature=abe71d721a09db6c56caf05bbce628d2e6bf06b70858ee77198275e62413a767

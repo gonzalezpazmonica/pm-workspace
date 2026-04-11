@@ -1,0 +1,77 @@
+# INDEX — Savia Claw Agent Code Map (.acm)
+> hash: sha256:587eda5cc5ab6bc7 | generated: 2026-04-10 | project: savia-claw
+
+Savia Claw: autonomous daemon connecting the ZeroClaw ESP32 hardware to Claude Code.
+Runs on "Lima" as `saviaclaw.service`. 37 Python modules in `zeroclaw/host/`.
+Provides survival system, voice I/O, nextcloud/teams comms, and meeting orchestration.
+
+## Navigation by Layer
+
+| Layer | File | Elements | Priority |
+|-------|------|----------|----------|
+| Daemons / Entry Points | host/daemons.acm | saviaclaw_daemon, voice_daemon, bridge, savia_brain | 🔴 High |
+| Survival System | host/survival.acm | survival, survival_phases, remote_host, consciousness | 🔴 High |
+| Comms Channels | host/comms.acm | nctalk, teams_client, gmail_*, gdrive_sync, meeting_* | 🟡 Medium |
+
+## Load by Scope
+
+- Full: `@include host/daemons.acm`, `@include host/survival.acm`, `@include host/comms.acm`
+- Runtime only: `@include host/daemons.acm`
+- Healing only: `@include host/survival.acm`
+- Comms only: `@include host/comms.acm`
+
+## Key Architecture Decisions
+
+- **Hardware-first**: ZeroClaw ESP32 is the physical presence; Lima hosts the brain (Python daemon)
+- **Survival over uptime**: SaviaClaw self-heals via LATIDO → RESPIRACION → DESPERTAR phases
+- **Dual meeting channel**: same consciousness drives physical (ZeroClaw mic) and Teams meetings
+- **Radical privacy**: `remote-host-config` and all credentials live in `~/.savia/*` (never in repo)
+- **Hard guardrails**: `guardrails.py` + `guardrails_pii.py` are deterministic Python gates, not LLM prompts
+- **Voice in daemon thread**: wake word + STT + TTS runs as a thread inside `saviaclaw_daemon`
+- **150-line limit** applies: e.g. `consciousness_comms.py` was extracted from `consciousness.py` to comply
+
+## Module Structure
+
+```
+zeroclaw/
+├── host/ (37 Python modules)
+│   ├── saviaclaw_daemon.py    ← systemd entry point
+│   ├── voice_daemon.py        ← wake word + STT + TTS thread
+│   ├── bridge.py              ← ESP32 ↔ Savia serial bridge
+│   ├── savia_brain.py         ← ZeroClaw → Claude Code bridge
+│   ├── survival.py            ← LATIDO ciclos internos
+│   ├── survival_phases.py     ← RESPIRACION + DESPERTAR + healing
+│   ├── remote_host.py         ← SSH to remote Claude Code server
+│   ├── consciousness.py       ← scheduled autonomous tasks
+│   ├── consciousness_comms.py ← notification helpers (150-line split)
+│   ├── nctalk.py              ← Nextcloud Talk send/receive
+│   ├── teams_client.py        ← Microsoft Graph (Teams meetings)
+│   ├── meeting_orchestrator.py← unified controller
+│   ├── meeting_participant.py ← physical meeting participant
+│   ├── meeting_pipeline.py    ← end-to-end digest pipeline
+│   ├── context_guardian.py    ← cross-reference speech with project data
+│   ├── gmail_check.py / gmail_actions.py / gmail_browser.py
+│   ├── gdrive_sync.py         ← Google Drive sync
+│   ├── guardrails.py          ← deterministic security gates
+│   ├── guardrails_pii.py      ← PII scrubbing before cloud APIs
+│   ├── wakeword.py            ← VAD + keyword match (offline)
+│   ├── voice.py / voiceprint.py / voiceprint_ops.py / speaker_roles.py
+│   ├── esp32_wifi.py / network_cli.py / network_setup.py
+│   ├── daemon_util.py         ← shared helpers (LCD, logs, claude call)
+│   ├── cli.py                 ← human-facing CLI
+│   ├── identity.json          ← Savia Claw identity
+│   └── saviaclaw.service      ← systemd unit definition (reference)
+├── firmware/                  ← ESP32 firmware (MicroPython/C)
+├── savia-voice/               ← full-duplex voice v2.4
+├── docs/                      ← voice architecture research
+├── tests/
+├── install-daemon.sh
+└── setup.sh
+```
+
+## Services
+
+| Service | Purpose | Restart policy |
+|---------|---------|----------------|
+| saviaclaw.service | Main daemon — ZeroClaw bridge + survival + scheduled tasks | always, 10s |
+| savia-watchdog.service | Emergency LLM fallback on internet loss | always |
