@@ -6174,11 +6174,8 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
-<<<<<<< HEAD
-[4.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.39.0...v4.40.0
-=======
 [4.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.0...v4.41.0
->>>>>>> e4d35ad (feat(se-002): multi-tenant isolation and RBAC)
+[4.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.39.0...v4.40.0
 [4.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.37.0...v4.39.0
 [4.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.36.0...v4.37.0
 [4.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.1...v4.36.0
