@@ -1,6 +1,0 @@
-# Confidentiality audit signature — DO NOT EDIT
-diff_hash=01ee20597317073bf06b1d0dce089e4aa0b9768b50ed57f6d1c8867417711f05
-timestamp=2026-04-11T22:11:39Z
-branch=fix/hook-exec-bits
-head_commit=5f140e8
-signature=5f249b0513c784aa46232cb35b6bcb41ce2067d1217b32a83db95efa2e9bb68e
