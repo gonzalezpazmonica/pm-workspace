@@ -1,6 +1,8 @@
 #!/usr/bin/env bats
 # BATS tests for scripts/ci-failure-tracker.sh
 # SPEC: SE-012 Signal/Noise Reduction — Module 2 (CI Failure Tracker)
+# Quality gate: SPEC-055 (audit score ≥80)
+# Ref: docs/propuestas/savia-enterprise/SPEC-SE-012-signal-noise-reduction.md
 
 SCRIPT="scripts/ci-failure-tracker.sh"
 
