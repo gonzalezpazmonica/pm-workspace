@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=66a2b530b3602c7e85e1b3f071adcb2821183317c0dd3b3b6afb9b92f0617762
-timestamp=2026-04-11T22:31:53Z
-branch=feat/savia-enterprise-release-orchestration
-head_commit=c865ca5
-signature=eb2e3825388573f54e5318be9fc0f534ce27fd3c99f206742f5bae5cee1be2ee
+diff_hash=beda054fe49cc2b91f0b6b30b5be70d453e6a615948cca3cbc8faa61b89c3936
+timestamp=2026-04-11T22:53:40Z
+branch=fix/hook-exec-bits
+head_commit=66851a9
+signature=283123cb50d8aa3ed77e77463cad3bf7f4e57766f4baed8368c5bb80898e25af

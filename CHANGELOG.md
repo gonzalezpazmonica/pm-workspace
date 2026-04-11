@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.46.0] — 2026-04-12
+
+Hook noise fix. Era 209. 15 shell hooks were committed to git with mode
+`100644` (non-executable), causing `PreToolUse:Bash` to fail every turn
+with `/bin/sh: 1: <hook>: Permission denied` (exit 126). Every clone of
+the repo reproduced the noise. This change flips them to `100755` via
+`git update-index --chmod=+x` without touching content.
+
+### Fixed
+- `.claude/hooks/agent-hook-premerge.sh`, `bash-output-compress.sh`,
+  `config-reload.sh`, `emotional-regulation-monitor.sh`,
+  `file-changed-staleness.sh`, `instructions-tracker.sh`,
+  `post-tool-failure-log.sh`, `pre-compact-backup.sh`,
+  `stop-memory-extract.sh`, `stress-awareness-nudge.sh`,
+  `subagent-lifecycle.sh`, `task-lifecycle.sh`, `tool-call-healing.sh`,
+  `lib/memory-extract-lib.sh`, `lib/profile-gate.sh` — all now
+  executable. No content change.
+
 ## [4.45.0] — 2026-04-12
 
 Savia Enterprise Release Orchestration (SE-014). Era 208. Release-as-Code for
@@ -6284,6 +6302,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.45.0...v4.46.0
 [4.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.44.0...v4.45.0
 [4.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.43.0...v4.44.0
 [4.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.42.0...v4.43.0
