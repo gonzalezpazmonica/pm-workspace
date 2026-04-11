@@ -93,12 +93,24 @@ EOF
 
 # ── Collision detection logic (isolated, no gh) ──────────────────────────
 
-@test "g5 contains version collision detection logic" {
-  grep -q "collides with open PR" scripts/pr-plan-gates.sh
+@test "g5 contains version queue enforcement logic (Era 210 hardening)" {
+  # The queue check now enforces strictly-greater, not just not-equal.
+  # It emits "max in queue" when lv <= max_claimed.
+  grep -q "max in queue" scripts/pr-plan-gates.sh
 }
 
-@test "g5 suggests next free version on collision" {
-  grep -q "next free" scripts/pr-plan-gates.sh
+@test "g5 suggests next version bump on queue violation" {
+  # Failure message must instruct "bump to X.Y.0" with a concrete target.
+  grep -q "bump to" scripts/pr-plan-gates.sh
+}
+
+@test "g5 tracks max_claimed across main and open PRs" {
+  grep -q "max_claimed" scripts/pr-plan-gates.sh
+}
+
+@test "g5 uses sort -V for version comparison (semver-correct)" {
+  # Lexicographic sort would place 4.10.0 before 4.2.0; must use sort -V.
+  grep -q "sort -V" scripts/pr-plan-gates.sh
 }
 
 @test "g5 uses gh api contents endpoint to read remote CHANGELOG" {

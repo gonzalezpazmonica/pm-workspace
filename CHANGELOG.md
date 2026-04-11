@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.47.0] — 2026-04-12
+
+pr-plan G5 queue check hardened against recurrent CHANGELOG merge conflicts.
+Era 210. The old check only flagged exact version-number equality between my
+branch and any open PR. That prevented number collisions but not the real
+pain: two branches both insert at line 8 of `CHANGELOG.md` with different
+anchors, producing a merge conflict whenever one of them lands first. The
+fix enforces that my local version is **strictly greater than** every version
+claimed by main OR any open PR. This guarantees a rebase after a peer lands
+is always a clean "my entry on top of theirs" insertion.
+
+### Changed
+- **`scripts/pr-plan-gates.sh`** (g5): queue check now tracks `max_claimed`
+  across `origin/main` top + every open PR's CHANGELOG top, and fails with
+  `FAIL: version <lv> <= max in queue <max_claimed> — bump to <next>` when
+  the local version does not strictly exceed the queue. Uses `sort -V` for
+  semver-correct comparison (avoids the `4.10.0 < 4.2.0` lexicographic trap).
+  Degrades to silent skip when `gh` is unavailable or `PR_PLAN_SKIP_QUEUE_CHECK=1`.
+- **`tests/test-pr-plan-queue-check.bats`**: updated failure-message strings
+  (`max in queue`, `bump to`) and added three regression tests
+  (`tracks max_claimed across main and open PRs`, `uses sort -V`, Era 210
+  hardening guard). 17/17 pass locally.
+
 ## [4.44.0] — 2026-04-11
 
 Dual estimation rule (SE-013) with two-ratio system. Formalizes the ~10x end-to-end pipeline speedup claim and — critically — keeps TWO live ratios simultaneously: a fixed conservative `10x` (default for planning, always safe) and an updating empirical ratio computed from `data/agent-actuals.jsonl`. PM decides when to opt-in to empirical mode; conservative stays as default until the team has enough data to trust its own numbers. Era 207.
@@ -6267,6 +6290,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
 [4.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.43.0...v4.44.0
 [4.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.42.0...v4.43.0
 [4.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.41.0...v4.42.0
