@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.36.0] — 2026-04-11
+
+Savia Enterprise foundations (SE-001). First step of the Savia → Savia Enterprise migration plan (11 specs in `docs/propuestas/savia-enterprise/`).
+
+### Added
+- **Savia Enterprise layer contract**: new `.claude/enterprise/` directory (opt-in, MIT, unidirectional). Contains `agents/commands/skills/rules` subdirs + `manifest.json` + JSON schema. All modules ship disabled by default.
+- **`scripts/validate-layer-contract.sh`**: full-repo scanner that enforces "Core never imports from `.claude/enterprise/`". Full scan: 1092 files, 0 violations.
+- **`.claude/hooks/validate-layer-contract.sh`**: PreToolUse hook (Edit|Write) that intercepts Core→Enterprise imports before they land on disk. Registered in `.claude/settings.json`.
+- **`docs/propuestas/savia-enterprise/`**: 11 executable specs (SE-001..SE-011) covering foundations, multi-tenant, MCP catalog, agent framework interop, sovereign deployment, governance pack, onboarding, licensing, observability, migration path, and docs restructuring.
+- **`docs/propuestas/savia-enterprise/DEVELOPMENT-PLAN.md`**: DAG with 3 parallel waves, resume protocol across sessions, escalation rules.
+- **`docs/propuestas/savia-enterprise/extension-points.md`**: 6 formal extension points (agent registry, hook registry, RBAC gate, audit sink, tenant resolver, compliance validator).
+- **`tests/test-validate-layer-contract.bats`**: 26 tests covering hook positive/negative cases, script full scan, manifest schema, opt-in defaults, invariant enforcement.
+
+### Principles preserved
+All 7 foundational principles remain intact (data sovereignty, vendor independence, radical honesty, absolute privacy, human decides, equality shield, identity protection). Enterprise layer is MIT, agnostic, opt-in. No vendor lock-in introduced.
+
 ## [4.35.0] — 2026-04-11
 
 Lazy context architecture fix + GitHub release pipeline fix. Era 201.
@@ -6027,6 +6043,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.0...v4.36.0
 [4.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.35.0
 [4.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.33.0...v4.34.0
 [4.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.32.0...v4.33.0
