@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.45.0] — 2026-04-11
+
+Savia Enterprise Release Orchestration (SE-014). Era 208. Release-as-Code for
+multi-tenant consultancy delivery: a `.md`-first contract per release with
+compliance profiles (standard, dora-banking, hipaa-health, gdpr-eu, nis2-critical,
+airgap), human-gated deploy, and audit-safe rollback. Blocked-by SE-001, SE-002,
+SE-003; blocks SE-018 (billing consumes `release.completed`) and SE-019
+(evaluation baseline). Spec proposal only — implementation in a later sprint.
+
+### Added
+- **SPEC-SE-014 Release Orchestration** (`docs/propuestas/savia-enterprise/SPEC-SE-014-release-orchestration.md`):
+  release-plan.md canonical schema, 6 compliance profiles, 3 new agents
+  (release-orchestrator L2, release-validator L1, rollback-executor L1),
+  `/release-plan` + `/release-validate` commands, `release.completed` event
+  consumed by SE-018/SE-019, air-gap first-class, event-driven integration with
+  SE-003 MCP adapters (Azure DevOps Release + GitHub Deployments as v1 targets).
+
 ## [4.43.0] — 2026-04-11
 
 Deep research over 17 external repos (legalize-es, mempalace, llmfit, rowboat,
@@ -6250,6 +6267,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.44.0...v4.45.0
 [4.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.42.0...v4.43.0
 [4.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.41.0...v4.42.0
 [4.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.1...v4.41.0
