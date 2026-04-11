@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.36.0] — 2026-04-11
 
-Savia Enterprise foundations (SE-001). First step of the Savia → Savia Enterprise migration plan (11 specs in `docs/propuestas/savia-enterprise/`).
+Savia Enterprise foundations (SE-001). Era 202. First step of the Savia → Savia Enterprise migration plan (11 specs in `docs/propuestas/savia-enterprise/`).
 
 ### Added
 - **Savia Enterprise layer contract**: new `.claude/enterprise/` directory (opt-in, MIT, unidirectional). Contains `agents/commands/skills/rules` subdirs + `manifest.json` + JSON schema. All modules ship disabled by default.
