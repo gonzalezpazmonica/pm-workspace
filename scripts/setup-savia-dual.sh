@@ -7,20 +7,26 @@
 # only the config without touching Ollama/models.
 #
 # Usage:
-#   ./scripts/setup-savia-dual.sh              # install + configure (idempotent)
+#   ./scripts/setup-savia-dual.sh              # install + configure + launch claude
+#   ./scripts/setup-savia-dual.sh --no-launch  # install only, do not exec claude
 #   ./scripts/setup-savia-dual.sh --dry-run    # show what would happen
 #   ./scripts/setup-savia-dual.sh --reconfigure # regenerate config only
 #   ./scripts/setup-savia-dual.sh --force      # rewrite config even if present
+#   ./scripts/setup-savia-dual.sh -- --resume  # pass args after -- to claude
 set -uo pipefail
 
 DRY_RUN=0
 RECONFIG_ONLY=0
 FORCE=0
+NO_LAUNCH=0
+CLAUDE_ARGS=()
 for arg in "$@"; do
   case "$arg" in
     --dry-run) DRY_RUN=1 ;;
     --reconfigure) RECONFIG_ONLY=1; FORCE=1 ;;
     --force) FORCE=1 ;;
+    --no-launch) NO_LAUNCH=1 ;;
+    --) shift; CLAUDE_ARGS=("$@"); break ;;
     -h|--help)
       grep '^#' "$0" | sed 's/^# \{0,1\}//' | head -25
       exit 0
@@ -32,6 +38,11 @@ say() { printf '\033[0;36m[savia-dual]\033[0m %s\n' "$*"; }
 warn() { printf '\033[1;33m[savia-dual]\033[0m %s\n' "$*" >&2; }
 err() { printf '\033[0;31m[savia-dual]\033[0m %s\n' "$*" >&2; }
 run() { if [[ $DRY_RUN -eq 1 ]]; then echo "  + $*"; else eval "$*"; fi }
+
+# Resolve repo dir from this script's location (absolute, symlink-safe).
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROXY_PATH="$SCRIPT_DIR/savia-dual-proxy.py"
+PYTHON_BIN="$(command -v python3 || true)"
 
 # ── Detect OS ───────────────────────────────────────────────────────────────
 OS="$(uname -s)"
@@ -240,22 +251,192 @@ ENV
   say "Env file:       $ENV_PATH"
 fi
 
-# ── Final instructions ──────────────────────────────────────────────────────
+# ── Install system-wide systemd service (Linux) ─────────────────────────────
+install_systemd_system_service() {
+  [[ "$PLATFORM" != "linux" ]] && return 0
+  if ! command -v systemctl >/dev/null 2>&1; then
+    warn "systemctl not available — cannot install system service."
+    return 1
+  fi
+  if [[ -z "$PYTHON_BIN" ]]; then
+    err "python3 not found in PATH — cannot create service."
+    return 1
+  fi
+  if [[ ! -f "$PROXY_PATH" ]]; then
+    err "Proxy script not found: $PROXY_PATH"
+    return 1
+  fi
+
+  local unit_path="/etc/systemd/system/savia-dual-proxy.service"
+  local svc_user="${SUDO_USER:-$USER}"
+  local svc_home; svc_home="$(getent passwd "$svc_user" | cut -d: -f6)"
+  [[ -z "$svc_home" ]] && svc_home="$HOME"
+
+  # Ensure Ollama starts on boot too (installer usually does this already).
+  if systemctl list-unit-files 2>/dev/null | grep -q '^ollama\.service'; then
+    run "sudo systemctl enable --now ollama.service >/dev/null 2>&1 || true"
+  fi
+
+  local tmp_unit; tmp_unit="$(mktemp)"
+  cat > "$tmp_unit" <<UNIT
+[Unit]
+Description=Savia Dual Proxy (inference sovereignty failover)
+Documentation=file://$SCRIPT_DIR/../.claude/rules/domain/savia-dual.md
+After=network-online.target ollama.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=$svc_user
+Environment=HOME=$svc_home
+Environment=SAVIA_DUAL_CONFIG=$svc_home/.savia/dual/config.json
+ExecStart=$PYTHON_BIN $PROXY_PATH
+Restart=on-failure
+RestartSec=3
+StandardOutput=append:/var/log/savia-dual-proxy.log
+StandardError=append:/var/log/savia-dual-proxy.log
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+
+  if [[ $DRY_RUN -eq 1 ]]; then
+    say "[dry-run] Would install systemd unit at $unit_path"
+    cat "$tmp_unit"
+    rm -f "$tmp_unit"
+    return 0
+  fi
+
+  say "Installing systemd unit (requires sudo): $unit_path"
+  if ! sudo install -m 0644 "$tmp_unit" "$unit_path"; then
+    err "Failed to install unit file (sudo denied?)"
+    rm -f "$tmp_unit"
+    return 1
+  fi
+  rm -f "$tmp_unit"
+
+  sudo touch /var/log/savia-dual-proxy.log
+  sudo chown "$svc_user":"$svc_user" /var/log/savia-dual-proxy.log 2>/dev/null || true
+
+  sudo systemctl daemon-reload
+  sudo systemctl enable savia-dual-proxy.service >/dev/null
+  sudo systemctl restart savia-dual-proxy.service
+  sleep 1
+
+  if systemctl is-active --quiet savia-dual-proxy.service; then
+    say "Service active: savia-dual-proxy.service (enabled at boot)"
+  else
+    err "Service failed to start. Check: sudo journalctl -u savia-dual-proxy -n 50"
+    return 1
+  fi
+}
+
+# ── Install launchd agent (macOS) ───────────────────────────────────────────
+install_launchd_agent() {
+  [[ "$PLATFORM" != "macos" ]] && return 0
+  local plist_path="$HOME/Library/LaunchAgents/com.savia.dual.proxy.plist"
+  run "mkdir -p '$HOME/Library/LaunchAgents'"
+  if [[ $DRY_RUN -eq 1 ]]; then
+    say "[dry-run] Would install launchd agent at $plist_path"
+    return 0
+  fi
+  cat > "$plist_path" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.savia.dual.proxy</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>$PYTHON_BIN</string>
+    <string>$PROXY_PATH</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>$HOME/.savia/dual/proxy.log</string>
+  <key>StandardErrorPath</key><string>$HOME/.savia/dual/proxy.log</string>
+</dict></plist>
+PLIST
+  launchctl unload "$plist_path" 2>/dev/null || true
+  launchctl load "$plist_path"
+  say "launchd agent loaded: com.savia.dual.proxy"
+}
+
+# ── Shell integration (auto-source env on every new shell) ──────────────────
+install_shell_integration() {
+  local marker="# >>> savia-dual >>>"
+  local endmark="# <<< savia-dual <<<"
+  local block="$marker
+# Auto-added by setup-savia-dual.sh — do not edit between markers.
+if [ -f \"$ENV_PATH\" ]; then . \"$ENV_PATH\"; fi
+$endmark"
+
+  for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    [[ -f "$rc" ]] || continue
+    if grep -qF "$marker" "$rc"; then
+      say "Shell integration already in $rc"
+      continue
+    fi
+    if [[ $DRY_RUN -eq 1 ]]; then
+      say "[dry-run] Would append savia-dual block to $rc"
+      continue
+    fi
+    printf '\n%s\n' "$block" >> "$rc"
+    say "Shell integration added to $rc"
+  done
+}
+
+install_systemd_system_service || warn "System service install failed — you can run the proxy manually."
+install_launchd_agent || true
+install_shell_integration
+
+# ── Health check ────────────────────────────────────────────────────────────
+if [[ $DRY_RUN -eq 0 ]]; then
+  sleep 1
+  if curl -fsS --max-time 3 http://127.0.0.1:8787/health >/dev/null 2>&1; then
+    say "Proxy health check: OK (http://127.0.0.1:8787/health)"
+  else
+    warn "Proxy health check failed — review: sudo journalctl -u savia-dual-proxy -n 50"
+  fi
+fi
+
+# ── Final summary ───────────────────────────────────────────────────────────
 cat <<EOF
 
-Savia Dual is ready.
+Savia Dual is installed and running.
 
-Next steps:
-  1. Start the proxy in a terminal:
-       python3 $(pwd)/scripts/savia-dual-proxy.py
+  Service:  savia-dual-proxy.service  (enabled at boot)
+  Proxy:    http://127.0.0.1:8787
+  Events:   $HOME/.savia/dual/events.jsonl
+  Model:    $MODEL
 
-  2. In another terminal, source the env file and start Claude Code:
-       source $ENV_PATH
-       claude
+Manage the service:
+  sudo systemctl status savia-dual-proxy
+  sudo systemctl restart savia-dual-proxy
+  sudo journalctl -u savia-dual-proxy -f
 
-  3. Verify routing:
-       curl -s http://127.0.0.1:8787/health
-       tail -f $HOME/.savia/dual/events.jsonl
-
-To reconfigure later: ./scripts/setup-savia-dual.sh --reconfigure
+Reconfigure:  ./scripts/setup-savia-dual.sh --reconfigure
 EOF
+
+# ── Auto-launch Claude Code with env applied ────────────────────────────────
+# A child process CANNOT modify its parent shell's environment, so running
+# `bash setup.sh && claude` would leave ANTHROPIC_BASE_URL unset in the parent.
+# Solution: source the env in THIS script's process and exec claude here.
+# The exec'd claude inherits ANTHROPIC_BASE_URL and routes through the proxy.
+if [[ $DRY_RUN -eq 0 && $NO_LAUNCH -eq 0 ]]; then
+  if [[ -t 1 ]] && command -v claude >/dev/null 2>&1; then
+    # shellcheck disable=SC1090
+    . "$ENV_PATH"
+    say "Launching Claude Code with Savia Dual active (ANTHROPIC_BASE_URL=$ANTHROPIC_BASE_URL)"
+    echo
+    exec claude "${CLAUDE_ARGS[@]}"
+  else
+    cat <<EOF
+
+To start Claude Code with Savia Dual active in the current shell:
+  source $ENV_PATH && claude
+
+Or open a NEW terminal (shell integration will load it automatically):
+  claude
+EOF
+  fi
+fi
