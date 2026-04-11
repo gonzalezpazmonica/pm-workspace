@@ -30,14 +30,45 @@ Con pm-workspace:  0.5 + 1 + 1 + 1 + 1 + 2 = 6.5h reloj
 Speedup real:      ~9.7x ≈ 10x
 ```
 
+## Dos ratios simultaneos: conservative + empirical
+
+La regla mantiene **dos valores vivos** que el PM elige segun contexto:
+
+| Ratio | Valor | Fuente | Cuando usar |
+|---|---|---|---|
+| **Conservative** (`conservative_ratio`) | **10x fijo** | Literatura + experimento HUDI n=2 + datos iniciales | Default para planning. Siempre seguro. Si el agente va mas rapido, el PM gana; si va mas lento, no queda en ridiculo. |
+| **Empirical** (`empirical_ratio`) | **Se actualiza con datos** | `scripts/estimate-calibrate.sh` sobre `data/agent-actuals.jsonl` | Opt-in. Cuando el PM confia en los datos de su equipo (>=10 samples) y quiere estimar en base a experiencia real. |
+
+**Regla crítica:** el `empirical_ratio` NUNCA reemplaza al `conservative_ratio`
+automaticamente. El PM DECIDE cuando aplicar empirical via `--mode empirical` en
+`scripts/estimate-convert.sh`. El conservative sigue siendo el default de la
+planificación de sprint.
+
 ## Formula canonica
 
 ```
-agent_hours ≈ human_days
+# Conservative (default)
+agent_hours = human_days * 0.8    # = human_days * (8h / 10x)
+
+# Empirical (opt-in)
+agent_hours = human_days * (8h / empirical_speedup)
 ```
 
-Shorthand mental: *"1 dia humano ≈ 1 hora agente"*. Equivale a 8x (8h humano /
-1h agente) — el redondeo a 10x absorbe review overhead y waste de coordinacion.
+Shorthand mental (conservative): *"1 dia humano ≈ 1 hora agente"*. Equivale a
+8x (8h humano / 1h agente) — el redondeo a 10x absorbe review overhead y waste
+de coordinacion.
+
+## Conversor rapido
+
+```
+bash scripts/estimate-convert.sh 5                          # 5 human-days, conservative
+bash scripts/estimate-convert.sh 5 --mode empirical         # usa ratio del equipo
+bash scripts/estimate-convert.sh 5 --category trivial       # aplica x1.5
+bash scripts/estimate-convert.sh 5 --format json            # JSON parseable
+```
+
+Si `--mode empirical` se pide pero hay < `DUAL_ESTIMATION_MIN_SAMPLES`, el script
+avisa y cae al conservative por seguridad.
 
 ## Tabla de ajuste por categoria
 
@@ -73,10 +104,9 @@ Equipos con adopcion total + scope favorable: **10x o mas** (defendible).
 
 ## Regime caveat
 
-Esto es el regime "first draft + self-review + merge". Para mergeable PR
-aprobado por E1 humano, aplicar factor 0.5-0.7 al speedup efectivo. Para
-legacy con constraints ocultas, el RCT METR 2025-07 mide 0.84x regardless
-del stack de herramientas — asume 2x como tope honesto.
+Regime "first draft + self-review + merge". Para mergeable PR aprobado por E1
+humano, aplicar factor 0.5-0.7 al speedup. Legacy con constraints ocultas:
+METR 2025-07 mide 0.84x regardless — asume 2x como tope honesto.
 
 ## Tracking empirico
 
@@ -113,12 +143,8 @@ AGENT_ACTUALS_LOG           = "data/agent-actuals.jsonl"
 
 ## Sources
 
-- METR "Measuring AI Ability to Complete Long Tasks" (arxiv 2503.14499, rev. 2026-02)
-- METR RCT 2025-07: "Measuring Impact of Early-2025 AI on Experienced OSS Developers"
-  (arxiv 2507.09089) — unica RCT con -19% slowdown en legacy repos
-- METR MirrorCode 2026-04-10: greenfield reimplementation desde spec detallada,
-  speedup 10-50x
-- Experimento propio n=2 en Apache HUDI (HUDI-8865: 21x raw, HUDI-8551: 30x
-  ajustado), `output/dual-estimation-experiment/`
-- Datos internos pm-workspace: SE-002 (5d humano → ~1.25h agent = ~32x en
-  primer draft), SE-001, SE-008, SE-012
+- METR arxiv 2503.14499 (time horizons, rev. 2026-02)
+- METR arxiv 2507.09089 (2025-07 RCT, -19% en legacy repos)
+- METR MirrorCode 2026-04-10 (greenfield, 10-50x)
+- Experimento propio n=2 Apache HUDI (HUDI-8865 21x, HUDI-8551 30x ajustado)
+- Datos internos pm-workspace: SE-001/002/008/012

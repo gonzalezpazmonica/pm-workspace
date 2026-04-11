@@ -7,19 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.44.0] — 2026-04-11
 
-Dual estimation rule (SE-013). Formalizes the ~10x end-to-end pipeline speedup claim with explicit conditions, adjustment table by task category, empirical tracking protocol, and a calibration script that recomputes ratios from real data in `data/agent-actuals.jsonl`. Closes the gap between human-days planning and agent wall-clock reality. Era 207.
+Dual estimation rule (SE-013) with two-ratio system. Formalizes the ~10x end-to-end pipeline speedup claim and — critically — keeps TWO live ratios simultaneously: a fixed conservative `10x` (default for planning, always safe) and an updating empirical ratio computed from `data/agent-actuals.jsonl`. PM decides when to opt-in to empirical mode; conservative stays as default until the team has enough data to trust its own numbers. Era 207.
 
 ### Added
-- **`.claude/rules/domain/dual-estimation.md`**: the rule. Phase breakdown, formula, adjustment table (trivial 15x → legacy 2x), 4 conditions for the 10x claim, sources (METR papers + n=2 HUDI + SE-002 real data).
+- **`.claude/rules/domain/dual-estimation.md`**: the rule. Phase breakdown, dual-ratio model (conservative 10x + empirical on-demand), canonical formula, adjustment table (trivial 15x → legacy 2x), 4 conditions for the 10x claim, sources (METR papers + n=2 HUDI + SE-002 real data).
 - **`docs/propuestas/TEMPLATE.md`**: spec header updated with `Estimate (human): Nd` and `Estimate (agent): Nh` dual fields + `Category` classifier.
-- **`scripts/estimate-calibrate.sh`**: reads `data/agent-actuals.jsonl`, groups by category, computes empirical speedup, suggests adjustments when samples ≥ `DUAL_ESTIMATION_MIN_SAMPLES`. Supports `--format json`.
+- **`scripts/estimate-calibrate.sh`**: reads `data/agent-actuals.jsonl`, groups by category, computes empirical speedup, suggests adjustments when samples ≥ `DUAL_ESTIMATION_MIN_SAMPLES`. Supports `--format json` and `--log`.
+- **`scripts/estimate-convert.sh`**: PM-facing helper. Converts human-days to agent-hours using either `--mode conservative` (default 10x) or `--mode empirical` (opt-in, reads live ratio from actuals log). Falls back to conservative when empirical lacks samples. Supports `--category`, `--format json`, `--min-samples`.
 - **`data/agent-actuals.example.jsonl`**: seed with SE-001/002/008/012 + HUDI-8865/8551 real data. The live file `data/agent-actuals.jsonl` is gitignored (PM-local tracking).
-- **`tests/test-dual-estimation.bats`**: 17 BATS tests, SPEC-055 certified (score 83).
+- **`tests/test-dual-estimation.bats`**: 23 BATS tests (17 original + 6 for the two-ratio helper), SPEC-055 certified.
 - **`docs/propuestas/savia-enterprise/DEVELOPMENT-PLAN.md`**: throughput claim block at top, linking to the rule.
 - **`.claude/rules/domain/pm-config.md`**: three new config keys (`DUAL_ESTIMATION_ENABLED`, `DUAL_ESTIMATION_MIN_SAMPLES`, `AGENT_ACTUALS_LOG`).
 
 ### Changed
-- Spec template and development plan now explicitly distinguish human-days from agent wall-clock hours.
+- Spec template and development plan now explicitly distinguish human-days from agent wall-clock hours. The conservative 10x is the planning default; empirical is opt-in when the PM trusts team data.
 
 ## [4.43.0] — 2026-04-11
 

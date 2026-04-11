@@ -141,3 +141,46 @@ teardown() {
   [ "$status" -eq 0 ]
   [[ "$output" == *"suggest"* ]]
 }
+
+# ── estimate-convert.sh two-ratio helper ────────────────────────────────────
+
+@test "estimate-convert exists and is executable" {
+  local cv="$REPO_ROOT/scripts/estimate-convert.sh"
+  [ -x "$cv" ]
+}
+
+@test "estimate-convert conservative mode computes 4h for 5 standard days" {
+  local cv="$REPO_ROOT/scripts/estimate-convert.sh"
+  run bash "$cv" 5 --format json
+  [ "$status" -eq 0 ]
+  [[ "$output" == *'"agent_hours":4.00'* ]]
+  [[ "$output" == *'"mode":"conservative"'* ]]
+}
+
+@test "estimate-convert applies category factor for trivial" {
+  local cv="$REPO_ROOT/scripts/estimate-convert.sh"
+  run bash "$cv" 5 --category trivial --format json
+  [ "$status" -eq 0 ]
+  # 5 × 0.533 = 2.665 ≈ 2.67
+  [[ "$output" == *'"agent_hours":2.67'* ]]
+}
+
+@test "estimate-convert empirical falls back when samples insufficient" {
+  local cv="$REPO_ROOT/scripts/estimate-convert.sh"
+  run bash "$cv" 5 --mode empirical --min-samples 100 --format json
+  [ "$status" -eq 2 ]
+  [[ "$output" == *'"fell_back":1'* ]]
+  [[ "$output" == *'"mode":"conservative"'* ]]
+}
+
+@test "estimate-convert rejects invalid category" {
+  local cv="$REPO_ROOT/scripts/estimate-convert.sh"
+  run bash "$cv" 5 --category nonsense
+  [ "$status" -eq 1 ]
+}
+
+@test "estimate-convert rejects non-numeric human days" {
+  local cv="$REPO_ROOT/scripts/estimate-convert.sh"
+  run bash "$cv" abc
+  [ "$status" -eq 1 ]
+}
