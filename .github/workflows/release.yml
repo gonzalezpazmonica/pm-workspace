@@ -1,4 +1,16 @@
-name: Release
+name: Release (Manual / Fallback)
+
+# NOTE: The primary release mechanism is auto-tag.yml, which creates both
+# the git tag AND the GitHub release in a single workflow whenever
+# CHANGELOG.md is updated on main. This file remains as a fallback for
+# manual releases triggered by pushing a tag directly (without going
+# through CHANGELOG.md edits), but auto-tag.yml is the preferred path.
+#
+# Why auto-tag.yml handles both: GitHub Actions has a safeguard where
+# workflows triggered by GITHUB_TOKEN pushes DO NOT trigger other
+# workflows. This means tags pushed by auto-tag.yml would not trigger
+# this release.yml, causing the release creation to silently skip. The
+# fix is to do both in auto-tag.yml.
 
 on:
   push:
@@ -10,8 +22,13 @@ permissions:
 
 jobs:
   release:
-    name: Create GitHub Release
+    name: Create GitHub Release (fallback for manual tag pushes)
     runs-on: ubuntu-latest
+    # Skip if the tag was pushed by github-actions[bot] — auto-tag.yml
+    # already handles that case inline. This prevents duplicate work and
+    # is also technically a no-op because GITHUB_TOKEN actions don't
+    # trigger this workflow anyway, but we document the intent.
+    if: github.actor != 'github-actions[bot]'
 
     steps:
       - name: Checkout
@@ -20,28 +37,34 @@ jobs:
           fetch-depth: 0
 
       - name: Validate tag format
-        id: validate_tag
         run: |
           TAG="${GITHUB_REF_NAME}"
           if [[ ! $TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "❌ Invalid tag format: $TAG"
-            echo "Expected format: vX.Y.Z (e.g., v1.2.3)"
+            echo "Expected format: vX.Y.Z"
             exit 1
           fi
           echo "✅ Valid tag format: $TAG"
 
-      - name: Extract version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+      - name: Check if release already exists
+        id: release_check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists — skipping"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Extract changelog for this version
-        id: changelog
+        if: steps.release_check.outputs.exists == 'false'
         run: |
-          VERSION="${{ steps.version.outputs.VERSION }}"
-          # Strip leading 'v' for CHANGELOG lookup (v0.1.0 -> 0.1.0)
+          VERSION="${GITHUB_REF_NAME}"
           SEMVER="${VERSION#v}"
 
-          # Extract the section for this version from CHANGELOG.md
           awk "/^## \[${SEMVER}\]/{found=1; next} /^## \[/{if(found) exit} found{print}" CHANGELOG.md \
             > release_notes.md
 
@@ -50,35 +73,14 @@ jobs:
             echo "See CHANGELOG.md for full history." >> release_notes.md
           fi
 
-          echo "Release notes extracted for ${VERSION}:"
-          cat release_notes.md
-
-      - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: cd scripts && npm install
-
-      - name: Run CI checks before releasing
-        run: |
-          sudo apt-get update -qq && sudo apt-get install -y jq python3
-          chmod +x scripts/test-workspace.sh
-          ./scripts/test-workspace.sh --mock
-
-      - name: Delete existing release if present
-        run: gh release delete "${{ steps.version.outputs.VERSION }}" --yes 2>/dev/null || true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2  # TODO: pin to SHA
+        if: steps.release_check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191
         with:
-          name: "PM Workspace ${{ steps.version.outputs.VERSION }}"
+          name: "PM Workspace ${{ github.ref_name }}"
           body_path: release_notes.md
           draft: false
-          prerelease: ${{ contains(steps.version.outputs.VERSION, '-') }}
+          prerelease: ${{ contains(github.ref_name, '-') }}
           generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

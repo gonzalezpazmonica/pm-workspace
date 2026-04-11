@@ -142,7 +142,7 @@ fi
 # Only CONFIDENTIAL blocks N1 files (real secrets must never leak).
 IS_N1_DEST=false
 case "$NORM_PATH" in
-  */docs/*|*/.claude/rules/*|*/.claude/skills/*|*/.claude/agents/*|*/.claude/commands/*|*/.claude/hooks/*|*/scripts/*|*/tests/*|*/CLAUDE.md|*/CHANGELOG.md|*/README*|*/public-agent-memory/*|docs/*|.claude/rules/*|.claude/skills/*|.claude/agents/*|.claude/commands/*|.claude/hooks/*|scripts/*|tests/*|CLAUDE.md|CHANGELOG.md|README*|public-agent-memory/*) IS_N1_DEST=true ;;
+  */docs/*|*/.claude/rules/*|*/.claude/skills/*|*/.claude/agents/*|*/.claude/commands/*|*/.claude/hooks/*|*/scripts/*|*/tests/*|*/.github/*|*/CLAUDE.md|*/CHANGELOG.md|*/README*|*/public-agent-memory/*|docs/*|.claude/rules/*|.claude/skills/*|.claude/agents/*|.claude/commands/*|.claude/hooks/*|scripts/*|tests/*|.github/*|CLAUDE.md|CHANGELOG.md|README*|public-agent-memory/*) IS_N1_DEST=true ;;
 esac
 
 CLASSIFY="$PROJECT_DIR/scripts/ollama-classify.sh"

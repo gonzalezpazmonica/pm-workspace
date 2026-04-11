@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5f195f960a0611428158afbe417542f71ae102897592bda5eca2959f88454378
-timestamp=2026-04-11T06:44:09Z
-branch=feat/savia-claw-bridge-memory-check
-head_commit=2f536aa
-signature=08551c07b3820ab424f569c1cec728362dbe56d6b4d1a05c0caf335a34319c66
+diff_hash=02de9e01b9cbb0f26c7fb78653aa1aeb4fd5ee02cd4cfa732072961bcadc05d5
+timestamp=2026-04-11T12:49:13Z
+branch=feature/era200-savia-monitor-linux
+head_commit=b0daf12
+signature=aed099a82cea941f8be471d004abe6274772f2d61108924ff6f43d0867da99ca
