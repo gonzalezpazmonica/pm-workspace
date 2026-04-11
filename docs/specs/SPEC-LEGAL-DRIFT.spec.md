@@ -127,7 +127,7 @@ evaluar el diff semanticamente.
 
 ```bash
 /legal-drift                             # todos los proyectos, since ultima auditoria
-/legal-drift --project trazabios         # un proyecto
+/legal-drift --project proyecto-alpha         # un proyecto
 /legal-drift --project X --since 2026-01-01  # desde fecha especifica
 /legal-drift --severity critical         # solo criticas
 /legal-drift --update-audit-date         # tras revisar, actualiza fechas
@@ -136,7 +136,7 @@ evaluar el diff semanticamente.
 ### 2.7 Output
 
 ```markdown
-# Legal Drift — proyecto trazabios
+# Legal Drift — proyecto proyecto-alpha
 
 Auditado: 2026-04-11
 Desde: 2026-01-15 (ultima auditoria del proyecto)
@@ -148,7 +148,7 @@ Desde: 2026-01-15 (ultima auditoria del proyecto)
 - **Articulo:** 6
 - **Commit:** a3f2c1d — 2026-03-20
 - **Diff:** [articulo se endurecio, nueva obligacion de...]
-- **Accion:** Revisar implementacion de RN-001 en trazabios antes
+- **Accion:** Revisar implementacion de RN-001 en proyecto-alpha antes
   del 2026-05-01 (entrada en vigor de la reforma)
 
 ### WARNING — RN-042 Derecho de supresion
