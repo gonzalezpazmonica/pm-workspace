@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=02de9e01b9cbb0f26c7fb78653aa1aeb4fd5ee02cd4cfa732072961bcadc05d5
-timestamp=2026-04-11T12:49:13Z
-branch=feature/era200-savia-monitor-linux
-head_commit=b0daf12
-signature=aed099a82cea941f8be471d004abe6274772f2d61108924ff6f43d0867da99ca
+diff_hash=daf478aae865303b82e55249aa8a3902502acd419ec648fb47455e08c2fb577f
+timestamp=2026-04-11T14:35:47Z
+branch=feat/savia-enterprise-foundations
+head_commit=f341d90
+signature=f0f0ab678907cbf3409c47011aee246207003dd5b1385de9c4b3b5854ba3966d
