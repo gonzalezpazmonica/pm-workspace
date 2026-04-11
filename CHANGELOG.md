@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Savia Dual installer scripts are now fully idempotent. Re-running them
 no longer re-downloads Ollama or models already present, and no longer
-overwrites an existing config.
+overwrites an existing config. Era 205.
 
 ### Fixed
 - **Installer reuse logic** `scripts/setup-savia-dual.sh` and
