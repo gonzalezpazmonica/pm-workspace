@@ -1,26 +1,31 @@
 [Unit]
 Description=Savia Bridge — HTTPS bridge to Claude Code CLI
+Documentation=file:///home/monica/claude/scripts/savia-bridge.py
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /home/monica/savia/scripts/savia-bridge.py --port 8922
+User=monica
+Group=monica
+WorkingDirectory=/home/monica/claude
+ExecStart=/usr/bin/python3 /home/monica/claude/scripts/savia-bridge.py --port 8922 --host 0.0.0.0
 Restart=on-failure
 RestartSec=5
 Environment=HOME=/home/monica
 Environment=PATH=/home/monica/.local/bin:/usr/local/bin:/usr/bin:/bin
-WorkingDirectory=/home/monica/savia
+StandardOutput=append:/home/monica/.savia/bridge/systemd.log
+StandardError=append:/home/monica/.savia/bridge/systemd.log
 
-# Security hardening
+# Security hardening — read-only home except the bridge state dir
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=read-only
 NoNewPrivileges=true
 MemoryMax=512M
 CPUQuota=50%
-ReadWritePaths=/home/monica/.savia /home/monica/savia/scripts/dist
-ReadOnlyPaths=/home/monica/savia
+ReadWritePaths=/home/monica/.savia/bridge
+ReadOnlyPaths=/home/monica/claude
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target

@@ -41,31 +41,31 @@ teardown() {
 }
 
 @test "hook allows: file outside Core paths" {
-  local input='{"tool_input":{"file_path":"/home/monica/claude/output/foo.md","content":"see .claude/enterprise/x"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/output/foo.md","content":"see .claude/enterprise/x"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 0 ]]
 }
 
 @test "hook allows: docs/propuestas reference to enterprise (design doc)" {
-  local input='{"tool_input":{"file_path":"/home/monica/claude/docs/propuestas/foo.md","content":"see @.claude/enterprise/x"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/docs/propuestas/foo.md","content":"see @.claude/enterprise/x"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 0 ]]
 }
 
 @test "hook allows: enterprise file itself (own dir)" {
-  local input='{"tool_input":{"file_path":"/home/monica/claude/.claude/enterprise/agents/foo.md","content":"anything"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.claude/enterprise/agents/foo.md","content":"anything"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 0 ]]
 }
 
 @test "hook allows: Core file without enterprise reference" {
-  local input='{"tool_input":{"file_path":"/home/monica/claude/.claude/commands/foo.md","content":"this is fine"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.claude/commands/foo.md","content":"this is fine"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 0 ]]
 }
 
 @test "hook allows: test file" {
-  local input='{"tool_input":{"file_path":"/home/monica/claude/tests/test-x.bats","content":"@.claude/enterprise/y"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/tests/test-x.bats","content":"@.claude/enterprise/y"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 0 ]]
 }
@@ -73,25 +73,25 @@ teardown() {
 # ── Hook: negative cases (should block) ─────────────────────────────────────
 
 @test "hook blocks: Core command importing enterprise via @import" {
-  local input='{"tool_input":{"file_path":"/home/monica/claude/.claude/commands/foo.md","content":"load @.claude/enterprise/rules/bar.md"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.claude/commands/foo.md","content":"load @.claude/enterprise/rules/bar.md"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 2 ]]
 }
 
 @test "hook blocks: Core rule importing enterprise" {
-  local input='{"tool_input":{"file_path":"/home/monica/claude/.claude/rules/domain/foo.md","content":"see .claude/enterprise/skills/x"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.claude/rules/domain/foo.md","content":"see .claude/enterprise/skills/x"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 2 ]]
 }
 
 @test "hook blocks: Core hook referencing enterprise path" {
-  local input='{"tool_input":{"file_path":"/home/monica/claude/.claude/hooks/foo.sh","new_string":".claude/enterprise/manifest.json"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.claude/hooks/foo.sh","new_string":".claude/enterprise/manifest.json"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 2 ]]
 }
 
 @test "hook blocks: CLAUDE.md referencing enterprise" {
-  local input='{"tool_input":{"file_path":"/home/monica/claude/CLAUDE.md","content":"load @.claude/enterprise/rules/x"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/CLAUDE.md","content":"load @.claude/enterprise/rules/x"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 2 ]]
 }

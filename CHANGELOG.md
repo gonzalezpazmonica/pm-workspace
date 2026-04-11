@@ -5,9 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.37.0] — 2026-04-11
+## [4.38.0] — 2026-04-11
 
-Savia Enterprise licensing & distribution strategy (SE-008). Era 202. Second P0 of the Savia → Savia Enterprise migration plan. Depends on SE-001.
+Savia Enterprise licensing & distribution strategy (SE-008). Era 205. Second P0 of the Savia → Savia Enterprise migration plan. Depends on SE-001.
 
 ### Added
 - **`LICENSE-ENTERPRISE.md`** at repo root: explicit MIT statement for the `.claude/enterprise/` layer. Identical terms to Savia Core. Formally rejects Open Core, BSL, AGPL, SaaS hosted, and pay-per-agent licensing models with the specific foundational principle each violates.
@@ -19,6 +19,26 @@ Savia Enterprise licensing & distribution strategy (SE-008). Era 202. Second P0 
 
 ### Principles preserved
 All 7 foundational principles unchanged. This spec is the legal guardian of the principles.
+
+## [4.37.0] — 2026-04-11
+
+Signal/noise reduction (SE-012). Era 203. Unblocks efficient work on Savia Enterprise migration by eliminating two chronic friction sources: false-positive Bash hooks and invisible CI failure rates.
+
+### Removed
+- **LLM-based commit validation hook** (`.claude/settings.json` PreToolUse:Bash prompt-type hook, Haiku). Root cause of recurring `PreToolUse:Bash hook error` banners: the `if: "Bash(git commit*)"` matcher fired on unrelated git subcommands (`git merge-tree`, `git commit --no-edit` for merges), and returning `{ok: false}` blocked legitimate commands. The existing deterministic `prompt-hook-commit.sh` (command-type, warning mode) already covers every real case with zero false positives and zero token cost.
+
+### Added
+- **`scripts/ci-failure-tracker.sh`**: CLI to record CI state per PR (`record`), compute failure rate aggregates (`health`), and list top recurring failures (`top`). Log is append-only JSONL at `output/ci-runs.jsonl` (N3 local, gitignored).
+- **`/ci-health`** slash command: surfaces per-check failure rate and top-5 recurring causes in the last N days.
+- **`tests/test-ci-failure-tracker.bats`**: 16 tests covering structure, empty/missing/malformed log handling, rate computations (0%, 100%, mixed), per-check grouping, top ordering, and append-only invariant.
+- **`docs/propuestas/savia-enterprise/SPEC-SE-012-signal-noise-reduction.md`**: spec with diagnosis, module breakdown, acceptance criteria.
+
+### Fixed
+- **`.gitkeep` files in `.claude/enterprise/{agents,commands,rules,skills}`**: restore empty subdirs that git was dropping. This is what caused `test-validate-layer-contract.bats` tests 11-14 and 19 to fail on CI while passing locally on PR #517 and #518. Confirmed as the 100% root cause of the `BATS Hook Tests` failures tracked by the new `/ci-health` on the existing PR history.
+
+### Impact
+- Hook noise: expected reduction in false-positive Bash hook errors during git operations (merges, analysis commands, flag combinations). The remaining validation is deterministic and non-blocking.
+- CI visibility: first measurable signal on pipeline reliability. Initial measurement on PRs #517 and #518: `BATS Hook Tests` was 100% of the failures (2/2 runs), all from the same root cause (empty subdirs ignored by git). The fix closes this specific loop.
 
 ## [4.36.0] — 2026-04-11
 
@@ -35,6 +55,45 @@ Savia Enterprise foundations (SE-001). Era 202. First step of the Savia → Savi
 
 ### Principles preserved
 All 7 foundational principles remain intact (data sovereignty, vendor independence, radical honesty, absolute privacy, human decides, equality shield, identity protection). Enterprise layer is MIT, agnostic, opt-in. No vendor lock-in introduced.
+
+## [4.35.1] — 2026-04-11
+
+Savia Claw rescue on Lima: implement the missing HTTPS bridge as a systemd service
+so SaviaClaw stops looping `remote:unreachable` SOS alerts on Nextcloud Talk.
+Add `/memory-check` health command covering all 10 memory layers, and generate the
+per-project Agent Code Map (ACM) for the Savia Claw subsystem. Era 204.
+
+### Added
+- **Command** `/memory-check`: 10-layer memory health check (auto-memory, JSONL store,
+  vector index, SQLite cache, knowledge graph, agent memory, personal vault, session-hot,
+  instincts, memory stack). Exit 0 on OK/warnings, 1 on critical failures.
+- **Script** `scripts/memory-check.sh` — runs all checks, dashboard output
+- **Script** `scripts/start-bridge.sh` — wrapper invoked by `remote_host.restart_bridge()`;
+  prefers `systemctl restart savia-bridge` (system unit), falls back to `systemctl --user`.
+- **Script** `scripts/install-savia-bridge-system.sh` — idempotent sudo installer that
+  promotes the user-level `savia-bridge` to a hardened system unit so the bridge
+  auto-starts on Lima reboot (PrivateTmp, ProtectSystem=strict, ProtectHome=read-only,
+  NoNewPrivileges, MemoryMax=512M, CPUQuota=50%).
+- **ACM** `zeroclaw/.agent-maps/` (INDEX + host/daemons + host/survival + host/comms) —
+  per-project Agent Code Map for Savia Claw's 37 Python modules, complying with
+  `feedback_agent_maps_per_project.md` (never at repo root).
+- **Doc** `docs/savia-claw-bridge.md` — architecture, lifecycle, failure modes, and
+  operational runbook for the Savia Bridge service.
+- **BATS** `test-memory-check.bats` — 7 tests
+- **BATS** `test-savia-bridge-scripts.bats` — 13 tests (lint-only; no sudo in CI)
+- **BATS** `test-zeroclaw-agent-maps.bats` — 10 tests (format + 150-line cap)
+
+### Changed
+- `scripts/savia-bridge.service` — corrected ExecStart path from `/home/monica/savia/scripts/`
+  to `/home/monica/claude/scripts/`. Added explicit `User=monica`, `Group=monica`, narrowed
+  `ReadWritePaths` to `/home/monica/.savia/bridge`, added `ReadOnlyPaths=/home/monica/claude`.
+
+### Fixed
+- Root cause of the `remote:unreachable` SOS loop on Nextcloud Talk: Savia Claw's
+  `remote_host.py` expected an SSH-reachable bridge, but `~/.savia/remote-host-config`
+  was missing and no `scripts/start-bridge.sh` existed. Both are now provided, SSH
+  loopback is wired to `monica@localhost` via a dedicated ed25519 key, and SaviaClaw
+  correctly detects `is_reachable=True` and `is_bridge_running=True`.
 
 ## [4.35.0] — 2026-04-11
 
@@ -75,6 +134,9 @@ Savia Monitor Linux build support — deb, rpm, appimage targets. Era 200.
 ### Added
 - **Script** `projects/savia-monitor/scripts/build-linux.sh` (~170 lines): automated Linux build with environment checks, prerequisite detection (Debian/Ubuntu and Fedora/RHEL), selective target builds (deb/rpm/appimage only), dev mode, `--check` flag for environment verification only
 - **BATS** `tests/test-savia-monitor-linux.bats`: 38 tests covering script integrity, tauri.conf.json Linux targets, README alignment ES/EN, Rust source cross-platform compatibility, and build script edge cases
+
+### Rationale
+- CI workflow intentionally NOT added: Tauri Linux builds exceed 15 minutes per run, blocking PR iteration. Linux artifacts are built on-demand locally via `build-linux.sh` or on release tags, not on every push.
 
 ### Changed
 - **tauri.conf.json**: added explicit bundle `targets` list (deb, rpm, appimage, msi, nsis, dmg), Linux-specific section with deb/rpm dependencies (libwebkit2gtk-4.1-0, libgtk-3-0, webkit2gtk4.1, gtk3), category Utility, short/long descriptions
@@ -6058,8 +6120,10 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.37.0...v4.38.0
 [4.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.36.0...v4.37.0
-[4.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.0...v4.36.0
+[4.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.1...v4.36.0
+[4.35.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.0...v4.35.1
 [4.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.35.0
 [4.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.33.0...v4.34.0
 [4.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.32.0...v4.33.0
