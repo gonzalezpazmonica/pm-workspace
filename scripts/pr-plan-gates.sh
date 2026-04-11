@@ -65,6 +65,34 @@ g5() {
   # Verify Era reference in latest entry (required by BATS test-changelog-integrity)
   local era; era=$(sed -n "/## \[$lv\]/,/## \[/p" CHANGELOG.md | grep -ci 'era ' || true)
   [[ "$era" -eq 0 ]] && { FAILED_FILE="CHANGELOG.md"; echo "FAIL: CHANGELOG v$lv missing Era reference (add 'Era NNN' to description)"; return; }
+  # G5.5 — PR queue check: detect version collisions with other open PRs
+  # SPEC-SE-012 Module 4. Prevents two branches claiming the same version number.
+  # Degrades to warning if gh is unavailable or offline.
+  if command -v gh >/dev/null 2>&1 && [[ "${PR_PLAN_SKIP_QUEUE_CHECK:-0}" != "1" ]]; then
+    local repo; repo=$(gh repo view --json nameWithOwner --jq '.nameWithOwner' 2>/dev/null) || repo=""
+    if [[ -n "$repo" ]]; then
+      local prs; prs=$(gh pr list --state open --json number,headRefName --jq '.[] | [.number, .headRefName] | @tsv' 2>/dev/null) || prs=""
+      local collisions="" claimed=""
+      while IFS=$'\t' read -r pr_num pr_branch; do
+        [[ -z "$pr_branch" || "$pr_branch" == "$BRANCH" ]] && continue
+        local other_v
+        other_v=$(gh api "repos/$repo/contents/CHANGELOG.md?ref=$pr_branch" --jq '.content' 2>/dev/null \
+          | base64 -d 2>/dev/null | grep -oP '^## \[\K[0-9.]+' | head -1) || other_v=""
+        [[ -z "$other_v" ]] && continue
+        claimed="$claimed $other_v(#$pr_num)"
+        [[ "$other_v" == "$lv" ]] && collisions="$collisions #$pr_num"
+      done <<< "$prs"
+      if [[ -n "$collisions" ]]; then
+        FAILED_FILE="CHANGELOG.md"
+        # Suggest next free minor version above max claimed
+        local max_v; max_v=$(printf '%s\n%s\n%s\n' "$lv" "$mv" "$claimed" \
+          | tr ' ' '\n' | grep -oP '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+        local suggested; suggested=$(echo "${max_v:-$lv}" | awk -F. '{ printf "%d.%d.0\n", $1, $2+1 }')
+        echo "FAIL: version $lv collides with open PR$collisions — rebase to $suggested (next free)"
+        return
+      fi
+    fi
+  fi
   echo "v$lv"
 }
 g6() {

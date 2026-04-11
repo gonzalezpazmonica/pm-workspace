@@ -34,11 +34,18 @@ Signal/noise reduction (SE-012). Era 203. Unblocks efficient work on Savia Enter
 - **`docs/propuestas/savia-enterprise/SPEC-SE-012-signal-noise-reduction.md`**: spec with diagnosis, module breakdown, acceptance criteria.
 
 ### Fixed
-- **`.gitkeep` files in `.claude/enterprise/{agents,commands,rules,skills}`**: restore empty subdirs that git was dropping. This is what caused `test-validate-layer-contract.bats` tests 11-14 and 19 to fail on CI while passing locally on PR #517 and #518. Confirmed as the 100% root cause of the `BATS Hook Tests` failures tracked by the new `/ci-health` on the existing PR history.
+- **`.gitkeep` files in `.claude/enterprise/{agents,commands,rules,skills}`**: restore empty subdirs that git was dropping. This is what caused `test-validate-layer-contract.bats` tests 11-14 and 19 to fail on CI while passing locally. Root cause of the `BATS Hook Tests` check failing on the initial push.
+- **Hardcoded absolute paths in `tests/test-validate-layer-contract.bats`**: replaced occurrences of a developer-local home path with `$CLAUDE_PROJECT_DIR` so the tests follow the same PROJECT_DIR resolution the hook uses at runtime. Without this, the hook's `.claude/commands/*` pattern never matched the CI checkout path, so negative tests silently allowed instead of blocking.
+
+### Added (Module 4 — PR Queue Check)
+- **`g5()` in `scripts/pr-plan-gates.sh`**: after verifying CHANGELOG against `origin/main`, queries all open PRs via `gh api` and compares each remote branch's top `## [X.Y.Z]` entry against the local one. On collision, fails with an actionable suggestion ("rebase to X.(Y+1).0 (next free)"). Degrades gracefully when `gh` is missing or offline via `PR_PLAN_SKIP_QUEUE_CHECK=1`.
+- **`tests/test-pr-plan-queue-check.bats`**: 15 tests certified by the SPEC-055 quality gate. Covers structure, opt-out env var, collision detection pattern, graceful degradation, next-free-version math, and regression invariants on pre-existing main-comparison behavior.
+- **Motivation**: two real version collisions in rapid succession during an active migration. Each collision required: detect conflict → understand version chain → manual bump → rewrite CHANGELOG → fix compare links → re-merge → re-sign. The gate prevents this entire cycle.
 
 ### Impact
 - Hook noise: expected reduction in false-positive Bash hook errors during git operations (merges, analysis commands, flag combinations). The remaining validation is deterministic and non-blocking.
-- CI visibility: first measurable signal on pipeline reliability. Initial measurement on PRs #517 and #518: `BATS Hook Tests` was 100% of the failures (2/2 runs), all from the same root cause (empty subdirs ignored by git). The fix closes this specific loop.
+- CI visibility: first measurable signal on pipeline reliability via `/ci-health`.
+- Version collision prevention: `g5()` now catches the pattern that required manual intervention twice during this same workstream.
 
 ## [4.36.0] — 2026-04-11
 
