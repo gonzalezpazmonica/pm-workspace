@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=7f84f20911bfe06e6c26f3eac70bdd45b9eed4793241b88d881b03b1d9655028
-timestamp=2026-04-10T22:18:47Z
-branch=feature/era201-lazy-context-claude-md
-head_commit=7a8c8ff
-signature=19dd9aa9b9b8d8d560e3c5929c9c2ebaeed95053569b3f57c0333cf9e8b78066
+diff_hash=02de9e01b9cbb0f26c7fb78653aa1aeb4fd5ee02cd4cfa732072961bcadc05d5
+timestamp=2026-04-11T12:49:13Z
+branch=feature/era200-savia-monitor-linux
+head_commit=b0daf12
+signature=aed099a82cea941f8be471d004abe6274772f2d61108924ff6f43d0867da99ca

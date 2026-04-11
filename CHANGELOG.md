@@ -45,6 +45,9 @@ Savia Monitor Linux build support — deb, rpm, appimage targets. Era 200.
 - **Script** `projects/savia-monitor/scripts/build-linux.sh` (~170 lines): automated Linux build with environment checks, prerequisite detection (Debian/Ubuntu and Fedora/RHEL), selective target builds (deb/rpm/appimage only), dev mode, `--check` flag for environment verification only
 - **BATS** `tests/test-savia-monitor-linux.bats`: 38 tests covering script integrity, tauri.conf.json Linux targets, README alignment ES/EN, Rust source cross-platform compatibility, and build script edge cases
 
+### Rationale
+- CI workflow intentionally NOT added: Tauri Linux builds exceed 15 minutes per run, blocking PR iteration. Linux artifacts are built on-demand locally via `build-linux.sh` or on release tags, not on every push.
+
 ### Changed
 - **tauri.conf.json**: added explicit bundle `targets` list (deb, rpm, appimage, msi, nsis, dmg), Linux-specific section with deb/rpm dependencies (libwebkit2gtk-4.1-0, libgtk-3-0, webkit2gtk4.1, gtk3), category Utility, short/long descriptions
 - **README.md + README.en.md**: added Linux system prerequisites section (apt and dnf commands), Linux Build section with build-linux.sh usage examples
