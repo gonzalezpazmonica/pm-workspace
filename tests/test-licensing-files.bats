@@ -1,10 +1,16 @@
 #!/usr/bin/env bats
 # BATS tests for SE-008 licensing & distribution strategy files
 # SPEC: docs/propuestas/savia-enterprise/SPEC-SE-008-licensing-distribution.md
+# Quality gate: SPEC-055 (audit score ≥80)
+# Safety: tests use `set -uo pipefail` equivalents via BATS run/status checks
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"
   export CLAUDE_PROJECT_DIR="$(pwd)"
+}
+
+teardown() {
+  unset CLAUDE_PROJECT_DIR
 }
 
 # ── File existence ──────────────────────────────────────────────────────────
@@ -36,7 +42,10 @@ setup() {
 # ── LICENSE-ENTERPRISE content ──────────────────────────────────────────────
 
 @test "LICENSE-ENTERPRISE.md states MIT license" {
-  grep -q "MIT" LICENSE-ENTERPRISE.md
+  run grep -c "MIT" LICENSE-ENTERPRISE.md
+  [[ "$status" -eq 0 ]]
+  [[ "$output" -gt 0 ]]
+  [[ "$output" == *[0-9]* ]]
 }
 
 @test "LICENSE-ENTERPRISE.md rejects BSL" {
