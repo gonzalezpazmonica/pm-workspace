@@ -1,0 +1,47 @@
+{
+  "$schema": "./manifest.schema.json",
+  "version": "1.0.0",
+  "savia_core_min_version": "4.29.0",
+  "modules": {
+    "multi-tenant": {
+      "enabled": false,
+      "spec": "SE-002",
+      "description": "Tenant isolation with RBAC per tenant"
+    },
+    "mcp-catalog": {
+      "enabled": false,
+      "spec": "SE-003",
+      "description": "Agnostic MCP servers (.NET, TS, Python)"
+    },
+    "agent-framework-interop": {
+      "enabled": false,
+      "spec": "SE-004",
+      "description": "Adapters for MS Agent Framework, LangGraph, SK, PydanticAI"
+    },
+    "sovereign-deployment": {
+      "enabled": false,
+      "spec": "SE-005",
+      "description": "Air-gap ready deployment with local LLMs"
+    },
+    "governance-pack": {
+      "enabled": false,
+      "spec": "SE-006",
+      "description": "AI Act, NIS2, DORA compliance with signed audit trail"
+    },
+    "enterprise-onboarding": {
+      "enabled": false,
+      "spec": "SE-007",
+      "description": "Batch onboarding with SSO/SAML adapters"
+    },
+    "observability": {
+      "enabled": false,
+      "spec": "SE-009",
+      "description": "Agnostic OTel stack with opt-in exporters"
+    },
+    "migration-path": {
+      "enabled": false,
+      "spec": "SE-010",
+      "description": "Reversible enable/disable with feature flags"
+    }
+  }
+}

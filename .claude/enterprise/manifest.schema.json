@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/gonzalezpazmonica/claude/.claude/enterprise/manifest.schema.json",
+  "title": "Savia Enterprise Manifest",
+  "description": "Schema for the Savia Enterprise module manifest (SE-001).",
+  "type": "object",
+  "required": ["version", "savia_core_min_version", "modules"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semver version of this manifest"
+    },
+    "savia_core_min_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Minimum Savia Core version required"
+    },
+    "modules": {
+      "type": "object",
+      "description": "Map of module name to activation state",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["enabled", "spec", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether this module is active"
+          },
+          "spec": {
+            "type": "string",
+            "pattern": "^SE-\\d{3}$",
+            "description": "Reference to the SE-XXX spec that defines this module"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10
+          },
+          "config": {
+            "type": "object",
+            "description": "Module-specific configuration (opaque to Core)"
+          }
+        }
+      }
+    }
+  }
+}
