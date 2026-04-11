@@ -29,15 +29,20 @@ teardown() {
   echo "$output" | python3 -c "import json,sys; json.load(sys.stdin)"
 }
 
-@test "analyzer detects at least 8 tier1 rules" {
-  # Threshold lowered from 10 to 8 after SPEC-067 CLAUDE.md diet:
-  # rules 9-25 moved to @import (critical-rules-extended.md), reducing
-  # direct @references in CLAUDE.md from 12+ to 9. This is intentional.
+@test "analyzer detects at least 2 tier1 rules" {
+  # Threshold history (each lowering is an intentional architectural win):
+  #   - 10 originally
+  #   - 8 after SPEC-067 CLAUDE.md diet (rules 9-25 moved to critical-rules-extended @import)
+  #   - 2 after Era 201 lazy context fix (CLAUDE.md now has only 3 @imports:
+  #     savia profile + radical-honesty + autonomous-safety; the first is a
+  #     profile not a rule, so tier1 rules = 2). Lazy context reduced
+  #     per-turn context by 83% and fixed subagent autocompact thrashing.
+  # The remaining critical rules are still available via explicit Read.
   run bash -c "echo '' | $ROOT/scripts/rule-usage-analyzer.sh"
   [ "$status" -eq 0 ]
   local count
   count=$(echo "$output" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['tier1_count'])")
-  [ "$count" -ge 8 ]
+  [ "$count" -ge 2 ]
 }
 
 @test "rule-manifest.json exists" {

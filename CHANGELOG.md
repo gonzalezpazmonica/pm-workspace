@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.35.0] — 2026-04-11
+
+Lazy context architecture fix + GitHub release pipeline fix. Era 201.
+
+### Fixed
+- **Critical architecture bug**: subagents launched via Task tool were crashing with autocompact thrashing ("context refilled to the limit within 3 turns of the previous compact, 3 times in a row"). Root cause: CLAUDE.md had 15 `@import` directives that resolved recursively to 24 files totalling ~29,177 tokens. CLAUDE.md is a per-turn dynamic suffix (NOT cached system prompt), so those tokens were paid on EVERY turn, leaving Sonnet subagents with insufficient headroom after just a few tool calls.
+
+### Changed
+- **CLAUDE.md**: refactored from eager `@import` model to lazy reference model. Only 3 `@imports` remain (savia.md, radical-honesty.md, autonomous-safety.md — the absolute foundational minimum). Everything else is documented as a "Lazy Reference" table with explicit paths + when to read. Agents now `Read` these files on demand instead of auto-loading them on every turn.
+- **Per-turn token cost**: 29,177 tokens → 4,904 tokens (83% reduction, 24,273 tokens reclaimed per turn).
+- **File count**: 24 files auto-resolved → 4 files auto-resolved.
+
+### Validation
+- Test 1: Sonnet subagent reads CLAUDE.md and answers 4 questions → completed in 1 turn, 149K tokens total (previously thrashed before completing).
+- Test 2: Sonnet subagent implements a small bash script + BATS tests → completed without thrashing (blocked only by data-sovereignty hook on /tmp writes, which is correct behavior, not thrashing).
+
+### Impact
+- Subagents can now perform meaningful work before hitting compact thresholds.
+- `fork-agents.sh` (SPEC-FORK-AGENT-PREFIX) is now actually usable at scale — agents won't thrash on the inherited prefix.
+- The remaining 336K tokens of rules/profiles content in `.claude/rules/` are still available via `Read` — nothing was deleted, only the eager-load behavior was changed.
+
+### Fixed (Release pipeline)
+- **Critical CI bug**: GitHub releases stopped being created around v2.0.0 (March 2026) despite git tags being created correctly by `auto-tag.yml`. Root cause: GitHub Actions has a documented safeguard where workflows triggered by `GITHUB_TOKEN` DO NOT trigger other workflows (prevents infinite loops). Since `auto-tag.yml` pushed tags using `GITHUB_TOKEN`, the tag push did NOT trigger `release.yml`, resulting in most git tags with no corresponding GitHub release.
+- **Fix**: merged release creation into `auto-tag.yml` as a single workflow. It now detects the version, creates the tag, AND creates the GitHub release in one run. No cross-workflow dependency needed.
+- **release.yml** is kept as a fallback for manual tag pushes by humans (explicitly skips `github-actions[bot]` actor since `auto-tag.yml` already handles that).
+- Added `workflow_dispatch` trigger to `auto-tag.yml` with `force_version` input for manual re-runs if a release is missed.
+- Pinned `softprops/action-gh-release` to a specific SHA per security best practice.
+
+### Added (Release pipeline)
+- **Script** `scripts/release-backfill.sh` (~190 lines): creates missing GitHub releases from existing git tags. Supports `--dry-run`, `--limit N`, `--from VERSION`, `--to VERSION`, `--force` (overwrite). Extracts changelog per-version via awk, creates releases idempotently (skips if already exists).
+- **BATS** `tests/test-release-backfill.bats`: 39 tests covering script integrity, CLI flag parsing, auto-tag.yml structure, release.yml fallback behavior, CLAUDE.md lazy context validation, and edge cases. Certified by auditor.
+
 ## [4.34.0] — 2026-04-10
 
 Savia Monitor Linux build support — deb, rpm, appimage targets. Era 200.
@@ -5995,6 +6027,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.35.0
 [4.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.33.0...v4.34.0
 [4.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.32.0...v4.33.0
 [4.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.31.0...v4.32.0
