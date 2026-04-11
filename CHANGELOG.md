@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.40.0] — 2026-04-11
+
+Savia Dual: inference sovereignty layer with transparent failover between
+Anthropic API and local Ollama gemma4. Cloud when it works, local when it
+does not. The user never gets stuck because of network, rate limits, or
+provider outages. Era 205.
+
+### Added
+- **Rule** `.claude/rules/domain/savia-dual.md` — architecture, failover
+  triggers, hardware-based model selection, audit log format, hard limits.
+- **Skill** `.claude/skills/savia-dual/` — `SKILL.md` + `DOMAIN.md` with
+  the Clara dual-doc pattern.
+- **Command** `/savia-dual {install|start|stop|status|test|logs}` — full
+  lifecycle management.
+- **Proxy** `scripts/savia-dual-proxy.py` — Python stdlib, no external
+  dependencies, transparent Anthropic → Ollama fallback on network error,
+  HTTP 5xx, HTTP 429 (quota), or timeout. Circuit breaker included.
+- **Installer Linux/macOS** `scripts/setup-savia-dual.sh` — installs
+  Ollama, detects RAM/VRAM, picks gemma4 variant (e2b / e4b / 26b),
+  downloads it, writes config.
+- **Installer Windows** `scripts/setup-savia-dual.ps1` — winget-based
+  equivalent with WMI hardware detection.
+- **Docs** `docs/savia-dual.md` — user guide covering install, daily use,
+  log format, and honest limitations compared to cloud.
+- **Docs** README.md (9 languages) — new Inference Sovereignty section
+  comparing Emergency Mode (manual) and Savia Dual (automatic).
+
+### Changed
+- Skill catalog auto-includes `savia-dual` under category `governance`.
+- Command catalog auto-includes `/savia-dual` in capability group.
+
 ## [4.39.0] — 2026-04-11
 
 Savia Enterprise licensing & distribution strategy (SE-008). Era 205. Second P0 of the Savia → Savia Enterprise migration plan. Depends on SE-001.
@@ -6127,6 +6158,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.39.0...v4.40.0
 [4.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.37.0...v4.39.0
 [4.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.36.0...v4.37.0
 [4.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.1...v4.36.0
