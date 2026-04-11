@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.48.0] — 2026-04-12
+
+Engineering principles distilled from the Linux kernel. Era 211. Savia
+mapped the Linux kernel tree (v7.0-rc7 "Baby Opossum Posse") into five
+`.acm` files (INDEX + mm + kernel + net + fs) plus a patterns digest
+and extracted the five most transferable engineering principles into a
+new rule that applies them to pm-workspace.
+
+### Added
+- **`.claude/rules/domain/engineering-principles-from-kernel.md`** (132
+  lines): five principles distilled from 37M lines of kernel source —
+  (1) pay for what you use (compile-out in prod), (2) make mechanisms
+  visible (no hidden control flow), (3) verify at runtime in debug,
+  not compile-time, (4) interface tables over class hierarchies,
+  (5) safe extension via verified bytecode (the eBPF model). Each
+  principle includes "how to apply" bullets that map to concrete
+  pm-workspace mechanisms (hook profiles, pr-plan gates, BATS,
+  language packs, agent ops tables). Also a "what NOT to copy from
+  the kernel" section so Savia doesn't over-engineer in directions
+  that don't fit her I/O-bound architecture. References the research
+  tree under `/home/monica/research/linux-kernel/` (outside the repo).
+
 ## [4.47.0] — 2026-04-12
 
 pr-plan G5 queue check hardened against recurrent CHANGELOG merge conflicts.
@@ -6324,6 +6346,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
 [4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
 [4.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.45.0...v4.46.0
 [4.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.44.0...v4.45.0
