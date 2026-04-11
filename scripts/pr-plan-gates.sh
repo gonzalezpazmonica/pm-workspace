@@ -65,30 +65,41 @@ g5() {
   # Verify Era reference in latest entry (required by BATS test-changelog-integrity)
   local era; era=$(sed -n "/## \[$lv\]/,/## \[/p" CHANGELOG.md | grep -ci 'era ' || true)
   [[ "$era" -eq 0 ]] && { FAILED_FILE="CHANGELOG.md"; echo "FAIL: CHANGELOG v$lv missing Era reference (add 'Era NNN' to description)"; return; }
-  # G5.5 — PR queue check: detect version collisions with other open PRs
-  # SPEC-SE-012 Module 4. Prevents two branches claiming the same version number.
+  # G5.5 — PR queue check: enforce lv > max_claimed_across_main_and_open_PRs.
+  # SPEC-SE-012 Module 4 + recurrent-conflict hardening (Era 210).
+  # The old check only failed on exact version equality. That prevented number
+  # collisions but NOT the real pain: two branches both insert at line 8 of
+  # CHANGELOG.md with different anchors, producing a merge conflict whenever
+  # one of them lands first. Fix: require the new entry to be strictly above
+  # every version already claimed by main OR any open PR. This guarantees the
+  # rebase after a peer lands is always a clean "my entry on top of theirs".
   # Degrades to warning if gh is unavailable or offline.
   if command -v gh >/dev/null 2>&1 && [[ "${PR_PLAN_SKIP_QUEUE_CHECK:-0}" != "1" ]]; then
     local repo; repo=$(gh repo view --json nameWithOwner --jq '.nameWithOwner' 2>/dev/null) || repo=""
     if [[ -n "$repo" ]]; then
       local prs; prs=$(gh pr list --state open --json number,headRefName --jq '.[] | [.number, .headRefName] | @tsv' 2>/dev/null) || prs=""
-      local collisions="" claimed=""
+      # claimed_list holds "version:#PR" tuples so we can show who owns each version
+      local claimed_list="" max_claimed="$mv"
       while IFS=$'\t' read -r pr_num pr_branch; do
         [[ -z "$pr_branch" || "$pr_branch" == "$BRANCH" ]] && continue
         local other_v
         other_v=$(gh api "repos/$repo/contents/CHANGELOG.md?ref=$pr_branch" --jq '.content' 2>/dev/null \
           | base64 -d 2>/dev/null | grep -oP '^## \[\K[0-9.]+' | head -1) || other_v=""
         [[ -z "$other_v" ]] && continue
-        claimed="$claimed $other_v(#$pr_num)"
-        [[ "$other_v" == "$lv" ]] && collisions="$collisions #$pr_num"
+        claimed_list="$claimed_list $other_v(#$pr_num)"
+        # Track the highest version in flight
+        if [[ -z "$max_claimed" ]] || \
+           [[ "$(printf '%s\n%s\n' "$max_claimed" "$other_v" | sort -V | tail -1)" == "$other_v" ]]; then
+          max_claimed="$other_v"
+        fi
       done <<< "$prs"
-      if [[ -n "$collisions" ]]; then
+      # Enforce strictly-greater: lv must be above max_claimed (main + all open PRs)
+      if [[ -n "$max_claimed" ]] && [[ "$lv" == "$max_claimed" || \
+         "$(printf '%s\n%s\n' "$lv" "$max_claimed" | sort -V | tail -1)" != "$lv" ]]; then
         FAILED_FILE="CHANGELOG.md"
-        # Suggest next free minor version above max claimed
-        local max_v; max_v=$(printf '%s\n%s\n%s\n' "$lv" "$mv" "$claimed" \
-          | tr ' ' '\n' | grep -oP '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
-        local suggested; suggested=$(echo "${max_v:-$lv}" | awk -F. '{ printf "%d.%d.0\n", $1, $2+1 }')
-        echo "FAIL: version $lv collides with open PR$collisions — rebase to $suggested (next free)"
+        local suggested
+        suggested=$(echo "$max_claimed" | awk -F. '{ printf "%d.%d.0\n", $1, $2+1 }')
+        echo "FAIL: version $lv <= max in queue $max_claimed${claimed_list:+ (claimed:$claimed_list)} — bump to $suggested"
         return
       fi
     fi
