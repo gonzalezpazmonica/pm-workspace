@@ -1,0 +1,72 @@
+# Communication Channels (.acm)
+> hash: sha256:587eda5cc5ab6bc7-comms | generated: 2026-04-10 | lines: ~85
+
+Savia Claw communicates with the outside world through multiple channels:
+Nextcloud Talk (primary), Microsoft Teams, Gmail, Google Drive, and physical voice via ESP32.
+
+## nctalk
+- **File**: `zeroclaw/host/nctalk.py`
+- **Purpose**: Nextcloud Talk send/receive — primary channel for Savia ↔ Monica async comms
+- **Credentials**: `~/.savia/nextcloud-config` (NC_URL, NC_USER, NC_PASS, NC_TALK_TOKEN_MONICA)
+- **Room token**: `kmpwm3yz` (Monica's personal room)
+- **API**: Nextcloud OCS v2 (`/ocs/v2.php/apps/spreed/api/v1/chat/{token}`)
+- **Used by**: survival (SOS notifications), consciousness (scheduled check-talk), meeting_pipeline
+
+## teams_client
+- **File**: `zeroclaw/host/teams_client.py`
+- **Purpose**: Microsoft Teams meeting client via Graph API
+- **Requires**: Azure AD app registration (tenant_id, client_id, client_secret)
+- **Capabilities**: join meetings, read transcripts, post in chat
+
+## Gmail trio
+- **gmail_check.py**: polls Gmail inbox for new messages
+- **gmail_actions.py**: composes, sends, archives emails
+- **gmail_browser.py**: Playwright-based browser automation (compose URL works, overlays must be removed — see feedback_gmail_navigation.md)
+- **Auth**: Google OAuth via MCP Gmail connector or local browser session
+- **Cache**: `~/.savia/gmail-last-check.json`
+
+## gdrive_sync
+- **File**: `zeroclaw/host/gdrive_sync.py`
+- **Purpose**: Google Drive bidirectional sync for memory and documents
+- **Log**: `~/.savia/gdrive-sync.log`
+
+## Meeting pipeline
+- **meeting_orchestrator.py**: unified controller — same brain for physical + Teams meetings
+- **meeting_participant.py**: physical meeting participant (ZeroClaw mic + speaker)
+- **meeting_pipeline.py**: end-to-end digest pipeline (transcription → summary → action items)
+- **context_guardian.py**: cross-references meeting speech with project data; detects contradictions and missing info
+
+## Voice Stack (physical channel)
+- **voice.py**: TTS + audio output via I2S/speaker
+- **voice_daemon.py**: thread hosting wake word + listen + respond loop
+- **wakeword.py**: VAD + keyword match (offline, stdlib only)
+- **voiceprint.py / voiceprint_ops.py**: speaker identification via voiceprint embeddings
+- **speaker_roles.py**: maps voiceprints to roles (Monica = admin, others = guest)
+
+## Network Setup
+- **esp32_wifi.py**: ESP32 WiFi credentials provisioning via serial
+- **network_cli.py**: CLI for managing network state
+- **network_setup.py**: initial network configuration wizard
+
+## Security Gates
+- **guardrails.py**: deterministic Python gates for sensory data (audio, imagery) — NOT LLM prompts
+- **guardrails_pii.py**: PII scrubbing before sending anything to cloud APIs
+- **Principle**: HARD CODE gates execute before any LLM call; block by default
+
+## Channel Matrix
+
+| Channel | Direction | Auth | Config file |
+|---------|-----------|------|-------------|
+| Nextcloud Talk | bidi | user/pass | ~/.savia/nextcloud-config |
+| Microsoft Teams | bidi | OAuth (Graph) | ~/.savia/teams-config (assumed) |
+| Gmail | bidi | OAuth | ~/.savia/google-config |
+| Google Drive | bidi | OAuth | ~/.savia/google-config |
+| ZeroClaw voice | bidi | physical (voiceprint) | ~/.savia/zeroclaw/voiceprints/ |
+| Remote SSH | outgoing | ed25519 key | ~/.savia/remote-host-config |
+
+## Observed logs (2026-04-10)
+
+- `~/.savia/zeroclaw/daemon.log`: check-talk polling steady, git-status tasks running
+- `~/.savia/gdrive-sync.log`: present
+- `~/.savia/gmail-last-check.json`: present
+- `~/.savia/hook-errors.log`: present

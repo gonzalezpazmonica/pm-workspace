@@ -5,6 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.35.1] — 2026-04-11
+
+Savia Claw rescue on Lima: implement the missing HTTPS bridge as a systemd service
+so SaviaClaw stops looping `remote:unreachable` SOS alerts on Nextcloud Talk.
+Add `/memory-check` health command covering all 10 memory layers, and generate the
+per-project Agent Code Map (ACM) for the Savia Claw subsystem. Era 204.
+
+### Added
+- **Command** `/memory-check`: 10-layer memory health check (auto-memory, JSONL store,
+  vector index, SQLite cache, knowledge graph, agent memory, personal vault, session-hot,
+  instincts, memory stack). Exit 0 on OK/warnings, 1 on critical failures.
+- **Script** `scripts/memory-check.sh` — runs all checks, dashboard output
+- **Script** `scripts/start-bridge.sh` — wrapper invoked by `remote_host.restart_bridge()`;
+  prefers `systemctl restart savia-bridge` (system unit), falls back to `systemctl --user`.
+- **Script** `scripts/install-savia-bridge-system.sh` — idempotent sudo installer that
+  promotes the user-level `savia-bridge` to a hardened system unit so the bridge
+  auto-starts on Lima reboot (PrivateTmp, ProtectSystem=strict, ProtectHome=read-only,
+  NoNewPrivileges, MemoryMax=512M, CPUQuota=50%).
+- **ACM** `zeroclaw/.agent-maps/` (INDEX + host/daemons + host/survival + host/comms) —
+  per-project Agent Code Map for Savia Claw's 37 Python modules, complying with
+  `feedback_agent_maps_per_project.md` (never at repo root).
+- **Doc** `docs/savia-claw-bridge.md` — architecture, lifecycle, failure modes, and
+  operational runbook for the Savia Bridge service.
+- **BATS** `test-memory-check.bats` — 7 tests
+- **BATS** `test-savia-bridge-scripts.bats` — 13 tests (lint-only; no sudo in CI)
+- **BATS** `test-zeroclaw-agent-maps.bats` — 10 tests (format + 150-line cap)
+
+### Changed
+- `scripts/savia-bridge.service` — corrected ExecStart path from `/home/monica/savia/scripts/`
+  to `/home/monica/claude/scripts/`. Added explicit `User=monica`, `Group=monica`, narrowed
+  `ReadWritePaths` to `/home/monica/.savia/bridge`, added `ReadOnlyPaths=/home/monica/claude`.
+
+### Fixed
+- Root cause of the `remote:unreachable` SOS loop on Nextcloud Talk: Savia Claw's
+  `remote_host.py` expected an SSH-reachable bridge, but `~/.savia/remote-host-config`
+  was missing and no `scripts/start-bridge.sh` existed. Both are now provided, SSH
+  loopback is wired to `monica@localhost` via a dedicated ed25519 key, and SaviaClaw
+  correctly detects `is_reachable=True` and `is_bridge_running=True`.
+
 ## [4.35.0] — 2026-04-11
 
 Lazy context architecture fix + GitHub release pipeline fix. Era 201.
@@ -6030,6 +6069,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.35.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.0...v4.35.1
 [4.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.35.0
 [4.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.33.0...v4.34.0
 [4.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.32.0...v4.33.0

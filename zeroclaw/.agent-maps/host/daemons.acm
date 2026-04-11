@@ -1,0 +1,63 @@
+# Daemons & Entry Points (.acm)
+> hash: sha256:587eda5cc5ab6bc7-daemons | generated: 2026-04-10 | lines: ~80
+
+## saviaclaw_daemon
+- **Type**: systemd main daemon entry point
+- **File**: `zeroclaw/host/saviaclaw_daemon.py`
+- **Module run**: `python3 -m zeroclaw.host.saviaclaw_daemon`
+- **Service unit**: `saviaclaw.service` (User=monica, WorkingDirectory=/home/monica/claude, Restart=always)
+- **Log**: `~/.savia/zeroclaw/daemon.log` (RotatingFileHandler, 1MB×3)
+- **Status file**: `~/.savia/zeroclaw/status` written by `write_status()` (starting|searching|connected|error)
+- **Responsibilities**:
+  - Serial port discovery (`find_port`) for ESP32 (BAUD from daemon_util)
+  - Heartbeat loop with STUCK_TIMEOUT detection
+  - Calls Claude via `call_claude()` helper for LLM responses
+  - Hosts voice daemon as a thread when `--voice` flag
+  - Handles SIGTERM / SIGINT gracefully (`_shutdown` flag)
+- **Dependencies**: `daemon_util`, `voice_daemon` (thread), `survival` (heartbeat), `consciousness` (scheduled tasks)
+
+## voice_daemon
+- **Type**: Thread inside saviaclaw_daemon
+- **File**: `zeroclaw/host/voice_daemon.py`
+- **Purpose**: Wake word + VAD + listen + respond + LCD sync
+- **Dependencies**: `wakeword` (offline VAD), `voice`, `voiceprint_ops`, `speaker_roles`
+- **Lifecycle**: started when daemon runs with `--voice`; shares logger with main daemon
+
+## bridge
+- **Type**: Serial bridge process
+- **File**: `zeroclaw/host/bridge.py`
+- **Purpose**: ESP32 ↔ Savia serial link (MicroPython REPL → Python host)
+- **Dependencies**: `serial` (pyserial), `daemon_util.send_cmd`
+- **Also available as**: CLI via `zeroclaw/host/cli.py`
+
+## savia_brain
+- **Type**: Legacy bridge (ZeroClaw → Claude Code)
+- **File**: `zeroclaw/host/savia_brain.py`
+- **Purpose**: Original brain-bridge prototype; routes ZeroClaw events to Claude Code
+- **Status**: Superseded by the modular daemon + consciousness architecture; retained for reference
+
+## daemon_util
+- **Type**: Shared utility module
+- **File**: `zeroclaw/host/daemon_util.py`
+- **Exports**: `LOG_DIR`, `LOG_FILE`, `BAUD`, `RECONNECT_DELAY`, `HEARTBEAT_INTERVAL`, `STUCK_TIMEOUT`, `find_port()`, `send_cmd()`, `call_claude()`, `truncate_lcd()`, `write_status()`, `show_status()`
+- **call_claude()**: invokes Claude Code headless mode; shared by daemon, consciousness, survival
+- **write_status/show_status**: single source of truth for daemon status file
+
+## identity.json
+- **Type**: Static identity manifest
+- **File**: `zeroclaw/host/identity.json`
+- **Purpose**: Who is Savia Claw? version, capabilities, principles — loaded at startup
+
+## cli.py
+- **Type**: Human-facing CLI
+- **File**: `zeroclaw/host/cli.py`
+- **Purpose**: Manual control of bridge, status queries, debugging
+- **Usage**: `python3 -m zeroclaw.host.cli {command}`
+
+## Entry Point Summary
+
+| Entry | Trigger | Lifetime |
+|-------|---------|----------|
+| `saviaclaw_daemon` | `systemctl start saviaclaw` | until stopped or error |
+| `cli` | manual invocation | single command |
+| `bridge` (standalone) | legacy — not used when daemon runs | single session |
