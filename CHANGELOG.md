@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.37.0] — 2026-04-11
+
+Savia Enterprise licensing & distribution strategy (SE-008). Era 202. Second P0 of the Savia → Savia Enterprise migration plan. Depends on SE-001 (PR #517, ships as 4.36.0).
+
+### Added
+- **`LICENSE-ENTERPRISE.md`** at repo root: explicit MIT statement for the `.claude/enterprise/` layer. Identical terms to Savia Core. Formally rejects Open Core, BSL, AGPL, SaaS hosted, and pay-per-agent licensing models with the specific foundational principle each violates.
+- **`TRADEMARK.md`** at repo root: policy on the "Savia" and "Savia Enterprise" names. Forks permitted with name change. Repackaging the code as a closed product under another name requires permission.
+- **`docs/support-offering.md`**: six monetizable services (professional support with SLA, implantation, certified training, custom spec development, sovereignty audits, hardware integration). Services are labor, never license fees. Code stays MIT.
+- **`docs/savia-enterprise-mit-forever.md`**: public statement explaining the MIT-forever commitment. Cites the 7 foundational principles and the clone-your-own-instance test.
+- **`docs/propuestas/TEMPLATE.md`**: RFC template for future SPEC-XXX proposals.
+- **`tests/test-licensing-files.bats`**: 27 tests covering file existence, required content, and the 5 rejected licensing models.
+
+### Principles preserved
+All 7 foundational principles unchanged. This spec is the legal guardian of the principles.
+
 ## [4.35.0] — 2026-04-11
 
 Lazy context architecture fix + GitHub release pipeline fix. Era 201.
@@ -6027,6 +6042,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.36.0...v4.37.0
 [4.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.35.0
 [4.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.33.0...v4.34.0
 [4.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.32.0...v4.33.0
