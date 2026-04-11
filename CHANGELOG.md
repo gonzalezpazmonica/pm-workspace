@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.41.0] — 2026-04-11
+
+Savia Enterprise multi-tenant isolation & RBAC (SE-002). Era 206. Third P0 of the Savia → Savia Enterprise migration plan. Depends on SE-001. Core stays untouched: all new behaviour is gated by `manifest.json → multi-tenant.enabled`.
+
+### Added
+- **`.claude/enterprise/hooks/tenant-resolver.sh`**: resolves active tenant slug from `$SAVIA_TENANT` → cwd under `tenants/<slug>/` → active user profile `tenant:` key → empty (single-tenant fallback). Exposes `tenant_resolve()` for sourcing and runs standalone. Implements extension point EP-5 from SE-001.
+- **`.claude/enterprise/hooks/tenant-isolation-gate.sh`**: `PreToolUse` hook (Edit|Write|Read) that blocks any cross-tenant file access with exit 2. Allowlists `.claude/`, `scripts/`, `docs/`, `tests/`, `output/`. No-op when the multi-tenant module is disabled or no tenant is active. Audit log at `output/tenant-audit.jsonl`. Implements extension point EP-3.
+- **`.claude/enterprise/commands/rbac-manager.md`**: `/rbac-manager` slash command with `grant`, `revoke`, `list`, `check` subcommands. Documents rbac.yaml schema with role inheritance (`reader` → `developer` → `admin`) and glob command patterns.
+- **`scripts/rbac-manager.sh`**: backend implementation of `/rbac-manager`. Pure-bash YAML parser, atomic writes, recursive inheritance resolution, idempotent grant, no-op revoke for absent users.
+- **`tests/test-tenant-isolation.bats`**: 21 BATS tests, SPEC-055 certified.
+- **`tests/test-rbac-manager.bats`**: 16 BATS tests, SPEC-055 certified.
+- **`docs/propuestas/savia-enterprise/SE-002-extension-points.md`**: implementation notes mapping the delivered files to EP-3 and EP-5 declared in SE-001.
+
+### Changed
+- `docs/propuestas/savia-enterprise/` documentation now has a concrete implementation reference for EP-3 and EP-5 beyond the SE-001 contracts.
+
 ## [4.40.1] — 2026-04-11
 
 Savia Dual installer scripts are now fully idempotent. Re-running them
@@ -6177,6 +6193,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.1...v4.41.0
 [4.40.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.0...v4.40.1
 [4.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.39.0...v4.40.0
 [4.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.37.0...v4.39.0
