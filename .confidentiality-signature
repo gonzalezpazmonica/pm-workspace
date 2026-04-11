@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=65ca3785594a0b8b66595a38101b9d9a07d4e027a7b738eb8fa3ef8d0a5dcaaf
-timestamp=2026-04-11T19:25:37Z
-branch=fix/savia-dual-idempotent
-head_commit=084512e
-signature=9e2d4e0dd7bd49b73eff813f29fc4665d7ed75cf80973269f5263fb0a34bcc03
+diff_hash=6aca8e3c56899ea3efdce8e73bd0ca89a10a558abd5daf07e174ce78d996c239
+timestamp=2026-04-11T22:00:10Z
+branch=feat/savia-enterprise-release-orchestration
+head_commit=821c456
+signature=eee6b43ebb4b7fd0d7d525d662716ee4a96f087cc3861e4e04e039762247a5f5
