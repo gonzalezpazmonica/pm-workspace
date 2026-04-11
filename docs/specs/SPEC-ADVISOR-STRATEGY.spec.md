@@ -248,6 +248,97 @@ AND     advisor_tokens separados de executor_tokens
 
 ---
 
+## 8. Context Safety — Prevencion de bloqueos por herencia de contexto
+
+**Warning critico (2026-04-11):** el advisor hereda el contexto del executor.
+Sin controles, un executor Sonnet con 150K tokens consumidos consultando al
+advisor Opus puede:
+
+1. **Bloquear la consulta** — Opus rechaza si input > su window efectiva
+2. **Explotar el coste** — 150K tokens × max_uses=3 = 450K tokens de consulta
+3. **Degradar la calidad** — advisor razonando sobre basura acumulada, no problema
+4. **Fallar silenciosamente** — timeout o truncation sin alerta al executor
+
+### 8.1 Reglas de proteccion (obligatorias)
+
+| ID | Regla | Accion si viola |
+|----|-------|-----------------|
+| CTX-01 | Executor context al consultar advisor <= 60% de su window efectiva | Compactar antes de consultar |
+| CTX-02 | Advisor consultation payload <= 40K tokens | Resumir o abortar consulta |
+| CTX-03 | Si contexto executor > 80% window, advisor se deshabilita hasta compactacion | Fallback a single-model |
+| CTX-04 | Cada consulta advisor tiene timeout independiente (default 30s) | Abortar, no bloquear executor |
+| CTX-05 | Si advisor falla 2 veces consecutivas, se deshabilita el resto del turno | Prevenir cascada de fallos |
+| CTX-06 | Payload advisor NO incluye tool_results de tools irrelevantes al dilema | Filtro pre-consulta |
+
+### 8.2 Pipeline de consulta segura
+
+```
+Executor detecta decision dificil
+  |
+  v
+[pre-check] contexto executor < 60%?
+  | NO -> compactar o fallback sin advisor
+  | SI
+  v
+[payload-build] construir dilema + contexto minimo relevante
+  (NO incluir: tool_results antiguos, turnos resueltos, ruido)
+  |
+  v
+[budget-check] payload <= 40K tokens?
+  | NO -> resumir via executor o abortar
+  | SI
+  v
+[consulta] advisor con timeout 30s
+  | FAIL -> incrementar fail_count, fallback a executor-only
+  | OK   -> inyectar guidance en executor
+```
+
+### 8.3 Budget de consulta por perfil de agente
+
+| Agente | Max payload | Max consultas | Timeout | Razon |
+|--------|-------------|---------------|---------|-------|
+| dotnet-developer | 30K | 3 | 30s | Decisiones arquitectonicas focalizadas |
+| typescript-developer | 30K | 3 | 30s | Idem |
+| frontend-developer | 20K | 2 | 25s | Decisiones mas locales |
+| test-engineer | 20K | 2 | 25s | Estrategia de test acotada |
+| dev-orchestrator | 40K | 3 | 45s | Slicing requiere mas contexto |
+
+### 8.4 Deteccion de bloqueo
+
+El hook `agent-trace-log.sh` debe registrar por consulta:
+- `advisor_payload_tokens` — input enviado
+- `advisor_latency_ms` — tiempo de respuesta
+- `advisor_abort_reason` — uno de {size_exceeded, timeout, api_error, context_pressure}
+
+Si >10% de consultas en una sesion son abort, emitir WARNING al final de la sesion.
+
+### 8.5 Test obligatorios (anadir a seccion 5)
+
+- **Payload size gate**: payload 45K tokens -> consulta abortada, executor continua
+- **Context pressure gate**: executor al 85% window -> advisor deshabilitado, log warning
+- **Timeout gate**: advisor no responde en 30s -> abort, fallback silencioso, fail_count+=1
+- **Cascade prevention**: 2 fallos consecutivos -> advisor deshabilitado resto del turno
+- **Resume on compact**: tras /compact bajando a <60%, advisor se reactiva
+
+### 8.6 Fallback jerarquia
+
+Si el advisor no puede consultarse de forma segura, el executor:
+
+1. Intenta resolver con single-model (comportamiento pre-advisor)
+2. Si la decision es critica Y el executor no esta seguro, ESCALA a humano via handoff
+3. NUNCA produce output especulativo marcandolo como "advised" sin advisor real
+
+### 8.7 Metricas de exito extendidas
+
+| Metrica | Objetivo | Alerta si |
+|---------|----------|-----------|
+| advisor_abort_rate | <5% | >10% -> revisar limits |
+| avg_payload_tokens | <20K | >35K -> payload bloat |
+| context_pressure_fallbacks | <2 por sesion | >5 -> bug en executor |
+| executor_blocked_by_advisor | 0 | cualquiera -> bug critico |
+
+---
+
 ## Checklist Pre-Entrega
 
 - [ ] scripts/advisor-config.sh genera JSON valido
@@ -257,3 +348,7 @@ AND     advisor_tokens separados de executor_tokens
 - [ ] Documentacion en agents-catalog.md actualizada
 - [ ] pm-config.md tiene constantes ADVISOR_*
 - [ ] dev-session-protocol.md referencia advisor en Fase 3
+- [ ] **Section 8 implementada**: payload gates, timeout, cascade prevention
+- [ ] **Test de context pressure**: executor 85% -> advisor deshabilitado
+- [ ] **Test de payload oversize**: 45K -> abort limpio
+- [ ] **Zero bloqueos** en 10 sesiones de prueba con advisor activo
