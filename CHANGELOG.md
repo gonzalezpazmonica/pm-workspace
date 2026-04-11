@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.39.0] — 2026-04-11
+
+Savia Enterprise licensing & distribution strategy (SE-008). Era 205. Second P0 of the Savia → Savia Enterprise migration plan. Depends on SE-001.
+
+### Added
+- **`LICENSE-ENTERPRISE.md`** at repo root: explicit MIT statement for the `.claude/enterprise/` layer. Identical terms to Savia Core. Formally rejects Open Core, BSL, AGPL, SaaS hosted, and pay-per-agent licensing models with the specific foundational principle each violates.
+- **`TRADEMARK.md`** at repo root: policy on the "Savia" and "Savia Enterprise" names. Forks permitted with name change. Repackaging the code as a closed product under another name requires permission.
+- **`docs/support-offering.md`**: six monetizable services (professional support with SLA, implantation, certified training, custom spec development, sovereignty audits, hardware integration). Services are labor, never license fees. Code stays MIT.
+- **`docs/savia-enterprise-mit-forever.md`**: public statement explaining the MIT-forever commitment. Cites the 7 foundational principles and the clone-your-own-instance test.
+- **`docs/propuestas/TEMPLATE.md`**: RFC template for future SPEC-XXX proposals.
+- **`tests/test-licensing-files.bats`**: 27 tests covering file existence, required content, and the 5 rejected licensing models.
+
+### Principles preserved
+All 7 foundational principles unchanged. This spec is the legal guardian of the principles.
+
 ## [4.37.0] — 2026-04-11
 
 Signal/noise reduction (SE-012). Era 203. Unblocks efficient work on Savia Enterprise migration by eliminating two chronic friction sources: false-positive Bash hooks and invisible CI failure rates.
@@ -19,11 +34,18 @@ Signal/noise reduction (SE-012). Era 203. Unblocks efficient work on Savia Enter
 - **`docs/propuestas/savia-enterprise/SPEC-SE-012-signal-noise-reduction.md`**: spec with diagnosis, module breakdown, acceptance criteria.
 
 ### Fixed
-- **`.gitkeep` files in `.claude/enterprise/{agents,commands,rules,skills}`**: restore empty subdirs that git was dropping. This is what caused `test-validate-layer-contract.bats` tests 11-14 and 19 to fail on CI while passing locally on PR #517 and #518. Confirmed as the 100% root cause of the `BATS Hook Tests` failures tracked by the new `/ci-health` on the existing PR history.
+- **`.gitkeep` files in `.claude/enterprise/{agents,commands,rules,skills}`**: restore empty subdirs that git was dropping. This is what caused `test-validate-layer-contract.bats` tests 11-14 and 19 to fail on CI while passing locally. Root cause of the `BATS Hook Tests` check failing on the initial push.
+- **Hardcoded absolute paths in `tests/test-validate-layer-contract.bats`**: replaced occurrences of a developer-local home path with `$CLAUDE_PROJECT_DIR` so the tests follow the same PROJECT_DIR resolution the hook uses at runtime. Without this, the hook's `.claude/commands/*` pattern never matched the CI checkout path, so negative tests silently allowed instead of blocking.
+
+### Added (Module 4 — PR Queue Check)
+- **`g5()` in `scripts/pr-plan-gates.sh`**: after verifying CHANGELOG against `origin/main`, queries all open PRs via `gh api` and compares each remote branch's top `## [X.Y.Z]` entry against the local one. On collision, fails with an actionable suggestion ("rebase to X.(Y+1).0 (next free)"). Degrades gracefully when `gh` is missing or offline via `PR_PLAN_SKIP_QUEUE_CHECK=1`.
+- **`tests/test-pr-plan-queue-check.bats`**: 15 tests certified by the SPEC-055 quality gate. Covers structure, opt-out env var, collision detection pattern, graceful degradation, next-free-version math, and regression invariants on pre-existing main-comparison behavior.
+- **Motivation**: two real version collisions in rapid succession during an active migration. Each collision required: detect conflict → understand version chain → manual bump → rewrite CHANGELOG → fix compare links → re-merge → re-sign. The gate prevents this entire cycle.
 
 ### Impact
 - Hook noise: expected reduction in false-positive Bash hook errors during git operations (merges, analysis commands, flag combinations). The remaining validation is deterministic and non-blocking.
-- CI visibility: first measurable signal on pipeline reliability. Initial measurement on PRs #517 and #518: `BATS Hook Tests` was 100% of the failures (2/2 runs), all from the same root cause (empty subdirs ignored by git). The fix closes this specific loop.
+- CI visibility: first measurable signal on pipeline reliability via `/ci-health`.
+- Version collision prevention: `g5()` now catches the pattern that required manual intervention twice during this same workstream.
 
 ## [4.36.0] — 2026-04-11
 
@@ -6105,6 +6127,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.37.0...v4.39.0
 [4.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.36.0...v4.37.0
 [4.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.1...v4.36.0
 [4.35.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.0...v4.35.1

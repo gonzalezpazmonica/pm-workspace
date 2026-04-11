@@ -1,6 +1,6 @@
-# SPEC-SE-012 — Signal/Noise Reduction: Hooks y CI Reliability
+# SPEC-SE-012 — Signal/Noise Reduction: Hooks, CI Reliability y PR Queue
 
-> **Prioridad:** P0 · **Estima:** 1 día · **Tipo:** plataforma + observabilidad
+> **Prioridad:** P0 · **Estima:** 1.5 días · **Tipo:** plataforma + observabilidad
 
 ## Objetivo
 
@@ -108,6 +108,49 @@ Se integra en `/pr-plan` como Gate G12 (opcional, configurable).
 **No** se hace hook git automático: el usuario ya usa `/pr-plan` antes de cada
 push por Rule #25. Añadir un gate más en ese flujo es el mínimo coste.
 
+### Módulo 4 — PR Queue Check (colisión de versiones)
+
+Durante la misma sesión que detectó los fallos anteriores, dos colisiones
+reales de CHANGELOG aparecieron: #515 reclamó 4.35.0 mientras main ya tenía
+4.35.0 (resuelto con bump manual a 4.35.1), y #518 reclamó 4.37.0 al mismo
+tiempo que #517 (resuelto con bump manual a 4.38.0). Cada colisión cuesta:
+detectar conflicto → entender cadena → bumpear manualmente → reescribir
+CHANGELOG → fix compare links → re-merge → re-firmar. Es prevenible.
+
+Extender `g5()` en `scripts/pr-plan-gates.sh` para que, tras verificar el
+CHANGELOG contra main, consulte las PRs abiertas en GitHub y compare
+versiones reclamadas:
+
+```bash
+g5() {
+  # ... checks existentes vs main ...
+
+  # Nuevo: queue check
+  if command -v gh && [[ "$PR_PLAN_SKIP_QUEUE_CHECK" != "1" ]]; then
+    for each PR abierto (excluyendo la rama actual):
+      fetch CHANGELOG.md via `gh api repos/.../contents/CHANGELOG.md?ref=<branch>`
+      extraer top version
+    if alguna version coincide con la local:
+      FAIL: "version X.Y.Z collides with open PR #NNN — rebase to X.(Y+1).0 (next free)"
+}
+```
+
+**Mecanismo:**
+- `gh api contents/CHANGELOG.md?ref={branch}` devuelve el fichero base64
+  de cada rama remota sin necesidad de `git fetch` (rápido, ~200ms por PR).
+- La sugerencia de versión libre es: `max(version_local, main, todas_las_PRs) → bump minor`.
+- Variable de escape: `PR_PLAN_SKIP_QUEUE_CHECK=1` (útil en CI, offline, o cuando `gh` falla).
+
+**Degradación:**
+- Sin `gh` → skip silencioso, continúa con el resto de gates.
+- Con error de red → skip con warning interno.
+- Sin intencíon de bloquear nunca el flujo si la red no colabora.
+
+**Lo que NO hace (scope explícito):**
+- No reserva versiones (no es un lock service).
+- No reescribe el CHANGELOG por ti — sugiere y tú aplicas.
+- No verifica colisiones contra PRs en draft (`gh pr list` los incluye por defecto).
+
 ## Criterios de aceptación
 
 1. Eliminado el hook tipo `prompt` de `.claude/settings.json`. `git commit`
@@ -119,6 +162,12 @@ push por Rule #25. Añadir un gate más en ese flujo es el mínimo coste.
 5. Tests BATS de este spec (`tests/test-ci-failure-tracker.bats`) ≥ 10 tests,
    todos PASS.
 6. CHANGELOG actualizado con entrada SE-012.
+7. `g5()` en `scripts/pr-plan-gates.sh` detecta colisiones de versión contra
+   PRs abiertas. Reproducible: con #518 abierto en 4.37.0 y rama local
+   también en 4.37.0, `g5()` devuelve FAIL con sugerencia "rebase to 4.38.0".
+8. Tests BATS `tests/test-pr-plan-queue-check.bats` ≥ 12 tests, certificados
+   por SPEC-055 (score ≥80).
+9. Variable `PR_PLAN_SKIP_QUEUE_CHECK=1` desactiva el check (degradación).
 
 ## Tests
 
