@@ -1,20 +1,27 @@
 # setup-savia-dual.ps1 — Installer for Savia Dual (Windows)
 #
-# Installs/updates Ollama via winget, detects hardware, picks the best
-# gemma4 variant, downloads it, writes config, and prepares the environment
-# to run the savia-dual-proxy. Hardware details stay local and are never
-# written to tracked files.
+# Fully idempotent: re-running this script will NOT re-download Ollama,
+# re-pull models, or overwrite an existing config. Only missing pieces are
+# added. Use -Force to rewrite config, or -Reconfigure to regenerate only
+# the config without touching Ollama/models.
+#
+# If an acceptable gemma4 variant is already installed, it will be reused
+# instead of pulling a new one — even if it differs from the ideal pick
+# for this hardware.
 #
 # Usage:
-#   pwsh .\scripts\setup-savia-dual.ps1
+#   pwsh .\scripts\setup-savia-dual.ps1             # install + configure
 #   pwsh .\scripts\setup-savia-dual.ps1 -DryRun
-#   pwsh .\scripts\setup-savia-dual.ps1 -Reconfigure
+#   pwsh .\scripts\setup-savia-dual.ps1 -Reconfigure # config only
+#   pwsh .\scripts\setup-savia-dual.ps1 -Force       # rewrite config
 
 [CmdletBinding()]
 param(
     [switch]$DryRun,
-    [switch]$Reconfigure
+    [switch]$Reconfigure,
+    [switch]$Force
 )
+if ($Reconfigure) { $Force = $true }
 
 $ErrorActionPreference = "Stop"
 
@@ -117,14 +124,45 @@ function Select-GemmaVariant($ram, $vram) {
     return "gemma4:e2b"
 }
 
-$Model = Select-GemmaVariant $RamGB $VramGB
-Say "Selected local model: $Model"
+function Get-InstalledGemma4 {
+    $raw = & ollama list 2>$null
+    if (-not $raw) { return @() }
+    $lines = $raw -split "`n" | Select-Object -Skip 1
+    $names = @()
+    foreach ($line in $lines) {
+        $first = ($line -split '\s+')[0]
+        if ($first -match '^gemma4:') { $names += $first }
+    }
+    return $names
+}
 
-# ── Download model ─────────────────────────────────────────────────────────
+function Choose-FromInstalled($installed) {
+    # Any already-installed gemma4 variant is acceptable — user downloaded
+    # it deliberately. Prefer largest (26b > e4b > e2b).
+    if ($installed -contains 'gemma4:26b') { return 'gemma4:26b' }
+    if ($installed -contains 'gemma4:e4b') { return 'gemma4:e4b' }
+    if ($installed -contains 'gemma4:e2b') { return 'gemma4:e2b' }
+    return $null
+}
+
+$Ideal = Select-GemmaVariant $RamGB $VramGB
+$Installed = Get-InstalledGemma4
+
+if ($Installed -contains $Ideal) {
+    $Model = $Ideal
+    Say "Ideal variant already installed: $Model (skipping download)"
+} elseif ($Installed.Count -gt 0) {
+    $Model = Choose-FromInstalled $Installed
+    Say "Reusing already-installed variant: $Model (ideal would be $Ideal, skipping download)"
+} else {
+    $Model = $Ideal
+    Say "No gemma4 variant installed — will pull $Model"
+}
+
+# ── Download model (only if truly missing) ─────────────────────────────────
 if (-not $Reconfigure) {
-    $installed = (& ollama list 2>$null) -split "`n" | ForEach-Object { ($_ -split '\s+')[0] }
-    if ($installed -contains $Model) {
-        Say "Model $Model already present."
+    if ($Installed -contains $Model) {
+        Say "Model $Model already present — no download needed."
     } else {
         Say "Downloading $Model (this may take a while)..."
         Invoke-Step "ollama pull $Model" { & ollama pull $Model | Out-Host }
@@ -141,7 +179,18 @@ Invoke-Step "mkdir $ConfigDir" {
     New-Item -ItemType Directory -Force -Path $ConfigDir | Out-Null
 }
 
-if (-not $DryRun) {
+$WriteConfig = $true
+$WriteEnv = $true
+if ((Test-Path $ConfigPath) -and -not $Force) {
+    Say "Config already exists: $ConfigPath (use -Force to rewrite)"
+    $WriteConfig = $false
+}
+if ((Test-Path $EnvPath) -and -not $Force) {
+    Say "Env file already exists: $EnvPath (use -Force to rewrite)"
+    $WriteEnv = $false
+}
+
+if (-not $DryRun -and $WriteConfig) {
     $config = [ordered]@{
         listen_host = "127.0.0.1"
         listen_port = 8787
@@ -161,15 +210,16 @@ if (-not $DryRun) {
         log_path = $LogPath
     }
     $config | ConvertTo-Json -Depth 5 | Set-Content -Path $ConfigPath -Encoding UTF8
+    Say "Config written: $ConfigPath"
+}
 
+if (-not $DryRun -and $WriteEnv) {
     @"
 # Dot-source this file to route Claude Code through Savia Dual.
 `$env:ANTHROPIC_BASE_URL = "http://127.0.0.1:8787"
 `$env:SAVIA_DUAL_ACTIVE = "1"
 `$env:OLLAMA_KEEP_ALIVE = "24h"
 "@ | Set-Content -Path $EnvPath -Encoding UTF8
-
-    Say "Config written: $ConfigPath"
     Say "Env file:       $EnvPath"
 }
 

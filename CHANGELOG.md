@@ -7,19 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.41.0] — 2026-04-11
 
-Savia Enterprise multi-tenant isolation & RBAC (SE-002). Era 206. Third P0 of the Savia → Savia Enterprise migration plan. Depends on SE-001. Core stays untouched: all new behaviour is gated by `manifest.json → multi-tenant.enabled`. Version jumps 4.40.0 → 4.41.0 because 4.40.0 was consumed by the savia-dual inference sovereignty release landed earlier today.
+Savia Enterprise multi-tenant isolation & RBAC (SE-002). Era 206. Third P0 of the Savia → Savia Enterprise migration plan. Depends on SE-001. Core stays untouched: all new behaviour is gated by `manifest.json → multi-tenant.enabled`.
 
 ### Added
 - **`.claude/enterprise/hooks/tenant-resolver.sh`**: resolves active tenant slug from `$SAVIA_TENANT` → cwd under `tenants/<slug>/` → active user profile `tenant:` key → empty (single-tenant fallback). Exposes `tenant_resolve()` for sourcing and runs standalone. Implements extension point EP-5 from SE-001.
-- **`.claude/enterprise/hooks/tenant-isolation-gate.sh`**: `PreToolUse` hook (Edit|Write|Read) that blocks any cross-tenant file access with exit 2. Allowlists `.claude/`, `scripts/`, `docs/`, `tests/`, `output/`. No-op when the multi-tenant module is disabled or no tenant is active. Audit log at `output/tenant-audit.jsonl` (JSON lines with timestamp, tenant id, path, verdict, reason). Implements extension point EP-3.
-- **`.claude/enterprise/commands/rbac-manager.md`**: `/rbac-manager` slash command with `grant`, `revoke`, `list`, `check` subcommands. Documents rbac.yaml schema with role inheritance (`reader` → `developer` → `admin`) and glob command patterns (`spec-*`, `tenant-*`).
-- **`scripts/rbac-manager.sh`**: backend implementation of `/rbac-manager`. Pure-bash YAML parser sufficient for the declared schema (roles, inherits, commands list, members list). Atomic writes (temp + `mv`). Recursive inheritance resolution for `check`. Idempotent `grant`; no-op `revoke` for absent users.
-- **`tests/test-tenant-isolation.bats`**: 21 BATS tests covering resolver precedence (env/cwd/profile), gate no-op when module disabled, cross-tenant block, own-tenant allow, core-dir allowlist, audit log format, malformed stdin resilience. SPEC-055 certified.
-- **`tests/test-rbac-manager.bats`**: 16 BATS tests covering grant idempotency, revoke, list, check with direct + inherited commands, glob matching, denied commands, missing args. SPEC-055 certified.
-- **`docs/propuestas/savia-enterprise/SE-002-extension-points.md`**: implementation notes mapping the delivered files to extension points EP-3 and EP-5 declared in SE-001.
+- **`.claude/enterprise/hooks/tenant-isolation-gate.sh`**: `PreToolUse` hook (Edit|Write|Read) that blocks any cross-tenant file access with exit 2. Allowlists `.claude/`, `scripts/`, `docs/`, `tests/`, `output/`. No-op when the multi-tenant module is disabled or no tenant is active. Audit log at `output/tenant-audit.jsonl`. Implements extension point EP-3.
+- **`.claude/enterprise/commands/rbac-manager.md`**: `/rbac-manager` slash command with `grant`, `revoke`, `list`, `check` subcommands. Documents rbac.yaml schema with role inheritance (`reader` → `developer` → `admin`) and glob command patterns.
+- **`scripts/rbac-manager.sh`**: backend implementation of `/rbac-manager`. Pure-bash YAML parser, atomic writes, recursive inheritance resolution, idempotent grant, no-op revoke for absent users.
+- **`tests/test-tenant-isolation.bats`**: 21 BATS tests, SPEC-055 certified.
+- **`tests/test-rbac-manager.bats`**: 16 BATS tests, SPEC-055 certified.
+- **`docs/propuestas/savia-enterprise/SE-002-extension-points.md`**: implementation notes mapping the delivered files to EP-3 and EP-5 declared in SE-001.
 
 ### Changed
 - `docs/propuestas/savia-enterprise/` documentation now has a concrete implementation reference for EP-3 and EP-5 beyond the SE-001 contracts.
+
+## [4.40.1] — 2026-04-11
+
+Savia Dual installer scripts are now fully idempotent. Re-running them
+no longer re-downloads Ollama or models already present, and no longer
+overwrites an existing config. Era 205.
+
+### Fixed
+- **Installer reuse logic** `scripts/setup-savia-dual.sh` and
+  `scripts/setup-savia-dual.ps1` — if any `gemma4` variant is already
+  installed, reuse it instead of pulling the hardware-ideal pick. The
+  user's deliberate choice is honored (e.g. `gemma4:26b` kept even on
+  machines where the ideal pick would be smaller).
+- **Config preservation** — existing `~/.savia/dual/config.json` and
+  `env` files are no longer overwritten on re-run. New `--force` /
+  `-Force` flag to rewrite them explicitly; `--reconfigure` now
+  implies `--force`.
+- **Model detection** — stronger parsing of `ollama list` output
+  (skip header, filter by `gemma4:` prefix).
 
 ## [4.40.0] — 2026-04-11
 
@@ -6174,7 +6193,8 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
-[4.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.0...v4.41.0
+[4.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.1...v4.41.0
+[4.40.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.0...v4.40.1
 [4.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.39.0...v4.40.0
 [4.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.37.0...v4.39.0
 [4.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.36.0...v4.37.0
