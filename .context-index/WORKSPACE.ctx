@@ -1,5 +1,5 @@
 # Workspace Context Index
-# counts: rules=144 agents=50 skills=91 commands=512 hooks=52
+# counts: rules=144 agents=49 skills=91 commands=512 hooks=50
 > Where to find and store information at workspace level (N1 public)
 
 ## Rules & Governance
@@ -8,7 +8,7 @@
 [intent: "what are the rules for X"] → scan .claude/rules/domain/ by keyword
 
 ## Agents
-[location] .claude/agents/ — 50 agent definitions
+[location] .claude/agents/ — 49 agent definitions
 [intent: "which agent handles X"] → agents-catalog.md or assignment-matrix.md
 
 ## Skills & Commands
@@ -40,6 +40,6 @@
 ## Output, Scripts, Tests
 [location] output/ — generated reports, audits, dev-sessions
 [location] scripts/ — automation scripts
-[location] .claude/hooks/ — 52 lifecycle hooks
+[location] .claude/hooks/ — 50 lifecycle hooks
 [location] tests/ — BATS test suites
 [digest-target] Generated reports → output/
