@@ -2,5 +2,5 @@
 diff_hash=736a2d68d25dbbf800be0e57a12bff7307bcc5a0d6dfc9e2c512bdc567db7c9f
 timestamp=2026-04-11T18:17:01Z
 branch=fix/savia-dual-idempotent
-head_commit=0f31b2c
+head_commit=960ca4c
 signature=9982a1fa049a30ee482e8f322132d3b7663305b2594c467c12765e2e10824330
