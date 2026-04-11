@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.42.0] — 2026-04-11
+
+Savia Dual installer is now fully automatic. A single command provisions
+the proxy service, shell integration, and launches Claude Code with the
+routing environment already applied. The user runs one script and lands
+inside Claude Code with the proxy active — no manual sourcing, no new
+terminal, no thinking about environment propagation. Era 205.
+
+### Added
+- **systemd unit (Linux)** `savia-dual-proxy.service` installed at
+  `/etc/systemd/system/`, enabled at boot, runs as the invoking user
+  with logs at `/var/log/savia-dual-proxy.log`.
+- **launchd agent (macOS)** `com.savia.dual.proxy.plist` installed at
+  `~/Library/LaunchAgents/` with `KeepAlive`.
+- **Shell integration** — idempotent block appended to `~/.bashrc` and
+  `~/.zshrc` that sources `~/.savia/dual/env` on every new shell, so
+  `ANTHROPIC_BASE_URL` is set automatically without manual intervention.
+- **Health check** — `GET http://127.0.0.1:8787/health` verified right
+  after the service starts.
+- **Auto-launch** — the installer sources the env file in its own
+  process and `exec`s `claude`, so Claude Code inherits
+  `ANTHROPIC_BASE_URL` without requiring the parent shell to reload.
+  A child process cannot modify its parent's environment, so
+  `bash setup.sh && claude` is impossible on Unix. Exec from the same
+  process sidesteps the limitation cleanly.
+- **`--no-launch` flag** — install without exec'ing claude, for CI and
+  headless server provisioning.
+- **`--` passthrough** — arguments after `--` are forwarded to claude on
+  auto-launch (e.g. `./setup-savia-dual.sh -- --resume`).
+
+### Changed
+- **Installer UX** — the final summary no longer asks the user to open
+  a new terminal; the installer itself ends inside Claude Code.
+
 ## [4.41.0] — 2026-04-11
 
 Savia Enterprise multi-tenant isolation & RBAC (SE-002). Era 206. Third P0 of the Savia → Savia Enterprise migration plan. Depends on SE-001. Core stays untouched: all new behaviour is gated by `manifest.json → multi-tenant.enabled`.
@@ -6193,6 +6227,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.41.0...v4.42.0
 [4.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.1...v4.41.0
 [4.40.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.0...v4.40.1
 [4.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.39.0...v4.40.0
