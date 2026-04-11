@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.43.0] — 2026-04-11
+
+Deep research over 17 external repos (legalize-es, mempalace, llmfit, rowboat,
+claude-usage, feynman, Ix, qwen-code, repowise, caveman, deepteam, claude-memory-kit,
+METATRON, advisor-strategy, claude-code-from-source, claudecowork, prompt-caching-2026)
+produces 10 executable SDD specs targeting sprint 2026-08. Era 206.
+
+### Added
+- **SPEC-TOOLS-BY-TASK**: N-target batch tools, −49% tool calls (repowise pattern)
+- **SPEC-HOOKS-OVER-PROMPTS-AUDIT**: delete rules Claude already follows (Era 165 follow-up)
+- **SPEC-PROMPT-CACHING-2026**: static/dynamic split, 1h TTL, workspace isolation
+- **SPEC-HOOK-CONFIG-SNAPSHOT**: freeze settings.json at session start (sticky latches)
+- **SPEC-CACHE-HIT-TRACKING**: SQLite scanner for real cache hit rate measurement
+- **SPEC-SAVIA-DUAL-NUPSTREAM**: Anthropic → Qwen OAuth → Ollama cascade
+- **SPEC-AGENTIC-REDTEAM**: Goal Theft / Recursive Hijacking / Identity Corrosion (sprint 2026-09)
+- **SPEC-LEGAL-DRIFT**: `git log` over legalize-es to detect legislative reforms
+- **SPEC-RECURSION-GUARD**: `CLAUDE_INVOKED_BY` guard against sub-Claude loops
+
+### Changed
+- **SPEC-ADVISOR-STRATEGY**: extended §8 Context Safety with payload gates, timeouts,
+  cascade prevention, and fallback hierarchy to prevent executor blocking on inherited
+  contexts. 6 new business rules (CTX-01 to CTX-06) with per-agent budgets.
+
 ## [4.42.0] — 2026-04-11
 
 Savia Dual installer is now fully automatic. A single command provisions
@@ -6227,6 +6250,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.42.0...v4.43.0
 [4.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.41.0...v4.42.0
 [4.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.1...v4.41.0
 [4.40.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.0...v4.40.1
