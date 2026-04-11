@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4125ca68aa740872c343493f48aa18b8cdfdd2ac73609d70cf393a68e0d222ab
-timestamp=2026-04-11T19:49:41Z
+diff_hash=a64c900785aa29b605e04f38000c2183004c1681c616c80ae63283ab01680b5c
+timestamp=2026-04-11T20:44:59Z
 branch=feat/dual-estimation-rule
-head_commit=ef19e65
-signature=1b328e3e197a68e4d9487633290d877b95161411881737a3414c46361196f656
+head_commit=80f2cf3
+signature=b75d9a457560d1b8494f2149fed7714bc60cf39d1adaf97793cfdd30df87dd2b
