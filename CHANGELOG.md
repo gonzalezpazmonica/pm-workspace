@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.38.0] — 2026-04-11
+## [4.39.0] — 2026-04-11
 
 Savia Enterprise licensing & distribution strategy (SE-008). Era 205. Second P0 of the Savia → Savia Enterprise migration plan. Depends on SE-001.
 
@@ -6127,7 +6127,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
-[4.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.37.0...v4.38.0
+[4.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.37.0...v4.39.0
 [4.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.36.0...v4.37.0
 [4.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.1...v4.36.0
 [4.35.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.0...v4.35.1
