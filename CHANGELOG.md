@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.40.1] — 2026-04-11
+
+Savia Dual installer scripts are now fully idempotent. Re-running them
+no longer re-downloads Ollama or models already present, and no longer
+overwrites an existing config. Era 205.
+
+### Fixed
+- **Installer reuse logic** `scripts/setup-savia-dual.sh` and
+  `scripts/setup-savia-dual.ps1` — if any `gemma4` variant is already
+  installed, reuse it instead of pulling the hardware-ideal pick. The
+  user's deliberate choice is honored (e.g. `gemma4:26b` kept even on
+  machines where the ideal pick would be smaller).
+- **Config preservation** — existing `~/.savia/dual/config.json` and
+  `env` files are no longer overwritten on re-run. New `--force` /
+  `-Force` flag to rewrite them explicitly; `--reconfigure` now
+  implies `--force`.
+- **Model detection** — stronger parsing of `ollama list` output
+  (skip header, filter by `gemma4:` prefix).
+
 ## [4.40.0] — 2026-04-11
 
 Savia Dual: inference sovereignty layer with transparent failover between
@@ -6158,6 +6177,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.40.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.0...v4.40.1
 [4.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.39.0...v4.40.0
 [4.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.37.0...v4.39.0
 [4.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.36.0...v4.37.0
