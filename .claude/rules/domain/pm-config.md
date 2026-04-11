@@ -71,6 +71,11 @@ SDD_DEFAULT_MAX_TURNS       = 40
 TEST_COVERAGE_MIN_PERCENT   = 80                                    # % mínimo de cobertura exigido por test-runner
 TOOL_RESULT_MAX_CHARS       = 5000                                   # hard cap per tool result
 
+# ── Dual Estimation (SE-013) ───────────────────────────────────────────────
+DUAL_ESTIMATION_ENABLED     = true
+DUAL_ESTIMATION_MIN_SAMPLES = 10                                 # min samples to trust empirical suggestion
+AGENT_ACTUALS_LOG           = "data/agent-actuals.jsonl"
+
 # ── Modos Autónomos ─────────────────────────────────────────────────────────
 # Regla completa: @.claude/rules/domain/autonomous-safety.md
 AUTONOMOUS_REVIEWER         = ""                                     # handle del humano que revisa PRs autónomos (OBLIGATORIO para arrancar)

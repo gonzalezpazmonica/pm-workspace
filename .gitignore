@@ -96,7 +96,8 @@ teams/*
 !teams/members/template.md
 
 # ── Confidence Log — Datos privados del sistema de calibración ─────────────────
-/data/
+/data/*
+!/data/agent-actuals.example.jsonl
 backups/
 
 # Capturas de pantalla de los test
