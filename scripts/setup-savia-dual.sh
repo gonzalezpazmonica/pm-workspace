@@ -1,24 +1,28 @@
 #!/usr/bin/env bash
 # setup-savia-dual.sh — Installer for Savia Dual (Linux/macOS)
 #
-# Installs/updates Ollama, detects hardware, picks the best gemma4 variant,
-# downloads it, writes config, and prepares the environment to run the
-# savia-dual-proxy. Does NOT log hardware specifics to any tracked file.
+# Fully idempotent: re-running this script will NOT re-download Ollama,
+# re-pull models, or overwrite an existing config. Only missing pieces are
+# added. Use --force to rewrite config, or --reconfigure to regenerate
+# only the config without touching Ollama/models.
 #
 # Usage:
-#   ./scripts/setup-savia-dual.sh              # install + configure
+#   ./scripts/setup-savia-dual.sh              # install + configure (idempotent)
 #   ./scripts/setup-savia-dual.sh --dry-run    # show what would happen
 #   ./scripts/setup-savia-dual.sh --reconfigure # regenerate config only
+#   ./scripts/setup-savia-dual.sh --force      # rewrite config even if present
 set -uo pipefail
 
 DRY_RUN=0
 RECONFIG_ONLY=0
+FORCE=0
 for arg in "$@"; do
   case "$arg" in
     --dry-run) DRY_RUN=1 ;;
-    --reconfigure) RECONFIG_ONLY=1 ;;
+    --reconfigure) RECONFIG_ONLY=1; FORCE=1 ;;
+    --force) FORCE=1 ;;
     -h|--help)
-      grep '^#' "$0" | sed 's/^# \{0,1\}//' | head -20
+      grep '^#' "$0" | sed 's/^# \{0,1\}//' | head -25
       exit 0
       ;;
   esac
@@ -108,8 +112,12 @@ RAM_GB=$(detect_ram_gb)
 VRAM_GB=$(detect_vram_gb)
 say "Hardware detection complete (values kept local, not logged)."
 
-# ── Pick gemma4 variant ─────────────────────────────────────────────────────
-# Rationale kept generic so no hardware specifics leak to docs.
+# ── List installed gemma4 variants (idempotency source of truth) ────────────
+list_installed_gemma4() {
+  ollama list 2>/dev/null | awk 'NR>1 {print $1}' | grep -E '^gemma4:' || true
+}
+
+# ── Pick gemma4 variant by hardware (ideal pick) ────────────────────────────
 pick_variant() {
   local ram="$1" vram="$2"
   if [[ "$ram" -lt 12 ]]; then
@@ -127,13 +135,51 @@ pick_variant() {
   echo "gemma4:e2b"
 }
 
-MODEL=$(pick_variant "$RAM_GB" "$VRAM_GB")
-say "Selected local model: $MODEL"
+# ── Reuse already-downloaded variant when possible ──────────────────────────
+# Priority:
+#   1. If the ideal pick is already installed → use it.
+#   2. Else, if ANY gemma4 variant is already installed → reuse it (best fit
+#      by hardware, no new download).
+#   3. Else → pull the ideal pick.
+IDEAL=$(pick_variant "$RAM_GB" "$VRAM_GB")
+INSTALLED=$(list_installed_gemma4)
 
-# ── Download model ──────────────────────────────────────────────────────────
+choose_from_installed() {
+  # Any already-installed gemma4 variant is acceptable — the user downloaded
+  # it deliberately. Prefer the largest one (26b > e4b > e2b) since disk
+  # space was already spent.
+  local installed="$1"
+  local has_e2b=0 has_e4b=0 has_26b=0
+  while IFS= read -r m; do
+    [[ -z "$m" ]] && continue
+    case "$m" in
+      gemma4:e2b) has_e2b=1 ;;
+      gemma4:e4b) has_e4b=1 ;;
+      gemma4:26b) has_26b=1 ;;
+    esac
+  done <<< "$installed"
+  [[ $has_26b -eq 1 ]] && { echo "gemma4:26b"; return; }
+  [[ $has_e4b -eq 1 ]] && { echo "gemma4:e4b"; return; }
+  [[ $has_e2b -eq 1 ]] && { echo "gemma4:e2b"; return; }
+  echo ""
+}
+
+if echo "$INSTALLED" | grep -qx "$IDEAL"; then
+  MODEL="$IDEAL"
+  say "Ideal variant already installed: $MODEL (skipping download)"
+elif [[ -n "$INSTALLED" ]]; then
+  REUSE=$(choose_from_installed "$INSTALLED")
+  MODEL="$REUSE"
+  say "Reusing already-installed variant: $MODEL (ideal would be $IDEAL, skipping download)"
+else
+  MODEL="$IDEAL"
+  say "No gemma4 variant installed — will pull $MODEL"
+fi
+
+# ── Download model (only if truly missing) ──────────────────────────────────
 if [[ $RECONFIG_ONLY -eq 0 ]]; then
-  if ollama list 2>/dev/null | awk '{print $1}' | grep -qx "$MODEL"; then
-    say "Model $MODEL already present."
+  if echo "$INSTALLED" | grep -qx "$MODEL"; then
+    say "Model $MODEL already present — no download needed."
   else
     say "Downloading $MODEL (this may take a while)..."
     run "ollama pull $MODEL"
@@ -146,7 +192,21 @@ CONFIG_PATH="$CONFIG_DIR/config.json"
 ENV_PATH="$CONFIG_DIR/env"
 run "mkdir -p '$CONFIG_DIR'"
 
-if [[ $DRY_RUN -eq 0 ]]; then
+if [[ -f "$CONFIG_PATH" && $FORCE -eq 0 ]]; then
+  say "Config already exists: $CONFIG_PATH (use --force to rewrite)"
+  WRITE_CONFIG=0
+else
+  WRITE_CONFIG=1
+fi
+
+if [[ -f "$ENV_PATH" && $FORCE -eq 0 ]]; then
+  say "Env file already exists: $ENV_PATH (use --force to rewrite)"
+  WRITE_ENV=0
+else
+  WRITE_ENV=1
+fi
+
+if [[ $DRY_RUN -eq 0 && $WRITE_CONFIG -eq 1 ]]; then
   cat > "$CONFIG_PATH" <<JSON
 {
   "listen_host": "127.0.0.1",
@@ -167,13 +227,16 @@ if [[ $DRY_RUN -eq 0 ]]; then
   "log_path": "$HOME/.savia/dual/events.jsonl"
 }
 JSON
+  say "Config written: $CONFIG_PATH"
+fi
+
+if [[ $DRY_RUN -eq 0 && $WRITE_ENV -eq 1 ]]; then
   cat > "$ENV_PATH" <<ENV
 # Source this file to route Claude Code through Savia Dual.
 export ANTHROPIC_BASE_URL="http://127.0.0.1:8787"
 export SAVIA_DUAL_ACTIVE="1"
 export OLLAMA_KEEP_ALIVE="24h"
 ENV
-  say "Config written: $CONFIG_PATH"
   say "Env file:       $ENV_PATH"
 fi
 
