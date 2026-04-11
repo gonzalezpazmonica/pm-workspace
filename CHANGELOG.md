@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.37.0] — 2026-04-11
+
+Signal/noise reduction (SE-012). Era 203. Unblocks efficient work on Savia Enterprise migration by eliminating two chronic friction sources: false-positive Bash hooks and invisible CI failure rates.
+
+### Removed
+- **LLM-based commit validation hook** (`.claude/settings.json` PreToolUse:Bash prompt-type hook, Haiku). Root cause of recurring `PreToolUse:Bash hook error` banners: the `if: "Bash(git commit*)"` matcher fired on unrelated git subcommands (`git merge-tree`, `git commit --no-edit` for merges), and returning `{ok: false}` blocked legitimate commands. The existing deterministic `prompt-hook-commit.sh` (command-type, warning mode) already covers every real case with zero false positives and zero token cost.
+
+### Added
+- **`scripts/ci-failure-tracker.sh`**: CLI to record CI state per PR (`record`), compute failure rate aggregates (`health`), and list top recurring failures (`top`). Log is append-only JSONL at `output/ci-runs.jsonl` (N3 local, gitignored).
+- **`/ci-health`** slash command: surfaces per-check failure rate and top-5 recurring causes in the last N days.
+- **`tests/test-ci-failure-tracker.bats`**: 16 tests covering structure, empty/missing/malformed log handling, rate computations (0%, 100%, mixed), per-check grouping, top ordering, and append-only invariant.
+- **`docs/propuestas/savia-enterprise/SPEC-SE-012-signal-noise-reduction.md`**: spec with diagnosis, module breakdown, acceptance criteria.
+
+### Fixed
+- **`.gitkeep` files in `.claude/enterprise/{agents,commands,rules,skills}`**: restore empty subdirs that git was dropping. This is what caused `test-validate-layer-contract.bats` tests 11-14 and 19 to fail on CI while passing locally on PR #517 and #518. Confirmed as the 100% root cause of the `BATS Hook Tests` failures tracked by the new `/ci-health` on the existing PR history.
+
+### Impact
+- Hook noise: expected reduction in false-positive Bash hook errors during git operations (merges, analysis commands, flag combinations). The remaining validation is deterministic and non-blocking.
+- CI visibility: first measurable signal on pipeline reliability. Initial measurement on PRs #517 and #518: `BATS Hook Tests` was 100% of the failures (2/2 runs), all from the same root cause (empty subdirs ignored by git). The fix closes this specific loop.
+
 ## [4.36.0] — 2026-04-11
 
 Savia Enterprise foundations (SE-001). Era 202. First step of the Savia → Savia Enterprise migration plan (11 specs in `docs/propuestas/savia-enterprise/`).
@@ -6046,6 +6066,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.36.0...v4.37.0
 [4.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.0...v4.36.0
 [4.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.35.0
 [4.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.33.0...v4.34.0
