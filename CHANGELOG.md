@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.52.0] — 2026-04-12
+
+Savia Enterprise Project Billing — Revenue-as-Code (SE-018). Era 215.
+Tenant-isolated billing engine with IFRS 15 POC calculation, WIP auto-computation,
+invoice drafting, margin sentinel, and SOX-ready audit trail. All revenue
+recognition decisions human-gated. Blocked by SE-001/002/014/017. Blocks
+SE-019 (evaluation) and SE-020 (portfolio billing). Spec proposal only.
+
+### Added
+- **SPEC-SE-018 Project Billing** (`docs/propuestas/savia-enterprise/SPEC-SE-018-project-billing.md`):
+  financial-model.md with contract type + POC method + rates, monthly POC
+  snapshots (append-only), WIP register auto-computed from time logs,
+  invoice.md drafts with human approval gate, chargeback allocator for
+  multi-project tenants, 5 agents (poc-calculator L1, wip-tracker L1,
+  invoice-drafter L2, chargeback-allocator L1, billing-sentinel L1),
+  5 events (poc.computed, invoice.drafted/approved, billing.variance_alert,
+  wip.stale_alert), consumes release.completed (SE-014) and sow.amended
+  (SE-017), air-gap capable.
+
 ## [4.48.0] — 2026-04-12
 
 Engineering principles distilled from the Linux kernel. Era 211. Savia
@@ -6346,6 +6365,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.51.0...v4.52.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
 [4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
 [4.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.45.0...v4.46.0
