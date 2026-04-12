@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.56.0] — 2026-04-12
+
+pr-plan G4 CHANGELOG reconstruction (replaces marker-stripping). Era 219.
+When a branch is behind origin/main and CHANGELOG.md conflicts, G4 now
+reconstructs the file from scratch: takes `origin/main:CHANGELOG.md` as
+base, extracts this branch's new entry, and inserts it at the correct
+position — above main's top version. This is deterministic and correct
+regardless of how many PRs have merged since the branch was created.
+The previous approach (sed-stripping conflict markers) could produce
+malformed output when conflict structure was complex. The reconstruction
+approach treats main's CHANGELOG as the authoritative base and simply
+prepends the branch's contribution.
+
+### Changed
+- **`scripts/pr-plan-gates.sh`** (g4): full rewrite. On CHANGELOG
+  conflict, extracts branch's new entry between header and main's top
+  version, takes main's CHANGELOG as base, inserts entry at line 8,
+  adds compare link at the correct position. Fallback to marker-strip
+  if extraction fails. `.confidentiality-signature` auto-removed.
+  Non-CHANGELOG conflicts still fail for human resolution.
+- **`scripts/changelog-assemble.sh`** (new): fragment-based assembly
+  script for future use. Reads `CHANGELOG.d/*.md` fragments and
+  concatenates into CHANGELOG.md. Currently optional; will become the
+  primary path when fragment workflow is adopted.
+- **`CHANGELOG.d/.gitkeep`** (new): directory for future per-version
+  fragments.
+
 ## [4.50.0] — 2026-04-12
 
 Savia Enterprise Project Prospect — Pipeline-as-Code (SE-015). Era 213.
@@ -6386,6 +6413,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.55.0...v4.56.0
 [4.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.49.0...v4.50.0
 [4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
