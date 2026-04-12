@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.55.0] — 2026-04-12
+
+Savia Enterprise Cross-Project Dependencies — Portfolio-as-Graph (SE-020).
+Era 218. Terminal node in the SE-014..020 project lifecycle suite.
+Dependency declarations per project as deps.yaml, agent-computed portfolio
+graph, cross-project critical path, resource contention detection, and
+rebalancing recommendations. All computed locally, tenant-isolated.
+Blocked by SE-001/002/015/016/017/018/019. Blocks nothing.
+
+### Added
+- **SPEC-SE-020 Cross-Project Dependencies** (`docs/propuestas/savia-enterprise/SPEC-SE-020-cross-project-deps.md`):
+  deps.yaml schema (upstream/downstream/shared_resources), portfolio graph
+  (ASCII + Mermaid), cross-project critical path computation, resource
+  contention detector, rebalancing proposal agent, 4 agents
+  (portfolio-grapher L1, critical-path-analyzer L1, contention-detector L1,
+  rebalancer L1), 6 commands `/deps-*` + `/portfolio-*`, 5 events,
+  air-gap capable. Spec proposal only.
+
 ## [4.49.0] — 2026-04-12
 
 Savia Enterprise Project Definition — SOW-as-Code (SE-017). Era 212.
@@ -6367,6 +6385,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.54.0...v4.55.0
 [4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
 [4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
