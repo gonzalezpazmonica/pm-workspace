@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.63.0] — 2026-04-12
+
+SE-001 Foundations completion: manifest updated with SE-014..026 modules,
+extension-points.md copied to enterprise directory, regression test
+confirms Core works without Enterprise. Era 225. All 6 acceptance
+criteria now satisfied.
+
+### Changed
+- **`.claude/enterprise/manifest.json`**: added 8 new module entries
+  (release-orchestration, project-lifecycle, code-review-court,
+  resource-bench, knowledge-federation, client-health,
+  workforce-analytics, compliance-evidence) covering SE-014 through
+  SE-026. Total: 16 modules declared, all disabled by default.
+- **`.claude/enterprise/extension-points.md`**: copied from
+  `docs/propuestas/` to the canonical Enterprise directory where
+  SE-001 spec expects it.
+
 ## [4.61.0] — 2026-04-12
 
 4 tactical patterns adopted from multica-ai research. Era 223. Path
@@ -6496,6 +6513,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.62.0...v4.63.0
 [4.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.60.0...v4.61.0
 [4.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.59.0...v4.60.0
 [4.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.58.0...v4.59.0
