@@ -1,6 +1,0 @@
-# Confidentiality audit signature — DO NOT EDIT
-diff_hash=a282c358616a6cede21e453b3fc2a13c01d04af8176ec44ee550b39e34391099
-timestamp=2026-04-12T07:15:13Z
-branch=fix/pr-plan-changelog-reconstruct
-head_commit=978028b
-signature=58fe648d5f269f142d05809c116b5c2d97847d3e5c960287201e2847408cc763
