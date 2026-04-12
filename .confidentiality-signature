@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6241e0923fe0f13facae1aa82838533a83d20dcc03ea4909934ce41a8a85ffa7
-timestamp=2026-04-11T23:34:59Z
-branch=feat/savia-enterprise-project-definition-v2
-head_commit=760342c
-signature=c3205028f252e27df49693bcd8589a3be1bffdc96e42d8e4cb49608d0e8184fb
+diff_hash=c1334c60ca8e5eed6949fd6ed083c0ff3f05a021656b6163194b165bdc8ce2b2
+timestamp=2026-04-12T06:45:41Z
+branch=feat/savia-enterprise-project-evaluation
+head_commit=1294b5f
+signature=52c4418bfe537ef246a992d48be9fb143c30b1ebccb2e2a18d7657247e572cf8
