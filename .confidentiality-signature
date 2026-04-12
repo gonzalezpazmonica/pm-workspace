@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e339ebd1a14b8eb5aaecfd80d8bf9818c3e418d3149bc0668bf7023291c1a452
-timestamp=2026-04-12T18:56:40Z
-branch=feat/se-006-governance
-head_commit=102f005
-signature=1ba2273b82bfed8ce838356d94fc66ab662c64f834df89ca1ea216bf11154050
+diff_hash=987f801904077eda4675aa8fcbd69ecf3a477c99efe780d48dab43e1c1c2b51d
+timestamp=2026-04-12T20:15:13Z
+branch=feat/se-027-slm-training
+head_commit=3ebdecb
+signature=e30ac391fd8e8ca75e603b374266a6a17356e96b711645f03b3f2ad69742cb8a

@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.70.0] — 2026-04-12
+
+SE-027 SLM Training Pipeline for inference sovereignty. Era 231.
+Local fine-tuning of small language models using project data (N4)
+with zero cloud egress. Unsloth + TRL stack, GGUF export, Ollama
+deployment. Integrates with Savia Dual for sovereign routing.
+
+### Added
+- **`scripts/slm-data-prep.sh`**: collect project documents, sanitize
+  PII, format as ChatML (SFT/DPO), validate, split train/eval sets.
+  Manifest with SHA-256 hashes for data lineage.
+- **`scripts/slm-train.sh`**: Unsloth wrapper with auto hardware
+  detection and model selection. SFT training, GGUF export, Ollama
+  deploy, and RGPD-compliant forget. Model registry at
+  `~/.savia/slm-registry/`.
+- **`docs/propuestas/savia-enterprise/SPEC-SE-027-slm-training.md`**:
+  full spec covering architecture, data pipeline, training methods,
+  governance, and 3-phase implementation plan.
+- **`tests/test-slm-training.bats`**: 22 tests covering data prep
+  pipeline, PII sanitization, format/validate/split, dependency
+  check, forget cleanup, and edge cases.
+
 ## [4.69.0] — 2026-04-12
 
 SE-006 Governance & Compliance Pack. Era 230. Append-only chain-hashed
@@ -6611,6 +6633,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.69.0...v4.70.0
 [4.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.68.0...v4.69.0
 [4.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.67.0...v4.68.0
 [4.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.66.0...v4.67.0
