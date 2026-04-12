@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.68.0] — 2026-04-12
+
+SE-005 Sovereign Deployment implementation. Era 229. Network egress guard
+hook blocks outbound calls in sovereign/air-gap modes. Rule documents 4
+deployment modes, agent sovereign compatibility flags, graceful degradation.
+
+### Added
+- **`.claude/enterprise/hooks/network-egress-guard.sh`**: blocks curl, wget,
+  git push, npm install, etc. in sovereign/air-gap modes. Respects
+  `deployment.yaml → network.allowed_hosts` exceptions. No-op when module
+  disabled or no tenant active.
+- **`.claude/enterprise/rules/sovereign-deployment.md`**: 4 modes (cloud,
+  hybrid, sovereign, air-gap), per-tenant `deployment.yaml` config,
+  `sovereign_compatible` agent flag, LLM provider abstraction (Ollama,
+  vLLM, llama.cpp, LocalAI), graceful degradation policy.
+- **`tests/test-sovereign-deployment.bats`**: 18 tests, SPEC-055 certified.
+
 ## [4.67.0] — 2026-04-12
 
 SE-011 Docs Restructuring — Slice 1. Era 228. New docs taxonomy, getting
@@ -6577,6 +6594,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.67.0...v4.68.0
 [4.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.66.0...v4.67.0
 [4.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.65.0...v4.66.0
 [4.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.65.0
