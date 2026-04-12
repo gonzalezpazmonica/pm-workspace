@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.62.0] — 2026-04-12
+
+Savia Enterprise resource, knowledge and compliance batch: 5 specs
+(SE-022..026). Era 224. Second wave of enterprise capabilities covering
+the operational backbone of a large consultancy.
+
+### Added
+- **SE-022 Resource & Bench Management**: utilization tracking (78-85%
+  target), skills-based matching, bench optimization, EU AI Act compliant
+  allocation decisions with equality shield counterfactual test.
+- **SE-023 Knowledge Federation**: cross-project pattern mining with N4
+  anonymization, expertise directory ("know-who"), knowledge feed at bid
+  time closing the SE-019 to SE-015 loop.
+- **SE-024 Client Health Intelligence**: 6-dimension health scoring
+  (delivery, commercial, relationship, satisfaction, growth, payment),
+  stakeholder change tracking, churn prediction.
+- **SE-025 Agentic Workforce Analytics**: human vs agent throughput/cost/
+  quality measurement, ROI calculation, EU AI Act transparency disclosure
+  at 3 levels (none/aggregate/full), SE-013 calibration advisor.
+- **SE-026 Compliance Evidence Automation**: automated audit trail for
+  ISO 9001, DORA, NIS2, AI Act. Evidence harvested from git history,
+  Court verdicts, allocation decisions. Auditor-ready packages.
+
 ## [4.61.0] — 2026-04-12
 
 4 tactical patterns adopted from multica-ai research. Era 223. Path
@@ -6496,6 +6519,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.61.0...v4.62.0
 [4.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.60.0...v4.61.0
 [4.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.59.0...v4.60.0
 [4.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.58.0...v4.59.0
