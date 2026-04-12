@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.50.0] — 2026-04-12
+
+Savia Enterprise Project Prospect — Pipeline-as-Code (SE-015). Era 213.
+A sovereign, agent-queryable opportunity pipeline where pursuits live as
+`.md` files with BANT/MEDDIC qualification scoring, bid/no-bid decision
+audit trails, proposal knowledge reuse from a local library, and a
+canonical sales→delivery handoff package. Blocked by SE-001, SE-002.
+Blocks SE-016 (valuation), SE-017 (SOW init on win), SE-018 (billing),
+SE-019 (evaluation), SE-020 (resource demand forecast from pipeline).
+
+### Added
+- **SPEC-SE-015 Project Prospect** (`docs/propuestas/savia-enterprise/SPEC-SE-015-project-prospect.md`):
+  pursuit.md frontmatter schema, BANT+MEDDIC qualification.yaml, bid/no-bid
+  decision record, proposal library (capabilities, case-studies, team-bios,
+  templates), handoff.md for sales→delivery bridge, 4 agents
+  (prospect-qualifier L1, proposal-drafter L2, handoff-generator L2,
+  win-loss-analyst L1), 7 commands `/pursuit-*` + `/pipeline-view`,
+  5 lifecycle events (qualified, bid_decided, won, lost, handoff_completed),
+  air-gap capable with Ollama. Spec proposal only.
 ## [4.49.0] — 2026-04-12
 
 Savia Enterprise Project Definition — SOW-as-Code (SE-017). Era 212.
@@ -6367,6 +6386,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.49.0...v4.50.0
 [4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
 [4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
