@@ -49,12 +49,77 @@ g3() {
 }
 g4() {
   git fetch origin main --quiet 2>/dev/null || true
-  git merge-base --is-ancestor origin/main HEAD 2>/dev/null || { echo "FAIL: Rebase onto main first"; return; }
-  echo "0 behind"
+  if git merge-base --is-ancestor origin/main HEAD 2>/dev/null; then
+    echo "0 behind"; return
+  fi
+  # Auto-merge origin/main (Era 216+219). Resolves CHANGELOG conflicts via
+  # fragment-based reconstruction: take main's CHANGELOG.md as base, prepend
+  # this branch's entry on top. .confidentiality-signature auto-removed.
+  git merge origin/main --no-ff --no-edit 2>&1 >/dev/null || true
+  # Non-CHANGELOG, non-signature conflicts → FAIL (human needed)
+  local hard_conflicts
+  hard_conflicts=$(git diff --name-only --diff-filter=U 2>/dev/null \
+    | grep -vE '^CHANGELOG\.md$|\.confidentiality-signature$' | head -5) || true
+  if [[ -n "$hard_conflicts" ]]; then
+    git merge --abort 2>/dev/null || true
+    echo "FAIL: Merge conflicts in: $hard_conflicts"; return
+  fi
+  # CHANGELOG: reconstruct from main base + this branch's new entry.
+  # This avoids the line-8 insertion conflict entirely.
+  if grep -q '^<<<<<<<' CHANGELOG.md 2>/dev/null; then
+    # Extract HEAD's new entry (between first ## [ and the next ## [ that matches main's top)
+    local mv; mv=$(git show origin/main:CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1) || true
+    if [[ -n "$mv" ]]; then
+      # Take main's CHANGELOG as base
+      git show origin/main:CHANGELOG.md > /tmp/_cl_base.md 2>/dev/null || true
+      # Extract my new entries (everything HEAD added above main's top version)
+      local my_entry=""
+      my_entry=$(sed -n "1,/^## \[$mv\]/{ /^## \[$mv\]/d; p; }" CHANGELOG.md \
+        | sed '/^<<<<<<</d; /^=======/d; /^>>>>>>>/d' \
+        | sed '/^# Changelog/d; /^$/d; /^All notable/d; /^The format/d; /adheres to/d' || true)
+      if [[ -n "$my_entry" ]]; then
+        # Insert my entry after the header (line 7) of base
+        head -7 /tmp/_cl_base.md > /tmp/_cl_new.md
+        echo "" >> /tmp/_cl_new.md
+        echo "$my_entry" >> /tmp/_cl_new.md
+        tail -n +8 /tmp/_cl_base.md >> /tmp/_cl_new.md
+        # Handle compare links: extract my link and prepend
+        local lv; lv=$(echo "$my_entry" | grep -oP '## \[\K[0-9.]+' | head -1) || true
+        if [[ -n "$lv" ]]; then
+          local prev; prev=$(echo "$lv" | awk -F. '{ printf "%d.%d.0", $1, $2-1 }')
+          local repo_url="https://github.com/gonzalezpazmonica/pm-workspace"
+          local link="[$lv]: $repo_url/compare/v$prev...v$lv"
+          # Find link block and prepend
+          local link_line; link_line=$(grep -n "^\[$mv\]:" /tmp/_cl_new.md | head -1 | cut -d: -f1) || true
+          if [[ -n "$link_line" ]]; then
+            sed -i "${link_line}i\\$link" /tmp/_cl_new.md
+          fi
+        fi
+        cp /tmp/_cl_new.md CHANGELOG.md
+        rm -f /tmp/_cl_base.md /tmp/_cl_new.md
+      else
+        # Fallback: strip markers (legacy)
+        sed -i '/^<<<<<<< HEAD$/d; /^=======$/d; /^>>>>>>> origin\/main$/d' CHANGELOG.md
+      fi
+    else
+      sed -i '/^<<<<<<< HEAD$/d; /^=======$/d; /^>>>>>>> origin\/main$/d' CHANGELOG.md
+    fi
+    git add CHANGELOG.md
+  fi
+  # .confidentiality-signature: remove, regenerated on sign
+  if git diff --name-only --diff-filter=U 2>/dev/null | grep -q '\.confidentiality-signature'; then
+    rm -f .confidentiality-signature; git rm .confidentiality-signature 2>/dev/null || true
+  fi
+  local remaining; remaining=$(git diff --name-only --diff-filter=U 2>/dev/null) || true
+  if [[ -n "$remaining" ]]; then
+    git merge --abort 2>/dev/null || true
+    echo "FAIL: Unresolved conflicts: $remaining"; return
+  fi
+  git commit --no-edit 2>/dev/null || true
+  echo "auto-merged"
 }
 g5() {
   local all; all=$(git diff origin/main..HEAD --name-only 2>/dev/null) || true
-  # Docs-only PRs (all .md files) are exempt, matching PR Guardian Gate 8
   local non_md; non_md=$(echo "$all" | grep -vE '\.md$' | grep -v '^$' || true)
   [[ -z "$non_md" ]] && echo "skipped (docs-only)" && return
   local hi; hi=$(echo "$all" | grep -E '^(\.claude/(rules|hooks|agents|skills|settings)|scripts/|CLAUDE\.md)' || true)
@@ -62,23 +127,13 @@ g5() {
   local lv; lv=$(grep -oP '## \[\K[0-9.]+' CHANGELOG.md 2>/dev/null | head -1)
   local mv; mv=$(git show origin/main:CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1) || true
   [[ "$lv" == "$mv" ]] && { FAILED_FILE="CHANGELOG.md"; echo "FAIL: CHANGELOG not updated (both $lv)"; return; }
-  # Verify Era reference in latest entry (required by BATS test-changelog-integrity)
   local era; era=$(sed -n "/## \[$lv\]/,/## \[/p" CHANGELOG.md | grep -ci 'era ' || true)
   [[ "$era" -eq 0 ]] && { FAILED_FILE="CHANGELOG.md"; echo "FAIL: CHANGELOG v$lv missing Era reference (add 'Era NNN' to description)"; return; }
-  # G5.5 — PR queue check: enforce lv > max_claimed_across_main_and_open_PRs.
-  # SPEC-SE-012 Module 4 + recurrent-conflict hardening (Era 210).
-  # The old check only failed on exact version equality. That prevented number
-  # collisions but NOT the real pain: two branches both insert at line 8 of
-  # CHANGELOG.md with different anchors, producing a merge conflict whenever
-  # one of them lands first. Fix: require the new entry to be strictly above
-  # every version already claimed by main OR any open PR. This guarantees the
-  # rebase after a peer lands is always a clean "my entry on top of theirs".
-  # Degrades to warning if gh is unavailable or offline.
+  # G5.5 — PR queue: enforce lv > max_claimed (Era 210+219).
   if command -v gh >/dev/null 2>&1 && [[ "${PR_PLAN_SKIP_QUEUE_CHECK:-0}" != "1" ]]; then
     local repo; repo=$(gh repo view --json nameWithOwner --jq '.nameWithOwner' 2>/dev/null) || repo=""
     if [[ -n "$repo" ]]; then
       local prs; prs=$(gh pr list --state open --json number,headRefName --jq '.[] | [.number, .headRefName] | @tsv' 2>/dev/null) || prs=""
-      # claimed_list holds "version:#PR" tuples so we can show who owns each version
       local claimed_list="" max_claimed="$mv"
       while IFS=$'\t' read -r pr_num pr_branch; do
         [[ -z "$pr_branch" || "$pr_branch" == "$BRANCH" ]] && continue
@@ -87,18 +142,15 @@ g5() {
           | base64 -d 2>/dev/null | grep -oP '^## \[\K[0-9.]+' | head -1) || other_v=""
         [[ -z "$other_v" ]] && continue
         claimed_list="$claimed_list $other_v(#$pr_num)"
-        # Track the highest version in flight
         if [[ -z "$max_claimed" ]] || \
            [[ "$(printf '%s\n%s\n' "$max_claimed" "$other_v" | sort -V | tail -1)" == "$other_v" ]]; then
           max_claimed="$other_v"
         fi
       done <<< "$prs"
-      # Enforce strictly-greater: lv must be above max_claimed (main + all open PRs)
       if [[ -n "$max_claimed" ]] && [[ "$lv" == "$max_claimed" || \
          "$(printf '%s\n%s\n' "$lv" "$max_claimed" | sort -V | tail -1)" != "$lv" ]]; then
         FAILED_FILE="CHANGELOG.md"
-        local suggested
-        suggested=$(echo "$max_claimed" | awk -F. '{ printf "%d.%d.0\n", $1, $2+1 }')
+        local suggested; suggested=$(echo "$max_claimed" | awk -F. '{ printf "%d.%d.0\n", $1, $2+1 }')
         echo "FAIL: version $lv <= max in queue $max_claimed${claimed_list:+ (claimed:$claimed_list)} — bump to $suggested"
         return
       fi
