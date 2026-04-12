@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.53.0] — 2026-04-12
+
+pr-plan G4 auto-merge: resolves CHANGELOG conflicts automatically. Era 216.
+When a branch is behind origin/main, G4 now merges automatically instead
+of failing. CHANGELOG.md conflicts are resolved mechanically (both entries
+preserved in descending version order by stripping markers). The
+`.confidentiality-signature` is removed (regenerated on sign). Non-CHANGELOG
+conflicts still fail for human resolution. This eliminates the manual
+merge-resolve-re-sign cycle that was wasting time on every spec PR.
+
+### Changed
+- **`scripts/pr-plan-gates.sh`** (g4): replaces `FAIL: Rebase onto main
+  first` with automatic `git merge origin/main --no-ff --no-edit`. CHANGELOG
+  conflict markers are stripped via `sed` (higher version stays on top
+  because G5.5 already enforces strictly-greater). `.confidentiality-signature`
+  conflicts auto-resolved (file deleted, regenerated at sign step). If any
+  other file has an unresolvable conflict, the merge is aborted and G4 still
+  fails with the specific file list.
+
 ## [4.49.0] — 2026-04-12
 
 Savia Enterprise Project Definition — SOW-as-Code (SE-017). Era 212.
@@ -6367,6 +6386,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.52.0...v4.53.0
 [4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
 [4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
