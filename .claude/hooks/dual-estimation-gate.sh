@@ -53,11 +53,11 @@ missing=""
 [[ "$has_agent" == "false" ]] && missing="agent (agent_effort_minutes)"
 [[ "$has_human" == "false" ]] && { [[ -n "$missing" ]] && missing="$missing + "; missing="${missing}human (human_effort_hours)"; }
 
-echo "Dual Estimation: $filename tiene estimación pero falta escala $missing."
-echo ""
-echo "  Toda spec/PBI con estimación necesita las dos escalas:"
-echo "    agent_effort_minutes:  XX   (tiempo real del agente)"
-echo "    human_effort_hours:    XX   (tiempo equivalente humano)"
-echo "    review_effort_minutes: XX   (revisión humana del output)"
+echo "Dual Estimation: $filename tiene estimación pero falta escala $missing." >&2
+echo "" >&2
+echo "  Toda spec/PBI con estimación necesita las dos escalas:" >&2
+echo "    agent_effort_minutes:  XX   (tiempo real del agente)" >&2
+echo "    human_effort_hours:    XX   (tiempo equivalente humano)" >&2
+echo "    review_effort_minutes: XX   (revisión humana del output)" >&2
 
 exit 0

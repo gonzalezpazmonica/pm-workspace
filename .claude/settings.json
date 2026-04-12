@@ -7,7 +7,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-init.sh",
             "timeout": 15,
-            "statusMessage": "Inicializando sesión PM-Workspace..."
+            "statusMessage": "Inicializando sesi\u00f3n PM-Workspace..."
           }
         ]
       }
@@ -43,7 +43,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/prompt-hook-commit.sh",
             "timeout": 5,
-            "statusMessage": "Prompt hook: validando semántica..."
+            "statusMessage": "Prompt hook: validando sem\u00e1ntica..."
           },
           {
             "type": "command",
@@ -71,7 +71,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/agent-tool-call-validate.sh",
             "timeout": 5,
-            "statusMessage": "Validando parámetros de tool call..."
+            "statusMessage": "Validando par\u00e1metros de tool call..."
           }
         ]
       },
@@ -93,7 +93,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/tdd-gate.sh",
             "timeout": 10,
-            "statusMessage": "TDD gate: tests antes que código..."
+            "statusMessage": "TDD gate: tests antes que c\u00f3digo..."
           },
           {
             "type": "command",
@@ -122,7 +122,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/responsibility-judge.sh",
             "timeout": 5,
-            "statusMessage": "Responsibility Judge: evaluando decisión..."
+            "statusMessage": "Responsibility Judge: evaluando decisi\u00f3n..."
           },
           {
             "type": "command",
@@ -181,6 +181,24 @@
             "statusMessage": "Savia Shield HTTP gate..."
           }
         ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/prompt-injection-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/delegation-guard.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -227,7 +245,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/ast-quality-gate-hook.sh",
             "async": true,
             "timeout": 60,
-            "statusMessage": "AST Quality Gate: analizando código..."
+            "statusMessage": "AST Quality Gate: analizando c\u00f3digo..."
           },
           {
             "type": "command",
@@ -246,6 +264,13 @@
             "async": true,
             "timeout": 5,
             "statusMessage": "Registrando traza de agente..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/compress-agent-output.sh",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Comprimiendo output de agente..."
           }
         ]
       },
@@ -277,7 +302,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-end-snapshot.sh",
             "async": true,
             "timeout": 5,
-            "statusMessage": "Guardando snapshot de sesión..."
+            "statusMessage": "Guardando snapshot de sesi\u00f3n..."
           },
           {
             "type": "command",
@@ -309,7 +334,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/emotional-regulation-monitor.sh",
             "async": true,
             "timeout": 10,
-            "statusMessage": "Evaluando bienestar de sesión..."
+            "statusMessage": "Evaluando bienestar de sesi\u00f3n..."
           }
         ]
       }
@@ -321,7 +346,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-end-memory.sh",
             "timeout": 1500,
-            "statusMessage": "Extrayendo memoria de sesión..."
+            "statusMessage": "Extrayendo memoria de sesi\u00f3n..."
           }
         ]
       }
@@ -340,6 +365,24 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/stress-awareness-nudge.sh",
             "timeout": 2000,
             "statusMessage": "Emotional awareness check..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/memory-prime-hook.sh",
+            "async": true,
+            "timeout": 5000,
+            "statusMessage": "Memory context priming..."
+          }
+        ]
+      }
+    ],
+    "CwdChanged": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/cwd-changed-hook.sh",
+            "timeout": 3000
           }
         ]
       }
@@ -351,7 +394,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-compact-backup.sh",
             "timeout": 10,
-            "statusMessage": "Backup pre-compactación..."
+            "statusMessage": "Backup pre-compactaci\u00f3n..."
           }
         ]
       }
@@ -363,7 +406,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
             "timeout": 10,
-            "statusMessage": "Recuperando memoria persistente tras compactación..."
+            "statusMessage": "Recuperando memoria persistente tras compactaci\u00f3n..."
           }
         ]
       }

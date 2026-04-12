@@ -34,11 +34,11 @@ SPECS_DIR="$PROJECT_DIR/projects"
 RECENT_SPECS=$(timeout $TIMEOUT find "$SPECS_DIR" -name "*.spec.md" -mtime -14 2>/dev/null | head -5)
 
 if [[ -z "$RECENT_SPECS" ]]; then
-    echo ""
-    echo "⚠️  Plan Gate: No se encontró spec aprobada reciente."
-    echo "   Considera ejecutar /spec-generate antes de implementar."
-    echo "   (Warning — no bloquea la edición)"
-    echo ""
+    echo "" >&2
+    echo "⚠️  Plan Gate: No se encontró spec aprobada reciente." >&2
+    echo "   Considera ejecutar /spec-generate antes de implementar." >&2
+    echo "   (Warning — no bloquea la edición)" >&2
+    echo "" >&2
 fi
 
 exit 0

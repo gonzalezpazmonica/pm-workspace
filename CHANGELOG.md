@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.72.0] — 2026-04-12
+
+Hook safety audit + registration fixes. Era 231. Fixed 4 blocking hooks
+that wrote to stdout (corrupting tool output), registered 3 missing hooks
+(memory-prime, cwd-changed, compress-agent-output), fixed 2 broken hook
+paths, and added nidos exec bit. Total: 55 hook instances across 17 events.
+
+### Fixed
+- **4 stdout corruption bugs**: plan-gate, agent-dispatch-validate,
+  dual-estimation-gate, pre-commit-review now write to stderr.
+- **2 broken hook paths**: prompt-injection-guard and delegation-guard
+  had empty prefix instead of `$CLAUDE_PROJECT_DIR`.
+- **nidos.sh**: missing executable permission (644 → 755).
+
+### Added
+- **`memory-prime-hook.sh`** registered on UserPromptSubmit (async).
+- **`cwd-changed-hook.sh`** registered on CwdChanged (new event).
+- **`compress-agent-output.sh`** registered on PostToolUse/Task (async).
+- **2 missing MEMORY.md index entries** for feedback memories.
+
 ## [4.71.0] — 2026-04-12
 SE-028/029/030/031: Security and quality patterns inspired by Hermes Agent
 research. Era 231. Prompt injection guard, iterative context compression,
@@ -6655,6 +6675,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.71.0...v4.72.0
 [4.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.71.0
 [4.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.69.0...v4.70.0
 [4.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.68.0...v4.69.0

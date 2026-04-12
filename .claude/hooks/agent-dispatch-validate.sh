@@ -90,16 +90,16 @@ fi
 
 # ── Output ─────────────────────────────────────────────────────────────
 if [ -n "$ERRORS" ] || [ -n "$WARNINGS" ]; then
-  echo ""
-  echo "═══ Agent Dispatch Validation ═══"
+  echo "" >&2
+  echo "═══ Agent Dispatch Validation ═══" >&2
   if [ -n "$ERRORS" ]; then
-    echo -e "$ERRORS"
+    echo -e "$ERRORS" >&2
   fi
   if [ -n "$WARNINGS" ]; then
-    echo -e "$WARNINGS"
+    echo -e "$WARNINGS" >&2
   fi
-  echo "Ref: .claude/rules/domain/agent-dispatch-checklist.md"
-  echo "═════════════════════════════════"
+  echo "Ref: .claude/rules/domain/agent-dispatch-checklist.md" >&2
+  echo "═════════════════════════════════" >&2
 
   # Errores bloquean (exit 2), warnings solo informan (exit 0)
   if [ -n "$ERRORS" ]; then
