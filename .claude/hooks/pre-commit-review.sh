@@ -105,14 +105,14 @@ if [[ $TOTAL -eq 0 ]]; then
     exit 0
 fi
 
-echo "📋 Code Review: $PASSED passed, $FAILED failed ($CACHED cached)"
+echo "📋 Code Review: $PASSED passed, $FAILED failed ($CACHED cached)" >&2
 
 if [[ $FAILED -gt 0 ]]; then
-    echo ""
-    echo -e "$ISSUES"
-    echo "STATUS: FAILED — Revisar issues antes de finalizar"
+    echo "" >&2
+    echo -e "$ISSUES" >&2
+    echo "STATUS: FAILED — Revisar issues antes de finalizar" >&2
 else
-    echo "STATUS: PASSED"
+    echo "STATUS: PASSED" >&2
 fi
 
 # No bloquear (warning only) — el PM decide
