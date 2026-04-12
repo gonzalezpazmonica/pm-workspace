@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.49.0] — 2026-04-12
+
+Savia Enterprise Project Definition — SOW-as-Code (SE-017). Era 212.
+A machine-readable, agent-queryable, contract-grade Statement of Work
+stored as `.md` inside the tenant's pm-workspace, with testable
+acceptance criteria, YAML RACI matrix, deliverables ledger linked to
+the backlog, and a structured change-request mechanism that produces
+auditable amendments. Delivery work not traceable to a SOW deliverable
+is refused by the workspace. Blocked by SE-001, SE-002, SE-010. Blocks
+SE-018 (billing amounts derive from SOW contract value) and SE-019
+(evaluation baseline is SOW deliverables vs actually-shipped).
+
+### Added
+- **SPEC-SE-017 Project Definition** (`docs/propuestas/savia-enterprise/SPEC-SE-017-project-definition.md`):
+  canonical SOW.md frontmatter schema, 4 new agents (sow-writer L2,
+  cr-drafter L2, raci-validator L1, acceptance-linker L1), commands
+  `/sow-init` `/sow-validate` `/sow-cr-draft` `/sow-amend` `/sow-query`,
+  `sow.amended` event emitted on amendment signing for SE-018/SE-019
+  consumers, `sow-trace-validate.sh` hook blocks orphan PBIs, JSON
+  Schema + 20+ BATS tests target, air-gap capable. Spec proposal only.
+
 ## [4.48.0] — 2026-04-12
 
 Engineering principles distilled from the Linux kernel. Era 211. Savia
@@ -6346,6 +6367,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
 [4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
 [4.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.45.0...v4.46.0
