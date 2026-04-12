@@ -47,16 +47,53 @@ g3() {
   local c; c=$(grep -rln "^${marker}" --include='*.md' --include='*.sh' --include='*.py' --include='*.json' . 2>/dev/null | grep -v '.git/' | grep -v 'worktrees/' | head -5) || true
   [[ -n "$c" ]] && echo "FAIL: Merge conflicts in: $c" && return
 }
+_resolve_changelog_conflict() {
+  local mv; mv=$(git show origin/main:CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1) || true
+  [[ -z "$mv" ]] && { sed -i '/^<<<<<<< HEAD$/d; /^=======$/d; /^>>>>>>> origin\/main$/d' CHANGELOG.md; return; }
+  git show origin/main:CHANGELOG.md > /tmp/_cl_base.md 2>/dev/null || true
+  local my_entry=""
+  my_entry=$(sed -n "1,/^## \[$mv\]/{ /^## \[$mv\]/d; p; }" CHANGELOG.md \
+    | sed '/^<<<<<<</d; /^=======/d; /^>>>>>>>/d' \
+    | sed '/^# Changelog/d; /^$/d; /^All notable/d; /^The format/d; /adheres to/d' || true)
+  if [[ -z "$my_entry" ]]; then
+    sed -i '/^<<<<<<< HEAD$/d; /^=======$/d; /^>>>>>>> origin\/main$/d' CHANGELOG.md; return
+  fi
+  local header_end
+  header_end=$(grep -n '^## \[' /tmp/_cl_base.md | head -1 | cut -d: -f1) || header_end=8
+  header_end=$((header_end - 1))
+  head -"$header_end" /tmp/_cl_base.md > /tmp/_cl_new.md
+  echo "" >> /tmp/_cl_new.md
+  echo "$my_entry" >> /tmp/_cl_new.md
+  tail -n +"$((header_end + 1))" /tmp/_cl_base.md >> /tmp/_cl_new.md
+  local lv; lv=$(echo "$my_entry" | grep -oP '## \[\K[0-9.]+' | head -1) || true
+  if [[ -n "$lv" ]]; then
+    local prev
+    prev=$(git tag --sort=-v:refname 2>/dev/null | grep -E '^v[0-9]' | head -2 | tail -1 | sed 's/^v//') || true
+    [[ -z "$prev" ]] && prev=$(echo "$lv" | awk -F. '{ m=$2-1; if(m<0){m=0}; printf "%d.%d.0", $1, m }')
+    local repo_url
+    repo_url=$(git remote get-url origin 2>/dev/null | sed 's/\.git$//; s|git@github.com:|https://github.com/|') || repo_url=""
+    if [[ -n "$repo_url" ]]; then
+      local link="[$lv]: $repo_url/compare/v$prev...v$lv"
+      local link_line; link_line=$(grep -n "^\[$mv\]:" /tmp/_cl_new.md | head -1 | cut -d: -f1) || true
+      [[ -n "$link_line" ]] && sed -i "${link_line}i\\$link" /tmp/_cl_new.md
+    fi
+  fi
+  cp /tmp/_cl_new.md CHANGELOG.md
+  rm -f /tmp/_cl_base.md /tmp/_cl_new.md
+}
+
+_resolve_signature_conflict() {
+  rm -f .confidentiality-signature
+  git rm .confidentiality-signature 2>/dev/null || true
+}
+
 g4() {
   git fetch origin main --quiet 2>/dev/null || true
   if git merge-base --is-ancestor origin/main HEAD 2>/dev/null; then
     echo "0 behind"; return
   fi
-  # Auto-merge origin/main (Era 216+219). Resolves CHANGELOG conflicts via
-  # fragment-based reconstruction: take main's CHANGELOG.md as base, prepend
-  # this branch's entry on top. .confidentiality-signature auto-removed.
+  trap 'rm -f /tmp/_cl_base.md /tmp/_cl_new.md' RETURN
   git merge origin/main --no-ff --no-edit 2>&1 >/dev/null || true
-  # Non-CHANGELOG, non-signature conflicts → FAIL (human needed)
   local hard_conflicts
   hard_conflicts=$(git diff --name-only --diff-filter=U 2>/dev/null \
     | grep -vE '^CHANGELOG\.md$|\.confidentiality-signature$' | head -5) || true
@@ -64,51 +101,12 @@ g4() {
     git merge --abort 2>/dev/null || true
     echo "FAIL: Merge conflicts in: $hard_conflicts"; return
   fi
-  # CHANGELOG: reconstruct from main base + this branch's new entry.
-  # This avoids the line-8 insertion conflict entirely.
   if grep -q '^<<<<<<<' CHANGELOG.md 2>/dev/null; then
-    # Extract HEAD's new entry (between first ## [ and the next ## [ that matches main's top)
-    local mv; mv=$(git show origin/main:CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1) || true
-    if [[ -n "$mv" ]]; then
-      # Take main's CHANGELOG as base
-      git show origin/main:CHANGELOG.md > /tmp/_cl_base.md 2>/dev/null || true
-      # Extract my new entries (everything HEAD added above main's top version)
-      local my_entry=""
-      my_entry=$(sed -n "1,/^## \[$mv\]/{ /^## \[$mv\]/d; p; }" CHANGELOG.md \
-        | sed '/^<<<<<<</d; /^=======/d; /^>>>>>>>/d' \
-        | sed '/^# Changelog/d; /^$/d; /^All notable/d; /^The format/d; /adheres to/d' || true)
-      if [[ -n "$my_entry" ]]; then
-        # Insert my entry after the header (line 7) of base
-        head -7 /tmp/_cl_base.md > /tmp/_cl_new.md
-        echo "" >> /tmp/_cl_new.md
-        echo "$my_entry" >> /tmp/_cl_new.md
-        tail -n +8 /tmp/_cl_base.md >> /tmp/_cl_new.md
-        # Handle compare links: extract my link and prepend
-        local lv; lv=$(echo "$my_entry" | grep -oP '## \[\K[0-9.]+' | head -1) || true
-        if [[ -n "$lv" ]]; then
-          local prev; prev=$(echo "$lv" | awk -F. '{ printf "%d.%d.0", $1, $2-1 }')
-          local repo_url="https://github.com/gonzalezpazmonica/pm-workspace"
-          local link="[$lv]: $repo_url/compare/v$prev...v$lv"
-          # Find link block and prepend
-          local link_line; link_line=$(grep -n "^\[$mv\]:" /tmp/_cl_new.md | head -1 | cut -d: -f1) || true
-          if [[ -n "$link_line" ]]; then
-            sed -i "${link_line}i\\$link" /tmp/_cl_new.md
-          fi
-        fi
-        cp /tmp/_cl_new.md CHANGELOG.md
-        rm -f /tmp/_cl_base.md /tmp/_cl_new.md
-      else
-        # Fallback: strip markers (legacy)
-        sed -i '/^<<<<<<< HEAD$/d; /^=======$/d; /^>>>>>>> origin\/main$/d' CHANGELOG.md
-      fi
-    else
-      sed -i '/^<<<<<<< HEAD$/d; /^=======$/d; /^>>>>>>> origin\/main$/d' CHANGELOG.md
-    fi
+    _resolve_changelog_conflict
     git add CHANGELOG.md
   fi
-  # .confidentiality-signature: remove, regenerated on sign
   if git diff --name-only --diff-filter=U 2>/dev/null | grep -q '\.confidentiality-signature'; then
-    rm -f .confidentiality-signature; git rm .confidentiality-signature 2>/dev/null || true
+    _resolve_signature_conflict
   fi
   local remaining; remaining=$(git diff --name-only --diff-filter=U 2>/dev/null) || true
   if [[ -n "$remaining" ]]; then

@@ -58,24 +58,27 @@ do_verify() {
   echo "Confidentiality Signature — Verify"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   if [ ! -f "$SIG_FILE" ]; then
-    echo "::error::No .confidentiality-signature file."
+    echo "ERROR: No .confidentiality-signature file."
     exit 1
   fi
   local saved_diff saved_sig
   saved_diff=$(grep '^diff_hash=' "$SIG_FILE" | cut -d= -f2)
   saved_sig=$(grep '^signature=' "$SIG_FILE" | cut -d= -f2)
-  [ -z "$saved_diff" ] || [ -z "$saved_sig" ] && echo "::error::Malformed." && exit 1
+  [ -z "$saved_diff" ] || [ -z "$saved_sig" ] && echo "ERROR: Malformed." && exit 1
   local current_diff
   current_diff=$(get_diff_hash)
   echo "  Saved:   ${saved_diff:0:24}..."
   echo "  Current: ${current_diff:0:24}..."
   if [ "$current_diff" != "$saved_diff" ]; then
-    echo "::error::Diff hash mismatch."
+    echo "ERROR: Diff hash mismatch."
     exit 1
   fi
   if [ -f "$SECRET_FILE" ]; then
-    [ "$(compute_hmac "$saved_diff")" != "$saved_sig" ] && echo "::error::HMAC mismatch." && exit 1
+    [ "$(compute_hmac "$saved_diff")" != "$saved_sig" ] && echo "ERROR: HMAC mismatch." >&2 && exit 1
     echo "  HMAC: VERIFIED"
+  else
+    echo "  HMAC: SKIPPED (no local key at $SECRET_FILE)"
+    echo "  WARNING: Verification is diff-hash only — no cryptographic proof" >&2
   fi
   echo "  Diff: MATCH"
   echo "VERIFIED"
