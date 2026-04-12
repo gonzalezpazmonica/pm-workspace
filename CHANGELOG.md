@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.57.0] — 2026-04-12
+
+Code Review Court (SE-021). Era 220. A panel of 5 specialized agent-judges
+(correctness, architecture, security, cognitive, spec-alignment) that
+review AI-generated code from distinct angles, produce a consolidated
+`.review.crc` verdict with per-file SHA-256 signatures, and manage fix
+cycles until all blocking findings are resolved. Enforces a 400 LOC
+batch-size gate (Nyquist bound from SmartBear/Cisco). The human E1 gate
+reviews FINDINGS, not raw diffs — 10-15 min instead of 2-4 hours.
+Inspired by Bryan Finster's "AI Broke Your Code Review" (2026).
+
+### Added
+- **SPEC-SE-021 Code Review Court** (`docs/propuestas/savia-enterprise/SPEC-SE-021-code-review-court.md`):
+  5 judges (correctness, architecture, security, cognitive, spec), `.review.crc`
+  artifact schema, scoring model `100-(C×25+H×10+M×3+L×1)`, batch-size
+  gate ≤400 LOC, max 3 fix rounds before escalation, 7 new agents
+  (court-orchestrator L4 + 5 judges L1 + fix-assigner L2), 6 commands
+  `/court-*`, 6 events, metrics dashboard (score trends, fix-round
+  distribution, E1 override rate), inclusive-review integration.
+
 ## [4.50.0] — 2026-04-12
 
 Savia Enterprise Project Prospect — Pipeline-as-Code (SE-015). Era 213.
@@ -6386,6 +6406,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.56.0...v4.57.0
 [4.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.49.0...v4.50.0
 [4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
