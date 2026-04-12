@@ -5,12 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.71.0] — 2026-04-12
 
+## [4.71.0] — 2026-04-12
 SE-028/029/030/031: Security and quality patterns inspired by Hermes Agent
 research. Era 231. Prompt injection guard, iterative context compression,
 skill self-improvement pipeline, and delegation depth enforcement.
-
 ### Added
 - **`.claude/hooks/prompt-injection-guard.sh`**: PreToolUse hook (security
   tier) scans context files for adversarial prompt injection before
@@ -28,7 +27,6 @@ skill self-improvement pipeline, and delegation depth enforcement.
   self-improvement, and delegation enforcement.
 - **3 test suites**: 41 tests total (18 injection, 12 compression,
   11 delegation).
-
 ## [4.70.0] — 2026-04-12
 
 SE-027 SLM Training Pipeline for inference sovereignty. Era 231.
@@ -6657,7 +6655,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
-[4.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.70.0...v4.71.0
+[4.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.71.0
 [4.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.69.0...v4.70.0
 [4.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.68.0...v4.69.0
 [4.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.67.0...v4.68.0
