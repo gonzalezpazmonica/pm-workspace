@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.54.0] — 2026-04-12
+
+Savia Enterprise Project Evaluation — Lessons-as-Code (SE-019). Era 217.
+Post-delivery evaluation with quality metrics (CMMI-aligned), NPS/CSAT,
+structured lessons learned as individual .md files with tags, and a
+knowledge-feeder agent that pushes sanitized lessons back to the SE-015
+proposal library. Closes the lifecycle loop: delivery → lessons → next bid.
+Blocked by SE-001/002/014/016/017. Blocks SE-020.
+
+### Added
+- **SPEC-SE-019 Project Evaluation** (`docs/propuestas/savia-enterprise/SPEC-SE-019-project-evaluation.md`):
+  evaluation.md with quality + NPS + budget frontmatter, lessons-learned/
+  as individual tagged .md files, cross-project pattern mining, knowledge
+  loop to SE-015 library, 4 agents (evaluation-compiler L1,
+  knowledge-feeder L2, closure-generator L2, cross-eval-analyst L1),
+  6 commands `/eval-*`, 4 events, air-gap capable. Spec proposal only.
+
 ## [4.49.0] — 2026-04-12
 
 Savia Enterprise Project Definition — SOW-as-Code (SE-017). Era 212.
@@ -6367,6 +6384,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.53.0...v4.54.0
 [4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
 [4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
