@@ -46,8 +46,9 @@ if command -v python3 >/dev/null 2>&1; then
 fi
 
 # Skip private destinations — BEFORE daemon call (N4/N4b never scanned)
+# Includes tenant paths (SE-002: tenants/ are N4-isolated per tenant)
 case "$NORM_PATH" in
-  */projects/*|projects/*|*.local.*|*/output/*|*private-agent-memory*|*/config.local/*|*/.savia/*|*/.claude/sessions/*|*settings.local.json*) exit 0 ;;
+  */projects/*|projects/*|*/tenants/*|tenants/*|*.local.*|*/output/*|*private-agent-memory*|*/config.local/*|*/.savia/*|*/.claude/sessions/*|*settings.local.json*) exit 0 ;;
 esac
 
 CONTENT=$(printf '%s' "$INPUT" | jq -r '(.tool_input.content // .tool_input.new_string // "")[:20000]' 2>/dev/null) || exit 0

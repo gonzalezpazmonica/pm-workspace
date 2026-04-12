@@ -1,6 +1,0 @@
-# Confidentiality audit signature — DO NOT EDIT
-diff_hash=4d65f6618e6aeb7850c58e4fc035473b1b6dc35ef0071092ae52ef5440a5058b
-timestamp=2026-04-12T16:28:44Z
-branch=feat/se-001-foundations-clean
-head_commit=3ed3d38
-signature=1053fc20873803c31d5756e2d9af780f3713d444d5599c2136b68ce454b46230
