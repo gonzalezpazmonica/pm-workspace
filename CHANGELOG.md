@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.59.0] — 2026-04-12
+
+Code Review Court critical findings fix. Era 222. First dogfood of the
+Court (4 judges ran on the 4 pipeline scripts) identified 4 critical bugs.
+All 4 fixed in this PR, demonstrating the Court's value on its first run.
+
+### Fixed
+- **COR-001 negative version**: `awk '$2-1'` produced `X.-1.0` on major
+  versions. Fix: git tag fallback + clamp minor ≥ 0.
+- **COR-002 HMAC bypass**: `do_verify` silently passed without HMAC when
+  secret file missing. Fix: explicit WARNING + "no cryptographic proof"
+  message on stderr. Verification still passes (diff-hash match) but the
+  audit trail now shows HMAC was skipped.
+- **COG-001/ARCH-003 g4 complexity**: 70-line monolith split into
+  `_resolve_changelog_conflict()` and `_resolve_signature_conflict()`.
+  g4 is now 20 lines. Header split uses dynamic `grep -n '^## \['`
+  instead of hardcoded `head -7` (fixes COR-003 magic number).
+- **F-001/COG-004 PII**: hardcoded GitHub handle replaced with
+  `git remote get-url origin` derivation. No personal data in source.
+
+### Changed
+- **`scripts/confidentiality-sign.sh`**: `::error::` GitHub Actions syntax
+  replaced with `echo "ERROR:"` for local execution compatibility (F-007).
+
 ## [4.57.0] — 2026-04-12
 
 Savia Enterprise Project Lifecycle batch: 5 specs (SE-016..021). Era 220.
@@ -6433,6 +6457,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.58.0...v4.59.0
 [4.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.56.0...v4.57.0
 [4.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.55.0...v4.56.0
 [4.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.49.0...v4.50.0

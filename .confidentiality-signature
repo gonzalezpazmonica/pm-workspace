@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=356542795f97609f9cf91b6c19a1990c54102749e502b9e587786453add1510e
-timestamp=2026-04-12T08:31:01Z
-branch=feat/savia-enterprise-batch
-head_commit=cdfebc2
-signature=63cbb48f2679e56c513ca20d864cb76486b2d27ed2b07c0a8f3c3faef4ae171b
+diff_hash=d7003319c034d612c646d1b9e4ef9a99de868911966d1b3a2de0d9eeb992d00a
+timestamp=2026-04-12T09:57:09Z
+branch=fix/court-findings-criticals
+head_commit=bfe4a6e
+signature=0183d397cfb46cd6f1b2645bb54696a12b015e8e40bab5e97365c7c2c0b0c180
