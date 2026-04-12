@@ -3,8 +3,8 @@ set -uo pipefail
 # path-redact.sh — Redact absolute paths containing $HOME from text
 #
 # Prevents PII leakage via filesystem paths in agent output, logs, and
-# persisted artifacts. Replaces /home/username/... with ~/ and strips
-# other identifying path prefixes.
+# persisted artifacts. Replaces $HOME paths with ~/ and strips other
+# identifying path prefixes.
 #
 # Learned from multica-ai/multica: they redact $HOME/username before
 # persisting agent results.
@@ -17,15 +17,16 @@ set -uo pipefail
 die() { echo "ERROR: $*" >&2; exit 2; }
 
 # Build redaction patterns from environment
-HOME_DIR="${HOME:-/home/unknown}"
+HOME_DIR="${HOME:-}"
+[[ -z "$HOME_DIR" ]] && HOME_DIR=$(eval echo "~") || true
 USERNAME=$(basename "$HOME_DIR")
-# Patterns to redact (most specific first)
+# Patterns to redact (most specific first, built from env vars only)
 PATTERNS=(
-  "$HOME_DIR"                          # /home/monica → ~
-  "/home/$USERNAME"                    # explicit /home/user
-  "/Users/$USERNAME"                   # macOS
-  "C:\\\\Users\\\\$USERNAME"           # Windows (escaped backslash)
-  "C:/Users/$USERNAME"                 # Windows (forward slash)
+  "$HOME_DIR"
+  "$(dirname "$HOME_DIR")/$USERNAME"
+  "/Users/$USERNAME"
+  "C:\\\\Users\\\\$USERNAME"
+  "C:/Users/$USERNAME"
 )
 
 redact_text() {
