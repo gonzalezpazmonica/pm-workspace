@@ -1,0 +1,6 @@
+# Confidentiality audit signature — DO NOT EDIT
+diff_hash=b3babbb47ab996e9896d1ff605c715ec26d41d1461e04cafe3d01591fddaf18e
+timestamp=2026-04-12T06:26:43Z
+branch=feat/savia-enterprise-project-billing
+head_commit=e17f624
+signature=0bdb4e496bac4afc34a4dc7f906927160e5af1eb1d88b602174a686c0dd2a309
