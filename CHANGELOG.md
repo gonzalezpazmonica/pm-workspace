@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.69.0] — 2026-04-12
+
+SE-006 Governance & Compliance Pack. Era 230. Append-only chain-hashed
+audit trail for regulated clients (AI Act, DORA, NIS2, GDPR, CRA,
+ISO 42001). Tamper-evident JSONL with SHA-256 chain verification and
+markdown export.
+
+### Added
+- **`scripts/governance-audit-log.sh`**: append-only audit trail with
+  chain hash (sha256). Subcommands: append, verify, export (md/json).
+  Each entry links to previous via prev_hash for tamper detection.
+- **`.claude/enterprise/rules/governance-compliance.md`**: rule
+  documenting 6 compliance frameworks, audit requirements, and
+  retention policies for enterprise tenants.
+- **`tests/test-governance-audit-log.bats`**: 15 tests covering
+  append, chain integrity, tamper detection, export, and edge cases.
+
 ## [4.68.0] — 2026-04-12
 
 SE-005 Sovereign Deployment implementation. Era 229. Network egress guard
@@ -6594,6 +6611,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.68.0...v4.69.0
 [4.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.67.0...v4.68.0
 [4.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.66.0...v4.67.0
 [4.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.65.0...v4.66.0
