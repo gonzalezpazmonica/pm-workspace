@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=34667bcdec494319d92e448e21ab620b6bc07cd7da6e88d0f6a87bb2c89739c6
-timestamp=2026-04-12T18:12:35Z
-branch=feat/se-005-sovereign-deployment
-head_commit=d02c5ae
-signature=45ca10e5da5a56223c9f9f2aada876102fb948ae8baa6529e14e3bb978e87d13
+diff_hash=e339ebd1a14b8eb5aaecfd80d8bf9818c3e418d3149bc0668bf7023291c1a452
+timestamp=2026-04-12T18:56:40Z
+branch=feat/se-006-governance
+head_commit=102f005
+signature=1ba2273b82bfed8ce838356d94fc66ab662c64f834df89ca1ea216bf11154050
