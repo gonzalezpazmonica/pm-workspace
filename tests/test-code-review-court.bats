@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
 # BATS tests for SE-021 Code Review Court
 # SPEC: docs/propuestas/savia-enterprise/SPEC-SE-021-code-review-court.md
+# SCRIPT: scripts/court-review.sh
 # Ref: .claude/rules/domain/code-review-court.md
 # Quality gate: SPEC-055 (audit score ≥80)
 # Safety: tests use BATS run/status guards; target script has set -uo pipefail
@@ -159,10 +160,20 @@ setup() {
   [[ "$output" =~ ^[a-f0-9]{64}$ ]]
 }
 
-@test "hash fails gracefully for missing file" {
+@test "hash fails for nonexistent file" {
   run bash "$SCRIPT" hash /nonexistent/file.txt
   [[ "$status" -ne 0 ]]
   [[ "$output" == *"ERROR"* ]]
+}
+
+@test "score boundary: overflow clamped at zero" {
+  run bash "$SCRIPT" score 5 5 5 5
+  [[ "$output" == *"score=0"* ]]
+}
+
+@test "empty subcommand shows usage" {
+  run bash "$SCRIPT"
+  [[ "$output" == *"Usage"* ]]
 }
 
 ## Skeleton tests
