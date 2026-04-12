@@ -2,5 +2,5 @@
 diff_hash=1c9f053a4546ee6100b6004d0cebd15e560e7193fcb57bc286ab988e34e06a54
 timestamp=2026-04-12T07:26:54Z
 branch=fix/pr-plan-changelog-reconstruct
-head_commit=03d7093
+head_commit=dcc54ff
 signature=f15c2aaeecfe7d0e654c58b8d5c0e19c1697908e2d2a164ff76cf74767f8bbdf
