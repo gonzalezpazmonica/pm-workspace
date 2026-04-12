@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [4.65.0] — 2026-04-12
+SE-001 Foundations + PAT-strip security fix. Era 225.
+### Added
+- **`.claude/enterprise/extension-points.md`**: 6 formal extension points
+  documented in the canonical Enterprise directory.
+- **`.claude/enterprise/manifest.json`**: 8 new module entries
+  (SE-014..026), 16 total, all disabled by default.
+### Fixed
+- **`scripts/pr-plan-gates.sh`**: G4 CHANGELOG reconstruction now strips
+  credentials from `git remote get-url origin` output. Prevents PAT
+  leakage into compare links when remote URL has embedded token. Adds
+  `s|https://[^@]*@|https://|` to the sed chain.
 ## [4.64.0] — 2026-04-12
 
 SE-002 Multi-Tenant & RBAC completion. Era 226. Savia Shield now treats
@@ -6535,6 +6548,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.65.0
 [4.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.63.0...v4.64.0
 [4.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.61.0...v4.62.0
 [4.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.60.0...v4.61.0

@@ -71,7 +71,8 @@ _resolve_changelog_conflict() {
     prev=$(git tag --sort=-v:refname 2>/dev/null | grep -E '^v[0-9]' | head -2 | tail -1 | sed 's/^v//') || true
     [[ -z "$prev" ]] && prev=$(echo "$lv" | awk -F. '{ m=$2-1; if(m<0){m=0}; printf "%d.%d.0", $1, m }')
     local repo_url
-    repo_url=$(git remote get-url origin 2>/dev/null | sed 's/\.git$//; s|git@github.com:|https://github.com/|') || repo_url=""
+    repo_url=$(git remote get-url origin 2>/dev/null \
+      | sed 's/\.git$//; s|git@github.com:|https://github.com/|; s|https://[^@]*@|https://|') || repo_url=""
     if [[ -n "$repo_url" ]]; then
       local link="[$lv]: $repo_url/compare/v$prev...v$lv"
       local link_line; link_line=$(grep -n "^\[$mv\]:" /tmp/_cl_new.md | head -1 | cut -d: -f1) || true

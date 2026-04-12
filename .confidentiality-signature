@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9892a4a6488b1fface1d80ad2df7868280d87dfaa2a6b4980c2a88c94976c310
-timestamp=2026-04-12T15:57:30Z
-branch=feat/se-002-multi-tenant
-head_commit=1591f49
-signature=84f4305693e213047dee5b28a321e0457ec810482b6e1ee82608f8c46d31fc3b
+diff_hash=dc897c01a12108194c99129d6a1d99e7b1f9c87ac0e75328f9bd8a1c8cfa2282
+timestamp=2026-04-12T16:45:25Z
+branch=feat/se-001-foundations-clean
+head_commit=e84f808
+signature=42191dae928ac898f6898e2688db0fd43ea74320a168d5c4cdfa032e99ebf71b

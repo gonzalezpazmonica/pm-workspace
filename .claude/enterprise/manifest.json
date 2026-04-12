@@ -42,6 +42,46 @@
       "enabled": false,
       "spec": "SE-010",
       "description": "Reversible enable/disable with feature flags"
+    },
+    "release-orchestration": {
+      "enabled": false,
+      "spec": "SE-014",
+      "description": "Release-as-Code with compliance profiles and rollback"
+    },
+    "project-lifecycle": {
+      "enabled": false,
+      "spec": "SE-015..020",
+      "description": "Prospect, valuation, definition, billing, evaluation, cross-project"
+    },
+    "code-review-court": {
+      "enabled": false,
+      "spec": "SE-021",
+      "description": "5-judge code review tribunal with .review.crc"
+    },
+    "resource-bench": {
+      "enabled": false,
+      "spec": "SE-022",
+      "description": "Resource and bench management with skills matching"
+    },
+    "knowledge-federation": {
+      "enabled": false,
+      "spec": "SE-023",
+      "description": "Cross-project knowledge mining with N4 anonymization"
+    },
+    "client-health": {
+      "enabled": false,
+      "spec": "SE-024",
+      "description": "Client health scoring and churn prediction"
+    },
+    "workforce-analytics": {
+      "enabled": false,
+      "spec": "SE-025",
+      "description": "Human vs agent productivity and AI transparency"
+    },
+    "compliance-evidence": {
+      "enabled": false,
+      "spec": "SE-026",
+      "description": "Automated audit trail for ISO 9001, DORA, AI Act"
     }
   }
 }
