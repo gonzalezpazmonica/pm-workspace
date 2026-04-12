@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4fd75940f8ffb734b124128b865e6a7552e2d9174436f5108302b136e1c4ea49
-timestamp=2026-04-12T17:26:17Z
-branch=feat/se-010-migration-path
-head_commit=ee944a5
-signature=22445ff3168a44f118c898eb0976f7d4900dfe12efa116da65e498ca3f0e9566
+diff_hash=c50b6508b0ed2e66995294d39e9f42656fe84bacf013f02e3cf49bb3fb1a7d5b
+timestamp=2026-04-12T17:46:42Z
+branch=feat/se-011-docs-restructuring
+head_commit=fb05267
+signature=3dd7b7afbcc730459e9a53dd9342761b5a9eb89e0ce952c73abe48c57341fe6f

@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.67.0] — 2026-04-12
+
+SE-011 Docs Restructuring — Slice 1. Era 228. New docs taxonomy, getting
+started guides (community + enterprise), enterprise overview with module
+map and dependency graph, GitHub metadata sync script.
+
+### Added
+- **`docs/getting-started/community.md`**: first-session guide for Core.
+- **`docs/getting-started/enterprise.md`**: module activation guide.
+- **`docs/enterprise/overview.md`**: what Enterprise is and is not, module
+  map with implementation status across 4 waves (26 specs), dependency graph.
+- **`scripts/sync-github-metadata.sh`**: idempotent script to update repo
+  description, topics, and homepage via `gh` CLI.
+- New taxonomy directories: `docs/{getting-started,core,enterprise,adapters,operations,reference,i18n}/`.
+
 ## [4.66.0] — 2026-04-12
 
 SE-010 Migration Path implementation. Era 227. Enterprise module lifecycle
@@ -6562,6 +6577,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.66.0...v4.67.0
 [4.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.65.0...v4.66.0
 [4.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.65.0
 [4.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.63.0...v4.64.0
