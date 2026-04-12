@@ -24,6 +24,52 @@ SE-019 (evaluation) and SE-020 (portfolio billing). Spec proposal only.
   wip.stale_alert), consumes release.completed (SE-014) and sow.amended
   (SE-017), air-gap capable.
 
+## [4.56.0] — 2026-04-12
+
+pr-plan G4 CHANGELOG reconstruction (replaces marker-stripping). Era 219.
+When a branch is behind origin/main and CHANGELOG.md conflicts, G4 now
+reconstructs the file from scratch: takes `origin/main:CHANGELOG.md` as
+base, extracts this branch's new entry, and inserts it at the correct
+position — above main's top version. This is deterministic and correct
+regardless of how many PRs have merged since the branch was created.
+The previous approach (sed-stripping conflict markers) could produce
+malformed output when conflict structure was complex. The reconstruction
+approach treats main's CHANGELOG as the authoritative base and simply
+prepends the branch's contribution.
+
+### Changed
+- **`scripts/pr-plan-gates.sh`** (g4): full rewrite. On CHANGELOG
+  conflict, extracts branch's new entry between header and main's top
+  version, takes main's CHANGELOG as base, inserts entry at line 8,
+  adds compare link at the correct position. Fallback to marker-strip
+  if extraction fails. `.confidentiality-signature` auto-removed.
+  Non-CHANGELOG conflicts still fail for human resolution.
+- **`scripts/changelog-assemble.sh`** (new): fragment-based assembly
+  script for future use. Reads `CHANGELOG.d/*.md` fragments and
+  concatenates into CHANGELOG.md. Currently optional; will become the
+  primary path when fragment workflow is adopted.
+- **`CHANGELOG.d/.gitkeep`** (new): directory for future per-version
+  fragments.
+
+## [4.50.0] — 2026-04-12
+
+Savia Enterprise Project Prospect — Pipeline-as-Code (SE-015). Era 213.
+A sovereign, agent-queryable opportunity pipeline where pursuits live as
+`.md` files with BANT/MEDDIC qualification scoring, bid/no-bid decision
+audit trails, proposal knowledge reuse from a local library, and a
+canonical sales→delivery handoff package. Blocked by SE-001, SE-002.
+Blocks SE-016 (valuation), SE-017 (SOW init on win), SE-018 (billing),
+SE-019 (evaluation), SE-020 (resource demand forecast from pipeline).
+
+### Added
+- **SPEC-SE-015 Project Prospect** (`docs/propuestas/savia-enterprise/SPEC-SE-015-project-prospect.md`):
+  pursuit.md frontmatter schema, BANT+MEDDIC qualification.yaml, bid/no-bid
+  decision record, proposal library (capabilities, case-studies, team-bios,
+  templates), handoff.md for sales→delivery bridge, 4 agents
+  (prospect-qualifier L1, proposal-drafter L2, handoff-generator L2,
+  win-loss-analyst L1), 7 commands `/pursuit-*` + `/pipeline-view`,
+  5 lifecycle events (qualified, bid_decided, won, lost, handoff_completed),
+  air-gap capable with Ollama. Spec proposal only.
 ## [4.49.0] — 2026-04-12
 
 Savia Enterprise Project Definition — SOW-as-Code (SE-017). Era 212.
@@ -6387,6 +6433,8 @@ Initial public release of PM-Workspace.
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
 [4.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.51.0...v4.52.0
+[4.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.55.0...v4.56.0
+[4.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.49.0...v4.50.0
 [4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
 [4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
