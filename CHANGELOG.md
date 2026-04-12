@@ -22,6 +22,26 @@ SE-001, SE-002, SE-015. Blocks SE-018, SE-019, SE-020.
   4 agents (valuation-recomputer L1, benefit-reviewer L1,
   portfolio-scorer L1, valuation-sentinel L1), 5 commands `/case-*`
   + `/portfolio-view`, 4 events, air-gap capable. Spec proposal only.
+## [4.49.0] — 2026-04-12
+
+Savia Enterprise Project Definition — SOW-as-Code (SE-017). Era 212.
+A machine-readable, agent-queryable, contract-grade Statement of Work
+stored as `.md` inside the tenant's pm-workspace, with testable
+acceptance criteria, YAML RACI matrix, deliverables ledger linked to
+the backlog, and a structured change-request mechanism that produces
+auditable amendments. Delivery work not traceable to a SOW deliverable
+is refused by the workspace. Blocked by SE-001, SE-002, SE-010. Blocks
+SE-018 (billing amounts derive from SOW contract value) and SE-019
+(evaluation baseline is SOW deliverables vs actually-shipped).
+
+### Added
+- **SPEC-SE-017 Project Definition** (`docs/propuestas/savia-enterprise/SPEC-SE-017-project-definition.md`):
+  canonical SOW.md frontmatter schema, 4 new agents (sow-writer L2,
+  cr-drafter L2, raci-validator L1, acceptance-linker L1), commands
+  `/sow-init` `/sow-validate` `/sow-cr-draft` `/sow-amend` `/sow-query`,
+  `sow.amended` event emitted on amendment signing for SE-018/SE-019
+  consumers, `sow-trace-validate.sh` hook blocks orphan PBIs, JSON
+  Schema + 20+ BATS tests target, air-gap capable. Spec proposal only.
 
 ## [4.48.0] — 2026-04-12
 
@@ -6365,6 +6385,7 @@ Initial public release of PM-Workspace.
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
 [4.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.50.0...v4.51.0
+[4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
 [4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
 [4.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.45.0...v4.46.0
