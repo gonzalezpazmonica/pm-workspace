@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.61.0] — 2026-04-12
+
+4 tactical patterns adopted from multica-ai research. Era 223. Path
+redaction, agent result schema, concurrent executor, skills lock.
+
+### Added
+- **`scripts/path-redact.sh`**: redacts `$HOME/username` from text before
+  persisting. Stdin, file, and check modes. Prevents PII leakage via
+  filesystem paths in agent output and logs.
+- **`.claude/schemas/agent-result.schema.json`**: structured result from
+  any agent execution — duration, token counts (input/output/cache),
+  model, tool calls, verdict, session ID. Enables accurate `/agent-cost`.
+- **`scripts/lib/concurrent-executor.sh`**: semaphore-bounded parallel
+  task execution with graceful 30s drain on shutdown. Sourceable library
+  for overnight-sprint and dag-execute.
+- **`scripts/skills-lock.sh`**: SHA-256 integrity verification for all
+  skills and agents. Generate, verify, diff modes. Critical for
+  enterprise distribution (SE-008).
+- **`tests/test-multica-patterns.bats`**: BATS test suite, SPEC-055 certified.
 
 ## [4.60.0] — 2026-04-12
 Code Review Court implementation (SE-021). Era 221. A panel of 5
@@ -6477,6 +6496,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.60.0...v4.61.0
 [4.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.59.0...v4.60.0
 [4.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.58.0...v4.59.0
 [4.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.56.0...v4.57.0
