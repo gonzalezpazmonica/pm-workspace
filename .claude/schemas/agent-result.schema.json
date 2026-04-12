@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agent Execution Result",
+  "description": "Structured result from any agent execution, inspired by multica Result struct. Enables accurate /agent-cost tracking.",
+  "type": "object",
+  "required": ["agent", "status", "started_at", "finished_at", "duration_ms"],
+  "properties": {
+    "agent": {
+      "type": "string",
+      "description": "Agent name (e.g., dotnet-developer, correctness-judge)"
+    },
+    "task_ref": {
+      "type": ["string", "null"],
+      "description": "Task or spec reference (e.g., AB#1234, SPEC-SE-021)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["completed", "failed", "timeout", "aborted", "escalated"]
+    },
+    "started_at": { "type": "string", "format": "date-time" },
+    "finished_at": { "type": "string", "format": "date-time" },
+    "duration_ms": { "type": "integer", "minimum": 0 },
+    "tokens": {
+      "type": "object",
+      "properties": {
+        "input": { "type": "integer", "minimum": 0 },
+        "output": { "type": "integer", "minimum": 0 },
+        "cache_read": { "type": "integer", "minimum": 0 },
+        "cache_write": { "type": "integer", "minimum": 0 },
+        "total": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "model": {
+      "type": "string",
+      "description": "Model used (e.g., claude-opus-4-6, claude-sonnet-4-6)"
+    },
+    "tool_calls": { "type": "integer", "minimum": 0 },
+    "files_modified": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "verdict": {
+      "type": ["string", "null"],
+      "description": "Agent's verdict if applicable (pass/fail/conditional)"
+    },
+    "error": {
+      "type": ["string", "null"],
+      "description": "Error message if status is failed/timeout/aborted"
+    },
+    "session_id": {
+      "type": ["string", "null"],
+      "description": "Claude Code session ID for traceability"
+    }
+  }
+}
