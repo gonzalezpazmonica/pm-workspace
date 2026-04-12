@@ -5,23 +5,6 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.51.0] — 2026-04-12
-
-Savia Enterprise Project Valuation — Business-Case-as-Code (SE-016).
-Era 214. A living, agent-maintained business case per engagement that
-stays linked to delivery actuals, automatically flags assumption drift,
-tracks benefit realization at 90/180/365 days post-delivery, and feeds
-a portfolio dashboard for investment committee rebalancing. Blocked by
-SE-001, SE-002, SE-015. Blocks SE-018, SE-019, SE-020.
-
-### Added
-- **SPEC-SE-016 Project Valuation** (`docs/propuestas/savia-enterprise/SPEC-SE-016-project-valuation.md`):
-  business-case.md with NPV/IRR/risk-NPV frontmatter, assumptions.yaml
-  traceability, quantified risk register, benefit realization reviews
-  (90/180/365d), portfolio scorer, kill recommendation sentinel,
-  4 agents (valuation-recomputer L1, benefit-reviewer L1,
-  portfolio-scorer L1, valuation-sentinel L1), 5 commands `/case-*`
-  + `/portfolio-view`, 4 events, air-gap capable. Spec proposal only.
 ## [4.56.0] — 2026-04-12
 
 pr-plan G4 CHANGELOG reconstruction (replaces marker-stripping). Era 219.
@@ -48,6 +31,24 @@ prepends the branch's contribution.
   primary path when fragment workflow is adopted.
 - **`CHANGELOG.d/.gitkeep`** (new): directory for future per-version
   fragments.
+
+## [4.51.0] — 2026-04-12
+
+Savia Enterprise Project Valuation — Business-Case-as-Code (SE-016).
+Era 214. A living, agent-maintained business case per engagement that
+stays linked to delivery actuals, automatically flags assumption drift,
+tracks benefit realization at 90/180/365 days post-delivery, and feeds
+a portfolio dashboard for investment committee rebalancing. Blocked by
+SE-001, SE-002, SE-015. Blocks SE-018, SE-019, SE-020.
+
+### Added
+- **SPEC-SE-016 Project Valuation** (`docs/propuestas/savia-enterprise/SPEC-SE-016-project-valuation.md`):
+  business-case.md with NPV/IRR/risk-NPV frontmatter, assumptions.yaml
+  traceability, quantified risk register, benefit realization reviews
+  (90/180/365d), portfolio scorer, kill recommendation sentinel,
+  4 agents (valuation-recomputer L1, benefit-reviewer L1,
+  portfolio-scorer L1, valuation-sentinel L1), 5 commands `/case-*`
+  + `/portfolio-view`, 4 events, air-gap capable. Spec proposal only.
 
 ## [4.50.0] — 2026-04-12
 
@@ -6430,8 +6431,8 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
-[4.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.50.0...v4.51.0
 [4.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.55.0...v4.56.0
+[4.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.50.0...v4.51.0
 [4.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.49.0...v4.50.0
 [4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
