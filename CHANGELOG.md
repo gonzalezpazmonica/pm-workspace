@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [4.60.0] — 2026-04-12
+Code Review Court implementation (SE-021). Era 221. A panel of 5
+specialized agent-judges that review AI-generated code from distinct
+angles, enforcing a 400 LOC batch-size gate (Nyquist bound). Human E1
+reviews findings, not raw diffs. Score formula: `100-(C×25+H×10+M×3+L×1)`.
+### Added
+- **`.claude/rules/domain/code-review-court.md`** (86 lines): rule
+  documenting the 5 judges, scoring model, flow, batch gate, fix cycle.
+- **`.claude/schemas/review-crc.schema.json`**: JSON Schema for the
+  `.review.crc` artifact (judges, findings, per-file SHA-256, rounds).
+- **7 new agents**: `court-orchestrator` (L4), `correctness-judge` (L1),
+  `architecture-judge` (L1), `security-judge` (L1), `cognitive-judge` (L1),
+  `spec-judge` (L1), `fix-assigner` (L2). All with `token_budget`.
+- **`scripts/court-review.sh`**: orchestration helper — `check` (batch
+  gate), `skeleton` (`.review.crc` template), `score` (formula), `hash`
+  (per-file SHA-256).
+- **`/court-review` command**: convenes the Court on current branch diff.
+- **`tests/test-code-review-court.bats`**: 37 tests — structural, agents,
+  rule, scoring, hash, skeleton, integration invariants.
 ## [4.59.0] — 2026-04-12
 
 Code Review Court critical findings fix. Era 222. First dogfood of the
@@ -6457,6 +6477,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.59.0...v4.60.0
 [4.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.58.0...v4.59.0
 [4.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.56.0...v4.57.0
 [4.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.55.0...v4.56.0

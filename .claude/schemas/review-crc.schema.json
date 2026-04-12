@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Code Review Court Verdict (.review.crc)",
+  "description": "Consolidated verdict from the Code Review Court's 5 judges",
+  "type": "object",
+  "required": [
+    "review_id", "pr_ref", "branch", "reviewed_at", "review_round",
+    "judges", "consolidated", "files", "signature"
+  ],
+  "properties": {
+    "review_id": {
+      "type": "string",
+      "pattern": "^CRC-[0-9]{4}-[0-9]{4}-[0-9]{3}$"
+    },
+    "pr_ref": { "type": "string" },
+    "branch": { "type": "string" },
+    "spec_ref": { "type": ["string", "null"] },
+    "reviewed_at": { "type": "string", "format": "date-time" },
+    "review_round": { "type": "integer", "minimum": 1, "maximum": 4 },
+    "batch_size": {
+      "type": "object",
+      "properties": {
+        "total_loc": { "type": "integer" },
+        "max_loc": { "type": "integer", "default": 400 },
+        "status": { "type": "string", "enum": ["pass", "fail"] }
+      },
+      "required": ["total_loc", "max_loc", "status"]
+    },
+    "judges": {
+      "type": "object",
+      "properties": {
+        "correctness": { "$ref": "#/$defs/judgeVerdict" },
+        "architecture": { "$ref": "#/$defs/judgeVerdict" },
+        "security": { "$ref": "#/$defs/judgeVerdict" },
+        "cognitive": { "$ref": "#/$defs/judgeVerdict" },
+        "spec": { "$ref": "#/$defs/judgeVerdict" }
+      },
+      "required": ["correctness", "architecture", "security", "cognitive", "spec"]
+    },
+    "consolidated": {
+      "type": "object",
+      "properties": {
+        "verdict": { "type": "string", "enum": ["pass", "conditional", "fail"] },
+        "total_findings": { "type": "integer" },
+        "blocking": { "type": "integer" },
+        "advisory": { "type": "integer" },
+        "score": { "type": "integer", "minimum": 0, "maximum": 100 }
+      },
+      "required": ["verdict", "total_findings", "blocking", "advisory", "score"]
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "findings": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string", "enum": ["clean", "needs-fix", "fixed"] }
+        },
+        "required": ["path", "sha256", "findings", "status"]
+      }
+    },
+    "rounds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "round": { "type": "integer" },
+          "verdict": { "type": "string" },
+          "findings": { "type": "integer" },
+          "fixed": { "type": "integer" }
+        },
+        "required": ["round", "verdict", "findings"]
+      }
+    },
+    "signature": {
+      "type": "object",
+      "properties": {
+        "hash": { "type": "string" },
+        "reviewed_by": { "type": "string" }
+      },
+      "required": ["hash", "reviewed_by"]
+    }
+  },
+  "$defs": {
+    "judgeVerdict": {
+      "type": "object",
+      "properties": {
+        "verdict": { "type": "string", "enum": ["pass", "conditional", "fail"] },
+        "findings_count": { "type": "integer" },
+        "findings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/finding" }
+        }
+      },
+      "required": ["verdict", "findings_count"]
+    },
+    "finding": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Z]+-[0-9]{3}$" },
+        "file": { "type": "string" },
+        "line": { "type": ["integer", "null"] },
+        "severity": { "type": "string", "enum": ["critical", "high", "medium", "low", "info"] },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "suggestion": { "type": "string" },
+        "auto_fixable": { "type": "boolean" }
+      },
+      "required": ["id", "file", "severity", "category", "description"]
+    }
+  }
+}
