@@ -68,7 +68,7 @@ Soy la buhita que vive dentro de pm-workspace. Me adapto a tu rol, tu idioma y t
 
 ## Lo que hay dentro
 
-**512 comandos · 49 agentes · 91 skills · 50 hooks · 16 lenguajes · 160 test suites**
+**513 comandos · 56 agentes · 91 skills · 55 hooks · 16 lenguajes · 160 test suites**
 
 ### Gestión de proyectos
 Sprints, burndown, capacity, dailies, retros, KPIs. Informes en Excel y PowerPoint. Predicción con Monte Carlo. Facturación y costes.
@@ -76,8 +76,8 @@ Sprints, burndown, capacity, dailies, retros, KPIs. Informes en Excel y PowerPoi
 ### Desarrollo con specs ejecutables (SDD)
 Las tasks se convierten en specs. Los agentes implementan en 16 lenguajes (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) en worktrees aislados. Code review automático + revisión humana obligatoria.
 
-### Seguridad
-SAST contra OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dinámico, SBOM, compliance en 12 sectores. Savia Shield: clasificación local de datos con LLM on-premise, masking reversible, firma criptográfica de PRs.
+### Seguridad y Code Review Court
+SAST contra OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dinámico, SBOM, compliance en 12 sectores. Savia Shield: clasificación local de datos con LLM on-premise, masking reversible, firma criptográfica de PRs. **Code Review Court**: 5 jueces especializados (correctness, architecture, security, cognitive, spec) revisan en paralelo con scoring 0-100 y gate de 400 LOC.
 
 ### Soberanía de inferencia
 Savia corre por defecto contra la API de Anthropic (calidad máxima). Si la nube falla — cable caído, outage, cuota agotada, latencia inaceptable — hay dos opciones de continuidad, ambas sobre Ollama local con variantes de Gemma 4 seleccionadas según tu hardware:
@@ -115,10 +115,10 @@ Sprint nocturno, mejora de código, investigación técnica. Los agentes propone
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 512 comandos
-│   ├── agents/         ← 49 agentes especializados
+│   ├── commands/       ← 513 comandos
+│   ├── agents/         ← 56 agentes especializados
 │   ├── skills/         ← 91 skills de dominio
-│   ├── hooks/          ← 50 hooks deterministas
+│   ├── hooks/          ← 55 hooks deterministas
 │   └── rules/          ← reglas de contexto y lenguaje
 ├── docs/               ← guías por rol, escenario, sector
 ├── projects/           ← proyectos (git-ignorados por privacidad)

@@ -68,7 +68,7 @@ Je suis la petite chouette qui vit dans pm-workspace. Je m'adapte a votre role, 
 
 ## Ce qu'il y a dedans
 
-**512 commandes · 49 agents · 91 skills · 50 hooks · 16 langages · 160 suites de tests**
+**513 commandes · 56 agents · 91 skills · 55 hooks · 16 langages · 160 suites de tests**
 
 ### Gestion de projets
 Sprints, burndown, capacite, dailies, retros, KPIs. Rapports en Excel et PowerPoint. Prediction par Monte Carlo. Facturation et couts.
@@ -76,8 +76,8 @@ Sprints, burndown, capacite, dailies, retros, KPIs. Rapports en Excel et PowerPo
 ### Developpement avec specs executables (SDD)
 Les taches deviennent des specs. Les agents implementent en 16 langages (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) dans des worktrees isoles. Code review automatique + revue humaine obligatoire.
 
-### Securite
-SAST contre OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dynamique, SBOM, conformite dans 12 secteurs. Savia Shield : classification locale des donnees avec LLM on-premise, masquage reversible, signature cryptographique des PRs.
+### Securite et Code Review Court
+SAST contre OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dynamique, SBOM, conformite dans 12 secteurs. Savia Shield : classification locale des donnees avec LLM on-premise, masquage reversible, signature cryptographique des PRs. **Code Review Court** : 5 juges specialises (correctness, architecture, security, cognitive, spec) examinent en parallele avec un scoring 0-100 et un seuil de 400 LOC.
 
 ### Souverainete d'inference
 Savia fonctionne par defaut contre l'API Anthropic (qualite maximale). Si le cloud echoue — cable coupe, outage, quota epuise, latence inacceptable — il existe deux options de continuite, toutes deux basees sur Ollama local avec des variantes de Gemma 4 selectionnees selon ton materiel :
@@ -115,10 +115,10 @@ Sprint nocturne, amelioration du code, recherche technique. Les agents proposent
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 512 commandes
-│   ├── agents/         ← 49 agents specialises
+│   ├── commands/       ← 513 commandes
+│   ├── agents/         ← 56 agents specialises
 │   ├── skills/         ← 91 skills de domaine
-│   ├── hooks/          ← 50 hooks deterministes
+│   ├── hooks/          ← 55 hooks deterministes
 │   └── rules/          ← regles de contexte et de langage
 ├── docs/               ← guides par role, scenario, secteur
 ├── projects/           ← projets (git-ignores pour la confidentialite)

@@ -68,7 +68,7 @@ pm-workspace barruan bizi den hontzatxoa naiz. Zure rolera, zure hizkuntzara eta
 
 ## Zer dago barruan
 
-**512 komando · 49 agente · 91 skill · 50 hook · 16 hizkuntza · 160 test suite**
+**513 komando · 56 agente · 91 skill · 55 hook · 16 hizkuntza · 160 test suite**
 
 ### Proiektuen kudeaketa
 Sprint-ak, burndown-a, ahalmena, dailyak, retroak, KPIak. Txostenak Excel eta PowerPoint formatuan. Monte Carlo bidezko iragarpena. Fakturazioa eta kostuak.
@@ -76,8 +76,8 @@ Sprint-ak, burndown-a, ahalmena, dailyak, retroak, KPIak. Txostenak Excel eta Po
 ### Spec-Driven Development (SDD)
 Zereginak spec bihurtzen dira. Agenteek 16 hizkuntzatan inplementatzen dute (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) worktree isolatuetan. Code review automatikoa + giza berrikusketa derrigorrezkoa.
 
-### Segurtasuna
-SAST OWASP Top 10-aren aurka, Red/Blue/Auditor pipeline-a, pentesting dinamikoa, SBOM, compliance 12 sektoretan. Savia Shield: datuen sailkapen lokala on-premise LLM-arekin, maskaratze itzulgarria, PR-en sinadura kriptografikoa.
+### Segurtasuna eta Code Review Court
+SAST OWASP Top 10-aren aurka, Red/Blue/Auditor pipeline-a, pentesting dinamikoa, SBOM, compliance 12 sektoretan. Savia Shield: datuen sailkapen lokala on-premise LLM-arekin, maskaratze itzulgarria, PR-en sinadura kriptografikoa. **Code Review Court**: 5 epaile espezializatu (correctness, architecture, security, cognitive, spec) paraleloan berrikusten dute, 0-100 puntuazioarekin eta 400 LOC gatera.
 
 ### Inferentzia subiranotasuna
 Savia lehenespenez Anthropic-en API-aren aurka exekutatzen da (kalitate maximoa). Hodeia huts egiten duenean — kablea eroria, outage-a, kuota agortua, latentzia onartezina — bi jarraitutasun aukera daude, biak tokiko Ollama-ren gainean Gemma 4-ren aldaerekin, hardwarearen arabera hautatuak:
@@ -115,10 +115,10 @@ Gaueko sprint-a, kodearen hobekuntza, ikerketa teknikoa. Agenteek `agent/*` adar
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 512 komando
-│   ├── agents/         ← 49 agente espezializatu
+│   ├── commands/       ← 513 komando
+│   ├── agents/         ← 56 agente espezializatu
 │   ├── skills/         ← 91 domeinu skill
-│   ├── hooks/          ← 50 hook deterministiko
+│   ├── hooks/          ← 55 hook deterministiko
 │   └── rules/          ← testuinguru eta hizkuntza arauak
 ├── docs/               ← gidak rolaren, eszenarioaren, sektorearen arabera
 ├── projects/           ← proiektuak (git-ignoratuak pribatutasunagatik)

@@ -68,7 +68,7 @@ I'm the little owl that lives inside pm-workspace. I adapt to your role, your la
 
 ## What's inside
 
-**512 commands · 49 agents · 91 skills · 50 hooks · 16 languages · 160 test suites**
+**513 commands · 56 agents · 91 skills · 55 hooks · 16 languages · 160 test suites**
 
 ### Project management
 Sprints, burndown, capacity, dailies, retros, KPIs. Reports in Excel and PowerPoint. Monte Carlo prediction. Billing and costs.
@@ -76,8 +76,8 @@ Sprints, burndown, capacity, dailies, retros, KPIs. Reports in Excel and PowerPo
 ### Spec-Driven Development (SDD)
 Tasks become specs. Agents implement in 16 languages (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) in isolated worktrees. Automated code review + mandatory human review.
 
-### Security
-SAST against OWASP Top 10, Red/Blue/Auditor pipeline, dynamic pentesting, SBOM, compliance across 12 sectors. Savia Shield: local data classification with on-premise LLM, reversible masking, cryptographic PR signing.
+### Security and Code Review Court
+SAST against OWASP Top 10, Red/Blue/Auditor pipeline, dynamic pentesting, SBOM, compliance across 12 sectors. Savia Shield: local data classification with on-premise LLM, reversible masking, cryptographic PR signing. **Code Review Court**: 5 specialized judges (correctness, architecture, security, cognitive, spec) review in parallel with 0-100 scoring and a 400 LOC batch-size gate.
 
 ### Inference sovereignty
 Savia runs against the Anthropic API by default (maximum quality). When the cloud fails — cable down, outage, quota exhausted, unacceptable latency — there are two continuity options, both backed by a local Ollama instance with Gemma 4 variants selected by hardware:
@@ -115,10 +115,10 @@ Overnight sprint, code improvement, tech research. Agents propose on `agent/*` b
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 512 commands
-│   ├── agents/         ← 48 specialized agents
+│   ├── commands/       ← 513 commands
+│   ├── agents/         ← 56 specialized agents
 │   ├── skills/         ← 91 domain skills
-│   ├── hooks/          ← 49 deterministic hooks
+│   ├── hooks/          ← 55 deterministic hooks
 │   └── rules/          ← context and language rules
 ├── docs/               ← guides by role, scenario, sector
 ├── projects/           ← projects (git-ignored for privacy)

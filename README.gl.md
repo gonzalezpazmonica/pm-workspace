@@ -68,7 +68,7 @@ Son a mouchiña que vive dentro de pm-workspace. Adaptome ao teu rol, a tua ling
 
 ## O que hai dentro
 
-**512 comandos · 49 axentes · 91 skills · 50 hooks · 16 linguaxes · 160 suites de test**
+**513 comandos · 56 axentes · 91 skills · 55 hooks · 16 linguaxes · 160 suites de test**
 
 ### Xestion de proxectos
 Sprints, burndown, capacidade, dailies, retros, KPIs. Informes en Excel e PowerPoint. Prediccion con Monte Carlo. Facturacion e custos.
@@ -76,8 +76,8 @@ Sprints, burndown, capacidade, dailies, retros, KPIs. Informes en Excel e PowerP
 ### Desenvolvemento con specs executabeis (SDD)
 As tarefas convertense en specs. Os axentes implementan en 16 linguaxes (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) en worktrees illados. Code review automatico + revision humana obrigatoria.
 
-### Seguridade
-SAST contra OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dinamico, SBOM, compliance en 12 sectores. Savia Shield: clasificacion local de datos con LLM on-premise, enmascaramento reversibel, sinatura criptografica de PRs.
+### Seguridade e Code Review Court
+SAST contra OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dinamico, SBOM, compliance en 12 sectores. Savia Shield: clasificacion local de datos con LLM on-premise, enmascaramento reversibel, sinatura criptografica de PRs. **Code Review Court**: 5 xuices especializados (correctness, architecture, security, cognitive, spec) revisan en paralelo con scoring 0-100 e gate de 400 LOC.
 
 ### Soberania de inferencia
 Savia corre por defecto contra a API de Anthropic (calidade maxima). Cando a nube falla — cable caido, outage, cota esgotada, latencia inaceptable — hai duas opcions de continuidade, ambas sobre Ollama local con variantes de Gemma 4 seleccionadas segundo o teu hardware:
@@ -115,10 +115,10 @@ Sprint nocturno, mellora de codigo, investigacion tecnica. Os axentes propoñen 
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 512 comandos
-│   ├── agents/         ← 49 axentes especializados
+│   ├── commands/       ← 513 comandos
+│   ├── agents/         ← 56 axentes especializados
 │   ├── skills/         ← 91 skills de dominio
-│   ├── hooks/          ← 50 hooks deterministas
+│   ├── hooks/          ← 55 hooks deterministas
 │   └── rules/          ← regras de contexto e linguaxe
 ├── docs/               ← guias por rol, escenario, sector
 ├── projects/           ← proxectos (git-ignorados por privacidade)

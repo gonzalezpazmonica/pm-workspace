@@ -1,4 +1,4 @@
-# Catálogo de Subagentes (49)
+# Catálogo de Subagentes (56)
 
 | Agente | Modelo | Especialidad |
 |---|---|---|
@@ -50,10 +50,18 @@
 | `feasibility-probe` | Opus 4.6 | Valida viabilidad de specs con prototipo time-boxed. Produce informe con score, secciones bloqueantes y sugerencias de descomposición. **Requiere `bypassPermissions`** para ejecutar código de prueba de concepto. |
 | `model-upgrade-auditor` | Opus 4.6 | Audita agentes, skills y prompts buscando workarounds que modelos más nuevos ya no necesiten. Propone simplificaciones con evidencia eval-backed. |
 | `legal-compliance` | Opus 4.6 | Auditoría de compliance legal contra legislación española consolidada (legalize-es, 12.235 normas BOE). Cruza reglas de negocio, contratos y políticas contra artículos vigentes. |
+| `correctness-judge` | Sonnet 4.6 | Code Review Court judge — logic, tests, edge cases, error paths |
+| `architecture-judge` | Sonnet 4.6 | Code Review Court judge — boundaries, coupling, layer violations, patterns |
+| `security-judge` | Sonnet 4.6 | Code Review Court judge — OWASP, PII, injection, auth, credentials |
+| `cognitive-judge` | Sonnet 4.6 | Code Review Court judge — debuggability at 3AM, naming, complexity, logs |
+| `spec-judge` | Sonnet 4.6 | Code Review Court judge — implementation vs approved spec, acceptance criteria |
+| `court-orchestrator` | Opus 4.6 | Convenes the Code Review Court, manages fix cycles, produces .review.crc |
+| `fix-assigner` | Sonnet 4.6 | Creates fix tasks from Court findings, assigns to dev agents, triggers re-review |
+| `test-architect` | Sonnet 4.6 | Designs and generates highest-quality tests across all 16 language packs and 14 test types |
 
 ## Token Budgets (SPEC-AGENT-METERING)
 
-Todos los 50 agentes incluyen `token_budget` en frontmatter. Tiers: Heavy 13000, Standard 8500, Light 4500, Minimal 2200. Tracking con `/agent-cost`. Alertas en `budget-alerts.jsonl`.
+Todos los 56 agentes incluyen `token_budget` en frontmatter. Tiers: Heavy 13000, Standard 8500, Light 4500, Minimal 2200. Tracking con `/agent-cost`. Alertas en `budget-alerts.jsonl`.
 
 ## Flujos
 
