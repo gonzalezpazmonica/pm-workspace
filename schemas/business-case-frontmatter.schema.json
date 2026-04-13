@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "business-case-frontmatter",
+  "title": "Business Case Frontmatter Schema (SE-016)",
+  "description": "Validates YAML frontmatter in business-case.md files",
+  "type": "object",
+  "required": [
+    "case_id", "tenant", "project", "opp_id", "status",
+    "investment_eur", "estimated_npv_eur", "estimated_irr_pct",
+    "payback_months", "risk_adjusted_npv_eur",
+    "benefit_realization_status", "last_recomputed", "variance_alerts"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "pattern": "^BC-[0-9]{4}-[0-9]{3,}$"
+    },
+    "tenant": { "type": "string", "minLength": 1 },
+    "project": { "type": "string", "minLength": 1 },
+    "opp_id": { "type": "string", "pattern": "^OPP-[0-9]{4}-[0-9]{3,}$" },
+    "sow_id": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "paused", "completed", "killed"]
+    },
+    "investment_eur": { "type": "number", "minimum": 0 },
+    "estimated_npv_eur": { "type": "number" },
+    "estimated_irr_pct": { "type": "number" },
+    "payback_months": { "type": "integer", "minimum": 0 },
+    "risk_adjusted_npv_eur": { "type": "number" },
+    "benefit_realization_status": {
+      "type": "string",
+      "enum": ["not-started", "tracking", "realized", "missed"]
+    },
+    "last_recomputed": { "type": "string" },
+    "variance_alerts": {
+      "type": "object",
+      "properties": {
+        "cost": {
+          "type": "object",
+          "required": ["threshold_pct", "current_pct", "status"],
+          "properties": {
+            "threshold_pct": { "type": "number" },
+            "current_pct": { "type": ["number", "null"] },
+            "status": { "type": "string", "enum": ["green", "amber", "red", "pending"] }
+          }
+        },
+        "timeline": {
+          "type": "object",
+          "required": ["threshold_pct", "current_pct", "status"],
+          "properties": {
+            "threshold_pct": { "type": "number" },
+            "current_pct": { "type": ["number", "null"] },
+            "status": { "type": "string", "enum": ["green", "amber", "red", "pending"] }
+          }
+        },
+        "benefit": {
+          "type": "object",
+          "required": ["threshold_pct", "current_pct", "status"],
+          "properties": {
+            "threshold_pct": { "type": "number" },
+            "current_pct": { "type": ["number", "null"] },
+            "status": { "type": "string", "enum": ["green", "amber", "red", "pending"] }
+          }
+        }
+      }
+    },
+    "esg_impact": { "type": "object" }
+  },
+  "additionalProperties": true
+}
