@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.79.0] — 2026-04-14
+
+SE-016 Project Valuation — Business-Case-as-Code. Era 233. Living,
+agent-maintained business cases per engagement with NPV/IRR computation,
+risk-adjusted scoring, variance alerts, benefit realization reviews at
+90/180/365 days, and kill recommendations when thresholds are exceeded.
+
+### Added
+- **`business-case-as-code.md`**: domain rule documenting valuation
+  schema, variance thresholds, 4 agents, 6 failure modes, NPV formula.
+- **`schemas/business-case-frontmatter.schema.json`**: JSON Schema
+  validating 13+ required frontmatter fields in business-case.md files.
+- **`scripts/case-validate.sh`**: validation script detecting 6
+  failure modes (missing assumption source, stale assumptions >90d,
+  risk without probability/impact, benefit schedule without review
+  dates, cost variance without alert, duplicate case IDs).
+- **4 case commands**: `/case-init`, `/case-recompute`,
+  `/case-review`, `/case-kill-check`.
+- **`tests/test-business-case-valuation.bats`**: 20+ tests covering
+  script logic, schema integrity, failure mode detection, command docs.
+
 ## [4.78.0] — 2026-04-13
 
 SE-015 Project Prospect — Pipeline-as-Code. Era 232. Sovereign,
@@ -6677,6 +6698,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.78.0...v4.79.0
 [4.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.77.0...v4.78.0
 [4.1.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.1.0...v4.1.1
 [4.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.0.0...v4.1.0
