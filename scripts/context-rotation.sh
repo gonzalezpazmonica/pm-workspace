@@ -137,6 +137,19 @@ cmd_weekly() {
     fi
   } > "$summary_file"
 
+  # Run knowledge lint (LLM Wiki pattern — Karpathy-inspired)
+  local lint_script="$SCRIPT_DIR/knowledge-lint.sh"
+  if [[ -x "$lint_script" ]]; then
+    log "Running knowledge lint..."
+    local lint_output
+    lint_output=$(bash "$lint_script" 2>&1 || true)
+    echo "" >> "$summary_file"
+    echo "## Knowledge Lint" >> "$summary_file"
+    echo '```' >> "$summary_file"
+    echo "$lint_output" | tail -10 >> "$summary_file"
+    echo '```' >> "$summary_file"
+  fi
+
   log "Weekly rotation: archived=${archived}, summary=${summary_file}"
 }
 
