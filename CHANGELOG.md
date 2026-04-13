@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.75.0] — 2026-04-13
+
+SE-033 Context Rotation + SE-034 Agent Activation Plan. Era 231.
+Two intelligence specs implemented: automated memory rotation with
+3 cycles (daily/weekly/monthly) to enforce 25KB cap, and daily agent
+activation plan mapping backlog to agents with token budgets.
+
+### Added
+- **`scripts/context-rotation.sh`**: SE-033 orchestrator with 4 modes
+  (daily/weekly/monthly/status). Archives stale session-hot, retires
+  old project memories, generates weekly summaries, enforces 25KB cap.
+- **`/memory-rotate`**: manual context rotation command.
+- **`scripts/daily-activation-plan.sh`**: SE-034 plan generator. Scans
+  backlog + approved specs, maps to agents via assignment-matrix,
+  allocates token budgets per tier, defers items exceeding budget.
+- **`/daily-plan`**: generate/show/status for daily activation plans.
+- **`tests/test-context-rotation.bats`**: 11 tests for SE-033.
+- **`tests/test-daily-activation-plan.bats`**: 11 tests for SE-034.
+
+### Changed
+- **`session-init.sh`**: wired context rotation (daily/weekly/monthly)
+  as async non-blocking calls at session start.
+
 ## [4.74.0] — 2026-04-13
 
 Multi-language documentation audit and alignment. Era 231. Corrected
@@ -6720,6 +6743,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.74.0...v4.75.0
 [4.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.73.0...v4.74.0
 [4.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.72.0...v4.73.0
 [4.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.71.0...v4.72.0
