@@ -1,0 +1,6 @@
+# Confidentiality audit signature — DO NOT EDIT
+diff_hash=40b2afb76a7888d079161bf34546285c63f1d8d64b5a6d7513a66d52cfdf90e2
+timestamp=2026-04-13T07:38:07Z
+branch=feat/roadmap-specs-032-034
+head_commit=da69889
+signature=2947d168240be54bf9ea5d0d189e57282b185bfbfd561b7f478b264efb9d8bfa
