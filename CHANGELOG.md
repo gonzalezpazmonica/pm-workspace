@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.78.0] — 2026-04-13
+
+SE-015 Project Prospect — Pipeline-as-Code. Era 232. Sovereign,
+agent-queryable opportunity pipeline where pursuits live as versioned
+`.md` files with BANT/MEDDIC qualification scoring, bid/no-bid audit
+trails, proposal library reuse, and sales-to-delivery handoff packages.
+
+### Added
+- **`pipeline-as-code.md`**: domain rule documenting pursuit schema,
+  stage gates, 4 agents, 8 failure modes (82 lines).
+- **`schemas/pursuit-frontmatter.schema.json`**: JSON Schema validating
+  15+ required frontmatter fields in pursuit.md files.
+- **`scripts/pursuit-validate.sh`**: validation script detecting 8
+  failure modes (missing qualification, bid-decision, handoff, orphan
+  pursuits, duplicate IDs, missing SA role, incomplete scoring,
+  broken library references).
+- **7 pursuit commands**: `/pursuit-init`, `/pursuit-qualify`,
+  `/pursuit-bid`, `/pursuit-draft`, `/pursuit-handoff`,
+  `/pursuit-close`, `/pipeline-view`.
+- **`tests/test-pursuit-pipeline.bats`**: 36 tests covering script
+  logic, schema integrity, failure mode detection, and command docs.
+
 ## [4.77.0] — 2026-04-13
 
 SE-030 Skill Self-Improvement Pipeline. Era 231. Detects repeated
@@ -6655,6 +6677,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.77.0...v4.78.0
 [4.1.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.1.0...v4.1.1
 [4.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.0.0...v4.1.0
 [4.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.99.0...v4.0.0

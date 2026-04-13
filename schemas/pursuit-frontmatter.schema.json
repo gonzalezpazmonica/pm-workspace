@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pursuit-frontmatter",
+  "title": "Pursuit Frontmatter Schema (SE-015)",
+  "description": "Validates YAML frontmatter in pursuit.md files",
+  "type": "object",
+  "required": [
+    "opp_id", "tenant", "client", "title", "stage",
+    "engagement_type", "estimated_value_eur", "probability_pct",
+    "source", "practice", "pursuit_team",
+    "pre_sales_budget_hours", "pre_sales_spent_hours",
+    "next_milestone"
+  ],
+  "properties": {
+    "opp_id": {
+      "type": "string",
+      "pattern": "^OPP-[0-9]{4}-[0-9]{3,}$"
+    },
+    "tenant": { "type": "string", "minLength": 1 },
+    "client": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 5 },
+    "stage": {
+      "type": "string",
+      "enum": ["lead", "qualification", "pursuit", "proposal", "negotiation", "won", "lost"]
+    },
+    "engagement_type": {
+      "type": "string",
+      "enum": ["fixed-price", "time-and-materials", "outcome-based", "retainer", "hybrid"]
+    },
+    "estimated_value_eur": { "type": "number", "minimum": 0 },
+    "probability_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "source": {
+      "type": "string",
+      "enum": ["referral", "rfp", "rfi", "inbound", "outbound"]
+    },
+    "practice": { "type": "string", "minLength": 1 },
+    "pursuit_team": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["role", "handle"],
+        "properties": {
+          "role": { "type": "string" },
+          "handle": { "type": "string", "pattern": "^@" }
+        }
+      }
+    },
+    "pre_sales_budget_hours": { "type": "number", "minimum": 0 },
+    "pre_sales_spent_hours": { "type": "number", "minimum": 0 },
+    "next_milestone": {
+      "type": "object",
+      "required": ["what", "when"],
+      "properties": {
+        "what": { "type": "string" },
+        "when": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" }
+      }
+    },
+    "key_contacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": { "type": "string" },
+          "name_ref": { "type": "string" }
+        }
+      }
+    },
+    "competitors": { "type": "array", "items": { "type": "string" } },
+    "compliance_requirements": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}
