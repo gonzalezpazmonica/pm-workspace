@@ -6,6 +6,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.74.0] — 2026-04-13
+
+Multi-language documentation audit and alignment. Era 231. Corrected
+counters across all 9 READMEs, added 8 Code Review Court agents to
+catalog, fixed broken CHANGELOG links, translated 4 missing guides to
+English, and expanded Savia Enterprise README from 11 to 34 specs.
+
+### Changed
+- **All 9 READMEs** (ES, EN, GL, EU, CA, FR, DE, PT, IT): counters updated
+  to 513 commands, 56 agents, 91 skills, 55 hooks; Code Review Court
+  section added to Security heading.
+- **`CLAUDE.md`**: structure counters and hooks line aligned to real values.
+- **`agents-catalog.md`**: title and count updated from 49 to 56; 8 Court
+  agents added (correctness-judge, architecture-judge, security-judge,
+  cognitive-judge, spec-judge, court-orchestrator, fix-assigner, test-architect).
+- **`async-hooks-config.md`**: total hook instances corrected (45 → 55).
+- **`pm-workflow.md`**: command count corrected (505 → 513).
+- **`CHANGELOG.md`**: comparison links for v4.71.0 and v4.65.0 fixed (were
+  pointing to v4.34.0 instead of their respective predecessors).
+- **`docs/propuestas/savia-enterprise/README.md`**: expanded from 11 specs
+  to 34 specs across 5 logical groups (Core Platform, Business Operations,
+  Project Lifecycle, Quality & Security, Intelligence & Optimization).
+
+### Added
+- **`docs/guides_en/guide-emergency-watchdog.md`**: EN translation.
+- **`docs/guides_en/guide-prompt-security-scanner.md`**: EN translation.
+- **`docs/guides_en/guide-spec-quality-auditor.md`**: EN translation.
+- **`docs/guides_en/guide-workspace-consolidation.md`**: EN translation.
+
 ## [4.73.0] — 2026-04-13
 
 Roadmap specs SE-032..034 from synthesis-console research. Era 231.
@@ -6691,15 +6720,16 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.73.0...v4.74.0
 [4.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.72.0...v4.73.0
 [4.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.71.0...v4.72.0
-[4.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.71.0
+[4.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.70.0...v4.71.0
 [4.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.69.0...v4.70.0
 [4.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.68.0...v4.69.0
 [4.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.67.0...v4.68.0
 [4.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.66.0...v4.67.0
 [4.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.65.0...v4.66.0
-[4.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.65.0
+[4.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.64.0...v4.65.0
 [4.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.63.0...v4.64.0
 [4.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.61.0...v4.62.0
 [4.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.60.0...v4.61.0

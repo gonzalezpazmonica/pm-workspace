@@ -90,6 +90,6 @@ truncation before hooks can compress. Tool search reduces upfront context cost.
 | FileChanged | file-changed-staleness.sh (async) | 1/1 |
 | InstructionsLoaded | instructions-tracker.sh (async) | 1/1 |
 | ConfigChange | config-reload.sh (async) | 1/1 |
-| **Total** | **45 hook instances** | **17/28 events (61%)** |
+| **Total** | **55 hook instances** | **17/28 events (61%)** |
 
 28 hook events available in Claude Code (SPEC-071). Target achieved: 17/28 (61%).

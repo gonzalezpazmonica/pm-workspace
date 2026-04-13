@@ -68,7 +68,7 @@ Soc la mussola que viu dins de pm-workspace. M'adapto al teu rol, al teu idioma 
 
 ## Que hi ha dins
 
-**512 comandes · 49 agents · 91 skills · 50 hooks · 16 llenguatges · 160 suites de test**
+**513 comandes · 56 agents · 91 skills · 55 hooks · 16 llenguatges · 160 suites de test**
 
 ### Gestio de projectes
 Sprints, burndown, capacitat, dailies, retros, KPIs. Informes en Excel i PowerPoint. Prediccio amb Monte Carlo. Facturacio i costos.
@@ -76,8 +76,8 @@ Sprints, burndown, capacitat, dailies, retros, KPIs. Informes en Excel i PowerPo
 ### Desenvolupament amb specs executables (SDD)
 Les tasques es converteixen en specs. Els agents implementen en 16 llenguatges (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) en worktrees aillats. Code review automatic + revisio humana obligatoria.
 
-### Seguretat
-SAST contra OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dinamic, SBOM, compliance en 12 sectors. Savia Shield: classificacio local de dades amb LLM on-premise, emmascarament reversible, signatura criptografica de PRs.
+### Seguretat i Code Review Court
+SAST contra OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dinamic, SBOM, compliance en 12 sectors. Savia Shield: classificacio local de dades amb LLM on-premise, emmascarament reversible, signatura criptografica de PRs. **Code Review Court**: 5 jutges especialitzats (correctness, architecture, security, cognitive, spec) revisen en paral·lel amb scoring 0-100 i gate de 400 LOC.
 
 ### Sobirania d'inferencia
 Savia corre per defecte contra l'API d'Anthropic (qualitat maxima). Quan el cloud falla — cable caigut, outage, quota esgotada, latencia inacceptable — hi ha dues opcions de continuitat, totes dues sobre Ollama local amb variants de Gemma 4 seleccionades segons el maquinari:
@@ -115,10 +115,10 @@ Sprint nocturn, millora de codi, investigacio tecnica. Els agents proposen en br
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 512 comandes
-│   ├── agents/         ← 49 agents especialitzats
+│   ├── commands/       ← 513 comandes
+│   ├── agents/         ← 56 agents especialitzats
 │   ├── skills/         ← 91 skills de domini
-│   ├── hooks/          ← 50 hooks deterministes
+│   ├── hooks/          ← 55 hooks deterministes
 │   └── rules/          ← regles de context i llenguatge
 ├── docs/               ← guies per rol, escenari, sector
 ├── projects/           ← projectes (git-ignorats per privacitat)
