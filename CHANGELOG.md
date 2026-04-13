@@ -6,6 +6,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.81.0] — 2026-04-14
+
+Managed Agents patterns — architectural improvements inspired by
+Anthropic's Managed Agents engineering post (2026-04-14). Era 235.
+Three patterns adapted: credential proxy, durable session event log,
+and validation of the existing stateless brain + lazy provisioning.
+
+### Added
+- **`scripts/credential-proxy.sh`**: Vault+Proxy pattern for credential
+  isolation. Agents call `git-push`, `git-clone`, `api-call` through
+  the proxy; credentials never enter agent context. Append-only audit
+  log at `~/.savia/credential-proxy-audit.jsonl`. Sanitizes output to
+  strip tokens from URLs and headers.
+- **`scripts/session-event-log.sh`**: durable append-only session log
+  that survives `/compact`. Supports `emit`, `query --type|--last|--since`,
+  and `recover --session latest` for post-crash context reconstruction.
+  Event types: decision, correction, discovery, error, milestone, handoff.
+  Storage: `~/.savia/session-events/{session-id}.jsonl`, 30-day retention.
+- **`managed-agents-patterns.md`**: domain rule documenting the 3
+  patterns, their integration points, and prohibited behaviors.
+- **`tests/test-managed-agents-patterns.bats`**: 22 tests.
+
+### Why
+Rule #1 ("never hardcode PAT") is a behavioral rule. The credential
+proxy eliminates the underlying vulnerability class by construction —
+the agent cannot leak what it never sees. Structural isolation beats
+behavioral rules. Similarly, `/compact` destroys Tier C events; the
+durable session log means decisions and corrections survive compaction.
+
 ## [4.80.0] — 2026-04-14
 
 LLM Wiki pattern improvements inspired by Karpathy's gist. Era 234.
@@ -6721,6 +6750,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.80.0...v4.81.0
 [4.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.79.0...v4.80.0
 [4.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.78.0...v4.79.0
 [4.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.77.0...v4.78.0

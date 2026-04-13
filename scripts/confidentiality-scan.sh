@@ -36,6 +36,8 @@ EXCLUDE_FILES="$EXCLUDE_FILES|contribute.sh|validate-privacy"
 EXCLUDE_FILES="$EXCLUDE_FILES|credential-scan.md|agent-hook-premerge.sh"
 EXCLUDE_FILES="$EXCLUDE_FILES|messaging-subject-safety.md|confidentiality-strategies.md"
 EXCLUDE_FILES="$EXCLUDE_FILES|pentesting/|checklists.md"
+EXCLUDE_FILES="$EXCLUDE_FILES|credential-proxy.sh|managed-agents-patterns.md"
+EXCLUDE_FILES="$EXCLUDE_FILES|session-event-log.sh"
 
 get_lines() {
   cd "$ROOT_DIR" || exit 2

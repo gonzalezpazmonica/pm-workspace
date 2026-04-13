@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=cdbaf3467a17c2cce9503be4645f7b767e8b1d2e61d9105f0d421b564541e3ae
-timestamp=2026-04-13T22:23:52Z
-branch=feat/karpathy-wiki-improvements
-head_commit=c18ff08
-signature=3d41a223f52b686cc8c27595561ba817f6a872a070f999a4686947cc563c2e8d
+diff_hash=588d6ef9795faf2543156b223fd2218b93c4f02f909b7897fdef27b6bc18bd14
+timestamp=2026-04-13T22:40:26Z
+branch=feat/managed-agents-patterns
+head_commit=1484823
+signature=766dff6d270e44066ea795dc2df0096f5093aa77a380d0c58aa1b13133001c49
