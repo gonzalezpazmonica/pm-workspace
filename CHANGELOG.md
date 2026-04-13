@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.73.0] — 2026-04-13
+
+Roadmap specs SE-032..034 from synthesis-console research. Era 231.
+Three patterns for context lifecycle: cross-project lessons,
+context rotation (daily/weekly/monthly), and daily agent activation
+plans with token budgeting.
+
+### Added
+- **`SPEC-SE-032-cross-project-lessons.md`**: pipeline for extracting,
+  cataloguing, and querying lessons across projects before escalating.
+- **`SPEC-SE-033-context-rotation.md`**: automated rotation with 3
+  cycles (daily session-hot, weekly decisions, monthly consolidation)
+  to keep memory under 25KB budget.
+- **`SPEC-SE-034-agent-activation-plan.md`**: daily plan generated from
+  sprint backlog mapping items to agents with token budget per tier.
+
 ## [4.72.0] — 2026-04-12
 
 Hook safety audit + registration fixes. Era 231. Fixed 4 blocking hooks
@@ -6675,6 +6691,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.72.0...v4.73.0
 [4.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.71.0...v4.72.0
 [4.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.71.0
 [4.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.69.0...v4.70.0
