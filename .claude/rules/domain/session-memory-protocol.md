@@ -57,6 +57,21 @@ cierre de terminal, o inactividad prolongada), Savia:
 | 4 | Patron de trabajo | "siempre hago X antes de Y" | user memory |
 | 5 | Referencia externa | "los docs estan en URL" | reference memory |
 
+## Evidence Classification (LLM Wiki pattern)
+
+Each persisted memory SHOULD include `evidence_type` in frontmatter:
+
+| Type | Meaning | When to use |
+|------|---------|-------------|
+| `sourced` | Directly stated by user or read from a file | User corrections, explicit decisions |
+| `analyzed` | Derived by Savia from multiple sources | Patterns detected across sessions |
+| `inferred` | Reasonable conclusion without direct evidence | Bug root causes, behavioral patterns |
+| `gap` | Known unknown — information we need but lack | Missing context flagged for follow-up |
+
+When recalling memories, `sourced` > `analyzed` > `inferred`. Memories marked `gap`
+are prompts to investigate, not facts to assert. `/knowledge-lint` flags memories
+without evidence_type for remediation.
+
 ## Quality gate
 
 Descartar:

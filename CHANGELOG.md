@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.80.0] — 2026-04-14
+
+LLM Wiki pattern improvements inspired by Karpathy's gist. Era 234.
+Three enhancements to the persistent knowledge base: claim classification,
+knowledge lint, and automated weekly lint integration.
+
+### Added
+- **`scripts/knowledge-lint.sh`**: 6-check health scanner for the memory
+  store — orphan index entries, unlisted files, missing evidence types,
+  oversized index, stale project memories, duplicate descriptions.
+  Supports `--fix` for auto-repair.
+- **`/knowledge-lint`**: command to run knowledge base health check.
+- **`evidence_type`** field in session-memory-protocol: `sourced`,
+  `analyzed`, `inferred`, `gap` — classifies reliability of each memory.
+- **`tests/test-knowledge-lint.bats`**: 14 tests covering all lint checks,
+  fix mode, integration with context-rotation, and evidence classification.
+
+### Changed
+- **`scripts/context-rotation.sh`**: weekly cycle now runs `knowledge-lint.sh`
+  and appends results to the weekly summary report.
+- **`session-memory-protocol.md`**: added Evidence Classification section
+  documenting the 4 evidence types and their priority for recall.
+
 ## [4.79.0] — 2026-04-14
 
 SE-016 Project Valuation — Business-Case-as-Code. Era 233. Living,
@@ -6698,6 +6721,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.79.0...v4.80.0
 [4.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.78.0...v4.79.0
 [4.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.77.0...v4.78.0
 [4.1.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.1.0...v4.1.1
