@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=95d6b65c8a014acd41c327b903dbae5232ae0bc8b278fb7f63c89ad9ff808626
-timestamp=2026-04-13T22:14:37Z
-branch=feat/se-016-project-valuation
-head_commit=0fe2301
-signature=327f9620b7502173d27ba1629ccf9222ad46c1ab836f74a09f40ee1509ad6bbc
+diff_hash=a881e1f053f2036f67ff3854df54173ed6e2cca0bb93fcddd781df5b6be90fa3
+timestamp=2026-04-13T22:36:24Z
+branch=feat/managed-agents-patterns
+head_commit=cc72bcf
+signature=7df639fe7df6f260fea41f3be8d1585e50c2e514b12fb1309ace21f3956cca12
