@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.77.0] — 2026-04-13
+
+SE-030 Skill Self-Improvement Pipeline. Era 231. Detects repeated
+patterns in skill invocations, proposes new skills with scaffold
+(SKILL.md + DOMAIN.md), and suggests refinements for skills with
+high failure rates. The flywheel: 91 skills get smarter with use.
+
+### Added
+- **`scripts/skill-detect.sh`**: SE-030 orchestrator with 4 modes
+  (scan/propose/refine/status). Detects co-occurring skills, high
+  failure rates, and unmatched NL patterns. Generates scaffolds with
+  50% initial confidence and experimental maturity.
+- **`/skill-detect`**: command for pattern detection and proposals.
+- **`tests/test-skill-detect.bats`**: 17 tests, quality score 98.
+
 ## [4.76.0] — 2026-04-13
 
 SE-032 Cross-Project Lessons Pipeline. Era 231. Three-phase pipeline
@@ -6757,6 +6772,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.76.0...v4.77.0
 [4.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.75.0...v4.76.0
 [4.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.74.0...v4.75.0
 [4.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.73.0...v4.74.0
