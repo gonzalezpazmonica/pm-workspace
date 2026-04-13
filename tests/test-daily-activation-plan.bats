@@ -95,6 +95,36 @@ teardown() {
   [[ "$output" == *"Activation Plan"* ]]
 }
 
+## Edge cases — empty, nonexistent, boundary, zero
+
+@test "generate with empty output dir produces valid plan" {
+  # Empty OUTPUT_DIR guarantees no prior plan exists
+  run bash "$SCRIPT" generate
+  [[ "$status" -eq 0 ]]
+  local plan_file
+  plan_file=$(echo "$output" | tail -1)
+  [[ -f "$plan_file" ]]
+  # Plan must have all three required sections regardless of backlog
+  grep -q "Budget" "$plan_file"
+  grep -q "Priority Queue" "$plan_file"
+  grep -q "Deferred" "$plan_file"
+}
+@test "show with nonexistent plan returns error" {
+  run bash "$SCRIPT" show
+  [[ "$status" -eq 1 ]]
+}
+@test "status with zero plans reports correctly" {
+  run bash "$SCRIPT" status
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"Total plans:"* ]]
+}
+@test "invalid argument exits with error" {
+  run bash "$SCRIPT" nonexistent-mode
+  [[ "$status" -eq 1 ]]
+}
+
+## Coverage: cmd_generate, cmd_show, cmd_status, agent_budget, agent_tier_name, scan_backlog
+
 ## Budget enforcement
 
 @test "allocated never exceeds available budget" {

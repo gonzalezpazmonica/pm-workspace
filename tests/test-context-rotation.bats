@@ -116,6 +116,34 @@ EOF
   [[ "$output" == *"Monthly"* ]]
 }
 
+## Edge cases — empty, nonexistent, boundary
+
+@test "daily handles nonexistent session-hot gracefully" {
+  rm -f "$MEMORY_DIR/session-hot.md"
+  run bash "$SCRIPT" daily
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"nothing to rotate"* ]]
+}
+@test "weekly handles empty MEMORY.md without error" {
+  echo "" > "$MEMORY_DIR/MEMORY.md"
+  run bash "$SCRIPT" weekly
+  [[ "$status" -eq 0 ]]
+}
+@test "monthly handles empty memory directory gracefully" {
+  rm -f "$MEMORY_DIR"/*.md
+  echo "" > "$MEMORY_DIR/MEMORY.md"
+  run bash "$SCRIPT" monthly
+  [[ "$status" -eq 0 ]]
+}
+@test "status works with nonexistent archive directory" {
+  [[ ! -d "$MEMORY_DIR/archive" ]]
+  run bash "$SCRIPT" status
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"Archived sessions: 0"* ]]
+}
+
+## Coverage: cmd_daily, cmd_weekly, cmd_monthly, cmd_status, file_age_hours, file_age_days, memory_size_kb
+
 ## Feedback protection
 
 @test "weekly never archives feedback entries" {
