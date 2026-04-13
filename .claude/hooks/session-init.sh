@@ -246,4 +246,16 @@ for mh_path in "$HOME/claude/scripts/memory-hygiene.sh" "./scripts/memory-hygien
   fi
 done
 
+# Context rotation check (SE-033) — async, non-blocking
+for cr_path in "$HOME/claude/scripts/context-rotation.sh" "./scripts/context-rotation.sh"; do
+  if [ -f "$cr_path" ]; then
+    bash "$cr_path" daily >/dev/null 2>&1 &
+    DOW=$(date +%u)
+    [[ "$DOW" == "1" ]] && bash "$cr_path" weekly >/dev/null 2>&1 &
+    DOM=$(date +%d)
+    [[ "$DOM" == "01" ]] && bash "$cr_path" monthly >/dev/null 2>&1 &
+    break
+  fi
+done
+
 printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$CTX"
