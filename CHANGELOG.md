@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.76.0] — 2026-04-13
+
+SE-032 Cross-Project Lessons Pipeline. Era 231. Three-phase pipeline
+(extract, catalogue, search) for sharing lessons across projects with
+PII sanitization. Competitive differentiator: no other PM tool does this.
+
+### Added
+- **`scripts/lesson-pipeline.sh`**: SE-032 orchestrator with 4 modes
+  (extract/search/stats/status). PII sanitization (emails, IPs,
+  connection strings, tokens). JSONL index for fast lookup.
+- **`/lesson-extract`**: extract lesson from current task context.
+- **`/lesson-search`**: search lessons by domain or keyword.
+- **`tests/test-lesson-pipeline.bats`**: 17 tests, quality score 98.
+
 ## [4.75.0] — 2026-04-13
 
 SE-033 Context Rotation + SE-034 Agent Activation Plan. Era 231.
@@ -6743,6 +6757,7 @@ Initial public release of PM-Workspace.
 [3.32.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.32.0...v3.32.1
 [3.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.31.0...v3.32.0
 [3.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.30.0...v3.31.0
+[4.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.75.0...v4.76.0
 [4.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.74.0...v4.75.0
 [4.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.73.0...v4.74.0
 [4.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.72.0...v4.73.0
