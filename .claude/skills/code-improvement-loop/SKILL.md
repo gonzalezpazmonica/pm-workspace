@@ -40,12 +40,8 @@ priority: "medium"
 4. Auto Mode activado (claude --enable-auto-mode) → si no: ⚠️ warning, continuar
 ```
 
-## Auto Mode — Red de seguridad complementaria
-
-`--enable-auto-mode` (Claude Code 2026-03-24) añade un classifier pre-tool-call
-que bloquea acciones destructivas sin detener el bucle. Complementa los gates
-de `autonomous-safety.md`, no los reemplaza. Recomendado para toda sesión que
-invoque esta skill. Ver `docs/scheduling-guide.md` para detalles.
+**Auto Mode**: activar `claude --enable-auto-mode` en la sesión que invoque esta
+skill — añade classifier pre-tool-call complementario a `autonomous-safety.md`.
 
 ## Flujo completo (patrón autoresearch adaptado)
 
