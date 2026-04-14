@@ -30,6 +30,25 @@ ner = None; mmap = {}; rmap = {}
 NER_SOFT_TYPES = {"LOCATION", "NRP", "ORGANIZATION"}
 NER_BLOCK_THRESHOLD = 0.85
 
+# Public provider domains — never block. Substring match (case-insensitive).
+NER_PUBLIC_DOMAINS = (
+    "microsoft.com", "microsoft365.com", "office.com", "office365.com",
+    "sharepoint.com", "onedrive.live.com", "outlook.com",
+    "outlook.office.com", "outlook.office365.com", "stream.office.com",
+    "login.microsoftonline.com", "login.live.com",
+    "graph.microsoft.com", "teams.microsoft.com",
+    "google.com", "gmail.com", "googleapis.com", "drive.google.com",
+    "github.com", "gitlab.com", "bitbucket.org", "dev.azure.com",
+    "anthropic.com", "claude.com", "openai.com",
+)
+
+# File extensions — entity texts ending in these are paths, not PII
+NER_PATH_EXTENSIONS = (
+    ".py", ".js", ".ts", ".sh", ".md", ".json", ".yml", ".yaml",
+    ".txt", ".html", ".css", ".vue", ".tsx", ".jsx", ".rs", ".go",
+    ".java", ".rb", ".php", ".toml", ".ini", ".cfg", ".xml", ".log",
+)
+
 def _load_allowlist():
     """Load technical terms from shield-ner-allowlist.txt."""
     p = Path(__file__).parent / "shield-ner-allowlist.txt"
@@ -149,6 +168,23 @@ def scan(text, th=None, file_path=""):
                 ctx_start = max(0, r.start - 50)
                 context = text[ctx_start:r.end + 10]
                 if re.search(r'https?://\S*' + re.escape(entity_text), context):
+                    continue
+                # Filter 0a: public provider domains (MS, Google, GitHub, etc.)
+                etl = entity_text.lower()
+                if any(d in etl for d in NER_PUBLIC_DOMAINS):
+                    continue
+                # Filter 0b: code-like identifiers (UPPER_SNAKE, dotted paths)
+                if re.match(r'^[A-Z][A-Z0-9_]{2,}$', entity_text):
+                    continue
+                if re.match(r'^[a-z_][a-z0-9_]*\.[a-z_][a-z0-9_.]*$', entity_text):
+                    continue
+                # Filter 0c: path fragments (contains / or known code extensions)
+                if "/" in entity_text or "\\" in entity_text:
+                    continue
+                if etl.endswith(NER_PATH_EXTENSIONS):
+                    continue
+                # Filter 0d: workspace path markers (user's own path is not PII)
+                if "onedrive - " in etl or "/documentos/" in etl or "/documents/" in etl:
                     continue
                 # Filter 1: allow-list of technical terms
                 if entity_text.lower() in NER_ALLOW_LOWER:
