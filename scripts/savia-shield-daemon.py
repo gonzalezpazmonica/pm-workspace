@@ -186,6 +186,13 @@ def scan(text, th=None, file_path=""):
                 # Filter 0d: workspace path markers (user's own path is not PII)
                 if "onedrive - " in etl or "/documentos/" in etl or "/documents/" in etl:
                     continue
+                # Filter 0e: keyword argument fragments (encoding="utf-8", name="foo")
+                # Presidio sometimes marks the truncated left side as PERSON/ORG.
+                if re.search(r'\w+\s*=\s*["\']', entity_text):
+                    continue
+                # Filter 0f: entity with unbalanced quotes = truncated literal, skip
+                if entity_text.count('"') == 1 or entity_text.count("'") == 1:
+                    continue
                 # Filter 1: allow-list of technical terms
                 if entity_text.lower() in NER_ALLOW_LOWER:
                     continue

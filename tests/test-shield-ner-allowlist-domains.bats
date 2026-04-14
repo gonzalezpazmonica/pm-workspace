@@ -81,6 +81,18 @@ print(json.dumps({'tool_input': {'file_path': sys.argv[1], 'content': sys.argv[2
   [[ "$output" != *'"verdict": "BLOCK"'* ]]
 }
 
+@test "keyword argument encoding=utf-8 is ALLOWED" {
+  daemon_available || skip "Shield daemon not running"
+  output=$(gate_post "$N1_PATH" 'f.write(data, encoding="utf-8", errors="replace")')
+  [[ "$output" != *'"verdict": "BLOCK"'* ]]
+}
+
+@test "truncated string literal fragment is ALLOWED" {
+  daemon_available || skip "Shield daemon not running"
+  output=$(gate_post "$N1_PATH" 'cfg = {"mail_url": "something"}')
+  [[ "$output" != *'"verdict": "BLOCK"'* ]]
+}
+
 # --- Real PII: must STILL block ---
 
 @test "AWS key is still BLOCKED" {
