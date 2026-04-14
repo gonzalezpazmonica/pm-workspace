@@ -34,10 +34,18 @@ priority: "medium"
 ## Prerequisitos
 
 ```
-1. AUTONOMOUS_REVIEWER configurado     → si no: ❌ ABORT
-2. Tests pasan (baseline sano)         → si no: ❌ ABORT
-3. Métricas baseline capturadas        → si no: capturar antes de empezar
+1. AUTONOMOUS_REVIEWER configurado            → si no: ❌ ABORT
+2. Tests pasan (baseline sano)                → si no: ❌ ABORT
+3. Métricas baseline capturadas               → si no: capturar antes de empezar
+4. Auto Mode activado (claude --enable-auto-mode) → si no: ⚠️ warning, continuar
 ```
+
+## Auto Mode — Red de seguridad complementaria
+
+`--enable-auto-mode` (Claude Code 2026-03-24) añade un classifier pre-tool-call
+que bloquea acciones destructivas sin detener el bucle. Complementa los gates
+de `autonomous-safety.md`, no los reemplaza. Recomendado para toda sesión que
+invoque esta skill. Ver `docs/scheduling-guide.md` para detalles.
 
 ## Flujo completo (patrón autoresearch adaptado)
 

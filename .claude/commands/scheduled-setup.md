@@ -77,7 +77,24 @@ Plantillas:
 4. **Deploy notifications** — manual (post-deploy)
 5. **Security scan** — cada 24h (medianoche)
 
-Usuario elige → crear entrada en `Claude Code Scheduled Tasks`
+Luego preguntar: **¿Dónde debe correr la rutina?** (Claude Code Routines, 2026-04-14)
+
+```
+1. ☁️  Cloud (mínimo 1h) — corre en servidores Anthropic. Requiere Pro/Max/Team/Enterprise.
+       Sin acceso a ficheros locales ni MCPs locales. Ideal para resúmenes basados en APIs.
+       Se crea con /schedule o Web/Desktop.
+2. 💻 Desktop Local (mínimo 1m) — corre en tu máquina via Desktop app. Acceso a ficheros
+       locales y MCPs locales. Ideal para digests de proyectos privados (datos N3/N4).
+3. 🔁 Session /loop — vive mientras la sesión esté abierta. Polling rápido, one-shot.
+       Ideal para "check deploy cada 5 min durante esta sesión".
+
+¿Cuál eliges? (1-3):
+```
+
+Usuario elige → crear entrada en el backend correspondiente:
+- Cloud → `/schedule` (remote trigger API)
+- Desktop Local → Desktop Scheduled Tasks
+- Session → `/loop` skill
 
 ### Paso 5 — Test
 
