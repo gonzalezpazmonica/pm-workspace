@@ -44,39 +44,67 @@ cmd_emit() {
   local escaped_content
   escaped_content=$(printf '%s' "$content" | sed 's/\\/\\\\/g; s/"/\\"/g; s/\t/\\t/g' | tr '\n' ' ')
 
-  printf '{"ts":"%s","session":"%s","type":"%s","content":"%s"}\n' \
-    "$(date -Iseconds)" "$SESSION_ID" "$event_type" "$escaped_content" >> "$LOG_FILE"
+  # Multica pattern: monotonic seq number per session for catch-up queries
+  local seq
+  if [[ -f "$LOG_FILE" ]]; then
+    seq=$(( $(wc -l < "$LOG_FILE") + 1 ))
+  else
+    seq=1
+  fi
 
-  echo "OK: event logged (type=$event_type, session=$SESSION_ID)"
+  printf '{"ts":"%s","session":"%s","seq":%d,"type":"%s","content":"%s"}\n' \
+    "$(date -Iseconds)" "$SESSION_ID" "$seq" "$event_type" "$escaped_content" >> "$LOG_FILE"
+
+  echo "OK: event logged (seq=$seq, type=$event_type, session=$SESSION_ID)"
 }
 
 # ── Query ──────────────────────────────────────────────────────────────────
 
 cmd_query() {
-  local filter_type="" last_n=0 since=""
+  local filter_type="" last_n=0 since="" since_seq="" session_filter=""
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      --type)   filter_type="$2"; shift 2 ;;
-      --last)   last_n="$2"; shift 2 ;;
-      --since)  since="$2"; shift 2 ;;
-      *)        shift ;;
+      --type)       filter_type="$2"; shift 2 ;;
+      --last)       last_n="$2"; shift 2 ;;
+      --since)      since="$2"; shift 2 ;;
+      --since-seq)  since_seq="$2"; shift 2 ;;
+      --session)    session_filter="$2"; shift 2 ;;
+      *)            shift ;;
     esac
   done
 
   local all_events=""
 
-  # Collect from all session logs
-  if [[ -n "$since" ]]; then
-    all_events=$(cat "$SESSION_LOG_DIR"/*.jsonl 2>/dev/null | \
-      grep -E "\"ts\":\"${since}" || true)
+  # Scope: specific session file or all
+  local source_files
+  if [[ -n "$session_filter" ]]; then
+    source_files="$SESSION_LOG_DIR/${session_filter}.jsonl"
+    [[ ! -f "$source_files" ]] && { echo "Session not found: $session_filter" >&2; return 1; }
   else
-    all_events=$(cat "$SESSION_LOG_DIR"/*.jsonl 2>/dev/null || true)
+    source_files="$SESSION_LOG_DIR"/*.jsonl
+  fi
+
+  # Collect events
+  if [[ -n "$since" ]]; then
+    all_events=$(cat $source_files 2>/dev/null | grep -E "\"ts\":\"${since}" || true)
+  else
+    all_events=$(cat $source_files 2>/dev/null || true)
   fi
 
   # Filter by type
   if [[ -n "$filter_type" ]]; then
     all_events=$(echo "$all_events" | grep "\"type\":\"${filter_type}\"" || true)
+  fi
+
+  # Multica catch-up pattern: filter by seq > since_seq
+  if [[ -n "$since_seq" ]]; then
+    all_events=$(echo "$all_events" | awk -v min_seq="$since_seq" '
+      match($0, /"seq":[0-9]+/) {
+        seq_val = substr($0, RSTART+6, RLENGTH-6)
+        if (seq_val + 0 > min_seq + 0) print $0
+      }
+    ')
   fi
 
   # Limit results

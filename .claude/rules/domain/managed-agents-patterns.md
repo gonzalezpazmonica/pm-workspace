@@ -61,6 +61,18 @@ The session event log is durable — events survive compaction.
 `~/.savia/session-events/{session-id}.jsonl` — one file per session.
 Append-only JSONL. Never in git. Retained 30 days, then auto-pruned.
 
+### v2: Monotonic seq + resume index (Multica-inspired)
+
+Each emitted event includes a `seq` field per session for catch-up:
+
+- `query --since-seq N` returns events with seq > N (resume after disconnect)
+- `query --session <id>` scopes to a specific session file
+
+Complementary script `scripts/session-resume-index.sh` maintains a
+(agent_type, spec_id) → last_session_id mapping so agents don't scan
+every log file to find their checkpoint. Commands: `record`, `lookup`,
+`list`, `forget`. Storage: `~/.savia/session-resume-index.tsv`.
+
 ## Pattern 3: Stateless Brain + Lazy Provisioning
 
 pm-workspace already follows this pattern:
