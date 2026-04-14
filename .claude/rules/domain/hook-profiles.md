@@ -33,6 +33,7 @@ Gates de calidad del workflow diario:
 - `compliance-gate.sh` — verifica reglas de compliance
 - `agent-hook-premerge.sh` — quality gate pre-merge
 - `prompt-hook-commit.sh` — valida semántica de commits
+- `postponement-judge.sh` — bloquea deferrals injustificados ("mañana seguimos" sin motivo) y fuerza continuación
 
 ### Tier `strict` (solo en strict)
 Extra scrutinio para código crítico:
