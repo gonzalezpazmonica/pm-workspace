@@ -12,7 +12,7 @@ Claude Code native integrations — document Auto Mode as complementary
 defense layer for autonomous modes, extend scheduling commands to cover
 Routines' three execution modes (cloud/desktop/session) and three
 trigger types (cron/api/event), add scheduling guide disambiguating
-`/loop`, `/schedule`, Routines and OS cron.
+`/loop`, `/schedule`, Routines and OS cron. Era 238.
 
 ### Added
 - **`docs/scheduling-guide.md`**: decision tree + table comparing the
