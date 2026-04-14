@@ -7,7 +7,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-init.sh",
             "timeout": 15,
-            "statusMessage": "Inicializando sesi\u00f3n PM-Workspace..."
+            "statusMessage": "Inicializando sesión PM-Workspace..."
           }
         ]
       }
@@ -43,7 +43,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/prompt-hook-commit.sh",
             "timeout": 5,
-            "statusMessage": "Prompt hook: validando sem\u00e1ntica..."
+            "statusMessage": "Prompt hook: validando semántica..."
           },
           {
             "type": "command",
@@ -71,7 +71,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/agent-tool-call-validate.sh",
             "timeout": 5,
-            "statusMessage": "Validando par\u00e1metros de tool call..."
+            "statusMessage": "Validando parámetros de tool call..."
           }
         ]
       },
@@ -93,7 +93,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/tdd-gate.sh",
             "timeout": 10,
-            "statusMessage": "TDD gate: tests antes que c\u00f3digo..."
+            "statusMessage": "TDD gate: tests antes que código..."
           },
           {
             "type": "command",
@@ -122,7 +122,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/responsibility-judge.sh",
             "timeout": 5,
-            "statusMessage": "Responsibility Judge: evaluando decisi\u00f3n..."
+            "statusMessage": "Responsibility Judge: evaluando decisión..."
           },
           {
             "type": "command",
@@ -245,7 +245,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/ast-quality-gate-hook.sh",
             "async": true,
             "timeout": 60,
-            "statusMessage": "AST Quality Gate: analizando c\u00f3digo..."
+            "statusMessage": "AST Quality Gate: analizando código..."
           },
           {
             "type": "command",
@@ -302,7 +302,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-end-snapshot.sh",
             "async": true,
             "timeout": 5,
-            "statusMessage": "Guardando snapshot de sesi\u00f3n..."
+            "statusMessage": "Guardando snapshot de sesión..."
           },
           {
             "type": "command",
@@ -334,7 +334,13 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/emotional-regulation-monitor.sh",
             "async": true,
             "timeout": 10,
-            "statusMessage": "Evaluando bienestar de sesi\u00f3n..."
+            "statusMessage": "Evaluando bienestar de sesión..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/postponement-judge.sh",
+            "timeout": 5,
+            "statusMessage": "Verificando postergaciones injustificadas..."
           }
         ]
       }
@@ -346,7 +352,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-end-memory.sh",
             "timeout": 1500,
-            "statusMessage": "Extrayendo memoria de sesi\u00f3n..."
+            "statusMessage": "Extrayendo memoria de sesión..."
           }
         ]
       }
@@ -394,7 +400,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-compact-backup.sh",
             "timeout": 10,
-            "statusMessage": "Backup pre-compactaci\u00f3n..."
+            "statusMessage": "Backup pre-compactación..."
           }
         ]
       }
@@ -406,7 +412,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
             "timeout": 10,
-            "statusMessage": "Recuperando memoria persistente tras compactaci\u00f3n..."
+            "statusMessage": "Recuperando memoria persistente tras compactación..."
           }
         ]
       }

@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4482194420d5547710d43a493ab9e9b91ee0d2dce589e78fc3c0f7197ca4269b
-timestamp=2026-04-14T06:17:06Z
-branch=feat/multica-patterns-v2
-head_commit=cba2b74
-signature=cd61a3868951a00a1bfb3e698442fd7c79141264fed4b91df9615532a9557fd2
+diff_hash=336095f8c6e0cb498f4712b2d4401e1b331e045a449c9d1cf65076456899da58
+timestamp=2026-04-14T16:49:33Z
+branch=feat/postponement-judge
+head_commit=a0211ed
+signature=4be424fe2cfe899ec71513e2875b7de7933f27e24a865bcdba3104e3d48631a5

@@ -6,6 +6,49 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.83.0] — 2026-04-14
+
+Postponement Judge — Stop hook that refuses unjustified deferrals in
+assistant responses. Era 237. Savia is a 24/7 agent; phrases like
+"we'll leave it for tomorrow" / "lo dejamos para mañana" are human
+reflexes inherited from training data that do not apply here. When
+detected WITHOUT a valid blocker (pending human approval, CI wait,
+rate limit, user stop), the hook blocks the Stop and forces one more
+iteration to continue the task.
+
+### Added
+- **`.claude/hooks/postponement-judge.sh`**: Stop hook. Reads the last
+  assistant text message from the transcript, normalizes to accent-free
+  lowercase, scans 21 postponement patterns (ES + EN) and 24
+  justification patterns. Loop-safe: respects `stop_hook_active=true`
+  and caps at `POSTPONEMENT_JUDGE_MAX` interventions per session
+  (default 2). Profile: standard.
+- **`tests/test-postponement-judge.bats`**: 24 BATS tests covering
+  structure, loop prevention, 6 positive (block) cases, 7 negative
+  (allow) cases including all major justification categories, and 2
+  transcript-parsing edge cases.
+
+### Changed
+- **`.claude/settings.json`**: registered `postponement-judge.sh` in
+  the `Stop` hook array (timeout 5s, synchronous — must complete to
+  return the decision).
+
+### Why
+Unjustified postponement is the clearest signal that the agent has
+imported a human reflex that costs throughput. A 24/7 agent has no
+"end of day" — but LLM training corpora are saturated with them. This
+hook converts that failure mode into a runtime counter: if you're
+going to stop, say WHY. If the why is missing, continue.
+
+### How it works
+Stop hooks receive `{session_id, transcript_path, stop_hook_active}`
+on stdin. On block, they emit `{decision: "block", reason: "..."}` on
+stdout and Claude Code feeds `reason` back to the agent as an implicit
+user message, then continues. If a genuine blocker exists, the agent
+states it on the next turn and the second Stop is allowed (because
+the pattern matches a justification). If the agent keeps postponing
+without reason, the per-session counter (max 2) eventually gives up.
+
 ## [4.82.0] — 2026-04-14
 
 Multica patterns v2 — two tactical improvements inspired by the Multica
@@ -6791,6 +6834,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.82.0...v4.83.0
 [4.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.81.0...v4.82.0
 [4.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.80.0...v4.81.0
 [4.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.79.0...v4.80.0
