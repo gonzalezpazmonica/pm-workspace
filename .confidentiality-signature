@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=336095f8c6e0cb498f4712b2d4401e1b331e045a449c9d1cf65076456899da58
-timestamp=2026-04-14T16:49:33Z
-branch=feat/postponement-judge
-head_commit=a0211ed
-signature=4be424fe2cfe899ec71513e2875b7de7933f27e24a865bcdba3104e3d48631a5
+diff_hash=6b44e91205cb5c29de84702bda126458b9a200ab1aee0716d92f8e604939941a
+timestamp=2026-04-14T21:43:04Z
+branch=feat/claude-code-native-integrations
+head_commit=e3c20be
+signature=a9f9df46abffa2ce25d06ab3b5ebd0f0cbe99270c614032c880e14ed636b650e
