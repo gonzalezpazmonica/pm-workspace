@@ -2,6 +2,9 @@
 # tests/test-postponement-judge.bats
 # BATS tests for .claude/hooks/postponement-judge.sh — Stop hook that
 # forces continuation when the assistant proposes an unjustified deferral.
+#
+# Ref: .claude/rules/domain/hook-profiles.md (standard tier)
+# Ref: SPEC-055 (test quality gate, score >=80)
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
@@ -191,5 +194,62 @@ write_assistant_text() {
   jq -cn '{type:"assistant",message:{content:[{type:"thinking",thinking:"Lo dejamos para mañana"},{type:"text",text:"Tarea completada."}]}}' > "$TRANSCRIPT"
   run invoke "false"
   # "Lo dejamos para mañana" is only in the thinking block, real text is fine
+  [[ -z "$output" ]]
+}
+
+# ── Edge cases (SPEC-055 c5_edge) ─────────────────────────────────────────
+
+@test "edge: empty transcript file behaves gracefully" {
+  : > "$TRANSCRIPT"
+  run invoke "false"
+  [[ "$status" -eq 0 ]]
+  [[ -z "$output" ]]
+}
+
+@test "edge: transcript with zero assistant messages returns empty" {
+  jq -cn '{type:"user",message:{content:"only user"}}' > "$TRANSCRIPT"
+  run invoke "false"
+  [[ "$status" -eq 0 ]]
+  [[ -z "$output" ]]
+}
+
+@test "edge: nonexistent transcript path exits cleanly (no error)" {
+  run bash -c "echo '{\"session_id\":\"x\",\"transcript_path\":\"/nonexistent/path.jsonl\",\"stop_hook_active\":false}' | bash '$HOOK'"
+  [[ "$status" -eq 0 ]]
+  [[ -z "$output" ]]
+}
+
+@test "edge: malformed JSON line in transcript does not crash" {
+  # jq returns empty on malformed lines; hook should skip them
+  printf 'not-a-json-line\n' > "$TRANSCRIPT"
+  jq -cn '{type:"assistant",message:{content:[{type:"text",text:"Tarea completada."}]}}' >> "$TRANSCRIPT"
+  run invoke "false"
+  [[ "$status" -eq 0 ]]
+  [[ -z "$output" ]]
+}
+
+@test "edge: counter overflow (boundary above max) still allows" {
+  write_assistant_text "Lo dejamos para mañana."
+  # Counter far above cap: must still allow, never crash
+  echo 999 > "$COUNTER"
+  run invoke "false"
+  [[ "$status" -eq 0 ]]
+  [[ -z "$output" ]]
+}
+
+@test "edge: large transcript (boundary — 100 assistant turns) picks latest" {
+  for i in $(seq 1 99); do
+    jq -cn --arg n "$i" '{type:"assistant",message:{content:[{type:"text",text:("turn " + $n + " progressing fine")}]}}'
+  done > "$TRANSCRIPT"
+  jq -cn '{type:"assistant",message:{content:[{type:"text",text:"Lo dejamos para mañana."}]}}' >> "$TRANSCRIPT"
+  run invoke "false"
+  [[ "$output" == *'"decision": "block"'* ]]
+}
+
+@test "edge: missing session_id falls back to default counter path" {
+  write_assistant_text "Tarea completada."
+  run bash -c "echo '{\"transcript_path\":\"$TRANSCRIPT\",\"stop_hook_active\":false}' | bash '$HOOK'"
+  [[ "$status" -eq 0 ]]
+  # No postponement → allow, regardless of session_id
   [[ -z "$output" ]]
 }
