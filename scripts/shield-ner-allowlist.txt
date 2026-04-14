@@ -162,3 +162,19 @@ dev.azure.com
 OneDrive
 Documentos
 Documents
+
+# HTTP / SharePoint common English nouns (frequent false PERSON/ORG)
+Accept
+Cookie
+Cookies
+Header
+Headers
+Recording
+Recordings
+File
+Files
+Folder
+Folders
+Status
+Length
+Name

@@ -173,8 +173,11 @@ def scan(text, th=None, file_path=""):
                 etl = entity_text.lower()
                 if any(d in etl for d in NER_PUBLIC_DOMAINS):
                     continue
-                # Filter 0b: code-like identifiers (UPPER_SNAKE, dotted paths)
+                # Filter 0b: code-like identifiers (UPPER_SNAKE, lower_snake, dotted)
                 if re.match(r'^[A-Z][A-Z0-9_]{2,}$', entity_text):
+                    continue
+                # snake_case identifiers (folder_path, mail_url, session_dir)
+                if "_" in entity_text and re.match(r'^[A-Za-z_][A-Za-z0-9_]+$', entity_text):
                     continue
                 if re.match(r'^[a-z_][a-z0-9_]*\.[a-z_][a-z0-9_.]*$', entity_text):
                     continue
