@@ -6,6 +6,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.82.0] — 2026-04-14
+
+Multica patterns v2 — two tactical improvements inspired by the Multica
+daemon (github.com/multica-ai/multica) task_message table design. Era 236.
+Extends the session-event-log from v4.81.0 with monotonic seq numbers
+for catch-up queries, and adds a new session resumption index so agents
+can pick up work where they left off after disconnect.
+
+### Added
+- **`scripts/session-resume-index.sh`**: (agent_type, spec_id) →
+  (session_id, work_dir, timestamp) mapping in a grep-friendly TSV.
+  Commands: `record`, `lookup`, `list [--agent|--spec]`, `forget`,
+  `status`. Last write wins per (agent, spec). Storage:
+  `~/.savia/session-resume-index.tsv`.
+- **`tests/test-multica-patterns-v2.bats`**: 20 BATS tests covering
+  seq number behavior (8 tests), session resume index CRUD (11 tests),
+  and integration between both patterns (1 test).
+
+### Changed
+- **`scripts/session-event-log.sh`**: every emitted event now includes
+  a monotonic `seq` field per session, starting at 1. `query` accepts
+  two new flags: `--since-seq N` (catch-up: return events with seq > N)
+  and `--session <id>` (scope to a specific session file). Backward
+  compatible — existing queries without these flags behave unchanged.
+
+### Why
+Multica's daemon stores a task_message table that lets disconnected
+agents resume exactly where they left off. The session-event-log we
+shipped in v4.81.0 already provided durable events, but lacked two
+pieces that make resumption cheap: (a) a deterministic ordering per
+session for catch-up queries, and (b) a lookup index so agents don't
+scan every log file. Both are added here without breaking the v4.81
+API — seq is additive, and the index is a separate script.
+
+### Integration
+- Events emitted by v4.81.0 without seq still parse correctly (queries
+  skip them when `--since-seq` is used — awk match returns no seq).
+- The resume index is opt-in: no existing workflow depends on it yet.
+  Agents that want to checkpoint their session call `record` at
+  completion and `lookup` at startup.
+
 ## [4.81.0] — 2026-04-14
 
 Managed Agents patterns — architectural improvements inspired by
@@ -6750,6 +6791,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.81.0...v4.82.0
 [4.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.80.0...v4.81.0
 [4.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.79.0...v4.80.0
 [4.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.78.0...v4.79.0
