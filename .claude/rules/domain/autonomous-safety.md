@@ -119,21 +119,13 @@ Contenido mínimo:
 
 ## Auto Mode — Capa complementaria (Claude Code 2026-03-24)
 
-`claude --enable-auto-mode` activa un classifier pre-tool-call de Anthropic que
-bloquea acciones potencialmente destructivas (rm masivo, exfiltración de datos,
-ejecución maliciosa) sin requerir `--dangerously-skip-permissions`. Si Claude
-insiste en una acción bloqueada repetidamente, se dispara prompt de permiso.
-
-**Relación con esta regla:** Auto Mode NO reemplaza los gates de pm-workspace
-(AUTONOMOUS_REVIEWER, ramas agent/*, PR Draft, AGENT_MAX_CONSECUTIVE_FAILURES).
-Añade una capa de defensa en profundidad. Recomendado en toda sesión que invoque
-`overnight-sprint`, `code-improvement-loop` o `tech-research-agent`.
-
-Activación:
-- CLI: `claude --enable-auto-mode` al lanzar la sesión
-- Desktop/VS Code: Settings → Claude Code → Auto Mode → seleccionar en dropdown; Shift+Tab cicla modos
-
-Referencia: https://www.anthropic.com/engineering/claude-code-auto-mode
+`claude --enable-auto-mode` activa un classifier pre-tool-call que bloquea
+acciones destructivas sin requerir `--dangerously-skip-permissions`. NO
+reemplaza los gates de esta regla (AUTONOMOUS_REVIEWER, ramas agent/*, PR
+Draft, AGENT_MAX_CONSECUTIVE_FAILURES) — añade defensa en profundidad.
+Recomendado en toda sesión que invoque `overnight-sprint`,
+`code-improvement-loop` o `tech-research-agent`. Desktop/VS Code: Settings
+→ Claude Code → Auto Mode. Ref: anthropic.com/engineering/claude-code-auto-mode
 
 ---
 
