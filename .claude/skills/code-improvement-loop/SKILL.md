@@ -34,10 +34,14 @@ priority: "medium"
 ## Prerequisitos
 
 ```
-1. AUTONOMOUS_REVIEWER configurado     → si no: ❌ ABORT
-2. Tests pasan (baseline sano)         → si no: ❌ ABORT
-3. Métricas baseline capturadas        → si no: capturar antes de empezar
+1. AUTONOMOUS_REVIEWER configurado            → si no: ❌ ABORT
+2. Tests pasan (baseline sano)                → si no: ❌ ABORT
+3. Métricas baseline capturadas               → si no: capturar antes de empezar
+4. Auto Mode activado (claude --enable-auto-mode) → si no: ⚠️ warning, continuar
 ```
+
+**Auto Mode**: activar `claude --enable-auto-mode` en la sesión que invoque esta
+skill — añade classifier pre-tool-call complementario a `autonomous-safety.md`.
 
 ## Flujo completo (patrón autoresearch adaptado)
 

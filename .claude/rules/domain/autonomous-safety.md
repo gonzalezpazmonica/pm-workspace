@@ -117,6 +117,18 @@ Contenido mínimo:
 
 ---
 
+## Auto Mode — Capa complementaria (Claude Code 2026-03-24)
+
+`claude --enable-auto-mode` activa un classifier pre-tool-call que bloquea
+acciones destructivas sin requerir `--dangerously-skip-permissions`. NO
+reemplaza los gates de esta regla (AUTONOMOUS_REVIEWER, ramas agent/*, PR
+Draft, AGENT_MAX_CONSECUTIVE_FAILURES) — añade defensa en profundidad.
+Recomendado en toda sesión que invoque `overnight-sprint`,
+`code-improvement-loop` o `tech-research-agent`. Desktop/VS Code: Settings
+→ Claude Code → Auto Mode. Ref: anthropic.com/engineering/claude-code-auto-mode
+
+---
+
 ## Escalamiento de modelo
 
 Si un agente falla consecutivamente en una tarea:

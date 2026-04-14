@@ -37,7 +37,20 @@ priority: "medium"
 2. OVERNIGHT_SPRINT_ENABLED = true                           → si no: ❌ ABORT
 3. Hay tareas etiquetadas como overnight-safe en el backlog  → si no: ⚠️ nada que hacer
 4. Tests del proyecto pasan en estado actual (baseline)      → si no: ❌ ABORT
+5. Auto Mode activado (claude --enable-auto-mode)            → si no: ⚠️ warning, continuar
 ```
+
+## Auto Mode — Red de seguridad complementaria
+
+Desde Claude Code 2026-03-24, el flag `--enable-auto-mode` activa un classifier
+pre-tool-call que bloquea acciones potencialmente destructivas (rm masivo,
+exfiltración de datos sensibles, ejecución de código malicioso) sin detener
+el bucle autónomo. Es complementario a los gates de `autonomous-safety.md`
+— no reemplaza `AUTONOMOUS_REVIEWER` ni `AGENT_MAX_CONSECUTIVE_FAILURES`,
+añade una capa extra de defensa en profundidad.
+
+Activar: `claude --enable-auto-mode` al lanzar la sesión que invoca esta skill,
+o desde Desktop/VS Code Settings → Claude Code → Auto Mode.
 
 ## Flujo completo
 

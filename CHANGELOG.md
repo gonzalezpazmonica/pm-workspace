@@ -6,6 +6,49 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.84.0] — 2026-04-14
+
+Claude Code native integrations — document Auto Mode as complementary
+defense layer for autonomous modes, extend scheduling commands to cover
+Routines' three execution modes (cloud/desktop/session) and three
+trigger types (cron/api/event), add scheduling guide disambiguating
+`/loop`, `/schedule`, Routines and OS cron. Era 238.
+
+### Added
+- **`docs/scheduling-guide.md`**: decision tree + table comparing the
+  four scheduling mechanisms available in pm-workspace. Covers when to
+  use each, their persistence model, minimum intervals, and supported
+  triggers. Includes Auto Mode integration guidance.
+- **Auto Mode section in `autonomous-safety.md`**: documents
+  `claude --enable-auto-mode` as a complementary pre-tool-call
+  classifier that blocks destructive actions. Explicit statement that
+  Auto Mode does NOT replace AUTONOMOUS_REVIEWER, agent/* branches,
+  PR Draft or AGENT_MAX_CONSECUTIVE_FAILURES — it adds defense in
+  depth.
+
+### Changed
+- **`.claude/skills/overnight-sprint/SKILL.md`**: new prerequisite
+  row recommending `--enable-auto-mode`; new section describing Auto
+  Mode as complementary safety net.
+- **`.claude/skills/code-improvement-loop/SKILL.md`**: same Auto Mode
+  additions.
+- **`.claude/commands/scheduled-setup.md`**: Paso 4 now asks where the
+  routine should run (Cloud / Desktop Local / Session /loop) with
+  interval limits and capability notes for each backend.
+- **`.claude/commands/scheduled-create.md`**: new `--trigger
+  {cron|api|event}` and `--mode {cloud|desktop|session}` options.
+  Restrictions table expanded per-trigger.
+
+### Why
+Claude Code 2026-03-24 introduced Auto Mode and 2026-04-14 introduced
+Routines. pm-workspace already used Claude Code Scheduled Tasks
+natively, but docs treated cron as the only trigger. Users had no
+reference to disambiguate `/loop` vs `/schedule` vs Routines (third
+parties already publish comparisons). This release closes the doc gap
+and recommends Auto Mode as complementary safety layer — without
+rewriting the pm-workspace autonomous-safety gates which remain
+stricter than the Anthropic classifier.
+
 ## [4.83.0] — 2026-04-14
 
 Postponement Judge — Stop hook that refuses unjustified deferrals in
@@ -6834,6 +6877,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.83.0...v4.84.0
 [4.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.82.0...v4.83.0
 [4.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.81.0...v4.82.0
 [4.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.80.0...v4.81.0
