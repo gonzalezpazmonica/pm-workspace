@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8ab73ffcf655803cd70901688a9a2a0167b5f7706baabc551000b0671dbaddc3
-timestamp=2026-04-15T20:32:29Z
-branch=feat/spec-106-truth-tribunal-mvp
-head_commit=530757c
-signature=7acf3a777a1875d081976976426790d566cf2acc5fd2175e2e5f99378305b58b
+diff_hash=49282284d3c6512c402899a5427bc7953b9ed83ee5a6ac1fe176292b7c660135
+timestamp=2026-04-15T23:28:10Z
+branch=feat/spec-106-phase-3-benchmark
+head_commit=cd86c16
+signature=7e22fa7efb1c3399c5b9e870650d364efa545e192fc0bd04f22d0d30ec091e3f
