@@ -51,10 +51,11 @@ teardown() {
   [ "${#output}" -le 500 ]
 }
 
-@test "L1 layer returns larger output than L0" {
-  l0=$(bash "$SCRIPT" L0 2>/dev/null | wc -c)
-  l1=$(bash "$SCRIPT" L1 2>/dev/null | wc -c)
-  [ "$l1" -ge "$l0" ]
+@test "L1 layer budget is greater than L0 budget" {
+  # Runtime output depends on memory content; assert the deterministic budget instead.
+  l0_budget=$(grep "^BUDGET_L0=" "$SCRIPT" | awk -F= '{print $2}' | awk '{print $1}')
+  l1_budget=$(grep "^BUDGET_L1=" "$SCRIPT" | awk -F= '{print $2}' | awk '{print $1}')
+  [ "$l1_budget" -gt "$l0_budget" ]
 }
 
 @test "L2 layer has higher budget than L1" {
