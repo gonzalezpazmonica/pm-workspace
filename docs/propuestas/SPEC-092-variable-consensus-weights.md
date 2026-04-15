@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-092
 title: Variable Consensus Weights — pesos por tipo de tarea
-status: Proposed
+status: Implemented
 origin: llmfit research (2026-04-08)
 severity: Media
 effort: ~1h

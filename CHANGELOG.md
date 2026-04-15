@@ -6,6 +6,48 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.85.0] — 2026-04-15
+
+Roadmap reprioritization — close 6 implemented specs, add SAVIA-GENESIS
+recovery doc + script, add 3 strategic specs (workspace bundle,
+gitagent export adapter, GAIA benchmark) from external research analysis
+(vibe-kanban, gitagent, AutoAgent). Era 239.
+
+### Added
+- **`docs/SAVIA-GENESIS.md`**: dual-purpose recovery and best-practices
+  document. Reader 1: a clean Claude instance can rebuild Savia from
+  this single file. Reader 2: humans get principles of context engineering
+  and agentic programming. Includes 11 parts + 2 appendices, 7 immutable
+  principles, recovery playbook, 10 best practices each for context engineering
+  and agentic programming.
+- **`scripts/recover-savia.sh`**: launcher that creates an isolated
+  sandbox OUTSIDE the repo, copies SAVIA-GENESIS.md as initial context,
+  and launches a clean Claude session with READ-ONLY access to the
+  broken pm-workspace. The recovery Claude proposes fixes; humans
+  apply via /pr-plan.
+- **`tests/test-spec-088-pair-integrity.bats`**: 13 BATS tests
+  validating the SPEC-088 inviolable rule (tool_use ↔ tool_result pairs)
+  is documented in canonical locations + 4 algorithmic simulator cases.
+- **`tests/test-recover-savia.bats`**: 16 BATS tests for the recovery
+  script — syntax, sandbox isolation, exit codes, prompt invariants.
+- **`docs/propuestas/SPEC-098`**: workspace bundle (nidos with dev server)
+- **`docs/propuestas/SPEC-099`**: gitagent export adapter (defensive)
+- **`docs/propuestas/SPEC-100`**: GAIA benchmark integration
+
+### Changed
+- Status `Proposed` → `Implemented` for: SPEC-087 (tool-result-trim),
+  SPEC-088 (compact pair integrity), SPEC-091 (optimal band scoring),
+  SPEC-092 (variable consensus weights), SPEC-093 (hardware-aware Ollama),
+  SPEC-097 (compiled agent index). All verified via existing tests.
+
+### Why
+Pending specs accumulate when nobody verifies what's already done. This
+release closes 6 (5 of which were silently implemented) and brings 3 new
+strategic ones — including a defensive adapter against gitagent becoming
+THE agent definition standard. SAVIA-GENESIS exists because Savia must
+be reconstructible from text alone — that's principle #1 (data sovereignty)
+and principle #2 (provider independence) made executable.
+
 ## [4.84.0] — 2026-04-14
 
 Claude Code native integrations — document Auto Mode as complementary
@@ -6877,6 +6919,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.84.0...v4.85.0
 [4.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.83.0...v4.84.0
 [4.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.82.0...v4.83.0
 [4.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.81.0...v4.82.0

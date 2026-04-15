@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-097
 title: Compiled Agent Reference Index — Optimized LLM Tool Routing
-status: Proposed
+status: Implemented
 origin: Anvil research (ppazosp/anvil, 2026-04-08)
 severity: Baja
 effort: ~2h
