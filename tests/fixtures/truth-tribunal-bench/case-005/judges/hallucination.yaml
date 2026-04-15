@@ -1,0 +1,4 @@
+judge: "hallucination-judge"
+score: 80
+verdict: pass
+confidence: 0.85

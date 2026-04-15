@@ -1,0 +1,4 @@
+judge: "source-traceability-judge"
+score: 40
+verdict: pass
+confidence: 0.85

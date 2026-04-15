@@ -1,0 +1,4 @@
+judge: "coherence-judge"
+score: 95
+verdict: pass
+confidence: 0.85
