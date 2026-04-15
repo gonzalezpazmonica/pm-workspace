@@ -57,7 +57,7 @@ print(json.dumps({'tool_input': {'file_path': sys.argv[1], 'content': sys.argv[2
 
 @test "github.com URL is ALLOWED" {
   daemon_available || skip "Shield daemon not running"
-  output=$(gate_post "$N1_PATH" 'repo = "https://github.com/anthropics/claude-code"')
+  output=$(gate_post "$N1_PATH" 'repo = "https://github.com/python/cpython"')
   [[ "$output" != *'"verdict": "BLOCK"'* ]]
 }
 
