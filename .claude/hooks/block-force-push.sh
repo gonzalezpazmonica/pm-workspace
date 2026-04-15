@@ -31,10 +31,32 @@ if [ -z "$COMMAND" ]; then
   exit 0
 fi
 
-# Bloquear force push
-# FIX: Add anchoring for compound command separators (semicolon, &&, ||, pipe)
-if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+.*--force|(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+-f[[:space:]]' > /dev/null; then
-  echo "BLOQUEADO: git push --force no está permitido. Usa git push sin --force." >&2
+# Bloquear force push (permite --force-with-lease en ramas no-main)
+# --force-with-lease es más seguro: falla si el remoto avanzó sin nuestro conocimiento.
+# Requerido en flujo de rebase de PRs en cola (SPEC-105).
+IS_FORCE_WITH_LEASE=no
+IS_BARE_FORCE=no
+IS_PUSH_TO_MAIN=no
+
+if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+.*--force-with-lease' > /dev/null; then
+  IS_FORCE_WITH_LEASE=yes
+fi
+if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+(.*[[:space:]])?--force([[:space:]]|$)|(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+-f[[:space:]]' > /dev/null; then
+  IS_BARE_FORCE=yes
+fi
+if echo "$COMMAND" | grep -iE 'git[[:space:]]+push[[:space:]]+.*\b(main|master)\b' > /dev/null; then
+  IS_PUSH_TO_MAIN=yes
+fi
+
+# Bare --force (sin --force-with-lease) siempre bloqueado
+if [[ "$IS_BARE_FORCE" == "yes" && "$IS_FORCE_WITH_LEASE" == "no" ]]; then
+  echo "BLOQUEADO: git push --force no está permitido. Usa --force-with-lease." >&2
+  exit 2
+fi
+
+# --force-with-lease a main/master bloqueado (solo permitido en ramas feature)
+if [[ "$IS_FORCE_WITH_LEASE" == "yes" && "$IS_PUSH_TO_MAIN" == "yes" ]]; then
+  echo "BLOQUEADO: --force-with-lease a main/master no permitido." >&2
   exit 2
 fi
 
