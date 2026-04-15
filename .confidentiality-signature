@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8ab73ffcf655803cd70901688a9a2a0167b5f7706baabc551000b0671dbaddc3
-timestamp=2026-04-15T20:32:29Z
-branch=feat/spec-106-truth-tribunal-mvp
-head_commit=530757c
-signature=7acf3a777a1875d081976976426790d566cf2acc5fd2175e2e5f99378305b58b
+diff_hash=b613e71791ca1942b5b31164daa0a83da72daa8e89db7242dbae596bc469e014
+timestamp=2026-04-15T22:04:52Z
+branch=spec/107-ai-cognitive-debt-mitigation
+head_commit=8bf33a8
+signature=a8842796261efa54c3acb1e37a773dfd5c1bf785239f6bba8172ae5ad869f7a4
