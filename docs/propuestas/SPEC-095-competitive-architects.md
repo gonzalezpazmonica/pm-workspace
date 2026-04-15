@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-095
 title: Competitive Architects — Parallel Design Generation
-status: Proposed
+status: Implemented
 origin: Anvil research (ppazosp/anvil, 2026-04-08)
 severity: Media
 effort: ~2h

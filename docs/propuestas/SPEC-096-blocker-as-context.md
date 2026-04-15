@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-096
 title: Blocker-as-Context — Knowledge Chain for Dev Session Slices
-status: Proposed
+status: Implemented
 origin: Anvil research (ppazosp/anvil, 2026-04-08)
 severity: Media
 effort: ~2h

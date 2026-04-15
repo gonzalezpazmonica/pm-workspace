@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [4.87.0] — 2026-04-15
+## [4.89.0] — 2026-04-15
 
 Shield NER improvements — expanded filters + allowlist + persistent launcher
 + defensive hook for uncommitted branch switch. Era 232.
@@ -41,6 +41,102 @@ Shield NER improvements — expanded filters + allowlist + persistent launcher
   code patterns (snake_case, kwargs, truncated literals).
 - Shield daemon startup race where HTTP hook ran before daemon was ready.
 
+## [4.88.0] — 2026-04-15
+
+SPEC-106 Phase 1 — Truth Tribunal MVP. Seven independent judges evaluate
+report reliability with fresh context per judge, weighted aggregation by
+report type, and absolute veto rules for compliance/PII. Era 242.
+
+### Added
+- **`scripts/truth-tribunal.sh`**: orchestration helper with subcommands
+  detect-type, detect-tier, weights, aggregate, verdict, cache-check,
+  cache-store. Hardcoded weights synced with the rule file. SHA256 cache
+  with 24h TTL. Aggregates 7 per-judge YAML outputs into a single
+  `.truth.crc` artifact via python3 weighted scoring.
+- **7 judge agents** under `.claude/agents/`: factuality-judge (Opus),
+  source-traceability-judge (Sonnet), hallucination-judge (Opus),
+  coherence-judge (Sonnet), calibration-judge (Sonnet),
+  completeness-judge (Sonnet), compliance-judge (Opus). Each declares
+  its YAML output schema, scoring rubric, and veto conditions.
+- **`.claude/agents/truth-tribunal-orchestrator.md`** (Opus L2):
+  convenes the 7 judges in parallel via fork pattern, applies vetos,
+  computes weighted consensus, and emits the canonical `.truth.crc`.
+- **`.claude/rules/domain/truth-tribunal-weights.md`**: weights table
+  for 6 profiles (default, executive, compliance, audit, digest,
+  subjective) with auto-detection and frontmatter override.
+- **`.claude/commands/report-verify.md`**: `/report-verify <report>`
+  slash command — invokes the orchestrator, shows verdict banner, and
+  blocks delivery on ITERATE/ESCALATE.
+- **`tests/test-truth-tribunal.bats`**: 31 BATS tests covering all
+  subcommands, profile detection, verdict thresholds, abstention
+  handling, compliance gate override, and cache TTL. Auditor score 87.
+
+### Verdicts
+- PUBLISHABLE (high score, no vetos)
+- CONDITIONAL (mid score, no critical vetos)
+- ITERATE (low score or any veto)
+- ESCALATE (after 3 iterations still failing)
+- NOT_EVALUABLE (≥4 abstentions)
+
+### Phase 1 scope
+Manual invocation via `/report-verify`. Phase 2 will add async hook
+integration and iteration loop. Phase 3 will calibrate weights against
+a benchmark harness.
+
+## [4.87.0] — 2026-04-15
+
+SPEC-098 workspace bundle — nidos.sh gains dev-server lifecycle. Extend
+parallel terminal isolation with fast dev-server management across 12
+language packs. Era 241.
+
+### Added
+- **`scripts/nidos-dev-lib.sh`**: dev-server library for nidos. Provides
+  detect / start / stop / url / logs. Auto-detection for Angular, Next.js,
+  Vite, Django, FastAPI, Spring, Go, Rust, .NET, Laravel, Rails plus
+  CLAUDE.md override (DEV_SERVER_COMMAND, DEV_SERVER_PORT, DEV_SERVER_READY).
+  Ports auto-resolve on conflicts. State persists in `<nido>/.dev-server/`.
+- **`nidos.sh dev <name> {start|stop|url|logs}`**: new dispatcher.
+- **`tests/test-nidos-dev.bats`**: 28 BATS tests covering detection,
+  lifecycle, failure modes, edge cases.
+
+### Changed
+- **`scripts/nidos.sh`**: `remove` now calls `dev_stop` before removing
+  the worktree (NIDOS-DEV-02 — no zombie processes after cleanup).
+- **`scripts/nidos-lib.sh`**: usage text lists the new `dev` subcommand.
+- Status `Proposed` → `Implemented` for SPEC-098.
+
+### Why
+Before: agents that needed a live dev server (visual-qa, web-e2e-tester,
+frontend-developer) had to ask the human to start it manually and pass
+the URL. With `nidos.sh dev current url`, the URL auto-discovers. Inspired
+by vibe-kanban's workspace bundle — adapted to our CLI/file-based model.
+
+## [4.86.0] — 2026-04-15
+
+Tier 1 roadmap sweep — close 6 more implemented specs via verification,
+add missing BATS test for SPEC-089 (memory-stack-load). Era 240.
+
+### Added
+- **`tests/test-memory-stack-load.bats`**: 21 BATS tests for SPEC-089
+  memory stack L0-L3 loader. Validates budgets, progressive loading,
+  graceful degradation, edge cases.
+
+### Changed
+- Status `Proposed` → `Implemented` for 6 specs all verified via existing
+  scripts and tests:
+  - SPEC-086 proactive-context-budget
+  - SPEC-089 memory-stack-l0l3 (new BATS test added)
+  - SPEC-090 temporal-knowledge-graph
+  - SPEC-094 heat-based-parallelism
+  - SPEC-095 competitive-architects
+  - SPEC-096 blocker-as-context
+
+### Why
+Six specs were implemented across previous sprints but never marked as such.
+The roadmap discrepancy between listed Proposed and actually pending has
+been corrected. Missing BATS suite for SPEC-089 added at quality threshold.
+Remaining Proposed: SPEC-085 (savia-web, out-of-scope here) plus the four
+strategic specs added from external research analysis.
 
 ## [4.85.0] — 2026-04-15
 
@@ -6955,7 +7051,10 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.88.0...v4.89.0
+[4.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.87.0...v4.88.0
 [4.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.86.0...v4.87.0
+[4.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.85.0...v4.86.0
 [4.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.84.0...v4.85.0
 [4.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.83.0...v4.84.0
 [4.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.82.0...v4.83.0

@@ -10,9 +10,15 @@ ACTION="${1:-status}"
 
 get_diff_hash() {
   cd "$ROOT_DIR" || exit 2
-  # Diff: origin/main..HEAD excluding self-referencing files
-  # Works locally (HEAD=branch tip) and CI (checkout ref=head.sha)
-  git diff origin/main..HEAD -- . \
+  # Diff: merge-base(origin/main, HEAD)..HEAD excluding self-referencing files.
+  # Using merge-base (STABLE across main advances) instead of origin/main (MOVES
+  # after each PR merge) prevents signature invalidation when a queued PR
+  # becomes next-in-line. The merge-base only changes if the branch itself
+  # rebases onto new main content — which is the only legitimate case for
+  # re-signing. See SPEC-105.
+  local base
+  base=$(git merge-base origin/main HEAD 2>/dev/null) || base="origin/main"
+  git diff "$base..HEAD" -- . \
     ':!.confidentiality-signature' \
     ':!.github/workflows/confidentiality-gate.yml' \
     2>/dev/null | sha256sum | awk '{print $1}'

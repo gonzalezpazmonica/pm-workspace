@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-098
 title: Workspace Bundle — Nidos with Optional Dev Server + Preview URL
-status: Proposed
+status: Implemented
 origin: BloopAI/vibe-kanban analysis (2026-04-15)
 severity: Media
 effort: ~6h

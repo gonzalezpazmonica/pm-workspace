@@ -8,6 +8,8 @@ SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPTS_DIR/savia-compat.sh" 2>/dev/null || true
 # shellcheck source=nidos-lib.sh
 source "$SCRIPTS_DIR/nidos-lib.sh"
+# shellcheck source=nidos-dev-lib.sh
+source "$SCRIPTS_DIR/nidos-dev-lib.sh" 2>/dev/null || true
 
 do_create() {
   local name="" branch="" with_changes=false
@@ -132,6 +134,12 @@ do_remove() {
   local nido_path="$NIDOS_DIR/$name"
   local branch
   branch=$(grep "^${name}=" "$NIDOS_REGISTRY" | cut -d= -f2- | tr -d '\r')
+
+  # SPEC-098 NIDOS-DEV-02: stop dev server before removing the worktree
+  if [[ -d "$nido_path/.dev-server" ]]; then
+    command -v dev_stop >/dev/null 2>&1 && dev_stop "$nido_path" >/dev/null 2>&1 || true
+  fi
+
   if [[ -d "$nido_path" ]]; then
     local dirty
     dirty=$(git -C "$nido_path" status --porcelain 2>/dev/null | tr -d '\r')
@@ -180,6 +188,7 @@ case "${1:-}" in
   enter)  do_enter "${2:-}" ;;
   remove) shift; resolve_repo_root; do_remove "$@" ;;
   status) do_status ;;
+  dev)    shift; dev_dispatch "$@" ;;
   help|-h|--help) nidos_usage ;;
   "")     do_list ;;
   *)      echo "Unknown command: $1" >&2; nidos_usage >&2; exit 1 ;;

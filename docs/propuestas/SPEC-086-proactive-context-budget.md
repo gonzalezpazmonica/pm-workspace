@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-086
 title: Proactive Context Budget Tracker — pre-call check
-status: Proposed
+status: Implemented
 origin: Claudepedia pattern analysis (2026-04-08)
 severity: Media
 effort: ~3h

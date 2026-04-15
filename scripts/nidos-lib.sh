@@ -77,8 +77,9 @@ Usage:
   nidos.sh create <name> [--branch <b>] [--with-changes]  Create a new nido
   nidos.sh list                                 List active nidos
   nidos.sh enter <name>                         Show path to cd into
-  nidos.sh remove <name> [--force]              Remove a nido
+  nidos.sh remove <name> [--force]              Remove a nido (stops dev server first)
   nidos.sh status                               Detect current nido
+  nidos.sh dev <name> {start|stop|url|logs}     Manage dev server in a nido (SPEC-098)
   nidos.sh help                                 Show this help
 
 Options:
