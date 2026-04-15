@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=17fa3f05bd5925c9417c1c00c8948b9e117c2ed65e7e7e874d104bf48611a24f
-timestamp=2026-04-15T07:09:41Z
-branch=feat/roadmap-tier1-tier2
-head_commit=e37585b
-signature=2f867446045a5a0b10ccb42e580261c85512bb9cf999a7440167f5035abedce7
+diff_hash=6c898d1edf66a7cfa8e24c41e130fe7c65e86f705f08273fb25de53fb6871d4a
+timestamp=2026-04-15T10:24:19Z
+branch=chore/gitignore-playwright-mcp-artifacts
+head_commit=0853154
+signature=35fda0adb10eddf87fe44efd19e2acf073493458fe3ba1d0a71161db8c673ea1
