@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6c898d1edf66a7cfa8e24c41e130fe7c65e86f705f08273fb25de53fb6871d4a
-timestamp=2026-04-15T10:24:19Z
-branch=chore/gitignore-playwright-mcp-artifacts
-head_commit=0853154
-signature=35fda0adb10eddf87fe44efd19e2acf073493458fe3ba1d0a71161db8c673ea1
+diff_hash=e312983193e6d890622d7461e5a3fcc7385a27d2073680437ac290bcf4788b0f
+timestamp=2026-04-15T18:44:48Z
+branch=feat/shield-ner-improvements
+head_commit=a79ba6b
+signature=d03aa980194a460d85a79ea351590270cbd601f58e780cc67d90c7f460168360
