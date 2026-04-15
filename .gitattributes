@@ -7,3 +7,10 @@
 # Windows-specific files can keep CRLF
 *.bat text eol=crlf
 *.cmd text eol=crlf
+
+# Confidentiality signature — keep branch (ours) version on merge.
+# Rationale: each PR's signature matches its diff vs merge-base. When a queued
+# PR rebases onto newer main, git would conflict (main has previous-PR's sig,
+# branch has its own). This directive auto-resolves to the branch version;
+# signature is verified by CI after rebase. See SPEC-105.
+.confidentiality-signature merge=ours

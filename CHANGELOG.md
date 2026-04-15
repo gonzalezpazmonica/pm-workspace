@@ -6,6 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.86.0] — 2026-04-15
+
+Tier 1 roadmap sweep — close 6 more implemented specs via verification,
+add missing BATS test for SPEC-089 (memory-stack-load). Era 240.
+
+### Added
+- **`tests/test-memory-stack-load.bats`**: 21 BATS tests for SPEC-089
+  memory stack L0-L3 loader. Validates budgets, progressive loading,
+  graceful degradation, edge cases.
+
+### Changed
+- Status `Proposed` → `Implemented` for 6 specs all verified via existing
+  scripts and tests:
+  - SPEC-086 proactive-context-budget
+  - SPEC-089 memory-stack-l0l3 (new BATS test added)
+  - SPEC-090 temporal-knowledge-graph
+  - SPEC-094 heat-based-parallelism
+  - SPEC-095 competitive-architects
+  - SPEC-096 blocker-as-context
+
+### Why
+Six specs were implemented across previous sprints but never marked as such.
+The roadmap discrepancy between listed Proposed and actually pending has
+been corrected. Missing BATS suite for SPEC-089 added at quality threshold.
+Remaining Proposed: SPEC-085 (savia-web, out-of-scope here) plus the four
+strategic specs added from external research analysis.
+
 ## [4.85.0] — 2026-04-15
 
 Roadmap reprioritization — close 6 implemented specs, add SAVIA-GENESIS
@@ -6919,6 +6946,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.85.0...v4.86.0
 [4.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.84.0...v4.85.0
 [4.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.83.0...v4.84.0
 [4.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.82.0...v4.83.0
