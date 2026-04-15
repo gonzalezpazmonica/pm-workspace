@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-091
 title: Optimal Band Scoring — utilización óptima como banda, no como mínimo
-status: Proposed
+status: Implemented
 origin: llmfit research (2026-04-08)
 severity: Media
 effort: ~1h
