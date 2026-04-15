@@ -63,30 +63,37 @@ if [[ "$BEHIND" -eq 0 ]]; then
   echo "  Already up to date with origin/main — nothing to rebase."
 else
   echo "  Rebasing $BEHIND commits from origin/main..."
-  if ! git rebase origin/main 2>&1 | tee /tmp/pr-rebase-output.log; then
-    # Check if the ONLY conflict is .confidentiality-signature
+  # Start rebase; it may conflict multiple times (once per queued commit
+  # that touched .confidentiality-signature). Loop auto-resolving until
+  # rebase completes or hits a non-signature conflict.
+  git rebase origin/main >/tmp/pr-rebase-output.log 2>&1 || true
+
+  MAX_ITER=50
+  ITER=0
+  while [[ -d .git/rebase-merge || -d .git/rebase-apply ]]; do
+    ITER=$((ITER + 1))
+    if [[ $ITER -gt $MAX_ITER ]]; then
+      echo "ERROR: rebase exceeded $MAX_ITER iterations, aborting." >&2
+      git rebase --abort 2>/dev/null || true
+      exit 2
+    fi
+
     CONFLICTS=$(git diff --name-only --diff-filter=U)
     if [[ "$CONFLICTS" == ".confidentiality-signature" ]]; then
-      echo "  Auto-resolving .confidentiality-signature (keeping branch version)..."
-      git checkout --ours .confidentiality-signature
+      git checkout --ours .confidentiality-signature 2>/dev/null
       git add .confidentiality-signature
-      if ! git rebase --continue 2>&1 | tee -a /tmp/pr-rebase-output.log; then
-        # Continue may need more files — check again
-        REMAINING=$(git diff --name-only --diff-filter=U)
-        if [[ -n "$REMAINING" ]]; then
-          echo "ERROR: additional conflicts beyond signature:" >&2
-          echo "$REMAINING" >&2
-          echo "Run 'git rebase --abort' and resolve manually." >&2
-          exit 2
-        fi
-      fi
+      git -c core.editor=true rebase --continue >>/tmp/pr-rebase-output.log 2>&1 || true
+    elif [[ -z "$CONFLICTS" ]]; then
+      # Empty commit case (changes became no-op after rebase)
+      git -c core.editor=true rebase --skip >>/tmp/pr-rebase-output.log 2>&1 || true
     else
       echo "ERROR: rebase conflicts not limited to signature file:" >&2
-      echo "$CONFLICTS" >&2
+      echo "$CONFLICTS" | sed 's/^/  /' >&2
       echo "Run 'git rebase --abort' and resolve manually." >&2
       exit 2
     fi
-  fi
+  done
+  echo "  Rebase complete after $ITER auto-resolution(s)."
 fi
 
 # ── Re-sign with the new merge-base ────────────────────────────────────────
