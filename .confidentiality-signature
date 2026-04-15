@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9a5033ea3849ba25e3d670e530bdf1044c85e677d40f2a295fd7b434deeb2321
-timestamp=2026-04-15T18:34:09Z
-branch=feat/tier1-greenfield
-head_commit=1650667
-signature=3334d8e1c4b5031e39f6512c46e4ff238fd7b5acd2b71cd7182a97e49bf6e742
+diff_hash=d67e5c13d5a5ca59b7c82a295742c7b49b47cc880362cfd25424f50cfebb3617
+timestamp=2026-04-15T19:13:36Z
+branch=feat/spec-098-nidos-dev-server
+head_commit=937cd1f
+signature=8b9efcc99d469868670b9e84852f0c608b34f455ffafba0126b0e7d542c05c36

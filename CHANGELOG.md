@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.87.0] — 2026-04-15
+
+SPEC-098 workspace bundle — nidos.sh gains dev-server lifecycle. Extend
+parallel terminal isolation with fast dev-server management across 12
+language packs. Era 241.
+
+### Added
+- **`scripts/nidos-dev-lib.sh`**: dev-server library for nidos. Provides
+  detect / start / stop / url / logs. Auto-detection for Angular, Next.js,
+  Vite, Django, FastAPI, Spring, Go, Rust, .NET, Laravel, Rails plus
+  CLAUDE.md override (DEV_SERVER_COMMAND, DEV_SERVER_PORT, DEV_SERVER_READY).
+  Ports auto-resolve on conflicts. State persists in `<nido>/.dev-server/`.
+- **`nidos.sh dev <name> {start|stop|url|logs}`**: new dispatcher.
+- **`tests/test-nidos-dev.bats`**: 28 BATS tests covering detection,
+  lifecycle, failure modes, edge cases.
+
+### Changed
+- **`scripts/nidos.sh`**: `remove` now calls `dev_stop` before removing
+  the worktree (NIDOS-DEV-02 — no zombie processes after cleanup).
+- **`scripts/nidos-lib.sh`**: usage text lists the new `dev` subcommand.
+- Status `Proposed` → `Implemented` for SPEC-098.
+
+### Why
+Before: agents that needed a live dev server (visual-qa, web-e2e-tester,
+frontend-developer) had to ask the human to start it manually and pass
+the URL. With `nidos.sh dev current url`, the URL auto-discovers. Inspired
+by vibe-kanban's workspace bundle — adapted to our CLI/file-based model.
+
 ## [4.86.0] — 2026-04-15
 
 Tier 1 roadmap sweep — close 6 more implemented specs via verification,
@@ -6946,6 +6974,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.86.0...v4.87.0
 [4.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.85.0...v4.86.0
 [4.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.84.0...v4.85.0
 [4.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.83.0...v4.84.0
