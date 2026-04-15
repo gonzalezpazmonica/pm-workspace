@@ -6,6 +6,48 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.88.0] — 2026-04-15
+
+SPEC-106 Phase 1 — Truth Tribunal MVP. Seven independent judges evaluate
+report reliability with fresh context per judge, weighted aggregation by
+report type, and absolute veto rules for compliance/PII. Era 242.
+
+### Added
+- **`scripts/truth-tribunal.sh`**: orchestration helper with subcommands
+  detect-type, detect-tier, weights, aggregate, verdict, cache-check,
+  cache-store. Hardcoded weights synced with the rule file. SHA256 cache
+  with 24h TTL. Aggregates 7 per-judge YAML outputs into a single
+  `.truth.crc` artifact via python3 weighted scoring.
+- **7 judge agents** under `.claude/agents/`: factuality-judge (Opus),
+  source-traceability-judge (Sonnet), hallucination-judge (Opus),
+  coherence-judge (Sonnet), calibration-judge (Sonnet),
+  completeness-judge (Sonnet), compliance-judge (Opus). Each declares
+  its YAML output schema, scoring rubric, and veto conditions.
+- **`.claude/agents/truth-tribunal-orchestrator.md`** (Opus L2):
+  convenes the 7 judges in parallel via fork pattern, applies vetos,
+  computes weighted consensus, and emits the canonical `.truth.crc`.
+- **`.claude/rules/domain/truth-tribunal-weights.md`**: weights table
+  for 6 profiles (default, executive, compliance, audit, digest,
+  subjective) with auto-detection and frontmatter override.
+- **`.claude/commands/report-verify.md`**: `/report-verify <report>`
+  slash command — invokes the orchestrator, shows verdict banner, and
+  blocks delivery on ITERATE/ESCALATE.
+- **`tests/test-truth-tribunal.bats`**: 31 BATS tests covering all
+  subcommands, profile detection, verdict thresholds, abstention
+  handling, compliance gate override, and cache TTL. Auditor score 87.
+
+### Verdicts
+- PUBLISHABLE (high score, no vetos)
+- CONDITIONAL (mid score, no critical vetos)
+- ITERATE (low score or any veto)
+- ESCALATE (after 3 iterations still failing)
+- NOT_EVALUABLE (≥4 abstentions)
+
+### Phase 1 scope
+Manual invocation via `/report-verify`. Phase 2 will add async hook
+integration and iteration loop. Phase 3 will calibrate weights against
+a benchmark harness.
+
 ## [4.87.0] — 2026-04-15
 
 SPEC-098 workspace bundle — nidos.sh gains dev-server lifecycle. Extend
@@ -6974,6 +7016,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.87.0...v4.88.0
 [4.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.86.0...v4.87.0
 [4.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.85.0...v4.86.0
 [4.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.84.0...v4.85.0

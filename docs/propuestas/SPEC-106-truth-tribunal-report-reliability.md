@@ -1,10 +1,22 @@
 ---
 spec_id: SPEC-106
 title: Truth Tribunal — Multi-judge report reliability gate (≥90% threshold)
-status: Proposed
+status: Phase 1 Implemented (v4.88.0, Era 242)
 origin: User request (2026-04-15) — "Savia tiene que ser fiable" — urgent
 severity: Alta
 effort: ~40h (sprint dedicado recomendado)
+phase_1_artifacts:
+  - scripts/truth-tribunal.sh
+  - .claude/agents/truth-tribunal-orchestrator.md
+  - .claude/agents/{factuality,source-traceability,hallucination,coherence,calibration,completeness,compliance}-judge.md
+  - .claude/rules/domain/truth-tribunal-weights.md
+  - .claude/commands/report-verify.md
+  - tests/test-truth-tribunal.bats (BATS suite, certified)
+phase_1_decisions:
+  - sync invocation (manual /report-verify) — async hooks deferred to Phase 2
+  - Opus for factuality/hallucination/compliance, Sonnet for the other 4
+  - SHA256 cache, 24h TTL
+  - subjective profile included with ajusted weights
 ---
 
 # SPEC-106: Truth Tribunal — Report Reliability Gate
