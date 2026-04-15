@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d67e5c13d5a5ca59b7c82a295742c7b49b47cc880362cfd25424f50cfebb3617
-timestamp=2026-04-15T19:13:36Z
-branch=feat/spec-098-nidos-dev-server
-head_commit=937cd1f
-signature=8b9efcc99d469868670b9e84852f0c608b34f455ffafba0126b0e7d542c05c36
+diff_hash=eda4b647bcc1a3e5cf41ea745723fa37124b667f94d3388f88e84fa65162b042
+timestamp=2026-04-15T19:34:59Z
+branch=docs/spec-106-truth-tribunal
+head_commit=610e0f6
+signature=9874c8d7405db58d0e49eb2d936dc45c176c224f2e704d3453ca61498db66f0c
