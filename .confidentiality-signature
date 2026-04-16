@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=53bf23ed6d7469d4a2dab67821fd106aaef9b49e55bcfd060c710f44bf630389
-timestamp=2026-04-16T19:42:01Z
+diff_hash=35ff860ea5e643056435b010be00e49862ba96db7a99b163e8af5baf9ca8f69d
+timestamp=2026-04-16T20:41:55Z
 branch=feat/spec-106-phase-2-async-hooks
-head_commit=df4df35
-signature=7d91cc2acdb57afbc9ee16fd4308df51d601ca692f803b8540d390d501209032
+head_commit=2f58c21d
+signature=f25caafff7a7b89006c8642754a66ed6c054a6faeff259f009b26d6269b82450
