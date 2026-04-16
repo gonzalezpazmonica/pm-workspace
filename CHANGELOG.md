@@ -6,6 +6,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.95.0] — 2026-04-16
+
+Migration of workspace rules from `.claude/rules/` to `docs/rules/`. Rules
+are documentation artefacts and belong under `docs/`. Lazy-loading behaviour
+preserved: `.claudeignore` continues to exclude rules from auto-context,
+so they only load when explicitly `@`-referenced. Era 244.
+
+### Changed
+- **Moved**: `.claude/rules/domain/*.md` → `docs/rules/domain/*.md` (151 rules)
+- **Moved**: `.claude/rules/languages/*.md` → `docs/rules/languages/*.md` (14 packs)
+- **URL sanitisation**: 413 files updated (agents, commands, skills, docs, hooks, scripts, tests)
+- **`.claudeignore`**: now excludes `docs/rules/{domain,languages}/`
+- **`scripts/rule-usage-analyzer.sh`**: `RULES_DIR` points to `docs/rules/domain/`; fixed `\d` → `d` regex bug
+- **Hooks dual-pattern** (`prompt-injection-guard.sh`, `validate-layer-contract.sh`,
+  `agent-hook-premerge.sh`, `memory-auto-capture.sh`, `data-sovereignty-gate.sh`):
+  match both `docs/rules/` (new) and `.claude/rules/` (kept for git-ignored
+  `pm-config.local.md`)
+- **`.claude/compliance/checks/check-file-size.sh`**: regex covers `docs/rules/` paths
+- **`sovereignty-auditor/SKILL.md`**: fixed pre-existing broken ref
+  `@docs/rules/domain/cognitive-sovereignty.md` → `@docs/rules/domain/ai-governance.md`
+
+### Added
+- **`tests/structure/test-rule-migration-audit.bats`**: 15 new tests —
+  no stale `.claude/rules/{domain,languages}/` refs, all `@docs/rules/`
+  refs resolve, hook coverage, tier1 identity (radical-honesty + autonomous-safety)
+- **`docs/rules/domain/rule-manifest.json`**: generated manifest — 151 rules,
+  2 tier1, 50 tier2, 99 dormant
+
+### Kept
+- `.claude/rules/pm-config.local.md` — git-ignored local config stays at original path
+- Existing tier counts: tier1=2 (radical-honesty, autonomous-safety) unchanged
+
 ## [4.94.0] — 2026-04-16
 
 Upgrade all Opus agents and workspace configuration to Claude Opus 4.7
