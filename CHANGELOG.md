@@ -33,45 +33,6 @@ self-improvement rule, sentry-bugs, error-investigate,
 comprehension-report, Truth Tribunal) but lacks the wiring. This
 spec connects existing infrastructure without new abstractions.
 
-## [4.92.0] — 2026-04-16
-
-SPEC-106 Phase 3 — Truth Tribunal calibration harness + operations
-guide. Closes the spec: all 3 phases now implemented. Era 245.
-
-### Added
-- **`scripts/tribunal-benchmark.sh`**: deterministic calibration
-  harness with subcommands `run`, `sample`, `metrics`. Generates a
-  6-case sample dataset (one per profile + compliance-gate-override
-  case) and validates the aggregation layer (weights, thresholds,
-  veto rules) end-to-end. Reaches 100% accuracy on the sample. Writes
-  per-case JSONL results.
-- **`tests/fixtures/truth-tribunal-bench/`**: 6 labelled cases shipped
-  as the default benchmark dataset. Each case contains
-  `report.md` (with `report_type:` frontmatter), `expected.yaml`
-  (ground truth verdict + profile), and 7 synthetic per-judge YAML
-  outputs.
-- **`docs/tribunal-guide.md`**: operations guide covering sync vs
-  async usage, profile detection rules, verdict math, veto rules,
-  compliance-gate override, calibration loop (deterministic + manual
-  human-in-the-loop), troubleshooting matrix, and honest limits.
-- **`tests/test-tribunal-benchmark.bats`**: 19 BATS tests covering
-  sample generation, deterministic verdict matching, compliance-gate
-  override, results-file output, JSON validity, metrics computation,
-  and idempotency. Auditor certified.
-
-### Why
-The aggregation layer is the part of the tribunal we can validate
-without spending money on real LLM calls. The harness catches drift
-from weight changes or threshold tweaks. Real-judge calibration
-(human-in-the-loop) is documented in `docs/tribunal-guide.md` as a
-manual procedure — automating it would reintroduce the LLM-judging-
-LLM problem the tribunal exists to solve.
-
-### Spec status
-SPEC-106 closed. All 3 phases implemented:
-- Phase 1 (sync MVP): v4.88.0, PR #571
-- Phase 2 (async hooks): v4.91.0, PR #573
-- Phase 3 (calibration): v4.92.0, this PR
 ## [4.98.0] — 2026-04-15
 
 Shield NER improvements — expanded filters + allowlist + persistent launcher
