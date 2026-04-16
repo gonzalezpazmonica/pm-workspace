@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0000c1d9a489b70cd278468afd86ac0409917ae412b66322849b5efa3bcb3a8b
-timestamp=2026-04-16T20:53:15Z
-branch=spec/107-ai-cognitive-debt-mitigation
-head_commit=13425ccf
-signature=ec29b83371f3909291aec4269693e05408615d559ce506a2a3b4b454c41b2afc
+diff_hash=62d8df0e9d7771b96e750d6772ad55e71d0e935e9fee09a58bb5a50cf117cfb6
+timestamp=2026-04-16T21:37:14Z
+branch=feature/windows-savia-monitor
+head_commit=20994b7
+signature=1e513aa1605f602502aa887758002e808ebcef4e19fb12364f2c875e43698827
