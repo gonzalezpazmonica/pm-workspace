@@ -2,5 +2,5 @@
 diff_hash=f649418f04a968f89bd327f9c4b1b90669cf43cee50e18c390e4a029d4d8601f
 timestamp=2026-04-16T05:20:16Z
 branch=spec/108-agent-self-improvement-sentry-rca
-head_commit=4064332
+head_commit=1922455
 signature=460e5804855cbab5879649053647062a2ce6e8d7ebecafbaa7dc27bd2d879172
