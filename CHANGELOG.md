@@ -40,6 +40,39 @@ Shield NER improvements — expanded filters + allowlist + persistent launcher
 - False positives in NER for common English names, public domains, and
   code patterns (snake_case, kwargs, truncated literals).
 - Shield daemon startup race where HTTP hook ran before daemon was ready.
+## [4.97.0] — 2026-04-15
+
+SPEC-107 proposal — AI Cognitive Debt Mitigation. Evidence-backed spec
+to measure and counter "AI brain fry" in heavy Claude Code users with
+5 ranked interventions (hypothesis-first commit, teach-back gate,
+critical-eval checklist, dependency telemetry, weekly retrieval drill).
+Review-first PR. Era 243.
+
+### Added
+- **`docs/propuestas/SPEC-107-ai-cognitive-debt-mitigation.md`**:
+  3-phase implementation plan (~32h) grounded in MIT Media Lab "Your
+  Brain on ChatGPT" (arXiv 2506.08872, 54 EEG participants, 83% recall
+  failure), Microsoft+CMU CHI 2025 critical-thinking study (319 knowledge
+  workers), ICER 2025 longitudinal Copilot study (differential
+  metacognitive atrophy), and Roediger-Karpicke 2006 retrieval practice
+  (+50% retention vs re-reading). Includes 4 inviolable restrictions
+  (CD-01..04), N3 privacy guarantees, integration matrix with existing
+  wellbeing components (wellbeing-guardian, burnout-radar,
+  code-comprehension, dev-session-protocol, verification-before-done),
+  honest limits ("no measurement without EEG"), and 4 explicit
+  decisions pending human input.
+
+### Why
+8h/day with Claude Code is the operative scenario for this workspace.
+Existing wellbeing components track schedule and team aggregates but
+no component measures individual cognitive offloading or AI dependency.
+The 5 interventions are ranked by evidence strength; first 3 form the
+Phase 1 MVP (telemetry + hypothesis-first warning).
+
+### Phase 1 scope (proposed)
+Opt-in telemetry + hypothesis-first commit trailer in warning mode.
+Phase 2 activates teach-back gate and critical-eval checklist as
+blocking hooks. Phase 3 calibrates thresholds with 30-day real data.
 ## [4.95.0] — 2026-04-16
 
 Migration of workspace rules from `.claude/rules/` to `docs/rules/`. Rules
@@ -7100,6 +7133,7 @@ Initial public release of PM-Workspace.
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
 [4.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.97.0...v4.98.0
+[4.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.96.0...v4.97.0
 [4.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.94.0...v4.95.0
 [4.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.88.0...v4.94.0
 [4.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.87.0...v4.88.0

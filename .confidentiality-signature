@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=45cb1971f09d8ea5fce79e1fa08524874e1fd6d4d92a99c8ac2b4236ea1e5d6e
-timestamp=2026-04-16T19:36:27Z
-branch=feat/shield-ner-improvements
-head_commit=7eca9d2
-signature=221f7b6a2f6c5d866f873ac5a2225129921db3485bc7fed16a2989a1bf71eda8
+diff_hash=0000c1d9a489b70cd278468afd86ac0409917ae412b66322849b5efa3bcb3a8b
+timestamp=2026-04-16T20:53:15Z
+branch=spec/107-ai-cognitive-debt-mitigation
+head_commit=13425ccf
+signature=ec29b83371f3909291aec4269693e05408615d559ce506a2a3b4b454c41b2afc
