@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [5.0.0] — 2026-04-16
+## [5.3.0] — 2026-04-16
 
 SPEC-106 Phase 3 — Truth Tribunal calibration harness + operations
 guide. Closes the spec: all 3 phases now implemented. Era 245.
@@ -7138,7 +7138,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
-[5.0.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.99.0...v5.0.0
+[5.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.2.0...v5.3.0
 [4.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.97.0...v4.98.0
 [4.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.94.0...v4.95.0
 [4.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.88.0...v4.94.0
