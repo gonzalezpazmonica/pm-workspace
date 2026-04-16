@@ -10,9 +10,9 @@ setup() {
   mkdir -p "$TMPDIR" 2>/dev/null || true
   # Load auth token for daemon requests
   SHIELD_TOKEN=""
-  [[ -f "$HOME/.savia/shield-token" ]] && SHIELD_TOKEN=$(cat "$HOME/.savia/shield-token" 2>/dev/null | tr -d '\r\n')
+  [[ -f "$HOME/.savia/shield-token" ]] && SHIELD_TOKEN=$(cat "$HOME/.savia/shield-token" 2>/dev/null | tr -d '\r\n') || true
   AUTH_HEADER=""
-  [[ -n "$SHIELD_TOKEN" ]] && AUTH_HEADER="-H X-Shield-Token:$SHIELD_TOKEN"
+  [[ -n "$SHIELD_TOKEN" ]] && AUTH_HEADER="-H X-Shield-Token:$SHIELD_TOKEN" || true
 }
 
 teardown() {
