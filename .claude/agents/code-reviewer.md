@@ -12,7 +12,7 @@ tools:
   - Glob
   - Grep
   - Bash
-model: claude-opus-4-6
+model: claude-opus-4-7
 color: red
 maxTurns: 25
 max_context_tokens: 12000

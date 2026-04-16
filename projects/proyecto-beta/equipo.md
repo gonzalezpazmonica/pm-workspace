@@ -58,7 +58,7 @@ Carlos Sánchez:  Sin vacaciones planificadas en Q1
 ### claude-agent-opus — Implementador Principal
 ```
 ID (Azure DevOps tag):  dev:agent
-Modelo:                 claude-opus-4-6
+Modelo:                 claude-opus-4-7
 Rol:                    Developer virtual — código de producción
 Coste estimado:         ~$0.60-1.20 por spec
 ```

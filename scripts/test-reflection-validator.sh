@@ -50,8 +50,8 @@ echo "[Test 3] Agent frontmatter fields"
 AGENT="$PROJECT_DIR/.claude/agents/reflection-validator.md"
 assert "grep -q '^name: reflection-validator' '$AGENT'" \
   "name: reflection-validator"
-assert "grep -q 'model: claude-opus-4-6' '$AGENT'" \
-  "model: claude-opus-4-6"
+assert "grep -q 'model: claude-opus-4-7' '$AGENT'" \
+  "model: claude-opus-4-7"
 assert "grep -q 'color: purple' '$AGENT'" \
   "color: purple"
 assert "grep -q 'memory: project' '$AGENT'" \

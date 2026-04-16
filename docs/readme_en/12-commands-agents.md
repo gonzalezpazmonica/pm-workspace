@@ -294,12 +294,12 @@ The workspace includes 43 specialized agents organized in 5 groups, each optimiz
 
 | Agent | Model | When to use |
 |---|---|---|
-| `architect` | Opus 4.6 | Multi-language architecture design, layer assignment, technical decisions |
-| `business-analyst` | Opus 4.6 | PBI analysis, business rules, acceptance criteria, JTBD, PRD, competency assessment |
-| `sdd-spec-writer` | Opus 4.6 | Generation and validation of executable SDD Specs |
-| `infrastructure-agent` | Opus 4.6 | IaC (Terraform, CloudFormation, Bicep), detect + plan multi-cloud infrastructure |
+| `architect` | Opus 4.7 | Multi-language architecture design, layer assignment, technical decisions |
+| `business-analyst` | Opus 4.7 | PBI analysis, business rules, acceptance criteria, JTBD, PRD, competency assessment |
+| `sdd-spec-writer` | Opus 4.7 | Generation and validation of executable SDD Specs |
+| `infrastructure-agent` | Opus 4.7 | IaC (Terraform, CloudFormation, Bicep), detect + plan multi-cloud infrastructure |
 | `diagram-architect` | Sonnet 4.6 | Architecture diagram design, C4, data flows |
-| `reflection-validator` | Opus 4.6 | Meta-cognitive validation (System 2): assumptions, causal chains, gaps |
+| `reflection-validator` | Opus 4.7 | Meta-cognitive validation (System 2): assumptions, causal chains, gaps |
 
 ### Language-Specific Developer Agents (16 Language Packs)
 
@@ -312,14 +312,14 @@ The workspace includes 43 specialized agents organized in 5 groups, each optimiz
 
 | Agent | Model | When to use |
 |---|---|---|
-| `code-reviewer` | Opus 4.6 | Quality gate: security, SOLID, language-specific linting rules |
-| `security-guardian` | Opus 4.6 | Security and confidentiality audit before commit |
+| `code-reviewer` | Opus 4.7 | Quality gate: security, SOLID, language-specific linting rules |
+| `security-guardian` | Opus 4.7 | Security and confidentiality audit before commit |
 | `test-runner` | Sonnet 4.6 | Test execution, coverage verification, test improvement orchestration |
 | `commit-guardian` | Sonnet 4.6 | Pre-commit: 10 checks (branch, security, build, tests, format, code review, README, CLAUDE.md, atomicity, message) |
 | `tech-writer` | Haiku 4.5 | README, CHANGELOG, documentation, code comments |
 | `azure-devops-operator` | Haiku 4.5 | WIQL queries, create/update work items, sprint management |
 | `coherence-validator` | Sonnet 4.6 | Output↔objective coherence: coverage, consistency, completeness |
-| `drift-auditor` | Opus 4.6 | Repo convergence audit: detects drift between docs, config, and code |
+| `drift-auditor` | Opus 4.7 | Repo convergence audit: detects drift between docs, config, and code |
 | `dev-orchestrator` | Sonnet 4.6 | Slice planning: spec analysis, dependencies, context budgets |
 | `frontend-test-runner` | Sonnet 4.6 | Frontend tests: E2E, components, accessibility |
 | `visual-qa-agent` | Sonnet 4.6 | Visual QA: screenshot analysis, wireframe comparison, regression detection |
@@ -332,26 +332,26 @@ The workspace includes 43 specialized agents organized in 5 groups, each optimiz
 | `security-attacker` | Sonnet 4.6 | Red Team: OWASP Top 10, CWE Top 25, dependency audit |
 | `security-defender` | Sonnet 4.6 | Blue Team: patches, hardening, NIST/CIS |
 | `security-auditor` | Sonnet 4.6 | Independent auditor: evaluation, score 0-100, gap analysis |
-| `pentester` | Opus 4.6 | Dynamic pentesting: 5-phase pipeline, proof-based, "no exploit, no report" |
+| `pentester` | Opus 4.7 | Dynamic pentesting: 5-phase pipeline, proof-based, "no exploit, no report" |
 
 ### Document Digest Suite
 
 | Agent | Model | When to use |
 |---|---|---|
 | `meeting-digest` | Sonnet 4.6 | VTT/DOCX/TXT transcriptions: profiles, business context, action items |
-| `meeting-risk-analyst` | Opus 4.6 | Post-digestión risk analysis cross-referencing project state |
-| `meeting-confidentiality-judge` | Opus 4.6 | Confidentiality judge: filters sensitive data from outputs |
-| `visual-digest` | Opus 4.6 | 4-pass contextual OCR: whiteboards, handwritten notes, diagrams |
-| `pdf-digest` | Opus 4.6 | PDFs: text (PyMuPDF) + images (Vision), 4-phase context-aware pipeline |
-| `word-digest` | Opus 4.6 | DOCX: text, tables, images (python-docx), 4-phase with context update |
-| `excel-digest` | Opus 4.6 | XLSX: structure, formulas→business rules (openpyxl), 4-phase pipeline |
-| `pptx-digest` | Opus 4.6 | PPTX: slides, presenter notes, charts (python-pptx), 4-phase pipeline |
+| `meeting-risk-analyst` | Opus 4.7 | Post-digestión risk analysis cross-referencing project state |
+| `meeting-confidentiality-judge` | Opus 4.7 | Confidentiality judge: filters sensitive data from outputs |
+| `visual-digest` | Opus 4.7 | 4-pass contextual OCR: whiteboards, handwritten notes, diagrams |
+| `pdf-digest` | Opus 4.7 | PDFs: text (PyMuPDF) + images (Vision), 4-phase context-aware pipeline |
+| `word-digest` | Opus 4.7 | DOCX: text, tables, images (python-docx), 4-phase with context update |
+| `excel-digest` | Opus 4.7 | XLSX: structure, formulas→business rules (openpyxl), 4-phase pipeline |
+| `pptx-digest` | Opus 4.7 | PPTX: slides, presenter notes, charts (python-pptx), 4-phase pipeline |
 
 **Legal compliance agent:**
 
 | Agent | Model | When to use |
 |---|---|---|
-| `legal-compliance` | Opus 4.6 | Audit against consolidated Spanish legislation (legalize-es, 12,235 BOE norms) |
+| `legal-compliance` | Opus 4.7 | Audit against consolidated Spanish legislation (legalize-es, 12,235 BOE norms) |
 
 ### SDD flow with parallel agents
 

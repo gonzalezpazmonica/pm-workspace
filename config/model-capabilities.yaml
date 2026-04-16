@@ -7,6 +7,12 @@
 
 models:
   # ── Anthropic Claude ──
+  claude-opus-4-7:
+    context_window: 1000000
+    tier: max
+    supports_extended_thinking: true
+    recommended_compact_threshold_pct: 70
+
   claude-opus-4-6:
     context_window: 1000000
     tier: max

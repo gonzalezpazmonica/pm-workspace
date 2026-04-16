@@ -3,11 +3,11 @@
 | Agente | Modelo | Especialidad |
 |---|---|---|
 | `memory-agent` | Haiku 4.5 | Memoria conversacional: recall, save, stats, forget via lenguaje natural (SPEC-029) |
-| `architect` | Opus 4.6 | Diseño de capas, interfaces, patrones |
-| `business-analyst` | Opus 4.6 | Reglas de negocio, criterios de aceptación, evaluación de competencias |
-| `sdd-spec-writer` | Opus 4.6 | Specs ejecutables para agentes de código |
-| `code-reviewer` | Opus 4.6 | Calidad, seguridad, SOLID |
-| `security-guardian` | Opus 4.6 | Auditoría de seguridad y confidencialidad pre-commit |
+| `architect` | Opus 4.7 | Diseño de capas, interfaces, patrones |
+| `business-analyst` | Opus 4.7 | Reglas de negocio, criterios de aceptación, evaluación de competencias |
+| `sdd-spec-writer` | Opus 4.7 | Specs ejecutables para agentes de código |
+| `code-reviewer` | Opus 4.7 | Calidad, seguridad, SOLID |
+| `security-guardian` | Opus 4.7 | Auditoría de seguridad y confidencialidad pre-commit |
 | `dotnet-developer` | Sonnet 4.6 | Implementación C#/.NET |
 | `typescript-developer` | Sonnet 4.6 | Implementación TypeScript/Node.js (NestJS, Express, Prisma) |
 | `frontend-developer` | Sonnet 4.6 | Implementación Angular + React |
@@ -18,44 +18,44 @@
 | `php-developer` | Sonnet 4.6 | Implementación PHP/Laravel |
 | `mobile-developer` | Sonnet 4.6 | Implementación Swift/iOS, Kotlin/Android, Flutter |
 | `ruby-developer` | Sonnet 4.6 | Implementación Ruby on Rails |
-| `cobol-developer` | Opus 4.6 | Asistencia COBOL (documentación, copybooks, tests) |
+| `cobol-developer` | Opus 4.7 | Asistencia COBOL (documentación, copybooks, tests) |
 | `terraform-developer` | Sonnet 4.6 | Terraform/IaC (NUNCA ejecuta apply) |
-| `infrastructure-agent` | Opus 4.6 | Infra multi-cloud: detectar, crear (tier mínimo), escalar (aprobación humana) |
+| `infrastructure-agent` | Opus 4.7 | Infra multi-cloud: detectar, crear (tier mínimo), escalar (aprobación humana) |
 | `diagram-architect` | Sonnet 4.6 | Análisis de diagramas: consistencia, layering, decomposición Features/PBIs |
 | `test-engineer` | Sonnet 4.6 | Testing multi-lenguaje, TestContainers, cobertura |
 | `test-runner` | Sonnet 4.6 | Ejecución de tests, cobertura ≥ TEST_COVERAGE_MIN_PERCENT, orquestación de mejora |
 | `commit-guardian` | Sonnet 4.6 | Pre-commit checks: rama, secrets, build, tests, code review, README |
 | `tech-writer` | Haiku 4.5 | README, CHANGELOG, XML docs |
 | `azure-devops-operator` | Haiku 4.5 | WIQL, work items, sprint, capacity |
-| `drift-auditor` | Opus 4.6 | Auditoría de convergencia repo: detecta drift entre docs, config y código |
-| `reflection-validator` | Opus 4.6 | Validación meta-cognitiva (System 2): supuestos, cadena causal, brechas |
+| `drift-auditor` | Opus 4.7 | Auditoría de convergencia repo: detecta drift entre docs, config y código |
+| `reflection-validator` | Opus 4.7 | Validación meta-cognitiva (System 2): supuestos, cadena causal, brechas |
 | `coherence-validator` | Sonnet 4.6 | Coherencia output↔objetivo: cobertura, consistencia, completitud |
 | `frontend-test-runner` | Sonnet 4.6 | Tests frontend: E2E, componentes, accesibilidad |
 | `security-attacker` | Sonnet 4.6 | Red Team: OWASP Top 10, CWE Top 25, dependency audit |
 | `security-defender` | Sonnet 4.6 | Blue Team: patches, hardening, NIST/CIS |
 | `security-auditor` | Sonnet 4.6 | Auditor independiente: evaluación, score 0-100, gap analysis |
-| `pentester` | Opus 4.6 | Pentesting dinámico: pipeline 5 fases (recon → vuln-analysis 5∥ → exploitation proof-based → report). Política "no exploit, no report" |
+| `pentester` | Opus 4.7 | Pentesting dinámico: pipeline 5 fases (recon → vuln-analysis 5∥ → exploitation proof-based → report). Política "no exploit, no report" |
 | `visual-qa-agent` | Sonnet 4.6 | Visual QA: screenshot analysis, wireframe comparison, regression detection |
 | `dev-orchestrator` | Sonnet 4.6 | Planificación de slices: análisis de specs, dependencias, presupuestos de contexto |
 | `meeting-digest` | Sonnet 4.6 | Digestión de transcripciones: extracción de perfiles, contexto de negocio y action items |
-| `meeting-risk-analyst` | Opus 4.6 | Análisis de riesgos post-digestión: contradicciones, conflictos, duplicidades, dependencias |
-| `meeting-confidentiality-judge` | Opus 4.6 | Juez de confidencialidad: valida que datos sensibles no se filtren a ficheros del proyecto |
-| `visual-digest` | Opus 4.6 | OCR contextual de 4 pasadas: extracción bruta → carga contexto proyecto → resolución con diccionario de homónimos → verificación cruzada con digests. Pizarras, notas manuscritas, diagramas, capturas |
-| `pdf-digest` | Opus 4.6 | Digestión de PDFs con texto e imágenes — 4 fases: extracción PyMuPDF+Vision → contexto proyecto → análisis/síntesis → actualización de documentos vivos |
-| `word-digest` | Opus 4.6 | Digestión de DOCX: texto, tablas, imágenes — 4 fases con python-docx+Vision → contexto → síntesis → actualización |
-| `excel-digest` | Opus 4.6 | Digestión de XLSX: estructura, fórmulas, reglas de negocio — 4 fases con openpyxl → contexto → extracción reglas → actualización |
-| `pptx-digest` | Opus 4.6 | Digestión de PPTX: slides, notas presentador, gráficos — 4 fases con python-pptx+Vision → contexto → síntesis → actualización |
+| `meeting-risk-analyst` | Opus 4.7 | Análisis de riesgos post-digestión: contradicciones, conflictos, duplicidades, dependencias |
+| `meeting-confidentiality-judge` | Opus 4.7 | Juez de confidencialidad: valida que datos sensibles no se filtren a ficheros del proyecto |
+| `visual-digest` | Opus 4.7 | OCR contextual de 4 pasadas: extracción bruta → carga contexto proyecto → resolución con diccionario de homónimos → verificación cruzada con digests. Pizarras, notas manuscritas, diagramas, capturas |
+| `pdf-digest` | Opus 4.7 | Digestión de PDFs con texto e imágenes — 4 fases: extracción PyMuPDF+Vision → contexto proyecto → análisis/síntesis → actualización de documentos vivos |
+| `word-digest` | Opus 4.7 | Digestión de DOCX: texto, tablas, imágenes — 4 fases con python-docx+Vision → contexto → síntesis → actualización |
+| `excel-digest` | Opus 4.7 | Digestión de XLSX: estructura, fórmulas, reglas de negocio — 4 fases con openpyxl → contexto → extracción reglas → actualización |
+| `pptx-digest` | Opus 4.7 | Digestión de PPTX: slides, notas presentador, gráficos — 4 fases con python-pptx+Vision → contexto → síntesis → actualización |
 | `web-e2e-tester` | Sonnet 4.6 | Testing E2E autónomo de aplicaciones web contra instancias live. Playwright/Cypress con screenshots obligatorios |
-| `confidentiality-auditor` | Opus 4.6 | Auditoría de cumplimiento de niveles de confidencialidad multi-repo (N1-N4b) |
-| `feasibility-probe` | Opus 4.6 | Valida viabilidad de specs con prototipo time-boxed. Produce informe con score, secciones bloqueantes y sugerencias de descomposición. **Requiere `bypassPermissions`** para ejecutar código de prueba de concepto. |
-| `model-upgrade-auditor` | Opus 4.6 | Audita agentes, skills y prompts buscando workarounds que modelos más nuevos ya no necesiten. Propone simplificaciones con evidencia eval-backed. |
-| `legal-compliance` | Opus 4.6 | Auditoría de compliance legal contra legislación española consolidada (legalize-es, 12.235 normas BOE). Cruza reglas de negocio, contratos y políticas contra artículos vigentes. |
+| `confidentiality-auditor` | Opus 4.7 | Auditoría de cumplimiento de niveles de confidencialidad multi-repo (N1-N4b) |
+| `feasibility-probe` | Opus 4.7 | Valida viabilidad de specs con prototipo time-boxed. Produce informe con score, secciones bloqueantes y sugerencias de descomposición. **Requiere `bypassPermissions`** para ejecutar código de prueba de concepto. |
+| `model-upgrade-auditor` | Opus 4.7 | Audita agentes, skills y prompts buscando workarounds que modelos más nuevos ya no necesiten. Propone simplificaciones con evidencia eval-backed. |
+| `legal-compliance` | Opus 4.7 | Auditoría de compliance legal contra legislación española consolidada (legalize-es, 12.235 normas BOE). Cruza reglas de negocio, contratos y políticas contra artículos vigentes. |
 | `correctness-judge` | Sonnet 4.6 | Code Review Court judge — logic, tests, edge cases, error paths |
 | `architecture-judge` | Sonnet 4.6 | Code Review Court judge — boundaries, coupling, layer violations, patterns |
 | `security-judge` | Sonnet 4.6 | Code Review Court judge — OWASP, PII, injection, auth, credentials |
 | `cognitive-judge` | Sonnet 4.6 | Code Review Court judge — debuggability at 3AM, naming, complexity, logs |
 | `spec-judge` | Sonnet 4.6 | Code Review Court judge — implementation vs approved spec, acceptance criteria |
-| `court-orchestrator` | Opus 4.6 | Convenes the Code Review Court, manages fix cycles, produces .review.crc |
+| `court-orchestrator` | Opus 4.7 | Convenes the Code Review Court, manages fix cycles, produces .review.crc |
 | `fix-assigner` | Sonnet 4.6 | Creates fix tasks from Court findings, assigns to dev agents, triggers re-review |
 | `test-architect` | Sonnet 4.6 | Designs and generates highest-quality tests across all 16 language packs and 14 test types |
 

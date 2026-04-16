@@ -40,7 +40,7 @@ AGENT
   cat > "$MOCK_AGENTS/opus-agent.md" <<'AGENT'
 ---
 name: opus-agent
-model: claude-opus-4-6
+model: claude-opus-4-7
 advisor: opus
 tools:
   - Read
@@ -99,10 +99,10 @@ teardown() {
   [[ "$output" == *'"max_uses"'* ]]
 }
 
-@test "default advisor model is claude-opus-4-6" {
+@test "default advisor model is claude-opus-4-7" {
   run bash "$SCRIPT"
   [ "$status" -eq 0 ]
-  [[ "$output" == *'claude-opus-4-6'* ]]
+  [[ "$output" == *'claude-opus-4-7'* ]]
 }
 
 @test "default max_uses is 3" {
@@ -138,7 +138,7 @@ teardown() {
   [ "$status" -eq 0 ]
   [[ "$output" == *'type: advisor_20260301'* ]]
   [[ "$output" == *'name: advisor'* ]]
-  [[ "$output" == *'model: claude-opus-4-6'* ]]
+  [[ "$output" == *'model: claude-opus-4-7'* ]]
   [[ "$output" == *'max_uses: 3'* ]]
 }
 
@@ -169,7 +169,7 @@ teardown() {
 @test "agent with advisor generates config" {
   run bash "$SCRIPT" --agent sonnet-with-advisor --agents-dir "$MOCK_AGENTS"
   [ "$status" -eq 0 ]
-  [[ "$output" == *'claude-opus-4-6'* ]]
+  [[ "$output" == *'claude-opus-4-7'* ]]
 }
 
 @test "agent frontmatter advisor_max_uses overrides default" {
@@ -207,8 +207,8 @@ teardown() {
   [[ "$output" == *'ADV-04'* ]]
 }
 
-@test "CLI executor claude-opus-4-6 exits 1 with ADV-04" {
-  run bash "$SCRIPT" --executor claude-opus-4-6
+@test "CLI executor claude-opus-4-7 exits 1 with ADV-04" {
+  run bash "$SCRIPT" --executor claude-opus-4-7
   [ "$status" -eq 1 ]
   [[ "$output" == *'ADV-04'* ]]
 }
@@ -279,7 +279,7 @@ teardown() {
   export ADVISOR_MAX_USES=9
   run bash "$SCRIPT" --advisor opus --max-uses 2
   [ "$status" -eq 0 ]
-  [[ "$output" == *'claude-opus-4-6'* ]]
+  [[ "$output" == *'claude-opus-4-7'* ]]
   [[ "$output" == *'2'* ]]
 }
 
