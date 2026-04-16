@@ -178,7 +178,7 @@ SE-015 bid → SE-017 SOW → delivery → SE-019 evaluation
 
 ## Acceptance criteria
 
-1. Regla `.claude/rules/domain/lessons-as-code.md` ≤150 lines.
+1. Regla `docs/rules/domain/lessons-as-code.md` ≤150 lines.
 2. JSON Schema for evaluation.md + lesson frontmatter.
 3. `/eval-close` produces a closure-report.md that passes schema validation.
 4. NPS survey template covers the 4 CSAT dimensions.

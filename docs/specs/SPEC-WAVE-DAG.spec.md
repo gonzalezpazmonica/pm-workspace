@@ -347,7 +347,7 @@ tests/fixtures/wave-dag-overflow.json # Fixture: 4 independent tasks, max_parall
 
 ```
 .claude/skills/dag-scheduling/DOMAIN.md      # Domain concepts unchanged
-.claude/rules/domain/parallel-execution.md   # Rule unchanged, wave-executor complies with it
+docs/rules/domain/parallel-execution.md   # Rule unchanged, wave-executor complies with it
 .claude/commands/dag-plan.md                 # Planning command unchanged
 ```
 

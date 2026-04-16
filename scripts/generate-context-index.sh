@@ -20,7 +20,7 @@ count_dirs() { [[ -d "$1" ]] && find "$1" -mindepth 1 -maxdepth 1 -type d | wc -
 generate_workspace() {
   local idx_dir="$ROOT/.context-index" idx_file="$ROOT/.context-index/WORKSPACE.ctx"
   mkdir -p "$idx_dir"
-  local rc=$(count_items "$ROOT/.claude/rules/domain" '*.md')
+  local rc=$(count_items "$ROOT/docs/rules/domain" '*.md')
   local ac=$(count_items "$ROOT/.claude/agents" '*.md')
   local sc=$(count_dirs "$ROOT/.claude/skills")
   local cc=$(count_items "$ROOT/.claude/commands" '*.md')
@@ -34,9 +34,9 @@ generate_workspace() {
 > Where to find and store information at workspace level (N1 public)
 
 ## Rules & Governance
-[location] .claude/rules/domain/ — $rc domain rules loaded on demand via @
-[location] .claude/rules/languages/ — language conventions (auto-load by file type)
-[intent: "what are the rules for X"] → scan .claude/rules/domain/ by keyword
+[location] docs/rules/domain/ — $rc domain rules loaded on demand via @
+[location] docs/rules/languages/ — language conventions (auto-load by file type)
+[intent: "what are the rules for X"] → scan docs/rules/domain/ by keyword
 
 ## Agents
 [location] .claude/agents/ — $ac agent definitions

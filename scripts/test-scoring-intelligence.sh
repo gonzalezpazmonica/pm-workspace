@@ -8,9 +8,9 @@ pass() { PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); echo "  ✅ $1"; }
 fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  ❌ $1"; }
 check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
 
-CURVES="$ROOT/.claude/rules/domain/scoring-curves.md"
+CURVES="$ROOT/docs/rules/domain/scoring-curves.md"
 DIFF="$ROOT/.claude/commands/score-diff.md"
-SEV="$ROOT/.claude/rules/domain/severity-classification.md"
+SEV="$ROOT/docs/rules/domain/severity-classification.md"
 CLAUDE="$ROOT/CLAUDE.md"
 CHANGELOG="$ROOT/CHANGELOG.md"
 

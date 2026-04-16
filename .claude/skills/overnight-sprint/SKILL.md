@@ -15,7 +15,7 @@ priority: "medium"
 
 # Skill: Overnight Sprint
 
-> **Regla de seguridad**: `@.claude/rules/domain/autonomous-safety.md` — NUNCA merge, SIEMPRE PR Draft con reviewer humano.
+> **Regla de seguridad**: `@docs/rules/domain/autonomous-safety.md` — NUNCA merge, SIEMPRE PR Draft con reviewer humano.
 
 ## Cuándo usar esta skill
 

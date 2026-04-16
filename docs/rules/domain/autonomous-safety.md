@@ -80,7 +80,7 @@ AUTONOMOUS_RESEARCH_NOTIFY      # Handle del humano que recibe informes de inves
 
 ```
 ❌ AUTONOMOUS_REVIEWER no configurado.
-   Añade en .claude/rules/domain/pm-config.local.md:
+   Añade en .claude/rules/pm-config.local.md:
    AUTONOMOUS_REVIEWER = @tu-handle
    Ningún agente autónomo puede operar sin un humano designado como revisor.
 ```

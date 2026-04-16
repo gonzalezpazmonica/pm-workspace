@@ -678,7 +678,7 @@ def build_page():
 
 **Impacto**: Mantenibilidad, cacheo de assets, linting separado por capa, reutilización de plantillas.
 
-> Regla completa con ejemplos multi-lenguaje: `.claude/rules/domain/template-separation.md`
+> Regla completa con ejemplos multi-lenguaje: `docs/rules/domain/template-separation.md`
 
 ---
 

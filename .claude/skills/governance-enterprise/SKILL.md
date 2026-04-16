@@ -18,7 +18,7 @@ priority: "high"
 
 # Skill: Enterprise Governance
 
-> Prerequisito: @.claude/rules/domain/governance-enterprise.md, @.claude/rules/domain/audit-trail-schema.md
+> Prerequisito: @docs/rules/domain/governance-enterprise.md, @docs/rules/domain/audit-trail-schema.md
 
 Orquesta auditoría trail, verificación de cumplimiento (GDPR/ISO/AI Act/AEPD), registry de decisiones y certificación.
 

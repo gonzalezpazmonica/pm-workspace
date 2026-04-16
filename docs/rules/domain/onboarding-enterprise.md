@@ -8,7 +8,7 @@ paths: [".claude/commands/onboard-enterprise*", ".claude/skills/enterprise-onboa
 # Regla: Onboarding Empresarial a Escala
 
 > Basado en: ADKAR framework (Hiatt, 2006), modelos de integración de talento (Ostroff & Kozlowski, 2007)
-> Complementa: @.claude/rules/domain/role-workflows.md, @.claude/rules/domain/team-structure.md
+> Complementa: @docs/rules/domain/role-workflows.md, @docs/rules/domain/team-structure.md
 
 **Principio fundamental**: El onboarding no es un evento, es un proceso de 30 días que acelera el tiempo-a-productividad reduciendo fricción.
 
@@ -124,7 +124,7 @@ Generar antes de T+0 para cada nuevo team member:
 
 ### Referencias clave
 - docs/architecture.md
-- .claude/rules/domain/team-structure.md
+- docs/rules/domain/team-structure.md
 - decision-log.md
 ```
 

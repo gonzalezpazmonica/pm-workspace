@@ -23,7 +23,7 @@ set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-WEIGHTS_FILE="$ROOT/.claude/rules/domain/truth-tribunal-weights.md"
+WEIGHTS_FILE="$ROOT/docs/rules/domain/truth-tribunal-weights.md"
 CACHE_DIR="${TRUTH_TRIBUNAL_CACHE:-$HOME/.savia/truth-tribunal/cache}"
 CACHE_TTL_SEC="${TRUTH_TRIBUNAL_CACHE_TTL:-86400}"
 

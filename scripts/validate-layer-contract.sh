@@ -3,7 +3,7 @@
 #
 # Enforces Savia Enterprise layer contract:
 #   Core NEVER imports from .claude/enterprise/
-#   Enterprise MAY import from .claude/rules/domain/ and other Core paths
+#   Enterprise MAY import from docs/rules/domain/ and other Core paths
 #
 # Usage:
 #   bash scripts/validate-layer-contract.sh                    # scan all files

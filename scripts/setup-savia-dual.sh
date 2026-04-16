@@ -281,7 +281,7 @@ install_systemd_system_service() {
   cat > "$tmp_unit" <<UNIT
 [Unit]
 Description=Savia Dual Proxy (inference sovereignty failover)
-Documentation=file://$SCRIPT_DIR/../.claude/rules/domain/savia-dual.md
+Documentation=file://$SCRIPT_DIR/../docs/rules/domain/savia-dual.md
 After=network-online.target ollama.service
 Wants=network-online.target
 

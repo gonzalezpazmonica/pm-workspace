@@ -9,8 +9,8 @@ Lanza un bucle autónomo de mejora de código inspirado en autoresearch. Detecta
 
 ## 1. Cargar configuración
 
-1. Leer `@.claude/rules/domain/autonomous-safety.md` — reglas de seguridad (OBLIGATORIO)
-2. Leer `@.claude/rules/domain/pm-config.md` + `pm-config.local.md`
+1. Leer `@docs/rules/domain/autonomous-safety.md` — reglas de seguridad (OBLIGATORIO)
+2. Leer `@docs/rules/domain/pm-config.md` + `pm-config.local.md`
 3. Leer `.claude/skills/code-improvement-loop/SKILL.md`
 
 ## 2. Uso

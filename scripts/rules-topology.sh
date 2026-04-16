@@ -2,7 +2,7 @@
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-RULES_DIR="${ROOT}/.claude/rules/domain"
+RULES_DIR="${ROOT}/docs/rules/domain"
 MODE="${1:-summary}"
 TEMP_DIR=$(mktemp -d)
 trap 'rm -rf "$TEMP_DIR"' EXIT

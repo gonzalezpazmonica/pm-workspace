@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/**", ".claude/agents/**", ".claude/skills/**", ".claude/rules/**"]
+globs: [".claude/commands/**", ".claude/agents/**", ".claude/skills/**", "docs/rules/**"]
 ---
 
 # Regla: Limite de 150 lineas — Solo configuracion del workspace
@@ -9,7 +9,7 @@ Aplica UNICAMENTE a ficheros .md de configuracion de pm-workspace. NO aplica a c
 ## Alcance (donde SI aplica)
 
 - `.claude/commands/*.md` — comandos slash
-- `.claude/rules/**/*.md` — reglas de dominio y lenguaje
+- `docs/rules/**/*.md` — reglas de dominio y lenguaje
 - `.claude/skills/**/SKILL.md` — skills
 - `.claude/agents/*.md` — agentes
 - `CLAUDE.md` — raiz y por proyecto

@@ -20,7 +20,7 @@ description: >
 
 ## Contexto requerido
 
-1. `.claude/rules/connectors-config.md` — Verificar que Sentry está habilitado
+1. `docs/rules/domain/connectors-config.md` — Verificar que Sentry está habilitado
 2. `projects/{proyecto}/CLAUDE.md` — `SENTRY_PROJECT` y `SENTRY_ORG` si difiere del default
 
 ## Pasos de ejecución

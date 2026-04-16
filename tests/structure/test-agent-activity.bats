@@ -74,7 +74,7 @@ teardown() {
 # ── Spec reference: SPEC-042 live progress feedback ──
 
 @test "script follows agent-trace-log convention" {
-  # Ref: .claude/rules/domain/agents-catalog.md — agent-trace-log.sh
+  # Ref: docs/rules/domain/agents-catalog.md — agent-trace-log.sh
   grep -q "agent-trace" "$SCRIPT" || grep -q "trace" "$SCRIPT"
 }
 

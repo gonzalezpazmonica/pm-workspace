@@ -56,9 +56,9 @@ Al recibir solicitud de infraestructura:
 
 1. **Leer contexto del proyecto**:
    - `CLAUDE.md` (entornos, cloud provider, naming)
-   - `.claude/rules/environment-config.md` (multi-entorno)
-   - `.claude/rules/confidentiality-config.md` (secrets)
-   - `.claude/rules/infrastructure-as-code.md` (convenciones)
+   - `docs/rules/domain/environment-config.md` (multi-entorno)
+   - `docs/rules/domain/confidentiality-config.md` (secrets)
+   - `docs/rules/domain/infrastructure-as-code.md` (convenciones)
    - `infrastructure/` del proyecto si existe
 
 2. **Identificar cloud provider**:
@@ -66,7 +66,7 @@ Al recibir solicitud de infraestructura:
    - Detectar por ficheros: `*.tf` (Terraform), `bicep` (Azure), `cloudformation` (AWS)
    - Si no definido → preguntar architect
 
-3. **Detectar infraestructura existente** (ver `@.claude/rules/domain/cloud-decision-tree.md`):
+3. **Detectar infraestructura existente** (ver `@docs/rules/domain/cloud-decision-tree.md`):
    - Azure: `az group show`, `az resource list`
    - AWS: `aws resourcegroupstaggingapi get-resources`
    - GCP: `gcloud asset search-all-resources`
@@ -122,5 +122,5 @@ Al completar solicitud, entregar:
 
 ## REFERENCIA COMPLETA
 
-Decision trees, tiers, ejemplos: `@.claude/rules/domain/cloud-decision-tree.md`
-Patterns multi-cloud detallados: `@.claude/rules/domain/iac-cloud-patterns.md`
+Decision trees, tiers, ejemplos: `@docs/rules/domain/cloud-decision-tree.md`
+Patterns multi-cloud detallados: `@docs/rules/domain/iac-cloud-patterns.md`

@@ -31,7 +31,7 @@ description: >
 
 ## 3. Contexto requerido
 
-1. `.claude/rules/connectors-config.md` — Verificar Atlassian habilitado
+1. `docs/rules/domain/connectors-config.md` — Verificar Atlassian habilitado
 2. `projects/{proyecto}/CLAUDE.md` — `JIRA_PROJECT`, `AZURE_DEVOPS_PROJECT`
 
 ## 4. Mapeo de campos

@@ -84,7 +84,7 @@ Este proyecto está diseñado para crecer con las aportaciones de la comunidad. 
 
 ### Flujo de contribución
 
-Este repositorio sigue **GitHub Flow**: ningún commit va directamente a `main`. Todo cambio pasa por rama de feature + Pull Request. Ver `.claude/rules/github-flow.md` para la referencia completa.
+Este repositorio sigue **GitHub Flow**: ningún commit va directamente a `main`. Todo cambio pasa por rama de feature + Pull Request. Ver `docs/rules/domain/github-flow.md` para la referencia completa.
 
 ```
 1. Fork del repositorio en GitHub

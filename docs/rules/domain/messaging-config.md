@@ -95,7 +95,7 @@ Scripts: `company-repo.sh`, `savia-messaging.sh`, `savia-crypto.sh`, `privacy-ch
 
 - **Audio**: se procesa LOCAL con Faster-Whisper, nunca se envía a APIs externas
 - **Mensajes**: almacenados en SQLite local (WhatsApp) o ficheros locales (inbox)
-- **Credenciales**: tokens y secrets en este fichero, que está en `.claude/rules/` (git-tracked).
+- **Credenciales**: tokens y secrets en este fichero, que está en `docs/rules/` (git-tracked).
   Para datos sensibles, usar variables de entorno o `config.local/` (git-ignored)
 - **Confirmación**: por defecto, SIEMPRE se pide confirmación antes de ejecutar un comando
   detectado en un mensaje de voz (configurable con `VOICE_AUTO_EXECUTE`)

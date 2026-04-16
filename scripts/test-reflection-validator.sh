@@ -159,7 +159,7 @@ echo
 
 # ── 12. Catalog integration ──────────────────────────────────────
 echo "[Test 12] Catalog integration"
-CATALOG="$PROJECT_DIR/.claude/rules/domain/agents-catalog.md"
+CATALOG="$PROJECT_DIR/docs/rules/domain/agents-catalog.md"
 assert "grep -q 'reflection-validator' '$CATALOG'" \
   "agents-catalog.md: reflection-validator listed"
 assert "grep -q '26' '$CATALOG'" \

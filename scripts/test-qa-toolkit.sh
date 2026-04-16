@@ -117,7 +117,7 @@ echo ""
 echo "📋 7. Context Map & Role Workflows"
 
 check_content ".claude/profiles/context-map.md" "qa-dashboard" "Context-map includes /qa-dashboard"
-check_content ".claude/rules/domain/role-workflows.md" "qa-dashboard" "QA routine uses /qa-dashboard"
+check_content "docs/rules/domain/role-workflows.md" "qa-dashboard" "QA routine uses /qa-dashboard"
 echo ""
 
 # ── 8. CHANGELOG Updates ─────────────────────────────────────────────────

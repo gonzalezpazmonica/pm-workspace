@@ -8,7 +8,7 @@ paths: [".claude/commands/governance-enterprise*", ".claude/skills/governance-en
 # Regla: Esquema Audit Trail
 
 > Basado en: NIST SP 800-53 (AU-2 Audit Events), EU AI Act (Annex II)
-> Complementa: @.claude/rules/domain/governance-enterprise.md
+> Complementa: @docs/rules/domain/governance-enterprise.md
 
 **Principio fundamental**: Toda acción tomada por un agente o usuario debe quedar registrada de forma inmutable para auditoría.
 

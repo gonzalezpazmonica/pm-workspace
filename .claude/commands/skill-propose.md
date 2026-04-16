@@ -9,7 +9,7 @@ context_cost: high
 
 # /skill-propose — Proponer Skill desde Workflow Repetitivo
 
-Regla: `@.claude/rules/domain/skill-lifecycle.md`
+Regla: `@docs/rules/domain/skill-lifecycle.md`
 
 ## Flujo
 

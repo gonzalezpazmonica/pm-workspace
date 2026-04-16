@@ -19,7 +19,7 @@ Ver `.claude/profiles/context-map.md`.
 
 ## Prerequisitos
 
-- Leer `@.claude/rules/domain/vertical-detection.md` para el algoritmo de detección
+- Leer `@docs/rules/domain/vertical-detection.md` para el algoritmo de detección
 - Proyecto activo o nombre de vertical proporcionado
 - `gh` CLI si se quiere contribuir la extensión al repo
 

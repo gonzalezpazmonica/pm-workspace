@@ -31,7 +31,7 @@ check "Has strategy table" "grep -q 'pomodoro' $CMD && grep -q '52-17' $CMD && g
 # ── Section 2: Domain rule ─────────────────────────────────────────────────
 echo ""
 echo "── Section 2: Domain rule ──"
-RULE=".claude/rules/domain/wellbeing-config.md"
+RULE="docs/rules/domain/wellbeing-config.md"
 check "Config rule exists" "[ -f $RULE ]"
 LINES=$(wc -l < "$RULE")
 check "Config rule within limit ($LINES/150 lines)" "[ $LINES -le 150 ]"

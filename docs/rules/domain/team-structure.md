@@ -8,8 +8,8 @@ paths: [".claude/commands/team-orchestrator*", ".claude/skills/team-coordination
 # Regla: Estructura Multi-Equipo
 
 > Basado en: Team Topologies (Skelton & Pais, 2019), Scaled Agile (SAFe)
-> Complementa: @.claude/rules/domain/pm-workflow.md
-> Complementa: @.claude/rules/domain/rbac-model.md (cuando exista)
+> Complementa: @docs/rules/domain/pm-workflow.md
+> Complementa: @docs/rules/domain/rbac-model.md (cuando exista)
 
 **Principio fundamental**: Los equipos operan con autonomía dentro de sus bordes. La coordinación cross-equipo se hace explícita mediante dependencias declaradas, no mediante jerarquía.
 

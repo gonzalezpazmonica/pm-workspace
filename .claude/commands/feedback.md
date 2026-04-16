@@ -20,7 +20,7 @@ Ver `.claude/profiles/context-map.md`.
 ## Prerequisitos
 
 - `gh` CLI instalado y autenticado
-- Leer `@.claude/rules/domain/community-protocol.md` para guardrails de privacidad
+- Leer `@docs/rules/domain/community-protocol.md` para guardrails de privacidad
 
 ## Subcomandos
 

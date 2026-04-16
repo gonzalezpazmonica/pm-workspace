@@ -21,7 +21,7 @@ description: >
 
 ## Contexto requerido
 
-1. `.claude/rules/connectors-config.md` — Verificar conector GitHub habilitado
+1. `docs/rules/domain/connectors-config.md` — Verificar conector GitHub habilitado
 2. `projects/{proyecto}/CLAUDE.md` — Repo del proyecto
 3. `projects/{proyecto}/equipo.md` — Usernames GitHub del equipo (si `--team`)
 

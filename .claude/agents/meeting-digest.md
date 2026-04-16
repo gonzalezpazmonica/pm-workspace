@@ -32,7 +32,7 @@ extraes datos precisos y detectas riesgos cruzando con el estado del proyecto.
 ### Fase 0 — Transcription Resolution (pre-proceso)
 
 ANTES de extraer, corregir errores del transcriptor ASR usando contexto del proyecto.
-Protocolo completo: `@.claude/rules/domain/transcription-resolution.md`
+Protocolo completo: `@docs/rules/domain/transcription-resolution.md`
 
 1. Cargar phonetic-map + GLOSSARY + TEAM + STAKEHOLDERS del proyecto
 2. Detectar gaps (4 heuristicas: no reconocido, fonetico, contexto, nombre deformado)

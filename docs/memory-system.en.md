@@ -11,8 +11,8 @@ PM-Workspace uses Claude Code's full memory hierarchy:
 | Type | Location | Purpose | Shared |
 |---|---|---|---|
 | **Project (global)** | `~/claude/CLAUDE.md` | PM role, critical rules, structure | Team (repo) |
-| **Modular rules** | `.claude/rules/domain/*.md` | On-demand rules by topic | Team (repo) |
-| **Language rules** | `.claude/rules/languages/*.md` | Conventions with auto-load via `paths:` | Team (repo) |
+| **Modular rules** | `docs/rules/domain/*.md` | On-demand rules by topic | Team (repo) |
+| **Language rules** | `docs/rules/languages/*.md` | Conventions with auto-load via `paths:` | Team (repo) |
 | **Local project** | `~/claude/CLAUDE.local.md` | Private config: PATs, real projects | You only |
 | **Specific project** | `projects/{name}/CLAUDE.md` | Per-project Azure DevOps config | Team (repo) |
 | **Auto Memory** | `~/.claude/projects/*/memory/` | Claude's automatic notes per project | You only |
@@ -111,7 +111,7 @@ Agents have separate persistent memory at 3 levels for privacy and portability:
 
 **Load order**: public → private → project. Project takes precedence in conflicts.
 
-**Canonical rule**: `.claude/rules/domain/agent-memory-isolation.md`
+**Canonical rule**: `docs/rules/domain/agent-memory-isolation.md`
 
 ---
 
@@ -120,7 +120,7 @@ Agents have separate persistent memory at 3 levels for privacy and portability:
 CLAUDE.md supports imports with `@path/to/file` syntax:
 
 ```markdown
-Config detallada: @.claude/rules/domain/pm-config.md
+Config detallada: @docs/rules/domain/pm-config.md
 Buenas prácticas: @docs/best-practices-claude-code.md
 ```
 
@@ -134,10 +134,10 @@ If you work on projects outside `~/claude/`, you can share language rules via sy
 
 ```bash
 # In the external project, create symlink to the language packs
-ln -s ~/claude/.claude/rules/languages/ /path/to/project/.claude/rules/languages
+ln -s ~/claude/docs/rules/languages/ /path/to/project/.claude/rules/languages
 
 # Or just a specific language
-ln -s ~/claude/.claude/rules/languages/python-conventions.md /path/to/project/.claude/rules/python.md
+ln -s ~/claude/docs/rules/languages/python-conventions.md /path/to/project/.claude/rules/python.md
 ```
 
 ---

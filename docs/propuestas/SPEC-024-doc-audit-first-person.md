@@ -33,7 +33,7 @@ la documentación publica, explicando como funciona por dentro.
 
 ### Fuera de alcance
 
-- Reglas de dominio (.claude/rules/) — son instrucciones internas, no user-facing
+- Reglas de dominio (docs/rules/) — son instrucciones internas, no user-facing
 - Specs (docs/propuestas/) — son documentos tecnicos, voz neutra ok
 - CHANGELOG — formato estandarizado, no reescribir
 

@@ -8,8 +8,8 @@ allowed_tools: ["Bash", "Read", "Write", "Edit", "Task"]
 
 # /context-interview — Asistente de análisis de contexto
 
-> Reglas: @.claude/rules/domain/context-interview-config.md
-> Dependencia: @.claude/rules/domain/savia-hub-config.md · @.claude/rules/domain/client-profile-config.md
+> Reglas: @docs/rules/domain/context-interview-config.md
+> Dependencia: @docs/rules/domain/savia-hub-config.md · @docs/rules/domain/client-profile-config.md
 
 ## Subcomandos
 

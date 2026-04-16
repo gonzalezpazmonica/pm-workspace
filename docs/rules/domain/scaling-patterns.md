@@ -8,7 +8,7 @@ paths: [".claude/commands/scale-optimizer*", ".claude/skills/scaling-operations/
 # Regla: Patrones de Escalabilidad
 
 > Basado en: Team Topologies (Skelton & Pais), Accelerate (Forsgren et al.)
-> Complementa: @.claude/rules/domain/team-structure.md, @.claude/rules/domain/command-ux-feedback.md
+> Complementa: @docs/rules/domain/team-structure.md, @docs/rules/domain/command-ux-feedback.md
 
 **Principio fundamental**: Cada tier de escala requiere reorganización de contexto, concurrencia, y gobernanza.
 
@@ -89,7 +89,7 @@ Full-text search across:
 - decision-log.md
 - ADRs (architecture decision records)
 - Specs (.spec.md files)
-- Rules (@.claude/rules/domain/)
+- Rules (@docs/rules/domain/)
 - Agent memory (.claude/agent-memory/)
 
 ## Gobernanza CI/CD

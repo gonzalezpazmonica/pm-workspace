@@ -333,7 +333,7 @@ Sorrera (/codemap:generate-human) → Giza balioztapena → Aktibo
 - Ulermen-scripta: `scripts/ast-comprehend.sh`
 - Kalitate-scripta: `scripts/ast-quality-gate.sh`
 - Kode-mapen skill: `.claude/skills/agent-code-map/SKILL.md`
-- Giza mapen araua: `.claude/rules/domain/hcm-maps.md`
+- Giza mapen araua: `docs/rules/domain/hcm-maps.md`
 - Giza mapen skill: `.claude/skills/human-code-map/SKILL.md`
 - Workspace-mapak: `.human-maps/`
 - Proiektuen mapak: `projects/*/.human-maps/*.hcm`

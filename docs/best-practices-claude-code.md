@@ -113,7 +113,7 @@ Usuario → /command → Agent (orquesta) → Skills (conocimiento)
 - **Commands** (`.claude/commands/*.md`) — puntos de entrada ligeros; delegan
 - **Agents** (`.claude/agents/*.md`) — orquestan con herramientas y permisos propios
 - **Skills** (`.claude/skills/<nombre>/SKILL.md`) — módulos de conocimiento reutilizables
-- **Rules** (`.claude/rules/*.md`) — instrucciones modulares con alcance opcional
+- **Rules** (`docs/rules/*.md`) — instrucciones modulares con alcance opcional
 - **Hooks** (`.claude/hooks/`) — acciones deterministas garantizadas en cada evento
 
 Los subagentes **nunca se invocan por bash** — siempre con la herramienta `Task`.

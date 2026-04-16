@@ -44,7 +44,7 @@ Si la respuesta es SI → reescribir con terminos genericos.
 - README.md y README.en.md
 - CHANGELOG.md
 - Commits y PRs
-- Reglas en `.claude/rules/`
+- Reglas en `docs/rules/`
 - Skills en `.claude/skills/`
 
 ## Verificacion

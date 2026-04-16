@@ -335,7 +335,7 @@ Wenn das `.acm` veraltet ist, ist das `.hcm` es ebenfalls, unabhängig von seine
 - Verständnis-Skript: `scripts/ast-comprehend.sh`
 - Qualitäts-Skript: `scripts/ast-quality-gate.sh`
 - Code-Karten-Skill: `.claude/skills/agent-code-map/SKILL.md`
-- Regel menschliche Karten: `.claude/rules/domain/hcm-maps.md`
+- Regel menschliche Karten: `docs/rules/domain/hcm-maps.md`
 - Skill menschliche Karten: `.claude/skills/human-code-map/SKILL.md`
 - Workspace-Karten: `.human-maps/`
 - Projektkarten: `projects/*/.human-maps/*.hcm`

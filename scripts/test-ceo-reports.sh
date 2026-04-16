@@ -117,9 +117,9 @@ echo "📋 6. Context Map & Role Workflows"
 check_content ".claude/profiles/context-map.md" "ceo-report" "Context-map includes /ceo-report"
 check_content ".claude/profiles/context-map.md" "ceo-alerts" "Context-map includes /ceo-alerts"
 check_content ".claude/profiles/context-map.md" "portfolio-overview" "Context-map includes /portfolio-overview"
-check_content ".claude/rules/domain/role-workflows.md" "ceo-alerts" "CEO routine uses /ceo-alerts"
-check_content ".claude/rules/domain/role-workflows.md" "portfolio-overview" "CEO routine uses /portfolio-overview"
-check_content ".claude/rules/domain/role-workflows.md" "ceo-report" "CEO routine uses /ceo-report"
+check_content "docs/rules/domain/role-workflows.md" "ceo-alerts" "CEO routine uses /ceo-alerts"
+check_content "docs/rules/domain/role-workflows.md" "portfolio-overview" "CEO routine uses /portfolio-overview"
+check_content "docs/rules/domain/role-workflows.md" "ceo-report" "CEO routine uses /ceo-report"
 echo ""
 
 # ── 7. CHANGELOG Updates ─────────────────────────────────────────────────

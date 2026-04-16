@@ -112,7 +112,7 @@ PROTECTED_PATHS=(
   "output"
   "CLAUDE.local.md"
   "decision-log.md"
-  ".claude/rules/domain/pm-config.local.md"
+  ".claude/rules/pm-config.local.md"
 )
 
 verify_protected_data() {

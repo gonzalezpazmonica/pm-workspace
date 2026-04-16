@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for Era 107.2 — Sync Adapters
-# Ref: .claude/rules/domain/mcp-migration.md
+# Ref: docs/rules/domain/mcp-migration.md
 
 setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1

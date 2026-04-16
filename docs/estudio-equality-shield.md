@@ -128,12 +128,12 @@ Reglas operativas:
   aplicar el test contrafactual: intercambiar mentalmente el género
   del destinatario y verificar que la respuesta no cambie.
 
-Para reglas detalladas: .claude/rules/equality-shield.md
+Para reglas detalladas: docs/rules/domain/equality-shield.md
 ```
 
 ### 3.2 NIVEL 2 — Regla modular: equality-shield.md
 
-Nuevo archivo en `.claude/rules/`:
+Nuevo archivo en `docs/rules/`:
 
 ```markdown
 # Equality Shield — Regla de Igualdad Activa

@@ -21,7 +21,7 @@ context_cost: low
 ## Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — `AZURE_REPOS_PROJECT`
-2. @.claude/rules/domain/azure-repos-config.md — Config de Azure Repos
+2. @docs/rules/domain/azure-repos-config.md — Config de Azure Repos
 
 ## Pasos de ejecución
 

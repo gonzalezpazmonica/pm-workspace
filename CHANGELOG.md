@@ -6,6 +6,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.95.0] — 2026-04-16
+
+Migration of workspace rules from `.claude/rules/` to `docs/rules/`. Rules
+are documentation artefacts and belong under `docs/`. Lazy-loading behaviour
+preserved: `.claudeignore` continues to exclude rules from auto-context,
+so they only load when explicitly `@`-referenced. Era 244.
+
+### Changed
+- **Moved**: `.claude/rules/domain/*.md` → `docs/rules/domain/*.md` (151 rules)
+- **Moved**: `.claude/rules/languages/*.md` → `docs/rules/languages/*.md` (14 packs)
+- **URL sanitisation**: 413 files updated (agents, commands, skills, docs, hooks, scripts, tests)
+- **`.claudeignore`**: now excludes `docs/rules/{domain,languages}/`
+- **`scripts/rule-usage-analyzer.sh`**: `RULES_DIR` points to `docs/rules/domain/`; fixed `\d` → `d` regex bug
+- **Hooks dual-pattern** (`prompt-injection-guard.sh`, `validate-layer-contract.sh`,
+  `agent-hook-premerge.sh`, `memory-auto-capture.sh`, `data-sovereignty-gate.sh`):
+  match both `docs/rules/` (new) and `.claude/rules/` (kept for git-ignored
+  `pm-config.local.md`)
+- **`.claude/compliance/checks/check-file-size.sh`**: regex covers `docs/rules/` paths
+- **`sovereignty-auditor/SKILL.md`**: fixed pre-existing broken ref
+  `@docs/rules/domain/cognitive-sovereignty.md` → `@docs/rules/domain/ai-governance.md`
+
+### Added
+- **`tests/structure/test-rule-migration-audit.bats`**: 15 new tests —
+  no stale `.claude/rules/{domain,languages}/` refs, all `@docs/rules/`
+  refs resolve, hook coverage, tier1 identity (radical-honesty + autonomous-safety)
+- **`docs/rules/domain/rule-manifest.json`**: generated manifest — 151 rules,
+  2 tier1, 50 tier2, 99 dormant
+
+### Kept
+- `.claude/rules/pm-config.local.md` — git-ignored local config stays at original path
+- Existing tier counts: tier1=2 (radical-honesty, autonomous-safety) unchanged
+
 ## [4.94.0] — 2026-04-16
 
 Upgrade all Opus agents and workspace configuration to Claude Opus 4.7
@@ -43,7 +75,7 @@ report type, and absolute veto rules for compliance/PII. Era 242.
 - **`.claude/agents/truth-tribunal-orchestrator.md`** (Opus L2):
   convenes the 7 judges in parallel via fork pattern, applies vetos,
   computes weighted consensus, and emits the canonical `.truth.crc`.
-- **`.claude/rules/domain/truth-tribunal-weights.md`**: weights table
+- **`docs/rules/domain/truth-tribunal-weights.md`**: weights table
   for 6 profiles (default, executive, compliance, audit, digest,
   subjective) with auto-detection and frontmatter override.
 - **`.claude/commands/report-verify.md`**: `/report-verify <report>`
@@ -685,7 +717,7 @@ specialized agent-judges that review AI-generated code from distinct
 angles, enforcing a 400 LOC batch-size gate (Nyquist bound). Human E1
 reviews findings, not raw diffs. Score formula: `100-(C×25+H×10+M×3+L×1)`.
 ### Added
-- **`.claude/rules/domain/code-review-court.md`** (86 lines): rule
+- **`docs/rules/domain/code-review-court.md`** (86 lines): rule
   documenting the 5 judges, scoring model, flow, batch gate, fix cycle.
 - **`.claude/schemas/review-crc.schema.json`**: JSON Schema for the
   `.review.crc` artifact (judges, findings, per-file SHA-256, rounds).
@@ -818,7 +850,7 @@ and extracted the five most transferable engineering principles into a
 new rule that applies them to pm-workspace.
 
 ### Added
-- **`.claude/rules/domain/engineering-principles-from-kernel.md`** (132
+- **`docs/rules/domain/engineering-principles-from-kernel.md`** (132
   lines): five principles distilled from 37M lines of kernel source —
   (1) pay for what you use (compile-out in prod), (2) make mechanisms
   visible (no hidden control flow), (3) verify at runtime in debug,
@@ -893,14 +925,14 @@ SE-003; blocks SE-018 (billing consumes `release.completed`) and SE-019
 Dual estimation rule (SE-013) with two-ratio system. Formalizes the ~10x end-to-end pipeline speedup claim and — critically — keeps TWO live ratios simultaneously: a fixed conservative `10x` (default for planning, always safe) and an updating empirical ratio computed from `data/agent-actuals.jsonl`. PM decides when to opt-in to empirical mode; conservative stays as default until the team has enough data to trust its own numbers. Era 207.
 
 ### Added
-- **`.claude/rules/domain/dual-estimation.md`**: the rule. Phase breakdown, dual-ratio model (conservative 10x + empirical on-demand), canonical formula, adjustment table (trivial 15x → legacy 2x), 4 conditions for the 10x claim, sources (METR papers + n=2 HUDI + SE-002 real data).
+- **`docs/rules/domain/dual-estimation.md`**: the rule. Phase breakdown, dual-ratio model (conservative 10x + empirical on-demand), canonical formula, adjustment table (trivial 15x → legacy 2x), 4 conditions for the 10x claim, sources (METR papers + n=2 HUDI + SE-002 real data).
 - **`docs/propuestas/TEMPLATE.md`**: spec header updated with `Estimate (human): Nd` and `Estimate (agent): Nh` dual fields + `Category` classifier.
 - **`scripts/estimate-calibrate.sh`**: reads `data/agent-actuals.jsonl`, groups by category, computes empirical speedup, suggests adjustments when samples ≥ `DUAL_ESTIMATION_MIN_SAMPLES`. Supports `--format json` and `--log`.
 - **`scripts/estimate-convert.sh`**: PM-facing helper. Converts human-days to agent-hours using either `--mode conservative` (default 10x) or `--mode empirical` (opt-in, reads live ratio from actuals log). Falls back to conservative when empirical lacks samples. Supports `--category`, `--format json`, `--min-samples`.
 - **`data/agent-actuals.example.jsonl`**: seed with SE-001/002/008/012 + HUDI-8865/8551 real data. The live file `data/agent-actuals.jsonl` is gitignored (PM-local tracking).
 - **`tests/test-dual-estimation.bats`**: 23 BATS tests (17 original + 6 for the two-ratio helper), SPEC-055 certified.
 - **`docs/propuestas/savia-enterprise/DEVELOPMENT-PLAN.md`**: throughput claim block at top, linking to the rule.
-- **`.claude/rules/domain/pm-config.md`**: three new config keys (`DUAL_ESTIMATION_ENABLED`, `DUAL_ESTIMATION_MIN_SAMPLES`, `AGENT_ACTUALS_LOG`).
+- **`docs/rules/domain/pm-config.md`**: three new config keys (`DUAL_ESTIMATION_ENABLED`, `DUAL_ESTIMATION_MIN_SAMPLES`, `AGENT_ACTUALS_LOG`).
 
 ### Changed
 - Spec template and development plan now explicitly distinguish human-days from agent wall-clock hours. The conservative 10x is the planning default; empirical is opt-in when the PM trusts team data.
@@ -1005,7 +1037,7 @@ does not. The user never gets stuck because of network, rate limits, or
 provider outages. Era 205.
 
 ### Added
-- **Rule** `.claude/rules/domain/savia-dual.md` — architecture, failover
+- **Rule** `docs/rules/domain/savia-dual.md` — architecture, failover
   triggers, hardware-based model selection, audit log format, hard limits.
 - **Skill** `.claude/skills/savia-dual/` — `SKILL.md` + `DOMAIN.md` with
   the Clara dual-doc pattern.
@@ -2083,7 +2115,7 @@ feat: human-code-map skill — .hcm maps fighting cognitive debt; ACM system val
 - **skill: human-code-map** — New skill (SKILL.md + DOMAIN.md) that generates `.hcm` (Human Code Maps), the human twin of `.acm` Agent Code Maps. 4-phase pipeline: load .acm context → debt analysis → generate narrative draft → human validation cycle. Addresses Addy Osmani's comprehension debt: devs spend 58% of time reading code; .hcm converts expensive "first walks" into reusable assets. Maturity: experimental.
 - **.claude/skills/human-code-map/SKILL.md** — Full pipeline spec: Phase 1 (load .acm + 5 max source files), Phase 2 (debt-score calculation: staleness + complexity + coverage gaps), Phase 3 (generate: La historia, El modelo mental, Puntos de entrada, Gotchas, Por qué, Indicadores de deuda), Phase 4 (human validation checklist — last-walk only updatable by human). When NOT to generate: <50 LOC, pure config, generated code, single-use scripts.
 - **.claude/skills/human-code-map/DOMAIN.md** — Domain context (Clara Philosophy). Key concepts: cognitive debt, first walk, walk-time (target 2-4 min), debt-score, gotcha. Business rules: .hcm always derived from .acm; debt-score >7 → escalate PM; last-walk only human; no validation = borrador. Upstream: agent-code-map + ast-comprehension. Downstream: onboarding + dev-session + spec-generate.
-- **.claude/rules/domain/hcm-maps.md** — Canonical rule for .hcm lifecycle. debt-score formula: `min((days/30)*2, 4) + complexity(0-3) + (1-coverage)*3`. Lifecycle: Creation → Validation → Active → Stale → Refresh → Archive. Staleness propagation: code change → .acm hash invalid → .hcm auto-stale. Commands: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`, `/codemap:refresh-human`. Directory: `.human-maps/` parallel to `.agent-maps/`.
+- **docs/rules/domain/hcm-maps.md** — Canonical rule for .hcm lifecycle. debt-score formula: `min((days/30)*2, 4) + complexity(0-3) + (1-coverage)*3`. Lifecycle: Creation → Validation → Active → Stale → Refresh → Archive. Staleness propagation: code change → .acm hash invalid → .hcm auto-stale. Commands: `/codemap:generate-human`, `/codemap:walk`, `/codemap:debt-report`, `/codemap:refresh-human`. Directory: `.human-maps/` parallel to `.agent-maps/`.
 - **.human-maps/INDEX.hcm** — First example of .hcm format applied to pm-workspace itself. Newspaper editorial metaphor (Commands = editor inbox, Agents = specialized journalists, Skills = reference library, Hooks = fact-checkers). 6 non-obvious Gotchas including: Rules not auto-loaded, Hooks are bash not prompts, .claude/commands/*.md IS the prompt, projects/ gitignored deny-by-default, E1 always human, SAVIA_HOOK_PROFILE controls hook tier.
 - **ACM test report** — A/B/C comparative test of .acm Agent Code Map system showing significant improvements in files explored, tool uses, tokens consumed, and duration vs baseline.
 
@@ -2223,7 +2255,7 @@ Hook profiles system (SAVIA_HOOK_PROFILE) + 5 specs (wave-executor, G11 review s
 - **`.claude/hooks/lib/profile-gate.sh`**: librería compartida con función `profile_gate()` — sourcing condicional, sin dependencias externas
 - **`/hook-profile`**: nuevo comando slash para consultar y cambiar el perfil activo (`get`, `set`, `list`)
 - **`scripts/hook-profile.sh`**: script CLI que persiste el perfil en `~/.savia/hook-profile`
-- **`.claude/rules/domain/hook-profiles.md`**: regla que documenta la arquitectura de perfiles, jerarquía de tiers y el principio "hooks > prompts"
+- **`docs/rules/domain/hook-profiles.md`**: regla que documenta la arquitectura de perfiles, jerarquía de tiers y el principio "hooks > prompts"
 - **wave-executor** (SPEC-WAVE-DAG): `scripts/wave-executor.sh` + lib — generic parallel task execution engine for DAG scheduling
 - **G11 gate** (SPEC-PR-REVIEW-SCALING): PR review depth scaling — XS/STANDARD/ENHANCED/FULL tiers by lines changed + risk score
 - **output-compress** (SPEC-OUTPUT-COMPRESS): `scripts/output-compress.sh` — standalone compression with 7 command-specific filters
@@ -3661,7 +3693,7 @@ Era 100.1 — Lazy Loading of Rules Domain. Tier-based rule classification and m
 ### Added
 
 - **scripts/rule-usage-analyzer.sh**: Analyzes domain rule usage across workspace — classifies 110 rules into tier1 (startup), tier2 (on-demand), dormant (unreferenced). Outputs JSON manifest
-- **.claude/rules/domain/rule-manifest.json**: Pre-computed map of 110 rules with tier + consumers. 13 tier1, 35 tier2, 62 dormant
+- **docs/rules/domain/rule-manifest.json**: Pre-computed map of 110 rules with tier + consumers. 13 tier1, 35 tier2, 62 dormant
 - **tests/structure/test-rule-lazy-loading.bats**: 8 BATS tests for analyzer and manifest integrity
 
 ## [2.84.0] — 2026-03-14
@@ -4943,7 +4975,7 @@ Memory improvements inspired by claude-mem + Natural Language command resolution
 - **`/savia-recall`** — Unified search across memory store, agent MEMORY.md files, and lessons.md.
 - **`memory-auto-capture.sh`** — PostToolUse async hook that auto-captures patterns from Edit/Write operations with 5-min rate limit.
 - **Intent catalog** (`.claude/commands/references/intent-catalog.md`): 60+ NL patterns mapped to commands across 19 categories, bilingual ES/EN.
-- **NL resolution rule** (`.claude/rules/domain/nl-command-resolution.md`): automatic intent detection, confidence scoring (base + context + history), anti-improvisation guards.
+- **NL resolution rule** (`docs/rules/domain/nl-command-resolution.md`): automatic intent detection, confidence scoring (base + context + history), anti-improvisation guards.
 - **`/nl-query` rewritten**: loads intent catalog, scores confidence, resolves params from context, learns from successful mappings. Subcommands: `--explain`, `--learn`, `--history`.
 - **32 new tests**: `test-memory-improvements.sh` (13 tests) + `test-nl-resolution.sh` (19 tests).
 
@@ -4985,12 +5017,12 @@ Company Savia v3: branch-based isolation with Git orphan branches + quality fram
 
 - **`savia-branch.sh`**: new abstraction layer for cross-branch read/write/list/exists/ensure-orphan/check-permission/fetch-messages via `git show` and temporary worktrees.
 - **`test-savia-branches.sh`**: 15 tests for branch abstraction layer.
-- **Rule #21 — Self-Improvement Loop**: persistent `tasks/lessons.md` reviewed at session start. Rule: `.claude/rules/domain/self-improvement.md`.
-- **Rule #22 — Verification Before Done**: proof-based completion. Rule: `.claude/rules/domain/verification-before-done.md`.
-- **Agent Self-Memory**: 10 agents with persistent `MEMORY.md` files (code-reviewer, architect, security-guardian, test-runner, triage, and 5 more). Rule: `.claude/rules/domain/agent-self-memory.md`.
+- **Rule #21 — Self-Improvement Loop**: persistent `tasks/lessons.md` reviewed at session start. Rule: `docs/rules/domain/self-improvement.md`.
+- **Rule #22 — Verification Before Done**: proof-based completion. Rule: `docs/rules/domain/verification-before-done.md`.
+- **Agent Self-Memory**: 10 agents with persistent `MEMORY.md` files (code-reviewer, architect, security-guardian, test-runner, triage, and 5 more). Rule: `docs/rules/domain/agent-self-memory.md`.
 - **`/drift-check` command**: audits CLAUDE.md rules vs repo state. Agent: `drift-auditor.md`.
 - **`hook-pii-gate.sh`**: pre-commit PII scanner (emails, phones, API keys, IBAN, DNI/NIE).
-- **Frontend Component Rules**: `.claude/rules/domain/frontend-components.md` (naming, a11y checklist, states, design tokens).
+- **Frontend Component Rules**: `docs/rules/domain/frontend-components.md` (naming, a11y checklist, states, design tokens).
 - **Roadmap v1.7.0**: archived (content integrated into `docs/ROADMAP.md` Era 22).
 
 ### Changed
@@ -7033,6 +7065,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.94.0...v4.95.0
 [4.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.88.0...v4.94.0
 [4.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.87.0...v4.88.0
 [4.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.86.0...v4.87.0

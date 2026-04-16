@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for tool-call-healing.sh (Era 170 — Tool Resilience)
-# Ref: .claude/rules/domain/context-health.md
+# Ref: docs/rules/domain/context-health.md
 
 REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)}"
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for stop-quality-gate.sh hook
 # Final quality check, never blocks (exit 0 always)
-# Ref: .claude/rules/domain/hook-profiles.md
+# Ref: docs/rules/domain/hook-profiles.md
 
 setup() {
   TMPDIR=$(mktemp -d)

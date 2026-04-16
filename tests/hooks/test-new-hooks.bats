@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for SPEC-026 PreCompact + PostToolUseFailure hooks
-# Ref: .claude/rules/domain/session-memory-protocol.md
+# Ref: docs/rules/domain/session-memory-protocol.md
 
 setup() {
     TMPDIR=$(mktemp -d)

@@ -79,7 +79,7 @@ teardown() {
 }
 
 @test "hook blocks: Core rule importing enterprise" {
-  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.claude/rules/domain/foo.md","content":"see .claude/enterprise/skills/x"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/docs/rules/domain/foo.md","content":"see .claude/enterprise/skills/x"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 2 ]]
 }

@@ -76,7 +76,7 @@ Tracking en `context-tracker-hook.sh`:
 
 ### Fase única (< 1 sprint)
 
-1. Actualizar `.claude/rules/domain/skill-auto-activation.md` con Paso 0
+1. Actualizar `docs/rules/domain/skill-auto-activation.md` con Paso 0
 2. Añadir tracking de gate decisions en context-tracker
 3. Medir durante 2 semanas
 4. Ajustar condiciones si hay falsos negativos
@@ -95,7 +95,7 @@ Tracking en `context-tracker-hook.sh`:
 
 ## Ficheros afectados
 
-- `.claude/rules/domain/skill-auto-activation.md` — añadir Paso 0
+- `docs/rules/domain/skill-auto-activation.md` — añadir Paso 0
 
 ---
 

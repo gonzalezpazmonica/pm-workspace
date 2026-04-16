@@ -121,6 +121,6 @@
 Controls which directories are **not loaded into context** by Claude Code:
 
 - `.claude/worktrees/` — Claude Code creates workspace copies per session; without exclusion, they saturate the context
-- `.claude/rules/languages/` — 21 convention files (6,900+ lines) loaded on-demand when an agent needs them
+- `docs/rules/languages/` — 21 convention files (6,900+ lines) loaded on-demand when an agent needs them
 
 > Without `.claudeignore`, auto-loaded context exceeds limits and all slash commands fail with "Prompt is too long".

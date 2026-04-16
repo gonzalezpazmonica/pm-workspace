@@ -3,7 +3,7 @@
 set -euo pipefail
 PASS=0; FAIL=0
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-RULES_DIR="$REPO_ROOT/.claude/rules/domain"
+RULES_DIR="$REPO_ROOT/docs/rules/domain"
 
 ok()   { PASS=$((PASS+1)); echo "  ✅ $1"; }
 fail() { FAIL=$((FAIL+1)); echo "  ❌ $1"; }

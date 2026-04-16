@@ -36,7 +36,7 @@ test type, every language framework, and every quality pattern.
 3. **3+ positive cases**: Test happy paths with at least 3 distinct scenarios
 4. **2+ negative cases**: Missing args, bad input, nonexistent files — explicit error handling
 5. **Edge cases**: Empty input, boundary values (0, max), single-element, nonexistent paths
-6. **Spec/doc reference**: Include `# Ref: .claude/rules/domain/X.md` or `@test "SPEC doc exists"`
+6. **Spec/doc reference**: Include `# Ref: docs/rules/domain/X.md` or `@test "SPEC doc exists"`
 7. **Diverse assertions**: Mix `[[ "$output" == *"..."* ]]`, `python3 -c "json.load"`, `grep -q`, `[ "$status" -eq N ]`
 8. **Coverage breadth**: Test 60%+ of target features, not just one path
 
@@ -51,7 +51,7 @@ test type, every language framework, and every quality pattern.
 | C5: Edge cases | 10 | 3+ edge @test names (empty/boundary/zero/null/nonexistent) |
 | C6: Isolation | 10 | setup() + teardown() + mktemp |
 | C7: Coverage breadth | 10 | Reference 80%+ of target functions in test body |
-| C8: Spec reference | 10 | SPEC-NNN or docs/propuestas/ or # Ref: .claude/rules/ |
+| C8: Spec reference | 10 | SPEC-NNN or docs/propuestas/ or # Ref: docs/rules/ |
 | C9: Assertion quality | 10 | Mix: [[ $output ]], grep -q, python3 json, $status checks |
 
 ## Test Types You Master (14)

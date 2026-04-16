@@ -50,7 +50,7 @@ Estas reglas se cargan bajo demanda por `@` o son consultadas implícitamente.
 
 Total: 25 reglas dormant de 41 totales (61%)
 
-Esto NO significa que sean inútiles — muchas son cargadas por `@.claude/rules/domain/X`
+Esto NO significa que sean inútiles — muchas son cargadas por `@docs/rules/domain/X`
 en la conversación. Pero no tienen dependencias formales en el código.
 
 ---

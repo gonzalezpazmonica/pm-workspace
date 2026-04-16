@@ -25,7 +25,7 @@ description: >
 1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto
 2. `output/plans/` — Último release plan
 3. `.claude/skills/diagram-generation/SKILL.md` — Generación de diagramas
-4. `.claude/rules/diagram-config.md` — Config Draw.io/Miro
+4. `docs/rules/domain/diagram-config.md` — Config Draw.io/Miro
 
 ## Pasos de ejecución
 

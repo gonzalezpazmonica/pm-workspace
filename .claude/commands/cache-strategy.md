@@ -18,7 +18,7 @@ Grupo: **Context Engineering** — cargar:
 
 - `workflow.md` — preferencias de optimización
 
-Ver `.claude/rules/domain/context-map.md`.
+Ver `docs/rules/domain/context-map.md`.
 
 ---
 
@@ -52,7 +52,7 @@ Ver `.claude/rules/domain/context-map.md`.
 Layer: TOOLS
 ├─ TTL: 7 días (604800 seg)
 ├─ Size: ~25% del presupuesto
-└─ Invalidation: cambios en .claude/rules/
+└─ Invalidation: cambios en docs/rules/
 
 Layer: SYSTEM
 ├─ TTL: 30 días

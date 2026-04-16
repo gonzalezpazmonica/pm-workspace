@@ -175,7 +175,7 @@ No hay migración que hacer — Connectors ya son MCP. Lo que cambia es cómo do
 | Acción | Prioridad | Fichero(s) afectados |
 |---|---|---|
 | Actualizar `recommended-mcps.md` con sección "Connectors oficiales" | Alta | `docs/recommended-mcps.md` |
-| Añadir nota de auto-sync en `connectors-config.md` | Alta | `.claude/rules/domain/connectors-config.md` |
+| Añadir nota de auto-sync en `connectors-config.md` | Alta | `docs/rules/domain/connectors-config.md` |
 | Crear guía rápida "Conectar herramientas en 1 minuto" | Media | `docs/guides/guide-connectors-quickstart.md` |
 | Actualizar prerequisitos en guías existentes | Media | `docs/guides/guide-*.md` |
 | Documentar `ENABLE_CLAUDEAI_MCP_SERVERS` en CLAUDE.md | Baja | `CLAUDE.md` |

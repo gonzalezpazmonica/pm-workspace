@@ -37,6 +37,6 @@
 - Team Onboarding: `.claude/skills/team-onboarding/SKILL.md`
 - Diagramas: `.claude/skills/diagram-generation/SKILL.md`
 - Azure Pipelines: `.claude/skills/azure-pipelines/SKILL.md`
-- UX Feedback: `.claude/rules/command-ux-feedback.md`
-- Context Health: `.claude/rules/context-health.md`
+- UX Feedback: `docs/rules/domain/command-ux-feedback.md`
+- Context Health: `docs/rules/domain/context-health.md`
 - Azure DevOps API v7.1: https://learn.microsoft.com/en-us/rest/api/azure/devops/

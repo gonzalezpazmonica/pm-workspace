@@ -38,7 +38,7 @@ git log --oneline --no-merges -50
 
 ### 3. Clasificar commits por tipo
 
-Usando los tipos definidos en `.claude/rules/github-flow.md`:
+Usando los tipos definidos en `docs/rules/domain/github-flow.md`:
 
 | Tipo | Sección CHANGELOG |
 |---|---|

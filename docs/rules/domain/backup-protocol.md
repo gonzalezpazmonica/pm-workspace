@@ -25,7 +25,7 @@ Fichero | Descripción | Prioridad
 `.claude/profiles/active-user.md` | Perfil activo | Alta
 `CLAUDE.local.md` | Config privada y proyectos | Alta
 `decision-log.md` | Decisiones del equipo | Media
-`.claude/rules/pm-config.local.md` | Config local de reglas | Media
+`docs/rules/pm-config.local.md` | Config local de reglas | Media
 `$HOME/.azure/devops-pat` | PAT de Azure DevOps | Alta (opcional)
 `$HOME/.pm-workspace/update-config` | Config de actualización | Baja
 
@@ -36,7 +36,7 @@ Fichero | Descripción | Prioridad
 - `projects/` — Código fuente (ya versionado en git)
 - `output/` — Informes generados (regenerables)
 - `.claude/commands/` — Vienen del repositorio
-- `.claude/rules/` — Vienen del repositorio
+- `docs/rules/` — Vienen del repositorio
 - `.claude/agents/` — Vienen del repositorio
 - `.claude/skills/` — Vienen del repositorio
 - `node_modules/`, `.venv/` — Dependencias regenerables

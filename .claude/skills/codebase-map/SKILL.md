@@ -40,7 +40,7 @@ allowed-tools: [Read, Glob, Grep, Bash]
 - Descripcion: PROACTIVELY triggers
 - Referencias a ficheros de proyecto en el body
 
-### Reglas (.claude/rules/domain/*.md)
+### Reglas (docs/rules/domain/*.md)
 - Quien las referencia (comandos, agentes, otras reglas)
 - Hub score: numero de consumidores
 

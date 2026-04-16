@@ -248,9 +248,9 @@ AND     siguiente run no las vuelve a alertar
 | Crear | .claude/commands/legal-drift.md | Command slash |
 | Crear | tests/test-legal-drift.bats | Suite BATS |
 | Modificar | .claude/agents/legal-compliance.md | Modo classifier |
-| Modificar | .claude/rules/domain/pm-config.md | Verificar LEGALIZE_ES_* |
+| Modificar | docs/rules/domain/pm-config.md | Verificar LEGALIZE_ES_* |
 | Crear | projects/PROJECT_TEMPLATE.md | Incluir LEGAL-REFS.md template |
-| Modificar | .claude/rules/domain/legal-compliance.md | Cross-ref drift |
+| Modificar | docs/rules/domain/legal-compliance.md | Cross-ref drift |
 
 ---
 

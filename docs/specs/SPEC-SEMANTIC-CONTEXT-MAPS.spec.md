@@ -184,8 +184,8 @@ AND     duracion <100ms
 |--------|---------|-----------|
 | Crear | scripts/semantic-map.sh | Script principal de generacion |
 | Crear | tests/test-semantic-map.sh | Suite BATS de tests |
-| Modificar | .claude/rules/domain/dev-session-protocol.md | Fase 2: cargar .smap para ficheros de consulta |
-| Modificar | .claude/rules/domain/agent-context-budget.md | Documentar reduccion esperada con .smap |
+| Modificar | docs/rules/domain/dev-session-protocol.md | Fase 2: cargar .smap para ficheros de consulta |
+| Modificar | docs/rules/domain/agent-context-budget.md | Documentar reduccion esperada con .smap |
 | Crear | output/semantic-maps/.gitkeep | Directorio de cache |
 
 ---

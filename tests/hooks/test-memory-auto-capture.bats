@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for memory-auto-capture.sh hook
 # Auto-saves file edits to memory store. Never blocks. Rate-limited to 5 min intervals.
-# Ref: .claude/rules/domain/async-hooks-config.md
+# Ref: docs/rules/domain/async-hooks-config.md
 
 setup() {
   TMPDIR=$(mktemp -d)
