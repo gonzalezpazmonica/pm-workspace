@@ -15,7 +15,7 @@ priority: "medium"
 
 # Skill: Wellbeing Guardian
 
-> Regla: @.claude/rules/domain/wellbeing-config.md
+> Regla: @docs/rules/domain/wellbeing-config.md
 > Perfiles: @.claude/profiles/users/{slug}/workflow.md + preferences.md
 
 ## Prerequisitos

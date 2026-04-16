@@ -6,7 +6,7 @@ setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   SCRIPT="$REPO_ROOT/scripts/context-calibration-measure.sh"
   SETTINGS="$REPO_ROOT/.claude/settings.json"
-  CONTEXT_HEALTH="$REPO_ROOT/.claude/rules/domain/context-health.md"
+  CONTEXT_HEALTH="$REPO_ROOT/docs/rules/domain/context-health.md"
 
   TMPDIR_CC=$(mktemp -d)
   LOG_FILE="$TMPDIR_CC/context.log"

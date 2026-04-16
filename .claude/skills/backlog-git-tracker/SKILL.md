@@ -15,8 +15,8 @@ priority: "medium"
 
 # Skill: BacklogGit Tracker
 
-> Regla: @.claude/rules/domain/backlog-git-config.md
-> Hub: @.claude/rules/domain/savia-hub-config.md
+> Regla: @docs/rules/domain/backlog-git-config.md
+> Hub: @docs/rules/domain/savia-hub-config.md
 
 ## Prerequisitos
 

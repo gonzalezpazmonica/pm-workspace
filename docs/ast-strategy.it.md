@@ -333,7 +333,7 @@ Se il `.acm` è obsoleto, lo è anche il `.hcm`, indipendentemente dalla propria
 - Script comprensione: `scripts/ast-comprehend.sh`
 - Script qualità: `scripts/ast-quality-gate.sh`
 - Skill mappe di codice: `.claude/skills/agent-code-map/SKILL.md`
-- Regola mappe umane: `.claude/rules/domain/hcm-maps.md`
+- Regola mappe umane: `docs/rules/domain/hcm-maps.md`
 - Skill mappe umane: `.claude/skills/human-code-map/SKILL.md`
 - Mappe del workspace: `.human-maps/`
 - Mappe di progetto: `projects/*/.human-maps/*.hcm`

@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for SPEC-OUTPUT-COMPRESS — bash output compression
-# Ref: .claude/rules/domain/context-health.md (section 1b)
+# Ref: docs/rules/domain/context-health.md (section 1b)
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"

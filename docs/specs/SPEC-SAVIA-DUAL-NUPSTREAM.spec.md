@@ -260,7 +260,7 @@ AND     Qwen vuelve a estar disponible
 | Modificar | scripts/savia-dual-proxy.py | Logica N-upstream + quota |
 | Modificar | scripts/setup-savia-dual.sh | Detectar y configurar Qwen |
 | Crear | scripts/qwen-oauth-setup.sh | Setup OAuth Qwen |
-| Modificar | .claude/rules/domain/savia-dual.md | Documentar N-upstream |
+| Modificar | docs/rules/domain/savia-dual.md | Documentar N-upstream |
 | Crear | tests/test-savia-dual-nupstream.bats | Suite BATS |
 | Crear | docs/savia-dual-providers.md | Guia de providers disponibles |
 | Modificar | .gitignore | ~/.qwen/oauth-token |

@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for Savia Web Research system (scripts/web-research/)
-# Ref: .claude/rules/domain/web-research-config.md
+# Ref: docs/rules/domain/web-research-config.md
 # Safety: bash wrappers use set -uo pipefail
 
 setup() {

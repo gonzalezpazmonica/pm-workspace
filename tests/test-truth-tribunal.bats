@@ -5,7 +5,7 @@
 # cache TTL behavior, and edge cases (missing dirs, malformed YAML, empty input).
 #
 # Ref: SPEC-106 (Truth Tribunal — Report Reliability)
-# Ref: .claude/rules/domain/truth-tribunal-weights.md
+# Ref: docs/rules/domain/truth-tribunal-weights.md
 # Ref: SPEC-055 (test quality gate, score >=80)
 
 setup() {

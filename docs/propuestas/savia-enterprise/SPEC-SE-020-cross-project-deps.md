@@ -187,7 +187,7 @@ rebalance_proposal:
 
 ## Acceptance criteria
 
-1. Regla `.claude/rules/domain/portfolio-as-graph.md` ≤150 lines.
+1. Regla `docs/rules/domain/portfolio-as-graph.md` ≤150 lines.
 2. JSON Schema for deps.yaml validates upstream/downstream/shared_resources.
 3. `portfolio-grapher` correctly builds a graph from 5+ projects with interdependencies.
 4. `/portfolio-graph` renders ASCII and Mermaid output.

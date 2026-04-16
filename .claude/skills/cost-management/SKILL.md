@@ -18,7 +18,7 @@ priority: "medium"
 
 # Skill: Cost Management
 
-> Prerequisito: @.claude/rules/domain/billing-model.md, @.claude/rules/domain/cost-tracking.md
+> Prerequisito: @docs/rules/domain/billing-model.md, @docs/rules/domain/cost-tracking.md
 
 Orquesta timesheet logging, budget tracking, forecasting y generación de invoices.
 

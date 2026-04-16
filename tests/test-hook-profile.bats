@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Ref: .claude/rules/domain/hook-profiles.md
+# Ref: docs/rules/domain/hook-profiles.md
 # Tests for hook-profile.sh — Hook profile manager
 
 setup() {

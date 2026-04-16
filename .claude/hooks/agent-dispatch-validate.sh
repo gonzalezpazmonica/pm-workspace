@@ -27,7 +27,7 @@ if [ -z "$PROMPT" ]; then
 fi
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
-CHECKLIST="$PROJECT_DIR/.claude/rules/domain/agent-dispatch-checklist.md"
+CHECKLIST="$PROJECT_DIR/docs/rules/domain/agent-dispatch-checklist.md"
 WARNINGS=""
 ERRORS=""
 
@@ -81,7 +81,7 @@ if prompt_contains 'git push|gh pr|merge'; then
   fi
 fi
 
-# ── 5. Si el agente va a crear rules (.claude/rules/) ────────────────
+# ── 5. Si el agente va a crear rules (docs/rules/) ────────────────
 if prompt_contains 'rules/.*\.md|crear.*rule|create.*rule'; then
   if ! prompt_contains '150 líneas|150 lines|max.*150|≤.*150'; then
     WARNINGS+="💡 DISPATCH: prompt crea rules sin mencionar límite de líneas.\n"
@@ -98,7 +98,7 @@ if [ -n "$ERRORS" ] || [ -n "$WARNINGS" ]; then
   if [ -n "$WARNINGS" ]; then
     echo -e "$WARNINGS" >&2
   fi
-  echo "Ref: .claude/rules/domain/agent-dispatch-checklist.md" >&2
+  echo "Ref: docs/rules/domain/agent-dispatch-checklist.md" >&2
   echo "═════════════════════════════════" >&2
 
   # Errores bloquean (exit 2), warnings solo informan (exit 0)

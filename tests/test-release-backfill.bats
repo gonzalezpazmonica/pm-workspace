@@ -150,7 +150,7 @@ teardown() {
 
 @test "CLAUDE.md has only 3 eager imports for foundational context" {
   local count
-  count=$(grep -c "^@\.claude" "$CLAUDE_MD")
+  count=$(grep -cE "^@(\.claude|docs)" "$CLAUDE_MD")
   # Allow 3-5 (savia, radical-honesty, autonomous-safety, maybe pm-config.local)
   [ "$count" -ge 3 ]
   [ "$count" -le 5 ]

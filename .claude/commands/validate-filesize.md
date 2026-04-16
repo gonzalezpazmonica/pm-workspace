@@ -27,7 +27,7 @@ Verifica que todos los ficheros gestionados del workspace (skills, agents, rules
 Categorías a revisar:
 - `.claude/skills/*/SKILL.md`
 - `.claude/agents/*.md`
-- `.claude/rules/domain/*.md`
+- `docs/rules/domain/*.md`
 - `.claude/commands/*.md`
 - `scripts/*.sh`
 - `CLAUDE.md`

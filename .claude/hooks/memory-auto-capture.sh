@@ -25,7 +25,7 @@ file_path="${EDITED_FILE:-${FILE_PATH:-}}"
 [[ -z "$file_path" ]] && exit 0
 
 # Only capture if file is in special dirs
-if ! [[ "$file_path" =~ (scripts/|\.claude/rules/|\.claude/commands/|tests/) ]]; then
+if ! [[ "$file_path" =~ (scripts/|docs/rules/|\.claude/rules/|\.claude/commands/|tests/) ]]; then
     exit 0
 fi
 
@@ -33,7 +33,7 @@ fi
 infer_type() {
     local path="$1"
     [[ "$path" =~ tests/ ]] && echo "pattern" && return
-    [[ "$path" =~ \.claude/rules/ ]] && echo "convention" && return
+    [[ "$path" =~ docs/rules/|\.claude/rules/ ]] && echo "convention" && return
     [[ "$path" =~ scripts/ ]] && echo "discovery" && return
     [[ "$path" =~ \.claude/commands/ ]] && echo "convention" && return
     echo "discovery"

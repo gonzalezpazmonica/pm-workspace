@@ -28,7 +28,7 @@ Esta skill se activa cuando el usuario necesita:
 1. **Proxy** — `scripts/savia-dual-proxy.py`
 2. **Installer Linux/macOS** — `scripts/setup-savia-dual.sh`
 3. **Installer Windows** — `scripts/setup-savia-dual.ps1`
-4. **Regla** — `.claude/rules/domain/savia-dual.md`
+4. **Regla** — `docs/rules/domain/savia-dual.md`
 5. **Comando** — `/savia-dual {install|start|stop|status|test}`
 6. **Docs** — `docs/savia-dual.md`
 

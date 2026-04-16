@@ -31,13 +31,13 @@ bash .claude/compliance/runner.sh --all
 ## Si hay violaciones
 
 1. Lee el mensaje de error — indica qué regla se ha violado
-2. Localiza la regla en `.claude/rules/domain/` para entender el contexto
+2. Localiza la regla en `docs/rules/domain/` para entender el contexto
 3. Corrige la violación
 4. Vuelve a ejecutar `/compliance-check` para verificar
 
 ## Cómo funciona
 
-El sistema traduce reglas de prosa (`.claude/rules/domain/*.md`) a verificaciones ejecutables
+El sistema traduce reglas de prosa (`docs/rules/domain/*.md`) a verificaciones ejecutables
 (`.claude/compliance/checks/*.sh`). Así, aunque el LLM pierda contexto en conversaciones largas,
 los scripts garantizan que las reglas objetivas se cumplen.
 

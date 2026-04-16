@@ -8,8 +8,8 @@ allowed_tools: ["Bash", "Read", "Write", "Edit", "Task"]
 
 # /backlog-git — Versionado de backlogs
 
-> Reglas: @.claude/rules/domain/backlog-git-config.md
-> Dependencia: @.claude/rules/domain/savia-hub-config.md · @.claude/rules/domain/client-profile-config.md
+> Reglas: @docs/rules/domain/backlog-git-config.md
+> Dependencia: @docs/rules/domain/savia-hub-config.md · @docs/rules/domain/client-profile-config.md
 
 ## Subcomandos
 

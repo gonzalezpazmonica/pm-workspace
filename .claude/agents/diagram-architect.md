@@ -46,7 +46,7 @@ When analyzing project architecture, check `projects/{project}/.context-index/PR
 1. Diagrama en formato Mermaid (siempre disponible como copia local)
 2. `projects/{proyecto}/CLAUDE.md` — Stack y decisiones arquitectónicas
 3. `projects/{proyecto}/RULES.md (o reglas-negocio.md)` — Reglas de dominio
-4. `.claude/rules/diagram-config.md` — Configuración de la feature
+4. `docs/rules/domain/diagram-config.md` — Configuración de la feature
 
 ## Tareas
 

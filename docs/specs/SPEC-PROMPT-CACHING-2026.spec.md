@@ -199,11 +199,11 @@ THEN    cambio bloqueado por hook-config-snapshot (SPEC-HOOK-CONFIG-SNAPSHOT)
 
 | Accion | Fichero | Que hacer |
 |--------|---------|-----------|
-| Modificar | .claude/rules/domain/prompt-caching.md | Reglas 2026, static/dynamic |
+| Modificar | docs/rules/domain/prompt-caching.md | Reglas 2026, static/dynamic |
 | Modificar | CLAUDE.md | Quitar cualquier dato dinamico |
 | Modificar | .claude/hooks/session-init.sh | Inyectar fecha en turno humano |
 | Crear | .claude/hooks/validate-system-prompt-static.sh | Validador |
-| Modificar | .claude/rules/domain/pm-config.md | Constantes CACHE_TTL_* |
+| Modificar | docs/rules/domain/pm-config.md | Constantes CACHE_TTL_* |
 | Crear | tests/test-prompt-caching-2026.bats | Suite BATS |
 | Modificar | .claude/commands/dev-session.md | Marcar como ttl=1h |
 | Modificar | .claude/commands/overnight-sprint.md | Marcar como ttl=1h |

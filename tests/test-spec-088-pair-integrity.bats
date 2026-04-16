@@ -1,12 +1,12 @@
 #!/usr/bin/env bats
 # SPEC-088: Tool-call/tool-result pair integrity during compaction.
 # Validates the inviolable rule is documented + simulates the algorithm.
-# Target: .claude/rules/domain/context-health.md and session-memory-protocol.md
+# Target: docs/rules/domain/context-health.md and session-memory-protocol.md
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  CONTEXT_HEALTH="$REPO_ROOT/.claude/rules/domain/context-health.md"
-  SESSION_PROTOCOL="$REPO_ROOT/.claude/rules/domain/session-memory-protocol.md"
+  CONTEXT_HEALTH="$REPO_ROOT/docs/rules/domain/context-health.md"
+  SESSION_PROTOCOL="$REPO_ROOT/docs/rules/domain/session-memory-protocol.md"
   HOOK="$REPO_ROOT/.claude/hooks/pre-compact-backup.sh"
   TMP_DIR=$(mktemp -d -t spec088-XXXXXX)
 }

@@ -76,7 +76,7 @@ Trace: /dev-session start AB#1234
 ### Implementation
 
 **Phase 1 — Schema alignment** (no new dependencies):
-- Define span schema in `.claude/rules/domain/agent-trace-schema.md`
+- Define span schema in `docs/rules/domain/agent-trace-schema.md`
 - Update `agent-trace-log.sh` to emit JSONL with OTel-compatible fields
   (trace_id, span_id, parent_span_id, attributes)
 - `/agent-cost` and `/agent-efficiency` read new fields

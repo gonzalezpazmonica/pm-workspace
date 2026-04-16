@@ -73,7 +73,7 @@ User query or gap detected
 ## References
 
 - Spec: `docs/propuestas/SPEC-003-web-research-system.md`
-- Config: `.claude/rules/domain/web-research-config.md`
+- Config: `docs/rules/domain/web-research-config.md`
 - Docs ES: `docs/web-research.md`
 - Docs EN: `docs/web-research.en.md`
 - Tests: `tests/test-web-research.bats`

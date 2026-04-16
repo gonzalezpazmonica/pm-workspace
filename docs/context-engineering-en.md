@@ -14,7 +14,7 @@ This module introduces 5 improvements to pm-workspace's Context Engineering syst
 
 Concrete input/output examples are the most powerful context type for guiding LLM behavior. An `## Ejemplos` section with positive (✅) and negative (❌) pairs is added to the most critical commands.
 
-**Rule:** `.claude/rules/domain/example-patterns.md`
+**Rule:** `docs/rules/domain/example-patterns.md`
 **Pilot commands:** `project-audit`, `sprint-plan`, `spec-generate`, `debt-track`, `risk-log`
 
 ---
@@ -24,7 +24,7 @@ Concrete input/output examples are the most powerful context type for guiding LL
 New command implementing G-Eval — output evaluation with quantitative scoring (1-10) against defined criteria. Includes Arena mode for A/B comparison of two outputs.
 
 **Command:** `.claude/commands/eval-output.md`
-**Criteria:** `.claude/rules/domain/eval-criteria.md` (4 types: report, spec, code, plan)
+**Criteria:** `docs/rules/domain/eval-criteria.md` (4 types: report, spec, code, plan)
 
 ---
 
@@ -41,7 +41,7 @@ Extends the memory system with Entity Memory — structured memory that tracks s
 
 Groups the 360+ commands into 15 semantic capability groups to reduce tool overload. Agents and the NL-resolver search within the relevant group first.
 
-**Rule:** `.claude/rules/domain/tool-discovery.md`
+**Rule:** `docs/rules/domain/tool-discovery.md`
 **Map:** `docs/capability-groups.md`
 
 ---
@@ -50,7 +50,7 @@ Groups the 360+ commands into 15 semantic capability groups to reduce tool overl
 
 Aligns pm-workspace with the 10-layer optimal prompt structure, adding the missing layers: Reasoning Guidance (step-by-step thinking) and Output Templates (concrete output formatting).
 
-**Rule:** `.claude/rules/domain/prompt-structure.md`
+**Rule:** `docs/rules/domain/prompt-structure.md`
 
 ---
 

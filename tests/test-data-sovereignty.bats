@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # test-data-sovereignty.bats — Tests para el sistema Data Sovereignty Gate
 # Valida las 3 capas: regex, Ollama, auditoria
-# Ref: .claude/rules/domain/data-sovereignty.md
+# Ref: docs/rules/domain/data-sovereignty.md
 
 setup() {
   # Force shield enabled for tests (env may have SAVIA_SHIELD_ENABLED=false from settings.local.json)

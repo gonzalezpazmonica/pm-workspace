@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # test-shield-daemon-gate.bats — Gate path normalization + classification
 # SPEC-044: data-sovereignty (Layer 1 — deterministic path gate)
-# Ref: .claude/rules/domain/data-sovereignty.md
+# Ref: docs/rules/domain/data-sovereignty.md
 # Target: .claude/hooks/data-sovereignty-gate.sh
 
 setup() {
@@ -72,8 +72,8 @@ print('PUBLIC')
   [[ "$output" == "PUBLIC" ]]
 }
 
-@test ".claude/rules/ is PUBLIC — invalid skip would miss PII" {
-  output=$(classify "/home/user/savia/.claude/rules/domain/rule.md")
+@test "docs/rules/ is PUBLIC — invalid skip would miss PII" {
+  output=$(classify "/home/user/savia/docs/rules/domain/rule.md")
   [[ "$output" == "PUBLIC" ]]
 }
 

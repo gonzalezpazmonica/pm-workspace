@@ -121,5 +121,5 @@ Ver `references/stage-patterns.md` para patrones detallados.
 
 - Templates YAML: `references/yaml-templates.md`
 - Patrones de stages: `references/stage-patterns.md`
-- Config entornos: `@.claude/rules/domain/environment-config.md`
+- Config entornos: `@docs/rules/domain/environment-config.md`
 - MCP Azure DevOps: `@.claude/mcp.json`

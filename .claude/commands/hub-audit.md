@@ -18,7 +18,7 @@ Grupo: **Memory & Context** — cargar:
 
 - `identity.md` — slug
 
-Leer `@.claude/rules/domain/semantic-hub-index.md` como referencia.
+Leer `@docs/rules/domain/semantic-hub-index.md` como referencia.
 
 ---
 
@@ -26,7 +26,7 @@ Leer `@.claude/rules/domain/semantic-hub-index.md` como referencia.
 
 ### Paso 1 — Escanear referencias
 
-Para cada fichero en `.claude/rules/domain/*.md`:
+Para cada fichero en `docs/rules/domain/*.md`:
 
 1. Buscar cuántos ficheros en `.claude/commands/` lo referencian (por `@` o nombre)
 2. Buscar cuántos ficheros en `.claude/agents/` lo referencian

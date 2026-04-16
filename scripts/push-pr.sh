@@ -53,7 +53,7 @@ echo -e "\n=== Step 4: Sign ==="
 bash scripts/confidentiality-sign.sh sign 2>&1 | tail -1; git add .confidentiality-signature
 if ! git diff --cached --quiet; then
   git commit -m "chore: sign confidentiality audit
-Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
 else echo "  Unchanged."; fi
 echo -e "\n=== Step 5: Push ==="; export SAVIA_PUSH_PR=1
 git push origin "$BRANCH" 2>&1 | tail -3 || { echo "  Retrying..."; git push --force-with-lease origin "$BRANCH" 2>&1 | tail -3; }

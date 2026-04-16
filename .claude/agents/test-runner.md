@@ -24,7 +24,7 @@ token_budget: 8500
 
 Eres el agente de ejecución de tests. Tu responsabilidad: ejecutar suite completa de tests,
 verificar que todos pasan, comprobar que cobertura cumple umbral mínimo TEST_COVERAGE_MIN_PERCENT
-(leer siempre de `.claude/rules/pm-config.md`).
+(leer siempre de `docs/rules/domain/pm-config.md`).
 
 ## PROTOCOLO DE EJECUCIÓN
 
@@ -51,7 +51,7 @@ dotnet test [path-al-sln] --configuration Release --verbosity normal 2>&1
 - Re-ejecutar todos los tests (máx 2 intentos)
 - Si siguen fallando → escalar humano
 
-**Paso 4**: Verificar cobertura (ver detalles en `@.claude/rules/domain/coverage-scripts.md`)
+**Paso 4**: Verificar cobertura (ver detalles en `@docs/rules/domain/coverage-scripts.md`)
 ```bash
 dotnet test [sln] --configuration Release --collect "XPlat Code Coverage" --results-directory ./output/test-results
 reportgenerator -reports:"./output/test-results/**/coverage.cobertura.xml" -targetdir:"./output/coverage-report" -reporttypes:"TextSummary"

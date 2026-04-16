@@ -60,7 +60,7 @@ Recomendar acciones específicas por dimensión débil:
 ## AI Competency Assessment (opcional: `--ai-skills`)
 
 Extiende ADKAR con 6 competencias AI-era:
-@.claude/rules/domain/ai-competency-framework.md
+@docs/rules/domain/ai-competency-framework.md
 
 1. Problem Formulation, 2. Output Evaluation, 3. Context Engineering,
 4. AI Orchestration, 5. Critical Thinking, 6. Ethical Awareness

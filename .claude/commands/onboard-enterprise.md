@@ -10,7 +10,7 @@ context_cost: medium
 # /onboard-enterprise — Onboarding Empresarial a Escala
 
 > Skill: @.claude/skills/enterprise-onboarding/SKILL.md
-> Config: @.claude/rules/domain/onboarding-enterprise.md
+> Config: @docs/rules/domain/onboarding-enterprise.md
 > Complementa: @.claude/commands/team-orchestrator.md
 
 Gestiona onboarding de múltiples personas simultáneamente. Batch CSV import, checklists adaptativos, tracking de progreso, generación automática de Knowledge Transfer.

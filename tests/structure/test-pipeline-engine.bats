@@ -86,7 +86,7 @@ teardown() {
 }
 
 @test "dry-run output contains expected structure" {
-  # Ref: .claude/rules/domain/parallel-execution.md
+  # Ref: docs/rules/domain/parallel-execution.md
   run bash -c "echo '' | $ROOT/scripts/pipeline-engine.sh $ROOT/.claude/templates/pipeline/ci-template.yaml --dry-run"
   [ "$status" -eq 0 ]
   [[ "$output" == *"dry-run"* ]]

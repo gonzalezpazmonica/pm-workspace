@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for pre-commit-review.sh hook
 # Warning-only hook that reviews staged files for common issues
-# Ref: .claude/rules/domain/code-review-rules.md
+# Ref: docs/rules/domain/code-review-rules.md
 
 setup() {
   TMPDIR=$(mktemp -d)

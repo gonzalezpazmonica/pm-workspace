@@ -210,7 +210,7 @@ chargeback:
 
 ## Acceptance criteria
 
-1. Regla `.claude/rules/domain/revenue-as-code.md` ≤150 lines.
+1. Regla `docs/rules/domain/revenue-as-code.md` ≤150 lines.
 2. JSON Schema for financial-model.md validates 20+ fields.
 3. `poc-calculator` computes correct POC for 3 contract types (T&M, fixed-price, milestone) with test vectors.
 4. POC snapshots are append-only in `poc-calculations/` — never overwritten.

@@ -194,7 +194,7 @@ Cada component és un fitxer de text pla llegible per humans:
 | Pre-commit git | `scripts/pre-commit-sovereignty.sh` | Scan fitxers staged abans de commit |
 | Setup | `scripts/savia-shield-setup.sh` | Instal·lador: deps, models, token, daemons |
 | Force-push guard | `.claude/hooks/block-force-push.sh` | Bloqueja force-push, push a main, amend |
-| Regla de domini | `.claude/rules/domain/data-sovereignty.md` | Arquitectura i polítiques |
+| Regla de domini | `docs/rules/domain/data-sovereignty.md` | Arquitectura i polítiques |
 
 **Logs d'auditoria:**
 - `output/data-sovereignty-audit.jsonl` — decisions de les capes 1-3

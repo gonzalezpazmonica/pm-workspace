@@ -122,7 +122,7 @@ EOF
 # ── Spec/doc reference ──
 
 @test "CHANGELOG has comparison links at bottom" {
-  # Ref: .claude/rules/domain/changelog-enforcement.md
+  # Ref: docs/rules/domain/changelog-enforcement.md
   grep -q '^\[' "$CHANGELOG"
 }
 

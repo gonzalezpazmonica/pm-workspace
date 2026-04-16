@@ -112,7 +112,7 @@ Rechazar automáticamente:
 
 - `.claude/hooks/session-memory-extract.sh` — nuevo
 - `.claude/settings.json` — registrar hook en Stop
-- `.claude/rules/domain/async-hooks-config.md` — documentar
+- `docs/rules/domain/async-hooks-config.md` — documentar
 - `docs/memory-system.md` — actualizar con nuevo mecanismo
 
 ---

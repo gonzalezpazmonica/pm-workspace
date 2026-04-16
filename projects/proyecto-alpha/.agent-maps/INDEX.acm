@@ -34,7 +34,7 @@
 
 - Target: 60% backend, 0% Angular, 0% Auth
 - Budget: $30/sprint, max 5 parallel agents
-- Model: claude-opus-4-6 (agent), claude-sonnet-4-6 (mid)
+- Model: claude-opus-4-7 (agent), claude-sonnet-4-6 (mid)
 
 ## Status
 

@@ -8,7 +8,7 @@ setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   export CRED_SCRIPT="$REPO_ROOT/scripts/credential-proxy.sh"
   export EVENT_SCRIPT="$REPO_ROOT/scripts/session-event-log.sh"
-  export RULE="$REPO_ROOT/.claude/rules/domain/managed-agents-patterns.md"
+  export RULE="$REPO_ROOT/docs/rules/domain/managed-agents-patterns.md"
   TMPDIR_TEST=$(mktemp -d)
   export SESSION_LOG_DIR="$TMPDIR_TEST/events"
   export CREDENTIAL_PROXY_LOG="$TMPDIR_TEST/cred-audit.jsonl"

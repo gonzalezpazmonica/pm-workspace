@@ -32,7 +32,7 @@ check "Has sector adaptation" "grep -q 'sector' $CMD"
 # ── Section 2: Domain rule ─────────────────────────────────────────────────
 echo ""
 echo "── Section 2: Domain rule ──"
-RULE=".claude/rules/domain/context-interview-config.md"
+RULE="docs/rules/domain/context-interview-config.md"
 check "Config rule exists" "[ -f $RULE ]"
 LINES=$(wc -l < "$RULE")
 check "Config rule within limit ($LINES/150 lines)" "[ $LINES -le 150 ]"

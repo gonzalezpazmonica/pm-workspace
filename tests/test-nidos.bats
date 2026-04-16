@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Ref: .claude/rules/domain/nidos-protocol.md
+# Ref: docs/rules/domain/nidos-protocol.md
 # Tests for nidos.sh — Savia Nidos worktree manager
 
 setup() {

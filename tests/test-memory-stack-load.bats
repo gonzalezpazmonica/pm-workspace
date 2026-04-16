@@ -3,7 +3,7 @@
 # Validates layer-specific output limits and graceful degradation.
 # Target: scripts/memory-stack-load.sh
 # Ref: docs/propuestas/SPEC-089-memory-stack-l0l3.md
-# Related: .claude/rules/domain/session-memory-protocol.md
+# Related: docs/rules/domain/session-memory-protocol.md
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"

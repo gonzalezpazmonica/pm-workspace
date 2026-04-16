@@ -98,7 +98,7 @@ echo ""
 # Test Group 3: NL resolution rule
 echo "[Group 3] NL Resolution Rule"
 
-RESOLUTION_RULE="${PROJECT_ROOT}/.claude/rules/domain/nl-command-resolution.md"
+RESOLUTION_RULE="${PROJECT_ROOT}/docs/rules/domain/nl-command-resolution.md"
 
 if [ -f "$RESOLUTION_RULE" ]; then
   assert_ok \

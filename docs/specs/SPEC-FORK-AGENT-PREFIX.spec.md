@@ -208,11 +208,11 @@ AND     exit code 0
 | Accion | Fichero | Que hacer |
 |--------|---------|-----------|
 | Crear | scripts/fork-agents.sh | Helper principal |
-| Crear | .claude/rules/domain/fork-agent-protocol.md | Regla de uso del patron |
+| Crear | docs/rules/domain/fork-agent-protocol.md | Regla de uso del patron |
 | Crear | tests/test-fork-agents.bats | Suite BATS (T1-T5) |
-| Modificar | .claude/rules/domain/dev-session-protocol.md | Anadir seccion "Fork vs Subagent" |
+| Modificar | docs/rules/domain/dev-session-protocol.md | Anadir seccion "Fork vs Subagent" |
 | Modificar | .claude/commands/dag-execute.md | Detectar cohortes fork-compatibles |
-| Modificar | .claude/rules/domain/parallel-execution.md | Referenciar fork-agent-protocol.md |
+| Modificar | docs/rules/domain/parallel-execution.md | Referenciar fork-agent-protocol.md |
 | Modificar | .gitignore | Anadir output/fork-runs/ |
 
 ---

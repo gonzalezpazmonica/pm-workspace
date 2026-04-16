@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for validate-spec.sh (Era 169 — Spec Schema Validation)
-# Ref: .claude/rules/domain/dev-session-protocol.md
+# Ref: docs/rules/domain/dev-session-protocol.md
 
 REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)}"
 

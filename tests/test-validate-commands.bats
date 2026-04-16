@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Ref: .claude/rules/domain/command-validation.md
+# Ref: docs/rules/domain/command-validation.md
 # Tests for validate-commands.sh — Slash command static validation
 
 setup() {

@@ -1,7 +1,7 @@
 # Capability Groups — Mapa de Comandos
 
 > Agrupación semántica de los 360+ comandos de pm-workspace para reducir tool overload.
-> Referencia: `.claude/rules/domain/tool-discovery.md`
+> Referencia: `docs/rules/domain/tool-discovery.md`
 
 ---
 

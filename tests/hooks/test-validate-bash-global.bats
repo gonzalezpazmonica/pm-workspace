@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for validate-bash-global.sh hook
 # Validates 7 dangerous command patterns are blocked
-# Ref: .claude/rules/domain/hook-profiles.md
+# Ref: docs/rules/domain/hook-profiles.md
 
 setup() {
   TMPDIR=$(mktemp -d)

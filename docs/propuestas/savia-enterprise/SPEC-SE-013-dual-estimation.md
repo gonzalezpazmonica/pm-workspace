@@ -82,7 +82,7 @@ Equipos con adopción total + scope favorable: **10x o más** (defendible).
 
 | Name | Kind | Purpose |
 |---|---|---|
-| `.claude/rules/domain/dual-estimation.md` | rule | Documentación del claim + tabla + fórmula + condiciones + protocolo de tracking |
+| `docs/rules/domain/dual-estimation.md` | rule | Documentación del claim + tabla + fórmula + condiciones + protocolo de tracking |
 | `docs/propuestas/TEMPLATE.md` | template | Añadir `Estimate (human): Nd` y `Estimate (agent): Nh` al header de specs |
 | `scripts/estimate-calibrate.sh` | script | Recomputa ratios empíricos desde `agent-actuals.jsonl` y sugiere ajustes |
 | `data/agent-actuals.jsonl` | data (gitignored) | Seed con SE-001/002/008/012 + entradas HUDI del experimento + template |
@@ -144,7 +144,7 @@ Recommendation: keep 10x as headline claim (conservative), update table if sampl
 
 ## Acceptance criteria
 
-1. **Regla existe:** `.claude/rules/domain/dual-estimation.md` documenta fórmula, tabla, condiciones, protocolo de tracking. ≤150 líneas.
+1. **Regla existe:** `docs/rules/domain/dual-estimation.md` documenta fórmula, tabla, condiciones, protocolo de tracking. ≤150 líneas.
 2. **Template actualizado:** `docs/propuestas/TEMPLATE.md` incluye `Estimate (human)` y `Estimate (agent)` en el header. La línea del top del template refleja dual estimate.
 3. **Script de calibración:** `scripts/estimate-calibrate.sh` lee `data/agent-actuals.jsonl`, agrupa por categoría, calcula speedup empírico, compara contra defaults y recomienda ajustes. Usa `jq`, falla elegante sin datos.
 4. **Seed de datos:** `data/agent-actuals.jsonl` contiene al menos 4 entradas reales (SE-001, SE-002, SE-008, SE-012) con wall-clock estimado conservadoramente, + 2 entradas HUDI del experimento. Fichero en `.gitignore`.

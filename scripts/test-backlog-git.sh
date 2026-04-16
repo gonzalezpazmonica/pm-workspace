@@ -31,7 +31,7 @@ check "Has snapshot format" "grep -q 'YYYYMMDD' $CMD"
 # ── Section 2: Domain rule ─────────────────────────────────────────────────
 echo ""
 echo "── Section 2: Domain rule ──"
-RULE=".claude/rules/domain/backlog-git-config.md"
+RULE="docs/rules/domain/backlog-git-config.md"
 check "Config rule exists" "[ -f $RULE ]"
 LINES=$(wc -l < "$RULE")
 check "Config rule within limit ($LINES/150 lines)" "[ $LINES -le 150 ]"
@@ -69,7 +69,7 @@ check "NEVER auto-rollback" "grep -q 'NUNCA ejecutar' $SKILL"
 # ── Section 4: Cross-references ────────────────────────────────────────────
 echo ""
 echo "── Section 4: Cross-references ──"
-HUB_CONFIG=".claude/rules/domain/savia-hub-config.md"
+HUB_CONFIG="docs/rules/domain/savia-hub-config.md"
 check "SaviaHub mentions backlog-snapshots" "grep -q 'backlog-snapshots' $HUB_CONFIG"
 check "Skill references hub config" "grep -q 'savia-hub-config' $SKILL"
 check "Skill references backlog rule" "grep -q 'backlog-git-config' $SKILL"

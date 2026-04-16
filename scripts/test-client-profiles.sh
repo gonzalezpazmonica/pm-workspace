@@ -29,7 +29,7 @@ check "References savia-hub config" "grep -q 'savia-hub-config' $CMD"
 # ── Section 2: Domain rule ─────────────────────────────────────────────────
 echo ""
 echo "── Section 2: Domain rule ──"
-RULE=".claude/rules/domain/client-profile-config.md"
+RULE="docs/rules/domain/client-profile-config.md"
 check "Config rule exists" "[ -f $RULE ]"
 LINES=$(wc -l < "$RULE")
 check "Config rule within limit ($LINES/150 lines)" "[ $LINES -le 150 ]"
@@ -73,7 +73,7 @@ check "Config mentions PII rules" "grep -q 'PII' $RULE"
 # ── Section 5: Integration with SaviaHub ───────────────────────────────────
 echo ""
 echo "── Section 5: Integration with SaviaHub ──"
-HUB_CONFIG=".claude/rules/domain/savia-hub-config.md"
+HUB_CONFIG="docs/rules/domain/savia-hub-config.md"
 check "SaviaHub config exists" "[ -f $HUB_CONFIG ]"
 check "SaviaHub defines clients dir" "grep -q 'clients/' $HUB_CONFIG"
 check "SaviaHub defines profile.md" "grep -q 'profile.md' $HUB_CONFIG"

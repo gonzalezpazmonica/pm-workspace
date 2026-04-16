@@ -9,7 +9,7 @@ if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
   source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"
 fi
 
-RULES_FILE="${CLAUDE_PROJECT_DIR:-.}/.claude/rules/domain/code-review-rules.md"
+RULES_FILE="${CLAUDE_PROJECT_DIR:-.}/docs/rules/domain/code-review-rules.md"
 CACHE_DIR="${CLAUDE_PROJECT_DIR:-.}/output/.review-cache"
 mkdir -p "$CACHE_DIR"
 

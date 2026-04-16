@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for PR review scaling gates (g11)
-# Ref: .claude/rules/domain/risk-escalation.md, scoring-curves.md
+# Ref: docs/rules/domain/risk-escalation.md, scoring-curves.md
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
