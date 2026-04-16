@@ -6,6 +6,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.2.0] — 2026-04-16
+
+SPEC-106 Phase 2 — Truth Tribunal async hook integration. Adds the
+async PostToolUse pipeline that auto-queues report verifications when
+the assistant writes a report file, plus a queue worker and a
+dashboard command. Era 244.
+
+### Added
+- **`.claude/hooks/post-report-write.sh`**: async PostToolUse hook on
+  Edit|Write that detects report-like markdown (path heuristics under
+  `output/audits|reports|postmortems|governance|compliance|dora` plus
+  filename patterns like `ceo-report-*`, `*-digest*`, `compliance-*`,
+  `audit-*`, plus frontmatter override `report_type:`). Self-recursion
+  guards skip `.truth.crc` and queue files. Idempotent: skips if a
+  fresh cached verdict already exists. Never blocks the write.
+- **`scripts/truth-tribunal-worker.sh`**: queue worker with subcommands
+  `process [--max N]`, `status`, `clean`, `enqueue <report>`. Atomic
+  claim via `.req` → `.work` → `.done`/`.fail` rename. Writes a
+  `.truth.pending` marker next to the report (judge agent invocation
+  must run inside Claude Code session, not the worker — Phase 2 stages
+  the work, the user runs `/report-verify` to convene the tribunal).
+- **`.claude/commands/tribunal-status.md`**: `/tribunal-status` dashboard
+  showing queue depth, pending markers, and recent verdicts.
+  Optional `--process N` and `--clean` flags delegate to the worker.
+- **`tests/test-truth-tribunal-phase2.bats`**: 24 BATS tests covering
+  hook heuristics, self-recursion guards, idempotency, worker
+  subcommands, and pending-marker structure. Auditor certified.
+
+### Changed
+- **`.claude/settings.json`**: registered `post-report-write.sh` in the
+  PostToolUse `Edit|Write` matcher with `async: true`, 5s timeout.
+- **`docs/propuestas/SPEC-106-truth-tribunal-report-reliability.md`**:
+  status updated to "Phase 1 + 2 Implemented".
+
+### Phase 2 honest limit
+The worker stages reports as `.truth.pending` instead of invoking the 7
+judge agents directly. Reason: judge agents are Claude Code agents that
+run inside an active session with API access. The worker runs outside
+that context. Phase 2.5 (future) can plug in an in-session orchestrator
+that watches the queue and converts pending markers into full tribunals
+without manual `/report-verify` invocation.
 ## [4.98.0] — 2026-04-15
 
 Shield NER improvements — expanded filters + allowlist + persistent launcher
@@ -7132,6 +7173,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.1.0...v5.2.0
 [4.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.97.0...v4.98.0
 [4.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.96.0...v4.97.0
 [4.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.94.0...v4.95.0
