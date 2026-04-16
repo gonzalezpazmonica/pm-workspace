@@ -90,6 +90,11 @@ NLP
 LLM
 AI
 
+# Claude model IDs (contain digit sequences that trigger PHONE_NUMBER)
+claude-opus-4-6
+claude-sonnet-4-6
+claude-haiku-4-5-20251001
+
 # Frameworks / tools
 Vue
 React
@@ -107,3 +112,69 @@ Playwright
 Vitest
 Jest
 xUnit
+
+# Environment / system terms
+Export
+environ
+argv
+dirs
+
+# Python stdlib / pathlib terms
+Path
+pathlib
+expanduser
+rglob
+parent
+MEMORY_BASE
+MEMORY_DIRS
+MEMORY_CACHE_DIRS
+mem_dirs
+memory_base
+
+# Public provider domains — handled by filter 0a (substring match) in daemon
+# Listed here for reference / tooling discovery. Do NOT remove the filter.
+# Microsoft / Office 365
+microsoft.com
+microsoft365.com
+office.com
+office365.com
+sharepoint.com
+onedrive.live.com
+outlook.com
+outlook.office.com
+outlook.office365.com
+stream.office.com
+login.microsoftonline.com
+login.live.com
+graph.microsoft.com
+teams.microsoft.com
+# Google
+google.com
+gmail.com
+googleapis.com
+drive.google.com
+# Dev / code hosting
+github.com
+gitlab.com
+bitbucket.org
+dev.azure.com
+# Workspace own path markers (user path is not PII to block for self)
+OneDrive
+Documentos
+Documents
+
+# HTTP / SharePoint common English nouns (frequent false PERSON/ORG)
+Accept
+Cookie
+Cookies
+Header
+Headers
+Recording
+Recordings
+File
+Files
+Folder
+Folders
+Status
+Length
+Name

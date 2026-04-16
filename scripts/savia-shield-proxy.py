@@ -230,6 +230,20 @@ class ShieldProxyHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"error": "proxy_error"}).encode())
 
     def do_GET(self):
+        # Local health check — don't proxy to Anthropic
+        if self.path in ('/', '/health'):
+            resp = json.dumps({
+                "status": "ok",
+                "proxy": True,
+                "target": TARGET_URL,
+                "entities": len(mask_map),
+            }).encode()
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(resp)))
+            self.end_headers()
+            self.wfile.write(resp)
+            return
         # VULN-012 FIX: scan path for sensitive data
         safe_path = self.path  # GET paths rarely contain sensitive data but log it
         target = TARGET_URL + safe_path

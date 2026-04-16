@@ -30,6 +30,12 @@
           },
           {
             "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-branch-switch-dirty.sh",
+            "timeout": 5,
+            "statusMessage": "Verificando cambios antes de cambiar rama..."
+          },
+          {
+            "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-infra-destructive.sh",
             "timeout": 5,
             "statusMessage": "Savia Shield: bloqueando infra destructiva..."
@@ -38,7 +44,12 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/validate-bash-global.sh",
             "statusMessage": "Validando comando..."
-          },
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(git commit*)",
+        "hooks": [
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/prompt-hook-commit.sh",
@@ -197,6 +208,18 @@
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/delegation-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(git commit*)",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A git commit command is about to run. Evaluate if the commit message accurately describes the intent of the changes based on the command context.\n\nCommand: $ARGUMENTS\n\nRespond with {\"ok\": true} if the message is descriptive and follows conventional commit format (type(scope): description). Respond with {\"ok\": false, \"reason\": \"brief explanation\"} if the message is misleading, too vague, or does not match what the changes seem to do.",
+            "timeout": 10,
+            "model": "claude-haiku-4-5-20251001",
+            "statusMessage": "Semantic commit validation (Haiku)..."
           }
         ]
       }
