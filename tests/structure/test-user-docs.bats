@@ -114,7 +114,7 @@ teardown() {
 }
 
 @test "docs follow file-size-limit rule" {
-  # Ref: .claude/rules/domain/file-size-limit.md — max 150 lines
+  # Ref: docs/rules/domain/file-size-limit.md — max 150 lines
   local oversized=0
   for f in "$ROOT/docs/getting-started.md" "$ROOT/docs/getting-started.en.md" "$ROOT/docs/quick-starts/"*.md; do
     [ -f "$f" ] || continue

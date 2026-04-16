@@ -3,7 +3,7 @@
 # BATS tests for .claude/hooks/postponement-judge.sh — Stop hook that
 # forces continuation when the assistant proposes an unjustified deferral.
 #
-# Ref: .claude/rules/domain/hook-profiles.md (standard tier)
+# Ref: docs/rules/domain/hook-profiles.md (standard tier)
 # Ref: SPEC-055 (test quality gate, score >=80)
 
 setup() {

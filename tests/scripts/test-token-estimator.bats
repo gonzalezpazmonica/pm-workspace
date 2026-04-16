@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for token-estimator.sh (Era 167 — Token Economics)
 # SPEC-044: token estimation for context budget management
-# Ref: .claude/rules/domain/context-budget.md
+# Ref: docs/rules/domain/context-budget.md
 
 REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)}"
 

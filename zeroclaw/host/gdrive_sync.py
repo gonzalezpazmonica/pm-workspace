@@ -22,7 +22,7 @@ SYNC_FILES = [
     "docs/propuestas/SPEC-039-context-auto-prime.md",
     "docs/propuestas/SPEC-040-memory-research-experiments.md",
     "docs/propuestas/SPEC-041-brain-context-reasoning.md",
-    ".claude/rules/domain/savia-foundational-principles.md",
+    "docs/rules/domain/savia-foundational-principles.md",
     "zeroclaw/host/identity.json",
 ]
 

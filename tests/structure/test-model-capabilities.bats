@@ -23,6 +23,7 @@ teardown() {
 }
 
 @test "model-capabilities.yaml contains opus, sonnet, haiku" {
+  grep -q "claude-opus-4-7:" "$ROOT/config/model-capabilities.yaml"
   grep -q "claude-opus-4-6:" "$ROOT/config/model-capabilities.yaml"
   grep -q "claude-sonnet-4-6:" "$ROOT/config/model-capabilities.yaml"
   grep -q "claude-haiku-4-5-20251001:" "$ROOT/config/model-capabilities.yaml"
@@ -33,7 +34,7 @@ teardown() {
 }
 
 @test "resolver outputs correct vars for opus (1M, max)" {
-  run bash -c "echo '' | $ROOT/scripts/model-capability-resolver.sh --model claude-opus-4-6"
+  run bash -c "echo '' | $ROOT/scripts/model-capability-resolver.sh --model claude-opus-4-7"
   [ "$status" -eq 0 ]
   echo "$output" | grep -q "SAVIA_CONTEXT_WINDOW=1000000"
   echo "$output" | grep -q "SAVIA_MODEL_TIER=max"
@@ -138,7 +139,7 @@ teardown() {
 # ── Additional coverage ──
 
 @test "resolver outputs SAVIA_DETECTED_MODEL for all models" {
-  for m in claude-opus-4-6 claude-sonnet-4-6 claude-haiku-4-5-20251001; do
+  for m in claude-opus-4-7 claude-opus-4-6 claude-sonnet-4-6 claude-haiku-4-5-20251001; do
     run bash -c "echo '' | $ROOT/scripts/model-capability-resolver.sh --model $m"
     [[ "$output" == *"SAVIA_DETECTED_MODEL="* ]]
   done

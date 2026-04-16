@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for post-edit-lint.sh hook
 # Auto-lints edited files by extension. Never blocks.
-# Ref: .claude/rules/domain/async-hooks-config.md
+# Ref: docs/rules/domain/async-hooks-config.md
 
 setup() {
   TMPDIR=$(mktemp -d)

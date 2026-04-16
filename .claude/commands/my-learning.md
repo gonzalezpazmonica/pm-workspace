@@ -48,7 +48,7 @@ Para cada área detectada:
 
 | Área | Fuente de best practices |
 |---|---|
-| Lenguaje | `.claude/rules/languages/{lang}-conventions.md` |
+| Lenguaje | `docs/rules/languages/{lang}-conventions.md` |
 | Arquitectura | ADRs del proyecto, `/arch-detect` |
 | Testing | Patterns del test-engineer, TDD gate |
 | Seguridad | Code review rules, security-guardian |

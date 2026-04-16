@@ -91,5 +91,5 @@ Humano revisa y aplica via /pr-plan manualmente
 - docs/SAVIA-GENESIS.md (el documento en sí)
 - scripts/recover-savia.sh (el launcher)
 - tests/test-recover-savia.bats (25 tests)
-- .claude/rules/domain/savia-foundational-principles.md (los 7 principios)
-- .claude/rules/domain/critical-rules-extended.md (reglas 9-25)
+- docs/rules/domain/savia-foundational-principles.md (los 7 principios)
+- docs/rules/domain/critical-rules-extended.md (reglas 9-25)

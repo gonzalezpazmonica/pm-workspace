@@ -211,9 +211,9 @@ AND     retry-context marca el issue como VETO (no negociable)
 |--------|---------|-----------|
 | Crear | scripts/verification-middleware.sh | Script orquestador de 3 checks |
 | Crear | tests/test-verification-middleware.sh | Suite BATS |
-| Modificar | .claude/rules/domain/dev-session-protocol.md | Insertar Fase 4 como obligatoria |
-| Modificar | .claude/rules/domain/handoff-templates.md | Anadir template Verification Report |
-| Crear | .claude/rules/domain/verification-middleware-config.md | Umbrales configurables |
+| Modificar | docs/rules/domain/dev-session-protocol.md | Insertar Fase 4 como obligatoria |
+| Modificar | docs/rules/domain/handoff-templates.md | Anadir template Verification Report |
+| Crear | docs/rules/domain/verification-middleware-config.md | Umbrales configurables |
 
 ---
 

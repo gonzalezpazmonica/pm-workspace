@@ -75,7 +75,7 @@ total_agents=$(count_glob "$ROOT/.claude/agents/*.md")
 
 # ── Rule coverage ──
 total_rules=0
-for dir in "$ROOT/.claude/rules/"*/; do
+for dir in "$ROOT/docs/rules/"*/; do
   [ -d "$dir" ] || continue
   count=$(ls "$dir"*.md 2>/dev/null | wc -l | tr -d ' ')
   total_rules=$((total_rules + count))

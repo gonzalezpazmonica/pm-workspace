@@ -81,4 +81,4 @@ Complementa:
 - `/ai-incident` — histórico de errores similares
 - `/ai-safety-config` — niveles de supervisión
 
-Ver `@.claude/rules/domain/command-ux-checklist.md` para ejemplos.
+Ver `@docs/rules/domain/command-ux-checklist.md` para ejemplos.

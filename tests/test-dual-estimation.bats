@@ -1,14 +1,14 @@
 #!/usr/bin/env bats
 # BATS tests for SE-013 dual estimation rule
 # SPEC: docs/propuestas/savia-enterprise/SPEC-SE-013-dual-estimation.md
-# Ref: .claude/rules/domain/dual-estimation.md
+# Ref: docs/rules/domain/dual-estimation.md
 # Quality gate: SPEC-055 (audit score ≥80)
 # Safety: tests use BATS run/status guards; target script has set -uo pipefail
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   export SCRIPT="$REPO_ROOT/scripts/estimate-calibrate.sh"
-  export RULE="$REPO_ROOT/.claude/rules/domain/dual-estimation.md"
+  export RULE="$REPO_ROOT/docs/rules/domain/dual-estimation.md"
   export TEMPLATE="$REPO_ROOT/docs/propuestas/TEMPLATE.md"
   export EXAMPLE="$REPO_ROOT/data/agent-actuals.example.jsonl"
   TMPDIR_DE=$(mktemp -d)

@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for agent-hook-premerge.sh hook
 # Validates pre-merge security & quality checks: secrets, TODOs, merge conflicts, file sizes
-# Ref: .claude/rules/domain/intelligent-hooks.md
+# Ref: docs/rules/domain/intelligent-hooks.md
 
 setup() {
   TMPDIR=$(mktemp -d)

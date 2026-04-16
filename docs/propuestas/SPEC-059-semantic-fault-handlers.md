@@ -133,7 +133,7 @@ Estimated savings: 60-80% token reduction on semantic failures.
 
 ## Implementation Plan
 
-1. Define error taxonomy in `.claude/rules/domain/agent-fault-taxonomy.md`
+1. Define error taxonomy in `docs/rules/domain/agent-fault-taxonomy.md`
 2. Update `handoff-templates.md` with correction prompt template
 3. Update `verification-before-done.md` to reference fault taxonomy
 4. Update agent frontmatter docs to include `fault_handling` section

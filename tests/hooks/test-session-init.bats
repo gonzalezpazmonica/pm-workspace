@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for session-init.sh hook
 # Startup hook that loads session context, never blocks
-# Ref: .claude/rules/domain/session-init-priority.md
+# Ref: docs/rules/domain/session-init-priority.md
 
 setup() {
   TMPDIR=$(mktemp -d)

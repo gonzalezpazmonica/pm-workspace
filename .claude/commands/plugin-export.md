@@ -27,7 +27,7 @@ Valida integridad de estructura, genera manifest dinámico, crea archivo comprim
   - `skills` — exportar directorio `.claude/skills/`
   - `agents` — exportar directorio `.claude/agents/`
   - `commands` — exportar directorio `.claude/commands/`
-  - `rules` — exportar directorio `.claude/rules/`
+  - `rules` — exportar directorio `docs/rules/`
   - Separar con comas: `skills,agents,commands`
 - `--output` (opcional): Ruta del archivo de salida (default: `output/pm-workspace-plugin.tar.gz`)
 

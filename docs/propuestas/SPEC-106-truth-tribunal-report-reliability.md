@@ -9,7 +9,7 @@ phase_1_artifacts:
   - scripts/truth-tribunal.sh
   - .claude/agents/truth-tribunal-orchestrator.md
   - .claude/agents/{factuality,source-traceability,hallucination,coherence,calibration,completeness,compliance}-judge.md
-  - .claude/rules/domain/truth-tribunal-weights.md
+  - docs/rules/domain/truth-tribunal-weights.md
   - .claude/commands/report-verify.md
   - tests/test-truth-tribunal.bats (BATS suite, certified)
 phase_1_decisions:
@@ -331,10 +331,10 @@ Fase 1 (MVP manual) mientras Fase 2 (hook async) se itera.
 
 ## Referencias
 
-- [Code Review Court — SPEC interno](`.claude/rules/domain/code-review-court.md`)
-- [Consensus Protocol — SPEC interno](`.claude/rules/domain/consensus-protocol.md`)
+- [Code Review Court — SPEC interno](`docs/rules/domain/code-review-court.md`)
+- [Consensus Protocol — SPEC interno](`docs/rules/domain/consensus-protocol.md`)
 - [Verification Lattice — skill interno](`.claude/skills/verification-lattice/`)
-- [Fork Agent Protocol — SPEC interno](`.claude/rules/domain/fork-agent-protocol.md`)
+- [Fork Agent Protocol — SPEC interno](`docs/rules/domain/fork-agent-protocol.md`)
 - [G-Eval chain-of-thought judge](https://arxiv.org/abs/2303.16634)
 - [RAGAS faithfulness metric](https://github.com/explodinggradients/ragas)
 - [DeepEval framework](https://github.com/confident-ai/deepeval)

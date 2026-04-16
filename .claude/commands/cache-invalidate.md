@@ -18,7 +18,7 @@ Grupo: **Context Engineering** — cargar:
 
 - `workflow.md` — para validar impacto de invalidación
 
-Ver `.claude/rules/domain/context-map.md`.
+Ver `docs/rules/domain/context-map.md`.
 
 ---
 
@@ -42,7 +42,7 @@ Ver `.claude/rules/domain/context-map.md`.
 ### Paso 2 — Detectar cambios (para --selective)
 
 Si `--selective`: detectar qué cambió en `.git/index`:
-- Tools: cambios `.claude/rules/` → invalidar TOOLS
+- Tools: cambios `docs/rules/` → invalidar TOOLS
 - System: cambios CLAUDE.md → invalidar SYSTEM
 - RAG: cambios `docs/` → invalidar RAG
 - Conversation: comandos ejecutados → invalidar CONVERSATION

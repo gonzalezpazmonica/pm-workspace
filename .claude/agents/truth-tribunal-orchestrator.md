@@ -48,7 +48,7 @@ aggregate their verdicts.
 
 ## Weights per report type
 
-See `.claude/rules/domain/truth-tribunal-weights.md` for the canonical
+See `docs/rules/domain/truth-tribunal-weights.md` for the canonical
 weight table. Profiles: default, executive, compliance, audit, digest, subjective.
 
 If `report_type` not declared, default profile.

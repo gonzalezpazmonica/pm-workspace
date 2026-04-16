@@ -28,7 +28,7 @@ echo
 echo "[Test 1] Files exist"
 assert "[ -f '$PROJECT_DIR/scripts/confidence-calibrate.sh' ]" \
   "confidence-calibrate.sh exists"
-assert "[ -f '$PROJECT_DIR/.claude/rules/domain/confidence-protocol.md' ]" \
+assert "[ -f '$PROJECT_DIR/docs/rules/domain/confidence-protocol.md' ]" \
   "confidence-protocol.md exists"
 assert "[ -x '$PROJECT_DIR/scripts/confidence-calibrate.sh' ]" \
   "confidence-calibrate.sh is executable"
@@ -38,8 +38,8 @@ echo
 echo "[Test 2] Line count ≤ 150"
 for f in \
   "scripts/confidence-calibrate.sh" \
-  ".claude/rules/domain/confidence-protocol.md" \
-  ".claude/rules/domain/nl-command-resolution.md"; do
+  "docs/rules/domain/confidence-protocol.md" \
+  "docs/rules/domain/nl-command-resolution.md"; do
   LINES=$(wc -l < "$PROJECT_DIR/$f")
   assert "[ $LINES -le 150 ]" "$f ($LINES lines)"
 done
@@ -56,7 +56,7 @@ echo
 # ── 4. Script: Brier score computation ────────────────────────────
 echo "[Test 4] Brier score"
 assert "grep -qi 'brier' '$SCRIPT'" "Brier score in script"
-assert "grep -qi 'brier' '$PROJECT_DIR/.claude/rules/domain/confidence-protocol.md'" \
+assert "grep -qi 'brier' '$PROJECT_DIR/docs/rules/domain/confidence-protocol.md'" \
   "Brier score in protocol"
 echo
 
@@ -68,7 +68,7 @@ echo
 
 # ── 6. Protocol: decay mechanism ──────────────────────────────────
 echo "[Test 6] Decay mechanism"
-PROTO="$PROJECT_DIR/.claude/rules/domain/confidence-protocol.md"
+PROTO="$PROJECT_DIR/docs/rules/domain/confidence-protocol.md"
 assert "grep -qi 'decay' '$PROTO'" "Decay documented"
 assert "grep -q '5%\|-5' '$PROTO'" "5% decay for pattern failures"
 assert "grep -q '10%\|-10' '$PROTO'" "10% decay for command failures"
@@ -91,7 +91,7 @@ echo
 
 # ── 9. NL resolution: recalibration section ───────────────────────
 echo "[Test 9] NL resolution integration"
-NL="$PROJECT_DIR/.claude/rules/domain/nl-command-resolution.md"
+NL="$PROJECT_DIR/docs/rules/domain/nl-command-resolution.md"
 assert "grep -qi 'recalib' '$NL'" "Recalibración section exists"
 assert "grep -q 'confidence-protocol' '$NL'" "References confidence-protocol.md"
 assert "grep -q 'confidence-log' '$NL'" "References confidence-log.jsonl"

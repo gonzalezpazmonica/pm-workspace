@@ -50,7 +50,7 @@ setup() {
 }
 
 @test "SPEC-049 risk-escalation rule exists" {
-  [ -f ".claude/rules/domain/risk-escalation.md" ]
+  [ -f "docs/rules/domain/risk-escalation.md" ]
 }
 
 @test "missing argument shows error" {

@@ -218,7 +218,7 @@ This is ALWAYS a recommendation. The investment committee decides.
 
 ## Acceptance criteria
 
-1. Regla `.claude/rules/domain/business-case-as-code.md` ≤150 lines.
+1. Regla `docs/rules/domain/business-case-as-code.md` ≤150 lines.
 2. JSON Schema for `business-case.md` frontmatter validates 15+ fields.
 3. `scripts/case-validate.sh` detects 6 failure modes (missing assumptions source, stale assumptions >90d, risk without probability, benefit schedule without review dates, cost variance exceeding threshold without alert, duplicate case IDs).
 4. `/case-init` scaffolds from SE-015 pursuit + SE-017 SOW data.

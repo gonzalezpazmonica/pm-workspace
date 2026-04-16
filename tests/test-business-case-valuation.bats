@@ -9,7 +9,7 @@
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   export SCRIPT="$REPO_ROOT/scripts/case-validate.sh"
-  export RULE="$REPO_ROOT/.claude/rules/domain/business-case-as-code.md"
+  export RULE="$REPO_ROOT/docs/rules/domain/business-case-as-code.md"
   export SCHEMA="$REPO_ROOT/schemas/business-case-frontmatter.schema.json"
   TMPDIR_CASE=$(mktemp -d)
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for Era 102 — Real-Time Observatory
-# Ref: .claude/rules/domain/agent-observability-patterns.md
+# Ref: docs/rules/domain/agent-observability-patterns.md
 
 setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1

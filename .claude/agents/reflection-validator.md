@@ -11,7 +11,7 @@ tools:
   - Read
   - Glob
   - Grep
-model: claude-opus-4-6
+model: claude-opus-4-7
 color: purple
 maxTurns: 15
 max_context_tokens: 8000

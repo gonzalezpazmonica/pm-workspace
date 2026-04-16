@@ -123,7 +123,7 @@ if [[ -n "$VIOLATIONS" ]]; then
   printf "$VIOLATIONS\n" >&2
   echo "" >&2
   echo "Usa términos genéricos en lugar de rutas/métricas internas." >&2
-  echo "Ver: .claude/rules/domain/zero-project-leakage.md" >&2
+  echo "Ver: docs/rules/domain/zero-project-leakage.md" >&2
   exit 2
 fi
 

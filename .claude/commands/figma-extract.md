@@ -27,7 +27,7 @@ description: >
 
 ## Contexto requerido
 
-1. `.claude/rules/connectors-config.md` — Verificar Figma habilitado
+1. `docs/rules/domain/connectors-config.md` — Verificar Figma habilitado
 2. `projects/{proyecto}/CLAUDE.md` — `FIGMA_DEFAULT_PROJECT`
 
 ## Pasos de ejecución

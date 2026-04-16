@@ -1,7 +1,7 @@
 # Guía de Incorporación de Lenguajes a PM-Workspace
 
 > **Audiencia:** Claude Opus (agente PM) o cualquier operador que necesite añadir soporte para un nuevo lenguaje/framework.
-> **Prerequisito:** Haber leído `CLAUDE.md`, `.claude/rules/pm-config.md` y `.claude/rules/pm-workflow.md`.
+> **Prerequisito:** Haber leído `CLAUDE.md`, `docs/rules/domain/pm-config.md` y `docs/rules/domain/pm-workflow.md`.
 > **Última actualización:** 2026-02-26
 
 ---
@@ -30,8 +30,8 @@ Si la respuesta a las tres es "sí", proceder.
 
 ## Paso 1 — Crear {lang}-conventions.md
 
-**Ubicación:** `.claude/rules/{lang}-conventions.md`
-**Referencia:** `.claude/rules/dotnet-conventions.md`
+**Ubicación:** `docs/rules/languages/{lang}-conventions.md`
+**Referencia:** `docs/rules/languages/dotnet-conventions.md`
 
 ### Estructura obligatoria
 
@@ -128,8 +128,8 @@ Si hay tests de integración relevantes al cambio:
 
 ## Paso 2 — Crear {lang}-rules.md
 
-**Ubicación:** `.claude/rules/{lang}-rules.md`
-**Referencia:** `.claude/rules/csharp-rules.md`
+**Ubicación:** `docs/rules/languages/{lang}-rules.md`
+**Referencia:** `docs/rules/languages/csharp-rules.md`
 
 ### Estructura obligatoria
 

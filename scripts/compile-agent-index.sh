@@ -9,8 +9,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 AGENTS_DIR="$REPO_ROOT/.claude/agents"
 OUTPUT_FILE="$REPO_ROOT/.claude/AGENTS-INDEX.md"
-CATALOG_FILE="$REPO_ROOT/.claude/rules/domain/agents-catalog.md"
-MATRIX_FILE="$REPO_ROOT/.claude/rules/domain/assignment-matrix.md"
+CATALOG_FILE="$REPO_ROOT/docs/rules/domain/agents-catalog.md"
+MATRIX_FILE="$REPO_ROOT/docs/rules/domain/assignment-matrix.md"
 
 # ── Usage ────────────────────────────────────────────────────────────────────
 usage() {

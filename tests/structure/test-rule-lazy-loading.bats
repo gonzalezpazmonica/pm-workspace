@@ -46,13 +46,13 @@ teardown() {
 }
 
 @test "rule-manifest.json exists" {
-  [ -f "$ROOT/.claude/rules/domain/rule-manifest.json" ]
+  [ -f "$ROOT/docs/rules/domain/rule-manifest.json" ]
 }
 
 @test "rule-manifest.json is valid JSON with required fields" {
   run python3 -c "
 import json
-d = json.load(open('$ROOT/.claude/rules/domain/rule-manifest.json'))
+d = json.load(open('$ROOT/docs/rules/domain/rule-manifest.json'))
 assert 'total' in d, 'missing total'
 assert 'tier1_count' in d, 'missing tier1_count'
 assert 'rules' in d, 'missing rules'
@@ -66,7 +66,7 @@ print('OK')
 @test "manifest tier counts add up and dormant rules have no consumers" {
   run python3 -c "
 import json
-d = json.load(open('$ROOT/.claude/rules/domain/rule-manifest.json'))
+d = json.load(open('$ROOT/docs/rules/domain/rule-manifest.json'))
 total = d['tier1_count'] + d['tier2_count'] + d['dormant_count']
 assert total == d['total'], f'{total} != {d[\"total\"]}'
 for n, i in d['rules'].items():
@@ -88,7 +88,7 @@ print('OK')
 @test "manifest rules have valid tier values" {
   run python3 -c "
 import json
-d = json.load(open('$ROOT/.claude/rules/domain/rule-manifest.json'))
+d = json.load(open('$ROOT/docs/rules/domain/rule-manifest.json'))
 valid = {'tier1', 'tier2', 'dormant'}
 for name, info in d['rules'].items():
     assert info['tier'] in valid, f'{name} has invalid tier: {info[\"tier\"]}'
@@ -101,7 +101,7 @@ print('OK')
 # ── Edge cases ──
 
 @test "analyzer handles empty rules directory with zero rules" {
-  mkdir -p "$TMPDIR_RLL/.claude/rules/domain"
+  mkdir -p "$TMPDIR_RLL/docs/rules/domain"
   run bash -c "echo '' | $ROOT/scripts/rule-usage-analyzer.sh --root $TMPDIR_RLL 2>&1"
   true  # Should not crash
 }
@@ -109,7 +109,7 @@ print('OK')
 @test "manifest rules each have a consumers field" {
   run python3 -c "
 import json
-d = json.load(open('$ROOT/.claude/rules/domain/rule-manifest.json'))
+d = json.load(open('$ROOT/docs/rules/domain/rule-manifest.json'))
 for name, info in d['rules'].items():
     assert 'consumers' in info, f'{name} missing consumers'
 print('OK')
@@ -136,7 +136,7 @@ print('OK')
 @test "manifest total matches number of rule entries" {
   run python3 -c "
 import json
-d = json.load(open('$ROOT/.claude/rules/domain/rule-manifest.json'))
+d = json.load(open('$ROOT/docs/rules/domain/rule-manifest.json'))
 assert d['total'] == len(d['rules']), f'{d[\"total\"]} != {len(d[\"rules\"])}'
 print('OK')
 "
@@ -150,6 +150,6 @@ print('OK')
 }
 
 @test "manifest handles nonexistent rule ref gracefully" {
-  run python3 -c "import json; d=json.load(open('$ROOT/.claude/rules/domain/rule-manifest.json')); print('OK')"
+  run python3 -c "import json; d=json.load(open('$ROOT/docs/rules/domain/rule-manifest.json')); print('OK')"
   [ "$status" -eq 0 ]
 }

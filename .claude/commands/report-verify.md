@@ -72,6 +72,6 @@ CRC:      {report}.truth.crc
 ## Reference
 
 - SPEC-106 — `docs/propuestas/SPEC-106-truth-tribunal-report-reliability.md`
-- Rule — `.claude/rules/domain/truth-tribunal-weights.md`
+- Rule — `docs/rules/domain/truth-tribunal-weights.md`
 - Script — `scripts/truth-tribunal.sh`
 - Orchestrator — `.claude/agents/truth-tribunal-orchestrator.md`

@@ -27,7 +27,7 @@ argument-hint: "{source} --dept {name} [--mode create|merge|overwrite] [--dry-ru
 1. `.claude/skills/orgchart-import/SKILL.md` -- pipeline completo
 2. `teams/departments.md` -- departamentos existentes
 3. `teams/{dept}/` -- estructura existente del dept (si --mode merge)
-4. `.claude/rules/domain/diagram-config.md` -- constantes orgchart
+4. `docs/rules/domain/diagram-config.md` -- constantes orgchart
 5. `teams/members/template.md` -- plantilla de miembros
 
 ## Razonamiento

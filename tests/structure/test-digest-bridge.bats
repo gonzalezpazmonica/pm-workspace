@@ -67,7 +67,7 @@ teardown() {
 # ── Spec/doc reference ──
 
 @test "bridge aligns with digest-traceability rule" {
-    # Ref: .claude/rules/domain/digest-traceability.md
+    # Ref: docs/rules/domain/digest-traceability.md
     grep -q "type\|title\|digest" "$BRIDGE"
 }
 

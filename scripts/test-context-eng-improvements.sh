@@ -10,19 +10,19 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 
 # === Sección 1: Prompt Structure (Mejora 5) ===
 echo -e "\n📋 Sección 1: Prompt Structure Compliance"
-check "prompt-structure.md existe" "test -f .claude/rules/domain/prompt-structure.md"
-check "prompt-structure tiene frontmatter" "head -1 .claude/rules/domain/prompt-structure.md | grep -q '^---'"
-check "prompt-structure cubre Reasoning Guidance" "grep -q 'Reasoning Guidance' .claude/rules/domain/prompt-structure.md"
-check "prompt-structure cubre Output Template" "grep -q 'Output Template' .claude/rules/domain/prompt-structure.md"
-check "prompt-structure referencia 10-layer model" "grep -q '10-layer' .claude/rules/domain/prompt-structure.md"
-check "prompt-structure ≤150 líneas" "test $(wc -l < .claude/rules/domain/prompt-structure.md) -le 150"
+check "prompt-structure.md existe" "test -f docs/rules/domain/prompt-structure.md"
+check "prompt-structure tiene frontmatter" "head -1 docs/rules/domain/prompt-structure.md | grep -q '^---'"
+check "prompt-structure cubre Reasoning Guidance" "grep -q 'Reasoning Guidance' docs/rules/domain/prompt-structure.md"
+check "prompt-structure cubre Output Template" "grep -q 'Output Template' docs/rules/domain/prompt-structure.md"
+check "prompt-structure referencia 10-layer model" "grep -q '10-layer' docs/rules/domain/prompt-structure.md"
+check "prompt-structure ≤150 líneas" "test $(wc -l < docs/rules/domain/prompt-structure.md) -le 150"
 
 # === Sección 2: Example Patterns (Mejora 1) ===
 echo -e "\n📋 Sección 2: Example Patterns"
-check "example-patterns.md existe" "test -f .claude/rules/domain/example-patterns.md"
-check "example-patterns tiene frontmatter" "head -1 .claude/rules/domain/example-patterns.md | grep -q '^---'"
-check "example-patterns define formato positivo/negativo" "grep -q '✅ Correcto' .claude/rules/domain/example-patterns.md"
-check "example-patterns ≤150 líneas" "test $(wc -l < .claude/rules/domain/example-patterns.md) -le 150"
+check "example-patterns.md existe" "test -f docs/rules/domain/example-patterns.md"
+check "example-patterns tiene frontmatter" "head -1 docs/rules/domain/example-patterns.md | grep -q '^---'"
+check "example-patterns define formato positivo/negativo" "grep -q '✅ Correcto' docs/rules/domain/example-patterns.md"
+check "example-patterns ≤150 líneas" "test $(wc -l < docs/rules/domain/example-patterns.md) -le 150"
 
 # Verificar examples en 5 commands piloto
 for cmd in project-audit sprint-plan spec-generate debt-track risk-log; do
@@ -41,10 +41,10 @@ check "eval-output tiene sección Ejemplos" "grep -q '## Ejemplos' .claude/comma
 check "eval-output tiene template de output" "grep -q 'Template de Output' .claude/commands/eval-output.md"
 check "eval-output tiene modo Arena" "grep -q '\-\-compare' .claude/commands/eval-output.md"
 check "eval-output ≤150 líneas" "test $(wc -l < .claude/commands/eval-output.md) -le 150"
-check "eval-criteria.md existe" "test -f .claude/rules/domain/eval-criteria.md"
-check "eval-criteria tiene 4 tipos" "test $(grep -c '### Tipo:' .claude/rules/domain/eval-criteria.md) -ge 4"
-check "eval-criteria tiene escala scoring" "grep -q 'Escala de scoring' .claude/rules/domain/eval-criteria.md"
-check "eval-criteria ≤150 líneas" "test $(wc -l < .claude/rules/domain/eval-criteria.md) -le 150"
+check "eval-criteria.md existe" "test -f docs/rules/domain/eval-criteria.md"
+check "eval-criteria tiene 4 tipos" "test $(grep -c '### Tipo:' docs/rules/domain/eval-criteria.md) -ge 4"
+check "eval-criteria tiene escala scoring" "grep -q 'Escala de scoring' docs/rules/domain/eval-criteria.md"
+check "eval-criteria ≤150 líneas" "test $(wc -l < docs/rules/domain/eval-criteria.md) -le 150"
 
 # === Sección 4: Entity Memory (Mejora 3) ===
 echo -e "\n📋 Sección 4: Entity Memory"
@@ -75,10 +75,10 @@ unset PROJECT_ROOT
 
 # === Sección 5: Tool Discovery (Mejora 4) ===
 echo -e "\n📋 Sección 5: Tool Discovery"
-check "tool-discovery.md existe" "test -f .claude/rules/domain/tool-discovery.md"
-check "tool-discovery tiene frontmatter" "head -1 .claude/rules/domain/tool-discovery.md | grep -q '^---'"
-check "tool-discovery define ≥10 grupos" "test $(grep -c '\*\*sprint\*\*\|\*\*project\*\*\|\*\*backlog\*\*\|\*\*architecture\*\*\|\*\*debt\*\*\|\*\*security\*\*\|\*\*testing\*\*\|\*\*devops\*\*\|\*\*reporting\*\*\|\*\*risk\*\*' .claude/rules/domain/tool-discovery.md) -ge 1"
-check "tool-discovery ≤150 líneas" "test $(wc -l < .claude/rules/domain/tool-discovery.md) -le 150"
+check "tool-discovery.md existe" "test -f docs/rules/domain/tool-discovery.md"
+check "tool-discovery tiene frontmatter" "head -1 docs/rules/domain/tool-discovery.md | grep -q '^---'"
+check "tool-discovery define ≥10 grupos" "test $(grep -c '\*\*sprint\*\*\|\*\*project\*\*\|\*\*backlog\*\*\|\*\*architecture\*\*\|\*\*debt\*\*\|\*\*security\*\*\|\*\*testing\*\*\|\*\*devops\*\*\|\*\*reporting\*\*\|\*\*risk\*\*' docs/rules/domain/tool-discovery.md) -ge 1"
+check "tool-discovery ≤150 líneas" "test $(wc -l < docs/rules/domain/tool-discovery.md) -le 150"
 check "capability-groups.md existe" "test -f docs/capability-groups.md"
 check "capability-groups define 15 grupos" "test $(grep -c '^### [0-9]' docs/capability-groups.md) -ge 15"
 check "capability-groups ≤150 líneas" "test $(wc -l < docs/capability-groups.md) -le 150"
@@ -94,9 +94,9 @@ check "Doc EN referencia 5 improvements" "test $(grep -c 'Improvement' docs/cont
 echo -e "\n📋 Sección 7: Integridad cross-reference"
 check "eval-output ref eval-criteria" "grep -q 'eval-criteria' .claude/commands/eval-output.md"
 check "entity-recall ref memory-store.sh" "grep -q 'memory-store' .claude/commands/entity-recall.md"
-check "tool-discovery ref nl-command-resolution" "grep -q 'nl-command-resolution' .claude/rules/domain/tool-discovery.md"
-check "prompt-structure ref context-health" "grep -q 'context-health' .claude/rules/domain/prompt-structure.md"
-check "example-patterns ref PII-Free" "grep -q 'PII-Free' .claude/rules/domain/example-patterns.md"
+check "tool-discovery ref nl-command-resolution" "grep -q 'nl-command-resolution' docs/rules/domain/tool-discovery.md"
+check "prompt-structure ref context-health" "grep -q 'context-health' docs/rules/domain/prompt-structure.md"
+check "example-patterns ref PII-Free" "grep -q 'PII-Free' docs/rules/domain/example-patterns.md"
 
 # === Resumen ===
 echo -e "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

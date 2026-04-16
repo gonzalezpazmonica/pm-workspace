@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for emotional-state-tracker.sh
 # Savia Emotional Regulation System — state tracking
-# Ref: .claude/rules/domain/emotional-regulation.md
+# Ref: docs/rules/domain/emotional-regulation.md
 
 setup() {
   TMPDIR=$(mktemp -d)

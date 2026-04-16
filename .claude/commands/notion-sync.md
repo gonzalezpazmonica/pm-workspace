@@ -37,7 +37,7 @@ description: >
 
 ## 3. Contexto requerido
 
-1. `.claude/rules/connectors-config.md` — Verificar Notion habilitado
+1. `docs/rules/domain/connectors-config.md` — Verificar Notion habilitado
 2. `projects/{proyecto}/CLAUDE.md` — `NOTION_DEFAULT_DATABASE`
 
 ## 4. Pasos de ejecución — Export (to-notion)

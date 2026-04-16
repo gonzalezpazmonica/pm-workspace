@@ -63,7 +63,7 @@ Piensa paso a paso antes de evaluar:
 ## 3. Cargar criterios
 
 Si `--criteria` proporcionado → usar custom.
-Si `--type` proporcionado → cargar de `@.claude/rules/domain/eval-criteria.md`.
+Si `--type` proporcionado → cargar de `@docs/rules/domain/eval-criteria.md`.
 Si ninguno → usar criterios genéricos: claridad, completitud, accionabilidad.
 
 ## 4. Modo estándar (G-Eval)

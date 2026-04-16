@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for prompt-hook-commit.sh hook
 # Validates commit messages semantically
-# Ref: .claude/rules/domain/intelligent-hooks.md
+# Ref: docs/rules/domain/intelligent-hooks.md
 
 setup() {
   TMPDIR=$(mktemp -d)

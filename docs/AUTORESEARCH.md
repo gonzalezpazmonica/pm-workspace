@@ -65,7 +65,7 @@ c3d4e5f	1.005000	44.0	discard	switch to GeLU activation
 
 En autoresearch el agente hace merge automáticamente. **En pm-workspace, NUNCA se hace merge automático.** El agente crea un PR en Draft asignado a un reviewer humano.
 
-> Regla completa: `@.claude/rules/domain/autonomous-safety.md`
+> Regla completa: `@docs/rules/domain/autonomous-safety.md`
 
 ## Casos de uso
 
