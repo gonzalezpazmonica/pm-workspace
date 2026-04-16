@@ -236,7 +236,7 @@ class ShieldProxyHandler(http.server.BaseHTTPRequestHandler):
                 "status": "ok",
                 "proxy": True,
                 "target": TARGET_URL,
-                "entities": len(mask_map),
+                "entities_loaded": len(mask_map),
             }).encode()
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
