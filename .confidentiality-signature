@@ -2,5 +2,5 @@
 diff_hash=53bf23ed6d7469d4a2dab67821fd106aaef9b49e55bcfd060c710f44bf630389
 timestamp=2026-04-16T19:42:01Z
 branch=feat/spec-106-phase-2-async-hooks
-head_commit=f30134a
+head_commit=df4df35
 signature=7d91cc2acdb57afbc9ee16fd4308df51d601ca692f803b8540d390d501209032
