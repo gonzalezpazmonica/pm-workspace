@@ -162,13 +162,13 @@ echo ""
 
 echo "📋 4. Context Aging Rule"
 
-check_file ".claude/rules/domain/context-aging.md" "context-aging.md rule exists"
-check_content ".claude/rules/domain/context-aging.md" "episódico" "Rule has episodic category"
-check_content ".claude/rules/domain/context-aging.md" "comprimido" "Rule has compressed format"
-check_content ".claude/rules/domain/context-aging.md" "archivarse" "Rule has archival criteria"
-check_content ".claude/rules/domain/context-aging.md" "migrar a regla de dominio" "Rule has migration criteria"
-check_content ".claude/rules/domain/context-aging.md" ".decision-archive" "Rule documents archive location"
-check_content ".claude/rules/domain/context-aging.md" "decision-log.md" "Rule references decision-log"
+check_file "docs/rules/domain/context-aging.md" "context-aging.md rule exists"
+check_content "docs/rules/domain/context-aging.md" "episódico" "Rule has episodic category"
+check_content "docs/rules/domain/context-aging.md" "comprimido" "Rule has compressed format"
+check_content "docs/rules/domain/context-aging.md" "archivarse" "Rule has archival criteria"
+check_content "docs/rules/domain/context-aging.md" "migrar a regla de dominio" "Rule has migration criteria"
+check_content "docs/rules/domain/context-aging.md" ".decision-archive" "Rule documents archive location"
+check_content "docs/rules/domain/context-aging.md" "decision-log.md" "Rule references decision-log"
 echo ""
 
 # ── 5. CLAUDE.md Updates ──────────────────────────────────────────────────
@@ -225,9 +225,9 @@ check_file "scripts/context-tracker.sh" "context-tracker.sh still exists"
 check_file ".claude/commands/context-optimize.md" "context-optimize command still exists"
 check_file ".claude/commands/health-dashboard.md" "health-dashboard command still exists"
 check_file ".claude/commands/daily-routine.md" "daily-routine command still exists"
-check_file ".claude/rules/domain/role-workflows.md" "role-workflows still exists"
-check_file ".claude/rules/domain/context-tracking.md" "context-tracking rule still exists"
-check_file ".claude/rules/domain/agent-context-budget.md" "agent-context-budget rule still exists"
+check_file "docs/rules/domain/role-workflows.md" "role-workflows still exists"
+check_file "docs/rules/domain/context-tracking.md" "context-tracking rule still exists"
+check_file "docs/rules/domain/agent-context-budget.md" "agent-context-budget rule still exists"
 echo ""
 
 # ── Summary ────────────────────────────────────────────────────────────────

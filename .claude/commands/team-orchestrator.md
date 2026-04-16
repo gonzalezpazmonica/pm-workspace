@@ -10,7 +10,7 @@ context_cost: medium
 # /team-orchestrator — Coordinación multi-equipo
 
 > Skill: @.claude/skills/team-coordination/SKILL.md
-> Config: @.claude/rules/domain/team-structure.md
+> Config: @docs/rules/domain/team-structure.md
 > Complementa: @.claude/commands/portfolio-overview.md
 
 Gestiona la estructura organizativa de equipos y departamentos. Detecta

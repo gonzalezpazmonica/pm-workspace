@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for scope-guard.sh hook
 # Warning-only hook that checks file modifications against spec scope
-# Ref: .claude/rules/domain/hook-profiles.md
+# Ref: docs/rules/domain/hook-profiles.md
 
 setup() {
   TMPDIR=$(mktemp -d)

@@ -7,7 +7,7 @@
 > wall-clock esperado del pipeline completo asistido por agentes (discovery +
 > spec writing + implementation + review + PM) con supervision humana en los
 > puntos de decision. Formula baseline: `agent_hours ≈ human_days`. Ajuste por
-> categoria y detalles en `@.claude/rules/domain/dual-estimation.md`.
+> categoria y detalles en `@docs/rules/domain/dual-estimation.md`.
 
 ## Objective
 

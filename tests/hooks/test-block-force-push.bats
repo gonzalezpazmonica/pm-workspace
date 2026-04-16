@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for block-force-push.sh hook
-# Ref: .claude/rules/domain/autonomous-safety.md
+# Ref: docs/rules/domain/autonomous-safety.md
 
 setup() {
   TMPDIR=$(mktemp -d)

@@ -87,8 +87,8 @@ Valida el título del PR (para squash merge) contra conventional commits.
 **Checks:**
 - CLAUDE.md ≤120 líneas (nuestro límite interno, más estricto que los 150 estándar)
 - No se añaden nuevas reglas `@` sin eliminar otras (balance de contexto)
-- No se duplican instrucciones ya presentes en `.claude/rules/`
-- Ficheros en `.claude/rules/domain/` ≤150 líneas
+- No se duplican instrucciones ya presentes en `docs/rules/`
+- Ficheros en `docs/rules/domain/` ≤150 líneas
 - No se añaden imports innecesarios a CLAUDE.md (cada línea cuesta tokens)
 
 **Acción en fallo:** ❌ Bloquea PR con explicación detallada del impacto en contexto

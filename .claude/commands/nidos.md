@@ -48,4 +48,4 @@ bash scripts/nidos.sh list
 
 ## Convention
 
-See `@.claude/rules/domain/nidos-protocol.md` for naming, lifecycle, and scope rules.
+See `@docs/rules/domain/nidos-protocol.md` for naming, lifecycle, and scope rules.

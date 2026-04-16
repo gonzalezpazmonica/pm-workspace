@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # tests/hooks/test-tool-call-validate.bats — SPEC-141: tool-call healing
-# Ref: .claude/rules/domain/hook-profiles.md
+# Ref: docs/rules/domain/hook-profiles.md
 
 setup() {
   TMPDIR=$(mktemp -d)

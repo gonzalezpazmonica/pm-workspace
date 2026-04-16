@@ -142,5 +142,5 @@ reskilling_plans_generated: 3
 
 - Anthropic, "The Labor Market Impacts of AI" (2026) — observed exposure
 - O*NET Task Framework — descomposición de tareas por ocupación
-- @.claude/rules/domain/ai-exposure-metrics.md — métricas de exposición
-- @.claude/rules/domain/ai-competency-framework.md — niveles de competencia IA
+- @docs/rules/domain/ai-exposure-metrics.md — métricas de exposición
+- @docs/rules/domain/ai-competency-framework.md — niveles de competencia IA

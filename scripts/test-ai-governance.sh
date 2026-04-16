@@ -120,10 +120,10 @@ check_content ".claude/profiles/context-map.md" "governance-certify" "context-ma
 echo ""
 
 echo "📋 13. Role Workflows Updates (CEO/CTO)"
-check_content ".claude/rules/domain/role-workflows.md" "governance-audit" "role-workflows includes governance-audit"
-check_content ".claude/rules/domain/role-workflows.md" "governance-report" "role-workflows includes governance-report"
-check_content ".claude/rules/domain/role-workflows.md" "governance-certify" "role-workflows includes governance-certify"
-check_content ".claude/rules/domain/role-workflows.md" "Ritual mensual" "role-workflows has monthly ritual"
+check_content "docs/rules/domain/role-workflows.md" "governance-audit" "role-workflows includes governance-audit"
+check_content "docs/rules/domain/role-workflows.md" "governance-report" "role-workflows includes governance-report"
+check_content "docs/rules/domain/role-workflows.md" "governance-certify" "role-workflows includes governance-certify"
+check_content "docs/rules/domain/role-workflows.md" "Ritual mensual" "role-workflows has monthly ritual"
 echo ""
 
 echo "📋 14. Integration Points"

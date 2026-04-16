@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Ref: .claude/rules/domain/hcm-maps.md
+# Ref: docs/rules/domain/hcm-maps.md
 # Ref: zeroclaw/.agent-maps/INDEX.acm
 # Tests that Savia Claw has a per-project Agent Code Map (ACM).
 

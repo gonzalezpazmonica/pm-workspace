@@ -30,9 +30,9 @@ description: >
 
 ## 3. Contexto requerido
 
-1. `.claude/rules/diagram-config.md` — Constantes y URLs
+1. `docs/rules/domain/diagram-config.md` — Constantes y URLs
 2. `.claude/mcp.json` — Configuración MCP actual
-3. `.claude/rules/pm-config.md` — Credenciales generales
+3. `docs/rules/domain/pm-config.md` — Credenciales generales
 
 ## 4. Pasos de ejecución
 

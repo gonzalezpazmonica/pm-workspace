@@ -95,7 +95,7 @@ print('OK')
 # ── Spec/doc reference ──
 
 @test "context-snapshot aligns with session-memory-protocol" {
-  # Ref: .claude/rules/domain/session-memory-protocol.md
+  # Ref: docs/rules/domain/session-memory-protocol.md
   grep -q "session\|snapshot\|context" "$ROOT/scripts/context-snapshot.sh"
 }
 

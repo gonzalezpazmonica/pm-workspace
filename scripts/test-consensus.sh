@@ -26,7 +26,7 @@ echo
 
 # ── 1. File existence ─────────────────────────────────────────────
 echo "[Test 1] Files exist"
-assert "[ -f '$PROJECT_DIR/.claude/rules/domain/consensus-protocol.md' ]" \
+assert "[ -f '$PROJECT_DIR/docs/rules/domain/consensus-protocol.md' ]" \
   "consensus-protocol.md exists"
 assert "[ -f '$PROJECT_DIR/.claude/skills/consensus-validation/SKILL.md' ]" \
   "consensus-validation SKILL.md exists"
@@ -37,7 +37,7 @@ echo
 # ── 2. Line count ≤ 150 ──────────────────────────────────────────
 echo "[Test 2] Line count ≤ 150"
 for f in \
-  ".claude/rules/domain/consensus-protocol.md" \
+  "docs/rules/domain/consensus-protocol.md" \
   ".claude/skills/consensus-validation/SKILL.md" \
   ".claude/commands/validate-consensus.md"; do
   LINES=$(wc -l < "$PROJECT_DIR/$f")
@@ -47,7 +47,7 @@ echo
 
 # ── 3. Protocol: 3 judges defined ────────────────────────────────
 echo "[Test 3] Protocol defines 3 judges"
-PROTO="$PROJECT_DIR/.claude/rules/domain/consensus-protocol.md"
+PROTO="$PROJECT_DIR/docs/rules/domain/consensus-protocol.md"
 assert "grep -q 'reflection-validator' '$PROTO'" "Judge: reflection-validator"
 assert "grep -q 'code-reviewer' '$PROTO'" "Judge: code-reviewer"
 assert "grep -q 'business-analyst' '$PROTO'" "Judge: business-analyst"

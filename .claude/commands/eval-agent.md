@@ -79,5 +79,5 @@ comparison:
 Golden set: tests/evals/{agent}/ (N pairs)
 ```
 
-> Rules: @.claude/rules/domain/eval-criteria.md
+> Rules: @docs/rules/domain/eval-criteria.md
 > Source: @docs/propuestas/SPEC-036-agent-evaluation.md

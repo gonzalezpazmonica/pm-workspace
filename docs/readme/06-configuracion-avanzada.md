@@ -20,7 +20,7 @@ En proyectos de precio fijo, se puede ajustar: más peso en expertise y disponib
 ```yaml
 # En projects/{proyecto}/CLAUDE.md
 sdd_config:
-  model_agent: "claude-opus-4-6"
+  model_agent: "claude-opus-4-7"
   model_mid:   "claude-sonnet-4-6"
   model_fast:  "claude-haiku-4-5-20251001"
   token_budget_usd: 30          # Presupuesto mensual en tokens
@@ -58,7 +58,7 @@ assignment_weights:
   growth:       0.00   # ← baja a 0: no arriesgar horas de aprendizaje
 
 sdd_config:
-  model_agent: "claude-opus-4-6"
+  model_agent: "claude-opus-4-7"
   model_mid:   "claude-sonnet-4-6"
   model_fast:  "claude-haiku-4-5-20251001"
   agentization_target: 0.40    # ← meta conservadora: solo 40% agentizado

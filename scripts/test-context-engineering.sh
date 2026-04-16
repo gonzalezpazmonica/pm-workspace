@@ -148,7 +148,7 @@ fi
 
 # Section 7: role-workflows
 test_section "Section 7: role-workflows.md Updated"
-if grep -q "context-budget\|context-defer\|context-profile\|context-compress" "$REPO_ROOT/.claude/rules/domain/role-workflows.md"; then
+if grep -q "context-budget\|context-defer\|context-profile\|context-compress" "$REPO_ROOT/docs/rules/domain/role-workflows.md"; then
   echo "  ✅ role-workflows.md includes context commands"
   ((TESTS_PASSED++))
 else

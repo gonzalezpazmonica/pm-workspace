@@ -222,7 +222,7 @@ Al clonar, encontrarás esta estructura:
 | `.claude/commands/` | 360+ slash commands para flujos PM | Avanzado |
 | `.claude/skills/` | 31 skills especializadas | Avanzado |
 | `.claude/agents/` | 27 subagentes IA | Avanzado |
-| `.claude/rules/` | Reglas modulares (PM, multi-lenguaje, Git) | Avanzado |
+| `docs/rules/` | Reglas modulares (PM, multi-lenguaje, Git) | Avanzado |
 | `projects/` | Carpeta de proyectos (cada uno con su `CLAUDE.md`) | Sí |
 | `scripts/` | Scripts auxiliares (Azure DevOps, informes) | No |
 | `docs/` | Documentación de metodología | Lectura |

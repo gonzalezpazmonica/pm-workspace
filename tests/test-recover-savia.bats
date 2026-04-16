@@ -2,7 +2,7 @@
 # Smoke tests for scripts/recover-savia.sh (Savia recovery launcher).
 # SPEC-101: validates sandbox isolation, read-only contract, failure modes.
 # Ref: docs/propuestas/SPEC-101-savia-genesis-recovery.md
-# Related: .claude/rules/domain/savia-foundational-principles.md (7 immutable principles)
+# Related: docs/rules/domain/savia-foundational-principles.md (7 immutable principles)
 # Cannot test full launch (would invoke real claude binary); validates structure.
 
 setup() {

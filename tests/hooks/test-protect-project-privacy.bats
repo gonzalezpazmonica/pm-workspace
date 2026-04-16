@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for protect-project-privacy.sh pre-commit script
-# Ref: .claude/rules/domain/project-privacy-protection.md
+# Ref: docs/rules/domain/project-privacy-protection.md
 
 setup() {
   TMPDIR=$(mktemp -d)

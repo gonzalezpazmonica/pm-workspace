@@ -206,7 +206,7 @@ runs only at session stop. Total overhead is negligible.
 - Anthropic (2026). ["Emotion concepts and their function in a large language model"](https://www.anthropic.com/research/emotion-concepts-function)
 - Full paper: [transformer-circuits.pub/2026/emotions](https://transformer-circuits.pub/2026/emotions/index.html)
 - DORA (2025). "AI amplifies what's already there" — the mirror effect
-- Savia Emotional Regulation Protocol: `.claude/rules/domain/emotional-regulation.md`
+- Savia Emotional Regulation Protocol: `docs/rules/domain/emotional-regulation.md`
 
 ---
 

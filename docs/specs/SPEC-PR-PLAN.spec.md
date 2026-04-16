@@ -77,7 +77,7 @@ If `--skip-push` is active, execute S1-S2 and stop.
 **High-impact file patterns** (changes to these require a CHANGELOG entry):
 
 ```
-.claude/rules/**
+docs/rules/**
 .claude/hooks/**
 .claude/agents/**
 .claude/skills/**
@@ -110,7 +110,7 @@ CLAUDE.md
 | New file in `.claude/commands/` | `README.md` command table updated |
 | New file in `.claude/skills/` | `README.md` skills table updated |
 | New file in `.claude/agents/` | `README.md` agents table updated |
-| New file in `.claude/rules/` | No README needed (rules are internal) |
+| New file in `docs/rules/` | No README needed (rules are internal) |
 | New file in `scripts/` | `README.md` scripts section if user-facing |
 
 **Algorithm:**
@@ -215,7 +215,7 @@ Arguments (all optional):
 ------------------------------------------------------------
 
   High-impact files changed:
-    .claude/rules/domain/new-rule.md (Added)
+    docs/rules/domain/new-rule.md (Added)
     scripts/new-script.sh (Added)
 
   Suggested CHANGELOG entry (copy to CHANGELOG.md):
@@ -313,7 +313,7 @@ Scenario: All gates pass, PR created
 
 ```
 Scenario: CHANGELOG missing when rules changed
-  Given branch "feature/add-rule" with changes to .claude/rules/domain/foo.md
+  Given branch "feature/add-rule" with changes to docs/rules/domain/foo.md
   And CHANGELOG.md has same version as origin/main
   When /pr-plan is executed
   Then G1-G4 show PASS

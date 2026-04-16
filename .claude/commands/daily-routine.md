@@ -17,7 +17,7 @@ model: sonnet
 
 Grupo: **Sprint & Daily** — cargar `identity.md` + `workflow.md` del perfil activo.
 Ver `.claude/profiles/context-map.md`.
-Leer `@.claude/rules/domain/role-workflows.md` para las rutinas por rol.
+Leer `@docs/rules/domain/role-workflows.md` para las rutinas por rol.
 
 ## Flujo
 
@@ -61,7 +61,7 @@ Leer `@.claude/rules/domain/role-workflows.md` para las rutinas por rol.
 - **Developer**: pr-pending → spec-status → items asignados
 - **CEO/CTO**: kpi-dashboard → team-workload → alertas críticas
 
-Detalle completo: `@.claude/rules/domain/role-workflows.md`
+Detalle completo: `@docs/rules/domain/role-workflows.md`
 
 ## Voz de Savia
 

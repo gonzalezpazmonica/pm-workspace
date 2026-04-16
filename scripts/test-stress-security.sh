@@ -11,8 +11,8 @@ echo "════════════════════════�
 echo "  STRESS TEST: Security Patterns (SEC-1 through SEC-9)"
 echo "═══════════════════════════════════════════════════════════"
 
-RULES="$REPO_ROOT/.claude/rules/domain/security-check-patterns.md"
-CONF="$REPO_ROOT/.claude/rules/domain/confidentiality-config.md"
+RULES="$REPO_ROOT/docs/rules/domain/security-check-patterns.md"
+CONF="$REPO_ROOT/docs/rules/domain/confidentiality-config.md"
 
 # ── SEC-1: Credential patterns ─────────────────────────────
 echo ""

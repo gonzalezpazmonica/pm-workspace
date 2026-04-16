@@ -15,7 +15,7 @@ context_cost: low
 
 ## Contexto requerido
 
-1. @.claude/rules/domain/backup-protocol.md — Backup and encryption reference
+1. @docs/rules/domain/backup-protocol.md — Backup and encryption reference
 
 ## Pasos de ejecucion
 

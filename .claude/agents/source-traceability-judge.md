@@ -19,7 +19,7 @@ carry a `@ref` (or equivalent) that resolves to a reachable source.
 
 1. **Citation presence**: concrete claims must cite a source
    (`@ref`, `[ref]`, `see: path`, "según {source}"). See
-   `.claude/rules/domain/source-tracking.md` for canonical syntax.
+   `docs/rules/domain/source-tracking.md` for canonical syntax.
 2. **Link resolution**: cited paths/URLs exist and are reachable
    (Read for paths, HEAD check for URLs optional).
 3. **Citation format**: matches workspace conventions

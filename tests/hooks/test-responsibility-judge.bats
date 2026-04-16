@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for SPEC-043 Responsibility Judge Hook
-# Ref: .claude/rules/domain/hook-profiles.md
+# Ref: docs/rules/domain/hook-profiles.md
 
 setup() {
   TMPDIR=$(mktemp -d)

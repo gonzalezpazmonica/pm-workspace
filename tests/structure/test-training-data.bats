@@ -8,8 +8,8 @@ setup() {
     OUTPUT="$PROJECT_ROOT/output/training/test-data.jsonl"
     mkdir -p "$PROJECT_ROOT/.claude/commands"
     echo -e "# Test command\nDoes something useful" > "$PROJECT_ROOT/.claude/commands/test-cmd.md"
-    mkdir -p "$PROJECT_ROOT/.claude/rules/domain"
-    echo -e "# Rule Test\nThis rule enforces quality standards for the project" > "$PROJECT_ROOT/.claude/rules/domain/test-rule.md"
+    mkdir -p "$PROJECT_ROOT/docs/rules/domain"
+    echo -e "# Rule Test\nThis rule enforces quality standards for the project" > "$PROJECT_ROOT/docs/rules/domain/test-rule.md"
     mkdir -p "$PROJECT_ROOT/.claude/skills/test-skill"
     printf -- '---\nname: test-skill\ndescription: "A test skill for validation"\n---\n# Test Skill\n' > "$PROJECT_ROOT/.claude/skills/test-skill/SKILL.md"
 }

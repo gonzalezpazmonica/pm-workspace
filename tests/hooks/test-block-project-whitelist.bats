@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for block-project-whitelist.sh Claude Code hook
-# Ref: .claude/rules/domain/project-privacy-protection.md
+# Ref: docs/rules/domain/project-privacy-protection.md
 
 setup() {
   TMPDIR=$(mktemp -d)

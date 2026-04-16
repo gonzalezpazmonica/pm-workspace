@@ -2,7 +2,7 @@
 # ── Diagnóstico y cuantificación de dependencia de proveedores IA ──
 
 > Basado en: "La Trampa Cognitiva" (Álvaro de Nicolás, LinkedIn, Mar 2026)
-> Complementa: @.claude/rules/domain/ai-governance.md (cumplimiento normativo)
+> Complementa: @docs/rules/domain/ai-governance.md (cumplimiento normativo)
 > "En los 90 el lock-in era técnico. En los 2000 contractual. En los 2010 de
 > procesos. En 2026 es cognitivo." — Cuando la IA entiende tu organización
 > mejor que tú, el coste de cambiar de proveedor ya no es técnico.

@@ -141,8 +141,8 @@ Cuando los repos se muevan de Gitea local a Gitlab/Azure DevOps:
 
 ## Referencias
 
-- `@.claude/rules/domain/context-placement-confirmation.md` — regla operativa
-- `@.claude/rules/domain/pii-sanitization.md` — sanitización PII
-- `@.claude/rules/domain/confidentiality-config.md` — config de confidencialidad
+- `@docs/rules/domain/context-placement-confirmation.md` — regla operativa
+- `@docs/rules/domain/pii-sanitization.md` — sanitización PII
+- `@docs/rules/domain/confidentiality-config.md` — config de confidencialidad
 - `@.claude/agents/confidentiality-auditor.md` — agente auditor
 - `/confidentiality-check` — comando de auditoría

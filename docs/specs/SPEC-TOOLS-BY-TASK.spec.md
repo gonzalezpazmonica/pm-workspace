@@ -34,7 +34,7 @@ mas rentable de la investigacion (10/10 relevancia).
 y refactorizar los 10 commands/skills mas usados para soportar N targets.
 
 **Criterios de Aceptacion:**
-- [ ] Contrato documentado en `.claude/rules/domain/tools-by-task.md`
+- [ ] Contrato documentado en `docs/rules/domain/tools-by-task.md`
 - [ ] 10 commands/skills refactorizados (lista en seccion 6)
 - [ ] Backward compatible: target unico sigue funcionando
 - [ ] Deduplicacion y ordering consistente entre llamadas
@@ -189,7 +189,7 @@ AND     reduccion >= 50%
 
 | Accion | Fichero | Que hacer |
 |--------|---------|-----------|
-| Crear | .claude/rules/domain/tools-by-task.md | Contrato formal |
+| Crear | docs/rules/domain/tools-by-task.md | Contrato formal |
 | Crear | scripts/tools-by-task-parse.sh | Parser CSV/lista helper |
 | Crear | tests/test-tools-by-task.bats | Suite BATS |
 | Modificar | .claude/commands/debt-analyze.md | Soporte N targets |

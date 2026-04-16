@@ -69,7 +69,7 @@ echo ""
 echo "📋 7. Context Map & Workflows"
 check_content ".claude/profiles/context-map.md" "company-setup" "Context-map includes /company-setup"
 check_content ".claude/profiles/context-map.md" "company-vertical" "Context-map includes /company-vertical"
-check_content ".claude/rules/domain/role-workflows.md" "company-show" "Role-workflows includes /company-show"
+check_content "docs/rules/domain/role-workflows.md" "company-show" "Role-workflows includes /company-show"
 echo ""
 
 echo "📋 8. CHANGELOG"

@@ -55,7 +55,7 @@ Cuando opendataloader-pdf libere auto-tagging (anunciado Q2 2026):
 - [ ] Flag `--accessible` en los 4 comandos de reports
 - [ ] Default `--accessible=true` en verticals legal/healthcare
 - [ ] Tests BATS >= 8 casos (con PDF samples)
-- [ ] Documentación en `.claude/rules/languages/` o `docs/accessibility.md`
+- [ ] Documentación en `docs/rules/languages/` o `docs/accessibility.md`
 
 ## Restricciones
 

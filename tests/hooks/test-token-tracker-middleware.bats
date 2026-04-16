@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for token-tracker-middleware.sh (SPEC-138)
-# Ref: .claude/rules/domain/context-health.md
+# Ref: docs/rules/domain/context-health.md
 
 setup() {
   TMPDIR=$(mktemp -d)

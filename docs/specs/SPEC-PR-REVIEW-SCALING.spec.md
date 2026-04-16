@@ -305,8 +305,8 @@ tests/test-pr-review-scaling.bats  # BATS test file for g11 function (~60-80 lin
 ### NO tocar
 
 ```
-.claude/rules/domain/risk-escalation.md     # Reference only, do not modify
-.claude/rules/domain/scoring-curves.md       # Reference only, do not modify
+docs/rules/domain/risk-escalation.md     # Reference only, do not modify
+docs/rules/domain/scoring-curves.md       # Reference only, do not modify
 scripts/confidentiality-sign.sh              # Unrelated
 scripts/push-pr.sh                           # Unrelated
 ```

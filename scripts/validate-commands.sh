@@ -83,7 +83,7 @@ for CMD in "${FILES[@]}"; do
 
   # 5. Referencias @rules — comprobar que existen
   # Strip trailing backticks, colons, asterisks, and quotes that markdown may add
-  AT_REFS=$(grep -oP '@\.claude/rules/[^\s\)\`\*\:]+\.md' "$CMD" 2>/dev/null || true)
+  AT_REFS=$(grep -oP '@docs/rules/[^\s\)\`\*\:]+\.md' "$CMD" 2>/dev/null || true)
   for AREF in $AT_REFS; do
     AREF_PATH="${AREF#@}"
     if [ ! -f "$AREF_PATH" ]; then

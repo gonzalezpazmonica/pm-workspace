@@ -29,7 +29,7 @@ Actualizar TODOS estos ficheros con los nuevos comandos/counts:
 - `README.en.md` — mismos cambios en inglés
 - `CHANGELOG.md` — nueva entrada + compare link al final
 - `.claude/profiles/context-map.md` — añadir a grupo(s) correspondiente(s)
-- `.claude/rules/domain/role-workflows.md` — actualizar rutinas del rol
+- `docs/rules/domain/role-workflows.md` — actualizar rutinas del rol
 - `scripts/test-*.sh` — actualizar patterns de count en TODOS los test suites
 
 ## Paso 3 — Test suite

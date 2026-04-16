@@ -62,4 +62,4 @@ not a promise of good behavior; it is an architectural guarantee.
 - License text: `LICENSE-ENTERPRISE.md`
 - Trademark: `TRADEMARK.md`
 - Services offered: `docs/support-offering.md`
-- Foundational principles: `.claude/rules/domain/savia-foundational-principles.md`
+- Foundational principles: `docs/rules/domain/savia-foundational-principles.md`

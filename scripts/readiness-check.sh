@@ -55,7 +55,7 @@ check critical "CLAUDE.md exists" "test -f '$ROOT_DIR/CLAUDE.md'"
 check critical ".claude/commands/ exists" "test -d '$ROOT_DIR/.claude/commands'"
 check critical ".claude/agents/ exists" "test -d '$ROOT_DIR/.claude/agents'"
 check critical ".claude/skills/ exists" "test -d '$ROOT_DIR/.claude/skills'"
-check critical ".claude/rules/ exists" "test -d '$ROOT_DIR/.claude/rules'"
+check critical "docs/rules/ exists" "test -d '$ROOT_DIR/docs/rules'"
 check critical "scripts/ exists" "test -d '$ROOT_DIR/scripts'"
 check critical ".claude/settings.json exists" "test -f '$ROOT_DIR/.claude/settings.json'"
 

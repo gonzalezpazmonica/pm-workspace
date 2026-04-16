@@ -23,7 +23,7 @@ Grupo: **Reporting** + **Sprint & Daily** — cargar:
 - `tone.md` — alert_style, celebrate
 
 Ver `.claude/profiles/context-map.md`.
-Leer `@.claude/rules/domain/role-workflows.md` para métricas por rol.
+Leer `@docs/rules/domain/role-workflows.md` para métricas por rol.
 
 ---
 

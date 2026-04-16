@@ -321,8 +321,8 @@ data/.gitkeep                          # Ensure data/ directory exists
 
 ```
 .claude/skills/skill-evaluation/SKILL.md   # Scoring engine stays separate
-.claude/rules/domain/skill-lifecycle.md    # Rules stay declarative
-.claude/rules/domain/skill-auto-activation.md  # Integration is via log data, not code change
+docs/rules/domain/skill-lifecycle.md    # Rules stay declarative
+docs/rules/domain/skill-auto-activation.md  # Integration is via log data, not code change
 ```
 
 ---

@@ -32,7 +32,7 @@ description: >
 
 ## 3. Contexto requerido
 
-1. @.claude/rules/domain/messaging-config.md — Config Nextcloud Talk
+1. @docs/rules/domain/messaging-config.md — Config Nextcloud Talk
 2. Acceso a la API REST de Nextcloud Talk
 
 ## 4. Pasos de ejecución

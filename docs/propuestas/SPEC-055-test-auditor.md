@@ -80,5 +80,5 @@ Score >= 80: CERTIFIED. Score < 80: FAILED.
 
 - `scripts/audit-test-quality.sh` — Existing L0-L3 classifier
 - `docs/propuestas/SPEC-043-responsibility-judge.md` — Hook quality pattern
-- `.claude/rules/domain/verification-before-done.md` — Rule #22
-- `.claude/rules/domain/pre-commit-bats.md` — BATS before commit
+- `docs/rules/domain/verification-before-done.md` — Rule #22
+- `docs/rules/domain/pre-commit-bats.md` — BATS before commit
