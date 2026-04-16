@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b613e71791ca1942b5b31164daa0a83da72daa8e89db7242dbae596bc469e014
-timestamp=2026-04-15T22:04:52Z
+diff_hash=6f643f56a46a02dcbdb91f0836c41c26c74cde9aae542bf98c0cd268b0baf046
+timestamp=2026-04-16T19:29:43Z
 branch=spec/107-ai-cognitive-debt-mitigation
-head_commit=ddc1bad
-signature=a8842796261efa54c3acb1e37a773dfd5c1bf785239f6bba8172ae5ad869f7a4
+head_commit=72a1210
+signature=ea891c567a6a93f29a7920e0c0f3805bd82f1b8dbde159491b3548dee3ca9672
