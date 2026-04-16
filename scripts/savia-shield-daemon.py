@@ -30,6 +30,25 @@ ner = None; mmap = {}; rmap = {}
 NER_SOFT_TYPES = {"LOCATION", "NRP", "ORGANIZATION"}
 NER_BLOCK_THRESHOLD = 0.85
 
+# Public provider domains — never block. Substring match (case-insensitive).
+NER_PUBLIC_DOMAINS = (
+    "microsoft.com", "microsoft365.com", "office.com", "office365.com",
+    "sharepoint.com", "onedrive.live.com", "outlook.com",
+    "outlook.office.com", "outlook.office365.com", "stream.office.com",
+    "login.microsoftonline.com", "login.live.com",
+    "graph.microsoft.com", "teams.microsoft.com",
+    "google.com", "gmail.com", "googleapis.com", "drive.google.com",
+    "github.com", "gitlab.com", "bitbucket.org", "dev.azure.com",
+    "anthropic.com", "claude.com", "openai.com",
+)
+
+# File extensions — entity texts ending in these are paths, not PII
+NER_PATH_EXTENSIONS = (
+    ".py", ".js", ".ts", ".sh", ".md", ".json", ".yml", ".yaml",
+    ".txt", ".html", ".css", ".vue", ".tsx", ".jsx", ".rs", ".go",
+    ".java", ".rb", ".php", ".toml", ".ini", ".cfg", ".xml", ".log",
+)
+
 def _load_allowlist():
     """Load technical terms from shield-ner-allowlist.txt."""
     p = Path(__file__).parent / "shield-ner-allowlist.txt"
@@ -130,8 +149,18 @@ def scan(text, th=None, file_path=""):
                 # Filter -1: skip very short alphanumeric tokens (H19, S3, M1)
                 if len(entity_text) <= 4 and re.match(r'^[A-Za-z0-9]+$', entity_text):
                     continue
-                # Filter -0.5: skip ISO dates (2026-04-02) and version strings (v4.1.1)
+                # Filter -0.5: skip ISO dates (2026-04-02), version strings (v4.1.1),
+                # and Claude model IDs (claude-haiku-4-5-20251001, claude-sonnet-4-6, etc.)
                 if re.match(r'^(20\d{2}-\d{2}-\d{2}|v?\d+\.\d+(\.\d+)?)$', entity_text):
+                    continue
+                if re.search(r'claude-(opus|sonnet|haiku)-[\d]', entity_text) or \
+                   re.match(r'^\d+-\d+-\d{8,}$', entity_text):
+                    continue
+                # Filter -0.3: skip code-like patterns (function calls, variables, keywords)
+                if re.search(r'[(\[{]|^\w+\.\w+$|^(print|def |class |import |self\.|ctx\.|page)', entity_text):
+                    continue
+                # Filter -0.2: skip common English phrases misclassified as ORG/PERSON
+                if entity_text.lower() in ("too vague", "check", "respond", "pages", "ensure_ascii"):
                     continue
                 # Filter 0: skip entities that ARE URLs or are inside URLs
                 if entity_text.startswith(("http://", "https://")):
@@ -139,6 +168,33 @@ def scan(text, th=None, file_path=""):
                 ctx_start = max(0, r.start - 50)
                 context = text[ctx_start:r.end + 10]
                 if re.search(r'https?://\S*' + re.escape(entity_text), context):
+                    continue
+                # Filter 0a: public provider domains (MS, Google, GitHub, etc.)
+                etl = entity_text.lower()
+                if any(d in etl for d in NER_PUBLIC_DOMAINS):
+                    continue
+                # Filter 0b: code-like identifiers (UPPER_SNAKE, lower_snake, dotted)
+                if re.match(r'^[A-Z][A-Z0-9_]{2,}$', entity_text):
+                    continue
+                # snake_case identifiers (folder_path, mail_url, session_dir)
+                if "_" in entity_text and re.match(r'^[A-Za-z_][A-Za-z0-9_]+$', entity_text):
+                    continue
+                if re.match(r'^[a-z_][a-z0-9_]*\.[a-z_][a-z0-9_.]*$', entity_text):
+                    continue
+                # Filter 0c: path fragments (contains / or known code extensions)
+                if "/" in entity_text or "\\" in entity_text:
+                    continue
+                if etl.endswith(NER_PATH_EXTENSIONS):
+                    continue
+                # Filter 0d: workspace path markers (user's own path is not PII)
+                if "onedrive - " in etl or "/documentos/" in etl or "/documents/" in etl:
+                    continue
+                # Filter 0e: keyword argument fragments (encoding="utf-8", name="foo")
+                # Presidio sometimes marks the truncated left side as PERSON/ORG.
+                if re.search(r'\w+\s*=\s*["\']', entity_text):
+                    continue
+                # Filter 0f: entity with unbalanced quotes = truncated literal, skip
+                if entity_text.count('"') == 1 or entity_text.count("'") == 1:
                     continue
                 # Filter 1: allow-list of technical terms
                 if entity_text.lower() in NER_ALLOW_LOWER:
