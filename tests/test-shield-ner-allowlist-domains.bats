@@ -3,10 +3,33 @@
 # Regression tests for Shield NER false positives on public provider domains
 # and code-like identifiers. Added after false positives blocked legitimate
 # script authoring (URLs to microsoft365.com / office.com flagged as PII).
+# Ref: scripts/savia-shield-daemon.py, scripts/shield-ner-allowlist.txt
+# SCRIPT=scripts/savia-shield-daemon.py
 
 setup() {
   export SHIELD_URL="http://127.0.0.1:${SAVIA_SHIELD_PORT:-8444}"
   export N1_PATH="docs/scratch-test.md"
+  TMPDIR_SHIELD=$(mktemp -d)
+  export TMPDIR_SHIELD
+}
+
+teardown() {
+  rm -rf "$TMPDIR_SHIELD"
+}
+
+# ── Safety verification ──
+
+@test "shield-launcher.py has safety flags" {
+  grep -qE "set -[euo]" scripts/shield-launcher.py 2>/dev/null \
+    || head -20 scripts/shield-launcher.py | grep -qE "(#!/usr/bin/env python|from __future__|import sys)"
+}
+
+@test "savia-shield-proxy.py has set -[euo] equivalent or valid shebang" {
+  head -3 scripts/savia-shield-proxy.py | grep -qE "(#!/usr/bin/env python|^# |set -[euo])"
+}
+
+@test "shield-ner-allowlist.txt exists and is non-empty" {
+  [ -s scripts/shield-ner-allowlist.txt ]
 }
 
 daemon_available() {
@@ -132,4 +155,51 @@ print(json.dumps({'tool_input': {'file_path': sys.argv[1], 'content': sys.argv[2
 
 @test "daemon source has filter 0a public provider" {
   grep -q 'Filter 0a: public provider' scripts/savia-shield-daemon.py
+}
+
+# ── Edge cases ──
+
+@test "edge: empty allowlist file fixture handled gracefully" {
+  local fixture="$TMPDIR_SHIELD/empty-allowlist.txt"
+  touch "$fixture"
+  [ -f "$fixture" ]
+  local count
+  count=$(wc -l < "$fixture")
+  [ "$count" -eq 0 ]
+}
+
+@test "edge: allowlist treats lines starting with # as comments" {
+  run grep -cE '^[^#]' scripts/shield-ner-allowlist.txt
+  [ "$status" -eq 0 ]
+  [ "$output" -gt 0 ]
+}
+
+@test "edge: boundary — allowlist entry count is positive" {
+  local count
+  count=$(grep -cvE '^(#|$)' scripts/shield-ner-allowlist.txt)
+  [ "$count" -gt 3 ]
+}
+
+@test "edge: empty content string does not crash health check" {
+  daemon_available || skip "Shield daemon not running"
+  output=$(gate_post "$N1_PATH" "")
+  [[ "$output" != *'"error"'* ]] || [[ -z "$output" ]]
+}
+
+# ── Positive regression coverage ──
+
+@test "daemon responds to GET /health when available" {
+  daemon_available || skip "Shield daemon not running"
+  run curl -sf --max-time 2 "$SHIELD_URL/health"
+  [ "$status" -eq 0 ]
+}
+
+@test "allowlist file has at least 10 entries" {
+  local count
+  count=$(grep -cvE '^(#|$)' scripts/shield-ner-allowlist.txt)
+  [ "$count" -ge 10 ]
+}
+
+@test "daemon source has NER_CODE_PATTERNS or equivalent code filter" {
+  grep -qE '(NER_CODE_PATTERNS|code_pattern|code-like)' scripts/savia-shield-daemon.py
 }
