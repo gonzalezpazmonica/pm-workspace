@@ -12,6 +12,7 @@ Upgrade all Opus agents and workspace configuration to Claude Opus 4.7
 (`claude-opus-4-7`), released 2026-04-16. Same pricing, same 1M context.
 Key gains: 21% fewer document reasoning errors, better instruction
 following, enhanced vision (3.75MP), improved autonomous capabilities.
+Era 243.
 
 ### Changed
 - **`config/model-capabilities.yaml`**: added `claude-opus-4-7` entry (4.6 kept for backward compat)
