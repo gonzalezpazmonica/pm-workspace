@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Restore executable bit on `.claude/hooks/block-branch-switch-dirty.sh`. Hook
 was committed with mode 644 and triggered "Permission denied" on every bash
-call (non-blocking but noisy). Git mode change only (100644 → 100755).
+call (non-blocking but noisy). Git mode change only (100644 → 100755). Era 234.
 
 ### Fixed
 - **`.claude/hooks/block-branch-switch-dirty.sh`**: chmod +x via `git update-index --chmod=+x`
