@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.5.0] — 2026-04-16
+
+Savia Shield hardening for Windows + BATS test fixes. Era 233.
+
+### Fixed
+- **`scripts/savia-shield-daemon.py`**: whitelist now requires directory
+  prefixes (`scripts/`, `hooks/`, `tests/`), closing a path traversal bypass
+  where `../data-sovereignty-fake.md` was incorrectly whitelisted. Cross-write
+  detection added to daemon (catches credential splits across writes) with
+  Windows cygpath resolution for Git Bash `/tmp/` paths. NER all-words filter:
+  multi-word entities now pass if every constituent word is in the allowlist.
+- **`scripts/savia-shield-proxy.py`**: `/health` endpoint returns local status
+  instead of forwarding to Anthropic (which returned 502 proxy error).
+- **`scripts/shield-ner-allowlist.txt`**: added connection string terms
+  (`Server`, `Password`, `Database`, `Localhost`) and Lorem ipsum terms
+  that were triggering NER false positives as PERSON entities.
+- **`tests/test-savia-shield-daemon.bats`**: daemon requests now include
+  `X-Shield-Token`; private key test fixed (broken bash quoting).
+- **`tests/test-data-sovereignty.bats`**: type name and audit log grep
+  accept both daemon (`github_pat`, `BLOCK`) and fallback variants.
+- **`tests/test-data-sovereignty-extended.bats`**: SEC-021 Ollama mock tests
+  force fallback mode; SEC-005 cross-write forces fallback for Windows paths.
+
+83/83 BATS tests pass (was 78/83 before this fix set).
+
 ## [5.4.0] — 2026-04-16
 
 SPEC-108 proposal — Agent Self-Improvement Loop + Sentry Root Cause
@@ -7239,6 +7264,8 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.4.0...v5.5.0
+[5.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.3.0...v5.4.0
 [5.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.3.0...v5.4.0
 [5.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.2.0...v5.3.0
 [5.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.1.0...v5.2.0

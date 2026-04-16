@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=67d84079f74a22da430cae2d823f7f48605151b453a1455806d9d5a505387ef7
-timestamp=2026-04-16T21:48:26Z
-branch=spec/108-agent-self-improvement-sentry-rca
-head_commit=22770df1
-signature=15bf3ce4cd8fb028edf5191bb3c27b51f457315dd1bc54aafa47b4b7c10ed1df
+diff_hash=6cf3da2ec256016214cffb7779981490043e693dd3be5b89067ce4ec84661885
+timestamp=2026-04-16T22:09:01Z
+branch=feature/windows-savia-monitor
+head_commit=a1522022
+signature=7995155d556f08c39ef9ac82c8fccca79fd0e220180b8cd2b531881dce96741c

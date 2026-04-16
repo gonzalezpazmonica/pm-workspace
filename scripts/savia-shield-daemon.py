@@ -197,7 +197,11 @@ def scan(text, th=None, file_path=""):
                 if entity_text.count('"') == 1 or entity_text.count("'") == 1:
                     continue
                 # Filter 1: allow-list of technical terms
-                if entity_text.lower() in NER_ALLOW_LOWER:
+                # Check both exact match and all-words-in-allowlist
+                et_lower = entity_text.lower()
+                if et_lower in NER_ALLOW_LOWER:
+                    continue
+                if all(w in NER_ALLOW_LOWER for w in et_lower.split()):
                     continue
                 # Filter 2: soft types in docs — warn only
                 if is_docs and r.entity_type in NER_SOFT_TYPES:
@@ -268,9 +272,14 @@ def gate(hook_input):
         if pat in fp_norm:
             return {"verdict": "ALLOW", "reason": "private_destination", "latency_ms": 0}
 
-    # Whitelist for shield's own files
-    shield_patterns = ["data-sovereignty", "ollama-classify", "shield-ner",
-                       "savia-shield", "sovereignty-mask", "test-data-sovereignty"]
+    # Whitelist for shield's own files — require specific directory prefixes
+    shield_patterns = [
+        "scripts/data-sovereignty", "scripts/ollama-classify", "scripts/shield-ner",
+        "scripts/savia-shield", "scripts/sovereignty-mask", "scripts/pre-commit-sovereignty",
+        "hooks/data-sovereignty", "hooks/ollama-classify", "hooks/shield-ner",
+        "tests/test-data-sovereignty", "tests/test-savia-shield", "tests/test-shield-daemon",
+        "tests/test-sovereignty",
+    ]
     for pat in shield_patterns:
         if pat in fp_norm:
             return {"verdict": "ALLOW", "reason": "shield_file", "latency_ms": 0}
@@ -281,6 +290,31 @@ def gate(hook_input):
     # NFKC normalize
     import unicodedata
     content = unicodedata.normalize("NFKC", content)
+
+    # Cross-write detection: if file exists, combine existing + new content
+    crosswrite_pat = re.compile(r'Server=.*[Pp]assword=|[Pp]assword=.*Server=', re.I)
+    # Resolve Git Bash paths on Windows (/tmp/... -> C:\Users\...\Temp\...)
+    fp_disk = fp
+    if not os.path.isfile(fp_disk) and sys.platform == 'win32' and fp.startswith('/'):
+        import subprocess as _sp
+        try:
+            _r = _sp.run(['cygpath', '-w', fp], capture_output=True, text=True, timeout=2)
+            if _r.returncode == 0 and _r.stdout.strip():
+                fp_disk = _r.stdout.strip()
+        except Exception:
+            pass
+    if os.path.isfile(fp_disk):
+        try:
+            with open(fp_disk, 'r', encoding='utf-8', errors='ignore') as f:
+                existing = f.read(10000)
+            combined = existing + " " + content
+            if crosswrite_pat.search(combined):
+                return {"verdict": "BLOCK",
+                        "entities": [{"type": "split_write", "text": "credential split across writes",
+                                      "score": 1.0, "action": "BLOCK", "layer": 1}],
+                        "file": fp_norm, "latency_ms": int((time.time() - t0) * 1000)}
+        except Exception:
+            pass
 
     # Scan (regex + NER combined) — pass file_path for context-aware filtering
     result = scan(content, file_path=fp_norm)

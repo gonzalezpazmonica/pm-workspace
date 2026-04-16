@@ -230,7 +230,8 @@ print(payload)
 " > "$BATS_TEST_TMPDIR/b64input.json"
   run bash -c "cat '$BATS_TEST_TMPDIR/b64input.json' | bash '$GATE'"
   [ "$status" -eq 2 ]
-  [[ "$output" == *"base64"* ]]
+  # Daemon uses "b64_connection_string", fallback uses "base64_credential"
+  [[ "$output" == *"b64"* ]] || [[ "$output" == *"base64"* ]]
 }
 
 
@@ -277,9 +278,9 @@ print(payload)
   # Simulate first write already on disk
   mkdir -p "$BATS_TEST_TMPDIR/workspace/docs"
   echo "Server=prod.db.internal" > "$BATS_TEST_TMPDIR/workspace/docs/config.md"
-  # Second write adds password
+  # Second write adds password — force fallback mode (bash can read /tmp/ natively)
   INPUT='{"tool_input":{"file_path":"'"$BATS_TEST_TMPDIR/workspace/docs/config.md"'","content":"Password=s3cret123"}}'
-  run bash -c "echo '$INPUT' | bash $GATE"
+  run bash -c "export SAVIA_SHIELD_PORT=19999; echo '$INPUT' | bash $GATE"
   # Should block because combined file+new matches Server=.*Password=
   [ "$status" -eq 2 ]
   [[ "$output" == *"split_write"* ]] || [[ "$output" == *"BLOQUEADO"* ]]
@@ -307,24 +308,26 @@ sys.stdout.buffer.write(d.encode('utf-8'))
 
 @test "SEC-021: CONFIDENTIAL Ollama response blocks write" {
   # Mock: create a fake ollama-classify.sh that always returns CONFIDENTIAL
+  # Force fallback mode (no daemon) so the hook uses ollama-classify.sh
   mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
   echo '#!/bin/bash' > "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
   echo 'echo "CONFIDENTIAL"' >> "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
   chmod +x "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
   INPUT='{"tool_input":{"file_path":"/workspace/docs/x.md","content":"This is a long enough text that passes regex but needs LLM classification to determine sensitivity level properly"}}'
-  run bash -c "echo '$INPUT' | bash $GATE"
+  run bash -c "export SAVIA_SHIELD_PORT=19999; echo '$INPUT' | bash $GATE"
   [ "$status" -eq 2 ]
   [[ "$output" == *"BLOQUEADO"* ]]
 }
 
 @test "SEC-021: AMBIGUOUS Ollama response blocks write (non-N1)" {
+  # Force fallback mode (no daemon) so the hook uses ollama-classify.sh
   mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
   echo '#!/bin/bash' > "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
   echo 'echo "AMBIGUOUS"' >> "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
   chmod +x "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
   # Non-N1 path: src/ is neither public N1 (docs, scripts, tests...) nor private exit-0 path
   INPUT='{"tool_input":{"file_path":"/workspace/src/config.js","content":"This is a long enough text that passes regex but needs LLM classification to determine sensitivity level properly"}}'
-  run bash -c "echo '$INPUT' | bash $GATE"
+  run bash -c "export SAVIA_SHIELD_PORT=19999; echo '$INPUT' | bash $GATE"
   [ "$status" -eq 2 ]
 }
 

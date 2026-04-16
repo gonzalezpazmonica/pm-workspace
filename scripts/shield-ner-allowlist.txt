@@ -178,3 +178,17 @@ Folders
 Status
 Length
 Name
+# Connection string / infra terms (false positive as PERSON)
+Server
+Password
+Database
+Localhost
+# Lorem ipsum (Latin placeholder text, not PII)
+Lorem
+consectetur
+adipiscing
+elit
+ipsum
+amet
+tempor
+eiusmod
