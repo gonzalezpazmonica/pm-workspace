@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=08e96adfcd73e6b2e3314687bf78aad5039cd481d77b885a758f8c7d1c3524a9
-timestamp=2026-04-16T17:58:48Z
+diff_hash=3150bea7e4774336456e3bc7afc2b014ecef370c843c9c241e4501f539c14483
+timestamp=2026-04-16T18:17:20Z
 branch=feat/spec-082-orphan-skill-fix
-head_commit=764c966
-signature=1b2ad9c4f42408980be8140f3ed5047b3928c7b0963c8044f47f94598609a5aa
+head_commit=e4ec487
+signature=01b1563c9c030a937e5e949d723e614484ac938497a66e6a72464c4eb5a7feec
