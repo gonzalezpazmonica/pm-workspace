@@ -58,7 +58,7 @@ WIP_LIMIT_PER_PERSON        = 2
 WIP_LIMIT_PER_COLUMN        = 5
 
 # ── Spec-Driven Development (SDD) ─────────────────────────────────────────────
-CLAUDE_MODEL_AGENT          = "claude-opus-4-6"                   # modelo para agentes de implementación
+CLAUDE_MODEL_AGENT          = "claude-opus-4-7"                   # modelo para agentes de implementación
 CLAUDE_MODEL_MID            = "claude-sonnet-4-6"                 # modelo para tareas medianas/balanceadas
 CLAUDE_MODEL_FAST           = "claude-haiku-4-5-20251001"         # modelo para agentes de tests/scaffolding
 AGENT_LOGS_DIR              = "./output/agent-runs"

@@ -25,9 +25,9 @@ context_cost: medium
 
 | Juez | Modelo | Verdicts |
 |---|---|---|
-| **reflection-validator** | Opus 4.6 | VALIDATED / CORRECTED / REQUIRES_RETHINKING |
-| **code-reviewer** | Opus 4.6 | APROBADO / APROBADO_CON_CAMBIOS_MENORES / RECHAZADO |
-| **business-analyst** | Opus 4.6 | VÁLIDO / INCOMPLETO / INVÁLIDO |
+| **reflection-validator** | Opus 4.7 | VALIDATED / CORRECTED / REQUIRES_RETHINKING |
+| **code-reviewer** | Opus 4.7 | APROBADO / APROBADO_CON_CAMBIOS_MENORES / RECHAZADO |
+| **business-analyst** | Opus 4.7 | VÁLIDO / INCOMPLETO / INVÁLIDO |
 
 ---
 

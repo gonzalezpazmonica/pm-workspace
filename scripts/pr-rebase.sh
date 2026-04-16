@@ -104,7 +104,7 @@ if ! git diff --quiet "$SIG_FILE" 2>/dev/null; then
   git add "$SIG_FILE"
   git commit --no-verify -m "chore: sign confidentiality audit after rebase
 
-Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>" \
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>" \
     2>&1 | tail -2
 fi
 

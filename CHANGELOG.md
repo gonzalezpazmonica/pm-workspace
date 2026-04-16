@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.94.0] — 2026-04-16
+
+Upgrade all Opus agents and workspace configuration to Claude Opus 4.7
+(`claude-opus-4-7`), released 2026-04-16. Same pricing, same 1M context.
+Key gains: 21% fewer document reasoning errors, better instruction
+following, enhanced vision (3.75MP), improved autonomous capabilities.
+Era 243.
+
+### Changed
+- **`config/model-capabilities.yaml`**: added `claude-opus-4-7` entry (4.6 kept for backward compat)
+- **`pm-config.md`**: `CLAUDE_MODEL_AGENT` upgraded to `claude-opus-4-7`
+- **12 Opus agents**: frontmatter `model:` field updated to `claude-opus-4-7`
+- **`agents-catalog.md`**, **`consensus-protocol.md`**: model references updated
+- **PR scripts**: `Co-Authored-By` updated to Opus 4.7
+- **Docs, READMEs, AGENTS-INDEX**: all opus-4-6 references migrated
+- **BATS tests**: verify both opus-4-7 and backward-compat opus-4-6
+
 ## [4.88.0] — 2026-04-15
 
 SPEC-106 Phase 1 — Truth Tribunal MVP. Seven independent judges evaluate
@@ -7016,6 +7033,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.88.0...v4.94.0
 [4.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.87.0...v4.88.0
 [4.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.86.0...v4.87.0
 [4.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.85.0...v4.86.0

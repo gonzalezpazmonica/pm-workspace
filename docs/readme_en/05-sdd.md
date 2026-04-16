@@ -121,7 +121,7 @@ Reviewing spec quality...
 
 **Claude responds:**
 ```
-Launching claude-opus-4-6 agent on AB302-B3...
+Launching claude-opus-4-7 agent on AB302-B3...
 Live log: output/agent-runs/20260519-094512-AB302-B3-single.log
 
 [09:45:14] Agent started — reading spec and project context
@@ -221,7 +221,7 @@ _Scenario: Task AB#301-B3 "SendCitaConfirmationCommandHandler" is complex (6h), 
 **Claude responds:**
 ```
 Selected pattern: impl-test (production code + tests in parallel)
-  Agent 1 — Implementer: claude-opus-4-6  (handler + service)
+  Agent 1 — Implementer: claude-opus-4-7  (handler + service)
   Agent 2 — Tester:      claude-haiku-4-5-20251001 (unit tests + mocks)
 
 Estimated cost: ~$1.40 USD

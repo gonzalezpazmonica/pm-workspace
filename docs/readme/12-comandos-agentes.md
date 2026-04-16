@@ -303,12 +303,12 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 
 | Agente | Modelo | Cuándo se usa |
 |---|---|---|
-| `architect` | Opus 4.6 | Diseño de arquitectura multi-lenguaje, asignación de capas, decisiones técnicas |
-| `business-analyst` | Opus 4.6 | Análisis de PBIs, reglas de negocio, criterios de aceptación, JTBD, PRD |
-| `sdd-spec-writer` | Opus 4.6 | Generación y validación de Specs SDD ejecutables |
-| `code-reviewer` | Opus 4.6 | Quality gate: seguridad, SOLID, reglas del lenguaje (`{lang}-rules.md`) |
-| `security-guardian` | Opus 4.6 | Auditoría de seguridad, secrets, y confidencialidad pre-commit |
-| `infrastructure-agent` | Opus 4.6 | Infra multi-cloud: detectar, crear (tier mínimo), escalar (aprobación humana) |
+| `architect` | Opus 4.7 | Diseño de arquitectura multi-lenguaje, asignación de capas, decisiones técnicas |
+| `business-analyst` | Opus 4.7 | Análisis de PBIs, reglas de negocio, criterios de aceptación, JTBD, PRD |
+| `sdd-spec-writer` | Opus 4.7 | Generación y validación de Specs SDD ejecutables |
+| `code-reviewer` | Opus 4.7 | Quality gate: seguridad, SOLID, reglas del lenguaje (`{lang}-rules.md`) |
+| `security-guardian` | Opus 4.7 | Auditoría de seguridad, secrets, y confidencialidad pre-commit |
+| `infrastructure-agent` | Opus 4.7 | Infra multi-cloud: detectar, crear (tier mínimo), escalar (aprobación humana) |
 
 **Agentes de desarrollo (Language Pack):**
 
@@ -324,7 +324,7 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 | `php-developer` | Sonnet 4.6 | PHP/Laravel |
 | `mobile-developer` | Sonnet 4.6 | Swift/iOS, Kotlin/Android, Flutter |
 | `ruby-developer` | Sonnet 4.6 | Ruby on Rails |
-| `cobol-developer` | Opus 4.6 | Asistencia COBOL (documentación, copybooks, tests) |
+| `cobol-developer` | Opus 4.7 | Asistencia COBOL (documentación, copybooks, tests) |
 | `terraform-developer` | Sonnet 4.6 | Terraform/IaC (NUNCA ejecuta apply) |
 
 **Agentes de calidad y operaciones:**
@@ -337,9 +337,9 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 | `tech-writer` | Haiku 4.5 | README, CHANGELOG, docs de proyecto |
 | `azure-devops-operator` | Haiku 4.5 | WIQL, work items, sprint, capacity |
 | `diagram-architect` | Sonnet 4.6 | Diseño de diagramas de arquitectura, C4, flujos de datos |
-| `reflection-validator` | Opus 4.6 | Validación meta-cognitiva (System 2): supuestos, cadena causal, brechas |
+| `reflection-validator` | Opus 4.7 | Validación meta-cognitiva (System 2): supuestos, cadena causal, brechas |
 | `coherence-validator` | Sonnet 4.6 | Coherencia output↔objetivo: cobertura, consistencia, completitud |
-| `drift-auditor` | Opus 4.6 | Auditoría de convergencia repo: detecta drift entre docs, config y código |
+| `drift-auditor` | Opus 4.7 | Auditoría de convergencia repo: detecta drift entre docs, config y código |
 | `dev-orchestrator` | Sonnet 4.6 | Planificación de slices: análisis de specs, dependencias, presupuestos de contexto |
 | `frontend-test-runner` | Sonnet 4.6 | Tests frontend: E2E, componentes, accesibilidad |
 | `visual-qa-agent` | Sonnet 4.6 | Visual QA: screenshot analysis, wireframe comparison, regression detection |
@@ -352,26 +352,26 @@ cada uno optimizado para su tarea con el modelo LLM más adecuado:
 | `security-attacker` | Sonnet 4.6 | Red Team: OWASP Top 10, CWE Top 25, dependency audit |
 | `security-defender` | Sonnet 4.6 | Blue Team: patches, hardening, NIST/CIS |
 | `security-auditor` | Sonnet 4.6 | Auditor independiente: evaluación, score 0-100, gap analysis |
-| `pentester` | Opus 4.6 | Pentesting dinámico: 5 fases, proof-based, "no exploit, no report" |
+| `pentester` | Opus 4.7 | Pentesting dinámico: 5 fases, proof-based, "no exploit, no report" |
 
 **Agentes de digestión de documentos (Document Digest Suite):**
 
 | Agente | Modelo | Cuándo se usa |
 |---|---|---|
 | `meeting-digest` | Sonnet 4.6 | Transcripciones VTT/DOCX/TXT: perfiles, negocio, action items |
-| `meeting-risk-analyst` | Opus 4.6 | Análisis de riesgos post-digestión cruzando contra el proyecto |
-| `meeting-confidentiality-judge` | Opus 4.6 | Juez de confidencialidad: filtra datos sensibles |
-| `visual-digest` | Opus 4.6 | OCR contextual 4 pasadas: pizarras, notas manuscritas, diagramas |
-| `pdf-digest` | Opus 4.6 | PDFs: texto (PyMuPDF) + imágenes (Vision), 4 fases con actualización de contexto |
-| `word-digest` | Opus 4.6 | DOCX: texto, tablas, imágenes (python-docx), 4 fases con actualización |
-| `excel-digest` | Opus 4.6 | XLSX: estructura, fórmulas→reglas de negocio (openpyxl), 4 fases |
-| `pptx-digest` | Opus 4.6 | PPTX: slides, notas presentador, gráficos (python-pptx), 4 fases |
+| `meeting-risk-analyst` | Opus 4.7 | Análisis de riesgos post-digestión cruzando contra el proyecto |
+| `meeting-confidentiality-judge` | Opus 4.7 | Juez de confidencialidad: filtra datos sensibles |
+| `visual-digest` | Opus 4.7 | OCR contextual 4 pasadas: pizarras, notas manuscritas, diagramas |
+| `pdf-digest` | Opus 4.7 | PDFs: texto (PyMuPDF) + imágenes (Vision), 4 fases con actualización de contexto |
+| `word-digest` | Opus 4.7 | DOCX: texto, tablas, imágenes (python-docx), 4 fases con actualización |
+| `excel-digest` | Opus 4.7 | XLSX: estructura, fórmulas→reglas de negocio (openpyxl), 4 fases |
+| `pptx-digest` | Opus 4.7 | PPTX: slides, notas presentador, gráficos (python-pptx), 4 fases |
 
 **Agente de compliance legal:**
 
 | Agente | Modelo | Cuándo se usa |
 |---|---|---|
-| `legal-compliance` | Opus 4.6 | Auditoría contra legislación española consolidada (legalize-es, 12.235 normas BOE) |
+| `legal-compliance` | Opus 4.7 | Auditoría contra legislación española consolidada (legalize-es, 12.235 normas BOE) |
 
 ### Flujo SDD con agentes en paralelo
 
