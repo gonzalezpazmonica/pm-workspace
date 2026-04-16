@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3294fb66b93a099a1a6b163dc9cdc7635551a90dc798bdcf4338651e6d1ebb90
-timestamp=2026-04-16T19:22:49Z
+diff_hash=45cb1971f09d8ea5fce79e1fa08524874e1fd6d4d92a99c8ac2b4236ea1e5d6e
+timestamp=2026-04-16T19:36:27Z
 branch=feat/shield-ner-improvements
-head_commit=7905e1e
-signature=b2c897487532952c4c5311179e142b95f899ad9da972293eaf872ddda9c4f73d
+head_commit=222e1d5
+signature=221f7b6a2f6c5d866f873ac5a2225129921db3485bc7fed16a2989a1bf71eda8
