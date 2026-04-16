@@ -21,11 +21,11 @@
 | Mobile iOS | mobile-developer | claude-sonnet-4-6 | 8500 |
 | Mobile Android | mobile-developer | claude-sonnet-4-6 | 8500 |
 | Mobile Flutter | mobile-developer | claude-sonnet-4-6 | 8500 |
-| COBOL maintenance | cobol-developer | claude-opus-4-6 | 13000 |
+| COBOL maintenance | cobol-developer | claude-opus-4-7 | 13000 |
 | VB.NET migration | dotnet-developer | claude-sonnet-4-6 | 8500 |
-| Spec técnica | sdd-spec-writer | claude-opus-4-6 | 13000 |
-| Análisis de negocio | business-analyst | claude-opus-4-6 | 13000 |
-| Diseño arquitectura | architect | claude-opus-4-6 | 13000 |
+| Spec técnica | sdd-spec-writer | claude-opus-4-7 | 13000 |
+| Análisis de negocio | business-analyst | claude-opus-4-7 | 13000 |
+| Diseño arquitectura | architect | claude-opus-4-7 | 13000 |
 | DB migration (.NET) | dotnet-developer | claude-sonnet-4-6 | 8500 |
 | DB migration (Java) | java-developer | claude-sonnet-4-6 | 8500 |
 
@@ -44,12 +44,12 @@ Digest:   meeting-digest → confidentiality-judge → risk-analyst
 
 | # | Agent | Model | Permission | Specialty |
 |---|-------|-------|------------|-----------|
-| 1 | architect | claude-opus-4-6 | L1 | > |
+| 1 | architect | claude-opus-4-7 | L1 | > |
 | 2 | architecture-judge | sonnet | L1 | Code Review Court judge — boundaries, coupling, layer v... |
 | 3 | azure-devops-operator | claude-haiku-4-5-20251001 | L1 | > |
-| 4 | business-analyst | claude-opus-4-6 | L1 | > |
-| 5 | cobol-developer | claude-opus-4-6 | L3 | > |
-| 6 | code-reviewer | claude-opus-4-6 | L1 | > |
+| 4 | business-analyst | claude-opus-4-7 | L1 | > |
+| 5 | cobol-developer | claude-opus-4-7 | L3 | > |
+| 6 | code-reviewer | claude-opus-4-7 | L1 | > |
 | 7 | cognitive-judge | sonnet | L1 | Code Review Court judge — debuggability at 3AM, naming,... |
 | 8 | coherence-validator | claude-sonnet-4-6 | L0 | > |
 | 9 | commit-guardian | claude-sonnet-4-6 | L4 | > |
@@ -59,35 +59,35 @@ Digest:   meeting-digest → confidentiality-judge → risk-analyst
 | 13 | dev-orchestrator | claude-sonnet-4-6 | L4 | Analiza specs y crea planes de implementación con slices... |
 | 14 | diagram-architect | claude-sonnet-4-6 | L1 | > |
 | 15 | dotnet-developer | claude-sonnet-4-6 | L3 | > |
-| 16 | drift-auditor | claude-opus-4-6 | L1 | Auditoría de convergencia repo: detecta drift entre docs... |
+| 16 | drift-auditor | claude-opus-4-7 | L1 | Auditoría de convergencia repo: detecta drift entre docs... |
 | 17 | excel-digest | opus | L2 | > |
 | 18 | feasibility-probe | sonnet | L3 | Validates spec feasibility by attempting a time-boxed pro... |
 | 19 | fix-assigner | sonnet | L2 | Creates fix tasks from Court findings, assigns to dev age... |
 | 20 | frontend-developer | claude-sonnet-4-6 | L3 | > |
 | 21 | frontend-test-runner | claude-sonnet-4-6 | L4 | Post-commit frontend test execution — unit, component, ... |
 | 22 | go-developer | claude-sonnet-4-6 | L3 | > |
-| 23 | infrastructure-agent | claude-opus-4-6 | L4 | > |
+| 23 | infrastructure-agent | claude-opus-4-7 | L4 | > |
 | 24 | java-developer | claude-sonnet-4-6 | L3 | > |
-| 25 | legal-compliance | claude-opus-4-6 | L2 | > |
-| 26 | meeting-confidentiality-judge | claude-opus-4-6 | L1 | > |
+| 25 | legal-compliance | claude-opus-4-7 | L2 | > |
+| 26 | meeting-confidentiality-judge | claude-opus-4-7 | L1 | > |
 | 27 | meeting-digest | sonnet | L2 | > |
 | 28 | meeting-risk-analyst | opus | L1 | > |
 | 29 | memory-agent | haiku | L2 | Gestiona la memoria persistente de pm-workspace via lengu... |
 | 30 | mobile-developer | claude-sonnet-4-6 | L3 | > |
 | 31 | model-upgrade-auditor | opus | L1 | Audits agents, skills, and prompts for workarounds that n... |
 | 32 | pdf-digest | opus | L2 | > |
-| 33 | pentester | claude-opus-4-6 | L3 | > |
+| 33 | pentester | claude-opus-4-7 | L3 | > |
 | 34 | php-developer | claude-sonnet-4-6 | L3 | > |
 | 35 | pptx-digest | opus | L2 | > |
 | 36 | python-developer | claude-sonnet-4-6 | L3 | > |
-| 37 | reflection-validator | claude-opus-4-6 | L0 | > |
+| 37 | reflection-validator | claude-opus-4-7 | L0 | > |
 | 38 | ruby-developer | claude-sonnet-4-6 | L3 | > |
 | 39 | rust-developer | claude-sonnet-4-6 | L3 | > |
-| 40 | sdd-spec-writer | claude-opus-4-6 | L2 | > |
+| 40 | sdd-spec-writer | claude-opus-4-7 | L2 | > |
 | 41 | security-attacker | claude-sonnet-4-6 | L3 | > |
 | 42 | security-auditor | claude-sonnet-4-6 | L1 | > |
 | 43 | security-defender | claude-sonnet-4-6 | L3 | > |
-| 44 | security-guardian | claude-opus-4-6 | L4 | > |
+| 44 | security-guardian | claude-opus-4-7 | L4 | > |
 | 45 | security-judge | sonnet | L1 | Code Review Court judge — OWASP, PII, injection, auth, ... |
 | 46 | spec-judge | sonnet | L1 | Code Review Court judge — implementation vs approved sp... |
 | 47 | tech-writer | claude-haiku-4-5-20251001 | L2 | > |

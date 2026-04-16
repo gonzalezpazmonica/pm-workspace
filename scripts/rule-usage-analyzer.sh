@@ -8,7 +8,7 @@ cat /dev/stdin > /dev/null 2>&1 || true
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="${SCRIPT_DIR}/.."
-RULES_DIR="${ROOT}/.claude/rules/domain"
+RULES_DIR="${ROOT}/docs/rules/domain"
 OUTPUT_FILE=""
 SUMMARY_ONLY=false
 
@@ -26,15 +26,15 @@ TOTAL=${#RULES[@]}
 
 # ── Tier 1: Referenced from CLAUDE.md (loaded at startup) ──
 mapfile -t TIER1 < <(
-  grep -oP '@\.claude/rules/domain/[a-z0-9_-]+\.md' "$ROOT/CLAUDE.md" 2>/dev/null \
-    | sed 's|@\.claude/rules/domain/||' | sort -u
+  grep -oP '@docs/rules/domain/[a-z0-9_-]+\.md' "$ROOT/CLAUDE.md" 2>/dev/null \
+    | sed 's|@docs/rules/domain/||' | sort -u
 )
 
 # ── Tier 2: Referenced from commands, skills, agents (on-demand) ──
 mapfile -t TIER2 < <(
-  grep -roP '@\.claude/rules/domain/[a-z0-9_-]+\.md' \
+  grep -roP '@docs/rules/domain/[a-z0-9_-]+\.md' \
     "$ROOT/.claude/commands/" "$ROOT/.claude/skills/" "$ROOT/.claude/agents/" 2>/dev/null \
-    | sed 's|.*@\.claude/rules/domain/||' | sort -u
+    | sed 's|.*@docs/rules/domain/||' | sort -u
 )
 
 # ── Build maps ──
@@ -80,7 +80,7 @@ for rule_path in "${RULES[@]}"; do
   tier="${TIER_MAP[$rule]:-dormant}"
   $first && first=false || echo ","
   # Find consumers
-  consumers=$(grep -rl "@.claude/rules/domain/${rule}" \
+  consumers=$(grep -rl "@docs/rules/domain/${rule}" \
     "$ROOT/CLAUDE.md" "$ROOT/.claude/commands/" "$ROOT/.claude/skills/" "$ROOT/.claude/agents/" 2>/dev/null \
     | sed "s|${ROOT}/||g" | sort -u | tr '\n' ',' | sed 's/,$//')
   printf '    "%s": {"tier": "%s", "consumers": "%s"}' "$rule" "$tier" "$consumers"

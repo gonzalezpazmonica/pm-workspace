@@ -107,7 +107,7 @@ teardown() {
 # ── Spec/doc reference ──
 
 @test "PBI template contains required frontmatter fields" {
-  # Ref: .claude/rules/domain/backlog-git-config.md
+  # Ref: docs/rules/domain/backlog-git-config.md
   grep -q "id:" "$ROOT/.claude/templates/backlog/pbi-template.md"
   grep -q "title:" "$ROOT/.claude/templates/backlog/pbi-template.md"
   grep -q "state:" "$ROOT/.claude/templates/backlog/pbi-template.md"

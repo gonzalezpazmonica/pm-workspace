@@ -75,4 +75,4 @@ Saves to `output/onboarding/{name}-{role}-{date}.md`
 
 - Uses team-onboarding skill for checklist generation
 - Integrates with `/profile-setup` for new user profile
-- References `@.claude/rules/domain/role-workflows.md` for role context
+- References `@docs/rules/domain/role-workflows.md` for role context

@@ -40,8 +40,8 @@ usa un tipo de retorno discriminado para capturar el motivo exacto de parada.
 ## 2. Objetivo
 
 Añadir el campo `termination_reason` a las 7 plantillas en
-`.claude/rules/domain/handoff-templates.md` y actualizar
-`.claude/rules/domain/verification-before-done.md` para usar esta informacion
+`docs/rules/domain/handoff-templates.md` y actualizar
+`docs/rules/domain/verification-before-done.md` para usar esta informacion
 en la retry policy. Permite decisiones de escalacion mejor informadas.
 
 ## 3. Requisitos funcionales
@@ -96,8 +96,8 @@ en la retry policy. Permite decisiones de escalacion mejor informadas.
 ## 6. Arquitectura / ficheros afectados
 
 **Modificados:**
-- `.claude/rules/domain/handoff-templates.md`: +termination_reason en las 7 plantillas + seccion reference
-- `.claude/rules/domain/verification-before-done.md`: +retry policy por termination_reason
+- `docs/rules/domain/handoff-templates.md`: +termination_reason en las 7 plantillas + seccion reference
+- `docs/rules/domain/verification-before-done.md`: +retry policy por termination_reason
 
 **Nuevos o modificados:**
 - `scripts/validate-handoff.sh` (nuevo o update)
@@ -144,6 +144,6 @@ next_steps: "Run unit tests and report coverage"
 ## 10. Referencias
 
 - [claude-code-from-source Ch05](https://claude-code-from-source.com/ch05-agent-loop/)
-- `.claude/rules/domain/handoff-templates.md`
-- `.claude/rules/domain/verification-before-done.md`
-- `.claude/rules/domain/autonomous-safety.md` (AGENT_MAX_CONSECUTIVE_FAILURES=3)
+- `docs/rules/domain/handoff-templates.md`
+- `docs/rules/domain/verification-before-done.md`
+- `docs/rules/domain/autonomous-safety.md` (AGENT_MAX_CONSECUTIVE_FAILURES=3)

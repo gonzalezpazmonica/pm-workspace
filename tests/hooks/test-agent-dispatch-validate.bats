@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for agent-dispatch-validate.sh hook
 # Validates 5 dispatch contexts with required context checks
-# Ref: .claude/rules/domain/agent-dispatch-checklist.md
+# Ref: docs/rules/domain/agent-dispatch-checklist.md
 
 setup() {
   TMPDIR=$(mktemp -d)

@@ -24,9 +24,9 @@ description: >
 
 ## Contexto requerido
 
-1. `.claude/rules/connectors-config.md` — Verificar conector GitHub
+1. `docs/rules/domain/connectors-config.md` — Verificar conector GitHub
 2. `projects/{proyecto}/CLAUDE.md` — Repo y proyecto Azure DevOps
-3. `.claude/rules/pm-config.md` — Config Azure DevOps para sync
+3. `docs/rules/domain/pm-config.md` — Config Azure DevOps para sync
 
 ## Pasos de ejecución
 

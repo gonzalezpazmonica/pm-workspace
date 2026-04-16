@@ -112,9 +112,9 @@ El extractor es una función compartida con dos modos:
 
 ## Ficheros afectados
 
-- `.claude/rules/domain/context-health.md` — actualizar seccion compact
+- `docs/rules/domain/context-health.md` — actualizar seccion compact
 - `scripts/session-extract.sh` — módulo compartido (nuevo)
-- `.claude/rules/domain/async-hooks-config.md` — documentar
+- `docs/rules/domain/async-hooks-config.md` — documentar
 
 ---
 

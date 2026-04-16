@@ -26,13 +26,13 @@ done
 # 2. Rule Dependency Verification
 echo "--- 2. Rule Dependency Verification ---"
 rule_count=0; rule_pass=0
-for rule_file in "$ROOT"/.claude/rules/domain/*.md; do
+for rule_file in "$ROOT"/docs/rules/domain/*.md; do
   [[ -f "$rule_file" ]] || continue
   ((rule_count++))
   if grep -q "→" "$rule_file"; then
     refs=$(grep "→" "$rule_file" | grep -oE '\b[a-z0-9-]+\.md\b' | sort -u)
     for ref in $refs; do
-      [[ ! -f "$ROOT/.claude/rules/domain/$ref" ]] && echo "  ⚠️  $(basename "$rule_file"): missing $ref (warning)"
+      [[ ! -f "$ROOT/docs/rules/domain/$ref" ]] && echo "  ⚠️  $(basename "$rule_file"): missing $ref (warning)"
     done
     ((rule_pass++))
   else

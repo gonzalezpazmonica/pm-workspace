@@ -121,7 +121,7 @@ Revisando calidad de la spec...
 
 **Claude responde:**
 ```
-Lanzando agente claude-opus-4-6 sobre AB302-B3...
+Lanzando agente claude-opus-4-7 sobre AB302-B3...
 Log en tiempo real: output/agent-runs/20260519-094512-AB302-B3-single.log
 
 [09:45:14] Agente iniciado — leyendo spec y contexto del proyecto
@@ -159,7 +159,7 @@ Sí, actualiza el estado
 ✅ AB#302-B3 actualizada en Azure DevOps:
    Estado: In Review
    Tags añadidos: spec-driven; agent-implemented
-   Comentario: "Implementado por claude-opus-4-6. Build OK, 6/6 tests. Pendiente Code Review."
+   Comentario: "Implementado por claude-opus-4-7. Build OK, 6/6 tests. Pendiente Code Review."
 ```
 
 ---
@@ -234,7 +234,7 @@ _Escenario: La task AB#301-B3 "SendCitaConfirmationCommandHandler" es compleja (
 **Claude responde:**
 ```
 Patrón seleccionado: impl-test (código producción + tests en paralelo)
-  Agente 1 — Implementador: claude-opus-4-6  (handler + service)
+  Agente 1 — Implementador: claude-opus-4-7  (handler + service)
   Agente 2 — Tester:        claude-haiku-4-5-20251001 (unit tests + mocks)
 
 Coste estimado: ~$1.40 USD

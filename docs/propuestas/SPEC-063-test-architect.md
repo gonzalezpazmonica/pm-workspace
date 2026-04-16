@@ -108,6 +108,6 @@ Non-BATS tests MUST satisfy the 8-pattern checklist (manual verification).
 
 - SPEC-055: Test Auditor System (scoring engine)
 - `feedback_test_excellence_patterns.md` (8 patterns)
-- `.claude/rules/domain/language-packs.md` (16 languages)
-- `.claude/rules/domain/coverage-scripts.md` (coverage patterns)
+- `docs/rules/domain/language-packs.md` (16 languages)
+- `docs/rules/domain/coverage-scripts.md` (coverage patterns)
 - `.claude/agents/test-engineer.md` (complementary agent)

@@ -26,7 +26,7 @@ context_cost: medium
 
 1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto
 2. `projects/{proyecto}/team.md` — Miembros del equipo y contactos
-3. `.claude/rules/domain/messaging-config.md` — Canales de mensajería
+3. `docs/rules/domain/messaging-config.md` — Canales de mensajería
 
 ---
 

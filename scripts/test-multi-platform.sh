@@ -77,7 +77,7 @@ echo ""
 echo "📋 7. Context Map & Workflows"
 check_content ".claude/profiles/context-map.md" "jira-connect" "Context-map includes /jira-connect"
 check_content ".claude/profiles/context-map.md" "platform-migrate" "Context-map includes /platform-migrate"
-check_content ".claude/rules/domain/role-workflows.md" "platform-migrate" "Role-workflows includes /platform-migrate"
+check_content "docs/rules/domain/role-workflows.md" "platform-migrate" "Role-workflows includes /platform-migrate"
 echo ""
 
 echo "📋 8. CHANGELOG"

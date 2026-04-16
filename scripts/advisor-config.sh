@@ -6,7 +6,7 @@
 #
 # Options:
 #   --executor MODEL     Executor model. Default: claude-sonnet-4-6
-#   --advisor MODEL      Advisor model. Default: claude-opus-4-6
+#   --advisor MODEL      Advisor model. Default: claude-opus-4-7
 #   --max-uses N         Max advisor calls per request. Default: 3
 #   --enabled BOOL       Enable/disable advisor. Default: true
 #   --output json|yaml   Output format. Default: json
@@ -15,7 +15,7 @@
 #
 # Environment variables (override defaults):
 #   ADVISOR_ENABLED            true|false (default: true)
-#   ADVISOR_MODEL              Full model ID (default: claude-opus-4-6)
+#   ADVISOR_MODEL              Full model ID (default: claude-opus-4-7)
 #   ADVISOR_MAX_USES           Integer (default: 3)
 #   ADVISOR_EXECUTOR_DEFAULT   Full model ID (default: claude-sonnet-4-6)
 #
@@ -39,10 +39,10 @@ cat /dev/stdin > /dev/null 2>&1 || true
 resolve_model() {
   local short="$1"
   case "$short" in
-    opus)   echo "claude-opus-4-6" ;;
+    opus)   echo "claude-opus-4-7" ;;
     sonnet) echo "claude-sonnet-4-6" ;;
     haiku)  echo "claude-haiku-4-5-20251001" ;;
-    claude-opus-4-6|claude-sonnet-4-6|claude-haiku-4-5-20251001)
+    claude-opus-4-7|claude-sonnet-4-6|claude-haiku-4-5-20251001)
       echo "$short" ;;
     *)
       echo "" ;;
@@ -51,7 +51,7 @@ resolve_model() {
 
 is_opus() {
   local model="$1"
-  [[ "$model" == "opus" || "$model" == "claude-opus-4-6" ]]
+  [[ "$model" == "opus" || "$model" == "claude-opus-4-7" ]]
 }
 
 # ── Frontmatter parser ───────────────────────────────────────────────────────
@@ -113,7 +113,7 @@ emit_yaml() {
 # ── Defaults from env ────────────────────────────────────────────────────────
 
 ENABLED="${ADVISOR_ENABLED:-true}"
-ADVISOR="${ADVISOR_MODEL:-claude-opus-4-6}"
+ADVISOR="${ADVISOR_MODEL:-claude-opus-4-7}"
 MAX_USES="${ADVISOR_MAX_USES:-3}"
 EXECUTOR="${ADVISOR_EXECUTOR_DEFAULT:-claude-sonnet-4-6}"
 OUTPUT_FMT="json"

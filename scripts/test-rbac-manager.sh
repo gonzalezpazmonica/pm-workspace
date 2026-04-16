@@ -9,7 +9,7 @@ check() { if eval "$1" > /dev/null 2>&1; then pass "$2"; else fail "$2"; fi; }
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CMD="$ROOT/.claude/commands/rbac-manager.md"
-RULE="$ROOT/.claude/rules/domain/rbac-model.md"
+RULE="$ROOT/docs/rules/domain/rbac-model.md"
 SKILL="$ROOT/.claude/skills/rbac-management/SKILL.md"
 
 echo "═══════════════════════════════════════════"

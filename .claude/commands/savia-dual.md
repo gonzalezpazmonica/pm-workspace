@@ -114,6 +114,6 @@ OK /savia-dual {subcomando}
 
 ## Referencias
 
-- Regla: `.claude/rules/domain/savia-dual.md`
+- Regla: `docs/rules/domain/savia-dual.md`
 - Skill: `.claude/skills/savia-dual/SKILL.md` + `DOMAIN.md`
 - Doc: `docs/savia-dual.md`

@@ -223,8 +223,8 @@ AND     riesgo de A es menor que riesgo de B
 |--------|---------|-----------|
 | Crear | scripts/impact-analysis.sh | Script principal de analisis |
 | Crear | tests/test-impact-analysis.sh | Suite BATS |
-| Modificar | .claude/rules/domain/dev-session-protocol.md | Fase 1: ejecutar impact-analysis |
-| Modificar | .claude/rules/domain/dev-session-protocol.md | Fase 2: inyectar informe al contexto |
+| Modificar | docs/rules/domain/dev-session-protocol.md | Fase 1: ejecutar impact-analysis |
+| Modificar | docs/rules/domain/dev-session-protocol.md | Fase 2: inyectar informe al contexto |
 
 ---
 

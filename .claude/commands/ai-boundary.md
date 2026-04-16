@@ -80,4 +80,4 @@ Límite: ≤ 3 pts
 - `/ai-confidence` — qué requiere validación
 - `/ai-incident` — monitorizar cumplimiento de límites
 
-Ver `@.claude/rules/domain/pm-config.md` para config completa.
+Ver `@docs/rules/domain/pm-config.md` para config completa.

@@ -78,7 +78,7 @@ echo ""
 echo "📋 7. Context Map & Workflows"
 check_content ".claude/profiles/context-map.md" "mcp-server" "Context-map includes /mcp-server"
 check_content ".claude/profiles/context-map.md" "integration-status" "Context-map includes /integration-status"
-check_content ".claude/rules/domain/role-workflows.md" "integration-status" "Role-workflows includes /integration-status"
+check_content "docs/rules/domain/role-workflows.md" "integration-status" "Role-workflows includes /integration-status"
 echo ""
 
 echo "📋 8. CHANGELOG"

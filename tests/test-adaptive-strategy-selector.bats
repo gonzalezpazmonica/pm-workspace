@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for adaptive-strategy-selector.sh — model tier strategy selection
-# Ref: .claude/rules/domain/agent-context-budget.md
+# Ref: docs/rules/domain/agent-context-budget.md
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"

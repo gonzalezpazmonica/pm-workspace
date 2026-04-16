@@ -154,10 +154,10 @@ MEM
 # ── Evidence classification documented in session-memory-protocol ──────────
 
 @test "session-memory-protocol documents evidence_type" {
-  grep -q "evidence_type" "$REPO_ROOT/.claude/rules/domain/session-memory-protocol.md"
+  grep -q "evidence_type" "$REPO_ROOT/docs/rules/domain/session-memory-protocol.md"
 }
 @test "session-memory-protocol defines 4 evidence types" {
-  local rule="$REPO_ROOT/.claude/rules/domain/session-memory-protocol.md"
+  local rule="$REPO_ROOT/docs/rules/domain/session-memory-protocol.md"
   grep -q "sourced" "$rule"
   grep -q "analyzed" "$rule"
   grep -q "inferred" "$rule"

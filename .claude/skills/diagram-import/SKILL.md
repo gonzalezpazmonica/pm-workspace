@@ -35,7 +35,7 @@ Importa diagramas de arquitectura (Draw.io, Miro, Mermaid local), extrae entidad
 2. `projects/{proyecto}/CLAUDE.md` — Stack, arquitectura
 3. `projects/{proyecto}/reglas-negocio.md` — **CRÍTICO**
 4. `projects/{proyecto}/equipo.md` — Perfiles para asignación
-5. `.claude/rules/diagram-config.md` — Constantes
+5. `docs/rules/domain/diagram-config.md` — Constantes
 6. `docs/politica-estimacion.md` — Rangos de estimación
 
 ---
@@ -128,4 +128,4 @@ Ver: **`references/templates-and-examples.md`**
 → Templates & ejemplos: `references/templates-and-examples.md`
 → Domain mapping: `references/diagram-to-domain-mapping.md`
 → Business rules: `references/business-rules-validation.md`
-→ Config: `@.claude/rules/diagram-config.md`
+→ Config: `@docs/rules/domain/diagram-config.md`

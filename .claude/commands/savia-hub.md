@@ -28,8 +28,8 @@ Download remote changes to local. Detects conflicts and proposes resolution. Upd
 Toggle offline mode. When ON: all writes go to local only, queued for later sync. When OFF: triggers immediate sync if remote is configured.
 
 ## Prerequisites
-- `@.claude/rules/domain/savia-hub-config.md` — Structure and path configuration
-- `@.claude/rules/domain/savia-hub-offline.md` — Flight mode and sync queue rules
+- `@docs/rules/domain/savia-hub-config.md` — Structure and path configuration
+- `@docs/rules/domain/savia-hub-offline.md` — Flight mode and sync queue rules
 
 ## Behavior
 

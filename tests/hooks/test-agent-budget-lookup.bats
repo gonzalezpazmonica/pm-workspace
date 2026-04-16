@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Ref: .claude/rules/domain/agent-context-budget.md
+# Ref: docs/rules/domain/agent-context-budget.md
 
 setup() {
   TMPDIR=$(mktemp -d)

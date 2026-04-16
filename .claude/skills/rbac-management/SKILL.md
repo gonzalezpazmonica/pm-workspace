@@ -16,7 +16,7 @@ priority: "high"
 # Skill: RBAC Management
 
 > Orquestación de flujos de gestión de roles y permisos
-> Regla: @.claude/rules/domain/rbac-model.md
+> Regla: @docs/rules/domain/rbac-model.md
 
 ## Flujo 1: Grant role
 

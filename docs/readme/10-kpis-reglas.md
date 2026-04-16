@@ -24,7 +24,7 @@
 6. **El Code Review (E1) es siempre humano** — sin excepciones, nunca a un agente
 7. **"Si el agente falla, la Spec no era suficientemente buena"** — mejorar la spec, no saltarse el proceso
 
-### Calidad de código (ver `.claude/rules/{lang}-conventions.md`)
+### Calidad de código (ver `docs/rules/languages/{lang}-conventions.md`)
 8. **Verificar siempre**: build + test del lenguaje del proyecto antes de dar una tarea por hecha
 9. **Secrets**: NUNCA connection strings, API keys o passwords en el repositorio — usar vault o `config.local/` (git-ignorado)
 10. **Infraestructura**: NUNCA `terraform apply` en PRE/PRO sin aprobación humana; siempre tier mínimo; detectar antes de crear
@@ -35,7 +35,7 @@
 13. **Si Claude corrige el mismo error 2+ veces** — `/clear` y reformular el prompt
 14. **README actualizado** — reflejar cambios estructurales o de herramientas antes del commit
 
-### Git workflow (ver `.claude/rules/github-flow.md`)
+### Git workflow (ver `docs/rules/domain/github-flow.md`)
 15. **Nunca commit directo en `main`** — todo cambio pasa por rama + Pull Request + revisión
 
 ---

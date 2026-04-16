@@ -93,7 +93,7 @@ teardown() {
 }
 
 # ── Spec/doc reference ──
-# Ref: .claude/rules/domain/backlog-git-config.md
+# Ref: docs/rules/domain/backlog-git-config.md
 
 @test "resolver script references backlog sovereignty" {
   grep -q "local" "$ROOT/scripts/backlog-resolver.sh"

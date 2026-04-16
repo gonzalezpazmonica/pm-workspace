@@ -8,7 +8,7 @@ description: >
 tools:
   - Read
   - Grep
-model: claude-opus-4-6
+model: claude-opus-4-7
 color: amber
 maxTurns: 10
 max_context_tokens: 12000

@@ -36,8 +36,8 @@ Leer en este orden (Progressive Disclosure):
 2. `projects/{proyecto}/CLAUDE.md` — Stack, arquitectura
 3. `projects/{proyecto}/reglas-negocio.md` — **CRÍTICO**: reglas de dominio
 4. `projects/{proyecto}/equipo.md` — Para asignación posterior
-5. `.claude/rules/diagram-config.md` — Constantes y checklist validación
-6. `.claude/rules/pm-config.md` — Credenciales
+5. `docs/rules/domain/diagram-config.md` — Constantes y checklist validación
+6. `docs/rules/domain/pm-config.md` — Credenciales
 
 ## 4. Pasos de ejecución
 

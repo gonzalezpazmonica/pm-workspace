@@ -125,6 +125,6 @@
 Fichero que controla qué directorios **no se cargan en el contexto** de Claude Code:
 
 - `.claude/worktrees/` — Claude Code crea copias del workspace por sesión; sin excluirlas, saturan el contexto
-- `.claude/rules/languages/` — 21 ficheros de convenciones (6.900+ líneas) que se cargan bajo demanda cuando un agente los necesita
+- `docs/rules/languages/` — 21 ficheros de convenciones (6.900+ líneas) que se cargan bajo demanda cuando un agente los necesita
 
 > Sin `.claudeignore`, el contexto auto-cargado supera los límites y todos los slash commands fallan con "Prompt is too long".

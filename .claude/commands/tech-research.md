@@ -9,8 +9,8 @@ Lanza un agente de investigación técnica autónoma. Investiga el tema indicado
 
 ## 1. Cargar configuración
 
-1. Leer `@.claude/rules/domain/autonomous-safety.md` — reglas de seguridad (OBLIGATORIO)
-2. Leer `@.claude/rules/domain/pm-config.md` + `pm-config.local.md`
+1. Leer `@docs/rules/domain/autonomous-safety.md` — reglas de seguridad (OBLIGATORIO)
+2. Leer `@docs/rules/domain/pm-config.md` + `pm-config.local.md`
 3. Leer `.claude/skills/tech-research-agent/SKILL.md`
 
 ## 2. Uso

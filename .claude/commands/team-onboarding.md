@@ -62,8 +62,8 @@ Ejecutar el equivalente de `/context-load` pero orientado al nuevo miembro:
 - Explicar los patrones usados (CQRS, MediatR, Clean Architecture, EF Core, etc.)
 
 **b) Convenciones del equipo:**
-- Leer `.claude/rules/languages/dotnet-conventions.md` — naming, estructura, reglas de código
-- Leer `.claude/rules/github-flow.md` — branching, commits, PRs
+- Leer `docs/rules/languages/dotnet-conventions.md` — naming, estructura, reglas de código
+- Leer `docs/rules/domain/github-flow.md` — branching, commits, PRs
 - Resumir las 5 convenciones más importantes para el nuevo miembro
 
 **c) Equipo y roles:**

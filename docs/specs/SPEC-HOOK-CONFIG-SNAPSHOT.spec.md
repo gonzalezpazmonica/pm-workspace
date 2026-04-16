@@ -222,7 +222,7 @@ AND     sin warnings (comportamiento idempotente)
 | Modificar | .claude/commands/update.md | Llamar refresh tras update |
 | Modificar | .claude/settings.json | Registrar hook en PreToolUse |
 | Crear | tests/test-hook-config-snapshot.bats | Suite BATS |
-| Modificar | .claude/rules/domain/hook-profiles.md | Documentar integridad |
+| Modificar | docs/rules/domain/hook-profiles.md | Documentar integridad |
 | Modificar | .gitignore | Excluir ~/.savia/session-hook-snapshot |
 
 ---

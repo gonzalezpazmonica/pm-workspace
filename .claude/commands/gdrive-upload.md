@@ -36,7 +36,7 @@ description: >
 
 ## 3. Contexto requerido
 
-1. `.claude/rules/connectors-config.md` — Verificar Google Drive habilitado
+1. `docs/rules/domain/connectors-config.md` — Verificar Google Drive habilitado
 2. `projects/{proyecto}/CLAUDE.md` — `GDRIVE_REPORTS_FOLDER`
 
 ## 4. Pasos de ejecución

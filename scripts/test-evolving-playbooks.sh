@@ -88,7 +88,7 @@ fi
 # Test 6: Role workflows references
 echo ""
 echo "TEST 6: Role workflows context"
-if grep -q "playbook" "$WORKSPACE/.claude/rules/domain/role-workflows.md"; then
+if grep -q "playbook" "$WORKSPACE/docs/rules/domain/role-workflows.md"; then
   echo "  ✓ Role workflows mentions playbooks"
 else
   echo "  ⚠ Role workflows update pending"

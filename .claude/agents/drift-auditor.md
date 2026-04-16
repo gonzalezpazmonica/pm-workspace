@@ -3,7 +3,7 @@ name: drift-auditor
 permission_level: L1
 description: "Auditoría de convergencia repo: detecta drift entre docs, config y código. Usar PROACTIVELY tras cambios grandes o al inicio de sprint."
 tools: [Read, Glob, Grep, Bash]
-model: claude-opus-4-6
+model: claude-opus-4-7
 permissionMode: plan
 maxTurns: 20
 color: yellow
@@ -44,7 +44,7 @@ Leer todos `scripts/` y `.claude/`:
 ### 3. Detectar PII en Archivos Versionados
 
 Escanear con regex patterns: DNI, emails no-example, tokens, IPs privadas, nombres reales.
-Ver `@.claude/rules/domain/security-check-patterns.md` para patrones.
+Ver `@docs/rules/domain/security-check-patterns.md` para patrones.
 
 ### 4. Auditar Referenciabilidad
 

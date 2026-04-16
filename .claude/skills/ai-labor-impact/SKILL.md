@@ -18,8 +18,8 @@ priority: "low"
 
 # Skill: AI Labor Impact
 
-> Prerequisito: @.claude/rules/domain/ai-exposure-metrics.md
-> Prerequisito: @.claude/rules/domain/ai-competency-framework.md
+> Prerequisito: @docs/rules/domain/ai-exposure-metrics.md
+> Prerequisito: @docs/rules/domain/ai-competency-framework.md
 
 Orquesta el análisis de impacto de la IA en la fuerza laboral: mapeo de
 exposición por rol, clasificación de riesgo, planes de reskilling, y

@@ -98,7 +98,7 @@ agent-trace format). In-memory representation is a Python/TypeScript dict.
 
 ## Scope
 
-- Define AgentMessage schema in `.claude/rules/domain/agent-message-schema.md`
+- Define AgentMessage schema in `docs/rules/domain/agent-message-schema.md`
 - Update handoff-templates.md to reference schema
 - Update agent-trace-log.sh to extract metadata from structured messages
 - No code implementation — this is a protocol spec for agent authors

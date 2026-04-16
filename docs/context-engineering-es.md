@@ -14,7 +14,7 @@ Este módulo introduce 5 mejoras al sistema de Context Engineering de pm-workspa
 
 Los ejemplos concretos de input/output son el tipo de contexto más potente para guiar el comportamiento de un LLM. Se añade una sección `## Ejemplos` con pares positivo (✅) y negativo (❌) a los commands más críticos.
 
-**Regla:** `.claude/rules/domain/example-patterns.md`
+**Regla:** `docs/rules/domain/example-patterns.md`
 **Commands piloto:** `project-audit`, `sprint-plan`, `spec-generate`, `debt-track`, `risk-log`
 
 ---
@@ -24,7 +24,7 @@ Los ejemplos concretos de input/output son el tipo de contexto más potente para
 Nuevo comando que implementa G-Eval — evaluación de outputs con scoring cuantitativo (1-10) por criterios definidos. Incluye modo Arena para comparación A/B de dos outputs.
 
 **Comando:** `.claude/commands/eval-output.md`
-**Criterios:** `.claude/rules/domain/eval-criteria.md` (4 tipos: report, spec, code, plan)
+**Criterios:** `docs/rules/domain/eval-criteria.md` (4 tipos: report, spec, code, plan)
 
 ---
 
@@ -41,7 +41,7 @@ Extiende el sistema de memoria con Entity Memory — memoria estructurada que tr
 
 Agrupa los 360+ comandos en 15 capability groups semánticos para reducir el tool overload. Los agentes y el NL-resolver buscan primero en el grupo relevante.
 
-**Regla:** `.claude/rules/domain/tool-discovery.md`
+**Regla:** `docs/rules/domain/tool-discovery.md`
 **Mapa:** `docs/capability-groups.md`
 
 ---
@@ -50,7 +50,7 @@ Agrupa los 360+ comandos en 15 capability groups semánticos para reducir el too
 
 Alinea pm-workspace con la estructura de 10 capas de prompt óptimo, añadiendo las capas faltantes: Reasoning Guidance (razonamiento paso a paso) y Output Templates (formato de salida concreto).
 
-**Regla:** `.claude/rules/domain/prompt-structure.md`
+**Regla:** `docs/rules/domain/prompt-structure.md`
 
 ---
 

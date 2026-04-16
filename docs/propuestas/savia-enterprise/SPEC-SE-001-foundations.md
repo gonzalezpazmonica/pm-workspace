@@ -32,7 +32,7 @@ los puntos de extensión y las reglas de importación.
 ### Contrato de importación (unidireccional)
 
 - Core NUNCA hace `@.claude/enterprise/...`
-- Enterprise PUEDE hacer `@.claude/rules/domain/...` (extiende)
+- Enterprise PUEDE hacer `@docs/rules/domain/...` (extiende)
 - Enterprise PUEDE sobrescribir comportamiento vía **registry pattern**
 - `validate-layer-contract.sh` verifica la regla en pre-commit
 

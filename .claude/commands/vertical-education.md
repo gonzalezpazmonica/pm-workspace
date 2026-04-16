@@ -57,6 +57,6 @@ Guardar en: `output/education-compliance-{fecha}.md` con tabla de hallazgos, sco
 ## Integración
 
 - Skill: `@.claude/skills/regulatory-compliance/SKILL.md`
-- Regla: `@.claude/rules/domain/regulatory-compliance.md`
+- Regla: `@docs/rules/domain/regulatory-compliance.md`
 - Comando relacionado: `/compliance-scan --sector education`
 

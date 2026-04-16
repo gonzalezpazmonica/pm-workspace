@@ -11,7 +11,7 @@ help. Those are the only two options.
 
 This split is the only way to fund the project without violating the
 seven foundational principles
-(`.claude/rules/domain/savia-foundational-principles.md`). See
+(`docs/rules/domain/savia-foundational-principles.md`). See
 `LICENSE-ENTERPRISE.md` for the five licensing models that were
 rejected and why.
 

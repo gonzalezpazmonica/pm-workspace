@@ -15,7 +15,7 @@ priority: "medium"
 
 # Skill: Sovereignty Auditor
 
-> Regla: @.claude/rules/domain/cognitive-sovereignty.md
+> Regla: @docs/rules/domain/ai-governance.md
 > Complementa: @.claude/commands/governance-audit.md (cumplimiento normativo)
 
 ## Prerequisitos

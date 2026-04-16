@@ -11,7 +11,7 @@
 #   - burndown    → Analytics OData (no cubierto por MCP)
 #   - capacities  → Work API capacities (no cubierto por MCP)
 #   - velocity    → Cálculo híbrido (MCP + OData)
-# Ver: .claude/rules/mcp-migration.md para detalle de la migración.
+# Ver: docs/rules/domain/mcp-migration.md para detalle de la migración.
 # =============================================================================
 
 set -euo pipefail

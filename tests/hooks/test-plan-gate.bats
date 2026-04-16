@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for plan-gate.sh hook
 # Warns if implementing without spec. Never blocks (info gate).
-# Ref: .claude/rules/domain/hook-profiles.md
+# Ref: docs/rules/domain/hook-profiles.md
 
 setup() {
   TMPDIR=$(mktemp -d)

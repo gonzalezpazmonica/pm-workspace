@@ -19,7 +19,7 @@ Grupo: **Context Engineering** — cargar:
 - `identity.md` — rol del usuario
 - `workflow.md` — hora de actividad, eventos del sprint
 
-Ver `.claude/rules/domain/context-map.md`.
+Ver `docs/rules/domain/context-map.md`.
 
 ---
 

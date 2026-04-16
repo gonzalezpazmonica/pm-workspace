@@ -41,7 +41,7 @@ esac
 # Only scan paths that are used as context
 IS_CONTEXT=false
 case "$FILE_PATH" in
-  */.claude/rules/*|*/.claude/agents/*|*/.claude/skills/*|*/.claude/commands/*) IS_CONTEXT=true ;;
+  */.claude/rules/*|*/docs/rules/*|*/.claude/agents/*|*/.claude/skills/*|*/.claude/commands/*) IS_CONTEXT=true ;;
   */projects/*/CLAUDE.md|*/projects/*/reglas-negocio*|*/projects/*/specs/*) IS_CONTEXT=true ;;
   */projects/*/agent-memory/*|*/projects/*/team/*) IS_CONTEXT=true ;;
   */docs/*|*/CLAUDE.md) IS_CONTEXT=true ;;

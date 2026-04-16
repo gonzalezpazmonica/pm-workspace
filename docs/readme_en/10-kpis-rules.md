@@ -24,7 +24,7 @@
 6. **Code Review (E1) is always human** — no exceptions, never delegated to an agent
 7. **"If the agent fails, the Spec wasn't good enough"** — improve the spec, don't skip the process
 
-### Code Quality (see `.claude/rules/{lang}-conventions.md`)
+### Code Quality (see `docs/rules/languages/{lang}-conventions.md`)
 8. **Always verify**: build + test for the project's language before marking a task as done
 9. **Secrets**: NEVER connection strings, API keys or passwords in the repository — use vault or `config.local/` (git-ignored)
 10. **Infrastructure**: NEVER terraform apply in PRE/PRO without human approval; always minimum tier; detect before creating

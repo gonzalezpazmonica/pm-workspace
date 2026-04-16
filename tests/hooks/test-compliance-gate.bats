@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for compliance-gate.sh hook
 # Reads CLAUDE_TOOL_INPUT env var, runs .claude/compliance/runner.sh
-# Ref: .claude/rules/domain/hook-profiles.md
+# Ref: docs/rules/domain/hook-profiles.md
 
 setup() {
   TMPDIR=$(mktemp -d)

@@ -24,7 +24,7 @@ pueden bloquear tool execution, modificar inputs, inyectar contexto y
 short-circuit el query loop.
 
 pm-workspace cubre actualmente 17/28 eventos (61%), documentado en
-`.claude/rules/domain/async-hooks-config.md`. Hay 11 eventos no cubiertos.
+`docs/rules/domain/async-hooks-config.md`. Hay 11 eventos no cubiertos.
 Necesitamos auditar cuales tienen valor real para Savia y cuales descartar
 con justificacion documentada.
 
@@ -41,7 +41,7 @@ actualizar la documentacion.
 
 - **REQ-01** Script `scripts/hook-event-gap-audit.sh` que:
   - Lee `.claude/settings.json` y extrae los hook events configurados
-  - Lee el catalogo de eventos en `.claude/rules/domain/async-hooks-config.md`
+  - Lee el catalogo de eventos en `docs/rules/domain/async-hooks-config.md`
   - Lista los eventos no cubiertos
   - Genera tabla markdown con columnas: event, tipo, descripcion, valor (HIGH/MEDIUM/LOW/SKIP), justificacion
 - **REQ-02** Auditoria manual de los 11 gaps con decision:
@@ -50,7 +50,7 @@ actualizar la documentacion.
   - **Descartar**: eventos sin aplicacion en pm-workspace
 - **REQ-03** Para cada evento HIGH, crear un hook concreto en `.claude/hooks/`
   con tier correcto (minimal/standard/strict) y registrar en `settings.json`.
-- **REQ-04** Actualizar `.claude/rules/domain/async-hooks-config.md` con la
+- **REQ-04** Actualizar `docs/rules/domain/async-hooks-config.md` con la
   nueva cobertura y los eventos descartados con justificacion.
 - **REQ-05** Eventos candidatos a evaluar:
   `PermissionRequest`, `Notification`, `SessionPause`, `SessionResume`,
@@ -65,7 +65,7 @@ actualizar la documentacion.
 - **AC-02** El informe lista los 11 eventos no cubiertos con decision de cada uno.
 - **AC-03** Al menos 3 eventos clasificados HIGH tienen un hook correspondiente
   implementado en `.claude/hooks/`.
-- **AC-04** `.claude/rules/domain/async-hooks-config.md` refleja la nueva
+- **AC-04** `docs/rules/domain/async-hooks-config.md` refleja la nueva
   cobertura (>=75% = 21/28 eventos).
 - **AC-05** Los nuevos hooks implementados tienen test BATS correspondiente.
 - **AC-06** CI quality gate sigue pasando tras los cambios.
@@ -89,7 +89,7 @@ actualizar la documentacion.
 - `tests/test-hook-event-gap-audit.bats`
 
 **Modificados:**
-- `.claude/rules/domain/async-hooks-config.md`: actualizar cobertura
+- `docs/rules/domain/async-hooks-config.md`: actualizar cobertura
 - `.claude/settings.json`: añadir hooks HIGH
 - `CHANGELOG.md`
 
@@ -129,5 +129,5 @@ actualizar la documentacion.
 
 - [claude-code-from-source Ch12](https://claude-code-from-source.com/ch12-extensibility/)
 - [Claude Code hooks docs](https://code.claude.com/docs/en/hooks)
-- `.claude/rules/domain/async-hooks-config.md`
-- `.claude/rules/domain/intelligent-hooks.md`
+- `docs/rules/domain/async-hooks-config.md`
+- `docs/rules/domain/intelligent-hooks.md`

@@ -23,7 +23,7 @@ settings.json (5 hook events)
     Agents (.claude/agents/*)
     (33 specialized orchestrators)
          ↓
-    Rules (.claude/rules/domain/*)
+    Rules (docs/rules/domain/*)
     (105 domain rules + conventions)
          ↓
     Execution (Bash, Git, Language SDKs)
@@ -59,7 +59,7 @@ settings.json (5 hook events)
 
 1. Skill invokes Task with agent name and context
 2. Agent receives fresh context budget (max 12K tokens)
-3. Agent reads applicable rules from `.claude/rules/domain/*`
+3. Agent reads applicable rules from `docs/rules/domain/*`
 4. Agent generates output (code, specs, analysis)
 5. Output saved to `output/` or applied to codebase
 
@@ -207,8 +207,8 @@ pm-workspace/
 | **Skills** | 67 | `.claude/skills/` |
 | **Agents** | 33 | `.claude/agents/` |
 | **Hooks** | 17 | `.claude/hooks/` (100% tested) |
-| **Domain Rules** | 105 | `.claude/rules/domain/` |
-| **Language Packs** | 16 | `.claude/rules/languages/` |
+| **Domain Rules** | 105 | `docs/rules/domain/` |
+| **Language Packs** | 16 | `docs/rules/languages/` |
 | **Tests (BATS)** | 17 hook suites | `tests/hooks/` |
 | **Documentation** | 20+ | `docs/` |
 
@@ -239,7 +239,7 @@ To add new capabilities:
 1. **New command** → Create `.claude/commands/my-command.md`
 2. **New skill** → Create `.claude/skills/my-skill/SKILL.md` + `DOMAIN.md`
 3. **New agent** → Create `.claude/agents/my-agent.md` (profile + instructions)
-4. **New rule** → Create `.claude/rules/domain/my-rule.md`
+4. **New rule** → Create `docs/rules/domain/my-rule.md`
 5. **New hook** → Add to `.claude/hooks/` + `settings.json` + BATS tests
 6. **Project comprehension map** → `/codemap:generate-human {project}` creates `projects/{name}/.human-maps/{name}.hcm`
 

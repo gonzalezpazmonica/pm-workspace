@@ -5,8 +5,8 @@
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   TEMPLATE="$REPO_ROOT/.claude/profiles/users/template/neurodivergent.md"
-  RULE="$REPO_ROOT/.claude/rules/domain/neurodivergent-integration.md"
-  ACCESS_RULE="$REPO_ROOT/.claude/rules/accessibility-output.md"
+  RULE="$REPO_ROOT/docs/rules/domain/neurodivergent-integration.md"
+  ACCESS_RULE="$REPO_ROOT/docs/rules/domain/accessibility-output.md"
   TMPDIR_ND=$(mktemp -d)
 }
 

@@ -11,8 +11,8 @@ PM-Workspace usa la jerarquía completa de memoria de Claude Code:
 | Tipo | Ubicación | Propósito | Compartido |
 |---|---|---|---|
 | **Proyecto (global)** | `~/claude/CLAUDE.md` | Rol PM, reglas críticas, estructura | Equipo (repo) |
-| **Reglas modulares** | `.claude/rules/domain/*.md` | Reglas bajo demanda por tema | Equipo (repo) |
-| **Reglas por lenguaje** | `.claude/rules/languages/*.md` | Convenciones con auto-carga por `paths:` | Equipo (repo) |
+| **Reglas modulares** | `docs/rules/domain/*.md` | Reglas bajo demanda por tema | Equipo (repo) |
+| **Reglas por lenguaje** | `docs/rules/languages/*.md` | Convenciones con auto-carga por `paths:` | Equipo (repo) |
 | **Proyecto local** | `~/claude/CLAUDE.local.md` | Config privada: PATs, proyectos reales | Solo tú |
 | **Proyecto específico** | `projects/{nombre}/CLAUDE.md` | Config por proyecto Azure DevOps | Equipo (repo) |
 | **Auto Memory** | `~/.claude/projects/*/memory/` | Notas automáticas de Claude por proyecto | Solo tú |
@@ -111,7 +111,7 @@ Los agentes tienen memoria persistente separada en 3 niveles por privacidad y po
 
 **Orden de carga**: publica → privada → proyecto. Proyecto prevalece en conflictos.
 
-**Regla canonica**: `.claude/rules/domain/agent-memory-isolation.md`
+**Regla canonica**: `docs/rules/domain/agent-memory-isolation.md`
 
 ---
 
@@ -120,7 +120,7 @@ Los agentes tienen memoria persistente separada en 3 niveles por privacidad y po
 CLAUDE.md soporta imports con sintaxis `@ruta/al/fichero`:
 
 ```markdown
-Config detallada: @.claude/rules/domain/pm-config.md
+Config detallada: @docs/rules/domain/pm-config.md
 Buenas prácticas: @docs/best-practices-claude-code.md
 ```
 
@@ -134,10 +134,10 @@ Si trabajas en proyectos fuera de `~/claude/`, puedes compartir las reglas de le
 
 ```bash
 # En el proyecto externo, crear symlink a los language packs
-ln -s ~/claude/.claude/rules/languages/ /ruta/proyecto/.claude/rules/languages
+ln -s ~/claude/docs/rules/languages/ /ruta/proyecto/.claude/rules/languages
 
 # O solo un lenguaje específico
-ln -s ~/claude/.claude/rules/languages/python-conventions.md /ruta/proyecto/.claude/rules/python.md
+ln -s ~/claude/docs/rules/languages/python-conventions.md /ruta/proyecto/.claude/rules/python.md
 ```
 
 ---
