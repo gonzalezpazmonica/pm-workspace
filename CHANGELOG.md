@@ -6,6 +6,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.98.0] — 2026-04-15
+
+Shield NER improvements — expanded filters + allowlist + persistent launcher
++ defensive hook for uncommitted branch switch. Era 232.
+
+### Added
+- **`scripts/shield-launcher.py`**: persistent start/stop/status/restart for
+  Shield daemon + proxy. Windows uses DETACHED_PROCESS + CREATE_NO_WINDOW so
+  the processes survive terminal close. Unix uses start_new_session=True.
+  PID tracking in `~/.savia/`. Stderr to `~/.savia/{label}.log` for debugging.
+- **`scripts/shield-ner-allowlist.txt`**: allowlist for public domains,
+  common English names, and code patterns that NER was false-flagging as
+  personal data.
+- **`.claude/hooks/block-branch-switch-dirty.sh`**: new PreToolUse hook on
+  Bash that blocks `git checkout <branch>` / `git switch <branch>` when the
+  working tree has uncommitted changes (tracked). Untracked files continue
+  to follow the checkout (git default). Prevents silent loss of in-progress
+  work. Use `git stash -u` or commit before switching branches.
+- **`tests/test-shield-ner-allowlist-domains.bats`**: BATS coverage for the
+  new allowlist and filters.
+
+### Changed
+- **`scripts/savia-shield-daemon.py`** + **`scripts/savia-shield-proxy.py`**:
+  NER filter expansion — new filters 0b (snake_case identifiers), 0e (keyword
+  arguments), 0f (truncated string literals). Unblocks Savia startup when
+  NER was misclassifying code patterns as sensitive data.
+- **`.claude/hooks/session-init.sh`**: auto-start Shield launcher at session
+  start if the daemon is not already running. Detached so terminal close
+  does not kill it.
+
+### Fixed
+- False positives in NER for common English names, public domains, and
+  code patterns (snake_case, kwargs, truncated literals).
+- Shield daemon startup race where HTTP hook ran before daemon was ready.
 ## [4.95.0] — 2026-04-16
 
 Migration of workspace rules from `.claude/rules/` to `docs/rules/`. Rules
@@ -7065,6 +7099,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.97.0...v4.98.0
 [4.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.94.0...v4.95.0
 [4.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.88.0...v4.94.0
 [4.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.87.0...v4.88.0
