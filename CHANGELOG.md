@@ -33,6 +33,47 @@ self-improvement rule, sentry-bugs, error-investigate,
 comprehension-report, Truth Tribunal) but lacks the wiring. This
 spec connects existing infrastructure without new abstractions.
 
+## [5.2.0] — 2026-04-16
+
+SPEC-106 Phase 2 — Truth Tribunal async hook integration. Adds the
+async PostToolUse pipeline that auto-queues report verifications when
+the assistant writes a report file, plus a queue worker and a
+dashboard command. Era 244.
+
+### Added
+- **`.claude/hooks/post-report-write.sh`**: async PostToolUse hook on
+  Edit|Write that detects report-like markdown (path heuristics under
+  `output/audits|reports|postmortems|governance|compliance|dora` plus
+  filename patterns like `ceo-report-*`, `*-digest*`, `compliance-*`,
+  `audit-*`, plus frontmatter override `report_type:`). Self-recursion
+  guards skip `.truth.crc` and queue files. Idempotent: skips if a
+  fresh cached verdict already exists. Never blocks the write.
+- **`scripts/truth-tribunal-worker.sh`**: queue worker with subcommands
+  `process [--max N]`, `status`, `clean`, `enqueue <report>`. Atomic
+  claim via `.req` → `.work` → `.done`/`.fail` rename. Writes a
+  `.truth.pending` marker next to the report (judge agent invocation
+  must run inside Claude Code session, not the worker — Phase 2 stages
+  the work, the user runs `/report-verify` to convene the tribunal).
+- **`.claude/commands/tribunal-status.md`**: `/tribunal-status` dashboard
+  showing queue depth, pending markers, and recent verdicts.
+  Optional `--process N` and `--clean` flags delegate to the worker.
+- **`tests/test-truth-tribunal-phase2.bats`**: 24 BATS tests covering
+  hook heuristics, self-recursion guards, idempotency, worker
+  subcommands, and pending-marker structure. Auditor certified.
+
+### Changed
+- **`.claude/settings.json`**: registered `post-report-write.sh` in the
+  PostToolUse `Edit|Write` matcher with `async: true`, 5s timeout.
+- **`docs/propuestas/SPEC-106-truth-tribunal-report-reliability.md`**:
+  status updated to "Phase 1 + 2 Implemented".
+
+### Phase 2 honest limit
+The worker stages reports as `.truth.pending` instead of invoking the 7
+judge agents directly. Reason: judge agents are Claude Code agents that
+run inside an active session with API access. The worker runs outside
+that context. Phase 2.5 (future) can plug in an in-session orchestrator
+that watches the queue and converts pending markers into full tribunals
+without manual `/report-verify` invocation.
 ## [4.98.0] — 2026-04-15
 
 Shield NER improvements — expanded filters + allowlist + persistent launcher
@@ -67,6 +108,39 @@ Shield NER improvements — expanded filters + allowlist + persistent launcher
 - False positives in NER for common English names, public domains, and
   code patterns (snake_case, kwargs, truncated literals).
 - Shield daemon startup race where HTTP hook ran before daemon was ready.
+## [4.97.0] — 2026-04-15
+
+SPEC-107 proposal — AI Cognitive Debt Mitigation. Evidence-backed spec
+to measure and counter "AI brain fry" in heavy Claude Code users with
+5 ranked interventions (hypothesis-first commit, teach-back gate,
+critical-eval checklist, dependency telemetry, weekly retrieval drill).
+Review-first PR. Era 243.
+
+### Added
+- **`docs/propuestas/SPEC-107-ai-cognitive-debt-mitigation.md`**:
+  3-phase implementation plan (~32h) grounded in MIT Media Lab "Your
+  Brain on ChatGPT" (arXiv 2506.08872, 54 EEG participants, 83% recall
+  failure), Microsoft+CMU CHI 2025 critical-thinking study (319 knowledge
+  workers), ICER 2025 longitudinal Copilot study (differential
+  metacognitive atrophy), and Roediger-Karpicke 2006 retrieval practice
+  (+50% retention vs re-reading). Includes 4 inviolable restrictions
+  (CD-01..04), N3 privacy guarantees, integration matrix with existing
+  wellbeing components (wellbeing-guardian, burnout-radar,
+  code-comprehension, dev-session-protocol, verification-before-done),
+  honest limits ("no measurement without EEG"), and 4 explicit
+  decisions pending human input.
+
+### Why
+8h/day with Claude Code is the operative scenario for this workspace.
+Existing wellbeing components track schedule and team aggregates but
+no component measures individual cognitive offloading or AI dependency.
+The 5 interventions are ranked by evidence strength; first 3 form the
+Phase 1 MVP (telemetry + hypothesis-first warning).
+
+### Phase 1 scope (proposed)
+Opt-in telemetry + hypothesis-first commit trailer in warning mode.
+Phase 2 activates teach-back gate and critical-eval checklist as
+blocking hooks. Phase 3 calibrates thresholds with 30-day real data.
 ## [4.95.0] — 2026-04-16
 
 Migration of workspace rules from `.claude/rules/` to `docs/rules/`. Rules
@@ -7127,7 +7201,9 @@ Initial public release of PM-Workspace.
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
 [5.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.3.0...v5.4.0
+[5.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.1.0...v5.2.0
 [4.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.97.0...v4.98.0
+[4.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.96.0...v4.97.0
 [4.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.94.0...v4.95.0
 [4.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.88.0...v4.94.0
 [4.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.87.0...v4.88.0
