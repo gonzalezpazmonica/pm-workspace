@@ -1,6 +1,14 @@
 # Confidentiality audit signature — DO NOT EDIT
+<<<<<<< HEAD
 diff_hash=92a063b5437f74434246da613a97fdf56c1307af871728ceed88595c5e4d4647
 timestamp=2026-04-16T21:33:58Z
 branch=feat/spec-106-phase-3-benchmark
 head_commit=baefe3cc
 signature=0635200ed84e8e4bfc7281216f8fa84ca7f120dda9879e7eefce2c1e76432e62
+=======
+diff_hash=8b756160d592643021108219e137290cc9ec460e1dcfa4d0b4b7df59e359df34
+timestamp=2026-04-16T21:33:08Z
+branch=feat/spec-106-phase-2-async-hooks
+head_commit=5a619483
+signature=31252520e25f5cde03777459fa14e0b4a033f831ce3767397b572ce2d2a59189
+>>>>>>> origin/main
