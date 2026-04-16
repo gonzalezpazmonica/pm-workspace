@@ -6,6 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [4.93.0] — 2026-04-16
+
+SPEC-108 proposal — Agent Self-Improvement Loop + Sentry Root Cause
+Analysis Pipeline. Inspired by Rakuten QA case study (two patterns
+adapted to existing pm-workspace infrastructure). Review-first PR.
+Era 246.
+
+### Added
+- **`docs/propuestas/SPEC-108-agent-self-improvement-sentry-rca.md`**:
+  2-part spec (~16h, 2 sprints). Part 1 extends `post-tool-failure-log.sh`
+  to auto-write lessons in `public-agent-memory/{agent}/MEMORY.md`
+  when the same error pattern repeats 3+ times across sessions
+  (pattern-hash + counter + sanitization + FIFO cap of 30). Part 2
+  adds `/sentry-rca <id>` command that auto-generates root cause
+  analysis from Sentry stack traces, enriches with comprehension
+  reports, and validates through Truth Tribunal (SPEC-106) before
+  delivery. 5 inviolable constraints per part. 3 decisions pending
+  human input.
+
+### Why
+Rakuten case study documents "agent memory enabling self-improvement
+across sessions" and "production exception agent with root cause
+analysis." pm-workspace has the components (agent-memory-isolation,
+self-improvement rule, sentry-bugs, error-investigate,
+comprehension-report, Truth Tribunal) but lacks the wiring. This
+spec connects existing infrastructure without new abstractions.
+
 ## [4.92.0] — 2026-04-16
 
 SPEC-106 Phase 3 — Truth Tribunal calibration harness + operations
@@ -7056,6 +7083,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[4.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.92.0...v4.93.0
 [4.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.88.0...v4.92.0
 [4.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.87.0...v4.88.0
 [4.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.86.0...v4.87.0
