@@ -94,7 +94,8 @@ setup() {
   INPUT='{"tool_input":{"file_path":"/workspace/scripts/deploy.sh","content":"export TOKEN=ghp_ABC123def456ghi789jkl012mno345pqr678"}}'
   run bash -c "echo '$INPUT' | bash $GATE"
   [ "$status" -eq 2 ]
-  [[ "$output" == *"github_token"* ]]
+  # Daemon uses "github_pat", fallback uses "github_token" — accept both
+  [[ "$output" == *"github"* ]]
 }
 
 # --- CAPA 2: Ollama (mock) ---
@@ -114,7 +115,8 @@ setup() {
   run bash -c "echo '$INPUT' | bash $GATE"
   [ "$status" -eq 2 ]
   [ -f "$AUDIT_LOG" ]
-  grep -q "BLOCKED" "$AUDIT_LOG"
+  # Daemon writes "BLOCK", fallback writes "BLOCKED" — accept both
+  grep -qE "BLOCK" "$AUDIT_LOG"
 }
 
 # --- ollama-classify.sh unit tests ---
