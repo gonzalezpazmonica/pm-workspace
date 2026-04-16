@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=687f64a7307d9bab2b3aa24f97408fe35c701e408ab3eaaed748eb8a87df3b17
-timestamp=2026-04-16T20:02:16Z
+diff_hash=58216b97c2bd1dbc9cc17c240e6838b6413eaee75f19f80cf81166cadbcb52b9
+timestamp=2026-04-16T21:04:28Z
 branch=spec/108-agent-self-improvement-sentry-rca
-head_commit=4ed5157
-signature=9361804bf0818a0fb178442ae067618ae9160b594875ee77aca533c9160a69b9
+head_commit=4b0d8b50
+signature=da3941af06a638d412bf66d651e34976d1d19aacbad7246667eccdc1f3ed7580
