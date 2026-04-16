@@ -53,6 +53,7 @@ case "$REL_PATH" in
   scripts/validate-layer-contract.sh) exit 0 ;;
   .claude/hooks/validate-layer-contract.sh) exit 0 ;;
   .claude/enterprise/*) exit 0 ;;
+  docs/rules/*) ;;
   docs/*) exit 0 ;;
   tests/*) exit 0 ;;
   CHANGELOG.md) exit 0 ;;

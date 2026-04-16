@@ -88,8 +88,10 @@ jobs:
         run: |
           echo "Checking that PR was created via /pr-plan..."
           PR_NUM="${{ github.event.pull_request.number }}"
-          FILES=$(gh pr diff "$PR_NUM" --name-only 2>/dev/null || echo "")
-          if echo "$FILES" | grep -q ".confidentiality-signature"; then
+          REPO="${{ github.repository }}"
+          # Use REST API with pagination (gh pr diff fails with HTTP 406 on PRs >300 files)
+          FILES=$(gh api "repos/$REPO/pulls/$PR_NUM/files?per_page=100" --paginate --jq '.[].filename' 2>/dev/null || echo "")
+          if echo "$FILES" | grep -qx '.confidentiality-signature'; then
             echo "PASS: PR includes confidentiality signature (pr-plan was run)."
           else
             echo "FAIL: .confidentiality-signature not in PR files."
