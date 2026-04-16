@@ -235,7 +235,7 @@ Events consumed by SE-016 (valuation), SE-017 (SOW init), SE-018 (billing setup)
 
 ## Acceptance criteria
 
-1. Regla `.claude/rules/domain/pipeline-as-code.md` ≤150 lines documents pursuit schema, 4 agents, qualification workflow, bid/no-bid gate, handoff flow.
+1. Regla `docs/rules/domain/pipeline-as-code.md` ≤150 lines documents pursuit schema, 4 agents, qualification workflow, bid/no-bid gate, handoff flow.
 2. JSON Schema `pursuit-frontmatter.schema.json` validates the 15+ required frontmatter fields.
 3. `scripts/pursuit-validate.sh` detects the 8 top failure modes (missing qualification before pursuit stage, missing bid-decision before proposal stage, incomplete BANT/MEDDIC, orphan pursuits >90d without stage change, handoff missing for won pursuits, team-without-SA, duplicate OPP-IDs, library references pointing at nonexistent assets).
 4. `/pursuit-qualify` produces a `qualification.yaml` that passes schema validation with all BANT+MEDDIC dimensions scored and justified.

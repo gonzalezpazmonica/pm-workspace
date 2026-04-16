@@ -108,7 +108,7 @@ This is not failure. This is professional self-regulation.
 ---
 
 > Parts 3-5 (Input Detection, Calm Projection, Session Wellness) in
-> `@.claude/rules/domain/emotional-regulation-extended.md`
+> `@docs/rules/domain/emotional-regulation-extended.md`
 
 ---
 

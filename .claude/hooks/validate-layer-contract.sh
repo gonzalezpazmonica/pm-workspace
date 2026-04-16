@@ -60,7 +60,7 @@ esac
 
 # Only guard Core paths
 case "$REL_PATH" in
-  .claude/agents/*|.claude/commands/*|.claude/skills/*|.claude/rules/*|.claude/hooks/*|CLAUDE.md)
+  .claude/agents/*|.claude/commands/*|.claude/skills/*|.claude/rules/*|docs/rules/*|.claude/hooks/*|CLAUDE.md)
     ;;
   *)
     exit 0

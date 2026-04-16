@@ -106,7 +106,7 @@ done
 echo ""
 echo "7️⃣  Era 13: Observability & Intelligence"
 test_case "context-map.md mentions observability" "grep -q -i 'observability\|observabilidad' $REPO_ROOT/docs/context-map.md 2>/dev/null || true"
-test_case "role-workflows.md mentions obs commands" "grep -q 'obs-' $REPO_ROOT/.claude/rules/domain/role-workflows.md 2>/dev/null || true"
+test_case "role-workflows.md mentions obs commands" "grep -q 'obs-' $REPO_ROOT/docs/rules/domain/role-workflows.md 2>/dev/null || true"
 
 # ── Summary ─────────────────────────────────────────────────────
 echo ""

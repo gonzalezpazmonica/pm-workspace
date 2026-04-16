@@ -117,4 +117,4 @@ def test_i2c_scan():
 - Passwords en `config.json` (gitignored), no en código
 - WebREPL: desactivar en producción
 - Secure boot: activar eFuse en ESP32 para producción
-- Ver `@.claude/rules/domain/robotics-safety.md`
+- Ver `@docs/rules/domain/robotics-safety.md`

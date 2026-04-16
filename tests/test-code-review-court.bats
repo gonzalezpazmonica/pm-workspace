@@ -2,7 +2,7 @@
 # BATS tests for SE-021 Code Review Court
 # SPEC: docs/propuestas/savia-enterprise/SPEC-SE-021-code-review-court.md
 # SCRIPT: scripts/court-review.sh
-# Ref: .claude/rules/domain/code-review-court.md
+# Ref: docs/rules/domain/code-review-court.md
 # Quality gate: SPEC-055 (audit score ≥80)
 # Safety: tests use BATS run/status guards; target script has set -uo pipefail
 # Status: active
@@ -18,7 +18,7 @@ setup() {
   export SCRIPT="$REPO_ROOT/scripts/court-review.sh"
   export SCHEMA="$REPO_ROOT/.claude/schemas/review-crc.schema.json"
   export AGENTS_DIR="$REPO_ROOT/.claude/agents"
-  export RULES_DIR="$REPO_ROOT/.claude/rules/domain"
+  export RULES_DIR="$REPO_ROOT/docs/rules/domain"
   export COMMANDS_DIR="$REPO_ROOT/.claude/commands"
 }
 

@@ -35,7 +35,7 @@ context_cost: medium
 ## Prerequisitos
 
 Cargar skill: `@.claude/skills/performance-audit/SKILL.md`
-Cargar regla: `@.claude/rules/domain/performance-patterns.md`
+Cargar regla: `@docs/rules/domain/performance-patterns.md`
 
 ## Ejecución (7 pasos)
 

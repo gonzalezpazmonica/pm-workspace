@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Ref: .claude/commands/memory-check.md
-# Ref: .claude/rules/domain/session-memory-protocol.md
+# Ref: docs/rules/domain/session-memory-protocol.md
 # Tests for scripts/memory-check.sh — 10-layer memory health check.
 
 setup() {

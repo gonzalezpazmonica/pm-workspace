@@ -8,7 +8,7 @@ paths: [".claude/commands/enterprise-dashboard*", ".claude/skills/enterprise-ana
 # Regla: Métricas Empresariales
 
 > Basado en: SPACE framework (Forsgren et al., 2021), DORA metrics (Accelerate)
-> Complementa: @.claude/rules/domain/pm-workflow.md
+> Complementa: @docs/rules/domain/pm-workflow.md
 
 **Principio fundamental**: Medir lo que importa: velocidad entrega, calidad, satisfacción, sin caer en vanity metrics.
 

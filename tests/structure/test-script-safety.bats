@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for script safety standards (Era 88)
-# Ref: .claude/rules/domain/security-check-patterns.md
+# Ref: docs/rules/domain/security-check-patterns.md
 
 setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1

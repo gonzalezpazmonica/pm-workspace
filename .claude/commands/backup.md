@@ -22,7 +22,7 @@ Ver `.claude/profiles/context-map.md`.
 - `openssl` instalado (para cifrado AES-256-CBC)
 - Para NextCloud: URL del servidor y credenciales
 - Para Google Drive: MCP connector configurado
-- Leer `@.claude/rules/domain/backup-protocol.md` para protocolo completo
+- Leer `@docs/rules/domain/backup-protocol.md` para protocolo completo
 
 ## Subcomandos
 
@@ -84,7 +84,7 @@ Ver estado del sistema de backup:
 
 - `projects/` — código fuente (ya en git)
 - `output/` — informes (regenerables)
-- `.claude/commands/`, `.claude/rules/` — vienen del repo
+- `.claude/commands/`, `docs/rules/` — vienen del repo
 
 ## Voz de Savia
 

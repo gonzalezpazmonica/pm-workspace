@@ -85,7 +85,7 @@ fi
 2. **`scripts/emergency-plan.sh`** — Add `--tier premium` to pre-download 27B model
 3. **`.claude/commands/emergency-mode.md`** — Document Tier 3 capabilities/requirements
 4. **`.claude/commands/emergency-plan.md`** — Add tier selection to plan command
-5. **`.claude/rules/domain/data-sovereignty.md`** — Update model table (no Shield change)
+5. **`docs/rules/domain/data-sovereignty.md`** — Update model table (no Shield change)
 
 ### New files
 

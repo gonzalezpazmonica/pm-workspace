@@ -6,9 +6,9 @@ SCRIPT="scripts/fork-agents.sh"
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  DEV_SESSION="$REPO_ROOT/.claude/rules/domain/dev-session-protocol.md"
-  HANDOFF="$REPO_ROOT/.claude/rules/domain/handoff-templates.md"
-  FORK_PROTOCOL="$REPO_ROOT/.claude/rules/domain/fork-agent-protocol.md"
+  DEV_SESSION="$REPO_ROOT/docs/rules/domain/dev-session-protocol.md"
+  HANDOFF="$REPO_ROOT/docs/rules/domain/handoff-templates.md"
+  FORK_PROTOCOL="$REPO_ROOT/docs/rules/domain/fork-agent-protocol.md"
   SPEC="$REPO_ROOT/docs/specs/SPEC-FORK-VS-SUBAGENT-GUIDE.spec.md"
   FORK_SCRIPT="$REPO_ROOT/scripts/fork-agents.sh"
   TMPDIR_FVS=$(mktemp -d)

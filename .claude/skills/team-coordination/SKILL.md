@@ -18,7 +18,7 @@ priority: "medium"
 
 # Skill: Team Coordination
 
-> Prerequisito: @.claude/rules/domain/team-structure.md
+> Prerequisito: @docs/rules/domain/team-structure.md
 > Complementa: @.claude/skills/capacity-planning/SKILL.md
 
 Orquesta la creación, gestión y coordinación de equipos dentro de departamentos.

@@ -93,7 +93,7 @@ echo ""
 
 echo "📋 9. Context Map & Workflows"
 check_content ".claude/profiles/context-map.md" "async-standup" "Context-map includes async-standup command"
-check_content ".claude/rules/domain/role-workflows.md" "PM\|Scrum Master" "Role-workflows covers PM/Scrum Master"
+check_content "docs/rules/domain/role-workflows.md" "PM\|Scrum Master" "Role-workflows covers PM/Scrum Master"
 echo ""
 
 echo "📋 10. Command Structure Validation"

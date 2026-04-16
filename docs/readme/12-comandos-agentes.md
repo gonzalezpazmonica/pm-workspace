@@ -469,7 +469,7 @@ Para ajustar el comportamiento de Claude, edita los ficheros en:
 - `.claude/skills/` — conocimiento de dominio (cada skill tiene su `SKILL.md`)
 - `.claude/agents/` — subagentes especializados (modelo, herramientas, instrucciones)
 - `.claude/commands/` — slash commands para flujos de trabajo
-- `.claude/rules/` — reglas modulares cargadas bajo demanda
+- `docs/rules/` — reglas modulares cargadas bajo demanda
 
 Las métricas de uso de SDD se registran automáticamente en `projects/{proyecto}/specs/sdd-metrics.md` al ejecutar `/spec-review --check-impl`.
 

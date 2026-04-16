@@ -209,7 +209,7 @@ allocation_decision:
 
 ## Acceptance criteria
 
-1. Regla `.claude/rules/domain/resource-bench.md` ≤150 lines.
+1. Regla `docs/rules/domain/resource-bench.md` ≤150 lines.
 2. Person profile YAML schema validates with 10+ required fields.
 3. `bench-tracker` computes correct utilization % from allocation data.
 4. `skills-matcher` produces ranked matches with equality shield check.
@@ -260,4 +260,4 @@ counterfactual-tested allocation evidence that satisfies Article 14.
 - Gartner Magic Quadrant for Cloud HCM Suites 2025
 - Float, Forecast, Runn, Kantata — resource management tool analysis
 - PMI Pulse of the Profession 2024 (resource allocation challenges)
-- Equality Shield (pm-workspace `.claude/rules/domain/equality-shield.md`)
+- Equality Shield (pm-workspace `docs/rules/domain/equality-shield.md`)

@@ -38,8 +38,8 @@ Fuentes:
 ## 2. Objetivo
 
 Documentar el arbol de decision fork vs subagent en
-`.claude/rules/domain/dev-session-protocol.md` y actualizar
-`.claude/rules/domain/handoff-templates.md` con una tabla comparativa y 5
+`docs/rules/domain/dev-session-protocol.md` y actualizar
+`docs/rules/domain/handoff-templates.md` con una tabla comparativa y 5
 ejemplos concretos de uso. Integrar con SPEC-FORK-AGENT-PREFIX.
 
 ## 3. Requisitos funcionales
@@ -70,8 +70,8 @@ ejemplos concretos de uso. Integrar con SPEC-FORK-AGENT-PREFIX.
 
 ## 4. Criterios de aceptacion
 
-- **AC-01** `grep -q "Fork vs Subagent" .claude/rules/domain/dev-session-protocol.md` devuelve match.
-- **AC-02** `grep -q "Fork.*Subagent.*Decision" .claude/rules/domain/handoff-templates.md` devuelve match.
+- **AC-01** `grep -q "Fork vs Subagent" docs/rules/domain/dev-session-protocol.md` devuelve match.
+- **AC-02** `grep -q "Fork.*Subagent.*Decision" docs/rules/domain/handoff-templates.md` devuelve match.
 - **AC-03** Tabla comparativa incluye las 6 dimensiones (contexto, aislamiento, cache, output, velocidad, coste).
 - **AC-04** Los 5 ejemplos tienen nombre, descripcion breve, decision (fork/subagent) y justificacion.
 - **AC-05** Los ficheros modificados respetan el limite de 150 lineas (Rule #11).
@@ -88,8 +88,8 @@ ejemplos concretos de uso. Integrar con SPEC-FORK-AGENT-PREFIX.
 ## 6. Arquitectura / ficheros afectados
 
 **Modificados:**
-- `.claude/rules/domain/dev-session-protocol.md`: +seccion "Fork vs Subagent"
-- `.claude/rules/domain/handoff-templates.md`: +tabla comparativa + referencia
+- `docs/rules/domain/dev-session-protocol.md`: +seccion "Fork vs Subagent"
+- `docs/rules/domain/handoff-templates.md`: +tabla comparativa + referencia
 
 **Nuevos:**
 - `tests/test-fork-vs-subagent-docs.bats`
@@ -126,4 +126,4 @@ ejemplos concretos de uso. Integrar con SPEC-FORK-AGENT-PREFIX.
 - SPEC-FORK-AGENT-PREFIX (helper implementation)
 - [claude-code-from-source Ch08](https://claude-code-from-source.com/ch08-sub-agents/)
 - [claude-code-from-source Ch10](https://claude-code-from-source.com/ch10-coordination/)
-- `.claude/rules/domain/prompt-caching.md`
+- `docs/rules/domain/prompt-caching.md`

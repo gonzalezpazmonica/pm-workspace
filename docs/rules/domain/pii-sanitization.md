@@ -33,7 +33,7 @@ git-ignorados (`*.local.md`, `CLAUDE.local.md`, `active-user.md`).
 - CHANGELOG.md, README.md, README.en.md
 - Releases y tags de GitHub
 - Mensajes de commit y descripciones de PR
-- Reglas (`.claude/rules/`)
+- Reglas (`docs/rules/`)
 - Skills (`.claude/skills/`)
 - Docs (`docs/`)
 - Propuestas (`docs/propuestas/`)
@@ -43,7 +43,7 @@ git-ignorados (`*.local.md`, `CLAUDE.local.md`, `active-user.md`).
 ## Excepciones (ficheros git-ignorados o legítimamente públicos)
 
 - `CLAUDE.local.md` — configuración local del usuario
-- `.claude/rules/pm-config.local.md` — config local
+- `docs/rules/pm-config.local.md` — config local
 - `.claude/profiles/active-user.md` — perfil activo local
 - `CONTRIBUTORS.md` — atribución pública voluntaria
 - `README.md` badges/links al repo — URL pública del proyecto

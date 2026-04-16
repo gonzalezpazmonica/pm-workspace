@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Ref: .claude/rules/domain/security-check-patterns.md
+# Ref: docs/rules/domain/security-check-patterns.md
 # Tests for prompt-security-scan.sh — Prompt injection/leakage scanner
 
 setup() {

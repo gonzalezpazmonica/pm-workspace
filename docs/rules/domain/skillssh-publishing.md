@@ -61,7 +61,7 @@ repo-raíz/
 ### De pm-workspace a skills.sh
 
 1. Extraer el SKILL.md y convertir a command format
-2. Eliminar referencias internas (`@.claude/rules/...`)
+2. Eliminar referencias internas (`@docs/rules/...`)
 3. Hacer self-contained: incluir contexto necesario inline
 4. Añadir README.md con uso, ejemplos, screenshots
 5. Generar package.json con metadata

@@ -37,19 +37,19 @@ test_config() {
 
   log_section "diagram-config.md"
 
-  if grep -q 'orgchart' "$WORKSPACE_ROOT/.claude/rules/domain/diagram-config.md"; then
+  if grep -q 'orgchart' "$WORKSPACE_ROOT/docs/rules/domain/diagram-config.md"; then
     pass "DIAGRAM_TYPES includes orgchart"
   else
     fail "DIAGRAM_TYPES missing orgchart" "diagram-config.md should list orgchart"
   fi
 
-  if grep -q 'ORGCHART_DATA_DIR' "$WORKSPACE_ROOT/.claude/rules/domain/diagram-config.md"; then
+  if grep -q 'ORGCHART_DATA_DIR' "$WORKSPACE_ROOT/docs/rules/domain/diagram-config.md"; then
     pass "ORGCHART_DATA_DIR defined"
   else
     fail "ORGCHART_DATA_DIR not defined" "diagram-config.md should define data dir"
   fi
 
-  if grep -q 'ORGCHART_OUTPUT_DIR' "$WORKSPACE_ROOT/.claude/rules/domain/diagram-config.md"; then
+  if grep -q 'ORGCHART_OUTPUT_DIR' "$WORKSPACE_ROOT/docs/rules/domain/diagram-config.md"; then
     pass "ORGCHART_OUTPUT_DIR defined"
   else
     fail "ORGCHART_OUTPUT_DIR not defined" "diagram-config.md should define output dir"

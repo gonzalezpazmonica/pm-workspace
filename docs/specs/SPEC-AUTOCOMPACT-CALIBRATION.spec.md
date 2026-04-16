@@ -190,7 +190,7 @@ AND     otras zonas no aparecen en el informe
 | Accion | Fichero | Que hacer |
 |--------|---------|-----------|
 | Modificar | .claude/settings.json | CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: 65 -> 75 |
-| Modificar | .claude/rules/domain/context-health.md | Zonas: 50/65/85 -> 50/70/85 |
+| Modificar | docs/rules/domain/context-health.md | Zonas: 50/65/85 -> 50/70/85 |
 | Crear | scripts/context-calibration-measure.sh | Script de medicion |
 | Crear | tests/test-context-calibration.bats | Suite BATS (T1-T5) |
 | Modificar | CHANGELOG.md | Entrada con justificacion del cambio |
@@ -203,7 +203,7 @@ AND     otras zonas no aparecen en el informe
 - TurboQuant paper: arXiv:2504.19874 (context window quality gradual)
 - Research: claude-code-from-source (autocompact mechanism analysis)
 - Anthropic docs: effective_window = contextWindow - 20K (output) - 13K (buffer)
-- Regla actual: .claude/rules/domain/context-health.md seccion 3
+- Regla actual: docs/rules/domain/context-health.md seccion 3
 
 ---
 

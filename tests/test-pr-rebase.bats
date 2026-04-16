@@ -2,7 +2,7 @@
 # SPEC-105: pr-rebase.sh — signature-stable rebase of queued PRs.
 # Validates script structure + merge-base usage in confidentiality-sign.sh.
 # Ref: docs/propuestas/SPEC-105-signature-stability-queued-prs.md
-# Related: .claude/rules/domain/pr-signing-protocol.md
+# Related: docs/rules/domain/pr-signing-protocol.md
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"

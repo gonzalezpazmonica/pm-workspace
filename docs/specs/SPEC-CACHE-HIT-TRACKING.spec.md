@@ -259,7 +259,7 @@ AND     no usa tarifa 5min
 | Crear | tests/test-cache-scanner.bats | Suite BATS scanner |
 | Crear | tests/test-cache-analytics.bats | Suite BATS analytics |
 | Modificar | .gitignore | Excluir ~/.savia/usage.db |
-| Modificar | .claude/rules/domain/prompt-caching.md | Referenciar hit rate real |
+| Modificar | docs/rules/domain/prompt-caching.md | Referenciar hit rate real |
 | Crear | docs/cache-tariffs.md | Tarifas actualizadas (revisable) |
 
 ---

@@ -271,7 +271,7 @@ and by SE-019 (evaluation) to update the baseline.
 
 ## Acceptance criteria
 
-1. Regla `.claude/rules/domain/sow-as-code.md` ≤150 lines documents the
+1. Regla `docs/rules/domain/sow-as-code.md` ≤150 lines documents the
    SOW schema, the 4 agents, the CR workflow, and the materiality rules.
 2. JSON Schema `sow-frontmatter.schema.json` validates the 12 required
    frontmatter fields.

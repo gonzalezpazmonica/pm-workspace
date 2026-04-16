@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/**", ".claude/rules/domain/**"]
+globs: [".claude/commands/**", "docs/rules/domain/**"]
 ---
 # Source Tracking — Trazabilidad de Fuentes
 

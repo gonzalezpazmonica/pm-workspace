@@ -10,7 +10,7 @@ context_cost: medium
 # /scale-optimizer — Optimización de Escala
 
 > Skill: @.claude/skills/scaling-operations/SKILL.md
-> Config: @.claude/rules/domain/scaling-patterns.md
+> Config: @docs/rules/domain/scaling-patterns.md
 
 Análisis de madurez organizacional, benchmarking contra tier targets, recomendaciones de optimización, búsqueda de conocimiento.
 

@@ -211,13 +211,13 @@ AND     permite ejecucion
 | Crear | .claude/hooks/recursion-guard.sh | Hook principal |
 | Crear | scripts/recursion-guard-audit.sh | Auditor de scripts |
 | Crear | tests/test-recursion-guard.bats | Suite BATS |
-| Modificar | .claude/rules/domain/autonomous-safety.md | Documentar patron |
+| Modificar | docs/rules/domain/autonomous-safety.md | Documentar patron |
 | Modificar | .claude/settings.json | Registrar hook |
 | Modificar | scripts/overnight-sprint.sh | Exportar variable |
 | Modificar | scripts/code-improvement-loop.sh | Exportar variable |
 | Modificar | scripts/tech-research-agent.sh | Exportar variable (si aplica) |
-| Modificar | .claude/rules/domain/hook-profiles.md | Tier de recursion-guard |
-| Modificar | .claude/rules/domain/pm-config.md | CLAUDE_MAX_RECURSION_DEPTH |
+| Modificar | docs/rules/domain/hook-profiles.md | Tier de recursion-guard |
+| Modificar | docs/rules/domain/pm-config.md | CLAUDE_MAX_RECURSION_DEPTH |
 
 ---
 

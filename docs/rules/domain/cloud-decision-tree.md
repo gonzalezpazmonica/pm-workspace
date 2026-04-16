@@ -12,8 +12,8 @@ paths:
 ## Protocolo de Inicio
 
 ### 1. Leer contexto del proyecto
-- `CLAUDE.md` del proyecto | `.claude/rules/environment-config.md` | `.claude/rules/confidentiality-config.md`
-- `.claude/rules/infrastructure-as-code.md` | `infrastructure/` si existe
+- `CLAUDE.md` del proyecto | `docs/rules/domain/environment-config.md` | `docs/rules/domain/confidentiality-config.md`
+- `docs/rules/domain/infrastructure-as-code.md` | `infrastructure/` si existe
 
 ### 2. Identificar el cloud provider
 - Buscar en CLAUDE.md: `CLOUD_PROVIDER`

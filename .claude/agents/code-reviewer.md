@@ -31,7 +31,7 @@ When reviewing project code, check `projects/{project}/.context-index/PROJECT.ct
 
 ## Knowledge base de reglas
 
-Antes de iniciar cualquier revisión, **leer siempre** `.claude/rules/languages/csharp-rules.md`.
+Antes de iniciar cualquier revisión, **leer siempre** `docs/rules/languages/csharp-rules.md`.
 Esta knowledge base contiene las reglas equivalentes a SonarQube para C# organizadas por:
 - **Vulnerabilities** (Blocker → Critical → Major)
 - **Security Hotspots**

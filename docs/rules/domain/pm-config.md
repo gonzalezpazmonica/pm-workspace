@@ -77,7 +77,7 @@ DUAL_ESTIMATION_MIN_SAMPLES = 10                                 # min samples t
 AGENT_ACTUALS_LOG           = "data/agent-actuals.jsonl"
 
 # ── Modos Autónomos ─────────────────────────────────────────────────────────
-# Regla completa: @.claude/rules/domain/autonomous-safety.md
+# Regla completa: @docs/rules/domain/autonomous-safety.md
 AUTONOMOUS_REVIEWER         = ""                                     # handle del humano que revisa PRs autónomos (OBLIGATORIO para arrancar)
 AUTONOMOUS_RESEARCH_NOTIFY  = ""                                     # handle del humano que recibe informes de investigación
 OVERNIGHT_SPRINT_ENABLED    = false                                  # activar/desactivar modo nocturno

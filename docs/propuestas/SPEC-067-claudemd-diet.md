@@ -27,14 +27,14 @@ Reduce CLAUDE.md from 121 lines to ~50 lines by:
 | File | Action |
 |------|--------|
 | `CLAUDE.md` | Rewrite: 121 → ~50 lines |
-| `.claude/rules/domain/critical-rules-extended.md` | NEW: rules 9-25 extracted |
+| `docs/rules/domain/critical-rules-extended.md` | NEW: rules 9-25 extracted |
 
 ## Acceptance Criteria
 
 - CLAUDE.md ≤ 55 lines
 - All @import references resolve to existing files
 - Rules 1-8 remain inline (most critical safety rules)
-- Rules 9-25 accessible via `@.claude/rules/domain/critical-rules-extended.md`
+- Rules 9-25 accessible via `@docs/rules/domain/critical-rules-extended.md`
 - Zero functionality loss — all information still reachable
 - CI validation passes
 

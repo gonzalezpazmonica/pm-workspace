@@ -3,7 +3,7 @@
 # Tests structure, config management, argument handling, constants.
 # Does NOT test actual encryption or cloud uploads.
 # Ref: docs/propuestas/SPEC-066-enhanced-local-llm.md
-# Ref: .claude/rules/domain/backup-protocol.md
+# Ref: docs/rules/domain/backup-protocol.md
 
 SCRIPT="$BATS_TEST_DIRNAME/../../scripts/backup.sh"
 
@@ -176,5 +176,5 @@ teardown() {
 }
 
 @test "SPEC doc for backup protocol exists" {
-  [ -f "$BATS_TEST_DIRNAME/../../.claude/rules/domain/backup-protocol.md" ]
+  [ -f "$BATS_TEST_DIRNAME/../../docs/rules/domain/backup-protocol.md" ]
 }

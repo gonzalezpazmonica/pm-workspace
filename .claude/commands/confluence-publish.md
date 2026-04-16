@@ -37,7 +37,7 @@ description: >
 
 ## 3. Contexto requerido
 
-1. `.claude/rules/connectors-config.md` — Verificar Atlassian habilitado
+1. `docs/rules/domain/connectors-config.md` — Verificar Atlassian habilitado
 2. `projects/{proyecto}/CLAUDE.md` — `CONFLUENCE_DEFAULT_SPACE`, `JIRA_PROJECT`
 
 ## 4. Pasos de ejecución

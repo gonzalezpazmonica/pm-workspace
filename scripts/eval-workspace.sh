@@ -74,7 +74,7 @@ for f in CLAUDE.md README.md README.en.md CHANGELOG.md LICENSE CONTRIBUTING.md C
 done
 
 # 1.2 Directorios clave
-for d in .claude/commands .claude/agents .claude/hooks .claude/skills .claude/rules/domain .claude/rules/languages docs scripts projects; do
+for d in .claude/commands .claude/agents .claude/hooks .claude/skills docs/rules/domain docs/rules/languages docs scripts projects; do
     if [[ -d "$d" ]]; then pass "Directorio $d existe"
     else fail "Directorio $d" "no existe"; fi
 done
@@ -122,7 +122,7 @@ for file in .claude/commands/*.md; do
         OVERSIZE=$((OVERSIZE+1))
     fi
 done
-for file in .claude/rules/domain/*.md; do
+for file in docs/rules/domain/*.md; do
     lines=$(wc -l < "$file" 2>/dev/null || echo 999)
     if [[ $lines -gt 150 ]]; then
         warn "150-líneas" "$(basename "$file") = $lines líneas (domain rule)"
@@ -168,7 +168,7 @@ for file in .claude/skills/*/SKILL.md; do
 done
 
 # 3.3 developer_type usa guiones (no dos puntos)
-COLON_COUNT=$(grep -rl "agent:single\|agent:team" .claude/commands/ .claude/skills/ .claude/agents/ .claude/rules/ 2>/dev/null | wc -l)
+COLON_COUNT=$(grep -rl "agent:single\|agent:team" .claude/commands/ .claude/skills/ .claude/agents/ docs/rules/ 2>/dev/null | wc -l)
 if [[ $COLON_COUNT -eq 0 ]]; then
     pass "developer_type usa formato hyphen (agent-single) en todo el workspace"
 else

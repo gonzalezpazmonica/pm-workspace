@@ -64,7 +64,7 @@ scripts/pdf-extract.sh [--engine opendataloader|pymupdf|auto]
 
 ## Citas bounding-box en source-tracking.md
 
-Extender `.claude/rules/domain/source-tracking.md`:
+Extender `docs/rules/domain/source-tracking.md`:
 
 ```
 @pdf:{path}[:p.N][:box=(x1,y1,x2,y2)]
@@ -131,6 +131,6 @@ Capa 3 (audit post-escritura)
 - [opendataloader-pdf](https://github.com/opendataloader-project/opendataloader-pdf)
 - [Benchmarks](https://opendataloader.org/docs/benchmarks)
 - `.claude/agents/pdf-digest.md` (agente actual)
-- `.claude/rules/domain/source-tracking.md` (citas)
-- `.claude/rules/domain/data-sovereignty.md` (Savia Shield)
-- `.claude/rules/domain/digest-traceability.md` (idempotencia)
+- `docs/rules/domain/source-tracking.md` (citas)
+- `docs/rules/domain/data-sovereignty.md` (Savia Shield)
+- `docs/rules/domain/digest-traceability.md` (idempotencia)

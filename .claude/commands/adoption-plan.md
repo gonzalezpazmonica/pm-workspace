@@ -54,7 +54,7 @@ Nivel 3: Advanced (Semana 5-8)
 - Si no: preguntar interactivamente
 
 ### Paso 2 — Cargar rol-workflow
-- Por rol: consultar `@.claude/rules/domain/role-workflows.md`
+- Por rol: consultar `@docs/rules/domain/role-workflows.md`
 - Extraer comandos prioritarios para ese rol
 
 ### Paso 3 — Seleccionar comandos por nivel

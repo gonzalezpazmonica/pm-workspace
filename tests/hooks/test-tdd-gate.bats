@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for tdd-gate.sh hook
 # Validates TDD gate: blocks production code edits when no tests exist
-# Ref: .claude/rules/domain/dev-session-protocol.md
+# Ref: docs/rules/domain/dev-session-protocol.md
 
 setup() {
   TMPDIR=$(mktemp -d)

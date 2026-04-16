@@ -33,7 +33,7 @@ description: >
 
 ## 3. Contexto requerido
 
-1. @.claude/rules/domain/messaging-config.md — Config WhatsApp (WHATSAPP_ENABLED, contactos)
+1. @docs/rules/domain/messaging-config.md — Config WhatsApp (WHATSAPP_ENABLED, contactos)
 2. MCP WhatsApp configurado y sesión activa
 
 ## 4. Pasos de ejecución

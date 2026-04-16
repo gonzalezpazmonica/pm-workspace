@@ -122,8 +122,8 @@ Mapeo de comandos/skills a dominios:
 
 - `.claude/profiles/users/{slug}/competence.md` — nuevo fragmento
 - `.claude/profiles/users/{slug}/competence-log.jsonl` — nuevo log
-- `.claude/rules/domain/adaptive-output.md` — integrar competence
-- `.claude/rules/domain/context-tracking.md` — registrar dominio
+- `docs/rules/domain/adaptive-output.md` — integrar competence
+- `docs/rules/domain/context-tracking.md` — registrar dominio
 - `scripts/competence-score.sh` — nuevo
 
 ---

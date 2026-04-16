@@ -9,7 +9,7 @@ context_cost: low
 
 # /zeroclaw — ZeroClaw ESP32 Interface
 
-> Regla de seguridad: `@.claude/rules/domain/robotics-safety.md`
+> Regla de seguridad: `@docs/rules/domain/robotics-safety.md`
 
 ## Subcomandos
 

@@ -79,7 +79,7 @@ of populating the ops table.
   `name`, `description`, `tools`, `token_budget`, `permission_level`.
   The dispatcher (Task tool) reads the table and invokes. No
   inheritance, no framework.
-- Language packs (`.claude/rules/languages/*`) follow the same idiom:
+- Language packs (`docs/rules/languages/*`) follow the same idiom:
   each lang declares its conventions, rules file, agent, layer matrix.
   `rules/domain/language-packs.md` is the dispatch table.
 - When adding a new capability (new language, new agent, new hook),

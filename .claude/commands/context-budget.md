@@ -44,7 +44,7 @@ Desglose por capa (tabla):
 | Capa | Tokens | % | Ejemplos |
 |---|---|---|---|
 | System | 800 | 0.5% | Instrucciones Claude |
-| Rules | 2500 | 1.6% | .claude/rules/ cargadas |
+| Rules | 2500 | 1.6% | docs/rules/ cargadas |
 | Commands | 1200 | 0.8% | .claude/commands/ referenciadas |
 | Conversation | 45000 | 28% | Mensajes usuario/Claude |
 | Tools | 900 | 0.6% | MCPs e integraciones |

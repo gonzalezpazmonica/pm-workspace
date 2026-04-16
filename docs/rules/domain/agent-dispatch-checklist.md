@@ -32,7 +32,7 @@ proyecto. El hook `agent-dispatch-validate.sh` valida automáticamente.
 - [ ] Pedir DOMAIN.md acompañante (Clara Philosophy)
 - [ ] Referenciar skill existente como modelo de formato
 
-### Crear rules (.claude/rules/domain/*.md)
+### Crear rules (docs/rules/domain/*.md)
 
 - [ ] Especificar límite recomendado de 150 líneas (warn)
 - [ ] Indicar formato: título con `#`, secciones claras, sin frontmatter

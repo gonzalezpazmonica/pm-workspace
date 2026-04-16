@@ -195,7 +195,7 @@ Osagai bakoitza gizakiak irakur dezakeen testu-lau fitxategi bat da:
 | Git pre-commit | `scripts/pre-commit-sovereignty.sh` | Staged fitxategiak eskaneatzen commit aurretik |
 | Setup | `scripts/savia-shield-setup.sh` | Instalatzailea: deps, modeloak, tokena, daemonak |
 | Force-push guard | `.claude/hooks/block-force-push.sh` | Force-push, main-era push eta amend blokeatzen ditu |
-| Domeinu araua | `.claude/rules/domain/data-sovereignty.md` | Arkitektura eta politikak |
+| Domeinu araua | `docs/rules/domain/data-sovereignty.md` | Arkitektura eta politikak |
 
 **Auditoretza-logak:**
 - `output/data-sovereignty-audit.jsonl` — 1-3 geruzaren erabakiak

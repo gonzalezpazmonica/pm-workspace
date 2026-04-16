@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for SPEC-068 Hook Enhancements (Era 165)
-# Ref: .claude/rules/domain/critical-rules-extended.md
+# Ref: docs/rules/domain/critical-rules-extended.md
 # Covers: pre-compact tier classification, post-compact session-hot, failure categorization
 
 REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)}"

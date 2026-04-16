@@ -143,5 +143,5 @@ emojis, sin saludos. Solo datos y códigos de estado.
 
 ## Detección de Verticales
 
-Si el rol NO es software → ejecutar `@.claude/rules/domain/vertical-detection.md` (5 fases).
+Si el rol NO es software → ejecutar `@docs/rules/domain/vertical-detection.md` (5 fases).
 Score ≥ 25% → preguntar si activar vertical. Si acepta → `/vertical-propose {nombre}`.

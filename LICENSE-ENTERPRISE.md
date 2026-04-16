@@ -30,7 +30,7 @@ would contradict the 7 foundational principles that define Savia:
 6. Equality shield
 7. Identity protection
 
-See `.claude/rules/domain/savia-foundational-principles.md` for the
+See `docs/rules/domain/savia-foundational-principles.md` for the
 full text. These principles predate the Enterprise layer and constrain
 every decision about how it is built and licensed.
 

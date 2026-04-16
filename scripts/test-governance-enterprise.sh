@@ -9,8 +9,8 @@ check() { if eval "$1" > /dev/null 2>&1; then pass "$2"; else fail "$2"; fi; }
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CMD="$ROOT/.claude/commands/governance-enterprise.md"
-RULE1="$ROOT/.claude/rules/domain/audit-trail-schema.md"
-RULE2="$ROOT/.claude/rules/domain/governance-enterprise.md"
+RULE1="$ROOT/docs/rules/domain/audit-trail-schema.md"
+RULE2="$ROOT/docs/rules/domain/governance-enterprise.md"
 SKILL="$ROOT/.claude/skills/governance-enterprise/SKILL.md"
 
 echo "═══════════════════════════════════════════"

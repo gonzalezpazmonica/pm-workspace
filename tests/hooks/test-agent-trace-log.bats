@@ -2,7 +2,7 @@
 # Tests for agent-trace-log.sh hook
 # Logs Task tool (subagent) invocations to JSONL. Never blocks (exits 0).
 # Includes per-agent token budget metering (SPEC-AGENT-METERING).
-# Ref: .claude/rules/domain/agent-context-budget.md
+# Ref: docs/rules/domain/agent-context-budget.md
 
 setup() {
   TMPDIR=$(mktemp -d)

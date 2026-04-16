@@ -16,7 +16,7 @@ Evaluate the current pm-workspace installation against best practices.
 ### Structure (30%)
 1. CLAUDE.md exists and ≤150 lines
 2. .claude/settings.json is valid JSON with hooks
-3. .claude/rules/ directory has domain rules
+3. docs/rules/ directory has domain rules
 4. .claude/agents/ have frontmatter with name + description
 5. .claude/commands/ have frontmatter with name
 

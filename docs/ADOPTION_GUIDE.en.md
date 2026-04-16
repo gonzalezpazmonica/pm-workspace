@@ -204,7 +204,7 @@ After cloning, you'll find this structure:
 | `.claude/commands/` | 360+ slash commands for PM workflows | Advanced |
 | `.claude/skills/` | 31 specialized skills | Advanced |
 | `.claude/agents/` | 27 AI subagents | Advanced |
-| `.claude/rules/` | Modular rules (PM, multi-language, Git) | Advanced |
+| `docs/rules/` | Modular rules (PM, multi-language, Git) | Advanced |
 | `projects/` | Project folder (each with its own `CLAUDE.md`) | Yes |
 | `scripts/` | Auxiliary scripts (Azure DevOps, reports) | No |
 | `docs/` | Methodology documentation | Read-only |

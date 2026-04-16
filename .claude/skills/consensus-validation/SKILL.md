@@ -20,7 +20,7 @@ priority: "high"
 > Output: JSON estructurado con verdicts normalizados, score ponderado, dissents.
 > El 4º juez (performance) usa `performance-audit` skill para detectar hotspots y anti-patterns.
 
-**Referencia:** @.claude/rules/domain/consensus-protocol.md
+**Referencia:** @docs/rules/domain/consensus-protocol.md
 
 ---
 

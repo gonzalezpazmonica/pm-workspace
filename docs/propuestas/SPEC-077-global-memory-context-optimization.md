@@ -305,9 +305,9 @@ Tier C (peso 0.3× en ranking):
 
 | Fichero | Cambio | Propuesta |
 |---------|--------|-----------|
-| `.claude/rules/domain/context-health.md` | Zonas recalibradas | P2 |
-| `.claude/rules/domain/scoring-curves.md` | Curva de contexto | P2 |
-| `.claude/rules/domain/session-memory-protocol.md` | Lógica de tiers | P1 |
+| `docs/rules/domain/context-health.md` | Zonas recalibradas | P2 |
+| `docs/rules/domain/scoring-curves.md` | Curva de contexto | P2 |
+| `docs/rules/domain/session-memory-protocol.md` | Lógica de tiers | P1 |
 | `scripts/memory-save.sh` | importance_tier + questions + quality | P3, P5 |
 | `.claude/settings.json` | Registro del nuevo hook | P4 |
 

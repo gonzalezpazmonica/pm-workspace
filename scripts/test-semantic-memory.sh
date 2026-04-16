@@ -55,8 +55,8 @@ grep -q "commands/ ($EXPECTED_COUNT)" $PROJECT_DIR/CLAUDE.md; test "CLAUDE.md: $
 grep -q "memory\|Memory" $PROJECT_DIR/README.md; test "README.md: memory mentions"
 grep -q "memory\|Memory" $PROJECT_DIR/README.en.md; test "README.en.md: memory mentions"
 grep -q "0.64.0" $PROJECT_DIR/CHANGELOG.md; test "CHANGELOG.md: v0.64.0"
-grep -q "memory-compress" $PROJECT_DIR/.claude/profiles/context-map.md || grep -q "memory" $PROJECT_DIR/.claude/rules/domain/role-workflows.md; test "context-map or role-workflows: memory"
-grep -q "memory-compress\|memory-importance\|memory-graph\|memory-prune" $PROJECT_DIR/.claude/rules/domain/role-workflows.md; test "role-workflows.md: commands"
+grep -q "memory-compress" $PROJECT_DIR/.claude/profiles/context-map.md || grep -q "memory" $PROJECT_DIR/docs/rules/domain/role-workflows.md; test "context-map or role-workflows: memory"
+grep -q "memory-compress\|memory-importance\|memory-graph\|memory-prune" $PROJECT_DIR/docs/rules/domain/role-workflows.md; test "role-workflows.md: commands"
 echo
 
 echo "[Test 6] Spanish + Savia persona"

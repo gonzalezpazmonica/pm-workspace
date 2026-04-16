@@ -30,7 +30,7 @@ context_cost: low
 
 ## 3. Contexto requerido
 
-1. `.claude/rules/diagram-config.md` — Constantes
+1. `docs/rules/domain/diagram-config.md` — Constantes
 2. `projects/*/diagrams/` — Directorios de diagramas de cada proyecto
 
 ## 4. Pasos de ejecución

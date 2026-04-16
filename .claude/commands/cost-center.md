@@ -80,8 +80,8 @@ Subcomandos internos:
 
 ## Prerequisitos
 
-- @.claude/rules/domain/billing-model.md
-- @.claude/rules/domain/cost-tracking.md
+- @docs/rules/domain/billing-model.md
+- @docs/rules/domain/cost-tracking.md
 - @.claude/skills/cost-management/SKILL.md
 
 ## Integration

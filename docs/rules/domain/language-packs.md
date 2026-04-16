@@ -1,7 +1,7 @@
 # Language Packs (16 lenguajes)
 
 > Guía completa de incorporación: `docs/guia-incorporacion-lenguajes.md`
-> Ficheros de convenciones y reglas: `.claude/rules/languages/`
+> Ficheros de convenciones y reglas: `docs/rules/languages/`
 
 | Lenguaje | Conventions | Rules | Agent | Layer Matrix |
 |---|---|---|---|---|

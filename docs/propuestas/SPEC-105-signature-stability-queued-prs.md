@@ -134,5 +134,5 @@ Añadir a pre-commit check o BATS:
 - `scripts/confidentiality-sign.sh`
 - `.gitattributes`
 - `scripts/pr-rebase.sh`
-- `.claude/rules/domain/pr-signing-protocol.md`
+- `docs/rules/domain/pr-signing-protocol.md`
 - Commit history de conflictos: buscar "sign confidentiality audit" en log

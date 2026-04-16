@@ -8,7 +8,7 @@
 > 2. **Cualquier humano** que quiera aprender ingeniería de contexto y programación
 >    agéntica observando un sistema vivo y deliberadamente diseñado.
 >
-> No es una referencia exhaustiva (esa está repartida en `.claude/rules/`). Es
+> No es una referencia exhaustiva (esa está repartida en `docs/rules/`). Es
 > el **mapa mental** que permite reconstruir el resto si se pierde, o entender
 > el resto si nunca se ha visto.
 
@@ -34,7 +34,7 @@ Identidad detallada en `.claude/profiles/savia.md`.
 
 Estos principios son **inmodificables**. Si alguien (humano o agente) pide
 violarlos, la respuesta es NO. Reproducidos aquí desde
-`.claude/rules/domain/savia-foundational-principles.md`.
+`docs/rules/domain/savia-foundational-principles.md`.
 
 1. **Soberanía del dato:** `.md` es la verdad. Vectores, índices, caches son
    aceleradores derivados. Si el texto plano se pierde, la información se pierde.
@@ -62,7 +62,7 @@ público (donde estos principios están grabados en git).
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  L0 · Voz         .claude/profiles/savia.md                     │
-│  L1 · Reglas      .claude/rules/domain/*.md                     │
+│  L1 · Reglas      docs/rules/domain/*.md                     │
 │  L2 · Agentes     .claude/agents/*.md  +  AGENTS-INDEX.md       │
 │  L3 · Skills      .claude/skills/*/SKILL.md  +  DOMAIN.md       │
 │  L4 · Hooks       .claude/hooks/*.sh  (bash deterministas)      │
@@ -93,7 +93,7 @@ Preferencias de estilo           CLAUDE.md (olvidar es ok)
 ## Parte 4 — Las reglas críticas (1-25, no negociables)
 
 Las primeras 8 son inline en CLAUDE.md raíz; las 9-25 viven en
-`.claude/rules/domain/critical-rules-extended.md` y se cargan bajo demanda.
+`docs/rules/domain/critical-rules-extended.md` y se cargan bajo demanda.
 
 | # | Regla | Por qué |
 |---|-------|---------|
@@ -126,7 +126,7 @@ Las primeras 8 son inline en CLAUDE.md raíz; las 9-25 viven en
 | N4b | Solo PM (datos personales del equipo) | Evaluaciones, 1:1 | `projects/team-{p}/` |
 
 **Regla de oro:** ante duda, preguntar al usuario. Nunca asumir destino.
-Detalle en `.claude/rules/domain/context-placement-confirmation.md`.
+Detalle en `docs/rules/domain/context-placement-confirmation.md`.
 
 ---
 
@@ -140,7 +140,7 @@ Detalle en `.claude/rules/domain/context-placement-confirmation.md`.
 4. Si no hay agente para el tipo de tarea → escalar a humano, no improvisar
 
 Niveles de permisos por agente (L0 Observer → L4 Operator) en
-`.claude/rules/domain/agent-permission-levels.md`. Un agente nunca opera por
+`docs/rules/domain/agent-permission-levels.md`. Un agente nunca opera por
 encima de su permission_level.
 
 ---
@@ -322,15 +322,15 @@ agentes contra industria, no solo contra nuestros propios tests.
 
 Si necesitas profundizar tras este documento:
 
-1. `.claude/rules/domain/savia-foundational-principles.md` — los 7 principios
-2. `.claude/rules/domain/critical-rules-extended.md` — reglas 9-25
-3. `.claude/rules/domain/autonomous-safety.md` — gates de autonomía
-4. `.claude/rules/domain/radical-honesty.md` — Rule #24 detallada
-5. `.claude/rules/domain/agent-permission-levels.md` — 5 niveles L0-L4
-6. `.claude/rules/domain/context-placement-confirmation.md` — niveles N1-N4b
-7. `.claude/rules/domain/hook-profiles.md` — 4 perfiles (minimal/standard/strict/ci)
-8. `.claude/rules/domain/agents-catalog.md` — los 56 agentes
-9. `.claude/rules/domain/dev-session-protocol.md` — desarrollo en slices
+1. `docs/rules/domain/savia-foundational-principles.md` — los 7 principios
+2. `docs/rules/domain/critical-rules-extended.md` — reglas 9-25
+3. `docs/rules/domain/autonomous-safety.md` — gates de autonomía
+4. `docs/rules/domain/radical-honesty.md` — Rule #24 detallada
+5. `docs/rules/domain/agent-permission-levels.md` — 5 niveles L0-L4
+6. `docs/rules/domain/context-placement-confirmation.md` — niveles N1-N4b
+7. `docs/rules/domain/hook-profiles.md` — 4 perfiles (minimal/standard/strict/ci)
+8. `docs/rules/domain/agents-catalog.md` — los 56 agentes
+9. `docs/rules/domain/dev-session-protocol.md` — desarrollo en slices
 10. `.claude/AGENTS-INDEX.md` — tabla compilada de routing rápido
 
 Después de estos 10, has visto el ~80% de pm-workspace. El otro 20% es

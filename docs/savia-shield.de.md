@@ -194,7 +194,7 @@ Jede Komponente ist eine menschenlesbare Klartextdatei:
 | Git Pre-Commit | `scripts/pre-commit-sovereignty.sh` | Scan gestagter Dateien vor dem Commit |
 | Setup | `scripts/savia-shield-setup.sh` | Installer: Deps, Modelle, Token, Daemons |
 | Force-Push-Guard | `.claude/hooks/block-force-push.sh` | Blockiert Force-Push, Push auf main, Amend |
-| Domänregel | `.claude/rules/domain/data-sovereignty.md` | Architektur und Richtlinien |
+| Domänregel | `docs/rules/domain/data-sovereignty.md` | Architektur und Richtlinien |
 
 **Audit-Logs:**
 - `output/data-sovereignty-audit.jsonl` — Entscheidungen der Schichten 1–3

@@ -310,7 +310,7 @@ tests/hooks/test-agent-trace-log.bats       # Add scenarios 4-6 to existing test
 ### NO tocar
 ```
 .claude/hooks/session-init.sh               # Unrelated hook
-.claude/rules/domain/agent-context-budget.md # Reference doc, not code
+docs/rules/domain/agent-context-budget.md # Reference doc, not code
 scripts/context-tracker.sh                  # Separate tracking system
 ```
 

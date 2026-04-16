@@ -8,8 +8,8 @@ allowed_tools: ["Bash", "Read", "Write", "Edit", "Task"]
 
 # /client-profile — Gestión de perfiles de cliente
 
-> Reglas: @.claude/rules/domain/client-profile-config.md
-> Dependencia: @.claude/rules/domain/savia-hub-config.md
+> Reglas: @docs/rules/domain/client-profile-config.md
+> Dependencia: @docs/rules/domain/savia-hub-config.md
 
 ## Subcomandos
 

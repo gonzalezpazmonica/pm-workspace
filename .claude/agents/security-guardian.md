@@ -57,7 +57,7 @@ If auditing a project, check `projects/{project}/.context-index/PROJECT.ctx` for
 
 ## PROTOCOLO DE AUDITORÍA
 
-Ejecuta SIEMPRE los 9 checks en orden (ver referencia detallada en `@.claude/rules/domain/security-check-patterns.md`):
+Ejecuta SIEMPRE los 9 checks en orden (ver referencia detallada en `@docs/rules/domain/security-check-patterns.md`):
 
 1. **SEC-1** — Credenciales y secretos (🔴 BLOQUEO si detecta AKIA, ghp_, tokens reales, connection strings)
 2. **SEC-2** — Nombres proyectos/clientes privados (🔴 si no son placeholders de ejemplo)

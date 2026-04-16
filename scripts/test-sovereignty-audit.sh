@@ -31,7 +31,7 @@ check "References config rule" "grep -q 'cognitive-sovereignty' $CMD"
 # ── Section 2: Domain rule ─────────────────────────────────────────────────
 echo ""
 echo "── Section 2: Domain rule ──"
-RULE=".claude/rules/domain/cognitive-sovereignty.md"
+RULE="docs/rules/domain/cognitive-sovereignty.md"
 check "Config rule exists" "[ -f $RULE ]"
 LINES=$(wc -l < "$RULE")
 check "Config rule within limit ($LINES/150 lines)" "[ $LINES -le 150 ]"

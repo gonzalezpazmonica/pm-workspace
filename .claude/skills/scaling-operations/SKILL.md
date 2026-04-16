@@ -18,7 +18,7 @@ priority: "medium"
 
 # Skill: Scaling Operations
 
-> Prerequisito: @.claude/rules/domain/scaling-patterns.md
+> Prerequisito: @docs/rules/domain/scaling-patterns.md
 
 Orquesta análisis de escala, benchmarking contra tier targets, recomendaciones de optimización, búsqueda transversal de conocimiento.
 

@@ -9,7 +9,7 @@ context_cost: high
 
 # /dev-session-resume — Reanudar Dev-Session
 
-Regla: `@.claude/rules/domain/dev-session-locks.md`
+Regla: `@docs/rules/domain/dev-session-locks.md`
 
 ## Flujo
 

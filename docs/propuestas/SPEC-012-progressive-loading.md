@@ -107,9 +107,9 @@ L1 se genera como indice compacto.
 ## Ficheros afectados
 
 - `.claude/skills/*/SKILL.md` — anadir campo summary
-- `.claude/rules/domain/skill-auto-activation.md` — actualizar protocolo
-- `.claude/rules/domain/context-map.md` — documentar L0/L1/L2
-- `.claude/rules/domain/context-health.md` — actualizar regla de carga
+- `docs/rules/domain/skill-auto-activation.md` — actualizar protocolo
+- `docs/rules/domain/context-map.md` — documentar L0/L1/L2
+- `docs/rules/domain/context-health.md` — actualizar regla de carga
 
 ---
 

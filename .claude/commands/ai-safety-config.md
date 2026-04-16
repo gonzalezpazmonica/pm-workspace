@@ -66,4 +66,4 @@ Los límites configurados aquí informan:
 - `/ai-confidence` — qué requiere validación
 - `/ai-incident` — monitorizar cumplimiento
 
-Ver `@.claude/rules/domain/pm-config.md` para configuración completa.
+Ver `@docs/rules/domain/pm-config.md` para configuración completa.

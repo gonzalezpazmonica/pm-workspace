@@ -119,7 +119,7 @@ Esta estrategia es análoga a las **representaciones dispersas** del neocórtex:
 
 ### Principio 4: Enlaces Sinápticos entre Contextos (@ como Sinapsis)
 
-La notación `@` de Claude Code funciona como un **enlace sináptico** entre documentos. Cuando un comando incluye `@.claude/rules/domain/community-protocol.md`, está creando una conexión explícita que se "dispara" (se carga) solo cuando se activa el nodo origen.
+La notación `@` de Claude Code funciona como un **enlace sináptico** entre documentos. Cuando un comando incluye `@docs/rules/domain/community-protocol.md`, está creando una conexión explícita que se "dispara" (se carga) solo cuando se activa el nodo origen.
 
 Estos enlaces tienen propiedades similares a las sinapsis biológicas:
 
