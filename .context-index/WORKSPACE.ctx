@@ -3,9 +3,9 @@
 > Where to find and store information at workspace level (N1 public)
 
 ## Rules & Governance
-[location] .claude/rules/domain/ — 147 domain rules loaded on demand via @
-[location] .claude/rules/languages/ — language conventions (auto-load by file type)
-[intent: "what are the rules for X"] → scan .claude/rules/domain/ by keyword
+[location] docs/rules/domain/ — 147 domain rules loaded on demand via @
+[location] docs/rules/languages/ — language conventions (auto-load by file type)
+[intent: "what are the rules for X"] → scan docs/rules/domain/ by keyword
 
 ## Agents
 [location] .claude/agents/ — 56 agent definitions

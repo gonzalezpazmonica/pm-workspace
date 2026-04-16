@@ -106,7 +106,7 @@ Estos ficheros y directorios NUNCA se ven afectados por una actualización:
 - `output/` — informes y artefactos generados (gitignored)
 - `CLAUDE.local.md` — configuración local (gitignored)
 - `decision-log.md` — registro de decisiones (gitignored)
-- `.claude/rules/domain/pm-config.local.md` — config privada (gitignored)
+- `.claude/rules/pm-config.local.md` — config privada (gitignored)
 
 ## Restricciones
 

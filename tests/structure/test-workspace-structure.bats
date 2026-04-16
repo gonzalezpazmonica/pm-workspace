@@ -94,9 +94,9 @@ teardown() {
 }
 
 @test "no command, agent or rule exceeds 150 lines" {
-  # Ref: .claude/rules/domain/file-size-limit.md — 150 lines max
+  # Ref: docs/rules/domain/file-size-limit.md — 150 lines max
   local oversized=0
-  for f in "$ROOT/.claude/commands/"*.md "$ROOT/.claude/agents/"*.md "$ROOT/.claude/rules/domain/"*.md; do
+  for f in "$ROOT/.claude/commands/"*.md "$ROOT/.claude/agents/"*.md "$ROOT/docs/rules/domain/"*.md; do
     [ -f "$f" ] || continue
     local lines; lines=$(wc -l < "$f")
     [ "$lines" -le 150 ] || oversized=$((oversized + 1))

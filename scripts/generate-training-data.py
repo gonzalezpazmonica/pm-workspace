@@ -102,7 +102,7 @@ def extract_from_commands() -> list[dict]:
 def extract_from_rules() -> list[dict]:
     """Generate knowledge pairs from domain rules."""
     pairs = []
-    rules_dir = ROOT / ".claude" / "rules" / "domain"
+    rules_dir = ROOT / "docs" / "rules" / "domain"
     if not rules_dir.exists():
         return pairs
 

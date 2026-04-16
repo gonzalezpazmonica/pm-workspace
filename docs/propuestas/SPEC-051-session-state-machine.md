@@ -140,8 +140,8 @@ con los 13 estados y sus transiciones recientes.
 
 | Fichero | Accion |
 |---------|--------|
-| `.claude/rules/domain/session-state-machine.md` | Crear — grafo de transiciones |
-| `.claude/rules/domain/dev-session-locks.md` | Modificar — ampliar state.json |
+| `docs/rules/domain/session-state-machine.md` | Crear — grafo de transiciones |
+| `docs/rules/domain/dev-session-locks.md` | Modificar — ampliar state.json |
 | `.claude/hooks/agent-trace-log.sh` | Modificar — emitir state transitions |
 
 ---

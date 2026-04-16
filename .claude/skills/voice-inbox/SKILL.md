@@ -73,7 +73,7 @@ Analiza la intención y responde con:
 3. Si confianza < alta → pedir confirmación al PM
 
 Contexto: proyecto activo = {proyecto_actual}
-Comandos disponibles: @.claude/rules/domain/pm-workflow.md
+Comandos disponibles: @docs/rules/domain/pm-workflow.md
 ```
 
 ### Ejemplos de mapeo voz → comando

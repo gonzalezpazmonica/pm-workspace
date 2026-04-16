@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # test-data-sovereignty-extended.bats — Edge cases, bypass attempts, stress tests
-# Ref: .claude/rules/domain/data-sovereignty.md
+# Ref: docs/rules/domain/data-sovereignty.md
 
 setup() {
   # Force shield enabled for tests (env may have SAVIA_SHIELD_ENABLED=false from settings.local.json)
@@ -167,8 +167,8 @@ setup() {
   [[ "$output" == *"connection_string"* ]]
 }
 
-@test "FIX-C2: .claude/rules/ is NOT whitelisted for arbitrary files" {
-  INPUT='{"tool_input":{"file_path":"/workspace/.claude/rules/domain/my-notes.md","content":"jdbc:mysql://prod/db?password=secret"}}'
+@test "FIX-C2: docs/rules/ is NOT whitelisted for arbitrary files" {
+  INPUT='{"tool_input":{"file_path":"/workspace/docs/rules/domain/my-notes.md","content":"jdbc:mysql://prod/db?password=secret"}}'
   run bash -c "echo '$INPUT' | bash $GATE"
   [ "$status" -eq 2 ]
 }
@@ -179,8 +179,8 @@ setup() {
   [ "$status" -eq 2 ]
 }
 
-@test "FIX-C3: .claude/rules/ is treated as PUBLIC destination" {
-  INPUT='{"tool_input":{"file_path":"/workspace/.claude/rules/domain/test.md","content":"192.168.1.100 internal server"}}'
+@test "FIX-C3: docs/rules/ is treated as PUBLIC destination" {
+  INPUT='{"tool_input":{"file_path":"/workspace/docs/rules/domain/test.md","content":"192.168.1.100 internal server"}}'
   run bash -c "echo '$INPUT' | bash $GATE"
   [ "$status" -eq 2 ]
 }

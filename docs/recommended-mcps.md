@@ -43,7 +43,7 @@ claude mcp add --transport http nombre https://url-del-server
 
 ### Azure DevOps (sin Connector oficial)
 
-La integración con Azure DevOps requiere MCP community. Ver `.claude/rules/domain/mcp-migration.md` para el mapeo completo REST → MCP.
+La integración con Azure DevOps requiere MCP community. Ver `docs/rules/domain/mcp-migration.md` para el mapeo completo REST → MCP.
 
 ```bash
 claude mcp add --transport stdio azure-devops -- npx -y azure-devops-mcp-server

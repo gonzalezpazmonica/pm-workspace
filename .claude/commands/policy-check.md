@@ -9,7 +9,7 @@ context_cost: low
 
 # /policy-check — Politicas de Agentes del Proyecto
 
-Regla: `@.claude/rules/domain/agent-policies.md`
+Regla: `@docs/rules/domain/agent-policies.md`
 
 ## Flujo
 

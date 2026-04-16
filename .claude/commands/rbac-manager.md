@@ -10,7 +10,7 @@ context_cost: low
 # /rbac-manager — Control de acceso basado en roles
 
 > Skill: @.claude/skills/rbac-management/SKILL.md
-> Regla: @.claude/rules/domain/rbac-model.md
+> Regla: @docs/rules/domain/rbac-model.md
 > Integración: @.claude/commands/team-orchestrator.md
 
 Gestiona la asignación de roles a usuarios, revocación de permisos, auditoría

@@ -11,7 +11,7 @@ tools:
   - Read
   - Glob
   - Grep
-model: claude-opus-4-6
+model: claude-opus-4-7
 color: red
 maxTurns: 20
 max_context_tokens: 12000
@@ -57,7 +57,7 @@ If auditing a project, check `projects/{project}/.context-index/PROJECT.ctx` for
 
 ## PROTOCOLO DE AUDITORÍA
 
-Ejecuta SIEMPRE los 9 checks en orden (ver referencia detallada en `@.claude/rules/domain/security-check-patterns.md`):
+Ejecuta SIEMPRE los 9 checks en orden (ver referencia detallada en `@docs/rules/domain/security-check-patterns.md`):
 
 1. **SEC-1** — Credenciales y secretos (🔴 BLOQUEO si detecta AKIA, ghp_, tokens reales, connection strings)
 2. **SEC-2** — Nombres proyectos/clientes privados (🔴 si no son placeholders de ejemplo)

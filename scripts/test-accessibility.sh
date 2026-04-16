@@ -61,7 +61,7 @@ check_max_lines "$F" 150
 
 # --- A6: guided-work-protocol ---
 echo "--- A6: guided-work-protocol rule ---"
-F=".claude/rules/guided-work-protocol.md"
+F="docs/rules/domain/guided-work-protocol.md"
 check_exists "$F"
 check_content "$F" "dignidad\|autonomía" "Has dignity/autonomy principle"
 check_content "$F" "bloqueo\|Detección" "Has block detection"
@@ -69,7 +69,7 @@ check_max_lines "$F" 150
 
 # --- A7: accessibility-output ---
 echo "--- A7: accessibility-output rule ---"
-F=".claude/rules/accessibility-output.md"
+F="docs/rules/domain/accessibility-output.md"
 check_exists "$F"
 check_content "$F" "screen_reader" "Handles screen_reader"
 check_content "$F" "cognitive_load" "Handles cognitive_load"
@@ -78,7 +78,7 @@ check_max_lines "$F" 150
 
 # --- A8: inclusive-review ---
 echo "--- A8: inclusive-review rule ---"
-F=".claude/rules/inclusive-review.md"
+F="docs/rules/domain/inclusive-review.md"
 check_exists "$F"
 check_content "$F" "review_sensitivity" "Has review_sensitivity trigger"
 check_content "$F" "fortaleza\|strength" "Has strengths-first concept"

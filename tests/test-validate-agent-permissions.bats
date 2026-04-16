@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Ref: .claude/rules/domain/agent-policies.md
+# Ref: docs/rules/domain/agent-policies.md
 # Tests for validate-agent-permissions.sh
 
 setup() {

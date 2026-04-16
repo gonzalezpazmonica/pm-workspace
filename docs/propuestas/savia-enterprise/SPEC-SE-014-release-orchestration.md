@@ -170,7 +170,7 @@ RELEASE_AIRGAP_MODE           = false  # activar para defensa/gobierno
 
 | Name | Kind | Purpose |
 |------|------|---------|
-| `.claude/rules/domain/release-orchestration.md` | rule | Contrato Release-as-Code, perfiles compliance, flujo de gates |
+| `docs/rules/domain/release-orchestration.md` | rule | Contrato Release-as-Code, perfiles compliance, flujo de gates |
 | `.claude/agents/release-orchestrator.md` | agent | L2 orquestador principal |
 | `.claude/agents/release-validator.md` | agent | L1 validador pre-ejecución |
 | `.claude/agents/rollback-executor.md` | agent | L3 ejecutor de rollback con gate humano |
@@ -207,7 +207,7 @@ automáticamente, y SIEMPRE notifica humano en el mismo tick. No hay rollback si
 
 ## Acceptance criteria
 
-1. Regla `.claude/rules/domain/release-orchestration.md` ≤150 líneas documenta flujo, 6 perfiles compliance, gates
+1. Regla `docs/rules/domain/release-orchestration.md` ≤150 líneas documenta flujo, 6 perfiles compliance, gates
 2. `release-orchestrator` agente creado con L2, `token_budget` declarado, tests unitarios
 3. Comando `/release-plan` genera un `release-plan.md` válido para tenant de ejemplo con un solo comando
 4. Comando `/release-validate` detecta 10 tipos de incumplimiento (gates faltantes, profile mismatch, change window expirada, approval chain incompleta…)

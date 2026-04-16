@@ -11,11 +11,11 @@ check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
 AGENT="$ROOT/.claude/agents/frontend-test-runner.md"
 VR_CMD="$ROOT/.claude/commands/visual-regression.md"
 SV_CMD="$ROOT/.claude/commands/spec-verify-ui.md"
-RULE="$ROOT/.claude/rules/domain/frontend-testing.md"
+RULE="$ROOT/docs/rules/domain/frontend-testing.md"
 DOC_ES="$ROOT/docs/frontend-testing-nueva-era-es.md"
 DOC_EN="$ROOT/docs/frontend-testing-nueva-era-en.md"
 PLAN="$ROOT/output/linkedin/plan-frontend-nueva-era.md"
-FC_RULE="$ROOT/.claude/rules/domain/frontend-components.md"
+FC_RULE="$ROOT/docs/rules/domain/frontend-components.md"
 
 echo "═══ Testing Frontend Testing Nueva Era ═══"
 echo ""

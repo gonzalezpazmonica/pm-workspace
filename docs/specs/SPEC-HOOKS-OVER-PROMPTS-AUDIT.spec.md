@@ -21,7 +21,7 @@ Anthropic best practices 2026 formaliza una regla que pm-workspace ya aplica
 parcialmente: **"Si Claude ya hace X correctamente, borra la instruccion o
 conviertela en hook"**. Era 165 (dieta CLAUDE.md 121->48 lineas) fue un
 primer corte. Quedan 25 reglas criticas inline, 31 hooks y 200+ ficheros
-en `.claude/rules/domain/` cuyo ROI real no esta medido.
+en `docs/rules/domain/` cuyo ROI real no esta medido.
 
 El coste es real: CLAUDE.md se reenvia CADA turno sin cache. Las reglas en
 `@imports` tambien entran en el prompt base cada sesion. Cada linea que
@@ -87,7 +87,7 @@ modificado (regla eliminada temporalmente) y medir:
 
 **Incluido:**
 - Reglas 1-25 de CLAUDE.md + critical-rules-extended.md
-- Top 20 ficheros en `.claude/rules/domain/` por tamaño
+- Top 20 ficheros en `docs/rules/domain/` por tamaño
 - Los 31 hooks activos en settings.json
 
 **Excluido:**
@@ -193,7 +193,7 @@ AND     reduccion tokens por turno medible
 | Crear | tests/test-rule-audit.bats | Suite BATS |
 | Crear | docs/audits/rule-audit-methodology.md | Documentar metodo |
 | Modificar | CLAUDE.md | Borrar reglas redundantes (tras audit) |
-| Modificar | .claude/rules/domain/critical-rules-extended.md | Idem |
+| Modificar | docs/rules/domain/critical-rules-extended.md | Idem |
 | Crear | .claude/hooks/{nuevo}.sh | Nuevos hooks para reglas "olvidables" |
 | Modificar | CHANGELOG.md | Registrar dieta con metricas |
 

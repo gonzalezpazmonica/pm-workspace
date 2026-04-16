@@ -10,7 +10,7 @@ context_cost: medium
 # /governance-enterprise — Gobernanza Empresarial
 
 > Skill: @.claude/skills/governance-enterprise/SKILL.md
-> Config: @.claude/rules/domain/governance-enterprise.md, @.claude/rules/domain/audit-trail-schema.md
+> Config: @docs/rules/domain/governance-enterprise.md, @docs/rules/domain/audit-trail-schema.md
 
 Auditoría de acciones, verificación de cumplimiento (GDPR/ISO/EU AI Act/AEPD), registry de decisiones y certificación de gobernanza.
 

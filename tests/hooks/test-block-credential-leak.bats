@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # Tests for block-credential-leak.sh hook
 # Validates detection of 11 credential patterns + safe commands pass through
-# Ref: .claude/rules/domain/security-check-patterns.md
+# Ref: docs/rules/domain/security-check-patterns.md
 
 setup() {
   TMPDIR=$(mktemp -d)

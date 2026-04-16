@@ -30,7 +30,7 @@ description: >
 
 ## 3. Contexto requerido
 
-1. `.claude/rules/connectors-config.md` — Verificar que Slack está habilitado
+1. `docs/rules/domain/connectors-config.md` — Verificar que Slack está habilitado
 2. `projects/{proyecto}/CLAUDE.md` — Canal del proyecto (si se usa `--project`)
 
 ## 4. Pasos de ejecución

@@ -92,8 +92,8 @@ Cada agente de implementación necesita cargar estos ficheros ANTES de ejecutar:
 
 ```bash
 # 1. Reglas globales del workspace
-cat .claude/rules/domain/pm-config.md
-cat .claude/rules/domain/environment-config.md
+cat docs/rules/domain/pm-config.md
+cat docs/rules/domain/environment-config.md
 
 # 2. Reglas del proyecto
 cat projects/{proyecto}/CLAUDE.md

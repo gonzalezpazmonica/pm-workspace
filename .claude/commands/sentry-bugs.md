@@ -22,7 +22,7 @@ description: >
 
 ## Contexto requerido
 
-1. `.claude/rules/connectors-config.md` — Verificar Sentry habilitado
+1. `docs/rules/domain/connectors-config.md` — Verificar Sentry habilitado
 2. `projects/{proyecto}/CLAUDE.md` — `SENTRY_PROJECT`, `AZURE_DEVOPS_PROJECT`
 3. `projects/{proyecto}/equipo.md` — Para auto-asignación (opcional)
 

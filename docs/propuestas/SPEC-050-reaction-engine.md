@@ -133,9 +133,9 @@ En ejecucion paralela, cada agente tiene su propio tracker de reacciones
 | Fichero | Accion |
 |---------|--------|
 | `scripts/reaction-poller.sh` | Crear — detector de eventos |
-| `.claude/rules/domain/reaction-engine.md` | Crear — regla de reacciones |
-| `.claude/rules/domain/handoff-templates.md` | Modificar — template Reaction |
-| `.claude/rules/domain/dev-session-protocol.md` | Modificar — activar en Fase 5 |
+| `docs/rules/domain/reaction-engine.md` | Crear — regla de reacciones |
+| `docs/rules/domain/handoff-templates.md` | Modificar — template Reaction |
+| `docs/rules/domain/dev-session-protocol.md` | Modificar — activar en Fase 5 |
 
 ---
 

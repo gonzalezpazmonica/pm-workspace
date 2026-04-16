@@ -30,7 +30,7 @@ Referencia: https://addyosmani.com/blog/comprehension-debt/
 
 ## Regla del skill
 
-Ver `.claude/rules/domain/hcm-maps.md` — formato, lifecycle, debt score, relación con .acm.
+Ver `docs/rules/domain/hcm-maps.md` — formato, lifecycle, debt score, relación con .acm.
 
 ---
 

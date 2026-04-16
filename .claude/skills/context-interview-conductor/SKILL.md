@@ -15,8 +15,8 @@ priority: "medium"
 
 # Skill: Context Interview Conductor
 
-> Regla: @.claude/rules/domain/context-interview-config.md
-> Hub: @.claude/rules/domain/savia-hub-config.md
+> Regla: @docs/rules/domain/context-interview-config.md
+> Hub: @docs/rules/domain/savia-hub-config.md
 
 ## Prerequisitos
 

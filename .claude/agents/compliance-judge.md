@@ -27,7 +27,7 @@ VETO authority: a single compliance violation blocks publication absolutely.
      Azure DevOps URLs, project names from gitignored config)
    - N4 (project) data not in N1 output paths
    - N4b (team-proyecto) data not in N4 shared artifacts
-   Reference: `.claude/rules/domain/context-placement-confirmation.md`
+   Reference: `docs/rules/domain/context-placement-confirmation.md`
 3. **Format rules for the report type**:
    - Executive: tables must have headers, metrics with units
    - Compliance: every finding cites article/section, severity labeled

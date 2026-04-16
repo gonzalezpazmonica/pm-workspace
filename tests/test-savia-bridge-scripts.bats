@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Ref: .claude/rules/domain/autonomous-safety.md
+# Ref: docs/rules/domain/autonomous-safety.md
 # Ref: scripts/savia-bridge.py, scripts/savia-bridge.service
 # Tests for savia-bridge installation artifacts (lint-only, no sudo).
 

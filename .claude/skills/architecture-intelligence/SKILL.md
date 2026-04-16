@@ -126,7 +126,7 @@ SEVERITY: WARNING
 Para cada lenguaje, cargar el reference correspondiente:
 - Detectar lenguaje del proyecto (por extensiones, package manager, framework)
 - Cargar `references/patterns-{lang}.md` para markers específicos
-- Combinar con reglas genéricas de `@.claude/rules/domain/architecture-patterns.md`
+- Combinar con reglas genéricas de `@docs/rules/domain/architecture-patterns.md`
 
 ## Output
 

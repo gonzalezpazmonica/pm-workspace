@@ -97,7 +97,7 @@ else
   echo "  ❌ $VIOLATIONS verificación(es) fallida(s)"
   echo ""
   echo "  Corrige las violaciones antes de hacer commit."
-  echo "  Las reglas verificadas están en: .claude/rules/domain/"
+  echo "  Las reglas verificadas están en: docs/rules/domain/"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   exit 2
 fi

@@ -9,8 +9,8 @@ context_cost: medium
 
 # /zeroclaw meeting — Reuniones en vivo con ZeroClaw
 
-> Regla: `@.claude/rules/domain/zeroclaw-meeting-protocol.md`
-> Seguridad: `@.claude/rules/domain/zeroclaw-sensory-protocol.md`
+> Regla: `@docs/rules/domain/zeroclaw-meeting-protocol.md`
+> Seguridad: `@docs/rules/domain/zeroclaw-sensory-protocol.md`
 
 ## Subcomandos
 

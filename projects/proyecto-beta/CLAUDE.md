@@ -167,7 +167,7 @@ budget_alert: true
 ```yaml
 sdd_config:
   # Modelos
-  model_agent: "claude-opus-4-6"
+  model_agent: "claude-opus-4-7"
   model_mid:   "claude-sonnet-4-6"
   model_fast:  "claude-haiku-4-5-20251001"
 

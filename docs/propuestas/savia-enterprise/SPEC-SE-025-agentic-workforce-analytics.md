@@ -169,7 +169,7 @@ For regulated clients or contracts requiring AI transparency:
 
 ## Acceptance criteria
 
-1. Regla `.claude/rules/domain/agentic-workforce.md` ≤150 lines.
+1. Regla `docs/rules/domain/agentic-workforce.md` ≤150 lines.
 2. `workforce-analyst` computes throughput from `agent-actuals.jsonl` + git log.
 3. Cost comparison uses real Anthropic pricing for token costs.
 4. Quality delta reads `.review.crc` files and computes agent vs human scores.

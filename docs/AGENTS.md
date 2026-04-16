@@ -6,16 +6,16 @@ pm-workspace has 33 specialized agents organized into 9 categories. Select by ta
 
 **If you need to:** → **Use agent:**
 
-- **Architecture design, SOLID principles, layering** → `architect` (Opus 4.6)
-- **Extract reglas de negocio, acceptance criteria** → `business-analyst` (Opus 4.6)
-- **Write executable specs for developers** → `sdd-spec-writer` (Opus 4.6)
-- **Code review, OWASP, design review** → `code-reviewer` (Opus 4.6)
+- **Architecture design, SOLID principles, layering** → `architect` (Opus 4.7)
+- **Extract reglas de negocio, acceptance criteria** → `business-analyst` (Opus 4.7)
+- **Write executable specs for developers** → `sdd-spec-writer` (Opus 4.7)
+- **Code review, OWASP, design review** → `code-reviewer` (Opus 4.7)
 - **Implement C# / .NET** → `dotnet-developer` (Sonnet 4.6)
 - **Implement TypeScript, Node.js, NestJS** → `typescript-developer` (Sonnet 4.6)
 - **Implement React, Angular, Vue** → `frontend-developer` (Sonnet 4.6)
 - **Implement Python FastAPI, Django** → `python-developer` (Sonnet 4.6)
 - **Write tests, verify coverage ≥80%** → `test-runner` (Sonnet 4.6)
-- **Analyze security: OWASP, CWE, deps** → `security-guardian` (Opus 4.6)
+- **Analyze security: OWASP, CWE, deps** → `security-guardian` (Opus 4.7)
 - **Pre-commit checks: branch, tests, format** → `commit-guardian` (Sonnet 4.6)
 - **Visual design consistency, wireframes** → `visual-qa-agent` (Sonnet 4.6)
 
@@ -25,9 +25,9 @@ pm-workspace has 33 specialized agents organized into 9 categories. Select by ta
 
 | Name | Model | Description |
 |---|---|---|
-| `architect` | Opus 4.6 | System design, layers, interfaces, patterns, CAP theorem |
-| `business-analyst` | Opus 4.6 | Extract reglas negocio, decompose PBIs, acceptance criteria |
-| `sdd-spec-writer` | Opus 4.6 | Write executable specs from architecture + business rules |
+| `architect` | Opus 4.7 | System design, layers, interfaces, patterns, CAP theorem |
+| `business-analyst` | Opus 4.7 | Extract reglas negocio, decompose PBIs, acceptance criteria |
+| `sdd-spec-writer` | Opus 4.7 | Write executable specs from architecture + business rules |
 | `dev-orchestrator` | Sonnet 4.6 | Plan dev slices, dependency analysis, context budgets |
 
 ### Language-Specific Developers (11)
@@ -44,7 +44,7 @@ pm-workspace has 33 specialized agents organized into 9 categories. Select by ta
 | `php-developer` | Sonnet 4.6 | PHP | Laravel 11, Blade, Eloquent |
 | `mobile-developer` | Sonnet 4.6 | Swift/Kotlin/Flutter | iOS, Android, Dart |
 | `ruby-developer` | Sonnet 4.6 | Ruby | Rails 7, RSpec, ActiveRecord |
-| `cobol-developer` | Opus 4.6 | COBOL | Copybooks, GnuCOBOL, CICS (legacy assistance) |
+| `cobol-developer` | Opus 4.7 | COBOL | Copybooks, GnuCOBOL, CICS (legacy assistance) |
 
 ### Testing & Quality (4)
 
@@ -52,14 +52,14 @@ pm-workspace has 33 specialized agents organized into 9 categories. Select by ta
 |---|---|---|
 | `test-runner` | Sonnet 4.6 | Run all tests, verify coverage ≥80%, orchestrate improvements |
 | `frontend-test-runner` | Sonnet 4.6 | E2E tests (Cypress, Playwright), component tests, a11y |
-| `code-reviewer` | Opus 4.6 | SOLID, design patterns, code quality, security hotspots |
+| `code-reviewer` | Opus 4.7 | SOLID, design patterns, code quality, security hotspots |
 | `coherence-validator` | Sonnet 4.6 | Output ↔ objective alignment, completeness, consistency |
 
 ### Security (3)
 
 | Name | Model | Specialty |
 |---|---|---|
-| `security-guardian` | Opus 4.6 | Pre-commit: OWASP, CWE Top 25, credential scanning |
+| `security-guardian` | Opus 4.7 | Pre-commit: OWASP, CWE Top 25, credential scanning |
 | `security-attacker` | Sonnet 4.6 | Red Team: find vulnerabilities (no fixes) |
 | `security-defender` | Sonnet 4.6 | Blue Team: propose security patches |
 | `security-auditor` | Sonnet 4.6 | Independent evaluation: 0-100 score, gap analysis |
@@ -68,7 +68,7 @@ pm-workspace has 33 specialized agents organized into 9 categories. Select by ta
 
 | Name | Model | Description |
 |---|---|---|
-| `infrastructure-agent` | Opus 4.6 | Detect, create (tier min), escalate for production |
+| `infrastructure-agent` | Opus 4.7 | Detect, create (tier min), escalate for production |
 | `terraform-developer` | Sonnet 4.6 | IaC: writes .tf files (never applies) |
 | `diagram-architect` | Sonnet 4.6 | System diagrams: consistency, layering, feature decomposition |
 
@@ -76,8 +76,8 @@ pm-workspace has 33 specialized agents organized into 9 categories. Select by ta
 
 | Name | Model | Description |
 |---|---|---|
-| `reflection-validator` | Opus 4.6 | System 2 thinking: assumptions, causal chains, gaps |
-| `drift-auditor` | Opus 4.6 | Code ↔ docs ↔ config convergence, detect drift |
+| `reflection-validator` | Opus 4.7 | System 2 thinking: assumptions, causal chains, gaps |
+| `drift-auditor` | Opus 4.7 | Code ↔ docs ↔ config convergence, detect drift |
 | `azure-devops-operator` | Haiku 4.5 | WIQL queries, work items, sprints, capacity |
 | `tech-writer` | Haiku 4.5 | README, CHANGELOG, XML docs, technical writing |
 
@@ -149,7 +149,7 @@ security-auditor (score 0-100)
 |---|---|---|
 | **Lightweight** | Haiku 4.5 | azure-devops-operator, tech-writer |
 | **Standard** | Sonnet 4.6 | All developers, test-runner, commit-guardian, visual-qa |
-| **Complex** | Opus 4.6 | architect, business-analyst, code-reviewer, security (all), orchestrators |
+| **Complex** | Opus 4.7 | architect, business-analyst, code-reviewer, security (all), orchestrators |
 
 ### Context Budget
 
@@ -168,7 +168,7 @@ Each agent has:
 ```yaml
 name: agent-name
 role: "Developer|Architect|QA|Security|etc"
-model: "claude-opus-4-6|claude-sonnet-4-6|haiku"
+model: "claude-opus-4-7|claude-sonnet-4-6|haiku"
 description: "One-line purpose"
 max_context_tokens: 8000
 output_max_tokens: 500

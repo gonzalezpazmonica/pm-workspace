@@ -15,7 +15,7 @@ priority: "medium"
 
 # Skill: Onboarding Dev — Buddy IA
 
-> **Seguridad**: `@.claude/rules/domain/autonomous-safety.md` — el buddy IA NO toma decisiones, solo orienta.
+> **Seguridad**: `@docs/rules/domain/autonomous-safety.md` — el buddy IA NO toma decisiones, solo orienta.
 > **Basado en**: Guía de Onboarding con IA de Manfred (v3.0) — modelo de agente en 3 capas.
 > **Complementa**: `team-onboarding` (RGPD, evaluación) — esta skill se enfoca en onboarding técnico.
 

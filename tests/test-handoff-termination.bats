@@ -5,8 +5,8 @@
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   SCRIPT="$REPO_ROOT/scripts/validate-handoff.sh"
-  HANDOFF_TMPL="$REPO_ROOT/.claude/rules/domain/handoff-templates.md"
-  VERIF="$REPO_ROOT/.claude/rules/domain/verification-before-done.md"
+  HANDOFF_TMPL="$REPO_ROOT/docs/rules/domain/handoff-templates.md"
+  VERIF="$REPO_ROOT/docs/rules/domain/verification-before-done.md"
   TMPDIR_HT=$(mktemp -d)
 }
 

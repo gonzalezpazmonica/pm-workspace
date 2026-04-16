@@ -231,9 +231,9 @@ AND     advisor_tokens separados de executor_tokens
 |--------|---------|-----------|
 | Crear | scripts/advisor-config.sh | Generador de configuracion advisor |
 | Crear | tests/test-advisor-config.sh | Suite BATS |
-| Modificar | .claude/rules/domain/agents-catalog.md | Documentar advisor por agente |
-| Modificar | .claude/rules/domain/dev-session-protocol.md | Fase 3: inyectar advisor |
-| Modificar | .claude/rules/domain/pm-config.md | Constantes ADVISOR_* |
+| Modificar | docs/rules/domain/agents-catalog.md | Documentar advisor por agente |
+| Modificar | docs/rules/domain/dev-session-protocol.md | Fase 3: inyectar advisor |
+| Modificar | docs/rules/domain/pm-config.md | Constantes ADVISOR_* |
 
 ---
 

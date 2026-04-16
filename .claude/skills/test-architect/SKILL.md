@@ -114,6 +114,6 @@ python3 scripts/test-auditor-engine.py <generated-test.bats> .
 
 - `references/bats-template.md` — Golden BATS template (score 90+)
 - `scripts/test-auditor-engine.py` — SPEC-055 auditor engine
-- `.claude/rules/domain/language-packs.md` — 16 language frameworks
-- `.claude/rules/domain/coverage-scripts.md` — Coverage patterns
+- `docs/rules/domain/language-packs.md` — 16 language frameworks
+- `docs/rules/domain/coverage-scripts.md` — Coverage patterns
 - `.claude/agents/test-engineer.md` — Complementary agent (execution)

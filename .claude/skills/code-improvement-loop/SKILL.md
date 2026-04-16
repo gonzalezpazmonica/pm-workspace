@@ -15,7 +15,7 @@ priority: "medium"
 
 # Skill: Code Improvement Loop
 
-> **Regla de seguridad**: `@.claude/rules/domain/autonomous-safety.md` — NUNCA merge, SIEMPRE PR Draft con reviewer humano.
+> **Regla de seguridad**: `@docs/rules/domain/autonomous-safety.md` — NUNCA merge, SIEMPRE PR Draft con reviewer humano.
 > **Inspirado en**: [autoresearch](https://github.com/karpathy/autoresearch) — patrón modificar → medir → mantener/descartar.
 
 ## Cuándo usar esta skill

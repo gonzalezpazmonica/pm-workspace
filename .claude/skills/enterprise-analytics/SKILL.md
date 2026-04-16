@@ -18,7 +18,7 @@ priority: "medium"
 
 # Skill: Enterprise Analytics
 
-> Prerequisito: @.claude/rules/domain/enterprise-metrics.md
+> Prerequisito: @docs/rules/domain/enterprise-metrics.md
 
 Orquesta cálculo de métricas SPACE, agregación portfolio, análisis de salud por equipo, detección de riesgos cross-proyecto, y forecasting.
 

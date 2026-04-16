@@ -6,7 +6,7 @@
 # pursuit-frontmatter schema, and commands pursuit-{init,qualify,bid,draft,handoff,close}
 # plus pipeline-view.
 # Ref: docs/propuestas/savia-enterprise/SE-015-project-prospect.md
-# Ref: .claude/rules/domain/pipeline-as-code.md
+# Ref: docs/rules/domain/pipeline-as-code.md
 # Auditor target: score >= 80 (SPEC-055)
 
 REPO_ROOT="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
@@ -238,15 +238,15 @@ EOF
 # ═══════════════════════════════════════════════════════════════════════════════
 
 @test "SPEC pipeline-as-code rule doc exists" {
-  [ -f "$REPO_ROOT/.claude/rules/domain/pipeline-as-code.md" ]
+  [ -f "$REPO_ROOT/docs/rules/domain/pipeline-as-code.md" ]
 }
 
 @test "SPEC pipeline-as-code rule doc references SE-015" {
-  grep -qi "SE-015" "$REPO_ROOT/.claude/rules/domain/pipeline-as-code.md"
+  grep -qi "SE-015" "$REPO_ROOT/docs/rules/domain/pipeline-as-code.md"
 }
 
 @test "SPEC pipeline-as-code rule doc describes pursuit stages" {
-  grep -qi "stage" "$REPO_ROOT/.claude/rules/domain/pipeline-as-code.md"
+  grep -qi "stage" "$REPO_ROOT/docs/rules/domain/pipeline-as-code.md"
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════

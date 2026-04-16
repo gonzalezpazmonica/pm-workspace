@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for validate-ci-local.sh — CI validation pipeline
-# Ref: .claude/rules/domain/pre-commit-bats.md
+# Ref: docs/rules/domain/pre-commit-bats.md
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
@@ -89,5 +89,5 @@ teardown() {
 # ── Spec reference ──
 
 @test "SPEC: pre-commit-bats.md rule exists" {
-  [ -f "$REPO_ROOT/.claude/rules/domain/pre-commit-bats.md" ]
+  [ -f "$REPO_ROOT/docs/rules/domain/pre-commit-bats.md" ]
 }

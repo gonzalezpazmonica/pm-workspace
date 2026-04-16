@@ -9,7 +9,7 @@ context_cost: medium
 
 # /web-research — Búsqueda web para resolver gaps de contexto
 
-> Regla: `@.claude/rules/domain/web-research-config.md`
+> Regla: `@docs/rules/domain/web-research-config.md`
 
 ## Subcomandos
 

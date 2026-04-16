@@ -15,8 +15,8 @@ priority: "medium"
 
 # Skill: Client Profile Manager
 
-> Regla: @.claude/rules/domain/client-profile-config.md
-> Hub: @.claude/rules/domain/savia-hub-config.md
+> Regla: @docs/rules/domain/client-profile-config.md
+> Hub: @docs/rules/domain/savia-hub-config.md
 
 ## Prerequisitos
 

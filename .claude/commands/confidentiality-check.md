@@ -7,7 +7,7 @@ description: "Auditoria pre-PR de confidencialidad y firma criptografica"
 
 > Lanza el agente confidentiality-auditor para auditar el diff del PR actual.
 > Si pasa, genera firma criptografica para la pipeline de CI.
-> Regla: @.claude/rules/domain/context-placement-confirmation.md
+> Regla: @docs/rules/domain/context-placement-confirmation.md
 
 ---
 name: confidentiality-check

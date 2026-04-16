@@ -80,7 +80,7 @@ Paths escaneados (ficheros que se inyectan como contexto):
 - `projects/*/reglas-negocio.md`
 - `projects/*/specs/**`
 - `projects/*/agent-memory/**`
-- `.claude/rules/**`
+- `docs/rules/**`
 - `.claude/agents/**`
 - `docs/**`
 

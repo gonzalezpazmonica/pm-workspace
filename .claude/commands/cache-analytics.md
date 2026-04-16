@@ -19,7 +19,7 @@ Grupo: **Context Engineering** — cargar:
 
 - `identity.md` — para aislar métricas por usuario
 
-Ver `.claude/rules/domain/context-map.md`.
+Ver `docs/rules/domain/context-map.md`.
 
 ---
 

@@ -88,7 +88,7 @@ teardown() { rm -rf "$TMPDIR_CIA"; }
 
 @test "context-health.md references context-index or .ctx" {
   grep -qiE '(context-index|\.ctx)' \
-    ".claude/rules/domain/context-health.md" || {
+    "docs/rules/domain/context-health.md" || {
     echo "FAIL: context-health.md missing context-index reference"
     return 1
   }

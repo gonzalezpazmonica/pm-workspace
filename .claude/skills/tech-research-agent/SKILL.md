@@ -15,7 +15,7 @@ priority: "low"
 
 # Skill: Tech Research Agent
 
-> **Regla de seguridad**: `@.claude/rules/domain/autonomous-safety.md` — NO crea PRs, NO modifica código. Solo genera informes y recomendaciones.
+> **Regla de seguridad**: `@docs/rules/domain/autonomous-safety.md` — NO crea PRs, NO modifica código. Solo genera informes y recomendaciones.
 > **Inspirado en**: Patrón `program.md` de [autoresearch](https://github.com/karpathy/autoresearch) — instrucciones declarativas para investigación autónoma.
 
 ## Cuándo usar esta skill

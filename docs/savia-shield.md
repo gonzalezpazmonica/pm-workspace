@@ -207,7 +207,7 @@ Cada componente es un fichero de texto plano legible por humanos:
 | Pre-commit git | `scripts/pre-commit-sovereignty.sh` | Scan staged files antes de commit |
 | Setup | `scripts/savia-shield-setup.sh` | Instalador: deps, modelos, token, daemons |
 | Force-push guard | `.claude/hooks/block-force-push.sh` | Bloquea force-push, push a main, amend |
-| Regla de dominio | `.claude/rules/domain/data-sovereignty.md` | Arquitectura y politicas |
+| Regla de dominio | `docs/rules/domain/data-sovereignty.md` | Arquitectura y politicas |
 
 **Logs de auditoría:**
 - `output/data-sovereignty-audit.jsonl` — decisiones de las capas 1-3

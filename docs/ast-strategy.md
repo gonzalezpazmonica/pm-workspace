@@ -582,7 +582,7 @@ bash scripts/ast-quality-gate.sh src/Module/
 - Schema comprehension: `.claude/skills/ast-comprehension/references/comprehension-schema.md`
 - Skill mapas de código: `.claude/skills/agent-code-map/SKILL.md`
 - Schema quality: `.claude/skills/ast-quality-gate/references/unified-schema.md`
-- Regla mapas humanos: `.claude/rules/domain/hcm-maps.md`
+- Regla mapas humanos: `docs/rules/domain/hcm-maps.md`
 - Skill mapas humanos: `.claude/skills/human-code-map/SKILL.md`
 - Mapas del workspace: `.human-maps/`
 - Mapas de proyectos: `projects/*/.human-maps/*.hcm`

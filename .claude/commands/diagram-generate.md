@@ -36,8 +36,8 @@ Leer en este orden (Progressive Disclosure):
 1. `CLAUDE.md` (raíz)
 2. `projects/{proyecto}/CLAUDE.md` — Stack, arquitectura, repos
 3. `projects/{proyecto}/infrastructure/` — Terraform, Docker, K8s
-4. `.claude/rules/diagram-config.md` — Constantes de la feature
-5. `.claude/rules/pm-config.md` — Credenciales si tool ≠ local
+4. `docs/rules/domain/diagram-config.md` — Constantes de la feature
+5. `docs/rules/domain/pm-config.md` — Credenciales si tool ≠ local
 
 ## 4. Pasos de ejecución
 

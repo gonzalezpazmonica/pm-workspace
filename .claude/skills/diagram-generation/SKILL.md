@@ -30,7 +30,7 @@ Generar diagramas de arquitectura, flujo de datos y secuencia a partir de la inf
 1. `CLAUDE.md` (raíz) — Contexto global
 2. `projects/{proyecto}/CLAUDE.md` — Stack, arquitectura, repos
 3. `projects/{proyecto}/infrastructure/` — Terraform, Docker, K8s si existen
-4. `.claude/rules/diagram-config.md` — Constantes y configuración
+4. `docs/rules/domain/diagram-config.md` — Constantes y configuración
 
 ---
 

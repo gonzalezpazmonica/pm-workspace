@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for block-infra-destructive.sh hook
-# Ref: .claude/rules/domain/infrastructure-as-code.md
+# Ref: docs/rules/domain/infrastructure-as-code.md
 
 setup() {
   TMPDIR=$(mktemp -d)

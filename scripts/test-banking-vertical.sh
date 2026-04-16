@@ -73,9 +73,9 @@ test_case "data-governance.md exists" "[ -f $REPO_ROOT/.claude/skills/banking-ar
 # ── 6. Detection rule ────────────────────────────────────────
 echo ""
 echo "6️⃣  Detection Rule"
-test_case "banking-detection.md exists" "[ -f $REPO_ROOT/.claude/rules/domain/banking-detection.md ]"
-test_case "detection: mentions Settlement" "grep -q 'Settlement' $REPO_ROOT/.claude/rules/domain/banking-detection.md"
-test_case "detection: 5 phases" "grep -q 'Fase 5' $REPO_ROOT/.claude/rules/domain/banking-detection.md"
+test_case "banking-detection.md exists" "[ -f $REPO_ROOT/docs/rules/domain/banking-detection.md ]"
+test_case "detection: mentions Settlement" "grep -q 'Settlement' $REPO_ROOT/docs/rules/domain/banking-detection.md"
+test_case "detection: 5 phases" "grep -q 'Fase 5' $REPO_ROOT/docs/rules/domain/banking-detection.md"
 
 # ── 7. Meta files ────────────────────────────────────────────
 echo ""

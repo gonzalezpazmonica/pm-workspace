@@ -10,7 +10,7 @@ context_cost: low
 # /wellbeing-guardian — Sistema proactivo de bienestar individual
 
 > Skill: @.claude/skills/wellbeing-guardian/SKILL.md
-> Config: @.claude/rules/domain/wellbeing-config.md
+> Config: @docs/rules/domain/wellbeing-config.md
 > Perfil: @.claude/profiles/users/{slug}/workflow.md
 
 Savia vela por tu salud durante las sesiones de trabajo: recuerda descansos,

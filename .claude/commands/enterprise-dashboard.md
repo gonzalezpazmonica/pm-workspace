@@ -10,7 +10,7 @@ context_cost: medium
 # /enterprise-dashboard — Analytics Empresarial
 
 > Skill: @.claude/skills/enterprise-analytics/SKILL.md
-> Config: @.claude/rules/domain/enterprise-metrics.md
+> Config: @docs/rules/domain/enterprise-metrics.md
 
 Visualización de métricas SPACE multi-proyecto, salud por equipo, matriz de riesgos, forecasting.
 
