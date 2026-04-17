@@ -14,7 +14,7 @@ tools:
   - Glob
   - Grep
   - Task
-model: opus
+model: claude-opus-4-7
 permissionMode: plan
 maxTurns: 30
 max_context_tokens: 80000

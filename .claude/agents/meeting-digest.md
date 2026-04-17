@@ -14,7 +14,7 @@ tools:
   - Task
   - Write
   - Edit
-model: sonnet
+model: claude-sonnet-4-6
 color: teal
 maxTurns: 20
 max_context_tokens: 80000
