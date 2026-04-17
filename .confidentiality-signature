@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=33d21a70e1101798915cfafff1e4adb01b7b22d672416535cd148a7dd08a5206
-timestamp=2026-04-17T16:48:08Z
-branch=spec/111-d-polyglot-decision
-head_commit=2429c0dc
-signature=252606684ed74b0e40a240f0de4eabb85cfbe8f3a24e02a2df6893675b424d91
+diff_hash=563ba360be7374d4cb56cd8d99341ddc9fbb669828980cfde08da453b3321463
+timestamp=2026-04-17T17:36:28Z
+branch=spec/112-113-external-learnings
+head_commit=6f40b1bc
+signature=ddac7525186bbad1fe92beb1fcdf2a2cb71b4dfd81b70deaa4dab2718df9ddb6

@@ -8,17 +8,24 @@ allowed-tools:
 context_cost: low
 ---
 
-# /graph-query {question}
+# /graph-query {question} [--mode=local|global|hybrid|bypass]
 
 Traduce preguntas en lenguaje natural a graph traversals y retorna resultados.
 
+## Modos (SPEC-113)
+
+- `--mode=local` (default) — entidad específica, 1-2 hops. "¿quién sabe X?"
+- `--mode=global` — agregación/summary, traversal amplio. "¿qué skills dominan el equipo?"
+- `--mode=hybrid` — combina local + global. "¿quién sabe X en proyecto Y?"
+- `--mode=bypass` — lookup directo sin traversal. Metadata concreta.
+
 ## Ejemplos de preguntas soportadas
 
-- "¿Quién sabe TypeScript en mi equipo?"
-- "¿De qué tareas depende el PBI AB#456?"
-- "¿Qué riesgos afectan el Sprint 2026-04?"
-- "¿Cuál es el impacto de la decisión ADR-3?"
-- "¿Está Alice asignada a más de 75 SP?"
+- "¿Quién sabe TypeScript en mi equipo?" (local)
+- "¿De qué tareas depende el PBI AB#456?" (local)
+- "¿Qué skills dominan el equipo?" (global)
+- "¿Qué riesgos afectan el Sprint 2026-04?" (local)
+- "¿Cuál es el impacto de la decisión ADR-3?" (hybrid)
 
 ## Ejecución
 
