@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.21.0] — 2026-04-17
+
+SPEC-110 — Memoria externa canónica parent-relative. Auto-load de identidad Savia + usuario activo + MEMORY.md en SessionStart.
+
+### Added
+- **`docs/propuestas/SPEC-110-memoria-externa-canonica.md`**: spec completa del store canónico en `../.savia-memory/` (parent-relative, OS-agnostic: Windows, macOS, Linux idéntico). Layout: `auto/`, `sessions/`, `projects/`, `agents/{public,private,projects}/`, `shield-maps/` (chmod 700 — aislado de external-memory), `pm-radar/`. Fallback: canonical → repo-local → `$HOME/.savia-memory/`.
+- **`scripts/savia-memory-bootstrap.sh`**: crea el store e instala symlink relativo `.claude/external-memory → ../../.savia-memory/`. Idempotente. Devuelve JSON `{target, mode, link}`.
+- **`scripts/savia-memory-migrate.sh`**: migración idempotente desde `public-agent-memory/`, `private-agent-memory/`, `projects/*/agent-memory/`, `output/.memory-store.jsonl` y `~/.savia/pm-radar/`. Copia nunca mueve; flag `--cleanup-origin` opcional y separado.
+- **`.claude/hooks/session-init.sh`**: invoca bootstrap al arranque y reporta `Memoria: ../.savia-memory (canónico)` en el status.
+- **`CLAUDE.md`**: añade sección `## Usuario activo (SPEC-110)` con `@imports` de `active-user.md` y `external-memory/auto/MEMORY.md`.
+
+### Changed
+- **`.gitignore`**: excluye `.claude/external-memory`, `.claude/external-memory-target` y `/.savia-memory/` (store local + symlinks locales, nunca commit).
+
+### Security
+- `shield-maps/` del store canónico queda en chmod 700 y no se toca por el bridge external-memory (sigue aislado de Cowork por diseño — N4 local-only).
+
 ## [5.20.0] — 2026-04-17
 
 Savia Shield — hardening Capa 0 (proxy API) + autostart hook + gitignore para mask-map.
@@ -7587,68 +7604,4 @@ Initial public release of PM-Workspace.
 [4.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.63.0...v4.64.0
 [4.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.61.0...v4.62.0
 [4.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.60.0...v4.61.0
-[4.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.59.0...v4.60.0
-[4.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.58.0...v4.59.0
-[4.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.56.0...v4.57.0
-[4.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.55.0...v4.56.0
-[4.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.49.0...v4.50.0
-[4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
-[4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
-[4.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.46.0...v4.47.0
-[4.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.45.0...v4.46.0
-[4.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.44.0...v4.45.0
-[4.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.43.0...v4.44.0
-[4.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.42.0...v4.43.0
-[4.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.41.0...v4.42.0
-[4.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.1...v4.41.0
-[4.40.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.40.0...v4.40.1
-[4.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.39.0...v4.40.0
-[4.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.37.0...v4.39.0
-[4.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.36.0...v4.37.0
-[4.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.1...v4.36.0
-[4.35.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.35.0...v4.35.1
-[4.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.34.0...v4.35.0
-[4.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.33.0...v4.34.0
-[4.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.32.0...v4.33.0
-[4.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.31.0...v4.32.0
-[4.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.30.0...v4.31.0
-[4.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.29.0...v4.30.0
-[4.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.28.0...v4.29.0
-[4.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.27.0...v4.28.0
-[4.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.26.0...v4.27.0
-[4.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.25.0...v4.26.0
-[4.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.24.0...v4.25.0
-[4.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.23.0...v4.24.0
-[4.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.22.0...v4.23.0
-[4.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.21.0...v4.22.0
-[4.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.20.0...v4.21.0
-[4.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.19.0...v4.20.0
-[4.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.18.0...v4.19.0
-[4.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.17.0...v4.18.0
-[4.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.16.0...v4.17.0
-[4.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.15.0...v4.16.0
-[4.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.14.1...v4.15.0
-[4.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.14.0...v4.14.1
-[4.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.13.0...v4.14.0
-[4.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.12.0...v4.13.0
-[4.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.11.0...v4.12.0
-[4.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.10.0...v4.11.0
-[4.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.9.0...v4.10.0
-[4.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.8.0...v4.9.0
-[4.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.7.0...v4.8.0
-[4.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.6.0...v4.7.0
-[4.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.5.0...v4.6.0
-[4.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.4.0...v4.5.0
-[4.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.3.0...v4.4.0
-[4.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.2.0...v4.3.0
-[4.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.1.1...v4.2.0
-[3.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.29.0...v3.30.0
-[3.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.28.0...v3.29.0
-[3.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.27.1...v3.28.0
-[3.27.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.27.0...v3.27.1
-[3.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.26.0...v3.27.0
-[3.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.25.1...v3.26.0
-[3.25.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.25.0...v3.25.1
-[3.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.24.0...v3.25.0
-[3.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.23.0...v3.24.0
-[3.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v3.22.0...v3.23.0
+[4.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/co
