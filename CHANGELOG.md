@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [5.21.0] — 2026-04-17
 
-SPEC-120 — Alignment del spec template con github/spec-kit como superset compatible.
+SPEC-120 — Alignment del spec template con github/spec-kit como superset compatible. Era 234.
 
 ### Added
 - **`docs/propuestas/SAVIA-SUPERPOWERS-ROADMAP.md`**: roadmap autónomo con 5 specs (SPEC-120..124) de mejoras seleccionadas por Savia desde el research de repos innovadores 2026.
