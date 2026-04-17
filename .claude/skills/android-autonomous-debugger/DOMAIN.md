@@ -22,7 +22,7 @@ Depurar aplicaciones Android en dispositivos fisicos requiere ciclos manuales re
 ## Relacion con otras skills
 
 - **Upstream**: spec-driven-development (specs definen los escenarios a verificar en dispositivo)
-- **Downstream**: visual-quality (analisis de los screenshots capturados), code-improvement-loop (fixes basados en crashes)
+- **Downstream**: visual-qa (analisis de los screenshots capturados), code-improvement-loop (fixes basados en crashes)
 - **Paralelo**: test-architect (diseno de tests E2E que el debugger ejecuta)
 
 ## Decisiones clave

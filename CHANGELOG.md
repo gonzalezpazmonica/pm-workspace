@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.15.0] — 2026-04-17
+
+SPEC-111 Debt cleanup — item 2 (orphan skills deletion). Era 234.
+
+### Removed
+- **15 orphan skills** confirmados sin uso real tras refinar `skills-usage-audit.sh`: `coherence-check`, `google-chat-notifier`, `google-drive-memory`, `google-sheets-tracker`, `headroom-optimization`, `non-engineer-templates`, `plugin-packaging`, `pm-mcp-server`, `postmortem-training`, `predictive-analytics`, `sdlc-state-machine`, `semantic-memory`, `session-recording`, `skills-marketplace`, `visual-quality`.
+- Entradas correspondientes en `.claude/skill-manifests.json` eliminadas.
+
+### Fixed
+- **`scripts/skills-usage-audit.sh`**: patrón de detección ampliado — ahora reconoce referencias en backticks (`` `skill-name` ``), referencias en prose ("skill X", "skill: X"), y excluye docs/audits/ del scan. El audit anterior falso-positivó 9 skills que SÍ estaban referenciadas.
+- Referencias cruzadas en DOMAIN.md de skills vivas actualizadas para no apuntar a skills borradas.
+
+### Changed
+- **CLAUDE.md**: skills count 91 → 76.
+- **`.claude/skill-manifests.json`**: total_skills 91 → 76.
+
+### Rationale
+Audit original (SPEC-109 action 10) marcó 24 skills como orphan, pero el patrón era demasiado estrecho. Audit refinado: 15 confirmados orphan, 9 FALSE POSITIVES recuperados (executive-reporting, devops-validation, risk-scoring, rules-traceability, savia-hub-sync, evaluations-framework, reflection-validation, context-optimized-dev, context-caching). Lección: audits destructivos requieren grep con tolerancia amplia.
+
 ## [5.13.0] — 2026-04-17
 
 SPEC-111 Debt cleanup — item 3 (hook perf CI gate). Era 234.
@@ -7336,6 +7355,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.13.0...v5.15.0
 [5.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.12.0...v5.13.0
 [5.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.11.0...v5.12.0
 [5.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.9.0...v5.10.0

@@ -23,7 +23,7 @@ Los LLMs operan por defecto en System 1 (rapido, heuristico), produciendo respue
 
 - **Upstream**: cualquier skill o agente que genere output evaluable.
 - **Downstream**: consensus-validation (reflection-validator como juez), spec-driven-development (validacion de specs).
-- **Paralelo**: coherence-check (coherencia output-objetivo vs esta skill que verifica razonamiento profundo).
+- **Paralelo**: check-coherence command (coherencia output-objetivo vs esta skill que verifica razonamiento profundo).
 
 ## Decisiones clave
 
