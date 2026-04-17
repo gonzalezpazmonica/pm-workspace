@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.20.0] — 2026-04-17
+
+Savia Shield — hardening Capa 0 (proxy API) + autostart hook + gitignore para mask-map.
+
+### Added
+- **`.claude/hooks/shield-autostart.sh`**: SessionStart hook que levanta shield-launcher en background si el proxy (puerto 8443) no responde. Fire-and-forget, espera máx 3s. Respeta `SAVIA_SHIELD_ENABLED=false`.
+- **`.claude/settings.json`**: registra el hook en SessionStart tras `session-init.sh`.
+
+### Fixed
+- **`scripts/savia-shield-proxy.py`**: filtra `accept-encoding` en headers reenviados (evitaba respuestas gzip que el desenmascarador no puede parsear) y `content-encoding` en respuestas de upstream. En `HTTPError` propaga body + headers originales.
+
+### Security
+- **`.gitignore`**: excluye directorio de config local con datos sensibles N4.
+
 ## [5.19.0] — 2026-04-17
 
 SPEC-114 — docs alignment post-SPEC-109/111/112/113. Era 234.
@@ -7408,6 +7422,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.19.0...v5.20.0
 [5.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.18.0...v5.19.0
 [5.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.16.0...v5.18.0
 [5.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.15.0...v5.16.0

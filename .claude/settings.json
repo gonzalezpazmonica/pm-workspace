@@ -8,6 +8,12 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-init.sh",
             "timeout": 15,
             "statusMessage": "Inicializando sesión PM-Workspace..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/shield-autostart.sh",
+            "timeout": 8,
+            "statusMessage": "Savia Shield: verificando proxy Capa 0..."
           }
         ]
       }

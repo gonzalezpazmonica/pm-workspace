@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=528c3fa89911299027f568543d4ba46592b06ad650271d5a1af6fcb09b5149d0
-timestamp=2026-04-17T19:08:35Z
-branch=spec/114-docs-savia-alignment
-head_commit=5cdfc68b
-signature=c0a304ff6e50b5a85507183b38f1c9774b415c74f4067ee2424b4b561702ce51
+diff_hash=e6965d739390d5f88381888275592482b77a618373ab0865c3b587632026abd4
+timestamp=2026-04-17T19:44:44Z
+branch=fix/savia-shield
+head_commit=426e3b04
+signature=a8b45ca4165335e92c279c7536a6ddc9154944508a744be589445a12e5c3a707
