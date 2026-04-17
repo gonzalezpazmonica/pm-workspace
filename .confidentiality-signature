@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e994f69aded47f7296a6adb228ff8597d52f16f5c4ff633872ebd29c15cdf278
-timestamp=2026-04-17T05:27:31Z
-branch=spec/109-savia-self-excellence
-head_commit=0e9e6473
-signature=0a920da24213511fe16a71ccd55337811f09460fae095d098e11b9fb4568ac7f
+diff_hash=bfe267de65a9c0a909564177ca09d4efd5cbd8ee7307c811e560abf6fa9d8628
+timestamp=2026-04-17T07:07:15Z
+branch=spec/109-b-identity-consolidation
+head_commit=e3ee748f
+signature=ef47ba0d639f3bf6f634df8d3817d0aacfa348afbcc62c57620239fedf46aa94
