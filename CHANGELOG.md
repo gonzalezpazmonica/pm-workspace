@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [5.21.0] — 2026-04-17
 
-SPEC-110 — Memoria externa canónica parent-relative. Auto-load de identidad Savia + usuario activo + MEMORY.md en SessionStart.
+SPEC-110 — Memoria externa canónica parent-relative. Era 110. Auto-load de identidad Savia + usuario activo + MEMORY.md en SessionStart.
 
 ### Added
 - **`docs/propuestas/SPEC-110-memoria-externa-canonica.md`**: spec completa del store canónico en `../.savia-memory/` (parent-relative, OS-agnostic: Windows, macOS, Linux idéntico). Layout: `auto/`, `sessions/`, `projects/`, `agents/{public,private,projects}/`, `shield-maps/` (chmod 700 — aislado de external-memory), `pm-radar/`. Fallback: canonical → repo-local → `$HOME/.savia-memory/`.
