@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [5.17.0] — 2026-04-17
+## [5.18.0] — 2026-04-17
 
 SPEC-112 + SPEC-113 — adoption de patterns externos (beans + edgequake). Era 234.
 
@@ -7390,7 +7390,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
-[5.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.16.0...v5.17.0
+[5.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.16.0...v5.18.0
 [5.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.15.0...v5.16.0
 [5.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.13.0...v5.15.0
 [5.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.12.0...v5.13.0
