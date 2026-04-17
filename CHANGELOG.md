@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.14.0] — 2026-04-17
+
+Savia Shield — hardening Capa 0 (proxy API) + autostart hook + gitignore para mask-map.
+
+### Added
+- **`.claude/hooks/shield-autostart.sh`**: SessionStart hook que levanta `shield-launcher.py` en background si el proxy (puerto 8443) no responde. Fire-and-forget, espera máx 3s. Respeta `SAVIA_SHIELD_ENABLED=false`.
+- **`.claude/settings.json`**: registra el hook en SessionStart tras `session-init.sh`.
+
+### Fixed
+- **`scripts/savia-shield-proxy.py`**: filtra `accept-encoding` en headers reenviados (evitaba respuestas gzip que el desenmascarador no puede parsear) y `content-encoding` en respuestas de upstream. En `HTTPError` propaga body + headers originales (antes se perdían headers y `Content-Length` quedaba mal alineado → frontend veía 502 opaco en lugar del error real).
+
+### Security
+- **`.gitignore`**: excluye `config.local/` — contiene `mask-map.json` con correspondencias reales ↔ ficticias (datos N4, nunca commit).
+
 ## [5.13.0] — 2026-04-17
 
 SPEC-111 Debt cleanup — item 3 (hook perf CI gate). Era 234.
