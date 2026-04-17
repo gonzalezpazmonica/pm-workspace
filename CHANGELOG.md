@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.10.0] — 2026-04-17
+
+SPEC-109 Savia Self-Excellence — action 7 (drift-check CI). Era 234.
+
+### Added
+- **`scripts/claude-md-drift-check.sh`**: verifica que los conteos en CLAUDE.md coincidan con realidad. Exit 2 si drift, 0 si match. Integrado en `readiness-check.sh`. Previene el patrón histórico que el audit 7.2/10 detectó.
+
+### Changed
+- **CLAUDE.md**: counts sincronizados a valores actuales (commands 532, skills 91 tras merges).
+- **`scripts/readiness-check.sh`**: añadido check critical que corre drift-check al inicio de sesión.
+
 ## [5.8.0] — 2026-04-17
 
 SPEC-109 Savia Self-Excellence — acciones 4-5 (identity consolidation).
@@ -7296,6 +7307,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.9.0...v5.10.0
 [5.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.7.0...v5.8.0
 [5.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.6.0...v5.7.0
 [5.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.5.0...v5.6.0

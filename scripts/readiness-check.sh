@@ -169,6 +169,7 @@ check critical "git repo initialized" "git -C '$ROOT_DIR' rev-parse --is-inside-
 check critical "not on main branch" "test \"\$(git -C '$ROOT_DIR' branch --show-current)\" != 'main'" || true
 check recommended ".gitignore exists" "test -f '$ROOT_DIR/.gitignore'"
 check recommended "GitHub remote configured" "git -C '$ROOT_DIR' remote get-url origin 2>/dev/null | grep -q 'github.com'"
+check critical "CLAUDE.md counts match reality (drift)" "bash '$ROOT_DIR/scripts/claude-md-drift-check.sh' >/dev/null 2>&1"
 
 # --- Summary ---
 echo ""

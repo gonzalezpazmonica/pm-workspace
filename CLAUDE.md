@@ -18,7 +18,7 @@
 
 ## Estructura
 
-`.claude/{agents(64), commands(533), profiles, hooks(55/59reg), rules/{domain,languages}, skills(92), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
+`.claude/{agents(64), commands(532), profiles, hooks(55/59reg), rules/{domain,languages}, skills(91), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
 
 ## Reglas Críticas (Rules 1-8, inline)
 
