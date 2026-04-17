@@ -285,3 +285,18 @@ jobs:
             exit 1
           fi
           echo "✅ Frontmatter valid ($WARNED legacy commands without frontmatter)."
+
+  hook-perf-gate:
+    name: Hook Latency Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y jq python3
+
+      - name: Run hook latency benchmark (strict — fail if any hook > 200ms)
+        run: bash scripts/hook-latency-bench.sh --iterations 3 --threshold 200 --strict
