@@ -54,19 +54,19 @@ teardown() {
   done
 }
 
-# ── confidentiality-sign.sh uses merge-base (stable hash) ───────────────────
+# ── confidentiality-sign.sh uses content-addressed tree hash (SPEC-111) ─────
 
-@test "confidentiality-sign.sh uses merge-base for stable hash" {
-  grep -q "merge-base" "$SIGN_SCRIPT"
+@test "confidentiality-sign.sh uses ls-tree for deterministic hash" {
+  grep -q "git ls-tree" "$SIGN_SCRIPT"
 }
 
-@test "confidentiality-sign.sh references SPEC-105 rationale" {
-  grep -qE "SPEC-105|stable.*main advances|queued PR" "$SIGN_SCRIPT"
+@test "confidentiality-sign.sh references SPEC-111 rationale" {
+  grep -qE "SPEC-111|content-addressed|deterministic" "$SIGN_SCRIPT"
 }
 
-@test "confidentiality-sign.sh no longer relies on moving origin/main directly" {
-  # Should use merge-base as the base ref, not origin/main..HEAD directly
-  grep -qE 'git merge-base origin/main HEAD' "$SIGN_SCRIPT"
+@test "confidentiality-sign.sh excludes self-referencing files" {
+  grep -qE '\.confidentiality-signature' "$SIGN_SCRIPT"
+  grep -qE 'confidentiality-gate\.yml' "$SIGN_SCRIPT"
 }
 
 # ── .gitattributes auto-resolves signature conflicts ────────────────────────

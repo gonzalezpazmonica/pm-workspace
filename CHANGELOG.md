@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.12.0] — 2026-04-17
+
+SPEC-111 Debt cleanup — item 4 (CI signature env bug). Era 234.
+
+### Fixed
+- **`scripts/confidentiality-sign.sh`**: reemplazado `git diff base..HEAD` por `git ls-tree -r HEAD` (content-addressed blob SHAs). Elimina divergencia local/CI del hash de firma — git diff tenía dependencias no deterministas (merge-base volatility tras merges paralelos, formato de diff sensible a entorno). Nuevo enfoque: firma aprueba un estado de árbol específico; cualquier cambio en ficheros trackeados invalida firma; rebase/merge que no toca ficheros trackeados preserva firma.
+
+### Rationale
+Post SPEC-109, 5 PRs consecutivos requirieron `--admin` merge por fallos en "Verify Audit Signature". Root cause: hash del diff variaba entre local (donde se firma) y CI (donde se verifica) incluso para el mismo commit. El fix usa objetos git content-addressed que son estables por construcción.
+
 ## [5.10.0] — 2026-04-17
 
 SPEC-109 Savia Self-Excellence — action 7 (drift-check CI). Era 234.
@@ -7315,6 +7325,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.11.0...v5.12.0
 [5.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.9.0...v5.10.0
 [5.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.8.0...v5.9.0
 [5.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.7.0...v5.8.0
