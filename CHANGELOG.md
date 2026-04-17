@@ -24,7 +24,7 @@ SPEC-109 Savia Self-Excellence — action 6 (model canonicalization). Era 234.
 ### Changed
 - **27 agents**: `model:` short forms (`opus`, `sonnet`, `haiku`, `inherit`) normalizados a canonical (`claude-opus-4-7`, `claude-sonnet-4-6`, `claude-haiku-4-5-20251001`).
 - Distribución final: 25 Opus + 36 Sonnet + 3 Haiku = 64 agents con modelo explícito canónico.
->>>>>>> origin/main
+
 ## [5.8.0] — 2026-04-17
 
 SPEC-109 Savia Self-Excellence — acciones 4-5 (identity consolidation).
