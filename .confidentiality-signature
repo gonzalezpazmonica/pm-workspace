@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6cf3da2ec256016214cffb7779981490043e693dd3be5b89067ce4ec84661885
-timestamp=2026-04-16T22:09:01Z
-branch=feature/windows-savia-monitor
-head_commit=a1522022
-signature=7995155d556f08c39ef9ac82c8fccca79fd0e220180b8cd2b531881dce96741c
+diff_hash=d60bab086678d114231cf09209665747653e989b4b3a207cb7ae09d62eda150b
+timestamp=2026-04-16T22:23:47Z
+branch=fix/hook-exec-perm
+head_commit=891bf9f8
+signature=9a829495765a3d8c155f82b3a9e70e0bb6938ba6368453f07cab9426a21c84da

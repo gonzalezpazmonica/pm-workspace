@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.6.0] — 2026-04-17
+
+Restore executable bit on `.claude/hooks/block-branch-switch-dirty.sh`. Hook
+was committed with mode 644 and triggered "Permission denied" on every bash
+call (non-blocking but noisy). Git mode change only (100644 → 100755). Era 234.
+
+### Fixed
+- **`.claude/hooks/block-branch-switch-dirty.sh`**: chmod +x via `git update-index --chmod=+x`
+
 ## [5.5.0] — 2026-04-16
 
 Savia Shield hardening for Windows + BATS test fixes. Era 233.
@@ -7264,6 +7273,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.5.0...v5.6.0
 [5.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.4.0...v5.5.0
 [5.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.3.0...v5.4.0
 [5.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.3.0...v5.4.0
