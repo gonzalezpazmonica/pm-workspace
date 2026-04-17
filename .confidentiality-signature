@@ -2,5 +2,5 @@
 diff_hash=fe615a37699ad213034aeae659fcb6c40ffde26f414d10f11d7a46d31821306e
 timestamp=2026-04-17T15:14:08Z
 branch=spec/111-b-hook-perf-gate
-head_commit=563e2bc0
+head_commit=5a872488
 signature=d95886f016ac3dce2d91828f8d2fcd7b9d98cf23f1d49928617cef97c53e7adf
