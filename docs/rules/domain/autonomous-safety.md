@@ -79,7 +79,7 @@ AUTONOMOUS_RESEARCH_NOTIFY      # Handle del humano que recibe informes de inves
 **Si `AUTONOMOUS_REVIEWER` no está configurado, el modo autónomo NO arranca.** El comando debe mostrar:
 
 ```
-❌ AUTONOMOUS_REVIEWER no configurado.
+ERROR: AUTONOMOUS_REVIEWER no configurado.
    Añade en .claude/rules/pm-config.local.md:
    AUTONOMOUS_REVIEWER = @tu-handle
    Ningún agente autónomo puede operar sin un humano designado como revisor.
