@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.22.0] — 2026-04-17
+
+SPEC-120 implementado + SPEC-121..124 + SE-028 propuestos. Roadmap autónomo SAVIA-SUPERPOWERS. Era 234.
+
+### Added
+- **`docs/propuestas/SAVIA-SUPERPOWERS-ROADMAP.md`**: roadmap autónomo con 5 specs (SPEC-120..124) de mejoras seleccionadas por Savia desde el research de repos innovadores 2026.
+- **`docs/propuestas/SPEC-120-spec-kit-alignment.md`**: spec alignment con github/spec-kit.
+- **`docs/propuestas/SPEC-121-handoff-convention.md`**: propuesta handoff-as-function OpenAI SDK pattern (pending impl).
+- **`docs/propuestas/SPEC-122-localai-emergency-hardening.md`**: propuesta LocalAI Anthropic shim para emergency-mode (pending impl).
+- **`docs/propuestas/SPEC-123-graphiti-temporal-pattern.md`**: propuesta temporal edges en knowledge-graph (pending impl).
+- **`docs/propuestas/SPEC-124-pr-agent-wrapper.md`**: propuesta pr-agent como 5º juez del Court (pending impl).
+- **`tests/test-spec-template-compliance.bats`**: 26 tests verifican que el spec template mantiene secciones spec-kit + secciones Savia exclusivas (quality threshold SPEC-055 passed).
+- **`tests/test-handoff-as-function.bats`**: 20 tests para validator de handoff-as-function (SPEC-121).
+- **`docs/rules/domain/agent-handoff-protocol.md`**: protocolo handoff-as-function (SPEC-121) — OpenAI SDK pattern.
+- **`docs/propuestas/SE-028-oumi-integration.md`**: integración oumi (data synth + eval + distillation) como complemento SE-027.
+- **`scripts/localai-readiness-check.sh`**: SPEC-122 — readiness check de LocalAI como Anthropic shim para emergency-mode.
+- **`.claude/rules/pm-config.local.md`**: AUTONOMOUS_REVIEWER configurado.
+
+### Changed
+- **`.claude/skills/spec-driven-development/references/spec-template.md`**: añadida sección `## Spec-Kit Alignment` con mapping canónico de secciones Savia ↔ spec-kit estándar. Marker `spec_kit_compatible: true`.
+- **`docs/agent-teams-sdd.md`**: añadida sección "Spec-Kit Alignment (SPEC-120)" con tabla de correspondencia y pointer al test de validación.
+
+### Fixed
+- **`scripts/` y `scripts/lib/`**: 103 shell scripts recuperados como ejecutables (chmod +x) tras doctor check.
+
+
 ## [5.20.0] — 2026-04-17
 
 Savia Shield — hardening Capa 0 (proxy API) + autostart hook + gitignore para mask-map.
@@ -7422,6 +7448,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.20.0...v5.22.0
 [5.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.19.0...v5.20.0
 [5.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.18.0...v5.19.0
 [5.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.16.0...v5.18.0
