@@ -3,6 +3,7 @@
 # Fire-and-forget: lanza shield-launcher en background si 8443 no responde.
 # Espera max 3s a que proxy responda antes de ceder. NO bloquea mas alla.
 set -uo pipefail
+read -r -t 0.1 _HOOK_INPUT 2>/dev/null || true
 
 # Salida limpia si algo falla
 trap 'printf "{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"Shield autostart: ERR line %s\"}}\n" "$LINENO"; exit 0' ERR
