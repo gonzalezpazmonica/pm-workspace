@@ -18,7 +18,7 @@
 
 ## Estructura
 
-`.claude/{agents(56), commands(513), profiles, hooks(55), rules/{domain,languages}, skills(91), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
+`.claude/{agents(64), commands(533), profiles, hooks(55/59reg), rules/{domain,languages}, skills(92), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
 
 ## Reglas Críticas (Rules 1-8, inline)
 
@@ -39,7 +39,7 @@
 | Config pm-workspace (constantes, paths) | `docs/rules/domain/pm-config.md` | Necesitas un path/constante de pm-workspace |
 | Proyectos activos privados | `.claude/rules/pm-config.local.md` | Necesitas identificar un proyecto real |
 | Cadencia scrum, comandos | `docs/rules/domain/pm-workflow.md` | Sprint planning, ceremonias, catálogo comandos |
-| Catálogo 56 agentes | `docs/rules/domain/agents-catalog.md` | Selección de agente para una tarea |
+| Catálogo 64 agentes | `docs/rules/domain/agents-catalog.md` | Selección de agente para una tarea |
 | Agent teams SDD | `docs/agent-teams-sdd.md` | Orquestación multi-agente SDD |
 | Agent notes protocol | `docs/agent-notes-protocol.md` | Handoff entre agentes |
 | 16 Language Packs | `docs/rules/domain/language-packs.md` | Detectar lenguaje de un proyecto |
@@ -57,6 +57,6 @@ NEVER `assembleDebug` — use `./gradlew buildAndPublish`. `JAVA_HOME=/snap/andr
 
 ## Hooks · Memoria
 
-55 hooks en `.claude/settings.json` — arranque blindado (sin red, sin deps externas).
+55 hooks (59 registros multi-event) en `.claude/settings.json` — arranque blindado (sin red, sin deps externas).
 Memory store: `bash scripts/memory-store.sh [recall|save|stats]`.
 Security review: `/security-review {spec}`.

@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.7.0] — 2026-04-17
+
+SPEC-109 Savia Self-Excellence — acciones 1-3 (drift + contradicción + emoji).
+Quick wins del audit 2026-04-17 (score 7.2/10). Era 234.
+
+### Fixed
+- **`CLAUDE.md`**: counts actualizados — agents(56→64), commands(513→533), hooks(55→59 registros), skills(91→92). El auditor `drift-auditor` se aplica ahora a sí mismo.
+- **`.claude/profiles/savia.md:222`**: contradicción tono base resuelta — "profesional-cercano" → "profesional-directo" (match con línea 17, tono canónico).
+- **`docs/rules/domain/autonomous-safety.md:82`**: emoji ❌ eliminado (violaba Rule #24 no-emojis). Sustituido por "ERROR:".
+
 ## [5.6.0] — 2026-04-17
 
 Restore executable bit on `.claude/hooks/block-branch-switch-dirty.sh`. Hook
@@ -7273,6 +7283,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.6.0...v5.7.0
 [5.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.5.0...v5.6.0
 [5.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.4.0...v5.5.0
 [5.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.3.0...v5.4.0
