@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=77af779109359fac84918cf01f9dada10f9f3658c557865bf88ef765a1fd5215
-timestamp=2026-04-17T11:53:18Z
+diff_hash=8cddfc8b9b48ca66079cc7452699ffe2465f40ebd311f4045db5c8805cd8f03c
+timestamp=2026-04-17T13:18:09Z
 branch=spec/109-d-drift-check
-head_commit=3f9a04be
-signature=179093e2f497c96ef196373f5fd9ae0a5c38ff292778f3bae3126813d8425b9c
+head_commit=652a2bf6
+signature=c91297f860ee25411d281a924a43fd0f7b60a980b255244499afdadd018785c1
