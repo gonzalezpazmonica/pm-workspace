@@ -1,7 +1,7 @@
 ---
 name: correctness-judge
 description: Code Review Court judge — logic, tests, edge cases, error paths
-model: sonnet
+model: claude-sonnet-4-6
 permission_level: L1
 tools: [Read, Glob, Grep]
 token_budget: 8500

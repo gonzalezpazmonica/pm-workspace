@@ -1,7 +1,7 @@
 ---
 name: compliance-judge
 description: Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality
-model: opus
+model: claude-opus-4-7
 permission_level: L1
 tools: [Read, Glob, Grep, Bash]
 token_budget: 13000

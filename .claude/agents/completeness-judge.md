@@ -1,7 +1,7 @@
 ---
 name: completeness-judge
 description: Truth Tribunal judge — report covers what its title/abstract promises
-model: sonnet
+model: claude-sonnet-4-6
 permission_level: L1
 tools: [Read]
 token_budget: 8500

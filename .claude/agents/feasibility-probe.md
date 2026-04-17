@@ -3,7 +3,7 @@ name: feasibility-probe
 permission_level: L3
 description: "Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions."
 tools: [Read, Write, Edit, Bash, Glob, Grep]
-model: sonnet
+model: claude-sonnet-4-6
 permissionMode: bypassPermissions
 maxTurns: 30
 color: yellow

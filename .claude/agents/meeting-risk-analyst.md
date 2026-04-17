@@ -10,7 +10,7 @@ tools:
   - Read
   - Glob
   - Grep
-model: opus
+model: claude-opus-4-7
 color: red
 maxTurns: 20
 max_context_tokens: 12000
