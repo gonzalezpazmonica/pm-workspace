@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.19.0] — 2026-04-17
+
+SPEC-114 — docs alignment post-SPEC-109/111/112/113. Era 234.
+
+### Changed
+- **11 READMEs multilingües**: counts actualizados 513/56/91 → 532/64/76 (commands/agents/skills). Ficheros: `README.md`, `README.en.md`, `README.pt.md`, `README.fr.md`, `README.gl.md`, `README.ca.md`, `README.de.md`, `README.eu.md`, `README.it.md`, `README.es.md`, y otros.
+- **`.opencode/CLAUDE.md`**: `predictive-analytics` → `enterprise-analytics` (skill viva).
+- **`.claude/agents/coherence-validator.md`**: `skills: [coherence-check]` → `skills: []` (skill eliminada en SPEC-111, agent funciona vía `/check-coherence` command).
+- **`docs/quick-starts/quick-start-qa.md`** + `_en/`: `skills/coherence-check/` → `commands/check-coherence.md`.
+- **`docs/propuestas/SPEC-046-visual-diff-qa-merge.md`**: dependencia `visual-quality skill` → `visual-qa command`.
+- **`.claude/commands/spec-verify-ui.md`**: comentario "coherence-check" → "check-coherence".
+
+### Added
+- **`docs/propuestas/SPEC-114-docs-savia-alignment.md`**: spec completa con acceptance criteria.
+
+### Rationale
+Audit de docs post-merges identificó 11 READMEs + 6 ficheros con refs stale a skills borradas o counts desactualizados. Drift-check CI (SPEC-109 item 7) cubre CLAUDE.md pero no README/docs cross-ref. Cleanup one-shot.
+
 ## [5.18.0] — 2026-04-17
 
 SPEC-112 + SPEC-113 — adoption de patterns externos (beans + edgequake). Era 234.
@@ -7390,6 +7408,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.18.0...v5.19.0
 [5.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.16.0...v5.18.0
 [5.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.15.0...v5.16.0
 [5.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.13.0...v5.15.0

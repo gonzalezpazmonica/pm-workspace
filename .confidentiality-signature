@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=563ba360be7374d4cb56cd8d99341ddc9fbb669828980cfde08da453b3321463
-timestamp=2026-04-17T17:36:28Z
-branch=spec/112-113-external-learnings
-head_commit=6f40b1bc
-signature=ddac7525186bbad1fe92beb1fcdf2a2cb71b4dfd81b70deaa4dab2718df9ddb6
+diff_hash=528c3fa89911299027f568543d4ba46592b06ad650271d5a1af6fcb09b5149d0
+timestamp=2026-04-17T19:08:35Z
+branch=spec/114-docs-savia-alignment
+head_commit=5cdfc68b
+signature=c0a304ff6e50b5a85507183b38f1c9774b415c74f4067ee2424b4b561702ce51

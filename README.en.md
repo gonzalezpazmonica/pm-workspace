@@ -68,7 +68,7 @@ I'm the little owl that lives inside pm-workspace. I adapt to your role, your la
 
 ## What's inside
 
-**513 commands · 56 agents · 91 skills · 55 hooks · 16 languages · 160 test suites**
+**532 commands · 64 agents · 76 skills · 55 hooks · 16 languages · 160 test suites**
 
 ### Project management
 Sprints, burndown, capacity, dailies, retros, KPIs. Reports in Excel and PowerPoint. Monte Carlo prediction. Billing and costs.
@@ -115,7 +115,7 @@ Overnight sprint, code improvement, tech research. Agents propose on `agent/*` b
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 513 commands
+│   ├── commands/       ← 532 commands
 │   ├── agents/         ← 56 specialized agents
 │   ├── skills/         ← 91 domain skills
 │   ├── hooks/          ← 55 deterministic hooks

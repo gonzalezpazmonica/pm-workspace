@@ -63,8 +63,7 @@ output/
 │   ├── qa-*.md         ← dashboard, regression, bug triage
 │   ├── testplan-*.md   ← generación y seguimiento de testplans
 │   └── spec-verify*.md ← verificación de specs
-├── skills/
-│   └── coherence-check/ ← validación de coherencia spec↔implementación
+├── commands/check-coherence.md ← validación de coherencia spec↔implementación
 └── rules/domain/
     └── eval-criteria.md ← criterios de evaluación (tipo: code)
 ```
