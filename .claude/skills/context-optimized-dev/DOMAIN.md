@@ -23,7 +23,7 @@ delegando trabajo pesado a subagentes con contexto fresco de 200K tokens.
 ## Relacion con otras skills
 
 - **Upstream**: spec-driven-development (genera la spec que se divide en slices)
-- **Downstream**: coherence-check (valida cada slice contra su spec-excerpt)
+- **Downstream**: check-coherence command (valida cada slice contra su spec-excerpt)
 - **Paralelo**: dag-scheduling (orquesta subagentes en paralelo cuando los slices son independientes)
 
 ## Decisiones clave

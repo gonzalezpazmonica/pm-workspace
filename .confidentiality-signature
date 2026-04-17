@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=fe615a37699ad213034aeae659fcb6c40ffde26f414d10f11d7a46d31821306e
-timestamp=2026-04-17T15:14:08Z
-branch=spec/111-b-hook-perf-gate
-head_commit=5a872488
+timestamp=2026-04-17T16:14:02Z
+branch=spec/111-c-orphan-skills
+head_commit=cad0bf41
 signature=d95886f016ac3dce2d91828f8d2fcd7b9d98cf23f1d49928617cef97c53e7adf

@@ -26,14 +26,18 @@ for skill_dir in "$ROOT"/.claude/skills/*/; do
   skill=$(basename "$skill_dir")
   [[ -f "$skill_dir/SKILL.md" ]] || continue
 
-  refs=$(grep -rlE "Skill\(\"?$skill\"?\)|/$skill\b|@\.claude/skills/$skill" \
+  # Match: Skill("name"), /name, @.claude/skills/name, `name`, skill: name,
+  # "skill name" in prose, or bare word boundary match in relevant files.
+  pattern="Skill\(\"?${skill}\"?\)|/${skill}\b|@\.claude/skills/${skill}|\`${skill}\`|skill[:\\s]+${skill}\\b|skill ${skill}\\b"
+  refs=$(grep -rlE "$pattern" \
     "$ROOT/.claude/commands/" \
     "$ROOT/.claude/agents/" \
     "$ROOT/CLAUDE.md" \
+    "$ROOT/.claude/README.md" \
     "$ROOT/docs/" \
-    2>/dev/null | grep -v "\.claude/skills/$skill/" | wc -l)
+    2>/dev/null | grep -v "\.claude/skills/$skill/" | grep -v "docs/audits/" | wc -l)
 
-  other_skills=$(grep -rlE "Skill\(\"?$skill\"?\)|/$skill\b" "$ROOT/.claude/skills/" 2>/dev/null \
+  other_skills=$(grep -rlE "$pattern" "$ROOT/.claude/skills/" 2>/dev/null \
     | grep -v "\.claude/skills/$skill/" | wc -l)
 
   total=$((refs + other_skills))

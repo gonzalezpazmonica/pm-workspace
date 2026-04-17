@@ -22,7 +22,7 @@ Los backlogs cambian silenciosamente: se anaden items, se re-estiman, se elimina
 ## Relacion con otras skills
 
 - **Upstream**: savia-hub-sync (gestiona push al remote), client-profile-manager (proporciona cliente y proyecto)
-- **Downstream**: sprint-management (datos de scope creep alimentan retrospectivas), predictive-analytics (tendencias de backlog)
+- **Downstream**: sprint-management (datos de scope creep alimentan retrospectivas), enterprise-analytics (tendencias de backlog)
 - **Paralelo**: backlog-patterns (detecta duplicados, complementa con analisis cualitativo)
 
 ## Decisiones clave
