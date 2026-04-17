@@ -1,7 +1,7 @@
 ---
 name: source-traceability-judge
 description: Truth Tribunal judge — every claim must have a verifiable @ref citation
-model: sonnet
+model: claude-sonnet-4-6
 permission_level: L1
 tools: [Read, Glob, Grep]
 token_budget: 8500

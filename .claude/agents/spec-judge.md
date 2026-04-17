@@ -1,7 +1,7 @@
 ---
 name: spec-judge
 description: Code Review Court judge — implementation vs approved spec, acceptance criteria
-model: sonnet
+model: claude-sonnet-4-6
 permission_level: L1
 tools: [Read, Glob, Grep]
 token_budget: 8500

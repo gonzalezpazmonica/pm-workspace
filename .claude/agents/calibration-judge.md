@@ -1,7 +1,7 @@
 ---
 name: calibration-judge
 description: Truth Tribunal judge — confidence statements match evidence strength
-model: sonnet
+model: claude-sonnet-4-6
 permission_level: L1
 tools: [Read, Glob, Grep]
 token_budget: 8500

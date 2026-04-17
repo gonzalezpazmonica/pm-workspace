@@ -17,6 +17,14 @@ SPEC-109 Savia Self-Excellence — action 7 (drift-check CI). Era 234.
 - **CLAUDE.md**: counts sincronizados a valores actuales (commands 532, skills 91 tras merges).
 - **`scripts/readiness-check.sh`**: añadido check critical que corre drift-check al inicio de sesión.
 
+## [5.9.0] — 2026-04-17
+
+SPEC-109 Savia Self-Excellence — action 6 (model canonicalization). Era 234.
+
+### Changed
+- **27 agents**: `model:` short forms (`opus`, `sonnet`, `haiku`, `inherit`) normalizados a canonical (`claude-opus-4-7`, `claude-sonnet-4-6`, `claude-haiku-4-5-20251001`).
+- Distribución final: 25 Opus + 36 Sonnet + 3 Haiku = 64 agents con modelo explícito canónico.
+>>>>>>> origin/main
 ## [5.8.0] — 2026-04-17
 
 SPEC-109 Savia Self-Excellence — acciones 4-5 (identity consolidation).
@@ -7307,7 +7315,10 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+<<<<<<< HEAD
 [5.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.9.0...v5.10.0
+=======
+[5.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.8.0...v5.9.0
 [5.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.7.0...v5.8.0
 [5.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.6.0...v5.7.0
 [5.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.5.0...v5.6.0

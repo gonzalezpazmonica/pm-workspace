@@ -1,7 +1,7 @@
 ---
 name: court-orchestrator
 description: Convenes the Code Review Court, manages fix cycles, produces .review.crc
-model: opus
+model: claude-opus-4-7
 permission_level: L4
 tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
 token_budget: 13000

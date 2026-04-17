@@ -1,7 +1,7 @@
 ---
 name: factuality-judge
 description: Truth Tribunal judge — factual accuracy of claims against verifiable sources
-model: opus
+model: claude-opus-4-7
 permission_level: L1
 tools: [Read, Glob, Grep, Bash]
 token_budget: 13000
