@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d8599c1f0a042e784e1e2da254856e643d75022fa9da7dfccd478cbbe3df7596
-timestamp=2026-04-17T17:31:22Z
+diff_hash=563ba360be7374d4cb56cd8d99341ddc9fbb669828980cfde08da453b3321463
+timestamp=2026-04-17T17:36:28Z
 branch=spec/112-113-external-learnings
-head_commit=bb871f70
-signature=46fa373f39cb833ca7b4bc9357b0b85d85f8320f3252ee4bdca6498e2b0875b8
+head_commit=70f79bea
+signature=ddac7525186bbad1fe92beb1fcdf2a2cb71b4dfd81b70deaa4dab2718df9ddb6
