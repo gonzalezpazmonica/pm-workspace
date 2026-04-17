@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.24.0] — 2026-04-18
+
+SPEC-121/122/123/124 — implementaciones completas iteración P2 (bats tests + pr-agent agent). Era 234.
+
+### Added
+- **`.claude/agents/pr-agent-judge.md`**: 5º juez opt-in del Court (SPEC-124) — wraps qodo-ai/pr-agent, emite handoff SPEC-121 al orchestrator. Activation por `COURT_INCLUDE_PR_AGENT=true`.
+- **`tests/test-localai-readiness-check.bats`**: 16 tests para SPEC-122 readiness check (certified quality SPEC-055).
+- **`tests/test-graph-temporal-ops.bats`**: 18 tests para SPEC-123 temporal ops (add/invalidate/query con semántica valid_from/invalid_at + filtro por relación).
+- **`tests/test-pr-agent-wrapper.bats`**: 21 tests para SPEC-124 wrapper — graceful fallback, feature flag check, JSON schema, isolation.
+
+### Changed
+- **`CLAUDE.md`**: agents count 64 → 65 (pr-agent-judge añadido).
+
 ## [5.22.0] — 2026-04-17
 
 SPEC-120 implementado + SPEC-121..124 + SE-028 propuestos. Roadmap autónomo SAVIA-SUPERPOWERS. Era 234.
@@ -7448,6 +7461,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.22.0...v5.24.0
 [5.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.20.0...v5.22.0
 [5.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.19.0...v5.20.0
 [5.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.18.0...v5.19.0
