@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=5f29035951cf5e1e1e3fdbc4bd3b062fe368c70dbc34771ec60edfbb9600e522
-timestamp=2026-04-17T16:52:45Z
+timestamp=2026-04-17T16:52:48Z
 branch=fix/savia-shield
-head_commit=f75510c
+head_commit=396ef86
 signature=42f083c2d5d91eff1ba02dbbe4446995c8b0bf9f011854f3f2d1f4477142a1c5
