@@ -6,19 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [5.11.0] — 2026-04-17
+## [5.10.0] — 2026-04-17
 
-SPEC-109 Savia Self-Excellence — actions 8, 9, 10 (spec + bench + audit). Era 234.
+SPEC-109 Savia Self-Excellence — action 7 (drift-check CI). Era 234.
 
 ### Added
-- **`docs/propuestas/SPEC-110-polyglot-developer.md`**: action 8 diferida como spec — consolida 12 `*-developer` agents en uno (high-risk refactor, sprint dedicado).
-- **`scripts/hook-latency-bench.sh`**: benchmark latencia por hook (action 9). Baseline: 55 hooks, 0 > 100ms, máximo ~66ms (session-init.sh).
-- **`scripts/skills-usage-audit.sh`**: audit uso de 91 skills (action 10). Resultado: 65 referenced, 2 self-only, 24 orphan candidates.
-- **`docs/audits/hook-bench-baseline-20260417.json`**: baseline para detectar regresiones.
-- **`docs/audits/skills-audit-20260417.md`**: lista de 24 skills huérfanos.
+- **`scripts/claude-md-drift-check.sh`**: verifica que los conteos en CLAUDE.md coincidan con realidad. Exit 2 si drift, 0 si match. Integrado en `readiness-check.sh`. Previene el patrón histórico que el audit 7.2/10 detectó.
 
-### Notes
-Action 8 (polyglot-developer) NO implementado — high risk refactor. SPEC-110 documenta plan + acceptance criteria. Decisión de impl queda al humano.
+### Changed
+- **CLAUDE.md**: counts sincronizados a valores actuales (commands 532, skills 91 tras merges).
+- **`scripts/readiness-check.sh`**: añadido check critical que corre drift-check al inicio de sesión.
 
 ## [5.9.0] — 2026-04-17
 
@@ -27,6 +24,7 @@ SPEC-109 Savia Self-Excellence — action 6 (model canonicalization). Era 234.
 ### Changed
 - **27 agents**: `model:` short forms (`opus`, `sonnet`, `haiku`, `inherit`) normalizados a canonical (`claude-opus-4-7`, `claude-sonnet-4-6`, `claude-haiku-4-5-20251001`).
 - Distribución final: 25 Opus + 36 Sonnet + 3 Haiku = 64 agents con modelo explícito canónico.
+
 ## [5.8.0] — 2026-04-17
 
 SPEC-109 Savia Self-Excellence — acciones 4-5 (identity consolidation).
@@ -7317,7 +7315,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
-[5.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.10.0...v5.11.0
+[5.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.9.0...v5.10.0
 [5.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.8.0...v5.9.0
 [5.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.7.0...v5.8.0
 [5.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.6.0...v5.7.0
