@@ -242,6 +242,16 @@ if [[ ! -f "$MANIFEST" ]] || find .claude/skills -name "SKILL.md" -newer "$MANIF
   bash scripts/build-skill-manifest.sh >/dev/null 2>&1 &
 fi
 
+# Regenerar .scm (Savia Capability Map) si hay recursos nuevos/modificados.
+# Determinístico: solo corre si algún fichero de commands/skills/agents/scripts
+# es más reciente que el INDEX.scm. Background (fire-and-forget, ~2s).
+SCM_INDEX=".scm/INDEX.scm"
+if [[ ! -f "$SCM_INDEX" ]] || \
+   find .claude/commands .claude/skills .claude/agents scripts \
+        \( -name "*.md" -o -name "*.sh" \) -newer "$SCM_INDEX" 2>/dev/null | grep -q .; then
+  python3 scripts/generate-capability-map.py >/dev/null 2>&1 &
+fi
+
 # Limpieza de auto-memory en background (SPEC-142)
 for mh_path in "$HOME/claude/scripts/memory-hygiene.sh" "./scripts/memory-hygiene.sh"; do
   if [ -f "$mh_path" ]; then

@@ -1,6 +1,7 @@
 # development — Savia Capability Map (L1)
-> 85 resources
+> 96 resources
 
+- **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
 - **arch-compare** (cmd): Comparar dos patrones de arquitectura para toma de decisiones
 - **arch-detect** (cmd): Detectar el patrón de arquitectura de un repositorio o proyecto
@@ -8,22 +9,23 @@
 - **arch-health** (cmd): Salud arquitectónica — fitness functions, drift detection, coupling metrics
 - **arch-recommend** (cmd): Recomendar la mejor arquitectura para un proyecto nuevo
 - **arch-suggest** (cmd): Sugerir mejoras de arquitectura basadas en detección previa
+- **ast-quality-gate** (skill): Language-agnostic code quality verification for AI-generated code. Runs native AST tools per language, detects 12 universal LLM error patterns, normalizes output to unified JSON. Integrates into SDD PostToolUse pipeline.
 - **ast-quality-gate** (script): ast-quality-gate.sh — Language-agnostic code quality meta-analyzer
-- **ast-quality-gate** (skill): Language-agnostic code quality verification for AI-generated code. Runs native AST tools per language, detects 12 univer
 - **best-practices-check** (cmd): Evaluate workspace against Claude Code best practices
 - **budget-guard** (script): budget-guard.sh — Context budget monitor (SPEC-022 F1)
 - **build-skill-manifest** (script): build-skill-manifest.sh — Genera manifesto de skills desde frontmatter
 - **calendar-focus** (cmd): Crear bloque de focus para una tarea especifica — Deep Work protegido
 - **check-coherence** (cmd): Validate that a spec, report, or code output actually matches its stated objective
-- **code-comprehension-report** (skill): Generate comprehension report with mental model after SDD implementation. Automatically documents architectural decision
+- **code-comprehension-report** (skill): Generate comprehension report with mental model after SDD implementation. Automatically documents architectural decisions, failure heuristics, and 3AM debugging guides.
 - **code-improve** (cmd): Launch autonomous code improvement loop — detects opportunities, applies improvements, creates PRs for review
-- **code-improvement-loop** (skill): Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera PRs pendientes de revisi
+- **code-improvement-loop** (skill): Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera PRs pendientes de revisión
 - **code-patterns** (cmd): Catálogo de patterns del proyecto con ejemplos del propio código del equipo
-- **code-reviewer** (>): 
-- **codebase-map** (>): 
+- **code-reviewer** (agent): >
 - **codebase-map** (cmd): Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills
+- **codebase-map** (skill): >
+- **competitive-design** (script): competitive-design.sh — Parallel design generation with 3 philosophies
 - **component-search** (cmd): Buscar componentes en el marketplace claude-code-templates (5.788+ componentes)
-- **comprehension-report** (cmd): Generate mental model report for an implemented task. Documents architectural decisions, failure heuristics, and 3AM deb
+- **comprehension-report** (cmd): Generate mental model report for an implemented task. Documents architectural decisions, failure heuristics, and 3AM debugging guide.
 - **dag-execute** (cmd): Ejecutar pipeline SDD con agentes en paralelo según DAG
 - **dag-plan** (cmd): Visualizar DAG de ejecución, camino crítico y ahorro de tiempo
 - **dag-scheduling** (skill): Orquestar agentes SDD en paralelo usando gráficos de dependencias
@@ -35,31 +37,37 @@
 - **eval-agent** (script): eval-agent.sh — Agent Evaluation Runner (SPEC-036)
 - **eval-run** (cmd): Execute evaluation against specified criteria
 - **execution-supervisor** (script): execution-supervisor.sh — Advisory reflection trigger (SPEC-065)
-- **feasibility-probe** (skill): Validate spec feasibility with time-boxed prototype attempt and viability scoring
 - **feasibility-probe** (cmd): Validate spec feasibility with a time-boxed prototype attempt
-- **feasibility-probe** (agent): Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections
+- **feasibility-probe** (skill): Validate spec feasibility with time-boxed prototype attempt and viability scoring
+- **feasibility-probe** (agent): Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions.
 - **graph-build** (cmd): Construye el grafo de conocimiento PM para un proyecto
-- **human-code-map** (skill): Genera y mantiene mapas narrativos de componentes (.hcm) para luchar activamente contra la deuda cognitiva. Usar PROACTI
-- **index-rebuild** (>): 
+- **human-code-map** (skill): Genera y mantiene mapas narrativos de componentes (.hcm) para luchar activamente contra la deuda cognitiva. Usar PROACTIVELY cuando: se incorpora un dev nuevo, se toca un módulo sin mapa, debt-score > 6, o se detecta que alguien re-lee el m
+- **impact-analysis** (script): impact-analysis.sh — Analyze codebase impact of modifying files
+- **index-rebuild** (cmd): >
 - **install-git-hooks** (script): install-git-hooks.sh — Instala hooks de Git para PM‑Workspace en OpenCode
 - **instinct-collapse-detector** (script): instinct-collapse-detector.sh — SPEC-045 Phase 1: detect exploration collapse
 - **marketplace-install** (cmd): Install components from claude-code-templates marketplace
 - **mcp-browse** (cmd): Explorar catálogo de MCPs disponibles (66+) via claude-code-templates
 - **mcp-server** (cmd): Expone las herramientas de Savia como MCP server para otros proyectos Claude Code
-- **pipeline-artifacts** (>): 
-- **pipeline-create** (>): 
+- **nd-autoconfig** (script): nd-autoconfig.sh — SPEC-061: Auto-configure accessibility.md from neurodivergent.md
+- **nidos-dev-lib** (script): nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098).
+- **pipeline-artifacts** (cmd): >
+- **pipeline-create** (cmd): >
 - **pipeline-engine** (script): pipeline-engine.sh — Orchestrate pipeline execution from YAML definition
 - **pipeline-local-run** (cmd): Run a local pipeline defined as YAML — no Jenkins/Azure Pipelines needed
-- **pipeline-logs** (>): 
-- **pipeline-run** (>): 
+- **pipeline-logs** (cmd): >
+- **pipeline-run** (cmd): >
 - **pipeline-stage-runner** (script): pipeline-stage-runner.sh — Execute a single pipeline stage
-- **pipeline-status** (>): 
+- **pipeline-status** (cmd): >
+- **pipeline-view** (cmd): ASCII table of all active pursuits with stage, value, and probability
+- **prompt-suggestion-engine** (script): prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization
 - **reaction-engine** (script): reaction-engine.sh — SPEC-050 Phase 1: Reaction Engine
 - **requirement-pushback** (script): requirement-pushback.sh — Analyze a spec and generate pushback questions
 - **retro-patterns** (cmd): Análisis de patrones en retrospectivas — temas recurrentes, action items sin resolver
 - **rpi-status** (cmd): Track progress of active RPI (Research → Plan → Implement) workflows.
-- **sdd-spec-writer** (>): 
+- **sdd-spec-writer** (agent): >
 - **semantic-compact** (script): semantic-compact.sh — SPEC-022 F2: Smart compact summary generator
+- **semantic-map** (script): semantic-map.sh — Generate compressed semantic maps of source code files
 - **setup-savia-web** (script): Setup, build, and serve savia-web on http://localhost:8081
 - **skill-loader** (script): skill-loader.sh — SPEC-144: Context-Aware Skill Loading
 - **sovereignty-pack** (script): sovereignty-pack.sh — Build fully offline Savia USB installer
@@ -68,6 +76,7 @@
 - **spec-explore** (cmd): Explore and analyze specification documents
 - **spec-generate** (cmd): Genera una Spec ejecutable a partir de una Task de Azure DevOps, lista para implementación.
 - **spec-implement** (cmd): Implementa una Spec según su developer_type — lanza agente o asigna a humano.
+- **spec-judge** (agent): Code Review Court judge — implementation vs approved spec, acceptance criteria
 - **spec-quality-auditor** (script): spec-quality-auditor.sh — Deterministic quality scorer for SDD specs
 - **spec-review** (cmd): Review specification for completeness and coherence
 - **spec-slice** (cmd): Analizar un spec y dividirlo en slices de implementación optimizados para contexto
@@ -78,11 +87,13 @@
 - **tech-research** (cmd): Launch autonomous technical research — investigates topics, generates reports, notifies designated human
 - **tech-research-agent** (skill): Agente de investigación técnica autónoma — investiga temas, genera informes, notifica al humano designado
 - **token-estimator** (script): token-estimator.sh — SPEC-069-TOKEN: Estimate token cost before execution
+- **tribunal-benchmark** (script): tribunal-benchmark.sh — SPEC-106 Phase 3.
 - **validate-consensus** (cmd): Lanzar panel de 3 jueces para validar specs, PRs y decisiones
 - **validate-pbi-spec-links** (script): validate-pbi-spec-links.sh — Check bidirectional PBI ↔ Spec links
 - **validate-spec** (script): validate-spec.sh — SPEC-071: Declarative spec validation without LLM
+- **verification-middleware** (script): verification-middleware.sh — Orchestrate 3 verification checks post-implementation
 - **verify-layer** (cmd): Run specific verification layer for debugging
-- **wireframe-check** (cmd): Validate implementation against wireframe/mockup designs. Register reference designs and verify implementation fidelity 
+- **wireframe-check** (cmd): Validate implementation against wireframe/mockup designs. Register reference designs and verify implementation fidelity against specifications.
 - **workload-balance** (cmd): Equilibrado objetivo de carga de trabajo respetando especialidades del equipo
 - **workspace-doctor** (script): workspace-doctor.sh — Health check pm-workspace (SPEC-031)
-- **worktree-setup** (>): 
+- **worktree-setup** (cmd): >
