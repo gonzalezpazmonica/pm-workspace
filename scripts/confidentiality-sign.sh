@@ -10,18 +10,15 @@ ACTION="${1:-status}"
 
 get_diff_hash() {
   cd "$ROOT_DIR" || exit 2
-  # Diff: merge-base(origin/main, HEAD)..HEAD excluding self-referencing files.
-  # Using merge-base (STABLE across main advances) instead of origin/main (MOVES
-  # after each PR merge) prevents signature invalidation when a queued PR
-  # becomes next-in-line. The merge-base only changes if the branch itself
-  # rebases onto new main content — which is the only legitimate case for
-  # re-signing. See SPEC-105.
-  local base
-  base=$(git merge-base origin/main HEAD 2>/dev/null) || base="origin/main"
-  git diff "$base..HEAD" -- . \
-    ':!.confidentiality-signature' \
-    ':!.github/workflows/confidentiality-gate.yml' \
-    2>/dev/null | sha256sum | awk '{print $1}'
+  # Hash the HEAD tree of all tracked files, excluding self-referencing files.
+  # Uses git's content-addressed blob SHAs (ls-tree output) — fully deterministic
+  # across environments (no diff format dependencies, no merge-base volatility).
+  # Rationale: signature asserts approval of a specific tree state. Any commit
+  # that changes tracked files → tree changes → sig invalid. Rebase/merge that
+  # doesn't touch tracked files → tree unchanged → sig still valid. See SPEC-111.
+  git ls-tree -r HEAD \
+    | awk -F'\t' '$2 != ".confidentiality-signature" && $2 != ".github/workflows/confidentiality-gate.yml"' \
+    | sha256sum | awk '{print $1}'
 }
 
 ensure_secret() {
