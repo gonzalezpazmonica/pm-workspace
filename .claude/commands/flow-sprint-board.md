@@ -14,11 +14,15 @@ context_cost: low
 ## Parámetros
 
 - `<sprint_id>` — Sprint identifier
+- `--ready` — Show only PBIs with no open blockers (ready-to-start queue)
 
 ## Ejecución
 
-Execute: `bash scripts/savia-flow-sprint.sh board <sprint_id>`
+- Default: `bash scripts/savia-flow-sprint.sh board <sprint_id>`
+- Con `--ready`: `bash scripts/savia-flow-sprint.sh board --ready <sprint_id>`
 
 ## Output
 
-Shows counts for: todo | in-progress | review | done
+**Default**: Shows board columns with counts per state.
+
+**`--ready`** (SPEC-112): PBIs del sprint sin `blockedBy` abierto, listos para empezar.
