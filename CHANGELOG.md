@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.21.0] — 2026-04-17
+
+SPEC-120 — Alignment del spec template con github/spec-kit como superset compatible.
+
+### Added
+- **`docs/propuestas/SAVIA-SUPERPOWERS-ROADMAP.md`**: roadmap autónomo con 5 specs (SPEC-120..124) de mejoras seleccionadas por Savia desde el research de repos innovadores 2026.
+- **`docs/propuestas/SPEC-120-spec-kit-alignment.md`**: spec alignment con github/spec-kit.
+- **`docs/propuestas/SPEC-121-handoff-convention.md`**: propuesta handoff-as-function OpenAI SDK pattern (pending impl).
+- **`docs/propuestas/SPEC-122-localai-emergency-hardening.md`**: propuesta LocalAI Anthropic shim para emergency-mode (pending impl).
+- **`docs/propuestas/SPEC-123-graphiti-temporal-pattern.md`**: propuesta temporal edges en knowledge-graph (pending impl).
+- **`docs/propuestas/SPEC-124-pr-agent-wrapper.md`**: propuesta pr-agent como 5º juez del Court (pending impl).
+- **`tests/test-spec-template-compliance.bats`**: 12 tests verifican que el spec template mantiene secciones spec-kit + secciones Savia exclusivas.
+- **`.claude/rules/pm-config.local.md`**: AUTONOMOUS_REVIEWER configurado.
+
+### Changed
+- **`.claude/skills/spec-driven-development/references/spec-template.md`**: añadida sección `## Spec-Kit Alignment` con mapping canónico de secciones Savia ↔ spec-kit estándar. Marker `spec_kit_compatible: true`.
+- **`docs/agent-teams-sdd.md`**: añadida sección "Spec-Kit Alignment (SPEC-120)" con tabla de correspondencia y pointer al test de validación.
+
+### Fixed
+- **`scripts/` y `scripts/lib/`**: 103 shell scripts recuperados como ejecutables (chmod +x) tras doctor check.
+
+
 ## [5.20.0] — 2026-04-17
 
 Savia Shield — hardening Capa 0 (proxy API) + autostart hook + gitignore para mask-map.
