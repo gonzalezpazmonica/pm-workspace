@@ -23,7 +23,7 @@ Las organizaciones con multiples proyectos necesitan visibilidad agregada de sal
 
 - **Upstream**: sprint-management (velocity por proyecto), azure-devops-queries (datos WIQL).
 - **Downstream**: executive-reporting (consume portfolio scores para informes PPTX/DOCX).
-- **Paralelo**: predictive-analytics (comparte formulas Monte Carlo), capacity-planning (WIP y carga).
+- **Paralelo**: capacity-planning (WIP y carga). Monte Carlo forecasts integrados en esta skill.
 
 ## Decisiones clave
 

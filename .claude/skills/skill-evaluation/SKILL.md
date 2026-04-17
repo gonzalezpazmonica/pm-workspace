@@ -45,10 +45,10 @@ priority: "low"
 
 **Mapping proyecto→skills**:
 - software → architecture-intelligence, developer-experience
-- research → predictive-analytics, diagram-generation
+- research → diagram-generation, knowledge-graph
 - hardware → regulatory-compliance, cost-management
 - legal → cost-management, regulatory-compliance
-- healthcare → regulatory-compliance, coherence-check
+- healthcare → regulatory-compliance, enterprise-analytics
 - nonprofit → executive-reporting, cost-management
 
 ## §3 Instinct Integration
