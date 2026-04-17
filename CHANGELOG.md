@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.13.0] — 2026-04-17
+
+SPEC-111 Debt cleanup — item 3 (hook perf CI gate). Era 234.
+
+### Added
+- **`.github/workflows/ci.yml`**: nuevo job `hook-perf-gate` que ejecuta `hook-latency-bench.sh --strict` en cada PR. Falla CI si cualquier hook excede 200ms. Previene regresión de performance en hooks.
+- **`scripts/hook-latency-bench.sh`**: flag `--strict` que hace exit 1 si algún hook supera el threshold.
+
+### Rationale
+Sin gate automático, la performance de hooks podía degradarse sin alerta. Baseline actual: 55 hooks, max ~124ms (scope-guard.sh), session-init 121ms. Threshold 200ms da margen razonable mientras evita regresión severa. Target a largo plazo: bajar ambos hooks a <100ms.
+
 ## [5.12.0] — 2026-04-17
 
 SPEC-111 Debt cleanup — item 4 (CI signature env bug). Era 234.
@@ -7325,6 +7336,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.12.0...v5.13.0
 [5.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.11.0...v5.12.0
 [5.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.9.0...v5.10.0
 [5.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.8.0...v5.9.0

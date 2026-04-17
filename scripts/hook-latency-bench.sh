@@ -12,12 +12,14 @@ ROOT="${SCRIPT_DIR}/.."
 ITERATIONS=3
 OUTPUT=""
 THRESHOLD_MS=100
+STRICT=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --iterations) ITERATIONS="$2"; shift 2 ;;
     --output) OUTPUT="$2"; shift 2 ;;
     --threshold) THRESHOLD_MS="$2"; shift 2 ;;
+    --strict) STRICT=1; shift ;;
     *) echo "Unknown arg: $1" >&2; exit 2 ;;
   esac
 done
@@ -108,6 +110,12 @@ if [[ -n "$OUTPUT" ]]; then
   } > "$OUTPUT"
   echo ""
   echo "JSON output: $OUTPUT"
+fi
+
+if [[ "$STRICT" -eq 1 && "$slow_count" -gt 0 ]]; then
+  echo ""
+  echo "ERROR: $slow_count hooks exceed ${THRESHOLD_MS}ms threshold (--strict)"
+  exit 1
 fi
 
 exit 0
