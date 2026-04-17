@@ -1,14 +1,9 @@
 #!/bin/bash
-# savia-memory-bootstrap.sh
-# Crea el store externo canónico en ../.savia-memory/ y un symlink .claude/external-memory → allí.
-# OS-agnostic: solo usa paths relativos al repo.
-# Idempotente: si ya existe todo, salida 0 sin cambios.
-# Fail-safe: si el parent no es escribible, cae a {repo}/.savia-memory/ (gitignored)
-# y como último recurso a $HOME/.savia-memory/.
-#
-# Se invoca desde session-init.sh en SessionStart y puede ejecutarse a mano.
-
+# savia-memory-bootstrap.sh — crea store externo canónico ../.savia-memory/
 set -uo pipefail
+# OS-agnostic: solo paths relativos al repo. Idempotente.
+# Fail-safe: parent no escribible → {repo}/.savia-memory/ → $HOME/.savia-memory/
+# Invocado desde session-init.sh (SessionStart) o manual.
 
 # ── Locate repo root (portable: works under git OR raw clone) ────────────────
 REPO_ROOT=""

@@ -1,13 +1,7 @@
 #!/bin/bash
-# savia-memory-migrate.sh
-# Migra la memoria existente desde los silos internos (repo) y externos (~/.savia, ~/.claude)
-# al store canónico externo gestionado por savia-memory-bootstrap.sh.
-#
-# Idempotente: si una fuente ya está migrada (hash igual), no la sobrescribe.
-# Fail-safe: copia primero, nunca mueve ni borra. La limpieza del origen es un paso SEPARADO
-# (--cleanup-origin) que solo se ejecuta si el usuario lo pide explícitamente.
-
+# savia-memory-migrate.sh — migra memoria de silos internos/externos al store canónico
 set -uo pipefail
+# Idempotente (hash-check). Fail-safe: copia, nunca mueve. --cleanup-origin separado.
 
 CLEANUP=false
 DRY=false
