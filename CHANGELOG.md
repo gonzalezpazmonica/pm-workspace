@@ -13,6 +13,18 @@ SPEC-109 Savia Self-Excellence — action 6 (model canonicalization). Era 234.
 ### Changed
 - **27 agents**: `model:` short forms (`opus`, `sonnet`, `haiku`, `inherit`) normalizados a canonical (`claude-opus-4-7`, `claude-sonnet-4-6`, `claude-haiku-4-5-20251001`).
 - Distribución final: 25 Opus + 36 Sonnet + 3 Haiku = 64 agents con modelo explícito canónico.
+## [5.8.0] — 2026-04-17
+
+SPEC-109 Savia Self-Excellence — acciones 4-5 (identity consolidation).
+Era 234.
+
+### Changed
+- **`docs/rules/domain/radical-honesty.md`**: marcado explícitamente como canonical source. Añadida sección de interacción con emotional-regulation.md (no hay conflicto — axes diferentes). Otros archivos ahora referencian vía `@-import` sin duplicar principios.
+- **`docs/rules/domain/critical-rules-extended.md:24`**: Rule #24 compactada — quita duplicación de principios, delega en canonical source.
+- **`.claude/profiles/savia.md`**: 223 → 109 líneas (51% reducción). Modo Agente extraído a `.claude/profiles/savia-agent-mode.md` (carga bajo demanda cuando `role: "Agent"`).
+
+### Added
+- **`.claude/profiles/savia-agent-mode.md`**: Protocolo machine-to-machine en fichero separado. 81 líneas, YAML/JSON estructurado, status codes, cero narrativa.
 
 ## [5.7.0] — 2026-04-17
 
@@ -7292,6 +7304,7 @@ Initial public release of PM-Workspace.
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
 [5.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.8.0...v5.9.0
+[5.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.7.0...v5.8.0
 [5.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.6.0...v5.7.0
 [5.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.5.0...v5.6.0
 [5.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.4.0...v5.5.0

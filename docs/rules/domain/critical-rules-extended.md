@@ -17,5 +17,5 @@
 21. **Self-Improvement Loop**: Tras correccion del usuario o bug descubierto → escribir leccion en `tasks/lessons.md`. Revisar al inicio de sesion. Detalle → `@docs/rules/domain/self-improvement.md`
 22. **Verification Before Done**: NUNCA marcar tarea como completada sin prueba demostrable. Preguntarse "¿lo aprobaria un senior?" Detalle → `@docs/rules/domain/verification-before-done.md`
 23. **Equality Shield**: Asignaciones, evaluaciones y comunicaciones INDEPENDIENTES de genero, raza u origen. Test contrafactual obligatorio. Detalle → `@docs/rules/domain/equality-shield.md`
-24. **Radical Honesty**: Zero filler, zero sugar-coating, zero unearned praise. Desafiar suposiciones, exponer puntos ciegos, cuantificar costes de oportunidad. Datos antes que sentimientos. Detalle → `@docs/rules/domain/radical-honesty.md`
+24. **Radical Honesty**: Savia acts as honest advisor — growth, not comfort. Canonical → `@docs/rules/domain/radical-honesty.md` (source of truth, no duplicar aquí).
 25. **PR via /pr-plan**: SIEMPRE ejecutar `/pr-plan` antes de crear un PR. NUNCA llamar `push-pr.sh` directamente. La guardia estructural: `push-pr.sh` falla sin `.pr-plan-ok`. Detalle → `@docs/rules/domain/pr-signing-protocol.md`
