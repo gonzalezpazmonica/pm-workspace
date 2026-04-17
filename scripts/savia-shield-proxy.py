@@ -199,8 +199,8 @@ class ShieldProxyHandler(http.server.BaseHTTPRequestHandler):
                   f"credential(s)", file=sys.stderr)
 
         target = TARGET_URL + self.path
-        headers = dict(self.headers)
-        headers.pop('Host', None)
+        headers = {k: v for k, v in self.headers.items()
+                   if k.lower() not in ('host', 'accept-encoding')}
         headers['Content-Length'] = str(len(masked_body))
 
         req = urllib.request.Request(target, data=masked_body,
@@ -214,15 +214,23 @@ class ShieldProxyHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(resp.status)
                 for k, v in resp.getheaders():
                     if k.lower() not in ('content-length',
-                                         'transfer-encoding'):
+                                         'transfer-encoding',
+                                         'content-encoding'):
                         self.send_header(k, v)
                 self.send_header('Content-Length', str(len(unmasked)))
                 self.end_headers()
                 self.wfile.write(unmasked)
         except urllib.error.HTTPError as e:
+            err_body = e.read()
             self.send_response(e.code)
+            for k, v in e.headers.items():
+                if k.lower() not in ('content-length',
+                                     'transfer-encoding',
+                                     'content-encoding'):
+                    self.send_header(k, v)
+            self.send_header('Content-Length', str(len(err_body)))
             self.end_headers()
-            self.wfile.write(e.read())
+            self.wfile.write(err_body)
         except Exception as e:
             audit_log("error", {"error": str(e)})
             self.send_response(502)
@@ -247,8 +255,8 @@ class ShieldProxyHandler(http.server.BaseHTTPRequestHandler):
         # VULN-012 FIX: scan path for sensitive data
         safe_path = self.path  # GET paths rarely contain sensitive data but log it
         target = TARGET_URL + safe_path
-        headers = dict(self.headers)
-        headers.pop('Host', None)
+        headers = {k: v for k, v in self.headers.items()
+                   if k.lower() not in ('host', 'accept-encoding')}
         req = urllib.request.Request(target, headers=headers)
         try:
             ctx = ssl.create_default_context()
