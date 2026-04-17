@@ -3,6 +3,30 @@
 > Plantilla estándar para specs ejecutables por humanos o agentes Claude.
 > Copiar y rellenar para cada Task. El objetivo es que no quede ningún campo ambiguo.
 
+> **spec_kit_compatible: true** — Este template es compatible con [github/spec-kit](https://github.com/github/spec-kit) como superset. Las 4 secciones estándar de spec-kit (`What & Why`, `Requirements`, `Technical Design`, `Acceptance Criteria`) se mapean a las secciones extendidas de Savia como se indica abajo.
+
+---
+
+## Spec-Kit Alignment
+
+Correspondencia entre secciones spec-kit estándar y secciones Savia extendidas:
+
+| spec-kit (estándar) | Savia (extendido) |
+|---|---|
+| `## What & Why` | `## 1. Contexto y Objetivo` |
+| `## Requirements` (Functional + Non-Functional) | `## 2. Contrato Técnico` + `## 3. Inputs/Outputs` + `## 3. Reglas de Negocio` + `## 4. Constraints and Limits` |
+| `## Technical Design` | `## 2.3 Dependencias` + `## 7. Código de Referencia` |
+| `## Acceptance Criteria` | `## 5. Test Scenarios` + `## 10. Checklist Pre-Entrega` |
+
+**Secciones exclusivas Savia** (no mapeables a spec-kit):
+- `Developer Type` (human | agent-single | agent-team) — para SDD agent routing
+- `Effort Estimation (Dual Model)` — agent/human/review effort + context risk
+- `Sección 6: Ficheros a Crear/Modificar` — precisión operativa para agentes
+- `Sección 9: Estado de Implementación` — log iterativo
+- `Sección 12: Iteration & Convergence Criteria` — checklist de madurez
+
+**Uso con tooling externo**: Herramientas que consumen specs spec-kit leerán las 4 secciones estándar por sus headers canónicos. Para exportar a spec-kit puro, copiar las secciones mapeadas y omitir las exclusivas de Savia.
+
 ---
 
 ## Cabecera

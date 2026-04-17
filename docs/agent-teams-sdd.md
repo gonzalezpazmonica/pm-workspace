@@ -90,6 +90,21 @@ Los hooks `TeammateIdle` y `TaskCompleted` se pueden usar para asegurar calidad:
 }
 ```
 
+## Spec-Kit Alignment (SPEC-120)
+
+El template canónico de specs (`.claude/skills/spec-driven-development/references/spec-template.md`) es **superset compatible con [github/spec-kit](https://github.com/github/spec-kit)**. Declara `spec_kit_compatible: true` y mapea las 4 secciones spec-kit estándar a secciones Savia extendidas:
+
+| spec-kit | Savia |
+|---|---|
+| `What & Why` | Sección 1 (Contexto y Objetivo) |
+| `Requirements` | Secciones 2, 3, 4 (contrato + inputs/outputs + reglas + constraints) |
+| `Technical Design` | Secciones 2.3, 7 (dependencias + código referencia) |
+| `Acceptance Criteria` | Secciones 5, 10 (test scenarios + checklist pre-entrega) |
+
+Las secciones exclusivas de Savia (Developer Type, Effort Estimation, Ficheros a Crear, Estado de Implementación, Iteration Criteria) **no se mapean** a spec-kit; herramientas externas las ignoran. Para exportar a spec-kit puro: copiar secciones mapeadas, omitir exclusivas.
+
+Validación: `tests/spec-template-compliance.bats` verifica que el template mantiene las 4 secciones spec-kit.
+
 ## Limitaciones Actuales
 
 - No resume sessions con teammates in-process

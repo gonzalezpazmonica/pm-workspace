@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # validate-devops-checks.sh — Check functions (sourced by validate-devops.sh)
 # Each returns JSON: {check, status, message, details?, remediation?}
 # Requires: ORG_URL, API_VERSION, PROJECT, TEAM, PROJECT_ID from caller.
