@@ -131,10 +131,10 @@ check_disk
 
 if $OUTPUT_JSON; then
   printf '{"overall":%d,"checks":[' "$OVERALL"
-  local first=true
+  FIRST=true
   for c in "${CHECKS[@]}"; do
     IFS='|' read -r status check msg <<< "$c"
-    $first && first=false || printf ','
+    $FIRST && FIRST=false || printf ','
     printf '{"status":"%s","check":"%s","message":"%s"}' \
       "$status" "$check" "$msg"
   done

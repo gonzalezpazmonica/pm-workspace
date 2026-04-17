@@ -83,10 +83,11 @@ extract_field() {
 }
 
 has_handoff_block() {
-  # Detect handoff-as-function block (SPEC-121) by presence of `to:` + `spec:` + `stage:`
-  echo "$INPUT" | grep -qE '^[[:space:]]*to[[:space:]]*:' && \
-  echo "$INPUT" | grep -qE '^[[:space:]]*spec[[:space:]]*:' && \
-  echo "$INPUT" | grep -qE '^[[:space:]]*stage[[:space:]]*:'
+  # Detect handoff-as-function block (SPEC-121) by `handoff:` marker OR any
+  # of its distinctive fields. Strict enforcement of required fields happens
+  # in validate_handoff_function.
+  echo "$INPUT" | grep -qE '^[[:space:]]*handoff[[:space:]]*:' || \
+  echo "$INPUT" | grep -qE '^[[:space:]]*(to|spec|stage|context_hash)[[:space:]]*:'
 }
 
 validate_handoff_function() {
