@@ -128,7 +128,7 @@ auto_fixable: 2
 | SDD specs | Fuente de verdad para requisitos |
 | `/visual-regression` | Complementa: spec verifica lógica, visual verifica píxeles |
 | `/testplan-generate` | spec-verify genera tests más granulares por componente |
-| `/check-coherence` | spec-verify es coherence-check específico para UI |
+| `/check-coherence` | spec-verify es check-coherence específico para UI |
 | `frontend-components.md` | Define los 8 estados y tokens a verificar |
 | `/a11y-audit` | spec-verify incluye ARIA, a11y-audit cubre WCAG completo |
 

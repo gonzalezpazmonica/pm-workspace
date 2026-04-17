@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-29
 **Status:** Draft
-**Depends on:** visual-quality skill, visual-qa-agent, PR Guardian, e2e-screenshot-validation rule
+**Depends on:** visual-qa command, visual-qa-agent, PR Guardian, e2e-screenshot-validation rule
 
 ---
 

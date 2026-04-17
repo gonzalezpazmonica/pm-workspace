@@ -68,7 +68,7 @@ Sono la civettina che vive dentro pm-workspace. Mi adatto al tuo ruolo, alla tua
 
 ## Cosa c'e dentro
 
-**513 comandi · 56 agenti · 91 skill · 55 hook · 16 linguaggi · 160 suite di test**
+**532 comandi · 64 agenti · 76 skill · 55 hook · 16 linguaggi · 160 suite di test**
 
 ### Gestione progetti
 Sprint, burndown, capacita, daily, retro, KPI. Report in Excel e PowerPoint. Previsione con Monte Carlo. Fatturazione e costi.
@@ -115,9 +115,9 @@ Sprint notturno, miglioramento codice, ricerca tecnica. Gli agenti propongono su
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 513 comandi
-│   ├── agents/         ← 56 agenti specializzati
-│   ├── skills/         ← 91 skill di dominio
+│   ├── commands/       ← 532 comandi
+│   ├── agents/         ← 64 agenti specializzati
+│   ├── skills/         ← 76 skill di dominio
 │   ├── hooks/          ← 55 hook deterministici
 │   └── rules/          ← regole di contesto e linguaggio
 ├── docs/               ← guide per ruolo, scenario, settore

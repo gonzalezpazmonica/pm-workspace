@@ -68,7 +68,7 @@ pm-workspace barruan bizi den hontzatxoa naiz. Zure rolera, zure hizkuntzara eta
 
 ## Zer dago barruan
 
-**513 komando · 56 agente · 91 skill · 55 hook · 16 hizkuntza · 160 test suite**
+**532 komando · 64 agente · 76 skill · 55 hook · 16 hizkuntza · 160 test suite**
 
 ### Proiektuen kudeaketa
 Sprint-ak, burndown-a, ahalmena, dailyak, retroak, KPIak. Txostenak Excel eta PowerPoint formatuan. Monte Carlo bidezko iragarpena. Fakturazioa eta kostuak.
@@ -115,8 +115,8 @@ Gaueko sprint-a, kodearen hobekuntza, ikerketa teknikoa. Agenteek `agent/*` adar
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 513 komando
-│   ├── agents/         ← 56 agente espezializatu
+│   ├── commands/       ← 532 komando
+│   ├── agents/         ← 64 agente espezializatu
 │   ├── skills/         ← 91 domeinu skill
 │   ├── hooks/          ← 55 hook deterministiko
 │   └── rules/          ← testuinguru eta hizkuntza arauak
