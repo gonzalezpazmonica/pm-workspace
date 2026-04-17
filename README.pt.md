@@ -68,7 +68,7 @@ Sou a corujinha que vive dentro do pm-workspace. Adapto-me ao seu papel, ao seu 
 
 ## O que ha la dentro
 
-**513 comandos · 56 agentes · 91 skills · 55 hooks · 16 linguagens · 160 suites de teste**
+**532 comandos · 64 agentes · 76 skills · 55 hooks · 16 linguagens · 160 suites de teste**
 
 ### Gestao de projetos
 Sprints, burndown, capacidade, dailies, retros, KPIs. Relatorios em Excel e PowerPoint. Previsao com Monte Carlo. Faturacao e custos.
@@ -115,9 +115,9 @@ Sprint noturno, melhoria de codigo, investigacao tecnica. Os agentes propoem em 
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 513 comandos
-│   ├── agents/         ← 56 agentes especializados
-│   ├── skills/         ← 91 skills de dominio
+│   ├── commands/       ← 532 comandos
+│   ├── agents/         ← 64 agentes especializados
+│   ├── skills/         ← 76 skills de dominio
 │   ├── hooks/          ← 55 hooks deterministicos
 │   └── rules/          ← regras de contexto e linguagem
 ├── docs/               ← guias por papel, cenario, setor

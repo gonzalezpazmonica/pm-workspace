@@ -14,8 +14,7 @@ color: cyan
 maxTurns: 5
 max_context_tokens: 5000
 output_max_tokens: 500
-skills:
-  - coherence-check
+skills: []
 permissionMode: plan
 context_cost: low
 token_budget: 8500

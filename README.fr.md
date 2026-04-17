@@ -68,7 +68,7 @@ Je suis la petite chouette qui vit dans pm-workspace. Je m'adapte a votre role, 
 
 ## Ce qu'il y a dedans
 
-**513 commandes · 56 agents · 91 skills · 55 hooks · 16 langages · 160 suites de tests**
+**532 commandes · 64 agents · 76 skills · 55 hooks · 16 langages · 160 suites de tests**
 
 ### Gestion de projets
 Sprints, burndown, capacite, dailies, retros, KPIs. Rapports en Excel et PowerPoint. Prediction par Monte Carlo. Facturation et couts.
@@ -115,9 +115,9 @@ Sprint nocturne, amelioration du code, recherche technique. Les agents proposent
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 513 commandes
-│   ├── agents/         ← 56 agents specialises
-│   ├── skills/         ← 91 skills de domaine
+│   ├── commands/       ← 532 commandes
+│   ├── agents/         ← 64 agents specialises
+│   ├── skills/         ← 76 skills de domaine
 │   ├── hooks/          ← 55 hooks deterministes
 │   └── rules/          ← regles de contexte et de langage
 ├── docs/               ← guides par role, scenario, secteur

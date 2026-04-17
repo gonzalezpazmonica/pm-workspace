@@ -100,7 +100,7 @@ Flujos: SDD (analyst→architect→security→tester→developer→reviewer) · 
 
 > Packs (16): `@docs/rules/domain/language-packs.md` · Entornos: `@docs/rules/domain/environment-config.md` · IaC: `@docs/rules/domain/infrastructure-as-code.md`
 
-Skills: azure-devops-queries · product-discovery · pbi-decomposition · spec-driven-development · diagram-generation · diagram-import · azure-pipelines · sprint-management · capacity-planning · executive-reporting · time-tracking-report · team-onboarding · voice-inbox · predictive-analytics · developer-experience · architecture-intelligence · regulatory-compliance
+Skills: azure-devops-queries · product-discovery · pbi-decomposition · spec-driven-development · diagram-generation · diagram-import · azure-pipelines · sprint-management · capacity-planning · executive-reporting · time-tracking-report · team-onboarding · voice-inbox · enterprise-analytics · developer-experience · architecture-intelligence · regulatory-compliance
 
 Ciclo: Explorar → Planificar → Implementar → Commit. Arquitectura: **Command → Agent → Skills** — subagentes solo con `Task`.
 

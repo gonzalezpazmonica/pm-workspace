@@ -68,7 +68,7 @@ Soc la mussola que viu dins de pm-workspace. M'adapto al teu rol, al teu idioma 
 
 ## Que hi ha dins
 
-**513 comandes · 56 agents · 91 skills · 55 hooks · 16 llenguatges · 160 suites de test**
+**532 comandos · 64 agents · 76 skills · 55 hooks · 16 llenguatges · 160 suites de test**
 
 ### Gestio de projectes
 Sprints, burndown, capacitat, dailies, retros, KPIs. Informes en Excel i PowerPoint. Prediccio amb Monte Carlo. Facturacio i costos.
@@ -115,9 +115,9 @@ Sprint nocturn, millora de codi, investigacio tecnica. Els agents proposen en br
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 513 comandes
-│   ├── agents/         ← 56 agents especialitzats
-│   ├── skills/         ← 91 skills de domini
+│   ├── commands/       ← 532 comandos
+│   ├── agents/         ← 64 agents especialitzats
+│   ├── skills/         ← 76 skills de domini
 │   ├── hooks/          ← 55 hooks deterministes
 │   └── rules/          ← regles de context i llenguatge
 ├── docs/               ← guies per rol, escenari, sector

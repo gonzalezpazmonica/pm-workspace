@@ -68,7 +68,7 @@ Ich bin die kleine Eule, die in pm-workspace lebt. Ich passe mich an deine Rolle
 
 ## Was drin steckt
 
-**513 Befehle · 56 Agenten · 91 Skills · 55 Hooks · 16 Sprachen · 160 Test-Suiten**
+**532 Befehle · 64 Agenten · 76 Skills · 55 Hooks · 16 Sprachen · 160 Test-Suiten**
 
 ### Projektmanagement
 Sprints, Burndown, Kapazitaet, Dailies, Retros, KPIs. Berichte in Excel und PowerPoint. Vorhersage mit Monte Carlo. Abrechnung und Kosten.
@@ -115,7 +115,7 @@ Nacht-Sprint, Code-Verbesserung, technische Forschung. Agenten schlagen auf `age
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 513 Befehle
+│   ├── commands/       ← 532 Befehle
 │   ├── agents/         ← 56 spezialisierte Agenten
 │   ├── skills/         ← 91 Domaenen-Skills
 │   ├── hooks/          ← 55 deterministische Hooks

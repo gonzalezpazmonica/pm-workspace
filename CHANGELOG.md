@@ -6,19 +6,72 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [5.17.0] — 2026-04-17
+## [5.20.0] — 2026-04-17
 
 Savia Shield — hardening Capa 0 (proxy API) + autostart hook + gitignore para mask-map.
 
 ### Added
-- **`.claude/hooks/shield-autostart.sh`**: SessionStart hook que levanta `shield-launcher.py` en background si el proxy (puerto 8443) no responde. Fire-and-forget, espera máx 3s. Respeta `SAVIA_SHIELD_ENABLED=false`.
+- **`.claude/hooks/shield-autostart.sh`**: SessionStart hook que levanta shield-launcher en background si el proxy (puerto 8443) no responde. Fire-and-forget, espera máx 3s. Respeta `SAVIA_SHIELD_ENABLED=false`.
 - **`.claude/settings.json`**: registra el hook en SessionStart tras `session-init.sh`.
 
 ### Fixed
-- **`scripts/savia-shield-proxy.py`**: filtra `accept-encoding` en headers reenviados (evitaba respuestas gzip que el desenmascarador no puede parsear) y `content-encoding` en respuestas de upstream. En `HTTPError` propaga body + headers originales (antes se perdían headers y `Content-Length` quedaba mal alineado → frontend veía 502 opaco en lugar del error real).
+- **`scripts/savia-shield-proxy.py`**: filtra `accept-encoding` en headers reenviados (evitaba respuestas gzip que el desenmascarador no puede parsear) y `content-encoding` en respuestas de upstream. En `HTTPError` propaga body + headers originales.
 
 ### Security
-- **`.gitignore`**: excluye `config.local/` — contiene `mask-map.json` con correspondencias reales ↔ ficticias (datos N4, nunca commit).
+- **`.gitignore`**: excluye directorio de config local con datos sensibles N4.
+
+## [5.19.0] — 2026-04-17
+
+SPEC-114 — docs alignment post-SPEC-109/111/112/113. Era 234.
+
+### Changed
+- **11 READMEs multilingües**: counts actualizados 513/56/91 → 532/64/76 (commands/agents/skills). Ficheros: `README.md`, `README.en.md`, `README.pt.md`, `README.fr.md`, `README.gl.md`, `README.ca.md`, `README.de.md`, `README.eu.md`, `README.it.md`, `README.es.md`, y otros.
+- **`.opencode/CLAUDE.md`**: `predictive-analytics` → `enterprise-analytics` (skill viva).
+- **`.claude/agents/coherence-validator.md`**: `skills: [coherence-check]` → `skills: []` (skill eliminada en SPEC-111, agent funciona vía `/check-coherence` command).
+- **`docs/quick-starts/quick-start-qa.md`** + `_en/`: `skills/coherence-check/` → `commands/check-coherence.md`.
+- **`docs/propuestas/SPEC-046-visual-diff-qa-merge.md`**: dependencia `visual-quality skill` → `visual-qa command`.
+- **`.claude/commands/spec-verify-ui.md`**: comentario "coherence-check" → "check-coherence".
+
+### Added
+- **`docs/propuestas/SPEC-114-docs-savia-alignment.md`**: spec completa con acceptance criteria.
+
+### Rationale
+Audit de docs post-merges identificó 11 READMEs + 6 ficheros con refs stale a skills borradas o counts desactualizados. Drift-check CI (SPEC-109 item 7) cubre CLAUDE.md pero no README/docs cross-ref. Cleanup one-shot.
+
+## [5.18.0] — 2026-04-17
+
+SPEC-112 + SPEC-113 — adoption de patterns externos (beans + edgequake). Era 234.
+
+### Added
+- **`scripts/agent-journal.sh`**: JSONL append-only journal para agent-runs autónomos (SPEC-112). Inspirado en henriquebastos/beans. Ruta: `output/agent-runs/{date}/journal.jsonl`. Soporta `append|tail|list`.
+- **`docs/propuestas/SPEC-112-agent-journal-ready-queue.md`**: spec completa con acceptance criteria.
+- **`docs/propuestas/SPEC-113-graph-query-modes.md`**: spec de query modes inspired by raphaelmansuy/edgequake.
+
+### Changed
+- **`.claude/commands/graph-query.md`**: añade flag `--mode=local|global|hybrid|bypass` (SPEC-113). Default `local` = backward compatible.
+- **`.claude/commands/flow-sprint-board.md`**: añade flag `--ready` que filtra PBIs sin bloqueos (SPEC-112).
+
+### Rationale
+Investigación tras merge de SPEC-111 identificó dos repos con patterns aplicables. Adopción selectiva:
+- Beans: journal JSONL + ready-queue (compatible con `feedback_session_journal.md`, Rule #24, autonomy safety).
+- EdgeQuake: query modes explícitos (guían al LLM, mejoran precisión de traversal).
+Rechazados: filosofía "no hooks" de Beans (choca con `feedback_friction_is_teacher.md`), infra pgvector+AGE de EdgeQuake (viola zero-dep startup).
+
+## [5.16.0] — 2026-04-17
+
+SPEC-111 Debt cleanup — item 1 (polyglot-developer decision). Era 234.
+
+### Changed
+- **`docs/propuestas/SPEC-110-polyglot-developer.md`**: status PROPOSED → REJECTED tras análisis de feasibility. Cierra la deuda con decisión razonada en vez de implementación.
+
+### Rationale
+Tras análisis: consolidar 12 `*-developer` agents en uno es **diseño incorrecto**, no solo "alto riesgo":
+1. La "duplicación" percibida es expertise discreto por lenguaje (convenciones, comandos, linters).
+2. Un agent polyglot cargaría 12× más tokens de prompt por invocación — Opus 4.7 rinde mejor con contextos focalizados.
+3. Routing por nombre es arquitectura válida, no deuda.
+4. La redundancia real es ~240 líneas (no 1500 como el audit sugirió).
+
+Alternativa futura de menor alcance: extraer boilerplate común (~20 líneas por agent) a fragmento importado. Solo si el ahorro justifica el trabajo.
 
 ## [5.15.0] — 2026-04-17
 
@@ -7369,6 +7422,10 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.19.0...v5.20.0
+[5.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.18.0...v5.19.0
+[5.18.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.16.0...v5.18.0
+[5.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.15.0...v5.16.0
 [5.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.13.0...v5.15.0
 [5.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.12.0...v5.13.0
 [5.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.11.0...v5.12.0

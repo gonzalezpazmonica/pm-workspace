@@ -1,63 +1,69 @@
 ---
 id: SPEC-110
 title: Polyglot Developer — consolidate 12 *-developer agents into 1
-status: PROPOSED (deferred — high risk refactor)
+status: REJECTED (2026-04-17, after feasibility analysis)
 origin: SPEC-109 action 8 (audit 2026-04-17)
 author: Savia
 ---
 
-# SPEC-110 — Polyglot Developer
+# SPEC-110 — Polyglot Developer (REJECTED)
 
-## Why
+## Why this was proposed
 
-Pm-workspace tiene 12 agents `*-developer` (cobol, dotnet, frontend, go, java, mobile, php, python, ruby, rust, terraform, typescript). La mayoría no se invocan activamente (8 de 12 no tienen referencias en commands/skills, solo language-packs).
+Pm-workspace tiene 12 agents `*-developer` (cobol, dotnet, frontend, go, java, mobile, php, python, ruby, rust, terraform, typescript), totalizando ~1423 líneas con aparente duplicación de frontmatter, identity blocks, restricciones y decision trees.
 
-Cada agent replica:
-- Frontmatter (model, tools, maxTurns, context budgets)
-- Identity block ("Eres desarrollador X")
-- Restricciones absolutas
-- Decision trees
-- Success metrics
+Aparente overhead: ~1500 líneas de "boilerplate repetido".
 
-Overhead por agent: 100-200 líneas · 12 agents = ~1500-2400 líneas de duplicación.
+## Why it was rejected
 
-## Scope
+Tras analizar la estructura real:
 
-Crear **un único `polyglot-developer`** que:
+### 1. "Duplicación" es expertise específico por lenguaje
+Cada agent tiene:
+- Convenciones de naming específicas (PascalCase Go vs camelCase JS)
+- Comandos de verificación pre-implementación (`go build ./...` vs `dotnet build`)
+- Linters y frameworks propios (`golangci-lint` vs `eslint` vs `ruff`)
+- Patrones de error handling específicos (Go explicit returns vs Java try-catch)
 
-1. Acepta parámetro `--language=<lang>` (cobol, dotnet, go, java, python, rust, ts, etc.)
-2. Carga el language pack correspondiente (`@docs/rules/languages/<lang>-rules.md`)
-3. Delega la SDD spec que recibe, con conocimiento del lenguaje
+Esto NO es duplicación — es expertise que debe mantenerse discreto para que el LLM active el contexto correcto.
 
-Deprecar los 12 agents existentes tras 2 sprints de coexistencia.
+### 2. Un único agent polyglot degrada el contexto
+Agent actual: Go-developer carga ~107 líneas específicas de Go.
+Agent polyglot: cargaría las 12 secciones (~1423 líneas) cada vez que se invoca, incluso para una task simple de Python.
 
-## Risks
+Penalty: ~13× más tokens de prompt system por invocación. Opus 4.7 rinde mejor con contextos focalizados, no diluídos.
 
-- **ALTO**: routing de tareas actualmente asume agent específico (`dotnet-developer` invocado desde `/spec-implement`). Hay que actualizar N commands/skills para el nuevo routing.
-- **MEDIO**: tests BATS que verifican existencia de agents por nombre se rompen.
-- **BAJO**: agent-notes protocol puede romperse si hace asunciones sobre el agent-id.
+### 3. Routing por nombre es arquitectura, no deuda
+`/spec-implement` routes a `{language}-developer` basado en la spec. Un dispatch centralizado en un único agent requeriría:
+- Branching lógico dentro del prompt (fragil con LLMs)
+- O un pre-router externo que haga el mismo trabajo que el routing actual
 
-## Plan (no implementado en esta sesión)
+Ganancia: 0. Complejidad: alta.
 
-1. Crear `polyglot-developer.md` con frontmatter + dispatch a language pack
-2. Actualizar `/spec-implement` y 3-4 commands clave para usar `polyglot-developer --language=X`
-3. Mantener los 12 agents existentes 2 sprints como deprecated (frontmatter `deprecated: true, replaced_by: polyglot-developer`)
-4. Tests BATS migrados
-5. Documentación actualizada (agents-catalog, README)
-6. Tras 2 sprints sin uso → eliminar los 12
+### 4. Las ~1500 líneas "duplicadas" son 100-200 por agent
+Cada agent tiene 100-150 líneas. El "duplicación" percibida (frontmatter, restricciones genéricas) es ~20 líneas. 12 × 20 = 240 líneas de redundancia real, no 1500.
 
-## Acceptance criteria
+Solution alternativa: extraer ese boilerplate a `@docs/rules/domain/developer-agent-core.md` importado por cada agent (ya existe parcialmente vía `@docs/rules/languages/<lang>-rules.md`).
 
-1. Un único agent `polyglot-developer` funciona para los 12 lenguajes actuales
-2. Delta de tokens de contexto medido: reducción ≥30% en sesiones que activaban 1 language developer
-3. Tests BATS pasan
-4. No se rompe `/spec-implement` ni ningún workflow SDD existente
+## Decision
 
-## Deferral rationale
+**REJECTED** el refactor de consolidación.
 
-Refactor de alto riesgo — 12 agents con N consumidores cada uno. Mejor ejecutar cuando:
-- Sprint completo disponible (no interrumpir otros trabajos)
-- Tests de integración SDD estables
-- Plan de rollback validado en sandbox
+**ACCEPTED** como alternativa de menor alcance:
+- Extraer el boilerplate común (restricciones, identity block genérico) a un fragmento importado por todos los `*-developer` agents.
+- Mantener los 12 agents específicos.
+- Ahorro estimado: ~200 líneas, sin degradar contexto por invocación.
 
-SPEC-109 (audit remediation) lo deja como spec-only. Implementación futura decidida por humano.
+Esto se tratará en una futura spec si el ahorro justifica el trabajo. Actualmente no es prioritario.
+
+## Lessons
+
+1. **"Duplicación" aparente puede ser expertise discreto.** Medir antes de consolidar.
+2. **Agent-per-domain es un patrón válido.** No todos los prompts deben ser DRY.
+3. **Context efficiency > code reuse** cuando el consumidor es un LLM.
+
+## Deferral rationale (original, ahora superado)
+
+~~Refactor de alto riesgo — ejecutar cuando sprint completo disponible.~~
+
+Tras análisis: no es solo "alto riesgo", es **diseño incorrecto**. Se cierra sin implementar.
