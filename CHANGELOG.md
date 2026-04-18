@@ -18,7 +18,7 @@ ROADMAP.md canonical — consolida 3 roadmaps previos + reprioriza con Tier 1-7.
 - **`docs/propuestas/ROADMAP-UNIFIED-20260418.md`**: status LIVING → SUPERSEDED (v1, absorbido en ROADMAP.md; mantener por auditoría).
 
 ### Motivacion
-Mónica pidió "consolida roadmaps en uno único, reprioriza y continua desarrollo". 3 roadmaps dispersos (SAVIA-SUPERPOWERS 2026-04-17 + ROADMAP-UNIFIED v1 2026-04-18 + savia-enterprise/DEVELOPMENT-PLAN 2026-04-11) creaban confusión. Un solo ROADMAP.md como source of truth, 2 roadmaps marcados SUPERSEDED con redirect, savia-enterprise DAG absorbido en Tier 5. Reprioritización: Tier 1 son probes read-only que generan ground truth antes de remediation — evita specs zombies (Spec Ops Repetition principle). Tier 5 completado con 10 specs SE-XXX adicionales (002/003/004/006/009/010/014/022/024/027) tras detección de gap por Mónica.
+Petición de la usuaria: consolidar roadmaps en uno único, repriorizar y continuar desarrollo. 3 roadmaps dispersos (SAVIA-SUPERPOWERS 2026-04-17 + ROADMAP-UNIFIED v1 2026-04-18 + savia-enterprise/DEVELOPMENT-PLAN 2026-04-11) creaban confusión. Un solo ROADMAP.md como source of truth, 2 roadmaps marcados SUPERSEDED con redirect, savia-enterprise DAG absorbido en Tier 5. Reprioritización: Tier 1 son probes read-only que generan ground truth antes de remediation — evita specs zombies (Spec Ops Repetition principle). Tier 5 completado con 10 specs SE-XXX adicionales (002/003/004/006/009/010/014/022/024/027) tras detección de gap.
 
 ## [5.43.0] — 2026-04-18
 
@@ -34,7 +34,7 @@ Debt specs formalizadas (SE-036/037/038/039) — roadmap Wave 4 consolidado. Era
 - **`docs/propuestas/ROADMAP-UNIFIED-20260418.md`**: Wave 4 table actualizada — cada deuda D1/D2/D3/D4 ahora tiene spec dedicado (SE-036/039/038/037). D5 absorbido por SE-037.
 
 ### Motivacion
-Mónica pidió formalizar deuda antes de seguir iterando: "genera specs de deuda para que no se pierda de contexto". 4 specs creados. Sin ellos, los items D1-D5 del roadmap eran prosa que se pierde; ahora son entidades trackeables con Purpose/Objective/Slicing/AC/expires. Todos PROPOSED, Rule #8 intacto — pendientes revisión humana.
+Petición de la usuaria: formalizar deuda antes de seguir iterando ("genera specs de deuda para que no se pierda de contexto"). 4 specs creados. Sin ellos, los items D1-D5 del roadmap eran prosa que se pierde; ahora son entidades trackeables con Purpose/Objective/Slicing/AC/expires. Todos PROPOSED, Rule #8 intacto — pendientes revisión humana.
 
 ## [5.42.0] — 2026-04-18
 
@@ -70,7 +70,7 @@ Roadmap unificado + SE-035 mutation testing skill. Era 234.
 - **`docs/propuestas/SE-035-mutation-testing-skill.md`**: skill `mutation-audit` invocable on-demand. StrykerJS + mutmut + bash wrapper. Feasibility Probe 1.5h blocking. Champion del research Gómez Corio 2026-04-18.
 
 ### Motivacion
-Petición explícita de Mónica: "consolida roadmap, añade lo que falte de savia enterprise, genera roadmap unificado sobre el que puedas iterar hasta el final. Deja para el final los que requieran hardware o humanos". Ejecutado. Savia mobile voice pipeline + ZeroClaw + enterprise billing diferidos a Sección B (no bloquean iteración). PROPOSED — pendiente revisión humana.
+Petición explícita de la usuaria: consolidar roadmap, añadir lo que falte de savia enterprise, generar roadmap unificado sobre el que Savia pueda iterar hasta el final. Diferir al final los que requieran hardware o humanos. Ejecutado. Savia mobile voice pipeline + ZeroClaw + enterprise billing diferidos a Sección B (no bloquean iteración). PROPOSED — pendiente revisión humana.
 
 ## [5.39.0] — 2026-04-18
 
@@ -105,7 +105,7 @@ Bounded concurrency audit + hardening + doctrina + 22 tests. Era 234.
 ### Changed
 - **`.claude/hooks/memory-prime-hook.sh`**: hardened a MAX_PARALLEL=5 explicito con semaphore y wait drain final. Antes: bounded implicitamente por --top 3 upstream. Defense-in-depth post Bluesky post-mortem.
 ### Motivacion
-Post-mortem Bluesky que Monica compartio (https://pckt.blog/b/jcalabro/april-2026-outage-post-mortem-219ebg2) + fork bomb de esta semana. Auditoria sistematica del workspace: mayormente safe — fork-agents.sh y wave-executor.sh ya usan semaphores, un unico vector endurecido, doctrina escrita para prevenir el patron.
+Post-mortem Bluesky compartido en sesion (https://pckt.blog/b/jcalabro/april-2026-outage-post-mortem-219ebg2) + fork bomb de esta semana. Auditoria sistematica del workspace: mayormente safe — fork-agents.sh y wave-executor.sh ya usan semaphores, un unico vector endurecido, doctrina escrita para prevenir el patron.
 
 ## [5.36.0] — 2026-04-18
 

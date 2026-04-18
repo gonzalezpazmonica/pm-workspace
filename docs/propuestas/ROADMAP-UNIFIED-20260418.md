@@ -108,7 +108,7 @@ Tool ya creado en Wave 4: `scripts/spec-status-normalize.sh` (PR #607). Ejecutar
 
 ## Sección B — Requires-hardware-or-humans (diferido)
 
-**No** iterar autónomamente. Esperan a Mónica / hardware / humanos operativos.
+**No** iterar autónomamente. Esperan a la usuaria / hardware / humanos operativos.
 
 | # | Spec | Motivo de diferimiento |
 |---|---|---|
@@ -127,8 +127,8 @@ Tool ya creado en Wave 4: `scripts/spec-status-normalize.sh` (PR #607). Ejecutar
 
 Savia NO escribe código en estos. Sí puede:
 - Mantener spec actualizado si llega nuevo contexto
-- Documentar lecciones cuando Mónica ejecuta manualmente
-- Escribir scaffolding (dirs, configs vacíos) si Mónica lo pide explícitamente
+- Documentar lecciones cuando la usuaria ejecuta manualmente
+- Escribir scaffolding (dirs, configs vacíos) si la usuaria lo pide explícitamente
 
 ---
 
@@ -190,7 +190,7 @@ Serie 6 — deuda técnica:
 
 Savia se detiene (NO crasha, NO continúa ciega) cuando:
 - Contexto >80% — ejecuta `/compact` y reevalúa
-- 3 fallos consecutivos en un mismo slice — escala a Mónica
+- 3 fallos consecutivos en un mismo slice — escala a la usuaria
 - Gate autonomía falla — escribe propuesta + espera luz verde
 - `/pr-plan` rojo irrecuperable — documenta en output/ y pasa al siguiente
 
@@ -209,7 +209,7 @@ Savia se detiene (NO crasha, NO continúa ciega) cuando:
 Este documento se actualiza:
 - Cada merge completo de wave (mover a DONE)
 - Cada research nuevo que genere champion (añadir a Wave 1)
-- Cada vez que Mónica pide pivot (registrar razón)
+- Cada vez que la usuaria pide pivot (registrar razón)
 
 Campo `expires: 2026-06-18` — si para entonces no se ha iterado ≥50% de Wave 1+2, re-review obligatorio. No zombie specs.
 

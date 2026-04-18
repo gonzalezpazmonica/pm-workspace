@@ -18,7 +18,7 @@ expires: "2026-06-18"
 > - Independencia del proveedor — adaptadores, no acoplamiento
 > - Honestidad radical — tests en rojo se dicen, no se esconden
 > - Privacidad absoluta — N4 jamás sale
-> - El humano decide — Mónica revisa cada PR. Cero merge autónomo (Rule #8)
+> - El humano decide — la usuaria revisa cada PR. Cero merge autónomo (Rule #8)
 > - Igualdad — Equality Shield
 > - Protección de identidad — Savia sigue siendo Savia
 >
@@ -70,7 +70,7 @@ Si TODOS los probes de Tier 2 aprueban: tenemos 4 capacidades nuevas con evidenc
 
 | # | Spec | Motivo del gate humano |
 |---|---|---|
-| 3.1 | **SPEC-SE-028** prompt injection guard | P0. Cambia arquitectura de seguridad. Savia escribe propuesta, espera luz verde explícita de Mónica antes de implementar. |
+| 3.1 | **SPEC-SE-028** prompt injection guard | P0. Cambia arquitectura de seguridad. Savia escribe propuesta, espera luz verde explícita de la usuaria antes de implementar. |
 
 ### Tier 4 — PROPOSED maduros (iteración directa)
 
@@ -137,18 +137,18 @@ Specs que deberían fusionarse o renombrarse:
 
 ## 2. Sección diferida — hardware / humans required
 
-Savia NO escribe código. Puede mantener spec updated + documentar cuando Mónica ejecuta manualmente.
+Savia NO escribe código. Puede mantener spec updated + documentar cuando la usuaria ejecuta manualmente.
 
 | Spec | Motivo | Responsable humano |
 |---|---|---|
-| SPEC-006 ZeroClaw | Hardware físico | Mónica |
-| SPEC-007 ZeroClaw voice | Hardware mic + audio | Mónica + hardware testing |
-| SPEC-008 ZeroClaw meeting digest | Hardware + humanos en reunión | Mónica |
-| SPEC-004 Robotics vertical | Hardware | Mónica |
-| SPEC-005 Physical assembly | Hardware + monta humano | Mónica |
-| SPEC-009 Savia Teams participant | Cuenta Teams + humanos | Mónica + Teams admin |
-| SPEC-021 Readiness (parte hw) | GPU, TPM, USB reales | Mónica |
-| SPEC-064 Computer use integration | Entorno GUI dedicado | Mónica |
+| SPEC-006 ZeroClaw | Hardware físico | la usuaria |
+| SPEC-007 ZeroClaw voice | Hardware mic + audio | la usuaria + hardware testing |
+| SPEC-008 ZeroClaw meeting digest | Hardware + humanos en reunión | la usuaria |
+| SPEC-004 Robotics vertical | Hardware | la usuaria |
+| SPEC-005 Physical assembly | Hardware + monta humano | la usuaria |
+| SPEC-009 Savia Teams participant | Cuenta Teams + humanos | la usuaria + Teams admin |
+| SPEC-021 Readiness (parte hw) | GPU, TPM, USB reales | la usuaria |
+| SPEC-064 Computer use integration | Entorno GUI dedicado | la usuaria |
 | SPEC-SE-005 Sovereign deployment | Ops humano (k8s, vault, DNS) | DevOps |
 | SPEC-SE-007 Enterprise onboarding | Ciclo comercial | Sales |
 | SPEC-SE-008 Licensing distribution | Legal + billing humano | Legal + finance |

@@ -43,7 +43,7 @@ Los que `--suggest` marca UNLABELED — requieren decisión humana:
 - DROPPED (obsoleto, superseded)
 - Implemented parcialmente (ej. Phase 1 done, Phase 2 pending)
 
-Slice escribe un `output/se-036-review-batch-{date}.md` con propuestas por spec; Mónica valida en batch; Savia aplica en masa.
+Slice escribe un `output/se-036-review-batch-{date}.md` con propuestas por spec; la usuaria valida en batch; Savia aplica en masa.
 
 ### Slice 3 — Batch Proposed vigente (41 specs, 1h)
 
