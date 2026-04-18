@@ -17,6 +17,17 @@ SPEC-SE-012 Módulos 3 + 4 — signal/noise reduction tooling. 31 tests. Era 234
 
 ### Motivacion
 SPEC-SE-012 lleva merged desde 2026-03 pero Módulos 3 + 4 quedaron pendientes. Módulo 4 ataca el problema concreto reobservado esta sesión: versiones CHANGELOG 5.42/5.43/5.44 colisionaron entre PRs #607/#608/#609 requiriendo merge-resolve manual. Módulo 3 acelera iteración local (solo corre los bats afectados, no 136). Ambos opt-in — no bloquean flujo si red falla.
+## [5.46.0] — 2026-04-18
+
+Ratchet enforcement gates — SE-037/038/039 Slice 3. 30 tests. Era 234.
+
+### Added
+- **`.ci-baseline/`**: contadores de violaciones congelados. `agent-size-violations.count=27`, `hook-critical-violations.count=5` (margen +2 por variance timing), `bats-compliance-min.pct=95`. README documenta pattern ratchet-down-only.
+- **`scripts/ci-extended-checks.sh` checks #8/9/10**: 3 nuevos gates ratchet. #8 agent size (Rule #22), #9 hook latency (SLA 20ms critical p50), #10 BATS auditor compliance floor (opt-in full sweep via `BATS_GATE_FULL=1`). Gates fallan en REGRESIÓN (current > baseline); emiten hint cuando current < baseline para lock-in de mejora.
+- **`tests/test-ci-extended-ratchet.bats`**: 30 tests — structure, baseline integrity, execution, regression simulada, stale hints, negative cases, edge cases. Auditor score 83.
+
+### Motivacion
+ROADMAP Tier 1 Slice 3 enforcement. Tras probes baseline quedan 27 agentes + 3-5 hooks sobre SLA. Ratchet pattern aterriza gates SIN bloquear remediation: compliance monotónica no-creciente. Alternative (bloquear inmediatamente) crearía churn; ratchet es convención rustc/typescript para silenciar deuda heredada sin amnistiarla.
 
 ## [5.45.0] — 2026-04-18
 
@@ -7548,6 +7559,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.47.0...v5.48.0
 [2.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.79.0...v2.80.0
 [2.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.78.0...v2.79.0
 [2.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.77.0...v2.78.0
@@ -7772,7 +7784,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
-[5.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.47.0...v5.48.0
+[5.46.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.45.0...v5.46.0
 [5.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.44.0...v5.45.0
 [5.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.43.0...v5.44.0
 [5.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.42.0...v5.43.0
