@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 99 resources
+> 100 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -84,6 +84,7 @@
 - **spec-review** (cmd): Review specification for completeness and coherence
 - **spec-slice** (cmd): Analizar un spec y dividirlo en slices de implementación optimizados para contexto
 - **spec-status** (cmd): Check specification status and approval state
+- **spec-status-normalize** (script): spec-status-normalize.sh — audit and normalize `status:` field across all
 - **spec-verify** (cmd): Verify implementation against specification criteria
 - **spec-verify-ui** (cmd): Verificación spec↔UI — comprueba que el componente implementado cumple su spec SDD
 - **statusline-provider** (script): statusline-provider.sh — HUD data provider for Claude Code statusline
