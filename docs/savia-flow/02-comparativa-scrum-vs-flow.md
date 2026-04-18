@@ -1,7 +1,7 @@
 # Comparativa: Scrum vs. Savia Flow
 ## Guía para Gestores de Proyectos en Transición
 
-**Autor:** Mónica González Paz, pm-workspace
+**Autor:** la usuaria González Paz, pm-workspace
 **Fecha:** Marzo 2026
 **Versión:** 1.0
 

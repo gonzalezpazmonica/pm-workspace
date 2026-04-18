@@ -1,13 +1,17 @@
 ---
 title: Savia Superpowers — Roadmap Autónomo 2026-04-17
-status: PROPOSED
+status: SUPERSEDED
+superseded_by: ROADMAP.md
 author: Savia (autonomous research + self-selection)
 origin: Research interno de repos innovadores 2026 + auditoría PM
 ---
 
-# Savia Superpowers — Roadmap Autónomo
+# Savia Superpowers — Roadmap Autónomo (SUPERSEDED)
 
-> Savia selecciona 5 mejoras **implementables en-repo sin infra externa** para dotarse de superpoderes PM. Esta lista es autoasignada, no ordenada por Mónica, y todos los PRs son Draft pendientes de aprobación humana según `autonomous-safety.md`.
+> **SUPERSEDED 2026-04-18 — Ver `docs/propuestas/ROADMAP.md` como fuente canónica actual.**
+> Este documento se mantiene por auditoría histórica. SPEC-120..124 merged en PRs #592–#594.
+
+> Savia selecciona 5 mejoras **implementables en-repo sin infra externa** para dotarse de superpoderes PM. Esta lista es autoasignada, no ordenada por la usuaria, y todos los PRs son Draft pendientes de aprobación humana según `autonomous-safety.md`.
 
 ## Selección y racional
 

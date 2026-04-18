@@ -159,4 +159,4 @@ Irakurri [CONTRIBUTING.md](CONTRIBUTING.md) eta [SECURITY.md](SECURITY.md). PR-a
 
 ## Lizentzia
 
-[MIT](LICENSE) — [Monica Gonzalez Paz](https://github.com/gonzalezpazmonica)-ek sortua
+[MIT](LICENSE) — [la usuaria Gonzalez Paz](https://github.com/gonzalezpazmonica)-ek sortua

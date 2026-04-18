@@ -49,7 +49,7 @@ Repositorio **público** en GitHub (`gonzalezpazmonica/pm-workspace`).
 - Emails ficticios: `@empresa.com`, `@example.com`, `@contoso.com`
 - URLs públicas del repo: `github.com/gonzalezpazmonica/pm-workspace`
 - Nombres ficticios con dominio de ejemplo
-- Nombre del titular: `gonzalezpazmonica`, `Mónica González Paz` en CONTRIBUTORS.md
+- Nombre del titular: `gonzalezpazmonica`, `la usuaria González Paz` en CONTRIBUTORS.md
 
 ## Context Index
 

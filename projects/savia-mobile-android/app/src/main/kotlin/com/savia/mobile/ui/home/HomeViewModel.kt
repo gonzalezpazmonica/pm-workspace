@@ -16,7 +16,7 @@ import javax.inject.Inject
 /**
  * UI state for the Home screen displaying dashboard data.
  *
- * @property greeting Personalized greeting from Bridge (e.g., "Good morning, Mónica")
+ * @property greeting Personalized greeting from Bridge (e.g., "Good morning, la usuaria")
  * @property selectedProject Current project name (null if not selected)
  * @property sprintName Name of the active sprint
  * @property sprintProgress Completion progress as decimal 0.0-1.0

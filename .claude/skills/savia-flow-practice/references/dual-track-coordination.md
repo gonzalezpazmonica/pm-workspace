@@ -24,7 +24,7 @@ Together, they keep the team flowing.
 - **Key responsibility:** Review technical constraints in specs before Spec-Ready
 - **WIP limit:** 2 items simultaneously
 
-### Mónica (Flow Facilitator)
+### la usuaria (Flow Facilitator)
 - **Oversight:** metrics, unblocking, priority decisions
 - **Handoff:** reviews Spec-Ready items, assigns to builders
 - **Escalation:** resolves cross-track dependencies
@@ -33,9 +33,9 @@ Together, they keep the team flowing.
 ## Handoff Ritual: Spec-Ready → Production
 
 1. Elena marks spec as **Spec-Ready** (all 5 sections complete)
-2. Mónica reviews: outcome clear? metrics measurable? DoD testable?
+2. la usuaria reviews: outcome clear? metrics measurable? DoD testable?
 3. If complex backend: Isabel reviews technical constraints (15 min)
-4. Mónica assigns to available builder based on:
+4. la usuaria assigns to available builder based on:
    - Skill match (front vs back)
    - Current WIP (don't exceed limit)
    - Context (has the person worked on related items?)
@@ -48,7 +48,7 @@ Together, they keep the team flowing.
   - If buffer <3: Elena focuses 80% on exploration (reduce gate time)
   - If buffer >7: Elena shifts to 60% gates (avoid spec staleness)
 - **Production:** should never have 0 Ready items (avoid starvation)
-  - If starvation detected: Mónica escalates, Elena prioritizes spec completion
+  - If starvation detected: la usuaria escalates, Elena prioritizes spec completion
 
 ## Dependency Management
 

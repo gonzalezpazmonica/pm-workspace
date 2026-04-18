@@ -159,4 +159,4 @@ Llegeix [CONTRIBUTING.md](CONTRIBUTING.md) i [SECURITY.md](SECURITY.md). PRs ben
 
 ## Llicencia
 
-[MIT](LICENSE) — Creat per [Monica Gonzalez Paz](https://github.com/gonzalezpazmonica)
+[MIT](LICENSE) — Creat per [la usuaria Gonzalez Paz](https://github.com/gonzalezpazmonica)

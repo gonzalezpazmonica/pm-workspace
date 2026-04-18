@@ -14,7 +14,7 @@ Meetings exist to solve problems, not fulfill rituals. If no problems, no meetin
 ## Weekly Sync
 **Format:** 30 min, everyone, Monday 10:00
 
-**Facilitator:** Mónica
+**Facilitator:** la usuaria
 
 **Agenda:**
 1. Flow metrics review (5 min) — cycle time trend, throughput, CFR
@@ -29,7 +29,7 @@ Meetings exist to solve problems, not fulfill rituals. If no problems, no meetin
 ## Spec Review
 **Format:** 30 min, on-demand, when spec moves to Spec-Ready
 
-**Participants:** Elena (author) + Mónica (reviewer) + builder if complex
+**Participants:** Elena (author) + la usuaria (reviewer) + builder if complex
 
 **Purpose:** Validate spec quality before handoff
 
@@ -58,7 +58,7 @@ Meetings exist to solve problems, not fulfill rituals. If no problems, no meetin
 ## Monthly Retro
 **Format:** 90 min, first Friday of month
 
-**Facilitator:** Mónica
+**Facilitator:** la usuaria
 
 **Sections:**
 1. Metrics trend (15 min) — compare this month vs last
@@ -73,7 +73,7 @@ Meetings exist to solve problems, not fulfill rituals. If no problems, no meetin
 **Format:** 4h, first week of quarter
 
 **Participants:**
-- Mónica + Elena (full session)
+- la usuaria + Elena (full session)
 - Ana + Isabel (last 2h only)
 
 **Structure:**
@@ -86,7 +86,7 @@ Meetings exist to solve problems, not fulfill rituals. If no problems, no meetin
 
 ## Weekly Calendar Template (4-Person Team)
 
-| Day | Mónica | Elena | Ana | Isabel |
+| Day | la usuaria | Elena | Ana | Isabel |
 |---|---|---|---|---|
 | Mon | Weekly sync 10:00 | Weekly sync 10:00 | Weekly sync 10:00 | Weekly sync 10:00 |
 | Tue | Oversight + unblocking | Discovery + spec writing | Building (front) | Building (back) |

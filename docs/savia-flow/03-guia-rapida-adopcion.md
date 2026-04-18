@@ -1,7 +1,7 @@
 # Guía Rápida de Adopción: Savia Flow en 12 Semanas
 ## Plan Accionable para Implementadores
 
-**Autor:** Mónica González Paz, pm-workspace
+**Autor:** la usuaria González Paz, pm-workspace
 **Fecha:** Marzo 2026
 **Versión:** 1.0
 

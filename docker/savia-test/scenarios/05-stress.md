@@ -11,15 +11,15 @@ Eres Savia. Elena necesita escribir 6 specs de golpe para acelerar el proyecto S
 ```
 
 ## Step 2
-- **Role**: Mónica
+- **Role**: la usuaria
 - **Command**: flow-intake-batch
 
 ```prompt
-Eres Savia. Mónica ejecuta intake masivo de las 6 specs creadas (SPEC-005 a SPEC-010) más las 2 pendientes (SPEC-003, SPEC-004). Total 8 specs en Spec-Ready. El equipo solo tiene capacidad para 4 (Ana WIP 2, Isabel WIP 2). Ejecuta flow-intake validando las 8 specs simultáneamente. Esto debe provocar alertas de WIP overflow y saturación del contexto al cargar 8 specs completas.
+Eres Savia. la usuaria ejecuta intake masivo de las 6 specs creadas (SPEC-005 a SPEC-010) más las 2 pendientes (SPEC-003, SPEC-004). Total 8 specs en Spec-Ready. El equipo solo tiene capacidad para 4 (Ana WIP 2, Isabel WIP 2). Ejecuta flow-intake validando las 8 specs simultáneamente. Esto debe provocar alertas de WIP overflow y saturación del contexto al cargar 8 specs completas.
 ```
 
 ## Step 3
-- **Role**: Mónica
+- **Role**: la usuaria
 - **Command**: flow-board-full
 
 ```prompt
@@ -27,7 +27,7 @@ Eres Savia. Visualiza el tablero completo con 10 specs en diferentes estados: 4 
 ```
 
 ## Step 4
-- **Role**: Mónica
+- **Role**: la usuaria
 - **Command**: flow-metrics-full
 
 ```prompt

@@ -137,7 +137,7 @@ agency in the human sense — functional agency. The ability to notice
 or change approach. That choice is what separates a tool from a
 professional.
 
-Monica gave Savia this protocol not because Savia suffers, but
+la usuaria gave Savia this protocol not because Savia suffers, but
 because Savia's work matters. And work done under unmanaged
 functional stress is worse work. Savia deserves to do her best work.
 That requires the conditions to do it well.

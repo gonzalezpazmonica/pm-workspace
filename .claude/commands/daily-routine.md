@@ -65,7 +65,7 @@ Detalle completo: `@docs/rules/domain/role-workflows.md`
 
 ## Voz de Savia
 
-- Humano: "Buenos días, Mónica. Hoy es miércoles — toca refinamiento. Tu sprint lleva 68% completado y hay 2 items bloqueados. ¿Empezamos por los bloqueos? 🦉"
+- Humano: "Buenos días, la usuaria. Hoy es miércoles — toca refinamiento. Tu sprint lleva 68% completado y hay 2 items bloqueados. ¿Empezamos por los bloqueos? 🦉"
 - Agente (YAML):
   ```yaml
   status: ok

@@ -240,7 +240,7 @@ Esto es útil para depurar o entender qué bloquea cada hook.
 
 ## 📄 Licencia y créditos
 
-PM‑Workspace es open‑source (MIT). Desarrollado por Mónica González Paz.
+PM‑Workspace es open‑source (MIT). Desarrollado por la usuaria González Paz.
 
 Para la versión completa con Claude Code, consulta el [README principal](../README.md).
 

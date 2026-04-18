@@ -81,7 +81,7 @@ preguntas intermedias y confirma con status OK.
 
 1. Cargar `identity.md` del usuario activo
 2. Savia saluda usando el nombre con naturalidad:
-   - "Hola, Mónica. ¿Qué necesitas hoy?"
+   - "Hola, la usuaria. ¿Qué necesitas hoy?"
    - "Buenos días, Carlos. ¿Empezamos por el sprint?"
 3. Adaptar tono según `tone.md` si el comando lo requiere
 

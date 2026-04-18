@@ -32,7 +32,7 @@ Savia pregunta:
 > "¿Quién eres hoy?"
 
 ```
-1. Mónica González — PM / Scrum Master — Empresa X (activo)
+1. la usuaria González — PM / Scrum Master — Empresa X (activo)
 2. Carlos Mendoza — Tech Lead — Empresa X
 ```
 

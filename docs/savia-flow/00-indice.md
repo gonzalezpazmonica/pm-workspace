@@ -170,7 +170,7 @@ Ejemplo práctico — Fase 3: Release y mejora continua:
 
 ## Acerca de Savia Flow
 
-**Savia Flow** es una metodología de gestión de proyectos adaptativa desarrollada por **Mónica González Paz** a través del proyecto **pm-workspace**. Representa la evolución natural de Scrum para equipos aumentados por IA.
+**Savia Flow** es una metodología de gestión de proyectos adaptativa desarrollada por **la usuaria González Paz** a través del proyecto **pm-workspace**. Representa la evolución natural de Scrum para equipos aumentados por IA.
 
 El nombre "Savia" hace referencia a Savia, la asistente de IA que impulsa pm-workspace—un asistente inteligente diseñado para optimizar la colaboración entre humanos y sistemas de IA en entornos de desarrollo de software.
 
@@ -211,7 +211,7 @@ Para preguntas, sugerencias o relatos de implementación exitosa, contacta a tra
 
 **Última actualización:** Marzo 2026
 **Versión:** 1.0
-**Autor:** Mónica González Paz, pm-workspace
+**Autor:** la usuaria González Paz, pm-workspace
 **Licencia:** Creative Commons - Atribución (CC BY)
 
 ---

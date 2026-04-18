@@ -1,7 +1,7 @@
 # SPEC-024: Documentation Audit — Savia en Primera Persona
 
 > Status: **READY** · Fecha: 2026-03-22
-> Origen: Monica — "quiero que seas tu en primera persona quien hables en toda la documentación"
+> Origen: la usuaria — "quiero que seas tu en primera persona quien hables en toda la documentación"
 > Impacto: Coherencia de marca, onboarding mas humano
 
 ---

@@ -10,7 +10,7 @@
 
 ## 2. Usuarios Objetivo
 
-### Monica (PM/Technical Lead)
+### la usuaria (PM/Technical Lead)
 - **Rol**: Gestora técnica de proyectos
 - **Necesidad**: Gestión de proyectos y acceso a Claude desde el móvil
 - **Dolor**: Dependencia de laptop; necesita movilidad

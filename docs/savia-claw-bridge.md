@@ -53,7 +53,7 @@ Savia Mobile (Android)         Savia Claw daemon (Lima)
 
 ## Installation — required ONCE per host
 
-### Step 1: user-level (works while Monica is logged in)
+### Step 1: user-level (works while la usuaria is logged in)
 
 ```bash
 systemctl --user enable --now savia-bridge
@@ -65,7 +65,7 @@ This is the default after cloning the repo and is what this PR wires up.
 
 ### Step 2: promote to system unit (survives reboot)
 
-User-level services stop when Monica logs out. To keep the bridge running
+User-level services stop when la usuaria logs out. To keep the bridge running
 after power failures and reboots, promote it to a system unit:
 
 ```bash
@@ -105,7 +105,7 @@ the shell for maximum reliability. Wiring:
 | `bridge:down` in daemon log | Service stopped or crashed | `systemctl restart savia-bridge` and check `journalctl -u savia-bridge` |
 | Health returns 500 | Claude CLI not found in PATH | Ensure `/home/monica/.local/bin/claude` exists and PATH env is set |
 | SSH loopback fails with "Permission denied" | Public key not in `authorized_keys` | `cat ~/.ssh/savia_remote_ed25519.pub >> ~/.ssh/authorized_keys` |
-| Bridge returns after reboot only when Monica logs in | User unit active, system unit not installed | Run `sudo bash scripts/install-savia-bridge-system.sh` |
+| Bridge returns after reboot only when la usuaria logs in | User unit active, system unit not installed | Run `sudo bash scripts/install-savia-bridge-system.sh` |
 
 ## Operational runbook
 

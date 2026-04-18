@@ -58,7 +58,7 @@ Todo lo anterior es **servicio, no licencia**. El código sigue siendo MIT.
 
 ### Gobernanza del proyecto
 
-- Core maintainer: Mónica González Paz
+- Core maintainer: la usuaria González Paz
 - Comité técnico opcional si >5 maintainers activos
 - CLA no requerido (MIT no lo necesita)
 - Code of Conduct: Contributor Covenant

@@ -568,4 +568,4 @@ PM-Workspace opera en el contexto de equipos hispanos. El lenguaje inclusivo en 
 ---
 
 *Documento generado como estudio de implementación para Savia Flow y PM-Workspace.*
-*Mónica González Paz — Marzo 2026*
+*la usuaria González Paz — Marzo 2026*

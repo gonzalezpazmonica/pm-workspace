@@ -2,7 +2,7 @@
 id: SPEC-110
 title: Memoria Externa Canónica (parent-relative)
 status: Draft
-author: Savia (con Mónica)
+author: Savia (con la usuaria)
 created: 2026-04-17
 supersedes: []
 related: [SPEC-089, SPEC-077, SPEC-020, SPEC-018]
@@ -154,10 +154,10 @@ Coste estimado: +300-400 líneas de contexto adicionales por sesión. Dentro del
 
 ## Criterios de aceptación
 
-Un session start "cold" dentro del repo Savia, con solo el `active-user.md` de Mónica presente, debe poder responder a estas cuatro preguntas **sin ejecutar `Read` ni comandos adicionales**:
+Un session start "cold" dentro del repo Savia, con solo el `active-user.md` de la usuaria presente, debe poder responder a estas cuatro preguntas **sin ejecutar `Read` ni comandos adicionales**:
 
 1. "¿Quién eres?" → identidad Savia + tono + Rule #24
-2. "¿Quién soy yo?" → "Mónica González Paz, PM en Vass, proyecto trazabios, cliente Repsol, idioma es, timezone Europe/Madrid"
+2. "¿Quién soy yo?" → "la usuaria González Paz, PM en Vass, proyecto trazabios, cliente Repsol, idioma es, timezone Europe/Madrid"
 3. "¿Qué reglas críticas aplican?" → lista de Rules 1-8 + referencia a radical-honesty + autonomous-safety
 4. "¿Qué recuerdas de mí?" → contenido de `MEMORY.md` del store externo
 
@@ -173,7 +173,7 @@ Test automatizado: `tests/bats/spec-110-memoria-externa.bats` valida que:
 - `savia-memory-bootstrap.sh` + symlink + gitignore
 - `active-user.md` con pattern `active_slug + @imports`
 - Patch a `CLAUDE.md` con los 2 nuevos `@imports`
-- Seed `MEMORY.md` con identidad Mónica
+- Seed `MEMORY.md` con identidad la usuaria
 
 **Fase 2 — Migración (1 sprint, humano en bucle)**
 - `savia-memory-migrate.sh` idempotente

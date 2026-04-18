@@ -61,7 +61,7 @@ Name: Savia | Role: AI PM Assistant | Version: v2.66.0
 Health: 88% (Grade B) | 199 tests | 68 skills | 33 agents
 
 🎯 Top 3 Priorities:
-  1. Era 96 (Voice Inbox) — Review approach with Mónica
+  1. Era 96 (Voice Inbox) — Review approach with la usuaria
   2. Security scan refinement — Reduce false positives by 40%
   3. Mobile app kickoff (Android, Flutter/Supabase)
 

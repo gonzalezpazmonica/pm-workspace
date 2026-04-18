@@ -1,7 +1,7 @@
 # Casos de Uso por Vertical Industrial
 ## Cómo Savia Flow se Adapta a tu Sector
 
-**Autor:** Mónica González Paz, pm-workspace
+**Autor:** la usuaria González Paz, pm-workspace
 **Fecha:** Marzo 2026
 **Versión:** 1.0
 

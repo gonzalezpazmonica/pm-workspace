@@ -62,7 +62,7 @@ class SpecValidationTest {
             SaviaTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     HomeScreenTestable(
-                        userName = "Monica",
+                        userName = "la usuaria",
                         projectName = "PM-Workspace",
                         sprintName = "Sprint 5",
                         sprintProgress = 0.65f,
@@ -80,7 +80,7 @@ class SpecValidationTest {
         }
 
         // SPEC: Greeting header with user name
-        composeTestRule.onNodeWithText("Good morning, Monica", substring = true, ignoreCase = true)
+        composeTestRule.onNodeWithText("Good morning, la usuaria", substring = true, ignoreCase = true)
             .assertExists("SPEC § 3.1: Greeting with user name must be present")
 
         // SPEC: Project name displayed
@@ -351,7 +351,7 @@ class SpecValidationTest {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun HomeScreenTestable(
-        userName: String = "Monica",
+        userName: String = "la usuaria",
         projectName: String = "PM-Workspace",
         sprintName: String = "Sprint 5",
         sprintProgress: Float = 0.5f,

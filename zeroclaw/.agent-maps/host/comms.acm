@@ -6,9 +6,9 @@ Nextcloud Talk (primary), Microsoft Teams, Gmail, Google Drive, and physical voi
 
 ## nctalk
 - **File**: `zeroclaw/host/nctalk.py`
-- **Purpose**: Nextcloud Talk send/receive — primary channel for Savia ↔ Monica async comms
+- **Purpose**: Nextcloud Talk send/receive — primary channel for Savia ↔ la usuaria async comms
 - **Credentials**: `~/.savia/nextcloud-config` (NC_URL, NC_USER, NC_PASS, NC_TALK_TOKEN_MONICA)
-- **Room token**: `kmpwm3yz` (Monica's personal room)
+- **Room token**: `kmpwm3yz` (la usuaria's personal room)
 - **API**: Nextcloud OCS v2 (`/ocs/v2.php/apps/spreed/api/v1/chat/{token}`)
 - **Used by**: survival (SOS notifications), consciousness (scheduled check-talk), meeting_pipeline
 
@@ -41,7 +41,7 @@ Nextcloud Talk (primary), Microsoft Teams, Gmail, Google Drive, and physical voi
 - **voice_daemon.py**: thread hosting wake word + listen + respond loop
 - **wakeword.py**: VAD + keyword match (offline, stdlib only)
 - **voiceprint.py / voiceprint_ops.py**: speaker identification via voiceprint embeddings
-- **speaker_roles.py**: maps voiceprints to roles (Monica = admin, others = guest)
+- **speaker_roles.py**: maps voiceprints to roles (la usuaria = admin, others = guest)
 
 ## Network Setup
 - **esp32_wifi.py**: ESP32 WiFi credentials provisioning via serial

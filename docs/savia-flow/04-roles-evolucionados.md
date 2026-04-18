@@ -1,7 +1,7 @@
 # Roles Evolucionados en Savia Flow
 ## Guía Completa de Transición y Competencias
 
-**Autor:** Mónica González Paz, pm-workspace
+**Autor:** la usuaria González Paz, pm-workspace
 **Fecha:** Marzo 2026
 **Versión:** 1.0
 

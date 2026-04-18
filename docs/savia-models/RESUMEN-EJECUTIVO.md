@@ -1,6 +1,6 @@
 # Savia Models — Resumen Ejecutivo
 
-> Para Monica. Version en espanol del estado de la iniciativa.
+> Para la usuaria. Version en espanol del estado de la iniciativa.
 
 ## Que son los Savia Models
 

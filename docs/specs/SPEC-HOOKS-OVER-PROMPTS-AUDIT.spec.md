@@ -7,7 +7,7 @@
 **Creado por:**     Savia (research: Anthropic best practices 2026)
 
 **Developer Type:** human-with-agent
-**Asignado a:**     Savia + Monica approval
+**Asignado a:**     Savia + la usuaria approval
 **Estimacion:**     4h
 **Estado:**         Pendiente
 **Max turns:**      25
@@ -115,7 +115,7 @@ Estas son hipotesis, el audit debe confirmarlas con test real.
 |----|-------|----------------|
 | RAU-01 | Nunca borrar regla sin test de no-regression | Bug introducido |
 | RAU-02 | Regla borrada debe tener hook equivalente O evidencia de cumplimiento | Comportamiento roto |
-| RAU-03 | Borrado en PR dedicado, revisable por Monica | Cambios sin supervision |
+| RAU-03 | Borrado en PR dedicado, revisable por la usuaria | Cambios sin supervision |
 | RAU-04 | Matriz publicada antes de cualquier borrado | Sin transparencia |
 | RAU-05 | Reglas inmutables NUNCA se tocan (auto-safety, principles) | Corrupcion critica |
 | RAU-06 | Cada borrado registrado en CHANGELOG con before/after count | Auditoria |
@@ -207,7 +207,7 @@ AND     reduccion tokens por turno medible
 | Reduccion tokens base | >=15% per turn | Medicion empirica |
 | Zero regresiones | 100% | Test suite completa pasa |
 | Hooks nuevos justificados | >=3 | Cubre "olvidables" |
-| PR aprobado por Monica | 1 PR dedicado | gh pr list |
+| PR aprobado por la usuaria | 1 PR dedicado | gh pr list |
 
 ---
 
@@ -219,5 +219,5 @@ AND     reduccion tokens por turno medible
 - [ ] Al menos 2 hooks nuevos creados para reglas "olvidables"
 - [ ] Test de no-regression verde
 - [ ] CHANGELOG con before/after count
-- [ ] PR dedicado en revision por Monica
+- [ ] PR dedicado en revision por la usuaria
 - [ ] Tests BATS >=80 score

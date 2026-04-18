@@ -159,4 +159,4 @@ Le [CONTRIBUTING.md](CONTRIBUTING.md) e [SECURITY.md](SECURITY.md). PRs benvidos
 
 ## Licenza
 
-[MIT](LICENSE) — Creado por [Monica Gonzalez Paz](https://github.com/gonzalezpazmonica)
+[MIT](LICENSE) — Creado por [la usuaria Gonzalez Paz](https://github.com/gonzalezpazmonica)

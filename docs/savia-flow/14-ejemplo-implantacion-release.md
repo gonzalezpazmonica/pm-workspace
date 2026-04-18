@@ -7,17 +7,17 @@
 
 ## Semana 4 — Primer release a producción
 
-### Pre-release: Mónica verifica readiness
+### Pre-release: la usuaria verifica readiness
 
 ```
-Mónica → /release-readiness --project SocialApp
+la usuaria → /release-readiness --project SocialApp
 ```
 
 Savia audita: 3 specs deployed, gates pasados (lint, tests, security, QA review), bug #1010 resuelto, health checks OK. Resultado: ✅ Release readiness PASS. 3 features en DEV, 0 bugs abiertos. ⚠️ Recomendado: tests de carga antes de PRO.
 
 ### Deploy pipeline: DEV → PRE → PRO
 
-Isabel verifica con `/pipeline-status`: Build ✅ → Tests ✅ → DEV ✅ (auto) → PRE ⏳. Mónica aprueba PRE. Elena ejecuta tests de aceptación, aprueba. Mónica aprueba PRO (doble gate: PM + PO).
+Isabel verifica con `/pipeline-status`: Build ✅ → Tests ✅ → DEV ✅ (auto) → PRE ⏳. la usuaria aprueba PRE. Elena ejecuta tests de aceptación, aprueba. la usuaria aprueba PRO (doble gate: PM + PO).
 
 ### Post-deploy: validación de outcomes
 
@@ -42,11 +42,11 @@ Elena decide: el outcome necesita una iteración más. Crea nueva spec en explor
 
 ## Mes 1 — Retro mensual (90 min)
 
-### Mónica facilita con datos
+### la usuaria facilita con datos
 
 ```
-Mónica → /flow-metrics --trend 4
-Mónica → /retro-patterns --sprints 4
+la usuaria → /flow-metrics --trend 4
+la usuaria → /retro-patterns --sprints 4
 ```
 
 Savia genera el dashboard del primer mes:
@@ -82,7 +82,7 @@ Acciones: (1) Elena automatiza parte de Gate 5 con checklist — solo items comp
 ### Cómo se ve el board en el mes 2
 
 ```
-Mónica → /flow-board
+la usuaria → /flow-board
 ```
 
 ```
@@ -100,7 +100,7 @@ Buffer Spec-Ready: 2 items (saludable). Pipeline fluido. Elena ha encontrado su 
 
 Cada persona ha interiorizado su flujo con Savia:
 
-**Mónica** (15 min/día): `/flow-board` por la mañana, `/flow-metrics` los lunes. Interviene solo cuando hay bottleneck o decisión de prioridad. El resto del tiempo hace trabajo de CEO/CTO.
+**la usuaria** (15 min/día): `/flow-board` por la mañana, `/flow-metrics` los lunes. Interviene solo cuando hay bottleneck o decisión de prioridad. El resto del tiempo hace trabajo de CEO/CTO.
 
 **Elena** (discovery 60%, gates 40%): abre sesión con `/flow-spec` para escribir specs. Cuando hay items en Gates, cambia a QA. Si el buffer Spec-Ready baja de 3, prioriza exploración.
 
@@ -115,7 +115,7 @@ Cada persona ha interiorizado su flujo con Savia:
 ### Semana 12 — Cierre del MVP
 
 ```
-Mónica → /flow-metrics --trend 12
+la usuaria → /flow-metrics --trend 12
 ```
 
 Métricas finales del proyecto:
@@ -132,7 +132,7 @@ Métricas finales del proyecto:
 ```
 
 ```
-Mónica → /ceo-report --project SocialApp
+la usuaria → /ceo-report --project SocialApp
 ```
 
 Savia genera informe ejecutivo: MVP entregado en plazo, 4 outcomes validados, equipo de 4 personas. Stack completo funcionando: Ionic + 5 microservicios + RabbitMQ + MongoDB.

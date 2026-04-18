@@ -10,7 +10,7 @@ setup() {
   mkdir -p "$TMPDIR_MG/output"
   cat > "$TMPDIR_MG/output/.memory-store.jsonl" << 'EOF'
 {"topic_key":"decision/auth","type":"decision","title":"Use JWT for auth","content":"Team decided JWT tokens for API authentication","ts":"2026-04-01T10:00:00Z"}
-{"topic_key":"decision/db","type":"decision","title":"PostgreSQL selected","content":"Monica chose PostgreSQL over MySQL for persistence","ts":"2026-04-02T10:00:00Z"}
+{"topic_key":"decision/db","type":"decision","title":"PostgreSQL selected","content":"la usuaria chose PostgreSQL over MySQL for persistence","ts":"2026-04-02T10:00:00Z"}
 EOF
 }
 

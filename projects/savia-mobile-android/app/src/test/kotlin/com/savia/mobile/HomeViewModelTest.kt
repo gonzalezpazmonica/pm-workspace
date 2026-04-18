@@ -103,7 +103,7 @@ private class FakeProjectRepo : ProjectRepository {
     override suspend fun getDashboard(): DashboardData? {
         if (shouldFail) throw RuntimeException("Connection failed")
         return DashboardData(
-            greeting = "Hola, Mónica",
+            greeting = "Hola, la usuaria",
             projects = projects,
             selectedProjectId = "project-1", // Bridge always returns its default
             sprint = SprintSummary(

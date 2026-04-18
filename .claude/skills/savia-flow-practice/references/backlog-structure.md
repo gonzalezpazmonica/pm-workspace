@@ -61,7 +61,7 @@ Score each factor 1–5 (5 = high impact/urgency, low effort)
 - **Validating**: Monitoring success metrics
 
 ### Owner
-- **Mónica** (Flow Facilitator): Assigns work, unblocks, facilitates
+- **la usuaria** (Flow Facilitator): Assigns work, unblocks, facilitates
 - **Ana & Isabel** (Builders): Execute tasks
 
 ### Priority Rules
@@ -73,7 +73,7 @@ Score each factor 1–5 (5 = high impact/urgency, low effort)
 ### WIP Limits Per Person
 - **Ana** (Front-end): 2 building items max
 - **Isabel** (Back-end): 2 building items max
-- **Mónica**: No WIP limit (facilitation role)
+- **la usuaria**: No WIP limit (facilitation role)
 
 ### Sources
 - Only Spec-Ready items from Exploration backlog
@@ -95,7 +95,7 @@ Before marking an item "Spec-Ready", verify:
 
 ### Handoff Process
 1. Elena tags item as `spec-ready`
-2. Mónica reviews and approves handoff
+2. la usuaria reviews and approves handoff
 3. Item moves from Area Path `Exploration` → `Production`
 4. Item state changes to `Ready` in production backlog
 5. Ana or Isabel picks up in next sprint
@@ -110,7 +110,7 @@ Before marking an item "Spec-Ready", verify:
 ### Cross-Track Dependencies
 **Problem**: A production item needs input from exploration (e.g., architecture decision)
 
-**Solution**: Tag the production item `needs-exploration` and create a work item link to the exploration issue. Mónica coordinates resolution before work can proceed.
+**Solution**: Tag the production item `needs-exploration` and create a work item link to the exploration issue. la usuaria coordinates resolution before work can proceed.
 
 ### Cross-Person Dependencies
 **Problem**: Ana needs Isabel's API before starting front-end development.

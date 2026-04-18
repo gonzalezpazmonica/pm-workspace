@@ -1,16 +1,20 @@
 ---
 id: ROADMAP-UNIFIED-20260418
-title: Roadmap Unificado — Savia autonomous iteration 2026-04-18
-status: LIVING
+title: Roadmap Unificado — Savia autonomous iteration 2026-04-18 (SUPERSEDED)
+status: SUPERSEDED
+superseded_by: ROADMAP.md
 author: Savia (autoselección + consolidación)
 origin: Consolidación post-research 2026-04-18 (coderlm + Bluesky + MindStudio + Spec Ops + Hands-On LLM + Dify + mutation testing) + auditoría specs pendientes + savia-enterprise gaps
-expires: "2026-06-18"   # 2 sprints — re-review si no se ejecuta
+expires: "2026-06-18"
 related: SAVIA-SUPERPOWERS-ROADMAP.md, savia-enterprise/DEVELOPMENT-PLAN.md
 ---
 
-# Roadmap Unificado — Savia Autonomous Iteration
+# Roadmap Unificado — Savia Autonomous Iteration (SUPERSEDED)
 
-> **Propósito**: un único documento sobre el que Savia itera autónomamente hasta el final de la capacidad actual. Clasifica TODO lo pendiente (PROPOSED, research-derived, savia-enterprise gaps) por **autonomy-viable** vs **requires-hardware-or-humans**. Lo segundo se difiere al final — no bloquea iteración.
+> **SUPERSEDED 2026-04-18 — Ver `docs/propuestas/ROADMAP.md` (fuente canónica).**
+> Este documento v1 se mantiene por auditoría. Sus waves A/B/C/D están absorbidas en el nuevo ROADMAP §Tier 1-7. Sección C (iteration strategy) es la base de ROADMAP §3.
+
+> **Propósito original**: un único documento sobre el que Savia itera autónomamente hasta el final de la capacidad actual. Clasifica TODO lo pendiente (PROPOSED, research-derived, savia-enterprise gaps) por **autonomy-viable** vs **requires-hardware-or-humans**. Lo segundo se difiere al final — no bloquea iteración.
 >
 > **Principios aplicados**:
 > - Spec Ops (McRaven): Simplicity, Repetition, Speed, Purpose, Theory of Relative Superiority
@@ -104,7 +108,7 @@ Tool ya creado en Wave 4: `scripts/spec-status-normalize.sh` (PR #607). Ejecutar
 
 ## Sección B — Requires-hardware-or-humans (diferido)
 
-**No** iterar autónomamente. Esperan a Mónica / hardware / humanos operativos.
+**No** iterar autónomamente. Esperan a la usuaria / hardware / humanos operativos.
 
 | # | Spec | Motivo de diferimiento |
 |---|---|---|
@@ -123,8 +127,8 @@ Tool ya creado en Wave 4: `scripts/spec-status-normalize.sh` (PR #607). Ejecutar
 
 Savia NO escribe código en estos. Sí puede:
 - Mantener spec actualizado si llega nuevo contexto
-- Documentar lecciones cuando Mónica ejecuta manualmente
-- Escribir scaffolding (dirs, configs vacíos) si Mónica lo pide explícitamente
+- Documentar lecciones cuando la usuaria ejecuta manualmente
+- Escribir scaffolding (dirs, configs vacíos) si la usuaria lo pide explícitamente
 
 ---
 
@@ -186,7 +190,7 @@ Serie 6 — deuda técnica:
 
 Savia se detiene (NO crasha, NO continúa ciega) cuando:
 - Contexto >80% — ejecuta `/compact` y reevalúa
-- 3 fallos consecutivos en un mismo slice — escala a Mónica
+- 3 fallos consecutivos en un mismo slice — escala a la usuaria
 - Gate autonomía falla — escribe propuesta + espera luz verde
 - `/pr-plan` rojo irrecuperable — documenta en output/ y pasa al siguiente
 
@@ -205,7 +209,7 @@ Savia se detiene (NO crasha, NO continúa ciega) cuando:
 Este documento se actualiza:
 - Cada merge completo de wave (mover a DONE)
 - Cada research nuevo que genere champion (añadir a Wave 1)
-- Cada vez que Mónica pide pivot (registrar razón)
+- Cada vez que la usuaria pide pivot (registrar razón)
 
 Campo `expires: 2026-06-18` — si para entonces no se ha iterado ≥50% de Wave 1+2, re-review obligatorio. No zombie specs.
 

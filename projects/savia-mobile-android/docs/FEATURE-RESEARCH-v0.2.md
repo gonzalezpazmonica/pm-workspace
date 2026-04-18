@@ -160,7 +160,7 @@ La pantalla actual de Dashboard (Sessions) solo muestra conversaciones. Podría 
 
 ```
 ┌──────────────────────────────┐
-│ 👋 Buenos días, Mónica       │
+│ 👋 Buenos días, la usuaria       │
 │ Proyecto: Alpha · Sprint 24  │
 ├──────────────────────────────┤
 │ ┌──────────────────────────┐ │

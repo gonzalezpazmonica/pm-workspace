@@ -2,7 +2,7 @@
 # review-community.sh — Revisión de PRs/issues de la comunidad (LOCAL ONLY)
 # Uso: bash scripts/review-community.sh {pending|review|merge|release|summary}
 #
-# Protocolo privado de Mónica para gestionar contribuciones comunitarias.
+# Protocolo privado de la usuaria para gestionar contribuciones comunitarias.
 # Este fichero NO se sube a GitHub (debe estar en .gitignore o CLAUDE.local.md).
 
 set -euo pipefail

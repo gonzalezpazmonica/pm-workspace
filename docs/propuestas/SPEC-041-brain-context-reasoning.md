@@ -1,7 +1,7 @@
 # SPEC-041: Brain-Inspired Context Reasoning Engine
 
 > Status: **APPROVED** · Fecha: 2026-03-24 · Score: 5.0
-> Origen: Monica — "simular el cerebro humano para seleccionar contexto pre-LLM"
+> Origen: la usuaria — "simular el cerebro humano para seleccionar contexto pre-LLM"
 > Impacto: El LLM recibe contexto optimo, su output mejora proporcionalmente
 
 ---

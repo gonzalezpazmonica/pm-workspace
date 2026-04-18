@@ -8,7 +8,7 @@ savia-web es el cliente web de PM-Workspace. Ha completado Phases 1-3 del MVP (l
 
 ## Plan de implementacion — Desde jueves 20 marzo 2026
 
-> Monica viaja hasta el miercoles 19. Programacion retoma jueves 20.
+> la usuaria viaja hasta el miercoles 19. Programacion retoma jueves 20.
 > Estimacion por sesion: ~3-4h de trabajo efectivo con Claude Code.
 > Cada sesion tiene un entregable concreto y verificable.
 
