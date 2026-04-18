@@ -7,18 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [5.37.0] — 2026-04-18
-
 Bounded concurrency audit + hardening + doctrina + 22 tests. Era 234.
-
 ### Added
 - **`docs/rules/domain/bounded-concurrency.md`**: doctrina canonica basada en dos outages reales — Bluesky AppView 2026-04-14 (8h, SetLimit(50) comentado) y el fork bomb de pm-workspace 2026-04-18 (15k procesos). Principio: N FIJO / N ACOTADO / N DERIVADO — solo el tercero necesita semaphore explicito. Patron canonico bash con jobs -rp + wait -n + drain final. Auditoria de hooks/scripts + checklist de 5 puntos.
 - **`tests/test-memory-prime-hook-bounded.bats`**: 22 tests — MAX_PARALLEL numerico y acotado, semaphore pattern, drain final, regression guards, edge cases.
-
 ### Changed
 - **`.claude/hooks/memory-prime-hook.sh`**: hardened a MAX_PARALLEL=5 explicito con semaphore y wait drain final. Antes: bounded implicitamente por --top 3 upstream. Defense-in-depth post Bluesky post-mortem.
-
 ### Motivacion
 Post-mortem Bluesky que Monica compartio (https://pckt.blog/b/jcalabro/april-2026-outage-post-mortem-219ebg2) + fork bomb de esta semana. Auditoria sistematica del workspace: mayormente safe — fork-agents.sh y wave-executor.sh ya usan semaphores, un unico vector endurecido, doctrina escrita para prevenir el patron.
+
+## [5.36.0] — 2026-04-18
+
+Gate: SCM Freshness (ci-extended-checks #7) + resync + 19 tests. Era 234.
+
+### Added
+- **`scripts/ci-extended-checks.sh`** check #7: regenera `.scm/INDEX.scm` via el generador deterministico, compara SHA-256 antes y despues, falla si stale. No destructivo — restaura el arbol tras fail via `git checkout -- .scm/`. Mensaje de remediacion incluye el comando exacto para regenerar.
+- **`tests/test-scm-freshness-check.bats`**: 19 tests — estructura, registro del check, invocacion del generador, comparacion sha256, non-destructive behavior, positivos (pasa cuando fresh), negativos (falla cuando stale, mensaje correcto, guard de missing files), edge cases (1-line diff, idempotencia).
+
+### Fixed
+- **`.scm/`**: resync a 1008 recursos actuales (drift residual post merges #599/#600). El generador deterministico no elimina el drift — solo lo hace detectable. Este check + la rutina "regenera antes de PR" completa el loop.
+
+### Motivacion
+PR #599 hizo el generador deterministico (mismo input a mismo output). Pero nada forzaba a commitear la regen tras anadir commands/skills/agents/scripts. El tracked `.scm/` en main iba quedando stale silenciosamente. Ahora, cualquier PR que anada componentes sin regenerar falla en CI extended-checks (y localmente en pr-plan G5b). Front-load al autor del cambio.
 
 ## [5.35.0] — 2026-04-18
 ast-comprehension refactor al patron RLM (queries tipadas) + 28 tests. Era 234.
@@ -7646,7 +7656,8 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
-[5.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.36.0...v5.37.0
+[5.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.27.0...v5.37.0
+[5.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.35.0...v5.36.0
 [5.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.27.0...v5.35.0
 [5.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.33.0...v5.34.0
 [5.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.32.0...v5.33.0
