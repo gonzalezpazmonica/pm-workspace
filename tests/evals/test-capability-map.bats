@@ -35,7 +35,8 @@ mk_script() { printf '#!/usr/bin/env bash\n# %s\nset -uo pipefail\n' "$2" > "$TM
   bash "$SCRIPT" "$TMPDIR_SCM"
   [ -f "$TMPDIR_SCM/.scm/INDEX.scm" ]
   grep -q "Savia Capability Map" "$TMPDIR_SCM/.scm/INDEX.scm"
-  grep -q "generated:" "$TMPDIR_SCM/.scm/INDEX.scm"
+  # Header uses content hash (deterministic) instead of date timestamp — v5.34.0
+  grep -qE "hash: [a-f0-9]{12}" "$TMPDIR_SCM/.scm/INDEX.scm"
 }
 
 @test "INDEX.scm contains all 4 resource types" {
