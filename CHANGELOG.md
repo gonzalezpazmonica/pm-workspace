@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.39.0] — 2026-04-18
+
+SE-032/033/034 — 3 specs propuestos tras research convergente + 35 tests. Era 234.
+
+### Added
+- **`docs/propuestas/SE-032-reranker-layer.md`**: cross-encoder reranker sobre memory/knowledge-graph/savia-recall. Patron identificado independientemente en Hands-On LLM cap.8 y Dify api/core/rag. Escrito aplicando principios Spec Ops (McRaven): Purpose separado de Objective, objetivo unico medible (precision@5 >=80%), Feasibility Probe OBLIGATORIO blocking, expires 2 sprints tras approved.
+- **`docs/propuestas/SE-033-topic-cluster.md`**: BERTopic skill para retros/backlog/lessons (Hands-On LLM cap.5).
+- **`docs/propuestas/SE-034-workflow-node-typing.md`**: I/O schemas explicitos en DAG skills (Dify workflow pattern).
+- **`tests/test-se-032-specs-format.bats`**: 35 tests validando estructura Spec Ops de los 3 specs.
+
+### Motivacion
+Tres research reports autonomos (Spec Ops book, Hands-On LLM repo, Dify OSS) convergieron en la misma mejora: reranker en capa RAG. SE-032 es el champion. Rule #8: PROPOSED — implementacion solo tras revision humana.
+
 ## [5.38.0] — 2026-04-18
 
 MCP overhead audit tool + doctrina + 23 tests. Era 234.
@@ -7668,6 +7681,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.38.0...v5.39.0
 [5.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.37.0...v5.38.0
 [5.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.27.0...v5.37.0
 [5.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.35.0...v5.36.0
