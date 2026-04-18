@@ -1,0 +1,16 @@
+---
+id: tasks-no-estimate
+lang: wiql
+description: Tasks del sprint sin OriginalEstimate (requieren estimación)
+params:
+  - sprint: IterationPath del sprint
+returns: [id, title, parent, assignedTo]
+tags: [azure-devops, estimation, quality]
+---
+SELECT [System.Id], [System.Title], [System.Parent], [System.AssignedTo]
+FROM WorkItems
+WHERE [System.WorkItemType] = 'Task'
+  AND [System.IterationPath] UNDER '{{sprint}}'
+  AND [Microsoft.VSTS.Scheduling.OriginalEstimate] = ''
+  AND [System.State] NOT IN ('Closed', 'Removed')
+ORDER BY [System.Parent], [System.Id]

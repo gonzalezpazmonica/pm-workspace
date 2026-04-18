@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.28.0] — 2026-04-18
+
+SE-031 Query Library slice 1 — snippets canonicos + resolver + INDEX generator + 31 tests. Era 234.
+
+### Added
+- **`.claude/queries/{azure-devops,jira,savia-flow}/`**: 9 snippets canonicos (5 WIQL, 2 JQL, 2 Savia Flow YAML) con frontmatter `id/lang/description/params/returns/tags`. Reemplazan WIQL inline disperso en commands.
+- **`scripts/query-lib-resolve.sh`**: resolver por ID con `--param`, `--list`, `--lang`, `--json`. Exit codes 0/1/2. Warning stderr para placeholders no sustituidos.
+- **`scripts/query-lib-index.sh`**: regenerador determinista de `.claude/queries/INDEX.md` con modo `--check` para CI.
+- **`docs/rules/domain/query-library-protocol.md`**: protocolo canonico — formato frontmatter, uso desde commands, hygiene rules, lesson learned del fork bomb.
+- **`docs/propuestas/SE-031-query-library-nl.md`**: spec con 3 slices (library, resolver, NL-to-query).
+- **`tests/test-query-lib.bats`**: 31 tests — structure/safety (5), resolve modes (8), param substitution (4), list modes (6), index generator (5), integration (3). Incluye test de regresion fork-bomb.
+
+### Fixed
+- **Fork bomb en query-lib-index.sh**: el heredoc `python3 <<PY` (no quoted) interpretaba backticks del cuerpo python como command substitution bash, ejecutando el script recursivamente (15k+ procesos spawn). Fix: `<<'PY'` + `export REPO_ROOT` + `os.environ.get`. Test de regresion cubre el patron.
+
 ## [5.27.0] — 2026-04-18
 
 Close SPEC-115/122/124 + SE-028 slice 1 — 4 specs cerrados. Era 234.

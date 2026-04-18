@@ -1,0 +1,16 @@
+---
+id: blocked-pbis-over-3d
+lang: wiql
+description: PBIs bloqueados más de 3 días sin actualización en el sprint activo
+params:
+  - sprint: IterationPath del sprint (ej. "ProjectX\\Sprint 2026-04")
+returns: [id, title, state, assignedTo, changedDate]
+tags: [azure-devops, blocked, sla, sprint]
+---
+SELECT [System.Id], [System.Title], [System.State], [System.AssignedTo], [System.ChangedDate]
+FROM WorkItems
+WHERE [System.WorkItemType] = 'Product Backlog Item'
+  AND [System.IterationPath] UNDER '{{sprint}}'
+  AND [System.State] = 'Blocked'
+  AND [System.ChangedDate] < @Today - 3
+ORDER BY [System.ChangedDate] ASC

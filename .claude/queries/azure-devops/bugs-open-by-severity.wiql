@@ -1,0 +1,15 @@
+---
+id: bugs-open-by-severity
+lang: wiql
+description: Bugs abiertos agrupables por severidad
+params:
+  - project: Project area path
+returns: [id, title, severity, state, priority, createdDate]
+tags: [azure-devops, bugs, quality]
+---
+SELECT [System.Id], [System.Title], [Microsoft.VSTS.Common.Severity], [System.State], [Microsoft.VSTS.Common.Priority], [System.CreatedDate]
+FROM WorkItems
+WHERE [System.WorkItemType] = 'Bug'
+  AND [System.AreaPath] UNDER '{{project}}'
+  AND [System.State] IN ('New', 'Active', 'Resolved')
+ORDER BY [Microsoft.VSTS.Common.Severity], [System.CreatedDate]

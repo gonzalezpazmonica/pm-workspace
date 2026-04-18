@@ -1,0 +1,9 @@
+---
+id: my-open-issues-jira
+lang: jql
+description: Issues asignados al usuario actual, activos
+params: []
+returns: [key, summary, status, priority, updated]
+tags: [jira, owner, workload]
+---
+assignee = currentUser() AND resolution = Unresolved ORDER BY priority DESC, updated DESC

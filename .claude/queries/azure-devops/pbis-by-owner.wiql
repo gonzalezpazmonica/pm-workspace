@@ -1,0 +1,17 @@
+---
+id: pbis-by-owner
+lang: wiql
+description: PBIs asignados a un owner específico, activos o pendientes
+params:
+  - owner: Handle del asignado (ej. "laura@company.com")
+  - sprint: IterationPath (opcional; si vacío → todos los sprints activos)
+returns: [id, title, state, priority, storyPoints, iterationPath]
+tags: [azure-devops, owner, workload]
+---
+SELECT [System.Id], [System.Title], [System.State], [Microsoft.VSTS.Common.Priority], [Microsoft.VSTS.Scheduling.StoryPoints], [System.IterationPath]
+FROM WorkItems
+WHERE [System.WorkItemType] = 'Product Backlog Item'
+  AND [System.AssignedTo] = '{{owner}}'
+  AND [System.State] IN ('New', 'Active', 'Committed')
+  AND [System.IterationPath] UNDER '{{sprint}}'
+ORDER BY [Microsoft.VSTS.Common.Priority], [System.Id]
