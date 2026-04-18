@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.42.0] — 2026-04-18
+
+Spec status normalization tool + 26 tests. Era 234.
+
+### Added
+- **`scripts/spec-status-normalize.sh`**: herramienta 3-modos (audit / apply / suggest) para visibilizar status de 156 specs. Detecta gap de 111 specs sin `status:` field (0 auto-aplicables, 111 requieren migración manual a YAML frontmatter). Heurística --suggest infiere Implemented/Proposed/SUPERSEDED/UNLABELED cruzando CHANGELOG refs + body keywords.
+- **`tests/test-spec-status-normalize.bats`**: 26 tests — 3 modos, idempotencia, sandbox non-destructive, edge cases. Safety verification (`set -uo pipefail`).
+
+### Motivacion
+Wave 4 D1 del ROADMAP-UNIFIED-20260418. 76 specs NONE + 35 legacy (total 111 sin status canonico) es deuda de visibilidad — grep-tooling falla silencioso, dashboards mienten. Tool no aplica cambios a 111 specs (riesgo de mal-classify sin review); genera reporte que habilita PR manual de migracion por lotes controlados.
+
 ## [5.41.0] — 2026-04-18
 
 SPEC-082 — orphan skill fix (pr-agent-judge DOMAIN.md) + regression test. Era 234.
@@ -7706,6 +7717,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.41.0...v5.42.0
 [5.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.40.0...v5.41.0
 [5.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.39.0...v5.40.0
 [5.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.38.0...v5.39.0
