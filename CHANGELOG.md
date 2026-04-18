@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.26.0] — 2026-04-18
+
+SE-029/SE-030 P3 — 5 componentes adicionales (classifier, frozen, re-state, thresholds, ablation). Era 234.
+
+### Added
+- **`scripts/context-task-classifier.sh`** (SE-029-C): clasifica turns en 6 clases (decision/spec/code/review/context/chitchat) con max_ratio y frozen flag por clase. Heurístico priority-order.
+- **`scripts/context-frozen-check.sh`** (SE-029-F): detecta frozen zones (decision-log, APPROVED/DONE specs, task classes frozen, AC files, stack traces). Exit 1 = frozen.
+- **`scripts/context-restate-anchor.sh`** (SE-029-R): emite re-state anchor markdown cuando ratio > 20:1. Threshold configurable con `--force`.
+- **`scripts/graphrag-quality-gate.sh`** (SE-030-T): valida metrics.json contra 12 thresholds (NDCG@10, Recall@20, MRR, Cross-Repo Precision, Coherence, Relevance, Completeness, Groundedness, Hallucination, Attribution, Factual, Coherence-gen). 3 phases rollout.
+- **`scripts/eval-ablation-run.sh`** (SE-030-A): seam test — compara full vs ablated metrics, determina si layer añade valor (VALUABLE vs QUESTIONABLE).
+- **`docs/rules/domain/graphrag-quality-gates.md`**: 12 thresholds canónicos + rollout phases.
+- **`tests/test-context-task-classifier.bats`**: 26 tests (certified).
+- **`tests/test-context-frozen-check.bats`**: 25 tests (certified).
+- **`tests/test-context-restate-anchor.bats`**: 21 tests (certified).
+- **`tests/test-graphrag-quality-gate.bats`**: 23 tests (certified).
+- **`tests/test-eval-ablation-run.bats`**: 20 tests (certified).
+
+Total iteration P3: 5 scripts + 5 test files + 115 bats nuevos + 1 doc.
+
 ## [5.25.0] — 2026-04-18
 
 SE-029/SE-030 implementaciones — receipts protocol + distortion metric (bytebell-inspired). Era 234.
@@ -7473,6 +7492,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.25.0...v5.26.0
 [5.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.24.0...v5.25.0
 [5.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.22.0...v5.24.0
 [5.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.20.0...v5.22.0
