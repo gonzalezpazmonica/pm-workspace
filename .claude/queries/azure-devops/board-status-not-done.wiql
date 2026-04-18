@@ -1,0 +1,16 @@
+---
+id: board-status-not-done
+lang: wiql
+description: Items del board del sprint activo excluyendo Epic/Feature y estados terminales — vista kanban operativa
+params:
+  - project: Team project de Azure DevOps
+  - team: Team dentro del project
+returns: [id, title, state, assignedTo, changedDate]
+tags: [azure-devops, board, kanban, sprint]
+---
+SELECT [System.Id], [System.Title], [System.State], [System.AssignedTo], [System.ChangedDate]
+FROM WorkItems
+WHERE [System.IterationPath] UNDER @CurrentIteration('[{{project}}\{{team}}]')
+  AND [System.State] NOT IN ('Done', 'Closed', 'Removed')
+  AND [System.WorkItemType] NOT IN ('Epic', 'Feature')
+ORDER BY [System.State] ASC

@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.30.0] — 2026-04-18
+
+SE-031 Query Library slice 3 — 3 snippets mas + migracion backlog-groom + 4 tests integracion. Era 234.
+
+### Added
+- **`.claude/queries/azure-devops/backlog-groom-open.wiql`**: items abiertos (User Story/Feature/Bug) para grooming por antiguedad.
+- **`.claude/queries/azure-devops/sprint-items-detailed.wiql`**: items del sprint con CompletedWork/RemainingWork/StoryPoints/Activity — para tracking detallado.
+- **`.claude/queries/azure-devops/board-status-not-done.wiql`**: items del board excluyendo Epic/Feature y estados terminales — vista kanban operativa.
+- **4 tests integracion** en `tests/test-query-lib.bats` validando resolve + param substitution de las 3 nuevas queries + migracion del command.
+
+### Changed
+- **`.claude/commands/backlog-groom.md`**: WIQL inline reemplazada por call a `query-lib-resolve.sh --id backlog-groom-open`.
+
+### Scope honesto
+Slice 3 target spec: "≥5 commands migrados". Entregado: 1 command migrado + 3 snippets canonicos que cubren queries existentes en `scripts/azdevops-queries.sh`. La migracion del script es deferida — tiene callers multiples (13+ commands) y requiere integration tests dedicados antes de refactorizar call-sites. Los snippets creados dejan el camino sembrado para ese PR de seguimiento.
+
 ## [5.29.0] — 2026-04-18
 
 SE-031 Query Library slice 2 — NL-to-query heuristico deterministico + 23 tests. Era 234.

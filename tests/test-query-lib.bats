@@ -283,3 +283,43 @@ EOF
   [ "$status" -eq 0 ]
   [ "$output" -ge 8 ]
 }
+
+# ── SE-031 slice 3 — migrated commands/scripts ─────────────────────────────
+
+@test "slice3: backlog-groom-open snippet resolves with project param" {
+  unset REPO_ROOT
+  cd "$BATS_TEST_DIRNAME/.."
+  run bash scripts/query-lib-resolve.sh --id backlog-groom-open --param project=ProjectX
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"FROM WorkItems"* ]]
+  [[ "$output" == *"'ProjectX'"* ]]
+  [[ "$output" == *"User Story"* ]]
+}
+
+@test "slice3: sprint-items-detailed has CurrentIteration placeholder" {
+  unset REPO_ROOT
+  cd "$BATS_TEST_DIRNAME/.."
+  run bash scripts/query-lib-resolve.sh --id sprint-items-detailed --param project=P --param team=T
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"@CurrentIteration"* ]]
+  [[ "$output" == *"CompletedWork"* ]]
+  [[ "$output" == *"StoryPoints"* ]]
+}
+
+@test "slice3: board-status-not-done excludes terminal states" {
+  unset REPO_ROOT
+  cd "$BATS_TEST_DIRNAME/.."
+  run bash scripts/query-lib-resolve.sh --id board-status-not-done --param project=P --param team=T
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Done"* ]]
+  [[ "$output" == *"NOT IN"* ]]
+  [[ "$output" == *"Epic"* ]]
+}
+
+@test "slice3: backlog-groom.md references query-lib-resolve" {
+  unset REPO_ROOT
+  cd "$BATS_TEST_DIRNAME/.."
+  run grep -c "query-lib-resolve.sh --id backlog-groom-open" .claude/commands/backlog-groom.md
+  [ "$status" -eq 0 ]
+  [ "$output" -ge 1 ]
+}
