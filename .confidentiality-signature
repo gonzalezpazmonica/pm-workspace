@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=d848b7b4b9f33f554d5974a7077d25dfe21e9810977099aa6dcda2fb890705c8
-timestamp=2026-04-18T06:38:12Z
+timestamp=2026-04-18T10:52:12Z
 branch=fix/scm-regen-system
-head_commit=7143eb1
-signature=9d0bb78d18ff085eda4393e6c1fb1a70414f7ac400c5df434b834176e236614c
+head_commit=f9d06e8f
+signature=a54148ac90e6ef36223f18e6f77679b9d62b02824d9f03139c9168d10851b2f7

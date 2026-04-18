@@ -53,6 +53,22 @@ else
   ITEMS+=("PAT no configurado — \$HOME/.azure/devops-pat")
 fi
 
+# ── External memory bootstrap (SPEC-110) ─────────────────────────────────────
+check_timeout
+MEMORY_MODE=""
+for mb_path in "$HOME/claude/scripts/savia-memory-bootstrap.sh" "./scripts/savia-memory-bootstrap.sh"; do
+  if [ -f "$mb_path" ]; then
+    MEMORY_OUT=$(bash "$mb_path" 2>/dev/null | tail -1)
+    MEMORY_MODE=$(echo "$MEMORY_OUT" | grep -oE '"mode":"[^"]+"' | cut -d'"' -f4)
+    break
+  fi
+done
+case "$MEMORY_MODE" in
+  canonical)     ITEMS+=("Memoria: ../.savia-memory (canónico)") ;;
+  repo-local)    ITEMS+=("Memoria: repo/.savia-memory (fallback)") ;;
+  home-fallback) ITEMS+=("Memoria: \$HOME/.savia-memory (fallback)") ;;
+esac
+
 # ── Perfil activo ────────────────────────────────────────────────────────────
 check_timeout
 # FIX: Try multiple possible profile locations (CI may use different $HOME)
@@ -244,13 +260,18 @@ fi
 
 # Regenerar .scm (Savia Capability Map) si hay recursos nuevos/modificados.
 # Determinístico: solo corre si algún fichero de commands/skills/agents/scripts
-# es más reciente que el INDEX.scm. Background (fire-and-forget, ~2s).
-SCM_INDEX=".scm/INDEX.scm"
-if [[ ! -f "$SCM_INDEX" ]] || \
-   find .claude/commands .claude/skills .claude/agents scripts \
-        \( -name "*.md" -o -name "*.sh" \) -newer "$SCM_INDEX" 2>/dev/null | grep -q .; then
-  python3 scripts/generate-capability-map.py >/dev/null 2>&1 &
-fi
+# es más reciente que el INDEX.scm. ENTERAMENTE en background — el find sobre
+# 991 ficheros añade ~100ms al hook síncrono, así que el check + regen corren
+# juntos en subshell para mantener el hook por debajo del umbral de latencia.
+(
+  SCM_INDEX=".scm/INDEX.scm"
+  if [[ ! -f "$SCM_INDEX" ]] || \
+     find .claude/commands .claude/skills .claude/agents scripts \
+          \( -name "*.md" -o -name "*.sh" \) -newer "$SCM_INDEX" -print -quit 2>/dev/null | grep -q .; then
+    python3 scripts/generate-capability-map.py >/dev/null 2>&1
+  fi
+) &
+disown 2>/dev/null || true
 
 # Limpieza de auto-memory en background (SPEC-142)
 for mh_path in "$HOME/claude/scripts/memory-hygiene.sh" "./scripts/memory-hygiene.sh"; do

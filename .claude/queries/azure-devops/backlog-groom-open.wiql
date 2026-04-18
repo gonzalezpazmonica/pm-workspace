@@ -1,0 +1,16 @@
+---
+id: backlog-groom-open
+lang: wiql
+description: Items abiertos candidatos a grooming (User Story, Feature, Bug no cerrados) ordenados por antiguedad
+params:
+  - project: Nombre del team project de Azure DevOps
+returns: [id, title, state, areaPath, createdDate, changedDate, storyPoints]
+tags: [azure-devops, backlog, grooming]
+---
+SELECT [System.Id], [System.Title], [System.State], [System.AreaPath],
+       [System.CreatedDate], [System.ChangedDate], [Microsoft.VSTS.Scheduling.StoryPoints]
+FROM WorkItems
+WHERE [System.TeamProject] = '{{project}}'
+  AND [System.WorkItemType] IN ('User Story', 'Feature', 'Bug')
+  AND [System.State] NOT IN ('Done', 'Closed')
+ORDER BY [System.CreatedDate] ASC

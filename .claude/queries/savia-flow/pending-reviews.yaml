@@ -1,0 +1,16 @@
+---
+id: pending-reviews-savia
+lang: savia-flow
+description: Items en estado Review esperando aprobación
+params:
+  - board: Board name (ej. "Stories")
+returns: [id, title, reviewer, daysInReview]
+tags: [savia-flow, review, bottleneck]
+---
+filter:
+  board: "{{board}}"
+  state: "Review"
+  updated_before: "@today - 1"
+sort:
+  by: "daysInReview"
+  order: "desc"
