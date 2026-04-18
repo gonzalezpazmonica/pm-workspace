@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=868cbb1820f0d16803e8e55e53f74601214a082ae8ba4514b0bcdabaff4f745a
-timestamp=2026-04-18T21:24:39Z
-branch=agent/se036-frontmatter-batch-20260418
-head_commit=cc840fc9
-signature=792b3ad4bb2ab21db58b15513d9d1b7d0a669084e62ec76a8d3a7f3a6d1ead2e
+diff_hash=58241b1aeaa3bb15c3eeae7b644dbf3035f54786fc0b7af6efda79fe273cf7b3
+timestamp=2026-04-18T22:03:20Z
+branch=agent/auto-rebase-post-merge-20260418
+head_commit=402e1df7
+signature=a156488bd90a582ba6369301ccf536a65e5b42b0ef4cbca1a882926c04e3d0f5
