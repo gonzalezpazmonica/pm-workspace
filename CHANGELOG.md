@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.48.0] — 2026-04-18
+
+SPEC-SE-012 Módulos 3 + 4 — signal/noise reduction tooling. 31 tests. Era 234.
+
+### Added
+- **`scripts/pr-plan-queue-check.sh`** (Módulo 4): detecta colisiones de versión CHANGELOG entre PRs abiertos antes del push. Fetcha cada PR via `gh api contents/CHANGELOG.md?ref=branch`, extrae top version, compara con local. Si colisión, sugiere next-free. Graceful skip vía `PR_PLAN_SKIP_QUEUE_CHECK=1` o ausencia de `gh`/`jq`/red. Bounded timeouts 8-10s.
+- **`scripts/pre-push-bats-critical.sh`** (Módulo 3): runner selectivo de BATS. Mapea files cambiados (hooks/scripts/skills/agents) a sus `.bats` relacionados vía convención de nombres. Ejecuta solo los relevantes en vez de las 136 suites completas.
+- **`tests/test-signal-noise-scripts.bats`**: 31 tests consolidados (2 scripts). Safety, CLI, graceful degradation, mapping, read-only invariant, negative + edge cases. Auditor score 88.
+
+### Motivacion
+SPEC-SE-012 lleva merged desde 2026-03 pero Módulos 3 + 4 quedaron pendientes. Módulo 4 ataca el problema concreto reobservado esta sesión: versiones CHANGELOG 5.42/5.43/5.44 colisionaron entre PRs #607/#608/#609 requiriendo merge-resolve manual. Módulo 3 acelera iteración local (solo corre los bats afectados, no 136). Ambos opt-in — no bloquean flujo si red falla.
+
 ## [5.45.0] — 2026-04-18
 
 Tier 1 probes — hook bench + agent size audit + BATS auditor sweep. 3 scripts + 42 tests. Era 234.
@@ -7760,6 +7772,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.47.0...v5.48.0
 [5.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.44.0...v5.45.0
 [5.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.43.0...v5.44.0
 [5.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.42.0...v5.43.0
