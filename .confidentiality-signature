@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=acb1606e1352f1a1a98c7968088ddf7fe1797455e7db95c724f5dabe39aaaa3d
-timestamp=2026-04-17T22:31:29Z
-branch=agent/autonomous-superpowers-20260417
-head_commit=e97af470
-signature=3ff4e0624c864cdb373b50e638bc4b8a5f003ac302e5d187b0527546e2157612
+diff_hash=8fd69430edcf9aedd99fb3ae57abbec600d4bb26e111eb40dba7d2d6a9bb33ce
+timestamp=2026-04-18T06:04:24Z
+branch=feat/spec-110-clean
+head_commit=5f43b6e9
+signature=89571e17c02e34cd3df9b7121b09e39ef4b917fc0dd870c5a598d6d1bba06fc2

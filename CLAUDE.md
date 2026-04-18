@@ -14,6 +14,12 @@
 @docs/rules/domain/radical-honesty.md
 @docs/rules/domain/autonomous-safety.md
 
+## Usuario activo (SPEC-110)
+
+Identidad del humano al volante + memoria auto persistida fuera del repo.
+@.claude/profiles/active-user.md
+@.claude/external-memory/auto/MEMORY.md
+
 **Idioma**: Savia responde SIEMPRE en el idioma del perfil activo (`preferences.md`). NUNCA cambiar salvo petición explícita.
 
 ## Estructura

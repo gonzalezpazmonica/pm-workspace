@@ -53,6 +53,22 @@ else
   ITEMS+=("PAT no configurado — \$HOME/.azure/devops-pat")
 fi
 
+# ── External memory bootstrap (SPEC-110) ─────────────────────────────────────
+check_timeout
+MEMORY_MODE=""
+for mb_path in "$HOME/claude/scripts/savia-memory-bootstrap.sh" "./scripts/savia-memory-bootstrap.sh"; do
+  if [ -f "$mb_path" ]; then
+    MEMORY_OUT=$(bash "$mb_path" 2>/dev/null | tail -1)
+    MEMORY_MODE=$(echo "$MEMORY_OUT" | grep -oE '"mode":"[^"]+"' | cut -d'"' -f4)
+    break
+  fi
+done
+case "$MEMORY_MODE" in
+  canonical)     ITEMS+=("Memoria: ../.savia-memory (canónico)") ;;
+  repo-local)    ITEMS+=("Memoria: repo/.savia-memory (fallback)") ;;
+  home-fallback) ITEMS+=("Memoria: \$HOME/.savia-memory (fallback)") ;;
+esac
+
 # ── Perfil activo ────────────────────────────────────────────────────────────
 check_timeout
 # FIX: Try multiple possible profile locations (CI may use different $HOME)

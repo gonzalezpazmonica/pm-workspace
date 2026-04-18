@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.23.0] — 2026-04-17
+
+SPEC-110 — Memoria externa canónica parent-relative. Era 110. Auto-load de identidad Savia + usuario activo + MEMORY.md en SessionStart.
+
+### Added
+- **`docs/propuestas/SPEC-110-memoria-externa-canonica.md`**: spec completa del store canónico en `../.savia-memory/` (parent-relative, OS-agnostic: Windows, macOS, Linux idéntico). Layout: `auto/`, `sessions/`, `projects/`, `agents/{public,private,projects}/`, `shield-maps/` (chmod 700 — aislado de external-memory), `pm-radar/`. Fallback: canonical → repo-local → `$HOME/.savia-memory/`.
+- **`scripts/savia-memory-bootstrap.sh`**: crea el store e instala symlink relativo `.claude/external-memory → ../../.savia-memory/`. Idempotente. Devuelve JSON `{target, mode, link}`.
+- **`scripts/savia-memory-migrate.sh`**: migración idempotente desde `public-agent-memory/`, `private-agent-memory/`, `projects/*/agent-memory/`, `output/.memory-store.jsonl` y `~/.savia/pm-radar/`. Copia nunca mueve; flag `--cleanup-origin` opcional y separado.
+- **`.claude/hooks/session-init.sh`**: invoca bootstrap al arranque y reporta `Memoria: ../.savia-memory (canónico)` en el status.
+- **`CLAUDE.md`**: añade sección `## Usuario activo (SPEC-110)` con `@imports` de `active-user.md` y `external-memory/auto/MEMORY.md`.
+
+### Changed
+- **`.gitignore`**: excluye `.claude/external-memory`, `.claude/external-memory-target` y `/.savia-memory/` (store local + symlinks locales, nunca commit).
+
+### Security
+- `shield-maps/` del store canónico queda en chmod 700 y no se toca por el bridge external-memory (sigue aislado de Cowork por diseño — N4 local-only).
+
 ## [5.22.0] — 2026-04-17
 
 SPEC-120 implementado + SPEC-121..124 + SE-028 propuestos. Roadmap autónomo SAVIA-SUPERPOWERS. Era 234.
@@ -30,7 +47,6 @@ SPEC-120 implementado + SPEC-121..124 + SE-028 propuestos. Roadmap autónomo SAV
 
 ### Fixed
 - **`scripts/` y `scripts/lib/`**: 103 shell scripts recuperados como ejecutables (chmod +x) tras doctor check.
-
 
 ## [5.20.0] — 2026-04-17
 
@@ -7448,6 +7464,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.22.0...v5.23.0
 [5.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.20.0...v5.22.0
 [5.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.19.0...v5.20.0
 [5.19.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.18.0...v5.19.0
@@ -7614,10 +7631,10 @@ Initial public release of PM-Workspace.
 [4.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.63.0...v4.64.0
 [4.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.61.0...v4.62.0
 [4.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.60.0...v4.61.0
-[4.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.59.0...v4.60.0
-[4.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.58.0...v4.59.0
+[4.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/co
+[4.59.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.57.0...v4.59.0
 [4.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.56.0...v4.57.0
-[4.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.55.0...v4.56.0
+[4.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.50.0...v4.56.0
 [4.50.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.49.0...v4.50.0
 [4.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.48.0...v4.49.0
 [4.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.47.0...v4.48.0
@@ -7644,8 +7661,7 @@ Initial public release of PM-Workspace.
 [4.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.27.0...v4.28.0
 [4.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.26.0...v4.27.0
 [4.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.25.0...v4.26.0
-[4.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.24.0...v4.25.0
-[4.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.23.0...v4.24.0
+[4.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.23.0...v4.25.0
 [4.23.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.22.0...v4.23.0
 [4.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.21.0...v4.22.0
 [4.21.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v4.20.0...v4.21.0
