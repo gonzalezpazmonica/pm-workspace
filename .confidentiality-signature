@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=6f8b9bcf9b0bf143f60c219454df7e2e8a83bed6b1da42c9808a88ad7eacc15c
-timestamp=2026-04-18T12:35:56Z
+timestamp=2026-04-18T12:35:57Z
 branch=agent/scm-deterministic-20260418
-head_commit=f6e68c83
+head_commit=5ca41f03
 signature=660e7b379db07a634b7b354e4e732b891db8b3e1e4d899fc6153016da133806b
