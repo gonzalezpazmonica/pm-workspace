@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c85db02b5531da5e6b3768d76eeb21cd658bcf92b7cb8617f801fed8409899a4
-timestamp=2026-04-18T14:28:09Z
-branch=agent/concurrency-audit-20260418
-head_commit=2f6bc25d
-signature=1c01d4983bebaf05241f03c1184ac9cba8f0b374bc1ad14fbfcfa1993e4628f5
+diff_hash=514cd872b49953216b6f94802df5a0f322be3e9b51ab9ce610e9133f8c7837f5
+timestamp=2026-04-18T14:57:30Z
+branch=agent/mcp-overhead-audit-20260418
+head_commit=6d1005dd
+signature=4d219ae63e8ba310ed941b98c11dea9c2cc39af0e23eda93ca777440f604f8b9
