@@ -1,6 +1,6 @@
 {
-  "hash": "161ce56ba83f",
-  "total": 1017,
+  "hash": "62300140050e",
+  "total": 1020,
   "resources": [
     {
       "category": "analysis",
@@ -3489,6 +3489,18 @@
     },
     {
       "category": "memory",
+      "name": "changelog-consolidate",
+      "intents": [
+        "changelog",
+        "consolidate",
+        "fragments"
+      ],
+      "kind": "script",
+      "path": "scripts/changelog-consolidate.sh",
+      "description": "changelog-consolidate.sh — consolidate CHANGELOG.d/*.md fragments into"
+    },
+    {
+      "category": "memory",
       "name": "company-show",
       "intents": [
         "consolidado",
@@ -5415,6 +5427,19 @@
       "kind": "script",
       "path": "scripts/changelog-assemble.sh",
       "description": "changelog-assemble.sh — Assemble CHANGELOG.md from CHANGELOG.d/ fragments"
+    },
+    {
+      "category": "planning",
+      "name": "changelog-fragment",
+      "intents": [
+        "changelog",
+        "create",
+        "current",
+        "fragment"
+      ],
+      "kind": "script",
+      "path": "scripts/changelog-fragment.sh",
+      "description": "changelog-fragment.sh — create a CHANGELOG fragment for the current PR"
     },
     {
       "category": "planning",
@@ -8923,6 +8948,20 @@
       "kind": "script",
       "path": "scripts/setup-claude-permissions.sh",
       "description": "setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados"
+    },
+    {
+      "category": "planning",
+      "name": "setup-merge-drivers",
+      "intents": [
+        "configure",
+        "custom",
+        "drivers",
+        "local",
+        "merge"
+      ],
+      "kind": "script",
+      "path": "scripts/setup-merge-drivers.sh",
+      "description": "setup-merge-drivers.sh — configure local git with the custom merge drivers"
     },
     {
       "category": "planning",

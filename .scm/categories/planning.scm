@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 458 resources
+> 460 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -70,6 +70,7 @@
 - **ceo-alerts** (cmd): Panel de alertas estratégicas para dirección — solo decisiones que requieren nivel C
 - **ceremony-health** (cmd): Métricas de salud de ceremonias — duración, participación, resolution rate
 - **changelog-assemble** (script): changelog-assemble.sh — Assemble CHANGELOG.md from CHANGELOG.d/ fragments
+- **changelog-fragment** (script): changelog-fragment.sh — create a CHANGELOG fragment for the current PR
 - **changelog-update** (cmd): >
 - **ci-failure-tracker** (script): ci-failure-tracker.sh — Track CI pipeline failures for signal/noise analysis
 - **ci-health** (cmd): Muestra tasa de fallo de pipelines CI a partir del log local de ejecuciones.
@@ -356,6 +357,7 @@
 - **sentry-health** (cmd): >
 - **service-catalog-telco** (cmd): Gestión del catálogo de servicios de telecom con definiciones, configuración y precios
 - **setup-claude-permissions** (script): setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados
+- **setup-merge-drivers** (script): setup-merge-drivers.sh — configure local git with the custom merge drivers
 - **setup-savia-dual** (script): setup-savia-dual.sh — Installer for Savia Dual (Linux/macOS)
 - **setup-savia-remote** (script): setup-savia-remote.sh — Run ONCE on the remote server as root/sudo.
 - **sheets-setup** (cmd): Configure Google Sheets integration
