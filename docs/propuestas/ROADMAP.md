@@ -109,6 +109,16 @@ Del ex-DEVELOPMENT-PLAN.md savia-enterprise, iterable autónomamente sin infra e
 | 5.13 | SPEC-SE-021 | Code Review Court (+pr-agent) | Converge con SPEC-124 |
 | 5.14 | SPEC-SE-023 | Knowledge federation | Converge con SE-030 |
 | 5.15 | SPEC-SE-025 | Agentic workforce analytics | Docs + script analyzer |
+| 5.16 | SPEC-SE-002 | Multi-tenant & RBAC | Workspace isolation via scripts + configs |
+| 5.17 | SPEC-SE-003 | MCP server catalog | Catalog tooling sobre `.claude/mcp.json` |
+| 5.18 | SPEC-SE-004 | Agent framework interop | Adapters a LangGraph/AutoGen/CrewAI — docs + wrappers |
+| 5.19 | SPEC-SE-006 | Governance & compliance pack | Policies + audits automatizables |
+| 5.20 | SPEC-SE-009 | Observability stack (agnóstico) | Autosufficient local mode (SE-005 sovereign) |
+| 5.21 | SPEC-SE-010 | Migration path & backward compat | Docs + migration scripts |
+| 5.22 | SPEC-SE-014 | Release orchestration | Adapters + templates (deploy humano en prod, autónomo en staging) |
+| 5.23 | SPEC-SE-022 | Resource & bench management | Benchmarking scripts |
+| 5.24 | SPEC-SE-024 | Client health intelligence | Signals aggregation scripts |
+| 5.25 | SPEC-SE-027 | SLM training pipeline | Ya merged (base) — extensiones opt-in |
 
 ### Tier 6 — Convergencias / consolidaciones
 
