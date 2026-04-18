@@ -103,6 +103,26 @@ else
   fail "CHANGELOG.md not found"
 fi
 
+# 7. SCM Freshness (Savia Capability Map up-to-date vs tracked sources)
+echo "--- 7. SCM Freshness ---"
+scm_gen="$ROOT/scripts/generate-capability-map.py"
+scm_index="$ROOT/.scm/INDEX.scm"
+if [[ -x "$scm_gen" && -f "$scm_index" ]]; then
+  # Generator is deterministic (content-hash header): re-run and diff.
+  before_hash=$(sha256sum "$scm_index" | awk '{print $1}')
+  python3 "$scm_gen" >/dev/null 2>&1 || true
+  after_hash=$(sha256sum "$scm_index" | awk '{print $1}')
+  if [[ "$before_hash" == "$after_hash" ]]; then
+    pass ".scm/INDEX.scm fresh vs tracked sources"
+  else
+    fail ".scm/INDEX.scm stale — run 'python3 scripts/generate-capability-map.py' and commit"
+    # Restore pre-regen state so the check is non-destructive when it fails
+    git -C "$ROOT" checkout -- .scm/ 2>/dev/null || true
+  fi
+else
+  fail "SCM generator or INDEX missing"
+fi
+
 echo "" && echo "═════════════════════════════════════════════════════════════"
 echo "  Results: $PASS passed, $FAIL failed ($TOTAL total checks)"
 echo "═════════════════════════════════════════════════════════════"
