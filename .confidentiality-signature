@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=efd0fdb9ae3e0fb43d98d17ee03b7fb05ecfefd7c10116a2674118279221a58e
-timestamp=2026-04-18T16:10:42Z
-branch=agent/spec-082-orphan-fix-20260418
-head_commit=86bb0a17
-signature=1c222ced912a213ec4c54c33230ddb715fdf80d03ef23046af5d3f01e3660475
+diff_hash=bf48640bc5dea797f1dfe40dc19f82fde92dbee67e69d561fb37e8e2254dacd5
+timestamp=2026-04-18T17:02:23Z
+branch=agent/debt-specs-20260418
+head_commit=009de6a1
+signature=479ae9e4e55e9a91e9c8f5f323fe256507989621e15baf9722641102e9030b6e
