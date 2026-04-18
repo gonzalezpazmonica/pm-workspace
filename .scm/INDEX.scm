@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 93b2669fc91b | resources: 1015
-> 530 commands · 77 skills · 65 agents · 343 scripts
+> hash: 8ae87ef3c3d6 | resources: 1020
+> 530 commands · 77 skills · 65 agents · 348 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -276,6 +276,7 @@
 [memory] cache-optimize — caching,efficiency,optimize,performance,strategy — cmd:.claude/commands/cache-optimize.md
 [memory] cache-strategy — caché,capas,configurar,estrategia,invalidación — cmd:.claude/commands/cache-strategy.md
 [memory] cache-warm — basado,caché,calentar,contexto,hora — cmd:.claude/commands/cache-warm.md
+[memory] changelog-consolidate — changelog,consolidate,fragments — script:scripts/changelog-consolidate.sh
 [memory] company-show — consolidado,contexto,ejecutivo,empresa,mostrar — cmd:.claude/commands/company-show.md
 [memory] context-age — antiguas,archiva,comprime,decision,decisiones — cmd:.claude/commands/context-age.md
 [memory] context-aging — aging,context — script:scripts/context-aging.sh
@@ -424,6 +425,7 @@
 [planning] ceo-alerts — alertas,decisiones,dirección,estratégicas,nivel — cmd:.claude/commands/ceo-alerts.md
 [planning] ceremony-health — ceremonias,duración,métricas,participación,rate — cmd:.claude/commands/ceremony-health.md
 [planning] changelog-assemble — assemble,changelog,fragments — script:scripts/changelog-assemble.sh
+[planning] changelog-fragment — changelog,create,current,fragment — script:scripts/changelog-fragment.sh
 [planning] changelog-update —  — cmd:.claude/commands/changelog-update.md
 [planning] ci-failure-tracker — analysis,failure,failures,noise,pipeline — script:scripts/ci-failure-tracker.sh
 [planning] ci-health — ejecuciones,fallo,local,muestra,partir — cmd:.claude/commands/ci-health.md
@@ -677,6 +679,8 @@
 [planning] repos-list —  — cmd:.claude/commands/repos-list.md
 [planning] repos-pr-create —  — cmd:.claude/commands/repos-pr-create.md
 [planning] repos-pr-list —  — cmd:.claude/commands/repos-pr-list.md
+[planning] resolve-all-open-prs — conflicts,helper,open,resolve,runs — script:scripts/resolve-all-open-prs.sh
+[planning] resolve-pr-conflicts — auto,conflicts,recurring,resolve,resolver — script:scripts/resolve-pr-conflicts.sh
 [planning] resource-references — references,resource,skill — skill:.claude/skills/resource-references/SKILL.md
 [planning] retro-actions —  — cmd:.claude/commands/retro-actions.md
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md
@@ -708,6 +712,7 @@
 [planning] sentry-health —  — cmd:.claude/commands/sentry-health.md
 [planning] service-catalog-telco — catálogo,configuración,definiciones,gestión,precios — cmd:.claude/commands/service-catalog-telco.md
 [planning] setup-claude-permissions — claude,json,local,permisos,permissions — script:scripts/setup-claude-permissions.sh
+[planning] setup-merge-drivers — configure,custom,drivers,local,merge — script:scripts/setup-merge-drivers.sh
 [planning] setup-savia-dual — dual,installer,linux,macos,savia — script:scripts/setup-savia-dual.sh
 [planning] setup-savia-remote — once,remote,root,savia,server — script:scripts/setup-savia-remote.sh
 [planning] sheets-setup — configure,google,integration,sheets — cmd:.claude/commands/sheets-setup.md
