@@ -6,7 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [5.44.0] — 2026-04-18
+## [5.45.0] — 2026-04-18
+
+Tier 1 probes — hook bench + agent size audit + BATS auditor sweep. 3 scripts + 42 tests. Era 234.
+
+### Added
+- **`scripts/hook-bench-all.sh`**: SE-037 Slice 1. Mide p50/p95/p99 latencia de los 56 hooks (runs configurable 1-20). Clasifica critical (session/memory/claude/pre/post/tool) vs analysis con SLAs 20ms y 100ms. Primer run produce baseline: 56 hooks, 4 critical violations, 1 analysis violation.
+- **`scripts/agent-size-audit.sh`**: SE-038 Slice 1. Audita Rule #22 sobre 65 agentes (<4KB). Soporta `size_exception:` en frontmatter. Primer run: 27 agentes exceden SLA sin excepción (42% del catalogo, 249KB total).
+- **`scripts/audit-all-bats.sh`**: SE-039 Slice 1. Ejecuta test-auditor (SPEC-055) sobre todos los .bats con bounded concurrency (MAX_PARALLEL=5). Primer run: 136 tests, 100% compliance ≥80 score, average 87. Surpresa positiva — suite en buen estado.
+- **`tests/test-tier1-probes.bats`**: 42 tests validando los 3 scripts: safety headers, bash -n, CLI surface, report generation, read-only invariant, bounded concurrency, exit codes, negative + edge cases. Auditor score 90.
+
+### Motivacion
+ROADMAP §Tier 1 (probes de deuda, read-only, high signal). Consolidados en 1 PR para agilizar — los 3 comparten patrón estructural (script → report → exit code) y son measurement-first antes de remediation. Resultados dan ground truth: SE-037 y SE-038 tienen deuda real medida; SE-039 confirma suite saludable, Slice 2 puede enfocarse en enforcement gate directo.
+
+
 
 ROADMAP.md canonical — consolida 3 roadmaps previos + reprioriza con Tier 1-7. Era 234.
 
@@ -7747,6 +7760,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.45.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.44.0...v5.45.0
 [5.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.43.0...v5.44.0
 [5.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.42.0...v5.43.0
 [5.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.41.0...v5.42.0
