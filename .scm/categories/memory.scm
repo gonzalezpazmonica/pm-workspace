@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 82 resources
+> 87 resources
 
 - **ast-comprehension** (skill): Comprensión estructural de código que no hemos escrito. Extrae mapa de clases/funciones, dependencias, call graph, complejidad y superficie API mediante AST multi-lenguaje. Pre-modifica contexto para agentes, legacy assessment y comprehensi
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
@@ -19,15 +19,20 @@
 - **context-calibration-measure** (script): context-calibration-measure.sh — Measure context usage patterns
 - **context-compress** (cmd): Compresión semántica de contexto — mantener significado, reducir tokens (80% reduction)
 - **context-defer** (cmd): Sistema de carga diferida — cargar comandos/reglas solo cuando se necesitan (85% reducción de overhead)
+- **context-distortion-measure** (script): context-distortion-measure.sh — SE-029-M
+- **context-frozen-check** (script): context-frozen-check.sh — SE-029-F
 - **context-interview** (cmd): Entrevista estructurada de contexto para proyectos y clientes
 - **context-interview-conductor** (skill): Conducción de entrevistas estructuradas de contexto
 - **context-load** (cmd): >
 - **context-optimize** (cmd): Analizar patrones de uso de contexto y sugerir optimizaciones al context-map
 - **context-optimized-dev** (skill): Context-Optimized Development — Skill
 - **context-profile** (cmd): Perfilar consumo de contexto — qué consume más, generación de flame-graph, comparación entre sesiones
+- **context-receipts-validate** (script): context-receipts-validate.sh — SE-030
+- **context-restate-anchor** (script): context-restate-anchor.sh — SE-029-R
 - **context-rotation** (script): context-rotation.sh — SE-033: Automated context rotation (daily/weekly/monthly)
 - **context-snapshot** (script): context-snapshot.sh — Save/load session context between sessions
 - **context-status** (cmd): Show context window usage, model tier, and optimization recommendations
+- **context-task-classifier** (script): context-task-classifier.sh — SE-029-C
 - **context-tracker** (script): ── context-tracker.sh ─────────────────────────────────────────────────────
 - **cross-project-search** (cmd): Búsqueda transversal de conocimiento entre todos los proyectos del portfolio
 - **digest-to-memory** (script): digest-to-memory.sh — Bridge: digest agents -> memory-store + graph

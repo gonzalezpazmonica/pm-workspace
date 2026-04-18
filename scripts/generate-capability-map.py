@@ -18,11 +18,11 @@ planning, quality.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
 import time
-from datetime import date
 from pathlib import Path
 from typing import Iterable
 
@@ -227,9 +227,19 @@ def write_index_file(index_path: Path, resources: list[ResourceEntry]) -> None:
     for resource in resources:
         by_kind[resource.kind] = by_kind.get(resource.kind, 0) + 1
 
+    # Stable content hash over the sorted resource body — replaces the
+    # mutable `generated: today` timestamp. Same inputs → same hash → same
+    # file bytes → no git drift between sessions. See docs/rules/domain/
+    # deterministic-artifacts.md (SE-031 lesson).
+    sorted_resources = sorted(resources, key=lambda r: (r.category, r.name))
+    body_lines = [resource.index_line() for resource in sorted_resources]
+    content_hash = hashlib.sha256(
+        ("\n".join(body_lines)).encode("utf-8")
+    ).hexdigest()[:12]
+
     header_lines = [
         "# Savia Capability Map — INDEX",
-        f"> generated: {date.today().isoformat()} | resources: {len(resources)}",
+        f"> hash: {content_hash} | resources: {len(resources)}",
         "> " + " · ".join(
             f"{by_kind.get(k, 0)} {label}"
             for k, label in (("cmd", "commands"), ("skill", "skills"),
@@ -237,8 +247,6 @@ def write_index_file(index_path: Path, resources: list[ResourceEntry]) -> None:
         ),
         "",
     ]
-    sorted_resources = sorted(resources, key=lambda r: (r.category, r.name))
-    body_lines = [resource.index_line() for resource in sorted_resources]
     index_path.write_text("\n".join(header_lines + body_lines) + "\n", encoding="utf-8")
 
 
@@ -262,11 +270,20 @@ def write_category_files(category_dir: Path, resources: list[ResourceEntry]) -> 
 
 
 def write_resources_json(json_path: Path, resources: list[ResourceEntry]) -> None:
-    """Write a machine-readable JSON mirror (used by hooks / fast lookups)."""
+    """Write a machine-readable JSON mirror (used by hooks / fast lookups).
+
+    Uses a stable content hash instead of a timestamp so the file is
+    byte-identical across regenerations when inputs haven't changed.
+    """
+    sorted_resources = sorted(resources, key=lambda r: (r.category, r.name))
+    resource_dicts = [r.to_dict() for r in sorted_resources]
+    content_hash = hashlib.sha256(
+        json.dumps(resource_dicts, ensure_ascii=False, sort_keys=True).encode("utf-8")
+    ).hexdigest()[:12]
     payload = {
-        "generated_utc": date.today().isoformat(),
+        "hash": content_hash,
         "total": len(resources),
-        "resources": [r.to_dict() for r in sorted(resources, key=lambda r: (r.category, r.name))],
+        "resources": resource_dicts,
     }
     json_path.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",

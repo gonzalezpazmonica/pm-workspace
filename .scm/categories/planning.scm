@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 449 resources
+> 455 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -144,6 +144,7 @@
 - **estimate-calibrate** (script): estimate-calibrate.sh — Recompute empirical agent speedups from actuals log
 - **estimate-convert** (script): estimate-convert.sh — Convert human-days to agent-hours using dual ratios
 - **ethics-protocol** (cmd): >
+- **eval-ablation-run** (script): eval-ablation-run.sh — SE-030-A
 - **eval-create** (cmd): Create and configure evaluation criteria for outputs
 - **eval-output** (cmd): >
 - **eval-workspace** (script): eval-workspace.sh — Evaluación integral de pm-workspace contra sala-reservas
@@ -176,7 +177,7 @@
 - **fork-agents** (script): fork-agents.sh — Lanza N invocaciones paralelas de Claude con prefijo cacheable
 - **frontend-developer** (agent): >
 - **gdrive-upload** (cmd): >
-- **generate-capability-map** (script): ── generate-capability-map.sh — Generate .scm index from workspace resources
+- **generate-capability-map** (script): ── generate-capability-map.sh — Thin wrapper around the Python generator.
 - **generate-index** (script): generate-index.sh — Generate discoverable index of all workspace components
 - **github-activity** (cmd): >
 - **github-issues** (cmd): >
@@ -185,6 +186,7 @@
 - **grant-track** (cmd): >
 - **graph-impact** (cmd): Analiza el impacto en cascada de cambios en entidades PM
 - **graph-query** (cmd): Consulta el grafo de conocimiento en lenguaje natural
+- **graphrag-quality-gate** (script): graphrag-quality-gate.sh — SE-030-T
 - **guided-work** (cmd): Trabajo guiado — Savia te acompaña paso a paso con preguntas, adaptando el ritmo a tus necesidades
 - **hallucination-judge** (agent): Truth Tribunal judge — detects invented facts via SelfCheck-style consistency
 - **health-dashboard** (cmd): Dashboard de salud del proyecto unificado — Savia muestra una vista rápida adaptada al rol
@@ -303,6 +305,9 @@
 - **pursuit-validate** (script): pursuit-validate.sh — SE-015: Validate pursuit directories
 - **push-pr** (script): push-pr.sh — CI + sign + push + create PR + release (zero re-sign commits)
 - **python-developer** (agent): >
+- **query-lib-index** (script): query-lib-index.sh — SE-031
+- **query-lib-nl** (script): query-lib-nl.sh — SE-031 slice 2
+- **query-lib-resolve** (script): query-lib-resolve.sh — SE-031
 - **rbac-manager** (script): rbac-manager.sh — RBAC backend for Savia Enterprise multi-tenant
 - **readiness-check** (script): readiness-check.sh — Deterministic capability checklist
 - **record-export** (cmd): Export recorded session or data in multiple formats
@@ -364,6 +369,7 @@
 - **skills-lock** (script): skills-lock.sh — SHA-256 integrity verification for skills
 - **skillssh-adapter** (script): ── skills.sh Adapter — Genera paquetes publicables para skills.sh ──
 - **slm-data-prep** (script): slm-data-prep.sh — Prepare project data for SLM fine-tuning
+- **slm-synth** (script): slm-synth.sh — SE-028 slice 1
 - **slm-train** (script): slm-train.sh — Fine-tune SLMs locally with Unsloth + export to Ollama
 - **smart-calendar** (skill): >
 - **smart-routing** (skill): Enrutamiento inteligente de comandos y descubrimiento de herramientas para 400+ comandos
@@ -422,7 +428,7 @@
 - **validate-ci-local** (script): ── validate-ci-local.sh — Parallel CI validation ────────────────────────
 - **validate-commands** (script): ─────────────────────────────────────────────────────────────────────
 - **validate-devops** (script): =============================================================================
-- **validate-devops-checks** (script): validate-devops-checks.sh — Check functions (sourced by validate-devops.sh)
+- **validate-devops-checks** (script): shellcheck shell=bash
 - **validate-filesize** (cmd): Validar que ficheros del workspace cumplen ≤150 líneas
 - **validate-handoff** (script): validate-handoff.sh — Validate handoff structure with termination_reason
 - **validate-layer-contract** (script): validate-layer-contract.sh — SE-001 layer contract validator

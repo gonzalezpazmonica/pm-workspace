@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 96 resources
+> 99 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -41,11 +41,13 @@
 - **feasibility-probe** (skill): Validate spec feasibility with time-boxed prototype attempt and viability scoring
 - **feasibility-probe** (agent): Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions.
 - **graph-build** (cmd): Construye el grafo de conocimiento PM para un proyecto
+- **graph-temporal-ops** (script): graph-temporal-ops.sh — SPEC-123
 - **human-code-map** (skill): Genera y mantiene mapas narrativos de componentes (.hcm) para luchar activamente contra la deuda cognitiva. Usar PROACTIVELY cuando: se incorpora un dev nuevo, se toca un módulo sin mapa, debt-score > 6, o se detecta que alguien re-lee el m
 - **impact-analysis** (script): impact-analysis.sh — Analyze codebase impact of modifying files
 - **index-rebuild** (cmd): >
 - **install-git-hooks** (script): install-git-hooks.sh — Instala hooks de Git para PM‑Workspace en OpenCode
 - **instinct-collapse-detector** (script): instinct-collapse-detector.sh — SPEC-045 Phase 1: detect exploration collapse
+- **localai-readiness-check** (script): localai-readiness-check.sh — SPEC-122
 - **marketplace-install** (cmd): Install components from claude-code-templates marketplace
 - **mcp-browse** (cmd): Explorar catálogo de MCPs disponibles (66+) via claude-code-templates
 - **mcp-server** (cmd): Expone las herramientas de Savia como MCP server para otros proyectos Claude Code
@@ -65,6 +67,7 @@
 - **requirement-pushback** (script): requirement-pushback.sh — Analyze a spec and generate pushback questions
 - **retro-patterns** (cmd): Análisis de patrones en retrospectivas — temas recurrentes, action items sin resolver
 - **rpi-status** (cmd): Track progress of active RPI (Research → Plan → Implement) workflows.
+- **rules-domain-index** (script): rules-domain-index.sh — SPEC-115
 - **sdd-spec-writer** (agent): >
 - **semantic-compact** (script): semantic-compact.sh — SPEC-022 F2: Smart compact summary generator
 - **semantic-map** (script): semantic-map.sh — Generate compressed semantic maps of source code files
