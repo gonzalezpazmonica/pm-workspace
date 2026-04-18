@@ -6,22 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [5.47.0] — 2026-04-18
-
-SE-036 Slice 1 — frontmatter migration tooling + primer batch 15 specs. Era 234.
-
-### Added
-- **`scripts/spec-frontmatter-migrate.sh`**: herramienta mecánica para migrar specs con status en prosa (`> Status: **DRAFT**`) a YAML frontmatter canónico. Mapping fijo: DRAFT→Proposed, ACTIVE/IMPLEMENTING→IN_PROGRESS, READY→ACCEPTED, COMPLETE/DONE/PHASE N DONE→Implemented, REJECTED→Rejected, resto→UNLABELED. Preserva body intact (prepend-only). Modos --dry-run / --apply / --spec PATH / --limit N (max 50).
-- **`tests/test-spec-frontmatter-migrate.bats`**: 32 tests — safety, CLI, mapping canónico (7 status types), estructura frontmatter, idempotencia, single-spec mode, negatives, edges. Auditor score 89.
-
-### Changed
-- **15 specs `docs/propuestas/SPEC-003..017`**: migradas a frontmatter YAML via la herramienta. Source of truth body-prose preservada. `status:` canónico + `origin_date:` + `migrated_at:` + `migrated_from: body-prose` (auditable).
-
-### Resultados
-`spec-status-normalize.sh --audit` reporta missing 111→96 (reducción 15 specs). Herramienta idempotente: `--apply` sobre specs ya migradas es no-op.
-
-### Motivacion
-ROADMAP Tier 1.4. Automation mecánica en vez de 30 edits manuales — cero judgment humano sustituido: si body dice DRAFT, frontmatter dice Proposed. Habilita grep/jq-tooling sobre 15+ specs previamente invisibles.
 ## [5.51.0] — 2026-04-18
 
 Auto-resolver de conflictos CHANGELOG+signature en PRs concurrentes. 37 tests. Era 234.
@@ -7586,7 +7570,6 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
-[5.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.46.0...v5.47.0
 [5.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.50.0...v5.51.0
 [5.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.47.0...v5.48.0
 [2.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.79.0...v2.80.0
