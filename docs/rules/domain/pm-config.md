@@ -126,4 +126,10 @@ MIRO_TOKEN_FILE             = "$HOME/.azure/miro-token"            # fichero con
 #   PROJECT_XXX_GIT_PROVIDER        = "github"                       # github | azure-repos
 #   PROJECT_XXX_AZURE_REPOS_REPO    = "backend-api"                  # repo por defecto en Azure Repos
 #   PROJECT_XXX_AZURE_REPOS_BRANCH  = "main"                         # rama principal
+
+# ── Code Review Court (SPEC-124) ────────────────────────────────────────────
+COURT_INCLUDE_PR_AGENT      = false                               # opt-in: añade pr-agent como 5º juez externo
+PR_AGENT_VERSION            = "0.27"                              # pinear versión qodo-ai/pr-agent
+PR_AGENT_MODEL              = "claude-sonnet-4-6"                 # modelo usado por pr-agent
+PR_AGENT_MAX_LINES          = 1000                                # skip PRs > N líneas (coste token)
 ```

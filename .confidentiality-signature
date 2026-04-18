@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8fd69430edcf9aedd99fb3ae57abbec600d4bb26e111eb40dba7d2d6a9bb33ce
-timestamp=2026-04-18T06:04:24Z
-branch=feat/spec-110-clean
-head_commit=5f43b6e9
-signature=89571e17c02e34cd3df9b7121b09e39ef4b917fc0dd870c5a598d6d1bba06fc2
+diff_hash=3e33d5990a166c81016c7a75939a94c7ab1255b894f31683145caa245513d17e
+timestamp=2026-04-18T07:26:36Z
+branch=agent/superpowers-p2-20260418
+head_commit=93b5f56e
+signature=cd04add9d61b3de821fb7c1a71c88fb974de25ff7924bb73cd1a6c557a25cfc3

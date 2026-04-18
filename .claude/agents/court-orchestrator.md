@@ -56,6 +56,25 @@ Write `.review.crc` to the branch root. Report summary to the user.
 ## Rules
 
 - NEVER approve code yourself — you produce findings for human E1
-- NEVER skip a judge — all 5 must run
+- NEVER skip an internal judge — all 4 must run
 - NEVER exceed max fix rounds — escalate instead
 - Respect inclusive-review.md if developer has review_sensitivity: true
+
+## External Judges (SPEC-124)
+
+If `COURT_INCLUDE_PR_AGENT=true` in `pm-config.md` or `pm-config.local.md`,
+convene **5 judges total** (4 internal + pr-agent). The 5th is
+[qodo-ai/pr-agent](https://github.com/qodo-ai/pr-agent) OSS (60.1% F1).
+
+### Policy
+
+- External judge is **additive**, not authoritative. Verdict carries
+  weight 0.5 (internal 4 keep weight 1.0 each).
+- If `pr-agent` CLI not installed → `SKIPPED`. Court continues with 4.
+- Skip PRs from `agent/*` branches (feedback-loop guard).
+- Skip PRs > `PR_AGENT_MAX_LINES` (default 1000).
+
+### Invocation
+
+Via skill `pr-agent-judge` → `scripts/pr-agent-run.sh`. See
+`docs/propuestas/SPEC-124-pr-agent-wrapper.md`.

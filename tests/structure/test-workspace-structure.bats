@@ -95,9 +95,14 @@ teardown() {
 
 @test "no command, agent or rule exceeds 150 lines" {
   # Ref: docs/rules/domain/file-size-limit.md — 150 lines max
+  # Excludes: INDEX.md (auto-generated catalogs, not rules)
   local oversized=0
   for f in "$ROOT/.claude/commands/"*.md "$ROOT/.claude/agents/"*.md "$ROOT/docs/rules/domain/"*.md; do
     [ -f "$f" ] || continue
+    # Skip auto-generated index files
+    case "$(basename "$f")" in
+      INDEX.md) continue ;;
+    esac
     local lines; lines=$(wc -l < "$f")
     [ "$lines" -le 150 ] || oversized=$((oversized + 1))
   done
