@@ -123,9 +123,20 @@ g5() {
   [[ -z "$non_md" ]] && echo "skipped (docs-only)" && return
   local hi; hi=$(echo "$all" | grep -E '^(\.claude/(rules|hooks|agents|skills|settings)|scripts/|CLAUDE\.md)' || true)
   [[ -z "$hi" ]] && echo "skipped" && return
+
+  # Accept CHANGELOG.d/*.md fragment as valid changelog entry (zero-conflict
+  # pattern — see CHANGELOG.d/README.md). If the PR adds a fragment, skip
+  # the top-version check; release consolidates fragments into CHANGELOG.md.
+  local frag; frag=$(echo "$all" | grep -E '^CHANGELOG\.d/.+\.md$' | grep -v 'README\.md$' || true)
+  if [[ -n "$frag" ]]; then
+    local frag_count; frag_count=$(echo "$frag" | wc -l)
+    echo "skipped (fragment pattern: $frag_count CHANGELOG.d/ file(s))"
+    return
+  fi
+
   local lv; lv=$(grep -oP '## \[\K[0-9.]+' CHANGELOG.md 2>/dev/null | head -1)
   local mv; mv=$(git show origin/main:CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1) || true
-  [[ "$lv" == "$mv" ]] && { FAILED_FILE="CHANGELOG.md"; echo "FAIL: CHANGELOG not updated (both $lv)"; return; }
+  [[ "$lv" == "$mv" ]] && { FAILED_FILE="CHANGELOG.md"; echo "FAIL: CHANGELOG not updated (both $lv) — use scripts/changelog-fragment.sh or bump top version"; return; }
   local era; era=$(sed -n "/## \[$lv\]/,/## \[/p" CHANGELOG.md | grep -ci 'era ' || true)
   [[ "$era" -eq 0 ]] && { FAILED_FILE="CHANGELOG.md"; echo "FAIL: CHANGELOG v$lv missing Era reference (add 'Era NNN' to description)"; return; }
   # G5.5 — PR queue: enforce lv > max_claimed (Era 210+219).
