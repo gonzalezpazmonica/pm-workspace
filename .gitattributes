@@ -13,4 +13,18 @@
 # PR rebases onto newer main, git would conflict (main has previous-PR's sig,
 # branch has its own). This directive auto-resolves to the branch version;
 # signature is verified by CI after rebase. See SPEC-105.
+#
+# REQUIRES: `git config merge.ours.driver true` (run scripts/setup-merge-drivers.sh
+# on first checkout, or the hook in .claude/hooks/ensure-merge-drivers.sh).
 .confidentiality-signature merge=ours
+
+# CHANGELOG.md — union merge: combines both branches' additions without
+# conflict markers. Works without custom driver config. Duplicates cleaned
+# by scripts/changelog-consolidate.sh at release time. Prefer the
+# CHANGELOG.d/ fragment pattern for new PRs to avoid duplication entirely.
+CHANGELOG.md                merge=union
+
+# .scm/ generated deterministically from source code. Take ours; post-merge
+# regeneration (generate-capability-map.py) produces the correct state.
+.scm/*.scm                  merge=ours
+.scm/*.json                 merge=ours

@@ -425,13 +425,21 @@ jobs:
             });
             const files = filesResponse.data.map(f => f.filename);
 
-            // Check if any CHANGELOG was modified
+            // Check if any CHANGELOG was modified (either CHANGELOG.md directly
+            // or a new fragment under CHANGELOG.d/ — zero-conflict pattern).
             const changelogModified = files.some(f =>
               f.endsWith('CHANGELOG.md') || f === 'CHANGELOG.md'
             );
+            const changelogFragmentAdded = files.some(f =>
+              f.startsWith('CHANGELOG.d/') && f.endsWith('.md') && !f.endsWith('README.md')
+            );
 
             if (changelogModified) {
-              core.info('✅ Gate 8: CHANGELOG updated');
+              core.info('✅ Gate 8: CHANGELOG.md updated');
+              return;
+            }
+            if (changelogFragmentAdded) {
+              core.info('✅ Gate 8: CHANGELOG.d/ fragment added (zero-conflict pattern)');
               return;
             }
 
