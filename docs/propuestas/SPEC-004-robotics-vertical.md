@@ -1,3 +1,12 @@
+---
+id: SPEC-004
+title: SPEC-004: Savia Robotics Vertical — IA en el mundo físico
+status: Proposed
+origin_date: "2026-03-21"
+migrated_at: "2026-04-18"
+migrated_from: body-prose
+---
+
 # SPEC-004: Savia Robotics Vertical — IA en el mundo físico
 
 > Status: **DRAFT** · Fecha: 2026-03-21

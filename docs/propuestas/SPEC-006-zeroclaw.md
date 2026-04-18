@@ -1,3 +1,12 @@
+---
+id: SPEC-006
+title: SPEC-006: ZeroClaw — Los sentidos físicos de Savia
+status: Proposed
+origin_date: "2026-03-21"
+migrated_at: "2026-04-18"
+migrated_from: body-prose
+---
+
 # SPEC-006: ZeroClaw — Los sentidos físicos de Savia
 
 > Status: **DRAFT** · Fecha: 2026-03-21

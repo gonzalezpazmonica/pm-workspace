@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4c93a0ff50b3db63b13045fdc38af71fa83f91108a0123c548927cc2570f3b85
-timestamp=2026-04-18T20:54:07Z
-branch=agent/migrate-open-prs-to-fragments-20260418
-head_commit=b8684c9d
-signature=60db03542e87c959b1df83fecf79ac6c7ef41f525377ca02ff55dadb6295711a
+diff_hash=868cbb1820f0d16803e8e55e53f74601214a082ae8ba4514b0bcdabaff4f745a
+timestamp=2026-04-18T21:24:39Z
+branch=agent/se036-frontmatter-batch-20260418
+head_commit=cc840fc9
+signature=792b3ad4bb2ab21db58b15513d9d1b7d0a669084e62ec76a8d3a7f3a6d1ead2e
