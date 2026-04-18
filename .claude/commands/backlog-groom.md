@@ -37,16 +37,15 @@ Grupo: **Backlog Intelligence** — cargar:
 
 ### Paso 1 — Cargar backlog
 
-Ejecutar WIQL query:
-```wiql
-SELECT [System.Id], [System.Title], [System.State], [System.AreaPath],
-       [System.CreatedDate], [System.ChangedDate], [Microsoft.VSTS.Scheduling.StoryPoints]
-FROM WorkItems
-WHERE [System.TeamProject] = @project
-  AND [System.WorkItemType] IN ('User Story', 'Feature', 'Bug')
-  AND [System.State] NOT IN ('Done', 'Closed')
-ORDER BY [System.CreatedDate] ASC
+La WIQL vive en la Query Library (SE-031). Resolverla inyectando el proyecto activo:
+
+```bash
+QUERY=$(bash scripts/query-lib-resolve.sh --id backlog-groom-open --param project="$PROJECT_NAME")
+curl -u ":$(cat $PAT_FILE)" -X POST -H "Content-Type: application/json" \
+  -d "{\"query\":\"$QUERY\"}" "$ORG_URL/$PROJECT_NAME/_apis/wiql?api-version=7.0"
 ```
+
+Snippet canonico: `.claude/queries/azure-devops/backlog-groom-open.wiql`. Cambios de schema → editar el snippet, no este doc.
 
 Limitar a los últimos 500 items si el backlog es muy grande.
 

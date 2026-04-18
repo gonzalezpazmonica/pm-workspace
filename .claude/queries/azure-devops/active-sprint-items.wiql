@@ -1,0 +1,14 @@
+---
+id: active-sprint-items
+lang: wiql
+description: Items del sprint activo con estado y asignación
+params:
+  - sprint: IterationPath del sprint
+returns: [id, title, type, state, assignedTo, storyPoints]
+tags: [azure-devops, sprint, status]
+---
+SELECT [System.Id], [System.Title], [System.WorkItemType], [System.State], [System.AssignedTo], [Microsoft.VSTS.Scheduling.StoryPoints]
+FROM WorkItems
+WHERE [System.IterationPath] UNDER '{{sprint}}'
+  AND [System.State] <> 'Removed'
+ORDER BY [System.WorkItemType], [System.State]

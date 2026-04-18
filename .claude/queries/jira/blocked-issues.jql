@@ -1,0 +1,10 @@
+---
+id: blocked-issues-jira
+lang: jql
+description: Issues bloqueados en Jira sprint actual
+params:
+  - project: Project key (ej. "PROJ")
+returns: [key, summary, status, assignee, updated]
+tags: [jira, blocked, sla]
+---
+project = {{project}} AND status = "Blocked" AND sprint in openSprints() ORDER BY updated ASC

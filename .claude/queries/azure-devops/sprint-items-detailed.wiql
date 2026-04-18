@@ -1,0 +1,20 @@
+---
+id: sprint-items-detailed
+lang: wiql
+description: Items del sprint activo con trabajo completado, restante, story points y activity — para tracking detallado
+params:
+  - project: Nombre del team project
+  - team: Nombre del team dentro del project
+returns: [id, title, state, assignedTo, type, completedWork, remainingWork, storyPoints, activity]
+tags: [azure-devops, sprint, tracking, detailed]
+---
+SELECT [System.Id], [System.Title], [System.State], [System.AssignedTo],
+       [System.WorkItemType],
+       [Microsoft.VSTS.Scheduling.CompletedWork],
+       [Microsoft.VSTS.Scheduling.RemainingWork],
+       [Microsoft.VSTS.Scheduling.StoryPoints],
+       [Microsoft.VSTS.Common.Activity]
+FROM WorkItems
+WHERE [System.IterationPath] UNDER @CurrentIteration('[{{project}}\{{team}}]')
+  AND [System.TeamProject] = '{{project}}'
+ORDER BY [System.AssignedTo] ASC

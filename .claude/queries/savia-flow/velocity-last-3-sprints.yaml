@@ -1,0 +1,19 @@
+---
+id: velocity-last-3-sprints
+lang: savia-flow
+description: Velocity de los últimos 3 sprints cerrados para proyección
+params:
+  - project: Project name
+returns: [sprint, planned, completed, velocity]
+tags: [savia-flow, velocity, planning]
+---
+filter:
+  project: "{{project}}"
+  state: "Closed"
+aggregate:
+  group_by: "sprint"
+  metrics: ["planned_sp", "completed_sp", "velocity"]
+limit: 3
+sort:
+  by: "end_date"
+  order: "desc"
