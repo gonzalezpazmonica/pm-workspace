@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 200 resources
+> 203 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -49,6 +49,9 @@
 - **perf-report** (cmd): Informe ejecutivo de rendimiento — hotspots, async issues, roadmap y tendencias
 - **performance-audit** (skill): Auditoría estática de rendimiento — detección de hotspots, async anti-patterns, test-first optimization
 - **postmortem-review** (cmd): Review and learn from past incident postmortems
+- **pr-agent-judge** (skill): 5º juez del Court — wrapper sobre qodo-ai/pr-agent OSS. Ejecuta review/describe/improve contra un PR y devuelve JSON compatible con Court.
+- **pr-agent-judge** (agent): External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). Opt-in via COURT_INCLUDE_PR_AGENT=true.
+- **pr-agent-run** (script): pr-agent-run.sh — SPEC-124
 - **pr-context-loader** (script): pr-context-loader.sh — SPEC-022 F4: Load project context before PR creation
 - **pr-digest** (cmd): Digestión contextual de un PR para revisión rápida. Analiza impacto, riesgos y genera resumen ejecutivo en español.
 - **pr-pending** (cmd): >

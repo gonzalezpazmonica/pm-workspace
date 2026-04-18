@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.34.0] — 2026-04-18
+
+SCM generator deterministico + resync con 208 a 1008 resources + 20 tests. Era 234.
+
+### Fixed
+- **`scripts/generate-capability-map.py`**: el generador embebia `date.today().isoformat()` en el header de `INDEX.scm` y `resources.json`. Cada sesion regeneraba los ficheros con fecha distinta → `git status` siempre dirty en `.scm/` → ruido constante + necesidad de stash antes de cada PR. Fix: content hash SHA-256 truncado a 12 chars reemplaza el timestamp. Mismo input → mismos bytes. Eliminado `from datetime import date`.
+- **`.scm/`**: resync completo. Los ficheros tracked estaban stale desde 2026-04-06 (208 resources) mientras el repo real tiene 1008 (530 commands, 77 skills, 65 agents, 336 scripts). Regenerados con el hash deterministico.
+
+### Added
+- **`tests/test-scm-determinism.bats`**: 20 tests — structure/safety, 3 regression guards (no import date, no date.today(), hash field in header), 3 determinism tests (INDEX.scm + resources.json + categorias byte-identicos en reruns), output shape verification, negative cases, edge cases (boundary mtime-only change no cambia hash).
+
+### Motivacion
+Root-cause de la friccion constante en PRs recientes: `git stash pop` para limpiar `.scm/` antes de cada commit. Ahora el generador es idempotente. Futuro: drift real (por contenido nuevo en commands/skills/etc) sigue produciendo diff — eso es real y debe commitearse.
+
 ## [5.33.0] — 2026-04-18
 
 pr-plan: 2 nuevas gates (G5b extended-checks, G6b test-quality) + 26 tests. Era 234.
@@ -7605,6 +7619,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.33.0...v5.34.0
 [5.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.32.0...v5.33.0
 [5.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.31.0...v5.32.0
 [5.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.30.0...v5.31.0

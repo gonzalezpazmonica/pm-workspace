@@ -50,8 +50,8 @@
 - **savia-index** (script): ── savia-index.sh ──────────────────────────────────────────────────────────
 - **savia-index-rebuild** (script): ── savia-index-rebuild.sh ──────────────────────────────────────────────────
 - **savia-live** (cmd): Show what Savia is working on right now — live task queue and recent activity
-- **savia-memory-bootstrap** (script): savia-memory-bootstrap.sh
-- **savia-memory-migrate** (script): savia-memory-migrate.sh
+- **savia-memory-bootstrap** (script): savia-memory-bootstrap.sh — crea store externo canónico ../.savia-memory/
+- **savia-memory-migrate** (script): savia-memory-migrate.sh — migra memoria de silos internos/externos al store canónico
 - **savia-messaging** (script): savia-messaging.sh — Message creation, delivery, and inbox management
 - **savia-messaging-actions** (script): savia-messaging-actions.sh — Announce, broadcast, and directory operations
 - **savia-messaging-inbox** (script): savia-messaging-inbox.sh — Inbox, read, and reply operations

@@ -1,6 +1,6 @@
 {
-  "generated_utc": "2026-04-18",
-  "total": 991,
+  "hash": "9140c29fdb94",
+  "total": 1008,
   "resources": [
     {
       "category": "analysis",
@@ -1255,24 +1255,28 @@
       "name": "savia-memory-bootstrap",
       "intents": [
         "bootstrap",
-        "memory",
-        "savia"
+        "canónico",
+        "crea",
+        "externo",
+        "memory"
       ],
       "kind": "script",
       "path": "scripts/savia-memory-bootstrap.sh",
-      "description": "savia-memory-bootstrap.sh"
+      "description": "savia-memory-bootstrap.sh — crea store externo canónico ../.savia-memory/"
     },
     {
       "category": "communication",
       "name": "savia-memory-migrate",
       "intents": [
-        "memory",
-        "migrate",
-        "savia"
+        "canónico",
+        "externos",
+        "internos",
+        "memoria",
+        "memory"
       ],
       "kind": "script",
       "path": "scripts/savia-memory-migrate.sh",
-      "description": "savia-memory-migrate.sh"
+      "description": "savia-memory-migrate.sh — migra memoria de silos internos/externos al store canónico"
     },
     {
       "category": "communication",
@@ -2180,6 +2184,18 @@
     },
     {
       "category": "development",
+      "name": "graph-temporal-ops",
+      "intents": [
+        "graph",
+        "spec",
+        "temporal"
+      ],
+      "kind": "script",
+      "path": "scripts/graph-temporal-ops.sh",
+      "description": "graph-temporal-ops.sh — SPEC-123"
+    },
+    {
+      "category": "development",
       "name": "human-code-map",
       "intents": [
         "activamente",
@@ -2241,6 +2257,19 @@
       "kind": "script",
       "path": "scripts/instinct-collapse-detector.sh",
       "description": "instinct-collapse-detector.sh — SPEC-045 Phase 1: detect exploration collapse"
+    },
+    {
+      "category": "development",
+      "name": "localai-readiness-check",
+      "intents": [
+        "check",
+        "localai",
+        "readiness",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/localai-readiness-check.sh",
+      "description": "localai-readiness-check.sh — SPEC-122"
     },
     {
       "category": "development",
@@ -2476,6 +2505,19 @@
       "kind": "cmd",
       "path": ".claude/commands/rpi-status.md",
       "description": "Track progress of active RPI (Research → Plan → Implement) workflows."
+    },
+    {
+      "category": "development",
+      "name": "rules-domain-index",
+      "intents": [
+        "domain",
+        "index",
+        "rules",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/rules-domain-index.sh",
+      "description": "rules-domain-index.sh — SPEC-115"
     },
     {
       "category": "development",
@@ -3539,6 +3581,30 @@
     },
     {
       "category": "memory",
+      "name": "context-distortion-measure",
+      "intents": [
+        "context",
+        "distortion",
+        "measure"
+      ],
+      "kind": "script",
+      "path": "scripts/context-distortion-measure.sh",
+      "description": "context-distortion-measure.sh — SE-029-M"
+    },
+    {
+      "category": "memory",
+      "name": "context-frozen-check",
+      "intents": [
+        "check",
+        "context",
+        "frozen"
+      ],
+      "kind": "script",
+      "path": "scripts/context-frozen-check.sh",
+      "description": "context-frozen-check.sh — SE-029-F"
+    },
+    {
+      "category": "memory",
       "name": "context-interview",
       "intents": [
         "clientes",
@@ -3615,6 +3681,30 @@
     },
     {
       "category": "memory",
+      "name": "context-receipts-validate",
+      "intents": [
+        "context",
+        "receipts",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/context-receipts-validate.sh",
+      "description": "context-receipts-validate.sh — SE-030"
+    },
+    {
+      "category": "memory",
+      "name": "context-restate-anchor",
+      "intents": [
+        "anchor",
+        "context",
+        "restate"
+      ],
+      "kind": "script",
+      "path": "scripts/context-restate-anchor.sh",
+      "description": "context-restate-anchor.sh — SE-029-R"
+    },
+    {
+      "category": "memory",
       "name": "context-rotation",
       "intents": [
         "automated",
@@ -3654,6 +3744,18 @@
       "kind": "cmd",
       "path": ".claude/commands/context-status.md",
       "description": "Show context window usage, model tier, and optimization recommendations"
+    },
+    {
+      "category": "memory",
+      "name": "context-task-classifier",
+      "intents": [
+        "classifier",
+        "context",
+        "task"
+      ],
+      "kind": "script",
+      "path": "scripts/context-task-classifier.sh",
+      "description": "context-task-classifier.sh — SE-029-C"
     },
     {
       "category": "memory",
@@ -6170,6 +6272,17 @@
     },
     {
       "category": "planning",
+      "name": "eval-ablation-run",
+      "intents": [
+        "ablation",
+        "eval"
+      ],
+      "kind": "script",
+      "path": "scripts/eval-ablation-run.sh",
+      "description": "eval-ablation-run.sh — SE-030-A"
+    },
+    {
+      "category": "planning",
       "name": "eval-create",
       "intents": [
         "configure",
@@ -6573,15 +6686,15 @@
       "category": "planning",
       "name": "generate-capability-map",
       "intents": [
+        "around",
         "capability",
         "generate",
-        "index",
-        "resources",
-        "workspace"
+        "generator",
+        "python"
       ],
       "kind": "script",
       "path": "scripts/generate-capability-map.sh",
-      "description": "── generate-capability-map.sh — Generate .scm index from workspace resources"
+      "description": "── generate-capability-map.sh — Thin wrapper around the Python generator."
     },
     {
       "category": "planning",
@@ -6670,6 +6783,18 @@
       "kind": "cmd",
       "path": ".claude/commands/graph-query.md",
       "description": "Consulta el grafo de conocimiento en lenguaje natural"
+    },
+    {
+      "category": "planning",
+      "name": "graphrag-quality-gate",
+      "intents": [
+        "gate",
+        "graphrag",
+        "quality"
+      ],
+      "kind": "script",
+      "path": "scripts/graphrag-quality-gate.sh",
+      "description": "graphrag-quality-gate.sh — SE-030-T"
     },
     {
       "category": "planning",
@@ -8137,6 +8262,39 @@
     },
     {
       "category": "planning",
+      "name": "query-lib-index",
+      "intents": [
+        "index",
+        "query"
+      ],
+      "kind": "script",
+      "path": "scripts/query-lib-index.sh",
+      "description": "query-lib-index.sh — SE-031"
+    },
+    {
+      "category": "planning",
+      "name": "query-lib-nl",
+      "intents": [
+        "query",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/query-lib-nl.sh",
+      "description": "query-lib-nl.sh — SE-031 slice 2"
+    },
+    {
+      "category": "planning",
+      "name": "query-lib-resolve",
+      "intents": [
+        "query",
+        "resolve"
+      ],
+      "kind": "script",
+      "path": "scripts/query-lib-resolve.sh",
+      "description": "query-lib-resolve.sh — SE-031"
+    },
+    {
+      "category": "planning",
       "name": "rbac-manager",
       "intents": [
         "backend",
@@ -8898,6 +9056,17 @@
     },
     {
       "category": "planning",
+      "name": "slm-synth",
+      "intents": [
+        "slice",
+        "synth"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-synth.sh",
+      "description": "slm-synth.sh — SE-028 slice 1"
+    },
+    {
+      "category": "planning",
       "name": "slm-train",
       "intents": [
         "export",
@@ -9632,15 +9801,13 @@
       "category": "planning",
       "name": "validate-devops-checks",
       "intents": [
-        "check",
-        "checks",
-        "devops",
-        "functions",
-        "sourced"
+        "bash",
+        "shell",
+        "shellcheck"
       ],
       "kind": "script",
       "path": "scripts/validate-devops-checks.sh",
-      "description": "validate-devops-checks.sh — Check functions (sourced by validate-devops.sh)"
+      "description": "shellcheck shell=bash"
     },
     {
       "category": "planning",
@@ -10639,6 +10806,45 @@
       "kind": "cmd",
       "path": ".claude/commands/postmortem-review.md",
       "description": "Review and learn from past incident postmortems"
+    },
+    {
+      "category": "quality",
+      "name": "pr-agent-judge",
+      "intents": [
+        "agent",
+        "compatible",
+        "contra",
+        "court",
+        "describe"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/pr-agent-judge/SKILL.md",
+      "description": "5º juez del Court — wrapper sobre qodo-ai/pr-agent OSS. Ejecuta review/describe/improve contra un PR y devuelve JSON compatible con Court."
+    },
+    {
+      "category": "quality",
+      "name": "pr-agent-judge",
+      "intents": [
+        "agent",
+        "code",
+        "court",
+        "external",
+        "include"
+      ],
+      "kind": "agent",
+      "path": ".claude/agents/pr-agent-judge.md",
+      "description": "External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). Opt-in via COURT_INCLUDE_PR_AGENT=true."
+    },
+    {
+      "category": "quality",
+      "name": "pr-agent-run",
+      "intents": [
+        "agent",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/pr-agent-run.sh",
+      "description": "pr-agent-run.sh — SPEC-124"
     },
     {
       "category": "quality",
