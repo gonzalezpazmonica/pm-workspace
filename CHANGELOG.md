@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.25.0] — 2026-04-18
+
+SE-029/SE-030 implementaciones — receipts protocol + distortion metric (bytebell-inspired). Era 234.
+
+### Added
+- **`docs/propuestas/SE-030-graphrag-quality-gates.md`**: spec GraphRAG quality gates (receipts + 12 thresholds + source hierarchy + seam tests) — basado en serie bytebell Dic'25-Ene'26.
+- **`docs/rules/domain/receipts-protocol.md`**: protocolo "no proof means no answer" — formato canónico YAML con 7 tipos de receipt (file, spec, decision, commit, pr, test, external).
+- **`scripts/context-receipts-validate.sh`**: validator de receipts — exit 0/1/2 según verified/unverified/broken. Soporta `--strict`, `--json`.
+- **`scripts/context-distortion-measure.sh`**: SE-029-M baseline — token-set recall + anchor coverage + distortion D (fórmula 0.4*recall + 0.6*anchor_cov). Verdict HIGH_QUALITY / ACCEPTABLE / UNACCEPTABLE.
+- **`tests/test-context-receipts-validate.bats`**: 21 tests (quality threshold SPEC-055 passed).
+- **`tests/test-context-distortion-measure.bats`**: 19 tests verificando fórmula, thresholds, aislamiento.
+
 ## [5.24.0] — 2026-04-18
 
 SPEC-121/122/123/124 — implementaciones completas iteración P2 (bats tests + pr-agent agent). Era 234.
@@ -7461,6 +7473,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.24.0...v5.25.0
 [5.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.22.0...v5.24.0
 [5.22.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.20.0...v5.22.0
 [5.20.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.19.0...v5.20.0
