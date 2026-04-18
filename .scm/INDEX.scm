@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 60976b46f9ce | resources: 1009
-> 530 commands · 77 skills · 65 agents · 337 scripts
+> hash: df89877c05d5 | resources: 1010
+> 530 commands · 77 skills · 65 agents · 338 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -219,6 +219,7 @@
 [development] spec-review — coherence,completeness,review,specification — cmd:.claude/commands/spec-review.md
 [development] spec-slice — analizar,contexto,dividirlo,implementación,optimizados — cmd:.claude/commands/spec-slice.md
 [development] spec-status — approval,check,specification,state,status — cmd:.claude/commands/spec-status.md
+[development] spec-status-normalize — across,audit,field,normalize,spec — script:scripts/spec-status-normalize.sh
 [development] spec-verify — against,criteria,implementation,specification,verify — cmd:.claude/commands/spec-verify.md
 [development] spec-verify-ui — componente,comprueba,cumple,implementado,spec — cmd:.claude/commands/spec-verify-ui.md
 [development] statusline-provider — claude,code,data,provider,statusline — script:scripts/statusline-provider.sh

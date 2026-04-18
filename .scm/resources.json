@@ -1,6 +1,6 @@
 {
-  "hash": "6bcabd778359",
-  "total": 1009,
+  "hash": "af2c8649b247",
+  "total": 1010,
   "resources": [
     {
       "category": "analysis",
@@ -2734,6 +2734,20 @@
       "kind": "cmd",
       "path": ".claude/commands/spec-status.md",
       "description": "Check specification status and approval state"
+    },
+    {
+      "category": "development",
+      "name": "spec-status-normalize",
+      "intents": [
+        "across",
+        "audit",
+        "field",
+        "normalize",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-status-normalize.sh",
+      "description": "spec-status-normalize.sh — audit and normalize `status:` field across all"
     },
     {
       "category": "development",
