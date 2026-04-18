@@ -11,14 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ROADMAP.md canonical — consolida 3 roadmaps previos + reprioriza con Tier 1-7. Era 234.
 
 ### Added
-- **`docs/propuestas/ROADMAP.md`**: nuevo único roadmap canónico. Tier 1 (probes deuda read-only) + Tier 2 (champions research con probes blocking) + Tier 3 (seguridad gated) + Tier 4 (PROPOSED maduros) + Tier 5 (enterprise SE-XXX absorbidos) + Tier 6 (convergencias) + Tier 7 (backlog frío). Sección diferida por hardware/humans. DAG de dependencias explícito. Live status.
+- **`docs/propuestas/ROADMAP.md`**: nuevo único roadmap canónico. Tier 1 (probes deuda read-only) + Tier 2 (champions research con probes blocking) + Tier 3 (seguridad gated) + Tier 4 (PROPOSED maduros) + Tier 5 (enterprise SE-XXX absorbidos, 25 specs) + Tier 6 (convergencias) + Tier 7 (backlog frío). Sección diferida por hardware/humans. DAG de dependencias explícito. Live status.
 
 ### Changed
 - **`docs/propuestas/SAVIA-SUPERPOWERS-ROADMAP.md`**: status PROPOSED → SUPERSEDED (SPEC-120..124 merged en PRs #592–#594; redirect a ROADMAP.md).
 - **`docs/propuestas/ROADMAP-UNIFIED-20260418.md`**: status LIVING → SUPERSEDED (v1, absorbido en ROADMAP.md; mantener por auditoría).
 
 ### Motivacion
-Mónica pidió "consolida roadmaps en uno único, reprioriza y continua desarrollo". 3 roadmaps dispersos (SAVIA-SUPERPOWERS 2026-04-17 + ROADMAP-UNIFIED v1 2026-04-18 + savia-enterprise/DEVELOPMENT-PLAN 2026-04-11) creaban confusión. Un solo ROADMAP.md como source of truth, 2 roadmaps marcados SUPERSEDED con redirect, savia-enterprise DAG absorbido en Tier 5. Reprioritización: Tier 1 son probes read-only que generan ground truth antes de remediation — evita specs zombies (Spec Ops Repetition principle).
+Mónica pidió "consolida roadmaps en uno único, reprioriza y continua desarrollo". 3 roadmaps dispersos (SAVIA-SUPERPOWERS 2026-04-17 + ROADMAP-UNIFIED v1 2026-04-18 + savia-enterprise/DEVELOPMENT-PLAN 2026-04-11) creaban confusión. Un solo ROADMAP.md como source of truth, 2 roadmaps marcados SUPERSEDED con redirect, savia-enterprise DAG absorbido en Tier 5. Reprioritización: Tier 1 son probes read-only que generan ground truth antes de remediation — evita specs zombies (Spec Ops Repetition principle). Tier 5 completado con 10 specs SE-XXX adicionales (002/003/004/006/009/010/014/022/024/027) tras detección de gap por Mónica.
 
 ## [5.43.0] — 2026-04-18
 
