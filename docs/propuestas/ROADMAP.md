@@ -63,8 +63,9 @@ Todos Slice 1 de sus specs — solo mediciones, no cambian código. Producen gro
 | 2.2 | SE-033 Slice 1 | BERTopic sobre 50 retros reales (1.5h) | ≥3 clusters útiles → continue |
 | 2.3 | SE-035 Slice 1 | Mutation testing 3 módulos (1.5h) | score baseline >30% → continue |
 | 2.4 | SE-028 Slice 1 | oumi data synth para SLM (2h) | 500+ samples válidos → continue |
+| 2.5 | SE-041 Slice 1 | Memvid .mv2 format ingest 100 docs + round-trip (2h) | latencia <50ms + byte-identical restore → continue |
 
-Si TODOS los probes de Tier 2 aprueban: tenemos 4 capacidades nuevas con evidence empírico de ROI. Si fallan, documentamos y cerramos (valor del probe es evitar specs zombies).
+Si TODOS los probes de Tier 2 aprueban: tenemos 5 capacidades nuevas con evidence empírico de ROI. Si fallan, documentamos y cerramos (valor del probe es evitar specs zombies).
 
 ### Tier 3 — Seguridad (requiere luz verde humana antes)
 
