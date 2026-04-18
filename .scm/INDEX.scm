@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 93b2669fc91b | resources: 1015
-> 530 commands · 77 skills · 65 agents · 343 scripts
+> hash: ee5e55b79321 | resources: 1017
+> 530 commands · 77 skills · 65 agents · 345 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -677,6 +677,8 @@
 [planning] repos-list —  — cmd:.claude/commands/repos-list.md
 [planning] repos-pr-create —  — cmd:.claude/commands/repos-pr-create.md
 [planning] repos-pr-list —  — cmd:.claude/commands/repos-pr-list.md
+[planning] resolve-all-open-prs — conflicts,helper,open,resolve,runs — script:scripts/resolve-all-open-prs.sh
+[planning] resolve-pr-conflicts — auto,conflicts,recurring,resolve,resolver — script:scripts/resolve-pr-conflicts.sh
 [planning] resource-references — references,resource,skill — skill:.claude/skills/resource-references/SKILL.md
 [planning] retro-actions —  — cmd:.claude/commands/retro-actions.md
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md

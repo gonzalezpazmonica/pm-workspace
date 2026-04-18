@@ -1,6 +1,6 @@
 {
-  "hash": "4a85a29ce113",
-  "total": 1015,
+  "hash": "161ce56ba83f",
+  "total": 1017,
   "resources": [
     {
       "category": "analysis",
@@ -8513,6 +8513,34 @@
       "kind": "cmd",
       "path": ".claude/commands/repos-pr-list.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "resolve-all-open-prs",
+      "intents": [
+        "conflicts",
+        "helper",
+        "open",
+        "resolve",
+        "runs"
+      ],
+      "kind": "script",
+      "path": "scripts/resolve-all-open-prs.sh",
+      "description": "resolve-all-open-prs.sh — one-shot helper that runs resolve-pr-conflicts.sh"
+    },
+    {
+      "category": "planning",
+      "name": "resolve-pr-conflicts",
+      "intents": [
+        "auto",
+        "conflicts",
+        "recurring",
+        "resolve",
+        "resolver"
+      ],
+      "kind": "script",
+      "path": "scripts/resolve-pr-conflicts.sh",
+      "description": "resolve-pr-conflicts.sh — auto-resolver for the recurring conflicts that"
     },
     {
       "category": "planning",
