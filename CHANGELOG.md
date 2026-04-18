@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.33.0] — 2026-04-18
+
+pr-plan: 2 nuevas gates (G5b extended-checks, G6b test-quality) + 26 tests. Era 234.
+
+### Added
+- **`scripts/pr-plan-gates.sh`**: `g5b()` ejecuta `ci-extended-checks.sh` localmente (CHANGELOG version links, rule deps, hook safety flags, agent file size, doc link validation, skills frontmatter). Unos 2s. `g6b()` ejecuta `test-auditor.sh` sobre ficheros `*.bats` AÑADIDOS o MODIFICADOS en el PR (diff-filter=AM), threshold SPEC-055. Skipped si no hay bats cambiados.
+- **`scripts/pr-plan.sh`**: registra `G5b "Extended CI checks"` entre G5 y G6, y `G6b "Test quality (changed)"` entre G6 y G7.
+- **`tests/test-pr-plan-gates-extended.bats`**: 26 tests — structure, registration, ordering, negative paths, edge cases (empty diff, boundary, race condition con ficheros borrados), integration smoke tests que sourcean el script real.
+
+### Motivación
+Lección de PRs previos: CI gates (CHANGELOG refs, test quality) fallaban solo en CI, requiriendo push + fail + re-push. Ahora fallan local en `/pr-plan` en unos 3s adicionales. Elimina ciclos de retry costosos.
+
 ## [5.32.0] — 2026-04-18
 
 SE-031 slice 3 v2 — azdevops-queries.sh migrado a Query Library + 13 tests integracion. Era 234.
@@ -7593,6 +7605,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.32.0...v5.33.0
 [5.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.31.0...v5.32.0
 [5.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.30.0...v5.31.0
 [5.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.29.0...v5.30.0

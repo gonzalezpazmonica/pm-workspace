@@ -157,6 +157,49 @@ g5() {
   fi
   echo "v$lv"
 }
+# G5b — Extended CI checks (runs the same 6 checks CI runs: skills frontmatter,
+# rule deps, hook safety flags, agent file size, doc link validation, CHANGELOG
+# version reference links). Catches CI failures that would otherwise require a
+# push + failed CI run + re-push cycle. ~2s. SPEC-031 slice 3 v2 lesson.
+g5b() {
+  [[ ! -x scripts/ci-extended-checks.sh ]] && { echo "WARN: ci-extended-checks.sh missing or not executable"; return; }
+  local out; out=$(bash scripts/ci-extended-checks.sh 2>&1) || true
+  local fail_count; fail_count=$(echo "$out" | grep -oP '[0-9]+(?= failed)' | head -1) || fail_count=""
+  if [[ -n "$fail_count" ]] && [[ "$fail_count" =~ ^[0-9]+$ ]] && [[ "$fail_count" -gt 0 ]]; then
+    local first_fail; first_fail=$(echo "$out" | grep '❌' | head -1 | sed 's/^[[:space:]]*❌[[:space:]]*//')
+    FAILED_FILE="CHANGELOG.md"
+    echo "FAIL: $fail_count extended-checks failed (first: $first_fail)"
+    return
+  fi
+  echo "6 checks pass"
+}
+
+# G6b — Test Quality Gate for CHANGED test files only. Runs the SPEC-055
+# auditor (80-point threshold) on every *.bats added/modified in the PR.
+# Skipped if no test files changed. Keeps costs low (~2-5s per file) while
+# preventing the classic "push + CI fails on low-score test" loop.
+g6b() {
+  [[ ! -x scripts/test-auditor.sh ]] && { echo "WARN: test-auditor.sh missing"; return; }
+  local changed; changed=$(git diff origin/main..HEAD --name-only --diff-filter=AM 2>/dev/null | grep -E '^tests/.*\.bats$' || true)
+  [[ -z "$changed" ]] && { echo "skipped (no *.bats changed)"; return; }
+  local low=""
+  while IFS= read -r f; do
+    [[ -z "$f" || ! -f "$f" ]] && continue
+    local score; score=$(bash scripts/test-auditor.sh "$f" 2>/dev/null \
+      | python3 -c "import json,sys; print(json.load(sys.stdin).get('total',0))" 2>/dev/null || echo 0)
+    if [[ -n "$score" ]] && [[ "$score" -lt 80 ]]; then
+      low="${low} ${f}=${score}"
+    fi
+  done <<< "$changed"
+  if [[ -n "$low" ]]; then
+    FAILED_FILE=$(echo "$low" | awk '{print $1}' | cut -d= -f1)
+    echo "FAIL: test quality below 80:${low}"
+    return
+  fi
+  local n; n=$(echo "$changed" | wc -l)
+  echo "$n file(s) ≥80"
+}
+
 g6() {
   command -v bats >/dev/null 2>&1 || { echo "WARN: bats not installed"; return; }
   # Windows Git Bash: BATS has path issues, degrade to WARN

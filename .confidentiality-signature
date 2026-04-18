@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=cbdd3adfa52bb611d779c3df64e22bc0fddf95bb027b7529ba5cb746fdb92c8f
-timestamp=2026-04-18T11:45:34Z
-branch=agent/azdevops-queries-migrate-20260418
-head_commit=fdae1d6f
-signature=e66f2493c0540352fe42c01e5e4ef976b46ac6b4fd73516078847aaa23a082c0
+diff_hash=cd93e10815946a15be3ccf867bfc795bf28a8c18f7258b14fa282ef211cf97a5
+timestamp=2026-04-18T12:12:42Z
+branch=agent/pr-plan-extend-gates-20260418
+head_commit=ffbe3fbc
+signature=1e5eeaea88cfbbbf2657211d8facc93114ed5caa5da9b7944676bc6a35b63e48

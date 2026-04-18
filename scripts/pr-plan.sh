@@ -39,7 +39,9 @@ gate "G2"  "Clean working tree"    g2
 gate "G3"  "No merge conflicts"    g3
 gate "G4"  "Divergence from main"  g4
 gate "G5"  "CHANGELOG audit"       g5
+gate "G5b" "Extended CI checks"    g5b
 gate "G6"  "BATS tests"            g6
+gate "G6b" "Test quality (changed)" g6b
 gate "G7"  "Confidentiality scan"  g7
 gate "G8"  "Documentation check"   g8
 gate "G9"  "Zero project leakage"  g9
