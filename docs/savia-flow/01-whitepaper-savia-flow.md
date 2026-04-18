@@ -1,7 +1,7 @@
 # Whitepaper: Savia Flow
 ## Una Metodología Adaptativa de Gestión de Proyectos para Equipos Aumentados por IA
 
-**Autor:** Mónica González Paz, pm-workspace
+**Autor:** la usuaria González Paz, pm-workspace
 **Fecha:** Marzo 2026
 **Versión:** 1.0
 
@@ -2077,7 +2077,7 @@ En 2030, imaginamos equipos que:
 
 ---
 
-**Documento Preparado Por:** Mónica González Paz, pm-workspace
+**Documento Preparado Por:** la usuaria González Paz, pm-workspace
 **Fecha:** Marzo 2026
 **Versión:** 1.0
 **Licencia:** Creative Commons - Atribución (CC BY)

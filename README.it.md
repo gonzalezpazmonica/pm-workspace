@@ -159,4 +159,4 @@ Leggi [CONTRIBUTING.md](CONTRIBUTING.md) e [SECURITY.md](SECURITY.md). PR benven
 
 ## Licenza
 
-[MIT](LICENSE) — Creato da [Monica Gonzalez Paz](https://github.com/gonzalezpazmonica)
+[MIT](LICENSE) — Creato da [la usuaria Gonzalez Paz](https://github.com/gonzalezpazmonica)

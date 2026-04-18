@@ -127,7 +127,7 @@ Push Strategy       ──      ── | Reactions  ──       ──    ─�
 
 ## Example Team Week (2026-04-08 to 2026-04-12)
 
-| Day | Elena | Ana | Isabel | Mónica |
+| Day | Elena | Ana | Isabel | la usuaria |
 |---|---|---|---|---|
 | Mon | Spec: Group Chats | Timeline Feed (Ionic) | Timeline Feed (APIs) | Weekly sync, metrics |
 | Tue | Discovery: Notif Center | Timeline Feed (Ionic) | Timeline Feed (MongoDB) | Unblock: API contract |
@@ -141,7 +141,7 @@ Push Strategy       ──      ── | Reactions  ──       ──    ─�
 
 **Front ↔ Back Coordination:** Ana needs Isabel's DM API contract before building screens. Isabel delivers contract first (async), Ana builds UI in parallel, then Isabel implements service.
 
-**Handoff ritual:** When Timeline spec reached Spec-Ready on 2026-04-05, Mónica reviewed it (outcome clear? metrics measurable?), Isabel validated tech feasibility (15 min), then assigned both to Ana (frontend) and Isabel (backend) based on their WIP (both had <2 items).
+**Handoff ritual:** When Timeline spec reached Spec-Ready on 2026-04-05, la usuaria reviewed it (outcome clear? metrics measurable?), Isabel validated tech feasibility (15 min), then assigned both to Ana (frontend) and Isabel (backend) based on their WIP (both had <2 items).
 
-**Bottleneck management:** Spec-Ready buffer dropped to 2 items by mid-week. Mónica escalated, Elena shifted from 40% gates to 80% discovery, unblocked spec-writing, had Group Chats spec ready by Friday.
+**Bottleneck management:** Spec-Ready buffer dropped to 2 items by mid-week. la usuaria escalated, Elena shifted from 40% gates to 80% discovery, unblocked spec-writing, had Group Chats spec ready by Friday.
 

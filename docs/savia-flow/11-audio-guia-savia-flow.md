@@ -283,4 +283,4 @@ Un abrazo. Savia.
 ---
 
 *Savia Flow v1.0 — Metodología Adaptativa para Equipos Potenciados por IA*
-*Creado por Mónica González Paz — pm-workspace — Marzo 2026*
+*Creado por la usuaria González Paz — pm-workspace — Marzo 2026*

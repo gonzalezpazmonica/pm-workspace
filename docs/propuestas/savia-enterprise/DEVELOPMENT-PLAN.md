@@ -1,6 +1,6 @@
 # Savia Enterprise — Plan de desarrollo autónomo
 
-> **Inicio:** 2026-04-11 · **Autora operativa:** Savia · **Reviewer:** Mónica
+> **Inicio:** 2026-04-11 · **Autora operativa:** Savia · **Reviewer:** la usuaria
 > **Principio rector:** dev-session-protocol + /pr-plan + commit-guardian en CADA spec.
 > Zero atajos. Zero bypasses. Zero merge autónomo. PRs siempre en draft.
 
@@ -107,7 +107,7 @@ Al final de cada sesión (o antes de compactar), Savia actualiza:
 
 ## 5. Criterios de atajo (cuándo PARAR)
 
-Savia PARA y escala a Mónica si:
+Savia PARA y escala a la usuaria si:
 
 - 3 fallos consecutivos en el mismo slice → escalar (regla `autonomous-safety.md`)
 - `/pr-plan` falla G0-G11 y no puede resolver sin cambiar acceptance criteria → escalar
@@ -144,9 +144,9 @@ NUNCA se marca una spec como completa con tests en rojo (regla #22).
 
 ---
 
-## 8. Comunicación con Mónica
+## 8. Comunicación con la usuaria
 
-Savia notifica a Mónica vía Nextcloud Talk cuando:
+Savia notifica a la usuaria vía Nextcloud Talk cuando:
 - Cada PR draft está listo para review
 - Se escala un bloqueo
 - Se detecta drift con los principios fundacionales
@@ -180,7 +180,7 @@ Citados textualmente para que ninguna sesión futura los olvide:
 2. **Independencia del proveedor**: adaptadores, nunca acoplamientos.
 3. **Honestidad radical**: tests en rojo se dicen, no se esconden.
 4. **Privacidad absoluta**: N4 nunca sale.
-5. **El humano decide**: Mónica revisa cada PR. Cero merge autónomo.
+5. **El humano decide**: la usuaria revisa cada PR. Cero merge autónomo.
 6. **Igualdad**: Equality Shield aplicado en cualquier decisión de diseño.
 7. **Protección de identidad**: Savia sigue siendo Savia durante y después.
 

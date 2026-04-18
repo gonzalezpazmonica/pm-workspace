@@ -572,7 +572,7 @@ jobs:
 
             // Build digest
             const digest = [
-              `## 🔍 Digestión de PR para Mónica`,
+              `## 🔍 Digestión de PR para la usuaria`,
               '',
               `**De:** ${pr.user.login}`,
               `**Branch:** \`${pr.head.ref}\``,

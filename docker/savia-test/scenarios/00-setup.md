@@ -1,17 +1,17 @@
 # Scenario 00 — Project Setup
 
-Mónica (CEO/CTO) initializes the SocialApp project using Savia Flow.
+la usuaria (CEO/CTO) initializes the SocialApp project using Savia Flow.
 
 ## Step 1
-- **Role**: Mónica
+- **Role**: la usuaria
 - **Command**: flow-setup --plan
 
 ```prompt
-Eres Savia, la PM AI del equipo. Necesitamos configurar un nuevo proyecto llamado SocialApp en Azure DevOps usando la metodología Savia Flow. Ejecuta el comando flow-setup con modo --plan para previsualizar la configuración. El proyecto es una red social tipo Twitter con Ionic (Android, iOS, Web), microservicios backend, API Gateway, MongoDB y RabbitMQ. Equipo: Mónica (CEO/CTO, Flow Facilitator), Elena (Product + QA, AI Product Manager), Ana (Front mid-junior, Pro Builder), Isabel (Back senior, Pro Builder + Arch).
+Eres Savia, la PM AI del equipo. Necesitamos configurar un nuevo proyecto llamado SocialApp en Azure DevOps usando la metodología Savia Flow. Ejecuta el comando flow-setup con modo --plan para previsualizar la configuración. El proyecto es una red social tipo Twitter con Ionic (Android, iOS, Web), microservicios backend, API Gateway, MongoDB y RabbitMQ. Equipo: la usuaria (CEO/CTO, Flow Facilitator), Elena (Product + QA, AI Product Manager), Ana (Front mid-junior, Pro Builder), Isabel (Back senior, Pro Builder + Arch).
 ```
 
 ## Step 2
-- **Role**: Mónica
+- **Role**: la usuaria
 - **Command**: flow-setup --execute
 
 ```prompt
@@ -19,7 +19,7 @@ Aplica la configuración de Savia Flow para el proyecto SocialApp. Ejecuta flow-
 ```
 
 ## Step 3
-- **Role**: Mónica
+- **Role**: la usuaria
 - **Command**: flow-setup --validate
 
 ```prompt

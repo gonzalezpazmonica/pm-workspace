@@ -1,7 +1,7 @@
 # SPEC-038: Knowledge Domain Routing — Equipos de Memoria
 
 > Status: **APPROVED** · Fecha: 2026-03-24 · Score: 4.8
-> Origen: Monica (insight de gestión de equipos humanos por dominio)
+> Origen: la usuaria (insight de gestión de equipos humanos por dominio)
 > Impacto: Búsquedas de memoria 3-5x más rápidas, resultados más relevantes
 
 ---

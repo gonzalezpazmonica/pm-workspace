@@ -17,7 +17,7 @@ git-ignorados (`*.local.md`, `CLAUDE.local.md`, `active-user.md`).
 
 | Categoría          | Ejemplo prohibido              | Alternativa genérica            |
 |--------------------|-------------------------------|---------------------------------|
-| Nombre real        | Mónica, González              | alice, bob, admin               |
+| Nombre real        | la usuaria, González              | alice, bob, admin               |
 | Handle GitHub      | gonzalezpazmonica             | your-handle, org-name           |
 | Nombre de empresa  | AIrquiTech                    | test-org, acme-corp, test company repo |
 | Email personal     | user@gmail.com                | user@example.com                |

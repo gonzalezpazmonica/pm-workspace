@@ -1,7 +1,7 @@
 # Puertas de Calidad Autónomas
 ## Arquitectura de 5 Niveles para Supervisión basada en IA
 
-**Autor:** Mónica González Paz, pm-workspace
+**Autor:** la usuaria González Paz, pm-workspace
 **Fecha:** Marzo 2026
 **Versión:** 1.0
 

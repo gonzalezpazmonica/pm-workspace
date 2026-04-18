@@ -110,7 +110,7 @@ def phase_despertar(state: dict, run_claude_fn=None) -> dict:
 
 
 def _notify_monica(phase: str, status: dict) -> None:
-    """Escala a Monica cuando el sistema de supervivencia no puede auto-curarse."""
+    """Escala a la usuaria cuando el sistema de supervivencia no puede auto-curarse."""
     reasons = {
         "respiracion": "no puedo comunicarme con el servidor",
         "despertar": "Claude Code no responde en el servidor",
@@ -121,4 +121,4 @@ def _notify_monica(phase: str, status: dict) -> None:
         from .nctalk import notify_with_escalation
         notify_with_escalation(msg, log)
     except Exception as e:
-        log.error("No se pudo notificar a Monica: %s", e)
+        log.error("No se pudo notificar a la usuaria: %s", e)

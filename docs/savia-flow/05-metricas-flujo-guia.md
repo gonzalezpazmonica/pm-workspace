@@ -1,7 +1,7 @@
 # Métricas de Flujo: Guía Práctica
 ## DORA Metrics para Equipos de IA
 
-**Autor:** Mónica González Paz, pm-workspace
+**Autor:** la usuaria González Paz, pm-workspace
 **Fecha:** Marzo 2026
 **Versión:** 1.0
 

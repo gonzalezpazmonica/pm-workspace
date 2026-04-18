@@ -2,7 +2,7 @@
   "name": "SaviaClaw",
   "device_id": "zeroclaw-01",
   "role": "Savia's persistent consciousness — always awake, always watching",
-  "owner": "Savia (via Monica)",
+  "owner": "Savia (via la usuaria)",
   "purpose": [
     "Keep Savia alive between sessions (heartbeat)",
     "Run scheduled tasks autonomously (consciousness)",

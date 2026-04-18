@@ -169,7 +169,7 @@ Desde: 2026-01-15 (ultima auditoria del proyecto)
 |----|-------|----------------|
 | LDR-01 | git log respeta fecha de ultima auditoria por proyecto | Falsos positivos |
 | LDR-02 | Diff clasificado por LLM, no keyword match | Clasificacion superficial |
-| LDR-03 | BLOCKER siempre alerta a Monica | Compliance breach |
+| LDR-03 | BLOCKER siempre alerta a la usuaria | Compliance breach |
 | LDR-04 | Cache de paths resueltos (performance) | Slow en corpus grande |
 | LDR-05 | --update-audit-date requiere confirmacion humana | Actualizacion silenciosa |
 | LDR-06 | Corpus legalize-es auto-update antes de audit | Datos obsoletos |

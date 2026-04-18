@@ -1,24 +1,24 @@
 # Ejemplo de Implantación: SocialApp — Fase 1: Inicio
 
 > Caso práctico completo: desde la decisión de crear una red social hasta el primer spec en producción.
-> Equipo: Mónica (CEO/CTO), Elena (Producto/QA), Ana (Front mid-junior), Isabel (Back senior).
+> Equipo: la usuaria (CEO/CTO), Elena (Producto/QA), Ana (Front mid-junior), Isabel (Back senior).
 
 ---
 
 ## Semana 0 — La decisión
 
-Mónica decide construir SocialApp, una red social tipo Twitter. Stack: Ionic (Android/Web/iOS), microservicios Node.js, API Gateway, MongoDB, RabbitMQ. Elena será producto y QA. Ana hará front con Ionic. Isabel llevará back y arquitectura.
+la usuaria decide construir SocialApp, una red social tipo Twitter. Stack: Ionic (Android/Web/iOS), microservicios Node.js, API Gateway, MongoDB, RabbitMQ. Elena será producto y QA. Ana hará front con Ionic. Isabel llevará back y arquitectura.
 
-### Paso 1: Mónica configura el entorno
-
-```
-Mónica → /flow-setup --project SocialApp --plan
-```
-
-**Savia responde** con el plan de configuración de Azure DevOps: 8 columnas de board (3 exploración + 5 producción), 4 campos custom (Track, Outcome ID, Cycle Time Start/End), 2 area paths. Mónica revisa y confirma:
+### Paso 1: la usuaria configura el entorno
 
 ```
-Mónica → /flow-setup --project SocialApp --execute
+la usuaria → /flow-setup --project SocialApp --plan
+```
+
+**Savia responde** con el plan de configuración de Azure DevOps: 8 columnas de board (3 exploración + 5 producción), 4 campos custom (Track, Outcome ID, Cycle Time Start/End), 2 area paths. la usuaria revisa y confirma:
+
+```
+la usuaria → /flow-setup --project SocialApp --execute
 ```
 
 Savia crea todo en Azure DevOps. El tablero dual-track queda:
@@ -28,13 +28,13 @@ EXPLORACIÓN                          │ PRODUCCIÓN
 Discovery → Spec-Writing → Spec-Ready│ Ready → Building → Gates → Deployed → Validating
 ```
 
-### Paso 2: Mónica define el equipo y sus roles
+### Paso 2: la usuaria define el equipo y sus roles
 
 ```
-Mónica → /profile-setup
+la usuaria → /profile-setup
 ```
 
-Savia hace onboarding conversacional. Mónica configura: ella misma como Flow Facilitator (métricas, desbloqueo), Elena como AI PM + Quality Architect (WIP 3, discovery + specs + gates), Ana como Pro Builder Front (WIP 2, Ionic), Isabel como Pro Builder Back + Arch (WIP 2, APIs + MongoDB + RabbitMQ).
+Savia hace onboarding conversacional. la usuaria configura: ella misma como Flow Facilitator (métricas, desbloqueo), Elena como AI PM + Quality Architect (WIP 3, discovery + specs + gates), Ana como Pro Builder Front (WIP 2, Ionic), Isabel como Pro Builder Back + Arch (WIP 2, APIs + MongoDB + RabbitMQ).
 
 ### Paso 3: Elena define los outcomes
 
@@ -50,10 +50,10 @@ Elena → /pbi-prd
 
 Savia genera PRD por outcome. Elena revisa, ajusta y crea Epics en Azure DevOps.
 
-### Paso 4: Mónica valida la capacidad
+### Paso 4: la usuaria valida la capacidad
 
 ```
-Mónica → /capacity-forecast --sprints 6
+la usuaria → /capacity-forecast --sprints 6
 ```
 
 Savia calcula: 2 builders × 6h efectivas/día × 10 días/sprint = 120h/sprint. Con el stack definido (Ionic + microservicios + RabbitMQ), estima 4-6 specs por outcome. Timeline realista: 3 meses para MVP.
@@ -107,12 +107,12 @@ Elena cambia el estado → Spec-Ready (en Azure DevOps)
 
 ## Semana 1 — Primer intake a producción
 
-### Mónica hace el intake semanal
+### la usuaria hace el intake semanal
 
-En el sync del lunes (30 min), Mónica ejecuta:
+En el sync del lunes (30 min), la usuaria ejecuta:
 
 ```
-Mónica → /flow-intake
+la usuaria → /flow-intake
 ```
 
 Savia muestra los items Spec-Ready:
@@ -130,7 +130,7 @@ Savia muestra los items Spec-Ready:
   #1002 → Ana (front: profile wizard) — esperar a que #1001 esté en Gates
 ```
 
-Mónica confirma. Savia mueve los items: Area Path Exploration → Production, estado → Ready.
+la usuaria confirma. Savia mueve los items: Area Path Exploration → Production, estado → Ready.
 
 ### Isabel descompone la spec en tasks
 

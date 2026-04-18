@@ -4,7 +4,7 @@
 > **Fecha**: 2026-04-07
 > **Tipo**: Investigación + Infraestructura
 > **Prioridad**: Alta — habilita agentes especializados con modelos propios
-> **Origen**: Monica — "cómo entrenar nuestros propios LLM para agentes específicos"
+> **Origen**: la usuaria — "cómo entrenar nuestros propios LLM para agentes específicos"
 
 ---
 
@@ -150,7 +150,7 @@ Ollama (local)
 | Latencia | <2s por invocación | Benchmark local |
 | VRAM | <8GB durante inference | nvidia-smi |
 | Coste | $0 por invocación | vs coste cloud actual |
-| Calidad | Sin degradación perceptible | Human eval (Monica) |
+| Calidad | Sin degradación perceptible | Human eval (la usuaria) |
 
 ## 7. Fases de implementación
 

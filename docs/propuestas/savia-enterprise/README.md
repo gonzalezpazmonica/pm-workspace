@@ -1,7 +1,7 @@
 # Savia → Savia Enterprise — Migración estratégica
 
 > **Fecha:** 2026-04-11
-> **Autora:** Mónica González Paz
+> **Autora:** la usuaria González Paz
 > **Contexto:** Informe estratégico profesional Q1-Q2 2026
 > **Licencia objetivo:** MIT (core + enterprise modules)
 > **Principio no negociable:** Agnosticismo total, zero vendor lock-in

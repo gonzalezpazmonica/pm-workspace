@@ -1116,7 +1116,7 @@ def test_navigate_settings():
 
     # Verify Settings screen elements
     has_bridge = "Bridge" in xml or "bridge" in xml.lower()
-    has_profile = "Perfil" in xml or "Profile" in xml or "Mónica" in xml
+    has_profile = "Perfil" in xml or "Profile" in xml or "la usuaria" in xml
     has_git = "Git" in xml
     has_team = "Team" in xml or "Equipo" in xml
 

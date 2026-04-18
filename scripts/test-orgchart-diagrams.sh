@@ -173,7 +173,7 @@ test_mermaid_template() {
 
   # Check that no real full names appear (handles like @eduardo are OK)
   # Only flag names NOT preceded by @ (PII = real person names in prose)
-  if grep -E '(Mónica|González)' "$tmpl" 2>/dev/null | grep -qvE '@'; then
+  if grep -E '(la usuaria|González)' "$tmpl" 2>/dev/null | grep -qvE '@'; then
     fail "Real names detected in template" "Template must use @handles only (PII-Free rule)"
   else
     pass "No real names in template (PII-Free compliant)"
@@ -391,7 +391,7 @@ test_mermaid_generation() {
   fi
 
   # PII check — no real names, only @handles
-  if grep -oP '(?<=\[")[^"]*' "$output_file" 2>/dev/null | grep -qiE '(Mónica|González)'; then
+  if grep -oP '(?<=\[")[^"]*' "$output_file" 2>/dev/null | grep -qiE '(la usuaria|González)'; then
     fail "PII detected in output" "Only @handles allowed"
   else
     pass "Output is PII-Free"

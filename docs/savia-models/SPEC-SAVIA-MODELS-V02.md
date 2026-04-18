@@ -11,7 +11,7 @@ Evolve Savia Models from technical programming guides into the
 **complete manual for the Agentic Orchestrator** — one person who,
 assisted by Savia, can fulfill ALL roles of software development.
 
-Test criterion (from Monica): "One of my children should need nothing
+Test criterion (from la usuaria): "One of my children should need nothing
 more than reading the Savia Model and learning to work with Savia
 to build the software they need."
 
@@ -165,4 +165,4 @@ Each model needs these topics added or expanded.
 
 ---
 
-*Spec: v0.1 | Date: 2026-04-02 | Author: Savia + Monica*
+*Spec: v0.1 | Date: 2026-04-02 | Author: Savia + la usuaria*

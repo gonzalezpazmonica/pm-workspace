@@ -136,7 +136,7 @@ fi
 echo ""
 echo "=== Setup complete ==="
 echo ""
-echo "Next steps on the ZeroClaw host (Monica's machine):"
+echo "Next steps on the ZeroClaw host (la usuaria's machine):"
 echo "  1. Generate SSH key if not done:"
 echo "     ssh-keygen -t ed25519 -f ~/.ssh/savia_remote_ed25519 -C 'saviaclaw-remote'"
 echo "  2. Copy public key to this script:"

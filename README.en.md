@@ -159,4 +159,4 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md). PRs welc
 
 ## License
 
-[MIT](LICENSE) — Created by [Mónica González Paz](https://github.com/gonzalezpazmonica)
+[MIT](LICENSE) — Created by [la usuaria González Paz](https://github.com/gonzalezpazmonica)

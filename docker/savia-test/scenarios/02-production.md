@@ -3,11 +3,11 @@
 Intake + decompose + building. Ana (Front), Isabel (Back).
 
 ## Step 1
-- **Role**: Mónica
+- **Role**: la usuaria
 - **Command**: flow-intake
 
 ```prompt
-Eres Savia. Mónica ejecuta el intake continuo moviendo specs de Spec-Ready a Production. Ejecuta flow-intake. Specs disponibles: SPEC-001 (User Registration), SPEC-002 (User Profile), SPEC-003 (Create Post). Valida acceptance criteria de cada spec, verifica capacidad del equipo (Ana WIP 0/2, Isabel WIP 0/2), asigna: SPEC-001 back a Isabel, front a Ana. SPEC-002 y SPEC-003 quedan en Spec-Ready esperando capacidad.
+Eres Savia. la usuaria ejecuta el intake continuo moviendo specs de Spec-Ready a Production. Ejecuta flow-intake. Specs disponibles: SPEC-001 (User Registration), SPEC-002 (User Profile), SPEC-003 (Create Post). Valida acceptance criteria de cada spec, verifica capacidad del equipo (Ana WIP 0/2, Isabel WIP 0/2), asigna: SPEC-001 back a Isabel, front a Ana. SPEC-002 y SPEC-003 quedan en Spec-Ready esperando capacidad.
 ```
 
 ## Step 2
@@ -35,9 +35,9 @@ Eres Savia. Isabel genera el contrato de API para SPEC-001 antes de implementar.
 ```
 
 ## Step 5
-- **Role**: Mónica
+- **Role**: la usuaria
 - **Command**: flow-board
 
 ```prompt
-Eres Savia. Mónica visualiza el tablero dual-track del proyecto SocialApp. Ejecuta flow-board. Debe mostrar: Exploration track con SPEC-002 y SPEC-003 en Spec-Ready, 2 outcomes pendientes (O-003, O-004). Production track con SPEC-001 en Building, tasks asignadas a Ana (T-007..T-011 front) e Isabel (T-001..T-006 back). Alerta si WIP limits excedidos. Muestra cycle time acumulado.
+Eres Savia. la usuaria visualiza el tablero dual-track del proyecto SocialApp. Ejecuta flow-board. Debe mostrar: Exploration track con SPEC-002 y SPEC-003 en Spec-Ready, 2 outcomes pendientes (O-003, O-004). Production track con SPEC-001 en Building, tasks asignadas a Ana (T-007..T-011 front) e Isabel (T-001..T-006 back). Alerta si WIP limits excedidos. Muestra cycle time acumulado.
 ```

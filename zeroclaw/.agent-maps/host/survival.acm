@@ -3,7 +3,7 @@
 
 The survival system keeps Savia alive across failures and self-heals without human intervention.
 Three phases in order of severity: LATIDO (internal heartbeat) → RESPIRACION (check external bridge)
-→ DESPERTAR (wake Claude Code on remote server). Escalates to Monica only if all phases fail.
+→ DESPERTAR (wake Claude Code on remote server). Escalates to la usuaria only if all phases fail.
 
 ## survival
 - **File**: `zeroclaw/host/survival.py`
@@ -18,7 +18,7 @@ Three phases in order of severity: LATIDO (internal heartbeat) → RESPIRACION (
 - **phase_respiracion**: checks Talk (`nctalk.send_message` import) + bridge via `remote_host.is_reachable()` + `is_bridge_running()`. If bridge is down, calls `restart_bridge()`. Marks `remote:unreachable` in details when unreachable.
 - **phase_despertar**: uses `remote_host.wake_claude()` to remotely start Claude Code
 - **Escalation**: after `MAX_BREATH_FAILURES` consecutive failures → `_notify_monica()` sends SOS to Nextcloud Talk
-- **Failure mode observed**: if `remote-host-config` missing, every breath returns `remote:unreachable` → loop sends SOS repeatedly until Monica intervenes
+- **Failure mode observed**: if `remote-host-config` missing, every breath returns `remote:unreachable` → loop sends SOS repeatedly until la usuaria intervenes
 - **Import guard**: `except ImportError: s["details"].append("remote_host:not_configured")` — handles missing deps gracefully
 
 ## remote_host
@@ -50,9 +50,9 @@ Three phases in order of severity: LATIDO (internal heartbeat) → RESPIRACION (
 
 - `saviaclaw.service`: active, polling check-talk normally
 - `savia-watchdog.service`: active
-- `~/.savia/remote-host-config`: **NOT PRESENT** → `is_reachable()` returns False → every breath emits `remote:unreachable` → SOS loop in Monica's Talk room
+- `~/.savia/remote-host-config`: **NOT PRESENT** → `is_reachable()` returns False → every breath emits `remote:unreachable` → SOS loop in la usuaria's Talk room
 - Suggested remediation paths (NOT YET APPLIED — requires human decision):
   1. Create `~/.savia/remote-host-config` pointing to localhost (Claude Code runs locally on Lima)
   2. OR modify `survival_phases.phase_respiracion` to short-circuit when Claude Code runs on same host
   3. OR start the missing local service that remote_host is designed to reach
-- **Root cause pending**: Monica's note "savia claw necesita de un servicio que no fue arrancado tras el reboot por fallo de energía" — the missing service has not yet been identified
+- **Root cause pending**: la usuaria's note "savia claw necesita de un servicio que no fue arrancado tras el reboot por fallo de energía" — the missing service has not yet been identified

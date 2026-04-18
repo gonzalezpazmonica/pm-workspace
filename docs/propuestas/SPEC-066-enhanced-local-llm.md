@@ -128,4 +128,4 @@ EMERGENCY_TIER_PREMIUM_CONTEXT  = 32768   # conservative default
 
 ## Decision Required
 
-This spec requires empirical validation before implementation. The community reports are promising but unverified. Recommended next step: Monica confirms her hardware specs (GPU/VRAM), and if sufficient, run the verification plan above before committing to implementation.
+This spec requires empirical validation before implementation. The community reports are promising but unverified. Recommended next step: la usuaria confirms her hardware specs (GPU/VRAM), and if sufficient, run the verification plan above before committing to implementation.

@@ -4,7 +4,7 @@ Autonomous agent test of pm-workspace Savia Flow methodology.
 
 **Test harness**: `docker/savia-test/harness.sh`
 **Scenarios**: 5 phases (setup → exploration → production → coordination → release)
-**Roles simulated**: Mónica (Facilitator), Elena (Product/QA), Ana (Front), Isabel (Back)
+**Roles simulated**: la usuaria (Facilitator), Elena (Product/QA), Ana (Front), Isabel (Back)
 
 ---
 

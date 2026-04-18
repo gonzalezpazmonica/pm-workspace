@@ -11,19 +11,19 @@ El equipo ya tiene ritmo: Elena explora y escribe specs mientras Ana e Isabel co
 
 ### Lunes: sync semanal (30 min)
 
-Mónica abre la reunión con métricas:
+la usuaria abre la reunión con métricas:
 
 ```
-Mónica → /flow-metrics
+la usuaria → /flow-metrics
 ```
 
-Savia muestra: Cycle Time 4 días (target 3-7 ✅), Throughput 2 items/semana (arrancando), Spec-Ready buffer 1 item (⚠️ target ≥3). Mónica detecta el problema: Elena necesita acelerar exploración.
+Savia muestra: Cycle Time 4 días (target 3-7 ✅), Throughput 2 items/semana (arrancando), Spec-Ready buffer 1 item (⚠️ target ≥3). la usuaria detecta el problema: Elena necesita acelerar exploración.
 
 ```
-Mónica → /flow-intake
+la usuaria → /flow-intake
 ```
 
-Savia muestra 1 item Spec-Ready: "Profile Setup Wizard" (#1002). Ana tiene 1/2 WIP. Savia asigna #1002 → Ana. Mónica confirma.
+Savia muestra 1 item Spec-Ready: "Profile Setup Wizard" (#1002). Ana tiene 1/2 WIP. Savia asigna #1002 → Ana. la usuaria confirma.
 
 **Decisión del sync**: Elena dedica 80% a exploración esta semana (buffer <3).
 
@@ -110,10 +110,10 @@ Ana → cambia de mock a API real, continúa con infinite scroll
 
 ### Cómo Savia ayuda a detectar bloqueos
 
-Jueves, Mónica hace check rápido:
+Jueves, la usuaria hace check rápido:
 
 ```
-Mónica → /flow-board
+la usuaria → /flow-board
 ```
 
 Savia muestra:
@@ -130,13 +130,13 @@ DMs (#1005)  Reactions(#1004)  ──         │  ──     Timeline   Profile
 ⚠️ Ana: Profile (#1002) en Gates >2 días — verificar Gate 5
 ```
 
-Mónica actúa: "Elena, ¿puedes marcar Spec-Ready la de Reactions hoy? Ana se va a quedar sin trabajo pronto." Elena acelera.
+la usuaria actúa: "Elena, ¿puedes marcar Spec-Ready la de Reactions hoy? Ana se va a quedar sin trabajo pronto." Elena acelera.
 
 ---
 
 ## Cómo se ve una semana tipo
 
-**Lun**: Sync 30min (todos) → Mónica: `/flow-metrics` + `/flow-intake`. **Mar-Jue**: Elena en discovery/specs, Ana+Isabel building, Mónica oversight + desbloqueo. Mónica hace spec review con Elena el miércoles. El jueves `/flow-board` para detectar stuck. **Vie**: Elena QA gates, Ana+Isabel PR review + deploy DEV, Mónica métricas.
+**Lun**: Sync 30min (todos) → la usuaria: `/flow-metrics` + `/flow-intake`. **Mar-Jue**: Elena en discovery/specs, Ana+Isabel building, la usuaria oversight + desbloqueo. la usuaria hace spec review con Elena el miércoles. El jueves `/flow-board` para detectar stuck. **Vie**: Elena QA gates, Ana+Isabel PR review + deploy DEV, la usuaria métricas.
 
 ### Interacción con agentes
 

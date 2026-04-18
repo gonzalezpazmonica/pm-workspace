@@ -6,7 +6,7 @@ Thank you to everyone who has contributed to PM-Workspace. ✨
 
 | Name | GitHub | Role |
 |------|--------|------|
-| Mónica González Paz | [@gonzalezpazmonica](https://github.com/gonzalezpazmonica) | Creator & Lead Maintainer |
+| la usuaria González Paz | [@gonzalezpazmonica](https://github.com/gonzalezpazmonica) | Creator & Lead Maintainer |
 
 ## Contributors
 

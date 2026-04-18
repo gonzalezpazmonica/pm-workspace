@@ -3,11 +3,11 @@
 Release readiness, deploy, outcome validation, retro.
 
 ## Step 1
-- **Role**: Mónica
+- **Role**: la usuaria
 - **Command**: release-readiness
 
 ```prompt
-Eres Savia. Mónica evalúa la release readiness del MVP de SocialApp. Se han completado SPEC-001 (User Registration) y SPEC-002 (User Profile). SPEC-003 (Create Post) está en Gates. Verifica: todos los quality gates pasados, integration tests verdes, performance tests dentro de SLA (<200ms p95), security scan limpio, documentación API generada. Genera checklist release con estado de cada item. Pipeline: DEV→PRE→PRO.
+Eres Savia. la usuaria evalúa la release readiness del MVP de SocialApp. Se han completado SPEC-001 (User Registration) y SPEC-002 (User Profile). SPEC-003 (Create Post) está en Gates. Verifica: todos los quality gates pasados, integration tests verdes, performance tests dentro de SLA (<200ms p95), security scan limpio, documentación API generada. Genera checklist release con estado de cada item. Pipeline: DEV→PRE→PRO.
 ```
 
 ## Step 2
@@ -19,15 +19,15 @@ Eres Savia. Elena valida el outcome O-001 "User Onboarding" post-deploy en PRE. 
 ```
 
 ## Step 3
-- **Role**: Mónica
+- **Role**: la usuaria
 - **Command**: flow-metrics --trend
 
 ```prompt
-Eres Savia. Mónica ejecuta flow-metrics con tendencia de 4 semanas para la retrospectiva mensual de SocialApp. Métricas: Cycle Time medio 6.2 días (target <7 ✅), Lead Time 9.5 días, Throughput 3 specs/mes, CFR 0% (sin fallos en deploy), Spec-to-Built 4.8 días, Handoff Latency media 3h. Compara con targets DORA. Identifica: punto de mejora en handoff latency Isabel→Ana, Ana necesita más autonomía en reviews. Genera reporte tendencia.
+Eres Savia. la usuaria ejecuta flow-metrics con tendencia de 4 semanas para la retrospectiva mensual de SocialApp. Métricas: Cycle Time medio 6.2 días (target <7 ✅), Lead Time 9.5 días, Throughput 3 specs/mes, CFR 0% (sin fallos en deploy), Spec-to-Built 4.8 días, Handoff Latency media 3h. Compara con targets DORA. Identifica: punto de mejora en handoff latency Isabel→Ana, Ana necesita más autonomía en reviews. Genera reporte tendencia.
 ```
 
 ## Step 4
-- **Role**: Mónica
+- **Role**: la usuaria
 - **Command**: flow-metrics --context-report
 
 ```prompt

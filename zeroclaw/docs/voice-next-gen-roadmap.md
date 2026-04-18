@@ -50,7 +50,7 @@ para que pare la reproduccion.
 y sintetizar frase a frase.
 
 ```
-Claude genera: "Hola Monica, | aquí tienes | el resumen."
+Claude genera: "Hola la usuaria, | aquí tienes | el resumen."
                     ↓ TTS         ↓ TTS          ↓ TTS
                  (reproduce)   (en cola)      (en cola)
 ```

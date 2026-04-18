@@ -109,7 +109,7 @@ Savia: "App móvil de PM inteligente"
   - r/agile (~50K)
   - r/android_dev (~500K)
   - Hacker News (si llega a front page)
-- **LinkedIn:** Mónica publica journey del desarrollo
+- **LinkedIn:** la usuaria publica journey del desarrollo
 - **YouTube:** Tutorial corto: "Savia PM en tu teléfono — Setup en 10 min"
 - **Discord/Slack community:** Grupo para users tempranos, feedback directo
 

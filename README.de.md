@@ -159,4 +159,4 @@ Lies [CONTRIBUTING.md](CONTRIBUTING.md) und [SECURITY.md](SECURITY.md). PRs will
 
 ## Lizenz
 
-[MIT](LICENSE) — Erstellt von [Monica Gonzalez Paz](https://github.com/gonzalezpazmonica)
+[MIT](LICENSE) — Erstellt von [la usuaria Gonzalez Paz](https://github.com/gonzalezpazmonica)

@@ -1,6 +1,6 @@
 # La Paradoja de Costos: Por Qué las Grandes Consultorías Pagan €150K Anuales en Herramientas que No Son Suyas
 
-**Por Mónica González Paz**
+**Por la usuaria González Paz**
 
 ---
 
