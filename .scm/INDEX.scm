@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: c855052c4994 | resources: 1008
+> hash: dcbbd475d040 | resources: 1008
 > 530 commands · 77 skills · 65 agents · 336 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
@@ -265,7 +265,6 @@
 [governance] vertical-finance — basel,compliance,extensión,finanzas,mifid — cmd:.claude/commands/vertical-finance.md
 [governance] vertical-healthcare — compliance,extensión,fhir,healthcare,hipaa — cmd:.claude/commands/vertical-healthcare.md
 [governance] vertical-legal — compliance,contract,ediscovery,extensión,gdpr — cmd:.claude/commands/vertical-legal.md
-[memory] ast-comprehension — agentes,assessment,call,clases,complejidad — skill:.claude/skills/ast-comprehension/SKILL.md
 [memory] auto-compact — auto,automáticamente,compact,contexto,disparado — script:scripts/auto-compact.sh
 [memory] biblio-search —  — cmd:.claude/commands/biblio-search.md
 [memory] cache-analytics — ahorrados,ahorro,costes,latencia,métricas — cmd:.claude/commands/cache-analytics.md
@@ -816,6 +815,7 @@
 [quality] ai-labor-impact — analysis,audit,exposure,forecasting,impact — skill:.claude/skills/ai-labor-impact/SKILL.md
 [quality] android-autonomous-debugger — against,android,apps,autonomous,debugging — skill:.claude/skills/android-autonomous-debugger/SKILL.md
 [quality] architecture-judge — boundaries,code,coupling,court,judge — agent:.claude/agents/architecture-judge.md
+[quality] ast-comprehension — callers,code,completos,comprensión,código — skill:.claude/skills/ast-comprehension/SKILL.md
 [quality] audit — assessment,audit,executive,generate,professional — cmd:.claude/commands/audit.md
 [quality] banking-data-governance — auditar,clasificación,datos,feature,gdpr — cmd:.claude/commands/banking-data-governance.md
 [quality] banking-mlops-audit — architectures,auditar,drift,mlops,model — cmd:.claude/commands/banking-mlops-audit.md

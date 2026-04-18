@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 203 resources
+> 204 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -10,6 +10,7 @@
 - **ai-labor-impact** (skill): AI labor impact analysis — exposure audit, reskilling plans, workforce forecasting
 - **android-autonomous-debugger** (skill): Autonomous debugging and testing of Android apps against physical devices via USB/ADB
 - **architecture-judge** (agent): Code Review Court judge — boundaries, coupling, layer violations, patterns
+- **ast-comprehension** (skill): Comprensión estructural de código que no hemos escrito. Queries tipadas (impl, callers, tests, grep-code, peek, symbols) en lugar de leer ficheros completos. Inspirado en el patrón RLM (Recursive Language Models, Zhang/Kraska/Khattab 2025).
 - **audit** (cmd): Generate professional executive audit report for workspace reliability assessment
 - **banking-data-governance** (cmd): Auditar gobierno de datos — lineage, clasificación, GDPR/LOPD, feature stores
 - **banking-mlops-audit** (cmd): Auditar pipeline MLOps — versionado, drift, XAI, model risk, scoring architectures
