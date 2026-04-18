@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e3d87cc234e37c66daf7852a6907fbd81ac8708f11347f4e7c3d268947a643c4
-timestamp=2026-04-18T11:24:46Z
+diff_hash=fa57497c1cb95312f3c5180cc07e4ff7ba39ec205ef98d4fb20a463d285e19b2
+timestamp=2026-04-18T11:34:39Z
 branch=agent/azdevops-queries-migrate-20260418
-head_commit=02b29332
-signature=a7928e636a03c6a7a2e040d7cdaf8974876eac2fe28ad8608e3e273e11d12fa1
+head_commit=81115552
+signature=afe24c8a3f2cff601264fbb04b2ebc517bbe1bb3b800edb650662627fd26ae3d
