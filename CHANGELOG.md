@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.41.0] — 2026-04-18
+
+SPEC-082 — orphan skill fix (pr-agent-judge DOMAIN.md) + regression test. Era 234.
+
+### Added
+- **`.claude/skills/pr-agent-judge/DOMAIN.md`**: Completa Clara Philosophy dual-doc (skill tenía SKILL.md pero no DOMAIN.md desde SPEC-124). Documenta rol en Code Review Court, cuándo usar/no usar, límites, confidencialidad y outputs.
+- **`tests/test-skills-no-orphans.bats`**: 19 tests validando que SKILL.md count == DOMAIN.md count, no orphans, estructura Clara Philosophy mayoritaria (≥70%). Regression gate para SPEC-082.
+
+### Changed
+- **`docs/propuestas/SPEC-082-orphan-skill-fix.md`**: status Proposed → Implemented + applied_at 2026-04-18.
+
+### Motivacion
+Wave 1 del roadmap unificado (ROADMAP-UNIFIED-20260418.md serie 1 item 4). SPEC-082 era quick win — solo había 1 skill huérfano. Fix trivial + test preventivo es mejor que skill huérfana drift-ing en silencio. 77/77 skills ahora pareados.
+
 ## [5.40.0] — 2026-04-18
 
 Roadmap unificado + SE-035 mutation testing skill. Era 234.
@@ -7692,6 +7706,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.40.0...v5.41.0
 [5.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.39.0...v5.40.0
 [5.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.38.0...v5.39.0
 [5.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.37.0...v5.38.0
