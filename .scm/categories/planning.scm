@@ -1,15 +1,14 @@
 # planning — Savia Capability Map (L1)
-> 403 resources
+> 449 resources
 
-- **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de
-- **/accreditation-track** (>): 
+- **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
 - **/drive-sync** (cmd): Bidirectional sync between local workspace and Google Drive
-- **/health-kpi** (>): 
-- **/incident-register** (>): 
-- **/pdca-cycle** (>): 
-- **Compartir Recurso Entre Tenants** (cmd): Comparte recursos (playbooks, templates, skills, reglas) entre tenants con flujo de aprobación controlado, versionado y
-- **Crear Tenant** (cmd): Crea un workspace aislado por departamento/equipo con perfiles de usuario, configuración de proyecto, herencia de perfi
+- **/health-kpi** (cmd): >
+- **/incident-register** (cmd): >
+- **/pdca-cycle** (cmd): >
+- **Compartir Recurso Entre Tenants** (cmd): Comparte recursos (playbooks, templates, skills, reglas) entre tenants con flujo de aprobación controlado, versionado y prevención de deriva de configuración
+- **Crear Tenant** (cmd): Crea un workspace aislado por departamento/equipo con perfiles de usuario, configuración de proyecto, herencia de perfiles empresariales y control de acceso basado en roles
 - **Error Investigate** (cmd): Investigación asistida de errores en producción con root cause analysis y correlación de datos
 - **Incident Correlate** (cmd): Correlación cruzada de datos de múltiples fuentes para análisis integral de incidentes
 - **accessibility-mode** (cmd): Toggle rápido de accesibilidad — activa, desactiva o muestra el estado
@@ -21,21 +20,21 @@
 - **adoption-plan** (cmd): Plan personalizado de adopción de Savia por rol — qué aprender, en qué orden
 - **adoption-sandbox** (cmd): Entorno seguro de práctica — experimentar con Savia sin miedo a errores
 - **adoption-track** (cmd): Tracking de adopción — comandos usados por rol, curva de aprendizaje, puntos de fricción
-- **adr-create** (>): 
+- **adr-create** (cmd): >
+- **advisor-config** (script): advisor-config.sh — Generate Anthropic Advisor Strategy configuration
 - **ai-boundary** (cmd): Definir matriz de límites explícitos: qué puede hacer Savia autónomamente vs requiere aprobación
 - **ai-confidence** (cmd): Transparencia: Savia muestra confianza, razonamiento, datos y limitaciones de cada recomendación
 - **ai-incident** (cmd): Registrar y analizar incidentes donde recomendaciones de Savia fueron incorrectas
 - **ai-model-card** (cmd): Genera model card documentando agentes IA, modelos, tareas y decisiones
 - **ai-safety-config** (cmd): Configurar 4 niveles de supervisión humana (inform/recommend/decide/execute) por tipo de acción
-- **architect** (>): 
+- **architect** (agent): >
 - **architecture-intelligence** (skill): Detección de patrones de arquitectura, sugerencias de mejora y recomendaciones para proyectos nuevos
 - **ast-comprehend** (script): ast-comprehend.sh — Extractor estructural multi-lenguaje (ast-comprehension skill)
-- **ast-comprehension** (skill): Comprensión estructural de código que no hemos escrito. Extrae mapa de clases/funciones, dependencias, call graph, com
-- **azdevops-queries** (=============================================================================): 
-- **azure-devops-operator** (>): 
+- **azdevops-queries** (script): =============================================================================
+- **azure-devops-operator** (agent): >
 - **azure-devops-queries** (skill): Skill transversal para operaciones con Azure DevOps
 - **azure-pipelines** (skill): Skill para gestión de CI/CD con Azure Pipelines via MCP
-- **backlog-capture** (>): 
+- **backlog-capture** (cmd): >
 - **backlog-git** (cmd): Control de versiones para backlogs de proyectos
 - **backlog-git-tracker** (skill): Captura, comparación y auditoría de snapshots de backlog
 - **backlog-groom** (cmd): Grooming asistido — detectar items obsoletos, duplicados, sin criterios de aceptación
@@ -52,30 +51,38 @@
 - **banking-bian** (cmd): Validar arquitectura contra estándar BIAN y generar diagramas ArchiMate
 - **banking-detect** (cmd): Auto-detectar proyecto bancario por entidades BIAN, Kafka, Snowflake, SWIFT
 - **banking-eda-validate** (cmd): Validar pipelines Kafka/EDA — topologías, schemas, DLQ, Saga, idempotencia
-- **billing-rate** (>): 
+- **billing-rate** (cmd): >
 - **board-flow** (cmd): Analiza el flujo de trabajo del board — WIP actual, cuellos de botella y métricas de flujo.
 - **burnout-radar** (cmd): Detección temprana de señales de burnout con análisis de riesgo por miembro del equipo
-- **business-analyst** (>): 
+- **business-analyst** (agent): >
 - **calendar-deadlines** (cmd): Deadlines proximos con estado de preparacion — nada se queda atras
 - **calendar-plan** (cmd): Planificar semana con focus blocks automaticos y priorizacion Eisenhower
 - **calendar-rebalance** (cmd): Rebalancear focus blocks tras cambio de prioridades o calendario
 - **calendar-sync** (cmd): Sincronizar calendario Outlook/Teams via Microsoft Graph API
 - **calendar-today** (cmd): Vista del dia con alertas, reuniones, focus blocks y recomendaciones
+- **calibration-judge** (agent): Truth Tribunal judge — confidence statements match evidence strength
 - **capacity-forecast** (cmd): Previsión de capacidad a medio plazo — planifica recursos para los próximos 3-6 sprints
 - **capacity-forecast-telco** (cmd): Medición, previsión y planificación de capacidad de red con alertas automáticas
 - **capacity-planning** (skill): Gestión completa de capacidades del equipo - consulta, cálculo y alertas
+- **case-init** (cmd): Scaffold a business case from pursuit and SOW data
+- **case-kill-check** (cmd): Run valuation sentinel across all active cases for kill recommendations
+- **case-validate** (script): case-validate.sh — SE-016: Validate business case directories
 - **ceo-alerts** (cmd): Panel de alertas estratégicas para dirección — solo decisiones que requieren nivel C
 - **ceremony-health** (cmd): Métricas de salud de ceremonias — duración, participación, resolution rate
-- **changelog-update** (>): 
+- **changelog-assemble** (script): changelog-assemble.sh — Assemble CHANGELOG.md from CHANGELOG.d/ fragments
+- **changelog-update** (cmd): >
+- **ci-failure-tracker** (script): ci-failure-tracker.sh — Track CI pipeline failures for signal/noise analysis
+- **ci-health** (cmd): Muestra tasa de fallo de pipelines CI a partir del log local de ejecuciones.
+- **claude-md-drift-check** (script): claude-md-drift-check.sh — Valida que los conteos en CLAUDE.md coincidan con
 - **client-profile** (cmd): Gestión de perfiles de cliente en SaviaHub
 - **client-profile-manager** (skill): Gestión CRUD de perfiles de cliente en SaviaHub
-- **cobol-developer** (>): 
-- **coherence-check** (>): 
-- **coherence-validator** (>): 
-- **commit-guardian** (>): 
+- **cobol-developer** (agent): >
+- **coherence-judge** (agent): Truth Tribunal judge — internal consistency (sums, dates, entities)
+- **coherence-validator** (agent): >
+- **commit-guardian** (agent): >
 - **company-edit** (cmd): Editar secciones del perfil de empresa — identity, structure, strategy, policies, technology, vertical
-- **company-messaging** (>): 
-- **company-repo** (>): 
+- **company-messaging** (skill): >
+- **company-repo** (cmd): >
 - **company-repo** (script): company-repo.sh — Git operations for company repo lifecycle
 - **company-repo-ops** (script): company-repo-ops.sh — Connect, status, and sync operations
 - **company-repo-templates** (script): company-repo-templates.sh — Heredoc templates for company repo init
@@ -83,39 +90,44 @@
 - **company-setup** (cmd): Onboarding conversacional de empresa — genera el perfil organizacional completo
 - **company-vertical** (cmd): Detectar y configurar la vertical de la empresa — regulaciones, frameworks y mejores prácticas del sector
 - **competence-score** (script): competence-score.sh — Calculate competence scores from tracking log
+- **compile-agent-index** (script): compile-agent-index.sh — Compiled agent reference index for LLM routing
 - **confidence-calibrate** (script): confidence-calibrate.sh - Confidence Calibration Analytics
 - **confidentiality-check** (script): confidentiality-check.sh — Verify project files comply with confidentiality levels
 - **confidentiality-scan** (script): confidentiality-scan.sh — Scan for PII, credentials, real project names.
-- **conflict-check** (>): 
-- **confluence-publish** (>): 
-- **contribute** (script): contribute.sh — Capa de interacción con GitHub para comunidad
+- **conflict-check** (cmd): >
+- **confluence-publish** (cmd): >
 - **contribute** (cmd): Contribuir mejoras, ideas o correcciones al repositorio de pm-workspace en GitHub
+- **contribute** (script): contribute.sh — Capa de interacción con GitHub para comunidad
 - **cost-center** (cmd): Cost management and billing — timesheets, budgets, forecasting, invoicing
 - **cost-management** (skill): Cost Management — Timesheets, budgets, forecasting, invoicing, cost analytics
-- **court-calendar** (>): 
-- **credential-scan** (>): 
+- **court-calendar** (cmd): >
+- **credential-proxy** (script): credential-proxy.sh — Managed Agents pattern: credential isolation
+- **credential-scan** (cmd): >
 - **criticality** (script): criticality.sh — Dispatcher for criticality operations
 - **criticality-assess** (cmd): Evaluar criticidad de un item con desglose de 5 dimensiones y perfil CoD
 - **criticality-dashboard** (cmd): Vista cross-project de items criticos P0-P3 con heatmap por equipo
 - **criticality-engine** (script): criticality-engine.sh — Operations: assess, dashboard, rebalance. Sourced by criticality.sh.
 - **criticality-rebalance** (cmd): Redistribuir carga de trabajo del equipo respetando criticidad y capacidad
 - **criticality-scoring** (script): criticality-scoring.sh — Pure scoring functions. Sourced by criticality-engine.sh.
+- **daily-activation-plan** (script): daily-activation-plan.sh — SE-034: Daily Agent Activation Plan
+- **daily-plan** (cmd): Generate or show today's agent activation plan with token budgets
 - **daily-routine** (cmd): Rutina diaria adaptativa según el rol del usuario — Savia sugiere los comandos más relevantes para tu jornada
-- **dataset-version** (>): 
-- **deep-work** (cmd): Planificador de bloques de trabajo profundo basado en calendario y carga. Framework de Cal Newport aplicado a equipos de
-- **dependency-map** (>): 
+- **dataset-version** (cmd): >
+- **deep-work** (cmd): Planificador de bloques de trabajo profundo basado en calendario y carga. Framework de Cal Newport aplicado a equipos de desarrollo.
+- **dependency-map** (cmd): >
 - **developer-experience** (skill): Framework DX Core 4 y SPACE para medir y mejorar la experiencia del desarrollador
-- **devops-validate** (>): 
-- **devops-validation** (skill): Validates Azure DevOps project configuration against pm-workspace ideal Agile requirements. Invoked automatically when c
-- **diagram-architect** (>): 
-- **diagram-config** (>): 
-- **diagram-generate** (>): 
+- **devops-validate** (cmd): >
+- **devops-validation** (skill): Validates Azure DevOps project configuration against pm-workspace ideal Agile requirements. Invoked automatically when connecting a new project.
+- **diagram-architect** (agent): >
+- **diagram-config** (cmd): >
+- **diagram-generate** (cmd): >
 - **diagram-generation** (skill): Generar diagramas de arquitectura y flujo desde infraestructura y código
-- **diagram-import** (>): 
+- **diagram-import** (cmd): >
 - **diagram-import** (skill): Importar diagramas, extraer entidades y generar Features/PBIs
-- **diagram-status** (>): 
-- **doc-quality-feedback** (>): 
-- **dotnet-developer** (>): 
+- **diagram-status** (cmd): >
+- **doc-quality-feedback** (skill): >
+- **dotnet-developer** (agent): >
+- **dual-estimate** (script): dual-estimate.sh — Dual estimation engine: agent-time vs human-time
 - **dx-core4** (cmd): Marco DX Core 4 completo: velocidad, efectividad, calidad e impacto. Genera scorecard de experiencia del desarrollador.
 - **dx-dashboard** (cmd): Dashboard DX con métricas automatizables de feedback loops, cognitive load y satisfacción
 - **dx-recommendations** (cmd): Análisis de friction points y recomendaciones para mejorar la experiencia del equipo
@@ -128,23 +140,26 @@
 - **emergency-status** (script): emergency-status.sh — Estado del sistema de emergencia PM-Workspace
 - **emotional-state-tracker** (script): emotional-state-tracker.sh — Track session stress state for Savia
 - **enterprise-onboarding** (skill): Enterprise onboarding at scale — batch import, per-role checklists, progress tracking, knowledge transfer
-- **epic-plan** (>): 
-- **ethics-protocol** (>): 
+- **epic-plan** (cmd): >
+- **estimate-calibrate** (script): estimate-calibrate.sh — Recompute empirical agent speedups from actuals log
+- **estimate-convert** (script): estimate-convert.sh — Convert human-days to agent-hours using dual ratios
+- **ethics-protocol** (cmd): >
 - **eval-create** (cmd): Create and configure evaluation criteria for outputs
-- **eval-output** (>): 
+- **eval-output** (cmd): >
 - **eval-workspace** (script): eval-workspace.sh — Evaluación integral de pm-workspace contra sala-reservas
-- **evaluate-repo** (>): 
+- **evaluate-repo** (cmd): >
 - **evaluations-framework** (skill): Evaluations Framework
-- **experiment-log** (>): 
+- **experiment-log** (cmd): >
+- **factuality-judge** (agent): Truth Tribunal judge — factual accuracy of claims against verifiable sources
 - **feature-impact** (cmd): Análisis de impacto de features — esfuerzo vs valor, ROI, priorización
 - **feedback** (cmd): Abrir incidencias, ideas o mejoras como issues en el repositorio de pm-workspace
-- **figma-extract** (>): 
+- **figma-extract** (cmd): >
 - **flow-backlog-groom** (cmd): Review and prioritize backlog items
 - **flow-board** (cmd): Visualizar tablero dual-track de Savia Flow (exploración + producción)
 - **flow-burndown** (cmd): Show sprint burndown chart data
 - **flow-intake** (cmd): Intake continuo — mover items Spec-Ready a Production y asignar a builders
 - **flow-metrics** (cmd): Dashboard de métricas de flujo Savia Flow (cycle time, lead time, throughput, CFR)
-- **flow-protect** (cmd): Detector de context-switching y protector de flow state. Analiza densidad de reuniones, patrones de interrupciones, sobr
+- **flow-protect** (cmd): Detector de context-switching y protector de flow state. Analiza densidad de reuniones, patrones de interrupciones, sobrecarga WIP.
 - **flow-setup** (cmd): Configurar proyecto en Azure DevOps para Savia Flow (dual-track, campos custom, áreas)
 - **flow-spec** (cmd): Crear spec ejecutable desde outcome de exploración (puente exploration → production)
 - **flow-spec-create** (cmd): Create a new SDD specification document
@@ -158,64 +173,70 @@
 - **flow-timesheet-report** (cmd): Generate timesheet report for date range
 - **flow-velocity** (cmd): Show historical velocity metrics
 - **focus-mode** (cmd): Modo single-task — carga una sola tarea y oculta distracciones
-- **frontend-developer** (>): 
-- **gdrive-upload** (>): 
+- **fork-agents** (script): fork-agents.sh — Lanza N invocaciones paralelas de Claude con prefijo cacheable
+- **frontend-developer** (agent): >
+- **gdrive-upload** (cmd): >
 - **generate-capability-map** (script): ── generate-capability-map.sh — Generate .scm index from workspace resources
 - **generate-index** (script): generate-index.sh — Generate discoverable index of all workspace components
-- **github-activity** (>): 
-- **github-issues** (>): 
+- **github-activity** (cmd): >
+- **github-issues** (cmd): >
 - **github-projects** (cmd): Integración con GitHub Projects v2 para gestión ágil desde pm-workspace
-- **go-developer** (>): 
-- **google-sheets-tracker** (skill): Google Sheets Tracker
-- **grant-track** (>): 
+- **go-developer** (agent): >
+- **grant-track** (cmd): >
 - **graph-impact** (cmd): Analiza el impacto en cascada de cambios en entidades PM
 - **graph-query** (cmd): Consulta el grafo de conocimiento en lenguaje natural
 - **guided-work** (cmd): Trabajo guiado — Savia te acompaña paso a paso con preguntas, adaptando el ritmo a tus necesidades
-- **headroom-optimization** (skill): headroom-optimization
+- **hallucination-judge** (agent): Truth Tribunal judge — detects invented facts via SelfCheck-style consistency
 - **health-dashboard** (cmd): Dashboard de salud del proyecto unificado — Savia muestra una vista rápida adaptada al rol
+- **heat-scheduler** (script): heat-scheduler.sh — Lightweight heat-based parallelism for dev sessions
 - **help** (cmd): Catálogo de comandos y primeros pasos pendientes.
+- **hook-latency-bench** (script): hook-latency-bench.sh — Mide la latencia media de cada hook registrado
 - **hook-pii-gate** (script): hook-pii-gate.sh — PII Quality Gate Pre-Commit Hook
 - **hook-profile** (cmd): View or change the active SAVIA_HOOK_PROFILE (minimal/standard/strict/ci)
 - **hook-profile** (script): hook-profile.sh — Get/set the active SAVIA_HOOK_PROFILE
-- **hw-bom** (>): 
-- **hw-revision** (>): 
+- **hw-bom** (cmd): >
+- **hw-revision** (cmd): >
 - **incident-postmortem** (cmd): Template de postmortem — timeline, root cause analysis, action items
-- **index-compact** (>): 
-- **index-status** (>): 
-- **infrastructure-agent** (>): 
+- **index-compact** (cmd): >
+- **index-status** (cmd): >
+- **infrastructure-agent** (agent): >
+- **install-savia-bridge-system** (script): install-savia-bridge-system.sh — Promote savia-bridge to a SYSTEM systemd unit.
 - **install-watchdog** (script): install-watchdog.sh — Installs savia-watchdog as systemd service
-- **instinct-manage** (>): 
-- **insurance-claim** (>): 
+- **instinct-manage** (cmd): >
+- **insurance-claim** (cmd): >
 - **integration-status** (cmd): Dashboard de estado de todas las integraciones — APIs, webhooks, MCP, conectividad
 - **inventory-manage** (cmd): Gestiona inventario: stock, reordenes, transferencias, conteos, alertas
-- **java-developer** (>): 
+- **java-developer** (agent): >
 - **jira-connect** (cmd): Conectar y sincronizar con Jira Cloud como alternativa a Azure DevOps
-- **jira-sync** (>): 
+- **jira-sync** (cmd): >
 - **knowledge-graph** (skill): Construye y consulta grafos de conocimiento de entidades PM y sus relaciones
+- **knowledge-graph** (script): knowledge-graph.sh — Temporal knowledge graph in SQLite (local cache)
 - **knowledge-prime** (cmd): Generar documento de priming AI desde código y configuración del proyecto
-- **legacy-assess** (>): 
-- **legal-deadline** (>): 
-- **legal-template** (>): 
+- **legacy-assess** (cmd): >
+- **legal-deadline** (cmd): >
+- **legal-template** (cmd): >
+- **legalize-es** (script): legalize-es.sh — Gestión del corpus legislativo español (legalize-es)
+- **lesson-extract** (cmd): Extract a cross-project lesson from the current task
+- **lesson-pipeline** (script): lesson-pipeline.sh — SE-032: Cross-Project Lessons Pipeline
 - **linear-sync** (cmd): Sincronización bidireccional con Linear — issues, cycles, métricas unificadas
 - **managed-content** (skill): Manage auto-generated content sections with safe regeneration markers
 - **managed-scan** (cmd): Scan managed content for stale or outdated sections
 - **managed-sync** (cmd): Synchronize and regenerate managed content markers
 - **marketplace-publish** (cmd): Publish components to marketplace registry
 - **masked-unmask** (script): masked-unmask.sh — Unmask a Claude response back to real entities
-- **mcp-recommend** (>): 
+- **mcp-recommend** (cmd): >
 - **mcp-server-config** (cmd): Configure MCP servers and connection settings
 - **mcp-server-start** (cmd): Start and initialize MCP server instances
 - **mcp-server-status** (cmd): Check status and health of active MCP servers
-- **mobile-developer** (>): 
+- **mobile-developer** (agent): >
 - **model-capability-resolver** (script): model-capability-resolver.sh — Resolve model capabilities from YAML registry
 - **my-learning** (cmd): Detección de tech stack gaps — código del developer vs best practices del proyecto
 - **my-sprint** (cmd): Vista personal del sprint — items asignados, progreso, cycle time, PRs pendientes
 - **nidos** (cmd): Manage parallel terminal isolation with named git worktrees (Savia Nidos)
 - **nidos** (script): nidos.sh — Savia Nidos: parallel terminal isolation via named git worktrees
 - **nidos-lib** (script): nidos-lib.sh — Shared utilities for Savia Nidos
-- **non-engineer-templates** (skill): Non-Engineer Templates
-- **notion-sync** (>): 
-- **nuclei-scanning** (skill): Scanner de vulnerabilidades Nuclei como complemento al analisis LLM. Detecta CVEs conocidos, misconfiguraciones y panele
+- **notion-sync** (cmd): >
+- **nuclei-scanning** (skill): Scanner de vulnerabilidades Nuclei como complemento al analisis LLM. Detecta CVEs conocidos, misconfiguraciones y paneles expuestos. Degradacion graceful si Nuclei no esta instalado.
 - **obs-connect** (cmd): Conectar Savia a plataformas de observabilidad — Grafana, Datadog, Azure App Insights, OpenTelemetry
 - **obs-query** (cmd): Consultas en lenguaje natural a datos de observabilidad — PromQL, KQL, Datadog Query Language
 - **obs-status** (cmd): Health check de todas las fuentes de observabilidad conectadas
@@ -223,43 +244,41 @@
 - **okr-define** (cmd): Definir Objectives y Key Results vinculados a proyectos
 - **okr-track** (cmd): Tracking automático de progreso OKR desde métricas de sprint
 - **ollama-classify** (script): ollama-classify.sh — Clasificacion local de texto con Ollama
-- **onboard** (>): 
+- **ollama-hardware-check** (script): ── ollama-hardware-check.sh ─────────────────────────────────────────────────
+- **onboard** (cmd): >
 - **onboard-enterprise** (cmd): Enterprise onboarding at scale — batch import, per-role checklists, knowledge transfer
 - **onboarding-dev** (cmd): Technical onboarding with AI Buddy — auto-generates project docs, personalized plan, and 3-layer buddy agent
-- **onboarding-dev** (skill): Onboarding técnico con Buddy IA — auto-genera documentación del proyecto, plan personalizado 30/60/90 y agente buddy
-- **orgchart-import** (>): 
-- **orgchart-import** (>): 
+- **onboarding-dev** (skill): Onboarding técnico con Buddy IA — auto-genera documentación del proyecto, plan personalizado 30/60/90 y agente buddy de 3 capas
+- **orgchart-import** (cmd): >
+- **orgchart-import** (skill): >
 - **outcome-track** (cmd): Tracking de outcomes post-release — ¿la feature entregó el valor esperado?
 - **output-compress** (script): output-compress.sh — Compress verbose tool output (stdin -> stdout)
 - **overnight-sprint** (skill): Modo autónomo nocturno — ejecuta tareas de bajo riesgo en bucle, genera PRs pendientes de revisión humana
+- **path-redact** (script): path-redact.sh — Redact absolute paths containing $HOME from text
 - **pbi-assign** (cmd): Assign or reassign tasks based on intelligent allocation
 - **pbi-decompose** (cmd): Decompose a PBI into granular technical tasks
 - **pbi-decompose-batch** (cmd): Decompose multiple PBIs into technical tasks
 - **pbi-decomposition** (skill): Descomponer PBIs en Tasks, estimar en horas y asignar inteligentemente
 - **pbi-from-rules** (cmd): Map business rules to PBIs with traceability matrix
 - **pbi-from-rules-report** (cmd): Generate traceability matrix report without creating PBIs
-- **pbi-jtbd** (>): 
+- **pbi-jtbd** (cmd): >
 - **pbi-plan-sprint** (cmd): Plan and allocate PBIs to upcoming sprint
-- **pbi-prd** (>): 
-- **personal-vault** (skill): Gestion del repositorio personal del usuario — perfil, preferencias, memoria, instintos, cache. Nivel N3 (USUARIO). In
-- **php-developer** (>): 
+- **pbi-prd** (cmd): >
+- **personal-vault** (skill): Gestion del repositorio personal del usuario — perfil, preferencias, memoria, instintos, cache. Nivel N3 (USUARIO). Invocada por comandos vault-*.
+- **php-developer** (agent): >
 - **platform-migrate** (cmd): Migración asistida entre plataformas — Azure DevOps ↔ Jira ↔ GitHub Projects ↔ Linear
 - **playbook-create** (cmd): Crear playbooks evolutivos para tareas repetitivas con framework ACE
 - **playbook-evolve** (cmd): Evolucionar playbook con insights — ciclo Generator→Reflector→Curator (ACE)
 - **playbook-library** (cmd): Biblioteca compartida de playbooks maduros entre proyectos
 - **playbook-reflect** (cmd): Reflexión post-ejecución de playbooks — framework ACE Reflector
 - **plugin-export** (cmd): Empaquetar pm-workspace como plugin distributable con validación de estructura
-- **plugin-packaging** (skill): Empaquetar y validar PM-Workspace como plugin distributable
 - **plugin-validate** (cmd): Validar estructura de plugin — skills, agents, commands e integridad
-- **pm-mcp-server** (skill): PM-Workspace MCP Server
 - **po-wizard** (cmd): Interactive wizard for product owner onboarding
 - **portfolio-deps** (cmd): Grafo de dependencias inter-proyecto — visualiza y alerta sobre cuellos de botella entre proyectos
 - **portfolio-overview** (cmd): Vista bird's-eye de todos los proyectos — semáforo, velocidad comparada, dependencias
 - **postmortem-create** (cmd): Create incident postmortem with structured analysis
 - **postmortem-heuristics** (cmd): Extract debugging heuristics from postmortems
-- **postmortem-training** (skill): Postmortem Training Skill
 - **pre-commit-sovereignty** (script): NOTE: -e omitted intentionally — grep returns 1 on no-match which would
-- **predictive-analytics** (skill): Fórmulas de predicción sprint, Monte Carlo simplificado y flow metrics
 - **privacy-check-company** (script): privacy-check-company.sh — Privacy filter for company repo content
 - **product-catalog** (cmd): Gestiona el catálogo de productos: añadir, actualizar, listar, buscar y exportar
 - **product-discovery** (skill): Análisis de descubrimiento de producto - JTBD y PRD antes de descomposición
@@ -267,34 +286,44 @@
 - **profile-setup** (cmd): Savia te conoce — configuración del perfil en conversación natural.
 - **profile-show** (cmd): Savia muestra tu perfil actual.
 - **profile-switch** (cmd): Savia cambia de usuario — cambiar perfil activo.
-- **project-assign** (>): 
-- **project-audit** (>): 
-- **project-kickoff** (>): 
-- **project-new** (>): 
-- **project-release-plan** (>): 
-- **project-roadmap** (>): 
-- **prompt-optimizer** (>): 
+- **project-assign** (cmd): >
+- **project-audit** (cmd): >
+- **project-kickoff** (cmd): >
+- **project-new** (cmd): >
+- **project-release-plan** (cmd): >
+- **project-roadmap** (cmd): >
+- **prompt-optimizer** (skill): >
 - **protect-project-privacy** (script): protect-project-privacy.sh — Barrera de protección contra publicación accidental de proyectos
+- **pursuit-bid** (cmd): Record bid/no-bid decision for a qualified pursuit
+- **pursuit-close** (cmd): Close a pursuit as won or lost and trigger post-mortem analysis
+- **pursuit-draft** (cmd): Generate proposal sections from library assets for a pursuit
+- **pursuit-handoff** (cmd): Generate sales-to-delivery handoff package for a won pursuit
+- **pursuit-init** (cmd): Scaffold a new pursuit opportunity directory with template files
+- **pursuit-qualify** (cmd): Run BANT + MEDDIC qualification scoring on a pursuit
+- **pursuit-validate** (script): pursuit-validate.sh — SE-015: Validate pursuit directories
 - **push-pr** (script): push-pr.sh — CI + sign + push + create PR + release (zero re-sign commits)
-- **python-developer** (>): 
+- **python-developer** (agent): >
+- **rbac-manager** (script): rbac-manager.sh — RBAC backend for Savia Enterprise multi-tenant
 - **readiness-check** (script): readiness-check.sh — Deterministic capability checklist
 - **record-export** (cmd): Export recorded session or data in multiple formats
 - **record-replay** (cmd): Replay and analyze recorded sessions or events
 - **record-stop** (cmd): Stop active recording session
+- **recover-savia** (script): recover-savia.sh — Launch a clean Claude session OUTSIDE pm-workspace
 - **ref-list** (cmd): List available resource references and their types
-- **reflection-validation** (skill): Meta-cognitive validation protocol (System 2). Detects proxy optimization, undeclared assumptions, and broken causal cha
-- **reflection-validator** (>): 
-- **repos-branches** (>): 
-- **repos-list** (>): 
-- **repos-pr-create** (>): 
-- **repos-pr-list** (>): 
+- **reflection-validation** (skill): Meta-cognitive validation protocol (System 2). Detects proxy optimization, undeclared assumptions, and broken causal chains.
+- **reflection-validator** (agent): >
+- **release-backfill** (script): release-backfill.sh — Create missing GitHub releases from git tags
+- **repos-branches** (cmd): >
+- **repos-list** (cmd): >
+- **repos-pr-create** (cmd): >
+- **repos-pr-list** (cmd): >
 - **resource-references** (skill): skill: resource-references
-- **retro-actions** (>): 
-- **rpi-start** (>): 
-- **ruby-developer** (>): 
+- **retro-actions** (cmd): >
+- **rpi-start** (cmd): >
+- **ruby-developer** (agent): >
 - **rule-usage-analyzer** (script): rule-usage-analyzer.sh — Analyze domain rule usage across the workspace
-- **rust-developer** (>): 
-- **sbom-generate** (>): 
+- **rust-developer** (agent): >
+- **sbom-generate** (cmd): >
 - **scale-optimizer** (cmd): Scaling optimization — analyze, benchmark, recommend improvements for growing organizations
 - **scheduled-create** (cmd): Crear tarea programada con notificaciones automáticas
 - **scheduled-list** (cmd): Listar todas las tareas programadas y su configuración de notificaciones
@@ -312,74 +341,91 @@
 - **school-rubric** (cmd): Create or edit evaluation rubrics for grading
 - **school-setup** (cmd): Configure classroom and initialize Savia School vertical
 - **school-submit** (cmd): Student submits completed project for evaluation
-- **score-diff** (>): 
+- **score-diff** (cmd): >
 - **sdlc-advance** (cmd): Advance work item through SDLC state machine
-- **sdlc-state-machine** (skill): sdlc-state-machine
 - **sdlc-status** (cmd): Show current SDLC state and transitions
-- **sentry-bugs** (>): 
-- **sentry-health** (>): 
+- **sentry-bugs** (cmd): >
+- **sentry-health** (cmd): >
 - **service-catalog-telco** (cmd): Gestión del catálogo de servicios de telecom con definiciones, configuración y precios
 - **setup-claude-permissions** (script): setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados
+- **setup-savia-dual** (script): setup-savia-dual.sh — Installer for Savia Dual (Linux/macOS)
 - **setup-savia-remote** (script): setup-savia-remote.sh — Run ONCE on the remote server as root/sudo.
 - **sheets-setup** (cmd): Configure Google Sheets integration
 - **sheets-sync** (cmd): Synchronize data with Google Sheets
 - **shield-ner-hook** (script): shield-ner-hook.sh — Savia Shield Capa 1.5: NER via daemon (fast)
-- **skill-eval** (>): 
+- **skill-detect** (cmd): Detect repeated patterns and propose new skills automatically
+- **skill-detect** (script): skill-detect.sh — SE-030: Skill Self-Improvement Pipeline
+- **skill-eval** (cmd): >
 - **skill-feedback-log** (script): skill-feedback-log.sh — Append skill invocation to JSONL log
 - **skill-feedback-rank** (script): skill-feedback-rank.sh — Compute skill effectiveness and generate ranking
 - **skill-propose** (cmd): Proponer nuevo skill desde un workflow repetitivo — auto-genera scaffold si 3+ observaciones
 - **skill-rank** (cmd): Show skill effectiveness ranking based on invocation data
 - **skill-read** (cmd): Carga el contenido completo de un skill bajo demanda (progressive disclosure)
-- **skills-marketplace** (skill): skills-marketplace
+- **skills-lock** (script): skills-lock.sh — SHA-256 integrity verification for skills
 - **skillssh-adapter** (script): ── skills.sh Adapter — Genera paquetes publicables para skills.sh ──
-- **smart-calendar** (>): 
+- **slm-data-prep** (script): slm-data-prep.sh — Prepare project data for SLM fine-tuning
+- **slm-train** (script): slm-train.sh — Fine-tune SLMs locally with Unsloth + export to Ollama
+- **smart-calendar** (skill): >
 - **smart-routing** (skill): Enrutamiento inteligente de comandos y descubrimiento de herramientas para 400+ comandos
+- **sovereignty-benchmark** (script): sovereignty-benchmark.sh — Benchmark pm-workspace prompts with local LLM
 - **sovereignty-mask** (script): sovereignty-mask.sh — Wrapper for reversible data masking
 - **sovereignty-ops** (script): sovereignty-ops.sh — Download operations for sovereignty-pack.sh
+- **sovereignty-switch** (script): sovereignty-switch.sh — Switch between LLM providers for pm-workspace
 - **sprint-autoplan** (cmd): Planificación inteligente de sprint — sugiere composición óptima desde backlog y capacidad
 - **sprint-forecast** (cmd): Predicción de completitud del sprint basada en velocity histórica
 - **sprint-management** (skill): Flujo completo de gestión de sprints - estado, items, progreso y resúmenes
 - **sprint-plan** (cmd): Asiste en el Sprint Planning calculando capacity disponible y proponiendo la carga de trabajo.
-- **sprint-release-notes** (>): 
+- **sprint-release-notes** (cmd): >
 - **sprint-retro** (cmd): Genera la plantilla de retrospectiva con datos del sprint para facilitar la ceremonia.
 - **sprint-review** (cmd): Genera el resumen para la Sprint Review con todos los datos del sprint cerrado.
 - **sprint-status** (cmd): Estado del sprint actual — progreso, burndown, alertas.
 - **stakeholder-align** (cmd): Resolución de conflictos entre stakeholders con datos objetivos
+- **start-bridge** (script): start-bridge.sh — Invoked by Savia Claw remote_host.restart_bridge()
 - **strategy-map** (cmd): Mapa estratégico — iniciativas, dependencias, contribución a objetivos
 - **subscriber-lifecycle** (cmd): Gestión integral del ciclo de vida del suscriptor desde onboarding hasta análisis de churn
 - **sustainable-pace** (cmd): Cálculo de ritmo sostenible basado en histórico y capacidad real
 - **sync-calendars** (cmd): Sincronizar disponibilidad entre calendarios de dos tenants Microsoft 365
+- **sync-github-metadata** (script): sync-github-metadata.sh — Update GitHub repo metadata
 - **sync-tags-from-changelog** (script): sync-tags-from-changelog.sh — Create missing git tags from CHANGELOG.md
 - **task-create** (cmd): Add a task to Savia's todo list. Usage: /task-create Investigate this site...
+- **task-decomposer** (script): task-decomposer.sh — Classify tasks as atomic/composite and decompose recursively
 - **team-coordination** (skill): Multi-team orchestration — create teams, assign members, detect cross-team blockers
-- **team-evaluate** (>): 
-- **team-onboarding** (>): 
+- **team-evaluate** (cmd): >
+- **team-onboarding** (cmd): >
 - **team-onboarding** (skill): Onboarding y evaluación de competencias para nuevos miembros del equipo
 - **team-orchestrator** (cmd): Multi-team coordination — create teams, assign members, track cross-team dependencies and blockers
-- **team-privacy-notice** (>): 
+- **team-privacy-notice** (cmd): >
 - **team-sentiment** (cmd): Análisis de sentimiento del equipo desde retros, standups y comunicaciones
 - **team-skills-matrix** (cmd): Matriz de skills del equipo — quién sabe qué, bus factor, pair programming
 - **team-workload** (cmd): Muestra la carga de trabajo por persona — items asignados, horas remaining y balance de equipo.
 - **tech-radar** (cmd): Radar tecnológico del proyecto — librerías, versiones, adopt/trial/hold/retire
-- **tech-writer** (>): 
-- **terraform-developer** (>): 
-- **threat-model** (>): 
+- **tech-writer** (agent): >
+- **terraform-developer** (agent): >
+- **threat-model** (cmd): >
 - **tool-catalog** (cmd): Catálogo categorizado de herramientas (400+ comandos)
+- **tool-result-trim** (script): tool-result-trim.sh — Deterministic hard cap for tool result output
 - **travel-clean** (cmd): Elimina rastros de Savia de una máquina temporal.
 - **travel-pack** (cmd): Empaca tu workspace en una unidad USB con cifrado AES-256.
 - **travel-sync** (cmd): Sincroniza workspace bidireccional entre máquina y USB.
 - **travel-unpack** (cmd): Desempaca tu workspace desde USB en una nueva máquina.
 - **travel-verify** (cmd): Verifica integridad de un paquete de viaje en USB.
-- **typescript-developer** (>): 
-- **underwriting-rule** (>): 
+- **tribunal-status** (cmd): Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
+- **truth-tribunal-orchestrator** (agent): Truth Tribunal orchestrator — convenes 7 judges, aggregates scores, applies vetos, drives iteration
+- **truth-tribunal-worker** (script): truth-tribunal-worker.sh — Consume queued Truth Tribunal verification
+- **typescript-developer** (agent): >
+- **underwriting-rule** (cmd): >
 - **update** (cmd): Comprobar y aplicar actualizaciones de pm-workspace desde GitHub, preservando datos locales
 - **update** (script): update.sh — Sistema de actualización de pm-workspace
 - **user-profile** (cmd): Gestiona perfiles de miembros del equipo — ver, crear o editar.
+- **validate-agent-permissions** (script): validate-agent-permissions.sh — Verify agent permission_level matches tools
 - **validate-changelog-links** (script): validate-changelog-links.sh — Verifica que cada ## [X.Y.Z] tiene su enlace [X.Y.Z]: URL
-- **validate-ci-local** (script): ── validate-ci-local.sh — Parallel CI validation ─────────────────────�
-- **validate-commands** (────────────────────────────────────────): 
-- **validate-devops** (=============================================================================): 
+- **validate-ci-local** (script): ── validate-ci-local.sh — Parallel CI validation ────────────────────────
+- **validate-commands** (script): ─────────────────────────────────────────────────────────────────────
+- **validate-devops** (script): =============================================================================
+- **validate-devops-checks** (script): validate-devops-checks.sh — Check functions (sourced by validate-devops.sh)
 - **validate-filesize** (cmd): Validar que ficheros del workspace cumplen ≤150 líneas
+- **validate-handoff** (script): validate-handoff.sh — Validate handoff structure with termination_reason
+- **validate-layer-contract** (script): validate-layer-contract.sh — SE-001 layer contract validator
 - **validate-schema** (cmd): Validar schema de frontmatter y settings.json
 - **validate-settings-local** (script): validate-settings-local.sh — Detect private/session data in settings.local.json
 - **value-stream-map** (cmd): Mapa de valor end-to-end — idea→producción, waste, cuellos de botella
@@ -393,14 +439,14 @@
 - **velocity-trend** (cmd): Tendencia de velocity con media móvil, detección de anomalías y factores explicativos
 - **verify-full** (cmd): Run 5-layer verification pipeline on task/branch
 - **vertical-propose** (cmd): Proponer extensión vertical para un sector no-software detectado en el proyecto
-- **volunteer-manage** (>): 
+- **volunteer-manage** (cmd): >
 - **vuln-scan** (script): vuln-scan.sh — Vulnerability scanner for pm-workspace scripts
 - **wave-executor** (script): wave-executor.sh — Generic wave execution engine for DAG task graphs
 - **wave-executor-lib** (script): wave-executor-lib.sh — Helper functions for wave-executor.sh
 - **webhook-config** (cmd): Configurar webhooks para recibir eventos push de Azure DevOps, GitHub y otras fuentes
 - **wellbeing-guardian** (cmd): Proactive individual wellbeing system — break reminders, after-hours alerts, work-life balance nudges
 - **wellbeing-guardian** (skill): Sistema proactivo de bienestar individual
-- **wiki-publish** (>): 
-- **wiki-sync** (>): 
-- **workspace-doctor** (>): 
+- **wiki-publish** (cmd): >
+- **wiki-sync** (cmd): >
+- **workspace-doctor** (cmd): >
 - **workspace-health** (script): workspace-health.sh — Comprehensive health dashboard for pm-workspace

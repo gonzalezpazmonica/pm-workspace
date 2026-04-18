@@ -1,26 +1,29 @@
 # governance — Savia Capability Map (L1)
-> 27 resources
+> 30 resources
 
-- **/training-compliance** (>): 
+- **/training-compliance** (cmd): >
 - **aepd-compliance** (cmd): Auditoría de cumplimiento AEPD para IA agéntica — framework 4 fases
 - **audit-alert** (cmd): Alertas automáticas por patrones anómalos — horario inusual, comandos de riesgo, volumen alto, acceso sensible.
 - **audit-export** (cmd): Exportar audit trail en JSON/CSV/PDF para auditorías externas. ISO 42001 & NIST AI RMF compliant.
 - **audit-search** (cmd): Búsqueda contextual en audit trail — fecha, acción, usuario, proyecto, confianza. NL search y regex.
 - **audit-test-quality** (script): audit-test-quality.sh — Classifies test scripts by quality level
-- **audit-trail** (cmd): Log inmutable de todas las acciones de Savia — comandos, recomendaciones, decisiones, archivos modificados. Cumplimien
-- **bias-check** (>): 
+- **audit-trail** (cmd): Log inmutable de todas las acciones de Savia — comandos, recomendaciones, decisiones, archivos modificados. Cumplimiento EU AI Act.
+- **bias-check** (cmd): >
 - **compliance-check** (cmd): Ejecuta todas las verificaciones de compliance de reglas
 - **compliance-fix** (cmd): Aplicar corrección automática a hallazgos de compliance y re-verificar
-- **compliance-matrix** (>): 
+- **compliance-judge** (agent): Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality
+- **compliance-matrix** (cmd): >
 - **compliance-report** (cmd): Generar informe ejecutivo de compliance regulatorio con tendencias y roadmap
 - **compliance-scan** (cmd): Escanear código fuente contra regulaciones del sector — detección automática, verificación y reporte
 - **governance-audit** (cmd): Auditoría de cumplimiento de política de IA — acciones vs permitidas
+- **governance-audit-log** (script): governance-audit-log.sh — Append-only audit log with chain hash
 - **governance-certify** (cmd): Checklist de certificación — ISO 42001, EU AI Act, documentación de modelo
 - **governance-enterprise** (cmd): Enterprise governance — audit trail, compliance checks, decision registry, certification
 - **governance-enterprise** (skill): Enterprise governance — audit trail queries, compliance verification, decision registry, certification workflow
 - **governance-policy** (cmd): Definir política de uso de IA de la empresa — clasificación de riesgo, aprobaciones
 - **governance-report** (cmd): Reporte de gobernanza IA para management — cumplimiento normativo, uso responsable
-- **insurance-policy** (>): 
+- **insurance-policy** (cmd): >
+- **legal-compliance** (agent): >
 - **policy-check** (cmd): Verificar politicas de agente para un proyecto — mostrar permisos y restricciones
 - **regulatory-compliance** (skill): Validación de marcos regulatorios por sector — detección automática, compliance checks y corrección
 - **sdlc-policy** (cmd): Configure SDLC policies and quality gates

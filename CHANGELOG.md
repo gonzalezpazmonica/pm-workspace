@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.31.0] — 2026-04-18
+
+SCM (Savia Capability Map) regeneration — Python rewrite + determinístico SessionStart hook. Era 234.
+
+### Fixed
+- **`scripts/generate-capability-map.sh`** pasa de 5+ horas a ~2 segundos al reescribir la generación en Python in-process. La versión Bash original spawnaba sed/grep 10k+ veces sobre Git Bash en Windows (fork cost alto). El shell-script ahora es un wrapper de una línea que invoca `generate-capability-map.py`.
+- **`.scm/INDEX.scm`** estaba desactualizado (generado 2026-04-06, 208 recursos cambiados desde entonces). Regenerado: 991 recursos (530 commands · 76 skills · 64 agents · 321 scripts).
+
+### Added
+- **`scripts/generate-capability-map.py`**: implementación Python 3 del generador. Dropped-in replacement del `.sh`. Documentado con docstrings y normas de código Savia (nombres descriptivos, sin abreviaturas). Genera además `.scm/resources.json` (mirror machine-readable para hooks/lookups).
+- **`.claude/hooks/session-init.sh`**: hook determinístico que regenera `.scm` en background si hay recursos en `.claude/{commands,skills,agents}` o `scripts/` más nuevos que `.scm/INDEX.scm`. Patrón idéntico al del skill manifest (fire-and-forget, ~2s). Garantiza que el mapa esté fresco al arrancar cualquier sesión.
+
+### Changed
+- `.scm/categories/*.scm` regenerados (7 ficheros: analysis/communication/development/governance/memory/planning/quality).
 ## [5.30.0] — 2026-04-18
 
 SE-031 Query Library slice 3 — 3 snippets mas + migracion backlog-groom + 4 tests integracion. Era 234.
@@ -7566,6 +7580,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.30.0...v5.31.0
 [5.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.29.0...v5.30.0
 [5.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.28.0...v5.29.0
 [5.28.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.27.0...v5.28.0
