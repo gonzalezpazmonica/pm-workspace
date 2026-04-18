@@ -1,3 +1,12 @@
+---
+id: SPEC-010
+title: SPEC-010: SaviaClaw Autonomy Roadmap
+status: IN_PROGRESS
+origin_date: "2026-03-21"
+migrated_at: "2026-04-18"
+migrated_from: body-prose
+---
+
 # SPEC-010: SaviaClaw Autonomy Roadmap
 
 > Status: **ACTIVE** · Fecha: 2026-03-21

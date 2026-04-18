@@ -1,6 +1,6 @@
 {
-  "hash": "62300140050e",
-  "total": 1020,
+  "hash": "6beea65373d2",
+  "total": 1021,
   "resources": [
     {
       "category": "analysis",
@@ -2665,6 +2665,19 @@
       "kind": "cmd",
       "path": ".claude/commands/spec-explore.md",
       "description": "Explore and analyze specification documents"
+    },
+    {
+      "category": "development",
+      "name": "spec-frontmatter-migrate",
+      "intents": [
+        "frontmatter",
+        "migrate",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-frontmatter-migrate.sh",
+      "description": "spec-frontmatter-migrate.sh — SE-036 Slice 1."
     },
     {
       "category": "development",

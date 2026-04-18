@@ -1,3 +1,12 @@
+---
+id: SPEC-014
+title: SPEC-014: Competence Model for User Profiles
+status: Implemented
+origin_date: "2026-03-22"
+migrated_at: "2026-04-18"
+migrated_from: body-prose
+---
+
 # SPEC-014: Competence Model for User Profiles
 
 > Status: **PHASE 2 DONE** · Fecha: 2026-03-22 · Phase 1 (adaptive-output): 2026-03-22 · Phase 2 (tracking+scoring): 2026-03-22

@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 101 resources
+> 102 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -78,6 +78,7 @@
 - **spec-design** (cmd): Genera diseño técnico a partir de una spec existente — decisiones, flujo de datos, estrategia de testing.
 - **spec-driven-development** (skill): Specs ejecutables para desarrolladores humanos y agentes Claude
 - **spec-explore** (cmd): Explore and analyze specification documents
+- **spec-frontmatter-migrate** (script): spec-frontmatter-migrate.sh — SE-036 Slice 1.
 - **spec-generate** (cmd): Genera una Spec ejecutable a partir de una Task de Azure DevOps, lista para implementación.
 - **spec-implement** (cmd): Implementa una Spec según su developer_type — lanza agente o asigna a humano.
 - **spec-judge** (agent): Code Review Court judge — implementation vs approved spec, acceptance criteria

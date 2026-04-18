@@ -1,0 +1,136 @@
+name: Auto-rebase open PRs after main merge
+
+# Root cause: GitHub server-side merge does NOT execute custom merge drivers
+# (merge.ours.driver) from .gitattributes. So every time main advances, open
+# PRs that touch .confidentiality-signature show conflicts in the GitHub UI
+# even though .gitattributes declares `merge=ours`.
+#
+# Fix: run the local resolver automatically on main push. Each open PR is
+# rebased, predictable conflicts (.confidentiality-signature, .scm/*,
+# CHANGELOG.md) are resolved via the resolver script, re-signed, and pushed.
+# Same logic as `scripts/resolve-all-open-prs.sh`, automated server-side.
+#
+# Ref: scripts/resolve-pr-conflicts.sh, scripts/resolve-all-open-prs.sh,
+# CHANGELOG.d/README.md
+
+on:
+  push:
+    branches:
+      - main
+
+# Cancel in-flight runs if another main push arrives.
+concurrency:
+  group: auto-rebase-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip auto-rebase]') }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git identity
+        run: |
+          # Use GitHub Actions bot identity (matches actions/checkout default semantics).
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Configure merge drivers (ours = keep branch version)
+        run: |
+          bash scripts/setup-merge-drivers.sh || true
+
+      - name: Install jq (if missing)
+        run: |
+          if ! command -v jq >/dev/null 2>&1; then
+            sudo apt-get update -qq && sudo apt-get install -y jq
+          fi
+
+      - name: List open PRs
+        id: list_prs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          prs=$(gh pr list --state open --json number,headRefName,mergeable,mergeStateStatus 2>/dev/null || echo "[]")
+          echo "Open PRs detected:"
+          echo "$prs" | jq -r '.[] | "  PR #\(.number) \(.headRefName) (\(.mergeable)/\(.mergeStateStatus))"'
+          echo "prs<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$prs" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Rebase each conflicting PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -uo pipefail
+          prs='${{ steps.list_prs.outputs.prs }}'
+          if [[ -z "$prs" || "$prs" == "[]" ]]; then
+            echo "No open PRs — nothing to rebase."
+            exit 0
+          fi
+
+          # Snapshot resolver to tempfile — after we checkout a PR branch
+          # the script may not exist there (older branches predate it).
+          RESOLVER_TMP=$(mktemp --suffix=.sh)
+          cp scripts/resolve-pr-conflicts.sh "$RESOLVER_TMP"
+          chmod +x "$RESOLVER_TMP"
+          trap 'rm -f "$RESOLVER_TMP"' EXIT
+
+          echo "$prs" | jq -r '.[] | "\(.number) \(.headRefName) \(.mergeable) \(.mergeStateStatus)"' | \
+          while read -r num branch mergeable state; do
+            echo ""
+            echo "::group::PR #$num ($branch) — $mergeable/$state"
+
+            if [[ "$mergeable" == "MERGEABLE" && "$state" == "CLEAN" ]]; then
+              echo "Already clean — skipping"
+              echo "::endgroup::"
+              continue
+            fi
+
+            if [[ "$mergeable" != "CONFLICTING" ]] && [[ "$state" != "DIRTY" ]] && [[ "$state" != "UNKNOWN" ]]; then
+              echo "State not rebasable — skipping"
+              echo "::endgroup::"
+              continue
+            fi
+
+            git fetch origin "$branch" 2>&1 | tail -3 || { echo "fetch failed"; echo "::endgroup::"; continue; }
+            git checkout "$branch" 2>&1 | tail -1 || { echo "checkout failed"; echo "::endgroup::"; continue; }
+
+            if bash "$RESOLVER_TMP" --branch "$branch"; then
+              echo "✅ Rebased + pushed"
+            else
+              rc=$?
+              if [[ "$rc" -eq 3 ]]; then
+                echo "⚠️ Manual review required (unexpected conflicts) — skipping"
+                git merge --abort 2>/dev/null || true
+              else
+                echo "❌ Failure (exit $rc)"
+                git merge --abort 2>/dev/null || true
+              fi
+            fi
+            # Return to main for next iteration.
+            git checkout main 2>/dev/null || true
+
+            echo "::endgroup::"
+          done
+
+      - name: Summary
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "## Auto-rebase summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| PR | Branch | State after rebase |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|----|--------|--------------------|" >> "$GITHUB_STEP_SUMMARY"
+          gh pr list --state open --json number,headRefName,mergeable,mergeStateStatus \
+            --jq '.[] | "| #\(.number) | \(.headRefName) | \(.mergeable)/\(.mergeStateStatus) |"' \
+            >> "$GITHUB_STEP_SUMMARY" || true
