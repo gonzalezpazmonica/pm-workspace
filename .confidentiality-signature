@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d39fd66b8560912e865c2ec538cce5caba8d541acb054f0725556f17801d4da1
-timestamp=2026-04-18T19:28:04Z
-branch=agent/se036-frontmatter-batch-20260418
-head_commit=08bc16c2
-signature=4ffe3c7f3e5b8ba872ee20b590a229dd533f699eb4def0c0edb6fb7942beded0
+diff_hash=285ef40b5afb5985ad1883c4f03be3d43fb7088f8824a1ba435f242f53de008c
+timestamp=2026-04-18T19:28:12Z
+branch=agent/signal-noise-analyzer-20260418
+head_commit=eb868de2
+signature=c550fe3bbcfcb1a6389d3519e51e48ecb27bbe44344625ff63aaa1cf89c98265

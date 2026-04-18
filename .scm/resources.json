@@ -1,6 +1,6 @@
 {
-  "hash": "5a7b1ca38577",
-  "total": 1014,
+  "hash": "4a85a29ce113",
+  "total": 1015,
   "resources": [
     {
       "category": "analysis",
@@ -2453,6 +2453,20 @@
     },
     {
       "category": "development",
+      "name": "pre-push-bats-critical",
+      "intents": [
+        "bats",
+        "critical",
+        "module",
+        "push",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/pre-push-bats-critical.sh",
+      "description": "pre-push-bats-critical.sh — SPEC-SE-012 Module 3."
+    },
+    {
+      "category": "development",
       "name": "prompt-suggestion-engine",
       "intents": [
         "driven",
@@ -2651,19 +2665,6 @@
       "kind": "cmd",
       "path": ".claude/commands/spec-explore.md",
       "description": "Explore and analyze specification documents"
-    },
-    {
-      "category": "development",
-      "name": "spec-frontmatter-migrate",
-      "intents": [
-        "frontmatter",
-        "migrate",
-        "slice",
-        "spec"
-      ],
-      "kind": "script",
-      "path": "scripts/spec-frontmatter-migrate.sh",
-      "description": "spec-frontmatter-migrate.sh — SE-036 Slice 1."
     },
     {
       "category": "development",
@@ -11006,6 +11007,20 @@
       "kind": "script",
       "path": "scripts/pr-plan-gates.sh",
       "description": "pr-plan-gates.sh — Gate functions for pr-plan.sh (sourced, not executed)"
+    },
+    {
+      "category": "quality",
+      "name": "pr-plan-queue-check",
+      "intents": [
+        "check",
+        "module",
+        "plan",
+        "queue",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/pr-plan-queue-check.sh",
+      "description": "pr-plan-queue-check.sh — SPEC-SE-012 Module 4."
     },
     {
       "category": "quality",

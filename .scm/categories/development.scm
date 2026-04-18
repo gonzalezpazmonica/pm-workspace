@@ -62,6 +62,7 @@
 - **pipeline-stage-runner** (script): pipeline-stage-runner.sh — Execute a single pipeline stage
 - **pipeline-status** (cmd): >
 - **pipeline-view** (cmd): ASCII table of all active pursuits with stage, value, and probability
+- **pre-push-bats-critical** (script): pre-push-bats-critical.sh — SPEC-SE-012 Module 3.
 - **prompt-suggestion-engine** (script): prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization
 - **reaction-engine** (script): reaction-engine.sh — SPEC-050 Phase 1: Reaction Engine
 - **requirement-pushback** (script): requirement-pushback.sh — Analyze a spec and generate pushback questions

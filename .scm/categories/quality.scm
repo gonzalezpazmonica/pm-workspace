@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 205 resources
+> 206 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -60,6 +60,7 @@
 - **pr-plan** (cmd): Pre-flight checklist: 11 gates (G0-G11) before push/PR. Prevents CI failures.
 - **pr-plan** (script): pr-plan.sh — 10-gate pre-flight + sign + push + PR
 - **pr-plan-gates** (script): pr-plan-gates.sh — Gate functions for pr-plan.sh (sourced, not executed)
+- **pr-plan-queue-check** (script): pr-plan-queue-check.sh — SPEC-SE-012 Module 4.
 - **pr-rebase** (script): pr-rebase.sh — Rebase current PR branch onto origin/main and re-sign.
 - **pr-review** (cmd): >
 - **prompt-security-scan** (script): prompt-security-scan.sh — Static analyzer for prompt injection/leakage
