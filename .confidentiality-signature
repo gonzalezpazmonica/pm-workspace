@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2536640f41ac4d8d81e688258ffb8e645a94aec341febd51593679a1ef951548
-timestamp=2026-04-18T15:30:45Z
-branch=agent/se-032-reranker-20260418
-head_commit=67ce6648
-signature=be85ec36d8983f8497a340b2f438924354afc0087aef73f31901c2b3a5acc0fc
+diff_hash=526ad0ffb5085d2788591f1034357e570242cc5af45de7f68402dcd49bd879f5
+timestamp=2026-04-18T15:52:05Z
+branch=agent/roadmap-unified-20260418
+head_commit=7bc0f003
+signature=4c0d01373e43a923136391e1878eadcc0e7b58fb0f38b22416c45da1c0851acf

@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.40.0] — 2026-04-18
+
+Roadmap unificado + SE-035 mutation testing skill. Era 234.
+
+### Added
+- **`docs/propuestas/ROADMAP-UNIFIED-20260418.md`**: roadmap único sobre el que Savia itera autónomamente. Consolida 27 PROPOSED + 7 research outputs + savia-enterprise gaps. Clasifica autonomy-viable (A/B/C/D waves) vs hardware-or-humans-required (diferido). Aplica Rule #8 + Spec Ops principles + gate de autonomía.
+- **`docs/propuestas/SE-035-mutation-testing-skill.md`**: skill `mutation-audit` invocable on-demand. StrykerJS + mutmut + bash wrapper. Feasibility Probe 1.5h blocking. Champion del research Gómez Corio 2026-04-18.
+
+### Motivacion
+Petición explícita de Mónica: "consolida roadmap, añade lo que falte de savia enterprise, genera roadmap unificado sobre el que puedas iterar hasta el final. Deja para el final los que requieran hardware o humanos". Ejecutado. Savia mobile voice pipeline + ZeroClaw + enterprise billing diferidos a Sección B (no bloquean iteración). PROPOSED — pendiente revisión humana.
+
 ## [5.39.0] — 2026-04-18
 
 SE-032/033/034 — 3 specs propuestos tras research convergente + 35 tests. Era 234.
@@ -7681,6 +7692,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.39.0...v5.40.0
 [5.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.38.0...v5.39.0
 [5.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.37.0...v5.38.0
 [5.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.27.0...v5.37.0
