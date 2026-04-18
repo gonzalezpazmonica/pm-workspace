@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.32.0] — 2026-04-18
+
+SE-031 slice 3 v2 — azdevops-queries.sh migrado a Query Library + 13 tests integracion. Era 234.
+
+### Changed
+- **`scripts/azdevops-queries.sh`**: las 2 WIQL inline (`get_sprint_items`, `get_board_status`) migradas a `query-lib-resolve.sh --id sprint-items-detailed|board-status-not-done` con encoding JSON seguro via `jq -n --arg q`. Elimina escape-hell de backslashes cuadruple en heredoc (`\\\\` → `\`). Comportamiento idéntico, WIQL canonica.
+
+### Added
+- **`tests/test-azdevops-queries-migration.bats`**: 13 tests — resolver snippets, ausencia de WIQL inline, referencias por ID, end-to-end resolver+jq produciendo JSON valido, edge cases de quoting (single + double quotes en params), syntax check, entrypoint preservado.
+
+### Notas
+Este PR cierra el pendiente slice 3 v2 mencionado en v5.30.0: migracion real del script con 13+ callers. Los snippets ya existian desde slice 3 v1 (v5.30.0); ahora las funciones que usaban WIQL inline leen del fichero canonico. Cualquier command que delegue a `get_sprint_items` o `get_board_status` hereda el cambio sin modificaciones adicionales.
+
 ## [5.31.0] — 2026-04-18
 
 SCM (Savia Capability Map) regeneration — Python rewrite + determinístico SessionStart hook. Era 234.
@@ -7580,6 +7593,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.31.0...v5.32.0
 [5.31.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.30.0...v5.31.0
 [5.30.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.29.0...v5.30.0
 [5.29.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.28.0...v5.29.0
