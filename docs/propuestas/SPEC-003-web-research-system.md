@@ -1,3 +1,12 @@
+---
+id: SPEC-003
+title: SPEC-003: Savia Web Research — Búsqueda web para resolver gaps de contexto
+status: Proposed
+origin_date: "2026-03-21"
+migrated_at: "2026-04-18"
+migrated_from: body-prose
+---
+
 # SPEC-003: Savia Web Research — Búsqueda web para resolver gaps de contexto
 
 > Status: **DRAFT** · Fecha: 2026-03-21

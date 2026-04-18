@@ -1,3 +1,12 @@
+---
+id: SPEC-013
+title: SPEC-013: Session Memory Extraction Hook
+status: Implemented
+origin_date: "2026-03-22"
+migrated_at: "2026-04-18"
+migrated_from: body-prose
+---
+
 # SPEC-013: Session Memory Extraction Hook
 
 > Status: **PHASE 1 DONE** · Fecha: 2026-03-22 · Phase 1 (rule-based): 2026-03-22
