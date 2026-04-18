@@ -19,6 +19,18 @@ SE-032/033/034 — 3 specs propuestos tras research convergente + 35 tests. Era 
 ### Motivacion
 Tres research reports autonomos (Spec Ops book, Hands-On LLM repo, Dify OSS) convergieron en la misma mejora: reranker en capa RAG. SE-032 es el champion. Rule #8: PROPOSED — implementacion solo tras revision humana.
 
+## [5.38.0] — 2026-04-18
+
+MCP overhead audit tool + doctrina + 23 tests. Era 234.
+
+### Added
+- **`scripts/mcp-audit.sh`**: auditoria de overhead MCP. Escanea configs globales y per-project. Estima tokens/turn via heuristica MindStudio. Flags: --budget N, --json, --quiet. Emite recomendaciones si supera presupuesto.
+- **`docs/rules/domain/mcp-overhead.md`**: doctrina — MCP tools se reenvian en cada mensaje. Patron canonico: mcp.json vacio + on-demand loading. Checklist 5 puntos.
+- **`tests/test-mcp-audit.bats`**: 23 tests.
+
+### Estado pm-workspace
+Auditoria ejecutada: 0 tokens/turn de MCPs user-configurados. Diseno on-demand actual ya es optimo.
+
 ## [5.37.0] — 2026-04-18
 Bounded concurrency audit + hardening + doctrina + 22 tests. Era 234.
 ### Added
@@ -7670,6 +7682,7 @@ Initial public release of PM-Workspace.
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
 [5.39.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.38.0...v5.39.0
+[5.38.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.37.0...v5.38.0
 [5.37.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.27.0...v5.37.0
 [5.36.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.35.0...v5.36.0
 [5.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.27.0...v5.35.0

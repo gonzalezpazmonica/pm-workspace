@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: dcbbd475d040 | resources: 1008
-> 530 commands · 77 skills · 65 agents · 336 scripts
+> hash: 60976b46f9ce | resources: 1009
+> 530 commands · 77 skills · 65 agents · 337 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -844,6 +844,7 @@
 [quality] legal-audit — auditoría,compliance,contra,española,legal — cmd:.claude/commands/legal-audit.md
 [quality] legal-compliance — auditoría,compliance,consolidada,contra,española — skill:.claude/skills/legal-compliance/SKILL.md
 [quality] markdownlint — dependency,markdownlint,native,wrapper — script:scripts/markdownlint.sh
+[quality] mcp-audit — across,audit,configs,overhead,server — script:scripts/mcp-audit.sh
 [quality] model-upgrade-audit — audit,components,debt,models,need — cmd:.claude/commands/model-upgrade-audit.md
 [quality] model-upgrade-audit — audit,available,compare,components,debt — skill:.claude/skills/model-upgrade-audit/SKILL.md
 [quality] model-upgrade-auditor — agents,audits,backed,eval,evidence — agent:.claude/agents/model-upgrade-auditor.md
