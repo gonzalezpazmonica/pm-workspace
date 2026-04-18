@@ -293,4 +293,10 @@ for cr_path in "$HOME/claude/scripts/context-rotation.sh" "./scripts/context-rot
   fi
 done
 
+# Ensure git merge drivers from .gitattributes are wired in local git config.
+# Idempotent and silent. Without this, merge=ours in .gitattributes is a no-op.
+if [[ -x "$CLAUDE_PROJECT_DIR/scripts/setup-merge-drivers.sh" ]]; then
+  bash "$CLAUDE_PROJECT_DIR/scripts/setup-merge-drivers.sh" >/dev/null 2>&1 || true
+fi
+
 printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$CTX"
