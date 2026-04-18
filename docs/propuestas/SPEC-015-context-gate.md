@@ -1,3 +1,12 @@
+---
+id: SPEC-015
+title: SPEC-015: Context Gate for Skill Auto-Activation
+status: Implemented
+origin_date: "2026-03-22"
+migrated_at: "2026-04-18"
+migrated_from: body-prose
+---
+
 # SPEC-015: Context Gate for Skill Auto-Activation
 
 > Status: **IMPLEMENTED** · Fecha: 2026-03-22 · Implementado: 2026-03-22

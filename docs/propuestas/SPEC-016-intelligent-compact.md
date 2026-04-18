@@ -1,3 +1,12 @@
+---
+id: SPEC-016
+title: SPEC-016: Intelligent Compact with Memory Extraction
+status: Implemented
+origin_date: "2026-03-22"
+migrated_at: "2026-04-18"
+migrated_from: body-prose
+---
+
 # SPEC-016: Intelligent Compact with Memory Extraction
 
 > Status: **PHASE 1 DONE** · Fecha: 2026-03-22 · Phase 1 implementada: 2026-03-22
