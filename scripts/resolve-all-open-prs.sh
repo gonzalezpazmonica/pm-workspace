@@ -49,6 +49,14 @@ fi
 original_branch=$(git rev-parse --abbrev-ref HEAD)
 git fetch origin --quiet
 
+# Snapshot the resolver script BEFORE any branch switching — otherwise
+# `scripts/resolve-pr-conflicts.sh` disappears when we checkout a peer
+# branch that doesn't contain it.
+RESOLVER_TMP=$(mktemp --suffix=.sh)
+cp "$REPO_ROOT/scripts/resolve-pr-conflicts.sh" "$RESOLVER_TMP"
+chmod +x "$RESOLVER_TMP"
+trap 'rm -f "$RESOLVER_TMP"' EXIT
+
 # Get every open PR's head branch + mergeable state.
 prs=$(gh pr list --state open --json number,headRefName,mergeable,mergeStateStatus 2>/dev/null)
 pr_count=$(echo "$prs" | jq 'length')
@@ -90,7 +98,7 @@ while read -r num branch mergeable state; do
   local_extra=""
   [[ "$NO_PUSH" -eq 1 ]] && local_extra="--no-push"
 
-  if bash "$REPO_ROOT/scripts/resolve-pr-conflicts.sh" --branch "$branch" $local_extra; then
+  if bash "$RESOLVER_TMP" --branch "$branch" $local_extra; then
     echo "  ✅ resolved"
   else
     rc=$?
