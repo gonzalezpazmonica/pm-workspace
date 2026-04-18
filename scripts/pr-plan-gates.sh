@@ -164,11 +164,11 @@ g5() {
 g5b() {
   [[ ! -x scripts/ci-extended-checks.sh ]] && { echo "WARN: ci-extended-checks.sh missing or not executable"; return; }
   local out; out=$(bash scripts/ci-extended-checks.sh 2>&1) || true
-  local fail_line; fail_line=$(echo "$out" | grep -oP 'Results: [0-9]+ passed, \K[0-9]+ failed' | head -1) || fail_line=""
-  if [[ -n "$fail_line" ]] && [[ "$fail_line" -gt 0 ]]; then
+  local fail_count; fail_count=$(echo "$out" | grep -oP '[0-9]+(?= failed)' | head -1) || fail_count=""
+  if [[ -n "$fail_count" ]] && [[ "$fail_count" =~ ^[0-9]+$ ]] && [[ "$fail_count" -gt 0 ]]; then
     local first_fail; first_fail=$(echo "$out" | grep '❌' | head -1 | sed 's/^[[:space:]]*❌[[:space:]]*//')
     FAILED_FILE="CHANGELOG.md"
-    echo "FAIL: $fail_line extended-checks failed (first: $first_fail)"
+    echo "FAIL: $fail_count extended-checks failed (first: $first_fail)"
     return
   fi
   echo "6 checks pass"
