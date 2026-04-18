@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.44.0] — 2026-04-18
+
+ROADMAP.md canonical — consolida 3 roadmaps previos + reprioriza con Tier 1-7. Era 234.
+
+### Added
+- **`docs/propuestas/ROADMAP.md`**: nuevo único roadmap canónico. Tier 1 (probes deuda read-only) + Tier 2 (champions research con probes blocking) + Tier 3 (seguridad gated) + Tier 4 (PROPOSED maduros) + Tier 5 (enterprise SE-XXX absorbidos) + Tier 6 (convergencias) + Tier 7 (backlog frío). Sección diferida por hardware/humans. DAG de dependencias explícito. Live status.
+
+### Changed
+- **`docs/propuestas/SAVIA-SUPERPOWERS-ROADMAP.md`**: status PROPOSED → SUPERSEDED (SPEC-120..124 merged en PRs #592–#594; redirect a ROADMAP.md).
+- **`docs/propuestas/ROADMAP-UNIFIED-20260418.md`**: status LIVING → SUPERSEDED (v1, absorbido en ROADMAP.md; mantener por auditoría).
+
+### Motivacion
+Mónica pidió "consolida roadmaps en uno único, reprioriza y continua desarrollo". 3 roadmaps dispersos (SAVIA-SUPERPOWERS 2026-04-17 + ROADMAP-UNIFIED v1 2026-04-18 + savia-enterprise/DEVELOPMENT-PLAN 2026-04-11) creaban confusión. Un solo ROADMAP.md como source of truth, 2 roadmaps marcados SUPERSEDED con redirect, savia-enterprise DAG absorbido en Tier 5. Reprioritización: Tier 1 son probes read-only que generan ground truth antes de remediation — evita specs zombies (Spec Ops Repetition principle).
+
 ## [5.43.0] — 2026-04-18
 
 Debt specs formalizadas (SE-036/037/038/039) — roadmap Wave 4 consolidado. Era 234.
@@ -7733,6 +7747,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.44.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.43.0...v5.44.0
 [5.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.42.0...v5.43.0
 [5.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.41.0...v5.42.0
 [5.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.40.0...v5.41.0

@@ -1,16 +1,20 @@
 ---
 id: ROADMAP-UNIFIED-20260418
-title: Roadmap Unificado — Savia autonomous iteration 2026-04-18
-status: LIVING
+title: Roadmap Unificado — Savia autonomous iteration 2026-04-18 (SUPERSEDED)
+status: SUPERSEDED
+superseded_by: ROADMAP.md
 author: Savia (autoselección + consolidación)
 origin: Consolidación post-research 2026-04-18 (coderlm + Bluesky + MindStudio + Spec Ops + Hands-On LLM + Dify + mutation testing) + auditoría specs pendientes + savia-enterprise gaps
-expires: "2026-06-18"   # 2 sprints — re-review si no se ejecuta
+expires: "2026-06-18"
 related: SAVIA-SUPERPOWERS-ROADMAP.md, savia-enterprise/DEVELOPMENT-PLAN.md
 ---
 
-# Roadmap Unificado — Savia Autonomous Iteration
+# Roadmap Unificado — Savia Autonomous Iteration (SUPERSEDED)
 
-> **Propósito**: un único documento sobre el que Savia itera autónomamente hasta el final de la capacidad actual. Clasifica TODO lo pendiente (PROPOSED, research-derived, savia-enterprise gaps) por **autonomy-viable** vs **requires-hardware-or-humans**. Lo segundo se difiere al final — no bloquea iteración.
+> **SUPERSEDED 2026-04-18 — Ver `docs/propuestas/ROADMAP.md` (fuente canónica).**
+> Este documento v1 se mantiene por auditoría. Sus waves A/B/C/D están absorbidas en el nuevo ROADMAP §Tier 1-7. Sección C (iteration strategy) es la base de ROADMAP §3.
+
+> **Propósito original**: un único documento sobre el que Savia itera autónomamente hasta el final de la capacidad actual. Clasifica TODO lo pendiente (PROPOSED, research-derived, savia-enterprise gaps) por **autonomy-viable** vs **requires-hardware-or-humans**. Lo segundo se difiere al final — no bloquea iteración.
 >
 > **Principios aplicados**:
 > - Spec Ops (McRaven): Simplicity, Repetition, Speed, Purpose, Theory of Relative Superiority
