@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=acb1606e1352f1a1a98c7968088ddf7fe1797455e7db95c724f5dabe39aaaa3d
-timestamp=2026-04-17T22:31:29Z
-branch=agent/autonomous-superpowers-20260417
-head_commit=e97af470
-signature=3ff4e0624c864cdb373b50e638bc4b8a5f003ac302e5d187b0527546e2157612
+diff_hash=d848b7b4b9f33f554d5974a7077d25dfe21e9810977099aa6dcda2fb890705c8
+timestamp=2026-04-18T06:38:07Z
+branch=fix/scm-regen-system
+head_commit=87f3c30
+signature=9d0bb78d18ff085eda4393e6c1fb1a70414f7ac400c5df434b834176e236614c
