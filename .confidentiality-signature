@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b482c967cb25da36ded0ba7504eda7336d7f310ffe9530182a15f4e290f40f93
-timestamp=2026-04-18T10:55:37Z
-branch=fix/scm-regen-system
-head_commit=cee45d92
-signature=eac2de55d4dd5389b5cfe5ea821e0d626885234a5f50040a437240f885418f23
+diff_hash=e3d87cc234e37c66daf7852a6907fbd81ac8708f11347f4e7c3d268947a643c4
+timestamp=2026-04-18T11:19:04Z
+branch=agent/azdevops-queries-migrate-20260418
+head_commit=19ca24a0
+signature=a7928e636a03c6a7a2e040d7cdaf8974876eac2fe28ad8608e3e273e11d12fa1
