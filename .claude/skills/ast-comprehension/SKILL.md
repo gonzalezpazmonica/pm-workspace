@@ -1,142 +1,119 @@
 ---
 name: ast-comprehension
-description: Comprensión estructural de código que no hemos escrito. Extrae mapa de clases/funciones, dependencias, call graph, complejidad y superficie API mediante AST multi-lenguaje. Pre-modifica contexto para agentes, legacy assessment y comprehension reports.
+description: Comprensión estructural de código que no hemos escrito. Queries tipadas (impl, callers, tests, grep-code, peek, symbols) en lugar de leer ficheros completos. Inspirado en el patrón RLM (Recursive Language Models, Zhang/Kraska/Khattab 2025). Pre-edición, legacy assessment, exploration.
 summary: |
-  Extractor AST de comprensión para 16 lenguajes. Pre-edición inyecta
-  estructura del fichero objetivo. Legacy: mapa completo de clases,
-  funciones, dependencias, complejidad y API surface. Output JSON unificado.
+  Query-oriented AST exploration para 16 lenguajes. Empieza en un entrypoint,
+  pide solo lo que necesitas. Reduce tokens 10-100x vs leer ficheros completos.
+  6 queries tipadas: symbol-search, impl, callers, tests, peek, grep-code.
   Complementa ast-quality-gate (valida output IA) vs comprensión (entiende código ajeno).
-maturity: experimental
+maturity: stable
 context: fork
 agent: code-reviewer
 category: "quality"
-tags: ["ast", "comprehension", "legacy", "structural-analysis", "pre-edit"]
+tags: ["ast", "comprehension", "legacy", "rlm", "structural-analysis", "pre-edit"]
 priority: "high"
 allowed-tools: [Bash, Read, Glob, Grep, Write]
 ---
 
-# AST Comprehension — Entender Código Que No Hemos Escrito
+# AST Comprehension — Query, no leas
 
-Extractor estructural multi-lenguaje que da a los agentes contexto sobre código
-ajeno antes de modificarlo. Diferente de `ast-quality-gate` (valida output IA):
-este skill **comprende código existente** para evitar modificaciones ciegas.
+Explorar código ajeno pidiendo **solo lo que necesitas**. El patrón RLM (Recursive Language Models — Zhang, Kraska, Khattab, MIT CSAIL 2025) trata el codebase como dato externo que el modelo examina recursivamente con queries tipadas, en vez de cargar ficheros enteros al contexto.
+
+**Regla**: antes de `Read` de un fichero completo, pregúntate si la respuesta cabe en una de las 6 queries tipadas abajo. Si cabe, úsala. Solo cae a `Read` para ficheros pequeños donde genuinamente necesitas la lectura completa.
 
 ## Cuándo usar
 
-- **Pre-edición**: antes de que un agente edite un fichero existente → contexto estructural
-- **Legacy assessment** (`/legacy-assess`): mapear codebase heredado antes de migrar
-- **Evaluate repo** (`/evaluate-repo`): entender estructura de un repo externo
-- **Comprehension report** (`/comprehension-report`): documentar arquitectura interna
-- **Code improvement loop**: saber qué se puede refactorizar y por qué
+- **Pre-edición**: antes de editar un fichero existente → pide solo el símbolo afectado + callers
+- **Legacy assessment** (`/legacy-assess`): explora desde entrypoints, sigue la cadena
+- **Evaluate repo** (`/evaluate-repo`): estructura + símbolos clave
+- **Comprehension report** (`/comprehension-report`): documentar arquitectura sin dump completo
+- **Debugging cross-file**: "¿quién llama a X con estos parámetros?"
 
-## Diferencia clave con ast-quality-gate
+## Diferencia con ast-quality-gate
 
 | Skill | Input | Pregunta | Output |
 |-------|-------|----------|--------|
 | `ast-quality-gate` | Código generado por IA | ¿Tiene errores? | Score + issues |
-| `ast-comprehension` | Código ajeno/legacy | ¿Qué hace y cómo? | Mapa estructural |
+| `ast-comprehension` | Código ajeno/legacy | ¿Qué hace y cómo? | Respuesta a query tipada |
 
-## 3 Capas de Extracción
+## Las 6 queries tipadas (RLM pattern)
 
-```
-Capa 1: Tree-sitter (universal, sin ejecución, todos los lenguajes)
-  → tree-sitter parse --output json <fichero>
-  → Estructural puro: nodos, funciones, clases
+Cada query responde una pregunta concreta con un recipe bash que Claude ejecuta directamente. No hay server, no hay daemon — solo instrucción disciplinada sobre grep/sed/tree-sitter. Tokens estimados por operación típica en un proyecto de 10k LoC.
 
-Capa 2: Herramienta nativa semántica por lenguaje
-  → Python: ast module  · Go: go doc + go list
-  → TypeScript: ts-morph · C#: Roslyn SyntaxWalker
-  → Enriquece con tipos, imports, relaciones
-
-Capa 3: Semgrep structural patterns
-  → Extrae call graphs y dependencias cruzadas
-  → Misma config que quality-gate, modo extracción
-```
-
-## Output: Comprehension Report JSON
-
-```json
-{
-  "meta": { "file": "...", "language": "...", "lines": 250 },
-  "structure": {
-    "classes": [{ "name": "...", "line": 10, "methods": [...] }],
-    "functions": [{ "name": "...", "line": 50, "complexity": 8 }],
-    "constants": [{ "name": "...", "line": 5 }]
-  },
-  "imports": { "internal": [...], "external": [...], "standard": [...] },
-  "complexity": {
-    "hotspots": [{ "name": "...", "complexity": 12, "line": 100 }]
-  },
-  "api_surface": { "public": [...], "private": [...] },
-  "summary": "Descripción en 1 párrafo de qué hace el fichero"
-}
-```
-
-Ver schema completo: `references/comprehension-schema.md`
-
-## Uso Manual
-
+### 1. `symbol-search <name>` — encontrar dónde está definido
+Pregunta: *¿Dónde se define `useAuthStore`?*
 ```bash
-# Fichero individual
-bash scripts/ast-comprehend.sh src/Services/AuthService.cs
-
-# Directorio completo
-bash scripts/ast-comprehend.sh src/
-
-# Solo estructura superficial (rápido)
-bash scripts/ast-comprehend.sh src/ --surface-only
-
-# Para legacy assessment (sin límite de complejidad)
-bash scripts/ast-comprehend.sh src/ --legacy-mode
-
-# Output a fichero específico
-bash scripts/ast-comprehend.sh src/ --output output/comprehension/report.json
+grep -rn "^\(export \)\?\(function\|const\|class\|def\) <name>" src/ --include="*.{ts,tsx,js,vue,py,go,rs}"
 ```
+Tokens: ~20. Evita listar cada mención del nombre.
 
-## Integración Pre-Edición (hook)
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [{
-      "matcher": "Edit",
-      "command": ".claude/hooks/ast-comprehend-hook.sh",
-      "async": false
-    }]
-  }
-}
+### 2. `impl <name> <file>` — leer la implementación exacta
+Pregunta: *¿Qué hace `scanDirectory` en `walker.ts`?*
+```bash
+# Con tree-sitter (preferido, si instalado):
+tree-sitter parse <file> | jq '.. | select(.type=="function_declaration" and .name=="<name>")'
+# Sin tree-sitter (fallback): encontrar línea de definición y extraer hasta el cierre de llaves
+awk '/^(export )?(function|const|class) <name>/,/^}/' <file>
 ```
+Tokens: ~50-200 según tamaño de la función. Siempre menor que leer el fichero (500-3000 LoC típico).
 
-El hook inyecta estructura del fichero destino en el contexto del agente
-**antes** de que edite. El agente sabe qué hay en el fichero sin leerlo entero.
+### 3. `callers <name>` — quién usa este símbolo
+Pregunta: *¿Qué componentes llaman a `useAuthStore`?*
+```bash
+grep -rn "<name>(" src/ --include="*.{ts,tsx,vue,js}" | grep -v "function <name>\|const <name>"
+```
+Tokens: ~3 por caller. En savia-web, `useAuthStore` tiene 56 sites → ~200 tokens vs ~15k si lees los 19 ficheros completos. **75x menos**.
 
-## Pipeline de Ejecución
+### 4. `tests <name>` — tests que referencian X
+Pregunta: *¿Hay cobertura de `useAuthStore`?*
+```bash
+grep -rn "<name>" "**/__tests__/" "**/*.test.*" "**/*.spec.*" "tests/" 2>/dev/null
+```
+Tokens: ~5 por test reference. Evita listar tests que solo rozan el término.
 
-### Paso 1: Detectar lenguaje y modo
-Extensión → lenguaje → herramienta nativa disponible.
-Si fichero no existe → modo vacío (no hay comprensión que hacer).
+### 5. `peek <file> <start> <end>` — rango exacto de líneas
+Pregunta: *¿Qué hay en `config.ts` líneas 40-65?*
+```bash
+sed -n '<start>,<end>p' <file>
+```
+Tokens: proporcional al rango. Úsalo cuando ya sabes dónde mirar.
 
-### Paso 2: Extracción superficial (siempre)
-Tree-sitter o grep-estructural para: clases, funciones, líneas clave.
-Sin ejecución de código. < 2 segundos.
+### 6. `grep-code <pattern>` — scope-aware (código, no comentarios)
+Pregunta: *¿Dónde se usa el flag `STRICT_MODE` en código real, no en comentarios?*
+```bash
+# Filtro heurístico: excluir líneas que empiezan con // # /* * (comentarios comunes)
+grep -rn "<pattern>" src/ | grep -vE '^\s*(//|#|/\*|\*)'
+```
+Tokens: típicamente 5-10x menos que grep plano en código con mucho comentario.
 
-### Paso 3: Extracción semántica (si herramienta disponible)
-Tipos, imports, call graph. 2-10 segundos según lenguaje.
+## Pipeline de exploración (RLM)
 
-### Paso 4: Calcular complejidad
-Número de ramas (if, for, while, &&, ||) por función.
-Identificar hotspots (complejidad > 10).
+1. **Entrypoint** — Empieza en algo concreto: error message, función, endpoint API, log line. Usa `symbol-search` o `grep-code` para localizarlo.
+2. **Impl** — Lee la implementación exacta con `impl`. No el fichero — la función.
+3. **Trace up** — `callers` para saber quién invoca. Lee esos impls. Repite.
+4. **Trace tests** — `tests` para ver cobertura. Los tests suelen contener el uso canónico.
+5. **Parar cuando tengas la narrativa**. No cuando hayas leído cada cosa relacionada.
 
-### Paso 5: Generar summary
-1 párrafo en lenguaje natural describiendo el propósito del fichero/directorio.
+## Anti-patterns
+
+- ❌ `Read` de un fichero entero para responder "¿qué hace función X?" → usa `impl`.
+- ❌ `grep` seguido de `Read` de cada match → usa `callers` (devuelve solo call sites).
+- ❌ Dump JSON monolítico para un fichero cuando la pregunta era sobre 1 símbolo → usa `impl`.
+- ❌ Leer test file completo para entender qué prueba un símbolo → usa `tests`.
+
+## Extracción monolítica (fallback para legacy assessment)
+
+Si la tarea es *inventariar* un codebase entero (no responder una pregunta), entonces sí corresponde el dump completo. Ver `references/extraction-commands.md` para el pipeline de 3 capas (tree-sitter + semgrep + native tooling) y `references/comprehension-schema.md` para el JSON schema.
 
 ## Prerrequisitos
 
-- `tree-sitter-cli` (opcional pero recomendado): `npm install -g tree-sitter-cli`
-- `jq` para normalización JSON
-- Herramienta nativa del lenguaje (ver `references/extraction-commands.md`)
+- `tree-sitter-cli` (opcional): `npm install -g tree-sitter-cli` — mejora `impl` y `grep-code`.
+- `jq` para normalización JSON de tree-sitter output.
+- `awk` / `sed` / `grep` (siempre disponibles) — fallback suficiente para las 6 queries.
 
-## Esquemas y referencias
+## Referencias
 
-- `references/comprehension-schema.md` — Schema JSON completo
-- `references/extraction-commands.md` — Comandos por lenguaje para extracción estructural
+- Paper RLM: *Recursive Language Models* — Zhang, Kraska, Khattab (arXiv:2512.24601).
+- Research interno: `output/research-coderlm-20260418.md` — evaluación de coderlm y decisión de robar patrón sin adoptar el binario.
+- `references/extraction-commands.md` — comandos por lenguaje.
+- `references/comprehension-schema.md` — JSON schema del modo monolítico.

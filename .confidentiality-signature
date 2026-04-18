@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=7eb068b3dba428bc3355704310ac84e81d1270602054cf99c379ff6c18707e48
-timestamp=2026-04-18T12:44:14Z
-branch=agent/scm-deterministic-20260418
-head_commit=0aad1d95
-signature=d73c5a2bc022853a823386adc586f0ef365d7e5dca01b4b9c5b20fc1cd53b539
+diff_hash=0bfc20a61e2b6598ba17cc3fcf9b8b5ddd24442daafe3f33d8e1017439a12919
+timestamp=2026-04-18T13:49:41Z
+branch=agent/rlm-pattern-adoption-20260418
+head_commit=b42a157d
+signature=64a60453e44103151c8de6eaaaafaa1fafc03771974235f1cdda8a2973ca32e7

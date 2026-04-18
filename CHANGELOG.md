@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.35.0] — 2026-04-18
+ast-comprehension refactor al patron RLM (queries tipadas) + 28 tests. Era 234.
+### Changed
+- **`.claude/skills/ast-comprehension/SKILL.md`** reescrito (142 a 119 lineas, bajo el cap de 150). Inspirado en el paper *Recursive Language Models* (Zhang, Kraska, Khattab — MIT CSAIL 2025, arXiv:2512.24601) y en el patron del repo coderlm investigado el 2026-04-18 (veredict ROBAR PATRON, ver `output/research-coderlm-20260418.md`).
+  - Antes: pipeline monolitico de 3 capas (tree-sitter + native + semgrep) que dumpeaba un JSON enorme de clases/funciones/complejidad por fichero.
+  - Ahora: 6 queries tipadas con recipes bash concretos — `symbol-search`, `impl`, `callers`, `tests`, `peek`, `grep-code`. Cada una responde una pregunta especifica. El dump monolitico queda como fallback explicito para legacy assessment (referenciado, no inline).
+  - Anti-patterns explicitos: Read de fichero entero para preguntas sobre 1 simbolo.
+  - Dato empirico citado: en savia-web (56 call sites de useAuthStore), approach current lee 2077 LoC = 15k tokens; query `callers` devuelve 200 tokens. Reduccion 75x.
+### Added
+- **`tests/test-ast-comprehension-rlm.bats`**: 28 tests — presencia de las 6 queries, recipes bash concretos (grep/sed/tree-sitter), filtros anti-falso-positivo (ej. callers filtra definiciones), referencias al research report y al paper RLM, anti-patterns, frontmatter YAML valido, boundaries de tamano.
+### Motivacion
+Reduccion de tokens 10-100x en exploracion de codigo ajeno. Inspirado en coderlm (MIT, Rust server + tree-sitter) pero sin adoptar el binario — solo el patron. Zero nueva infra, zero nueva dependencia. La mejora es puramente de *instrucciones al agente*.
+
 ## [5.34.0] — 2026-04-18
 
 SCM generator deterministico + resync con 208 a 1008 resources + 20 tests. Era 234.
@@ -7619,6 +7632,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.35.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.27.0...v5.35.0
 [5.34.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.33.0...v5.34.0
 [5.33.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.32.0...v5.33.0
 [5.32.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.31.0...v5.32.0
