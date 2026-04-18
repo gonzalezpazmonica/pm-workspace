@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 456 resources
+> 458 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -323,6 +323,8 @@
 - **repos-list** (cmd): >
 - **repos-pr-create** (cmd): >
 - **repos-pr-list** (cmd): >
+- **resolve-all-open-prs** (script): resolve-all-open-prs.sh — one-shot helper that runs resolve-pr-conflicts.sh
+- **resolve-pr-conflicts** (script): resolve-pr-conflicts.sh — auto-resolver for the recurring conflicts that
 - **resource-references** (skill): skill: resource-references
 - **retro-actions** (cmd): >
 - **rpi-start** (cmd): >
