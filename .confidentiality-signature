@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=dd0036d592ad6673ae5a547dee23c24bd82e6b996d05b66b051f0d3a559f232f
-timestamp=2026-04-18T14:12:46Z
-branch=agent/scm-freshness-gate-20260418
-head_commit=9429bbab
-signature=6c5d3e48b9a06bbe728ba1703452644b7b23effc4f140d9179262a3ce6be13c3
+diff_hash=c85db02b5531da5e6b3768d76eeb21cd658bcf92b7cb8617f801fed8409899a4
+timestamp=2026-04-18T14:28:09Z
+branch=agent/concurrency-audit-20260418
+head_commit=2f6bc25d
+signature=1c01d4983bebaf05241f03c1184ac9cba8f0b374bc1ad14fbfcfa1993e4628f5
