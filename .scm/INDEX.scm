@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: df89877c05d5 | resources: 1010
-> 530 commands · 77 skills · 65 agents · 338 scripts
+> hash: 364a2ab703bf | resources: 1013
+> 530 commands · 77 skills · 65 agents · 341 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -14,6 +14,7 @@
 [analysis] agent-memory — fragments,inspect,manage,memory,persistent — cmd:.claude/commands/agent-memory.md
 [analysis] agent-notes-archive —  — cmd:.claude/commands/agent-notes-archive.md
 [analysis] agent-run — agent,batch,claude,launch,pending — cmd:.claude/commands/agent-run.md
+[analysis] agent-size-audit — agent,audit,every,measure,probe — script:scripts/agent-size-audit.sh
 [analysis] agent-trace — agentes,dashboard,duración,ejecución,resultado — cmd:.claude/commands/agent-trace.md
 [analysis] ai-risk-assessment — agentes,categorías,evaluación,riesgo,según — cmd:.claude/commands/ai-risk-assessment.md
 [analysis] async-standup — asíncrona,compila,quiera,recogida,reporta — cmd:.claude/commands/async-standup.md
@@ -239,6 +240,7 @@
 [governance] /training-compliance —  — cmd:.claude/commands/training-compliance.md
 [governance] aepd-compliance — aepd,agéntica,auditoría,cumplimiento,fases — cmd:.claude/commands/aepd-compliance.md
 [governance] audit-alert — acceso,alertas,alto,anómalos,automáticas — cmd:.claude/commands/audit-alert.md
+[governance] audit-all-bats — audit,auditor,bats,over,probe — script:scripts/audit-all-bats.sh
 [governance] audit-export — audit,auditorías,compliant,exportar,externas — cmd:.claude/commands/audit-export.md
 [governance] audit-search — acción,audit,búsqueda,confianza,contextual — cmd:.claude/commands/audit-search.md
 [governance] audit-test-quality — audit,classifies,level,quality,scripts — script:scripts/audit-test-quality.sh
@@ -543,6 +545,7 @@
 [planning] health-dashboard — adaptada,dashboard,muestra,proyecto,rápida — cmd:.claude/commands/health-dashboard.md
 [planning] heat-scheduler — based,heat,lightweight,parallelism,scheduler — script:scripts/heat-scheduler.sh
 [planning] help — catálogo,comandos,pasos,pendientes,primeros — cmd:.claude/commands/help.md
+[planning] hook-bench-all — bench,hook,hooks,latency,measure — script:scripts/hook-bench-all.sh
 [planning] hook-latency-bench — bench,hook,latencia,latency,media — script:scripts/hook-latency-bench.sh
 [planning] hook-pii-gate — commit,gate,hook,quality — script:scripts/hook-pii-gate.sh
 [planning] hook-profile — active,change,hook,minimal,profile — cmd:.claude/commands/hook-profile.md

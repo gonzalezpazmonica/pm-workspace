@@ -1,6 +1,6 @@
 {
-  "hash": "af2c8649b247",
-  "total": 1010,
+  "hash": "847aefc3937a",
+  "total": 1013,
   "resources": [
     {
       "category": "analysis",
@@ -161,6 +161,20 @@
       "kind": "cmd",
       "path": ".claude/commands/agent-run.md",
       "description": "Launch a Claude agent on a Spec or batch of pending specs"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-size-audit",
+      "intents": [
+        "agent",
+        "audit",
+        "every",
+        "measure",
+        "probe"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-size-audit.sh",
+      "description": "agent-size-audit.sh — SE-038 Slice 1 probe: measure size of every agent."
     },
     {
       "category": "analysis",
@@ -3000,6 +3014,20 @@
       "kind": "cmd",
       "path": ".claude/commands/audit-alert.md",
       "description": "Alertas automáticas por patrones anómalos — horario inusual, comandos de riesgo, volumen alto, acceso sensible."
+    },
+    {
+      "category": "governance",
+      "name": "audit-all-bats",
+      "intents": [
+        "audit",
+        "auditor",
+        "bats",
+        "over",
+        "probe"
+      ],
+      "kind": "script",
+      "path": "scripts/audit-all-bats.sh",
+      "description": "audit-all-bats.sh — SE-039 Slice 1 probe: run test-auditor over all .bats."
     },
     {
       "category": "governance",
@@ -6865,6 +6893,20 @@
       "kind": "cmd",
       "path": ".claude/commands/help.md",
       "description": "Catálogo de comandos y primeros pasos pendientes."
+    },
+    {
+      "category": "planning",
+      "name": "hook-bench-all",
+      "intents": [
+        "bench",
+        "hook",
+        "hooks",
+        "latency",
+        "measure"
+      ],
+      "kind": "script",
+      "path": "scripts/hook-bench-all.sh",
+      "description": "hook-bench-all.sh — SE-037 Slice 1 probe: measure latency of all hooks."
     },
     {
       "category": "planning",

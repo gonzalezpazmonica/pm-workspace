@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 455 resources
+> 456 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -192,6 +192,7 @@
 - **health-dashboard** (cmd): Dashboard de salud del proyecto unificado — Savia muestra una vista rápida adaptada al rol
 - **heat-scheduler** (script): heat-scheduler.sh — Lightweight heat-based parallelism for dev sessions
 - **help** (cmd): Catálogo de comandos y primeros pasos pendientes.
+- **hook-bench-all** (script): hook-bench-all.sh — SE-037 Slice 1 probe: measure latency of all hooks.
 - **hook-latency-bench** (script): hook-latency-bench.sh — Mide la latencia media de cada hook registrado
 - **hook-pii-gate** (script): hook-pii-gate.sh — PII Quality Gate Pre-Commit Hook
 - **hook-profile** (cmd): View or change the active SAVIA_HOOK_PROFILE (minimal/standard/strict/ci)
