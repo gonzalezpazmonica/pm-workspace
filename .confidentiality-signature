@@ -2,5 +2,5 @@
 diff_hash=aadd7a06b0131bf347f2429d475601bf8b848dfdbb5290748b358be841a71b71
 timestamp=2026-04-18T21:17:41Z
 branch=agent/hook-latency-scope-guard-20260418
-head_commit=b5a249a2
+head_commit=cb13279b
 signature=72827cfd2dcc831e7cc1c65cc81a9cc9996a134188016384bd5216d8aeff5688
