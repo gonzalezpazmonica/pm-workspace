@@ -67,11 +67,17 @@ teardown() {
   [[ "$output" == *"fresh vs tracked sources"* ]]
 }
 
-@test "check #7 reports 7 passed checks when all green" {
+@test "check #7 reports all passed checks when all green (count adapts as checks are added)" {
   python3 scripts/generate-capability-map.py >/dev/null 2>&1
   run bash "$CHECK"
   [ "$status" -eq 0 ]
-  [[ "$output" == *"Results: 7 passed, 0 failed"* ]]
+  # Count adapts: 7 original + N new ratchet gates (SE-037/038/039 Slice 3 added checks #8/9/10).
+  # Invariant: when green, "passed" count equals "total" count and "failed" is 0.
+  [[ "$output" =~ Results:[[:space:]]+([0-9]+)[[:space:]]passed,[[:space:]]+0[[:space:]]failed[[:space:]]\(([0-9]+)[[:space:]]total ]]
+  local passed="${BASH_REMATCH[1]}"
+  local total="${BASH_REMATCH[2]}"
+  [[ "$passed" == "$total" ]]
+  [[ "$passed" -ge 7 ]]
 }
 
 # ── Negative cases: fails when stale ───────────────────────────────────────
