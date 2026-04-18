@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 364a2ab703bf | resources: 1013
-> 530 commands · 77 skills · 65 agents · 341 scripts
+> hash: 66b64ee1f8d4 | resources: 1014
+> 530 commands · 77 skills · 65 agents · 342 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -213,6 +213,7 @@
 [development] spec-design — datos,decisiones,diseño,estrategia,existente — cmd:.claude/commands/spec-design.md
 [development] spec-driven-development — agentes,claude,desarrolladores,ejecutables,humanos — skill:.claude/skills/spec-driven-development/SKILL.md
 [development] spec-explore — analyze,documents,explore,specification — cmd:.claude/commands/spec-explore.md
+[development] spec-frontmatter-migrate — frontmatter,migrate,slice,spec — script:scripts/spec-frontmatter-migrate.sh
 [development] spec-generate — azure,devops,ejecutable,implementación,lista — cmd:.claude/commands/spec-generate.md
 [development] spec-implement — agente,asigna,developer,humano,implementa — cmd:.claude/commands/spec-implement.md
 [development] spec-judge — acceptance,approved,code,court,criteria — agent:.claude/agents/spec-judge.md
