@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=5aec66cd6579d992bfb2816227e94e64f74c1cbcdb5ace2a2ebdd4829395ee1e
-timestamp=2026-04-18T16:52:08Z
+timestamp=2026-04-18T16:52:09Z
 branch=agent/spec-status-normalize-20260418
-head_commit=ca77fe1e
+head_commit=cec21069
 signature=26005d7dd1791f7e74b8c7f48644895a185c8a054255e62495d109c79d96e58f
