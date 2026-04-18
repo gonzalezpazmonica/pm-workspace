@@ -79,7 +79,7 @@ status: APPROVED
 ---
 content
 F
-  cd "$TMPDIR_FZ" && run bash "$SCRIPT" --path "docs/propuestas/SPEC-999-test.md"
+  run env REPO_ROOT="$TMPDIR_FZ" bash "$SCRIPT" --path "docs/propuestas/SPEC-999-test.md"
   [ "$status" -eq 1 ]
   echo "$output" | grep -qE "approved-spec"
 }
@@ -92,7 +92,7 @@ status: DONE
 ---
 content
 F
-  cd "$TMPDIR_FZ" && run bash "$SCRIPT" --path "docs/propuestas/SPEC-998-done.md"
+  run env REPO_ROOT="$TMPDIR_FZ" bash "$SCRIPT" --path "docs/propuestas/SPEC-998-done.md"
   [ "$status" -eq 1 ]
 }
 
@@ -112,7 +112,7 @@ status: PROPOSED
 ---
 content
 F
-  cd "$TMPDIR_FZ" && run bash "$SCRIPT" --path "docs/propuestas/SPEC-997-proposed.md"
+  run env REPO_ROOT="$TMPDIR_FZ" bash "$SCRIPT" --path "docs/propuestas/SPEC-997-proposed.md"
   [ "$status" -eq 0 ]
 }
 

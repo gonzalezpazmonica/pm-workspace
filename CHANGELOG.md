@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.27.0] — 2026-04-18
+
+Close SPEC-115/122/124 + SE-028 slice 1 — 4 specs cerrados. Era 234.
+
+### Added
+- **`docs/rules/domain/INDEX.md`**: SPEC-115 — auto-generated index de 157 rule files categorizados en 34 categorías. `scripts/rules-domain-index.sh --check` detecta staleness.
+- **`scripts/rules-domain-index.sh`**: generador determinista del INDEX.
+- **`docs/rules/domain/emergency-mode-protocol.md`**: SPEC-122 close — activation criteria, what's preserved/degraded, explicit "no safety relaxation" rule.
+- **`docs/rules/domain/slm-pipeline-protocol.md`**: SE-028 slice 1 — pipeline zero-egress SLM per-project (Unsloth training + oumi eval + Ollama deploy). YAML recipe template.
+- **`scripts/slm-synth.sh`**: SE-028 synth wrapper con graceful fallback si oumi no instalado + zero-egress guard (rechaza cloud deploy targets).
+- **`tests/test-context-frozen-check.bats`**: fix tests 11/12 — usar `REPO_ROOT` env override en lugar de `cd` (test isolation).
+- **`tests/test-slm-synth.bats`**: 21 tests (certified) para synth wrapper incluyendo zero-egress violation cases.
+
+### Changed
+- **`docs/rules/domain/pm-config.md`**: sección SPEC-124 Code Review Court — `COURT_INCLUDE_PR_AGENT`, `PR_AGENT_VERSION`, `PR_AGENT_MODEL`, `PR_AGENT_MAX_LINES`.
+- **`.claude/agents/court-orchestrator.md`**: sección "External Judges (SPEC-124)" — policy, aggregation, skip rules.
+- **`scripts/context-frozen-check.sh`**: añadido `REPO_ROOT` env override para testability.
+
 ## [5.26.0] — 2026-04-18
 
 SE-029/SE-030 P3 — 5 componentes adicionales (classifier, frozen, re-state, thresholds, ablation). Era 234.
@@ -7492,6 +7510,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.27.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.26.0...v5.27.0
 [5.26.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.25.0...v5.26.0
 [5.25.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.24.0...v5.25.0
 [5.24.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.22.0...v5.24.0

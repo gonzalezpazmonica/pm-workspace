@@ -25,7 +25,8 @@ set -uo pipefail
 PATH_TO_CHECK=""
 CLASS_TYPE=""
 JSON_OUT=false
-REPO_ROOT="$(cd "$(dirname "$0")/.." 2>/dev/null && pwd)" || REPO_ROOT="."
+# REPO_ROOT: env override takes precedence, else derive from script location
+REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$0")/.." 2>/dev/null && pwd)}" || REPO_ROOT="."
 
 usage() {
   sed -n '2,20p' "$0" | sed 's/^# \?//'
