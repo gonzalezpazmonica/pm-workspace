@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=1756bd3c462d3dabc3763aa57355369b871c5eaee11e58590481031c314f869e
-timestamp=2026-04-18T20:05:53Z
-branch=agent/pr-conflict-resolver-20260418
-head_commit=6816b8af
-signature=55592bbf0a50793ba75842e31b16fe388fe4f25d9ca2801a8a1e9f6dba45692f
+diff_hash=4c93a0ff50b3db63b13045fdc38af71fa83f91108a0123c548927cc2570f3b85
+timestamp=2026-04-18T20:54:07Z
+branch=agent/migrate-open-prs-to-fragments-20260418
+head_commit=b8684c9d
+signature=60db03542e87c959b1df83fecf79ac6c7ef41f525377ca02ff55dadb6295711a
