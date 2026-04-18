@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=972a8fffa7fb45b8fd178f9b896aa6062aa8681c74935cf3931027ca55c1ee8b
-timestamp=2026-04-18T12:06:30Z
+diff_hash=cd93e10815946a15be3ccf867bfc795bf28a8c18f7258b14fa282ef211cf97a5
+timestamp=2026-04-18T12:07:21Z
 branch=agent/pr-plan-extend-gates-20260418
-head_commit=5116e655
-signature=c124e3c68317680324aa8a0a49c9b719a2a3bd5d5f79379b17adaf8ded2652ed
+head_commit=98051838
+signature=1e5eeaea88cfbbbf2657211d8facc93114ed5caa5da9b7944676bc6a35b63e48
