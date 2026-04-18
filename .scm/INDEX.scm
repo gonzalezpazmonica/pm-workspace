@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: 80e11af46114 | resources: 1015
+> hash: 93b2669fc91b | resources: 1015
 > 530 commands · 77 skills · 65 agents · 343 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
@@ -198,6 +198,7 @@
 [development] pipeline-stage-runner — execute,pipeline,runner,single,stage — script:scripts/pipeline-stage-runner.sh
 [development] pipeline-status —  — cmd:.claude/commands/pipeline-status.md
 [development] pipeline-view — active,ascii,probability,pursuits,stage — cmd:.claude/commands/pipeline-view.md
+[development] pre-push-bats-critical — bats,critical,module,push,spec — script:scripts/pre-push-bats-critical.sh
 [development] prompt-suggestion-engine — driven,engine,optimization,phase,prompt — script:scripts/prompt-suggestion-engine.sh
 [development] reaction-engine — engine,phase,reaction,spec — script:scripts/reaction-engine.sh
 [development] requirement-pushback — analyze,generate,pushback,questions,requirement — script:scripts/requirement-pushback.sh
@@ -676,8 +677,6 @@
 [planning] repos-list —  — cmd:.claude/commands/repos-list.md
 [planning] repos-pr-create —  — cmd:.claude/commands/repos-pr-create.md
 [planning] repos-pr-list —  — cmd:.claude/commands/repos-pr-list.md
-[planning] resolve-all-open-prs — conflicts,helper,open,resolve,runs — script:scripts/resolve-all-open-prs.sh
-[planning] resolve-pr-conflicts — auto,conflicts,recurring,resolve,resolver — script:scripts/resolve-pr-conflicts.sh
 [planning] resource-references — references,resource,skill — skill:.claude/skills/resource-references/SKILL.md
 [planning] retro-actions —  — cmd:.claude/commands/retro-actions.md
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md
@@ -871,6 +870,7 @@
 [quality] pr-plan — before,checklist,failures,flight,gates — cmd:.claude/commands/pr-plan.md
 [quality] pr-plan — flight,gate,plan,push,sign — script:scripts/pr-plan.sh
 [quality] pr-plan-gates — executed,functions,gate,gates,plan — script:scripts/pr-plan-gates.sh
+[quality] pr-plan-queue-check — check,module,plan,queue,spec — script:scripts/pr-plan-queue-check.sh
 [quality] pr-rebase — branch,current,main,onto,origin — script:scripts/pr-rebase.sh
 [quality] pr-review —  — cmd:.claude/commands/pr-review.md
 [quality] prompt-security-scan — analyzer,injection,leakage,prompt,scan — script:scripts/prompt-security-scan.sh
