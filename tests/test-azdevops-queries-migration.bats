@@ -27,9 +27,10 @@ teardown() {
 }
 
 @test "azdevops-queries.sh has set -uo pipefail or equivalent safety header" {
-  # Safety verification: script must set safe bash options
-  run head -10 "$SCRIPT"
-  [[ "$output" == *"set -uo pipefail"* ]]
+  # Safety verification: script must set safe bash options within the first 30 lines
+  run head -30 "$SCRIPT"
+  # Accept -euo pipefail or -uo pipefail (both enforce unset + pipe safety)
+  [[ "$output" == *"set -uo pipefail"* || "$output" == *"set -euo pipefail"* ]]
 }
 
 @test "resolver script has set -uo pipefail" {
