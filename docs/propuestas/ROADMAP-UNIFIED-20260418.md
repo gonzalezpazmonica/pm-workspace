@@ -86,15 +86,19 @@ Los drafts de savia-enterprise con status Draft o NONE son candidatos. Criterio:
 
 **Acción: SPEC-SE-028 promover a P0 sprint actual** (prompt injection guard). Riesgo de seguridad concreto: cualquier fichero CLAUDE.md, AGENTS.md, o spec puede contener inyecciones. Feasibility probe: scanner determinista + test suite sobre 50 ficheros sintéticos adversariales.
 
-### Wave 4 — Limpieza técnica (deuda)
+### Wave 4 — Limpieza técnica (deuda formalizada como specs)
 
-| # | Item | Tipo | Justificación |
-|---|---|---|---|
-| D1 | Specs sin `status:` (76) | Mass review | Etiquetar DONE/DROPPED/ACTIVE en bulk con script `spec-status-normalize.sh` |
-| D2 | Test-auditor score <80 (barrido) | CI gate extension | `scripts/audit-all-bats.sh` ya debería existir; si no, crear |
-| D3 | Agent catalog >4KB limit | Per-agent audit | Rule #22 — archivos agent >4KB bloquean contexto |
-| D4 | Hook latency >30ms | Hook audit | Extender `hook-bench.sh` — target <20ms en arranque |
-| D5 | Skills sin tests BATS | Coverage audit | SPEC-081 cubre hooks; extender a skills |
+Cada item de deuda ahora tiene su spec dedicado para no perder contexto:
+
+| # | Item | Spec | Estado | Prioridad |
+|---|---|---|---|---|
+| D1 | Specs sin frontmatter YAML (111) | **SE-036** | PROPOSED | Alto — habilita tooling |
+| D2 | Test-auditor score <80 barrido | **SE-039** | PROPOSED | Medio — calidad test suite |
+| D3 | Agent catalog >4KB Rule #22 | **SE-038** | PROPOSED | Medio-bajo — probe primero |
+| D4 | Hook latency SLA 20ms | **SE-037** | PROPOSED | Medio-alto — UX hot path |
+| D5 | Skills sin tests BATS | absorbido por SE-037 | — | — |
+
+Tool ya creado en Wave 4: `scripts/spec-status-normalize.sh` (PR #607). Ejecutar `--audit` y `--suggest` para producir inputs de SE-036 Slice 2.
 
 ---
 

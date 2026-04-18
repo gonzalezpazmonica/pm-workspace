@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.43.0] — 2026-04-18
+
+Debt specs formalizadas (SE-036/037/038/039) — roadmap Wave 4 consolidado. Era 234.
+
+### Added
+- **`docs/propuestas/SE-036-specs-frontmatter-migration.md`**: migración de 111 specs sin YAML frontmatter. 4 slices: Implemented confirmados (30) + UNLABELED review humano (40) + Proposed vigente (41) + enforcement gate.
+- **`docs/propuestas/SE-037-hook-latency-audit.md`**: audit latencia 60 hooks bajo SLA 20ms p50 + BATS coverage 10 críticos. Absorbe SPEC-081. Incidents pasados (fork bomb 2026-04-18, 205ms hook PR #595) como evidencia.
+- **`docs/propuestas/SE-038-agent-size-audit.md`**: Rule #22 enforcement — 65 agentes <4KB. Measurement-first (probe) antes de remediation. Enforcement gate ci-extended-checks #10.
+- **`docs/propuestas/SE-039-test-auditor-global-sweep.md`**: barrido SPEC-055 auditor sobre 100+ .bats legacy. Complementa SE-035 mutation testing (ortogonal: forma vs eficacia).
+
+### Changed
+- **`docs/propuestas/ROADMAP-UNIFIED-20260418.md`**: Wave 4 table actualizada — cada deuda D1/D2/D3/D4 ahora tiene spec dedicado (SE-036/039/038/037). D5 absorbido por SE-037.
+
+### Motivacion
+Mónica pidió formalizar deuda antes de seguir iterando: "genera specs de deuda para que no se pierda de contexto". 4 specs creados. Sin ellos, los items D1-D5 del roadmap eran prosa que se pierde; ahora son entidades trackeables con Purpose/Objective/Slicing/AC/expires. Todos PROPOSED, Rule #8 intacto — pendientes revisión humana.
+
 ## [5.42.0] — 2026-04-18
 
 Spec status normalization tool + 26 tests. Era 234.
@@ -7717,6 +7733,7 @@ Initial public release of PM-Workspace.
 [2.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.89.0...v2.90.0
 [2.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.88.0...v2.89.0
 [2.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.87.0...v2.88.0
+[5.43.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.42.0...v5.43.0
 [5.42.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.41.0...v5.42.0
 [5.41.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.40.0...v5.41.0
 [5.40.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.39.0...v5.40.0
