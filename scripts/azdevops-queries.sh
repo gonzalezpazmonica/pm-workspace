@@ -74,13 +74,14 @@ get_sprint_items() {
   configure_az "$project"
 
   log "Obteniendo work items del sprint actual..."
-  local wiql
-  wiql=$(cat <<EOF
-{
-  "query": "SELECT [System.Id],[System.Title],[System.State],[System.AssignedTo],[System.WorkItemType],[Microsoft.VSTS.Scheduling.CompletedWork],[Microsoft.VSTS.Scheduling.RemainingWork],[Microsoft.VSTS.Scheduling.StoryPoints],[Microsoft.VSTS.Common.Activity] FROM WorkItems WHERE [System.IterationPath] UNDER @CurrentIteration('[${project}\\\\${team}]') AND [System.TeamProject] = '${project}' ORDER BY [System.AssignedTo] ASC"
-}
-EOF
-)
+  # SE-031 slice 3 v2: WIQL vive en .claude/queries/azure-devops/sprint-items-detailed.wiql
+  # jq encodea el string en JSON de forma segura (evita escape-hell con backslashes).
+  local raw_query wiql
+  raw_query=$(bash "$(dirname "${BASH_SOURCE[0]}")/query-lib-resolve.sh" \
+    --id sprint-items-detailed \
+    --param project="$project" \
+    --param team="$team")
+  wiql=$(jq -n --arg q "$raw_query" '{query: $q}')
 
   # Obtener IDs
   local ids
@@ -177,14 +178,13 @@ get_board_status() {
   configure_az "$project"
 
   log "Obteniendo estado del board..."
-  # Obtener items activos con estado
-  local wiql
-  wiql=$(cat <<EOF
-{
-  "query": "SELECT [System.Id],[System.Title],[System.State],[System.AssignedTo],[System.ChangedDate] FROM WorkItems WHERE [System.IterationPath] UNDER @CurrentIteration('[${project}\\\\${team}]') AND [System.State] NOT IN ('Done','Closed','Removed') AND [System.WorkItemType] NOT IN ('Epic','Feature') ORDER BY [System.State] ASC"
-}
-EOF
-)
+  # SE-031 slice 3 v2: WIQL vive en .claude/queries/azure-devops/board-status-not-done.wiql
+  local raw_query wiql
+  raw_query=$(bash "$(dirname "${BASH_SOURCE[0]}")/query-lib-resolve.sh" \
+    --id board-status-not-done \
+    --param project="$project" \
+    --param team="$team")
+  wiql=$(jq -n --arg q "$raw_query" '{query: $q}')
 
   local ids
   ids=$(curl -s -X POST \
