@@ -40,8 +40,9 @@ jobs:
 
       - name: Configure git identity
         run: |
-          git config user.name "auto-rebase-bot"
-          git config user.email "auto-rebase@users.noreply.github.com"
+          # Use GitHub Actions bot identity (matches actions/checkout default semantics).
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Configure merge drivers (ours = keep branch version)
         run: |
