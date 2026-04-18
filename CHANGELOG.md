@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.29.0] — 2026-04-18
+
+SE-031 Query Library slice 2 — NL-to-query heuristico deterministico + 23 tests. Era 234.
+
+### Added
+- **`scripts/query-lib-nl.sh`**: NL → query ID con pipeline normalizacion + alias expansion ES/EN + F1/Dice scoring + shingle boost + disambiguacion. Exit codes 0 (match), 1 (fallback), 2 (ambiguo), 3 (error). Flags: `--lang`, `--json`, `--min-score`, `--topk`.
+- **`tests/test-query-lib-nl.bats`**: 23 tests — estructura, validacion input, matching (ES/EN/savia-flow), fallback schema prompt, lang filter, JSON output, threshold tuning, ambiguedad, pipe e2e con resolver.
+- **Docs**: seccion "NL-to-query (slice 2)" en `docs/rules/domain/query-library-protocol.md` con algoritmo documentado (6 pasos).
+
 ## [5.28.0] — 2026-04-18
 
 SE-031 Query Library slice 1 — snippets canonicos + resolver + INDEX generator + 31 tests. Era 234.

@@ -74,6 +74,36 @@ bash scripts/query-lib-resolve.sh --list [--lang wiql|jql|savia-flow] [--json]
 
 Exit codes: `0` OK, `1` query no encontrada, `2` error de input.
 
+## NL-to-query (slice 2)
+
+```
+# Natural language → query ID (stdout)
+bash scripts/query-lib-nl.sh "PBIs bloqueados mas de 3 dias"
+# → blocked-pbis-over-3d
+
+# JSON verbose (score, path, resolved_by hint)
+bash scripts/query-lib-nl.sh --json "velocity ultimos 3 sprints"
+
+# Filtrar por lang y ajustar umbral
+bash scripts/query-lib-nl.sh --lang jql --min-score 0.25 "mis issues abiertos"
+
+# Pipe end-to-end NL → WIQL body
+ID=$(bash scripts/query-lib-nl.sh "PBIs bloqueados mas de 3 dias")
+bash scripts/query-lib-resolve.sh --id "$ID" --param sprint="$SPRINT_ACTUAL"
+```
+
+Algoritmo:
+1. **Normalizacion**: lowercase + strip accents + drop puntuacion.
+2. **Alias expansion**: mapa bilingue ES/EN (blocked↔bloqueado, sprint↔iteracion, pbi↔backlog↔item, velocity↔velocidad, days↔dias, open↔abierto↔activo, ...).
+3. **F1 / Dice coefficient**: `2·|NL ∩ haystack| / (|NL| + |haystack|)` sobre descripcion + tags + id kebab tokens. Mas robusto que Jaccard frente a haystacks desbalanceadas.
+4. **Shingle boost**: +0.1 si un 2-gram de la NL aparece literal en la descripcion (hasta 1.0).
+5. **Winner rule**: match unico si 1 candidato pasa el umbral o el top supera al segundo por ≥0.15. Si no: exit 2 con lista de disambiguacion.
+6. **Fallback**: exit 1 + schema prompt con campos WIQL de referencia.
+
+Exit codes: `0` match unico, `1` sin match (prompt emitido), `2` ambiguo, `3` error de input.
+
+Umbral por defecto `--min-score 0.30`. Bajalo a `0.20` para recall mayor en NL cortos (2 tokens).
+
 ## Index generator
 
 ```
