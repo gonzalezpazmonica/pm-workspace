@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=7c9a483e0912ba80c4d6f0b5665fb3cba88d9175cbe38bd664fb8a296c416628
-timestamp=2026-04-18T18:56:52Z
-branch=agent/tier1-enforcement-20260418
-head_commit=06e6aab6
-signature=72a5f853eb6c892c0ba597aff701c3de9733ad0fbd7294ec0564ebf376a36972
+diff_hash=46cbd89e7a3c408ea6c7c884d59dcc62af791d4cfd26ea886bce1c28e07da69c
+timestamp=2026-04-18T19:27:41Z
+branch=agent/pr-conflict-resolver-20260418
+head_commit=1762134d
+signature=6513d5e2276530690f025a77987ea117c470267231cbe33ddd23e93e45555db0
