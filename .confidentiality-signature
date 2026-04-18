@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=aadd7a06b0131bf347f2429d475601bf8b848dfdbb5290748b358be841a71b71
-timestamp=2026-04-18T21:17:41Z
+diff_hash=a1403aa86b2aae23c2e6ab735b2011cb74d4d76c41b1de91d12f698b155327e6
+timestamp=2026-04-18T21:23:08Z
 branch=agent/hook-latency-scope-guard-20260418
-head_commit=cb13279b
-signature=72827cfd2dcc831e7cc1c65cc81a9cc9996a134188016384bd5216d8aeff5688
+head_commit=8a8fa554
+signature=51ba2e956e45f6239795a98ccfb4e9f298a3542dbf6c6304967f990fb12a97be
