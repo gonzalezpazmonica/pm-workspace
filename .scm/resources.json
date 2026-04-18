@@ -1,6 +1,6 @@
 {
-  "hash": "7c98036c0787",
-  "total": 1008,
+  "hash": "6bcabd778359",
+  "total": 1009,
   "resources": [
     {
       "category": "analysis",
@@ -10658,6 +10658,20 @@
       "kind": "script",
       "path": "scripts/markdownlint.sh",
       "description": "Native markdownlint wrapper — no npm dependency."
+    },
+    {
+      "category": "quality",
+      "name": "mcp-audit",
+      "intents": [
+        "across",
+        "audit",
+        "configs",
+        "overhead",
+        "server"
+      ],
+      "kind": "script",
+      "path": "scripts/mcp-audit.sh",
+      "description": "mcp-audit.sh — audit MCP server token overhead across configs"
     },
     {
       "category": "quality",
