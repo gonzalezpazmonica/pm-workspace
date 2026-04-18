@@ -1,6 +1,6 @@
 {
-  "hash": "847aefc3937a",
-  "total": 1013,
+  "hash": "4a85a29ce113",
+  "total": 1015,
   "resources": [
     {
       "category": "analysis",
@@ -2450,6 +2450,20 @@
       "kind": "cmd",
       "path": ".claude/commands/pipeline-view.md",
       "description": "ASCII table of all active pursuits with stage, value, and probability"
+    },
+    {
+      "category": "development",
+      "name": "pre-push-bats-critical",
+      "intents": [
+        "bats",
+        "critical",
+        "module",
+        "push",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/pre-push-bats-critical.sh",
+      "description": "pre-push-bats-critical.sh — SPEC-SE-012 Module 3."
     },
     {
       "category": "development",
@@ -10993,6 +11007,20 @@
       "kind": "script",
       "path": "scripts/pr-plan-gates.sh",
       "description": "pr-plan-gates.sh — Gate functions for pr-plan.sh (sourced, not executed)"
+    },
+    {
+      "category": "quality",
+      "name": "pr-plan-queue-check",
+      "intents": [
+        "check",
+        "module",
+        "plan",
+        "queue",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/pr-plan-queue-check.sh",
+      "description": "pr-plan-queue-check.sh — SPEC-SE-012 Module 4."
     },
     {
       "category": "quality",

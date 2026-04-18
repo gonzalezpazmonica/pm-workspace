@@ -18,6 +18,17 @@ SE-040 agent degradation canary spec — research Anthropic issue #42796. Era 23
 
 ### Motivacion
 Research del issue anthropics/claude-code#42796: degradación documentada Claude Code desde Feb 2026 sin cambios en código del usuario — Read:Edit cayó 6.6→2.0, stop-hook violations 0→173, coste API/día ×57. Con 65 agentes concurrentes, una regresión pequeña del modelo base se amplifica en cascada. Canary adelanta detección a horas vs semanas. PROPOSED — pendiente revisión humana.
+## [5.48.0] — 2026-04-18
+
+SPEC-SE-012 Módulos 3 + 4 — signal/noise reduction tooling. 31 tests. Era 234.
+
+### Added
+- **`scripts/pr-plan-queue-check.sh`** (Módulo 4): detecta colisiones de versión CHANGELOG entre PRs abiertos antes del push. Fetcha cada PR via `gh api contents/CHANGELOG.md?ref=branch`, extrae top version, compara con local. Si colisión, sugiere next-free. Graceful skip vía `PR_PLAN_SKIP_QUEUE_CHECK=1` o ausencia de `gh`/`jq`/red. Bounded timeouts 8-10s.
+- **`scripts/pre-push-bats-critical.sh`** (Módulo 3): runner selectivo de BATS. Mapea files cambiados (hooks/scripts/skills/agents) a sus `.bats` relacionados vía convención de nombres. Ejecuta solo los relevantes en vez de las 136 suites completas.
+- **`tests/test-signal-noise-scripts.bats`**: 31 tests consolidados (2 scripts). Safety, CLI, graceful degradation, mapping, read-only invariant, negative + edge cases. Auditor score 88.
+
+### Motivacion
+SPEC-SE-012 lleva merged desde 2026-03 pero Módulos 3 + 4 quedaron pendientes. Módulo 4 ataca el problema concreto reobservado esta sesión: versiones CHANGELOG 5.42/5.43/5.44 colisionaron entre PRs #607/#608/#609 requiriendo merge-resolve manual. Módulo 3 acelera iteración local (solo corre los bats afectados, no 136). Ambos opt-in — no bloquean flujo si red falla.
 ## [5.46.0] — 2026-04-18
 
 Ratchet enforcement gates — SE-037/038/039 Slice 3. 30 tests. Era 234.
@@ -7561,6 +7572,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [5.49.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.48.0...v5.49.0
+[5.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.47.0...v5.48.0
 [2.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.79.0...v2.80.0
 [2.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.78.0...v2.79.0
 [2.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.77.0...v2.78.0

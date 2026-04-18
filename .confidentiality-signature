@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=74f80dc064c9addf09cce499c761c9f2e59c935c322b00327282bc728f4a77a2
-timestamp=2026-04-18T19:28:35Z
-branch=agent/se040-degradation-canary-20260418
-head_commit=cda8b8b2
-signature=ac38db86b4870348c4af0bd27b5376a46775e3f4017fba4bec61adbafaff4eee
+diff_hash=285ef40b5afb5985ad1883c4f03be3d43fb7088f8824a1ba435f242f53de008c
+timestamp=2026-04-18T19:28:12Z
+branch=agent/signal-noise-analyzer-20260418
+head_commit=eb868de2
+signature=c550fe3bbcfcb1a6389d3519e51e48ecb27bbe44344625ff63aaa1cf89c98265
