@@ -1,5 +1,5 @@
 {
-  "hash": "9140c29fdb94",
+  "hash": "7c98036c0787",
   "total": 1008,
   "resources": [
     {
@@ -3338,20 +3338,6 @@
       "kind": "cmd",
       "path": ".claude/commands/vertical-legal.md",
       "description": "Extensión compliance para legal — GDPR, eDiscovery, contract lifecycle"
-    },
-    {
-      "category": "memory",
-      "name": "ast-comprehension",
-      "intents": [
-        "agentes",
-        "assessment",
-        "call",
-        "clases",
-        "complejidad"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/ast-comprehension/SKILL.md",
-      "description": "Comprensión estructural de código que no hemos escrito. Extrae mapa de clases/funciones, dependencias, call graph, complejidad y superficie API mediante AST multi-lenguaje. Pre-modifica contexto para agentes, legacy assessment y comprehensi"
     },
     {
       "category": "memory",
@@ -10277,6 +10263,20 @@
       "kind": "agent",
       "path": ".claude/agents/architecture-judge.md",
       "description": "Code Review Court judge — boundaries, coupling, layer violations, patterns"
+    },
+    {
+      "category": "quality",
+      "name": "ast-comprehension",
+      "intents": [
+        "callers",
+        "code",
+        "completos",
+        "comprensión",
+        "código"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/ast-comprehension/SKILL.md",
+      "description": "Comprensión estructural de código que no hemos escrito. Queries tipadas (impl, callers, tests, grep-code, peek, symbols) en lugar de leer ficheros completos. Inspirado en el patrón RLM (Recursive Language Models, Zhang/Kraska/Khattab 2025)."
     },
     {
       "category": "quality",

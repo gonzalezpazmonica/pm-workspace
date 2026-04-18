@@ -1,7 +1,6 @@
 # memory — Savia Capability Map (L1)
-> 87 resources
+> 86 resources
 
-- **ast-comprehension** (skill): Comprensión estructural de código que no hemos escrito. Extrae mapa de clases/funciones, dependencias, call graph, complejidad y superficie API mediante AST multi-lenguaje. Pre-modifica contexto para agentes, legacy assessment y comprehensi
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
