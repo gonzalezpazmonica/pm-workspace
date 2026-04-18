@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5aec66cd6579d992bfb2816227e94e64f74c1cbcdb5ace2a2ebdd4829395ee1e
-timestamp=2026-04-18T16:52:09Z
-branch=agent/spec-status-normalize-20260418
-head_commit=cec21069
-signature=26005d7dd1791f7e74b8c7f48644895a185c8a054255e62495d109c79d96e58f
+diff_hash=92db48229fd01fbdb0b2405eccea100aadd9aeb5d5f5902865c50d21bda658be
+timestamp=2026-04-18T17:04:15Z
+branch=agent/debt-specs-20260418
+head_commit=4c89c25a
+signature=df3f63ee9fa0033d39179c6c8edf6e7ef6f2bcc6be2f56ab56f2255592dd71b3
