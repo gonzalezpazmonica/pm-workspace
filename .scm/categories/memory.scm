@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 86 resources
+> 87 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -8,6 +8,7 @@
 - **cache-optimize** (cmd): Optimize caching strategy for performance and efficiency
 - **cache-strategy** (cmd): Configurar estrategia de caché por capas con TTL y reglas de invalidación
 - **cache-warm** (cmd): Pre-calentar caché con contexto probable basado en hora y rol
+- **changelog-consolidate** (script): changelog-consolidate.sh — consolidate CHANGELOG.d/*.md fragments into
 - **company-show** (cmd): Mostrar perfil consolidado de la empresa — resumen ejecutivo del contexto organizacional
 - **context-age** (cmd): Envejecimiento semántico del decision-log — comprime y archiva decisiones antiguas
 - **context-aging** (script): ── context-aging.sh ───────────────────────────────────────────────────────

@@ -22,6 +22,17 @@ SE-036 Slice 1 — frontmatter migration tooling + primer batch 15 specs. Era 23
 
 ### Motivacion
 ROADMAP Tier 1.4. Automation mecánica en vez de 30 edits manuales — cero judgment humano sustituido: si body dice DRAFT, frontmatter dice Proposed. Habilita grep/jq-tooling sobre 15+ specs previamente invisibles.
+## [5.51.0] — 2026-04-18
+
+Auto-resolver de conflictos CHANGELOG+signature en PRs concurrentes. 37 tests. Era 234.
+
+### Added
+- **`scripts/resolve-pr-conflicts.sh`**: auto-resolver para conflictos predecibles al mergear PRs concurrentes. Estrategia: `git merge origin/main --no-edit`, si solo hay conflictos en `CHANGELOG.md` + `.confidentiality-signature` + `.scm/*`, los resuelve automáticamente (CHANGELOG: semver-ordered union con dedupe de link lines; signature: take-theirs + re-sign; .scm: take-theirs + regen). Si hay conflicto en OTRO fichero, exit 3 + aborta merge (humano revisa).
+- **`scripts/resolve-all-open-prs.sh`**: orquestador que itera cada PR abierto vía `gh pr list`, detecta CONFLICTING/DIRTY y aplica el resolver. Preserva branch original. Flags `--dry-run` + `--no-push`.
+- **`tests/test-resolve-pr-conflicts.bats`**: 37 tests — safety, CLI, conflict handling, regression guards (no force-push, no --amend), edge cases. Auditor score 83.
+
+### Motivacion
+Patrón observado empíricamente en esta sesión: cada merge de PR provocaba conflictos CHANGELOG+signature en todos los PRs abiertos (hasta 4 simultáneos). Resolución manual costó ~5 min cada vez × 4 PRs × 3 oleadas = 60 min de fricción innecesaria. Este tooling elimina el coste: tras cada merge, `bash scripts/resolve-all-open-prs.sh` deja todos los PRs limpios automáticamente. Único caso en que requiere humano: conflicto REAL en código (diferente archivo).
 ## [5.48.0] — 2026-04-18
 
 SPEC-SE-012 Módulos 3 + 4 — signal/noise reduction tooling. 31 tests. Era 234.
@@ -7576,6 +7587,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [5.47.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.46.0...v5.47.0
+[5.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.50.0...v5.51.0
 [5.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.47.0...v5.48.0
 [2.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.79.0...v2.80.0
 [2.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.78.0...v2.79.0

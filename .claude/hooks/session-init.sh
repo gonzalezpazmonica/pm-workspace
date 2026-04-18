@@ -293,4 +293,12 @@ for cr_path in "$HOME/claude/scripts/context-rotation.sh" "./scripts/context-rot
   fi
 done
 
+# Ensure git merge drivers from .gitattributes are wired in local git config.
+# Idempotent and silent. Without this, merge=ours in .gitattributes is a no-op.
+# Gracefully handles unset CLAUDE_PROJECT_DIR (e.g. when hook is tested in isolation).
+_setup_md_dir="${CLAUDE_PROJECT_DIR:-${PWD:-.}}"
+if [[ -x "$_setup_md_dir/scripts/setup-merge-drivers.sh" ]]; then
+  bash "$_setup_md_dir/scripts/setup-merge-drivers.sh" >/dev/null 2>&1 || true
+fi
+
 printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$CTX"

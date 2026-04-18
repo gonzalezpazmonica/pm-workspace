@@ -1,6 +1,6 @@
 {
-  "hash": "212d93595416",
-  "total": 1016,
+  "hash": "62300140050e",
+  "total": 1020,
   "resources": [
     {
       "category": "analysis",
@@ -2668,19 +2668,6 @@
     },
     {
       "category": "development",
-      "name": "spec-frontmatter-migrate",
-      "intents": [
-        "frontmatter",
-        "migrate",
-        "slice",
-        "spec"
-      ],
-      "kind": "script",
-      "path": "scripts/spec-frontmatter-migrate.sh",
-      "description": "spec-frontmatter-migrate.sh — SE-036 Slice 1."
-    },
-    {
-      "category": "development",
       "name": "spec-generate",
       "intents": [
         "azure",
@@ -3499,6 +3486,18 @@
       "kind": "cmd",
       "path": ".claude/commands/cache-warm.md",
       "description": "Pre-calentar caché con contexto probable basado en hora y rol"
+    },
+    {
+      "category": "memory",
+      "name": "changelog-consolidate",
+      "intents": [
+        "changelog",
+        "consolidate",
+        "fragments"
+      ],
+      "kind": "script",
+      "path": "scripts/changelog-consolidate.sh",
+      "description": "changelog-consolidate.sh — consolidate CHANGELOG.d/*.md fragments into"
     },
     {
       "category": "memory",
@@ -5428,6 +5427,19 @@
       "kind": "script",
       "path": "scripts/changelog-assemble.sh",
       "description": "changelog-assemble.sh — Assemble CHANGELOG.md from CHANGELOG.d/ fragments"
+    },
+    {
+      "category": "planning",
+      "name": "changelog-fragment",
+      "intents": [
+        "changelog",
+        "create",
+        "current",
+        "fragment"
+      ],
+      "kind": "script",
+      "path": "scripts/changelog-fragment.sh",
+      "description": "changelog-fragment.sh — create a CHANGELOG fragment for the current PR"
     },
     {
       "category": "planning",
@@ -8529,6 +8541,34 @@
     },
     {
       "category": "planning",
+      "name": "resolve-all-open-prs",
+      "intents": [
+        "conflicts",
+        "helper",
+        "open",
+        "resolve",
+        "runs"
+      ],
+      "kind": "script",
+      "path": "scripts/resolve-all-open-prs.sh",
+      "description": "resolve-all-open-prs.sh — one-shot helper that runs resolve-pr-conflicts.sh"
+    },
+    {
+      "category": "planning",
+      "name": "resolve-pr-conflicts",
+      "intents": [
+        "auto",
+        "conflicts",
+        "recurring",
+        "resolve",
+        "resolver"
+      ],
+      "kind": "script",
+      "path": "scripts/resolve-pr-conflicts.sh",
+      "description": "resolve-pr-conflicts.sh — auto-resolver for the recurring conflicts that"
+    },
+    {
+      "category": "planning",
       "name": "resource-references",
       "intents": [
         "references",
@@ -8908,6 +8948,20 @@
       "kind": "script",
       "path": "scripts/setup-claude-permissions.sh",
       "description": "setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados"
+    },
+    {
+      "category": "planning",
+      "name": "setup-merge-drivers",
+      "intents": [
+        "configure",
+        "custom",
+        "drivers",
+        "local",
+        "merge"
+      ],
+      "kind": "script",
+      "path": "scripts/setup-merge-drivers.sh",
+      "description": "setup-merge-drivers.sh — configure local git with the custom merge drivers"
     },
     {
       "category": "planning",
