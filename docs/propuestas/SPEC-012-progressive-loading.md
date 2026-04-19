@@ -1,3 +1,12 @@
+---
+id: SPEC-012
+title: SPEC-012: L0/L1/L2 Progressive Loading for Skills and Rules
+status: Implemented
+origin_date: "2026-03-22"
+migrated_at: "2026-04-18"
+migrated_from: body-prose
+---
+
 # SPEC-012: L0/L1/L2 Progressive Loading for Skills and Rules
 
 > Status: **COMPLETE** · Fecha: 2026-03-22 · Phase 1+2: 2026-03-22 (82/82 skills)
