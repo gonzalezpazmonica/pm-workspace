@@ -1,6 +1,6 @@
 {
-  "hash": "ea89b1676dbb",
-  "total": 1026,
+  "hash": "8be8ed2b5ffb",
+  "total": 1027,
   "resources": [
     {
       "category": "analysis",
@@ -9258,6 +9258,20 @@
       "kind": "script",
       "path": "scripts/slm-data-prep.sh",
       "description": "slm-data-prep.sh — Prepare project data for SLM fine-tuning"
+    },
+    {
+      "category": "planning",
+      "name": "slm-project-init",
+      "intents": [
+        "bootstrap",
+        "canonical",
+        "init",
+        "layout",
+        "project"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-project-init.sh",
+      "description": "slm-project-init.sh — Bootstrap a new SLM project with the canonical layout."
     },
     {
       "category": "planning",
