@@ -1,6 +1,6 @@
 {
-  "hash": "2a6099990828",
-  "total": 1043,
+  "hash": "ff828026417c",
+  "total": 1045,
   "resources": [
     {
       "category": "analysis",
@@ -2213,6 +2213,20 @@
     },
     {
       "category": "development",
+      "name": "gitagent-export",
+      "intents": [
+        "adapter",
+        "export",
+        "gitagent",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/gitagent-export.sh",
+      "description": "gitagent-export.sh — SPEC-099 Slice 1 gitagent adapter."
+    },
+    {
+      "category": "development",
       "name": "graph-build",
       "intents": [
         "conocimiento",
@@ -2506,6 +2520,20 @@
       "kind": "script",
       "path": "scripts/portfolio-critical-path.sh",
       "description": "portfolio-critical-path.sh — SPEC-SE-020 Slice 3 critical path analyzer."
+    },
+    {
+      "category": "development",
+      "name": "portfolio-deps-status",
+      "intents": [
+        "dashboard",
+        "deps",
+        "portfolio",
+        "project",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/portfolio-deps-status.sh",
+      "description": "portfolio-deps-status.sh — SPEC-SE-020 Slice 5 project status dashboard."
     },
     {
       "category": "development",

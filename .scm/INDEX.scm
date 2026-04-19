@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 1ab3f4a4dd02 | resources: 1043
-> 530 commands · 78 skills · 65 agents · 370 scripts
+> hash: 7ca32a939635 | resources: 1045
+> 530 commands · 78 skills · 65 agents · 372 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -178,6 +178,7 @@
 [development] feasibility-probe — attempt,boxed,feasibility,prototype,spec — cmd:.claude/commands/feasibility-probe.md
 [development] feasibility-probe — attempt,boxed,feasibility,prototype,scoring — skill:.claude/skills/feasibility-probe/SKILL.md
 [development] feasibility-probe — attempting,blocking,boxed,decomposition,feasibility — agent:.claude/agents/feasibility-probe.md
+[development] gitagent-export — adapter,export,gitagent,slice,spec — script:scripts/gitagent-export.sh
 [development] graph-build — conocimiento,construye,grafo,proyecto — cmd:.claude/commands/graph-build.md
 [development] graph-temporal-ops — graph,spec,temporal — script:scripts/graph-temporal-ops.sh
 [development] human-code-map — activamente,alguien,cognitiva,componentes,contra — skill:.claude/skills/human-code-map/SKILL.md
@@ -202,6 +203,7 @@
 [development] pipeline-view — active,ascii,probability,pursuits,stage — cmd:.claude/commands/pipeline-view.md
 [development] portfolio-contention — contention,detector,portfolio,slice,spec — script:scripts/portfolio-contention.sh
 [development] portfolio-critical-path — analyzer,critical,path,portfolio,slice — script:scripts/portfolio-critical-path.sh
+[development] portfolio-deps-status — dashboard,deps,portfolio,project,slice — script:scripts/portfolio-deps-status.sh
 [development] portfolio-graph — builder,dependency,graph,portfolio,slice — script:scripts/portfolio-graph.sh
 [development] pre-push-bats-critical — bats,critical,module,push,spec — script:scripts/pre-push-bats-critical.sh
 [development] prompt-suggestion-engine — driven,engine,optimization,phase,prompt — script:scripts/prompt-suggestion-engine.sh
