@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=427b750c3b90486d755501d56d517c8d20e54249905ad8f0f0d77020820f8bf4
-timestamp=2026-04-19T11:08:10Z
-branch=agent/se030-slice1-receipts-20260419
-head_commit=5e683d23
-signature=41cb629801d1159c8321bbe08feba7931b0834bd99c1efbd576abd995f6e5603
+diff_hash=bf802dd25796af5df742618c7c1acc19122d2c055f4f07d14815b7ebb139e883
+timestamp=2026-04-19T12:58:24Z
+branch=agent/se029-slice3-frozen-hook-20260419
+head_commit=743df933
+signature=e1f9ff59d67324ff3bd1f7125b621d888ccfa9ba0aa4d941dc311780b5cb2b0b

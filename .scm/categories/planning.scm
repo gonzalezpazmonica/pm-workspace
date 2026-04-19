@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 460 resources
+> 461 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -92,6 +92,7 @@
 - **company-vertical** (cmd): Detectar y configurar la vertical de la empresa — regulaciones, frameworks y mejores prácticas del sector
 - **competence-score** (script): competence-score.sh — Calculate competence scores from tracking log
 - **compile-agent-index** (script): compile-agent-index.sh — Compiled agent reference index for LLM routing
+- **compress-skip-frozen** (script): compress-skip-frozen.sh — SE-029 Slice 3 frozen-core advisory.
 - **confidence-calibrate** (script): confidence-calibrate.sh - Confidence Calibration Analytics
 - **confidentiality-check** (script): confidentiality-check.sh — Verify project files comply with confidentiality levels
 - **confidentiality-scan** (script): confidentiality-scan.sh — Scan for PII, credentials, real project names.
