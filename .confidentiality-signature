@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5068f55c205b914a7de89dae88510e5e48d7b97c200f7778390e4755afd4987e
-timestamp=2026-04-19T18:41:30Z
-branch=agent/specse020-slice2-portfolio-grapher-20260419
-head_commit=af74dec4
-signature=da893d5cb4afa2aca077993bf3628deeb2a7269634eba1c0baa249605c6f1ea4
+diff_hash=9e9f77c81f922ec8e144fe4c819853763625a05aa2bfb7622023849424115761
+timestamp=2026-04-19T20:17:28Z
+branch=agent/slm-training-scaffolding-20260419
+head_commit=61339b3e
+signature=1f09447286a2cf92d50d41fe75709aaf61b903ac3204a40394270bf139ed0a7c
