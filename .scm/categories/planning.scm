@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 466 resources
+> 467 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -380,6 +380,7 @@
 - **slm-eval-harness-setup** (script): slm-eval-harness-setup.sh — Phase 5 scaffolding: eval config emission.
 - **slm-pipeline-validate** (script): slm-pipeline-validate.sh — Meta-validator for an SLM project directory.
 - **slm-synth** (script): slm-synth.sh — SE-028 slice 1
+- **slm-synth-recipe** (script): slm-synth-recipe.sh — SE-028 Slice 1 scaffolding: emit oumi synth recipe YAML.
 - **slm-train** (script): slm-train.sh — Fine-tune SLMs locally with Unsloth + export to Ollama
 - **slm-train-config** (script): slm-train-config.sh — Phase 3 scaffolding: emit Unsloth/TRL YAML config.
 - **smart-calendar** (skill): >
