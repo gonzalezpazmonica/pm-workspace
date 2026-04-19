@@ -1,6 +1,6 @@
 {
-  "hash": "2ce43878ca00",
-  "total": 1025,
+  "hash": "ea89b1676dbb",
+  "total": 1026,
   "resources": [
     {
       "category": "analysis",
@@ -7737,6 +7737,19 @@
       "kind": "skill",
       "path": ".claude/skills/onboarding-dev/SKILL.md",
       "description": "Onboarding técnico con Buddy IA — auto-genera documentación del proyecto, plan personalizado 30/60/90 y agente buddy de 3 capas"
+    },
+    {
+      "category": "planning",
+      "name": "operational-point-selector",
+      "intents": [
+        "operational",
+        "point",
+        "selector",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/operational-point-selector.sh",
+      "description": "operational-point-selector.sh — SE-029 Slice 4."
     },
     {
       "category": "planning",

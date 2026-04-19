@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 417542fe698d | resources: 1025
-> 530 commands · 78 skills · 65 agents · 352 scripts
+> hash: e409eb7166a6 | resources: 1026
+> 530 commands · 78 skills · 65 agents · 353 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -613,6 +613,7 @@
 [planning] onboard-enterprise — batch,checklists,enterprise,import,knowledge — cmd:.claude/commands/onboard-enterprise.md
 [planning] onboarding-dev — agent,auto,buddy,docs,generates — cmd:.claude/commands/onboarding-dev.md
 [planning] onboarding-dev — agente,auto,buddy,capas,documentación — skill:.claude/skills/onboarding-dev/SKILL.md
+[planning] operational-point-selector — operational,point,selector,slice — script:scripts/operational-point-selector.sh
 [planning] orgchart-import —  — cmd:.claude/commands/orgchart-import.md
 [planning] orgchart-import —  — skill:.claude/skills/orgchart-import/SKILL.md
 [planning] outcome-track — entregó,esperado,feature,outcomes,post — cmd:.claude/commands/outcome-track.md
