@@ -1,6 +1,6 @@
 {
-  "hash": "3bf3a4f670d3",
-  "total": 1036,
+  "hash": "ebdd89998839",
+  "total": 1037,
   "resources": [
     {
       "category": "analysis",
@@ -9314,6 +9314,20 @@
       "kind": "script",
       "path": "scripts/slm-dataset-prep.sh",
       "description": "slm-dataset-prep.sh — Phase 1 scaffolding for SLM training pipeline."
+    },
+    {
+      "category": "planning",
+      "name": "slm-dataset-validate",
+      "intents": [
+        "before",
+        "dataset",
+        "jsonl",
+        "training",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-dataset-validate.sh",
+      "description": "slm-dataset-validate.sh — Validate a JSONL dataset before SLM training."
     },
     {
       "category": "planning",
