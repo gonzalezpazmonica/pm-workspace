@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=69affb73f6996722869d8a0dbc5cbdf96c7d58443dc21ae1965147f6bce84c2c
+diff_hash=f208bb51f014f36fe5b21dbbf8a1d6106763b63597e45b39141582ad70e1aa62
 timestamp=2026-04-19T15:48:56Z
 branch=agent/slm-registry-20260419
-head_commit=9415258a
-signature=b86cfd155ffbdd0575d900497c48b52c04c3b924dc813a036dff013bc80550c7
+head_commit=6c553509
+signature=34bc5dd170a39f039d3fbc6d40ade6f11c6cd9f7e4fa46ee63aa49fc67450144
