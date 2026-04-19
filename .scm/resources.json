@@ -1,6 +1,6 @@
 {
-  "hash": "ea89b1676dbb",
-  "total": 1026,
+  "hash": "50833f063a53",
+  "total": 1027,
   "resources": [
     {
       "category": "analysis",
@@ -9258,6 +9258,19 @@
       "kind": "script",
       "path": "scripts/slm-data-prep.sh",
       "description": "slm-data-prep.sh — Prepare project data for SLM fine-tuning"
+    },
+    {
+      "category": "planning",
+      "name": "slm-modelfile-gen",
+      "intents": [
+        "generate",
+        "modelfile",
+        "ollama",
+        "trained"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-modelfile-gen.sh",
+      "description": "slm-modelfile-gen.sh — Generate Ollama Modelfile for a trained SLM."
     },
     {
       "category": "planning",
