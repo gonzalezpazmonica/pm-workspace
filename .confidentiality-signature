@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=69affb73f6996722869d8a0dbc5cbdf96c7d58443dc21ae1965147f6bce84c2c
-timestamp=2026-04-19T14:09:00Z
-branch=agent/se029-slice4-operational-point-20260419
-head_commit=bb037a81
-signature=b86cfd155ffbdd0575d900497c48b52c04c3b924dc813a036dff013bc80550c7
+diff_hash=251a575f7a95b198bb89ebb7d49912264fa731b0cf078de57ef2a9f2d7062413
+timestamp=2026-04-19T15:40:26Z
+branch=agent/specse020-slice1-deps-schema-20260419
+head_commit=3fa5b0e3
+signature=f01a7e82f12effcb6484744c83128fe827919d98342f6d45f392cefe1c250939

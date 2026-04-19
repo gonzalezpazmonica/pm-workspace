@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: e409eb7166a6 | resources: 1026
-> 530 commands · 78 skills · 65 agents · 353 scripts
+> hash: afe71cd5f63e | resources: 1027
+> 530 commands · 78 skills · 65 agents · 354 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -166,6 +166,7 @@
 [development] dag-plan — ahorro,camino,crítico,ejecución,tiempo — cmd:.claude/commands/dag-plan.md
 [development] dag-scheduling — agentes,dependencias,gráficos,orquestar,paralelo — skill:.claude/skills/dag-scheduling/SKILL.md
 [development] dag-typing-validate — prototype,slice,typing,validate,validator — script:scripts/dag-typing-validate.sh
+[development] deps-validate — deps,schema,slice,spec,validate — script:scripts/deps-validate.sh
 [development] dev-orchestrator — analiza,contexto,crea,dependencias,implementación — agent:.claude/agents/dev-orchestrator.md
 [development] dev-session — aislamiento,contexto,desarrollo,disco,fases — cmd:.claude/commands/dev-session.md
 [development] dev-session-discard — cleanly,discard,session — script:scripts/dev-session-discard.sh

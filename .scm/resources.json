@@ -1,6 +1,6 @@
 {
-  "hash": "ea89b1676dbb",
-  "total": 1026,
+  "hash": "9f45d595c7be",
+  "total": 1027,
   "resources": [
     {
       "category": "analysis",
@@ -2044,6 +2044,20 @@
       "kind": "script",
       "path": "scripts/dag-typing-validate.sh",
       "description": "dag-typing-validate.sh — SE-034 Slice 1 prototype validator."
+    },
+    {
+      "category": "development",
+      "name": "deps-validate",
+      "intents": [
+        "deps",
+        "schema",
+        "slice",
+        "spec",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/deps-validate.sh",
+      "description": "deps-validate.sh — SPEC-SE-020 Slice 1 schema validator for deps.yaml."
     },
     {
       "category": "development",
