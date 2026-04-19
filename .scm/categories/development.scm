@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 103 resources
+> 105 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -30,6 +30,7 @@
 - **dag-plan** (cmd): Visualizar DAG de ejecución, camino crítico y ahorro de tiempo
 - **dag-scheduling** (skill): Orquestar agentes SDD en paralelo usando gráficos de dependencias
 - **dag-typing-validate** (script): dag-typing-validate.sh — SE-034 Slice 1 prototype validator.
+- **deps-validate** (script): deps-validate.sh — SPEC-SE-020 Slice 1 schema validator for deps.yaml.
 - **dev-orchestrator** (agent): Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto
 - **dev-session** (cmd): Orquestar desarrollo de un spec mediante 5 fases con aislamiento de contexto y persistencia en disco
 - **dev-session-discard** (script): dev-session-discard.sh — Discard a dev-session cleanly
@@ -63,6 +64,7 @@
 - **pipeline-stage-runner** (script): pipeline-stage-runner.sh — Execute a single pipeline stage
 - **pipeline-status** (cmd): >
 - **pipeline-view** (cmd): ASCII table of all active pursuits with stage, value, and probability
+- **portfolio-graph** (script): portfolio-graph.sh — SPEC-SE-020 Slice 2 dependency graph builder.
 - **pre-push-bats-critical** (script): pre-push-bats-critical.sh — SPEC-SE-012 Module 3.
 - **prompt-suggestion-engine** (script): prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization
 - **reaction-engine** (script): reaction-engine.sh — SPEC-050 Phase 1: Reaction Engine
