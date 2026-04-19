@@ -1,6 +1,6 @@
 {
-  "hash": "4b7c782dd6a5",
-  "total": 1038,
+  "hash": "2a6099990828",
+  "total": 1043,
   "resources": [
     {
       "category": "analysis",
@@ -2481,6 +2481,20 @@
     },
     {
       "category": "development",
+      "name": "portfolio-contention",
+      "intents": [
+        "contention",
+        "detector",
+        "portfolio",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/portfolio-contention.sh",
+      "description": "portfolio-contention.sh — SPEC-SE-020 Slice 4 contention detector."
+    },
+    {
+      "category": "development",
       "name": "portfolio-critical-path",
       "intents": [
         "analyzer",
@@ -2666,6 +2680,20 @@
       "kind": "script",
       "path": "scripts/skill-loader.sh",
       "description": "skill-loader.sh — SPEC-144: Context-Aware Skill Loading"
+    },
+    {
+      "category": "development",
+      "name": "slm-deploy",
+      "intents": [
+        "deploy",
+        "deployment",
+        "orchestrate",
+        "post",
+        "scaffolding"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-deploy.sh",
+      "description": "slm-deploy.sh — Orchestrate post-training deployment scaffolding."
     },
     {
       "category": "development",
@@ -9303,6 +9331,20 @@
     },
     {
       "category": "planning",
+      "name": "slm-data-collect",
+      "intents": [
+        "artifacts",
+        "collect",
+        "data",
+        "training",
+        "workspace"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-data-collect.sh",
+      "description": "slm-data-collect.sh — Collect training data from workspace artifacts."
+    },
+    {
+      "category": "planning",
       "name": "slm-data-prep",
       "intents": [
         "data",
@@ -9345,6 +9387,20 @@
     },
     {
       "category": "planning",
+      "name": "slm-eval-compare",
+      "intents": [
+        "between",
+        "compare",
+        "eval",
+        "results",
+        "versions"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-eval-compare.sh",
+      "description": "slm-eval-compare.sh — A/B compare eval results between 2 SLM versions."
+    },
+    {
+      "category": "planning",
       "name": "slm-eval-harness-setup",
       "intents": [
         "config",
@@ -9356,6 +9412,20 @@
       "kind": "script",
       "path": "scripts/slm-eval-harness-setup.sh",
       "description": "slm-eval-harness-setup.sh — Phase 5 scaffolding: eval config emission."
+    },
+    {
+      "category": "planning",
+      "name": "slm-export-gguf",
+      "intents": [
+        "adapter",
+        "conversion",
+        "export",
+        "generate",
+        "gguf"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-export-gguf.sh",
+      "description": "slm-export-gguf.sh — Generate llama.cpp conversion recipe for adapter→GGUF."
     },
     {
       "category": "planning",

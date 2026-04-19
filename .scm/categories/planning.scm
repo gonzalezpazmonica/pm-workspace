@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 470 resources
+> 473 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -375,10 +375,13 @@
 - **skill-read** (cmd): Carga el contenido completo de un skill bajo demanda (progressive disclosure)
 - **skills-lock** (script): skills-lock.sh — SHA-256 integrity verification for skills
 - **skillssh-adapter** (script): ── skills.sh Adapter — Genera paquetes publicables para skills.sh ──
+- **slm-data-collect** (script): slm-data-collect.sh — Collect training data from workspace artifacts.
 - **slm-data-prep** (script): slm-data-prep.sh — Prepare project data for SLM fine-tuning
 - **slm-dataset-prep** (script): slm-dataset-prep.sh — Phase 1 scaffolding for SLM training pipeline.
 - **slm-dataset-validate** (script): slm-dataset-validate.sh — Validate a JSONL dataset before SLM training.
+- **slm-eval-compare** (script): slm-eval-compare.sh — A/B compare eval results between 2 SLM versions.
 - **slm-eval-harness-setup** (script): slm-eval-harness-setup.sh — Phase 5 scaffolding: eval config emission.
+- **slm-export-gguf** (script): slm-export-gguf.sh — Generate llama.cpp conversion recipe for adapter→GGUF.
 - **slm-modelfile-gen** (script): slm-modelfile-gen.sh — Generate Ollama Modelfile for a trained SLM.
 - **slm-pipeline-validate** (script): slm-pipeline-validate.sh — Meta-validator for an SLM project directory.
 - **slm-project-init** (script): slm-project-init.sh — Bootstrap a new SLM project with the canonical layout.

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: e962898b645d | resources: 1038
-> 530 commands · 78 skills · 65 agents · 365 scripts
+> hash: 1ab3f4a4dd02 | resources: 1043
+> 530 commands · 78 skills · 65 agents · 370 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -200,6 +200,7 @@
 [development] pipeline-stage-runner — execute,pipeline,runner,single,stage — script:scripts/pipeline-stage-runner.sh
 [development] pipeline-status —  — cmd:.claude/commands/pipeline-status.md
 [development] pipeline-view — active,ascii,probability,pursuits,stage — cmd:.claude/commands/pipeline-view.md
+[development] portfolio-contention — contention,detector,portfolio,slice,spec — script:scripts/portfolio-contention.sh
 [development] portfolio-critical-path — analyzer,critical,path,portfolio,slice — script:scripts/portfolio-critical-path.sh
 [development] portfolio-graph — builder,dependency,graph,portfolio,slice — script:scripts/portfolio-graph.sh
 [development] pre-push-bats-critical — bats,critical,module,push,spec — script:scripts/pre-push-bats-critical.sh
@@ -214,6 +215,7 @@
 [development] semantic-map — code,compressed,files,generate,maps — script:scripts/semantic-map.sh
 [development] setup-savia-web — build,http,localhost,savia,serve — script:scripts/setup-savia-web.sh
 [development] skill-loader — aware,context,loader,loading,skill — script:scripts/skill-loader.sh
+[development] slm-deploy — deploy,deployment,orchestrate,post,scaffolding — script:scripts/slm-deploy.sh
 [development] slm-registry — model,registry,slms,spec,trained — script:scripts/slm-registry.sh
 [development] sovereignty-pack — build,fully,installer,offline,pack — script:scripts/sovereignty-pack.sh
 [development] spec-design — datos,decisiones,diseño,estrategia,existente — cmd:.claude/commands/spec-design.md
@@ -738,10 +740,13 @@
 [planning] skill-read — bajo,carga,completo,contenido,demanda — cmd:.claude/commands/skill-read.md
 [planning] skills-lock — integrity,lock,skills,verification — script:scripts/skills-lock.sh
 [planning] skillssh-adapter — adapter,paquetes,publicables,skills — script:scripts/skillssh-adapter.sh
+[planning] slm-data-collect — artifacts,collect,data,training,workspace — script:scripts/slm-data-collect.sh
 [planning] slm-data-prep — data,fine,prep,prepare,project — script:scripts/slm-data-prep.sh
 [planning] slm-dataset-prep — dataset,phase,pipeline,prep,scaffolding — script:scripts/slm-dataset-prep.sh
 [planning] slm-dataset-validate — before,dataset,jsonl,training,validate — script:scripts/slm-dataset-validate.sh
+[planning] slm-eval-compare — between,compare,eval,results,versions — script:scripts/slm-eval-compare.sh
 [planning] slm-eval-harness-setup — config,emission,eval,harness,phase — script:scripts/slm-eval-harness-setup.sh
+[planning] slm-export-gguf — adapter,conversion,export,generate,gguf — script:scripts/slm-export-gguf.sh
 [planning] slm-modelfile-gen — generate,modelfile,ollama,trained — script:scripts/slm-modelfile-gen.sh
 [planning] slm-pipeline-validate — directory,meta,pipeline,project,validate — script:scripts/slm-pipeline-validate.sh
 [planning] slm-project-init — bootstrap,canonical,init,layout,project — script:scripts/slm-project-init.sh
