@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 464 resources
+> 465 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -378,6 +378,7 @@
 - **slm-data-prep** (script): slm-data-prep.sh — Prepare project data for SLM fine-tuning
 - **slm-dataset-prep** (script): slm-dataset-prep.sh — Phase 1 scaffolding for SLM training pipeline.
 - **slm-synth** (script): slm-synth.sh — SE-028 slice 1
+- **slm-synth-recipe** (script): slm-synth-recipe.sh — SE-028 Slice 1 scaffolding: emit oumi synth recipe YAML.
 - **slm-train** (script): slm-train.sh — Fine-tune SLMs locally with Unsloth + export to Ollama
 - **slm-train-config** (script): slm-train-config.sh — Phase 3 scaffolding: emit Unsloth/TRL YAML config.
 - **smart-calendar** (skill): >

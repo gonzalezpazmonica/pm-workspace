@@ -1,6 +1,6 @@
 {
-  "hash": "7053cdbf6634",
-  "total": 1029,
+  "hash": "e184a9a6a38d",
+  "total": 1031,
   "resources": [
     {
       "category": "analysis",
@@ -9289,6 +9289,20 @@
     },
     {
       "category": "planning",
+      "name": "slm-dataset-prep",
+      "intents": [
+        "dataset",
+        "phase",
+        "pipeline",
+        "prep",
+        "scaffolding"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-dataset-prep.sh",
+      "description": "slm-dataset-prep.sh — Phase 1 scaffolding for SLM training pipeline."
+    },
+    {
+      "category": "planning",
       "name": "slm-synth",
       "intents": [
         "slice",
@@ -9325,6 +9339,20 @@
       "kind": "script",
       "path": "scripts/slm-train.sh",
       "description": "slm-train.sh — Fine-tune SLMs locally with Unsloth + export to Ollama"
+    },
+    {
+      "category": "planning",
+      "name": "slm-train-config",
+      "intents": [
+        "config",
+        "emit",
+        "phase",
+        "scaffolding",
+        "train"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-train-config.sh",
+      "description": "slm-train-config.sh — Phase 3 scaffolding: emit Unsloth/TRL YAML config."
     },
     {
       "category": "planning",
