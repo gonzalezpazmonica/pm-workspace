@@ -1,6 +1,6 @@
 {
-  "hash": "4c5fa2cb4553",
-  "total": 1030,
+  "hash": "4b7c782dd6a5",
+  "total": 1038,
   "resources": [
     {
       "category": "analysis",
@@ -2481,6 +2481,20 @@
     },
     {
       "category": "development",
+      "name": "portfolio-critical-path",
+      "intents": [
+        "analyzer",
+        "critical",
+        "path",
+        "portfolio",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/portfolio-critical-path.sh",
+      "description": "portfolio-critical-path.sh — SPEC-SE-020 Slice 3 critical path analyzer."
+    },
+    {
+      "category": "development",
       "name": "portfolio-graph",
       "intents": [
         "builder",
@@ -2652,6 +2666,20 @@
       "kind": "script",
       "path": "scripts/skill-loader.sh",
       "description": "skill-loader.sh — SPEC-144: Context-Aware Skill Loading"
+    },
+    {
+      "category": "development",
+      "name": "slm-registry",
+      "intents": [
+        "model",
+        "registry",
+        "slms",
+        "spec",
+        "trained"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-registry.sh",
+      "description": "slm-registry.sh — Model registry for trained SLMs (SPEC-SE-027 registry)."
     },
     {
       "category": "development",
@@ -9303,6 +9331,75 @@
     },
     {
       "category": "planning",
+      "name": "slm-dataset-validate",
+      "intents": [
+        "before",
+        "dataset",
+        "jsonl",
+        "training",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-dataset-validate.sh",
+      "description": "slm-dataset-validate.sh — Validate a JSONL dataset before SLM training."
+    },
+    {
+      "category": "planning",
+      "name": "slm-eval-harness-setup",
+      "intents": [
+        "config",
+        "emission",
+        "eval",
+        "harness",
+        "phase"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-eval-harness-setup.sh",
+      "description": "slm-eval-harness-setup.sh — Phase 5 scaffolding: eval config emission."
+    },
+    {
+      "category": "planning",
+      "name": "slm-modelfile-gen",
+      "intents": [
+        "generate",
+        "modelfile",
+        "ollama",
+        "trained"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-modelfile-gen.sh",
+      "description": "slm-modelfile-gen.sh — Generate Ollama Modelfile for a trained SLM."
+    },
+    {
+      "category": "planning",
+      "name": "slm-pipeline-validate",
+      "intents": [
+        "directory",
+        "meta",
+        "pipeline",
+        "project",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-pipeline-validate.sh",
+      "description": "slm-pipeline-validate.sh — Meta-validator for an SLM project directory."
+    },
+    {
+      "category": "planning",
+      "name": "slm-project-init",
+      "intents": [
+        "bootstrap",
+        "canonical",
+        "init",
+        "layout",
+        "project"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-project-init.sh",
+      "description": "slm-project-init.sh — Bootstrap a new SLM project with the canonical layout."
+    },
+    {
+      "category": "planning",
       "name": "slm-synth",
       "intents": [
         "slice",
@@ -9311,6 +9408,20 @@
       "kind": "script",
       "path": "scripts/slm-synth.sh",
       "description": "slm-synth.sh — SE-028 slice 1"
+    },
+    {
+      "category": "planning",
+      "name": "slm-synth-recipe",
+      "intents": [
+        "emit",
+        "oumi",
+        "recipe",
+        "scaffolding",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-synth-recipe.sh",
+      "description": "slm-synth-recipe.sh — SE-028 Slice 1 scaffolding: emit oumi synth recipe YAML."
     },
     {
       "category": "planning",
