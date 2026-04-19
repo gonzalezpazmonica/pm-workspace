@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 2fbc0f0cf672 | resources: 1029
-> 530 commands · 78 skills · 65 agents · 356 scripts
+> hash: 6af30738885b | resources: 1031
+> 530 commands · 78 skills · 65 agents · 358 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -737,9 +737,11 @@
 [planning] skills-lock — integrity,lock,skills,verification — script:scripts/skills-lock.sh
 [planning] skillssh-adapter — adapter,paquetes,publicables,skills — script:scripts/skillssh-adapter.sh
 [planning] slm-data-prep — data,fine,prep,prepare,project — script:scripts/slm-data-prep.sh
+[planning] slm-dataset-prep — dataset,phase,pipeline,prep,scaffolding — script:scripts/slm-dataset-prep.sh
 [planning] slm-dataset-validate — before,dataset,jsonl,training,validate — script:scripts/slm-dataset-validate.sh
 [planning] slm-synth — slice,synth — script:scripts/slm-synth.sh
 [planning] slm-train — export,fine,locally,ollama,slms — script:scripts/slm-train.sh
+[planning] slm-train-config — config,emit,phase,scaffolding,train — script:scripts/slm-train-config.sh
 [planning] smart-calendar —  — skill:.claude/skills/smart-calendar/SKILL.md
 [planning] smart-routing — comandos,descubrimiento,enrutamiento,herramientas,inteligente — skill:.claude/skills/smart-routing/SKILL.md
 [planning] sovereignty-benchmark — benchmark,local,prompts,sovereignty,workspace — script:scripts/sovereignty-benchmark.sh
