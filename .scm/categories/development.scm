@@ -64,6 +64,7 @@
 - **pipeline-stage-runner** (script): pipeline-stage-runner.sh — Execute a single pipeline stage
 - **pipeline-status** (cmd): >
 - **pipeline-view** (cmd): ASCII table of all active pursuits with stage, value, and probability
+- **portfolio-critical-path** (script): portfolio-critical-path.sh — SPEC-SE-020 Slice 3 critical path analyzer.
 - **portfolio-graph** (script): portfolio-graph.sh — SPEC-SE-020 Slice 2 dependency graph builder.
 - **pre-push-bats-critical** (script): pre-push-bats-critical.sh — SPEC-SE-012 Module 3.
 - **prompt-suggestion-engine** (script): prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization
