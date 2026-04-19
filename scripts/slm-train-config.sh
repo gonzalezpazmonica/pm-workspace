@@ -89,7 +89,7 @@ done
 
 if [[ -z "${VALID_MODELS[$MODEL]:-}" ]]; then
   echo "ERROR: invalid --model '$MODEL'" >&2
-  echo "Allowed: ${!VALID_MODELS[@]}" >&2
+  echo "Allowed: ${!VALID_MODELS[*]}" >&2
   exit 2
 fi
 
