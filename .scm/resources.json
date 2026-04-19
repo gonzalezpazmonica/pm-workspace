@@ -1,6 +1,6 @@
 {
-  "hash": "84c2fe41c2db",
-  "total": 1027,
+  "hash": "0ab9a5c42286",
+  "total": 1029,
   "resources": [
     {
       "category": "analysis",
@@ -2047,6 +2047,20 @@
     },
     {
       "category": "development",
+      "name": "deps-validate",
+      "intents": [
+        "deps",
+        "schema",
+        "slice",
+        "spec",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/deps-validate.sh",
+      "description": "deps-validate.sh — SPEC-SE-020 Slice 1 schema validator for deps.yaml."
+    },
+    {
+      "category": "development",
       "name": "dev-orchestrator",
       "intents": [
         "analiza",
@@ -2478,6 +2492,20 @@
       "kind": "script",
       "path": "scripts/portfolio-critical-path.sh",
       "description": "portfolio-critical-path.sh — SPEC-SE-020 Slice 3 critical path analyzer."
+    },
+    {
+      "category": "development",
+      "name": "portfolio-graph",
+      "intents": [
+        "builder",
+        "dependency",
+        "graph",
+        "portfolio",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/portfolio-graph.sh",
+      "description": "portfolio-graph.sh — SPEC-SE-020 Slice 2 dependency graph builder."
     },
     {
       "category": "development",
