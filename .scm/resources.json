@@ -1,6 +1,6 @@
 {
-  "hash": "65552080c3de",
-  "total": 1033,
+  "hash": "9b6898b7039c",
+  "total": 1034,
   "resources": [
     {
       "category": "analysis",
@@ -9328,6 +9328,20 @@
       "kind": "script",
       "path": "scripts/slm-pipeline-validate.sh",
       "description": "slm-pipeline-validate.sh — Meta-validator for an SLM project directory."
+    },
+    {
+      "category": "planning",
+      "name": "slm-project-init",
+      "intents": [
+        "bootstrap",
+        "canonical",
+        "init",
+        "layout",
+        "project"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-project-init.sh",
+      "description": "slm-project-init.sh — Bootstrap a new SLM project with the canonical layout."
     },
     {
       "category": "planning",
