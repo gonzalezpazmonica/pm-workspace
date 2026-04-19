@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 465 resources
+> 466 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -378,6 +378,7 @@
 - **slm-data-prep** (script): slm-data-prep.sh — Prepare project data for SLM fine-tuning
 - **slm-dataset-prep** (script): slm-dataset-prep.sh — Phase 1 scaffolding for SLM training pipeline.
 - **slm-eval-harness-setup** (script): slm-eval-harness-setup.sh — Phase 5 scaffolding: eval config emission.
+- **slm-pipeline-validate** (script): slm-pipeline-validate.sh — Meta-validator for an SLM project directory.
 - **slm-synth** (script): slm-synth.sh — SE-028 slice 1
 - **slm-train** (script): slm-train.sh — Fine-tune SLMs locally with Unsloth + export to Ollama
 - **slm-train-config** (script): slm-train-config.sh — Phase 3 scaffolding: emit Unsloth/TRL YAML config.

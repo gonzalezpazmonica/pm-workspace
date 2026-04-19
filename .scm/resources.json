@@ -1,6 +1,6 @@
 {
-  "hash": "d631a6780da8",
-  "total": 1031,
+  "hash": "440126ff35ba",
+  "total": 1032,
   "resources": [
     {
       "category": "analysis",
@@ -9314,6 +9314,20 @@
       "kind": "script",
       "path": "scripts/slm-eval-harness-setup.sh",
       "description": "slm-eval-harness-setup.sh — Phase 5 scaffolding: eval config emission."
+    },
+    {
+      "category": "planning",
+      "name": "slm-pipeline-validate",
+      "intents": [
+        "directory",
+        "meta",
+        "pipeline",
+        "project",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-pipeline-validate.sh",
+      "description": "slm-pipeline-validate.sh — Meta-validator for an SLM project directory."
     },
     {
       "category": "planning",
