@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: e409eb7166a6 | resources: 1026
-> 530 commands · 78 skills · 65 agents · 353 scripts
+> hash: c104f5b179dd | resources: 1027
+> 530 commands · 78 skills · 65 agents · 354 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -211,6 +211,7 @@
 [development] semantic-map — code,compressed,files,generate,maps — script:scripts/semantic-map.sh
 [development] setup-savia-web — build,http,localhost,savia,serve — script:scripts/setup-savia-web.sh
 [development] skill-loader — aware,context,loader,loading,skill — script:scripts/skill-loader.sh
+[development] slm-registry — model,registry,slms,spec,trained — script:scripts/slm-registry.sh
 [development] sovereignty-pack — build,fully,installer,offline,pack — script:scripts/sovereignty-pack.sh
 [development] spec-design — datos,decisiones,diseño,estrategia,existente — cmd:.claude/commands/spec-design.md
 [development] spec-driven-development — agentes,claude,desarrolladores,ejecutables,humanos — skill:.claude/skills/spec-driven-development/SKILL.md

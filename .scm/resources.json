@@ -1,6 +1,6 @@
 {
-  "hash": "ea89b1676dbb",
-  "total": 1026,
+  "hash": "01f36b415c38",
+  "total": 1027,
   "resources": [
     {
       "category": "analysis",
@@ -2624,6 +2624,20 @@
       "kind": "script",
       "path": "scripts/skill-loader.sh",
       "description": "skill-loader.sh — SPEC-144: Context-Aware Skill Loading"
+    },
+    {
+      "category": "development",
+      "name": "slm-registry",
+      "intents": [
+        "model",
+        "registry",
+        "slms",
+        "spec",
+        "trained"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-registry.sh",
+      "description": "slm-registry.sh — Model registry for trained SLMs (SPEC-SE-027 registry)."
     },
     {
       "category": "development",
