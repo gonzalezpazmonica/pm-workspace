@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=f3f72448f06726ad0eba7c08b13efbbf3aa474647e6ba5e4b21b160cd6302dae
-timestamp=2026-04-19T14:31:20Z
+diff_hash=5b83f16c1131105f062c217a077425e7405cff6ca878817bd99d3ececd7d92b0
+timestamp=2026-04-19T15:34:32Z
 branch=agent/specse020-slice1-deps-schema-20260419
-head_commit=10b0529f
-signature=1b05b1a21b9216b6015d8c7f3c870cfcc786f47432d04e38d801a233434a261d
+head_commit=0889c9bd
+signature=2d43205753a2c0e17cc6500da9c0536ff1bb7b536949d54248d9a17167914f2c
