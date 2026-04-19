@@ -1,6 +1,6 @@
 {
-  "hash": "ff828026417c",
-  "total": 1045,
+  "hash": "545cf6fddc5e",
+  "total": 1047,
   "resources": [
     {
       "category": "analysis",
@@ -2213,6 +2213,20 @@
     },
     {
       "category": "development",
+      "name": "gaia-benchmark-harness",
+      "intents": [
+        "benchmark",
+        "gaia",
+        "harness",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/gaia-benchmark-harness.sh",
+      "description": "gaia-benchmark-harness.sh — SPEC-100 Slice 1 GAIA benchmark harness."
+    },
+    {
+      "category": "development",
       "name": "gitagent-export",
       "intents": [
         "adapter",
@@ -2396,6 +2410,20 @@
       "kind": "script",
       "path": "scripts/nidos-dev-lib.sh",
       "description": "nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098)."
+    },
+    {
+      "category": "development",
+      "name": "pdf-extract-probe",
+      "intents": [
+        "extract",
+        "feasibility",
+        "probe",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/pdf-extract-probe.sh",
+      "description": "pdf-extract-probe.sh — SPEC-102 Slice 1 feasibility probe."
     },
     {
       "category": "development",
