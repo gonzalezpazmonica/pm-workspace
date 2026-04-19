@@ -1,3 +1,12 @@
+---
+id: SPEC-030
+title: SPEC-030: Nuclei Scanner Integration
+status: Proposed
+origin_date: "2026-03-23"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-030: Nuclei Scanner Integration
 
 > Status: **DRAFT** · Fecha: 2026-03-23 · Score: 4.50

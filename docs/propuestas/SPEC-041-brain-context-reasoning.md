@@ -1,3 +1,12 @@
+---
+id: SPEC-041
+title: SPEC-041: Brain-Inspired Context Reasoning Engine
+status: ACCEPTED
+origin_date: "2026-03-24"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-041: Brain-Inspired Context Reasoning Engine
 
 > Status: **APPROVED** · Fecha: 2026-03-24 · Score: 5.0
