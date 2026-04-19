@@ -1,3 +1,11 @@
+---
+id: SPEC-SE-030
+title: SPEC-SE-030: Skill Self-Improvement Pipeline
+status: Proposed
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-SE-030: Skill Self-Improvement Pipeline
 
 > **Estado**: Draft

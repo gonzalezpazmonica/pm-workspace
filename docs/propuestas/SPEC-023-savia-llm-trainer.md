@@ -1,3 +1,12 @@
+---
+id: SPEC-023
+title: SPEC-023: Savia LLM Trainer — Context Brain Local
+status: UNLABELED
+origin_date: "2026-03-22"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-023: Savia LLM Trainer — Context Brain Local
 
 > Status: **RESEARCH** · Fecha: 2026-03-22 · Score: 4.90

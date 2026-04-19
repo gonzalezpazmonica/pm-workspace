@@ -1,3 +1,12 @@
+---
+id: SPEC-019
+title: SPEC-019: Memory Contradiction Resolution
+status: ACCEPTED
+origin_date: "2026-03-22"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-019: Memory Contradiction Resolution
 
 > Status: **READY** · Fecha: 2026-03-22

@@ -1,3 +1,12 @@
+---
+id: SPEC-024
+title: SPEC-024: Documentation Audit — Savia en Primera Persona
+status: ACCEPTED
+origin_date: "2026-03-22"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-024: Documentation Audit — Savia en Primera Persona
 
 > Status: **READY** · Fecha: 2026-03-22

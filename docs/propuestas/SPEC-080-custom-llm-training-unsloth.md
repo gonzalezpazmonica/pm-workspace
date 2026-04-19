@@ -1,3 +1,11 @@
+---
+id: SPEC-080
+title: SPEC-080 — Entrenamiento de LLMs Especializados con Unsloth
+status: UNLABELED
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-080 — Entrenamiento de LLMs Especializados con Unsloth
 
 > **Estado**: Investigación

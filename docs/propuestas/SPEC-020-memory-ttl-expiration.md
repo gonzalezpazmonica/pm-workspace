@@ -1,3 +1,12 @@
+---
+id: SPEC-020
+title: SPEC-020: Memory TTL / Expiration
+status: ACCEPTED
+origin_date: "2026-03-22"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-020: Memory TTL / Expiration
 
 > Status: **READY** · Fecha: 2026-03-22
