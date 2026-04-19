@@ -1,6 +1,6 @@
 {
-  "hash": "9f45d595c7be",
-  "total": 1027,
+  "hash": "9b9e38f5af79",
+  "total": 1028,
   "resources": [
     {
       "category": "analysis",
@@ -2478,6 +2478,20 @@
       "kind": "cmd",
       "path": ".claude/commands/pipeline-view.md",
       "description": "ASCII table of all active pursuits with stage, value, and probability"
+    },
+    {
+      "category": "development",
+      "name": "portfolio-graph",
+      "intents": [
+        "builder",
+        "dependency",
+        "graph",
+        "portfolio",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/portfolio-graph.sh",
+      "description": "portfolio-graph.sh — SPEC-SE-020 Slice 2 dependency graph builder."
     },
     {
       "category": "development",
