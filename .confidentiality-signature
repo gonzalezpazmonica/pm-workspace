@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=88226ea90d96d7059c33eaca7d89b455b39b7a70dc3371f4388169d345d275ff
-timestamp=2026-04-19T07:04:57Z
-branch=agent/se040-degradation-canary-20260418
-head_commit=4a101ce4
-signature=dafda38bf549ae80396439665b9b2e8c328f6886f1eada43708216e856d106a5
+diff_hash=83c1bb911894a68bdb49f7e320f076c1d1c1bafe5f7b5309ea98f90befdd2b49
+timestamp=2026-04-19T08:33:28Z
+branch=agent/hook-latency-scope-guard-20260418
+head_commit=f0852e1f
+signature=f7ad5a0b882ee911afb2e34fa253945c49fde48a2cbd51fe83c6847cddb9b26f
