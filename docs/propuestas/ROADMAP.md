@@ -124,12 +124,14 @@ Del ex-DEVELOPMENT-PLAN.md savia-enterprise, iterable autónomamente sin infra e
 
 ### Tier 6 — Convergencias / consolidaciones
 
-Specs que deberían fusionarse o renombrarse:
+Estado de consolidaciones marcadas en frontmatter de cada spec:
 
-- SPEC-081 hook BATS coverage → **absorbido por SE-037**
-- SPEC-078 dual estimation ↔ SPEC-SE-013 → **candidato a consolidar**
-- SPEC-028 search-reranker ↔ SE-032 → **posible duplicación — auditar**
-- SPEC-027 graph ↔ SPEC-123 graphiti → **converge con SE-030**
+- SPEC-081 hook BATS coverage → **SUPERSEDED_BY SE-037** ✅ (aplicado 2026-04-18)
+- SPEC-028 search-reranker → **SUPERSEDED_BY SE-032** ✅ (aplicado 2026-04-18)
+- SPEC-027 graph memory layer → **converges_with SPEC-123 graphiti + SE-030** ✅ (aplicado 2026-04-18)
+- SPEC-078 dual estimation ↔ SPEC-SE-013 → **pendiente** — candidato a consolidar
+
+Pattern: cuando SE-XXX refina un SPEC-YYY anterior con Spec Ops (Feasibility Probe, Purpose, expires), marcar el SPEC-YYY como `status: SUPERSEDED` + `superseded_by: SE-XXX` + razón. Frontmatter metadata es auditable y grep-friendly.
 
 ### Tier 7 — Backlog frío
 
