@@ -1,6 +1,6 @@
 {
-  "hash": "ea89b1676dbb",
-  "total": 1026,
+  "hash": "439df768eea7",
+  "total": 1027,
   "resources": [
     {
       "category": "analysis",
@@ -9258,6 +9258,20 @@
       "kind": "script",
       "path": "scripts/slm-data-prep.sh",
       "description": "slm-data-prep.sh — Prepare project data for SLM fine-tuning"
+    },
+    {
+      "category": "planning",
+      "name": "slm-pipeline-validate",
+      "intents": [
+        "directory",
+        "meta",
+        "pipeline",
+        "project",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-pipeline-validate.sh",
+      "description": "slm-pipeline-validate.sh — Meta-validator for an SLM project directory."
     },
     {
       "category": "planning",
