@@ -1,6 +1,6 @@
 {
-  "hash": "ebdd89998839",
-  "total": 1037,
+  "hash": "4b7c782dd6a5",
+  "total": 1038,
   "resources": [
     {
       "category": "analysis",
@@ -2478,6 +2478,20 @@
       "kind": "cmd",
       "path": ".claude/commands/pipeline-view.md",
       "description": "ASCII table of all active pursuits with stage, value, and probability"
+    },
+    {
+      "category": "development",
+      "name": "portfolio-critical-path",
+      "intents": [
+        "analyzer",
+        "critical",
+        "path",
+        "portfolio",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/portfolio-critical-path.sh",
+      "description": "portfolio-critical-path.sh — SPEC-SE-020 Slice 3 critical path analyzer."
     },
     {
       "category": "development",

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 468df29d9821 | resources: 1037
-> 530 commands · 78 skills · 65 agents · 364 scripts
+> hash: e962898b645d | resources: 1038
+> 530 commands · 78 skills · 65 agents · 365 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -200,6 +200,7 @@
 [development] pipeline-stage-runner — execute,pipeline,runner,single,stage — script:scripts/pipeline-stage-runner.sh
 [development] pipeline-status —  — cmd:.claude/commands/pipeline-status.md
 [development] pipeline-view — active,ascii,probability,pursuits,stage — cmd:.claude/commands/pipeline-view.md
+[development] portfolio-critical-path — analyzer,critical,path,portfolio,slice — script:scripts/portfolio-critical-path.sh
 [development] portfolio-graph — builder,dependency,graph,portfolio,slice — script:scripts/portfolio-graph.sh
 [development] pre-push-bats-critical — bats,critical,module,push,spec — script:scripts/pre-push-bats-critical.sh
 [development] prompt-suggestion-engine — driven,engine,optimization,phase,prompt — script:scripts/prompt-suggestion-engine.sh
