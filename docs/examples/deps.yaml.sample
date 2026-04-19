@@ -1,0 +1,23 @@
+---
+project: "erp-migration"
+tenant: "acme-consulting"
+dependencies:
+  upstream:
+    - project: "sso-integration"
+      type: "blocks"
+      deliverable: "D-003"
+      needed_by: "2026-07-15"
+      status: "on-track"
+      contact: "@pm-sso"
+  downstream:
+    - project: "mobile-app"
+      type: "feeds"
+      deliverable: "REST API spec"
+      needed_by: "2026-09-01"
+      status: "on-track"
+      contact: "@pm-mobile"
+shared_resources:
+  - person: "@dba-lead"
+    projects: ["erp-migration", "data-platform", "mobile-app"]
+    allocation_pct: [50, 30, 20]
+    conflict: true
