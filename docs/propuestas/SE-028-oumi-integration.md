@@ -1,10 +1,13 @@
 ---
 id: SE-028
 title: oumi integration — data synth + eval + distillation for SE-027 SLM pipeline
-status: PROPOSED
+status: APPROVED
+approved_at: "2026-04-19"
+approved_reason: "Strategic SLM pipeline — data synthesis scaffolding priority"
+priority: P1-Tier1
 origin: Savia autonomous roadmap — oumi-ai/oumi research (2026-04-17)
 author: Savia
-related: SE-027 (local SLM fine-tuning Unsloth+Ollama), SAVIA-SUPERPOWERS-ROADMAP
+related: [SPEC-SE-027, SPEC-023, SPEC-080, SE-042]
 ---
 
 # SE-028 — oumi Integration (complement to SE-027)
