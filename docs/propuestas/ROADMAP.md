@@ -87,7 +87,7 @@ Orden por dependencia:
 | 4.7 | SPEC-108 agent self-improvement + Sentry RCA | parcial merged | Closing loop |
 | 4.8 | SPEC-099 gitagent export adapter | — | Portabilidad futura |
 | 4.9 | SPEC-100 GAIA benchmark integration | — | Validación externa |
-| 4.10 | SE-040 agent degradation canary | — | Research Anthropic #42796 |
+| 4.10 | SE-040 agent degradation canary | Independiente | Alto — previene cascada de fallos silenciosa (Anthropic issue #42796) |
 | 4.11 | SE-042 Savia voice training pipeline | SE-027 | Data prep para SLM fine-tuning — pattern de WeClone |
 
 ### Tier 5 — Enterprise SE-XXX absorbidos
