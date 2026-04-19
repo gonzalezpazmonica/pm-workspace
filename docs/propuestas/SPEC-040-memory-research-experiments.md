@@ -1,3 +1,12 @@
+---
+id: SPEC-040
+title: SPEC-040: Memory Research Experiments — I+D en Memoria Agentica
+status: IN_PROGRESS
+origin_date: "2026-03-24"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-040: Memory Research Experiments — I+D en Memoria Agentica
 
 > Status: **IN PROGRESS** · Fecha: 2026-03-24

@@ -1,3 +1,11 @@
+---
+id: SPEC-077
+title: SPEC-077: Estrategia Global de Optimización de Memoria y Contexto
+status: ACCEPTED
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-077: Estrategia Global de Optimización de Memoria y Contexto
 
 > **Status:** APPROVED · **Fecha:** 2026-03-27 · **Era:** 157

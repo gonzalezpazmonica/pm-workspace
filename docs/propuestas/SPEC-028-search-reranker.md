@@ -1,3 +1,12 @@
+---
+id: SPEC-028
+title: SPEC-028: Search Reranker — Post-Retrieval Ranking
+status: ACCEPTED
+origin_date: "2026-03-22"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-028: Search Reranker — Post-Retrieval Ranking
 
 > Status: **READY** · Fecha: 2026-03-22 · Score: 4.40

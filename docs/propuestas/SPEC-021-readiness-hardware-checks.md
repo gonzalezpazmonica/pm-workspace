@@ -1,3 +1,12 @@
+---
+id: SPEC-021
+title: SPEC-021: Readiness Hardware Checks + Zero Telemetry
+status: ACCEPTED
+origin_date: "2026-03-22"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-021: Readiness Hardware Checks + Zero Telemetry
 
 > Status: **READY** · Fecha: 2026-03-22
