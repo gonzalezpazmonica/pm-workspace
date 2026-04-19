@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: e409eb7166a6 | resources: 1026
-> 530 commands · 78 skills · 65 agents · 353 scripts
+> hash: f17650a540dc | resources: 1027
+> 530 commands · 78 skills · 65 agents · 354 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -736,6 +736,7 @@
 [planning] skillssh-adapter — adapter,paquetes,publicables,skills — script:scripts/skillssh-adapter.sh
 [planning] slm-data-prep — data,fine,prep,prepare,project — script:scripts/slm-data-prep.sh
 [planning] slm-synth — slice,synth — script:scripts/slm-synth.sh
+[planning] slm-synth-recipe — emit,oumi,recipe,scaffolding,slice — script:scripts/slm-synth-recipe.sh
 [planning] slm-train — export,fine,locally,ollama,slms — script:scripts/slm-train.sh
 [planning] smart-calendar —  — skill:.claude/skills/smart-calendar/SKILL.md
 [planning] smart-routing — comandos,descubrimiento,enrutamiento,herramientas,inteligente — skill:.claude/skills/smart-routing/SKILL.md

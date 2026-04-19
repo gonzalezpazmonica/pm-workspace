@@ -1,6 +1,6 @@
 {
-  "hash": "ea89b1676dbb",
-  "total": 1026,
+  "hash": "d3980f9aa410",
+  "total": 1027,
   "resources": [
     {
       "category": "analysis",
@@ -9269,6 +9269,20 @@
       "kind": "script",
       "path": "scripts/slm-synth.sh",
       "description": "slm-synth.sh — SE-028 slice 1"
+    },
+    {
+      "category": "planning",
+      "name": "slm-synth-recipe",
+      "intents": [
+        "emit",
+        "oumi",
+        "recipe",
+        "scaffolding",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-synth-recipe.sh",
+      "description": "slm-synth-recipe.sh — SE-028 Slice 1 scaffolding: emit oumi synth recipe YAML."
     },
     {
       "category": "planning",
