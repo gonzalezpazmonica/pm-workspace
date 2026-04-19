@@ -1,9 +1,13 @@
 ---
 id: SPEC-080
 title: SPEC-080 — Entrenamiento de LLMs Especializados con Unsloth
-status: UNLABELED
+status: APPROVED
+approved_at: "2026-04-19"
+approved_reason: "Strategic priority SLM pipeline — Unsloth toolchain scaffolding ready"
+priority: P1-Tier1
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+related: [SPEC-SE-027, SPEC-023, SE-028, SE-042]
 ---
 
 # SPEC-080 — Entrenamiento de LLMs Especializados con Unsloth
