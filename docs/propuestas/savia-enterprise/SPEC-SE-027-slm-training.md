@@ -1,3 +1,11 @@
+---
+id: SPEC-SE-027
+title: SPEC-SE-027: SLM Training Pipeline — Soberanía de Modelos
+status: Proposed
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-SE-027: SLM Training Pipeline — Soberanía de Modelos
 
 > **Estado**: Draft

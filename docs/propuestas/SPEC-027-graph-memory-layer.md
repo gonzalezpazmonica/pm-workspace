@@ -1,3 +1,12 @@
+---
+id: SPEC-027
+title: SPEC-027: Graph Memory Layer — Entity-Relation Extraction
+status: UNLABELED
+origin_date: "2026-03-22"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-027: Graph Memory Layer — Entity-Relation Extraction
 
 > Status: **RESEARCH** · Fecha: 2026-03-22 · Score: 4.85

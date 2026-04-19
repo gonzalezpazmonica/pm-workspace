@@ -1,3 +1,11 @@
+---
+id: SPEC-061
+title: SPEC-061 — Neurodivergent Profile System
+status: Implemented
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-061 — Neurodivergent Profile System
 
 > Status: Implemented | Author: Savia | Date: 2026-03-30 | Completed: 2026-04-05

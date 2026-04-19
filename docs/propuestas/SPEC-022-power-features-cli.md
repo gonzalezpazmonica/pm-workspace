@@ -1,3 +1,12 @@
+---
+id: SPEC-022
+title: SPEC-022: Power Features CLI
+status: ACCEPTED
+origin_date: "2026-03-22"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-022: Power Features CLI
 
 > Status: **READY** · Fecha: 2026-03-22 · Score: 4.60

@@ -1,3 +1,12 @@
+---
+id: SPEC-035
+title: SPEC-035: Hybrid Search — Graph Traversal + Vector Similarity
+status: Proposed
+origin_date: "2026-03-23"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-035: Hybrid Search — Graph Traversal + Vector Similarity
 
 > Status: **DRAFT** · Fecha: 2026-03-23 · Score: 4.55

@@ -1,3 +1,11 @@
+---
+id: SPEC-047
+title: SPEC-047: Requirement Pushback Pass
+status: UNLABELED
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-047: Requirement Pushback Pass
 
 > Status: APPROVED — Phase 1

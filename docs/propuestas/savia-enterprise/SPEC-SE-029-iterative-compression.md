@@ -1,3 +1,11 @@
+---
+id: SPEC-SE-029
+title: SPEC-SE-029: Iterative Context Compression
+status: Proposed
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-SE-029: Iterative Context Compression
 
 > **Estado**: Draft

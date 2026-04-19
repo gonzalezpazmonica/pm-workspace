@@ -1,3 +1,12 @@
+---
+id: SPEC-031
+title: SPEC-031: Workspace Doctor — Health Check del Entorno
+status: Proposed
+origin_date: "2026-03-23"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-031: Workspace Doctor — Health Check del Entorno
 
 > Status: **DRAFT** · Fecha: 2026-03-23 · Score: 4.40
