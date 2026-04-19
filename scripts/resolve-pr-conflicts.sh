@@ -86,35 +86,46 @@ if [[ "$DRY_RUN" -eq 1 ]]; then
   exit 0
 fi
 
+head_before=$(git rev-parse HEAD)
 merge_output=$(git merge origin/main --no-edit 2>&1)
 merge_status=$?
+head_after=$(git rev-parse HEAD)
+
+CLEAN_MERGE=0
 
 if [[ "$merge_status" -eq 0 ]]; then
-  echo "resolve-pr-conflicts: no conflicts, already in sync with main"
-  exit 0
+  if [[ "$head_before" == "$head_after" ]]; then
+    echo "resolve-pr-conflicts: already in sync with main (no merge needed)"
+    exit 0
+  fi
+  echo "resolve-pr-conflicts: merged cleanly (no conflicts) — will re-sign + push"
+  CLEAN_MERGE=1
+  conflicted=""
+else
+  # Check which files are in conflict.
+  conflicted=$(git diff --name-only --diff-filter=U)
+  echo "resolve-pr-conflicts: conflicts in:"
+  echo "$conflicted" | sed 's/^/  - /'
 fi
 
-# Check which files are in conflict.
-conflicted=$(git diff --name-only --diff-filter=U)
-echo "resolve-pr-conflicts: conflicts in:"
-echo "$conflicted" | sed 's/^/  - /'
+if [[ "$CLEAN_MERGE" -eq 0 ]]; then
+  # Validate that ONLY expected files are conflicted.
+  unexpected=""
+  while IFS= read -r f; do
+    case "$f" in
+      CHANGELOG.md|.confidentiality-signature|.scm/*) ;;
+      *) unexpected+="$f"$'\n' ;;
+    esac
+  done <<< "$conflicted"
 
-# Validate that ONLY expected files are conflicted.
-unexpected=""
-while IFS= read -r f; do
-  case "$f" in
-    CHANGELOG.md|.confidentiality-signature|.scm/*) ;;
-    *) unexpected+="$f"$'\n' ;;
-  esac
-done <<< "$conflicted"
-
-if [[ -n "$unexpected" ]]; then
-  echo ""
-  echo "ERROR: unexpected conflict files require human review:" >&2
-  echo "$unexpected" | sed 's/^/  - /' >&2
-  echo "" >&2
-  echo "Aborting merge. Use 'git merge --abort' to reset." >&2
-  exit 3
+  if [[ -n "$unexpected" ]]; then
+    echo ""
+    echo "ERROR: unexpected conflict files require human review:" >&2
+    echo "$unexpected" | sed 's/^/  - /' >&2
+    echo "" >&2
+    echo "Aborting merge. Use 'git merge --abort' to reset." >&2
+    exit 3
+  fi
 fi
 
 # ── CHANGELOG.md resolution ────────────────────────────────────────────────
@@ -194,9 +205,10 @@ if [[ -n "$scm_conflicts" ]]; then
   done <<< "$scm_conflicts"
 fi
 
-# ── Commit merge ───────────────────────────────────────────────────────────
+# ── Commit merge (only if we resolved conflicts — a clean merge already committed) ──
 
-git commit --no-edit -m "Merge origin/main — auto-resolved CHANGELOG + signature + .scm
+if [[ "$CLEAN_MERGE" -eq 0 ]]; then
+  git commit --no-edit -m "Merge origin/main — auto-resolved CHANGELOG + signature + .scm
 
 Conflicts resolved by scripts/resolve-pr-conflicts.sh:
 - CHANGELOG.md: kept our new version entry + link, rebased on main
@@ -204,6 +216,7 @@ Conflicts resolved by scripts/resolve-pr-conflicts.sh:
 - .scm/: will be regenerated
 
 Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
+fi
 
 # ── Regenerate SCM if generator present ────────────────────────────────────
 
