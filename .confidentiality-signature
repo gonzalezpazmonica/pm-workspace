@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=69affb73f6996722869d8a0dbc5cbdf96c7d58443dc21ae1965147f6bce84c2c
+diff_hash=37083c9c557198ea131131930c396e6745847197e902f552deec17223edfdb45
 timestamp=2026-04-19T14:39:30Z
 branch=agent/specse020-slice2-portfolio-grapher-20260419
-head_commit=9415258a
-signature=b86cfd155ffbdd0575d900497c48b52c04c3b924dc813a036dff013bc80550c7
+head_commit=78538bd7
+signature=cf1d07b3d0867834cb8a9374e4d81b484e41360f20080a9be52aa5f96b07da8d
