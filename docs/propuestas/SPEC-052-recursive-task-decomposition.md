@@ -1,3 +1,12 @@
+---
+id: SPEC-052
+title: SPEC-052: Recursive Task Decomposition with Approval Gates
+status: Proposed
+origin_date: "2026-03-30"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-052: Recursive Task Decomposition with Approval Gates
 
 > Status: **DRAFT** | Fecha: 2026-03-30

@@ -1,3 +1,12 @@
+---
+id: SPEC-076
+title: SPEC-076: PENDING_USER_INPUT — Pausa/Reanuda en Agentes Autónomos
+status: Proposed
+origin_date: "2026-03-25"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-076: PENDING_USER_INPUT — Pausa/Reanuda en Agentes Autónomos
 
 > Status: **DRAFT** · Fecha: 2026-03-25 · Score: 3.40
