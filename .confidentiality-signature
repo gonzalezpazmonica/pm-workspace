@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=69affb73f6996722869d8a0dbc5cbdf96c7d58443dc21ae1965147f6bce84c2c
+diff_hash=cc205dc60c5a1ed93fad6160d621719eba55ec1787aebcdf2c1632694db0eea2
 timestamp=2026-04-19T14:51:07Z
 branch=agent/slm-training-scaffolding-20260419
-head_commit=9415258a
-signature=b86cfd155ffbdd0575d900497c48b52c04c3b924dc813a036dff013bc80550c7
+head_commit=81969a27
+signature=54a004ffabb5d77348a94966727cca6df67de4a07ad3cd772ab451adfd313693
