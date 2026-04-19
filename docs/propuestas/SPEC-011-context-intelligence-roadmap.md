@@ -1,3 +1,12 @@
+---
+id: SPEC-011
+title: SPEC-011: Roadmap Unificado — pm-workspace + Savia + SaviaClaw
+status: IN_PROGRESS
+origin_date: "2026-03-22"
+migrated_at: "2026-04-18"
+migrated_from: body-prose
+---
+
 # SPEC-011: Roadmap Unificado — pm-workspace + Savia + SaviaClaw
 
 > Status: **ACTIVE** · Fecha: 2026-03-22

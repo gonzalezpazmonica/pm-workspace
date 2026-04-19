@@ -1,3 +1,12 @@
+---
+id: SPEC-005
+title: SPEC-005: Guiado de ensamblaje físico — Savia guía al humano
+status: Proposed
+origin_date: "2026-03-21"
+migrated_at: "2026-04-18"
+migrated_from: body-prose
+---
+
 # SPEC-005: Guiado de ensamblaje físico — Savia guía al humano
 
 > Status: **DRAFT** · Fecha: 2026-03-21
