@@ -1,6 +1,6 @@
 {
-  "hash": "4c5fa2cb4553",
-  "total": 1030,
+  "hash": "d631a6780da8",
+  "total": 1031,
   "resources": [
     {
       "category": "analysis",
@@ -9300,6 +9300,20 @@
       "kind": "script",
       "path": "scripts/slm-dataset-prep.sh",
       "description": "slm-dataset-prep.sh — Phase 1 scaffolding for SLM training pipeline."
+    },
+    {
+      "category": "planning",
+      "name": "slm-eval-harness-setup",
+      "intents": [
+        "config",
+        "emission",
+        "eval",
+        "harness",
+        "phase"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-eval-harness-setup.sh",
+      "description": "slm-eval-harness-setup.sh — Phase 5 scaffolding: eval config emission."
     },
     {
       "category": "planning",
