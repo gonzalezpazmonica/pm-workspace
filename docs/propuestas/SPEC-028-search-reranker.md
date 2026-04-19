@@ -1,7 +1,10 @@
 ---
 id: SPEC-028
 title: SPEC-028: Search Reranker — Post-Retrieval Ranking
-status: ACCEPTED
+status: SUPERSEDED
+superseded_by: SE-032
+superseded_at: "2026-04-18"
+superseded_reason: SE-032 refina el mismo concepto con Feasibility Probe bloqueante, cross-encoder específico (BAAI/bge-reranker) y ablation report. SE-032 = versión Spec Ops de este concepto (ver ROADMAP §Tier 6)
 origin_date: "2026-03-22"
 migrated_at: "2026-04-19"
 migrated_from: body-prose

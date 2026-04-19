@@ -63,8 +63,9 @@ Todos Slice 1 de sus specs — solo mediciones, no cambian código. Producen gro
 | 2.2 | SE-033 Slice 1 | BERTopic sobre 50 retros reales (1.5h) | ≥3 clusters útiles → continue |
 | 2.3 | SE-035 Slice 1 | Mutation testing 3 módulos (1.5h) | score baseline >30% → continue |
 | 2.4 | SE-028 Slice 1 | oumi data synth para SLM (2h) | 500+ samples válidos → continue |
+| 2.5 | SE-041 Slice 1 | Memvid .mv2 format ingest 100 docs + round-trip (2h) | latencia <50ms + byte-identical restore → continue |
 
-Si TODOS los probes de Tier 2 aprueban: tenemos 4 capacidades nuevas con evidence empírico de ROI. Si fallan, documentamos y cerramos (valor del probe es evitar specs zombies).
+Si TODOS los probes de Tier 2 aprueban: tenemos 5 capacidades nuevas con evidence empírico de ROI. Si fallan, documentamos y cerramos (valor del probe es evitar specs zombies).
 
 ### Tier 3 — Seguridad (requiere luz verde humana antes)
 
@@ -87,7 +88,7 @@ Orden por dependencia:
 | 4.7 | SPEC-108 agent self-improvement + Sentry RCA | parcial merged | Closing loop |
 | 4.8 | SPEC-099 gitagent export adapter | — | Portabilidad futura |
 | 4.9 | SPEC-100 GAIA benchmark integration | — | Validación externa |
-| 4.10 | SE-040 agent degradation canary | — | Research Anthropic #42796 |
+| 4.10 | SE-040 agent degradation canary | Independiente | Alto — previene cascada de fallos silenciosa (Anthropic issue #42796) |
 | 4.11 | SE-042 Savia voice training pipeline | SE-027 | Data prep para SLM fine-tuning — pattern de WeClone |
 
 ### Tier 5 — Enterprise SE-XXX absorbidos
@@ -124,12 +125,14 @@ Del ex-DEVELOPMENT-PLAN.md savia-enterprise, iterable autónomamente sin infra e
 
 ### Tier 6 — Convergencias / consolidaciones
 
-Specs que deberían fusionarse o renombrarse:
+Estado de consolidaciones marcadas en frontmatter de cada spec:
 
-- SPEC-081 hook BATS coverage → **absorbido por SE-037**
-- SPEC-078 dual estimation ↔ SPEC-SE-013 → **candidato a consolidar**
-- SPEC-028 search-reranker ↔ SE-032 → **posible duplicación — auditar**
-- SPEC-027 graph ↔ SPEC-123 graphiti → **converge con SE-030**
+- SPEC-081 hook BATS coverage → **SUPERSEDED_BY SE-037** ✅ (aplicado 2026-04-18)
+- SPEC-028 search-reranker → **SUPERSEDED_BY SE-032** ✅ (aplicado 2026-04-18)
+- SPEC-027 graph memory layer → **converges_with SPEC-123 graphiti + SE-030** ✅ (aplicado 2026-04-18)
+- SPEC-078 dual estimation ↔ SPEC-SE-013 → **pendiente** — candidato a consolidar
+
+Pattern: cuando SE-XXX refina un SPEC-YYY anterior con Spec Ops (Feasibility Probe, Purpose, expires), marcar el SPEC-YYY como `status: SUPERSEDED` + `superseded_by: SE-XXX` + razón. Frontmatter metadata es auditable y grep-friendly.
 
 ### Tier 7 — Backlog frío
 

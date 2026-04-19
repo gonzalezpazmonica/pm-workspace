@@ -1,7 +1,10 @@
 ---
 spec_id: SPEC-081
 title: Tests BATS dedicados para los 10 hooks criticos
-status: Proposed
+status: SUPERSEDED
+superseded_by: SE-037
+superseded_at: "2026-04-18"
+superseded_reason: SE-037 absorbe BATS coverage + añade latency SLA + ratchet enforcement (ver ROADMAP §Tier 6)
 origin: Auditoria 2026-04-07 (M-001)
 severity: Media
 effort: ~2h agente
