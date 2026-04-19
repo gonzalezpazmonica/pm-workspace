@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 461 resources
+> 462 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -254,6 +254,7 @@
 - **onboard-enterprise** (cmd): Enterprise onboarding at scale — batch import, per-role checklists, knowledge transfer
 - **onboarding-dev** (cmd): Technical onboarding with AI Buddy — auto-generates project docs, personalized plan, and 3-layer buddy agent
 - **onboarding-dev** (skill): Onboarding técnico con Buddy IA — auto-genera documentación del proyecto, plan personalizado 30/60/90 y agente buddy de 3 capas
+- **operational-point-selector** (script): operational-point-selector.sh — SE-029 Slice 4.
 - **orgchart-import** (cmd): >
 - **orgchart-import** (skill): >
 - **outcome-track** (cmd): Tracking de outcomes post-release — ¿la feature entregó el valor esperado?
