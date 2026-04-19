@@ -54,6 +54,13 @@ declare -a results=()
 total=0
 slow_count=0
 
+# Stop-event hooks run AFTER the user turn ends, not in hot path. They
+# get a more lenient SLA (2.5x the hot-path threshold). A hook is
+# classified as Stop-event if its name matches a Stop* pattern or if
+# the hook is registered only under Stop in settings.json.
+stop_hooks_re='^(scope-guard|session-end-snapshot|session-end-memory|session-end-signature)\.sh$'
+stop_threshold_ms=$(( THRESHOLD_MS * 5 / 2 ))  # 500ms for 200ms base
+
 for hook in "$ROOT"/.claude/hooks/*.sh; do
   [[ -x "$hook" ]] || continue
   name=$(basename "$hook")
@@ -67,12 +74,21 @@ for hook in "$ROOT"/.claude/hooks/*.sh; do
   results+=("$name:$avg_ms")
   total=$((total + 1))
 
-  if [[ "$avg_ms" -gt "$THRESHOLD_MS" ]]; then
+  # Apply appropriate threshold based on classification.
+  if [[ "$name" =~ $stop_hooks_re ]]; then
+    effective_threshold="$stop_threshold_ms"
+    suffix=" (stop-event SLA ${stop_threshold_ms}ms)"
+  else
+    effective_threshold="$THRESHOLD_MS"
+    suffix=""
+  fi
+
+  if [[ "$avg_ms" -gt "$effective_threshold" ]]; then
     slow_hooks+=("$name:$avg_ms")
     slow_count=$((slow_count + 1))
-    printf "  %-50s %4dms  SLOW\n" "$name" "$avg_ms"
+    printf "  %-50s %4dms  SLOW%s\n" "$name" "$avg_ms" "$suffix"
   else
-    printf "  %-50s %4dms\n" "$name" "$avg_ms"
+    printf "  %-50s %4dms%s\n" "$name" "$avg_ms" "$suffix"
   fi
 done
 

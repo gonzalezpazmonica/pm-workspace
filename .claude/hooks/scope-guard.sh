@@ -28,12 +28,27 @@ if [ -z "$MODIFIED" ]; then
   exit 0
 fi
 
-# Buscar spec activa: fichero .spec.md más reciente modificado en los últimos 60 min
-SPEC_FILE=$(find "$PROJECT_ROOT" -name "*.spec.md" -newer "$SAVIA_TMP/.scope-guard-marker" 2>/dev/null | head -1)
+# Buscar spec activa: fichero .spec.md más reciente modificado en los últimos 60 min.
+# Restrict search to known spec locations + prune heavy dirs to keep hook <200ms.
+# Common SDD paths: projects/*/specs/, docs/specs/, docs/propuestas/.
+SEARCH_PATHS=()
+for p in "$PROJECT_ROOT/projects" "$PROJECT_ROOT/docs/specs" "$PROJECT_ROOT/docs/propuestas"; do
+  [[ -d "$p" ]] && SEARCH_PATHS+=("$p")
+done
+[[ ${#SEARCH_PATHS[@]} -eq 0 ]] && SEARCH_PATHS+=("$PROJECT_ROOT")
 
-# Si no hay marker, buscar la spec más recientemente modificada
+SPEC_FILE=""
+if [[ -n "${SAVIA_TMP:-}" && -f "$SAVIA_TMP/.scope-guard-marker" ]]; then
+  SPEC_FILE=$(find "${SEARCH_PATHS[@]}" -maxdepth 6 \
+    \( -name node_modules -o -name .git -o -name build -o -name dist -o -name target \) -prune -o \
+    -name "*.spec.md" -newer "$SAVIA_TMP/.scope-guard-marker" -print 2>/dev/null | head -1)
+fi
+
+# Si no hay marker (o no match), buscar la spec más recientemente modificada
 if [ -z "$SPEC_FILE" ]; then
-  SPEC_FILE=$(find "$PROJECT_ROOT" -name "*.spec.md" -mmin -60 2>/dev/null | sort -t/ -k1,1 | tail -1)
+  SPEC_FILE=$(find "${SEARCH_PATHS[@]}" -maxdepth 6 \
+    \( -name node_modules -o -name .git -o -name build -o -name dist -o -name target \) -prune -o \
+    -name "*.spec.md" -mmin -60 -print 2>/dev/null | sort -t/ -k1,1 | tail -1)
 fi
 
 # Si no hay spec activa, no podemos verificar scope
