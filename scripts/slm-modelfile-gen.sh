@@ -52,7 +52,7 @@ Required:
   --output FILE         Modelfile destination
 
 Optional:
-  --persona NAME        Allowed: $(echo "${!PERSONAS[@]}" | tr ' ' ',')
+  --persona NAME        Allowed: $(echo "${!PERSONAS[*]}" | tr ' ' ',')
                         default: default
   --system TEXT         Custom system message (overrides --persona)
   --temperature FLOAT   Inference temperature (default 0.4)
@@ -94,7 +94,7 @@ fi
 # Resolve system message: --system takes precedence over --persona allow-list.
 if [[ -z "$SYSTEM_MESSAGE" ]]; then
   if [[ -z "${PERSONAS[$PERSONA]:-}" ]]; then
-    echo "ERROR: unknown --persona '$PERSONA' (allowed: ${!PERSONAS[@]})" >&2
+    echo "ERROR: unknown --persona '$PERSONA' (allowed: ${!PERSONAS[*]})" >&2
     exit 2
   fi
   SYSTEM_MESSAGE="${PERSONAS[$PERSONA]}"
