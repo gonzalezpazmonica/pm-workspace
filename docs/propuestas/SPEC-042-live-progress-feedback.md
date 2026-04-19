@@ -1,3 +1,12 @@
+---
+id: SPEC-042
+title: SPEC-042: Live Progress Feedback — Visibilidad en tiempo real del trabajo de Savia
+status: Proposed
+origin_date: "2026-03-29"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-042: Live Progress Feedback — Visibilidad en tiempo real del trabajo de Savia
 
 > Status: **DRAFT** · Fecha: 2026-03-29

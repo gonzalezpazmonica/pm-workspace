@@ -1,3 +1,12 @@
+---
+id: SPEC-036
+title: SPEC-036: Agent Evaluation Framework — Medir para Mejorar
+status: ACCEPTED
+origin_date: "2026-03-24"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-036: Agent Evaluation Framework — Medir para Mejorar
 
 > Status: **APPROVED** · Fecha: 2026-03-24 · Score: 4.65

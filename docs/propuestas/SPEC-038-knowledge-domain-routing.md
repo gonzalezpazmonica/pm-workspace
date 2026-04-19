@@ -1,3 +1,12 @@
+---
+id: SPEC-038
+title: SPEC-038: Knowledge Domain Routing — Equipos de Memoria
+status: ACCEPTED
+origin_date: "2026-03-24"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-038: Knowledge Domain Routing — Equipos de Memoria
 
 > Status: **APPROVED** · Fecha: 2026-03-24 · Score: 4.8

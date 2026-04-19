@@ -1,3 +1,11 @@
+---
+id: SPEC-060
+title: SPEC-060 — SaviaDivergent: Neurodivergent-Aware AI Work Companion
+status: Proposed
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-060 — SaviaDivergent: Neurodivergent-Aware AI Work Companion
 
 > Status: Proposed | Author: Savia | Date: 2026-03-30

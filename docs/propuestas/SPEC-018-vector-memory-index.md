@@ -1,3 +1,12 @@
+---
+id: SPEC-018
+title: SPEC-018: Vector Memory Index — Semantic Search over Plain Text
+status: IN_PROGRESS
+origin_date: "2026-03-22"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-018: Vector Memory Index — Semantic Search over Plain Text
 
 > Status: **IMPLEMENTING** · Fecha: 2026-03-22
