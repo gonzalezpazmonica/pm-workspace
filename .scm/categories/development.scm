@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 107 resources
+> 109 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -64,6 +64,7 @@
 - **pipeline-stage-runner** (script): pipeline-stage-runner.sh — Execute a single pipeline stage
 - **pipeline-status** (cmd): >
 - **pipeline-view** (cmd): ASCII table of all active pursuits with stage, value, and probability
+- **portfolio-contention** (script): portfolio-contention.sh — SPEC-SE-020 Slice 4 contention detector.
 - **portfolio-critical-path** (script): portfolio-critical-path.sh — SPEC-SE-020 Slice 3 critical path analyzer.
 - **portfolio-graph** (script): portfolio-graph.sh — SPEC-SE-020 Slice 2 dependency graph builder.
 - **pre-push-bats-critical** (script): pre-push-bats-critical.sh — SPEC-SE-012 Module 3.
@@ -78,6 +79,7 @@
 - **semantic-map** (script): semantic-map.sh — Generate compressed semantic maps of source code files
 - **setup-savia-web** (script): Setup, build, and serve savia-web on http://localhost:8081
 - **skill-loader** (script): skill-loader.sh — SPEC-144: Context-Aware Skill Loading
+- **slm-deploy** (script): slm-deploy.sh — Orchestrate post-training deployment scaffolding.
 - **slm-registry** (script): slm-registry.sh — Model registry for trained SLMs (SPEC-SE-027 registry).
 - **sovereignty-pack** (script): sovereignty-pack.sh — Build fully offline Savia USB installer
 - **spec-design** (cmd): Genera diseño técnico a partir de una spec existente — decisiones, flujo de datos, estrategia de testing.
