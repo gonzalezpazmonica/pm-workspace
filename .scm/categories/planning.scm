@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 464 resources
+> 470 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -377,7 +377,13 @@
 - **skillssh-adapter** (script): ── skills.sh Adapter — Genera paquetes publicables para skills.sh ──
 - **slm-data-prep** (script): slm-data-prep.sh — Prepare project data for SLM fine-tuning
 - **slm-dataset-prep** (script): slm-dataset-prep.sh — Phase 1 scaffolding for SLM training pipeline.
+- **slm-dataset-validate** (script): slm-dataset-validate.sh — Validate a JSONL dataset before SLM training.
+- **slm-eval-harness-setup** (script): slm-eval-harness-setup.sh — Phase 5 scaffolding: eval config emission.
+- **slm-modelfile-gen** (script): slm-modelfile-gen.sh — Generate Ollama Modelfile for a trained SLM.
+- **slm-pipeline-validate** (script): slm-pipeline-validate.sh — Meta-validator for an SLM project directory.
+- **slm-project-init** (script): slm-project-init.sh — Bootstrap a new SLM project with the canonical layout.
 - **slm-synth** (script): slm-synth.sh — SE-028 slice 1
+- **slm-synth-recipe** (script): slm-synth-recipe.sh — SE-028 Slice 1 scaffolding: emit oumi synth recipe YAML.
 - **slm-train** (script): slm-train.sh — Fine-tune SLMs locally with Unsloth + export to Ollama
 - **slm-train-config** (script): slm-train-config.sh — Phase 3 scaffolding: emit Unsloth/TRL YAML config.
 - **smart-calendar** (skill): >
