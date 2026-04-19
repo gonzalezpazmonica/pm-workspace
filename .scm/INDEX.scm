@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 13a107d36de7 | resources: 1022
-> 530 commands · 77 skills · 65 agents · 350 scripts
+> hash: 81a3cebc6040 | resources: 1024
+> 530 commands · 78 skills · 65 agents · 351 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -302,7 +302,9 @@
 [memory] context-rotation — automated,context,daily,monthly,rotation — script:scripts/context-rotation.sh
 [memory] context-snapshot — between,context,load,save,session — script:scripts/context-snapshot.sh
 [memory] context-status — context,model,optimization,recommendations,show — cmd:.claude/commands/context-status.md
+[memory] context-task-classifier — chitchat,clases,clasifica,code,compresión — skill:.claude/skills/context-task-classifier/SKILL.md
 [memory] context-task-classifier — classifier,context,task — script:scripts/context-task-classifier.sh
+[memory] context-task-classify — class,classifier,classify,context,slice — script:scripts/context-task-classify.sh
 [memory] context-tracker — context,tracker — script:scripts/context-tracker.sh
 [memory] cross-project-search — búsqueda,conocimiento,portfolio,proyectos,transversal — cmd:.claude/commands/cross-project-search.md
 [memory] digest-to-memory — agents,bridge,digest,graph,memory — script:scripts/digest-to-memory.sh

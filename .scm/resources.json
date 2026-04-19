@@ -1,6 +1,6 @@
 {
-  "hash": "a4e7b2213601",
-  "total": 1022,
+  "hash": "c969d79ffce3",
+  "total": 1024,
   "resources": [
     {
       "category": "analysis",
@@ -3830,6 +3830,20 @@
       "category": "memory",
       "name": "context-task-classifier",
       "intents": [
+        "chitchat",
+        "clases",
+        "clasifica",
+        "code",
+        "compresión"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/context-task-classifier/SKILL.md",
+      "description": "Clasifica un turno en una de 6 clases de tarea (decision, spec, code, review, context, chitchat) para decidir ratio de compresión máximo. SE-029 §2 (SE-029-C)."
+    },
+    {
+      "category": "memory",
+      "name": "context-task-classifier",
+      "intents": [
         "classifier",
         "context",
         "task"
@@ -3837,6 +3851,20 @@
       "kind": "script",
       "path": "scripts/context-task-classifier.sh",
       "description": "context-task-classifier.sh — SE-029-C"
+    },
+    {
+      "category": "memory",
+      "name": "context-task-classify",
+      "intents": [
+        "class",
+        "classifier",
+        "classify",
+        "context",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/context-task-classify.sh",
+      "description": "context-task-classify.sh — SE-029 Slice 2 task-class classifier."
     },
     {
       "category": "memory",

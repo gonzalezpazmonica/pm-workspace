@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 87 resources
+> 89 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -32,7 +32,9 @@
 - **context-rotation** (script): context-rotation.sh — SE-033: Automated context rotation (daily/weekly/monthly)
 - **context-snapshot** (script): context-snapshot.sh — Save/load session context between sessions
 - **context-status** (cmd): Show context window usage, model tier, and optimization recommendations
+- **context-task-classifier** (skill): Clasifica un turno en una de 6 clases de tarea (decision, spec, code, review, context, chitchat) para decidir ratio de compresión máximo. SE-029 §2 (SE-029-C).
 - **context-task-classifier** (script): context-task-classifier.sh — SE-029-C
+- **context-task-classify** (script): context-task-classify.sh — SE-029 Slice 2 task-class classifier.
 - **context-tracker** (script): ── context-tracker.sh ─────────────────────────────────────────────────────
 - **cross-project-search** (cmd): Búsqueda transversal de conocimiento entre todos los proyectos del portfolio
 - **digest-to-memory** (script): digest-to-memory.sh — Bridge: digest agents -> memory-store + graph
