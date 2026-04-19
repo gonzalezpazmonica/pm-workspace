@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=75694df97f41bc4ec10aa64805405ca97e98f4868834b5ada2b38e7e2f1959d4
-timestamp=2026-04-19T14:59:40Z
+diff_hash=046db1e08aa9a9570714820904c4458ea1422a4527894984d0299209c0b2c982
+timestamp=2026-04-19T17:58:54Z
 branch=agent/slm-eval-harness-scaffolding-20260419
-head_commit=36cf6029
-signature=1632500af017a0cd9420a0934df1fe171a81eb0aaa85bcb680c5ee38440196cf
+head_commit=85e1bb78
+signature=cf69d9aeb0b29a8c14e7c35e1e6048b30d03f222f77fa6450551e61328ac5707
