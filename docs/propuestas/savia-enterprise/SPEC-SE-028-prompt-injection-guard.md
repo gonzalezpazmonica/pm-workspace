@@ -1,3 +1,11 @@
+---
+id: SPEC-SE-028
+title: SPEC-SE-028: Prompt Injection Guard — Context File Scanning
+status: Proposed
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-SE-028: Prompt Injection Guard — Context File Scanning
 
 > **Estado**: Draft

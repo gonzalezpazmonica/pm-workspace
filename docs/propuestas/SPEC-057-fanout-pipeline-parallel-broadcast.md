@@ -1,3 +1,12 @@
+---
+id: SPEC-057
+title: SPEC-057: Fanout Pipeline for Parallel Agent Broadcast
+status: Proposed
+origin_date: "2026-03-30"
+migrated_at: "2026-04-19"
+migrated_from: body-prose
+---
+
 # SPEC-057: Fanout Pipeline for Parallel Agent Broadcast
 
 > Status: **DRAFT** | Fecha: 2026-03-30
