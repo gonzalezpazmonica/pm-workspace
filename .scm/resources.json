@@ -1,6 +1,6 @@
 {
-  "hash": "14daec5ffb06",
-  "total": 1042,
+  "hash": "2a6099990828",
+  "total": 1043,
   "resources": [
     {
       "category": "analysis",
@@ -9384,6 +9384,20 @@
       "kind": "script",
       "path": "scripts/slm-dataset-validate.sh",
       "description": "slm-dataset-validate.sh — Validate a JSONL dataset before SLM training."
+    },
+    {
+      "category": "planning",
+      "name": "slm-eval-compare",
+      "intents": [
+        "between",
+        "compare",
+        "eval",
+        "results",
+        "versions"
+      ],
+      "kind": "script",
+      "path": "scripts/slm-eval-compare.sh",
+      "description": "slm-eval-compare.sh — A/B compare eval results between 2 SLM versions."
     },
     {
       "category": "planning",
