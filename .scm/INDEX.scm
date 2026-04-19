@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 549c260a2058 | resources: 1034
-> 530 commands · 78 skills · 65 agents · 361 scripts
+> hash: e28c668f1033 | resources: 1036
+> 530 commands · 78 skills · 65 agents · 363 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -213,6 +213,7 @@
 [development] semantic-map — code,compressed,files,generate,maps — script:scripts/semantic-map.sh
 [development] setup-savia-web — build,http,localhost,savia,serve — script:scripts/setup-savia-web.sh
 [development] skill-loader — aware,context,loader,loading,skill — script:scripts/skill-loader.sh
+[development] slm-registry — model,registry,slms,spec,trained — script:scripts/slm-registry.sh
 [development] sovereignty-pack — build,fully,installer,offline,pack — script:scripts/sovereignty-pack.sh
 [development] spec-design — datos,decisiones,diseño,estrategia,existente — cmd:.claude/commands/spec-design.md
 [development] spec-driven-development — agentes,claude,desarrolladores,ejecutables,humanos — skill:.claude/skills/spec-driven-development/SKILL.md
@@ -739,6 +740,7 @@
 [planning] slm-data-prep — data,fine,prep,prepare,project — script:scripts/slm-data-prep.sh
 [planning] slm-dataset-prep — dataset,phase,pipeline,prep,scaffolding — script:scripts/slm-dataset-prep.sh
 [planning] slm-eval-harness-setup — config,emission,eval,harness,phase — script:scripts/slm-eval-harness-setup.sh
+[planning] slm-modelfile-gen — generate,modelfile,ollama,trained — script:scripts/slm-modelfile-gen.sh
 [planning] slm-pipeline-validate — directory,meta,pipeline,project,validate — script:scripts/slm-pipeline-validate.sh
 [planning] slm-project-init — bootstrap,canonical,init,layout,project — script:scripts/slm-project-init.sh
 [planning] slm-synth — slice,synth — script:scripts/slm-synth.sh
