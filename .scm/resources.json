@@ -1,6 +1,6 @@
 {
-  "hash": "c969d79ffce3",
-  "total": 1024,
+  "hash": "2ce43878ca00",
+  "total": 1025,
   "resources": [
     {
       "category": "analysis",
@@ -5751,6 +5751,20 @@
       "kind": "script",
       "path": "scripts/compile-agent-index.sh",
       "description": "compile-agent-index.sh — Compiled agent reference index for LLM routing"
+    },
+    {
+      "category": "planning",
+      "name": "compress-skip-frozen",
+      "intents": [
+        "advisory",
+        "compress",
+        "core",
+        "frozen",
+        "skip"
+      ],
+      "kind": "script",
+      "path": "scripts/compress-skip-frozen.sh",
+      "description": "compress-skip-frozen.sh — SE-029 Slice 3 frozen-core advisory."
     },
     {
       "category": "planning",

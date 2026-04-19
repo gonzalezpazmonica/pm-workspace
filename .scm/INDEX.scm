@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 81a3cebc6040 | resources: 1024
-> 530 commands · 78 skills · 65 agents · 351 scripts
+> hash: 417542fe698d | resources: 1025
+> 530 commands · 78 skills · 65 agents · 352 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -451,6 +451,7 @@
 [planning] company-vertical — configurar,detectar,empresa,frameworks,mejores — cmd:.claude/commands/company-vertical.md
 [planning] competence-score — calculate,competence,score,scores,tracking — script:scripts/competence-score.sh
 [planning] compile-agent-index — agent,compile,compiled,index,reference — script:scripts/compile-agent-index.sh
+[planning] compress-skip-frozen — advisory,compress,core,frozen,skip — script:scripts/compress-skip-frozen.sh
 [planning] confidence-calibrate — analytics,calibrate,calibration,confidence — script:scripts/confidence-calibrate.sh
 [planning] confidentiality-check — check,comply,confidentiality,files,levels — script:scripts/confidentiality-check.sh
 [planning] confidentiality-scan — confidentiality,credentials,names,project,real — script:scripts/confidentiality-scan.sh
