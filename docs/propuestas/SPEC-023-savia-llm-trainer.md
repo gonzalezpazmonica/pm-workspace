@@ -1,10 +1,14 @@
 ---
 id: SPEC-023
 title: SPEC-023: Savia LLM Trainer — Context Brain Local
-status: UNLABELED
+status: APPROVED
+approved_at: "2026-04-19"
+approved_reason: "Strategic priority — software scaffolding ready, GPU-dependent phases deferred"
+priority: P1-Tier1
 origin_date: "2026-03-22"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+related: [SPEC-SE-027, SPEC-080, SE-028, SE-042]
 ---
 
 # SPEC-023: Savia LLM Trainer — Context Brain Local

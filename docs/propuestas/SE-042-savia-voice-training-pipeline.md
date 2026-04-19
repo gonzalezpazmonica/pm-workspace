@@ -1,11 +1,13 @@
 ---
 id: SE-042
 title: Savia Voice Training Pipeline — chat-to-SFT para fine-tuning con Savia persona
-status: PROPOSED
+status: APPROVED
 origin: Research 2026-04-18 github.com/xming521/WeClone (17.6k stars, AGPL-3.0)
 author: Savia
-related: SE-027 SLM training, SE-028 oumi integration, Savia Shield, savia-dual skill
-approved_at: null
+related: [SPEC-SE-027, SPEC-023, SPEC-080, SE-028]
+priority: P1-Tier1
+approved_at: "2026-04-19"
+approved_reason: "Strategic SLM pipeline — voice/persona data prep scaffolding priority"
 applied_at: null
 expires: "2026-06-18"
 ---
