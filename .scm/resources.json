@@ -1,6 +1,6 @@
 {
-  "hash": "6beea65373d2",
-  "total": 1021,
+  "hash": "a4e7b2213601",
+  "total": 1022,
   "resources": [
     {
       "category": "analysis",
@@ -2030,6 +2030,20 @@
       "kind": "skill",
       "path": ".claude/skills/dag-scheduling/SKILL.md",
       "description": "Orquestar agentes SDD en paralelo usando gráficos de dependencias"
+    },
+    {
+      "category": "development",
+      "name": "dag-typing-validate",
+      "intents": [
+        "prototype",
+        "slice",
+        "typing",
+        "validate",
+        "validator"
+      ],
+      "kind": "script",
+      "path": "scripts/dag-typing-validate.sh",
+      "description": "dag-typing-validate.sh — SE-034 Slice 1 prototype validator."
     },
     {
       "category": "development",

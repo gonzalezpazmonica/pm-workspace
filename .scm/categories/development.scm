@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 102 resources
+> 103 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -29,6 +29,7 @@
 - **dag-execute** (cmd): Ejecutar pipeline SDD con agentes en paralelo según DAG
 - **dag-plan** (cmd): Visualizar DAG de ejecución, camino crítico y ahorro de tiempo
 - **dag-scheduling** (skill): Orquestar agentes SDD en paralelo usando gráficos de dependencias
+- **dag-typing-validate** (script): dag-typing-validate.sh — SE-034 Slice 1 prototype validator.
 - **dev-orchestrator** (agent): Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto
 - **dev-session** (cmd): Orquestar desarrollo de un spec mediante 5 fases con aislamiento de contexto y persistencia en disco
 - **dev-session-discard** (script): dev-session-discard.sh — Discard a dev-session cleanly
