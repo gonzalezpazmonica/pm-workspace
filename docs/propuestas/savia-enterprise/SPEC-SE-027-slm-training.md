@@ -1,7 +1,10 @@
 ---
 id: SPEC-SE-027
 title: SPEC-SE-027: SLM Training Pipeline — Soberanía de Modelos
-status: Proposed
+status: APPROVED
+approved_at: "2026-04-19"
+approved_reason: "Strategic priority — software scaffolding first, GPU execution deferred until hardware available"
+priority: P1-Tier1
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 ---

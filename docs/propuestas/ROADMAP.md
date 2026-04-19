@@ -55,6 +55,21 @@ Todos Slice 1 de sus specs — solo mediciones, no cambian código. Producen gro
 
 **Valor**: tras Tier 1 sabemos cuánta deuda real hay. Si una categoría no tiene problema, su spec queda ABORT/CLOSED automáticamente.
 
+### Tier 1.5 — SLM Training Pipeline (strategic priority, 2026-04-19)
+
+Aprobado para subir scaffolding al repo. GPU diferida hasta hardware disponible. Software puede operar sin GPU hoy.
+
+| # | Spec | Status | Scaffolding hoy |
+|---|---|---|---|
+| 1.5.1 | SPEC-SE-027 | **APPROVED** | Entry doc + rule |
+| 1.5.2 | SPEC-023 | **APPROVED** | Savia context brain — dataset prep ready |
+| 1.5.3 | SPEC-080 | **APPROVED** | Unsloth train-config.sh emite YAML |
+| 1.5.4 | SE-028 | **APPROVED** | oumi data synthesis scripts (pendiente) |
+| 1.5.5 | SE-042 | **APPROVED** | Voice/persona chat-to-SFT prep (pendiente) |
+
+Rule: `docs/rules/domain/slm-training-pipeline.md`.
+Scripts base: `scripts/slm-dataset-prep.sh`, `scripts/slm-train-config.sh`.
+
 ### Tier 2 — Champions research (Feasibility Probes blocking)
 
 | # | Spec | Feasibility Probe | Gate decision |
