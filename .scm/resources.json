@@ -1,6 +1,6 @@
 {
-  "hash": "545cf6fddc5e",
-  "total": 1047,
+  "hash": "2640ce346bfc",
+  "total": 1050,
   "resources": [
     {
       "category": "analysis",
@@ -11090,6 +11090,20 @@
     },
     {
       "category": "quality",
+      "name": "hook-latency-audit",
+      "intents": [
+        "audit",
+        "enforcement",
+        "hook",
+        "latency",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/hook-latency-audit.sh",
+      "description": "hook-latency-audit.sh — SE-037 Slice 1 hook latency enforcement audit."
+    },
+    {
+      "category": "quality",
       "name": "hub-audit",
       "intents": [
         "agentes",
@@ -11226,6 +11240,19 @@
       "kind": "agent",
       "path": ".claude/agents/model-upgrade-auditor.md",
       "description": "Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence."
+    },
+    {
+      "category": "quality",
+      "name": "mutation-audit",
+      "intents": [
+        "audit",
+        "mutation",
+        "slice",
+        "testing"
+      ],
+      "kind": "script",
+      "path": "scripts/mutation-audit.sh",
+      "description": "mutation-audit.sh — SE-035 Slice 1 mutation testing audit."
     },
     {
       "category": "quality",
@@ -12002,6 +12029,20 @@
       "kind": "script",
       "path": "scripts/test-auditor.sh",
       "description": "test-auditor.sh — Score, validate, and certify BATS test files"
+    },
+    {
+      "category": "quality",
+      "name": "test-auditor-sweep",
+      "intents": [
+        "audit",
+        "auditor",
+        "bats",
+        "global",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/test-auditor-sweep.sh",
+      "description": "test-auditor-sweep.sh — SE-039 Slice 1 global BATS test audit sweep."
     },
     {
       "category": "quality",

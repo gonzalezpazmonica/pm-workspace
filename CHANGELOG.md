@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.53.0] — 2026-04-20
+
+Batch 5 — 3 SE specs probes (Slice 1) + audit architecture + 15 new spec stubs from audit + ROADMAP reprioritization.
+
+### Added
+- SE-035 Slice 1: `scripts/mutation-audit.sh` + 23 BATS tests — mutation testing scaffolding (bash/python/typescript).
+- SE-039 Slice 1: `scripts/test-auditor-sweep.sh` + 24 BATS tests — global sweep sobre todos los tests .bats con ranking + compliance pct.
+- SE-037 Slice 1: `scripts/hook-latency-audit.sh` + 27 BATS tests — enforcement layer sobre hook-latency-bench con SLA per-tier + BATS coverage check.
+- 15 new spec stubs SE-043 → SE-057 derivados de auditoría arquitectónica.
+- `docs/ROADMAP.md`: Era 182 reprioritization Tier 0-7 con ROI post-audit.
+- `output/audit-arquitectura-20260420.md`, `audit-new-specs-20260420.md`, `audit-roadmap-reprioritization-20260420.md`.
+
+### Audit findings (critical)
+- **SE-045 Critical**: session-init p50=468ms vs SLA 20ms.
+- **SE-051 Critical**: SPEC-123 graphiti merged without approved spec (Rule #8 erosion).
+- 21 desincronizaciones CLAUDE.md / catalog / roadmap / baseline.
+- 27/65 agents violate Rule #22 (>4KB) without remediation plan.
+- 92 scripts sin test BATS nominal (24%).
+
 ## [5.52.0] — 2026-04-20
 
 Batch 3 + 4 consolidado: SLM pipeline scaffolding + SE-020 portfolio-as-graph Slice 5 + SPEC-099 gitagent export + SPEC-102 pdf-extract probe + SPEC-100 GAIA harness. 88 BATS tests nuevos. 3 rule docs traducidos a EN.
@@ -7584,6 +7603,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.52.0...v5.53.0
 [5.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.51.0...v5.52.0
 [5.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.50.0...v5.51.0
 [5.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.47.0...v5.48.0

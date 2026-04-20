@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: b33ba120ef7f | resources: 1047
-> 530 commands · 78 skills · 65 agents · 374 scripts
+> hash: 865664f28f41 | resources: 1050
+> 530 commands · 78 skills · 65 agents · 377 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -875,6 +875,7 @@
 [quality] fix-assigner — agents,assigns,court,creates,findings — agent:.claude/agents/fix-assigner.md
 [quality] frontend-test-runner — commit,component,coverage,execution,frontend — agent:.claude/agents/frontend-test-runner.md
 [quality] hook-event-gap-audit — audit,audita,cubiertos,event,eventos — script:scripts/hook-event-gap-audit.sh
+[quality] hook-latency-audit — audit,enforcement,hook,latency,slice — script:scripts/hook-latency-audit.sh
 [quality] hub-audit — agentes,auditar,comandos,dependencias,dominio — cmd:.claude/commands/hub-audit.md
 [quality] knowledge-lint — base,check,detect,evidence,health — cmd:.claude/commands/knowledge-lint.md
 [quality] knowledge-lint — base,check,health,knowledge,lint — script:scripts/knowledge-lint.sh
@@ -885,6 +886,7 @@
 [quality] model-upgrade-audit — audit,components,debt,models,need — cmd:.claude/commands/model-upgrade-audit.md
 [quality] model-upgrade-audit — audit,available,compare,components,debt — skill:.claude/skills/model-upgrade-audit/SKILL.md
 [quality] model-upgrade-auditor — agents,audits,backed,eval,evidence — agent:.claude/agents/model-upgrade-auditor.md
+[quality] mutation-audit — audit,mutation,slice,testing — script:scripts/mutation-audit.sh
 [quality] overnight-sprint — autonomous,creates,executes,human,launch — cmd:.claude/commands/overnight-sprint.md
 [quality] pentester —  — agent:.claude/agents/pentester.md
 [quality] pentesting — arsenal,based,driven,fases,paralelas — skill:.claude/skills/pentesting/SKILL.md
@@ -948,6 +950,7 @@
 [quality] test-architect —  — agent:.claude/agents/test-architect.md
 [quality] test-architecture-debt — architecture,debt,test — script:scripts/test-architecture-debt.sh
 [quality] test-auditor — auditor,bats,certify,files,score — script:scripts/test-auditor.sh
+[quality] test-auditor-sweep — audit,auditor,bats,global,slice — script:scripts/test-auditor-sweep.sh
 [quality] test-backlog-git — backlog,backloggit,structural,test,tests — script:scripts/test-backlog-git.sh
 [quality] test-backlog-intelligence — backlog,intelligence,test — script:scripts/test-backlog-intelligence.sh
 [quality] test-backup — backup,cifrado,sistema,test,tests — script:scripts/test-backup.sh

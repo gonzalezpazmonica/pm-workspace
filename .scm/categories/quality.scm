@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 206 resources
+> 209 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -33,6 +33,7 @@
 - **fix-assigner** (agent): Creates fix tasks from Court findings, assigns to dev agents, triggers re-review
 - **frontend-test-runner** (agent): Post-commit frontend test execution — unit, component, e2e, coverage
 - **hook-event-gap-audit** (script): hook-event-gap-audit.sh — Audita los 11 eventos de hook no cubiertos en pm-workspace
+- **hook-latency-audit** (script): hook-latency-audit.sh — SE-037 Slice 1 hook latency enforcement audit.
 - **hub-audit** (cmd): Auditar dependencias entre reglas de dominio, comandos y agentes — recalcular el índice de hubs
 - **knowledge-lint** (cmd): Health check for the persistent knowledge base — detect orphans, stale refs, missing evidence
 - **knowledge-lint** (script): knowledge-lint.sh — LLM Wiki pattern: periodic knowledge base health check
@@ -43,6 +44,7 @@
 - **model-upgrade-audit** (cmd): Audit workspace components for prompt debt that newer models may not need
 - **model-upgrade-audit** (skill): Audit workspace components for prompt debt when a new model is available. Detect workarounds, propose simplifications, compare with evals.
 - **model-upgrade-auditor** (agent): Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence.
+- **mutation-audit** (script): mutation-audit.sh — SE-035 Slice 1 mutation testing audit.
 - **overnight-sprint** (cmd): Launch autonomous overnight sprint — executes low-risk tasks, creates PRs for human review
 - **pentester** (agent): >
 - **pentesting** (skill): Arsenal de pentesting con pipeline Shannon — queue-driven, proof-based, 5 fases paralelas
@@ -106,6 +108,7 @@
 - **test-architect** (agent): >
 - **test-architecture-debt** (script): Test: Architecture & Debt v0.71.0 (Era 13)
 - **test-auditor** (script): test-auditor.sh — Score, validate, and certify BATS test files
+- **test-auditor-sweep** (script): test-auditor-sweep.sh — SE-039 Slice 1 global BATS test audit sweep.
 - **test-backlog-git** (script): test-backlog-git.sh — Structural tests for BacklogGit (Era 32 — v2.7.0)
 - **test-backlog-intelligence** (script): ── test-backlog-intelligence.sh ──────────────────────────────────────────────
 - **test-backup** (script): test-backup.sh — Tests del sistema de backup cifrado
