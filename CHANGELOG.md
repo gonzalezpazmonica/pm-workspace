@@ -15,6 +15,9 @@ Batch 9 — Tier 2 close + Tier 3 champions. SE-050 SPEC-122 skill + SE-057 mani
 - **SE-032 Slice 1** `scripts/reranker-probe.sh` + 26 tests — viability probe cross-encoder reranker.
 - **SE-033 Slice 1** `scripts/bertopic-probe.sh` + 23 tests — viability probe BERTopic (UMAP+HDBSCAN).
 - **SE-050 Slice 2** `.claude/skills/emergency-mode/` (SKILL.md + DOMAIN.md) — SPEC-122 cierre.
+
+## [5.58.0] — 2026-04-20
+
 Batch 10 — Security stack hardening. Adopt patterns from agentshield (MIT) research. 3 new scripts + 28 new rules + PS-11..PS-14 extension + security-scanners.md catalog.
 
 ### Added
@@ -7674,6 +7677,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.58.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.57.0...v5.58.0
 [5.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.56.0...v5.57.0
 [5.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.55.0...v5.56.0
 [5.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.54.0...v5.55.0
