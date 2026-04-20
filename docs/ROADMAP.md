@@ -73,6 +73,46 @@ Temporal memory, hybrid search, agent evaluation, cognitive sectors, SaviaDiverg
 ## Pipeline — Q2 2026 (Eras 182+)
 - Effort: 15h | Impact: Medium (maintainability)
 
+## Era 182 — Architecture Audit Reprioritization (2026-04-20)
+
+Post-auditoría arquitectónica (`output/audit-arquitectura-20260420.md`): 15 specs nuevos SE-043→SE-057 priorizados por ROI sobre exploración nueva.
+
+### Tier 0 — Crítico inmediato
+
+- **SE-051** SPEC-123 approval gate (2h) — Rule #8 erosion fix
+- **SE-045** Session-init split fast-path (12h) — 468ms→<20ms SLA
+
+### Tier 1 — Cerrar deuda detectada (audit)
+
+- **SE-043** CLAUDE.md drift auto-check (4h)
+- **SE-044** SPEC-110 ID collision + ADR (3h)
+- **SE-046** Baseline re-levelling (3h)
+- **SE-047** Agents catalog auto-sync (4h)
+- **SE-048** Rule-orphan detector (6h)
+- **SE-054** SE-036 frontmatter Slices 2-3 finish (10h)
+
+### Tier 2 — Cierres pendientes
+
+- **SE-050** SPEC-122 Slice 2+3 or SUPERSEDED (8h)
+- **SE-052** Agent-size remediation plan (24h)
+- **SE-053** CHANGELOG.d consolidation hook (2h)
+
+### Tier 3 — Champions research (preservados del roadmap previo)
+
+- SE-032 Reranker · SE-033 BERTopic · SE-035 Mutation testing · SE-028 Oumi · SE-041 Memvid
+
+### Tier 7 — Backlog frío (DIFERIDOS post-audit)
+
+- SPEC-102/103/104 PDF chain (Java deps sin caso)
+- SPEC-107 cognitive debt (research-heavy sin probe)
+- SPEC-100 GAIA (sin caso actual)
+- SPEC-SE-003/004/009/010/014 enterprise (sin demanda)
+- SE-042 voice training (sin GPU)
+
+Effort total Tier 0-2: ~112h (~3 sprints al 30% dedicación). Ver `output/audit-roadmap-reprioritization-20260420.md` para ROI detallado.
+
+---
+
 ### Backlog (blocked or low priority)
 
 | Item | Blocker | Priority |
