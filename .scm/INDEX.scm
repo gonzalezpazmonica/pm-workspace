@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: ac6c4ee9c666 | resources: 1059
-> 530 commands · 78 skills · 65 agents · 386 scripts
+> hash: 753993049e83 | resources: 1063
+> 530 commands · 79 skills · 65 agents · 389 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -26,6 +26,7 @@
 [analysis] debt-budget —  — cmd:.claude/commands/debt-budget.md
 [analysis] debt-prioritize —  — cmd:.claude/commands/debt-prioritize.md
 [analysis] debt-track —  — cmd:.claude/commands/debt-track.md
+[analysis] emergency-mode — activa,anthropic,caída,cloud,compatible — skill:.claude/skills/emergency-mode/SKILL.md
 [analysis] enterprise-analytics — aggregation,analytics,enterprise,forecasting,health — skill:.claude/skills/enterprise-analytics/SKILL.md
 [analysis] enterprise-dashboard — analytics,enterprise,forecasting,health,matrix — cmd:.claude/commands/enterprise-dashboard.md
 [analysis] eval-report — analysis,evaluation,generate,report,scoring — cmd:.claude/commands/eval-report.md
@@ -428,6 +429,7 @@
 [planning] banking-detect — auto,bancario,bian,detectar,entidades — cmd:.claude/commands/banking-detect.md
 [planning] banking-eda-validate — idempotencia,kafka,pipelines,saga,schemas — cmd:.claude/commands/banking-eda-validate.md
 [planning] baseline-tighten — auto,baseline,slice,tighten — script:scripts/baseline-tighten.sh
+[planning] bertopic-probe — bertopic,probe,slice,viability — script:scripts/bertopic-probe.sh
 [planning] billing-rate —  — cmd:.claude/commands/billing-rate.md
 [planning] board-flow — actual,analiza,board,botella,cuellos — cmd:.claude/commands/board-flow.md
 [planning] burnout-radar — análisis,burnout,detección,equipo,miembro — cmd:.claude/commands/burnout-radar.md
@@ -703,12 +705,14 @@
 [planning] repos-list —  — cmd:.claude/commands/repos-list.md
 [planning] repos-pr-create —  — cmd:.claude/commands/repos-pr-create.md
 [planning] repos-pr-list —  — cmd:.claude/commands/repos-pr-list.md
+[planning] reranker-probe — probe,reranker,slice,viability — script:scripts/reranker-probe.sh
 [planning] resolve-all-open-prs — conflicts,helper,open,resolve,runs — script:scripts/resolve-all-open-prs.sh
 [planning] resolve-pr-conflicts — auto,conflicts,recurring,resolve,resolver — script:scripts/resolve-pr-conflicts.sh
 [planning] resource-references — references,resource,skill — skill:.claude/skills/resource-references/SKILL.md
 [planning] retro-actions —  — cmd:.claude/commands/retro-actions.md
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md
 [planning] ruby-developer —  — agent:.claude/agents/ruby-developer.md
+[planning] rule-manifest-integrity — index,integrity,manifest,rule,slice — script:scripts/rule-manifest-integrity.sh
 [planning] rule-usage-analyzer — across,analyze,analyzer,domain,rule — script:scripts/rule-usage-analyzer.sh
 [planning] rust-developer —  — agent:.claude/agents/rust-developer.md
 [planning] sbom-generate —  — cmd:.claude/commands/sbom-generate.md
