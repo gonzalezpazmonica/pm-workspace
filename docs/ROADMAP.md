@@ -111,6 +111,27 @@ Post-auditoría arquitectónica (`output/audit-arquitectura-20260420.md`): 15 sp
 
 Effort total Tier 0-2: ~112h (~3 sprints al 30% dedicación). Ver `output/audit-roadmap-reprioritization-20260420.md` para ROI detallado.
 
+## Era 183 — Scrapling Research Backend (2026-04-21)
+
+Research `output/research/scrapling-20260421.md` identifica **SE-061 Scrapling** como champion Tier 3 con ROI inmediato: desbloquea research en sites Cloudflare-gated que hoy fallan silenciosamente para `tech-research-agent` + `web-research`.
+
+### Tier 3 — Champions research (reordenado por ROI research-stack)
+
+**Orden propuesto** (alto → bajo impacto en research agents existentes):
+
+1. **SE-061** Scrapling — 21h total (4 slices). Bypass anti-bot + adaptive selectors + MCP nativo. **Nuevo champion #1**.
+2. **SE-035** Mutation testing — probe ya merged (#645), pendiente integración CI.
+3. **SE-032** Reranker — probe ya merged (#650), pendiente integración con memory-recall.
+4. **SE-033** BERTopic — probe ya merged (#650), pendiente skill con corpus real.
+5. **SE-028** Oumi — probe (#652 en vuelo), pendiente training pipeline integration.
+6. **SE-041** Memvid — probe (#652 en vuelo), pendiente backup memory workflow.
+
+**Justificación del orden**: SE-061 impacta agentes que la usuaria invoca activamente. Los demás son probes cuyos casos de uso reales aún no empujan (training pipeline sin GPU, clustering sin demanda concreta). Ver `output/research/scrapling-20260421.md` §Reprorización.
+
+### Tier 7 refresh (sin cambios post-Era 182)
+
+Sigue: SPEC-102/103/104 PDF · SPEC-107 · SPEC-100 GAIA · SPEC-SE-003/004/009/010/014 · SE-042.
+
 ---
 
 ### Backlog (blocked or low priority)
