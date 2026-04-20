@@ -3,27 +3,13 @@
 > **SE-030 Slice 1 — Receipts-first governance**
 > Ref: ROADMAP §Tier 4.2 · adopted from bytebell.ai sub-4% hallucination pattern
 
-Every claim an agent makes about code, specs, decisions, or workspace
-data **must come with a verifiable receipt**. A claim without a receipt
-is marked `[UNVERIFIED]` and does NOT propagate to Court, Truth
-Tribunal, or audit reports as evidence.
+Every claim an agent makes about code, specs, decisions, or workspace data **must come with a verifiable receipt**. A claim without a receipt is marked `[UNVERIFIED]` and does NOT propagate to Court, Truth Tribunal, or audit reports as evidence.
 
 ## 1. When it applies
 
-The protocol covers claims about repo state:
+Applies to claims about repo state: code state, spec content, decisions, test coverage, config / infra.
 
-| Type | Example |
-|---|---|
-| Code state | "PatientService already implements IEntity" |
-| Spec content | "SPEC-120 accepts JSON input" |
-| Decisions made | "PostgreSQL was decided in sprint 06" |
-| Test coverage | "The happy-path has E2E test" |
-| Config / infra | "Hook X runs pre-commit" |
-
-Does NOT apply to:
-- Agent opinions ("I recommend approach A")
-- Questions ("do you want me to implement X?")
-- General reasoning without reference to repo artifacts
+Does NOT apply to: agent opinions, questions, general reasoning without reference to repo artifacts.
 
 ## 2. Canonical format
 
@@ -38,8 +24,7 @@ receipts:
     line: 23
 ```
 
-Optional `sha: <commit-short>` to pin the claim to a specific commit
-(useful in long PRs where code moves).
+Optional `sha: <commit-short>` to pin the claim to a specific commit.
 
 ### 2.2 `spec`
 
@@ -49,8 +34,7 @@ receipts:
   - spec: SPEC-120#AC-03
 ```
 
-Format: `SPEC-ID#anchor` — anchor is a heading or acceptance criterion
-ID within the spec.
+Format: `SPEC-ID#anchor` — anchor is a heading or acceptance criterion ID within the spec.
 
 ### 2.3 `decision`
 
@@ -60,8 +44,7 @@ receipts:
   - decision: decision-log.md#2026-04-15-postgres
 ```
 
-Format: `<doc>#<anchor>`. Doc must exist in `docs/` or
-`projects/*/decisions/`.
+Format: `<doc>#<anchor>`. Doc must exist in `docs/` or `projects/*/decisions/`.
 
 ### 2.4 `url` (external source)
 
@@ -76,8 +59,7 @@ Only for research / references. `accessed` field is mandatory.
 
 ## 3. Validator
 
-`scripts/context-receipts-validate.sh` parses agent output (markdown or
-YAML) and verifies each receipt:
+`scripts/context-receipts-validate.sh` parses agent output (markdown or YAML) and verifies each receipt:
 
 | Check | Method | Severity |
 |---|---|---|
@@ -88,52 +70,30 @@ YAML) and verifies each receipt:
 | `url:` well formed | regex | WARN |
 | Claim without receipts | structural detection | WARN |
 
-Output:
-
-```
-PASS | 8 claims with valid receipts
-WARN | 2 claims unverified (no receipt)
-  - line 42: "the handler handles concurrent writes"
-  - line 67: "tests cover the edge case"
-FAIL | 0 invalid receipts
-```
-
-Exit codes:
-- `0` — no FAIL, no WARN (all valid)
-- `1` — WARN only (unverified claims allowed in gradual rollout)
-- `2` — FAIL (invalid receipt → block pipeline)
+Exit codes: `0` all valid · `1` WARN only · `2` FAIL (block pipeline).
 
 ## 4. Rollout — gradual
-
-SE-030-R starts in advisory mode:
 
 | Phase | Behavior | When |
 |---|---|---|
 | Phase 1 (now) | WARN on claims without receipt, no block | Slice 1 |
-| Phase 2 | FAIL on claims without receipt in Court/Tribunal output | After 2 sprints of data |
-| Phase 3 | FAIL on invalid receipts (file doesn't exist) in any output | After validating <5% false positives |
+| Phase 2 | FAIL on claims without receipt in Court/Tribunal output | After 2 sprints |
+| Phase 3 | FAIL on invalid receipts (file doesn't exist) in any output | After <5% false positives |
 
 Final goal: ≥90% claims with valid receipt, 0% false claims propagated to human.
 
 ## 5. Exceptions
 
-- Digest outputs (`/pdf-digest`, `/word-digest`, etc) where natural
-  receipt is the source file digested — the full digest acts as receipt.
-- Casual conversational mode (Savia responding in chat without generating
-  artifacts) — protocol applies when generating reports, commits, or PRs.
-- Explicit hypotheses marked `[HYPOTHESIS]` — allowed without receipt
-  but never count as evidence.
+- Digest outputs (`/pdf-digest`, `/word-digest`) — full digest acts as receipt.
+- Casual conversational mode — protocol applies when generating reports, commits, or PRs.
+- Explicit hypotheses marked `[HYPOTHESIS]` — allowed without receipt, never count as evidence.
 
 ## 6. Integration
 
-- **Court judges** (correctness-judge, spec-judge): consult receipts
-  before scoring a finding.
-- **Truth Tribunal** (source-traceability-judge): vetoes on claims
-  without valid receipt.
-- **Commit guardian**: if PR body contains claims without receipt about
-  touched files, WARN.
-- **Persisted memory**: engram marked `verified: true` only if claim
-  had receipt at save time.
+- **Court judges** (correctness-judge, spec-judge): consult receipts before scoring.
+- **Truth Tribunal** (source-traceability-judge): vetoes on claims without valid receipt.
+- **Commit guardian**: if PR body contains claims without receipt about touched files, WARN.
+- **Persisted memory**: engram marked `verified: true` only if claim had receipt at save time.
 
 ## 7. Anti-patterns
 
@@ -142,17 +102,13 @@ Final goal: ≥90% claims with valid receipt, 0% false claims propagated to huma
 The Patients service is fully tested.
 
 # BAD — invented receipt
-The Patients service is tested.
 Receipts:
-  - file: src/Patients/Service.Tests.cs  # file doesn't exist
+  - file: src/Patients/Service.Tests.cs  # doesn't exist
 
 # GOOD
-The Patients service has unit test coverage.
 Receipts:
   - file: tests/Application/PatientServiceTests.cs
     line: 1
-  - file: tests/Application/PatientServiceTests.cs
-    line: 247
 ```
 
 ## 8. References
@@ -160,7 +116,4 @@ Receipts:
 - SE-030 spec: `docs/propuestas/SE-030-graphrag-quality-gates.md`
 - Origin: bytebell.ai blog series (Dec'25–Jan'26)
 - Truth Tribunal: `docs/agent-teams-sdd.md` §Truth Tribunal
-
-## 9. Related
-
 - Spanish version: `docs/rules/domain/receipts-protocol.md`
