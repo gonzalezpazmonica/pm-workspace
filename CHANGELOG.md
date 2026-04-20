@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.52.0] — 2026-04-20
+
+Batch 3 + 4 consolidado: SLM pipeline scaffolding + SE-020 portfolio-as-graph Slice 5 + SPEC-099 gitagent export + SPEC-102 pdf-extract probe + SPEC-100 GAIA harness. 88 BATS tests nuevos. 3 rule docs traducidos a EN.
+
+### Added
+- SE-020 Slice 5: `scripts/portfolio-deps-status.sh` + 22 tests — dashboard per-project (upstream/downstream/shared + implicit discovery).
+- SPEC-099 Slice 1: `scripts/gitagent-export.sh` + 23 tests — adaptador `.claude/agents/{name}.md` → gitagent v0.1 (SOUL/RULES/DUTIES/agent.yaml).
+- SPEC-102 Slice 1: `scripts/pdf-extract-probe.sh` + 18 tests — probe preconditions opendataloader-pdf (Java ≥11, Maven, PyMuPDF).
+- SPEC-100 Slice 1: `scripts/gaia-benchmark-harness.sh` + 25 tests — scaffolding GAIA benchmark (harness-config + prompts-subset + results-template).
+- EN translations: `receipts-protocol.en.md`, `slm-training-pipeline.en.md`, `portfolio-as-graph.en.md`.
+
+### Fixed
+- Trim EN rule docs para cumplir el límite 150 líneas (`test-workspace-structure` gate 9).
+
 ## [5.51.0] — 2026-04-18
 
 Auto-resolver de conflictos CHANGELOG+signature en PRs concurrentes. 37 tests. Era 234.
@@ -7570,6 +7584,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.51.0...v5.52.0
 [5.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.50.0...v5.51.0
 [5.48.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.47.0...v5.48.0
 [2.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v2.79.0...v2.80.0

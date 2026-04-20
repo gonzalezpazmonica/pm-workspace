@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 109 resources
+> 113 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -42,6 +42,8 @@
 - **feasibility-probe** (cmd): Validate spec feasibility with a time-boxed prototype attempt
 - **feasibility-probe** (skill): Validate spec feasibility with time-boxed prototype attempt and viability scoring
 - **feasibility-probe** (agent): Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions.
+- **gaia-benchmark-harness** (script): gaia-benchmark-harness.sh — SPEC-100 Slice 1 GAIA benchmark harness.
+- **gitagent-export** (script): gitagent-export.sh — SPEC-099 Slice 1 gitagent adapter.
 - **graph-build** (cmd): Construye el grafo de conocimiento PM para un proyecto
 - **graph-temporal-ops** (script): graph-temporal-ops.sh — SPEC-123
 - **human-code-map** (skill): Genera y mantiene mapas narrativos de componentes (.hcm) para luchar activamente contra la deuda cognitiva. Usar PROACTIVELY cuando: se incorpora un dev nuevo, se toca un módulo sin mapa, debt-score > 6, o se detecta que alguien re-lee el m
@@ -55,6 +57,7 @@
 - **mcp-server** (cmd): Expone las herramientas de Savia como MCP server para otros proyectos Claude Code
 - **nd-autoconfig** (script): nd-autoconfig.sh — SPEC-061: Auto-configure accessibility.md from neurodivergent.md
 - **nidos-dev-lib** (script): nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098).
+- **pdf-extract-probe** (script): pdf-extract-probe.sh — SPEC-102 Slice 1 feasibility probe.
 - **pipeline-artifacts** (cmd): >
 - **pipeline-create** (cmd): >
 - **pipeline-engine** (script): pipeline-engine.sh — Orchestrate pipeline execution from YAML definition
@@ -66,6 +69,7 @@
 - **pipeline-view** (cmd): ASCII table of all active pursuits with stage, value, and probability
 - **portfolio-contention** (script): portfolio-contention.sh — SPEC-SE-020 Slice 4 contention detector.
 - **portfolio-critical-path** (script): portfolio-critical-path.sh — SPEC-SE-020 Slice 3 critical path analyzer.
+- **portfolio-deps-status** (script): portfolio-deps-status.sh — SPEC-SE-020 Slice 5 project status dashboard.
 - **portfolio-graph** (script): portfolio-graph.sh — SPEC-SE-020 Slice 2 dependency graph builder.
 - **pre-push-bats-critical** (script): pre-push-bats-critical.sh — SPEC-SE-012 Module 3.
 - **prompt-suggestion-engine** (script): prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization

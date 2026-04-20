@@ -1,6 +1,6 @@
 {
-  "hash": "2a6099990828",
-  "total": 1043,
+  "hash": "545cf6fddc5e",
+  "total": 1047,
   "resources": [
     {
       "category": "analysis",
@@ -2213,6 +2213,34 @@
     },
     {
       "category": "development",
+      "name": "gaia-benchmark-harness",
+      "intents": [
+        "benchmark",
+        "gaia",
+        "harness",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/gaia-benchmark-harness.sh",
+      "description": "gaia-benchmark-harness.sh — SPEC-100 Slice 1 GAIA benchmark harness."
+    },
+    {
+      "category": "development",
+      "name": "gitagent-export",
+      "intents": [
+        "adapter",
+        "export",
+        "gitagent",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/gitagent-export.sh",
+      "description": "gitagent-export.sh — SPEC-099 Slice 1 gitagent adapter."
+    },
+    {
+      "category": "development",
       "name": "graph-build",
       "intents": [
         "conocimiento",
@@ -2385,6 +2413,20 @@
     },
     {
       "category": "development",
+      "name": "pdf-extract-probe",
+      "intents": [
+        "extract",
+        "feasibility",
+        "probe",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/pdf-extract-probe.sh",
+      "description": "pdf-extract-probe.sh — SPEC-102 Slice 1 feasibility probe."
+    },
+    {
+      "category": "development",
       "name": "pipeline-artifacts",
       "intents": [],
       "kind": "cmd",
@@ -2506,6 +2548,20 @@
       "kind": "script",
       "path": "scripts/portfolio-critical-path.sh",
       "description": "portfolio-critical-path.sh — SPEC-SE-020 Slice 3 critical path analyzer."
+    },
+    {
+      "category": "development",
+      "name": "portfolio-deps-status",
+      "intents": [
+        "dashboard",
+        "deps",
+        "portfolio",
+        "project",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/portfolio-deps-status.sh",
+      "description": "portfolio-deps-status.sh — SPEC-SE-020 Slice 5 project status dashboard."
     },
     {
       "category": "development",
