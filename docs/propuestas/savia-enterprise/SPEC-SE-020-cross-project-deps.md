@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-020 — Cross-Project Dependencies (Portfolio-as-Graph)
 
 > **Priority:** P2 · **Estimate (human):** 7d · **Estimate (agent):** 7h · **Category:** complex · **Type:** portfolio coordination + dependency graph + resource contention + program management

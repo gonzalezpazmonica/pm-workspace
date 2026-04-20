@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-002 — Multi-Tenant & RBAC
 
 > **Prioridad:** P0 · **Estima:** 5 días · **Tipo:** aislamiento + permisos

@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-010 — Migration Path & Backward Compat
 
 > **Prioridad:** P0 · **Estima:** 4 días · **Tipo:** compatibilidad + migración

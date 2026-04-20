@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-003 — MCP Server Catalog
 
 > **Prioridad:** P0 · **Estima:** 8 días · **Tipo:** interoperabilidad + distribución

@@ -1,3 +1,8 @@
+---
+id: SPEC-048
+status: PROPOSED
+---
+
 # SPEC-048: Dev Session Discard
 
 > Discard a dev-session cleanly: log reason, clean lock, archive state.

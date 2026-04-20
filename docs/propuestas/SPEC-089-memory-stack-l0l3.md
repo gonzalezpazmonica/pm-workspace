@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-089
 title: Memory Stack L0-L3 — carga progresiva con presupuesto tokenizado
-status: Implemented
+status: IMPLEMENTED
 origin: mempalace research (2026-04-08)
 severity: Media
 effort: ~3h

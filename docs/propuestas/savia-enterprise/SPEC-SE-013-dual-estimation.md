@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-013 — Dual Estimation Rule (Human + Agent Pipeline)
 
 > **Priority:** P1 · **Estimate (human):** 1d · **Estimate (agent):** ~1h · **Type:** planning + measurement

@@ -1,3 +1,8 @@
+---
+id: SPEC-065
+status: PROPOSED
+---
+
 # SPEC-065 — Execution Supervisor
 
 ## Problem

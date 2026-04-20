@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # Propuesta de Incorporación: Awesome Claude Code → pm-workspace
 
 **Fecha:** 2026-02-26

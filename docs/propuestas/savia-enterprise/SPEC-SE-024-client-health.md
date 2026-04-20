@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-024 — Client Health Intelligence
 
 > **Priority:** P2 · **Estimate (human):** 5d · **Estimate (agent):** 5h · **Category:** standard · **Type:** account health scoring + relationship mapping + retention signals

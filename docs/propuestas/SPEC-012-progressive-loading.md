@@ -1,7 +1,7 @@
 ---
 id: SPEC-012
 title: SPEC-012: L0/L1/L2 Progressive Loading for Skills and Rules
-status: Implemented
+status: IMPLEMENTED
 origin_date: "2026-03-22"
 migrated_at: "2026-04-18"
 migrated_from: body-prose

@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-082
 title: Correccion del skill huerfano (DOMAIN.md sin SKILL.md)
-status: Implemented
+status: IMPLEMENTED
 applied_at: "2026-04-18"
 origin: Auditoria 2026-04-07 (M-002)
 severity: Media

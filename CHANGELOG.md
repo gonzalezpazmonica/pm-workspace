@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.56.0] — 2026-04-20
+
+Batch 8 — Tier 2 consolidación. SE-054 frontmatter normalization aplicado (125 specs) + SE-052 agent-size remediation plan. 2 scripts + 2 suites (61 tests, scores 95 y certificado).
+
+### Added
+- **SE-054 Slice 2+3** `scripts/specs-frontmatter-normalize.sh` + 31 tests — normaliza status (case + missing field) + adds id.
+- **SE-052 Slice 1** `scripts/agent-size-remediation-plan.sh` + 30 tests — hit-list DESC por size + extractable blocks detector + estimated savings.
+
+### Fixed
+- 125 specs en `docs/propuestas/` normalizados: case drift `Proposed→PROPOSED`, `Draft→DRAFT`, `Rejected→REJECTED`, + added missing `status:` fields. Verified: `--scan` drift = 0.
+
 ## [5.55.0] — 2026-04-20
 
 Batch 7 — Tier 1+2 remediation continuación. SE-044 colisión SPEC-110 resuelta + ADR-001. SE-053 changelog post-merge. 2 scripts + 2 suites (50 tests, scores 92 y 88).
@@ -7641,6 +7652,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.55.0...v5.56.0
 [5.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.54.0...v5.55.0
 [5.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.53.0...v5.54.0
 [5.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.52.0...v5.53.0

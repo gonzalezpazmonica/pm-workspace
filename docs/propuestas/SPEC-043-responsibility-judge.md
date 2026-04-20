@@ -1,3 +1,8 @@
+---
+id: SPEC-043
+status: PROPOSED
+---
+
 # SPEC-043 — Responsibility Judge Hook
 
 > A judge evaluates whether Savia chose the most RESPONSIBLE option

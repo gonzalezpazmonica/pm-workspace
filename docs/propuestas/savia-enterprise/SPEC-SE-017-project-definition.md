@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-017 — Project Definition (SOW-as-Code)
 
 > **Priority:** P1 · **Estimate (human):** 7d · **Estimate (agent):** 7h · **Category:** standard · **Type:** contract lifecycle + delivery traceability

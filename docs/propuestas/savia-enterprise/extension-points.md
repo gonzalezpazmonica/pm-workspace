@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # Savia Enterprise — Extension Points
 
 > **Spec:** SE-001 · **Status:** foundations

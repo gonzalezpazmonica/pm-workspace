@@ -1,7 +1,7 @@
 ---
 id: SPEC-064
 title: SPEC-064 — Computer Use Integration: Live Visual QA and Accessibility Audit
-status: Proposed
+status: PROPOSED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 ---

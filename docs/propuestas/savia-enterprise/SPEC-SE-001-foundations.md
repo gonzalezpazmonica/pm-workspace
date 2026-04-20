@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-001 — Savia Enterprise Foundations & Layer Contract
 
 > **Prioridad:** P0 · **Estima:** 3 días · **Tipo:** arquitectura + contrato

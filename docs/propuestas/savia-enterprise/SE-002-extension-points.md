@@ -1,3 +1,8 @@
+---
+id: SE-002
+status: PROPOSED
+---
+
 # SE-002 — Extension Points Implementation
 
 > **Spec:** SE-002 · **Status:** implemented

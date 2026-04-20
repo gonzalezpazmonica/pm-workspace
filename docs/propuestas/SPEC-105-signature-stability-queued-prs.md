@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-105
 title: Stable confidentiality signatures across queued PRs
-status: Implemented
+status: IMPLEMENTED
 origin: Production incident (2026-04-15) — PR queue signature failures
 severity: Alta
 effort: ~3h

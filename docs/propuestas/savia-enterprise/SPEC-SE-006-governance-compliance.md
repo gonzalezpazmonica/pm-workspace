@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-006 — Governance & Compliance Pack
 
 > **Prioridad:** P1 · **Estima:** 8 días · **Tipo:** compliance regulatorio

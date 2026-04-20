@@ -1,3 +1,8 @@
+---
+id: SPEC-069
+status: PROPOSED
+---
+
 # SPEC-069: Coordinator Mode Exploration
 
 **Status**: Research | **Date**: 2026-04-01 | **Era**: 168

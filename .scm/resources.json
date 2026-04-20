@@ -1,6 +1,6 @@
 {
-  "hash": "0886f99f29e0",
-  "total": 1057,
+  "hash": "99a877e74117",
+  "total": 1059,
   "resources": [
     {
       "category": "analysis",
@@ -175,6 +175,20 @@
       "kind": "script",
       "path": "scripts/agent-size-audit.sh",
       "description": "agent-size-audit.sh — SE-038 Slice 1 probe: measure size of every agent."
+    },
+    {
+      "category": "analysis",
+      "name": "agent-size-remediation-plan",
+      "intents": [
+        "agent",
+        "analyzer",
+        "plan",
+        "remediation",
+        "size"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-size-remediation-plan.sh",
+      "description": "agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer."
     },
     {
       "category": "analysis",
@@ -2999,6 +3013,20 @@
       "kind": "cmd",
       "path": ".claude/commands/spec-verify-ui.md",
       "description": "Verificación spec↔UI — comprueba que el componente implementado cumple su spec SDD"
+    },
+    {
+      "category": "development",
+      "name": "specs-frontmatter-normalize",
+      "intents": [
+        "frontmatter",
+        "normalization",
+        "normalize",
+        "slice",
+        "specs"
+      ],
+      "kind": "script",
+      "path": "scripts/specs-frontmatter-normalize.sh",
+      "description": "specs-frontmatter-normalize.sh — SE-054 Slice 2+3 frontmatter normalization."
     },
     {
       "category": "development",

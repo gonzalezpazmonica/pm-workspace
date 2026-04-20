@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-034: Daily Agent Activation Plan
 
 > **Estado**: Draft — Roadmap

@@ -1,7 +1,7 @@
 ---
 id: SPEC-059
 title: SPEC-059: Semantic Fault Handlers for Agent Recovery
-status: Proposed
+status: PROPOSED
 origin_date: "2026-03-30"
 migrated_at: "2026-04-19"
 migrated_from: body-prose

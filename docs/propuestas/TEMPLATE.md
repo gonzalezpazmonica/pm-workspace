@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-XXX — Short Title
 
 > **Priority:** P0 | P1 | P2 · **Estimate (human):** Nd · **Estimate (agent):** Nh · **Category:** trivial|standard|complex|novel|legacy · **Type:** category

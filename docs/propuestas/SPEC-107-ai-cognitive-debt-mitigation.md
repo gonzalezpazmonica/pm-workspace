@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-107
 title: AI Cognitive Debt Mitigation — measure and counter "AI brain fry" in heavy Claude Code users
-status: Proposed
+status: PROPOSED
 origin: User request (2026-04-15) — "investigación profunda sobre AI brain fry y cómo combatirlo con pm-workspace con medidas reales"
 severity: Alta
 effort: ~32h (3 sprints — measurement → friction hooks → calibration)

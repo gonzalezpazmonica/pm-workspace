@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-031: Delegation Toolset Enforcement
 
 > **Estado**: Draft

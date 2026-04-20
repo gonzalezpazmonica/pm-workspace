@@ -1,3 +1,8 @@
+---
+id: SPEC-055
+status: PROPOSED
+---
+
 # SPEC-055 — Test Auditor System
 
 **Status:** Draft | **Author:** Savia | **Date:** 2026-03-29

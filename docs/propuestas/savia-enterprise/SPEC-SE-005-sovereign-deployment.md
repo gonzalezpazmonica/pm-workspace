@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-005 — Sovereign Deployment
 
 > **Prioridad:** P0 · **Estima:** 6 días · **Tipo:** despliegue soberano

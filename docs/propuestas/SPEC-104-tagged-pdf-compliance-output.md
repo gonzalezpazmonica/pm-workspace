@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-104
 title: Tagged PDF output for compliance-sensitive reports (legal, healthcare)
-status: Proposed
+status: PROPOSED
 origin: opendataloader-pdf accessibility pipeline (2026-04-15)
 severity: Media
 effort: ~4h (bloqueado hasta opendataloader Q2 2026)

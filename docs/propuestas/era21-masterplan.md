@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # Era 21 — Savia Everywhere: School, Travel, Git-Native Flow
 
 **Fecha:** 2026-03-03

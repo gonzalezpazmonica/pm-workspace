@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-009 — Observability Stack (Agnóstico)
 
 > **Prioridad:** P1 · **Estima:** 5 días · **Tipo:** observabilidad federada

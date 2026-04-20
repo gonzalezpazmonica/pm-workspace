@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-015 — Project Prospect (Pipeline-as-Code)
 
 > **Priority:** P1 · **Estimate (human):** 6d · **Estimate (agent):** 6h · **Category:** standard · **Type:** sales pipeline + bid management + RFP response

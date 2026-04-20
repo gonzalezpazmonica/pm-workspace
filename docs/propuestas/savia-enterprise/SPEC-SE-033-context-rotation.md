@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-033: Context Rotation Strategy
 
 > **Estado**: Draft — Roadmap

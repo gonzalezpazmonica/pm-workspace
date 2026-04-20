@@ -1,3 +1,8 @@
+---
+id: SPEC-044
+status: PROPOSED
+---
+
 # SPEC-044 — Trace-to-Prompt Optimization Loop
 
 > Traces are collected but never used. This spec closes the loop:

@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 54 resources
+> 55 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Search** (cmd): Buscar y filtrar trazas across multiple observability platforms with natural language support
@@ -14,6 +14,7 @@
 - **agent-notes-archive** (cmd): >
 - **agent-run** (cmd): Launch a Claude agent on a Spec or batch of pending specs
 - **agent-size-audit** (script): agent-size-audit.sh — SE-038 Slice 1 probe: measure size of every agent.
+- **agent-size-remediation-plan** (script): agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer.
 - **agent-trace** (cmd): Dashboard de trazas de ejecución de agentes con tokens, duración y resultado
 - **ai-risk-assessment** (cmd): Evaluación de riesgo de agentes según categorías EU AI Act
 - **async-standup** (cmd): Recogida asíncrona de standups — cada dev reporta cuando quiera, Savia compila

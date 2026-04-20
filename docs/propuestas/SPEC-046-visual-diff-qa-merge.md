@@ -1,3 +1,8 @@
+---
+id: SPEC-046
+status: PROPOSED
+---
+
 # SPEC-046: Visual Diff QA at Merge Time
 
 **Date:** 2026-03-29

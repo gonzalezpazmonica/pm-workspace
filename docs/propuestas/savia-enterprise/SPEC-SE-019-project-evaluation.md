@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-019 — Project Evaluation (Lessons-as-Code)
 
 > **Priority:** P2 · **Estimate (human):** 5d · **Estimate (agent):** 5h · **Category:** standard · **Type:** post-delivery metrics + benefit realization + lessons learned + knowledge loop

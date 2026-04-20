@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-007 — Enterprise Onboarding & Scale
 
 > **Prioridad:** P2 · **Estima:** 5 días · **Tipo:** onboarding a escala

@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-011 — Documentation Restructuring & Narrative Realignment
 
 > **Prioridad:** P0 · **Estima:** 6 días · **Tipo:** información + narrativa

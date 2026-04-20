@@ -1,3 +1,8 @@
+---
+id: SPEC-067
+status: PROPOSED
+---
+
 # SPEC-067: CLAUDE.md Diet — Per-Turn Token Optimization
 
 **Status**: Approved | **Date**: 2026-04-01 | **Era**: 165

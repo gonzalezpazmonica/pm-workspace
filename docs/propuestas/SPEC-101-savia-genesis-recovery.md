@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-101
 title: SAVIA-GENESIS — Recovery document + launcher script
-status: Implemented
+status: IMPLEMENTED
 origin: User request (2026-04-15) — dual-purpose recovery + best-practices doc
 severity: Alta
 effort: ~4h

@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-008 — Licensing & Distribution Strategy
 
 > **Prioridad:** P0 · **Estima:** 2 días · **Tipo:** estrategia legal + go-to-market

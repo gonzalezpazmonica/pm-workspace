@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-025 — Agentic Workforce Analytics
 
 > **Priority:** P0 · **Estimate (human):** 8d · **Estimate (agent):** 8h · **Category:** complex · **Type:** human-agent productivity measurement + cost accounting + quality delta

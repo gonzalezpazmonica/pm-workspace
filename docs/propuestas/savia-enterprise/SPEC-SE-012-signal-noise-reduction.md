@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-012 — Signal/Noise Reduction: Hooks, CI Reliability y PR Queue
 
 > **Prioridad:** P0 · **Estima:** 1.5 días · **Tipo:** plataforma + observabilidad
