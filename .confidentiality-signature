@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e5e1c5a88af0326bc9f28e3129f5545c45f72ca435ef7b937eb0fd825d8f06a3
-timestamp=2026-04-20T19:15:13Z
-branch=agent/batch8-se054-se052-consolidation-20260420
-head_commit=22fea479
-signature=2b6efbb48a38a9f099e01da010e026a49c1e5e2c5182892bdaeeed2b84399d37
+diff_hash=5552d371bb5e618089b3071d238893aab2b5c7e1d25c67ccb8059cbf9d728ec6
+timestamp=2026-04-20T21:47:49Z
+branch=agent/batch11-probes-sbom-security-runner-20260420
+head_commit=1e9d8cd3
+signature=4ae64df3f8c48366f09d7927cf157bb49ee8c0949de5d88bb8a3bbe6c0fc1919
