@@ -1,12 +1,12 @@
 ---
-id: SPEC-110
-title: Polyglot Developer — consolidate 12 *-developer agents into 1
+id: SPEC-126
+title: SPEC-126 — Polyglot Developer (renumbered from SPEC-110) — consolidate 12 *-developer agents into 1
 status: REJECTED (2026-04-17, after feasibility analysis)
 origin: SPEC-109 action 8 (audit 2026-04-17)
 author: Savia
 ---
 
-# SPEC-110 — Polyglot Developer (REJECTED)
+# SPEC-126 — Polyglot Developer (REJECTED)
 
 ## Why this was proposed
 
