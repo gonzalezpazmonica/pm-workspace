@@ -6,16 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [5.57.0] — 2026-04-20
-
-Batch 9 — Tier 2 close + Tier 3 champions. SE-050 SPEC-122 skill + SE-057 manifest integrity + SE-032/033 probes. 3 scripts + 1 skill + 3 suites (76 tests).
-
-### Added
-- **SE-057 Slice 1** `scripts/rule-manifest-integrity.sh` + 27 tests — audita INDEX.md size + manifest-filesystem crosscheck.
-- **SE-032 Slice 1** `scripts/reranker-probe.sh` + 26 tests — viability probe cross-encoder reranker.
-- **SE-033 Slice 1** `scripts/bertopic-probe.sh` + 23 tests — viability probe BERTopic (UMAP+HDBSCAN).
-- **SE-050 Slice 2** `.claude/skills/emergency-mode/` (SKILL.md + DOMAIN.md) — SPEC-122 cierre.
-
 ## [5.58.0] — 2026-04-20
 
 Batch 10 — Security stack hardening. Adopt patterns from agentshield (MIT) research. 3 new scripts + 28 new rules + PS-11..PS-14 extension + security-scanners.md catalog.
@@ -30,6 +20,16 @@ Batch 10 — Security stack hardening. Adopt patterns from agentshield (MIT) res
 
 ### Context
 Research `output/research/agentshield-20260420.md` identificó gap 77/102 reglas (solo 24% solape). Batch 10 cubre MCP + permissions + hook injection + hidden directives sin adoptar stack TS/Node externo.
+
+## [5.57.0] — 2026-04-20
+
+Batch 9 — Tier 2 close + Tier 3 champions. SE-050 SPEC-122 skill + SE-057 manifest integrity + SE-032/033 probes. 3 scripts + 1 skill + 3 suites (76 tests).
+
+### Added
+- **SE-057 Slice 1** `scripts/rule-manifest-integrity.sh` + 27 tests — audita INDEX.md size + manifest-filesystem crosscheck.
+- **SE-032 Slice 1** `scripts/reranker-probe.sh` + 26 tests — viability probe cross-encoder reranker.
+- **SE-033 Slice 1** `scripts/bertopic-probe.sh` + 23 tests — viability probe BERTopic (UMAP+HDBSCAN).
+- **SE-050 Slice 2** `.claude/skills/emergency-mode/` (SKILL.md + DOMAIN.md) — SPEC-122 cierre.
 
 ## [5.56.0] — 2026-04-20
 
