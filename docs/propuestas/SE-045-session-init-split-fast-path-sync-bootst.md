@@ -20,7 +20,7 @@ expires: "2026-05-20"
 
 **Aplica solo a deployments Savia Enterprise** donde Ollama, Shield daemon y/o bridge estan activos localmente y los curl probes a `127.0.0.1:11434/8444/8443` completan rapido. En esas maquinas, cachear el estado evita latencia acumulada por sesion.
 
-**NO aplica a maquinas de desarrollo sin capacidad de inferencia** (caso del ordenador de Monica): los daemons no existen, los timeouts expiran, pero el coste se considera aceptable frente al riesgo de modificar un hook critico en entorno single-user.
+**NO aplica a maquinas de desarrollo sin capacidad de inferencia** (caso del ordenador de la usuaria): los daemons no existen, los timeouts expiran, pero el coste se considera aceptable frente al riesgo de modificar un hook critico en entorno single-user.
 
 ## Purpose
 
