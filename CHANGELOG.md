@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.55.0] — 2026-04-20
+
+Batch 7 — Tier 1+2 remediation continuación. SE-044 colisión SPEC-110 resuelta + ADR-001. SE-053 changelog post-merge. 2 scripts + 2 suites (50 tests, scores 92 y 88).
+
+### Added
+- **SE-044 Slice 1** `scripts/spec-id-duplicates-check.sh` + 27 tests — detect spec-ID collisions en `docs/propuestas/`.
+- **SE-053 Slice 1** `scripts/changelog-consolidate-if-needed.sh` + 23 tests — post-merge wrapper sobre consolidate con threshold.
+- **SE-045 Slice 1** `.claude/hooks/session-init-bootstrap.sh` — async bootstrap (standalone, not wired — requires your authorization to replace session-init.sh).
+- `docs/decisions/adr-001-spec-110-id-collision-resolution.md` — ADR resolución colisión.
+
+### Fixed
+- SPEC-110 colisión resuelta: polyglot-developer REJECTED renombrado a `SPEC-126-polyglot-developer-rejected.md`. Verified: `spec-id-duplicates-check.sh` PASS.
+
+### Pending (requires user auth or next PR)
+- **SE-045 Slice 2**: replace `.claude/hooks/session-init.sh` con fast-path calling bootstrap (blocked por sandbox self-modification guard).
+- SE-050 SPEC-122 Slice 2+3.
+- SE-052 Agent-size remediation (24h).
+- SE-054 SE-036 frontmatter Slices 2-3 (10h).
+
 ## [5.54.0] — 2026-04-20
 
 Batch 6 — Tier 0 + Tier 1 remediation desde audit 2026-04-20. 4 scripts nuevos + 5 test suites (98 tests totales).
@@ -7622,6 +7641,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.54.0...v5.55.0
 [5.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.53.0...v5.54.0
 [5.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.52.0...v5.53.0
 [5.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.51.0...v5.52.0

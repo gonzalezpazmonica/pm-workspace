@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 47d0e120af3e | resources: 1054
-> 530 commands · 78 skills · 65 agents · 381 scripts
+> hash: 7dc980bbaf2d | resources: 1057
+> 530 commands · 78 skills · 65 agents · 384 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -228,6 +228,7 @@
 [development] spec-explore — analyze,documents,explore,specification — cmd:.claude/commands/spec-explore.md
 [development] spec-frontmatter-migrate — frontmatter,migrate,slice,spec — script:scripts/spec-frontmatter-migrate.sh
 [development] spec-generate — azure,devops,ejecutable,implementación,lista — cmd:.claude/commands/spec-generate.md
+[development] spec-id-duplicates-check — check,duplicates,gate,slice,spec — script:scripts/spec-id-duplicates-check.sh
 [development] spec-implement — agente,asigna,developer,humano,implementa — cmd:.claude/commands/spec-implement.md
 [development] spec-judge — acceptance,approved,code,court,criteria — agent:.claude/agents/spec-judge.md
 [development] spec-quality-auditor — auditor,deterministic,quality,scorer,spec — script:scripts/spec-quality-auditor.sh
@@ -290,6 +291,7 @@
 [memory] cache-strategy — caché,capas,configurar,estrategia,invalidación — cmd:.claude/commands/cache-strategy.md
 [memory] cache-warm — basado,caché,calentar,contexto,hora — cmd:.claude/commands/cache-warm.md
 [memory] changelog-consolidate — changelog,consolidate,fragments — script:scripts/changelog-consolidate.sh
+[memory] changelog-consolidate-if-needed — automation,changelog,consolidate,merge,needed — script:scripts/changelog-consolidate-if-needed.sh
 [memory] company-show — consolidado,contexto,ejecutivo,empresa,mostrar — cmd:.claude/commands/company-show.md
 [memory] context-age — antiguas,archiva,comprime,decision,decisiones — cmd:.claude/commands/context-age.md
 [memory] context-aging — aging,context — script:scripts/context-aging.sh
@@ -360,6 +362,7 @@
 [memory] scaling-operations — analyze,benchmark,knowledge,operations,optimizations — skill:.claude/skills/scaling-operations/SKILL.md
 [memory] session-action-log — action,append,only,session,spec — script:scripts/session-action-log.sh
 [memory] session-event-log — agents,durable,event,managed,pattern — script:scripts/session-event-log.sh
+[memory] session-init-bootstrap — async,bootstrap,init,session,slice — script:scripts/session-init-bootstrap.sh
 [memory] session-resume-index — index,metadata,multica,pattern,resume — script:scripts/session-resume-index.sh
 [memory] session-save —  — cmd:.claude/commands/session-save.md
 [memory] session-state-machine — machine,phase,session,spec,state — script:scripts/session-state-machine.sh

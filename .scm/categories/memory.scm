@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 89 resources
+> 91 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -9,6 +9,7 @@
 - **cache-strategy** (cmd): Configurar estrategia de caché por capas con TTL y reglas de invalidación
 - **cache-warm** (cmd): Pre-calentar caché con contexto probable basado en hora y rol
 - **changelog-consolidate** (script): changelog-consolidate.sh — consolidate CHANGELOG.d/*.md fragments into
+- **changelog-consolidate-if-needed** (script): changelog-consolidate-if-needed.sh — SE-053 Slice 1 post-merge automation.
 - **company-show** (cmd): Mostrar perfil consolidado de la empresa — resumen ejecutivo del contexto organizacional
 - **context-age** (cmd): Envejecimiento semántico del decision-log — comprime y archiva decisiones antiguas
 - **context-aging** (script): ── context-aging.sh ───────────────────────────────────────────────────────
@@ -79,6 +80,7 @@
 - **scaling-operations** (skill): Scaling operations — analyze tier, benchmark, recommend optimizations, knowledge search
 - **session-action-log** (script): session-action-log.sh — Append-only session action log (SPEC-065)
 - **session-event-log** (script): session-event-log.sh — Managed Agents pattern: durable session log
+- **session-init-bootstrap** (script): session-init-bootstrap.sh — SE-045 Slice 1 async bootstrap.
 - **session-resume-index** (script): session-resume-index.sh — Multica pattern: session resumption metadata
 - **session-save** (cmd): >
 - **session-state-machine** (script): session-state-machine.sh — SPEC-051 Phase 1: Session State Machine

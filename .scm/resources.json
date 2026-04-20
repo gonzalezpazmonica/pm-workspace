@@ -1,6 +1,6 @@
 {
-  "hash": "ca7c328421c7",
-  "total": 1054,
+  "hash": "0886f99f29e0",
+  "total": 1057,
   "resources": [
     {
       "category": "analysis",
@@ -2863,6 +2863,20 @@
     },
     {
       "category": "development",
+      "name": "spec-id-duplicates-check",
+      "intents": [
+        "check",
+        "duplicates",
+        "gate",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-id-duplicates-check.sh",
+      "description": "spec-id-duplicates-check.sh — SE-044 Slice 1 spec ID uniqueness gate."
+    },
+    {
+      "category": "development",
       "name": "spec-implement",
       "intents": [
         "agente",
@@ -3679,6 +3693,20 @@
       "kind": "script",
       "path": "scripts/changelog-consolidate.sh",
       "description": "changelog-consolidate.sh — consolidate CHANGELOG.d/*.md fragments into"
+    },
+    {
+      "category": "memory",
+      "name": "changelog-consolidate-if-needed",
+      "intents": [
+        "automation",
+        "changelog",
+        "consolidate",
+        "merge",
+        "needed"
+      ],
+      "kind": "script",
+      "path": "scripts/changelog-consolidate-if-needed.sh",
+      "description": "changelog-consolidate-if-needed.sh — SE-053 Slice 1 post-merge automation."
     },
     {
       "category": "memory",
@@ -4601,6 +4629,20 @@
       "kind": "script",
       "path": "scripts/session-event-log.sh",
       "description": "session-event-log.sh — Managed Agents pattern: durable session log"
+    },
+    {
+      "category": "memory",
+      "name": "session-init-bootstrap",
+      "intents": [
+        "async",
+        "bootstrap",
+        "init",
+        "session",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/session-init-bootstrap.sh",
+      "description": "session-init-bootstrap.sh — SE-045 Slice 1 async bootstrap."
     },
     {
       "category": "memory",
