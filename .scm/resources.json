@@ -1,6 +1,6 @@
 {
-  "hash": "2640ce346bfc",
-  "total": 1050,
+  "hash": "ca7c328421c7",
+  "total": 1054,
   "resources": [
     {
       "category": "analysis",
@@ -2781,6 +2781,20 @@
     },
     {
       "category": "development",
+      "name": "spec-approval-gate",
+      "intents": [
+        "approval",
+        "enforcement",
+        "gate",
+        "rule",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-approval-gate.sh",
+      "description": "spec-approval-gate.sh — SE-051 Slice 1 Rule #8 enforcement gate."
+    },
+    {
+      "category": "development",
       "name": "spec-design",
       "intents": [
         "datos",
@@ -4996,6 +5010,20 @@
     },
     {
       "category": "planning",
+      "name": "agents-catalog-sync",
+      "intents": [
+        "agents",
+        "auto",
+        "catalog",
+        "slice",
+        "sync"
+      ],
+      "kind": "script",
+      "path": "scripts/agents-catalog-sync.sh",
+      "description": "agents-catalog-sync.sh — SE-047 Slice 1 agents catalog auto-sync."
+    },
+    {
+      "category": "planning",
       "name": "ai-boundary",
       "intents": [
         "aprobación",
@@ -5371,6 +5399,19 @@
       "kind": "cmd",
       "path": ".claude/commands/banking-eda-validate.md",
       "description": "Validar pipelines Kafka/EDA — topologías, schemas, DLQ, Saga, idempotencia"
+    },
+    {
+      "category": "planning",
+      "name": "baseline-tighten",
+      "intents": [
+        "auto",
+        "baseline",
+        "slice",
+        "tighten"
+      ],
+      "kind": "script",
+      "path": "scripts/baseline-tighten.sh",
+      "description": "baseline-tighten.sh — SE-046 Slice 1 baseline auto-tighten."
     },
     {
       "category": "planning",
@@ -11740,6 +11781,20 @@
       "kind": "script",
       "path": "scripts/review-depth-selector.sh",
       "description": "review-depth-selector.sh — Select review depth based on risk score"
+    },
+    {
+      "category": "quality",
+      "name": "rule-orphan-detector",
+      "intents": [
+        "audit",
+        "detector",
+        "orphan",
+        "rule",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/rule-orphan-detector.sh",
+      "description": "rule-orphan-detector.sh — SE-048 Slice 1 rule usage audit."
     },
     {
       "category": "quality",

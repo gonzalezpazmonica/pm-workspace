@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 865664f28f41 | resources: 1050
-> 530 commands · 78 skills · 65 agents · 377 scripts
+> hash: 47d0e120af3e | resources: 1054
+> 530 commands · 78 skills · 65 agents · 381 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -222,6 +222,7 @@
 [development] slm-deploy — deploy,deployment,orchestrate,post,scaffolding — script:scripts/slm-deploy.sh
 [development] slm-registry — model,registry,slms,spec,trained — script:scripts/slm-registry.sh
 [development] sovereignty-pack — build,fully,installer,offline,pack — script:scripts/sovereignty-pack.sh
+[development] spec-approval-gate — approval,enforcement,gate,rule,slice — script:scripts/spec-approval-gate.sh
 [development] spec-design — datos,decisiones,diseño,estrategia,existente — cmd:.claude/commands/spec-design.md
 [development] spec-driven-development — agentes,claude,desarrolladores,ejecutables,humanos — skill:.claude/skills/spec-driven-development/SKILL.md
 [development] spec-explore — analyze,documents,explore,specification — cmd:.claude/commands/spec-explore.md
@@ -391,6 +392,7 @@
 [planning] adoption-track — adopción,aprendizaje,comandos,curva,fricción — cmd:.claude/commands/adoption-track.md
 [planning] adr-create —  — cmd:.claude/commands/adr-create.md
 [planning] advisor-config — advisor,anthropic,config,configuration,generate — script:scripts/advisor-config.sh
+[planning] agents-catalog-sync — agents,auto,catalog,slice,sync — script:scripts/agents-catalog-sync.sh
 [planning] ai-boundary — aprobación,autónomamente,definir,explícitos,hacer — cmd:.claude/commands/ai-boundary.md
 [planning] ai-confidence — confianza,datos,limitaciones,muestra,razonamiento — cmd:.claude/commands/ai-confidence.md
 [planning] ai-incident — analizar,fueron,incidentes,incorrectas,recomendaciones — cmd:.claude/commands/ai-incident.md
@@ -420,6 +422,7 @@
 [planning] banking-bian — archimate,arquitectura,bian,contra,diagramas — cmd:.claude/commands/banking-bian.md
 [planning] banking-detect — auto,bancario,bian,detectar,entidades — cmd:.claude/commands/banking-detect.md
 [planning] banking-eda-validate — idempotencia,kafka,pipelines,saga,schemas — cmd:.claude/commands/banking-eda-validate.md
+[planning] baseline-tighten — auto,baseline,slice,tighten — script:scripts/baseline-tighten.sh
 [planning] billing-rate —  — cmd:.claude/commands/billing-rate.md
 [planning] board-flow — actual,analiza,board,botella,cuellos — cmd:.claude/commands/board-flow.md
 [planning] burnout-radar — análisis,burnout,detección,equipo,miembro — cmd:.claude/commands/burnout-radar.md
@@ -924,6 +927,7 @@
 [quality] review-community — comunidad,contribuciones,issues,maintainer,privado — cmd:.claude/commands/review-community.md
 [quality] review-community — community,comunidad,issues,local,only — script:scripts/review-community.sh
 [quality] review-depth-selector — based,depth,review,risk,score — script:scripts/review-depth-selector.sh
+[quality] rule-orphan-detector — audit,detector,orphan,rule,slice — script:scripts/rule-orphan-detector.sh
 [quality] scheduled-test — enviar,integración,message,notificaciones,plataforma — cmd:.claude/commands/scheduled-test.md
 [quality] security-alerts —  — cmd:.claude/commands/security-alerts.md
 [quality] security-attacker —  — agent:.claude/agents/security-attacker.md

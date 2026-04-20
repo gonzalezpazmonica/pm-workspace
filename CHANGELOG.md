@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.54.0] — 2026-04-20
+
+Batch 6 — Tier 0 + Tier 1 remediation desde audit 2026-04-20. 4 scripts nuevos + 5 test suites (98 tests totales).
+
+### Added
+- **SE-051 Slice 1** `scripts/spec-approval-gate.sh` + 21 BATS tests — Rule #8 enforcement detecta scripts linkeando specs no aprobados.
+- **SE-046 Slice 1** `scripts/baseline-tighten.sh` + 21 BATS tests — ratchet auto-tighten, jamás afloja.
+- **SE-047 Slice 1** `scripts/agents-catalog-sync.sh` + 22 BATS tests — catalog auto-regenerate desde frontmatter. Aplicado: 56→65 agents sincronizados.
+- **SE-048 Slice 1** `scripts/rule-orphan-detector.sh` + 20 BATS tests — detecta rules sin referencias reales.
+- **SE-043 Slice 1** `tests/test-claude-md-drift-check.bats` — 14 tests sobre script existente.
+
+### Fixed
+- `docs/rules/domain/agents-catalog.md` regenerated (drift D5: 56→65 agents).
+- `.ci-baseline/hook-critical-violations.count`: 10→5 (audit D6 corregido, margen CI variance).
+
+### Priority impact
+- Tier 0 progress: SE-051 probe en main (Rule #8 fence). SE-045 session-init split pendiente para PR #XXX (riesgo hook crítico, mejor aislado).
+- Tier 1 progress: SE-043 (tests sobre script existente), SE-046, SE-047, SE-048 cerrados Slice 1. SE-044 pendiente (ADR decisión humana).
+
 ## [5.53.0] — 2026-04-20
 
 Batch 5 — 3 SE specs probes (Slice 1) + audit architecture + 15 new spec stubs from audit + ROADMAP reprioritization.
@@ -7603,6 +7622,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.53.0...v5.54.0
 [5.53.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.52.0...v5.53.0
 [5.52.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.51.0...v5.52.0
 [5.51.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.50.0...v5.51.0

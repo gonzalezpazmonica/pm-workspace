@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 113 resources
+> 114 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -86,6 +86,7 @@
 - **slm-deploy** (script): slm-deploy.sh — Orchestrate post-training deployment scaffolding.
 - **slm-registry** (script): slm-registry.sh — Model registry for trained SLMs (SPEC-SE-027 registry).
 - **sovereignty-pack** (script): sovereignty-pack.sh — Build fully offline Savia USB installer
+- **spec-approval-gate** (script): spec-approval-gate.sh — SE-051 Slice 1 Rule #8 enforcement gate.
 - **spec-design** (cmd): Genera diseño técnico a partir de una spec existente — decisiones, flujo de datos, estrategia de testing.
 - **spec-driven-development** (skill): Specs ejecutables para desarrolladores humanos y agentes Claude
 - **spec-explore** (cmd): Explore and analyze specification documents
