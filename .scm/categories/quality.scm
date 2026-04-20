@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 209 resources
+> 210 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -82,6 +82,7 @@
 - **review-community** (cmd): Revisar PRs, issues y contribuciones de la comunidad (protocolo privado de maintainer)
 - **review-community** (script): review-community.sh — Revisión de PRs/issues de la comunidad (LOCAL ONLY)
 - **review-depth-selector** (script): review-depth-selector.sh — Select review depth based on risk score
+- **rule-orphan-detector** (script): rule-orphan-detector.sh — SE-048 Slice 1 rule usage audit.
 - **scheduled-test** (cmd): Enviar test message para verificar integración de plataforma de notificaciones
 - **security-alerts** (cmd): >
 - **security-attacker** (agent): >

@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 473 resources
+> 475 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -22,6 +22,7 @@
 - **adoption-track** (cmd): Tracking de adopción — comandos usados por rol, curva de aprendizaje, puntos de fricción
 - **adr-create** (cmd): >
 - **advisor-config** (script): advisor-config.sh — Generate Anthropic Advisor Strategy configuration
+- **agents-catalog-sync** (script): agents-catalog-sync.sh — SE-047 Slice 1 agents catalog auto-sync.
 - **ai-boundary** (cmd): Definir matriz de límites explícitos: qué puede hacer Savia autónomamente vs requiere aprobación
 - **ai-confidence** (cmd): Transparencia: Savia muestra confianza, razonamiento, datos y limitaciones de cada recomendación
 - **ai-incident** (cmd): Registrar y analizar incidentes donde recomendaciones de Savia fueron incorrectas
@@ -51,6 +52,7 @@
 - **banking-bian** (cmd): Validar arquitectura contra estándar BIAN y generar diagramas ArchiMate
 - **banking-detect** (cmd): Auto-detectar proyecto bancario por entidades BIAN, Kafka, Snowflake, SWIFT
 - **banking-eda-validate** (cmd): Validar pipelines Kafka/EDA — topologías, schemas, DLQ, Saga, idempotencia
+- **baseline-tighten** (script): baseline-tighten.sh — SE-046 Slice 1 baseline auto-tighten.
 - **billing-rate** (cmd): >
 - **board-flow** (cmd): Analiza el flujo de trabajo del board — WIP actual, cuellos de botella y métricas de flujo.
 - **burnout-radar** (cmd): Detección temprana de señales de burnout con análisis de riesgo por miembro del equipo
