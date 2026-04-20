@@ -57,6 +57,7 @@ teardown() { cd /; }
   echo '{"hooks":{}}' > "$root/.claude/settings.json"
   cat > "$root/CLAUDE.md" <<MD
 .claude/{agents(2), commands(1), hooks(1/0reg), skills(1)}
+| Catálogo 2 agentes | path |
 MD
   cp "$SCRIPT" "$root/scripts/"
   run bash "$root/scripts/claude-md-drift-check.sh"
