@@ -1,6 +1,6 @@
 {
-  "hash": "99a877e74117",
-  "total": 1059,
+  "hash": "37751e21288b",
+  "total": 1063,
   "resources": [
     {
       "category": "analysis",
@@ -4568,6 +4568,20 @@
     },
     {
       "category": "memory",
+      "name": "memvid-probe",
+      "intents": [
+        "memory",
+        "memvid",
+        "portable",
+        "probe",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/memvid-probe.sh",
+      "description": "memvid-probe.sh — SE-041 Slice 1 memvid portable memory viability probe."
+    },
+    {
+      "category": "memory",
       "name": "my-focus",
       "intents": [
         "carga",
@@ -8017,6 +8031,20 @@
       "kind": "skill",
       "path": ".claude/skills/orgchart-import/SKILL.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "oumi-probe",
+      "intents": [
+        "integration",
+        "oumi",
+        "probe",
+        "slice",
+        "viability"
+      ],
+      "kind": "script",
+      "path": "scripts/oumi-probe.sh",
+      "description": "oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe."
     },
     {
       "category": "planning",
@@ -11640,6 +11668,20 @@
     },
     {
       "category": "quality",
+      "name": "python-sbom",
+      "intents": [
+        "audit",
+        "python",
+        "requirements",
+        "sbom",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/python-sbom.sh",
+      "description": "python-sbom.sh — SE-056 Slice 1 Python SBOM + requirements audit."
+    },
+    {
+      "category": "quality",
       "name": "qa-bug-triage",
       "intents": [
         "asignación",
@@ -11903,6 +11945,20 @@
       "kind": "cmd",
       "path": ".claude/commands/security-audit.md",
       "description": ">"
+    },
+    {
+      "category": "quality",
+      "name": "security-audit-all",
+      "intents": [
+        "audit",
+        "runner",
+        "scanners",
+        "security",
+        "unified"
+      ],
+      "kind": "script",
+      "path": "scripts/security-audit-all.sh",
+      "description": "security-audit-all.sh — Unified runner for all security scanners."
     },
     {
       "category": "quality",

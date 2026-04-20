@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.58.0] — 2026-04-20
+
+Batch 11 — Tier 3 probes + Python SBOM + unified security runner. 4 scripts + 4 BATS suites (82 tests certified).
+
+### Added
+- **SE-028 Slice 1** `scripts/oumi-probe.sh` + 20 tests — oumi framework viability probe.
+- **SE-041 Slice 1** `scripts/memvid-probe.sh` + 21 tests — memvid portable memory viability probe.
+- **SE-056 Slice 1** `scripts/python-sbom.sh` + 22 tests — Python imports vs requirements.txt audit + venv hint.
+- `scripts/security-audit-all.sh` + 19 tests — unified runner for mcp/permissions/hook/prompt scanners. Graceful degradation when sub-scanners missing.
+- Spec SE-056 registrada.
+
 ## [5.56.0] — 2026-04-20
 
 Batch 8 — Tier 2 consolidación. SE-054 frontmatter normalization aplicado (125 specs) + SE-052 agent-size remediation plan. 2 scripts + 2 suites (61 tests, scores 95 y certificado).
@@ -7652,6 +7663,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.58.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.57.0...v5.58.0
 [5.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.55.0...v5.56.0
 [5.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.54.0...v5.55.0
 [5.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.53.0...v5.54.0
