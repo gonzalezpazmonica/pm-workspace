@@ -1,6 +1,6 @@
 {
-  "hash": "99a877e74117",
-  "total": 1059,
+  "hash": "e133f904c87f",
+  "total": 1063,
   "resources": [
     {
       "category": "analysis",
@@ -305,6 +305,20 @@
       "kind": "cmd",
       "path": ".claude/commands/debt-track.md",
       "description": ">"
+    },
+    {
+      "category": "analysis",
+      "name": "emergency-mode",
+      "intents": [
+        "activa",
+        "anthropic",
+        "caída",
+        "cloud",
+        "compatible"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/emergency-mode/SKILL.md",
+      "description": "Switchover de Savia a LocalAI cuando la API de Anthropic está caída. Activa endpoint local compatible, reporta features disponibles y permite volver a cloud cuando se recupera."
     },
     {
       "category": "analysis",
@@ -5485,6 +5499,19 @@
     },
     {
       "category": "planning",
+      "name": "bertopic-probe",
+      "intents": [
+        "bertopic",
+        "probe",
+        "slice",
+        "viability"
+      ],
+      "kind": "script",
+      "path": "scripts/bertopic-probe.sh",
+      "description": "bertopic-probe.sh — SE-033 Slice 1 BERTopic viability probe."
+    },
+    {
+      "category": "planning",
       "name": "billing-rate",
       "intents": [],
       "kind": "cmd",
@@ -8874,6 +8901,19 @@
     },
     {
       "category": "planning",
+      "name": "reranker-probe",
+      "intents": [
+        "probe",
+        "reranker",
+        "slice",
+        "viability"
+      ],
+      "kind": "script",
+      "path": "scripts/reranker-probe.sh",
+      "description": "reranker-probe.sh — SE-032 Slice 1 reranker viability probe."
+    },
+    {
+      "category": "planning",
       "name": "resolve-all-open-prs",
       "intents": [
         "conflicts",
@@ -8935,6 +8975,20 @@
       "kind": "agent",
       "path": ".claude/agents/ruby-developer.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "rule-manifest-integrity",
+      "intents": [
+        "index",
+        "integrity",
+        "manifest",
+        "rule",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/rule-manifest-integrity.sh",
+      "description": "rule-manifest-integrity.sh — SE-057 Slice 1 rule-manifest + INDEX integrity."
     },
     {
       "category": "planning",

@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.57.0] — 2026-04-20
+
+Batch 9 — Tier 2 close + Tier 3 champions. SE-050 SPEC-122 skill + SE-057 manifest integrity + SE-032/033 probes. 3 scripts + 1 skill + 3 suites (76 tests).
+
+### Added
+- **SE-057 Slice 1** `scripts/rule-manifest-integrity.sh` + 27 tests — audita INDEX.md size + manifest-filesystem crosscheck.
+- **SE-032 Slice 1** `scripts/reranker-probe.sh` + 26 tests — viability probe cross-encoder reranker.
+- **SE-033 Slice 1** `scripts/bertopic-probe.sh` + 23 tests — viability probe BERTopic (UMAP+HDBSCAN).
+- **SE-050 Slice 2** `.claude/skills/emergency-mode/` (SKILL.md + DOMAIN.md) — SPEC-122 cierre.
+
 ## [5.56.0] — 2026-04-20
 
 Batch 8 — Tier 2 consolidación. SE-054 frontmatter normalization aplicado (125 specs) + SE-052 agent-size remediation plan. 2 scripts + 2 suites (61 tests, scores 95 y certificado).
@@ -7652,6 +7662,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.56.0...v5.57.0
 [5.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.55.0...v5.56.0
 [5.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.54.0...v5.55.0
 [5.54.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.53.0...v5.54.0
