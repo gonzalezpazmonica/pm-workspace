@@ -1,8 +1,3 @@
----
-id: SPEC-068
-status: PROPOSED
----
-
 # SPEC-068: Hook Enhancement — PreCompact, PostCompact, PostToolUseFailure
 
 **Status**: Approved | **Date**: 2026-04-01 | **Era**: 165

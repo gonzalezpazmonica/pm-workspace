@@ -1,8 +1,3 @@
----
-id: SPEC-066
-status: PROPOSED
----
-
 # SPEC-066: Enhanced Local LLM — Premium Tier for Emergency Mode
 
 **Status**: Proposed | **Date**: 2026-03-31 | **Author**: Savia (research-driven)
