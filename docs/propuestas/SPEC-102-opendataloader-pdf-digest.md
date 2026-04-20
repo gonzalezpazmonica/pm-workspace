@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-102
 title: Migrate pdf-digest to opendataloader-pdf (deterministic-first + bounding boxes)
-status: Proposed
+status: PROPOSED
 origin: opendataloader-pdf analysis (2026-04-15)
 severity: Alta
 effort: ~12h

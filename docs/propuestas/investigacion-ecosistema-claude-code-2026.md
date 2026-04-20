@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # Investigación: Ecosistema Claude Code — Mejoras para pm-workspace y Savia
 
 **Fecha:** 2026-03-03

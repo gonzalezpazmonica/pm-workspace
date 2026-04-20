@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-108
 title: Agent Self-Improvement Loop + Sentry Root Cause Pipeline
-status: Proposed
+status: PROPOSED
 origin: Analysis of Rakuten QA case study (claude.com/customers/rakuten-qa, 2026-04-16)
 severity: Media
 effort: ~16h (2 sprints — self-improvement hook + Sentry RCA pipeline)

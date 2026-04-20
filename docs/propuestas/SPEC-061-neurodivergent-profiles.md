@@ -1,7 +1,7 @@
 ---
 id: SPEC-061
 title: SPEC-061 — Neurodivergent Profile System
-status: Implemented
+status: IMPLEMENTED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 ---

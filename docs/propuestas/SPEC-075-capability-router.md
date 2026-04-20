@@ -1,7 +1,7 @@
 ---
 id: SPEC-075
 title: SPEC-075: Capability Router — Selección de Agentes por Descripción
-status: Proposed
+status: PROPOSED
 origin_date: "2026-03-25"
 migrated_at: "2026-04-19"
 migrated_from: body-prose

@@ -1,7 +1,7 @@
 ---
 id: SPEC-062
 title: SPEC-062 — SaviaDivergent Implementation Roadmap
-status: Proposed
+status: PROPOSED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 ---

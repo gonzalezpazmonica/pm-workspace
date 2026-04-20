@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-023 — Knowledge Federation
 
 > **Priority:** P1 · **Estimate (human):** 7d · **Estimate (agent):** 7h · **Category:** complex · **Type:** cross-project learning + anonymized pattern mining + expertise directory

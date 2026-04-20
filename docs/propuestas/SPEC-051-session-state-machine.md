@@ -1,7 +1,7 @@
 ---
 id: SPEC-051
 title: SPEC-051: Session State Machine for Dev Sessions
-status: Proposed
+status: PROPOSED
 origin_date: "2026-03-30"
 migrated_at: "2026-04-19"
 migrated_from: body-prose

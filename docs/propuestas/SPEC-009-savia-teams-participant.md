@@ -1,7 +1,7 @@
 ---
 id: SPEC-009
 title: SPEC-009: Savia como participante en Teams
-status: Proposed
+status: PROPOSED
 origin_date: "2026-03-21"
 migrated_at: "2026-04-18"
 migrated_from: body-prose

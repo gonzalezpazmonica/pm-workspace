@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-016 — Project Valuation (Business-Case-as-Code)
 
 > **Priority:** P2 · **Estimate (human):** 6d · **Estimate (agent):** 6h · **Category:** standard · **Type:** portfolio valuation + benefit realization + risk-adjusted ROI

@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-085
 title: Savia Web Phase 1 — Modelo de datos completo (PBI history + tasks)
-status: Proposed
+status: PROPOSED
 origin: Auditoria 2026-04-07 (L-003)
 severity: Baja
 effort: ~6h agente

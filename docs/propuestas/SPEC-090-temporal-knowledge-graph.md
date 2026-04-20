@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-090
 title: Knowledge Graph temporal en SQLite — cache relacional por maquina
-status: Implemented
+status: IMPLEMENTED
 origin: mempalace research (2026-04-08)
 severity: Media
 effort: ~3h

@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # Propuesta: PR Guardian System — Validación Automatizada de Pull Requests
 
 **Fecha:** 2026-03-03

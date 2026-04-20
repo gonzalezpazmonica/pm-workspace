@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-004 — Agent Framework Interop
 
 > **Prioridad:** P1 · **Estima:** 10 días · **Tipo:** agnosticismo de runtime

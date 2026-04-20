@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-094
 title: Heat-Based Lightweight Parallelism for Dev Sessions
-status: Implemented
+status: IMPLEMENTED
 origin: Anvil research (ppazosp/anvil, 2026-04-08)
 severity: Media
 effort: ~2h

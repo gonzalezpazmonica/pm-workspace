@@ -1,3 +1,8 @@
+---
+id: SPEC-078
+status: PROPOSED
+---
+
 # SPEC-078: Dual Estimation — Agent-Time vs Human-Time
 
 **Status:** DRAFT | **Priority:** HIGH | **Era:** 179+ | **Author:** Savia (auditoria 2026-04-04)

@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-106
 title: Truth Tribunal — Multi-judge report reliability gate (≥90% threshold)
-status: All phases implemented (Phase 1 v4.88.0, Phase 2 v4.91.0, Phase 3 v4.92.0)
+status: ALL
 origin: User request (2026-04-15) — "Savia tiene que ser fiable" — urgent
 severity: Alta
 effort: ~40h (sprint dedicado recomendado)

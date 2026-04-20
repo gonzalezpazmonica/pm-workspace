@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-100
 title: GAIA Benchmark Integration — External Quality Validation for Agents
-status: Proposed
+status: PROPOSED
 origin: HKUDS/AutoAgent analysis (2026-04-15)
 severity: Media
 effort: ~5 días (40h)

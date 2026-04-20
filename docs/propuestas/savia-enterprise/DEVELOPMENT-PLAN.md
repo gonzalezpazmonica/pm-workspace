@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # Savia Enterprise — Plan de desarrollo autónomo
 
 > **Inicio:** 2026-04-11 · **Autora operativa:** Savia · **Reviewer:** la usuaria

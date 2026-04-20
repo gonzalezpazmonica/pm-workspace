@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # ADR: Claude Connectors vs MCP — Evaluación de Arquitectura de Integraciones
 
 > **Estado:** Propuesta · **Fecha:** 2026-03-06 · **Autor:** Savia

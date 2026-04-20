@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-032: Cross-Project Lessons Pipeline
 
 > **Estado**: Draft — Roadmap

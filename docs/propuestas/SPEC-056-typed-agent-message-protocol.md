@@ -1,7 +1,7 @@
 ---
 id: SPEC-056
 title: SPEC-056: Typed Agent Message Protocol
-status: Proposed
+status: PROPOSED
 origin_date: "2026-03-30"
 migrated_at: "2026-04-19"
 migrated_from: body-prose

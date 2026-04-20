@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-093
 title: Hardware-Aware Ollama — detección GPU/VRAM + recomendación de modelo
-status: Implemented
+status: IMPLEMENTED
 origin: llmfit research (2026-04-08)
 severity: Baja
 effort: ~2h

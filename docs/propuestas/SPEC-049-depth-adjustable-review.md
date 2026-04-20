@@ -1,7 +1,7 @@
 ---
 id: SPEC-049
 title: SPEC-049: Depth-Adjustable Review
-status: Proposed
+status: PROPOSED
 origin_date: "2026-03-30"
 migrated_at: "2026-04-19"
 migrated_from: body-prose

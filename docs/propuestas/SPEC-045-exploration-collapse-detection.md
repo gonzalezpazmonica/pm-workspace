@@ -1,3 +1,8 @@
+---
+id: SPEC-045
+status: PROPOSED
+---
+
 # SPEC-045 — Exploration Collapse Detection for Instincts
 
 > High-confidence instincts become rigid policies. This spec adds detection

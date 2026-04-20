@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-087
 title: Tool Result Trimming — hard cap determinista por resultado
-status: Implemented
+status: IMPLEMENTED
 origin: Claudepedia pattern analysis (2026-04-08)
 severity: Media
 effort: ~2h

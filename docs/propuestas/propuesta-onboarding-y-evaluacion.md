@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # Onboarding con IA + Evaluaci&oacute;n de Expertise del Equipo
 
 **Propuesta para pm-workspace** &mdash; febrero 2026

@@ -1,3 +1,8 @@
+---
+id: SPEC-053
+status: PROPOSED
+---
+
 # SPEC-053 — Savia Capability Map (.scm)
 
 **Status:** Draft | **Author:** Savia | **Date:** 2026-03-29

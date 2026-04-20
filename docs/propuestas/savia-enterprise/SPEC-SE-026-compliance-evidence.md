@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-026 — Compliance Evidence Automation
 
 > **Priority:** P0 · **Estimate (human):** 8d · **Estimate (agent):** 8h · **Category:** complex · **Type:** automated audit trail + regulatory evidence + continuous compliance

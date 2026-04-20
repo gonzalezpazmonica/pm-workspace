@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-088
 title: Tool-call/tool-result pair integrity during compaction
-status: Implemented
+status: IMPLEMENTED
 origin: Claudepedia pattern analysis (2026-04-08)
 severity: Alta
 effort: ~1h

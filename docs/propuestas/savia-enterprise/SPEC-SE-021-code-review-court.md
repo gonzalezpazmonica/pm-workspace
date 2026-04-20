@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-021 — Code Review Court
 
 > **Priority:** P0 · **Estimate (human):** 10d · **Estimate (agent):** 10h · **Category:** complex · **Type:** agentic code review + quality orchestration + cognitive load reduction

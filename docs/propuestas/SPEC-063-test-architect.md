@@ -1,3 +1,8 @@
+---
+id: SPEC-063
+status: PROPOSED
+---
+
 # SPEC-063 — Test Architect Agent
 
 **Status:** Draft | **Author:** Savia | **Date:** 2026-03-29

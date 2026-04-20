@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 7dc980bbaf2d | resources: 1057
-> 530 commands · 78 skills · 65 agents · 384 scripts
+> hash: ac6c4ee9c666 | resources: 1059
+> 530 commands · 78 skills · 65 agents · 386 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -15,6 +15,7 @@
 [analysis] agent-notes-archive —  — cmd:.claude/commands/agent-notes-archive.md
 [analysis] agent-run — agent,batch,claude,launch,pending — cmd:.claude/commands/agent-run.md
 [analysis] agent-size-audit — agent,audit,every,measure,probe — script:scripts/agent-size-audit.sh
+[analysis] agent-size-remediation-plan — agent,analyzer,plan,remediation,size — script:scripts/agent-size-remediation-plan.sh
 [analysis] agent-trace — agentes,dashboard,duración,ejecución,resultado — cmd:.claude/commands/agent-trace.md
 [analysis] ai-risk-assessment — agentes,categorías,evaluación,riesgo,según — cmd:.claude/commands/ai-risk-assessment.md
 [analysis] async-standup — asíncrona,compila,quiera,recogida,reporta — cmd:.claude/commands/async-standup.md
@@ -238,6 +239,7 @@
 [development] spec-status-normalize — across,audit,field,normalize,spec — script:scripts/spec-status-normalize.sh
 [development] spec-verify — against,criteria,implementation,specification,verify — cmd:.claude/commands/spec-verify.md
 [development] spec-verify-ui — componente,comprueba,cumple,implementado,spec — cmd:.claude/commands/spec-verify-ui.md
+[development] specs-frontmatter-normalize — frontmatter,normalization,normalize,slice,specs — script:scripts/specs-frontmatter-normalize.sh
 [development] statusline-provider — claude,code,data,provider,statusline — script:scripts/statusline-provider.sh
 [development] tech-research — autonomous,designated,generates,human,investigates — cmd:.claude/commands/tech-research.md
 [development] tech-research-agent — agente,autónoma,designado,humano,informes — skill:.claude/skills/tech-research-agent/SKILL.md

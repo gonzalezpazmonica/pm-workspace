@@ -1,7 +1,7 @@
 ---
 id: SPEC-013
 title: SPEC-013: Session Memory Extraction Hook
-status: Implemented
+status: IMPLEMENTED
 origin_date: "2026-03-22"
 migrated_at: "2026-04-18"
 migrated_from: body-prose

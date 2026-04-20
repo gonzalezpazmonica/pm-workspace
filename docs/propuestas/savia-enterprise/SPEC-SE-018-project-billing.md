@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-018 — Project Billing (Revenue-as-Code)
 
 > **Priority:** P1 · **Estimate (human):** 8d · **Estimate (agent):** 8h · **Category:** complex · **Type:** billing lifecycle + IFRS 15 revenue recognition + chargeback

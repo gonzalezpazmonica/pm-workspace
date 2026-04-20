@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # SPEC-SE-014 — Release Orchestration
 
 > **Priority:** P1 · **Estimate (human):** 8d · **Estimate (agent):** 8h · **Category:** complex · **Type:** release lifecycle + multi-tenant deployment

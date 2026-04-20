@@ -1,3 +1,7 @@
+---
+status: PROPOSED
+---
+
 # Savia → Savia Enterprise — Migración estratégica
 
 > **Fecha:** 2026-04-11

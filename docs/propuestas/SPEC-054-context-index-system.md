@@ -1,3 +1,8 @@
+---
+id: SPEC-054
+status: PROPOSED
+---
+
 # SPEC-054 — Context Index System
 
 **Status:** Draft | **Author:** Savia | **Date:** 2026-03-29

@@ -1,7 +1,7 @@
 ---
 id: SPEC-017
 title: SPEC-017: Dependency Sovereignty — USB Offline Installer
-status: Proposed
+status: PROPOSED
 origin_date: "2026-03-22"
 migrated_at: "2026-04-18"
 migrated_from: body-prose
