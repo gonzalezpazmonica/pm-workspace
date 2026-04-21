@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.63.0] — 2026-04-21
+
+Batch 15 — SE-061 Slice 2. Scrapling fetch wrapper con fallback a curl.
+
+### Added
+- `scripts/scrapling-fetch.sh` — wrapper estable sobre Scrapling parser-only. Detecta backend (scrapling|curl), extrae título/status/url_final/text. Flags `--selector`, `--json`, `--stealth`, `--timeout`.
+- `tests/test-scrapling-fetch.bats` — 29 tests certified.
+
+### Context
+Segundo slice SE-061 (Era 183 Tier 3). Interface estable que prefiere Scrapling cuando está disponible, cae a curl (con user-agent genérico) cuando no. Preparado para integración Slice 3 con `tech-research-agent` + `web-research` skill.
+
 ## [5.62.0] — 2026-04-21
 
 Batch 14 — SE-061 Slice 1. Scrapling viability probe (Tier 3 champion #1).
@@ -7723,6 +7734,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.62.0...v5.63.0
 [5.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.61.0...v5.62.0
 [5.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.60.0...v5.61.0
 [5.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.57.0...v5.60.0
