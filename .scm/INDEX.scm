@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 753993049e83 | resources: 1063
-> 530 commands · 79 skills · 65 agents · 389 scripts
+> hash: 917f99ab1da9 | resources: 1066
+> 530 commands · 79 skills · 65 agents · 392 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -887,6 +887,7 @@
 [quality] fix-assigner — agents,assigns,court,creates,findings — agent:.claude/agents/fix-assigner.md
 [quality] frontend-test-runner — commit,component,coverage,execution,frontend — agent:.claude/agents/frontend-test-runner.md
 [quality] hook-event-gap-audit — audit,audita,cubiertos,event,eventos — script:scripts/hook-event-gap-audit.sh
+[quality] hook-injection-audit — audit,hook,injection,patterns,slice — script:scripts/hook-injection-audit.sh
 [quality] hook-latency-audit — audit,enforcement,hook,latency,slice — script:scripts/hook-latency-audit.sh
 [quality] hub-audit — agentes,auditar,comandos,dependencias,dominio — cmd:.claude/commands/hub-audit.md
 [quality] knowledge-lint — base,check,detect,evidence,health — cmd:.claude/commands/knowledge-lint.md
@@ -895,6 +896,7 @@
 [quality] legal-compliance — auditoría,compliance,consolidada,contra,española — skill:.claude/skills/legal-compliance/SKILL.md
 [quality] markdownlint — dependency,markdownlint,native,wrapper — script:scripts/markdownlint.sh
 [quality] mcp-audit — across,audit,configs,overhead,server — script:scripts/mcp-audit.sh
+[quality] mcp-security-audit — audit,chain,config,security,slice — script:scripts/mcp-security-audit.sh
 [quality] model-upgrade-audit — audit,components,debt,models,need — cmd:.claude/commands/model-upgrade-audit.md
 [quality] model-upgrade-audit — audit,available,compare,components,debt — skill:.claude/skills/model-upgrade-audit/SKILL.md
 [quality] model-upgrade-auditor — agents,audits,backed,eval,evidence — agent:.claude/agents/model-upgrade-auditor.md
@@ -906,6 +908,7 @@
 [quality] perf-fix — aplica,crea,existen,first,hallazgos — cmd:.claude/commands/perf-fix.md
 [quality] perf-report — async,ejecutivo,hotspots,informe,issues — cmd:.claude/commands/perf-report.md
 [quality] performance-audit — anti,async,auditoría,detección,estática — skill:.claude/skills/performance-audit/SKILL.md
+[quality] permissions-wildcard-audit — audit,permissions,slice,wildcard — script:scripts/permissions-wildcard-audit.sh
 [quality] postmortem-review — incident,learn,past,postmortems,review — cmd:.claude/commands/postmortem-review.md
 [quality] pr-agent-judge — agent,compatible,contra,court,describe — skill:.claude/skills/pr-agent-judge/SKILL.md
 [quality] pr-agent-judge — agent,code,court,external,include — agent:.claude/agents/pr-agent-judge.md
