@@ -70,10 +70,26 @@ User query or gap detected
 | `search.py` | 88 | 3-layer orchestrator |
 | `suggestions.py` | 81 | Post-command follow-ups |
 
+## Scrapling enrichment (SE-061)
+
+Para URLs resultantes de SearxNG/WebSearch que requieren extracción de contenido (más allá de snippet), invocar el wrapper adaptativo `scripts/scrapling-fetch.sh`:
+
+```bash
+bash scripts/scrapling-fetch.sh "${URL}" --json --timeout 25
+```
+
+- Backend `scrapling` si está instalado: bypass Cloudflare/DataDome nativo
+- Fallback transparente a `curl` con user-agent `SaviaResearch/1.0`
+- Exit 0/1/2, JSON con `status|title|url_final|text|backend`
+
+Usar cuando WebFetch tool devuelve 403/429/503 o cuando el snippet no es suficiente. No usar para fetch masivo sin respetar robots.txt — ver `docs/rules/domain/research-stack.md`.
+
 ## References
 
 - Spec: `docs/propuestas/SPEC-003-web-research-system.md`
+- Scrapling backend: `docs/propuestas/SE-061-scrapling-research-backend.md`
 - Config: `docs/rules/domain/web-research-config.md`
+- Stack chain: `docs/rules/domain/research-stack.md`
 - Docs ES: `docs/web-research.md`
 - Docs EN: `docs/web-research.en.md`
 - Tests: `tests/test-web-research.bats`

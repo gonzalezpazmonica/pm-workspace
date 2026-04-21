@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.64.0] — 2026-04-21
+
+Batch 16 — SE-061 Slice 3. Integración Scrapling en skills research.
+
+### Added
+- `docs/rules/domain/research-stack.md` — cadena de backends (Cache → WebFetch → scrapling-fetch → curl), robots.txt, rate limiting, GDPR, attribution
+- `tests/test-research-stack.bats` — 26 contract tests certified
+
+### Changed
+- `.claude/skills/tech-research-agent/SKILL.md` — sección "Fallback de fetch (SE-061)" con invocación a `scrapling-fetch.sh` cuando WebFetch falla 403/429/503
+- `.claude/skills/web-research/SKILL.md` — sección "Scrapling enrichment (SE-061)" para extracción post-SearxNG
+
+### Context
+Tercer slice SE-061. Las skills research ya conocen el backend adaptativo con fallback robusto. La cadena documentada en research-stack.md aclara cuándo usar cada backend y las reglas de legalidad (robots.txt, rate limiting, no bypass paywalls).
+
 ## [5.63.0] — 2026-04-21
 
 Batch 15 — SE-061 Slice 2. Scrapling fetch wrapper con fallback a curl.
@@ -7734,6 +7749,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.63.0...v5.64.0
 [5.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.62.0...v5.63.0
 [5.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.61.0...v5.62.0
 [5.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.60.0...v5.61.0

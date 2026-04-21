@@ -148,3 +148,18 @@ SIEMPRE → Si no encuentra evidencia, decirlo explícitamente
 ## Cuándo NO usar
 - Para implementar cambios (usar SDD o code-improvement-loop) o acceso a sistemas con credenciales
 - Si no hay AUTONOMOUS_RESEARCH_NOTIFY configurado o involucra datos sensibles del negocio
+
+## Fallback de fetch (SE-061)
+
+Cuando `WebFetch` tool devuelve 403/429/503 o contenido vacío sobre una URL que se está investigando, la skill debe invocar el wrapper `scripts/scrapling-fetch.sh` como fallback adaptativo:
+
+```bash
+bash scripts/scrapling-fetch.sh "https://ejemplo-cloudflare.com/docs" --json --timeout 25
+```
+
+- Si Scrapling está instalado: bypass nativo de Cloudflare/DataDome/Akamai/Kasada/Incapsula
+- Si Scrapling NO está instalado: fallback transparente a curl con user-agent `SaviaResearch/1.0`
+- Salida JSON con `status`, `title`, `url_final`, `text`, `backend`
+- Exit code 0 = OK, 1 = fetch error, 2 = usage error
+
+Ver `docs/rules/domain/research-stack.md` para la cadena completa de backends y las consideraciones de legalidad/ToS.
