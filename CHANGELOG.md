@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.62.0] — 2026-04-21
+
+Batch 14 — SE-061 Slice 1. Scrapling viability probe (Tier 3 champion #1).
+
+### Added
+- `scripts/scrapling-probe.sh` — probe determinista VIABLE/NEEDS_INSTALL/BLOCKED. Verifica Python >= 3.10, scrapling, lxml, opcional playwright+chromium (--check-browser).
+- `tests/test-scrapling-probe.bats` — 23 tests certified.
+
+### Context
+Primer slice del champion Tier 3 #1 (Era 183 reprioritization). Probe zero-egress, lectura sólo, exit codes 0/1/2. Slice 2 añadirá wrapper `scrapling-fetch.sh`.
+
 ## [5.61.0] — 2026-04-21
 
 Batch 13 — Era 182 closure. SE-054 Slice 3 legacy-inline exception + ROADMAP status update.
@@ -7712,6 +7723,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.61.0...v5.62.0
 [5.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.60.0...v5.61.0
 [5.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.57.0...v5.60.0
 [5.58.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.57.0...v5.58.0
