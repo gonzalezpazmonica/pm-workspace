@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.66.0] — 2026-04-21
+
+Batch 18 — SE-035 Slice 2. Mutation audit skill.
+
+### Added
+- `.claude/skills/mutation-audit/SKILL.md` + `DOMAIN.md` — skill invocable sobre módulo concreto, detecta tests zombies AI-generated
+- `tests/test-mutation-audit-skill.bats` — 33 tests certified (skill estructura, frontmatter, referencias, negative, edge, isolation, coverage)
+
+### Changed
+- `CLAUDE.md` — skills count 79 → 80 (drift-check compliance)
+
+### Context
+Segundo champion Tier 3 (post-SE-061). Script probe ya existía (batch 9). Slice 2 añade wrapper skill invocable para `/mutation-audit` y documenta cuándo usar (sprint-end, post-test-generation) vs cuándo no (cada PR, módulos sin tests). Proyección Q3 2026: 500+ tests AI-generated → necesario auditar zombies.
+
 ## [5.65.0] — 2026-04-21
 
 Batch 17 — SE-061 Slice 4. MCP opt-in template para Scrapling.
@@ -7764,6 +7778,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.65.0...v5.66.0
 [5.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.64.0...v5.65.0
 [5.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.63.0...v5.64.0
 [5.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.62.0...v5.63.0
