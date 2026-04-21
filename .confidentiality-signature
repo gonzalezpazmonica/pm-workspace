@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=029433f2d46dbee36257b5d6fcdc93261bd4a656a30efae766ebc7f9e261b16d
-timestamp=2026-04-21T19:18:55Z
-branch=agent/batch16-scrapling-slice3-20260421
-head_commit=64012c5e
-signature=0b7869175f37fc21a19f73c67ec00674009a57686f9c6407d3bb157579282561
+diff_hash=26f8afb6391252bc53432b6418e4c4c6791afa53731b47fda257fc1cee7cfd65
+timestamp=2026-04-21T19:47:12Z
+branch=agent/batch17-scrapling-slice4-20260421
+head_commit=25ea281b
+signature=ba9271d4cfb4ba91e9b545a8e5c2e63c35309cf34a877a68cba4b212edc30105
