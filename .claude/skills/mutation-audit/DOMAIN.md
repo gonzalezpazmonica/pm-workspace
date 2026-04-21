@@ -1,6 +1,7 @@
 # Domain: Mutation Audit
 
 > Test quality measurement via mutation testing. Detects AI-generated zombie tests.
+> Spec: SE-035 — `docs/propuestas/SE-035-mutation-testing-skill.md`
 
 ## Problema que resuelve
 
