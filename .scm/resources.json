@@ -1,6 +1,6 @@
 {
-  "hash": "e133f904c87f",
-  "total": 1063,
+  "hash": "b1c8a4d9703a",
+  "total": 1070,
   "resources": [
     {
       "category": "analysis",
@@ -4582,6 +4582,20 @@
     },
     {
       "category": "memory",
+      "name": "memvid-probe",
+      "intents": [
+        "memory",
+        "memvid",
+        "portable",
+        "probe",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/memvid-probe.sh",
+      "description": "memvid-probe.sh — SE-041 Slice 1 memvid portable memory viability probe."
+    },
+    {
+      "category": "memory",
       "name": "my-focus",
       "intents": [
         "carga",
@@ -8047,6 +8061,20 @@
     },
     {
       "category": "planning",
+      "name": "oumi-probe",
+      "intents": [
+        "integration",
+        "oumi",
+        "probe",
+        "slice",
+        "viability"
+      ],
+      "kind": "script",
+      "path": "scripts/oumi-probe.sh",
+      "description": "oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe."
+    },
+    {
+      "category": "planning",
       "name": "outcome-track",
       "intents": [
         "entregó",
@@ -11255,6 +11283,20 @@
     },
     {
       "category": "quality",
+      "name": "hook-injection-audit",
+      "intents": [
+        "audit",
+        "hook",
+        "injection",
+        "patterns",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/hook-injection-audit.sh",
+      "description": "hook-injection-audit.sh — SE-060 Slice 1 hook injection patterns audit."
+    },
+    {
+      "category": "quality",
       "name": "hook-latency-audit",
       "intents": [
         "audit",
@@ -11363,6 +11405,20 @@
       "kind": "script",
       "path": "scripts/mcp-audit.sh",
       "description": "mcp-audit.sh — audit MCP server token overhead across configs"
+    },
+    {
+      "category": "quality",
+      "name": "mcp-security-audit",
+      "intents": [
+        "audit",
+        "chain",
+        "config",
+        "security",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/mcp-security-audit.sh",
+      "description": "mcp-security-audit.sh — SE-058 Slice 1 MCP supply-chain + config audit."
     },
     {
       "category": "quality",
@@ -11510,6 +11566,19 @@
       "kind": "skill",
       "path": ".claude/skills/performance-audit/SKILL.md",
       "description": "Auditoría estática de rendimiento — detección de hotspots, async anti-patterns, test-first optimization"
+    },
+    {
+      "category": "quality",
+      "name": "permissions-wildcard-audit",
+      "intents": [
+        "audit",
+        "permissions",
+        "slice",
+        "wildcard"
+      ],
+      "kind": "script",
+      "path": "scripts/permissions-wildcard-audit.sh",
+      "description": "permissions-wildcard-audit.sh — SE-059 Slice 1 permissions wildcard audit."
     },
     {
       "category": "quality",
@@ -11691,6 +11760,20 @@
       "kind": "script",
       "path": "scripts/prompt-security-scan.sh",
       "description": "prompt-security-scan.sh — Static analyzer for prompt injection/leakage"
+    },
+    {
+      "category": "quality",
+      "name": "python-sbom",
+      "intents": [
+        "audit",
+        "python",
+        "requirements",
+        "sbom",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/python-sbom.sh",
+      "description": "python-sbom.sh — SE-056 Slice 1 Python SBOM + requirements audit."
     },
     {
       "category": "quality",
@@ -11957,6 +12040,20 @@
       "kind": "cmd",
       "path": ".claude/commands/security-audit.md",
       "description": ">"
+    },
+    {
+      "category": "quality",
+      "name": "security-audit-all",
+      "intents": [
+        "audit",
+        "runner",
+        "scanners",
+        "security",
+        "unified"
+      ],
+      "kind": "script",
+      "path": "scripts/security-audit-all.sh",
+      "description": "security-audit-all.sh — Unified runner for all security scanners."
     },
     {
       "category": "quality",

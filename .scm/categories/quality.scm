@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 213 resources
+> 215 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -69,6 +69,7 @@
 - **pr-rebase** (script): pr-rebase.sh — Rebase current PR branch onto origin/main and re-sign.
 - **pr-review** (cmd): >
 - **prompt-security-scan** (script): prompt-security-scan.sh — Static analyzer for prompt injection/leakage
+- **python-sbom** (script): python-sbom.sh — SE-056 Slice 1 Python SBOM + requirements audit.
 - **qa-bug-triage** (cmd): Triage asistido de bugs — clasificación, duplicados, asignación sugerida
 - **qa-dashboard** (cmd): Dashboard de calidad — cobertura, tests flaky, bugs, escape rate, trends
 - **qa-regression-plan** (cmd): Plan de regresión basado en ficheros cambiados — impacto de cambios y suites a ejecutar
@@ -90,6 +91,7 @@
 - **security-alerts** (cmd): >
 - **security-attacker** (agent): >
 - **security-audit** (cmd): >
+- **security-audit-all** (script): security-audit-all.sh — Unified runner for all security scanners.
 - **security-auditor** (agent): >
 - **security-auto-remediation** (cmd): >
 - **security-defender** (agent): >

@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [5.58.0] — 2026-04-20
 
+Batch 11 — Tier 3 probes + Python SBOM + unified security runner. 4 scripts + 4 BATS suites (82 tests certified).
+
+### Added
+- **SE-028 Slice 1** `scripts/oumi-probe.sh` + 20 tests — oumi framework viability probe.
+- **SE-041 Slice 1** `scripts/memvid-probe.sh` + 21 tests — memvid portable memory viability probe.
+- **SE-056 Slice 1** `scripts/python-sbom.sh` + 22 tests — Python imports vs requirements.txt audit + venv hint.
+- `scripts/security-audit-all.sh` + 19 tests — unified runner for mcp/permissions/hook/prompt scanners. Graceful degradation when sub-scanners missing.
+- Spec SE-056 registrada.
 Batch 10 — Security stack hardening. Adopt patterns from agentshield (MIT) research. 3 new scripts + 28 new rules + PS-11..PS-14 extension + security-scanners.md catalog.
 
 ### Added
