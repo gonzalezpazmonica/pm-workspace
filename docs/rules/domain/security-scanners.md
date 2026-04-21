@@ -11,6 +11,7 @@
 | Pre-commit sovereignty | staged diff | sensitive patterns | `scripts/pre-commit-sovereignty.sh` |
 | Prompt security (PS-01..PS-14) | agent/skill md | 14 reglas prompt injection + hidden | `scripts/prompt-security-scan.sh` |
 | MCP security (SE-058) | `.claude/mcp.json` | 11 reglas supply chain + auto-approve | `scripts/mcp-security-audit.sh` |
+| MCP templates (SE-061) | `.claude/mcp-templates/` | entries opt-in + pasos de activación auditados | revisión manual + `mcp-security-audit.sh` post-activación |
 | Permissions wildcard (SE-059) | settings.json | 8 reglas wildcard sin deny | `scripts/permissions-wildcard-audit.sh` |
 | Hook injection (SE-060) | `.claude/hooks/` | 9 reglas injection + exfil | `scripts/hook-injection-audit.sh` |
 
