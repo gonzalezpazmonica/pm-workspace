@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.65.0] — 2026-04-21
+
+Batch 17 — SE-061 Slice 4. MCP opt-in template para Scrapling.
+
+### Added
+- `.claude/mcp-templates/scrapling.json` — entry template con activation steps, compliance block (autoApprove:false, BSD-3, legal note)
+- `tests/test-scrapling-mcp-template.bats` — 25 tests certified cubriendo estructura, compliance, integración, negative, edge, isolation
+
+### Changed
+- `docs/rules/domain/research-stack.md` — sección "MCP opt-in" con 6 pasos de activación (probe → install → audit → copy → no autoApprove → restart)
+- `docs/rules/domain/security-scanners.md` — nueva fila "MCP templates (SE-061)" en el catálogo
+
+### Context
+Cuarto y último slice SE-061. Template NO activa el MCP automáticamente: requiere probe+install+audit explícito. Rule MCP-02 (no wildcard autoApprove) enforzada por test. Completa la cadena SE-061 (probe → fetch → skills → MCP) en 4 slices / 21h planificadas.
+
 ## [5.64.0] — 2026-04-21
 
 Batch 16 — SE-061 Slice 3. Integración Scrapling en skills research.
@@ -7749,6 +7764,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.64.0...v5.65.0
 [5.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.63.0...v5.64.0
 [5.63.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.62.0...v5.63.0
 [5.62.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.61.0...v5.62.0

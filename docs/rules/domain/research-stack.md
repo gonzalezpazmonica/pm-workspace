@@ -47,6 +47,19 @@ Cada nivel tiene exit codes claros, JSON output, y telemetría local. La skill c
 - Cada fetch registra: `url`, `backend_used`, `status`, `timestamp`, `latency_ms` en `output/research-log.tsv` (local, gitignored)
 - Scrapling failures automatic trigger fallback curl, sin error visible para el caller
 
+## MCP opt-in (SE-061 Slice 4)
+
+Para activar Scrapling como MCP server nativo (opt-in, NO default):
+
+1. Verificar entorno: `bash scripts/scrapling-probe.sh --check-browser`
+2. Instalar: `pip install 'scrapling[ai]'`
+3. Auditar: `bash scripts/mcp-security-audit.sh` (MCP-01..MCP-11 deben pasar)
+4. Copiar entry `template.scrapling` desde `.claude/mcp-templates/scrapling.json` a `.claude/mcp.json → mcpServers`
+5. NO añadir `autoApprove` (regla MCP-02)
+6. Reiniciar Claude Code
+
+El MCP expone capacidades de fetch adaptativo al LLM directamente. Uso opt-in porque la activación requiere Chromium (~500MB) y dependencias pesadas. Ver `.claude/mcp-templates/scrapling.json` para la config template.
+
 ## Referencias
 
 - Probe: `scripts/scrapling-probe.sh` (SE-061 Slice 1)

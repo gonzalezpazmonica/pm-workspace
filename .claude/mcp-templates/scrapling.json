@@ -1,0 +1,28 @@
+{
+  "_comment": "MCP template for Scrapling (SE-061 Slice 4) — opt-in. Copiar entry a .claude/mcp.json para activar. Requires: pip install 'scrapling[ai]'. No autoApprove.",
+  "_spec": "docs/propuestas/SE-061-scrapling-research-backend.md",
+  "_stack_doc": "docs/rules/domain/research-stack.md",
+  "_security_audit": "scripts/mcp-security-audit.sh debe pasar antes de activar",
+  "template": {
+    "scrapling": {
+      "description": "Scrapling adaptive web scraper (SE-061 Tier 3 champion). Bypass Cloudflare/DataDome/Akamai. Opt-in only.",
+      "command": "python3",
+      "args": ["-m", "scrapling.ai.mcp"],
+      "env": {}
+    }
+  },
+  "activation_steps": [
+    "1. Verificar entorno: bash scripts/scrapling-probe.sh --check-browser",
+    "2. Instalar: pip install 'scrapling[ai]' (requires ~500MB con browser)",
+    "3. Audit: bash scripts/mcp-security-audit.sh (debe pasar MCP-01..MCP-11)",
+    "4. Copiar 'template.scrapling' a .claude/mcp.json -> mcpServers",
+    "5. NO añadir autoApprove (Rule: MCP-02)",
+    "6. Reiniciar Claude Code para cargar"
+  ],
+  "compliance": {
+    "autoApprove": false,
+    "legal": "Uso research legitimo. No bypass paywalls/captchas. Respetar robots.txt.",
+    "license": "scrapling es BSD-3-Clause",
+    "audit_frequency": "Mensual hasta maintainer stability"
+  }
+}
