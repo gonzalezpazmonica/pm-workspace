@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.61.0] — 2026-04-21
+
+Batch 13 — Era 182 closure. SE-054 Slice 3 legacy-inline exception + ROADMAP status update.
+
+### Added
+- `scripts/specs-frontmatter-normalize.sh` — legacy-inline exception: SPEC-NNN files con `# SPEC-NNN` en line 1 y `**Status**:` inline son respetados (añadir YAML frontmatter empujaría el header fuera del `head -5` de `validate-spec`).
+- 3 tests legacy (skip scan + apply no-op + non-legacy sigue migrando).
+
+### Changed
+- `docs/ROADMAP.md` — Era 182 CLOSED 2026-04-21. Tier 0-2 completado en batches 5-12. SE-045 diferido (Enterprise-only scope, #648). SE-054 con 4 excepciones legacy documentadas.
+
+### Context
+Cierre formal Era 182 (post-audit arquitectónico 2026-04-20). 75h ejecutadas vs 112h planificadas — diferencia es SE-045 (12h) movido a scope Enterprise, y eficiencia superior en SE-043/044/046/047/048/053 (scripts preexistentes parcialmente).
+
 ## [5.60.0] — 2026-04-21
 
 Batch 12 — Era 183 research reprioritization. SE-061 Scrapling champion #1 Tier 3.
@@ -7698,6 +7712,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.61.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.60.0...v5.61.0
 [5.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.57.0...v5.60.0
 [5.58.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.57.0...v5.58.0
 [5.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.56.0...v5.57.0

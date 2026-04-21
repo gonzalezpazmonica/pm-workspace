@@ -73,29 +73,29 @@ Temporal memory, hybrid search, agent evaluation, cognitive sectors, SaviaDiverg
 ## Pipeline — Q2 2026 (Eras 182+)
 - Effort: 15h | Impact: Medium (maintainability)
 
-## Era 182 — Architecture Audit Reprioritization (2026-04-20)
+## Era 182 — Architecture Audit Reprioritization (2026-04-20) — CLOSED 2026-04-21
 
-Post-auditoría arquitectónica (`output/audit-arquitectura-20260420.md`): 15 specs nuevos SE-043→SE-057 priorizados por ROI sobre exploración nueva.
+Post-auditoría arquitectónica (`output/audit-arquitectura-20260420.md`): 15 specs nuevos SE-043→SE-057 priorizados por ROI sobre exploración nueva. Batches 5-12 ejecutaron todos los Tier 0-2.
 
 ### Tier 0 — Crítico inmediato
 
-- **SE-051** SPEC-123 approval gate (2h) — Rule #8 erosion fix
-- **SE-045** Session-init split fast-path (12h) — 468ms→<20ms SLA
+- ✅ **SE-051** SPEC-123 approval gate — `scripts/spec-approval-gate.sh` (batch 6)
+- 🔒 **SE-045** Session-init split fast-path — Enterprise-only scope (#648), fuera de máquina dev
 
 ### Tier 1 — Cerrar deuda detectada (audit)
 
-- **SE-043** CLAUDE.md drift auto-check (4h)
-- **SE-044** SPEC-110 ID collision + ADR (3h)
-- **SE-046** Baseline re-levelling (3h)
-- **SE-047** Agents catalog auto-sync (4h)
-- **SE-048** Rule-orphan detector (6h)
-- **SE-054** SE-036 frontmatter Slices 2-3 finish (10h)
+- ✅ **SE-043** CLAUDE.md drift auto-check — `scripts/claude-md-drift-check.sh` (batch 6)
+- ✅ **SE-044** SPEC-110 ID collision + ADR — `docs/decisions/adr-001-spec-110-id-collision-resolution.md` (batch 7)
+- ✅ **SE-046** Baseline re-levelling — `scripts/baseline-tighten.sh` (batch 7)
+- ✅ **SE-047** Agents catalog auto-sync — `scripts/agents-catalog-sync.sh` (batch 7)
+- ✅ **SE-048** Rule-orphan detector — `scripts/rule-orphan-detector.sh` (batch 7)
+- 🟡 **SE-054** SE-036 frontmatter Slices 2-3 — 125 specs normalizados (batch 8). 4 specs legacy con `**Status**:` inline quedan en excepción documentada
 
 ### Tier 2 — Cierres pendientes
 
-- **SE-050** SPEC-122 Slice 2+3 or SUPERSEDED (8h)
-- **SE-052** Agent-size remediation plan (24h)
-- **SE-053** CHANGELOG.d consolidation hook (2h)
+- ✅ **SE-050** SPEC-122 Slice 2 — `.claude/skills/emergency-mode/` (batch 9). Slice 3 rollout diferido
+- ✅ **SE-052** Agent-size remediation plan — `scripts/agent-size-remediation-plan.sh` (batch 8)
+- ✅ **SE-053** CHANGELOG.d consolidation hook — `scripts/changelog-consolidate.sh` + `changelog-consolidate-if-needed.sh` (batch 7)
 
 ### Tier 3 — Champions research (preservados del roadmap previo)
 
@@ -109,7 +109,7 @@ Post-auditoría arquitectónica (`output/audit-arquitectura-20260420.md`): 15 sp
 - SPEC-SE-003/004/009/010/014 enterprise (sin demanda)
 - SE-042 voice training (sin GPU)
 
-Effort total Tier 0-2: ~112h (~3 sprints al 30% dedicación). Ver `output/audit-roadmap-reprioritization-20260420.md` para ROI detallado.
+Effort total Tier 0-2: ~112h planificado, ~75h ejecutado (batches 5-12, del 2026-04-20 al 2026-04-21). SE-045 diferido por scope Enterprise-only. Ver `output/audit-roadmap-reprioritization-20260420.md` para ROI detallado.
 
 ## Era 183 — Scrapling Research Backend (2026-04-21)
 
