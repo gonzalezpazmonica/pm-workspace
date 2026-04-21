@@ -24,7 +24,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 
 ## Estructura
 
-`.claude/{agents(65), commands(532), profiles, hooks(56/60reg), rules/{domain,languages}, skills(80), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
+`.claude/{agents(65), commands(532), profiles, hooks(56/60reg), rules/{domain,languages}, skills(81), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
 
 ## Reglas Críticas (Rules 1-8, inline)
 

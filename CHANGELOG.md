@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.67.0] — 2026-04-21
+
+Batch 19 — SE-032 Slice 2. Reranker skill + wrapper Python.
+
+### Added
+- `scripts/rerank.py` — cross-encoder reranker con 3 backends: cross-encoder (sentence-transformers+BAAI/bge-reranker-base), fallback-cosine, fallback-identity. Zero-install default via ImportError graceful degradation.
+- `.claude/skills/reranker/SKILL.md` + `DOMAIN.md` — skill invocable documentando integración con memory-recall, savia-recall, cross-project-search
+- `tests/test-rerank.bats` — 36 tests certified
+
+### Changed
+- `CLAUDE.md` — skills count 80 → 81
+
+### Context
+Tercer champion Tier 3 (post-SE-061, SE-035). Filtra ruido entre embedding retrieval y agent consumption. Validado localmente: sobre 3 candidates con cosine alto para no-relevante, el cross-encoder correctamente priorizó el candidate con menor cosine pero mayor relevancia semántica real.
+
 ## [5.66.0] — 2026-04-21
 
 Batch 18 — SE-035 Slice 2. Mutation audit skill.
@@ -7778,6 +7793,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.66.0...v5.67.0
 [5.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.65.0...v5.66.0
 [5.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.64.0...v5.65.0
 [5.64.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.63.0...v5.64.0
