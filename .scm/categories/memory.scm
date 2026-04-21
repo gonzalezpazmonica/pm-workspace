@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 91 resources
+> 92 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -73,6 +73,7 @@
 - **memory-sync** (cmd): Sincroniza insights del sprint en los topic files de auto memory
 - **memory-sync-index** (script): memory-sync-index.sh — Sync auto-memory markdown → JSONL vector index
 - **memory-verify** (script): memory-verify.sh — Quality gate for memory compression (SPEC-041 P3)
+- **memvid-probe** (script): memvid-probe.sh — SE-041 Slice 1 memvid portable memory viability probe.
 - **my-focus** (cmd): Modo focus — identifica el item más prioritario y carga todo su contexto
 - **nl-query** (cmd): Consultas en lenguaje natural — habla con Savia sin memorizar comandos
 - **post-compaction** (script): post-compaction.sh - Hook que inyecta contexto de memoria tras compactación

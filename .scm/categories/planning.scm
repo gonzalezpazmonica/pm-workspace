@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 478 resources
+> 479 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -260,6 +260,7 @@
 - **operational-point-selector** (script): operational-point-selector.sh — SE-029 Slice 4.
 - **orgchart-import** (cmd): >
 - **orgchart-import** (skill): >
+- **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.
 - **outcome-track** (cmd): Tracking de outcomes post-release — ¿la feature entregó el valor esperado?
 - **output-compress** (script): output-compress.sh — Compress verbose tool output (stdin -> stdout)
 - **overnight-sprint** (skill): Modo autónomo nocturno — ejecuta tareas de bajo riesgo en bucle, genera PRs pendientes de revisión humana
