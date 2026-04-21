@@ -101,35 +101,7 @@ Acciones concretas SI el humano aprueba la recomendación.
 
 ## Research Programs (patrón program.md)
 
-El humano puede proporcionar un archivo `research-program.md` con instrucciones específicas:
-
-```markdown
-# Research Program: Alternativas a Entity Framework
-
-## Objetivo
-Evaluar ORMs alternativos para .NET con mejor rendimiento en alta concurrencia.
-
-## Criterios de evaluación
-1. Rendimiento en queries complejas (joins, subqueries)
-2. Soporte para batch operations
-3. Madurez y comunidad
-4. Curva de aprendizaje para el equipo
-5. Compatibilidad con nuestro stack (SQL Server, Azure)
-
-## Alternativas a evaluar
-- Dapper
-- RepoDB
-- LINQ to DB
-- Raw ADO.NET con Dapper
-
-## Restricciones
-- Debe soportar SQL Server y Azure SQL
-- Debe tener soporte para .NET 8+
-- Licencia: MIT, Apache 2.0 o similar
-
-## Output esperado
-Tabla comparativa + recomendación justificada + estimación de esfuerzo de migración.
-```
+El humano puede proporcionar `research-program.md` con: objetivo, criterios de evaluación, alternativas a evaluar, restricciones (licencia, stack, versiones), y formato de output esperado. Ver `docs/propuestas/` para ejemplos reales.
 
 ## Restricciones estrictas
 ```
@@ -148,3 +120,18 @@ SIEMPRE → Si no encuentra evidencia, decirlo explícitamente
 ## Cuándo NO usar
 - Para implementar cambios (usar SDD o code-improvement-loop) o acceso a sistemas con credenciales
 - Si no hay AUTONOMOUS_RESEARCH_NOTIFY configurado o involucra datos sensibles del negocio
+
+## Fallback de fetch (SE-061)
+
+Cuando `WebFetch` tool devuelve 403/429/503 o contenido vacío sobre una URL que se está investigando, la skill debe invocar el wrapper `scripts/scrapling-fetch.sh` como fallback adaptativo:
+
+```bash
+bash scripts/scrapling-fetch.sh "https://ejemplo-cloudflare.com/docs" --json --timeout 25
+```
+
+- Si Scrapling está instalado: bypass nativo de Cloudflare/DataDome/Akamai/Kasada/Incapsula
+- Si Scrapling NO está instalado: fallback transparente a curl con user-agent `SaviaResearch/1.0`
+- Salida JSON con `status`, `title`, `url_final`, `text`, `backend`
+- Exit code 0 = OK, 1 = fetch error, 2 = usage error
+
+Ver `docs/rules/domain/research-stack.md` para la cadena completa de backends y las consideraciones de legalidad/ToS.
