@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=05005de343811d2533f1daf45408d19859b6513249c75635166c36787b433978
-timestamp=2026-04-21T05:29:12Z
-branch=agent/batch12-scrapling-research-reprioritization-20260421
-head_commit=8f8f9243
-signature=fd6394dccb3233528250b20456d3180826c018dab5ee8f254d4eacb1df6b29c3
+diff_hash=1ccecaa0773d84296e33636d8bf98ca811964a55da85f3003eceb4e0e2b71aec
+timestamp=2026-04-21T06:08:07Z
+branch=agent/batch13-tier1-remediation-20260421
+head_commit=df78c279
+signature=c7a50c5b4f7c54d72bf8aebac90d37106b7a79a977cb7d93614b40eafdf2de5f
