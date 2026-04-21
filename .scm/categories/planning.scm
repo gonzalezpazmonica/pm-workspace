@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 476 resources
+> 478 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -53,6 +53,7 @@
 - **banking-detect** (cmd): Auto-detectar proyecto bancario por entidades BIAN, Kafka, Snowflake, SWIFT
 - **banking-eda-validate** (cmd): Validar pipelines Kafka/EDA — topologías, schemas, DLQ, Saga, idempotencia
 - **baseline-tighten** (script): baseline-tighten.sh — SE-046 Slice 1 baseline auto-tighten.
+- **bertopic-probe** (script): bertopic-probe.sh — SE-033 Slice 1 BERTopic viability probe.
 - **billing-rate** (cmd): >
 - **board-flow** (cmd): Analiza el flujo de trabajo del board — WIP actual, cuellos de botella y métricas de flujo.
 - **burnout-radar** (cmd): Detección temprana de señales de burnout con análisis de riesgo por miembro del equipo
@@ -259,7 +260,6 @@
 - **operational-point-selector** (script): operational-point-selector.sh — SE-029 Slice 4.
 - **orgchart-import** (cmd): >
 - **orgchart-import** (skill): >
-- **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.
 - **outcome-track** (cmd): Tracking de outcomes post-release — ¿la feature entregó el valor esperado?
 - **output-compress** (script): output-compress.sh — Compress verbose tool output (stdin -> stdout)
 - **overnight-sprint** (skill): Modo autónomo nocturno — ejecuta tareas de bajo riesgo en bucle, genera PRs pendientes de revisión humana
@@ -329,12 +329,14 @@
 - **repos-list** (cmd): >
 - **repos-pr-create** (cmd): >
 - **repos-pr-list** (cmd): >
+- **reranker-probe** (script): reranker-probe.sh — SE-032 Slice 1 reranker viability probe.
 - **resolve-all-open-prs** (script): resolve-all-open-prs.sh — one-shot helper that runs resolve-pr-conflicts.sh
 - **resolve-pr-conflicts** (script): resolve-pr-conflicts.sh — auto-resolver for the recurring conflicts that
 - **resource-references** (skill): skill: resource-references
 - **retro-actions** (cmd): >
 - **rpi-start** (cmd): >
 - **ruby-developer** (agent): >
+- **rule-manifest-integrity** (script): rule-manifest-integrity.sh — SE-057 Slice 1 rule-manifest + INDEX integrity.
 - **rule-usage-analyzer** (script): rule-usage-analyzer.sh — Analyze domain rule usage across the workspace
 - **rust-developer** (agent): >
 - **sbom-generate** (cmd): >

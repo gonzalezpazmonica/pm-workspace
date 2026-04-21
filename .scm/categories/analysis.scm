@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 55 resources
+> 56 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Search** (cmd): Buscar y filtrar trazas across multiple observability platforms with natural language support
@@ -25,6 +25,7 @@
 - **debt-budget** (cmd): >
 - **debt-prioritize** (cmd): >
 - **debt-track** (cmd): >
+- **emergency-mode** (skill): Switchover de Savia a LocalAI cuando la API de Anthropic está caída. Activa endpoint local compatible, reporta features disponibles y permite volver a cloud cuando se recupera.
 - **enterprise-analytics** (skill): Enterprise analytics — SPACE metrics, portfolio aggregation, team health, risk matrix, forecasting
 - **enterprise-dashboard** (cmd): Enterprise analytics — portfolio metrics, team health, risk matrix, forecasting
 - **eval-report** (cmd): Generate evaluation report with scoring and analysis

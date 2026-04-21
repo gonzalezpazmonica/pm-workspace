@@ -91,6 +91,41 @@ scan_file() {
   if [[ "$file" == *agents* ]] && grep -qi 'tools:.*\*' "$file" 2>/dev/null; then
     log_warn "$file" "1" "Agent with wildcard tool access"
   fi
+
+  # PS-11: Zero-width chars (SE-060) — hidden directives via U+200B/C/D/FEFF
+  # Python-assisted detection: file encoding errors are expected on binary/non-utf8 — surface nothing
+  # rather than corrupt the grep pipeline. See SE-060 for rule definition.
+  if command -v python3 >/dev/null 2>&1; then
+    local zw_lines
+    zw_lines=$(python3 -c "
+import sys
+try:
+    with open('$file', 'r', encoding='utf-8', errors='replace') as f:
+        for i, line in enumerate(f, 1):
+            if any(c in line for c in ['\u200B', '\u200C', '\u200D', '\uFEFF']):
+                print(i)
+except (UnicodeDecodeError, FileNotFoundError, PermissionError):
+    sys.exit(0)
+" 2>/dev/null)
+    for num in $zw_lines; do
+      [[ -n "$num" ]] && log_finding "HIGH" "$file" "$num" "PS-11" "Zero-width character (possible hidden directive)"
+    done
+  fi
+
+  # PS-12: Long base64 strings (>80 chars, not in code blocks with hash/commit context)
+  while IFS=: read -r num _; do
+    [[ -n "$num" ]] && log_finding "HIGH" "$file" "$num" "PS-12" "Long base64-like string (possible encoded directive)"
+  done < <(grep -nE '[A-Za-z0-9+/]{80,}={0,2}' "$file" 2>/dev/null | grep -vi 'sha\|hash\|commit\|signature\|certificate\|-----BEGIN' || true)
+
+  # PS-13: URL-pipe-shell execution
+  while IFS=: read -r num _; do
+    [[ -n "$num" ]] && log_finding "HIGH" "$file" "$num" "PS-13" "URL-pipe-shell execution pattern"
+  done < <(grep -nE '(curl|wget)[^|]*https?[^|]*\|[[:space:]]*(bash|sh|zsh)' "$file" 2>/dev/null || true)
+
+  # PS-14: Time-based conditional (time bomb) — epoch comparison in agent/skill prompts
+  while IFS=: read -r num _; do
+    [[ -n "$num" ]] && log_finding "HIGH" "$file" "$num" "PS-14" "Time-based conditional (possible time bomb)"
+  done < <(grep -nE 'date[[:space:]]+\+%s.*[><]=?[[:space:]]*[0-9]{10,}' "$file" 2>/dev/null || true)
 }
 
 # ── Main ──
