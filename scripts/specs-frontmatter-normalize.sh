@@ -106,6 +106,15 @@ process_file() {
   local current_status=""
   local needs_fix=0
 
+  # Legacy exception: SPEC-NNN files with `# SPEC-NNN` on line 1 + inline **Status**
+  # Adding YAML frontmatter would push the SPEC header past validate-spec's head -5 check
+  # These 4 specs (SPEC-066/067/068/069) stay as-is until body is refactored
+  if head -1 "$f" | grep -qE '^# SPEC-[0-9]+:' && head -5 "$f" | grep -qE '^\*\*Status\*\*:'; then
+    # needs_fix=0, legacy-inline format respected
+    echo "0|0|1|0||legacy-inline"
+    return 0
+  fi
+
   # Check frontmatter presence
   if head -1 "$f" | grep -q "^---$"; then
     has_frontmatter=1

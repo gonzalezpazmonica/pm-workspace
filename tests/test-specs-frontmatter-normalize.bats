@@ -250,3 +250,61 @@ EOF
   run bash "$SCRIPT" --bogus
   [ "$status" -eq 2 ]
 }
+
+# ── Legacy inline-status exception (SE-054 Slice 3) ──────
+
+@test "legacy: SPEC file with inline **Status** and header on line 1 is skipped" {
+  local root="$BATS_TEST_TMPDIR/legacy"
+  mkdir -p "$root/docs/propuestas" "$root/scripts"
+  cat > "$root/docs/propuestas/SPEC-999-legacy.md" <<'SPEC'
+# SPEC-999: Legacy Format
+
+**Status**: Approved | **Date**: 2026-04-01
+
+## Problem
+Legacy body-status format.
+SPEC
+  cp "$SCRIPT" "$root/scripts/"
+  cd "$root"
+  run bash scripts/specs-frontmatter-normalize.sh --scan --json
+  cd "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *'"drift":0'* ]]
+}
+
+@test "legacy: non-legacy SPEC still migrates normally" {
+  local root="$BATS_TEST_TMPDIR/nonlegacy"
+  mkdir -p "$root/docs/propuestas" "$root/scripts"
+  cat > "$root/docs/propuestas/SPEC-998-normal.md" <<'SPEC'
+# SPEC-998: Normal Spec
+
+Some body without inline Status marker.
+
+## Problem
+Body.
+SPEC
+  cp "$SCRIPT" "$root/scripts/"
+  cd "$root"
+  run bash scripts/specs-frontmatter-normalize.sh --scan --json
+  cd "$BATS_TEST_DIRNAME/.."
+  [[ "$output" == *'"drift":1'* ]]
+}
+
+@test "legacy: --apply does not write to legacy files" {
+  local root="$BATS_TEST_TMPDIR/legacy-apply"
+  mkdir -p "$root/docs/propuestas" "$root/scripts"
+  cat > "$root/docs/propuestas/SPEC-997-legacy.md" <<'SPEC'
+# SPEC-997: Another Legacy
+
+**Status**: Draft | **Date**: 2026-01-01
+
+## Problem
+Body.
+SPEC
+  cp "$SCRIPT" "$root/scripts/"
+  cd "$root"
+  local h_before=$(md5sum docs/propuestas/SPEC-997-legacy.md | awk '{print $1}')
+  run bash scripts/specs-frontmatter-normalize.sh --apply
+  local h_after=$(md5sum docs/propuestas/SPEC-997-legacy.md | awk '{print $1}')
+  cd "$BATS_TEST_DIRNAME/.."
+  [[ "$h_before" == "$h_after" ]]
+}
