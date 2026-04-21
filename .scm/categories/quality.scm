@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 210 resources
+> 213 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -33,6 +33,7 @@
 - **fix-assigner** (agent): Creates fix tasks from Court findings, assigns to dev agents, triggers re-review
 - **frontend-test-runner** (agent): Post-commit frontend test execution — unit, component, e2e, coverage
 - **hook-event-gap-audit** (script): hook-event-gap-audit.sh — Audita los 11 eventos de hook no cubiertos en pm-workspace
+- **hook-injection-audit** (script): hook-injection-audit.sh — SE-060 Slice 1 hook injection patterns audit.
 - **hook-latency-audit** (script): hook-latency-audit.sh — SE-037 Slice 1 hook latency enforcement audit.
 - **hub-audit** (cmd): Auditar dependencias entre reglas de dominio, comandos y agentes — recalcular el índice de hubs
 - **knowledge-lint** (cmd): Health check for the persistent knowledge base — detect orphans, stale refs, missing evidence
@@ -41,6 +42,7 @@
 - **legal-compliance** (skill): Auditoría de compliance legal contra legislación española consolidada (legalize-es)
 - **markdownlint** (script): Native markdownlint wrapper — no npm dependency.
 - **mcp-audit** (script): mcp-audit.sh — audit MCP server token overhead across configs
+- **mcp-security-audit** (script): mcp-security-audit.sh — SE-058 Slice 1 MCP supply-chain + config audit.
 - **model-upgrade-audit** (cmd): Audit workspace components for prompt debt that newer models may not need
 - **model-upgrade-audit** (skill): Audit workspace components for prompt debt when a new model is available. Detect workarounds, propose simplifications, compare with evals.
 - **model-upgrade-auditor** (agent): Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence.
@@ -52,6 +54,7 @@
 - **perf-fix** (cmd): Optimización test-first de hallazgos de rendimiento — crea tests si no existen, aplica fix, re-verifica
 - **perf-report** (cmd): Informe ejecutivo de rendimiento — hotspots, async issues, roadmap y tendencias
 - **performance-audit** (skill): Auditoría estática de rendimiento — detección de hotspots, async anti-patterns, test-first optimization
+- **permissions-wildcard-audit** (script): permissions-wildcard-audit.sh — SE-059 Slice 1 permissions wildcard audit.
 - **postmortem-review** (cmd): Review and learn from past incident postmortems
 - **pr-agent-judge** (skill): 5º juez del Court — wrapper sobre qodo-ai/pr-agent OSS. Ejecuta review/describe/improve contra un PR y devuelve JSON compatible con Court.
 - **pr-agent-judge** (agent): External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). Opt-in via COURT_INCLUDE_PR_AGENT=true.

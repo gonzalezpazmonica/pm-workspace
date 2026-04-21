@@ -19,6 +19,20 @@ Batch 12 — Era 183 research reprioritization. SE-061 Scrapling champion #1 Tie
 
 ### Context
 Scrapling (D4Vinci/Scrapling) desbloquea research en sites Cloudflare/DataDome/Akamai que hoy fallan silenciosamente en `tech-research-agent` + skill `web-research`. ROI inmediato vs probes sin casos activos. Adopción opt-in (core sin browser), fallback a curl siempre disponible.
+## [5.58.0] — 2026-04-20
+
+Batch 10 — Security stack hardening. Adopt patterns from agentshield (MIT) research. 3 new scripts + 28 new rules + PS-11..PS-14 extension + security-scanners.md catalog.
+
+### Added
+- **SE-058** `scripts/mcp-security-audit.sh` + 28 tests — 11 reglas MCP (supply chain, auto-approve, secrets hardcoded, shell transport, path traversal).
+- **SE-059** `scripts/permissions-wildcard-audit.sh` + 25 tests — 8 reglas wildcard permissions (Bash/Write/WebFetch sin deny, auto mode + skip prompts, destructive commands).
+- **SE-060** `scripts/hook-injection-audit.sh` + 25 tests — 9 reglas hook injection (eval unquoted, curl exfil, pipe-to-shell, reverse shell /dev/tcp, sudo sin -n, redirect a credenciales).
+- Extension `scripts/prompt-security-scan.sh` con PS-11..PS-14 (zero-width chars, long base64, URL-pipe-shell, time bombs).
+- `docs/rules/domain/security-scanners.md` — catálogo unificado del stack.
+- 3 specs: SE-058, SE-059, SE-060.
+
+### Context
+Research `output/research/agentshield-20260420.md` identificó gap 77/102 reglas (solo 24% solape). Batch 10 cubre MCP + permissions + hook injection + hidden directives sin adoptar stack TS/Node externo.
 
 ## [5.57.0] — 2026-04-20
 
@@ -7677,6 +7691,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [5.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.57.0...v5.60.0
+[5.58.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.57.0...v5.58.0
 [5.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.56.0...v5.57.0
 [5.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.55.0...v5.56.0
 [5.55.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.54.0...v5.55.0
