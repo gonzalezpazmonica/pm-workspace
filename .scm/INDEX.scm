@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 917f99ab1da9 | resources: 1066
-> 530 commands · 79 skills · 65 agents · 392 scripts
+> hash: dd1bc90e8ff2 | resources: 1070
+> 530 commands · 79 skills · 65 agents · 396 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -358,6 +358,7 @@
 [memory] memory-sync — auto,files,insights,memory,sincroniza — cmd:.claude/commands/memory-sync.md
 [memory] memory-sync-index — auto,index,jsonl,markdown,memory — script:scripts/memory-sync-index.sh
 [memory] memory-verify — compression,gate,memory,quality,spec — script:scripts/memory-verify.sh
+[memory] memvid-probe — memory,memvid,portable,probe,slice — script:scripts/memvid-probe.sh
 [memory] my-focus — carga,contexto,focus,identifica,item — cmd:.claude/commands/my-focus.md
 [memory] nl-query — comandos,consultas,habla,lenguaje,memorizar — cmd:.claude/commands/nl-query.md
 [memory] post-compaction — compactación,compaction,contexto,hook,inyecta — script:scripts/post-compaction.sh
@@ -636,6 +637,7 @@
 [planning] operational-point-selector — operational,point,selector,slice — script:scripts/operational-point-selector.sh
 [planning] orgchart-import —  — cmd:.claude/commands/orgchart-import.md
 [planning] orgchart-import —  — skill:.claude/skills/orgchart-import/SKILL.md
+[planning] oumi-probe — integration,oumi,probe,slice,viability — script:scripts/oumi-probe.sh
 [planning] outcome-track — entregó,esperado,feature,outcomes,post — cmd:.claude/commands/outcome-track.md
 [planning] output-compress — compress,output,stdin,stdout,tool — script:scripts/output-compress.sh
 [planning] overnight-sprint — autónomo,bajo,bucle,ejecuta,humana — skill:.claude/skills/overnight-sprint/SKILL.md
@@ -923,6 +925,7 @@
 [quality] pr-rebase — branch,current,main,onto,origin — script:scripts/pr-rebase.sh
 [quality] pr-review —  — cmd:.claude/commands/pr-review.md
 [quality] prompt-security-scan — analyzer,injection,leakage,prompt,scan — script:scripts/prompt-security-scan.sh
+[quality] python-sbom — audit,python,requirements,sbom,slice — script:scripts/python-sbom.sh
 [quality] qa-bug-triage — asignación,asistido,bugs,clasificación,duplicados — cmd:.claude/commands/qa-bug-triage.md
 [quality] qa-dashboard — bugs,calidad,cobertura,dashboard,escape — cmd:.claude/commands/qa-dashboard.md
 [quality] qa-regression-plan — basado,cambiados,cambios,ejecutar,ficheros — cmd:.claude/commands/qa-regression-plan.md
@@ -944,6 +947,7 @@
 [quality] security-alerts —  — cmd:.claude/commands/security-alerts.md
 [quality] security-attacker —  — agent:.claude/agents/security-attacker.md
 [quality] security-audit —  — cmd:.claude/commands/security-audit.md
+[quality] security-audit-all — audit,runner,scanners,security,unified — script:scripts/security-audit-all.sh
 [quality] security-auditor —  — agent:.claude/agents/security-auditor.md
 [quality] security-auto-remediation —  — cmd:.claude/commands/security-auto-remediation.md
 [quality] security-defender —  — agent:.claude/agents/security-defender.md
