@@ -101,35 +101,7 @@ Acciones concretas SI el humano aprueba la recomendación.
 
 ## Research Programs (patrón program.md)
 
-El humano puede proporcionar un archivo `research-program.md` con instrucciones específicas:
-
-```markdown
-# Research Program: Alternativas a Entity Framework
-
-## Objetivo
-Evaluar ORMs alternativos para .NET con mejor rendimiento en alta concurrencia.
-
-## Criterios de evaluación
-1. Rendimiento en queries complejas (joins, subqueries)
-2. Soporte para batch operations
-3. Madurez y comunidad
-4. Curva de aprendizaje para el equipo
-5. Compatibilidad con nuestro stack (SQL Server, Azure)
-
-## Alternativas a evaluar
-- Dapper
-- RepoDB
-- LINQ to DB
-- Raw ADO.NET con Dapper
-
-## Restricciones
-- Debe soportar SQL Server y Azure SQL
-- Debe tener soporte para .NET 8+
-- Licencia: MIT, Apache 2.0 o similar
-
-## Output esperado
-Tabla comparativa + recomendación justificada + estimación de esfuerzo de migración.
-```
+El humano puede proporcionar `research-program.md` con: objetivo, criterios de evaluación, alternativas a evaluar, restricciones (licencia, stack, versiones), y formato de output esperado. Ver `docs/propuestas/` para ejemplos reales.
 
 ## Restricciones estrictas
 ```
