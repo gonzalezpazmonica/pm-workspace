@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.60.0] — 2026-04-21
+
+Batch 12 — Era 183 research reprioritization. SE-061 Scrapling champion #1 Tier 3.
+
+### Added
+- `docs/propuestas/SE-061-scrapling-research-backend.md` — adaptive scraping backend para research agents (4 slices, 21h).
+- ROADMAP Era 183: reorden Tier 3 Champions — SE-061 > SE-035 > SE-032 > SE-033 > SE-028 > SE-041.
+
+### Changed
+- `docs/ROADMAP.md` — Tier 3 Champions reordenado por ROI research-stack (SE-061 Scrapling champion #1).
+
+### Context
+Scrapling (D4Vinci/Scrapling) desbloquea research en sites Cloudflare/DataDome/Akamai que hoy fallan silenciosamente en `tech-research-agent` + skill `web-research`. ROI inmediato vs probes sin casos activos. Adopción opt-in (core sin browser), fallback a curl siempre disponible.
 ## [5.58.0] — 2026-04-20
 
 Batch 11 — Tier 3 probes + Python SBOM + unified security runner. 4 scripts + 4 BATS suites (82 tests certified).
@@ -7685,6 +7698,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.60.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.57.0...v5.60.0
 [5.58.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.57.0...v5.58.0
 [5.57.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.56.0...v5.57.0
 [5.56.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.55.0...v5.56.0
