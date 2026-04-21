@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 81d6eabca355 | resources: 1063
-> 530 commands · 78 skills · 65 agents · 390 scripts
+> hash: dd1bc90e8ff2 | resources: 1070
+> 530 commands · 79 skills · 65 agents · 396 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -26,6 +26,7 @@
 [analysis] debt-budget —  — cmd:.claude/commands/debt-budget.md
 [analysis] debt-prioritize —  — cmd:.claude/commands/debt-prioritize.md
 [analysis] debt-track —  — cmd:.claude/commands/debt-track.md
+[analysis] emergency-mode — activa,anthropic,caída,cloud,compatible — skill:.claude/skills/emergency-mode/SKILL.md
 [analysis] enterprise-analytics — aggregation,analytics,enterprise,forecasting,health — skill:.claude/skills/enterprise-analytics/SKILL.md
 [analysis] enterprise-dashboard — analytics,enterprise,forecasting,health,matrix — cmd:.claude/commands/enterprise-dashboard.md
 [analysis] eval-report — analysis,evaluation,generate,report,scoring — cmd:.claude/commands/eval-report.md
@@ -429,6 +430,7 @@
 [planning] banking-detect — auto,bancario,bian,detectar,entidades — cmd:.claude/commands/banking-detect.md
 [planning] banking-eda-validate — idempotencia,kafka,pipelines,saga,schemas — cmd:.claude/commands/banking-eda-validate.md
 [planning] baseline-tighten — auto,baseline,slice,tighten — script:scripts/baseline-tighten.sh
+[planning] bertopic-probe — bertopic,probe,slice,viability — script:scripts/bertopic-probe.sh
 [planning] billing-rate —  — cmd:.claude/commands/billing-rate.md
 [planning] board-flow — actual,analiza,board,botella,cuellos — cmd:.claude/commands/board-flow.md
 [planning] burnout-radar — análisis,burnout,detección,equipo,miembro — cmd:.claude/commands/burnout-radar.md
@@ -705,12 +707,14 @@
 [planning] repos-list —  — cmd:.claude/commands/repos-list.md
 [planning] repos-pr-create —  — cmd:.claude/commands/repos-pr-create.md
 [planning] repos-pr-list —  — cmd:.claude/commands/repos-pr-list.md
+[planning] reranker-probe — probe,reranker,slice,viability — script:scripts/reranker-probe.sh
 [planning] resolve-all-open-prs — conflicts,helper,open,resolve,runs — script:scripts/resolve-all-open-prs.sh
 [planning] resolve-pr-conflicts — auto,conflicts,recurring,resolve,resolver — script:scripts/resolve-pr-conflicts.sh
 [planning] resource-references — references,resource,skill — skill:.claude/skills/resource-references/SKILL.md
 [planning] retro-actions —  — cmd:.claude/commands/retro-actions.md
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md
 [planning] ruby-developer —  — agent:.claude/agents/ruby-developer.md
+[planning] rule-manifest-integrity — index,integrity,manifest,rule,slice — script:scripts/rule-manifest-integrity.sh
 [planning] rule-usage-analyzer — across,analyze,analyzer,domain,rule — script:scripts/rule-usage-analyzer.sh
 [planning] rust-developer —  — agent:.claude/agents/rust-developer.md
 [planning] sbom-generate —  — cmd:.claude/commands/sbom-generate.md
@@ -885,6 +889,7 @@
 [quality] fix-assigner — agents,assigns,court,creates,findings — agent:.claude/agents/fix-assigner.md
 [quality] frontend-test-runner — commit,component,coverage,execution,frontend — agent:.claude/agents/frontend-test-runner.md
 [quality] hook-event-gap-audit — audit,audita,cubiertos,event,eventos — script:scripts/hook-event-gap-audit.sh
+[quality] hook-injection-audit — audit,hook,injection,patterns,slice — script:scripts/hook-injection-audit.sh
 [quality] hook-latency-audit — audit,enforcement,hook,latency,slice — script:scripts/hook-latency-audit.sh
 [quality] hub-audit — agentes,auditar,comandos,dependencias,dominio — cmd:.claude/commands/hub-audit.md
 [quality] knowledge-lint — base,check,detect,evidence,health — cmd:.claude/commands/knowledge-lint.md
@@ -893,6 +898,7 @@
 [quality] legal-compliance — auditoría,compliance,consolidada,contra,española — skill:.claude/skills/legal-compliance/SKILL.md
 [quality] markdownlint — dependency,markdownlint,native,wrapper — script:scripts/markdownlint.sh
 [quality] mcp-audit — across,audit,configs,overhead,server — script:scripts/mcp-audit.sh
+[quality] mcp-security-audit — audit,chain,config,security,slice — script:scripts/mcp-security-audit.sh
 [quality] model-upgrade-audit — audit,components,debt,models,need — cmd:.claude/commands/model-upgrade-audit.md
 [quality] model-upgrade-audit — audit,available,compare,components,debt — skill:.claude/skills/model-upgrade-audit/SKILL.md
 [quality] model-upgrade-auditor — agents,audits,backed,eval,evidence — agent:.claude/agents/model-upgrade-auditor.md
@@ -904,6 +910,7 @@
 [quality] perf-fix — aplica,crea,existen,first,hallazgos — cmd:.claude/commands/perf-fix.md
 [quality] perf-report — async,ejecutivo,hotspots,informe,issues — cmd:.claude/commands/perf-report.md
 [quality] performance-audit — anti,async,auditoría,detección,estática — skill:.claude/skills/performance-audit/SKILL.md
+[quality] permissions-wildcard-audit — audit,permissions,slice,wildcard — script:scripts/permissions-wildcard-audit.sh
 [quality] postmortem-review — incident,learn,past,postmortems,review — cmd:.claude/commands/postmortem-review.md
 [quality] pr-agent-judge — agent,compatible,contra,court,describe — skill:.claude/skills/pr-agent-judge/SKILL.md
 [quality] pr-agent-judge — agent,code,court,external,include — agent:.claude/agents/pr-agent-judge.md
