@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.72.0] — 2026-04-22
+
+Batch 24 — SE-062.1 counter sync + SE-062.2 SE-056 duplicate resolution.
+
+### Removed
+- `docs/propuestas/SE-056-python-runtime-sbom-virtualenv-enforceme.md` — duplicate de SE-056 (canónico: `SE-056-python-sbom-virtualenv.md`, referenciado en CHANGELOG batch 11)
+
+### Changed
+- `docs/ROADMAP.md` header — version bump v5.69.0 → v5.71.0, Era 184 añadida a status
+
+### Context
+Primeros 2 slices SE-062 (Era 184 hygiene). Drift auditor reportó counter drift pero verificación directa mostró CLAUDE.md/filesystem ya alineados (skills=83). ROADMAP header actualizado. Duplicate SE-056 resuelto dejando el fichero canónico (más detallado, referenciado en batch 11).
+
 ## [5.71.0] — 2026-04-22
 
 Batch 23 — Post-Era 183 drift audit + SE-062 Era 184 proposal.
@@ -7846,6 +7859,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.71.0...v5.72.0
 [5.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.70.0...v5.71.0
 [5.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.69.0...v5.70.0
 [5.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.68.0...v5.69.0
