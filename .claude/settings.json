@@ -93,6 +93,17 @@
         ]
       },
       {
+        "matcher": "Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/acm-enforcement.sh",
+            "timeout": 3,
+            "statusMessage": "ACM enforcement (SE-063)..."
+          }
+        ]
+      },
+      {
         "matcher": "Edit",
         "hooks": [
           {
