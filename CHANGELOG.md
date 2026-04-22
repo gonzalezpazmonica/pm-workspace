@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.74.0] — 2026-04-22
+
+Batch 26 — SE-062.4 CHANGELOG.d consolidation workflow activation.
+
+### Added
+- `.github/workflows/changelog-consolidate.yml` — GHA workflow post-merge a main, trigger en `CHANGELOG.d/**`, threshold 20 fragments, concurrency serial, skip marker `[skip consolidate]` previene loops. Activa `scripts/changelog-consolidate-if-needed.sh` (implementado batch 7, dormido hasta ahora).
+- `tests/test-changelog-consolidate-workflow.bats` — 31 tests (YAML valid, triggers, permisos, safety guards).
+
+### Context
+SE-062.4 Era 184 slice 4: cierre de SE-053. El script existía desde batch 7 con 25 tests pasando pero sin ningún trigger registrado (no hook, no workflow, no cron). Workflow añade el trigger de activación. Version 5.74.0 asume merge de 5.73.0 (batch 25) primero; rebase ajustará si el orden cambia.
 ## [5.73.0] — 2026-04-22
 
 Batch 25 — SE-062.3 skills aggregator + SE-063/064 coderlm-inspired propuestas.
@@ -7878,6 +7888,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.73.0...v5.74.0
 [5.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.72.0...v5.73.0
 [5.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.71.0...v5.72.0
 [5.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.70.0...v5.71.0

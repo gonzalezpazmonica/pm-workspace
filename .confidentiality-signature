@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=967b0c262640c37d470422f5c5da8d296594ef1e5440941c4810a3d5a46cc8c3
-timestamp=2026-04-22T15:31:02Z
-branch=agent/batch25-se062-skills-aggregator-20260422
-head_commit=a1e41cc3
-signature=948ddaf617da151cb1f3ed0865a4e2d5bc1e1ed290ef4cd76b80fd5c4311eda9
+diff_hash=95170b508e0d08f4910c37bbf13ee426f56d87ac0dd67401de973df307421373
+timestamp=2026-04-22T16:46:32Z
+branch=agent/batch26-se062-4-changelog-hook-20260422
+head_commit=45459130
+signature=baf710bb6569ef2902b132b3740d6f4ec343b9982318913f645b2b94a0d4779f
