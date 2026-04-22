@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: dd1bc90e8ff2 | resources: 1070
-> 530 commands · 79 skills · 65 agents · 396 scripts
+> hash: 9fbf21db51bd | resources: 1078
+> 530 commands · 85 skills · 65 agents · 398 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -213,6 +213,7 @@
 [development] prompt-suggestion-engine — driven,engine,optimization,phase,prompt — script:scripts/prompt-suggestion-engine.sh
 [development] reaction-engine — engine,phase,reaction,spec — script:scripts/reaction-engine.sh
 [development] requirement-pushback — analyze,generate,pushback,questions,requirement — script:scripts/requirement-pushback.sh
+[development] reranker — agente,cross,encoder,filtra,memory — skill:.claude/skills/reranker/SKILL.md
 [development] retro-patterns — action,análisis,items,patrones,recurrentes — cmd:.claude/commands/retro-patterns.md
 [development] rpi-status — active,implement,plan,progress,research — cmd:.claude/commands/rpi-status.md
 [development] rules-domain-index — domain,index,rules,spec — script:scripts/rules-domain-index.sh
@@ -613,6 +614,7 @@
 [planning] mcp-server-config — configure,connection,servers,settings — cmd:.claude/commands/mcp-server-config.md
 [planning] mcp-server-start — initialize,instances,server,start — cmd:.claude/commands/mcp-server-start.md
 [planning] mcp-server-status — active,check,health,servers,status — cmd:.claude/commands/mcp-server-status.md
+[planning] memvid-backup — backup,evalua,externa,fallback,gzip — skill:.claude/skills/memvid-backup/SKILL.md
 [planning] mobile-developer —  — agent:.claude/agents/mobile-developer.md
 [planning] model-capability-resolver — capabilities,capability,model,registry,resolve — script:scripts/model-capability-resolver.sh
 [planning] my-learning — best,código,detección,developer,gaps — cmd:.claude/commands/my-learning.md
@@ -736,6 +738,8 @@
 [planning] school-setup — classroom,configure,initialize,savia,school — cmd:.claude/commands/school-setup.md
 [planning] school-submit — completed,evaluation,project,student,submits — cmd:.claude/commands/school-submit.md
 [planning] score-diff —  — cmd:.claude/commands/score-diff.md
+[planning] scrapling-fetch — adaptive,fetch,scrapling,slice,wrapper — script:scripts/scrapling-fetch.sh
+[planning] scrapling-probe — probe,scrapling,slice,viability — script:scripts/scrapling-probe.sh
 [planning] sdlc-advance — advance,item,machine,sdlc,state — cmd:.claude/commands/sdlc-advance.md
 [planning] sdlc-status — current,sdlc,show,state,transitions — cmd:.claude/commands/sdlc-status.md
 [planning] sentry-bugs —  — cmd:.claude/commands/sentry-bugs.md
@@ -809,8 +813,10 @@
 [planning] tech-writer —  — agent:.claude/agents/tech-writer.md
 [planning] terraform-developer —  — agent:.claude/agents/terraform-developer.md
 [planning] threat-model —  — cmd:.claude/commands/threat-model.md
+[planning] tier3-probes — bertopic,catalogo,champions,extract,feasibility — skill:.claude/skills/tier3-probes/SKILL.md
 [planning] tool-catalog — categorizado,catálogo,comandos,herramientas — cmd:.claude/commands/tool-catalog.md
 [planning] tool-result-trim — deterministic,hard,output,result,tool — script:scripts/tool-result-trim.sh
+[planning] topic-cluster — agrupa,bertopic,clustering,cross,descubre — skill:.claude/skills/topic-cluster/SKILL.md
 [planning] travel-clean — elimina,máquina,rastros,savia,temporal — cmd:.claude/commands/travel-clean.md
 [planning] travel-pack — cifrado,empaca,unidad,workspace — cmd:.claude/commands/travel-pack.md
 [planning] travel-sync — bidireccional,máquina,sincroniza,workspace — cmd:.claude/commands/travel-sync.md
@@ -902,6 +908,7 @@
 [quality] model-upgrade-audit — audit,components,debt,models,need — cmd:.claude/commands/model-upgrade-audit.md
 [quality] model-upgrade-audit — audit,available,compare,components,debt — skill:.claude/skills/model-upgrade-audit/SKILL.md
 [quality] model-upgrade-auditor — agents,audits,backed,eval,evidence — agent:.claude/agents/model-upgrade-auditor.md
+[quality] mutation-audit — calidad,concreto,demand,detecta,generated — skill:.claude/skills/mutation-audit/SKILL.md
 [quality] mutation-audit — audit,mutation,slice,testing — script:scripts/mutation-audit.sh
 [quality] overnight-sprint — autonomous,creates,executes,human,launch — cmd:.claude/commands/overnight-sprint.md
 [quality] pentester —  — agent:.claude/agents/pentester.md
@@ -1071,4 +1078,5 @@
 [quality] visual-qa-agent — analysis,cambios,comparison,componentes,detectan — agent:.claude/agents/visual-qa-agent.md
 [quality] visual-regression — across,approval,automated,baseline,branches — cmd:.claude/commands/visual-regression.md
 [quality] web-e2e-tester — against,android,apps,autonomous,changes — agent:.claude/agents/web-e2e-tester.md
+[quality] workspace-integrity — agent,agents,auditors,baseline,catalog — skill:.claude/skills/workspace-integrity/SKILL.md
 [quality] zeroclaw — commands,firmware,flash,interface,send — cmd:.claude/commands/zeroclaw.md

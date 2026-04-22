@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 116 resources
+> 117 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -75,6 +75,7 @@
 - **prompt-suggestion-engine** (script): prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization
 - **reaction-engine** (script): reaction-engine.sh — SPEC-050 Phase 1: Reaction Engine
 - **requirement-pushback** (script): requirement-pushback.sh — Analyze a spec and generate pushback questions
+- **reranker** (skill): Cross-encoder reranker — filtra top-K ruidoso de memory-recall/savia-recall/cross-project-search antes de pasar al agente
 - **retro-patterns** (cmd): Análisis de patrones en retrospectivas — temas recurrentes, action items sin resolver
 - **rpi-status** (cmd): Track progress of active RPI (Research → Plan → Implement) workflows.
 - **rules-domain-index** (script): rules-domain-index.sh — SPEC-115

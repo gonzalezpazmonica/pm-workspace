@@ -16,6 +16,24 @@ Batch 26 — SE-062.4 CHANGELOG.d consolidation workflow activation.
 
 ### Context
 SE-062.4 Era 184 slice 4: cierre de SE-053. El script existía desde batch 7 con 25 tests pasando pero sin ningún trigger registrado (no hook, no workflow, no cron). Workflow añade el trigger de activación. Version 5.74.0 asume merge de 5.73.0 (batch 25) primero; rebase ajustará si el orden cambia.
+## [5.73.0] — 2026-04-22
+
+Batch 25 — SE-062.3 skills aggregator + SE-063/064 coderlm-inspired propuestas.
+
+### Added
+- `.claude/skills/tier3-probes/` — aggregator skill para 6 feasibility probes (scrapling, oumi, memvid, bertopic, reranker, pdf-extract). SKILL.md + DOMAIN.md.
+- `.claude/skills/workspace-integrity/` — aggregator skill para 7 integrity auditors (claude-md-drift, baseline, catalog-sync, orphan, manifest, size, usage). SKILL.md + DOMAIN.md.
+- `docs/propuestas/SE-063-acm-enforcement-pretool-hook.md` — pre-tool hook que bloquea glob/grep amplio sin consulta previa de `.agent-maps/INDEX.acm`. Effort S 4-6h, prioridad Media.
+- `docs/propuestas/SE-064-acm-multihost-generator.md` — generador ACM multi-host (Cursor/Windsurf/Copilot). Effort M 8h, prioridad Baja (on-demand).
+- `output/research-coderlm-20260421.md` — investigación técnica coderlm (veredicto ADOPTAR PATRÓN).
+- ROADMAP Era 185 PROPOSED — agrupa SE-063/064 post-Era 184.
+
+### Changed
+- `CLAUDE.md` — skills count 83 → 85 tras 2 aggregator skills nuevos.
+- `docs/ROADMAP.md` — Era 185 section añadida, SE-063/064 registradas como propuestas.
+
+### Context
+SE-062.3 usa patrón aggregator para documentar 18 scripts huérfanos sin crear N skill dirs separados. Dos aggregator skills cubren la totalidad de scripts de probes e integrity. SE-063/064 derivan de research coderlm — inspirado en su patrón de hook enforcement + multi-host generator, pero sin adoptar el daemon Rust (superficie innecesaria). Era 184 progresa: 3 de 5 slices SE-062 completados.
 
 ## [5.72.0] — 2026-04-22
 
@@ -7871,6 +7889,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [5.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.73.0...v5.74.0
+[5.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.72.0...v5.73.0
 [5.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.71.0...v5.72.0
 [5.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.70.0...v5.71.0
 [5.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.69.0...v5.70.0
