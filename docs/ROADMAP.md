@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-22 | **Version:** v5.71.0 | **532 commands · 65 agents · 83 skills · 56 hooks (60 regs) · 280+ test suites · Era 182-183 CLOSED, Era 184 PROPOSED**
+**Updated:** 2026-04-22 | **Version:** v5.75.0 | **532 commands · 65 agents · 85 skills · 56 hooks (60 regs) · 281+ test suites · Era 182-184 CLOSED, Era 185 PROPOSED**
 
 ---
 
@@ -132,19 +132,19 @@ Sigue: SPEC-102/103/104 PDF · SPEC-107 · SPEC-100 GAIA · SPEC-SE-003/004/009/
 
 ---
 
-## Era 184 — Consolidation + Hygiene (2026-04-22, PROPOSED)
+## Era 184 — Consolidation + Hygiene (2026-04-22) — CLOSED 2026-04-22
 
 Post-Era 183 drift audit (batch 23) identifica deuda compuesta tras 22 batches consecutivos sin hygiene. **SE-062** agrupa 5 slices cortos que cierran drift sin añadir features.
 
-### SE-062 slices (12-15h total)
+### SE-062 slices (5/5 completados)
 
-1. **SE-062.1** Counter sync (1h) — CLAUDE.md/ROADMAP/filesystem skills triple check
-2. **SE-062.2** Duplicate SE-056 resolution (1h) — enforce SE-044 spec-id guard
-3. **SE-062.3** Skills para 18 scripts huérfanos (4h) — aggregator docs
-4. **SE-062.4** SE-053 changelog hook activation (3h) — auto-consolidate
-5. **SE-062.5** SE-036 frontmatter slices 2-3 (3h) — 4 specs legacy restantes
+1. ✅ **SE-062.1** Counter sync — CLAUDE.md/ROADMAP/filesystem skills triple check (batch 24)
+2. ✅ **SE-062.2** Duplicate SE-056 resolution — SE-044 spec-id guard enforced (batch 24)
+3. ✅ **SE-062.3** Skills aggregator — `tier3-probes` + `workspace-integrity` cubren 13 scripts huérfanos (batch 25)
+4. ✅ **SE-062.4** SE-053 changelog hook activation — GHA workflow `changelog-consolidate.yml` (batch 26)
+5. ✅ **SE-062.5** SE-036 frontmatter finale — 4 specs legacy (SPEC-066/067/068/069) normalizados (batch 27)
 
-Criterio cierre: drift auditor re-run pasa sin findings HIGH.
+Resultado: `specs-frontmatter-normalize.sh --scan` PASS sin drift en 198 specs. `claude-md-drift-check.sh` PASS.
 
 ### No scope Era 184
 

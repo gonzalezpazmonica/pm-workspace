@@ -1,6 +1,15 @@
+---
+id: SPEC-069
+title: "Coordinator Mode Exploration"
+status: IMPLEMENTED
+date: 2026-04-01
+era: 168
+note: "Research cerrado — findings aplicados en Eras 167-170 batch (Token Economics, Coordinator Mode, Spec Validation, Tool Healing)."
+---
+
 # SPEC-069: Coordinator Mode Exploration
 
-**Status**: Research | **Date**: 2026-04-01 | **Era**: 168
+> Research cerrado en Era 167-170 batch (Token Economics, Coordinator Mode research, Spec Validation, Tool Healing — 28 tests).
 
 ---
 

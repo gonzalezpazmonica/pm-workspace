@@ -1,6 +1,15 @@
+---
+id: SPEC-068
+title: "Hook Enhancement — PreCompact, PostCompact, PostToolUseFailure"
+status: SUPERSEDED
+superseded_by: SPEC-071
+date: 2026-04-01
+era: 165
+---
+
 # SPEC-068: Hook Enhancement — PreCompact, PostCompact, PostToolUseFailure
 
-**Status**: Approved | **Date**: 2026-04-01 | **Era**: 165
+> Supersedido por SPEC-071 Hook Overhaul (Era 171) — 17/28 events (61%), prompt+HTTP hooks.
 
 ---
 
