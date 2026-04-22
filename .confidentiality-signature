@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=83523819b96cc697b67dc0a947a4cc8070228e9ed526204e002d189e7ce927e2
-timestamp=2026-04-22T17:52:31Z
-branch=agent/batch27-se062-5-frontmatter-finale-20260422
-head_commit=8f41eaf2
-signature=1a6346d8b337bd363db49b09e9eeedd45cf71a152b222a8386221c04c8d75034
+diff_hash=6a26c60becde4836a3931ad563fa5325f7b1613fc079e2c8cf8bf4bffa28a274
+timestamp=2026-04-22T18:59:44Z
+branch=agent/batch28-se063-1-acm-detector-20260422
+head_commit=1108312c
+signature=9c3e59c2dda5fbff1db254cdee18a360b1a8afb393926b810a1841f89f8edc1a

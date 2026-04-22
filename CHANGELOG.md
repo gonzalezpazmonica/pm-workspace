@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.76.0] — 2026-04-22
+
+Batch 28 — SE-063 Slice 1+2: ACM enforcement hooks (Era 185 arranca).
+
+### Added
+- `.claude/hooks/acm-enforcement.sh` — PreToolUse hook para Glob/Grep. Detecta queries amplias (`.*`, `**/*`, sin path/type/glob) en `projects/{name}/` cuando existe `.agent-maps/INDEX.acm`. Modos: warn (default, solo stderr) / block (exit 2) / 0,off (disabled). Bypass semántico para `.claude/`, `docs/`, `scripts/`, `tests/`.
+- `.claude/hooks/acm-turn-marker.sh` — PostToolUse hook (registro pendiente de aprobación) que escribe marker per-turno cuando el agente lee un `.acm`. Marker en `$TMPDIR/savia-turn-{id}/acm-read-{project}`.
+- `tests/test-acm-enforcement.bats` — 32 tests certified, cubre warn/block modes, exempciones, bypass por marker, logging, isolation.
+- Registro en `.claude/settings.json`: PreToolUse Glob|Grep → `acm-enforcement.sh` (timeout 3s, statusMessage "ACM enforcement (SE-063)...").
+
+### Context
+Era 185 arranca con SE-063 derivado de research coderlm (batch 25). Hooks activan el sistema ACM que ya existía pero era ignorado. Default warn-only para permitir observación antes de upgrade a block. Env override `SAVIA_ACM_ENFORCE={0,warn,block}` para modos. Registro PostToolUse del marker queda pendiente de aprobación explícita del usuario (self-modification guard). Mientras tanto el marker script existe y es testeable pero no se invoca automáticamente — en warn mode no bloquea nada, sólo informa.
+
+### Note
+Hook counter bumped 56→58 (61 regs con PreToolUse Glob|Grep).
+
 ## [5.75.0] — 2026-04-22
 
 Batch 27 — SE-062.5 Era 184 finale: frontmatter migration cierre.
@@ -7908,6 +7924,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.75.0...v5.76.0
 [5.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.74.0...v5.75.0
 [5.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.73.0...v5.74.0
 [5.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.72.0...v5.73.0
