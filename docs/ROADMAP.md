@@ -132,6 +132,31 @@ Sigue: SPEC-102/103/104 PDF · SPEC-107 · SPEC-100 GAIA · SPEC-SE-003/004/009/
 
 ---
 
+## Era 184 — Consolidation + Hygiene (2026-04-22, PROPOSED)
+
+Post-Era 183 drift audit (batch 23) identifica deuda compuesta tras 22 batches consecutivos sin hygiene. **SE-062** agrupa 5 slices cortos que cierran drift sin añadir features.
+
+### SE-062 slices (12-15h total)
+
+1. **SE-062.1** Counter sync (1h) — CLAUDE.md/ROADMAP/filesystem skills triple check
+2. **SE-062.2** Duplicate SE-056 resolution (1h) — enforce SE-044 spec-id guard
+3. **SE-062.3** Skills para 18 scripts huérfanos (4h) — aggregator docs
+4. **SE-062.4** SE-053 changelog hook activation (3h) — auto-consolidate
+5. **SE-062.5** SE-036 frontmatter slices 2-3 (3h) — 4 specs legacy restantes
+
+Criterio cierre: drift auditor re-run pasa sin findings HIGH.
+
+### No scope Era 184
+
+- No features nuevas
+- No Tier 7 unlock (PDF chain, GAIA, Enterprise)
+- No SE-028 Oumi (requiere GPU)
+- No SE-042 voice training
+
+Ver `docs/propuestas/SE-062-era184-consolidation-hygiene.md` para detalles.
+
+---
+
 ### Backlog (blocked or low priority)
 
 | Item | Blocker | Priority |

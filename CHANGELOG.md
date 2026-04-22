@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.71.0] — 2026-04-22
+
+Batch 23 — Post-Era 183 drift audit + SE-062 Era 184 proposal.
+
+### Added
+- `docs/propuestas/SE-062-era184-consolidation-hygiene.md` — 5 slices cortos (12-15h) agrupando deuda identificada tras 22 batches sin ciclo hygiene
+
+### Changed
+- `docs/ROADMAP.md` — Era 184 añadida en PROPOSED con SE-062 slicing
+
+### Context
+Drift auditor post-Era 183 identifica deuda compuesta: skills count triple drift, duplicate SE-056, 18 scripts huérfanos de skill docs, CHANGELOG inflación (>8000 líneas), 33 specs PROPOSED sin owner, frontmatter migration incompleta. Era 184 propone hygiene cycle sin features nuevas antes de abrir Era 185.
+
 ## [5.70.0] — 2026-04-22
 
 Batch 22 — Era 183 closure. Tier 3 Champions 5/6 ejecutados.
@@ -7833,6 +7846,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.71.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.70.0...v5.71.0
 [5.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.69.0...v5.70.0
 [5.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.68.0...v5.69.0
 [5.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.67.0...v5.68.0
