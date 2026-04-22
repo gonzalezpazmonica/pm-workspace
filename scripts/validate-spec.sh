@@ -37,23 +37,31 @@ if [[ "$LINES" -lt 10 ]]; then
 fi
 
 # ── 2. Frontmatter / Header ──
-if head -5 "$SPEC_FILE" | grep -qE '^# SPEC-[0-9]+'; then
+# Accept YAML frontmatter (SE-054 canonical) OR legacy inline **Status**/**Date**.
+if grep -qE '^# SPEC-[0-9]+' "$SPEC_FILE"; then
   ok "SPEC header present"
 else
   err "Missing SPEC header (expected: # SPEC-NNN: Title)"
 fi
 
-if grep -qiE '\*\*Status\*\*:' "$SPEC_FILE"; then
+# Status: YAML `status:` takes precedence over inline `**Status**:`.
+if grep -qE '^status:\s*\S+' "$SPEC_FILE"; then
+  STATUS=$(grep -oP '^status:\s*\K\S+' "$SPEC_FILE" | head -1)
+  ok "Status (yaml): $STATUS"
+elif grep -qiE '\*\*Status\*\*:' "$SPEC_FILE"; then
   STATUS=$(grep -oiP '\*\*Status\*\*:\s*\K\w+' "$SPEC_FILE" | head -1)
-  ok "Status: $STATUS"
+  ok "Status (inline): $STATUS"
 else
-  err "Missing **Status** field"
+  err "Missing status field (yaml 'status:' or inline '**Status**:')"
 fi
 
-if grep -qiE '\*\*Date\*\*:' "$SPEC_FILE"; then
-  ok "Date field present"
+# Date: YAML `date:` OR inline `**Date**:`.
+if grep -qE '^date:\s*\S+' "$SPEC_FILE"; then
+  ok "Date field (yaml) present"
+elif grep -qiE '\*\*Date\*\*:' "$SPEC_FILE"; then
+  ok "Date field (inline) present"
 else
-  warn "Missing **Date** field"
+  warn "Missing date field (yaml 'date:' or inline '**Date**:')"
 fi
 
 # ── 3. Required sections ──

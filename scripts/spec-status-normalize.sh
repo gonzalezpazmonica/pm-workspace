@@ -224,24 +224,28 @@ done < <(find "$SPECS_DIR" -maxdepth 3 -type f \( -name 'SPEC-*.md' -o -name 'SE
     echo ""
   fi
 
-  if [[ "$MODE" == "suggest" && "${#SUGGEST_LIST[@]}" -gt 0 ]]; then
+  if [[ "$MODE" == "suggest" ]]; then
     echo "## Heuristic status suggestions (human review required)"
     echo ""
-    echo "| Spec | Suggested status | Rationale |"
-    echo "|---|---|---|"
-    for entry in "${SUGGEST_LIST[@]}"; do
-      f="${entry%|*}"
-      sug="${entry#*|}"
-      rel="${f#$REPO_ROOT/}"
-      case "$sug" in
-        Implemented) rat="CHANGELOG references this spec" ;;
-        Proposed)    rat="Body declares state: Proposed/Draft" ;;
-        SUPERSEDED)  rat="Body mentions superseded/replaced" ;;
-        UNLABELED)   rat="No signal found — manual classification needed" ;;
-        *)           rat="(unknown)" ;;
-      esac
-      echo "| \`$rel\` | \`$sug\` | $rat |"
-    done
+    if [[ "${#SUGGEST_LIST[@]}" -gt 0 ]]; then
+      echo "| Spec | Suggested status | Rationale |"
+      echo "|---|---|---|"
+      for entry in "${SUGGEST_LIST[@]}"; do
+        f="${entry%|*}"
+        sug="${entry#*|}"
+        rel="${f#$REPO_ROOT/}"
+        case "$sug" in
+          Implemented) rat="CHANGELOG references this spec" ;;
+          Proposed)    rat="Body declares state: Proposed/Draft" ;;
+          SUPERSEDED)  rat="Body mentions superseded/replaced" ;;
+          UNLABELED)   rat="No signal found — manual classification needed" ;;
+          *)           rat="(unknown)" ;;
+        esac
+        echo "| \`$rel\` | \`$sug\` | $rat |"
+      done
+    else
+      echo "_No specs need heuristic classification — all specs already have canonical \`status:\` field._"
+    fi
     echo ""
   fi
 
