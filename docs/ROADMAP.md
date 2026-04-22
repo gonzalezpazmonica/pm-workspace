@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-22 | **Version:** v5.77.0 | **532 commands · 65 agents · 85 skills · 58 hooks (62 regs) · 282+ test suites · Era 182-184 CLOSED, Era 185 IN PROGRESS (SE-063 IMPLEMENTED)**
+**Updated:** 2026-04-22 | **Version:** v5.78.0 | **532 commands · 65 agents · 85 skills · 58 hooks (62 regs) · 282+ test suites · Era 182-184 CLOSED, Era 185 IN PROGRESS (SE-060 + SE-063 IMPLEMENTED)**
 
 ---
 
@@ -157,20 +157,23 @@ Ver `docs/propuestas/SE-062-era184-consolidation-hygiene.md` para detalles.
 
 ---
 
-## Era 185 — Agent Code Map Enforcement (2026-04-22, IN PROGRESS)
+## Era 185 — Agent Code Map Enforcement + Hook Audit Close-Loop (2026-04-22, IN PROGRESS)
 
-Post-research `coderlm` (`output/research-coderlm-20260421.md` — veredicto ADOPTAR PATRÓN). Formaliza el uso real del sistema ACM mediante hook de enforcement pre-tool.
+Post-research `coderlm` (`output/research-coderlm-20260421.md` — veredicto ADOPTAR PATRÓN) + research agentshield. Formaliza el uso real del sistema ACM mediante hook de enforcement pre-tool, y cierra el audit de inyección en hooks con mecanismo de exención.
 
 ### Especs
 
 | Spec | Título | Effort | Estado | Batches |
 |---|---|---|---|---|
+| **SE-060** | Hook injection + hidden directives audit | M 6h | **IMPLEMENTED** | 10 (Scripts 1+2) · 30 (close-loop exemptions) |
 | **SE-063** | ACM enforcement pre-tool hook | S 4-6h | **IMPLEMENTED** | 28 (Slice 1+2) · 29 (reg + Slice 3) |
 | **SE-064** | ACM multi-host generator (Cursor/Windsurf/Copilot) | M 8h | PROPOSED | Baja (on-demand) |
 
-SE-063 cerrada tras batch 29 (Slice 3 bypass semántico + registro PostToolUse marker). SE-064 mantiene backlog hasta demanda real de usuario de IDE non-Claude. Era 185 cierra cuando SE-063 valide ≥1 sprint en uso real.
+SE-063 cerrada tras batch 29 (Slice 3 bypass semántico + registro PostToolUse marker). SE-060 cerrada tras batch 30 (mecanismo de exención `# hook-audit-detector:`, audit real-world 0 findings/60 hooks). SE-064 mantiene backlog hasta demanda real de usuario de IDE non-Claude. Era 185 cierra cuando SE-060 + SE-063 validen ≥1 sprint en uso real.
 
-Gap solucionado: agentes ignoran `.agent-maps/INDEX.acm` y lanzan glob/grep masivo redundante pese a existir mapas pre-calculados.
+Gaps solucionados:
+- Agentes ignoran `.agent-maps/INDEX.acm` y lanzan glob/grep masivo redundante pese a existir mapas pre-calculados (SE-063)
+- 4 false positives en `validate-bash-global.sh` — hook-detector legítimo cuyas regex strings disparaban HOOK-03/HOOK-06 (SE-060)
 
 Ver propuestas: `docs/propuestas/SE-063-*.md`, `docs/propuestas/SE-064-*.md`.
 

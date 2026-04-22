@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.78.0] — 2026-04-22
+
+Batch 30 — SE-060 close-loop: hook-audit detector exemptions.
+
+### Added
+- `scripts/hook-injection-audit.sh` — mecanismo de exención por fichero `# hook-audit-detector: HOOK-XX,HOOK-YY` (o `ALL`). Solo primeras 20 líneas del hook para prevenir bypass via regex-string payload. Funciones `detector_exemptions()` + `is_exempt()` helpers.
+- `.claude/hooks/validate-bash-global.sh` — header marcado `# hook-audit-detector: HOOK-03,HOOK-06`. Hook es detector legítimo: contiene regex strings de `curl | bash` y `sudo` para bloquear comandos, no ejecuciones. Sin exención, generaba 4 false positives.
+- `tests/test-hook-injection-audit.bats` +8 tests (25→33). Cubren listed-rules skip, `ALL` wildcard, partial skip (otras reglas siguen disparando), anti-bypass (comentario tras línea 20 ignorado), validate-bash-global marcado, real-world clean audit, helper functions existen.
+
+### Changed
+- `docs/propuestas/SE-060-hook-injection-hidden-directives.md` status PROPOSED → IMPLEMENTED. Cierre de loop del research agentshield (batch 10 Scripts 1+2, batch 30 exención + clean audit).
+
+### Context
+Batch 10 implementó `hook-injection-audit.sh` con 9 reglas HOOK-XX y extendió `prompt-security-scan.sh` con PS-11..PS-14 (zero-width, base64, URL-pipe-bash, time-bomb). El audit generaba 4 false positives en `validate-bash-global.sh` — hook detector legítimo cuyas strings de regex disparaban HOOK-03/HOOK-06 pese a no ejecutar los patrones. Batch 30 cierra el gap añadiendo anotación explícita `# hook-audit-detector: RULES` top-of-file (max 20 líneas) + helpers + 8 tests + marca hook real. Audit ahora reporta `findings_count=0` sobre 60 hooks reales.
+
 ## [5.77.0] — 2026-04-22
 
 Batch 29 — SE-063 Slice 2 registro + Slice 3 bypass semántico.
@@ -7941,6 +7956,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.77.0...v5.78.0
 [5.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.76.0...v5.77.0
 [5.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.75.0...v5.76.0
 [5.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.74.0...v5.75.0
