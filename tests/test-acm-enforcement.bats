@@ -237,3 +237,92 @@ teardown() {
   [[ "$status" -eq 0 ]]
   [[ ! -f "$TMPDIR/savia-turn-$CLAUDE_TURN_ID/acm-read-alpha" ]]
 }
+
+# ── Slice 3 — per-project opt-out + log verbosity ──────────────────────────
+
+@test "slice3: per-project opt-out skip file bypasses enforcement" {
+  export SAVIA_ACM_ENFORCE=block
+  : > "$CLAUDE_PROJECT_DIR/projects/alpha/.agent-maps/.acm-enforce-skip"
+  input='{"tool_name":"Grep","tool_input":{"pattern":".*","path":"projects/alpha"}}'
+  run bash "$SCRIPT" <<< "$input"
+  [[ "$status" -eq 0 ]]
+  [[ "$output" != *"ACM enforcement"* ]]
+}
+
+@test "slice3: opt-out in one project does not affect another" {
+  export SAVIA_ACM_ENFORCE=block
+  mkdir -p "$CLAUDE_PROJECT_DIR/projects/gamma/.agent-maps"
+  : > "$CLAUDE_PROJECT_DIR/projects/gamma/.agent-maps/INDEX.acm"
+  : > "$CLAUDE_PROJECT_DIR/projects/gamma/.agent-maps/.acm-enforce-skip"
+  input='{"tool_name":"Grep","tool_input":{"pattern":".*","path":"projects/alpha"}}'
+  run bash "$SCRIPT" <<< "$input"
+  [[ "$status" -eq 2 ]]
+}
+
+@test "slice3: LOG_LEVEL=silent suppresses stderr in warn mode" {
+  export SAVIA_ACM_ENFORCE=warn
+  export SAVIA_ACM_LOG_LEVEL=silent
+  input='{"tool_name":"Grep","tool_input":{"pattern":".*","path":"projects/alpha"}}'
+  run bash "$SCRIPT" <<< "$input"
+  [[ "$status" -eq 0 ]]
+  [[ -z "$output" ]]
+}
+
+@test "slice3: LOG_LEVEL=silent suppresses stderr in block mode but still exits 2" {
+  export SAVIA_ACM_ENFORCE=block
+  export SAVIA_ACM_LOG_LEVEL=silent
+  input='{"tool_name":"Grep","tool_input":{"pattern":".*","path":"projects/alpha"}}'
+  run bash "$SCRIPT" <<< "$input"
+  [[ "$status" -eq 2 ]]
+  [[ -z "$output" ]]
+}
+
+@test "slice3: LOG_LEVEL=silent does not write to acm-enforcement.log" {
+  export SAVIA_ACM_ENFORCE=warn
+  export SAVIA_ACM_LOG_LEVEL=silent
+  input='{"tool_name":"Grep","tool_input":{"pattern":".*","path":"projects/alpha"}}'
+  run bash "$SCRIPT" <<< "$input"
+  [[ ! -f "$CLAUDE_PROJECT_DIR/output/acm-enforcement.log" ]]
+}
+
+@test "slice3: LOG_LEVEL=debug writes verbose line with turn and marker_dir" {
+  export SAVIA_ACM_ENFORCE=warn
+  export SAVIA_ACM_LOG_LEVEL=debug
+  input='{"tool_name":"Grep","tool_input":{"pattern":".*","path":"projects/alpha"}}'
+  run bash "$SCRIPT" <<< "$input"
+  [[ "$status" -eq 0 ]]
+  [[ -f "$CLAUDE_PROJECT_DIR/output/acm-enforcement.log" ]]
+  run grep -q "level=debug" "$CLAUDE_PROJECT_DIR/output/acm-enforcement.log"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "slice3: LOG_LEVEL=debug log line mentions turn id" {
+  export SAVIA_ACM_ENFORCE=warn
+  export SAVIA_ACM_LOG_LEVEL=debug
+  export CLAUDE_TURN_ID="debug-turn-xyz"
+  input='{"tool_name":"Grep","tool_input":{"pattern":".*","path":"projects/alpha"}}'
+  run bash "$SCRIPT" <<< "$input"
+  [[ -f "$CLAUDE_PROJECT_DIR/output/acm-enforcement.log" ]]
+  run grep -q "turn=debug-turn-xyz" "$CLAUDE_PROJECT_DIR/output/acm-enforcement.log"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "slice3: default LOG_LEVEL (warn) preserves Slice 1 format" {
+  export SAVIA_ACM_ENFORCE=warn
+  unset SAVIA_ACM_LOG_LEVEL
+  input='{"tool_name":"Grep","tool_input":{"pattern":".*","path":"projects/alpha"}}'
+  run bash "$SCRIPT" <<< "$input"
+  [[ "$status" -eq 0 ]]
+  [[ -f "$CLAUDE_PROJECT_DIR/output/acm-enforcement.log" ]]
+  # Default format does NOT carry level= prefix
+  run grep -q "level=debug" "$CLAUDE_PROJECT_DIR/output/acm-enforcement.log"
+  [[ "$status" -ne 0 ]]
+}
+
+@test "slice3: opt-out message in block guidance mentions .acm-enforce-skip" {
+  export SAVIA_ACM_ENFORCE=block
+  input='{"tool_name":"Grep","tool_input":{"pattern":".*","path":"projects/alpha"}}'
+  run bash "$SCRIPT" <<< "$input"
+  [[ "$status" -eq 2 ]]
+  [[ "$output" == *".acm-enforce-skip"* ]]
+}

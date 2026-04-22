@@ -1,15 +1,17 @@
 ---
 id: SE-063
 title: SE-063 — ACM enforcement pre-tool hook
-status: PROPOSED
+status: IMPLEMENTED
 origin: output/research-coderlm-20260421.md
 author: Savia
 priority: Media
 effort: S 4-6h
 gap_link: Agentes hacen glob/grep masivo ignorando .agent-maps/ existentes
-approved_at: null
-applied_at: null
+approved_at: "2026-04-22"
+applied_at: "2026-04-22"
 expires: "2026-05-22"
+batches: [28, 29]
+era: 185
 ---
 
 # SE-063 — ACM enforcement pre-tool hook
