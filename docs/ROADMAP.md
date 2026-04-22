@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-04 | **Version:** v4.12.0 | **508 commands · 48 agents · 89 skills · 48 hooks · 106 test suites · 78 SPECs (48 done)**
+**Updated:** 2026-04-22 | **Version:** v5.69.0 | **532 commands · 65 agents · 83 skills · 56 hooks (60 regs) · 280+ test suites · Era 182-183 CLOSED**
 
 ---
 
@@ -111,26 +111,24 @@ Post-auditoría arquitectónica (`output/audit-arquitectura-20260420.md`): 15 sp
 
 Effort total Tier 0-2: ~112h planificado, ~75h ejecutado (batches 5-12, del 2026-04-20 al 2026-04-21). SE-045 diferido por scope Enterprise-only. Ver `output/audit-roadmap-reprioritization-20260420.md` para ROI detallado.
 
-## Era 183 — Scrapling Research Backend (2026-04-21)
+## Era 183 — Scrapling Research Backend (2026-04-21) — CLOSED 2026-04-22
 
-Research `output/research/scrapling-20260421.md` identifica **SE-061 Scrapling** como champion Tier 3 con ROI inmediato: desbloquea research en sites Cloudflare-gated que hoy fallan silenciosamente para `tech-research-agent` + `web-research`.
+Research `output/research/scrapling-20260421.md` identifica **SE-061 Scrapling** como champion Tier 3 con ROI inmediato. Ejecutado Tier 3 completo batches 14-21 (5/6 champions implementados, SE-028 diferido).
 
-### Tier 3 — Champions research (reordenado por ROI research-stack)
+### Tier 3 — Champions research (estado final)
 
-**Orden propuesto** (alto → bajo impacto en research agents existentes):
+1. ✅ **SE-061** Scrapling — 4 slices completos (batches 14-17). probe + fetch wrapper + skills integration + MCP opt-in. 103 tests
+2. ✅ **SE-035** Mutation testing Slice 2 — skill + wrapper (batch 18). 33 tests
+3. ✅ **SE-032** Reranker Slice 2 — `scripts/rerank.py` + skill (batch 19). 36 tests, validación empírica cross-encoder funcional
+4. ✅ **SE-033** BERTopic Slice 2 — `scripts/topic-cluster.py` + skill (batch 20). 37 tests
+5. ✅ **SE-041** Memvid Slice 2 — `scripts/memvid-backup.py` + skill (batch 21). 40 tests, round-trip SHA256 integrity validado
+6. 🔒 **SE-028** Oumi — diferido, requiere GPU para training pipeline (sin hardware en máquina dev)
 
-1. **SE-061** Scrapling — 21h total (4 slices). Bypass anti-bot + adaptive selectors + MCP nativo. **Nuevo champion #1**.
-2. **SE-035** Mutation testing — probe ya merged (#645), pendiente integración CI.
-3. **SE-032** Reranker — probe ya merged (#650), pendiente integración con memory-recall.
-4. **SE-033** BERTopic — probe ya merged (#650), pendiente skill con corpus real.
-5. **SE-028** Oumi — probe (#652 en vuelo), pendiente training pipeline integration.
-6. **SE-041** Memvid — probe (#652 en vuelo), pendiente backup memory workflow.
-
-**Justificación del orden**: SE-061 impacta agentes que la usuaria invoca activamente. Los demás son probes cuyos casos de uso reales aún no empujan (training pipeline sin GPU, clustering sin demanda concreta). Ver `output/research/scrapling-20260421.md` §Reprorización.
+**Resumen Era 183**: 5/6 champions ejecutados. 249 tests nuevos certified. 8 batches (#655-662). Todos los skills con fallback graceful (zero-install default) + integracion opt-in opcional.
 
 ### Tier 7 refresh (sin cambios post-Era 182)
 
-Sigue: SPEC-102/103/104 PDF · SPEC-107 · SPEC-100 GAIA · SPEC-SE-003/004/009/010/014 · SE-042.
+Sigue: SPEC-102/103/104 PDF · SPEC-107 · SPEC-100 GAIA · SPEC-SE-003/004/009/010/014 · SE-042 · **SE-028** (añadido).
 
 ---
 
