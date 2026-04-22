@@ -1,6 +1,6 @@
 {
-  "hash": "b1c8a4d9703a",
-  "total": 1070,
+  "hash": "d8cbb55b13c9",
+  "total": 1078,
   "resources": [
     {
       "category": "analysis",
@@ -2659,6 +2659,20 @@
       "kind": "script",
       "path": "scripts/requirement-pushback.sh",
       "description": "requirement-pushback.sh — Analyze a spec and generate pushback questions"
+    },
+    {
+      "category": "development",
+      "name": "reranker",
+      "intents": [
+        "agente",
+        "cross",
+        "encoder",
+        "filtra",
+        "memory"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/reranker/SKILL.md",
+      "description": "Cross-encoder reranker — filtra top-K ruidoso de memory-recall/savia-recall/cross-project-search antes de pasar al agente"
     },
     {
       "category": "development",
@@ -7759,6 +7773,20 @@
     },
     {
       "category": "planning",
+      "name": "memvid-backup",
+      "intents": [
+        "backup",
+        "evalua",
+        "externa",
+        "fallback",
+        "gzip"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/memvid-backup/SKILL.md",
+      "description": "Backup portable de memoria externa — evalua memvid vs tar-gzip. Round-trip con SHA256 integrity. Fallback robusto."
+    },
+    {
+      "category": "planning",
       "name": "mobile-developer",
       "intents": [],
       "kind": "agent",
@@ -9294,6 +9322,33 @@
     },
     {
       "category": "planning",
+      "name": "scrapling-fetch",
+      "intents": [
+        "adaptive",
+        "fetch",
+        "scrapling",
+        "slice",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/scrapling-fetch.sh",
+      "description": "scrapling-fetch.sh — SE-061 Slice 2 adaptive fetch wrapper."
+    },
+    {
+      "category": "planning",
+      "name": "scrapling-probe",
+      "intents": [
+        "probe",
+        "scrapling",
+        "slice",
+        "viability"
+      ],
+      "kind": "script",
+      "path": "scripts/scrapling-probe.sh",
+      "description": "scrapling-probe.sh — SE-061 Slice 1 Scrapling viability probe."
+    },
+    {
+      "category": "planning",
       "name": "sdlc-advance",
       "intents": [
         "advance",
@@ -10241,6 +10296,20 @@
     },
     {
       "category": "planning",
+      "name": "tier3-probes",
+      "intents": [
+        "bertopic",
+        "catalogo",
+        "champions",
+        "extract",
+        "feasibility"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/tier3-probes/SKILL.md",
+      "description": "Catalogo de feasibility probes para champions Tier 3 — Scrapling, Oumi, Memvid, BERTopic, Reranker, PDF extract"
+    },
+    {
+      "category": "planning",
       "name": "tool-catalog",
       "intents": [
         "categorizado",
@@ -10265,6 +10334,20 @@
       "kind": "script",
       "path": "scripts/tool-result-trim.sh",
       "description": "tool-result-trim.sh — Deterministic hard cap for tool result output"
+    },
+    {
+      "category": "planning",
+      "name": "topic-cluster",
+      "intents": [
+        "agrupa",
+        "bertopic",
+        "clustering",
+        "cross",
+        "descubre"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/topic-cluster/SKILL.md",
+      "description": "BERTopic clustering — agrupa retros/PBIs/incidents/lessons en topics tematicos con labels. Filtra ruido, descubre patrones cross-proyecto"
     },
     {
       "category": "planning",
@@ -11461,6 +11544,20 @@
       "kind": "agent",
       "path": ".claude/agents/model-upgrade-auditor.md",
       "description": "Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence."
+    },
+    {
+      "category": "quality",
+      "name": "mutation-audit",
+      "intents": [
+        "calidad",
+        "concreto",
+        "demand",
+        "detecta",
+        "generated"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/mutation-audit/SKILL.md",
+      "description": "Mutation testing — mide calidad real de tests, detecta zombies AI-generated. On-demand sobre módulo concreto. Invocable."
     },
     {
       "category": "quality",
@@ -13605,6 +13702,20 @@
       "kind": "agent",
       "path": ".claude/agents/web-e2e-tester.md",
       "description": "Autonomous E2E testing of web apps against live instances. Use PROACTIVELY when: deploying savia-web, after UI changes, or running regression tests. Equivalent of android-autonomous-debugger for web."
+    },
+    {
+      "category": "quality",
+      "name": "workspace-integrity",
+      "intents": [
+        "agent",
+        "agents",
+        "auditors",
+        "baseline",
+        "catalog"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/workspace-integrity/SKILL.md",
+      "description": "Catalogo de integrity auditors — drift CLAUDE.md, rule manifest, orphan rules, agents catalog sync, baseline, agent size"
     },
     {
       "category": "quality",

@@ -157,6 +157,25 @@ Ver `docs/propuestas/SE-062-era184-consolidation-hygiene.md` para detalles.
 
 ---
 
+## Era 185 — Agent Code Map Enforcement (2026-04-22, PROPOSED)
+
+Post-research `coderlm` (`output/research-coderlm-20260421.md` — veredicto ADOPTAR PATRÓN). Formaliza el uso real del sistema ACM mediante hook de enforcement pre-tool.
+
+### Especs propuestas
+
+| Spec | Título | Effort | Prioridad |
+|---|---|---|---|
+| **SE-063** | ACM enforcement pre-tool hook | S 4-6h | Media |
+| **SE-064** | ACM multi-host generator (Cursor/Windsurf/Copilot) | M 8h | Baja (on-demand) |
+
+SE-063 entra en Era 185 cuando cierre Era 184. SE-064 se mantiene en backlog hasta demanda real de usuario de IDE non-Claude.
+
+Gap solucionado: agentes ignoran `.agent-maps/INDEX.acm` y lanzan glob/grep masivo redundante pese a existir mapas pre-calculados.
+
+Ver propuestas: `docs/propuestas/SE-063-*.md`, `docs/propuestas/SE-064-*.md`.
+
+---
+
 ### Backlog (blocked or low priority)
 
 | Item | Blocker | Priority |

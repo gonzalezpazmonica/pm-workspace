@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 479 resources
+> 484 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -236,6 +236,7 @@
 - **mcp-server-config** (cmd): Configure MCP servers and connection settings
 - **mcp-server-start** (cmd): Start and initialize MCP server instances
 - **mcp-server-status** (cmd): Check status and health of active MCP servers
+- **memvid-backup** (skill): Backup portable de memoria externa — evalua memvid vs tar-gzip. Round-trip con SHA256 integrity. Fallback robusto.
 - **mobile-developer** (agent): >
 - **model-capability-resolver** (script): model-capability-resolver.sh — Resolve model capabilities from YAML registry
 - **my-learning** (cmd): Detección de tech stack gaps — código del developer vs best practices del proyecto
@@ -359,6 +360,8 @@
 - **school-setup** (cmd): Configure classroom and initialize Savia School vertical
 - **school-submit** (cmd): Student submits completed project for evaluation
 - **score-diff** (cmd): >
+- **scrapling-fetch** (script): scrapling-fetch.sh — SE-061 Slice 2 adaptive fetch wrapper.
+- **scrapling-probe** (script): scrapling-probe.sh — SE-061 Slice 1 Scrapling viability probe.
 - **sdlc-advance** (cmd): Advance work item through SDLC state machine
 - **sdlc-status** (cmd): Show current SDLC state and transitions
 - **sentry-bugs** (cmd): >
@@ -432,8 +435,10 @@
 - **tech-writer** (agent): >
 - **terraform-developer** (agent): >
 - **threat-model** (cmd): >
+- **tier3-probes** (skill): Catalogo de feasibility probes para champions Tier 3 — Scrapling, Oumi, Memvid, BERTopic, Reranker, PDF extract
 - **tool-catalog** (cmd): Catálogo categorizado de herramientas (400+ comandos)
 - **tool-result-trim** (script): tool-result-trim.sh — Deterministic hard cap for tool result output
+- **topic-cluster** (skill): BERTopic clustering — agrupa retros/PBIs/incidents/lessons en topics tematicos con labels. Filtra ruido, descubre patrones cross-proyecto
 - **travel-clean** (cmd): Elimina rastros de Savia de una máquina temporal.
 - **travel-pack** (cmd): Empaca tu workspace en una unidad USB con cifrado AES-256.
 - **travel-sync** (cmd): Sincroniza workspace bidireccional entre máquina y USB.
