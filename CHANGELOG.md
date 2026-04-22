@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.70.0] — 2026-04-22
+
+Batch 22 — Era 183 closure. Tier 3 Champions 5/6 ejecutados.
+
+### Changed
+- `docs/ROADMAP.md` — Era 183 marcada CLOSED 2026-04-22. Tier 3 status actualizado con checkmarks por champion. Header counters sincronizados con realidad (532/65/83/56).
+
+### Context
+Cierre formal Era 183 tras 8 batches (#655-662) ejecutando Tier 3 Champions. 5/6 implementados: SE-061 (4 slices completo), SE-035, SE-032, SE-033, SE-041. SE-028 Oumi diferido a Tier 7 por requerir GPU ausente en máquina dev. 249 tests nuevos certified. Todos los skills diseñados con fallback graceful (zero-install default) + opt-in opcional para stack ML completo.
+
 ## [5.69.0] — 2026-04-22
 
 Batch 21 — SE-041 Slice 2. Memvid portable backup wrapper.
@@ -7823,6 +7833,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.70.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.69.0...v5.70.0
 [5.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.68.0...v5.69.0
 [5.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.67.0...v5.68.0
 [5.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.66.0...v5.67.0
