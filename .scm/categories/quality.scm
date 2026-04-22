@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 215 resources
+> 217 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -46,6 +46,7 @@
 - **model-upgrade-audit** (cmd): Audit workspace components for prompt debt that newer models may not need
 - **model-upgrade-audit** (skill): Audit workspace components for prompt debt when a new model is available. Detect workarounds, propose simplifications, compare with evals.
 - **model-upgrade-auditor** (agent): Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence.
+- **mutation-audit** (skill): Mutation testing — mide calidad real de tests, detecta zombies AI-generated. On-demand sobre módulo concreto. Invocable.
 - **mutation-audit** (script): mutation-audit.sh — SE-035 Slice 1 mutation testing audit.
 - **overnight-sprint** (cmd): Launch autonomous overnight sprint — executes low-risk tasks, creates PRs for human review
 - **pentester** (agent): >
@@ -215,4 +216,5 @@
 - **visual-qa-agent** (agent): Visual QA: screenshot analysis, wireframe comparison, regression detection. Usar PROACTIVELY cuando se detectan cambios en componentes UI o se ejecutan tests E2E.
 - **visual-regression** (cmd): Automated visual regression testing across builds and branches. Detect visual regressions with baseline comparison and approval workflows.
 - **web-e2e-tester** (agent): Autonomous E2E testing of web apps against live instances. Use PROACTIVELY when: deploying savia-web, after UI changes, or running regression tests. Equivalent of android-autonomous-debugger for web.
+- **workspace-integrity** (skill): Catalogo de integrity auditors — drift CLAUDE.md, rule manifest, orphan rules, agents catalog sync, baseline, agent size
 - **zeroclaw** (cmd): Interface with ZeroClaw ESP32 — setup, test, send commands, flash firmware.
