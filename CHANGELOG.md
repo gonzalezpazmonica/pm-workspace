@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.75.0] — 2026-04-22
+
+Batch 27 — SE-062.5 Era 184 finale: frontmatter migration cierre.
+
+### Changed
+- `docs/propuestas/SPEC-066-enhanced-local-llm.md` — convertido a YAML frontmatter (status: IMPLEMENTED, era 174). Inline `**Status**:` eliminado.
+- `docs/propuestas/SPEC-067-claudemd-diet.md` — YAML frontmatter (status: IMPLEMENTED, era 165). CLAUDE.md diet 121→48 líneas ya ejecutado.
+- `docs/propuestas/SPEC-068-hook-enhancement.md` — YAML frontmatter (status: SUPERSEDED, superseded_by: SPEC-071). Reemplazado por Hook Overhaul Era 171.
+- `docs/propuestas/SPEC-069-coordinator-mode.md` — YAML frontmatter (status: IMPLEMENTED, era 168). Research cerrado en batch Eras 167-170.
+
+### Context
+**Era 184 CERRADA** tras 5/5 slices SE-062 completados:
+- SE-062.1 counter sync (batch 24)
+- SE-062.2 duplicate SE-056 resolution (batch 24)
+- SE-062.3 skills aggregator (batch 25)
+- SE-062.4 changelog workflow activation (batch 26)
+- SE-062.5 frontmatter finale (batch 27, este)
+
+`specs-frontmatter-normalize.sh --scan` reporta PASS sin drift. Los 4 specs legacy con `**Status**:` inline documentados como excepción en batch 8 (SE-054) ahora normalizados. Cero drift frontmatter en 198 specs.
+
 ## [5.74.0] — 2026-04-22
 
 Batch 26 — SE-062.4 CHANGELOG.d consolidation workflow activation.
@@ -7888,6 +7908,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.74.0...v5.75.0
 [5.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.73.0...v5.74.0
 [5.73.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.72.0...v5.73.0
 [5.72.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.71.0...v5.72.0

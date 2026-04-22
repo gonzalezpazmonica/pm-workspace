@@ -1,6 +1,14 @@
+---
+id: SPEC-067
+title: "CLAUDE.md Diet — Per-Turn Token Optimization"
+status: IMPLEMENTED
+date: 2026-04-01
+era: 165
+---
+
 # SPEC-067: CLAUDE.md Diet — Per-Turn Token Optimization
 
-**Status**: Approved | **Date**: 2026-04-01 | **Era**: 165
+> Implementado en Era 165: CLAUDE.md 121→48 líneas (60% token savings, per-turn cost discovery).
 
 ---
 
