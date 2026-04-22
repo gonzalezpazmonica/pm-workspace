@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.69.0] — 2026-04-22
+
+Batch 21 — SE-041 Slice 2. Memvid portable backup wrapper.
+
+### Added
+- `scripts/memvid-backup.py` — wrapper 3 subcomandos (pack/restore/verify) con SHA256 integrity. Fallback tar-gzip cuando memvid ausente
+- `.claude/skills/memvid-backup/SKILL.md` + `DOMAIN.md` — skill integrable con travel-pack / vault-export
+- `tests/test-memvid-backup.bats` — 40 tests certified incluyendo round-trip content preservation
+
+### Changed
+- `CLAUDE.md` — skills count 82 → 83
+
+### Context
+Quinto champion Tier 3. Evalua memvid (.mv2) como alternativa a tar-gzip para backup de memoria externa. Slice 2 implementa contrato + tar-gzip con integrity SHA256. Slice 3 pendiente (memvid API real) tras acceptance criteria.
+
 ## [5.68.0] — 2026-04-22
 
 Batch 20 — SE-033 Slice 2. Topic cluster skill + BERTopic wrapper.
@@ -7808,6 +7823,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.69.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.68.0...v5.69.0
 [5.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.67.0...v5.68.0
 [5.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.66.0...v5.67.0
 [5.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.65.0...v5.66.0
