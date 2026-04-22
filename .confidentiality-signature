@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6a26c60becde4836a3931ad563fa5325f7b1613fc079e2c8cf8bf4bffa28a274
-timestamp=2026-04-22T18:59:44Z
-branch=agent/batch28-se063-1-acm-detector-20260422
-head_commit=1108312c
-signature=9c3e59c2dda5fbff1db254cdee18a360b1a8afb393926b810a1841f89f8edc1a
+diff_hash=4af938ddfb49ccf65c1f75199949d46b8416a1a6b451d1fbb9cd3cd124c01d49
+timestamp=2026-04-22T20:35:13Z
+branch=agent/batch29-se063-2-acm-marker-reg-20260422
+head_commit=92265063
+signature=65a400ef7525a45a9a1f44e9c948cae36efd48f608c965793eda8cfe4ed5c62b

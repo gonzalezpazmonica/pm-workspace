@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-22 | **Version:** v5.75.0 | **532 commands · 65 agents · 85 skills · 56 hooks (60 regs) · 281+ test suites · Era 182-184 CLOSED, Era 185 PROPOSED**
+**Updated:** 2026-04-22 | **Version:** v5.77.0 | **532 commands · 65 agents · 85 skills · 58 hooks (62 regs) · 282+ test suites · Era 182-184 CLOSED, Era 185 IN PROGRESS (SE-063 IMPLEMENTED)**
 
 ---
 
@@ -157,18 +157,18 @@ Ver `docs/propuestas/SE-062-era184-consolidation-hygiene.md` para detalles.
 
 ---
 
-## Era 185 — Agent Code Map Enforcement (2026-04-22, PROPOSED)
+## Era 185 — Agent Code Map Enforcement (2026-04-22, IN PROGRESS)
 
 Post-research `coderlm` (`output/research-coderlm-20260421.md` — veredicto ADOPTAR PATRÓN). Formaliza el uso real del sistema ACM mediante hook de enforcement pre-tool.
 
-### Especs propuestas
+### Especs
 
-| Spec | Título | Effort | Prioridad |
-|---|---|---|---|
-| **SE-063** | ACM enforcement pre-tool hook | S 4-6h | Media |
-| **SE-064** | ACM multi-host generator (Cursor/Windsurf/Copilot) | M 8h | Baja (on-demand) |
+| Spec | Título | Effort | Estado | Batches |
+|---|---|---|---|---|
+| **SE-063** | ACM enforcement pre-tool hook | S 4-6h | **IMPLEMENTED** | 28 (Slice 1+2) · 29 (reg + Slice 3) |
+| **SE-064** | ACM multi-host generator (Cursor/Windsurf/Copilot) | M 8h | PROPOSED | Baja (on-demand) |
 
-SE-063 entra en Era 185 cuando cierre Era 184. SE-064 se mantiene en backlog hasta demanda real de usuario de IDE non-Claude.
+SE-063 cerrada tras batch 29 (Slice 3 bypass semántico + registro PostToolUse marker). SE-064 mantiene backlog hasta demanda real de usuario de IDE non-Claude. Era 185 cierra cuando SE-063 valide ≥1 sprint en uso real.
 
 Gap solucionado: agentes ignoran `.agent-maps/INDEX.acm` y lanzan glob/grep masivo redundante pese a existir mapas pre-calculados.
 

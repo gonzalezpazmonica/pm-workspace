@@ -243,6 +243,18 @@
     ],
     "PostToolUse": [
       {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/acm-turn-marker.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "ACM turn marker (SE-063)..."
+          }
+        ]
+      },
+      {
         "matcher": "Edit|Write",
         "hooks": [
           {

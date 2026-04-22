@@ -15,6 +15,12 @@ set -uo pipefail
 #   SAVIA_ACM_ENFORCE=warn   → emite a stderr pero no bloquea (default inicial)
 #   SAVIA_ACM_ENFORCE=block  → modo enforcement (default tras Slice 2 marker)
 #
+# Slice 3 — bypass semántico:
+#   SAVIA_ACM_LOG_LEVEL=silent → no log, no stderr (solo exit code)
+#   SAVIA_ACM_LOG_LEVEL=warn   → log + stderr en warn/block (default)
+#   SAVIA_ACM_LOG_LEVEL=debug  → log verbose con pattern, path, turn, marker dir
+#   projects/{p}/.agent-maps/.acm-enforce-skip → opt-out per-project (fichero vacio)
+#
 # Ref: docs/propuestas/SE-063-acm-enforcement-pretool-hook.md
 # Related: .claude/hooks/acm-turn-marker.sh (PostToolUse marker writer)
 
@@ -32,6 +38,9 @@ ENFORCE_MODE="${SAVIA_ACM_ENFORCE:-warn}"
 if [[ "$ENFORCE_MODE" == "0" || "$ENFORCE_MODE" == "off" ]]; then
   exit 0
 fi
+
+# Log verbosity (Slice 3)
+LOG_LEVEL="${SAVIA_ACM_LOG_LEVEL:-warn}"
 
 # Require jq for JSON parsing
 if ! command -v jq &>/dev/null; then
@@ -102,6 +111,11 @@ if [[ ! -f "$ACM_INDEX" ]]; then
   exit 0
 fi
 
+# Slice 3 — per-project opt-out
+if [[ -f "$PROJECT_DIR/.agent-maps/.acm-enforce-skip" ]]; then
+  exit 0
+fi
+
 # Check turn marker (Slice 2 creates it via PostToolUse acm-turn-marker.sh)
 TURN_ID="${CLAUDE_TURN_ID:-${CLAUDE_SESSION_ID:-default}}"
 MARKER_DIR="${TMPDIR:-/tmp}/savia-turn-${TURN_ID}"
@@ -112,26 +126,36 @@ if [[ -f "$MARKER" ]]; then
   exit 0
 fi
 
-# Log the detection
-LOG_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}/output"
-mkdir -p "$LOG_DIR" 2>/dev/null || true
-LOG="$LOG_DIR/acm-enforcement.log"
-{
-  printf '[%s] mode=%s tool=%s project=%s pattern=%q path=%q\n' \
-    "$(date -Iseconds)" "$ENFORCE_MODE" "$TOOL_NAME" "$PROJECT_NAME" "$PATTERN" "$PATH_ARG"
-} >> "$LOG" 2>/dev/null || true
+# Log the detection (skip if silent)
+if [[ "$LOG_LEVEL" != "silent" ]]; then
+  LOG_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}/output"
+  mkdir -p "$LOG_DIR" 2>/dev/null || true
+  LOG="$LOG_DIR/acm-enforcement.log"
+  if [[ "$LOG_LEVEL" == "debug" ]]; then
+    {
+      printf '[%s] mode=%s level=debug tool=%s project=%s pattern=%q path=%q turn=%s marker_dir=%q\n' \
+        "$(date -Iseconds)" "$ENFORCE_MODE" "$TOOL_NAME" "$PROJECT_NAME" "$PATTERN" "$PATH_ARG" "$TURN_ID" "$MARKER_DIR"
+    } >> "$LOG" 2>/dev/null || true
+  else
+    {
+      printf '[%s] mode=%s tool=%s project=%s pattern=%q path=%q\n' \
+        "$(date -Iseconds)" "$ENFORCE_MODE" "$TOOL_NAME" "$PROJECT_NAME" "$PATTERN" "$PATH_ARG"
+    } >> "$LOG" 2>/dev/null || true
+  fi
+fi
 
 # Emit guidance
 MSG="ACM enforcement: query amplia en projects/$PROJECT_NAME sin consultar .agent-maps/INDEX.acm.
 Lee primero: projects/$PROJECT_NAME/.agent-maps/INDEX.acm
+Opt-out proyecto: touch projects/$PROJECT_NAME/.agent-maps/.acm-enforce-skip
 Bypass puntual: SAVIA_ACM_ENFORCE=0 (no recomendado).
 Ref: SE-063."
 
 if [[ "$ENFORCE_MODE" == "block" ]]; then
-  printf '%s\n' "$MSG" >&2
+  [[ "$LOG_LEVEL" != "silent" ]] && printf '%s\n' "$MSG" >&2
   exit 2
 fi
 
 # Default: warn only
-printf 'WARN: %s\n' "$MSG" >&2
+[[ "$LOG_LEVEL" != "silent" ]] && printf 'WARN: %s\n' "$MSG" >&2
 exit 0

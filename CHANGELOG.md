@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.77.0] — 2026-04-22
+
+Batch 29 — SE-063 Slice 2 registro + Slice 3 bypass semántico.
+
+### Added
+- `.claude/settings.json` PostToolUse `Read` → `acm-turn-marker.sh` (timeout 3s, async). Cierra el ciclo detector↔marker: ahora leer `projects/{p}/.agent-maps/INDEX.acm` dentro del turno libera automáticamente las queries amplias siguientes sobre ese proyecto.
+- `.claude/hooks/acm-enforcement.sh` Slice 3 — per-project opt-out via `projects/{p}/.agent-maps/.acm-enforce-skip` (fichero vacío). Evita enforcement en proyectos que voluntariamente renuncian al guard (ej. sandboxes o proyectos sin código estructurado).
+- `.claude/hooks/acm-enforcement.sh` Slice 3 — `SAVIA_ACM_LOG_LEVEL={silent,warn,debug}`. `silent` suprime stderr y el log (conserva exit codes). `debug` añade turn id y marker_dir al log para diagnóstico.
+- `tests/test-acm-enforcement.bats` +9 tests (32→41). Cubren opt-out isolation entre proyectos, silent sin stderr, silent sin log, debug con turn id, mensaje block menciona `.acm-enforce-skip`.
+
+### Changed
+- Mensaje de guidance en bloqueo/warn incluye línea `Opt-out proyecto: touch projects/{p}/.agent-maps/.acm-enforce-skip` para instruir camino de escape.
+- `CLAUDE.md` bump 61reg → 62reg por registro PostToolUse Read nuevo.
+
+### Context
+Cierra el loop crítico de SE-063. Batch 28 dejó el marker script sin registrar por self-modification guard; batch 29 lo registra tras la aprobación de Monica ("mergeado, seguimos desarrollando"). Slice 3 del spec queda cumplido: env runtime override ya estaba en Slice 1, ahora añade verbosidad controlada y opt-out per-proyecto. Era 185 progresa hacia cierre con SE-063 completo al 100%.
+
 ## [5.76.0] — 2026-04-22
 
 Batch 28 — SE-063 Slice 1+2: ACM enforcement hooks (Era 185 arranca).
@@ -7924,6 +7941,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.76.0...v5.77.0
 [5.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.75.0...v5.76.0
 [5.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.74.0...v5.75.0
 [5.74.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.73.0...v5.74.0
