@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.68.0] — 2026-04-22
+
+Batch 20 — SE-033 Slice 2. Topic cluster skill + BERTopic wrapper.
+
+### Added
+- `scripts/topic-cluster.py` — clustering tematico (UMAP+HDBSCAN+c-TF-IDF via BERTopic) con fallback keyword cuando bertopic no instalado
+- `.claude/skills/topic-cluster/SKILL.md` + `DOMAIN.md` — skill invocable integrado con retro-patterns, backlog-patterns, lesson-extract
+- `tests/test-topic-cluster.bats` — 37 tests certified
+
+### Changed
+- `CLAUDE.md` — skills count 81 → 82
+
+### Context
+Cuarto champion Tier 3. Descubre patrones cross-project que keyword-matching pierde. Validación: fallback-keyword sobre 6 docs (sprint + pr-review themes) produjo 2 clusters correctos sin ML stack.
+
 ## [5.67.0] — 2026-04-21
 
 Batch 19 — SE-032 Slice 2. Reranker skill + wrapper Python.
@@ -7793,6 +7808,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.68.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.67.0...v5.68.0
 [5.67.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.66.0...v5.67.0
 [5.66.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.65.0...v5.66.0
 [5.65.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.64.0...v5.65.0
