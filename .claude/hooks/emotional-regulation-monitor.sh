@@ -27,11 +27,14 @@ STATE_FILE="$HOME/.savia/session-stress.json"
 [[ ! -f "$STATE_FILE" ]] && exit 0
 
 # ── Get session stress score ──
-SCORE=$(bash "$TRACKER" score 2>/dev/null || echo "0")
-SCORE=${SCORE:-0}
+# Extract first integer from tracker output; fallback 0 if non-numeric
+# (Prevents set -u crash when tracker returns error message with unbound tokens)
+RAW_SCORE=$(bash "$TRACKER" score 2>/dev/null || echo "0")
+SCORE=$(echo "$RAW_SCORE" | head -1 | grep -oE '[0-9]+' | head -1)
+SCORE="${SCORE:-0}"
 
 # ── Low friction: nothing to do ──
-if [[ $SCORE -lt 5 ]]; then
+if [[ "$SCORE" -lt 5 ]]; then
   # Reset for next session
   bash "$TRACKER" reset >/dev/null 2>&1 || true
   exit 0

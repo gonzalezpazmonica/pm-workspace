@@ -12,7 +12,12 @@ setup() {
   # Fake workspace
   export CLAUDE_PROJECT_DIR="$TMPDIR/ws-$$"
   mkdir -p "$CLAUDE_PROJECT_DIR/projects"
-  # Isolate state file via TMPDIR
+  # Isolate SAVIA_TMP so state file does not leak across tests / shell
+  export SAVIA_TMP="$TMPDIR/savia-$$"
+  mkdir -p "$SAVIA_TMP"
+  # Isolate HOME to avoid writing to real ~/.savia
+  export HOME="$TMPDIR/home-$$"
+  mkdir -p "$HOME"
 }
 teardown() {
   rm -rf "$CLAUDE_PROJECT_DIR" 2>/dev/null || true

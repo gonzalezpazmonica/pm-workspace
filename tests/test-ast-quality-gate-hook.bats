@@ -78,13 +78,18 @@ teardown() { cd /; }
 # ── Graceful degradation ─────────────────────────────────
 
 @test "graceful: missing ast-quality-gate.sh exits 0 silently" {
-  # Use a temp dir with source file but no scripts/ast-quality-gate.sh
+  # Use a temp dir with source file; hook walks up looking for scripts/ast-quality-gate.sh.
+  # In /tmp there is no scripts/ dir, so graceful fallback path triggers.
   local WSROOT="$TMPDIR/ws-noscript-$$"
   mkdir -p "$WSROOT"
   local F="$WSROOT/test.py"
   echo "print('hi')" > "$F"
-  # Run from WSROOT so fallback pwd check also fails
-  (cd "$WSROOT" && run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$F\"}}")
+  # Capture cwd to restore afterwards; use absolute $HOOK path
+  local HOOK_ABS="$(pwd)/$HOOK"
+  cd "$WSROOT"
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"file_path\":\"$F\"}}"
+  cd "$BATS_TEST_DIRNAME/.."
+  [ "$status" -eq 0 ]
   rm -rf "$WSROOT"
 }
 
