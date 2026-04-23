@@ -2,5 +2,5 @@
 diff_hash=ee490b9897db7ec2db304e27201a2f8f246b82c7aff7c9ca3dfe0ce7897ed345
 timestamp=2026-04-23T14:31:16Z
 branch=agent/batch37-se046-baseline-ratchet-integrity-20260423
-head_commit=986b8f73
+head_commit=75fea56f
 signature=ecc1894fb42075e02877f7b372a8be7b423687af9f103046380d2ce3bc294cbe
