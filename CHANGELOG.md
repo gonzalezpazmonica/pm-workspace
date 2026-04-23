@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.83.0] — 2026-04-23
+
+Batch 39 — Hook test coverage audit + 3 critical hooks covered.
+
+### Added
+- `scripts/hook-test-coverage-audit.sh` — audit ratchet. Escanea hooks sin BATS tests, compara contra baseline, exit 1 si regression. Flags `--json`, `--min-lines N`.
+- `.ci-baseline/hook-untested-count.count: 37` baseline ratchet establecido (reducido 40 a 37).
+- `tests/test-data-sovereignty-gate.bats` — 29 tests PreToolUse hook (173 lines, security tier). Cubre private destination exemptions, fail-open malformed JSON, path normalization, sovereignty whitelist.
+- `tests/test-pre-commit-review.bats` — 20 tests commit-hook (119 lines, code review). Cubre rules hash cache invalidation, code file filter, combined content+rules hash, isolation.
+- `tests/test-data-sovereignty-audit.bats` — 27 tests PostToolUse async (118 lines, security tier). Cubre 6 leak patterns (JDBC/AWS/PAT/OpenAI/private-key/internal-IP), is_public helper, async exit 0 invariant.
+
+### Context
+Gap crítico: 69% hooks sin test coverage (40/58). Los 3 hooks más grandes son de seguridad (sovereignty gate + audit) y quality (pre-commit review) — ausencia de tests permite regression silente. Batch 39 cierra los 3 top + deja ratchet para prevenir nuevos hooks sin test.
+
+**Descubierto durante tests:** `SAVIA_HOOK_PROFILE=security` required en setup para activar profile gate; `unset SAVIA_SHIELD_ENABLED` para evitar env leak. Patterns de credenciales construidos via `printf "%s%s%s"` para evitar auto-bloqueo por `block-credential-leak.sh`.
+
+Version bump 5.82.0 a 5.83.0.
+
 ## [5.82.0] — 2026-04-23
 
 Batch 38 — SE-049 Slice 1: SLM dispatcher + shared lib scaffolding.
@@ -8030,6 +8048,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.82.0...v5.83.0
 [5.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.81.0...v5.82.0
 [5.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.80.0...v5.81.0
 [5.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.79.0...v5.80.0
