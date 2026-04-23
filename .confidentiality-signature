@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4af938ddfb49ccf65c1f75199949d46b8416a1a6b451d1fbb9cd3cd124c01d49
-timestamp=2026-04-22T20:35:13Z
-branch=agent/batch29-se063-2-acm-marker-reg-20260422
-head_commit=92265063
-signature=65a400ef7525a45a9a1f44e9c948cae36efd48f608c965793eda8cfe4ed5c62b
+diff_hash=fe249d4587b91deb116334b8e4ce7ca427cf21c053422d436fcd45c5779487a9
+timestamp=2026-04-22T21:58:05Z
+branch=agent/batch30-se060-1-hook-injection-audit-20260422
+head_commit=e684b43f
+signature=9638bc37c290570b04c0dc8cd0dde7454aed611aa66c55c1a81adbf8ced06079
