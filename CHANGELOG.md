@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.81.0] — 2026-04-23
+
+Batch 37 — SE-046 baseline integrity guard + stale ratchet tightened.
+
+### Added
+- `tests/test-baseline-integrity.bats` — 20 tests BATS guard sobre `.ci-baseline/`. Asserta que cada baseline esta dentro de 3 unidades de la medida actual (tight). Detecta drift futuro automaticamente y sugiere el comando de remediation.
+- Hook-critical baseline actualizado 6 a 5 (MAX de 5 runs para tolerar noise en measurements). Batch 37 aplica `scripts/baseline-tighten.sh` sobre stale baseline que rendia el ratchet inerte (SE-046 motivacion original).
+
+### Changed
+- `.ci-baseline/hook-critical-violations.count`: 6 a 5 (MAX over 5 runs)
+- SE-046 status PROPOSED a IMPLEMENTED (batches [7, 37])
+
+### Context
+SE-046 acceptance criteria tenia 3 partes: auto-tighten tool (batch 7), BATS tests del tool (batch 7), y BATS guard baseline <= measured (faltaba). Batch 37 cierra el tercer punto + aplica tightening a baseline stale. `ci-extended-checks.sh` ya no emite "baseline stale" warning para hook-critical.
+
+Version bump 5.80.0 a 5.81.0.
+
 ## [5.80.0] — 2026-04-23
 
 Batch 36 — Spec status drift sweep + README refresh + drift auditor.
@@ -7995,6 +8012,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.80.0...v5.81.0
 [5.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.79.0...v5.80.0
 [5.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.78.0...v5.79.0
 [5.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.77.0...v5.78.0

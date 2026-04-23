@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=eb92a006215e359ffa6f6d24af97a49cd9b618f3b3ae8aafb5b5f213cef15cb5
-timestamp=2026-04-23T12:06:46Z
-branch=agent/batch36-spec-status-drift-readme-20260423
-head_commit=bdb93209
-signature=08344221a2234e4e2d6c1868c85981c5feb73596f5fa51781861996d6182b9cd
+diff_hash=ee490b9897db7ec2db304e27201a2f8f246b82c7aff7c9ca3dfe0ce7897ed345
+timestamp=2026-04-23T14:31:16Z
+branch=agent/batch37-se046-baseline-ratchet-integrity-20260423
+head_commit=75fea56f
+signature=ecc1894fb42075e02877f7b372a8be7b423687af9f103046380d2ce3bc294cbe
