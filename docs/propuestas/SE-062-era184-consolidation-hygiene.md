@@ -1,14 +1,15 @@
 ---
 id: SE-062
 title: SE-062 — Era 184 Consolidation + Hygiene post-Era 183
-status: PROPOSED
+status: IMPLEMENTED
 origin: drift audit post-Era 183 (batch 23, 2026-04-22)
 author: Savia
 priority: Alta
 effort: M 12-15h
 gap_link: Drift doc/realidad + deuda post-22-batches
-approved_at: null
-applied_at: null
+approved_at: "2026-04-22"
+applied_at: "2026-04-22"
+batches: [24, 25, 26, 27]
 expires: "2026-05-22"
 ---
 

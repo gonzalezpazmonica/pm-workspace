@@ -1,14 +1,15 @@
 ---
 id: SE-043
 title: SE-043 — CLAUDE.md drift-auto-check pre-commit
-status: PROPOSED
+status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
 priority: Alta
 effort: S 4h
 gap_link: D1/D2/D3/D4
-approved_at: null
-applied_at: null
+approved_at: "2026-04-20"
+applied_at: "2026-04-20"
+batches: [6]
 expires: "2026-05-20"
 ---
 

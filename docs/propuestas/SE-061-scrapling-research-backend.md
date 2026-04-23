@@ -1,14 +1,15 @@
 ---
 id: SE-061
 title: SE-061 — Scrapling as adaptive research backend
-status: PROPOSED
+status: IMPLEMENTED
 origin: output/research/scrapling-20260421.md
 author: Savia
 priority: Alta (Tier 3 champion)
 effort: M 21h total (4 slices)
 gap_link: Research agents bloqueados en sites Cloudflare/JS-heavy
-approved_at: null
-applied_at: null
+approved_at: "2026-04-22"
+applied_at: "2026-04-22"
+batches: [14, 15, 16, 17, 22]
 expires: "2026-05-21"
 ---
 

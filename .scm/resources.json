@@ -1,6 +1,6 @@
 {
-  "hash": "14202a22ce46",
-  "total": 1080,
+  "hash": "18350f5afdbb",
+  "total": 1081,
   "resources": [
     {
       "category": "analysis",
@@ -2999,6 +2999,20 @@
       "kind": "cmd",
       "path": ".claude/commands/spec-status.md",
       "description": "Check specification status and approval state"
+    },
+    {
+      "category": "development",
+      "name": "spec-status-drift-audit",
+      "intents": [
+        "audit",
+        "detect",
+        "disk",
+        "drift",
+        "implemented"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-status-drift-audit.sh",
+      "description": "spec-status-drift-audit.sh — Detect specs marked PROPOSED but implemented on disk."
     },
     {
       "category": "development",

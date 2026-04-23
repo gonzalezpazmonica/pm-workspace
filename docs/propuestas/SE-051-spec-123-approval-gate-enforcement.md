@@ -1,14 +1,15 @@
 ---
 id: SE-051
 title: SE-051 — SPEC-123 approval gate enforcement
-status: PROPOSED
+status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
 priority: Critica
 effort: S 2h
 gap_link: D14 Rule #8 erosion
-approved_at: null
-applied_at: null
+approved_at: "2026-04-20"
+applied_at: "2026-04-20"
+batches: [6]
 expires: "2026-05-20"
 ---
 

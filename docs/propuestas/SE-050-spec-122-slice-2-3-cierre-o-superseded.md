@@ -1,14 +1,15 @@
 ---
 id: SE-050
 title: SE-050 — SPEC-122 Slice 2+3 cierre o SUPERSEDED
-status: PROPOSED
+status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
 priority: Alta
 effort: M 8h
 gap_link: SPEC-122
-approved_at: null
-applied_at: null
+approved_at: "2026-04-20"
+applied_at: "2026-04-20"
+batches: [9]
 expires: "2026-05-20"
 ---
 

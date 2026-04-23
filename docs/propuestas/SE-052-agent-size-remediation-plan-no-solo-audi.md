@@ -1,14 +1,15 @@
 ---
 id: SE-052
 title: SE-052 — Agent-size remediation plan (no solo audit)
-status: PROPOSED
+status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
 priority: Alta
 effort: L 24h
 gap_link: 27 agents mayor 4KB
-approved_at: null
-applied_at: null
+approved_at: "2026-04-20"
+applied_at: "2026-04-20"
+batches: [8]
 expires: "2026-05-20"
 ---
 

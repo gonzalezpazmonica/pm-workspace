@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.80.0] — 2026-04-23
+
+Batch 36 — Spec status drift sweep + README refresh + drift auditor.
+
+### Added
+- `scripts/spec-status-drift-audit.sh` — detecta specs con `status: PROPOSED` pero con N+ referencias en `CHANGELOG.d/` (evidencia de implementacion). Flags: `--min-refs N` (default 2), `--json`. Previene futura drift spec-status.
+- `tests/test-spec-status-drift-audit.bats` — 26 tests certified.
+
+### Changed
+- **20 spec frontmatters** actualizados de `PROPOSED` a `IMPLEMENTED`: SE-029, SE-032, SE-033, SE-035, SE-036, SE-041, SE-043, SE-044, SE-047, SE-048, SE-050, SE-051, SE-052, SE-053, SE-054, SE-056, SE-058, SE-059, SE-061, SE-062. Todos con evidencia on-disk + applied_at + batches.
+- `README.md` — counts actualizados (65 agentes, 86 skills, 58 hooks, 283+ test suites). Cierra G8 WARN de PR anterior.
+
+### Context
+Post-merge batches 31-35, analisis de `status: PROPOSED` vs evidencia real detecto drift acumulado: 20 specs implementadas pero nunca marcadas. Distorsionaba el backlog planning. Nuevo auditor previene recurrencia con cutoff configurable.
+
+Version bump 5.79.0 a 5.80.0.
+
 ## [5.79.0] — 2026-04-23
 
 Batches 31-35 — Opus 4.7 calibration: 5 specs SE-066..SE-070 implementadas en un unico PR.
@@ -7978,6 +7995,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.79.0...v5.80.0
 [5.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.78.0...v5.79.0
 [5.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.77.0...v5.78.0
 [5.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.76.0...v5.77.0

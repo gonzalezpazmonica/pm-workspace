@@ -1,7 +1,8 @@
 ---
 id: SE-029
 title: Rate-distortion-aware context compression — Savia Dual Compact v2
-status: PROPOSED
+status: IMPLEMENTED
+applied_at: "2026-04-18"
 origin: bytebell rate-distortion paper + SAVIA-SUPERPOWERS research (2026-04-18)
 author: Savia
 related: context-compress, context-budget, context-optimize, headroom-analyze skills

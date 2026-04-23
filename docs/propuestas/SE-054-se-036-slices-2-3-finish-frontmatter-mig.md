@@ -1,14 +1,15 @@
 ---
 id: SE-054
 title: SE-054 — SE-036 Slices 2-3 finish frontmatter migration
-status: PROPOSED
+status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
 priority: Alta
 effort: M 10h
 gap_link: D16 D17
-approved_at: null
-applied_at: null
+approved_at: "2026-04-20"
+applied_at: "2026-04-20"
+batches: [8]
 expires: "2026-05-20"
 ---
 

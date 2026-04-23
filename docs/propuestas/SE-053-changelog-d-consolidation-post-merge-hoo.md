@@ -1,14 +1,15 @@
 ---
 id: SE-053
 title: SE-053 — CHANGELOG.d consolidation post-merge hook
-status: PROPOSED
+status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
 priority: Baja
 effort: S 2h
 gap_link: 33 fragmentos pending
-approved_at: null
-applied_at: null
+approved_at: "2026-04-20"
+applied_at: "2026-04-20"
+batches: [7]
 expires: "2026-05-20"
 ---
 

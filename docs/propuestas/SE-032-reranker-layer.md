@@ -1,12 +1,13 @@
 ---
 id: SE-032
 title: Reranker layer — cross-encoder sobre memory/knowledge-graph/savia-recall
-status: PROPOSED
+status: IMPLEMENTED
 origin: Convergencia independiente Hands-On LLM cap.8 + Dify api/core/rag (research 2026-04-18)
 author: Savia
 related: knowledge-graph skill, memory-recall skill, cross-project-search command, savia-recall skill, savia-memory store
-approved_at: null
-applied_at: null
+approved_at: "2026-04-22"
+applied_at: "2026-04-22"
+batches: [19]
 expires: "2026-05-16"   # 2 sprints tras approved; si no se implementa → re-review
 ---
 
