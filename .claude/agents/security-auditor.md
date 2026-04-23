@@ -69,3 +69,7 @@ When auditing a project, check `projects/{project}/.context-index/PROJECT.ctx` i
 - Marcar false positives del attacker como tales
 - Marcar fixes insuficientes del defender
 - No modificar código — solo evaluar y reportar
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

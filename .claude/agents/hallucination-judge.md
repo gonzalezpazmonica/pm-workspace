@@ -94,3 +94,7 @@ If workspace not accessible for grounding searches, emit
 
 NEVER accept a claim as grounded just because it sounds plausible.
 Plausibility is orthogonal to factuality. Require actual evidence.
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

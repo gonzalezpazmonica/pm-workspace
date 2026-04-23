@@ -90,3 +90,7 @@ rather than score blind.
 Miscalibrated reports erode trust even when facts are correct. A CEO acting
 on "we're 95% sure" treats it as near-certainty. If the evidence was actually
 weak, the decision is built on false confidence.
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

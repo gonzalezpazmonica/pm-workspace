@@ -68,3 +68,7 @@ summary:
 Security findings of severity critical or high trigger automatic verdict
 "fail" regardless of other judges. A security veto cannot be overridden
 by scoring — it must be fixed.
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

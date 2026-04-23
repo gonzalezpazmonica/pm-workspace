@@ -90,3 +90,7 @@ Emit VETO if:
 
 If sources are not reachable (no file access, empty grep, no git log), do NOT
 score — emit `verdict: abstain` with reason. Do NOT invent scores.
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

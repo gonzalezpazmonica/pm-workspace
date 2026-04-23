@@ -99,3 +99,15 @@ Riesgo del slice = max(factores). Si alto → añadir 30% al estimado de horas.
 - NO leas ficheros del proyecto — usa los tamaños proporcionados
 - Responde en español
 - Formato Markdown estricto (sin HTML)
+## Structured Context (SE-068)
+
+See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag pattern. Required tags below:
+
+<instructions>Apply operational guidance above.</instructions>
+<context_usage>Quote excerpts before acting on long docs.</context_usage>
+<constraints>Rule #24 (Radical Honesty), Rule #8 (SDD), permission_level.</constraints>
+<output_format>Per agent body. Findings attach {confidence, severity}.</output_format>
+
+## Subagent Fan-Out Policy (SE-067)
+
+Opus 4.7 under-spawns by default. Fan-out paralelo en un turno para items independientes (NO spawn para single-response work). Ver `docs/propuestas/SE-067-orchestrator-fanout-adaptive-thinking.md`.

@@ -63,3 +63,7 @@ summary:
 - **medium**: wrong behavior under edge conditions
 - **low**: code smell that could become a bug
 - **info**: observation, no action needed
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

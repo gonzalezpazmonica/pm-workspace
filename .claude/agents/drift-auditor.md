@@ -120,3 +120,7 @@ Ambos escriben a un fichero temporal. El comando merge + formato final.
 - NUNCA modificar ficheros (solo lectura)
 - NUNCA corregir problemas automáticamente (reportar solamente)
 - Si necesita context > 10000 tokens: fragmentar o resumir CLAUDE.md
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

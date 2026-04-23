@@ -77,3 +77,7 @@ claim lacks a citation (compliance/audit reports must be 100% traceable).
 ## Abstention
 
 If workspace sources not accessible, emit `verdict: abstain`.
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

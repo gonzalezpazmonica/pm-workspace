@@ -76,3 +76,7 @@ handoff:
 - Skill SKILL.md — `.claude/skills/pr-agent-judge/SKILL.md`
 - Wrapper — `scripts/pr-agent-run.sh`
 - [qodo-ai/pr-agent](https://github.com/qodo-ai/pr-agent)
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

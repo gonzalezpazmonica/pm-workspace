@@ -89,3 +89,12 @@ Ensure every technical decision is documented, justified, and aligned with Clean
 - Agent-notes or ADR written for every non-trivial decision
 - Zero architectural regressions introduced in downstream implementations
 - Complexity estimates within 1 T-shirt size of actual effort
+
+## Structured Context (SE-068)
+
+See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag pattern. Required tags below:
+
+<instructions>Apply operational guidance above.</instructions>
+<context_usage>Quote excerpts before acting on long docs.</context_usage>
+<constraints>Rule #24 (Radical Honesty), Rule #8 (SDD), permission_level.</constraints>
+<output_format>Per agent body. Findings attach {confidence, severity}.</output_format>

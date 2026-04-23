@@ -106,3 +106,7 @@ If you cannot determine destination tier (no output path declared), emit
 PII leaks in pm-workspace produce legal exposure (AEPD €10-20M fines),
 client contract breaches, and reputation damage. Compliance is
 non-negotiable: false negatives cost more than false positives.
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

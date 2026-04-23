@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-22 | **Version:** v5.78.0 | **532 commands · 65 agents · 85 skills · 58 hooks (62 regs) · 282+ test suites · Era 182-184 CLOSED, Era 185 IN PROGRESS (SE-060 + SE-063 IMPLEMENTED)**
+**Updated:** 2026-04-23 | **Version:** v5.79.0 | **532 commands · 65 agents · 86 skills · 58 hooks (62 regs) · 283+ test suites · Era 182-184 CLOSED, Era 185 CLOSED (SE-060 + SE-063), Era 186 IN PROGRESS (Opus 4.7 calibration SE-066..SE-070)**
 
 ---
 
@@ -176,6 +176,35 @@ Gaps solucionados:
 - 4 false positives en `validate-bash-global.sh` — hook-detector legítimo cuyas regex strings disparaban HOOK-03/HOOK-06 (SE-060)
 
 Ver propuestas: `docs/propuestas/SE-063-*.md`, `docs/propuestas/SE-064-*.md`.
+
+---
+
+## Era 186 — Opus 4.7 Calibration (2026-04-23, IN PROGRESS)
+
+Post-analisis del Opus 4.7 migration guide (Anthropic + Daily Dose of Data Science 2026-04-23). 5 gaps identificados en Savia vs 4.7 defaults: literal instruction following, fewer subagents, XML tag absence, adaptive thinking deprecates fixed budgets, context rot en 1M sessions.
+
+### Especs
+
+| Spec | Titulo | Effort | Estado | Batches |
+|---|---|---|---|---|
+| **SE-066** | Review agents finding-vs-filtering | S 4h | **IMPLEMENTED** | 31 |
+| **SE-067** | Orchestrator fan-out + feasibility-probe adaptive | S 3h | **IMPLEMENTED** | 32 |
+| **SE-068** | XML tags in top-tier opus-4-7 agents | M 6h | **IMPLEMENTED** | 33 |
+| **SE-069** | context-rot-strategy skill | M 5h | **IMPLEMENTED** | 34 |
+| **SE-070** | Opus 4.7 eval scorecard (37 sonnet agents A/B) | L 12h | PROPOSED | 35 (infra), Baja deferred |
+
+Batches 31-35 combinados en un unico PR (integration branch `agent/batch31-35-opus47-calibration-20260423`). Era 186 cierra cuando SE-070 eval se ejecute al menos parcialmente (3 agents candidate) O cuando quede clara decision de no-upgrade global.
+
+Gaps solucionados:
+- Review agents recall drop bajo 4.7 filter-literal (SE-066)
+- Orchestrators under-spawning sin prompt explicito (SE-067A)
+- feasibility-probe usaba budget_tokens deprecated (SE-067B)
+- 0 agents con XML structure pese a 30% quality gap documentado (SE-068)
+- Sin skill para 5-option session management en 1M context (SE-069)
+
+Script transversal: `scripts/opus47-compliance-check.sh` valida los 5 batches con 24 BATS tests.
+
+Ver propuestas: `docs/propuestas/SE-066-*.md` .. `docs/propuestas/SE-070-*.md`.
 
 ---
 

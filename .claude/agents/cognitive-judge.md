@@ -66,3 +66,7 @@ summary:
 - **medium**: unnecessary complexity that slows understanding
 - **low**: naming nit or style preference
 - **info**: suggestion for improvement, not a problem
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

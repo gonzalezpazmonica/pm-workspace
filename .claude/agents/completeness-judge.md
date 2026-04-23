@@ -87,3 +87,7 @@ Emit VETO if:
 If the report has no title/abstract/frontmatter from which to derive
 promises, emit `verdict: abstain` — cannot evaluate completeness without
 expectations.
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

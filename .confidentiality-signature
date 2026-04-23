@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=fe249d4587b91deb116334b8e4ce7ca427cf21c053422d436fcd45c5779487a9
-timestamp=2026-04-22T21:58:05Z
-branch=agent/batch30-se060-1-hook-injection-audit-20260422
-head_commit=e684b43f
-signature=9638bc37c290570b04c0dc8cd0dde7454aed611aa66c55c1a81adbf8ced06079
+diff_hash=486b29e9f1992f3ee612dcbf82b810b7d758055b145f8188effbef0968219644
+timestamp=2026-04-23T07:30:55Z
+branch=agent/batch31-35-opus47-calibration-20260423
+head_commit=f4235f0f
+signature=314594cc2d1c0048b39b431f98bcc56eb67524ad0918525fb658f84173109ff4

@@ -131,3 +131,19 @@ When verdict is ITERATE:
 ## Reference
 
 SPEC-106 — `docs/propuestas/SPEC-106-truth-tribunal-report-reliability.md`
+## Structured Context (SE-068)
+
+See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag pattern. Required tags below:
+
+<instructions>Apply operational guidance above.</instructions>
+<context_usage>Quote excerpts before acting on long docs.</context_usage>
+<constraints>Rule #24 (Radical Honesty), Rule #8 (SDD), permission_level.</constraints>
+<output_format>Per agent body. Findings attach {confidence, severity}.</output_format>
+
+## Subagent Fan-Out Policy (SE-067)
+
+Opus 4.7 under-spawns by default. Fan-out paralelo en un turno para items independientes (NO spawn para single-response work). Ver `docs/propuestas/SE-067-orchestrator-fanout-adaptive-thinking.md`.
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

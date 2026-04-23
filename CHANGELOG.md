@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.79.0] — 2026-04-23
+
+Batches 31-35 — Opus 4.7 calibration: 5 specs SE-066..SE-070 implementadas en un unico PR.
+
+### Added
+- **SE-066 Batch 31** — `Reporting Policy` (coverage-first) block anadido a 19 review/judge/auditor agents. Preserva recall bajo Opus 4.7 que sigue filter instructions mas literalmente que 4.6. Cada finding debe incluir `{confidence, severity}` para ranking downstream.
+- **SE-067 Batch 32** — `Subagent Fan-Out Policy` block en 3 orchestrators (dev-orchestrator, court-orchestrator, truth-tribunal-orchestrator). Feasibility-probe SKILL.md migrado de `budget_tokens` fijo a adaptive thinking (Opus 4.7 decide por step).
+- **SE-068 Batch 33** — XML tag structure (`<instructions>`, `<context_usage>`, `<constraints>`, `<output_format>`) anadidos a 5 top-tier opus-4-7 agents (architect, dev-orchestrator, court-orchestrator, truth-tribunal-orchestrator, code-reviewer). Canonical doc `docs/rules/domain/agent-prompt-xml-structure.md` publicado.
+- **SE-069 Batch 34** — Nueva skill `.claude/skills/context-rot-strategy/` (SKILL.md + DOMAIN.md). 5-option decision model para gestion de context rot en sesiones de 1M tokens: continue, rewind, /compact con hint, /clear, subagent. Umbrales 60/75/90% con recomendaciones per-tier.
+- **SE-070 Batch 35** — Propuesta scorecard (A/B eval framework para 37 sonnet-4-6 agents). Deferred execution — infraestructura lista, evals opportunistic.
+- `scripts/opus47-compliance-check.sh` — valida SE-066..SE-070 con flags `--finding-vs-filtering|--fan-out|--adaptive-thinking|--xml-tags|--context-rot-skill`. JSON output disponible.
+- `tests/test-opus47-compliance.bats` — 24 tests cubriendo los 5 batches.
+
+### Changed
+- `CLAUDE.md` bump skills(85) a skills(86) por nueva `context-rot-strategy`.
+- 19 review agents + 3 orchestrators + 5 top-tier agents = 27 agent prompts modificados (compatible, solo append de policies nuevas).
+- feasibility-probe SKILL.md ya no documenta `budget_tokens` — adaptive thinking es default Opus 4.7.
+
+### Context
+Post-analisis del Opus 4.7 migration guide (Anthropic + Daily Dose of Data Science 2026-04-23). Gap identificado: zero agents usaban XML tags, zero separaban finding-vs-filtering, orchestrators sin fan-out explicito, feasibility-probe con budget fijo deprecado, y skill set sin cobertura explicita de context rot en 1M context. 5 propuestas creadas e implementadas en un batch combinado tras aprobacion explicita.
+
+Era 186 abre con enfoque "model calibration" — ajustar Savia a los cambios de comportamiento de Opus 4.7 (mas literal, menos subagents, mejor bug-finding con stricter filtering).
 ## [5.78.0] — 2026-04-22
 
 Batch 30 — SE-060 close-loop: hook-audit detector exemptions.
@@ -7956,6 +7978,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.78.0...v5.79.0
 [5.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.77.0...v5.78.0
 [5.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.76.0...v5.77.0
 [5.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.75.0...v5.76.0

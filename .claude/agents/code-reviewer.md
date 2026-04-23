@@ -129,3 +129,15 @@ Be the last quality gate before code reaches main: catch security flaws, SOLID v
 - All findings reference a specific rule ID (S-XXXX, ARCH-XX)
 - Review turnaround within 1 invocation cycle (no re-reads)
 - Constructive ratio: at least 1 positive finding per review
+## Structured Context (SE-068)
+
+See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag pattern. Required tags below:
+
+<instructions>Apply operational guidance above.</instructions>
+<context_usage>Quote excerpts before acting on long docs.</context_usage>
+<constraints>Rule #24 (Radical Honesty), Rule #8 (SDD), permission_level.</constraints>
+<output_format>Per agent body. Findings attach {confidence, severity}.</output_format>
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.
