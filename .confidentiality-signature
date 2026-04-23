@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=628d2a8e45f537c648b64f626072a429234d6bc0e5b084d71b237e8d718c08f3
-timestamp=2026-04-23T11:34:30Z
+diff_hash=eb92a006215e359ffa6f6d24af97a49cd9b618f3b3ae8aafb5b5f213cef15cb5
+timestamp=2026-04-23T12:06:45Z
 branch=agent/batch36-spec-status-drift-readme-20260423
-head_commit=ac115b5b
-signature=d7e7057f833b9ca97dfff7351b6a392c380ba343bc30dc80702ce409d01b6b41
+head_commit=e5e14179
+signature=08344221a2234e4e2d6c1868c85981c5feb73596f5fa51781861996d6182b9cd
