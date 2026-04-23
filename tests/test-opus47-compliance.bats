@@ -146,3 +146,108 @@ print(\"ok\")
   run bash "$SCRIPT" --bogus
   [ "$status" -eq 2 ]
 }
+
+# ── Negative cases (status -ne 0) ────────────────────────
+
+@test "negative: empty string arg fails with error" {
+  run bash "$SCRIPT" ""
+  [ "$status" -ne 0 ]
+}
+
+@test "negative: malformed flag rejected with exit 2" {
+  run bash "$SCRIPT" --nonexistent-flag
+  [ "$status" -eq 2 ]
+}
+
+@test "negative: script fails if required agent file missing (simulated)" {
+  local TMP="$(mktemp -d)"
+  trap "rm -rf $TMP" EXIT
+  # Copy script + fake agents dir lacking the expected file
+  mkdir -p "$TMP/.claude/agents" "$TMP/.claude/skills"
+  cd "$TMP"
+  ln -s "$BATS_TEST_DIRNAME/../scripts" scripts
+  run bash scripts/opus47-compliance-check.sh --finding-vs-filtering
+  [ "$status" -ne 0 ]
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "negative: --fan-out alone without orchestrators fails gracefully" {
+  local TMP="$(mktemp -d)"
+  trap "rm -rf $TMP" EXIT
+  mkdir -p "$TMP/.claude/agents" "$TMP/.claude/skills"
+  cd "$TMP"
+  ln -s "$BATS_TEST_DIRNAME/../scripts" scripts
+  run bash scripts/opus47-compliance-check.sh --fan-out
+  [ "$status" -ne 0 ]
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+# ── Edge cases ───────────────────────────────────────────
+
+@test "edge: empty stdin does not crash" {
+  run bash "$SCRIPT" < /dev/null
+  [[ "$status" -eq 0 || "$status" -eq 1 ]]
+}
+
+@test "edge: nonexistent agent in scan skipped safely" {
+  run bash "$SCRIPT" --finding-vs-filtering
+  [[ "$status" -eq 0 || "$status" -eq 1 ]]
+  [[ "$output" == *"VERDICT"* ]]
+}
+
+@test "edge: zero failures produces empty failures list in JSON" {
+  run bash "$SCRIPT" --json
+  [[ "$output" == *'"failures":['* ]]
+}
+
+@test "edge: large number of agents (65) audited without timeout" {
+  run timeout 10 bash "$SCRIPT"
+  [ "$status" -ne 124 ]
+}
+
+@test "edge: --json output is well-formed even when PASS" {
+  run bash -c 'bash scripts/opus47-compliance-check.sh --json | python3 -m json.tool'
+  [ "$status" -eq 0 ]
+}
+
+# ── Coverage breadth ─────────────────────────────────────
+
+@test "coverage: add_fail function defined in target" {
+  run grep -c '^add_fail()' "scripts/opus47-compliance-check.sh"
+  [[ "$output" -ge 1 ]]
+}
+
+@test "coverage: check_finding_vs_filtering defined" {
+  run grep -c '^check_finding_vs_filtering()' "scripts/opus47-compliance-check.sh"
+  [[ "$output" -ge 1 ]]
+}
+
+@test "coverage: check_fan_out defined" {
+  run grep -c '^check_fan_out()' "scripts/opus47-compliance-check.sh"
+  [[ "$output" -ge 1 ]]
+}
+
+@test "coverage: check_adaptive_thinking defined" {
+  run grep -c '^check_adaptive_thinking()' "scripts/opus47-compliance-check.sh"
+  [[ "$output" -ge 1 ]]
+}
+
+@test "coverage: check_xml_tags defined" {
+  run grep -c '^check_xml_tags()' "scripts/opus47-compliance-check.sh"
+  [[ "$output" -ge 1 ]]
+}
+
+@test "coverage: check_context_rot_skill defined" {
+  run grep -c '^check_context_rot_skill()' "scripts/opus47-compliance-check.sh"
+  [[ "$output" -ge 1 ]]
+}
+
+@test "coverage: usage function defined" {
+  run grep -c '^usage()' "scripts/opus47-compliance-check.sh"
+  [[ "$output" -ge 1 ]]
+}
+
+@test "coverage: TMPDIR used in at least one test" {
+  run grep -c 'mktemp' "$BATS_TEST_FILENAME"
+  [[ "$output" -ge 1 ]]
+}

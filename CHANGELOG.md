@@ -28,6 +28,20 @@ Batches 31-35 — Opus 4.7 calibration: 5 specs SE-066..SE-070 implementadas en 
 Post-analisis del Opus 4.7 migration guide (Anthropic + Daily Dose of Data Science 2026-04-23). Gap identificado: zero agents usaban XML tags, zero separaban finding-vs-filtering, orchestrators sin fan-out explicito, feasibility-probe con budget fijo deprecado, y skill set sin cobertura explicita de context rot en 1M context. 5 propuestas creadas e implementadas en un batch combinado tras aprobacion explicita.
 
 Era 186 abre con enfoque "model calibration" — ajustar Savia a los cambios de comportamiento de Opus 4.7 (mas literal, menos subagents, mejor bug-finding con stricter filtering).
+## [5.78.0] — 2026-04-22
+
+Batch 30 — SE-060 close-loop: hook-audit detector exemptions.
+
+### Added
+- `scripts/hook-injection-audit.sh` — mecanismo de exención por fichero `# hook-audit-detector: HOOK-XX,HOOK-YY` (o `ALL`). Solo primeras 20 líneas del hook para prevenir bypass via regex-string payload. Funciones `detector_exemptions()` + `is_exempt()` helpers.
+- `.claude/hooks/validate-bash-global.sh` — header marcado `# hook-audit-detector: HOOK-03,HOOK-06`. Hook es detector legítimo: contiene regex strings de `curl | bash` y `sudo` para bloquear comandos, no ejecuciones. Sin exención, generaba 4 false positives.
+- `tests/test-hook-injection-audit.bats` +8 tests (25→33). Cubren listed-rules skip, `ALL` wildcard, partial skip (otras reglas siguen disparando), anti-bypass (comentario tras línea 20 ignorado), validate-bash-global marcado, real-world clean audit, helper functions existen.
+
+### Changed
+- `docs/propuestas/SE-060-hook-injection-hidden-directives.md` status PROPOSED → IMPLEMENTED. Cierre de loop del research agentshield (batch 10 Scripts 1+2, batch 30 exención + clean audit).
+
+### Context
+Batch 10 implementó `hook-injection-audit.sh` con 9 reglas HOOK-XX y extendió `prompt-security-scan.sh` con PS-11..PS-14 (zero-width, base64, URL-pipe-bash, time-bomb). El audit generaba 4 false positives en `validate-bash-global.sh` — hook detector legítimo cuyas strings de regex disparaban HOOK-03/HOOK-06 pese a no ejecutar los patrones. Batch 30 cierra el gap añadiendo anotación explícita `# hook-audit-detector: RULES` top-of-file (max 20 líneas) + helpers + 8 tests + marca hook real. Audit ahora reporta `findings_count=0` sobre 60 hooks reales.
 
 ## [5.77.0] — 2026-04-22
 
@@ -7965,6 +7979,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [5.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.78.0...v5.79.0
+[5.78.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.77.0...v5.78.0
 [5.77.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.76.0...v5.77.0
 [5.76.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.75.0...v5.76.0
 [5.75.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.74.0...v5.75.0

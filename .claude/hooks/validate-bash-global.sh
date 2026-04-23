@@ -3,6 +3,8 @@ set -uo pipefail
 # validate-bash-global.sh — Validación global de comandos Bash peligrosos
 # Usado por: settings.json (PreToolUse hook para toda la sesión)
 # Profile tier: standard
+# hook-audit-detector: HOOK-03,HOOK-06
+# (contiene regex de detección para `curl | bash` y `sudo`; SE-060 skip intencional)
 
 LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
 if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then

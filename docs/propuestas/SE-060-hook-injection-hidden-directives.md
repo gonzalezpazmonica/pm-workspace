@@ -1,15 +1,18 @@
 ---
 id: SE-060
 title: SE-060 — Hook Injection + Hidden Directives Audit
-status: PROPOSED
+status: IMPLEMENTED
 origin: output/research/agentshield-20260420.md (inspired by 34 hook + 25 agent rules)
 author: Savia
 priority: Alta
 effort: M 6h
 gap_link: Hook command-injection + zero-width/base64 directives no detectados
-approved_at: null
-applied_at: null
+approved_at: "2026-04-20"
+applied_at: "2026-04-22"
 expires: "2026-05-20"
+batches: [10, 30]
+era: 185
+notes: "Batch 10 implementó scripts iniciales. Batch 30 añade mecanismo de exención `# hook-audit-detector:` para hooks-detector legítimos (validate-bash-global.sh) y cierra el loop con audit clean 0 findings."
 ---
 
 # SE-060 — Hook Injection + Hidden Directives Audit
