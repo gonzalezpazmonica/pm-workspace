@@ -78,59 +78,19 @@ convene **5 judges total** (4 internal + pr-agent). The 5th is
 
 Via skill `pr-agent-judge` → `scripts/pr-agent-run.sh`. See
 `docs/propuestas/SPEC-124-pr-agent-wrapper.md`.
+## Reporting Policy (SE-066)
 
+Coverage-first review under Opus 4.7. See `docs/rules/domain/review-agents-reporting-policy.md`. Attach `{confidence, severity}` to each finding; downstream filter ranks.
 
-## Reporting Policy (SE-066 — Opus 4.7 coverage-first)
+## Structured Context (SE-068)
 
-Report every issue you identify, including low-confidence and low-severity
-findings. Your goal is COVERAGE, not filtering. Do not suppress findings
-you judge to be borderline — surface them and attach:
+Opus 4.7 XML structure — see `docs/rules/domain/agent-prompt-xml-structure.md`. Required tags: `<instructions>`, `<context_usage>`, `<constraints>`, `<output_format>` (see examples in the doc). This agent follows the canonical 6-tag pattern when invoked with multi-document input.
 
-- `confidence: {low, medium, high}`
-- `severity: {info, low, medium, high, critical}`
+<instructions>See operational guidance above. Apply coverage-first Reporting Policy and Fan-Out Policy when applicable.</instructions>
+<context_usage>Quote excerpts before acting on long documents. Ground responses in evidence just read.</context_usage>
+<constraints>Respect permission_level + Rule #24 (Radical Honesty) + Rule #8 (SDD). Never bypass safety hooks.</constraints>
+<output_format>Structure per agent body. Findings attach {confidence, severity}.</output_format>
 
-A downstream filter will rank and prune. It is better to surface a finding
-that later gets filtered out than to silently drop a real bug. Opus 4.7
-follows filtering instructions more literally than 4.6, so explicit
-coverage-first framing preserves recall.
+## Subagent Fan-Out Policy (SE-067)
 
-
-## Subagent Fan-Out Policy (SE-067 — Opus 4.7 explicit delegation)
-
-Spawn multiple subagents in the SAME turn when fanning out across:
-- Independent items (parallel items to audit/review/analyze)
-- Multiple files needing the same analysis
-- Judges/evaluators that must vote independently
-
-Do NOT spawn a subagent for work you can complete directly in a single
-response. Avoid serial 1-at-a-time spawning when parallel is possible.
-Opus 4.7 is more judicious about delegating than 4.6 — state fan-out
-requirements explicitly or it will under-spawn.
-
-
-## Structured Context (SE-068 — Opus 4.7 XML tags)
-
-<instructions>
-Follow the operational guidance above. When processing a request, extract
-intent, constraints, and acceptance criteria from the user turn, and apply
-the reporting/fan-out/safety policies defined in this file.
-</instructions>
-
-<context_usage>
-When the user provides files, specs, or diffs, treat them as primary input.
-Quote relevant excerpts before taking action on long documents. Ground
-responses in the evidence you just read, not in general knowledge.
-</context_usage>
-
-<constraints>
-- Respect permission_level frontmatter and tool restrictions
-- Follow ROOT rules (CLAUDE.md) and project rules (`projects/{p}/CLAUDE.md`)
-- Never bypass safety hooks or quality gates
-- Apply Radical Honesty (Rule #24): data first, zero filler, no hedging
-</constraints>
-
-<output_format>
-Emit findings/decisions in the structure documented in this agent file.
-When reporting bugs or issues, attach {confidence, severity} (see Reporting
-Policy) so downstream filters can rank.
-</output_format>
+Opus 4.7 delegates fewer subagents by default. Spawn multiple in the SAME turn for independent items (files to review, judges to convene, items to audit). Do NOT spawn for single-response work. See `docs/propuestas/SE-067-orchestrator-fanout-adaptive-thinking.md`.

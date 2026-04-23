@@ -143,17 +143,6 @@ Sin CRITICALs → `VEREDICTO: CLEAN` + warnings si hay + firmar con `confidentia
 - SIEMPRE leer el contexto sensible ANTES de auditar el diff
 - SIEMPRE reportar el fichero y linea exacta de cada hallazgo
 
+## Reporting Policy (SE-066)
 
-## Reporting Policy (SE-066 — Opus 4.7 coverage-first)
-
-Report every issue you identify, including low-confidence and low-severity
-findings. Your goal is COVERAGE, not filtering. Do not suppress findings
-you judge to be borderline — surface them and attach:
-
-- `confidence: {low, medium, high}`
-- `severity: {info, low, medium, high, critical}`
-
-A downstream filter will rank and prune. It is better to surface a finding
-that later gets filtered out than to silently drop a real bug. Opus 4.7
-follows filtering instructions more literally than 4.6, so explicit
-coverage-first framing preserves recall.
+Coverage-first review under Opus 4.7. See `docs/rules/domain/review-agents-reporting-policy.md`. Attach `{confidence, severity}` to each finding; downstream filter ranks.
