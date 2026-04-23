@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.85.0] — 2026-04-23
+
+Batch 41 — Hook coverage +3: cwd-changed-hook, emotional-regulation-monitor, ast-quality-gate-hook.
+
+### Added
+- `tests/test-cwd-changed-hook.bats` — 29 tests certified. CwdChanged hook auto-inyecta contexto al entrar en projects/. Cubre 10 language packs, state dedup, cleanup on exit.
+- `tests/test-emotional-regulation-monitor.bats` — 24 tests certified. Stop hook session stress assessment (Anthropic research). Cubre 3 level thresholds, boundary detection, memory persist + dedup.
+- `tests/test-ast-quality-gate-hook.bats` — 26 tests certified. PostToolUse async quality gate. Cubre 16 source extensions, graceful degradation, --advisory flag, latest.json alias.
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 34 a 31. Hook coverage 24/58 (41%) a 27/58 (47%).
+
+### Context
+Tercera iteracion del ratchet. 79 tests nuevos certified. Patron consolidado: tracker mock, tier-specific profile override, boundary edge cases, isolation.
+
+Proximos candidatos: pbi-history-capture (93), prompt-hook-commit (91), agent-hook-premerge (90). Meta implicita: 75% coverage (44/58).
+
+Version bump 5.84.0 a 5.85.0.
+
 ## [5.84.0] — 2026-04-23
 
 Batch 40 — Hook coverage +3: ast-comprehend, agent-dispatch-validate, stop-memory-extract.
@@ -8067,6 +8086,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.84.0...v5.85.0
 [5.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.83.0...v5.84.0
 [5.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.82.0...v5.83.0
 [5.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.81.0...v5.82.0
