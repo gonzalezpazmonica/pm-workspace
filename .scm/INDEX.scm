@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 52cb54382a33 | resources: 1082
-> 530 commands · 86 skills · 65 agents · 401 scripts
+> hash: 594a03000703 | resources: 1083
+> 530 commands · 86 skills · 65 agents · 402 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -901,6 +901,7 @@
 [quality] hook-event-gap-audit — audit,audita,cubiertos,event,eventos — script:scripts/hook-event-gap-audit.sh
 [quality] hook-injection-audit — audit,hook,injection,patterns,slice — script:scripts/hook-injection-audit.sh
 [quality] hook-latency-audit — audit,enforcement,hook,latency,slice — script:scripts/hook-latency-audit.sh
+[quality] hook-test-coverage-audit — audit,bats,claude,coverage,detect — script:scripts/hook-test-coverage-audit.sh
 [quality] hub-audit — agentes,auditar,comandos,dependencias,dominio — cmd:.claude/commands/hub-audit.md
 [quality] knowledge-lint — base,check,detect,evidence,health — cmd:.claude/commands/knowledge-lint.md
 [quality] knowledge-lint — base,check,health,knowledge,lint — script:scripts/knowledge-lint.sh
