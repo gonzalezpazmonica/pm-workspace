@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.82.0] — 2026-04-23
+
+Batch 38 — SE-049 Slice 1: SLM dispatcher + shared lib scaffolding.
+
+### Added
+- `scripts/slm.sh` — dispatcher unificado para los 16 scripts `slm-*.sh`. Flags: `<subcommand>`, `list`, `--json list`, `--help`. Exit codes 0/1/2. Usa `exec bash` para preservar args y exit code de subcommands.
+- `scripts/lib/slm-common.sh` — shared library con `slm_die`, `slm_warn`, `slm_project_root`, `slm_data_dir`, `SLM_REGISTRY` (single source of truth) y helpers de routing.
+- `tests/test-slm-dispatcher.bats` — 30 tests certified. Existence, help, registry, negative/edge/coverage/isolation.
+- `docs/rules/domain/slm-consolidation-pattern.md` — doc canonica del pattern (problema, slicing, usage antes/despues, extension guide).
+
+### Changed
+- SE-049 status: PROPOSED a IN_PROGRESS. `slices_complete: [1]`, batches: [38].
+
+### Context
+SE-049 (L 16h) se descompone en 3 slices. Slice 1 (batch 38) scaffolding: routing thin, registry declarativo, tests + doc. Slice 2 migrara logica de cada script a funciones `cmd_<subcommand>` en `slm.sh`. Slice 3 deprecara originales. Permite consolidar 16 scripts en un solo dispatcher sin breaking change inmediato.
+
+Version bump 5.81.0 a 5.82.0.
+
 ## [5.81.0] — 2026-04-23
 
 Batch 37 — SE-046 baseline integrity guard + stale ratchet tightened.
@@ -8012,6 +8030,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.81.0...v5.82.0
 [5.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.80.0...v5.81.0
 [5.80.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.79.0...v5.80.0
 [5.79.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.78.0...v5.79.0

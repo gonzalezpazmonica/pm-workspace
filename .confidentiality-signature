@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ee490b9897db7ec2db304e27201a2f8f246b82c7aff7c9ca3dfe0ce7897ed345
-timestamp=2026-04-23T14:31:16Z
-branch=agent/batch37-se046-baseline-ratchet-integrity-20260423
-head_commit=75fea56f
-signature=ecc1894fb42075e02877f7b372a8be7b423687af9f103046380d2ce3bc294cbe
+diff_hash=6e06f762191985437e6ce5d4a8b08fe6c6da9c8b56739b5a6685b2464f605942
+timestamp=2026-04-23T15:40:30Z
+branch=agent/batch38-se049-1-slm-dispatcher-20260423
+head_commit=f56b772d
+signature=54dfd39deed13ff80bec4eef56e5f82e6af3890967d94c5c29bee5dc2a72f245
