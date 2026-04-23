@@ -64,6 +64,11 @@ for f in "$PROPOSALS_DIR"/SE-*.md; do
   [[ -f "$f" ]] || continue
   SCANNED=$((SCANNED + 1))
   grep -q '^status:[[:space:]]*PROPOSED' "$f" || continue
+  # Exempt specs explicitly tagged low-priority (intentionally deferred backlog).
+  # Rationale: priority: Baja signals "do-when-there-is-demand", not drift.
+  if grep -qE '^priority:[[:space:]]*(Baja|Low)' "$f"; then
+    continue
+  fi
   spec_id=$(grep -m1 '^id:' "$f" | awk '{print $2}')
   [[ -z "$spec_id" ]] && continue
   refs=$(count_references "$spec_id")
