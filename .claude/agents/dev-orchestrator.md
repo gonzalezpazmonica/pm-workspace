@@ -99,3 +99,44 @@ Riesgo del slice = max(factores). Si alto → añadir 30% al estimado de horas.
 - NO leas ficheros del proyecto — usa los tamaños proporcionados
 - Responde en español
 - Formato Markdown estricto (sin HTML)
+
+
+## Subagent Fan-Out Policy (SE-067 — Opus 4.7 explicit delegation)
+
+Spawn multiple subagents in the SAME turn when fanning out across:
+- Independent items (parallel items to audit/review/analyze)
+- Multiple files needing the same analysis
+- Judges/evaluators that must vote independently
+
+Do NOT spawn a subagent for work you can complete directly in a single
+response. Avoid serial 1-at-a-time spawning when parallel is possible.
+Opus 4.7 is more judicious about delegating than 4.6 — state fan-out
+requirements explicitly or it will under-spawn.
+
+
+## Structured Context (SE-068 — Opus 4.7 XML tags)
+
+<instructions>
+Follow the operational guidance above. When processing a request, extract
+intent, constraints, and acceptance criteria from the user turn, and apply
+the reporting/fan-out/safety policies defined in this file.
+</instructions>
+
+<context_usage>
+When the user provides files, specs, or diffs, treat them as primary input.
+Quote relevant excerpts before taking action on long documents. Ground
+responses in the evidence you just read, not in general knowledge.
+</context_usage>
+
+<constraints>
+- Respect permission_level frontmatter and tool restrictions
+- Follow ROOT rules (CLAUDE.md) and project rules (`projects/{p}/CLAUDE.md`)
+- Never bypass safety hooks or quality gates
+- Apply Radical Honesty (Rule #24): data first, zero filler, no hedging
+</constraints>
+
+<output_format>
+Emit findings/decisions in the structure documented in this agent file.
+When reporting bugs or issues, attach {confidence, severity} (see Reporting
+Policy) so downstream filters can rank.
+</output_format>

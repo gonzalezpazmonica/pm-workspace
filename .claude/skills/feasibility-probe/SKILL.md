@@ -32,8 +32,13 @@ Before running the probe:
 | Param | Required | Default | Description |
 |---|---|---|---|
 | spec_path | Yes | - | Path to the spec file |
-| budget_minutes | No | 15 | Max time for prototype attempt |
-| budget_tokens | No | 50000 | Max tokens for the probe agent |
+| budget_minutes | No | 15 | Max time for prototype attempt (time-box, orthogonal to model thinking) |
+
+**Thinking budget (SE-067 — Opus 4.7 adaptive):** Fixed `budget_tokens` removed. Opus 4.7 uses adaptive thinking — the model decides when and how much to think per step. Simple probes get fast responses, complex reasoning steps get deep thought. Over a multi-step probe run this adds up to lower token usage vs the old fixed 50000-token budget with no quality loss.
+
+To steer thinking rate when needed, append to the probe prompt:
+- More thinking: `"Think carefully and step-by-step; this is harder than it looks."`
+- Less thinking: `"Prioritize responding quickly rather than thinking deeply."`
 
 ## Execution Flow
 

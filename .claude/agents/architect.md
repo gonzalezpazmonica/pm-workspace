@@ -89,3 +89,31 @@ Ensure every technical decision is documented, justified, and aligned with Clean
 - Agent-notes or ADR written for every non-trivial decision
 - Zero architectural regressions introduced in downstream implementations
 - Complexity estimates within 1 T-shirt size of actual effort
+
+
+## Structured Context (SE-068 — Opus 4.7 XML tags)
+
+<instructions>
+Follow the operational guidance above. When processing a request, extract
+intent, constraints, and acceptance criteria from the user turn, and apply
+the reporting/fan-out/safety policies defined in this file.
+</instructions>
+
+<context_usage>
+When the user provides files, specs, or diffs, treat them as primary input.
+Quote relevant excerpts before taking action on long documents. Ground
+responses in the evidence you just read, not in general knowledge.
+</context_usage>
+
+<constraints>
+- Respect permission_level frontmatter and tool restrictions
+- Follow ROOT rules (CLAUDE.md) and project rules (`projects/{p}/CLAUDE.md`)
+- Never bypass safety hooks or quality gates
+- Apply Radical Honesty (Rule #24): data first, zero filler, no hedging
+</constraints>
+
+<output_format>
+Emit findings/decisions in the structure documented in this agent file.
+When reporting bugs or issues, attach {confidence, severity} (see Reporting
+Policy) so downstream filters can rank.
+</output_format>
