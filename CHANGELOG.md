@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.84.0] — 2026-04-23
+
+Batch 40 — Hook coverage +3: ast-comprehend, agent-dispatch-validate, stop-memory-extract.
+
+### Added
+- `tests/test-ast-comprehend-hook.bats` — 25 tests certified. PreToolUse(Edit) invariant RN-COMP-02 (never blocks). Cubre MIN_LINES threshold, COMPLEXITY_WARN, env fallback, malformed inputs.
+- `tests/test-agent-dispatch-validate.bats` — 25 tests certified. PreToolUse(Task) tier strict. Cubre 5 validation categories (commands, CHANGELOG, skills, git-push, rules), ERROR blocks vs WARNING informs.
+- `tests/test-stop-memory-extract.bats` — 27 tests certified. Stop hook SPEC-013v2. Cubre 4 PHASE extraction flow, quality gate invocation, action-log archiving, URL dedup.
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 37 a 34. Hook coverage 21/58 (36%) a 24/58 (41%).
+
+### Context
+Continuacion del ratchet iniciado en batch 39. Siguientes 3 hooks mas grandes sin coverage cerrados. Patron de tests: env isolation via TMPDIR, pattern dynamic construction para evitar auto-bloqueo por credential scanner, profile_gate override en setup segun tier del hook.
+
+Proximos candidatos: cwd-changed-hook (104), emotional-regulation-monitor (99), ast-quality-gate-hook (96).
+
+Version bump 5.83.0 a 5.84.0.
+
 ## [5.83.0] — 2026-04-23
 
 Batch 39 — Hook test coverage audit + 3 critical hooks covered.
@@ -8048,6 +8067,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.83.0...v5.84.0
 [5.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.82.0...v5.83.0
 [5.82.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.81.0...v5.82.0
 [5.81.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.80.0...v5.81.0
