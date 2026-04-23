@@ -1,12 +1,13 @@
 ---
 id: SE-037
 title: Hook latency + BATS coverage audit — 60 hooks bajo SLA 20ms + tests
-status: PROPOSED
+status: IMPLEMENTED
 origin: ROADMAP-UNIFIED-20260418 Wave 4 D4+D5
 author: Savia
 related: .claude/hooks/, scripts/hook-bench.sh, SPEC-081-hook-bats-coverage
-approved_at: null
-applied_at: null
+approved_at: "2026-04-20"
+applied_at: "2026-04-20"
+batches: [5]
 expires: "2026-06-18"
 ---
 

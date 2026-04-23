@@ -1,12 +1,13 @@
 ---
 id: SE-036
 title: Specs frontmatter migration — 111 specs sin YAML frontmatter a formato canónico
-status: PROPOSED
+status: IMPLEMENTED
 origin: ROADMAP-UNIFIED-20260418 Wave 4 D1 follow-up + scripts/spec-status-normalize.sh audit (111 specs detected)
 author: Savia
 related: scripts/spec-status-normalize.sh, SPEC-120-spec-kit-alignment
-approved_at: null
-applied_at: null
+approved_at: "2026-04-21"
+applied_at: "2026-04-21"
+batches: [8]
 expires: "2026-06-18"
 ---
 

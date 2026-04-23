@@ -1,12 +1,13 @@
 ---
 id: SE-033
 title: Topic cluster skill — BERTopic sobre retros/backlog/lessons
-status: PROPOSED
+status: IMPLEMENTED
 origin: Hands-On Large Language Models cap.5 (research 2026-04-18)
 author: Savia
 related: retro-patterns, backlog-patterns, lesson-extract, incident-correlate
-approved_at: null
-applied_at: null
+approved_at: "2026-04-22"
+applied_at: "2026-04-22"
+batches: [20]
 expires: "2026-05-16"
 ---
 

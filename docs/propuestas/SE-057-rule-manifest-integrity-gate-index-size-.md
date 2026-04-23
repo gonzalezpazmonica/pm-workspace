@@ -1,14 +1,15 @@
 ---
 id: SE-057
 title: SE-057 — Rule-manifest integrity gate INDEX size y coverage
-status: PROPOSED
+status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
 priority: Baja
 effort: S 3h
 gap_link: D20 INDEX 165L
-approved_at: null
-applied_at: null
+approved_at: "2026-04-20"
+applied_at: "2026-04-20"
+batches: [9]
 expires: "2026-05-20"
 ---
 

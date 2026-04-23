@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=486b29e9f1992f3ee612dcbf82b810b7d758055b145f8188effbef0968219644
-timestamp=2026-04-23T07:30:55Z
-branch=agent/batch31-35-opus47-calibration-20260423
-head_commit=f4235f0f
-signature=314594cc2d1c0048b39b431f98bcc56eb67524ad0918525fb658f84173109ff4
+diff_hash=eb92a006215e359ffa6f6d24af97a49cd9b618f3b3ae8aafb5b5f213cef15cb5
+timestamp=2026-04-23T12:06:46Z
+branch=agent/batch36-spec-status-drift-readme-20260423
+head_commit=bdb93209
+signature=08344221a2234e4e2d6c1868c85981c5feb73596f5fa51781861996d6182b9cd

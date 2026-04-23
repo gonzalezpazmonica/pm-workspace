@@ -43,8 +43,8 @@ teardown() {
   [[ "$output" -ge 1 ]]
 }
 
-@test "SE-032 has status: PROPOSED" {
-  run grep -cE '^status: PROPOSED' "$SPECS_DIR/SE-032-reranker-layer.md"
+@test "SE-032 has status: IMPLEMENTED (closed in batch 19)" {
+  run grep -cE '^status: IMPLEMENTED' "$SPECS_DIR/SE-032-reranker-layer.md"
   [[ "$output" -ge 1 ]]
 }
 
@@ -201,8 +201,8 @@ teardown() {
   [[ "$output" -eq 0 ]]
 }
 
-@test "negative: no hardcoded approved_at date (must be null until human approves)" {
-  run grep -E '^approved_at: null' "$SPECS_DIR/SE-032-reranker-layer.md"
+@test "post-IMPLEMENTED: approved_at is ISO date (batch 19 closure)" {
+  run grep -E '^approved_at: "20[0-9]{2}-[0-9]{2}-[0-9]{2}"' "$SPECS_DIR/SE-032-reranker-layer.md"
   [ "$status" -eq 0 ]
 }
 

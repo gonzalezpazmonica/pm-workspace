@@ -1,12 +1,13 @@
 ---
 id: SE-035
 title: Mutation testing skill — mutation-audit invocable on-demand
-status: PROPOSED
+status: IMPLEMENTED
 origin: Research 2026-04-18 (javiergomezcorio substack — 57% → 74% score automated)
 author: Savia
 related: test-engineer agent, test-auditor SPEC-055, SPEC-081 hook bats coverage
-approved_at: null
-applied_at: null
+approved_at: "2026-04-22"
+applied_at: "2026-04-22"
+batches: [18]
 expires: "2026-05-16"
 ---
 

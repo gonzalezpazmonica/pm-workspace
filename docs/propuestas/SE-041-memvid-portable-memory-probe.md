@@ -1,12 +1,13 @@
 ---
 id: SE-041
 title: Memvid portable memory format — Feasibility Probe para backup/travel
-status: PROPOSED
+status: IMPLEMENTED
 origin: Research 2026-04-18 del repo github.com/memvid/memvid (15k stars, Apache 2.0)
 author: Savia
 related: SPEC-110 memoria externa canónica, travel-pack skill, vault-*, SPEC-018 vector memory, SPEC-035 hybrid search
-approved_at: null
-applied_at: null
+approved_at: "2026-04-22"
+applied_at: "2026-04-22"
+batches: [21]
 expires: "2026-05-16"
 ---
 
