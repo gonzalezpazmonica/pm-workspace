@@ -1,6 +1,6 @@
 {
-  "hash": "d8cbb55b13c9",
-  "total": 1078,
+  "hash": "14202a22ce46",
+  "total": 1080,
   "resources": [
     {
       "category": "analysis",
@@ -3550,6 +3550,20 @@
     },
     {
       "category": "governance",
+      "name": "opus47-compliance-check",
+      "intents": [
+        "batches",
+        "check",
+        "compliance",
+        "migration",
+        "opus"
+      ],
+      "kind": "script",
+      "path": "scripts/opus47-compliance-check.sh",
+      "description": "opus47-compliance-check.sh — Verifies Savia compliance with Opus 4.7 migration batches."
+    },
+    {
+      "category": "governance",
       "name": "policy-check",
       "intents": [
         "agente",
@@ -4021,6 +4035,20 @@
       "kind": "script",
       "path": "scripts/context-restate-anchor.sh",
       "description": "context-restate-anchor.sh — SE-029-R"
+    },
+    {
+      "category": "memory",
+      "name": "context-rot-strategy",
+      "intents": [
+        "context",
+        "decision",
+        "model",
+        "option",
+        "sessions"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/context-rot-strategy/SKILL.md",
+      "description": "Context-rot strategy for 1M sessions — 5-option decision model per turn"
     },
     {
       "category": "memory",

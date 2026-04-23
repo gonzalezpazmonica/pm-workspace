@@ -93,4 +93,4 @@ weak, the decision is built on false confidence.
 
 ## Reporting Policy (SE-066)
 
-Coverage-first review under Opus 4.7. See `docs/rules/domain/review-agents-reporting-policy.md`. Attach `{confidence, severity}` to each finding; downstream filter ranks.
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

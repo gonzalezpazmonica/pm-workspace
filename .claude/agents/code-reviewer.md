@@ -129,15 +129,15 @@ Be the last quality gate before code reaches main: catch security flaws, SOLID v
 - All findings reference a specific rule ID (S-XXXX, ARCH-XX)
 - Review turnaround within 1 invocation cycle (no re-reads)
 - Constructive ratio: at least 1 positive finding per review
-## Reporting Policy (SE-066)
-
-Coverage-first review under Opus 4.7. See `docs/rules/domain/review-agents-reporting-policy.md`. Attach `{confidence, severity}` to each finding; downstream filter ranks.
-
 ## Structured Context (SE-068)
 
-Opus 4.7 XML structure — see `docs/rules/domain/agent-prompt-xml-structure.md`. Required tags: `<instructions>`, `<context_usage>`, `<constraints>`, `<output_format>` (see examples in the doc). This agent follows the canonical 6-tag pattern when invoked with multi-document input.
+See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag pattern. Required tags below:
 
-<instructions>See operational guidance above. Apply coverage-first Reporting Policy and Fan-Out Policy when applicable.</instructions>
-<context_usage>Quote excerpts before acting on long documents. Ground responses in evidence just read.</context_usage>
-<constraints>Respect permission_level + Rule #24 (Radical Honesty) + Rule #8 (SDD). Never bypass safety hooks.</constraints>
-<output_format>Structure per agent body. Findings attach {confidence, severity}.</output_format>
+<instructions>Apply operational guidance above.</instructions>
+<context_usage>Quote excerpts before acting on long docs.</context_usage>
+<constraints>Rule #24 (Radical Honesty), Rule #8 (SDD), permission_level.</constraints>
+<output_format>Per agent body. Findings attach {confidence, severity}.</output_format>
+
+## Reporting Policy (SE-066)
+
+Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

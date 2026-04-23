@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 92 resources
+> 93 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -30,6 +30,7 @@
 - **context-profile** (cmd): Perfilar consumo de contexto — qué consume más, generación de flame-graph, comparación entre sesiones
 - **context-receipts-validate** (script): context-receipts-validate.sh — SE-030
 - **context-restate-anchor** (script): context-restate-anchor.sh — SE-029-R
+- **context-rot-strategy** (skill): Context-rot strategy for 1M sessions — 5-option decision model per turn
 - **context-rotation** (script): context-rotation.sh — SE-033: Automated context rotation (daily/weekly/monthly)
 - **context-snapshot** (script): context-snapshot.sh — Save/load session context between sessions
 - **context-status** (cmd): Show context window usage, model tier, and optimization recommendations

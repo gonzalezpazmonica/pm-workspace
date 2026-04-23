@@ -1,5 +1,5 @@
 # governance — Savia Capability Map (L1)
-> 31 resources
+> 32 resources
 
 - **/training-compliance** (cmd): >
 - **aepd-compliance** (cmd): Auditoría de cumplimiento AEPD para IA agéntica — framework 4 fases
@@ -25,6 +25,7 @@
 - **governance-report** (cmd): Reporte de gobernanza IA para management — cumplimiento normativo, uso responsable
 - **insurance-policy** (cmd): >
 - **legal-compliance** (agent): >
+- **opus47-compliance-check** (script): opus47-compliance-check.sh — Verifies Savia compliance with Opus 4.7 migration batches.
 - **policy-check** (cmd): Verificar politicas de agente para un proyecto — mostrar permisos y restricciones
 - **regulatory-compliance** (skill): Validación de marcos regulatorios por sector — detección automática, compliance checks y corrección
 - **sdlc-policy** (cmd): Configure SDLC policies and quality gates

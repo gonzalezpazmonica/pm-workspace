@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 9fbf21db51bd | resources: 1078
-> 530 commands · 85 skills · 65 agents · 398 scripts
+> hash: af763dd9aaae | resources: 1080
+> 530 commands · 86 skills · 65 agents · 399 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -280,6 +280,7 @@
 [governance] governance-report — cumplimiento,gobernanza,management,normativo,reporte — cmd:.claude/commands/governance-report.md
 [governance] insurance-policy —  — cmd:.claude/commands/insurance-policy.md
 [governance] legal-compliance —  — agent:.claude/agents/legal-compliance.md
+[governance] opus47-compliance-check — batches,check,compliance,migration,opus — script:scripts/opus47-compliance-check.sh
 [governance] policy-check — agente,mostrar,permisos,politicas,proyecto — cmd:.claude/commands/policy-check.md
 [governance] regulatory-compliance — automática,checks,compliance,corrección,detección — skill:.claude/skills/regulatory-compliance/SKILL.md
 [governance] sdlc-policy — configure,gates,policies,quality,sdlc — cmd:.claude/commands/sdlc-policy.md
@@ -316,6 +317,7 @@
 [memory] context-profile — comparación,consume,consumo,contexto,flame — cmd:.claude/commands/context-profile.md
 [memory] context-receipts-validate — context,receipts,validate — script:scripts/context-receipts-validate.sh
 [memory] context-restate-anchor — anchor,context,restate — script:scripts/context-restate-anchor.sh
+[memory] context-rot-strategy — context,decision,model,option,sessions — skill:.claude/skills/context-rot-strategy/SKILL.md
 [memory] context-rotation — automated,context,daily,monthly,rotation — script:scripts/context-rotation.sh
 [memory] context-snapshot — between,context,load,save,session — script:scripts/context-snapshot.sh
 [memory] context-status — context,model,optimization,recommendations,show — cmd:.claude/commands/context-status.md
