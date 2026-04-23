@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 217 resources
+> 218 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -35,6 +35,7 @@
 - **hook-event-gap-audit** (script): hook-event-gap-audit.sh — Audita los 11 eventos de hook no cubiertos en pm-workspace
 - **hook-injection-audit** (script): hook-injection-audit.sh — SE-060 Slice 1 hook injection patterns audit.
 - **hook-latency-audit** (script): hook-latency-audit.sh — SE-037 Slice 1 hook latency enforcement audit.
+- **hook-test-coverage-audit** (script): hook-test-coverage-audit.sh — Detect hooks in .claude/hooks/ without BATS tests.
 - **hub-audit** (cmd): Auditar dependencias entre reglas de dominio, comandos y agentes — recalcular el índice de hubs
 - **knowledge-lint** (cmd): Health check for the persistent knowledge base — detect orphans, stale refs, missing evidence
 - **knowledge-lint** (script): knowledge-lint.sh — LLM Wiki pattern: periodic knowledge base health check

@@ -1,6 +1,6 @@
 {
-  "hash": "6c11c7301f86",
-  "total": 1082,
+  "hash": "ddae2b43c93d",
+  "total": 1083,
   "resources": [
     {
       "category": "analysis",
@@ -11447,6 +11447,20 @@
       "kind": "script",
       "path": "scripts/hook-latency-audit.sh",
       "description": "hook-latency-audit.sh — SE-037 Slice 1 hook latency enforcement audit."
+    },
+    {
+      "category": "quality",
+      "name": "hook-test-coverage-audit",
+      "intents": [
+        "audit",
+        "bats",
+        "claude",
+        "coverage",
+        "detect"
+      ],
+      "kind": "script",
+      "path": "scripts/hook-test-coverage-audit.sh",
+      "description": "hook-test-coverage-audit.sh — Detect hooks in .claude/hooks/ without BATS tests."
     },
     {
       "category": "quality",
