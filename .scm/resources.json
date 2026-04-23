@@ -1,6 +1,6 @@
 {
-  "hash": "18350f5afdbb",
-  "total": 1081,
+  "hash": "6c11c7301f86",
+  "total": 1082,
   "resources": [
     {
       "category": "analysis",
@@ -9674,6 +9674,20 @@
       "kind": "script",
       "path": "scripts/skillssh-adapter.sh",
       "description": "── skills.sh Adapter — Genera paquetes publicables para skills.sh ──"
+    },
+    {
+      "category": "planning",
+      "name": "slm",
+      "intents": [
+        "dispatcher",
+        "language",
+        "model",
+        "small",
+        "toolchain"
+      ],
+      "kind": "script",
+      "path": "scripts/slm.sh",
+      "description": "slm.sh — Unified SLM (Small Language Model) training toolchain dispatcher."
     },
     {
       "category": "planning",
