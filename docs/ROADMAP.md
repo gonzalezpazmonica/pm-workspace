@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-24 | **Version:** v5.92.0 | **532 commands · 65 agents · 86 skills · 58 hooks (62 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 + hook coverage 18→48/58 batches 39-48, 82.7% — SE-071 bug audit propuesto)**
+**Updated:** 2026-04-24 | **Version:** v5.93.0 | **532 commands · 65 agents · 86 skills · 58 hooks (62 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 + hook coverage 18→48/58 batches 39-48, 82.7% · SE-071 safety hook fix CLOSED · spec triage: 74 PROPOSED → 70 + 5 promoted APPROVED)**
 
 ---
 
@@ -207,6 +207,51 @@ Script transversal: `scripts/opus47-compliance-check.sh` valida los 5 batches co
 Ver propuestas: `docs/propuestas/SE-066-*.md` .. `docs/propuestas/SE-070-*.md`.
 
 ---
+
+## Era 186 extension — Hook coverage ratchet + triage (2026-04-24, IN PROGRESS)
+
+Batches 39-48 anadieron BATS tests a 30 hooks, elevando cobertura de **31% (18/58)** a **82.7% (48/58)** en 10 iteraciones de +3 hooks/batch. 300+ tests certified con score auditor ≥80.
+
+### Milestones hook coverage
+
+| Punto | Tested | Cobertura |
+|---|---|---|
+| Pre-batch-39 | 18/58 | 31% |
+| Batch 42 (50%) | 30/58 | 52% |
+| Batch 47 (75%) | 45/58 | 77.6% |
+| **Batch 48** | **48/58** | **82.7%** |
+
+### Bugs descubiertos via tests
+
+- `cwd-changed-hook.sh` — C# detection crashed on pipefail (batch 41) — FIXED
+- `emotional-regulation-monitor.sh` — numeric score parsing crash (batch 41) — FIXED
+- `memory-auto-capture.sh` — TOOL_NAME unbound guard (batch 44) — FIXED
+- **SE-071** `block-branch-switch-dirty.sh` — `profile_gate "minimal"` tier invalido, safety hook silent-disabled bajo profile default (batch 48) — **FIXED** con Monica approval
+
+### Spec triage 2026-04-24
+
+Post-batch 48: triage de los 74 specs en `status: PROPOSED` para reducir ruido en backlog y promover candidatos alineados con el trabajo actual.
+
+| Accion | Cantidad |
+|---|---:|
+| Promoted a APPROVED | 5 |
+| Priority alta asignada | 9 (era 5+4) |
+| Priority media asignada | 33 |
+| Priority baja asignada | 21 |
+| Sin priority (meta/ADR/TEMPLATE) | 6 |
+| Ya APPROVED pre-triage | 4 (SE-028, SE-042, SPEC-023, SPEC-080) |
+
+### Nuevos APPROVED (ready for sprint)
+
+| Spec | Titulo | Rationale |
+|---|---|---|
+| **SE-038** | Agent catalog size audit (Rule #22) | Mechanical compliance, bajo esfuerzo |
+| **SE-039** | Test-auditor global sweep ≥80 sobre todos los .bats | Aligned con batch 48 hook coverage work |
+| **SE-065** | responsibility-judge S-06 i18n (ES false positives) | Already debugged en workarounds previos |
+| **SE-070** | Opus 4.7 calibration scorecard (37 agents A/B) | Aligned Era 186 Opus 4.7 focus |
+| **SPEC-120** | Spec template alignment con github/spec-kit | Small template cleanup |
+
+Backlog APPROVED total: **9 specs** (5 nuevos + 4 training pipeline pre-existentes).
 
 ### Backlog (blocked or low priority)
 

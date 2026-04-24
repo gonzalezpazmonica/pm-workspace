@@ -5,6 +5,7 @@ status: PROPOSED
 origin: Savia autonomous roadmap — Top pick #5 del research 2026-04-17
 author: Savia
 related: SAVIA-SUPERPOWERS-ROADMAP.md
+priority: media
 ---
 
 # SPEC-123 — Temporal Pattern en knowledge-graph

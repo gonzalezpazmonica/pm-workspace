@@ -8,6 +8,7 @@ related: dag-plan, dag-execute, dag-scheduling, wave-executor, spec-slice
 approved_at: null
 applied_at: null
 expires: "2026-05-16"
+priority: alta
 ---
 
 # SE-034 — Workflow node typing

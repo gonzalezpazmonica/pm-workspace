@@ -8,6 +8,7 @@ related: agent-trace skill, session-actions.jsonl, SPEC-108 agent self-improveme
 approved_at: null
 applied_at: null
 expires: "2026-06-18"
+priority: baja
 ---
 
 # SE-040 — Agent Degradation Canary

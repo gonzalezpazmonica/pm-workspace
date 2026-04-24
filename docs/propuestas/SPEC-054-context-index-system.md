@@ -1,6 +1,7 @@
 ---
 id: SPEC-054
 status: PROPOSED
+priority: media
 ---
 
 # SPEC-054 — Context Index System

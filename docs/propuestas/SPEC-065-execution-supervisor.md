@@ -1,6 +1,7 @@
 ---
 id: SPEC-065
 status: PROPOSED
+priority: media
 ---
 
 # SPEC-065 — Execution Supervisor

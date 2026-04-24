@@ -1,6 +1,7 @@
 ---
 id: SPEC-045
 status: PROPOSED
+priority: media
 ---
 
 # SPEC-045 — Exploration Collapse Detection for Instincts

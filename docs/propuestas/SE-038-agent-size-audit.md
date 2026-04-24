@@ -1,13 +1,14 @@
 ---
 id: SE-038
 title: Agent catalog size audit — Rule #22 compliance 65 agentes <4KB
-status: PROPOSED
+status: APPROVED
 origin: ROADMAP-UNIFIED-20260418 Wave 4 D3 + Rule #22 enforcement
 author: Savia
 related: .claude/agents/, docs/rules/domain/critical-rules-extended.md
 approved_at: null
 applied_at: null
 expires: "2026-06-18"
+priority: alta
 ---
 
 # SE-038 — Agent catalog size audit

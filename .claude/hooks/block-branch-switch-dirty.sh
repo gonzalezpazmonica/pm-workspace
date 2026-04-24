@@ -6,7 +6,7 @@ set -uo pipefail
 
 LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
 if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
-  source "$LIB_DIR/profile-gate.sh" && profile_gate "minimal"
+  source "$LIB_DIR/profile-gate.sh" && profile_gate "security"
 fi
 
 # Read hook input

@@ -4,6 +4,7 @@ title: SPEC-062 — SaviaDivergent Implementation Roadmap
 status: PROPOSED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+priority: baja
 ---
 
 # SPEC-062 — SaviaDivergent Implementation Roadmap

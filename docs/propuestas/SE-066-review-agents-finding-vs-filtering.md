@@ -4,7 +4,7 @@ title: SE-066 — Review agents finding-vs-filtering separation for Opus 4.7
 status: IMPLEMENTED
 origin: Opus 4.7 migration analysis 2026-04-23
 author: Savia
-priority: Alta
+priority: alta
 effort: S 4h
 gap_link: Opus 4.7 follows filter instructions more literally → recall drop on code review
 approved_at: "2026-04-23"

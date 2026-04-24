@@ -4,7 +4,7 @@ title: SE-056 — Python SBOM + virtualenv enforcement
 status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md §4.8
 author: Savia
-priority: Media
+priority: media
 effort: M 8h
 gap_link: 5 py scripts sin requirements.txt, reproducibilidad frágil
 approved_at: "2026-04-22"

@@ -5,6 +5,7 @@ status: PROPOSED
 origin_date: "2026-03-23"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+priority: media
 ---
 
 # SPEC-037: Cognitive Memory Sectors — Memoria por Tipo con Decay Propio

@@ -1,10 +1,10 @@
 ---
 id: SE-065
 title: SE-065 — responsibility-judge S-06 false positives on Spanish prose
-status: PROPOSED
+status: APPROVED
 origin: batch 30 friction encounter 2026-04-22
 author: Savia
-priority: Baja
+priority: alta
 effort: XS 1-2h
 gap_link: Spanish prose in CHANGELOG fragments triggers code-shortcut detector
 approved_at: null

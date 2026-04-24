@@ -4,7 +4,7 @@ title: SE-043 — CLAUDE.md drift-auto-check pre-commit
 status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
-priority: Alta
+priority: alta
 effort: S 4h
 gap_link: D1/D2/D3/D4
 approved_at: "2026-04-20"

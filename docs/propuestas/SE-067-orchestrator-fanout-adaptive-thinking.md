@@ -4,7 +4,7 @@ title: SE-067 — Orchestrator subagent fan-out + feasibility-probe adaptive thi
 status: IMPLEMENTED
 origin: Opus 4.7 migration analysis 2026-04-23
 author: Savia
-priority: Alta
+priority: alta
 effort: S 3h
 gap_link: Opus 4.7 spawns fewer subagents + deprecates fixed budget_tokens
 approved_at: "2026-04-23"

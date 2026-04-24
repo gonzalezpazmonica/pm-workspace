@@ -5,6 +5,7 @@ status: PROPOSED
 origin: opendataloader-pdf accessibility pipeline (2026-04-15)
 severity: Media
 effort: ~4h (bloqueado hasta opendataloader Q2 2026)
+priority: baja
 ---
 
 # SPEC-104: Tagged PDF Output for Compliance Reports

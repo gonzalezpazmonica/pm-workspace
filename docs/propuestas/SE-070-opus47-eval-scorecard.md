@@ -1,10 +1,10 @@
 ---
 id: SE-070
 title: SE-070 — Opus 4.7 calibration scorecard for 37 sonnet-4-6 agents
-status: PROPOSED
+status: APPROVED
 origin: Opus 4.7 migration analysis 2026-04-23
 author: Savia
-priority: Baja
+priority: alta
 effort: L 12h (deferred execution)
 gap_link: 37 sonnet agents may benefit from xhigh opus-4-7 but upgrade needs empirical A/B
 approved_at: "2026-04-23"

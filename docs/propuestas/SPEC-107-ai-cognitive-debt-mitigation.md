@@ -14,6 +14,7 @@ related_rules:
   - .claude/rules/domain/dev-session-protocol.md
   - .claude/rules/domain/emotional-regulation.md
   - .claude/rules/domain/verification-before-done.md
+priority: baja
 ---
 
 # SPEC-107: AI Cognitive Debt Mitigation

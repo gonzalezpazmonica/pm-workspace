@@ -5,6 +5,7 @@ status: PROPOSED
 origin: bytebell.ai blog series (Dic '25 – Ene '26)
 author: Savia
 related: SE-028, SE-029, knowledge-graph, eval-run, verify-full
+priority: baja
 ---
 
 # SE-030 — GraphRAG Quality Gates

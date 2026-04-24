@@ -1,11 +1,13 @@
 ---
 id: SE-071
 title: Profile gate invalid tier audit — block-branch-switch-dirty + otros hooks
-status: PROPOSED
+status: IMPLEMENTED
 priority: alta
 origin: batch 48 hook coverage — test discovery
 author: Savia
 related: profile-gate.sh, block-branch-switch-dirty.sh
+implemented_at: 2026-04-24
+approved_by: gonzalezpazmonica
 ---
 
 # SE-071 — Profile gate invalid tier audit
@@ -89,3 +91,18 @@ Cualquier tier !=  {security, standard, strict} es bug.
 - agent_effort_minutes: 15 (fix + audit + test update)
 - human_effort_hours: 0.5 (review del diff + approval)
 - review_effort_minutes: 15
+
+## Resolution (2026-04-24)
+
+Aprobado por Monica. Cambios aplicados:
+
+1. **Fix**: `.claude/hooks/block-branch-switch-dirty.sh` linea 9: `profile_gate "minimal"` a `profile_gate "security"`.
+2. **Audit**: ejecutado `grep -rn 'profile_gate' .claude/hooks/` — resultados finales:
+   - 27 hooks tier `standard` (valid)
+   - 8 hooks tier `security` (valid)
+   - 3 hooks tier `strict` (valid)
+   - 0 hooks con tier invalido (bug unico en block-branch-switch-dirty.sh)
+3. **Test update**: `tests/test-block-branch-switch-dirty.bats` — eliminado `SAVIA_HOOK_PROFILE=strict` bypass, anadido test regression `SE-071 regression: no invalid tier 'minimal' remains`.
+4. **Verificacion manual**: dirty checkout ahora bloquea con exit 2 bajo profile default.
+
+Tests pasan 36/36.

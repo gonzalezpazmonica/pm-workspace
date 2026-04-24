@@ -4,7 +4,7 @@ title: SE-055 — .opencode parity generator desde single source
 status: PROPOSED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
-priority: Baja
+priority: baja
 effort: M 6h
 gap_link: D10
 approved_at: null

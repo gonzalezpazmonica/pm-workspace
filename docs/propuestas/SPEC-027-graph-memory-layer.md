@@ -7,6 +7,7 @@ notes: SPEC-123 (graphiti temporal pattern) y SE-030 (GraphRAG quality gates) co
 origin_date: "2026-03-22"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+priority: media
 ---
 
 # SPEC-027: Graph Memory Layer — Entity-Relation Extraction

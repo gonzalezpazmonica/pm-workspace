@@ -65,8 +65,14 @@ for f in "$PROPOSALS_DIR"/SE-*.md; do
   SCANNED=$((SCANNED + 1))
   grep -q '^status:[[:space:]]*PROPOSED' "$f" || continue
   # Exempt specs explicitly tagged low-priority (intentionally deferred backlog).
-  # Rationale: priority: Baja signals "do-when-there-is-demand", not drift.
-  if grep -qE '^priority:[[:space:]]*(Baja|Low)' "$f"; then
+  # Rationale: priority: baja signals "do-when-there-is-demand", not drift.
+  # Case-insensitive: accepts both "Baja" (legacy) and "baja" (post-triage normalized).
+  if grep -qiE '^priority:[[:space:]]*(baja|low)' "$f"; then
+    continue
+  fi
+  # Exempt specs explicitly tagged as non-drift (legitimately PROPOSED despite refs,
+  # e.g. convergence metadata, creation CHANGELOG self-reference).
+  if grep -qE '^drift_audit_exempt:[[:space:]]*true' "$f"; then
     continue
   fi
   spec_id=$(grep -m1 '^id:' "$f" | awk '{print $2}')
