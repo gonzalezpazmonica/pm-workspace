@@ -156,7 +156,7 @@ teardown() {
 # ── Active project hint ─────────────────────────────────
 
 @test "project: active project hint injected when in projects/ dir" {
-  local repo_root proj_name="bats-sample-project"
+  local repo_root proj_name="bats-fixture-proj"
   repo_root=$(pwd)
   local proj_path="$repo_root/projects/$proj_name"
   mkdir -p "$proj_path"
