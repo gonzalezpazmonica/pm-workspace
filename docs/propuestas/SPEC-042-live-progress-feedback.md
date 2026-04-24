@@ -5,6 +5,7 @@ status: PROPOSED
 origin_date: "2026-03-29"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+priority: media
 ---
 
 # SPEC-042: Live Progress Feedback — Visibilidad en tiempo real del trabajo de Savia

@@ -4,7 +4,7 @@ title: SE-060 — Hook Injection + Hidden Directives Audit
 status: IMPLEMENTED
 origin: output/research/agentshield-20260420.md (inspired by 34 hook + 25 agent rules)
 author: Savia
-priority: Alta
+priority: alta
 effort: M 6h
 gap_link: Hook command-injection + zero-width/base64 directives no detectados
 approved_at: "2026-04-20"

@@ -4,7 +4,7 @@ title: SE-062 — Era 184 Consolidation + Hygiene post-Era 183
 status: IMPLEMENTED
 origin: drift audit post-Era 183 (batch 23, 2026-04-22)
 author: Savia
-priority: Alta
+priority: alta
 effort: M 12-15h
 gap_link: Drift doc/realidad + deuda post-22-batches
 approved_at: "2026-04-22"

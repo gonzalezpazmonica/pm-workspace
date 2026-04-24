@@ -4,7 +4,7 @@ title: SE-048 — Rule-orphan detector (handoff-protocol caso seed)
 status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
-priority: Alta
+priority: alta
 effort: M 6h
 gap_link: D9 gap SPEC-121
 approved_at: "2026-04-20"

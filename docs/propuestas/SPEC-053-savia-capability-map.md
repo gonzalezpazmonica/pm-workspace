@@ -1,6 +1,7 @@
 ---
 id: SPEC-053
 status: PROPOSED
+priority: media
 ---
 
 # SPEC-053 — Savia Capability Map (.scm)

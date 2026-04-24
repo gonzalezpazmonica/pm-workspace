@@ -38,21 +38,19 @@ setup_clean_repo() {
   [[ "$output" -ge 1 ]]
 }
 @test "passes bash -n syntax" { run bash -n "$HOOK"; [ "$status" -eq 0 ]; }
-@test "security tier (minimal profile)" {
-  run grep -c 'profile_gate "minimal"\|Tier: security' "$HOOK"
+@test "security tier correctly declared" {
+  # After SE-071 fix: hook uses profile_gate "security" (valid tier).
+  # Active in all profiles: minimal/standard/strict/ci.
+  run grep -c 'profile_gate "security"' "$HOOK"
   [[ "$output" -ge 1 ]]
 }
 
-@test "documented bug: profile_gate called with invalid tier 'minimal'" {
-  # The hook uses profile_gate "minimal" but "minimal" is a PROFILE VALUE,
-  # not a TIER (tiers are: security | standard | strict). Under SAVIA_HOOK_PROFILE=standard
-  # (the default), the profile_gate function exits 0 because "minimal" matches
-  # neither "security" nor "standard" in the case branch, silently skipping the hook.
-  # FIX (requires human approval on safety hook): change "minimal" to "security".
-  # TESTS here use SAVIA_HOOK_PROFILE=strict in block-path assertions to bypass the bug
-  # via the strict case fallthrough (all tiers run).
+@test "SE-071 regression: no invalid tier 'minimal' remains" {
+  # Regression test — ensures bug SE-071 doesn't silently reappear.
+  # "minimal" is a PROFILE value, not a TIER (tiers: security/standard/strict).
+  # If this test fails, the safety hook is silent-disabled under default profile.
   run grep -c 'profile_gate "minimal"' "$HOOK"
-  [[ "$output" -ge 1 ]]
+  [[ "$output" -eq 0 ]]
 }
 
 # ── Pass-through ────────────────────────────────────────
@@ -101,7 +99,7 @@ setup_clean_repo() {
 
 @test "clean: git switch with clean tree exits 0" {
   setup_clean_repo
-  SAVIA_HOOK_PROFILE=strict run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git switch feature"}}'
+  run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git switch feature"}}'
   [ "$status" -eq 0 ]
   cd "$BATS_TEST_DIRNAME/.."
 }
@@ -136,7 +134,7 @@ setup_clean_repo() {
 @test "block: git checkout with modified file exits 2" {
   setup_clean_repo
   echo "modified content" > a.txt
-  SAVIA_HOOK_PROFILE=strict run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
+  run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
   [ "$status" -eq 2 ]
   [[ "${output}${stderr:-}" == *"BLOQUEADO"* ]]
   cd "$BATS_TEST_DIRNAME/.."
@@ -145,7 +143,7 @@ setup_clean_repo() {
 @test "block: git switch with modified file exits 2" {
   setup_clean_repo
   echo "modified" > a.txt
-  SAVIA_HOOK_PROFILE=strict run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git switch feature"}}'
+  run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git switch feature"}}'
   [ "$status" -eq 2 ]
   [[ "${output}${stderr:-}" == *"BLOQUEADO"* ]]
   cd "$BATS_TEST_DIRNAME/.."
@@ -154,7 +152,7 @@ setup_clean_repo() {
 @test "block: git checkout with untracked files exits 2" {
   setup_clean_repo
   echo "new file" > newfile.txt
-  SAVIA_HOOK_PROFILE=strict run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
+  run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
   [ "$status" -eq 2 ]
   cd "$BATS_TEST_DIRNAME/.."
 }
@@ -162,7 +160,7 @@ setup_clean_repo() {
 @test "block: git checkout -b with dirty tree exits 2" {
   setup_clean_repo
   echo "modified" > a.txt
-  SAVIA_HOOK_PROFILE=strict run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout -b new-feature"}}'
+  run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout -b new-feature"}}'
   [ "$status" -eq 2 ]
   cd "$BATS_TEST_DIRNAME/.."
 }
@@ -170,7 +168,7 @@ setup_clean_repo() {
 @test "block: warning message includes git stash suggestion" {
   setup_clean_repo
   echo "modified" > a.txt
-  SAVIA_HOOK_PROFILE=strict run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
+  run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
   [[ "${output}${stderr:-}" == *"git stash"* ]]
   cd "$BATS_TEST_DIRNAME/.."
 }
@@ -178,7 +176,7 @@ setup_clean_repo() {
 @test "block: warning mentions git add + commit option" {
   setup_clean_repo
   echo "modified" > a.txt
-  SAVIA_HOOK_PROFILE=strict run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
+  run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
   [[ "${output}${stderr:-}" == *"git add"* ]]
   [[ "${output}${stderr:-}" == *"git commit"* ]]
   cd "$BATS_TEST_DIRNAME/.."
@@ -188,7 +186,7 @@ setup_clean_repo() {
   setup_clean_repo
   echo "mod" > a.txt
   echo "new" > b.txt
-  SAVIA_HOOK_PROFILE=strict run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
+  run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
   [[ "${output}${stderr:-}" == *"modificados"* ]]
   [[ "${output}${stderr:-}" == *"rastrear"* ]]
   cd "$BATS_TEST_DIRNAME/.."
@@ -234,7 +232,7 @@ setup_clean_repo() {
 @test "edge: very large dirty tree (>20 files) listed truncated" {
   setup_clean_repo
   for i in $(seq 1 30); do echo "new" > "file-$i.txt"; done
-  SAVIA_HOOK_PROFILE=strict run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
+  run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
   [ "$status" -eq 2 ]
   cd "$BATS_TEST_DIRNAME/.."
 }
@@ -287,7 +285,8 @@ setup_clean_repo() {
   echo "modified" > a.txt
   local before_hash after_hash
   before_hash=$(sha256sum a.txt | cut -d' ' -f1)
-  bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}' >/dev/null 2>&1
+  # Hook exits 2 when blocking — capture exit code but still verify no modification
+  bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}' >/dev/null 2>&1 || true
   after_hash=$(sha256sum a.txt | cut -d' ' -f1)
   [[ "$before_hash" == "$after_hash" ]]
   cd "$BATS_TEST_DIRNAME/.."

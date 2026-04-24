@@ -4,7 +4,7 @@ title: SE-058 — MCP Security Audit
 status: IMPLEMENTED
 origin: output/research/agentshield-20260420.md (inspired by agentshield 23 MCP rules)
 author: Savia
-priority: Alta
+priority: alta
 effort: M 8h
 gap_link: MCP supply chain sin auditar (npx -y, auto-approve, remote transport)
 approved_at: "2026-04-21"

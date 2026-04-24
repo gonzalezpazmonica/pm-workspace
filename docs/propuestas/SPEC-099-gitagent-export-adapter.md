@@ -5,6 +5,7 @@ status: PROPOSED
 origin: open-gitagent/gitagent analysis (2026-04-15)
 severity: Alta
 effort: ~16h (2 días)
+priority: baja
 ---
 
 # SPEC-099: gitagent Export Adapter

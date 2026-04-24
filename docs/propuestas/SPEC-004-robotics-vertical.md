@@ -5,6 +5,7 @@ status: PROPOSED
 origin_date: "2026-03-21"
 migrated_at: "2026-04-18"
 migrated_from: body-prose
+priority: baja
 ---
 
 # SPEC-004: Savia Robotics Vertical — IA en el mundo físico

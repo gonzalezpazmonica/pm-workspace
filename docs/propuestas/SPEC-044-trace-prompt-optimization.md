@@ -1,6 +1,7 @@
 ---
 id: SPEC-044
 status: PROPOSED
+priority: media
 ---
 
 # SPEC-044 — Trace-to-Prompt Optimization Loop

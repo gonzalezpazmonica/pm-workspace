@@ -13,6 +13,7 @@ related_rules:
   - .claude/rules/domain/agent-memory-isolation.md
   - .claude/rules/domain/postmortem-policy.md
   - .claude/rules/domain/adversarial-security.md
+priority: media
 ---
 
 # SPEC-108: Agent Self-Improvement Loop + Sentry Root Cause Pipeline

@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.93.0] — 2026-04-24
+
+SE-071 safety hook fix + spec triage + roadmap update.
+
+### Fixed
+- `.claude/hooks/block-branch-switch-dirty.sh`: `profile_gate "minimal"` a `profile_gate "security"`. SE-071 resolved with Monica approval. Bug: "minimal" invalid tier silently disabled safety hook under profile default. Verified fix blocks dirty checkout with exit 2.
+
+### Changed
+- **Spec triage** (74 PROPOSED specs): 5 promoted to APPROVED (SE-038, SE-039, SE-065, SE-070, SPEC-120), 9 alta, 33 media, 21 baja, 6 skipped (meta/ADR/TEMPLATE).
+- Priority normalization: `Baja`/`Alta`/`Media` a lowercase globally.
+- `docs/ROADMAP.md`: nueva seccion "Era 186 extension — Hook coverage ratchet + triage". Tabla milestones hook coverage 18/58 a 48/58, bugs descubiertos via tests (4), triage results, nuevos APPROVED con rationale.
+- `tests/test-block-branch-switch-dirty.bats`: removido bypass `SAVIA_HOOK_PROFILE=strict` en 10 block-path tests. Anadido regression test `SE-071 regression: no invalid tier 'minimal' remains`. 36/36 PASS.
+
+### Audit
+- `grep -rn 'profile_gate "[^"]*"' .claude/hooks/` sobre 58 hooks: 27 standard + 8 security + 3 strict = 38 valid, 0 invalid. Bug SE-071 fue unico.
+
+### Context
+Post-batch 48, limpieza del backlog y cierre del bug de safety hook descubierto durante testing. Backlog APPROVED final: 9 specs (5 nuevos alineados con trabajo actual + 4 training pipeline bloqueados por GPU).
+
+Version bump 5.92.0 a 5.93.0.
+
 ## [5.92.0] — 2026-04-24
 
 Batch 48 — Hook coverage +3: bash-output-compress, block-branch-switch-dirty, compress-agent-output. **Bug real descubierto via tests (SE-071).**
@@ -8224,6 +8245,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.92.0...v5.93.0
 [5.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.91.0...v5.92.0
 [5.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.90.0...v5.91.0
 [5.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.89.0...v5.90.0

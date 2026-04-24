@@ -1,6 +1,7 @@
 ---
 id: SPEC-046
 status: PROPOSED
+priority: media
 ---
 
 # SPEC-046: Visual Diff QA at Merge Time

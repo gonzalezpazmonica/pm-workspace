@@ -1,6 +1,7 @@
 ---
 id: SPEC-078
 status: PROPOSED
+priority: alta
 ---
 
 # SPEC-078: Dual Estimation — Agent-Time vs Human-Time

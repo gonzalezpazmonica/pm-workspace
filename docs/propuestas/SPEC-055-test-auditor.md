@@ -1,6 +1,7 @@
 ---
 id: SPEC-055
 status: PROPOSED
+priority: alta
 ---
 
 # SPEC-055 — Test Auditor System

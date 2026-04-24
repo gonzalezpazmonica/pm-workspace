@@ -4,7 +4,7 @@ title: SE-044 — Spec-ID duplicate-guard y ADR resolucion SPEC-110
 status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
-priority: Alta
+priority: alta
 effort: S 3h
 gap_link: D7/D21
 approved_at: "2026-04-20"

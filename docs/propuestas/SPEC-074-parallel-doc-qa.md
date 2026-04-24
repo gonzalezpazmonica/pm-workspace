@@ -5,6 +5,7 @@ status: PROPOSED
 origin_date: "2026-03-25"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+priority: media
 ---
 
 # SPEC-074: Parallel Doc QA — Digestión Paralela de Múltiples Documentos
