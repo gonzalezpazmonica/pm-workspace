@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.94.0] — 2026-04-24
+
+SE-039 Test-auditor global sweep — IMPLEMENTED. Baseline 100% (232/232 ≥80, avg 87).
+
+### Added
+- `tests/test-audit-all-bats.bats` — 38 tests certified (score 97). Coverage de `scripts/audit-all-bats.sh` (Slice 1 sweep script pre-existente).
+- `.github/workflows/bats-audit-sweep.yml` — Weekly cron (lunes 06:00 UTC) + manual dispatch. 10min timeout, workflow annotation, artifact upload 30d retention, GitHub Step Summary.
+- `docs/rules/domain/test-quality-gate.md` — Doctrine doc: SLA ≥80/file + ≥95% soft target + avg ≥85. 3 enforcement layers, 9 scoring criteria de SPEC-055, 6-step remediation playbook, historia baseline.
+- `output/bats-audit-sweep-20260424.md` — Baseline report: 232/232 compliant, avg 87, 13 tests en bottom decile (score=80).
+
+### Changed
+- `docs/propuestas/SE-039-test-auditor-global-sweep.md`: status APPROVED a IMPLEMENTED. 5/6 AC cumplidos (AC-06 mutation testing integration deferred per SE-035 dependency). Resolution section con breakdown per-slice.
+
+### Context
+Slice 2 remediation (bottom-10 fix) resulto N/A — probe Slice 1 demostro 100% compliance pre-existente. Per criterio "Spec Ops / Probe" del propio spec ("si ≥95% ya está ≥80, abort"), cerrado sin remediation.
+
+Queue APPROVED: 9 a 8 (-1). IMPLEMENTED: 55 a 56 (+1). Proximos disponibles en dev: SE-038, SE-065, SE-070, SPEC-120 (4 GPU-blocked en espera).
+
+Version bump 5.93.0 a 5.94.0.
+
 ## [5.93.0] — 2026-04-24
 
 SE-071 safety hook fix + spec triage + roadmap update.
@@ -8245,6 +8265,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.93.0...v5.94.0
 [5.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.92.0...v5.93.0
 [5.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.91.0...v5.92.0
 [5.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.90.0...v5.91.0

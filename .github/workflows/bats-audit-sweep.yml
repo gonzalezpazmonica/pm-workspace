@@ -1,0 +1,91 @@
+name: BATS Audit Sweep (SE-039 Slice 3)
+
+# SE-039 Slice 3 — Weekly full sweep of test-auditor over all .bats files.
+# Reports regressions (>5% of tests below 80) as artifact + workflow annotation.
+# Ref: docs/propuestas/SE-039-test-auditor-global-sweep.md
+
+on:
+  schedule:
+    # Every Monday at 06:00 UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      min_score:
+        description: 'Minimum score threshold'
+        required: false
+        default: '80'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bats-audit-sweep-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install bats and python3
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq -y bats python3
+
+      - name: Run full audit sweep
+        id: audit
+        run: |
+          set -uo pipefail
+          MIN="${{ inputs.min_score || '80' }}"
+          bash scripts/audit-all-bats.sh --min-score "$MIN" 2>&1 | tee audit-output.txt
+
+          # Parse the summary line
+          TOTAL=$(grep -oE 'total=[0-9]+' audit-output.txt | grep -oE '[0-9]+')
+          COMPLIANT=$(grep -oE 'compliant=[0-9]+' audit-output.txt | grep -oE '[0-9]+')
+          AVG=$(grep -oE 'avg=[0-9]+' audit-output.txt | grep -oE '[0-9]+')
+
+          echo "total=$TOTAL" >> "$GITHUB_OUTPUT"
+          echo "compliant=$COMPLIANT" >> "$GITHUB_OUTPUT"
+          echo "avg=$AVG" >> "$GITHUB_OUTPUT"
+
+          # Compute compliance pct
+          if [[ "$TOTAL" -gt 0 ]]; then
+            PCT=$(( COMPLIANT * 100 / TOTAL ))
+          else
+            PCT=0
+          fi
+          echo "pct=$PCT" >> "$GITHUB_OUTPUT"
+
+          # Annotation
+          echo "::notice::BATS Audit Sweep — $COMPLIANT/$TOTAL compliant ($PCT%), avg score $AVG"
+
+          # Regression gate: <95% triggers warning
+          if [[ "$PCT" -lt 95 ]]; then
+            echo "::warning::Test quality regression — $PCT% compliance below 95% target (AC-03)"
+          fi
+
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bats-audit-sweep-report
+          path: output/bats-audit-sweep-*.md
+          retention-days: 30
+
+      - name: Summary
+        run: |
+          echo "## BATS Audit Sweep — Weekly Report" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Metric | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---:|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Total files | ${{ steps.audit.outputs.total }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Compliant (≥80) | ${{ steps.audit.outputs.compliant }} (${{ steps.audit.outputs.pct }}%) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Average score | ${{ steps.audit.outputs.avg }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [[ "${{ steps.audit.outputs.pct }}" -ge 95 ]]; then
+            echo "✅ Compliance ≥95% — AC-03 met." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "⚠️ Compliance below 95% target. Report attached as artifact." >> "$GITHUB_STEP_SUMMARY"
+          fi
