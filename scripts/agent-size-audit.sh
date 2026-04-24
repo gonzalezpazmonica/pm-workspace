@@ -24,6 +24,10 @@ usage() {
   cat <<EOF
 Usage: $0 [--quiet] [--ratchet] [--baseline N]
 
+Audits .claude/agents/*.md against Rule #22 SLA (<4096 bytes each).
+Flags violations unless the agent has a documented size_exception marker
+in its frontmatter.
+
   --quiet       Suppress stdout summary, write report only.
   --ratchet     Compare against .ci-baseline/agent-size-violations.count and
                 exit 1 only if violations EXCEED baseline (never-loosen policy).
@@ -31,7 +35,7 @@ Usage: $0 [--quiet] [--ratchet] [--baseline N]
 
 Exit codes:
   0 — no violations OR violations <= baseline (with --ratchet)
-  1 — violations present (default) OR violations > baseline (with --ratchet)
+  1 — Rule #22 violations present OR violations > baseline (with --ratchet)
   2 — usage error
 
 Output: $REPORT
