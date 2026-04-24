@@ -1,0 +1,7 @@
+[Replace with the actual prompt used to invoke the agent.]
+
+Context: [describe input/scenario in 2-3 sentences]
+
+Task: [what should the agent produce]
+
+Expected format: [structured output, markdown, JSON, etc.]

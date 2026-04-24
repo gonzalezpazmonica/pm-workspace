@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.98.0] — 2026-04-24
+
+SE-070 Opus 4.7 calibration scorecard — IMPLEMENTED (Slice 1-3, Slice 4 deferred). **Backlog APPROVED sin-GPU cerrado.**
+
+### Added
+- `scripts/opus47-calibration-scorecard.sh` — Slice 1. Lists 37 sonnet-4-6 agents con cost delta +1025% estimate + golden-set detection. CLI `--help/--quiet/--json`. Outputs YAML + MD.
+- `tests/golden/opus47-calibration/` — Slice 2. README + TEMPLATE (prompt/expected/score.yaml) para A/B eval scaffolding.
+- `docs/rules/domain/opus47-calibration-playbook.md` — Slice 3. 6-step workflow + decision matrix (quality_cost_ratio >= 2.0 upgrade) + 5 anti-patterns + rollback + cost guidance (~$27 full suite).
+- `tests/test-opus47-calibration-scorecard.bats` — 45 tests certified (score 98). Coverage CLI, cost model, golden detection, slice 2/3 files.
+
+### Changed
+- `docs/propuestas/SE-070-opus47-eval-scorecard.md`: status APPROVED → IMPLEMENTED. Resolution section con breakdown per-slice. 4/5 AC cumplidos (AC-03 Slice 4 evals deferred per spec).
+
+### Context
+Slice 4 (3 actual A/B evals) deferred per spec's own "defer execution until batch budget allows" criterion. Infrastructure 100% ready; ~$2.20 API cost + human eval time pending.
+
+Queue APPROVED: 5 → 4 (-1). Los 4 restantes (SE-028, SE-042, SPEC-023, SPEC-080) son TODOS GPU-blocked. **Ningún APPROVED ejecutable sin GPU queda en queue.**
+
+Próximo trabajo autónomo: hook coverage continuar hacia 85%, o PROPOSED priority alta (SE-034, SPEC-055, SPEC-078, SPEC-121, SPEC-122, SPEC-124).
+
+Version bump 5.97.0 → 5.98.0.
+
 ## [5.97.0] — 2026-04-24
 
 SPEC-120 Spec template alignment con github/spec-kit — IMPLEMENTED.
@@ -8327,6 +8349,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.97.0...v5.98.0
 [5.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.96.0...v5.97.0
 [5.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.95.0...v5.96.0
 [5.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.94.0...v5.95.0
