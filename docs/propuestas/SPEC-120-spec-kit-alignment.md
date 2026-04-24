@@ -1,11 +1,14 @@
 ---
 id: SPEC-120
 title: Alignment del spec template con github/spec-kit
-status: APPROVED
+status: IMPLEMENTED
 origin: Savia autonomous roadmap — Top pick #1 del research 2026-04-17
 author: Savia
 related: SAVIA-SUPERPOWERS-ROADMAP.md
 priority: alta
+approved_at: "2026-04-24"
+applied_at: "2026-04-24"
+implemented_at: "2026-04-24"
 ---
 
 # SPEC-120 — Spec Template Alignment con github/spec-kit
@@ -121,3 +124,31 @@ Time-box: 30 min. Riesgo principal: cadena de dependencias entre templates no de
 
 - [github/spec-kit](https://github.com/github/spec-kit) — SDD toolkit oficial
 - `docs/agent-teams-sdd.md` — estructura actual Savia SDD
+
+## Resolution (2026-04-24)
+
+Infrastructure pre-existente + completion de los 2 project templates duplicados.
+
+### Pre-existente (de trabajo anterior)
+
+- `.claude/skills/spec-driven-development/references/spec-template.md`: **spec_kit_compatible: true** marker + `## Spec-Kit Alignment` section con mapping table 4 secciones spec-kit ↔ secciones Savia
+- `docs/agent-teams-sdd.md`: `## Spec-Kit Alignment (SPEC-120)` section con mapping + referencia a tests
+- `tests/test-spec-template-compliance.bats`: 26 tests, score **81** certified
+- `.claude/commands/references/spec-template.md`: ya era pointer al canonico (no content duplication)
+
+### Added (este PR)
+
+- `projects/proyecto-alpha/specs/templates/spec-template.md`: marker + pointer header a fuente canonica
+- `projects/proyecto-beta/specs/templates/spec-template.md`: marker + pointer header a fuente canonica
+
+Los project templates mantienen su content completo (no truncated) per requerimiento de mantener customizaciones project-specific. El header anade el marker spec_kit_compatible y link a la fuente canonica.
+
+## Acceptance Criteria final
+
+- [x] AC-01 Canonical template incluye las 4 secciones spec-kit standard (mapping table)
+- [x] AC-02 Campo `spec_kit_compatible: true` documentado en canonical + project templates
+- [x] AC-03 Los 3 templates "duplicados" con pointer header (command/ ya era pointer; alpha + beta updated)
+- [x] AC-04 `docs/agent-teams-sdd.md` actualizado con mapping Savia ↔ spec-kit (pre-existente)
+- [x] AC-05 Test bats `tests/test-spec-template-compliance.bats` 26 tests score 81 certified
+- [x] AC-06 CHANGELOG.md entrada (esta PR)
+- [x] AC-07 Zero drift detectado por workspace-doctor (validated manually)

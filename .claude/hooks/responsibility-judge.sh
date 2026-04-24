@@ -106,12 +106,20 @@ if [[ -z "$PATTERN" ]]; then
   fi
 fi
 
-# S-06: TODO without ticket reference
+# S-06: TODO(#65) without ticket reference — SE-065 i18n fix 2026-04-24
+# Case-sensitive uppercase match (code-comment convention) + markdown/docs exemption.
+# Spanish prose uses common words (e.g. "todo"=everything) that match the sequence
+# when grep is case-insensitive. Uppercase-only + file-type narrowing removes the
+# false positive without weakening real shortcut detection.
 if [[ -z "$PATTERN" ]]; then
-  if echo "$CONTENT" | grep -qiE '(TODO|FIXME|HACK)\b' && \
-     ! echo "$CONTENT" | grep -qiE '(TODO|FIXME|HACK)\s*[\(\[]\s*(AB#|@|#[0-9])'; then
-    PATTERN="S-06"
-    DETAIL="TODO/FIXME without ticket reference"
+  # Skip markdown/docs: prose legitimately uses words matching these sequences.
+  if ! echo "$FILE_PATH" | grep -qiE '\.(md|mdx|txt|rst)$|CHANGELOG\.d/|/docs/'; then
+    # Drop -i flag: code convention is uppercase only.
+    if echo "$CONTENT" | grep -qE '\b(TODO|FIXME|HACK)\b' && \
+       ! echo "$CONTENT" | grep -qE '\b(TODO|FIXME|HACK)\s*[\(\[]\s*(AB#|@|#[0-9])'; then
+      PATTERN="S-06"
+      DETAIL="TODO/FIXME without ticket reference"
+    fi
   fi
 fi
 

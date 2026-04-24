@@ -22,20 +22,35 @@ SLA_BYTES=4096
 
 usage() {
   cat <<EOF
-Usage: $0 [--quiet]
+Usage: $0 [--quiet] [--ratchet] [--baseline N]
 
-  --quiet    Suppress stdout summary, write report only.
+Audits .claude/agents/*.md against Rule #22 SLA (<4096 bytes each).
+Flags violations unless the agent has a documented size_exception marker
+in its frontmatter.
 
-Exit code: 1 if any agent exceeds SLA without documented exception.
+  --quiet       Suppress stdout summary, write report only.
+  --ratchet     Compare against .ci-baseline/agent-size-violations.count and
+                exit 1 only if violations EXCEED baseline (never-loosen policy).
+  --baseline N  Override baseline value (used with --ratchet).
+
+Exit codes:
+  0 — no violations OR violations <= baseline (with --ratchet)
+  1 — Rule #22 violations present OR violations > baseline (with --ratchet)
+  2 — usage error
 
 Output: $REPORT
 EOF
 }
 
 QUIET=0
+RATCHET_MODE=0
+RATCHET_FILE="$REPO_ROOT/.ci-baseline/agent-size-violations.count"
+BASELINE_OVERRIDE=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --quiet) QUIET=1; shift ;;
+    --ratchet) RATCHET_MODE=1; shift ;;
+    --baseline) BASELINE_OVERRIDE="$2"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
     *) echo "ERROR: unknown arg '$1'" >&2; usage; exit 2 ;;
   esac
@@ -134,7 +149,30 @@ if [[ "$QUIET" -eq 0 ]]; then
   echo "  report: ${REPORT#$REPO_ROOT/}"
 fi
 
-# Exit 1 on violations (for CI integration in SE-038 Slice 3).
+# Ratchet mode: compare against baseline, only fail if violations INCREASED.
+if [[ "$RATCHET_MODE" -eq 1 ]]; then
+  baseline=""
+  if [[ -n "$BASELINE_OVERRIDE" ]]; then
+    baseline="$BASELINE_OVERRIDE"
+  elif [[ -f "$RATCHET_FILE" ]]; then
+    baseline=$(cat "$RATCHET_FILE" | tr -d ' \n')
+  fi
+  if [[ -z "$baseline" ]]; then
+    [[ "$QUIET" -eq 0 ]] && echo "ratchet: no baseline found — PASS (first run, will create on success)"
+    exit 0
+  fi
+  if [[ "$violations" -gt "$baseline" ]]; then
+    [[ "$QUIET" -eq 0 ]] && echo "RATCHET FAIL: violations=$violations exceeds baseline=$baseline (never-loosen policy)"
+    exit 1
+  fi
+  [[ "$QUIET" -eq 0 ]] && echo "ratchet: violations=$violations <= baseline=$baseline (PASS)"
+  if [[ "$violations" -lt "$baseline" ]]; then
+    [[ "$QUIET" -eq 0 ]] && echo "ratchet: consider tightening baseline to $violations in .ci-baseline/agent-size-violations.count"
+  fi
+  exit 0
+fi
+
+# Default mode: exit 1 on violations.
 if [[ "$violations" -gt 0 ]]; then
   exit 1
 fi

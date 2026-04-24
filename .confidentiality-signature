@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ffca731afdb580bcd1c05426a839a61cdbe0f0990f43f1a255a52114d0a26170
-timestamp=2026-04-24T19:44:25Z
-branch=agent/se071-fix-specs-triage-20260424
-head_commit=343c3c64
-signature=94f085feacd3c0dc79d18d066bd795ebcbb6bb3aa5ff30f49b247bccae9d50e0
+diff_hash=e66eff29a86a5cdec889ce943cf94ca66224a62e1eb07e0ee701afb4e52fe57e
+timestamp=2026-04-24T20:45:50Z
+branch=agent/spec120-spec-kit-alignment-20260424
+head_commit=9d980b9a
+signature=0a941f715050e78c3300cc00199f1bf644c2cba8158bca944d34013c86d96243

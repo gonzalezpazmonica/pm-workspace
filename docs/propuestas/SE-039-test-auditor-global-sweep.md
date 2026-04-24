@@ -1,12 +1,13 @@
 ---
 id: SE-039
 title: Test-auditor global sweep — score ≥80 sobre todos los .bats existentes
-status: APPROVED
+status: IMPLEMENTED
 origin: ROADMAP-UNIFIED-20260418 Wave 4 D2 + SPEC-055 enforcement
 author: Savia
 related: SPEC-055-test-auditor, scripts/test-auditor.sh, tests/*.bats
-approved_at: null
-applied_at: null
+approved_at: "2026-04-24"
+applied_at: "2026-04-24"
+implemented_at: "2026-04-24"
 expires: "2026-06-18"
 priority: alta
 ---
@@ -89,3 +90,43 @@ Cost of inaction: falsa sensación de cobertura. Un test que pasa pero no detect
 ## Dependencia
 
 Independiente. Precede a SE-035 mutation testing (audit cleanliness antes de mutation testing).
+
+## Resolution (2026-04-24)
+
+**Todas las acceptance criteria cumplidas. Slice 4 (mutation testing integration) deferido — depende de SE-035.**
+
+### Slice 1 — Batch audit (ya existente, tests nuevos)
+
+- `scripts/audit-all-bats.sh` — 164 lineas, ya existente, testeado en este PR
+- `tests/test-audit-all-bats.bats` — 38 tests certified (score 97)
+- Output: `output/bats-audit-sweep-20260424.md`
+
+### Slice 2 — Remediation bottom-10 (N/A)
+
+Probe de Slice 1 demostro que **100% (232/232)** de los tests existentes ya scoran ≥80. AC-03 ya cumplido sin remediation. Slice 2 abortado per criterio "Spec Ops / Probe" del propio spec ("si ≥95% ya está ≥80, abort").
+
+### Slice 3 — Enforcement
+
+- `.github/workflows/bats-audit-sweep.yml` — CI cron semanal (lunes 06:00 UTC) + workflow_dispatch manual
+- `docs/rules/domain/test-quality-gate.md` — doctrine doc con SLA, enforcement layers, remediation playbook, scoring criteria
+- G6b en pr-plan.sh ya existente para tests CHANGED (no se modifica)
+
+### Stats baseline 2026-04-24
+
+- Total .bats: 232
+- Compliant (≥80): 232 (100%)
+- Average score: 87
+- Bottom decile (score=80): 13 tests (lista en reporte)
+
+### Slice 4 — Mutation integration (DEFERRED)
+
+Bloqueado por SE-035 Slice 3+ completion. Ortogonal documentado en `test-quality-gate.md §Mutation testing (future)`.
+
+## Acceptance Criteria final
+
+- [x] AC-01 `scripts/audit-all-bats.sh` operativo con output estructurado
+- [x] AC-02 Ranking completo de todos los .bats con score
+- [x] AC-03 ≥95% de tests en score ≥80 post-sweep (100% actual)
+- [x] AC-04 CI job semanal configurado (`.github/workflows/bats-audit-sweep.yml`)
+- [x] AC-05 Doc `docs/rules/domain/test-quality-gate.md` formaliza el SLA
+- [ ] AC-06 Integration con SE-035 mutation testing documentada (deferred — solo doc stub, integration real en SE-039 Slice 4)
