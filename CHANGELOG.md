@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.92.0] — 2026-04-24
+
+Batch 48 — Hook coverage +3: bash-output-compress, block-branch-switch-dirty, compress-agent-output. **Bug real descubierto via tests (SE-071).**
+
+### Added
+- `tests/test-bash-output-compress.bats` — 30 tests certified (score 90). PostToolUse async rtk-ai inspired token compression. Script delegation, context-tracker metric logging, 30-line threshold.
+- `tests/test-block-branch-switch-dirty.bats` — 36 tests certified (score 90). PreToolUse security. Intercepta git checkout/switch con arbol sucio.
+- `tests/test-compress-agent-output.bats` — 29 tests certified (score 92). PostToolUse Task SPEC-041 P4. Streaming compression >200 tokens en dev-sessions.
+- `docs/propuestas/SE-071-profile-gate-invalid-tier-audit.md` — bug audit: block-branch-switch-dirty.sh usa tier invalido "minimal", hook silent-disabled bajo profile default. Requiere Monica approval (safety hook).
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 13 a 10. Hook coverage 45/58 (77.6%) a 48/58 (82.7%).
+
+### Context
+Decima iteracion ratchet. 95 tests nuevos certified. Meta 85% al alcance en batch 49 (+2 hooks).
+
+**Bug descubierto**: durante testing de block-branch-switch-dirty.sh, detectado que `profile_gate "minimal"` es tier invalido (tiers validos: security/standard/strict). Bajo profile default el safety hook NO bloquea. Permission hook correctamente bloqueo auto-fix. Propuesta SE-071 creada para review humana.
+
+Version bump 5.91.0 a 5.92.0.
+
 ## [5.91.0] — 2026-04-24
 
 Batch 47 — Hook coverage +3: post-tool-failure-log, post-edit-lint, acm-turn-marker. **MILESTONE 75% alcanzado (77.6%).**
@@ -8204,6 +8224,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.91.0...v5.92.0
 [5.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.90.0...v5.91.0
 [5.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.89.0...v5.90.0
 [5.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.88.0...v5.89.0

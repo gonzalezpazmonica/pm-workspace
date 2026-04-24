@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-24 | **Version:** v5.91.0 | **532 commands · 65 agents · 86 skills · 58 hooks (62 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 + hook coverage 18→45/58 batches 39-47, 77.6% — MILESTONE 75% alcanzado)**
+**Updated:** 2026-04-24 | **Version:** v5.92.0 | **532 commands · 65 agents · 86 skills · 58 hooks (62 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 + hook coverage 18→48/58 batches 39-48, 82.7% — SE-071 bug audit propuesto)**
 
 ---
 
