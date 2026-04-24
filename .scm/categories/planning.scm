@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 485 resources
+> 486 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -259,6 +259,7 @@
 - **onboarding-dev** (cmd): Technical onboarding with AI Buddy — auto-generates project docs, personalized plan, and 3-layer buddy agent
 - **onboarding-dev** (skill): Onboarding técnico con Buddy IA — auto-genera documentación del proyecto, plan personalizado 30/60/90 y agente buddy de 3 capas
 - **operational-point-selector** (script): operational-point-selector.sh — SE-029 Slice 4.
+- **opus47-calibration-scorecard** (script): opus47-calibration-scorecard.sh — SE-070 Slice 1
 - **orgchart-import** (cmd): >
 - **orgchart-import** (skill): >
 - **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.
