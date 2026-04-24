@@ -2,5 +2,5 @@
 diff_hash=5bf873d08b3ac83f1aa056c6095fd980b5ad4b7049b6c8b5bf7ef9b5d126d57b
 timestamp=2026-04-24T17:09:12Z
 branch=agent/se071-fix-specs-triage-20260424
-head_commit=61fc1916
+head_commit=11cfdc78
 signature=1771d89d6d8a4507195ce58464fe98069dcaaf7b9e65a419ffe10c6431238c43
