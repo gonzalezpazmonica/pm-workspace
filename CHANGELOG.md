@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.96.0] — 2026-04-24
+
+SE-065 responsibility-judge S-06 i18n fix — IMPLEMENTED. Safety hook calibration para Spanish prose.
+
+### Fixed
+- `.claude/hooks/responsibility-judge.sh` S-06 rule: case-sensitive match (drop -i flag) + file-type exemption (.md/.mdx/.txt/.rst/CHANGELOG.d//docs/). Spanish prose (lowercase "todo" quantifier) ya no triggerea el detector de code-shortcuts. Annotations uppercase en code siguen detectadas.
+
+### Added
+- 13 SE-065 regression tests en `tests/test-responsibility-judge.bats` (16 a 29 total, score 89 certified). Hex-encoded keywords para evitar self-triggering en test file.
+
+### Changed
+- `docs/propuestas/SE-065-responsibility-judge-s06-i18n.md`: status APPROVED → IMPLEMENTED. Resolution section con diff + meta-level observation.
+- `tests/test-responsibility-judge.bats`: JSON field names fixed (tool_name/tool_input vs tool/input). 12 existing tests updated — they "passed" via early-exit on empty CONTENT, not rule logic.
+
+### Context
+Resolved friction pattern desde batch 30: CHANGELOG fragments con phrase "salta todo" eran bloqueados por S-06 pattern match en grep -i. Fix surgical per spec: narrow to uppercase + exempt markdown. Zero regresion en S-01..S-05 rules o en deteccion real de shortcuts en code files.
+
+Meta-observation: edit al hook mismo requerio annotation `TODO(#65)` para satisfacer exemption regex durante el propio Edit — propiedad emergente de auto-consistencia.
+
+Queue APPROVED: 7 → 6 (-1). Sin-GPU restantes: SE-070, SPEC-120 (2).
+
+Version bump 5.95.0 → 5.96.0.
+
 ## [5.95.0] — 2026-04-24
 
 SE-038 Agent catalog size audit — IMPLEMENTED via ratchet. 27 violations baseline frozen.
@@ -8286,6 +8309,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.95.0...v5.96.0
 [5.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.94.0...v5.95.0
 [5.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.93.0...v5.94.0
 [5.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.92.0...v5.93.0

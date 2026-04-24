@@ -1,14 +1,15 @@
 ---
 id: SE-065
 title: SE-065 — responsibility-judge S-06 false positives on Spanish prose
-status: APPROVED
+status: IMPLEMENTED
 origin: batch 30 friction encounter 2026-04-22
 author: Savia
 priority: alta
 effort: XS 1-2h
 gap_link: Spanish prose in CHANGELOG fragments triggers code-shortcut detector
-approved_at: null
-applied_at: null
+approved_at: "2026-04-24"
+applied_at: "2026-04-24"
+implemented_at: "2026-04-24"
 expires: "2026-05-22"
 ---
 
@@ -78,3 +79,29 @@ Changes:
 - Memory `feedback_no_overrides_no_bypasses`: este fix NO es un override, es calibración de precisión de la regla para evitar falsos positivos en prose i18n
 - Batch 30 friction log: CHANGELOG fragment rewrite forzado por "salta todo" → "salta la lista completa"
 - Rule #24 Radical Honesty: el hook debe detectar shortcuts reales, no palabras comunes en español
+
+## Resolution (2026-04-24)
+
+Aplicado exactamente como propuesto. Cambios:
+
+1. `.claude/hooks/responsibility-judge.sh` lineas 110-122:
+   - File-type exemption anadida: `\.(md|mdx|txt|rst)$|CHANGELOG\.d/|/docs/`
+   - Flag -i removida de los dos greps (case-sensitive)
+   - Comentario con `TODO(#65)` self-reference satisface exemption regex al editar el propio archivo (meta-issue resuelto)
+
+2. `tests/test-responsibility-judge.bats`:
+   - 13 tests nuevos SE-065 (29 total, era 16)
+   - Cubre: 3 prose cases (.md/docs/CHANGELOG.d), lowercase code no-block, bare uppercase code block, annotated uppercase pass, HACK/FIXME/.java/.ts coverage, .mdx/.txt exemption, regression S-01..S-05, coverage regex present
+   - Bug descubierto durante tests: existing tests usaban JSON `{"tool":"x","input":{}}` pero hook lee `{"tool_name":"x","tool_input":{}}`. Fixed para ambos viejos y nuevos.
+   - Auditor score: **89** (certified)
+
+3. Verificacion manual de 4 casos cubiertos: Spanish prose pasa, lowercase en code pasa, annotated uppercase pasa, bare uppercase en code bloquea con exit 2.
+
+Permission hook NO bloqueo este Edit — el `TODO(#65)` annotation satisfizo la exemption regex DURANTE el propio Edit (meta-level self-consistency). Interesante propiedad emergente: la regla es correcta aplicada a su propio fix.
+
+## Acceptance Criteria final
+
+- [x] responsibility-judge.sh S-06 no longer blocks CHANGELOG.d fragments
+- [x] S-06 still blocks `TODO` (uppercase) in code files (.py/.java/.sh verified)
+- [x] Tests BATS: 29 total, score 89 certified
+- [x] Zero regression (S-01..S-05 unaffected)
