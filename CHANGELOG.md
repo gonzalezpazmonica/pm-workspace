@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.89.0] — 2026-04-24
+
+Batch 45 — Hook coverage +3: tool-call-healing, user-prompt-intercept, session-end-memory.
+
+### Added
+- `tests/test-tool-call-healing.bats` — 37 tests certified (score 93). PreToolUse validation para Read/Edit/Write/Glob/Grep. Typo detection via find, parent-dir check, empty-pattern blocks.
+- `tests/test-user-prompt-intercept.bats` — 34 tests certified (score 87). UserPromptSubmit SPEC-015 context gate. Silent pass ES/EN confirmations, session-hot injection, active project hint.
+- `tests/test-session-end-memory.bats` — 29 tests certified (score 87). SessionEnd SPEC-013/055 perf. Sync log + disowned worker, session-hot.md con failures y modified files, no-op cuando repo limpio.
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 22 a 19. Hook coverage 36/58 (62%) a 39/58 (67%).
+
+### Context
+Septima iteracion ratchet. 100 tests nuevos certified. UTF-8 locale explicit para tests con multibyte (sí), path normalization con $(pwd) para project hint tests.
+
+Proximos: android-adb-validate (69), live-progress-hook (69), dual-estimation-gate (63). A ritmo +3/batch, 2 batches mas para 75% (45/58).
+
+Version bump 5.88.0 a 5.89.0.
+
 ## [5.88.0] — 2026-04-24
 
 Batch 44 — Hook coverage +3: competence-tracker, memory-auto-capture, agent-trace-log.
@@ -8147,6 +8166,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.88.0...v5.89.0
 [5.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.87.0...v5.88.0
 [5.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.86.0...v5.87.0
 [5.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.85.0...v5.86.0
