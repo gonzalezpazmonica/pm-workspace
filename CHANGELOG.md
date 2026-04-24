@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.88.0] — 2026-04-24
+
+Batch 44 — Hook coverage +3: competence-tracker, memory-auto-capture, agent-trace-log.
+
+### Added
+- `tests/test-competence-tracker.bats` — 36 tests certified. UserPromptSubmit competence fact extraction (strict profile only). Cubre 11 categorias dominio, log rotation 1000 lineas, ISO timestamp, user field.
+- `tests/test-memory-auto-capture.bats` — 30 tests certified. PostToolUse auto memory capture tras Edit/Write en paths especiales. Cubre rate limit 5min, type inference (pattern/convention/discovery), concept extraction, content preview.
+- `tests/test-agent-trace-log.bats` — 31 tests certified. PostToolUse Task metering con token estimation, budget alerts, outcome classification (success/failure/partial), JSONL append-only.
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 25 a 22. Hook coverage 33/58 (57%) a 36/58 (62%).
+
+### Fixed
+- `.claude/hooks/memory-auto-capture.sh`: `TOOL_NAME="${TOOL_NAME:-}"` guard contra unbound variable con `set -u`.
+
+### Context
+Sexta iteracion ratchet. 97 tests nuevos certified. Bug fix descubierto via tests (hooks catch real bugs, no weakening).
+
+Proximos: tool-call-healing (72), user-prompt-intercept (71), session-end-memory (70). A ritmo +3/batch, 3 batches mas para 75% (45/58).
+
+Version bump 5.87.0 a 5.88.0.
+
 ## [5.87.0] — 2026-04-24
 
 Batch 43 — Hook coverage +3: post-report-write, agent-tool-call-validate, stress-awareness-nudge.
@@ -8125,6 +8147,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.87.0...v5.88.0
 [5.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.86.0...v5.87.0
 [5.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.85.0...v5.86.0
 [5.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.84.0...v5.85.0
