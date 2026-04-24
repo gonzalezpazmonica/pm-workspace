@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.87.0] — 2026-04-24
+
+Batch 43 — Hook coverage +3: post-report-write, agent-tool-call-validate, stress-awareness-nudge.
+
+### Added
+- `tests/test-post-report-write.bats` — 34 tests certified. PostToolUse async Truth Tribunal queue. Cubre 6 path patterns, filename heuristics, frontmatter override, self-recursion prevention.
+- `tests/test-agent-tool-call-validate.bats` — 35 tests certified. PreToolUse param validation. Cubre pass-through tools, file_path/command required, env override, JSON field aliases.
+- `tests/test-stress-awareness-nudge.bats` — 41 tests certified. UserPromptSubmit pressure pattern detection. Cubre 5 categorias ES/EN, silent pass, nudge content, boundary edges.
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 28 a 25. Hook coverage 30/58 (52%) a 33/58 (57%).
+
+### Context
+Quinta iteracion ratchet. 110 tests nuevos certified. Pattern consolidado: cd con HOOK_ABS para git repos, scrambled markers, null/empty edge handling documentado como behavior vs bug.
+
+Proximos: competence-tracker (76), memory-auto-capture (74), agent-trace-log (74). A ritmo +3/batch, 4 batches mas para 75% (44/58).
+
+Version bump 5.86.0 a 5.87.0.
+
 ## [5.86.0] — 2026-04-24
 
 Batch 42 — Hook coverage +3: pbi-history-capture, prompt-hook-commit, agent-hook-premerge.
@@ -8106,6 +8125,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.86.0...v5.87.0
 [5.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.85.0...v5.86.0
 [5.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.84.0...v5.85.0
 [5.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.83.0...v5.84.0
