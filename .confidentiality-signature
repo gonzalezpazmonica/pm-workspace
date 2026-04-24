@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=f731240eef7b7a07e96a06160a85cfad66988107cc1faaeb943ea9bcffc0b154
-timestamp=2026-04-23T20:12:06Z
-branch=agent/batch40-hook-coverage-3more-20260423
-head_commit=d15a3793
-signature=5070d3be08c878fc4cee41ddba2afb4077db89864d40824d672f02768364498e
+diff_hash=e8430386c47934c6f62fcb72a14fb1710778807aaaa5f2c9cc8624650dd1f1d4
+timestamp=2026-04-23T21:52:29Z
+branch=agent/batch41-hook-coverage-3more-20260423
+head_commit=cd241956
+signature=91e54b915a04b475e06e5eb605037e284d303dcfada45f35b7932431bc7e27b5

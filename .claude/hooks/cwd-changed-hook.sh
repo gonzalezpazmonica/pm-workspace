@@ -53,8 +53,10 @@ if [[ -f "$PROJECT_CLAUDE" ]]; then
 fi
 
 # 2. Detect language pack from project files
+# NOTE: avoid `ls pat1 pat2` (exits 2 if any pattern has no matches under pipefail).
+# Use `compgen -G` which returns 0 iff the glob matches at least one file.
 LANG_PACK=""
-if ls "$PROJECT_DIR"/*.csproj "$PROJECT_DIR"/*.sln 2>/dev/null | head -1 > /dev/null 2>&1; then
+if compgen -G "$PROJECT_DIR/*.csproj" >/dev/null 2>&1 || compgen -G "$PROJECT_DIR/*.sln" >/dev/null 2>&1; then
   LANG_PACK="C#/.NET"
 elif [[ -f "$PROJECT_DIR/package.json" ]]; then
   if [[ -f "$PROJECT_DIR/angular.json" ]]; then
@@ -76,7 +78,7 @@ elif [[ -f "$PROJECT_DIR/composer.json" ]]; then
   LANG_PACK="PHP"
 elif [[ -f "$PROJECT_DIR/Gemfile" ]]; then
   LANG_PACK="Ruby"
-elif ls "$PROJECT_DIR"/*.tf 2>/dev/null | head -1 > /dev/null 2>&1; then
+elif compgen -G "$PROJECT_DIR/*.tf" >/dev/null 2>&1; then
   LANG_PACK="Terraform"
 fi
 
@@ -91,7 +93,12 @@ if [[ -f "$CTX_INDEX" ]]; then
 fi
 
 # 4. Check for active specs
-SPEC_COUNT=$(find "$PROJECT_DIR/specs" -name "*.spec.md" 2>/dev/null | wc -l || echo 0)
+# Guard against missing specs/ dir under pipefail (find failure + || echo 0 = "0\n0")
+SPEC_COUNT=0
+if [[ -d "$PROJECT_DIR/specs" ]]; then
+  SPEC_COUNT=$(find "$PROJECT_DIR/specs" -name "*.spec.md" 2>/dev/null | wc -l | tr -d '[:space:]')
+  SPEC_COUNT="${SPEC_COUNT:-0}"
+fi
 if [[ "$SPEC_COUNT" -gt 0 ]]; then
   OUTPUT="${OUTPUT:+$OUTPUT }[Specs: $SPEC_COUNT]"
 fi
