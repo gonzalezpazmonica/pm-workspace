@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.90.0] — 2026-04-24
+
+Batch 46 — Hook coverage +3: android-adb-validate, live-progress-hook, dual-estimation-gate.
+
+### Added
+- `tests/test-android-adb-validate.bats` — 41 tests certified (score 92). PreToolUse ADB safety classifier. Blocks destructives (rm -rf, format, dd, su, root), logs RISKY (install/uninstall/push/reboot), SAFE silent log.
+- `tests/test-live-progress-hook.bats` — 36 tests certified (score 93). PreToolUse async live.log feed. 8 tool cases, rotation 500 lines, basename stripping, Task* wildcard, emoji prefixes.
+- `tests/test-dual-estimation-gate.bats` — 33 tests certified (score 92). PostToolUse SPEC-078 dual-scale warning. agent_effort_minutes + human_effort_hours enforcement on *.spec.md / backlog/pbi / backlog/task.
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 19 a 16. Hook coverage 39/58 (67%) a 42/58 (72%).
+
+### Context
+Octava iteracion ratchet. 110 tests nuevos certified. Lecciones: `# Ref: batch X` + SPEC reference garantiza auditor +10pts. EDGE_PAT keywords obligatorias para score 80+. Evitar palabra "estimation" en test fixtures no-estimacion.
+
+Meta 75% al alcance en batch 47 (+3 → 45/58).
+
+Version bump 5.89.0 a 5.90.0.
+
 ## [5.89.0] — 2026-04-24
 
 Batch 45 — Hook coverage +3: tool-call-healing, user-prompt-intercept, session-end-memory.
@@ -8166,6 +8185,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.89.0...v5.90.0
 [5.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.88.0...v5.89.0
 [5.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.87.0...v5.88.0
 [5.87.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.86.0...v5.87.0
