@@ -9,6 +9,9 @@ RATE_LIMIT_MIN=5
 
 [[ ! -f "$STORE_SCRIPT" ]] && exit 0
 
+# Guard against unbound env vars under set -u
+TOOL_NAME="${TOOL_NAME:-}"
+
 # Only trigger for Edit and Write tools
 [[ "$TOOL_NAME" =~ ^(Edit|Write)$ ]] || exit 0
 
