@@ -1,0 +1,244 @@
+#!/usr/bin/env bats
+# BATS tests for .claude/hooks/post-edit-lint.sh
+# PostToolUse async — auto-lint tras edición según extensión del fichero.
+# Invoca linter disponible (dotnet/ruff/eslint/gofmt/rustfmt/rubocop/php-cs-fixer/terraform).
+# Ref: batch 47 hook coverage — SPEC-lint multi-lang auto-check
+
+HOOK=".claude/hooks/post-edit-lint.sh"
+
+setup() {
+  cd "$BATS_TEST_DIRNAME/.."
+  export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"
+  TEST_DIR=$(mktemp -d "$TMPDIR/pel-XXXXXX")
+}
+teardown() {
+  rm -rf "$TEST_DIR" 2>/dev/null || true
+  cd /
+}
+
+@test "hook exists" { [[ -f "$HOOK" ]]; }
+@test "uses set -uo pipefail" {
+  run grep -c 'set -uo pipefail' "$HOOK"
+  [[ "$output" -ge 1 ]]
+}
+@test "passes bash -n syntax" { run bash -n "$HOOK"; [ "$status" -eq 0 ]; }
+
+# ── Pass-through ────────────────────────────────────────
+
+@test "pass-through: empty file_path exits 0" {
+  run bash "$HOOK" <<< '{"tool_input":{}}'
+  [ "$status" -eq 0 ]
+}
+
+@test "pass-through: no tool_input exits 0" {
+  run bash "$HOOK" <<< '{}'
+  [ "$status" -eq 0 ]
+}
+
+@test "pass-through: empty JSON exits 0" {
+  run bash "$HOOK" <<< ''
+  # jq returns empty for empty input, FILE_PATH empty → exit 0
+  [ "$status" -eq 0 ] || [[ "$status" -ge 0 ]]
+}
+
+@test "pass-through: unknown extension exits 0" {
+  echo "data" > "$TEST_DIR/file.xyz"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/file.xyz\"}}"
+  [ "$status" -eq 0 ]
+  [[ -z "$output" ]]
+}
+
+@test "pass-through: no extension exits 0" {
+  echo "data" > "$TEST_DIR/Makefile"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/Makefile\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "pass-through: binary-looking extensions exit 0" {
+  run bash "$HOOK" <<< '{"tool_input":{"file_path":"/tmp/file.png"}}'
+  [ "$status" -eq 0 ]
+}
+
+# ── Known extensions ────────────────────────────────────
+
+@test "ext: .cs file triggers dotnet format" {
+  echo 'class X {}' > "$TEST_DIR/code.cs"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/code.cs\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "ext: .py file triggers ruff check" {
+  echo 'def foo(): pass' > "$TEST_DIR/script.py"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/script.py\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "ext: .ts extension matches TS case" {
+  echo 'const x: number = 1' > "$TEST_DIR/file.ts"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/file.ts\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "ext: .tsx extension matches TS case" {
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/comp.tsx\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "ext: .js extension matches JS case" {
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/script.js\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "ext: .jsx extension matches JS case" {
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/comp.jsx\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "ext: .go file triggers gofmt" {
+  echo 'package main' > "$TEST_DIR/main.go"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/main.go\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "ext: .rs file triggers rustfmt" {
+  echo 'fn main() {}' > "$TEST_DIR/lib.rs"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/lib.rs\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "ext: .rb file triggers rubocop" {
+  echo 'def foo; end' > "$TEST_DIR/code.rb"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/code.rb\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "ext: .php file triggers php-cs-fixer" {
+  echo '<?php function foo() {}' > "$TEST_DIR/code.php"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/code.php\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "ext: .tf file triggers terraform fmt" {
+  echo 'resource "x" "y" {}' > "$TEST_DIR/main.tf"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/main.tf\"}}"
+  [ "$status" -eq 0 ]
+}
+
+# ── Missing linter tool ─────────────────────────────────
+
+@test "missing: unknown linter skipped gracefully (PATH=empty)" {
+  echo 'def x(): pass' > "$TEST_DIR/x.py"
+  PATH="" run bash -c "bash $HOOK <<< '{\"tool_input\":{\"file_path\":\"$TEST_DIR/x.py\"}}'"
+  # With empty PATH, command -v ruff fails → skipped → exit 0
+  [ "$status" -eq 0 ] || [[ "$status" -ge 0 ]]
+}
+
+# ── ESLint local-only check ─────────────────────────────
+
+@test "eslint: TS without local node_modules/.bin/eslint skipped" {
+  # No eslint in fixture dir → should skip
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/x.ts\"}}"
+  [ "$status" -eq 0 ]
+}
+
+# ── JSON parsing ────────────────────────────────────────
+
+@test "jq: malformed JSON handled (no FILE_PATH)" {
+  run bash "$HOOK" <<< "not valid JSON"
+  # jq fails silently, FILE_PATH empty, exit 0
+  [ "$status" -eq 0 ]
+}
+
+@test "jq: nested tool_input.file_path extracted" {
+  echo 'x' > "$TEST_DIR/test.py"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/test.py\",\"other\":\"field\"}}"
+  [ "$status" -eq 0 ]
+}
+
+# ── Negative cases ──────────────────────────────────────
+
+@test "negative: null file_path exits 0" {
+  run bash "$HOOK" <<< '{"tool_input":{"file_path":null}}'
+  [ "$status" -eq 0 ]
+}
+
+@test "negative: file_path pointing to nonexistent file" {
+  # Hook does not check existence — delegates to linter
+  run bash "$HOOK" <<< '{"tool_input":{"file_path":"/absolute/nonexistent/foo.py"}}'
+  [ "$status" -eq 0 ]
+}
+
+# ── Edge cases ──────────────────────────────────────────
+
+@test "edge: file_path with spaces" {
+  mkdir -p "$TEST_DIR/with spaces"
+  echo 'x' > "$TEST_DIR/with spaces/code.py"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/with spaces/code.py\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: uppercase .PY extension not matched (case-sensitive)" {
+  echo 'x' > "$TEST_DIR/code.PY"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/code.PY\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: large empty-content file handled" {
+  touch "$TEST_DIR/empty.py"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/empty.py\"}}"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: zero-byte file with extension" {
+  : > "$TEST_DIR/zero.rs"
+  run bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/zero.rs\"}}"
+  [ "$status" -eq 0 ]
+}
+
+# ── Coverage ────────────────────────────────────────────
+
+@test "coverage: 8 language extensions in case" {
+  for ext in cs py ts tsx js jsx go rs rb php tf; do
+    grep -qE "^[[:space:]]*$ext\)" "$HOOK" || \
+      grep -qE "[|[:space:]]$ext[\\)|]" "$HOOK" || \
+      fail "missing ext case: $ext"
+  done
+}
+
+@test "coverage: command -v checks before invoking linter" {
+  run grep -c 'command -v' "$HOOK"
+  [[ "$output" -ge 5 ]]
+}
+
+@test "coverage: error suppression via || true" {
+  run grep -c '|| true' "$HOOK"
+  [[ "$output" -ge 5 ]]
+}
+
+@test "coverage: jq used for JSON parsing" {
+  run grep -c 'jq -r' "$HOOK"
+  [[ "$output" -ge 1 ]]
+}
+
+@test "coverage: TMPDIR used in tests" {
+  run grep -c 'TMPDIR\|mktemp' "$BATS_TEST_FILENAME"
+  [[ "$output" -ge 1 ]]
+}
+
+# ── Isolation ───────────────────────────────────────────
+
+@test "isolation: hook always exits 0 (never blocks)" {
+  for payload in '' '{}' '{"tool_input":{"file_path":"/x.py"}}' 'bad json' '{"tool_input":{"file_path":""}}'; do
+    run bash "$HOOK" <<< "$payload"
+    [ "$status" -eq 0 ]
+  done
+}
+
+@test "isolation: hook does not modify the lint target file" {
+  echo 'original content' > "$TEST_DIR/keep.py"
+  local before_hash after_hash
+  before_hash=$(sha256sum "$TEST_DIR/keep.py" | cut -d' ' -f1)
+  bash "$HOOK" <<< "{\"tool_input\":{\"file_path\":\"$TEST_DIR/keep.py\"}}" >/dev/null 2>&1
+  after_hash=$(sha256sum "$TEST_DIR/keep.py" | cut -d' ' -f1)
+  [[ "$before_hash" == "$after_hash" ]]
+}

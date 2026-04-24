@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.91.0] — 2026-04-24
+
+Batch 47 — Hook coverage +3: post-tool-failure-log, post-edit-lint, acm-turn-marker. **MILESTONE 75% alcanzado (77.6%).**
+
+### Added
+- `tests/test-post-tool-failure-log.bats` — 39 tests certified (score 98, mejor del batch). PostToolUseFailure SPEC-068. 6 error categories, retry hints, pattern detection (3+ same tool).
+- `tests/test-post-edit-lint.bats` — 37 tests certified (score 90). PostToolUse async multi-lang lint. 11 extensions (cs/py/ts/tsx/js/jsx/go/rs/rb/php/tf), missing linter graceful skip.
+- `tests/test-acm-turn-marker.bats` — 37 tests certified (score 93). PostToolUse SE-063 Slice 2. ACM enforcement chain marker.
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 16 a 13. Hook coverage 42/58 (72%) a **45/58 (77.6%)**.
+
+### Context
+Novena iteracion ratchet. 113 tests nuevos certified. **Milestone 75% superado** — 45/58 hooks con tests.
+
+Proxima meta 85% (50/58) en 2 batches mas. Candidatos: bash-output-compress, block-branch-switch-dirty, compress-agent-output, memory-prime-hook, shield-autostart.
+
+Version bump 5.90.0 a 5.91.0.
+
 ## [5.90.0] — 2026-04-24
 
 Batch 46 — Hook coverage +3: android-adb-validate, live-progress-hook, dual-estimation-gate.
@@ -8185,6 +8204,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.91.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.90.0...v5.91.0
 [5.90.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.89.0...v5.90.0
 [5.89.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.88.0...v5.89.0
 [5.88.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.87.0...v5.88.0
