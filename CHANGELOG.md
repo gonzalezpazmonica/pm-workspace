@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.97.0] — 2026-04-24
+
+SPEC-120 Spec template alignment con github/spec-kit — IMPLEMENTED.
+
+### Added
+- `projects/proyecto-alpha/specs/templates/spec-template.md`: spec_kit_compatible marker + pointer header a canonical source.
+- `projects/proyecto-beta/specs/templates/spec-template.md`: same marker + pointer.
+
+### Changed
+- `docs/propuestas/SPEC-120-spec-kit-alignment.md`: status APPROVED → IMPLEMENTED. Resolution section con breakdown pre-existente vs this PR. 7/7 AC cumplidos.
+
+### Context
+Infrastructure mayor ya existia (canonical template con Spec-Kit Alignment section + docs/agent-teams-sdd.md mapping + 26 tests score 81). Este PR completa los 2 project templates duplicados con pointer headers, preservando su content completo (customizaciones project-specific). Command reference pointer ya era redirect.
+
+Queue APPROVED: 6 → 5 (-1). Sin-GPU restantes: **solo SE-070 Opus 4.7 scorecard** (1 spec ejecutable en dev). 4 specs GPU-blocked (SE-028, SE-042, SPEC-023, SPEC-080) en espera de hardware.
+
+Version bump 5.96.0 → 5.97.0.
+
 ## [5.96.0] — 2026-04-24
 
 SE-065 responsibility-judge S-06 i18n fix — IMPLEMENTED. Safety hook calibration para Spanish prose.
@@ -8309,6 +8327,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.96.0...v5.97.0
 [5.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.95.0...v5.96.0
 [5.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.94.0...v5.95.0
 [5.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.93.0...v5.94.0
