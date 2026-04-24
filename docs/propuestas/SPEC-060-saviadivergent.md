@@ -4,6 +4,7 @@ title: SPEC-060 — SaviaDivergent: Neurodivergent-Aware AI Work Companion
 status: PROPOSED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+priority: baja
 ---
 
 # SPEC-060 — SaviaDivergent: Neurodivergent-Aware AI Work Companion

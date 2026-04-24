@@ -4,7 +4,7 @@ title: SE-064 — ACM multi-host generator (Cursor/Windsurf/Copilot)
 status: PROPOSED
 origin: output/research-coderlm-20260421.md
 author: Savia
-priority: Baja
+priority: baja
 effort: M 8h
 gap_link: ACM solo consumible por Claude Code; otros IDEs reinventan el índice
 approved_at: null

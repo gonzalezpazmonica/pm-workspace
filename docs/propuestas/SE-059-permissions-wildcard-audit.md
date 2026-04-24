@@ -4,7 +4,7 @@ title: SE-059 — Permissions Wildcard Audit
 status: IMPLEMENTED
 origin: output/research/agentshield-20260420.md (inspired by 10 permission rules)
 author: Savia
-priority: Alta
+priority: alta
 effort: S 4h
 gap_link: Wildcard permissions sin deny list en .claude/settings.json
 approved_at: "2026-04-20"

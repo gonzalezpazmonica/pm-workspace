@@ -5,6 +5,7 @@ status: PROPOSED
 origin: opendataloader-pdf analysis pattern (2026-04-15)
 severity: Media
 effort: ~6h
+priority: baja
 ---
 
 # SPEC-103: Deterministic-first Digests

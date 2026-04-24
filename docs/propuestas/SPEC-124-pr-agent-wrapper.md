@@ -5,6 +5,7 @@ status: PROPOSED
 origin: Savia autonomous roadmap — Top pick #2 del research 2026-04-17
 author: Savia
 related: SAVIA-SUPERPOWERS-ROADMAP.md
+priority: alta
 ---
 
 # SPEC-124 — pr-agent Wrapper como 5º Juez del Court

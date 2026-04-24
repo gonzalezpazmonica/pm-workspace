@@ -4,7 +4,7 @@ title: SE-063 — ACM enforcement pre-tool hook
 status: IMPLEMENTED
 origin: output/research-coderlm-20260421.md
 author: Savia
-priority: Media
+priority: media
 effort: S 4-6h
 gap_link: Agentes hacen glob/grep masivo ignorando .agent-maps/ existentes
 approved_at: "2026-04-22"

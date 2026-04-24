@@ -5,6 +5,7 @@ status: PROPOSED
 origin: Retool research (2026-04-18) — roba Query Library + NL-to-SQL patterns
 author: Savia
 related: nl-query skill, azure-devops-queries skill, savia-flow skill
+priority: media
 ---
 
 # SE-031 — Query Library + NL-to-WIQL/JQL

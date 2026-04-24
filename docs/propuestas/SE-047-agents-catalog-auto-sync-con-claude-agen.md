@@ -4,7 +4,7 @@ title: SE-047 — Agents catalog auto-sync con .claude/agents/
 status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
-priority: Alta
+priority: alta
 effort: S 4h
 gap_link: D5
 approved_at: "2026-04-20"

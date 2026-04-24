@@ -1,10 +1,11 @@
 ---
 id: SPEC-120
 title: Alignment del spec template con github/spec-kit
-status: PROPOSED
+status: APPROVED
 origin: Savia autonomous roadmap — Top pick #1 del research 2026-04-17
 author: Savia
 related: SAVIA-SUPERPOWERS-ROADMAP.md
+priority: alta
 ---
 
 # SPEC-120 — Spec Template Alignment con github/spec-kit

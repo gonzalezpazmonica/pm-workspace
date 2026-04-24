@@ -1,6 +1,7 @@
 ---
 id: SPEC-043
 status: PROPOSED
+priority: media
 ---
 
 # SPEC-043 — Responsibility Judge Hook

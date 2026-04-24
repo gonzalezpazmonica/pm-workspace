@@ -5,6 +5,7 @@ status: PROPOSED
 origin: HKUDS/AutoAgent analysis (2026-04-15)
 severity: Media
 effort: ~5 días (40h)
+priority: baja
 ---
 
 # SPEC-100: GAIA Benchmark Integration

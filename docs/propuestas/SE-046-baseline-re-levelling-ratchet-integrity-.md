@@ -4,7 +4,7 @@ title: SE-046 — Baseline re-levelling + ratchet integrity test
 status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
-priority: Media
+priority: media
 effort: S 3h
 gap_link: D6
 approved_at: "2026-04-20"

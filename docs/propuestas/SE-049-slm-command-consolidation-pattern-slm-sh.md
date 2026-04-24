@@ -4,7 +4,7 @@ title: SE-049 — SLM command consolidation pattern slm.sh subcommand
 status: IN_PROGRESS
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
-priority: Media
+priority: media
 effort: L 16h
 gap_link: D18 scripts SLM dispersos
 approved_at: "2026-04-23"

@@ -1,6 +1,7 @@
 ---
 id: SPEC-048
 status: PROPOSED
+priority: media
 ---
 
 # SPEC-048: Dev Session Discard

@@ -1,6 +1,7 @@
 ---
 id: SPEC-063
 status: PROPOSED
+priority: media
 ---
 
 # SPEC-063 — Test Architect Agent

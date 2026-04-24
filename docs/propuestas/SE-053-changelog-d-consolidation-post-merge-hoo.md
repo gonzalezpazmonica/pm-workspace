@@ -4,7 +4,7 @@ title: SE-053 — CHANGELOG.d consolidation post-merge hook
 status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
-priority: Baja
+priority: baja
 effort: S 2h
 gap_link: 33 fragmentos pending
 approved_at: "2026-04-20"

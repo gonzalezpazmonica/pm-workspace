@@ -4,7 +4,7 @@ title: SE-069 — context-rot-strategy skill for 1M context sessions
 status: IMPLEMENTED
 origin: Opus 4.7 migration analysis 2026-04-23
 author: Savia
-priority: Media
+priority: media
 effort: M 5h
 gap_link: 1M context window amplifies context rot; no explicit session management skill
 approved_at: "2026-04-23"

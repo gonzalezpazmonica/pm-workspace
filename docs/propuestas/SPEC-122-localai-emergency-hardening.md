@@ -5,6 +5,7 @@ status: PROPOSED
 origin: Savia autonomous roadmap — Top pick #3 del research 2026-04-17
 author: Savia
 related: SAVIA-SUPERPOWERS-ROADMAP.md
+priority: alta
 ---
 
 # SPEC-122 — LocalAI Emergency-Mode Hardening

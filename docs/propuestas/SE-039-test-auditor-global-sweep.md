@@ -1,13 +1,14 @@
 ---
 id: SE-039
 title: Test-auditor global sweep — score ≥80 sobre todos los .bats existentes
-status: PROPOSED
+status: APPROVED
 origin: ROADMAP-UNIFIED-20260418 Wave 4 D2 + SPEC-055 enforcement
 author: Savia
 related: SPEC-055-test-auditor, scripts/test-auditor.sh, tests/*.bats
 approved_at: null
 applied_at: null
 expires: "2026-06-18"
+priority: alta
 ---
 
 # SE-039 — Test-auditor global sweep

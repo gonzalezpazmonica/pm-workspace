@@ -4,7 +4,7 @@ title: SE-068 — XML tag structure in top-tier opus-4-7 agents
 status: IMPLEMENTED
 origin: Opus 4.7 migration analysis 2026-04-23
 author: Savia
-priority: Media
+priority: media
 effort: M 6h
 gap_link: Zero agents use XML tags; Opus 4.7 response quality +30% with structured multi-doc input
 approved_at: "2026-04-23"
