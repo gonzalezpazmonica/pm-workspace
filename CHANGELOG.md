@@ -27,6 +27,24 @@ Queue APPROVED: 5 → 4 (-1). Los 4 restantes (SE-028, SE-042, SPEC-023, SPEC-08
 Próximo trabajo autónomo: hook coverage continuar hacia 85%, o PROPOSED priority alta (SE-034, SPEC-055, SPEC-078, SPEC-121, SPEC-122, SPEC-124).
 
 Version bump 5.97.0 → 5.98.0.
+## [5.99.0] — 2026-04-24
+
+Batch 49 — Hook coverage +3: memory-prime-hook, shield-autostart, stop-quality-gate. **MILESTONE 85% superado (87.9%).**
+
+### Added
+- `tests/test-memory-prime-hook.bats` — 33 tests certified (score 90). PreToolUse async memory auto-prime + bounded concurrency.
+- `tests/test-shield-autostart.bats` — 31 tests certified (score 83). SessionStart shield proxy autostart (port 8443, fire-and-forget).
+- `tests/test-stop-quality-gate.bats` — 34 tests certified (score 91). Stop hook secret detection (password/api_key/token/private_key block pattern).
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 10 a 7. Hook coverage 48/58 (82.7%) a **51/58 (87.9%)**.
+
+### Context
+Undécima iteración ratchet. 98 tests nuevos certified. Meta 85% SUPERADA en batch 49 (48→51 hooks con tests). Progreso desde pre-batch-39: 18→51 hooks tested (31% → 87.9%), +33 hooks en 11 batches.
+
+Queue restante: 7 hooks (todos <40 lines, 4 de ellos <30 lines). Próxima iteración puede cerrar 4-5 hooks de una vez → 95%+ coverage.
+
+Version bump 5.97.0 → 5.99.0.
 
 ## [5.97.0] — 2026-04-24
 
@@ -8350,6 +8368,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [5.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.97.0...v5.98.0
+[5.99.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.97.0...v5.99.0
 [5.97.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.96.0...v5.97.0
 [5.96.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.95.0...v5.96.0
 [5.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.94.0...v5.95.0
