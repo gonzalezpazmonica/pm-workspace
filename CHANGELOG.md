@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.86.0] — 2026-04-24
+
+Batch 42 — Hook coverage +3: pbi-history-capture, prompt-hook-commit, agent-hook-premerge.
+
+### Added
+- `tests/test-pbi-history-capture.bats` — 28 tests certified. PostToolUse PBI frontmatter diff capture. Cubre 11 tracked fields, new creation path, author extraction, git history diff.
+- `tests/test-prompt-hook-commit.bats` — 29 tests certified. Semantic commit message validation. Cubre 4 heuristics, 3 modes, CHANGELOG integration.
+- `tests/test-agent-hook-premerge.bats` — 32 tests certified. Pre-merge security + quality gate. Cubre 3 secret patterns, conflict markers, 150-line limit per file category, 3 modes.
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 31 a 28. Hook coverage 27/58 (47%) a 30/58 (52%). **Milestone 50% cruzado.**
+- Tambien arreglados 2 bugs encontrados en batch 41 (fix commit anterior aplicado): cwd-changed-hook C# detection (compgen -G) y emotional-regulation-monitor set -u crash.
+
+### Context
+Cuarta iteracion del ratchet. Pattern consolidado: HOOK_ABS antes de cd, scrambled markers para evitar S-06 self-trigger. 89 tests nuevos certified.
+
+Proximos: post-report-write (83), agent-tool-call-validate (81), stress-awareness-nudge (78). A ritmo +3/batch, 5 batches mas para 75% (44/58).
+
+Version bump 5.85.0 a 5.86.0.
+
 ## [5.85.0] — 2026-04-23
 
 Batch 41 — Hook coverage +3: cwd-changed-hook, emotional-regulation-monitor, ast-quality-gate-hook.
@@ -8086,6 +8106,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.86.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.85.0...v5.86.0
 [5.85.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.84.0...v5.85.0
 [5.84.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.83.0...v5.84.0
 [5.83.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.82.0...v5.83.0
