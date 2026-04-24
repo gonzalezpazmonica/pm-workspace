@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [5.95.0] — 2026-04-24
+
+SE-038 Agent catalog size audit — IMPLEMENTED via ratchet. 27 violations baseline frozen.
+
+### Added
+- `tests/test-agent-size-audit.bats` — 44 tests certified (score 95). Coverage de `scripts/agent-size-audit.sh`: CLI flags, execution, SLA 4096, size_exception, ratchet mode, statistics, safety, negative/edge cases.
+
+### Changed
+- `scripts/agent-size-audit.sh`: +`--ratchet` flag (never-loosen policy), +`--baseline N` override. Usage docs actualizados.
+- `docs/propuestas/SE-038-agent-size-audit.md`: status APPROVED → IMPLEMENTED. Resolution section con Slice 1 probe results (27/65 violations), Slice 2 deferred explanation, AC breakdown final.
+- `.ci-baseline/agent-size-violations.count`: 27 baseline frozen (was present from pre-existing check #8).
+
+### Context
+Slice 1 probe: 65 agents scanned, 27 violate Rule #22 (<4KB). Top offenders are safety-adjacent agents (code-reviewer 6581 bytes, test-runner 6454, commit-guardian 6423). Bulk remediation risky — per spec's ratchet strategy, baseline frozen at 27 with never-loosen policy. Incremental reduction happens in future PRs.
+
+Slice 3 (enforcement gate) ya estaba pre-existente en `scripts/ci-extended-checks.sh` check #8. Script extendido con `--ratchet` CLI para invocacion standalone.
+
+Queue APPROVED: 8 → 7 (-1). Sin-GPU ejecutables restantes: SE-065, SE-070, SPEC-120.
+
+Version bump 5.94.0 → 5.95.0.
+
 ## [5.94.0] — 2026-04-24
 
 SE-039 Test-auditor global sweep — IMPLEMENTED. Baseline 100% (232/232 ≥80, avg 87).
@@ -8265,6 +8286,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[5.95.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.94.0...v5.95.0
 [5.94.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.93.0...v5.94.0
 [5.93.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.92.0...v5.93.0
 [5.92.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.91.0...v5.92.0
