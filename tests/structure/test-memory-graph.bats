@@ -3,6 +3,7 @@
 
 setup() {
     export SAVIA_TEST_MODE=true
+    export SAVIA_VERIFIED_MEMORY_DISABLED=true  # SE-072: legacy fixtures predate --source contract
     export PROJECT_ROOT=$(mktemp -d)
     export STORE_FILE="$PROJECT_ROOT/output/.memory-store.jsonl"
     GRAPH_SCRIPT="$BATS_TEST_DIRNAME/../../scripts/memory-graph.py"
