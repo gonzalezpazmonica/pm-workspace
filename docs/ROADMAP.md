@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-25 | **Version:** v6.8.0 | **532 commands · 65 agents · 86 skills · 60 hooks (64 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 spec drift + AC closure **CLOSED 2026-04-25**, Era 188 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 · **HOOK COVERAGE 100%** 60/60 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078+SPEC-124+SE-072 IMPLEMENTED · SE-073 APPROVED from GenericAgent research · spec triage 74→70 PROPOSED + 6 APPROVED promotions · **0 PROPOSED priority alta restantes** · test quality baseline 332/332 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · backup identidad portable enviado a la usuaria)**
+**Updated:** 2026-04-26 | **Version:** v6.10.0 | **532 commands · 65 agents · 86 skills · 60 hooks (64 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 spec drift + AC closure **CLOSED 2026-04-25**, Era 188 IN PROGRESS — Memory + Throughput foundations (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 · **HOOK COVERAGE 100%** 60/60 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078+SPEC-124+SE-072 IMPLEMENTED · SE-073+SE-074 APPROVED · SE-074 paraleliza spec execution 3-4x throughput · spec triage 74→70 PROPOSED + 7 APPROVED promotions · test quality baseline 332/332 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · backup identidad portable enviado a la usuaria)**
 
 ---
 
@@ -290,14 +290,40 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 
 ### Backlog APPROVED restante (post Era 187)
 
-- **SE-072** Verified Memory Axiom (GenericAgent research)
+- **SE-072** Verified Memory Axiom (GenericAgent research) — IMPLEMENTED batch 57
 - **SE-073** Memory Index Cap Tiered (GenericAgent research)
+- **SE-074** Parallel spec execution (Cole Medin playbook) — habilitador throughput
 - **SE-028** Oumi (GPU-blocked)
 - **SE-042** voice training (GPU-blocked)
 - **SPEC-023** Savia LLM Trainer Phases 2-4 (GPU-blocked)
 - **SPEC-080** training pipeline pre-existente
 
-Próximo trabajo (Era 188 candidato): SE-072+SE-073 (sin-GPU) o esperar señal usuaria.
+---
+
+## Era 188 — Memory + Throughput foundations (2026-04-25, IN PROGRESS)
+
+Post Era 187 closure, foco en habilitadores estructurales antes de seguir con specs individuales:
+
+### Pipeline ordenado (priority + dependency)
+
+1. ✅ **SE-072** Verified Memory axiom — Slice 1 IMPLEMENTED batch 57
+2. **SE-073** Memory Index Cap Tiered — siguiente, no bloquea ni depende de SE-074
+3. **SE-074** Parallel spec execution — **NUEVO, prioridad alta**
+   - Slice 1 (M, 8h): worktree manager + spec queue + bounded concurrency 3-5
+   - Slice 2 (S, 4h): PR queue manager con cascade-rebase auto
+   - Slice 3 (M, 6h): DB sandbox + cleanup hardening
+   - Multiplica throughput 3-4x sobre la base actual (no lineal por overhead coordinación)
+   - Pre-requisitos cumplidos: hook coverage 100%, pr-plan G11 estable, cascade-rebase pattern documentado, bounded concurrency rule, AUTONOMOUS_REVIEWER configurado
+
+### Por qué SE-074 ahora (no después)
+
+Era 188 cierra cuando SE-073 + SE-074 Slice 1 estén IMPLEMENTED. SE-074 es **habilitador de Eras siguientes** — todas las Eras post-188 se beneficiarán del paralelismo. Posponerlo es seguir pagando el coste de oportunidad del throughput secuencial en cada batch futuro.
+
+Trade-off explícito: SE-074 Slice 1 (8h) bloquea SE-073 (4h estimado) ~1 día. Ganancia: cada Era posterior 3-4x más rápida. Break-even tras 2-3 Eras de trabajo paralelo.
+
+### Pre-requisito antes de Slice 1
+
+Resource monitoring básico verificado (RAM/disco disponible para 3 sesiones Claude Code simultáneas) — se ejecuta como dry-run en el primer arranque del orchestrator.
 
 ---
 
