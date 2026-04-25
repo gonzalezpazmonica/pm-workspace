@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-26 | **Version:** v6.11.0 | **532 commands · 65 agents · 86 skills · 60 hooks (64 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 spec drift + AC closure **CLOSED 2026-04-25**, Era 188 IN PROGRESS — Memory + Throughput + Voice + Graph foundations (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 · **HOOK COVERAGE 100%** 60/60 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078+SPEC-124+SE-072 IMPLEMENTED · SE-073+SE-074+SE-075+SE-076 APPROVED · SE-074 paraleliza spec execution 3-4x throughput · spec triage 74→70 PROPOSED + 9 APPROVED promotions · test quality baseline 332/332 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · backup identidad portable enviado a la usuaria)**
+**Updated:** 2026-04-26 | **Version:** v6.12.0 | **532 commands · 65 agents · 86 skills · 60 hooks (64 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 spec drift + AC closure **CLOSED 2026-04-25**, Era 188 IN PROGRESS — Memory + Throughput + Voice + Graph foundations, Era 189 APPROVED — OpenCode sovereignty · **CRITICAL PATH unificado 14 items** · SE-077 + SE-078 + spec-opencode-plan rule + G12 gate · vendor-lockin mitigation post Anthropic Pro→Max restriction · HOOK COVERAGE 100% 60/60 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078+SPEC-124+SE-072 IMPLEMENTED · SE-073+SE-074+SE-075+SE-076+SE-077+SE-078 APPROVED · spec triage 74→70 PROPOSED + 9 APPROVED promotions · test quality baseline 332/332 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · backup identidad portable enviado a la usuaria**
 
 ---
 
@@ -340,6 +340,40 @@ Trade-off explícito: SE-074 Slice 1 (8h) bloquea SE-073 (4h estimado) ~1 día. 
 ### Pre-requisito antes de Slice 1
 
 Resource monitoring básico verificado (RAM/disco disponible para 3 sesiones Claude Code simultáneas) — se ejecuta como dry-run en el primer arranque del orchestrator.
+
+---
+
+## Era 189 — OpenCode Sovereignty (2026-04-26, APPROVED)
+
+Decisión estratégica de la usuaria 2026-04-26 tras análisis de adopción gap (Savia v1.3.13 vs OpenCode upstream v1.14.25 — 11 minor versions, ~1 año desfase). Anthropic está restringiendo Claude Code (Pro → Max-only abril 2026); soberanía técnica exige opciones libres de vendor lockin operativas, no como retrofit.
+
+### Pipeline ordenado
+
+1. **SE-077** OpenCode v1.14 replatform — sovereignty bridge (priority alta, era 189)
+   - Slice 1 (M, 8h): Plugin TypeScript `savia-gates` registra `tool.execute.before` / `permission.ask` / `chat.message`. Reemplaza hooks Claude Code críticos (PII, confidentiality, ACM enforcement).
+   - Slice 2 (M, 6h): parity audit + ratchet baseline. Smoke test que verifica que las 60 reglas hook tienen equivalente OpenCode o están exempt justificadamente.
+2. **SE-078** AGENTS.md cross-frontend — single source para agentes (priority alta, era 189, M 6h)
+   - Generator script `scripts/agents-md-build.sh` consolida `.claude/agents/*.md` → `AGENTS.md` raíz.
+   - Drift check + Stop hook auto-regenerate en cambios.
+   - Supersedes SPEC-114.
+3. **Regla nueva**: `docs/rules/domain/spec-opencode-implementation-plan.md` — cada spec APPROVED post-2026-04-26 declara su portability classification (PURE_BASH / DUAL_BINDING / SINGLE_BINDING_DEFERRED / CLAUDE_CODE_ONLY) + bindings table + verification protocol.
+4. **Gate G12** en pr-plan — `scripts/spec-opencode-plan-audit.sh` + `g_opencode_plan` falla si un PR introduce un spec sin la sección.
+
+### Inversión vs payoff
+
+- Slice 1 SE-077: 8h. Compra opción de switch real a OpenCode sin perder workspace.
+- Sin esta inversión, día que Anthropic cierre Claude Code Pro → Savia inoperable hasta retrofit (estimado 40-60h emergency).
+- ROI estratégico: 8h ahora vs 40-60h en pánico → 5-7x ahorro. Probabilidad de necesitarlo: alta (vendor pattern reciente).
+
+### Pre-requisitos cumplidos
+
+- ✅ Hook coverage 100% (Era 186) — todos los hooks tienen test, retroportable
+- ✅ G11 + audit framework (batch 58) — patrón de gate ratchet ya conocido
+- ✅ Specs SE-075 + SE-076 ya con OpenCode Implementation Plan (PURE_BASH) — primera validación de la regla
+
+### Grandfathering
+
+Specs APPROVED antes de 2026-04-26 NO requieren la sección retroactivamente (excepto SE-074 que se actualiza por consistencia, ya que comparte fecha de aprobación con la regla nueva).
 
 ---
 

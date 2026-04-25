@@ -266,6 +266,19 @@ g_summary() {
     return
   fi
 }
+# G_OPENCODE_PLAN: G12 — every spec APPROVED post-2026-04-26 must include OpenCode Implementation Plan.
+# Rule: docs/rules/domain/spec-opencode-implementation-plan.md
+g_opencode_plan() {
+  if ! git diff origin/main..HEAD --name-only 2>/dev/null | grep -qE '^docs/propuestas/(SE|SPEC)-.*\.md$'; then
+    return
+  fi
+  if ! bash "$ROOT/scripts/spec-opencode-plan-audit.sh" >/dev/null 2>&1; then
+    local out; out=$(bash "$ROOT/scripts/spec-opencode-plan-audit.sh" 2>&1 || true)
+    echo "FAIL: spec-opencode-plan audit"
+    echo "$out" | tail -10
+    return
+  fi
+}
 g11() {
   local stat_line
   if ! git rev-parse origin/main >/dev/null 2>&1; then

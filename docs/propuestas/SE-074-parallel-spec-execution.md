@@ -122,3 +122,25 @@ Slice 1 NO arranca hasta que:
 - `docs/rules/domain/autonomous-safety.md` — gates inviolables
 - Claude Code `-w` flag — soporte nativo de worktrees
 - `.claude/skills/spec-driven-development/` — workflow base que se invoca per-worktree
+
+## OpenCode Implementation Plan
+
+### Bindings touched
+
+| Componente | Claude Code | OpenCode v1.14 |
+|---|---|---|
+| Worktree manager | `scripts/parallel-spec-orchestrator.sh` invoca `claude -w <path>` | invoca `opencode -w <path>` (mismo flag soportado upstream desde v1.10) |
+| PR queue manager | bash + `gh` CLI | idéntico, ambos frontends comparten `gh` |
+| Cascade-rebase | `scripts/cascade-rebase.sh` puro bash | idéntico |
+| DB sandbox | docker-compose por worktree | idéntico |
+| Resource monitor | `scripts/resource-monitor.sh` (RAM/disco) | idéntico |
+
+### Verification protocol
+
+- [ ] Smoke test arranca 3 sesiones OpenCode en paralelo y verifica isolación de filesystem
+- [ ] Tests BATS no requieren frontend específico (puro bash + git)
+- [ ] PR queue genera mismo orden con ambos frontends (test deterministic)
+
+### Portability classification
+
+- [x] **PURE_BASH**: orquestador es 100% bash, invoca al frontend como subprocess. La capa de paralelismo es indiferente al motor LLM. Slice 1 ya soporta cualquier comando `--cmd <binary>` configurable.
