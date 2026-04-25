@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.0.0] — 2026-04-25
+
+Dos nuevas specs APPROVED del research GenericAgent repo (6.8k ⭐).
+
+### Added
+- `docs/propuestas/SE-072-verified-memory-axiom.md` — "No Execution, No Memory" gate: `memory-store.sh save` requerirá `--source <origin>` (tool/file/verified/user). Hook PreToolUse para Write en auto/MEMORY.md. Grandfathering entries existentes. S-effort 3h.
+- `docs/propuestas/SE-073-memory-index-cap-tiered.md` — MEMORY.md cap 200→30 líneas con 2-tier system (HIGH-FREQ inline, LOW-FREQ filename-only en MEMORY-ARCHIVE.md). `scripts/memory-tier-rotate.sh` para rotation automática por access_count. S-effort 3h.
+
+### Context
+Research completo de `lsdefine/GenericAgent` (7 patterns analizados): 2 adoptables (estos specs), 5 ya cubiertos por Savia stack, 6 descartados. Veredicto: "ADOPTAR LUEGO" — wins claros S-effort con complemento directo a memoria externa.
+
+Este PR SOLO crea specs. Implementation sigue en PRs separadas post-review humana.
+
+Queue APPROVED ejecutable sin-GPU: 0 → 2 (+SE-072, SE-073). PROPOSED: 70 → 68.
+
+Version bump 5.97.0 → 6.0.0 (major: research-driven spec addition + status semantics change).
+
 ## [5.99.0] — 2026-04-24
 
 Batch 49 — Hook coverage +3: memory-prime-hook, shield-autostart, stop-quality-gate. **MILESTONE 85% superado (87.9%).**
@@ -24,23 +41,6 @@ Undécima iteración ratchet. 98 tests nuevos certified. Meta 85% SUPERADA en ba
 Queue restante: 7 hooks (todos <40 lines, 4 de ellos <30 lines). Próxima iteración puede cerrar 4-5 hooks de una vez → 95%+ coverage.
 
 Version bump 5.97.0 → 5.99.0.
-## [6.0.0] — 2026-04-25
-
-Dos nuevas specs APPROVED del research GenericAgent repo (6.8k ⭐).
-
-### Added
-- `docs/propuestas/SE-072-verified-memory-axiom.md` — "No Execution, No Memory" gate: `memory-store.sh save` requerirá `--source <origin>` (tool/file/verified/user). Hook PreToolUse para Write en auto/MEMORY.md. Grandfathering entries existentes. S-effort 3h.
-- `docs/propuestas/SE-073-memory-index-cap-tiered.md` — MEMORY.md cap 200→30 líneas con 2-tier system (HIGH-FREQ inline, LOW-FREQ filename-only en MEMORY-ARCHIVE.md). `scripts/memory-tier-rotate.sh` para rotation automática por access_count. S-effort 3h.
-
-### Context
-Research completo de `lsdefine/GenericAgent` (7 patterns analizados): 2 adoptables (estos specs), 5 ya cubiertos por Savia stack, 6 descartados. Veredicto: "ADOPTAR LUEGO" — wins claros S-effort con complemento directo a memoria externa.
-
-Este PR SOLO crea specs. Implementation sigue en PRs separadas post-review humana.
-
-Queue APPROVED ejecutable sin-GPU: 0 → 2 (+SE-072, SE-073). PROPOSED: 70 → 68.
-
-Version bump 5.97.0 → 6.0.0 (major: research-driven spec addition + status semantics change).
-
 ## [5.98.0] — 2026-04-24
 
 SE-070 Opus 4.7 calibration scorecard — IMPLEMENTED (Slice 1-3, Slice 4 deferred). **Backlog APPROVED sin-GPU cerrado.**
