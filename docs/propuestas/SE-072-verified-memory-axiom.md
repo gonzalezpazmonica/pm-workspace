@@ -1,16 +1,17 @@
 ---
 id: SE-072
 title: SE-072 — Verified Memory axiom (No Execution, No Memory)
-status: APPROVED
+status: IMPLEMENTED
 origin: GenericAgent repo study 2026-04-25 — lsdefine/GenericAgent
 author: Savia
 priority: alta
 effort: S 3h
 related: memory-auto-capture.sh, memory-store.sh, feedback_root_cause_always
 approved_at: "2026-04-25"
-applied_at: null
+applied_at: "2026-04-25"
+implemented_at: "2026-04-25"
 expires: "2026-06-25"
-era: 186
+era: 188
 ---
 
 # SE-072 — Verified Memory axiom
@@ -65,3 +66,28 @@ Minimal surgical hook que valida `memory-store.sh save` y `Write` sobre `~/.clau
 - `feedback_root_cause_always` — memory rule aligned
 - `scripts/memory-store.sh` — target de la modificación
 - `.claude/hooks/memory-auto-capture.sh` — hook ya existente, complementar
+
+## Resolution (2026-04-25)
+
+SE-072 Slice 1 (MVP) implementado en Era 188 (batch 57). 5/5 ACs cumplidos:
+
+- [x] AC-01 `scripts/memory-save.sh` rechaza `cmd_save` sin `--source <origin>` con mensaje didáctico (5 ejemplos copy-paste)
+- [x] AC-02 4 sources válidos enumerados: `tool:<name>`, `file:<path>:<line>`, `verified:<sha>`, `user:explicit`. Blacklist explícita: `speculation|plan|intent|draft|hypothesis`
+- [x] AC-03 Hook `.claude/hooks/memory-verified-gate.sh` PreToolUse Write bloquea auto-memory writes sin citation pattern (5 patrones aceptados: file ref, markdown link, Source/Ref keyword, URL, frontmatter type)
+- [x] AC-04 Tests BATS: `test-memory-verified-gate.bats` 33 tests score 94 + `test-memory-store.bats` updated 23 tests score 90 (incluye 9 SE-072 cases nuevos)
+- [x] AC-05 Doc `docs/rules/domain/verified-memory-axiom.md` con rationale, reglas, ejemplos correcto/rechazado, escape hatch, riesgos
+
+### Implementación
+
+- `scripts/memory-save.sh:24` — `cmd_save` parsea `--source` flag, valida format vs blacklist, embed en JSONL output como `"source":"<origin>"`
+- `.claude/hooks/memory-verified-gate.sh` — registrado en `.claude/settings.json` PreToolUse Edit|Write con timeout 5s
+- Skipped silenciosamente: `MEMORY.md`, `session-journal.md`, `session-hot.md`, `session-summary.md`
+- Escape hatch: `SAVIA_VERIFIED_MEMORY_DISABLED=true` (para grandfathering, tests legacy, casos explícitos)
+
+### Hook coverage
+
+59/59 → 60/60 hooks tested (100% mantenido — nuevo hook tested desde el primer commit).
+
+### Era
+
+Era 188 — primera spec del backlog APPROVED post Era 187 closure. Próximo: SE-073 (Memory Index Cap Tiered).

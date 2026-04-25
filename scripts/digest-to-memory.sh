@@ -51,6 +51,13 @@ CMD=(bash "$STORE" save --type "$MEMORY_TYPE" --title "$TITLE")
 [[ -n "$CONCEPTS" ]] && CMD+=(--concepts "$CONCEPTS")
 [[ -n "$EXPIRES" ]] && CMD+=(--expires "$EXPIRES")
 
+# SE-072: Verified Memory axiom — provenance from the digest source.
+if [[ -n "$SOURCE_FILE" ]]; then
+    CMD+=(--source "file:${SOURCE_FILE}:1")
+else
+    CMD+=(--source "tool:digest-to-memory")
+fi
+
 if [[ -z "$WHAT" && -z "$WHY" && -z "$WHERE" && -z "$LEARNED" ]]; then
     if [[ -n "$SOURCE_FILE" ]]; then
         CMD+=(--content "Digested from: $SOURCE_FILE")

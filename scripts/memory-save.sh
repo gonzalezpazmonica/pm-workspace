@@ -24,6 +24,7 @@ map_type_to_importance_tier() {
 cmd_save() {
     local type= title= content= concepts= topic_key= project= rev=1 expires_days=
     local what= why= where= learned= supersedes_key= valid_from= quality="unverified"
+    local source=
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --type) type="$2"; shift 2 ;; --title) title="$2"; shift 2 ;;
@@ -34,10 +35,44 @@ cmd_save() {
             --expires) expires_days="$2"; shift 2 ;;
             --supersedes) supersedes_key="$2"; shift 2 ;;
             --valid-from) valid_from="$2"; shift 2 ;;
-            --quality) quality="$2"; shift 2 ;; *) shift ;;
+            --quality) quality="$2"; shift 2 ;;
+            --source) source="$2"; shift 2 ;;
+            *) shift ;;
         esac
     done
     [[ -z "$type" || -z "$title" ]] && { echo "Error: --type, --title requeridos"; exit 1; }
+
+    # SE-072: Verified Memory axiom — "No Execution, No Memory"
+    # Reject saves without provenance. Escape hatch: SAVIA_VERIFIED_MEMORY_DISABLED=true
+    if [[ "${SAVIA_VERIFIED_MEMORY_DISABLED:-false}" != "true" ]]; then
+        if [[ -z "$source" ]]; then
+            cat >&2 <<'EOF'
+Error: --source required (SE-072 Verified Memory axiom).
+
+Valid sources:
+  --source tool:<tool_name>     e.g. tool:Bash, tool:Read, tool:Edit
+  --source file:<path>:<line>   e.g. file:scripts/foo.sh:42
+  --source verified:<sha>       e.g. verified:abc123 (commit hash proving persistence)
+  --source user:explicit        when user told agent to remember X
+
+Rejected: speculation, plan, intent (memory must reflect verified facts, not draft thinking).
+EOF
+            exit 1
+        fi
+        # Reject blacklisted sources (drafts/speculation)
+        case "$source" in
+            speculation|plan|intent|draft|hypothesis)
+                echo "Error: --source '$source' is blacklisted by SE-072 Verified Memory axiom. Use one of: tool:*, file:*:*, verified:*, user:explicit." >&2
+                exit 1 ;;
+        esac
+        # Validate source format
+        case "$source" in
+            tool:*|file:*:*|verified:*|user:explicit) ;;
+            *)
+                echo "Error: --source '$source' does not match required format. Expected: tool:<name>, file:<path>:<line>, verified:<sha>, or user:explicit." >&2
+                exit 1 ;;
+        esac
+    fi
 
     # Build structured content from W/W/W/L fields
     if [[ -n "$what" || -n "$why" || -n "$where" || -n "$learned" ]]; then
@@ -119,6 +154,7 @@ cmd_save() {
     [[ "$supersedes" != "null" ]] && json="$json,\"supersedes\":\"$supersedes\""
     [[ "$expires_at" != "null" ]] && json="$json,\"expires_at\":\"$expires_at\""
     [[ -n "$supersedes_key" ]] && json="$json,\"supersedes_key\":\"$supersedes_key\""
+    [[ -n "$source" ]] && json="$json,\"source\":\"${source//\"/\\\"}\""
     echo "$json}" >> "$STORE_FILE"
     echo "✓ Guardado: $title (topic: $topic_key, rev: $rev)"
     _maybe_rebuild_index

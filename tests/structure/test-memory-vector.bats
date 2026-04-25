@@ -7,6 +7,7 @@ setup() {
     export PROJECT_ROOT=$(mktemp -d)
     mkdir -p "$PROJECT_ROOT/output"
     export STORE_FILE="$PROJECT_ROOT/output/.memory-store.jsonl"
+    export SAVIA_VERIFIED_MEMORY_DISABLED=true  # SE-072: legacy fixtures predate --source contract
     SCRIPT="$BATS_TEST_DIRNAME/../../scripts/memory-store.sh"
     VECTOR="$BATS_TEST_DIRNAME/../../scripts/memory-vector.py"
 }

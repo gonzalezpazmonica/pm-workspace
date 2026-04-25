@@ -8,6 +8,7 @@ setup() {
   export TMPDIR
   export STORE_FILE="$TMPDIR/memory.jsonl"
   export SAVIA_TEST_MODE=true
+  export SAVIA_VERIFIED_MEMORY_DISABLED=true  # SE-072: legacy fixtures predate --source contract
   export PROJECT_ROOT="$TMPDIR"
   TARGET="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)/scripts/memory-save.sh"
   STORE="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)/scripts/memory-store.sh"

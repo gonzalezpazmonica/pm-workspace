@@ -125,6 +125,12 @@
         "hooks": [
           {
             "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/memory-verified-gate.sh",
+            "timeout": 5,
+            "statusMessage": "SE-072: verificando provenance de memoria..."
+          },
+          {
+            "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/tdd-gate.sh",
             "timeout": 10,
             "statusMessage": "TDD gate: tests antes que código..."
