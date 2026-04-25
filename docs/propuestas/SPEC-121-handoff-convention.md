@@ -1,11 +1,14 @@
 ---
 id: SPEC-121
 title: Handoff-as-function convention para SDD E1→E2→E3
-status: PROPOSED
+status: IMPLEMENTED
 origin: Savia autonomous roadmap — Top pick #8 del research 2026-04-17
 author: Savia
 related: SAVIA-SUPERPOWERS-ROADMAP.md
 priority: alta
+applied_at: "2026-04-25"
+implemented_at: "2026-04-25"
+era: 187
 ---
 
 # SPEC-121 — Handoff Convention
@@ -104,3 +107,16 @@ Time-box: 45 min. Riesgo principal: ruptura de agentes existentes que dependan d
 - [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) — patrón original
 - `docs/agent-notes-protocol.md` — protocolo longform existente
 - `scripts/validate-handoff.sh` — validator existente
+
+## Resolution (2026-04-25)
+
+SPEC-121 completado en Era 187 (batch 53). Todos los 6 AC cumplidos:
+
+- [x] AC-01 `docs/rules/domain/agent-handoff-protocol.md` — creado, formato canónico con 7 campos, tabla cuándo-usar-cuál
+- [x] AC-02 5 agentes actualizados con sección "Handoff Format" — sdd-spec-writer (E1→E2), dotnet-developer (E2→E3), code-reviewer (E3→E4 o REJECT), test-engineer (E4→completion), court-orchestrator (REJECT→developer)
+- [x] AC-03 `scripts/validate-handoff.sh` extendido — extrae to/spec/stage/context_hash/reason via grep-regex
+- [x] AC-04 `tests/test-handoff-as-function.bats` — certified score 81 (verifica handoff válido pasa, malformado falla)
+- [x] AC-05 `docs/agent-notes-protocol.md` — sección "Cuándo usar agent-notes vs handoff-as-function" añadida con tabla de decisión
+- [x] AC-06 CHANGELOG entry — batch 53
+
+Diseño aditivo: ningún agente rompió. Handoff-as-function es sección opcional que guía el output del agente cuando necesita transferir control. El protocol longform (agent-notes) se mantiene para casos complejos.

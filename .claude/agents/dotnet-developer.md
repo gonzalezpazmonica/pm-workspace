@@ -116,3 +116,24 @@ Implement exactly what the spec defines — no more, no less — with zero compi
 - All tests pass on first run after implementation
 - Coverage >= 80% for new code
 - Code review approval without REJECT verdict
+
+## Handoff Format (SPEC-121)
+
+E2→E3 handoff to `code-reviewer` after implementation + tests pass:
+
+```yaml
+---
+handoff:
+  to: code-reviewer
+  spec: SPEC-NNN
+  stage: E3
+  context_hash: sha256:<8-char-prefix>
+  reason: "Implementation complete, tests green, ready for review"
+  termination_reason: completed
+  artifacts:
+    - src/Feature/ServiceFile.cs
+    - tests/Feature/ServiceTests.cs
+---
+```
+
+See `docs/rules/domain/agent-handoff-protocol.md` for fields and validator.

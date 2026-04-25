@@ -102,3 +102,19 @@ Si existen, las lee como contexto. Si no, procede con el contexto estándar (spe
 ## Limpieza
 
 Las agent-notes de sprints cerrados se archivan en `agent-notes/archive/{sprint}/` al final de cada sprint review. El PM puede archivar manualmente con `/agent-notes-archive`.
+
+---
+
+## Cuándo usar agent-notes vs handoff-as-function
+
+SPEC-121 introduce `handoff-as-function` como protocolo ligero para transiciones simples E1→E2→E3→E4:
+
+| Situación | Protocolo | Documento |
+|---|---|---|
+| Handoff simple con artefactos claros (≤7 campos) | **handoff-as-function** | `docs/rules/domain/agent-handoff-protocol.md` |
+| Research multi-turn, decisión compleja, discusión | **agent-notes** (este doc) | `docs/agent-notes-protocol.md` |
+| Broadcasting a múltiples agentes | **agent-notes** (este doc) | `docs/agent-notes-protocol.md` |
+
+**Regla práctica**: si el handoff cabe en 7 campos YAML, usa `handoff-as-function`. Si necesitas párrafos explicativos, análisis de contexto o múltiples receptores, usa agent-notes.
+
+Validación de handoff-as-function: `bash scripts/validate-handoff.sh --file handoff.yaml`.

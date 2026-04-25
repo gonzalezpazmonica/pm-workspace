@@ -130,3 +130,23 @@ En flujo SDD, los tests se escriben **ANTES** del código de producción:
 - **Un assert lógico por test** (puede haber múltiples líneas de assertion si van juntas)
 - **Tests deterministas**: si un test falla intermitentemente, es un bug en el test
 - **No testar implementación, testar comportamiento**: si cambias el nombre de un método privado, ningún test debería romperse
+
+## Handoff Format (SPEC-121)
+
+E4 completion handoff to orchestrator after all tests validated:
+
+```yaml
+---
+handoff:
+  to: court-orchestrator
+  spec: SPEC-NNN
+  stage: E4
+  context_hash: sha256:<8-char-prefix>
+  reason: "All tests pass, coverage ≥80%, spec complete"
+  termination_reason: completed
+  artifacts:
+    - tests/FeatureTests.cs
+---
+```
+
+See `docs/rules/domain/agent-handoff-protocol.md` for fields and validator.
