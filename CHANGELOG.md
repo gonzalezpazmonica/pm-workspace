@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.10.0] — 2026-04-26
+
+Batch 59 — SE-074 spec creado + ROADMAP Era 188 reprio.
+
+### Added
+- `docs/propuestas/SE-074-parallel-spec-execution.md` — spec APPROVED. 3 slices (worktree manager + PR queue + DB sandbox). Pre-reqs cumplidos (hook 100%, G11, cascade-rebase pattern, bounded concurrency).
+
+### Changed
+- `docs/ROADMAP.md` Era 188 "Memory + Throughput foundations" con pipeline SE-072 (done) → SE-073 → SE-074. Trade-off explícito: 8h bloqueado, break-even 2-3 Eras post.
+
+### Context
+Inspirado en LinkedIn de Cole Medin "5 Claude Code sessions in parallel". Capitaliza Era 186 (hook 100%) + Era 187 (drift cleanup) + batch 57 (verified memory) + batch 58 (PR rule). 3-4x throughput esperado.
+
+Version bump 6.8.0 → 6.10.0 (6.9.0 reservado para PR #702 batch 58 todavía en cola).
+
 ## [6.9.0] — 2026-04-25
 
 Batch 58 — Nueva regla: cada PR requiere párrafo en lenguaje no técnico.
@@ -24,7 +39,6 @@ Batch 58 — Nueva regla: cada PR requiere párrafo en lenguaje no técnico.
 Solicitud de la usuaria: PRs autónomos sin párrafo plano dejan de ser auditables. Slice 1 sin LLM. PR #701 editado retroactivamente.
 
 Version bump 6.8.0 → 6.9.0.
-
 ## [6.8.0] — 2026-04-25
 
 Batch 57 — SE-072 Verified Memory axiom **IMPLEMENTED** (Slice 1). **Era 188 inaugural.**
@@ -8544,6 +8558,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
+[6.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.9.0...v6.10.0
 [6.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.7.0...v6.8.0
 [6.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.8.0...v6.9.0
 [6.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.6.0...v6.7.0
