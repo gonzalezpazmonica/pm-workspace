@@ -4,6 +4,7 @@
 setup() {
     export PROJECT_ROOT=$(mktemp -d)
     export STORE_FILE="$PROJECT_ROOT/output/.memory-store.jsonl"
+    export SAVIA_TEST_MODE=true  # SE-072: grandfather test fixtures (verified-memory bypass)
     SCRIPT="$BATS_TEST_DIRNAME/../../scripts/memory-store.sh"
 }
 

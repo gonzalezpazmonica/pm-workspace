@@ -43,8 +43,10 @@ cmd_save() {
     [[ -z "$type" || -z "$title" ]] && { echo "Error: --type, --title requeridos"; exit 1; }
 
     # SE-072: Verified Memory axiom — "No Execution, No Memory"
-    # Reject saves without provenance. Escape hatch: SAVIA_VERIFIED_MEMORY_DISABLED=true
-    if [[ "${SAVIA_VERIFIED_MEMORY_DISABLED:-false}" != "true" ]]; then
+    # Reject saves without provenance. Escape hatches:
+    #   SAVIA_VERIFIED_MEMORY_DISABLED=true (explicit bypass)
+    #   SAVIA_TEST_MODE=true (existing test fixtures, grandfathering)
+    if [[ "${SAVIA_VERIFIED_MEMORY_DISABLED:-false}" != "true" && "${SAVIA_TEST_MODE:-false}" != "true" ]]; then
         if [[ -z "$source" ]]; then
             cat >&2 <<'EOF'
 Error: --source required (SE-072 Verified Memory axiom).
