@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.1.0] — 2026-04-25
+
+Batch 50 — Hook coverage +4: instructions-tracker, file-changed-staleness, session-end-snapshot, config-reload.
+
+### Added
+- `tests/test-instructions-tracker.bats` — 27 tests certified (score 93). InstructionsLoaded async log.
+- `tests/test-file-changed-staleness.bats` — 26 tests certified (score 90). FileChanged stale marker.
+- `tests/test-session-end-snapshot.bats` — 24 tests certified (score 88). Stop hook context-snapshot delegation.
+- `tests/test-config-reload.bats` — 28 tests certified (score 92). ConfigChange profile cache invalidation.
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 10 a 6. Hook coverage 48/58 a 52/58 (89.7%) standalone, **55/58 (94.8%) cuando combinado con PR #692**.
+
+### Context
+Duodecima iteracion ratchet. **+4 hooks** en una iteracion (vs 3 habituales). 105 tests nuevos certified. Solo 3 hooks pendientes (token-tracker-middleware, subagent-lifecycle, task-lifecycle) → 100% en una iteracion mas.
+
+Version bump 5.98.0 a 6.1.0.
+
 ## [6.0.0] — 2026-04-25
 
 Dos nuevas specs APPROVED del research GenericAgent repo (6.8k ⭐).
@@ -41,24 +59,6 @@ Undécima iteración ratchet. 98 tests nuevos certified. Meta 85% SUPERADA en ba
 Queue restante: 7 hooks (todos <40 lines, 4 de ellos <30 lines). Próxima iteración puede cerrar 4-5 hooks de una vez → 95%+ coverage.
 
 Version bump 5.97.0 → 5.99.0.
-## [6.1.0] — 2026-04-25
-
-Batch 50 — Hook coverage +4: instructions-tracker, file-changed-staleness, session-end-snapshot, config-reload.
-
-### Added
-- `tests/test-instructions-tracker.bats` — 27 tests certified (score 93). InstructionsLoaded async log.
-- `tests/test-file-changed-staleness.bats` — 26 tests certified (score 90). FileChanged stale marker.
-- `tests/test-session-end-snapshot.bats` — 24 tests certified (score 88). Stop hook context-snapshot delegation.
-- `tests/test-config-reload.bats` — 28 tests certified (score 92). ConfigChange profile cache invalidation.
-
-### Changed
-- `.ci-baseline/hook-untested-count.count`: 10 a 6. Hook coverage 48/58 a 52/58 (89.7%) standalone, **55/58 (94.8%) cuando combinado con PR #692**.
-
-### Context
-Duodecima iteracion ratchet. **+4 hooks** en una iteracion (vs 3 habituales). 105 tests nuevos certified. Solo 3 hooks pendientes (token-tracker-middleware, subagent-lifecycle, task-lifecycle) → 100% en una iteracion mas.
-
-Version bump 5.98.0 a 6.1.0.
-
 ## [5.98.0] — 2026-04-24
 
 SE-070 Opus 4.7 calibration scorecard — IMPLEMENTED (Slice 1-3, Slice 4 deferred). **Backlog APPROVED sin-GPU cerrado.**
