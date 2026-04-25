@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.7.0] — 2026-04-25
+
+Batch 56 — SPEC-124 pr-agent wrapper **IMPLEMENTED**. **Era 187 trigger: 0 PROPOSED priority alta restantes.**
+
+### Added
+- `.github/workflows/templates/pr-agent-review.yml` — reusable workflow para 5º juez Court (cost gate, feature-flag, draft skip, tagged comments).
+- `docs/rules/domain/court-external-judges.md` — política inclusión jueces externos OSS (7 requisitos, 6 reglas operación, activación pasa a paso).
+
+### Changed
+- `docs/propuestas/SPEC-124-pr-agent-wrapper.md`: PROPOSED → IMPLEMENTED, 9/9 ACs.
+
+### Context
+ACs 01/02/03/05/06/07 ya implementados; completados AC-04/08/09. Era 187 todas las 6 specs alta IMPLEMENTED (SPEC-055/078/121/122/124 + SE-070).
+
+Version bump 6.6.0 → 6.7.0.
+
 ## [6.6.0] — 2026-04-25
 
 Batch 55 — SPEC-078 dual-estimation status drift correction (PROPOSED → IMPLEMENTED).
@@ -8489,6 +8505,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
+[6.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.6.0...v6.7.0
 [6.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.5.0...v6.6.0
 [6.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.4.0...v6.5.0
 [6.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.3.0...v6.4.0
