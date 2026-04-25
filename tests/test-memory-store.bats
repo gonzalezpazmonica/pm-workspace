@@ -37,10 +37,51 @@ teardown() {
 }
 
 @test "save creates JSONL entry" {
-  run bash "$SCRIPT" save --type decision --title "Test decision" --content "Test content"
+  run bash "$SCRIPT" save --type decision --title "Test decision" --content "Test content" --source tool:Bats
   [[ "$status" -eq 0 ]]
   [[ -f "$TMPDIR_MS/output/.memory-store.jsonl" ]]
   grep -q "Test decision" "$TMPDIR_MS/output/.memory-store.jsonl"
+}
+
+@test "SE-072: save without --source rejected" {
+  run bash "$SCRIPT" save --type decision --title "No source" --content "X"
+  [[ "$status" -ne 0 ]]
+  [[ "$output" == *"--source"* ]] || [[ "$stderr" == *"--source"* ]]
+}
+
+@test "SE-072: --source speculation blacklisted" {
+  run bash "$SCRIPT" save --type decision --title "Spec" --content "X" --source speculation
+  [[ "$status" -ne 0 ]]
+}
+
+@test "SE-072: invalid --source format rejected" {
+  run bash "$SCRIPT" save --type decision --title "Bad" --content "X" --source random-string
+  [[ "$status" -ne 0 ]]
+}
+
+@test "SE-072: tool:Bash --source accepted" {
+  run bash "$SCRIPT" save --type decision --title "OK1" --content "X" --source tool:Bash
+  [[ "$status" -eq 0 ]]
+}
+
+@test "SE-072: file:path:line --source accepted" {
+  run bash "$SCRIPT" save --type pattern --title "OK2" --content "X" --source file:scripts/foo.sh:42
+  [[ "$status" -eq 0 ]]
+}
+
+@test "SE-072: user:explicit --source accepted" {
+  run bash "$SCRIPT" save --type decision --title "OK3" --content "X" --source user:explicit
+  [[ "$status" -eq 0 ]]
+}
+
+@test "SE-072: source field embedded in JSONL" {
+  bash "$SCRIPT" save --type decision --title "WithSource" --content "X" --source tool:Bash
+  grep -q '"source":"tool:Bash"' "$TMPDIR_MS/output/.memory-store.jsonl"
+}
+
+@test "SE-072: SAVIA_VERIFIED_MEMORY_DISABLED bypass works" {
+  SAVIA_VERIFIED_MEMORY_DISABLED=true run bash "$SCRIPT" save --type decision --title "Bypass" --content "X"
+  [[ "$status" -eq 0 ]]
 }
 
 @test "search on empty store handles gracefully" {
@@ -61,15 +102,15 @@ teardown() {
 }
 
 @test "save then search finds entry" {
-  bash "$SCRIPT" save --type bug --title "Login broken" --content "Session expired"
+  bash "$SCRIPT" save --type bug --title "Login broken" --content "Session expired" --source tool:Bats
   run bash "$SCRIPT" search "Login"
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"Login"* ]] || [[ "$output" == *"login"* ]]
 }
 
 @test "multiple saves accumulate in JSONL" {
-  bash "$SCRIPT" save --type decision --title "Decision A" --content "A"
-  bash "$SCRIPT" save --type decision --title "Decision B" --content "B"
+  bash "$SCRIPT" save --type decision --title "Decision A" --content "A" --source tool:Bats
+  bash "$SCRIPT" save --type decision --title "Decision B" --content "B" --source tool:Bats
   local count
   count=$(wc -l < "$TMPDIR_MS/output/.memory-store.jsonl")
   [[ "$count" -ge 2 ]]

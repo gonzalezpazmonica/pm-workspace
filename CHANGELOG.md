@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.8.0] — 2026-04-25
+
+Batch 57 — SE-072 Verified Memory axiom **IMPLEMENTED** (Slice 1). **Era 188 inaugural.**
+
+### Added
+- `.claude/hooks/memory-verified-gate.sh` — PreToolUse Write hook (33 tests, score 94). Bloquea auto-memory writes sin citation pattern (5 patterns OK).
+- `tests/test-memory-verified-gate.bats` — 33 tests certified score 94.
+- `docs/rules/domain/verified-memory-axiom.md` — política "No Execution, No Memory" de GenericAgent.
+
+### Changed
+- `scripts/memory-save.sh` — `--source <origin>` obligatorio. Valida format (4 OK), rechaza blacklist. Embed en JSONL.
+- `tests/test-memory-store.bats` — 9 tests SE-072 nuevos (score 90).
+- `.claude/settings.json` — hook registrado PreToolUse Edit|Write.
+- `docs/propuestas/SE-072-verified-memory-axiom.md` — APPROVED → IMPLEMENTED.
+- `CLAUDE.md` — hooks 59→60 (64 regs).
+
+### Context
+Memoria persistente debe reflejar hechos verificados — no intenciones. Escape hatch: `SAVIA_VERIFIED_MEMORY_DISABLED=true`. Hook coverage 100% mantenido (60/60).
+
+Version bump 6.7.0 → 6.8.0.
+
 ## [6.7.0] — 2026-04-25
 
 Batch 56 — SPEC-124 pr-agent wrapper **IMPLEMENTED**. **Era 187 trigger: 0 PROPOSED priority alta restantes.**
@@ -8505,6 +8526,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
+[6.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.7.0...v6.8.0
 [6.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.6.0...v6.7.0
 [6.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.5.0...v6.6.0
 [6.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.4.0...v6.5.0
