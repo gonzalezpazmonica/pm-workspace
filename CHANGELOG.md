@@ -8422,6 +8422,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[6.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.98.0...v6.1.0
 [5.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.97.0...v5.98.0
 [5.99.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.97.0...v5.99.0
