@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0c3ac02886696e5c097e43714b4748508b0a1ec2a4f5cabaffe449b5ac957537
-timestamp=2026-04-24T22:36:26Z
-branch=agent/se070-opus47-eval-scorecard-20260424
-head_commit=41749623
-signature=f679a376e3fe9df29774b6322d55eb2bac3176e11a2dc9f68e77ae689b203936
+diff_hash=602bdd99379a5c299129c791f30ec0d2ce0146719991c0e3157d0d7a4ef28008
+timestamp=2026-04-25T07:23:28Z
+branch=agent/batch49-hook-coverage-3more-20260424
+head_commit=4e35a0c8
+signature=cfd62aaded1ae17fb68c7398c701d8f8cffb629254da76a89ecac227cb255a25
