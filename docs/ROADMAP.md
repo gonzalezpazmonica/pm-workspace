@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-25 | **Version:** v6.2.0 | **532 commands · 65 agents · 86 skills · 58 hooks (62 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 + hook coverage 58/58 (100%) batches 39-51 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070 IMPLEMENTED · SE-072+SE-073 APPROVED from GenericAgent research · spec triage 74→70 PROPOSED + 5 APPROVED promotions · test quality baseline 232/232 ≥80 · agent size ratchet 27 violations frozen · **HOOK COVERAGE 100% MILESTONE** · backlog APPROVED sin-GPU cerrado)**
+**Updated:** 2026-04-25 | **Version:** v6.3.0 | **532 commands · 65 agents · 86 skills · 58 hooks (62 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 · **HOOK COVERAGE 100%** 58/58 batches 39-51 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055 IMPLEMENTED · SE-072+SE-073 APPROVED from GenericAgent research · spec triage 74→70 PROPOSED + 6 APPROVED promotions · test quality baseline 329/329 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · backlog APPROVED sin-GPU cerrado)**
 
 ---
 
@@ -208,9 +208,9 @@ Ver propuestas: `docs/propuestas/SE-066-*.md` .. `docs/propuestas/SE-070-*.md`.
 
 ---
 
-## Era 186 extension — Hook coverage ratchet + triage (2026-04-24, IN PROGRESS)
+## Era 186 extension — Hook coverage ratchet + triage (2026-04-24, **CLOSED 2026-04-25**)
 
-Batches 39-48 anadieron BATS tests a 30 hooks, elevando cobertura de **31% (18/58)** a **82.7% (48/58)** en 10 iteraciones de +3 hooks/batch. 300+ tests certified con score auditor ≥80.
+Batches 39-51 anadieron BATS tests a **40 hooks**, elevando cobertura de **31% (18/58)** a **100% (58/58)** en 13 iteraciones de +3-4 hooks/batch. 1100+ tests certified con score auditor ≥80 (avg ~90).
 
 ### Milestones hook coverage
 
@@ -219,7 +219,10 @@ Batches 39-48 anadieron BATS tests a 30 hooks, elevando cobertura de **31% (18/5
 | Pre-batch-39 | 18/58 | 31% |
 | Batch 42 (50%) | 30/58 | 52% |
 | Batch 47 (75%) | 45/58 | 77.6% |
-| **Batch 48** | **48/58** | **82.7%** |
+| Batch 48 | 48/58 | 82.7% |
+| Batch 49 (85%) | 51/58 | 87.9% |
+| Batch 50 | 55/58 | 94.8% |
+| **Batch 51** | **58/58** | **100% — MILESTONE** |
 
 ### Bugs descubiertos via tests
 

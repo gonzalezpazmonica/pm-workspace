@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.3.0] — 2026-04-25
+
+Batch 52 — SPEC-055 status drift correction + Era 186 hook ratchet **CLOSURE** + sweep bug fix + baseline tighten.
+
+### Changed
+- `docs/propuestas/SPEC-055-test-auditor.md`: status PROPOSED → IMPLEMENTED con Resolution section. AC 5/5 cumplidos.
+- `docs/ROADMAP.md`: Era 186 extension marcada CLOSED. Tabla milestones extendida 49-51. Header v6.3.0 con SPEC-055 IMPLEMENTED.
+- `.ci-baseline/hook-critical-violations.count`: 5 → 4. Ratchet never-loosen mantenido (current = 4 consistente).
+
+### Fixed
+- `scripts/test-auditor-sweep.sh`: extracción de `.score` (campo inexistente) → `.total` (correcto). Sweep ahora reporta 100% compliance real vs 0% bug. Impact LOW (no en CI).
+
+### Context
+PR-A del plan post-#695. Era 186 hook coverage ratchet finales:
+- 13 batches (39-51) en 5 días
+- 18/58 → 58/58 (+40 hooks, 1100+ tests, avg score ~90)
+- 4 bugs reales descubiertos via tests
+- Drift hooks: 0 (CI-enforced)
+
+Próximo: SPEC-121 (3 ACs), SPEC-122 (4 ACs).
+
+Version bump 6.2.0 → 6.3.0.
+
 ## [6.2.0] — 2026-04-25
 
 Batch 51 — Hook coverage +3: token-tracker-middleware, subagent-lifecycle, task-lifecycle. **100% HOOK COVERAGE — 58/58.**
@@ -8422,6 +8445,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
 [6.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.98.0...v6.1.0
 [5.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.97.0...v5.98.0
