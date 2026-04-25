@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.2.0] — 2026-04-25
+
+Batch 51 — Hook coverage +3: token-tracker-middleware, subagent-lifecycle, task-lifecycle. **100% HOOK COVERAGE — 58/58.**
+
+### Added
+- `tests/test-token-tracker-middleware.bats` — 30 tests certified (score 91). PostToolUse async monitor de context tokens, 3 zonas (50% hint / 70% alert / 85% critical → auto-compact).
+- `tests/test-subagent-lifecycle.bats` — 29 tests certified (score 94). SubagentStart/Stop logging a `output/agent-lifecycle/lifecycle.jsonl`.
+- `tests/test-task-lifecycle.bats` — 30 tests certified (score 94). TaskCreated/Completed logging con team/teammate fields.
+
+### Changed
+- `.ci-baseline/hook-untested-count.count`: 3 → 0. **Hook coverage 55/58 (94.8%) → 58/58 (100%).**
+
+### Context
+Decimotercera iteración del ratchet — y la última. 89 tests nuevos certified. **Meta 100% ALCANZADA.**
+
+Progreso completo desde pre-batch-39 (Era 186 inicio): 18/58 → 58/58 hooks tested (31% → 100%, +40 hooks en 13 batches). Average score certified ≈ 90. 1100+ tests añadidos.
+
+Próximo trabajo: PROPOSED priority alta (SE-034, SPEC-055, SPEC-078, SPEC-121, SPEC-122, SPEC-124) o Slice 4 de SE-070 si se libera presupuesto.
+
+Version bump 6.1.0 → 6.2.0.
+
 ## [6.1.0] — 2026-04-25
 
 Batch 50 — Hook coverage +4: instructions-tracker, file-changed-staleness, session-end-snapshot, config-reload.
@@ -8401,6 +8422,7 @@ Initial public release of PM-Workspace.
 - **Test suite** (96 tests)
 - **Documentation** with methodology
 
+[6.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.98.0...v6.1.0
 [5.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.97.0...v5.98.0
 [5.99.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.97.0...v5.99.0
