@@ -39,6 +39,22 @@ Batch 58 — Nueva regla: cada PR requiere párrafo en lenguaje no técnico.
 Solicitud de la usuaria: PRs autónomos sin párrafo plano dejan de ser auditables. Slice 1 sin LLM. PR #701 editado retroactivamente.
 
 Version bump 6.8.0 → 6.9.0.
+## [6.11.0] — 2026-04-26
+
+Batch 60 — SE-075 (Voicebox) + SE-076 (QueryWeaver) specs APPROVED + ROADMAP reprio.
+
+### Added
+- `docs/propuestas/SE-075-voicebox-adoption.md` — APPROVED. task_queue + auto-chunking + Kokoro CPU voice español. Source: jamiepine/voicebox MIT.
+- `docs/propuestas/SE-076-queryweaver-patterns.md` — APPROVED. Graphiti episodic + schema-graph WIQL + LLM healer. Source: FalkorDB/QueryWeaver patterns (no AGPL code import).
+
+### Changed
+- `docs/ROADMAP.md` Era 188 pipeline: SE-073 → SE-074 → SE-075 → SE-076. Sinergias documentadas (task_queue habilita paralelismo + healer async; episodes extienden SPEC-027).
+
+### Context
+6 patrones extractables sin adoptar infra ni licencias bloqueantes. Pendiente aprobación de la usuaria para arrancar SE-074 Slice 1.
+
+Version bump 6.10.0 → 6.11.0.
+
 ## [6.8.0] — 2026-04-25
 
 Batch 57 — SE-072 Verified Memory axiom **IMPLEMENTED** (Slice 1). **Era 188 inaugural.**
@@ -8559,6 +8575,7 @@ Initial public release of PM-Workspace.
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
 [6.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.9.0...v6.10.0
+[6.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.10.0...v6.11.0
 [6.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.7.0...v6.8.0
 [6.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.8.0...v6.9.0
 [6.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.6.0...v6.7.0
