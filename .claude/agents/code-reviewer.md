@@ -142,22 +142,7 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 
 Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.
 
-## Handoff Format (SPEC-121)
+## Handoff (SPEC-121)
 
-E3→E4 handoff to `test-engineer` after review PASS (no REJECT):
-
-```yaml
----
-handoff:
-  to: test-engineer
-  spec: SPEC-NNN
-  stage: E4
-  context_hash: sha256:<8-char-prefix>
-  reason: "Code review PASS, ready for final test validation"
-  termination_reason: completed
-  artifacts:
-    - .review.crc
----
-```
-
-If verdict is REJECT, use `termination_reason: unrecoverable_error` and route back to developer. See `docs/rules/domain/agent-handoff-protocol.md`.
+PASS→`test-engineer` E4 · REJECT→developer `termination_reason: unrecoverable_error`.
+See `docs/rules/domain/agent-handoff-protocol.md`.
