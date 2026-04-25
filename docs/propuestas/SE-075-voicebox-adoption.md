@@ -115,3 +115,17 @@ Patrón de voicebox `services/tts.py` para chunking:
 - SE-042 voice training (GPU-blocked, complementario)
 - SE-074 parallel spec execution (Slice 1 de SE-075 lo habilita)
 - `.claude/skills/savia-voice/`, `~/.savia/whisper-env` — infra existente
+
+## OpenCode Implementation Plan
+
+**Portability classification**: PURE_BASH
+
+Los 3 slices no dependen de Claude Code:
+
+- **Slice 1 (task_queue.py)**: módulo Python standalone, invocable desde cualquier frontend. No requiere hooks ni events.
+- **Slice 2 (auto-chunking)**: helper Python en `.claude/skills/savia-voice/`. Las skills se exponen vía AGENTS.md (SE-078) en OpenCode v1.14.
+- **Slice 3 (Kokoro CPU voice)**: dependencia Python (`kokoro-onnx` o equivalente). Sin acoplamiento a frontend.
+
+**OpenCode binding**: ninguno necesario. Las invocaciones desde OpenCode resuelven igual que desde Claude Code (script paths absolutos en `scripts/` o `.claude/skills/`).
+
+**Validación post-replatform (SE-077)**: tras switch a OpenCode v1.14, ejecutar `bash scripts/savia-voice-smoke.sh` y `python3 -m savia_voice.task_queue --selftest` para confirmar que los 3 slices siguen operando sin Claude Code.

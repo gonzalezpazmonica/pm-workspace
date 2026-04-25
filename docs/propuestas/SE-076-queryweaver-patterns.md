@@ -113,3 +113,24 @@ Sin dependencia FalkorDB ni graphiti-core (AGPL bloqueante). Implementar el PATR
 - SE-072 Verified Memory — pre-requisito ético (Slice 2)
 - SE-074 — task_queue.py podrá ser usado por Slice 3 healer
 - SE-075 Slice 1 — sinergia con healer async retries
+
+## OpenCode Implementation Plan
+
+**Portability classification**: PURE_BASH
+
+Los 3 slices son backend puro:
+
+- **Slice 1 (Graphiti episodic JSONL)**: extiende `scripts/memory-graph.py` y `scripts/memory-store.sh`. Sin acoplamiento a frontend.
+- **Slice 2 (Schema-graph WIQL)**: skill en `.claude/skills/wiql-schema-graph/` invocable desde AGENTS.md (SE-078). Sin hooks específicos de Claude Code.
+- **Slice 3 (LLM healer)**: wrapper Bash + Python alrededor de cualquier LLM CLI (Claude, Codex, modelos locales vía Ollama). El frontend que invoca al healer es indiferente.
+
+**OpenCode binding**: ninguno necesario. El healer puede invocarse desde OpenCode v1.14 igual que desde Claude Code mediante AGENTS.md (slash command o skill autoload).
+
+**Validación post-replatform (SE-077)**: tras switch, ejecutar:
+- `bash tests/structure/test-memory-graph.bats` (Slice 1)
+- `bash scripts/wiql-schema-audit.sh --selftest` (Slice 2)
+- `bash scripts/llm-healer-smoke.sh` (Slice 3)
+
+para confirmar paridad funcional sin Claude Code.
+
+**Riesgo OpenCode-específico**: Slice 2 (schema-graph WIQL) depende de variable `$AZURE_DEVOPS_PAT` accesible en runtime. OpenCode hereda env vars como Claude Code, sin diferencia operativa.
