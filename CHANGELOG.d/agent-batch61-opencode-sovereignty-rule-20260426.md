@@ -12,7 +12,7 @@ Batch 61 — OpenCode sovereignty: SE-077 + SE-078 specs APPROVED + nueva regla 
 
 ### Changed
 - `scripts/pr-plan.sh` — invoca G12 tras G11.
-- `docs/propuestas/SE-074-parallel-spec-execution.md` — añade sección OpenCode Implementation Plan (PURE_BASH).
+- `docs/propuestas/SE-074-parallel-spec-execution.md` — añade sección OpenCode Implementation Plan (PURE_BASH) + nuevo Slice 1.5 (S, 3h) "Adaptive halting + dynamic retry budget" inspirado en Kohli et al. 2026 (arXiv:2604.07822). Doble criterio halting (convergencia + confianza) + Poisson-clipped budget según effort field.
 - `docs/ROADMAP.md` Era 189 inaugurada con SE-077 + SE-078 priority alta.
 - `CLAUDE.md` — referencia lazy a la regla nueva.
 

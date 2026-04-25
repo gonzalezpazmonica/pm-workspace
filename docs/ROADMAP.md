@@ -312,6 +312,7 @@ Post Era 187 closure, foco en habilitadores estructurales antes de seguir con sp
 2. **SE-073** Memory Index Cap Tiered — quick win, no bloquea ni depende de SE-074
 3. **SE-074** Parallel spec execution — **NUEVO, prioridad alta**
    - Slice 1 (M, 8h): worktree manager + spec queue + bounded concurrency 3-5
+   - Slice 1.5 (S, 3h): adaptive halting + dynamic retry budget Poisson(λ) según effort (Kohli et al. 2026 arXiv:2604.07822)
    - Slice 2 (S, 4h): PR queue manager con cascade-rebase auto
    - Slice 3 (M, 6h): DB sandbox + cleanup hardening
    - Multiplica throughput 3-4x sobre la base actual (no lineal por overhead coordinación)
