@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.9.0] — 2026-04-25
+
+Batch 58 — Nueva regla: cada PR requiere párrafo en lenguaje no técnico.
+
+### Added
+- `docs/rules/domain/pr-natural-language-summary.md` — regla canónica.
+- `scripts/pr-plan-gates.sh:g_summary` — gate G11 valida `.pr-summary.md`.
+
+### Changed
+- `scripts/pr-plan.sh` — invoca G11 tras G10.
+- `scripts/push-pr.sh` — prepend `.pr-summary.md` al PR body.
+- `.gitignore` — excluye `.pr-summary.md`.
+- `CLAUDE.md` — referencia lazy nueva.
+
+### Context
+Solicitud de la usuaria: PRs autónomos sin párrafo plano dejan de ser auditables. Slice 1 sin LLM. PR #701 editado retroactivamente.
+
+Version bump 6.8.0 → 6.9.0.
+
 ## [6.8.0] — 2026-04-25
 
 Batch 57 — SE-072 Verified Memory axiom **IMPLEMENTED** (Slice 1). **Era 188 inaugural.**
@@ -26,7 +45,6 @@ Batch 57 — SE-072 Verified Memory axiom **IMPLEMENTED** (Slice 1). **Era 188 i
 Memoria persistente debe reflejar hechos verificados — no intenciones. Escape hatch: `SAVIA_VERIFIED_MEMORY_DISABLED=true`. Hook coverage 100% mantenido (60/60).
 
 Version bump 6.7.0 → 6.8.0.
-
 ## [6.7.0] — 2026-04-25
 
 Batch 56 — SPEC-124 pr-agent wrapper **IMPLEMENTED**. **Era 187 trigger: 0 PROPOSED priority alta restantes.**
@@ -291,7 +309,7 @@ Version bump 5.93.0 a 5.94.0.
 SE-071 safety hook fix + spec triage + roadmap update.
 
 ### Fixed
-- `.claude/hooks/block-branch-switch-dirty.sh`: `profile_gate "minimal"` a `profile_gate "security"`. SE-071 resolved with Monica approval. Bug: "minimal" invalid tier silently disabled safety hook under profile default. Verified fix blocks dirty checkout with exit 2.
+- `.claude/hooks/block-branch-switch-dirty.sh`: `profile_gate "minimal"` a `profile_gate "security"`. SE-071 resolved with the user's approval. Bug: "minimal" invalid tier silently disabled safety hook under profile default. Verified fix blocks dirty checkout with exit 2.
 
 ### Changed
 - **Spec triage** (74 PROPOSED specs): 5 promoted to APPROVED (SE-038, SE-039, SE-065, SE-070, SPEC-120), 9 alta, 33 media, 21 baja, 6 skipped (meta/ADR/TEMPLATE).
@@ -315,7 +333,7 @@ Batch 48 — Hook coverage +3: bash-output-compress, block-branch-switch-dirty, 
 - `tests/test-bash-output-compress.bats` — 30 tests certified (score 90). PostToolUse async rtk-ai inspired token compression. Script delegation, context-tracker metric logging, 30-line threshold.
 - `tests/test-block-branch-switch-dirty.bats` — 36 tests certified (score 90). PreToolUse security. Intercepta git checkout/switch con arbol sucio.
 - `tests/test-compress-agent-output.bats` — 29 tests certified (score 92). PostToolUse Task SPEC-041 P4. Streaming compression >200 tokens en dev-sessions.
-- `docs/propuestas/SE-071-profile-gate-invalid-tier-audit.md` — bug audit: block-branch-switch-dirty.sh usa tier invalido "minimal", hook silent-disabled bajo profile default. Requiere Monica approval (safety hook).
+- `docs/propuestas/SE-071-profile-gate-invalid-tier-audit.md` — bug audit: block-branch-switch-dirty.sh usa tier invalido "minimal", hook silent-disabled bajo profile default. Requiere aprobación de la usuaria (safety hook).
 
 ### Changed
 - `.ci-baseline/hook-untested-count.count`: 13 a 10. Hook coverage 45/58 (77.6%) a 48/58 (82.7%).
@@ -605,7 +623,7 @@ Batch 29 — SE-063 Slice 2 registro + Slice 3 bypass semántico.
 - `CLAUDE.md` bump 61reg → 62reg por registro PostToolUse Read nuevo.
 
 ### Context
-Cierra el loop crítico de SE-063. Batch 28 dejó el marker script sin registrar por self-modification guard; batch 29 lo registra tras la aprobación de Monica ("mergeado, seguimos desarrollando"). Slice 3 del spec queda cumplido: env runtime override ya estaba en Slice 1, ahora añade verbosidad controlada y opt-out per-proyecto. Era 185 progresa hacia cierre con SE-063 completo al 100%.
+Cierra el loop crítico de SE-063. Batch 28 dejó el marker script sin registrar por self-modification guard; batch 29 lo registra tras la aprobación de la usuaria ("mergeado, seguimos desarrollando"). Slice 3 del spec queda cumplido: env runtime override ya estaba en Slice 1, ahora añade verbosidad controlada y opt-out per-proyecto. Era 185 progresa hacia cierre con SE-063 completo al 100%.
 
 ## [5.76.0] — 2026-04-22
 
@@ -8527,6 +8545,7 @@ Initial public release of PM-Workspace.
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
 [6.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.7.0...v6.8.0
+[6.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.8.0...v6.9.0
 [6.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.6.0...v6.7.0
 [6.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.5.0...v6.6.0
 [6.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.4.0...v6.5.0

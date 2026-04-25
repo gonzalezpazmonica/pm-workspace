@@ -249,6 +249,23 @@ g10() {
   local out; out=$(bash scripts/validate-ci-local.sh 2>&1) || true
   echo "$out" | grep -q "safe to push" || { echo "FAIL: CI issues (run validate-ci-local.sh)"; return; }
 }
+# G_SUMMARY: PR natural-language summary required (rule pr-natural-language-summary.md)
+g_summary() {
+  local f="$ROOT/.pr-summary.md"
+  if [[ ! -f "$f" ]]; then
+    echo "FAIL: missing .pr-summary.md (write a non-technical paragraph for the PR — see docs/rules/domain/pr-natural-language-summary.md)"
+    return
+  fi
+  local size; size=$(wc -c < "$f" | tr -d ' ')
+  if [[ "$size" -lt 300 ]]; then
+    echo "FAIL: .pr-summary.md too short ($size chars, min 300)"
+    return
+  fi
+  if ! grep -q '^## Qué hace este PR (en lenguaje no técnico)' "$f"; then
+    echo "FAIL: .pr-summary.md missing required heading '## Qué hace este PR (en lenguaje no técnico)'"
+    return
+  fi
+}
 g11() {
   local stat_line
   if ! git rev-parse origin/main >/dev/null 2>&1; then

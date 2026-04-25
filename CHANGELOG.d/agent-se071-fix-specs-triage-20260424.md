@@ -11,7 +11,7 @@
 
 ## Cambios
 
-### A. SE-071 safety hook fix (approved by Monica)
+### A. SE-071 safety hook fix (approved by la usuaria)
 
 `.claude/hooks/block-branch-switch-dirty.sh` linea 9:
 

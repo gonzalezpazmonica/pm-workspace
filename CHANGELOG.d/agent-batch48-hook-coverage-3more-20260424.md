@@ -19,7 +19,7 @@ PreToolUse security — intercepta git checkout/switch con arbol sucio (previene
 
 Cubre: pass-through (empty, non-git, git status/log/commit), clean tree allow (checkout, switch, checkout -b), file restore exempt (`git checkout -- file`, `git checkout -- .`), block path (modified, untracked, checkout -b, warning messages con git stash + git add + git commit + counts), command extraction (python3 json parse), negative (malformed JSON, git-checkout dash, git checkouter substring), edge cases (>20 files, empty command, null command).
 
-**BUG descubierto durante testing**: hook usa `profile_gate "minimal"` pero "minimal" NO es tier valido (valid tiers: security/standard/strict). Bajo SAVIA_HOOK_PROFILE=standard (default), hook sale silent → checkout con arbol sucio NO bloquea. Documentado en **SE-071** propuesta separada para approval de Monica (NO auto-fix de safety hooks).
+**BUG descubierto durante testing**: hook usa `profile_gate "minimal"` pero "minimal" NO es tier valido (valid tiers: security/standard/strict). Bajo SAVIA_HOOK_PROFILE=standard (default), hook sale silent → checkout con arbol sucio NO bloquea. Documentado en **SE-071** propuesta separada para approval de la usuaria (NO auto-fix de safety hooks).
 
 Tests de block-path usan `SAVIA_HOOK_PROFILE=strict` para bypassar el bug via case fallthrough.
 
@@ -34,7 +34,7 @@ Cubre: pass-through (dev-session inactiva, empty stdin, SDD_COMPRESS_AGENT_OUTPU
 
 ### E. Nueva propuesta SE-071
 
-`docs/propuestas/SE-071-profile-gate-invalid-tier-audit.md` — documenta bug de invalid tier value en safety hooks. Priority: alta. Requiere approval de Monica.
+`docs/propuestas/SE-071-profile-gate-invalid-tier-audit.md` — documenta bug de invalid tier value en safety hooks. Priority: alta. Requiere approval de la usuaria.
 
 ## Validacion
 

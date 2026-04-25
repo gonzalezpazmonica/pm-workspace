@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-25 | **Version:** v6.8.0 | **532 commands · 65 agents · 86 skills · 60 hooks (64 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 spec drift + AC closure **CLOSED 2026-04-25**, Era 188 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 · **HOOK COVERAGE 100%** 60/60 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078+SPEC-124+SE-072 IMPLEMENTED · SE-073 APPROVED from GenericAgent research · spec triage 74→70 PROPOSED + 6 APPROVED promotions · **0 PROPOSED priority alta restantes** · test quality baseline 332/332 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · backup identidad portable enviado a Monica)**
+**Updated:** 2026-04-25 | **Version:** v6.8.0 | **532 commands · 65 agents · 86 skills · 60 hooks (64 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 spec drift + AC closure **CLOSED 2026-04-25**, Era 188 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 · **HOOK COVERAGE 100%** 60/60 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078+SPEC-124+SE-072 IMPLEMENTED · SE-073 APPROVED from GenericAgent research · spec triage 74→70 PROPOSED + 6 APPROVED promotions · **0 PROPOSED priority alta restantes** · test quality baseline 332/332 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · backup identidad portable enviado a la usuaria)**
 
 ---
 
@@ -229,7 +229,7 @@ Batches 39-51 anadieron BATS tests a **40 hooks**, elevando cobertura de **31% (
 - `cwd-changed-hook.sh` — C# detection crashed on pipefail (batch 41) — FIXED
 - `emotional-regulation-monitor.sh` — numeric score parsing crash (batch 41) — FIXED
 - `memory-auto-capture.sh` — TOOL_NAME unbound guard (batch 44) — FIXED
-- **SE-071** `block-branch-switch-dirty.sh` — `profile_gate "minimal"` tier invalido, safety hook silent-disabled bajo profile default (batch 48) — **FIXED** con Monica approval
+- **SE-071** `block-branch-switch-dirty.sh` — `profile_gate "minimal"` tier invalido, safety hook silent-disabled bajo profile default (batch 48) — **FIXED** con aprobación de la usuaria
 
 ### Spec triage 2026-04-24
 
@@ -278,7 +278,7 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 - **scripts/test-auditor-sweep.sh** bug fix: `.score` → `.total` extraction (sweep ahora reporta 100% real vs 0% bug)
 - **Baseline tightening**: hook-critical-violations 5 → 4 (consistente últimos 5 hook-bench)
 - **CLAUDE.md drift fix**: 58→59 hooks, 62→63 regs (post emergency-mode-readiness hook add)
-- **Auto-memory backup portable**: 7-layer self-extracting restore script entregado a Monica vía Talk (fuera del repo). Identidad Savia recuperable tras hardware loss + git clone
+- **Auto-memory backup portable**: 7-layer self-extracting restore script entregado a la usuaria vía Talk (fuera del repo). Identidad Savia recuperable tras hardware loss + git clone
 
 ### Métricas Era 187
 

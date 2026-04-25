@@ -67,7 +67,13 @@ fi
 if [[ -z "$BODY" ]]; then
   COMMITS=$(git log --oneline origin/main..HEAD | grep -v "^[a-f0-9]* chore: sign" | sed 's/^/- /')
   FILES=$(git diff origin/main..HEAD --stat | tail -1 | grep -oP '[0-9]+' | head -1)
-  BODY="## Summary
+  # Read .pr-summary.md if present (rule pr-natural-language-summary.md)
+  PR_SUMMARY=""
+  if [[ -f .pr-summary.md ]]; then
+    PR_SUMMARY="$(cat .pr-summary.md)
+"
+  fi
+  BODY="${PR_SUMMARY}## Summary
 ${TITLE}
 ### Changes
 ${COMMITS}
