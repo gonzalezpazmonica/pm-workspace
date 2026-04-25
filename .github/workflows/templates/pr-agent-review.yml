@@ -1,0 +1,140 @@
+name: PR Agent Review (5th Court Judge)
+
+# Reusable workflow that invokes qodo-ai/pr-agent as the 5th external judge
+# of Savia's Code Review Court. Opt-in via repository config.
+# Ref: SPEC-124 — pr-agent wrapper · docs/rules/domain/court-external-judges.md
+#
+# How to use this template (downstream repo):
+#   .github/workflows/pr-agent-review.yml:
+#     on:
+#       pull_request:
+#         types: [opened, synchronize, ready_for_review]
+#     jobs:
+#       review:
+#         uses: ./.github/workflows/templates/pr-agent-review.yml
+#         secrets: inherit
+
+on:
+  workflow_call:
+    inputs:
+      pr_agent_version:
+        description: "qodo-ai/pr-agent version pin"
+        required: false
+        type: string
+        default: "0.27"
+      pr_agent_model:
+        description: "Backing model for pr-agent invocations"
+        required: false
+        type: string
+        default: "claude-sonnet-4-6"
+      max_lines:
+        description: "Cost cap — skip if PR diff exceeds this line count"
+        required: false
+        type: number
+        default: 1000
+      mode:
+        description: "review | describe | improve"
+        required: false
+        type: string
+        default: "review"
+    secrets:
+      ANTHROPIC_API_KEY:
+        required: false
+      OPENAI_API_KEY:
+        required: false
+
+permissions:
+  pull-requests: write
+  contents: read
+  issues: write
+
+jobs:
+  pr-agent-judge:
+    name: pr-agent (5th judge)
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.draft == false }}
+
+    steps:
+      - name: Skip if PR larger than max_lines
+        id: size_gate
+        env:
+          MAX: ${{ inputs.max_lines }}
+        run: |
+          set -uo pipefail
+          ADDED=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "${{ github.event.pull_request.url }}" | python3 -c \
+            "import json,sys; print(json.load(sys.stdin)['additions'])")
+          echo "Lines added: $ADDED (max: $MAX)"
+          if [[ "$ADDED" -gt "$MAX" ]]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::PR exceeds $MAX lines — pr-agent skipped (cost cap)"
+          fi
+
+      - name: Checkout
+        if: steps.size_gate.outputs.skip != 'true'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Verify feature flag
+        if: steps.size_gate.outputs.skip != 'true'
+        id: flag
+        run: |
+          set -uo pipefail
+          flag=$(grep -E "^COURT_INCLUDE_PR_AGENT\s*=" docs/rules/domain/pm-config.md \
+            | head -1 | grep -oE 'true|false' | head -1)
+          flag="${flag:-false}"
+          echo "enabled=$flag" >> "$GITHUB_OUTPUT"
+          if [[ "$flag" != "true" ]]; then
+            echo "::notice::COURT_INCLUDE_PR_AGENT=false — pr-agent skipped (opt-in)"
+          fi
+
+      - name: Install pr-agent
+        if: steps.size_gate.outputs.skip != 'true' && steps.flag.outputs.enabled == 'true'
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet "pr-agent==${{ inputs.pr_agent_version }}"
+
+      - name: Run pr-agent
+        if: steps.size_gate.outputs.skip != 'true' && steps.flag.outputs.enabled == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PR_AGENT_MODEL: ${{ inputs.pr_agent_model }}
+        run: |
+          set -uo pipefail
+          mkdir -p output/court
+          bash scripts/pr-agent-run.sh \
+            --pr-number "${{ github.event.pull_request.number }}" \
+            --mode "${{ inputs.mode }}" \
+            --output court-format \
+            --repo "${{ github.repository }}" \
+            > "output/court/pr-agent-judge.json"
+
+      - name: Tag comment with [pr-agent]
+        if: steps.size_gate.outputs.skip != 'true' && steps.flag.outputs.enabled == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const verdict = JSON.parse(fs.readFileSync('output/court/pr-agent-judge.json', 'utf8'));
+            const findings = verdict.findings || [];
+            const summary = verdict.summary || '(no summary)';
+            const body = [
+              '## [pr-agent] 5th Judge — External Review',
+              '',
+              `**Verdict**: ${verdict.verdict}`,
+              `**Findings**: ${findings.length}`,
+              '',
+              summary,
+              '',
+              '_Reference: SPEC-124, docs/rules/domain/court-external-judges.md_'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body
+            });

@@ -1,11 +1,14 @@
 ---
 id: SPEC-124
 title: pr-agent wrapper skill — 5º juez del Court
-status: PROPOSED
+status: IMPLEMENTED
 origin: Savia autonomous roadmap — Top pick #2 del research 2026-04-17
 author: Savia
 related: SAVIA-SUPERPOWERS-ROADMAP.md
 priority: alta
+applied_at: "2026-04-17"
+implemented_at: "2026-04-25"
+era: 187
 ---
 
 # SPEC-124 — pr-agent Wrapper como 5º Juez del Court
@@ -132,3 +135,21 @@ Time-box: 60 min. Riesgo principal: pr-agent CLI instalación requiere Python + 
 - [qodo-ai/pr-agent](https://github.com/qodo-ai/pr-agent)
 - `docs/agent-teams-sdd.md` — Court arquitectura actual
 - `.claude/agents/court-orchestrator.md` — orchestrator actual
+
+## Resolution (2026-04-25)
+
+SPEC-124 completado en Era 187 (batch 56). 9/9 ACs cumplidos:
+
+- [x] AC-01 `.claude/skills/pr-agent-judge/SKILL.md` — wrapper definido (batch previo)
+- [x] AC-02 `.claude/agents/pr-agent-judge.md` — subagent integrado (batch previo)
+- [x] AC-03 `scripts/pr-agent-run.sh` — wrapper CLI con graceful skip (batch previo)
+- [x] AC-04 `.github/workflows/templates/pr-agent-review.yml` — reusable workflow (este batch). Cost gate `max_lines` default 1000, feature-flag check, draft skip, comments tagged `[pr-agent]`
+- [x] AC-05 `.claude/agents/court-orchestrator.md` — sección "External Judges (SPEC-124)" añadida (batch previo)
+- [x] AC-06 `docs/rules/domain/pm-config.md` — `COURT_INCLUDE_PR_AGENT=false` y `PR_AGENT_VERSION="0.27"` registrados (batch previo)
+- [x] AC-07 `tests/test-pr-agent-wrapper.bats` — certified score 83 (batch previo)
+- [x] AC-08 `docs/rules/domain/court-external-judges.md` — política de inclusión, jueces aprobados, reglas operación, activación paso a paso, riesgos (este batch)
+- [x] AC-09 CHANGELOG entry (este batch)
+
+Diseño opt-in: feature flag `COURT_INCLUDE_PR_AGENT=false` por defecto. Self-hostable, OSS Apache 2.0. Cost gate per-PR (`max_lines`). Veredicto consultivo (no veto). Falla graceful si pr-agent no instalado.
+
+**Era 187 closure trigger:** todas las PROPOSED priority alta están ahora IMPLEMENTED.

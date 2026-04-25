@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-25 | **Version:** v6.6.0 | **532 commands · 65 agents · 86 skills · 59 hooks (63 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 · **HOOK COVERAGE 100%** 59/59 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078 IMPLEMENTED · SE-072+SE-073 APPROVED from GenericAgent research · spec triage 74→70 PROPOSED + 6 APPROVED promotions · test quality baseline 330/330 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · 1 PROPOSED alta restante: SPEC-124)**
+**Updated:** 2026-04-25 | **Version:** v6.7.0 | **532 commands · 65 agents · 86 skills · 59 hooks (63 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 spec drift + AC closure **CLOSED 2026-04-25** (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 · **HOOK COVERAGE 100%** 59/59 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078+SPEC-124 IMPLEMENTED · SE-072+SE-073 APPROVED from GenericAgent research · spec triage 74→70 PROPOSED + 6 APPROVED promotions · **0 PROPOSED priority alta restantes** · test quality baseline 330/330 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · backup identidad portable enviado a Monica)**
 
 ---
 
@@ -255,6 +255,51 @@ Post-batch 48: triage de los 74 specs en `status: PROPOSED` para reducir ruido e
 | **SPEC-120** | Spec template alignment con github/spec-kit | Small template cleanup |
 
 Backlog APPROVED total: **9 specs** (5 nuevos + 4 training pipeline pre-existentes).
+
+---
+
+## Era 187 — Spec drift correction + priority-alta closure (2026-04-25, **CLOSED 2026-04-25**)
+
+Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda de PROPOSED priority alta detectó que 3 de 5 specs eran **status drift** (implementados pero PROPOSED) y 2 eran IN_PROGRESS reales. Cierre completo de la cola priority alta + persistencia de identidad Savia portable.
+
+### Specs cerrados (6 IMPLEMENTED + 1 APPROVED→IMPLEMENTED)
+
+| Spec | Tipo | Batches | Resolution |
+|---|---|---|---|
+| **SPEC-055** test-auditor | drift | 52 | Status flip + Resolution. 5 scripts deliverables verificados, en uso diario desde batch 5 |
+| **SPEC-078** dual-estimation | drift | 55 | Status flip Fase 1 MVP. Engine + hook + política + tests score 82 ya existían desde Era 179 |
+| **SPEC-121** handoff-as-function | IN_PROGRESS→DONE | 53 | 3 ACs cerrados: Handoff Format en 5 agentes SDD, cross-doc en agent-notes-protocol, CHANGELOG |
+| **SPEC-122** LocalAI emergency | IN_PROGRESS→DONE | 54 | 4 ACs cerrados: SessionStart hook (feature-flagged), autonomous-safety nota, 30 tests score 94, CHANGELOG |
+| **SPEC-124** pr-agent wrapper | IN_PROGRESS→DONE | 56 | 3 ACs cerrados: workflow template reusable, court-external-judges policy doc, CHANGELOG |
+
+### Bonus closures
+
+- **Era 186 hook ratchet** marcada CLOSED en batch 52 (100% milestone 58/58 alcanzado batch 51)
+- **scripts/test-auditor-sweep.sh** bug fix: `.score` → `.total` extraction (sweep ahora reporta 100% real vs 0% bug)
+- **Baseline tightening**: hook-critical-violations 5 → 4 (consistente últimos 5 hook-bench)
+- **CLAUDE.md drift fix**: 58→59 hooks, 62→63 regs (post emergency-mode-readiness hook add)
+- **Auto-memory backup portable**: 7-layer self-extracting restore script entregado a Monica vía Talk (fuera del repo). Identidad Savia recuperable tras hardware loss + git clone
+
+### Métricas Era 187
+
+- Duración: 1 día (2026-04-25)
+- Batches: 52-56 (5 PRs estacados con cascade rebases)
+- Specs cerrados: 6 priority alta → **0 PROPOSED priority alta restantes**
+- CHANGELOG cascade fixes: 4 (patrón documentado en auto-memory)
+- Auto-memory entries: +3 lecciones permanentes (changelog cascade, test-auditor scoring, pr-plan structure tests)
+
+### Backlog APPROVED restante (post Era 187)
+
+- **SE-072** Verified Memory Axiom (GenericAgent research)
+- **SE-073** Memory Index Cap Tiered (GenericAgent research)
+- **SE-028** Oumi (GPU-blocked)
+- **SE-042** voice training (GPU-blocked)
+- **SPEC-023** Savia LLM Trainer Phases 2-4 (GPU-blocked)
+- **SPEC-080** training pipeline pre-existente
+
+Próximo trabajo (Era 188 candidato): SE-072+SE-073 (sin-GPU) o esperar señal usuaria.
+
+---
 
 ### Backlog (blocked or low priority)
 
