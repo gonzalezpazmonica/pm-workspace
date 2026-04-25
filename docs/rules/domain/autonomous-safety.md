@@ -141,3 +141,9 @@ Intento 4+: ABORT — registrar como "requiere intervención humana"
 ```
 
 Solo aplica si la tarea se reintenta. Si el fallo es de tipo OOM, timeout o error de infra, NO se escala modelo — se descarta y pasa a la siguiente tarea.
+
+---
+
+## Emergency-mode (LocalAI fallback) — SPEC-122
+
+`/emergency-mode` cambia SOLO el endpoint (`ANTHROPIC_BASE_URL` → LocalAI), **no bypassa** los gates de esta regla. AUTONOMOUS_REVIEWER, rama `agent/*`, PR Draft siguen siendo obligatorios. Si el revisor humano no está disponible, el agente **espera**. Ver `.claude/skills/emergency-mode/SKILL.md` y `docs/rules/domain/emergency-mode-protocol.md`.

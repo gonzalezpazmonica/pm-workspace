@@ -1,11 +1,14 @@
 ---
 id: SPEC-122
 title: LocalAI emergency-mode hardening — Anthropic API shim
-status: PROPOSED
+status: IMPLEMENTED
 origin: Savia autonomous roadmap — Top pick #3 del research 2026-04-17
 author: Savia
 related: SAVIA-SUPERPOWERS-ROADMAP.md
 priority: alta
+applied_at: "2026-04-25"
+implemented_at: "2026-04-25"
+era: 187
 ---
 
 # SPEC-122 — LocalAI Emergency-Mode Hardening
@@ -114,3 +117,22 @@ Time-box: 60 min. Riesgo principal: Endpoint LocalAI puede variar por versión. 
 - [mudler/LocalAI v3.10.0](https://github.com/mudler/LocalAI)
 - Research report — top pick #3
 - SE-027 local SLM fine-tuning (Unsloth + Ollama)
+
+## Resolution (2026-04-25)
+
+SPEC-122 completado en Era 187 (batch 54). Todos los 7 AC cumplidos:
+
+- [x] AC-01 `scripts/localai-readiness-check.sh` — runnable, --json/--url/--model flags, exit codes 0/1/2
+- [x] AC-02 `.claude/skills/emergency-mode/SKILL.md` — sección "Emergency Mode — Savia ↔ LocalAI Switchover" con `ANTHROPIC_BASE_URL` config y feature matrix cloud-vs-local
+- [x] AC-03 `.claude/hooks/emergency-mode-readiness.sh` — SessionStart hook, feature-flag `EMERGENCY_MODE_ENABLED=true`, registrado en `.claude/settings.json` con timeout 12s
+- [x] AC-04 `docs/rules/domain/emergency-mode-protocol.md` — protocolo activación/recuperación
+- [x] AC-05 `docs/rules/domain/autonomous-safety.md` — sección "Emergency-mode (LocalAI fallback) — SPEC-122" añadida con prohibiciones explícitas (NUNCA bypass AUTONOMOUS_REVIEWER en emergency)
+- [x] AC-06 `tests/test-emergency-mode-readiness.bats` — 30 tests certified score 94. Mock LocalAI script via `$CLAUDE_PROJECT_DIR/scripts/localai-readiness-check.sh`. Cubre verdict states (READY/WARN/FAIL/SKIP/TIMEOUT/UNKNOWN), feature-flag silencio, append accumulation, timeout (10s), edge cases. Nota: nombre real es `test-emergency-mode-readiness.bats` (per pm-workspace `test-X.bats` convention) en lugar de `localai-readiness.bats` propuesto. El test-localai-readiness-check.bats existente cubre el script bash separadamente.
+- [x] AC-07 CHANGELOG entry — batch 54
+
+Comportamiento del hook:
+- Feature-flag OFF → skip silencioso (sin coste)
+- Feature-flag ON + script missing → log SKIP, exit 0
+- Feature-flag ON + script OK → ejecuta readiness, log verdict, surface FAIL/WARN to stderr
+- Timeout 10s en script invocation, hook nunca bloquea SessionStart
+- Logs append-only en `output/emergency-mode/readiness.jsonl` con ts ISO 8601 + verdict
