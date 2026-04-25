@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.9.0] — 2026-04-25
+
+Batch 58 — Nueva regla: cada PR requiere párrafo en lenguaje no técnico.
+
+### Added
+- `docs/rules/domain/pr-natural-language-summary.md` — regla canónica.
+- `scripts/pr-plan-gates.sh:g_summary` — gate G11 valida `.pr-summary.md`.
+
+### Changed
+- `scripts/pr-plan.sh` — invoca G11 tras G10.
+- `scripts/push-pr.sh` — prepend `.pr-summary.md` al PR body.
+- `.gitignore` — excluye `.pr-summary.md`.
+- `CLAUDE.md` — referencia lazy nueva.
+
+### Context
+Solicitud de la usuaria: PRs autónomos sin párrafo plano dejan de ser auditables. Slice 1 sin LLM. PR #701 editado retroactivamente.
+
+Version bump 6.8.0 → 6.9.0.
+
 ## [6.8.0] — 2026-04-25
 
 Batch 57 — SE-072 Verified Memory axiom **IMPLEMENTED** (Slice 1). **Era 188 inaugural.**
@@ -26,25 +45,6 @@ Batch 57 — SE-072 Verified Memory axiom **IMPLEMENTED** (Slice 1). **Era 188 i
 Memoria persistente debe reflejar hechos verificados — no intenciones. Escape hatch: `SAVIA_VERIFIED_MEMORY_DISABLED=true`. Hook coverage 100% mantenido (60/60).
 
 Version bump 6.7.0 → 6.8.0.
-## [6.9.0] — 2026-04-25
-
-Batch 58 — Nueva regla: cada PR requiere párrafo en lenguaje no técnico.
-
-### Added
-- `docs/rules/domain/pr-natural-language-summary.md` — regla canónica.
-- `scripts/pr-plan-gates.sh:g_summary` — gate G11 valida `.pr-summary.md`.
-
-### Changed
-- `scripts/pr-plan.sh` — invoca G11 tras G10.
-- `scripts/push-pr.sh` — prepend `.pr-summary.md` al PR body.
-- `.gitignore` — excluye `.pr-summary.md`.
-- `CLAUDE.md` — referencia lazy nueva.
-
-### Context
-Solicitud de la usuaria: PRs autónomos sin párrafo plano dejan de ser auditables. Slice 1 sin LLM. PR #701 editado retroactivamente.
-
-Version bump 6.8.0 → 6.9.0.
-
 ## [6.7.0] — 2026-04-25
 
 Batch 56 — SPEC-124 pr-agent wrapper **IMPLEMENTED**. **Era 187 trigger: 0 PROPOSED priority alta restantes.**
