@@ -309,7 +309,7 @@ Version bump 5.93.0 a 5.94.0.
 SE-071 safety hook fix + spec triage + roadmap update.
 
 ### Fixed
-- `.claude/hooks/block-branch-switch-dirty.sh`: `profile_gate "minimal"` a `profile_gate "security"`. SE-071 resolved with Monica approval. Bug: "minimal" invalid tier silently disabled safety hook under profile default. Verified fix blocks dirty checkout with exit 2.
+- `.claude/hooks/block-branch-switch-dirty.sh`: `profile_gate "minimal"` a `profile_gate "security"`. SE-071 resolved with the user's approval. Bug: "minimal" invalid tier silently disabled safety hook under profile default. Verified fix blocks dirty checkout with exit 2.
 
 ### Changed
 - **Spec triage** (74 PROPOSED specs): 5 promoted to APPROVED (SE-038, SE-039, SE-065, SE-070, SPEC-120), 9 alta, 33 media, 21 baja, 6 skipped (meta/ADR/TEMPLATE).
@@ -333,7 +333,7 @@ Batch 48 — Hook coverage +3: bash-output-compress, block-branch-switch-dirty, 
 - `tests/test-bash-output-compress.bats` — 30 tests certified (score 90). PostToolUse async rtk-ai inspired token compression. Script delegation, context-tracker metric logging, 30-line threshold.
 - `tests/test-block-branch-switch-dirty.bats` — 36 tests certified (score 90). PreToolUse security. Intercepta git checkout/switch con arbol sucio.
 - `tests/test-compress-agent-output.bats` — 29 tests certified (score 92). PostToolUse Task SPEC-041 P4. Streaming compression >200 tokens en dev-sessions.
-- `docs/propuestas/SE-071-profile-gate-invalid-tier-audit.md` — bug audit: block-branch-switch-dirty.sh usa tier invalido "minimal", hook silent-disabled bajo profile default. Requiere Monica approval (safety hook).
+- `docs/propuestas/SE-071-profile-gate-invalid-tier-audit.md` — bug audit: block-branch-switch-dirty.sh usa tier invalido "minimal", hook silent-disabled bajo profile default. Requiere aprobación de la usuaria (safety hook).
 
 ### Changed
 - `.ci-baseline/hook-untested-count.count`: 13 a 10. Hook coverage 45/58 (77.6%) a 48/58 (82.7%).
@@ -623,7 +623,7 @@ Batch 29 — SE-063 Slice 2 registro + Slice 3 bypass semántico.
 - `CLAUDE.md` bump 61reg → 62reg por registro PostToolUse Read nuevo.
 
 ### Context
-Cierra el loop crítico de SE-063. Batch 28 dejó el marker script sin registrar por self-modification guard; batch 29 lo registra tras la aprobación de Monica ("mergeado, seguimos desarrollando"). Slice 3 del spec queda cumplido: env runtime override ya estaba en Slice 1, ahora añade verbosidad controlada y opt-out per-proyecto. Era 185 progresa hacia cierre con SE-063 completo al 100%.
+Cierra el loop crítico de SE-063. Batch 28 dejó el marker script sin registrar por self-modification guard; batch 29 lo registra tras la aprobación de la usuaria ("mergeado, seguimos desarrollando"). Slice 3 del spec queda cumplido: env runtime override ya estaba en Slice 1, ahora añade verbosidad controlada y opt-out per-proyecto. Era 185 progresa hacia cierre con SE-063 completo al 100%.
 
 ## [5.76.0] — 2026-04-22
 

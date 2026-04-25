@@ -84,7 +84,7 @@ Cualquier tier !=  {security, standard, strict} es bug.
 
 ## Blocked by
 
-- Permission hook bloquea auto-fix de safety hooks (correcto per user feedback "NEVER design overrides for safety hooks"). Requiere approval explicito de Monica.
+- Permission hook bloquea auto-fix de safety hooks (correcto per user feedback "NEVER design overrides for safety hooks"). Requiere approval explicito de la usuaria.
 
 ## Effort
 
@@ -94,7 +94,7 @@ Cualquier tier !=  {security, standard, strict} es bug.
 
 ## Resolution (2026-04-24)
 
-Aprobado por Monica. Cambios aplicados:
+Aprobado por la usuaria. Cambios aplicados:
 
 1. **Fix**: `.claude/hooks/block-branch-switch-dirty.sh` linea 9: `profile_gate "minimal"` a `profile_gate "security"`.
 2. **Audit**: ejecutado `grep -rn 'profile_gate' .claude/hooks/` — resultados finales:

@@ -70,4 +70,4 @@ Counts actualizados: 64 a 65 agents, 76 a 86 skills, 55 a 58 hooks, 160 a 283+ t
 
 ## Pendiente
 
-- Futuros specs que acumulen refs pero queden en PROPOSED: el auditor los detecta proactivamente. Integracion en `readiness-check.sh` o `pr-plan.sh` opcional si Monica lo pide.
+- Futuros specs que acumulen refs pero queden en PROPOSED: el auditor los detecta proactivamente. Integracion en `readiness-check.sh` o `pr-plan.sh` opcional si la usuaria lo pide.
