@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-25 | **Version:** v6.5.0 | **532 commands · 65 agents · 86 skills · 59 hooks (63 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 · **HOOK COVERAGE 100%** 59/59 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122 IMPLEMENTED · SE-072+SE-073 APPROVED from GenericAgent research · spec triage 74→70 PROPOSED + 6 APPROVED promotions · test quality baseline 330/330 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened)**
+**Updated:** 2026-04-25 | **Version:** v6.6.0 | **532 commands · 65 agents · 86 skills · 59 hooks (63 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 · **HOOK COVERAGE 100%** 59/59 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078 IMPLEMENTED · SE-072+SE-073 APPROVED from GenericAgent research · spec triage 74→70 PROPOSED + 6 APPROVED promotions · test quality baseline 330/330 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · 1 PROPOSED alta restante: SPEC-124)**
 
 ---
 

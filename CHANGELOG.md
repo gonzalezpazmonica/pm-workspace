@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.6.0] — 2026-04-25
+
+Batch 55 — SPEC-078 dual-estimation status drift correction (PROPOSED → IMPLEMENTED).
+
+### Changed
+- `docs/propuestas/SPEC-078-dual-estimation-agent-human.md`: PROPOSED → IMPLEMENTED. Resolution con 5/5 AC Fase 1 verificados. Fases 2-4 quedan como evolución, no bloquean status.
+
+### Context
+3er drift fix de la sesión. Implementación Fase 1 (engine + hook + política + tests score 82) ya existía desde Era 179. PROPOSED alta restantes: 1 (SPEC-124, real work).
+
+Version bump 6.5.0 → 6.6.0.
+
 ## [6.5.0] — 2026-04-25
 
 Batch 54 — SPEC-122 LocalAI emergency-mode hardening **IMPLEMENTED** (4 ACs faltantes completados).
@@ -8477,6 +8489,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
+[6.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.5.0...v6.6.0
 [6.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.4.0...v6.5.0
 [6.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.3.0...v6.4.0
 [6.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.1.0...v6.2.0
