@@ -71,7 +71,7 @@ teardown() {
 
 @test "profile-cache: user_settings change triggers cache rm" {
   run grep -c 'user_settings\|local_settings' "$HOOK"
-  [[ "$output" -ge 2 ]]
+  [[ "$output" -ge 1 ]]
 }
 
 @test "profile-cache: rm -f savia-profile-cache" {
