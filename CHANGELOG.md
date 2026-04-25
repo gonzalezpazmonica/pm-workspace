@@ -26,6 +26,24 @@ Batch 57 — SE-072 Verified Memory axiom **IMPLEMENTED** (Slice 1). **Era 188 i
 Memoria persistente debe reflejar hechos verificados — no intenciones. Escape hatch: `SAVIA_VERIFIED_MEMORY_DISABLED=true`. Hook coverage 100% mantenido (60/60).
 
 Version bump 6.7.0 → 6.8.0.
+## [6.9.0] — 2026-04-25
+
+Batch 58 — Nueva regla: cada PR requiere párrafo en lenguaje no técnico.
+
+### Added
+- `docs/rules/domain/pr-natural-language-summary.md` — regla canónica.
+- `scripts/pr-plan-gates.sh:g_summary` — gate G11 valida `.pr-summary.md`.
+
+### Changed
+- `scripts/pr-plan.sh` — invoca G11 tras G10.
+- `scripts/push-pr.sh` — prepend `.pr-summary.md` al PR body.
+- `.gitignore` — excluye `.pr-summary.md`.
+- `CLAUDE.md` — referencia lazy nueva.
+
+### Context
+Solicitud de la usuaria: PRs autónomos sin párrafo plano dejan de ser auditables. Slice 1 sin LLM. PR #701 editado retroactivamente.
+
+Version bump 6.8.0 → 6.9.0.
 
 ## [6.7.0] — 2026-04-25
 
@@ -8527,6 +8545,7 @@ Initial public release of PM-Workspace.
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
 [6.8.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.7.0...v6.8.0
+[6.9.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.8.0...v6.9.0
 [6.7.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.6.0...v6.7.0
 [6.6.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.5.0...v6.6.0
 [6.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.4.0...v6.5.0
