@@ -141,3 +141,23 @@ Intento 4+: ABORT — registrar como "requiere intervención humana"
 ```
 
 Solo aplica si la tarea se reintenta. Si el fallo es de tipo OOM, timeout o error de infra, NO se escala modelo — se descarta y pasa a la siguiente tarea.
+
+---
+
+## Emergency-mode (LocalAI fallback) — SPEC-122
+
+`/emergency-mode` permite que Savia siga operando con LocalAI cuando la API de Anthropic está caída. **No bypassa los gates de esta regla.**
+
+```
+NUNCA → Skip AUTONOMOUS_REVIEWER porque "estamos en emergencia"
+NUNCA → Skip rama agent/* porque "es modo emergencia"
+NUNCA → Auto-aprobar PRs en emergency-mode
+
+SIEMPRE → AUTONOMOUS_REVIEWER sigue siendo gate obligatorio
+SIEMPRE → PRs siguen creándose en Draft
+SIEMPRE → Branch agent/{modo}-{fecha} se mantiene
+```
+
+Emergency-mode cambia SOLO el endpoint de inferencia (`ANTHROPIC_BASE_URL` → LocalAI), no las políticas de ejecución autónoma. Si el revisor humano no está disponible, el agente **espera** — no procede sin aprobación.
+
+Ver `.claude/skills/emergency-mode/SKILL.md` y `docs/rules/domain/emergency-mode-protocol.md` para el flujo de switchover y la lista de features que se pierden en modo local.

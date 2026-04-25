@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.5.0] — 2026-04-25
+
+Batch 54 — SPEC-122 LocalAI emergency-mode hardening **IMPLEMENTED** (4 ACs faltantes completados).
+
+### Added
+- `.claude/hooks/emergency-mode-readiness.sh` — SessionStart async hook con feature-flag `EMERGENCY_MODE_ENABLED`. Logs verdict a `output/emergency-mode/readiness.jsonl`, surface FAIL/WARN a stderr, timeout 10s, nunca bloquea SessionStart.
+- `tests/test-emergency-mode-readiness.bats` — 30 tests certified (score 94).
+
+### Changed
+- `.claude/settings.json` — hook registrado en SessionStart.
+- `docs/rules/domain/autonomous-safety.md` — sección "Emergency-mode" con prohibiciones explícitas (NUNCA bypass AUTONOMOUS_REVIEWER en emergency).
+- `docs/propuestas/SPEC-122-localai-emergency-hardening.md` — PROPOSED → IMPLEMENTED, 7/7 ACs.
+
+### Context
+ACs 01/02/04 ya implementados; completados AC-03/05/06/07. Hook coverage 58/58 → 59/59 (100% mantenido).
+
+Version bump 6.4.0 → 6.5.0.
+
 ## [6.4.0] — 2026-04-25
 
 Batch 53 — SPEC-121 handoff-as-function convention **IMPLEMENTED** (3 ACs faltantes completados).
@@ -8459,6 +8477,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
+[6.5.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.4.0...v6.5.0
 [6.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.3.0...v6.4.0
 [6.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.98.0...v6.1.0
