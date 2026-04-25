@@ -98,11 +98,12 @@ for f in "${TEST_FILES[@]}"; do
   total=$((total + 1))
   rel=${f#$PROJECT_ROOT/}
   # Run auditor, extract score (robust to missing jq)
-  output=$(bash "$AUDITOR" "$f" 2>/dev/null || echo '{"score":0}')
+  # Auditor JSON uses "total" field, not "score".
+  output=$(bash "$AUDITOR" "$f" 2>/dev/null || echo '{"total":0}')
   if command -v jq >/dev/null 2>&1; then
-    score=$(echo "$output" | jq -r '.score // 0' 2>/dev/null)
+    score=$(echo "$output" | jq -r '.total // 0' 2>/dev/null)
   else
-    score=$(echo "$output" | grep -oE '"score"[[:space:]]*:[[:space:]]*[0-9]+' | grep -oE '[0-9]+' | head -1)
+    score=$(echo "$output" | grep -oE '"total"[[:space:]]*:[[:space:]]*[0-9]+' | grep -oE '[0-9]+' | head -1)
   fi
   score="${score:-0}"
   [[ "$score" -ge "$THRESHOLD" ]] && compliant=$((compliant + 1))

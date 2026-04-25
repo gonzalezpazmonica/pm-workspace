@@ -1,12 +1,15 @@
 ---
 id: SPEC-055
-status: PROPOSED
+status: IMPLEMENTED
 priority: alta
+applied_at: "2026-03-29"
+implemented_at: "2026-04-25"
+era: 186
 ---
 
 # SPEC-055 — Test Auditor System
 
-**Status:** Draft | **Author:** Savia | **Date:** 2026-03-29
+**Status:** IMPLEMENTED | **Author:** Savia | **Date:** 2026-03-29
 
 ## Problem
 
@@ -88,3 +91,34 @@ Score >= 80: CERTIFIED. Score < 80: FAILED.
 - `docs/propuestas/SPEC-043-responsibility-judge.md` — Hook quality pattern
 - `docs/rules/domain/verification-before-done.md` — Rule #22
 - `docs/rules/domain/pre-commit-bats.md` — BATS before commit
+
+## Resolution (2026-04-25)
+
+**Status drift correction.** SPEC-055 was effectively implemented across multiple Era 186 batches but the spec status was never flipped. Verification on 2026-04-25 confirmed all 4 deliverable scripts and the auditor self-test exist and pass:
+
+### Files delivered
+
+- `scripts/test-auditor.sh` — Score and certify test files (CLI: `--all`, `--json`, single-file)
+- `scripts/test-auditor-engine.py` — 9-criteria scorer (c1_exists, c2_safety, c3_positive, c4_negative, c5_edge, c6_isolation, c7_coverage, c8_spec, c9_assertions)
+- `scripts/test-coverage-checker.sh` — Find missing tests for scripts/ targets
+- `scripts/ci-test-quality-gate.sh` — CI gate orchestrator
+- `scripts/test-auditor-sweep.sh` — Global sweep with ranking + bottom-N (SE-039)
+- `tests/evals/test-auditor.bats` — Self-test (15 tests, certified score 83)
+
+### Coverage verification
+
+- Daily use: every batch in Era 186 (43 batches) ran `bash scripts/test-auditor.sh tests/X.bats` to verify ≥80 score before commit
+- Sweep verification: 329/329 BATS files compliant (≥80) as of 2026-04-25 — 100% baseline
+- Bug fix bundled: sweep was reading `.score` (non-existent) instead of `.total` (correct field). Repaired in same commit; sweep now correctly reports compliance
+
+### Acceptance criteria final
+
+- [x] Deterministic 9-criteria scorer with hash certification
+- [x] CI integration via `ci-test-quality-gate.sh`
+- [x] Coverage heuristic for scripts/*.sh → tests/test-*.bats matching
+- [x] Score ≥80 = CERTIFIED, Score <80 = FAILED
+- [x] No LLM calls (deterministic)
+
+### Era
+
+Implemented across Era 182-186 (2026-04-20 to 2026-04-25). Used by every test in batches 5-51 of pm-workspace.
