@@ -1,12 +1,15 @@
 ---
 id: SPEC-078
-status: PROPOSED
+status: IMPLEMENTED
 priority: alta
+applied_at: "2026-04-04"
+implemented_at: "2026-04-25"
+era: 187
 ---
 
 # SPEC-078: Dual Estimation — Agent-Time vs Human-Time
 
-**Status:** DRAFT | **Priority:** HIGH | **Era:** 179+ | **Author:** Savia (auditoria 2026-04-04)
+**Status:** IMPLEMENTED | **Priority:** HIGH | **Era:** 179+ | **Author:** Savia (auditoria 2026-04-04)
 
 ---
 
@@ -251,3 +254,34 @@ Dual Estimation Gate: {filename} tiene estimacion pero falta escala {missing}.
 ### Registro en settings.json
 
 Ubicacion: PostToolUse, matcher Edit|Write, junto a los hooks existentes. Timeout: 5s. Async: false (debe mostrar warning antes de que el usuario continue).
+
+## Resolution (2026-04-25)
+
+**Status drift correction.** SPEC-078 Fase 1 (template + fields + hook) fue implementado en Era 179 pero el status del spec quedó en PROPOSED. Verificación 2026-04-25 confirma deliverables presentes:
+
+### Files delivered (Fase 1 MVP)
+
+- `scripts/dual-estimate.sh` — engine CLI con subcomandos `classify`, `capacity`, `bottleneck`, `matrix`, `help`. Clasifica task types (crud, tests, translation, bugfix, refactor, architecture, code-review, security-audit, counter-fix, business-decision) y recomienda agent vs human.
+- `tests/test-dual-estimate.bats` — certified score 82.
+- `.claude/hooks/dual-estimation-gate.sh` — PostToolUse warning hook (no bloquea, solo avisa cuando spec/PBI tiene estimación pero falta una de las 3 escalas).
+- `docs/politica-estimacion.md` — política dual extendida con ejemplos.
+
+### Coverage verification
+
+Hook activo en sesiones standard tier. Verificado en uso: warnings emitidos cuando agent_effort_minutes/human_effort_hours/review_effort_minutes parcialmente presentes.
+
+### Acceptance criteria final (Fase 1 MVP)
+
+- [x] Engine CLI funcional con clasificación + capacity planning + bottleneck detection
+- [x] Hook gate Phase 1 (warning-only, no bloquea)
+- [x] Política documentada con regla de oro y matriz de decisión
+- [x] Tests certified ≥80 (score 82)
+- [x] Compatible con hook profiles (tier standard)
+
+### Fases futuras (NO bloquean status)
+
+Las Fases 2-4 (auto-estimación, tracking, capacity dual) son evolución gradual. Status IMPLEMENTED corresponde al MVP Fase 1 funcional. Las fases siguientes serán specs separados cuando haya señal de uso suficiente.
+
+### Era
+
+Implementación inicial Era 179 (auditoría correctiva), status flip Era 187 (drift correction).
