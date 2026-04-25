@@ -94,3 +94,23 @@ Opus 4.7 under-spawns by default. Fan-out paralelo en un turno para items indepe
 ## Reporting Policy (SE-066)
 
 Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.
+
+## Handoff Format (SPEC-121)
+
+When routing results back to the PM or spawning developer fix cycles:
+
+```yaml
+---
+handoff:
+  to: dotnet-developer
+  spec: SPEC-NNN
+  stage: E3
+  context_hash: sha256:<8-char-prefix>
+  reason: "Court REJECT: 2 blockers require fix before merge"
+  termination_reason: unrecoverable_error
+  artifacts:
+    - .review.crc
+---
+```
+
+See `docs/rules/domain/agent-handoff-protocol.md` for fields and validator.

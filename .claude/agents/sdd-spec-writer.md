@@ -122,3 +122,23 @@ Produce specs so unambiguous that any developer — human or AI — can implemen
 - Developer agents implement from spec without follow-up questions
 - All test cases include concrete data (no "valid input" placeholders)
 - Zero spec rewrites caused by missing context
+
+## Handoff Format (SPEC-121)
+
+E1→E2 handoff to `dotnet-developer` or `frontend-developer` after spec approval:
+
+```yaml
+---
+handoff:
+  to: dotnet-developer
+  spec: SPEC-NNN
+  stage: E2
+  context_hash: sha256:<8-char-prefix>
+  reason: "Spec approved, ready for implementation"
+  termination_reason: completed
+  artifacts:
+    - docs/propuestas/SPEC-NNN-title.md
+---
+```
+
+See `docs/rules/domain/agent-handoff-protocol.md` for fields and validator.

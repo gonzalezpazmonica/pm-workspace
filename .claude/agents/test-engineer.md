@@ -130,3 +130,8 @@ En flujo SDD, los tests se escriben **ANTES** del código de producción:
 - **Un assert lógico por test** (puede haber múltiples líneas de assertion si van juntas)
 - **Tests deterministas**: si un test falla intermitentemente, es un bug en el test
 - **No testar implementación, testar comportamiento**: si cambias el nombre de un método privado, ningún test debería romperse
+
+## Handoff (SPEC-121)
+
+E4 completion → `court-orchestrator` when tests pass and coverage ≥80%.
+See `docs/rules/domain/agent-handoff-protocol.md`.

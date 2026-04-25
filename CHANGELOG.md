@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.4.0] — 2026-04-25
+
+Batch 53 — SPEC-121 handoff-as-function convention **IMPLEMENTED** (3 ACs faltantes completados).
+
+### Changed
+- 5 agentes SDD actualizados con sección "Handoff Format (SPEC-121)": sdd-spec-writer, dotnet-developer, code-reviewer, test-engineer, court-orchestrator.
+- `docs/agent-notes-protocol.md`: tabla de decisión handoff-as-function vs agent-notes longform.
+- `docs/propuestas/SPEC-121-handoff-convention.md`: status PROPOSED → IMPLEMENTED, 6/6 ACs cumplidos.
+
+### Context
+ACs 01/03/04 ya implementados; completados AC-02/05/06. Aditivo, sin ruptura.
+
+Version bump 6.3.0 → 6.4.0.
+
 ## [6.3.0] — 2026-04-25
 
 Batch 52 — SPEC-055 status drift correction + Era 186 hook ratchet **CLOSURE** + sweep bug fix + baseline tighten.
@@ -28,7 +42,6 @@ PR-A del plan post-#695. Era 186 hook coverage ratchet finales:
 Próximo: SPEC-121 (3 ACs), SPEC-122 (4 ACs).
 
 Version bump 6.2.0 → 6.3.0.
-
 ## [6.2.0] — 2026-04-25
 
 Batch 51 — Hook coverage +3: token-tracker-middleware, subagent-lifecycle, task-lifecycle. **100% HOOK COVERAGE — 58/58.**
@@ -8446,6 +8459,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
+[6.4.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.3.0...v6.4.0
 [6.2.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.98.0...v6.1.0
 [5.98.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v5.97.0...v5.98.0

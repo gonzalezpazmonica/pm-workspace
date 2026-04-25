@@ -141,3 +141,8 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 ## Reporting Policy (SE-066)
 
 Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.
+
+## Handoff (SPEC-121)
+
+PASS→`test-engineer` E4 · REJECT→developer `termination_reason: unrecoverable_error`.
+See `docs/rules/domain/agent-handoff-protocol.md`.
