@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-24 | **Version:** v5.98.0 | **532 commands · 65 agents · 86 skills · 58 hooks (62 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 + hook coverage 18→48/58 batches 39-48, 82.7% · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070 IMPLEMENTED · spec triage 74→70 PROPOSED + 5 APPROVED promotions · test quality baseline 232/232 ≥80 · agent size ratchet 27 violations frozen · responsibility-judge i18n fix · spec-kit alignment · opus47 calibration infra · backlog APPROVED sin-GPU cerrado)**
+**Updated:** 2026-04-24 | **Version:** v5.99.0 | **532 commands · 65 agents · 86 skills · 58 hooks (62 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 IN PROGRESS (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 + hook coverage 18→51/58 batches 39-49, 87.9% · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070 IMPLEMENTED · spec triage 74→70 PROPOSED + 5 APPROVED promotions · test quality baseline 232/232 ≥80 · agent size ratchet 27 violations · responsibility-judge i18n fix · spec-kit alignment · opus47 calibration infra · backlog APPROVED sin-GPU cerrado · milestone 85% hook coverage superado)**
 
 ---
 
