@@ -1,0 +1,39 @@
+# Opus 4.7 calibration eval result
+# SE-070 Slice 4 template — populate after running A/B
+
+case_id: TEMPLATE
+agent: "<agent-name>"
+created: "YYYY-MM-DD"
+
+# Scores per dimension (0-10 each, 50 total max)
+# Fill after blind-eval
+sonnet_4_6:
+  correctness: 0
+  depth: 0
+  conciseness: 0
+  actionability: 0
+  formatting: 0
+  total: 0
+  tokens_input: 0
+  tokens_output: 0
+  cost_usd: 0.00
+
+opus_4_7_xhigh:
+  correctness: 0
+  depth: 0
+  conciseness: 0
+  actionability: 0
+  formatting: 0
+  total: 0
+  tokens_input: 0
+  tokens_output: 0
+  cost_usd: 0.00
+
+# Derived metrics (auto-fillable)
+quality_delta_pct: 0       # (opus_total - sonnet_total) / sonnet_total * 100
+cost_delta_pct: 0          # (opus_cost - sonnet_cost) / sonnet_cost * 100
+quality_cost_ratio: 0      # quality_delta / cost_delta — want >= 2.0 for upgrade
+
+# Decision (per SE-070 playbook)
+recommendation: pending    # upgrade | keep_sonnet | downgrade_haiku | rerun
+reasoning: ""

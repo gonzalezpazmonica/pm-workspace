@@ -1,14 +1,16 @@
 ---
 id: SE-034
 title: Workflow node typing — input/output schemas explicitos en DAG skills
-status: PROPOSED
+status: IN_PROGRESS
 origin: Dify research 2026-04-18 (api/core/workflow node types)
 author: Savia
 related: dag-plan, dag-execute, dag-scheduling, wave-executor, spec-slice
-approved_at: null
-applied_at: null
+approved_at: "2026-04-18"
+applied_at: "2026-04-18"
 expires: "2026-05-16"
 priority: alta
+slices_done: [1]
+slices_pending: [2, 3]
 ---
 
 # SE-034 — Workflow node typing

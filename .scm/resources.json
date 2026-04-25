@@ -1,6 +1,6 @@
 {
-  "hash": "ddae2b43c93d",
-  "total": 1083,
+  "hash": "7fccd291e42a",
+  "total": 1084,
   "resources": [
     {
       "category": "analysis",
@@ -8112,6 +8112,19 @@
       "kind": "script",
       "path": "scripts/operational-point-selector.sh",
       "description": "operational-point-selector.sh — SE-029 Slice 4."
+    },
+    {
+      "category": "planning",
+      "name": "opus47-calibration-scorecard",
+      "intents": [
+        "calibration",
+        "opus",
+        "scorecard",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/opus47-calibration-scorecard.sh",
+      "description": "opus47-calibration-scorecard.sh — SE-070 Slice 1"
     },
     {
       "category": "planning",

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 594a03000703 | resources: 1083
-> 530 commands · 86 skills · 65 agents · 402 scripts
+> hash: 5397f823a72a | resources: 1084
+> 530 commands · 86 skills · 65 agents · 403 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -640,6 +640,7 @@
 [planning] onboarding-dev — agent,auto,buddy,docs,generates — cmd:.claude/commands/onboarding-dev.md
 [planning] onboarding-dev — agente,auto,buddy,capas,documentación — skill:.claude/skills/onboarding-dev/SKILL.md
 [planning] operational-point-selector — operational,point,selector,slice — script:scripts/operational-point-selector.sh
+[planning] opus47-calibration-scorecard — calibration,opus,scorecard,slice — script:scripts/opus47-calibration-scorecard.sh
 [planning] orgchart-import —  — cmd:.claude/commands/orgchart-import.md
 [planning] orgchart-import —  — skill:.claude/skills/orgchart-import/SKILL.md
 [planning] oumi-probe — integration,oumi,probe,slice,viability — script:scripts/oumi-probe.sh
