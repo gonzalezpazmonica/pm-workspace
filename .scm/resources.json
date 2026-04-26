@@ -1,6 +1,6 @@
 {
-  "hash": "67e695f28d6f",
-  "total": 1093,
+  "hash": "11aefa2d83be",
+  "total": 1098,
   "resources": [
     {
       "category": "analysis",
@@ -2438,6 +2438,31 @@
       "kind": "script",
       "path": "scripts/nidos-dev-lib.sh",
       "description": "nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098)."
+    },
+    {
+      "category": "development",
+      "name": "opencode-install",
+      "intents": [
+        "install",
+        "opencode",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/opencode-install.sh",
+      "description": "opencode-install.sh — SE-077 Slice 1"
+    },
+    {
+      "category": "development",
+      "name": "opencode-monthly-canary",
+      "intents": [
+        "canary",
+        "monthly",
+        "opencode",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/opencode-monthly-canary.sh",
+      "description": "opencode-monthly-canary.sh — SE-077 Slice 2"
     },
     {
       "category": "development",
@@ -5301,6 +5326,29 @@
       "kind": "script",
       "path": "scripts/agents-catalog-sync.sh",
       "description": "agents-catalog-sync.sh — SE-047 Slice 1 agents catalog auto-sync."
+    },
+    {
+      "category": "planning",
+      "name": "agents-md-drift-check",
+      "intents": [
+        "agents",
+        "check",
+        "drift"
+      ],
+      "kind": "script",
+      "path": "scripts/agents-md-drift-check.sh",
+      "description": "agents-md-drift-check.sh — SE-078"
+    },
+    {
+      "category": "planning",
+      "name": "agents-md-generate",
+      "intents": [
+        "agents",
+        "generate"
+      ],
+      "kind": "script",
+      "path": "scripts/agents-md-generate.sh",
+      "description": "agents-md-generate.sh — SE-078"
     },
     {
       "category": "planning",
@@ -11780,6 +11828,19 @@
       "kind": "script",
       "path": "scripts/mutation-audit.sh",
       "description": "mutation-audit.sh — SE-035 Slice 1 mutation testing audit."
+    },
+    {
+      "category": "quality",
+      "name": "opencode-parity-audit",
+      "intents": [
+        "audit",
+        "opencode",
+        "parity",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/opencode-parity-audit.sh",
+      "description": "opencode-parity-audit.sh — SE-077 Slice 2"
     },
     {
       "category": "quality",

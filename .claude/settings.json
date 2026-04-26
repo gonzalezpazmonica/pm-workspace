@@ -414,6 +414,17 @@
             "statusMessage": "Verificando postergaciones injustificadas..."
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/agents-md-auto-regenerate.sh",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Regenerando AGENTS.md..."
+          }
+        ]
       }
     ],
     "SessionEnd": [

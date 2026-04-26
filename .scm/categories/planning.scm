@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 487 resources
+> 489 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -24,6 +24,8 @@
 - **adr-create** (cmd): >
 - **advisor-config** (script): advisor-config.sh — Generate Anthropic Advisor Strategy configuration
 - **agents-catalog-sync** (script): agents-catalog-sync.sh — SE-047 Slice 1 agents catalog auto-sync.
+- **agents-md-drift-check** (script): agents-md-drift-check.sh — SE-078
+- **agents-md-generate** (script): agents-md-generate.sh — SE-078
 - **ai-boundary** (cmd): Definir matriz de límites explícitos: qué puede hacer Savia autónomamente vs requiere aprobación
 - **ai-confidence** (cmd): Transparencia: Savia muestra confianza, razonamiento, datos y limitaciones de cada recomendación
 - **ai-incident** (cmd): Registrar y analizar incidentes donde recomendaciones de Savia fueron incorrectas
