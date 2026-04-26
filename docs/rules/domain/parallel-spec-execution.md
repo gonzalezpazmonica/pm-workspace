@@ -32,6 +32,26 @@ SPEC_WORKER_CMD='opencode -w {worktree} --spec {spec_id}' \
   bash scripts/parallel-specs-orchestrator.sh SE-073
 ```
 
+### Merge queue (Slice 2)
+
+```bash
+# Encolar branches según orden de finalización
+bash scripts/parallel-specs-merge-queue.sh add agent/se-073-slice1-...
+bash scripts/parallel-specs-merge-queue.sh add agent/se-076-slice1-...
+
+# Ver estado de cada branch (ready / needs-rebase / merged / missing)
+bash scripts/parallel-specs-merge-queue.sh list
+bash scripts/parallel-specs-merge-queue.sh status
+
+# Tras un merge en main, rebase la siguiente en cola con auto-resolve CHANGELOG
+bash scripts/parallel-specs-merge-queue.sh rebase-next
+
+# Rebase explícito de una branch concreta
+bash scripts/parallel-specs-merge-queue.sh rebase agent/se-076-slice1-...
+```
+
+**Auto-resolve scope**: el cascade-rebase resuelve automáticamente conflictos en `CHANGELOG.md` y `CHANGELOG.d/` tomando la versión upstream + asumiendo que el hook post-merge regenera el archivo final. Cualquier conflicto en otro fichero se ESCALA: el rebase aborta, el árbol queda limpio y la usuaria recibe la lista de ficheros conflictivos. NUNCA auto-merge, NUNCA push, NUNCA force.
+
 ## Configuración (env vars)
 
 | Variable | Default | Descripción |
