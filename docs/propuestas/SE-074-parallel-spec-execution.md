@@ -5,7 +5,7 @@ status: IMPLEMENTED
 origin: Cole Medin Linkedin post 2026-04-25 + post Era 187 capacity assessment
 author: Savia
 priority: alta
-effort: M 8h (Slice 1) + S 3h (Slice 1.5 adaptive halting) | Total estimado L 21h (4 slices)
+effort: M 8h (Slice 1) + S 3h (Slice 1.5) + S 4h (Slice 2) + M 6h (Slice 3) | Slices 1+1.5+2+3 IMPLEMENTED 2026-04-26
 related: bounded-concurrency, autonomous-safety, pr-plan, code-review-court
 approved_at: "2026-04-26"
 applied_at: "2026-04-26"
@@ -108,8 +108,9 @@ Inspirado en Kohli et al. 2026 ("Loop, Think, & Generalize", arXiv:2604.07822). 
 - [ ] AC-11 Conflictos no-CHANGELOG escalados (no auto-merge), notificación a la usuaria
 
 ### Slice 3
-- [ ] AC-12 DB sandbox per-worktree (SQLite default, Postgres opt-in)
-- [ ] AC-13 Cleanup hook async stale worktrees
+- [x] AC-12 DB sandbox per-worktree (SQLite default, Postgres opt-in) — `scripts/parallel-specs-db-sandbox.sh`
+- [x] AC-13 Cleanup hook async stale worktrees — `scripts/parallel-specs-cleanup-stale.sh` (list-mode default; prune --confirm gated)
+- [ ] AC-14 (deferred) Network namespace isolation por worktree — opt-in, requiere root, fuera de Slice 3 v1
 
 ## No hacen
 

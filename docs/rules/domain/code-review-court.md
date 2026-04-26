@@ -2,6 +2,8 @@
 
 > Era 220. 5 specialized judges review AI-generated code in parallel.
 > Human E1 reviews FINDINGS, not raw diffs.
+>
+> **Pattern alignment**: implementa Genesis **A7 ADVERSARIAL REVIEW** — ver `docs/rules/domain/attention-anchor.md` (SE-080).
 
 ## The Court
 

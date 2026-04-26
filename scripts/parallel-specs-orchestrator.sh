@@ -223,6 +223,12 @@ spawn_worker() {
     export SPEC_WORKER_BUDGET="${budget}"
     export SPEC_WORKER_ID="${spec_id}"
     export SPEC_WORKER_WORKTREE="${worktree}"
+    # Slice 3: per-worker DB sandbox via DATABASE_URL.
+    # Best-effort — missing script or backend errors do NOT kill the worker.
+    if [[ -x "${ROOT}/scripts/parallel-specs-db-sandbox.sh" ]]; then
+      eval "$(bash "${ROOT}/scripts/parallel-specs-db-sandbox.sh" init "${worktree_name}" 2>/dev/null || true)"
+      [[ -n "${DATABASE_URL:-}" ]] && export DATABASE_URL
+    fi
     {
       echo "=== parallel-specs worker start ==="
       echo "spec_id   : ${spec_id}"
@@ -281,6 +287,12 @@ wait_one_slot() {
   fi
   # Cleanup tmp dir
   [[ -d "${WORKER_TMP[${finished_pid}]}" ]] && rm -rf "${WORKER_TMP[${finished_pid}]}"
+  # Slice 3: drop the DB sandbox best-effort (idempotent on missing).
+  if [[ -x "${ROOT}/scripts/parallel-specs-db-sandbox.sh" ]]; then
+    local spec_id_done="${WORKER_SPEC[${finished_pid}]}"
+    local wt_name="${SPEC_WORKTREE_NAMES[${spec_id_done}]:-}"
+    [[ -n "${wt_name}" ]] && bash "${ROOT}/scripts/parallel-specs-db-sandbox.sh" destroy "${wt_name}" >/dev/null 2>&1 || true
+  fi
 }
 
 for spec_id in "${SPEC_LIST[@]}"; do

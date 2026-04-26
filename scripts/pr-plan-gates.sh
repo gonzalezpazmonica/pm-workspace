@@ -322,3 +322,99 @@ g11() {
     FULL)     echo "WARN: Review level: FULL ($size lines${escalated}) — consensus panel recommended. Consider splitting." ;;
   esac
 }
+
+# G13_SCOPE_TRACE: every changed file in the PR must trace to either
+#   (a) the spec referenced in .pr-summary.md / commit / branch name (token overlap or path prefix),
+#   (b) a hard-coded whitelist (CHANGELOG.*, .scm/, .confidentiality-signature, .pr-summary.md),
+#   (c) an explicit `Scope-trace: skip — <reason ≥10 chars>` override in .pr-summary.md.
+# Spec: SE-079 (docs/propuestas/SE-079-pr-plan-scope-trace-gate.md).
+# Pattern: Genesis B9 GOAL STEWARD + B8 ATTENTION ANCHOR
+# (docs/rules/domain/attention-anchor.md, SE-080).
+g13_scope_trace() {
+  if ! git rev-parse origin/main >/dev/null 2>&1; then
+    echo "WARN: skipped (origin/main unreachable)"; return
+  fi
+  local files; files=$(git diff origin/main..HEAD --name-only 2>/dev/null | grep -v '^$') || true
+  [[ -z "$files" ]] && { echo "skipped (no changes)"; return; }
+
+  # Skip override — explicit user opt-out with a reason
+  local summary="$ROOT/.pr-summary.md"
+  if [[ -f "$summary" ]]; then
+    local skip_line; skip_line=$(grep -E '^Scope-trace: skip' "$summary" || true)
+    if [[ -n "$skip_line" ]]; then
+      local reason; reason=$(echo "$skip_line" | sed -E 's/^Scope-trace: skip[[:space:]]*[—-]?[[:space:]]*//')
+      if [[ "${#reason}" -ge 10 ]]; then
+        echo "skipped via override — ${reason:0:60}"; return
+      fi
+      echo "FAIL: Scope-trace skip reason too short (${#reason} chars, min 10)"; return
+    fi
+  fi
+
+  # Detect spec id: first .pr-summary.md, then commit messages, then branch name
+  local spec_id=""
+  if [[ -f "$summary" ]]; then
+    spec_id=$(grep -oE '\b(SE|SPEC)-[0-9]+\b' "$summary" | head -1 || true)
+  fi
+  if [[ -z "$spec_id" ]]; then
+    spec_id=$(git log origin/main..HEAD --format=%B 2>/dev/null | grep -oE '\b(SE|SPEC)-[0-9]+\b' | head -1 || true)
+  fi
+  if [[ -z "$spec_id" ]]; then
+    spec_id=$(echo "$BRANCH" | grep -oE '\b(se|spec)-?[0-9]+\b' | head -1 | tr '[:lower:]' '[:upper:]' | sed 's/-\?\([0-9]\)/-\1/' || true)
+  fi
+  if [[ -z "$spec_id" ]]; then
+    echo "WARN: B8 attention-anchor missing — no spec ref in .pr-summary.md, commits, or branch (gate skipped)"; return
+  fi
+
+  # Locate spec file
+  local spec_file; spec_file=$(find "$ROOT/docs/propuestas" -maxdepth 1 -type f -name "${spec_id}*.md" 2>/dev/null | head -1)
+  if [[ -z "$spec_file" ]]; then
+    echo "WARN: B8 attention-anchor weak — spec ${spec_id} referenced but file not found in docs/propuestas/ (gate skipped)"; return
+  fi
+
+  # Pull AC tokens (lowercase, length ≥ 4) from acceptance criteria lines.
+  # Note on the tr complement set: `-` MUST be the last character to avoid
+  # `tr` parsing `_-\n` as a reverse range and erroring out at runtime.
+  local ac_tokens; ac_tokens=$(grep -E '^- \[[ x]\] AC-' "$spec_file" 2>/dev/null \
+    | tr '[:upper:]' '[:lower:]' \
+    | tr -c '[:alnum:]_\n-' ' ' \
+    | tr ' ' '\n' \
+    | awk 'length($0) >= 4' \
+    | sort -u)
+
+  # Pull explicit path mentions from the spec body (anything that looks like a path)
+  local path_hints; path_hints=$(grep -oE '[a-zA-Z0-9_./-]+\.(sh|py|md|bats|json|yaml|yml|ts|tsx|js)' "$spec_file" 2>/dev/null | sort -u)
+
+  local unmatched=() unmatched_count=0
+  while IFS= read -r f; do
+    [[ -z "$f" ]] && continue
+    case "$f" in
+      CHANGELOG.md|CHANGELOG.d/*|.scm/*|.confidentiality-signature|.pr-summary.md) continue ;;
+      docs/propuestas/${spec_id}*) continue ;;
+    esac
+    # Path hint match
+    if [[ -n "$path_hints" ]] && echo "$path_hints" | grep -Fxq "$f"; then continue; fi
+    # Token overlap: tokenise the basename and check intersection with ac_tokens
+    local base; base=$(basename "$f" | sed -E 's/\.[a-z]+$//' | tr '[:upper:]' '[:lower:]')
+    local matched=0
+    if [[ -n "$ac_tokens" ]]; then
+      for tok in $(echo "$base" | tr '_-' '\n\n' | awk 'length($0) >= 4'); do
+        if echo "$ac_tokens" | grep -Fxq "$tok"; then matched=1; break; fi
+      done
+    fi
+    if [[ "$matched" -eq 0 ]]; then
+      unmatched_count=$((unmatched_count + 1))
+      [[ "${#unmatched[@]}" -lt 10 ]] && unmatched+=("$f")
+    fi
+  done <<< "$files"
+
+  if [[ "$unmatched_count" -gt 0 ]]; then
+    {
+      echo "FAIL: ${unmatched_count} file(s) do not trace to any AC of ${spec_id}:"
+      for f in "${unmatched[@]}"; do echo "  - $f → NO MATCH"; done
+      [[ "$unmatched_count" -gt "${#unmatched[@]}" ]] && echo "  … ($((unmatched_count - ${#unmatched[@]})) more)"
+      echo "  resolve: add the file to a relevant AC, or override via 'Scope-trace: skip — <reason ≥10 chars>' in .pr-summary.md"
+    }
+    return
+  fi
+  echo "B8 attention-anchor present (${spec_id})"
+}
