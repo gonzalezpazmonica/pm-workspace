@@ -300,6 +300,7 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 **Era 189 — OpenCode Sovereignty (approved)**:
 - **SE-077** OpenCode v1.14 replatform — APPROVED priority alta (M 8h Slice 1 + M 6h Slice 2 = L 14h)
 - **SE-078** AGENTS.md cross-frontend — APPROVED priority alta (M 6h)
+- **SE-079** pr-plan G13 scope-trace gate — APPROVED priority media (S 3h) — Karpathy "Surgical Changes" enforced pre-push
 
 **Blocked (GPU/hardware)**:
 - **SE-028** Oumi (GPU-blocked)
