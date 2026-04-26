@@ -116,21 +116,21 @@ Sin dependencia FalkorDB ni graphiti-core (AGPL bloqueante). Implementar el PATR
 
 ## OpenCode Implementation Plan
 
-**Portability classification**: PURE_BASH
+### Bindings touched
 
-Los 3 slices son backend puro:
+| Componente | Claude Code | OpenCode v1.14 |
+|---|---|---|
+| Slice 1 Graphiti episodic | extiende `scripts/memory-graph.py` + `memory-store.sh` | idéntico, sin acoplamiento a frontend |
+| Slice 2 Schema-graph WIQL | skill `.claude/skills/wiql-schema-graph/` | invocable desde AGENTS.md (SE-078) |
+| Slice 3 LLM healer | wrapper Bash + Python sobre CLI de LLM | indiferente al frontend (Claude, Codex, Ollama) |
 
-- **Slice 1 (Graphiti episodic JSONL)**: extiende `scripts/memory-graph.py` y `scripts/memory-store.sh`. Sin acoplamiento a frontend.
-- **Slice 2 (Schema-graph WIQL)**: skill en `.claude/skills/wiql-schema-graph/` invocable desde AGENTS.md (SE-078). Sin hooks específicos de Claude Code.
-- **Slice 3 (LLM healer)**: wrapper Bash + Python alrededor de cualquier LLM CLI (Claude, Codex, modelos locales vía Ollama). El frontend que invoca al healer es indiferente.
+### Verification protocol
 
-**OpenCode binding**: ninguno necesario. El healer puede invocarse desde OpenCode v1.14 igual que desde Claude Code mediante AGENTS.md (slash command o skill autoload).
+- [ ] `bash tests/structure/test-memory-graph.bats` pasa tras switch (Slice 1)
+- [ ] `bash scripts/wiql-schema-audit.sh --selftest` ejecuta sin Claude Code (Slice 2)
+- [ ] `bash scripts/llm-healer-smoke.sh` confirma paridad (Slice 3)
+- [ ] `$AZURE_DEVOPS_PAT` heredado en runtime OpenCode (mismo mecanismo env)
 
-**Validación post-replatform (SE-077)**: tras switch, ejecutar:
-- `bash tests/structure/test-memory-graph.bats` (Slice 1)
-- `bash scripts/wiql-schema-audit.sh --selftest` (Slice 2)
-- `bash scripts/llm-healer-smoke.sh` (Slice 3)
+### Portability classification
 
-para confirmar paridad funcional sin Claude Code.
-
-**Riesgo OpenCode-específico**: Slice 2 (schema-graph WIQL) depende de variable `$AZURE_DEVOPS_PAT` accesible en runtime. OpenCode hereda env vars como Claude Code, sin diferencia operativa.
+- **PURE_BASH**: Los 3 slices son backend puro (Python + bash + JSONL). Sin hooks específicos de Claude Code. El healer puede invocarse desde OpenCode v1.14 igual que desde Claude Code mediante AGENTS.md (slash command o skill autoload). Riesgo OpenCode-específico nulo: Slice 2 depende de variable `$AZURE_DEVOPS_PAT` que ambos frontends heredan idéntico.
