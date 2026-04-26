@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: a6e126a92e8a | resources: 1087
-> 530 commands · 86 skills · 65 agents · 406 scripts
+> hash: 6ff9765fd932 | resources: 1090
+> 530 commands · 86 skills · 65 agents · 409 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -195,6 +195,7 @@
 [development] mcp-server — claude,code,expone,herramientas,otros — cmd:.claude/commands/mcp-server.md
 [development] nd-autoconfig — accessibility,auto,autoconfig,configure,neurodivergent — script:scripts/nd-autoconfig.sh
 [development] nidos-dev-lib — lifecycle,nidos,savia,server,spec — script:scripts/nidos-dev-lib.sh
+[development] parallel-specs-orchestrator — execution,orchestrates,orchestrator,parallel,slice — script:scripts/parallel-specs-orchestrator.sh
 [development] pdf-extract-probe — extract,feasibility,probe,slice,spec — script:scripts/pdf-extract-probe.sh
 [development] pipeline-artifacts —  — cmd:.claude/commands/pipeline-artifacts.md
 [development] pipeline-create —  — cmd:.claude/commands/pipeline-create.md
@@ -226,6 +227,7 @@
 [development] slm-registry — model,registry,slms,spec,trained — script:scripts/slm-registry.sh
 [development] sovereignty-pack — build,fully,installer,offline,pack — script:scripts/sovereignty-pack.sh
 [development] spec-approval-gate — approval,enforcement,gate,rule,slice — script:scripts/spec-approval-gate.sh
+[development] spec-budget — budget,dynamic,effort,retry,slice — script:scripts/spec-budget.sh
 [development] spec-design — datos,decisiones,diseño,estrategia,existente — cmd:.claude/commands/spec-design.md
 [development] spec-driven-development — agentes,claude,desarrolladores,ejecutables,humanos — skill:.claude/skills/spec-driven-development/SKILL.md
 [development] spec-explore — analyze,documents,explore,specification — cmd:.claude/commands/spec-explore.md
@@ -397,6 +399,7 @@
 [planning] Incident Correlate — análisis,correlación,cruzada,datos,fuentes — cmd:.claude/commands/incident-correlate.md
 [planning] accessibility-mode — accesibilidad,activa,desactiva,estado,muestra — cmd:.claude/commands/accessibility-mode.md
 [planning] accessibility-setup — accesibilidad,adaptarse,configura,necesidades,preferencias — cmd:.claude/commands/accessibility-setup.md
+[planning] adaptive-halting — adaptive,check,criterion,double,halting — script:scripts/adaptive-halting.sh
 [planning] adaptive-strategy-selector — adaptive,based,loading,model,select — script:scripts/adaptive-strategy-selector.sh
 [planning] adb-run — chains,compound,execute,functions,without — script:scripts/adb-run.sh
 [planning] add-maturity-levels — field,frontmatter,levels,maturity,skill — script:scripts/add-maturity-levels.sh

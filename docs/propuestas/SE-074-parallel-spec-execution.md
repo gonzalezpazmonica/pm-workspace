@@ -1,14 +1,14 @@
 ---
 id: SE-074
 title: SE-074 — Parallel spec execution con worktrees + bounded concurrency
-status: APPROVED
+status: IMPLEMENTED
 origin: Cole Medin Linkedin post 2026-04-25 + post Era 187 capacity assessment
 author: Savia
 priority: alta
 effort: M 8h (Slice 1) + S 3h (Slice 1.5 adaptive halting) | Total estimado L 21h (4 slices)
 related: bounded-concurrency, autonomous-safety, pr-plan, code-review-court
 approved_at: "2026-04-26"
-applied_at: null
+applied_at: "2026-04-26"
 expires: "2026-06-26"
 era: 188
 ---

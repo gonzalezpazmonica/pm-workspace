@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 486 resources
+> 487 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -13,6 +13,7 @@
 - **Incident Correlate** (cmd): Correlación cruzada de datos de múltiples fuentes para análisis integral de incidentes
 - **accessibility-mode** (cmd): Toggle rápido de accesibilidad — activa, desactiva o muestra el estado
 - **accessibility-setup** (cmd): Configura las preferencias de accesibilidad de Savia para adaptarse a tus necesidades
+- **adaptive-halting** (script): adaptive-halting.sh — SE-074 Slice 1.5 — double-criterion halting check
 - **adaptive-strategy-selector** (script): adaptive-strategy-selector.sh — Select loading strategy based on model tier
 - **adb-run** (script): adb-run.sh — Execute adb-wrapper functions without compound && chains
 - **add-maturity-levels** (script): add-maturity-levels.sh — Add maturity field to all skill frontmatter

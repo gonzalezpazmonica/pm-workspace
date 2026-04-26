@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.14.0] — 2026-04-26
+
+Batch 63 — SE-074 IMPLEMENTED Slices 1 + 1.5 — paralelismo de specs + adaptive halting (Critical Path #2-3).
+
+### Added
+- `scripts/parallel-specs-orchestrator.sh` — Slice 1 core. N workers paralelos en worktrees aislados, bounded concurrency hard cap 5, port allocation, tmp dir sandboxing, runtime timeout, session.log per spec.
+- `scripts/spec-budget.sh` — Slice 1.5. Mapeo effort (S/M/L) → Poisson-clipped retry budget. Determinístico por defecto.
+- `scripts/adaptive-halting.sh` — Slice 1.5. Doble criterio halting (convergencia tree-hash + confidence ≥ floor + tests passed).
+- `docs/rules/domain/parallel-spec-execution.md` — regla canónica.
+- 56 tests BATS (23+15+18) scores 88/85/81 — todos certified.
+
+### Changed
+- SE-074 status APPROVED → IMPLEMENTED (Slices 1+1.5). Slices 2+3 diferidas.
+
+### Context
+Critical Path #2-3. Worker command configurable via `SPEC_WORKER_CMD` (claude/opencode/cualquier CLI). 3-4x throughput esperado en cualquier proyecto que invoque el orchestrator. Bounded concurrency hard cap 5 (default 3). Inspirado en Cole Medin LinkedIn 2026-04-25 + Kohli et al. 2026 (arXiv:2604.07822) para halting adaptativo y Poisson budget.
+
+Version bump 6.13.0 → 6.14.0.
+
 ## [6.13.0] — 2026-04-26
 
 Batch 62 — SE-073 Slice 1 IMPLEMENTED — MEMORY.md L1 hard-cap tiered (Critical Path #1).
@@ -8623,6 +8642,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
+[6.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.13.0...v6.14.0
 [6.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.12.0...v6.13.0
 [6.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.11.0...v6.12.0
 [6.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.9.0...v6.10.0
