@@ -66,6 +66,7 @@ case "${CMD}" in
       -not -path './.venv/*' \
       -not -path './venv/*' \
       -not -path './.halt-state.json' \
+      -not -path './.halt-state.prev.json' \
       -not -path './.confidence-score.json' \
       -not -path './output/*' \
       -print0 \

@@ -239,3 +239,38 @@ SPEC
 @test "spec ref: docs/rules/domain/parallel-spec-execution.md referenced" {
   grep -q "parallel-spec-execution.md" "$SCRIPT"
 }
+
+# ── Regression tests for fixes 2026-04-26 ─────────────────────────────────────
+
+@test "regression: --queue strips inline comments and trailing whitespace" {
+  # Bug: ${line## } only removed one space; "TEST-A  # inline" left "TEST-A " (trailing space)
+  # so locate_spec built "TEST-A *.md" and find returned nothing.
+  make_spec "SE-140" "S"
+  make_spec "SE-141" "M"
+  local queue; queue=$(mktemp)
+  printf "SE-140  # inline comment with two spaces before\n  SE-141  \t  \n" > "$queue"
+  run bash "$SCRIPT" --queue "$queue" --dry-run
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"SE-140"* ]]
+  [[ "$output" == *"SE-141"* ]]
+  [[ "$output" != *"spec not found"* ]]
+  rm -f "$queue"
+}
+
+@test "regression: lowercase effort tier in spec frontmatter is recognised" {
+  # Bug: grep -oE '^[SML]' was case-sensitive; lowercase 'l 14h' fell through to default 'M'
+  # making large specs receive a medium budget.
+  make_spec "SE-142" "l"   # lowercase L
+  run bash "$SCRIPT" --dry-run SE-142
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"effort=L budget=5"* ]]
+}
+
+@test "regression: mixed-case effort tiers normalised to upper" {
+  make_spec "SE-143" "s"
+  make_spec "SE-144" "m"
+  run bash "$SCRIPT" --dry-run SE-143 SE-144
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"effort=S budget=2"* ]]
+  [[ "$output" == *"effort=M budget=3"* ]]
+}
