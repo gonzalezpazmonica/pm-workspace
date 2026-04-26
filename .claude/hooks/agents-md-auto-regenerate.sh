@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # agents-md-auto-regenerate.sh — SE-078 Stop hook
 #
 # When a session edits .claude/agents/*.md, regenerate AGENTS.md so the
@@ -9,8 +10,6 @@
 #
 # Reference: SE-078 (docs/propuestas/SE-078-agents-md-cross-frontend.md)
 # Reference: docs/rules/domain/agents-md-source-of-truth.md
-
-set -uo pipefail
 
 LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
 if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
