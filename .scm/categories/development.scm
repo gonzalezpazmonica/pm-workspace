@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 124 resources
+> 126 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -57,6 +57,8 @@
 - **mcp-server** (cmd): Expone las herramientas de Savia como MCP server para otros proyectos Claude Code
 - **nd-autoconfig** (script): nd-autoconfig.sh — SPEC-061: Auto-configure accessibility.md from neurodivergent.md
 - **nidos-dev-lib** (script): nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098).
+- **opencode-install** (script): opencode-install.sh — SE-077 Slice 1
+- **opencode-monthly-canary** (script): opencode-monthly-canary.sh — SE-077 Slice 2
 - **parallel-specs-cleanup-stale** (script): parallel-specs-cleanup-stale.sh — SE-074 Slice 3 — stale worktree cleanup
 - **parallel-specs-db-sandbox** (script): parallel-specs-db-sandbox.sh — SE-074 Slice 3 — DB sandbox per worker
 - **parallel-specs-merge-queue** (script): parallel-specs-merge-queue.sh — SE-074 Slice 2 — PR queue + cascade-rebase

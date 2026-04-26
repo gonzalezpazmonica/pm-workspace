@@ -1,14 +1,14 @@
 ---
 id: SE-078
 title: SE-078 — AGENTS.md adoption — single source para Claude Code + OpenCode + Codex
-status: APPROVED
+status: IMPLEMENTED
 origin: Strategic decision 2026-04-26 — vendor-lockin mitigation
 author: Savia
 priority: alta
-effort: M 6h
+effort: M 6h — IMPLEMENTED 2026-04-26
 related: SE-077, SPEC-114
 approved_at: "2026-04-26"
-applied_at: null
+applied_at: "2026-04-26"
 expires: "2026-06-26"
 era: 189
 ---
@@ -63,15 +63,15 @@ Cost of inaction: vendor lock-in via formato propietario, aunque la infra (SE-07
 
 ## Acceptance criteria
 
-- [ ] AC-01 `scripts/agents-md-generate.sh` produce AGENTS.md válido con 65 entries
-- [ ] AC-02 AGENTS.md commiteado en repo root
-- [ ] AC-03 `scripts/agents-md-drift-check.sh` detecta drift agente-nuevo
-- [ ] AC-04 Hook Stop async regenera con diff visible
-- [ ] AC-05 OpenCode v1.14 carga sin error (test E2E)
-- [ ] AC-06 Tests BATS ≥15 score ≥80
-- [ ] AC-07 Doc `docs/rules/domain/agents-md-source-of-truth.md`
-- [ ] AC-08 SPEC-114 marcada SUPERSEDED-by SE-078
-- [ ] AC-09 CHANGELOG entry
+- [x] AC-01 `scripts/agents-md-generate.sh` produce AGENTS.md válido con todos los agentes
+- [x] AC-02 AGENTS.md commiteado en repo root
+- [x] AC-03 `scripts/agents-md-drift-check.sh` detecta drift agente-nuevo (8 tests, score 81)
+- [x] AC-04 Hook Stop async `agents-md-auto-regenerate.sh` registrado en `settings.json`
+- [ ] AC-05 OpenCode v1.14 carga sin error — **pendiente de boot por la usuaria**
+- [x] AC-06 Tests BATS: 22 generate (score 88) + 8 drift (score 81) = 30 tests
+- [x] AC-07 Doc `docs/rules/domain/agents-md-source-of-truth.md`
+- [x] AC-08 SPEC-114 marcada SUPERSEDED-by SE-078 (frontmatter + banner)
+- [x] AC-09 CHANGELOG entry
 
 ## No hacen
 

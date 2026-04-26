@@ -297,10 +297,11 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 - **SE-075** Voicebox adoption — APPROVED, priority media (S 2h + M 3h + M 3h = M 8h)
 - **SE-076** QueryWeaver patterns — APPROVED, priority media (M 4h + M 3h + S 2h = M 9h)
 
-**Era 189 — OpenCode Sovereignty (approved)**:
-- **SE-077** OpenCode v1.14 replatform — APPROVED priority alta (M 8h Slice 1 + M 6h Slice 2 = L 14h)
-- **SE-078** AGENTS.md cross-frontend — APPROVED priority alta (M 6h)
-- **SE-079** pr-plan G13 scope-trace gate — APPROVED priority media (S 3h) — Karpathy "Surgical Changes" enforced pre-push
+**Era 189 — OpenCode Sovereignty (IMPLEMENTED 2026-04-26)**:
+- **SE-077** OpenCode v1.14 replatform — IMPLEMENTED Slices 1+2 (E2E AC-03/AC-05 pendiente boot por la usuaria, AC-11 wrappers tras 1 sprint canary)
+- **SE-078** AGENTS.md cross-frontend — IMPLEMENTED (E2E AC-05 pendiente boot)
+- **SE-079** pr-plan G13 scope-trace gate — IMPLEMENTED (Karpathy "Surgical Changes" enforced pre-push)
+- **SE-080** Attention-anchor vocabulary — IMPLEMENTED (Genesis B8/B9/A7/A9 named)
 
 **Blocked (GPU/hardware)**:
 - **SE-028** Oumi (GPU-blocked)

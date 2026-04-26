@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d60dc9f9ec8d | resources: 1093
-> 530 commands · 86 skills · 65 agents · 412 scripts
+> hash: 0a9f174a3f01 | resources: 1098
+> 530 commands · 86 skills · 65 agents · 417 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -195,6 +195,8 @@
 [development] mcp-server — claude,code,expone,herramientas,otros — cmd:.claude/commands/mcp-server.md
 [development] nd-autoconfig — accessibility,auto,autoconfig,configure,neurodivergent — script:scripts/nd-autoconfig.sh
 [development] nidos-dev-lib — lifecycle,nidos,savia,server,spec — script:scripts/nidos-dev-lib.sh
+[development] opencode-install — install,opencode,slice — script:scripts/opencode-install.sh
+[development] opencode-monthly-canary — canary,monthly,opencode,slice — script:scripts/opencode-monthly-canary.sh
 [development] parallel-specs-cleanup-stale — cleanup,parallel,slice,specs,stale — script:scripts/parallel-specs-cleanup-stale.sh
 [development] parallel-specs-db-sandbox — parallel,sandbox,slice,specs,worker — script:scripts/parallel-specs-db-sandbox.sh
 [development] parallel-specs-merge-queue — cascade,merge,parallel,queue,rebase — script:scripts/parallel-specs-merge-queue.sh
@@ -413,6 +415,8 @@
 [planning] adr-create —  — cmd:.claude/commands/adr-create.md
 [planning] advisor-config — advisor,anthropic,config,configuration,generate — script:scripts/advisor-config.sh
 [planning] agents-catalog-sync — agents,auto,catalog,slice,sync — script:scripts/agents-catalog-sync.sh
+[planning] agents-md-drift-check — agents,check,drift — script:scripts/agents-md-drift-check.sh
+[planning] agents-md-generate — agents,generate — script:scripts/agents-md-generate.sh
 [planning] ai-boundary — aprobación,autónomamente,definir,explícitos,hacer — cmd:.claude/commands/ai-boundary.md
 [planning] ai-confidence — confianza,datos,limitaciones,muestra,razonamiento — cmd:.claude/commands/ai-confidence.md
 [planning] ai-incident — analizar,fueron,incidentes,incorrectas,recomendaciones — cmd:.claude/commands/ai-incident.md
@@ -925,6 +929,7 @@
 [quality] model-upgrade-auditor — agents,audits,backed,eval,evidence — agent:.claude/agents/model-upgrade-auditor.md
 [quality] mutation-audit — calidad,concreto,demand,detecta,generated — skill:.claude/skills/mutation-audit/SKILL.md
 [quality] mutation-audit — audit,mutation,slice,testing — script:scripts/mutation-audit.sh
+[quality] opencode-parity-audit — audit,opencode,parity,slice — script:scripts/opencode-parity-audit.sh
 [quality] overnight-sprint — autonomous,creates,executes,human,launch — cmd:.claude/commands/overnight-sprint.md
 [quality] pentester —  — agent:.claude/agents/pentester.md
 [quality] pentesting — arsenal,based,driven,fases,paralelas — skill:.claude/skills/pentesting/SKILL.md

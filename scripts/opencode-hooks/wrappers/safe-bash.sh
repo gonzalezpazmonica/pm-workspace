@@ -1,6 +1,9 @@
 #!/bin/bash
 set -uo pipefail
 # safe-bash.sh — Wrapper para comandos Bash que ejecuta hooks de seguridad
+# DEPRECATED — SE-077 Slice 1+2 (2026-04-26): replaced by
+#   ~/.savia/opencode/plugins/savia-gates/ which delegates to .claude/hooks/*.sh
+#   directly. Conservar 1 sprint, eliminar tras Slice 2 completion (AC-11).
 # Uso: safe-bash.sh "comando"
 
 COMMAND="$*"

@@ -1,12 +1,18 @@
 ---
 id: SPEC-114
 title: Docs alignment post-SPEC-109/111/112/113
-status: ACCEPTED
+status: SUPERSEDED
+superseded_by: SE-078
+superseded_at: "2026-04-26"
 origin: task #21 docs audit (2026-04-17)
 author: Savia
 ---
 
 # SPEC-114 — Docs Savia Alignment
+
+> **SUPERSEDED 2026-04-26 by SE-078** — La automatización del docs-alignment para agentes
+> queda absorbida por `AGENTS.md` (single source cross-frontend). Contenido conservado
+> únicamente para audit. Ver `docs/propuestas/SE-078-agents-md-cross-frontend.md`.
 
 ## Why
 

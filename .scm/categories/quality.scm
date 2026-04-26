@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 218 resources
+> 219 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -49,6 +49,7 @@
 - **model-upgrade-auditor** (agent): Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence.
 - **mutation-audit** (skill): Mutation testing — mide calidad real de tests, detecta zombies AI-generated. On-demand sobre módulo concreto. Invocable.
 - **mutation-audit** (script): mutation-audit.sh — SE-035 Slice 1 mutation testing audit.
+- **opencode-parity-audit** (script): opencode-parity-audit.sh — SE-077 Slice 2
 - **overnight-sprint** (cmd): Launch autonomous overnight sprint — executes low-risk tasks, creates PRs for human review
 - **pentester** (agent): >
 - **pentesting** (skill): Arsenal de pentesting con pipeline Shannon — queue-driven, proof-based, 5 fases paralelas
