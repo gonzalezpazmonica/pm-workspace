@@ -6,21 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [6.11.0] — 2026-04-26
-
-Batch 60 — SE-075 (Voicebox) + SE-076 (QueryWeaver) specs APPROVED + ROADMAP reprio.
-
-### Added
-- `docs/propuestas/SE-075-voicebox-adoption.md` — APPROVED. task_queue + auto-chunking + Kokoro CPU voice español. Source: jamiepine/voicebox MIT.
-- `docs/propuestas/SE-076-queryweaver-patterns.md` — APPROVED. Graphiti episodic + schema-graph WIQL + LLM healer. Source: FalkorDB/QueryWeaver patterns (no AGPL code import).
-
-### Changed
-- `docs/ROADMAP.md` Era 188 pipeline: SE-073 → SE-074 → SE-075 → SE-076. Sinergias documentadas (task_queue habilita paralelismo + healer async; episodes extienden SPEC-027).
-
-### Context
-6 patrones extractables sin adoptar infra ni licencias bloqueantes. Pendiente aprobación de la usuaria para arrancar SE-074 Slice 1.
-
-Version bump 6.10.0 → 6.11.0.
 ## [6.12.0] — 2026-04-26
 
 Batch 61 — OpenCode sovereignty: SE-077 + SE-078 specs APPROVED + nueva regla obligatoria + G12 gate.
@@ -43,6 +28,23 @@ Batch 61 — OpenCode sovereignty: SE-077 + SE-078 specs APPROVED + nueva regla 
 Decisión estratégica de la usuaria 2026-04-26: Anthropic restringe Claude Code (Pro → Max-only). Soberanía técnica = compatibilizar con OpenCode v1.14 desde origen, no como retrofit. Inversión Slice 1 SE-077 (~8h) compra opción real de switch sin perder workspace.
 
 Version bump 6.11.0 → 6.12.0 (6.11.0 reservado para PR #704 en cola).
+
+## [6.11.0] — 2026-04-26
+
+Batch 60 — SE-075 (Voicebox) + SE-076 (QueryWeaver) specs APPROVED + ROADMAP reprio.
+
+### Added
+- `docs/propuestas/SE-075-voicebox-adoption.md` — APPROVED. task_queue + auto-chunking + Kokoro CPU voice español. Source: jamiepine/voicebox MIT.
+- `docs/propuestas/SE-076-queryweaver-patterns.md` — APPROVED. Graphiti episodic + schema-graph WIQL + LLM healer. Source: FalkorDB/QueryWeaver patterns (no AGPL code import).
+
+### Changed
+- `docs/ROADMAP.md` Era 188 pipeline: SE-073 → SE-074 → SE-075 → SE-076. Sinergias documentadas (task_queue habilita paralelismo + healer async; episodes extienden SPEC-027).
+
+### Context
+6 patrones extractables sin adoptar infra ni licencias bloqueantes. Pendiente aprobación de la usuaria para arrancar SE-074 Slice 1.
+
+Version bump 6.10.0 → 6.11.0.
+
 
 ## [6.10.0] — 2026-04-26
 
