@@ -34,23 +34,7 @@ SPEC_WORKER_CMD='opencode -w {worktree} --spec {spec_id}' \
 
 ### Merge queue (Slice 2)
 
-```bash
-# Encolar branches según orden de finalización
-bash scripts/parallel-specs-merge-queue.sh add agent/se-073-slice1-...
-bash scripts/parallel-specs-merge-queue.sh add agent/se-076-slice1-...
-
-# Ver estado de cada branch (ready / needs-rebase / merged / missing)
-bash scripts/parallel-specs-merge-queue.sh list
-bash scripts/parallel-specs-merge-queue.sh status
-
-# Tras un merge en main, rebase la siguiente en cola con auto-resolve CHANGELOG
-bash scripts/parallel-specs-merge-queue.sh rebase-next
-
-# Rebase explícito de una branch concreta
-bash scripts/parallel-specs-merge-queue.sh rebase agent/se-076-slice1-...
-```
-
-**Auto-resolve scope**: el cascade-rebase resuelve automáticamente conflictos en `CHANGELOG.md` y `CHANGELOG.d/` tomando la versión upstream + asumiendo que el hook post-merge regenera el archivo final. Cualquier conflicto en otro fichero se ESCALA: el rebase aborta, el árbol queda limpio y la usuaria recibe la lista de ficheros conflictivos. NUNCA auto-merge, NUNCA push, NUNCA force.
+Tras `pr-plan` verde, las branches se gestionan vía `scripts/parallel-specs-merge-queue.sh`. Ver regla dedicada en `docs/rules/domain/parallel-spec-merge-queue.md` (auto-resolve restringido a `CHANGELOG.*`, escalación obligatoria fuera de ese scope).
 
 ## Configuración (env vars)
 
@@ -75,11 +59,7 @@ Default 3 reflejado por experiencia operativa.
 
 ## Aislamiento por worker
 
-Cada worker recibe:
-- **Worktree git** propio en `.claude/worktrees/spec-<id>-<timestamp>/`
-- **Tmp dir** aislado en `/tmp/savia-spec-<id>-<timestamp>/` (export `TMPDIR`)
-- **Port range** único derivado de hash(name) — evita colisión bridge/proxy
-- **Budget** de retries computado dinámicamente desde effort field (Slice 1.5)
+Cada worker recibe: worktree git propio, tmp dir aislado (`TMPDIR` exportado), port range único derivado de hash(name), y budget de retries computado dinámicamente desde el effort field (Slice 1.5).
 
 ## Adaptive halting (Slice 1.5)
 

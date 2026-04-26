@@ -37,7 +37,8 @@
 #   3 — environment error (dirty tree, missing branch, missing main, etc.)
 #
 # Reference: SE-074 Slice 2 (docs/propuestas/SE-074-parallel-spec-execution.md)
-# Reference: docs/rules/domain/parallel-spec-execution.md
+# Reference: docs/rules/domain/parallel-spec-merge-queue.md (canonical doc)
+# Reference: docs/rules/domain/parallel-spec-execution.md (Slice 1+1.5 context)
 # Reference: docs/rules/domain/autonomous-safety.md
 
 set -uo pipefail
