@@ -32,6 +32,10 @@ SPEC_WORKER_CMD='opencode -w {worktree} --spec {spec_id}' \
   bash scripts/parallel-specs-orchestrator.sh SE-073
 ```
 
+### Merge queue (Slice 2)
+
+Tras `pr-plan` verde, las branches se gestionan vía `scripts/parallel-specs-merge-queue.sh`. Ver regla dedicada en `docs/rules/domain/parallel-spec-merge-queue.md` (auto-resolve restringido a `CHANGELOG.*`, escalación obligatoria fuera de ese scope).
+
 ## Configuración (env vars)
 
 | Variable | Default | Descripción |
@@ -55,11 +59,7 @@ Default 3 reflejado por experiencia operativa.
 
 ## Aislamiento por worker
 
-Cada worker recibe:
-- **Worktree git** propio en `.claude/worktrees/spec-<id>-<timestamp>/`
-- **Tmp dir** aislado en `/tmp/savia-spec-<id>-<timestamp>/` (export `TMPDIR`)
-- **Port range** único derivado de hash(name) — evita colisión bridge/proxy
-- **Budget** de retries computado dinámicamente desde effort field (Slice 1.5)
+Cada worker recibe: worktree git propio, tmp dir aislado (`TMPDIR` exportado), port range único derivado de hash(name), y budget de retries computado dinámicamente desde el effort field (Slice 1.5).
 
 ## Adaptive halting (Slice 1.5)
 

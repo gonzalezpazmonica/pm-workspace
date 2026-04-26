@@ -1,6 +1,6 @@
 {
-  "hash": "938b37a1cc28",
-  "total": 1090,
+  "hash": "94d4e791cc1d",
+  "total": 1091,
   "resources": [
     {
       "category": "analysis",
@@ -2438,6 +2438,20 @@
       "kind": "script",
       "path": "scripts/nidos-dev-lib.sh",
       "description": "nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098)."
+    },
+    {
+      "category": "development",
+      "name": "parallel-specs-merge-queue",
+      "intents": [
+        "cascade",
+        "merge",
+        "parallel",
+        "queue",
+        "rebase"
+      ],
+      "kind": "script",
+      "path": "scripts/parallel-specs-merge-queue.sh",
+      "description": "parallel-specs-merge-queue.sh — SE-074 Slice 2 — PR queue + cascade-rebase"
     },
     {
       "category": "development",
