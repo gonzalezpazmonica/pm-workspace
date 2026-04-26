@@ -1,6 +1,6 @@
 {
-  "hash": "41b08f070ec5",
-  "total": 1087,
+  "hash": "938b37a1cc28",
+  "total": 1090,
   "resources": [
     {
       "category": "analysis",
@@ -2441,6 +2441,20 @@
     },
     {
       "category": "development",
+      "name": "parallel-specs-orchestrator",
+      "intents": [
+        "execution",
+        "orchestrates",
+        "orchestrator",
+        "parallel",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/parallel-specs-orchestrator.sh",
+      "description": "parallel-specs-orchestrator.sh — SE-074 Slice 1 — orchestrates parallel spec execution"
+    },
+    {
+      "category": "development",
       "name": "pdf-extract-probe",
       "intents": [
         "extract",
@@ -2834,6 +2848,20 @@
       "kind": "script",
       "path": "scripts/spec-approval-gate.sh",
       "description": "spec-approval-gate.sh — SE-051 Slice 1 Rule #8 enforcement gate."
+    },
+    {
+      "category": "development",
+      "name": "spec-budget",
+      "intents": [
+        "budget",
+        "dynamic",
+        "effort",
+        "retry",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-budget.sh",
+      "description": "spec-budget.sh — SE-074 Slice 1.5 — dynamic retry budget per spec effort"
     },
     {
       "category": "development",
@@ -5083,6 +5111,20 @@
       "kind": "cmd",
       "path": ".claude/commands/accessibility-setup.md",
       "description": "Configura las preferencias de accesibilidad de Savia para adaptarse a tus necesidades"
+    },
+    {
+      "category": "planning",
+      "name": "adaptive-halting",
+      "intents": [
+        "adaptive",
+        "check",
+        "criterion",
+        "double",
+        "halting"
+      ],
+      "kind": "script",
+      "path": "scripts/adaptive-halting.sh",
+      "description": "adaptive-halting.sh — SE-074 Slice 1.5 — double-criterion halting check"
     },
     {
       "category": "planning",
