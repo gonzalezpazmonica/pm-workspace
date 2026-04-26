@@ -426,13 +426,22 @@ g13_scope_trace() {
     [[ "$self_match" -eq 1 ]] && continue
     # Path hint match across all spec bodies
     if [[ -n "$path_hints" ]] && echo "$path_hints" | grep -Fxq "$f"; then continue; fi
-    # Token overlap: tokenise the basename and check intersection with combined ac_tokens
+    # Token overlap. Try the whole basename first ("pr-plan" matching the
+    # AC mention `pr-plan.sh`); fall back to per-token split for multi-word
+    # names; finally try substring match so a token like "queue" hits
+    # "queue-manager" in the AC text.
     local base; base=$(basename "$f" | sed -E 's/\.[a-z]+$//' | tr '[:upper:]' '[:lower:]')
     local matched=0
     if [[ -n "$ac_tokens" ]]; then
-      for tok in $(echo "$base" | tr '_-' '\n\n' | awk 'length($0) >= 4'); do
-        if echo "$ac_tokens" | grep -Fxq "$tok"; then matched=1; break; fi
-      done
+      if echo "$ac_tokens" | grep -Fxq "$base"; then
+        matched=1
+      else
+        for tok in $(echo "$base" | tr '_-' '\n\n' | awk 'length($0) >= 4'); do
+          if echo "$ac_tokens" | grep -Fxq "$tok" || echo "$ac_tokens" | grep -Fq "$tok"; then
+            matched=1; break
+          fi
+        done
+      fi
     fi
     if [[ "$matched" -eq 0 ]]; then
       unmatched_count=$((unmatched_count + 1))
