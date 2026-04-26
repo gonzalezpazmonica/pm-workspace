@@ -200,7 +200,7 @@ grande necesita para poder usarla en serio sin renunciar a su soberanía**.
 
 ## 8. Siguiente paso
 
-1. Revisar las 34 specs en este directorio
+1. Revisar las 37 specs en este directorio
 2. Aprobar/ajustar prioridades (P0 → P3)
 3. Crear PBIs en Azure DevOps con `/pbi-from-rules` a partir de specs aprobadas
 4. Arrancar SE-001 + SE-008 en paralelo (fundamentos + licencia)
@@ -208,4 +208,14 @@ grande necesita para poder usarla en serio sin renunciar a su soberanía**.
 6. SE-012..SE-020 cubren el ciclo de vida completo del proyecto consultivo
 7. SE-021..SE-028 refuerzan calidad, seguridad y compliance a escala
 8. SE-029..SE-034 optimizan la inteligencia interna y el uso de contexto
-9. El resto se encadena según DAG en `/dag-plan`
+9. SE-035..SE-037 (Era 232) — extensiones desde análisis `dreamxist/balance` (MIT):
+   - SPEC-SE-035 Reconciliation Delta Engine (drift declared vs computed con tier verde/ámbar/rojo)
+   - SPEC-SE-036 API-Key → JWT Mint efímero (Rule #1 a infraestructura)
+   - SPEC-SE-037 Audit JSONB Trigger (1 primitive cubre ISO-42001/GDPR/EU AI Act)
+10. El resto se encadena según DAG en `/dag-plan`
+
+### Templates SQL (reference implementations)
+
+`templates/audit-trigger.sql`, `templates/reconciliation.sql`, `templates/api-keys.sql`
+contienen las definiciones Postgres listas para deploy en una organización
+cliente. No son pm-workspace runtime — son blueprints versionados.
