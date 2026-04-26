@@ -274,3 +274,32 @@ SPEC
   [[ "$output" == *"effort=S budget=2"* ]]
   [[ "$output" == *"effort=M budget=3"* ]]
 }
+
+@test "regression: plan ports match spawn ports for every spec" {
+  # Bug: the plan loop and spawn_worker each computed their own date(1) timestamp
+  # in different formats, so allocate_ports hashed two different worktree names
+  # and the "Plan per spec" line printed ports that were never used. Now both
+  # read from a single pre-computed SPEC_PORTS map keyed by spec_id.
+  make_spec "SE-145" "S"
+  make_spec "SE-146" "M"
+  make_spec "SE-147" "L"
+  MAX_RUNTIME_MINUTES=1 SPEC_WORKER_CMD='bash -c "echo OK-{spec_id}"' \
+    run bash "$SCRIPT" SE-145 SE-146 SE-147
+  [ "$status" -eq 0 ]
+  for spec in SE-145 SE-146 SE-147; do
+    plan_ports=$(echo "$output" | awk -v s="$spec" '$1==s { for(i=2;i<=NF;i++) if ($i ~ /^ports=/) print $i }' | head -1)
+    spawn_ports=$(echo "$output" | awk -v s="$spec" '$1=="spawned" && $2==s { for(i=3;i<=NF;i++) if ($i ~ /^ports=/) print $i }' | head -1)
+    [ -n "$plan_ports" ]
+    [ -n "$spawn_ports" ]
+    [ "$plan_ports" = "$spawn_ports" ]
+  done
+}
+
+@test "regression: plan run-timestamp line is printed" {
+  # Sanity: plan summary now exposes the single RUN_TS used across spawn,
+  # so users can correlate plan output with the worktree dirs on disk.
+  make_spec "SE-148" "M"
+  run bash "$SCRIPT" --dry-run SE-148
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"run timestamp"* ]]
+}

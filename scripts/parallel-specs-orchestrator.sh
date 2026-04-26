@@ -142,8 +142,14 @@ resolve_cmd() {
 
 mkdir -p "${PARALLEL_RUNS_DIR}" "${WORKTREES_DIR}"
 
+# Single timestamp for the whole invocation — keeps plan output and the
+# worktree/tmp/port allocation in spawn_worker in lock-step. Without this,
+# plan and spawn called date(1) independently and produced different
+# worktree names → different port hashes → plan output became misleading.
+RUN_TS=$(date -u +%Y%m%d-%H%M%S)
+
 # Validate all specs first (fail-fast before spawning)
-declare -A SPEC_FILES SPEC_EFFORTS SPEC_BUDGETS
+declare -A SPEC_FILES SPEC_EFFORTS SPEC_BUDGETS SPEC_WORKTREE_NAMES SPEC_PORTS
 for spec_id in "${SPEC_LIST[@]}"; do
   spec_file=$(locate_spec "${spec_id}") || { echo "ERROR: spec not found: ${spec_id}" >&2; exit 1; }
   SPEC_FILES["${spec_id}"]="${spec_file}"
@@ -156,6 +162,9 @@ for spec_id in "${SPEC_LIST[@]}"; do
   SPEC_EFFORTS["${spec_id}"]="${effort_tier}"
   budget=$(bash "${ROOT}/scripts/spec-budget.sh" "${effort_tier}" "${spec_id}")
   SPEC_BUDGETS["${spec_id}"]="${budget}"
+  worktree_name="spec-${spec_id}-${RUN_TS}"
+  SPEC_WORKTREE_NAMES["${spec_id}"]="${worktree_name}"
+  SPEC_PORTS["${spec_id}"]=$(allocate_ports "${worktree_name}")
 done
 
 # Plan summary
@@ -164,13 +173,12 @@ echo "  specs queued       : ${#SPEC_LIST[@]}"
 echo "  max parallel       : ${MAX_PARALLEL_SPECS}"
 echo "  max runtime/worker : ${MAX_RUNTIME_MINUTES}m"
 echo "  worker cmd template: ${SPEC_WORKER_CMD}"
+echo "  run timestamp      : ${RUN_TS}"
 echo ""
 echo "  Plan per spec:"
 for spec_id in "${SPEC_LIST[@]}"; do
-  worktree_name="spec-${spec_id}-$(date +%Y%m%d%H%M%S)"
-  ports=$(allocate_ports "${worktree_name}")
   printf "    %-12s  effort=%s budget=%s ports=%s\n" \
-    "${spec_id}" "${SPEC_EFFORTS[${spec_id}]}" "${SPEC_BUDGETS[${spec_id}]}" "${ports}"
+    "${spec_id}" "${SPEC_EFFORTS[${spec_id}]}" "${SPEC_BUDGETS[${spec_id}]}" "${SPEC_PORTS[${spec_id}]}"
 done
 
 if [[ "${DRY_RUN}" == "1" ]]; then
@@ -193,10 +201,11 @@ FAILURES=0
 
 spawn_worker() {
   local spec_id="$1"
-  local timestamp; timestamp=$(date -u +%Y%m%d-%H%M%S)
-  local worktree_name="spec-${spec_id}-${timestamp}"
+  # Read pre-computed names from the plan stage so plan output and actual
+  # spawn share one timestamp and the same port allocation.
+  local worktree_name="${SPEC_WORKTREE_NAMES[${spec_id}]}"
   local worktree="${WORKTREES_DIR}/${worktree_name}"
-  local ports; ports=$(allocate_ports "${worktree_name}")
+  local ports="${SPEC_PORTS[${spec_id}]}"
   local budget="${SPEC_BUDGETS[${spec_id}]}"
   local effort="${SPEC_EFFORTS[${spec_id}]}"
   local tmp_dir="/tmp/savia-${worktree_name}"
