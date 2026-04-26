@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=cffc1ba19f865f045cd11ac1b1452265d80982209f74de5463c059c3a2fbf1f4
-timestamp=2026-04-25T22:27:03Z
-branch=agent/batch59-se074-parallel-specs-spec-20260426
-head_commit=0b326d09
-signature=2a251845466def4268cf0cf55d35d9a3a4bfbf34e741165dd57f3863e6edc944
+diff_hash=b41081a902b88cb8343cd340c57dcd5555f6b22e8a70bc58914b324f910fb40e
+timestamp=2026-04-25T23:17:27Z
+branch=agent/batch60-se075-voicebox-adoption-spec-20260426
+head_commit=3c18d35f
+signature=5f4c16397e3ab60d4b6315796dff2497faad45e878563afb665eea4416e23b6e
