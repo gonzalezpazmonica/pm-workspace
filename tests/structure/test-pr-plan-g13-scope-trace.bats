@@ -288,3 +288,42 @@ SPEC
   output=$(branch_commit_and_run_g13)
   [[ "$output" == *"FAIL"* ]]
 }
+
+@test "multi-spec: g13 unions ACs across all referenced specs in the PR" {
+  # A single PR may legitimately touch >1 spec (sprint batches).
+  # Each changed file must trace to ANY of the referenced specs, not just one.
+  make_spec "SE-140" "AC-01 add the queue manager"
+  make_spec "SE-141" "AC-01 add the cleanup utility"
+  cat > "$REPO/.pr-summary.md" <<EOF
+## Qué hace este PR (en lenguaje no técnico)
+
+This batch implements both SE-140 and SE-141 in a single PR. Padding text to
+reach 300 chars so G11 doesn't yell at us. The G13 gate must accept a file
+that traces to SE-140 OR SE-141, not require both to be referenced from
+the same fragment.
+EOF
+  echo "x" > scripts/queue-manager.sh   # traces to SE-140
+  echo "x" > scripts/cleanup-utility.sh # traces to SE-141
+  output=$(branch_commit_and_run_g13)
+  [[ "$output" == *"B8 attention-anchor present"* ]]
+  [[ "$output" == *"SE-140"* ]]
+  [[ "$output" == *"SE-141"* ]]
+}
+
+@test "multi-spec: g13 still fails an orphan file even when multiple specs are referenced" {
+  make_spec "SE-142" "AC-01 add widget"
+  make_spec "SE-143" "AC-01 add gadget"
+  cat > "$REPO/.pr-summary.md" <<EOF
+## Qué hace este PR (en lenguaje no técnico)
+
+Multi-spec PR for SE-142 and SE-143. Padding so G11 is satisfied with the
+length of the natural-language summary that lives at the top of every PR.
+Just enough words to get over the three-hundred-character minimum.
+EOF
+  echo "x" > scripts/widget.sh        # traces to SE-142
+  echo "x" > scripts/gadget.sh        # traces to SE-143
+  echo "x" > scripts/totally-orphan.sh
+  output=$(branch_commit_and_run_g13)
+  [[ "$output" == *"FAIL"* ]]
+  [[ "$output" == *"totally-orphan.sh"* ]]
+}
