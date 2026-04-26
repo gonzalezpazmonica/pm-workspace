@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=605342bd0570af595ece861f051be60e054921b7c5f1e4a3036c60c101be0314
-timestamp=2026-04-26T18:59:35Z
+timestamp=2026-04-26T19:04:55Z
 branch=agent/pre-opencode-impl-20260426
-head_commit=422fe3cd
+head_commit=28f6e22b
 signature=65d91a722fbd9d358cd5e9a678ce22c04abaaead0192a2d498aab14dbbb1a122
