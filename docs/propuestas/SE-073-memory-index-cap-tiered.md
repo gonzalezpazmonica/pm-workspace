@@ -1,14 +1,14 @@
 ---
 id: SE-073
 title: SE-073 — MEMORY.md L1 index hard-cap with 2-tier (high/low-freq)
-status: APPROVED
+status: IMPLEMENTED
 origin: GenericAgent repo study 2026-04-25 — lsdefine/GenericAgent
 author: Savia
 priority: alta
 effort: S 3h
 related: MEMORY.md, auto-memory, memory-system.md
 approved_at: "2026-04-25"
-applied_at: null
+applied_at: "2026-04-26"
 expires: "2026-06-25"
 era: 186
 ---

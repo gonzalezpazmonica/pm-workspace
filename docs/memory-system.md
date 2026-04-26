@@ -73,7 +73,8 @@ Claude guarda automáticamente notas sobre cada proyecto en `~/.claude/projects/
 
 ```
 ~/.claude/projects/<project>/memory/
-├── MEMORY.md              ← Índice (máx. 200 líneas, se carga al inicio)
+├── MEMORY.md              ← Índice Tier A (cap 30 entries, se carga al inicio)
+├── MEMORY-ARCHIVE.md      ← Índice Tier B (filename-only, on-demand)
 ├── sprint-history.md      ← Velocidad, burndown, impedimentos por sprint
 ├── architecture.md        ← Decisiones arquitectónicas del proyecto
 ├── debugging.md           ← Problemas resueltos y sus soluciones
@@ -81,9 +82,33 @@ Claude guarda automáticamente notas sobre cada proyecto en `~/.claude/projects/
 └── devops-notes.md        ← Config de pipelines, entornos, secretos
 ```
 
-**Solo las primeras 200 líneas de MEMORY.md se cargan al inicio** (hard cap: 25KB bytes).
-Entries should be < 150 chars to avoid wasting context on index lines.
-Topic files se leen bajo demanda.
+**MEMORY.md hard-cap: 30 entries** (Tier A, alta frecuencia). Entries < 150 chars.
+Tier B (MEMORY-ARCHIVE.md) contiene entries low-freq filename-only — el agente las carga
+on-demand vía Read del filename. Histórico cap (200 líneas) sigue como ceiling absoluto;
+el cap 30 es el target de ratchet hacia inferencia más barata por turn.
+
+### 2-tier rotation (SE-073)
+
+Cada memory file lleva en frontmatter:
+
+```yaml
+access_count: 0    # incrementado por scripts/memory-access.sh al consumir
+last_access: YYYY-MM-DD
+pin: true          # opcional — fuerza Tier A independientemente del score
+```
+
+Score de promoción: `access_count + recency_bonus(<30d=+3) + pin_bonus(true=+999) + identity_bonus(user_*=+500)`.
+
+**Comandos**:
+- `bash scripts/memory-tier-rotate.sh --status`  — muestra distribución actual
+- `bash scripts/memory-tier-rotate.sh --dry-run` — preview sin escribir
+- `bash scripts/memory-tier-rotate.sh`           — ejecuta rotación (escribe MEMORY.md y MEMORY-ARCHIVE.md)
+- `bash scripts/memory-access.sh <basename>`     — incrementa contador al cargar una entry
+
+**Garantías**:
+- `user_*` files siempre van a Tier A (foundational identity)
+- `pin: true` files siempre van a Tier A
+- Empate por score → ordena por mtime descendente (recientes primero)
 
 ### Pedir a Claude que recuerde algo
 
