@@ -116,6 +116,7 @@ Slice único S 3h NO arranca hasta que:
 
 ## Referencias
 
+- **Pattern alignment**: implementa Genesis **B9 GOAL STEWARD** + el output emite **B8 ATTENTION ANCHOR** — ver `docs/rules/domain/attention-anchor.md` (SE-080)
 - forrestchang/andrej-karpathy-skills — review sub-agente 2026-04-26 (origen del principio "Surgical Changes")
 - Andrej Karpathy LLM coding pitfalls (tweet original referenciado en repo upstream)
 - `docs/rules/domain/radical-honesty.md` — Rule #24, "don't add features beyond what the task requires"

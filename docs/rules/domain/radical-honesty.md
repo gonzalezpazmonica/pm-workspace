@@ -36,6 +36,8 @@ Savia acts as an honest high-level advisor and mirror. Her job is growth, not co
 
 This file is the **canonical source** for Radical Honesty principles. Other files (`savia.md`, `critical-rules-extended.md`, `adaptive-output.md`, etc.) reference by Rule #24 or `@docs/rules/domain/radical-honesty.md` — they MUST NOT re-list the prohibitions/obligations to avoid drift.
 
+> **Pattern alignment**: implementa Genesis **B9 GOAL STEWARD** — ver `docs/rules/domain/attention-anchor.md` (SE-080).
+
 ## Tone Calibration
 
 Radical honesty is not rudeness. The tone.md of each user still controls delivery style:

@@ -36,6 +36,10 @@ SPEC_WORKER_CMD='opencode -w {worktree} --spec {spec_id}' \
 
 Tras `pr-plan` verde, las branches se gestionan vía `scripts/parallel-specs-merge-queue.sh`. Ver regla dedicada en `docs/rules/domain/parallel-spec-merge-queue.md` (auto-resolve restringido a `CHANGELOG.*`, escalación obligatoria fuera de ese scope).
 
+### DB sandbox + cleanup (Slice 3)
+
+Cada worker recibe `DATABASE_URL` aislado vía `scripts/parallel-specs-db-sandbox.sh` (SQLite default, Postgres opt-in con `SPEC_DB_BACKEND=postgres` + `SPEC_DB_PG_ADMIN_URL`). El orquestador llama `init` en spawn y `destroy` en exit (best-effort). Cleanup de worktrees stale: `bash scripts/parallel-specs-cleanup-stale.sh list` (read-only) o `prune --confirm` (gated por dirty/upstream/sentinel checks). Ver `docs/rules/domain/parallel-spec-merge-queue.md` para el contrato completo de seguridad.
+
 ## Configuración (env vars)
 
 | Variable | Default | Descripción |
@@ -131,12 +135,7 @@ cat .claude/worktrees/spec-SE-073-<timestamp>/.halt-state.json
 
 ## Pre-requisitos cumplidos
 
-- ✅ Hook coverage 100% (Era 186)
-- ✅ pr-plan G11 estable (batch 58)
-- ✅ Cascade rebase pattern documentado (auto-memory feedback_changelog_cascade_rebase)
-- ✅ Bounded concurrency rule (auto-memory feedback_bounded_concurrency)
-- ✅ AUTONOMOUS_REVIEWER configurado (.claude/rules/pm-config.local.md)
-- ⚠️ Resource monitoring básico — verificar disponibilidad RAM/disco antes de Slice 1 use real (>3 workers en paralelo)
+Hook coverage 100% (Era 186), pr-plan G11/G13 estables, cascade-rebase + bounded-concurrency documentados (auto-memory), AUTONOMOUS_REVIEWER configurado. Verificar RAM/disco antes de uso real con >3 workers.
 
 ## Referencias
 

@@ -322,3 +322,142 @@ g11() {
     FULL)     echo "WARN: Review level: FULL ($size lines${escalated}) — consensus panel recommended. Consider splitting." ;;
   esac
 }
+
+# G13_SCOPE_TRACE: every changed file in the PR must trace to either
+#   (a) the spec referenced in .pr-summary.md / commit / branch name (token overlap or path prefix),
+#   (b) a hard-coded whitelist (CHANGELOG.*, .scm/, .confidentiality-signature, .pr-summary.md),
+#   (c) an explicit `Scope-trace: skip — <reason ≥10 chars>` override in .pr-summary.md.
+# Spec: SE-079 (docs/propuestas/SE-079-pr-plan-scope-trace-gate.md).
+# Pattern: Genesis B9 GOAL STEWARD + B8 ATTENTION ANCHOR
+# (docs/rules/domain/attention-anchor.md, SE-080).
+g13_scope_trace() {
+  if ! git rev-parse origin/main >/dev/null 2>&1; then
+    echo "WARN: skipped (origin/main unreachable)"; return
+  fi
+  local files; files=$(git diff origin/main..HEAD --name-only 2>/dev/null | grep -v '^$') || true
+  [[ -z "$files" ]] && { echo "skipped (no changes)"; return; }
+
+  # Skip override — explicit user opt-out with a reason
+  local summary="$ROOT/.pr-summary.md"
+  if [[ -f "$summary" ]]; then
+    local skip_line; skip_line=$(grep -E '^Scope-trace: skip' "$summary" || true)
+    if [[ -n "$skip_line" ]]; then
+      local reason; reason=$(echo "$skip_line" | sed -E 's/^Scope-trace: skip[[:space:]]*[—-]?[[:space:]]*//')
+      if [[ "${#reason}" -ge 10 ]]; then
+        echo "skipped via override — ${reason:0:60}"; return
+      fi
+      echo "FAIL: Scope-trace skip reason too short (${#reason} chars, min 10)"; return
+    fi
+  fi
+
+  # Detect spec ids — collect ALL refs from summary + commits + branch.
+  # A multi-spec PR (e.g. a sprint batch) is allowed: a file matches if it
+  # traces to ANY of the referenced specs. Single-spec PRs still benefit
+  # from the same code path with a one-element list.
+  local spec_ids=""
+  if [[ -f "$summary" ]]; then
+    spec_ids=$(grep -oE '\b(SE|SPEC)-[0-9]+\b' "$summary" 2>/dev/null || true)
+  fi
+  spec_ids="${spec_ids}"$'\n'"$(git log origin/main..HEAD --format=%B 2>/dev/null | grep -oE '\b(SE|SPEC)-[0-9]+\b' || true)"
+  local branch_id; branch_id=$(echo "$BRANCH" | grep -oE '\b(se|spec)-?[0-9]+\b' | head -1 | tr '[:lower:]' '[:upper:]' | sed 's/-\?\([0-9]\)/-\1/' || true)
+  [[ -n "$branch_id" ]] && spec_ids="${spec_ids}"$'\n'"${branch_id}"
+  spec_ids=$(echo "$spec_ids" | grep -E '^(SE|SPEC)-[0-9]+$' | sort -u)
+
+  if [[ -z "$spec_ids" ]]; then
+    echo "WARN: B8 attention-anchor missing — no spec ref in .pr-summary.md, commits, or branch (gate skipped)"; return
+  fi
+
+  # Locate spec files for every ref (silently skip missing ones)
+  local spec_files=""
+  while IFS= read -r sid; do
+    [[ -z "$sid" ]] && continue
+    local f; f=$(find "$ROOT/docs/propuestas" -maxdepth 1 -type f -name "${sid}*.md" 2>/dev/null | head -1)
+    [[ -n "$f" ]] && spec_files="${spec_files}${f}"$'\n'
+  done <<< "$spec_ids"
+  spec_files=$(echo "$spec_files" | grep -v '^$' || true)
+
+  if [[ -z "$spec_files" ]]; then
+    local first_id; first_id=$(echo "$spec_ids" | head -1)
+    echo "WARN: B8 attention-anchor weak — spec ${first_id} referenced but file not found in docs/propuestas/ (gate skipped)"; return
+  fi
+
+  # Pull AC tokens (lowercase, length ≥ 4) from ALL referenced specs.
+  # `-` MUST be last in the tr complement set to avoid reverse-range error.
+  local ac_tokens=""
+  while IFS= read -r sf; do
+    [[ -z "$sf" ]] && continue
+    local toks; toks=$(grep -E '^- \[[ x]\] AC-' "$sf" 2>/dev/null \
+      | tr '[:upper:]' '[:lower:]' \
+      | tr -c '[:alnum:]_\n-' ' ' \
+      | tr ' ' '\n' \
+      | awk 'length($0) >= 4')
+    ac_tokens="${ac_tokens}${toks}"$'\n'
+  done <<< "$spec_files"
+  ac_tokens=$(echo "$ac_tokens" | grep -v '^$' | sort -u)
+
+  # Pull explicit path mentions from ALL referenced spec bodies
+  local path_hints=""
+  while IFS= read -r sf; do
+    [[ -z "$sf" ]] && continue
+    local hints; hints=$(grep -oE '[a-zA-Z0-9_./-]+\.(sh|py|md|bats|json|yaml|yml|ts|tsx|js)' "$sf" 2>/dev/null)
+    path_hints="${path_hints}${hints}"$'\n'
+  done <<< "$spec_files"
+  path_hints=$(echo "$path_hints" | grep -v '^$' | sort -u)
+
+  # Build a list of "self-spec paths" — multi-spec PRs touch many spec files
+  local spec_self_globs=""
+  while IFS= read -r sid; do
+    [[ -z "$sid" ]] && continue
+    spec_self_globs="${spec_self_globs}docs/propuestas/${sid}-"$'\n'
+  done <<< "$spec_ids"
+
+  local unmatched=() unmatched_count=0
+  while IFS= read -r f; do
+    [[ -z "$f" ]] && continue
+    case "$f" in
+      CHANGELOG.md|CHANGELOG.d/*|.scm/*|.confidentiality-signature|.pr-summary.md) continue ;;
+    esac
+    # Self-spec match — touching a referenced spec's own .md file is in-scope
+    local self_match=0
+    while IFS= read -r prefix; do
+      [[ -z "$prefix" ]] && continue
+      [[ "$f" == "${prefix}"* ]] && { self_match=1; break; }
+    done <<< "$spec_self_globs"
+    [[ "$self_match" -eq 1 ]] && continue
+    # Path hint match across all spec bodies
+    if [[ -n "$path_hints" ]] && echo "$path_hints" | grep -Fxq "$f"; then continue; fi
+    # Token overlap. Try the whole basename first ("pr-plan" matching the
+    # AC mention `pr-plan.sh`); fall back to per-token split for multi-word
+    # names; finally try substring match so a token like "queue" hits
+    # "queue-manager" in the AC text.
+    local base; base=$(basename "$f" | sed -E 's/\.[a-z]+$//' | tr '[:upper:]' '[:lower:]')
+    local matched=0
+    if [[ -n "$ac_tokens" ]]; then
+      if echo "$ac_tokens" | grep -Fxq "$base"; then
+        matched=1
+      else
+        for tok in $(echo "$base" | tr '_-' '\n\n' | awk 'length($0) >= 4'); do
+          if echo "$ac_tokens" | grep -Fxq "$tok" || echo "$ac_tokens" | grep -Fq "$tok"; then
+            matched=1; break
+          fi
+        done
+      fi
+    fi
+    if [[ "$matched" -eq 0 ]]; then
+      unmatched_count=$((unmatched_count + 1))
+      [[ "${#unmatched[@]}" -lt 10 ]] && unmatched+=("$f")
+    fi
+  done <<< "$files"
+
+  local id_list; id_list=$(echo "$spec_ids" | tr '\n' ',' | sed 's/,$//' | sed 's/,/, /g')
+  if [[ "$unmatched_count" -gt 0 ]]; then
+    {
+      echo "FAIL: ${unmatched_count} file(s) do not trace to any AC of {${id_list}}:"
+      for f in "${unmatched[@]}"; do echo "  - $f → NO MATCH"; done
+      [[ "$unmatched_count" -gt "${#unmatched[@]}" ]] && echo "  … ($((unmatched_count - ${#unmatched[@]})) more)"
+      echo "  resolve: add the file to a relevant AC, or override via 'Scope-trace: skip — <reason ≥10 chars>' in .pr-summary.md"
+    }
+    return
+  fi
+  echo "B8 attention-anchor present (${id_list})"
+}

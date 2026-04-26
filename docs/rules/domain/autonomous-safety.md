@@ -1,8 +1,7 @@
-# Regla: Seguridad en Modos Autónomos
-# ── Supervisión humana obligatoria para agentes autónomos ────────────────────
+# Regla: Seguridad en Modos Autónomos — Supervisión humana obligatoria
 
 > **REGLA INMUTABLE** — Aplica a TODOS los modos autónomos: overnight-sprint, code-improvement-loop, tech-research-agent y cualquier skill futuro que opere sin supervisión directa en tiempo real.
-
+> **Pattern alignment**: implementa Genesis **A9 SUPERVISED EXECUTION** — ver `docs/rules/domain/attention-anchor.md` (SE-080).
 ---
 
 ## Principio fundamental
