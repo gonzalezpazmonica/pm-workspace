@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5d70690e7bc56eb9d368b3f9571f9bfbdfe3d3c1c18b3bf555b7809c0cc8bbfb
-timestamp=2026-04-26T07:58:40Z
-branch=agent/batch61-opencode-sovereignty-rule-20260426
-head_commit=bf7a4803
-signature=a67e2999b50600febec105dd79d4debd9cba2942f0aac02bed5e272ff8c1c2ac
+diff_hash=e682f1db6583420f44d62cc48beb404aaef545fc94930fbfa03b13c43e4dfb29
+timestamp=2026-04-26T08:45:11Z
+branch=agent/batch62-se073-memory-tier-rotate-20260426
+head_commit=48cd44cd
+signature=e17eed3fbee69222c08c88e12f468f15c6b5f2b7322a8a07745b2411e4652758

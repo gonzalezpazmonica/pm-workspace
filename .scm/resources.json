@@ -1,6 +1,6 @@
 {
-  "hash": "2fcba16170db",
-  "total": 1085,
+  "hash": "41b08f070ec5",
+  "total": 1087,
   "resources": [
     {
       "category": "analysis",
@@ -4320,6 +4320,20 @@
     },
     {
       "category": "memory",
+      "name": "memory-access",
+      "intents": [
+        "access",
+        "count",
+        "increment",
+        "last",
+        "memory"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-access.sh",
+      "description": "memory-access.sh — SE-073 Slice 1 — increment access_count + last_access"
+    },
+    {
+      "category": "memory",
       "name": "memory-agent",
       "intents": [
         "gestiona",
@@ -4635,6 +4649,20 @@
       "kind": "script",
       "path": "scripts/memory-sync-index.sh",
       "description": "memory-sync-index.sh — Sync auto-memory markdown → JSONL vector index"
+    },
+    {
+      "category": "memory",
+      "name": "memory-tier-rotate",
+      "intents": [
+        "auto",
+        "memory",
+        "rotate",
+        "rotation",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-tier-rotate.sh",
+      "description": "memory-tier-rotate.sh — SE-073 Slice 1 — 2-tier rotation for auto-memory"
     },
     {
       "category": "memory",

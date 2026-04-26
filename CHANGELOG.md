@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.13.0] — 2026-04-26
+
+Batch 62 — SE-073 Slice 1 IMPLEMENTED — MEMORY.md L1 hard-cap tiered (Critical Path #1).
+
+### Added
+- `scripts/memory-tier-rotate.sh` — 2-tier rotation (Tier A active ≤30 entries, Tier B filename-only archive).
+- `scripts/memory-access.sh` — increments `access_count` + updates `last_access` por memory file.
+- `tests/structure/test-memory-tier-rotate.bats` — 24 tests, score 83 certified.
+
+### Changed
+- `docs/memory-system.md` — documenta hard-cap 30 + algoritmo score (access_count + recency_bonus + pin_bonus + identity_bonus). 200-line histórico como ceiling absoluto.
+
+### Algorithm
+
+Score = `access_count + recency_bonus(<30d=+3) + pin_bonus(true=+999) + identity_bonus(user_*=+500)`. Tied scores → mtime desc.
+
+Garantías: `user_*` y `pin: true` NUNCA caen a Tier B. Cap configurable via `MEMORY_TIER_A_CAP` (default 30).
+
+### Context
+Critical Path #1 del roadmap reprio. Inspirado en GenericAgent L0_MetaRules pattern. Cada línea MEMORY.md cuesta tokens en CADA turn. Auto-trigger en Stop hook diferido a follow-up batch.
+
+Version bump 6.12.0 → 6.13.0.
+
 ## [6.12.0] — 2026-04-26
 
 Batch 61 — OpenCode sovereignty: SE-077 + SE-078 specs APPROVED + nueva regla obligatoria + G12 gate.
@@ -8600,6 +8623,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
+[6.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.12.0...v6.13.0
 [6.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.11.0...v6.12.0
 [6.10.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.9.0...v6.10.0
 [6.11.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.10.0...v6.11.0

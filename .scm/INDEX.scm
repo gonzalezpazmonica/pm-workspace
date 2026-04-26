@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 1d1fb95c4dd1 | resources: 1085
-> 530 commands · 86 skills · 65 agents · 404 scripts
+> hash: a6e126a92e8a | resources: 1087
+> 530 commands · 86 skills · 65 agents · 406 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -338,6 +338,7 @@
 [memory] iterative-compress — compress,compression,context,iterative,preservation — script:scripts/iterative-compress.sh
 [memory] lesson-search — cross,domain,keyword,lessons,project — cmd:.claude/commands/lesson-search.md
 [memory] marketplace-search — components,discover,marketplace,search — cmd:.claude/commands/marketplace-search.md
+[memory] memory-access — access,count,increment,last,memory — script:scripts/memory-access.sh
 [memory] memory-agent — gestiona,lenguaje,memoria,natural,persistente — agent:.claude/agents/memory-agent.md
 [memory] memory-backup-pm — backup,indices,memory,privacy,repo — script:scripts/memory-backup-pm.sh
 [memory] memory-cache-rebuild — cache,files,memory,rebuild,sqlite — script:scripts/memory-cache-rebuild.sh
@@ -362,6 +363,7 @@
 [memory] memory-store — jsonl,memory,persistent,store,workspace — script:scripts/memory-store.sh
 [memory] memory-sync — auto,files,insights,memory,sincroniza — cmd:.claude/commands/memory-sync.md
 [memory] memory-sync-index — auto,index,jsonl,markdown,memory — script:scripts/memory-sync-index.sh
+[memory] memory-tier-rotate — auto,memory,rotate,rotation,slice — script:scripts/memory-tier-rotate.sh
 [memory] memory-verify — compression,gate,memory,quality,spec — script:scripts/memory-verify.sh
 [memory] memvid-probe — memory,memvid,portable,probe,slice — script:scripts/memvid-probe.sh
 [memory] my-focus — carga,contexto,focus,identifica,item — cmd:.claude/commands/my-focus.md

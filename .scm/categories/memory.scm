@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 93 resources
+> 95 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -49,6 +49,7 @@
 - **iterative-compress** (script): iterative-compress.sh — Iterative context compression with summary preservation
 - **lesson-search** (cmd): Search cross-project lessons by keyword or domain
 - **marketplace-search** (cmd): Search and discover components in marketplace
+- **memory-access** (script): memory-access.sh — SE-073 Slice 1 — increment access_count + last_access
 - **memory-agent** (agent): Gestiona la memoria persistente de pm-workspace via lenguaje natural.
 - **memory-backup-pm** (script): memory-backup-pm.sh — Backup memory indices to PM repo (N4b, max privacy)
 - **memory-cache-rebuild** (script): memory-cache-rebuild.sh — Rebuild SQLite cache from .md memory files
@@ -73,6 +74,7 @@
 - **memory-store** (script): memory-store.sh — JSONL persistent memory store for pm-workspace
 - **memory-sync** (cmd): Sincroniza insights del sprint en los topic files de auto memory
 - **memory-sync-index** (script): memory-sync-index.sh — Sync auto-memory markdown → JSONL vector index
+- **memory-tier-rotate** (script): memory-tier-rotate.sh — SE-073 Slice 1 — 2-tier rotation for auto-memory
 - **memory-verify** (script): memory-verify.sh — Quality gate for memory compression (SPEC-041 P3)
 - **memvid-probe** (script): memvid-probe.sh — SE-041 Slice 1 memvid portable memory viability probe.
 - **my-focus** (cmd): Modo focus — identifica el item más prioritario y carga todo su contexto
