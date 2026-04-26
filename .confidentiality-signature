@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=24eecccd928e3a846f42f66f217f75a90493a32fe4e88ab330b55ff519130683
-timestamp=2026-04-26T17:57:58Z
+timestamp=2026-04-26T17:59:09Z
 branch=agent/se080-attention-anchor-vocabulary-spec-20260426
-head_commit=9cbd820d
-signature=4f750f924491c27c8d9fe496b528f50a518f1bb8b08b56bb8017ae6dda8b78cb
+head_commit=0d14a21e
+signature=efb24f5f92913bc467d82a943348fb583592f03f53e2d8170c4aaaec223dcbbd
