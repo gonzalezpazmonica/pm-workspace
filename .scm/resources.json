@@ -1,6 +1,6 @@
 {
-  "hash": "94d4e791cc1d",
-  "total": 1091,
+  "hash": "67e695f28d6f",
+  "total": 1093,
   "resources": [
     {
       "category": "analysis",
@@ -2438,6 +2438,34 @@
       "kind": "script",
       "path": "scripts/nidos-dev-lib.sh",
       "description": "nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098)."
+    },
+    {
+      "category": "development",
+      "name": "parallel-specs-cleanup-stale",
+      "intents": [
+        "cleanup",
+        "parallel",
+        "slice",
+        "specs",
+        "stale"
+      ],
+      "kind": "script",
+      "path": "scripts/parallel-specs-cleanup-stale.sh",
+      "description": "parallel-specs-cleanup-stale.sh — SE-074 Slice 3 — stale worktree cleanup"
+    },
+    {
+      "category": "development",
+      "name": "parallel-specs-db-sandbox",
+      "intents": [
+        "parallel",
+        "sandbox",
+        "slice",
+        "specs",
+        "worker"
+      ],
+      "kind": "script",
+      "path": "scripts/parallel-specs-db-sandbox.sh",
+      "description": "parallel-specs-db-sandbox.sh — SE-074 Slice 3 — DB sandbox per worker"
     },
     {
       "category": "development",

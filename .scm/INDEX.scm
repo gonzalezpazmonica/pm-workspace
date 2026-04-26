@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: b4d62cb3bed8 | resources: 1091
-> 530 commands · 86 skills · 65 agents · 410 scripts
+> hash: d60dc9f9ec8d | resources: 1093
+> 530 commands · 86 skills · 65 agents · 412 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -195,6 +195,8 @@
 [development] mcp-server — claude,code,expone,herramientas,otros — cmd:.claude/commands/mcp-server.md
 [development] nd-autoconfig — accessibility,auto,autoconfig,configure,neurodivergent — script:scripts/nd-autoconfig.sh
 [development] nidos-dev-lib — lifecycle,nidos,savia,server,spec — script:scripts/nidos-dev-lib.sh
+[development] parallel-specs-cleanup-stale — cleanup,parallel,slice,specs,stale — script:scripts/parallel-specs-cleanup-stale.sh
+[development] parallel-specs-db-sandbox — parallel,sandbox,slice,specs,worker — script:scripts/parallel-specs-db-sandbox.sh
 [development] parallel-specs-merge-queue — cascade,merge,parallel,queue,rebase — script:scripts/parallel-specs-merge-queue.sh
 [development] parallel-specs-orchestrator — execution,orchestrates,orchestrator,parallel,slice — script:scripts/parallel-specs-orchestrator.sh
 [development] pdf-extract-probe — extract,feasibility,probe,slice,spec — script:scripts/pdf-extract-probe.sh
