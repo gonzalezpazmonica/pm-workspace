@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ded264d7011c95875a5cc5211aa33331ee64502bac813bdeaa43d3efd75ddf72
-timestamp=2026-04-26T14:09:34Z
-branch=agent/se074-polish-20260426
-head_commit=9b963e90
-signature=1eb664621f974d737d89f82798d9866e4a88b88dbf24d51a003a65edac957b4d
+diff_hash=888b8276e577b54f2a717c0c484308bb6cfc245d06a1847c65e8cbf72ad06059
+timestamp=2026-04-26T15:26:13Z
+branch=agent/se079-scope-trace-gate-spec-20260426
+head_commit=704fbccf
+signature=1529710af0020214dd79dfdf4c4a1a37a4b40b1bf485d16a7f1965c61980a4fc
