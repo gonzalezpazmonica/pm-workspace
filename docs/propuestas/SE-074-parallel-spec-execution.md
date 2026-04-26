@@ -5,7 +5,7 @@ status: APPROVED
 origin: Cole Medin Linkedin post 2026-04-25 + post Era 187 capacity assessment
 author: Savia
 priority: alta
-effort: M 8h (Slice 1 only) | Total estimado L 18h (3 slices)
+effort: M 8h (Slice 1) + S 3h (Slice 1.5 adaptive halting) | Total estimado L 21h (4 slices)
 related: bounded-concurrency, autonomous-safety, pr-plan, code-review-court
 approved_at: "2026-04-26"
 applied_at: null
@@ -38,6 +38,37 @@ Cost of inaction: el usuario sigue siendo el bottleneck (mergea PRs uno a uno). 
   - Tmp dir aislado: `/tmp/savia-<worktree>/`
   - DB sandbox: SQLite per-worktree o Postgres branching (Slice 3)
 
+### Slice 1.5 (S, 3h) — Adaptive halting + dynamic retry budget
+
+Inspirado en Kohli et al. 2026 ("Loop, Think, & Generalize", arXiv:2604.07822). Aunque el paper trata de transformers recurrentes en profundidad, dos patrones transfieren a orquestación de specs:
+
+**Adaptive halting con doble criterio**:
+- Worker NO declara `done` solo porque tests pasen una vez
+- Doble criterio para halting: **convergencia** (código sin cambios entre 2 iteraciones consecutivas) + **confianza** (tests pass + judge consensus ≥ umbral configurable, default 0.75)
+- Evita PRs flaky de specs que el worker declaró completos prematuramente
+
+**Dynamic retry budget vía Poisson clipped**:
+- En lugar de `AGENT_MAX_CONSECUTIVE_FAILURES = 3` fijo
+- Budget(spec) = `clip(Poisson(λ_spec), R_min=2, R_max=8)`
+- λ_spec derivado del effort field del frontmatter: S→λ=2, M→λ=3, L→λ=5
+- Specs L tienen más reintentos sin que specs S consuman recursos innecesariamente
+- Sumado a `AGENT_TASK_TIMEOUT_MINUTES`, da control de coste granular
+
+**Overthinking guard rail (refuerzo de policy existente)**:
+- El paper aporta evidencia empírica para `AGENT_MAX_CONSECUTIVE_FAILURES`: más iteraciones ≠ mejor resultado
+- Cita en spec referencia el paper como justificación de la policy
+
+**Implementación**:
+
+`scripts/adaptive-halting.sh`:
+- Función `should_halt(worktree)`: devuelve 0 si convergencia + confianza, 1 si seguir
+- Lee `.confidence-score.json` que worker actualiza por iteración (judge consensus + test pass rate)
+- Hash del árbol de archivos para detectar convergencia (no cambios entre iteraciones)
+
+`scripts/spec-budget.sh effort_to_budget <S|M|L>`:
+- Devuelve N según Poisson(λ) clipped
+- Usado por orquestador antes de lanzar worker
+
 ### Slice 2 (S, 4h) — Coordinación PR queue
 
 `scripts/parallel-specs-merge-queue.sh`:
@@ -64,6 +95,13 @@ Cost of inaction: el usuario sigue siendo el bottleneck (mergea PRs uno a uno). 
 - [ ] AC-07 Tests BATS ≥20 score ≥80
 - [ ] AC-08 Doc en `docs/rules/domain/parallel-spec-execution.md`
 - [ ] AC-09 CHANGELOG entry
+
+### Slice 1.5
+- [ ] AC-09a `scripts/adaptive-halting.sh` con función `should_halt` (doble criterio: convergencia + confianza)
+- [ ] AC-09b `scripts/spec-budget.sh` mapea effort field → Poisson(λ) clipped budget
+- [ ] AC-09c Confidence threshold configurable vía env (default 0.75); rechazar valores fuera de [0.5, 0.95]
+- [ ] AC-09d Tests BATS ≥10 score ≥80 — golden test con datos sintéticos para halting
+- [ ] AC-09e Cita Kohli et al. 2026 en docstring del script + spec referenciado
 
 ### Slice 2
 - [ ] AC-10 PR queue manager merge-en-orden con cascade-rebase auto-resolve para CHANGELOG
@@ -117,8 +155,31 @@ Slice 1 NO arranca hasta que:
 ## Referencias
 
 - Cole Medin LinkedIn 2026-04-25 — "5 Claude Code sessions" playbook (5 pillars)
+- Kohli H, Parthasarathy S, Sun H, Yao Y. (2026) "Loop, Think, & Generalize: Implicit Reasoning in Recurrent-Depth Transformers". arXiv:2604.07822v1. Adaptive halting (convergencia + confianza), dynamic Poisson-clipped iteration budget, overthinking degradation
 - `feedback_bounded_concurrency` — política existente
 - `feedback_changelog_cascade_rebase` — patrón ya conocido
 - `docs/rules/domain/autonomous-safety.md` — gates inviolables
 - Claude Code `-w` flag — soporte nativo de worktrees
 - `.claude/skills/spec-driven-development/` — workflow base que se invoca per-worktree
+
+## OpenCode Implementation Plan
+
+### Bindings touched
+
+| Componente | Claude Code | OpenCode v1.14 |
+|---|---|---|
+| Worktree manager | `scripts/parallel-spec-orchestrator.sh` invoca `claude -w <path>` | invoca `opencode -w <path>` (mismo flag soportado upstream desde v1.10) |
+| PR queue manager | bash + `gh` CLI | idéntico, ambos frontends comparten `gh` |
+| Cascade-rebase | `scripts/cascade-rebase.sh` puro bash | idéntico |
+| DB sandbox | docker-compose por worktree | idéntico |
+| Resource monitor | `scripts/resource-monitor.sh` (RAM/disco) | idéntico |
+
+### Verification protocol
+
+- [ ] Smoke test arranca 3 sesiones OpenCode en paralelo y verifica isolación de filesystem
+- [ ] Tests BATS no requieren frontend específico (puro bash + git)
+- [ ] PR queue genera mismo orden con ambos frontends (test deterministic)
+
+### Portability classification
+
+- [x] **PURE_BASH**: orquestador es 100% bash, invoca al frontend como subprocess. La capa de paralelismo es indiferente al motor LLM. Slice 1 ya soporta cualquier comando `--cmd <binary>` configurable.

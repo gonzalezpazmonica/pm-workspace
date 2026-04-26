@@ -1,6 +1,6 @@
 {
-  "hash": "7fccd291e42a",
-  "total": 1084,
+  "hash": "2fcba16170db",
+  "total": 1085,
   "resources": [
     {
       "category": "analysis",
@@ -2944,6 +2944,20 @@
       "kind": "agent",
       "path": ".claude/agents/spec-judge.md",
       "description": "Code Review Court judge — implementation vs approved spec, acceptance criteria"
+    },
+    {
+      "category": "development",
+      "name": "spec-opencode-plan-audit",
+      "intents": [
+        "approved",
+        "audit",
+        "every",
+        "implemented",
+        "include"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-opencode-plan-audit.sh",
+      "description": "Audit: every APPROVED/IMPLEMENTED spec post-2026-04-26 must include"
     },
     {
       "category": "development",

@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-26 | **Version:** v6.11.0 | **532 commands · 65 agents · 86 skills · 60 hooks (64 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 spec drift + AC closure **CLOSED 2026-04-25**, Era 188 IN PROGRESS — Memory + Throughput + Voice + Graph foundations (Opus 4.7 + drift + SE-046 + SE-049 Slice 1 · **HOOK COVERAGE 100%** 60/60 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078+SPEC-124+SE-072 IMPLEMENTED · SE-073+SE-074+SE-075+SE-076 APPROVED · SE-074 paraleliza spec execution 3-4x throughput · spec triage 74→70 PROPOSED + 9 APPROVED promotions · test quality baseline 332/332 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · backup identidad portable enviado a la usuaria)**
+**Updated:** 2026-04-26 | **Version:** v6.12.0 | **532 commands · 65 agents · 86 skills · 60 hooks (64 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 spec drift + AC closure **CLOSED 2026-04-25**, Era 188 IN PROGRESS — Memory + Throughput + Voice + Graph foundations, Era 189 APPROVED — OpenCode sovereignty · **CRITICAL PATH unificado 14 items** · SE-077 + SE-078 + spec-opencode-plan rule + G12 gate · vendor-lockin mitigation post Anthropic Pro→Max restriction · HOOK COVERAGE 100% 60/60 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078+SPEC-124+SE-072 IMPLEMENTED · SE-073+SE-074+SE-075+SE-076+SE-077+SE-078 APPROVED · spec triage 74→70 PROPOSED + 9 APPROVED promotions · test quality baseline 332/332 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · backup identidad portable enviado a la usuaria**
 
 ---
 
@@ -288,58 +288,114 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 - CHANGELOG cascade fixes: 4 (patrón documentado en auto-memory)
 - Auto-memory entries: +3 lecciones permanentes (changelog cascade, test-auditor scoring, pr-plan structure tests)
 
-### Backlog APPROVED restante (post Era 187)
+### Backlog APPROVED restante (post Era 187, snapshot 2026-04-26)
 
-- **SE-072** Verified Memory Axiom (GenericAgent research) — IMPLEMENTED batch 57
-- **SE-073** Memory Index Cap Tiered (GenericAgent research)
-- **SE-074** Parallel spec execution (Cole Medin playbook) — habilitador throughput
-- **SE-075** Voicebox adoption — task_queue + auto-chunking + Kokoro CPU voice (priority media)
-- **SE-076** QueryWeaver patterns — graphiti episodic + schema-graph WIQL + LLM healer (priority media)
+**Era 188 — Foundations (in progress)**:
+- ✅ **SE-072** Verified Memory Axiom — IMPLEMENTED batch 57
+- **SE-073** Memory Index Cap Tiered — APPROVED (M 4h)
+- **SE-074** Parallel spec execution — APPROVED (M 8h Slice 1 + S 3h Slice 1.5 + S 4h Slice 2 + M 6h Slice 3 = L 21h)
+- **SE-075** Voicebox adoption — APPROVED, priority media (S 2h + M 3h + M 3h = M 8h)
+- **SE-076** QueryWeaver patterns — APPROVED, priority media (M 4h + M 3h + S 2h = M 9h)
+
+**Era 189 — OpenCode Sovereignty (approved)**:
+- **SE-077** OpenCode v1.14 replatform — APPROVED priority alta (M 8h Slice 1 + M 6h Slice 2 = L 14h)
+- **SE-078** AGENTS.md cross-frontend — APPROVED priority alta (M 6h)
+
+**Blocked (GPU/hardware)**:
 - **SE-028** Oumi (GPU-blocked)
 - **SE-042** voice training (GPU-blocked)
 - **SPEC-023** Savia LLM Trainer Phases 2-4 (GPU-blocked)
-- **SPEC-080** training pipeline pre-existente
+- **SPEC-080** training pipeline pre-existente (GPU-blocked)
+
+---
+
+## Critical Path Q2-Q3 2026 (priorización unificada 2026-04-26)
+
+> Orden de ejecución prescriptivo. Cada batch toma el primer item disponible. Sin reprio mid-stream salvo trigger externo (Anthropic shutdown, hardware loss, GPU disponible).
+
+### Razonamiento de prioridad
+
+**Eje 1 — Soberanía** (Anti lock-in 25%): Anthropic está apretando Claude Code (Pro → Max abril 2026). Sin OpenCode operativo Savia muere ante el próximo apretón. Era 189 desbloquea opción real de switch.
+
+**Eje 2 — Apalancamiento** (Flow 10% × 3-4x): SE-074 Slice 1+1.5 multiplica throughput de Eras siguientes. Invertir 11h ahora compra ~30% velocity sostenida en cada batch posterior. Va antes que sovereignty para que Era 189 misma se ejecute más rápido.
+
+**Eje 3 — Ratio rápido / habilitador**: SE-073 (M 4h, sin deps) cierra deuda Era 188 sin bloquear nada. Va primero como warm-up.
+
+### Pipeline (orden vinculante)
+
+| # | Spec | Slice | Effort | Bloquea | Razón |
+|---|---|---|---|---|---|
+| 1 | SE-073 | full | M 4h | nada | Quick win Era 188, sin deps |
+| 2 | SE-074 | Slice 1 | M 8h | apalancamiento Eras post | Worktree manager + queue 3-5 |
+| 3 | SE-074 | Slice 1.5 | S 3h | apalancamiento | Adaptive halting + Poisson budget (Kohli 2026) |
+| 4 | SE-078 | full | M 6h | SE-077 | AGENTS.md = contrato single-source |
+| 5 | SE-077 | Slice 1 | M 8h | SOBERANÍA | Plugin TS savia-gates en OpenCode v1.14 |
+| 6 | SE-077 | Slice 2 | M 6h | cierre Era 189 | Parity audit ratchet |
+| 7 | SE-074 | Slice 2 | S 4h | calidad merge cola | PR queue cascade-rebase auto |
+| 8 | SE-075 | Slice 1 | S 2h | sinergia healer | task_queue.py adoption |
+| 9 | SE-076 | Slice 1 | M 4h | extiende SPEC-027 | Graphiti episodic JSONL |
+| 10 | SE-076 | Slice 2 | M 3h | reduce hallucination WIQL | Schema-as-graph |
+| 11 | SE-076 | Slice 3 | S 2h | usa SE-075 task_queue | LLM healer wrapper |
+| 12 | SE-075 | Slice 2 | M 3h | savia-voice long-form | Auto-chunking TTS |
+| 13 | SE-075 | Slice 3 | M 3h | voz español sin GPU | Kokoro 82M CPU |
+| 14 | SE-074 | Slice 3 | M 6h | hardening | DB sandbox + cleanup |
+
+**Total non-blocked**: ~62h ≈ 8 working days secuencial. Con paralelismo activo (post item 2-3) ≈ 3-4 days reales.
+
+### Triggers que reordenan
+
+- **Anthropic shutdown CC Pro** → items 4-6 escalan a #1 (paralelismo se sacrifica si compite con sovereignty inmediata)
+- **GPU disponible** → SE-028 / SE-042 / SPEC-023 / SPEC-080 entran como Phase D paralela
+- **Hardware loss** → restore desde backup portable enviado a la usuaria (capa 7), identidad recuperable
+
+### Sinergias documentadas
+
+- SE-074 + SE-075 Slice 1: orquestador paralelo necesita cola serial intra-worktree (`task_queue.py`)
+- SE-075 Slice 1 + SE-076 Slice 3: healer async usa `task_queue` para reintentos
+- SE-076 Slice 1 + SPEC-027: episodes extienden el grafo Phase 1 ya existente
+- Critical Path #4-6 + #2-3: paralelismo activo permite SE-077 + SE-078 en sesiones concurrentes
 
 ---
 
 ## Era 188 — Memory + Throughput + Voice + Graph foundations (2026-04-25, IN PROGRESS)
 
-Post Era 187 closure, foco en habilitadores estructurales antes de seguir con specs individuales:
+Cierra cuando items 1-3 + 7-14 del Critical Path estén IMPLEMENTED. SE-072 ya cerrado (batch 57).
 
-### Pipeline ordenado (priority + dependency)
-
-1. ✅ **SE-072** Verified Memory axiom — Slice 1 IMPLEMENTED batch 57
-2. **SE-073** Memory Index Cap Tiered — quick win, no bloquea ni depende de SE-074
-3. **SE-074** Parallel spec execution — **NUEVO, prioridad alta**
-   - Slice 1 (M, 8h): worktree manager + spec queue + bounded concurrency 3-5
-   - Slice 2 (S, 4h): PR queue manager con cascade-rebase auto
-   - Slice 3 (M, 6h): DB sandbox + cleanup hardening
-   - Multiplica throughput 3-4x sobre la base actual (no lineal por overhead coordinación)
-   - Pre-requisitos cumplidos: hook coverage 100%, pr-plan G11 estable, cascade-rebase pattern documentado, bounded concurrency rule, AUTONOMOUS_REVIEWER configurado
-4. **SE-075** Voicebox adoption (3 slices independientes, priority media)
-   - Slice 1: `task_queue.py` adoption — sirve a SE-074 intra-worktree y SE-076 healer
-   - Slice 2: auto-chunking long-form TTS para savia-voice
-   - Slice 3: Kokoro 82M CPU voice español (independiente de SE-042 GPU-blocked)
-5. **SE-076** QueryWeaver patterns (3 slices independientes, priority media)
-   - Slice 1: Graphiti episodic memory model en JSONL — extiende SPEC-027 Phase 1
-   - Slice 2: Schema-as-graph para WIQL — reduce hallucination rate 20% → 5-10%
-   - Slice 3: LLM healer wrapper — auto-retry con feedback de error
-
-### Sinergias entre specs Era 188
-
-- SE-074 + SE-075 Slice 1: orquestador paralelo necesita cola serial intra-worktree
-- SE-075 Slice 1 + SE-076 Slice 3: healer async usa task_queue para reintentos
-- SE-076 Slice 1 + SPEC-027: episodes extienden el grafo Phase 1 ya existente
-
-### Por qué SE-074 ahora (no después)
-
-Era 188 cierra cuando SE-073 + SE-074 Slice 1 estén IMPLEMENTED. SE-074 es **habilitador de Eras siguientes** — todas las Eras post-188 se beneficiarán del paralelismo. Posponerlo es seguir pagando el coste de oportunidad del throughput secuencial en cada batch futuro.
-
-Trade-off explícito: SE-074 Slice 1 (8h) bloquea SE-073 (4h estimado) ~1 día. Ganancia: cada Era posterior 3-4x más rápida. Break-even tras 2-3 Eras de trabajo paralelo.
-
-### Pre-requisito antes de Slice 1
+### Pre-requisito antes de SE-074 Slice 1
 
 Resource monitoring básico verificado (RAM/disco disponible para 3 sesiones Claude Code simultáneas) — se ejecuta como dry-run en el primer arranque del orchestrator.
+
+### Trade-off explicit
+
+SE-074 Slice 1 (8h) bloquea SE-073 (4h) ~1 día. Ganancia: cada Era posterior 3-4x más rápida. Break-even tras 2-3 Eras de trabajo paralelo. Justifica el orden #1 antes que #2 — SE-073 abre el batch porque es independencia + warmup, no porque su payoff sea mayor.
+
+---
+
+## Era 189 — OpenCode Sovereignty (2026-04-26, APPROVED)
+
+Decisión estratégica de la usuaria 2026-04-26 tras análisis de adopción gap (Savia v1.3.13 vs OpenCode upstream v1.14.25 — 11 minor versions, ~1 año desfase). Cierra cuando items 4-6 del Critical Path estén IMPLEMENTED.
+
+### Inversión vs payoff
+
+- SE-078 + SE-077 Slice 1: 14h. Compra opción de switch real a OpenCode sin perder workspace.
+- Sin esta inversión, día que Anthropic cierre Claude Code Pro → Savia inoperable hasta retrofit (estimado 40-60h emergency, sin saber qué falla).
+- ROI estratégico: 14h ahora vs 40-60h en pánico → 3-4x ahorro. Probabilidad de necesitarlo: alta (vendor pattern reciente: Pro→Max 2026-04, restricciones rate 2026-03).
+
+### Componentes ya entregados (batch 61)
+
+- ✅ Regla canónica `docs/rules/domain/spec-opencode-implementation-plan.md` — portability classification + bindings + verification protocol
+- ✅ G12 gate en pr-plan + audit script + baseline
+- ✅ SE-074, SE-075, SE-076 ya con OpenCode Implementation Plan (PURE_BASH) — first-pass validation regla
+
+### Pendiente
+
+- SE-078 (AGENTS.md generator + drift check + Stop hook auto-regen) — Critical Path #4
+- SE-077 Slice 1 (Plugin TS savia-gates) — Critical Path #5
+- SE-077 Slice 2 (parity audit + ratchet) — Critical Path #6
+
+### Grandfathering
+
+Specs APPROVED antes de 2026-04-26 NO requieren la sección retroactivamente. SE-074 actualizado por consistencia (comparte fecha de aprobación con la regla).
 
 ---
 
@@ -355,13 +411,28 @@ Resource monitoring básico verificado (RAM/disco disponible para 3 sesiones Cla
 | SPEC-032 Security Benchmarks | — | Low |
 | SPEC-042 Live Progress | — | Low |
 
-## Proposed — Q3-Q4 2026
+## Proposed — Q3-Q4 2026 (post Era 189 closure)
 
-### Tier 3: Interoperabilidad
-- Savia LLM Trainer Phases 2-4 (SPEC-023) · A2A Protocol · Serena MCP · Extended Time Horizon
+### Tier 3: Multi-Frontend & Interoperabilidad (refuerza Era 189)
+- **A2A Protocol** — comunicación entre agents cross-frontend (Claude Code ↔ OpenCode ↔ Codex). Aprovecha AGENTS.md de SE-078
+- **Serena MCP** — server contextual stack-aware
+- **Codex frontend bindings** — tercera opción tras OpenCode (si A2A consolida)
+- **Extended Time Horizon** — sesiones de >8h con context rot mitigation
 
-### Tier 4: Autonomia Calibrada
-- Semantic guardrails · Security Sandbox · Self-improvement medible · Plugin Marketplace · Multi-Claw · SSO/LDAP
+### Tier 4: Hardware-pendiente (GPU/sensors)
+- **SPEC-023** Savia LLM Trainer Phases 2-4 (GPU-blocked)
+- **SE-028** Oumi training pipeline (GPU-blocked)
+- **SE-042** voice training (GPU-blocked, complementario a SE-075 Slice 3 CPU)
+- **SaviaClaw Sensors/Actuators** (BME280 + hardware)
+- **SaviaClaw Voice v3** (Jabra mic)
+
+### Tier 5: Autonomía Calibrada
+- Semantic guardrails · Security Sandbox · Self-improvement medible · Multi-Claw · SSO/LDAP
+
+### Demoted (sin caso 2026-Q2)
+- Plugin Marketplace — solo relevante post sovereignty + multi-frontend consolidado
+- Web Git Manager — paused
+- SaviaDivergent Phase 2 — user feedback needed
 
 ---
 

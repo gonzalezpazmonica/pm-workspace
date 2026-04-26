@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 118 resources
+> 119 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -96,6 +96,7 @@
 - **spec-id-duplicates-check** (script): spec-id-duplicates-check.sh — SE-044 Slice 1 spec ID uniqueness gate.
 - **spec-implement** (cmd): Implementa una Spec según su developer_type — lanza agente o asigna a humano.
 - **spec-judge** (agent): Code Review Court judge — implementation vs approved spec, acceptance criteria
+- **spec-opencode-plan-audit** (script): Audit: every APPROVED/IMPLEMENTED spec post-2026-04-26 must include
 - **spec-quality-auditor** (script): spec-quality-auditor.sh — Deterministic quality scorer for SDD specs
 - **spec-review** (cmd): Review specification for completeness and coherence
 - **spec-slice** (cmd): Analizar un spec y dividirlo en slices de implementación optimizados para contexto

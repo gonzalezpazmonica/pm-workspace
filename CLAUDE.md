@@ -55,6 +55,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 | Memory system (auto-memory, L0-L3) | `docs/memory-system.md` | Trabajas con memoria persistente |
 | Context placement (N1-N4b) | `docs/rules/domain/context-placement-confirmation.md` | Decides dónde guardar datos |
 | PR natural-language summary | `docs/rules/domain/pr-natural-language-summary.md` | Antes de cualquier PR — escribir `.pr-summary.md` con párrafo plano |
+| Spec OpenCode Implementation Plan | `docs/rules/domain/spec-opencode-implementation-plan.md` | Cada spec APPROVED post-2026-04-26 — sección obligatoria + classification |
 
 **Protocolo de carga**: usar `Read` directamente con el path exacto. NO uses `@import` aquí — romperías el lazy.
 

@@ -47,6 +47,7 @@ gate "G8"  "Documentation check"   g8
 gate "G9"  "Zero project leakage"  g9
 gate "G10" "CI validation"         g10
 gate "G11" "PR natural-lang summary" g_summary
+gate "G12" "Spec OpenCode plan" g_opencode_plan
 echo ""
 echo "------------------------------------------------------------"
 if [[ -n "$STOPPED" ]]; then

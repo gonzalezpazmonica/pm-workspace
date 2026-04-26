@@ -118,14 +118,20 @@ Patrón de voicebox `services/tts.py` para chunking:
 
 ## OpenCode Implementation Plan
 
-**Portability classification**: PURE_BASH
+### Bindings touched
 
-Los 3 slices no dependen de Claude Code:
+| Componente | Claude Code | OpenCode v1.14 |
+|---|---|---|
+| Slice 1 task_queue.py | módulo Python standalone | invocable igual, sin acoplamiento de frontend |
+| Slice 2 auto-chunking | helper en `.claude/skills/savia-voice/` | autoload vía AGENTS.md (SE-078) |
+| Slice 3 Kokoro CPU voice | dep Python `kokoro-onnx` | idéntico, sin binding específico |
 
-- **Slice 1 (task_queue.py)**: módulo Python standalone, invocable desde cualquier frontend. No requiere hooks ni events.
-- **Slice 2 (auto-chunking)**: helper Python en `.claude/skills/savia-voice/`. Las skills se exponen vía AGENTS.md (SE-078) en OpenCode v1.14.
-- **Slice 3 (Kokoro CPU voice)**: dependencia Python (`kokoro-onnx` o equivalente). Sin acoplamiento a frontend.
+### Verification protocol
 
-**OpenCode binding**: ninguno necesario. Las invocaciones desde OpenCode resuelven igual que desde Claude Code (script paths absolutos en `scripts/` o `.claude/skills/`).
+- [ ] `bash scripts/savia-voice-smoke.sh` pasa tras switch a OpenCode v1.14
+- [ ] `python3 -m savia_voice.task_queue --selftest` ejecuta sin Claude Code presente
+- [ ] Tests Slice 1/2/3 son agnostic-frontend (BATS + pytest puros)
 
-**Validación post-replatform (SE-077)**: tras switch a OpenCode v1.14, ejecutar `bash scripts/savia-voice-smoke.sh` y `python3 -m savia_voice.task_queue --selftest` para confirmar que los 3 slices siguen operando sin Claude Code.
+### Portability classification
+
+- **PURE_BASH**: Los 3 slices son backend Python + scripts bash. No requieren hooks ni events específicos de Claude Code. Las invocaciones desde OpenCode resuelven igual que desde Claude Code (script paths absolutos en `scripts/` o `.claude/skills/`).

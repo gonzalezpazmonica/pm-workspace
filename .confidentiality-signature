@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b41081a902b88cb8343cd340c57dcd5555f6b22e8a70bc58914b324f910fb40e
-timestamp=2026-04-25T23:17:27Z
-branch=agent/batch60-se075-voicebox-adoption-spec-20260426
-head_commit=3c18d35f
-signature=5f4c16397e3ab60d4b6315796dff2497faad45e878563afb665eea4416e23b6e
+diff_hash=5d70690e7bc56eb9d368b3f9571f9bfbdfe3d3c1c18b3bf555b7809c0cc8bbfb
+timestamp=2026-04-26T07:58:40Z
+branch=agent/batch61-opencode-sovereignty-rule-20260426
+head_commit=bf7a4803
+signature=a67e2999b50600febec105dd79d4debd9cba2942f0aac02bed5e272ff8c1c2ac
