@@ -84,8 +84,13 @@ while [[ $# -gt 0 ]]; do
     --queue)
       [[ -z "${2:-}" || ! -f "$2" ]] && { echo "ERROR: queue file missing or not found: ${2:-}" >&2; exit 2; }
       while IFS= read -r line; do
-        line="${line%%#*}"  # strip comments
-        line="${line## }"; line="${line%% }"
+        line="${line%%#*}"  # strip inline comments
+        # Greedy whitespace trim (leading + trailing) — non-greedy ${...## } only ate one space
+        if [[ "${line}" =~ ^[[:space:]]*(.*[^[:space:]])[[:space:]]*$ ]]; then
+          line="${BASH_REMATCH[1]}"
+        else
+          line=""  # line was empty or whitespace-only after comment strip
+        fi
         [[ -n "$line" ]] && SPEC_LIST+=("$line")
       done < "$2"
       shift 2
@@ -144,7 +149,10 @@ for spec_id in "${SPEC_LIST[@]}"; do
   SPEC_FILES["${spec_id}"]="${spec_file}"
   effort=$(read_field "${spec_file}" "effort")
   # Extract first letter (S/M/L) from effort string like "M 8h" or "L 14h"
-  effort_tier=$(echo "${effort}" | grep -oE '^[SML]' || echo "M")
+  # Accept lowercase too, then normalize to upper — spec-budget.sh accepts either
+  # but downstream display + budget cache key rely on a canonical case.
+  effort_tier=$(echo "${effort}" | grep -oE '^[SMLsml]' | tr 'sml' 'SML')
+  [[ -z "${effort_tier}" ]] && effort_tier="M"
   SPEC_EFFORTS["${spec_id}"]="${effort_tier}"
   budget=$(bash "${ROOT}/scripts/spec-budget.sh" "${effort_tier}" "${spec_id}")
   SPEC_BUDGETS["${spec_id}"]="${budget}"
