@@ -1,6 +1,6 @@
 {
-  "hash": "d9897997d404",
-  "total": 1100,
+  "hash": "e7102f5d1bdb",
+  "total": 1104,
   "resources": [
     {
       "category": "analysis",
@@ -3395,6 +3395,20 @@
       "description": ">"
     },
     {
+      "category": "development",
+      "name": "zoom-out",
+      "intents": [
+        "agente",
+        "area",
+        "callers",
+        "capa",
+        "code"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/zoom-out/SKILL.md",
+      "description": "High-level map of unfamiliar code area. Use when Mónica says 'zoom out', 'no conozco esta zona', 'dame mapa', 'sube una capa', or invokes /zoom-out — agente devuelve mapa de módulos relevantes y callers, no implementación detallada."
+    },
+    {
       "category": "governance",
       "name": "/training-compliance",
       "intents": [],
@@ -5991,6 +6005,20 @@
       "kind": "script",
       "path": "scripts/case-validate.sh",
       "description": "case-validate.sh — SE-016: Validate business case directories"
+    },
+    {
+      "category": "planning",
+      "name": "caveman",
+      "intents": [
+        "brief",
+        "caveman",
+        "cavernícola",
+        "compressed",
+        "every"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/caveman/SKILL.md",
+      "description": "Ultra-compressed response mode (~75% token reduction). Use when Mónica says 'caveman', 'modo cavernícola', 'menos tokens', 'be brief', or invokes /caveman; persists every response until 'stop caveman' or 'modo normal'."
     },
     {
       "category": "planning",
@@ -11622,6 +11650,20 @@
     },
     {
       "category": "quality",
+      "name": "grill-me",
+      "intents": [
+        "aligned",
+        "blind",
+        "branch",
+        "decision",
+        "decisión"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/grill-me/SKILL.md",
+      "description": "Relentless interview that walks every branch of a decision tree to expose blind spots. Use when Mónica says 'grill me', 'interrógame', 'stress-test este plan', 'desafía esta decisión', or invokes /grill-me; aligned with Rule #24 radical-hon"
+    },
+    {
+      "category": "quality",
       "name": "hook-event-gap-audit",
       "intents": [
         "audit",
@@ -12523,6 +12565,19 @@
       "kind": "script",
       "path": "scripts/security-scan.sh",
       "description": "security-scan.sh — Security audit for pm-workspace"
+    },
+    {
+      "category": "quality",
+      "name": "skill-catalog-audit",
+      "intents": [
+        "audit",
+        "catalog",
+        "skill",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-catalog-audit.sh",
+      "description": "skill-catalog-audit.sh — SE-084 Slice 1."
     },
     {
       "category": "quality",

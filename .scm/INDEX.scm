@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 7b30bfb93bb1 | resources: 1100
-> 530 commands · 86 skills · 65 agents · 419 scripts
+> hash: 53f7051edfa5 | resources: 1104
+> 530 commands · 89 skills · 65 agents · 420 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -267,6 +267,7 @@
 [development] workload-balance — carga,equilibrado,equipo,especialidades,objetivo — cmd:.claude/commands/workload-balance.md
 [development] workspace-doctor — check,doctor,health,spec,workspace — script:scripts/workspace-doctor.sh
 [development] worktree-setup —  — cmd:.claude/commands/worktree-setup.md
+[development] zoom-out — agente,area,callers,capa,code — skill:.claude/skills/zoom-out/SKILL.md
 [governance] /training-compliance —  — cmd:.claude/commands/training-compliance.md
 [governance] aepd-compliance — aepd,agéntica,auditoría,cumplimiento,fases — cmd:.claude/commands/aepd-compliance.md
 [governance] audit-alert — acceso,alertas,alto,anómalos,automáticas — cmd:.claude/commands/audit-alert.md
@@ -466,6 +467,7 @@
 [planning] case-init — business,case,data,pursuit,scaffold — cmd:.claude/commands/case-init.md
 [planning] case-kill-check — across,active,cases,kill,recommendations — cmd:.claude/commands/case-kill-check.md
 [planning] case-validate — business,case,directories,validate — script:scripts/case-validate.sh
+[planning] caveman — brief,caveman,cavernícola,compressed,every — skill:.claude/skills/caveman/SKILL.md
 [planning] ceo-alerts — alertas,decisiones,dirección,estratégicas,nivel — cmd:.claude/commands/ceo-alerts.md
 [planning] ceremony-health — ceremonias,duración,métricas,participación,rate — cmd:.claude/commands/ceremony-health.md
 [planning] changelog-assemble — assemble,changelog,fragments — script:scripts/changelog-assemble.sh
@@ -914,6 +916,7 @@
 [quality] executive-audit — audit,executive,workspace — script:scripts/executive-audit.sh
 [quality] fix-assigner — agents,assigns,court,creates,findings — agent:.claude/agents/fix-assigner.md
 [quality] frontend-test-runner — commit,component,coverage,execution,frontend — agent:.claude/agents/frontend-test-runner.md
+[quality] grill-me — aligned,blind,branch,decision,decisión — skill:.claude/skills/grill-me/SKILL.md
 [quality] hook-event-gap-audit — audit,audita,cubiertos,event,eventos — script:scripts/hook-event-gap-audit.sh
 [quality] hook-injection-audit — audit,hook,injection,patterns,slice — script:scripts/hook-injection-audit.sh
 [quality] hook-latency-audit — audit,enforcement,hook,latency,slice — script:scripts/hook-latency-audit.sh
@@ -985,6 +988,7 @@
 [quality] security-pipeline —  — cmd:.claude/commands/security-pipeline.md
 [quality] security-review —  — cmd:.claude/commands/security-review.md
 [quality] security-scan — audit,scan,security,workspace — script:scripts/security-scan.sh
+[quality] skill-catalog-audit — audit,catalog,skill,slice — script:scripts/skill-catalog-audit.sh
 [quality] skills-usage-audit — audit,audita,skills,usage,workspace — script:scripts/skills-usage-audit.sh
 [quality] sovereignty-audit — audit,cognitive,data,diagnose,lock — cmd:.claude/commands/sovereignty-audit.md
 [quality] sovereignty-auditor — auditoría,cognitiva,diagnóstico,lock,soberanía — skill:.claude/skills/sovereignty-auditor/SKILL.md
