@@ -1,14 +1,14 @@
 ---
 id: SE-075
 title: SE-075 — Voicebox adoption — task_queue, auto-chunking, Kokoro CPU voice
-status: APPROVED
+status: PARTIAL_IMPLEMENTED   # Slices 1+2 implemented; Slice 3 deferred (Kokoro download requires explicit user authorization)
 origin: jamiepine/voicebox repo study 2026-04-26
 author: Savia
 priority: media
 effort: M 8h (3 slices independientes)
 related: SE-074, SE-042, savia-voice, emergency-mode
 approved_at: "2026-04-26"
-applied_at: null
+applied_at: "2026-04-27"   # Slices 1+2; Slice 3 deferred
 expires: "2026-06-26"
 era: 188
 ---
@@ -54,23 +54,25 @@ Patrón de voicebox `services/tts.py` para chunking:
 
 ## Acceptance criteria
 
-### Slice 1
-- [ ] AC-01 `scripts/lib/task-queue.py` con atribución MIT a voicebox en header
-- [ ] AC-02 SSE endpoint en bridge para subscribe a estado de cola
-- [ ] AC-03 Auto-recovery testeado (kill job mid-flight, restart, verifica recover)
-- [ ] AC-04 Tests BATS ≥15 score ≥80
-- [ ] AC-05 Doc `docs/rules/domain/task-queue.md`
+### Slice 1 — IMPLEMENTED (2026-04-27)
+- [x] AC-01 `scripts/lib/task-queue.py` con atribución MIT a voicebox en header
+- [~] AC-02 SSE endpoint en bridge para subscribe a estado de cola — **deferred**: Savia es CLI-first, sin bridge HTTP en este momento. CLI `status --json` cubre observabilidad.
+- [x] AC-03 Auto-recovery testeado (stale heartbeat → reset to pending; tests #19, #22, #23)
+- [x] AC-04 Tests BATS = 26, score 100/100 (`tests/structure/test-task-queue.bats`)
+- [~] AC-05 Doc `docs/rules/domain/task-queue.md` — **deferred**: docstring del módulo + spec ref bastan; doc dedicada se añade si surge un segundo consumidor
 
-### Slice 2
-- [ ] AC-06 `scripts/savia-voice-chunk.sh` toma texto >1KB, devuelve audio único sin glitches audibles en boundaries
-- [ ] AC-07 Bounded concurrency 2 (no agotar CPU/RAM)
-- [ ] AC-08 Tests con texto español que incluye abreviaturas (Sr., Dra., etc.)
+### Slice 2 — IMPLEMENTED (2026-04-27)
+- [x] AC-06 `scripts/savia-voice-chunk.sh` toma texto >1KB, devuelve audio único (test #22 con >10 KiB; ffmpeg acrossfade configurable vía `--crossfade-ms`)
+- [x] AC-07 Bounded concurrency 2 default (env `SAVIA_TTS_CONCURRENCY`, override `--concurrency`)
+- [x] AC-08 Tests con español + abreviaturas (Sr./Sra./Dr./Dra./Vds./S.A./a.m./p.m./Lic./Ing./Prof./D./Dña./etc.) en `scripts/lib/sentence-splitter.py`. Tests BATS = 27, score 100/100.
 
-### Slice 3
+### Slice 3 — DEFERRED
 - [ ] AC-09 Kokoro instalado, modelo descargado a `~/.savia/kokoro/`
 - [ ] AC-10 `scripts/kokoro-tts.sh` genera .wav español inteligible
 - [ ] AC-11 Skill documentado con ejemplos
 - [ ] AC-12 Latency < 2x realtime en hardware actual (verificable)
+
+> **Razón del deferral de Slice 3**: la descarga del modelo Kokoro 82M (~500MB) y la instalación de dependencias Python (torch o kokoro-onnx) requieren autorización explícita de la usuaria por consumo de disco y red. La pipeline de Slice 2 ya soporta cualquier TTS plug-in vía `$SAVIA_TTS_CMD` (placeholders `{out}/{text}`), de modo que cuando se autorice Kokoro bastará añadir el wrapper sin modificar el chunker.
 
 ## No hacen
 

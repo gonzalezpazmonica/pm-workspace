@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 81 resources
+> 82 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -76,6 +76,7 @@
 - **savia-travel-init** (script): savia-init.sh — Travel Mode Init Script (template)
 - **savia-travel-ops** (script): savia-travel-ops.sh — Pack and init operations for savia-travel.sh
 - **savia-travel-pack** (cmd): >
+- **savia-voice-chunk** (script): savia-voice-chunk.sh — SE-075 Slice 2.
 - **savia-watch** (script): savia-watch.sh — Live activity feed from Savia
 - **savia-watchdog** (script): savia-watchdog.sh — Emergency fallback: detect internet loss, activate local LLM
 - **slack-search** (cmd): >
