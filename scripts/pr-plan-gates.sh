@@ -461,3 +461,52 @@ g13_scope_trace() {
   fi
   echo "B8 attention-anchor present (${id_list})"
 }
+
+# G14_SKILL_CATALOG: every SKILL.md added or modified in the PR must pass
+# the SE-084 catalog audit (frontmatter / Use-when trigger / size limits).
+# Skipped if no SKILL.md changed. WARN-severity (skill-long, missing-use-when)
+# does not block; FAIL-severity (missing-frontmatter, missing-name, missing-description,
+# description-too-short, skill-overlong) blocks. Reference: SE-084 Slice 2.
+g14_skill_catalog() {
+  local auditor="scripts/skill-catalog-audit.sh"
+  if [[ ! -x "$auditor" ]]; then
+    echo "WARN: $auditor missing or not executable (SE-084 Slice 1 not yet on this branch)"
+    return
+  fi
+
+  # Files added or modified in the PR, restricted to SKILL.md under .claude/skills/
+  local skills
+  skills=$(git diff origin/main..HEAD --name-only --diff-filter=AM 2>/dev/null \
+           | grep -E '^\.claude/skills/[^/]+/SKILL\.md$' || true)
+  if [[ -z "$skills" ]]; then
+    echo "skipped (no SKILL.md changed)"
+    return
+  fi
+
+  local fail_count=0 warn_count=0
+  declare -a fail_skills=()
+  while IFS= read -r skill_md; do
+    local skill_dir; skill_dir=$(dirname "$skill_md")
+    local out
+    out=$(bash "$auditor" --json --skill "$skill_dir" 2>&1) || true
+    # JSON shape: {"skill_count":1,"warn":N,"fail":M,"tsv":"..."}
+    local f w
+    f=$(echo "$out" | python3 -c "import json,sys; print(json.loads(sys.stdin.read()).get('fail',0))" 2>/dev/null || echo 0)
+    w=$(echo "$out" | python3 -c "import json,sys; print(json.loads(sys.stdin.read()).get('warn',0))" 2>/dev/null || echo 0)
+    fail_count=$((fail_count + f))
+    warn_count=$((warn_count + w))
+    [[ "$f" -gt 0 ]] && fail_skills+=("$skill_md")
+  done <<< "$skills"
+
+  local count; count=$(echo "$skills" | wc -l | tr -d ' ')
+  if [[ "$fail_count" -gt 0 ]]; then
+    {
+      echo "FAIL: ${fail_count} fail-severity issue(s) across ${#fail_skills[@]} modified skill(s):"
+      for s in "${fail_skills[@]}"; do echo "  - $s"; done
+      echo "  resolve: see docs/rules/domain/skill-catalog-discipline.md"
+      echo "  detail:  bash $auditor --report --skill .claude/skills/<name>"
+    }
+    return
+  fi
+  echo "${count} skill(s) audited — fail=${fail_count} warn=${warn_count}"
+}
