@@ -108,3 +108,7 @@ test type, every language framework, and every quality pattern.
 - ALWAYS include a header comment explaining the test strategy
 - ALWAYS reference the spec or rule being tested
 - Target: score >= 80 on auditor for EVERY BATS test file
+
+## TDD Vertical Slices (SE-083)
+
+Cuando apliques TDD para feature nueva o bug fix, usa la disciplina de `.claude/skills/tdd-vertical-slices/SKILL.md`: **vertical slicing only, never horizontal**. 1 test → 1 implementation → repeat. NO escribir todos los tests primero seguidos de toda la implementation — eso produce tests acoplados a estructura, no behavior. La regla anti-horizontal-slicing es la contribución central que distingue tests útiles de tests-de-mentira.

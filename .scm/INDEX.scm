@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 7b30bfb93bb1 | resources: 1100
-> 530 commands · 86 skills · 65 agents · 419 scripts
+> hash: 3f8208767246 | resources: 1102
+> 530 commands · 87 skills · 65 agents · 420 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -891,6 +891,7 @@
 [quality] ai-exposure-audit — auditoría,desplazamiento,exposición,exposure,observed — cmd:.claude/commands/ai-exposure-audit.md
 [quality] ai-labor-impact — analysis,audit,exposure,forecasting,impact — skill:.claude/skills/ai-labor-impact/SKILL.md
 [quality] android-autonomous-debugger — against,android,apps,autonomous,debugging — skill:.claude/skills/android-autonomous-debugger/SKILL.md
+[quality] architectural-vocabulary-audit — architectural,audit,slice,vocabulary,única — script:scripts/architectural-vocabulary-audit.sh
 [quality] architecture-judge — boundaries,code,coupling,court,judge — agent:.claude/agents/architecture-judge.md
 [quality] ast-comprehension — callers,code,completos,comprensión,código — skill:.claude/skills/ast-comprehension/SKILL.md
 [quality] audit — assessment,audit,executive,generate,professional — cmd:.claude/commands/audit.md
@@ -989,6 +990,7 @@
 [quality] sovereignty-audit — audit,cognitive,data,diagnose,lock — cmd:.claude/commands/sovereignty-audit.md
 [quality] sovereignty-auditor — auditoría,cognitiva,diagnóstico,lock,soberanía — skill:.claude/skills/sovereignty-auditor/SKILL.md
 [quality] spellcheck-docs — accent,dictionaries,docs,orthographic,review — script:scripts/spellcheck-docs.sh
+[quality] tdd-vertical-slices — applying,avoids,cycles,development,driven — skill:.claude/skills/tdd-vertical-slices/SKILL.md
 [quality] test-accessibility — accessibility,feature,files,test,universal — script:scripts/test-accessibility.sh
 [quality] test-ai-adoption — adoption,test — script:scripts/test-ai-adoption.sh
 [quality] test-ai-governance — governance,test — script:scripts/test-ai-governance.sh

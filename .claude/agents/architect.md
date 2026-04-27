@@ -90,6 +90,10 @@ Ensure every technical decision is documented, justified, and aligned with Clean
 - Zero architectural regressions introduced in downstream implementations
 - Complexity estimates within 1 T-shirt size of actual effort
 
+## Architectural Vocabulary (SE-082)
+
+Usa vocabulario canónico de `docs/rules/domain/architectural-vocabulary.md`: **Module / Interface / Seam / Adapter / Depth / Locality**. NO uses "component / service / API / boundary" en outputs arquitectónicos — cada uno tiene un `_Avoid_:` explícito en la regla. Aplica los principios ratchet (deletion test, interface = test surface, one adapter = hypothetical seam) cuando recomiendes refactor o evalúes diseño.
+
 ## Structured Context (SE-068)
 
 See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag pattern. Required tags below:

@@ -1,6 +1,6 @@
 {
-  "hash": "d9897997d404",
-  "total": 1100,
+  "hash": "c409a6849697",
+  "total": 1102,
   "resources": [
     {
       "category": "analysis",
@@ -11310,6 +11310,20 @@
     },
     {
       "category": "quality",
+      "name": "architectural-vocabulary-audit",
+      "intents": [
+        "architectural",
+        "audit",
+        "slice",
+        "vocabulary",
+        "única"
+      ],
+      "kind": "script",
+      "path": "scripts/architectural-vocabulary-audit.sh",
+      "description": "architectural-vocabulary-audit.sh — SE-082 Slice única."
+    },
+    {
+      "category": "quality",
       "name": "architecture-judge",
       "intents": [
         "boundaries",
@@ -12579,6 +12593,20 @@
       "kind": "script",
       "path": "scripts/spellcheck-docs.sh",
       "description": "spellcheck-docs.sh — Orthographic review using accent dictionaries"
+    },
+    {
+      "category": "quality",
+      "name": "tdd-vertical-slices",
+      "intents": [
+        "applying",
+        "avoids",
+        "cycles",
+        "development",
+        "driven"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/tdd-vertical-slices/SKILL.md",
+      "description": "Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a new feature or bug fix, when user mentions 'red-green-refactor', 'tdd', 'test-first', 'vertical slice' — explicitly avoids the 'horizontal sli"
     },
     {
       "category": "quality",

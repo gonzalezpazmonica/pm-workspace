@@ -65,9 +65,14 @@ Lo que está deliberadamente FUERA de scope:
 - `skills/genesis/assets/design-patterns.md` — definición original de B-tier
 - `skills/genesis/assets/architectural-patterns.md` — definición original de A-tier
 
+## Vocabulario relacionado
+
+- `docs/rules/domain/architectural-vocabulary.md` (SE-082) — Module/Interface/Seam/Adapter/Depth/Locality. Vocabulario obligatorio para outputs de `architect` y `architecture-judge`. Implementa B8 ATTENTION ANCHOR sobre vocabulario arquitectónico.
+
 ## Referencias
 
 - SE-080 spec — `docs/propuestas/SE-080-attention-anchor-vocabulary.md`
+- SE-082 spec — `docs/propuestas/SE-082-architectural-vocabulary-discipline.md`
 - SE-079 spec — `docs/propuestas/SE-079-pr-plan-scope-trace-gate.md` (G13 emite B8)
 - `docs/rules/domain/radical-honesty.md` — Rule #24 (B9)
 - `docs/rules/domain/autonomous-safety.md` — gates (A9)
