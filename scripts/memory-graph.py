@@ -98,20 +98,12 @@ def extract_relations(entry: dict, entities: list[dict]) -> list[dict]:
 
     entity_names = [e["name"] for e in entities]
 
-    # SE-076 Slice 1: episodes carry an explicit `entities` field listing the
-    # named entities the episode mentions. Emit MENTIONED_IN edges directly
-    # so episodic search can hop entity → episodes.
+    # SE-076 Slice 1: episodes emit MENTIONED_IN (entity → episode_title).
     if etype == "episode":
         for ref in (entry.get("entities") or []):
-            if not ref or not isinstance(ref, str):
-                continue
-            relations.append({
-                "from": ref,
-                "to": title or topic or "(episode)",
-                "type": "MENTIONED_IN",
-                "source_title": title,
-                "source_topic": topic,
-            })
+            if isinstance(ref, str) and ref:
+                relations.append({"from": ref, "to": title or topic or "(episode)",
+                                  "type": "MENTIONED_IN", "source_title": title, "source_topic": topic})
 
     if len(entity_names) < 2:
         return relations
