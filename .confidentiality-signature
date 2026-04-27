@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=22109de45c6ee7a51d4c68321ca64b2ee43c7bec7b0e118182375d2d9471e59e
-timestamp=2026-04-27T12:21:23Z
+timestamp=2026-04-27T12:22:53Z
 branch=agent/se081-087-pocock-skills-specs-20260427
-head_commit=c844b1b9
-signature=d26850fcf2cd2209e8f772107c789267e16ac94ae2583e696bc44fd42e1cbbd0
+head_commit=debbabdb
+signature=aaeb9cec8ee6269defd0cc929b20bb73792192dd663cb36135ead5e1b3aa662c
