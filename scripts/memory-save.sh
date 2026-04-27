@@ -5,8 +5,9 @@ set -uo pipefail
 # SPEC-041: importance_tier (A/B/C), quality gate, questions[] for P3/P5.
 
 # SPEC-037: Map type → cognitive sector (episodic/semantic/procedural/referential/reflective)
+# SE-076 Slice 1: 'episode' is now first-class (was implicit via feedback/session)
 map_type_to_sector() {
-    case "${1:-}" in feedback|correction) echo "episodic";; decision|project|bug) echo "semantic";;
+    case "${1:-}" in feedback|correction|episode) echo "episodic";; decision|project|bug) echo "semantic";;
         pattern|convention) echo "procedural";; reference) echo "referential";;
         discovery) echo "reflective";; *) echo "semantic";; esac
 }
@@ -15,7 +16,7 @@ map_type_to_sector() {
 map_type_to_importance_tier() {
     case "${1:-}" in
         feedback|correction|decision|project) echo "A" ;;
-        pattern|convention|discovery|reference|architecture|bug) echo "B" ;;
+        pattern|convention|discovery|reference|architecture|bug|episode) echo "B" ;;
         session-summary|entity|config|session) echo "C" ;;
         *) echo "B" ;;
     esac
@@ -24,7 +25,7 @@ map_type_to_importance_tier() {
 cmd_save() {
     local type= title= content= concepts= topic_key= project= rev=1 expires_days=
     local what= why= where= learned= supersedes_key= valid_from= quality="unverified"
-    local source=
+    local source= entities= valid_to= pin=false
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --type) type="$2"; shift 2 ;; --title) title="$2"; shift 2 ;;
@@ -35,11 +36,19 @@ cmd_save() {
             --expires) expires_days="$2"; shift 2 ;;
             --supersedes) supersedes_key="$2"; shift 2 ;;
             --valid-from) valid_from="$2"; shift 2 ;;
+            --valid-to) valid_to="$2"; shift 2 ;;
+            --entities) entities="$2"; shift 2 ;;     # SE-076 Slice 1: comma-separated refs
+            --pin) pin=true; shift ;;                  # SE-076 Slice 1: skip auto-TTL for episodes
             --quality) quality="$2"; shift 2 ;;
             --source) source="$2"; shift 2 ;;
             *) shift ;;
         esac
     done
+
+    # SE-076 Slice 1: episodes auto-default to 90-day TTL unless --pin
+    if [[ "$type" == "episode" && -z "$expires_days" && "$pin" != "true" ]]; then
+        expires_days=90
+    fi
     [[ -z "$type" || -z "$title" ]] && { echo "Error: --type, --title requeridos"; exit 1; }
 
     # SE-072: Verified Memory axiom — "No Execution, No Memory"
@@ -150,11 +159,27 @@ EOF
     local importance_tier
     importance_tier=$(map_type_to_importance_tier "$type")
 
+    # SE-076 Slice 1: build entities array for episodes (and any type that supplies refs)
+    local entities_json="[]"
+    if [[ -n "$entities" ]]; then
+        IFS=',' read -ra ENTS <<< "$entities"
+        entities_json="["
+        for i in "${!ENTS[@]}"; do
+            local e="${ENTS[$i]// /}"
+            [[ -z "$e" ]] && continue
+            entities_json="$entities_json\"${e//\"/\\\"}\""
+            [[ $i -lt $((${#ENTS[@]} - 1)) ]] && entities_json="$entities_json,"
+        done
+        entities_json="$entities_json]"
+    fi
+
     local json="{\"ts\":\"$now\",\"type\":\"$type\",\"sector\":\"$sector\",\"domain\":\"$domain\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev,\"valid_from\":\"$vf\",\"importance_tier\":\"$importance_tier\",\"quality\":\"$quality\",\"questions\":[]"
     [[ "$supersedes" != "null" ]] && json="$json,\"supersedes\":\"$supersedes\""
     [[ "$expires_at" != "null" ]] && json="$json,\"expires_at\":\"$expires_at\""
     [[ -n "$supersedes_key" ]] && json="$json,\"supersedes_key\":\"$supersedes_key\""
     [[ -n "$source" ]] && json="$json,\"source\":\"${source//\"/\\\"}\""
+    [[ "$entities_json" != "[]" ]] && json="$json,\"entities\":$entities_json"
+    [[ -n "$valid_to" ]] && json="$json,\"valid_to\":\"$valid_to\""
     echo "$json}" >> "$STORE_FILE"
     echo "✓ Guardado: $title (topic: $topic_key, rev: $rev)"
     _maybe_rebuild_index

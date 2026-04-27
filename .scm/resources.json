@@ -1,6 +1,6 @@
 {
-  "hash": "11aefa2d83be",
-  "total": 1098,
+  "hash": "0e4c18539553",
+  "total": 1099,
   "resources": [
     {
       "category": "analysis",
@@ -1846,6 +1846,20 @@
       "kind": "script",
       "path": "scripts/budget-guard.sh",
       "description": "budget-guard.sh — Context budget monitor (SPEC-022 F1)"
+    },
+    {
+      "category": "development",
+      "name": "build-azdo-schema-graph",
+      "intents": [
+        "azdo",
+        "build",
+        "graph",
+        "schema",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/build-azdo-schema-graph.sh",
+      "description": "build-azdo-schema-graph.sh — SE-076 Slice 2"
     },
     {
       "category": "development",

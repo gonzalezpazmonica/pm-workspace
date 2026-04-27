@@ -295,7 +295,7 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 - **SE-073** Memory Index Cap Tiered — APPROVED (M 4h)
 - **SE-074** Parallel spec execution — APPROVED (M 8h Slice 1 + S 3h Slice 1.5 + S 4h Slice 2 + M 6h Slice 3 = L 21h)
 - **SE-075** Voicebox adoption — APPROVED, priority media (S 2h + M 3h + M 3h = M 8h)
-- **SE-076** QueryWeaver patterns — APPROVED, priority media (M 4h + M 3h + S 2h = M 9h)
+- **SE-076** QueryWeaver patterns — IMPLEMENTED 2026-04-27 (3 slices: episodic memory + AzDo schema graph + LLM healer; AC-08/09/12 follow-up evolutivo)
 
 **Era 189 — OpenCode Sovereignty (IMPLEMENTED 2026-04-26)**:
 - **SE-077** OpenCode v1.14 replatform — IMPLEMENTED Slices 1+2 (E2E AC-03/AC-05 pendiente boot por la usuaria, AC-11 wrappers tras 1 sprint canary)

@@ -97,6 +97,14 @@ def extract_relations(entry: dict, entities: list[dict]) -> list[dict]:
     title = entry.get("title", "")
 
     entity_names = [e["name"] for e in entities]
+
+    # SE-076 Slice 1: episodes emit MENTIONED_IN (entity → episode_title).
+    if etype == "episode":
+        for ref in (entry.get("entities") or []):
+            if isinstance(ref, str) and ref:
+                relations.append({"from": ref, "to": title or topic or "(episode)",
+                                  "type": "MENTIONED_IN", "source_title": title, "source_topic": topic})
+
     if len(entity_names) < 2:
         return relations
 
@@ -109,6 +117,7 @@ def extract_relations(entry: dict, entities: list[dict]) -> list[dict]:
         "convention": "follows",
         "architecture": "architected_with",
         "config": "configured_with",
+        "episode": "co_occurred_in",  # SE-076 Slice 1
     }
     rel_type = rel_type_map.get(etype, "related_to")
 

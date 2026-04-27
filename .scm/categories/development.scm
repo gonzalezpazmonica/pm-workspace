@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 126 resources
+> 127 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -13,6 +13,7 @@
 - **ast-quality-gate** (script): ast-quality-gate.sh — Language-agnostic code quality meta-analyzer
 - **best-practices-check** (cmd): Evaluate workspace against Claude Code best practices
 - **budget-guard** (script): budget-guard.sh — Context budget monitor (SPEC-022 F1)
+- **build-azdo-schema-graph** (script): build-azdo-schema-graph.sh — SE-076 Slice 2
 - **build-skill-manifest** (script): build-skill-manifest.sh — Genera manifesto de skills desde frontmatter
 - **calendar-focus** (cmd): Crear bloque de focus para una tarea especifica — Deep Work protegido
 - **check-coherence** (cmd): Validate that a spec, report, or code output actually matches its stated objective

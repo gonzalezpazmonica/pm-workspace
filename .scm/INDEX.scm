@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 0a9f174a3f01 | resources: 1098
-> 530 commands · 86 skills · 65 agents · 417 scripts
+> hash: a0fdabafa4ef | resources: 1099
+> 530 commands · 86 skills · 65 agents · 418 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -151,6 +151,7 @@
 [development] ast-quality-gate — agnostic,analyzer,code,gate,language — script:scripts/ast-quality-gate.sh
 [development] best-practices-check — against,best,claude,code,evaluate — cmd:.claude/commands/best-practices-check.md
 [development] budget-guard — budget,context,guard,monitor,spec — script:scripts/budget-guard.sh
+[development] build-azdo-schema-graph — azdo,build,graph,schema,slice — script:scripts/build-azdo-schema-graph.sh
 [development] build-skill-manifest — build,frontmatter,manifest,manifesto,skill — script:scripts/build-skill-manifest.sh
 [development] calendar-focus — bloque,crear,deep,especifica,focus — cmd:.claude/commands/calendar-focus.md
 [development] check-coherence — actually,code,matches,objective,output — cmd:.claude/commands/check-coherence.md
