@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: a0fdabafa4ef | resources: 1099
-> 530 commands · 86 skills · 65 agents · 418 scripts
+> hash: 7b30bfb93bb1 | resources: 1100
+> 530 commands · 86 skills · 65 agents · 419 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -133,6 +133,7 @@
 [communication] savia-travel-init — init,mode,savia,script,template — script:scripts/savia-travel-init.sh
 [communication] savia-travel-ops — init,operations,pack,savia,travel — script:scripts/savia-travel-ops.sh
 [communication] savia-travel-pack —  — cmd:.claude/commands/savia-travel-pack.md
+[communication] savia-voice-chunk — chunk,savia,slice,voice — script:scripts/savia-voice-chunk.sh
 [communication] savia-watch — activity,feed,live,savia,watch — script:scripts/savia-watch.sh
 [communication] savia-watchdog — activate,detect,emergency,fallback,internet — script:scripts/savia-watchdog.sh
 [communication] slack-search —  — cmd:.claude/commands/slack-search.md
