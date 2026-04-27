@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 127 resources
+> 128 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -128,3 +128,4 @@
 - **workload-balance** (cmd): Equilibrado objetivo de carga de trabajo respetando especialidades del equipo
 - **workspace-doctor** (script): workspace-doctor.sh — Health check pm-workspace (SPEC-031)
 - **worktree-setup** (cmd): >
+- **zoom-out** (skill): High-level map of unfamiliar code area. Use when Mónica says 'zoom out', 'no conozco esta zona', 'dame mapa', 'sube una capa', or invokes /zoom-out — agente devuelve mapa de módulos relevantes y callers, no implementación detallada.
