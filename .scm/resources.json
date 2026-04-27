@@ -1,6 +1,6 @@
 {
-  "hash": "0e4c18539553",
-  "total": 1099,
+  "hash": "d9897997d404",
+  "total": 1100,
   "resources": [
     {
       "category": "analysis",
@@ -1606,6 +1606,19 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-travel-pack.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-voice-chunk",
+      "intents": [
+        "chunk",
+        "savia",
+        "slice",
+        "voice"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-voice-chunk.sh",
+      "description": "savia-voice-chunk.sh — SE-075 Slice 2."
     },
     {
       "category": "communication",
