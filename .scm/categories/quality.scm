@@ -33,6 +33,7 @@
 - **executive-audit** (script): executive-audit.sh — Executive Audit for PM Workspace
 - **fix-assigner** (agent): Creates fix tasks from Court findings, assigns to dev agents, triggers re-review
 - **frontend-test-runner** (agent): Post-commit frontend test execution — unit, component, e2e, coverage
+- **grill-me** (skill): Relentless interview that walks every branch of a decision tree to expose blind spots. Use when Mónica says 'grill me', 'interrógame', 'stress-test este plan', 'desafía esta decisión', or invokes /grill-me; aligned with Rule #24 radical-hon
 - **hook-event-gap-audit** (script): hook-event-gap-audit.sh — Audita los 11 eventos de hook no cubiertos en pm-workspace
 - **hook-injection-audit** (script): hook-injection-audit.sh — SE-060 Slice 1 hook injection patterns audit.
 - **hook-latency-audit** (script): hook-latency-audit.sh — SE-037 Slice 1 hook latency enforcement audit.
@@ -104,6 +105,7 @@
 - **security-pipeline** (cmd): >
 - **security-review** (cmd): >
 - **security-scan** (script): security-scan.sh — Security audit for pm-workspace
+- **skill-catalog-audit** (script): skill-catalog-audit.sh — SE-084 Slice 1.
 - **skills-usage-audit** (script): skills-usage-audit.sh — Audita uso de los 91 skills de pm-workspace.
 - **sovereignty-audit** (cmd): Cognitive sovereignty audit — diagnose AI vendor lock-in risk and data portability
 - **sovereignty-auditor** (skill): Auditoría de soberanía cognitiva — diagnóstico de lock-in de IA
