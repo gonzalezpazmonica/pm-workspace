@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=aceca2e1c8db36d14d36fbcf15b560b460d9f94ed8d0b50335198776a152fef2
-timestamp=2026-04-27T10:07:55Z
-branch=agent/se075-voicebox-slices-1-2-20260427
-head_commit=56d709df
-signature=a7335c513576bcb03cb7edfeedfb2f02b9378ee9dce06388794b590ed4d62295
+diff_hash=22109de45c6ee7a51d4c68321ca64b2ee43c7bec7b0e118182375d2d9471e59e
+timestamp=2026-04-27T12:22:53Z
+branch=agent/se081-087-pocock-skills-specs-20260427
+head_commit=debbabdb
+signature=aaeb9cec8ee6269defd0cc929b20bb73792192dd663cb36135ead5e1b3aa662c

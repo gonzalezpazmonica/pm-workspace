@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-26 | **Version:** v6.12.0 | **532 commands · 65 agents · 86 skills · 60 hooks (64 regs) · 301+ test suites · Era 182-184 CLOSED, Era 185 CLOSED, Era 186 hook ratchet **CLOSED**, Era 187 spec drift + AC closure **CLOSED 2026-04-25**, Era 188 IN PROGRESS — Memory + Throughput + Voice + Graph foundations, Era 189 APPROVED — OpenCode sovereignty · **CRITICAL PATH unificado 14 items** · SE-077 + SE-078 + spec-opencode-plan rule + G12 gate · vendor-lockin mitigation post Anthropic Pro→Max restriction · HOOK COVERAGE 100% 60/60 · SE-071+SE-039+SE-038+SE-065+SPEC-120+SE-070+SPEC-055+SPEC-121+SPEC-122+SPEC-078+SPEC-124+SE-072 IMPLEMENTED · SE-073+SE-074+SE-075+SE-076+SE-077+SE-078 APPROVED · spec triage 74→70 PROPOSED + 9 APPROVED promotions · test quality baseline 332/332 ≥80 · agent size ratchet 27 violations frozen · hook-critical baseline 5→4 tightened · backup identidad portable enviado a la usuaria**
+**Updated:** 2026-04-27 | **Version:** v6.13.0 | **532 commands · 65 agents · 86 skills · 60 hooks · 301+ test suites · Era 188 IN PROGRESS — Memory+Throughput+Voice+Graph foundations · Era 189 CLOSED 2026-04-26 — OpenCode sovereignty · **Era 190 APPROVED 2026-04-27 — Skill discipline + Pocock pattern adoption (SE-081..SE-087, MIT clean-room from mattpocock/skills 26.4k⭐)** · Era 232 PROPOSED — Savia Enterprise Balance Extensions (SPEC-SE-035/036/037) · CRITICAL PATH 12 items reprioritized by relevance/urgency/dependencies · SE-072 to SE-080 IMPLEMENTED · SE-081 to SE-087 APPROVED · backup identidad portable enviado a la usuaria**
 
 ---
 
@@ -290,18 +290,27 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 
 ### Backlog APPROVED restante (post Era 187, snapshot 2026-04-26)
 
-**Era 188 — Foundations (in progress)**:
+**Era 188 — Foundations (in progress; cierra cuando PR #717 merge)**:
 - ✅ **SE-072** Verified Memory Axiom — IMPLEMENTED batch 57
 - **SE-073** Memory Index Cap Tiered — APPROVED (M 4h)
 - **SE-074** Parallel spec execution — APPROVED (M 8h Slice 1 + S 3h Slice 1.5 + S 4h Slice 2 + M 6h Slice 3 = L 21h)
 - **SE-075** Voicebox adoption — Slices 1+2 IMPLEMENTED 2026-04-27 (task-queue.py + savia-voice-chunk.sh + sentence-splitter.py, BATS 53/53 certified); Slice 3 (Kokoro 82M CPU) DEFERRED — requires explicit user authorization for ~500MB model download
 - **SE-076** QueryWeaver patterns — IMPLEMENTED 2026-04-27 (3 slices: episodic memory + AzDo schema graph + LLM healer; AC-08/09/12 follow-up evolutivo)
 
-**Era 189 — OpenCode Sovereignty (IMPLEMENTED 2026-04-26)**:
-- **SE-077** OpenCode v1.14 replatform — IMPLEMENTED Slices 1+2 (E2E AC-03/AC-05 pendiente boot por la usuaria, AC-11 wrappers tras 1 sprint canary)
-- **SE-078** AGENTS.md cross-frontend — IMPLEMENTED (E2E AC-05 pendiente boot)
-- **SE-079** pr-plan G13 scope-trace gate — IMPLEMENTED (Karpathy "Surgical Changes" enforced pre-push)
-- **SE-080** Attention-anchor vocabulary — IMPLEMENTED (Genesis B8/B9/A7/A9 named)
+**Era 189 — OpenCode Sovereignty (CLOSED 2026-04-26)**:
+- ✅ **SE-077** OpenCode v1.14 replatform — IMPLEMENTED Slices 1+2 (E2E AC-03/AC-05 pendiente boot por la usuaria, AC-11 wrappers tras 1 sprint canary)
+- ✅ **SE-078** AGENTS.md cross-frontend — IMPLEMENTED (E2E AC-05 pendiente boot)
+- ✅ **SE-079** pr-plan G13 scope-trace gate — IMPLEMENTED (Karpathy "Surgical Changes" enforced pre-push)
+- ✅ **SE-080** Attention-anchor vocabulary — IMPLEMENTED (Genesis B8/B9/A7/A9 named)
+
+**Era 190 — Skill discipline + Pocock pattern adoption (APPROVED 2026-04-27)**:
+- **SE-081** Pocock skills quick-wins — APPROVED priority alta (S 2h) — caveman + zoom-out + grill-me, zero código, MIT clean-room
+- **SE-082** Architectural vocabulary discipline — APPROVED priority alta (M 4h) — Module/Interface/Seam/Adapter/Depth/Locality, extiende SE-080
+- **SE-083** TDD vertical-slice skill — APPROVED priority media (S 2h) — anti-horizontal-slicing reinforcement
+- **SE-084** Skill catalog quality audit — APPROVED priority alta (M 6h, 2 slices) — auditor + G14 gate sobre skills modificados
+- **SE-085** Write-a-skill meta-skill — APPROVED priority baja (S 2h) — meta-disciplina post SE-084
+- **SE-086** Ubiquitous-language extractor — APPROVED priority media (M 5h, 2 slices) — DDD glossary + memory-graph bridge
+- **SE-087** Design-an-interface parallel skill — APPROVED priority media (M 4h) — N=3 alternativas vía sub-agentes paralelos
 
 **Era 232 — Savia Enterprise Balance Extensions (proposed 2026-04-26)**:
 - **SPEC-SE-035** Reconciliation Delta Engine — PROPOSED priority P2 (M 12-16h, 4 slices) — drift verde/ámbar/rojo declared vs computed; pattern from `dreamxist/balance` (MIT)
@@ -316,65 +325,88 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 
 ---
 
-## Critical Path Q2-Q3 2026 (priorización unificada 2026-04-26)
+## Critical Path Q2-Q3 2026 (priorización unificada 2026-04-27 — post Era 188+189 cierre)
 
-> Orden de ejecución prescriptivo. Cada batch toma el primer item disponible. Sin reprio mid-stream salvo trigger externo (Anthropic shutdown, hardware loss, GPU disponible).
+> Orden de ejecución prescriptivo. Cada batch toma el primer item disponible. Sin reprio mid-stream salvo trigger externo (Anthropic shutdown, hardware loss, GPU disponible, Mónica autoriza descarga modelo Kokoro).
 
-### Razonamiento de prioridad
+### Razonamiento de prioridad (Q2-Q3 reformulado)
 
-**Eje 1 — Soberanía** (Anti lock-in 25%): Anthropic está apretando Claude Code (Pro → Max abril 2026). Sin OpenCode operativo Savia muere ante el próximo apretón. Era 189 desbloquea opción real de switch.
+**Eje 1 — Compliance enterprise** (P1 hard-gates): SPEC-SE-036 (JWT mint) + SPEC-SE-037 (audit JSONB) son P1. Coste de no hacerlas: PAT en fichero (Rule #1 hoy en runtime, debe migrar a infraestructura) + ausencia de evidence ISO-42001/EU AI Act/GDPR bloqueante para Savia Enterprise sales. Estas dos van primero entre los items de >2h efectivos.
 
-**Eje 2 — Apalancamiento** (Flow 10% × 3-4x): SE-074 Slice 1+1.5 multiplica throughput de Eras siguientes. Invertir 11h ahora compra ~30% velocity sostenida en cada batch posterior. Va antes que sovereignty para que Era 189 misma se ejecute más rápido.
+**Eje 2 — Skill catalog quality** (multiplicador): Era 190 entera (SE-081..SE-087) baja el "tax" recurrente de cada skill nuevo y de cada turn. SE-081 (S 2h, zero deps, free-win) abre. SE-084 Slice 1 (S 2h, auditor only) establece baseline. Resto de Era 190 sigue por dependencias.
 
-**Eje 3 — Ratio rápido / habilitador**: SE-073 (M 4h, sin deps) cierra deuda Era 188 sin bloquear nada. Va primero como warm-up.
+**Eje 3 — Soberanía** (residual Era 189): SE-077 + SE-078 + SE-079 + SE-080 ya IMPLEMENTED. Quedan E2E validations pendientes de boot por la usuaria — no bloqueante para work nuevo.
+
+**Eje 4 — Apalancamiento** (Era 188 cerrada): SE-074 (parallelism), SE-075 Slices 1+2 (task-queue + voice-chunker), SE-076 (episodic + WIQL + healer) están IMPLEMENTED. SE-075 Slice 3 (Kokoro) DEFERRED hasta autorización explícita de descarga.
+
+**Eje 5 — Ratio rápido / habilitador**: SE-081 (S 2h, sin deps) abre Era 190 como warm-up barato — exactamente el rol que cumplió SE-073 en Era 188.
 
 ### Pipeline (orden vinculante)
 
-| # | Spec | Slice | Effort | Bloquea | Razón |
+| # | Spec | Slice | Effort | Era | Razón |
 |---|---|---|---|---|---|
-| 1 | SE-073 | full | M 4h | nada | Quick win Era 188, sin deps |
-| 2 | SE-074 | Slice 1 | M 8h | apalancamiento Eras post | Worktree manager + queue 3-5 |
-| 3 | SE-074 | Slice 1.5 | S 3h | apalancamiento | Adaptive halting + Poisson budget (Kohli 2026) |
-| 4 | SE-078 | full | M 6h | SE-077 | AGENTS.md = contrato single-source |
-| 5 | SE-077 | Slice 1 | M 8h | SOBERANÍA | Plugin TS savia-gates en OpenCode v1.14 |
-| 6 | SE-077 | Slice 2 | M 6h | cierre Era 189 | Parity audit ratchet |
-| 7 | SE-074 | Slice 2 | S 4h | calidad merge cola | PR queue cascade-rebase auto |
-| 8 | SE-075 | Slice 1 | S 2h | sinergia healer | task_queue.py adoption |
-| 9 | SE-076 | Slice 1 | M 4h | extiende SPEC-027 | Graphiti episodic JSONL |
-| 10 | SE-076 | Slice 2 | M 3h | reduce hallucination WIQL | Schema-as-graph |
-| 11 | SE-076 | Slice 3 | S 2h | usa SE-075 task_queue | LLM healer wrapper |
-| 12 | SE-075 | Slice 2 | M 3h | savia-voice long-form | Auto-chunking TTS |
-| 13 | SE-075 | Slice 3 | M 3h | voz español sin GPU | Kokoro 82M CPU |
-| 14 | SE-074 | Slice 3 | M 6h | hardening | DB sandbox + cleanup |
+| 1 | SE-081 | full | S 2h | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
+| 2 | SE-084 | Slice 1 | S 2h | 190 | Auditor establece baseline antes de Era 190 grow |
+| 3 | SE-082 | full | M 4h | 190 | Vocabulario arquitectónico — multiplicador architect/judge |
+| 4 | SE-083 | full | S 2h | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
+| 5 | SE-084 | Slice 2 | M 4h | 190 | G14 gate activo sobre skills cambiados |
+| 6 | SPEC-SE-037 | full | S 6-8h | 232 | P1 audit JSONB — compliance ISO/EU AI Act/GDPR |
+| 7 | SPEC-SE-036 | full | M 10-14h | 232 | P1 JWT mint — Rule #1 a infraestructura, sustituye PAT |
+| 8 | SE-086 | Slices 1+2 | M 5h | 190 | Ubiquitous-language + memory-graph bridge |
+| 9 | SE-087 | full | M 4h | 190 | Design-an-interface (3 alternativas paralelas) |
+| 10 | SPEC-SE-035 | Slices 1-4 | M 12-16h | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
+| 11 | SE-085 | full | S 2h | 190 | Write-a-skill meta — depende de SE-084 |
+| 12 | SE-075 | Slice 3 | M 3h | 188 (residual) | DEFERRED — requiere autorización Mónica para descargar Kokoro 82M (~500MB) |
 
-**Total non-blocked**: ~62h ≈ 8 working days secuencial. Con paralelismo activo (post item 2-3) ≈ 3-4 days reales.
+**Total non-blocked**: ~58h ≈ 7 working days secuencial. Con paralelismo activo (SE-074 ya IMPLEMENTED) ≈ 3 days reales.
 
 ### Triggers que reordenan
 
-- **Anthropic shutdown CC Pro** → items 4-6 escalan a #1 (paralelismo se sacrifica si compite con sovereignty inmediata)
+- **Anthropic shutdown CC Pro** → SE-077/SE-078 E2E validations escalan a #1 (validar OpenCode antes de cualquier work nuevo)
 - **GPU disponible** → SE-028 / SE-042 / SPEC-023 / SPEC-080 entran como Phase D paralela
 - **Hardware loss** → restore desde backup portable enviado a la usuaria (capa 7), identidad recuperable
+- **Mónica autoriza Kokoro download** → SE-075 Slice 3 sale de DEFERRED y entra en orden por relevancia (después de quick-wins Era 190)
+- **Cliente enterprise activo** → SPEC-SE-035/036/037 escalan a #1-3 (compliance bloqueante en venta)
 
 ### Sinergias documentadas
 
-- SE-074 + SE-075 Slice 1: orquestador paralelo necesita cola serial intra-worktree (`task_queue.py`)
-- SE-075 Slice 1 + SE-076 Slice 3: healer async usa `task_queue` para reintentos
-- SE-076 Slice 1 + SPEC-027: episodes extienden el grafo Phase 1 ya existente
-- Critical Path #4-6 + #2-3: paralelismo activo permite SE-077 + SE-078 en sesiones concurrentes
+- SE-074 + SE-075 Slice 1: orquestador paralelo usa cola serial intra-worktree (`task_queue.py`) — CERRADO en Era 188
+- SE-075 Slice 1 + SE-076 Slice 3: healer async usa `task_queue` para reintentos — CERRADO en Era 188
+- SE-076 Slice 1 + SPEC-027: episodes extienden el grafo Phase 1 ya existente — CERRADO en Era 188
+- **SE-082 + SE-080**: vocabulario arquitectónico extiende attention-anchor (Genesis B8 named pattern)
+- **SE-082 + SE-087**: design-an-interface usa el vocabulario obligatorio en cada sub-agente
+- **SE-084 + SE-081/083/085/086/087**: el auditor enforced sobre los skills nuevos hace que sean compliant by construction (dogfood del baseline)
+- **SE-086 + SE-076**: extractor de domain-language emite edge `DOMAIN_TERM` en el grafo episodic ya existente
+- **SE-087 + SE-074**: design-an-interface puede delegar a parallel-specs-orchestrator para diseños grandes (>1h por agente)
+- **SPEC-SE-037 + SPEC-SE-036**: audit JSONB trigger captura los JWT-mint events (compliance evidence chain)
 
 ---
 
 ## Era 188 — Memory + Throughput + Voice + Graph foundations (2026-04-25, IN PROGRESS)
 
-Cierra cuando items 1-3 + 7-14 del Critical Path estén IMPLEMENTED. SE-072 ya cerrado (batch 57).
+Cierra con la entrega pendiente de SE-075 Slices 1+2 (PR #717 abierta a fecha 2026-04-27). Items implementados: SE-072 batch 57, SE-073 batch 62, SE-074 batches 63-69 (todas las slices), SE-076 batch 72. Único residual post-#717: SE-075 Slice 3 (Kokoro 82M CPU voice) DEFERRED por autorización pendiente de descarga ~500MB.
 
-### Pre-requisito antes de SE-074 Slice 1
+---
 
-Resource monitoring básico verificado (RAM/disco disponible para 3 sesiones Claude Code simultáneas) — se ejecuta como dry-run en el primer arranque del orchestrator.
+## Era 190 — Skill discipline + Pocock pattern adoption (APPROVED 2026-04-27)
 
-### Trade-off explicit
+Origen: análisis del repo `mattpocock/skills` (MIT, 26.4k ⭐, push 2026-04). Identifica 7 patterns extractables vía clean-room re-implementación.
 
-SE-074 Slice 1 (8h) bloquea SE-073 (4h) ~1 día. Ganancia: cada Era posterior 3-4x más rápida. Break-even tras 2-3 Eras de trabajo paralelo. Justifica el orden #1 antes que #2 — SE-073 abre el batch porque es independencia + warmup, no porque su payoff sea mayor.
+### Inversión vs payoff
+
+- 7 specs (SE-081..SE-087), total ~25h efectivos.
+- Payoff principal: **reducción de token cost recurrente** (catálogo de 86 skills hoy → cada turn los lee parcialmente). SE-084 enforced a través de G14 hace que cada skill nuevo sea compliant by construction.
+- Payoff secundario: **vocabulario consistente** (SE-082) elimina drift en outputs de architect/architecture-judge — comparabilidad entre sesiones.
+- Payoff terciario: **3 nuevos primitives invocables** (caveman, zoom-out, grill-me) que cubren huecos reales sin código.
+
+### Riesgo de no hacer Era 190
+
+- Catálogo de skills crece sin disciplina → coste de token por turn sube → presión real cuando lleguen los 100+ skills.
+- Vocabulario rota cada review → duplicación cognitiva permanente.
+
+### Cierre
+
+Era 190 cierra cuando SE-081, SE-082, SE-083, SE-084 (Slices 1+2), SE-086 estén IMPLEMENTED. SE-085 y SE-087 son P3 — cierre opcional.
 
 ---
 
