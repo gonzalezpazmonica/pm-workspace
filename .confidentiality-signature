@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a39c88d5e4dec512325498df23ba527fc276a3056242ec428fa6364788f22889
-timestamp=2026-04-26T20:48:01Z
-branch=agent/era189-opencode-replatform-20260426
-head_commit=5590bdf7
-signature=b561c3ceabbef7b44d0b53dadc7cc168ce7c2be58cdb2fb4fd591b92f7d7db51
+diff_hash=698a063a9612e4ae1e12a3ef21815bd7a5c019447d20232b487c31d5ad0fd265
+timestamp=2026-04-26T21:28:10Z
+branch=agent/era189-balance-enterprise-extensions-20260426
+head_commit=406c7c92
+signature=da103b7c5f1e258423563c909aa16ceaa7ca88c4ed4a51035eb124ab1364b9a2

@@ -303,6 +303,11 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 - **SE-079** pr-plan G13 scope-trace gate — IMPLEMENTED (Karpathy "Surgical Changes" enforced pre-push)
 - **SE-080** Attention-anchor vocabulary — IMPLEMENTED (Genesis B8/B9/A7/A9 named)
 
+**Era 232 — Savia Enterprise Balance Extensions (proposed 2026-04-26)**:
+- **SPEC-SE-035** Reconciliation Delta Engine — PROPOSED priority P2 (M 12-16h, 4 slices) — drift verde/ámbar/rojo declared vs computed; pattern from `dreamxist/balance` (MIT)
+- **SPEC-SE-036** API-Key → JWT Mint efímero — PROPOSED priority P1 (M 10-14h, 3 slices) — sustituye PAT file-based; CLAUDE.md Rule #1 a infraestructura
+- **SPEC-SE-037** Audit JSONB Trigger — PROPOSED priority P1 (S 6-8h, slice único) — 1 trigger genérico, evidence ISO-42001/EU AI Act/GDPR auto
+
 **Blocked (GPU/hardware)**:
 - **SE-028** Oumi (GPU-blocked)
 - **SE-042** voice training (GPU-blocked)
