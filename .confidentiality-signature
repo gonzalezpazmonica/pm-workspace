@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6d21241f1df22871defac2944418a8e9fd2249368f3014df8d9a4bc23d95ff8f
-timestamp=2026-04-28T04:57:01Z
-branch=agent/se084-slice2-skill-discipline-g14-20260427
-head_commit=206509d1
-signature=3e2a8645e05236466a9df63c1d6157b5488df274f42fe7de67321ed5747bffd8
+diff_hash=8ca136bbb260bf7c1c68d1704814c8fe2b1dc1a53b9c2988aea15609c1a927ea
+timestamp=2026-04-28T06:33:00Z
+branch=agent/spec-se-037-audit-trigger-primitive-20260428
+head_commit=40427699
+signature=b4f0d6673bb700ce04c7f523d7c77286625b41d5537f4e5817f282ede254e619
