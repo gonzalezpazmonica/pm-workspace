@@ -111,9 +111,14 @@ Re-implementación clean-room de `dreamxist/balance` `supabase/migrations/202604
 
 ---
 
+## CLIs operacionales (Slice 2)
+
+- `scripts/enterprise/api-key-create.sh` — genera key fresca (32 bytes urandom, base64url, prefijo `savia_`), inserta `sha256(key)` + `key_prefix` en `api_keys`, **imprime el plaintext exactamente una vez**. Si la operadora pierde la key: revocar y recrear (no hay recuperación).
+- `scripts/enterprise/api-key-list.sh` — inventario filtrable por `--tenant`, `--active`, `--revoked`, `--json`. Nunca muestra `key_hash` ni plaintext (zero-leakage).
+- `scripts/enterprise/api-key-revoke.sh` — revoca por `--prefix` (8 chars). 4 safety layers: `--prefix` requerido, no bulk patterns (`all`/`*`/`%`), no wildcards, dry-run por defecto. Llama `CALL api_key_revoke(prefix, actor)`. WARNING explícito: JWTs minteados pre-revoke siguen vivos hasta TTL expiry (≤ 60 min).
+
 ## No hace (esta Slice)
 
-- NO implementa los CLI `api-key-create.sh` / `-list.sh` / `-revoke.sh` (Slice 2).
 - NO implementa hook `block-pat-file-write.sh` (Slice 3).
 - NO sunset de `~/.azure/devops-pat` (Slice 3, opt-in tras 1 sprint canary verde).
 - NO añade dependencia auth provider externo (Auth0 / Okta) — JWT firmado localmente.
