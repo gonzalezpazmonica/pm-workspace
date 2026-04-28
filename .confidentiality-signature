@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8ca136bbb260bf7c1c68d1704814c8fe2b1dc1a53b9c2988aea15609c1a927ea
-timestamp=2026-04-28T06:33:00Z
-branch=agent/spec-se-037-audit-trigger-primitive-20260428
-head_commit=40427699
-signature=b4f0d6673bb700ce04c7f523d7c77286625b41d5537f4e5817f282ede254e619
+diff_hash=e638fd3c109665793e339ae8c739c6703081f0aad6d445019e378c50c983677c
+timestamp=2026-04-28T10:32:14Z
+branch=agent/spec-se-036-jwt-mint-20260428
+head_commit=7808f490
+signature=c390deefb01b0794498c1586ebff966cc3f10f789dbd106d59cc2d613ea1bd70

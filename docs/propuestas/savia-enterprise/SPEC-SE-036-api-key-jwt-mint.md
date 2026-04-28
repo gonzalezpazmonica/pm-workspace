@@ -101,7 +101,7 @@ overnight-sprint, code-improvement-loop, etc.
 
 ### Slice 3 (M, 4h) — Migration + sunset PAT files
 
-- Doc migration guide en `docs/rules/domain/savia-enterprise/agent-credentials.md`
+- Doc migration guide en `docs/rules/domain/savia-enterprise/agent-jwt-mint.md`
 - Hook `block-pat-file-write.sh` (PreToolUse, matcher `Write`) bloquea
   intentos de escribir a `*pat*` paths fuera de gitignore
 - pre-commit gate detecta PAT-shaped strings (40+ char hex/base64) en diff
@@ -119,7 +119,7 @@ overnight-sprint, code-improvement-loop, etc.
 - [ ] AC-06 Hook `block-pat-file-write.sh` bloquea escrituras a paths PAT
 - [ ] AC-07 `block-credential-leak.sh` detecta PAT-shaped strings en diff
 - [ ] AC-08 Tests BATS ≥12 score ≥80 + pgTAP ≥6 (función mint)
-- [ ] AC-09 Doc `docs/rules/domain/savia-enterprise/agent-credentials.md`
+- [ ] AC-09 Doc `docs/rules/domain/savia-enterprise/agent-jwt-mint.md`
 - [ ] AC-10 SQL template `docs/propuestas/savia-enterprise/templates/api-keys.sql`
 - [ ] AC-11 CHANGELOG entry
 
