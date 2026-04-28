@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 221 resources
+> 223 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -9,6 +9,7 @@
 - **ai-exposure-audit** (cmd): Auditoría de exposición IA por rol — observed exposure, riesgo de desplazamiento, reskilling
 - **ai-labor-impact** (skill): AI labor impact analysis — exposure audit, reskilling plans, workforce forecasting
 - **android-autonomous-debugger** (skill): Autonomous debugging and testing of Android apps against physical devices via USB/ADB
+- **architectural-vocabulary-audit** (script): architectural-vocabulary-audit.sh — SE-082 Slice única.
 - **architecture-judge** (agent): Code Review Court judge — boundaries, coupling, layer violations, patterns
 - **ast-comprehension** (skill): Comprensión estructural de código que no hemos escrito. Queries tipadas (impl, callers, tests, grep-code, peek, symbols) en lugar de leer ficheros completos. Inspirado en el patrón RLM (Recursive Language Models, Zhang/Kraska/Khattab 2025).
 - **audit** (cmd): Generate professional executive audit report for workspace reliability assessment
@@ -109,6 +110,7 @@
 - **sovereignty-audit** (cmd): Cognitive sovereignty audit — diagnose AI vendor lock-in risk and data portability
 - **sovereignty-auditor** (skill): Auditoría de soberanía cognitiva — diagnóstico de lock-in de IA
 - **spellcheck-docs** (script): spellcheck-docs.sh — Orthographic review using accent dictionaries
+- **tdd-vertical-slices** (skill): Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a new feature or bug fix, when user mentions 'red-green-refactor', 'tdd', 'test-first', 'vertical slice' — explicitly avoids the 'horizontal sli
 - **test-accessibility** (script): test-accessibility.sh — Validates accessibility universal feature files
 - **test-ai-adoption** (script): ── test-ai-adoption.sh ────────────────────────────────────────────────────────
 - **test-ai-governance** (script): ── test-ai-governance.sh ─────────────────────────────────────────────────────

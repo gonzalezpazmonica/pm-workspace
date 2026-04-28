@@ -64,3 +64,7 @@ summary:
 ## Reporting Policy (SE-066)
 
 Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.
+
+## Architectural Vocabulary (SE-082)
+
+Usa vocabulario canónico de `docs/rules/domain/architectural-vocabulary.md`: **Module / Interface / Seam / Adapter / Depth / Locality**. NO uses "component / service / API / boundary" en findings — cada uno tiene un `_Avoid_:` explícito en la regla. Cuando reportes layer violations o coupling, formúlalo en términos de seams / adapters / depth-leverage en vez de boundaries. Aplica deletion test cuando evalúes shallow modules (si borrarlo concentra complejidad, se gana el sueldo; si la dispersa, era pass-through).
