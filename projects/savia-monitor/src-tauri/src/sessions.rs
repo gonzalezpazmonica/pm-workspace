@@ -38,9 +38,11 @@ fn is_pid_alive(pid: u32) -> bool {
             out.contains(&pid.to_string())
         }).unwrap_or(false)
     }
-    #[cfg(not(target_os = "windows"))]
+    #[cfg(unix)]
     {
-        std::path::Path::new(&format!("/proc/{}", pid)).exists()
+        // kill(pid, 0) checks process existence without sending a signal.
+        // Works on macOS, Linux, and other Unix variants (no /proc dependency).
+        unsafe { libc::kill(pid as libc::pid_t, 0) == 0 }
     }
 }
 

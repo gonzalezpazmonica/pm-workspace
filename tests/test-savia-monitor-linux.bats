@@ -107,9 +107,9 @@ teardown() {
 
 # ── Rust source code cross-platform ─────────────────────────────────────────
 
-@test "sessions.rs has Linux PID detection via /proc" {
+@test "sessions.rs has Unix PID detection via libc::kill" {
   local sessions="$REPO_ROOT/projects/savia-monitor/src-tauri/src/sessions.rs"
-  grep -q "/proc/" "$sessions"
+  grep -q "libc::kill" "$sessions"
 }
 
 @test "config.rs handles HOME env var" {

@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0847c8964de4433708ed0225b7970de31768bc9c0537e8a151728da7a7763a8f
-timestamp=2026-04-29T21:06:42Z
-branch=agent/fix-blocklist-generator-unicode-grep-20260429
-head_commit=82e13150
-signature=620d84be7bfd3e45c05d7c2bbc1f31e77d17ecb6ff9f6fb7f4197db07e0d94ee
+diff_hash=3b4189860838d3bfae8aae4ad46bee8738733ca53f5c41336fb1d1c99f12f7a3
+timestamp=2026-04-29T21:43:28Z
+branch=fix/savia-monitor-macos-pid-detection
+head_commit=5889fe76
+signature=4559bfe40ace6b285aacca5cebc553f47d2dfdadd9120f1e28d545786bcd892d
