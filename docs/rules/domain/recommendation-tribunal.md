@@ -1,9 +1,9 @@
 # Recommendation Tribunal — real-time audit de recomendaciones conversacionales
 
 > **SPEC**: SPEC-125 (`docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md`)
-> **Slice**: 1 Foundation (clasificador + 4 jueces + scripts + hook stub). Slice 2 (asymmetric expertise rewrite) y Slice 3 (memory feedback loop) follow-up.
-> **Status**: canonical, **NO ACTIVADO POR DEFECTO**. Activación requiere edición humana de `.claude/settings.json` tras revisar el batch completo.
-> **Riesgo**: safety-critical — modifica el flow de cada turn cuando se active. Por eso la activación es deliberada y separada del entrega del código.
+> **Slice**: 1 Foundation. Slice 2 (asymmetric expertise rewrite + activación) y Slice 3 (memory feedback loop) follow-up.
+> **Status**: canonical, **NO ACTIVADO POR DEFECTO**. Activación = edición humana de `.claude/settings.json` tras revisar el batch.
+> **Riesgo**: safety-critical — modifica el flow de cada turn cuando se active.
 
 ---
 
@@ -13,92 +13,70 @@ La cuarta clase de output de Savia — **recomendaciones conversacionales en tie
 
 ---
 
-## Diseño Slice 1 (Foundation)
-
-### Componentes entregados
+## Componentes Slice 1 (Foundation)
 
 | Tipo | Path | Rol |
 |---|---|---|
-| Orchestrator agent | `.claude/agents/recommendation-tribunal-orchestrator.md` | Convoca 4 jueces en paralelo via Task, agrega, aplica vetos, mutates output |
-| Judge agent | `.claude/agents/memory-conflict-judge.md` | Detecta contradicción con `~/.claude/external-memory/auto/feedback_*.md` |
-| Judge agent | `.claude/agents/rule-violation-judge.md` | Detecta violación de CLAUDE.md / autonomous-safety / radical-honesty |
-| Judge agent | `.claude/agents/hallucination-fast-judge.md` | Verifica entidades (paths, fns, flags) con tool calls reales |
-| Judge agent | `.claude/agents/expertise-asymmetry-judge.md` | Reescribe output cuando draft cae en área `audit_level: blind` |
+| Orchestrator | `.claude/agents/recommendation-tribunal-orchestrator.md` | Convoca 4 jueces en paralelo via Task, agrega, aplica vetos, mutates output |
+| Judge (memory) | `.claude/agents/memory-conflict-judge.md` | Detecta contradicción con `feedback_*.md` / `user_*.md` |
+| Judge (rules) | `.claude/agents/rule-violation-judge.md` | Detecta violación de CLAUDE.md / autonomous-safety / radical-honesty |
+| Judge (halluc) | `.claude/agents/hallucination-fast-judge.md` | Verifica entidades (paths, fns, flags) con tool calls reales |
+| Judge (expert) | `.claude/agents/expertise-asymmetry-judge.md` | Reescribe output cuando draft cae en área `audit_level: blind` |
 | Classifier | `scripts/recommendation-tribunal/classifier.sh` | Heurística primer paso: ¿es una recomendación? ¿qué risk_class? |
-| Aggregator | `scripts/recommendation-tribunal/aggregate.sh` | Agrega 4 verdicts deterministicamente, decide PASS/WARN/VETO |
-| Banner renderer | `scripts/recommendation-tribunal/banner.sh` | Renderiza markdown banner según verdict |
-| Hook stub | `.claude/hooks/recommendation-tribunal-pre-output.sh` | PreOutput hook (NOT activated) — Slice 1 modo detect-only |
+| Aggregator | `scripts/recommendation-tribunal/aggregate.sh` | Agrega 4 verdicts deterministicamente |
+| Banner | `scripts/recommendation-tribunal/banner.sh` | Renderiza markdown banner según verdict |
+| Hook stub | `.claude/hooks/recommendation-tribunal-pre-output.sh` | PreOutput hook (NOT activated) — detect-only |
 
-### Flujo end-to-end (cuando se active en Slice 2)
+---
+
+## Flujo end-to-end (cuando se active en Slice 2)
 
 ```
-Savia escribe draft
-  ↓
-classifier.sh                       ← heurística <50ms, free
+Savia draft
+  ↓ classifier.sh (<50ms, sin LLM)
   ↓ is_recommendation=true, risk≥medium
-Orchestrator (Task tool)
-  ↓ paralelo
-[memory-conflict] [rule-violation] [hallucination-fast] [expertise-asymmetry]
+Orchestrator (Task tool) — 4 jueces en paralelo
   ↓ JSON outputs
-aggregate.sh                        ← deterministic, no LLM
-  ↓ verdict PASS|WARN|VETO
-banner.sh                           ← markdown render
-  ↓ stdout
-Hook delivers (mutated o pass-through)
-  ↓
-audit JSON persisted en output/recommendation-tribunal/<date>/<hash>.json
+aggregate.sh (deterministic) → verdict PASS|WARN|VETO
+  ↓ banner.sh (markdown)
+Hook delivers (mutated o passthrough)
+  ↓ audit JSON en output/recommendation-tribunal/<date>/<hash>.json
 ```
 
-### Modo Slice 1: detect-only (instrumentación)
+---
 
-El hook `recommendation-tribunal-pre-output.sh` **NO** invoca al orchestrator todavía. Slice 1 entrega:
+## Modo Slice 1: detect-only
 
-1. La infraestructura completa (jueces, scripts, orchestrator)
+El hook **NO** invoca al orchestrator todavía. Slice 1 entrega:
+
+1. La infraestructura completa (jueces + scripts + orchestrator)
 2. El hook **listo para activar** pero NO añadido a `.claude/settings.json`
-3. El hook en modo "detect-only": clasifica + persiste audit log + pasa el draft sin mutación
+3. Modo "detect-only": clasifica + persiste audit log + pasa el draft sin mutación
 
-Esto permite:
-- Ver qué tasa de recomendaciones se detectan en uso real (calibración del classifier antes de wirear vetos)
-- Validar el clasificador heurístico contra un golden set sin riesgo en flow real
-- Que la usuaria revise el batch completo antes de la activación irreversible
+Permite calibrar el classifier en uso real antes de wirear vetos. La usuaria revisa el batch completo antes de la activación irreversible.
 
-### Activación (paso humano explícito, post-batch)
+---
 
-Para activar en Slice 2 (cuando la classifier-precision esté validada):
+## Activación (paso humano explícito post-batch)
 
-```jsonc
-// .claude/settings.json
-{
-  "hooks": {
-    "PreOutput": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/recommendation-tribunal-pre-output.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+En Slice 2 — cuando la classifier-precision esté validada — añadir a `.claude/settings.json` un hook PreOutput con `matcher: *` que invoque `$CLAUDE_PROJECT_DIR/.claude/hooks/recommendation-tribunal-pre-output.sh`. Y dentro del hook, sustituir el block "passthrough — Slice 1 detect-only" por la invocación real del orchestrator.
 
-Y dentro del hook, sustituir el block "passthrough — Slice 1 detect-only" por la invocación real del orchestrator.
+---
 
-### Heurística del classifier
+## Heurística del classifier
 
 3 niveles, primer match wins:
 
-- **CRITICAL**: bypass / disable / lower threshold / `--no-verify` / force push / desactivar gate. Detecta también equivalentes en español.
+- **CRITICAL**: bypass / disable / lower threshold / hook-skip flags / force push / desactivar gate. Bilingüe (inglés + español).
 - **HIGH**: imperative en dominio risky (sudo, prod deploy, drop table, install, rm -rf).
-- **MEDIUM**: te recomiendo, deberías, el problema es, usa la librería, cambia X por Y. Bilingual.
+- **MEDIUM**: te recomiendo, deberías, el problema es, usa la librería, cambia X por Y. Bilingüe.
 - **LOW** (no match): no es recomendación → tribunal NOT invoked.
 
-Solo `medium+` activa el panel de 4 jueces. Esto evita 95% de turns conversacionales triviales.
+Solo `medium+` activa el panel. Esto evita ~95% de turns conversacionales triviales.
 
-### Veto rules (definitivas)
+---
+
+## Veto rules (definitivas)
 
 VETO automático cuando:
 - Algún juez tiene `veto: true` con `confidence ≥ 0.8`
@@ -108,21 +86,21 @@ VETO automático cuando:
 
 `expertise-asymmetry` **nunca** veta. Solo muta el output forzando rewrite con secciones explanation / alternatives / verification.
 
-### Latency budget
+---
+
+## Latency budget
 
 Hard cap: 3s wall-clock. Si timeout → verdict WARN con razón "timeout" + lo que tengamos. Nunca bloquea el turn por completo.
 
-Distribución esperada (Slice 2 activación):
-- classifier.sh: <50ms (heurística pura, no LLM)
-- 4 jueces en paralelo: ~800ms (haiku/sonnet con tool calls limitados)
-- aggregate.sh + banner.sh: <100ms
-- Total p95 target: 1.5-2s
+Distribución esperada (Slice 2 activación): classifier <50ms, 4 jueces paralelos ~800ms, aggregate+banner <100ms. **Target p95: 1.5-2s**.
 
-### Audit trail
+---
 
-Cada invocación persiste a `output/recommendation-tribunal/YYYY-MM-DD/<draft_hash>.json` (gitignored — vive en `output/` que ya está fuera del repo público). En Slice 1 detect-only mode, solo el classification se guarda. En Slice 2 con jueces activos, se persiste cada verdict + judge output + final delivered text.
+## Audit trail
 
-El audit es **append-only**: nunca se sobrescribe. Permite reconstruir post-mortem qué vetos / warns ocurrieron y si fueron justos.
+Cada invocación persiste a `output/recommendation-tribunal/YYYY-MM-DD/<draft_hash>.json` (gitignored — vive en `output/` fuera del repo público). En Slice 1 detect-only, solo classification. En Slice 2 con jueces activos, cada verdict + judge output + final delivered text.
+
+Append-only: nunca se sobrescribe. Permite reconstruir post-mortem qué vetos / warns ocurrieron y si fueron justos.
 
 ---
 
@@ -140,7 +118,7 @@ El audit es **append-only**: nunca se sobrescribe. Permite reconstruir post-mort
 ## No hace (esta Slice)
 
 - NO activa el hook por defecto. Activación = edición humana de `.claude/settings.json` post-revisión.
-- NO implementa el rewrite-blind en producción (Slice 2).
+- NO implementa el rewrite-blind real en producción (Slice 2).
 - NO implementa memory feedback loop (Slice 3 — captura de followup turn → feedback memory).
 - NO requiere LLM externo. Funciona con la stack actual (haiku + sonnet vía Task tool).
 - NO sustituye Truth Tribunal ni Code Review Court ni el code-review humano (E1).
@@ -150,5 +128,4 @@ El audit es **append-only**: nunca se sobrescribe. Permite reconstruir post-mort
 
 ## Referencias
 
-SPEC-125 (`docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md`).
-Pattern sources citados en spec original: Constitutional AI critique (Anthropic 2024-2025), G-Eval Inline (OpenAI Evals 2026), DeepEval streaming (confident-ai 2026).
+SPEC-125 (`docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md`). Pattern sources: Constitutional AI critique (Anthropic 2024-2025), G-Eval Inline (OpenAI Evals 2026), DeepEval streaming (confident-ai 2026).
