@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d2a1f9cbfca31578225779ee0387d9b9b64e1a62756bbcf94e3695c3c2716c6b
-timestamp=2026-04-29T23:07:16Z
+diff_hash=2b1306f3707fb83c202d0c42472ffdb98212897ddc6264c62985f8842d970cd6
+timestamp=2026-04-29T23:30:31Z
 branch=agent/drift-cleanup-spec-status-20260430
-head_commit=06b1d859
-signature=f39e7fb1c246666bf55101df55879f6a454332b9a5e0addc3d8176f7c1e34aa4
+head_commit=5b9b9a79
+signature=05aa5be666e4327ab613cce6991261011cfd861ef8102cc55ad6c741b6eb9413
