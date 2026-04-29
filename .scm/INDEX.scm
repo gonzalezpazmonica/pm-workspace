@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: bb76a2636a1d | resources: 1107
-> 530 commands · 90 skills · 65 agents · 422 scripts
+> hash: 667bc85e1651 | resources: 1112
+> 530 commands · 90 skills · 70 agents · 422 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -356,6 +356,7 @@
 [memory] memory-check —  — cmd:.claude/commands/memory-check.md
 [memory] memory-check — check,health,layers,memory,savia — script:scripts/memory-check.sh
 [memory] memory-compress — compresión,condensación,contexto,decisiones,deduplicación — cmd:.claude/commands/memory-compress.md
+[memory] memory-conflict-judge — active,auto,contradicts,detects,draft — agent:.claude/agents/memory-conflict-judge.md
 [memory] memory-consolidate — compress,consolidate,context,entries,memory — cmd:.claude/commands/memory-consolidate.md
 [memory] memory-context —  — cmd:.claude/commands/memory-context.md
 [memory] memory-graph — aisladas,conexiones,construye,consulta,detecta — cmd:.claude/commands/memory-graph.md
@@ -592,6 +593,7 @@
 [planning] graph-query — conocimiento,consulta,grafo,lenguaje,natural — cmd:.claude/commands/graph-query.md
 [planning] graphrag-quality-gate — gate,graphrag,quality — script:scripts/graphrag-quality-gate.sh
 [planning] guided-work — acompaña,adaptando,guiado,necesidades,paso — cmd:.claude/commands/guided-work.md
+[planning] hallucination-fast-judge — actually,calls,cited,commands,draft — agent:.claude/agents/hallucination-fast-judge.md
 [planning] hallucination-judge — consistency,detects,facts,invented,judge — agent:.claude/agents/hallucination-judge.md
 [planning] health-dashboard — adaptada,dashboard,muestra,proyecto,rápida — cmd:.claude/commands/health-dashboard.md
 [planning] heat-scheduler — based,heat,lightweight,parallelism,scheduler — script:scripts/heat-scheduler.sh
@@ -719,6 +721,7 @@
 [planning] query-lib-resolve — query,resolve — script:scripts/query-lib-resolve.sh
 [planning] rbac-manager — backend,enterprise,manager,multi,rbac — script:scripts/rbac-manager.sh
 [planning] readiness-check — capability,check,checklist,deterministic,readiness — script:scripts/readiness-check.sh
+[planning] recommendation-tribunal-orchestrator — aggregates,applies,banner,convenes,fast — agent:.claude/agents/recommendation-tribunal-orchestrator.md
 [planning] record-export — data,export,formats,multiple,recorded — cmd:.claude/commands/record-export.md
 [planning] record-replay — analyze,events,recorded,replay,sessions — cmd:.claude/commands/record-replay.md
 [planning] record-stop — active,recording,session,stop — cmd:.claude/commands/record-stop.md
@@ -740,6 +743,7 @@
 [planning] ruby-developer —  — agent:.claude/agents/ruby-developer.md
 [planning] rule-manifest-integrity — index,integrity,manifest,rule,slice — script:scripts/rule-manifest-integrity.sh
 [planning] rule-usage-analyzer — across,analyze,analyzer,domain,rule — script:scripts/rule-usage-analyzer.sh
+[planning] rule-violation-judge — autonomous,canonical,claude,detects,domain — agent:.claude/agents/rule-violation-judge.md
 [planning] rust-developer —  — agent:.claude/agents/rust-developer.md
 [planning] sbom-generate —  — cmd:.claude/commands/sbom-generate.md
 [planning] scale-optimizer — analyze,benchmark,growing,improvements,optimization — cmd:.claude/commands/scale-optimizer.md
@@ -916,6 +920,7 @@
 [quality] docs-quality-audit — agentes,auditar,basada,calidad,documentacion — cmd:.claude/commands/docs-quality-audit.md
 [quality] drift-auditor — auditoría,cambios,config,convergencia,código — agent:.claude/agents/drift-auditor.md
 [quality] executive-audit — audit,executive,workspace — script:scripts/executive-audit.sh
+[quality] expertise-asymmetry-judge — active,alternatives,audit,blind,domain — agent:.claude/agents/expertise-asymmetry-judge.md
 [quality] fix-assigner — agents,assigns,court,creates,findings — agent:.claude/agents/fix-assigner.md
 [quality] frontend-test-runner — commit,component,coverage,execution,frontend — agent:.claude/agents/frontend-test-runner.md
 [quality] grill-me — aligned,blind,branch,decision,decisión — skill:.claude/skills/grill-me/SKILL.md

@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=e29e92a2bc795b00897fbc8cd8e26cc22f4d681ac2e997105077ca8df3b259f2
-timestamp=2026-04-28T22:48:47Z
-branch=agent/spec-103-image-relevance-filter-primitive-20260429
-head_commit=82b29518
+timestamp=2026-04-29T12:57:32Z
+branch=agent/spec-125-slice-1-tribunal-foundation-20260429
+head_commit=c0c805db
 signature=76e0c927154250eb2ae7ed5def1167b639b179940e3696bbf25df428957227aa

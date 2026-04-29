@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 95 resources
+> 96 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -56,6 +56,7 @@
 - **memory-check** (cmd): >
 - **memory-check** (script): memory-check.sh — Health check of all Savia memory layers
 - **memory-compress** (cmd): Compresión semántica de memorias (engrams). Reduce tokens hasta 80% preservando fidelidad mediante extracción de entidades, resumen de eventos, condensación de decisiones y deduplicación de contexto.
+- **memory-conflict-judge** (agent): Recommendation Tribunal judge — detects when a draft recommendation contradicts the active user's auto-memory (feedback_*, user_*)
 - **memory-consolidate** (cmd): Consolidate and compress memory entries to save context
 - **memory-context** (cmd): >
 - **memory-graph** (cmd): Grafo semántico de relaciones semánticas entre memorias. Construye knowledge graph de engrams. Consulta conexiones. Detecta memorias aisladas. Genera visualización Mermaid.
