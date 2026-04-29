@@ -1,6 +1,6 @@
 {
-  "hash": "00589977ad6d",
-  "total": 1106,
+  "hash": "b3f6b24aa816",
+  "total": 1107,
   "resources": [
     {
       "category": "analysis",
@@ -2332,6 +2332,20 @@
       "kind": "skill",
       "path": ".claude/skills/human-code-map/SKILL.md",
       "description": "Genera y mantiene mapas narrativos de componentes (.hcm) para luchar activamente contra la deuda cognitiva. Usar PROACTIVELY cuando: se incorpora un dev nuevo, se toca un módulo sin mapa, debt-score > 6, o se detecta que alguien re-lee el m"
+    },
+    {
+      "category": "development",
+      "name": "image-relevance-filter",
+      "intents": [
+        "deterministic",
+        "filter",
+        "first",
+        "image",
+        "primitive"
+      ],
+      "kind": "script",
+      "path": "scripts/image-relevance-filter.sh",
+      "description": "image-relevance-filter.sh — SPEC-103 Slice 1: deterministic-first image triage primitive."
     },
     {
       "category": "development",
