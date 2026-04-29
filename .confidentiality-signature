@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=c9aa1b17a5062e594e279765101287533d48d5bbaeca326af41267c5936d93fc
-timestamp=2026-04-29T13:27:15Z
-branch=agent/spec-125-slice-1-tribunal-foundation-20260429
-head_commit=ebf0715e
+timestamp=2026-04-29T20:38:07Z
+branch=agent/fix-blocklist-generator-unicode-grep-20260429
+head_commit=273ef961
 signature=f3d89b6bc843e98d1ff933fde036dae34f45dfa5734bd72be0d725f190fb101f

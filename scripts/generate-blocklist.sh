@@ -15,7 +15,11 @@ SAFE_PROJECTS="proyecto-alpha|proyecto-beta|sala-reservas|savia-mobile-android|s
 # Public projects whitelisted in .gitignore with !projects/name/
 GITIGNORE="$ROOT_DIR/.gitignore"
 if [ -f "$GITIGNORE" ]; then
-  PUBLIC_PROJS=$(grep -oE '!projects/[a-z][a-z0-9_-]+/' "$GITIGNORE" \
+  # -a forces text mode: .gitignore contains UTF-8 box-drawing characters
+  # in section headers (U+2500 ─), which makes grep classify it as binary
+  # and silently drop the matches, leaving PUBLIC_PROJS empty and exposing
+  # whitelisted projects (savia-monitor, etc.) as blocklist false-positives.
+  PUBLIC_PROJS=$(grep -a -oE '!projects/[a-z][a-z0-9_-]+/' "$GITIGNORE" \
     | sed 's|!projects/||;s|/||' | tr '\n' '|' | sed 's/|$//')
   [ -n "$PUBLIC_PROJS" ] && SAFE_PROJECTS="$SAFE_PROJECTS|$PUBLIC_PROJS"
 fi
