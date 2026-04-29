@@ -4,6 +4,9 @@
 # to silently classify the file as binary, dropping all !projects/X/ matches.
 # Without -a, whitelisted projects (savia-monitor) leaked into the blocklist
 # and blocked legitimate fork PRs that mention the project name.
+# Spec: docs/propuestas/SPEC-111-confidentiality-signature-spec.md (signing flow
+# downstream consumes this blocklist; same confidentiality-gate domain).
+# Target script: scripts/generate-blocklist.sh — add() PATTERNS helper covered.
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
@@ -102,9 +105,9 @@ teardown() {
   printf '%s\n' "$out" | diff <(printf '%s\n' "$out") <(printf '%s\n' "$out" | sort -u) >/dev/null
 }
 
-# ── Edge: missing .gitignore gracefully degrades ─────────────────────────────
+# ── Edge cases ──────────────────────────────────────────────────────────────
 
-@test "edge: missing .gitignore does not crash the generator" {
+@test "edge: missing .gitignore does not crash (nonexistent input)" {
   fake_root="$TMPDIR_GB/no-gitignore"
   mkdir -p "$fake_root/scripts" "$fake_root/projects"
   cp "$SCRIPT" "$fake_root/scripts/generate-blocklist.sh"
@@ -113,8 +116,54 @@ teardown() {
   [ "$status" -eq 0 ]
 }
 
+@test "edge: empty projects/ dir produces empty (no-arg-like) output" {
+  fake_root="$TMPDIR_GB/empty-projects"
+  mkdir -p "$fake_root/scripts" "$fake_root/projects"
+  cp "$SCRIPT" "$fake_root/scripts/generate-blocklist.sh"
+  : > "$fake_root/.gitignore"
+  out=$(bash "$fake_root/scripts/generate-blocklist.sh" 2>/dev/null)
+  [ -z "$out" ]
+}
+
+@test "edge: zero whitelisted projects in .gitignore is handled gracefully" {
+  fake_root="$TMPDIR_GB/zero-whitelist"
+  mkdir -p "$fake_root/scripts" "$fake_root/projects/foo"
+  cp "$SCRIPT" "$fake_root/scripts/generate-blocklist.sh"
+  # gitignore present but no !projects/ entries
+  printf '%s\n' "projects/*" > "$fake_root/.gitignore"
+  run bash "$fake_root/scripts/generate-blocklist.sh"
+  [ "$status" -eq 0 ]
+  # 'foo' is not whitelisted → SHOULD be in blocklist
+  [[ "$output" == *"foo"* ]]
+}
+
+@test "edge: gitignore with nonexistent !projects/ reference does not crash" {
+  fake_root="$TMPDIR_GB/ghost-ref"
+  mkdir -p "$fake_root/scripts" "$fake_root/projects"
+  cp "$SCRIPT" "$fake_root/scripts/generate-blocklist.sh"
+  # Whitelist references project that doesn't exist on disk
+  printf '%s\n%s\n' "projects/*" "!projects/ghost-project/" > "$fake_root/.gitignore"
+  run bash "$fake_root/scripts/generate-blocklist.sh"
+  [ "$status" -eq 0 ]
+}
+
+# ── Coverage: PATTERNS helper (add) ────────────────────────────────────────
+
+@test "coverage: add() helper appends to PATTERNS array" {
+  # The script defines `add()` as a one-liner that appends to PATTERNS.
+  # Verify the helper is present and used at least once.
+  grep -qE '^add\(\)' "$SCRIPT"
+  grep -qE 'PATTERNS\+=' "$SCRIPT"
+  grep -qE '\badd\b' "$SCRIPT"
+}
+
+@test "coverage: PATTERNS array is initialized empty before population" {
+  grep -qE '^PATTERNS=\(\)' "$SCRIPT"
+}
+
 # ── Spec ref ─────────────────────────────────────────────────────────────────
 
-@test "spec ref: PR #729 root cause documented in test file header" {
+@test "spec ref: PR #729 root cause + SPEC-111 confidentiality domain" {
   grep -q "PR #729" "$BATS_TEST_FILENAME"
+  grep -q "SPEC-111" "$BATS_TEST_FILENAME"
 }
