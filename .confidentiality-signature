@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c9aa1b17a5062e594e279765101287533d48d5bbaeca326af41267c5936d93fc
+diff_hash=19a4578e2f180c749f50ac6d1485cc69d1f57e3e5118cdefc1c5616b9cf47cb1
 timestamp=2026-04-29T20:38:07Z
 branch=agent/fix-blocklist-generator-unicode-grep-20260429
-head_commit=273ef961
-signature=f3d89b6bc843e98d1ff933fde036dae34f45dfa5734bd72be0d725f190fb101f
+head_commit=164655bf
+signature=56960b13c174c0644abebe661f97b36b97fecb4a7856e5798c0e259b3f1b9274
