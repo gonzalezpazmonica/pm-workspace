@@ -1,5 +1,5 @@
 ---
-status: PROPOSED
+status: IN_PROGRESS
 ---
 
 # SPEC-SE-036: API-Key → Short-Lived JWT Mint for Agent CLIs

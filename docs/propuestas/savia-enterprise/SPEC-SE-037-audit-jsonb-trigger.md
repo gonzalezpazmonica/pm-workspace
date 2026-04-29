@@ -1,5 +1,5 @@
 ---
-status: PROPOSED
+status: IMPLEMENTED
 ---
 
 # SPEC-SE-037: Append-Only JSONB Audit Trigger as Compliance Primitive

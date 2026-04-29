@@ -5,8 +5,8 @@ status: LIVING
 author: Savia (autoselección + consolidación)
 origin: Consolidación de SAVIA-SUPERPOWERS-ROADMAP.md + ROADMAP-UNIFIED-20260418.md + savia-enterprise/DEVELOPMENT-PLAN.md + debt specs SE-036..039
 supersedes: SAVIA-SUPERPOWERS-ROADMAP.md, ROADMAP-UNIFIED-20260418.md (partial)
-last_updated: "2026-04-18"
-expires: "2026-06-18"
+last_updated: "2026-04-30"
+expires: "2026-06-30"
 ---
 
 # Savia Roadmap — Canonical
@@ -258,8 +258,34 @@ Estas consolidaciones se ejecutan en un follow-up PR tras este roadmap aterrizar
 ## 6. Live status (se actualiza cada PR merged)
 
 ### En curso — ninguna spec simultánea
-### Próximo slice recomendado — **Tier 1.1 SE-037 Slice 1** (hook bench)
-### Último PR merged — #608 debt specs SE-036/037/038/039 + consolidación Wave 4
+
+### Último PR merged — #730 hotfix `generate-blocklist.sh` Unicode-binary bug (2026-04-30)
+
+### Recientes (batches 78-83 + hotfixes)
+
+- **Era 232 cerrada**: SPEC-SE-037 (audit trigger primitive ✓ IMPLEMENTED) + SPEC-SE-036 Slices 1+2 (jwt-mint + api-key CLIs, IN_PROGRESS — Slice 3 sunset PAT pendiente) + SPEC-SE-035 Slices 1+3 (reconciliation primitive + CLI, IN_PROGRESS — Slices 2/4/5 follow-up).
+- **Recommendation Tribunal foundation**: SPEC-125 Slice 1 IMPLEMENTED (4 jueces + classifier + scripts + hook stub, IN_PROGRESS — **NO ACTIVADO**). Activación = Slice 2, requiere greenlight humano explícito.
+- **Image relevance filter primitive**: SPEC-103 Slice 1 IMPLEMENTED (deterministic-first triage, IN_PROGRESS — Slice 2 integración con 3 agents pendiente).
+- **Workspace hotfixes**: PR #729 (Pablo, savia-monitor macOS PID detection), PR #730 (blocklist generator Unicode fix).
+
+### Top 10 Critical Path post-audit (2026-04-30)
+
+Post drift-cleanup audit. Orden propuesto considerando severity, dependencies, momentum, user direction (SPEC-125 → SPEC-107 → roadmap principal Savia Enterprise) y safety alignment:
+
+1. **SPEC-125 Slice 2/3** — activación tribunal real-time (Crítica, requiere greenlight humano, ~24-32h).
+2. **SPEC-107 Slice 1** — AI Cognitive Debt measurement (Alta, read-only, ~10h).
+3. **SPEC-SE-001 foundations** — desbloquea SE-002/005/006/010 (~24h Slice 1).
+4. **Drift cleanup batch** — este PR. Process hygiene.
+5. **SPEC-SE-008 licensing** — wave 0 paralelo de SE-001 (~16h Slice 1).
+6. **SPEC-SE-028 prompt-injection-guard** — P0 security, complementa SPEC-125 (~12h Slice 1).
+7. **SE-079 pr-plan G13 scope-trace** — APPROVED, cierra scope-creep (~6h).
+8. **SE-086 ubiquitous-language extractor** — APPROVED, complementa SE-082 (~5h).
+9. **SPEC-SE-002 multi-tenant** — desbloquea SE-005/006/007/010 (~40h Slice 1).
+10. **SPEC-108 self-improvement Slice 1** — completa safety triad con SPEC-125 + SPEC-107 (~8h).
+
+### Próximo slice recomendado — **SPEC-107 Slice 1** (AI Cognitive Debt measurement)
+
+Tras drift cleanup. Por orden previo acordado con la usuaria. SPEC-125 Slice 2 (item #1) requiere greenlight humano explícito y queda pausado hasta entonces.
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-status: PROPOSED
+status: IN_PROGRESS
 ---
 
 # SPEC-SE-035: Reconciliation Delta Engine for Federated Knowledge

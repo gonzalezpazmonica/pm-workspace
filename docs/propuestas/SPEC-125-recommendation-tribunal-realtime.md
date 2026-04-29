@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-125
 title: Recommendation Tribunal — Real-time Audit of Savia's Actionable Advice
-status: PROPOSED
+status: IN_PROGRESS
 origin: User report (2026-04-28) — "Savia empieza a sacar conclusiones y recomendaciones que van en contra de tus propias reglas, de cualquier tipo de buenas practicas y en contra de cualquier tipo de intuición basada en el conocimiento. Vamos, alucinaciones duras propias de un llm no auditado."
 severity: Crítica — safety gap directo
 effort: ~36-48h (3 slices)
