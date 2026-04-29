@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 490 resources
+> 493 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -197,6 +197,7 @@
 - **graph-query** (cmd): Consulta el grafo de conocimiento en lenguaje natural
 - **graphrag-quality-gate** (script): graphrag-quality-gate.sh — SE-030-T
 - **guided-work** (cmd): Trabajo guiado — Savia te acompaña paso a paso con preguntas, adaptando el ritmo a tus necesidades
+- **hallucination-fast-judge** (agent): Recommendation Tribunal judge — verifies that entities cited in a draft (files, functions, flags, libs, paths, commands) actually exist via tool calls
 - **hallucination-judge** (agent): Truth Tribunal judge — detects invented facts via SelfCheck-style consistency
 - **health-dashboard** (cmd): Dashboard de salud del proyecto unificado — Savia muestra una vista rápida adaptada al rol
 - **heat-scheduler** (script): heat-scheduler.sh — Lightweight heat-based parallelism for dev sessions
@@ -324,6 +325,7 @@
 - **query-lib-resolve** (script): query-lib-resolve.sh — SE-031
 - **rbac-manager** (script): rbac-manager.sh — RBAC backend for Savia Enterprise multi-tenant
 - **readiness-check** (script): readiness-check.sh — Deterministic capability checklist
+- **recommendation-tribunal-orchestrator** (agent): Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates scores, applies vetos, mutates output with banner. SYNC, <3s p95.
 - **record-export** (cmd): Export recorded session or data in multiple formats
 - **record-replay** (cmd): Replay and analyze recorded sessions or events
 - **record-stop** (cmd): Stop active recording session
@@ -345,6 +347,7 @@
 - **ruby-developer** (agent): >
 - **rule-manifest-integrity** (script): rule-manifest-integrity.sh — SE-057 Slice 1 rule-manifest + INDEX integrity.
 - **rule-usage-analyzer** (script): rule-usage-analyzer.sh — Analyze domain rule usage across the workspace
+- **rule-violation-judge** (agent): Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)
 - **rust-developer** (agent): >
 - **sbom-generate** (cmd): >
 - **scale-optimizer** (cmd): Scaling optimization — analyze, benchmark, recommend improvements for growing organizations

@@ -1,6 +1,6 @@
 {
-  "hash": "b3f6b24aa816",
-  "total": 1107,
+  "hash": "22a649058418",
+  "total": 1112,
   "resources": [
     {
       "category": "analysis",
@@ -4562,6 +4562,20 @@
     },
     {
       "category": "memory",
+      "name": "memory-conflict-judge",
+      "intents": [
+        "active",
+        "auto",
+        "contradicts",
+        "detects",
+        "draft"
+      ],
+      "kind": "agent",
+      "path": ".claude/agents/memory-conflict-judge.md",
+      "description": "Recommendation Tribunal judge — detects when a draft recommendation contradicts the active user's auto-memory (feedback_*, user_*)"
+    },
+    {
+      "category": "memory",
       "name": "memory-consolidate",
       "intents": [
         "compress",
@@ -7539,6 +7553,20 @@
     },
     {
       "category": "planning",
+      "name": "hallucination-fast-judge",
+      "intents": [
+        "actually",
+        "calls",
+        "cited",
+        "commands",
+        "draft"
+      ],
+      "kind": "agent",
+      "path": ".claude/agents/hallucination-fast-judge.md",
+      "description": "Recommendation Tribunal judge — verifies that entities cited in a draft (files, functions, flags, libs, paths, commands) actually exist via tool calls"
+    },
+    {
+      "category": "planning",
       "name": "hallucination-judge",
       "intents": [
         "consistency",
@@ -9118,6 +9146,20 @@
     },
     {
       "category": "planning",
+      "name": "recommendation-tribunal-orchestrator",
+      "intents": [
+        "aggregates",
+        "applies",
+        "banner",
+        "convenes",
+        "fast"
+      ],
+      "kind": "agent",
+      "path": ".claude/agents/recommendation-tribunal-orchestrator.md",
+      "description": "Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates scores, applies vetos, mutates output with banner. SYNC, <3s p95."
+    },
+    {
+      "category": "planning",
       "name": "record-export",
       "intents": [
         "data",
@@ -9357,6 +9399,20 @@
       "kind": "script",
       "path": "scripts/rule-usage-analyzer.sh",
       "description": "rule-usage-analyzer.sh — Analyze domain rule usage across the workspace"
+    },
+    {
+      "category": "planning",
+      "name": "rule-violation-judge",
+      "intents": [
+        "autonomous",
+        "canonical",
+        "claude",
+        "detects",
+        "domain"
+      ],
+      "kind": "agent",
+      "path": ".claude/agents/rule-violation-judge.md",
+      "description": "Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)"
     },
     {
       "category": "planning",
@@ -11647,6 +11703,20 @@
       "kind": "script",
       "path": "scripts/executive-audit.sh",
       "description": "executive-audit.sh — Executive Audit for PM Workspace"
+    },
+    {
+      "category": "quality",
+      "name": "expertise-asymmetry-judge",
+      "intents": [
+        "active",
+        "alternatives",
+        "audit",
+        "blind",
+        "domain"
+      ],
+      "kind": "agent",
+      "path": ".claude/agents/expertise-asymmetry-judge.md",
+      "description": "Recommendation Tribunal judge — when draft falls in a domain the active user marks as `audit_level: blind`, force a rewrite with explanation/alternatives/verification"
     },
     {
       "category": "quality",
