@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=cc037cb272bdf274031b21e33b4fbaf7008542a8793758d5ccc1d4efc795e8c4
-timestamp=2026-04-30T00:09:48Z
-branch=agent/drift-cleanup-spec-status-20260430
-head_commit=3c240d50
-signature=9a1934bd37a637f7b72364c92c43c9bfd97be2d11293cf48d1773f44838979e3
+diff_hash=9a85b2b8b1cc048f90938456d49fc9729188a5c7358376ac713ea0f200376568
+timestamp=2026-04-30T05:30:40Z
+branch=agent/spec-107-phase-1-cognitive-debt-measurement-20260430
+head_commit=eb2ec4f1
+signature=8a596696cbfc21fe381fde105557f02d7374fd6bcb551405686001cbd4ed2d6f
