@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 36aa7ade2979 | resources: 1119
-> 532 commands · 90 skills · 70 agents · 427 scripts
+> hash: b169b1fa18fa | resources: 1120
+> 532 commands · 90 skills · 70 agents · 428 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -118,6 +118,7 @@
 [communication] savia-pbi —  — cmd:.claude/commands/savia-pbi.md
 [communication] savia-persona-tune — ajustar,específico,estilo,personalidad,proyecto — cmd:.claude/commands/savia-persona-tune.md
 [communication] savia-preferences — manage,preferences,savia,slice,spec — script:scripts/savia-preferences.sh
+[communication] savia-quota-tracker — quota,savia,slice,spec,tracker — script:scripts/savia-quota-tracker.sh
 [communication] savia-recall — information,memory,recall,retrieve,savia — cmd:.claude/commands/savia-recall.md
 [communication] savia-reply —  — cmd:.claude/commands/savia-reply.md
 [communication] savia-school — adapta,alias,cumplimiento,edad,educativos — skill:.claude/skills/savia-school/SKILL.md

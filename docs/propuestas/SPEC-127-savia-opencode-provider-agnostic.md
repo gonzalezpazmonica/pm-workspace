@@ -6,6 +6,7 @@ approved_by: operator (2026-04-30)
 slice_1_status: IMPLEMENTED 2026-04-30
 slice_2a_status: IMPLEMENTED 2026-04-30 (hook portability classifier + 64-hook full classification)
 slice_4_status: IMPLEMENTED 2026-04-30 (single-shot fallback for 4 orchestrators)
+slice_5_status: IMPLEMENTED 2026-05-01 (quota tracker + advisory budget guard, never blocks)
 origin: Cada usuario de Savia decide su frontend (Claude Code, OpenCode v1.14, Codex, Cursor, otro) y su proveedor de inferencia (Anthropic API, hosted-OSS, LocalAI, Ollama, custom corporate endpoint, vendor-managed, ...). Savia debe operar de forma agnóstica al stack — no asumir un frontend, no asumir un proveedor, no asumir hooks-disponibles. Detect at runtime, ask the user when ambiguous, degrade gracefully.
 severity: Crítica — Savia hoy asume Claude Code en silencio y rompe ~75% de su enforcement layer bajo cualquier otro stack
 effort: ~80h (5 slices) — Slice 1 mínimo viable, Slices 2-5 incrementales
@@ -181,9 +182,9 @@ Artefactos:
 - Tests BATS sobre tracker.
 
 Acceptance criteria Slice 5:
-- AC-5.1: tracker detecta el tipo de cuota declarada en preferences.yaml y mide en consecuencia.
-- AC-5.2: budget guard avisa (no bloquea) en thresholds 70%/85%/95%.
-- AC-5.3: si no hay cuota declarada, tracker skip silenciosamente.
+- AC-5.1: tracker detecta el tipo de cuota declarada en preferences.yaml y mide en consecuencia. ✅ IMPLEMENTED — `scripts/savia-quota-tracker.sh` lee `budget_kind` (req-count / token-count / dollar-cap / none) + `budget_limit` desde preferences.yaml y mantiene log JSONL en `~/.savia/quota/$USER.jsonl` (N3 gitignored).
+- AC-5.2: budget guard avisa (no bloquea) en thresholds 70%/85%/95%. ✅ IMPLEMENTED — `.claude/hooks/savia-budget-guard.sh` registrado como PreToolUse advisory. SIEMPRE exit 0. Stderr nudge once-per-threshold-per-session via /tmp marker. Threshold states: under-70 / over-70 / over-85 / over-95 / exceeded.
+- AC-5.3: si no hay cuota declarada, tracker skip silenciosamente. ✅ IMPLEMENTED — `budget_kind: none` o vacío → tracker no escribe log + threshold returns "none" + hook silent (no stderr).
 
 ---
 

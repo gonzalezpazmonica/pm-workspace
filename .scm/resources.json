@@ -1,6 +1,6 @@
 {
-  "hash": "88753dafcb2e",
-  "total": 1119,
+  "hash": "78aa24b6c124",
+  "total": 1120,
   "resources": [
     {
       "category": "analysis",
@@ -1439,6 +1439,20 @@
       "kind": "script",
       "path": "scripts/savia-preferences.sh",
       "description": "savia-preferences.sh — manage ~/.savia/preferences.yaml (SPEC-127 Slice 1)"
+    },
+    {
+      "category": "communication",
+      "name": "savia-quota-tracker",
+      "intents": [
+        "quota",
+        "savia",
+        "slice",
+        "spec",
+        "tracker"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-quota-tracker.sh",
+      "description": "savia-quota-tracker.sh — SPEC-127 Slice 5"
     },
     {
       "category": "communication",
