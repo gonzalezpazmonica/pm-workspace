@@ -71,13 +71,32 @@ for p in patterns:
 "
 }
 
-@test "opencode.json: every instructions path resolves to an existing file" {
+@test "opencode.json: every PUBLIC instructions path resolves to an existing file" {
+  # Per-user / gitignored paths are skipped — they exist on the operator's
+  # machine but not in CI fresh checkout. OpenCode runtime tolerates missing
+  # instructions files (silent skip). Public-repo paths MUST exist.
   python3 -c "
-import json, os
+import json, os, subprocess
 ins = json.load(open('$CONFIG')).get('instructions',[])
 root = '$REPO_ROOT'
-missing = [p for p in ins if not os.path.isfile(os.path.join(root, p))]
-assert not missing, f'missing files: {missing}'
+
+def is_gitignored(rel):
+    res = subprocess.run(['git', '-C', root, 'check-ignore', '-q', rel],
+                         capture_output=True)
+    return res.returncode == 0
+
+def is_in_external_symlink(rel):
+    # Paths under .claude/external-memory/ resolve via a symlink to
+    # \$HOME/.savia-memory which is per-user, never in repo.
+    return rel.startswith('.claude/external-memory/')
+
+missing = []
+for p in ins:
+    if is_in_external_symlink(p) or is_gitignored(p):
+        continue  # per-user path — runtime decides
+    if not os.path.isfile(os.path.join(root, p)):
+        missing.append(p)
+assert not missing, f'missing public files: {missing}'
 "
 }
 

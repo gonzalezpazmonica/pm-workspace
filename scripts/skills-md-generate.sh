@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
+# Force C locale for deterministic sort + awk text handling across machines
+export LC_ALL=C
 # skills-md-generate.sh — generate SKILLS.md cross-frontend skills catalog
 #
 # Mirror of scripts/agents-md-generate.sh for skills. Generates a flat
@@ -104,7 +106,7 @@ HEADER
     [[ -z "$desc" ]] && desc="—"
     rel="${f#${ROOT}/}"
     printf '| %s | `%s` | %s |\n' "$name" "$rel" "$desc"
-  done < <(find "${SKILLS_DIR}" -mindepth 2 -maxdepth 2 -name "SKILL.md" -type f | sort)
+  done < <(find "${SKILLS_DIR}" -mindepth 2 -maxdepth 2 -name "SKILL.md" -type f | LC_ALL=C sort)
 }
 
 GENERATED=$(build)
