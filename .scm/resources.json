@@ -1,6 +1,6 @@
 {
-  "hash": "ccb40068c431",
-  "total": 1114,
+  "hash": "75b370f5e9e1",
+  "total": 1117,
   "resources": [
     {
       "category": "analysis",
@@ -1074,6 +1074,20 @@
     },
     {
       "category": "communication",
+      "name": "savia-env",
+      "intents": [
+        "agnostic",
+        "environment",
+        "loader",
+        "provider",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-env.sh",
+      "description": "savia-env.sh — provider-agnostic environment loader (SPEC-127 Slice 1)"
+    },
+    {
+      "category": "communication",
       "name": "savia-flow",
       "intents": [
         "based",
@@ -1400,6 +1414,20 @@
     },
     {
       "category": "communication",
+      "name": "savia-preferences",
+      "intents": [
+        "manage",
+        "preferences",
+        "savia",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-preferences.sh",
+      "description": "savia-preferences.sh — manage ~/.savia/preferences.yaml (SPEC-127 Slice 1)"
+    },
+    {
+      "category": "communication",
       "name": "savia-recall",
       "intents": [
         "information",
@@ -1468,6 +1496,14 @@
       "intents": [],
       "kind": "cmd",
       "path": ".claude/commands/savia-send.md",
+      "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-setup",
+      "intents": [],
+      "kind": "cmd",
+      "path": ".claude/commands/savia-setup.md",
       "description": ">"
     },
     {
