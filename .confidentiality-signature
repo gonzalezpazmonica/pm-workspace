@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=b1c0ebfdd37333296809914b72620e2568019f64ec746d139c983f478ed7eda8
-timestamp=2026-04-30T12:56:07Z
+timestamp=2026-04-30T12:56:27Z
 branch=agent/spec-127-provider-agnostic-20260430
-head_commit=bb6e81d7
+head_commit=179e34b7
 signature=bd35865712ac1799426600c3310a4fda9086f8ab5a74dcaad213eae9f40b7b82
