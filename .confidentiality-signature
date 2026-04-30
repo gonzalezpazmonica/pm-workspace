@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5240ddc494e53bc23c85b3b41f65d12720a5d4b5bb59884c0a74ed3357781574
-timestamp=2026-04-30T22:18:06Z
+diff_hash=965fdaa540bfc75def187667008a75a9fe9748907684f61b8c857ba32f974a80
+timestamp=2026-04-30T22:51:58Z
 branch=agent/opencode-bootstrap-20260430
-head_commit=874469da
-signature=cca6ee57428d663a7c2a6e710646544f4e712876c881f0e7a0d210eb8bf3dbf3
+head_commit=c11af461
+signature=978e49163ccc284dfdd9276cd23c2bc584a780194cdf92df018fd5101fd55ca6
