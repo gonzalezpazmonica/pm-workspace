@@ -1,6 +1,6 @@
 {
-  "hash": "75b370f5e9e1",
-  "total": 1117,
+  "hash": "0f19b2a0d72b",
+  "total": 1118,
   "resources": [
     {
       "category": "analysis",
@@ -2382,6 +2382,20 @@
       "kind": "script",
       "path": "scripts/graph-temporal-ops.sh",
       "description": "graph-temporal-ops.sh — SPEC-123"
+    },
+    {
+      "category": "development",
+      "name": "hook-portability-classifier",
+      "intents": [
+        "classifier",
+        "hook",
+        "portability",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/hook-portability-classifier.sh",
+      "description": "hook-portability-classifier.sh — SPEC-127 Slice 2"
     },
     {
       "category": "development",
