@@ -132,7 +132,7 @@ Artefactos:
   - **TIER-2 git-pre-commit**: rerouteable vía .husky
   - **TIER-3 ci-only**: solo en CI (GitHub Actions / GitLab CI / Jenkins / etc.)
   - **TIER-4 lost**: no portable bajo el stack del usuario — declarar pérdida explícita
-- BATS tests para classifier + plugin TS skeleton.
+- BATS tests para classifier + plugin TS skeleton: `tests/structure/test-spec-127-slice2a-hook-classifier.bats` (Slice 2a, classifier coverage).
 
 Acceptance criteria Slice 2:
 - AC-2.1: los 10 hooks top execution-weight tienen plan de portabilidad explícito por stack-class. ✅ IMPLEMENTED (Slice 2a) — `scripts/hook-portability-classifier.sh` clasifica los 64 hooks en TIER-1/2/3/4/LIB con razón + reroute target por hook.
