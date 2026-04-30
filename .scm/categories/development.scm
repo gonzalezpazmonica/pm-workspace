@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 131 resources
+> 132 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -49,6 +49,7 @@
 - **gitagent-export** (script): gitagent-export.sh — SPEC-099 Slice 1 gitagent adapter.
 - **graph-build** (cmd): Construye el grafo de conocimiento PM para un proyecto
 - **graph-temporal-ops** (script): graph-temporal-ops.sh — SPEC-123
+- **hook-portability-classifier** (script): hook-portability-classifier.sh — SPEC-127 Slice 2
 - **human-code-map** (skill): Genera y mantiene mapas narrativos de componentes (.hcm) para luchar activamente contra la deuda cognitiva. Usar PROACTIVELY cuando: se incorpora un dev nuevo, se toca un módulo sin mapa, debt-score > 6, o se detecta que alguien re-lee el m
 - **image-relevance-filter** (script): image-relevance-filter.sh — SPEC-103 Slice 1: deterministic-first image triage primitive.
 - **impact-analysis** (script): impact-analysis.sh — Analyze codebase impact of modifying files

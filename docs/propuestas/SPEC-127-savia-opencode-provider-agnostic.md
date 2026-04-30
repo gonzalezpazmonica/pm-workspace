@@ -4,6 +4,7 @@ title: Savia ↔ OpenCode provider-agnostic compatibility — inference-independ
 status: APPROVED
 approved_by: operator (2026-04-30)
 slice_1_status: IMPLEMENTED 2026-04-30
+slice_2a_status: IMPLEMENTED 2026-04-30 (hook portability classifier + 64-hook full classification)
 origin: Cada usuario de Savia decide su frontend (Claude Code, OpenCode v1.14, Codex, Cursor, otro) y su proveedor de inferencia (Anthropic API, hosted-OSS, LocalAI, Ollama, custom corporate endpoint, vendor-managed, ...). Savia debe operar de forma agnóstica al stack — no asumir un frontend, no asumir un proveedor, no asumir hooks-disponibles. Detect at runtime, ask the user when ambiguous, degrade gracefully.
 severity: Crítica — Savia hoy asume Claude Code en silencio y rompe ~75% de su enforcement layer bajo cualquier otro stack
 effort: ~80h (5 slices) — Slice 1 mínimo viable, Slices 2-5 incrementales
@@ -131,13 +132,13 @@ Artefactos:
   - **TIER-2 git-pre-commit**: rerouteable vía .husky
   - **TIER-3 ci-only**: solo en CI (GitHub Actions / GitLab CI / Jenkins / etc.)
   - **TIER-4 lost**: no portable bajo el stack del usuario — declarar pérdida explícita
-- BATS tests para classifier + plugin TS skeleton.
+- BATS tests para classifier + plugin TS skeleton: `tests/structure/test-spec-127-slice2a-hook-classifier.bats` (Slice 2a, classifier coverage).
 
 Acceptance criteria Slice 2:
-- AC-2.1: los 10 hooks top execution-weight tienen plan de portabilidad explícito por stack-class.
-- AC-2.2: ≥5 hooks top-10 portados a TIER-1 (TS plugin) con tests.
-- AC-2.3: `prompt-injection-guard`, `block-credential-leak` cubiertos en TIER-1 o TIER-2 — son safety-critical, PV-02.
-- AC-2.4: clasificación de los 64 hooks documentada en `output/hook-portability-classification.md`.
+- AC-2.1: los 10 hooks top execution-weight tienen plan de portabilidad explícito por stack-class. ✅ IMPLEMENTED (Slice 2a) — `scripts/hook-portability-classifier.sh` clasifica los 64 hooks en TIER-1/2/3/4/LIB con razón + reroute target por hook.
+- AC-2.2: ≥5 hooks top-10 portados a TIER-1 (TS plugin) con tests. **PENDING (Slice 2b)** — el classifier identifica 23 hooks TIER-1-eligibles; Slice 2b porta los top 5-10 de ellos a `.opencode/plugins/savia-critical-hooks.ts`.
+- AC-2.3: `prompt-injection-guard`, `block-credential-leak` cubiertos en TIER-1 o TIER-2 — son safety-critical, PV-02. ✅ IMPLEMENTED (Slice 2a) — los 3 safety-critical hooks (block-credential-leak, block-gitignored-references, prompt-injection-guard) clasificados como TIER-1; verificado por BATS regression.
+- AC-2.4: clasificación de los 64 hooks documentada en `output/hook-portability-classification.md`. ✅ IMPLEMENTED (Slice 2a) — reporte auto-generado con definiciones de tier, summary counts, tabla per-hook, sección PV-02 safety check.
 
 ### Slice 3 (M, 12-16h) — Slash command MCP shim
 

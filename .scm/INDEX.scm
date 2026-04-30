@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 45a4c3f61546 | resources: 1117
-> 532 commands · 90 skills · 70 agents · 425 scripts
+> hash: 6556e29d1550 | resources: 1118
+> 532 commands · 90 skills · 70 agents · 426 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -191,6 +191,7 @@
 [development] gitagent-export — adapter,export,gitagent,slice,spec — script:scripts/gitagent-export.sh
 [development] graph-build — conocimiento,construye,grafo,proyecto — cmd:.claude/commands/graph-build.md
 [development] graph-temporal-ops — graph,spec,temporal — script:scripts/graph-temporal-ops.sh
+[development] hook-portability-classifier — classifier,hook,portability,slice,spec — script:scripts/hook-portability-classifier.sh
 [development] human-code-map — activamente,alguien,cognitiva,componentes,contra — skill:.claude/skills/human-code-map/SKILL.md
 [development] image-relevance-filter — deterministic,filter,first,image,primitive — script:scripts/image-relevance-filter.sh
 [development] impact-analysis — analysis,analyze,codebase,files,impact — script:scripts/impact-analysis.sh
