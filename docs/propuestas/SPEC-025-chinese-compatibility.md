@@ -1,7 +1,7 @@
 ---
 id: SPEC-025
 title: SPEC-025: Chinese (ZH) Compatibility Study
-status: UNLABELED
+status: PROPOSED
 origin_date: "2026-03-22"
 migrated_at: "2026-04-19"
 migrated_from: body-prose

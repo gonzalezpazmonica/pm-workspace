@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-106
 title: Truth Tribunal — Multi-judge report reliability gate (≥90% threshold)
-status: ALL
+status: IMPLEMENTED
 origin: User request (2026-04-15) — "Savia tiene que ser fiable" — urgent
 severity: Alta
 effort: ~40h (sprint dedicado recomendado)

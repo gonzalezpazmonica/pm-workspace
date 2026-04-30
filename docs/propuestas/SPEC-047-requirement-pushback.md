@@ -1,7 +1,7 @@
 ---
 id: SPEC-047
 title: SPEC-047: Requirement Pushback Pass
-status: UNLABELED
+status: APPROVED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 ---

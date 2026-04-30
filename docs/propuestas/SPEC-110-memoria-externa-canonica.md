@@ -1,7 +1,7 @@
 ---
 id: SPEC-110
 title: Memoria Externa Canónica (parent-relative)
-status: DRAFT
+status: IMPLEMENTED
 author: Savia (con la usuaria)
 created: 2026-04-17
 supersedes: []
