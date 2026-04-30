@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 129 resources
+> 131 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -24,6 +24,8 @@
 - **code-reviewer** (agent): >
 - **codebase-map** (cmd): Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills
 - **codebase-map** (skill): >
+- **cognitive-debt** (script): cognitive-debt.sh — SPEC-107 Phase 1 entry point.
+- **cognitive-status** (cmd): Show cognitive-debt telemetry status (SPEC-107 Phase 1 — opt-in)
 - **competitive-design** (script): competitive-design.sh — Parallel design generation with 3 philosophies
 - **component-search** (cmd): Buscar componentes en el marketplace claude-code-templates (5.788+ componentes)
 - **comprehension-report** (cmd): Generate mental model report for an implemented task. Documents architectural decisions, failure heuristics, and 3AM debugging guide.

@@ -1,6 +1,6 @@
 {
-  "hash": "22a649058418",
-  "total": 1112,
+  "hash": "ccb40068c431",
+  "total": 1114,
   "resources": [
     {
       "category": "analysis",
@@ -2001,6 +2001,34 @@
       "kind": "skill",
       "path": ".claude/skills/codebase-map/SKILL.md",
       "description": ">"
+    },
+    {
+      "category": "development",
+      "name": "cognitive-debt",
+      "intents": [
+        "cognitive",
+        "debt",
+        "entry",
+        "phase",
+        "point"
+      ],
+      "kind": "script",
+      "path": "scripts/cognitive-debt.sh",
+      "description": "cognitive-debt.sh — SPEC-107 Phase 1 entry point."
+    },
+    {
+      "category": "development",
+      "name": "cognitive-status",
+      "intents": [
+        "cognitive",
+        "debt",
+        "phase",
+        "show",
+        "spec"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/cognitive-status.md",
+      "description": "Show cognitive-debt telemetry status (SPEC-107 Phase 1 — opt-in)"
     },
     {
       "category": "development",
