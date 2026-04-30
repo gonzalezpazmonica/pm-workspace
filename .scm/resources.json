@@ -1,6 +1,6 @@
 {
-  "hash": "0f19b2a0d72b",
-  "total": 1118,
+  "hash": "88753dafcb2e",
+  "total": 1119,
   "resources": [
     {
       "category": "analysis",
@@ -1389,6 +1389,20 @@
       "kind": "script",
       "path": "scripts/savia-messaging-privacy.sh",
       "description": "savia-messaging-privacy.sh — Subject sensitivity check"
+    },
+    {
+      "category": "communication",
+      "name": "savia-orchestrator-helper",
+      "intents": [
+        "helper",
+        "orchestrator",
+        "savia",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-orchestrator-helper.sh",
+      "description": "savia-orchestrator-helper.sh — SPEC-127 Slice 4"
     },
     {
       "category": "communication",

@@ -140,10 +140,8 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 <constraints>Rule #24 (Radical Honesty), Rule #8 (SDD), permission_level.</constraints>
 <output_format>Per agent body. Findings attach {confidence, severity}.</output_format>
 
-## Subagent Fan-Out Policy (SE-067)
+## Policies
 
-Opus 4.7 under-spawns by default. Fan-out paralelo en un turno para items independientes (NO spawn para single-response work). Ver `docs/propuestas/SE-067-orchestrator-fanout-adaptive-thinking.md`.
-
-## Reporting Policy (SE-066)
-
-Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.
+- Subagent Fan-Out (SE-067): Opus 4.7 under-spawns por defecto. Fan-out paralelo en un turno para items independientes; NO spawn para single-response work. Ver `docs/propuestas/SE-067-orchestrator-fanout-adaptive-thinking.md`.
+- Reporting (SE-066): Coverage-first review. Cada finding con `{confidence, severity}`; downstream rankea. Ver `docs/rules/domain/review-agents-reporting-policy.md`.
+- Fallback mode (SPEC-127 Slice 4): `bash scripts/savia-orchestrator-helper.sh mode` → "fan-out"|"single-shot". En `single-shot` corre los 7 judges sequentially inlined (no Task), wrapping each via `wrap <judge> <file>`, early-stop on veto. Schema unchanged. Ver `docs/rules/domain/subagent-fallback-mode.md`.
