@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6c5a24824040f093dc8f87f217770c481e15eebeed2a96ea64fff6d8f2bcadb4
-timestamp=2026-04-30T09:49:43Z
-branch=agent/spec-127-savia-opencode-copilot-compat-20260430
-head_commit=7325c89e
-signature=1859b6a46fe1414d59ebf80d0e3932e878d9eb00e8213c59b26a2b4e9e3d2f31
+diff_hash=3bf64a0bd5472ef1a2aa7040541439223e3ebaba582efc161f0db632db6ede35
+timestamp=2026-04-30T17:00:30Z
+branch=agent/spec-127-provider-agnostic-20260430
+head_commit=0323e7c9
+signature=8493815833bb29dae4b9fc7193bd379cfd965b6d5b59304c0269a9f76dc8dc71

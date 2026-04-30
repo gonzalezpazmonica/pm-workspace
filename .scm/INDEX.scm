@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 11c68ca21d33 | resources: 1114
-> 531 commands · 90 skills · 70 agents · 423 scripts
+> hash: 45a4c3f61546 | resources: 1117
+> 532 commands · 90 skills · 70 agents · 425 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -90,6 +90,7 @@
 [communication] savia-dual — anthropic,dual,failover,gemma,gestiona — cmd:.claude/commands/savia-dual.md
 [communication] savia-dual — anthropic,cloud,failing,failover,gemma — skill:.claude/skills/savia-dual/SKILL.md
 [communication] savia-enterprise — enterprise,lifecycle,manager,module,savia — script:scripts/savia-enterprise.sh
+[communication] savia-env — agnostic,environment,loader,provider,savia — script:scripts/savia-env.sh
 [communication] savia-flow — based,boards,branch,flow,isolation — script:scripts/savia-flow.sh
 [communication] savia-flow-board — ascii,board,branch,flow,isolation — script:scripts/savia-flow-board.sh
 [communication] savia-flow-ops — assignments,branch,crud,flow,isolation — script:scripts/savia-flow-ops.sh
@@ -115,12 +116,14 @@
 [communication] savia-messaging-privacy — check,messaging,privacy,savia,sensitivity — script:scripts/savia-messaging-privacy.sh
 [communication] savia-pbi —  — cmd:.claude/commands/savia-pbi.md
 [communication] savia-persona-tune — ajustar,específico,estilo,personalidad,proyecto — cmd:.claude/commands/savia-persona-tune.md
+[communication] savia-preferences — manage,preferences,savia,slice,spec — script:scripts/savia-preferences.sh
 [communication] savia-recall — information,memory,recall,retrieve,savia — cmd:.claude/commands/savia-recall.md
 [communication] savia-reply —  — cmd:.claude/commands/savia-reply.md
 [communication] savia-school — adapta,alias,cumplimiento,edad,educativos — skill:.claude/skills/savia-school/SKILL.md
 [communication] savia-school — core,educational,library,management,savia — script:scripts/savia-school.sh
 [communication] savia-school-security — access,control,encryption,gdpr,layer — script:scripts/savia-school-security.sh
 [communication] savia-send —  — cmd:.claude/commands/savia-send.md
+[communication] savia-setup —  — cmd:.claude/commands/savia-setup.md
 [communication] savia-shield — activar,comprobar,datos,defecto,desactivado — cmd:.claude/commands/savia-shield.md
 [communication] savia-shield-setup — instalador,savia,setup,shield — script:scripts/savia-shield-setup.sh
 [communication] savia-sprint —  — cmd:.claude/commands/savia-sprint.md

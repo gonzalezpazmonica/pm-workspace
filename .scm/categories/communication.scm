@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 82 resources
+> 85 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -33,6 +33,7 @@
 - **savia-dual** (cmd): Gestiona Savia Dual — inference sovereignty con failover entre Anthropic y gemma4 local
 - **savia-dual** (skill): Inference sovereignty — transparent failover from Anthropic to local gemma4 when the cloud is slow, failing, rate-limited, or unreachable
 - **savia-enterprise** (script): savia-enterprise.sh — Enterprise module lifecycle manager
+- **savia-env** (script): savia-env.sh — provider-agnostic environment loader (SPEC-127 Slice 1)
 - **savia-flow** (script): savia-flow.sh — Git-based project management: PBIs, sprints, boards via branch isolation
 - **savia-flow-board** (script): savia-flow-board.sh — ASCII Kanban board renderer via branch isolation
 - **savia-flow-ops** (script): savia-flow-ops.sh — CRUD operations for PBIs and assignments via branch isolation
@@ -58,12 +59,14 @@
 - **savia-messaging-privacy** (script): savia-messaging-privacy.sh — Subject sensitivity check
 - **savia-pbi** (cmd): >
 - **savia-persona-tune** (cmd): Ajustar tono, estilo y personalidad de Savia para un proyecto específico
+- **savia-preferences** (script): savia-preferences.sh — manage ~/.savia/preferences.yaml (SPEC-127 Slice 1)
 - **savia-recall** (cmd): Recall and retrieve information from Savia memory
 - **savia-reply** (cmd): >
 - **savia-school** (skill): Adapta pm-workspace para entornos educativos con estudiantes menores de edad. Matriculacion por alias, evaluacion con rubricas, portfolio versionado y cumplimiento RGPD/LOPD estricto.
 - **savia-school** (script): Savia School: Core educational vertical management library
 - **savia-school-security** (script): Savia School Security Layer: Encryption, Access Control, GDPR
 - **savia-send** (cmd): >
+- **savia-setup** (cmd): >
 - **savia-shield** (cmd): Gestión de Savia Shield: activar, desactivar y comprobar instalación del sistema de soberanía de datos. Desactivado por defecto.
 - **savia-shield-setup** (script): savia-shield-setup.sh — Instalador de Savia Shield
 - **savia-sprint** (cmd): >
