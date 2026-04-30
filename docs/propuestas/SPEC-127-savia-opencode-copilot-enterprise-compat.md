@@ -1,7 +1,9 @@
 ---
 spec_id: SPEC-127
 title: Savia ↔ OpenCode + GitHub Copilot Enterprise compatibility — provider-agnostic foundation
-status: PROPOSED
+status: APPROVED
+approved_by: Mónica (operator) — 2026-04-30
+slice_1_status: IMPLEMENTED 2026-04-30
 origin: User authorization (2026-04-30) — empresa autoriza usar Savia con OpenCode + GitHub Copilot Enterprise. Audit técnico revela 3 categorical breaks que impiden parity sin reroute.
 severity: Crítica — sin spec, adopción Copilot empieza con ~75% de Savia roto
 effort: ~80h (5 slices) — Slice 1 mínimo viable, Slices 2-5 incrementales
@@ -99,9 +101,9 @@ Artefactos:
 - BATS tests sobre los 4 archivos.
 
 Acceptance criteria Slice 1:
-- AC-1.1: cada hook que use `CLAUDE_PROJECT_DIR` puede source `savia-env.sh` y obtener `SAVIA_WORKSPACE_DIR` con fallback funcional bajo OpenCode shell.
-- AC-1.2: model-alias-table.md documenta 3 mappings primarios + fallback con razón.
-- AC-1.3: regenerator produce `.github/copilot-instructions.md` válido (max 120 lines, no `@import`s — Copilot no los soporta).
+- AC-1.1: cada hook que use `CLAUDE_PROJECT_DIR` puede source `savia-env.sh` y obtener `SAVIA_WORKSPACE_DIR` con fallback funcional bajo OpenCode shell. ✅ IMPLEMENTED — `scripts/savia-env.sh` con fallback chain `SAVIA_WORKSPACE_DIR → CLAUDE_PROJECT_DIR → OPENCODE_PROJECT_DIR → git rev-parse → pwd`.
+- AC-1.2: model-alias-table.md documenta 3 mappings primarios + fallback con razón. ✅ IMPLEMENTED — `docs/rules/domain/model-alias-table.md` con 3 canonical Claude → Copilot primary + fallback + LocalAI emergency rows + razones por mapping.
+- AC-1.3: regenerator produce `.github/copilot-instructions.md` válido (max 120 lines, no `@import`s — Copilot no los soporta). ✅ IMPLEMENTED — `scripts/copilot-instructions-generate.sh` con truncación automática a 120 líneas y `--check` idempotency. Actual output: 90 líneas, cero `@import`s.
 
 ### Slice 2 (M, 16-20h) — Copilot hook adapter + TS plugin port (top 10)
 

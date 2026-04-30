@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 131 resources
+> 132 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -29,6 +29,7 @@
 - **competitive-design** (script): competitive-design.sh — Parallel design generation with 3 philosophies
 - **component-search** (cmd): Buscar componentes en el marketplace claude-code-templates (5.788+ componentes)
 - **comprehension-report** (cmd): Generate mental model report for an implemented task. Documents architectural decisions, failure heuristics, and 3AM debugging guide.
+- **copilot-instructions-generate** (script): copilot-instructions-generate.sh — SPEC-127 Slice 1
 - **dag-execute** (cmd): Ejecutar pipeline SDD con agentes en paralelo según DAG
 - **dag-plan** (cmd): Visualizar DAG de ejecución, camino crítico y ahorro de tiempo
 - **dag-scheduling** (skill): Orquestar agentes SDD en paralelo usando gráficos de dependencias

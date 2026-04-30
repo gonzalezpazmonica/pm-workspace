@@ -1,6 +1,6 @@
 {
-  "hash": "ccb40068c431",
-  "total": 1114,
+  "hash": "7edea7f2ace7",
+  "total": 1116,
   "resources": [
     {
       "category": "analysis",
@@ -1074,6 +1074,20 @@
     },
     {
       "category": "communication",
+      "name": "savia-env",
+      "intents": [
+        "agnostic",
+        "environment",
+        "loader",
+        "provider",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-env.sh",
+      "description": "savia-env.sh — provider-agnostic environment loader (SPEC-127 Slice 1)"
+    },
+    {
+      "category": "communication",
       "name": "savia-flow",
       "intents": [
         "based",
@@ -2071,6 +2085,20 @@
       "kind": "cmd",
       "path": ".claude/commands/comprehension-report.md",
       "description": "Generate mental model report for an implemented task. Documents architectural decisions, failure heuristics, and 3AM debugging guide."
+    },
+    {
+      "category": "development",
+      "name": "copilot-instructions-generate",
+      "intents": [
+        "copilot",
+        "generate",
+        "instructions",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/copilot-instructions-generate.sh",
+      "description": "copilot-instructions-generate.sh — SPEC-127 Slice 1"
     },
     {
       "category": "development",

@@ -38,6 +38,7 @@ if [[ -z "$changed" ]]; then
 fi
 
 # Regenerate. The exec form prevents a hung subprocess from blocking Stop.
+# Trinity: AGENTS.md + .github/copilot-instructions.md from same source.
 {
   echo "=== $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
   bash "${ROOT}/scripts/agents-md-generate.sh" --apply 2>&1
@@ -45,6 +46,9 @@ fi
   if [[ -n "$diff_out" ]]; then
     rows=$(echo "$diff_out" | grep -c '^[+-]| ' || echo 0)
     echo "agents-md: regenerated, ${rows} row(s) changed" >&2
+  fi
+  if [[ -x "${ROOT}/scripts/copilot-instructions-generate.sh" ]]; then
+    bash "${ROOT}/scripts/copilot-instructions-generate.sh" --apply 2>&1
   fi
 } >> "${LOG_FILE}" 2>&1
 

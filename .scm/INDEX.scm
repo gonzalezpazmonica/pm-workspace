@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 11c68ca21d33 | resources: 1114
-> 531 commands · 90 skills · 70 agents · 423 scripts
+> hash: 579011b222f5 | resources: 1116
+> 531 commands · 90 skills · 70 agents · 425 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -90,6 +90,7 @@
 [communication] savia-dual — anthropic,dual,failover,gemma,gestiona — cmd:.claude/commands/savia-dual.md
 [communication] savia-dual — anthropic,cloud,failing,failover,gemma — skill:.claude/skills/savia-dual/SKILL.md
 [communication] savia-enterprise — enterprise,lifecycle,manager,module,savia — script:scripts/savia-enterprise.sh
+[communication] savia-env — agnostic,environment,loader,provider,savia — script:scripts/savia-env.sh
 [communication] savia-flow — based,boards,branch,flow,isolation — script:scripts/savia-flow.sh
 [communication] savia-flow-board — ascii,board,branch,flow,isolation — script:scripts/savia-flow-board.sh
 [communication] savia-flow-ops — assignments,branch,crud,flow,isolation — script:scripts/savia-flow-ops.sh
@@ -168,6 +169,7 @@
 [development] competitive-design — competitive,design,generation,parallel,philosophies — script:scripts/competitive-design.sh
 [development] component-search — buscar,claude,code,componentes,marketplace — cmd:.claude/commands/component-search.md
 [development] comprehension-report — architectural,debugging,decisions,documents,failure — cmd:.claude/commands/comprehension-report.md
+[development] copilot-instructions-generate — copilot,generate,instructions,slice,spec — script:scripts/copilot-instructions-generate.sh
 [development] dag-execute — agentes,ejecutar,paralelo,pipeline,según — cmd:.claude/commands/dag-execute.md
 [development] dag-plan — ahorro,camino,crítico,ejecución,tiempo — cmd:.claude/commands/dag-plan.md
 [development] dag-scheduling — agentes,dependencias,gráficos,orquestar,paralelo — skill:.claude/skills/dag-scheduling/SKILL.md
