@@ -1,6 +1,6 @@
 {
-  "hash": "0f19b2a0d72b",
-  "total": 1118,
+  "hash": "9ecedba6e33c",
+  "total": 1119,
   "resources": [
     {
       "category": "analysis",
@@ -10051,6 +10051,20 @@
       "kind": "script",
       "path": "scripts/skills-lock.sh",
       "description": "skills-lock.sh — SHA-256 integrity verification for skills"
+    },
+    {
+      "category": "planning",
+      "name": "skills-md-generate",
+      "intents": [
+        "catalog",
+        "cross",
+        "frontend",
+        "generate",
+        "skills"
+      ],
+      "kind": "script",
+      "path": "scripts/skills-md-generate.sh",
+      "description": "skills-md-generate.sh — generate SKILLS.md cross-frontend skills catalog"
     },
     {
       "category": "planning",

@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=3c8ce4e1ff5e1f09ea573a955cbeb01f4642bc05509b18428d2df69aebcae172
-timestamp=2026-04-30T18:28:15Z
-branch=agent/spec-127-slice2a-hook-classifier-20260430
-head_commit=f3059f51
+timestamp=2026-04-30T22:08:03Z
+branch=agent/opencode-bootstrap-20260430
+head_commit=287f4237
 signature=55f2af98b4478614b9601ca132e186afe52ef031099d9878a066ba3c10ebd1ae
