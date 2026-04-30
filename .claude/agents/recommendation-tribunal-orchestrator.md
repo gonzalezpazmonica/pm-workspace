@@ -67,3 +67,7 @@ Diferencia clave con Truth Tribunal (SPEC-106): aquí el contexto es **real-time
 
 SPEC-125 — `docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md`
 Sibling: SPEC-106 Truth Tribunal (`truth-tribunal-orchestrator`) — async, reports.
+
+## Fallback mode (SPEC-127 Slice 4)
+
+`bash scripts/savia-orchestrator-helper.sh mode` → "fan-out" | "single-shot". When `single-shot`, run classifier inlined first; then 4 judges sequentially without Task, wrapping each via `wrap <judge> <file>`. Output schema unchanged. See `docs/rules/domain/subagent-fallback-mode.md`.

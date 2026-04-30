@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 85 resources
+> 86 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -57,6 +57,7 @@
 - **savia-messaging-actions** (script): savia-messaging-actions.sh — Announce, broadcast, and directory operations
 - **savia-messaging-inbox** (script): savia-messaging-inbox.sh — Inbox, read, and reply operations
 - **savia-messaging-privacy** (script): savia-messaging-privacy.sh — Subject sensitivity check
+- **savia-orchestrator-helper** (script): savia-orchestrator-helper.sh — SPEC-127 Slice 4
 - **savia-pbi** (cmd): >
 - **savia-persona-tune** (cmd): Ajustar tono, estilo y personalidad de Savia para un proyecto específico
 - **savia-preferences** (script): savia-preferences.sh — manage ~/.savia/preferences.yaml (SPEC-127 Slice 1)

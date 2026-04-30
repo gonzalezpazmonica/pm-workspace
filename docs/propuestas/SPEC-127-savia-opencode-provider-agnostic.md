@@ -5,6 +5,7 @@ status: APPROVED
 approved_by: operator (2026-04-30)
 slice_1_status: IMPLEMENTED 2026-04-30
 slice_2a_status: IMPLEMENTED 2026-04-30 (hook portability classifier + 64-hook full classification)
+slice_4_status: IMPLEMENTED 2026-04-30 (single-shot fallback for 4 orchestrators)
 origin: Cada usuario de Savia decide su frontend (Claude Code, OpenCode v1.14, Codex, Cursor, otro) y su proveedor de inferencia (Anthropic API, hosted-OSS, LocalAI, Ollama, custom corporate endpoint, vendor-managed, ...). Savia debe operar de forma agnóstica al stack — no asumir un frontend, no asumir un proveedor, no asumir hooks-disponibles. Detect at runtime, ask the user when ambiguous, degrade gracefully.
 severity: Crítica — Savia hoy asume Claude Code en silencio y rompe ~75% de su enforcement layer bajo cualquier otro stack
 effort: ~80h (5 slices) — Slice 1 mínimo viable, Slices 2-5 incrementales
@@ -165,9 +166,9 @@ Artefactos:
 - Regression test: cada orchestrator produce el mismo veredicto-shape bajo Task (cuando disponible) y single-shot (cuando no) sobre 3 fixture inputs.
 
 Acceptance criteria Slice 4:
-- AC-4.1: 4 orchestrators críticos detectan capability y pivotan.
-- AC-4.2: Single-shot mode preserva el JSON output schema del orchestrator (audit trail compatible).
-- AC-4.3: BATS tests verifican equivalencia funcional sobre 3 inputs por orchestrator.
+- AC-4.1: 4 orchestrators críticos detectan capability y pivotan. ✅ IMPLEMENTED — los 4 (court, truth-tribunal, recommendation-tribunal, dev) declaran sección "## Fallback mode (SPEC-127 Slice 4)" que invoca `bash scripts/savia-orchestrator-helper.sh mode` y branches en fan-out/single-shot.
+- AC-4.2: Single-shot mode preserva el JSON output schema del orchestrator (audit trail compatible). ✅ IMPLEMENTED — `wrap` subcommand emite envelope `{agent, mode, result}` consistente regardless of mode. BATS verifica schema + UTF-8 preservation.
+- AC-4.3: BATS tests verifican equivalencia funcional sobre 3 inputs por orchestrator. ✅ IMPLEMENTED parcialmente — `tests/structure/test-spec-127-slice4-subagent-fallback.bats` cubre mode detection + envelope schema + inline-prompt extraction. Equivalencia funcional real (output side-by-side fan-out vs single-shot) requiere LLM execution — fuera de scope BATS estructural; deferred a tests E2E con harness LLM.
 
 ### Slice 5 (S, 6h) — Quota / budget guard
 

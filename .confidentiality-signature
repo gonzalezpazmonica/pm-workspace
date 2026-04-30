@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3c8ce4e1ff5e1f09ea573a955cbeb01f4642bc05509b18428d2df69aebcae172
-timestamp=2026-04-30T18:28:15Z
-branch=agent/spec-127-slice2a-hook-classifier-20260430
-head_commit=f3059f51
-signature=55f2af98b4478614b9601ca132e186afe52ef031099d9878a066ba3c10ebd1ae
+diff_hash=32e18e9714d9a8e4a805e14bb470cc2f646ee5db5dc67ae0568ab54a88722b12
+timestamp=2026-04-30T21:44:19Z
+branch=agent/spec-127-slice4-subagent-fallback-20260430
+head_commit=7a642e25
+signature=791ced5ce20f7934a3a6da2827fbf4116adcf9152866262589be6135cacdd15f

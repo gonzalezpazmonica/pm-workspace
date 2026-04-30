@@ -113,4 +113,4 @@ handoff:
 ---
 ```
 
-See `docs/rules/domain/agent-handoff-protocol.md` for fields and validator.
+Handoff: `docs/rules/domain/agent-handoff-protocol.md`. Fallback SPEC-127 Slice 4: `docs/rules/domain/subagent-fallback-mode.md`.
