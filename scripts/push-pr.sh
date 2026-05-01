@@ -41,7 +41,7 @@ else USE_GH_CLI=false; fi
 _supervisor() { local d="$1"; bash scripts/session-action-log.sh log "push-pr" "$BRANCH" "fail" "$d" >/dev/null 2>&1 || true; bash scripts/execution-supervisor.sh "push-pr" "$BRANCH" "$d" 2>&1 || true; }
 echo "=== Step 1: Working tree ==="
 if $FROM_PR_PLAN; then
-  local changed; changed=$(git diff --name-only 2>/dev/null | grep -vE '(\.confidentiality-signature|\.scm/)' || true)
+  changed=$(git diff --name-only 2>/dev/null | grep -vE '(\.confidentiality-signature|\.scm/)' || true)
   [[ -n "$changed" ]] && { _supervisor "Uncommitted changes: $changed"; echo "ERROR: Uncommitted changes: $changed" >&2; exit 1; }
   echo "  Clean (pr-plan artifacts allowed)."
 else
