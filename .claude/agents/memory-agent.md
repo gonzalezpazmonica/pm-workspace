@@ -23,7 +23,9 @@ Cuando el usuario pregunta por algo pasado:
 
 1. Identificar términos clave de la pregunta
 2. Buscar en estas rutas (en orden):
-   - `~/.claude/projects/-home-monica-claude/memory/*.md` — auto-memory global
+    - `~/.savia-memory/auto/MEMORY.md` — índice canónico (principal)
+    - `~/.savia-memory/sessions/` — snapshots de sesión
+    - `~/.claude/projects/-home-monica-claude/memory/*.md` — legacy (migración pendiente)
    - `tasks/lessons.md` — lecciones aprendidas
    - Salida de `bash scripts/memory-store.sh search {termino}` si existe el script
 3. Combinar y resumir resultados relevantes en 2-5 líneas
@@ -47,10 +49,11 @@ Cuando el usuario dice "recuerda que X" o "guarda que Y":
 Cuando preguntan cuánta memoria hay:
 
 ```bash
-# Contar entradas en auto-memory
-ls ~/.claude/projects/-home-monica-claude/memory/*.md 2>/dev/null | wc -l
-# Ver MEMORY.md index
-cat ~/.claude/projects/-home-monica-claude/memory/MEMORY.md
+# Ver índice canónico
+cat ~/.savia-memory/auto/MEMORY.md
+# Ver entradas JSONL
+bash $PM_WORKSPACE_ROOT/scripts/memory-store.sh stats 2>/dev/null || \
+  bash ~/claude/scripts/memory-store.sh stats
 ```
 
 Responder con: N ficheros de memoria, temas principales cubiertos.
@@ -74,9 +77,11 @@ Cuando el usuario dice "olvida X" o "eso ya no aplica":
 ## Rutas de memoria conocidas
 
 ```
-~/.claude/projects/-home-monica-claude/memory/   — auto-memory global (principal)
-tasks/lessons.md                                  — lecciones de errores
-~/.savia/memory/                                  — memory store JSONL (si existe)
+~/.savia-memory/auto/MEMORY.md         — índice canónico (principal)
+~/.savia-memory/sessions/              — snapshots de sesión
+~/.savia-memory/projects/              — memoria por proyecto
+output/.memory-store.jsonl            — JSONL store (datos)
+~/.savia/memory-cache.db              — SQLite cache reconstruible
 ```
 
 ## Ejemplo de interacción

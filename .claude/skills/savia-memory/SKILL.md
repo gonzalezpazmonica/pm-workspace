@@ -29,7 +29,8 @@ Gestión de la memoria canónica externa del pm-workspace (`.savia-memory/`).
 
 - Al inicio de cada sesión: leer `~/.savia-memory/auto/MEMORY.md`
 - Para guardar decisiones o aprendizajes: usar `scripts/memory-store.sh`
-- Para buscar memoria previa: `scripts/memory-store.sh recall <query>`
+- Para buscar memoria previa: `scripts/memory-store.sh search <query>`
+- Para buscar (alias corto): `scripts/memory-store.sh recall <query>`
 - Para ver estadísticas: `scripts/memory-store.sh stats`
 - Para consolidar memoria al final de sesión
 
@@ -39,11 +40,15 @@ Gestión de la memoria canónica externa del pm-workspace (`.savia-memory/`).
 # Guardar una entrada en memoria
 bash ~/claude/scripts/memory-store.sh save "<tipo>" "<contenido>"
 
-# Buscar en memoria
+# Buscar en memoria (search o recall)
+bash ~/claude/scripts/memory-store.sh search "<query>"
 bash ~/claude/scripts/memory-store.sh recall "<query>"
 
 # Ver estadísticas de memoria
 bash ~/claude/scripts/memory-store.sh stats
+
+# Reconstruir índice desde JSONL
+bash ~/claude/scripts/memory-index-rebuild.sh
 ```
 
 ## Lectura de contexto al inicio
@@ -56,7 +61,7 @@ bash ~/claude/scripts/memory-store.sh stats
 
 - NO cargar toda la memoria al inicio. Solo el índice (`auto/MEMORY.md`).
 - Cargar entradas específicas bajo demanda según el contexto de la tarea.
-- Usar `recall` para búsqueda semántica cuando necesites contexto relacionado.
+- Usar `search` (o `recall`) para búsqueda semántica cuando necesites contexto relacionado.
 
 ## Escritura de memoria
 

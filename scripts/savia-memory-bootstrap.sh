@@ -107,42 +107,18 @@ if [ ! -f "$TARGET/auto/MEMORY.md" ]; then
 MEMEOF
 fi
 
-# ── Symlink .claude/external-memory → $TARGET ────────────────────────────────
-LINK="$REPO_ROOT/.claude/external-memory"
-mkdir -p "$(dirname "$LINK")"
+# ── Provider-agnostic marker ──────────────────────────────────────────────────
+# Write target marker for frontend detection (not vendor-specific)
+MARKER_DIR="$REPO_ROOT/.savia"
+mkdir -p "$MARKER_DIR"
+echo "$TARGET" > "$MARKER_DIR/external-memory-target"
+echo "$MODE"  >> "$MARKER_DIR/external-memory-target"
 
-# Compute relative path from $(dirname $LINK) to $TARGET (only when canonical or repo-local)
-relpath() {
-  local from="$1" to="$2"
-  python3 -c "import os; print(os.path.relpath('$to', '$from'))" 2>/dev/null \
-    || echo "$to"
-}
-
-if [ -L "$LINK" ]; then
-  CURR=$(readlink "$LINK")
-  # Re-link if pointing elsewhere
-  if [ "$CURR" != "$(relpath "$(dirname "$LINK")" "$TARGET")" ] && [ "$CURR" != "$TARGET" ]; then
-    rm "$LINK"
-  fi
+# Backward compat: also write to .claude/ if it exists (legacy frontends)
+if [[ -d "$REPO_ROOT/.claude" ]]; then
+  echo "$TARGET" > "$REPO_ROOT/.claude/external-memory-target"
+  echo "$MODE"  >> "$REPO_ROOT/.claude/external-memory-target"
 fi
 
-if [ ! -e "$LINK" ]; then
-  REL=$(relpath "$(dirname "$LINK")" "$TARGET")
-  if ln -s "$REL" "$LINK" 2>/dev/null; then
-    :
-  elif ln -s "$TARGET" "$LINK" 2>/dev/null; then
-    :
-  else
-    # Windows without Dev Mode: no symlinks available.
-    # Create a marker file so the hook can show fallback mode.
-    echo "$TARGET" > "$REPO_ROOT/.claude/external-memory-target"
-  fi
-fi
-
-# Write target marker (gitignored) for debug
-echo "$TARGET" > "$REPO_ROOT/.claude/external-memory-target"
-echo "$MODE"  >> "$REPO_ROOT/.claude/external-memory-target"
-
-# ── Report (JSON line for hook consumption) ──────────────────────────────────
-printf '{"target":"%s","mode":"%s","link":"%s"}\n' "$TARGET" "$MODE" "$LINK"
+printf '{"target":"%s","mode":"%s","marker":"%s"}\n' "$TARGET" "$MODE" "$MARKER_DIR/external-memory-target"
 exit 0
