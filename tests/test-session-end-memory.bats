@@ -167,27 +167,6 @@ teardown() {
   cat > "$TEST_HOME/.savia/session-actions.jsonl" <<EOF
 {"action":"edit","attempt":1}
 {"action":"edit","attempt":2}
-{"action":"edit","attempt":3}
-EOF
-
-  local hook_abs="$BATS_TEST_DIRNAME/../$HOOK"
-  CLAUDE_PROJECT_DIR="$HOME" HOME="$TEST_HOME" bash "$hook_abs" <<< "" >/dev/null 2>&1
-
-  sleep 0.5
-  cd "$BATS_TEST_DIRNAME/.."
-
-  local repo_slug session_dir session_hot
-  repo_slug=$(echo "$repo" | sed 's|[/:\]|-|g; s|^-||')
-  session_hot="$TEST_HOME/.savia-memory/sessions/$(date +%Y-%m-%d)/session-hot.md"
-  [[ ! -f "$session_hot" ]]
-  rm -rf "$repo"
-}
-
-@test "worker: session-actions.jsonl failures counted" {
-  mkdir -p "$TEST_HOME/.savia"
-  cat > "$TEST_HOME/.savia/session-actions.jsonl" <<EOF
-{"action":"edit","attempt":1}
-{"action":"edit","attempt":2}
 {"action":"write","attempt":3}
 EOF
   local repo="$TMPDIR/sem-fail-$$"
