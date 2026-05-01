@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "@opencode-ai/plugin": "*"
+    "@opencode-ai/plugin": "1.14.30"
   },
   "scripts": {
     "check": "tsc --noEmit -p . || node --check plugins/savia-foundation.ts || true"

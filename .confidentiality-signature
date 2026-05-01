@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=10dfef0bf0f74408b90f24ddc72fe355c8ef3cc52a027688a642e2a243c7f389
-timestamp=2026-05-01T05:49:23Z
-branch=agent/spec-127-slice2b-i-ts-toolchain-20260501
-head_commit=a0da4e1f
-signature=4ea9d0eefb2881d165fa9bf7b95093763ad6685119e2d9714f09e59ad85f1910
+diff_hash=f67469e5574fec96692a171476823359f81ea303bba8e3ef0c4922a41ee8e4f1
+timestamp=2026-05-01T07:20:10Z
+branch=agent/spec-127-opencode-migration-final-20260501
+head_commit=66b8d77b
+signature=4508f1b7604ee3d56a7ed856df1e1b3c117f8cb58c6b6e1bf16408c57d34a2a8

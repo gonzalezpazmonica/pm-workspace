@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: f443620f4c9c | resources: 1121
-> 532 commands · 90 skills · 70 agents · 429 scripts
+> hash: d61bb38fdf0e | resources: 1123
+> 532 commands · 90 skills · 70 agents · 431 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -147,6 +147,7 @@
 [communication] zeroclaw-meeting — diarization,digest,identification,live,meeting — cmd:.claude/commands/zeroclaw-meeting.md
 [development] /a11y-monitor — accesibilidad,alertas,baja,bloqueando,continua — cmd:.claude/commands/a11y-monitor.md
 [development] Trace Analyze — análisis,botella,cadenas,cuellos,detección — cmd:.claude/commands/trace-analyze.md
+[development] agents-opencode-convert — agents,convert,final,migration,opencode — script:scripts/agents-opencode-convert.sh
 [development] arch-compare — arquitectura,comparar,decisiones,patrones,toma — cmd:.claude/commands/arch-compare.md
 [development] arch-detect — arquitectura,detectar,patrón,proyecto,repositorio — cmd:.claude/commands/arch-detect.md
 [development] arch-fitness — arquitectura,ejecutar,fitness,functions,integridad — cmd:.claude/commands/arch-fitness.md
@@ -207,6 +208,7 @@
 [development] nd-autoconfig — accessibility,auto,autoconfig,configure,neurodivergent — script:scripts/nd-autoconfig.sh
 [development] nidos-dev-lib — lifecycle,nidos,savia,server,spec — script:scripts/nidos-dev-lib.sh
 [development] opencode-install — install,opencode,slice — script:scripts/opencode-install.sh
+[development] opencode-migration-smoke — final,migration,opencode,prep,slice — script:scripts/opencode-migration-smoke.sh
 [development] opencode-monthly-canary — canary,monthly,opencode,slice — script:scripts/opencode-monthly-canary.sh
 [development] parallel-specs-cleanup-stale — cleanup,parallel,slice,specs,stale — script:scripts/parallel-specs-cleanup-stale.sh
 [development] parallel-specs-db-sandbox — parallel,sandbox,slice,specs,worker — script:scripts/parallel-specs-db-sandbox.sh

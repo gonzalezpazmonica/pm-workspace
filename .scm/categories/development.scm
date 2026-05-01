@@ -1,8 +1,9 @@
 # development — Savia Capability Map (L1)
-> 132 resources
+> 134 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
+- **agents-opencode-convert** (script): agents-opencode-convert.sh — SPEC-127 Slice 2b-ii (final migration prep)
 - **arch-compare** (cmd): Comparar dos patrones de arquitectura para toma de decisiones
 - **arch-detect** (cmd): Detectar el patrón de arquitectura de un repositorio o proyecto
 - **arch-fitness** (cmd): Ejecutar fitness functions de arquitectura para verificar integridad
@@ -63,6 +64,7 @@
 - **nd-autoconfig** (script): nd-autoconfig.sh — SPEC-061: Auto-configure accessibility.md from neurodivergent.md
 - **nidos-dev-lib** (script): nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098).
 - **opencode-install** (script): opencode-install.sh — SE-077 Slice 1
+- **opencode-migration-smoke** (script): opencode-migration-smoke.sh — SPEC-127 Slice 2b-ii (final migration prep)
 - **opencode-monthly-canary** (script): opencode-monthly-canary.sh — SE-077 Slice 2
 - **parallel-specs-cleanup-stale** (script): parallel-specs-cleanup-stale.sh — SE-074 Slice 3 — stale worktree cleanup
 - **parallel-specs-db-sandbox** (script): parallel-specs-db-sandbox.sh — SE-074 Slice 3 — DB sandbox per worker

@@ -1,42 +1,49 @@
-// savia-foundation.ts — SPEC-127 Slice 2b-i
+// savia-foundation.ts — SPEC-127 Slice 2b-i (foundation) + Slice 2b-ii (hooks wired)
 //
-// Foundation plugin for OpenCode v1.14. Establishes the TypeScript
-// toolchain + plugin contract so that subsequent slices (2b-ii) can port
-// individual safety hooks from .claude/hooks/*.sh into typed handlers
-// without re-establishing infrastructure.
+// OpenCode v1.14 plugin for Savia. Registers a single tool.execute.before
+// dispatcher that runs the 5 TIER-1 safety guards in order. Each guard is
+// a pure async function imported from its own module.
 //
-// This stub is INTENTIONALLY no-op. It registers the plugin so OpenCode's
-// `bun install` + plugin loader picks it up at startup. The actual hook
-// handlers are added incrementally — see `.opencode/plugins/README.md` for
-// the porting roadmap.
+// Provider-agnostic by construction (PV-06): the guards branch on tool
+// name and command/file content, never on a hardcoded vendor name. They
+// preserve the bash hook semantics 1:1 while taking advantage of TS types.
 //
-// Provider-agnostic by construction (PV-06): branches on capability probes
-// from `scripts/savia-env.sh` via the user's `~/.savia/preferences.yaml`,
-// never on a hardcoded vendor name.
+// Order matters: validate-bash-global (cheap regex on command) →
+// block-credential-leak (regex on bash command) → block-gitignored-references
+// (regex on edit/write content) → prompt-injection-guard (file content
+// scan) → tdd-gate (filesystem probe, the most expensive). Throwing in
+// any guard aborts the chain and surfaces the message to the user.
 //
-// Reference: SPEC-127 Slice 2b-i (foundation)
+// Reference: SPEC-127 Slice 2b-i + 2b-ii
 // Reference: docs/rules/domain/provider-agnostic-env.md
 // Reference: scripts/hook-portability-classifier.sh (TIER-1 candidates)
 
 import type { Plugin } from "@opencode-ai/plugin";
 
-export const SaviaFoundationPlugin: Plugin = async ({ project, $, directory }) => {
-  // Foundation contract:
-  // - directory: workspace root resolved by OpenCode
-  // - $: bun shell API (used by hook ports to invoke savia-env.sh / scripts)
-  // - project: workspace metadata
-  //
-  // Slice 2b-ii will populate the returned hooks object with handlers for
-  // the top 5 TIER-1 hooks identified by hook-portability-classifier.sh:
-  //   - validate-bash-global  → tool.execute.before (matcher: bash)
-  //   - block-credential-leak → tool.execute.before (matcher: bash, edit)
-  //   - block-gitignored-references → tool.execute.before (matcher: edit, write)
-  //   - prompt-injection-guard → tool.execute.before (matcher: edit, write)
-  //   - tdd-gate → tool.execute.before (matcher: edit)
+import { validateBashGlobal } from "./validate-bash-global.ts";
+import { blockCredentialLeak } from "./block-credential-leak.ts";
+import { blockGitignoredReferences } from "./block-gitignored-references.ts";
+import { promptInjectionGuard } from "./prompt-injection-guard.ts";
+import { tddGate } from "./tdd-gate.ts";
 
-  // No-op: foundation only. PV-01 backward compat — does not modify any
-  // existing tool behaviour. Slice 2b-ii adds the actual handlers.
-  return {};
+const GUARDS = [
+  validateBashGlobal,
+  blockCredentialLeak,
+  blockGitignoredReferences,
+  promptInjectionGuard,
+  tddGate,
+] as const;
+
+export const SaviaFoundationPlugin: Plugin = async ({ project, $, directory }) => {
+  return {
+    "tool.execute.before": async (input: any, output: any) => {
+      // Sequential — guards can rely on earlier ones not throwing. Order
+      // is documented in the file header.
+      for (const guard of GUARDS) {
+        await guard(input, output);
+      }
+    },
+  };
 };
 
 export default SaviaFoundationPlugin;

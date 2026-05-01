@@ -134,6 +134,17 @@ for d in sorted(per_day):
     bar = "█" * min(per_day[d], 30)
     print(f"    {d}  {per_day[d]:>4}  {bar}")
 PY
+
+  # ── Quota integration (SPEC-127 Slice 5 + Slice 2b-ii) ─────────────────
+  # If the user declared a budget in ~/.savia/preferences.yaml, also show
+  # the month-to-date consumption summary right after cognitive metrics.
+  local quota_tracker="${SCRIPT_DIR:-$(dirname "$0")}/savia-quota-tracker.sh"
+  if [ -x "$quota_tracker" ]; then
+    echo ""
+    echo "Savia quota — month-to-date"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    bash "$quota_tracker" summary 2>/dev/null || true
+  fi
 }
 
 # ── Subcommand: enable ──────────────────────────────────────────────────────
