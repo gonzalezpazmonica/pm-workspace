@@ -14,9 +14,10 @@ AZURE_DEVOPS_PAT_FILE   = "$HOME/.azure/devops-pat"
 AZURE_DEVOPS_API_VERSION = "7.1"
 AZURE_DEVOPS_PM_USER    = "nombre.apellido@miorganizacion.com"
 SPRINT_DURATION_WEEKS   = 2
-CLAUDE_MODEL_AGENT      = "claude-opus-4-6"
-CLAUDE_MODEL_MID        = "claude-sonnet-4-6"
-CLAUDE_MODEL_FAST       = "claude-haiku-4-5-20251001"
+# Model tiers resolved at runtime via scripts/savia-env.sh from ~/.savia/preferences.yaml
+# Heavy = complex reasoning (architect, code-reviewer, security)
+# Mid   = balanced (developers, test-runner)
+# Fast  = low-latency (azure-devops-operator, tech-writer)
 SDD_MAX_PARALLEL_AGENTS = 5
 TEST_COVERAGE_MIN_PERCENT = 80
 ```

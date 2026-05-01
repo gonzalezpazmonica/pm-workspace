@@ -13,7 +13,7 @@
 #   --timeout S         Timeout por agente en segundos. Default: 300
 #   --run-id ID         ID de la ejecucion. Default: YYYYMMDD-HHMMSS-fork
 #   --output DIR        Directorio output. Default: output/fork-runs/{run-id}/
-#   --model MODEL       Modelo a usar. Default: claude-sonnet-4-6
+#   --model MODEL       Modelo a usar. Default: prefers.yaml mid-tier
 #   --dry-run           Muestra lo que lanzaria sin ejecutar
 #   --verify-cache      Imprime sha256 del prefijo y sale (sin lanzar agentes)
 #
@@ -24,11 +24,21 @@ set -uo pipefail
 # ── Constantes ────────────────────────────────────────────────────────────────
 readonly DEFAULT_PARALLEL=5
 readonly DEFAULT_TIMEOUT=300
-readonly DEFAULT_MODEL="claude-sonnet-4-6"
-# Context windows por modelo (tokens). 80% = limite para prefijo
+
+# Provider-agnostic model resolution via preferences.yaml
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "${SCRIPT_DIR}/savia-env.sh" ]]; then
+  source "${SCRIPT_DIR}/savia-env.sh"
+fi
+readonly DEFAULT_MODEL="${SAVIA_MODEL_MID:-deepseek/deepseek-chat}"
+
+# Context windows por modelo (tokens). 80% = limite para prefijo.
+# Key convention: CTX_<model_with_underscores>. Falls back to 200000 token default.
 readonly CTX_claude_sonnet_4_6=200000
 readonly CTX_claude_opus_4_6=200000
 readonly CTX_claude_haiku_4_5=200000
+readonly CTX_deepseek_deepseek_chat=128000
+readonly CTX_deepseek_deepseek_v4_pro=128000
 # Chars por token (aproximacion conservadora: 4 chars = 1 token)
 readonly CHARS_PER_TOKEN=4
 

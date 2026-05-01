@@ -5,8 +5,8 @@
 # Usage: bash scripts/advisor-config.sh [options]
 #
 # Options:
-#   --executor MODEL     Executor model. Default: claude-sonnet-4-6
-#   --advisor MODEL      Advisor model. Default: claude-opus-4-7
+#   --executor MODEL     Executor model (default: mid-tier via preferences)
+#   --advisor MODEL      Advisor model (default: heavy-tier via preferences)
 #   --max-uses N         Max advisor calls per request. Default: 3
 #   --enabled BOOL       Enable/disable advisor. Default: true
 #   --output json|yaml   Output format. Default: json
@@ -15,9 +15,9 @@
 #
 # Environment variables (override defaults):
 #   ADVISOR_ENABLED            true|false (default: true)
-#   ADVISOR_MODEL              Full model ID (default: claude-opus-4-7)
+#   ADVISOR_MODEL              Full model ID (default: from preferences model_heavy)
 #   ADVISOR_MAX_USES           Integer (default: 3)
-#   ADVISOR_EXECUTOR_DEFAULT   Full model ID (default: claude-sonnet-4-6)
+#   ADVISOR_EXECUTOR_DEFAULT   Full model ID (default: from preferences model_mid)
 #
 # Exit codes:
 #   0  Success
@@ -34,24 +34,32 @@ set -uo pipefail
 # Read stdin for hook compatibility
 cat /dev/stdin > /dev/null 2>&1 || true
 
-# ── Model name mapping ───────────────────────────────────────────────────────
+# ── Model name mapping (provider-agnostic) ───────────────────────────────────
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "${SCRIPT_DIR}/savia-env.sh" ]]; then
+  source "${SCRIPT_DIR}/savia-env.sh"
+fi
+
+# Resolve a short or canonical model name to the user's effective provider ID.
+# Maps opus/sonnet/haiku → heavy/mid/fast tier via preferences.yaml.
+# Falls back to pass-through for unrecognized names.
 resolve_model() {
   local short="$1"
-  case "$short" in
-    opus)   echo "claude-opus-4-7" ;;
-    sonnet) echo "claude-sonnet-4-6" ;;
-    haiku)  echo "claude-haiku-4-5-20251001" ;;
-    claude-opus-4-7|claude-sonnet-4-6|claude-haiku-4-5-20251001)
-      echo "$short" ;;
-    *)
-      echo "" ;;
-  esac
+  local resolved
+  resolved=$(savia_resolve_model "$short" 2>/dev/null) || true
+  if [[ -n "$resolved" ]]; then
+    echo "$resolved"
+    return 0
+  fi
+  # Pass-through: user passed a full provider model ID
+  echo "$short"
 }
 
 is_opus() {
   local model="$1"
-  [[ "$model" == "opus" || "$model" == "claude-opus-4-7" ]]
+  local heavy; heavy="${SAVIA_MODEL_HEAVY:-}"
+  [[ "$model" == "opus" || "$model" == "heavy" || "$model" == "claude-opus-4-7" || ( -n "$heavy" && "$model" == "$heavy" ) ]]
 }
 
 # ── Frontmatter parser ───────────────────────────────────────────────────────
@@ -113,9 +121,9 @@ emit_yaml() {
 # ── Defaults from env ────────────────────────────────────────────────────────
 
 ENABLED="${ADVISOR_ENABLED:-true}"
-ADVISOR="${ADVISOR_MODEL:-claude-opus-4-7}"
+ADVISOR="${ADVISOR_MODEL:-${SAVIA_MODEL_HEAVY:-opus}}"
 MAX_USES="${ADVISOR_MAX_USES:-3}"
-EXECUTOR="${ADVISOR_EXECUTOR_DEFAULT:-claude-sonnet-4-6}"
+EXECUTOR="${ADVISOR_EXECUTOR_DEFAULT:-${SAVIA_MODEL_MID:-sonnet}}"
 OUTPUT_FMT="json"
 AGENT_NAME=""
 AGENTS_DIR=".claude/agents"

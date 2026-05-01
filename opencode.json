@@ -20,9 +20,155 @@
     "docs/rules/domain/agents-catalog.md"
   ],
 
-  "agent": {},
-  "command": {},
-  "plugin": [],
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "model": "deepseek/deepseek-v4-pro",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow",
+        "task": "allow",
+        "webfetch": "allow",
+        "websearch": "allow"
+      }
+    },
+    "plan": {
+      "mode": "primary",
+      "model": "deepseek/deepseek-chat",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "task": "deny"
+      }
+    },
+    "code-reviewer": {
+      "description": "Revisión de código .NET como quality gate antes de merge. Focus: SOLID, OWASP, performance.",
+      "mode": "subagent",
+      "model": "deepseek/deepseek-v4-pro",
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "deny",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "grep *": "allow",
+          "dotnet build": "allow",
+          "dotnet test*": "allow"
+        }
+      },
+      "temperature": 0.1
+    },
+    "architect": {
+      "description": "Diseño de arquitectura .NET y decisiones técnicas de alto nivel. SOLID, DDD, Clean Architecture.",
+      "mode": "subagent",
+      "model": "deepseek/deepseek-v4-pro",
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "deny",
+          "git *": "allow",
+          "grep *": "allow",
+          "dotnet *": "allow",
+          "npm *": "allow"
+        }
+      }
+    },
+    "security-guardian": {
+      "description": "Auditor de seguridad pre-commit. Detecta credenciales, OWASP, CWE Top 25, datos sensibles.",
+      "mode": "subagent",
+      "model": "deepseek/deepseek-v4-pro",
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "deny",
+          "git *": "allow",
+          "grep *": "allow"
+        }
+      }
+    },
+    "business-analyst": {
+      "description": "Análisis de reglas de negocio, descomposición de PBIs, criterios de aceptación.",
+      "mode": "subagent",
+      "model": "deepseek/deepseek-chat",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
+    },
+    "test-runner": {
+      "description": "Ejecuta suite completa de tests y verifica cobertura >= 80%.",
+      "mode": "subagent",
+      "model": "deepseek/deepseek-chat",
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "deny",
+          "dotnet test*": "allow",
+          "npm test*": "allow",
+          "npm run test*": "allow",
+          "pytest*": "allow",
+          "go test*": "allow"
+        }
+      }
+    },
+    "commit-guardian": {
+      "description": "Verifica cambios staged antes de commit: branch, tests, formato, credenciales.",
+      "mode": "subagent",
+      "model": "deepseek/deepseek-chat",
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "deny",
+          "git *": "allow",
+          "grep *": "allow"
+        }
+      }
+    }
+  },
+
+  "command": {
+    "sprint-status": {
+      "template": "Estado del sprint actual. Obtén el sprint activo, calcula progreso, burndown y alertas de WIP. Usa la skill sprint-management. Carga el perfil activo para personalizar output.",
+      "description": "Estado del sprint — progreso, burndown, alertas",
+      "agent": "build"
+    },
+    "board-flow": {
+      "template": "Flujo del board — WIP por columna, aging, throughput, bloqueos. Analiza cuellos de botella y sugiere acciones.",
+      "description": "Board flow — WIP, aging, throughput",
+      "agent": "build"
+    },
+    "my-sprint": {
+      "template": "Items del sprint actual asignados al usuario activo. Muestra estado, remaining work, bloqueos.",
+      "description": "My sprint — items del usuario activo",
+      "agent": "build"
+    },
+    "daily-routine": {
+      "template": "Rutina diaria: daily standup, revisión de bloqueos, plan del día. Hora target: 09:15.",
+      "description": "Daily routine — standup y plan del día",
+      "agent": "build"
+    },
+    "compact": {
+      "template": "Libera contexto compactando la sesión actual. Resume lo esencial y libera memoria.",
+      "description": "Compact — liberar contexto",
+      "agent": "build",
+      "subtask": true
+    },
+    "my-focus": {
+      "template": "Item prioritario del usuario activo. Muestra estado, bloqueos, dependencias y siguiente paso.",
+      "description": "Focus — item prioritario del usuario",
+      "agent": "build"
+    },
+    "savia-live": {
+      "template": "Savia live — estado actual del workspace: salud de agentes, hooks activos, memoria, sprint activo.",
+      "description": "Savia live — estado actual del workspace",
+      "agent": "build"
+    },
+    "help": {
+      "template": "Catálogo de comandos y agentes disponibles en pm-workspace. Agrupados por categoría.",
+      "description": "Help — catálogo de comandos",
+      "agent": "build"
+    }
+  },
 
   "autoupdate": false,
   "snapshot": true,
