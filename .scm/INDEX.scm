@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d61bb38fdf0e | resources: 1123
-> 532 commands · 90 skills · 70 agents · 431 scripts
+> hash: e28de4e5a5b4 | resources: 1125
+> 532 commands · 92 skills · 70 agents · 431 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -104,10 +104,12 @@
 [communication] savia-hub — accessing,central,knowledge,savia,tools — cmd:.claude/commands/savia-hub.md
 [communication] savia-hub-init — init,initialize,local,repository,savia — script:scripts/savia-hub-init.sh
 [communication] savia-hub-sync — orquestación,repositorio,saviahub,sincronización — skill:.claude/skills/savia-hub-sync/SKILL.md
+[communication] savia-identity — carga,completa,identidad,inicio,memoria — skill:.claude/skills/savia-identity/SKILL.md
 [communication] savia-inbox —  — cmd:.claude/commands/savia-inbox.md
 [communication] savia-index — index,savia — script:scripts/savia-index.sh
 [communication] savia-index-rebuild — index,rebuild,savia — script:scripts/savia-index-rebuild.sh
 [communication] savia-live — activity,live,queue,recent,right — cmd:.claude/commands/savia-live.md
+[communication] savia-memory — búsqueda,canónica,consolidación,escritura,externa — skill:.claude/skills/savia-memory/SKILL.md
 [communication] savia-memory-bootstrap — bootstrap,canónico,crea,externo,memory — script:scripts/savia-memory-bootstrap.sh
 [communication] savia-memory-migrate — canónico,externos,internos,memoria,memory — script:scripts/savia-memory-migrate.sh
 [communication] savia-messaging — creation,delivery,inbox,management,message — script:scripts/savia-messaging.sh
