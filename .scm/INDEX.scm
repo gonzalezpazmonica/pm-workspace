@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: e28de4e5a5b4 | resources: 1125
-> 532 commands · 92 skills · 70 agents · 431 scripts
+> hash: b5e65a539ea5 | resources: 1126
+> 532 commands · 92 skills · 70 agents · 432 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -375,6 +375,7 @@
 [memory] memory-hygiene — auto,automática,hygiene,limpieza,memory — script:scripts/memory-hygiene.sh
 [memory] memory-importance — candidatas,composita,críticas,engrams,frecuencia — cmd:.claude/commands/memory-importance.md
 [memory] memory-index — build,efficient,index,maintain,memory — cmd:.claude/commands/memory-index.md
+[memory] memory-index-rebuild — auto,index,jsonl,memory,rebuild — script:scripts/memory-index-rebuild.sh
 [memory] memory-prune — archiva,baja,críticas,engrams,importance — cmd:.claude/commands/memory-prune.md
 [memory] memory-recall — context,current,memories,relevant,retrieve — cmd:.claude/commands/memory-recall.md
 [memory] memory-rotate — context,cycles,daily,execute,manually — cmd:.claude/commands/memory-rotate.md

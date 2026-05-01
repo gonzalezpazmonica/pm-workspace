@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 96 resources
+> 97 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -63,6 +63,7 @@
 - **memory-hygiene** (script): memory-hygiene.sh — SPEC-142: Limpieza automática de auto-memory
 - **memory-importance** (cmd): Scoring semántico de importancia de engrams usando fórmula composita (relevancia × recencia × frecuencia). Identifica memorias críticas para mantener y candidatas para poda.
 - **memory-index** (cmd): Build and maintain memory index for efficient retrieval
+- **memory-index-rebuild** (script): memory-index-rebuild.sh — rebuild auto/MEMORY.md index from JSONL store
 - **memory-prune** (cmd): Poda semántica inteligente de memorias. Archiva engrams de baja importancia, mantiene críticas. Usa scores de /memory-importance. Reversible con restore.
 - **memory-recall** (cmd): Retrieve relevant memories for current context
 - **memory-rotate** (cmd): Execute context rotation manually — daily, weekly, monthly cycles
