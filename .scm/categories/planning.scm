@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 493 resources
+> 494 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -391,6 +391,7 @@
 - **skill-rank** (cmd): Show skill effectiveness ranking based on invocation data
 - **skill-read** (cmd): Carga el contenido completo de un skill bajo demanda (progressive disclosure)
 - **skills-lock** (script): skills-lock.sh — SHA-256 integrity verification for skills
+- **skills-md-generate** (script): skills-md-generate.sh — generate SKILLS.md cross-frontend skills catalog
 - **skillssh-adapter** (script): ── skills.sh Adapter — Genera paquetes publicables para skills.sh ──
 - **slm** (script): slm.sh — Unified SLM (Small Language Model) training toolchain dispatcher.
 - **slm-data-collect** (script): slm-data-collect.sh — Collect training data from workspace artifacts.
