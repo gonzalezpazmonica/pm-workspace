@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=cb6459d695917049e33096c56a236d2661742a32fcc3faa350c16ab810c2ccbb
-timestamp=2026-05-01T19:19:14Z
+diff_hash=d5b2b7ce636216b45c4febf004a33af850259cbd787f5e58577973ffece8dd2f
+timestamp=2026-05-01T22:16:11Z
 branch=fix/opencode-plugin-loader-skips-tests
-head_commit=4a090880
-signature=df2365e12a01ed2d18aaf8ca64628aa7ae7761064352397075af0ff8d5464c93
+head_commit=c362495b
+signature=b6097f28ae2ce09bff23dc2a04a54e8f1b4df72ac3a86b5e1d26e01f9e7e46b7

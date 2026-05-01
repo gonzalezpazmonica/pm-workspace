@@ -32,7 +32,7 @@ fi
 
 # Bloquear git commit/add en main SOLO para savia/pm-workspace
 if echo "$COMMAND" | grep -iE 'git[[:space:]]+(commit|add)' > /dev/null; then
-  GIT_DIR_TARGET="$CLAUDE_PROJECT_DIR"
+  GIT_DIR_TARGET="${CLAUDE_PROJECT_DIR:-${OPENCODE_PROJECT_DIR:-$PWD}}"
   CD_PATH=$(echo "$COMMAND" | sed -n 's/^[[:space:]]*cd[[:space:]]*"\([^"]*\)".*/\1/p' 2>/dev/null)
   if [[ -n "$CD_PATH" ]] && [[ -d "$CD_PATH/.git" ]]; then
     GIT_DIR_TARGET="$CD_PATH"

@@ -1,76 +1,117 @@
 # Hooks: Salvaguardas Programáticas No Eludibles
 
-Los hooks en pm-workspace son mecanismos de seguridad programática que garantizan la integridad del flujo de trabajo. Actúan como controles automatizados que no pueden ser omitidos, protegiendo la calidad del código, la seguridad de credenciales y la coherencia con las especificaciones del proyecto.
+65 hooks .sh protegidos contra vendor lock-in. El directorio está symlinked a
+`.opencode/hooks/` para compatibilidad cross-frontend. OpenCode ejecuta los 5
+hooks Tier-1 como ports TypeScript nativos en `.opencode/plugins/guards/`; el
+resto vía bridge `savia-gates` (Bun shell API + env var inyección).
 
-## Seguridad (7)
+## Arquitectura dual
 
-### block-credential-leak.sh
-Detecta secretos hardcodeados antes del commit. Escanea cambios para identificar patrones de credenciales, claves API y tokens sensibles, previniendo filtraciones involuntarias.
+| Frontend | Mecanismo | Hooks activos |
+|----------|-----------|---------------|
+| Claude Code | `.claude/settings.json` → stdin JSON | 61/65 registrados |
+| OpenCode | `savia-foundation.ts` (nativo) + `savia-gates` (bridge) | 5 nativos + 61 bridge |
 
-### block-force-push.sh
-Previene force-push a ramas principales (main/master). Bloquea operaciones destructivas que podrían sobrescribir historial colaborativo.
+## Categorías
 
-### block-infra-destructive.sh
-Bloquea operaciones `terraform destroy` sin aprobación explícita. Requiere confirmación manual para evitar destrucción accidental de infraestructura.
+### Tier 1 — Seguridad Crítica (5)
+Ports TypeScript en `.opencode/plugins/guards/`. Cobertura dual .sh + .ts.
 
-### validate-bash-global.sh
-Previene operaciones bash destructivas. Valida scripts para evitar comandos peligrosos como `rm -rf /`, `chmod 777`, `curl | bash`, `sudo`, y auto-aprobación de PRs.
+| Hook | Función |
+|------|---------|
+| `block-credential-leak` | Detecta secretos, claves API, tokens en comandos |
+| `block-gitignored-references` | Bloquea acceso a archivos en .gitignore |
+| `prompt-injection-guard` | Detecta intentos de inyección en prompts |
+| `validate-bash-global` | Bloquea comandos destructivos (rm -rf /, chmod 777, curl\|bash) |
+| `tdd-gate` | Refuerza TDD — tests antes que código |
 
-### android-adb-validate.sh
-Valida comandos ADB antes de ejecución en dispositivos Android. Previene operaciones destructivas como `adb shell rm -rf` o acceso a datos sensibles del dispositivo. Registra todas las operaciones ADB en log de auditoría.
+### Seguridad (6)
+| Hook | Función |
+|------|---------|
+| `block-force-push` | Bloquea force-push a main/master |
+| `block-infra-destructive` | Bloquea terraform destroy sin aprobación |
+| `block-branch-switch-dirty` | Bloquea cambio de rama con cambios sin commit |
+| `block-project-whitelist` | Whitelist de proyectos accesibles |
+| `compliance-gate` | CHANGELOG, tamaño ficheros, frontmatter |
+| `data-sovereignty-gate` | Gate de soberanía de datos |
 
-### block-project-whitelist.sh
-Protege la privacidad entre proyectos. Bloquea lecturas y escrituras a directorios de proyectos que no estén en la whitelist del workspace actual.
+### Hooks PreToolUse (26)
+Validación previa a ejecución de herramientas. Bloquean con exit 2.
 
-### compliance-gate.sh
-Gate de compliance que bloquea commits con violaciones. Verifica links de comparación en CHANGELOG, tamaño de ficheros (≤150 líneas para workspace files), frontmatter YAML en comandos y sincronización de READMEs.
+`acm-enforcement`, `agent-dispatch-validate`, `agent-hook-premerge`,
+`agent-tool-call-validate`, `ast-comprehend-hook`, `delegation-guard`,
+`live-progress-hook`, `memory-verified-gate`, `plan-gate`,
+`prompt-hook-commit`, `responsibility-judge`, `savia-budget-guard`,
+`tool-call-healing`, `user-prompt-intercept`, `validate-layer-contract`
 
-## Puertas de Calidad (4)
+### Hooks PostToolUse (13)
+Post-ejecución — logging, captura, telemetría.
 
-### plan-gate.sh
-Bloquea implementación sin especificación aprobada. Verifica que exista documentación de diseño validada antes de proceder con cambios de código.
+`acm-turn-marker`, `agent-trace-log`, `ast-quality-gate-hook`,
+`bash-output-compress`, `competence-tracker`, `compress-agent-output`,
+`data-sovereignty-audit`, `dual-estimation-gate`, `memory-auto-capture`,
+`pbi-history-capture`, `post-edit-lint`, `post-report-write`,
+`token-tracker-middleware`
 
-### tdd-gate.sh
-Refuerza Test-Driven Development: pruebas primero, código después. Rechaza commits que contengan implementación sin tests correspondientes.
+### Sesión (7)
+Gestión del ciclo de vida de sesión.
 
-### stop-quality-gate.sh
-Puerta de calidad final antes del commit. Ejecuta validaciones finales: linting, type checking, y verificación de estándares de proyecto.
+| Hook | Evento |
+|------|--------|
+| `session-init` | SessionStart — bootstrap del workspace |
+| `shield-autostart` | SessionStart — arranque del shield local |
+| `emergency-mode-readiness` | SessionStart — verificación modo emergencia |
+| `session-end-memory` | SessionEnd — snapshot de memoria de sesión |
+| `session-end-snapshot` | Stop — snapshot de contexto |
+| `stop-quality-gate` | Stop — quality gate final |
+| `stop-memory-extract` | Stop — extracción profunda de memoria |
+| `pre-compact-backup` | PreCompact — backup pre-compactación |
+| `scope-guard` | Stop — verificación de scope |
+| `emotional-regulation-monitor` | Stop — monitor de estrés de sesión |
+| `postponement-judge` | Stop — juez de postergación |
 
-### scope-guard.sh
-Verifica que archivos staged coincidan con el scope de la especificación. Previene cambios fuera del alcance documentado.
+### Subagentes (2)
+| Hook | Evento |
+|------|--------|
+| `subagent-lifecycle` | SubagentStart + SubagentStop |
+| `task-lifecycle` | TaskCreated + TaskCompleted |
 
-## Integración de Agent (4)
+### UI/UX (6)
+| Hook | Evento |
+|------|--------|
+| `memory-prime-hook` | UserPromptSubmit — priming de contexto |
+| `stress-awareness-nudge` | UserPromptSubmit — nudge anti-estrés |
+| `cwd-changed-hook` | CwdChanged |
+| `file-changed-staleness` | FileChanged |
+| `instructions-tracker` | InstructionsLoaded |
+| `cognitive-debt-hypothesis-first` | (no registrado — fase 1 SPEC-107) |
 
-### agent-hook-premerge.sh
-Puerta de calidad pre-merge que valida: credenciales filtradas, TODOs pendientes y marcadores de conflicto. Ejecuta antes de fusionar cambios.
+### Auditoría y regeneración (2)
+| Hook | Evento |
+|------|--------|
+| `agents-md-auto-regenerate` | Stop — regenera AGENTS.md |
+| `pre-commit-review` | Stop — revisión pre-commit |
 
-### agent-dispatch-validate.sh
-Valida el contexto antes de lanzar sub-agentes (Task tool). Verifica que exista especificación aprobada, que el scope sea apropiado y que no se excedan los límites de anidamiento.
+### No registrados (4 huérfanos)
+Existen en filesystem pero no en settings.json. Pendientes de activación.
 
-### agent-trace-log.sh
-Rastrea ejecución del agent registrando tokens consumidos y duración de operaciones. Proporciona visibilidad sobre el uso de recursos de automatización.
+`android-adb-validate`, `cognitive-debt-hypothesis-first`,
+`cognitive-debt-telemetry`, `recommendation-tribunal-pre-output`
 
-### session-init.sh
-Inicialización de sesión (~300 tokens). Configura el entorno y estado inicial para ejecución consistente de agents.
+## Provider-agnostic compliance
 
-## Flujo de Desarrollo (4)
+Todos los hooks usan este patrón para resolver el directorio del proyecto:
+```bash
+GIT_DIR_TARGET="${CLAUDE_PROJECT_DIR:-${OPENCODE_PROJECT_DIR:-$PWD}}"
+```
 
-### pre-commit-review.sh
-Revisión de código contra reglas de dominio antes del commit. Valida adherencia a patrones establecidos y convenciones del proyecto.
+Ningún hook hardcodea paths a `.claude/` sin fallback. El bridge `savia-gates`
+inyecta `CLAUDE_PROJECT_DIR` como env var desde `PM_WORKSPACE_ROOT` cuando se
+ejecuta bajo OpenCode, garantizando backward compatibility con hooks legacy.
 
-### post-edit-lint.sh
-Auto-lint automático después de editar archivos. Aplica correcciones de formato y estilo inmediatamente tras modificaciones.
+## Registro
 
-### prompt-hook-commit.sh
-Validación de mensaje de commit semántico. Asegura que mensajes sigan convenciones, valida que CHANGELOG tenga links de comparación cuando se modifica, y verifica longitud de primera línea (≤72 chars).
-
-### memory-auto-capture.sh
-Captura automática de contexto en memoria persistente después de ediciones. Registra patrones de cambio y decisiones arquitectónicas para sesiones futuras.
-
-## Registro y Configuración
-
-Todos los hooks están registrados en `settings.json` del proyecto. Esta configuración centralizada permite habilitar, deshabilitar o personalizar comportamientos según necesidades específicas del espacio de trabajo.
-
----
-
-**Inspirado en:** [claude-code-templates](https://github.com/anthropics/claude-code-templates) — Sistema de categorización de hooks para flujos de trabajo profesionales.
+61 hooks registrados en `.claude/settings.json` (17 eventos). 4 hooks en
+filesystem pendientes de registro. La configuración se comparte entre
+frontends vía el bridge `savia-gates/lib/manifest.ts` que lee settings.json
+y mapea eventos a eventos OpenCode equivalentes.
