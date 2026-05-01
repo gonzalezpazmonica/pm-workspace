@@ -38,6 +38,15 @@ EXCLUDE_FILES="$EXCLUDE_FILES|messaging-subject-safety.md|confidentiality-strate
 EXCLUDE_FILES="$EXCLUDE_FILES|pentesting/|checklists.md"
 EXCLUDE_FILES="$EXCLUDE_FILES|credential-proxy.sh|managed-agents-patterns.md"
 EXCLUDE_FILES="$EXCLUDE_FILES|session-event-log.sh"
+# OpenCode TS hook ports (same self-referential exclusion as block-credential-leak.sh)
+EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/.*\.test\.ts$"
+EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/lib/credential-patterns\.ts$"
+EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/lib/injection-patterns\.ts$"
+EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/lib/leakage-patterns\.ts$"
+EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/block-credential-leak\.ts$"
+EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/block-gitignored-references\.ts$"
+EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/prompt-injection-guard\.ts$"
+EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/validate-bash-global\.ts$"
 
 get_lines() {
   cd "$ROOT_DIR" || exit 2
