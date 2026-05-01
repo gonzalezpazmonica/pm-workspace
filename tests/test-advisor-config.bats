@@ -1,11 +1,18 @@
 #!/usr/bin/env bats
-# Tests for advisor-config.sh — Anthropic Advisor Strategy config generator
+# Tests for advisor-config.sh — provider-agnostic advisor config generator
 # Ref: SPEC-ADVISOR-STRATEGY
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   export SCRIPT="$REPO_ROOT/scripts/advisor-config.sh"
   TMPDIR_AC="$(mktemp -d)"
+
+  # Provider-agnostic model tier resolution. In CI preferences.yaml is absent
+  # so we simulate a configured provider by setting tier env vars. This mimics
+  # what `bash scripts/savia-preferences.sh init` would write.
+  export SAVIA_MODEL_HEAVY="claude-opus-4-7"
+  export SAVIA_MODEL_MID="claude-sonnet-4-6"
+  export SAVIA_MODEL_FAST="claude-haiku-4-5-20251001"
 
   # Create mock agents directory with test fixtures
   MOCK_AGENTS="$TMPDIR_AC/agents"
