@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0fd88728024f07c3d48e217f07405531308746f9ad45a9c2730fc4bc19358e8d
-timestamp=2026-04-30T22:26:30Z
+diff_hash=496eb27bde80cd9f91397a5e5ac62625c3333224c78e6717bccaec8879b5ac11
+timestamp=2026-05-01T05:04:01Z
 branch=agent/spec-127-slice5-quota-guard-20260501
-head_commit=fef71882
-signature=93790708d825afae96a0f4278232719ed5d37cb44369eb1fd87555fac3ea991b
+head_commit=afccc7a7
+signature=5d542fb366b39d21d59a93d8cee80fd63c7d76bd30540f0874231cdd4bd8cfa3
