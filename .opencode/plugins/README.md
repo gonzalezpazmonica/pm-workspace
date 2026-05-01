@@ -27,16 +27,36 @@ and establishes the typed contract that Slice 2b-ii ports build on.
 ## Porting roadmap (Slice 2b-ii)
 
 These 5 hooks are TIER-1 in the classifier. Each gets its own port file
-in this folder, with a matching `.test.ts` (Bun test runner):
+in `guards/`, with a matching `.test.ts` in `__tests__/` (Bun test runner):
 
-1. `validate-bash-global.sh` → `validate-bash-global.ts` (matcher: bash)
-2. `block-credential-leak.sh` → `block-credential-leak.ts` (bash, edit)
-3. `block-gitignored-references.sh` → `block-gitignored-references.ts` (edit, write)
-4. `prompt-injection-guard.sh` → `prompt-injection-guard.ts` (edit, write)
-5. `tdd-gate.sh` → `tdd-gate.ts` (edit)
+1. `validate-bash-global.sh` → `guards/validate-bash-global.ts` (matcher: bash)
+2. `block-credential-leak.sh` → `guards/block-credential-leak.ts` (bash, edit)
+3. `block-gitignored-references.sh` → `guards/block-gitignored-references.ts` (edit, write)
+4. `prompt-injection-guard.sh` → `guards/prompt-injection-guard.ts` (edit, write)
+5. `tdd-gate.sh` → `guards/tdd-gate.ts` (edit)
 
 Each port preserves the bash hook's intent. They are *additive* under
 OpenCode; Claude Code keeps using the original `.sh` hooks. PV-01.
+
+## Folder layout
+
+OpenCode v1.14 loads every top-level `.ts` in this folder as a plugin and
+expects each to export the `Plugin` shape (`{ auth, ...event handlers }`).
+Files that do NOT export that shape (guards, library helpers, tests) live
+in subfolders so the plugin loader does not pick them up:
+
+```
+plugins/
+  savia-foundation.ts          ← only top-level plugin
+  guards/                      ← guard functions imported by the plugin
+  lib/                         ← shared helpers (regex tables, type guards)
+  __tests__/                   ← bun:test suites for guards + foundation
+```
+
+If you add a new guard, put it in `guards/` and wire it into
+`savia-foundation.ts`. Never place plain functions or test files at the
+top level — the loader will crash with `J.auth is undefined` and break
+even non-tool commands like `opencode auth login`.
 
 ## What this folder does NOT do
 

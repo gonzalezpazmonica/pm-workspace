@@ -20,11 +20,11 @@
 
 import type { Plugin } from "@opencode-ai/plugin";
 
-import { validateBashGlobal } from "./validate-bash-global.ts";
-import { blockCredentialLeak } from "./block-credential-leak.ts";
-import { blockGitignoredReferences } from "./block-gitignored-references.ts";
-import { promptInjectionGuard } from "./prompt-injection-guard.ts";
-import { tddGate } from "./tdd-gate.ts";
+import { validateBashGlobal } from "./guards/validate-bash-global.ts";
+import { blockCredentialLeak } from "./guards/block-credential-leak.ts";
+import { blockGitignoredReferences } from "./guards/block-gitignored-references.ts";
+import { promptInjectionGuard } from "./guards/prompt-injection-guard.ts";
+import { tddGate } from "./guards/tdd-gate.ts";
 
 const GUARDS = [
   validateBashGlobal,

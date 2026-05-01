@@ -9,7 +9,7 @@
 // filesystem to look for matching test files; that runtime probe is
 // integration-tested via the bash hook fixture under Claude Code.
 
-import { extractToolName, extractFilePath, type ToolInput } from "./lib/hook-input.ts";
+import { extractToolName, extractFilePath, type ToolInput } from "../lib/hook-input.ts";
 
 const PRODUCTION_EXT = new Set([
   "cs", "py", "ts", "tsx", "js", "jsx", "go", "rs", "rb", "php",

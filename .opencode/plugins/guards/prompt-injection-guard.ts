@@ -13,8 +13,8 @@ import {
   extractFilePath,
   extractContent,
   type ToolInput,
-} from "./lib/hook-input.ts";
-import { detectInjection } from "./lib/injection-patterns.ts";
+} from "../lib/hook-input.ts";
+import { detectInjection } from "../lib/injection-patterns.ts";
 
 const SKIP_EXTENSIONS = new Set([
   "sh", "py", "ts", "js", "cs", "java", "go", "rs", "rb", "php",

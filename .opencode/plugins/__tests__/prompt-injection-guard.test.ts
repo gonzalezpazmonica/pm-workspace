@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test";
-import { promptInjectionGuard } from "./prompt-injection-guard.ts";
+import { promptInjectionGuard } from "../guards/prompt-injection-guard.ts";
 
 test("promptInjectionGuard: throws on override attempt in context-md content", async () => {
   const input = {

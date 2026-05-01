@@ -113,9 +113,9 @@ for f in \
   ".opencode/plugins/savia-foundation.ts" \
   ".opencode/plugins/lib/hook-input.ts" \
   ".opencode/plugins/lib/credential-patterns.ts" \
-  ".opencode/plugins/block-credential-leak.ts" \
-  ".opencode/plugins/validate-bash-global.ts" \
-  ".opencode/plugins/tdd-gate.ts"
+  ".opencode/plugins/guards/block-credential-leak.ts" \
+  ".opencode/plugins/guards/validate-bash-global.ts" \
+  ".opencode/plugins/guards/tdd-gate.ts"
 do
   if [[ ! -f "$ROOT/$f" ]]; then
     fail "$f missing"

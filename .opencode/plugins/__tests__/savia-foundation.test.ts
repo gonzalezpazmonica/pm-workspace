@@ -5,7 +5,7 @@
 // by their individual *.test.ts files.
 
 import { test, expect } from "bun:test";
-import { SaviaFoundationPlugin } from "./savia-foundation.ts";
+import { SaviaFoundationPlugin } from "../savia-foundation.ts";
 
 const ctx = {
   project: { name: "test" } as any,

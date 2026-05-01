@@ -13,7 +13,7 @@
 //
 // Reference: SPEC-127 Slice 2b-ii AC-2.2
 
-import { extractToolName, extractCommand, type ToolInput } from "./lib/hook-input.ts";
+import { extractToolName, extractCommand, type ToolInput } from "../lib/hook-input.ts";
 
 const RULES: Array<{ rx: RegExp; msg: string }> = [
   {

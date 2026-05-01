@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test";
-import { tddGateForPath, tddGate } from "./tdd-gate.ts";
+import { tddGateForPath, tddGate } from "../guards/tdd-gate.ts";
 
 // Static helper tests — exercise the path classification logic without
 // requiring filesystem access to find tests.
