@@ -39,7 +39,15 @@ else USE_GH_CLI=false; fi
 
 # ── Steps 1-5: Validate → CI → CHANGELOG → Sign → Push ──────────────────
 _supervisor() { local d="$1"; bash scripts/session-action-log.sh log "push-pr" "$BRANCH" "fail" "$d" >/dev/null 2>&1 || true; bash scripts/execution-supervisor.sh "push-pr" "$BRANCH" "$d" 2>&1 || true; }
-echo "=== Step 1: Working tree ==="; [[ -n "$(git diff --name-only 2>/dev/null)" ]] && { _supervisor "Uncommitted changes"; echo "ERROR: Uncommitted changes." >&2; exit 1; }; echo "  Clean."
+echo "=== Step 1: Working tree ==="
+if $FROM_PR_PLAN; then
+  local changed; changed=$(git diff --name-only 2>/dev/null | grep -vE '(\.confidentiality-signature|\.scm/)' || true)
+  [[ -n "$changed" ]] && { _supervisor "Uncommitted changes: $changed"; echo "ERROR: Uncommitted changes: $changed" >&2; exit 1; }
+  echo "  Clean (pr-plan artifacts allowed)."
+else
+  [[ -n "$(git diff --name-only 2>/dev/null)" ]] && { _supervisor "Uncommitted changes"; echo "ERROR: Uncommitted changes." >&2; exit 1; }
+  echo "  Clean."
+fi
 echo -e "\n=== Step 2: CI local ==="
 if $SKIP_CI; then echo "  Skipped."
 else bash scripts/validate-ci-local.sh 2>&1 | tail -5 | grep -q "safe to push" || { _supervisor "CI local failed"; echo "ERROR: CI failed." >&2; exit 1; }; echo "  Passed."; fi
