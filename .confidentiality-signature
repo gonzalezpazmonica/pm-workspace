@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=f5ee924a1aa58fe2fda0bc7ff190d2e6a48876362fff52ea2756b980b0044590
-timestamp=2026-05-01T06:44:27Z
+timestamp=2026-05-01T06:44:28Z
 branch=agent/spec-127-opencode-migration-final-20260501
-head_commit=eb9e9e93
+head_commit=9590d2fd
 signature=ded0a7d9b03170a06b13845180308434681d5957578830e8aee4b80440017a02
