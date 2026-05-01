@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 273e52f2733c | resources: 1120
-> 532 commands · 90 skills · 70 agents · 428 scripts
+> hash: f443620f4c9c | resources: 1121
+> 532 commands · 90 skills · 70 agents · 429 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
@@ -118,6 +118,7 @@
 [communication] savia-pbi —  — cmd:.claude/commands/savia-pbi.md
 [communication] savia-persona-tune — ajustar,específico,estilo,personalidad,proyecto — cmd:.claude/commands/savia-persona-tune.md
 [communication] savia-preferences — manage,preferences,savia,slice,spec — script:scripts/savia-preferences.sh
+[communication] savia-quota-tracker — quota,savia,slice,spec,tracker — script:scripts/savia-quota-tracker.sh
 [communication] savia-recall — information,memory,recall,retrieve,savia — cmd:.claude/commands/savia-recall.md
 [communication] savia-reply —  — cmd:.claude/commands/savia-reply.md
 [communication] savia-school — adapta,alias,cumplimiento,edad,educativos — skill:.claude/skills/savia-school/SKILL.md
@@ -794,7 +795,7 @@
 [planning] skill-rank — based,data,effectiveness,invocation,ranking — cmd:.claude/commands/skill-rank.md
 [planning] skill-read — bajo,carga,completo,contenido,demanda — cmd:.claude/commands/skill-read.md
 [planning] skills-lock — integrity,lock,skills,verification — script:scripts/skills-lock.sh
-[planning] skills-md-generate — catalog,cross,frontend,generate,skills — script:scripts/skills-md-generate.sh
+[planning] skills-md-generate — across,deterministic,force,handling,locale — script:scripts/skills-md-generate.sh
 [planning] skillssh-adapter — adapter,paquetes,publicables,skills — script:scripts/skillssh-adapter.sh
 [planning] slm — dispatcher,language,model,small,toolchain — script:scripts/slm.sh
 [planning] slm-data-collect — artifacts,collect,data,training,workspace — script:scripts/slm-data-collect.sh

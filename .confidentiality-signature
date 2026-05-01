@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=965fdaa540bfc75def187667008a75a9fe9748907684f61b8c857ba32f974a80
-timestamp=2026-04-30T22:51:58Z
-branch=agent/opencode-bootstrap-20260430
-head_commit=c11af461
-signature=978e49163ccc284dfdd9276cd23c2bc584a780194cdf92df018fd5101fd55ca6
+diff_hash=cb7d36c66b593335e269cef31b958f77681ad814ef8d50f1c2a970517553d36c
+timestamp=2026-05-01T05:08:59Z
+branch=agent/spec-127-slice5-quota-guard-20260501
+head_commit=3e9f79db
+signature=2dfc06756e3f46f965f7b7c6cf157f9d7479fada97a936394e914319b708bea4

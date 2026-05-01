@@ -1,6 +1,6 @@
 {
-  "hash": "ed9323b1489e",
-  "total": 1120,
+  "hash": "2104ba953efa",
+  "total": 1121,
   "resources": [
     {
       "category": "analysis",
@@ -1439,6 +1439,20 @@
       "kind": "script",
       "path": "scripts/savia-preferences.sh",
       "description": "savia-preferences.sh — manage ~/.savia/preferences.yaml (SPEC-127 Slice 1)"
+    },
+    {
+      "category": "communication",
+      "name": "savia-quota-tracker",
+      "intents": [
+        "quota",
+        "savia",
+        "slice",
+        "spec",
+        "tracker"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-quota-tracker.sh",
+      "description": "savia-quota-tracker.sh — SPEC-127 Slice 5"
     },
     {
       "category": "communication",
@@ -10070,15 +10084,15 @@
       "category": "planning",
       "name": "skills-md-generate",
       "intents": [
-        "catalog",
-        "cross",
-        "frontend",
-        "generate",
-        "skills"
+        "across",
+        "deterministic",
+        "force",
+        "handling",
+        "locale"
       ],
       "kind": "script",
       "path": "scripts/skills-md-generate.sh",
-      "description": "skills-md-generate.sh — generate SKILLS.md cross-frontend skills catalog"
+      "description": "Force C locale for deterministic sort + awk text handling across machines"
     },
     {
       "category": "planning",

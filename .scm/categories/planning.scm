@@ -391,7 +391,7 @@
 - **skill-rank** (cmd): Show skill effectiveness ranking based on invocation data
 - **skill-read** (cmd): Carga el contenido completo de un skill bajo demanda (progressive disclosure)
 - **skills-lock** (script): skills-lock.sh — SHA-256 integrity verification for skills
-- **skills-md-generate** (script): skills-md-generate.sh — generate SKILLS.md cross-frontend skills catalog
+- **skills-md-generate** (script): Force C locale for deterministic sort + awk text handling across machines
 - **skillssh-adapter** (script): ── skills.sh Adapter — Genera paquetes publicables para skills.sh ──
 - **slm** (script): slm.sh — Unified SLM (Small Language Model) training toolchain dispatcher.
 - **slm-data-collect** (script): slm-data-collect.sh — Collect training data from workspace artifacts.

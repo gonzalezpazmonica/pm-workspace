@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 86 resources
+> 87 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -61,6 +61,7 @@
 - **savia-pbi** (cmd): >
 - **savia-persona-tune** (cmd): Ajustar tono, estilo y personalidad de Savia para un proyecto específico
 - **savia-preferences** (script): savia-preferences.sh — manage ~/.savia/preferences.yaml (SPEC-127 Slice 1)
+- **savia-quota-tracker** (script): savia-quota-tracker.sh — SPEC-127 Slice 5
 - **savia-recall** (cmd): Recall and retrieve information from Savia memory
 - **savia-reply** (cmd): >
 - **savia-school** (skill): Adapta pm-workspace para entornos educativos con estudiantes menores de edad. Matriculacion por alias, evaluacion con rubricas, portfolio versionado y cumplimiento RGPD/LOPD estricto.
