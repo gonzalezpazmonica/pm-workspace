@@ -68,7 +68,7 @@
 - **pr-context-loader** (script): pr-context-loader.sh — SPEC-022 F4: Load project context before PR creation
 - **pr-digest** (cmd): Digestión contextual de un PR para revisión rápida. Analiza impacto, riesgos y genera resumen ejecutivo en español.
 - **pr-pending** (cmd): >
-- **pr-plan** (cmd): Pre-flight checklist: 11 gates (G0-G11) before push/PR. Prevents CI failures.
+- **pr-plan** (cmd): Pre-flight checklist: 15 gates (G0-G14) before push/PR. Prevents CI failures.
 - **pr-plan** (script): pr-plan.sh — 10-gate pre-flight + sign + push + PR
 - **pr-plan-gates** (script): pr-plan-gates.sh — Gate functions for pr-plan.sh (sourced, not executed)
 - **pr-plan-queue-check** (script): pr-plan-queue-check.sh — SPEC-SE-012 Module 4.

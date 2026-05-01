@@ -1,5 +1,5 @@
 {
-  "hash": "6d359d1b2fd6",
+  "hash": "b759f922a93d",
   "total": 1125,
   "resources": [
     {
@@ -12391,7 +12391,7 @@
       ],
       "kind": "cmd",
       "path": ".claude/commands/pr-plan.md",
-      "description": "Pre-flight checklist: 11 gates (G0-G11) before push/PR. Prevents CI failures."
+      "description": "Pre-flight checklist: 15 gates (G0-G14) before push/PR. Prevents CI failures."
     },
     {
       "category": "quality",
