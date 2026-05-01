@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test";
-import { blockGitignoredReferences } from "./block-gitignored-references.ts";
+import { blockGitignoredReferences } from "../guards/block-gitignored-references.ts";
 
 const F = {
   outputDated: "out" + "put/" + "20260501" + "-r.md",

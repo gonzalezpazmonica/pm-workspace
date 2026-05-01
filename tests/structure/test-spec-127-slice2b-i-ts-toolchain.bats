@@ -20,7 +20,7 @@ setup() {
   TSCONFIG="$REPO_ROOT/.opencode/tsconfig.json"
   PLUGINS_DIR="$REPO_ROOT/.opencode/plugins"
   FOUNDATION_TS="$REPO_ROOT/$SCRIPT"
-  FOUNDATION_TEST="$PLUGINS_DIR/savia-foundation.test.ts"
+  FOUNDATION_TEST="$PLUGINS_DIR/__tests__/savia-foundation.test.ts"
   PLUGINS_README="$PLUGINS_DIR/README.md"
   SPEC="$REPO_ROOT/docs/propuestas/SPEC-127-savia-opencode-provider-agnostic.md"
   CLASSIFIER_REPORT="$REPO_ROOT/output/hook-portability-classification.md"

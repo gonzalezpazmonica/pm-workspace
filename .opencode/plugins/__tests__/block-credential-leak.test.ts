@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test";
-import { blockCredentialLeak } from "./block-credential-leak.ts";
+import { blockCredentialLeak } from "../guards/block-credential-leak.ts";
 
 test("blockCredentialLeak: throws on AWS key in bash command", async () => {
   const input = { tool: "bash", args: { command: "export X=AKIAIOSFODNN7EXAMPLE" } };

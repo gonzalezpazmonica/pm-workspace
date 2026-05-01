@@ -13,8 +13,8 @@ import {
   extractFilePath,
   extractContent,
   type ToolInput,
-} from "./lib/hook-input.ts";
-import { detectLeakage } from "./lib/leakage-patterns.ts";
+} from "../lib/hook-input.ts";
+import { detectLeakage } from "../lib/leakage-patterns.ts";
 
 const PRIVATE_DESTINATIONS = [
   /\/projects\//,

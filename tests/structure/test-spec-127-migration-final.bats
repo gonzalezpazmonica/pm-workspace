@@ -25,20 +25,20 @@ teardown() {
 
 @test "AC-2.2: 5 TIER-1 hook TS files exist with their .test.ts" {
   for h in block-credential-leak block-gitignored-references prompt-injection-guard validate-bash-global tdd-gate; do
-    [ -f "$PLUGINS_DIR/${h}.ts" ]
-    [ -f "$PLUGINS_DIR/${h}.test.ts" ]
+    [ -f "$PLUGINS_DIR/guards/${h}.ts" ]
+    [ -f "$PLUGINS_DIR/__tests__/${h}.test.ts" ]
   done
 }
 
 @test "AC-2.2: each hook port imports from lib/hook-input" {
   for h in block-credential-leak block-gitignored-references prompt-injection-guard validate-bash-global tdd-gate; do
-    grep -qE 'from "\./lib/hook-input' "$PLUGINS_DIR/${h}.ts"
+    grep -qE 'from "\.\./lib/hook-input' "$PLUGINS_DIR/guards/${h}.ts"
   done
 }
 
 @test "AC-2.2: each hook test imports its handler" {
   for h in block-credential-leak block-gitignored-references prompt-injection-guard validate-bash-global tdd-gate; do
-    grep -qE "from \"\\./${h}\\.ts\"" "$PLUGINS_DIR/${h}.test.ts"
+    grep -qE "from \"\\.\\./guards/${h}\\.ts\"" "$PLUGINS_DIR/__tests__/${h}.test.ts"
   done
 }
 
@@ -50,18 +50,18 @@ teardown() {
 }
 
 @test "AC-2.3: block-credential-leak port (PV-02 safety-critical)" {
-  [ -f "$PLUGINS_DIR/block-credential-leak.ts" ]
-  grep -q "blockCredentialLeak" "$PLUGINS_DIR/block-credential-leak.ts"
+  [ -f "$PLUGINS_DIR/guards/block-credential-leak.ts" ]
+  grep -q "blockCredentialLeak" "$PLUGINS_DIR/guards/block-credential-leak.ts"
 }
 
 @test "AC-2.3: block-gitignored-references port (PV-02 safety-critical)" {
-  [ -f "$PLUGINS_DIR/block-gitignored-references.ts" ]
-  grep -q "blockGitignoredReferences" "$PLUGINS_DIR/block-gitignored-references.ts"
+  [ -f "$PLUGINS_DIR/guards/block-gitignored-references.ts" ]
+  grep -q "blockGitignoredReferences" "$PLUGINS_DIR/guards/block-gitignored-references.ts"
 }
 
 @test "AC-2.3: prompt-injection-guard port (PV-02 safety-critical)" {
-  [ -f "$PLUGINS_DIR/prompt-injection-guard.ts" ]
-  grep -q "promptInjectionGuard" "$PLUGINS_DIR/prompt-injection-guard.ts"
+  [ -f "$PLUGINS_DIR/guards/prompt-injection-guard.ts" ]
+  grep -q "promptInjectionGuard" "$PLUGINS_DIR/guards/prompt-injection-guard.ts"
 }
 
 @test "foundation plugin imports + chains all 5 guards" {
@@ -204,7 +204,7 @@ sys.exit(0 if found else 1)
 
 @test "PV-06: 5 TS hook ports never reference a hardcoded vendor" {
   for h in block-credential-leak block-gitignored-references prompt-injection-guard validate-bash-global tdd-gate; do
-    ! grep -qiE 'github\.copilot|copilot\.enterprise|openai\.com|anthropic\.com/v1|mistral\.|deepseek/' "$PLUGINS_DIR/${h}.ts"
+    ! grep -qiE 'github\.copilot|copilot\.enterprise|openai\.com|anthropic\.com/v1|mistral\.|deepseek/' "$PLUGINS_DIR/guards/${h}.ts"
   done
 }
 
@@ -257,12 +257,12 @@ sys.exit(0 if found else 1)
 
 @test "coverage: each TS port has Promise<void> annotation" {
   for h in block-credential-leak block-gitignored-references prompt-injection-guard validate-bash-global tdd-gate; do
-    grep -qE "Promise<void>" "$PLUGINS_DIR/${h}.ts"
+    grep -qE "Promise<void>" "$PLUGINS_DIR/guards/${h}.ts"
   done
 }
 
 @test "coverage: each TS port throws on block (block mechanism)" {
   for h in block-credential-leak block-gitignored-references prompt-injection-guard validate-bash-global; do
-    grep -qE 'throw new Error' "$PLUGINS_DIR/${h}.ts"
+    grep -qE 'throw new Error' "$PLUGINS_DIR/guards/${h}.ts"
   done
 }

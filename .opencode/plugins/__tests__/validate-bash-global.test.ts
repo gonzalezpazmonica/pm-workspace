@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test";
-import { validateBashGlobal } from "./validate-bash-global.ts";
+import { validateBashGlobal } from "../guards/validate-bash-global.ts";
 
 test("validateBashGlobal: blocks rm -rf /", async () => {
   const input = { tool: "bash", args: { command: "rm -rf /" } };
