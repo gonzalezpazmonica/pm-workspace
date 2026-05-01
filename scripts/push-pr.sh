@@ -62,7 +62,7 @@ echo -e "\n=== Step 6: PR ==="
 if [[ -z "$TOKEN" ]] && ! $USE_GH_CLI; then
   echo "  No token and gh CLI not available. Create PR manually."; exit 0
 fi
-[[ -z "$TITLE" ]] && TITLE=$(git log origin/main..HEAD --oneline | grep -vE 'chore: sign|Merge' | head -1 | cut -d' ' -f2-)
+[[ -z "$TITLE" ]] && TITLE=$(git log origin/main..HEAD --oneline | grep -vE '^[a-f0-9]+ (chore:|Merge)' | head -1 | cut -d' ' -f2-)
 if [[ -z "$BODY" ]]; then
   COMMITS=$(git log --oneline origin/main..HEAD | grep -v "^[a-f0-9]* chore: sign" | sed 's/^/- /')
   FILES=$(git diff origin/main..HEAD --stat | tail -1 | grep -oP '[0-9]+' | head -1)
