@@ -32,10 +32,16 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 
+import os
+
+DEFAULT_ANTHROPIC_UPSTREAM = os.environ.get(
+    "SAVIA_API_UPSTREAM", "https://api.anthropic.com"
+)
+
 DEFAULT_CONFIG: dict[str, Any] = {
     "listen_host": "127.0.0.1",
     "listen_port": 8787,
-    "anthropic_upstream": "https://api.anthropic.com",
+    "anthropic_upstream": DEFAULT_ANTHROPIC_UPSTREAM,
     "ollama_upstream": "http://127.0.0.1:11434",
     "fallback_triggers": {
         "network_error": True,

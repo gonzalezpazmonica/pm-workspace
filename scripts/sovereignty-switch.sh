@@ -139,7 +139,7 @@ cmd_test() {
       echo "Mistral API test: verify your API access at https://console.mistral.ai/"
       ;;
     claude)
-      if curl -s --max-time 5 https://api.anthropic.com >/dev/null 2>&1; then
+      if curl -s --max-time 5 "${SAVIA_API_UPSTREAM:-https://api.anthropic.com}" >/dev/null 2>&1; then
         echo "PASS: Anthropic API reachable."
       else
         echo "FAIL: Anthropic API unreachable. Consider: sovereignty-switch.sh local"

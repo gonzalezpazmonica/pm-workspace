@@ -7,7 +7,7 @@ set -uo pipefail
 
 CHECK_INTERVAL="${SAVIA_WATCHDOG_INTERVAL:-300}"
 FAIL_THRESHOLD="${SAVIA_WATCHDOG_THRESHOLD:-3}"
-API_URL="https://api.anthropic.com"
+API_URL="${SAVIA_API_UPSTREAM:-https://api.anthropic.com}"
 BACKUP_URL="https://google.com"
 STATE_DIR="/tmp/savia-watchdog"
 STATE_FILE="$STATE_DIR/state"
