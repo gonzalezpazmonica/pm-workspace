@@ -9,8 +9,10 @@ set -uo pipefail
 
 LAYER="${1:-}"
 TOPIC="${2:-}"
-PROFILES_DIR="${SAVIA_PROFILES_DIR:-.claude/profiles}"
-MEMORY_BASE="${HOME}/.claude/projects"
+PM_ROOT="${PM_WORKSPACE_ROOT:-${HOME}/claude}"
+PROFILES_DIR="${SAVIA_PROFILES_DIR:-${PM_ROOT}/.claude/profiles}"
+MEMORY_BASE="${HOME}/.savia-memory"
+LEGACY_MEMORY_BASE="${HOME}/.claude/projects"
 CACHE_DB="${HOME}/.savia/memory-cache.db"
 
 # ── Budget limits (chars, ~4 chars per token) ──────────────────────────────
@@ -26,15 +28,21 @@ truncate_to() {
 }
 
 find_memory_dir() {
-  # Find first memory directory (prefer current project)
+  # Find first memory directory (prefer canonical, fallback legacy)
   local proj_slug
   proj_slug="$(echo "$PWD" | sed 's|/|-|g')"
-  if [[ -d "$MEMORY_BASE/$proj_slug/memory" ]]; then
-    echo "$MEMORY_BASE/$proj_slug/memory"
-    return
-  fi
-  # Fallback: find any memory dir
-  find "$MEMORY_BASE" -maxdepth 3 -type d -name memory 2>/dev/null | head -1
+  for base in "$MEMORY_BASE" "$LEGACY_MEMORY_BASE"; do
+    if [[ -d "$base/$proj_slug/memory" ]]; then
+      echo "$base/$proj_slug/memory"
+      return
+    fi
+  done
+  # Fallback: find any memory dir in canonical or legacy
+  local found=""
+  for base in "$MEMORY_BASE" "$LEGACY_MEMORY_BASE"; do
+    found=$(find "$base" -maxdepth 4 -type d -name memory 2>/dev/null | head -1 || true)
+    [[ -n "$found" ]] && { echo "$found"; return; }
+  done
 }
 
 # ── L0: Identity (~50 tokens) ─────────────────────────────────────────────

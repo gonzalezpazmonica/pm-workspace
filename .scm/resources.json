@@ -1,6 +1,6 @@
 {
-  "hash": "b759f922a93d",
-  "total": 1125,
+  "hash": "2ff7864140d5",
+  "total": 1126,
   "resources": [
     {
       "category": "analysis",
@@ -4813,6 +4813,20 @@
       "kind": "cmd",
       "path": ".claude/commands/memory-index.md",
       "description": "Build and maintain memory index for efficient retrieval"
+    },
+    {
+      "category": "memory",
+      "name": "memory-index-rebuild",
+      "intents": [
+        "auto",
+        "index",
+        "jsonl",
+        "memory",
+        "rebuild"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-index-rebuild.sh",
+      "description": "memory-index-rebuild.sh — rebuild auto/MEMORY.md index from JSONL store"
     },
     {
       "category": "memory",

@@ -16,14 +16,16 @@ if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
   profile_gate "standard"
 fi
 
-REPO_ROOT="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+REPO_ROOT="${CLAUDE_PROJECT_DIR:-${OPENCODE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}}"
 PROJ_SLUG=$(echo "$REPO_ROOT" | sed 's|[/:\]|-|g; s|^-||')
-SESSION_HOT="$HOME/.claude/projects/$PROJ_SLUG/memory/session-hot.md"
+CANONICAL_SESSION_DIR="$HOME/.savia-memory/sessions/$(date +%Y-%m-%d)"
+SESSION_HOT="$CANONICAL_SESSION_DIR/session-hot.md"
+LEGACY_SESSION_HOT="$HOME/.claude/projects/$PROJ_SLUG/memory/session-hot.md"
 SESSION_LOG="$HOME/.savia/session-end.log"
 ACTION_LOG="$HOME/.savia/session-actions.jsonl"
 WORKER_LOG="$HOME/.savia/session-end-worker.log"
 
-mkdir -p "$(dirname "$SESSION_LOG")" "$(dirname "$SESSION_HOT")" 2>/dev/null
+mkdir -p "$(dirname "$SESSION_LOG")" "$CANONICAL_SESSION_DIR" "$(dirname "$LEGACY_SESSION_HOT")" 2>/dev/null
 
 # Synchronous: log event only (<1ms).
 echo "$(date -Iseconds) | session-end | pid=$$" >> "$SESSION_LOG" 2>/dev/null

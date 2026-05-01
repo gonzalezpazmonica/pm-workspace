@@ -8,7 +8,8 @@ set -uo pipefail
 
 CACHE_DIR="${HOME}/.savia"
 CACHE_DB="${CACHE_DIR}/memory-cache.db"
-MEMORY_BASE="${HOME}/.claude/projects"
+PM_ROOT="${PM_WORKSPACE_ROOT:-${HOME}/claude}"
+MEMORY_BASE="${HOME}/.savia-memory"
 
 mkdir -p "$CACHE_DIR"
 
@@ -18,13 +19,18 @@ if ! python3 -c "import sqlite3" 2>/dev/null; then
   exit 0
 fi
 
-# ── Find memory directories ──────────────────────────────────────────────
-if [[ ! -d "$MEMORY_BASE" ]]; then
-  echo "No memory directories found. Empty cache created."
-  exit 0
-fi
+# ── Find memory directories (canonical + legacy) ─────────────────────────
+LEGACY_BASE="${HOME}/.claude/projects"
+MEMORY_DIRS=""
 
-MEMORY_DIRS=$(find "$MEMORY_BASE" -maxdepth 3 -type d -name memory 2>/dev/null)
+for base in "$MEMORY_BASE" "$LEGACY_BASE"; do
+  if [[ -d "$base" ]]; then
+    found=$(find "$base" -maxdepth 4 -type d -name memory 2>/dev/null || true)
+    [[ -n "$found" ]] && MEMORY_DIRS="${MEMORY_DIRS}${found}"$'\n'
+  fi
+done
+
+MEMORY_DIRS=$(echo "$MEMORY_DIRS" | grep -v '^$' || true)
 if [[ -z "$MEMORY_DIRS" ]]; then
   echo "No memory directories found. Empty cache created."
   exit 0

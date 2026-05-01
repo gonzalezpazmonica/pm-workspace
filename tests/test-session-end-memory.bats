@@ -103,10 +103,10 @@ teardown() {
   CLAUDE_PROJECT_DIR="$repo" HOME="$TEST_HOME" bash "$hook_abs" <<< "" >/dev/null 2>&1
 
   # Wait for worker
-  local repo_slug proj_dir session_hot
+  local repo_slug session_dir session_hot
   repo_slug=$(echo "$repo" | sed 's|[/:\]|-|g; s|^-||')
-  proj_dir="$TEST_HOME/.claude/projects/$repo_slug/memory"
-  session_hot="$proj_dir/session-hot.md"
+  session_dir="$TEST_HOME/.savia-memory/sessions/$(date +%Y-%m-%d)"
+  session_hot="$session_dir/session-hot.md"
   local n=0
   while [[ ! -f "$session_hot" && $n -lt 30 ]]; do
     sleep 0.1; n=$((n+1))
@@ -155,9 +155,9 @@ teardown() {
   sleep 0.3
   cd "$BATS_TEST_DIRNAME/.."
 
-  local repo_slug proj_dir session_hot
+  local repo_slug session_dir session_hot
   repo_slug=$(echo "$repo" | sed 's|[/:\]|-|g; s|^-||')
-  session_hot="$TEST_HOME/.claude/projects/$repo_slug/memory/session-hot.md"
+  session_hot="$TEST_HOME/.savia-memory/sessions/$(date +%Y-%m-%d)/session-hot.md"
   [[ ! -f "$session_hot" ]]
   rm -rf "$repo"
 }
@@ -177,7 +177,7 @@ EOF
 
   local repo_slug session_hot
   repo_slug=$(echo "$repo" | sed 's|[/:\]|-|g; s|^-||')
-  session_hot="$TEST_HOME/.claude/projects/$repo_slug/memory/session-hot.md"
+  session_hot="$TEST_HOME/.savia-memory/sessions/$(date +%Y-%m-%d)/session-hot.md"
 
   local n=0
   while [[ ! -f "$session_hot" && $n -lt 30 ]]; do

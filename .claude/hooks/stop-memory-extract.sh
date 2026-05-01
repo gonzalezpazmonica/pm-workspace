@@ -16,12 +16,19 @@ fi
 
 INPUT=$(cat 2>/dev/null || true)
 
-PROJ_DIR="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+PROJ_DIR="${CLAUDE_PROJECT_DIR:-${OPENCODE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}}"
 PROJ_SLUG=$(echo "$PROJ_DIR" | sed 's|[/:\]|-|g; s|^-||')
-MEMORY_DIR="$HOME/.claude/projects/$PROJ_SLUG/memory"
+MEMORY_DIR="$HOME/.savia-memory/sessions/$(date +%Y-%m-%d)"
+LEGACY_MEMORY_DIR="$HOME/.claude/projects/$PROJ_SLUG/memory"
 SESSION_HOT="$MEMORY_DIR/session-hot.md"
 ACTION_LOG="$HOME/.savia/session-actions.jsonl"
 MEMORY_MD="$MEMORY_DIR/MEMORY.md"
+
+# Copy hot file from legacy if it exists there and not in canonical
+if [[ ! -f "$SESSION_HOT" ]] && [[ -f "$LEGACY_MEMORY_DIR/session-hot.md" ]]; then
+  mkdir -p "$MEMORY_DIR"
+  cp "$LEGACY_MEMORY_DIR/session-hot.md" "$SESSION_HOT" 2>/dev/null || true
+fi
 
 [[ ! -f "$SESSION_HOT" ]] && [[ ! -f "$ACTION_LOG" ]] && exit 0
 mkdir -p "$MEMORY_DIR"

@@ -182,6 +182,7 @@ EOF
     [[ -n "$valid_to" ]] && json="$json,\"valid_to\":\"$valid_to\""
     echo "$json}" >> "$STORE_FILE"
     echo "✓ Guardado: $title (topic: $topic_key, rev: $rev)"
+    _update_memory_index "$topic_key" "$title" "$type" 2>/dev/null || true
     _maybe_rebuild_index
 }
 

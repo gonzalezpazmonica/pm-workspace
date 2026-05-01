@@ -10,8 +10,8 @@ setup() {
   export HOME="$TMPDIR_TEST"
   export CLAUDE_PROJECT_DIR="$TMPDIR_TEST/project"
   mkdir -p "$CLAUDE_PROJECT_DIR"
-  PROJ_SLUG=$(echo "$CLAUDE_PROJECT_DIR" | sed 's|[/:\]|-|g; s|^-||')
-  export MEMORY_DIR="$HOME/.claude/projects/$PROJ_SLUG/memory"
+  export CANONICAL_SESSION_DIR="$HOME/.savia-memory/sessions/$(date +%Y-%m-%d)"
+  export MEMORY_DIR="$CANONICAL_SESSION_DIR"
   mkdir -p "$MEMORY_DIR" "$HOME/.savia"
   # Enable standard profile so hook logic runs
   export SAVIA_HOOK_PROFILE="standard"

@@ -12,6 +12,34 @@ redact_private() { sed 's/<private>.*<\/private>/[REDACTED]/g'; }
 hash_content() { echo -n "$1" | sha256sum | cut -d' ' -f1; }
 iso8601_now() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 
+# Update the canonical memory index at ~/.savia-memory/auto/MEMORY.md
+# Called after each successful JSONL save to keep the index in sync.
+_update_memory_index() {
+    local topic_key="$1" title="$2" type="$3"
+    local idx_file="${HOME:-/tmp}/.savia-memory/auto/MEMORY.md"
+    [[ ! -f "$idx_file" ]] && return 0
+    local entry="- ${type}: ${title} [${topic_key}]"
+    entry="${entry:0:150}"
+    local tmp=$(mktemp)
+    local in_entries=false written=false
+    while IFS= read -r line; do
+        if [[ "$line" == "<!-- ENTRIES_START -->" ]]; then
+            echo "$line" >> "$tmp"
+            echo "$entry" >> "$tmp"
+            in_entries=true; written=true
+            continue
+        fi
+        if [[ "$line" == "<!-- ENTRIES_END -->" ]]; then
+            in_entries=false; echo "$line" >> "$tmp"; continue
+        fi
+        if $in_entries && ! $written; then
+            echo "$entry" >> "$tmp"; written=true
+        fi
+        echo "$line" >> "$tmp"
+    done < "$idx_file"
+    mv "$tmp" "$idx_file"
+}
+
 _maybe_rebuild_index() {
     [[ "${SAVIA_TEST_MODE:-false}" == "true" ]] && return 0
     command -v python3 &>/dev/null || return 0
@@ -53,7 +81,7 @@ cmd_suggest_topic() {
 
 case "${1:-help}" in
     save) shift; cmd_save "$@" ;;
-    search) shift; cmd_search "$@" ;;
+    search|recall) shift; cmd_search "$@" ;;
     context) shift; cmd_context "$@" ;;
     stats) cmd_stats ;;
     prune) cmd_prune ;;
