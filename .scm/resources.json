@@ -1,6 +1,6 @@
 {
-  "hash": "78aa24b6c124",
-  "total": 1120,
+  "hash": "2104ba953efa",
+  "total": 1121,
   "resources": [
     {
       "category": "analysis",
@@ -10079,6 +10079,20 @@
       "kind": "script",
       "path": "scripts/skills-lock.sh",
       "description": "skills-lock.sh — SHA-256 integrity verification for skills"
+    },
+    {
+      "category": "planning",
+      "name": "skills-md-generate",
+      "intents": [
+        "across",
+        "deterministic",
+        "force",
+        "handling",
+        "locale"
+      ],
+      "kind": "script",
+      "path": "scripts/skills-md-generate.sh",
+      "description": "Force C locale for deterministic sort + awk text handling across machines"
     },
     {
       "category": "planning",
