@@ -186,7 +186,12 @@ sys.exit(0 if found else 1)
   head -5 "$SMOKE" | grep -q "LC_ALL=C"
 }
 
-@test "smoke script returns exit 0 on canonical workspace" {
+@test "smoke script returns exit 0 on canonical workspace (skips if opencode missing)" {
+  # CI runners do not have opencode binary installed. Skip when missing —
+  # the smoke script's job is to validate the OPERATOR's local stack.
+  if ! command -v opencode >/dev/null 2>&1; then
+    skip "opencode binary not on PATH (expected in CI)"
+  fi
   run bash "$SMOKE"
   [ "$status" -eq 0 ]
   [[ "$output" == *"Migration smoke OK"* ]]

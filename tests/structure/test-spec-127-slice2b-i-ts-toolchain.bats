@@ -132,8 +132,10 @@ assert any('node_modules' in i for i in exc), 'must exclude node_modules'
   grep -qE 'async \(' "$FOUNDATION_TS"
 }
 
-@test "foundation plugin is no-op stub (returns empty hooks {})" {
-  grep -qE 'return \{\}' "$FOUNDATION_TS"
+@test "foundation plugin returns hooks object with tool.execute.before (Slice 2b-ii)" {
+  # Slice 2b-i shipped foundation as no-op stub. Slice 2b-ii wired the
+  # 5 TIER-1 guards into a tool.execute.before dispatcher.
+  grep -qE '"tool\.execute\.before"' "$FOUNDATION_TS"
 }
 
 @test "foundation plugin documents porting roadmap (top 5 hooks)" {
@@ -161,8 +163,10 @@ assert any('node_modules' in i for i in exc), 'must exclude node_modules'
   grep -qE 'from "bun:test"' "$FOUNDATION_TEST"
 }
 
-@test "foundation test verifies plugin returns empty hooks object" {
-  grep -qE 'toEqual\(\{\}\)' "$FOUNDATION_TEST"
+@test "foundation test verifies plugin returns hooks object with tool.execute.before (Slice 2b-ii)" {
+  # Slice 2b-ii: dispatcher was wired into the foundation, so the no-op
+  # assertion was replaced by checks on the tool.execute.before chain.
+  grep -qE '"tool\.execute\.before"' "$FOUNDATION_TEST"
 }
 
 @test "foundation test covers 3+ test cases" {
