@@ -1,39 +1,60 @@
-// savia-foundation.test.ts — SPEC-127 Slice 2b-i
+// savia-foundation.test.ts — SPEC-127 Slice 2b-ii (foundation + 5 guards)
 //
-// Foundation contract tests. Verifies the plugin loads, exports the
-// expected shape, and is a no-op (returns empty hooks object). Actual
-// hook behaviour tests are added incrementally with each ported hook in
-// Slice 2b-ii.
-//
-// This file is currently a contract scaffold — the runtime test harness
-// (Bun test runner) is not yet wired into CI. Slice 2b-ii adds the
-// runner. For now the contract is enforced by BATS structural tests in
-// tests/structure/test-spec-127-slice2b-i-ts-toolchain.bats.
+// Verifies the foundation plugin loads and the registered tool.execute.before
+// dispatcher chains the 5 TIER-1 guards. Per-guard correctness is covered
+// by their individual *.test.ts files.
 
 import { test, expect } from "bun:test";
 import { SaviaFoundationPlugin } from "./savia-foundation.ts";
+
+const ctx = {
+  project: { name: "test" } as any,
+  client: {} as any,
+  $: () => ({}) as any,
+  directory: "/tmp/test",
+  worktree: "/tmp/test",
+};
 
 test("foundation plugin is an async function", () => {
   expect(typeof SaviaFoundationPlugin).toBe("function");
   expect(SaviaFoundationPlugin.constructor.name).toBe("AsyncFunction");
 });
 
-test("foundation plugin returns empty hooks object (no-op stub)", async () => {
-  const ctx = {
-    project: { name: "test" },
-    client: {} as any,
-    $: () => ({}) as any,
-    directory: "/tmp/test",
-    worktree: "/tmp/test",
-  };
-  const hooks = await SaviaFoundationPlugin(ctx as any);
-  expect(hooks).toEqual({});
+test("foundation plugin returns hooks object with tool.execute.before", async () => {
+  const hooks: any = await SaviaFoundationPlugin(ctx as any);
+  expect(typeof hooks["tool.execute.before"]).toBe("function");
 });
 
-test("foundation plugin does not throw on partial context", async () => {
-  // OpenCode v1.14 may pass minimal context in some scenarios; ensure
-  // the foundation is robust to missing optional fields.
-  const ctx = { directory: "/tmp/test" };
-  const hooks = await SaviaFoundationPlugin(ctx as any);
+test("dispatcher: clean Bash command passes through all guards", async () => {
+  const hooks: any = await SaviaFoundationPlugin(ctx as any);
+  const input = { tool: "bash", args: { command: "ls -la /tmp" } };
+  await expect(hooks["tool.execute.before"](input, {})).resolves.toBeUndefined();
+});
+
+test("dispatcher: dangerous Bash (rm -rf /) is blocked by validate-bash-global", async () => {
+  const hooks: any = await SaviaFoundationPlugin(ctx as any);
+  const input = { tool: "bash", args: { command: "rm -rf /" } };
+  await expect(hooks["tool.execute.before"](input, {})).rejects.toThrow(/rm -rf/);
+});
+
+test("dispatcher: AWS key in Bash blocked by credential-leak guard", async () => {
+  const hooks: any = await SaviaFoundationPlugin(ctx as any);
+  const input = { tool: "bash", args: { command: "X=AKIAIOSFODNN7EXAMPLE" } };
+  await expect(hooks["tool.execute.before"](input, {})).rejects.toThrow(/AWS/);
+});
+
+test("dispatcher: clean Edit on docs passes guards (md is TDD-exempt)", async () => {
+  const hooks: any = await SaviaFoundationPlugin(ctx as any);
+  const input = {
+    tool: "edit",
+    args: { file_path: "/repo/docs/x.md", content: "Just a doc." },
+  };
+  await expect(hooks["tool.execute.before"](input, {})).resolves.toBeUndefined();
+});
+
+test("dispatcher: foundation does not throw on partial context", async () => {
+  const minimal: any = { directory: "/tmp/test" };
+  const hooks: any = await SaviaFoundationPlugin(minimal);
   expect(hooks).toBeDefined();
+  expect(typeof hooks["tool.execute.before"]).toBe("function");
 });

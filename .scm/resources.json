@@ -1,6 +1,6 @@
 {
-  "hash": "2104ba953efa",
-  "total": 1121,
+  "hash": "5bebd59e1f90",
+  "total": 1123,
   "resources": [
     {
       "category": "analysis",
@@ -1786,6 +1786,20 @@
     },
     {
       "category": "development",
+      "name": "agents-opencode-convert",
+      "intents": [
+        "agents",
+        "convert",
+        "final",
+        "migration",
+        "opencode"
+      ],
+      "kind": "script",
+      "path": "scripts/agents-opencode-convert.sh",
+      "description": "agents-opencode-convert.sh — SPEC-127 Slice 2b-ii (final migration prep)"
+    },
+    {
+      "category": "development",
       "name": "arch-compare",
       "intents": [
         "arquitectura",
@@ -2597,6 +2611,20 @@
       "kind": "script",
       "path": "scripts/opencode-install.sh",
       "description": "opencode-install.sh — SE-077 Slice 1"
+    },
+    {
+      "category": "development",
+      "name": "opencode-migration-smoke",
+      "intents": [
+        "final",
+        "migration",
+        "opencode",
+        "prep",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/opencode-migration-smoke.sh",
+      "description": "opencode-migration-smoke.sh — SPEC-127 Slice 2b-ii (final migration prep)"
     },
     {
       "category": "development",
