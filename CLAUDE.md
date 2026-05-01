@@ -65,6 +65,6 @@ NEVER `assembleDebug` — use `./gradlew buildAndPublish`. `JAVA_HOME=/snap/andr
 
 ## Hooks · Memoria
 
-61 hooks (65 registros multi-event) en `.claude/settings.json` — arranque blindado (sin red, sin deps externas).
+65 hooks (61 registrados, 4 huérfanos) en `.claude/settings.json` — arranque blindado (sin red, sin deps externas).
 Memory store: `bash scripts/memory-store.sh [recall|save|stats]`.
 Security review: `/security-review {spec}`.
