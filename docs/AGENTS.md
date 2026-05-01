@@ -6,18 +6,18 @@ pm-workspace has 33 specialized agents organized into 9 categories. Select by ta
 
 **If you need to:** → **Use agent:**
 
-- **Architecture design, SOLID principles, layering** → `architect` (Opus 4.7)
-- **Extract reglas de negocio, acceptance criteria** → `business-analyst` (Opus 4.7)
-- **Write executable specs for developers** → `sdd-spec-writer` (Opus 4.7)
-- **Code review, OWASP, design review** → `code-reviewer` (Opus 4.7)
-- **Implement C# / .NET** → `dotnet-developer` (Sonnet 4.6)
-- **Implement TypeScript, Node.js, NestJS** → `typescript-developer` (Sonnet 4.6)
-- **Implement React, Angular, Vue** → `frontend-developer` (Sonnet 4.6)
-- **Implement Python FastAPI, Django** → `python-developer` (Sonnet 4.6)
-- **Write tests, verify coverage ≥80%** → `test-runner` (Sonnet 4.6)
-- **Analyze security: OWASP, CWE, deps** → `security-guardian` (Opus 4.7)
-- **Pre-commit checks: branch, tests, format** → `commit-guardian` (Sonnet 4.6)
-- **Visual design consistency, wireframes** → `visual-qa-agent` (Sonnet 4.6)
+- **Architecture design, SOLID principles, layering** → `architect` (Heavy tier: deep reasoning)
+- **Extract reglas de negocio, acceptance criteria** → `business-analyst` (Heavy tier)
+- **Write executable specs for developers** → `sdd-spec-writer` (Heavy tier)
+- **Code review, OWASP, design review** → `code-reviewer` (Heavy tier)
+- **Implement C# / .NET** → `dotnet-developer` (Mid tier)
+- **Implement TypeScript, Node.js, NestJS** → `typescript-developer` (Mid tier)
+- **Implement React, Angular, Vue** → `frontend-developer` (Mid tier)
+- **Implement Python FastAPI, Django** → `python-developer` (Mid tier)
+- **Write tests, verify coverage ≥80%** → `test-runner` (Mid tier)
+- **Analyze security: OWASP, CWE, deps** → `security-guardian` (Heavy tier)
+- **Pre-commit checks: branch, tests, format** → `commit-guardian` (Mid tier)
+- **Visual design consistency, wireframes** → `visual-qa-agent` (Mid tier)
 
 ## Agents by Category (33 Total)
 
@@ -25,67 +25,67 @@ pm-workspace has 33 specialized agents organized into 9 categories. Select by ta
 
 | Name | Model | Description |
 |---|---|---|
-| `architect` | Opus 4.7 | System design, layers, interfaces, patterns, CAP theorem |
-| `business-analyst` | Opus 4.7 | Extract reglas negocio, decompose PBIs, acceptance criteria |
-| `sdd-spec-writer` | Opus 4.7 | Write executable specs from architecture + business rules |
-| `dev-orchestrator` | Sonnet 4.6 | Plan dev slices, dependency analysis, context budgets |
+| `architect` | Heavy | System design, layers, interfaces, patterns, CAP theorem |
+| `business-analyst` | Heavy | Extract reglas negocio, decompose PBIs, acceptance criteria |
+| `sdd-spec-writer` | Heavy | Write executable specs from architecture + business rules |
+| `dev-orchestrator` | Mid | Plan dev slices, dependency analysis, context budgets |
 
 ### Language-Specific Developers (11)
 
 | Name | Model | Language | Framework |
 |---|---|---|---|
-| `dotnet-developer` | Sonnet 4.6 | C# | .NET 8, Entity Framework, xUnit |
-| `typescript-developer` | Sonnet 4.6 | TypeScript | NestJS, Express, Prisma, Jest |
-| `frontend-developer` | Sonnet 4.6 | React/Angular | React 18+, Angular 16+, Next.js, Tailwind |
-| `java-developer` | Sonnet 4.6 | Java | Spring Boot 3, JPA, Maven |
-| `python-developer` | Sonnet 4.6 | Python | FastAPI, Django, SQLAlchemy, pytest |
-| `go-developer` | Sonnet 4.6 | Go | Gin, gRPC, sqlc |
-| `rust-developer` | Sonnet 4.6 | Rust | Axum, Tokio, sqlx |
-| `php-developer` | Sonnet 4.6 | PHP | Laravel 11, Blade, Eloquent |
-| `mobile-developer` | Sonnet 4.6 | Swift/Kotlin/Flutter | iOS, Android, Dart |
-| `ruby-developer` | Sonnet 4.6 | Ruby | Rails 7, RSpec, ActiveRecord |
-| `cobol-developer` | Opus 4.7 | COBOL | Copybooks, GnuCOBOL, CICS (legacy assistance) |
+| `dotnet-developer` | Mid | C# | .NET 8, Entity Framework, xUnit |
+| `typescript-developer` | Mid | TypeScript | NestJS, Express, Prisma, Jest |
+| `frontend-developer` | Mid | React/Angular | React 18+, Angular 16+, Next.js, Tailwind |
+| `java-developer` | Mid | Java | Spring Boot 3, JPA, Maven |
+| `python-developer` | Mid | Python | FastAPI, Django, SQLAlchemy, pytest |
+| `go-developer` | Mid | Go | Gin, gRPC, sqlc |
+| `rust-developer` | Mid | Rust | Axum, Tokio, sqlx |
+| `php-developer` | Mid | PHP | Laravel 11, Blade, Eloquent |
+| `mobile-developer` | Mid | Swift/Kotlin/Flutter | iOS, Android, Dart |
+| `ruby-developer` | Mid | Ruby | Rails 7, RSpec, ActiveRecord |
+| `cobol-developer` | Heavy | COBOL | Copybooks, GnuCOBOL, CICS (legacy assistance) |
 
 ### Testing & Quality (4)
 
 | Name | Model | Description |
 |---|---|---|
-| `test-runner` | Sonnet 4.6 | Run all tests, verify coverage ≥80%, orchestrate improvements |
-| `frontend-test-runner` | Sonnet 4.6 | E2E tests (Cypress, Playwright), component tests, a11y |
-| `code-reviewer` | Opus 4.7 | SOLID, design patterns, code quality, security hotspots |
-| `coherence-validator` | Sonnet 4.6 | Output ↔ objective alignment, completeness, consistency |
+| `test-runner` | Mid | Run all tests, verify coverage ≥80%, orchestrate improvements |
+| `frontend-test-runner` | Mid | E2E tests (Cypress, Playwright), component tests, a11y |
+| `code-reviewer` | Heavy | SOLID, design patterns, code quality, security hotspots |
+| `coherence-validator` | Mid | Output ↔ objective alignment, completeness, consistency |
 
 ### Security (3)
 
 | Name | Model | Specialty |
 |---|---|---|
-| `security-guardian` | Opus 4.7 | Pre-commit: OWASP, CWE Top 25, credential scanning |
-| `security-attacker` | Sonnet 4.6 | Red Team: find vulnerabilities (no fixes) |
-| `security-defender` | Sonnet 4.6 | Blue Team: propose security patches |
-| `security-auditor` | Sonnet 4.6 | Independent evaluation: 0-100 score, gap analysis |
+| `security-guardian` | Heavy | Pre-commit: OWASP, CWE Top 25, credential scanning |
+| `security-attacker` | Mid | Red Team: find vulnerabilities (no fixes) |
+| `security-defender` | Mid | Blue Team: propose security patches |
+| `security-auditor` | Mid | Independent evaluation: 0-100 score, gap analysis |
 
 ### Infrastructure & DevOps (3)
 
 | Name | Model | Description |
 |---|---|---|
-| `infrastructure-agent` | Opus 4.7 | Detect, create (tier min), escalate for production |
-| `terraform-developer` | Sonnet 4.6 | IaC: writes .tf files (never applies) |
-| `diagram-architect` | Sonnet 4.6 | System diagrams: consistency, layering, feature decomposition |
+| `infrastructure-agent` | Heavy | Detect, create (tier min), escalate for production |
+| `terraform-developer` | Mid | IaC: writes .tf files (never applies) |
+| `diagram-architect` | Mid | System diagrams: consistency, layering, feature decomposition |
 
 ### Observability & Analysis (4)
 
 | Name | Model | Description |
 |---|---|---|
-| `reflection-validator` | Opus 4.7 | System 2 thinking: assumptions, causal chains, gaps |
-| `drift-auditor` | Opus 4.7 | Code ↔ docs ↔ config convergence, detect drift |
-| `azure-devops-operator` | Haiku 4.5 | WIQL queries, work items, sprints, capacity |
-| `tech-writer` | Haiku 4.5 | README, CHANGELOG, XML docs, technical writing |
+| `reflection-validator` | Heavy | System 2 thinking: assumptions, causal chains, gaps |
+| `drift-auditor` | Heavy | Code ↔ docs ↔ config convergence, detect drift |
+| `azure-devops-operator` | Fast | WIQL queries, work items, sprints, capacity |
+| `tech-writer` | Fast | README, CHANGELOG, XML docs, technical writing |
 
 ### Visual & UX (1)
 
 | Name | Model | Description |
 |---|---|---|
-| `visual-qa-agent` | Sonnet 4.6 | Wireframe analysis, screenshot comparison, regression detection |
+| `visual-qa-agent` | Mid | Wireframe analysis, screenshot comparison, regression detection |
 
 ## Workflow Patterns
 
@@ -147,9 +147,9 @@ security-auditor (score 0-100)
 
 | Complexity | Model | Agents |
 |---|---|---|
-| **Lightweight** | Haiku 4.5 | azure-devops-operator, tech-writer |
-| **Standard** | Sonnet 4.6 | All developers, test-runner, commit-guardian, visual-qa |
-| **Complex** | Opus 4.7 | architect, business-analyst, code-reviewer, security (all), orchestrators |
+| **Lightweight** | Fast | azure-devops-operator, tech-writer |
+| **Standard** | Mid | All developers, test-runner, commit-guardian, visual-qa |
+| **Complex** | Heavy | architect, business-analyst, code-reviewer, security (all), orchestrators |
 
 ### Context Budget
 
@@ -168,7 +168,7 @@ Each agent has:
 ```yaml
 name: agent-name
 role: "Developer|Architect|QA|Security|etc"
-model: "claude-opus-4-7|claude-sonnet-4-6|haiku"
+model: "opus|sonnet|haiku"
 description: "One-line purpose"
 max_context_tokens: 8000
 output_max_tokens: 500

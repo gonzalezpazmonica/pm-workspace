@@ -39,7 +39,15 @@ else USE_GH_CLI=false; fi
 
 # ── Steps 1-5: Validate → CI → CHANGELOG → Sign → Push ──────────────────
 _supervisor() { local d="$1"; bash scripts/session-action-log.sh log "push-pr" "$BRANCH" "fail" "$d" >/dev/null 2>&1 || true; bash scripts/execution-supervisor.sh "push-pr" "$BRANCH" "$d" 2>&1 || true; }
-echo "=== Step 1: Working tree ==="; [[ -n "$(git diff --name-only 2>/dev/null)" ]] && { _supervisor "Uncommitted changes"; echo "ERROR: Uncommitted changes." >&2; exit 1; }; echo "  Clean."
+echo "=== Step 1: Working tree ==="
+if $FROM_PR_PLAN; then
+  changed=$(git diff --name-only 2>/dev/null | grep -vE '(\.confidentiality-signature|\.scm/)' || true)
+  [[ -n "$changed" ]] && { _supervisor "Uncommitted changes: $changed"; echo "ERROR: Uncommitted changes: $changed" >&2; exit 1; }
+  echo "  Clean (pr-plan artifacts allowed)."
+else
+  [[ -n "$(git diff --name-only 2>/dev/null)" ]] && { _supervisor "Uncommitted changes"; echo "ERROR: Uncommitted changes." >&2; exit 1; }
+  echo "  Clean."
+fi
 echo -e "\n=== Step 2: CI local ==="
 if $SKIP_CI; then echo "  Skipped."
 else bash scripts/validate-ci-local.sh 2>&1 | tail -5 | grep -q "safe to push" || { _supervisor "CI local failed"; echo "ERROR: CI failed." >&2; exit 1; }; echo "  Passed."; fi
@@ -52,8 +60,7 @@ else echo "  Skipped."; fi
 echo -e "\n=== Step 4: Sign ==="
 bash scripts/confidentiality-sign.sh sign 2>&1 | tail -1; git add .confidentiality-signature
 if ! git diff --cached --quiet; then
-  git commit -m "chore: sign confidentiality audit
-Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
+  git commit -m "chore: sign confidentiality audit"
 else echo "  Unchanged."; fi
 echo -e "\n=== Step 5: Push ==="; export SAVIA_PUSH_PR=1
 git push origin "$BRANCH" 2>&1 | tail -3 || { echo "  Retrying..."; git push --force-with-lease origin "$BRANCH" 2>&1 | tail -3; }
@@ -63,7 +70,7 @@ echo -e "\n=== Step 6: PR ==="
 if [[ -z "$TOKEN" ]] && ! $USE_GH_CLI; then
   echo "  No token and gh CLI not available. Create PR manually."; exit 0
 fi
-[[ -z "$TITLE" ]] && TITLE=$(git log origin/main..HEAD --oneline | tail -1 | cut -d' ' -f2-)
+[[ -z "$TITLE" ]] && TITLE=$(git log origin/main..HEAD --oneline | grep -vE '^[a-f0-9]+ (chore:|Merge)' | head -1 | cut -d' ' -f2-)
 if [[ -z "$BODY" ]]; then
   COMMITS=$(git log --oneline origin/main..HEAD | grep -v "^[a-f0-9]* chore: sign" | sed 's/^/- /')
   FILES=$(git diff origin/main..HEAD --stat | tail -1 | grep -oP '[0-9]+' | head -1)
@@ -80,9 +87,7 @@ ${COMMITS}
 ### Stats
 ${FILES} files changed across $(echo "$COMMITS" | wc -l) commits.
 ## Test plan
-- [x] CI passed  - [x] Signed
-
-Generated with [Claude Code](https://claude.com/claude-code)"
+- [x] CI passed  - [x] Signed"
 fi
 BODY_FILE=$(mktemp); echo "$BODY" > "$BODY_FILE"
 if $USE_GH_CLI; then

@@ -161,11 +161,81 @@ savia_has_task_fan_out() {
   esac
 }
 
+# ── Model alias resolution ───────────────────────────────────────────────────
+# Maps canonical tier names (heavy/mid/fast) or abstract model names
+# (opus/sonnet/haiku) to the user's effective provider model IDs via
+# preferences.yaml. Used by commands, scripts, and agent runners.
+#
+# Tier mapping convention (canonical → tier):
+#   opus   → heavy
+#   sonnet → mid
+#   haiku  → fast
+#
+# Resolution chain:
+#   1. $SAVIA_MODEL_HEAVY / $SAVIA_MODEL_MID / $SAVIA_MODEL_FAST env override
+#   2. preferences.yaml model_heavy / model_mid / model_fast
+#   3. empty (let the frontend pass-through)
+
+savia_model_heavy() {
+  if [[ -n "${SAVIA_MODEL_HEAVY:-}" ]]; then
+    echo "$SAVIA_MODEL_HEAVY"; return 0
+  fi
+  local pref; pref=$(_savia_pref "model_heavy")
+  if [[ -n "$pref" ]]; then
+    echo "$pref"; return 0
+  fi
+  echo ""
+}
+
+savia_model_mid() {
+  if [[ -n "${SAVIA_MODEL_MID:-}" ]]; then
+    echo "$SAVIA_MODEL_MID"; return 0
+  fi
+  local pref; pref=$(_savia_pref "model_mid")
+  if [[ -n "$pref" ]]; then
+    echo "$pref"; return 0
+  fi
+  echo ""
+}
+
+savia_model_fast() {
+  if [[ -n "${SAVIA_MODEL_FAST:-}" ]]; then
+    echo "$SAVIA_MODEL_FAST"; return 0
+  fi
+  local pref; pref=$(_savia_pref "model_fast")
+  if [[ -n "$pref" ]]; then
+    echo "$pref"; return 0
+  fi
+  echo ""
+}
+
+# Resolve a canonical or abstract model name to the user's effective provider
+# model ID. Accepts:
+#   opus|sonnet|haiku        (abstract names used in command frontmatter)
+#   heavy|mid|fast           (tier names used in preferences)
+#   claude-opus-4-7 etc.     (canonical Claude names used in agent frontmatter)
+# Returns empty string if unresolvable.
+savia_resolve_model() {
+  local name="$1"
+  case "$name" in
+    opus|heavy|claude-opus-4-7)                 savia_model_heavy ;;
+    sonnet|mid|claude-sonnet-4-6)               savia_model_mid ;;
+    haiku|fast|claude-haiku-4-5-20251001)       savia_model_fast ;;
+    *)                                           echo "" ;;
+  esac
+}
+
 # Export normalized values when sourced
 SAVIA_WORKSPACE_DIR="$(savia_workspace_dir)"
 export SAVIA_WORKSPACE_DIR
 SAVIA_PROVIDER="$(savia_provider)"
 export SAVIA_PROVIDER
+SAVIA_MODEL_HEAVY="$(savia_model_heavy)"
+export SAVIA_MODEL_HEAVY
+SAVIA_MODEL_MID="$(savia_model_mid)"
+export SAVIA_MODEL_MID
+SAVIA_MODEL_FAST="$(savia_model_fast)"
+export SAVIA_MODEL_FAST
 
 # ── CLI dispatch ────────────────────────────────────────────────────────────
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
@@ -173,6 +243,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     print)
       printf 'SAVIA_WORKSPACE_DIR=%s\n' "$SAVIA_WORKSPACE_DIR"
       printf 'SAVIA_PROVIDER=%s\n' "$SAVIA_PROVIDER"
+      printf 'SAVIA_MODEL_HEAVY=%s\n' "$SAVIA_MODEL_HEAVY"
+      printf 'SAVIA_MODEL_MID=%s\n'   "$SAVIA_MODEL_MID"
+      printf 'SAVIA_MODEL_FAST=%s\n'  "$SAVIA_MODEL_FAST"
       printf 'has_hooks=%s\n' "$(savia_has_hooks && echo yes || echo no)"
       printf 'has_slash_commands=%s\n' "$(savia_has_slash_commands && echo yes || echo no)"
       printf 'has_task_fan_out=%s\n' "$(savia_has_task_fan_out && echo yes || echo no)"
@@ -181,6 +254,13 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       ;;
     workspace) echo "$SAVIA_WORKSPACE_DIR" ;;
     provider)  echo "$SAVIA_PROVIDER" ;;
+    model-heavy) echo "$SAVIA_MODEL_HEAVY" ;;
+    model-mid)   echo "$SAVIA_MODEL_MID" ;;
+    model-fast)  echo "$SAVIA_MODEL_FAST" ;;
+    resolve-model)
+      shift
+      savia_resolve_model "${1:-}" || echo ""
+      ;;
     has-hooks)
       savia_has_hooks && echo yes || echo no
       ;;
@@ -192,15 +272,19 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       ;;
     --help|-h)
       cat <<USG
-Usage: savia-env.sh [print|workspace|provider|has-hooks|has-slash-commands|has-task-fan-out]
+Usage: savia-env.sh [print|workspace|provider|model-<tier>|resolve-model <name>|has-hooks|has-slash-commands|has-task-fan-out]
 
-When sourced (set SAVIA_WORKSPACE_DIR / SAVIA_PROVIDER for caller):
+When sourced (set SAVIA_WORKSPACE_DIR / SAVIA_PROVIDER + model vars for caller):
   source scripts/savia-env.sh
 
 When invoked:
   bash scripts/savia-env.sh print              # all values
   bash scripts/savia-env.sh workspace          # workspace dir only
   bash scripts/savia-env.sh provider           # provider name only
+  bash scripts/savia-env.sh model-heavy        # heavy-tier model id
+  bash scripts/savia-env.sh model-mid          # mid-tier model id
+  bash scripts/savia-env.sh model-fast         # fast-tier model id
+  bash scripts/savia-env.sh resolve-model opus # resolve abstract name
   bash scripts/savia-env.sh has-hooks          # yes|no
   bash scripts/savia-env.sh has-slash-commands # yes|no
   bash scripts/savia-env.sh has-task-fan-out   # yes|no
@@ -209,6 +293,10 @@ Preferences source: \$SAVIA_PREFS_FILE (default ~/.savia/preferences.yaml).
 Configure via: bash scripts/savia-preferences.sh init
 USG
       ;;
+    # Legacy subcommands from earlier versions — keep compatibility
+    hooks)        savia_has_hooks && echo yes || echo no ;;
+    slash)        savia_has_slash_commands && echo yes || echo no ;;
+    task-fan-out) savia_has_task_fan_out && echo yes || echo no ;;
     *) echo "unknown subcommand: $1" >&2; exit 2 ;;
   esac
 fi

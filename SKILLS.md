@@ -84,6 +84,8 @@ To use a skill: read `<path>` and follow its instructions.
 | savia-dual | `.claude/skills/savia-dual/SKILL.md` | Inference sovereignty — transparent failover from Anthropic to local gemma4 when the cloud is s... |
 | savia-flow-practice | `.claude/skills/savia-flow-practice/SKILL.md` | Implementación práctica de Savia Flow — dual-track, specs ejecutables, métricas de flujo |
 | savia-hub-sync | `.claude/skills/savia-hub-sync/SKILL.md` | Orquestación de sincronización del repositorio SaviaHub |
+| savia-identity | `.claude/skills/savia-identity/SKILL.md` | Carga completa de la identidad y personalidad de Savia. Perfil, tono, reglas, y memoria al inicio... |
+| savia-memory | `.claude/skills/savia-memory/SKILL.md` | Gestión de memoria canónica externa de Savia (.savia-memory). Lectura, escritura, búsqueda y c... |
 | savia-school | `.claude/skills/savia-school/SKILL.md` | Adapta pm-workspace para entornos educativos con estudiantes menores de edad. Matriculacion por a... |
 | scaling-operations | `.claude/skills/scaling-operations/SKILL.md` | Scaling operations — analyze tier, benchmark, recommend optimizations, knowledge search |
 | scheduled-messaging | `.claude/skills/scheduled-messaging/SKILL.md` | Configure Scheduled Tasks with automatic messaging to communication platforms |

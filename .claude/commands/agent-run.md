@@ -28,7 +28,7 @@ Lanza un agente Claude sobre una Spec SDD (o batch de specs pendientes).
 - `--all-pending`: Todas las specs `agent-single` pendientes del sprint
 - `--team`: Patrón `agent-team` (default `impl-test`)
 - `--pattern`: `single` | `impl-test` | `impl-test-review` | `full-stack` | `parallel-handlers`
-- `--model`: Sobreescribir modelo (default: `claude-opus-4-7`)
+- `--model`: Sobreescribir modelo (default: heavy-tier via preferences.yaml)
 
 ## 3. Protocolo
 

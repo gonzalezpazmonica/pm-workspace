@@ -1,6 +1,6 @@
 {
-  "hash": "5bebd59e1f90",
-  "total": 1123,
+  "hash": "b759f922a93d",
+  "total": 1125,
   "resources": [
     {
       "category": "analysis",
@@ -1263,6 +1263,20 @@
     },
     {
       "category": "communication",
+      "name": "savia-identity",
+      "intents": [
+        "carga",
+        "completa",
+        "identidad",
+        "inicio",
+        "memoria"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/savia-identity/SKILL.md",
+      "description": "Carga completa de la identidad y personalidad de Savia. Perfil, tono, reglas, y memoria al inicio de cada sesión."
+    },
+    {
+      "category": "communication",
       "name": "savia-inbox",
       "intents": [],
       "kind": "cmd",
@@ -1305,6 +1319,20 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-live.md",
       "description": "Show what Savia is working on right now — live task queue and recent activity"
+    },
+    {
+      "category": "communication",
+      "name": "savia-memory",
+      "intents": [
+        "búsqueda",
+        "canónica",
+        "consolidación",
+        "escritura",
+        "externa"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/savia-memory/SKILL.md",
+      "description": "Gestión de memoria canónica externa de Savia (.savia-memory). Lectura, escritura, búsqueda y consolidación de memoria entre sesiones."
     },
     {
       "category": "communication",
@@ -12363,7 +12391,7 @@
       ],
       "kind": "cmd",
       "path": ".claude/commands/pr-plan.md",
-      "description": "Pre-flight checklist: 11 gates (G0-G11) before push/PR. Prevents CI failures."
+      "description": "Pre-flight checklist: 15 gates (G0-G14) before push/PR. Prevents CI failures."
     },
     {
       "category": "quality",
