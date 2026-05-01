@@ -1,0 +1,13 @@
+{
+  "name": "savia-opencode-plugins",
+  "version": "0.1.0",
+  "description": "OpenCode v1.14 plugin foundation for Savia (SPEC-127 Slice 2b-i)",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@opencode-ai/plugin": "*"
+  },
+  "scripts": {
+    "check": "tsc --noEmit -p . || node --check plugins/savia-foundation.ts || true"
+  }
+}

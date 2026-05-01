@@ -5,6 +5,7 @@ status: APPROVED
 approved_by: operator (2026-04-30)
 slice_1_status: IMPLEMENTED 2026-04-30
 slice_2a_status: IMPLEMENTED 2026-04-30 (hook portability classifier + 64-hook full classification)
+slice_2b_i_status: IMPLEMENTED 2026-05-01 (TypeScript plugin foundation — package.json + tsconfig + no-op stub)
 slice_4_status: IMPLEMENTED 2026-04-30 (single-shot fallback for 4 orchestrators)
 slice_5_status: IMPLEMENTED 2026-05-01 (quota tracker + advisory budget guard, never blocks)
 origin: Cada usuario de Savia decide su frontend (Claude Code, OpenCode v1.14, Codex, Cursor, otro) y su proveedor de inferencia (Anthropic API, hosted-OSS, LocalAI, Ollama, custom corporate endpoint, vendor-managed, ...). Savia debe operar de forma agnóstica al stack — no asumir un frontend, no asumir un proveedor, no asumir hooks-disponibles. Detect at runtime, ask the user when ambiguous, degrade gracefully.

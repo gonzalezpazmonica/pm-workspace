@@ -1,0 +1,6 @@
+node_modules
+package-lock.json
+bun.lock
+bun.lockb
+# package.json is committed (SPEC-127 Slice 2b-i — declares plugin dependencies)
+# tsconfig.json is committed (SPEC-127 Slice 2b-i — TS strict config)
