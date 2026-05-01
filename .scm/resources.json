@@ -1,5 +1,5 @@
 {
-  "hash": "ed9323b1489e",
+  "hash": "2536457bab96",
   "total": 1120,
   "resources": [
     {
@@ -10070,15 +10070,15 @@
       "category": "planning",
       "name": "skills-md-generate",
       "intents": [
-        "catalog",
-        "cross",
-        "frontend",
-        "generate",
-        "skills"
+        "across",
+        "deterministic",
+        "force",
+        "handling",
+        "locale"
       ],
       "kind": "script",
       "path": "scripts/skills-md-generate.sh",
-      "description": "skills-md-generate.sh — generate SKILLS.md cross-frontend skills catalog"
+      "description": "Force C locale for deterministic sort + awk text handling across machines"
     },
     {
       "category": "planning",
