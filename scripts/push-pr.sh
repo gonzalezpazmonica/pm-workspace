@@ -110,7 +110,7 @@ except urllib.error.HTTPError as e:
   print(f'PR already exists for {b}' if 'already exists' in str(err) else 'PR creation failed')
 " 2>&1)
 fi
-rm -f "$BODY_FILE"; echo "  $PR_URL"
+rm -f "$BODY_FILE" "$PROJECT_ROOT/.pr-summary.md"; echo "  $PR_URL"
 
 # ── Auto-merge (--merge flag) ────────────────────────────────────────────
 MERGED=false
