@@ -38,10 +38,11 @@ find_memory_dir() {
     fi
   done
   # Fallback: find any memory dir in canonical or legacy
+  local found=""
   for base in "$MEMORY_BASE" "$LEGACY_MEMORY_BASE"; do
-    find "$base" -maxdepth 4 -type d -name memory 2>/dev/null | head -1 | grep -q . && return
+    found=$(find "$base" -maxdepth 4 -type d -name memory 2>/dev/null | head -1 || true)
+    [[ -n "$found" ]] && { echo "$found"; return; }
   done
-  echo ""
 }
 
 # ── L0: Identity (~50 tokens) ─────────────────────────────────────────────

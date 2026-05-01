@@ -35,7 +35,7 @@ teardown() {
   [[ "$status" -eq 0 ]]
   [[ "${output}" == *'"target"'* ]]
   [[ "${output}" == *'"mode"'* ]]
-  [[ "${output}" == *'"link"'* ]]
+  [[ "${output}" == *'"marker"'* ]]
 }
 
 @test "bootstrap: creates target directory" {
@@ -52,9 +52,9 @@ teardown() {
   [[ "$status" -eq 0 ]]
 }
 
-@test "bootstrap: creates symlink .claude/external-memory" {
+@test "bootstrap: creates marker .savia/external-memory-target" {
   bash "$BOOTSTRAP" >/dev/null 2>&1
-  [[ -L ".claude/external-memory" ]] || [[ -e ".claude/external-memory" ]]
+  [[ -f ".savia/external-memory-target" ]]
 }
 
 @test "bootstrap: symlink target resolves to an existing directory" {
