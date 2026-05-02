@@ -121,8 +121,12 @@ g5() {
   local all; all=$(git diff origin/main..HEAD --name-only 2>/dev/null) || true
   local non_md; non_md=$(echo "$all" | grep -vE '\.md$' | grep -v '^$' || true)
   [[ -z "$non_md" ]] && echo "skipped (docs-only)" && return
-  local hi; hi=$(echo "$all" | grep -E '^(\.claude/(rules|hooks|agents|skills|settings)|scripts/|CLAUDE\.md)' || true)
-  [[ -z "$hi" ]] && echo "skipped" && return
+  # High-impact paths: any change in these dirs requires CHANGELOG update.
+  # Includes: all .claude/ infrastructure, scripts/, .scm/, .opencode/,
+  # .github/workflows/, CLAUDE.md. Commands dir (.claude/commands/) was
+  # previously missing — fixed 2026-05-02 after PR #749 G8 CI failure.
+  local hi; hi=$(echo "$all" | grep -E '^(\.claude/|scripts/|\.scm/|\.opencode/|\.github/workflows/|CLAUDE\.md)' || true)
+  [[ -z "$hi" ]] && echo "skipped (no high-impact paths)" && return
 
   # Accept CHANGELOG.d/*.md fragment as valid changelog entry (zero-conflict
   # pattern — see CHANGELOG.d/README.md). If the PR adds a fragment, skip
