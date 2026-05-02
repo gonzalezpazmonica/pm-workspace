@@ -1,3 +1,8 @@
+---
+name: Trace Optimize
+description: Optimize trace spans and sampling rates across distributed services
+---
+
 # /trace-optimize — Analyze agent traces and suggest prompt improvements
 
 Analyze agent execution traces to identify which agents need optimization

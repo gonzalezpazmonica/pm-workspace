@@ -22,6 +22,7 @@ import hashlib
 import json
 import re
 import sys
+import tempfile
 import time
 from pathlib import Path
 from typing import Iterable
@@ -292,38 +293,60 @@ def write_resources_json(json_path: Path, resources: list[ResourceEntry]) -> Non
 
 
 def main(argv: list[str]) -> int:
+    # Parse flags
+    check_mode = False
+    output_arg = None
+    for arg in argv[1:]:
+        if arg == "--check":
+            check_mode = True
+        elif arg.startswith("-"):
+            print(f"Unknown flag: {arg}", file=sys.stderr)
+            print("Usage: generate-capability-map.py [--check] [output_dir]", file=sys.stderr)
+            return 2
+        else:
+            output_arg = arg
+
+    if check_mode and output_arg is not None:
+        print("Error: --check and output path are mutually exclusive", file=sys.stderr)
+        return 2
+
     start_time = time.monotonic()
-    repo_root = Path(argv[1]).resolve() if len(argv) > 1 else Path(__file__).resolve().parents[1]
+    repo_root = Path(output_arg).resolve() if output_arg else Path(__file__).resolve().parents[1]
     scm_dir = repo_root / ".scm"
     categories_dir = scm_dir / "categories"
+
+    # ── --check mode: regenerate in temp dir, compare, NEVER write to real .scm/ ──
+    if check_mode:
+        index_file = scm_dir / "INDEX.scm"
+        if not index_file.exists():
+            print("SCM: MISSING (no .scm/INDEX.scm)")
+            return 2
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_scm = Path(tmpdir) / ".scm"
+            tmp_cat = tmp_scm / "categories"
+            tmp_cat.mkdir(parents=True, exist_ok=True)
+
+            resources = _collect_resources(repo_root)
+            write_index_file(tmp_scm / "INDEX.scm", resources)
+            write_category_files(tmp_cat, resources)
+            write_resources_json(tmp_scm / "resources.json", resources)
+
+            real_hash = _read_index_hash(index_file)
+            tmp_hash = _read_index_hash(tmp_scm / "INDEX.scm")
+
+            if real_hash == tmp_hash:
+                print(f"SCM: FRESH ({len(resources)} resources)")
+                return 0
+            else:
+                print(f"SCM: STALE (hash mismatch: {real_hash} vs {tmp_hash})")
+                return 1
+        # tempdir auto-cleaned
+
+    # ── Normal mode: regenerate into real .scm/ ──
     categories_dir.mkdir(parents=True, exist_ok=True)
 
-    # Collect all resources from the 4 sources.
-    resources: list[ResourceEntry] = []
-
-    # Commands: .claude/commands/*.md
-    commands_glob = (repo_root / ".claude" / "commands").glob("*.md")
-    resources.extend(scan_markdown_resources(
-        commands_glob, "cmd", repo_root,
-        name_fallback=lambda path: path.stem,
-    ))
-
-    # Skills: .claude/skills/<skill-name>/SKILL.md
-    skills_glob = (repo_root / ".claude" / "skills").glob("*/SKILL.md")
-    resources.extend(scan_markdown_resources(
-        skills_glob, "skill", repo_root,
-        name_fallback=lambda path: path.parent.name,
-    ))
-
-    # Agents: .claude/agents/*.md
-    agents_glob = (repo_root / ".claude" / "agents").glob("*.md")
-    resources.extend(scan_markdown_resources(
-        agents_glob, "agent", repo_root,
-        name_fallback=lambda path: path.stem,
-    ))
-
-    # Scripts: scripts/*.sh  (not .py yet; keep parity with old script)
-    resources.extend(scan_scripts(repo_root / "scripts", repo_root))
+    resources = _collect_resources(repo_root)
 
     write_index_file(scm_dir / "INDEX.scm", resources)
     write_category_files(categories_dir, resources)
@@ -341,6 +364,44 @@ def main(argv: list[str]) -> int:
         f"{kind_totals['agent']} agents · {kind_totals['script']} scripts"
     )
     return 0
+
+
+def _collect_resources(repo_root: Path) -> list[ResourceEntry]:
+    """Collect all resources from the 4 sources (shared by normal + check modes)."""
+    resources: list[ResourceEntry] = []
+
+    commands_glob = (repo_root / ".claude" / "commands").glob("*.md")
+    resources.extend(scan_markdown_resources(
+        commands_glob, "cmd", repo_root,
+        name_fallback=lambda path: path.stem,
+    ))
+
+    skills_glob = (repo_root / ".claude" / "skills").glob("*/SKILL.md")
+    resources.extend(scan_markdown_resources(
+        skills_glob, "skill", repo_root,
+        name_fallback=lambda path: path.parent.name,
+    ))
+
+    agents_glob = (repo_root / ".claude" / "agents").glob("*.md")
+    resources.extend(scan_markdown_resources(
+        agents_glob, "agent", repo_root,
+        name_fallback=lambda path: path.stem,
+    ))
+
+    resources.extend(scan_scripts(repo_root / "scripts", repo_root))
+
+    return resources
+
+
+def _read_index_hash(index_path: Path) -> str:
+    """Read the content hash from the header of INDEX.scm."""
+    try:
+        for line in index_path.read_text(encoding="utf-8").splitlines():
+            if line.startswith("> hash: "):
+                return line.split("hash: ")[1].split()[0]
+    except OSError:
+        return "none"
+    return "none"
 
 
 if __name__ == "__main__":

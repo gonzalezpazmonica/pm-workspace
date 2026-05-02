@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-05-02 | **Version:** v6.14.1 | **534 commands · 65 agents · 86 skills · 60 hooks · 301+ test suites · Era 188 CLOSED · Era 189 CLOSED · Era 190 APPROVED — Skill discipline + Pocock pattern adoption · Era 191 APPROVED — Audit remediation (4 specs, 8h) · Era 232 PROPOSED — Savia Enterprise Balance Extensions · CRITICAL PATH 16 items (reprioritized 2026-05-02 post-OpenCode audit) · SE-072 to SE-087 APPROVED · backup identidad portable enviado a la usuaria**
+**Updated:** 2026-05-02 | **Version:** v6.14.1 | **534 commands · 65 agents · 86 skills · 60 hooks · 301+ test suites · Era 188 CLOSED · Era 189 CLOSED · Era 190 APPROVED · Era 191 IMPLEMENTING (batch1 PR #749) · Era 192 PROPOSED — Knowledge Graph (SPEC-SE-088-UA-ADOPT) · Era 193 PROPOSED — SaviaClaw DeepSeek Migration (SPEC-SE-089-SC-DEEPSEEK, CRITICAL) · Era 232 PROPOSED — Savia Enterprise Balance Extensions · CRITICAL PATH 19 items (reprioritized 2026-05-02) · SE-072 to SE-089 PROPOSED · backup identidad portable enviado a la usuaria**
 
 ---
 
@@ -312,6 +312,41 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 - **SE-086** Ubiquitous-language extractor — APPROVED priority media (M 5h, 2 slices) — DDD glossary + memory-graph bridge
 - **SE-087** Design-an-interface parallel skill — APPROVED priority media (M 4h) — N=3 alternativas vía sub-agentes paralelos
 
+**Era 192 — Knowledge Graph Adoption (proposed 2026-05-02)**:
+
+Analyze any codebase into an interactive knowledge graph via Understand-Anything
+plugin (OpenCode-compatible, MIT, TypeScript/pnpm). Extends SCM mapping beyond
+Savia's own workspace to ANY project. 1 spec, ~90 min agente.
+
+| Spec | Titulo | Agent time | Prioridad | Depende de |
+|---|---|---|---|---|
+| **SPEC-SE-088-UA-ADOPT** | Integrar Understand-Anything como skill de analisis de codebase | ~90 min | ALTA | SPEC-OPC-CROSS-AUDIT |
+
+- 8 comandos wrapper (`/ua-analyze`, `/ua-domain`, `/ua-diff`, `/ua-chat`, `/ua-dashboard`, `/ua-onboard`, `/ua-install`)
+- Bridge SCM ↔ knowledge-graph (intents ↔ nodos)
+- Feed `memory-agent` con edges `DOMAIN_TERM` desde el grafo
+- CI Gate G16 (WARN): impacto de diff via `/ua-diff`
+- 13 lenguajes soportados (TS/JS, Python, Go, Rust, Java, C#, Ruby, PHP, Kotlin, Swift, C/C++, Scala, Elixir)
+
+**Era 193 — SaviaClaw DeepSeek Migration (proposed 2026-05-02)**:
+
+Migrar el backend LLM de SaviaClaw de `claude -p` (hardcodeado a Claude Code)
+a provider-agnostico con DeepSeek v4-pro via OpenCode. Adoptar patrones de Hermes
+Agent (NousResearch, 23k stars) donde mejoren sin reescribir. 1 spec, 4 slices,
+~120 min agente. CRITICAL: arregla el bug de SOS ciclicos por `remote:unreachable`.
+
+| Spec | Titulo | Agent time | Prioridad | Deps |
+|---|---|---|---|---|
+| **SPEC-SE-089-SC-DEEPSEEK** | Provider-agnostic LLM backend + memory vector + survival fix | ~120 min | CRITICA | — |
+
+- Slice 1 (~40 min): `llm_backend.py` — provider-agnostic (DeepSeek v4-pro primario, v4-flash fallback)
+- Slice 2 (~30 min): `memory_vector.py` — busqueda semantica con embeddings
+- Slice 3 (~20 min): Eliminar `remote_host.py` dependency, healthcheck local
+- Slice 4 (~30 min): Patrones Hermes: cron mejorado, skill learning loop basico
+- Refactoriza 10 archivos de `zeroclaw/host/`, depreca `remote_host.py`
+- Elimina coste Claude Code (~$3/1M → $0.435/1M DeepSeek v4-pro 75% off)
+- Arregla el bug de SOS ciclicos que Monica recibe cada pocos minutos
+
 **Era 232 — Savia Enterprise Balance Extensions (proposed 2026-04-26)**:
 - **SPEC-SE-035** Reconciliation Delta Engine — PROPOSED priority P2 (M 12-16h, 4 slices) — drift verde/ámbar/rojo declared vs computed; pattern from `dreamxist/balance` (MIT)
 - **SPEC-SE-036** API-Key → JWT Mint efímero — PROPOSED priority P1 (M 10-14h, 3 slices) — sustituye PAT file-based; CLAUDE.md Rule #1 a infraestructura
@@ -358,6 +393,10 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 
 **Eje 0 — Remediation (foundation bugs)**: Los 3 specs ALTA de Era 191 arreglan bugs reales detectados en la auditoria de hoy (~50 min agente). Van primero porque SE-084 Slice 1 (skill catalog quality auditor) necesita SCM con 100% cobertura y check mode funcional. Sin esto, el auditor de skills no puede verificar consistencia SCM.
 
+**Eje 0.25 — SaviaClaw Sovereignty (CRITICAL)**: SE-089-SC-DEEPSEEK (~120 min) va en slot 4 porque arregla el bug de SOS ciclicos que Monica recibe cada pocos minutos (`remote:unreachable`). Migra de Claude Code a DeepSeek v4-pro via OpenCode, elimina coste Anthropic (~$3/1M → $0.435/1M), y hace a SaviaClaw autosuficiente en Lima sin depender de `remote_host.py`. Adopta patrones de Hermes Agent (provider fallback, memory vectorization, cron mejorado).
+
+**Eje 0.5 — Knowledge Graph (multiplicador de contexto)**: SE-088-UA-ADOPT (~90 min) se coloca pronto porque genera un knowledge graph del propio pm-workspace que enriquece todos los specs posteriores: SE-084 (auditor de skills) puede usar el grafo para validar consistencia, SE-082 (vocabulario) extrae terminos del grafo, y el memory-agent gana edges `DOMAIN_TERM` desde el primer dia.
+
 **Eje 1 — Compliance enterprise** (P1 hard-gates): SPEC-SE-036 (JWT mint) + SPEC-SE-037 (audit JSONB) son P1 (~140 min agente). Coste de no hacerlas: PAT en fichero (Rule #1 hoy en runtime, debe migrar a infraestructura) + ausencia de evidence ISO-42001/EU AI Act/GDPR bloqueante para Savia Enterprise sales.
 
 **Eje 2 — Skill catalog quality** (multiplicador): Era 190 entera (SE-081..SE-087, ~235 min agente). SE-081 (~25 min, zero deps, free-win) abre. SE-084 Slice 1 (~30 min, auditor only) establece baseline — ahora con SCM 100% y check mode funcional. Resto de Era 190 sigue por dependencias.
@@ -371,26 +410,28 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 ### Pipeline (orden vinculante — tiempo agente)
 
 | # | Spec | Slice | Agent time | Era | Razon |
-|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|
 | 1 | SPEC-SCM-COVERAGE | full | ~10 min | 191 | Fix frontmatter 2 comandos. Prerequisito SE-084 |
 | 2 | SPEC-OPC-AGENTSYNC | full | ~15 min | 191 | Fix replicacion decision-trees/ |
 | 3 | SPEC-SCM-FRESHCHECK | full | ~25 min | 191 | Fix --check mode. Prerequisito SE-084 |
-| 4 | SPEC-OPC-VENDOR-REFS | full | ~45 min | 191 | Eliminar referencias exclusivas Claude Code en docs/scripts |
-| 5 | SE-081 | full | ~25 min | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
-| 6 | SE-084 | Slice 1 | ~30 min | 190 | Auditor establece baseline (SCM 100%+check ya funcional) |
-| 7 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
-| 8 | SE-082 | full | ~35 min | 190 | Vocabulario arquitectonico — multiplicador architect/judge |
-| 9 | SE-083 | full | ~20 min | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
-| 10 | SE-084 | Slice 2 | ~30 min | 190 | G14 gate activo sobre skills cambiados |
-| 11 | SPEC-SE-037 | full | ~50 min | 232 | P1 audit JSONB — compliance ISO/EU AI Act/GDPR |
-| 12 | SPEC-SE-036 | full | ~90 min | 232 | P1 JWT mint — Rule #1 a infraestructura, sustituye PAT |
-| 13 | SE-086 | Slices 1+2 | ~40 min | 190 | Ubiquitous-language + memory-graph bridge |
-| 14 | SE-087 | full | ~35 min | 190 | Design-an-interface (3 alternativas paralelas) |
-| 15 | SPEC-SE-035 | Slices 1-4 | ~100 min | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
-| 16 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
-| 17 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
+| 4 | SE-089-SC-DEEPSEEK | Slices 1-4 | ~120 min | 193 | CRITICAL: provider-agnostic LLM + fix SOS bug + DeepSeek migration |
+| 5 | SPEC-OPC-VENDOR-REFS | full | ~45 min | 191 | Eliminar referencias exclusivas Claude Code en docs/scripts |
+| 6 | SE-088-UA-ADOPT | full | ~90 min | 192 | Integrar Understand-Anything: knowledge graphs + dashboard + diff impact |
+| 7 | SE-081 | full | ~25 min | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
+| 8 | SE-084 | Slice 1 | ~30 min | 190 | Auditor establece baseline (SCM 100%+check ya funcional) |
+| 9 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
+| 10 | SE-082 | full | ~35 min | 190 | Vocabulario arquitectonico — multiplicador architect/judge |
+| 11 | SE-083 | full | ~20 min | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
+| 12 | SE-084 | Slice 2 | ~30 min | 190 | G14 gate activo sobre skills cambiados |
+| 13 | SPEC-SE-037 | full | ~50 min | 232 | P1 audit JSONB — compliance ISO/EU AI Act/GDPR |
+| 14 | SPEC-SE-036 | full | ~90 min | 232 | P1 JWT mint — Rule #1 a infraestructura, sustituye PAT |
+| 15 | SE-086 | Slices 1+2 | ~40 min | 190 | Ubiquitous-language + memory-graph bridge |
+| 16 | SE-087 | full | ~35 min | 190 | Design-an-interface (3 alternativas paralelas) |
+| 17 | SPEC-SE-035 | Slices 1-4 | ~100 min | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
+| 18 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
+| 19 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
 
-**Total non-blocked**: ~630 min ≈ ~10.5h agente ≈ 2-3 sesiones de trabajo.
+**Total non-blocked**: ~840 min ≈ ~14h agente ≈ 3-4 sesiones de trabajo.
 
 ### Triggers que reordenan
 
@@ -409,6 +450,10 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 - **SPEC-SCM-COVERAGE + SPEC-SCM-FRESHCHECK + SE-084**: SCM 100% coverage + check mode funcional → auditor de skills puede validar consistencia SCM como parte del gate G14
 - **SPEC-OPC-AGENTSYNC + SPEC-OPC-CROSS-AUDIT**: sync script arregla el gap actual, cross-audit previene recurrencia
 - **SPEC-OPC-CROSS-AUDIT + pr-plan**: G15 gate (WARN) activa cross-audit cuando se tocan recursos de `.claude/` que tienen mirror en `.opencode/`
+- **SE-088-UA-ADOPT + memory-agent + SE-076**: knowledge-graph nodes alimentan `DOMAIN_TERM` edges en el grafo episodic existente, enriqueciendo el sistema de memoria con conceptos extraidos de cualquier codebase (no solo Savia)
+- **SE-088-UA-ADOPT + SCM**: bridge bidireccional — intents del SCM ↔ nodos del knowledge graph para busqueda semantica cruzada. `/ua-chat` usa tanto el grafo UA como el SCM INDEX
+- **SE-089-SC-DEEPSEEK + SE-088-UA-ADOPT**: memory_vector de SaviaClaw se integra con `/ua-recall` para busqueda semantica unificada desde OpenCode
+- **SE-089-SC-DEEPSEEK + init-pm.sh**: ambos eliminan dependencia hardcodeada de vendor (Claude Code en SaviaClaw, Azure DevOps en init-pm) — provider-agnostic consistente
 - **SE-082 + SE-080**: vocabulario arquitectonico extiende attention-anchor (Genesis B8 named pattern)
 - **SE-082 + SE-087**: design-an-interface usa el vocabulario obligatorio en cada sub-agente
 - **SE-084 + SE-081/083/085/086/087**: el auditor enforced sobre los skills nuevos hace que sean compliant by construction (dogfood del baseline)
@@ -511,14 +556,14 @@ Specs APPROVED antes de 2026-04-26 NO requieren la sección retroactivamente. SE
 
 ---
 
-## SPECs — Status Summary (82 total, post-Era 191 audit)
+## SPECs — Status Summary (84 total, post-Era 193 proposal)
 
 | Status | Count | Key examples |
 |--------|-------|-------------|
 | Implemented | 45 | 012-016, 034-055, 063, 065, 067-069, 071 |
 | Ready | 12 | 019-022, 024, 026, 028, 032, 043, 048, 065, 078 |
 | Draft | 17 | 005, 009, 017, 035, 042, 044, 054, 055, 060, 061, 066 |
-| Proposed | 9 | SE-081..SE-087 (Era 190), SE-036..037 (Era 232), SE-035 |
+| Proposed | 12 | SE-081..SE-087 (Era 190), SE-036..037 (Era 232), SE-035, SE-088 (Era 192), SE-089 (Era 193) |
 | Approved | 4 | SPEC-OPC-AGENTSYNC, SPEC-SCM-COVERAGE, SPEC-SCM-FRESHCHECK, SPEC-OPC-CROSS-AUDIT (Era 191) |
 | Research | 2 | 023, 027 |
 | Archive | 24 | 003, 004, 006-008, 025, 030, 031, 033, 034, 037, 053, 058, 063-064, 070, 075, 138-144 |

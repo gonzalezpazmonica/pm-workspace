@@ -1,9 +1,10 @@
 # quality — Savia Capability Map (L1)
-> 224 resources
+> 225 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
 - **/drift-check** (cmd): Audita reglas CLAUDE.md vs. estado real del repo. Detecta divergencias, archivos huérfanos, tests faltantes y patrones de PII.
+- **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
 - **adversarial-security** (skill): Pipeline de seguridad adversarial — Red Team, Blue Team, Auditor con scoring
 - **ai-audit-log** (cmd): Log de auditoría IA — quién ejecutó qué agente, sobre qué datos, cuándo
 - **ai-exposure-audit** (cmd): Auditoría de exposición IA por rol — observed exposure, riesgo de desplazamiento, reskilling

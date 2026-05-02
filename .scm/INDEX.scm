@@ -1,8 +1,9 @@
 # Savia Capability Map — INDEX
-> hash: 7805618e8292 | resources: 1126
-> 532 commands · 92 skills · 70 agents · 432 scripts
+> hash: 1f92604ba6de | resources: 1128
+> 534 commands · 92 skills · 70 agents · 432 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
+[analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] Trace Search — across,buscar,filtrar,language,multiple — cmd:.claude/commands/trace-search.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
 [analysis] agent-activity — activity,agent,dashboard — script:scripts/agent-activity.sh
@@ -907,6 +908,7 @@
 [quality] /a11y-audit — accesibilidad,aria,auditoría,completa,componentes — cmd:.claude/commands/a11y-audit.md
 [quality] /a11y-fix — accesibilidad,aplicar,aria,attributes,audit — cmd:.claude/commands/a11y-fix.md
 [quality] /drift-check — archivos,audita,claude,detecta,divergencias — cmd:.claude/commands/drift-check.md
+[quality] Court Review — across,code,convene,court,evaluate — cmd:.claude/commands/court-review.md
 [quality] adversarial-security — adversarial,auditor,blue,pipeline,scoring — skill:.claude/skills/adversarial-security/SKILL.md
 [quality] ai-audit-log — agente,auditoría,cuándo,datos,ejecutó — cmd:.claude/commands/ai-audit-log.md
 [quality] ai-exposure-audit — auditoría,desplazamiento,exposición,exposure,observed — cmd:.claude/commands/ai-exposure-audit.md
