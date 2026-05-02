@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 225 resources
+> 226 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -35,7 +35,7 @@
 - **expertise-asymmetry-judge** (agent): Recommendation Tribunal judge — when draft falls in a domain the active user marks as `audit_level: blind`, force a rewrite with explanation/alternatives/verification
 - **fix-assigner** (agent): Creates fix tasks from Court findings, assigns to dev agents, triggers re-review
 - **frontend-test-runner** (agent): Post-commit frontend test execution — unit, component, e2e, coverage
-- **grill-me** (skill): Relentless interview that walks every branch of a decision tree to expose blind spots. Use when Mónica says 'grill me', 'interrógame', 'stress-test este plan', 'desafía esta decisión', or invokes /grill-me; aligned with Rule #24 radical-hon
+- **grill-me** (skill): Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production.
 - **hook-event-gap-audit** (script): hook-event-gap-audit.sh — Audita los 11 eventos de hook no cubiertos en pm-workspace
 - **hook-injection-audit** (script): hook-injection-audit.sh — SE-060 Slice 1 hook injection patterns audit.
 - **hook-latency-audit** (script): hook-latency-audit.sh — SE-037 Slice 1 hook latency enforcement audit.
@@ -107,6 +107,7 @@
 - **security-pipeline** (cmd): >
 - **security-review** (cmd): >
 - **security-scan** (script): security-scan.sh — Security audit for pm-workspace
+- **skill-audit** (script): skill-audit.sh — Baseline skill catalog quality auditor (SE-084 Slice 1)
 - **skill-catalog-audit** (script): skill-catalog-audit.sh — SE-084 Slice 1.
 - **skills-usage-audit** (script): skills-usage-audit.sh — Audita uso de los 91 skills de pm-workspace.
 - **sovereignty-audit** (cmd): Cognitive sovereignty audit — diagnose AI vendor lock-in risk and data portability

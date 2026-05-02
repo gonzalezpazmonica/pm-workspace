@@ -1,6 +1,6 @@
 {
-  "hash": "8ef4f462613f",
-  "total": 1138,
+  "hash": "c41d4de84225",
+  "total": 1139,
   "resources": [
     {
       "category": "analysis",
@@ -3644,15 +3644,15 @@
       "category": "development",
       "name": "zoom-out",
       "intents": [
-        "agente",
-        "area",
-        "callers",
-        "capa",
-        "code"
+        "architecture",
+        "before",
+        "decisions",
+        "dependencies",
+        "design"
       ],
       "kind": "skill",
       "path": ".claude/skills/zoom-out/SKILL.md",
-      "description": "High-level map of unfamiliar code area. Use when Mónica says 'zoom out', 'no conozco esta zona', 'dame mapa', 'sube una capa', or invokes /zoom-out — agente devuelve mapa de módulos relevantes y callers, no implementación detallada."
+      "description": "Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use at design time."
     },
     {
       "category": "governance",
@@ -6298,15 +6298,15 @@
       "category": "planning",
       "name": "caveman",
       "intents": [
-        "brief",
-        "caveman",
-        "cavernícola",
-        "compressed",
-        "every"
+        "before",
+        "brutally",
+        "catch",
+        "coating",
+        "committing"
       ],
       "kind": "skill",
       "path": ".claude/skills/caveman/SKILL.md",
-      "description": "Ultra-compressed response mode (~75% token reduction). Use when Mónica says 'caveman', 'modo cavernícola', 'menos tokens', 'be brief', or invokes /caveman; persists every response until 'stop caveman' or 'modo normal'."
+      "description": "Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use before committing or shipping to catch self-deception."
     },
     {
       "category": "planning",
@@ -12108,15 +12108,15 @@
       "category": "quality",
       "name": "grill-me",
       "intents": [
-        "aligned",
-        "blind",
-        "branch",
-        "decision",
-        "decisión"
+        "adversarial",
+        "assumption",
+        "before",
+        "break",
+        "breaks"
       ],
       "kind": "skill",
       "path": ".claude/skills/grill-me/SKILL.md",
-      "description": "Relentless interview that walks every branch of a decision tree to expose blind spots. Use when Mónica says 'grill me', 'interrógame', 'stress-test este plan', 'desafía esta decisión', or invokes /grill-me; aligned with Rule #24 radical-hon"
+      "description": "Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production."
     },
     {
       "category": "quality",
@@ -13021,6 +13021,20 @@
       "kind": "script",
       "path": "scripts/security-scan.sh",
       "description": "security-scan.sh — Security audit for pm-workspace"
+    },
+    {
+      "category": "quality",
+      "name": "skill-audit",
+      "intents": [
+        "audit",
+        "auditor",
+        "baseline",
+        "catalog",
+        "quality"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-audit.sh",
+      "description": "skill-audit.sh — Baseline skill catalog quality auditor (SE-084 Slice 1)"
     },
     {
       "category": "quality",

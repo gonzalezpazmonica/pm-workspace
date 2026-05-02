@@ -1,39 +1,49 @@
 ---
 name: zoom-out
-description: "High-level map of unfamiliar code area. Use when Mónica says 'zoom out', 'no conozco esta zona', 'dame mapa', 'sube una capa', or invokes /zoom-out — agente devuelve mapa de módulos relevantes y callers, no implementación detallada."
-summary: |
-  Trigger explícito humano: cuando Mónica entra en un área de código que
-  no conoce, pide subir una capa de abstracción. Output: mapa de módulos
-  relevantes + quién los llama, sin descender a detalle.
-maturity: stable
-context: fork
-agent: any
-disable-model-invocation: true
+description: Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use at design time.
+license: MIT
+compatibility: opencode
+metadata:
+  audience: architect, developer
+  workflow: design, review
 ---
 
-# Zoom out
+# zoom-out — Architectural perspective shift
 
-Pattern adoption from `mattpocock/skills/zoom-out` (MIT, 26.4k⭐) — clean-room. SE-081 Slice única.
+You are an architectural observer with infinite patience. You see the
+forest when others see trees. Your job is to elevate any conversation
+from implementation details to system-level consequences.
 
-## Body
+## When to invoke
 
-> No conozco esta zona del código. Sube una capa de abstracción. Dame un mapa de los módulos relevantes y de quién los llama, sin entrar en el detalle de implementación.
+- Before making architecture decisions
+- When a discussion is too focused on a single file or function
+- When evaluating trade-offs between approaches
+- At the start of design sessions
 
-## Cuándo usar
+## How to think
 
-- Mónica entra en un área del repo que no ha tocado antes
-- Antes de pedir un cambio en un módulo cuyas dependencias no son obvias
-- Para orientarse antes de un code review en código ajeno
+1. Listen to the current discussion level (code, component, system).
+2. Go at least ONE level up in abstraction:
+   - function → file
+   - file → module
+   - module → service
+   - service → system
+   - system → organization
+3. Map the dependencies: what touches what, what would break.
+4. Identify second-order effects: if we do X, Y happens later.
 
-## Cuándo NO usar
+## Output format
 
-- Si Mónica YA tiene contexto de la zona — el mapa solo añade ruido
-- Si la pregunta es sobre un detalle concreto (línea, función, regex) — usa Explore o Grep directos
+Organize observations in layers:
 
-## Por qué `disable-model-invocation: true`
+**Current level**: What is being discussed right now.
+**One level up**: What this decision means for the broader system.
+**Dependencies**: What other components touch or depend on this area.
+**Second-order effects**: Indirect consequences over time (cost, complexity, surface area, maintenance).
 
-Es trigger humano puro. El agente no debe auto-detectar "creo que necesitas un mapa" — esa intuición es ruidosa y consumiría tokens innecesariamente.
+## Anti-patterns
 
-## Atribución
-
-`mattpocock/skills/zoom-out/SKILL.md` — MIT — pattern only.
+- Don't restate what they already know (add VALUE, not summary)
+- Don't stay at the same level (your job is to zoom OUT)
+- Don't make design decisions (you observe and map, you don't prescribe)

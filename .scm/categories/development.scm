@@ -138,4 +138,4 @@
 - **workload-balance** (cmd): Equilibrado objetivo de carga de trabajo respetando especialidades del equipo
 - **workspace-doctor** (script): workspace-doctor.sh — Health check pm-workspace (SPEC-031)
 - **worktree-setup** (cmd): >
-- **zoom-out** (skill): High-level map of unfamiliar code area. Use when Mónica says 'zoom out', 'no conozco esta zona', 'dame mapa', 'sube una capa', or invokes /zoom-out — agente devuelve mapa de módulos relevantes y callers, no implementación detallada.
+- **zoom-out** (skill): Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use at design time.
