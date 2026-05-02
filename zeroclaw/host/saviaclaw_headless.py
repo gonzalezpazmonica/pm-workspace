@@ -28,8 +28,8 @@ def _base_logger():
 def _on_signal(s, f): global _shutdown; _shutdown = True
 
 # ── task runners (self-contained, no consciousness imports) ──────────
-def _llm_task(prompt, timeout=60):
-    """Usa OpenCode con TERM=dumb — mismo flujo que Savia (tools, hooks, skills, reglas)."""
+def _llm_task(prompt, timeout=45):
+    """Usa OpenCode con TERM=dumb — mismo flujo que Savia."""
     import subprocess
     try:
         r = subprocess.run(
@@ -40,13 +40,10 @@ def _llm_task(prompt, timeout=60):
         )
         if r.returncode != 0:
             return None
-        # Clean TTY garbage if any
         lines = [l.strip() for l in r.stdout.splitlines()
-                 if l.strip() and not l.startswith("\x1b") and "⏺" not in l]
+                 if l.strip() and not l.startswith("\x1b")]
         return "\n".join(lines).strip() if lines else None
     except subprocess.TimeoutExpired:
-        return None
-    except Exception:
         return None
 
 def _shell_task(cmd, timeout=30):

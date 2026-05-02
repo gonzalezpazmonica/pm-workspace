@@ -106,7 +106,7 @@ def poll_and_respond(llm_fn=None, logger=None):
             _last_msg_id = max(m.get("id", 0) for m in first_run_msgs)
             if logger: logger.info("Talk: starting from msg id %d (%d historical)", _last_msg_id, len(first_run_msgs))
     # Long poll for new messages
-    msgs, _last_msg_id = wait_for_message(timeout=30, last_id=_last_msg_id)
+    msgs, _last_msg_id = wait_for_message(timeout=10, last_id=_last_msg_id)
     # On first run, also process the latest message (it arrived before startup)
     if not msgs and first_run_msgs:
         latest = sorted(first_run_msgs, key=lambda m: m.get("id", 0))
