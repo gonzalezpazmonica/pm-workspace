@@ -2,7 +2,7 @@
 # install-savia-bridge-system.sh — Promote savia-bridge to a SYSTEM systemd unit.
 #
 # Why this script exists:
-#   The bridge must auto-start on Lima reboot (power failures, OS updates).
+#   The bridge must auto-start on host reboot (power failures, OS updates).
 #   User-level systemd services only run while the user is logged in unless
 #   `loginctl enable-linger` is set — either way, a system unit is the most
 #   robust option.

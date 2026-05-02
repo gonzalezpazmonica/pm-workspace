@@ -28,16 +28,11 @@ def send_cmd(ser, text, wait=2):
     return ser.read(ser.in_waiting).decode("utf-8", errors="ignore").strip()
 
 
-def call_claude(question):
-    try:
-        r = subprocess.run(
-            ["claude", "-p", question],
-            capture_output=True, text=True, timeout=30,
-            cwd=os.path.expanduser("~/claude"),
-        )
-        return r.stdout.strip()[:200] if r.returncode == 0 else None
-    except (subprocess.TimeoutExpired, FileNotFoundError):
-        return None
+def call_llm(question):
+    """Provider-agnostic LLM call using OpenCode + DeepSeek v4-pro.
+    Maintains same interface as the old call_claude() for backward compat."""
+    from .llm_backend import talk_reply
+    return talk_reply(question)
 
 
 def truncate_lcd(text):

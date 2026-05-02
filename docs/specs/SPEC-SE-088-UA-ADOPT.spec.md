@@ -150,7 +150,7 @@ bash ~/.opencode/understand-anything/scripts/ua-bridge.sh analyze "$@"
 
 ## 8. Dependencias y Riesgos
 
-- **Riesgo**: Understand-Anything requiere Node.js + pnpm → verificar disponibles en Lima.
+- **Riesgo**: Understand-Anything requiere Node.js + pnpm → verificar disponibles en el host.
 - **Riesgo**: El grafo de pm-workspace (~1100 recursos) + CHANGELOG (9200 lineas) puede
   generar un `knowledge-graph.json` grande (>10MB) → usar LFS como recomienda UA.
 - **Mitigacion**: Instalacion condicional — si Node/pnpm no disponibles, `/ua-install`

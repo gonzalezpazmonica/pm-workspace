@@ -18,7 +18,7 @@
 
 ## 1. Contexto y Objetivo
 
-SaviaClaw (`zeroclaw/`) es el agente autonomo que corre en Lima (Linux) conectado
+SaviaClaw (`zeroclaw/`) es el agente autonomo que corre en el host (Linux) conectado
 a un ESP32 fisico (ZeroClaw) con LCD, sensores y voz. Se comunica con Monica via
 Nextcloud Talk (`nctalk.py`) y procesa preguntas via `call_claude()` que invoca
 `subprocess.run(["claude", "-p", ...])` — el CLI de Claude Code como backend LLM.
@@ -53,7 +53,7 @@ de sesion. Esto es lo que `claude -p` resolvia automaticamente al leer CLAUDE.md
 - Multi-platform messaging gateway
 
 **Objetivo:** Migrar SaviaClaw a un backend LLM provider-agnostic que use DeepSeek
-v4-pro via OpenCode (ya configurado en Lima), adoptar patrones de Hermes donde
+v4-pro via OpenCode (ya configurado en el host), adoptar patrones de Hermes donde
 mejoren sin reescribir, y simplificar la arquitectura eliminando la dependencia
 de `remote_host.py` (que falla) a favor de un modelo local autosuficiente.
 
@@ -126,7 +126,7 @@ de `remote_host.py` (que falla) a favor de un modelo local autosuficiente.
 
 - **REQ-09** Desactivar `survival_phases.phase_despertar()` que depende de
   `remote_host.py` (actualmente roto: `remote:unreachable` ciclico).
-  SaviaClaw corre EN Lima, no necesita SSH a si mismo.
+  SaviaClaw corre en el host, no necesita SSH a si mismo.
 
 - **REQ-10** Reemplazar el chequeo de remote_host con un healthcheck local:
   `survival_phases.phase_respiracion()` verifica que `opencode` responda

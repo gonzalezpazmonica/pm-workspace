@@ -96,11 +96,10 @@ def wait_for_message(room_token=None, timeout=30, last_id=0):
 
 _last_msg_id = 0
 
-def poll_and_respond(claude_fn, logger=None):
-    """Long poll Talk (30s timeout, like official client). Respond via claude."""
+def poll_and_respond(llm_fn=None, logger=None):
+    """Long poll Talk (30s timeout, like official client). Respond via LLM."""
     global _last_msg_id
     if _last_msg_id == 0:
-        # On first run: get latest message ID to skip history
         msgs = read_messages(limit=10)
         if msgs:
             _last_msg_id = max(m.get("id", 0) for m in msgs)
@@ -108,7 +107,7 @@ def poll_and_respond(claude_fn, logger=None):
     msgs, _last_msg_id = wait_for_message(timeout=30, last_id=_last_msg_id)
     for m in msgs:
         if m["actor"].lower() == "savia": continue
-        if m.get("message","").startswith("{"): continue  # skip system msgs
+        if m.get("message","").startswith("{"): continue
         q = m["message"].strip()
         if not q or len(q) < 3: continue
         if logger: logger.info("Talk from %s: %s", m["actor"], q[:60])
@@ -117,7 +116,11 @@ def poll_and_respond(claude_fn, logger=None):
             'de forma natural y útil, en pocas líneas. '
             f'Pregunta: {q}'
         )
-        ans = claude_fn(f'claude -p "{prompt}"')
+        if llm_fn:
+            ans = llm_fn(prompt)
+        else:
+            from .llm_backend import talk_reply
+            ans = talk_reply(prompt)
         if not ans:
             ans = "Ahora mismo no puedo responder, pero lo intentaré pronto. ¿Me lo repites más tarde?"
         send_message(ans)
@@ -135,7 +138,7 @@ def notify_with_escalation(text, logger=None):
 
 def check_escalations(logger=None):
     """Email if Talk not answered in time. Reads timeout + email from config."""
-    import time, subprocess
+    import time
     cfg = _load_config()
     if not cfg: return
     timeout = int(cfg.get("ESCALATION_TIMEOUT_MIN", 60)) * 60
@@ -148,8 +151,8 @@ def check_escalations(logger=None):
         subj = "SaviaClaw: mensaje sin respuesta en Talk"
         body = f"Envie esto por Talk hace {timeout//60}min sin respuesta:\n\n{text[:400]}"
         try:
-            subprocess.run(["claude", "-p", f"Send email to {email} subject '{subj}' body: {body}"],
-                capture_output=True, text=True, timeout=60, cwd="/tmp")
+            from .llm_backend import execute
+            execute(f"Send email to {email} subject '{subj}' body: {body}")
         except Exception as e:
             if logger: logger.error("Email escalation failed: %s", e)
         resolved.append(mid)

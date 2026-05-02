@@ -9,7 +9,7 @@ author: Savia
 
 # SPEC-066: Enhanced Local LLM — Premium Tier for Emergency Mode
 
-> Implementado en Era 174 Emergency Watchdog (4 modelos instalados en Lima: gemma4:e2b/e4b, qwen2.5:3b/7b).
+> Implementado en Era 174 Emergency Watchdog (4 modelos instalados en el host: gemma4:e2b/e4b, qwen2.5:3b/7b).
 
 ---
 

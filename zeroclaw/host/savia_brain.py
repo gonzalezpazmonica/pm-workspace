@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Savia Brain Bridge — connects ZeroClaw to Claude Code.
+"""Savia Brain Bridge — connects ZeroClaw to the LLM backend.
 
-Listens on serial for queries from ESP32, sends them to claude CLI
+Listens on serial for queries from ESP32, sends them to OpenCode
 (which loads pm-workspace context automatically), and returns the
 response to ESP32's LCD + serial.
 
@@ -17,26 +17,15 @@ import sys
 import argparse
 import os
 
-CLAUDE_CMD = "claude"
 MAX_RESPONSE_LCD = 32  # 2 lines x 16 chars
 QUERY_PREFIX = "ask "  # ESP32 sends "ask <question>"
-TIMEOUT_CLAUDE = 30
+TIMEOUT_LLM = 30
 
 
-def call_claude(prompt):
-    """Call claude CLI in headless mode. Returns response text."""
-    try:
-        r = subprocess.run(
-            [CLAUDE_CMD, "-p", prompt],
-            capture_output=True, text=True,
-            timeout=TIMEOUT_CLAUDE,
-            cwd=os.path.expanduser("~/claude"),
-        )
-        return r.stdout.strip() if r.returncode == 0 else f"Error: {r.stderr[:80]}"
-    except subprocess.TimeoutExpired:
-        return "Timeout — pregunta demasiado compleja"
-    except FileNotFoundError:
-        return "claude CLI not found"
+def call_llm(prompt):
+    """Provider-agnostic LLM call using OpenCode + DeepSeek."""
+    from .llm_backend import talk_reply
+    return talk_reply(prompt) or "No pude responder ahora"
 
 
 def truncate_for_lcd(text, cols=16, rows=2):
@@ -62,7 +51,7 @@ def send_lcd(ser, line1, line2=""):
 
 
 def run_bridge(port=None):
-    """Main bridge loop — listen for queries, call Claude, respond."""
+    """Main bridge loop — listen for queries, call LLM, respond."""
     port = port or detect_port()
     if not port:
         print("No ESP32 detected")
@@ -89,7 +78,6 @@ def run_bridge(port=None):
                 line = line.strip()
                 if not line:
                     continue
-                # Check if it's a query for Savia
                 if line.lower().startswith(QUERY_PREFIX):
                     question = line[len(QUERY_PREFIX):].strip()
                     if not question:
@@ -97,7 +85,7 @@ def run_bridge(port=None):
                     print(f"Q: {question}")
                     send_lcd(ser, "Pensando...", question[:16])
 
-                    response = call_claude(question)
+                    response = call_llm(question)
                     print(f"A: {response[:200]}")
 
                     l1, l2 = truncate_for_lcd(response)

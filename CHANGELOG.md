@@ -2950,7 +2950,7 @@ All 7 foundational principles remain intact (data sovereignty, vendor independen
 
 ## [4.35.1] — 2026-04-11
 
-Savia Claw rescue on Lima: implement the missing HTTPS bridge as a systemd service
+Savia Claw rescue on host: implement the missing HTTPS bridge as a systemd service
 so SaviaClaw stops looping `remote:unreachable` SOS alerts on Nextcloud Talk.
 Add `/memory-check` health command covering all 10 memory layers, and generate the
 per-project Agent Code Map (ACM) for the Savia Claw subsystem. Era 204.
@@ -2964,7 +2964,7 @@ per-project Agent Code Map (ACM) for the Savia Claw subsystem. Era 204.
   prefers `systemctl restart savia-bridge` (system unit), falls back to `systemctl --user`.
 - **Script** `scripts/install-savia-bridge-system.sh` — idempotent sudo installer that
   promotes the user-level `savia-bridge` to a hardened system unit so the bridge
-  auto-starts on Lima reboot (PrivateTmp, ProtectSystem=strict, ProtectHome=read-only,
+  auto-starts on host reboot (PrivateTmp, ProtectSystem=strict, ProtectHome=read-only,
   NoNewPrivileges, MemoryMax=512M, CPUQuota=50%).
 - **ACM** `zeroclaw/.agent-maps/` (INDEX + host/daemons + host/survival + host/comms) —
   per-project Agent Code Map for Savia Claw's 37 Python modules, complying with

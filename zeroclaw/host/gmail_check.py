@@ -33,8 +33,9 @@ def check_inbox(logger=None):
         if logger: logger.error("Gmail check: %s", e)
         return None
 
-def check_and_notify(claude_fn, notify_fn, logger=None):
-    """Check Gmail, notify via Talk if new emails found."""
+def check_and_notify(llm_fn, notify_fn, logger=None):
+    """Check Gmail, notify via Talk if new emails found.
+    llm_fn: callable(prompt) -> str|None (provider-agnostic)."""
     result = check_inbox(logger)
     if not result or "error" in result: return
 

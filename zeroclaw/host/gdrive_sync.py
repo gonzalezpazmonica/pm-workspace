@@ -1,6 +1,6 @@
 """Google Drive memory sync for SaviaClaw — persist memory forever.
 
-Uses claude headless with Google Drive MCP to upload critical memory
+Uses OpenCode with Google Drive MCP to upload critical memory
 files. Falls back gracefully if MCP not configured.
 
 Usage:
@@ -32,15 +32,15 @@ LOCAL_MEMORY = [
     "~/.savia/nextcloud-config",
 ]
 
-def _claude_cmd(prompt, timeout=30):
+def _llm_cmd(prompt, timeout=30):
     try:
-        r = subprocess.run(["claude", "-p", prompt], capture_output=True,
-                           text=True, timeout=timeout, cwd=str(ROOT))
-        return r.stdout.strip() if r.returncode == 0 else None
-    except Exception: return None
+        from .llm_backend import execute
+        return execute(prompt)
+    except Exception:
+        return None
 
 def sync(dry_run=False):
-    """Upload critical files to Google Drive via claude MCP."""
+    """Upload critical files to Google Drive via OpenCode MCP."""
     results = []
     ts = datetime.now(timezone.utc).isoformat()
 
@@ -53,7 +53,7 @@ def sync(dry_run=False):
                             "size": full.stat().st_size}); continue
         prompt = (f"Upload the file at {full} to Google Drive in a folder "
                   f"called 'savia-memory'. Use the Google Drive MCP tool.")
-        resp = _claude_cmd(prompt, timeout=60)
+        resp = _llm_cmd(prompt, timeout=60)
         ok = resp is not None and "error" not in (resp or "").lower()
         results.append({"file": f, "status": "synced" if ok else "failed",
                         "response": (resp or "")[:100]})
