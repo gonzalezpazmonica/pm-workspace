@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c4fe77c47e724c6ae0cabf860ae34b0ecc3cf134746bde07493e3ca831b48170
-timestamp=2026-05-02T10:48:19Z
-branch=feat/era193-saviaclaw-deepseek
-head_commit=5b4dcc24
-signature=08d8a3e80f9903ee885ecf050a68cfd73a712a771b1b6673328ecbd8ed08e11b
+diff_hash=becaa27c5e1856aca4f07f95138ec7cc133c8027215974ddb824f7e3423dc498
+timestamp=2026-05-02T12:53:13Z
+branch=feat/era191-batch2-vendor-refs
+head_commit=930c12bc
+signature=ad463d6c6e599fbcad6d6f1fffd3503ffb2cdbb5b9fee4d36414df8383e90d69

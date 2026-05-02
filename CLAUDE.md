@@ -1,4 +1,4 @@
-# PM-Workspace — Claude Code Global
+# PM-Workspace — OpenCode / Claude Code
 
 > **Lazy context**: solo 3 @imports críticos se cargan en cada turno (savia, radical-honesty, autonomous-safety).
 > El resto se lee **bajo demanda** desde los paths documentados abajo.
@@ -24,7 +24,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 
 ## Estructura
 
-`.claude/{agents(70), commands(534), profiles, hooks(65/66reg), rules/{domain,languages}, skills(92), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
+`.claude/{agents(70), commands(535), profiles, hooks(65/66reg), rules/{domain,languages}, skills(92), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
 
 ## Reglas Críticas (Rules 1-8, inline)
 
