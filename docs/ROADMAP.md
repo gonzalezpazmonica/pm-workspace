@@ -430,6 +430,8 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 
 **Eje 0.25 — SaviaClaw Sovereignty (CRITICAL)**: SE-089-SC-DEEPSEEK (~120 min) va en slot 4 porque arregla el bug de SOS ciclicos que Monica recibe cada pocos minutos (`remote:unreachable`). Migra de Claude Code a DeepSeek v4-pro via OpenCode, elimina coste Anthropic (~$3/1M → $0.435/1M), y hace a SaviaClaw autosuficiente en el host sin depender de `remote_host.py`. Adopta patrones de Hermes Agent (provider fallback, memory vectorization, cron mejorado).
 
+**Eje 0.3 — Zero Project Leakage (CRITICAL, subido 2026-05-02)**: SE-093-ZERO-LEAK sube a slot 11 tras detectar fuga de contexto en SaviaClaw Talk: OpenCode carga todo el workspace y el LLM mezcla proyectos ("Savia Web" vs pm-workspace). Aislar contextos por proyecto es urgente para evitar que SaviaClaw responda con datos del proyecto equivocado.
+
 **Eje 0.5 — Knowledge Graph (multiplicador de contexto)**: SE-088-UA-ADOPT (~90 min) se coloca pronto porque genera un knowledge graph del propio pm-workspace que enriquece todos los specs posteriores: SE-084 (auditor de skills) puede usar el grafo para validar consistencia, SE-082 (vocabulario) extrae terminos del grafo, y el memory-agent gana edges `DOMAIN_TERM` desde el primer dia.
 
 **Eje 1 — Compliance enterprise** (P1 hard-gates): SPEC-SE-036 (JWT mint) + SPEC-SE-037 (audit JSONB) son P1 (~140 min agente). Coste de no hacerlas: PAT en fichero (Rule #1 hoy en runtime, debe migrar a infraestructura) + ausencia de evidence ISO-42001/EU AI Act/GDPR bloqueante para Savia Enterprise sales.
@@ -456,9 +458,9 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 | 8 | SE-081 | full | ~25 min | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
 | 9 | SE-084 | Slice 1 | ~30 min | 190 | Auditor establece baseline (SCM 100%+check ya funcional) |
 | 10 | SE-091-CAVEMAN-ALWAYS | full | ~30 min | 195 | Caveman always-on + auto tribunal hooks |
-| 11 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
-| 12 | SE-092-PM-BACKEND | full | ~90 min | 196 | CRITICAL: bridge ADO/Jira — comandos PM reales |
-| 13 | SE-093-ZERO-LEAK | full | ~60 min | 196 | CRITICAL: zero project leakage enforcement |
+| 11 | SE-093-ZERO-LEAK | full | ~60 min | 196 | CRITICAL: zero project leakage enforcement — Talk context isolation |
+| 12 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
+| 13 | SE-092-PM-BACKEND | full | ~90 min | 196 | CRITICAL: bridge ADO/Jira — comandos PM reales |
 | 14 | SE-094-DOC-AUDIT | full | ~45 min | 196 | Doc health auditor — broken links + stale refs |
 | 15 | SE-082 | full | ~35 min | 190 | Vocabulario arquitectonico — multiplicador architect/judge |
 | 16 | SE-083 | full | ~20 min | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
