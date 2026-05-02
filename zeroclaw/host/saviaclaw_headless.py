@@ -15,8 +15,17 @@ WORKSPACE = os.path.expanduser("~/claude")
 TICK_INTERVAL = 10
 MEMORY_DIR = os.path.expanduser("~/.savia-memory/auto")
 MEMORY_FILE = os.path.join(MEMORY_DIR, "MEMORY.md")
+STATUS_FILE = os.path.join(LOG_DIR, "headless-status.json")
 
 _shutdown = False
+
+def _write_status(state, detail=""):
+    """Escribe estado actual para que OpenCode lo lea."""
+    os.makedirs(LOG_DIR, exist_ok=True)
+    import json
+    with open(STATUS_FILE, "w") as f:
+        json.dump({"state": state, "detail": detail, "ts": time.time(),
+                   "tasks": [t["name"] for t in SCHEDULE]}, f)
 
 def _base_logger():
     os.makedirs(LOG_DIR, exist_ok=True)
@@ -28,8 +37,8 @@ def _base_logger():
 def _on_signal(s, f): global _shutdown; _shutdown = True
 
 # ── task runners (self-contained, no consciousness imports) ──────────
-def _llm_task(prompt, timeout=45):
-    """Usa OpenCode con TERM=dumb — mismo flujo que Savia."""
+def _llm_task(prompt, timeout=120):
+    """Usa OpenCode con TERM=dumb. Timeout amplio para tasks con tools."""
     import subprocess
     try:
         r = subprocess.run(
@@ -80,6 +89,7 @@ SCHEDULE = [
 # ── main loop ────────────────────────────────────────────────────────
 def run(log, once=False):
     log.info("SaviaClaw headless starting (pid=%d)", os.getpid())
+    _write_status("running", f"{len(SCHEDULE)} tasks loaded")
     last = {}
     tick = 0
     while not _shutdown:
