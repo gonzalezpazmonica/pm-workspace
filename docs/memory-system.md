@@ -69,23 +69,24 @@ paths:
 
 ## Auto Memory
 
-Claude guarda automáticamente notas sobre cada proyecto en `~/.claude/projects/<project>/memory/`. Estructura recomendada:
+Savia guarda memoria canónica en `~/.savia-memory/auto/MEMORY.md` (índice Tier A).
+Estructura:
 
 ```
-~/.claude/projects/<project>/memory/
-├── MEMORY.md              ← Índice Tier A (cap 30 entries, se carga al inicio)
-├── MEMORY-ARCHIVE.md      ← Índice Tier B (filename-only, on-demand)
-├── sprint-history.md      ← Velocidad, burndown, impedimentos por sprint
-├── architecture.md        ← Decisiones arquitectónicas del proyecto
-├── debugging.md           ← Problemas resueltos y sus soluciones
-├── team-patterns.md       ← Preferencias y patrones del equipo
-└── devops-notes.md        ← Config de pipelines, entornos, secretos
+~/.savia-memory/
+├── auto/
+│   └── MEMORY.md              ← Índice canónico (≤200 líneas, ≤25KB)
+├── sessions/YYYY-MM-DD/       ← Snapshots de sesión
+├── projects/                  ← Memoria por proyecto
+└── jsonl-archive/             ← Archivos JSONL históricos
 ```
 
-**MEMORY.md hard-cap: 30 entries** (Tier A, alta frecuencia). Entries < 150 chars.
-Tier B (MEMORY-ARCHIVE.md) contiene entries low-freq filename-only — el agente las carga
-on-demand vía Read del filename. Histórico cap (200 líneas) sigue como ceiling absoluto;
-el cap 30 es el target de ratchet hacia inferencia más barata por turn.
+**MEMORY.md hard-cap: 200 líneas / 25 KB.** Entradas < 150 chars.
+El índice se actualiza automáticamente con `memory-store.sh save` y se
+puede regenerar con `memory-index-rebuild.sh`.
+
+La estructura legacy `~/.claude/projects/<project>/memory/` sigue siendo
+escaneada como fuente secundaria durante la migración.
 
 ### 2-tier rotation (SE-073)
 
