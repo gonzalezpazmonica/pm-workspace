@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-05-02 | **Version:** v6.14.1 | **534 commands · 65 agents · 86 skills · 60 hooks · 301+ test suites · Era 188 CLOSED · Era 189 CLOSED · Era 190 APPROVED · Era 191 IMPLEMENTING (batch1 PR #749) · Era 192 PROPOSED — Knowledge Graph (SPEC-SE-088-UA-ADOPT) · Era 193 PROPOSED — SaviaClaw DeepSeek Migration (SPEC-SE-089-SC-DEEPSEEK, CRITICAL) · Era 232 PROPOSED — Savia Enterprise Balance Extensions · CRITICAL PATH 19 items (reprioritized 2026-05-02) · SE-072 to SE-089 PROPOSED · backup identidad portable enviado a la usuaria**
+**Updated:** 2026-05-02 | **Version:** v6.14.1 | **534 commands · 65 agents · 86 skills · 60 hooks · 301+ test suites · Era 188 CLOSED · Era 189 CLOSED · Era 190 APPROVED · Era 191 IMPLEMENTING (batch1 PR #749, batch2 PR #751) · Era 192 PROPOSED — Knowledge Graph (SPEC-SE-088-UA-ADOPT) · Era 193 IMPLEMENTED — SaviaClaw DeepSeek (PR #750) · Era 194 PROPOSED — Context Visualization (SPEC-SE-090-TOLARIA) · Era 232 PROPOSED — Savia Enterprise Extensions · CRITICAL PATH 20 items (reprioritized 2026-05-02) · SE-072 to SE-090 PROPOSED · backup identidad portable enviado a la usuaria**
 
 ---
 
@@ -347,6 +347,21 @@ Agent (NousResearch, 23k stars) donde mejoren sin reescribir. 1 spec, 4 slices,
 - Elimina coste Claude Code (~$3/1M → $0.435/1M DeepSeek v4-pro 75% off)
 - Arregla el bug de SOS ciclicos que Monica recibe cada pocos minutos
 
+**Era 194 — Context Visualization (proposed 2026-05-02)**:
+
+Adoptar Tolaria (refactoringhq, 8.8k stars, AGPL-3.0) como interfaz visual para el
+Context As Code de Savia. Desktop app (Tauri, macOS/Win/Linux) que lee markdown +
+YAML frontmatter — mismo formato que specs, reglas, roadmap. Cero migracion.
+
+| Spec | Titulo | Agent time | Prioridad |
+|---|---|---|---|
+| **SPEC-SE-090-TOLARIA** | Instalar Tolaria + configurar tipos Savia + workflow doc | ~45 min | ALTA |
+
+- 8 tipos de contenido mapeados (rules, specs, skills, commands, agents, etc.)
+- Comando `/tolaria-open` para abrir vault desde Savia CLI
+- MCP server opcional para bridge Savia ↔ Tolaria
+- No modifica ningun archivo de Savia. Es tooling externo adoptado.
+
 **Era 232 — Savia Enterprise Balance Extensions (proposed 2026-04-26)**:
 - **SPEC-SE-035** Reconciliation Delta Engine — PROPOSED priority P2 (M 12-16h, 4 slices) — drift verde/ámbar/rojo declared vs computed; pattern from `dreamxist/balance` (MIT)
 - **SPEC-SE-036** API-Key → JWT Mint efímero — PROPOSED priority P1 (M 10-14h, 3 slices) — sustituye PAT file-based; CLAUDE.md Rule #1 a infraestructura
@@ -416,8 +431,9 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 | 3 | SPEC-SCM-FRESHCHECK | full | ~25 min | 191 | Fix --check mode. Prerequisito SE-084 |
 | 4 | SE-089-SC-DEEPSEEK | Slices 1-4 | ~120 min | 193 | CRITICAL: provider-agnostic LLM + fix SOS bug + DeepSeek migration |
 | 5 | SPEC-OPC-VENDOR-REFS | full | ~45 min | 191 | Eliminar referencias exclusivas Claude Code en docs/scripts |
-| 6 | SE-088-UA-ADOPT | full | ~90 min | 192 | Integrar Understand-Anything: knowledge graphs + dashboard + diff impact |
-| 7 | SE-081 | full | ~25 min | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
+| 6 | SE-090-TOLARIA | full | ~45 min | 194 | Tolaria visual knowledge base para Context As Code de Savia |
+| 7 | SE-088-UA-ADOPT | full | ~90 min | 192 | Integrar Understand-Anything: knowledge graphs + dashboard + diff impact |
+| 8 | SE-081 | full | ~25 min | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
 | 8 | SE-084 | Slice 1 | ~30 min | 190 | Auditor establece baseline (SCM 100%+check ya funcional) |
 | 9 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
 | 10 | SE-082 | full | ~35 min | 190 | Vocabulario arquitectonico — multiplicador architect/judge |
@@ -454,6 +470,8 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 - **SE-088-UA-ADOPT + SCM**: bridge bidireccional — intents del SCM ↔ nodos del knowledge graph para busqueda semantica cruzada. `/ua-chat` usa tanto el grafo UA como el SCM INDEX
 - **SE-089-SC-DEEPSEEK + SE-088-UA-ADOPT**: memory_vector de SaviaClaw se integra con `/ua-recall` para busqueda semantica unificada desde OpenCode
 - **SE-089-SC-DEEPSEEK + init-pm.sh**: ambos eliminan dependencia hardcodeada de vendor (Claude Code en SaviaClaw, Azure DevOps en init-pm) — provider-agnostic consistente
+- **SE-090-TOLARIA + SE-088-UA-ADOPT**: Tolaria visualiza el knowledge graph que UA genera. UA analiza el codigo → Tolaria navega las notas resultantes. Mismos archivos markdown, dos lentes distintos
+- **SE-090-TOLARIA + AGENTS.md**: el MCP server de Tolaria expone el vault a agentes AI. Savia puede auto-consultar specs y reglas via busqueda en Tolaria sin cargar todo el contexto
 - **SE-082 + SE-080**: vocabulario arquitectonico extiende attention-anchor (Genesis B8 named pattern)
 - **SE-082 + SE-087**: design-an-interface usa el vocabulario obligatorio en cada sub-agente
 - **SE-084 + SE-081/083/085/086/087**: el auditor enforced sobre los skills nuevos hace que sean compliant by construction (dogfood del baseline)
