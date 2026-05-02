@@ -16,18 +16,67 @@ TICK_INTERVAL = 30
 KEY_FILE = os.path.expanduser("~/.savia/deepseek-api-key")
 DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions"
 MODEL = "deepseek-chat"
-
-SYSTEM_PROMPT = """Eres Savia, una buhita (búho en femenino, pequeña y cercana).
-Eres la PM automatizada del pm-workspace. Responde SIEMPRE en español, en femenino.
-Sé directa, radicalmente honesta, sin rodeos. Zero filler. Sin adulación.
-1-3 líneas por defecto. Solo más si te piden detalle.
-No uses emojis. No digas "Hola!" ni "Entiendo tu preocupación".
-Di los datos, sin decorarlos. Datos antes que sentimientos."""
-
+MEMORY_DIR = os.path.expanduser("~/.savia-memory/auto")
+MEMORY_FILE = os.path.join(MEMORY_DIR, "MEMORY.md")
 CONVERSATION = {}
 MAX_HISTORY = 10
 
 _shutdown = False
+
+def _load_savia_context():
+    """Carga el contexto compartido de Savia: CLAUDE.md + memoria + identidad."""
+    parts = []
+    claude_md = os.path.expanduser("~/claude/CLAUDE.md")
+    if os.path.exists(claude_md):
+        with open(claude_md) as f:
+            parts.append(f.read())
+    if os.path.exists(MEMORY_FILE):
+        with open(MEMORY_FILE) as f:
+            parts.append(f.read()[-3000:])
+    parts.append(IDENTITY)
+    return "\n\n".join(parts)
+
+def _write_memory(tag, message):
+    """Write SaviaClaw interaction to shared memory."""
+    os.makedirs(MEMORY_DIR, exist_ok=True)
+    stamp = time.strftime("%Y-%m-%d %H:%M")
+    entry = f"- [{stamp}] {tag}: {message[:200]}\n"
+    try:
+        with open(MEMORY_FILE, "a") as f:
+            f.write(entry)
+    except Exception as e:
+        print(f"memory write error: {e}", file=sys.stderr)
+
+def _get_system_prompt():
+    """Get fresh system prompt, reloaded from disk each tick."""
+    return _load_savia_context()
+
+def _load_savia_context():
+    """Load shared Savia context: CLAUDE.md rules + memory + identity."""
+    parts = []
+    # 1. Savia identity + rules (same as Savia's @imports)
+    claude_md = os.path.expanduser("~/claude/CLAUDE.md")
+    if os.path.exists(claude_md):
+        with open(claude_md) as f:
+            parts.append(f.read())
+    # 2. Session memory
+    if os.path.exists(MEMORY_FILE):
+        with open(MEMORY_FILE) as f:
+            parts.append(f.read()[-3000:])  # last 3K chars only
+    # 3. Core identity
+    parts.append("""Eres Savia, una buhita (búho en femenino, pequeña y cercana).
+Eres la PM automatizada del pm-workspace. Responde SIEMPRE en español, en femenino.
+Eres SaviaClaw — la misma Savia, ejecutándote de forma autónoma en el servidor.
+Sé directa, radicalmente honesta, sin rodeos. Zero filler. Sin adulación.
+1-3 líneas por defecto. Solo más si te piden detalle.
+No uses emojis. No digas \"Hola!\" ni \"Entiendo tu preocupación\".
+Di los datos, sin decorarlos. Datos antes que sentimientos.
+Compartes memoria con Savia. Si te preguntan algo que pasó antes,
+consulta la memoria compartida en ~/.savia-memory/ y el contexto
+del workspace en ~/claude/.""")
+    return "\n\n".join(parts)
+
+SYSTEM_PROMPT = _load_savia_context()
 
 def _base_logger():
     os.makedirs(LOG_DIR, exist_ok=True)
@@ -48,7 +97,7 @@ def _llm_task(prompt, timeout=15):
             api_key = f.read().strip()
     except FileNotFoundError:
         return None
-    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+    messages = [{"role": "system", "content": _get_system_prompt()}]
     # Include recent conversation history for continuity
     history = CONVERSATION.get("default", [])
     if history:
@@ -69,12 +118,13 @@ def _llm_task(prompt, timeout=15):
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             body = _json.loads(resp.read())
             reply = body["choices"][0]["message"]["content"].strip()
-            # Store in conversation history
             h = CONVERSATION.setdefault("default", [])
             h.append({"role": "user", "content": prompt})
             h.append({"role": "assistant", "content": reply})
             if len(h) > MAX_HISTORY * 2:
                 CONVERSATION["default"] = h[-MAX_HISTORY * 2:]
+            # Write to shared Savia memory so OpenCode can see it
+            _write_memory("Talk", f"Q: {prompt[:100]} → A: {reply[:100]}")
             return reply
     except Exception:
         return None
