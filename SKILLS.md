@@ -29,7 +29,7 @@ To use a skill: read `<path>` and follow its instructions.
 | backlog-git-tracker | `.claude/skills/backlog-git-tracker/SKILL.md` | Captura, comparación y auditoría de snapshots de backlog |
 | banking-architecture | `.claude/skills/banking-architecture/SKILL.md` | Skill: Banking Architecture |
 | capacity-planning | `.claude/skills/capacity-planning/SKILL.md` | Gestión completa de capacidades del equipo - consulta, cálculo y alertas |
-| caveman | `.claude/skills/caveman/SKILL.md` | Ultra-compressed response mode (~75% token reduction). Use when Mónica says 'caveman', 'modo cav... |
+| caveman | `.claude/skills/caveman/SKILL.md` | Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible wo... |
 | client-profile-manager | `.claude/skills/client-profile-manager/SKILL.md` | Gestión CRUD de perfiles de cliente en SaviaHub |
 | code-comprehension-report | `.claude/skills/code-comprehension-report/SKILL.md` | Generate comprehension report with mental model after SDD implementation. Automatically documents... |
 | code-improvement-loop | `.claude/skills/code-improvement-loop/SKILL.md` | Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera P... |
@@ -55,7 +55,7 @@ To use a skill: read `<path>` and follow its instructions.
 | executive-reporting | `.claude/skills/executive-reporting/SKILL.md` | Generación de informes ejecutivos multi-proyecto para dirección |
 | feasibility-probe | `.claude/skills/feasibility-probe/SKILL.md` | Validate spec feasibility with time-boxed prototype attempt and viability scoring |
 | governance-enterprise | `.claude/skills/governance-enterprise/SKILL.md` | Enterprise governance — audit trail queries, compliance verification, decision registry, certif... |
-| grill-me | `.claude/skills/grill-me/SKILL.md` | Relentless interview that walks every branch of a decision tree to expose blind spots. Use when M... |
+| grill-me | `.claude/skills/grill-me/SKILL.md` | Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent m... |
 | human-code-map | `.claude/skills/human-code-map/SKILL.md` | Genera y mantiene mapas narrativos de componentes (.hcm) para luchar activamente contra la deuda ... |
 | knowledge-graph | `.claude/skills/knowledge-graph/SKILL.md` | Construye y consulta grafos de conocimiento de entidades PM y sus relaciones |
 | legal-compliance | `.claude/skills/legal-compliance/SKILL.md` | Auditoría de compliance legal contra legislación española consolidada (legalize-es) |
@@ -108,4 +108,4 @@ To use a skill: read `<path>` and follow its instructions.
 | web-research | `.claude/skills/web-research/SKILL.md` | Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-st... |
 | wellbeing-guardian | `.claude/skills/wellbeing-guardian/SKILL.md` | Sistema proactivo de bienestar individual |
 | workspace-integrity | `.claude/skills/workspace-integrity/SKILL.md` | Catalogo de integrity auditors — drift CLAUDE.md, rule manifest, orphan rules, agents catalog s... |
-| zoom-out | `.claude/skills/zoom-out/SKILL.md` | High-level map of unfamiliar code area. Use when Mónica says 'zoom out', 'no conozco esta zona',... |
+| zoom-out | `.claude/skills/zoom-out/SKILL.md` | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effe... |
