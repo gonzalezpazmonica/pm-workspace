@@ -1,3 +1,8 @@
+---
+name: Court Review
+description: Convene the Code Review Court to evaluate implementation quality across 6 judges
+---
+
 # /court-review — Convene the Code Review Court
 
 Runs the Code Review Court on the current branch's diff against main.

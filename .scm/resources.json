@@ -1,6 +1,6 @@
 {
-  "hash": "ac68f37d4023",
-  "total": 1126,
+  "hash": "0fbfc905f16e",
+  "total": 1128,
   "resources": [
     {
       "category": "analysis",
@@ -15,6 +15,20 @@
       "kind": "cmd",
       "path": ".claude/commands/a11y-report.md",
       "description": "Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable."
+    },
+    {
+      "category": "analysis",
+      "name": "Trace Optimize",
+      "intents": [
+        "across",
+        "distributed",
+        "optimize",
+        "rates",
+        "sampling"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/trace-optimize.md",
+      "description": "Optimize trace spans and sampling rates across distributed services"
     },
     {
       "category": "analysis",
@@ -11525,6 +11539,20 @@
       "kind": "cmd",
       "path": ".claude/commands/drift-check.md",
       "description": "Audita reglas CLAUDE.md vs. estado real del repo. Detecta divergencias, archivos huérfanos, tests faltantes y patrones de PII."
+    },
+    {
+      "category": "quality",
+      "name": "Court Review",
+      "intents": [
+        "across",
+        "code",
+        "convene",
+        "court",
+        "evaluate"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/court-review.md",
+      "description": "Convene the Code Review Court to evaluate implementation quality across 6 judges"
     },
     {
       "category": "quality",

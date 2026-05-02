@@ -175,10 +175,13 @@ checked_drift=0
 case "$MODE" in
   generate)
     count=0
+    # Also count subdirectories for reporting
+    subdirs=($(find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d 2>/dev/null))
     while IFS= read -r src; do
       count=$((count + 1))
     done < <(find "$SRC_DIR" -maxdepth 1 -type f -name "*.md" ! -name "README.md")
     echo "would convert $count agents from $SRC_DIR → $DST_DIR"
+    [[ ${#subdirs[@]} -gt 0 ]] && echo "would sync ${#subdirs[@]} subdirectories: ${subdirs[*]##*/}"
     ;;
   apply)
     mkdir -p "$DST_DIR"
@@ -189,7 +192,22 @@ case "$MODE" in
       printf '%s' "$converted" > "$DST_DIR/$bn"
       applied=$((applied + 1))
     done < <(find "$SRC_DIR" -maxdepth 1 -type f -name "*.md" | LC_ALL=C sort)
-    echo "wrote $applied agents to $DST_DIR"
+
+    # Sync subdirectories
+    while IFS= read -r -d '' subdir; do
+      bn=$(basename "$subdir")
+      dst="$DST_DIR/$bn"
+      if [[ -d "$dst" ]]; then
+        rsync -a --delete "$subdir/" "$dst/" 2>/dev/null || cp -r "$subdir"/* "$dst/" 2>/dev/null
+        echo "synced subdirectory: $bn"
+      else
+        cp -r "$subdir" "$dst"
+        echo "created subdirectory: $bn"
+      fi
+      applied=$((applied + 1))
+    done < <(find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d -print0 2>/dev/null)
+
+    echo "wrote $applied resources to $DST_DIR"
     ;;
   check)
     while IFS= read -r src; do
@@ -207,8 +225,22 @@ case "$MODE" in
         checked_drift=$((checked_drift + 1))
       fi
     done < <(find "$SRC_DIR" -maxdepth 1 -type f -name "*.md" | LC_ALL=C sort)
+
+    # Check subdirectories
+    while IFS= read -r -d '' subdir; do
+      bn=$(basename "$subdir")
+      dst="$DST_DIR/$bn"
+      if [[ ! -d "$dst" ]]; then
+        echo "drift: missing directory $dst" >&2
+        checked_drift=$((checked_drift + 1))
+      elif ! diff -qr "$subdir" "$dst" >/dev/null 2>&1; then
+        echo "drift: directory $bn content differs" >&2
+        checked_drift=$((checked_drift + 1))
+      fi
+    done < <(find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d -print0 2>/dev/null)
+
     if [[ $checked_drift -gt 0 ]]; then
-      echo "drift: $checked_drift agent(s) out of sync — run --apply" >&2
+      echo "drift: $checked_drift resource(s) out of sync — run --apply" >&2
       exit 1
     fi
     echo "in sync"
