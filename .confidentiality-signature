@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b979247c5887c1aeda0e0a9d892701f70d4e96e2b6c28fface596e4ec3342915
-timestamp=2026-05-02T12:12:38Z
+diff_hash=becaa27c5e1856aca4f07f95138ec7cc133c8027215974ddb824f7e3423dc498
+timestamp=2026-05-02T12:53:13Z
 branch=feat/era191-batch2-vendor-refs
-head_commit=2cd02d87
-signature=d42c8b38da52e9140d75669463b483e3c0bf21ccec90b9ef6fe5f21190002bf1
+head_commit=930c12bc
+signature=ad463d6c6e599fbcad6d6f1fffd3503ffb2cdbb5b9fee4d36414df8383e90d69
