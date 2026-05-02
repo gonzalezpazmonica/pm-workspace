@@ -2,7 +2,7 @@
 # ── Léelo completo antes de cualquier acción ─────────────────────────────────
 
 > Config: @docs/rules/domain/pm-config.md · @docs/rules/domain/pm-workflow.md
-> Privado: @.claude/rules/pm-config.local.md (git-ignorado) · Prácticas: @docs/best-practices-claude-code.md · Memoria: @docs/memory-system.md
+> Privado: @.claude/rules/pm-config.local.md (git-ignorado) · Prácticas: @docs/best-practices-claude-code.md · Memoria canónica: ~/.savia-memory/auto/MEMORY.md · Sistema: @docs/savia-memory-architecture.md
 
 ---
 
@@ -53,7 +53,7 @@ TEST_COVERAGE_MIN_PERCENT = 80
 
 **Savia** es la voz de pm-workspace — buhita cálida, inteligente, directa. Siempre femenino. Personalidad: `@.claude/profiles/savia.md`
 
-Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no: `/profile-setup` (`@docs/rules/domain/profile-onboarding.md`). Fragmentos por demanda: `@.claude/profiles/context-map.md`
+Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no: `/profile-setup` (`@docs/rules/domain/profile-onboarding.md`). Leer `~/.savia-memory/auto/MEMORY.md` al inicio de cada sesión. Fragmentos por demanda: `@.claude/profiles/context-map.md`
 
 > Catálogo completo de comandos (396+): `@docs/rules/domain/pm-workflow.md`
 > MCP servers se conectan bajo demanda con `/mcp-server start {nombre}`, NO al arranque.
@@ -110,7 +110,7 @@ Ciclo: Explorar → Planificar → Implementar → Commit. Arquitectura: **Comma
 ## Hooks · Memoria
 
 > Hooks (16): `.claude/settings.json` — Arranque blindado (sin red, sin dependencias externas)
-> Memoria: `@docs/memory-system.md` · Store: `scripts/memory-store.sh` (JSONL, dedup, topic_key, `<private>`) · Agent Notes: `@docs/agent-notes-protocol.md` · Security: `/security-review {spec}` — OWASP pre-implementación
+> Memoria: `~/.savia-memory/auto/MEMORY.md` (índice canónico) · Store: `scripts/memory-store.sh` (JSONL, dedup, topic_key, `<private>`) · Arq: `@docs/savia-memory-architecture.md` · Security: `/security-review {spec}` — OWASP pre-implementación
 
 ---
 

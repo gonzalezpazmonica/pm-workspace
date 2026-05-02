@@ -1,4 +1,4 @@
-<img width="2160" height="652" alt="image" src="https://github.com/user-attachments/assets/c0b5eb61-2137-4245-b773-0b65b4745dd7" />
+<img width="1856" height="560" alt="pm-workspace header" src="https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/docs/images/pm-workspace-header.png" />
 
 **Francais** | [Espagnol](README.md) | [English](README.en.md) | [Galego](README.gl.md) | [Euskara](README.eu.md) | [Catala](README.ca.md) | [Deutsch](README.de.md) | [Portugues](README.pt.md) | [Italiano](README.it.md)
 

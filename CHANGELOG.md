@@ -6,6 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.14.1] — 2026-05-02
+
+Era 64 — Provider-agnostic hardening: API endpoints, hooks audit, docs.
+Era 191 — Audit Remediation: OpenCode-SCM alignment (4 specs APPROVED).
+
+### Fixed
+- savia-watchdog.sh: API_URL uses SAVIA_API_UPSTREAM env var (was hardcoded api.anthropic.com).
+- savia-dual-proxy.py, savia-shield-proxy.py, sovereignty-switch.sh, setup-savia-dual.sh: same.
+- validate-bash-global.sh: project dir fallback (CLAUDE_PROJECT_DIR || OPENCODE_PROJECT_DIR || PWD).
+- CHANGELOG.md: missing [6.14.1] reference link added (CI check #6 fix).
+
+### Changed
+- SKILLS.md: header rewritten — removed Claude Code vendor references.
+- CLAUDE.md: hooks count corrected (65 hooks, 61 registered, 4 orphans).
+- .claude/hooks/README.md: full 65-hook catalog with OpenCode dual architecture docs.
+- init-pm.sh: Azure DevOps variables only loaded if ORG_URL is configured (non-placeholder). Core vars always load. Backends are optional/under-demand.
+- ROADMAP.md: v6.14.1 — Era 191 approved, pipeline reprioritized with agent time (not human hours). Total ~585 min agente (16 items).
+
+### Added
+- docs/rules/domain/hook-event-equivalence.md: Claude Code ↔ OpenCode event mapping (17 events).
+- docs/rules/domain/provider-agnostic-tech-debt.md: tracks vendor references in 51/92 skills.
+- docs/specs/SPEC-OPC-AGENTSYNC.spec.md: replicate decision-trees/ to .opencode/agents/.
+- docs/specs/SPEC-SCM-COVERAGE.spec.md: fix frontmatter gaps in court-review + trace-optimize.
+- docs/specs/SPEC-SCM-FRESHCHECK.spec.md: fix --check mode in generate-capability-map.py.
+- docs/specs/SPEC-OPC-CROSS-AUDIT.spec.md: OpenCode ↔ Claude continuous audit script.
+
+
 ## [6.14.0] — 2026-04-26
 
 Batch 63 — SE-074 IMPLEMENTED Slices 1 + 1.5 — paralelismo de specs + adaptive halting (Critical Path #2-3).
@@ -8642,6 +8669,7 @@ Initial public release of PM-Workspace.
 - **Documentation** with methodology
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
+[6.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.14.0...v6.14.1
 [6.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.13.0...v6.14.0
 [6.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.12.0...v6.13.0
 [6.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.11.0...v6.12.0

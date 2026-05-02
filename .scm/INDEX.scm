@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: b5e65a539ea5 | resources: 1126
+> hash: 7805618e8292 | resources: 1126
 > 532 commands · 92 skills · 70 agents · 432 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
@@ -269,7 +269,6 @@
 [development] statusline-provider — claude,code,data,provider,statusline — script:scripts/statusline-provider.sh
 [development] tech-research — autonomous,designated,generates,human,investigates — cmd:.claude/commands/tech-research.md
 [development] tech-research-agent — agente,autónoma,designado,humano,informes — skill:.claude/skills/tech-research-agent/SKILL.md
-[development] token-estimator — before,cost,estimate,estimator,execution — script:scripts/token-estimator.sh
 [development] tribunal-benchmark — benchmark,phase,spec,tribunal — script:scripts/tribunal-benchmark.sh
 [development] validate-consensus — decisiones,jueces,lanzar,panel,specs — cmd:.claude/commands/validate-consensus.md
 [development] validate-pbi-spec-links — bidirectional,check,links,spec,validate — script:scripts/validate-pbi-spec-links.sh
@@ -855,6 +854,7 @@
 [planning] terraform-developer —  — agent:.claude/agents/terraform-developer.md
 [planning] threat-model —  — cmd:.claude/commands/threat-model.md
 [planning] tier3-probes — bertopic,catalogo,champions,extract,feasibility — skill:.claude/skills/tier3-probes/SKILL.md
+[planning] token-estimator — before,cost,estimate,estimator,execution — script:scripts/token-estimator.sh
 [planning] tool-catalog — categorizado,catálogo,comandos,herramientas — cmd:.claude/commands/tool-catalog.md
 [planning] tool-result-trim — deterministic,hard,output,result,tool — script:scripts/tool-result-trim.sh
 [planning] topic-cluster — agrupa,bertopic,clustering,cross,descubre — skill:.claude/skills/topic-cluster/SKILL.md

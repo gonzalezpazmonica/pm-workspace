@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-04-27 | **Version:** v6.13.0 | **532 commands · 65 agents · 86 skills · 60 hooks · 301+ test suites · Era 188 IN PROGRESS — Memory+Throughput+Voice+Graph foundations · Era 189 CLOSED 2026-04-26 — OpenCode sovereignty · **Era 190 APPROVED 2026-04-27 — Skill discipline + Pocock pattern adoption (SE-081..SE-087, MIT clean-room from mattpocock/skills 26.4k⭐)** · Era 232 PROPOSED — Savia Enterprise Balance Extensions (SPEC-SE-035/036/037) · CRITICAL PATH 12 items reprioritized by relevance/urgency/dependencies · SE-072 to SE-080 IMPLEMENTED · SE-081 to SE-087 APPROVED · backup identidad portable enviado a la usuaria**
+**Updated:** 2026-05-02 | **Version:** v6.14.1 | **534 commands · 65 agents · 86 skills · 60 hooks · 301+ test suites · Era 188 CLOSED · Era 189 CLOSED · Era 190 APPROVED — Skill discipline + Pocock pattern adoption · Era 191 APPROVED — Audit remediation (4 specs, 8h) · Era 232 PROPOSED — Savia Enterprise Balance Extensions · CRITICAL PATH 16 items (reprioritized 2026-05-02 post-OpenCode audit) · SE-072 to SE-087 APPROVED · backup identidad portable enviado a la usuaria**
 
 ---
 
@@ -325,66 +325,102 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 
 ---
 
-## Critical Path Q2-Q3 2026 (priorización unificada 2026-04-27 — post Era 188+189 cierre)
+## Era 191 — Audit Remediation: OpenCode + SCM alignment (2026-05-02, APPROVED)
 
-> Orden de ejecución prescriptivo. Cada batch toma el primer item disponible. Sin reprio mid-stream salvo trigger externo (Anthropic shutdown, hardware loss, GPU disponible, Mónica autoriza descarga modelo Kokoro).
+Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps detectados que deben cerrarse antes de Era 190 (SE-084 depende de SCM con 100% cobertura y check mode funcional). Total agente: ~125 min (5 specs). Baja dependencia externa, alto impacto en foundation quality.
 
-### Razonamiento de prioridad (Q2-Q3 reformulado)
+### Especs
 
-**Eje 1 — Compliance enterprise** (P1 hard-gates): SPEC-SE-036 (JWT mint) + SPEC-SE-037 (audit JSONB) son P1. Coste de no hacerlas: PAT en fichero (Rule #1 hoy en runtime, debe migrar a infraestructura) + ausencia de evidence ISO-42001/EU AI Act/GDPR bloqueante para Savia Enterprise sales. Estas dos van primero entre los items de >2h efectivos.
-
-**Eje 2 — Skill catalog quality** (multiplicador): Era 190 entera (SE-081..SE-087) baja el "tax" recurrente de cada skill nuevo y de cada turn. SE-081 (S 2h, zero deps, free-win) abre. SE-084 Slice 1 (S 2h, auditor only) establece baseline. Resto de Era 190 sigue por dependencias.
-
-**Eje 3 — Soberanía** (residual Era 189): SE-077 + SE-078 + SE-079 + SE-080 ya IMPLEMENTED. Quedan E2E validations pendientes de boot por la usuaria — no bloqueante para work nuevo.
-
-**Eje 4 — Apalancamiento** (Era 188 cerrada): SE-074 (parallelism), SE-075 Slices 1+2 (task-queue + voice-chunker), SE-076 (episodic + WIQL + healer) están IMPLEMENTED. SE-075 Slice 3 (Kokoro) DEFERRED hasta autorización explícita de descarga.
-
-**Eje 5 — Ratio rápido / habilitador**: SE-081 (S 2h, sin deps) abre Era 190 como warm-up barato — exactamente el rol que cumplió SE-073 en Era 188.
-
-### Pipeline (orden vinculante)
-
-| # | Spec | Slice | Effort | Era | Razón |
+| Spec | Titulo | Agent time | Prioridad | Depende de | Bloquea |
 |---|---|---|---|---|---|
-| 1 | SE-081 | full | S 2h | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
-| 2 | SE-084 | Slice 1 | S 2h | 190 | Auditor establece baseline antes de Era 190 grow |
-| 3 | SE-082 | full | M 4h | 190 | Vocabulario arquitectónico — multiplicador architect/judge |
-| 4 | SE-083 | full | S 2h | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
-| 5 | SE-084 | Slice 2 | M 4h | 190 | G14 gate activo sobre skills cambiados |
-| 6 | SPEC-SE-037 | full | S 6-8h | 232 | P1 audit JSONB — compliance ISO/EU AI Act/GDPR |
-| 7 | SPEC-SE-036 | full | M 10-14h | 232 | P1 JWT mint — Rule #1 a infraestructura, sustituye PAT |
-| 8 | SE-086 | Slices 1+2 | M 5h | 190 | Ubiquitous-language + memory-graph bridge |
-| 9 | SE-087 | full | M 4h | 190 | Design-an-interface (3 alternativas paralelas) |
-| 10 | SPEC-SE-035 | Slices 1-4 | M 12-16h | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
-| 11 | SE-085 | full | S 2h | 190 | Write-a-skill meta — depende de SE-084 |
-| 12 | SE-075 | Slice 3 | M 3h | 188 (residual) | DEFERRED — requiere autorización Mónica para descargar Kokoro 82M (~500MB) |
+| **SPEC-SCM-COVERAGE** | Cerrar gaps de frontmatter SCM (court-review, trace-optimize) | ~10 min | ALTA | — | SE-084 Slice 1 |
+| **SPEC-OPC-AGENTSYNC** | Replicar decision-trees/ a .opencode/agents/ + fix conversion script | ~15 min | ALTA | — | — |
+| **SPEC-SCM-FRESHCHECK** | Fix --check mode en generate-capability-map.py (read-only) | ~25 min | ALTA | — | SE-084 Slice 1 |
+| **SPEC-OPC-VENDOR-REFS** | Auditar y corregir referencias exclusivas a Claude Code en docs/scripts | ~45 min | ALTA | — | — |
+| **SPEC-OPC-CROSS-AUDIT** | Script de auditoria continua .opencode/ vs .claude/ | ~30 min | MEDIA | SPEC-OPC-AGENTSYNC | — |
 
-**Total non-blocked**: ~58h ≈ 7 working days secuencial. Con paralelismo activo (SE-074 ya IMPLEMENTED) ≈ 3 days reales.
+### Hallazgos de auditoria (2026-05-02)
+
+- `.claude/agents/` tiene 70 .md + 1 directorio `decision-trees/`. `.opencode/agents/` tiene 70 .md pero falta `decision-trees/` (SPEC-OPC-AGENTSYNC).
+- 2/534 comandos sin frontmatter YAML (`court-review.md`, `trace-optimize.md`) → invisibles en SCM (SPEC-SCM-COVERAGE).
+- `generate-capability-map.py` no soporta `--check` — interpreta el flag como path de output y genera side-effect (SPEC-SCM-FRESHCHECK).
+- Sin script de auditoria continua para prevenir drift entre `.claude/` y `.opencode/` (SPEC-OPC-CROSS-AUDIT).
+- 51/92 skills con referencias exclusivas a "Claude Code" en docs/scripts sin mencion OpenCode (SPEC-OPC-VENDOR-REFS).
+- SCM coverage: 532/534 commands (99.6%), 92/92 skills (100%), 70/70 agents (100%), 432 scripts.
+
+---
+
+## Critical Path Q2-Q3 2026 (priorización unificada 2026-05-02 — post audit OpenCode)
+
+> Orden de ejecucion prescriptivo. Cada batch toma el primer item disponible. Sin reprio mid-stream salvo trigger externo (Anthropic shutdown, hardware loss, GPU disponible, Monica autoriza descarga modelo Kokoro).
+
+### Razonamiento de prioridad (reformulado post-audit)
+
+**Eje 0 — Remediation (foundation bugs)**: Los 3 specs ALTA de Era 191 arreglan bugs reales detectados en la auditoria de hoy (~50 min agente). Van primero porque SE-084 Slice 1 (skill catalog quality auditor) necesita SCM con 100% cobertura y check mode funcional. Sin esto, el auditor de skills no puede verificar consistencia SCM.
+
+**Eje 1 — Compliance enterprise** (P1 hard-gates): SPEC-SE-036 (JWT mint) + SPEC-SE-037 (audit JSONB) son P1 (~140 min agente). Coste de no hacerlas: PAT en fichero (Rule #1 hoy en runtime, debe migrar a infraestructura) + ausencia de evidence ISO-42001/EU AI Act/GDPR bloqueante para Savia Enterprise sales.
+
+**Eje 2 — Skill catalog quality** (multiplicador): Era 190 entera (SE-081..SE-087, ~235 min agente). SE-081 (~25 min, zero deps, free-win) abre. SE-084 Slice 1 (~30 min, auditor only) establece baseline — ahora con SCM 100% y check mode funcional. Resto de Era 190 sigue por dependencias.
+
+**Eje 3 — Soberania** (residual Era 189): SE-077 + SE-078 + SE-079 + SE-080 ya IMPLEMENTED. Quedan E2E validations pendientes de boot por la usuaria — no bloqueante para work nuevo. SPEC-OPC-CROSS-AUDIT (~30 min) refuerza la soberania con prevencion continua de drift.
+
+**Eje 4 — Apalancamiento** (Era 188 cerrada): SE-074 (parallelism), SE-075 Slices 1+2 (task-queue + voice-chunker), SE-076 (episodic + WIQL + healer) estan IMPLEMENTED. SE-075 Slice 3 (Kokoro) DEFERRED hasta autorizacion explicita de descarga.
+
+**Eje 5 — Ratio rapido / habilitador**: SPEC-SCM-COVERAGE (~10 min, sin deps) + SPEC-OPC-AGENTSYNC (~15 min) son quick-wins tipo "arreglar lo roto" pre-Era 190. SPEC-OPC-CROSS-AUDIT (~30 min, MEDIA) es preventivo — puede ejecutarse en paralelo con quick-wins de Era 190.
+
+### Pipeline (orden vinculante — tiempo agente)
+
+| # | Spec | Slice | Agent time | Era | Razon |
+|---|---|---|---|---|---|
+| 1 | SPEC-SCM-COVERAGE | full | ~10 min | 191 | Fix frontmatter 2 comandos. Prerequisito SE-084 |
+| 2 | SPEC-OPC-AGENTSYNC | full | ~15 min | 191 | Fix replicacion decision-trees/ |
+| 3 | SPEC-SCM-FRESHCHECK | full | ~25 min | 191 | Fix --check mode. Prerequisito SE-084 |
+| 4 | SPEC-OPC-VENDOR-REFS | full | ~45 min | 191 | Eliminar referencias exclusivas Claude Code en docs/scripts |
+| 5 | SE-081 | full | ~25 min | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
+| 6 | SE-084 | Slice 1 | ~30 min | 190 | Auditor establece baseline (SCM 100%+check ya funcional) |
+| 7 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
+| 8 | SE-082 | full | ~35 min | 190 | Vocabulario arquitectonico — multiplicador architect/judge |
+| 9 | SE-083 | full | ~20 min | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
+| 10 | SE-084 | Slice 2 | ~30 min | 190 | G14 gate activo sobre skills cambiados |
+| 11 | SPEC-SE-037 | full | ~50 min | 232 | P1 audit JSONB — compliance ISO/EU AI Act/GDPR |
+| 12 | SPEC-SE-036 | full | ~90 min | 232 | P1 JWT mint — Rule #1 a infraestructura, sustituye PAT |
+| 13 | SE-086 | Slices 1+2 | ~40 min | 190 | Ubiquitous-language + memory-graph bridge |
+| 14 | SE-087 | full | ~35 min | 190 | Design-an-interface (3 alternativas paralelas) |
+| 15 | SPEC-SE-035 | Slices 1-4 | ~100 min | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
+| 16 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
+| 17 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
+
+**Total non-blocked**: ~630 min ≈ ~10.5h agente ≈ 2-3 sesiones de trabajo.
 
 ### Triggers que reordenan
 
-- **Anthropic shutdown CC Pro** → SE-077/SE-078 E2E validations escalan a #1 (validar OpenCode antes de cualquier work nuevo)
+- **Anthropic shutdown CC Pro** → SPEC-OPC-CROSS-AUDIT escala a #1 (verificar alineacion antes de migrar), SE-077/SE-078 E2E validations escalan a #2
 - **GPU disponible** → SE-028 / SE-042 / SPEC-023 / SPEC-080 entran como Phase D paralela
 - **Hardware loss** → restore desde backup portable enviado a la usuaria (capa 7), identidad recuperable
-- **Mónica autoriza Kokoro download** → SE-075 Slice 3 sale de DEFERRED y entra en orden por relevancia (después de quick-wins Era 190)
+- **Monica autoriza Kokoro download** → SE-075 Slice 3 sale de DEFERRED y entra en orden por relevancia
 - **Cliente enterprise activo** → SPEC-SE-035/036/037 escalan a #1-3 (compliance bloqueante en venta)
+- **Nuevo drift .opencode/ detectado** → SPEC-OPC-CROSS-AUDIT --fix como accion inmediata pre-cualquier batch
 
 ### Sinergias documentadas
 
 - SE-074 + SE-075 Slice 1: orquestador paralelo usa cola serial intra-worktree (`task_queue.py`) — CERRADO en Era 188
 - SE-075 Slice 1 + SE-076 Slice 3: healer async usa `task_queue` para reintentos — CERRADO en Era 188
 - SE-076 Slice 1 + SPEC-027: episodes extienden el grafo Phase 1 ya existente — CERRADO en Era 188
-- **SE-082 + SE-080**: vocabulario arquitectónico extiende attention-anchor (Genesis B8 named pattern)
+- **SPEC-SCM-COVERAGE + SPEC-SCM-FRESHCHECK + SE-084**: SCM 100% coverage + check mode funcional → auditor de skills puede validar consistencia SCM como parte del gate G14
+- **SPEC-OPC-AGENTSYNC + SPEC-OPC-CROSS-AUDIT**: sync script arregla el gap actual, cross-audit previene recurrencia
+- **SPEC-OPC-CROSS-AUDIT + pr-plan**: G15 gate (WARN) activa cross-audit cuando se tocan recursos de `.claude/` que tienen mirror en `.opencode/`
+- **SE-082 + SE-080**: vocabulario arquitectonico extiende attention-anchor (Genesis B8 named pattern)
 - **SE-082 + SE-087**: design-an-interface usa el vocabulario obligatorio en cada sub-agente
 - **SE-084 + SE-081/083/085/086/087**: el auditor enforced sobre los skills nuevos hace que sean compliant by construction (dogfood del baseline)
 - **SE-086 + SE-076**: extractor de domain-language emite edge `DOMAIN_TERM` en el grafo episodic ya existente
-- **SE-087 + SE-074**: design-an-interface puede delegar a parallel-specs-orchestrator para diseños grandes (>1h por agente)
+- **SE-087 + SE-074**: design-an-interface puede delegar a parallel-specs-orchestrator para disenos grandes (>1h por agente)
 - **SPEC-SE-037 + SPEC-SE-036**: audit JSONB trigger captura los JWT-mint events (compliance evidence chain)
 
 ---
 
-## Era 188 — Memory + Throughput + Voice + Graph foundations (2026-04-25, IN PROGRESS)
+## Era 188 — Memory + Throughput + Voice + Graph foundations (2026-04-25, CLOSED 2026-05-02)
 
-Cierra con la entrega pendiente de SE-075 Slices 1+2 (PR #717 abierta a fecha 2026-04-27). Items implementados: SE-072 batch 57, SE-073 batch 62, SE-074 batches 63-69 (todas las slices), SE-076 batch 72. Único residual post-#717: SE-075 Slice 3 (Kokoro 82M CPU voice) DEFERRED por autorización pendiente de descarga ~500MB.
+SE-072 batch 57, SE-073 batch 62, SE-074 batches 63-69 (todas las slices), SE-075 Slices 1+2 batch 70, SE-076 batch 72 — todos IMPLEMENTED. Residual: SE-075 Slice 3 (Kokoro 82M CPU voice) DEFERRED por autorizacion pendiente de descarga ~500MB.
 
 ---
 
@@ -475,14 +511,15 @@ Specs APPROVED antes de 2026-04-26 NO requieren la sección retroactivamente. SE
 
 ---
 
-## SPECs — Status Summary (78 total, post-triage Era 179)
+## SPECs — Status Summary (82 total, post-Era 191 audit)
 
 | Status | Count | Key examples |
 |--------|-------|-------------|
 | Implemented | 45 | 012-016, 034-055, 063, 065, 067-069, 071 |
 | Ready | 12 | 019-022, 024, 026, 028, 032, 043, 048, 065, 078 |
 | Draft | 17 | 005, 009, 017, 035, 042, 044, 054, 055, 060, 061, 066 |
-| Proposed | 5 | 060-062, 064, 066 |
+| Proposed | 9 | SE-081..SE-087 (Era 190), SE-036..037 (Era 232), SE-035 |
+| Approved | 4 | SPEC-OPC-AGENTSYNC, SPEC-SCM-COVERAGE, SPEC-SCM-FRESHCHECK, SPEC-OPC-CROSS-AUDIT (Era 191) |
 | Research | 2 | 023, 027 |
 | Archive | 24 | 003, 004, 006-008, 025, 030, 031, 033, 034, 037, 053, 058, 063-064, 070, 075, 138-144 |
 

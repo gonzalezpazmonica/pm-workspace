@@ -26,7 +26,11 @@ from pathlib import Path
 
 DEFAULT_PORT = 8443
 # VULN-004 FIX: Target hardcoded, not env-poisonable
-TARGET_URL = "https://api.anthropic.com"
+import os
+
+TARGET_URL = os.environ.get(
+    "SAVIA_API_UPSTREAM", "https://api.anthropic.com"
+)
 PROJECT_DIR = os.environ.get("CLAUDE_PROJECT_DIR",
     str(Path(__file__).resolve().parent.parent))
 

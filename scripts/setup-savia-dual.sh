@@ -222,7 +222,7 @@ if [[ $DRY_RUN -eq 0 && $WRITE_CONFIG -eq 1 ]]; then
 {
   "listen_host": "127.0.0.1",
   "listen_port": 8787,
-  "anthropic_upstream": "https://api.anthropic.com",
+  "anthropic_upstream": "${SAVIA_API_UPSTREAM:-https://api.anthropic.com}",
   "ollama_upstream": "http://127.0.0.1:11434",
   "fallback_triggers": {
     "network_error": true,

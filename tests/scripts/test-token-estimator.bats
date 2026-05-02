@@ -26,8 +26,8 @@ teardown() {
   echo "This is a test file with some content for estimation." > "$TMPDIR/test.md"
   run bash "$SCRIPT" "$TMPDIR/test.md"
   [ "$status" -eq 0 ]
-  [[ "$output" == *"Tokens:"* ]]
-  [[ "$output" == *"Cost:"* ]]
+  [[ "$output" == *"Est.tokens:"* ]]
+  [[ "$output" == *"Cost"* ]]
 }
 
 @test "single file: respects --model flag" {
@@ -57,8 +57,8 @@ teardown() {
   echo "file two content" > "$TMPDIR/src/b.sh"
   run bash "$SCRIPT" "$TMPDIR/src"
   [ "$status" -eq 0 ]
-  [[ "$output" == *"Files: 2"* ]]
-  [[ "$output" == *"Total tokens:"* ]]
+  [[ "$output" =~ Files:[[:space:]]+2 ]]
+  [[ "$output" == *"Total est.tokens:"* ]]
 }
 
 @test "directory: identifies largest file" {
@@ -79,7 +79,7 @@ teardown() {
   mkdir -p "$TMPDIR/empty"
   run bash "$SCRIPT" "$TMPDIR/empty"
   [ "$status" -eq 0 ]
-  [[ "$output" == *"Files: 0"* ]]
+  [[ "$output" =~ Files:[[:space:]]+0 ]]
 }
 
 @test "no arguments with empty stdin exits gracefully" {

@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 494 resources
+> 495 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -446,6 +446,7 @@
 - **terraform-developer** (agent): >
 - **threat-model** (cmd): >
 - **tier3-probes** (skill): Catalogo de feasibility probes para champions Tier 3 — Scrapling, Oumi, Memvid, BERTopic, Reranker, PDF extract
+- **token-estimator** (script): token-estimator.sh — Estimate token cost before execution
 - **tool-catalog** (cmd): Catálogo categorizado de herramientas (400+ comandos)
 - **tool-result-trim** (script): tool-result-trim.sh — Deterministic hard cap for tool result output
 - **topic-cluster** (skill): BERTopic clustering — agrupa retros/PBIs/incidents/lessons en topics tematicos con labels. Filtra ruido, descubre patrones cross-proyecto
