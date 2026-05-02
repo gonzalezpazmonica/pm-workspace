@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-05-02 | **Version:** v6.14.1 | **542 commands · 70 agents · 92 skills · 67 hooks · 301+ test suites · Era 188 CLOSED · Era 189 CLOSED · Era 190 IMPLEMENTING (batch1 PR #753) · Era 191 IMPLEMENTING (batch2 PR #751) · Era 192 IMPLEMENTED (UA PR #752) · Era 193 IMPLEMENTED (DeepSeek PR #750) · Era 194 IMPLEMENTED (Tolaria PR #751) · Era 195 IMPLEMENTING (Caveman PR #753) · Era 196 PROPOSED — Production PM (3 specs CRITICAL) · Era 232 PROPOSED — Savia Enterprise · CRITICAL PATH 23 items · SE-072 to SE-094 PROPOSED · backup identidad portable enviado a la usuaria**
+**Updated:** 2026-05-02 | **Version:** v6.14.1 | **542 commands · 70 agents · 92 skills · 67 hooks · 301+ test suites · Era 188 CLOSED · Era 189 CLOSED · Era 190 IMPLEMENTING (PR #753) · Era 191 IMPLEMENTED · Era 192 IMPLEMENTED · Era 193 IMPLEMENTED · Era 194 IMPLEMENTED · Era 195 IMPLEMENTING · Era 196 PROPOSED · Era 197 PROPOSED — SaviaClaw Autonomy (3 specs CRITICAL, post-Hermes/OpenClaw analysis) · Era 232 PROPOSED · CRITICAL PATH 27 items · SE-072 to SE-097 PROPOSED**
 
 ---
 
@@ -382,6 +382,18 @@ aislamiento multi-proyecto, auditoria de salud de documentacion. 3 specs, ~195 m
 | **SPEC-SE-093-ZERO-LEAK** | Zero project leakage enforcement | ~60 min | CRITICA |
 | **SPEC-SE-094-DOC-AUDIT** | Doc health auditor — broken links + stale refs | ~45 min | ALTA |
 
+**Era 197 — SaviaClaw Autonomy (proposed 2026-05-02)**:
+
+Analisis profundo de Hermes Agent (NousResearch) y OpenClaw (368k stars). SaviaClaw
+carece de 3 capacidades criticas que ambos proyectos tienen. 3 specs, ~135 min.
+CRITICO: sin esto SaviaClaw no es un agente autonomo real.
+
+| Spec | Titulo | Agent time | Prioridad | Patron de referencia |
+|---|---|---|---|---|
+| **SPEC-SE-095-SC-MONITOR** | Self-monitoring: heartbeat + stuck detection + status reporting | ~45 min | CRITICA | Hermes `_touch_activity()` + OpenClaw `channel-health-monitor` |
+| **SPEC-SE-096-SC-CRON** | Cron infrastructure: scheduled tasks via `jobs.json` | ~60 min | CRITICA | Hermes `cron/scheduler.py` + `jobs.json` + execution logs |
+| **SPEC-SE-097-SC-STREAM** | Streaming: progressive message feedback via stdout capture | ~30 min | ALTA | Hermes `edit_message` + `▉` cursor (emulado para Talk) |
+
 **Era 232 — Savia Enterprise Balance Extensions (proposed 2026-04-26)**:
 - **SPEC-SE-035** Reconciliation Delta Engine — PROPOSED priority P2 (M 12-16h, 4 slices) — drift verde/ámbar/rojo declared vs computed; pattern from `dreamxist/balance` (MIT)
 - **SPEC-SE-036** API-Key → JWT Mint efímero — PROPOSED priority P1 (M 10-14h, 3 slices) — sustituye PAT file-based; CLAUDE.md Rule #1 a infraestructura
@@ -458,22 +470,25 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 | 8 | SE-081 | full | ~25 min | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
 | 9 | SE-084 | Slice 1 | ~30 min | 190 | Auditor establece baseline (SCM 100%+check ya funcional) |
 | 10 | SE-091-CAVEMAN-ALWAYS | full | ~30 min | 195 | Caveman always-on + auto tribunal hooks |
-| 11 | SE-093-ZERO-LEAK | full | ~60 min | 196 | CRITICAL: zero project leakage enforcement — Talk context isolation |
-| 12 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
-| 13 | SE-092-PM-BACKEND | full | ~90 min | 196 | CRITICAL: bridge ADO/Jira — comandos PM reales |
-| 14 | SE-094-DOC-AUDIT | full | ~45 min | 196 | Doc health auditor — broken links + stale refs |
-| 15 | SE-082 | full | ~35 min | 190 | Vocabulario arquitectonico — multiplicador architect/judge |
-| 16 | SE-083 | full | ~20 min | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
-| 17 | SE-084 | Slice 2 | ~30 min | 190 | G14 gate activo sobre skills cambiados |
-| 18 | SPEC-SE-037 | full | ~50 min | 232 | P1 audit JSONB — compliance ISO/EU AI Act/GDPR |
-| 19 | SPEC-SE-036 | full | ~90 min | 232 | P1 JWT mint — Rule #1 a infraestructura, sustituye PAT |
-| 20 | SE-086 | Slices 1+2 | ~40 min | 190 | Ubiquitous-language + memory-graph bridge |
-| 21 | SE-087 | full | ~35 min | 190 | Design-an-interface (3 alternativas paralelas) |
-| 22 | SPEC-SE-035 | Slices 1-4 | ~100 min | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
-| 23 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
-| 24 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
+| 11 | SE-095-SC-MONITOR | full | ~45 min | 197 | CRITICAL: heartbeat + stuck detection + self-monitoring |
+| 12 | SE-096-SC-CRON | full | ~60 min | 197 | CRITICAL: cron infra — scheduled tasks via jobs.json |
+| 13 | SE-097-SC-STREAM | full | ~30 min | 197 | Streaming feedback: progressive stdout capture |
+| 14 | SE-093-ZERO-LEAK | full | ~60 min | 196 | Zero project leakage enforcement — Talk context isolation |
+| 15 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
+| 16 | SE-092-PM-BACKEND | full | ~90 min | 196 | CRITICAL: bridge ADO/Jira — comandos PM reales |
+| 17 | SE-094-DOC-AUDIT | full | ~45 min | 196 | Doc health auditor — broken links + stale refs |
+| 18 | SE-082 | full | ~35 min | 190 | Vocabulario arquitectonico — multiplicador architect/judge |
+| 19 | SE-083 | full | ~20 min | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
+| 20 | SE-084 | Slice 2 | ~30 min | 190 | G14 gate activo sobre skills cambiados |
+| 21 | SPEC-SE-037 | full | ~50 min | 232 | P1 audit JSONB — compliance ISO/EU AI Act/GDPR |
+| 22 | SPEC-SE-036 | full | ~90 min | 232 | P1 JWT mint — Rule #1 a infraestructura, sustituye PAT |
+| 23 | SE-086 | Slices 1+2 | ~40 min | 190 | Ubiquitous-language + memory-graph bridge |
+| 24 | SE-087 | full | ~35 min | 190 | Design-an-interface (3 alternativas paralelas) |
+| 25 | SPEC-SE-035 | Slices 1-4 | ~100 min | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
+| 26 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
+| 27 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
 
-**Total non-blocked**: ~1005 min ≈ ~17h agente ≈ 4-5 sesiones de trabajo.
+**Total non-blocked**: ~1140 min ≈ ~19h agente
 
 ### Triggers que reordenan
 
