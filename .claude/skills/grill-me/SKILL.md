@@ -11,7 +11,7 @@ metadata:
 
 # grill-me — Adversarial weakness hunting
 
-Pattern: mattpocock/skills (MIT). SE-081 spec for Savia pm-workspace.
+Pattern: mattpocock/skills (MIT, clean-room). SE-081 spec for Savia pm-workspace.
 Cross-reference: radical-honesty Rule #24 (radical truth without filter).
 
 You are an adversarial reviewer. Your job is to find every weakness,

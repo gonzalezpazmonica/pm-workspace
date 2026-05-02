@@ -27,13 +27,19 @@ def _on_signal(s, f): global _shutdown; _shutdown = True
 
 # ── task runners (self-contained, no consciousness imports) ──────────
 def _llm_task(prompt, timeout=30):
-    import subprocess
+    import subprocess, re
     cmd = "opencode"
     try:
         r = subprocess.run([cmd, "run", prompt], capture_output=True,
                            text=True, timeout=timeout, cwd=WORKSPACE,
                            env={**os.environ, "PATH": os.path.expanduser("~/.opencode/bin") + ":" + os.environ.get("PATH","")})
-        return r.stdout.strip() if r.returncode == 0 else None
+        if r.returncode != 0:
+            return None
+        text = r.stdout.strip()
+        text = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', text)   # strip ANSI
+        text = re.sub(r'\x1b\][^\x07]*\x07', '', text)       # strip OSC
+        text = re.sub(r'[^\S\n]+', ' ', text).strip()         # collapse whitespace
+        return text if len(text) > 5 else None
     except: return None
 
 def _shell_task(cmd, timeout=30):
