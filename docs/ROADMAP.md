@@ -327,7 +327,7 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 
 ## Era 191 — Audit Remediation: OpenCode + SCM alignment (2026-05-02, APPROVED)
 
-Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps detectados que deben cerrarse antes de Era 190 (SE-084 depende de SCM con 100% cobertura y check mode funcional). Total agente: ~80 min (4 specs). Baja dependencia externa, alto impacto en foundation quality.
+Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps detectados que deben cerrarse antes de Era 190 (SE-084 depende de SCM con 100% cobertura y check mode funcional). Total agente: ~125 min (5 specs). Baja dependencia externa, alto impacto en foundation quality.
 
 ### Especs
 
@@ -336,6 +336,7 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 | **SPEC-SCM-COVERAGE** | Cerrar gaps de frontmatter SCM (court-review, trace-optimize) | ~10 min | ALTA | — | SE-084 Slice 1 |
 | **SPEC-OPC-AGENTSYNC** | Replicar decision-trees/ a .opencode/agents/ + fix conversion script | ~15 min | ALTA | — | — |
 | **SPEC-SCM-FRESHCHECK** | Fix --check mode en generate-capability-map.py (read-only) | ~25 min | ALTA | — | SE-084 Slice 1 |
+| **SPEC-OPC-VENDOR-REFS** | Auditar y corregir referencias exclusivas a Claude Code en docs/scripts | ~45 min | ALTA | — | — |
 | **SPEC-OPC-CROSS-AUDIT** | Script de auditoria continua .opencode/ vs .claude/ | ~30 min | MEDIA | SPEC-OPC-AGENTSYNC | — |
 
 ### Hallazgos de auditoria (2026-05-02)
@@ -344,6 +345,7 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 - 2/534 comandos sin frontmatter YAML (`court-review.md`, `trace-optimize.md`) → invisibles en SCM (SPEC-SCM-COVERAGE).
 - `generate-capability-map.py` no soporta `--check` — interpreta el flag como path de output y genera side-effect (SPEC-SCM-FRESHCHECK).
 - Sin script de auditoria continua para prevenir drift entre `.claude/` y `.opencode/` (SPEC-OPC-CROSS-AUDIT).
+- 51/92 skills con referencias exclusivas a "Claude Code" en docs/scripts sin mencion OpenCode (SPEC-OPC-VENDOR-REFS).
 - SCM coverage: 532/534 commands (99.6%), 92/92 skills (100%), 70/70 agents (100%), 432 scripts.
 
 ---
@@ -373,21 +375,22 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 | 1 | SPEC-SCM-COVERAGE | full | ~10 min | 191 | Fix frontmatter 2 comandos. Prerequisito SE-084 |
 | 2 | SPEC-OPC-AGENTSYNC | full | ~15 min | 191 | Fix replicacion decision-trees/ |
 | 3 | SPEC-SCM-FRESHCHECK | full | ~25 min | 191 | Fix --check mode. Prerequisito SE-084 |
-| 4 | SE-081 | full | ~25 min | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
-| 5 | SE-084 | Slice 1 | ~30 min | 190 | Auditor establece baseline (SCM 100%+check ya funcional) |
-| 6 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
-| 7 | SE-082 | full | ~35 min | 190 | Vocabulario arquitectonico — multiplicador architect/judge |
-| 8 | SE-083 | full | ~20 min | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
-| 9 | SE-084 | Slice 2 | ~30 min | 190 | G14 gate activo sobre skills cambiados |
-| 10 | SPEC-SE-037 | full | ~50 min | 232 | P1 audit JSONB — compliance ISO/EU AI Act/GDPR |
-| 11 | SPEC-SE-036 | full | ~90 min | 232 | P1 JWT mint — Rule #1 a infraestructura, sustituye PAT |
-| 12 | SE-086 | Slices 1+2 | ~40 min | 190 | Ubiquitous-language + memory-graph bridge |
-| 13 | SE-087 | full | ~35 min | 190 | Design-an-interface (3 alternativas paralelas) |
-| 14 | SPEC-SE-035 | Slices 1-4 | ~100 min | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
-| 15 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
-| 16 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
+| 4 | SPEC-OPC-VENDOR-REFS | full | ~45 min | 191 | Eliminar referencias exclusivas Claude Code en docs/scripts |
+| 5 | SE-081 | full | ~25 min | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
+| 6 | SE-084 | Slice 1 | ~30 min | 190 | Auditor establece baseline (SCM 100%+check ya funcional) |
+| 7 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
+| 8 | SE-082 | full | ~35 min | 190 | Vocabulario arquitectonico — multiplicador architect/judge |
+| 9 | SE-083 | full | ~20 min | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
+| 10 | SE-084 | Slice 2 | ~30 min | 190 | G14 gate activo sobre skills cambiados |
+| 11 | SPEC-SE-037 | full | ~50 min | 232 | P1 audit JSONB — compliance ISO/EU AI Act/GDPR |
+| 12 | SPEC-SE-036 | full | ~90 min | 232 | P1 JWT mint — Rule #1 a infraestructura, sustituye PAT |
+| 13 | SE-086 | Slices 1+2 | ~40 min | 190 | Ubiquitous-language + memory-graph bridge |
+| 14 | SE-087 | full | ~35 min | 190 | Design-an-interface (3 alternativas paralelas) |
+| 15 | SPEC-SE-035 | Slices 1-4 | ~100 min | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
+| 16 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
+| 17 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
 
-**Total non-blocked**: ~585 min ≈ ~10h agente ≈ 2-3 sesiones de trabajo.
+**Total non-blocked**: ~630 min ≈ ~10.5h agente ≈ 2-3 sesiones de trabajo.
 
 ### Triggers que reordenan
 
