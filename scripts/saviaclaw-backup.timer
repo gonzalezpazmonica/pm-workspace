@@ -1,0 +1,9 @@
+[Unit]
+Description=SaviaClaw Daily Memory Backup Timer
+
+[Timer]
+OnCalendar=*-*-* 22:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
