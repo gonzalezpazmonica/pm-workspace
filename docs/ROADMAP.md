@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-05-02 | **Version:** v6.14.1 | **534 commands · 65 agents · 86 skills · 60 hooks · 301+ test suites · Era 188 CLOSED · Era 189 CLOSED · Era 190 APPROVED · Era 191 IMPLEMENTING (batch1 PR #749, batch2 PR #751) · Era 192 PROPOSED — Knowledge Graph (SPEC-SE-088-UA-ADOPT) · Era 193 IMPLEMENTED — SaviaClaw DeepSeek (PR #750) · Era 194 PROPOSED — Context Visualization (SPEC-SE-090-TOLARIA) · Era 232 PROPOSED — Savia Enterprise Extensions · CRITICAL PATH 20 items (reprioritized 2026-05-02) · SE-072 to SE-090 PROPOSED · backup identidad portable enviado a la usuaria**
+**Updated:** 2026-05-02 | **Version:** v6.14.1 | **542 commands · 70 agents · 92 skills · 67 hooks · 301+ test suites · Era 188 CLOSED · Era 189 CLOSED · Era 190 IMPLEMENTING (batch1 PR #753) · Era 191 IMPLEMENTING (batch2 PR #751) · Era 192 IMPLEMENTED (UA PR #752) · Era 193 IMPLEMENTED (DeepSeek PR #750) · Era 194 IMPLEMENTED (Tolaria PR #751) · Era 195 IMPLEMENTING (Caveman PR #753) · Era 196 PROPOSED — Production PM (3 specs CRITICAL) · Era 232 PROPOSED — Savia Enterprise · CRITICAL PATH 23 items · SE-072 to SE-094 PROPOSED · backup identidad portable enviado a la usuaria**
 
 ---
 
@@ -362,6 +362,26 @@ YAML frontmatter — mismo formato que specs, reglas, roadmap. Cero migracion.
 - MCP server opcional para bridge Savia ↔ Tolaria
 - No modifica ningun archivo de Savia. Es tooling externo adoptado.
 
+**Era 195 — Savia Agentic Foundation (proposed 2026-05-02)**:
+
+Caveman como comportamiento por defecto. 6 restricciones cargadas via @import en
+cada turno. Hooks auto-grill-me y auto-zoom-out activados en PreToolUse.
+
+| Spec | Titulo | Agent time | Prioridad |
+|---|---|---|---|
+| **SPEC-SE-091-CAVEMAN-ALWAYS** | Caveman always-on + auto tribunal hooks | ~30 min | ALTA |
+
+**Era 196 — Production PM Operations (proposed 2026-05-02)**:
+
+Cierra el gap entre "asistente PM" y "PM real". Backend Azure DevOps/Jira,
+aislamiento multi-proyecto, auditoria de salud de documentacion. 3 specs, ~195 min.
+
+| Spec | Titulo | Agent time | Prioridad |
+|---|---|---|---|
+| **SPEC-SE-092-PM-BACKEND** | Bridge Azure DevOps/Jira — comandos PM a datos reales | ~90 min | CRITICA |
+| **SPEC-SE-093-ZERO-LEAK** | Zero project leakage enforcement | ~60 min | CRITICA |
+| **SPEC-SE-094-DOC-AUDIT** | Doc health auditor — broken links + stale refs | ~45 min | ALTA |
+
 **Era 232 — Savia Enterprise Balance Extensions (proposed 2026-04-26)**:
 - **SPEC-SE-035** Reconciliation Delta Engine — PROPOSED priority P2 (M 12-16h, 4 slices) — drift verde/ámbar/rojo declared vs computed; pattern from `dreamxist/balance` (MIT)
 - **SPEC-SE-036** API-Key → JWT Mint efímero — PROPOSED priority P1 (M 10-14h, 3 slices) — sustituye PAT file-based; CLAUDE.md Rule #1 a infraestructura
@@ -434,20 +454,24 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 | 6 | SE-090-TOLARIA | full | ~45 min | 194 | Tolaria visual knowledge base para Context As Code de Savia |
 | 7 | SE-088-UA-ADOPT | full | ~90 min | 192 | Integrar Understand-Anything: knowledge graphs + dashboard + diff impact |
 | 8 | SE-081 | full | ~25 min | 190 | Quick win, zero deps. Caveman + zoom-out + grill-me |
-| 8 | SE-084 | Slice 1 | ~30 min | 190 | Auditor establece baseline (SCM 100%+check ya funcional) |
-| 9 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
-| 10 | SE-082 | full | ~35 min | 190 | Vocabulario arquitectonico — multiplicador architect/judge |
-| 11 | SE-083 | full | ~20 min | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
-| 12 | SE-084 | Slice 2 | ~30 min | 190 | G14 gate activo sobre skills cambiados |
-| 13 | SPEC-SE-037 | full | ~50 min | 232 | P1 audit JSONB — compliance ISO/EU AI Act/GDPR |
-| 14 | SPEC-SE-036 | full | ~90 min | 232 | P1 JWT mint — Rule #1 a infraestructura, sustituye PAT |
-| 15 | SE-086 | Slices 1+2 | ~40 min | 190 | Ubiquitous-language + memory-graph bridge |
-| 16 | SE-087 | full | ~35 min | 190 | Design-an-interface (3 alternativas paralelas) |
-| 17 | SPEC-SE-035 | Slices 1-4 | ~100 min | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
-| 18 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
-| 19 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
+| 9 | SE-084 | Slice 1 | ~30 min | 190 | Auditor establece baseline (SCM 100%+check ya funcional) |
+| 10 | SE-091-CAVEMAN-ALWAYS | full | ~30 min | 195 | Caveman always-on + auto tribunal hooks |
+| 11 | SPEC-OPC-CROSS-AUDIT | full | ~30 min | 191 | Auditoria preventiva .opencode/ vs .claude/ |
+| 12 | SE-092-PM-BACKEND | full | ~90 min | 196 | CRITICAL: bridge ADO/Jira — comandos PM reales |
+| 13 | SE-093-ZERO-LEAK | full | ~60 min | 196 | CRITICAL: zero project leakage enforcement |
+| 14 | SE-094-DOC-AUDIT | full | ~45 min | 196 | Doc health auditor — broken links + stale refs |
+| 15 | SE-082 | full | ~35 min | 190 | Vocabulario arquitectonico — multiplicador architect/judge |
+| 16 | SE-083 | full | ~20 min | 190 | TDD anti-horizontal-slicing — multiplicador test-architect |
+| 17 | SE-084 | Slice 2 | ~30 min | 190 | G14 gate activo sobre skills cambiados |
+| 18 | SPEC-SE-037 | full | ~50 min | 232 | P1 audit JSONB — compliance ISO/EU AI Act/GDPR |
+| 19 | SPEC-SE-036 | full | ~90 min | 232 | P1 JWT mint — Rule #1 a infraestructura, sustituye PAT |
+| 20 | SE-086 | Slices 1+2 | ~40 min | 190 | Ubiquitous-language + memory-graph bridge |
+| 21 | SE-087 | full | ~35 min | 190 | Design-an-interface (3 alternativas paralelas) |
+| 22 | SPEC-SE-035 | Slices 1-4 | ~100 min | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
+| 23 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
+| 24 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
 
-**Total non-blocked**: ~840 min ≈ ~14h agente ≈ 3-4 sesiones de trabajo.
+**Total non-blocked**: ~1005 min ≈ ~17h agente ≈ 4-5 sesiones de trabajo.
 
 ### Triggers que reordenan
 
@@ -574,15 +598,15 @@ Specs APPROVED antes de 2026-04-26 NO requieren la sección retroactivamente. SE
 
 ---
 
-## SPECs — Status Summary (84 total, post-Era 193 proposal)
+## SPECs — Status Summary (87 total, post-Era 196 proposal)
 
 | Status | Count | Key examples |
 |--------|-------|-------------|
 | Implemented | 45 | 012-016, 034-055, 063, 065, 067-069, 071 |
 | Ready | 12 | 019-022, 024, 026, 028, 032, 043, 048, 065, 078 |
 | Draft | 17 | 005, 009, 017, 035, 042, 044, 054, 055, 060, 061, 066 |
-| Proposed | 12 | SE-081..SE-087 (Era 190), SE-036..037 (Era 232), SE-035, SE-088 (Era 192), SE-089 (Era 193) |
-| Approved | 4 | SPEC-OPC-AGENTSYNC, SPEC-SCM-COVERAGE, SPEC-SCM-FRESHCHECK, SPEC-OPC-CROSS-AUDIT (Era 191) |
+| Proposed | 15 | SE-081..SE-094 (Era 190-196), SE-035..037 (Era 232) |
+| Approved | 4 | SPEC-OPC-AGENTSYNC, SPEC-SCM-COVERAGE, SPEC-SCM-FRESHCHECK, SPEC-OPC-CROSS-AUDIT |
 | Research | 2 | 023, 027 |
 | Archive | 24 | 003, 004, 006-008, 025, 030, 031, 033, 034, 037, 053, 058, 063-064, 070, 075, 138-144 |
 
