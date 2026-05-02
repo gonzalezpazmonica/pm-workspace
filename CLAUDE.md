@@ -1,4 +1,4 @@
-# PM-Workspace — Claude Code Global
+# PM-Workspace — OpenCode / Claude Code
 
 > **Lazy context**: solo 3 @imports críticos se cargan en cada turno (savia, radical-honesty, autonomous-safety).
 > El resto se lee **bajo demanda** desde los paths documentados abajo.

@@ -1,11 +1,12 @@
 # Migrating Savia from Claude Code to OpenCode
 
-> **Audience**: any operator running Savia today on Claude Code who wants
-> to switch to OpenCode v1.14+ as the frontend, keeping their inference
-> provider of choice.
+> **Audience**: any operator running Savia on Claude Code who wants
+> to switch to OpenCode v1.14+ as the frontend.
 >
-> **Reading time**: ~5 minutes. **Migration time**: ~10-15 minutes for the
-> happy path. Rollback is one command.
+> **Status: PRODUCTION as of 2026-05-02.** Savia, SaviaClaw, and the CI pipeline
+> all run on OpenCode with DeepSeek v4-pro. Claude Code remains available as fallback.
+>
+> **Reading time**: ~5 minutes. **Migration time**: ~10-15 minutes.
 
 ## What you keep, what you give up
 

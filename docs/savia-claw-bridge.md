@@ -1,17 +1,15 @@
 # Savia Claw Bridge — Architecture & Runbook
 
-> The bridge is the component that lets Savia Claw reach Claude Code.
-> If the bridge is down, Savia Claw loops `remote:unreachable` SOS
-> alerts on Nextcloud Talk. This document describes the bridge's
-> architecture, lifecycle, failure modes, and operational runbook.
+> The bridge lets Savia Claw reach the LLM backend (OpenCode / Claude Code).
+> If the bridge is down, Savia Claw's survival system alerts via Nextcloud Talk.
 
 ## What is the bridge
 
 `savia-bridge` is a zero-dependency Python HTTPS server (`scripts/savia-bridge.py`,
-stdlib only) that listens on port 8922 and exposes Claude Code CLI to:
+stdlib only) that listens on port 8922 and exposes the LLM backend to:
 
-- **Savia Mobile (Android)** — HTTPS + SSE streaming of Claude responses
-- **Savia Claw daemon** — via SSH loopback, detects Claude Code health
+- **Savia Mobile (Android)** — HTTPS + SSE streaming of LLM responses
+- **Savia Claw daemon** — via loopback, detects LLM backend health
 - **Any LAN client** — health check, session listing, profile management
 
 Endpoints: `POST /chat`, `GET /health`, `GET /sessions`, `DELETE /sessions`,
