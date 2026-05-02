@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a5aea2917cd14963f56025246be571d30cf433902e73a5ff5b7b7290cdcb2843
-timestamp=2026-05-02T21:32:41Z
-branch=HEAD
-head_commit=c07d52ad
-signature=c62191b72e0b23e358009b9629173ce90b6a41f6653ec0b236cf962815a74e33
+diff_hash=d78029dbed4d5d964731e63709899a3c957daabb0a9cee0cdf151d9580b69418
+timestamp=2026-05-02T21:32:59Z
+branch=feat/era197-saviaclaw-autonomy
+head_commit=cdf778e9
+signature=32d4969a215c540870c730119d98e4a6068e4d54122006be847ff75cda7aa756
