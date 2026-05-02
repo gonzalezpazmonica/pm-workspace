@@ -82,17 +82,28 @@ calc_cost() {
   awk "BEGIN {printf \"%.4f\", ($tokens * $in_cost + $out_tokens * $out_cost) / 1000000}"
 }
 
+calc_effort() {
+  local tokens=$1
+  local out_tokens
+  out_tokens=$(awk "BEGIN {printf \"%.0f\", $tokens * $OUTPUT_RATIO}")
+  # Agent reads ~500 t/s (with thinking), generates ~100 t/s
+  # Effort (min) = (input/500 + output/100) / 60
+  awk "BEGIN {printf \"%.1f\", ($tokens / 500 + $out_tokens / 100) / 60}"
+}
+
 # === Single file ===
 if [[ -f "$TARGET" ]]; then
   TOKENS=$(estimate_tokens "$TARGET")
   COST=$(calc_cost "$TOKENS" "$INPUT_COST" "$OUTPUT_COST")
   CACHE_COST_VAL=$(calc_cost "$TOKENS" "$CACHE_COST" "$OUTPUT_COST")
+  EFFORT=$(calc_effort "$TOKENS")
   echo "File:       $TARGET"
   echo "Chars:      $(wc -c < "$TARGET")"
   echo "Est.tokens: $TOKENS (~$((TOKENS * 4)) chars)"
   echo "Provider:   $PROVIDER | Model: $MODEL"
-  echo "Cost input (miss):  \$${COST}"
-  echo "Cost input (cache): \$${CACHE_COST_VAL}"
+  echo "Agent time: ~${EFFORT} min"
+  echo "Cost (cache miss):  \$${COST}"
+  echo "Cost (cache hit):   \$${CACHE_COST_VAL}"
   if [[ -n "$BUDGET" ]] && [[ "$TOKENS" -gt "$BUDGET" ]]; then
     echo "WARNING: exceeds budget of $BUDGET tokens by $((TOKENS - BUDGET))"
     exit 1
@@ -119,6 +130,7 @@ if [[ -d "$TARGET" ]]; then
 
   COST=$(calc_cost "$TOTAL_TOKENS" "$INPUT_COST" "$OUTPUT_COST")
   CACHE_COST_VAL=$(calc_cost "$TOTAL_TOKENS" "$CACHE_COST" "$OUTPUT_COST")
+  EFFORT=$(calc_effort "$TOTAL_TOKENS")
   AVG=$((TOTAL_FILES > 0 ? TOTAL_TOKENS / TOTAL_FILES : 0))
 
   echo "Directory:  $TARGET"
@@ -127,6 +139,7 @@ if [[ -d "$TARGET" ]]; then
   echo "Avg tokens/file:  $AVG"
   echo "Largest:    $(basename "$MAX_FILE") ($MAX_TOKENS tokens)"
   echo "Provider:   $PROVIDER | Model: $MODEL"
+  echo "Agent time: ~${EFFORT} min"
   echo "Cost (cache miss): \$${COST}"
   if [[ "$(awk "BEGIN {print ($CACHE_COST < $INPUT_COST) ? 1 : 0}")" -eq 1 ]]; then
     echo "Cost (cache hit):  \$${CACHE_COST_VAL}"
