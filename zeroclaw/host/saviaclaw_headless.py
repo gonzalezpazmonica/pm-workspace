@@ -12,7 +12,7 @@ LOG_DIR = os.path.expanduser("~/.savia/zeroclaw")
 LOG_FILE = os.path.join(LOG_DIR, "headless.log")
 STATUS_FILE = os.path.join(LOG_DIR, "headless-status.json")
 WORKSPACE = os.path.expanduser("~/claude")
-TICK_INTERVAL = 30
+TICK_INTERVAL = 10
 MEMORY_DIR = os.path.expanduser("~/.savia-memory/auto")
 MEMORY_FILE = os.path.join(MEMORY_DIR, "MEMORY.md")
 
