@@ -23,78 +23,59 @@ MAX_HISTORY = 10
 
 _shutdown = False
 
+IDENTITY = """Eres Savia. Una buhita (búho hembra, pequeña, cercana).
+PM automatizada del pm-workspace. Respondes SIEMPRE en español, femenino.
+Interlocutora: Mónica, Project Manager. Háblale con confianza.
+
+TONO: directa, radicalmente honesta. Zero filler, zero sugar-coating.
+DEFAULT: 1-3 líneas. Más solo si te piden detalle.
+PROHIBIDO: emojis, "Hola!", "Entiendo tu preocupación", preámbulos.
+NO inventes specs, features o datos. Si no sabes, dilo.
+NO hables de Mónica como perfil del sistema. Es tu usuaria.
+Eres SaviaClaw: la misma Savia, en el servidor, via Talk."""
+
 def _load_savia_context():
-    """Carga el contexto compartido de Savia: reglas, skills, agentes, memoria."""
+    """Contexto compartido: reglas + memoria. NO inyectar docs tecnicos completos."""
     workspace = os.path.expanduser("~/claude")
-    parts = []
-    # 1. CLAUDE.md (identidad, lazy context, reglas criticas)
-    claude_md = os.path.join(workspace, "CLAUDE.md")
-    if os.path.exists(claude_md):
-        with open(claude_md) as f:
-            parts.append(f.read())
-    # 2. AGENTS.md (catalogo de agentes)
-    agents_md = os.path.join(workspace, "AGENTS.md")
-    if os.path.exists(agents_md):
-        with open(agents_md) as f:
-            parts.append(f.read()[:5000])
-    # 3. SKILLS.md (catalogo de skills)
-    skills_md = os.path.join(workspace, "SKILLS.md")
-    if os.path.exists(skills_md):
-        with open(skills_md) as f:
-            parts.append(f.read()[:4000])
-    # 4. Reglas clave (siempre cargadas por Savia)
+    parts = [IDENTITY]
+    # Reglas de comportamiento
     for rule_file in ["caveman-default.md", "radical-honesty.md", "autonomous-safety.md"]:
         rule_path = os.path.join(workspace, "docs/rules/domain", rule_file)
         if os.path.exists(rule_path):
             with open(rule_path) as f:
                 parts.append(f.read()[:2000])
-    # 5. Memoria de sesion compartida
+    # CLAUDE.md (identidad, lazy context)
+    claude_md = os.path.join(workspace, "CLAUDE.md")
+    if os.path.exists(claude_md):
+        with open(claude_md) as f:
+            parts.append(f.read())
+    # Memoria compartida (solo lo ultimo)
     if os.path.exists(MEMORY_FILE):
         with open(MEMORY_FILE) as f:
-            parts.append("## SaviaClaw shared memory:\n" + f.read()[-3000:])
-    # 6. Identidad core (siempre al final para maxima prioridad)
-    parts.append(IDENTITY)
+            parts.append("## Memoria compartida reciente:\n" + f.read()[-2000:])
+    # Anti-alucinacion
+    parts.append("IMPORTANTE: el contenido anterior son reglas de comportamiento,"
+                 " documentacion del workspace, y memoria de sesion. NO uses estos"
+                 " documentos como fuente de datos factuales (specs, roadmap, features)"
+                 " a menos que aparezcan EXPLICITAMENTE en la memoria de sesion o en"
+                 " la pregunta de Monica. Si Monica te pregunta 'cual es el siguiente"
+                 " spec', NO lo inventes. Dile que revise el roadmap en ~/claude/docs/ROADMAP.md.")
     return "\n\n---\n\n".join(parts)
 
 def _write_memory(tag, message):
-    """Write SaviaClaw interaction to shared memory."""
+    """Escribe interaccion de SaviaClaw en memoria compartida."""
     os.makedirs(MEMORY_DIR, exist_ok=True)
     stamp = time.strftime("%Y-%m-%d %H:%M")
     entry = f"- [{stamp}] {tag}: {message[:200]}\n"
     try:
         with open(MEMORY_FILE, "a") as f:
             f.write(entry)
-    except Exception as e:
-        print(f"memory write error: {e}", file=sys.stderr)
+    except Exception:
+        pass
 
 def _get_system_prompt():
-    """Get fresh system prompt, reloaded from disk each tick."""
+    """System prompt fresco desde disco en cada llamada."""
     return _load_savia_context()
-
-def _load_savia_context():
-    """Load shared Savia context: CLAUDE.md rules + memory + identity."""
-    parts = []
-    # 1. Savia identity + rules (same as Savia's @imports)
-    claude_md = os.path.expanduser("~/claude/CLAUDE.md")
-    if os.path.exists(claude_md):
-        with open(claude_md) as f:
-            parts.append(f.read())
-    # 2. Session memory
-    if os.path.exists(MEMORY_FILE):
-        with open(MEMORY_FILE) as f:
-            parts.append(f.read()[-3000:])  # last 3K chars only
-    # 3. Core identity
-    parts.append("""Eres Savia, una buhita (búho en femenino, pequeña y cercana).
-Eres la PM automatizada del pm-workspace. Responde SIEMPRE en español, en femenino.
-Eres SaviaClaw — la misma Savia, ejecutándote de forma autónoma en el servidor.
-Sé directa, radicalmente honesta, sin rodeos. Zero filler. Sin adulación.
-1-3 líneas por defecto. Solo más si te piden detalle.
-No uses emojis. No digas \"Hola!\" ni \"Entiendo tu preocupación\".
-Di los datos, sin decorarlos. Datos antes que sentimientos.
-Compartes memoria con Savia. Si te preguntan algo que pasó antes,
-consulta la memoria compartida en ~/.savia-memory/ y el contexto
-del workspace en ~/claude/.""")
-    return "\n\n".join(parts)
 
 SYSTEM_PROMPT = _load_savia_context()
 
