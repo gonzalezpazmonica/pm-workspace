@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 133 resources
+> 138 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -123,7 +123,12 @@
 - **statusline-provider** (script): statusline-provider.sh — HUD data provider for Claude Code statusline
 - **tech-research** (cmd): Launch autonomous technical research — investigates topics, generates reports, notifies designated human
 - **tech-research-agent** (skill): Agente de investigación técnica autónoma — investiga temas, genera informes, notifica al humano designado
+- **tolaria-open** (cmd): Open Tolaria desktop knowledge base on the Savia workspace (or specified path)
 - **tribunal-benchmark** (script): tribunal-benchmark.sh — SPEC-106 Phase 3.
+- **ua-analyze** (cmd): Generate knowledge graph for any codebase using Understand-Anything
+- **ua-diff** (cmd): Analyze impact of uncommitted changes on the codebase graph
+- **ua-domain** (cmd): Extract business domain concepts and processes from any codebase
+- **ua-onboard** (cmd): Generate a guided onboarding tour for any codebase
 - **validate-consensus** (cmd): Lanzar panel de 3 jueces para validar specs, PRs y decisiones
 - **validate-pbi-spec-links** (script): validate-pbi-spec-links.sh — Check bidirectional PBI ↔ Spec links
 - **validate-spec** (script): validate-spec.sh — SPEC-071: Declarative spec validation without LLM

@@ -1,6 +1,6 @@
 {
-  "hash": "0fbfc905f16e",
-  "total": 1128,
+  "hash": "8ef4f462613f",
+  "total": 1138,
   "resources": [
     {
       "category": "analysis",
@@ -3440,6 +3440,20 @@
     },
     {
       "category": "development",
+      "name": "tolaria-open",
+      "intents": [
+        "base",
+        "desktop",
+        "knowledge",
+        "open",
+        "path"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/tolaria-open.md",
+      "description": "Open Tolaria desktop knowledge base on the Savia workspace (or specified path)"
+    },
+    {
+      "category": "development",
       "name": "tribunal-benchmark",
       "intents": [
         "benchmark",
@@ -3450,6 +3464,62 @@
       "kind": "script",
       "path": "scripts/tribunal-benchmark.sh",
       "description": "tribunal-benchmark.sh — SPEC-106 Phase 3."
+    },
+    {
+      "category": "development",
+      "name": "ua-analyze",
+      "intents": [
+        "anything",
+        "codebase",
+        "generate",
+        "graph",
+        "knowledge"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/ua-analyze.md",
+      "description": "Generate knowledge graph for any codebase using Understand-Anything"
+    },
+    {
+      "category": "development",
+      "name": "ua-diff",
+      "intents": [
+        "analyze",
+        "changes",
+        "codebase",
+        "graph",
+        "impact"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/ua-diff.md",
+      "description": "Analyze impact of uncommitted changes on the codebase graph"
+    },
+    {
+      "category": "development",
+      "name": "ua-domain",
+      "intents": [
+        "business",
+        "codebase",
+        "concepts",
+        "domain",
+        "extract"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/ua-domain.md",
+      "description": "Extract business domain concepts and processes from any codebase"
+    },
+    {
+      "category": "development",
+      "name": "ua-onboard",
+      "intents": [
+        "codebase",
+        "generate",
+        "guided",
+        "onboarding",
+        "tour"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/ua-onboard.md",
+      "description": "Generate a guided onboarding tour for any codebase"
     },
     {
       "category": "development",
@@ -5243,6 +5313,20 @@
       "kind": "cmd",
       "path": ".claude/commands/tool-search.md",
       "description": "Buscar comandos, skills y agentes por palabra clave"
+    },
+    {
+      "category": "memory",
+      "name": "ua-chat",
+      "intents": [
+        "graph",
+        "knowledge",
+        "language",
+        "natural",
+        "search"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/ua-chat.md",
+      "description": "Semantic search the knowledge graph using natural language"
     },
     {
       "category": "memory",
@@ -11036,6 +11120,62 @@
       "kind": "agent",
       "path": ".claude/agents/typescript-developer.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "ua-bridge",
+      "intents": [
+        "anything",
+        "between",
+        "bridge",
+        "savia",
+        "understand"
+      ],
+      "kind": "script",
+      "path": "scripts/ua-bridge.sh",
+      "description": "ua-bridge.sh — Bridge between Savia and Understand-Anything"
+    },
+    {
+      "category": "planning",
+      "name": "ua-dashboard",
+      "intents": [
+        "browser",
+        "dashboard",
+        "graph",
+        "interactive",
+        "knowledge"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/ua-dashboard.md",
+      "description": "Start the interactive knowledge graph dashboard in browser"
+    },
+    {
+      "category": "planning",
+      "name": "ua-install",
+      "intents": [
+        "anything",
+        "graph",
+        "install",
+        "knowledge",
+        "plugin"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/ua-install.md",
+      "description": "Install or update the Understand-Anything knowledge graph plugin"
+    },
+    {
+      "category": "planning",
+      "name": "ua-install",
+      "intents": [
+        "anything",
+        "install",
+        "plugin",
+        "savia",
+        "understand"
+      ],
+      "kind": "script",
+      "path": "scripts/ua-install.sh",
+      "description": "ua-install.sh — Install Understand-Anything plugin for Savia"
     },
     {
       "category": "planning",

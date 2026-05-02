@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 1f92604ba6de | resources: 1128
-> 534 commands · 92 skills · 70 agents · 432 scripts
+> hash: 108e78377b43 | resources: 1138
+> 542 commands · 92 skills · 70 agents · 434 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -270,7 +270,12 @@
 [development] statusline-provider — claude,code,data,provider,statusline — script:scripts/statusline-provider.sh
 [development] tech-research — autonomous,designated,generates,human,investigates — cmd:.claude/commands/tech-research.md
 [development] tech-research-agent — agente,autónoma,designado,humano,informes — skill:.claude/skills/tech-research-agent/SKILL.md
+[development] tolaria-open — base,desktop,knowledge,open,path — cmd:.claude/commands/tolaria-open.md
 [development] tribunal-benchmark — benchmark,phase,spec,tribunal — script:scripts/tribunal-benchmark.sh
+[development] ua-analyze — anything,codebase,generate,graph,knowledge — cmd:.claude/commands/ua-analyze.md
+[development] ua-diff — analyze,changes,codebase,graph,impact — cmd:.claude/commands/ua-diff.md
+[development] ua-domain — business,codebase,concepts,domain,extract — cmd:.claude/commands/ua-domain.md
+[development] ua-onboard — codebase,generate,guided,onboarding,tour — cmd:.claude/commands/ua-onboard.md
 [development] validate-consensus — decisiones,jueces,lanzar,panel,specs — cmd:.claude/commands/validate-consensus.md
 [development] validate-pbi-spec-links — bidirectional,check,links,spec,validate — script:scripts/validate-pbi-spec-links.sh
 [development] validate-spec — declarative,spec,validate,validation,without — script:scripts/validate-spec.sh
@@ -407,6 +412,7 @@
 [memory] skill-optimize — agente,auto,autoresearch,bucle,optimizar — cmd:.claude/commands/skill-optimize.md
 [memory] slice-context-chain — between,chain,context,knowledge,session — script:scripts/slice-context-chain.sh
 [memory] tool-search — agentes,buscar,clave,comandos,palabra — cmd:.claude/commands/tool-search.md
+[memory] ua-chat — graph,knowledge,language,natural,search — cmd:.claude/commands/ua-chat.md
 [memory] web-research — auto,available,back,best,context — cmd:.claude/commands/web-research.md
 [memory] web-research — auto,available,back,best,context — skill:.claude/skills/web-research/SKILL.md
 [memory] whatsapp-search —  — cmd:.claude/commands/whatsapp-search.md
@@ -868,6 +874,10 @@
 [planning] truth-tribunal-orchestrator — aggregates,applies,convenes,drives,iteration — agent:.claude/agents/truth-tribunal-orchestrator.md
 [planning] truth-tribunal-worker — consume,queued,tribunal,truth,verification — script:scripts/truth-tribunal-worker.sh
 [planning] typescript-developer —  — agent:.claude/agents/typescript-developer.md
+[planning] ua-bridge — anything,between,bridge,savia,understand — script:scripts/ua-bridge.sh
+[planning] ua-dashboard — browser,dashboard,graph,interactive,knowledge — cmd:.claude/commands/ua-dashboard.md
+[planning] ua-install — anything,graph,install,knowledge,plugin — cmd:.claude/commands/ua-install.md
+[planning] ua-install — anything,install,plugin,savia,understand — script:scripts/ua-install.sh
 [planning] underwriting-rule —  — cmd:.claude/commands/underwriting-rule.md
 [planning] update — actualizaciones,aplicar,comprobar,datos,github — cmd:.claude/commands/update.md
 [planning] update — actualización,sistema,update,workspace — script:scripts/update.sh

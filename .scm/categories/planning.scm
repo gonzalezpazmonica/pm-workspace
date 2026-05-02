@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 495 resources
+> 499 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -459,6 +459,10 @@
 - **truth-tribunal-orchestrator** (agent): Truth Tribunal orchestrator — convenes 7 judges, aggregates scores, applies vetos, drives iteration
 - **truth-tribunal-worker** (script): truth-tribunal-worker.sh — Consume queued Truth Tribunal verification
 - **typescript-developer** (agent): >
+- **ua-bridge** (script): ua-bridge.sh — Bridge between Savia and Understand-Anything
+- **ua-dashboard** (cmd): Start the interactive knowledge graph dashboard in browser
+- **ua-install** (cmd): Install or update the Understand-Anything knowledge graph plugin
+- **ua-install** (script): ua-install.sh — Install Understand-Anything plugin for Savia
 - **underwriting-rule** (cmd): >
 - **update** (cmd): Comprobar y aplicar actualizaciones de pm-workspace desde GitHub, preservando datos locales
 - **update** (script): update.sh — Sistema de actualización de pm-workspace
