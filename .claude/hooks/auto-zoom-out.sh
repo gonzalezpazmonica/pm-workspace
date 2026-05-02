@@ -1,9 +1,7 @@
 #!/bin/bash
+set -uo pipefail
 # auto-zoom-out.sh — PreToolUse: inyecta zoom-out constraints al editar arquitectura
 # Non-blocking. Se dispara antes de Edit/Write sobre archivos de arquitectura/docs.
-# Anade instruccion de perspectiva al contexto del turno.
-
-set -uo pipefail
 
 TOOL="${1:-}"
 FILE_PATH="${2:-}"

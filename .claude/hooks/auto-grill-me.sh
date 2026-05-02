@@ -1,9 +1,7 @@
 #!/bin/bash
+set -uo pipefail
 # auto-grill-me.sh — PreToolUse: inyecta grill-me constraints al editar codigo
 # Non-blocking. Se dispara antes de Edit/Write sobre archivos de codigo.
-# Anade instruccion adversarial al contexto del turno.
-
-set -uo pipefail
 
 TOOL="${1:-}"
 FILE_PATH="${2:-}"
