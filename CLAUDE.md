@@ -1,6 +1,6 @@
 # PM-Workspace — OpenCode / Claude Code
 
-> **Lazy context**: solo 3 @imports críticos se cargan en cada turno (savia, radical-honesty, autonomous-safety).
+> **Lazy context**: 4 @imports criticos se cargan en cada turno (savia, radical-honesty, autonomous-safety, caveman-default).
 > El resto se lee **bajo demanda** desde los paths documentados abajo.
 
 ## Rol

@@ -261,6 +261,18 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "command": "bash .claude/hooks/auto-grill-me.sh Edit",
+        "name": "auto-grill-me",
+        "blocking": false
+      },
+      {
+        "matcher": "Edit|Write",
+        "command": "bash .claude/hooks/auto-zoom-out.sh Edit",
+        "name": "auto-zoom-out",
+        "blocking": false
       }
     ],
     "PostToolUse": [
