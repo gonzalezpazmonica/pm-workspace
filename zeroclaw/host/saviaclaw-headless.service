@@ -15,10 +15,8 @@ StandardError=journal
 Environment=PYTHONUNBUFFERED=1
 Environment=PATH=/home/monica/.opencode/bin:/home/monica/.local/bin:/usr/local/bin:/usr/bin:/bin
 
-# Security: no exposed ports, no new privileges, memory limit
 NoNewPrivileges=true
 PrivateTmp=true
-RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
 MemoryMax=512M
 
 [Install]
