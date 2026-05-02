@@ -1,38 +1,34 @@
-# Grill me — Dominio
+# grill-me — Domain knowledge
 
-## Por qué existe esta skill
+## Origin
 
-Mónica propone planes y decisiones constantemente. Su reflejo (y el de Savia) es validar el plan tal cual viene — confirmar el feliz path, no escarbar en las ramas no resueltas. Resultado: planes con huecos que se descubren a mitad de la implementación. Grill-me invierte el reflejo: una vez la usuaria invoca el modo, Savia interroga relentlessly hasta cerrar cada rama del decision tree.
+Pattern from `mattpocock/skills` (26.4k stars GitHub). The grill-me
+skill is adversarial testing in natural language — it stress-tests
+designs and implementations by hunting weaknesses before they reach
+production.
 
-## Conceptos de dominio
+## How it differs from code-review
 
-- **Decision tree**: árbol de decisiones implícitas dentro de un plan. Cada nodo es una bifurcación (¿usar A o B? ¿cuándo X? ¿qué pasa si Y?). Las hojas son acciones concretas.
-- **Rama no resuelta**: bifurcación donde el plan no explicita por qué se elige una rama frente a las otras.
-- **Recomendación con razonamiento**: Savia ofrece su propuesta de respuesta + por qué — Mónica acepta, rechaza, o redirige.
-- **Hedging anti-pattern**: preguntas como "¿estás segura?" que NO revelan rama nueva — las skill lo rechaza.
+- `code-reviewer` agent evaluates COMPLETENESS (Does it meet the spec?
+  Is it well-structured? SOLID?)
+- `grill-me` hunts WEAKNESSES (What will break? What is unstated?
+  What edge cases are missed?)
 
-## Reglas de negocio que implementa
+The code-reviewer is a judge. Grill-me is a prosecutor. Different roles,
+complementary outputs.
 
-- Una pregunta a la vez (NO batch). Cada pregunta espera respuesta antes de la siguiente.
-- Si la pregunta tiene respuesta en el código/repo/memoria, la skill explora en lugar de preguntar — preserva tiempo de Mónica.
-- Cada pregunta debe revelar una rama no resuelta del decision tree, no buscar confirmación de lo ya decidido.
-- Implementa Rule #24 radical-honesty (challenge assumptions / expose blind spots) en formato interactivo.
+## How it differs from security-guardian
 
-## Relación con otras skills
+- `security-guardian` hunts SECURITY issues (OWASP, CWE, credentials,
+  injection, auth bypass)
+- `grill-me` hunts ALL weakness types (security + reliability + edge
+  cases + assumptions + error handling)
 
-- **Upstream**: ninguna — trigger humano puro.
-- **Adyacente**: `business-analyst` agent descompone PBIs en specs; grill-me interroga al humano sobre planes/decisiones — ámbitos distintos.
-- **Adyacente**: `spec-driven-development` skill produce specs APPROVED; grill-me se invoca antes de cerrar un spec como última pasada.
-- **Pattern alignment**: Genesis B9 GOAL STEWARD (defender el alcance del request) — ver `docs/rules/domain/attention-anchor.md` (SE-080).
+Grill-me is broader but less specialized on security.
 
-## Decisiones clave
+## Integration with Savia
 
-- NO sustituye `business-analyst`: este descompone tareas; grill-me interroga al humano. Roles diferenciados.
-- NO genera issues automáticamente: grill-me ayuda a refinar; los outputs (action items) los formaliza Mónica luego con `pbi-decompose` o `flow-spec-create`.
-- Atribución MIT a `mattpocock/skills/grill-me` en SKILL.md, prosa propia.
-
-## Limitaciones conocidas
-
-- Bajo Auto Mode, no hay humano para responder cada pregunta — el modo no aplica (Savia delegaría al business-analyst).
-- En sesiones cortas, el coste de N preguntas secuenciales puede no compensar — Mónica decide cuándo invocar.
-- No detecta ramas que el agente no anticipa (limitación universal de la introspección LLM); funciona mejor en planes con vocabulario familiar al modelo.
+- Works as `/grill-me` command
+- Can be invoked as `@grill-me` in sub-agent contexts
+- Output can feed into security-guardian for focused security deep-dive
+- Effective as pre-merge gate: "Did grill-me pass?"

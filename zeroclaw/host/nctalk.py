@@ -97,27 +97,32 @@ def wait_for_message(room_token=None, timeout=30, last_id=0):
 _last_msg_id = 0
 
 def poll_and_respond(llm_fn=None, logger=None):
-    """Long poll Talk (30s timeout, like official client). Respond via LLM."""
+    """Long poll Talk (30s timeout). Respond via LLM."""
     global _last_msg_id
+    first_run_msgs = []
     if _last_msg_id == 0:
-        msgs = read_messages(limit=10)
-        if msgs:
-            _last_msg_id = max(m.get("id", 0) for m in msgs)
-            if logger: logger.info("Talk: starting from msg id %d", _last_msg_id)
-    msgs, _last_msg_id = wait_for_message(timeout=30, last_id=_last_msg_id)
+        first_run_msgs = read_messages(limit=10)
+        if first_run_msgs:
+            _last_msg_id = max(m.get("id", 0) for m in first_run_msgs)
+            if logger: logger.info("Talk: starting from msg id %d (%d historical)", _last_msg_id, len(first_run_msgs))
+    # Long poll for new messages
+    msgs, _last_msg_id = wait_for_message(timeout=10, last_id=_last_msg_id)
+    # On first run, also process the latest message (it arrived before startup)
+    if not msgs and first_run_msgs:
+        latest = sorted(first_run_msgs, key=lambda m: m.get("id", 0))
+        msgs = [latest[-1]]  # Process only the most recent unprocessed message
+        if logger: logger.info("Talk: processing pending msg id %d from before startup", msgs[0].get("id"))
     for m in msgs:
         if m["actor"].lower() == "savia": continue
         if m.get("message","").startswith("{"): continue
         q = m["message"].strip()
         if not q or len(q) < 3: continue
         if logger: logger.info("Talk from %s: %s", m["actor"], q[:60])
-        prompt = (
-            'Eres Savia, la asistente de pm-workspace. Responde en español, '
-            'de forma natural y útil, en pocas líneas. '
-            f'Pregunta: {q}'
-        )
+        prompt = q
         if llm_fn:
             ans = llm_fn(prompt)
+            if ans is None:
+                continue  # async task or dedup — don't send fallback
         else:
             from .llm_backend import talk_reply
             ans = talk_reply(prompt)

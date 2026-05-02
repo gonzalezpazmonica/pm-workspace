@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=92c32c9946c301fd1b1012a80a5d9335d827ca6a114b8f43327fe838489478d0
-timestamp=2026-05-02T14:21:00Z
-branch=feat/era192-ua-adopt
-head_commit=65696679
-signature=434a009133a507a722106275fca57ad41fec3e162a01d4724d7b71f4fe40a0df
+diff_hash=e36ab0244e4801dc42d4e308619d3e12588f4080cca88216ae5d9e6136006cb6
+timestamp=2026-05-02T21:03:00Z
+branch=feat/era190-batch1-pocock-skills
+head_commit=3b706feb
+signature=16200440020bd7f2e2924e86d1eed18e3f3a8628147e2d1ddb453aea9f109d3c

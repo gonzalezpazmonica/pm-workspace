@@ -73,7 +73,7 @@
 - **case-init** (cmd): Scaffold a business case from pursuit and SOW data
 - **case-kill-check** (cmd): Run valuation sentinel across all active cases for kill recommendations
 - **case-validate** (script): case-validate.sh — SE-016: Validate business case directories
-- **caveman** (skill): Ultra-compressed response mode (~75% token reduction). Use when Mónica says 'caveman', 'modo cavernícola', 'menos tokens', 'be brief', or invokes /caveman; persists every response until 'stop caveman' or 'modo normal'.
+- **caveman** (skill): Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use before committing or shipping to catch self-deception.
 - **ceo-alerts** (cmd): Panel de alertas estratégicas para dirección — solo decisiones que requieren nivel C
 - **ceremony-health** (cmd): Métricas de salud de ceremonias — duración, participación, resolution rate
 - **changelog-assemble** (script): changelog-assemble.sh — Assemble CHANGELOG.md from CHANGELOG.d/ fragments

@@ -1,0 +1,25 @@
+[Unit]
+Description=SaviaClaw Headless Agent — autonomous PM agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=monica
+WorkingDirectory=/home/monica/claude
+ExecStart=/usr/bin/python3 -m zeroclaw.host.saviaclaw_headless
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+Environment=PYTHONUNBUFFERED=1
+Environment=PATH=/home/monica/.opencode/bin:/home/monica/.local/bin:/usr/local/bin:/usr/bin:/bin
+
+# Security: no exposed ports, no new privileges, memory limit
+NoNewPrivileges=true
+PrivateTmp=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+MemoryMax=512M
+
+[Install]
+WantedBy=multi-user.target
