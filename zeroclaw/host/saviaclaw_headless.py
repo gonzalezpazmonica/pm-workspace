@@ -24,17 +24,37 @@ MAX_HISTORY = 10
 _shutdown = False
 
 def _load_savia_context():
-    """Carga el contexto compartido de Savia: CLAUDE.md + memoria + identidad."""
+    """Carga el contexto compartido de Savia: reglas, skills, agentes, memoria."""
+    workspace = os.path.expanduser("~/claude")
     parts = []
-    claude_md = os.path.expanduser("~/claude/CLAUDE.md")
+    # 1. CLAUDE.md (identidad, lazy context, reglas criticas)
+    claude_md = os.path.join(workspace, "CLAUDE.md")
     if os.path.exists(claude_md):
         with open(claude_md) as f:
             parts.append(f.read())
+    # 2. AGENTS.md (catalogo de agentes)
+    agents_md = os.path.join(workspace, "AGENTS.md")
+    if os.path.exists(agents_md):
+        with open(agents_md) as f:
+            parts.append(f.read()[:5000])
+    # 3. SKILLS.md (catalogo de skills)
+    skills_md = os.path.join(workspace, "SKILLS.md")
+    if os.path.exists(skills_md):
+        with open(skills_md) as f:
+            parts.append(f.read()[:4000])
+    # 4. Reglas clave (siempre cargadas por Savia)
+    for rule_file in ["caveman-default.md", "radical-honesty.md", "autonomous-safety.md"]:
+        rule_path = os.path.join(workspace, "docs/rules/domain", rule_file)
+        if os.path.exists(rule_path):
+            with open(rule_path) as f:
+                parts.append(f.read()[:2000])
+    # 5. Memoria de sesion compartida
     if os.path.exists(MEMORY_FILE):
         with open(MEMORY_FILE) as f:
-            parts.append(f.read()[-3000:])
+            parts.append("## SaviaClaw shared memory:\n" + f.read()[-3000:])
+    # 6. Identidad core (siempre al final para maxima prioridad)
     parts.append(IDENTITY)
-    return "\n\n".join(parts)
+    return "\n\n---\n\n".join(parts)
 
 def _write_memory(tag, message):
     """Write SaviaClaw interaction to shared memory."""
