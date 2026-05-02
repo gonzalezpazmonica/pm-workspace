@@ -1,5 +1,5 @@
 {
-  "hash": "2ff7864140d5",
+  "hash": "ac68f37d4023",
   "total": 1126,
   "resources": [
     {
@@ -3423,20 +3423,6 @@
       "kind": "skill",
       "path": ".claude/skills/tech-research-agent/SKILL.md",
       "description": "Agente de investigación técnica autónoma — investiga temas, genera informes, notifica al humano designado"
-    },
-    {
-      "category": "development",
-      "name": "token-estimator",
-      "intents": [
-        "before",
-        "cost",
-        "estimate",
-        "estimator",
-        "execution"
-      ],
-      "kind": "script",
-      "path": "scripts/token-estimator.sh",
-      "description": "token-estimator.sh — SPEC-069-TOKEN: Estimate token cost before execution"
     },
     {
       "category": "development",
@@ -10865,6 +10851,20 @@
       "kind": "skill",
       "path": ".claude/skills/tier3-probes/SKILL.md",
       "description": "Catalogo de feasibility probes para champions Tier 3 — Scrapling, Oumi, Memvid, BERTopic, Reranker, PDF extract"
+    },
+    {
+      "category": "planning",
+      "name": "token-estimator",
+      "intents": [
+        "before",
+        "cost",
+        "estimate",
+        "estimator",
+        "execution"
+      ],
+      "kind": "script",
+      "path": "scripts/token-estimator.sh",
+      "description": "token-estimator.sh — Estimate token cost before execution"
     },
     {
       "category": "planning",
