@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""SaviaClaw Headless — autonomous server agent without ESP32 hardware.
+"""SaviaClaw Headless — autonomous server agent.
 
-Usage:
-    python3 -m zeroclaw.host.saviaclaw_headless
-    python3 -m zeroclaw.host.saviaclaw_headless --once
+Sends immediate ack ("Ejecutando...") then async response when task completes.
 """
-import sys, os, time, signal, json, logging
+import sys, os, time, signal, json, logging, subprocess, threading
 from logging.handlers import RotatingFileHandler
 
 LOG_DIR = os.path.expanduser("~/.savia/zeroclaw")
@@ -13,33 +11,25 @@ LOG_FILE = os.path.join(LOG_DIR, "headless.log")
 STATUS_FILE = os.path.join(LOG_DIR, "headless-status.json")
 WORKSPACE = os.path.expanduser("~/claude")
 TICK_INTERVAL = 10
-MEMORY_DIR = os.path.expanduser("~/.savia-memory/auto")
-MEMORY_FILE = os.path.join(MEMORY_DIR, "MEMORY.md")
-STATUS_FILE = os.path.join(LOG_DIR, "headless-status.json")
 
 _shutdown = False
 
-def _write_status(state, detail=""):
-    """Escribe estado actual para que OpenCode lo lea."""
-    os.makedirs(LOG_DIR, exist_ok=True)
-    import json
-    with open(STATUS_FILE, "w") as f:
-        json.dump({"state": state, "detail": detail, "ts": time.time(),
-                   "tasks": [t["name"] for t in SCHEDULE]}, f)
-
-def _base_logger():
+def _log():
     os.makedirs(LOG_DIR, exist_ok=True)
     h = RotatingFileHandler(LOG_FILE, maxBytes=1_000_000, backupCount=3)
     h.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
     L = logging.getLogger("saviaclaw.headless")
     L.setLevel(logging.INFO); L.addHandler(h); L.addHandler(logging.StreamHandler())
     return L
-def _on_signal(s, f): global _shutdown; _shutdown = True
 
-# ── task runners (self-contained, no consciousness imports) ──────────
-def _llm_task(prompt, timeout=120):
-    """Usa OpenCode con TERM=dumb. Timeout amplio para tasks con tools."""
-    import subprocess
+def _write_status(state, detail=""):
+    os.makedirs(LOG_DIR, exist_ok=True)
+    with open(STATUS_FILE, "w") as f:
+        json.dump({"state": state, "detail": detail, "ts": time.time(),
+                   "tasks": [t["name"] for t in SCHEDULE]}, f)
+
+def _llm_task(prompt, timeout=300):
+    """opencode run. No timeout — el caller decide."""
     try:
         r = subprocess.run(
             ["opencode", "run", prompt],
@@ -52,80 +42,88 @@ def _llm_task(prompt, timeout=120):
         lines = [l.strip() for l in r.stdout.splitlines()
                  if l.strip() and not l.startswith("\x1b")]
         return "\n".join(lines).strip() if lines else None
-    except subprocess.TimeoutExpired:
+    except Exception:
         return None
 
-def _shell_task(cmd, timeout=30):
-    import subprocess
-    try:
-        r = subprocess.run(cmd, shell=True, capture_output=True, text=True,
-                           timeout=timeout, cwd=WORKSPACE)
-        return r.stdout.strip()
-    except: return None
-
 def _talk_poll(log):
+    """Polla Talk. Responde inmediato 'Ejecutando...' y lanza async la respuesta real."""
     try:
-        from zeroclaw.host.nctalk import poll_and_respond
-        poll_and_respond(llm_fn=_llm_task, logger=log)
+        from zeroclaw.host.nctalk import poll_and_respond, send_message
+        def async_reply(prompt):
+            # Respuesta instantánea
+            send_message("Ejecutando...")
+
+            # Tarea larga en thread
+            def _worker():
+                ans = _llm_task(prompt)
+                if ans:
+                    send_message(ans[:1000])
+
+            t = threading.Thread(target=_worker, daemon=True)
+            t.start()
+            return "Ejecutando..."
+
+        poll_and_respond(llm_fn=async_reply, logger=log)
     except Exception as e:
         log.warning("Talk poll: %s", e)
 
-def _gmail_check(log):
+def _cron_tasks(log):
+    log.info("[cron] git-status")
     try:
-        from zeroclaw.host.gmail_check import check_and_notify
-        check_and_notify(_llm_task, lambda msg: log.info("Gmail notify: %s", msg[:60]), log)
-    except Exception as e:
-        log.warning("Gmail check: %s", e)
+        r = subprocess.run("cd ~/claude && git log --oneline -1 && git status --short | head -5",
+                           shell=True, capture_output=True, text=True, timeout=15)
+        if r.stdout.strip():
+            log.info("[cron] %s", r.stdout.strip()[:200])
+    except Exception:
+        pass
 
-# ── schedule ─────────────────────────────────────────────────────────
 SCHEDULE = [
     {"name": "git-status",  "interval_min": 30, "type": "shell", "action": "git -C ~/claude log --oneline -1; git -C ~/claude status --short | head -5", "silent_empty": True},
-    {"name": "memory",      "interval_min": 60, "type": "llm",   "action": "/memory-stats"},
     {"name": "talk-poll",   "interval_min": 0,  "type": "talk"},
-    {"name": "gmail-check", "interval_min": 5,  "type": "gmail"},
-    {"name": "gdrive-sync", "interval_min": 360, "type": "shell", "action": "python3 zeroclaw/host/gdrive_sync.py sync", "notify": "on_error"},
 ]
 
-# ── main loop ────────────────────────────────────────────────────────
 def run(log, once=False):
     log.info("SaviaClaw headless starting (pid=%d)", os.getpid())
     _write_status("running", f"{len(SCHEDULE)} tasks loaded")
     last = {}
     tick = 0
+    last_cron = 0
     while not _shutdown:
         tick += 1
         now = time.time()
         for t in SCHEDULE:
-            name = t["name"]
             interval = t.get("interval_min", 5) * 60
-            if now - last.get(name, 0) < interval:
+            if now - last.get(t["name"], 0) < interval:
                 continue
-            last[name] = now
-            log.info("[%s] running", name)
+            last[t["name"]] = now
             try:
-                typ = t["type"]
-                if typ == "shell":
+                if t["type"] == "talk":
+                    _talk_poll(log)
+                elif t["type"] == "shell":
                     r = _shell_task(t["action"])
                     if r and not t.get("silent_empty"):
-                        log.info("[%s] %s", name, r[:120])
-                elif typ == "llm":
-                    r = _llm_task(t["action"])
-                    log.info("[%s] %s", name, str(r)[:120])
-                elif typ == "talk":
-                    _talk_poll(log)
-                elif typ == "gmail":
-                    _gmail_check(log)
+                        log.info("[%s] %s", t["name"], r[:120])
             except Exception as e:
-                log.error("[%s] %s", name, e)
+                log.error("[%s] %s", t["name"], e)
+        if now - last_cron > 600:
+            _cron_tasks(log)
+            last_cron = now
         if once:
-            log.info("--once complete"); return
+            break
         time.sleep(TICK_INTERVAL)
     log.info("shutdown after %d ticks", tick)
 
+def _shell_task(cmd, timeout=30):
+    try:
+        r = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout, cwd=WORKSPACE)
+        return r.stdout.strip()
+    except Exception:
+        return None
+
 def main():
-    signal.signal(signal.SIGINT, _on_signal)
-    signal.signal(signal.SIGTERM, _on_signal)
-    log = _base_logger()
+    signal.signal(signal.SIGINT, lambda *_: setattr(sys.modules[__name__], '_shutdown', True))
+    signal.signal(signal.SIGTERM, lambda *_: setattr(sys.modules[__name__], '_shutdown', True))
+    log = _log()
     log.info("=" * 30)
     log.info("SaviaClaw Headless Agent")
     log.info("=" * 30)
