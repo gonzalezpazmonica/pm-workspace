@@ -13,6 +13,9 @@ LOG_FILE = os.path.join(LOG_DIR, "headless.log")
 STATUS_FILE = os.path.join(LOG_DIR, "headless-status.json")
 WORKSPACE = os.path.expanduser("~/claude")
 TICK_INTERVAL = 30
+KEY_FILE = os.path.expanduser("~/.savia/deepseek-api-key")
+DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions"
+MODEL = "deepseek-chat"
 
 _shutdown = False
 
@@ -26,21 +29,31 @@ def _base_logger():
 def _on_signal(s, f): global _shutdown; _shutdown = True
 
 # ── task runners (self-contained, no consciousness imports) ──────────
-def _llm_task(prompt, timeout=30):
-    import subprocess, re
-    cmd = "opencode"
+def _llm_task(prompt, timeout=15):
+    """Direct DeepSeek API call (OpenAI-compatible). Fast, no TUI overhead."""
+    import urllib.request, json as _json
+    key_path = os.path.expanduser("~/.savia/deepseek-api-key")
     try:
-        r = subprocess.run([cmd, "run", prompt], capture_output=True,
-                           text=True, timeout=timeout, cwd=WORKSPACE,
-                           env={**os.environ, "PATH": os.path.expanduser("~/.opencode/bin") + ":" + os.environ.get("PATH","")})
-        if r.returncode != 0:
-            return None
-        text = r.stdout.strip()
-        text = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', text)   # strip ANSI
-        text = re.sub(r'\x1b\][^\x07]*\x07', '', text)       # strip OSC
-        text = re.sub(r'[^\S\n]+', ' ', text).strip()         # collapse whitespace
-        return text if len(text) > 5 else None
-    except: return None
+        with open(key_path) as f:
+            api_key = f.read().strip()
+    except FileNotFoundError:
+        return None
+    payload = _json.dumps({
+        "model": "deepseek-chat",
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": 200,
+        "temperature": 0.3,
+    }).encode()
+    req = urllib.request.Request("https://api.deepseek.com/v1/chat/completions",
+                                  data=payload,
+                                  headers={"Content-Type": "application/json",
+                                           "Authorization": f"Bearer {api_key}"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            body = _json.loads(resp.read())
+            return body["choices"][0]["message"]["content"].strip()
+    except Exception:
+        return None
 
 def _shell_task(cmd, timeout=30):
     import subprocess
