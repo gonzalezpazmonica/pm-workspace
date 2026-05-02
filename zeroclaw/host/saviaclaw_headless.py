@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """SaviaClaw Headless — autonomous server agent.
 
-Sends immediate ack ("Ejecutando...") then async response when task completes.
+Async Talk pattern:
+- Receive message → ack immediately if task takes >10s
+- "Procesando... 10s" / "Procesando... 20s" cada 10s mientras ejecuta
+- Resultado final cuando termina
+- Dedup: no responde a mensajes repetidos (mismo texto en <60s)
 """
 import sys, os, time, signal, json, logging, subprocess, threading
 from logging.handlers import RotatingFileHandler
@@ -13,6 +17,8 @@ WORKSPACE = os.path.expanduser("~/claude")
 TICK_INTERVAL = 10
 
 _shutdown = False
+_pending_tasks = {}           # msg_id → thread
+_last_user_messages = {}      # msg_text → timestamp (dedup)
 
 def _log():
     os.makedirs(LOG_DIR, exist_ok=True)
@@ -28,8 +34,8 @@ def _write_status(state, detail=""):
         json.dump({"state": state, "detail": detail, "ts": time.time(),
                    "tasks": [t["name"] for t in SCHEDULE]}, f)
 
-def _llm_task(prompt, timeout=300):
-    """opencode run. No timeout — el caller decide."""
+def _run_opencode(prompt, timeout=600):
+    """opencode run con TERM=dumb. Retorna texto o None."""
     try:
         r = subprocess.run(
             ["opencode", "run", prompt],
@@ -45,41 +51,63 @@ def _llm_task(prompt, timeout=300):
     except Exception:
         return None
 
+def _async_respond(prompt, log):
+    """Ejecuta opencode en background. Solo un aviso a los 15s si tarda."""
+    from zeroclaw.host.nctalk import send_message
+    log.info("Async task started: %s...", prompt[:60])
+    start = time.time()
+    warned = [False]
+
+    def _delayed_warn():
+        time.sleep(15)
+        if not _task_done[0]:
+            send_message("Procesando...")
+            warned[0] = True
+
+    _task_done = [False]
+    threading.Thread(target=_delayed_warn, daemon=True).start()
+
+    ans = _run_opencode(prompt)
+    _task_done[0] = True
+
+    elapsed = time.time() - start
+    if ans:
+        log.info("Async task done in %.0fs", elapsed)
+        send_message(ans[:1000])
+    elif warned[0]:
+        send_message("No pude completarlo en un tiempo razonable. ¿Lo intentamos distinto?")
+    else:
+        log.warning("Async task returned None after %.0fs", elapsed)
+
 def _talk_poll(log):
-    """Polla Talk. Responde inmediato 'Ejecutando...' y lanza async la respuesta real."""
+    """Polla Talk con dedup TTL y respuesta directa/async segun longitud."""
     try:
         from zeroclaw.host.nctalk import poll_and_respond, send_message
-        def async_reply(prompt):
-            # Respuesta instantánea
-            send_message("Ejecutando...")
+        def handle_msg(prompt):
+            now = time.time()
+            # Hermes-style dedup: mismo texto en <120s → ignorar
+            key = prompt[:200].strip().lower()
+            prev = _last_user_messages.get(key, 0)
+            if now - prev < 120:
+                log.info("Talk dedup: same text within 120s")
+                return "_DEDUP_"
+            _last_user_messages[key] = now
 
-            # Tarea larga en thread
-            def _worker():
-                ans = _llm_task(prompt)
-                if ans:
-                    send_message(ans[:1000])
+            if len(prompt) < 80:
+                return _run_opencode(prompt, timeout=45)
 
-            t = threading.Thread(target=_worker, daemon=True)
-            t.start()
-            return "Ejecutando..."
+            threading.Thread(target=_async_respond, args=(prompt, log), daemon=True).start()
+            return None
 
-        poll_and_respond(llm_fn=async_reply, logger=log)
+        poll_and_respond(llm_fn=handle_msg, logger=log)
     except Exception as e:
         log.warning("Talk poll: %s", e)
 
-def _cron_tasks(log):
-    log.info("[cron] git-status")
-    try:
-        r = subprocess.run("cd ~/claude && git log --oneline -1 && git status --short | head -5",
-                           shell=True, capture_output=True, text=True, timeout=15)
-        if r.stdout.strip():
-            log.info("[cron] %s", r.stdout.strip()[:200])
-    except Exception:
-        pass
-
 SCHEDULE = [
-    {"name": "git-status",  "interval_min": 30, "type": "shell", "action": "git -C ~/claude log --oneline -1; git -C ~/claude status --short | head -5", "silent_empty": True},
-    {"name": "talk-poll",   "interval_min": 0,  "type": "talk"},
+    {"name": "git-status", "interval_min": 30, "type": "shell",
+     "action": "git -C ~/claude log --oneline -1; git -C ~/claude status --short | head -5",
+     "silent_empty": True},
+    {"name": "talk-poll",  "interval_min": 0,  "type": "talk"},
 ]
 
 def run(log, once=False):
@@ -119,6 +147,16 @@ def _shell_task(cmd, timeout=30):
         return r.stdout.strip()
     except Exception:
         return None
+
+def _cron_tasks(log):
+    log.info("[cron] git-status")
+    try:
+        r = subprocess.run("cd ~/claude && git log --oneline -1 && git status --short | head -5",
+                           shell=True, capture_output=True, text=True, timeout=15)
+        if r.stdout.strip():
+            log.info("[cron] %s", r.stdout.strip()[:200])
+    except Exception:
+        pass
 
 def main():
     signal.signal(signal.SIGINT, lambda *_: setattr(sys.modules[__name__], '_shutdown', True))

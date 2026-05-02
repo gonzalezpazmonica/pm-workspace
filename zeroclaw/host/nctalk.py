@@ -121,6 +121,8 @@ def poll_and_respond(llm_fn=None, logger=None):
         prompt = q
         if llm_fn:
             ans = llm_fn(prompt)
+            if ans is None:
+                continue  # async task or dedup — don't send fallback
         else:
             from .llm_backend import talk_reply
             ans = talk_reply(prompt)
