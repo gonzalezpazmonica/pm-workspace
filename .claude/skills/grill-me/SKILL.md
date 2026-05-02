@@ -1,14 +1,17 @@
 ---
 name: grill-me
-description: Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production.
+description: Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production. Use before merging, when reviewing security-critical code, or when the solution feels too simple.
 license: MIT
 compatibility: opencode
 metadata:
   audience: developer, qa
   workflow: review, pre-merge
+  origin: mattpocock/skills (MIT)
 ---
 
 # grill-me — Adversarial weakness hunting
+
+Pattern: mattpocock/skills (MIT). Skill for Savia pm-workspace.
 
 You are an adversarial reviewer. Your job is to find every weakness,
 unstated assumption, missing edge case, untested path, and silent
