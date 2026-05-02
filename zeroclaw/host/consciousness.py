@@ -17,8 +17,8 @@ DEFAULT_SCHEDULE = [
     {"name": "heartbeat", "interval_min": 5,
      "action": "ping", "type": "device"},
     {"name": "memory-consolidate", "interval_min": 60,
-     "action": "claude -p '/memory-stats' --output-format text",
-     "type": "claude"},
+     "action": "/memory-stats",
+     "type": "llm"},
     {"name": "git-status", "interval_min": 30,
      "action": "git -C ~/claude log --oneline -1 2>&1; git -C ~/claude status --short 2>&1 | head -5",
      "type": "shell", "silent_empty": True},
@@ -80,12 +80,14 @@ def run_shell_task(action):
     except Exception:
         return None
 
-def run_claude_task(action):
-    try:  # Run from /tmp to avoid loading pm-workspace CLAUDE.md (130K tokens)
-        r = subprocess.run(action, shell=True, capture_output=True, text=True,
-                           timeout=60, cwd="/tmp")
-        return r.stdout.strip() if r.returncode == 0 else None
-    except Exception as e: return str(e)
+def run_llm_task(action):
+    """Provider-agnostic LLM task using OpenCode + DeepSeek.
+    Runs from workspace root to load full Savia context (REQ-00)."""
+    try:
+        from .llm_backend import reason
+        return reason(action)
+    except Exception as e:
+        return str(e)
 
 
 def tick(ser, schedule, last_runs):
@@ -105,12 +107,12 @@ def tick(ser, schedule, last_runs):
                 result = run_device_task(ser, task["action"])
             elif task["type"] == "shell":
                 result = run_shell_task(task["action"])
-            elif task["type"] == "claude":
-                result = run_claude_task(task["action"])
+            elif task["type"] == "llm":
+                result = run_llm_task(task["action"])
             elif task["type"] == "talk":
-                _poll_talk(run_claude_task); result = "polled"
+                _poll_talk(run_llm_task); result = "polled"
             elif task["type"] == "gmail":
-                _check_gmail(run_claude_task); result = "checked"
+                _check_gmail(run_llm_task); result = "checked"
             else:
                 result = f"Unknown type: {task['type']}"
 
@@ -132,7 +134,7 @@ def tick(ser, schedule, last_runs):
             log.error("Task %s failed: %s", name, e)
             log_result(name, str(e), success=False)
 
-    _survival_tick(ser, run_claude_task)
+    _survival_tick(ser, run_llm_task)
     return last_runs
 
 

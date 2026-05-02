@@ -32,7 +32,7 @@ State lives entirely under `~/.savia/bridge/`:
 ## Architecture diagram
 
 ```
-Savia Mobile (Android)         Savia Claw daemon (Lima)
+Savia Mobile (Android)         Savia Claw daemon (host)
         │                              │
         │ HTTPS + SSE                  │ SSH loopback (monica@localhost)
         │ port 8922                    │ `pgrep -f claude`

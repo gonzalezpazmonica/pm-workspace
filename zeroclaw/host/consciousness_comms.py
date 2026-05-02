@@ -55,18 +55,18 @@ def notify_success(name, result):
     notify(msg)
 
 
-def poll_talk(run_claude_fn):
+def poll_talk(llm_fn=None):
     try:
         from .nctalk import poll_and_respond, check_escalations
-        poll_and_respond(run_claude_fn, _log)
+        poll_and_respond(llm_fn, _log)
         check_escalations(_log)
     except Exception as e:
         _log.error("Talk poll: %s", e)
 
 
-def check_gmail(run_claude_fn):
+def check_gmail(llm_fn=None):
     try:
         from .gmail_check import check_and_notify
-        check_and_notify(run_claude_fn, notify, _log)
+        check_and_notify(llm_fn, notify, _log)
     except Exception as e:
         _log.error("Gmail check: %s", e)

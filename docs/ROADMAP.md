@@ -32,7 +32,7 @@ Temporal memory, hybrid search, agent evaluation, cognitive sectors, SaviaDiverg
 - **Debt audit**: 4 parallel audits (hooks, test gaps, staleness, suite). 78/86 → 91/91 tests (100%)
 - **5 new test suites**: pii-gate(91), confidentiality-sign(80), backup(83), company-repo(83), emergency-plan(83). All 80+ quality
 - **3 async hooks hardened**: trap error logging for live-progress, session-end-snapshot, file-changed-staleness
-- **Gemma 4 evaluated + installed**: 4 models on Lima (gemma4:e2b/e4b, qwen2.5:3b/7b). Apache 2.0
+- **Gemma 4 evaluated + installed**: 4 models on host (gemma4:e2b/e4b, qwen2.5:3b/7b). Apache 2.0
 - **Emergency Watchdog**: systemd service monitors internet every 5 min. Auto-activates local LLM on failure
 - **NO_FLICKER**: enabled in settings.json
 
@@ -393,7 +393,7 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 
 **Eje 0 — Remediation (foundation bugs)**: Los 3 specs ALTA de Era 191 arreglan bugs reales detectados en la auditoria de hoy (~50 min agente). Van primero porque SE-084 Slice 1 (skill catalog quality auditor) necesita SCM con 100% cobertura y check mode funcional. Sin esto, el auditor de skills no puede verificar consistencia SCM.
 
-**Eje 0.25 — SaviaClaw Sovereignty (CRITICAL)**: SE-089-SC-DEEPSEEK (~120 min) va en slot 4 porque arregla el bug de SOS ciclicos que Monica recibe cada pocos minutos (`remote:unreachable`). Migra de Claude Code a DeepSeek v4-pro via OpenCode, elimina coste Anthropic (~$3/1M → $0.435/1M), y hace a SaviaClaw autosuficiente en Lima sin depender de `remote_host.py`. Adopta patrones de Hermes Agent (provider fallback, memory vectorization, cron mejorado).
+**Eje 0.25 — SaviaClaw Sovereignty (CRITICAL)**: SE-089-SC-DEEPSEEK (~120 min) va en slot 4 porque arregla el bug de SOS ciclicos que Monica recibe cada pocos minutos (`remote:unreachable`). Migra de Claude Code a DeepSeek v4-pro via OpenCode, elimina coste Anthropic (~$3/1M → $0.435/1M), y hace a SaviaClaw autosuficiente en el host sin depender de `remote_host.py`. Adopta patrones de Hermes Agent (provider fallback, memory vectorization, cron mejorado).
 
 **Eje 0.5 — Knowledge Graph (multiplicador de contexto)**: SE-088-UA-ADOPT (~90 min) se coloca pronto porque genera un knowledge graph del propio pm-workspace que enriquece todos los specs posteriores: SE-084 (auditor de skills) puede usar el grafo para validar consistencia, SE-082 (vocabulario) extrae terminos del grafo, y el memory-agent gana edges `DOMAIN_TERM` desde el primer dia.
 

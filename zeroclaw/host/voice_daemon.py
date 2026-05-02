@@ -1,7 +1,7 @@
 """Voice daemon thread — wake word + listen + respond + LCD sync.
 
 Runs as a thread inside saviaclaw_daemon. Listens for 'Savia',
-records question, sends to Claude, speaks answer, updates LCD.
+records question, sends to LLM backend, speaks answer, updates LCD.
 """
 import threading
 import logging
@@ -9,7 +9,7 @@ import time
 
 from .voice import say, listen, check_deps
 from .wakeword import listen_loop, SILENCE_THRESHOLD
-from .daemon_util import call_claude, truncate_lcd, send_cmd
+from .daemon_util import call_llm, truncate_lcd, send_cmd
 
 log = logging.getLogger("saviaclaw.voice")
 
@@ -57,7 +57,7 @@ def _on_wake():
         log.info("Voice Q: %s", question)
         _lcd("Pensando...")
         say("Pensando")
-        answer = call_claude(question)
+        answer = call_llm(question)
         if answer:
             log.info("Voice A: %s", answer[:80])
             say(answer)

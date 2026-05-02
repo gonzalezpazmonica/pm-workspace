@@ -31,7 +31,7 @@ instalar Savia en una maquina Linux limpia sin conexión a internet.
 
 ---
 
-## Inventario de dependencias (medido en Lima, 2026-03-22)
+## Inventario de dependencias (medido en host, 2026-03-22)
 
 ### Tier 1 — Core (minimo viable: voz + LLM local)
 

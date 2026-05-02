@@ -23,7 +23,7 @@ def test(name, fn):
 
 def test_import_util():
     from host.daemon_util import (
-        find_port, truncate_lcd, call_claude, write_status, show_status)
+        find_port, truncate_lcd, call_llm, write_status, show_status)
     assert callable(find_port)
     assert callable(truncate_lcd)
 

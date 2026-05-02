@@ -12,7 +12,7 @@ from logging.handlers import RotatingFileHandler
 
 from .daemon_util import (
     LOG_DIR, LOG_FILE, BAUD, RECONNECT_DELAY, HEARTBEAT_INTERVAL,
-    STUCK_TIMEOUT, find_port, send_cmd, call_claude, truncate_lcd,
+    STUCK_TIMEOUT, find_port, send_cmd, call_llm, truncate_lcd,
     write_status, show_status,
 )
 
@@ -123,7 +123,7 @@ def _process_buf(buf, ser, log, queries):
                 if q:
                     log.info("Q: %s", q)
                     send_cmd(ser, "lcd Pensando...", 1)
-                    ans = call_claude(q)
+                    ans = call_llm(q)
                     queries += 1
                     if ans:
                         log.info("A: %s", ans[:80])

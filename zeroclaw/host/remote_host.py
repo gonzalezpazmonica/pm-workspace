@@ -1,4 +1,8 @@
+# DEPRECATED — Era 193 (2026-05-02): SaviaClaw now runs LLM calls locally
+# via OpenCode + DeepSeek v4-pro. No SSH to remote host needed.
+# Kept for reference. survival_phases.py uses local healthcheck instead.
 """Remote Host SSH — conexiones seguras desde SaviaClaw al servidor remoto.
+[DEPRECATED]"""
 
 SaviaClaw puede conectar por SSH al servidor para curar y despertar a Savia.
 El usuario remoto tiene acceso estrictamente restringido: NUNCA puede acceder
