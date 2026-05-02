@@ -9,20 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [6.14.1] — 2026-05-02
 
 Era 64 — Provider-agnostic hardening: API endpoints, hooks audit, docs.
-Era 191 — Audit Remediation: OpenCode-SCM alignment (4 specs APPROVED).
+Era 191 — Audit Remediation: OpenCode-SCM alignment (batch1 IMPLEMENTED).
 
 ### Fixed
 - savia-watchdog.sh: API_URL uses SAVIA_API_UPSTREAM env var (was hardcoded api.anthropic.com).
 - savia-dual-proxy.py, savia-shield-proxy.py, sovereignty-switch.sh, setup-savia-dual.sh: same.
 - validate-bash-global.sh: project dir fallback (CLAUDE_PROJECT_DIR || OPENCODE_PROJECT_DIR || PWD).
 - CHANGELOG.md: missing [6.14.1] reference link added (CI check #6 fix).
+- court-review.md + trace-optimize.md: missing YAML frontmatter added (SCM coverage 534/534 commands).
+- agents-opencode-convert.sh: extended to sync subdirectories (decision-trees/ now replicated to .opencode/agents/).
 
 ### Changed
 - SKILLS.md: header rewritten — removed Claude Code vendor references.
 - CLAUDE.md: hooks count corrected (65 hooks, 61 registered, 4 orphans).
 - .claude/hooks/README.md: full 65-hook catalog with OpenCode dual architecture docs.
 - init-pm.sh: Azure DevOps variables only loaded if ORG_URL is configured (non-placeholder). Core vars always load. Backends are optional/under-demand.
-- ROADMAP.md: v6.14.1 — Era 191 approved, pipeline reprioritized with agent time (not human hours). Total ~585 min agente (16 items).
+- ROADMAP.md: v6.14.1 — Era 191 approved, pipeline reprioritized with agent time (not human hours). Total ~630 min agente (17 items).
+- generate-capability-map.py: added --check flag (read-only mode, tempdir, exit 0=FRESH 1=STALE 2=MISSING).
 
 ### Added
 - docs/rules/domain/hook-event-equivalence.md: Claude Code ↔ OpenCode event mapping (17 events).
