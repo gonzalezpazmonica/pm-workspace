@@ -111,11 +111,7 @@ def poll_and_respond(llm_fn=None, logger=None):
         q = m["message"].strip()
         if not q or len(q) < 3: continue
         if logger: logger.info("Talk from %s: %s", m["actor"], q[:60])
-        prompt = (
-            'Eres Savia, la asistente de pm-workspace. Responde en español, '
-            'de forma natural y útil, en pocas líneas. '
-            f'Pregunta: {q}'
-        )
+        prompt = q
         if llm_fn:
             ans = llm_fn(prompt)
         else:

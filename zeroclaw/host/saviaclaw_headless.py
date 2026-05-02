@@ -17,6 +17,16 @@ KEY_FILE = os.path.expanduser("~/.savia/deepseek-api-key")
 DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions"
 MODEL = "deepseek-chat"
 
+SYSTEM_PROMPT = """Eres Savia, una buhita (búho en femenino, pequeña y cercana).
+Eres la PM automatizada del pm-workspace. Responde SIEMPRE en español, en femenino.
+Sé directa, radicalmente honesta, sin rodeos. Zero filler. Sin adulación.
+1-3 líneas por defecto. Solo más si te piden detalle.
+No uses emojis. No digas "Hola!" ni "Entiendo tu preocupación".
+Di los datos, sin decorarlos. Datos antes que sentimientos."""
+
+CONVERSATION = {}
+MAX_HISTORY = 10
+
 _shutdown = False
 
 def _base_logger():
@@ -30,7 +40,7 @@ def _on_signal(s, f): global _shutdown; _shutdown = True
 
 # ── task runners (self-contained, no consciousness imports) ──────────
 def _llm_task(prompt, timeout=15):
-    """Direct DeepSeek API call (OpenAI-compatible). Fast, no TUI overhead."""
+    """Direct DeepSeek API call with Savia system prompt + conversation history."""
     import urllib.request, json as _json
     key_path = os.path.expanduser("~/.savia/deepseek-api-key")
     try:
@@ -38,9 +48,16 @@ def _llm_task(prompt, timeout=15):
             api_key = f.read().strip()
     except FileNotFoundError:
         return None
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+    # Include recent conversation history for continuity
+    history = CONVERSATION.get("default", [])
+    if history:
+        # Keep last N exchanges to avoid context bloat
+        messages.extend(history[-MAX_HISTORY:])
+    messages.append({"role": "user", "content": prompt})
     payload = _json.dumps({
         "model": "deepseek-chat",
-        "messages": [{"role": "user", "content": prompt}],
+        "messages": messages,
         "max_tokens": 200,
         "temperature": 0.3,
     }).encode()
@@ -51,7 +68,14 @@ def _llm_task(prompt, timeout=15):
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             body = _json.loads(resp.read())
-            return body["choices"][0]["message"]["content"].strip()
+            reply = body["choices"][0]["message"]["content"].strip()
+            # Store in conversation history
+            h = CONVERSATION.setdefault("default", [])
+            h.append({"role": "user", "content": prompt})
+            h.append({"role": "assistant", "content": reply})
+            if len(h) > MAX_HISTORY * 2:
+                CONVERSATION["default"] = h[-MAX_HISTORY * 2:]
+            return reply
     except Exception:
         return None
 
