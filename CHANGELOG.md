@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [6.14.1] — 2026-05-02
+
+Era 64 — Provider-agnostic hardening: API endpoints, hooks audit, docs.
+
+### Fixed
+- savia-watchdog.sh: API_URL uses SAVIA_API_UPSTREAM env var (was hardcoded api.anthropic.com).
+- savia-dual-proxy.py, savia-shield-proxy.py, sovereignty-switch.sh, setup-savia-dual.sh: same.
+- validate-bash-global.sh: project dir fallback (CLAUDE_PROJECT_DIR || OPENCODE_PROJECT_DIR || PWD).
+
+### Changed
+- SKILLS.md: header rewritten — removed Claude Code vendor references.
+- CLAUDE.md: hooks count corrected (65 hooks, 61 registered, 4 orphans).
+- .claude/hooks/README.md: full 65-hook catalog with OpenCode dual architecture docs.
+
+### Added
+- docs/rules/domain/hook-event-equivalence.md: Claude Code ↔ OpenCode event mapping (17 events).
+- docs/rules/domain/provider-agnostic-tech-debt.md: tracks vendor references in 51/92 skills.
+
+
 ## [6.14.0] — 2026-04-26
 
 Batch 63 — SE-074 IMPLEMENTED Slices 1 + 1.5 — paralelismo de specs + adaptive halting (Critical Path #2-3).
