@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=fc64b7ce4676485c501af43259debe42fab064af8c4e401a01389285c4409e49
-timestamp=2026-05-02T13:50:55Z
+diff_hash=92c32c9946c301fd1b1012a80a5d9335d827ca6a114b8f43327fe838489478d0
+timestamp=2026-05-02T14:21:00Z
 branch=feat/era192-ua-adopt
-head_commit=d41d35f7
-signature=722e8c90ecc6525d42df8e11d3e917b8bc05261d655ba715ba95f1e411bbfb93
+head_commit=65696679
+signature=434a009133a507a722106275fca57ad41fec3e162a01d4724d7b71f4fe40a0df
