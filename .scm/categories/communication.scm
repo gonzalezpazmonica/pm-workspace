@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 89 resources
+> 90 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -33,7 +33,6 @@
 - **savia-dual** (cmd): Gestiona Savia Dual — inference sovereignty con failover entre Anthropic y gemma4 local
 - **savia-dual** (skill): Inference sovereignty — transparent failover from Anthropic to local gemma4 when the cloud is slow, failing, rate-limited, or unreachable
 - **savia-enterprise** (script): savia-enterprise.sh — Enterprise module lifecycle manager
-- **savia-env** (script): savia-env.sh — provider-agnostic environment loader (SPEC-127 Slice 1)
 - **savia-flow** (script): savia-flow.sh — Git-based project management: PBIs, sprints, boards via branch isolation
 - **savia-flow-board** (script): savia-flow-board.sh — ASCII Kanban board renderer via branch isolation
 - **savia-flow-ops** (script): savia-flow-ops.sh — CRUD operations for PBIs and assignments via branch isolation
@@ -44,6 +43,8 @@
 - **savia-flow-timesheet** (script): savia-flow-timesheet.sh — Time tracking via user branch
 - **savia-forget** (cmd): >
 - **savia-gallery** (cmd): Catálogo visual/interactivo de comandos, skills y agentes por rol y vertical
+- **savia-goal** (cmd): Establece, gestiona y persigue objetivos persistentes cross-turn — equivalente Savia de /goal de Codex
+- **savia-goal** (script): savia-goal.sh — Goal lifecycle management for Savia
 - **savia-hub** (cmd): Central hub for accessing Savia knowledge and tools
 - **savia-hub-init** (script): savia-hub-init.sh — Initialize SaviaHub local repository
 - **savia-hub-sync** (skill): Orquestación de sincronización del repositorio SaviaHub

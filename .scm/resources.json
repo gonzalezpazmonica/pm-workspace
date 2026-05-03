@@ -1,6 +1,6 @@
 {
-  "hash": "c41d4de84225",
-  "total": 1139,
+  "hash": "a56fa913cd54",
+  "total": 1141,
   "resources": [
     {
       "category": "analysis",
@@ -1088,20 +1088,6 @@
     },
     {
       "category": "communication",
-      "name": "savia-env",
-      "intents": [
-        "agnostic",
-        "environment",
-        "loader",
-        "provider",
-        "savia"
-      ],
-      "kind": "script",
-      "path": "scripts/savia-env.sh",
-      "description": "savia-env.sh — provider-agnostic environment loader (SPEC-127 Slice 1)"
-    },
-    {
-      "category": "communication",
       "name": "savia-flow",
       "intents": [
         "based",
@@ -1233,6 +1219,33 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-gallery.md",
       "description": "Catálogo visual/interactivo de comandos, skills y agentes por rol y vertical"
+    },
+    {
+      "category": "communication",
+      "name": "savia-goal",
+      "intents": [
+        "codex",
+        "cross",
+        "equivalente",
+        "establece",
+        "gestiona"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/savia-goal.md",
+      "description": "Establece, gestiona y persigue objetivos persistentes cross-turn — equivalente Savia de /goal de Codex"
+    },
+    {
+      "category": "communication",
+      "name": "savia-goal",
+      "intents": [
+        "goal",
+        "lifecycle",
+        "management",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-goal.sh",
+      "description": "savia-goal.sh — Goal lifecycle management for Savia"
     },
     {
       "category": "communication",
@@ -2021,6 +2034,20 @@
       "kind": "cmd",
       "path": ".claude/commands/calendar-focus.md",
       "description": "Crear bloque de focus para una tarea especifica — Deep Work protegido"
+    },
+    {
+      "category": "development",
+      "name": "caveman",
+      "intents": [
+        "before",
+        "brutally",
+        "coating",
+        "committing",
+        "deception"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/caveman/SKILL.md",
+      "description": "Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use when you suspect self-deception, before committing, or before shipping."
     },
     {
       "category": "development",
@@ -3652,7 +3679,7 @@
       ],
       "kind": "skill",
       "path": ".claude/skills/zoom-out/SKILL.md",
-      "description": "Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use at design time."
+      "description": "Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use when designing, when evaluating trade-offs, or at the start of design sessions."
     },
     {
       "category": "governance",
@@ -6293,20 +6320,6 @@
       "kind": "script",
       "path": "scripts/case-validate.sh",
       "description": "case-validate.sh — SE-016: Validate business case directories"
-    },
-    {
-      "category": "planning",
-      "name": "caveman",
-      "intents": [
-        "before",
-        "brutally",
-        "catch",
-        "coating",
-        "committing"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/caveman/SKILL.md",
-      "description": "Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use before committing or shipping to catch self-deception."
     },
     {
       "category": "planning",
@@ -12116,7 +12129,7 @@
       ],
       "kind": "skill",
       "path": ".claude/skills/grill-me/SKILL.md",
-      "description": "Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production."
+      "description": "Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production. Use when merging, when reviewing security-critical code, or when the solution feels"
     },
     {
       "category": "quality",
@@ -12353,6 +12366,20 @@
       "kind": "script",
       "path": "scripts/mutation-audit.sh",
       "description": "mutation-audit.sh — SE-035 Slice 1 mutation testing audit."
+    },
+    {
+      "category": "quality",
+      "name": "opencode-cross-audit",
+      "intents": [
+        "alignment",
+        "audit",
+        "claude",
+        "cross",
+        "opencode"
+      ],
+      "kind": "script",
+      "path": "scripts/opencode-cross-audit.sh",
+      "description": "opencode-cross-audit.sh — Verifies .opencode/ vs .claude/ resource alignment"
     },
     {
       "category": "quality",

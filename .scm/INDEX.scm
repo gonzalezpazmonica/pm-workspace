@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d8f63e147cf0 | resources: 1139
-> 542 commands · 92 skills · 70 agents · 435 scripts
+> hash: c97d153ad8b5 | resources: 1141
+> 543 commands · 92 skills · 70 agents · 436 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -91,7 +91,6 @@
 [communication] savia-dual — anthropic,dual,failover,gemma,gestiona — cmd:.claude/commands/savia-dual.md
 [communication] savia-dual — anthropic,cloud,failing,failover,gemma — skill:.claude/skills/savia-dual/SKILL.md
 [communication] savia-enterprise — enterprise,lifecycle,manager,module,savia — script:scripts/savia-enterprise.sh
-[communication] savia-env — agnostic,environment,loader,provider,savia — script:scripts/savia-env.sh
 [communication] savia-flow — based,boards,branch,flow,isolation — script:scripts/savia-flow.sh
 [communication] savia-flow-board — ascii,board,branch,flow,isolation — script:scripts/savia-flow-board.sh
 [communication] savia-flow-ops — assignments,branch,crud,flow,isolation — script:scripts/savia-flow-ops.sh
@@ -102,6 +101,8 @@
 [communication] savia-flow-timesheet — branch,flow,savia,time,timesheet — script:scripts/savia-flow-timesheet.sh
 [communication] savia-forget —  — cmd:.claude/commands/savia-forget.md
 [communication] savia-gallery — agentes,catálogo,comandos,interactivo,skills — cmd:.claude/commands/savia-gallery.md
+[communication] savia-goal — codex,cross,equivalente,establece,gestiona — cmd:.claude/commands/savia-goal.md
+[communication] savia-goal — goal,lifecycle,management,savia — script:scripts/savia-goal.sh
 [communication] savia-hub — accessing,central,knowledge,savia,tools — cmd:.claude/commands/savia-hub.md
 [communication] savia-hub-init — init,initialize,local,repository,savia — script:scripts/savia-hub-init.sh
 [communication] savia-hub-sync — orquestación,repositorio,saviahub,sincronización — skill:.claude/skills/savia-hub-sync/SKILL.md
@@ -164,6 +165,7 @@
 [development] build-azdo-schema-graph — azdo,build,graph,schema,slice — script:scripts/build-azdo-schema-graph.sh
 [development] build-skill-manifest — build,frontmatter,manifest,manifesto,skill — script:scripts/build-skill-manifest.sh
 [development] calendar-focus — bloque,crear,deep,especifica,focus — cmd:.claude/commands/calendar-focus.md
+[development] caveman — before,brutally,coating,committing,deception — skill:.claude/skills/caveman/SKILL.md
 [development] check-coherence — actually,code,matches,objective,output — cmd:.claude/commands/check-coherence.md
 [development] code-comprehension-report — architectural,automatically,comprehension,debugging,decisions — skill:.claude/skills/code-comprehension-report/SKILL.md
 [development] code-improve — applies,autonomous,code,creates,detects — cmd:.claude/commands/code-improve.md
@@ -488,7 +490,6 @@
 [planning] case-init — business,case,data,pursuit,scaffold — cmd:.claude/commands/case-init.md
 [planning] case-kill-check — across,active,cases,kill,recommendations — cmd:.claude/commands/case-kill-check.md
 [planning] case-validate — business,case,directories,validate — script:scripts/case-validate.sh
-[planning] caveman — before,brutally,catch,coating,committing — skill:.claude/skills/caveman/SKILL.md
 [planning] ceo-alerts — alertas,decisiones,dirección,estratégicas,nivel — cmd:.claude/commands/ceo-alerts.md
 [planning] ceremony-health — ceremonias,duración,métricas,participación,rate — cmd:.claude/commands/ceremony-health.md
 [planning] changelog-assemble — assemble,changelog,fragments — script:scripts/changelog-assemble.sh
@@ -967,6 +968,7 @@
 [quality] model-upgrade-auditor — agents,audits,backed,eval,evidence — agent:.claude/agents/model-upgrade-auditor.md
 [quality] mutation-audit — calidad,concreto,demand,detecta,generated — skill:.claude/skills/mutation-audit/SKILL.md
 [quality] mutation-audit — audit,mutation,slice,testing — script:scripts/mutation-audit.sh
+[quality] opencode-cross-audit — alignment,audit,claude,cross,opencode — script:scripts/opencode-cross-audit.sh
 [quality] opencode-parity-audit — audit,opencode,parity,slice — script:scripts/opencode-parity-audit.sh
 [quality] overnight-sprint — autonomous,creates,executes,human,launch — cmd:.claude/commands/overnight-sprint.md
 [quality] pentester —  — agent:.claude/agents/pentester.md
