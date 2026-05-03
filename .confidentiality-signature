@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9266b4aff344b4853c89b308f47fffbe238006df2d6714b4cfd321db4516a951
-timestamp=2026-05-03T16:08:37Z
+diff_hash=04d83581371c4f119ced732318401191dc88ee9a93fedeeff97f1f916341f09f
+timestamp=2026-05-03T17:10:41Z
 branch=feat/model-alias-deepseek
-head_commit=d895962d
-signature=f6833e4107137420fc24227a68714dd021bf408bc5f9e93dcfa164f91ea5895c
+head_commit=40298165
+signature=b843828a50949de7c6a706fdf89686ed821feca7244aab270c898ad2185b9753
