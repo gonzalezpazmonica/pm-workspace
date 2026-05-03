@@ -14,6 +14,7 @@
 18. **Serializacion**: scopes antes de Agent Teams. Solapan → serializar. Hook `scope-guard.sh`
 19. **Arranque seguro**: MCP/integraciones se cargan bajo demanda, NUNCA al inicio. Savia SIEMPRE arranca.
 20. **PII-Free repo**: NUNCA nombres reales, empresas, handles ni datos personales en codigo, docs, CHANGELOG, releases, commits ni PRs. Usar genericos (`test-org`, `alice`, `test company repo`). Detalle → `@docs/rules/domain/pii-sanitization.md`
+20b. **Operational Privacy**: El repo publico contiene software general reutilizable. NUNCA datos operacionales privados: backups personales, cron jobs, systemd units con paths/usuarios concretos, emails, tokens, URLs de infraestructura privada, configuraciones de despliegue personal. Este tipo de artefactos va en `~/.savia/` (privado, fuera del repo). Si un PR introduce datos operacionales, CIERRALO y mueve los ficheros a `~/.savia/`.
 21. **Self-Improvement Loop**: Tras correccion del usuario o bug descubierto → escribir leccion en `tasks/lessons.md`. Revisar al inicio de sesion. Detalle → `@docs/rules/domain/self-improvement.md`
 22. **Verification Before Done**: NUNCA marcar tarea como completada sin prueba demostrable. Preguntarse "¿lo aprobaria un senior?" Detalle → `@docs/rules/domain/verification-before-done.md`
 23. **Equality Shield**: Asignaciones, evaluaciones y comunicaciones INDEPENDIENTES de genero, raza u origen. Test contrafactual obligatorio. Detalle → `@docs/rules/domain/equality-shield.md`
