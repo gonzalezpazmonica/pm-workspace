@@ -3,7 +3,7 @@ name: report-verify
 description: Convene the Truth Tribunal (7 judges) to evaluate a report's reliability
 argument-hint: "<report-path> [--force]"
 allowed-tools: [Read, Write, Bash, Task, Glob, Grep]
-model: opus
+model: heavy
 context_cost: medium
 ---
 

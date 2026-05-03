@@ -3,7 +3,7 @@ name: diagram-status
 description: >
   Lista diagramas por proyecto y su estado de sincronización
   con Draw.io/Miro. Muestra links y metadata.
-model: haiku
+model: fast
 context_cost: low
 ---
 

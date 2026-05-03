@@ -3,7 +3,7 @@ name: school-rubric
 description: Create or edit evaluation rubrics for grading
 argument-hint: "<rubric_name> [--edit|--view]"
 allowed-tools: [Read, Write, Bash]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

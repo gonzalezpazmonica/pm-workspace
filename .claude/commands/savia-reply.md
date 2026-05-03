@@ -4,7 +4,7 @@ description: >
   Responder a un mensaje en Company Savia con threading automático.
 argument-hint: "<msg_id> [--encrypt]"
 allowed-tools: [Read, Bash, Glob]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

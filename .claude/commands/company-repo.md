@@ -5,7 +5,7 @@ description: >
   El repositorio compartido de la empresa para conocimiento, mensajería y estado.
 argument-hint: "[create|connect|status|sync]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

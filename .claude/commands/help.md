@@ -1,7 +1,7 @@
 ---
 name: help
 description: Catálogo de comandos y primeros pasos pendientes.
-model: haiku
+model: fast
 context_cost: low
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: profile-show
 description: Savia muestra tu perfil actual.
-model: haiku
+model: fast
 context_cost: low
 ---
 

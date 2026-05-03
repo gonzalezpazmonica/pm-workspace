@@ -1,7 +1,7 @@
 ---
 name: rule-violation-judge
 description: Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)
-model: claude-sonnet-4-6
+model: mid
 permission_level: L1
 tools:
   read: true

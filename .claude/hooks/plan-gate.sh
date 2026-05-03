@@ -1,5 +1,7 @@
 #!/bin/bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # plan-gate.sh — Warning si implementación sin spec aprobada
 # ─────────────────────────────────────────────────────────────
 # PreToolUse hook (Edit|Write) que advierte si se edita código sin spec

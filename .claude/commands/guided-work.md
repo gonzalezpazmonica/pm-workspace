@@ -1,7 +1,7 @@
 ---
 name: guided-work
 description: Trabajo guiado — Savia te acompaña paso a paso con preguntas, adaptando el ritmo a tus necesidades
-model: sonnet
+model: mid
 context_cost: medium
 allowed_tools: ["Read", "Write", "Edit", "Bash", "Task"]
 ---

@@ -5,7 +5,7 @@ description: >
   environments, memory, and CLAUDE.local.md entry. Asks all data step by step.
 argument-hint: "<nombre-proyecto>"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

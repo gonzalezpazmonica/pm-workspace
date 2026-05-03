@@ -3,7 +3,7 @@ name: pipeline-view
 description: ASCII table of all active pursuits with stage, value, and probability
 argument-hint: "[--stage qualification|proposal|won] [--tenant tenant-id]"
 context_cost: low
-model: haiku
+model: fast
 allowed-tools: [Bash, Read, Glob, Grep]
 ---
 

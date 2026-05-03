@@ -1,7 +1,7 @@
 ---
 name: factuality-judge
 description: Truth Tribunal judge — factual accuracy of claims against verifiable sources
-model: claude-opus-4-7
+model: heavy
 permission_level: L1
 tools:
   read: true

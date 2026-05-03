@@ -6,7 +6,7 @@ allowed-tools:
   - Read
   - Glob
   - Grep
-model: opus
+model: heavy
 context_cost: medium
 ---
 

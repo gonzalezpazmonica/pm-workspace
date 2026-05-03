@@ -1,7 +1,7 @@
 ---
 name: savia-goal
 description: Establece, gestiona y persigue objetivos persistentes cross-turn — equivalente Savia de /goal de Codex
-model: sonnet
+model: mid
 context_cost: low
 ---
 

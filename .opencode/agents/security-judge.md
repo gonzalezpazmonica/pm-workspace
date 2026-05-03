@@ -1,7 +1,7 @@
 ---
 name: security-judge
 description: Code Review Court judge — OWASP, PII, injection, auth, credentials
-model: claude-sonnet-4-6
+model: mid
 permission_level: L1
 tools:
   read: true

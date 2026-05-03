@@ -3,7 +3,7 @@ name: docs-quality-audit
 description: "Auditar calidad de documentacion basada en feedback de agentes"
 argument-hint: "[--threshold 30] [--period 30d]"
 allowed-tools: [Read, Glob, Grep, Bash]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

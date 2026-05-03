@@ -1,7 +1,7 @@
 ---
 name: sprint-retro
 description: Genera la plantilla de retrospectiva con datos del sprint para facilitar la ceremonia.
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

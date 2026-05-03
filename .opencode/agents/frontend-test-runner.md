@@ -9,7 +9,7 @@ tools:
   glob: true
   grep: true
   task: true
-model: claude-sonnet-4-6
+model: mid
 skills: [spec-driven-development]
 permissionMode: acceptEdits
 maxTurns: 30

@@ -3,7 +3,7 @@ name: flow-timesheet-report
 description: Generate timesheet report for date range
 argument-hint: "<@handle> <from_date> <to_date>"
 allowed-tools: [Bash, Read]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

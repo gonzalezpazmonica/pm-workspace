@@ -7,7 +7,7 @@ tools:
   glob: true
   grep: true
   bash: true
-model: claude-opus-4-7
+model: heavy
 permissionMode: plan
 maxTurns: 20
 color: "#FFD700"

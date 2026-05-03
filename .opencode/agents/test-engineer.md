@@ -14,7 +14,7 @@ tools:
   bash: true
   glob: true
   grep: true
-model: claude-sonnet-4-6
+model: mid
 color: "#FFD700"
 maxTurns: 35
 max_context_tokens: 8000

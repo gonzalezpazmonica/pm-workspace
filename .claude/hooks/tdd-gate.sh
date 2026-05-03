@@ -1,5 +1,7 @@
 #!/bin/bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # tdd-gate.sh — Verifica que existen tests antes de permitir edición de código de producción
 # Usado por: developer agents (PreToolUse hook)
 # Lógica: Si el agente intenta editar un fichero de producción (.cs, .py, .ts, .go, .rs, .rb, .php, .java)

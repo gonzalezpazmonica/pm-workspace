@@ -3,7 +3,7 @@ name: calendar-sync
 description: "Sincronizar calendario Outlook/Teams via Microsoft Graph API"
 argument-hint: "[--project nombre] [--days 7]"
 allowed-tools: [Read, Bash, Glob, Grep]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

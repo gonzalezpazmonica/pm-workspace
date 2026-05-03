@@ -3,7 +3,7 @@ name: skill-rank
 description: Show skill effectiveness ranking based on invocation data
 argument-hint: "[--detail SKILL] [--dormant] [--deprecated] [--export csv]"
 allowed-tools: [Read, Bash, Glob, Grep, Write]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

@@ -3,6 +3,8 @@
 # Tier: standard (Layer 1 regex, zero latency)
 # PreToolUse on Edit|Write — intercepts BEFORE shortcuts are written
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 
 LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
 if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then

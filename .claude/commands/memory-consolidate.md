@@ -11,7 +11,7 @@ description: Consolidate and compress memory entries to save context
 
 ```frontmatter
 agent: task
-model: sonnet
+model: mid
 context_cost: medium
 ```
 

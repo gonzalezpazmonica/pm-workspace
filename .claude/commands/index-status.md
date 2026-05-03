@@ -5,7 +5,7 @@ description: >
   counts entries, and detects orphaned data.
 argument-hint: "[--detailed]"
 allowed-tools: [Bash, Read]
-model: haiku
+model: fast
 context_cost: low
 ---
 

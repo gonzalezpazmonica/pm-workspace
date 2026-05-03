@@ -1,7 +1,7 @@
 ---
 name: hallucination-fast-judge
 description: Recommendation Tribunal judge — verifies that entities cited in a draft (files, functions, flags, libs, paths, commands) actually exist via tool calls
-model: claude-haiku-4-5-20251001
+model: fast
 permission_level: L1
 tools:
   read: true

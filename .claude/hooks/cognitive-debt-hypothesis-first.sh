@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # cognitive-debt-hypothesis-first.sh — SPEC-107 I1 PreToolUse hook.
 #
 # Phase 1 mode: WARNING ONLY. Never blocks. Reads recent commits and emits

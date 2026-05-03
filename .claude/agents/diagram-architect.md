@@ -11,7 +11,7 @@ tools:
   - Bash
   - Write
   - Edit
-model: claude-sonnet-4-6
+model: mid
 color: teal
 maxTurns: 25
 max_context_tokens: 4000

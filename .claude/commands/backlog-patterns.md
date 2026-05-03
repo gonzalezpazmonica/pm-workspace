@@ -4,7 +4,7 @@ description: Detecta PBIs duplicados o similares entre proyectos del portfolio
 developer_type: all
 agent: task
 context_cost: high
-model: sonnet
+model: mid
 ---
 
 # /backlog-patterns

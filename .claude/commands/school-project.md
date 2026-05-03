@@ -3,7 +3,7 @@ name: school-project
 description: Student creates a new project from template
 argument-hint: "<alias> <project_name>"
 allowed-tools: [Read, Bash, Write]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

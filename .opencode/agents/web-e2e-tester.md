@@ -2,7 +2,7 @@
 name: web-e2e-tester
 permission_level: L3
 description: "Autonomous E2E testing of web apps against live instances. Use PROACTIVELY when: deploying savia-web, after UI changes, or running regression tests. Equivalent of android-autonomous-debugger for web."
-model: claude-sonnet-4-6
+model: mid
 tools:
   read: true
   write: true

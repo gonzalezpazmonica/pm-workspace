@@ -1,7 +1,7 @@
 ---
 name: sprint-review
 description: Genera el resumen para la Sprint Review con todos los datos del sprint cerrado.
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

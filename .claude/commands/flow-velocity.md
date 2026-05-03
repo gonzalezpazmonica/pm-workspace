@@ -3,7 +3,7 @@ name: flow-velocity
 description: Show historical velocity metrics
 argument-hint: "[--sprints N]"
 allowed-tools: [Bash]
-model: haiku
+model: fast
 context_cost: low
 ---
 

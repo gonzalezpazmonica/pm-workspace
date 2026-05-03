@@ -2,6 +2,8 @@
 # token-tracker-middleware.sh — Monitor y respuesta automática a uso de tokens
 # Tier: standard | Async: true | Event: PostToolUse
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 cat /dev/stdin > /dev/null 2>&1 || true  # consume stdin (hook protocol)
 
 # Profile gate — solo en perfiles standard/strict

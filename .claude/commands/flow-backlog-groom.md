@@ -3,7 +3,7 @@ name: flow-backlog-groom
 description: Review and prioritize backlog items
 argument-hint: "[--sort priority|date]"
 allowed-tools: [Bash, Read]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

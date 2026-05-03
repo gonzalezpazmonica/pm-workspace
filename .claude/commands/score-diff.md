@@ -81,7 +81,7 @@ Save to: `output/scores/YYYYMMDD-score-diff.md`
 ## Subagent Config
 
 ```yaml
-model: claude-haiku-4-5-20251001
+model: fast
 memory: project
 permissionMode: plan
 ```

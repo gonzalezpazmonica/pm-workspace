@@ -9,7 +9,7 @@ tools:
   - Read
   - Glob
   - Grep
-model: claude-sonnet-4-6
+model: mid
 color: cyan
 maxTurns: 5
 max_context_tokens: 5000

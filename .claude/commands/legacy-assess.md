@@ -3,7 +3,7 @@ name: legacy-assess
 description: >
   Evaluación de aplicaciones legacy: complejidad, coste de mantenimiento,
   rating de riesgo y roadmap de modernización (strangler fig pattern).
-model: opus
+model: heavy
 context_cost: high
 ---
 

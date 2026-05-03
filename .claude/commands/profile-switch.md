@@ -1,7 +1,7 @@
 ---
 name: profile-switch
 description: Savia cambia de usuario — cambiar perfil activo.
-model: haiku
+model: fast
 context_cost: low
 ---
 

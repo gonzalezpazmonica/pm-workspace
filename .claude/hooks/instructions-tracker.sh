@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # instructions-tracker.sh — Log which instructions/rules load per session
 # Event: InstructionsLoaded | Async: true
 # SPEC-071: Hook System Overhaul (Slice 4)

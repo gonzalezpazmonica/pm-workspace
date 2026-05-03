@@ -1,7 +1,7 @@
 ---
 name: spec-generate
 description: Genera una Spec ejecutable a partir de una Task de Azure DevOps, lista para implementación.
-model: opus
+model: heavy
 context_cost: high
 ---
 

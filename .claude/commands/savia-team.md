@@ -4,7 +4,7 @@ description: >
   Gestionar equipos en Savia Flow: ver miembros, roles, velocidad.
 argument-hint: "[show|init] [--team <name>]"
 allowed-tools: [Read, Bash, Glob]
-model: haiku
+model: fast
 context_cost: low
 ---
 

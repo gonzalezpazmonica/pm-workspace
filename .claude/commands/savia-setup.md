@@ -6,7 +6,7 @@ description: >
   Re-ejecutable idempotentemente cuando el stack cambia.
 argument-hint: ""
 allowed-tools: [Bash]
-model: haiku
+model: fast
 context_cost: low
 ---
 

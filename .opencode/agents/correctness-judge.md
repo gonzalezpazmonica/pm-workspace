@@ -1,7 +1,7 @@
 ---
 name: correctness-judge
 description: Code Review Court judge — logic, tests, edge cases, error paths
-model: claude-sonnet-4-6
+model: mid
 permission_level: L1
 tools:
   read: true

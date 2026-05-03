@@ -4,7 +4,7 @@ description: Grooming asistido — detectar items obsoletos, duplicados, sin cri
 developer_type: all
 agent: task
 context_cost: medium
-model: sonnet
+model: mid
 ---
 
 # /backlog-groom

@@ -13,7 +13,7 @@ tools:
   edit: true
   glob: true
   bash: true
-model: claude-haiku-4-5-20251001
+model: fast
 color: "#FFFFFF"
 maxTurns: 20
 max_context_tokens: 8000

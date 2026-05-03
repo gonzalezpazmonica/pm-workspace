@@ -3,7 +3,7 @@ name: calendar-plan
 description: "Planificar semana con focus blocks automaticos y priorizacion Eisenhower"
 argument-hint: "[--week current|next] [--project nombre]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
-model: opus
+model: heavy
 context_cost: high
 ---
 

@@ -3,7 +3,7 @@ name: flow-sprint-board
 description: Display sprint board with task counts by column
 argument-hint: "<sprint_id>"
 allowed-tools: [Bash]
-model: haiku
+model: fast
 context_cost: low
 ---
 

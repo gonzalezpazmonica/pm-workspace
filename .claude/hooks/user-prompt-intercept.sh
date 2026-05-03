@@ -1,5 +1,7 @@
 #!/bin/bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # user-prompt-intercept.sh — SPEC-015 context gate + session hot-file injection
 # Hook: UserPromptSubmit | Timeout: 3s
 # Exit 0 + stdout → injected as context Claude sees before the user message.

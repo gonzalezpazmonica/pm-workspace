@@ -11,7 +11,7 @@ description: Retrieve relevant memories for current context
 
 ```frontmatter
 agent: task
-model: haiku
+model: fast
 context_cost: low
 ```
 

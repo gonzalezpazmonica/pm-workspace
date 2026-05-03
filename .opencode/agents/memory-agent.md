@@ -12,7 +12,7 @@ tools:
   glob: true
   grep: true
   write: true
-model: claude-haiku-4-5-20251001
+model: fast
 token_budget: 2200
 ---
 

@@ -6,7 +6,7 @@ allowed-tools:
   - Read
   - Bash
   - Glob
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

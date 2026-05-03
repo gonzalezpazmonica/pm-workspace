@@ -5,7 +5,7 @@ description: >
   Muestra mensajes sin leer, permite leer mensajes individuales.
 argument-hint: "[--unread-only] [read <msg_id>]"
 allowed-tools: [Read, Bash, Glob]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

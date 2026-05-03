@@ -11,7 +11,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
-model: opus
+model: heavy
 context_cost: high
 ---
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # ────────────────────────────────────────────────────────────────────────────
 # PostToolUse Hook: bash-output-compress.sh
 # Compresses verbose Bash output to reduce context token consumption.

@@ -1,7 +1,7 @@
 ---
 name: board-flow
 description: Analiza el flujo de trabajo del board — WIP actual, cuellos de botella y métricas de flujo.
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

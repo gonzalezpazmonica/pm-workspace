@@ -4,7 +4,7 @@ description: Radar tecnológico del proyecto — librerías, versiones, adopt/tr
 developer_type: all
 agent: task
 context_cost: high
-model: sonnet
+model: mid
 ---
 
 # /tech-radar

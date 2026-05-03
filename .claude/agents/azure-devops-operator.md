@@ -11,7 +11,7 @@ description: >
 tools:
   - Bash
   - Read
-model: claude-haiku-4-5-20251001
+model: fast
 color: bright-white
 maxTurns: 20
 max_context_tokens: 2000

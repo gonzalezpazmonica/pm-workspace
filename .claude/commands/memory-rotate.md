@@ -3,7 +3,7 @@ name: memory-rotate
 description: Execute context rotation manually — daily, weekly, monthly cycles
 argument-hint: "[daily|weekly|monthly|status]"
 context_cost: low
-model: haiku
+model: fast
 allowed-tools: [Bash, Read]
 ---
 

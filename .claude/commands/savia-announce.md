@@ -5,7 +5,7 @@ description: >
   Solo admins pueden publicar anuncios.
 argument-hint: "[--priority high]"
 allowed-tools: [Read, Bash, Glob]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

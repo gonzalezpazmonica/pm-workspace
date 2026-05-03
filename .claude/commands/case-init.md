@@ -3,7 +3,7 @@ name: case-init
 description: Scaffold a business case from pursuit and SOW data
 argument-hint: "OPP-YYYY-NNN [--tenant tenant-id]"
 context_cost: medium
-model: sonnet
+model: mid
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 ---
 

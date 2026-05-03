@@ -3,7 +3,7 @@ name: team-orchestrator
 description: "Multi-team coordination — create teams, assign members, track cross-team dependencies and blockers"
 allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[create|assign|deps|sync|status] {dept} {team} [--critical] [--dept engineering] [--all]"
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

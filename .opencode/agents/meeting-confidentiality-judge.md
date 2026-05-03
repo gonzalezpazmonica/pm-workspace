@@ -8,7 +8,7 @@ description: >
 tools:
   read: true
   grep: true
-model: claude-opus-4-7
+model: heavy
 color: "#808080"
 maxTurns: 10
 max_context_tokens: 12000

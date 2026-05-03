@@ -7,7 +7,7 @@ tools:
   glob: true
   grep: true
   bash: true
-model: claude-sonnet-4-6
+model: mid
 permissionMode: plan
 maxTurns: 20
 color: "#9933CC"

@@ -7,7 +7,7 @@ description: >
   proyecto. Actualiza documentos de contexto vivos. Usar PROACTIVELY cuando se detectan
   PPTX nuevos en carpetas de proyecto o SharePoint.
 tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
-model: claude-opus-4-7
+model: heavy
 permissionMode: plan
 maxTurns: 30
 max_context_tokens: 80000

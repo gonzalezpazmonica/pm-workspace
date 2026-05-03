@@ -4,7 +4,7 @@ description: "Verificación spec↔UI — comprueba que el componente implementa
 developer_type: all
 agent: task
 context_cost: high
-model: sonnet
+model: mid
 argument-hint: "[spec-path] [--generate-tests] [--fix] [--lang es|en]"
 ---
 

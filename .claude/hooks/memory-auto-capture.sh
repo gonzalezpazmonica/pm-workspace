@@ -1,6 +1,8 @@
 #!/bin/bash
 # memory-auto-capture.sh — PostToolUse hook for automatic memory capture
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 
 PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-.}"
 STORE_SCRIPT="$PROJECT_ROOT/scripts/memory-store.sh"

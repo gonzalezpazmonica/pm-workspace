@@ -3,7 +3,7 @@ name: calendar-deadlines
 description: "Deadlines proximos con estado de preparacion — nada se queda atras"
 argument-hint: "[--days 14] [--project nombre]"
 allowed-tools: [Read, Glob, Grep, Bash]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

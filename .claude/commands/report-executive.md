@@ -1,7 +1,7 @@
 ---
 name: report-executive
 description: Genera el informe ejecutivo multi-proyecto para dirección en formato Word o PowerPoint.
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

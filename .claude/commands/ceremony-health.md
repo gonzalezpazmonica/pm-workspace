@@ -3,7 +3,7 @@ name: ceremony-health
 description: Métricas de salud de ceremonias — duración, participación, resolution rate
 agent: task
 context_cost: medium
-model: sonnet
+model: mid
 ---
 
 # /ceremony-health

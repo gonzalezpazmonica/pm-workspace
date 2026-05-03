@@ -7,7 +7,7 @@ allowed-tools:
   - Glob
   - Grep
   - Bash
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

@@ -3,7 +3,7 @@ name: criticality-rebalance
 description: "Redistribuir carga de trabajo del equipo respetando criticidad y capacidad"
 argument-hint: "[--project nombre] [--team equipo] [--dry-run]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

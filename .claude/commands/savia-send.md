@@ -5,7 +5,7 @@ description: >
   Soporta cifrado E2E y prioridad.
 argument-hint: "<@handle> [--encrypt] [--priority high]"
 allowed-tools: [Read, Bash, Glob]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

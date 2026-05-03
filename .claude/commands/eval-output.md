@@ -3,7 +3,7 @@ name: eval-output
 description: >
   LLM-as-a-Judge — Evalúa la calidad de un output de agente/comando
   con scoring G-Eval (1-10), comparación A/B Arena, y análisis de tool selection.
-model: opus
+model: heavy
 context_cost: high
 ---
 

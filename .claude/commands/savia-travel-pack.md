@@ -5,7 +5,7 @@ description: >
   Includes shallow clone, manifest, dependencies list, and encrypted profiles.
 argument-hint: ""
 allowed-tools: [Read, Bash, Glob]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

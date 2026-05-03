@@ -3,7 +3,7 @@ name: school-analytics
 description: Teacher class-wide analytics and progress dashboard
 argument-hint: "[--by-project|--by-student]"
 allowed-tools: [Read, Bash]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

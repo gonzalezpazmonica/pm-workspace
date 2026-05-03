@@ -1,7 +1,7 @@
 ---
 name: agent-activity
 description: "Show structured activity log of recent agent executions"
-model: haiku
+model: fast
 context_cost: low
 allowed-tools: [Read, Bash, Glob]
 argument-hint: "[--last N] [--format table|json]"

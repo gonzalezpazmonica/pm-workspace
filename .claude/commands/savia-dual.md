@@ -4,7 +4,7 @@ description: Gestiona Savia Dual — inference sovereignty con failover entre An
 developer_type: all
 agent: none
 context_cost: low
-model: haiku
+model: fast
 allowed-tools: [Read, Bash, Glob, Grep]
 argument-hint: "{install|start|stop|status|test|logs}"
 ---

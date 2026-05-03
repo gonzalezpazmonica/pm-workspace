@@ -3,7 +3,7 @@ name: knowledge-lint
 description: Health check for the persistent knowledge base — detect orphans, stale refs, missing evidence
 argument-hint: "[--fix]"
 context_cost: low
-model: haiku
+model: fast
 allowed-tools: [Bash, Read]
 ---
 

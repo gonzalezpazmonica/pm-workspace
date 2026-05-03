@@ -1,7 +1,7 @@
 ---
 name: recommendation-tribunal-orchestrator
 description: Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates scores, applies vetos, mutates output with banner. SYNC, <3s p95.
-model: claude-sonnet-4-6
+model: mid
 permission_level: L2
 tools:
   read: true

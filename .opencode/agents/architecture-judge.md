@@ -1,7 +1,7 @@
 ---
 name: architecture-judge
 description: Code Review Court judge — boundaries, coupling, layer violations, patterns
-model: claude-sonnet-4-6
+model: mid
 permission_level: L1
 tools:
   read: true

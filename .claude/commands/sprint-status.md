@@ -1,7 +1,7 @@
 ---
 name: sprint-status
 description: Estado del sprint actual — progreso, burndown, alertas.
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

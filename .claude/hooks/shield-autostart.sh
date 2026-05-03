@@ -3,6 +3,8 @@
 # Fire-and-forget: lanza shield-launcher en background si 8443 no responde.
 # Espera max 3s a que proxy responda antes de ceder. NO bloquea mas alla.
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 read -r -t 0.1 _HOOK_INPUT 2>/dev/null || true
 
 # Salida limpia si algo falla

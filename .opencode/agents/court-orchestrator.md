@@ -1,7 +1,7 @@
 ---
 name: court-orchestrator
 description: Convenes the Code Review Court, manages fix cycles, produces .review.crc
-model: claude-opus-4-7
+model: heavy
 permission_level: L4
 tools:
   read: true

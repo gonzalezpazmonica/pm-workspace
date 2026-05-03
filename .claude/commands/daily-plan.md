@@ -3,7 +3,7 @@ name: daily-plan
 description: Generate or show today's agent activation plan with token budgets
 argument-hint: "[generate|show|status]"
 context_cost: low
-model: haiku
+model: fast
 allowed-tools: [Bash, Read]
 ---
 
