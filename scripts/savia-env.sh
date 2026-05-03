@@ -2,49 +2,23 @@
 set -uo pipefail
 # savia-env.sh — provider-agnostic environment loader (SPEC-127 Slice 1)
 #
-# Single source of truth for workspace path, active provider detection, and
-# capability probes across any frontend × any inference provider. Source from
-# any hook or script:
+# Single source of truth for workspace path and active provider detection
+# across Claude Code, OpenCode-Claude, OpenCode-Copilot Enterprise, and
+# LocalAI emergency fallback. Source from any hook or script:
 #
 #   source "$(dirname "$0")/../scripts/savia-env.sh"
 #   echo "Workspace: $SAVIA_WORKSPACE_DIR"
 #   echo "Provider:  $SAVIA_PROVIDER"
 #
-# Or invoke standalone:
+# Or invoke standalone for a one-shot resolve:
 #
 #   bash scripts/savia-env.sh print
 #   bash scripts/savia-env.sh workspace
 #   bash scripts/savia-env.sh provider
-#   bash scripts/savia-env.sh has-hooks
-#   bash scripts/savia-env.sh has-task-fan-out
-#   bash scripts/savia-env.sh has-slash-commands
 #
-# This script does NOT hard-code any vendor. It reads
-# `~/.savia/preferences.yaml` if present (managed by `savia-preferences.sh`)
-# and falls back to env-var autodetection when preferences are absent.
-#
-# Reference: SPEC-127 (docs/propuestas/SPEC-127-savia-opencode-provider-agnostic.md)
+# Reference: SPEC-127 (docs/propuestas/SPEC-127-savia-opencode-copilot-enterprise-compat.md)
 # Reference: docs/rules/domain/provider-agnostic-env.md
 # Reference: docs/rules/domain/autonomous-safety.md
-
-# ── Preferences file (per-user, never in repo) ──────────────────────────────
-SAVIA_PREFS_FILE="${SAVIA_PREFS_FILE:-${HOME:-/tmp}/.savia/preferences.yaml}"
-
-# Read a top-level scalar from the preferences yaml. Minimal parser, no deps.
-# Returns empty string if file or key absent.
-_savia_pref() {
-  local key="$1"
-  [[ -f "$SAVIA_PREFS_FILE" ]] || return 0
-  awk -v k="^${key}:" '
-    $0 ~ k {
-      sub(k, ""); sub(/^[[:space:]]+/, "")
-      gsub(/^"|"$/, "")
-      gsub(/^'\''|'\''$/, "")
-      print
-      exit
-    }
-  ' "$SAVIA_PREFS_FILE"
-}
 
 # ── Workspace dir resolution ────────────────────────────────────────────────
 # Fallback chain (first non-empty wins):
@@ -71,157 +45,58 @@ savia_workspace_dir() {
 }
 
 # ── Provider detection ──────────────────────────────────────────────────────
-# Order:
-#   1. SAVIA_PROVIDER explicit env override (operator one-shot)
-#   2. preferences.yaml `provider:` key
-#   3. autodetect via env vars when frontend leaves a clear signal
-#   4. unknown
-# Provider name is a free-form string (vendor name, "localai", "ollama",
-# "claude", "custom-corp", whatever the user declared). Callers MUST NOT
-# branch on hardcoded vendor names — branch on capability probes instead.
+# Order matters — most specific signal wins:
+#   1. SAVIA_PROVIDER explicit (operator override)
+#   2. ANTHROPIC_BASE_URL points to LocalAI (emergency mode, SPEC-122)
+#   3. COPILOT_TOKEN / GITHUB_COPILOT_* present (Copilot Enterprise)
+#   4. OPENCODE_PROVIDER set (OpenCode dispatch)
+#   5. CLAUDE_PROJECT_DIR present (Claude Code native)
+#   6. unknown — caller must handle
 savia_provider() {
   if [[ -n "${SAVIA_PROVIDER:-}" ]]; then
     echo "$SAVIA_PROVIDER"; return 0
   fi
-  local pref
-  pref=$(_savia_pref "provider")
-  if [[ -n "$pref" ]]; then
-    echo "$pref"; return 0
-  fi
-  # Autodetect — agnostic signals only
-  if [[ -n "${ANTHROPIC_BASE_URL:-}" ]]; then
-    case "${ANTHROPIC_BASE_URL}" in
-      *localhost*|*127.0.0.1*|*localai*|*ollama*) echo "local"; return 0 ;;
+  local base="${ANTHROPIC_BASE_URL:-}"
+  if [[ -n "$base" ]]; then
+    case "$base" in
+      *localai*|*127.0.0.1*|*localhost*)
+        echo "localai"; return 0
+        ;;
     esac
   fi
-  if [[ -n "${CLAUDE_PROJECT_DIR:-}" ]]; then
-    echo "claude-code"; return 0
+  if [[ -n "${COPILOT_TOKEN:-}" || -n "${GITHUB_COPILOT_TOKEN:-}" ]]; then
+    echo "copilot"; return 0
   fi
-  if [[ -n "${OPENCODE_PROJECT_DIR:-}" ]]; then
-    echo "opencode"; return 0
+  if [[ -n "${OPENCODE_PROVIDER:-}" ]]; then
+    echo "$OPENCODE_PROVIDER"; return 0
+  fi
+  if [[ -n "${CLAUDE_PROJECT_DIR:-}" ]]; then
+    echo "claude"; return 0
   fi
   echo "unknown"
 }
 
-# ── Capability probes (4 orthogonal axes) ──────────────────────────────────
-# Each probe reads preferences.yaml first (user declared), then falls back to
-# autodetect by frontend signal. NEVER hard-codes vendor-specific assumptions.
-# Returns 0 (yes) or 1 (no). `unknown` defaults to permissive — callers can
-# tighten with explicit preference.
-
-# _capability: returns 0 (yes), 1 (no), or 2 (autodetect — caller falls through)
-_capability() {
-  local key="$1"
-  local pref
-  pref=$(_savia_pref "$key")
-  case "$pref" in
-    yes|true|1)        return 0 ;;
-    no|false|0)        return 1 ;;
-    autodetect|""|*)   return 2 ;;
-  esac
-}
-
-# Hook surface: does the frontend expose tool-call telemetry to workspace
-# scripts? Autodetect: yes if Claude Code (CLAUDE_PROJECT_DIR set + hook
-# stdin pattern), no otherwise. User can override in preferences.yaml.
+# ── Hook surface availability ───────────────────────────────────────────────
+# Returns 0 if running under a frontend that exposes hook events to the
+# workspace. Copilot Enterprise has zero hook surface — callers should
+# degrade gracefully (TIER-2 git pre-commit, TIER-3 CI-only, TIER-4 lost).
 savia_has_hooks() {
-  _capability "has_hooks"
-  case $? in
-    0) return 0 ;;
-    1) return 1 ;;
-    *) [[ -n "${CLAUDE_PROJECT_DIR:-}" ]] && return 0 || return 1 ;;
+  case "$(savia_provider)" in
+    claude|localai) return 0 ;;
+    copilot)        return 1 ;;
+    *)              return 0 ;;  # default to permissive — caller verifies
   esac
 }
 
-# Slash command surface: does the frontend support /command-name invocation?
-# Autodetect: yes if Claude Code or OpenCode native, permissive otherwise.
-# User can override in preferences.yaml.
+# ── Slash command surface availability ──────────────────────────────────────
+# OpenCode has partial slash command support, Copilot has zero. Callers that
+# need to register a command surface should branch on this.
 savia_has_slash_commands() {
-  _capability "has_slash_commands"
-  case $? in
-    0) return 0 ;;
-    1) return 1 ;;
-    *)
-      [[ -n "${CLAUDE_PROJECT_DIR:-}" ]] && return 0
-      [[ -n "${OPENCODE_PROJECT_DIR:-}" ]] && return 0
-      return 0  # permissive default — caller probes when uncertain
-      ;;
-  esac
-}
-
-# Subagent fan-out: does the frontend / provider support Task tool?
-# Autodetect: yes if Claude Code, no otherwise (most providers don't).
-# User can override in preferences.yaml.
-savia_has_task_fan_out() {
-  _capability "has_task_fan_out"
-  case $? in
-    0) return 0 ;;
-    1) return 1 ;;
-    *) [[ -n "${CLAUDE_PROJECT_DIR:-}" ]] && return 0 || return 1 ;;
-  esac
-}
-
-# ── Model alias resolution ───────────────────────────────────────────────────
-# Maps canonical tier names (heavy/mid/fast) or abstract model names
-# (opus/sonnet/haiku) to the user's effective provider model IDs via
-# preferences.yaml. Used by commands, scripts, and agent runners.
-#
-# Tier mapping convention (canonical → tier):
-#   opus   → heavy
-#   sonnet → mid
-#   haiku  → fast
-#
-# Resolution chain:
-#   1. $SAVIA_MODEL_HEAVY / $SAVIA_MODEL_MID / $SAVIA_MODEL_FAST env override
-#   2. preferences.yaml model_heavy / model_mid / model_fast
-#   3. empty (let the frontend pass-through)
-
-savia_model_heavy() {
-  if [[ -n "${SAVIA_MODEL_HEAVY:-}" ]]; then
-    echo "$SAVIA_MODEL_HEAVY"; return 0
-  fi
-  local pref; pref=$(_savia_pref "model_heavy")
-  if [[ -n "$pref" ]]; then
-    echo "$pref"; return 0
-  fi
-  echo ""
-}
-
-savia_model_mid() {
-  if [[ -n "${SAVIA_MODEL_MID:-}" ]]; then
-    echo "$SAVIA_MODEL_MID"; return 0
-  fi
-  local pref; pref=$(_savia_pref "model_mid")
-  if [[ -n "$pref" ]]; then
-    echo "$pref"; return 0
-  fi
-  echo ""
-}
-
-savia_model_fast() {
-  if [[ -n "${SAVIA_MODEL_FAST:-}" ]]; then
-    echo "$SAVIA_MODEL_FAST"; return 0
-  fi
-  local pref; pref=$(_savia_pref "model_fast")
-  if [[ -n "$pref" ]]; then
-    echo "$pref"; return 0
-  fi
-  echo ""
-}
-
-# Resolve a canonical or abstract model name to the user's effective provider
-# model ID. Accepts:
-#   opus|sonnet|haiku        (abstract names used in command frontmatter)
-#   heavy|mid|fast           (tier names used in preferences)
-#   claude-opus-4-7 etc.     (canonical Claude names used in agent frontmatter)
-# Returns empty string if unresolvable.
-savia_resolve_model() {
-  local name="$1"
-  case "$name" in
-    opus|heavy|claude-opus-4-7)                 savia_model_heavy ;;
-    sonnet|mid|claude-sonnet-4-6)               savia_model_mid ;;
-    haiku|fast|claude-haiku-4-5-20251001)       savia_model_fast ;;
-    *)                                           echo "" ;;
+  case "$(savia_provider)" in
+    claude)         return 0 ;;
+    localai)        return 0 ;;
+    copilot)        return 1 ;;  # MCP shim required (SPEC-127 Slice 3)
+    *)              return 0 ;;
   esac
 }
 
@@ -230,73 +105,37 @@ SAVIA_WORKSPACE_DIR="$(savia_workspace_dir)"
 export SAVIA_WORKSPACE_DIR
 SAVIA_PROVIDER="$(savia_provider)"
 export SAVIA_PROVIDER
-SAVIA_MODEL_HEAVY="$(savia_model_heavy)"
-export SAVIA_MODEL_HEAVY
-SAVIA_MODEL_MID="$(savia_model_mid)"
-export SAVIA_MODEL_MID
-SAVIA_MODEL_FAST="$(savia_model_fast)"
-export SAVIA_MODEL_FAST
 
-# ── CLI dispatch ────────────────────────────────────────────────────────────
+# ── CLI dispatch (only when invoked, not sourced) ───────────────────────────
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   case "${1:-print}" in
     print)
       printf 'SAVIA_WORKSPACE_DIR=%s\n' "$SAVIA_WORKSPACE_DIR"
       printf 'SAVIA_PROVIDER=%s\n' "$SAVIA_PROVIDER"
-      printf 'SAVIA_MODEL_HEAVY=%s\n' "$SAVIA_MODEL_HEAVY"
-      printf 'SAVIA_MODEL_MID=%s\n'   "$SAVIA_MODEL_MID"
-      printf 'SAVIA_MODEL_FAST=%s\n'  "$SAVIA_MODEL_FAST"
       printf 'has_hooks=%s\n' "$(savia_has_hooks && echo yes || echo no)"
       printf 'has_slash_commands=%s\n' "$(savia_has_slash_commands && echo yes || echo no)"
-      printf 'has_task_fan_out=%s\n' "$(savia_has_task_fan_out && echo yes || echo no)"
-      printf 'preferences_file=%s%s\n' "$SAVIA_PREFS_FILE" \
-        "$([[ -f "$SAVIA_PREFS_FILE" ]] && echo " (present)" || echo " (absent — defaults applied)")"
       ;;
     workspace) echo "$SAVIA_WORKSPACE_DIR" ;;
     provider)  echo "$SAVIA_PROVIDER" ;;
-    model-heavy) echo "$SAVIA_MODEL_HEAVY" ;;
-    model-mid)   echo "$SAVIA_MODEL_MID" ;;
-    model-fast)  echo "$SAVIA_MODEL_FAST" ;;
-    resolve-model)
-      shift
-      savia_resolve_model "${1:-}" || echo ""
-      ;;
     has-hooks)
       savia_has_hooks && echo yes || echo no
       ;;
     has-slash-commands)
       savia_has_slash_commands && echo yes || echo no
       ;;
-    has-task-fan-out)
-      savia_has_task_fan_out && echo yes || echo no
-      ;;
     --help|-h)
       cat <<USG
-Usage: savia-env.sh [print|workspace|provider|model-<tier>|resolve-model <name>|has-hooks|has-slash-commands|has-task-fan-out]
+Usage: savia-env.sh [print|workspace|provider|has-hooks|has-slash-commands]
 
-When sourced (set SAVIA_WORKSPACE_DIR / SAVIA_PROVIDER + model vars for caller):
+When sourced (set SAVIA_WORKSPACE_DIR / SAVIA_PROVIDER for caller):
   source scripts/savia-env.sh
 
 When invoked:
-  bash scripts/savia-env.sh print              # all values
-  bash scripts/savia-env.sh workspace          # workspace dir only
-  bash scripts/savia-env.sh provider           # provider name only
-  bash scripts/savia-env.sh model-heavy        # heavy-tier model id
-  bash scripts/savia-env.sh model-mid          # mid-tier model id
-  bash scripts/savia-env.sh model-fast         # fast-tier model id
-  bash scripts/savia-env.sh resolve-model opus # resolve abstract name
-  bash scripts/savia-env.sh has-hooks          # yes|no
-  bash scripts/savia-env.sh has-slash-commands # yes|no
-  bash scripts/savia-env.sh has-task-fan-out   # yes|no
-
-Preferences source: \$SAVIA_PREFS_FILE (default ~/.savia/preferences.yaml).
-Configure via: bash scripts/savia-preferences.sh init
+  bash scripts/savia-env.sh print     # all values
+  bash scripts/savia-env.sh workspace # workspace dir only
+  bash scripts/savia-env.sh provider  # provider name only
 USG
       ;;
-    # Legacy subcommands from earlier versions — keep compatibility
-    hooks)        savia_has_hooks && echo yes || echo no ;;
-    slash)        savia_has_slash_commands && echo yes || echo no ;;
-    task-fan-out) savia_has_task_fan_out && echo yes || echo no ;;
     *) echo "unknown subcommand: $1" >&2; exit 2 ;;
   esac
 fi
