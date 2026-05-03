@@ -41,6 +41,20 @@ if [[ -f "${SCRIPT_DIR}/savia-env.sh" ]]; then
   source "${SCRIPT_DIR}/savia-env.sh"
 fi
 
+# Fallback quando savia-env.sh não existe: implementação inline mínima
+# para manter resolução de modelos curta → completa (sonnet → claude-sonnet-4-6, etc)
+if ! command -v savia_resolve_model &>/dev/null; then
+  savia_resolve_model() {
+    local name="$1"
+    case "$name" in
+      opus|heavy|claude-opus-4-7)           echo "claude-opus-4-7" ;;
+      sonnet|mid|claude-sonnet-4-6)         echo "claude-sonnet-4-6" ;;
+      haiku|fast|claude-haiku-4-5-20251001) echo "claude-haiku-4-5-20251001" ;;
+      *)                                     echo "" ;;
+    esac
+  }
+fi
+
 # Resolve a short or canonical model name to the user's effective provider ID.
 # Maps opus/sonnet/haiku → heavy/mid/fast tier via preferences.yaml.
 # Falls back to pass-through for unrecognized names.
