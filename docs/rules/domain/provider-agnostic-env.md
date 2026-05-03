@@ -1,42 +1,37 @@
 # Provider-agnostic environment layer (SPEC-127 Slice 1)
 
-> **Rule** — Hooks, scripts and skills MUST resolve workspace path, provider
-> name, and capability availability via `scripts/savia-env.sh`, never by
-> hard-coding `CLAUDE_PROJECT_DIR` or branching on a vendor name.
-> Source-controlled files NEVER reference a specific vendor (PV-06).
+> **Rule** — Hooks, scripts and skills MUST resolve workspace path and provider
+> via `scripts/savia-env.sh`, never by hard-coding `CLAUDE_PROJECT_DIR`.
+> Source this rule when adding or refactoring a hook that reads env state.
 
 ## Why
 
-Savia operates across an open set of frontends and inference providers. Every
-combination is the user's choice — Claude Code with Anthropic API, OpenCode
-with LocalAI, Codex with a custom corporate endpoint, Cursor with Ollama,
-some future frontend with some future provider. The framework must not assume
-any specific stack.
+Savia operates across four frontends:
 
-Hard-coding `CLAUDE_PROJECT_DIR` breaks silently when the frontend is not
-Claude Code — variable empty, `mkdir -p ""` no-op, telemetry writes to
-`/$USER.jsonl`, hook reports success. Tests pass against the file tree but
-mask the real-world regression.
+| Frontend | Workspace env var | Hook surface | Slash commands |
+|---|---|---|---|
+| Claude Code (native) | `CLAUDE_PROJECT_DIR` | Full (PreToolUse, PostToolUse, Stop, ...) | Native |
+| OpenCode-Claude | `OPENCODE_PROJECT_DIR` | Plugin TS (~25 events) | Partial (`.opencode/commands/`) |
+| OpenCode-Copilot Enterprise | `OPENCODE_PROJECT_DIR` | **Zero** (no tool-call telemetry) | **Zero** (no slash mechanism) |
+| LocalAI emergency (SPEC-122) | `CLAUDE_PROJECT_DIR` | Full (Claude Code shell) | Native |
 
-Hard-coding a vendor branch (`if [[ "$provider" == "vendor-x" ]]`) creates
-lock-in: a user with a different stack is a second-class citizen. Extending
-to new vendors requires patching every hook.
+Hard-coding `CLAUDE_PROJECT_DIR` breaks silently under OpenCode — the variable
+is empty, `mkdir -p ""` is a no-op, telemetry writes to `/$USER.jsonl`, and the
+hook reports success. Tests that read `CLAUDE_PROJECT_DIR` directly pass against
+the file tree but mask the runtime regression.
 
 ## The contract
 
-`scripts/savia-env.sh` is the single source of truth for four values:
+`scripts/savia-env.sh` is the single source of truth for two values:
 
 - `SAVIA_WORKSPACE_DIR` — absolute path to the workspace root.
-- `SAVIA_PROVIDER` — free-form provider name (whatever the user declared in
-  preferences, or autodetected from env vars). Callers MUST NOT branch on
-  hardcoded vendor names.
-- Capability probes:
-  - `savia_has_hooks` — returns 0 if hook events are available at runtime.
-  - `savia_has_slash_commands` — returns 0 if `/command-name` invocation is supported.
-  - `savia_has_task_fan_out` — returns 0 if subagent delegation is supported.
+- `SAVIA_PROVIDER` — one of `claude | copilot | localai | <opencode-provider> | unknown`.
 
-Probes are the **only correct way** to branch on capability. Vendor name is
-informational (logs, telemetry).
+It also exposes capability probes that callers MUST respect when degrading
+gracefully under reduced-surface providers:
+
+- `savia_has_hooks` — returns 0 if hook events are available at runtime.
+- `savia_has_slash_commands` — returns 0 if `/command-name` invocation is supported.
 
 ## Fallback chain (workspace dir)
 
@@ -48,21 +43,23 @@ SAVIA_WORKSPACE_DIR        # explicit override (any provider)
   → pwd                    # last resort
 ```
 
-First non-empty value wins. The chain is order-stable.
+First non-empty value wins. The chain is order-stable — operators can override
+with `SAVIA_WORKSPACE_DIR=/path` from any wrapper without disturbing the rest.
 
 ## Provider detection precedence
 
 ```
-SAVIA_PROVIDER (env override, operator one-shot)
-  → ~/.savia/preferences.yaml `provider:` (user declared)
-  → autodetect from env vars (ANTHROPIC_BASE_URL → "local" if pointing at
-    localhost; CLAUDE_PROJECT_DIR → "claude-code"; OPENCODE_PROJECT_DIR →
-    "opencode"; else "unknown")
+SAVIA_PROVIDER (operator override)
+  → ANTHROPIC_BASE_URL points to localhost/localai → "localai"
+  → COPILOT_TOKEN or GITHUB_COPILOT_TOKEN present → "copilot"
+  → OPENCODE_PROVIDER set                          → "<value>"
+  → CLAUDE_PROJECT_DIR present                     → "claude"
+  → "unknown"
 ```
 
-`unknown` is permissive by default for safety probes (assume capabilities
-present, let downstream gates catch the gap). Better a noisy hook than a
-silently-skipped credential check.
+`unknown` callers MUST default to permissive behaviour for safety probes
+(assume hooks present, slash commands present) and let downstream gates catch
+the gap. Better a noisy hook than a silently-skipped credential check.
 
 ## How to use (hook author checklist)
 
@@ -74,12 +71,11 @@ silently-skipped credential check.
 3. Branch on capability probes when degrading:
    ```bash
    if ! savia_has_hooks; then
-     # Reroute to git pre-commit (TIER-2) or CI-only (TIER-3)
+     # Reroute to git pre-commit or CI-only check (SPEC-127 Slice 2 TIER-2/3)
      exit 0
    fi
    ```
-4. Never branch on `$SAVIA_PROVIDER` to gate vendor-specific behaviour.
-   That is vendor lock-in (PV-06). Use capability probes.
+4. Never assume a specific provider — always probe.
 
 ## How to use (script author checklist)
 
@@ -87,35 +83,27 @@ silently-skipped credential check.
   `source scripts/savia-env.sh; mkdir -p "$SAVIA_WORKSPACE_DIR/output"`.
 - For one-shot resolution from non-bash callers:
   `WORKSPACE=$(bash scripts/savia-env.sh workspace)`.
-
-## User preferences file
-
-`~/.savia/preferences.yaml` is the per-user source of truth for stack
-declaration. Created and managed by `scripts/savia-preferences.sh`. Never
-committed to the repo. Schema documented in `model-alias-schema.md`.
-
-Forbidden in preferences.yaml: `api_key`, `password`, `secret`, `token` keys.
-Use a credential manager (env vars, OS keychain, vault). The validator
-rejects these keys.
+- For provider-conditional logic:
+  `if [[ "$(bash scripts/savia-env.sh provider)" == "copilot" ]]; then ...`.
 
 ## Backward compatibility (PV-01)
 
 Existing hooks that hard-code `CLAUDE_PROJECT_DIR` continue to work under
 Claude Code — the loader exports `SAVIA_WORKSPACE_DIR` from the same value.
-Migration is opt-in per-hook. Slice 2 of SPEC-127 patches the top 10 hooks
-by execution weight; the remaining 54 follow on as touched.
+Migration is opt-in per-hook. Slice 2 of SPEC-127 patches the top 10 hooks by
+execution weight; the remaining 54 follow on as touched.
 
 ## What this rule does NOT do
 
 - It does not patch the 70+ existing hooks. Migration is incremental.
-- It does not encode any vendor in source — model alias mappings live in
-  `~/.savia/preferences.yaml` per-user.
+- It does not detect provider model — only frontend. Model alias mapping lives
+  in `docs/rules/domain/model-alias-table.md`.
 - It does not bypass autonomous-safety gates — provider override is operator-only.
 
 ## References
 
-- SPEC-127 Slice 1 AC-1.1, AC-1.4
+- SPEC-127 Slice 1 AC-1.1: hooks using `CLAUDE_PROJECT_DIR` can source
+  `savia-env.sh` and obtain `SAVIA_WORKSPACE_DIR` with functional fallback
+  under OpenCode shell.
 - `docs/rules/domain/autonomous-safety.md`
-- `docs/rules/domain/model-alias-schema.md`
 - `scripts/savia-env.sh`
-- `scripts/savia-preferences.sh`
