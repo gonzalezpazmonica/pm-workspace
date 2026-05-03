@@ -1,5 +1,5 @@
 {
-  "hash": "b0d51c1207c0",
+  "hash": "a56fa913cd54",
   "total": 1141,
   "resources": [
     {
@@ -1224,15 +1224,15 @@
       "category": "communication",
       "name": "savia-goal",
       "intents": [
+        "codex",
         "cross",
+        "equivalente",
         "establece",
-        "gestiona",
-        "objetivos",
-        "opencode"
+        "gestiona"
       ],
       "kind": "cmd",
       "path": ".claude/commands/savia-goal.md",
-      "description": "Establece, gestiona y persigue objetivos persistentes cross-turn — versión OpenCode"
+      "description": "Establece, gestiona y persigue objetivos persistentes cross-turn — equivalente Savia de /goal de Codex"
     },
     {
       "category": "communication",

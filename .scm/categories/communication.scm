@@ -43,7 +43,7 @@
 - **savia-flow-timesheet** (script): savia-flow-timesheet.sh — Time tracking via user branch
 - **savia-forget** (cmd): >
 - **savia-gallery** (cmd): Catálogo visual/interactivo de comandos, skills y agentes por rol y vertical
-- **savia-goal** (cmd): Establece, gestiona y persigue objetivos persistentes cross-turn — versión OpenCode
+- **savia-goal** (cmd): Establece, gestiona y persigue objetivos persistentes cross-turn — equivalente Savia de /goal de Codex
 - **savia-goal** (script): savia-goal.sh — Goal lifecycle management for Savia
 - **savia-hub** (cmd): Central hub for accessing Savia knowledge and tools
 - **savia-hub-init** (script): savia-hub-init.sh — Initialize SaviaHub local repository

@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: ca44755c860b | resources: 1141
+> hash: c97d153ad8b5 | resources: 1141
 > 543 commands · 92 skills · 70 agents · 436 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
@@ -101,7 +101,7 @@
 [communication] savia-flow-timesheet — branch,flow,savia,time,timesheet — script:scripts/savia-flow-timesheet.sh
 [communication] savia-forget —  — cmd:.claude/commands/savia-forget.md
 [communication] savia-gallery — agentes,catálogo,comandos,interactivo,skills — cmd:.claude/commands/savia-gallery.md
-[communication] savia-goal — cross,establece,gestiona,objetivos,opencode — cmd:.claude/commands/savia-goal.md
+[communication] savia-goal — codex,cross,equivalente,establece,gestiona — cmd:.claude/commands/savia-goal.md
 [communication] savia-goal — goal,lifecycle,management,savia — script:scripts/savia-goal.sh
 [communication] savia-hub — accessing,central,knowledge,savia,tools — cmd:.claude/commands/savia-hub.md
 [communication] savia-hub-init — init,initialize,local,repository,savia — script:scripts/savia-hub-init.sh
