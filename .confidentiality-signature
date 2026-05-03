@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=ab6edc7c48a329ced95e8f26db5a196dc99b91fcda441e38eea4ffdbd8599a5a
-timestamp=2026-05-03T21:43:44Z
+timestamp=2026-05-03T21:46:20Z
 branch=feature/spec-127-tier-models
-head_commit=ad74ac20
-signature=91da087e9fc15061b44a47b3b2ff867869a893db1499adcff668571a0c53291f
+head_commit=33a2f99f
+signature=a15b5fabe16550e42da0a6c2751823dab1a82b68888339df8d689746fbef057d
