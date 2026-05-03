@@ -1,7 +1,0 @@
-[Unit]
-Description=SaviaClaw Daily Memory Backup
-
-[Service]
-Type=oneshot
-User=monica
-ExecStart=/bin/bash /home/monica/claude/scripts/saviaclaw-backup.sh
