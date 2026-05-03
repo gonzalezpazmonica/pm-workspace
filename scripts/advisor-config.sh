@@ -41,17 +41,31 @@ if [[ -f "${SCRIPT_DIR}/savia-env.sh" ]]; then
   source "${SCRIPT_DIR}/savia-env.sh"
 fi
 
-# Fallback quando savia-env.sh não existe: implementação inline mínima
-# para manter resolução de modelos curta → completa (sonnet → claude-sonnet-4-6, etc)
+# Fallback quando savia-env.sh não existe: minimal inline tier resolver
+# that reads ~/.savia/preferences.yaml (SPEC-127). Falls back to
+# pass-through when preferences file is absent.
 if ! command -v savia_resolve_model &>/dev/null; then
   savia_resolve_model() {
-    local name="$1"
-    case "$name" in
-      opus|heavy|claude-opus-4-7)           echo "claude-opus-4-7" ;;
-      sonnet|mid|claude-sonnet-4-6)         echo "claude-sonnet-4-6" ;;
-      haiku|fast|claude-haiku-4-5-20251001) echo "claude-haiku-4-5-20251001" ;;
-      *)                                     echo "" ;;
-    esac
+    local tier="$1"
+    local prefs_file="${HOME}/.savia/preferences.yaml"
+    _pref() {
+      awk -v k="^${1}:" '
+        $0 ~ k { sub(k, ""); sub(/^[[:space:]]+/, ""); gsub(/^"|"$/, ""); gsub(/^\047|\047$/, ""); print; exit }
+      ' "$prefs_file" 2>/dev/null
+    }
+    if [[ -f "$prefs_file" ]]; then
+      case "$tier" in
+        heavy)                      _pref "model_heavy" ;;
+        mid)                        _pref "model_mid" ;;
+        fast)                       _pref "model_fast" ;;
+        opus|claude-opus-*)         _pref "model_heavy" ;;
+        sonnet|claude-sonnet-*)     _pref "model_mid" ;;
+        haiku|claude-haiku-*)       _pref "model_fast" ;;
+        *)                          echo "$tier" ;;
+      esac
+    else
+      echo "$tier"
+    fi
   }
 fi
 

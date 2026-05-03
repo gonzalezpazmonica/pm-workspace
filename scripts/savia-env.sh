@@ -101,6 +101,65 @@ _resolve_provider() {
   echo "unknown"
 }
 
+# ── Tier-based model resolution (SPEC-127 Slice 1) ────────────────────────────
+# Resolves a capability tier (heavy/mid/fast) or legacy short name
+# (opus/sonnet/haiku) to the user's provider-specific model ID
+# declared in ~/.savia/preferences.yaml.
+#
+# Falls through to preferences.yaml on first call; caches result in
+# SAVIA_MODEL_{HEAVY,MID,FAST} env vars for subsequent calls (no
+# repeated YAML parsing).
+savia_resolve_model() {
+  local tier="$1"
+  local prefs_file="${HOME}/.savia/preferences.yaml"
+
+  if [[ ! -f "$prefs_file" ]]; then
+    echo "$tier"  # pass-through if no preferences
+    return 0
+  fi
+
+  _read_pref() {
+    local key="$1"
+    awk -v k="^${key}:" '
+      $0 ~ k { sub(k, ""); sub(/^[[:space:]]+/, ""); gsub(/^"|"$/, ""); gsub(/^\047|\047$/, ""); print; exit }
+    ' "$prefs_file" 2>/dev/null
+  }
+
+  case "$tier" in
+    heavy)
+      if [[ -z "${SAVIA_MODEL_HEAVY:-}" ]]; then
+        export SAVIA_MODEL_HEAVY="$(_read_pref "model_heavy")"
+      fi
+      [[ -n "${SAVIA_MODEL_HEAVY:-}" ]] && echo "${SAVIA_MODEL_HEAVY}" || echo "heavy"
+      ;;
+    mid)
+      if [[ -z "${SAVIA_MODEL_MID:-}" ]]; then
+        export SAVIA_MODEL_MID="$(_read_pref "model_mid")"
+      fi
+      [[ -n "${SAVIA_MODEL_MID:-}" ]] && echo "${SAVIA_MODEL_MID}" || echo "mid"
+      ;;
+    fast)
+      if [[ -z "${SAVIA_MODEL_FAST:-}" ]]; then
+        export SAVIA_MODEL_FAST="$(_read_pref "model_fast")"
+      fi
+      [[ -n "${SAVIA_MODEL_FAST:-}" ]] && echo "${SAVIA_MODEL_FAST}" || echo "fast"
+      ;;
+    opus|claude-opus-4-7|claude-opus-4-5)
+      savia_resolve_model heavy
+      ;;
+    sonnet|claude-sonnet-4-6|claude-sonnet-4-5)
+      savia_resolve_model mid
+      ;;
+    haiku|claude-haiku-4-5-20251001)
+      savia_resolve_model fast
+      ;;
+    *)
+      echo "$tier"  # pass-through for non-tier, non-legacy names
+      ;;
+  esac
+}
+export -f savia_resolve_model
+
 # ── Main (source mode) ───────────────────────────────────────────────────────
 if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
   # Sourced from another script: export variables
