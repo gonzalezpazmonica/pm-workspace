@@ -1,169 +1,103 @@
 ---
 name: savia-goal
-description: Establece, gestiona y persigue objetivos persistentes cross-turn — versión OpenCode
+description: Establece, gestiona y persigue objetivos persistentes cross-turn — equivalente Savia de /goal de Codex
 model: sonnet
 context_cost: low
 ---
 
-# /savia-goal
+Objetivo: $ARGUMENTS
 
-**Objetivo recibido:** $ARGUMENTS
+## /savia-goal
 
-Eres Savia, la PM automatizada. Este comando gestiona objetivos persistentes cross-turn, equivalente al `/goal` de Codex CLI 0.128.0.
+Equivalente Savia del `/goal` de Codex CLI 0.128.0. Goal persistente cross-turn con máquina de estados y verificación obligatoria (Rule #22).
 
----
+**Subcomandos:** `set`, `pause`, `resume`, `clear`, `status`, `history`. Si no hay argumentos → `status`.
 
-## Paso 1: Parsear subcomando
+**Fichero canónico:** `.savia-memory/goals/current.json` · **Historial:** `.savia-memory/goals/history.jsonl`
 
-Si `$ARGUMENTS` está vacío → Mostrar estado actual (Paso 5).
-Si `$ARGUMENTS` empieza con:
-- `set` → Paso 2
-- `pause` → Paso 3
-- `resume` → Paso 4
-- `clear` → Paso 5
-- `status` → Paso 6
-- `history` → Paso 7
-- Cualquier otro texto → Tratar como `set <texto>` (Paso 2)
+## Schema current.json
 
----
-
-## Paso 2: set — Establecer un nuevo goal
-
-1. Leer `.savia-memory/goals/current.json`
-2. Si ya existe y `state` es `pursuing` o `paused`:
-   ```
-   Ya hay un goal activo: "{objective}" ({state}).
-   Usa /savia-goal clear antes de establecer uno nuevo.
-   ```
-   STOP.
-3. Extraer el objetivo de `$ARGUMENTS` (quitar prefijo "set " si existe)
-4. Detectar referencias a sprint (`Sprint YYYY-NN`) y PBI (`AB#XXXX`)
-5. Estimar turns necesarios:
-   - Si el objetivo menciona "simple", "corregir", "fix": 5 turns
-   - Si menciona "implementar", "feature", "crear": 15 turns
-   - Si menciona "refactorizar", "migrar", "arquitectura": 30 turns
-   - Por defecto: preguntar al usuario o usar 15
-6. Crear `current.json` con schema:
-   ```json
-   {
-     "id": "goal-{YYYYMMDD}-{contador_3digitos}",
-     "objective": "texto",
-     "state": "pursuing",
-     "created_at": "{ISO8601}",
-     "updated_at": "{ISO8601}",
-     "paused_at": null,
-     "achieved_at": null,
-     "turns_spent": 0,
-     "estimated_turns": {N},
-     "budget_limit_turns": {N*2.5},
-     "block_reason": null,
-     "verification_rounds": 0,
-     "sprint_ref": "Sprint-YYYY-NN|null",
-     "pbi_ref": "AB#XXXX|null"
-   }
-   ```
-7. Añadir entrada `set` a `.savia-memory/goals/history.jsonl`
-8. Confirmar:
-   ```
-   Goal establecido: "{objective}"
-   Sprint: {sprint} · Estimado: {est} turns · Máx: {max}
-   Savia perseguirá este objetivo en cada turno hasta completarlo.
-   ```
-
----
-
-## Paso 3: pause — Pausar goal activo
-
-1. Leer `current.json`
-2. Si no existe o `state` no es `pursuing`: informar y STOP.
-3. Cambiar `state: "paused"`, `paused_at: now()`, `updated_at: now()`
-4. Guardar + añadir entrada a `history.jsonl`
-5. Output: `Goal pausado: {objective}. Usa /savia-goal resume para continuar.`
-
----
-
-## Paso 4: resume — Reanudar goal pausado
-
-1. Leer `current.json`
-2. Si no existe: "No hay goal para reanudar." STOP.
-3. Si `state` no es `paused`: "El goal está en estado {state}, no paused." STOP.
-4. Cambiar `state: "pursuing"`, `paused_at: null`, `updated_at: now()`
-5. Guardar + añadir entrada a `history.jsonl`
-6. Output: `Goal reanudado: {objective} [{turns_spent}/{budget_limit_turns}]`
-
----
-
-## Paso 5: clear — Borrar goal actual
-
-1. Leer `current.json`
-2. Si no existe: "No hay goal activo para borrar." STOP.
-3. **Preguntar confirmación al usuario:** "¿Borrar goal '{objective}'? (s/n)"
-4. Si no confirma: STOP.
-5. Añadir entrada `cleared` a `history.jsonl`
-6. Borrar `current.json`
-7. Output: `Goal borrado. {n} goals en historial.`
-
----
-
-## Paso 6: status — Mostrar estado (default si no hay argumentos)
-
-Leer `current.json`. Si no existe:
-```
-No hay goal activo. Usa /savia-goal set <objetivo> para crear uno.
+```json
+{"id":"goal-YYYYMMDD-NNN","objective":"...","state":"pursuing|paused|achieved|blocked|budget_exceeded","created_at":"ISO8601","updated_at":"ISO8601","paused_at":"ISO8601|null","achieved_at":"ISO8601|null","turns_spent":0,"estimated_turns":null,"budget_limit_turns":40,"block_reason":null,"verification_rounds":0,"sprint_ref":"Sprint-YYYY-NN|null","pbi_ref":"AB#XXXX|null"}
 ```
 
+## Máquina de estados
+
+`set` → pursuing → (pause) → paused → (resume) → pursuing · pursuing → (verify+confirm) → achieved · pursuing → (budget exceeded) → budget_exceeded · pursuing → (blocker) → blocked · clear → history.jsonl
+
+## Bugs de Codex prevenidos desde día 1
+
+1. **Pérdida post-compact (#19910):** Goal en memoria canónica externa, no en contexto de chat. Inmune a compaction.
+2. **Goal-first invisible (#20792):** Auto-memory carga goal al inicio de sesión. Independiente del primer mensaje.
+3. **Plan mode silencioso (#20656):** Si plan mode activo, mostrar "Goal pausado en Plan mode. Usa /savia-goal resume al salir."
+4. **Falta completion audit (#19910):** Rule #22: verification_rounds >= 1 obligatorio antes de marcar achieved.
+
+## Subcomandos
+
+### set `<objetivo>` (default si texto libre)
+1. Leer `current.json`. Si existe y state es pursuing|paused → error: "Ya hay goal activo."
+2. Extraer objetivo. Detectar Sprint YYYY-NN y AB#XXXX.
+3. Estimar turns: simple/fix=5, feature/implementar=15, refactor/migrar=30.
+4. budget_limit = estimated * 2.5. Crear current.json + entry en history.jsonl.
+5. Confirmar: "Goal establecido: {obj} · {estimated} turns · Máx {budget}"
+
+### pause
+Cambiar state a paused, guardar paused_at. Confirmar "🟡 Goal pausado."
+
+### resume
+Cambiar state a pursuing, limpiar paused_at. Confirmar "🟢 Goal reanudado: {obj} [{turns}/{budget}]"
+
+### clear
+Preguntar confirmación. Mover a history.jsonl como `cleared`. Borrar current.json.
+
+### status (sin args)
+Leer current.json. Si no existe: "No hay goal activo. Usa /savia-goal set <objetivo>."
 Si existe:
 ```
 {emoji} Savia Goal — {state_label} desde {created_at}
-
-Objetivo: "{objective}"
-Estado: {state}
-Turns: {turns_spent}/{budget_limit_turns} · Verificaciones: {verification_rounds}/1
-Sprint: {sprint_ref} · PBI: {pbi_ref}
-Creado: {created_at} · Actualizado: {updated_at}
-
-Acciones: /savia-goal pause | /savia-goal clear | /savia-goal resume
+Objetivo: "{objective}" · Estado: {state}
+Turns: {turns}/{budget} · Verificaciones: {verifications}/1
+Sprint: {sprint} · PBI: {pbi}
 ```
+Emojis: 🟢 pursuing · 🟡 paused · ✅ achieved · 🔴 blocked · ⚠️ budget_exceeded
 
-**Emojis:** pursuing → 🟢 · paused → 🟡 · achieved → ✅ · blocked → 🔴 · budget_exceeded → ⚠️
+### history [N]
+Leer history.jsonl. Mostrar últimos N (default 10): timestamp | event | state | objective_truncado_60.
 
----
+## Integración con flujo Savia
 
-## Paso 7: history — Mostrar historial
+Al inicio de cada turno, Savia ejecuta `bash scripts/savia-goal.sh auto-inject`:
+- pursuing → Inyecta goal en contexto: "GOAL ACTIVO: {obj} [{turns}/{budget}]. Verifica progreso al final."
+- paused → "GOAL PAUSADO: {obj}. Usa /savia-goal resume."
+- budget_exceeded → "GOAL EXCEDIDO. Usa /savia-goal clear o ajusta presupuesto."
+- blocked → "GOAL BLOQUEADO: {obj}. Razón: {reason}"
 
-Leer `.savia-memory/goals/history.jsonl`. Mostrar últimos 10:
-```
-Historial de goals (últimos 10):
-{fecha}  {objetivo_truncado_60chars}  {estado_final}  {turns}
-...
-```
+Al final de cada turno, `bash scripts/savia-goal.sh advance`:
+- Incrementa turns_spent
+- Al 80% del presupuesto: advierte
+- Al 100%: cambia automáticamente a budget_exceeded
 
----
+## Budget guard
 
-## Paso 8: Guardar cambios
+- default 40 turns (hereda SDD_DEFAULT_MAX_TURNS)
+- Alerta al 80%: "⚠️ Goal al 80% del presupuesto ({n}/{max} turns). ¿Ajustar?"
+- Bloqueo al 100%: state → budget_exceeded automático
 
-Tras cualquier operación que modifique `current.json` o `history.jsonl`:
-1. Escribir el fichero con `Write` tool
-2. Verificar que se escribió correctamente
-3. Si `current.json` cambió, actualizar auto-memory con:
-   ```
-   bash scripts/memory-store.sh save episode "goal-state-change" "state={state} objective={objective_truncated}" --ttl 168h
-   ```
+## Diferencias con comandos adyacentes
 
----
+| Comando | Propósito | vs /savia-goal |
+|---|---|---|
+| /sprint-plan | Planificar sprint | Goal = un objetivo dentro del sprint |
+| /pbi-decompose | Descomponer PBI | Goal persigue, no descompone |
+| /spec-implement | Implementar spec SDD | Goal puede abarcar múltiples specs |
+| /overnight-sprint | Modo nocturno autónomo | Goal es la unidad que overnight ejecuta |
 
-## Reglas de integración
+## Script
 
-1. **Al inicio de cada sesión:** Leer `current.json`. Si `state == pursuing`, mostrar goal activo en el banner de bienvenida.
-2. **Budget guard:** Si `turns_spent >= budget_limit_turns * 0.8`, advertir. Si >= budget_limit_turns, cambiar automáticamente a `budget_exceeded`.
-3. **Verification Before Done (Rule #22):** NO marcar `achieved` sin `verification_rounds >= 1` y confirmación del usuario.
-4. **Compatibilidad con Plan mode:** Si se detecta plan mode activo, el goal continúa en memoria pero no se ejecuta. Avisar al usuario.
-
----
+`scripts/savia-goal.sh` implementa CRUD completo: status, set, pause, resume, clear, history, advance, verify, auto-inject.
 
 ## Referencias
 
-- Codex `/goal`: PRs #18073-#18077 (openai/codex, Mayo 2026)
-- Codex bugs analizados: #19910 (compaction loss), #20792 (resume invisible), #20656 (plan mode), #20536 (docs)
-- Savia rules: Rule #22 Verification Before Done, Rule #3 Confirm Before Write
-- Tracking: `.savia-memory/goals/current.json`, `.savia-memory/goals/history.jsonl`
+- Codex: PRs #18073-#18077, issues #20536 #19910 #20792 #20656
+- Savia: Rule #22 (Verification Before Done), Rule #3 (Confirmar antes de escribir)
+- Spec: docs/propuestas/SPEC-SAVIA-GOAL-command.md
