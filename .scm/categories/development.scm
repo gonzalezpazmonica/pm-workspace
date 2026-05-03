@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 138 resources
+> 139 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -17,6 +17,7 @@
 - **build-azdo-schema-graph** (script): build-azdo-schema-graph.sh — SE-076 Slice 2
 - **build-skill-manifest** (script): build-skill-manifest.sh — Genera manifesto de skills desde frontmatter
 - **calendar-focus** (cmd): Crear bloque de focus para una tarea especifica — Deep Work protegido
+- **caveman** (skill): Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use when you suspect self-deception, before committing, or before shipping.
 - **check-coherence** (cmd): Validate that a spec, report, or code output actually matches its stated objective
 - **code-comprehension-report** (skill): Generate comprehension report with mental model after SDD implementation. Automatically documents architectural decisions, failure heuristics, and 3AM debugging guides.
 - **code-improve** (cmd): Launch autonomous code improvement loop — detects opportunities, applies improvements, creates PRs for review
@@ -138,4 +139,4 @@
 - **workload-balance** (cmd): Equilibrado objetivo de carga de trabajo respetando especialidades del equipo
 - **workspace-doctor** (script): workspace-doctor.sh — Health check pm-workspace (SPEC-031)
 - **worktree-setup** (cmd): >
-- **zoom-out** (skill): Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use at design time.
+- **zoom-out** (skill): Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use when designing, when evaluating trade-offs, or at the start of design sessions.
