@@ -14,8 +14,9 @@ El agente necesita acceso a:
 ## 3.2 Prompt de invocación para `agent-single`
 
 ```bash
-# Invocar Claude Code como subagente
-claude --model $CLAUDE_MODEL_AGENT \
+# Invocar Claude Code como subagente (modelo resuelto via tier)
+HEAVY_MODEL="$(savia_resolve_model heavy)"  # o: source scripts/savia-env.sh primero
+claude --model "$HEAVY_MODEL" \
   --system-prompt "$(cat projects/{proyecto}/CLAUDE.md)" \
   --max-turns 30 \
   "Implementa la siguiente Spec exactamente como se describe.
@@ -41,13 +42,15 @@ Para tasks grandes, se lanza un equipo de agentes con roles distintos:
 
 ```bash
 # Agente 1: Implementador — escribe el código de producción
-claude --model $CLAUDE_MODEL_AGENT \
+HEAVY_MODEL="$(savia_resolve_model heavy)"
+claude --model "$HEAVY_MODEL" \
   --system-prompt "Eres un implementador senior .NET. Tu único rol es implementar el código de producción de la Spec, sin escribir tests." \
   "$(cat {spec_file})" &
 PID_IMPL=$!
 
 # Agente 2: Tester — escribe los tests (puede ejecutarse en paralelo)
-claude --model $CLAUDE_MODEL_FAST \
+FAST_MODEL="$(savia_resolve_model fast)"
+claude --model "$FAST_MODEL" \
   --system-prompt "Eres un QA engineer senior. Tu único rol es escribir los tests descritos en la Spec." \
   "$(cat {spec_file})" &
 PID_TEST=$!
@@ -55,7 +58,8 @@ PID_TEST=$!
 wait $PID_IMPL $PID_TEST
 
 # Agente 3: Reviewer — revisa el output de los dos anteriores (secuencial)
-claude --model $CLAUDE_MODEL_AGENT \
+HEAVY_MODEL="$(savia_resolve_model heavy)"
+claude --model "$HEAVY_MODEL" \
   --system-prompt "Eres un Tech Lead revisando código. Verifica que la implementación cumple la Spec. Reporta discrepancias sin modificar código." \
   "Revisa los ficheros creados por el implementador y el tester contra esta Spec: $(cat {spec_file})"
 ```
@@ -117,12 +121,13 @@ find projects/{proyecto}/agent-notes -name "{ticket}-*" | sort
 ## Selección del Modelo por Task
 
 ```
-Tamaño de Task | Modelo | Razonamiento
----|---|---
-< 2h (DTOs, validators, boilerplate) | Haiku 4.5 | Costo mínimo, suficiente precisión
-2-6h (handlers, servicios, components) | Sonnet 4.6 | Balance costo/capacidad
-> 6h (sistemas complejos, integraciones) | Opus 4.6 | Máxima capacidad de razonamiento
+Tamaño de Task | Tier | Razonamiento
+---|---|---|---
+< 2h (DTOs, validators, boilerplate) | fast | Costo mínimo, suficiente precisión
+2-6h (handlers, servicios, components) | mid | Balance costo/capacidad
+> 6h (sistemas complejos, integraciones) | heavy | Máxima capacidad de razonamiento
 ```
+(Tiers resueltos via `savia_resolve_model` contra `~/.savia/preferences.yaml` al runtime)
 
 ---
 
