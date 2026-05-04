@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
+## [Unreleased] — 2026-05-04
 
 ### Fixed
 - fork-agents.sh: tier names (heavy/mid/fast) resolved to provider model ID before passing to Claude CLI, fixing "mid, model not found" error.
