@@ -3,7 +3,7 @@ name: school-progress
 description: View student progress and portfolio
 argument-hint: "<alias> [--portfolio]"
 allowed-tools: [Read, Bash]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

@@ -1,18 +1,26 @@
 # Model alias schema — user-extensible mappings (SPEC-127 Slice 1)
 
-> **Rule** — Agents declare canonical Claude model names in their frontmatter.
-> The runtime maps those names to the user's effective model id via
-> `~/.savia/preferences.yaml`. The repo never contains a vendor-specific
-> mapping table. PV-06: cero vendor lock-in en source-controlled files.
+> **Rule** — Agents and commands declare abstract capability tiers (`model: heavy|mid|fast`)
+> in their frontmatter. The runtime maps those tiers to the user's provider-specific
+> model id via `~/.savia/preferences.yaml`. Zero vendor names in source-controlled files.
+> PV-06: cero vendor lock-in.
 
 ## Why a user-managed table
 
-Savia ships 71 agents (70 declare `model: claude-X-Y`). Every user's stack is
-different: Anthropic API direct, OSS hosted vendor, LocalAI on-prem, Ollama
-local, enterprise vendor, custom corporate endpoint. A single hardcoded
-mapping locks agents to one stack, forces rewrites on plan change, and leaks
-vendor choice into source. Each user declares **their** mappings in
-`~/.savia/preferences.yaml`. Agents stay clean; the repo stays neutral.
+Savia ships 70+ agents and 500+ commands. Each declares a capability tier
+(heavy / mid / fast), never a vendor model name. Every user's stack is
+different: DeepSeek, Anthropic API, OSS hosted vendor, LocalAI on-prem,
+Ollama local, enterprise vendor, custom corporate endpoint. Each user
+declares **their** mappings in `~/.savia/preferences.yaml`. Agents and
+commands stay clean; the repo stays neutral.
+
+## Tier definitions
+
+| Tier | `model:` value | Semantic | Example tasks |
+|---|---|---|---|
+| Heavy | `heavy` | Deep reasoning, architectural decisions | Spec writing, code review, security audit |
+| Mid | `mid` | Balanced — implementation, testing | Feature development, refactoring, test writing |
+| Fast | `fast` | Low-latency, low-cost | Status queries, simple lookups, quick checks |
 
 ## Schema
 
@@ -61,39 +69,45 @@ will refuse to load preferences containing them.
 
 ## Resolution function (provider-agnostic)
 
-When an agent declares `model: claude-sonnet-4-6`:
+Agents and commands declare `model: heavy|mid|fast` in their frontmatter.
+The runtime resolves to the user's provider-specific model id:
 
 ```
-resolve_model(canonical) → effective_id
-  preference = read $HOME/.savia/preferences.yaml model_<tier>
-  if canonical maps to a tier (heavy / mid / fast):
-    return preference[<tier>]
-  else if user defined explicit override map:
-    return user_map[canonical]
-  else:
-    return canonical  # let the frontend pass-through; if it fails, log & fail
+resolve_model(tier) → effective_id
+  preferences = read $HOME/.savia/preferences.yaml
+  if tier == "heavy": return preferences.model_heavy
+  if tier == "mid":   return preferences.model_mid
+  if tier == "fast":  return preferences.model_fast
+  else:               return tier  # passthrough (log warning)
 ```
 
-Tier mapping convention (canonical → tier):
-- `claude-opus-4-7`           → heavy
-- `claude-sonnet-4-6`         → mid
-- `claude-haiku-4-5-20251001` → fast
-
-Users may override with explicit per-canonical mappings if their stack needs
-different tier groupings; that extension lives in a future schema field
-(`model_overrides:`) not implemented in Slice 1.
+No vendor names anywhere in the resolution path. The user controls
+`~/.savia/preferences.yaml` — swap providers by changing three lines.
 
 ## Examples — illustrative, NOT presets
 
-These examples show the **shape** of typical preferences for common stack
-classes. NOT vendor recommendations — replace with your own.
+### A — DeepSeek via OpenCode
 
-### A — default Anthropic API (Claude Code native)
+```yaml
+version: 1
+frontend: opencode
+provider: deepseek
+model_heavy: deepseek-v4-pro
+model_mid:   deepseek-v4-pro
+model_fast:  deepseek-v4-flash
+has_hooks: yes
+has_task_fan_out: yes
+has_slash_commands: yes
+budget_kind: none
+auth_kind: api-key
+```
+
+### B — Anthropic API direct
 
 ```yaml
 version: 1
 frontend: claude-code
-provider: anthropic-api
+provider: anthropic
 model_heavy: claude-opus-4-7
 model_mid:   claude-sonnet-4-6
 model_fast:  claude-haiku-4-5-20251001
@@ -104,15 +118,15 @@ budget_kind: token-count
 auth_kind: api-key
 ```
 
-### B — local OSS (LocalAI / Ollama)
+### C — local OSS (LocalAI / Ollama)
 
 ```yaml
 version: 1
 frontend: opencode
 provider: localai
-model_heavy: <large-model-you-pulled>
-model_mid:   <mid-model-you-pulled>
-model_fast:  <small-model-you-pulled>
+model_heavy: qwen3-72b-coder
+model_mid:   qwen3-32b-coder
+model_fast:  qwen3-7b
 has_hooks: yes
 has_task_fan_out: no
 has_slash_commands: yes
@@ -120,26 +134,9 @@ budget_kind: none
 auth_kind: none
 ```
 
-### C — vendor-managed with quota
-
-```yaml
-version: 1
-frontend: opencode
-provider: <vendor-name>
-model_heavy: <vendor-heavy-model-id>
-model_mid:   <vendor-mid-model-id>
-model_fast:  <vendor-fast-model-id>
-has_hooks: no
-has_task_fan_out: no
-has_slash_commands: no
-budget_kind: req-count
-budget_limit: 1500
-auth_kind: oauth
-```
-
 ## What this schema does NOT do
 
-- Does not name a vendor in source — examples are placeholders.
+- Does not name any vendor in agent/command source files.
 - Does not validate model ids — the user knows their provider.
 - Does not store credentials — use env vars / keychain / vault.
 

@@ -4,7 +4,7 @@ description: >
   Health check del entorno pm-workspace. Verifica settings, hooks, CLIs,
   permisos y configuracion. 14 checks con acciones correctivas.
   Inspirado en jato doctor (SPEC-031).
-model: haiku
+model: fast
 context_cost: low
 allowed-tools:
   - Bash

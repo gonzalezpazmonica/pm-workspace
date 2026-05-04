@@ -10,7 +10,7 @@ tools:
   read: true
   glob: true
   grep: true
-model: claude-opus-4-7
+model: heavy
 color: "#FF0000"
 maxTurns: 20
 max_context_tokens: 12000

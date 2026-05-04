@@ -3,7 +3,7 @@ name: school-export
 description: GDPR Article 15 — Export all student data in portable format
 argument-hint: "<alias>"
 allowed-tools: [Read, Bash, Write]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

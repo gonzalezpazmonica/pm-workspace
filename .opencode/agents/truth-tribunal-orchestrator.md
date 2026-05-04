@@ -1,7 +1,7 @@
 ---
 name: truth-tribunal-orchestrator
 description: Truth Tribunal orchestrator — convenes 7 judges, aggregates scores, applies vetos, drives iteration
-model: claude-opus-4-7
+model: heavy
 permission_level: L2
 tools:
   read: true

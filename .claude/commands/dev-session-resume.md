@@ -3,7 +3,7 @@ name: dev-session-resume
 description: "Reanudar una dev-session interrumpida desde el ultimo checkpoint"
 argument-hint: "{session-id}"
 allowed-tools: [Read, Glob, Grep, Bash, Write, Edit, Task]
-model: opus
+model: heavy
 context_cost: high
 ---
 

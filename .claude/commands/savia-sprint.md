@@ -5,7 +5,7 @@ description: >
   Sprints almacenados como carpetas en el company repo.
 argument-hint: "[start|close|status] [--project <name>]"
 allowed-tools: [Read, Bash, Glob]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

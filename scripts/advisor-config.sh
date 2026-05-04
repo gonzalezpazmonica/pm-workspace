@@ -41,16 +41,39 @@ if [[ -f "${SCRIPT_DIR}/savia-env.sh" ]]; then
   source "${SCRIPT_DIR}/savia-env.sh"
 fi
 
-# Fallback quando savia-env.sh não existe: implementação inline mínima
-# para manter resolução de modelos curta → completa (sonnet → claude-sonnet-4-6, etc)
+# Fallback quando savia-env.sh não existe: minimal inline tier resolver
+# that reads ~/.savia/preferences.yaml (SPEC-127). Falls back to
+# pass-through when preferences file is absent.
 if ! command -v savia_resolve_model &>/dev/null; then
   savia_resolve_model() {
-    local name="$1"
-    case "$name" in
-      opus|heavy|claude-opus-4-7)           echo "claude-opus-4-7" ;;
-      sonnet|mid|claude-sonnet-4-6)         echo "claude-sonnet-4-6" ;;
-      haiku|fast|claude-haiku-4-5-20251001) echo "claude-haiku-4-5-20251001" ;;
-      *)                                     echo "" ;;
+    local tier="$1"
+    local prefs_file="${HOME}/.savia/preferences.yaml"
+    _pref() {
+      awk -v k="^${1}:" '
+        $0 ~ k { sub(k, ""); sub(/^[[:space:]]+/, ""); gsub(/^"|"$/, ""); gsub(/^\047|\047$/, ""); print; exit }
+      ' "$prefs_file" 2>/dev/null
+    }
+    _resolve_tier() {
+      local tier_var="$1"   # e.g. SAVIA_MODEL_MID
+      local pref_key="$2"   # e.g. model_mid
+      local default="$3"    # e.g. mid
+      if [[ -n "${!tier_var:-}" ]]; then
+        echo "${!tier_var}"
+      elif [[ -f "$prefs_file" ]]; then
+        local val; val=$(_pref "$pref_key") || true
+        echo "${val:-$default}"
+      else
+        echo "$default"
+      fi
+    }
+    case "$tier" in
+      heavy)                    _resolve_tier SAVIA_MODEL_HEAVY model_heavy heavy ;;
+      mid)                      _resolve_tier SAVIA_MODEL_MID model_mid mid ;;
+      fast)                     _resolve_tier SAVIA_MODEL_FAST model_fast fast ;;
+      opus|claude-opus-*)       savia_resolve_model heavy ;;
+      sonnet|claude-sonnet-*)   savia_resolve_model mid ;;
+      haiku|claude-haiku-*)     savia_resolve_model fast ;;
+      *)                        echo "$tier" ;;
     esac
   }
 fi

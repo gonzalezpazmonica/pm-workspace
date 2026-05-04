@@ -4,7 +4,7 @@ description: "Consultas en lenguaje natural — habla con Savia sin memorizar co
 developer_type: all
 agent: task
 context_cost: medium
-model: sonnet
+model: mid
 ---
 
 # /nl-query — Natural Language Command Resolution

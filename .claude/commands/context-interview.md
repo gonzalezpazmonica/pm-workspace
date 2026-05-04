@@ -1,7 +1,7 @@
 ---
 name: context-interview
 description: "Entrevista estructurada de contexto para proyectos y clientes"
-model: sonnet
+model: mid
 context_cost: high
 allowed_tools: ["Bash", "Read", "Write", "Edit", "Task"]
 ---

@@ -5,7 +5,7 @@ description: >
   Sin dependencia de Azure DevOps.
 argument-hint: "[create|view|list] [--project <name>]"
 allowed-tools: [Read, Bash, Glob]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

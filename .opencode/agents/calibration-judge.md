@@ -1,7 +1,7 @@
 ---
 name: calibration-judge
 description: Truth Tribunal judge — confidence statements match evidence strength
-model: claude-sonnet-4-6
+model: mid
 permission_level: L1
 tools:
   read: true

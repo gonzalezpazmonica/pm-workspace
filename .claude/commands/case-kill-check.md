@@ -3,7 +3,7 @@ name: case-kill-check
 description: Run valuation sentinel across all active cases for kill recommendations
 argument-hint: "[--tenant tenant-id]"
 context_cost: medium
-model: sonnet
+model: mid
 allowed-tools: [Read, Bash, Glob, Grep]
 ---
 

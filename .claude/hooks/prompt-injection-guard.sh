@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # prompt-injection-guard.sh — Scan context files for prompt injection attempts
 # SPEC: SE-028 Prompt Injection Guard
 # Profile tier: security (always active)

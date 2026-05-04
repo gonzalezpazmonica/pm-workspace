@@ -3,7 +3,7 @@ name: school-diary
 description: Student learning diary and reflection journal
 argument-hint: "<alias> [--add|--view]"
 allowed-tools: [Read, Write, Bash]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

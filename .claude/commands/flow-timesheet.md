@@ -3,7 +3,7 @@ name: flow-timesheet
 description: Log hours spent on a task
 argument-hint: "<@handle> <task_id> <hours> [notes]"
 allowed-tools: [Bash]
-model: haiku
+model: fast
 context_cost: low
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: accessibility-setup
 description: Configura las preferencias de accesibilidad de Savia para adaptarse a tus necesidades
-model: haiku
+model: fast
 context_cost: low
 allowed_tools: ["Read", "Write", "Edit"]
 ---

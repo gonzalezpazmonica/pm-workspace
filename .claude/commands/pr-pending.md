@@ -3,7 +3,7 @@ name: pr-pending
 description: >
   Consulta los Pull Requests asignados al PM que están pendientes de revisión
   en Azure DevOps. Muestra estado, votos, comentarios pendientes y antigüedad.
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

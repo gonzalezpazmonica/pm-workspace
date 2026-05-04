@@ -3,7 +3,7 @@ name: savia-shield
 description: "Gestión de Savia Shield: activar, desactivar y comprobar instalación del sistema de soberanía de datos. Desactivado por defecto."
 allowed-tools: [Read, Edit, Write, Bash]
 argument-hint: "[enable|disable|status]"
-model: haiku
+model: fast
 context_cost: low
 ---
 

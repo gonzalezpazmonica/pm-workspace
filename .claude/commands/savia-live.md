@@ -1,7 +1,7 @@
 ---
 name: savia-live
 description: "Show what Savia is working on right now — live task queue and recent activity"
-model: haiku
+model: fast
 allowed-tools: [Bash, Read]
 context_cost: low
 ---

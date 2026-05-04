@@ -3,7 +3,7 @@ name: feasibility-probe
 description: "Validate spec feasibility with a time-boxed prototype attempt"
 argument-hint: "<spec_path> [--budget 15]"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
-model: sonnet
+model: mid
 context_cost: high
 ---
 

@@ -277,8 +277,10 @@ teardown() {
 }
 
 @test "edge: hook with missing tracker (nonexistent path) exits 0 silently" {
-  cp "$HOOK" "$TMPDIR_Q/h.sh"
-  out=$(echo '{}' | env CLAUDE_PROJECT_DIR="$TMPDIR_Q/empty" bash "$TMPDIR_Q/h.sh" 2>&1)
+  # Run hook from its original location (relative source paths intact),
+  # pointing CLAUDE_PROJECT_DIR at an empty dir to simulate missing tracker.
+  mkdir -p "$TMPDIR_Q/empty"
+  out=$(echo '{}' | env CLAUDE_PROJECT_DIR="$TMPDIR_Q/empty" bash "$HOOK" 2>&1)
   [ -z "$out" ]
 }
 

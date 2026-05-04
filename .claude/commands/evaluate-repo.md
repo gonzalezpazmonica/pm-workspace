@@ -3,7 +3,7 @@ name: evaluate-repo
 description: >
   Evaluación estática de seguridad y calidad de un repositorio externo.
   Puntuación 1-10 en 6 categorías con veredicto final.
-model: opus
+model: heavy
 context_cost: high
 ---
 

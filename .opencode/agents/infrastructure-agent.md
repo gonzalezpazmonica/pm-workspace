@@ -13,7 +13,7 @@ tools:
   bash: true
   glob: true
   grep: true
-model: claude-opus-4-7
+model: heavy
 color: "#FF8800"
 maxTurns: 35
 max_context_tokens: 2000

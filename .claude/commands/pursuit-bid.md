@@ -3,7 +3,7 @@ name: pursuit-bid
 description: Record bid/no-bid decision for a qualified pursuit
 argument-hint: "OPP-YYYY-NNN go|no-go [--rationale 'reason']"
 context_cost: low
-model: haiku
+model: fast
 allowed-tools: [Read, Write, Bash]
 ---
 

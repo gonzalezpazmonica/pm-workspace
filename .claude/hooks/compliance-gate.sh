@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # compliance-gate.sh — Gate de compliance que bloquea commits con violaciones
 # Profile tier: standard
 

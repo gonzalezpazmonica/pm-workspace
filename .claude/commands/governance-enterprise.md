@@ -3,7 +3,7 @@ name: governance-enterprise
 description: "Enterprise governance — audit trail, compliance checks, decision registry, certification"
 allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[audit-trail|compliance-check|decision-registry|certify] [--user @handle] [--since YYYY-MM-DD] [--action type]"
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

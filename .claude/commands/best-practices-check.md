@@ -1,7 +1,7 @@
 ---
 name: best-practices-check
 description: "Evaluate workspace against Claude Code best practices"
-model: sonnet
+model: mid
 context_cost: medium
 allowed-tools: [Read, Bash, Glob, Grep]
 argument-hint: "[--format brief|full]"

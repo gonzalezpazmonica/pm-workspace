@@ -1,7 +1,7 @@
 ---
 name: audit
 description: Generate professional executive audit report for workspace reliability assessment
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

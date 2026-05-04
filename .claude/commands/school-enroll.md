@@ -3,7 +3,7 @@ name: school-enroll
 description: Enroll student using alias (NO real names — privacy-first)
 argument-hint: "<alias>"
 allowed-tools: [Read, Bash, Write]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

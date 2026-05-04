@@ -3,7 +3,7 @@ name: criticality-assess
 description: "Evaluar criticidad de un item con desglose de 5 dimensiones y perfil CoD"
 argument-hint: "{item-id} [--project nombre]"
 allowed-tools: [Read, Bash, Glob, Grep]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

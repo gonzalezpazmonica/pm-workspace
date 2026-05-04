@@ -3,6 +3,8 @@
 # PreCompact hook: extracts decisions/corrections, classifies by tier, persists.
 # NEVER blocks compact (always exit 0).
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 STORE_SCRIPT="$SCRIPT_DIR/../../scripts/memory-store.sh"

@@ -13,7 +13,7 @@ tools:
   bash: true
   glob: true
   grep: true
-model: claude-sonnet-4-6
+model: mid
 color: "#808080"
 maxTurns: 30
 max_context_tokens: 8000

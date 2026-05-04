@@ -3,7 +3,7 @@ name: criticality-dashboard
 description: "Vista cross-project de items criticos P0-P3 con heatmap por equipo"
 argument-hint: "[--project nombre] [--level portfolio|project|team|person]"
 allowed-tools: [Read, Bash, Glob, Grep]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

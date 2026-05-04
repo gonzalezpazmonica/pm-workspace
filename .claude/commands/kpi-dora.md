@@ -3,7 +3,7 @@ name: kpi-dora
 description: >
   Dashboard de métricas DORA: deployment frequency, lead time for changes,
   change failure rate, MTTR y reliability.
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

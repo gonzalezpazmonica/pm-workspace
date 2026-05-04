@@ -9,7 +9,7 @@ tools:
   bash: true
   glob: true
   grep: true
-model: claude-opus-4-7
+model: heavy
 permissionMode: default
 maxTurns: 30
 color: "#FF8800"

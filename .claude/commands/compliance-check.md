@@ -1,7 +1,7 @@
 ---
 name: compliance-check
 description: Ejecuta todas las verificaciones de compliance de reglas
-model: haiku
+model: fast
 allowed-tools: ["Bash"]
 context_cost: low
 ---

@@ -1,5 +1,7 @@
 #!/bin/bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # acm-enforcement.sh — SE-063 Slice 1 PreToolUse hook
 #
 # Bloquea Glob/Grep amplios dentro de projects/ si el agente no ha leido

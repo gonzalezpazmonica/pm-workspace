@@ -67,7 +67,7 @@ teardown() {
 
 @test "positive: agent declares correct name and model" {
   grep -q "^name: pr-agent-judge" "$AGENT"
-  grep -qE "^model: claude-" "$AGENT"
+  grep -qE "^model: (heavy|mid|fast)" "$AGENT"
 }
 
 @test "positive: agent references SPEC-124" {

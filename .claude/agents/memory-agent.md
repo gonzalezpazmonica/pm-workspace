@@ -7,7 +7,7 @@ description: Gestiona la memoria persistente de pm-workspace via lenguaje natura
              haber recordado antes, o cuando quiere guardar información para el futuro.
              Ejemplos: "¿qué decidimos sobre X?", "recuerda que Y", "¿qué sé de Z?"
 tools: [Read, Bash, Glob, Grep, Write]
-model: claude-haiku-4-5-20251001
+model: fast
 token_budget: 2200
 ---
 

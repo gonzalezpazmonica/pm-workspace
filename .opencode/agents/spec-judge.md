@@ -1,7 +1,7 @@
 ---
 name: spec-judge
 description: Code Review Court judge — implementation vs approved spec, acceptance criteria
-model: claude-sonnet-4-6
+model: mid
 permission_level: L1
 tools:
   read: true

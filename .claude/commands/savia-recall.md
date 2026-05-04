@@ -11,7 +11,7 @@ description: Recall and retrieve information from Savia memory
 
 ```frontmatter
 agent: task
-model: haiku
+model: fast
 context_cost: low
 ```
 

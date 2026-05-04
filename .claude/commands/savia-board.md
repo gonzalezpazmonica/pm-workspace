@@ -4,7 +4,7 @@ description: >
   Kanban board ASCII para Savia Flow. Muestra PBIs agrupados por estado.
 argument-hint: "[--project <name>]"
 allowed-tools: [Read, Bash, Glob]
-model: haiku
+model: fast
 context_cost: low
 ---
 

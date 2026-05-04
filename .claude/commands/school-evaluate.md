@@ -3,7 +3,7 @@ name: school-evaluate
 description: Teacher evaluates student project using encrypted rubric
 argument-hint: "<alias> <project_name> <rubric_name>"
 allowed-tools: [Bash, Read, Write]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

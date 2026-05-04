@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # delegation-guard.sh — Enforce delegation depth limits and toolset restrictions
 # SPEC: SE-031 Delegation Toolset Enforcement
 # Profile tier: standard

@@ -2,7 +2,7 @@
 name: cost-center
 description: "Cost management and billing — timesheets, budgets, forecasting, invoicing"
 allowed-tools: [Read, Write, Glob, Bash]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

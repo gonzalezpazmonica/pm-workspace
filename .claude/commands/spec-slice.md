@@ -3,7 +3,7 @@ name: spec-slice
 description: Analizar un spec y dividirlo en slices de implementación optimizados para contexto
 argument-hint: "<spec-path> [--max-files 3] [--max-tokens 15000]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

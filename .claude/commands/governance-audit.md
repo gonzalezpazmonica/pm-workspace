@@ -4,7 +4,7 @@ description: Auditoría de cumplimiento de política de IA — acciones vs permi
 developer_type: all
 agent: task
 context_cost: high
-model: opus
+model: heavy
 ---
 
 # /governance-audit

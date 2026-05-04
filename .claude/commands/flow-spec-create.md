@@ -3,7 +3,7 @@ name: flow-spec-create
 description: Create a new SDD specification document
 argument-hint: "<spec_id> <title>"
 allowed-tools: [Bash, Write]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

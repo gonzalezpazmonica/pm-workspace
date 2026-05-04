@@ -1,6 +1,6 @@
 {
-  "hash": "a56fa913cd54",
-  "total": 1141,
+  "hash": "1027552fee9d",
+  "total": 1142,
   "resources": [
     {
       "category": "analysis",
@@ -1085,6 +1085,20 @@
       "kind": "script",
       "path": "scripts/savia-enterprise.sh",
       "description": "savia-enterprise.sh — Enterprise module lifecycle manager"
+    },
+    {
+      "category": "communication",
+      "name": "savia-env",
+      "intents": [
+        "agnostic",
+        "environment",
+        "layer",
+        "provider",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-env.sh",
+      "description": "savia-env.sh — Provider-agnostic environment layer (SPEC-127 Slice 1)"
     },
     {
       "category": "communication",

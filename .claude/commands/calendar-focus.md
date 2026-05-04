@@ -3,7 +3,7 @@ name: calendar-focus
 description: "Crear bloque de focus para una tarea especifica — Deep Work protegido"
 argument-hint: "{tarea} [--duration 90m] [--when tomorrow-morning]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

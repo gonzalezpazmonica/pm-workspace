@@ -1,7 +1,7 @@
 ---
 name: accessibility-mode
 description: Toggle rápido de accesibilidad — activa, desactiva o muestra el estado
-model: haiku
+model: fast
 context_cost: low
 allowed_tools: ["Read", "Write", "Edit"]
 ---

@@ -4,7 +4,7 @@ description: "Auditoría de exposición IA por rol — observed exposure, riesgo
 developer_type: all
 agent: task
 context_cost: high
-model: sonnet
+model: mid
 argument-hint: "[--team equipo] [--role rol] [--threshold 50] [--lang es|en]"
 ---
 

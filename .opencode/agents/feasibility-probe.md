@@ -9,7 +9,7 @@ tools:
   bash: true
   glob: true
   grep: true
-model: claude-sonnet-4-6
+model: mid
 permissionMode: bypassPermissions
 maxTurns: 30
 color: "#FFD700"

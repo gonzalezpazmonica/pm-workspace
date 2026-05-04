@@ -3,7 +3,7 @@ name: calendar-today
 description: "Vista del dia con alertas, reuniones, focus blocks y recomendaciones"
 argument-hint: "[--project nombre]"
 allowed-tools: [Read, Bash, Glob, Grep]
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

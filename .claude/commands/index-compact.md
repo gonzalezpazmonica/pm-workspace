@@ -5,7 +5,7 @@ description: >
   source files no longer exist, and repairs inconsistencies.
 argument-hint: "[--all|--profiles|--messages|--projects|--specs|--timesheets]"
 allowed-tools: [Bash, Read]
-model: haiku
+model: fast
 context_cost: low
 ---
 

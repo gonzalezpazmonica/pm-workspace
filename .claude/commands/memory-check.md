@@ -5,7 +5,7 @@ description: >
   memory-store, vectorial, SQLite cache, knowledge graph, agent memory,
   personal vault, session-hot e instincts.
 allowed-tools: [Bash]
-model: haiku
+model: fast
 context_cost: low
 ---
 

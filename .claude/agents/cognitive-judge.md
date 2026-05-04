@@ -1,7 +1,7 @@
 ---
 name: cognitive-judge
 description: Code Review Court judge — debuggability at 3AM, naming, complexity, logs
-model: claude-sonnet-4-6
+model: mid
 permission_level: L1
 tools: [Read, Glob, Grep]
 token_budget: 8500

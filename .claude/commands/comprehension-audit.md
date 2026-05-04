@@ -6,7 +6,7 @@ allowed-tools:
   - Glob
   - Grep
   - Read
-model: haiku
+model: fast
 context_cost: low
 ---
 

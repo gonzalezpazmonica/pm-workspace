@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: c97d153ad8b5 | resources: 1141
-> 543 commands · 92 skills · 70 agents · 436 scripts
+> hash: 71d8a25022e6 | resources: 1142
+> 543 commands · 92 skills · 70 agents · 437 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -91,6 +91,7 @@
 [communication] savia-dual — anthropic,dual,failover,gemma,gestiona — cmd:.claude/commands/savia-dual.md
 [communication] savia-dual — anthropic,cloud,failing,failover,gemma — skill:.claude/skills/savia-dual/SKILL.md
 [communication] savia-enterprise — enterprise,lifecycle,manager,module,savia — script:scripts/savia-enterprise.sh
+[communication] savia-env — agnostic,environment,layer,provider,savia — script:scripts/savia-env.sh
 [communication] savia-flow — based,boards,branch,flow,isolation — script:scripts/savia-flow.sh
 [communication] savia-flow-board — ascii,board,branch,flow,isolation — script:scripts/savia-flow-board.sh
 [communication] savia-flow-ops — assignments,branch,crud,flow,isolation — script:scripts/savia-flow-ops.sh

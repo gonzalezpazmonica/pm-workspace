@@ -12,7 +12,7 @@ tools:
   - Glob
   - Grep
   - Bash
-model: claude-opus-4-7
+model: heavy
 color: blue
 maxTurns: 30
 max_context_tokens: 12000

@@ -3,7 +3,7 @@ name: pursuit-qualify
 description: Run BANT + MEDDIC qualification scoring on a pursuit
 argument-hint: "OPP-YYYY-NNN [--tenant tenant-id]"
 context_cost: medium
-model: sonnet
+model: mid
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 ---
 

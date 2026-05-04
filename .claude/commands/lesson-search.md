@@ -3,7 +3,7 @@ name: lesson-search
 description: Search cross-project lessons by keyword or domain
 argument-hint: "[--query keyword] [--domain domain]"
 context_cost: low
-model: haiku
+model: fast
 allowed-tools: [Bash, Read]
 ---
 

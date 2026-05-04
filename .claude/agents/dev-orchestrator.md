@@ -3,7 +3,7 @@ name: dev-orchestrator
 permission_level: L4
 description: Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto
 tools: [Read, Glob, Grep, Bash]
-model: claude-sonnet-4-6
+model: mid
 permissionMode: plan
 maxTurns: 20
 color: cyan

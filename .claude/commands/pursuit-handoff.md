@@ -3,7 +3,7 @@ name: pursuit-handoff
 description: Generate sales-to-delivery handoff package for a won pursuit
 argument-hint: "OPP-YYYY-NNN"
 context_cost: medium
-model: sonnet
+model: mid
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 ---
 

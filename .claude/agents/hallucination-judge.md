@@ -1,7 +1,7 @@
 ---
 name: hallucination-judge
 description: Truth Tribunal judge — detects invented facts via SelfCheck-style consistency
-model: claude-opus-4-7
+model: heavy
 permission_level: L1
 tools: [Read, Glob, Grep, Bash]
 token_budget: 13000

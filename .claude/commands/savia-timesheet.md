@@ -5,7 +5,7 @@ description: >
   Entradas almacenadas en team/{handle}/savia-flow/timesheet/.
 argument-hint: "[log|view] [--project <name>]"
 allowed-tools: [Read, Bash, Glob]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

@@ -12,7 +12,7 @@ tools:
   - Glob
   - Grep
   - Task
-model: claude-sonnet-4-6
+model: mid
 color: magenta
 maxTurns: 40
 max_context_tokens: 8000

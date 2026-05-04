@@ -3,7 +3,7 @@ name: tribunal-status
 description: Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
 argument-hint: "[--clean] [--process N]"
 allowed-tools: [Read, Bash, Glob]
-model: haiku
+model: fast
 context_cost: low
 ---
 

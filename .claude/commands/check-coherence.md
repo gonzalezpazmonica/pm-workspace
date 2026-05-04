@@ -6,7 +6,7 @@ allowed-tools:
   - Read
   - Glob
   - Grep
-model: sonnet
+model: mid
 context_cost: low
 ---
 

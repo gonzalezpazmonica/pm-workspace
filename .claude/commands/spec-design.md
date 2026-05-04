@@ -1,7 +1,7 @@
 ---
 name: spec-design
 description: Genera diseño técnico a partir de una spec existente — decisiones, flujo de datos, estrategia de testing.
-model: opus
+model: heavy
 context_cost: high
 ---
 

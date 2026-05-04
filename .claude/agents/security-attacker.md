@@ -10,7 +10,7 @@ tools:
   - Read
   - Glob
   - Grep
-model: claude-sonnet-4-6
+model: mid
 color: red
 maxTurns: 15
 max_context_tokens: 10000

@@ -1,7 +1,7 @@
 ---
 name: coherence-judge
 description: Truth Tribunal judge — internal consistency (sums, dates, entities)
-model: claude-sonnet-4-6
+model: mid
 permission_level: L1
 tools: [Read, Bash]
 token_budget: 8500

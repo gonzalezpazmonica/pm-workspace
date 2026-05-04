@@ -3,7 +3,7 @@ name: school-setup
 description: Configure classroom and initialize Savia School vertical
 argument-hint: "<school_name> <course> <subject>"
 allowed-tools: [Read, Write, Bash]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

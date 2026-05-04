@@ -4,7 +4,7 @@ description: Visualizar DAG de ejecución, camino crítico y ahorro de tiempo
 context_cost: medium
 developer_type: all
 agent: business-analyst
-model: sonnet
+model: mid
 ---
 
 # /dag-plan {task-id}

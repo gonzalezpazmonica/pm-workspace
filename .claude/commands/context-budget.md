@@ -4,7 +4,7 @@ description: Presupuesto de contexto por sesión — tokens usados/disponibles, 
 developer_type: all
 agent: task
 context_cost: high
-model: haiku
+model: fast
 ---
 
 # Comando: context-budget

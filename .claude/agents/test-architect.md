@@ -14,7 +14,7 @@ tools:
   - Bash
   - Glob
   - Grep
-model: claude-sonnet-4-6
+model: mid
 color: green
 maxTurns: 30
 max_context_tokens: 20000

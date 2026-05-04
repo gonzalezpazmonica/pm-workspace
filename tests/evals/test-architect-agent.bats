@@ -37,7 +37,7 @@ teardown() {
   [ -f "$SPEC" ]
 }
 @test "agent specifies capable model for test strategy" {
-  grep -qE "claude-(opus|sonnet)-4-6|model:.*(opus|sonnet)" "$AGENT"
+  grep -qE "^model: (heavy|mid|fast)" "$AGENT"
 }
 @test "agent contains all 8 excellence patterns" {
   grep -q "setup.*teardown" "$AGENT"

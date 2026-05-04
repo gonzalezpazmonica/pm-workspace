@@ -3,7 +3,7 @@ name: sovereignty-audit
 description: "Cognitive sovereignty audit — diagnose AI vendor lock-in risk and data portability"
 allowed-tools: [Read, Glob, Grep, Write, Edit]
 argument-hint: "[scan|report|exit-plan|recommend] [--format md|pdf] [--dimension d1|d2|d3|d4|d5]"
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

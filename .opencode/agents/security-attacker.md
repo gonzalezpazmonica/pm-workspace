@@ -10,7 +10,7 @@ tools:
   read: true
   glob: true
   grep: true
-model: claude-sonnet-4-6
+model: mid
 color: "#FF0000"
 maxTurns: 15
 max_context_tokens: 10000

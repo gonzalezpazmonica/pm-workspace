@@ -1,5 +1,7 @@
 #!/bin/bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # cwd-changed-hook.sh — Auto-load project context on directory change
 # Hook: CwdChanged | Async: false (context injection needs to be synchronous)
 # When user cd's into a project, injects project name + key context.

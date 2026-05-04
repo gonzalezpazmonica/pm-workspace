@@ -2,7 +2,7 @@
 name: validate-filesize
 description: Validar que ficheros del workspace cumplen ≤150 líneas
 agent: commit-guardian
-model: haiku
+model: fast
 context_cost: low
 ---
 

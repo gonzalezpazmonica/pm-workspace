@@ -15,7 +15,7 @@ tools:
   glob: true
   grep: true
   task: true
-model: claude-opus-4-7
+model: heavy
 permissionMode: plan
 maxTurns: 30
 max_context_tokens: 80000

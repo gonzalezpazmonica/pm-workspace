@@ -1,7 +1,7 @@
 ---
 name: spec-implement
 description: Implementa una Spec según su developer_type — lanza agente o asigna a humano.
-model: opus
+model: heavy
 context_cost: high
 ---
 

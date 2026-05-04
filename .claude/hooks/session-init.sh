@@ -1,5 +1,7 @@
 #!/bin/bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # session-init.sh — Arranque garantizado: sin red, sin jq, fallo = salida limpia
 
 # ── Safety net: timeout global ────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 ---
 name: report-hours
 description: Genera el informe de imputación de horas del sprint actual o especificado.
-model: sonnet
+model: mid
 context_cost: medium
 ---
 

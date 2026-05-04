@@ -3,7 +3,7 @@ name: school-submit
 description: Student submits completed project for evaluation
 argument-hint: "<alias> <project_name>"
 allowed-tools: [Bash, Read]
-model: sonnet
+model: mid
 context_cost: low
 ---
 

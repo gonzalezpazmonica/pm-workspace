@@ -1,7 +1,7 @@
 ---
 name: backlog-git
 description: "Control de versiones para backlogs de proyectos"
-model: sonnet
+model: mid
 context_cost: medium
 allowed_tools: ["Bash", "Read", "Write", "Edit", "Task"]
 ---

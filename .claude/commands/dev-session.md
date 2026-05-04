@@ -3,7 +3,7 @@ name: dev-session
 description: Orquestar desarrollo de un spec mediante 5 fases con aislamiento de contexto y persistencia en disco
 argument-hint: "start <spec-path> | next | status | review | abort"
 allowed-tools: [Read, Write, Bash, Glob, Grep, Task]
-model: sonnet
+model: mid
 context_cost: high
 ---
 

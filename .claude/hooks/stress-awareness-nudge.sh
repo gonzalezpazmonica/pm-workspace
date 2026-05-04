@@ -1,5 +1,7 @@
 #!/bin/bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # stress-awareness-nudge.sh — Detect pressure patterns in user input
 # Hook: UserPromptSubmit | Timeout: 2s | Tier: standard
 # Source: Anthropic "Emotion concepts in LLMs" (2026-04-02)

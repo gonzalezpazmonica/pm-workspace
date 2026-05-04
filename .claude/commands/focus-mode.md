@@ -1,7 +1,7 @@
 ---
 name: focus-mode
 description: Modo single-task — carga una sola tarea y oculta distracciones
-model: haiku
+model: fast
 context_cost: low
 allowed_tools: ["Read", "Write"]
 ---

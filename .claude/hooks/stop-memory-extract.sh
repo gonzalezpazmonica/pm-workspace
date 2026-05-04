@@ -1,5 +1,7 @@
 #!/bin/bash
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # stop-memory-extract.sh — SPEC-013v2: Deep memory extraction at session stop
 # Hook: Stop | Timeout: 10 min (vs SessionEnd's 1.5s)
 # Extracts decisions, failures, discoveries, references from session context.

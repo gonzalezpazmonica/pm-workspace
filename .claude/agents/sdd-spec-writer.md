@@ -14,7 +14,7 @@ tools:
   - Glob
   - Grep
   - Bash
-model: claude-opus-4-7
+model: heavy
 color: cyan
 maxTurns: 35
 max_context_tokens: 8000
