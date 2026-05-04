@@ -113,11 +113,6 @@ savia_resolve_model() {
   local tier="$1"
   local prefs_file="${HOME}/.savia/preferences.yaml"
 
-  if [[ ! -f "$prefs_file" ]]; then
-    echo "$tier"  # pass-through if no preferences
-    return 0
-  fi
-
   _read_pref() {
     local key="$1"
     awk -v k="^${key}:" '
@@ -127,19 +122,19 @@ savia_resolve_model() {
 
   case "$tier" in
     heavy)
-      if [[ -z "${SAVIA_MODEL_HEAVY:-}" ]]; then
+      if [[ -z "${SAVIA_MODEL_HEAVY:-}" && -f "$prefs_file" ]]; then
         export SAVIA_MODEL_HEAVY="$(_read_pref "model_heavy")"
       fi
       [[ -n "${SAVIA_MODEL_HEAVY:-}" ]] && echo "${SAVIA_MODEL_HEAVY}" || echo "heavy"
       ;;
     mid)
-      if [[ -z "${SAVIA_MODEL_MID:-}" ]]; then
+      if [[ -z "${SAVIA_MODEL_MID:-}" && -f "$prefs_file" ]]; then
         export SAVIA_MODEL_MID="$(_read_pref "model_mid")"
       fi
       [[ -n "${SAVIA_MODEL_MID:-}" ]] && echo "${SAVIA_MODEL_MID}" || echo "mid"
       ;;
     fast)
-      if [[ -z "${SAVIA_MODEL_FAST:-}" ]]; then
+      if [[ -z "${SAVIA_MODEL_FAST:-}" && -f "$prefs_file" ]]; then
         export SAVIA_MODEL_FAST="$(_read_pref "model_fast")"
       fi
       [[ -n "${SAVIA_MODEL_FAST:-}" ]] && echo "${SAVIA_MODEL_FAST}" || echo "fast"

@@ -53,19 +53,28 @@ if ! command -v savia_resolve_model &>/dev/null; then
         $0 ~ k { sub(k, ""); sub(/^[[:space:]]+/, ""); gsub(/^"|"$/, ""); gsub(/^\047|\047$/, ""); print; exit }
       ' "$prefs_file" 2>/dev/null
     }
-    if [[ -f "$prefs_file" ]]; then
-      case "$tier" in
-        heavy)                      _pref "model_heavy" ;;
-        mid)                        _pref "model_mid" ;;
-        fast)                       _pref "model_fast" ;;
-        opus|claude-opus-*)         _pref "model_heavy" ;;
-        sonnet|claude-sonnet-*)     _pref "model_mid" ;;
-        haiku|claude-haiku-*)       _pref "model_fast" ;;
-        *)                          echo "$tier" ;;
-      esac
-    else
-      echo "$tier"
-    fi
+    _resolve_tier() {
+      local tier_var="$1"   # e.g. SAVIA_MODEL_MID
+      local pref_key="$2"   # e.g. model_mid
+      local default="$3"    # e.g. mid
+      if [[ -n "${!tier_var:-}" ]]; then
+        echo "${!tier_var}"
+      elif [[ -f "$prefs_file" ]]; then
+        local val; val=$(_pref "$pref_key") || true
+        echo "${val:-$default}"
+      else
+        echo "$default"
+      fi
+    }
+    case "$tier" in
+      heavy)                    _resolve_tier SAVIA_MODEL_HEAVY model_heavy heavy ;;
+      mid)                      _resolve_tier SAVIA_MODEL_MID model_mid mid ;;
+      fast)                     _resolve_tier SAVIA_MODEL_FAST model_fast fast ;;
+      opus|claude-opus-*)       savia_resolve_model heavy ;;
+      sonnet|claude-sonnet-*)   savia_resolve_model mid ;;
+      haiku|claude-haiku-*)     savia_resolve_model fast ;;
+      *)                        echo "$tier" ;;
+    esac
   }
 fi
 

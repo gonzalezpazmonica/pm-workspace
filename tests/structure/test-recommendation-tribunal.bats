@@ -91,7 +91,7 @@ teardown() {
 
 @test "all 4 judges + orchestrator declare model in frontmatter" {
   for j in memory-conflict-judge rule-violation-judge hallucination-fast-judge expertise-asymmetry-judge recommendation-tribunal-orchestrator; do
-    grep -qE "^model: claude-(sonnet|haiku|opus)-" "$JUDGE_DIR/$j.md"
+    grep -qE "^model: (heavy|mid|fast)" "$JUDGE_DIR/$j.md"
   done
 }
 
