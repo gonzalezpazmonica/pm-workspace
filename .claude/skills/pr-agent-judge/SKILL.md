@@ -52,7 +52,7 @@ Salida JSON compatible con formato Court:
 
 - [pr-agent](https://github.com/qodo-ai/pr-agent) instalado: `pip install pr-agent` o Docker
 - `GITHUB_TOKEN` env var (para acceder al PR)
-- Anthropic API key o compatible (`PR_AGENT_MODEL` en pm-config.md)
+- Anthropic API key o compatible (`PR_AGENT_MODEL` en pm-config.md). Por defecto resuelto via tier: `mid` → `~/.savia/preferences.yaml` model_mid.
 
 Si `pr-agent` no está instalado, el wrapper **falla gracefully** reportando `{"status":"SKIPPED","reason":"pr-agent not installed"}` sin bloquear al Court.
 
@@ -61,7 +61,7 @@ Si `pr-agent` no está instalado, el wrapper **falla gracefully** reportando `{"
 ```
 COURT_INCLUDE_PR_AGENT   = false        # default opt-in
 PR_AGENT_VERSION         = "0.27"       # pin
-PR_AGENT_MODEL           = "claude-sonnet-4-6"
+PR_AGENT_MODEL           = "mid"        # tier, resuelto via preferences.yaml
 PR_AGENT_MAX_LINES       = 1000         # evita token blowout
 ```
 
