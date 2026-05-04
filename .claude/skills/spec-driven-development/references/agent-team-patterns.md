@@ -33,7 +33,8 @@ BASE="projects/{proyecto}"
 SPEC_FILE="$BASE/specs/{sprint}/{spec_filename}.spec.md"
 LOG_FILE="output/agent-runs/$(date +%Y%m%d-%H%M%S)-{task_id}-single.log"
 
-claude --model claude-opus-4-7 \
+HEAVY_MODEL="$(savia_resolve_model heavy)"
+claude --model "$HEAVY_MODEL" \
   --system-prompt "$(cat $BASE/CLAUDE.md)" \
   --max-turns 40 \
   "Implementa la siguiente Spec exactamente como se describe.
@@ -79,7 +80,7 @@ SPEC_FILE="$BASE/specs/{sprint}/{spec_filename}.spec.md"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 
 # Agente 1: Implementador — solo código de producción, sin tests
-claude --model claude-opus-4-7 \
+claude --model $(savia_resolve_model heavy) \
   --system-prompt "Eres un desarrollador .NET 8 senior especializado en Clean Architecture y CQRS.
 Tu único rol es implementar el código de PRODUCCIÓN de la Spec:
 - Ficheros en src/ (NO tests/)
@@ -93,7 +94,7 @@ $(cat $BASE/CLAUDE.md)" \
 PID_IMPL=$!
 
 # Agente 2: Tester — solo tests, usando la interfaz definida en la Spec
-claude --model claude-haiku-4-5-20251001 \
+claude --model $(savia_resolve_model fast) \
   --system-prompt "Eres un QA engineer senior especializado en .NET y xUnit.
 Tu único rol es escribir los TESTS descritos en la Spec:
 - Ficheros en tests/ (NO src/)
@@ -155,7 +156,7 @@ wait $PID_IMPL $PID_TEST
 IMPL_LOG="output/agent-runs/${TIMESTAMP}-{task_id}-implementador.log"
 TEST_LOG="output/agent-runs/${TIMESTAMP}-{task_id}-tester.log"
 
-claude --model claude-opus-4-7 \
+claude --model $(savia_resolve_model heavy) \
   --system-prompt "Eres un Tech Lead .NET revisando código generado por agentes IA.
 Tu rol es SOLO revisar y reportar — NO modificar código.
 Busca específicamente:
@@ -240,7 +241,7 @@ for ROLE in "api" "application" "infrastructure" "tests"; do
       ;;
   esac
 
-  claude --model claude-opus-4-7 \
+  claude --model $(savia_resolve_model heavy) \
     --system-prompt "$SYSTEM_PROMPT. $ROLE_PROMPT" \
     "$(cat $SPEC_FILE)" \
     2>&1 | tee "output/agent-runs/${TIMESTAMP}-{task_id}-${ROLE}.log" &
@@ -281,7 +282,7 @@ for SPEC_FILE in $SPRINT_DIR/*.spec.md; do
   fi
 
   echo "🚀 Lanzando agente para: $SPEC_BASENAME"
-  claude --model claude-opus-4-7 \
+  claude --model $(savia_resolve_model heavy) \
     --system-prompt "$(cat $BASE/CLAUDE.md)" \
     --max-turns 30 \
     "Implementa esta Spec exactamente. No tomes decisiones fuera de la Spec.
@@ -311,7 +312,7 @@ Cuando dos agentes modifican el mismo fichero (ej: `DependencyInjection.cs`), pu
 **Opción B — Merge post-ejecución:**
 ```bash
 # Después de que todos los agentes terminen, un agente merger resuelve conflictos
-claude --model claude-haiku-4-5-20251001 \
+claude --model $(savia_resolve_model fast) \
   "Revisa los siguientes ficheros que han sido creados por múltiples agentes
    y fusiona los cambios en DependencyInjection.cs sin perder registros de ningún agente:
 
@@ -343,7 +344,7 @@ output/agent-runs/
 TIMESTAMP="20260404-143022"
 TASK_ID="AB1234"
 
-claude --model claude-haiku-4-5-20251001 \
+claude --model $(savia_resolve_model fast) \
   "Analiza los siguientes logs de ejecución de agentes y genera un resumen en formato markdown:
    - Estado de cada agente (completado/bloqueado/error)
    - Ficheros creados/modificados
@@ -369,8 +370,8 @@ cat "output/agent-runs/${TIMESTAMP}-${TASK_ID}-summary.md"
 | `full-stack` | 4 | 25-40 c/u | ~180K total | ~90K total | ~$1.80 |
 | `parallel-handlers` (5 specs) | 5 | 20-30 c/u | ~200K total | ~120K total | ~$2.50 |
 
-*Estimaciones con claude-opus-4-7 a $15/MTok input, $75/MTok output.
-El patrón `tester` usa claude-haiku que es ~20x más barato.*
+*Estimaciones con $(savia_resolve_model heavy) a $15/MTok input, $75/MTok output.
+El patrón `tester` usa fast-tier que es ~20x más barato.*
 
 ---
 

@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-05-04
+
+### Fixed
+- fork-agents.sh: tier names (heavy/mid/fast) resolved to provider model ID before passing to Claude CLI, fixing "mid, model not found" error.
+- compress-agent-output.sh: vendor model replaced with `$(savia_resolve_model fast)` tier resolution.
+- agent-invocation.md, agent-team-patterns.md: vendor model names replaced with tier resolution calls.
+- pr-agent-judge/SKILL.md: PR_AGENT_MODEL default now 'mid' tier instead of hardcoded vendor model.
+
 ## [6.14.1] — 2026-05-02
 
 Era 64 — Provider-agnostic hardening: API endpoints, hooks audit, docs.

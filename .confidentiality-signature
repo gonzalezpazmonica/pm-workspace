@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2cbdf17443249c0bf36f5b59fa44af7b6e36561ad2a0dcd1f2674db2f7dce113
-timestamp=2026-05-04T07:04:07Z
-branch=feature/spec-127-tier-models
-head_commit=cc781f50
-signature=87fd37aee2b13e1e7611b2513f3e2bc232b602643cfd5a6b0ebd2987c7a4e56e
+diff_hash=4643096bd8cd341d7aae26b89b181337ae19708b3a7ef201cc07bb371589a1dc
+timestamp=2026-05-04T11:18:24Z
+branch=fix/mid-model-not-found-opencode-migration
+head_commit=0b3858ef
+signature=21e770119ebd6fbaacba6cca242d7a14306cd98221e9994078e325d773bb9f46

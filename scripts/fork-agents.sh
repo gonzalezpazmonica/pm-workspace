@@ -32,6 +32,20 @@ if [[ -f "${SCRIPT_DIR}/savia-env.sh" ]]; then
 fi
 readonly DEFAULT_MODEL="${SAVIA_MODEL_MID:-deepseek/deepseek-chat}"
 
+# Resolve tier names (heavy/mid/fast) or legacy short names (sonnet/opus/haiku)
+# to the user's provider model ID via ~/.savia/preferences.yaml.
+resolve_fork_model() {
+  local raw="$1"
+  case "$raw" in
+    heavy|mid|fast|opus|sonnet|haiku)
+      savia_resolve_model "$raw" 2>/dev/null || echo "$raw"
+      ;;
+    *)
+      echo "$raw"
+      ;;
+  esac
+}
+
 # Context windows por modelo (tokens). 80% = limite para prefijo.
 # Key convention: CTX_<model_with_underscores>. Falls back to 200000 token default.
 readonly CTX_claude_sonnet_4_6=200000
@@ -294,6 +308,8 @@ generate_summary() {
 # ── Main ──────────────────────────────────────────────────────────────────────
 main() {
   parse_args "$@"
+  # Resolve tier names (heavy/mid/fast) to provider model ID
+  MODEL="$(resolve_fork_model "$MODEL")"
 
   # --verify-cache: solo imprime hash y sale
   if [[ "${VERIFY_CACHE}" == "true" ]]; then
