@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2d55f339f7ebe0d3d4e80badf6b7772932c4d42a7aaa52a68a2831eb6d1620a8
-timestamp=2026-05-04T10:47:37Z
+diff_hash=4643096bd8cd341d7aae26b89b181337ae19708b3a7ef201cc07bb371589a1dc
+timestamp=2026-05-04T11:18:24Z
 branch=fix/mid-model-not-found-opencode-migration
-head_commit=e345aa06
-signature=640d0ba4bd5a8182daf9fdf58446766a473fcaa0b2a9c266ef48e2ede8dbcd68
+head_commit=0b3858ef
+signature=21e770119ebd6fbaacba6cca242d7a14306cd98221e9994078e325d773bb9f46
