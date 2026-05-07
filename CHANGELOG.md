@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] — 2026-05-04
 
+### Changed
+- install.sh, install.ps1: default SAVIA_HOME ~/claude → ~/savia. Install OpenCode instead of Claude Code.
+- .opencode/install.sh, .opencode/install.ps1: thin wrappers delegating to root installers.
+- Documentation (27 files, es + en): all paths and references migrated from Claude Code to OpenCode.
+- setup scripts: hardcoded ~/claude paths replaced with dynamic workspace detection.
+
+
 ### Fixed
 - fork-agents.sh: tier names (heavy/mid/fast) resolved to provider model ID before passing to Claude CLI, fixing "mid, model not found" error.
 - compress-agent-output.sh: vendor model replaced with `$(savia_resolve_model fast)` tier resolution.
