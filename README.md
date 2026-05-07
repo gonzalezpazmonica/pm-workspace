@@ -24,7 +24,7 @@ Los sprints se descontrolan. El backlog crece sin priorizar. Los informes para d
 curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
 
 # 2. Abre Claude Code en el directorio
-cd pm-workspace && claude
+cd pm-workspace && opencode
 
 # 3. Savia te saluda y te pregunta tu nombre. Después:
 /sprint-status          # ← tu primer comando

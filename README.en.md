@@ -24,7 +24,7 @@ Sprints go off track. Backlogs grow without prioritization. Executive reports ar
 curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
 
 # 2. Open Claude Code in the directory
-cd pm-workspace && claude
+cd pm-workspace && opencode
 
 # 3. Savia greets you and asks your name. Then:
 /sprint-status          # ← your first command

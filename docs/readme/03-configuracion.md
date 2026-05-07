@@ -2,7 +2,7 @@
 
 ## Requisitos previos
 
-- [Claude Code](https://docs.claude.ai/claude-code) instalado y autenticado (`claude --versión`)
+- [OpenCode instalado y configurado (`opencode --version`)
 - [Azure CLI](https://docs.microsoft.com/es-es/cli/azure/install-azure-cli) con extensión `az devops`
 - Node.js ≥ 18 (para scripts de reporting)
 - Python ≥ 3.10 (para capacity calculator)
@@ -57,7 +57,7 @@ chmod +x scripts/azdevops-queries.sh
 
 ```bash
 # Siempre desde la raíz del workspace (donde está el CLAUDE.md y la carpeta .claude/)
-cd ~/claude    # o el directorio donde hayas clonado el repositorio
+cd ~/savia    # o el directorio donde hayas clonado el repositorio
 claude
 ```
 

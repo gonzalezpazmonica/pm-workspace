@@ -1,9 +1,9 @@
 # Estructura del Workspace
 
-> **Nota:** El directorio raíz del workspace (`~/claude/`) **es** el repositorio. Se trabaja siempre desde la raíz. El `.gitignore` gestiona qué queda privado (proyectos reales, credenciales, configuración local).
+> **Nota:** El directorio raíz del workspace (`~/savia/`) **es** el repositorio. Se trabaja siempre desde la raíz. El `.gitignore` gestiona qué queda privado (proyectos reales, credenciales, configuración local).
 
 ```
-~/claude/                        ← Raíz de trabajo Y repositorio GitHub
+~/savia/                        ← Raíz de trabajo Y repositorio GitHub
 ├── CLAUDE.md                    ← Punto de entrada de Claude Code (≤150 líneas)
 ├── .claudeignore                ← Excluye worktrees y languages de carga automática
 ├── .gitignore                   ← Privacidad: proyectos reales, secrets, local config

@@ -1,11 +1,10 @@
 #!/bin/bash
-# install.sh — One-line installer for PM-Workspace (Savia)
+# install.sh — One-line installer for PM-Workspace (Savia) with OpenCode
 # Usage: curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
 #
 # Environment variables:
-#   SAVIA_HOME    — Installation directory (default: ~/claude)
+#   SAVIA_HOME    — Installation directory (default: ~/savia)
 #   SKIP_TESTS    — Set to 1 to skip smoke tests
-#   SKIP_CLAUDE   — Set to 1 to skip Claude Code installation
 
 set -euo pipefail
 trap 'echo ""; echo "❌ Installation failed at line $LINENO. Run with bash -x for details."; exit 1' ERR
@@ -31,9 +30,8 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
   echo "  --help, -h      Show this help message"
   echo ""
   echo "Environment variables:"
-  echo "  SAVIA_HOME      Installation directory (default: ~/claude)"
+  echo "  SAVIA_HOME      Installation directory (default: ~/savia)"
   echo "  SKIP_TESTS      Set to 1 to skip smoke tests"
-  echo "  SKIP_CLAUDE     Set to 1 to skip Claude Code installation"
   echo ""
   echo "Exit codes:"
   echo "  0  Success"
@@ -150,38 +148,36 @@ if [[ "$MISSING" -eq 1 ]]; then
   exit 1
 fi
 
-# --- Step 3: Claude Code -------------------------------------------------------
-step 3 "Checking Claude Code..."
+# --- Step 3: OpenCode ----------------------------------------------------------
+step 3 "Checking OpenCode..."
 
-if [[ "${SKIP_CLAUDE:-0}" == "1" ]]; then
-  warn "Skipping Claude Code installation (SKIP_CLAUDE=1)"
-elif command -v claude &>/dev/null; then
-  ok "Claude Code already installed ($(claude --version 2>/dev/null || echo 'found'))"
+if command -v opencode &>/dev/null; then
+  OC_VER=$(opencode --version 2>/dev/null | head -1 | tr -d '[:space:]')
+  ok "OpenCode already installed (${OC_VER:-found})"
 else
-  info "Claude Code not found — installing..."
-  # Download installer to temp file and verify checksum before execution
-  TEMP_INSTALL=$(mktemp)
-  trap "rm -f '$TEMP_INSTALL'" EXIT
-  if curl -fsSL https://claude.ai/install.sh -o "$TEMP_INSTALL"; then
-    # Verify SHA-256 checksum before execution
-    # Note: npm CI (used by Claude Code) handles package integrity verification
-    # This is acceptable for npm-based installation as it uses npm's built-in signing
-    if sh "$TEMP_INSTALL"; then
-      ok "Claude Code installed"
+  info "OpenCode not found — installing..."
+  if command -v npm &>/dev/null; then
+    if npm install -g @opencode-ai/cli 2>/dev/null; then
+      ok "OpenCode installed via npm"
     else
-      warn "Claude Code installation failed — you can install it later:"
-      echo "    curl -fsSL https://claude.ai/install.sh | sh"
+      warn "npm install failed — trying binary download..."
+      if [[ -f "$SAVIA_HOME/scripts/opencode-install.sh" ]]; then
+        bash "$SAVIA_HOME/scripts/opencode-install.sh" && ok "OpenCode installed via binary" || warn "OpenCode binary install failed"
+      else
+        warn "OpenCode installer not available yet — install manually:"
+        echo "    npm install -g @opencode-ai/cli"
+      fi
     fi
   else
-    warn "Claude Code installation failed — you can install it later:"
-    echo "    curl -fsSL https://claude.ai/install.sh | sh"
+    warn "npm not found — install OpenCode manually:"
+    echo "    npm install -g @opencode-ai/cli"
   fi
 fi
 
 # --- Step 4: Clone PM-Workspace ------------------------------------------------
 step 4 "Setting up PM-Workspace..."
 
-SAVIA_HOME="${SAVIA_HOME:-$HOME/claude}"
+SAVIA_HOME="${SAVIA_HOME:-$HOME/savia}"
 REPO_URL="https://github.com/gonzalezpazmonica/pm-workspace.git"
 
 if [[ -d "$SAVIA_HOME/.git" ]]; then
@@ -220,17 +216,28 @@ else
   warn "No package.json found in scripts/ — skipping npm install"
 fi
 
-# --- Step 6: Claude Code permissions --------------------------------------------
-step 6 "Configuring Claude Code permissions..."
+# --- Step 6: OpenCode configuration -------------------------------------------
+step 6 "Configuring OpenCode..."
 
-if [[ -f "$SAVIA_HOME/scripts/setup-claude-permissions.sh" ]]; then
-  if bash "$SAVIA_HOME/scripts/setup-claude-permissions.sh"; then
-    ok "Claude Code permissions configured"
+if command -v opencode &>/dev/null; then
+  # Initialize opencode.json if not present
+  if [[ ! -f "$SAVIA_HOME/opencode.json" ]]; then
+    if [[ -f "$SAVIA_HOME/scripts/opencode-install.sh" ]]; then
+      bash "$SAVIA_HOME/scripts/opencode-install.sh" 2>/dev/null && ok "OpenCode workspace configured" || warn "opencode.json setup had warnings"
+    else
+      warn "opencode-install.sh not found — skipping workspace config"
+    fi
   else
-    warn "Permission setup had warnings (you can re-run: bash scripts/setup-claude-permissions.sh)"
+    ok "OpenCode workspace already configured"
+  fi
+
+  # Run preferences init if not done
+  if [[ ! -f "$HOME/.savia/preferences.yaml" ]]; then
+    info "Running savia-preferences.sh init..."
+    bash "$SAVIA_HOME/scripts/savia-preferences.sh" init 2>/dev/null || warn "preferences init skipped (run manually: bash scripts/savia-preferences.sh init)"
   fi
 else
-  warn "setup-claude-permissions.sh not found — skipping"
+  warn "OpenCode not found — skipping configuration"
 fi
 
 # --- Step 7: Savia Bridge Setup -----------------------------------------------
@@ -387,10 +394,11 @@ echo -e "${BOLD}═════════════════════�
 echo ""
 echo "  Next steps:"
 echo ""
-echo "    cd $SAVIA_HOME && claude"
+echo "    cd $SAVIA_HOME && opencode"
 echo ""
-echo "  First time? Claude will open your browser to authenticate."
-echo "  Then say: \"Hola Savia\" or run any command like /sprint:status"
+echo "  First time? Run the interactive setup:"
+echo "    opencode"
+echo "  Then say: \"Hola Savia\" or run any command like /savia-goal status"
 echo ""
 echo "  Mobile app setup:"
 echo "    1. Install Savia mobile app from App Store/Play Store"

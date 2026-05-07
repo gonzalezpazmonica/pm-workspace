@@ -33,7 +33,7 @@ irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/.openc
 1. **Clonar e instalar** (ver instaladores arriba)
 2. **Inicializar entorno PM**:
    ```bash
-   cd ~/claude/.opencode
+   cd ~/savia/.opencode
    source init‑pm.sh
    ```
 3. **Abrir OpenCode**:
@@ -86,19 +86,19 @@ export AZURE_DEVOPS_EXT_PAT=$(cat ~/.azure/devops‑pat)
 
 ### 3. Dependencias Node.js
 ```bash
-cd ~/claude/scripts && npm install
+cd ~/savia/scripts && npm install
 ```
 
 ## 🧪 Ejecutar tests
 
 ```bash
-cd ~/claude/.opencode
+cd ~/savia/.opencode
 bash run‑all‑tests.sh        # Ejecuta todos los scripts test-*.sh
 ```
 
 Para tests individuales:
 ```bash
-cd ~/claude
+cd ~/savia
 bash scripts/test‑workspace.sh --mock      # Suite completa (modo mock)
 bash tests/run‑all.sh                      # Tests BATS (hooks)
 ```
@@ -124,7 +124,7 @@ Ejemplo: **`/sprint‑status sala‑reservas`**
 
 1. **Leer el comando**:
    ```bash
-   read ~/claude/.claude/commands/sprint‑status.md
+   read ~/savia/.claude/commands/sprint‑status.md
    ```
 2. **Seguir sus instrucciones** (generalmente):
    - Cargar skill `azure‑devops‑queries`
@@ -139,7 +139,7 @@ Ejemplo: **`/sprint‑status sala‑reservas`**
 ### “No se encuentra el PAT”
 ```bash
 export AZURE_DEVOPS_PAT_FILE="$HOME/.azure/devops‑pat"
-source ~/claude/.opencode/init‑pm.sh
+source ~/savia/.opencode/init‑pm.sh
 ```
 
 ### “Comando az no encontrado”
@@ -148,7 +148,7 @@ Instalar Azure CLI o usar modo `--mock` en los tests.
 ### “Error al cargar skill”
 Verificar que el enlace `.claude/` existe:
 ```bash
-ls -la ~/claude/.opencode/.claude
+ls -la ~/savia/.opencode/.claude
 ```
 
 ### “Los hooks no se ejecutan”
@@ -178,7 +178,7 @@ En Claude Code, estos hooks se ejecutan automáticamente gracias al archivo `.cl
 
 ```bash
 # Instalar (una vez)
-cd ~/claude/.opencode
+cd ~/savia/.opencode
 bash scripts/install‑git‑hooks.sh
 ```
 

@@ -64,12 +64,13 @@ if [[ ! -f "$SCM_INDEX" ]] || \
 fi
 
 # Memory hygiene
-for mh_path in "$HOME/claude/scripts/memory-hygiene.sh" "./scripts/memory-hygiene.sh"; do
+WORKSPACE="${SAVIA_WORKSPACE_DIR:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
+for mh_path in "${WORKSPACE}/scripts/memory-hygiene.sh" "./scripts/memory-hygiene.sh"; do
   [ -f "$mh_path" ] && bash "$mh_path" >/dev/null 2>&1 && break
 done
 
 # Context rotation
-for cr_path in "$HOME/claude/scripts/context-rotation.sh" "./scripts/context-rotation.sh"; do
+for cr_path in "${WORKSPACE}/scripts/context-rotation.sh" "./scripts/context-rotation.sh"; do
   if [ -f "$cr_path" ]; then
     bash "$cr_path" daily >/dev/null 2>&1 || true
     DOW=$(date +%u)

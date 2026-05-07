@@ -1,9 +1,9 @@
 # Workspace Structure
 
-> **Note:** The workspace root (`~/claude/`) **is** the repository. Always work from the root. `.gitignore` manages what stays private (real projects, credentials, local config).
+> **Note:** The workspace root (`~/savia/`) **is** the repository. Always work from the root. `.gitignore` manages what stays private (real projects, credentials, local config).
 
 ```
-~/claude/                        ← Working root AND GitHub repository
+~/savia/                        ← Working root AND GitHub repository
 ├── CLAUDE.md                    ← Claude Code entry point (≤150 lines)
 ├── .claudeignore                ← Excludes worktrees and languages from auto-loading
 ├── .gitignore                   ← Privacy: real projects, secrets, local config
