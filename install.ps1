@@ -1,4 +1,4 @@
-# install.ps1 — One-line installer for PM-Workspace (Savia) on Windows
+# install.ps1 — One-line installer for PM-Workspace (Savia) on Windows with OpenCode
 # Usage: irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.ps1 | iex
 #
 # ⚠️  SECURITY WARNING: This script is piped directly to PowerShell execution (irm|iex).
@@ -7,9 +7,8 @@
 #     Do NOT run from untrusted or modified URLs.
 #
 # Environment variables:
-#   SAVIA_HOME    — Installation directory (default: ~\claude)
+#   SAVIA_HOME    — Installation directory (default: ~\savia)
 #   SKIP_TESTS    — Set to 1 to skip smoke tests
-#   SKIP_CLAUDE   — Set to 1 to skip Claude Code installation
 
 $ErrorActionPreference = "Stop"
 
@@ -33,9 +32,8 @@ if ($args -contains "--help" -or $args -contains "-h") {
     Write-Host "  --help, -h      Show this help message"
     Write-Host ""
     Write-Host "Environment variables:"
-    Write-Host "  SAVIA_HOME      Installation directory (default: ~\claude)"
+    Write-Host "  SAVIA_HOME      Installation directory (default: ~\savia)"
     Write-Host "  SKIP_TESTS      Set to 1 to skip smoke tests"
-    Write-Host "  SKIP_CLAUDE     Set to 1 to skip Claude Code installation"
     Write-Host ""
     Write-Host "Exit codes: 0 Success, 1 Missing prereqs, 2 Network error, 3 Cancelled"
     exit 0
@@ -187,39 +185,31 @@ if ($Missing -eq 1) {
     exit 1
 }
 
-# --- Step 3: Claude Code -------------------------------------------------------
-Write-Step 3 "Checking Claude Code..."
+# --- Step 3: OpenCode ----------------------------------------------------------
+Write-Step 3 "Checking OpenCode..."
 
-if ($env:SKIP_CLAUDE -eq "1") {
-    Write-Warn "Skipping Claude Code installation (SKIP_CLAUDE=1)"
-} elseif (Get-Command claude -ErrorAction SilentlyContinue) {
-    $claudeVer = try { claude --version 2>&1 } catch { "found" }
-    Write-Ok "Claude Code already installed ($claudeVer)"
+if (Get-Command opencode -ErrorAction SilentlyContinue) {
+    $ocVer = try { opencode --version 2>&1 | Select-Object -First 1 } catch { "found" }
+    Write-Ok "OpenCode already installed ($ocVer)"
 } else {
-    Write-Info "Claude Code not found - installing..."
+    Write-Info "OpenCode not found - installing..."
     try {
-        irm https://claude.ai/install.ps1 | iex
-        # Add Claude Code to PATH if not already there
-        $claudeBinDir = Join-Path $env:USERPROFILE ".local\bin"
-        if (Test-Path $claudeBinDir) {
-            $currentUserPath = [Environment]::GetEnvironmentVariable('Path', 'User')
-            if ($currentUserPath -notlike "*$claudeBinDir*") {
-                [Environment]::SetEnvironmentVariable('Path', "$currentUserPath;$claudeBinDir", 'User')
-                Write-Ok "Added $claudeBinDir to user PATH"
-            }
+        npm install -g @opencode-ai/cli 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            Write-Ok "OpenCode installed via npm"
+        } else {
+            throw "npm install failed"
         }
-        Refresh-Path
-        Write-Ok "Claude Code installed"
     } catch {
-        Write-Warn "Claude Code installation failed. Install it later:"
-        Write-Host "    irm https://claude.ai/install.ps1 | iex"
+        Write-Warn "OpenCode installation failed. Install it later:"
+        Write-Host "    npm install -g @opencode-ai/cli"
     }
 }
 
 # --- Step 4: Clone PM-Workspace ------------------------------------------------
 Write-Step 4 "Setting up PM-Workspace..."
 
-$SaviaHome = if ($env:SAVIA_HOME) { $env:SAVIA_HOME } else { Join-Path $HOME "claude" }
+$SaviaHome = if ($env:SAVIA_HOME) { $env:SAVIA_HOME } else { Join-Path $HOME "savia" }
 $RepoUrl = "https://github.com/gonzalezpazmonica/pm-workspace.git"
 
 # Detect if running from inside the repo already
@@ -246,9 +236,9 @@ if ($RunningFromRepo) {
         }
     }
 } elseif (Test-Path $SaviaHome) {
-    # ~/claude exists but is not a git repo (e.g. Claude Code created it)
+    # ~/savia exists but is not a git repo
     $SaviaHome = Join-Path $HOME "pm-workspace"
-    Write-Info "$HOME\claude exists but is not pm-workspace. Using $SaviaHome instead..."
+    Write-Info "$HOME\savia exists but is not pm-workspace. Using $SaviaHome instead..."
     if (Test-Path (Join-Path $SaviaHome ".git")) {
         Write-Ok "Found existing pm-workspace at $SaviaHome"
     } else {
@@ -418,10 +408,11 @@ Write-Host ""
 Write-Host "  Next steps:"
 Write-Host ""
 Write-Host "    cd $SaviaHome" -ForegroundColor White
-Write-Host "    claude" -ForegroundColor White
+Write-Host "    opencode" -ForegroundColor White
 Write-Host ""
-Write-Host "  First time? Claude will open your browser to authenticate."
-Write-Host "  Then say: `"Hola Savia`" or run any command like /sprint:status"
+Write-Host "  First time? Run the interactive setup:"
+Write-Host "    opencode"
+Write-Host "  Then say: `"Hola Savia`" or run any command like /savia-goal status"
 Write-Host ""
 Write-Host "  Mobile app setup:"
 Write-Host "    1. Install Savia mobile app from App Store/Play Store"

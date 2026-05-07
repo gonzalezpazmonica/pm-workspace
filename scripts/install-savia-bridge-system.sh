@@ -26,9 +26,10 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-USER_NAME="monica"
-USER_HOME="/home/${USER_NAME}"
-REPO_DIR="${USER_HOME}/claude"
+USER_NAME="${SUDO_USER:-$USER}"
+USER_HOME=$(eval echo "~$USER_NAME")
+WORKSPACE_ROOT="${SAVIA_WORKSPACE_DIR:-${USER_HOME}/savia}"
+REPO_DIR="${WORKSPACE_ROOT}"
 BRIDGE_PY="${REPO_DIR}/scripts/savia-bridge.py"
 SYSTEM_UNIT="/etc/systemd/system/savia-bridge.service"
 USER_UNIT="${USER_HOME}/.config/systemd/user/savia-bridge.service"

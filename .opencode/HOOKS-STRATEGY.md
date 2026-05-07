@@ -118,7 +118,7 @@ Un script `validate‑before‑tool.sh` que reciba el nombre de la herramienta y
 
 ### Instalar hooks de Git
 ```bash
-cd ~/claude/.opencode
+cd ~/savia/.opencode
 bash scripts/install‑git‑hooks.sh
 ```
 

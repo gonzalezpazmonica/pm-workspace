@@ -12,7 +12,7 @@ set -euo pipefail
 
 SAVIA_USER="savia"
 SAVIA_HOME="/home/${SAVIA_USER}"
-CLAUDE_DIR="${SAVIA_HOME}/claude"
+SAVIA_DIR="${SAVIA_HOME}/savia"
 LOG_DIR="${SAVIA_HOME}/.savia"
 PUBKEY_FILE="${1:-}"
 
@@ -66,14 +66,14 @@ fi
 mkdir -p "${LOG_DIR}"
 chown -R "${SAVIA_USER}:${SAVIA_USER}" "${LOG_DIR}"
 # ── Claude directory (symlink or clone) ───────────────────────────────────────
-if [[ ! -d "${CLAUDE_DIR}" ]]; then
-  # If the main ~/claude repo exists, create a symlink (read-only reference)
-  MAIN_CLAUDE="$(eval echo ~"$(logname 2>/dev/null || echo monica)")/claude"
-  if [[ -d "${MAIN_CLAUDE}" ]]; then
-    ln -s "${MAIN_CLAUDE}" "${CLAUDE_DIR}"
-    echo "✅ Symlinked ${CLAUDE_DIR} → ${MAIN_CLAUDE}"
+if [[ ! -d "${SAVIA_DIR}" ]]; then
+  # If the main ~/savia repo exists, create a symlink (read-only reference)
+  MAIN_SAVIA="$(eval echo ~"$(logname 2>/dev/null || echo monica)")/savia"
+  if [[ -d "${MAIN_SAVIA}" ]]; then
+    ln -s "${MAIN_SAVIA}" "${SAVIA_DIR}"
+    echo "✅ Symlinked ${SAVIA_DIR} → ${MAIN_SAVIA}"
   else
-    echo "⚠️  ${CLAUDE_DIR} not found. Create it manually or clone the repo."
+    echo "⚠️  ${SAVIA_DIR} not found. Create it manually or clone the repo."
   fi
 fi
 
@@ -101,18 +101,17 @@ set -euo pipefail
 CMD="${1:-}"
 case "${CMD}" in
   "echo ok")
-    echo "ok" ;;
-  "pgrep -f 'claude' | head -1")
-    pgrep -f 'claude' | head -1 || true ;;
+     echo "ok" ;;
+  "pgrep -f 'opencode' | head -1")
+    pgrep -f 'opencode' | head -1 || pgrep -f 'claude' | head -1 || true ;;
   "pkill -f 'savia-bridge' 2>/dev/null; sleep 1")
     pkill -f 'savia-bridge' 2>/dev/null || true; sleep 1 ;;
-  "cd ~/claude && nohup bash scripts/start-bridge.sh </dev/null >~/.savia/bridge.log 2>&1 &")
-    cd ~/claude && nohup bash scripts/start-bridge.sh \
+  "cd ~/savia && nohup bash scripts/start-bridge.sh </dev/null >~/.savia/bridge.log 2>&1 &")
+    cd ~/savia && nohup bash scripts/start-bridge.sh \
       </dev/null >"${HOME}/.savia/bridge.log" 2>&1 & ;;
-  "cd ~/claude && timeout 30 claude -p 'SaviaClaw latido: confirma que estás activa.' --output-format text 2>&1 | tail -3")
-    cd ~/claude && timeout 30 claude -p \
-      'SaviaClaw latido: confirma que estás activa.' \
-      --output-format text 2>&1 | tail -3 ;;
+  "cd ~/savia && timeout 30 opencode run 'SaviaClaw latido: confirma que estás activa.' 2>&1 | tail -3")
+    cd ~/savia && timeout 30 opencode run \
+      'SaviaClaw latido: confirma que estás activa.' 2>&1 | tail -3 ;;
   "uptime | awk '{print $NF}'")
     uptime | awk '{print $NF}' ;;
   *)

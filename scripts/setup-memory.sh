@@ -7,7 +7,7 @@
 set -euo pipefail
 
 PROJECT_NAME="${1:-$(basename "$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")")}"
-MEMORY_DIR="$HOME/.claude/projects/$PROJECT_NAME/memory"
+MEMORY_DIR="${SAVIA_MEMORY_DIR:-$HOME/.savia/projects/$PROJECT_NAME/memory}"
 
 echo "══════════════════════════════════════════════════════"
 echo "  Setup Auto Memory — $PROJECT_NAME"
