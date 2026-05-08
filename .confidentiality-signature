@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=de6e28e25be5b20ad4de3874d28ff28b106d90242782973c0875b08d793de976
-timestamp=2026-05-08T11:19:10Z
+diff_hash=b413cda1a87ff6c6e2ee819c2a16199e99c9dbafff18f28d690cfb39787a0c2b
+timestamp=2026-05-08T11:51:03Z
 branch=feat/obsidian-context-as-code-and-opencode-native-port
-head_commit=93f2f073
-signature=f528ed426907b22bbd31ec20e8ab0e50c98ad36fbed4e97197c89e71af270d7f
+head_commit=bb3cd74a
+signature=40e31c0baa9ad8d392eb56d2b83ba4d6f2093a3fb3178bf0d327528f85d338c3
