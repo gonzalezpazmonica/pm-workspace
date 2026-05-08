@@ -19,7 +19,7 @@ Suite de auditores read-only, cada uno con responsabilidad única:
 
 1. **Counter drift** — CLAUDE.md vs filesystem (agents/skills/hooks)
 2. **Manifest integrity** — INDEX.md apunta a ficheros que existen
-3. **Catalog sync** — agents-catalog vs `.claude/agents/` real
+3. **Catalog sync** — agents-catalog vs `.opencode/agents/` real
 4. **Orphan detection** — reglas sin referencias cruzadas
 5. **Size audit** — agents > umbral líneas con plan de split
 6. **Baseline metrics** — re-leveling tras cambios estructurales
@@ -65,7 +65,7 @@ audit:
 ## Nota sobre contadores (batch 24 learning)
 
 El contador de "skills" varía según método:
-- `ls -d .claude/skills/*/` → 83 (solo directorios)
+- `ls -d .opencode/skills/*/` → 83 (solo directorios)
 - `find .claude/skills -maxdepth 1` → incluye ficheros (más alto)
 - Drift auditor externo puede contar distinto según implementación
 

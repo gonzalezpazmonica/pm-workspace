@@ -3,7 +3,7 @@ name: report-verify
 description: Convene the Truth Tribunal (7 judges) to evaluate a report's reliability
 argument-hint: "<report-path> [--force]"
 allowed-tools: [Read, Write, Bash, Task, Glob, Grep]
-model: heavy
+model: github-copilot/claude-opus-4.7
 context_cost: medium
 ---
 
@@ -74,4 +74,4 @@ CRC:      {report}.truth.crc
 - SPEC-106 — `docs/propuestas/SPEC-106-truth-tribunal-report-reliability.md`
 - Rule — `docs/rules/domain/truth-tribunal-weights.md`
 - Script — `scripts/truth-tribunal.sh`
-- Orchestrator — `.claude/agents/truth-tribunal-orchestrator.md`
+- Orchestrator — `.opencode/agents/truth-tribunal-orchestrator.md`

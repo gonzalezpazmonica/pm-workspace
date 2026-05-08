@@ -19,13 +19,13 @@ setup() {
 {
   "hooks": {
     "PreToolUse": [
-      {"matcher":"Bash","hooks":[{"type":"command","command":"\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-credential-leak.sh"}]}
+      {"matcher":"Bash","hooks":[{"type":"command","command":"\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/block-credential-leak.sh"}]}
     ],
     "PostToolUse": [
-      {"matcher":"Read","hooks":[{"type":"command","command":"\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/acm-turn-marker.sh"}]}
+      {"matcher":"Read","hooks":[{"type":"command","command":"\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/acm-turn-marker.sh"}]}
     ],
     "Stop": [
-      {"hooks":[{"type":"command","command":"\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-end-snapshot.sh"}]}
+      {"hooks":[{"type":"command","command":"\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-end-snapshot.sh"}]}
     ]
   }
 }

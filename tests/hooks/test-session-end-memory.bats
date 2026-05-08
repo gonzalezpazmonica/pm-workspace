@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # tests/hooks/test-session-end-memory.bats — SPEC-013: fast session-end extraction
 
-HOOK="$BATS_TEST_DIRNAME/../../.claude/hooks/session-end-memory.sh"
+HOOK="$BATS_TEST_DIRNAME/../../.opencode/hooks/session-end-memory.sh"
 
 setup() {
   export TMPDIR_TEST="$BATS_TEST_TMPDIR/session-end-$$"

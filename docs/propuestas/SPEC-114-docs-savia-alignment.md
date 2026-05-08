@@ -35,10 +35,10 @@ Ficheros: `README.md`, `README.en.md`, `README.pt.md`, `README.fr.md`, `README.g
 ### 2. Refs stale a skills borradas
 
 - `.opencode/CLAUDE.md:103`: `predictive-analytics` → `enterprise-analytics` (skill viva que absorbió funcionalidad Monte Carlo).
-- `.claude/agents/coherence-validator.md:18`: skill `coherence-check` eliminada → `skills: []` (el agent sigue funcionando vía `/check-coherence` command).
+- `.opencode/agents/coherence-validator.md:18`: skill `coherence-check` eliminada → `skills: []` (el agent sigue funcionando vía `/check-coherence` command).
 - `docs/quick-starts/quick-start-qa.md:67` y `docs/quick-starts_en/quick-start-qa.md:67`: directorio `skills/coherence-check/` → referencia a `commands/check-coherence.md`.
 - `docs/propuestas/SPEC-046-visual-diff-qa-merge.md:5`: dependencia `visual-quality skill` → `visual-qa command`.
-- `.claude/commands/spec-verify-ui.md:131`: comentario "es coherence-check" → "es check-coherence".
+- `.opencode/commands/spec-verify-ui.md:131`: comentario "es coherence-check" → "es check-coherence".
 
 ## Implementation
 

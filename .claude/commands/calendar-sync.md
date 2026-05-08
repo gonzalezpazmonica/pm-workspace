@@ -3,13 +3,13 @@ name: calendar-sync
 description: "Sincronizar calendario Outlook/Teams via Microsoft Graph API"
 argument-hint: "[--project nombre] [--days 7]"
 allowed-tools: [Read, Bash, Glob, Grep]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /calendar-sync — Sincronizar Calendario
 
-Ejecutar skill: `@.claude/skills/smart-calendar/SKILL.md`
+Ejecutar skill: `@.opencode/skills/smart-calendar/SKILL.md`
 
 ## Prerequisitos
 

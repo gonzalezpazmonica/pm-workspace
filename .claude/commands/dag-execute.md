@@ -4,7 +4,7 @@ description: Ejecutar pipeline SDD con agentes en paralelo según DAG
 context_cost: high
 developer_type: all
 agent: developer
-model: heavy
+model: github-copilot/claude-opus-4.7
 ---
 
 # /dag-execute {task-id|spec-path}

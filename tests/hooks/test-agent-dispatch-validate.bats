@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/agent-dispatch-validate.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/agent-dispatch-validate.sh"
   export CLAUDE_PROJECT_DIR="$PWD"
   export SAVIA_HOOK_PROFILE=strict
 }
@@ -43,12 +43,12 @@ run_hook() {
 # ── Context 1: Creating commands ──
 
 @test "BLOCKS command creation without frontmatter name mention" {
-  run_hook '{"tool_name":"Task","tool_input":{"prompt":"Create a new file in .claude/commands/my-cmd.md with description field","subagent_type":"general-purpose"}}'
+  run_hook '{"tool_name":"Task","tool_input":{"prompt":"Create a new file in .opencode/commands/my-cmd.md with description field","subagent_type":"general-purpose"}}'
   [ "$status" -eq 2 ]
 }
 
 @test "command creation with name and description passes" {
-  run_hook '{"tool_name":"Task","tool_input":{"prompt":"Create a new command in .claude/commands/my-cmd.md with frontmatter including name and description fields. Use existing command as example.","subagent_type":"general-purpose"}}'
+  run_hook '{"tool_name":"Task","tool_input":{"prompt":"Create a new command in .opencode/commands/my-cmd.md with frontmatter including name and description fields. Use existing command as example.","subagent_type":"general-purpose"}}'
   [ "$status" -eq 0 ]
 }
 
@@ -67,7 +67,7 @@ run_hook() {
 # ── Context 3: Creating skills (warnings only) ──
 
 @test "skill creation without line limit passes with warning" {
-  run_hook '{"tool_name":"Task","tool_input":{"prompt":"Create a new skill in .claude/skills/my-skill/SKILL.md","subagent_type":"general-purpose"}}'
+  run_hook '{"tool_name":"Task","tool_input":{"prompt":"Create a new skill in .opencode/skills/my-skill/SKILL.md","subagent_type":"general-purpose"}}'
   [ "$status" -eq 0 ]
 }
 
@@ -102,10 +102,10 @@ run_hook() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/agent-dispatch-validate.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/agent-dispatch-validate.sh"
 }
 
 @test "edge: empty input produces no error" {
-  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.claude/hooks/validate-bash-global.sh' 2>&1"
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.opencode/hooks/validate-bash-global.sh' 2>&1"
   [ "$status" -eq 0 ]
 }

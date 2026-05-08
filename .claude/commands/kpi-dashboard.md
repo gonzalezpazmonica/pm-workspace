@@ -1,7 +1,7 @@
 ---
 name: kpi-dashboard
 description: Muestra el dashboard completo con todos los KPIs definidos en docs/kpis-equipo.md.
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 

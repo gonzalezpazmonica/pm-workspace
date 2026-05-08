@@ -10,7 +10,7 @@ setup() {
   ENT_DIR="$REPO_ROOT/.claude/enterprise"
   SCRIPT="scripts/validate-layer-contract.sh"
   VALIDATOR="$REPO_ROOT/$SCRIPT"
-  HOOK="$REPO_ROOT/.claude/hooks/validate-layer-contract.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/validate-layer-contract.sh"
   SETTINGS="$REPO_ROOT/.claude/settings.json"
   EXT_POINTS="$REPO_ROOT/docs/propuestas/savia-enterprise/extension-points.md"
   SPEC="$REPO_ROOT/docs/propuestas/savia-enterprise/SPEC-SE-001-foundations.md"
@@ -68,22 +68,22 @@ teardown() {
 
 @test "AC-2: validator detects Core→Enterprise import (positive)" {
   # Create a fake Core file referencing enterprise
-  bad_file="$TMPDIR_F/.claude/agents/bogus.md"
+  bad_file="$TMPDIR_F/.opencode/agents/bogus.md"
   mkdir -p "$(dirname "$bad_file")"
   echo "@.claude/enterprise/agents/foo" > "$bad_file"
   # Run validator on this single file from a subshell with PROJECT_DIR override
   cd "$TMPDIR_F" && cp "$VALIDATOR" "scripts/validate-layer-contract.sh" 2>/dev/null || mkdir -p scripts && cp "$VALIDATOR" scripts/
-  run env CLAUDE_PROJECT_DIR="$TMPDIR_F" bash "$TMPDIR_F/scripts/validate-layer-contract.sh" ".claude/agents/bogus.md"
+  run env CLAUDE_PROJECT_DIR="$TMPDIR_F" bash "$TMPDIR_F/scripts/validate-layer-contract.sh" ".opencode/agents/bogus.md"
   [ "$status" -eq 1 ]
   [[ "$output" == *"VIOLATION"* ]]
 }
 
 @test "AC-2: validator passes on clean Core (negative — no false positive)" {
-  clean_file="$TMPDIR_F/.claude/agents/clean.md"
+  clean_file="$TMPDIR_F/.opencode/agents/clean.md"
   mkdir -p "$(dirname "$clean_file")"
   echo "Just a normal agent referencing @docs/rules/domain/foo.md" > "$clean_file"
   mkdir -p "$TMPDIR_F/scripts" && cp "$VALIDATOR" "$TMPDIR_F/scripts/"
-  run env CLAUDE_PROJECT_DIR="$TMPDIR_F" bash "$TMPDIR_F/scripts/validate-layer-contract.sh" ".claude/agents/clean.md"
+  run env CLAUDE_PROJECT_DIR="$TMPDIR_F" bash "$TMPDIR_F/scripts/validate-layer-contract.sh" ".opencode/agents/clean.md"
   [ "$status" -eq 0 ]
 }
 

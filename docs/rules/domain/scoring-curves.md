@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/code-audit*", ".claude/commands/sprint-review*"]
+globs: [".opencode/commands/code-audit*", ".opencode/commands/sprint-review*"]
 ---
 # Scoring Curves — Piecewise Linear Normalization
 

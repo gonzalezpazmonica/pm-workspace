@@ -3,7 +3,7 @@ name: memory-rotate
 description: Execute context rotation manually — daily, weekly, monthly cycles
 argument-hint: "[daily|weekly|monthly|status]"
 context_cost: low
-model: fast
+model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read]
 ---
 

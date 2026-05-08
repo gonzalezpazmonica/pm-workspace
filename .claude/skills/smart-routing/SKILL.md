@@ -95,9 +95,9 @@ categories:
   admin: [plugin-*, agent-*, profile-*, config-*]
 
 usage_tracking: data/tool-usage.jsonl
-command_metadata: .claude/commands/*.md
-skill_metadata: .claude/skills/*/SKILL.md
-agent_metadata: .claude/agents/*.md
+command_metadata: .opencode/commands/*.md
+skill_metadata: .opencode/skills/*/SKILL.md
+agent_metadata: .opencode/agents/*.md
 ```
 
 ## Integration Points

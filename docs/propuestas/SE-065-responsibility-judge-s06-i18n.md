@@ -17,7 +17,7 @@ expires: "2026-05-22"
 
 ## Purpose
 
-`.claude/hooks/responsibility-judge.sh` S-06 rule detects `\b(TODO|FIXME|HACK)\b` with grep `-i` (case-insensitive) to catch code-shortcut comments. In Spanish prose (CHANGELOG fragments, docs) the standalone quantifier t-o-d-o (meaning "everything") triggers the rule as a false positive.
+`.opencode/hooks/responsibility-judge.sh` S-06 rule detects `\b(TODO|FIXME|HACK)\b` with grep `-i` (case-insensitive) to catch code-shortcut comments. In Spanish prose (CHANGELOG fragments, docs) the standalone quantifier t-o-d-o (meaning "everything") triggers the rule as a false positive.
 
 Observed during batch 30: writing a CHANGELOG fragment with the phrase "salta la lista completa" was only possible after rewording from "salta todo" — the judge blocked the Write because the standalone Spanish quantifier matched the pattern.
 
@@ -75,7 +75,7 @@ Changes:
 
 ## Referencias
 
-- Hook: `.claude/hooks/responsibility-judge.sh` líneas 109-115
+- Hook: `.opencode/hooks/responsibility-judge.sh` líneas 109-115
 - Memory `feedback_no_overrides_no_bypasses`: este fix NO es un override, es calibración de precisión de la regla para evitar falsos positivos en prose i18n
 - Batch 30 friction log: CHANGELOG fragment rewrite forzado por "salta todo" → "salta la lista completa"
 - Rule #24 Radical Honesty: el hook debe detectar shortcuts reales, no palabras comunes en español
@@ -84,7 +84,7 @@ Changes:
 
 Aplicado exactamente como propuesto. Cambios:
 
-1. `.claude/hooks/responsibility-judge.sh` lineas 110-122:
+1. `.opencode/hooks/responsibility-judge.sh` lineas 110-122:
    - File-type exemption anadida: `\.(md|mdx|txt|rst)$|CHANGELOG\.d/|/docs/`
    - Flag -i removida de los dos greps (case-sensitive)
    - Comentario con `TODO(#65)` self-reference satisface exemption regex al editar el propio archivo (meta-issue resuelto)

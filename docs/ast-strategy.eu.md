@@ -326,14 +326,14 @@ Sorrera (/codemap:generate-human) → Giza balioztapena → Aktibo
 
 ## Erreferentziak
 
-- Ulermen-skill: `.claude/skills/ast-comprehension/SKILL.md`
-- Kalitate-skill: `.claude/skills/ast-quality-gate/SKILL.md`
-- Ulermen-hook: `.claude/hooks/ast-comprehend-hook.sh`
-- Kalitate-hook: `.claude/hooks/ast-quality-gate-hook.sh`
+- Ulermen-skill: `.opencode/skills/ast-comprehension/SKILL.md`
+- Kalitate-skill: `.opencode/skills/ast-quality-gate/SKILL.md`
+- Ulermen-hook: `.opencode/hooks/ast-comprehend-hook.sh`
+- Kalitate-hook: `.opencode/hooks/ast-quality-gate-hook.sh`
 - Ulermen-scripta: `scripts/ast-comprehend.sh`
 - Kalitate-scripta: `scripts/ast-quality-gate.sh`
-- Kode-mapen skill: `.claude/skills/agent-code-map/SKILL.md`
+- Kode-mapen skill: `.opencode/skills/agent-code-map/SKILL.md`
 - Giza mapen araua: `docs/rules/domain/hcm-maps.md`
-- Giza mapen skill: `.claude/skills/human-code-map/SKILL.md`
+- Giza mapen skill: `.opencode/skills/human-code-map/SKILL.md`
 - Workspace-mapak: `.human-maps/`
 - Proiektuen mapak: `projects/*/.human-maps/*.hcm`

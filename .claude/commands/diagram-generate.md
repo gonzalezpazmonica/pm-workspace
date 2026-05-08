@@ -44,7 +44,7 @@ Leer en este orden (Progressive Disclosure):
 1. **Validar proyecto** — Verificar que `projects/{proyecto}/` existe y tiene `CLAUDE.md`
 
 2. **Invocar la skill** completa:
-   → `.claude/skills/diagram-generation/SKILL.md`
+   → `.opencode/skills/diagram-generation/SKILL.md`
 
 3. **Fase 1 — Detectar componentes**:
    - Escanear fuentes del proyecto (IaC, código, docs)

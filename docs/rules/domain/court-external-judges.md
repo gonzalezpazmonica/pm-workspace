@@ -77,7 +77,7 @@ Cambiar flag a `false`. Siguiente PR no invoca al externo. Comments previos pers
 ## Referencias
 
 - `SPEC-124` — pr-agent wrapper como 5º juez
-- `.claude/agents/court-orchestrator.md` — orchestrator del Court
+- `.opencode/agents/court-orchestrator.md` — orchestrator del Court
 - `.github/workflows/templates/pr-agent-review.yml` — workflow reusable
 - `scripts/pr-agent-run.sh` — wrapper CLI
 - `docs/agent-teams-sdd.md` — Court arquitectura interna (4 jueces)

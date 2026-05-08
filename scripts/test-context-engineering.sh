@@ -32,15 +32,15 @@ test_cmd_exists() {
 
 # Section 1: Command Files Exist
 test_section "Section 1: Command Files Exist"
-test_cmd_exists "$REPO_ROOT/.claude/commands/context-budget.md"
-test_cmd_exists "$REPO_ROOT/.claude/commands/context-defer.md"
-test_cmd_exists "$REPO_ROOT/.claude/commands/context-profile.md"
-test_cmd_exists "$REPO_ROOT/.claude/commands/context-compress.md"
+test_cmd_exists "$REPO_ROOT/.opencode/commands/context-budget.md"
+test_cmd_exists "$REPO_ROOT/.opencode/commands/context-defer.md"
+test_cmd_exists "$REPO_ROOT/.opencode/commands/context-profile.md"
+test_cmd_exists "$REPO_ROOT/.opencode/commands/context-compress.md"
 
 # Section 2: Frontmatter Validation
 test_section "Section 2: Frontmatter Validation"
 for cmd in context-budget context-defer context-profile context-compress; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   if grep -q "^name: ${cmd}$" "$file" && \
      grep -q "^developer_type: all" "$file" && \
      grep -q "^agent: task" "$file" && \
@@ -56,7 +56,7 @@ done
 # Section 3: Line Count Validation
 test_section "Section 3: Line Count Validation (≤ 150 lines)"
 for cmd in context-budget context-defer context-profile context-compress; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   count=$(wc -l < "$file")
   if [ "$count" -le 150 ]; then
     echo "  ✅ $cmd: $count lines (≤ 150)"
@@ -69,7 +69,7 @@ done
 
 # Section 4: Key Concepts
 test_section "Section 4: Key Concepts Validation"
-if grep -q "tokens" "$REPO_ROOT/.claude/commands/context-budget.md"; then
+if grep -q "tokens" "$REPO_ROOT/.opencode/commands/context-budget.md"; then
   echo "  ✅ context-budget contains 'tokens'"
   ((TESTS_PASSED++))
 else
@@ -77,7 +77,7 @@ else
   ((TESTS_FAILED++))
 fi
 
-if grep -q "defer" "$REPO_ROOT/.claude/commands/context-defer.md"; then
+if grep -q "defer" "$REPO_ROOT/.opencode/commands/context-defer.md"; then
   echo "  ✅ context-defer contains 'defer'"
   ((TESTS_PASSED++))
 else
@@ -85,7 +85,7 @@ else
   ((TESTS_FAILED++))
 fi
 
-if grep -q "profile" "$REPO_ROOT/.claude/commands/context-profile.md"; then
+if grep -q "profile" "$REPO_ROOT/.opencode/commands/context-profile.md"; then
   echo "  ✅ context-profile contains 'profile'"
   ((TESTS_PASSED++))
 else
@@ -93,7 +93,7 @@ else
   ((TESTS_FAILED++))
 fi
 
-if grep -q "compress" "$REPO_ROOT/.claude/commands/context-compress.md"; then
+if grep -q "compress" "$REPO_ROOT/.opencode/commands/context-compress.md"; then
   echo "  ✅ context-compress contains 'compress'"
   ((TESTS_PASSED++))
 else
@@ -103,7 +103,7 @@ fi
 
 # Section 5: Integration
 test_section "Section 5: Integration References"
-if grep -q "context-defer" "$REPO_ROOT/.claude/commands/context-budget.md"; then
+if grep -q "context-defer" "$REPO_ROOT/.opencode/commands/context-budget.md"; then
   echo "  ✅ context-budget references context-defer"
   ((TESTS_PASSED++))
 else
@@ -158,7 +158,7 @@ fi
 
 # Section 8: Command Count
 test_section "Section 8: Total Command Count (≥210)"
-ACTUAL=$(ls "$REPO_ROOT/.claude/commands/"*.md 2>/dev/null | wc -l)
+ACTUAL=$(ls "$REPO_ROOT/.opencode/commands/"*.md 2>/dev/null | wc -l)
 if [ "$ACTUAL" -ge 210 ]; then
   echo "  ✅ Command count: $ACTUAL (≥210)"
   ((TESTS_PASSED++))

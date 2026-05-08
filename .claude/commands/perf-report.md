@@ -23,7 +23,7 @@ context_cost: medium
 ## Prerequisitos
 
 - Al menos un informe de `/perf-audit` en `output/performance/`
-- Cargar skill: `@.claude/skills/performance-audit/SKILL.md`
+- Cargar skill: `@.opencode/skills/performance-audit/SKILL.md`
 
 ## Ejecución (4 pasos)
 

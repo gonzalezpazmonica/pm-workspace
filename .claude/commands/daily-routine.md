@@ -4,7 +4,7 @@ description: Rutina diaria adaptativa según el rol del usuario — Savia sugier
 developer_type: all
 agent: none
 context_cost: low
-model: mid
+model: github-copilot/claude-sonnet-4.5
 ---
 
 # /daily-routine

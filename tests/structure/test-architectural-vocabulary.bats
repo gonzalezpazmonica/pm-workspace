@@ -10,11 +10,11 @@ setup() {
   SCRIPT="scripts/architectural-vocabulary-audit.sh"
   AUDITOR_ABS="$ROOT_DIR/$SCRIPT"
   VOCAB_DOC="$ROOT_DIR/docs/rules/domain/architectural-vocabulary.md"
-  TDD_SKILL="$ROOT_DIR/.claude/skills/tdd-vertical-slices/SKILL.md"
-  TDD_DOMAIN="$ROOT_DIR/.claude/skills/tdd-vertical-slices/DOMAIN.md"
-  ARCHITECT="$ROOT_DIR/.claude/agents/architect.md"
-  AJUDGE="$ROOT_DIR/.claude/agents/architecture-judge.md"
-  TARCHITECT="$ROOT_DIR/.claude/agents/test-architect.md"
+  TDD_SKILL="$ROOT_DIR/.opencode/skills/tdd-vertical-slices/SKILL.md"
+  TDD_DOMAIN="$ROOT_DIR/.opencode/skills/tdd-vertical-slices/DOMAIN.md"
+  ARCHITECT="$ROOT_DIR/.opencode/agents/architect.md"
+  AJUDGE="$ROOT_DIR/.opencode/agents/architecture-judge.md"
+  TARCHITECT="$ROOT_DIR/.opencode/agents/test-architect.md"
   ANCHOR="$ROOT_DIR/docs/rules/domain/attention-anchor.md"
   TMPDIR_T=$(mktemp -d)
 }

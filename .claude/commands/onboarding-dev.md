@@ -9,7 +9,7 @@ Onboarding técnico completo para nuevos desarrolladores. Auto-genera documentac
 
 ## 1. Cargar configuración
 
-1. Leer `.claude/skills/onboarding-dev/SKILL.md` — flujo completo y guardarraíles
+1. Leer `.opencode/skills/onboarding-dev/SKILL.md` — flujo completo y guardarraíles
 2. Leer `projects/{proyecto}/CLAUDE.md` — contexto del proyecto
 3. Leer `equipo.md` — miembros actuales
 

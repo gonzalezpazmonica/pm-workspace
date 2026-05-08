@@ -1,7 +1,7 @@
 ---
 name: ci-health
 description: Muestra tasa de fallo de pipelines CI a partir del log local de ejecuciones.
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 allowed-tools: [Bash]
 argument-hint: "[--days N]"

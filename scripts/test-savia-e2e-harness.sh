@@ -124,7 +124,7 @@ echo "9️⃣  Era 18 Integration"
 
 # Era 18 commands can be parsed by mock engine
 for cmd in aepd-compliance excel-report savia-gallery adoption-assess; do
-  if [ -f "$REPO_ROOT/.claude/commands/${cmd}.md" ]; then
+  if [ -f "$REPO_ROOT/.opencode/commands/${cmd}.md" ]; then
     ok "Era18 command ${cmd} exists for harness"
   else
     fail "Era18 command ${cmd} missing"

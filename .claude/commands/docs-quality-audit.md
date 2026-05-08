@@ -3,13 +3,13 @@ name: docs-quality-audit
 description: "Auditar calidad de documentacion basada en feedback de agentes"
 argument-hint: "[--threshold 30] [--period 30d]"
 allowed-tools: [Read, Glob, Grep, Bash]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /docs-quality-audit — Auditar Calidad de Docs
 
-Ejecutar skill: `@.claude/skills/doc-quality-feedback/SKILL.md`
+Ejecutar skill: `@.opencode/skills/doc-quality-feedback/SKILL.md`
 
 ## Flujo
 

@@ -27,7 +27,7 @@ clients/{slug}/
 
 ```yaml
 ---
-name: "Acme Corporation"
+name: "AcmeCorporation"
 slug: "acme-corp"
 sector: "fintech"
 since: "2026-03"
@@ -85,7 +85,7 @@ Reglas:
 5. Colapsar `-` consecutivos
 6. Trim de `-` al inicio y final
 
-Ejemplos: `Acme Corp` → `acme-corp`, `José María S.L.` → `jose-maria-sl`
+Ejemplos: `Acme Corp` → `acme-corp`, `Bob Smith Ltd` → `jose-maria-sl`
 
 ## Índice de clientes (.index.md)
 

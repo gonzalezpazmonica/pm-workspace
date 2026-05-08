@@ -33,7 +33,7 @@ irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/.openc
 1. **Clonar e instalar** (ver instaladores arriba)
 2. **Inicializar entorno PM**:
    ```bash
-   cd ~/savia/.opencode
+   cd ~/claude/.opencode
    source init‑pm.sh
    ```
 3. **Abrir OpenCode**:
@@ -47,7 +47,7 @@ irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/.openc
    /skill spec‑driven‑development
    ```
 5. **Seguir flujos manualmente**:
-   - Los comandos slash (400+) están en `.claude/commands/`
+   - Los comandos slash (400+) están en `.opencode/commands/`
    - Lee el `.md` correspondiente y ejecuta sus pasos con las herramientas de OpenCode (Bash, Read, Grep, Task, etc.)
 
 ## 📁 Estructura del directorio `.opencode`
@@ -86,19 +86,19 @@ export AZURE_DEVOPS_EXT_PAT=$(cat ~/.azure/devops‑pat)
 
 ### 3. Dependencias Node.js
 ```bash
-cd ~/savia/scripts && npm install
+cd ~/claude/scripts && npm install
 ```
 
 ## 🧪 Ejecutar tests
 
 ```bash
-cd ~/savia/.opencode
+cd ~/claude/.opencode
 bash run‑all‑tests.sh        # Ejecuta todos los scripts test-*.sh
 ```
 
 Para tests individuales:
 ```bash
-cd ~/savia
+cd ~/claude
 bash scripts/test‑workspace.sh --mock      # Suite completa (modo mock)
 bash tests/run‑all.sh                      # Tests BATS (hooks)
 ```
@@ -116,7 +116,7 @@ Carga cualquier skill con `/skill <nombre>`:
 - `executive‑reporting` – Informes ejecutivos
 - `product‑discovery` – Descubrimiento de producto (JTBD/PRD)
 - `diagram‑generation` – Generación de diagramas
-- … y 34 más (ver `.claude/skills/`)
+- … y 34 más (ver `.opencode/skills/`)
 
 ## 📚 Cómo usar un comando slash manualmente
 
@@ -124,7 +124,7 @@ Ejemplo: **`/sprint‑status sala‑reservas`**
 
 1. **Leer el comando**:
    ```bash
-   read ~/savia/.claude/commands/sprint‑status.md
+   read ~/claude/.opencode/commands/sprint‑status.md
    ```
 2. **Seguir sus instrucciones** (generalmente):
    - Cargar skill `azure‑devops‑queries`
@@ -139,7 +139,7 @@ Ejemplo: **`/sprint‑status sala‑reservas`**
 ### “No se encuentra el PAT”
 ```bash
 export AZURE_DEVOPS_PAT_FILE="$HOME/.azure/devops‑pat"
-source ~/savia/.opencode/init‑pm.sh
+source ~/claude/.opencode/init‑pm.sh
 ```
 
 ### “Comando az no encontrado”
@@ -148,7 +148,7 @@ Instalar Azure CLI o usar modo `--mock` en los tests.
 ### “Error al cargar skill”
 Verificar que el enlace `.claude/` existe:
 ```bash
-ls -la ~/savia/.opencode/.claude
+ls -la ~/claude/.opencode/.claude
 ```
 
 ### “Los hooks no se ejecutan”
@@ -178,7 +178,7 @@ En Claude Code, estos hooks se ejecutan automáticamente gracias al archivo `.cl
 
 ```bash
 # Instalar (una vez)
-cd ~/savia/.opencode
+cd ~/claude/.opencode
 bash scripts/install‑git‑hooks.sh
 ```
 
@@ -216,7 +216,7 @@ bash .opencode/scripts/opencode‑hooks/wrappers/safe‑edit.sh src/app.js
 
 3. **Wrappers opcionales**: Los wrappers **no reemplazan** las herramientas de OpenCode; son scripts auxiliares que tú invocas voluntariamente. Si no los usas, OpenCode funciona igual, solo que sin validaciones adicionales.
 
-4. **Hooks originales intactos**: Los scripts de hooks originales (en `.claude/hooks/`) **no se modifican**. Claude Code los sigue ejecutando automáticamente cuando corresponde. Los wrappers y Git hooks simplemente **los reutilizan** pasándoles el JSON esperado.
+4. **Hooks originales intactos**: Los scripts de hooks originales (en `.opencode/hooks/`) **no se modifican**. Claude Code los sigue ejecutando automáticamente cuando corresponde. Los wrappers y Git hooks simplemente **los reutilizan** pasándoles el JSON esperado.
 
 5. **Separación de responsabilidades**: La adaptación para OpenCode **no toca** ningún archivo que Claude Code utilice. Es una capa adicional que se activa solo cuando trabajas con OpenCode.
 

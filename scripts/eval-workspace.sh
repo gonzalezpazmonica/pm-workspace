@@ -48,8 +48,8 @@ check_lines_le() {
 }
 
 check_command_exists() {
-    if [[ -f ".claude/commands/$1.md" ]]; then pass "Comando /$1 existe"; return 0
-    else fail "Comando /$1" "fichero .claude/commands/$1.md no encontrado"; return 1; fi
+    if [[ -f ".opencode/commands/$1.md" ]]; then pass "Comando /$1 existe"; return 0
+    else fail "Comando /$1" "fichero .opencode/commands/$1.md no encontrado"; return 1; fi
 }
 
 # ── Inicio ────────────────────────────────────────────────────────────────────
@@ -87,10 +87,10 @@ else
 fi
 
 # 1.4 Contar assets
-CMD_COUNT=$(ls .claude/commands/*.md 2>/dev/null | wc -l)
-AGENT_COUNT=$(ls .claude/agents/*.md 2>/dev/null | wc -l)
-HOOK_COUNT=$(ls .claude/hooks/*.sh 2>/dev/null | wc -l)
-SKILL_COUNT=$(ls -d .claude/skills/*/SKILL.md 2>/dev/null | wc -l)
+CMD_COUNT=$(ls .opencode/commands/*.md 2>/dev/null | wc -l)
+AGENT_COUNT=$(ls .opencode/agents/*.md 2>/dev/null | wc -l)
+HOOK_COUNT=$(ls .opencode/hooks/*.sh 2>/dev/null | wc -l)
+SKILL_COUNT=$(ls -d .opencode/skills/*/SKILL.md 2>/dev/null | wc -l)
 
 log "   Commands: $CMD_COUNT | Agents: $AGENT_COUNT | Hooks: $HOOK_COUNT | Skills: $SKILL_COUNT"
 echo "**Assets:** $CMD_COUNT commands, $AGENT_COUNT agents, $HOOK_COUNT hooks, $SKILL_COUNT skills" >> "$RESULTS_FILE"
@@ -101,21 +101,21 @@ section "2. Regla de 150 líneas"
 # ══════════════════════════════════════════════════════════════════════════════
 
 OVERSIZE=0
-for file in .claude/skills/*/SKILL.md; do
+for file in .opencode/skills/*/SKILL.md; do
     lines=$(wc -l < "$file" 2>/dev/null || echo 999)
     if [[ $lines -gt 150 ]]; then
         fail "150-líneas" "$(basename "$(dirname "$file")")/SKILL.md = $lines líneas"
         OVERSIZE=$((OVERSIZE+1))
     fi
 done
-for file in .claude/agents/*.md; do
+for file in .opencode/agents/*.md; do
     lines=$(wc -l < "$file" 2>/dev/null || echo 999)
     if [[ $lines -gt 150 ]]; then
         fail "150-líneas" "$(basename "$file") = $lines líneas"
         OVERSIZE=$((OVERSIZE+1))
     fi
 done
-for file in .claude/commands/*.md; do
+for file in .opencode/commands/*.md; do
     lines=$(wc -l < "$file" 2>/dev/null || echo 999)
     if [[ $lines -gt 150 ]]; then
         fail "150-líneas" "$(basename "$file") = $lines líneas"
@@ -137,7 +137,7 @@ section "3. Frontmatter y Metadatos"
 
 # 3.1 Commands con frontmatter
 FM_OK=0; FM_LEGACY=0; FM_BAD=0
-for file in .claude/commands/*.md; do
+for file in .opencode/commands/*.md; do
     if head -1 "$file" | grep -q "^---$"; then
         # Tiene frontmatter → verificar campos
         if grep -q "^name:" "$file" && grep -q "^description:" "$file"; then
@@ -154,7 +154,7 @@ log "   Frontmatter: $FM_OK ok, $FM_LEGACY legacy, $FM_BAD errores"
 if [[ $FM_BAD -eq 0 ]]; then pass "Frontmatter válido en todos los comandos con YAML ($FM_LEGACY legacy sin frontmatter)"; fi
 
 # 3.2 Skills con frontmatter
-for file in .claude/skills/*/SKILL.md; do
+for file in .opencode/skills/*/SKILL.md; do
     skill_name=$(basename "$(dirname "$file")")
     if head -1 "$file" | grep -q "^---$"; then
         if grep -q "^name:" "$file" && grep -q "^description:" "$file"; then
@@ -168,7 +168,7 @@ for file in .claude/skills/*/SKILL.md; do
 done
 
 # 3.3 developer_type usa guiones (no dos puntos)
-COLON_COUNT=$(grep -rl "agent:single\|agent:team" .claude/commands/ .claude/skills/ .claude/agents/ docs/rules/ 2>/dev/null | wc -l)
+COLON_COUNT=$(grep -rl "agent:single\|agent:team" .opencode/commands/ .opencode/skills/ .opencode/agents/ docs/rules/ 2>/dev/null | wc -l)
 if [[ $COLON_COUNT -eq 0 ]]; then
     pass "developer_type usa formato hyphen (agent-single) en todo el workspace"
 else
@@ -530,7 +530,7 @@ section "14. Cross-reference Consistency"
 
 # 14.1 CLAUDE.md command count matches reality
 CLAIMED_CMDS=$(grep -oP '← \K\d+(?= slash commands)' CLAUDE.md || echo "0")
-ACTUAL_CMDS=$(ls .claude/commands/*.md 2>/dev/null | wc -l)
+ACTUAL_CMDS=$(ls .opencode/commands/*.md 2>/dev/null | wc -l)
 if [[ "$CLAIMED_CMDS" == "$ACTUAL_CMDS" ]]; then
     pass "CLAUDE.md command count ($CLAIMED_CMDS) matches actual ($ACTUAL_CMDS)"
 else
@@ -539,7 +539,7 @@ fi
 
 # 14.2 Hook count consistency
 CLAIMED_HOOKS=$(grep -oP '← \K\d+(?= hooks)' CLAUDE.md || echo "0")
-ACTUAL_HOOKS=$(($(ls .claude/hooks/*.sh 2>/dev/null | wc -l) + 1))  # +1 por post-compaction en scripts/
+ACTUAL_HOOKS=$(($(ls .opencode/hooks/*.sh 2>/dev/null | wc -l) + 1))  # +1 por post-compaction en scripts/
 if [[ "$CLAIMED_HOOKS" == "$ACTUAL_HOOKS" ]]; then
     pass "CLAUDE.md hook count ($CLAIMED_HOOKS) matches actual ($ACTUAL_HOOKS)"
 else

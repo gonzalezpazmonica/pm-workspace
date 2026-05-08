@@ -3,7 +3,7 @@ name: legacy-assess
 description: >
   Evaluación de aplicaciones legacy: complejidad, coste de mantenimiento,
   rating de riesgo y roadmap de modernización (strangler fig pattern).
-model: heavy
+model: github-copilot/claude-opus-4.7
 context_cost: high
 ---
 
@@ -24,7 +24,7 @@ context_cost: high
 ## Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto
-2. `.claude/skills/azure-devops-queries/SKILL.md` — Queries si hay work items
+2. `.opencode/skills/azure-devops-queries/SKILL.md` — Queries si hay work items
 3. Acceso al repositorio del proyecto (Git clone o Azure Repos)
 
 ## Delegación a subagente

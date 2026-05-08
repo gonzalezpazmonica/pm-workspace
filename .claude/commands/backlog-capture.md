@@ -24,8 +24,8 @@ description: >
 ## Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto
-2. `.claude/skills/azure-devops-queries/SKILL.md` — Para crear work items
-3. `.claude/skills/pbi-decomposition/SKILL.md` — Formato PBI estándar
+2. `.opencode/skills/azure-devops-queries/SKILL.md` — Para crear work items
+3. `.opencode/skills/pbi-decomposition/SKILL.md` — Formato PBI estándar
 
 ## Pasos de ejecución
 

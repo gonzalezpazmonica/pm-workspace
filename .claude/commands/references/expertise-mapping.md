@@ -1,6 +1,6 @@
 # Expertise Mapping
 
-> Referencia rápida para comandos. Fuente de verdad: `.claude/skills/team-onboarding/SKILL.md`
+> Referencia rápida para comandos. Fuente de verdad: `.opencode/skills/team-onboarding/SKILL.md`
 
 ## Propósito
 Algoritmo para calcular perfil de expertise a partir de respuestas del cuestionario de competencias.
@@ -14,4 +14,4 @@ Algoritmo para calcular perfil de expertise a partir de respuestas del cuestiona
 - **Matriz de competencias**: Visualización del perfil completo del miembro
 
 ## Fuente completa
-Para la versión detallada con ejemplos: `.claude/skills/team-onboarding/SKILL.md`
+Para la versión detallada con ejemplos: `.opencode/skills/team-onboarding/SKILL.md`

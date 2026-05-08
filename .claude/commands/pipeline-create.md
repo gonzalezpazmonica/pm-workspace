@@ -34,7 +34,7 @@ description: >
 ## Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — Nombre del proyecto en DevOps, Language Pack
-2. `.claude/skills/azure-pipelines/SKILL.md` — Templates y patrones
+2. `.opencode/skills/azure-pipelines/SKILL.md` — Templates y patrones
 3. Skill `azure-pipelines` → `yaml-templates.md` — Templates YAML
 
 ## Pasos de ejecución

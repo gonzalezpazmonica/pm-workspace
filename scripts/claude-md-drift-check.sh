@@ -15,10 +15,10 @@ CLAUDE_MD="$ROOT/CLAUDE.md"
 [[ -f "$CLAUDE_MD" ]] || { echo "ERROR: CLAUDE.md not found"; exit 2; }
 
 # Real counts
-REAL_AGENTS=$(ls "$ROOT"/.claude/agents/*.md 2>/dev/null | wc -l)
-REAL_COMMANDS=$(ls "$ROOT"/.claude/commands/*.md 2>/dev/null | wc -l)
-REAL_SKILLS=$(ls "$ROOT"/.claude/skills/*/SKILL.md 2>/dev/null | wc -l)
-REAL_HOOKS=$(ls "$ROOT"/.claude/hooks/*.sh 2>/dev/null | wc -l)
+REAL_AGENTS=$(ls "$ROOT"/.opencode/agents/*.md 2>/dev/null | wc -l)
+REAL_COMMANDS=$(ls "$ROOT"/.opencode/commands/*.md 2>/dev/null | wc -l)
+REAL_SKILLS=$(ls "$ROOT"/.opencode/skills/*/SKILL.md 2>/dev/null | wc -l)
+REAL_HOOKS=$(ls "$ROOT"/.opencode/hooks/*.sh 2>/dev/null | wc -l)
 REAL_HOOK_REGS=$(python3 -c "
 import json
 try:

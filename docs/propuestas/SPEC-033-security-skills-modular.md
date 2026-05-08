@@ -34,7 +34,7 @@ según el stack tecnológico y tipo de aplicación del proyecto.
 ## Catálogo de skills de seguridad
 
 ```
-.claude/skills/security-testing/
+.opencode/skills/security-testing/
   SKILL.md                    -- Índice y protocolo de carga
   DOMAIN.md                   -- Clara Philosophy
   categories/

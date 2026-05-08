@@ -4,7 +4,7 @@ description: Dashboard de estado de todas las integraciones — APIs, webhooks, 
 developer_type: all
 agent: task
 context_cost: low
-model: fast
+model: github-copilot/claude-sonnet-4.5
 ---
 
 # /integration-status

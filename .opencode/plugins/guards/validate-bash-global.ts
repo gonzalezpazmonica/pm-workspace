@@ -1,6 +1,6 @@
 // validate-bash-global.ts — SPEC-127 Slice 2b-ii
 //
-// Port of `.claude/hooks/validate-bash-global.sh`. Blocks dangerous Bash
+// Port of `.opencode/hooks/validate-bash-global.sh`. Blocks dangerous Bash
 // commands: rm -rf /, chmod 777, curl | bash, sudo, gh pr review/merge
 // with auto-approve flags.
 //

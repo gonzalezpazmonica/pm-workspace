@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "types": []
+    "types": ["node", "bun"]
   },
   "include": ["plugins/**/*.ts"],
   "exclude": ["node_modules", "**/node_modules/**"]

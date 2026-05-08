@@ -27,7 +27,7 @@ Verifica conformidad con regulaciones clave de healthcare: HIPAA (Privacy Rule, 
 ### Paso 1 — Cargar vertical y contexto
 
 1. Leer `company/vertical.md` y verificar que el sector es healthcare
-2. Cargar reglas del skill: `@.claude/skills/regulatory-compliance/references/sector-healthcare.md`
+2. Cargar reglas del skill: `@.opencode/skills/regulatory-compliance/references/sector-healthcare.md`
 3. Detectar lenguaje principal del proyecto (C#, Python, TypeScript, Java, etc.)
 4. Localizar áreas con manipulación de PHI (Protected Health Information)
 
@@ -144,7 +144,7 @@ Guardar en: `output/healthcare-compliance-{fecha}.md`
 
 ## Integración
 
-- Skill: `@.claude/skills/regulatory-compliance/SKILL.md`
+- Skill: `@.opencode/skills/regulatory-compliance/SKILL.md`
 - Regla: `@docs/rules/domain/regulatory-compliance.md`
 - Comando relacionado: `/compliance-scan --sector healthcare`
 

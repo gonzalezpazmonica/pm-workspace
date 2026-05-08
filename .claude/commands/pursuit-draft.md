@@ -3,7 +3,7 @@ name: pursuit-draft
 description: Generate proposal sections from library assets for a pursuit
 argument-hint: "OPP-YYYY-NNN [--sections executive-summary,technical-approach]"
 context_cost: medium
-model: mid
+model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 ---
 

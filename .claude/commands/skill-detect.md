@@ -3,7 +3,7 @@ name: skill-detect
 description: Detect repeated patterns and propose new skills automatically
 argument-hint: "[scan|propose|refine|status]"
 context_cost: low
-model: fast
+model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read]
 ---
 
@@ -27,4 +27,4 @@ bash scripts/skill-detect.sh ${ARGUMENTS:-status}
 ```
 
 Mostrar output completo. Si el modo es `propose`, informar que el PM
-debe revisar y mover a `.claude/skills/` para activar.
+debe revisar y mover a `.opencode/skills/` para activar.

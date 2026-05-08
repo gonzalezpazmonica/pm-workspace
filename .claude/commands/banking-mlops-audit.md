@@ -15,7 +15,7 @@ context_cost: high
 ## Cargar perfil y skill
 
 Grupo: **Architecture & Tech** — cargar `identity.md` + `projects.md` + `preferences.md`.
-Skill: `@.claude/skills/banking-architecture/SKILL.md`
+Skill: `@.opencode/skills/banking-architecture/SKILL.md`
 
 ## Parámetros
 

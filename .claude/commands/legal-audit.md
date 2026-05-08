@@ -31,9 +31,9 @@ argument-hint: "[--project PROJECT] [--scope rules|contract|architecture|policy|
       (Clona 12.235 normas españolas consolidadas del BOE)
    ```
 
-2. Cargar skill: `@.claude/skills/legal-compliance/SKILL.md`
+2. Cargar skill: `@.opencode/skills/legal-compliance/SKILL.md`
 
-3. Cargar términos de dominio: `@.claude/skills/legal-compliance/references/domain-terms.md`
+3. Cargar términos de dominio: `@.opencode/skills/legal-compliance/references/domain-terms.md`
 
 ## Ejecución
 

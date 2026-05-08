@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # BATS tests for block-infra-destructive.sh
-# SCRIPT=.claude/hooks/block-infra-destructive.sh
+# SCRIPT=.opencode/hooks/block-infra-destructive.sh
 # SPEC: SPEC-081 — Hook test coverage
 
-SCRIPT=".claude/hooks/block-infra-destructive.sh"
+SCRIPT=".opencode/hooks/block-infra-destructive.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

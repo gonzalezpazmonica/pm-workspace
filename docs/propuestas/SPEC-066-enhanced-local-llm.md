@@ -92,8 +92,8 @@ fi
 
 1. **`scripts/emergency-setup.sh`** — Add VRAM detection, Tier 3 model download
 2. **`scripts/emergency-plan.sh`** — Add `--tier premium` to pre-download 27B model
-3. **`.claude/commands/emergency-mode.md`** — Document Tier 3 capabilities/requirements
-4. **`.claude/commands/emergency-plan.md`** — Add tier selection to plan command
+3. **`.opencode/commands/emergency-mode.md`** — Document Tier 3 capabilities/requirements
+4. **`.opencode/commands/emergency-plan.md`** — Add tier selection to plan command
 5. **`docs/rules/domain/data-sovereignty.md`** — Update model table (no Shield change)
 
 ### New files

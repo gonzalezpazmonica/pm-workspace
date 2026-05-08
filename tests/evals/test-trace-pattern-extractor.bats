@@ -126,5 +126,5 @@ assert 'agent-b' in agents, f'agent-b should be included with min=5, got {agents
 }
 
 @test "trace-optimize command exists" {
-  [ -f ".claude/commands/trace-optimize.md" ]
+  [ -f ".opencode/commands/trace-optimize.md" ]
 }

@@ -139,5 +139,5 @@ Used by:
 
 ## Related Skills
 
-- `.claude/skills/spec-driven-development/SKILL.md` — generates specs that feed this skill
-- `.claude/skills/code-review/SKILL.md` — uses comprehension as context for better reviews
+- `.opencode/skills/spec-driven-development/SKILL.md` — generates specs that feed this skill
+- `.opencode/skills/code-review/SKILL.md` — uses comprehension as context for better reviews

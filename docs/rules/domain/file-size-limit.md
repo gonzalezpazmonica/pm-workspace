@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/**", ".claude/agents/**", ".claude/skills/**", "docs/rules/**"]
+globs: [".opencode/commands/**", ".opencode/agents/**", ".opencode/skills/**", "docs/rules/**"]
 ---
 
 # Regla: Limite de 150 lineas — Solo configuracion del workspace
@@ -8,10 +8,10 @@ Aplica UNICAMENTE a ficheros .md de configuracion de pm-workspace. NO aplica a c
 
 ## Alcance (donde SI aplica)
 
-- `.claude/commands/*.md` — comandos slash
+- `.opencode/commands/*.md` — comandos slash
 - `docs/rules/**/*.md` — reglas de dominio y lenguaje
-- `.claude/skills/**/SKILL.md` — skills
-- `.claude/agents/*.md` — agentes
+- `.opencode/skills/**/SKILL.md` — skills
+- `.opencode/agents/*.md` — agentes
 - `CLAUDE.md` — raiz y por proyecto
 
 ## Donde NO aplica

@@ -38,8 +38,8 @@ bash scripts/cognitive-debt.sh forget --confirm
 | Componente | Qué hace | Estado |
 |---|---|---|
 | `scripts/cognitive-debt.sh` | enable / disable / status / summary / forget | Listo |
-| `.claude/hooks/cognitive-debt-telemetry.sh` (PostToolUse) | Async append a `~/.savia/cognitive-load/{user}.jsonl` por cada Edit/Write/Task | Listo, dormant hasta `enable` |
-| `.claude/hooks/cognitive-debt-hypothesis-first.sh` (PreToolUse) | Nudge stderr si los últimos 5 commits no tienen trailer `Hypothesis:` | Listo, **warning-only** (Phase 1) |
+| `.opencode/hooks/cognitive-debt-telemetry.sh` (PostToolUse) | Async append a `~/.savia/cognitive-load/{user}.jsonl` por cada Edit/Write/Task | Listo, dormant hasta `enable` |
+| `.opencode/hooks/cognitive-debt-hypothesis-first.sh` (PreToolUse) | Nudge stderr si los últimos 5 commits no tienen trailer `Hypothesis:` | Listo, **warning-only** (Phase 1) |
 | `/cognitive-status` command | Wrapper de `cognitive-debt.sh status + summary` | Listo |
 | `~/.savia/cognitive-load/` | Directorio per-user N3 (gitignored, mode 0700) | Creado en `enable` |
 

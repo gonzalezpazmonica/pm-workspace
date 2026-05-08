@@ -18,16 +18,16 @@ Subcommands: analyze, recommend, activate, history, tune
 
 ## Prerequisitos
 
-1. Verificar que `.claude/skills/` existe y contiene skills
+1. Verificar que `.opencode/skills/` existe y contiene skills
 2. Si se especifica proyecto, verificar que `projects/{proyecto}/` existe
-3. Cargar registro de activaciones: `.claude/skills/eval-registry.json`
+3. Cargar registro de activaciones: `.opencode/skills/eval-registry.json`
 
 ## Ejecución
 
 ### /skill-eval analyze {prompt}
 
 1. Banner: `══ /skill-eval analyze ══`
-2. Leer todos los SKILL.md en `.claude/skills/*/SKILL.md`
+2. Leer todos los SKILL.md en `.opencode/skills/*/SKILL.md`
 3. Extraer: name, description, context, agent de cada skill
 4. Analizar el prompt contra:
    - Keywords del description de cada skill

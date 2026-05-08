@@ -14,18 +14,18 @@ count_glob() {
 }
 
 # Gather stats
-COMMANDS=$(count_glob "$ROOT/.claude/commands/*.md")
-SKILLS=$(count_glob "$ROOT/.claude/skills/*/SKILL.md")
-AGENTS=$(count_glob "$ROOT/.claude/agents/*.md")
-HOOKS=$(count_glob "$ROOT/.claude/hooks/*.sh")
+COMMANDS=$(count_glob "$ROOT/.opencode/commands/*.md")
+SKILLS=$(count_glob "$ROOT/.opencode/skills/*/SKILL.md")
+AGENTS=$(count_glob "$ROOT/.opencode/agents/*.md")
+HOOKS=$(count_glob "$ROOT/.opencode/hooks/*.sh")
 RULES_DOMAIN=$(count_glob "$ROOT/docs/rules/domain/*.md")
 RULES_WORKFLOW=$(count_glob "$ROOT/docs/rules/workflow/*.md")
 TESTS=$(count_glob "$ROOT/tests/hooks/*.bats")
 TESTS_STRUCT=$(count_glob "$ROOT/tests/structure/*.bats")
 
-STABLE=$(grep -rl "^maturity: stable" "$ROOT/.claude/skills/"/*/SKILL.md 2>/dev/null | wc -l)
-BETA=$(grep -rl "^maturity: beta" "$ROOT/.claude/skills/"/*/SKILL.md 2>/dev/null | wc -l)
-ALPHA=$(grep -rl "^maturity: alpha" "$ROOT/.claude/skills/"/*/SKILL.md 2>/dev/null | wc -l)
+STABLE=$(grep -rl "^maturity: stable" "$ROOT/.opencode/skills/"/*/SKILL.md 2>/dev/null | wc -l)
+BETA=$(grep -rl "^maturity: beta" "$ROOT/.opencode/skills/"/*/SKILL.md 2>/dev/null | wc -l)
+ALPHA=$(grep -rl "^maturity: alpha" "$ROOT/.opencode/skills/"/*/SKILL.md 2>/dev/null | wc -l)
 
 if [ "$MODE" = "--summary" ]; then
   echo "═══════════════════════════════════════════════════"
@@ -92,7 +92,7 @@ elif [ "$MODE" = "--markdown" ]; then
 
   echo "## Commands (top 20 by category)"
   echo ""
-  for f in "$ROOT/.claude/commands/"*.md; do
+  for f in "$ROOT/.opencode/commands/"*.md; do
     [ -f "$f" ] || continue
     name=$(basename "$f" .md)
     desc=$(head -10 "$f" | grep "^description:" | sed 's/^description: *//' | head -1)

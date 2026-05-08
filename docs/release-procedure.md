@@ -16,9 +16,9 @@
 
 ## Paso 1 — Implementación
 
-1. Crear/modificar ficheros de comandos en `.claude/commands/`
+1. Crear/modificar ficheros de comandos en `.opencode/commands/`
 2. Verificar que cada fichero tiene frontmatter con `name:` y `description:`
-3. Verificar que ningún fichero excede 150 líneas: `wc -l .claude/commands/{nuevo}.md`
+3. Verificar que ningún fichero excede 150 líneas: `wc -l .opencode/commands/{nuevo}.md`
 
 ## Paso 2 — Actualizar meta ficheros
 

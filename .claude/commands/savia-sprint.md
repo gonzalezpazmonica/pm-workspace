@@ -5,7 +5,7 @@ description: >
   Sprints almacenados como carpetas en el company repo.
 argument-hint: "[start|close|status] [--project <name>]"
 allowed-tools: [Read, Bash, Glob]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 
@@ -17,8 +17,8 @@ context_cost: low
 
 ## Contexto requerido
 
-1. @.claude/skills/company-messaging/references/company-savia-config.md
-2. `.claude/skills/company-messaging/references/flow-schemas.md`
+1. @.opencode/skills/company-messaging/references/company-savia-config.md
+2. `.opencode/skills/company-messaging/references/flow-schemas.md`
 
 ## Pasos de ejecucion
 

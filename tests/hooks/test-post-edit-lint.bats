@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/post-edit-lint.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/post-edit-lint.sh"
   export TEST_TMPDIR="$TMPDIR"
   mkdir -p "$TEST_TMPDIR/src"
   cd "$TEST_TMPDIR"
@@ -29,7 +29,7 @@ make_input() {
 }
 
 @test "target has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/post-edit-lint.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/post-edit-lint.sh"
 }
 
 # ── Always exits 0 (never blocks) ──
@@ -143,5 +143,5 @@ EOF
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/post-edit-lint.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/post-edit-lint.sh"
 }

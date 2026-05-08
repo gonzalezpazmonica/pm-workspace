@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/config-reload.sh
+# BATS tests for .opencode/hooks/config-reload.sh
 # ConfigChange async — invalidates caches when settings change.
 # Ref: batch 50 hook coverage — SPEC-071 Slice 4
 
-HOOK=".claude/hooks/config-reload.sh"
+HOOK=".opencode/hooks/config-reload.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

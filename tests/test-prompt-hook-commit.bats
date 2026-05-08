@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/prompt-hook-commit.sh
+# BATS tests for .opencode/hooks/prompt-hook-commit.sh
 # Semantic validation of git commit messages vs staged diff.
 # Ref: batch 42 hook coverage
 
-HOOK=".claude/hooks/prompt-hook-commit.sh"
+HOOK=".opencode/hooks/prompt-hook-commit.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

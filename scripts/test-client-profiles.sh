@@ -15,7 +15,7 @@ echo "════════════════════════�
 # ── Section 1: Command file ────────────────────────────────────────────────
 echo ""
 echo "── Section 1: Command file ──"
-CMD=".claude/commands/client-profile.md"
+CMD=".opencode/commands/client-profile.md"
 check "Command exists" "[ -f $CMD ]"
 LINES=$(wc -l < "$CMD")
 check "Command within line limit ($LINES/150 lines)" "[ $LINES -le 150 ]"
@@ -46,7 +46,7 @@ check "Has index format" "grep -q '.index.md' $RULE"
 # ── Section 3: Skill ──────────────────────────────────────────────────────
 echo ""
 echo "── Section 3: Skill ──"
-SKILL=".claude/skills/client-profile-manager/SKILL.md"
+SKILL=".opencode/skills/client-profile-manager/SKILL.md"
 check "Skill exists" "[ -f $SKILL ]"
 LINES=$(wc -l < "$SKILL")
 check "Skill within limit ($LINES/150 lines)" "[ $LINES -le 150 ]"

@@ -63,9 +63,9 @@ público (donde estos principios están grabados en git).
 ┌─────────────────────────────────────────────────────────────────┐
 │  L0 · Voz         .claude/profiles/savia.md                     │
 │  L1 · Reglas      docs/rules/domain/*.md                     │
-│  L2 · Agentes     .claude/agents/*.md  +  AGENTS-INDEX.md       │
-│  L3 · Skills      .claude/skills/*/SKILL.md  +  DOMAIN.md       │
-│  L4 · Hooks       .claude/hooks/*.sh  (bash deterministas)      │
+│  L2 · Agentes     .opencode/agents/*.md  +  AGENTS-INDEX.md       │
+│  L3 · Skills      .opencode/skills/*/SKILL.md  +  DOMAIN.md       │
+│  L4 · Hooks       .opencode/hooks/*.sh  (bash deterministas)      │
 └─────────────────────────────────────────────────────────────────┘
 ```
 

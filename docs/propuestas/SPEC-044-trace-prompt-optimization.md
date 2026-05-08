@@ -143,9 +143,9 @@ Track in: `output/trace-analysis/optimization-history.jsonl`
 | File | Action | Purpose |
 |------|--------|---------|
 | `scripts/trace-pattern-extractor.sh` | Create | Trace analysis engine |
-| `.claude/commands/trace-optimize.md` | Create | New slash command |
-| `.claude/skills/prompt-optimizer/SKILL.md` | Modify | Add --from-traces mode |
-| `.claude/skills/prompt-optimizer/auto-trigger.md` | Modify | Add trace signals |
+| `.opencode/commands/trace-optimize.md` | Create | New slash command |
+| `.opencode/skills/prompt-optimizer/SKILL.md` | Modify | Add --from-traces mode |
+| `.opencode/skills/prompt-optimizer/auto-trigger.md` | Modify | Add trace signals |
 
 ## References
 

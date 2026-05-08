@@ -3,13 +3,13 @@ name: scale-optimizer
 description: "Scaling optimization — analyze, benchmark, recommend improvements for growing organizations"
 allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[analyze|benchmark|recommend|knowledge-search] [--search query]"
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /scale-optimizer — Optimización de Escala
 
-> Skill: @.claude/skills/scaling-operations/SKILL.md
+> Skill: @.opencode/skills/scaling-operations/SKILL.md
 > Config: @docs/rules/domain/scaling-patterns.md
 
 Análisis de madurez organizacional, benchmarking contra tier targets, recomendaciones de optimización, búsqueda de conocimiento.

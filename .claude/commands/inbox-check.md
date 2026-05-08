@@ -22,7 +22,7 @@ description: >
 ## Contexto requerido
 
 1. @docs/rules/domain/messaging-config.md — Config canales activos
-2. `.claude/skills/voice-inbox/SKILL.md` — Transcripción de audio
+2. `.opencode/skills/voice-inbox/SKILL.md` — Transcripción de audio
 3. MCP de WhatsApp y/o API de Nextcloud Talk según canales activos
 
 ## Pasos de ejecución

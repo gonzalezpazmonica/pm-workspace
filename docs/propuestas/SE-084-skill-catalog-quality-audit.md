@@ -30,7 +30,7 @@ Coste de no auditar: la calidad del catálogo deriva con cada skill nuevo (SE-08
 
 ### Slice 1 (S 2h) — Auditor estático
 
-`scripts/skill-catalog-audit.sh` — escanea `.claude/skills/*/SKILL.md` y reporta:
+`scripts/skill-catalog-audit.sh` — escanea `.opencode/skills/*/SKILL.md` y reporta:
 
 - **Use-when missing**: description sin patrón `Use when ...` o equivalente ("Activa cuando...", "Trigger ...")
 - **Overlong**: SKILL.md > 100 LOC (warning), > 200 LOC (fail)
@@ -83,7 +83,7 @@ Modos: `--report` (default, exit 0), `--gate` (exit 1 si fail-severity ≥ N), `
 
 - ✅ pr-plan G14 reservado en SE-078 (slot vacío)
 - ✅ `scripts/baseline-tighten.sh` existe (SE-046)
-- ✅ 86 skills bajo `.claude/skills/` accesibles
+- ✅ 86 skills bajo `.opencode/skills/` accesibles
 - Recomendado pero no bloqueante: SE-081/083/085/086/087 mergeados primero (los nuevos skills compliant by design); si vienen después, ya respetan el gate
 
 ## OpenCode Implementation Plan

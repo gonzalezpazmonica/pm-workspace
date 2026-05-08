@@ -31,7 +31,7 @@ que asumen Claude Code, lo que puede confundir a un LLM corriendo en OpenCode.
 ### WARN (paths `.claude/` internos) — 46 skills
 
 Referencias a `.claude/` que reflejan la estructura real del workspace.
-El symlink `.opencode/hooks/` → `.claude/hooks/` hace que muchas de estas
+El symlink `.opencode/hooks/` → `.opencode/hooks/` hace que muchas de estas
 referencias funcionen en OpenCode. La migracion completa requiere renombrar
 el directorio o actualizar referencias.
 

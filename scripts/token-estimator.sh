@@ -1,16 +1,16 @@
 #!/bin/bash
 set -uo pipefail
 # token-estimator.sh — Estimate token cost before execution
-# Usage: token-estimator.sh [file|dir] [--budget N] [--model MODEL] [--provider anthropic|deepseek]
+# Usage: token-estimator.sh [file|dir] [--budget N] [--model MODEL] [--provider copilot|anthropic|deepseek]
 #
 # Token estimation: chars / 4 (industry standard approximation)
-# Providers: anthropic (Claude) / deepseek (DeepSeek V4)
-# Pricing source: https://api-docs.deepseek.com/quick_start/pricing/
+# Providers: copilot (GitHub Copilot, flat-fee) / anthropic (Claude API) / deepseek (DeepSeek V4)
+# Pricing source: anthropic.com/pricing, api-docs.deepseek.com/quick_start/pricing/
 
 TARGET="${1:-.}"
 BUDGET=""
-MODEL="v4-pro"
-PROVIDER="deepseek"
+MODEL="opus-4.7"
+PROVIDER="copilot"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -54,13 +54,24 @@ PRICE_INPUT_MISS[haiku]=0.80
 PRICE_INPUT_HIT[haiku]=0.80
 PRICE_OUTPUT[haiku]=4.00
 
-INPUT_COST=${PRICE_INPUT_MISS[$MODEL]:-${PRICE_INPUT_MISS[v4-pro]}}
-OUTPUT_COST=${PRICE_OUTPUT[$MODEL]:-${PRICE_OUTPUT[v4-pro]}}
+# GitHub Copilot (flat-fee subscription, no per-token billing)
+# Cost is informational only — the actual cost is the monthly subscription.
+PRICE_INPUT_MISS[opus-4.7]=0
+PRICE_INPUT_HIT[opus-4.7]=0
+PRICE_OUTPUT[opus-4.7]=0
+PRICE_INPUT_MISS[sonnet-4.5]=0
+PRICE_INPUT_HIT[sonnet-4.5]=0
+PRICE_OUTPUT[sonnet-4.5]=0
+
+INPUT_COST=${PRICE_INPUT_MISS[$MODEL]:-${PRICE_INPUT_MISS[opus-4.7]}}
+OUTPUT_COST=${PRICE_OUTPUT[$MODEL]:-${PRICE_OUTPUT[opus-4.7]}}
 CACHE_COST=${PRICE_INPUT_HIT[$MODEL]:-${PRICE_INPUT_MISS[$MODEL]}}
 
 # Auto-detect provider from model name if not specified
-if [[ "$PROVIDER" == "deepseek" ]] && [[ "$MODEL" =~ ^(opus|sonnet|haiku)$ ]]; then
+if [[ "$PROVIDER" == "copilot" ]] && [[ "$MODEL" =~ ^(opus|sonnet|haiku)$ ]]; then
   PROVIDER="anthropic"
+elif [[ "$PROVIDER" == "copilot" ]] && [[ "$MODEL" =~ ^v4 ]]; then
+  PROVIDER="deepseek"
 fi
 
 # Usually: output_tokens ~ 0.3 * input_tokens (heuristic)

@@ -3,13 +3,13 @@ name: codebase-map
 description: "Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills"
 argument-hint: "[--focus commands|agents|rules|skills] [--orphans]"
 allowed-tools: [Read, Glob, Grep, Bash]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /codebase-map — Mapa de Dependencias Internas
 
-Ejecutar skill: `@.claude/skills/codebase-map/SKILL.md`
+Ejecutar skill: `@.opencode/skills/codebase-map/SKILL.md`
 
 ## Parametros
 
@@ -20,7 +20,7 @@ Ejecutar skill: `@.claude/skills/codebase-map/SKILL.md`
 ## Flujo
 
 ```
-1. Escanear .claude/commands/, agents/, rules/domain/, skills/
+1. Escanear .opencode/commands/, agents/, rules/domain/, skills/
 2. Extraer referencias @ y menciones entre componentes
 3. Construir grafo de dependencias
 4. Calcular hub scores y detectar huerfanos

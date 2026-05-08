@@ -25,7 +25,7 @@ teardown() {
 }
 
 @test "pipeline-local-run command exists" {
-  [ -f "$ROOT/.claude/commands/pipeline-local-run.md" ]
+  [ -f "$ROOT/.opencode/commands/pipeline-local-run.md" ]
 }
 
 @test "pipeline engine dry-run parses template" {

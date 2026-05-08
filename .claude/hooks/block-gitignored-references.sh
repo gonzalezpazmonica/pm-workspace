@@ -39,8 +39,11 @@ case "$FILE_PATH" in
 esac
 
 # Skip test files and hook source (they legitimately reference gitignored patterns)
+# Match both forward-slash (Unix) and backslash (Windows) path separators.
 case "$FILE_PATH" in
-  *tests/test-*|*tests/*.bats|*.claude/hooks/*|*scripts/test-*) exit 0 ;;
+  *tests/test-*|*tests/*.bats|*scripts/test-*) exit 0 ;;
+  */.opencode/hooks/*|.opencode/hooks/*) exit 0 ;;
+  *\\.claude\\hooks\\*) exit 0 ;;
 esac
 
 # Skip if file is gitignored (not N1)

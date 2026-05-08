@@ -18,38 +18,38 @@ echo "════════════════════════�
 echo ""
 
 echo "📋 1. Governance Policy Command"
-check_file ".claude/commands/governance-policy.md" "governance-policy.md exists"
-check_content ".claude/commands/governance-policy.md" "name: governance-policy" "Has correct name"
-check_content ".claude/commands/governance-policy.md" "política de gobernanza" "References governance policy"
-check_content ".claude/commands/governance-policy.md" "agent: none" "Has agent: none"
+check_file ".opencode/commands/governance-policy.md" "governance-policy.md exists"
+check_content ".opencode/commands/governance-policy.md" "name: governance-policy" "Has correct name"
+check_content ".opencode/commands/governance-policy.md" "política de gobernanza" "References governance policy"
+check_content ".opencode/commands/governance-policy.md" "agent: none" "Has agent: none"
 echo ""
 
 echo "📋 2. Governance Audit Command"
-check_file ".claude/commands/governance-audit.md" "governance-audit.md exists"
-check_content ".claude/commands/governance-audit.md" "name: governance-audit" "Has correct name"
-check_content ".claude/commands/governance-audit.md" "Auditor.*de cumplimiento" "References audit"
-check_content ".claude/commands/governance-audit.md" "agent: task" "Has agent: task"
+check_file ".opencode/commands/governance-audit.md" "governance-audit.md exists"
+check_content ".opencode/commands/governance-audit.md" "name: governance-audit" "Has correct name"
+check_content ".opencode/commands/governance-audit.md" "Auditor.*de cumplimiento" "References audit"
+check_content ".opencode/commands/governance-audit.md" "agent: task" "Has agent: task"
 echo ""
 
 echo "📋 3. Governance Report Command"
-check_file ".claude/commands/governance-report.md" "governance-report.md exists"
-check_content ".claude/commands/governance-report.md" "name: governance-report" "Has correct name"
-check_content ".claude/commands/governance-report.md" "reporte\|informe" "References reporting"
-check_content ".claude/commands/governance-report.md" "agent: task" "Has agent: task"
+check_file ".opencode/commands/governance-report.md" "governance-report.md exists"
+check_content ".opencode/commands/governance-report.md" "name: governance-report" "Has correct name"
+check_content ".opencode/commands/governance-report.md" "reporte\|informe" "References reporting"
+check_content ".opencode/commands/governance-report.md" "agent: task" "Has agent: task"
 echo ""
 
 echo "📋 4. Governance Certify Command"
-check_file ".claude/commands/governance-certify.md" "governance-certify.md exists"
-check_content ".claude/commands/governance-certify.md" "name: governance-certify" "Has correct name"
-check_content ".claude/commands/governance-certify.md" "certificación" "References certification"
-check_content ".claude/commands/governance-certify.md" "agent: task" "Has agent: task"
+check_file ".opencode/commands/governance-certify.md" "governance-certify.md exists"
+check_content ".opencode/commands/governance-certify.md" "name: governance-certify" "Has correct name"
+check_content ".opencode/commands/governance-certify.md" "certificación" "References certification"
+check_content ".opencode/commands/governance-certify.md" "agent: task" "Has agent: task"
 echo ""
 
 echo "📋 5. Line Count Validation (≤150 lines each)"
-POLICY_LINES=$(wc -l < .claude/commands/governance-policy.md)
-AUDIT_LINES=$(wc -l < .claude/commands/governance-audit.md)
-REPORT_LINES=$(wc -l < .claude/commands/governance-report.md)
-CERTIFY_LINES=$(wc -l < .claude/commands/governance-certify.md)
+POLICY_LINES=$(wc -l < .opencode/commands/governance-policy.md)
+AUDIT_LINES=$(wc -l < .opencode/commands/governance-audit.md)
+REPORT_LINES=$(wc -l < .opencode/commands/governance-report.md)
+CERTIFY_LINES=$(wc -l < .opencode/commands/governance-certify.md)
 
 [ "$POLICY_LINES" -le 150 ] && pass "governance-policy.md: $POLICY_LINES lines" || fail "governance-policy.md: $POLICY_LINES lines (> 150)"
 [ "$AUDIT_LINES" -le 150 ] && pass "governance-audit.md: $AUDIT_LINES lines" || fail "governance-audit.md: $AUDIT_LINES lines (> 150)"
@@ -91,25 +91,25 @@ echo ""
 echo "📋 9. Command Structure Validation"
 # Check frontmatter
 for cmd in governance-policy governance-audit governance-report governance-certify; do
-  check_content ".claude/commands/$cmd.md" "^---$" "$cmd.md has frontmatter start"
-  check_content ".claude/commands/$cmd.md" "^name:" "$cmd.md has name field"
-  check_content ".claude/commands/$cmd.md" "^description:" "$cmd.md has description field"
-  check_content ".claude/commands/$cmd.md" "^agent:" "$cmd.md has agent field"
+  check_content ".opencode/commands/$cmd.md" "^---$" "$cmd.md has frontmatter start"
+  check_content ".opencode/commands/$cmd.md" "^name:" "$cmd.md has name field"
+  check_content ".opencode/commands/$cmd.md" "^description:" "$cmd.md has description field"
+  check_content ".opencode/commands/$cmd.md" "^agent:" "$cmd.md has agent field"
 done
 echo ""
 
 echo "📋 10. Command Metadata Validation"
-check_content ".claude/commands/governance-policy.md" "context_cost: low" "governance-policy has context_cost"
-check_content ".claude/commands/governance-audit.md" "context_cost: high" "governance-audit has context_cost"
-check_content ".claude/commands/governance-report.md" "context_cost: medium" "governance-report has context_cost"
-check_content ".claude/commands/governance-certify.md" "context_cost: high" "governance-certify has context_cost"
+check_content ".opencode/commands/governance-policy.md" "context_cost: low" "governance-policy has context_cost"
+check_content ".opencode/commands/governance-audit.md" "context_cost: high" "governance-audit has context_cost"
+check_content ".opencode/commands/governance-report.md" "context_cost: medium" "governance-report has context_cost"
+check_content ".opencode/commands/governance-certify.md" "context_cost: high" "governance-certify has context_cost"
 echo ""
 
 echo "📋 11. Framework References"
-check_content ".claude/commands/governance-policy.md" "NIST\|ISO/IEC 42001" "governance-policy references frameworks"
-check_content ".claude/commands/governance-audit.md" "NIST\|Map\|Measure\|Manage" "governance-audit references NIST functions"
-check_content ".claude/commands/governance-report.md" "EU AI Act\|NIST\|ISO" "governance-report maps to frameworks"
-check_content ".claude/commands/governance-certify.md" "ISO 42001\|EU AI Act\|SOC 2" "governance-certify lists frameworks"
+check_content ".opencode/commands/governance-policy.md" "NIST\|ISO/IEC 42001" "governance-policy references frameworks"
+check_content ".opencode/commands/governance-audit.md" "NIST\|Map\|Measure\|Manage" "governance-audit references NIST functions"
+check_content ".opencode/commands/governance-report.md" "EU AI Act\|NIST\|ISO" "governance-report maps to frameworks"
+check_content ".opencode/commands/governance-certify.md" "ISO 42001\|EU AI Act\|SOC 2" "governance-certify lists frameworks"
 echo ""
 
 echo "📋 12. Context Map Updates"
@@ -127,17 +127,17 @@ check_content "docs/rules/domain/role-workflows.md" "Ritual mensual" "role-workf
 echo ""
 
 echo "📋 14. Integration Points"
-check_content ".claude/commands/governance-policy.md" "company/policies.md" "governance-policy references company policy file"
-check_content ".claude/commands/governance-audit.md" "company/policies.md" "governance-audit reads company policy"
-check_content ".claude/commands/governance-report.md" "governance-audit" "governance-report uses audit data"
-check_content ".claude/commands/governance-certify.md" "governance-report" "governance-certify references report"
+check_content ".opencode/commands/governance-policy.md" "company/policies.md" "governance-policy references company policy file"
+check_content ".opencode/commands/governance-audit.md" "company/policies.md" "governance-audit reads company policy"
+check_content ".opencode/commands/governance-report.md" "governance-audit" "governance-report uses audit data"
+check_content ".opencode/commands/governance-certify.md" "governance-report" "governance-certify references report"
 echo ""
 
 echo "📋 15. Regression (existing commands)"
-check_file ".claude/commands/ai-safety-config.md" "ai-safety-config still exists (v0.58.0)"
-check_file ".claude/commands/ai-confidence.md" "ai-confidence still exists (v0.58.0)"
-check_file ".claude/commands/ai-incident.md" "ai-incident still exists (v0.58.0)"
-check_file ".claude/commands/adoption-assess.md" "adoption-assess still exists (v0.59.0)"
+check_file ".opencode/commands/ai-safety-config.md" "ai-safety-config still exists (v0.58.0)"
+check_file ".opencode/commands/ai-confidence.md" "ai-confidence still exists (v0.58.0)"
+check_file ".opencode/commands/ai-incident.md" "ai-incident still exists (v0.58.0)"
+check_file ".opencode/commands/adoption-assess.md" "adoption-assess still exists (v0.59.0)"
 echo ""
 
 echo "📋 16. Test Suite Exists"

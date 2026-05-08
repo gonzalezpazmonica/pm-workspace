@@ -66,8 +66,8 @@ test_structure() {
 
   local files=(
     "teams/diagrams/.gitkeep"
-    ".claude/skills/diagram-generation/references/orgchart-shapes.md"
-    ".claude/skills/diagram-generation/references/orgchart-mermaid-template.md"
+    ".opencode/skills/diagram-generation/references/orgchart-shapes.md"
+    ".opencode/skills/diagram-generation/references/orgchart-mermaid-template.md"
   )
 
   for f in "${files[@]}"; do
@@ -81,10 +81,10 @@ test_structure() {
   log_section "File size limits (<=150 lines)"
 
   local sized_files=(
-    ".claude/skills/diagram-generation/references/orgchart-shapes.md"
-    ".claude/skills/diagram-generation/references/orgchart-mermaid-template.md"
-    ".claude/commands/diagram-generate.md"
-    ".claude/skills/diagram-generation/SKILL.md"
+    ".opencode/skills/diagram-generation/references/orgchart-shapes.md"
+    ".opencode/skills/diagram-generation/references/orgchart-mermaid-template.md"
+    ".opencode/commands/diagram-generate.md"
+    ".opencode/skills/diagram-generation/SKILL.md"
   )
 
   for f in "${sized_files[@]}"; do
@@ -104,7 +104,7 @@ test_structure() {
 test_shapes() {
   log_header "SUITE 3 — Orgchart Shapes Reference"
 
-  local shapes_file="$WORKSPACE_ROOT/.claude/skills/diagram-generation/references/orgchart-shapes.md"
+  local shapes_file="$WORKSPACE_ROOT/.opencode/skills/diagram-generation/references/orgchart-shapes.md"
 
   log_section "Required entity shapes"
 
@@ -141,7 +141,7 @@ test_shapes() {
 test_mermaid_template() {
   log_header "SUITE 4 — Mermaid Template"
 
-  local tmpl="$WORKSPACE_ROOT/.claude/skills/diagram-generation/references/orgchart-mermaid-template.md"
+  local tmpl="$WORKSPACE_ROOT/.opencode/skills/diagram-generation/references/orgchart-mermaid-template.md"
 
   log_section "Template structure"
 
@@ -186,7 +186,7 @@ test_mermaid_template() {
 test_command() {
   log_header "SUITE 5 — Command Integration"
 
-  local cmd="$WORKSPACE_ROOT/.claude/commands/diagram-generate.md"
+  local cmd="$WORKSPACE_ROOT/.opencode/commands/diagram-generate.md"
 
   log_section "Orgchart support in command"
 
@@ -227,7 +227,7 @@ test_command() {
 test_skill() {
   log_header "SUITE 6 — Skill Integration"
 
-  local skill="$WORKSPACE_ROOT/.claude/skills/diagram-generation/SKILL.md"
+  local skill="$WORKSPACE_ROOT/.opencode/skills/diagram-generation/SKILL.md"
 
   if grep -q 'Orgchart' "$skill"; then
     pass "SKILL.md lists Orgchart type"

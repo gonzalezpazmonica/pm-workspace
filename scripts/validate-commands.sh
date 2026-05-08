@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────────────
 # validate-commands.sh — Validación estática de slash commands
-# Ejecutar ANTES de cada commit que toque .claude/commands/
+# Ejecutar ANTES de cada commit que toque .opencode/commands/
 # ─────────────────────────────────────────────────────────────────────
 set -euo pipefail
 

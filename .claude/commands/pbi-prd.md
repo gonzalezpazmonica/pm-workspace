@@ -20,7 +20,7 @@ description: >
 
 ### 1. Leer la skill de referencia
 
-Leer `.claude/skills/product-discovery/SKILL.md`.
+Leer `.opencode/skills/product-discovery/SKILL.md`.
 
 ### 2. Obtener el PBI de Azure DevOps
 
@@ -46,7 +46,7 @@ y sugerir ejecutar `/pbi-jtbd {id}` primero.
 
 ### 5. Generar PRD
 
-Usar la plantilla de `.claude/skills/product-discovery/references/prd-template.md`.
+Usar la plantilla de `.opencode/skills/product-discovery/references/prd-template.md`.
 
 Delegar al agente `business-analyst`:
 - Formalizar requisitos funcionales con prioridades (Must/Should/Could)

@@ -2,7 +2,7 @@
 # BATS tests for scripts/gitagent-export.sh (SPEC-099 gitagent export adapter).
 #
 # Ref: SPEC-099, ROADMAP §Tier 4.8
-# Safety: script under test `set -uo pipefail`, read-only on `.claude/agents/`.
+# Safety: script under test `set -uo pipefail`, read-only on `.opencode/agents/`.
 
 SCRIPT="scripts/gitagent-export.sh"
 
@@ -152,7 +152,7 @@ teardown() { cd /; }
 # ── Isolation ────────────────────────────────────────────────────────────
 
 @test "isolation: does not modify source agent file" {
-  local src=".claude/agents/architect.md"
+  local src=".opencode/agents/architect.md"
   local h_before
   h_before=$(md5sum "$src" | awk '{print $1}')
   bash "$SCRIPT" --agent architect --output-dir "$BATS_TEST_TMPDIR/out" >/dev/null 2>&1

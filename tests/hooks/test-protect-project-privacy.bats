@@ -116,10 +116,10 @@ teardown() {
 }
 
 @test "core hooks use safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/validate-bash-global.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/validate-bash-global.sh"
 }
 
 @test "edge: empty input produces no error" {
-  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.claude/hooks/validate-bash-global.sh' 2>&1"
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.opencode/hooks/validate-bash-global.sh' 2>&1"
   [ "$status" -eq 0 ]
 }

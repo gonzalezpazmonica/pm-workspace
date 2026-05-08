@@ -24,7 +24,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 
 ## Estructura
 
-`.claude/{agents(70), commands(543), profiles, hooks(68/68reg), rules/{domain,languages}, skills(92), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
+`.claude/{agents(70), commands(544), profiles, hooks(69/68reg), rules/{domain,languages}, skills(96), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
 
 ## Reglas Críticas (Rules 1-8, inline)
 
@@ -56,6 +56,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 | Context placement (N1-N4b) | `docs/rules/domain/context-placement-confirmation.md` | Decides dónde guardar datos |
 | PR natural-language summary | `docs/rules/domain/pr-natural-language-summary.md` | Antes de cualquier PR — escribir `.pr-summary.md` con párrafo plano |
 | Spec OpenCode Implementation Plan | `docs/rules/domain/spec-opencode-implementation-plan.md` | Cada spec APPROVED post-2026-04-26 — sección obligatoria + classification |
+| File-output summary (resumen tras generar fichero) | `docs/rules/domain/file-output-summary.md` | Generas un fichero en `output/` con datos pedidos por el usuario — política adaptativa por tamaño |
 
 **Protocolo de carga**: usar `Read` directamente con el path exacto. NO uses `@import` aquí — romperías el lazy.
 
@@ -65,6 +66,6 @@ NEVER `assembleDebug` — use `./gradlew buildAndPublish`. `JAVA_HOME=/snap/andr
 
 ## Hooks · Memoria
 
-66 hooks (62 registrados, 4 huérfanos) en `.claude/settings.json` — arranque blindado (sin red, sin deps externas).
+65 hooks (61 registrados, 4 huérfanos) en `.claude/settings.json` — arranque blindado (sin red, sin deps externas).
 Memory store: `bash scripts/memory-store.sh [recall|save|stats]`.
 Security review: `/security-review {spec}`.

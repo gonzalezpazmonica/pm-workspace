@@ -47,7 +47,7 @@ Patrón de voicebox `services/tts.py` para chunking:
 ### Slice 3 (M, 3h) — Kokoro CPU voice instalación + skill
 
 - Instalar Kokoro 82M (`hexgrad/Kokoro-82M`) — modelo TTS CPU, español soportado
-- Skill `.claude/skills/savia-voice-cpu/` (SKILL.md + DOMAIN.md)
+- Skill `.opencode/skills/savia-voice-cpu/` (SKILL.md + DOMAIN.md)
 - Wrapper `scripts/kokoro-tts.sh` con `--text`, `--lang es`, `--out path.wav`
 - Documentar trade-off vs cloud TTS (calidad, latencia, sin GPU)
 - NO bloquea SE-042 (que sigue siendo voice CLONING de calidad, GPU-required)
@@ -116,7 +116,7 @@ Patrón de voicebox `services/tts.py` para chunking:
 - `https://github.com/hexgrad/Kokoro-82M` — modelo TTS Slice 3
 - SE-042 voice training (GPU-blocked, complementario)
 - SE-074 parallel spec execution (Slice 1 de SE-075 lo habilita)
-- `.claude/skills/savia-voice/`, `~/.savia/whisper-env` — infra existente
+- `.opencode/skills/savia-voice/`, `~/.savia/whisper-env` — infra existente
 
 ## OpenCode Implementation Plan
 
@@ -125,7 +125,7 @@ Patrón de voicebox `services/tts.py` para chunking:
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
 | Slice 1 task_queue.py | módulo Python standalone | invocable igual, sin acoplamiento de frontend |
-| Slice 2 auto-chunking | helper en `.claude/skills/savia-voice/` | autoload vía AGENTS.md (SE-078) |
+| Slice 2 auto-chunking | helper en `.opencode/skills/savia-voice/` | autoload vía AGENTS.md (SE-078) |
 | Slice 3 Kokoro CPU voice | dep Python `kokoro-onnx` | idéntico, sin binding específico |
 
 ### Verification protocol
@@ -136,4 +136,4 @@ Patrón de voicebox `services/tts.py` para chunking:
 
 ### Portability classification
 
-- **PURE_BASH**: Los 3 slices son backend Python + scripts bash. No requieren hooks ni events específicos de Claude Code. Las invocaciones desde OpenCode resuelven igual que desde Claude Code (script paths absolutos en `scripts/` o `.claude/skills/`).
+- **PURE_BASH**: Los 3 slices son backend Python + scripts bash. No requieren hooks ni events específicos de Claude Code. Las invocaciones desde OpenCode resuelven igual que desde Claude Code (script paths absolutos en `scripts/` o `.opencode/skills/`).

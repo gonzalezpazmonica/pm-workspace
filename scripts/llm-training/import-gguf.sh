@@ -42,9 +42,9 @@ fi
 SYSTEM_PROMPT="You are a specialized AI assistant."
 if [[ -n "$SYSTEM_FILE" && -f "$SYSTEM_FILE" ]]; then
   SYSTEM_PROMPT=$(cat "$SYSTEM_FILE")
-elif [[ -f ".claude/agents/${MODEL_NAME%.custom*}.md" ]]; then
+elif [[ -f ".opencode/agents/${MODEL_NAME%.custom*}.md" ]]; then
   # Extract system prompt from agent definition (skip frontmatter)
-  agent_file=".claude/agents/${MODEL_NAME%-custom}.md"
+  agent_file=".opencode/agents/${MODEL_NAME%-custom}.md"
   if [[ -f "$agent_file" ]]; then
     SYSTEM_PROMPT=$(sed -n '/^---$/,/^---$/d;p' "$agent_file" | head -50)
   fi

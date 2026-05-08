@@ -29,8 +29,8 @@ USER_NAME="${USER:-unknown}"
 TELEMETRY_DIR="${SAVIA_COGNITIVE_DIR:-$HOME/.savia/cognitive-load}"
 TELEMETRY_LOG="$TELEMETRY_DIR/$USER_NAME.jsonl"
 
-HOOK_TELEMETRY="$ROOT_DIR/.claude/hooks/cognitive-debt-telemetry.sh"
-HOOK_HYPOTHESIS="$ROOT_DIR/.claude/hooks/cognitive-debt-hypothesis-first.sh"
+HOOK_TELEMETRY="$ROOT_DIR/.opencode/hooks/cognitive-debt-telemetry.sh"
+HOOK_HYPOTHESIS="$ROOT_DIR/.opencode/hooks/cognitive-debt-hypothesis-first.sh"
 
 usage() {
   sed -n '2,21p' "${BASH_SOURCE[0]}" | sed 's/^# //; s/^#//'
@@ -186,8 +186,8 @@ def add_hook(event, command, matcher="*"):
             return
     arr.append({"matcher": matcher, "hooks": [{"type": "command", "command": command}]})
 
-add_hook("PostToolUse", f"$CLAUDE_PROJECT_DIR/.claude/hooks/cognitive-debt-telemetry.sh", "Edit|Write|Task")
-add_hook("PreToolUse",  f"$CLAUDE_PROJECT_DIR/.claude/hooks/cognitive-debt-hypothesis-first.sh", "Edit|Write")
+add_hook("PostToolUse", f"$CLAUDE_PROJECT_DIR/.opencode/hooks/cognitive-debt-telemetry.sh", "Edit|Write|Task")
+add_hook("PreToolUse",  f"$CLAUDE_PROJECT_DIR/.opencode/hooks/cognitive-debt-hypothesis-first.sh", "Edit|Write")
 
 with open(path, "w") as f:
     json.dump(cfg, f, indent=2)

@@ -34,7 +34,7 @@ allowed-tools: [Bash, Read, Glob]
 |---|---|---|
 | `claude-md-drift-check.sh` | SE-043 | Counters en CLAUDE.md vs filesystem (agents/commands/skills/hooks) |
 | `baseline-tighten.sh` | SE-046 | Baseline metrics stale tras cambios estructurales |
-| `agents-catalog-sync.sh` | SE-047 | Drift entre `docs/rules/domain/agents-catalog.md` y `.claude/agents/` |
+| `agents-catalog-sync.sh` | SE-047 | Drift entre `docs/rules/domain/agents-catalog.md` y `.opencode/agents/` |
 | `rule-orphan-detector.sh` | SE-048 | Reglas en `docs/rules/domain/` sin referencias cruzadas |
 | `rule-manifest-integrity.sh` | SE-057 | `docs/rules/INDEX.md` vs ficheros reales |
 | `agent-size-audit.sh` + `agent-size-remediation-plan.sh` | SE-052 | Agents > umbral lineas; plan de split |

@@ -6,11 +6,11 @@
 setup() {
   TMPDIR=$(mktemp -d)
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/memory-auto-capture.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/memory-auto-capture.sh"
   export TEST_TMPDIR="$TMPDIR"
   mkdir -p "$TEST_TMPDIR/scripts"
   mkdir -p "$TEST_TMPDIR/.claude/rules"
-  mkdir -p "$TEST_TMPDIR/.claude/commands"
+  mkdir -p "$TEST_TMPDIR/.claude/commands" "$TEST_TMPDIR/.opencode/commands"
   mkdir -p "$HOME/.pm-workspace"
   cd "$TEST_TMPDIR"
   git init --quiet 2>/dev/null || true
@@ -36,7 +36,7 @@ run_hook() {
 }
 
 @test "target has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/memory-auto-capture.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/memory-auto-capture.sh"
 }
 
 # ── Always exits 0 (never blocks) ──
@@ -73,9 +73,9 @@ run_hook() {
 
 @test "handles missing memory directory" {
   rm -rf "$HOME/.pm-workspace"
-  touch "$TEST_TMPDIR/.claude/commands/test-cmd.md"
+  touch "$TEST_TMPDIR/.opencode/commands/test-cmd.md"
   export TOOL_NAME="Write"
-  export EDITED_FILE="$TEST_TMPDIR/.claude/commands/test-cmd.md"
+  export EDITED_FILE="$TEST_TMPDIR/.opencode/commands/test-cmd.md"
   rm -f "$HOME/.pm-workspace/memory-capture-last.ts"
   run_hook '{"tool_name":"Write"}'
   [ "$status" -eq 0 ]
@@ -116,16 +116,16 @@ run_hook() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/memory-auto-capture.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/memory-auto-capture.sh"
 }
 
 @test "edge: empty input produces no error" {
-  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.claude/hooks/validate-bash-global.sh' 2>&1"
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.opencode/hooks/validate-bash-global.sh' 2>&1"
   [ "$status" -eq 0 ]
 }
 
 @test "edge: nonexistent capture directory" {
-  run bash -c "CAPTURE_DIR=/tmp/nonexistent-dir-$RANDOM bash '$BATS_TEST_DIRNAME/../../.claude/hooks/memory-auto-capture.sh' 2>&1"
+  run bash -c "CAPTURE_DIR=/tmp/nonexistent-dir-$RANDOM bash '$BATS_TEST_DIRNAME/../../.opencode/hooks/memory-auto-capture.sh' 2>&1"
   [[ "$output" == *""* ]] || [ "$status" -eq 0 ]
 }
 

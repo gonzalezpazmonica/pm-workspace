@@ -3,7 +3,7 @@ name: pursuit-close
 description: Close a pursuit as won or lost and trigger post-mortem analysis
 argument-hint: "OPP-YYYY-NNN won|lost [--competitor 'name']"
 context_cost: medium
-model: mid
+model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 ---
 

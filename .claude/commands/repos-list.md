@@ -3,7 +3,7 @@ name: repos-list
 description: >
   Listar repositorios del proyecto en Azure DevOps con estadísticas
   de actividad, tamaño y última actualización.
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

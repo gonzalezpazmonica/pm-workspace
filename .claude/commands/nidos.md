@@ -3,7 +3,7 @@ name: nidos
 description: Manage parallel terminal isolation with named git worktrees (Savia Nidos)
 argument-hint: "[create <name>|list|enter <name>|remove <name>|status]"
 allowed-tools: [Bash, Read]
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

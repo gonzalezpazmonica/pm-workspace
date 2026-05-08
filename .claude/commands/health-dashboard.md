@@ -4,7 +4,7 @@ description: Dashboard de salud del proyecto unificado — Savia muestra una vis
 developer_type: all
 agent: none
 context_cost: medium
-model: mid
+model: github-copilot/claude-sonnet-4.5
 ---
 
 # /health-dashboard

@@ -45,7 +45,7 @@ Todas las operaciones con agentes y sistemas de IA en pm-workspace se rigen por 
 ## § 3 Aplicación en pm-workspace v0.29.0
 
 ### Inventory de Agentes
-Todos los agentes definidos en `.claude/agents/` deben:
+Todos los agentes definidos en `.opencode/agents/` deben:
 - Tener model card documentada (comando `ai-model-card`)
 - Estar clasificados por nivel de riesgo (comando `ai-risk-assessment`)
 - Tener trazas de ejecución registradas (datos para `ai-audit-log`)

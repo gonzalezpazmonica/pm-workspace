@@ -3,15 +3,15 @@ name: team-orchestrator
 description: "Multi-team coordination — create teams, assign members, track cross-team dependencies and blockers"
 allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[create|assign|deps|sync|status] {dept} {team} [--critical] [--dept engineering] [--all]"
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /team-orchestrator — Coordinación multi-equipo
 
-> Skill: @.claude/skills/team-coordination/SKILL.md
+> Skill: @.opencode/skills/team-coordination/SKILL.md
 > Config: @docs/rules/domain/team-structure.md
-> Complementa: @.claude/commands/portfolio-overview.md
+> Complementa: @.opencode/commands/portfolio-overview.md
 
 Gestiona la estructura organizativa de equipos y departamentos. Detecta
 dependencias cross-equipo, bloqueos y problemas de capacidad. Diseñado para

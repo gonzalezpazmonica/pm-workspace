@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/agent-hook-premerge.sh
+# BATS tests for .opencode/hooks/agent-hook-premerge.sh
 # Pre-merge security + quality gate. Deterministic, no LLM.
 # Hook detects bare TODO(AB#0) markers without ticket refs.
 # Ref: batch 42 hook coverage
 
-HOOK=".claude/hooks/agent-hook-premerge.sh"
+HOOK=".opencode/hooks/agent-hook-premerge.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."
@@ -141,11 +141,11 @@ teardown() {
 
 # ── Check 4: 150-line file size limit ───────────────────
 
-@test "detect: .claude/agents/ file > 150 lines flagged" {
+@test "detect: .opencode/agents/ file > 150 lines flagged" {
   cd "$TEST_REPO"
-  mkdir -p .claude/agents
-  for i in $(seq 1 160); do echo "line $i"; done > .claude/agents/big.md
-  git add .claude/agents/big.md
+  mkdir -p .claude/agents .opencode/agents
+  for i in $(seq 1 160); do echo "line $i"; done > .opencode/agents/big.md
+  git add .opencode/agents/big.md
   export CLAUDE_TOOL_INPUT='git merge main'
   run bash "$HOOK_ABS"
   cd "$BATS_TEST_DIRNAME/.."
@@ -154,9 +154,9 @@ teardown() {
 
 @test "pass: file at 150 lines not flagged" {
   cd "$TEST_REPO"
-  mkdir -p .claude/agents
-  for i in $(seq 1 150); do echo "line $i"; done > .claude/agents/border.md
-  git add .claude/agents/border.md
+  mkdir -p .claude/agents .opencode/agents
+  for i in $(seq 1 150); do echo "line $i"; done > .opencode/agents/border.md
+  git add .opencode/agents/border.md
   export CLAUDE_TOOL_INPUT='git merge main'
   run bash "$HOOK_ABS"
   cd "$BATS_TEST_DIRNAME/.."
@@ -262,11 +262,11 @@ teardown() {
   [[ "$output" != *"Agent Hook"* ]]
 }
 
-@test "edge: 150-limit applies to .claude/skills/" {
+@test "edge: 150-limit applies to .opencode/skills/" {
   cd "$TEST_REPO"
-  mkdir -p .claude/skills/foo
-  for i in $(seq 1 200); do echo "l $i"; done > .claude/skills/foo/SKILL.md
-  git add .claude/skills/foo/SKILL.md
+  mkdir -p .opencode/skills/foo
+  for i in $(seq 1 200); do echo "l $i"; done > .opencode/skills/foo/SKILL.md
+  git add .opencode/skills/foo/SKILL.md
   export CLAUDE_TOOL_INPUT='git merge main'
   run bash "$HOOK_ABS"
   cd "$BATS_TEST_DIRNAME/.."

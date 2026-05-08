@@ -1,5 +1,5 @@
 ---
-globs: [".claude/settings.json", ".claude/hooks/**"]
+globs: [".claude/settings.json", ".opencode/hooks/**"]
 ---
 
 # Intelligent Hooks — Prompt & Agent Hooks

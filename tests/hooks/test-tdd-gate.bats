@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/tdd-gate.sh"
+  HOOK="$PWD/.opencode/hooks/tdd-gate.sh"
   # Use a path WITHOUT /test/ to avoid hook's */test/* exclusion
   export TEST_TMPDIR="/tmp/tddgate-$$-$BATS_TEST_NUMBER"
   rm -rf "$TEST_TMPDIR" 2>/dev/null || true
@@ -28,7 +28,7 @@ run_hook() {
 }
 
 @test "target has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/tdd-gate.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/tdd-gate.sh"
 }
 
 # ── Non-Edit/Write tools pass ──

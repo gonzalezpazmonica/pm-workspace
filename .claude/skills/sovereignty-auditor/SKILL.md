@@ -16,7 +16,7 @@ priority: "medium"
 # Skill: Sovereignty Auditor
 
 > Regla: @docs/rules/domain/ai-governance.md
-> Complementa: @.claude/commands/governance-audit.md (cumplimiento normativo)
+> Complementa: @.opencode/commands/governance-audit.md (cumplimiento normativo)
 
 ## Prerequisitos
 

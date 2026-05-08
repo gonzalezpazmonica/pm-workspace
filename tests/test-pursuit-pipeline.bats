@@ -254,41 +254,41 @@ EOF
 # ═══════════════════════════════════════════════════════════════════════════════
 
 @test "SPEC pursuit-init command doc exists" {
-  [ -f "$REPO_ROOT/.claude/commands/pursuit-init.md" ]
+  [ -f "$REPO_ROOT/.opencode/commands/pursuit-init.md" ]
 }
 
 @test "SPEC pursuit-qualify command doc exists" {
-  [ -f "$REPO_ROOT/.claude/commands/pursuit-qualify.md" ]
+  [ -f "$REPO_ROOT/.opencode/commands/pursuit-qualify.md" ]
 }
 
 @test "SPEC pursuit-bid command doc exists" {
-  [ -f "$REPO_ROOT/.claude/commands/pursuit-bid.md" ]
+  [ -f "$REPO_ROOT/.opencode/commands/pursuit-bid.md" ]
 }
 
 @test "SPEC pursuit-draft command doc exists" {
-  [ -f "$REPO_ROOT/.claude/commands/pursuit-draft.md" ]
+  [ -f "$REPO_ROOT/.opencode/commands/pursuit-draft.md" ]
 }
 
 @test "SPEC pursuit-handoff command doc exists" {
-  [ -f "$REPO_ROOT/.claude/commands/pursuit-handoff.md" ]
+  [ -f "$REPO_ROOT/.opencode/commands/pursuit-handoff.md" ]
 }
 
 @test "SPEC pursuit-close command doc exists" {
-  [ -f "$REPO_ROOT/.claude/commands/pursuit-close.md" ]
+  [ -f "$REPO_ROOT/.opencode/commands/pursuit-close.md" ]
 }
 
 @test "SPEC pipeline-view command doc exists" {
-  [ -f "$REPO_ROOT/.claude/commands/pipeline-view.md" ]
+  [ -f "$REPO_ROOT/.opencode/commands/pipeline-view.md" ]
 }
 
 @test "SPEC pursuit-init command doc has non-empty description" {
-  local f="$REPO_ROOT/.claude/commands/pursuit-init.md"
+  local f="$REPO_ROOT/.opencode/commands/pursuit-init.md"
   [ -s "$f" ]
   grep -qi "description" "$f" || grep -qi "pursuit" "$f"
 }
 
 @test "SPEC pipeline-view command doc references pipeline or stage" {
-  grep -qi "pipeline\|stage" "$REPO_ROOT/.claude/commands/pipeline-view.md"
+  grep -qi "pipeline\|stage" "$REPO_ROOT/.opencode/commands/pipeline-view.md"
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════

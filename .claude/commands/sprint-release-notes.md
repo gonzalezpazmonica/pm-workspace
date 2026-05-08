@@ -23,7 +23,7 @@ description: >
 ## Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto
-2. `.claude/skills/azure-devops-queries/SKILL.md` — Work items completados
+2. `.opencode/skills/azure-devops-queries/SKILL.md` — Work items completados
 3. Acceso al repositorio (GitHub o Azure Repos)
 
 ## Pasos de ejecución

@@ -110,11 +110,11 @@ The central Claude Code pattern — progression of responsibility:
 User → /command → Agent (orchestrates) → Skills (knowledge)
 ```
 
-- **Commands** (`.claude/commands/*.md`) — lightweight entry points; they delegate
-- **Agents** (`.claude/agents/*.md`) — orchestrate with their own tools and permissions
-- **Skills** (`.claude/skills/<name>/SKILL.md`) — reusable knowledge modules
+- **Commands** (`.opencode/commands/*.md`) — lightweight entry points; they delegate
+- **Agents** (`.opencode/agents/*.md`) — orchestrate with their own tools and permissions
+- **Skills** (`.opencode/skills/<name>/SKILL.md`) — reusable knowledge modules
 - **Rules** (`docs/rules/*.md`) — modular instructions with optional scope
-- **Hooks** (`.claude/hooks/`) — guaranteed deterministic actions on every event
+- **Hooks** (`.opencode/hooks/`) — guaranteed deterministic actions on every event
 
 Subagents are **never invoked via bash** — always with the `Task` tool.
 
@@ -133,7 +133,7 @@ Subagents are **never invoked via bash** — always with the `Task` tool.
 
 ## 6. AGENTS, SKILLS AND COMMANDS FRONTMATTER
 
-### Agents (`.claude/agents/*.md`)
+### Agents (`.opencode/agents/*.md`)
 ```yaml
 ---
 name: agent-name
@@ -146,7 +146,7 @@ color: cyan
 ---
 ```
 
-### Skills (`.claude/skills/<name>/SKILL.md`)
+### Skills (`.opencode/skills/<name>/SKILL.md`)
 ```yaml
 ---
 name: skill-name
@@ -404,7 +404,7 @@ done
 1. **Terminal**: `/config` for theme, `/terminal-setup` for shift+enter, `/vim` for vim mode
 2. **Effort**: `/model` → High recommended for maximum intelligence
 3. **Plugins**: install LSPs, MCPs and skills from the Anthropic marketplace
-4. **Agents**: `.claude/agents/*.md` with name, color, tools and their own model
+4. **Agents**: `.opencode/agents/*.md` with name, color, tools and their own model
 5. **Permissions**: `/permissions` + wildcards + `settings.json` in git for the team
 6. **Sandbox**: `/sandbox` for isolation and fewer permission prompts
 7. **Status line**: `/statusline` to display model, context, cost, custom metrics

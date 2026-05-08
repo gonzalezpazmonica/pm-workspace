@@ -104,7 +104,7 @@ assert isinstance(d["agents"], list)
 
 @test "json: sonnet_count matches actual sonnet agents in repo" {
   local actual_count
-  actual_count=$(grep -l "^model: claude-sonnet-4-6" .claude/agents/*.md 2>/dev/null | wc -l)
+  actual_count=$(grep -l "^model: claude-sonnet-4-6" .opencode/agents/*.md 2>/dev/null | wc -l)
   run bash -c 'timeout 30 bash scripts/opus47-calibration-scorecard.sh --json'
   [ "$status" -eq 0 ]
   local json_count

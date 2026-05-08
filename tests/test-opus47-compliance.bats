@@ -54,13 +54,13 @@ print(\"ok\")
 }
 
 @test "SE-066: code-reviewer contains SE-066 marker" {
-  run grep -q "SE-066" .claude/agents/code-reviewer.md
+  run grep -q "SE-066" .opencode/agents/code-reviewer.md
   [ "$status" -eq 0 ]
 }
 
 @test "SE-066: all 19 review agents marked" {
   for a in code-reviewer pr-agent-judge security-judge correctness-judge spec-judge cognitive-judge architecture-judge calibration-judge coherence-judge completeness-judge compliance-judge factuality-judge hallucination-judge source-traceability-judge security-auditor confidentiality-auditor drift-auditor court-orchestrator truth-tribunal-orchestrator; do
-    grep -q "SE-066" ".claude/agents/$a.md" || fail "$a missing SE-066"
+    grep -q "SE-066" ".opencode/agents/$a.md" || fail "$a missing SE-066"
   done
 }
 
@@ -73,7 +73,7 @@ print(\"ok\")
 
 @test "SE-067: 3 orchestrators marked" {
   for a in dev-orchestrator court-orchestrator truth-tribunal-orchestrator; do
-    grep -q "SE-067" ".claude/agents/$a.md" || fail "$a missing SE-067"
+    grep -q "SE-067" ".opencode/agents/$a.md" || fail "$a missing SE-067"
   done
 }
 
@@ -83,7 +83,7 @@ print(\"ok\")
 }
 
 @test "SE-067: feasibility-probe no fixed budget_tokens row" {
-  run grep -E '^\| budget_tokens' .claude/skills/feasibility-probe/SKILL.md
+  run grep -E '^\| budget_tokens' .opencode/skills/feasibility-probe/SKILL.md
   [ "$status" -ne 0 ]
 }
 
@@ -97,7 +97,7 @@ print(\"ok\")
 @test "SE-068: required tags present in each of 5 agents" {
   for a in architect dev-orchestrator court-orchestrator truth-tribunal-orchestrator code-reviewer; do
     for tag in '<instructions>' '<context_usage>' '<constraints>' '<output_format>'; do
-      grep -qF "$tag" ".claude/agents/$a.md" || fail "$a missing $tag"
+      grep -qF "$tag" ".opencode/agents/$a.md" || fail "$a missing $tag"
     done
   done
 }
@@ -114,12 +114,12 @@ print(\"ok\")
 }
 
 @test "SE-069: SKILL.md + DOMAIN.md exist" {
-  [[ -f ".claude/skills/context-rot-strategy/SKILL.md" ]]
-  [[ -f ".claude/skills/context-rot-strategy/DOMAIN.md" ]]
+  [[ -f ".opencode/skills/context-rot-strategy/SKILL.md" ]]
+  [[ -f ".opencode/skills/context-rot-strategy/DOMAIN.md" ]]
 }
 
 @test "SE-069: SKILL.md describes 5-option model" {
-  run grep -c "5 opciones" .claude/skills/context-rot-strategy/SKILL.md
+  run grep -c "5 opciones" .opencode/skills/context-rot-strategy/SKILL.md
   [[ "$output" -ge 1 ]]
 }
 

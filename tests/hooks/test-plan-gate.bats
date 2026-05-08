@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/plan-gate.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/plan-gate.sh"
   export TEST_TMPDIR="$TMPDIR/work"
   mkdir -p "$TEST_TMPDIR/projects/test-project"
   mkdir -p "$TEST_TMPDIR/src"
@@ -26,7 +26,7 @@ run_hook() {
 }
 
 @test "target has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/plan-gate.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/plan-gate.sh"
 }
 
 # ── Always exits 0 (never blocks) ──
@@ -102,10 +102,10 @@ run_hook() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/plan-gate.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/plan-gate.sh"
 }
 
 @test "edge: empty input produces no error" {
-  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.claude/hooks/validate-bash-global.sh' 2>&1"
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.opencode/hooks/validate-bash-global.sh' 2>&1"
   [ "$status" -eq 0 ]
 }

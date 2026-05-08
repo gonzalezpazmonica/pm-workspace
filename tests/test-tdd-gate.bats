@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # BATS tests for tdd-gate.sh
-# SCRIPT=.claude/hooks/tdd-gate.sh
+# SCRIPT=.opencode/hooks/tdd-gate.sh
 # SPEC: SPEC-081 — Hook test coverage
 
-SCRIPT=".claude/hooks/tdd-gate.sh"
+SCRIPT=".opencode/hooks/tdd-gate.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

@@ -64,7 +64,7 @@ enforcement automatico.
 |---------|--------|
 | `scripts/project-isolation-check.sh` | CREAR |
 | `scripts/project-activate.sh` | CREAR |
-| `.claude/commands/project-activate.md` | CREAR |
+| `.opencode/commands/project-activate.md` | CREAR |
 | `docs/rules/domain/zero-project-leakage.md` | MODIFICAR (anadir enforcement) |
 
 ---

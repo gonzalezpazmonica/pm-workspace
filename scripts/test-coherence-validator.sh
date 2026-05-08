@@ -26,11 +26,11 @@ echo
 
 # ── 1. File existence ─────────────────────────────────────────────
 echo "[Test 1] Files exist"
-assert "[ -f '$PROJECT_DIR/.claude/agents/coherence-validator.md' ]" \
+assert "[ -f '$PROJECT_DIR/.opencode/agents/coherence-validator.md' ]" \
   "Agent coherence-validator.md exists"
-assert "[ -f '$PROJECT_DIR/.claude/skills/coherence-check/SKILL.md' ]" \
+assert "[ -f '$PROJECT_DIR/.opencode/skills/coherence-check/SKILL.md' ]" \
   "Skill coherence-check SKILL.md exists"
-assert "[ -f '$PROJECT_DIR/.claude/commands/check-coherence.md' ]" \
+assert "[ -f '$PROJECT_DIR/.opencode/commands/check-coherence.md' ]" \
   "Command check-coherence.md exists"
 assert "[ -f '$PROJECT_DIR/.claude/agent-memory/coherence-validator/MEMORY.md' ]" \
   "Agent MEMORY.md exists"
@@ -39,9 +39,9 @@ echo
 # ── 2. Line count ≤ 150 ──────────────────────────────────────────
 echo "[Test 2] Line count ≤ 150"
 for f in \
-  ".claude/agents/coherence-validator.md" \
-  ".claude/skills/coherence-check/SKILL.md" \
-  ".claude/commands/check-coherence.md"; do
+  ".opencode/agents/coherence-validator.md" \
+  ".opencode/skills/coherence-check/SKILL.md" \
+  ".opencode/commands/check-coherence.md"; do
   LINES=$(wc -l < "$PROJECT_DIR/$f")
   assert "[ $LINES -le 150 ]" "$f ($LINES lines)"
 done
@@ -49,7 +49,7 @@ echo
 
 # ── 3. Agent: frontmatter ────────────────────────────────────────
 echo "[Test 3] Agent frontmatter"
-AGENT="$PROJECT_DIR/.claude/agents/coherence-validator.md"
+AGENT="$PROJECT_DIR/.opencode/agents/coherence-validator.md"
 assert "grep -q 'name: coherence-validator' '$AGENT'" "name field"
 assert "grep -q 'claude-sonnet-4-6' '$AGENT'" "Model: Sonnet 4.6"
 assert "grep -q 'coherence-check' '$AGENT'" "Skill: coherence-check"
@@ -74,7 +74,7 @@ echo
 
 # ── 6. Skill: protocol steps ─────────────────────────────────────
 echo "[Test 6] Skill protocol"
-SKILL="$PROJECT_DIR/.claude/skills/coherence-check/SKILL.md"
+SKILL="$PROJECT_DIR/.opencode/skills/coherence-check/SKILL.md"
 assert "grep -qi 'protocol\|protocolo' '$SKILL'" "Protocol section"
 assert "grep -qi 'spec\|report\|code' '$SKILL'" "Output types covered"
 assert "grep -qi 'non-block\|no bloq' '$SKILL'" "Non-blocking behavior"
@@ -88,7 +88,7 @@ echo
 
 # ── 8. Command: usage and flags ───────────────────────────────────
 echo "[Test 8] Command structure"
-CMD="$PROJECT_DIR/.claude/commands/check-coherence.md"
+CMD="$PROJECT_DIR/.opencode/commands/check-coherence.md"
 assert "grep -q 'check-coherence' '$CMD'" "Command name"
 assert "grep -q '\-\-strict' '$CMD'" "--strict flag"
 assert "grep -q '\-\-file' '$CMD'" "--file flag"

@@ -20,7 +20,7 @@
 
 ## 📟 Comandos Disponibles (513)
 
-> Tabla completa: `.claude/commands/references/command-catalog.md`
+> Tabla completa: `.opencode/commands/references/command-catalog.md`
 > Catálogo interactivo: `/help [filtro]`
 
 **Categorías:** Sprint y Reporting (10), PBI y Discovery (8), SDD (5), Calidad y PRs (4), Equipo (3), Infra (7), Diagramas (4), Pipelines (5), Azure Repos (6), Governance (5), Legacy & Capture (3), Project Onboarding (5), DevOps Extended (5), Mensajería e Inbox (6), Company Savia (7), Savia Flow (5), Travel Mode (2), Conectores (12), Utilidades (4).
@@ -31,12 +31,12 @@
 - KPIs: `docs/kpis-equipo.md`
 - Plantillas: `docs/plantillas-informes.md`
 - Política estimación: `docs/politica-estimacion.md`
-- Queries WIQL: `.claude/skills/azure-devops-queries/references/wiql-patterns.md`
-- Product Discovery: `.claude/skills/product-discovery/SKILL.md`
-- SDD: `.claude/skills/spec-driven-development/SKILL.md`
-- Team Onboarding: `.claude/skills/team-onboarding/SKILL.md`
-- Diagramas: `.claude/skills/diagram-generation/SKILL.md`
-- Azure Pipelines: `.claude/skills/azure-pipelines/SKILL.md`
+- Queries WIQL: `.opencode/skills/azure-devops-queries/references/wiql-patterns.md`
+- Product Discovery: `.opencode/skills/product-discovery/SKILL.md`
+- SDD: `.opencode/skills/spec-driven-development/SKILL.md`
+- Team Onboarding: `.opencode/skills/team-onboarding/SKILL.md`
+- Diagramas: `.opencode/skills/diagram-generation/SKILL.md`
+- Azure Pipelines: `.opencode/skills/azure-pipelines/SKILL.md`
 - UX Feedback: `docs/rules/domain/command-ux-feedback.md`
 - Context Health: `docs/rules/domain/context-health.md`
 - Azure DevOps API v7.1: https://learn.microsoft.com/en-us/rest/api/azure/devops/

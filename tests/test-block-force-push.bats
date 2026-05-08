@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # BATS tests for block-force-push.sh
-# SCRIPT=.claude/hooks/block-force-push.sh
+# SCRIPT=.opencode/hooks/block-force-push.sh
 # SPEC: SPEC-032 Security Benchmarks — git safety hooks
 
-SCRIPT=".claude/hooks/block-force-push.sh"
+SCRIPT=".opencode/hooks/block-force-push.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

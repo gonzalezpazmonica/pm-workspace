@@ -3,7 +3,7 @@ name: school-submit
 description: Student submits completed project for evaluation
 argument-hint: "<alias> <project_name>"
 allowed-tools: [Bash, Read]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

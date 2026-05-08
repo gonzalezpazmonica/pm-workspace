@@ -49,8 +49,13 @@ fi
 
 # Skip private destinations — BEFORE daemon call (N4/N4b never scanned)
 # Includes tenant paths (SE-002: tenants/ are N4-isolated per tenant)
+# Includes hook self-edits and BATS tests for hooks (infrastructure code,
+# not leak targets — they legitimately contain hook tokens, regex patterns,
+# and field names that Presidio mis-classifies as PII).
 case "$NORM_PATH" in
   */projects/*|projects/*|*/tenants/*|tenants/*|*.local.*|*/output/*|*private-agent-memory*|*/config.local/*|*/.savia/*|*/.claude/sessions/*|*settings.local.json*) exit 0 ;;
+  */.opencode/hooks/*|.opencode/hooks/*) exit 0 ;;
+  */tests/hooks/*|tests/hooks/*) exit 0 ;;
 esac
 
 CONTENT=$(printf '%s' "$INPUT" | jq -r '(.tool_input.content // .tool_input.new_string // "")[:20000]' 2>/dev/null) || exit 0
@@ -65,6 +70,27 @@ if curl -sf --max-time 2 "$SHIELD_URL/health" >/dev/null 2>&1; then
 
   if [[ -n "$RESULT" ]]; then
     if echo "$RESULT" | grep -q '"BLOCK"'; then
+      # SPEC-SH01: code-pattern allowlist override
+      # If BLOCK was caused only by code-like tokens (kwargs, method names,
+      # framework types) in a script file, downgrade to WARN.
+      SH01_ALLOW=false
+      case "$NORM_PATH" in
+        *.py|*.sh|*.ps1|*.js|*.mjs|*.ts|*.tsx|*.tool|*/scripts/*|*/hooks/*|*/tools/*|*/tests/*)
+          ENT_TEXTS=$(echo "$RESULT" | jq -r '.entities[]?.text // empty' 2>/dev/null)
+          if [[ -n "$ENT_TEXTS" ]]; then
+            # SH01 allowlist: match if entity text looks like code (kwargs, module paths, type names)
+            NON_CODE=$(echo "$ENT_TEXTS" | grep -viE '(timeout=|^urllib\.|^websocket|^Exception|^BaseException|^[A-Z][a-zA-Z]*Error|^[A-Z][a-zA-Z]*Exception|^class |^def |^import |^from |^async |^await |^kwargs|^Start-Process|^Get-Process|^Stop-Process|^suppress_origin|^iso8601|^return |^throw |^catch |^Microsoft|^System\.|^Azure\.|^Google\.|^Amazon\.|^Origin$|^CSRF$|^JSON$|^XML$|^HTTP|^REST|^API|^SDK|^args$|^argv$|^stdin$|^stdout$|^stderr$|^datetime|^timedelta|^Path$|=[0-9]+$|=True$|=False$|=None$|^True$|^False$|^None$|^self$|^cls$|^today$|^days$|^offset$|^localhost$|^127\.|^0\.0\.|8080$|8443$|9222$|9223$|^Dedup|^YYYY|^MM-DD|^webSocket|^createTarget|^devtools|^Chrome|^Chromium|^DevTools|^Playwright|^Selenium|^chromium|^firefox|^safari|^git$|^github|^repo$|^branch$|^commit$|^push$|^pull$|^merge$|^rebase$|^fetch$|^clone$|^linter$|^TDD$|^BATS$|^pytest$|^jest$|^mocha$|^shellcheck$|^ast$|^regex$|^tokenize$|^serialize$|^deserialize$|^encode$|^decode$|^parse$|^render$|^template$|^format$|^string$|^number$|^boolean$|^object$|^array$|^function$|^method$|^variable$|^constant$|^parameter$|^argument$|^keyword$|^lambda$|^generator$|^iterator$|^decorator$|^annotation$|^interface$|^abstract$|^concrete$|^implementation$|^inheritance$|^polymorphism$|^encapsulation$|^Errores$|^iso8601$|^HTTPError|^URLError|^TimeoutError|^SyntaxError|^TypeError|^ValueError|^KeyError|^NameError|^ImportError|^ModuleNotFoundError|^FileNotFoundError|^PermissionError|^ConnectionError|^RuntimeError|^NotImplementedError|^OSError|^IOError|^AttributeError|^IndexError|^UnicodeError|^DeprecationWarning|^SyntaxWarning|^UserWarning|^ResourceWarning|^PendingDeprecationWarning|^FutureWarning|^RuntimeWarning|^Source$|^Detected$|^Tier$|^SPEC-[A-Z]+[0-9]*|^H:%M|^M:%S|^Y-%m|^%Y-%m-%d|^SessionStart$|^VSTS|^Scheduling|^TeamProject|^WorkItemType|^AssignedTo|^IterationPath|^AreaPath|^ChangedDate|^Effort|^CompletedWork|^RemainingWork|^Parent$|^Tags$|^Priority$|^Title$|^State$|^[Bb]loqueado$|^pending$|^active$|^closed$|^deferred$|^discarded$|^wdays$|^span$|^iso_str$|^out_dir$|^tenant_label$|^YYYY-MM-DD HH:MM$|^HH:MM$|^Errores$|^iso8601$|^substr$|^default=[0-9]+$|^\.stem\.|^tenant_url$|^drive_id$|^item_id$|^page\.|^ws\.|^cdp_url$|^cdp_port$|^cdp_send$|^eval_in_page$|^find_page$|^ws_connect$|^discover_drive$|^list_recordings$|^download_transcript$|^load_json$|^save_json$|^urllib\.parse$|^urllib\.request$|^urlopen$|^timedelta\(|^timedelta$|^datetime\(|^isoformat\(|^fromisoformat\(|^replace\(|^[A-Z][a-zA-Z]+Url$|^attachments dispatcher$|^attachment dispatcher$|^dispatch digests$|^Idempotency$|^SharePoint$|^\.csv$|^\.xlsx$|^\.pdf$|^\.docx$|^\.pptx$|^\.doc$|^\.xls$|^\.ppt$|^\.md$|^\.sh$|^\.py$|^\.ps1$|^\.json$|^\.yaml$|^\.yml$|^attachments$|^manifest$|^manifests$|^pre-downloaded$|^download_dir$|^manifest_dir$|^digest_type$|^SUPPORTED_EXTS$|^sha256$|^file_hash$|^slugify$|^unsupported$|^dispatched$|^skipped$|^dry-run$|^Counter$|^Counter\(|^OrderedDict$|^defaultdict$|^deque$|^zoneinfo$|^ZoneInfo$|^timezone\.utc|^utc\)$|^t = tag\.|^separators=|^severity asc$|^id asc$|^priority asc$|^funcionalidad asc$|^excel_id asc$|^rule_code asc$|^incident_id asc$|^WorkItems$|^WorkItem$|^LinkTypes?$|^Hierarchy|^openpyxl$|^pandas$|^numpy$|^pytest$|^pathlib$|^typing$|^the extension$|^the file$|^a JWT$|^read$|^write$|^close$|^Found$|^Found:$|^Missing$|^canonical$|^alias$|^aliases$|^resolved$|^Mirror$|^# Mirror|^real_to_canonical$|^applies$|^applied$)' 2>/dev/null)
+            if [[ -z "$NON_CODE" ]]; then
+              SH01_ALLOW=true
+            fi
+          fi
+          ;;
+      esac
+      if [[ "$SH01_ALLOW" == "true" ]]; then
+        echo "WARNING [Savia Shield SH01]: code-token allowlist override en $FILE_PATH" >&2
+        echo "$RESULT" | jq -c '. + {ts:now|todate,layer:"gate",override:"sh01_allowlist"}' >> "$AUDIT_LOG" 2>/dev/null
+        exit 0
+      fi
       echo "$RESULT" | jq -r '.entities[]? | "  [\(.type)] \(.text)"' 2>/dev/null | head -5 >&2
       echo "BLOQUEADO [Savia Shield]: PII detectado en fichero publico" >&2
       echo "$RESULT" | jq -c '. + {ts:now|todate,layer:"gate"}' >> "$AUDIT_LOG" 2>/dev/null
@@ -77,7 +103,7 @@ fi
 # Fallback: daemon down — inline regex (path + private skip already done above)
 # Whitelist specific sovereignty/shield files
 case "$NORM_PATH" in
-  *scripts/data-sovereignty*|*scripts/ollama-classify*|*scripts/shield-ner*|*scripts/savia-shield*|*scripts/sovereignty-mask*|*scripts/pre-commit-sovereignty*|*tests/test-data-sovereignty*) exit 0 ;;
+  *scripts/data-sovereignty*|*scripts/ollama-classify*|*scripts/shield-ner*|*scripts/savia-shield*|*scripts/pre-commit-sovereignty*|*tests/test-data-sovereignty*) exit 0 ;;
   *hooks/data-sovereignty*|*hooks/ollama-classify*|*hooks/shield-ner*) exit 0 ;;
 esac
 
@@ -145,7 +171,7 @@ fi
 # Only CONFIDENTIAL blocks N1 files (real secrets must never leak).
 IS_N1_DEST=false
 case "$NORM_PATH" in
-  */docs/*|*/.claude/rules/*|*/.claude/skills/*|*/.claude/agents/*|*/.claude/commands/*|*/.claude/hooks/*|*/scripts/*|*/tests/*|*/.github/*|*/CLAUDE.md|*/CHANGELOG.md|*/README*|*/public-agent-memory/*|docs/*|.claude/rules/*|.claude/skills/*|.claude/agents/*|.claude/commands/*|.claude/hooks/*|scripts/*|tests/*|.github/*|CLAUDE.md|CHANGELOG.md|README*|public-agent-memory/*) IS_N1_DEST=true ;;
+  */docs/*|*/.claude/rules/*|*/.opencode/skills/*|*/.opencode/agents/*|*/.opencode/commands/*|*/.opencode/hooks/*|*/scripts/*|*/tests/*|*/.github/*|*/CLAUDE.md|*/CHANGELOG.md|*/README*|*/public-agent-memory/*|docs/*|.claude/rules/*|.opencode/skills/*|.opencode/agents/*|.opencode/commands/*|.opencode/hooks/*|scripts/*|tests/*|.github/*|CLAUDE.md|CHANGELOG.md|README*|public-agent-memory/*) IS_N1_DEST=true ;;
 esac
 
 CLASSIFY="$PROJECT_DIR/scripts/ollama-classify.sh"

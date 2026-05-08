@@ -58,7 +58,7 @@ output/
 │   └── governance-*.md      ← compliance reports
 └── alerts/                  ← alert history
 
-.claude/commands/
+.opencode/commands/
 ├── ceo-*.md                 ← report, alerts
 ├── portfolio-*.md           ← overview, deps
 ├── governance-*.md          ← audit, report, certify

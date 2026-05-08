@@ -17,7 +17,7 @@
 
 ## 1. Contexto y Objetivo
 
-SPEC-001 created `.claude/hooks/bash-output-compress.sh` as a PostToolUse hook.
+SPEC-001 created `.opencode/hooks/bash-output-compress.sh` as a PostToolUse hook.
 The hook works but has a fundamental limitation documented at line 103-105 of
 the script: **PostToolUse hooks cannot modify TOOL_OUTPUT**. The hook only logs
 metrics. Zero tokens are actually saved from Claude's context window.
@@ -311,7 +311,7 @@ tests/fixtures/output-compress/stack-trace-25.txt       # 25-frame .NET stack tr
 
 ### Modificar (existentes)
 ```
-.claude/hooks/bash-output-compress.sh   # Replace metrics-only logic with:
+.opencode/hooks/bash-output-compress.sh   # Replace metrics-only logic with:
                                         #   COMPRESSED=$(echo "$OUTPUT" | bash "$PROJECT_DIR/scripts/output-compress.sh" --command "$COMMAND")
                                         #   echo "$COMPRESSED"
                                         #   (stdout from PostToolUse hook becomes additionalContext)
@@ -329,7 +329,7 @@ scripts/context-tracker.sh              # Compression-report subcommand already 
 
 ### Existing hook pattern (same project):
 ```
-.claude/hooks/bash-output-compress.sh   # Current implementation (metrics only, lines 1-106)
+.opencode/hooks/bash-output-compress.sh   # Current implementation (metrics only, lines 1-106)
 ```
 
 ### Compression functions to preserve and extend:
@@ -394,7 +394,7 @@ wc -l scripts/output-compress.sh                                  # must be <= 1
 - [ ] `--command` and `--max-lines` arguments parsed correctly
 - [ ] Empty input produces empty output
 - [ ] Output <= 30 lines passes through (ANSI stripped only)
-- [ ] `.claude/hooks/bash-output-compress.sh` updated to call the new script
+- [ ] `.opencode/hooks/bash-output-compress.sh` updated to call the new script
 - [ ] Hook stdout emits compressed output (not just metrics)
 - [ ] All 10 test scenarios pass
 - [ ] All test fixtures created with realistic but generic data

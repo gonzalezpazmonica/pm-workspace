@@ -59,10 +59,10 @@ teardown() {
 
 @test "hooks handle both docs/rules/ and .claude/rules/ (dual-pattern)" {
   local count
-  count=$(grep -lE 'docs/rules' "$ROOT/.claude/hooks/prompt-injection-guard.sh" \
-    "$ROOT/.claude/hooks/validate-layer-contract.sh" \
-    "$ROOT/.claude/hooks/agent-hook-premerge.sh" \
-    "$ROOT/.claude/hooks/memory-auto-capture.sh" 2>/dev/null | wc -l)
+  count=$(grep -lE 'docs/rules' "$ROOT/.opencode/hooks/prompt-injection-guard.sh" \
+    "$ROOT/.opencode/hooks/validate-layer-contract.sh" \
+    "$ROOT/.opencode/hooks/agent-hook-premerge.sh" \
+    "$ROOT/.opencode/hooks/memory-auto-capture.sh" 2>/dev/null | wc -l)
   [ "$count" -ge 3 ]
 }
 
@@ -75,8 +75,8 @@ teardown() {
       broken=$((broken + 1))
     fi
   done < <(grep -rohP '@docs/rules/domain/\K[a-z0-9_-]+\.md' \
-    "$ROOT/CLAUDE.md" "$ROOT/.claude/commands/" \
-    "$ROOT/.claude/skills/" "$ROOT/.claude/agents/" 2>/dev/null | sort -u)
+    "$ROOT/CLAUDE.md" "$ROOT/.opencode/commands/" \
+    "$ROOT/.opencode/skills/" "$ROOT/.opencode/agents/" 2>/dev/null | sort -u)
   [ "$broken" -eq 0 ]
 }
 
@@ -88,8 +88,8 @@ teardown() {
       broken=$((broken + 1))
     fi
   done < <(grep -rohP '@docs/rules/languages/\K[a-z0-9_-]+\.md' \
-    "$ROOT/.claude/commands/" "$ROOT/.claude/skills/" \
-    "$ROOT/.claude/agents/" 2>/dev/null | sort -u)
+    "$ROOT/.opencode/commands/" "$ROOT/.opencode/skills/" \
+    "$ROOT/.opencode/agents/" 2>/dev/null | sort -u)
   [ "$broken" -eq 0 ]
 }
 
@@ -109,32 +109,32 @@ print(' '.join(sorted(n for n, i in d['rules'].items() if i['tier'] == 'tier1'))
 
 @test "no stale .claude/rules/domain/ refs in commands (excl. pm-config.local)" {
   local found
-  found=$(grep -rE '\.claude/rules/domain/' "$ROOT/.claude/commands/" --include='*.md' 2>/dev/null \
+  found=$(grep -rE '\.claude/rules/domain/' "$ROOT/.opencode/commands/" --include='*.md' 2>/dev/null \
     | grep -v 'pm-config\.local' | wc -l)
   [ "$found" -eq 0 ]
 }
 
 @test "no stale .claude/rules/domain/ refs in agents (excl. pm-config.local)" {
   local found
-  found=$(grep -rE '\.claude/rules/domain/' "$ROOT/.claude/agents/" --include='*.md' 2>/dev/null \
+  found=$(grep -rE '\.claude/rules/domain/' "$ROOT/.opencode/agents/" --include='*.md' 2>/dev/null \
     | grep -v 'pm-config\.local' | wc -l)
   [ "$found" -eq 0 ]
 }
 
 @test "no stale .claude/rules/domain/ refs in skills (excl. pm-config.local)" {
   local found
-  found=$(grep -rE '\.claude/rules/domain/' "$ROOT/.claude/skills/" --include='*.md' 2>/dev/null \
+  found=$(grep -rE '\.claude/rules/domain/' "$ROOT/.opencode/skills/" --include='*.md' 2>/dev/null \
     | grep -v 'pm-config\.local' | wc -l)
   [ "$found" -eq 0 ]
 }
 
 @test "no stale .claude/rules/languages/ refs in agents" {
-  run grep -rlE '\.claude/rules/languages/' "$ROOT/.claude/agents/" --include='*.md'
+  run grep -rlE '\.claude/rules/languages/' "$ROOT/.opencode/agents/" --include='*.md'
   [ "$status" -ne 0 ]
 }
 
 @test "no stale .claude/rules/languages/ refs in commands" {
-  run grep -rlE '\.claude/rules/languages/' "$ROOT/.claude/commands/" --include='*.md'
+  run grep -rlE '\.claude/rules/languages/' "$ROOT/.opencode/commands/" --include='*.md'
   [ "$status" -ne 0 ]
 }
 

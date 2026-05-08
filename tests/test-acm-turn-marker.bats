@@ -1,11 +1,11 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/acm-turn-marker.sh
+# BATS tests for .opencode/hooks/acm-turn-marker.sh
 # PostToolUse — SE-063 Slice 2. Creates per-turn marker when agent reads
 # a file inside projects/*/.agent-maps/ (signals ACM was consulted).
 # Consumed by acm-enforcement.sh PreToolUse.
 # Ref: batch 47 hook coverage — SPEC-063 ACM enforcement chain
 
-HOOK=".claude/hooks/acm-turn-marker.sh"
+HOOK=".opencode/hooks/acm-turn-marker.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

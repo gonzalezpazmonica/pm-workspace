@@ -1,7 +1,7 @@
 ---
 name: spec-implement
 description: Implementa una Spec según su developer_type — lanza agente o asigna a humano.
-model: heavy
+model: github-copilot/claude-opus-4.7
 context_cost: high
 ---
 

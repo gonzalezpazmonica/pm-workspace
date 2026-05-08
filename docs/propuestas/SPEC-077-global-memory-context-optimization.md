@@ -305,7 +305,7 @@ Tier C (peso 0.3× en ranking):
 | Fichero | Tipo | Propuesta |
 |---------|------|-----------|
 | `scripts/memory-verify.sh` | Script nuevo | P3 |
-| `.claude/hooks/compress-agent-output.sh` | Hook nuevo | P4 |
+| `.opencode/hooks/compress-agent-output.sh` | Hook nuevo | P4 |
 | `docs/guides/guide-context-memory-optimization.md` | Documentación ES | Todas |
 | `docs/guides_en/guide-context-memory-optimization.md` | Documentación EN | Todas |
 

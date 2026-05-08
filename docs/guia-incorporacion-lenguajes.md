@@ -201,8 +201,8 @@ Si el lenguaje no tiene tooling de análisis estático moderno, documentar:
 
 ## Paso 3 — Crear {lang}-developer.md (Agente)
 
-**Ubicación:** `.claude/agents/{lang}-developer.md`
-**Referencia:** `.claude/agents/dotnet-developer.md`
+**Ubicación:** `.opencode/agents/{lang}-developer.md`
+**Referencia:** `.opencode/agents/dotnet-developer.md`
 
 ### Estructura obligatoria
 
@@ -270,8 +270,8 @@ Los 4 comandos deben pasar sin errores ni warnings.
 
 ## Paso 4 — Crear layer-assignment-matrix-{lang}.md
 
-**Ubicación:** `.claude/skills/spec-driven-development/references/layer-assignment-matrix-{lang}.md`
-**Referencia:** `.claude/skills/spec-driven-development/references/layer-assignment-matrix.md`
+**Ubicación:** `.opencode/skills/spec-driven-development/references/layer-assignment-matrix-{lang}.md`
+**Referencia:** `.opencode/skills/spec-driven-development/references/layer-assignment-matrix.md`
 
 ### Estructura obligatoria
 

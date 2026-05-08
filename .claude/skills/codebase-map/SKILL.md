@@ -30,12 +30,12 @@ allowed-tools: [Read, Glob, Grep, Bash]
 
 ## Que escanea
 
-### Comandos (.claude/commands/*.md)
+### Comandos (.opencode/commands/*.md)
 - Referencias `@` a reglas, skills, agentes
 - Frontmatter: model, allowed-tools, context_cost
 - Skill referenciado: linea "Ejecutar skill: @..."
 
-### Agentes (.claude/agents/*.md)
+### Agentes (.opencode/agents/*.md)
 - Frontmatter: tools, model, permissionMode
 - Descripcion: PROACTIVELY triggers
 - Referencias a ficheros de proyecto en el body
@@ -44,7 +44,7 @@ allowed-tools: [Read, Glob, Grep, Bash]
 - Quien las referencia (comandos, agentes, otras reglas)
 - Hub score: numero de consumidores
 
-### Skills (.claude/skills/*/SKILL.md)
+### Skills (.opencode/skills/*/SKILL.md)
 - Frontmatter: category, tags, priority
 - Dependencias: que reglas o agentes invocan
 

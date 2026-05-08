@@ -26,7 +26,7 @@ El valor: **sovereignty end-to-end en escenario real de caída**.
 
 ## Scope
 
-1. **Actualizar** `.claude/skills/emergency-mode/SKILL.md` con sección LocalAI:
+1. **Actualizar** `.opencode/skills/emergency-mode/SKILL.md` con sección LocalAI:
    - Install path
    - Config `ANTHROPIC_BASE_URL=http://localhost:8080/v1`
    - Modelos Anthropic-compatibles disponibles
@@ -36,7 +36,7 @@ El valor: **sovereignty end-to-end en escenario real de caída**.
    - Verifica modelo Claude-compatible disponible
    - Reporta estado OK/WARN/FAIL
 
-3. **Hook** `.claude/hooks/emergency-mode-readiness.sh` que ejecuta el readiness check en SessionStart si `EMERGENCY_MODE_ENABLED=true`.
+3. **Hook** `.opencode/hooks/emergency-mode-readiness.sh` que ejecuta el readiness check en SessionStart si `EMERGENCY_MODE_ENABLED=true`.
 
 4. **Docs** `docs/rules/domain/emergency-mode-protocol.md`:
    - Cuándo activar (API Anthropic caída > X min)
@@ -82,8 +82,8 @@ Estado: READY (1 warning — ver arriba)
 ## Acceptance Criteria
 
 - [ ] AC-01 `scripts/localai-readiness-check.sh` crea un binary check runnable
-- [ ] AC-02 `.claude/skills/emergency-mode/SKILL.md` incluye sección LocalAI configuration
-- [ ] AC-03 `.claude/hooks/emergency-mode-readiness.sh` hook ejecuta readiness en SessionStart si feature-flag on
+- [ ] AC-02 `.opencode/skills/emergency-mode/SKILL.md` incluye sección LocalAI configuration
+- [ ] AC-03 `.opencode/hooks/emergency-mode-readiness.sh` hook ejecuta readiness en SessionStart si feature-flag on
 - [ ] AC-04 `docs/rules/domain/emergency-mode-protocol.md` creado
 - [ ] AC-05 `docs/rules/domain/autonomous-safety.md` actualizado nota: emergency-mode respeta AUTONOMOUS_REVIEWER
 - [ ] AC-06 Test bats `tests/localai-readiness.bats` verifica script (mock LocalAI endpoint)
@@ -123,8 +123,8 @@ Time-box: 60 min. Riesgo principal: Endpoint LocalAI puede variar por versión. 
 SPEC-122 completado en Era 187 (batch 54). Todos los 7 AC cumplidos:
 
 - [x] AC-01 `scripts/localai-readiness-check.sh` — runnable, --json/--url/--model flags, exit codes 0/1/2
-- [x] AC-02 `.claude/skills/emergency-mode/SKILL.md` — sección "Emergency Mode — Savia ↔ LocalAI Switchover" con `ANTHROPIC_BASE_URL` config y feature matrix cloud-vs-local
-- [x] AC-03 `.claude/hooks/emergency-mode-readiness.sh` — SessionStart hook, feature-flag `EMERGENCY_MODE_ENABLED=true`, registrado en `.claude/settings.json` con timeout 12s
+- [x] AC-02 `.opencode/skills/emergency-mode/SKILL.md` — sección "Emergency Mode — Savia ↔ LocalAI Switchover" con `ANTHROPIC_BASE_URL` config y feature matrix cloud-vs-local
+- [x] AC-03 `.opencode/hooks/emergency-mode-readiness.sh` — SessionStart hook, feature-flag `EMERGENCY_MODE_ENABLED=true`, registrado en `.claude/settings.json` con timeout 12s
 - [x] AC-04 `docs/rules/domain/emergency-mode-protocol.md` — protocolo activación/recuperación
 - [x] AC-05 `docs/rules/domain/autonomous-safety.md` — sección "Emergency-mode (LocalAI fallback) — SPEC-122" añadida con prohibiciones explícitas (NUNCA bypass AUTONOMOUS_REVIEWER en emergency)
 - [x] AC-06 `tests/test-emergency-mode-readiness.bats` — 30 tests certified score 94. Mock LocalAI script via `$CLAUDE_PROJECT_DIR/scripts/localai-readiness-check.sh`. Cubre verdict states (READY/WARN/FAIL/SKIP/TIMEOUT/UNKNOWN), feature-flag silencio, append accumulation, timeout (10s), edge cases. Nota: nombre real es `test-emergency-mode-readiness.bats` (per pm-workspace `test-X.bats` convention) en lugar de `localai-readiness.bats` propuesto. El test-localai-readiness-check.bats existente cubre el script bash separadamente.

@@ -8,9 +8,9 @@ fail() { ((FAIL++)); ((TOTAL++)); echo "  ❌ $1"; }
 check() { if eval "$1" > /dev/null 2>&1; then pass "$2"; else fail "$2"; fi; }
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CMD="$ROOT/.claude/commands/onboard-enterprise.md"
+CMD="$ROOT/.opencode/commands/onboard-enterprise.md"
 RULE="$ROOT/docs/rules/domain/onboarding-enterprise.md"
-SKILL="$ROOT/.claude/skills/enterprise-onboarding/SKILL.md"
+SKILL="$ROOT/.opencode/skills/enterprise-onboarding/SKILL.md"
 
 echo "═══════════════════════════════════════════"
 echo "  Test: onboard-enterprise (Era 39, v2.12.2)"

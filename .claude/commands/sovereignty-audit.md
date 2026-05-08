@@ -3,15 +3,15 @@ name: sovereignty-audit
 description: "Cognitive sovereignty audit — diagnose AI vendor lock-in risk and data portability"
 allowed-tools: [Read, Glob, Grep, Write, Edit]
 argument-hint: "[scan|report|exit-plan|recommend] [--format md|pdf] [--dimension d1|d2|d3|d4|d5]"
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /sovereignty-audit — Auditoría de soberanía cognitiva
 
-> Skill: @.claude/skills/sovereignty-auditor/SKILL.md
-> Config: @.claude/skills/sovereignty-auditor/references/cognitive-sovereignty.md
-> Complementa: @.claude/commands/governance-audit.md
+> Skill: @.opencode/skills/sovereignty-auditor/SKILL.md
+> Config: @.opencode/skills/sovereignty-auditor/references/cognitive-sovereignty.md
+> Complementa: @.opencode/commands/governance-audit.md
 
 Diagnostica y cuantifica el nivel de independencia de tu organización respecto
 a proveedores de IA. Basado en "La Trampa Cognitiva" (De Nicolás, 2026):

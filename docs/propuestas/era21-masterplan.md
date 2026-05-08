@@ -521,7 +521,7 @@ lenguaje natural y que las búsquedas sean más precisas y rápidas.
 
 ### SPEC-029 — Memory Agent (implementado v3.63.0)
 
-Agente conversacional en `.claude/agents/memory-agent.md`:
+Agente conversacional en `.opencode/agents/memory-agent.md`:
 - **recall**: busca decisiones/lecciones/patrones en lenguaje natural
 - **save**: guarda nueva memoria sin comandos exactos
 - **stats**: resumen del estado de la memoria

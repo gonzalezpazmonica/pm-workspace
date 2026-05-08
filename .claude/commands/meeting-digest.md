@@ -4,7 +4,7 @@ description: >
   Digiere una transcripcion de reunion, actualiza perfiles de equipo, reglas de negocio
   y ejecuta analisis de riesgos cruzando contra el estado del proyecto. Soporta VTT, DOCX y TXT.
 argument-hint: "<fichero> [--type one2one|retro|review|refinement|stakeholder] [--project nombre] [--no-risk]"
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: high
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Task]
 ---

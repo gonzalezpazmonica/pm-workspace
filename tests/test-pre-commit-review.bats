@@ -1,8 +1,8 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/pre-commit-review.sh
+# BATS tests for .opencode/hooks/pre-commit-review.sh
 # Ref: batch 39 hook test coverage gap
 
-HOOK=".claude/hooks/pre-commit-review.sh"
+HOOK=".opencode/hooks/pre-commit-review.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

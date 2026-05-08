@@ -6,6 +6,7 @@ setup() {
   SCRIPT="scripts/generate-context-index.sh"
   TMPDIR_IDX=$(mktemp -d)
   mkdir -p "$TMPDIR_IDX/docs/rules/domain" "$TMPDIR_IDX/docs/rules/languages" \
+           "$TMPDIR_IDX/.opencode/agents" "$TMPDIR_IDX/.opencode/commands" "$TMPDIR_IDX/.opencode/hooks" \
            "$TMPDIR_IDX/.claude/agents" "$TMPDIR_IDX/.claude/skills/test-skill" \
            "$TMPDIR_IDX/.claude/commands" "$TMPDIR_IDX/.claude/hooks" \
            "$TMPDIR_IDX/docs" "$TMPDIR_IDX/scripts" "$TMPDIR_IDX/tests" "$TMPDIR_IDX/output"
@@ -135,14 +136,14 @@ teardown() { rm -rf "$TMPDIR_IDX"; }
 
 @test "all 8 digester agents reference context-index or .ctx" {
   local digesters=(
-    ".claude/agents/meeting-digest.md"
-    ".claude/agents/pdf-digest.md"
-    ".claude/agents/word-digest.md"
-    ".claude/agents/excel-digest.md"
-    ".claude/agents/pptx-digest.md"
-    ".claude/agents/visual-digest.md"
-    ".claude/agents/meeting-risk-analyst.md"
-    ".claude/agents/meeting-confidentiality-judge.md"
+    ".opencode/agents/meeting-digest.md"
+    ".opencode/agents/pdf-digest.md"
+    ".opencode/agents/word-digest.md"
+    ".opencode/agents/excel-digest.md"
+    ".opencode/agents/pptx-digest.md"
+    ".opencode/agents/visual-digest.md"
+    ".opencode/agents/meeting-risk-analyst.md"
+    ".opencode/agents/meeting-confidentiality-judge.md"
   )
   for agent in "${digesters[@]}"; do
     grep -qiE '(context-index|\.ctx)' "$agent" || {

@@ -18,7 +18,7 @@ priority: "high"
 
 > Gestión completa de capacidades del equipo: consulta, cálculo y alertas de sobre-asignación.
 
-**Prerequisito:** Leer primero `.claude/skills/azure-devops-queries/SKILL.md`
+**Prerequisito:** Leer primero `.opencode/skills/azure-devops-queries/SKILL.md`
 
 ## Constantes de esta skill
 

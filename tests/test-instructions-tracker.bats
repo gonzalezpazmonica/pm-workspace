@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/instructions-tracker.sh
+# BATS tests for .opencode/hooks/instructions-tracker.sh
 # InstructionsLoaded async hook — logs which instruction files load per session.
 # Ref: batch 50 hook coverage — SPEC-071 Slice 4
 
-HOOK=".claude/hooks/instructions-tracker.sh"
+HOOK=".opencode/hooks/instructions-tracker.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

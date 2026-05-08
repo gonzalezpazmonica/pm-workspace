@@ -171,7 +171,7 @@ jobs:
         run: |
           echo "=== Gate 4: ShellCheck ==="
           SCRIPTS=$(git diff --name-only --diff-filter=ACMR origin/main...HEAD -- \
-            '*.sh' '.claude/hooks/*.sh' 'scripts/*.sh' 2>/dev/null || true)
+            '*.sh' '.opencode/hooks/*.sh' 'scripts/*.sh' 2>/dev/null || true)
 
           if [ -z "$SCRIPTS" ]; then
             echo "✅ No shell scripts changed"
@@ -220,7 +220,7 @@ jobs:
 
           # Check new/modified hooks
           HOOK_FILES=$(git diff --name-only --diff-filter=ACMR origin/main...HEAD -- \
-            '.claude/hooks/*.sh' 2>/dev/null || true)
+            '.opencode/hooks/*.sh' 2>/dev/null || true)
 
           if [ -z "$HOOK_FILES" ]; then
             echo "✅ No hook files changed"
@@ -337,10 +337,10 @@ jobs:
               'CLAUDE.md',
               '.claude/settings.json',
               '.claude/rules/',
-              '.claude/commands/',
-              '.claude/agents/',
-              '.claude/skills/',
-              '.claude/hooks/'
+              '.opencode/commands/',
+              '.opencode/agents/',
+              '.opencode/skills/',
+              '.opencode/hooks/'
             ];
 
             let totalAdded = 0, totalRemoved = 0;
@@ -417,13 +417,16 @@ jobs:
             const title = pr.title || '';
 
             // Get changed files first (needed for all checks)
-            const filesResponse = await github.rest.pulls.listFiles({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-              per_page: 100
-            });
-            const files = filesResponse.data.map(f => f.filename);
+            const allFiles = await github.paginate(
+              github.rest.pulls.listFiles,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                per_page: 100
+              }
+            );
+            const files = allFiles.map(f => f.filename);
 
             // Check if any CHANGELOG was modified (either CHANGELOG.md directly
             // or a new fragment under CHANGELOG.d/ — zero-conflict pattern).
@@ -446,7 +449,7 @@ jobs:
             // High-impact paths that always require CHANGELOG, even in docs/chore PRs
             const highImpactPaths = [
               '.claude/rules/',
-              '.claude/hooks/',
+              '.opencode/hooks/',
               '.claude/settings.json',
               '.github/workflows/'
             ];
@@ -484,7 +487,7 @@ jobs:
               '- `CHANGELOG.md` (root) for workspace-level changes\n' +
               '- `projects/*/CHANGELOG.md` for project-specific changes\n\n' +
               'Exempt: `docs`, `chore`, `ci`, `style` PRs that only touch documentation files.\n' +
-              'NOT exempt: PRs touching `.claude/rules/`, `.claude/hooks/`, `.github/workflows/`, or `.claude/settings.json`.';
+              'NOT exempt: PRs touching `.claude/rules/`, `.opencode/hooks/`, `.github/workflows/`, or `.claude/settings.json`.';
             core.setFailed(msg);
 
       # ─── Gate 9: PR Digest for Maintainer ───
@@ -496,13 +499,16 @@ jobs:
             const pr = context.payload.pull_request;
 
             // Get changed files via GitHub API (reliable, unlike git diff in PR merge context)
-            const filesResponse = await github.rest.pulls.listFiles({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-              per_page: 100
-            });
-            const diffNames = filesResponse.data.map(f => f.filename);
+            const allFiles2 = await github.paginate(
+              github.rest.pulls.listFiles,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                per_page: 100
+              }
+            );
+            const diffNames = allFiles2.map(f => f.filename);
 
             // Classify changes
             const categories = {
@@ -511,10 +517,10 @@ jobs:
             };
 
             for (const f of diffNames) {
-              if (f.startsWith('.claude/commands/')) categories.commands.push(f);
-              else if (f.startsWith('.claude/agents/')) categories.agents.push(f);
-              else if (f.startsWith('.claude/skills/')) categories.skills.push(f);
-              else if (f.startsWith('.claude/hooks/')) categories.hooks.push(f);
+              if (f.startsWith('.opencode/commands/')) categories.commands.push(f);
+              else if (f.startsWith('.opencode/agents/')) categories.agents.push(f);
+              else if (f.startsWith('.opencode/skills/')) categories.skills.push(f);
+              else if (f.startsWith('.opencode/hooks/')) categories.hooks.push(f);
               else if (f.startsWith('.claude/rules/')) categories.rules.push(f);
               else if (f.startsWith('scripts/')) categories.scripts.push(f);
               else if (f.startsWith('docs/') || f.endsWith('.md')) categories.docs.push(f);

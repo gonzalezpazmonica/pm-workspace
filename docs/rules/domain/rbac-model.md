@@ -2,7 +2,7 @@
 name: rbac-model
 description: "Role-Based Access Control — 4-tier permission matrix with role inheritance and audit trail"
 auto_load: false
-paths: [".claude/commands/rbac-manager*", ".claude/skills/rbac-management/*"]
+paths: [".opencode/commands/rbac-manager*", ".opencode/skills/rbac-management/*"]
 ---
 
 # Regla: RBAC File-Based (Role-Based Access Control)
@@ -91,7 +91,7 @@ Si intenta ejecutar comando en proyecto no-autorizado: **ERROR acceso denegado**
 
 ## Enforcement: pre-command hook check
 
-Antes de ejecutar CUALQUIER comando, verificar mediante hook `.claude/hooks/rbac-check.sh`:
+Antes de ejecutar CUALQUIER comando, verificar mediante hook `.opencode/hooks/rbac-check.sh`:
 
 1. Lee `.claude/profiles/{active-user}/identity.md` → obtiene `role`
 2. Lee `.claude/profiles/{active-user}/role.md` → obtiene `scope`
@@ -100,7 +100,7 @@ Antes de ejecutar CUALQUIER comando, verificar mediante hook `.claude/hooks/rbac
 5. Si no tiene permiso → ERROR + sugerencia de rol necesario
 6. Si tiene permiso → ejecutar + registrar en audit
 
-Hook: `.claude/hooks/rbac-check.sh` (invocado en PreToolUse)
+Hook: `.opencode/hooks/rbac-check.sh` (invocado en PreToolUse)
 
 ## Audit trail
 

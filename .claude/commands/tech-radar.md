@@ -4,7 +4,7 @@ description: Radar tecnológico del proyecto — librerías, versiones, adopt/tr
 developer_type: all
 agent: task
 context_cost: high
-model: mid
+model: github-copilot/claude-sonnet-4.5
 ---
 
 # /tech-radar

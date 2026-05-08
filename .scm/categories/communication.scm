@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 91 resources
+> 93 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -13,6 +13,7 @@
 - **meeting-digest** (agent): >
 - **meeting-risk-analyst** (agent): >
 - **meeting-summarize** (cmd): Transcribe y extrae action items de reuniones — Sprint Review, Retro, Planning, Daily
+- **meeting-transcript-extract** (skill): Extrae transcripciones de reuniones Teams web vía CDP del browser-daemon. Funciona para reuniones propias Y reuniones donde el usuario fue asistente (convocadas por otros). Pipeline: click chat → botón Transcripción → iframe xplatplugins.as
 - **nctalk-search** (cmd): >
 - **notify** (script): notify.sh — Cross-platform desktop notifications for Savia
 - **notify-nctalk** (cmd): >
@@ -75,6 +76,7 @@
 - **savia-setup** (cmd): >
 - **savia-shield** (cmd): Gestión de Savia Shield: activar, desactivar y comprobar instalación del sistema de soberanía de datos. Desactivado por defecto.
 - **savia-shield-setup** (script): savia-shield-setup.sh — Instalador de Savia Shield
+- **savia-shield-status** (script): savia-shield-status.sh — Status determinístico de las 8 capas de Savia Shield
 - **savia-sprint** (cmd): >
 - **savia-status** (cmd): Show Savia current status, health metrics, and top pending priorities
 - **savia-status** (script): savia-status.sh — What is Savia doing right now?

@@ -213,11 +213,11 @@ test_structure() {
     fi
   done
 
-  log_section "Skills (.claude/skills/)"
+  log_section "Skills (.opencode/skills/)"
   local SKILLS=("azure-devops-queries" "sprint-management" "capacity-planning" "time-tracking-report" "executive-reporting" "pbi-decomposition" "spec-driven-development")
   for skill in "${SKILLS[@]}"; do
-    if [[ -f "$WORKSPACE_ROOT/.claude/skills/$skill/SKILL.md" ]]; then
-      LINES=$(wc -l < "$WORKSPACE_ROOT/.claude/skills/$skill/SKILL.md")
+    if [[ -f "$WORKSPACE_ROOT/.opencode/skills/$skill/SKILL.md" ]]; then
+      LINES=$(wc -l < "$WORKSPACE_ROOT/.opencode/skills/$skill/SKILL.md")
       pass "Skill '$skill' (SKILL.md — $LINES líneas)"
     else
       fail "Skill '$skill' no encontrada" "Falta $skill/SKILL.md"
@@ -227,20 +227,20 @@ test_structure() {
   log_section "SDD Reference Files"
   local SDD_REFS=("spec-template.md" "layer-assignment-matrix.md" "agent-team-patterns.md")
   for ref in "${SDD_REFS[@]}"; do
-    if [[ -f "$WORKSPACE_ROOT/.claude/skills/spec-driven-development/references/$ref" ]]; then
+    if [[ -f "$WORKSPACE_ROOT/.opencode/skills/spec-driven-development/references/$ref" ]]; then
       pass "SDD reference: $ref"
     else
       fail "SDD reference faltante: $ref" "Ejecutar setup SDD"
     fi
   done
 
-  log_section "Slash Commands (.claude/commands/)"
+  log_section "Slash Commands (.opencode/commands/)"
   local COMMANDS=("sprint-status" "sprint-plan" "sprint-review" "sprint-retro" "report-hours" "report-executive" "report-capacity" "team-workload" "board-flow" "kpi-dashboard" "pbi-decompose" "pbi-decompose-batch" "pbi-assign" "pbi-plan-sprint" "spec-generate" "spec-implement" "spec-review" "spec-status" "agent-run")
   for cmd in "${COMMANDS[@]}"; do
-    if [[ -f "$WORKSPACE_ROOT/.claude/commands/$cmd.md" ]]; then
+    if [[ -f "$WORKSPACE_ROOT/.opencode/commands/$cmd.md" ]]; then
       pass "Comando /$cmd"
     else
-      fail "Comando /$cmd no encontrado" "Falta .claude/commands/$cmd.md"
+      fail "Comando /$cmd no encontrado" "Falta .opencode/commands/$cmd.md"
     fi
   done
 
@@ -598,7 +598,7 @@ test_sdd() {
   done
 
   log_section "Validar layer-assignment-matrix"
-  MATRIX="$WORKSPACE_ROOT/.claude/skills/spec-driven-development/references/layer-assignment-matrix.md"
+  MATRIX="$WORKSPACE_ROOT/.opencode/skills/spec-driven-development/references/layer-assignment-matrix.md"
   if [[ -f "$MATRIX" ]]; then
     AGENT_ROWS=$(grep -c "agent-single\|agent-team" "$MATRIX" 2>/dev/null || true)
     HUMAN_ROWS=$(grep -c "\`human\`" "$MATRIX" 2>/dev/null || true)
@@ -608,7 +608,7 @@ test_sdd() {
   fi
 
   log_section "Validar spec-template"
-  TEMPLATE="$WORKSPACE_ROOT/.claude/skills/spec-driven-development/references/spec-template.md"
+  TEMPLATE="$WORKSPACE_ROOT/.opencode/skills/spec-driven-development/references/spec-template.md"
   if [[ -f "$TEMPLATE" ]]; then
     TEMPLATE_LINES=$(wc -l < "$TEMPLATE")
     if [[ "$TEMPLATE_LINES" -gt 100 ]]; then

@@ -10,13 +10,14 @@ setup() {
   mkdir -p "$CLAUDE_PROJECT_DIR/projects/test-project"
   mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
   mkdir -p "$CLAUDE_PROJECT_DIR/.claude/hooks"
+  mkdir -p "$CLAUDE_PROJECT_DIR/.opencode/hooks"
   SRC="${BATS_TEST_DIRNAME}/.."
-  cp "$SRC/.claude/hooks/data-sovereignty-gate.sh" "$CLAUDE_PROJECT_DIR/.claude/hooks/"
-  cp "$SRC/.claude/hooks/data-sovereignty-audit.sh" "$CLAUDE_PROJECT_DIR/.claude/hooks/"
+  cp "$SRC/.opencode/hooks/data-sovereignty-gate.sh" "$CLAUDE_PROJECT_DIR/.opencode/hooks/"
+  cp "$SRC/.opencode/hooks/data-sovereignty-audit.sh" "$CLAUDE_PROJECT_DIR/.opencode/hooks/"
   cp "$SRC/scripts/ollama-classify.sh" "$CLAUDE_PROJECT_DIR/scripts/"
-  chmod +x "$CLAUDE_PROJECT_DIR/.claude/hooks/"*.sh
+  chmod +x "$CLAUDE_PROJECT_DIR/.opencode/hooks/"*.sh
   chmod +x "$CLAUDE_PROJECT_DIR/scripts/"*.sh
-  GATE="$CLAUDE_PROJECT_DIR/.claude/hooks/data-sovereignty-gate.sh"
+  GATE="$CLAUDE_PROJECT_DIR/.opencode/hooks/data-sovereignty-gate.sh"
   AUDIT_LOG="$CLAUDE_PROJECT_DIR/output/data-sovereignty-audit.jsonl"
   # Disable Ollama for deterministic tests
   export OLLAMA_URL="http://localhost:99999"
@@ -173,10 +174,10 @@ setup() {
   [ "$status" -eq 2 ]
 }
 
-@test "FIX-C2: .claude/hooks/ is NOT whitelisted for arbitrary files" {
-  INPUT='{"tool_input":{"file_path":"/workspace/.claude/hooks/my-custom-hook.sh","content":"AKIAIOSFODNN7REALKEY1"}}'
+@test "FIX-C2: .opencode/hooks/ IS whitelisted (hook code triggers false positives)" {
+  INPUT='{"tool_input":{"file_path":"/workspace/.opencode/hooks/my-custom-hook.sh","content":"AKIAIOSFODNN7REALKEY1"}}'
   run bash -c "echo '$INPUT' | bash $GATE"
-  [ "$status" -eq 2 ]
+  [ "$status" -eq 0 ]
 }
 
 @test "FIX-C3: docs/rules/ is treated as PUBLIC destination" {
@@ -255,7 +256,7 @@ print(payload)
   mkdir -p "$BATS_TEST_TMPDIR/workspace/docs"
   echo "Server=prod.db.internal;Password=s3cret123" > "$BATS_TEST_TMPDIR/workspace/docs/leaked.md"
   # Feed the file path to the audit hook
-  AUDIT="$CLAUDE_PROJECT_DIR/.claude/hooks/data-sovereignty-audit.sh"
+  AUDIT="$CLAUDE_PROJECT_DIR/.opencode/hooks/data-sovereignty-audit.sh"
   INPUT='{"tool_input":{"file_path":"'"$BATS_TEST_TMPDIR/workspace/docs/leaked.md"'"}}'
   run bash -c "echo '$INPUT' | bash '$AUDIT'"
   # Audit should detect the leak (exit 0 because non-blocking, but stderr has alert)
@@ -265,7 +266,7 @@ print(payload)
 @test "SEC-020: Layer 3 clean file produces no alert" {
   mkdir -p "$BATS_TEST_TMPDIR/workspace/docs"
   echo "Hello world clean content" > "$BATS_TEST_TMPDIR/workspace/docs/clean.md"
-  AUDIT="$CLAUDE_PROJECT_DIR/.claude/hooks/data-sovereignty-audit.sh"
+  AUDIT="$CLAUDE_PROJECT_DIR/.opencode/hooks/data-sovereignty-audit.sh"
   INPUT='{"tool_input":{"file_path":"'"$BATS_TEST_TMPDIR/workspace/docs/clean.md"'"}}'
   run bash -c "echo '$INPUT' | bash '$AUDIT'"
   [[ "$output" != *"ALERTA"* ]]

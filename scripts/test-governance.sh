@@ -31,16 +31,16 @@ test_case() {
 # ── Test 1: Command files exist ─────────────────────────────────
 echo ""
 echo "1️⃣  Command Files Exist"
-test_case "governance-policy.md exists" "[ -f $REPO_ROOT/.claude/commands/governance-policy.md ]"
-test_case "governance-audit.md exists" "[ -f $REPO_ROOT/.claude/commands/governance-audit.md ]"
-test_case "governance-report.md exists" "[ -f $REPO_ROOT/.claude/commands/governance-report.md ]"
-test_case "governance-certify.md exists" "[ -f $REPO_ROOT/.claude/commands/governance-certify.md ]"
+test_case "governance-policy.md exists" "[ -f $REPO_ROOT/.opencode/commands/governance-policy.md ]"
+test_case "governance-audit.md exists" "[ -f $REPO_ROOT/.opencode/commands/governance-audit.md ]"
+test_case "governance-report.md exists" "[ -f $REPO_ROOT/.opencode/commands/governance-report.md ]"
+test_case "governance-certify.md exists" "[ -f $REPO_ROOT/.opencode/commands/governance-certify.md ]"
 
 # ── Test 2: YAML frontmatter ────────────────────────────────────
 echo ""
 echo "2️⃣  YAML Frontmatter"
 for cmd in governance-policy governance-audit governance-report governance-certify; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   test_case "${cmd}: has name field" "grep -q '^name: ' $file"
   test_case "${cmd}: has description" "grep -q '^description: ' $file"
 done
@@ -49,7 +49,7 @@ done
 echo ""
 echo "3️⃣  Line Count (≤ 150 lines)"
 for cmd in governance-policy governance-audit governance-report governance-certify; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   lines=$(wc -l < "$file")
   test_case "${cmd}: ${lines} lines ≤ 150" "[ $lines -le 150 ]"
 done
@@ -57,10 +57,10 @@ done
 # ── Test 4: Key concepts present ────────────────────────────────
 echo ""
 echo "4️⃣  Key Concepts"
-test_case "governance-policy mentions policy\|compliance" "grep -q -i 'policy\|compliance' $REPO_ROOT/.claude/commands/governance-policy.md"
-test_case "governance-audit mentions audit" "grep -q -i 'audit' $REPO_ROOT/.claude/commands/governance-audit.md"
-test_case "governance-report mentions report" "grep -q -i 'report' $REPO_ROOT/.claude/commands/governance-report.md"
-test_case "governance-certify mentions certif\|verify" "grep -q -i 'certif\|verify' $REPO_ROOT/.claude/commands/governance-certify.md"
+test_case "governance-policy mentions policy\|compliance" "grep -q -i 'policy\|compliance' $REPO_ROOT/.opencode/commands/governance-policy.md"
+test_case "governance-audit mentions audit" "grep -q -i 'audit' $REPO_ROOT/.opencode/commands/governance-audit.md"
+test_case "governance-report mentions report" "grep -q -i 'report' $REPO_ROOT/.opencode/commands/governance-report.md"
+test_case "governance-certify mentions certif\|verify" "grep -q -i 'certif\|verify' $REPO_ROOT/.opencode/commands/governance-certify.md"
 
 # ── Test 5: Meta files updated ──────────────────────────────────
 echo ""

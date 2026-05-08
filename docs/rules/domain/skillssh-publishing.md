@@ -93,7 +93,7 @@ repo-raíz/
 ```
 output/skillssh/
 ├── pm-sprint/
-│   ├── .claude/commands/sprint-management.md
+│   ├── .opencode/commands/sprint-management.md
 │   ├── README.md
 │   ├── package.json
 │   └── LICENSE

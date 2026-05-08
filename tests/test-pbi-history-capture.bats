@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/pbi-history-capture.sh
+# BATS tests for .opencode/hooks/pbi-history-capture.sh
 # PostToolUse(Edit|Write) — captures PBI frontmatter changes in ## Historial
 # Ref: batch 42 hook coverage
 
-HOOK=".claude/hooks/pbi-history-capture.sh"
+HOOK=".opencode/hooks/pbi-history-capture.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

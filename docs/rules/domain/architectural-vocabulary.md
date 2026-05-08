@@ -73,8 +73,8 @@ Un module deep puede componerse internamente de partes pequeñas, mockables, swa
 ## Cross-references
 
 - `docs/rules/domain/attention-anchor.md` (SE-080) — Genesis B8/B9/A7/A9 patterns. Este vocabulario implementa B8 ATTENTION ANCHOR para architect/judge agents.
-- `.claude/agents/architect.md` — usa este vocabulario en system prompt
-- `.claude/agents/architecture-judge.md` — usa este vocabulario en suggestions
+- `.opencode/agents/architect.md` — usa este vocabulario en system prompt
+- `.opencode/agents/architecture-judge.md` — usa este vocabulario en suggestions
 
 ## Referencias
 

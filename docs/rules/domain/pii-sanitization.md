@@ -34,7 +34,7 @@ git-ignorados (`*.local.md`, `CLAUDE.local.md`, `active-user.md`).
 - Releases y tags de GitHub
 - Mensajes de commit y descripciones de PR
 - Reglas (`docs/rules/`)
-- Skills (`.claude/skills/`)
+- Skills (`.opencode/skills/`)
 - Docs (`docs/`)
 - Propuestas (`docs/propuestas/`)
 

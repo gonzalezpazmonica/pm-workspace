@@ -59,7 +59,7 @@ generate_package() {
     !skip { print }
   ' "$skill_file" \
     | sed 's|@\.claude/[^ ]*||g' \
-    > "$out/.claude/commands/${skill_dir}.md"
+    > "$out/.opencode/commands/${skill_dir}.md"
 
   # 2. Generate package.json
   cat > "$out/package.json" <<EOJSON

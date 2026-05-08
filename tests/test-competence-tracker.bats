@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/competence-tracker.sh
+# BATS tests for .opencode/hooks/competence-tracker.sh
 # Async PostToolUse — logs Bash command domain per active user.
 # SPEC-014 Phase 2. Profile tier: strict.
 # Ref: batch 44 hook coverage
 
-HOOK=".claude/hooks/competence-tracker.sh"
+HOOK=".opencode/hooks/competence-tracker.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

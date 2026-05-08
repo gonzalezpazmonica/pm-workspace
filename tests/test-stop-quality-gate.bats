@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/stop-quality-gate.sh
+# BATS tests for .opencode/hooks/stop-quality-gate.sh
 # Stop hook — verifies quality gates before Claude ends a turn.
 # Profile tier: strict. Blocks if secrets detected in staged changes.
 # Ref: batch 49 hook coverage — SPEC-quality-gate Stop-event
 
-HOOK=".claude/hooks/stop-quality-gate.sh"
+HOOK=".opencode/hooks/stop-quality-gate.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

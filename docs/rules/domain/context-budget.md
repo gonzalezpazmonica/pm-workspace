@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/spec-generate*", ".claude/commands/dev-session*"]
+globs: [".opencode/commands/spec-generate*", ".opencode/commands/dev-session*"]
 ---
 
 # context-budget — Presupuestos de Contexto por Operación

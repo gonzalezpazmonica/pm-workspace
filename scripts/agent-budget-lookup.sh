@@ -7,7 +7,7 @@ set -uo pipefail
 
 AGENT_NAME="${1:-}"
 BASE_DIR="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
-AGENT_FILE="$BASE_DIR/.claude/agents/${AGENT_NAME}.md"
+AGENT_FILE="$BASE_DIR/.opencode/agents/${AGENT_NAME}.md"
 
 if [[ -z "$AGENT_NAME" ]] || [[ ! -f "$AGENT_FILE" ]]; then
   echo "0"; exit 0

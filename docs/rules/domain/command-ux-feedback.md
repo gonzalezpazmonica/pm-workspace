@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/**"]
+globs: [".opencode/commands/**"]
 ---
 
 # Regla: UX Feedback — Estándares de retroalimentación para comandos

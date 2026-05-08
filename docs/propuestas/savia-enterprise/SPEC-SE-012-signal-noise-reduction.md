@@ -102,7 +102,7 @@ tabla con banner UX estándar.
 
 Hook `scripts/pre-push-bats-critical.sh` (manual, no automático):
 
-- Detecta ficheros modificados en el push que tocan `.claude/hooks/` o
+- Detecta ficheros modificados en el push que tocan `.opencode/hooks/` o
   `scripts/` relevantes.
 - Ejecuta únicamente los `.bats` relacionados.
 - Si falla → aborta el push con mensaje accionable.

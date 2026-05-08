@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/block-branch-switch-dirty.sh
+# BATS tests for .opencode/hooks/block-branch-switch-dirty.sh
 # PreToolUse on Bash — intercepts git checkout/switch with uncommitted changes.
 # Tier: security (minimal profile — always active).
 # Ref: batch 48 hook coverage — SPEC-safety branch switch data loss prevention
 
-HOOK=".claude/hooks/block-branch-switch-dirty.sh"
+HOOK=".opencode/hooks/block-branch-switch-dirty.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

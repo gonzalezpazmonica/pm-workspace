@@ -31,8 +31,8 @@ description: >
 
 ### 1. Leer la skill de referencia
 
-Leer `.claude/skills/team-onboarding/SKILL.md` para entender el flujo completo de 5 fases.
-Leer `.claude/skills/team-onboarding/references/onboarding-checklist.md` para el checklist día a día.
+Leer `.opencode/skills/team-onboarding/SKILL.md` para entender el flujo completo de 5 fases.
+Leer `.opencode/skills/team-onboarding/references/onboarding-checklist.md` para el checklist día a día.
 
 ### 2. Identificar el proyecto
 

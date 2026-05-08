@@ -44,4 +44,4 @@ El Court-orchestrator agrega este verdict con los otros 4 jueces y produce el ve
 - SKILL.md (este directorio) — protocolo de invocación y comandos
 - SPEC-124: `docs/propuestas/SPEC-124-pr-agent-wrapper.md`
 - qodo-ai/pr-agent: https://github.com/qodo-ai/pr-agent
-- Code Review Court: `.claude/skills/code-review-court/`
+- Code Review Court: `.opencode/skills/code-review-court/`

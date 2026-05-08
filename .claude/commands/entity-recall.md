@@ -3,7 +3,7 @@ name: entity-recall
 description: >
   Consulta Entity Memory — busca información almacenada sobre entidades
   específicas (stakeholders, componentes, decisiones) a través de sesiones.
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

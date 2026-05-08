@@ -20,7 +20,7 @@ Grupo: **Verticals** — cargar `identity.md` + `projects.md` + `preferences.md`
 
 - Proyecto activo o `--project` especificado
 - Código fuente accesible (local o repo clonado)
-- Leer `@.claude/skills/banking-architecture/references/banking-detection.md` para el algoritmo
+- Leer `@.opencode/skills/banking-architecture/references/banking-detection.md` para el algoritmo
 
 ## Parámetros
 
@@ -36,7 +36,7 @@ Verificar que el proyecto existe y tiene código fuente.
 
 ### Paso 2 — Ejecutar 5 fases
 
-Seguir algoritmo de `@.claude/skills/banking-architecture/references/banking-detection.md`:
+Seguir algoritmo de `@.opencode/skills/banking-architecture/references/banking-detection.md`:
 
 1. **Domain Entities (35%)** — Buscar Account, Transaction, Settlement, KYC...
 2. **Naming & Routes (25%)** — APIs /api/payments, topics Kafka, namespaces Banking.*

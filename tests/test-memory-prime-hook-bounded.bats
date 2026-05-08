@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/memory-prime-hook.sh bounded concurrency
+# BATS tests for .opencode/hooks/memory-prime-hook.sh bounded concurrency
 # Ref: docs/rules/domain/bounded-concurrency.md
 # Origin: Bluesky outage 2026-04-14 (arXiv N/A — post-mortem blog) + pm-workspace
 # fork bomb 2026-04-18. SPEC-055 quality gate.
@@ -7,7 +7,7 @@
 # Verifies the hardening applied in 2026-04-18: explicit MAX_PARALLEL + wait-drain
 # instead of implicit upstream bound. Defense in depth even if --top 3 changes.
 
-HOOK=".claude/hooks/memory-prime-hook.sh"
+HOOK=".opencode/hooks/memory-prime-hook.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

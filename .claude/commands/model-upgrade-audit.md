@@ -3,13 +3,13 @@ name: model-upgrade-audit
 description: "Audit workspace components for prompt debt that newer models may not need"
 argument-hint: "[--scope full|agents|skills|rules] [--changed-since ERA-N]"
 allowed-tools: [Read, Write, Glob, Grep, Bash, Task]
-model: heavy
+model: github-copilot/claude-opus-4.7
 context_cost: high
 ---
 
 # /model-upgrade-audit $ARGUMENTS
 
-Skill: `@.claude/skills/model-upgrade-audit/SKILL.md`
+Skill: `@.opencode/skills/model-upgrade-audit/SKILL.md`
 
 ## Execution
 

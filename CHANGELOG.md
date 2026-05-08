@@ -6,21 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased] — 2026-05-04
+## [6.14.2] — 2026-05-08
 
-### Changed
-- install.sh, install.ps1: default SAVIA_HOME ~/claude → ~/savia. Install OpenCode instead of Claude Code.
-- .opencode/install.sh, .opencode/install.ps1: thin wrappers delegating to root installers.
-- Documentation (27 files, es + en): all paths and references migrated from Claude Code to OpenCode.
-- setup scripts: hardcoded ~/claude paths replaced with dynamic workspace detection.
-
-## [Unreleased]
-
+- Repair CI pipeline: fix missing .opencode/ dirs in test setups, align test generators with .claude/ paths, sync agents converter output, update stale baseline, add CHANGELOG reference link
 ### Fixed
-- fork-agents.sh: tier names (heavy/mid/fast) resolved to provider model ID before passing to Claude CLI, fixing "mid, model not found" error.
-- compress-agent-output.sh: vendor model replaced with `$(savia_resolve_model fast)` tier resolution.
-- agent-invocation.md, agent-team-patterns.md: vendor model names replaced with tier resolution calls.
-- pr-agent-judge/SKILL.md: PR_AGENT_MODEL default now 'mid' tier instead of hardcoded vendor model.
+- scripts/push-pr.sh: PRs now created as draft by default (was: ready-for-review). Use --no-draft to opt out.
+- scripts/push-pr.sh: auto-title selection prefers first feat:/fix: commit chronologically, avoiding drift commits like fix(ci) being chosen as PR title.
 
 ## [6.14.1] — 2026-05-02
 
@@ -8689,6 +8680,7 @@ Initial public release of PM-Workspace.
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
 [6.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.14.0...v6.14.1
+[6.14.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.14.1...v6.14.2
 [6.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.13.0...v6.14.0
 [6.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.12.0...v6.13.0
 [6.12.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.11.0...v6.12.0

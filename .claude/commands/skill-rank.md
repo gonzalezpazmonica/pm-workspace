@@ -3,7 +3,7 @@ name: skill-rank
 description: Show skill effectiveness ranking based on invocation data
 argument-hint: "[--detail SKILL] [--dormant] [--deprecated] [--export csv]"
 allowed-tools: [Read, Bash, Glob, Grep, Write]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 

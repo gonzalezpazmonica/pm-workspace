@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/session-end-memory.sh
+# BATS tests for .opencode/hooks/session-end-memory.sh
 # SessionEnd hook — SPEC-013/055: <200ms sync log, background worker writes
 # session-hot.md for next-session context injection.
 # Batch 45 hook coverage.
 
-HOOK=".claude/hooks/session-end-memory.sh"
+HOOK=".opencode/hooks/session-end-memory.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

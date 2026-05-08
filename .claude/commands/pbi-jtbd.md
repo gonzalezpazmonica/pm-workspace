@@ -19,7 +19,7 @@ description: >
 
 ### 1. Leer la skill de referencia
 
-Leer `.claude/skills/product-discovery/SKILL.md` para entender el flujo completo.
+Leer `.opencode/skills/product-discovery/SKILL.md` para entender el flujo completo.
 
 ### 2. Obtener el PBI de Azure DevOps
 
@@ -42,7 +42,7 @@ Extraer: título, descripción, criterios de aceptación, tipo, comentarios.
 
 ### 5. Generar JTBD
 
-Usar la plantilla de `.claude/skills/product-discovery/references/jtbd-template.md`.
+Usar la plantilla de `.opencode/skills/product-discovery/references/jtbd-template.md`.
 
 Delegar al agente `business-analyst` la generación del contenido:
 - Traducir la descripción técnica del PBI a un Job Statement centrado en el usuario

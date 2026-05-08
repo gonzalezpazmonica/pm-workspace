@@ -4,7 +4,7 @@ description: Presupuesto de contexto por sesión — tokens usados/disponibles, 
 developer_type: all
 agent: task
 context_cost: high
-model: fast
+model: github-copilot/claude-sonnet-4.5
 ---
 
 # Comando: context-budget
@@ -45,7 +45,7 @@ Desglose por capa (tabla):
 |---|---|---|---|
 | System | 800 | 0.5% | Instrucciones Claude |
 | Rules | 2500 | 1.6% | docs/rules/ cargadas |
-| Commands | 1200 | 0.8% | .claude/commands/ referenciadas |
+| Commands | 1200 | 0.8% | .opencode/commands/ referenciadas |
 | Conversation | 45000 | 28% | Mensajes usuario/Claude |
 | Tools | 900 | 0.6% | MCPs e integraciones |
 | **Total** | **50400** | **31.5%** | — |

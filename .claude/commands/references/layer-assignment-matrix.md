@@ -1,6 +1,6 @@
 # Layer Assignment Matrix
 
-> Referencia rápida para comandos. Fuente de verdad: `.claude/skills/spec-driven-development/SKILL.md`
+> Referencia rápida para comandos. Fuente de verdad: `.opencode/skills/spec-driven-development/SKILL.md`
 
 ## Propósito
 Matriz que mapea secciones de una Spec a capas arquitectónicas (Domain, Application, Infrastructure, API).
@@ -15,4 +15,4 @@ Matriz que mapea secciones de una Spec a capas arquitectónicas (Domain, Applica
 - Ejemplos de componentes por capa según lenguaje
 
 ## Fuente completa
-Para la versión detallada con ejemplos: `.claude/skills/spec-driven-development/SKILL.md`
+Para la versión detallada con ejemplos: `.opencode/skills/spec-driven-development/SKILL.md`

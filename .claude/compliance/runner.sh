@@ -72,7 +72,7 @@ fi
 # --- Check 3: Frontmatter de comandos ---
 CMD_FILES=()
 for f in "${FILES[@]}"; do
-  [[ "$f" =~ \.claude/commands/.+\.md$ ]] && CMD_FILES+=("$f")
+  [[ "$f" =~ \.opencode/commands/.+\.md$ ]] && CMD_FILES+=("$f")
 done
 if [[ ${#CMD_FILES[@]} -gt 0 ]]; then
   run_check "3. Frontmatter YAML en comandos" \

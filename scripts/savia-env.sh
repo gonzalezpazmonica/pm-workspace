@@ -156,6 +156,62 @@ savia_resolve_model() {
 export -f savia_resolve_model
 
 # ── Main (source mode) ───────────────────────────────────────────────────────
+# --------------------------------------------------------------------------
+# AUTONOMOUS_REVIEWER resolver (autonomous-safety.md)
+#
+# Fallback chain:
+#   1) $SAVIA_AUTONOMOUS_REVIEWER  (explicit env override)
+#   2) .claude/rules/pm-config.local.md  AUTONOMOUS_REVIEWER = "..."
+#   3) ~/.savia/preferences.yaml         autonomous_reviewer: ...
+#   4) git config user.email             (zero-config common case)
+#   5) "@local-user"                     (generic fallback, never blocks)
+# --------------------------------------------------------------------------
+savia_autonomous_reviewer() {
+  if [[ -n "${SAVIA_AUTONOMOUS_REVIEWER:-}" ]]; then
+    printf '%s\n' "$SAVIA_AUTONOMOUS_REVIEWER"
+    return 0
+  fi
+
+  local ws; ws="$(_resolve_workspace)"
+  local local_cfg="$ws/.claude/rules/pm-config.local.md"
+  if [[ -r "$local_cfg" ]]; then
+    local v
+    v="$(grep -E '^\s*AUTONOMOUS_REVIEWER\s*=' "$local_cfg" 2>/dev/null \
+         | head -n1 \
+         | sed -E 's/^[^=]*=\s*"?([^"]*)"?\s*$/\1/' \
+         | tr -d '[:space:]')"
+    if [[ -n "$v" && "$v" != "@local-user" ]]; then
+      printf '%s\n' "$v"
+      return 0
+    fi
+  fi
+
+  local prefs="$HOME/.savia/preferences.yaml"
+  if [[ -r "$prefs" ]]; then
+    local v
+    v="$(grep -E '^\s*autonomous_reviewer\s*:' "$prefs" 2>/dev/null \
+         | head -n1 \
+         | sed -E 's/^[^:]*:\s*"?([^"]*)"?\s*$/\1/' \
+         | tr -d '[:space:]')"
+    if [[ -n "$v" ]]; then
+      printf '%s\n' "$v"
+      return 0
+    fi
+  fi
+
+  if command -v git >/dev/null 2>&1; then
+    local email
+    email="$(git -C "$ws" config user.email 2>/dev/null)"
+    if [[ -n "$email" ]]; then
+      # Convert "user.name@example.com" -> "@user-name"
+      printf '@%s\n' "${email%@*}"
+      return 0
+    fi
+  fi
+
+  printf '@local-user\n'
+}
+
 if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
   # Sourced from another script: export variables
   export SAVIA_WORKSPACE_DIR="${SAVIA_WORKSPACE_DIR:-$(_resolve_workspace)}"
@@ -165,15 +221,17 @@ else
   case "${1:-}" in
     workspace) _resolve_workspace ;;
     provider)  _resolve_provider ;;
+    reviewer)  savia_autonomous_reviewer ;;
     json)
-      printf '{"workspace":"%s","provider":"%s","has_hooks":%s,"has_slash_commands":%s}\n' \
+      printf '{"workspace":"%s","provider":"%s","reviewer":"%s","has_hooks":%s,"has_slash_commands":%s}\n' \
         "$(_resolve_workspace)" \
         "$(_resolve_provider)" \
+        "$(savia_autonomous_reviewer)" \
         "$(savia_has_hooks && echo true || echo false)" \
         "$(savia_has_slash_commands && echo true || echo false)"
       ;;
     *)
-      echo "Usage: savia-env.sh <workspace|provider|json>" >&2
+      echo "Usage: savia-env.sh <workspace|provider|reviewer|json>" >&2
       exit 2
       ;;
   esac

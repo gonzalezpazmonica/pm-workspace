@@ -20,9 +20,9 @@ Tras un análisis exhaustivo del repositorio awesome-claude-code (209 recursos c
 
 ### 1. Comando `/evaluate-repo` — Auditoría de dependencias externas
 
-**Origen:** `.claude/commands/evaluate-repository.md`
+**Origen:** `.opencode/commands/evaluate-repository.md`
 **Tipo:** Nuevo slash command
-**Ubicación propuesta:** `.claude/commands/evaluate-repo.md`
+**Ubicación propuesta:** `.opencode/commands/evaluate-repo.md`
 
 **Qué hace:** Evaluación estática de seguridad y calidad de cualquier repositorio externo antes de incorporar herramientas, librerías o recursos al workspace. Asigna puntuación 1-10 en 5 categorías y tiene un checklist específico para Claude Code (hooks implícitos, ejecución sin confirmación, side effects no documentados).
 
@@ -46,7 +46,7 @@ Tras un análisis exhaustivo del repositorio awesome-claude-code (209 recursos c
 
 **Origen:** `resources/slash-commands/pr-review/pr-review.md`
 **Tipo:** Nuevo slash command
-**Ubicación propuesta:** `.claude/commands/pr-review.md`
+**Ubicación propuesta:** `.opencode/commands/pr-review.md`
 
 **Qué hace:** Estructura una revisión de PR desde 6 perspectivas diferentes: Product Manager, Developer Senior, QA Engineer, Security Engineer, DevOps y UI/UX. Cada perspectiva tiene su propio checklist y produce hallazgos categorizados.
 
@@ -71,9 +71,9 @@ Tras un análisis exhaustivo del repositorio awesome-claude-code (209 recursos c
 **Origen:** `resources/slash-commands/create-jtbd/` y `resources/slash-commands/create-prd/`
 **Tipo:** Nuevo skill + 2 nuevos slash commands
 **Ubicación propuesta:**
-- `.claude/skills/product-discovery/SKILL.md`
-- `.claude/commands/pbi-jtbd.md`
-- `.claude/commands/pbi-prd.md`
+- `.opencode/skills/product-discovery/SKILL.md`
+- `.opencode/commands/pbi-jtbd.md`
+- `.opencode/commands/pbi-prd.md`
 
 **Qué hace:** Antes de descomponer un PBI en tareas técnicas, documenta el *por qué* del usuario (Jobs to be Done) y el *qué* del producto (Product Requirements Document). Esto enriquece la cadena: JTBD → PRD → PBI → Tasks.
 
@@ -100,7 +100,7 @@ Tras un análisis exhaustivo del repositorio awesome-claude-code (209 recursos c
 
 **Origen:** `resources/slash-commands/context-prime/context-prime.md`
 **Tipo:** Nuevo slash command
-**Ubicación propuesta:** `.claude/commands/context-load.md`
+**Ubicación propuesta:** `.opencode/commands/context-load.md`
 
 **Qué hace:** Al iniciar una nueva sesión de Claude Code, carga automáticamente el contexto necesario: lee el README, la estructura del proyecto activo, el estado del sprint actual, y las reglas relevantes.
 
@@ -124,7 +124,7 @@ Tras un análisis exhaustivo del repositorio awesome-claude-code (209 recursos c
 
 **Origen:** `resources/slash-commands/release/release.md` y `resources/slash-commands/add-to-changelog/`
 **Tipo:** Nuevo slash command
-**Ubicación propuesta:** `.claude/commands/changelog-update.md`
+**Ubicación propuesta:** `.opencode/commands/changelog-update.md`
 
 **Qué hace:** Analiza los commits desde la última versión, clasifica los cambios por tipo (feat, fix, docs, etc.), actualiza `CHANGELOG.md` siguiendo el formato "Keep a Changelog", y opcionalmente sugiere bump de versión semántica.
 
@@ -146,7 +146,7 @@ Tras un análisis exhaustivo del repositorio awesome-claude-code (209 recursos c
 
 **Origen:** `.pre-commit-config.yaml` — hooks `detect-private-key` y `check-merge-conflict`
 **Tipo:** Mejora a agente existente
-**Ubicación propuesta:** Actualización de `.claude/agents/security-guardian.md`
+**Ubicación propuesta:** Actualización de `.opencode/agents/security-guardian.md`
 
 **Qué hace:** Agrega patrones de detección adicionales al `security-guardian`: claves privadas (RSA, ECDSA, ed25519), tokens de API (formatos conocidos de Azure, GitHub, AWS), archivos de configuración sensibles (.env, appsettings.Development.json con datos reales), y marcadores de merge conflict.
 
@@ -174,7 +174,7 @@ Tras un análisis exhaustivo del repositorio awesome-claude-code (209 recursos c
 
 **Origen:** `resources/slash-commands/commit/commit.md`
 **Tipo:** Mejora al agente `commit-guardian`
-**Ubicación propuesta:** Actualización de `.claude/agents/commit-guardian.md` (nuevo CHECK entre 8 y 9)
+**Ubicación propuesta:** Actualización de `.opencode/agents/commit-guardian.md` (nuevo CHECK entre 8 y 9)
 
 **Qué hace:** Antes de construir el mensaje de commit, analiza el diff para detectar si los cambios staged contienen múltiples cambios lógicos no relacionados. Si es así, sugiere dividir en commits atómicos separados.
 

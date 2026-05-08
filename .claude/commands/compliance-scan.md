@@ -21,7 +21,7 @@ context_cost: medium
 
 ## Prerequisitos
 
-Cargar skill: `@.claude/skills/regulatory-compliance/SKILL.md`
+Cargar skill: `@.opencode/skills/regulatory-compliance/SKILL.md`
 
 ## 2. Cargar perfil de usuario
 

@@ -31,7 +31,7 @@ crece silenciosamente:
 ## 2. Requisitos
 
 - **REQ-01** `scripts/doc-health-audit.sh`: escanea todos los `.md` en `docs/`
-  y `.claude/skills/*/` verificando:
+  y `.opencode/skills/*/` verificando:
   - **Broken internal links**: `[text](./path.md)` donde el archivo no existe
   - **Broken section links**: `[text](./file.md#section)` donde la seccion no existe
   - **Stale spec refs**: `SPEC-NNN` que esta ARCHIVED o no existe

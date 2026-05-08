@@ -10,7 +10,7 @@ TARGET="${1:-.}"
 SEMGREP_ONLY=false
 NATIVE_ONLY=false
 ADVISORY=false
-SKILL_DIR="$(dirname "${BASH_SOURCE[0]}")/../.claude/skills/ast-quality-gate"
+SKILL_DIR="$(dirname "${BASH_SOURCE[0]}")/../.opencode/skills/ast-quality-gate"
 OUTPUT_DIR="$(dirname "${BASH_SOURCE[0]}")/../output/quality-gates"
 TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
 

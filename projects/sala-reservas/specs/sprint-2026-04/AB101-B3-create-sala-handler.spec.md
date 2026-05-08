@@ -264,7 +264,7 @@ src/API/                                 ← Se crea en task C2
 ## 6. Código de Referencia
 
 No hay handlers similares en el proyecto (primer sprint). Seguir el patrón estándar de la skill:
-→ `.claude/skills/spec-driven-development/references/spec-template.md §6`
+→ `.opencode/skills/spec-driven-development/references/spec-template.md §6`
 
 **Patrón Result<T> esperado:**
 ```csharp

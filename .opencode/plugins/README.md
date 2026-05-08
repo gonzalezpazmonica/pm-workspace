@@ -5,7 +5,7 @@
 
 ## Why this folder exists
 
-OpenCode v1.14 does not execute `.claude/hooks/*.sh` natively. Hook surface
+OpenCode v1.14 does not execute `.opencode/hooks/*.sh` natively. Hook surface
 under OpenCode lives in `.opencode/plugins/*.ts`, exposing events like
 `tool.execute.before` / `tool.execute.after`. To preserve Savia's safety
 layer when an operator runs OpenCode against any provider, the top hooks
@@ -60,7 +60,7 @@ even non-tool commands like `opencode auth login`.
 
 ## What this folder does NOT do
 
-- It does not run hooks in Claude Code (those stay in `.claude/hooks/`).
+- It does not run hooks in Claude Code (those stay in `.opencode/hooks/`).
 - It does not implement the actual handlers (Slice 2b-ii does that).
 - It does not register vendor-specific provider clients (PV-06).
 - It does not auto-port the remaining 18 TIER-1 hooks (only top 5 in 2b-ii;

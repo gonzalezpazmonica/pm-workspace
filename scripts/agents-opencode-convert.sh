@@ -3,7 +3,7 @@ set -uo pipefail
 export LC_ALL=C
 # agents-opencode-convert.sh — SPEC-127 Slice 2b-ii (final migration prep)
 #
-# Converts .claude/agents/*.md (Claude Code schema) into OpenCode v1.14
+# Converts .opencode/agents/*.md (Claude Code schema) into OpenCode v1.14
 # compatible agent files written to .opencode/agents/*.md. Differences:
 #
 #   Claude Code                    OpenCode v1.14

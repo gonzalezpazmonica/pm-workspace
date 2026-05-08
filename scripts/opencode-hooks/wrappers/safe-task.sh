@@ -2,7 +2,7 @@
 set -uo pipefail
 # safe-task.sh — Wrapper para tareas (Task) que valida el prompt antes de enviar a un agente
 # DEPRECATED — SE-077 Slice 1+2 (2026-04-26): replaced by
-#   ~/.savia/opencode/plugins/savia-gates/ which delegates to .claude/hooks/*.sh
+#   ~/.savia/opencode/plugins/savia-gates/ which delegates to .opencode/hooks/*.sh
 #   directly. Conservar 1 sprint, eliminar tras Slice 2 completion (AC-11).
 # Uso: safe-task.sh "<prompt>"
 # Nota: Este script solo valida; la tarea real debe lanzarse con la herramienta Task de OpenCode.

@@ -3,7 +3,7 @@ name: task-create
 description: "Add a task to Savia's todo list. Usage: /task-create Investigate this site..."
 argument-hint: "<description of the task>"
 allowed-tools: [TaskCreate]
-model: fast
+model: github-copilot/claude-sonnet-4.5
 ---
 
 Create a task from the user's input. The full text after `/task-create` is the task.

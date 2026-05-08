@@ -24,7 +24,7 @@ teardown() {
   head -3 "$SCRIPT" | grep -q "set -uo pipefail"
 }
 @test "knowledge-lint command exists" {
-  [[ -f "$REPO_ROOT/.claude/commands/knowledge-lint.md" ]]
+  [[ -f "$REPO_ROOT/.opencode/commands/knowledge-lint.md" ]]
 }
 
 # ── Empty memory dir ───────────────────────────────────────────────────────

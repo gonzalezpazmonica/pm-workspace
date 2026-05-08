@@ -24,7 +24,7 @@ export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 #   projects/{p}/.agent-maps/.acm-enforce-skip → opt-out per-project (fichero vacio)
 #
 # Ref: docs/propuestas/SE-063-acm-enforcement-pretool-hook.md
-# Related: .claude/hooks/acm-turn-marker.sh (PostToolUse marker writer)
+# Related: .opencode/hooks/acm-turn-marker.sh (PostToolUse marker writer)
 
 # set -e omitted intentionally: fail-open on parsing errors to avoid blocking legitimate tools.
 

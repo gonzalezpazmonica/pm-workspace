@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4f20c6d5a158a953d617550e68a728e759df9ef37282a53381ba26bf5ce266ca
-timestamp=2026-05-07T23:25:02Z
-branch=feature/se-092-se-093-critical-specs
-head_commit=69b76b0f
-signature=771e146a92c279c2f4307805cb63f1ecc531e90718b4f235e4b58d85494dee11
+diff_hash=70cff2919d1dd10a193c6ae61bc77b176c76a0ac86333eb710850c8097444f23
+timestamp=2026-05-08T19:36:42Z
+branch=feat/obsidian-context-as-code-and-opencode-native-port
+head_commit=b4c630b7
+signature=ee94c588fd5c3cd7677614e915b423b5244c67625db75fdaedc590430e321f96

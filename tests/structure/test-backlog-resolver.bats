@@ -110,5 +110,5 @@ teardown() {
 }
 
 @test "core hooks use safety flags" {
-  grep -q "set -[euo]" .claude/hooks/validate-bash-global.sh
+  grep -q "set -[euo]" .opencode/hooks/validate-bash-global.sh
 }

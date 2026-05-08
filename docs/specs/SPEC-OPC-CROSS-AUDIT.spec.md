@@ -36,9 +36,9 @@ reporte diferencias, y pueda ejecutarse como gate en CI/pr-plan.
 ## 2. Requisitos Funcionales
 
 - **REQ-01** `scripts/opencode-cross-audit.sh` compara:
-  - `.claude/agents/` vs `.opencode/agents/` — archivos .md + subdirectorios
-  - `.claude/commands/` vs `.opencode/commands/` — archivos .md (excluye `references/`)
-  - `.claude/skills/` vs `.opencode/skills/` — directorios + SKILL.md contenido
+  - `.opencode/agents/` vs `.opencode/agents/` — archivos .md + subdirectorios
+  - `.opencode/commands/` vs `.opencode/commands/` — archivos .md (excluye `references/`)
+  - `.opencode/skills/` vs `.opencode/skills/` — directorios + SKILL.md contenido
 - **REQ-02** Reporta formato tabla:
   ```
   === OpenCode Cross-Audit ===
@@ -70,7 +70,7 @@ bash scripts/opencode-cross-audit.sh --json   # Output en formato JSON
 ## 4. Criterios de Aceptacion
 
 - **AC-01** Sobre workspace alineado (actual), el script reporta PASS con 0 drift.
-- **AC-02** Tras modificar `court-review.md` solo en `.claude/commands/`, el script
+- **AC-02** Tras modificar `court-review.md` solo en `.opencode/commands/`, el script
   detecta drift en commands y reporta FAIL.
 - **AC-03** Tras eliminar un agente de `.opencode/agents/`, el script detecta
   "missing" y reporta FAIL.
@@ -94,8 +94,8 @@ bash scripts/opencode-cross-audit.sh --json   # Output en formato JSON
 
 Gate G15 (opcional, no bloqueante) en `pr-plan`:
 - Nivel: WARN (no STOP)
-- Condicion: ejecutar `opencode-cross-audit.sh` tras cambios en `.claude/agents/`,
-  `.claude/commands/`, o `.claude/skills/`.
+- Condicion: ejecutar `opencode-cross-audit.sh` tras cambios en `.opencode/agents/`,
+  `.opencode/commands/`, o `.opencode/skills/`.
 - Mensaje: "OpenCode drift detectado en {N} recursos. Ejecuta: bash scripts/opencode-cross-audit.sh --fix"
 
 ---

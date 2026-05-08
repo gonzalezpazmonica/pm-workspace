@@ -2,7 +2,7 @@
 name: audit-trail-schema
 description: "JSONL audit trail format, storage policy, rotation, query patterns for compliance"
 auto_load: false
-paths: [".claude/commands/governance-enterprise*", ".claude/skills/governance-enterprise/*"]
+paths: [".opencode/commands/governance-enterprise*", ".opencode/skills/governance-enterprise/*"]
 ---
 
 # Regla: Esquema Audit Trail

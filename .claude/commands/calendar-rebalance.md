@@ -3,13 +3,13 @@ name: calendar-rebalance
 description: "Rebalancear focus blocks tras cambio de prioridades o calendario"
 argument-hint: "[--reason 'nueva reunion'] [--project nombre]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /calendar-rebalance — Rebalancear Agenda
 
-Ejecutar skill: `@.claude/skills/smart-calendar/SKILL.md`
+Ejecutar skill: `@.opencode/skills/smart-calendar/SKILL.md`
 
 ## Cuando usar
 

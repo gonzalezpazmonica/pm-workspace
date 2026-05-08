@@ -175,7 +175,7 @@ tech_lead_alias: "juan.garcia@empresa.com"
 ## 🤖 Configuración Spec-Driven Development (SDD)
 
 > Leída por la skill `spec-driven-development` para determinar el `developer_type` de cada task.
-> Sobreescribe la matrix global en `.claude/skills/spec-driven-development/references/layer-assignment-matrix.md`.
+> Sobreescribe la matrix global en `.opencode/skills/spec-driven-development/references/layer-assignment-matrix.md`.
 
 ```yaml
 sdd_config:

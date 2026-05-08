@@ -3,7 +3,7 @@ name: flow-task-assign
 description: Assign task to a team member
 argument-hint: "<task_id> <@handle>"
 allowed-tools: [Bash]
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

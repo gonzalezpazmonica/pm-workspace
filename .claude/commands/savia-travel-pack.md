@@ -5,7 +5,7 @@ description: >
   Includes shallow clone, manifest, dependencies list, and encrypted profiles.
 argument-hint: ""
 allowed-tools: [Read, Bash, Glob]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

@@ -8,7 +8,7 @@ setup() {
   export HOME="$TMPDIR"
   export SAVIA_HOOK_PROFILE="standard"
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/emotional-regulation-monitor.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/emotional-regulation-monitor.sh"
   TRACKER="$REPO_ROOT/scripts/emotional-state-tracker.sh"
   export CLAUDE_PROJECT_DIR="$REPO_ROOT"
   # Setup memory directory

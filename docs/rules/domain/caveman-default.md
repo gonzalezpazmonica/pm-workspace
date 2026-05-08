@@ -40,7 +40,7 @@ Savia aplica las siguientes restricciones en TODA respuesta, sin excepcion:
 
 ## Relacion con caveman skill
 
-El skill `caveman` en `.claude/skills/caveman/` queda como documentacion
+El skill `caveman` en `.opencode/skills/caveman/` queda como documentacion
 de referencia y como modo extremo para invocacion explicita cuando se
 necesita el maximo nivel de desnudez. Las restricciones base de este
 archivo son menos extremas que el skill completo.

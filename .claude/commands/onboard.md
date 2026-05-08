@@ -5,7 +5,7 @@ description: >
   component map, create personalized plan by role.
 argument-hint: "--role {dev|pm|qa} [--project name]"
 allowed-tools: [Read, Write, Glob, Grep, Bash, Task]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Ref: .claude/commands/memory-check.md
+# Ref: .opencode/commands/memory-check.md
 # Ref: docs/rules/domain/session-memory-protocol.md
 # Tests for scripts/memory-check.sh — 10-layer memory health check.
 
@@ -69,7 +69,7 @@ teardown() {
 }
 
 @test "command file has required frontmatter" {
-  cmd="$REPO_ROOT/.claude/commands/memory-check.md"
+  cmd="$REPO_ROOT/.opencode/commands/memory-check.md"
   [[ -f "$cmd" ]]
   grep -q '^name: memory-check' "$cmd"
   grep -q '^description:' "$cmd"

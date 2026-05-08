@@ -3,7 +3,7 @@ name: flow-task-create
 description: Create a new task in Savia Flow with frontmatter metadata
 argument-hint: "<type> <title> <@assigned> <sprint> [priority]"
 allowed-tools: [Bash]
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

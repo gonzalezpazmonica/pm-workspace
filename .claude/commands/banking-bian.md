@@ -15,8 +15,8 @@ context_cost: high
 ## Cargar perfil y skill
 
 Grupo: **Architecture & Tech** — cargar `identity.md` + `projects.md` + `preferences.md`.
-Skill: `@.claude/skills/banking-architecture/SKILL.md`
-Reference: `@.claude/skills/banking-architecture/references/bian-framework.md`
+Skill: `@.opencode/skills/banking-architecture/SKILL.md`
+Reference: `@.opencode/skills/banking-architecture/references/bian-framework.md`
 
 ## Parámetros
 

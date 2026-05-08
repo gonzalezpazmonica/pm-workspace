@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/live-progress-hook.sh
+# BATS tests for .opencode/hooks/live-progress-hook.sh
 # PreToolUse async — logs every tool use to ~/.savia/live.log
 # Tier: observability. Never blocks.
 # Ref: batch 46 hook coverage — SPEC-013 live observability feed
 
-HOOK=".claude/hooks/live-progress-hook.sh"
+HOOK=".opencode/hooks/live-progress-hook.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

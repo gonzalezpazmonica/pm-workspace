@@ -1,7 +1,7 @@
 ---
 name: tool-search
 description: Buscar comandos, skills y agentes por palabra clave
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 allowed_tools: ["Glob", "Grep", "Read"]
 ---

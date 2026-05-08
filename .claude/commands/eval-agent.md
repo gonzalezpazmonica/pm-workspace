@@ -3,7 +3,7 @@ name: eval-agent
 description: "Evaluate an agent against its golden set — precision, recall, hallucinations, bias (SPEC-036)"
 argument-hint: "{agent} [--compare {date}]"
 allowed-tools: [Read, Write, Bash, Glob, Grep, Task]
-model: heavy
+model: github-copilot/claude-opus-4.7
 context_cost: high
 ---
 

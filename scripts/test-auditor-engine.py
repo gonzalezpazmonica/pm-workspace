@@ -84,7 +84,7 @@ def c8_spec(c):
     if re.search(r'docs/propuestas/', c): return 10
     if re.search(r'#\s*[Rr]ef:', c): return 8
     if re.search(r'\docs/rules/', c): return 8
-    if re.search(r'\.claude/skills/', c): return 7
+    if re.search(r'\.opencode/skills/', c): return 7
     return 5 if re.search(r'\[\s*-f.*\.md.*\]', c) else 0
 
 def c9_assertions(c):

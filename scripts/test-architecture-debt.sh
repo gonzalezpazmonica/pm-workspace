@@ -32,14 +32,14 @@ test_case() {
 echo ""
 echo "1️⃣  Command Files Exist"
 for cmd in arch-detect arch-suggest arch-compare arch-fitness arch-recommend arch-health debt-analyze debt-budget debt-prioritize debt-track code-patterns tech-radar dependency-map dependencies-audit legacy-assess adr-create; do
-  test_case "${cmd}.md exists" "[ -f $REPO_ROOT/.claude/commands/${cmd}.md ]"
+  test_case "${cmd}.md exists" "[ -f $REPO_ROOT/.opencode/commands/${cmd}.md ]"
 done
 
 # ── Test 2: YAML frontmatter (sample) ────────────────────────────
 echo ""
 echo "2️⃣  YAML Frontmatter (sample)"
 for cmd in arch-detect debt-analyze tech-radar legacy-assess; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   test_case "${cmd}: has name field" "grep -q '^name: ' $file"
   test_case "${cmd}: has description" "grep -q '^description: ' $file"
 done
@@ -48,7 +48,7 @@ done
 echo ""
 echo "3️⃣  Line Count (≤ 150 lines) — sample"
 for cmd in arch-detect debt-analyze tech-radar; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   lines=$(wc -l < "$file")
   test_case "${cmd}: ${lines} lines ≤ 150" "[ $lines -le 150 ]"
 done
@@ -56,10 +56,10 @@ done
 # ── Test 4: Key concepts present ────────────────────────────────
 echo ""
 echo "4️⃣  Key Concepts"
-test_case "arch-detect mentions architecture\|detect" "grep -q -i 'architecture\|detect' $REPO_ROOT/.claude/commands/arch-detect.md"
-test_case "debt-analyze mentions debt\|technical" "grep -q -i 'debt\|technical' $REPO_ROOT/.claude/commands/debt-analyze.md"
-test_case "tech-radar mentions tech\|radar" "grep -q -i 'tech\|radar' $REPO_ROOT/.claude/commands/tech-radar.md"
-test_case "legacy-assess mentions legacy\|assess" "grep -q -i 'legacy\|assess' $REPO_ROOT/.claude/commands/legacy-assess.md"
+test_case "arch-detect mentions architecture\|detect" "grep -q -i 'architecture\|detect' $REPO_ROOT/.opencode/commands/arch-detect.md"
+test_case "debt-analyze mentions debt\|technical" "grep -q -i 'debt\|technical' $REPO_ROOT/.opencode/commands/debt-analyze.md"
+test_case "tech-radar mentions tech\|radar" "grep -q -i 'tech\|radar' $REPO_ROOT/.opencode/commands/tech-radar.md"
+test_case "legacy-assess mentions legacy\|assess" "grep -q -i 'legacy\|assess' $REPO_ROOT/.opencode/commands/legacy-assess.md"
 
 # ── Test 5: Meta files updated ──────────────────────────────────
 echo ""

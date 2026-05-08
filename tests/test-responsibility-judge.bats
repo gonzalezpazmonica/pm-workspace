@@ -4,7 +4,7 @@
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  export SCRIPT="$REPO_ROOT/.claude/hooks/responsibility-judge.sh"
+  export SCRIPT="$REPO_ROOT/.opencode/hooks/responsibility-judge.sh"
   TMPDIR_RJ=$(mktemp -d)
 }
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/data-sovereignty-gate.sh
+# BATS tests for .opencode/hooks/data-sovereignty-gate.sh
 # Scope: deterministic paths (early exits, exemptions, disabled flag).
 # Daemon interactions covered by integration tests elsewhere.
 # Ref: batch 39 hook test coverage gap
 
-HOOK=".claude/hooks/data-sovereignty-gate.sh"
+HOOK=".opencode/hooks/data-sovereignty-gate.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."
@@ -102,7 +102,7 @@ teardown() {
 }
 
 @test "whitelist: hooks/data-sovereignty-gate.sh exempt (self)" {
-  run bash "$HOOK" <<< '{"tool_input":{"file_path":".claude/hooks/data-sovereignty-gate.sh","content":"pattern"}}'
+  run bash "$HOOK" <<< '{"tool_input":{"file_path":".opencode/hooks/data-sovereignty-gate.sh","content":"pattern"}}'
   [ "$status" -eq 0 ]
 }
 

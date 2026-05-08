@@ -1,6 +1,6 @@
 // credential-patterns.ts — SPEC-127 Slice 2b-ii
 //
-// Mirror of `.claude/hooks/block-credential-leak.sh` patterns, ported to
+// Mirror of `.opencode/hooks/block-credential-leak.sh` patterns, ported to
 // TypeScript. Each pattern returns a Detection with `kind` (so the caller
 // can produce a specific error message) when a credential signature is
 // found. Order matches the bash original.
@@ -68,6 +68,20 @@ const RULES: Array<{ kind: string; rx: RegExp; msg: string }> = [
     kind: "pat-hardcoded",
     rx: /(pat|token)\s*[:=]\s*["']?[a-z0-9]{40,}/i,
     msg: "PAT/token hardcoded. Use $(cat $PAT_FILE) or vault.",
+  },
+  // JWT tokens — format: base64url(header).base64url(payload).base64url(signature)
+  // Real JWTs start with eyJ (base64 of '{'). This avoids false positives
+  // on Python module paths like importlib.util.spec_from_file_location.
+  {
+    kind: "jwt-token",
+    rx: /\beyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{20,}\b/,
+    msg: "JWT token detected. Use environment variables or vault.",
+  },
+  // Echo of secrets to files
+  {
+    kind: "echo-secret",
+    rx: /echo\s+.*(?:secret|token|password|key).*>>/i,
+    msg: "Writing secret to file detected. Use config.local/ or vault.",
   },
   // Generic secret patterns last — they are the most permissive.
   {

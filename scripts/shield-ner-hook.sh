@@ -36,7 +36,7 @@ case "$FILE_PATH" in
   */projects/*|*.local.*|*/output/*|*private-agent-memory*|*/config.local/*|*/.savia/*|*/.claude/sessions/*|*settings.local.json*) exit 0 ;;
 esac
 case "$FILE_PATH" in
-  *data-sovereignty*|*ollama-classify*|*shield-ner*|*savia-shield*|*sovereignty-mask*|*test-data-sovereignty*) exit 0 ;;
+  *data-sovereignty*|*ollama-classify*|*shield-ner*|*savia-shield*|*test-data-sovereignty*) exit 0 ;;
 esac
 
 # Load auth token

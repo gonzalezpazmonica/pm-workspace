@@ -10,7 +10,7 @@ check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
 check_not() { if eval "$1" >/dev/null 2>&1; then fail "$2"; else pass "$2"; fi }
 
 RULE="$ROOT/docs/rules/domain/equality-shield.md"
-CMD="$ROOT/.claude/commands/bias-check.md"
+CMD="$ROOT/.opencode/commands/bias-check.md"
 DOC="$ROOT/docs/politica-igualdad.md"
 CLAUDE="$ROOT/CLAUDE.md"
 

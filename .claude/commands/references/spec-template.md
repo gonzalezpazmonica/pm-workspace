@@ -1,6 +1,6 @@
 # Spec Template
 
-> Referencia rápida para comandos. Fuente de verdad: `.claude/skills/spec-driven-development/SKILL.md`
+> Referencia rápida para comandos. Fuente de verdad: `.opencode/skills/spec-driven-development/SKILL.md`
 
 ## Propósito
 Plantilla estándar para Specs ejecutables (.spec.md) que sirven como fuente de verdad para implementación.
@@ -16,4 +16,4 @@ Plantilla estándar para Specs ejecutables (.spec.md) que sirven como fuente de 
 - **Referencias**: Links a documentación, skills, decisiones arquitectónicas
 
 ## Fuente completa
-Para la versión detallada con ejemplos: `.claude/skills/spec-driven-development/SKILL.md`
+Para la versión detallada con ejemplos: `.opencode/skills/spec-driven-development/SKILL.md`

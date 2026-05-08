@@ -4,7 +4,7 @@ description: >
   Kanban board ASCII para Savia Flow. Muestra PBIs agrupados por estado.
 argument-hint: "[--project <name>]"
 allowed-tools: [Read, Bash, Glob]
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 
@@ -16,7 +16,7 @@ context_cost: low
 
 ## Contexto requerido
 
-1. @.claude/skills/company-messaging/references/company-savia-config.md
+1. @.opencode/skills/company-messaging/references/company-savia-config.md
 
 ## Pasos de ejecucion
 

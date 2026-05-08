@@ -2,7 +2,7 @@
 name: team-structure
 description: "Multi-team coordination architecture — departments, boundaries, RACI, escalation"
 auto_load: false
-paths: [".claude/commands/team-orchestrator*", ".claude/skills/team-coordination/*"]
+paths: [".opencode/commands/team-orchestrator*", ".opencode/skills/team-coordination/*"]
 ---
 
 # Regla: Estructura Multi-Equipo

@@ -23,8 +23,8 @@ description: >
 
 1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto
 2. `output/audits/` — Último audit del proyecto (o `--audit`)
-3. `.claude/skills/azure-devops-queries/SKILL.md` — Backlog existente
-4. `.claude/skills/pbi-decomposition/SKILL.md` — Scoring de PBIs
+3. `.opencode/skills/azure-devops-queries/SKILL.md` — Backlog existente
+4. `.opencode/skills/pbi-decomposition/SKILL.md` — Scoring de PBIs
 
 ## Pasos de ejecución
 

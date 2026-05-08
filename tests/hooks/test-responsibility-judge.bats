@@ -5,7 +5,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/responsibility-judge.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/responsibility-judge.sh"
 }
 
 teardown() {

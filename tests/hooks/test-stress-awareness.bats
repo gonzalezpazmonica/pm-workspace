@@ -8,7 +8,7 @@ setup() {
   export HOME="$TMPDIR"
   export SAVIA_HOOK_PROFILE="standard"
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/stress-awareness-nudge.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/stress-awareness-nudge.sh"
   export CLAUDE_PROJECT_DIR="$REPO_ROOT"
   mkdir -p "$TMPDIR/.savia"
 }

@@ -5,7 +5,7 @@
 set -uo pipefail
 ROOT="$BATS_TEST_DIRNAME/.."
 SCRIPT="$ROOT/scripts/topic-cluster.py"
-SKILL_DIR="$ROOT/.claude/skills/topic-cluster"
+SKILL_DIR="$ROOT/.opencode/skills/topic-cluster"
 
 setup() {
   TMPDIR="$(mktemp -d)"

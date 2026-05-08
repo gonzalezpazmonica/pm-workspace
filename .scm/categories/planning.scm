@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 498 resources
+> 508 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -17,6 +17,7 @@
 - **adaptive-strategy-selector** (script): adaptive-strategy-selector.sh — Select loading strategy based on model tier
 - **adb-run** (script): adb-run.sh — Execute adb-wrapper functions without compound && chains
 - **add-maturity-levels** (script): add-maturity-levels.sh — Add maturity field to all skill frontmatter
+- **ado-bridge** (script): ado-bridge.sh — Azure DevOps REST API v7.1 bridge for Savia PM commands
 - **adoption-assess** (cmd): Evaluar madurez de adopción de IA del equipo usando modelo ADKAR
 - **adoption-plan** (cmd): Plan personalizado de adopción de Savia por rol — qué aprender, en qué orden
 - **adoption-sandbox** (cmd): Entorno seguro de práctica — experimentar con Savia sin miedo a errores
@@ -78,6 +79,7 @@
 - **changelog-assemble** (script): changelog-assemble.sh — Assemble CHANGELOG.md from CHANGELOG.d/ fragments
 - **changelog-fragment** (script): changelog-fragment.sh — create a CHANGELOG fragment for the current PR
 - **changelog-update** (cmd): >
+- **check-daemon-auth** (script): check-daemon-auth.sh
 - **ci-failure-tracker** (script): ci-failure-tracker.sh — Track CI pipeline failures for signal/noise analysis
 - **ci-health** (cmd): Muestra tasa de fallo de pipelines CI a partir del log local de ejecuciones.
 - **claude-md-drift-check** (script): claude-md-drift-check.sh — Valida que los conteos en CLAUDE.md coincidan con
@@ -147,6 +149,7 @@
 - **emergency-setup** (script): emergency-setup.sh — Setup rápido de LLM local para modo emergencia
 - **emergency-status** (script): emergency-status.sh — Estado del sistema de emergencia PM-Workspace
 - **emotional-state-tracker** (script): emotional-state-tracker.sh — Track session stress state for Savia
+- **ensure-daemons-auth** (script): ensure-daemons-auth.sh
 - **enterprise-onboarding** (skill): Enterprise onboarding at scale — batch import, per-role checklists, progress tracking, knowledge transfer
 - **epic-plan** (cmd): >
 - **estimate-calibrate** (script): estimate-calibrate.sh — Recompute empirical agent speedups from actuals log
@@ -208,6 +211,7 @@
 - **hook-profile** (script): hook-profile.sh — Get/set the active SAVIA_HOOK_PROFILE
 - **hw-bom** (cmd): >
 - **hw-revision** (cmd): >
+- **import-sprint-story** (cmd): >
 - **incident-postmortem** (cmd): Template de postmortem — timeline, root cause analysis, action items
 - **index-compact** (cmd): >
 - **index-status** (cmd): >
@@ -296,6 +300,7 @@
 - **postmortem-heuristics** (cmd): Extract debugging heuristics from postmortems
 - **pre-commit-sovereignty** (script): NOTE: -e omitted intentionally — grep returns 1 on no-match which would
 - **privacy-check-company** (script): privacy-check-company.sh — Privacy filter for company repo content
+- **probe-devops** (script): probe-devops.sh — diagnóstico de acceso a Azure DevOps usando la
 - **product-catalog** (cmd): Gestiona el catálogo de productos: añadir, actualizar, listar, buscar y exportar
 - **product-discovery** (skill): Análisis de descubrimiento de producto - JTBD y PRD antes de descomposición
 - **profile-edit** (cmd): Savia actualiza tu perfil — editar una sección.
@@ -304,10 +309,13 @@
 - **profile-switch** (cmd): Savia cambia de usuario — cambiar perfil activo.
 - **project-assign** (cmd): >
 - **project-audit** (cmd): >
+- **project-context** (script): project-context.sh — Project isolation for Savia (SE-093)
 - **project-kickoff** (cmd): >
 - **project-new** (cmd): >
 - **project-release-plan** (cmd): >
 - **project-roadmap** (cmd): >
+- **project-update** (skill): Actualización integral del proyecto activo. Orquestador determinista (multiproceso) que refresca DevOps+mail+calendar+teams+SharePoint+OneDrive+transcripts, digiere VTTs a meeting digests, y deja todo persistido bajo niveles de confidencial
+- **project-update-devops** (script): project-update-devops.sh — wrapper que resuelve config real desde
 - **prompt-optimizer** (skill): >
 - **protect-project-privacy** (script): protect-project-privacy.sh — Barrera de protección contra publicación accidental de proyectos
 - **pursuit-bid** (cmd): Record bid/no-bid decision for a qualified pursuit
@@ -332,6 +340,7 @@
 - **ref-list** (cmd): List available resource references and their types
 - **reflection-validation** (skill): Meta-cognitive validation protocol (System 2). Detects proxy optimization, undeclared assumptions, and broken causal chains.
 - **reflection-validator** (agent): >
+- **refresh-agent-maps** (script): refresh-agent-maps.sh
 - **release-backfill** (script): release-backfill.sh — Create missing GitHub releases from git tags
 - **repos-branches** (cmd): >
 - **repos-list** (cmd): >
@@ -374,7 +383,6 @@
 - **sentry-bugs** (cmd): >
 - **sentry-health** (cmd): >
 - **service-catalog-telco** (cmd): Gestión del catálogo de servicios de telecom con definiciones, configuración y precios
-- **setup-claude-permissions** (script): setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados
 - **setup-merge-drivers** (script): setup-merge-drivers.sh — configure local git with the custom merge drivers
 - **setup-savia-dual** (script): setup-savia-dual.sh — Installer for Savia Dual (Linux/macOS)
 - **setup-savia-remote** (script): setup-savia-remote.sh — Run ONCE on the remote server as root/sudo.
@@ -428,6 +436,7 @@
 - **sustainable-pace** (cmd): Cálculo de ritmo sostenible basado en histórico y capacidad real
 - **sync-calendars** (cmd): Sincronizar disponibilidad entre calendarios de dos tenants Microsoft 365
 - **sync-github-metadata** (script): sync-github-metadata.sh — Update GitHub repo metadata
+- **sync-model-tiers** (script): sync-model-tiers.sh — Resolve abstract model tiers (heavy|mid|fast) to provider-
 - **sync-tags-from-changelog** (script): sync-tags-from-changelog.sh — Create missing git tags from CHANGELOG.md
 - **task-create** (cmd): Add a task to Savia's todo list. Usage: /task-create Investigate this site...
 - **task-decomposer** (script): task-decomposer.sh — Classify tasks as atomic/composite and decompose recursively
@@ -493,6 +502,7 @@
 - **wave-executor** (script): wave-executor.sh — Generic wave execution engine for DAG task graphs
 - **wave-executor-lib** (script): wave-executor-lib.sh — Helper functions for wave-executor.sh
 - **webhook-config** (cmd): Configurar webhooks para recibir eventos push de Azure DevOps, GitHub y otras fuentes
+- **weekly-report** (skill): Weekly project status report generator — consolidates sprint, git, PRs, and capacity
 - **wellbeing-guardian** (cmd): Proactive individual wellbeing system — break reminders, after-hours alerts, work-life balance nudges
 - **wellbeing-guardian** (skill): Sistema proactivo de bienestar individual
 - **wiki-publish** (cmd): >

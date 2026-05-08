@@ -5,7 +5,7 @@ set -uo pipefail
 # Crea marker per-turn cuando el agente lee un fichero .acm o INDEX.acm,
 # indicando que ha consultado el ACM del proyecto.
 #
-# Consumidor: .claude/hooks/acm-enforcement.sh (PreToolUse)
+# Consumidor: .opencode/hooks/acm-enforcement.sh (PreToolUse)
 #
 # Input: JSON con tool_name=Read + tool_input.file_path via stdin
 # Exit: siempre 0 (no-op si no aplica)

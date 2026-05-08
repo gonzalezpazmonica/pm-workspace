@@ -10,7 +10,7 @@ context_cost: high
 
 > Auditar cumplimiento AEPD para agentes autónomos de IA.
 
-Framework: @.claude/skills/regulatory-compliance/references/aepd-framework.md
+Framework: @.opencode/skills/regulatory-compliance/references/aepd-framework.md
 
 ---
 
@@ -41,7 +41,7 @@ Para cada agente, documentar:
 - Modelo (Opus/Sonnet/Haiku), tools disponibles, permisos
 - Datos que procesa (ficheros, APIs, secrets)
 - Nivel de autonomía (supervisado/semi-autónomo/autónomo)
-- Leer frontmatter del agente en `.claude/agents/`
+- Leer frontmatter del agente en `.opencode/agents/`
 
 ### Paso 3 — Fase 2: Análisis de Cumplimiento
 

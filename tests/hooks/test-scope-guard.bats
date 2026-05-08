@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/scope-guard.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/scope-guard.sh"
   cd "$TMPDIR"
   git init --quiet 2>/dev/null || true
 }
@@ -22,7 +22,7 @@ run_hook() {
 }
 
 @test "target has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/scope-guard.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/scope-guard.sh"
 }
 
 # ── Positive: warning-only hook always exits 0 ──
@@ -79,10 +79,10 @@ run_hook() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/scope-guard.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/scope-guard.sh"
 }
 
 @test "edge: empty input produces no error" {
-  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.claude/hooks/validate-bash-global.sh' 2>&1"
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$BATS_TEST_DIRNAME/../../.opencode/hooks/validate-bash-global.sh' 2>&1"
   [ "$status" -eq 0 ]
 }

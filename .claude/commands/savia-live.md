@@ -1,7 +1,7 @@
 ---
 name: savia-live
 description: "Show what Savia is working on right now — live task queue and recent activity"
-model: fast
+model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read]
 context_cost: low
 ---

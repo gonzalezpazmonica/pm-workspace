@@ -61,4 +61,4 @@ Cada activación registra:
 - skill_name, timestamp, prompt_summary, user_accepted (bool)
 - Si accepted → +2 al history_score futuro
 - Si rejected → -3 al history_score futuro
-- Registry: `.claude/skills/eval-registry.json`
+- Registry: `.opencode/skills/eval-registry.json`

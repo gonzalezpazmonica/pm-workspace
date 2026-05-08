@@ -128,6 +128,6 @@ a `output/agent-runs/emergency-{YYYYMMDD}.jsonl`.
 
 - SPEC-122 — `docs/propuestas/SPEC-122-localai-emergency-hardening.md`
 - `scripts/localai-readiness-check.sh`
-- `.claude/skills/emergency-mode/SKILL.md`
+- `.opencode/skills/emergency-mode/SKILL.md`
 - [mudler/LocalAI](https://github.com/mudler/LocalAI)
 - Rule `autonomous-safety.md` — no se relaja bajo emergency

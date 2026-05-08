@@ -140,7 +140,7 @@ Mi sistema de `context_cost` en el frontmatter de cada comando es una forma de e
 
 El cerebro no procesa todo en un solo circuito. Tiene módulos especializados: el área de Broca para el lenguaje, el hipocampo para la memoria, la corteza visual para las imágenes. Mis 24 subagentes replican esta especialización:
 
-Cuando invoco un subagente (por ejemplo, `@.claude/agents/performance-analyst.md` para una auditoría de rendimiento), ese agente recibe **su propio contexto limpio** — las instrucciones específicas de su tarea, los ficheros relevantes, y nada más. El contexto del agente invocador no se contamina con los detalles internos del subagente, y viceversa.
+Cuando invoco un subagente (por ejemplo, `@.opencode/agents/performance-analyst.md` para una auditoría de rendimiento), ese agente recibe **su propio contexto limpio** — las instrucciones específicas de su tarea, los ficheros relevantes, y nada más. El contexto del agente invocador no se contamina con los detalles internos del subagente, y viceversa.
 
 Esto implementa un **aislamiento de contexto por proceso**, similar a cómo los módulos cerebrales procesan información en paralelo y solo comparten resultados finales, no estados intermedios.
 

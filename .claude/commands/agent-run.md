@@ -33,7 +33,7 @@ Lanza un agente Claude sobre una Spec SDD (o batch de specs pendientes).
 ## 3. Protocolo
 
 ### 3.1 Leer contexto
-- Leer `.claude/skills/spec-driven-development/SKILL.md` (Fase 3)
+- Leer `.opencode/skills/spec-driven-development/SKILL.md` (Fase 3)
 - Leer `projects/{proyecto}/CLAUDE.md`
 
 ### 2. Modo Single (`agent-single` o default)

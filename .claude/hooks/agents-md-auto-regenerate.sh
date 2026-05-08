@@ -4,7 +4,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
 export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # agents-md-auto-regenerate.sh — SE-078 Stop hook
 #
-# When a session edits .claude/agents/*.md, regenerate AGENTS.md so the
+# When a session edits .opencode/agents/*.md, regenerate AGENTS.md so the
 # cross-frontend mirror never drifts. Async, non-blocking — failures are
 # logged but never stop the session.
 #
@@ -34,7 +34,7 @@ fi
 : "${INPUT:=}"
 
 # Detect whether the session changed any agent files (staged or unstaged).
-changed=$(git status --porcelain -- .claude/agents/ 2>/dev/null | head -1 || true)
+changed=$(git status --porcelain -- .opencode/agents/ 2>/dev/null | head -1 || true)
 if [[ -z "$changed" ]]; then
   exit 0  # silent no-op
 fi

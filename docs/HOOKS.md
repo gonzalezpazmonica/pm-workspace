@@ -158,10 +158,10 @@ To debug hook behavior:
 
 ```bash
 # Test a hook directly
-bash .claude/hooks/block-credential-leak.sh < test-input.json
+bash .opencode/hooks/block-credential-leak.sh < test-input.json
 
 # With debug output
-bash -x .claude/hooks/block-credential-leak.sh < test-input.json
+bash -x .opencode/hooks/block-credential-leak.sh < test-input.json
 
 # Run BATS tests for a specific hook
 bats tests/hooks/test-block-credential-leak.sh

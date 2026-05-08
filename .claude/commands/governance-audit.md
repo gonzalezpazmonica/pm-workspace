@@ -4,7 +4,7 @@ description: Auditoría de cumplimiento de política de IA — acciones vs permi
 developer_type: all
 agent: task
 context_cost: high
-model: heavy
+model: github-copilot/claude-opus-4.7
 ---
 
 # /governance-audit
@@ -14,7 +14,7 @@ model: heavy
 Auditoría de cumplimiento basado en NIST AI RMF (Map, Measure) y AEPD (IA agéntica).
 
 Carga la política, escanea el log de acciones, detecta incumplimientos y excepciones.
-Incluye criterios AEPD para agentes autónomos: @.claude/skills/regulatory-compliance/references/aepd-framework.md
+Incluye criterios AEPD para agentes autónomos: @.opencode/skills/regulatory-compliance/references/aepd-framework.md
 
 ---
 

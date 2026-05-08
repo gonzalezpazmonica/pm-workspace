@@ -40,7 +40,7 @@ Cost of inaction: el día que Anthropic apriete, Savia no puede operar. La venta
 
 ### Slice 2 (M, 6h) — Parity baseline + ratchet
 
-1. Script `scripts/opencode-parity-audit.sh`: para cada hook bash en `.claude/hooks/`, verifica que existe equivalente registrado en plugin TS o que esté justificado como Claude-Code-only en frontmatter
+1. Script `scripts/opencode-parity-audit.sh`: para cada hook bash en `.opencode/hooks/`, verifica que existe equivalente registrado en plugin TS o que esté justificado como Claude-Code-only en frontmatter
 2. Baseline `.ci-baseline/opencode-parity-gap.count` con violaciones documentadas
 3. Test mensual: bash `scripts/opencode-monthly-canary.sh` ejecuta tarea representativa en OpenCode + Claude Code y compara outputs (no quality, sólo equivalence — ¿completa los gates? ¿genera pr-plan green?)
 
@@ -52,13 +52,13 @@ Cost of inaction: el día que Anthropic apriete, Savia no puede operar. La venta
 
 | Claude Code | OpenCode v1.14 |
 |---|---|
-| `.claude/hooks/PreToolUse/*.sh` registered in `settings.json` | Plugin TS function `tool.execute.before` |
-| `.claude/hooks/PostToolUse/*.sh` | `tool.execute.after` |
-| `.claude/hooks/SessionStart/*.sh` | **Not exposed natively** — workaround: invoke from CLI wrapper or `experimental.session.compacting` for partial coverage |
-| `.claude/hooks/UserPromptSubmit/*.sh` | `chat.message` |
-| `.claude/agents/*.md` (subagents via Task tool) | `agent/` module + Agent Client Protocol; format sufficiently similar to share via AGENTS.md (SE-078) |
-| `.claude/skills/*/SKILL.md` | Skill registry (`Skill.Discovery.pull`); concurrency-bounded same |
-| `.claude/commands/*.md` (slash commands) | `command/` module + `command.execute.before` hook |
+| `.opencode/hooks/PreToolUse/*.sh` registered in `settings.json` | Plugin TS function `tool.execute.before` |
+| `.opencode/hooks/PostToolUse/*.sh` | `tool.execute.after` |
+| `.opencode/hooks/SessionStart/*.sh` | **Not exposed natively** — workaround: invoke from CLI wrapper or `experimental.session.compacting` for partial coverage |
+| `.opencode/hooks/UserPromptSubmit/*.sh` | `chat.message` |
+| `.opencode/agents/*.md` (subagents via Task tool) | `agent/` module + Agent Client Protocol; format sufficiently similar to share via AGENTS.md (SE-078) |
+| `.opencode/skills/*/SKILL.md` | Skill registry (`Skill.Discovery.pull`); concurrency-bounded same |
+| `.opencode/commands/*.md` (slash commands) | `command/` module + `command.execute.before` hook |
 
 ### Verification protocol
 

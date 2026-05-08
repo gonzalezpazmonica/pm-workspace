@@ -43,7 +43,7 @@ esac
 # Only scan paths that are used as context
 IS_CONTEXT=false
 case "$FILE_PATH" in
-  */.claude/rules/*|*/docs/rules/*|*/.claude/agents/*|*/.claude/skills/*|*/.claude/commands/*) IS_CONTEXT=true ;;
+  */.claude/rules/*|*/docs/rules/*|*/.opencode/agents/*|*/.opencode/skills/*|*/.opencode/commands/*) IS_CONTEXT=true ;;
   */projects/*/CLAUDE.md|*/projects/*/reglas-negocio*|*/projects/*/specs/*) IS_CONTEXT=true ;;
   */projects/*/agent-memory/*|*/projects/*/team/*) IS_CONTEXT=true ;;
   */docs/*|*/CLAUDE.md) IS_CONTEXT=true ;;
@@ -61,9 +61,10 @@ _log_detection() {
   local category="$1" pattern="$2" line_num="$3" action="$4"
   local ts
   ts=$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo "unknown")
+  mkdir -p "$(dirname "$AUDIT_LOG")" 2>/dev/null || true
   printf '{"ts":"%s","file":"%s","category":"%s","pattern":"%s","line":%d,"action":"%s"}\n' \
     "$ts" "$FILE_PATH" "$category" "$pattern" "$line_num" "$action" \
-    >> "$AUDIT_LOG" 2>/dev/null
+    >> "$AUDIT_LOG" 2>/dev/null || true
 }
 
 BLOCKED=false
@@ -102,7 +103,7 @@ if [[ "$BLOCKED" == "false" ]]; then
   # Check for zero-width characters (U+200B, U+200C, U+200D, U+FEFF in middle)
   if python3 -c "
 import sys
-text = open(sys.argv[1], errors='replace').read()
+text = open(sys.argv[1], encoding='utf-8', errors='replace').read()
 zwc = [c for c in text if ord(c) in (0x200B, 0x200C, 0x200D) or (ord(c) == 0xFEFF and text.index(c) > 0)]
 sys.exit(0 if not zwc else 1)
 " "$FILE_PATH" 2>/dev/null; then

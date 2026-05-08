@@ -21,7 +21,7 @@ notes: "Batch 10 implementó scripts iniciales. Batch 30 añade mecanismo de exe
 
 Dos gaps complementarios del research agentshield:
 
-**A. Hook injection patterns**: nuestros 57 hooks en `.claude/hooks/*.sh` no se auditan contra command injection via variable interpolation (`"$VAR"` en lugar de `"${VAR@Q}"`), exfiltration (`curl -X POST ... $SECRET`), silent error suppression (`2>/dev/null ||:`), o reverse shell patterns. `block-credential-leak.sh` solo cubre el output staged.
+**A. Hook injection patterns**: nuestros 57 hooks en `.opencode/hooks/*.sh` no se auditan contra command injection via variable interpolation (`"$VAR"` en lugar de `"${VAR@Q}"`), exfiltration (`curl -X POST ... $SECRET`), silent error suppression (`2>/dev/null ||:`), o reverse shell patterns. `block-credential-leak.sh` solo cubre el output staged.
 
 **B. Hidden directives en agent/skill markdown**: el `prompt-security-scan.sh` (PS-01..PS-10) no detecta:
 - Zero-width chars (`\u200B`, `\u200C`, `\u200D`, `\uFEFF`)
@@ -35,7 +35,7 @@ Cost of inaction: un hook comprometido ejecuta en cada tool call. Un prompt inje
 ## Scope (Slice 1)
 
 **Script 1**: `scripts/hook-injection-audit.sh`
-- Audita `.claude/hooks/*.sh` + hooks referenciados en `settings.json`
+- Audita `.opencode/hooks/*.sh` + hooks referenciados en `settings.json`
 - Patrones inyección + exfiltration + silent-suppress
 - 9 reglas (HOOK-01..HOOK-09)
 
@@ -80,5 +80,5 @@ Cost of inaction: un hook comprometido ejecuta en cada tool call. Un prompt inje
 
 - `output/research/agentshield-20260420.md` (inspiración 34+25 reglas)
 - `scripts/prompt-security-scan.sh` (existente, 10 reglas)
-- `.claude/hooks/block-credential-leak.sh` (complementario)
-- `.claude/hooks/` 57 scripts (target)
+- `.opencode/hooks/block-credential-leak.sh` (complementario)
+- `.opencode/hooks/` 57 scripts (target)

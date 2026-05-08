@@ -15,7 +15,7 @@ context_cost: high
 ## Cargar perfil y skill
 
 Grupo: **Architecture & Tech** — cargar `identity.md` + `projects.md` + `preferences.md`.
-Reference: `@.claude/skills/banking-architecture/references/eda-patterns-banking.md`
+Reference: `@.opencode/skills/banking-architecture/references/eda-patterns-banking.md`
 
 ## Parámetros
 

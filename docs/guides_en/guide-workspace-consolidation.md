@@ -24,9 +24,9 @@ The report covers:
 
 | Dimension | Actual source | Documented source |
 |-----------|---------------|-------------------|
-| Commands | `ls .claude/commands/*.md` | README counter |
-| Agents | `ls .claude/agents/*.md` | README counter |
-| Skills | `ls .claude/skills/*/SKILL.md` | README counter |
+| Commands | `ls .opencode/commands/*.md` | README counter |
+| Agents | `ls .opencode/agents/*.md` | README counter |
+| Skills | `ls .opencode/skills/*/SKILL.md` | README counter |
 | Hooks | settings.json hook entries | README counter |
 | Tests | `ls tests/*.bats` | README counter |
 
@@ -57,11 +57,11 @@ The report covers:
 
 **Counters do not match**: run the counts manually to identify the source of drift:
 ```bash
-ls .claude/commands/*.md | wc -l
-ls .claude/agents/*.md | wc -l
-ls -d .claude/skills/*/SKILL.md | wc -l
+ls .opencode/commands/*.md | wc -l
+ls .opencode/agents/*.md | wc -l
+ls -d .opencode/skills/*/SKILL.md | wc -l
 ```
 
-**Orphaned hooks**: a hook may be registered in settings.json but its `.sh` file does not exist (or vice versa). Review `.claude/settings.json` and `.claude/hooks/`
+**Orphaned hooks**: a hook may be registered in settings.json but its `.sh` file does not exist (or vice versa). Review `.claude/settings.json` and `.opencode/hooks/`
 
 **New test suites not registered**: verify that each new `.bats` file is referenced in `tests/run-all.sh`

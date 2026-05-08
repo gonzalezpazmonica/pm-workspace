@@ -145,8 +145,8 @@ quick → CLAUDE_MODEL_FAST, standard → CLAUDE_MODEL_MID, thorough → CLAUDE_
 
 | Fichero | Accion |
 |---------|--------|
-| `.claude/commands/pr-review.md` | Modificar — flag --depth + auto-detect |
-| `.claude/commands/pr-plan.md` | Modificar — mostrar depth estimado |
+| `.opencode/commands/pr-review.md` | Modificar — flag --depth + auto-detect |
+| `.opencode/commands/pr-plan.md` | Modificar — mostrar depth estimado |
 | `docs/rules/domain/risk-escalation.md` | Sin cambios (ya tiene thresholds) |
 
 ---

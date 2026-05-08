@@ -1,7 +1,7 @@
 ---
 name: sprint-retro
 description: Genera la plantilla de retrospectiva con datos del sprint para facilitar la ceremonia.
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 

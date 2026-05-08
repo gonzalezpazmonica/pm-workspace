@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 139 resources
+> 142 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -88,6 +88,7 @@
 - **pre-push-bats-critical** (script): pre-push-bats-critical.sh — SPEC-SE-012 Module 3.
 - **prompt-suggestion-engine** (script): prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization
 - **reaction-engine** (script): reaction-engine.sh — SPEC-050 Phase 1: Reaction Engine
+- **rebuild-folder-indexes** (script): rebuild-folder-indexes.sh
 - **requirement-pushback** (script): requirement-pushback.sh — Analyze a spec and generate pushback questions
 - **reranker** (skill): Cross-encoder reranker — filtra top-K ruidoso de memory-recall/savia-recall/cross-project-search antes de pasar al agente
 - **retro-patterns** (cmd): Análisis de patrones en retrospectivas — temas recurrentes, action items sin resolver
@@ -96,6 +97,8 @@
 - **sdd-spec-writer** (agent): >
 - **semantic-compact** (script): semantic-compact.sh — SPEC-022 F2: Smart compact summary generator
 - **semantic-map** (script): semantic-map.sh — Generate compressed semantic maps of source code files
+- **setup-claude-permissions** (script): DEPRECATED: use setup-opencode-permissions.sh instead. This file kept for backward compatibility.
+- **setup-opencode-permissions** (script): setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados
 - **setup-savia-web** (script): Setup, build, and serve savia-web on http://localhost:8081
 - **skill-loader** (script): skill-loader.sh — SPEC-144: Context-Aware Skill Loading
 - **slm-deploy** (script): slm-deploy.sh — Orchestrate post-training deployment scaffolding.

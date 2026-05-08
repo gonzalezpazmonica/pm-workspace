@@ -3,7 +3,7 @@ name: school-forget
 description: GDPR Article 17 — Right to Erasure, complete data deletion
 argument-hint: "<alias>"
 allowed-tools: [Bash]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

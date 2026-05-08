@@ -1,5 +1,5 @@
 ---
-globs: [".claude/agents/**"]
+globs: [".opencode/agents/**"]
 ---
 
 # Handoff Templates — Transiciones Estandarizadas entre Agentes

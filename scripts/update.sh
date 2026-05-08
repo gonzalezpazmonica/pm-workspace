@@ -246,7 +246,7 @@ do_install() {
   log_ok "Savia Shield profile restored: $prev_profile"
 
   # Paso 5c: Verify Responsibility Judge
-  local rj_path="$WORKSPACE_DIR/.claude/hooks/responsibility-judge.sh"
+  local rj_path="$WORKSPACE_DIR/.opencode/hooks/responsibility-judge.sh"
   if [[ -f "$rj_path" && -x "$rj_path" ]] && grep -q "responsibility-judge" "$WORKSPACE_DIR/.claude/settings.json" 2>/dev/null; then
     log_ok "Responsibility Judge: active"
   else

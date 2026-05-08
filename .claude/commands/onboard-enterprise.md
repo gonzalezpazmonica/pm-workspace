@@ -3,15 +3,15 @@ name: onboard-enterprise
 description: "Enterprise onboarding at scale — batch import, per-role checklists, knowledge transfer"
 allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[import|checklist|progress|knowledge-transfer] [--file data.csv] [--person nombre] [--project proyecto]"
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /onboard-enterprise — Onboarding Empresarial a Escala
 
-> Skill: @.claude/skills/enterprise-onboarding/SKILL.md
+> Skill: @.opencode/skills/enterprise-onboarding/SKILL.md
 > Config: @docs/rules/domain/onboarding-enterprise.md
-> Complementa: @.claude/commands/team-orchestrator.md
+> Complementa: @.opencode/commands/team-orchestrator.md
 
 Gestiona onboarding de múltiples personas simultáneamente. Batch CSV import, checklists adaptativos, tracking de progreso, generación automática de Knowledge Transfer.
 

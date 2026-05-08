@@ -3,13 +3,13 @@ name: calendar-focus
 description: "Crear bloque de focus para una tarea especifica — Deep Work protegido"
 argument-hint: "{tarea} [--duration 90m] [--when tomorrow-morning]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 
 # /calendar-focus — Bloque de Deep Work
 
-Ejecutar skill: `@.claude/skills/smart-calendar/SKILL.md`
+Ejecutar skill: `@.opencode/skills/smart-calendar/SKILL.md`
 
 ## Flujo
 

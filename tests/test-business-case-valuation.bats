@@ -88,20 +88,20 @@ teardown() {
 # ── Commands ───────────────────────────────────────────────────────────────
 
 @test "case-init command exists" {
-  [[ -f "$REPO_ROOT/.claude/commands/case-init.md" ]]
+  [[ -f "$REPO_ROOT/.opencode/commands/case-init.md" ]]
 }
 @test "case-recompute command exists" {
-  [[ -f "$REPO_ROOT/.claude/commands/case-recompute.md" ]]
+  [[ -f "$REPO_ROOT/.opencode/commands/case-recompute.md" ]]
 }
 @test "case-review command exists" {
-  [[ -f "$REPO_ROOT/.claude/commands/case-review.md" ]]
+  [[ -f "$REPO_ROOT/.opencode/commands/case-review.md" ]]
 }
 @test "case-kill-check command exists" {
-  [[ -f "$REPO_ROOT/.claude/commands/case-kill-check.md" ]]
+  [[ -f "$REPO_ROOT/.opencode/commands/case-kill-check.md" ]]
 }
 @test "case commands have name in frontmatter" {
   for cmd in case-init case-recompute case-review case-kill-check; do
-    grep -q "^name:" "$REPO_ROOT/.claude/commands/${cmd}.md"
+    grep -q "^name:" "$REPO_ROOT/.opencode/commands/${cmd}.md"
   done
 }
 

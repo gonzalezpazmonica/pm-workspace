@@ -4,7 +4,7 @@ description: "Consultas en lenguaje natural — habla con Savia sin memorizar co
 developer_type: all
 agent: task
 context_cost: medium
-model: mid
+model: github-copilot/claude-sonnet-4.5
 ---
 
 # /nl-query — Natural Language Command Resolution
@@ -86,7 +86,7 @@ Ver `nl-command-resolution.md` para lógica detallada.
 
 ## Índice de Comandos
 
-Catálogo completo: `.claude/commands/references/intent-catalog.md`
+Catálogo completo: `.opencode/commands/references/intent-catalog.md`
 
 Top 20 mapeados en la sección **Core Mappings** del catálogo.
 

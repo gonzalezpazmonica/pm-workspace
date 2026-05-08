@@ -1,5 +1,5 @@
 ---
-globs: [".claude/skills/**"]
+globs: [".opencode/skills/**"]
 ---
 
 # Clara Philosophy — Multi-Level Documentation Standard

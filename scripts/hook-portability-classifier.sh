@@ -2,7 +2,7 @@
 set -uo pipefail
 # hook-portability-classifier.sh — SPEC-127 Slice 2
 #
-# Classifies each hook in .claude/hooks/*.sh into one of four portability
+# Classifies each hook in .opencode/hooks/*.sh into one of four portability
 # tiers, deterministically, based on heuristics over the hook source and
 # its registration in .claude/settings.json:
 #
@@ -83,7 +83,7 @@ for event, entries in hooks.items():
         matcher = entry.get("matcher", "")
         for h in entry.get("hooks", []):
             cmd = h.get("command", "")
-            m = re.search(r'\.claude/hooks/([\w-]+\.sh)', cmd)
+            m = re.search(r'\.opencode/hooks/([\w-]+\.sh)', cmd)
             if m:
                 bn = m.group(1)
                 events_map.setdefault(bn, set()).add(event)

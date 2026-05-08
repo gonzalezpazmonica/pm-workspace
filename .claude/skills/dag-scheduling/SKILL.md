@@ -129,6 +129,6 @@ SDD_WORKER_ISOLATION: worktree
 
 ## Referencia
 
-- Skill: .claude/skills/spec-driven-development/SKILL.md
+- Skill: .opencode/skills/spec-driven-development/SKILL.md
 - Regla: docs/rules/domain/parallel-execution.md
 - Comandos: /dag-plan, /dag-execute

@@ -83,7 +83,7 @@ Los hooks `TeammateIdle` y `TaskCompleted` se pueden usar para asegurar calidad:
     "TaskCompleted": [{
       "hooks": [{
         "type": "command",
-        "command": ".claude/hooks/stop-quality-gate.sh"
+        "command": ".opencode/hooks/stop-quality-gate.sh"
       }]
     }]
   }
@@ -92,7 +92,7 @@ Los hooks `TeammateIdle` y `TaskCompleted` se pueden usar para asegurar calidad:
 
 ## Spec-Kit Alignment (SPEC-120)
 
-El template canónico de specs (`.claude/skills/spec-driven-development/references/spec-template.md`) es **superset compatible con [github/spec-kit](https://github.com/github/spec-kit)**. Declara `spec_kit_compatible: true` y mapea las 4 secciones spec-kit estándar a secciones Savia extendidas:
+El template canónico de specs (`.opencode/skills/spec-driven-development/references/spec-template.md`) es **superset compatible con [github/spec-kit](https://github.com/github/spec-kit)**. Declara `spec_kit_compatible: true` y mapea las 4 secciones spec-kit estándar a secciones Savia extendidas:
 
 | spec-kit | Savia |
 |---|---|

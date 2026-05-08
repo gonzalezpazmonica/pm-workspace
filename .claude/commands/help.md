@@ -1,7 +1,7 @@
 ---
 name: help
 description: Catálogo de comandos y primeros pasos pendientes.
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

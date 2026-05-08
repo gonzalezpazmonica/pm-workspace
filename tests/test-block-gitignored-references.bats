@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # BATS tests for block-gitignored-references.sh
-# SCRIPT=.claude/hooks/block-gitignored-references.sh
+# SCRIPT=.opencode/hooks/block-gitignored-references.sh
 # Ref: docs/propuestas/SPEC-081-hook-bats-coverage.md
 
-HOOK=".claude/hooks/block-gitignored-references.sh"
+HOOK=".opencode/hooks/block-gitignored-references.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"
@@ -144,6 +144,6 @@ make_input() {
   [[ "$status" -eq 0 ]]
 }
 @test "edge: hook file paths are skipped" {
-  run bash -c "printf '%s' '$(make_input ".claude/hooks/my-hook.sh" "output/20260407 config.local/")' | bash $HOOK"
+  run bash -c "printf '%s' '$(make_input ".opencode/hooks/my-hook.sh" "output/20260407 config.local/")' | bash $HOOK"
   [[ "$status" -eq 0 ]]
 }

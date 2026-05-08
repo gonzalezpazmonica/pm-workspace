@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/**"]
+globs: [".opencode/commands/**"]
 ---
 # Smart Command Frontmatter — Advanced Fields
 

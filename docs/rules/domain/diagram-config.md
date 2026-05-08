@@ -1,5 +1,5 @@
 ---
-globs: [".claude/skills/diagram-*/**", "projects/*/diagrams/**"]
+globs: [".opencode/skills/diagram-*/**", "projects/*/diagrams/**"]
 ---
 
 # Regla: Configuración de Diagramas de Arquitectura

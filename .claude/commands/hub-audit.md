@@ -28,9 +28,9 @@ Leer `@docs/rules/domain/semantic-hub-index.md` como referencia.
 
 Para cada fichero en `docs/rules/domain/*.md`:
 
-1. Buscar cuántos ficheros en `.claude/commands/` lo referencian (por `@` o nombre)
-2. Buscar cuántos ficheros en `.claude/agents/` lo referencian
-3. Buscar cuántos skills en `.claude/skills/` lo referencian
+1. Buscar cuántos ficheros en `.opencode/commands/` lo referencian (por `@` o nombre)
+2. Buscar cuántos ficheros en `.opencode/agents/` lo referencian
+3. Buscar cuántos skills en `.opencode/skills/` lo referencian
 
 ### Paso 2 — Clasificar
 

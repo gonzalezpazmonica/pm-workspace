@@ -23,7 +23,7 @@ teardown() {
 @test "validates a specific command file" {
   cd "$REPO_ROOT"
   local cmd
-  cmd=$(ls .claude/commands/*.md | head -1)
+  cmd=$(ls .opencode/commands/*.md | head -1)
   [[ -n "$cmd" ]] || skip "No command files found"
   run bash "$SCRIPT" "$cmd"
   [[ "$status" -le 1 ]]

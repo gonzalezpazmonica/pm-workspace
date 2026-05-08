@@ -28,7 +28,7 @@ status: PROPOSED
 
 | Gap | Riesgo | Severidad |
 |---|---|---|
-| **Sin ShellCheck en CI** | PRs con bugs en shell scripts (.claude/hooks/, .claude/commands/) pasan CI | 🔴 ALTO |
+| **Sin ShellCheck en CI** | PRs con bugs en shell scripts (.opencode/hooks/, .opencode/commands/) pasan CI | 🔴 ALTO |
 | **Sin validación de CLAUDE.md** | Un PR podría inflar CLAUDE.md >150 líneas destruyendo gestión de contexto | 🔴 ALTO |
 | **Sin Gitleaks/TruffleHog** | El scan de secrets actual es regex básico (52-char pattern). Gitleaks detecta 700+ patterns | 🟡 MEDIO |
 | **Sin Conventional Commits** | Títulos de PR caóticos, CHANGELOG difícil de generar | 🟡 MEDIO |
@@ -102,8 +102,8 @@ Valida el título del PR (para squash merge) contra conventional commits.
 Solo analiza scripts NUEVOS o MODIFICADOS en la PR. No arrastra deuda técnica preexistente.
 
 **Alcance:**
-- `.claude/hooks/*.sh`
-- `.claude/commands/*.md` (extrae bloques bash)
+- `.opencode/hooks/*.sh`
+- `.opencode/commands/*.md` (extrae bloques bash)
 - `scripts/*.sh`
 
 **Severidad:** Solo bloquea en errores (SC error level). Warnings como anotaciones.

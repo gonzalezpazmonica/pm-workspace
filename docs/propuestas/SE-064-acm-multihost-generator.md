@@ -94,7 +94,7 @@ Ejecutar solo si:
 ## Referencias
 
 - Research coderlm: `output/research-coderlm-20260421.md`
-- Skill ACM: `.claude/skills/agent-code-map/SKILL.md`
+- Skill ACM: `.opencode/skills/agent-code-map/SKILL.md`
 - Patrón multi-host coderlm: `github.com/JaredStewart/coderlm`
 - Cursor rules docs: `cursor.sh/docs/rules`
 - SE-063 enforcement hook (complementario, mayor prioridad)

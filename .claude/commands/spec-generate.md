@@ -1,7 +1,7 @@
 ---
 name: spec-generate
 description: Genera una Spec ejecutable a partir de una Task de Azure DevOps, lista para implementación.
-model: heavy
+model: github-copilot/claude-opus-4.7
 context_cost: high
 ---
 
@@ -31,8 +31,8 @@ Genera una Spec ejecutable (`.spec.md`) a partir de una Task de Azure DevOps, li
 
 ## 3. Este comando orquesta
 
-→ `.claude/skills/spec-driven-development/SKILL.md`
-→ `.claude/skills/azure-devops-queries/SKILL.md`
+→ `.opencode/skills/spec-driven-development/SKILL.md`
+→ `.opencode/skills/azure-devops-queries/SKILL.md`
 → `references/layer-assignment-matrix.md`
 → `references/spec-template.md`
 
@@ -61,7 +61,7 @@ Por qué falla: La spec sin contexto del PBI genera requisitos inventados
 # 1. CLAUDE.md raíz
 # 2. projects/{proyecto}/CLAUDE.md  (incluye sdd_layer_assignment)
 # 3. projects/{proyecto}/reglas-negocio.md
-# 4. .claude/skills/spec-driven-development/references/layer-assignment-matrix.md
+# 4. .opencode/skills/spec-driven-development/references/layer-assignment-matrix.md
 ```
 
 ### Paso 2 — Obtener la Task de Azure DevOps

@@ -37,12 +37,11 @@ Hooks de seguridade que corren en TODOS os perfis: `block-credential-leak.sh`, `
 
 **Capa 3 — Auditoria post-escritura**: Hook asincrono que re-escanea o ficheiro completo. Non bloquea. Alerta inmediata se detecta fuga.
 
-**Capa 4 — Masking reversibel**: Reemplaza entidades reais con ficticias antes de enviar a APIs cloud. Mapa local (N4, nunca en git).
+**Capa 4 — [DEPRECIADA] Masking manual eliminado**
 
-```bash
-bash scripts/sovereignty-mask.sh mask "texto con datos reais" --project o-meu-proxecto
-bash scripts/sovereignty-mask.sh unmask "resposta de Claude"
-```
+O masking manual (`sovereignty-mask.sh`) foi eliminado o 2026-05-05.  
+A Capa 4 (Proxy) mantense o seu propio masking interno en `savia-shield-proxy.py`.  
+Este espazo queda reservado para unha alternativa futura.
 
 ---
 

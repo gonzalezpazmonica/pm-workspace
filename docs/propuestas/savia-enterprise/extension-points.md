@@ -18,9 +18,9 @@ backward-compatible with a pure Core installation.
 
 ## EP-1: Agent Registry
 
-**Purpose:** let Enterprise add new agents without editing `.claude/agents/`.
+**Purpose:** let Enterprise add new agents without editing `.opencode/agents/`.
 
-**Contract:** Core walks `.claude/agents/` first, then `.claude/enterprise/agents/`
+**Contract:** Core walks `.opencode/agents/` first, then `.claude/enterprise/agents/`
 if manifest flag allows. Name collisions → Enterprise wins with WARNING in log.
 
 **Used by:** SE-002 (tenant-aware agents), SE-006 (governance agents).

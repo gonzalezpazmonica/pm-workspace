@@ -33,7 +33,7 @@ mapfile -t TIER1 < <(
 # ── Tier 2: Referenced from commands, skills, agents (on-demand) ──
 mapfile -t TIER2 < <(
   grep -roP '@docs/rules/domain/[a-z0-9_-]+\.md' \
-    "$ROOT/.claude/commands/" "$ROOT/.claude/skills/" "$ROOT/.claude/agents/" 2>/dev/null \
+    "$ROOT/.opencode/commands/" "$ROOT/.opencode/skills/" "$ROOT/.opencode/agents/" 2>/dev/null \
     | sed 's|.*@docs/rules/domain/||' | sort -u
 )
 
@@ -81,7 +81,7 @@ for rule_path in "${RULES[@]}"; do
   $first && first=false || echo ","
   # Find consumers
   consumers=$(grep -rl "@docs/rules/domain/${rule}" \
-    "$ROOT/CLAUDE.md" "$ROOT/.claude/commands/" "$ROOT/.claude/skills/" "$ROOT/.claude/agents/" 2>/dev/null \
+    "$ROOT/CLAUDE.md" "$ROOT/.opencode/commands/" "$ROOT/.opencode/skills/" "$ROOT/.opencode/agents/" 2>/dev/null \
     | sed "s|${ROOT}/||g" | sort -u | tr '\n' ',' | sed 's/,$//')
   printf '    "%s": {"tier": "%s", "consumers": "%s"}' "$rule" "$tier" "$consumers"
 done

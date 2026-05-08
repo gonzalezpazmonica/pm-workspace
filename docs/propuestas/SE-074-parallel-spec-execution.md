@@ -161,7 +161,7 @@ Slice 1 NO arranca hasta que:
 - `feedback_changelog_cascade_rebase` — patrón ya conocido
 - `docs/rules/domain/autonomous-safety.md` — gates inviolables
 - Claude Code `-w` flag — soporte nativo de worktrees
-- `.claude/skills/spec-driven-development/` — workflow base que se invoca per-worktree
+- `.opencode/skills/spec-driven-development/` — workflow base que se invoca per-worktree
 
 ## OpenCode Implementation Plan
 

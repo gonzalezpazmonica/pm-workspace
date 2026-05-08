@@ -37,12 +37,11 @@ Sicherheits-Hooks, die in ALLEN Profilen laufen: `block-credential-leak.sh`, `bl
 
 **Schicht 3 — Post-Write-Audit**: Asynchroner Hook, der die komplette Datei erneut scannt. Blockiert nicht. Sofortige Warnung bei erkanntem Datenleck.
 
-**Schicht 4 — Reversibles Masking**: Ersetzt echte Entitaeten durch fiktive, bevor Daten an Cloud-APIs gesendet werden. Lokale Zuordnung (N4, nie in Git).
+**Schicht 4 — [VERALTET] Manuelles Masking entfernt**
 
-```bash
-bash scripts/sovereignty-mask.sh mask "Text mit echten Daten" --project mein-projekt
-bash scripts/sovereignty-mask.sh unmask "Antwort von Claude"
-```
+Das manuelle Masking (`sovereignty-mask.sh`) wurde am 2026-05-05 entfernt.  
+Schicht 4 (Proxy) behalt sein eigenes internes Masking in `savia-shield-proxy.py`.  
+Dieser Slot bleibt fur eine zukunftige Alternative reserviert.
 
 ---
 

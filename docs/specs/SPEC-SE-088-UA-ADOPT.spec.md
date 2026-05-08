@@ -107,7 +107,7 @@ ua_diff_count=$(bash scripts/ua-bridge.sh diff --count)
 ~/.understand-anything-plugin → ...      # symlink universal (para dashboard)
 ```
 
-Savia commands en `.claude/commands/` como wrappers:
+Savia commands en `.opencode/commands/` como wrappers:
 ```bash
 # /ua-analyze
 bash ~/.opencode/understand-anything/scripts/ua-bridge.sh analyze "$@"
@@ -136,13 +136,13 @@ bash ~/.opencode/understand-anything/scripts/ua-bridge.sh analyze "$@"
 |---------|--------|
 | `scripts/ua-bridge.sh` | CREAR — wrapper principal |
 | `scripts/ua-install.sh` | CREAR — instalacion automatizada |
-| `.claude/commands/ua-analyze.md` | CREAR |
-| `.claude/commands/ua-domain.md` | CREAR |
-| `.claude/commands/ua-diff.md` | CREAR |
-| `.claude/commands/ua-chat.md` | CREAR |
-| `.claude/commands/ua-dashboard.md` | CREAR |
-| `.claude/commands/ua-onboard.md` | CREAR |
-| `.claude/commands/ua-install.md` | CREAR |
+| `.opencode/commands/ua-analyze.md` | CREAR |
+| `.opencode/commands/ua-domain.md` | CREAR |
+| `.opencode/commands/ua-diff.md` | CREAR |
+| `.opencode/commands/ua-chat.md` | CREAR |
+| `.opencode/commands/ua-dashboard.md` | CREAR |
+| `.opencode/commands/ua-onboard.md` | CREAR |
+| `.opencode/commands/ua-install.md` | CREAR |
 | `scripts/pr-plan-gates.sh` | MODIFICAR: anadir G16 gate (WARN) |
 | `scripts/ci-extended-checks.sh` | MODIFICAR: anadir UA check |
 
@@ -156,7 +156,7 @@ bash ~/.opencode/understand-anything/scripts/ua-bridge.sh analyze "$@"
 - **Mitigacion**: Instalacion condicional — si Node/pnpm no disponibles, `/ua-install`
   informa y los comandos UA se deshabilitan (graceful degradation).
 - **Depende de**: SPEC-OPC-CROSS-AUDIT (Era 191) para garantizar que los nuevos comandos
-  se sincronizan `.claude/commands/` ↔ `.opencode/commands/`.
+  se sincronizan `.opencode/commands/` ↔ `.opencode/commands/`.
 
 ---
 

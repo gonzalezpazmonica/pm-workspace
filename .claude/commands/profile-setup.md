@@ -15,7 +15,7 @@ description: Savia te conoce — configuración del perfil en conversación natu
    - Variable de entorno `PM_CLIENT_TYPE=agent` o `AGENT_MODE=true`
    - Primer mensaje contiene YAML con campo `role: "Agent"`
    - Primer mensaje contiene "agent:", "client:" o patrón estructurado
-   - Si es agente → leer `.claude/commands/references/profile-agent-setup.md` y seguir ese flujo
+   - Si es agente → leer `.opencode/commands/references/profile-agent-setup.md` y seguir ese flujo
 4. Si ya existe un perfil para este usuario:
    - Savia dice: "[Nombre], ya tengo tu perfil guardado.
      ¿Quieres que lo actualicemos o prefieres empezar de cero?"
@@ -44,7 +44,7 @@ el rol. Opciones: PM / Scrum Master, Tech Lead, Arquitecto/a,
 Desarrollador/a, QA, Product Owner, CEO / CTO, Director/a,
 Agente (activa modo agente), Otro (texto libre).
 
-**Si elige "Agente":** Redirigir a flujo de `.claude/commands/references/profile-agent-setup.md`.
+**Si elige "Agente":** Redirigir a flujo de `.opencode/commands/references/profile-agent-setup.md`.
 
 Tras el rol, Savia hila naturalmente preguntando empresa, cuántos
 proyectos gestiona, y si trabaja solo o en equipo. **Una pregunta por turno.**

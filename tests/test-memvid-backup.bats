@@ -5,7 +5,7 @@
 set -uo pipefail
 ROOT="$BATS_TEST_DIRNAME/.."
 SCRIPT="$ROOT/scripts/memvid-backup.py"
-SKILL_DIR="$ROOT/.claude/skills/memvid-backup"
+SKILL_DIR="$ROOT/.opencode/skills/memvid-backup"
 
 setup() {
   TMPDIR="$(mktemp -d)"

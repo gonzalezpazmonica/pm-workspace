@@ -116,4 +116,4 @@ Los comandos soportan `--notify {platform}` para enviar output automáticamente:
 /project-audit --notify teams
 ```
 
-Ver: `@.claude/skills/scheduled-messaging/references/platforms.md` para detalles API.
+Ver: `@.opencode/skills/scheduled-messaging/references/platforms.md` para detalles API.

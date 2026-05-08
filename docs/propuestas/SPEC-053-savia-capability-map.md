@@ -68,9 +68,9 @@ The actual .md or .sh file. Loaded only during execution. Discarded after.
 
 `scripts/generate-capability-map.sh` scans four directories:
 
-1. `.claude/commands/*.md` — extracts `name` and `description` from YAML frontmatter
-2. `.claude/skills/*/SKILL.md` — extracts `name`, `description`, `tags` from frontmatter
-3. `.claude/agents/*.md` — extracts `name` and `description` from frontmatter
+1. `.opencode/commands/*.md` — extracts `name` and `description` from YAML frontmatter
+2. `.opencode/skills/*/SKILL.md` — extracts `name`, `description`, `tags` from frontmatter
+3. `.opencode/agents/*.md` — extracts `name` and `description` from frontmatter
 4. `scripts/*.sh` — extracts description from first comment line after shebang
 
 Category assignment uses prefix matching (from tool-discovery.md groups) with

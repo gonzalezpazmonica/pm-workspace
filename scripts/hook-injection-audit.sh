@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # hook-injection-audit.sh — SE-060 Slice 1 hook injection patterns audit.
 #
-# Audita .claude/hooks/*.sh contra patrones de inyección de comandos,
+# Audita .opencode/hooks/*.sh contra patrones de inyección de comandos,
 # exfiltration, silent error suppression, reverse shell, redirect a
 # sockets SSH, unquoted command substitutions y rm -rf no validado.
 #

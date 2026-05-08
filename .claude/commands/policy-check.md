@@ -3,7 +3,7 @@ name: policy-check
 description: "Verificar politicas de agente para un proyecto — mostrar permisos y restricciones"
 argument-hint: "[--project nombre]"
 allowed-tools: [Read, Glob, Grep]
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

@@ -71,7 +71,7 @@ Todos se instalan on-demand — no en arranque de workspace.
 ### Slice 2 — Skill `mutation-audit` + CLI
 
 - `scripts/mutation-audit.sh {path}`
-- `.claude/skills/mutation-audit/SKILL.md`
+- `.opencode/skills/mutation-audit/SKILL.md`
 - Tests BATS ≥20 (SPEC-055 ≥80 score)
 - Comando `/mutation-audit {path}`
 

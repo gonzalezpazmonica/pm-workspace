@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/memory-prime-hook.sh
+# BATS tests for .opencode/hooks/memory-prime-hook.sh
 # PreToolUse async — auto-primes memory context from user query.
 # Ref: batch 49 hook coverage — SPEC-039 context-auto-prime integration
 
-HOOK=".claude/hooks/memory-prime-hook.sh"
+HOOK=".opencode/hooks/memory-prime-hook.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

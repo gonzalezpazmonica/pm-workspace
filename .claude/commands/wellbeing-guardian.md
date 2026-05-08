@@ -3,13 +3,13 @@ name: wellbeing-guardian
 description: "Proactive individual wellbeing system — break reminders, after-hours alerts, work-life balance nudges"
 allowed-tools: [Read, Glob, Grep, Write, Edit]
 argument-hint: "[status|configure|breaks|report|pause] [--reason work|personal|hydration] [--week|--month] [--summary|--detailed]"
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 
 # /wellbeing-guardian — Sistema proactivo de bienestar individual
 
-> Skill: @.claude/skills/wellbeing-guardian/SKILL.md
+> Skill: @.opencode/skills/wellbeing-guardian/SKILL.md
 > Config: @docs/rules/domain/wellbeing-config.md
 > Perfil: @.claude/profiles/users/{slug}/workflow.md
 

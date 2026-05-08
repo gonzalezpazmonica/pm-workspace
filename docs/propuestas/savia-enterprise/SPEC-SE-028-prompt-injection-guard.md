@@ -1,18 +1,21 @@
 ---
 id: SPEC-SE-028
 title: SPEC-SE-028: Prompt Injection Guard — Context File Scanning
-status: PROPOSED
+status: IMPLEMENTED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+implemented_at: "2026-04-17"
+verified_at: "2026-04-21"
 ---
 
 # SPEC-SE-028: Prompt Injection Guard — Context File Scanning
 
-> **Estado**: Draft
+> **Estado**: IMPLEMENTED (hook activo, 18/18 tests BATS, profile tier: security)
 > **Prioridad**: P0 (Seguridad)
 > **Dependencias**: Ninguna
 > **Era**: 231
 > **Inspiración**: Hermes Agent `prompt_builder.py` injection detection
+> **Artefactos**: `.opencode/hooks/prompt-injection-guard.sh` · `tests/test-prompt-injection-guard.bats` · registrado en `.claude/settings.json` PreToolUse[Read]
 
 ---
 
@@ -73,7 +76,7 @@ the user doesn't need to know
 
 ## Implementación
 
-### Hook: `.claude/hooks/prompt-injection-guard.sh`
+### Hook: `.opencode/hooks/prompt-injection-guard.sh`
 
 ```
 Trigger: PreToolUse (matcher: Read)
@@ -89,7 +92,7 @@ Paths escaneados (ficheros que se inyectan como contexto):
 - `projects/*/specs/**`
 - `projects/*/agent-memory/**`
 - `docs/rules/**`
-- `.claude/agents/**`
+- `.opencode/agents/**`
 - `docs/**`
 
 Paths excluidos (código fuente, no se inyecta como prompt):

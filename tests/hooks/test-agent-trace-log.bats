@@ -7,9 +7,9 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/agent-trace-log.sh"
+  HOOK="$PWD/.opencode/hooks/agent-trace-log.sh"
   export TEST_TMPDIR="$TMPDIR"
-  mkdir -p "$TEST_TMPDIR/projects/test-project/traces"
+  mkdir -p "$TEST_TMPDIR/projects/test-project/traces" "$TEST_TMPDIR/.opencode/agents"
   cd "$TEST_TMPDIR"
 }
 
@@ -18,7 +18,7 @@ teardown() {
 }
 
 @test "target has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/agent-trace-log.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/agent-trace-log.sh"
 }
 
 # ── Non-Task tool exits early ──
@@ -52,7 +52,7 @@ teardown() {
 @test "JSONL trace includes token_budget and budget_exceeded fields" {
   # Create a mock agent with known budget
   mkdir -p "$TEST_TMPDIR/.claude/agents"
-  cat > "$TEST_TMPDIR/.claude/agents/test-agent.md" <<'AGENT'
+  cat > "$TEST_TMPDIR/.opencode/agents/test-agent.md" <<'AGENT'
 ---
 name: test-agent
 token_budget: 5000
@@ -88,7 +88,7 @@ AGENT
 @test "budget exceeded triggers alert in budget-alerts.jsonl" {
   # Create a mock agent with very small budget
   mkdir -p "$TEST_TMPDIR/.claude/agents"
-  cat > "$TEST_TMPDIR/.claude/agents/tiny-agent.md" <<'AGENT'
+  cat > "$TEST_TMPDIR/.opencode/agents/tiny-agent.md" <<'AGENT'
 ---
 name: tiny-agent
 token_budget: 10
@@ -123,7 +123,7 @@ AGENT
 
 @test "no alert written when under budget" {
   mkdir -p "$TEST_TMPDIR/.claude/agents" "$TEST_TMPDIR/scripts"
-  cat > "$TEST_TMPDIR/.claude/agents/big-agent.md" <<'AGENT'
+  cat > "$TEST_TMPDIR/.opencode/agents/big-agent.md" <<'AGENT'
 ---
 name: big-agent
 token_budget: 999999
@@ -143,7 +143,7 @@ AGENT
 }
 
 @test "edge: nonexistent traces directory" {
-  run bash -c "CLAUDE_PROJECT_DIR=/tmp/nonexistent-$RANDOM CLAUDE_PROJECT_NAME=ghost TOOL_NAME=Task TOOL_INPUT='{\"agent\":\"x\"}' TOOL_OUTPUT='' TOOL_DURATION=0 TOOL_RESULT_STATUS=success bash '$BATS_TEST_DIRNAME/../../.claude/hooks/agent-trace-log.sh' 2>&1"
+  run bash -c "CLAUDE_PROJECT_DIR=/tmp/nonexistent-$RANDOM CLAUDE_PROJECT_NAME=ghost TOOL_NAME=Task TOOL_INPUT='{\"agent\":\"x\"}' TOOL_OUTPUT='' TOOL_DURATION=0 TOOL_RESULT_STATUS=success bash '$BATS_TEST_DIRNAME/../../.opencode/hooks/agent-trace-log.sh' 2>&1"
   [ "$status" -eq 0 ]
 }
 

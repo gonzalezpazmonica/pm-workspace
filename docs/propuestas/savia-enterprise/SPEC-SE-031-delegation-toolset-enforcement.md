@@ -55,7 +55,7 @@ El hook detecta si el contexto ya está en nivel 1 (variable
 
 ## Implementación
 
-### Hook: `.claude/hooks/delegation-guard.sh`
+### Hook: `.opencode/hooks/delegation-guard.sh`
 
 ```
 Trigger: PreToolUse (matcher: Agent)

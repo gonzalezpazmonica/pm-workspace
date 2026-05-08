@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  HOOK="$PWD/.claude/hooks/block-credential-leak.sh"
+  HOOK="$PWD/.opencode/hooks/block-credential-leak.sh"
 }
 
 teardown() {
@@ -143,4 +143,26 @@ make_input() {
   run_hook '{}'
   [ "$status" -eq 0 ]
   python3 -c "assert True"
+}
+
+# JWT detection: precise (must start with eyJ on header AND payload)
+
+@test "BLOCKS real JWT header.payload.signature" {
+  run_hook "$(make_input 'export TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4iLCJpYXQiOjE1MTYyMzkwMjJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c')"
+  [ "$status" -eq 2 ]
+}
+
+@test "Python module path with 3 dotted identifiers passes (was JWT FP)" {
+  run_hook "$(make_input 'python3 -c \"import importlib.util; importlib.util.spec_from_file_location(name, path)\"')"
+  [ "$status" -eq 0 ]
+}
+
+@test "Long Java/C-sharp package path passes" {
+  run_hook "$(make_input 'cat src/com.example.veryLongPackageName/Class.java')"
+  [ "$status" -eq 0 ]
+}
+
+@test "Three-segment numeric version passes" {
+  run_hook "$(make_input 'echo version=1.2.345678901234567890')"
+  [ "$status" -eq 0 ]
 }

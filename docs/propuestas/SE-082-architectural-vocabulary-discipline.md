@@ -48,8 +48,8 @@ Atribución MIT a Pocock LANGUAGE.md en header. Re-implementación clean-room �
 ### 2. Cross-references (3 sitios)
 
 - `docs/rules/domain/attention-anchor.md` → "Vocabulario arquitectónico canónico: ver `architectural-vocabulary.md`"
-- `.claude/agents/architect.md` → "Usa vocabulario `docs/rules/domain/architectural-vocabulary.md` (Module/Interface/Seam/Adapter/Depth/Locality). NO uses 'component/service/API/boundary' en outputs."
-- `.claude/agents/architecture-judge.md` → mismo añadido.
+- `.opencode/agents/architect.md` → "Usa vocabulario `docs/rules/domain/architectural-vocabulary.md` (Module/Interface/Seam/Adapter/Depth/Locality). NO uses 'component/service/API/boundary' en outputs."
+- `.opencode/agents/architecture-judge.md` → mismo añadido.
 
 ### 3. Auditor estático
 
@@ -100,7 +100,7 @@ Atribución MIT a Pocock LANGUAGE.md en header. Re-implementación clean-room �
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
 | Doc canónico | `docs/rules/domain/architectural-vocabulary.md` | mismo path (lazy-load) |
-| Agent updates | `.claude/agents/{architect,architecture-judge}.md` | regen via SE-078 AGENTS.md |
+| Agent updates | `.opencode/agents/{architect,architecture-judge}.md` | regen via SE-078 AGENTS.md |
 | Auditor | `scripts/architectural-vocabulary-audit.sh` | bash puro, idéntico |
 
 ### Verification protocol

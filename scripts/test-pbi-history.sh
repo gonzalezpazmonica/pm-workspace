@@ -9,7 +9,7 @@ pass() { PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); echo "  PASS: $1"; }
 fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  FAIL: $1"; }
 
 PBI_DIRS=("$REPO_ROOT/projects/savia-web/backlog/pbi" "$REPO_ROOT/projects/savia-web/backlog/archive")
-HOOK="$REPO_ROOT/.claude/hooks/pbi-history-capture.sh"
+HOOK="$REPO_ROOT/.opencode/hooks/pbi-history-capture.sh"
 
 # Collect all PBI files
 PBI_FILES=()

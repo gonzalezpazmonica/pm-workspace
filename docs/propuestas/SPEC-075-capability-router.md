@@ -41,7 +41,7 @@ Selección: dotnet-developer (92%) — "refactorización en C#"
 
 ## Implementación
 
-En `.claude/skills/smart-routing/SKILL.md`:
+En `.opencode/skills/smart-routing/SKILL.md`:
 
 ```markdown
 Entrada: task_description, candidates[] (agente names)

@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/ast-quality-gate-hook.sh
+# BATS tests for .opencode/hooks/ast-quality-gate-hook.sh
 # PostToolUse async (Edit|Write). Runs quality gate against modified code file.
 # Never blocks (async advisory only). Exit 0 always.
 # Ref: batch 41 hook coverage
 
-HOOK=".claude/hooks/ast-quality-gate-hook.sh"
+HOOK=".opencode/hooks/ast-quality-gate-hook.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

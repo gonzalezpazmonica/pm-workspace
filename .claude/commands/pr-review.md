@@ -3,7 +3,7 @@ name: pr-review
 description: >
   Revisión multi-perspectiva de un PR desde 5 ángulos: BA, Developer,
   QA, Security, DevOps. Informe consolidado con veredicto final.
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 

@@ -1,5 +1,5 @@
 ---
-globs: [".claude/skills/**", ".claude/agents/**"]
+globs: [".opencode/skills/**", ".opencode/agents/**"]
 ---
 
 # Integración pm-workspace con claude-code-templates Marketplace

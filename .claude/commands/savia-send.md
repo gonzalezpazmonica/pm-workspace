@@ -5,7 +5,7 @@ description: >
   Soporta cifrado E2E y prioridad.
 argument-hint: "<@handle> [--encrypt] [--priority high]"
 allowed-tools: [Read, Bash, Glob]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 
@@ -23,8 +23,8 @@ context_cost: low
 
 ## Contexto requerido
 
-1. @.claude/skills/company-messaging/references/company-savia-config.md — Config Company Savia
-2. `.claude/skills/company-messaging/SKILL.md` — Protocolo de mensajería
+1. @.opencode/skills/company-messaging/references/company-savia-config.md — Config Company Savia
+2. `.opencode/skills/company-messaging/SKILL.md` — Protocolo de mensajería
 
 ## Pasos de ejecución
 

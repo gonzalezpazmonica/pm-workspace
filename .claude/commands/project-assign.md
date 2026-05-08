@@ -25,7 +25,7 @@ description: >
 1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto
 2. `projects/{proyecto}/equipo.md` — Perfiles del equipo
 3. `output/plans/` — Último release plan (o `--release-plan`)
-4. `.claude/skills/pbi-decomposition/SKILL.md` — Scoring de asignación
+4. `.opencode/skills/pbi-decomposition/SKILL.md` — Scoring de asignación
 
 ## Pasos de ejecución
 

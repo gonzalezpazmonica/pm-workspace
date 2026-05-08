@@ -1,6 +1,6 @@
 # Questionnaire Template
 
-> Referencia rápida para comandos. Fuente de verdad: `.claude/skills/team-onboarding/SKILL.md`
+> Referencia rápida para comandos. Fuente de verdad: `.opencode/skills/team-onboarding/SKILL.md`
 
 ## Propósito
 Cuestionario interactivo de competencias (secciones A/B/C) para evaluar el perfil técnico de nuevos miembros.
@@ -14,4 +14,4 @@ Cuestionario interactivo de competencias (secciones A/B/C) para evaluar el perfi
 - Escala de puntuación: novicio, intermedio, avanzado, experto
 
 ## Fuente completa
-Para la versión detallada con ejemplos: `.claude/skills/team-onboarding/SKILL.md`
+Para la versión detallada con ejemplos: `.opencode/skills/team-onboarding/SKILL.md`

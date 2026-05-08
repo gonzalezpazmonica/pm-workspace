@@ -29,7 +29,7 @@ Coste de no adoptar: el vocabulario de cada proyecto deriva, agentes nuevos pier
 
 ## Scope (M 5h, 2 slices)
 
-### Slice 1 (S 2h) — Skill `.claude/skills/ubiquitous-language/`
+### Slice 1 (S 2h) — Skill `.opencode/skills/ubiquitous-language/`
 
 `SKILL.md` (~80 LOC) con instrucciones para que el agente:
 
@@ -59,7 +59,7 @@ Cross-reference desde SE-076 episodic memory: episodes con `entities` field que 
 ## Acceptance criteria
 
 ### Slice 1
-- [ ] AC-01 `.claude/skills/ubiquitous-language/SKILL.md` ≤80 LOC compliant SE-084
+- [ ] AC-01 `.opencode/skills/ubiquitous-language/SKILL.md` ≤80 LOC compliant SE-084
 - [ ] AC-02 Atribución MIT a Pocock
 - [ ] AC-03 Skill describe trigger + proceso 5-pasos
 - [ ] AC-04 Tests BATS ≥6 estáticos
@@ -91,7 +91,7 @@ Cross-reference desde SE-076 episodic memory: episodes con `entities` field que 
 
 - ✅ SPEC-027 memory-graph.py existe
 - ✅ SE-076 Slice 1 episodic memory (entities field) IMPLEMENTED batch 72
-- ✅ `.claude/skills/` directory
+- ✅ `.opencode/skills/` directory
 - Sin bloqueantes externos. Independiente de SE-081-085, SE-087.
 
 ## OpenCode Implementation Plan
@@ -100,7 +100,7 @@ Cross-reference desde SE-076 episodic memory: episodes con `entities` field que 
 
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
-| Skill | `.claude/skills/ubiquitous-language/SKILL.md` | autoload via AGENTS.md regen |
+| Skill | `.opencode/skills/ubiquitous-language/SKILL.md` | autoload via AGENTS.md regen |
 | Extractor | `scripts/extract-domain-entities.py` | python puro, idéntico |
 | Memory-graph edge | `scripts/memory-graph.py` (Slice 2) | mismo |
 

@@ -22,7 +22,7 @@ Ejemplo: `/marketplace-install user-authentication`
 3. Descargar skill (from local registry o GitHub releases futuro)
 4. Validar integridad
 5. Resolver y instalar dependencias
-6. Copiar a `.claude/skills/{nombre}`
+6. Copiar a `.opencode/skills/{nombre}`
 7. Actualizar metadata del workspace
 
 ## Validaciones
@@ -39,7 +39,7 @@ Ejemplo: `/marketplace-install user-authentication`
 2. Si existen dependencias: instalar recursivamente
 3. Descargar skill
 4. Validar checksum (si disponible)
-5. Integrar en `.claude/skills/`
+5. Integrar en `.opencode/skills/`
 6. Marcar como installed en registry
 7. Confirmar éxito
 
@@ -47,7 +47,7 @@ Ejemplo: `/marketplace-install user-authentication`
 
 ```
 ✅ Skill installed: {nombre} v{version}
-  Location: .claude/skills/{nombre}
+  Location: .opencode/skills/{nombre}
   Dependencies: {count} installed
   Ready to use: /help --skill {nombre}
 ```

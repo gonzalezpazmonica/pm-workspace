@@ -18,7 +18,7 @@ priority: "medium"
 
 > Generación de informes ejecutivos multi-proyecto para dirección: PowerPoint y Word con formato corporativo.
 
-**Prerequisito:** Leer `.claude/skills/azure-devops-queries/SKILL.md` y `.claude/skills/sprint-management/SKILL.md`
+**Prerequisito:** Leer `.opencode/skills/azure-devops-queries/SKILL.md` y `.opencode/skills/sprint-management/SKILL.md`
 
 ## Constantes de esta skill
 

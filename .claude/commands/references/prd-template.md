@@ -1,6 +1,6 @@
 # PRD Template
 
-> Referencia rápida para comandos. Fuente de verdad: `.claude/skills/product-discovery/SKILL.md`
+> Referencia rápida para comandos. Fuente de verdad: `.opencode/skills/product-discovery/SKILL.md`
 
 ## Propósito
 Product Requirements Document para especificar productos o features desde la perspectiva del usuario.
@@ -15,4 +15,4 @@ Product Requirements Document para especificar productos o features desde la per
 - **Dependencias**: Otras capacidades o sistemas necesarios
 
 ## Fuente completa
-Para la versión detallada con ejemplos: `.claude/skills/product-discovery/SKILL.md`
+Para la versión detallada con ejemplos: `.opencode/skills/product-discovery/SKILL.md`

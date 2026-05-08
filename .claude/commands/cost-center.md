@@ -2,7 +2,7 @@
 name: cost-center
 description: "Cost management and billing — timesheets, budgets, forecasting, invoicing"
 allowed-tools: [Read, Write, Glob, Bash]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
@@ -82,7 +82,7 @@ Subcomandos internos:
 
 - @docs/rules/domain/billing-model.md
 - @docs/rules/domain/cost-tracking.md
-- @.claude/skills/cost-management/SKILL.md
+- @.opencode/skills/cost-management/SKILL.md
 
 ## Integration
 

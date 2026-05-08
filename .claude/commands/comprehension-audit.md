@@ -6,7 +6,7 @@ allowed-tools:
   - Glob
   - Grep
   - Read
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

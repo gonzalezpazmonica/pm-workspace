@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/agent-dispatch-validate.sh
+# BATS tests for .opencode/hooks/agent-dispatch-validate.sh
 # PreToolUse(Task) — validates subagent prompts have required context.
 # Tier: strict
 # Ref: batch 40 hook test coverage
 
-HOOK=".claude/hooks/agent-dispatch-validate.sh"
+HOOK=".opencode/hooks/agent-dispatch-validate.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."
@@ -46,14 +46,14 @@ teardown() { cd /; }
 # ── Command creation validation (ERROR cases block) ──────
 
 @test "error: Task prompt creates commands but lacks name field" {
-  local prompt='crear command en .claude/commands/foo.md'
+  local prompt='crear command en .opencode/commands/foo.md'
   run bash "$HOOK" <<< "{\"tool_name\":\"Task\",\"tool_input\":{\"prompt\":\"$prompt\"}}"
   [ "$status" -eq 2 ]
   [[ "$output" == *"DISPATCH"* ]]
 }
 
 @test "pass: Task prompt with proper command frontmatter" {
-  local prompt='crear command .claude/commands/foo.md con frontmatter name, description y ver ejemplo existente'
+  local prompt='crear command .opencode/commands/foo.md con frontmatter name, description y ver ejemplo existente'
   run bash "$HOOK" <<< "{\"tool_name\":\"Task\",\"tool_input\":{\"prompt\":\"$prompt\"}}"
   # May warn but not block
   [[ "$status" -eq 0 || "$status" -eq 2 ]]
@@ -77,7 +77,7 @@ teardown() { cd /; }
 # ── Skills creation validation ─────────────────────────
 
 @test "warn: create skill without mentioning 150 line limit emits warning" {
-  local prompt='crear skill en .claude/skills/foo/SKILL.md'
+  local prompt='crear skill en .opencode/skills/foo/SKILL.md'
   run bash "$HOOK" <<< "{\"tool_name\":\"Task\",\"tool_input\":{\"prompt\":\"$prompt\"}}"
   # Skills warning is non-blocking (only WARNINGS, no ERRORS)
   [ "$status" -eq 0 ]

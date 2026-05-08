@@ -139,7 +139,7 @@ Random thoughts about something with no citation, no link, no URL.
 
 - `docs/propuestas/SE-072-verified-memory-axiom.md` — spec original
 - `scripts/memory-save.sh:24` — `cmd_save` con `--source` validation
-- `.claude/hooks/memory-verified-gate.sh` — PreToolUse Write gate
+- `.opencode/hooks/memory-verified-gate.sh` — PreToolUse Write gate
 - GenericAgent `autonomous_operation_sop.md` — axioma original
 - `feedback_root_cause_always` — memory rule aligned
 

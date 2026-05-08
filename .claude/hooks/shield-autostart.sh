@@ -1,52 +1,86 @@
 #!/bin/bash
-# shield-autostart.sh — Garantiza que Savia Shield proxy (Capa 0) este up.
-# Fire-and-forget: lanza shield-launcher en background si 8443 no responde.
-# Espera max 3s a que proxy responda antes de ceder. NO bloquea mas alla.
 set -uo pipefail
-source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
-export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
-read -r -t 0.1 _HOOK_INPUT 2>/dev/null || true
-
-# CI-mode: skip network probing (no proxy on runners, orphans pollute next iterations)
-if [[ "${CI:-}" == "true" ]]; then
-  exit 0
-fi
-
+# shield-autostart.sh — Garantiza que Savia Shield (daemon + proxy) este up.
+# Fire-and-forget: lanza shield-launcher.py con nohup+disown para que sobreviva
+# al cierre del hook (usa DETACHED_PROCESS equivalente en Windows).
+# Espera hasta 15s al daemon (port 8444, tarda por spaCy) y al proxy (port 8443).
+# WSL: set PATH explícito por si el hook corre en shell no-interactive.
+#
 # Salida limpia si algo falla
 trap 'printf "{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"Shield autostart: ERR line %s\"}}\n" "$LINENO"; exit 0' ERR
 
-# Respeta el toggle global de Shield
-if [ "${SAVIA_SHIELD_ENABLED:-true}" = "false" ]; then
+LOG="$HOME/.savia/shield-autostart.log"
+echo "[$(date +%H:%M:%S)] shield-autostart: starting" >> "$LOG"
+
+# PATH ampliado para WSL (hooks SessionStart no cargan .bashrc)
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/bin:$PATH"
+
+SAVIA_ENV="$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+if [ -f "$SAVIA_ENV" ]; then
+  source "$SAVIA_ENV" 2>>"$LOG"
+fi
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-${SAVIA_WORKSPACE_DIR:-$PWD}}"
+read -r -t 0.1 _HOOK_INPUT 2>/dev/null || true
+
+# CI-mode: skip
+if [[ "${CI:-}" == "true" ]]; then
+  echo "CI=true, skipping" >> "$LOG"
   exit 0
 fi
 
+# Respeta el toggle global de Shield
+if [ "${SAVIA_SHIELD_ENABLED:-true}" = "false" ]; then
+  echo "SAVIA_SHIELD_ENABLED=false, skipping" >> "$LOG"
+  exit 0
+fi
+
+DAEMON_PORT=8444
 PROXY_PORT=8443
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$PWD}"
 
-# Check rapido: proxy responde?
-if curl -sf --max-time 1 "http://127.0.0.1:${PROXY_PORT}/health" >/dev/null 2>&1; then
+# Check rapido: daemon + proxy ya responden?
+if curl -sf --max-time 1 "http://127.0.0.1:${DAEMON_PORT}/health" >/dev/null 2>&1 && \
+   curl -sf --max-time 1 "http://127.0.0.1:${PROXY_PORT}/health" >/dev/null 2>&1; then
+  echo "already up" >> "$LOG"
   exit 0
 fi
 
-# Proxy caido -> lanzar launcher en background (usa DETACHED_PROCESS en Windows)
+# Launcher existe?
 LAUNCHER="$PROJECT_DIR/scripts/shield-launcher.py"
 if [ ! -f "$LAUNCHER" ]; then
+  echo "launcher not found: $LAUNCHER" >> "$LOG"
   printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Shield: launcher no encontrado"}}\n'
   exit 0
 fi
 
-# Lanzar detached, redirigir todo output
-python3 "$LAUNCHER" start >/dev/null 2>&1 &
+# Lanzar launcher con nohup + disown para que sobreviva SIGHUP al salir el hook
+# y redirigir log a fichero (no a /dev/null) para depuracion
+nohup python3 "$LAUNCHER" start >> "$LOG" 2>&1 &
+disown
 
-# Esperar max 3s a que proxy responda (suficiente para proxy; daemon puede tardar mas)
-for i in 1 2 3 4 5 6; do
+# Esperar hasta 15s a que DAEMON responda (tarda mas por spaCy/Presidio)
+echo "waiting for daemon :${DAEMON_PORT}..." >> "$LOG"
+for i in $(seq 1 30); do
   sleep 0.5
-  if curl -sf --max-time 1 "http://127.0.0.1:${PROXY_PORT}/health" >/dev/null 2>&1; then
-    printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Shield proxy levantado (%ss)"}}\n' "$((i*5/10))"
+  if curl -sf --max-time 1 "http://127.0.0.1:${DAEMON_PORT}/health" >/dev/null 2>&1; then
+    echo "daemon up after ${i}s" >> "$LOG"
+    # Ahora esperar al proxy (suele arrancar en <1s)
+    for j in $(seq 1 10); do
+      if curl -sf --max-time 1 "http://127.0.0.1:${PROXY_PORT}/health" >/dev/null 2>&1; then
+        echo "proxy up after ${i}s total" >> "$LOG"
+        printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Shield up (daemon+proxy, %ss)"}}\n' "$((i/2))"
+        exit 0
+      fi
+      sleep 0.5
+    done
+    # Proxy no respondio pero daemon si -> warning
+    echo "proxy not responding after ${i}s (daemon ok)" >> "$LOG"
+    printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Shield daemon up, proxy not responding"}}\n'
     exit 0
   fi
 done
 
-# Proxy no respondio a tiempo -> aviso pero no bloquea
-printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Shield proxy no respondio en 3s (puede estar arrancando NER daemon)"}}\n'
+# Ni daemon ni proxy respondieron
+echo "daemon not responding after 15s" >> "$LOG"
+printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"Shield daemon no respondio en 15s — revisar ~/.savia/shield-autostart.log"}}\n'
 exit 0

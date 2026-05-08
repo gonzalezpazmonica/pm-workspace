@@ -55,7 +55,7 @@ Guardar en: `output/legal-compliance-{fecha}.md` con tabla de hallazgos, scores 
 
 ## Integración
 
-- Skill: `@.claude/skills/regulatory-compliance/SKILL.md`
+- Skill: `@.opencode/skills/regulatory-compliance/SKILL.md`
 - Regla: `@docs/rules/domain/regulatory-compliance.md`
 - Comando relacionado: `/compliance-scan --sector justice`
 

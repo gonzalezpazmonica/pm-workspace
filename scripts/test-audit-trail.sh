@@ -9,7 +9,7 @@ FAIL=0
 
 # Test 1: Commands exist
 for cmd in audit-trail audit-export audit-search audit-alert; do
-  if [ -f ".claude/commands/${cmd}.md" ]; then
+  if [ -f ".opencode/commands/${cmd}.md" ]; then
     echo "✅ ${cmd}.md found"
     ((PASS++))
   else
@@ -20,7 +20,7 @@ done
 
 # Test 2: Line counts
 for cmd in audit-trail audit-export audit-search audit-alert; do
-  LINES=$(wc -l < ".claude/commands/${cmd}.md")
+  LINES=$(wc -l < ".opencode/commands/${cmd}.md")
   if [ "$LINES" -le 150 ]; then
     echo "✅ ${cmd}.md: $LINES lines"
     ((PASS++))
@@ -32,7 +32,7 @@ done
 
 # Test 3: Frontmatter
 for cmd in audit-trail audit-export audit-search audit-alert; do
-  if head -1 ".claude/commands/${cmd}.md" | grep -q "^---$"; then
+  if head -1 ".opencode/commands/${cmd}.md" | grep -q "^---$"; then
     echo "✅ ${cmd}.md frontmatter"
     ((PASS++))
   else
@@ -44,7 +44,7 @@ done
 # Test 4: Key concepts
 KEYWORDS=("audit" "trail" "compliance" "EU AI Act" "ISO 42001")
 for kw in "${KEYWORDS[@]}"; do
-  if grep -q "$kw" .claude/commands/audit-*.md 2>/dev/null; then
+  if grep -q "$kw" .opencode/commands/audit-*.md 2>/dev/null; then
     echo "✅ Keyword '$kw' found"
     ((PASS++))
   else
@@ -54,7 +54,7 @@ for kw in "${KEYWORDS[@]}"; do
 done
 
 # Test 5: Total count
-TOTAL=$(ls -1 .claude/commands/*.md | wc -l)
+TOTAL=$(ls -1 .opencode/commands/*.md | wc -l)
 echo "📊 Total commands: $TOTAL"
 if [ "$TOTAL" -ge 240 ]; then
   echo "✅ Count is $TOTAL (≥240)"

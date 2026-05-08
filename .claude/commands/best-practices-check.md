@@ -1,7 +1,7 @@
 ---
 name: best-practices-check
 description: "Evaluate workspace against Claude Code best practices"
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 allowed-tools: [Read, Bash, Glob, Grep]
 argument-hint: "[--format brief|full]"
@@ -17,8 +17,8 @@ Evaluate the current pm-workspace installation against best practices.
 1. CLAUDE.md exists and ≤150 lines
 2. .claude/settings.json is valid JSON with hooks
 3. docs/rules/ directory has domain rules
-4. .claude/agents/ have frontmatter with name + description
-5. .claude/commands/ have frontmatter with name
+4. .opencode/agents/ have frontmatter with name + description
+5. .opencode/commands/ have frontmatter with name
 
 ### Hooks (20%)
 1. All hooks have `set -uo pipefail`

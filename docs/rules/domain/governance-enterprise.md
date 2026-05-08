@@ -2,13 +2,13 @@
 name: governance-enterprise
 description: "Enterprise governance matrix (GDPR, AEPD, ISO 27001, EU AI Act), compliance controls, decision registry"
 auto_load: false
-paths: [".claude/commands/governance-enterprise*", ".claude/skills/governance-enterprise/*"]
+paths: [".opencode/commands/governance-enterprise*", ".opencode/skills/governance-enterprise/*"]
 ---
 
 # Regla: Gobernanza Empresarial
 
 > Basado en: NIST AI RMF, EU AI Act (2024/1689), AEPD Orientaciones (Feb 2026)
-> Complementa: @.claude/skills/regulatory-compliance/references/aepd-framework.md, @docs/rules/domain/audit-trail-schema.md
+> Complementa: @.opencode/skills/regulatory-compliance/references/aepd-framework.md, @docs/rules/domain/audit-trail-schema.md
 
 **Principio fundamental**: Gobierno visible, auditables y evolucionables de sistemas de IA agéntica.
 

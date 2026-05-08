@@ -34,7 +34,7 @@ Items del sprint         Velocity trend         Capacity forecast         Alerta
 
 **Cómo funciona:** Cada sprint cierra con X story points completados. Eso alimenta la velocity trend (media móvil). Con esa velocity, `/capacity-forecast` simula Monte Carlo para predecir si el próximo sprint es viable. Si la velocity baja y las horas suben → alerta de burnout para el PM y CEO.
 
-**Ficheros involucrados:** `.claude/commands/sprint-*.md` → `output/sprint-snapshots/` → alertas en `output/alerts/`
+**Ficheros involucrados:** `.opencode/commands/sprint-*.md` → `output/sprint-snapshots/` → alertas en `output/alerts/`
 
 **Por qué importa:** Sin velocity histórica, no hay predicción. Sin predicción, el PM planifica a ciegas.
 
@@ -52,7 +52,7 @@ Spec SDD generada      Agente implementa       Code review + tests      DORA met
 
 **Cómo funciona:** El PO o Tech Lead genera una spec (`/spec-generate`). Un agente (o humano) implementa en un worktree aislado. Los hooks pre-commit validan tamaño, schema y reglas. Si pasan, se crea PR. El code review automático verifica contra reglas de dominio. Los tests actualizan cobertura. Todo se mide como DORA metrics.
 
-**Ficheros involucrados:** `output/specs/` → `.claude/agents/developer-*.md` → `output/implementations/` → métricas en `/kpi-dora`
+**Ficheros involucrados:** `output/specs/` → `.opencode/agents/developer-*.md` → `output/implementations/` → métricas en `/kpi-dora`
 
 **Por qué importa:** Este es el flujo que permite que un "developer" sea humano o IA indistintamente. La spec es el contrato que garantiza calidad.
 

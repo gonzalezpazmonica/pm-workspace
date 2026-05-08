@@ -11,7 +11,7 @@ Lanza un sprint nocturno autónomo que ejecuta tareas de bajo riesgo en bucle y 
 
 1. Leer `@docs/rules/domain/autonomous-safety.md` — reglas de seguridad (OBLIGATORIO)
 2. Leer `@docs/rules/domain/pm-config.md` + `pm-config.local.md` — obtener constantes
-3. Leer `.claude/skills/overnight-sprint/SKILL.md` — flujo completo
+3. Leer `.opencode/skills/overnight-sprint/SKILL.md` — flujo completo
 
 ## 2. Uso
 

@@ -1,7 +1,7 @@
 ---
 name: Changelog Enforcement
 description: Fuerza la actualización de CHANGELOG.md con cada nueva versión y PR de feature
-globs: ["CHANGELOG.md", ".claude/commands/*.md", ".claude/skills/*/SKILL.md", "docs/rules/domain/*.md"]
+globs: ["CHANGELOG.md", ".opencode/commands/*.md", ".opencode/skills/*/SKILL.md", "docs/rules/domain/*.md"]
 context_cost: low
 ---
 

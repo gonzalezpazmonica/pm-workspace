@@ -19,7 +19,7 @@ priority: "medium"
 # Skill: Enterprise Onboarding
 
 > Prerequisito: @docs/rules/domain/onboarding-enterprise.md
-> Complementa: @docs/rules/domain/team-structure.md, @.claude/commands/team-orchestrator.md
+> Complementa: @docs/rules/domain/team-structure.md, @.opencode/commands/team-orchestrator.md
 
 Orquesta el onboarding de múltiples personas (CSV batch) con checklist adaptativo por rol y knowledge transfer automático.
 

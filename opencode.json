@@ -1,6 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-
   "instructions": [
     "AGENTS.md",
     "SKILLS.md",
@@ -15,15 +14,16 @@
     "docs/rules/domain/model-alias-schema.md",
     "docs/rules/domain/critical-rules-extended.md",
     "docs/rules/domain/zero-project-leakage.md",
+    "docs/rules/domain/data-sovereignty.md",
+    "docs/savia-shield.md",
     "docs/rules/domain/pm-config.md",
     "docs/rules/domain/pm-workflow.md",
     "docs/rules/domain/agents-catalog.md"
   ],
-
   "agent": {
     "build": {
       "mode": "primary",
-      "model": "deepseek/deepseek-v4-pro",
+      "model": "github-copilot/claude-opus-4.7",
       "permission": {
         "edit": "allow",
         "bash": "allow",
@@ -34,7 +34,7 @@
     },
     "plan": {
       "mode": "primary",
-      "model": "deepseek/deepseek-chat",
+      "model": "github-copilot/claude-sonnet-4.5",
       "permission": {
         "edit": "deny",
         "bash": "deny",
@@ -44,7 +44,7 @@
     "code-reviewer": {
       "description": "Revisión de código .NET como quality gate antes de merge. Focus: SOLID, OWASP, performance.",
       "mode": "subagent",
-      "model": "deepseek/deepseek-v4-pro",
+      "model": "github-copilot/claude-opus-4.7",
       "permission": {
         "edit": "deny",
         "bash": {
@@ -61,7 +61,7 @@
     "architect": {
       "description": "Diseño de arquitectura .NET y decisiones técnicas de alto nivel. SOLID, DDD, Clean Architecture.",
       "mode": "subagent",
-      "model": "deepseek/deepseek-v4-pro",
+      "model": "github-copilot/claude-opus-4.7",
       "permission": {
         "edit": "deny",
         "bash": {
@@ -76,7 +76,7 @@
     "security-guardian": {
       "description": "Auditor de seguridad pre-commit. Detecta credenciales, OWASP, CWE Top 25, datos sensibles.",
       "mode": "subagent",
-      "model": "deepseek/deepseek-v4-pro",
+      "model": "github-copilot/claude-opus-4.7",
       "permission": {
         "edit": "deny",
         "bash": {
@@ -89,7 +89,7 @@
     "business-analyst": {
       "description": "Análisis de reglas de negocio, descomposición de PBIs, criterios de aceptación.",
       "mode": "subagent",
-      "model": "deepseek/deepseek-chat",
+      "model": "github-copilot/claude-sonnet-4.5",
       "permission": {
         "edit": "deny",
         "bash": "deny"
@@ -98,7 +98,7 @@
     "test-runner": {
       "description": "Ejecuta suite completa de tests y verifica cobertura >= 80%.",
       "mode": "subagent",
-      "model": "deepseek/deepseek-chat",
+      "model": "github-copilot/claude-sonnet-4.5",
       "permission": {
         "edit": "deny",
         "bash": {
@@ -114,7 +114,7 @@
     "commit-guardian": {
       "description": "Verifica cambios staged antes de commit: branch, tests, formato, credenciales.",
       "mode": "subagent",
-      "model": "deepseek/deepseek-chat",
+      "model": "github-copilot/claude-sonnet-4.5",
       "permission": {
         "edit": "deny",
         "bash": {
@@ -125,7 +125,6 @@
       }
     }
   },
-
   "command": {
     "sprint-status": {
       "template": "Estado del sprint actual. Obtén el sprint activo, calcula progreso, burndown y alertas de WIP. Usa la skill sprint-management. Carga el perfil activo para personalizar output.",
@@ -167,10 +166,25 @@
       "template": "Catálogo de comandos y agentes disponibles en pm-workspace. Agrupados por categoría.",
       "description": "Help — catálogo de comandos",
       "agent": "build"
+    },
+    "savia-shield": {
+      "template": "Gestión de Savia Shield. Argumentos: $ARGUMENTS. Por defecto 'status' si está vacío.\n\n- Si es 'status' o vacío: ejecuta `bash scripts/savia-shield-status.sh` y muestra el resultado. Si el script falla, determina manualmente: leer `.claude/settings.local.json` para SAVIA_SHIELD_ENABLED, curl a daemon (8444/health) y Ollama (11434/api/tags), y verificar hooks en `.opencode/hooks/`.\n- Si es 'enable': leer `.claude/settings.local.json`, poner env.SAVIA_SHIELD_ENABLED a \"true\", guardar, responder \"✅ Savia Shield activado.\"\n- Si es 'disable': leer `.claude/settings.local.json`, poner env.SAVIA_SHIELD_ENABLED a \"false\", guardar, responder \"⛔ Savia Shield desactivado.\"",
+      "description": "Savia Shield — estado, activar, desactivar",
+      "agent": "build"
     }
   },
-
   "autoupdate": false,
   "snapshot": true,
-  "share": "manual"
+  "share": "manual",
+  "mcp": {
+    "ppt": {
+      "type": "local",
+      "command": [
+        "python3",
+        "$HOME/.local/lib/python3.12/site-packages/ppt_mcp_server.py"
+      ],
+      "enabled": true,
+      "timeout": 30000
+    }
+  }
 }

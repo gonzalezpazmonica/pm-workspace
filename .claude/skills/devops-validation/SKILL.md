@@ -18,7 +18,7 @@ priority: "medium"
 
 > Audits an Azure DevOps project to verify it matches pm-workspace's "ideal Agile" configuration. Generates a remediation plan for manual approval if mismatches are found.
 
-**Prerequisite:** Read `.claude/skills/azure-devops-queries/SKILL.md` first.
+**Prerequisite:** Read `.opencode/skills/azure-devops-queries/SKILL.md` first.
 
 ---
 

@@ -20,7 +20,7 @@ context_cost: high
 ## Prerequisitos
 
 - Debe existir un informe previo de `/compliance-scan` en `output/compliance/`
-- Cargar skill: `@.claude/skills/regulatory-compliance/SKILL.md`
+- Cargar skill: `@.opencode/skills/regulatory-compliance/SKILL.md`
 - Cargar la referencia de regulaciones del sector detectado (si existe en references/)
 
 ## 2. Cargar perfil de usuario

@@ -26,7 +26,7 @@ Current Savia skills cover context optimization (`context-optimized-dev`, `conte
 
 ### Slice 1 — New skill `context-rot-strategy` (M, 3h)
 
-`.claude/skills/context-rot-strategy/SKILL.md`:
+`.opencode/skills/context-rot-strategy/SKILL.md`:
 
 **5-option model per turn:**
 1. **Continue** — context still relevant, send another message
@@ -49,7 +49,7 @@ Current Savia skills cover context optimization (`context-optimized-dev`, `conte
 
 ### Slice 2 — DOMAIN.md (Clara Philosophy) (S, 1h)
 
-`.claude/skills/context-rot-strategy/DOMAIN.md`:
+`.opencode/skills/context-rot-strategy/DOMAIN.md`:
 - Why context rot matters (attention diffusion)
 - When each of the 5 options is correct
 - Anti-patterns (waiting for auto-compact, narrating failures instead of rewinding)
@@ -87,5 +87,5 @@ Current Savia skills cover context optimization (`context-optimized-dev`, `conte
 
 - Opus 4.7 migration guide: "Context rot is real. You have five options at every turn"
 - Current `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` in settings.json
-- Existing: `.claude/skills/context-budget/`, `context-compress/`, `context-optimized-dev/`
+- Existing: `.opencode/skills/context-budget/`, `context-compress/`, `context-optimized-dev/`
 - Complementary: SE-066..SE-068

@@ -1,5 +1,5 @@
 ---
-globs: [".claude/hooks/**", ".claude/agents/commit-guardian.md"]
+globs: [".opencode/hooks/**", ".opencode/agents/commit-guardian.md"]
 ---
 
 # Commit Guardian: Checks de Referencia Detallados

@@ -110,11 +110,11 @@ El patrón central de Claude Code — progresión de responsabilidad:
 Usuario → /command → Agent (orquesta) → Skills (conocimiento)
 ```
 
-- **Commands** (`.claude/commands/*.md`) — puntos de entrada ligeros; delegan
-- **Agents** (`.claude/agents/*.md`) — orquestan con herramientas y permisos propios
-- **Skills** (`.claude/skills/<nombre>/SKILL.md`) — módulos de conocimiento reutilizables
+- **Commands** (`.opencode/commands/*.md`) — puntos de entrada ligeros; delegan
+- **Agents** (`.opencode/agents/*.md`) — orquestan con herramientas y permisos propios
+- **Skills** (`.opencode/skills/<nombre>/SKILL.md`) — módulos de conocimiento reutilizables
 - **Rules** (`docs/rules/*.md`) — instrucciones modulares con alcance opcional
-- **Hooks** (`.claude/hooks/`) — acciones deterministas garantizadas en cada evento
+- **Hooks** (`.opencode/hooks/`) — acciones deterministas garantizadas en cada evento
 
 Los subagentes **nunca se invocan por bash** — siempre con la herramienta `Task`.
 
@@ -133,7 +133,7 @@ Los subagentes **nunca se invocan por bash** — siempre con la herramienta `Tas
 
 ## 6. FRONTMATTER DE AGENTS, SKILLS Y COMMANDS
 
-### Agents (`.claude/agents/*.md`)
+### Agents (`.opencode/agents/*.md`)
 ```yaml
 ---
 name: nombre-agente
@@ -146,7 +146,7 @@ color: cyan
 ---
 ```
 
-### Skills (`.claude/skills/<nombre>/SKILL.md`)
+### Skills (`.opencode/skills/<nombre>/SKILL.md`)
 ```yaml
 ---
 name: nombre-skill
@@ -404,7 +404,7 @@ done
 1. **Terminal**: `/config` para tema, `/terminal-setup` para shift+enter, `/vim` para vim mode
 2. **Esfuerzo**: `/model` → High recomendado para máxima inteligencia
 3. **Plugins**: instalar LSPs, MCPs y skills desde el marketplace de Anthropic
-4. **Agentes**: `.claude/agents/*.md` con nombre, color, herramientas y modelo propio
+4. **Agentes**: `.opencode/agents/*.md` con nombre, color, herramientas y modelo propio
 5. **Permisos**: `/permissions` + wildcards + `settings.json` en git para el equipo
 6. **Sandbox**: `/sandbox` para aislamiento y menos prompts de permiso
 7. **Status line**: `/statusline` para mostrar modelo, contexto, coste, métricas propias

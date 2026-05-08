@@ -3,19 +3,19 @@ name: skill-optimize
 description: "Auto-optimizar el prompt de un skill o agente con bucle AutoResearch"
 argument-hint: "{skill-name|agent-name} [--fixture nombre] [--max-iterations 10]"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
-model: heavy
+model: github-copilot/claude-opus-4.7
 context_cost: high
 ---
 
 # /skill-optimize — Prompt Optimizer (patron AutoResearch)
 
-Ejecutar skill: `@.claude/skills/prompt-optimizer/SKILL.md`
+Ejecutar skill: `@.opencode/skills/prompt-optimizer/SKILL.md`
 
 ## Parametros
 
 - `$ARGUMENTS` — nombre del skill o agente a optimizar
-  - Si es un skill: busca en `.claude/skills/{nombre}/SKILL.md`
-  - Si es un agente: busca en `.claude/agents/{nombre}.md`
+  - Si es un skill: busca en `.opencode/skills/{nombre}/SKILL.md`
+  - Si es un agente: busca en `.opencode/agents/{nombre}.md`
 - `--fixture {nombre}` — nombre del test fixture a usar (default: buscar en test-fixtures/)
 - `--max-iterations N` — maximo de iteraciones (default: 10)
 

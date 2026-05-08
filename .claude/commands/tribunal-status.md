@@ -3,7 +3,7 @@ name: tribunal-status
 description: Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
 argument-hint: "[--clean] [--process N]"
 allowed-tools: [Read, Bash, Glob]
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 
@@ -63,5 +63,5 @@ Recent verdicts (last 5):
 
 - SPEC-106 Phase 2 — `docs/propuestas/SPEC-106-truth-tribunal-report-reliability.md`
 - Worker — `scripts/truth-tribunal-worker.sh`
-- Hook — `.claude/hooks/post-report-write.sh`
+- Hook — `.opencode/hooks/post-report-write.sh`
 - Sync entry point — `/report-verify <path>`

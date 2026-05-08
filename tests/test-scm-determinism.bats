@@ -161,7 +161,7 @@ teardown() {
   python3 "$GENERATOR" >/dev/null 2>&1
   local before_hash; before_hash=$(grep -oE 'hash: [a-f0-9]{12}' .scm/INDEX.scm | head -1)
   # Touch a source file (changes mtime but not content)
-  touch .claude/commands/help.md 2>/dev/null || true
+  touch .opencode/commands/help.md 2>/dev/null || true
   python3 "$GENERATOR" >/dev/null 2>&1
   local after_hash; after_hash=$(grep -oE 'hash: [a-f0-9]{12}' .scm/INDEX.scm | head -1)
   # Touching mtime should not change content hash (touch doesn't modify bytes)

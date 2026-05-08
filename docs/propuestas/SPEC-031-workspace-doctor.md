@@ -88,7 +88,7 @@ y muestre resultado con acciones correctivas.
 
 ## Implementación
 
-1. Crear `.claude/commands/workspace-doctor.md` con los 14 checks
+1. Crear `.opencode/commands/workspace-doctor.md` con los 14 checks
 2. Crear `scripts/workspace-doctor.sh` para checks deterministas (bash)
 3. El comando orquesta: ejecuta script + interpreta + formatea
 4. Opción `--fix` para aplicar fixes automáticos donde sea seguro

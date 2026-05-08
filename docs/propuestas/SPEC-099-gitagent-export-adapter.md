@@ -13,7 +13,7 @@ priority: baja
 ## Problema
 
 Los 56 agentes especializados de pm-workspace viven en formato propio
-(`.claude/agents/{name}.md` con frontmatter Claude Code-específico). No son
+(`.opencode/agents/{name}.md` con frontmatter Claude Code-específico). No son
 exportables a otros frameworks (OpenAI Assistants, CrewAI, Cursor, Lyzr).
 
 `open-gitagent/gitagent` (2.7k★, MIT, v0.2.0 abril 2026) propone un estándar
@@ -32,7 +32,7 @@ Adapter unidireccional **pm-workspace → gitagent v0.1.0** que toma un agente
 nuestro y genera la estructura gitagent equivalente:
 
 ```
-.claude/agents/architect.md
+.opencode/agents/architect.md
        ↓ (adapter)
 output/gitagent-export/architect/
 ├── agent.yaml          # manifesto compilado
@@ -53,7 +53,7 @@ output/gitagent-export/architect/
 | `frontmatter.token_budget` | `agent.yaml: limits.context_tokens` | Renombrar |
 | `frontmatter.permission_level` (L0-L4) | `DUTIES.md` policy | Tabla equivalencias |
 | Body markdown | Split entre `SOUL.md` (qué/quién) y `RULES.md` (qué SI/NO) | Heurística por encabezados |
-| Skills referenciadas | `skills/` con symlinks | Detectar `@.claude/skills/` |
+| Skills referenciadas | `skills/` con symlinks | Detectar `@.opencode/skills/` |
 | `agent.activation` (Task tool) | `agent.yaml: activation.framework_hints` | Mapeo |
 
 ### Permission levels → DUTIES
@@ -124,7 +124,7 @@ Import gitagent → pm-workspace queda fuera del scope inicial. Razones:
 - [ ] `/agent-export --validate output/gitagent-export/architect` pasa contra JSON schema oficial
 - [ ] Documentación: README.md por agente exportado explica cómo usarlo en Claude/OpenAI/Cursor
 - [ ] BATS suite cubre 5 agentes representativos (uno por permission_level)
-- [ ] CI gate añadido: si .claude/agents/*.md cambia, regenerar export y validar
+- [ ] CI gate añadido: si .opencode/agents/*.md cambia, regenerar export y validar
 - [ ] Documentado en docs/agents-portability.md
 
 ## Métricas de éxito

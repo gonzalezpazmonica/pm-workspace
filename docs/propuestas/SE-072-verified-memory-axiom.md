@@ -65,7 +65,7 @@ Minimal surgical hook que valida `memory-store.sh save` y `Write` sobre `~/.clau
 - GenericAgent `autonomous_operation_sop.md` — axioma original
 - `feedback_root_cause_always` — memory rule aligned
 - `scripts/memory-store.sh` — target de la modificación
-- `.claude/hooks/memory-auto-capture.sh` — hook ya existente, complementar
+- `.opencode/hooks/memory-auto-capture.sh` — hook ya existente, complementar
 
 ## Resolution (2026-04-25)
 
@@ -73,14 +73,14 @@ SE-072 Slice 1 (MVP) implementado en Era 188 (batch 57). 5/5 ACs cumplidos:
 
 - [x] AC-01 `scripts/memory-save.sh` rechaza `cmd_save` sin `--source <origin>` con mensaje didáctico (5 ejemplos copy-paste)
 - [x] AC-02 4 sources válidos enumerados: `tool:<name>`, `file:<path>:<line>`, `verified:<sha>`, `user:explicit`. Blacklist explícita: `speculation|plan|intent|draft|hypothesis`
-- [x] AC-03 Hook `.claude/hooks/memory-verified-gate.sh` PreToolUse Write bloquea auto-memory writes sin citation pattern (5 patrones aceptados: file ref, markdown link, Source/Ref keyword, URL, frontmatter type)
+- [x] AC-03 Hook `.opencode/hooks/memory-verified-gate.sh` PreToolUse Write bloquea auto-memory writes sin citation pattern (5 patrones aceptados: file ref, markdown link, Source/Ref keyword, URL, frontmatter type)
 - [x] AC-04 Tests BATS: `test-memory-verified-gate.bats` 33 tests score 94 + `test-memory-store.bats` updated 23 tests score 90 (incluye 9 SE-072 cases nuevos)
 - [x] AC-05 Doc `docs/rules/domain/verified-memory-axiom.md` con rationale, reglas, ejemplos correcto/rechazado, escape hatch, riesgos
 
 ### Implementación
 
 - `scripts/memory-save.sh:24` — `cmd_save` parsea `--source` flag, valida format vs blacklist, embed en JSONL output como `"source":"<origin>"`
-- `.claude/hooks/memory-verified-gate.sh` — registrado en `.claude/settings.json` PreToolUse Edit|Write con timeout 5s
+- `.opencode/hooks/memory-verified-gate.sh` — registrado en `.claude/settings.json` PreToolUse Edit|Write con timeout 5s
 - Skipped silenciosamente: `MEMORY.md`, `session-journal.md`, `session-hot.md`, `session-summary.md`
 - Escape hatch: `SAVIA_VERIFIED_MEMORY_DISABLED=true` (para grandfathering, tests legacy, casos explícitos)
 

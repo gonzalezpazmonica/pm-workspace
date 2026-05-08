@@ -74,7 +74,7 @@ Ver comandos por lenguaje en `references/language-commands.md`.
 ### Paso 3: Ejecutar Semgrep (patrones LLM)
 
 ```bash
-semgrep --config .claude/skills/ast-quality-gate/references/semgrep-rules.yaml \
+semgrep --config .opencode/skills/ast-quality-gate/references/semgrep-rules.yaml \
         --json --no-git-ignore "$TARGET"
 ```
 
@@ -106,7 +106,7 @@ score = 100 - (errores × 10) - (warnings × 3) - (infos × 1)  [min 0]
   "hooks": {
     "PostToolUse": [{
       "matcher": "Edit|Write",
-      "command": ".claude/hooks/ast-quality-gate-hook.sh",
+      "command": ".opencode/hooks/ast-quality-gate-hook.sh",
       "async": true
     }]
   }

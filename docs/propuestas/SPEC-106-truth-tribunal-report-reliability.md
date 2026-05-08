@@ -7,10 +7,10 @@ severity: Alta
 effort: ~40h (sprint dedicado recomendado)
 phase_1_artifacts:
   - scripts/truth-tribunal.sh
-  - .claude/agents/truth-tribunal-orchestrator.md
-  - .claude/agents/{factuality,source-traceability,hallucination,coherence,calibration,completeness,compliance}-judge.md
+  - .opencode/agents/truth-tribunal-orchestrator.md
+  - .opencode/agents/{factuality,source-traceability,hallucination,coherence,calibration,completeness,compliance}-judge.md
   - docs/rules/domain/truth-tribunal-weights.md
-  - .claude/commands/report-verify.md
+  - .opencode/commands/report-verify.md
   - tests/test-truth-tribunal.bats (BATS suite, certified)
 phase_1_decisions:
   - sync invocation (manual /report-verify) — async hooks deferred to Phase 2
@@ -333,7 +333,7 @@ Fase 1 (MVP manual) mientras Fase 2 (hook async) se itera.
 
 - [Code Review Court — SPEC interno](`docs/rules/domain/code-review-court.md`)
 - [Consensus Protocol — SPEC interno](`docs/rules/domain/consensus-protocol.md`)
-- [Verification Lattice — skill interno](`.claude/skills/verification-lattice/`)
+- [Verification Lattice — skill interno](`.opencode/skills/verification-lattice/`)
 - [Fork Agent Protocol — SPEC interno](`docs/rules/domain/fork-agent-protocol.md`)
 - [G-Eval chain-of-thought judge](https://arxiv.org/abs/2303.16634)
 - [RAGAS faithfulness metric](https://github.com/explodinggradients/ragas)

@@ -32,14 +32,14 @@ test_case() {
 echo ""
 echo "1️⃣  Command Files Exist"
 for cmd in context-budget context-compress context-defer context-profile context-load context-optimize context-age context-benchmark; do
-  test_case "${cmd}.md exists" "[ -f $REPO_ROOT/.claude/commands/${cmd}.md ]"
+  test_case "${cmd}.md exists" "[ -f $REPO_ROOT/.opencode/commands/${cmd}.md ]"
 done
 
 # ── Test 2: YAML frontmatter ────────────────────────────────────
 echo ""
 echo "2️⃣  YAML Frontmatter"
 for cmd in context-budget context-compress context-defer context-profile context-load context-optimize context-age context-benchmark; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   test_case "${cmd}: has name field" "grep -q '^name: ' $file"
   test_case "${cmd}: has description" "grep -q '^description: ' $file"
 done
@@ -48,7 +48,7 @@ done
 echo ""
 echo "3️⃣  Line Count (≤ 150 lines)"
 for cmd in context-budget context-compress context-defer context-profile context-load context-optimize context-age context-benchmark; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   lines=$(wc -l < "$file")
   test_case "${cmd}: ${lines} lines ≤ 150" "[ $lines -le 150 ]"
 done
@@ -56,11 +56,11 @@ done
 # ── Test 4: Key concepts present ────────────────────────────────
 echo ""
 echo "4️⃣  Key Concepts"
-test_case "context-budget mentions budget\|tokens" "grep -q -i 'budget\|tokens' $REPO_ROOT/.claude/commands/context-budget.md"
-test_case "context-compress mentions compress" "grep -q -i 'compress' $REPO_ROOT/.claude/commands/context-compress.md"
-test_case "context-defer mentions defer\|lazy" "grep -q -i 'defer\|lazy' $REPO_ROOT/.claude/commands/context-defer.md"
-test_case "context-profile mentions profile\|analyze" "grep -q -i 'profile\|analyze' $REPO_ROOT/.claude/commands/context-profile.md"
-test_case "context-load mentions load" "grep -q -i 'load' $REPO_ROOT/.claude/commands/context-load.md"
+test_case "context-budget mentions budget\|tokens" "grep -q -i 'budget\|tokens' $REPO_ROOT/.opencode/commands/context-budget.md"
+test_case "context-compress mentions compress" "grep -q -i 'compress' $REPO_ROOT/.opencode/commands/context-compress.md"
+test_case "context-defer mentions defer\|lazy" "grep -q -i 'defer\|lazy' $REPO_ROOT/.opencode/commands/context-defer.md"
+test_case "context-profile mentions profile\|analyze" "grep -q -i 'profile\|analyze' $REPO_ROOT/.opencode/commands/context-profile.md"
+test_case "context-load mentions load" "grep -q -i 'load' $REPO_ROOT/.opencode/commands/context-load.md"
 
 # ── Test 5: Meta files updated ──────────────────────────────────
 echo ""

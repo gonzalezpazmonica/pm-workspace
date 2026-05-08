@@ -305,7 +305,7 @@ Estos documentos se mantienen en repo por razones de auditoría pero ya no son f
 - `docs/rules/domain/bounded-concurrency.md` — doctrina anti-fork-bomb
 - `docs/rules/domain/mcp-overhead.md` — doctrina MCP
 - `docs/rules/domain/query-library-protocol.md` — RLM pattern
-- `.claude/skills/` (77 skills)
-- `.claude/agents/` (65 agents)
+- `.opencode/skills/` (77 skills)
+- `.opencode/agents/` (65 agents)
 - `tests/` (100+ .bats)
 - `output/agent-runs/` — auditoría de sesiones autónomas

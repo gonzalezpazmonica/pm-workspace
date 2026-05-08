@@ -41,7 +41,7 @@ Descompone un PBI en Tasks técnicas con estimaciones y propuesta de asignación
    - `docs/flujo-trabajo.md`
 
 2. **Invocar la skill** completa:
-   → `.claude/skills/pbi-decomposition/SKILL.md`
+   → `.opencode/skills/pbi-decomposition/SKILL.md`
 
 3. **Fase 1** — Analizar el PBI desde Azure DevOps (título, descripción, criterios de aceptación, SP, tags, links)
 

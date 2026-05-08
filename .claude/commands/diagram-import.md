@@ -42,7 +42,7 @@ Leer en este orden (Progressive Disclosure):
 ## 4. Pasos de ejecución
 
 1. **Invocar la skill** completa:
-   → `.claude/skills/diagram-import/SKILL.md`
+   → `.opencode/skills/diagram-import/SKILL.md`
 
 2. **Fase 1 — Obtener diagrama** según tipo de source:
    - URL Draw.io → MCP `draw-io` para leer XML

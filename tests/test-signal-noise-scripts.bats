@@ -119,7 +119,7 @@ teardown() {
 # ── Mapping (pre-push-bats) ────────────────────────────────────────────────
 
 @test "pre-push-bats maps hook files to their tests" {
-  run grep -cE '\.claude/hooks' "scripts/pre-push-bats-critical.sh"
+  run grep -cE '\.opencode/hooks|\.claude/hooks' "scripts/pre-push-bats-critical.sh"
   [[ "$output" -ge 2 ]]
 }
 

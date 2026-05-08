@@ -3,12 +3,12 @@ name: architecture-patterns
 description: Catálogo de patrones de arquitectura cross-language con markers de detección
 developer_type: all
 context_cost: medium
-paths: [".claude/commands/arch-*.md"]
+paths: [".opencode/commands/arch-*.md"]
 ---
 
 # Patrones de Arquitectura — Referencia Rápida
 
-> Detalle por lenguaje: `@.claude/skills/architecture-intelligence/references/patterns-{lang}.md`
+> Detalle por lenguaje: `@.opencode/skills/architecture-intelligence/references/patterns-{lang}.md`
 
 ---
 

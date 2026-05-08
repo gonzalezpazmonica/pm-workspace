@@ -108,7 +108,7 @@ Tras todos los tests verdes, busca refactor candidates:
 ## Cross-references
 
 - `docs/rules/domain/architectural-vocabulary.md` (SE-082) — Module/Interface/Seam/Adapter discipline. Aplica al diseño de la interface antes de escribir el primer test.
-- `.claude/agents/test-architect.md` — agente que aplica TDD; consulta este skill antes de generar suites.
+- `.opencode/agents/test-architect.md` — agente que aplica TDD; consulta este skill antes de generar suites.
 
 ## Atribución
 

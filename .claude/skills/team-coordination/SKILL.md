@@ -19,7 +19,7 @@ priority: "medium"
 # Skill: Team Coordination
 
 > Prerequisito: @docs/rules/domain/team-structure.md
-> Complementa: @.claude/skills/capacity-planning/SKILL.md
+> Complementa: @.opencode/skills/capacity-planning/SKILL.md
 
 Orquesta la creación, gestión y coordinación de equipos dentro de departamentos.
 Detecta dependencias cross-equipo, bloqueos y problemas de capacidad.

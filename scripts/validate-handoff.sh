@@ -123,8 +123,8 @@ validate_handoff_function() {
   # to must exist as agent file (if AGENTS_DIR accessible)
   local repo_root; repo_root="$(cd "$(dirname "$0")/.." 2>/dev/null && pwd)" || repo_root="."
   if [[ -n "$to" && -d "$repo_root/.claude/agents" ]]; then
-    if [[ ! -f "$repo_root/.claude/agents/${to}.md" ]]; then
-      echo "INVALID: to='$to' not found in .claude/agents/" >&2
+    if [[ ! -f "$repo_root/.opencode/agents/${to}.md" ]]; then
+      echo "INVALID: to='$to' not found in .opencode/agents/" >&2
       errors=$((errors+1))
     fi
   fi

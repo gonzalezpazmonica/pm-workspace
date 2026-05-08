@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/emotional-regulation-monitor.sh
+# BATS tests for .opencode/hooks/emotional-regulation-monitor.sh
 # Stop hook: assesses session stress, persists high-friction sessions to memory.
 # Source: Anthropic "Emotion concepts in LLMs" (2026-04-02)
 # Ref: batch 41 hook coverage
 
-HOOK=".claude/hooks/emotional-regulation-monitor.sh"
+HOOK=".opencode/hooks/emotional-regulation-monitor.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

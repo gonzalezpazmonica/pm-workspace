@@ -15,7 +15,7 @@ echo "════════════════════════�
 # ── Section 1: Command file ────────────────────────────────────────────────
 echo ""
 echo "── Section 1: Command file ──"
-CMD=".claude/commands/backlog-git.md"
+CMD=".opencode/commands/backlog-git.md"
 check "Command exists" "[ -f $CMD ]"
 LINES=$(wc -l < "$CMD")
 check "Command within line limit ($LINES/150 lines)" "[ $LINES -le 150 ]"
@@ -50,7 +50,7 @@ check "Has security section" "grep -q 'Seguridad' $RULE"
 # ── Section 3: Skill ──────────────────────────────────────────────────────
 echo ""
 echo "── Section 3: Skill ──"
-SKILL=".claude/skills/backlog-git-tracker/SKILL.md"
+SKILL=".opencode/skills/backlog-git-tracker/SKILL.md"
 check "Skill exists" "[ -f $SKILL ]"
 LINES=$(wc -l < "$SKILL")
 check "Skill within limit ($LINES/150 lines)" "[ $LINES -le 150 ]"

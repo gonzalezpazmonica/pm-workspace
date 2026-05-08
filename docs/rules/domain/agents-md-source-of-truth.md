@@ -1,10 +1,10 @@
 # Regla: AGENTS.md source of truth
 
-> Define cómo se mantiene `AGENTS.md` (el espejo cross-frontend) sin perder coherencia con `.claude/agents/*.md`. Vigente desde SE-078.
+> Define cómo se mantiene `AGENTS.md` (el espejo cross-frontend) sin perder coherencia con `.opencode/agents/*.md`. Vigente desde SE-078.
 
 ## Source of truth
 
-`.claude/agents/*.md` con su frontmatter Anthropic-specific es el **único origen autoritativo**. Los agentes se editan ahí. `AGENTS.md` en el repo root es **derivado, jamás se edita a mano**.
+`.opencode/agents/*.md` con su frontmatter Anthropic-specific es el **único origen autoritativo**. Los agentes se editan ahí. `AGENTS.md` en el repo root es **derivado, jamás se edita a mano**.
 
 ## Por qué existe AGENTS.md
 
@@ -16,7 +16,7 @@ OpenCode v1.14, Codex, Cursor y otros frontends modernos leen `AGENTS.md` desde 
 
 Tres mecanismos, en este orden:
 
-1. **Stop hook automático** (`.claude/hooks/agents-md-auto-regenerate.sh`): si la sesión modificó `.claude/agents/*.md`, regenera `AGENTS.md` async al cerrar la sesión.
+1. **Stop hook automático** (`.opencode/hooks/agents-md-auto-regenerate.sh`): si la sesión modificó `.opencode/agents/*.md`, regenera `AGENTS.md` async al cerrar la sesión.
 2. **Manual**: `bash scripts/agents-md-generate.sh --apply`
 3. **Pre-push**: pr-plan G14 (`agents-md-drift-check.sh`) bloquea PRs con drift.
 
@@ -24,7 +24,7 @@ Tres mecanismos, en este orden:
 
 `scripts/agents-md-drift-check.sh` corre en pr-plan G14 y en CI. Falla con exit 1 si:
 - `AGENTS.md` ausente
-- Hay un agente nuevo en `.claude/agents/` no propagado
+- Hay un agente nuevo en `.opencode/agents/` no propagado
 - Hay un entry stale para un agente borrado
 - `AGENTS.md` fue editado a mano (no coincide con la salida del generador)
 
@@ -34,15 +34,15 @@ La salida en `--check` muestra un diff unified de las primeras 40 líneas para d
 
 - NO editar `AGENTS.md` a mano (siempre regenerar)
 - NO añadir campos no presentes en el frontmatter de los agentes
-- NO añadir narrativa por agente (eso va en el body de `.claude/agents/<name>.md`)
-- NO sustituir `.claude/agents/*.md` por AGENTS.md como fuente
+- NO añadir narrativa por agente (eso va en el body de `.opencode/agents/<name>.md`)
+- NO sustituir `.opencode/agents/*.md` por AGENTS.md como fuente
 - NO migrar el formato Anthropic-specific a otro estándar (la doble fuente es intencional)
 
 ## Cross-frontend contract
 
 | Frontend | Lectura |
 |---|---|
-| Claude Code | `.claude/agents/*.md` directamente |
+| Claude Code | `.opencode/agents/*.md` directamente |
 | OpenCode v1.14 | `AGENTS.md` (root) + `.opencode/agents/` symlink (fallback) |
 | Codex / Cursor | `AGENTS.md` (root) como contexto freeform |
 

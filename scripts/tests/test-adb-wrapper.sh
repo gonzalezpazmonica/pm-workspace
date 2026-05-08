@@ -297,7 +297,7 @@ fi
 echo ""
 echo "--- 8. Hook Validation ---"
 
-HOOK="$ROOT_DIR/.claude/hooks/android-adb-validate.sh"
+HOOK="$ROOT_DIR/.opencode/hooks/android-adb-validate.sh"
 if [[ -x "$HOOK" ]]; then
     # Safe command
     TOOL_INPUT="adb shell screencap -p /sdcard/test.png" TOOL_NAME="Bash" \

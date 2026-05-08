@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/subagent-lifecycle.sh
+# BATS tests for .opencode/hooks/subagent-lifecycle.sh
 # SubagentStart/SubagentStop async — logs agent lifecycle to jsonl.
 # Ref: batch 51 hook coverage — final 3 hooks → 58/58 (100%) — SPEC-071 Slice 4.
 
-HOOK=".claude/hooks/subagent-lifecycle.sh"
+HOOK=".opencode/hooks/subagent-lifecycle.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

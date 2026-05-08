@@ -3,7 +3,7 @@ name: zeroclaw
 description: "Interface with ZeroClaw ESP32 — setup, test, send commands, flash firmware."
 argument-hint: "setup | test | ping | led | info | sensors | flash | interactive"
 allowed-tools: [Read, Bash, Write]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

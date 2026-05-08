@@ -9,7 +9,7 @@ fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  ❌ $1"; }
 check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
 
 CURVES="$ROOT/docs/rules/domain/scoring-curves.md"
-DIFF="$ROOT/.claude/commands/score-diff.md"
+DIFF="$ROOT/.opencode/commands/score-diff.md"
 SEV="$ROOT/docs/rules/domain/severity-classification.md"
 CLAUDE="$ROOT/CLAUDE.md"
 CHANGELOG="$ROOT/CHANGELOG.md"

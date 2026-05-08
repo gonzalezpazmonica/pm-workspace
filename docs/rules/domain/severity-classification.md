@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/code-audit*", ".claude/commands/sprint-review*", ".claude/commands/pr-*"]
+globs: [".opencode/commands/code-audit*", ".opencode/commands/sprint-review*", ".opencode/commands/pr-*"]
 ---
 # Severity Classification — Rule of Three
 

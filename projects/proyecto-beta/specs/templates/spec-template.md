@@ -5,7 +5,7 @@
 
 > **spec_kit_compatible: true** — Este template es superset compatible con [github/spec-kit](https://github.com/github/spec-kit).
 > Las 4 secciones estandar de spec-kit se mapean a las secciones extendidas de Savia.
-> Fuente canonica: `.claude/skills/spec-driven-development/references/spec-template.md` §Spec-Kit Alignment.
+> Fuente canonica: `.opencode/skills/spec-driven-development/references/spec-template.md` §Spec-Kit Alignment.
 
 ---
 

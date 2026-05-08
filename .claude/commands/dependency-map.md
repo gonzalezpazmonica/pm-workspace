@@ -24,7 +24,7 @@ description: >
 ## Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — Config del proyecto
-2. `.claude/skills/azure-devops-queries/SKILL.md` — WIQL para work items
+2. `.opencode/skills/azure-devops-queries/SKILL.md` — WIQL para work items
 
 ## Pasos de ejecución
 

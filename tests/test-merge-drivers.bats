@@ -133,7 +133,7 @@ teardown() {
 # ── session-init hook integration ──────────────────────────────────────────
 
 @test "session-init hook invokes setup-merge-drivers" {
-  run grep -c 'setup-merge-drivers.sh' ".claude/hooks/session-init.sh"
+  run grep -c 'setup-merge-drivers.sh' ".opencode/hooks/session-init.sh"
   [[ "$output" -ge 1 ]]
 }
 
@@ -196,7 +196,7 @@ teardown() {
 }
 
 @test "edge: session-init runs setup silently + idempotent" {
-  run grep -A1 'setup-merge-drivers' .claude/hooks/session-init.sh
+  run grep -A1 'setup-merge-drivers' .opencode/hooks/session-init.sh
   [[ "$output" == *">/dev/null 2>&1"* ]] || [[ "$output" == *"|| true"* ]]
 }
 

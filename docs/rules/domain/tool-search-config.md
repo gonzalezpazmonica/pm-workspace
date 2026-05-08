@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/**"]
+globs: [".opencode/commands/**"]
 ---
 # Tool Search Configuration — MCP Tool Discovery
 

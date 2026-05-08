@@ -4,7 +4,7 @@ description: Predicción de completitud del sprint basada en velocity histórica
 developer_type: agent-single
 agent: azure-devops-operator
 context_cost: medium
-model: mid
+model: github-copilot/claude-sonnet-4.5
 ---
 
 # Sprint Forecast

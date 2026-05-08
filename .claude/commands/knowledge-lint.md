@@ -3,7 +3,7 @@ name: knowledge-lint
 description: Health check for the persistent knowledge base — detect orphans, stale refs, missing evidence
 argument-hint: "[--fix]"
 context_cost: low
-model: fast
+model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read]
 ---
 

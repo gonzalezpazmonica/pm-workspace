@@ -192,3 +192,7 @@ ipsum
 amet
 tempor
 eiusmod
+
+# BATS test framework annotations (not PII / not organization)
+BATS_TEST_DIRNAME
+BATS_TEST_FILENAME

@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/skills/ast-comprehension/SKILL.md — RLM pattern
+# BATS tests for .opencode/skills/ast-comprehension/SKILL.md — RLM pattern
 # Ref: docs/propuestas/SE-031-query-library-nl.md (pattern analogy)
 # Origin: output/research-coderlm-20260418.md (veredict ROBAR PATRON)
 # SPEC-055 quality gate (score >= 80)
@@ -7,7 +7,7 @@
 # Protects the 6 typed-query contract: symbol-search, impl, callers, tests,
 # peek, grep-code. If the skill drops any of them, tests fail.
 
-SKILL="$BATS_TEST_DIRNAME/../.claude/skills/ast-comprehension/SKILL.md"
+SKILL="$BATS_TEST_DIRNAME/../.opencode/skills/ast-comprehension/SKILL.md"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

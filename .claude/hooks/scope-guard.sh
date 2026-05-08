@@ -7,6 +7,7 @@ set -uo pipefail
 #         Si hay ficheros fuera del scope → warning al PM (exit 0, NO bloquea).
 # Exit codes: 0 = pass (con warning si aplica), 2 = bloqueo (no usado aquí)
 # Profile tier: standard
+# PERF: optimized 2026-05-07 — single git diff, maxdepth=4, early exit, declared specs cache
 
 LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
 if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
@@ -16,65 +17,57 @@ fi
 
 INPUT=$(cat)
 
-# Buscar spec activa: la más reciente en el proyecto actual
-# El agente SDD trabaja dentro de projects/{proyecto}/
 PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 
-# Obtener ficheros modificados (tracked, no staged + staged)
-MODIFIED=$(git diff --name-only 2>/dev/null; git diff --cached --name-only 2>/dev/null)
-MODIFIED=$(echo "$MODIFIED" | sort -u | grep -v '^$' || true)
+# Single git diff covers both staged + unstaged tracked changes
+MODIFIED=$(git -C "$PROJECT_ROOT" diff HEAD --name-only 2>/dev/null | sort -u | grep -v '^$' || true)
 
 if [ -z "$MODIFIED" ]; then
   exit 0
 fi
 
-# Buscar spec activa: fichero .spec.md más reciente modificado en los últimos 60 min.
-# Restrict search to known spec locations + prune heavy dirs to keep hook <200ms.
-# Common SDD paths: projects/*/specs/, docs/specs/, docs/propuestas/.
+# Restrict search to known SDD locations + maxdepth 4 (specs live at projects/{slug}/specs/ or docs/specs/)
 SEARCH_PATHS=()
 for p in "$PROJECT_ROOT/projects" "$PROJECT_ROOT/docs/specs" "$PROJECT_ROOT/docs/propuestas"; do
   [[ -d "$p" ]] && SEARCH_PATHS+=("$p")
 done
-[[ ${#SEARCH_PATHS[@]} -eq 0 ]] && SEARCH_PATHS+=("$PROJECT_ROOT")
+
+# Early exit: no spec dirs → nothing to verify
+if [[ ${#SEARCH_PATHS[@]} -eq 0 ]]; then
+  exit 0
+fi
 
 SPEC_FILE=""
 if [[ -n "${SAVIA_TMP:-}" && -f "$SAVIA_TMP/.scope-guard-marker" ]]; then
-  SPEC_FILE=$(find "${SEARCH_PATHS[@]}" -maxdepth 6 \
+  SPEC_FILE=$(find "${SEARCH_PATHS[@]}" -maxdepth 4 \
     \( -name node_modules -o -name .git -o -name build -o -name dist -o -name target \) -prune -o \
     -name "*.spec.md" -newer "$SAVIA_TMP/.scope-guard-marker" -print 2>/dev/null | head -1)
 fi
 
-# Si no hay marker (o no match), buscar la spec más recientemente modificada
 if [ -z "$SPEC_FILE" ]; then
-  SPEC_FILE=$(find "${SEARCH_PATHS[@]}" -maxdepth 6 \
+  SPEC_FILE=$(find "${SEARCH_PATHS[@]}" -maxdepth 4 \
     \( -name node_modules -o -name .git -o -name build -o -name dist -o -name target \) -prune -o \
-    -name "*.spec.md" -mmin -60 -print 2>/dev/null | sort -t/ -k1,1 | tail -1)
+    -name "*.spec.md" -mmin -60 -print 2>/dev/null | head -1)
 fi
 
-# Si no hay spec activa, no podemos verificar scope
 if [ -z "$SPEC_FILE" ] || [ ! -f "$SPEC_FILE" ]; then
   exit 0
 fi
 
-# Extraer ficheros declarados en la spec
-# Busca la sección "Ficheros a Crear/Modificar" o "Files to Create/Modify"
-# y extrae paths de líneas que parecen rutas de fichero
-# FIX: Restrict to bullet lines (- path) to avoid false matches in prose
+# Extract declared files in spec — bullet lines only to avoid prose false-matches
 DECLARED=$(sed -n '/[Ff]icheros\|[Ff]iles to [Cc]reate/,/^## /p' "$SPEC_FILE" \
   | grep -E '^[[:space:]]*[-*]' \
   | grep -oE '[a-zA-Z0-9_./\-]+\.[a-z]{1,5}' \
   | sort -u)
 
 if [ -z "$DECLARED" ]; then
-  # La spec no tiene sección de ficheros declarados → no podemos verificar
   exit 0
 fi
 
-# Comparar: buscar ficheros modificados que NO están en la lista declarada
+# Compare modified vs declared
 OUT_OF_SCOPE=""
 for FILE in $MODIFIED; do
   BASENAME=$(basename "$FILE")
-  # Verificar si el fichero o su basename está en los declarados
   MATCH=0
   for DECL in $DECLARED; do
     DECL_BASE=$(basename "$DECL")
@@ -82,14 +75,12 @@ for FILE in $MODIFIED; do
       MATCH=1
       break
     fi
-    # Match parcial: si el path declarado termina igual que el modificado
     if echo "$FILE" | grep -qF "$DECL"; then
       MATCH=1
       break
     fi
   done
   if [ "$MATCH" -eq 0 ]; then
-    # Excluir ficheros que siempre son legítimos fuera del scope
     case "$BASENAME" in
       *.spec.md|*.test.*|*Test*|*test*|*.md|*.json|*.yml|*.yaml) continue ;;
       .gitignore|Dockerfile|docker-compose*|*.csproj|*.sln|package.json) continue ;;
@@ -108,7 +99,6 @@ if [ -n "$OUT_OF_SCOPE" ]; then
   echo "" >&2
   echo "Revisa si estos cambios son intencionales o si el agente expandió el alcance." >&2
   echo "Ficheros declarados en la spec: $(echo "$DECLARED" | tr '\n' ', ')" >&2
-  # Warning, no bloqueo — el PM decide
   exit 0
 fi
 

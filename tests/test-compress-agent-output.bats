@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/compress-agent-output.sh
+# BATS tests for .opencode/hooks/compress-agent-output.sh
 # PostToolUse for Task — streaming compression of agent outputs >200 tokens.
 # Only activates in multi-agent sessions (dev-session implementing OR env override).
 # Ref: batch 48 hook coverage — SPEC-041 P4 streaming agent compression
 
-HOOK=".claude/hooks/compress-agent-output.sh"
+HOOK=".opencode/hooks/compress-agent-output.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

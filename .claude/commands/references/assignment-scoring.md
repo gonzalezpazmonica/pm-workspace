@@ -1,6 +1,6 @@
 # Assignment Scoring
 
-> Referencia rápida para comandos. Fuente de verdad: `.claude/skills/pbi-decomposition/SKILL.md`
+> Referencia rápida para comandos. Fuente de verdad: `.opencode/skills/pbi-decomposition/SKILL.md`
 
 ## Propósito
 Algoritmo de puntuación para asignar tareas a miembros del equipo según su perfil y disponibilidad.
@@ -15,4 +15,4 @@ Algoritmo de puntuación para asignar tareas a miembros del equipo según su per
 - Ejemplos de cálculo paso a paso
 
 ## Fuente completa
-Para la versión detallada con ejemplos: `.claude/skills/pbi-decomposition/SKILL.md`
+Para la versión detallada con ejemplos: `.opencode/skills/pbi-decomposition/SKILL.md`

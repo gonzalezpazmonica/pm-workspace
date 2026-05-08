@@ -23,7 +23,7 @@ con variantes, ejemplos y filtros por rol.
 
 ### Paso 1 — Recopilar catálogo
 
-Escanear `.claude/commands/` y extraer de cada fichero:
+Escanear `.opencode/commands/` y extraer de cada fichero:
 - `name` (frontmatter)
 - `description` (frontmatter)
 - `context_cost` (low/medium/high)
@@ -84,8 +84,8 @@ Al final de cada respuesta que use reglas, skills o docs:
 
 ```
 📚 Fuentes consultadas:
-- .claude/skills/regulatory-compliance/references/aepd-framework.md
-- .claude/skills/regulatory-compliance/SKILL.md
+- .opencode/skills/regulatory-compliance/references/aepd-framework.md
+- .opencode/skills/regulatory-compliance/SKILL.md
 - docs/best-practices-claude-code.md
 ```
 

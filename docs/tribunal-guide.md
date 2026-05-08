@@ -204,11 +204,11 @@ automatically.
 | Orchestration helper | `scripts/truth-tribunal.sh` |
 | Async worker | `scripts/truth-tribunal-worker.sh` |
 | Benchmark harness | `scripts/tribunal-benchmark.sh` |
-| Async hook | `.claude/hooks/post-report-write.sh` |
-| Sync command | `.claude/commands/report-verify.md` |
-| Status dashboard | `.claude/commands/tribunal-status.md` |
-| Orchestrator agent | `.claude/agents/truth-tribunal-orchestrator.md` |
-| 7 judge agents | `.claude/agents/{factuality,source-traceability,hallucination,coherence,calibration,completeness,compliance}-judge.md` |
+| Async hook | `.opencode/hooks/post-report-write.sh` |
+| Sync command | `.opencode/commands/report-verify.md` |
+| Status dashboard | `.opencode/commands/tribunal-status.md` |
+| Orchestrator agent | `.opencode/agents/truth-tribunal-orchestrator.md` |
+| 7 judge agents | `.opencode/agents/{factuality,source-traceability,hallucination,coherence,calibration,completeness,compliance}-judge.md` |
 | Weight rule | `.claude/rules/domain/truth-tribunal-weights.md` |
 | Spec | `docs/propuestas/SPEC-106-truth-tribunal-report-reliability.md` |
 | BATS Phase 1 | `tests/test-truth-tribunal.bats` |

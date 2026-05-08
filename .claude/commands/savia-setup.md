@@ -6,7 +6,7 @@ description: >
   Re-ejecutable idempotentemente cuando el stack cambia.
 argument-hint: ""
 allowed-tools: [Bash]
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

@@ -88,7 +88,7 @@ Both files SPEC-055 certified (≥80 audit score).
 
 ## Layer Contract
 
-Enterprise hooks may source helpers from `.claude/hooks/lib/` and invoke
+Enterprise hooks may source helpers from `.opencode/hooks/lib/` and invoke
 `scripts/`. Core MUST NOT reference anything under `.claude/enterprise/`.
 Enforced by `scripts/validate-layer-contract.sh`.
 

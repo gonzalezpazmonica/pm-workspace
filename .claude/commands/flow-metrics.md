@@ -4,7 +4,7 @@ description: Dashboard de métricas de flujo Savia Flow (cycle time, lead time, 
 developer_type: pm
 agent: azure-devops-operator
 context_cost: moderate
-model: mid
+model: github-copilot/claude-sonnet-4.5
 max_context: 5000
 allowed_modes: [pm, lead, ceo, all]
 ---

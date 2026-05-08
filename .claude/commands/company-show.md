@@ -4,7 +4,7 @@ description: Mostrar perfil consolidado de la empresa — resumen ejecutivo del 
 developer_type: all
 agent: none
 context_cost: low
-model: fast
+model: github-copilot/claude-sonnet-4.5
 ---
 
 # /company-show

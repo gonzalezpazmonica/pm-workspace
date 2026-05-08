@@ -18,7 +18,7 @@ priority: "medium"
 
 > Generación de informes de imputación de horas: extracción de datos, agrupación y exportación a Excel/Word.
 
-**Prerequisito:** Leer primero `.claude/skills/azure-devops-queries/SKILL.md`
+**Prerequisito:** Leer primero `.opencode/skills/azure-devops-queries/SKILL.md`
 
 ## Constantes de esta skill
 

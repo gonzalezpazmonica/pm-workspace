@@ -43,7 +43,7 @@ teardown() { cd /; }
 
 @test "--generate includes all agents from disk" {
   local disk_count
-  disk_count=$(ls .claude/agents/*.md 2>/dev/null | wc -l)
+  disk_count=$(ls .opencode/agents/*.md 2>/dev/null | wc -l)
   run bash "$SCRIPT" --generate
   # Count rows (excluding header + separator)
   local rows

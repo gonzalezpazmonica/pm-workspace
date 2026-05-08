@@ -8,9 +8,9 @@ fail() { ((FAIL++)); ((TOTAL++)); echo "  ❌ $1"; }
 check() { if eval "$1" > /dev/null 2>&1; then pass "$2"; else fail "$2"; fi; }
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CMD="$ROOT/.claude/commands/rbac-manager.md"
+CMD="$ROOT/.opencode/commands/rbac-manager.md"
 RULE="$ROOT/docs/rules/domain/rbac-model.md"
-SKILL="$ROOT/.claude/skills/rbac-management/SKILL.md"
+SKILL="$ROOT/.opencode/skills/rbac-management/SKILL.md"
 
 echo "═══════════════════════════════════════════"
 echo "  Test: rbac-manager (Era 37, v2.12.0)"

@@ -12,7 +12,7 @@ FAIL=0
 # Test 1: Command files exist
 echo "✓ Test 1: Command files exist"
 for cmd in dx-core4 flow-protect deep-work prevention-metrics; do
-  if [ ! -f ".claude/commands/${cmd}.md" ]; then
+  if [ ! -f ".opencode/commands/${cmd}.md" ]; then
     echo "  ✗ FAIL: ${cmd}.md not found"
     FAIL=$((FAIL + 1))
   else
@@ -24,7 +24,7 @@ echo ""
 # Test 2: Verify line count ≤150
 echo "✓ Test 2: Line count ≤150 per file"
 for cmd in dx-core4 flow-protect deep-work prevention-metrics; do
-  lines=$(wc -l < ".claude/commands/${cmd}.md")
+  lines=$(wc -l < ".opencode/commands/${cmd}.md")
   if [ "$lines" -gt 150 ]; then
     echo "  ✗ FAIL: ${cmd}.md has $lines lines (max 150)"
     FAIL=$((FAIL + 1))
@@ -38,7 +38,7 @@ echo ""
 # Test 3: Verify YAML frontmatter
 echo "✓ Test 3: YAML frontmatter (name, description, developer_type, agent)"
 for cmd in dx-core4 flow-protect deep-work prevention-metrics; do
-  file=".claude/commands/${cmd}.md"
+  file=".opencode/commands/${cmd}.md"
   if ! grep -q "^name:" "$file" || ! grep -q "^description:" "$file" || ! grep -q "^developer_type:" "$file" || ! grep -q "^agent:" "$file"; then
     echo "  ✗ FAIL: ${cmd}.md missing frontmatter"
     FAIL=$((FAIL + 1))
@@ -51,7 +51,7 @@ echo ""
 # Test 4: Key concepts present
 echo "✓ Test 4: Key concepts present"
 echo "  Checking dx-core4 for DX Core 4, DORA, scorecard..."
-if grep -qi "core 4\|dora\|scorecard" ".claude/commands/dx-core4.md"; then
+if grep -qi "core 4\|dora\|scorecard" ".opencode/commands/dx-core4.md"; then
   PASS=$((PASS + 1))
 else
   FAIL=$((FAIL + 1))
@@ -59,7 +59,7 @@ else
 fi
 
 echo "  Checking flow-protect for flow, context-switching, WIP..."
-if grep -qi "flow\|context.*switch\|wip" ".claude/commands/flow-protect.md"; then
+if grep -qi "flow\|context.*switch\|wip" ".opencode/commands/flow-protect.md"; then
   PASS=$((PASS + 1))
 else
   FAIL=$((FAIL + 1))
@@ -67,7 +67,7 @@ else
 fi
 
 echo "  Checking deep-work for Cal Newport, deep work, 3-4h blocks..."
-if grep -qi "cal newport\|deep work\|3-4h\|block" ".claude/commands/deep-work.md"; then
+if grep -qi "cal newport\|deep work\|3-4h\|block" ".opencode/commands/deep-work.md"; then
   PASS=$((PASS + 1))
 else
   FAIL=$((FAIL + 1))
@@ -75,7 +75,7 @@ else
 fi
 
 echo "  Checking prevention-metrics for shift-left, prevention, detection..."
-if grep -qi "shift.*left\|prevent\|detect" ".claude/commands/prevention-metrics.md"; then
+if grep -qi "shift.*left\|prevent\|detect" ".opencode/commands/prevention-metrics.md"; then
   PASS=$((PASS + 1))
 else
   FAIL=$((FAIL + 1))
@@ -85,7 +85,7 @@ echo ""
 
 # Test 5: Command count in meta files
 echo "✓ Test 5: Command count verification (≥230)"
-cmd_count=$(ls .claude/commands/*.md 2>/dev/null | wc -l)
+cmd_count=$(ls .opencode/commands/*.md 2>/dev/null | wc -l)
 echo "  Actual command count: $cmd_count"
 if [ "$cmd_count" -ge 230 ]; then
   PASS=$((PASS + 1))
@@ -126,7 +126,7 @@ echo ""
 echo "✓ Test 7: Savia persona (warm voice)"
 savia_found=0
 for cmd in dx-core4 flow-protect deep-work prevention-metrics; do
-  if grep -q "🦉\|Savia" ".claude/commands/${cmd}.md"; then
+  if grep -q "🦉\|Savia" ".opencode/commands/${cmd}.md"; then
     savia_found=$((savia_found + 1))
   fi
 done

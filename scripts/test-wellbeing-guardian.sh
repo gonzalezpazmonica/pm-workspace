@@ -15,7 +15,7 @@ echo "════════════════════════�
 # ── Section 1: Command file ────────────────────────────────────────────────
 echo ""
 echo "── Section 1: Command file ──"
-CMD=".claude/commands/wellbeing-guardian.md"
+CMD=".opencode/commands/wellbeing-guardian.md"
 check "Command exists" "[ -f $CMD ]"
 LINES=$(wc -l < "$CMD")
 check "Command within line limit ($LINES/150 lines)" "[ $LINES -le 150 ]"
@@ -56,7 +56,7 @@ check "Has privacy section" "grep -q 'privacidad' $RULE || grep -q 'Privacidad' 
 # ── Section 3: Skill ──────────────────────────────────────────────────────
 echo ""
 echo "── Section 3: Skill ──"
-SKILL=".claude/skills/wellbeing-guardian/SKILL.md"
+SKILL=".opencode/skills/wellbeing-guardian/SKILL.md"
 check "Skill exists" "[ -f $SKILL ]"
 LINES=$(wc -l < "$SKILL")
 check "Skill within limit ($LINES/150 lines)" "[ $LINES -le 150 ]"

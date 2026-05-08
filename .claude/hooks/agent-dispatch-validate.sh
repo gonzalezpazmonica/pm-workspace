@@ -38,7 +38,7 @@ prompt_contains() {
   echo "$PROMPT" | grep -qiE "$1"
 }
 
-# ── 1. Si el agente va a crear commands (.claude/commands/) ────────────
+# ── 1. Si el agente va a crear commands (.opencode/commands/) ────────────
 if prompt_contains 'commands/.*\.md|crear.*command|create.*command'; then
   if ! prompt_contains 'name:|^name:|frontmatter.*name'; then
     ERRORS+="⚠ DISPATCH: prompt crea commands pero no menciona campo 'name' en frontmatter.\n"
@@ -66,7 +66,7 @@ if prompt_contains 'CHANGELOG|changelog'; then
   fi
 fi
 
-# ── 3. Si el agente va a crear skills (.claude/skills/) ───────────────
+# ── 3. Si el agente va a crear skills (.opencode/skills/) ───────────────
 if prompt_contains 'skills/.*SKILL\.md|crear.*skill|create.*skill'; then
   if ! prompt_contains '150 líneas|150 lines|max.*150|≤.*150'; then
     WARNINGS+="💡 DISPATCH: prompt crea skills sin mencionar límite de 150 líneas.\n"

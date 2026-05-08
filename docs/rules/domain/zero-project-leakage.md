@@ -45,7 +45,7 @@ Si la respuesta es SI → reescribir con terminos genericos.
 - CHANGELOG.md
 - Commits y PRs
 - Reglas en `docs/rules/`
-- Skills en `.claude/skills/`
+- Skills en `.opencode/skills/`
 
 ## Verificacion
 

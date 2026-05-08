@@ -3,14 +3,14 @@ name: criticality-rebalance
 description: "Redistribuir carga de trabajo del equipo respetando criticidad y capacidad"
 argument-hint: "[--project nombre] [--team equipo] [--dry-run]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /criticality-rebalance — Rebalanceo por Criticidad
 
-Ejecutar skill: `@.claude/skills/smart-calendar/SKILL.md`
-Spec: `@.claude/skills/smart-calendar/spec-task-criticality.md`
+Ejecutar skill: `@.opencode/skills/smart-calendar/SKILL.md`
+Spec: `@.opencode/skills/smart-calendar/spec-task-criticality.md`
 
 ## Cuando usar
 

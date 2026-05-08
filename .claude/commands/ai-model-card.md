@@ -15,7 +15,7 @@ Genera tarjetas de modelo que documentan exhaustivamente cada agente IA utilizad
 El comando ejecuta las siguientes operaciones:
 
 ### 1. Inventario de Agentes
-- Escanea `.claude/agents/` para obtener lista completa de agentes del proyecto
+- Escanea `.opencode/agents/` para obtener lista completa de agentes del proyecto
 - Para cada agente extrae:
   - Nombre identificador
   - Modelo utilizado (Opus 4.6, Sonnet, Haiku 4.5)

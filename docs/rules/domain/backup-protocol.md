@@ -35,10 +35,10 @@ Fichero | Descripción | Prioridad
 
 - `projects/` — Código fuente (ya versionado en git)
 - `output/` — Informes generados (regenerables)
-- `.claude/commands/` — Vienen del repositorio
+- `.opencode/commands/` — Vienen del repositorio
 - `docs/rules/` — Vienen del repositorio
-- `.claude/agents/` — Vienen del repositorio
-- `.claude/skills/` — Vienen del repositorio
+- `.opencode/agents/` — Vienen del repositorio
+- `.opencode/skills/` — Vienen del repositorio
 - `node_modules/`, `.venv/` — Dependencias regenerables
 
 ---

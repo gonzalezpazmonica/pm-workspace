@@ -32,7 +32,7 @@ context_cost: medium
 ## Prerequisitos
 
 - Informe de `/perf-audit` existente en `output/performance/`
-- Cargar skill: `@.claude/skills/performance-audit/SKILL.md`
+- Cargar skill: `@.opencode/skills/performance-audit/SKILL.md`
 - Cargar la referencia de patrones de rendimiento del lenguaje (si existe en references/)
 
 ## Ejecución (6 pasos)

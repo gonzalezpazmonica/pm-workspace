@@ -26,7 +26,7 @@ Savia actualmente usa `agent-notes-protocol.md` con frontmatter pesado y narrati
 
 ## Scope
 
-1. **Diseñar** formato canónico de handoff en `.claude/agents/`:
+1. **Diseñar** formato canónico de handoff en `.opencode/agents/`:
    ```yaml
    handoff:
      to: code-reviewer
@@ -58,7 +58,7 @@ handoff:
   reason: "Implementation complete, needs review"
   artifacts:
     - docs/propuestas/SPEC-120-spec-kit-alignment.md
-    - .claude/skills/spec-driven-development/references/spec-template.md
+    - .opencode/skills/spec-driven-development/references/spec-template.md
 ---
 ```
 

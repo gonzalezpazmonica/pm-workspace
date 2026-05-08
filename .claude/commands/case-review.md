@@ -3,7 +3,7 @@ name: case-review
 description: Generate benefit realization review at 90/180/365 days
 argument-hint: "BC-YYYY-NNN 90d|180d|365d"
 context_cost: medium
-model: mid
+model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 ---
 

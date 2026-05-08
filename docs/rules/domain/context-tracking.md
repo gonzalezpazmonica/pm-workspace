@@ -72,7 +72,7 @@ bash scripts/context-tracker.sh log "session-init" "identity.md" "50"
 ## Comando de análisis
 
 `/context-optimize` lee el log y genera recomendaciones.
-Ver `.claude/commands/context-optimize.md` para el flujo completo.
+Ver `.opencode/commands/context-optimize.md` para el flujo completo.
 
 ---
 

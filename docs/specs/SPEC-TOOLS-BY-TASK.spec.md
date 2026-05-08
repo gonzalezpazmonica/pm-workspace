@@ -192,17 +192,17 @@ AND     reduccion >= 50%
 | Crear | docs/rules/domain/tools-by-task.md | Contrato formal |
 | Crear | scripts/tools-by-task-parse.sh | Parser CSV/lista helper |
 | Crear | tests/test-tools-by-task.bats | Suite BATS |
-| Modificar | .claude/commands/debt-analyze.md | Soporte N targets |
-| Modificar | .claude/commands/perf-audit.md | Soporte N targets |
-| Modificar | .claude/commands/spec-verify.md | Soporte N targets |
-| Modificar | .claude/commands/code-patterns.md | Soporte N targets |
-| Modificar | .claude/commands/a11y-audit.md | Soporte N targets |
-| Modificar | .claude/commands/comprehension-report.md | Soporte N targets |
-| Modificar | .claude/commands/security-review.md | Soporte N targets |
-| Modificar | .claude/commands/arch-fitness.md | Soporte N targets |
-| Modificar | .claude/commands/test-architect.md | Soporte N targets |
-| Modificar | .claude/commands/dependency-map.md | Soporte N targets |
-| Modificar | .claude/skills/codebase-map/SKILL.md | Documentar batch API |
+| Modificar | .opencode/commands/debt-analyze.md | Soporte N targets |
+| Modificar | .opencode/commands/perf-audit.md | Soporte N targets |
+| Modificar | .opencode/commands/spec-verify.md | Soporte N targets |
+| Modificar | .opencode/commands/code-patterns.md | Soporte N targets |
+| Modificar | .opencode/commands/a11y-audit.md | Soporte N targets |
+| Modificar | .opencode/commands/comprehension-report.md | Soporte N targets |
+| Modificar | .opencode/commands/security-review.md | Soporte N targets |
+| Modificar | .opencode/commands/arch-fitness.md | Soporte N targets |
+| Modificar | .opencode/commands/test-architect.md | Soporte N targets |
+| Modificar | .opencode/commands/dependency-map.md | Soporte N targets |
+| Modificar | .opencode/skills/codebase-map/SKILL.md | Documentar batch API |
 
 ---
 

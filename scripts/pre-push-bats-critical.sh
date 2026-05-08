@@ -7,9 +7,9 @@
 # running the full 136-test suite.
 #
 # File → test mapping convention:
-#   .claude/hooks/foo.sh        → tests/test-foo.bats OR tests/test-hook-foo.bats
+#   .opencode/hooks/foo.sh        → tests/test-foo.bats OR tests/test-hook-foo.bats
 #   scripts/foo.sh              → tests/test-foo.bats
-#   .claude/skills/foo/SKILL.md → tests/test-skill-foo.bats
+#   .opencode/skills/foo/SKILL.md → tests/test-skill-foo.bats
 #   tests/test-foo.bats         → itself
 #
 # Usage:
@@ -85,7 +85,7 @@ map_file_to_test() {
     tests/*.bats)
       echo "$f"
       ;;
-    .claude/hooks/*.sh)
+    .opencode/hooks/*.sh)
       bname=$(basename "$f" .sh)
       # Try exact name first, then hook-prefixed.
       [[ -f "$TESTS_DIR/test-$bname.bats" ]] && echo "tests/test-$bname.bats"
@@ -97,12 +97,12 @@ map_file_to_test() {
       bname="${bname%.py}"
       [[ -f "$TESTS_DIR/test-$bname.bats" ]] && echo "tests/test-$bname.bats"
       ;;
-    .claude/skills/*/SKILL.md|.claude/skills/*/DOMAIN.md)
-      skill=$(echo "$f" | sed -E 's|.claude/skills/([^/]+)/.*|\1|')
+    .opencode/skills/*/SKILL.md|.opencode/skills/*/DOMAIN.md)
+      skill=$(echo "$f" | sed -E 's|.opencode/skills/([^/]+)/.*|\1|')
       [[ -f "$TESTS_DIR/test-skill-$skill.bats" ]] && echo "tests/test-skill-$skill.bats"
       [[ -f "$TESTS_DIR/test-$skill.bats" ]] && echo "tests/test-$skill.bats"
       ;;
-    .claude/agents/*.md)
+    .opencode/agents/*.md)
       bname=$(basename "$f" .md)
       [[ -f "$TESTS_DIR/test-agent-$bname.bats" ]] && echo "tests/test-agent-$bname.bats"
       ;;

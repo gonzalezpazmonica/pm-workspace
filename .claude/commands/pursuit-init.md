@@ -3,7 +3,7 @@ name: pursuit-init
 description: Scaffold a new pursuit opportunity directory with template files
 argument-hint: '"Client Name" "Opportunity Title" [--tenant tenant-id]'
 context_cost: low
-model: fast
+model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Write, Read]
 ---
 

@@ -3,7 +3,7 @@ name: school-diary
 description: Student learning diary and reflection journal
 argument-hint: "<alias> [--add|--view]"
 allowed-tools: [Read, Write, Bash]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

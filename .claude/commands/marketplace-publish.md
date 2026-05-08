@@ -18,7 +18,7 @@ Ejemplo: `/marketplace-publish user-authentication`
 ## Razonamiento
 
 Piensa paso a paso:
-1. Verificar que la habilidad existe en `.claude/skills/{nombre}`
+1. Verificar que la habilidad existe en `.opencode/skills/{nombre}`
 2. Validar estructura (SKILL.md 120 líneas máx, DOMAIN.md 40 líneas máx)
 3. Validar metadata.json completo
 4. Escanear PII en documentación
@@ -36,7 +36,7 @@ Piensa paso a paso:
 
 ## Flujo de Ejecución
 
-1. Cargar skill desde `.claude/skills/{nombre}`
+1. Cargar skill desde `.opencode/skills/{nombre}`
 2. Validar ficheros y líneas
 3. Parsear metadata.json
 4. Scanear PII en SKILL.md + DOMAIN.md

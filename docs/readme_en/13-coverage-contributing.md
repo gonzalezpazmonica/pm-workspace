@@ -74,9 +74,9 @@ This project is designed to grow with community contributions. If you use the wo
 
 ## What types of contributions we accept
 
-**New slash commands** (`.claude/commands/`) — the highest-impact area. If you've automated a Claude conversation that solves a PM problem not yet covered, package it as a command and share it. High-interest examples: `risk-log`, `sprint-release-notes`, `backlog-capture`.
+**New slash commands** (`.opencode/commands/`) — the highest-impact area. If you've automated a Claude conversation that solves a PM problem not yet covered, package it as a command and share it. High-interest examples: `risk-log`, `sprint-release-notes`, `backlog-capture`.
 
-**New skills** (`.claude/skills/`) — skills that extend Claude's behavior in new areas (technical debt management, Jira integration, Kanban or SAFe methodology support, new cloud providers).
+**New skills** (`.opencode/skills/`) — skills that extend Claude's behavior in new areas (technical debt management, Jira integration, Kanban or SAFe methodology support, new cloud providers).
 
 **Test project extensions** (`projects/sala-reservas/`) — new mock files, new example specs, new categories in `test-workspace.sh`.
 
@@ -115,7 +115,7 @@ Branch naming conventions:
 
 **Step 2 — Develop your contribution**
 
-If you add a new slash command, follow the structure of the existing ones in `.claude/commands/`. Each command must include:
+If you add a new slash command, follow the structure of the existing ones in `.opencode/commands/`. Each command must include:
 - Description of purpose in the first lines
 - Numbered steps for the process Claude should follow
 - Handling of the most common error case
@@ -151,7 +151,7 @@ Use this template for the PR body:
 - [ ] Other: ___
 
 ## Modified / created files
-- `.claude/commands/command-name.md` — [what it does]
+- `.opencode/commands/command-name.md` — [what it does]
 - `docs/` — [if applicable]
 
 ## Tests
@@ -191,7 +191,7 @@ Contributions must be respectful, technically sound, and focused on solving real
 
 ## Support
 
-To adjust Claude's behavior, edit the files in `.claude/skills/` (each skill has its `SKILL.md`) or add new slash commands in `.claude/commands/`.
+To adjust Claude's behavior, edit the files in `.opencode/skills/` (each skill has its `SKILL.md`) or add new slash commands in `.opencode/commands/`.
 
 SDD usage metrics are automatically recorded in `projects/{project}/specs/sdd-metrics.md` when running `/spec-review --check-impl`.
 

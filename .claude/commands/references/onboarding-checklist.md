@@ -1,6 +1,6 @@
 # Onboarding Checklist
 
-> Referencia rápida para comandos. Fuente de verdad: `.claude/skills/team-onboarding/SKILL.md`
+> Referencia rápida para comandos. Fuente de verdad: `.opencode/skills/team-onboarding/SKILL.md`
 
 ## Propósito
 Checklist de 5 fases para incorporación estructurada de nuevos miembros del equipo.
@@ -13,4 +13,4 @@ Checklist de 5 fases para incorporación estructurada de nuevos miembros del equ
 - **Fase 5 (Semana 5-6)**: Evaluación de competencias, ajustes de asignación, plan de crecimiento
 
 ## Fuente completa
-Para la versión detallada con ejemplos: `.claude/skills/team-onboarding/SKILL.md`
+Para la versión detallada con ejemplos: `.opencode/skills/team-onboarding/SKILL.md`

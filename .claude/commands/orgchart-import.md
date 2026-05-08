@@ -4,7 +4,7 @@ description: >
   Importa un organigrama (Mermaid, Draw.io XML o Miro) y genera/actualiza
   la estructura teams/ con departamentos, equipos y miembros.
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 argument-hint: "{source} --dept {name} [--mode create|merge|overwrite] [--dry-run]"
 ---
@@ -24,7 +24,7 @@ argument-hint: "{source} --dept {name} [--mode create|merge|overwrite] [--dry-ru
 
 ## Contexto requerido
 
-1. `.claude/skills/orgchart-import/SKILL.md` -- pipeline completo
+1. `.opencode/skills/orgchart-import/SKILL.md` -- pipeline completo
 2. `teams/departments.md` -- departamentos existentes
 3. `teams/{dept}/` -- estructura existente del dept (si --mode merge)
 4. `docs/rules/domain/diagram-config.md` -- constantes orgchart
@@ -41,7 +41,7 @@ Piensa paso a paso:
 
 1. **Banner de inicio**
 2. **Verificar prerequisitos**: source existe, --dept proporcionado, teams/ accesible
-3. **Invocar skill** `.claude/skills/orgchart-import/SKILL.md` -- 7 fases:
+3. **Invocar skill** `.opencode/skills/orgchart-import/SKILL.md` -- 7 fases:
    - Fase 1: Detectar formato y parsear
    - Fase 2: Construir modelo normalizado (org-model-schema)
    - Fase 3: Validar datos parseados

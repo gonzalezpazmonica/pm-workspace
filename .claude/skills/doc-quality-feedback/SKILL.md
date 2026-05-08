@@ -35,7 +35,7 @@ Cuando un agente usa un skill/regla y termina, puede emitir un rating:
 
 ```json
 {
-  "doc": ".claude/skills/codebase-map/SKILL.md",
+  "doc": ".opencode/skills/codebase-map/SKILL.md",
   "agent": "architect",
   "rating": "clear",
   "note": "Instructions were unambiguous",

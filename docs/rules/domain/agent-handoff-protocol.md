@@ -27,7 +27,7 @@ handoff:
   termination_reason: completed  # Enum (required): completed | user_abort | token_budget | stop_hook | max_turns | unrecoverable_error
   artifacts:                     # Files produced (optional)
     - docs/propuestas/SPEC-120.md
-    - .claude/skills/.../spec-template.md
+    - .opencode/skills/.../spec-template.md
 ---
 ```
 
@@ -35,7 +35,7 @@ handoff:
 
 | Campo | Tipo | Obligatorio | Descripción |
 |---|---|---|---|
-| `to` | string (agent name) | sí | Nombre canónico del agente destino (debe existir en `.claude/agents/`) |
+| `to` | string (agent name) | sí | Nombre canónico del agente destino (debe existir en `.opencode/agents/`) |
 | `spec` | string | sí | Referencia spec (SPEC-NNN, PBI-NNN, AB#id) |
 | `stage` | string | sí | Etapa SDD: `E0`..`E4` |
 | `context_hash` | string | sí | SHA-256 hex prefix del estado previo (determinístico) |
@@ -45,7 +45,7 @@ handoff:
 
 ## Reglas
 
-1. **to** debe ser un agente declarado en `.claude/agents/*.md`. Validator rechaza agentes desconocidos.
+1. **to** debe ser un agente declarado en `.opencode/agents/*.md`. Validator rechaza agentes desconocidos.
 2. **context_hash** debe calcularse con `sha256sum` sobre el concat ordenado de artifacts + spec + reason. Permite detectar drift.
 3. **stage** debe progresar monotónicamente en una serie (no E2→E1 sin razón documentada).
 4. **artifacts** son paths relativos al `REPO_ROOT`, sin `./` inicial.
@@ -60,7 +60,7 @@ $ bash scripts/validate-handoff.sh --file examples/handoff-ok.yaml
 OK
 
 $ bash scripts/validate-handoff.sh --file examples/handoff-bad.yaml
-ERROR: to='nonexistent-agent' not found in .claude/agents/
+ERROR: to='nonexistent-agent' not found in .opencode/agents/
 ```
 
 Exit codes:
@@ -80,7 +80,7 @@ handoff:
   reason: "SPEC-120 spec-kit alignment implementation ready"
   termination_reason: completed
   artifacts:
-    - .claude/skills/spec-driven-development/references/spec-template.md
+    - .opencode/skills/spec-driven-development/references/spec-template.md
     - docs/agent-teams-sdd.md
     - tests/test-spec-template-compliance.bats
 ---

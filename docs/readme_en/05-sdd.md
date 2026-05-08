@@ -43,7 +43,7 @@ Each Spec (`.spec.md`) has 9 sections that eliminate ambiguity:
 
 ## What tasks an agent can do (by default)
 
-The full matrix is in `.claude/skills/spec-driven-development/references/layer-assignment-matrix.md` (there is one matrix per supported language). Generic summary:
+The full matrix is in `.opencode/skills/spec-driven-development/references/layer-assignment-matrix.md` (there is one matrix per supported language). Generic summary:
 
 **The agent can do:** Application/Service Layer (Handlers, Services, Validators, Mappers, DTOs), Infrastructure/Data Layer (Repositories, Entity Configurations, simple migrations), API/Presentation (CRUD Controllers, endpoints, documentation), Tests (Unit Tests when scenarios are in the Spec).
 

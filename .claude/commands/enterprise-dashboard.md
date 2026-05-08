@@ -3,13 +3,13 @@ name: enterprise-dashboard
 description: "Enterprise analytics — portfolio metrics, team health, risk matrix, forecasting"
 allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[portfolio|team-health|risk-matrix|forecast] [--project proyecto] [--team equipo] [--quarters 2]"
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /enterprise-dashboard — Analytics Empresarial
 
-> Skill: @.claude/skills/enterprise-analytics/SKILL.md
+> Skill: @.opencode/skills/enterprise-analytics/SKILL.md
 > Config: @docs/rules/domain/enterprise-metrics.md
 
 Visualización de métricas SPACE multi-proyecto, salud por equipo, matriz de riesgos, forecasting.

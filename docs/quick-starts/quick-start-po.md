@@ -58,7 +58,7 @@ output/
 ├── backlog-snapshots/ ← snapshots del estado del backlog
 └── okr-tracking/      ← seguimiento de OKRs
 
-.claude/commands/
+.opencode/commands/
 ├── backlog-*.md       ← groom, prioritize, patterns
 ├── feature-*.md       ← feature impact analysis
 ├── stakeholder-*.md   ← reporting para stakeholders

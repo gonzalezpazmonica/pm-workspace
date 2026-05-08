@@ -138,7 +138,7 @@ assert 'provider' not in d or not d['provider'], 'provider should not be pinned'
 }
 
 @test "SKILLS.md: lists ≥50 skills (catalog completeness)" {
-  count=$(grep -cE '^\| [^|]+ \| `\.claude/skills/' "$SKILLS_MD")
+  count=$(grep -cE '^\| [^|]+ \| `\.opencode/skills/' "$SKILLS_MD")
   [ "$count" -ge 50 ]
 }
 

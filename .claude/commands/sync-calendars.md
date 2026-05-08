@@ -3,14 +3,14 @@ name: sync-calendars
 description: "Sincronizar disponibilidad entre calendarios de dos tenants Microsoft 365"
 argument-hint: "[setup|status|conflicts|clean] [--days 14] [--busy]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /sync-calendars — Sincronizacion Multi-Tenant
 
-Ejecutar skill: `@.claude/skills/smart-calendar/SKILL.md`
-Spec: `@.claude/skills/smart-calendar/spec-multi-tenant-sync.md`
+Ejecutar skill: `@.opencode/skills/smart-calendar/SKILL.md`
+Spec: `@.opencode/skills/smart-calendar/spec-multi-tenant-sync.md`
 
 ## Subcomandos
 
@@ -39,7 +39,7 @@ Spec: `@.claude/skills/smart-calendar/spec-multi-tenant-sync.md`
 - Credenciales: AES-256-CBC, PBKDF2 100K iter, passphrase en memoria
 - Solo sincroniza free/busy — NUNCA titulo, asistentes ni contenido
 - Bloques creados como Private + sin reminder
-- Detalle: `@.claude/skills/smart-calendar/spec-multi-tenant-security.md`
+- Detalle: `@.opencode/skills/smart-calendar/spec-multi-tenant-security.md`
 
 ## Banner
 

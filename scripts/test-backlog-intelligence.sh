@@ -18,36 +18,36 @@ echo "════════════════════════�
 echo ""
 
 echo "📋 1. Backlog Groom Command"
-check_file ".claude/commands/backlog-groom.md" "backlog-groom.md exists"
-check_content ".claude/commands/backlog-groom.md" "name: backlog-groom" "Has correct name"
-check_content ".claude/commands/backlog-groom.md" "grooming\|obsoletos\|duplicados" "References grooming"
-check_content ".claude/commands/backlog-groom.md" "Modo agente" "Has agent mode"
+check_file ".opencode/commands/backlog-groom.md" "backlog-groom.md exists"
+check_content ".opencode/commands/backlog-groom.md" "name: backlog-groom" "Has correct name"
+check_content ".opencode/commands/backlog-groom.md" "grooming\|obsoletos\|duplicados" "References grooming"
+check_content ".opencode/commands/backlog-groom.md" "Modo agente" "Has agent mode"
 echo ""
 
 echo "📋 2. Backlog Prioritize Command"
-check_file ".claude/commands/backlog-prioritize.md" "backlog-prioritize.md exists"
-check_content ".claude/commands/backlog-prioritize.md" "name: backlog-prioritize" "Has correct name"
-check_content ".claude/commands/backlog-prioritize.md" "RICE\|WSJF\|priorización" "References RICE/WSJF"
-check_content ".claude/commands/backlog-prioritize.md" "Modo agente" "Has agent mode"
+check_file ".opencode/commands/backlog-prioritize.md" "backlog-prioritize.md exists"
+check_content ".opencode/commands/backlog-prioritize.md" "name: backlog-prioritize" "Has correct name"
+check_content ".opencode/commands/backlog-prioritize.md" "RICE\|WSJF\|priorización" "References RICE/WSJF"
+check_content ".opencode/commands/backlog-prioritize.md" "Modo agente" "Has agent mode"
 echo ""
 
 echo "📋 3. Outcome Track Command"
-check_file ".claude/commands/outcome-track.md" "outcome-track.md exists"
-check_content ".claude/commands/outcome-track.md" "name: outcome-track" "Has correct name"
-check_content ".claude/commands/outcome-track.md" "outcomes\|release\|valor" "References outcomes/release"
-check_content ".claude/commands/outcome-track.md" "Modo agente" "Has agent mode"
+check_file ".opencode/commands/outcome-track.md" "outcome-track.md exists"
+check_content ".opencode/commands/outcome-track.md" "name: outcome-track" "Has correct name"
+check_content ".opencode/commands/outcome-track.md" "outcomes\|release\|valor" "References outcomes/release"
+check_content ".opencode/commands/outcome-track.md" "Modo agente" "Has agent mode"
 echo ""
 
 echo "📋 4. Stakeholder Align Command"
-check_file ".claude/commands/stakeholder-align.md" "stakeholder-align.md exists"
-check_content ".claude/commands/stakeholder-align.md" "name: stakeholder-align" "Has correct name"
-check_content ".claude/commands/stakeholder-align.md" "conflictos\|stakeholders\|datos" "References conflicts/stakeholders"
-check_content ".claude/commands/stakeholder-align.md" "Modo agente" "Has agent mode"
+check_file ".opencode/commands/stakeholder-align.md" "stakeholder-align.md exists"
+check_content ".opencode/commands/stakeholder-align.md" "name: stakeholder-align" "Has correct name"
+check_content ".opencode/commands/stakeholder-align.md" "conflictos\|stakeholders\|datos" "References conflicts/stakeholders"
+check_content ".opencode/commands/stakeholder-align.md" "Modo agente" "Has agent mode"
 echo ""
 
 echo "📋 5. Command Size Validation (≤150 lines)"
 for cmd in backlog-groom backlog-prioritize outcome-track stakeholder-align; do
-  lines=$(wc -l < ".claude/commands/${cmd}.md")
+  lines=$(wc -l < ".opencode/commands/${cmd}.md")
   if [ "$lines" -le 150 ]; then
     pass "${cmd}.md: $lines lines (✅ under limit)"
   else
@@ -93,10 +93,10 @@ check_content "CHANGELOG.md" "backlog-groom" "CHANGELOG mentions /backlog-groom"
 echo ""
 
 echo "📋 10. Regression — Previous Versions Still Present"
-check_file ".claude/commands/okr-define.md" "okr-define still exists"
-check_file ".claude/commands/company-setup.md" "company-setup still exists"
-check_file ".claude/commands/jira-connect.md" "jira-connect still exists"
-check_file ".claude/commands/ceo-report.md" "ceo-report still exists"
+check_file ".opencode/commands/okr-define.md" "okr-define still exists"
+check_file ".opencode/commands/company-setup.md" "company-setup still exists"
+check_file ".opencode/commands/jira-connect.md" "jira-connect still exists"
+check_file ".opencode/commands/ceo-report.md" "ceo-report still exists"
 echo ""
 
 TOTAL=$((PASS + FAIL))

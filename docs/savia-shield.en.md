@@ -6,7 +6,7 @@
 
 ## What is Savia Shield
 
-Savia Shield is a 4-layer system that protects confidential client project
+Savia Shield is a 6-layer system that protects confidential client project
 data when working with AI assistants (Claude, GPT, etc.). It classifies
 each piece of data before it can leave the local machine, and masks
 sensitive entities when text must be sent to cloud APIs for deep processing.
@@ -15,7 +15,7 @@ sensitive entities when text must be sent to cloud APIs for deep processing.
 prompt contains client names, internal IPs, credentials, or meeting data,
 a data leak occurs that violates NDAs and GDPR.
 
-**How it solves it:** 4 independent layers, each auditable by humans.
+**How it solves it:** 6 independent layers, each auditable by humans.
 
 ---
 
@@ -40,7 +40,7 @@ The fallback guarantees that Shield **always protects**, even without the daemon
 
 ---
 
-## The 4 layers
+## The 6 layers
 
 ### Layer 1 — Deterministic gate (regex + NFKC + base64 + cross-write)
 
@@ -78,47 +78,11 @@ missed.
 - Scans the COMPLETE file (not truncated)
 - Immediate alert if a leak is detected
 
-### Layer 4 — Reversible masking
+### Layer 4 — [DEPRECATED] Manual masking removed
 
-When you need the power of Claude Opus or Sonnet for complex analysis,
-Savia Shield replaces all real entities (people, companies, projects,
-systems, IPs) with consistent fictional names.
-
-**Complete flow (5 steps):**
-
-```
-STEP 1 — The user has a text with real data (N4)
-  "The client PM asked to prioritize the billing module"
-
-STEP 2 — sovereignty-mask.sh mask → replaces entities
-  Real people        → fictional names (Alice, Bob, Carol...)
-  Client company     → fictional company (Acme Corp, Zenith...)
-  Real project       → fictional project (Project Aurora...)
-  Internal systems   → fictional systems (CoreSystem, DataHub...)
-  Private IPs        → RFC 5737 test IPs (198.51.100.x)
-  The map is saved in mask-map.json (local, N4)
-
-STEP 3 — The masked text is sent to Claude Opus/Sonnet
-  Claude processes "Alice Chen from Acme Corp asked to prioritize CoreSystem"
-  Claude does NOT see real data — it works with fictional entities
-  The reasoning and analysis are equally deep
-
-STEP 4 — Claude responds with fictional entities
-  "I recommend that Alice Chen from Acme Corp prioritize CoreSystem
-   over DataHub given the Q3 deadline..."
-
-STEP 5 — sovereignty-mask.sh unmask → restores real data
-  Inverts the map: Alice Chen → real person, Acme Corp → real company
-  The user receives the response with the correct names
-  The map is deleted or retained according to project policy
-```
-
-**Guarantees:**
-- Correspondence map local (N4, never in git)
-- Entidades del proyecto cargadas de GLOSSARY-MASK.md (configurable)
-- Pools de nombres ficticios para personas, empresas y sistemas (configurables)
-- Each mask/unmask operation recorded in audit log
-- Consistency: the same entity always maps to the same fictional one
+The manual masking layer (`sovereignty-mask.sh`) was removed on 2026-05-05.
+The L4 Proxy (`savia-shield-proxy.py`) maintains its own internal masking
+and is unaffected. This slot is reserved for a future alternative.
 
 ---
 
@@ -151,19 +115,6 @@ Writing sensitive data to private locations (N2-N4b) is always permitted.
 
 ## How to use it
 
-### Masking before sending to Claude
-
-```bash
-# Mask text before sending
-bash scripts/sovereignty-mask.sh mask "Text with client data" --project my-project
-
-# Unmask Claude's response
-bash scripts/sovereignty-mask.sh unmask "Response with Acme Corp"
-
-# View correspondence table
-bash scripts/sovereignty-mask.sh show-map
-```
-
 ### Verify the gate is working
 
 ```bash
@@ -185,19 +136,19 @@ Every component is a plain text file readable by humans:
 | Unified daemon | `scripts/savia-shield-daemon.py` | Scan/mask/unmask/health on localhost:8444 |
 | API Proxy | `scripts/savia-shield-proxy.py` | Intercepts Claude prompts, masks/unmasks |
 | NER daemon | `scripts/shield-ner-daemon.py` | Persistent Presidio+spaCy in RAM (~100ms) |
-| Gate hook | `.claude/hooks/data-sovereignty-gate.sh` | PreToolUse: daemon-first, fallback regex |
-| Audit hook | `.claude/hooks/data-sovereignty-audit.sh` | PostToolUse async: re-scan complete file |
+| Gate hook | `.opencode/hooks/data-sovereignty-gate.sh` | PreToolUse: daemon-first, fallback regex |
+| Audit hook | `.opencode/hooks/data-sovereignty-audit.sh` | PostToolUse async: re-scan complete file |
 | LLM classifier | `scripts/ollama-classify.sh` | Layer 2 Ollama (fallback if daemon down) |
-| Masker | `scripts/sovereignty-mask.py` | Layer 4 reversible mask/unmask |
+| ~~Masker~~ | ~~`scripts/sovereignty-mask.py`~~ | ~~Layer 4~~ **REMOVED 2026-05-05** |
 | Git pre-commit | `scripts/pre-commit-sovereignty.sh` | Scan staged files before commit |
 | Setup | `scripts/savia-shield-setup.sh` | Installer: deps, models, token, daemons |
-| Force-push guard | `.claude/hooks/block-force-push.sh` | Blocks force-push, push to main, amend |
+| Force-push guard | `.opencode/hooks/block-force-push.sh` | Blocks force-push, push to main, amend |
 | Domain rule | `docs/rules/domain/data-sovereignty.md` | Architecture and policies |
 
 **Audit logs:**
 - `output/data-sovereignty-audit.jsonl` — decisions from layers 1-3
 - `output/data-sovereignty-validation/classifier-decisions.jsonl` — LLM decisions
-- `output/data-sovereignty-validation/mask-audit.jsonl` — masking operations
+- ~~`output/data-sovereignty-validation/mask-audit.jsonl`~~ ~~masking operations~~ (removed with sovereignty-mask)
 
 ---
 

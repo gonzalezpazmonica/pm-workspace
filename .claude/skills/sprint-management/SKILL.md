@@ -18,7 +18,7 @@ priority: "high"
 
 > Flujo completo de gestión de sprints: obtener estado, listar items, calcular progreso y generar resúmenes.
 
-**Prerequisito:** Leer primero `.claude/skills/azure-devops-queries/SKILL.md`
+**Prerequisito:** Leer primero `.opencode/skills/azure-devops-queries/SKILL.md`
 
 ## Constantes de esta skill
 

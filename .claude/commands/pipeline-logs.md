@@ -33,7 +33,7 @@ description: >
 ## 3. Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — Nombre del proyecto en DevOps
-2. `.claude/skills/azure-pipelines/SKILL.md` — MCP tools
+2. `.opencode/skills/azure-pipelines/SKILL.md` — MCP tools
 
 ## 4. Pasos de ejecución
 

@@ -272,7 +272,7 @@ Si se detecta un patrón sospechoso:
 
 ### 3.4 NIVEL 4 — Nuevo slash command: /bias-check
 
-Nuevo archivo `.claude/commands/bias-check.md`:
+Nuevo archivo `.opencode/commands/bias-check.md`:
 
 ```markdown
 # /bias-check — Auditoría de sesgos del sprint
@@ -495,18 +495,18 @@ CONTRAEJEMPLO (sesgo a bloquear):
 
 | Acción | Archivo | Esfuerzo |
 |--------|---------|----------|
-| Modificar assignment-scoring.md | .claude/skills/pbi-decomposition/references/ | 3-4 horas |
-| Actualizar pbi-assign.md con verificación | .claude/commands/ | 2 horas |
-| Actualizar sprint-review.md con tono uniforme | .claude/commands/ | 1-2 horas |
-| Actualizar sprint-retro.md | .claude/commands/ | 1-2 horas |
-| Actualizar report-executive.md | .claude/commands/ | 1 hora |
+| Modificar assignment-scoring.md | .opencode/skills/pbi-decomposition/references/ | 3-4 horas |
+| Actualizar pbi-assign.md con verificación | .opencode/commands/ | 2 horas |
+| Actualizar sprint-review.md con tono uniforme | .opencode/commands/ | 1-2 horas |
+| Actualizar sprint-retro.md | .opencode/commands/ | 1-2 horas |
+| Actualizar report-executive.md | .opencode/commands/ | 1 hora |
 
 ### Fase 3 — Auditoría automatizada (2-3 semanas)
 
 | Acción | Archivo | Esfuerzo |
 |--------|---------|----------|
-| Crear comando /bias-check | .claude/commands/bias-check.md | 4-5 horas |
-| Crear bias-audit.md (skill de referencia) | .claude/skills/pbi-decomposition/references/ | 3 horas |
+| Crear comando /bias-check | .opencode/commands/bias-check.md | 4-5 horas |
+| Crear bias-audit.md (skill de referencia) | .opencode/skills/pbi-decomposition/references/ | 3 horas |
 | Testing con proyecto sala-reservas | projects/sala-reservas/ | 4-5 horas |
 
 ### Fase 4 — Integración en Savia Flow (continua)

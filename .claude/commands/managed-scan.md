@@ -50,4 +50,4 @@ Next step: Run /managed-sync to regenerate stale/old sections
 ## Related
 
 - `/managed-sync [file]` — Regenerate managed sections
-- `.claude/skills/managed-content/SKILL.md` — Marker format and workflow
+- `.opencode/skills/managed-content/SKILL.md` — Marker format and workflow

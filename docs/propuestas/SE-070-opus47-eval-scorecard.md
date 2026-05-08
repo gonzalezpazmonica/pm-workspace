@@ -27,7 +27,7 @@ Without evaluation, we can't tell which is which. Mass upgrade = wasted tokens. 
 ### Slice 1 — Scorecard scaffolding (S, 3h)
 
 `scripts/opus47-calibration-scorecard.sh`:
-- Reads `.claude/agents/*.md` frontmatter (`model`, agent name)
+- Reads `.opencode/agents/*.md` frontmatter (`model`, agent name)
 - For each sonnet-4-6 agent, lookup golden-set tests if available
 - Emit YAML scorecard: `output/opus47-calibration-{date}.yaml` with columns:
   - agent, current_model, estimated_cost_delta_xhigh, has_golden_set, recommend_eval
@@ -90,7 +90,7 @@ Baja porque:
 
 - Opus 4.7 migration analysis 2026-04-23
 - Current agent count: 25 opus-4-7 / 37 sonnet-4-6 / 3 haiku-4-5
-- `.claude/skills/model-upgrade-audit/SKILL.md` — related but different purpose (prompt-debt detection)
+- `.opencode/skills/model-upgrade-audit/SKILL.md` — related but different purpose (prompt-debt detection)
 - Complementary: SE-066..SE-069 (4.7 immediate adaptations)
 
 ## Resolution (2026-04-24)

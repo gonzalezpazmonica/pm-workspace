@@ -3,7 +3,7 @@ name: flow-velocity
 description: Show historical velocity metrics
 argument-hint: "[--sprints N]"
 allowed-tools: [Bash]
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 

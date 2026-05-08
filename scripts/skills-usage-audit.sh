@@ -22,23 +22,23 @@ declare -a referenced=()
 declare -a orphan=()
 declare -a self_only=()
 
-for skill_dir in "$ROOT"/.claude/skills/*/; do
+for skill_dir in "$ROOT"/.opencode/skills/*/; do
   skill=$(basename "$skill_dir")
   [[ -f "$skill_dir/SKILL.md" ]] || continue
 
-  # Match: Skill("name"), /name, @.claude/skills/name, `name`, skill: name,
+  # Match: Skill("name"), /name, @.opencode/skills/name, `name`, skill: name,
   # "skill name" in prose, or bare word boundary match in relevant files.
-  pattern="Skill\(\"?${skill}\"?\)|/${skill}\b|@\.claude/skills/${skill}|\`${skill}\`|skill[:\\s]+${skill}\\b|skill ${skill}\\b"
+  pattern="Skill\(\"?${skill}\"?\)|/${skill}\b|@\.opencode/skills/${skill}|\`${skill}\`|skill[:\\s]+${skill}\\b|skill ${skill}\\b"
   refs=$(grep -rlE "$pattern" \
-    "$ROOT/.claude/commands/" \
-    "$ROOT/.claude/agents/" \
+    "$ROOT/.opencode/commands/" \
+    "$ROOT/.opencode/agents/" \
     "$ROOT/CLAUDE.md" \
     "$ROOT/.claude/README.md" \
     "$ROOT/docs/" \
-    2>/dev/null | grep -v "\.claude/skills/$skill/" | grep -v "docs/audits/" | wc -l)
+    2>/dev/null | grep -v "\.opencode/skills/$skill/" | grep -v "docs/audits/" | wc -l)
 
-  other_skills=$(grep -rlE "$pattern" "$ROOT/.claude/skills/" 2>/dev/null \
-    | grep -v "\.claude/skills/$skill/" | wc -l)
+  other_skills=$(grep -rlE "$pattern" "$ROOT/.opencode/skills/" 2>/dev/null \
+    | grep -v "\.opencode/skills/$skill/" | wc -l)
 
   total=$((refs + other_skills))
 
@@ -51,7 +51,7 @@ for skill_dir in "$ROOT"/.claude/skills/*/; do
   fi
 done
 
-total_skills=$(ls -d "$ROOT"/.claude/skills/*/ 2>/dev/null | wc -l)
+total_skills=$(ls -d "$ROOT"/.opencode/skills/*/ 2>/dev/null | wc -l)
 echo "Skills Usage Audit"
 echo "=================="
 echo "Total skills: $total_skills"

@@ -1,0 +1,124 @@
+{
+  "_note": "Fixture sintético para SPEC-WR01 — todos los nombres/cifras son inventados. Usado para tests unitarios y para generar el informe-muestra v0.1.",
+  "asof": "2026-04-29",
+  "asof_tz": "Europe/Madrid",
+  "asof_cutoff_iso": "2026-04-29T00:00:00+02:00",
+  "project": "Project Aurora",
+  "audience": "internal",
+  "expanded": false,
+  "narrative": false,
+  "anonymized": false,
+  "sprint": {
+    "name": "Sprint 2026-26",
+    "start": "2026-04-22",
+    "end": "2026-05-05",
+    "working_days_total": 10,
+    "working_days_elapsed": 6,
+    "phase": "mid",
+    "goal": "Cerrar AB#822 (módulo de costes) y desbloquear el flujo de pricing"
+  },
+  "previous_run": {
+    "available": true,
+    "asof": "2026-04-22",
+    "days_ago": 7
+  },
+  "delta": {
+    "imputed_h": 27.5,
+    "closed_count": 4,
+    "remaining_h": -18.0,
+    "score_swings": [
+      {"persona": "Ana López",  "delta": -1.4, "previous": 7.8, "current": 6.4},
+      {"persona": "Pedro Ruiz", "delta":  1.2, "previous": 5.9, "current": 7.1}
+    ],
+    "source_status_changes": [
+      {"source": "teams_meetings", "from": "ok", "to": "stale", "reason": "session_expired"}
+    ]
+  },
+  "squads": [
+    {
+      "name": "Backend Core",
+      "personas_count": 4,
+      "capacity_h": 168,
+      "imputado_h": 142,
+      "util_pct": 85,
+      "score_avg": 7.2,
+      "score_n": 4,
+      "score_m": 4,
+      "alertas_inline": ""
+    },
+    {
+      "name": "Frontend",
+      "personas_count": 3,
+      "capacity_h": 126,
+      "imputado_h": 98,
+      "util_pct": 78,
+      "score_avg": 6.8,
+      "score_n": 3,
+      "score_m": 3,
+      "alertas_inline": "1 score <5 (Lucía M.)"
+    },
+    {
+      "name": "Data",
+      "personas_count": 2,
+      "capacity_h": 84,
+      "imputado_h": 60,
+      "util_pct": 71,
+      "score_avg": 7.5,
+      "score_n": 1,
+      "score_m": 2,
+      "alertas_inline": "1 datos parciales"
+    }
+  ],
+  "vacations_pendientes_sprint": [
+    {"persona": "Pedro Ruiz", "días": 5, "rango": "2026-05-12 → 2026-05-16"},
+    {"persona": "Lucía Martín", "días": 1, "rango": "2026-05-08"}
+  ],
+  "coordinacion": {
+    "reuniones": 38,
+    "decisiones": 6,
+    "action_items_abiertos": 12,
+    "action_items_propios_pm": 3,
+    "prs_revisados": 9
+  },
+  "economica": {
+    "vs_codes": [
+      {
+        "code": "VS/2026-A1",
+        "descripcion": "Módulo de costes",
+        "margen_venta_pct": 39.03,
+        "closed_year": {"year": 2024, "budget": null, "gm_pct": null, "cum_budget": 145000, "cum_gm_pct": 38.50},
+        "current_year": [
+          {"period": "Ene", "budget": 12500.00, "gm_pct": 39.10, "cum_budget": 12500.00, "cum_gm_pct": 39.10},
+          {"period": "Feb", "budget": 13200.00, "gm_pct": 38.95, "cum_budget": 25700.00, "cum_gm_pct": 39.02},
+          {"period": "Mar", "budget": 12800.00, "gm_pct": 39.20, "cum_budget": 38500.00, "cum_gm_pct": 39.08},
+          {"period": "Abr", "budget": 13100.00, "gm_pct": 38.80, "cum_budget": 51600.00, "cum_gm_pct": 39.01},
+          {"period": "May", "budget": null, "gm_pct": null, "cum_budget": null, "cum_gm_pct": null},
+          {"period": "Closing Estimated (Dic 2026)", "budget": null, "gm_pct": null, "cum_budget": null, "cum_gm_pct": null}
+        ]
+      }
+    ]
+  },
+  "festivos_sprint": [
+    {"fecha": "2026-05-01", "descripcion": "Día del Trabajo", "pais": "ES"}
+  ],
+  "sources": {
+    "devops_capacity":     {"status": "ok",    "row_count": 9},
+    "devops_workitems":    {"status": "ok",    "row_count": 47},
+    "devops_timetracking": {"status": "ok",    "row_count": 47},
+    "devops_holidays":     {"status": "ok",    "row_count": 1},
+    "devops_prs":          {"status": "ok",    "row_count": 9},
+    "outlook_calendar":    {"status": "ok",    "row_count": 38, "snapshot_age_min": 12},
+    "teams_meetings":      {"status": "stale", "reason": "session_expired"},
+    "onedrive_costs_xlsx": {"status": "ok",    "snapshot_age_min": 12},
+    "vacations_xlsx":      {"status": "ok",    "snapshot_age_min": 12, "fallback_chain": ["excel"]},
+    "team_profile":        {"status": "ok"}
+  },
+  "warnings": [
+    {"code": "TEAMS_STALE", "msg": "teams_meetings stale — meeting hours por rol pueden estar incompletos."}
+  ],
+  "scores_meta": {
+    "formula_version": "WR01-score-v1.3",
+    "deterministic": true,
+    "rounding_decimals": 6
+  }
+}

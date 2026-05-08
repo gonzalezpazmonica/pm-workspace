@@ -30,21 +30,21 @@ check_max_lines "$F" 60
 
 # --- A2: accessibility-setup ---
 echo "--- A2: accessibility-setup ---"
-F=".claude/commands/accessibility-setup.md"
+F=".opencode/commands/accessibility-setup.md"
 check_exists "$F"
 check_content "$F" "accessibility-setup" "Has command name"
 check_max_lines "$F" 150
 
 # --- A3: accessibility-mode ---
 echo "--- A3: accessibility-mode ---"
-F=".claude/commands/accessibility-mode.md"
+F=".opencode/commands/accessibility-mode.md"
 check_exists "$F"
 check_content "$F" "status" "Has status option"
 check_max_lines "$F" 150
 
 # --- A4: guided-work (CENTRAL) ---
 echo "--- A4: guided-work (CENTRAL) ---"
-F=".claude/commands/guided-work.md"
+F=".opencode/commands/guided-work.md"
 check_exists "$F"
 check_content "$F" "guided-work" "Has command name"
 check_content "$F" "\-\-task" "Has --task parameter"
@@ -54,7 +54,7 @@ check_max_lines "$F" 150
 
 # --- A5: focus-mode ---
 echo "--- A5: focus-mode ---"
-F=".claude/commands/focus-mode.md"
+F=".opencode/commands/focus-mode.md"
 check_exists "$F"
 check_content "$F" "focus-mode" "Has command name"
 check_max_lines "$F" 150

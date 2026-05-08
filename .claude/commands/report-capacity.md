@@ -1,7 +1,7 @@
 ---
 name: report-capacity
 description: Muestra el estado de capacidades del equipo — disponibilidad, asignación y alertas de sobre-carga.
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 

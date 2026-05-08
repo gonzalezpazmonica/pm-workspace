@@ -19,9 +19,9 @@ Cada spec APPROVED debe incluir:
 
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
-| <hook X> | `.claude/hooks/X.sh` registered in settings.json | Plugin TS function `<hook_event>` |
-| <agent X> | `.claude/agents/X.md` | Lee desde AGENTS.md generado |
-| <skill X> | `.claude/skills/X/SKILL.md` | Skill registry |
+| <hook X> | `.opencode/hooks/X.sh` registered in settings.json | Plugin TS function `<hook_event>` |
+| <agent X> | `.opencode/agents/X.md` | Lee desde AGENTS.md generado |
+| <skill X> | `.opencode/skills/X/SKILL.md` | Skill registry |
 | ... | ... | ... |
 
 ### Verification protocol

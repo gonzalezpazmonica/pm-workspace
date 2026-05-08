@@ -3,7 +3,7 @@ name: pipeline-status
 description: >
   Estado de pipelines del proyecto: últimas builds, % éxito,
   duración media y alertas de fallos recientes.
-model: fast
+model: github-copilot/claude-sonnet-4.5
 context_cost: low
 ---
 
@@ -33,7 +33,7 @@ context_cost: low
 ## 3. Contexto requerido
 
 1. `projects/{proyecto}/CLAUDE.md` — `AZURE_REPOS_PROJECT` o nombre DevOps
-2. `.claude/skills/azure-pipelines/SKILL.md` — Referencia de estados y MCP tools
+2. `.opencode/skills/azure-pipelines/SKILL.md` — Referencia de estados y MCP tools
 
 ## 4. Pasos de ejecución
 

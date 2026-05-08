@@ -60,9 +60,9 @@ el workflow para Mónica (y cualquier operador futuro).
   | `rule` | `docs/rules/**/*.md` | red | shield |
   | `spec` | `docs/specs/**/*.md` | blue | file-text |
   | `roadmap` | `docs/ROADMAP.md` | purple | map |
-  | `skill` | `.claude/skills/*/SKILL.md` | green | zap |
-  | `command` | `.claude/commands/*.md` | orange | terminal |
-  | `agent` | `.claude/agents/*.md` | indigo | bot |
+  | `skill` | `.opencode/skills/*/SKILL.md` | green | zap |
+  | `command` | `.opencode/commands/*.md` | orange | terminal |
+  | `agent` | `.opencode/agents/*.md` | indigo | bot |
   | `proposal` | `docs/propuestas/**/*.md` | yellow | lightbulb |
   | `changelog` | `CHANGELOG.md` | gray | clock |
 
@@ -119,7 +119,7 @@ y comandos ya usan el formato que Tolaria espera (markdown + YAML frontmatter).
 
 | Fichero | Accion |
 |---------|--------|
-| `.claude/commands/tolaria-open.md` | CREAR — comando `/tolaria-open` |
+| `.opencode/commands/tolaria-open.md` | CREAR — comando `/tolaria-open` |
 | `.opencode/commands/tolaria-open.md` | CREAR — mirror para OpenCode |
 | `docs/tolaria-workflow.md` | CREAR — guia de uso |
 | `~/.tolaria/config.json` | CREAR — config de tipos (via script) |

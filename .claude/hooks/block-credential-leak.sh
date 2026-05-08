@@ -64,8 +64,11 @@ if echo "$COMMAND" | grep -iE '(DefaultEndpointsProtocol|AccountKey=|SharedAcces
   exit 2
 fi
 
-# Detectar JWT tokens (formato base64url.base64url.base64url)
-if echo "$COMMAND" | grep -iE '[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]{20,}' > /dev/null 2>&1; then
+# Detectar JWT tokens — formato base64url(header).base64url(payload).base64url(signature)
+# JWTs reales empiezan SIEMPRE con eyJ (base64 de '{"' del JSON header/payload).
+# Sin esta restricción, cualquier path Python como `importlib.util.spec_from_file_location` matchea.
+# Falsos positivos típicos evitados: módulos Python con 3 dotted identifiers, paquetes Java/C#, versiones x.y.z.
+if echo "$COMMAND" | grep -E 'eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{20,}' > /dev/null 2>&1; then
   echo "BLOQUEADO: JWT token sospechoso detectado. Usa variables de entorno o vault." >&2
   exit 2
 fi

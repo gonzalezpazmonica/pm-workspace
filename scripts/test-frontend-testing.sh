@@ -8,9 +8,9 @@ pass() { PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); echo "  ✅ $1"; }
 fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  ❌ $1"; }
 check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
 
-AGENT="$ROOT/.claude/agents/frontend-test-runner.md"
-VR_CMD="$ROOT/.claude/commands/visual-regression.md"
-SV_CMD="$ROOT/.claude/commands/spec-verify-ui.md"
+AGENT="$ROOT/.opencode/agents/frontend-test-runner.md"
+VR_CMD="$ROOT/.opencode/commands/visual-regression.md"
+SV_CMD="$ROOT/.opencode/commands/spec-verify-ui.md"
 RULE="$ROOT/docs/rules/domain/frontend-testing.md"
 DOC_ES="$ROOT/docs/frontend-testing-nueva-era-es.md"
 DOC_EN="$ROOT/docs/frontend-testing-nueva-era-en.md"

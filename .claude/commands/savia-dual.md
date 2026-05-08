@@ -4,7 +4,7 @@ description: Gestiona Savia Dual — inference sovereignty con failover entre An
 developer_type: all
 agent: none
 context_cost: low
-model: fast
+model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Bash, Glob, Grep]
 argument-hint: "{install|start|stop|status|test|logs}"
 ---
@@ -115,5 +115,5 @@ OK /savia-dual {subcomando}
 ## Referencias
 
 - Regla: `docs/rules/domain/savia-dual.md`
-- Skill: `.claude/skills/savia-dual/SKILL.md` + `DOMAIN.md`
+- Skill: `.opencode/skills/savia-dual/SKILL.md` + `DOMAIN.md`
 - Doc: `docs/savia-dual.md`

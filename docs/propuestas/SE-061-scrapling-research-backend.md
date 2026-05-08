@@ -88,5 +88,5 @@ Cost of inaction: research agents siguen ciegos a fuentes gated; cada cambio de 
 - Repo: github.com/D4Vinci/Scrapling (BSD-3)
 - SE-056 Python SBOM — add scrapling dep si se adopta
 - SE-058 MCP audit — valida entry post-Slice 4
-- `.claude/skills/tech-research-agent/`
+- `.opencode/skills/tech-research-agent/`
 - `scripts/web-research.sh`

@@ -4,7 +4,7 @@ description: Health check de todas las fuentes de observabilidad conectadas
 developer_type: all
 agent: task
 context_cost: high
-model: fast
+model: github-copilot/claude-sonnet-4.5
 ---
 
 # /obs-status

@@ -5,8 +5,8 @@
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   export SCRIPT="$REPO_ROOT/scripts/pr-agent-run.sh"
-  export SKILL="$REPO_ROOT/.claude/skills/pr-agent-judge/SKILL.md"
-  export AGENT="$REPO_ROOT/.claude/agents/pr-agent-judge.md"
+  export SKILL="$REPO_ROOT/.opencode/skills/pr-agent-judge/SKILL.md"
+  export AGENT="$REPO_ROOT/.opencode/agents/pr-agent-judge.md"
   TMPDIR_PA="$(mktemp -d)"
   export TMPDIR_PA
 }

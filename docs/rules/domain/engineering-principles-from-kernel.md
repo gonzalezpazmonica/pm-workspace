@@ -75,7 +75,7 @@ structs of function pointers. Generic code calls
 of populating the ops table.
 
 **How to apply:**
-- Agents (`.claude/agents/*.md`) are Savia's ops tables. Each has
+- Agents (`.opencode/agents/*.md`) are Savia's ops tables. Each has
   `name`, `description`, `tools`, `token_budget`, `permission_level`.
   The dispatcher (Task tool) reads the table and invokes. No
   inheritance, no framework.
@@ -95,11 +95,11 @@ the program runs. Programs that fail verification are rejected with a
 specific error. Programs that pass run at near-native speed.
 
 **How to apply:**
-- Hooks in `.claude/hooks/` are Savia's eBPF programs — they run in
+- Hooks in `.opencode/hooks/` are Savia's eBPF programs — they run in
   the user's hot path and they cannot be "mostly safe". The pre-commit
   verifier is `scripts/validate-commands.sh` + BATS + `shellcheck`.
   No hook merges without passing all three.
-- Agents (`.claude/agents/*.md`) should declare their preconditions
+- Agents (`.opencode/agents/*.md`) should declare their preconditions
   in the frontmatter so `agent-dispatch-validate.sh` can verify BEFORE
   invocation. Failing agents must be rejected with a specific reason.
 - Skills that execute shell should sandbox unknown inputs with

@@ -14,13 +14,13 @@ settings.json (5 hook events)
          ↓
     17 hooks (security gates, quality checks, logging)
          ↓
-    Commands (.claude/commands/*)
+    Commands (.opencode/commands/*)
     (454 slash commands / workflows)
          ↓
-    Skills (.claude/skills/*)
+    Skills (.opencode/skills/*)
     (67 reusable capabilities)
          ↓
-    Agents (.claude/agents/*)
+    Agents (.opencode/agents/*)
     (33 specialized orchestrators)
          ↓
     Rules (docs/rules/domain/*)
@@ -34,7 +34,7 @@ settings.json (5 hook events)
 ### Phase 1: Command Invocation
 
 1. User invokes `/command-name --param value`
-2. Claude Code loads command definition from `.claude/commands/command-name.md`
+2. Claude Code loads command definition from `.opencode/commands/command-name.md`
 3. Command frontmatter parsed: `model`, `context_cost`, `allowed-tools`, `arguments`
 
 ### Phase 2: Hook Validation (PreToolUse)
@@ -50,7 +50,7 @@ settings.json (5 hook events)
 
 ### Phase 3: Skill Loading & Delegation
 
-1. If command uses `@skill-name`, load `.claude/skills/skill-name/SKILL.md`
+1. If command uses `@skill-name`, load `.opencode/skills/skill-name/SKILL.md`
 2. Skill defines its own task steps and subagent delegation
 3. Skill reads project context from `.claude/settings.json` and `projects/{project}/CLAUDE.md`
 4. Skill determines if delegation to agents is needed (Task tool)
@@ -203,10 +203,10 @@ pm-workspace/
 
 | Component | Count | Location |
 |---|---|---|
-| **Commands** | 454 | `.claude/commands/` |
-| **Skills** | 67 | `.claude/skills/` |
-| **Agents** | 33 | `.claude/agents/` |
-| **Hooks** | 17 | `.claude/hooks/` (100% tested) |
+| **Commands** | 454 | `.opencode/commands/` |
+| **Skills** | 67 | `.opencode/skills/` |
+| **Agents** | 33 | `.opencode/agents/` |
+| **Hooks** | 17 | `.opencode/hooks/` (100% tested) |
 | **Domain Rules** | 105 | `docs/rules/domain/` |
 | **Language Packs** | 16 | `docs/rules/languages/` |
 | **Tests (BATS)** | 17 hook suites | `tests/hooks/` |
@@ -236,11 +236,11 @@ pm-workspace/
 
 To add new capabilities:
 
-1. **New command** → Create `.claude/commands/my-command.md`
-2. **New skill** → Create `.claude/skills/my-skill/SKILL.md` + `DOMAIN.md`
-3. **New agent** → Create `.claude/agents/my-agent.md` (profile + instructions)
+1. **New command** → Create `.opencode/commands/my-command.md`
+2. **New skill** → Create `.opencode/skills/my-skill/SKILL.md` + `DOMAIN.md`
+3. **New agent** → Create `.opencode/agents/my-agent.md` (profile + instructions)
 4. **New rule** → Create `docs/rules/domain/my-rule.md`
-5. **New hook** → Add to `.claude/hooks/` + `settings.json` + BATS tests
+5. **New hook** → Add to `.opencode/hooks/` + `settings.json` + BATS tests
 6. **Project comprehension map** → `/codemap:generate-human {project}` creates `projects/{name}/.human-maps/{name}.hcm`
 
 All extensions inherit the same safety gates and context budgets.

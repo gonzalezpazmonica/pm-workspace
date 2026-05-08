@@ -24,7 +24,7 @@ context_cost: high
 
 - Al menos un `/compliance-scan` previo en `output/compliance/`
 - Si `--format docx`: cargar skill `docx` para generación de Word
-- Cargar skill: `@.claude/skills/regulatory-compliance/SKILL.md`
+- Cargar skill: `@.opencode/skills/regulatory-compliance/SKILL.md`
 
 ## 2. Cargar perfil de usuario
 

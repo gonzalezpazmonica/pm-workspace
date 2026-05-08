@@ -36,15 +36,15 @@ echo "════════════════════════�
 # ── Section 1: Command ───────────────────────────────────────────────────
 echo ""
 echo "── Section 1: Command file ──"
-check_file ".claude/commands/savia-hub.md" "Command exists"
-check_lines ".claude/commands/savia-hub.md" 150 "Command within line limit"
-check_content ".claude/commands/savia-hub.md" "savia-hub init" "Has init subcommand"
-check_content ".claude/commands/savia-hub.md" "savia-hub status" "Has status subcommand"
-check_content ".claude/commands/savia-hub.md" "savia-hub push" "Has push subcommand"
-check_content ".claude/commands/savia-hub.md" "savia-hub pull" "Has pull subcommand"
-check_content ".claude/commands/savia-hub.md" "flight-mode" "Has flight-mode subcommand"
-check_content ".claude/commands/savia-hub.md" "savia-hub-config.md" "References config rule"
-check_content ".claude/commands/savia-hub.md" "savia-hub-offline.md" "References offline rule"
+check_file ".opencode/commands/savia-hub.md" "Command exists"
+check_lines ".opencode/commands/savia-hub.md" 150 "Command within line limit"
+check_content ".opencode/commands/savia-hub.md" "savia-hub init" "Has init subcommand"
+check_content ".opencode/commands/savia-hub.md" "savia-hub status" "Has status subcommand"
+check_content ".opencode/commands/savia-hub.md" "savia-hub push" "Has push subcommand"
+check_content ".opencode/commands/savia-hub.md" "savia-hub pull" "Has pull subcommand"
+check_content ".opencode/commands/savia-hub.md" "flight-mode" "Has flight-mode subcommand"
+check_content ".opencode/commands/savia-hub.md" "savia-hub-config.md" "References config rule"
+check_content ".opencode/commands/savia-hub.md" "savia-hub-offline.md" "References offline rule"
 
 # ── Section 2: Rules ─────────────────────────────────────────────────────
 echo ""
@@ -66,13 +66,13 @@ check_content "docs/rules/domain/savia-hub-offline.md" "NUNCA auto-resolver" "Ha
 # ── Section 3: Skill ─────────────────────────────────────────────────────
 echo ""
 echo "── Section 3: Skill ──"
-check_file ".claude/skills/savia-hub-sync/SKILL.md" "Skill exists"
-check_lines ".claude/skills/savia-hub-sync/SKILL.md" 150 "Skill within limit"
-check_content ".claude/skills/savia-hub-sync/SKILL.md" "name: savia-hub-sync" "Has correct name"
-check_content ".claude/skills/savia-hub-sync/SKILL.md" "git init" "Has local init flow"
-check_content ".claude/skills/savia-hub-sync/SKILL.md" "git clone" "Has remote clone flow"
-check_content ".claude/skills/savia-hub-sync/SKILL.md" "git push" "Has push flow"
-check_content ".claude/skills/savia-hub-sync/SKILL.md" "git pull" "Has pull flow"
+check_file ".opencode/skills/savia-hub-sync/SKILL.md" "Skill exists"
+check_lines ".opencode/skills/savia-hub-sync/SKILL.md" 150 "Skill within limit"
+check_content ".opencode/skills/savia-hub-sync/SKILL.md" "name: savia-hub-sync" "Has correct name"
+check_content ".opencode/skills/savia-hub-sync/SKILL.md" "git init" "Has local init flow"
+check_content ".opencode/skills/savia-hub-sync/SKILL.md" "git clone" "Has remote clone flow"
+check_content ".opencode/skills/savia-hub-sync/SKILL.md" "git push" "Has push flow"
+check_content ".opencode/skills/savia-hub-sync/SKILL.md" "git pull" "Has pull flow"
 
 # ── Section 4: Init script ───────────────────────────────────────────────
 echo ""
@@ -93,8 +93,8 @@ check_content "scripts/savia-hub-init.sh" "savia-hub-config.md" "Creates local c
 # ── Section 5: Cross-references ──────────────────────────────────────────
 echo ""
 echo "── Section 5: Cross-references ──"
-check_content ".claude/commands/savia-hub.md" "company/" "Command references company dir"
-check_content ".claude/commands/savia-hub.md" "clients/" "Command references clients dir"
+check_content ".opencode/commands/savia-hub.md" "company/" "Command references company dir"
+check_content ".opencode/commands/savia-hub.md" "clients/" "Command references clients dir"
 check_content "docs/rules/domain/savia-hub-config.md" ".savia-hub-config.md" "Config mentions local config file"
 check_content "docs/rules/domain/savia-hub-offline.md" ".sync-queue.jsonl" "Offline references queue file"
 

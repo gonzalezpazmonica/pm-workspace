@@ -1,6 +1,6 @@
 # Privacy Notice Template
 
-> Referencia rápida para comandos. Fuente de verdad: `.claude/skills/team-onboarding/SKILL.md`
+> Referencia rápida para comandos. Fuente de verdad: `.opencode/skills/team-onboarding/SKILL.md`
 
 ## Propósito
 Plantilla de aviso informativo RGPD/LOPDGDD para obtener consentimiento antes de evaluar competencias de miembros.
@@ -15,4 +15,4 @@ Plantilla de aviso informativo RGPD/LOPDGDD para obtener consentimiento antes de
 - **Consentimiento explícito**: Casilla de aceptación obligatoria
 
 ## Fuente completa
-Para la versión detallada con ejemplos: `.claude/skills/team-onboarding/SKILL.md`
+Para la versión detallada con ejemplos: `.opencode/skills/team-onboarding/SKILL.md`

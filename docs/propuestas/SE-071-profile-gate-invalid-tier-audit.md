@@ -47,7 +47,7 @@ $ git init -q && git config user.email t@t && git config user.name t
 $ echo a > a.txt && git add a.txt && git commit -qm init
 $ git branch feature
 $ echo modified > a.txt
-$ bash /home/monica/claude/.claude/hooks/block-branch-switch-dirty.sh \
+$ bash /home/monica/claude/.opencode/hooks/block-branch-switch-dirty.sh \
     <<< '{"tool_input":{"command":"git checkout feature"}}'
 $ echo $?
 0    # <-- deberia ser 2 (BLOQUEADO)
@@ -69,8 +69,8 @@ Cambiar `"minimal"` (invalid tier) por `"security"` (tier valido que se ejecuta 
 Revisar TODOS los hooks para el mismo patron:
 
 ```bash
-grep -rn 'profile_gate "minimal"' .claude/hooks/
-grep -rn 'profile_gate "\(minimal\|ci\)"' .claude/hooks/
+grep -rn 'profile_gate "minimal"' .opencode/hooks/
+grep -rn 'profile_gate "\(minimal\|ci\)"' .opencode/hooks/
 ```
 
 Cualquier tier !=  {security, standard, strict} es bug.
@@ -96,8 +96,8 @@ Cualquier tier !=  {security, standard, strict} es bug.
 
 Aprobado por la usuaria. Cambios aplicados:
 
-1. **Fix**: `.claude/hooks/block-branch-switch-dirty.sh` linea 9: `profile_gate "minimal"` a `profile_gate "security"`.
-2. **Audit**: ejecutado `grep -rn 'profile_gate' .claude/hooks/` — resultados finales:
+1. **Fix**: `.opencode/hooks/block-branch-switch-dirty.sh` linea 9: `profile_gate "minimal"` a `profile_gate "security"`.
+2. **Audit**: ejecutado `grep -rn 'profile_gate' .opencode/hooks/` — resultados finales:
    - 27 hooks tier `standard` (valid)
    - 8 hooks tier `security` (valid)
    - 3 hooks tier `strict` (valid)

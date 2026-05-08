@@ -4,7 +4,7 @@
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  export SCRIPT="$REPO_ROOT/.claude/hooks/live-progress-hook.sh"
+  export SCRIPT="$REPO_ROOT/.opencode/hooks/live-progress-hook.sh"
   TMPDIR_LP=$(mktemp -d)
   export HOME="$TMPDIR_LP"
   mkdir -p "$TMPDIR_LP/.savia"

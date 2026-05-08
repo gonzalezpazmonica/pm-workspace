@@ -8,8 +8,8 @@ globs: ["README.md", "README.en.md"]
 
 Actualizar `README.md` (y `README.en.md` si existe) **antes del commit** cuando:
 
-- Se añade, elimina o renombra un **slash command** en `.claude/commands/`
-- Se añade, elimina o modifica una **skill** en `.claude/skills/`
+- Se añade, elimina o renombra un **slash command** en `.opencode/commands/`
+- Se añade, elimina o modifica una **skill** en `.opencode/skills/`
 - Cambia la **estructura de directorios** del repositorio
 - Se añade o elimina un **proyecto** de la tabla de proyectos activos
 - Cambia la **configuración esencial** (modelos, parámetros SDD, cadencia Scrum)
@@ -27,9 +27,9 @@ Los README traducidos (`README.en.md`, etc.) **siempre deben estar alineados** c
 ## Qué secciones revisar
 
 Revisar en orden:
-1. **Tabla de comandos** — refleja exactamente los ficheros en `.claude/commands/`
-2. **Tabla de skills** — refleja exactamente los directorios en `.claude/skills/`
-3. **Tabla de agentes** — refleja exactamente los ficheros en `.claude/agents/` con modelo y color
+1. **Tabla de comandos** — refleja exactamente los ficheros en `.opencode/commands/`
+2. **Tabla de skills** — refleja exactamente los directorios en `.opencode/skills/`
+3. **Tabla de agentes** — refleja exactamente los ficheros en `.opencode/agents/` con modelo y color
 4. **Estructura de directorios** — árbol actualizado con los directorios reales
 5. **Requisitos previos** — versiones de herramientas, extensiones VSCode, MCPs
 6. **Proyectos de ejemplo** — si se han añadido nuevas estructuras de ejemplo

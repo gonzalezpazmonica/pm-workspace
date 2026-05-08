@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/shield-autostart.sh
+# BATS tests for .opencode/hooks/shield-autostart.sh
 # SessionStart hook — ensures Savia Shield proxy (port 8443) is up.
 # Fire-and-forget: launches shield-launcher background. Never blocks.
 # Ref: batch 49 hook coverage — SPEC-shield Layer 0
 
-HOOK=".claude/hooks/shield-autostart.sh"
+HOOK=".opencode/hooks/shield-autostart.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

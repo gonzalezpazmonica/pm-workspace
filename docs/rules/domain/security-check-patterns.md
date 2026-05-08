@@ -1,5 +1,5 @@
 ---
-globs: [".claude/hooks/**"]
+globs: [".opencode/hooks/**"]
 ---
 # Seguridad: Patrones de Detección Detallados
 

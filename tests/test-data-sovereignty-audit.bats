@@ -1,8 +1,8 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/data-sovereignty-audit.sh (PostToolUse async)
+# BATS tests for .opencode/hooks/data-sovereignty-audit.sh (PostToolUse async)
 # Ref: batch 39 hook test coverage gap
 
-HOOK=".claude/hooks/data-sovereignty-audit.sh"
+HOOK=".opencode/hooks/data-sovereignty-audit.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

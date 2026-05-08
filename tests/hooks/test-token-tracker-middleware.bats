@@ -5,7 +5,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/token-tracker-middleware.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/token-tracker-middleware.sh"
   mkdir -p "$REPO_ROOT/output"
 }
 
@@ -82,10 +82,10 @@ teardown() {
 }
 
 @test "core hooks use safety flags" {
-  grep -q "set -[euo]" "$REPO_ROOT/.claude/hooks/validate-bash-global.sh"
+  grep -q "set -[euo]" "$REPO_ROOT/.opencode/hooks/validate-bash-global.sh"
 }
 
 @test "edge: empty input produces no error" {
-  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$REPO_ROOT/.claude/hooks/validate-bash-global.sh' 2>&1"
+  run bash -c "echo '{}' | SAVIA_HOOK_PROFILE=minimal bash '$REPO_ROOT/.opencode/hooks/validate-bash-global.sh' 2>&1"
   [ "$status" -eq 0 ]
 }

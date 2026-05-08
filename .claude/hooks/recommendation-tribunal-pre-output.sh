@@ -12,13 +12,13 @@ export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 #   "hooks": {
 #     "PreOutput": [
 #       {"matcher": "*", "hooks": [{"type": "command", "command":
-#         "$CLAUDE_PROJECT_DIR/.claude/hooks/recommendation-tribunal-pre-output.sh"}]}
+#         "$CLAUDE_PROJECT_DIR/.opencode/hooks/recommendation-tribunal-pre-output.sh"}]}
 #     ]
 #   }
 #
 # (The exact event name depends on Claude Code version — see docs/best-practices-claude-code.md)
 #
-# Until activated, this hook is a NO-OP: just an executable file living in .claude/hooks/.
+# Until activated, this hook is a NO-OP: just an executable file living in .opencode/hooks/.
 # The tribunal infrastructure is delivered, but does NOT run on every turn.
 #
 # Activation is a separate, deliberate step the human user must take after

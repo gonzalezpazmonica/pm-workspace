@@ -1,6 +1,6 @@
 # JTBD Template
 
-> Referencia rápida para comandos. Fuente de verdad: `.claude/skills/product-discovery/SKILL.md`
+> Referencia rápida para comandos. Fuente de verdad: `.opencode/skills/product-discovery/SKILL.md`
 
 ## Propósito
 Canvas Jobs to be Done para descubrimiento de necesidades reales del usuario más allá de características.
@@ -15,4 +15,4 @@ Canvas Jobs to be Done para descubrimiento de necesidades reales del usuario má
 - **Barreras**: Obstáculos que impiden adoptar la solución
 
 ## Fuente completa
-Para la versión detallada con ejemplos: `.claude/skills/product-discovery/SKILL.md`
+Para la versión detallada con ejemplos: `.opencode/skills/product-discovery/SKILL.md`

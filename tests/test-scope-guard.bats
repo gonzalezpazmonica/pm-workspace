@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # BATS tests for scope-guard.sh
-# SCRIPT=.claude/hooks/scope-guard.sh
+# SCRIPT=.opencode/hooks/scope-guard.sh
 # SPEC: SPEC-032 Security Benchmarks — scope isolation
 
-SCRIPT=".claude/hooks/scope-guard.sh"
+SCRIPT=".opencode/hooks/scope-guard.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

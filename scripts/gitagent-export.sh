@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # gitagent-export.sh — SPEC-099 Slice 1 gitagent adapter.
 #
-# Exporta un agente de pm-workspace (`.claude/agents/{name}.md`) al formato
+# Exporta un agente de pm-workspace (`.opencode/agents/{name}.md`) al formato
 # open-gitagent/gitagent v0.1.0 para portabilidad entre frameworks.
 #
 # Genera en `<output-dir>/{agent-name}/`:
@@ -24,7 +24,7 @@
 #   2 — usage error
 #
 # Ref: SPEC-099 §Mapeo, ROADMAP §Tier 4.8
-# Safety: read-only on `.claude/agents/`, set -uo pipefail.
+# Safety: read-only on `.opencode/agents/`, set -uo pipefail.
 
 set -uo pipefail
 
@@ -55,7 +55,7 @@ usage() {
 Usage:
   $0 --agent NAME --output-dir DIR [--format FORMAT]
 
-  --agent NAME      Name matching .claude/agents/{name}.md
+  --agent NAME      Name matching .opencode/agents/{name}.md
   --output-dir DIR  Destination dir (will create subdirectory <agent>/)
   --format FORMAT   gitagent-0.1 (default, only supported in Slice 1)
 
@@ -84,7 +84,7 @@ done
 [[ -z "$AGENT" ]] && { echo "ERROR: --agent required" >&2; exit 2; }
 [[ -z "$OUTPUT_DIR" ]] && { echo "ERROR: --output-dir required" >&2; exit 2; }
 
-SRC="$REPO_ROOT/.claude/agents/$AGENT.md"
+SRC="$REPO_ROOT/.opencode/agents/$AGENT.md"
 [[ ! -f "$SRC" ]] && { echo "ERROR: agent not found: $SRC" >&2; exit 1; }
 
 if [[ "$FORMAT" != "gitagent-0.1" ]]; then
@@ -148,7 +148,7 @@ description: |
 source:
   origin: "pm-workspace"
   type: "claude-code-agent"
-  file: ".claude/agents/{agent_name}.md"
+  file: ".opencode/agents/{agent_name}.md"
 tools:{tools_yaml}
 limits:
   context_tokens: {token_budget}
@@ -212,7 +212,7 @@ Ref: SPEC-099 §Permission levels → DUTIES
 # README.md — framework usage hints.
 readme = f"""# {name} — gitagent export
 
-Exported from pm-workspace agent `.claude/agents/{agent_name}.md`
+Exported from pm-workspace agent `.opencode/agents/{agent_name}.md`
 using `scripts/gitagent-export.sh`.
 
 ## Files
@@ -225,7 +225,7 @@ using `scripts/gitagent-export.sh`.
 ## Usage
 
 ### In Claude Code
-Original location: `.claude/agents/{agent_name}.md` (no changes needed).
+Original location: `.opencode/agents/{agent_name}.md` (no changes needed).
 
 ### In OpenAI Assistants / other frameworks
 Import `agent.yaml` as base manifesto.

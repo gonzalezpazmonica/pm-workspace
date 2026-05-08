@@ -7,7 +7,7 @@ set -uo pipefail
 # ── Contadores dinámicos ──────────────────────────────────────────────────────
 
 get_actual_command_count() {
-  ls -1 .claude/commands/*.md 2>/dev/null | wc -l
+  ls -1 .opencode/commands/*.md 2>/dev/null | wc -l
 }
 
 check_command_count_in_claude_md() {

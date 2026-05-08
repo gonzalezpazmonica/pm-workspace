@@ -11,7 +11,7 @@
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  export SPEC_TEMPLATE="$REPO_ROOT/.claude/skills/spec-driven-development/references/spec-template.md"
+  export SPEC_TEMPLATE="$REPO_ROOT/.opencode/skills/spec-driven-development/references/spec-template.md"
   export SDD_DOC="$REPO_ROOT/docs/agent-teams-sdd.md"
 
   # Isolated workspace for negative-case fixtures

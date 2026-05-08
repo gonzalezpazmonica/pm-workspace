@@ -12,9 +12,9 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 count_glob() { local n=0; for f in $1; do [ -e "$f" ] && n=$((n + 1)); done; echo "$n"; }
 
 # ── Hook coverage ──
-total_hooks=$(count_glob "$ROOT/.claude/hooks/*.sh")
+total_hooks=$(count_glob "$ROOT/.opencode/hooks/*.sh")
 tested_hooks=0
-for h in "$ROOT/.claude/hooks/"*.sh; do
+for h in "$ROOT/.opencode/hooks/"*.sh; do
   [ -f "$h" ] || continue
   name=$(basename "$h" .sh)
   if ls "$ROOT"/tests/hooks/test-"$name"*.bats 2>/dev/null | grep -q .; then
@@ -24,9 +24,9 @@ done
 hook_pct=$(( total_hooks > 0 ? tested_hooks * 100 / total_hooks : 0 ))
 
 # ── Command validation coverage ──
-total_commands=$(count_glob "$ROOT/.claude/commands/*.md")
+total_commands=$(count_glob "$ROOT/.opencode/commands/*.md")
 commands_with_frontmatter=0
-for f in "$ROOT/.claude/commands/"*.md; do
+for f in "$ROOT/.opencode/commands/"*.md; do
   [ -f "$f" ] || continue
   if head -1 "$f" | grep -q "^---$"; then
     commands_with_frontmatter=$((commands_with_frontmatter + 1))
@@ -35,10 +35,10 @@ done
 cmd_pct=$(( total_commands > 0 ? commands_with_frontmatter * 100 / total_commands : 0 ))
 
 # ── Skill structure coverage ──
-total_skills=$(count_glob "$ROOT/.claude/skills/*/")
+total_skills=$(count_glob "$ROOT/.opencode/skills/*/")
 skills_with_skillmd=0
 skills_with_frontmatter=0
-for d in "$ROOT/.claude/skills/"*/; do
+for d in "$ROOT/.opencode/skills/"*/; do
   [ -d "$d" ] || continue
   if [ -f "${d}SKILL.md" ]; then
     skills_with_skillmd=$((skills_with_skillmd + 1))
@@ -71,7 +71,7 @@ done
 script_quality_pct=$(( total_test_scripts > 0 ? l2_plus * 100 / total_test_scripts : 0 ))
 
 # ── Agent coverage ──
-total_agents=$(count_glob "$ROOT/.claude/agents/*.md")
+total_agents=$(count_glob "$ROOT/.opencode/agents/*.md")
 
 # ── Rule coverage ──
 total_rules=0

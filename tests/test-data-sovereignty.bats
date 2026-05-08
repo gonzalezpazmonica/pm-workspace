@@ -11,15 +11,16 @@ setup() {
   mkdir -p "$CLAUDE_PROJECT_DIR/projects/test-project"
   mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
   mkdir -p "$CLAUDE_PROJECT_DIR/.claude/hooks"
+  mkdir -p "$CLAUDE_PROJECT_DIR/.opencode/hooks"
   # Copiar scripts al tmpdir
   SRC="${BATS_TEST_DIRNAME}/.."
-  cp "$SRC/.claude/hooks/data-sovereignty-gate.sh" "$CLAUDE_PROJECT_DIR/.claude/hooks/"
-  cp "$SRC/.claude/hooks/data-sovereignty-audit.sh" "$CLAUDE_PROJECT_DIR/.claude/hooks/"
+  cp "$SRC/.opencode/hooks/data-sovereignty-gate.sh" "$CLAUDE_PROJECT_DIR/.opencode/hooks/"
+  cp "$SRC/.opencode/hooks/data-sovereignty-audit.sh" "$CLAUDE_PROJECT_DIR/.opencode/hooks/"
   cp "$SRC/scripts/ollama-classify.sh" "$CLAUDE_PROJECT_DIR/scripts/"
-  chmod +x "$CLAUDE_PROJECT_DIR/.claude/hooks/"*.sh
+  chmod +x "$CLAUDE_PROJECT_DIR/.opencode/hooks/"*.sh
   chmod +x "$CLAUDE_PROJECT_DIR/scripts/"*.sh
-  GATE="$CLAUDE_PROJECT_DIR/.claude/hooks/data-sovereignty-gate.sh"
-  AUDIT="$CLAUDE_PROJECT_DIR/.claude/hooks/data-sovereignty-audit.sh"
+  GATE="$CLAUDE_PROJECT_DIR/.opencode/hooks/data-sovereignty-gate.sh"
+  AUDIT="$CLAUDE_PROJECT_DIR/.opencode/hooks/data-sovereignty-audit.sh"
   AUDIT_LOG="$CLAUDE_PROJECT_DIR/output/data-sovereignty-audit.jsonl"
 }
 

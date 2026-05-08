@@ -319,7 +319,7 @@ EOF
 @test "slice3: backlog-groom.md references query-lib-resolve" {
   unset REPO_ROOT
   cd "$BATS_TEST_DIRNAME/.."
-  run grep -c "query-lib-resolve.sh --id backlog-groom-open" .claude/commands/backlog-groom.md
+  run grep -c "query-lib-resolve.sh --id backlog-groom-open" .opencode/commands/backlog-groom.md
   [ "$status" -eq 0 ]
   [ "$output" -ge 1 ]
 }

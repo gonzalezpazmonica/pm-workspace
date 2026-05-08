@@ -8,7 +8,6 @@
 
 **La IA propone, el humano dispone.** Ningún agente autónomo tiene autoridad para tomar decisiones irreversibles. Todo output autónomo es una **propuesta pendiente de revisión humana**.
 
----
 
 ## Reglas de Git — Ramas y commits
 
@@ -32,7 +31,6 @@ SIEMPRE → Prefijo de commit: agent({modo}): descripción
 | Code Improvement | `agent/improve-{tipo}-{id}` | `agent/improve-coverage-auth-service` |
 | Tech Research | `agent/research-{tema}` | `agent/research-ef-alternatives` |
 
----
 
 ## Reglas de PRs — Revisión humana obligatoria
 
@@ -47,7 +45,6 @@ SIEMPRE → Asignar AUTONOMOUS_REVIEWER como reviewer obligatorio
 SIEMPRE → Incluir en el PR body: métricas antes/después, descripción del cambio, riesgo estimado
 SIEMPRE → Esperar aprobación humana — el agente NO hace seguimiento ni insiste
 ```
-
 ---
 
 ## Reglas de investigación — Notificación humana
@@ -61,27 +58,32 @@ SIEMPRE → Generar informe en output/research-{tema}-{fecha}.md
 SIEMPRE → Notificar a AUTONOMOUS_RESEARCH_NOTIFY al completar
 SIEMPRE → Las recomendaciones son PROPUESTAS, no acciones
 ```
-
 ---
 
 ## Configuración requerida
 
-Estas constantes DEBEN estar definidas en `pm-config.md` o `pm-config.local.md` para que cualquier modo autónomo pueda arrancar:
+`AUTONOMOUS_REVIEWER` y `AUTONOMOUS_RESEARCH_NOTIFY` se resuelven en runtime
+desde **fuentes locales gitignored** (NUNCA del repo público — Rule #20):
 
 ```
-AUTONOMOUS_REVIEWER             # Handle del humano que revisa PRs autónomos
-AUTONOMOUS_RESEARCH_NOTIFY      # Handle del humano que recibe informes de investigación
+1) .claude/rules/pm-config.local.md  (gitignored)
+2) ~/.savia/preferences.yaml          (SPEC-127)
+3) Slug del usuario activo en .claude/profiles/active-user.md (fallback genérico "@local-user")
 ```
+
+scripts/savia-env.sh expone `savia_autonomous_reviewer()` que aplica esta cadena.
 
 ### Gate de arranque
 
-**Si `AUTONOMOUS_REVIEWER` no está configurado, el modo autónomo NO arranca.** El comando debe mostrar:
+**Si tras la cadena no hay valor resoluble, el modo autónomo NO arranca.**
+El comando debe mostrar:
 
 ```
-ERROR: AUTONOMOUS_REVIEWER no configurado.
-   Añade en .claude/rules/pm-config.local.md:
-   AUTONOMOUS_REVIEWER = @tu-handle
-   Ningún agente autónomo puede operar sin un humano designado como revisor.
+ERROR: AUTONOMOUS_REVIEWER no resoluble.
+   Configura UNO de:
+   - .claude/rules/pm-config.local.md (gitignored): AUTONOMOUS_REVIEWER = "@tu-handle"
+   - ~/.savia/preferences.yaml: autonomous_reviewer: "@tu-handle"
+   Tu handle NUNCA debe ir en ficheros versionados del repo público.
 ```
 
 ---
@@ -145,4 +147,4 @@ Solo aplica si la tarea se reintenta. Si el fallo es de tipo OOM, timeout o erro
 
 ## Emergency-mode (LocalAI fallback) — SPEC-122
 
-`/emergency-mode` cambia SOLO el endpoint (`ANTHROPIC_BASE_URL` → LocalAI), **no bypassa** los gates de esta regla. AUTONOMOUS_REVIEWER, rama `agent/*`, PR Draft siguen siendo obligatorios. Si el revisor humano no está disponible, el agente **espera**. Ver `.claude/skills/emergency-mode/SKILL.md` y `docs/rules/domain/emergency-mode-protocol.md`.
+`/emergency-mode` cambia SOLO el endpoint (`ANTHROPIC_BASE_URL` → LocalAI), **no bypassa** los gates de esta regla. AUTONOMOUS_REVIEWER, rama `agent/*`, PR Draft siguen siendo obligatorios. Si el revisor humano no está disponible, el agente **espera**. Ver `.opencode/skills/emergency-mode/SKILL.md` y `docs/rules/domain/emergency-mode-protocol.md`.

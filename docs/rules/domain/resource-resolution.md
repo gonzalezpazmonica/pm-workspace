@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/**", ".claude/skills/**"]
+globs: [".opencode/commands/**", ".opencode/skills/**"]
 ---
 # resource-resolution — Rule for @ Reference Resolution
 

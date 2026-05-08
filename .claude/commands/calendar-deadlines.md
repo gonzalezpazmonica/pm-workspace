@@ -3,13 +3,13 @@ name: calendar-deadlines
 description: "Deadlines proximos con estado de preparacion — nada se queda atras"
 argument-hint: "[--days 14] [--project nombre]"
 allowed-tools: [Read, Glob, Grep, Bash]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 
 # /calendar-deadlines — Guardian de Deadlines
 
-Ejecutar skill: `@.claude/skills/smart-calendar/SKILL.md`
+Ejecutar skill: `@.opencode/skills/smart-calendar/SKILL.md`
 
 ## Fuentes de deadlines
 

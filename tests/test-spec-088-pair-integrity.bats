@@ -7,7 +7,7 @@ setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   CONTEXT_HEALTH="$REPO_ROOT/docs/rules/domain/context-health.md"
   SESSION_PROTOCOL="$REPO_ROOT/docs/rules/domain/session-memory-protocol.md"
-  HOOK="$REPO_ROOT/.claude/hooks/pre-compact-backup.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/pre-compact-backup.sh"
   TMP_DIR=$(mktemp -d -t spec088-XXXXXX)
 }
 

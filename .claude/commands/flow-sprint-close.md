@@ -3,7 +3,7 @@ name: flow-sprint-close
 description: Close sprint, move pending tasks to backlog, generate report
 argument-hint: "<sprint_id>"
 allowed-tools: [Bash, Read]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 

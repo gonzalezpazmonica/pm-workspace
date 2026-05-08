@@ -3,7 +3,7 @@ name: school-analytics
 description: Teacher class-wide analytics and progress dashboard
 argument-hint: "[--by-project|--by-student]"
 allowed-tools: [Read, Bash]
-model: mid
+model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 ---
 

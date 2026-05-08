@@ -40,7 +40,7 @@ Aún así, vale la pena tenerlo porque baja la fricción para sub-agentes (Code 
 
 ## Scope (Slice único, S 2h)
 
-### 1. `.claude/skills/write-a-skill/SKILL.md` (clean-room, ~120 LOC)
+### 1. `.opencode/skills/write-a-skill/SKILL.md` (clean-room, ~120 LOC)
 
 Contiene las 7 secciones de Pocock adaptadas a pm-workspace:
 
@@ -57,7 +57,7 @@ Atribución MIT a `mattpocock/skills/write-a-skill/SKILL.md` en header.
 
 ### 2. Cross-reference
 
-`docs/rules/domain/skill-catalog-discipline.md` (creado en SE-084) → "Para crear skills nuevos: usa `.claude/skills/write-a-skill/`"
+`docs/rules/domain/skill-catalog-discipline.md` (creado en SE-084) → "Para crear skills nuevos: usa `.opencode/skills/write-a-skill/`"
 
 ### 3. Tests BATS estáticos
 
@@ -67,7 +67,7 @@ Atribución MIT a `mattpocock/skills/write-a-skill/SKILL.md` en header.
 
 ## Acceptance criteria
 
-- [ ] AC-01 `.claude/skills/write-a-skill/SKILL.md` ≤120 LOC con frontmatter compliant SE-084
+- [ ] AC-01 `.opencode/skills/write-a-skill/SKILL.md` ≤120 LOC con frontmatter compliant SE-084
 - [ ] AC-02 7 secciones presentes (Process, Structure, Template, Description, Scripts, Splitting, Checklist)
 - [ ] AC-03 Atribución MIT a Pocock en header (clean-room)
 - [ ] AC-04 Cross-reference desde `skill-catalog-discipline.md` (SE-084)
@@ -90,7 +90,7 @@ Atribución MIT a `mattpocock/skills/write-a-skill/SKILL.md` en header.
 
 ## Dependencias
 
-- ✅ `.claude/skills/` directory existe
+- ✅ `.opencode/skills/` directory existe
 - **Recomendado**: SE-084 IMPLEMENTED antes (para que skill-catalog-discipline.md exista para el cross-ref); si SE-084 viene después, este spec deja stub y se actualiza
 - Sin bloqueantes externos. Independiente de SE-081/082/083/086/087.
 
@@ -100,7 +100,7 @@ Atribución MIT a `mattpocock/skills/write-a-skill/SKILL.md` en header.
 
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
-| SKILL.md | `.claude/skills/write-a-skill/SKILL.md` | autoload via AGENTS.md regen |
+| SKILL.md | `.opencode/skills/write-a-skill/SKILL.md` | autoload via AGENTS.md regen |
 
 ### Verification protocol
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/android-adb-validate.sh
+# BATS tests for .opencode/hooks/android-adb-validate.sh
 # PreToolUse hook — classifies ADB commands: safe / risky / blocked.
 # Exit 0 = allow, exit 2 = block.
 # Ref: batch 46 hook coverage — SPEC-044 ADB safety classification
 
-HOOK=".claude/hooks/android-adb-validate.sh"
+HOOK=".opencode/hooks/android-adb-validate.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

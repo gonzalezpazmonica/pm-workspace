@@ -3,13 +3,13 @@ name: calendar-plan
 description: "Planificar semana con focus blocks automaticos y priorizacion Eisenhower"
 argument-hint: "[--week current|next] [--project nombre]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
-model: heavy
+model: github-copilot/claude-opus-4.7
 context_cost: high
 ---
 
 # /calendar-plan — Planificar Semana
 
-Ejecutar skill: `@.claude/skills/smart-calendar/SKILL.md`
+Ejecutar skill: `@.opencode/skills/smart-calendar/SKILL.md`
 
 ## Flujo
 

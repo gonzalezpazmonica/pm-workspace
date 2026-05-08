@@ -63,7 +63,7 @@ bash scripts/agents-opencode-convert.sh --apply
 
 Writes 70 converted agent files to `.opencode/agents/` (gitignored if
 your workspace prefers; this repo commits them as the canonical mirror).
-Re-run after editing `.claude/agents/*.md`.
+Re-run after editing `.opencode/agents/*.md`.
 
 ### 4. Validate the bootstrap
 
@@ -120,8 +120,8 @@ opencode --version           # confirm OpenCode is installed but unused
 ```
 
 Your Claude Code workflow is intact. The migration adds files; it does
-NOT modify the existing `.claude/hooks/`, `.claude/agents/`, `.claude/commands/`
-or `.claude/skills/`. PV-01 backward compat absoluto.
+NOT modify the existing `.opencode/hooks/`, `.opencode/agents/`, `.opencode/commands/`
+or `.opencode/skills/`. PV-01 backward compat absoluto.
 
 ## Troubleshooting
 

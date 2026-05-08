@@ -49,7 +49,7 @@
 
 - **Antes**: 27 agents con formas cortas (`opus`, `sonnet`, `haiku`, `inherit`) — rotas con API canónica.
 - **Ahora**: 64 agents, 0 formas cortas. Distribución final: 25 Opus + 36 Sonnet + 3 Haiku.
-- **Verificado**: `grep -rE "^model: (opus|sonnet|haiku|inherit)$" .claude/agents/` → 0.
+- **Verificado**: `grep -rE "^model: (opus|sonnet|haiku|inherit)$" .opencode/agents/` → 0.
 
 ### 7. Drift-check en CI — 10/10 (antes: 2/10)
 

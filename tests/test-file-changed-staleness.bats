@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/file-changed-staleness.sh
+# BATS tests for .opencode/hooks/file-changed-staleness.sh
 # FileChanged async — marks code maps stale on file changes.
 # Budget <100ms. Ref: batch 50 hook coverage — SPEC-071 Slice 4
 
-HOOK=".claude/hooks/file-changed-staleness.sh"
+HOOK=".opencode/hooks/file-changed-staleness.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."
