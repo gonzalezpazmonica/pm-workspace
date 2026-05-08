@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation (27 files, es + en): all paths and references migrated from Claude Code to OpenCode.
 - setup scripts: hardcoded ~/claude paths replaced with dynamic workspace detection.
 
+## [Unreleased]
 
 ### Fixed
 - fork-agents.sh: tier names (heavy/mid/fast) resolved to provider model ID before passing to Claude CLI, fixing "mid, model not found" error.
