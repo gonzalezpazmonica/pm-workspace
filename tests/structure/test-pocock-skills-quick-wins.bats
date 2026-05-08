@@ -9,9 +9,9 @@ setup() {
   ROOT_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)"
   SCRIPT="scripts/skill-catalog-audit.sh"
   AUDITOR_ABS="$ROOT_DIR/$SCRIPT"
-  CAVEMAN="$ROOT_DIR/.claude/skills/caveman/SKILL.md"
-  ZOOMOUT="$ROOT_DIR/.claude/skills/zoom-out/SKILL.md"
-  GRILLME="$ROOT_DIR/.claude/skills/grill-me/SKILL.md"
+  CAVEMAN="$ROOT_DIR/.opencode/skills/caveman/SKILL.md"
+  ZOOMOUT="$ROOT_DIR/.opencode/skills/zoom-out/SKILL.md"
+  GRILLME="$ROOT_DIR/.opencode/skills/grill-me/SKILL.md"
   TMPDIR_T=$(mktemp -d)
 }
 
@@ -144,19 +144,19 @@ teardown() {
 @test "dogfood: caveman skill passes SE-084 auditor in --gate mode" {
   AUDITOR="$ROOT_DIR/scripts/skill-catalog-audit.sh"
   [ -x "$AUDITOR" ]
-  run bash "$AUDITOR" --gate --skill "$ROOT_DIR/.claude/skills/caveman"
+  run bash "$AUDITOR" --gate --skill "$ROOT_DIR/.opencode/skills/caveman"
   [ "$status" -eq 0 ]
 }
 
 @test "dogfood: zoom-out skill passes SE-084 auditor in --gate mode" {
   AUDITOR="$ROOT_DIR/scripts/skill-catalog-audit.sh"
-  run bash "$AUDITOR" --gate --skill "$ROOT_DIR/.claude/skills/zoom-out"
+  run bash "$AUDITOR" --gate --skill "$ROOT_DIR/.opencode/skills/zoom-out"
   [ "$status" -eq 0 ]
 }
 
 @test "dogfood: grill-me skill passes SE-084 auditor in --gate mode" {
   AUDITOR="$ROOT_DIR/scripts/skill-catalog-audit.sh"
-  run bash "$AUDITOR" --gate --skill "$ROOT_DIR/.claude/skills/grill-me"
+  run bash "$AUDITOR" --gate --skill "$ROOT_DIR/.opencode/skills/grill-me"
   [ "$status" -eq 0 ]
 }
 

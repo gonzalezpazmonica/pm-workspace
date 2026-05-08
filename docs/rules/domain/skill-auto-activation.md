@@ -39,7 +39,7 @@ Tras ejecucion: descartar L2, mantener L1 en contexto.
 1. **Detección**: Al recibir un prompt, evaluar contra L0 (name+description). Si score >70%, cargar L1 (summary)
 2. **Sugerencia**: Si se detecta match, informar al usuario: "Skill `{nombre}` podría ayudar aquí. ¿Lo activo?"
 3. **Confirmación**: NUNCA activar sin confirmación explícita del usuario
-4. **Registro**: Registrar cada activación y su resultado en `.claude/skills/eval-registry.json`
+4. **Registro**: Registrar cada activación y su resultado en `.opencode/skills/eval-registry.json`
 5. **Aprendizaje**: Si el usuario rechaza la sugerencia 3 veces consecutivas para el mismo skill+contexto, dejar de sugerir
 
 ## Scoring

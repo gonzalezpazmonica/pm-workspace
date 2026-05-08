@@ -27,7 +27,7 @@ Coste de no adoptar: tres patrones útiles quedan sólo en cabeza de Mónica, no
 
 ## Scope (Slice único, S 2h)
 
-### 1. `.claude/skills/caveman/SKILL.md` (clean-room, ~50 LOC)
+### 1. `.opencode/skills/caveman/SKILL.md` (clean-room, ~50 LOC)
 
 - Trigger: usuaria dice "caveman", "modo cavernícola", "menos tokens", "/caveman"
 - Persistencia: ACTIVE EVERY RESPONSE una vez activado, hasta "stop caveman" o "modo normal"
@@ -35,13 +35,13 @@ Coste de no adoptar: tres patrones útiles quedan sólo en cabeza de Mónica, no
 - Auto-clarity exception: para warnings de seguridad, confirmación de operaciones irreversibles, multi-step sequences donde fragment order arriesga misread → cavemen pausa, frase completa, retoma
 - Source-of-truth original: mattpocock/skills/caveman (MIT) — pattern only, sin copiar texto
 
-### 2. `.claude/skills/zoom-out/SKILL.md` (clean-room, ~10 LOC)
+### 2. `.opencode/skills/zoom-out/SKILL.md` (clean-room, ~10 LOC)
 
 - Trigger: "zoom out", "no conozco esta zona", "dame mapa", "/zoom-out"
 - Body: "No conozco esta zona del código. Sube una capa de abstracción. Dame un mapa de los módulos relevantes y de quién los llama, sin entrar en detalle de implementación."
 - `disable-model-invocation: true` — sólo invocable explícitamente (es trigger humano, no auto-detect)
 
-### 3. `.claude/skills/grill-me/SKILL.md` (clean-room, ~15 LOC)
+### 3. `.opencode/skills/grill-me/SKILL.md` (clean-room, ~15 LOC)
 
 - Trigger: "grill me", "interrógame", "stress-test este plan", "/grill-me"
 - Body: "Interroga relentlessly sobre cada aspecto del plan hasta llegar a entendimiento compartido. Recorre cada rama del árbol de decisión, resolviendo dependencias entre decisiones una a una. Para cada pregunta, da tu recomendación. Una pregunta a la vez. Si la pregunta tiene respuesta en el código, explóralo en lugar de preguntar."
@@ -49,14 +49,14 @@ Coste de no adoptar: tres patrones útiles quedan sólo en cabeza de Mónica, no
 
 ### 4. README + CHANGELOG entries
 
-- Línea en `.claude/skills/README.md` (si existe) o nada
+- Línea en `.opencode/skills/README.md` (si existe) o nada
 - CHANGELOG fragment con atribución MIT a mattpocock/skills
 
 ## Acceptance criteria
 
-- [ ] AC-01 `.claude/skills/caveman/SKILL.md` ≤80 LOC con frontmatter `name`, `description` que incluya "Use when ..."
-- [ ] AC-02 `.claude/skills/zoom-out/SKILL.md` ≤30 LOC
-- [ ] AC-03 `.claude/skills/grill-me/SKILL.md` ≤30 LOC, cita `radical-honesty.md`
+- [ ] AC-01 `.opencode/skills/caveman/SKILL.md` ≤80 LOC con frontmatter `name`, `description` que incluya "Use when ..."
+- [ ] AC-02 `.opencode/skills/zoom-out/SKILL.md` ≤30 LOC
+- [ ] AC-03 `.opencode/skills/grill-me/SKILL.md` ≤30 LOC, cita `radical-honesty.md`
 - [ ] AC-04 Headers de los 3 skills citan `mattpocock/skills` (MIT) en attribution line
 - [ ] AC-05 Ningún skill copia texto literal de Pocock (clean-room — verificable por diff manual)
 - [ ] AC-06 Tests BATS estáticos: los 3 SKILL.md existen, tienen frontmatter válido, ≤ líneas máximas, attribution presente
@@ -80,7 +80,7 @@ Coste de no adoptar: tres patrones útiles quedan sólo en cabeza de Mónica, no
 ## Dependencias
 
 - ✅ Rule #24 estable (radical-honesty.md)
-- ✅ `.claude/skills/` directory existe (86 skills hoy)
+- ✅ `.opencode/skills/` directory existe (86 skills hoy)
 - Sin bloqueantes externos. Independiente de SE-082..SE-087.
 
 ## OpenCode Implementation Plan
@@ -89,7 +89,7 @@ Coste de no adoptar: tres patrones útiles quedan sólo en cabeza de Mónica, no
 
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
-| 3 SKILL.md | `.claude/skills/{caveman,zoom-out,grill-me}/SKILL.md` | autoload vía AGENTS.md regen (SE-078 hook) |
+| 3 SKILL.md | `.opencode/skills/{caveman,zoom-out,grill-me}/SKILL.md` | autoload vía AGENTS.md regen (SE-078 hook) |
 
 ### Verification protocol
 

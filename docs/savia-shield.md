@@ -6,7 +6,7 @@
 
 ## Qué es Savia Shield
 
-Savia Shield es un sistema de 5 capas que protege los datos confidenciales
+Savia Shield es un sistema de **7 capas** que protege los datos confidenciales
 de proyectos de cliente cuando se trabaja con asistentes de IA (Claude,
 GPT, etc.). Un proxy intercepta todo el trafico hacia la API y enmascara
 entidades automaticamente. Hooks locales clasifican cada dato antes de
@@ -17,7 +17,9 @@ servidores externos. Si el prompt contiene nombres de clientes, IPs
 internas, credenciales o datos de reuniones, se produce una fuga de datos
 que viola NDAs y RGPD.
 
-**Como lo resuelve:** 5 capas independientes, cada una auditable por humanos.
+**Como lo resuelve:** 7 capas independientes, cada una observable y
+auditable por humanos. La numeracion es la misma que muestra Savia Monitor
+en el dashboard de Shield (1-6, 8).
 
 ---
 
@@ -51,89 +53,87 @@ Shield **siempre protege**, incluso sin daemon.
 
 ---
 
-## Las 5 capas
+## Las 7 capas (numeracion canonica, alineada con Savia Monitor)
 
-### Capa 0 — Proxy API (automatico, transparente)
+### Capa 1 — Regex Gate (hook PreToolUse)
 
-Intercepta TODO el trafico entre Claude Code y la API de Anthropic:
+Gate determinista que escanea contenido antes de escribir ficheros publicos:
 
-- Proxy en localhost:8443 (`savia-shield-proxy.py`)
-- Enmascara entidades en prompts salientes (personas, empresas, IPs, proyectos)
-- Desenmascara respuestas entrantes antes de devolverlas al usuario
-- El usuario no necesita hacer nada — funciona con `export ANTHROPIC_BASE_URL`
-- Audit log de cada request interceptado
-
-### Capa 1 — Gate determinista (regex + NFKC + base64 + cross-write)
-
-Hook PreToolUse que escanea contenido antes de escribir ficheros publicos:
-
+- `.opencode/hooks/data-sovereignty-gate.sh`
 - Regex para credenciales, IPs, tokens, claves privadas, SAS tokens
 - Normalizacion Unicode NFKC (detecta digitos fullwidth)
-- Decodificacion base64 de blobs sospechosos
 - Cross-write: combina contenido existente en disco + nuevo para detectar splits
 - Normalizacion de path (resuelve `../` traversal)
 - Daemon-first: si daemon activo, una sola llamada HTTP hace todo
 - Fallback: si daemon caido, regex inline con mismas detecciones
+- Siempre activa cuando Shield esta enabled
 
-### Capa 2 — Clasificacion local con LLM + NER
+### Capa 2 — NER Filter (Presidio + spaCy)
 
-Para texto semantico que pasa regex:
+Reconocimiento de entidades nombradas embebido en el daemon:
 
-- NER persistente con Presidio+spaCy (`shield-ner-daemon.py`, ~100ms warm)
-- Clasificador Ollama qwen2.5:7b — datos **nunca salen** de localhost
+- Bilingue (espanol + ingles)
+- Detecta personas, organizaciones, entidades del glosario del proyecto
+- Latencia ~100ms warm
+- Estado: campo `ner` del endpoint `http://127.0.0.1:8444/health`
+- Degrada a solo Capa 1 si daemon caido
+
+### Capa 3 — Ollama Classifier (LLM local)
+
+Clasificador semantico para texto que pasa regex y NER:
+
+- Modelo `qwen2.5:7b` en `localhost:11434`
+- Clasifica como CONFIDENTIAL / PUBLIC / AMBIGUOUS
+- Los datos **nunca salen** de localhost
 - Triple defensa anti-injection: delimitadores, sandwich, validacion estricta
-- Degradacion: si no disponible, solo Capa 1 opera
+- Degrada a Capas 1+2 si Ollama no disponible
 
-### Capa 3 — Auditoria post-escritura
+### Capa 4 — Proxy Interceptor (puerto 8443)
 
-Hook asincrono re-escanea el fichero completo en disco:
+Intercepta TODO el trafico entre Claude Code y la API de Anthropic:
 
+- `savia-shield-proxy.py` en localhost:8443
+- Enmascara entidades en prompts salientes (personas, empresas, IPs, proyectos)
+- Desenmascara respuestas entrantes antes de devolverlas al usuario
+- Activacion: `export ANTHROPIC_BASE_URL=http://127.0.0.1:8443`
+- Audit log de cada request interceptado
+
+### Capa 5 — Audit Logger (hook PostToolUse)
+
+Hook asincrono que re-escanea el fichero completo en disco tras escribirlo:
+
+- `.opencode/hooks/data-sovereignty-audit.sh`
 - No bloquea el flujo de trabajo
 - NFKC + regex sobre fichero COMPLETO (no truncado)
+- Append-only en `output/data-sovereignty-audit.jsonl`
 - Alerta inmediata si detecta fuga
+- Siempre activa cuando Shield esta enabled
 
-### Capa 4 — Masking manual (complementa Capa 0)
+### Capa 6 — Security Hooks (deterministas, sin daemon)
 
-Para texto fuera del flujo de Claude Code (emails, docs, copiar/pegar),
-`sovereignty-mask.py` permite enmascarar/desenmascarar explicitamente.
-La Capa 0 (proxy) hace esto automaticamente para prompts; la Capa 4
-es para todo lo demas.
+Hooks de seguridad que bloquean acciones peligrosas:
 
-**Flujo completo (5 pasos):**
+- `.opencode/hooks/block-force-push.sh` — bloquea `git push --force` y push a main
+- Bloqueo de credenciales en bash (PreToolUse en Bash)
+- Bloqueo de `terraform destroy` sin confirmacion
+- Siempre activos, no necesitan daemon ni Ollama
 
-```
-PASO 1 — El usuario tiene un texto con datos reales (N4)
-  "El PM del cliente pidió priorizar el módulo de facturación"
+### Capa 7 — [DEPRECATED] Masking Engine removido
 
-PASO 2 — sovereignty-mask.sh mask → reemplaza entidades
-  Personas reales     → nombres ficticios (Alice, Bob, Carol...)
-  Empresa cliente     → empresa ficticia (Acme Corp, Zenith...)
-  Proyecto real       → proyecto ficticio (Project Aurora...)
-  Sistemas internos   → sistemas ficticios (CoreSystem, DataHub...)
-  IPs privadas        → IPs de test RFC 5737 (198.51.100.x)
-  El mapa se guarda en mask-map.json (local, N4)
+El Masking Engine manual (`scripts/sovereignty-mask.py` / `.sh`) fue removido
+el 2026-05-05 por no estar funcionando correctamente. Esta capa queda reservada
+para una futura alternativa. La Capa 4 (Proxy) mantiene su propio masking
+interno y no se ve afectada por esta remocion.
 
-PASO 3 — El texto enmascarado se envía a Claude Opus/Sonnet
-  Claude procesa "Alice Chen de Acme Corp pidió priorizar CoreSystem"
-  Claude NO ve datos reales — trabaja con entidades ficticias
-  El razonamiento y análisis son igual de profundos
+### Capa 8 — Base64 Decoder (integrado en Capa 1)
 
-PASO 4 — Claude responde con entidades ficticias
-  "Recomiendo que Alice Chen de Acme Corp priorice CoreSystem
-   sobre DataHub dado el deadline de Q3..."
+Decodificador anti-bypass que cierra el vector de credenciales codificadas:
 
-PASO 5 — sovereignty-mask.sh unmask → restaura datos reales
-  Invierte el mapa: Alice Chen → persona real, Acme Corp → empresa real
-  El usuario recibe la respuesta con los nombres correctos
-  El mapa se borra o se conserva según política del proyecto
-```
-
-**Garantias:**
-- Mapa de correspondencias local (N4, nunca en git)
-- Entidades cargadas de `GLOSSARY-MASK.md` del proyecto (cada proyecto define las suyas)
-- Pools de nombres ficticios para personas, empresas y sistemas
-- Cada operacion de mask/unmask registrada en audit log
-- Consistencia: la misma entidad siempre mapea al mismo ficticio
+- Logica embebida en `scripts/savia-shield-daemon.py` (`base64.b64decode(blob)`)
+- Detecta blobs base64 sospechosos en cualquier escritura
+- Decodifica el blob y re-aplica regex sobre el contenido decodificado
+- Bloquea credenciales codificadas en YAML/JSON/configs
+- Siempre activa cuando el daemon esta arriba; en fallback regex se desactiva
 
 ---
 
@@ -152,7 +152,7 @@ Escribir datos sensibles en ubicaciones privadas (N2-N4b) siempre está permitid
 
 ---
 
-## Que detecta (Capas 0-1)
+## Que detecta (Capas 1, 4, 8)
 
 - Connection strings (JDBC, MongoDB, SQL Server)
 - Claves AWS (AK​IA...), GitHub (gh​p_, github​_pat_), OpenAI (sk​-...)
@@ -165,19 +165,6 @@ Escribir datos sensibles en ubicaciones privadas (N2-N4b) siempre está permitid
 ---
 
 ## Cómo usarlo
-
-### Masking para enviar a Claude
-
-```bash
-# Enmascarar texto antes de enviar
-bash scripts/sovereignty-mask.sh mask "Texto con datos del cliente" --project my-project
-
-# Desenmascarar la respuesta de Claude
-bash scripts/sovereignty-mask.sh unmask "Respuesta con Acme Corp"
-
-# Ver tabla de correspondencias
-bash scripts/sovereignty-mask.sh show-map
-```
 
 ### Verificar que el gate funciona
 
@@ -197,22 +184,20 @@ Cada componente es un fichero de texto plano legible por humanos:
 
 | Componente | Fichero | Descripcion |
 |-----------|---------|-------------|
-| Daemon unificado | `scripts/savia-shield-daemon.py` | Scan/mask/unmask/health en localhost:8444 |
+| Daemon unificado | `scripts/savia-shield-daemon.py` | Scan/health en localhost:8444 |
 | Proxy API | `scripts/savia-shield-proxy.py` | Intercepta prompts Claude, enmascara/desenmascara |
 | NER daemon | `scripts/shield-ner-daemon.py` | Presidio+spaCy persistente en RAM (~100ms) |
-| Gate hook | `.claude/hooks/data-sovereignty-gate.sh` | PreToolUse: daemon-first, fallback regex |
-| Auditoria hook | `.claude/hooks/data-sovereignty-audit.sh` | PostToolUse async: re-scan fichero completo |
+| Gate hook | `.opencode/hooks/data-sovereignty-gate.sh` | PreToolUse: daemon-first, fallback regex |
+| Auditoria hook | `.opencode/hooks/data-sovereignty-audit.sh` | PostToolUse async: re-scan fichero completo |
 | Clasificador LLM | `scripts/ollama-classify.sh` | Capa 2 Ollama (fallback si daemon caido) |
-| Enmascarador | `scripts/sovereignty-mask.py` | Capa 4 mask/unmask reversible |
 | Pre-commit git | `scripts/pre-commit-sovereignty.sh` | Scan staged files antes de commit |
 | Setup | `scripts/savia-shield-setup.sh` | Instalador: deps, modelos, token, daemons |
-| Force-push guard | `.claude/hooks/block-force-push.sh` | Bloquea force-push, push a main, amend |
+| Force-push guard | `.opencode/hooks/block-force-push.sh` | Bloquea force-push, push a main, amend |
 | Regla de dominio | `docs/rules/domain/data-sovereignty.md` | Arquitectura y politicas |
 
 **Logs de auditoría:**
 - `output/data-sovereignty-audit.jsonl` — decisiones de las capas 1-3
 - `output/data-sovereignty-validation/classifier-decisions.jsonl` — decisiones del LLM
-- `output/data-sovereignty-validation/mask-audit.jsonl` — operaciones de masking
 
 ---
 
@@ -268,7 +253,7 @@ El instalador:
 1. Verifica dependencias (python3, jq, ollama, presidio, spacy)
 2. Descarga modelos necesarios (qwen2.5:7b, es_core_news_md)
 3. Genera token de autenticacion (`~/.savia/shield-token`)
-4. Arranca `savia-shield-daemon.py` en localhost:8444 (scan/mask/unmask)
+4. Arranca `savia-shield-daemon.py` en localhost:8444 (scan/health)
 5. Arranca `savia-shield-proxy.py` en localhost:8443 (proxy API)
 6. Arranca `shield-ner-daemon.py` (NER persistente en RAM)
 

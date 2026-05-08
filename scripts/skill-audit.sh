@@ -1,7 +1,7 @@
 #!/bin/bash
 set -uo pipefail
 # skill-audit.sh — Baseline skill catalog quality auditor (SE-084 Slice 1)
-# Scans .claude/skills/*/SKILL.md for minimum quality requirements.
+# Scans .opencode/skills/*/SKILL.md for minimum quality requirements.
 # Usage: bash scripts/skill-audit.sh [--check] [--strict]
 
 STRICT=false

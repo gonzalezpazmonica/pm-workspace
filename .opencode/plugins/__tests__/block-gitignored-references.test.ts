@@ -32,6 +32,6 @@ test("blockGitignoredReferences: skips when target path is itself a private dest
 });
 
 test("blockGitignoredReferences: skips when target is a hook source file (legitimate self-reference)", async () => {
-  const input = { tool: "edit", args: { file_path: "/repo/.claude/hooks/foo.sh", content: F.outputDated } };
+  const input = { tool: "edit", args: { file_path: "/repo/.opencode/hooks/foo.sh", content: F.outputDated } };
   await expect(blockGitignoredReferences(input as any, {} as any)).resolves.toBeUndefined();
 });

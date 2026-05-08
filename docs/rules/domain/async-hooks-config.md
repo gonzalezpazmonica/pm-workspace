@@ -1,5 +1,5 @@
 ---
-globs: [".claude/settings.json", ".claude/hooks/**"]
+globs: [".claude/settings.json", ".opencode/hooks/**"]
 ---
 
 # Async Hooks Configuration
@@ -40,7 +40,7 @@ In `.claude/settings.json`, async hooks use:
   "hooks": {
     "PostToolUse": [{
       "matcher": "Bash|Edit|Write",
-      "command": ".claude/hooks/agent-trace-log.sh",
+      "command": ".opencode/hooks/agent-trace-log.sh",
       "async": true
     }]
   }

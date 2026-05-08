@@ -26,9 +26,9 @@ echo
 
 # ── 1. File existence ─────────────────────────────────────────────
 echo "[Test 1] Files exist"
-assert "[ -f '$PROJECT_DIR/.claude/skills/reflection-validation/SKILL.md' ]" \
+assert "[ -f '$PROJECT_DIR/.opencode/skills/reflection-validation/SKILL.md' ]" \
   "SKILL.md exists"
-assert "[ -f '$PROJECT_DIR/.claude/agents/reflection-validator.md' ]" \
+assert "[ -f '$PROJECT_DIR/.opencode/agents/reflection-validator.md' ]" \
   "Agent reflection-validator.md exists"
 assert "[ -f '$PROJECT_DIR/.claude/agent-memory/reflection-validator/MEMORY.md' ]" \
   "Agent MEMORY.md exists"
@@ -37,8 +37,8 @@ echo
 # ── 2. Line count ≤ 150 ──────────────────────────────────────────
 echo "[Test 2] Line count ≤ 150"
 for f in \
-  ".claude/skills/reflection-validation/SKILL.md" \
-  ".claude/agents/reflection-validator.md" \
+  ".opencode/skills/reflection-validation/SKILL.md" \
+  ".opencode/agents/reflection-validator.md" \
   ".claude/agent-memory/reflection-validator/MEMORY.md"; do
   lines=$(wc -l < "$PROJECT_DIR/$f" 2>/dev/null || echo 999)
   assert "[ $lines -le 150 ]" "$f: $lines lines"
@@ -47,7 +47,7 @@ echo
 
 # ── 3. Agent frontmatter ─────────────────────────────────────────
 echo "[Test 3] Agent frontmatter fields"
-AGENT="$PROJECT_DIR/.claude/agents/reflection-validator.md"
+AGENT="$PROJECT_DIR/.opencode/agents/reflection-validator.md"
 assert "grep -q '^name: reflection-validator' '$AGENT'" \
   "name: reflection-validator"
 assert "grep -q 'model: claude-opus-4-7' '$AGENT'" \
@@ -68,7 +68,7 @@ echo
 
 # ── 4. Skill frontmatter ─────────────────────────────────────────
 echo "[Test 4] Skill frontmatter fields"
-SKILL="$PROJECT_DIR/.claude/skills/reflection-validation/SKILL.md"
+SKILL="$PROJECT_DIR/.opencode/skills/reflection-validation/SKILL.md"
 assert "grep -q '^name: reflection-validation' '$SKILL'" \
   "name: reflection-validation"
 assert "grep -q 'context_cost: medium' '$SKILL'" \

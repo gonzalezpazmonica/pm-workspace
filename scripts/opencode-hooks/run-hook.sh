@@ -8,7 +8,7 @@ set -uo pipefail
 #   run-hook.sh pre-commit-review
 
 HOOK_NAME="$1"
-HOOK_SCRIPT="$CLAUDE_PROJECT_DIR/.claude/hooks/$HOOK_NAME.sh"
+HOOK_SCRIPT="$CLAUDE_PROJECT_DIR/.opencode/hooks/$HOOK_NAME.sh"
 
 if [ ! -f "$HOOK_SCRIPT" ]; then
     echo "Error: hook script $HOOK_SCRIPT no encontrado." >&2

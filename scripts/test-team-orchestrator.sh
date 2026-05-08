@@ -8,9 +8,9 @@ fail() { ((FAIL++)); ((TOTAL++)); echo "  ❌ $1"; }
 check() { if eval "$1" > /dev/null 2>&1; then pass "$2"; else fail "$2"; fi; }
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CMD="$ROOT/.claude/commands/team-orchestrator.md"
+CMD="$ROOT/.opencode/commands/team-orchestrator.md"
 RULE="$ROOT/docs/rules/domain/team-structure.md"
-SKILL="$ROOT/.claude/skills/team-coordination/SKILL.md"
+SKILL="$ROOT/.opencode/skills/team-coordination/SKILL.md"
 
 echo "═══════════════════════════════════════════"
 echo "  Test: team-orchestrator (Era 36, v2.11.0)"

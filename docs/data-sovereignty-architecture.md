@@ -167,7 +167,7 @@ response after receiving it.
 Original text (N4 data)
     |
     v
-sovereignty-mask.py mask --glossary GLOSSARY-MASK.md
+savia-shield-proxy.py (L4 Proxy internal masking)
     |
     v
 Masked text (all entities replaced with fictional names)
@@ -179,7 +179,7 @@ Cloud LLM (Opus/Sonnet) � processes masked text
 Masked response (uses fictional names)
     |
     v
-sovereignty-mask.py unmask
+savia-shield-proxy.py (L4 Proxy internal unmasking)
     |
     v
 Real response (fictional names restored to real ones)

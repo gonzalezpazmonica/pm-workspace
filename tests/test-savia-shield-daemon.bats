@@ -4,7 +4,7 @@
 # Ref: docs/savia-shield-guide.md
 
 setup() {
-  grep -q 'set -uo pipefail' .claude/hooks/data-sovereignty-gate.sh || true
+  grep -q 'set -uo pipefail' .opencode/hooks/data-sovereignty-gate.sh || true
   export SHIELD_URL="http://127.0.0.1:${SAVIA_SHIELD_PORT:-8444}"
   export TMPDIR="${BATS_TMPDIR:-/tmp}/shield-daemon-$$"
   mkdir -p "$TMPDIR" 2>/dev/null || true
@@ -117,9 +117,9 @@ print(json.dumps(d))
 # --- Safety ---
 
 @test "hook file exists and has set -uo pipefail" {
-  grep -q 'set -uo pipefail' .claude/hooks/data-sovereignty-gate.sh
+  grep -q 'set -uo pipefail' .opencode/hooks/data-sovereignty-gate.sh
 }
 
 @test "hook uses exit 2 to block PII leaks" {
-  grep -q 'exit 2' .claude/hooks/data-sovereignty-gate.sh
+  grep -q 'exit 2' .opencode/hooks/data-sovereignty-gate.sh
 }

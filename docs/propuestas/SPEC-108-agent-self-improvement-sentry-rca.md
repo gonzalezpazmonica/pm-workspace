@@ -112,7 +112,7 @@ Source: auto (3+ failures, pattern hash {hash})
 
 | Fichero | Cambio |
 |---|---|
-| `.claude/hooks/post-tool-failure-log.sh` | Extender con pattern-hash + counter + auto-lesson |
+| `.opencode/hooks/post-tool-failure-log.sh` | Extender con pattern-hash + counter + auto-lesson |
 | `~/.savia/agent-failures/` | Nuevo directorio para contadores (gitignored) |
 | `public-agent-memory/{agent}/MEMORY.md` | Destino de lecciones auto-generadas |
 
@@ -205,17 +205,17 @@ tribunal_verdict: PUBLISHABLE
 
 | Fichero | Descripcion |
 |---|---|
-| `.claude/commands/sentry-rca.md` | Comando `/sentry-rca` |
-| `.claude/agents/error-investigator.md` | Agente L1 Sonnet para RCA (si no existe) |
+| `.opencode/commands/sentry-rca.md` | Comando `/sentry-rca` |
+| `.opencode/agents/error-investigator.md` | Agente L1 Sonnet para RCA (si no existe) |
 
 ### Ficheros existentes a consultar (no modificar)
 
 | Fichero | Uso |
 |---|---|
-| `.claude/commands/sentry-bugs.md` | Patron de integracion Sentry |
-| `.claude/commands/sentry-health.md` | Metricas Sentry del proyecto |
-| `.claude/commands/error-investigate.md` | Comando manual existente |
-| `.claude/skills/code-comprehension-report/SKILL.md` | Mental models |
+| `.opencode/commands/sentry-bugs.md` | Patron de integracion Sentry |
+| `.opencode/commands/sentry-health.md` | Metricas Sentry del proyecto |
+| `.opencode/commands/error-investigate.md` | Comando manual existente |
+| `.opencode/skills/code-comprehension-report/SKILL.md` | Mental models |
 
 ## Criterios de aceptacion
 

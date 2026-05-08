@@ -7,10 +7,10 @@
 
 setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
-  AGENT=".claude/agents/test-architect.md"
-  SKILL=".claude/skills/test-architect/SKILL.md"
-  DOMAIN=".claude/skills/test-architect/DOMAIN.md"
-  TEMPLATE=".claude/skills/test-architect/references/bats-template.md"
+  AGENT=".opencode/agents/test-architect.md"
+  SKILL=".opencode/skills/test-architect/SKILL.md"
+  DOMAIN=".opencode/skills/test-architect/DOMAIN.md"
+  TEMPLATE=".opencode/skills/test-architect/references/bats-template.md"
   SPEC="docs/propuestas/SPEC-063-test-architect.md"
   TMPDIR_TEST=$(mktemp -d)
 }
@@ -131,7 +131,7 @@ teardown() {
 }
 
 @test "agent uses safety flags in referenced scripts" {
-  grep -q "set -[euo]*o pipefail" .claude/skills/test-architect/references/bats-template.md
+  grep -q "set -[euo]*o pipefail" .opencode/skills/test-architect/references/bats-template.md
 }
 
 @test "template produces valid structure" {

@@ -39,12 +39,12 @@ generate_workspace() {
 [intent: "what are the rules for X"] → scan docs/rules/domain/ by keyword
 
 ## Agents
-[location] .claude/agents/ — $ac agent definitions
+[location] .opencode/agents/ — $ac agent definitions
 [intent: "which agent handles X"] → agents-catalog.md or assignment-matrix.md
 
 ## Skills & Commands
-[location] .claude/skills/ — $sc skills with SKILL.md + DOMAIN.md
-[location] .claude/commands/ — $cc slash command definitions
+[location] .opencode/skills/ — $sc skills with SKILL.md + DOMAIN.md
+[location] .opencode/commands/ — $cc slash command definitions
 [intent: "how to do X"] → scan skills by name/description
 [intent: "what command does X"] → command-catalog.md or /help
 
@@ -71,7 +71,7 @@ generate_workspace() {
 ## Output, Scripts, Tests
 [location] output/ — generated reports, audits, dev-sessions
 [location] scripts/ — automation scripts
-[location] .claude/hooks/ — $hc lifecycle hooks
+[location] .opencode/hooks/ — $hc lifecycle hooks
 [location] tests/ — BATS test suites
 [digest-target] Generated reports → output/
 WIDX

@@ -1,11 +1,11 @@
 #!/usr/bin/env bytes
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/memory-auto-capture.sh
+# BATS tests for .opencode/hooks/memory-auto-capture.sh
 # PostToolUse — automatic memory capture from Edit/Write on special dirs.
 # Rate-limited (5 min). Uses scripts/memory-store.sh as backend.
 # Ref: batch 44 hook coverage
 
-HOOK=".claude/hooks/memory-auto-capture.sh"
+HOOK=".opencode/hooks/memory-auto-capture.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."
@@ -100,9 +100,9 @@ teardown() {
   grep -q '\-\-type discovery' "$HOME/memory-calls.log"
 }
 
-@test "type: .claude/commands/ inferred as 'convention'" {
+@test "type: .opencode/commands/ inferred as 'convention'" {
   export TOOL_NAME=Write
-  local F="$CLAUDE_PROJECT_DIR/.claude/commands/cmd.md"
+  local F="$CLAUDE_PROJECT_DIR/.opencode/commands/cmd.md"
   mkdir -p "$(dirname "$F")"
   echo "x" > "$F"
   export EDITED_FILE="$F"
@@ -260,7 +260,7 @@ teardown() {
 }
 
 @test "coverage: 5 special dir patterns" {
-  for p in 'scripts/' 'docs/rules/' '\.claude/rules/' '\.claude/commands/' 'tests/'; do
+  for p in 'scripts/' 'docs/rules/' '\.claude/rules/' '\.opencode/commands/' 'tests/'; do
     grep -q "$p" "$HOOK" || fail "missing pattern: $p"
   done
 }

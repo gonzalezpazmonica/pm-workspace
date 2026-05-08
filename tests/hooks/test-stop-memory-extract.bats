@@ -1,8 +1,8 @@
 #!/usr/bin/env bats
 # tests/hooks/test-stop-memory-extract.bats — SPEC-013v2: deep memory extraction
 
-HOOK="$BATS_TEST_DIRNAME/../../.claude/hooks/stop-memory-extract.sh"
-LIB="$BATS_TEST_DIRNAME/../../.claude/hooks/lib/memory-extract-lib.sh"
+HOOK="$BATS_TEST_DIRNAME/../../.opencode/hooks/stop-memory-extract.sh"
+LIB="$BATS_TEST_DIRNAME/../../.opencode/hooks/lib/memory-extract-lib.sh"
 
 setup() {
   export TMPDIR_TEST="$BATS_TEST_TMPDIR/stop-extract-$$"

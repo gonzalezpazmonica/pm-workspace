@@ -4,7 +4,7 @@ title: Agent catalog size audit — Rule #22 compliance 65 agentes <4KB
 status: IMPLEMENTED
 origin: ROADMAP-UNIFIED-20260418 Wave 4 D3 + Rule #22 enforcement
 author: Savia
-related: .claude/agents/, docs/rules/domain/critical-rules-extended.md
+related: .opencode/agents/, docs/rules/domain/critical-rules-extended.md
 approved_at: "2026-04-24"
 applied_at: "2026-04-24"
 implemented_at: "2026-04-24"
@@ -28,7 +28,7 @@ Cost of inaction: el catálogo crece sin medir. Nuevos agentes copian patrones d
 
 ### Slice 1 — Measurement tool (1h)
 
-- `scripts/agent-size-audit.sh`: scanea `.claude/agents/*.md`, mide bytes + tokens estimados (chars ÷ 4)
+- `scripts/agent-size-audit.sh`: scanea `.opencode/agents/*.md`, mide bytes + tokens estimados (chars ÷ 4)
 - Output: `output/agent-size-audit-{date}.md` con tabla ordenada por tamaño
 - Exit code: 1 si algún agente >4KB sin justificación documentada
 
@@ -77,7 +77,7 @@ Metric: reducir tamaño agregado del catálogo en >=20%.
 ## Referencias
 
 - Rule #22: `docs/rules/domain/critical-rules-extended.md`
-- Agent catalog: `.claude/agents/`
+- Agent catalog: `.opencode/agents/`
 - ROADMAP-UNIFIED-20260418 §Wave 4 D3
 
 ## Dependencia

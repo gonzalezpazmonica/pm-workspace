@@ -25,32 +25,32 @@ echo
 
 echo "[Test 1] Command files exist"
 for cmd in memory-compress memory-importance memory-graph memory-prune; do
-  [ -f "$PROJECT_DIR/.claude/commands/$cmd.md" ]; test "$cmd.md exists"
+  [ -f "$PROJECT_DIR/.opencode/commands/$cmd.md" ]; test "$cmd.md exists"
 done
 echo
 
 echo "[Test 2] Line count ≤ 150"
 for cmd in memory-compress memory-importance memory-graph memory-prune; do
-  lines=$(wc -l < "$PROJECT_DIR/.claude/commands/$cmd.md" 2>/dev/null)
+  lines=$(wc -l < "$PROJECT_DIR/.opencode/commands/$cmd.md" 2>/dev/null)
   [ "$lines" -le 150 ]; test "$cmd.md: $lines lines"
 done
 echo
 
 echo "[Test 3] YAML frontmatter"
 for cmd in memory-compress memory-importance memory-graph memory-prune; do
-  path="$PROJECT_DIR/.claude/commands/$cmd.md"
+  path="$PROJECT_DIR/.opencode/commands/$cmd.md"
   grep -q "^---$" "$path" && grep -q "^name:" "$path" && grep -q "^context_cost:" "$path"
   test "$cmd.md: frontmatter"
 done
 echo
 
 echo "[Test 4] Keywords: compress, importance, graph, prune, engram, semantic"
-grep -l "compress\|importance\|graph\|prune\|engram\|semántico\|semantic" $PROJECT_DIR/.claude/commands/memory-*.md 2>/dev/null | grep -q memory-
+grep -l "compress\|importance\|graph\|prune\|engram\|semántico\|semantic" $PROJECT_DIR/.opencode/commands/memory-*.md 2>/dev/null | grep -q memory-
 test "keywords present"
 echo
 
 echo "[Test 5] Meta files updated"
-EXPECTED_COUNT=$(ls -1 $PROJECT_DIR/.claude/commands/*.md 2>/dev/null | wc -l)
+EXPECTED_COUNT=$(ls -1 $PROJECT_DIR/.opencode/commands/*.md 2>/dev/null | wc -l)
 grep -q "commands/ ($EXPECTED_COUNT)" $PROJECT_DIR/CLAUDE.md; test "CLAUDE.md: $EXPECTED_COUNT"
 grep -q "memory\|Memory" $PROJECT_DIR/README.md; test "README.md: memory mentions"
 grep -q "memory\|Memory" $PROJECT_DIR/README.en.md; test "README.en.md: memory mentions"
@@ -60,10 +60,10 @@ grep -q "memory-compress\|memory-importance\|memory-graph\|memory-prune" $PROJEC
 echo
 
 echo "[Test 6] Spanish + Savia persona"
-grep -q "Savia" $PROJECT_DIR/.claude/commands/memory-compress.md; test "memory-compress: Savia"
-grep -q "Savia" $PROJECT_DIR/.claude/commands/memory-importance.md; test "memory-importance: Savia"
-grep -q "Savia" $PROJECT_DIR/.claude/commands/memory-graph.md; test "memory-graph: Savia"
-grep -q "Savia" $PROJECT_DIR/.claude/commands/memory-prune.md; test "memory-prune: Savia"
+grep -q "Savia" $PROJECT_DIR/.opencode/commands/memory-compress.md; test "memory-compress: Savia"
+grep -q "Savia" $PROJECT_DIR/.opencode/commands/memory-importance.md; test "memory-importance: Savia"
+grep -q "Savia" $PROJECT_DIR/.opencode/commands/memory-graph.md; test "memory-graph: Savia"
+grep -q "Savia" $PROJECT_DIR/.opencode/commands/memory-prune.md; test "memory-prune: Savia"
 echo
 
 echo "═══════════════════════════════════════════════════════════════════"

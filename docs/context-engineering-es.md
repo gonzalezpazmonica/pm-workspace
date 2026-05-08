@@ -23,7 +23,7 @@ Los ejemplos concretos de input/output son el tipo de contexto más potente para
 
 Nuevo comando que implementa G-Eval — evaluación de outputs con scoring cuantitativo (1-10) por criterios definidos. Incluye modo Arena para comparación A/B de dos outputs.
 
-**Comando:** `.claude/commands/eval-output.md`
+**Comando:** `.opencode/commands/eval-output.md`
 **Criterios:** `docs/rules/domain/eval-criteria.md` (4 tipos: report, spec, code, plan)
 
 ---
@@ -32,7 +32,7 @@ Nuevo comando que implementa G-Eval — evaluación de outputs con scoring cuant
 
 Extiende el sistema de memoria con Entity Memory — memoria estructurada que trackea entidades específicas (stakeholders, componentes, decisiones) de forma persistente entre sesiones.
 
-**Comando:** `.claude/commands/entity-recall.md`
+**Comando:** `.opencode/commands/entity-recall.md`
 **Script:** `scripts/memory-store.sh` (nuevo subcomando `entity`)
 
 ---

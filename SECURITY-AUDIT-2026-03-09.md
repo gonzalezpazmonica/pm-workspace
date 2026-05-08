@@ -155,7 +155,7 @@ pm-workspace tiene una base de seguridad sólida (Tink, Gitleaks, hooks de prote
 **Fix:** `trap 'rm -rf "$TEMP_DIR"' EXIT` (comillas simples externas, dobles internas).
 
 ### C16. ✅ Grep fallback para JSON parsing en hooks
-**Archivos:** `.claude/hooks/block-credential-leak.sh:12`, `block-force-push.sh:12`
+**Archivos:** `.opencode/hooks/block-credential-leak.sh:12`, `block-force-push.sh:12`
 **Impacto:** Si `jq` falla, grep extrae strings sin escapar que pueden contener metacaracteres shell.
 **Fix:** Fallar gracefully si `jq` no está disponible. No usar grep como fallback.
 
@@ -198,7 +198,7 @@ pm-workspace tiene una base de seguridad sólida (Tink, Gitleaks, hooks de prote
 **Fix:** `permissions: { contents: read }`.
 
 ### A13. ✅ Detección de secretos incompleta en hook
-**Archivo:** `.claude/hooks/block-credential-leak.sh:20`
+**Archivo:** `.opencode/hooks/block-credential-leak.sh:20`
 **Fix:** Añadir patrones K8s tokens, Vault tokens, Docker registry creds.
 
 ---
@@ -242,7 +242,7 @@ pm-workspace tiene una base de seguridad sólida (Tink, Gitleaks, hooks de prote
 | M12 | ✅ | JWT silent failures (bare catch) | JwtService.cs |
 | M13 | ✅ | Sin policy de rotación de secretos | SECRETS-ROTATION.md |
 | M14 | ✅ | appsettings.Production.json con templates | appsettings.Production.json |
-| M15 | ✅ | Hook plan-gate.sh sin timeout explícito | .claude/hooks/plan-gate.sh |
+| M15 | ✅ | Hook plan-gate.sh sin timeout explícito | .opencode/hooks/plan-gate.sh |
 
 ---
 

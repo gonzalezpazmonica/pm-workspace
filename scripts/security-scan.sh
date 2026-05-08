@@ -84,15 +84,15 @@ echo ""
 echo "--- Checking security infrastructure ---"
 
 [ -f "$ROOT/SECURITY.md" ] && pass "SECURITY.md exists" || finding "Missing SECURITY.md"
-[ -f "$ROOT/.claude/hooks/block-credential-leak.sh" ] && pass "Credential leak hook exists" || finding "Missing credential leak hook"
-[ -f "$ROOT/.claude/hooks/block-force-push.sh" ] && pass "Force push hook exists" || finding "Missing force push hook"
-[ -f "$ROOT/.claude/hooks/block-infra-destructive.sh" ] && pass "Infra destructive hook exists" || finding "Missing infra destructive hook"
+[ -f "$ROOT/.opencode/hooks/block-credential-leak.sh" ] && pass "Credential leak hook exists" || finding "Missing credential leak hook"
+[ -f "$ROOT/.opencode/hooks/block-force-push.sh" ] && pass "Force push hook exists" || finding "Missing force push hook"
+[ -f "$ROOT/.opencode/hooks/block-infra-destructive.sh" ] && pass "Infra destructive hook exists" || finding "Missing infra destructive hook"
 
 echo ""
 
 # ── 4. Hook coverage ──
 echo "--- Checking hook test coverage ---"
-for h in "$ROOT/.claude/hooks/"*.sh; do
+for h in "$ROOT/.opencode/hooks/"*.sh; do
   [ -f "$h" ] || continue
   name=$(basename "$h" .sh)
   if ls "$ROOT"/tests/hooks/test-"$name"*.bats 2>/dev/null | grep -q .; then

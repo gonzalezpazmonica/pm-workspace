@@ -30,7 +30,7 @@ Coste de no adoptar: Mónica (o agente) cierra interface al primer diseño viabl
 
 ## Scope (M 4h, slice único)
 
-### 1. `.claude/skills/design-an-interface/SKILL.md` (clean-room, ~120 LOC)
+### 1. `.opencode/skills/design-an-interface/SKILL.md` (clean-room, ~120 LOC)
 
 Trigger: usuaria/agente menciona "diseña la interfaz", "design this module", "varias alternativas", "/design-interface"
 
@@ -61,7 +61,7 @@ Si el problema es lo bastante grande (>1h por agente), el skill puede pasar la c
 
 ## Acceptance criteria
 
-- [ ] AC-01 `.claude/skills/design-an-interface/SKILL.md` ≤120 LOC compliant SE-084
+- [ ] AC-01 `.opencode/skills/design-an-interface/SKILL.md` ≤120 LOC compliant SE-084
 - [ ] AC-02 Atribución MIT a Pocock en header
 - [ ] AC-03 Cross-reference a `architectural-vocabulary.md` (SE-082)
 - [ ] AC-04 Cross-reference a SE-074 (mencionado, no obligatorio para casos pequeños)
@@ -98,7 +98,7 @@ Si el problema es lo bastante grande (>1h por agente), el skill puede pasar la c
 
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
-| Skill | `.claude/skills/design-an-interface/SKILL.md` | autoload via AGENTS.md regen |
+| Skill | `.opencode/skills/design-an-interface/SKILL.md` | autoload via AGENTS.md regen |
 
 OpenCode v1.14 tiene Agent spawning equivalente vía AGENTS.md sub-agent definitions (SE-078). El skill funciona idéntico — la diferencia es sólo cómo el frontend ejecuta `subagent_type` (Claude Code: built-in; OpenCode: vía AGENTS.md → router).
 

@@ -15,7 +15,7 @@
 
 ## 1. Contexto y Objetivo
 
-The existing `dag-scheduling` skill (`.claude/skills/dag-scheduling/SKILL.md`) groups
+The existing `dag-scheduling` skill (`.opencode/skills/dag-scheduling/SKILL.md`) groups
 SDD pipeline phases into cohorts and executes them in parallel. However, the cohort
 computation is tightly coupled to the SDD pipeline structure (spec-generate, dev-session,
 etc.) and lacks a generic, reusable wave-execution engine.
@@ -339,16 +339,16 @@ tests/fixtures/wave-dag-overflow.json # Fixture: 4 independent tasks, max_parall
 ### Modificar (existentes)
 
 ```
-.claude/skills/dag-scheduling/SKILL.md     # Add reference to wave-executor.sh in Fase 4
-.claude/commands/dag-execute.md            # Update Paso 3 to delegate to wave-executor.sh
+.opencode/skills/dag-scheduling/SKILL.md     # Add reference to wave-executor.sh in Fase 4
+.opencode/commands/dag-execute.md            # Update Paso 3 to delegate to wave-executor.sh
 ```
 
 ### NO tocar
 
 ```
-.claude/skills/dag-scheduling/DOMAIN.md      # Domain concepts unchanged
+.opencode/skills/dag-scheduling/DOMAIN.md      # Domain concepts unchanged
 docs/rules/domain/parallel-execution.md   # Rule unchanged, wave-executor complies with it
-.claude/commands/dag-plan.md                 # Planning command unchanged
+.opencode/commands/dag-plan.md                 # Planning command unchanged
 ```
 
 ---

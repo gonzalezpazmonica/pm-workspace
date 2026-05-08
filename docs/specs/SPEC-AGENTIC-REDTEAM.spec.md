@@ -253,10 +253,10 @@ THEN    output/redteam/20260411/report.md contiene:
 | Crear | tests/redteam/agentic/{15 .yaml} | Catalogo de tests |
 | Crear | scripts/agentic-redteam-run.sh | Runner principal |
 | Crear | scripts/agentic-redteam-eval.sh | Evaluator con regex + LLM |
-| Crear | .claude/commands/agentic-redteam.md | Command slash |
+| Crear | .opencode/commands/agentic-redteam.md | Command slash |
 | Crear | tests/test-agentic-redteam-runner.bats | Suite BATS |
 | Modificar | docs/rules/domain/adversarial-security.md | Extender con agentic |
-| Modificar | .claude/agents/security-auditor.md | Rol de judge |
+| Modificar | .opencode/agents/security-auditor.md | Rol de judge |
 | Modificar | docs/rules/domain/savia-foundational-principles.md | Cross-ref identity tests |
 | Crear | docs/redteam-methodology.md | Metodologia y categorias |
 

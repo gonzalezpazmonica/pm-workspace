@@ -20,7 +20,7 @@ no opaque databases. Everything is auditable.
 
 | What | Where | How to audit |
 |------|-------|-------------|
-| Regex patterns used | `.claude/hooks/data-sovereignty-gate.sh` | Read the `grep` lines |
+| Regex patterns used | `.opencode/hooks/data-sovereignty-gate.sh` | Read the `grep` lines |
 | Whitelist rules | Same file, `is_security_doc()` function | Read the pattern list |
 | Destination classification | Same file, `is_public_destination()` | Read the path checks |
 | Decision logic | Same file, sequential if/elif | Follow the flow top-to-bottom |
@@ -52,7 +52,7 @@ open source: https://github.com/ollama/ollama
 
 | What | Where | How to audit |
 |------|-------|-------------|
-| Audit logic | `.claude/hooks/data-sovereignty-audit.sh` | Same patterns as Layer 1 |
+| Audit logic | `.opencode/hooks/data-sovereignty-audit.sh` | Same patterns as Layer 1 |
 | All audit events | `output/data-sovereignty-audit.jsonl` | JSON lines, append-only |
 
 ### 1.4 Hook Registration
@@ -116,14 +116,14 @@ bats tests/test-data-sovereignty-extended.bats # 17 edge case tests
 1. **Test Layer 1 blocks credentials:**
    ```bash
    echo '{"tool_input":{"file_path":"/pub/x.md","content":"jdbc:mysql://prod/db?password=secret"}}' | \
-     bash .claude/hooks/data-sovereignty-gate.sh
+     bash .opencode/hooks/data-sovereignty-gate.sh
    # Expected: exit 2, "BLOQUEADO"
    ```
 
 2. **Test Layer 1 allows private paths:**
    ```bash
    echo '{"tool_input":{"file_path":"/projects/x/config.md","content":"jdbc:mysql://prod/db"}}' | \
-     bash .claude/hooks/data-sovereignty-gate.sh
+     bash .opencode/hooks/data-sovereignty-gate.sh
    # Expected: exit 0 (private path, no gate needed)
    ```
 
@@ -168,9 +168,9 @@ bats tests/test-data-sovereignty-extended.bats # 17 edge case tests
 
 ### Quick checklist
 
-- [ ] Read `.claude/hooks/data-sovereignty-gate.sh` (141 lines)
+- [ ] Read `.opencode/hooks/data-sovereignty-gate.sh` (141 lines)
 - [ ] Read `scripts/ollama-classify.sh` (112 lines)
-- [ ] Read `.claude/hooks/data-sovereignty-audit.sh` (73 lines)
+- [ ] Read `.opencode/hooks/data-sovereignty-audit.sh` (73 lines)
 - [ ] Run `bats tests/test-data-sovereignty.bats` (32 tests pass?)
 - [ ] Run manual tests from section 3.2
 - [ ] Verify `netstat -an | grep 11434` shows only localhost

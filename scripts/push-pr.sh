@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 # push-pr.sh — CI + sign + push + create PR + release (zero re-sign commits)
-# Usage: push-pr.sh [--title "title"] [--body "body"] [--draft] [--merge]
+# Usage: push-pr.sh [--title "title"] [--body "body"] [--no-draft] [--merge]
+# Default: PR is created as DRAFT (safer). Use --no-draft for ready-for-review.
+# (--draft kept for backward compat; it's a no-op since draft is now default.)
 set -euo pipefail
 cd "$(dirname "$(dirname "${BASH_SOURCE[0]}")")"
 
-TITLE="" BODY="" DRAFT=false MERGE=false SKIP_CL=false SKIP_CI=false FROM_PR_PLAN=false
+TITLE="" BODY="" DRAFT=true MERGE=false SKIP_CL=false SKIP_CI=false FROM_PR_PLAN=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --title) TITLE="$2"; shift 2 ;;  --body) BODY="$2"; shift 2 ;;
-    --draft) DRAFT=true; shift ;;     --merge) MERGE=true; shift ;;
+    --draft) DRAFT=true; shift ;;     --no-draft) DRAFT=false; shift ;;
+    --merge) MERGE=true; shift ;;
     --skip-changelog) SKIP_CL=true; shift ;; --skip-ci) SKIP_CI=true; shift ;;
     --from-pr-plan) FROM_PR_PLAN=true; shift ;;
-    --help|-h) echo "Usage: $0 [--title T] [--body B] [--draft] [--merge] [--skip-changelog] [--skip-ci]"; exit 0 ;;
+    --help|-h) echo "Usage: $0 [--title T] [--body B] [--no-draft] [--merge] [--skip-changelog] [--skip-ci]"; exit 0 ;;
     *) shift ;;
   esac
 done
@@ -70,7 +73,11 @@ echo -e "\n=== Step 6: PR ==="
 if [[ -z "$TOKEN" ]] && ! $USE_GH_CLI; then
   echo "  No token and gh CLI not available. Create PR manually."; exit 0
 fi
-[[ -z "$TITLE" ]] && TITLE=$(git log origin/main..HEAD --oneline | grep -vE '^[a-f0-9]+ (chore:|Merge)' | head -1 | cut -d' ' -f2-)
+if [[ -z "$TITLE" ]]; then
+  # Prefer first feat:/fix: in chronological order; fallback to first non-chore/non-Merge.
+  TITLE=$(git log --reverse origin/main..HEAD --oneline | grep -E '^[a-f0-9]+ (feat|fix)(\(|:)' | head -1 | cut -d' ' -f2-)
+  [[ -z "$TITLE" ]] && TITLE=$(git log --reverse origin/main..HEAD --oneline | grep -vE '^[a-f0-9]+ (chore:|Merge)' | head -1 | cut -d' ' -f2-)
+fi
 if [[ -z "$BODY" ]]; then
   COMMITS=$(git log --oneline origin/main..HEAD | grep -v "^[a-f0-9]* chore: sign" | sed 's/^/- /')
   FILES=$(git diff origin/main..HEAD --stat | tail -1 | grep -oP '[0-9]+' | head -1)

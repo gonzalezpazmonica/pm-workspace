@@ -88,7 +88,7 @@ teardown() { rm -rf "$TMPDIR_EF"; }
 }
 
 @test "eval-agent command exists" {
-  [ -f ".claude/commands/eval-agent.md" ]
+  [ -f ".opencode/commands/eval-agent.md" ]
 }
 
 @test "edge: empty golden set directory handled" {

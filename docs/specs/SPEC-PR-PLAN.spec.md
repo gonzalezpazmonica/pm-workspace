@@ -37,7 +37,7 @@ checks (bash script vs command .md + inline logic).
 ### 2.1 Command interface
 
 ```markdown
-# File: .claude/commands/pr-plan.md
+# File: .opencode/commands/pr-plan.md
 # Invocation: /pr-plan [--dry-run] [--skip-push] [--title "PR title"]
 # Arguments:
 #   --dry-run     Run all gates, report results, do NOT push or create PR
@@ -78,9 +78,9 @@ If `--skip-push` is active, execute S1-S2 and stop.
 
 ```
 docs/rules/**
-.claude/hooks/**
-.claude/agents/**
-.claude/skills/**
+.opencode/hooks/**
+.opencode/agents/**
+.opencode/skills/**
 .claude/settings.json
 scripts/**
 docs/**
@@ -107,9 +107,9 @@ CLAUDE.md
 
 | Change detected | Expected doc update |
 |----------------|-------------------|
-| New file in `.claude/commands/` | `README.md` command table updated |
-| New file in `.claude/skills/` | `README.md` skills table updated |
-| New file in `.claude/agents/` | `README.md` agents table updated |
+| New file in `.opencode/commands/` | `README.md` command table updated |
+| New file in `.opencode/skills/` | `README.md` skills table updated |
+| New file in `.opencode/agents/` | `README.md` agents table updated |
 | New file in `docs/rules/` | No README needed (rules are internal) |
 | New file in `scripts/` | `README.md` scripts section if user-facing |
 
@@ -406,7 +406,7 @@ Scenario: Branch is main
 ### Crear (nuevos)
 
 ```
-.claude/commands/pr-plan.md              # Slash command definition (frontmatter + instructions)
+.opencode/commands/pr-plan.md              # Slash command definition (frontmatter + instructions)
 scripts/pr-plan.sh                       # Main orchestration script (gates G1-G10 + S1-S4)
 ```
 
@@ -461,7 +461,7 @@ bash scripts/pr-plan.sh --skip-push      # Pre-flight + sign only
 
 ```markdown
 ### Implementacion
-- [ ] .claude/commands/pr-plan.md created with frontmatter (name, description, allowed-tools, model)
+- [ ] .opencode/commands/pr-plan.md created with frontmatter (name, description, allowed-tools, model)
 - [ ] scripts/pr-plan.sh created with all 10 gates
 - [ ] Gates execute sequentially, stop at first FAIL
 - [ ] --dry-run flag prevents any file modification or push

@@ -65,6 +65,6 @@ El MCP expone capacidades de fetch adaptativo al LLM directamente. Uso opt-in po
 - Probe: `scripts/scrapling-probe.sh` (SE-061 Slice 1)
 - Wrapper: `scripts/scrapling-fetch.sh` (SE-061 Slice 2)
 - Spec: `docs/propuestas/SE-061-scrapling-research-backend.md`
-- Skill tech-research: `.claude/skills/tech-research-agent/SKILL.md`
-- Skill web-research: `.claude/skills/web-research/SKILL.md`
+- Skill tech-research: `.opencode/skills/tech-research-agent/SKILL.md`
+- Skill web-research: `.opencode/skills/web-research/SKILL.md`
 - Config: `docs/rules/domain/web-research-config.md`

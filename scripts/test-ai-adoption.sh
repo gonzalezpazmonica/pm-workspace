@@ -18,38 +18,38 @@ echo "════════════════════════�
 echo ""
 
 echo "📋 1. Adoption Assess Command"
-check_file ".claude/commands/adoption-assess.md" "adoption-assess.md exists"
-check_content ".claude/commands/adoption-assess.md" "name: adoption-assess" "Has correct name"
-check_content ".claude/commands/adoption-assess.md" "ADKAR" "References ADKAR model"
-check_content ".claude/commands/adoption-assess.md" "agent: task" "Has agent: task"
+check_file ".opencode/commands/adoption-assess.md" "adoption-assess.md exists"
+check_content ".opencode/commands/adoption-assess.md" "name: adoption-assess" "Has correct name"
+check_content ".opencode/commands/adoption-assess.md" "ADKAR" "References ADKAR model"
+check_content ".opencode/commands/adoption-assess.md" "agent: task" "Has agent: task"
 echo ""
 
 echo "📋 2. Adoption Plan Command"
-check_file ".claude/commands/adoption-plan.md" "adoption-plan.md exists"
-check_content ".claude/commands/adoption-plan.md" "name: adoption-plan" "Has correct name"
-check_content ".claude/commands/adoption-plan.md" "personalizado" "References personalization"
-check_content ".claude/commands/adoption-plan.md" "agent: task" "Has agent: task"
+check_file ".opencode/commands/adoption-plan.md" "adoption-plan.md exists"
+check_content ".opencode/commands/adoption-plan.md" "name: adoption-plan" "Has correct name"
+check_content ".opencode/commands/adoption-plan.md" "personalizado" "References personalization"
+check_content ".opencode/commands/adoption-plan.md" "agent: task" "Has agent: task"
 echo ""
 
 echo "📋 3. Adoption Sandbox Command"
-check_file ".claude/commands/adoption-sandbox.md" "adoption-sandbox.md exists"
-check_content ".claude/commands/adoption-sandbox.md" "name: adoption-sandbox" "Has correct name"
-check_content ".claude/commands/adoption-sandbox.md" "sandbox" "References sandbox environment"
-check_content ".claude/commands/adoption-sandbox.md" "agent: task" "Has agent: task"
+check_file ".opencode/commands/adoption-sandbox.md" "adoption-sandbox.md exists"
+check_content ".opencode/commands/adoption-sandbox.md" "name: adoption-sandbox" "Has correct name"
+check_content ".opencode/commands/adoption-sandbox.md" "sandbox" "References sandbox environment"
+check_content ".opencode/commands/adoption-sandbox.md" "agent: task" "Has agent: task"
 echo ""
 
 echo "📋 4. Adoption Track Command"
-check_file ".claude/commands/adoption-track.md" "adoption-track.md exists"
-check_content ".claude/commands/adoption-track.md" "name: adoption-track" "Has correct name"
-check_content ".claude/commands/adoption-track.md" "métricas" "References metrics"
-check_content ".claude/commands/adoption-track.md" "agent: task" "Has agent: task"
+check_file ".opencode/commands/adoption-track.md" "adoption-track.md exists"
+check_content ".opencode/commands/adoption-track.md" "name: adoption-track" "Has correct name"
+check_content ".opencode/commands/adoption-track.md" "métricas" "References metrics"
+check_content ".opencode/commands/adoption-track.md" "agent: task" "Has agent: task"
 echo ""
 
 echo "📋 5. Line Count Validation (≤150 lines each)"
-ASSESS_LINES=$(wc -l < .claude/commands/adoption-assess.md)
-PLAN_LINES=$(wc -l < .claude/commands/adoption-plan.md)
-SANDBOX_LINES=$(wc -l < .claude/commands/adoption-sandbox.md)
-TRACK_LINES=$(wc -l < .claude/commands/adoption-track.md)
+ASSESS_LINES=$(wc -l < .opencode/commands/adoption-assess.md)
+PLAN_LINES=$(wc -l < .opencode/commands/adoption-plan.md)
+SANDBOX_LINES=$(wc -l < .opencode/commands/adoption-sandbox.md)
+TRACK_LINES=$(wc -l < .opencode/commands/adoption-track.md)
 
 [ "$ASSESS_LINES" -le 150 ] && pass "adoption-assess.md: $ASSESS_LINES lines" || fail "adoption-assess.md: $ASSESS_LINES lines (> 150)"
 [ "$PLAN_LINES" -le 150 ] && pass "adoption-plan.md: $PLAN_LINES lines" || fail "adoption-plan.md: $PLAN_LINES lines (> 150)"
@@ -58,7 +58,7 @@ TRACK_LINES=$(wc -l < .claude/commands/adoption-track.md)
 echo ""
 
 echo "📋 6. Command Count (dynamic)"
-TOTAL_COMMANDS=$(ls -1 .claude/commands/*.md | wc -l)
+TOTAL_COMMANDS=$(ls -1 .opencode/commands/*.md | wc -l)
 [ "$TOTAL_COMMANDS" -ge 200 ] && pass "Total commands: $TOTAL_COMMANDS" || fail "Total commands: $TOTAL_COMMANDS (< 200)"
 echo ""
 

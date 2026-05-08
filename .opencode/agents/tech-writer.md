@@ -41,9 +41,9 @@ Before writing project docs, check `projects/{project}/.context-index/PROJECT.ct
 
 ### README.md — actualizar cuando:
 - Cambia la estructura de directorios del repositorio
-- Se añade, elimina o renombra un slash command (`.claude/commands/`)
-- Se añade, elimina o modifica una skill (`.claude/skills/`)
-- Se añade o elimina un subagente (`.claude/agents/`)
+- Se añade, elimina o renombra un slash command (`.opencode/commands/`)
+- Se añade, elimina o modifica una skill (`.opencode/skills/`)
+- Se añade o elimina un subagente (`.opencode/agents/`)
 - Cambia un requisito de instalación (MCPs, extensiones, versiones)
 - Se añade un proyecto de ejemplo en `projects/`
 

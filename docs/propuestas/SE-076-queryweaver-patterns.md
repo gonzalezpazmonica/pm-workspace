@@ -121,7 +121,7 @@ Sin dependencia FalkorDB ni graphiti-core (AGPL bloqueante). Implementar el PATR
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
 | Slice 1 Graphiti episodic | extiende `scripts/memory-graph.py` + `memory-store.sh` | idéntico, sin acoplamiento a frontend |
-| Slice 2 Schema-graph WIQL | skill `.claude/skills/wiql-schema-graph/` | invocable desde AGENTS.md (SE-078) |
+| Slice 2 Schema-graph WIQL | skill `.opencode/skills/wiql-schema-graph/` | invocable desde AGENTS.md (SE-078) |
 | Slice 3 LLM healer | wrapper Bash + Python sobre CLI de LLM | indiferente al frontend (Claude, Codex, Ollama) |
 
 ### Verification protocol

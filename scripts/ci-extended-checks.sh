@@ -11,7 +11,7 @@ echo "=== CI Extended Checks ===" && echo ""
 # 1. Skills Frontmatter Validation
 echo "--- 1. Skills Frontmatter Validation ---"
 skill_count=0; skill_pass=0
-for skill_dir in "$ROOT"/.claude/skills/*/; do
+for skill_dir in "$ROOT"/.opencode/skills/*/; do
   skill_file="$skill_dir/SKILL.md"
   [[ -f "$skill_file" ]] || continue
   ((skill_count++))
@@ -44,7 +44,7 @@ done
 # 3. Hook Safety Flags
 echo "--- 3. Hook Safety Flags ---"
 hook_count=0; hook_pass=0
-for hook_file in "$ROOT"/.claude/hooks/*.sh; do
+for hook_file in "$ROOT"/.opencode/hooks/*.sh; do
   [[ -f "$hook_file" ]] || continue
   ((hook_count++))
   if head -5 "$hook_file" | grep -q "set -uo pipefail"; then
@@ -58,7 +58,7 @@ done
 # 4. Agent File Size
 echo "--- 4. Agent File Size ---"
 agent_count=0; agent_pass=0
-for agent_file in "$ROOT"/.claude/agents/*.md; do
+for agent_file in "$ROOT"/.opencode/agents/*.md; do
   [[ -f "$agent_file" ]] || continue
   ((agent_count++))
   lines=$(wc -l < "$agent_file")

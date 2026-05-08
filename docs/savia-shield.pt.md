@@ -187,13 +187,13 @@ Cada componente é um ficheiro de texto simples legível por humanos:
 | Daemon unificado | `scripts/savia-shield-daemon.py` | Scan/mask/unmask/health em localhost:8444 |
 | Proxy API | `scripts/savia-shield-proxy.py` | Interceta prompts Claude, mascara/desmascara |
 | Daemon NER | `scripts/shield-ner-daemon.py` | Presidio+spaCy persistente em RAM (~100ms) |
-| Hook gate | `.claude/hooks/data-sovereignty-gate.sh` | PreToolUse: daemon-first, fallback regex |
-| Hook auditoria | `.claude/hooks/data-sovereignty-audit.sh` | PostToolUse async: re-análise ficheiro completo |
+| Hook gate | `.opencode/hooks/data-sovereignty-gate.sh` | PreToolUse: daemon-first, fallback regex |
+| Hook auditoria | `.opencode/hooks/data-sovereignty-audit.sh` | PostToolUse async: re-análise ficheiro completo |
 | Classificador LLM | `scripts/ollama-classify.sh` | Camada 2 Ollama (fallback se daemon em baixo) |
 | Mascarador | `scripts/sovereignty-mask.py` | Camada 4 mask/unmask reversível |
 | Pre-commit git | `scripts/pre-commit-sovereignty.sh` | Análise de ficheiros staged antes do commit |
 | Setup | `scripts/savia-shield-setup.sh` | Instalador: deps, modelos, token, daemons |
-| Force-push guard | `.claude/hooks/block-force-push.sh` | Bloqueia force-push, push para main, amend |
+| Force-push guard | `.opencode/hooks/block-force-push.sh` | Bloqueia force-push, push para main, amend |
 | Regra de domínio | `docs/rules/domain/data-sovereignty.md` | Arquitetura e políticas |
 
 **Logs de auditoria:**

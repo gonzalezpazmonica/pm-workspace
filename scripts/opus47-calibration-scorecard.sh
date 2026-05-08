@@ -33,7 +33,7 @@ usage() {
   cat <<EOF
 Usage: $0 [--quiet] [--json]
 
-Scans .claude/agents/*.md. For each agent on claude-sonnet-4-6, computes
+Scans .opencode/agents/*.md. For each agent on claude-sonnet-4-6, computes
 an estimated cost delta if upgraded to claude-opus-4-7 at effort: xhigh.
 Flags which agents have golden-set tests available for A/B eval.
 

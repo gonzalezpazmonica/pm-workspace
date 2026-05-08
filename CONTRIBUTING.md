@@ -10,9 +10,9 @@ Antes de empezar, lee este documento y el [Código de Conducta](CODE_OF_CONDUCT.
 
 Las contribuciones de mayor impacto son:
 
-**Nuevos comandos** (`.claude/commands/`) — si tuviste una conversación conmigo que resolvió un problema PM que aún no cubro, empaquétalo como comando reutilizable. Mira el [ROADMAP.md](docs/ROADMAP.md) para ver qué falta.
+**Nuevos comandos** (`.opencode/commands/`) — si tuviste una conversación conmigo que resolvió un problema PM que aún no cubro, empaquétalo como comando reutilizable. Mira el [ROADMAP.md](docs/ROADMAP.md) para ver qué falta.
 
-**Nuevos skills** (`.claude/skills/`) — skills que me extiendan a nuevo territorio: integración Jira, metodologías SAFe/Kanban, o nuevos formatos de reporting.
+**Nuevos skills** (`.opencode/skills/`) — skills que me extiendan a nuevo territorio: integración Jira, metodologías SAFe/Kanban, o nuevos formatos de reporting.
 
 **Tests** — nuevas suites en `tests/`, escenarios de mock, ejemplos de specs.
 
@@ -50,11 +50,11 @@ bash scripts/validate-ci-local.sh    # CI local
 
 ## Estándares para comandos y skills
 
-### Comandos (`.claude/commands/*.md`)
+### Comandos (`.opencode/commands/*.md`)
 
 Cada comando nuevo necesita: descripción, pasos numerados, manejo del error más común, al menos un ejemplo, y referencia a skills que usa.
 
-### Skills (`.claude/skills/*/SKILL.md`)
+### Skills (`.opencode/skills/*/SKILL.md`)
 
 Cada skill necesita: SKILL.md + DOMAIN.md (Clara Philosophy). Descripción, cuándo usarlo, parámetros, limitaciones.
 

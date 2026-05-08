@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/user-prompt-intercept.sh
+# BATS tests for .opencode/hooks/user-prompt-intercept.sh
 # UserPromptSubmit hook — SPEC-015 context gate + session hot-file injection.
 # Injects session-hot.md on first prompt, active project hint if in project dir.
 # Batch 45 hook coverage.
 
-HOOK=".claude/hooks/user-prompt-intercept.sh"
+HOOK=".opencode/hooks/user-prompt-intercept.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

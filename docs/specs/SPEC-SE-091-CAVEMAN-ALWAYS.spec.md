@@ -19,7 +19,7 @@
 ## 1. Contexto y Objetivo
 
 Actualmente `caveman`, `zoom-out` y `grill-me` son skills bajo demanda en
-`.claude/skills/`. Hay que invocarlos explicitamente. Monica quiere que la
+`.opencode/skills/`. Hay que invocarlos explicitamente. Monica quiere que la
 honestidad radical y la eficiencia de tokens se apliquen SIEMPRE por defecto,
 sin invocacion manual.
 
@@ -54,13 +54,13 @@ automaticamente via hooks cuando el contexto lo requiere.
 
 ### Slice 2 — Activacion automatica de tribunales (~15 min)
 
-- **REQ-04** Crear hook `auto-grill-me.sh` en `.claude/hooks/` que se dispara
+- **REQ-04** Crear hook `auto-grill-me.sh` en `.opencode/hooks/` que se dispara
   en evento `PreToolUse` cuando la herramienta es `Edit` o `Write` sobre
   archivos de codigo (`.py`, `.sh`, `.ts`, `.js`, `.cs`, `.go`, `.rs`).
   El hook inyecta una instruccion de grill-me: "Hunt weaknesses: edge cases,
   unstated assumptions, error paths, untested branches."
 
-- **REQ-05** Crear hook `auto-zoom-out.sh` en `.claude/hooks/` que se dispara
+- **REQ-05** Crear hook `auto-zoom-out.sh` en `.opencode/hooks/` que se dispara
   en `PreToolUse` cuando la herramienta es `Edit` o `Write` sobre archivos
   de arquitectura (`docs/architecture/`, `docs/propuestas/`, `*.arch.md`).
   El hook inyecta: "Zoom out: what dependencies does this affect? Second-order
@@ -78,9 +78,9 @@ automaticamente via hooks cuando el contexto lo requiere.
 | `docs/rules/domain/caveman-default.md` | CREAR — regla de comportamiento por defecto |
 | `AGENTS.md` | MODIFICAR — anadir @import a caveman-default |
 | `CLAUDE.md` | MODIFICAR — anadir referencia en lazy context |
-| `.claude/hooks/auto-grill-me.sh` | CREAR — hook PreToolUse para codigo |
-| `.claude/hooks/auto-zoom-out.sh` | CREAR — hook PreToolUse para arquitectura |
-| `.claude/skills/caveman/SKILL.md` | SIN CAMBIOS — queda como referencia |
+| `.opencode/hooks/auto-grill-me.sh` | CREAR — hook PreToolUse para codigo |
+| `.opencode/hooks/auto-zoom-out.sh` | CREAR — hook PreToolUse para arquitectura |
+| `.opencode/skills/caveman/SKILL.md` | SIN CAMBIOS — queda como referencia |
 | `.claude/settings.json` | MODIFICAR — registrar los 2 hooks nuevos |
 
 ---

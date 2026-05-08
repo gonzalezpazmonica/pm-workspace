@@ -12,11 +12,11 @@ echo "════════════════════════�
 echo ""
 echo "Test 1: Ficheros existen"
 for cmd in burnout-radar workload-balance sustainable-pace team-sentiment; do
-  if [ -f ".claude/commands/$cmd.md" ]; then
-    echo "  ✅ .claude/commands/$cmd.md"
+  if [ -f ".opencode/commands/$cmd.md" ]; then
+    echo "  ✅ .opencode/commands/$cmd.md"
     ((PASS++))
   else
-    echo "  ❌ .claude/commands/$cmd.md NO ENCONTRADO"
+    echo "  ❌ .opencode/commands/$cmd.md NO ENCONTRADO"
     ((FAIL++))
   fi
 done
@@ -25,7 +25,7 @@ done
 echo ""
 echo "Test 2: Frontmatter válido"
 for cmd in burnout-radar workload-balance sustainable-pace team-sentiment; do
-  file=".claude/commands/$cmd.md"
+  file=".opencode/commands/$cmd.md"
   errors=0
   grep -q "^name: $cmd" "$file" || ((errors++))
   grep -q "^description:" "$file" || ((errors++))
@@ -46,7 +46,7 @@ done
 echo ""
 echo "Test 3: Ficheros ≤ 150 líneas"
 for cmd in burnout-radar workload-balance sustainable-pace team-sentiment; do
-  file=".claude/commands/$cmd.md"
+  file=".opencode/commands/$cmd.md"
   lines=$(wc -l < "$file")
   if [ "$lines" -le 150 ]; then
     echo "  ✅ $cmd: $lines líneas"
@@ -60,7 +60,7 @@ done
 # Test 4: Conceptos clave presentes
 echo ""
 echo "Test 4: Conceptos clave"
-if grep -qi "burnout\|SPACE\|wellbeing" .claude/commands/burnout-radar.md; then
+if grep -qi "burnout\|SPACE\|wellbeing" .opencode/commands/burnout-radar.md; then
   echo "  ✅ burnout-radar: conceptos OK"
   ((PASS++))
 else
@@ -68,7 +68,7 @@ else
   ((FAIL++))
 fi
 
-if grep -qi "balance\|carga\|especialidades\|WIP" .claude/commands/workload-balance.md; then
+if grep -qi "balance\|carga\|especialidades\|WIP" .opencode/commands/workload-balance.md; then
   echo "  ✅ workload-balance: conceptos OK"
   ((PASS++))
 else
@@ -76,7 +76,7 @@ else
   ((FAIL++))
 fi
 
-if grep -qi "sostenible\|velocity\|quality" .claude/commands/sustainable-pace.md; then
+if grep -qi "sostenible\|velocity\|quality" .opencode/commands/sustainable-pace.md; then
   echo "  ✅ sustainable-pace: conceptos OK"
   ((PASS++))
 else
@@ -84,7 +84,7 @@ else
   ((FAIL++))
 fi
 
-if grep -qi "sentimiento\|pulse\|tendencias" .claude/commands/team-sentiment.md; then
+if grep -qi "sentimiento\|pulse\|tendencias" .opencode/commands/team-sentiment.md; then
   echo "  ✅ team-sentiment: conceptos OK"
   ((PASS++))
 else

@@ -4,13 +4,13 @@ on:
   push:
     paths:
       - 'docker/savia-test/**'
-      - '.claude/commands/flow-*.md'
-      - '.claude/skills/savia-flow-practice/**'
+      - '.opencode/commands/flow-*.md'
+      - '.opencode/skills/savia-flow-practice/**'
   pull_request:
     paths:
       - 'docker/savia-test/**'
-      - '.claude/commands/flow-*.md'
-      - '.claude/skills/savia-flow-practice/**'
+      - '.opencode/commands/flow-*.md'
+      - '.opencode/skills/savia-flow-practice/**'
 
 permissions:
   contents: read

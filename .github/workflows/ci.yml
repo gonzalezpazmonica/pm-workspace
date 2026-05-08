@@ -205,7 +205,7 @@ jobs:
           echo "Validating file sizes..."
           FAILED=0
           # Check skills
-          for file in .claude/skills/*/SKILL.md; do
+          for file in .opencode/skills/*/SKILL.md; do
             if [ -f "$file" ]; then
               lines=$(wc -l < "$file")
               if [ "$lines" -gt 150 ]; then
@@ -215,7 +215,7 @@ jobs:
             fi
           done
           # Check agents
-          for file in .claude/agents/*.md; do
+          for file in .opencode/agents/*.md; do
             if [ -f "$file" ]; then
               lines=$(wc -l < "$file")
               if [ "$lines" -gt 150 ]; then
@@ -234,7 +234,7 @@ jobs:
             fi
           done
           # Check commands
-          for file in .claude/commands/*.md; do
+          for file in .opencode/commands/*.md; do
             if [ -f "$file" ]; then
               lines=$(wc -l < "$file")
               if [ "$lines" -gt 150 ]; then
@@ -261,7 +261,7 @@ jobs:
           echo "Validating command frontmatter..."
           FAILED=0
           WARNED=0
-          for file in .claude/commands/*.md; do
+          for file in .opencode/commands/*.md; do
             if [ -f "$file" ]; then
               if head -1 "$file" | grep -q "^---$"; then
                 # Has frontmatter → validate required fields

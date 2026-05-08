@@ -10,7 +10,7 @@
 
 | File | Source | Semantics |
 |---|---|---|
-| `agent-size-violations.count` | `scripts/agent-size-audit.sh` | Count of `.claude/agents/*.md` > 4KB without `size_exception` |
+| `agent-size-violations.count` | `scripts/agent-size-audit.sh` | Count of `.opencode/agents/*.md` > 4KB without `size_exception` |
 | `hook-critical-violations.count` | `scripts/hook-bench-all.sh --runs 5` | Count of critical hooks with p50 > 20ms |
 | `bats-compliance-min.pct` | `scripts/audit-all-bats.sh` | Minimum test-auditor compliance % (≥ value) |
 

@@ -67,10 +67,10 @@ test_file_exists ".claude/profiles/users/template/tone.md"
 # ── Categoría 4: Comandos de perfil ────────────────────────────────────
 echo ""
 echo "🔧 Comandos de perfil"
-test_file_exists ".claude/commands/profile-setup.md"
-test_file_exists ".claude/commands/profile-edit.md"
-test_file_exists ".claude/commands/profile-switch.md"
-test_file_exists ".claude/commands/profile-show.md"
+test_file_exists ".opencode/commands/profile-setup.md"
+test_file_exists ".opencode/commands/profile-edit.md"
+test_file_exists ".opencode/commands/profile-switch.md"
+test_file_exists ".opencode/commands/profile-show.md"
 
 # ── Categoría 5: Contenido del context-map (table format) ─────────────────
 echo ""
@@ -96,13 +96,13 @@ test_contains ".claude/profiles/context-map.md" "Skip"
 # ── Categoría 6: Contenido de comandos de perfil ───────────────────────
 echo ""
 echo "📝 Contenido de comandos"
-test_contains ".claude/commands/profile-setup.md" "identity.md"
-test_contains ".claude/commands/profile-setup.md" "workflow.md"
-test_contains ".claude/commands/profile-setup.md" "tone.md"
-test_contains ".claude/commands/profile-setup.md" "active-user.md"
-test_contains ".claude/commands/profile-edit.md" "active_slug"
-test_contains ".claude/commands/profile-switch.md" "active-user.md"
-test_contains ".claude/commands/profile-show.md" "identity.md"
+test_contains ".opencode/commands/profile-setup.md" "identity.md"
+test_contains ".opencode/commands/profile-setup.md" "workflow.md"
+test_contains ".opencode/commands/profile-setup.md" "tone.md"
+test_contains ".opencode/commands/profile-setup.md" "active-user.md"
+test_contains ".opencode/commands/profile-edit.md" "active_slug"
+test_contains ".opencode/commands/profile-switch.md" "active-user.md"
+test_contains ".opencode/commands/profile-show.md" "identity.md"
 
 # ── Categoría 7: Perfil de test (sala-reservas) ────────────────────────
 echo ""
@@ -158,7 +158,7 @@ CMDS_TO_CHECK=(
 )
 
 for cmd in "${CMDS_TO_CHECK[@]}"; do
-  if grep -q "Cargar perfil de usuario" ".claude/commands/${cmd}.md" 2>/dev/null; then
+  if grep -q "Cargar perfil de usuario" ".opencode/commands/${cmd}.md" 2>/dev/null; then
     pass "Perfil integrado en /${cmd}"
   else
     fail "Falta perfil en /${cmd}"
@@ -168,10 +168,10 @@ done
 # ── Categoría 11: Trigger combinado (hook + regla) ──────────────────────
 echo ""
 echo "🔔 Trigger combinado (hook + regla)"
-test_contains ".claude/hooks/session-init.sh" "active_slug"
-test_contains ".claude/hooks/session-init.sh" "Perfil activo"
-test_contains ".claude/hooks/session-init.sh" "profile-setup"
-test_contains ".claude/hooks/session-init.sh" "identity.md"
+test_contains ".opencode/hooks/session-init.sh" "active_slug"
+test_contains ".opencode/hooks/session-init.sh" "Perfil activo"
+test_contains ".opencode/hooks/session-init.sh" "profile-setup"
+test_contains ".opencode/hooks/session-init.sh" "identity.md"
 test_file_exists "docs/rules/domain/profile-onboarding.md"
 test_contains "docs/rules/domain/profile-onboarding.md" "active-user.md"
 test_contains "docs/rules/domain/profile-onboarding.md" "profile-setup"
@@ -180,7 +180,7 @@ test_contains "docs/rules/domain/profile-onboarding.md" "identity.md"
 # ── Categoría 12: Hook produce JSON válido ──────────────────────────────
 echo ""
 echo "⚙️  Hook produce JSON válido"
-HOOK_OUTPUT=$(bash .claude/hooks/session-init.sh 2>/dev/null)
+HOOK_OUTPUT=$(bash .opencode/hooks/session-init.sh 2>/dev/null)
 if echo "$HOOK_OUTPUT" | jq . >/dev/null 2>&1; then
   pass "session-init.sh produce JSON válido"
 else
@@ -203,14 +203,14 @@ test_contains ".claude/profiles/savia.md" "Primera impresión"
 test_contains ".claude/profiles/savia.md" "Adaptación al perfil"
 test_contains "docs/rules/domain/profile-onboarding.md" "Savia"
 test_contains "docs/rules/domain/profile-onboarding.md" "savia.md"
-test_contains ".claude/commands/profile-setup.md" "Savia"
-test_contains ".claude/commands/profile-setup.md" "savia.md"
-test_contains ".claude/commands/profile-setup.md" "Cómo te llamas"
-test_contains ".claude/commands/profile-edit.md" "savia.md"
-test_contains ".claude/commands/profile-switch.md" "savia.md"
-test_contains ".claude/commands/profile-show.md" "savia.md"
+test_contains ".opencode/commands/profile-setup.md" "Savia"
+test_contains ".opencode/commands/profile-setup.md" "savia.md"
+test_contains ".opencode/commands/profile-setup.md" "Cómo te llamas"
+test_contains ".opencode/commands/profile-edit.md" "savia.md"
+test_contains ".opencode/commands/profile-switch.md" "savia.md"
+test_contains ".opencode/commands/profile-show.md" "savia.md"
 test_contains "CLAUDE.md" "Savia"
-test_contains ".claude/hooks/session-init.sh" "PERFIL\|profile\|Perfil"
+test_contains ".opencode/hooks/session-init.sh" "PERFIL\|profile\|Perfil"
 
 # ── Categoría 14: Modo Agente ───────────────────────────────────────────
 echo ""
@@ -225,16 +225,16 @@ test_contains ".claude/profiles/savia.md" "status: ERROR"
 test_contains "docs/rules/domain/profile-onboarding.md" "Modo Agente"
 test_contains "docs/rules/domain/profile-onboarding.md" "PM_CLIENT_TYPE"
 test_contains "docs/rules/domain/profile-onboarding.md" "AGENT_MODE"
-test_contains ".claude/commands/profile-setup.md" "agente\|agent"
-test_contains ".claude/commands/profile-setup.md" "role: \"Agent\""
+test_contains ".opencode/commands/profile-setup.md" "agente\|agent"
+test_contains ".opencode/commands/profile-setup.md" "role: \"Agent\""
 test_contains ".claude/profiles/context-map.md" "role: \"Agent\""
-test_contains ".claude/hooks/session-init.sh" "AGENT_MODE"
-test_contains ".claude/hooks/session-init.sh" "PM_CLIENT_TYPE"
+test_contains ".opencode/hooks/session-init.sh" "AGENT_MODE"
+test_contains ".opencode/hooks/session-init.sh" "PM_CLIENT_TYPE"
 
 # ── Categoría 15: Hook detecta agente ───────────────────────────────────
 echo ""
 echo "⚙️  Hook detecta modo agente"
-HOOK_AGENT=$(PM_CLIENT_TYPE=agent bash .claude/hooks/session-init.sh 2>/dev/null)
+HOOK_AGENT=$(PM_CLIENT_TYPE=agent bash .opencode/hooks/session-init.sh 2>/dev/null)
 if echo "$HOOK_AGENT" | jq . >/dev/null 2>&1; then
   pass "Hook con PM_CLIENT_TYPE=agent produce JSON válido"
 else

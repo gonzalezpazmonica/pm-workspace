@@ -1,6 +1,6 @@
 // block-credential-leak.ts — SPEC-127 Slice 2b-ii
 //
-// Port of `.claude/hooks/block-credential-leak.sh` to OpenCode TS plugin.
+// Port of `.opencode/hooks/block-credential-leak.sh` to OpenCode TS plugin.
 // Inspects bash commands for credential signatures (AWS/GitHub/OpenAI/
 // Anthropic/Azure/Vault/PEM/Docker/etc.) and throws to block when found.
 //

@@ -6,7 +6,7 @@
 setup() {
   TMPDIR=$(mktemp -d)
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/stop-quality-gate.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/stop-quality-gate.sh"
   export TEST_TMPDIR="$TMPDIR"
   cd "$TEST_TMPDIR"
   git init --quiet 2>/dev/null || true
@@ -24,7 +24,7 @@ run_hook() {
 }
 
 @test "target has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/stop-quality-gate.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/stop-quality-gate.sh"
 }
 
 # ── Positive cases ──
@@ -81,5 +81,5 @@ run_hook() {
 }
 
 @test "target script has safety flags" {
-  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.claude/hooks/stop-quality-gate.sh"
+  grep -q "set -[euo]" "$BATS_TEST_DIRNAME/../../.opencode/hooks/stop-quality-gate.sh"
 }

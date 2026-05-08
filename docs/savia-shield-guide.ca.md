@@ -37,12 +37,11 @@ Hooks de seguretat que corren en TOTS els perfils: `block-credential-leak.sh`, `
 
 **Capa 3 — Auditoria post-escriptura**: Hook asincron que re-escaneja el fitxer complet. No bloqueja. Alerta immediata si detecta fugida.
 
-**Capa 4 — Masking reversible**: Reemplaca entitats reals amb ficticies abans d'enviar a APIs cloud. Mapa local (N4, mai en git).
+**Capa 4 — [DEPRECIADA] Masking manual eliminat**
 
-```bash
-bash scripts/sovereignty-mask.sh mask "text amb dades reals" --project el-meu-projecte
-bash scripts/sovereignty-mask.sh unmask "resposta de Claude"
-```
+El masking manual (`sovereignty-mask.sh`) va ser eliminat el 2026-05-05.  
+La Capa 4 (Proxy) mantiene el seu propi masking intern a `savia-shield-proxy.py`.  
+Aquest espai queda reservat per a una alternativa futura.
 
 ---
 

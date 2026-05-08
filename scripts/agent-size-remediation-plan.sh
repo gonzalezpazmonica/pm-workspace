@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer.
 #
-# Audita agentes en `.claude/agents/*.md` contra Rule #22 (max 4KB).
+# Audita agentes en `.opencode/agents/*.md` contra Rule #22 (max 4KB).
 # Produce plan de remediación con hit-list ordenado por tamaño DESC:
 #   - Top-N agentes offenders (tamaño actual vs budget)
 #   - Estimated savings por extracción de bloques comunes

@@ -326,14 +326,14 @@ Se il `.acm` è obsoleto, lo è anche il `.hcm`, indipendentemente dalla propria
 
 ## Riferimenti
 
-- Skill comprensione: `.claude/skills/ast-comprehension/SKILL.md`
-- Skill qualità: `.claude/skills/ast-quality-gate/SKILL.md`
-- Hook comprensione: `.claude/hooks/ast-comprehend-hook.sh`
-- Hook qualità: `.claude/hooks/ast-quality-gate-hook.sh`
+- Skill comprensione: `.opencode/skills/ast-comprehension/SKILL.md`
+- Skill qualità: `.opencode/skills/ast-quality-gate/SKILL.md`
+- Hook comprensione: `.opencode/hooks/ast-comprehend-hook.sh`
+- Hook qualità: `.opencode/hooks/ast-quality-gate-hook.sh`
 - Script comprensione: `scripts/ast-comprehend.sh`
 - Script qualità: `scripts/ast-quality-gate.sh`
-- Skill mappe di codice: `.claude/skills/agent-code-map/SKILL.md`
+- Skill mappe di codice: `.opencode/skills/agent-code-map/SKILL.md`
 - Regola mappe umane: `docs/rules/domain/hcm-maps.md`
-- Skill mappe umane: `.claude/skills/human-code-map/SKILL.md`
+- Skill mappe umane: `.opencode/skills/human-code-map/SKILL.md`
 - Mappe del workspace: `.human-maps/`
 - Mappe di progetto: `projects/*/.human-maps/*.hcm`

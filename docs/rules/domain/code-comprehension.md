@@ -128,9 +128,9 @@ Rule header in activity:
 
 ## Related
 
-- `.claude/skills/code-comprehension-report/SKILL.md` — Skill for generating reports
-- `.claude/commands/comprehension-report.md` — User command
-- `.claude/commands/comprehension-audit.md` — Audit coverage
+- `.opencode/skills/code-comprehension-report/SKILL.md` — Skill for generating reports
+- `.opencode/commands/comprehension-report.md` — User command
+- `.opencode/commands/comprehension-audit.md` — Audit coverage
 - `docs/rules/domain/code-review-rules.md` — Review criteria
 - `docs/rules/domain/dev-session-protocol.md` — Dev-session completion
 - `docs/rules/domain/prompt-structure.md` — Step-by-step reasoning (enables better comprehension)

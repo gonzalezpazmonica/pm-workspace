@@ -107,7 +107,7 @@ export:
 - [ ] AC-03 `scripts/slm-distill.sh` wrapper para GKD (opt-in flag)
 - [ ] AC-04 `projects/{name}/.slm/recipes/*.yaml` template (fine-tune + eval + export)
 - [ ] AC-05 `docs/rules/domain/slm-pipeline-protocol.md` documenta SE-027 + SE-028 stack
-- [ ] AC-06 `.claude/skills/savia-dual/SKILL.md` actualizado con nueva capability
+- [ ] AC-06 `.opencode/skills/savia-dual/SKILL.md` actualizado con nueva capability
 - [ ] AC-07 oumi v0.7 pinned en `pyproject.toml` / requirements.lock del skill
 - [ ] AC-08 Test bats `tests/slm-pipeline.bats` valida wrappers (mock oumi CLI)
 - [ ] AC-09 CHANGELOG entry

@@ -52,9 +52,9 @@ check recommended "bats (test runner)" "command -v bats"
 echo ""
 echo "[2/9] Workspace Structure"
 check critical "CLAUDE.md exists" "test -f '$ROOT_DIR/CLAUDE.md'"
-check critical ".claude/commands/ exists" "test -d '$ROOT_DIR/.claude/commands'"
-check critical ".claude/agents/ exists" "test -d '$ROOT_DIR/.claude/agents'"
-check critical ".claude/skills/ exists" "test -d '$ROOT_DIR/.claude/skills'"
+check critical ".opencode/commands/ exists" "test -d '$ROOT_DIR/.claude/commands'"
+check critical ".opencode/agents/ exists" "test -d '$ROOT_DIR/.claude/agents'"
+check critical ".opencode/skills/ exists" "test -d '$ROOT_DIR/.claude/skills'"
 check critical "docs/rules/ exists" "test -d '$ROOT_DIR/docs/rules'"
 check critical "scripts/ exists" "test -d '$ROOT_DIR/scripts'"
 check critical ".claude/settings.json exists" "test -f '$ROOT_DIR/.claude/settings.json'"
@@ -132,8 +132,8 @@ if command -v ollama &>/dev/null; then
         printf "  %-4s %-45s %s\n" "TIP " "Run: ollama pull qwen2.5:7b" ""
     fi
 fi
-check recommended "block-gitignored-references.sh" "test -f '$ROOT_DIR/.claude/hooks/block-gitignored-references.sh'"
-check recommended "data-sovereignty-gate.sh" "test -f '$ROOT_DIR/.claude/hooks/data-sovereignty-gate.sh'"
+check recommended "block-gitignored-references.sh" "test -f '$ROOT_DIR/.opencode/hooks/block-gitignored-references.sh'"
+check recommended "data-sovereignty-gate.sh" "test -f '$ROOT_DIR/.opencode/hooks/data-sovereignty-gate.sh'"
 check recommended "context-budget-check.sh" "test -f '$ROOT_DIR/scripts/context-budget-check.sh'"
 check recommended "tool-result-trim.sh" "test -f '$ROOT_DIR/scripts/tool-result-trim.sh'"
 
@@ -144,7 +144,7 @@ check critical "settings.json valid JSON" "python3 -c \"import json; json.load(o
 HOOKS_DIR="$ROOT_DIR/.claude/hooks"
 if [[ -d "$HOOKS_DIR" ]]; then
     HOOK_COUNT=$(ls "$HOOKS_DIR"/*.sh 2>/dev/null | wc -l)
-    printf "  %-4s %-45s %s\n" "INFO" "$HOOK_COUNT hooks found in .claude/hooks/" ""
+    printf "  %-4s %-45s %s\n" "INFO" "$HOOK_COUNT hooks found in .opencode/hooks/" ""
     for h in "$HOOKS_DIR"/*.sh; do
         [[ -f "$h" ]] || continue
         HNAME=$(basename "$h")

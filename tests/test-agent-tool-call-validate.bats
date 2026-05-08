@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/agent-tool-call-validate.sh
+# BATS tests for .opencode/hooks/agent-tool-call-validate.sh
 # PreToolUse — validates params before executing tools (Edit/Write/Read/Bash).
 # Exit 2 if required param missing; exit 0 otherwise.
 # Ref: batch 43 hook coverage
 
-HOOK=".claude/hooks/agent-tool-call-validate.sh"
+HOOK=".opencode/hooks/agent-tool-call-validate.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

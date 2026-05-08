@@ -41,7 +41,7 @@ Inspired by OmniArena's per-agent metering, this spec adds:
 
 ### 2.1 Agent Frontmatter Extension
 
-Every agent file in `.claude/agents/*.md` gains a `token_budget` field:
+Every agent file in `.opencode/agents/*.md` gains a `token_budget` field:
 
 ```yaml
 ---
@@ -111,7 +111,7 @@ bash scripts/agent-budget-lookup.sh <agent-name>
 ```
 
 **Algorithm:**
-1. Look for `.claude/agents/<agent-name>.md`
+1. Look for `.opencode/agents/<agent-name>.md`
 2. Parse YAML frontmatter between `---` delimiters
 3. Extract `token_budget:` value
 4. Print to stdout
@@ -119,7 +119,7 @@ bash scripts/agent-budget-lookup.sh <agent-name>
 
 ### 2.5 /agent-cost Command Enhancement
 
-The existing `/agent-cost` command (`.claude/commands/agent-cost.md`) adds:
+The existing `/agent-cost` command (`.opencode/commands/agent-cost.md`) adds:
 
 **New columns in output table:**
 ```
@@ -180,21 +180,21 @@ Recommendations:
 
 ### Scenario 1: Budget lookup for known agent
 ```
-Given agent file `.claude/agents/architect.md` contains `token_budget: 13000`
+Given agent file `.opencode/agents/architect.md` contains `token_budget: 13000`
 When `bash scripts/agent-budget-lookup.sh architect`
 Then stdout is "13000" and exit code is 0
 ```
 
 ### Scenario 2: Budget lookup for unknown agent
 ```
-Given no file `.claude/agents/nonexistent.md` exists
+Given no file `.opencode/agents/nonexistent.md` exists
 When `bash scripts/agent-budget-lookup.sh nonexistent`
 Then stdout is "0" and exit code is 0
 ```
 
 ### Scenario 3: Budget lookup for agent without token_budget field
 ```
-Given agent file `.claude/agents/legacy-agent.md` exists WITHOUT token_budget
+Given agent file `.opencode/agents/legacy-agent.md` exists WITHOUT token_budget
 When `bash scripts/agent-budget-lookup.sh legacy-agent`
 Then stdout is "0" and exit code is 0
 ```
@@ -254,62 +254,62 @@ tests/hooks/test-agent-budget-lookup.bats   # BATS tests for the lookup script
 
 ### Modificar (existentes)
 ```
-.claude/hooks/agent-trace-log.sh            # Add token_budget lookup, budget_exceeded field, alert write
-.claude/commands/agent-cost.md              # Add budget vs actual columns and violations section
+.opencode/hooks/agent-trace-log.sh            # Add token_budget lookup, budget_exceeded field, alert write
+.opencode/commands/agent-cost.md              # Add budget vs actual columns and violations section
 tests/hooks/test-agent-trace-log.bats       # Add scenarios 4-6 to existing test suite
 ```
 
 ### Modificar (bulk — add token_budget to frontmatter)
 ```
-.claude/agents/architect.md                 # token_budget: 13000
-.claude/agents/security-guardian.md         # token_budget: 13000
-.claude/agents/code-reviewer.md             # token_budget: 13000
-.claude/agents/reflection-validator.md      # token_budget: 13000
-.claude/agents/pentester.md                 # token_budget: 13000
-.claude/agents/drift-auditor.md             # token_budget: 13000
-.claude/agents/visual-digest.md             # token_budget: 13000
-.claude/agents/pdf-digest.md                # token_budget: 13000
-.claude/agents/meeting-confidentiality-judge.md  # token_budget: 13000
-.claude/agents/meeting-risk-analyst.md      # token_budget: 13000
-.claude/agents/infrastructure-agent.md      # token_budget: 13000
-.claude/agents/sdd-spec-writer.md           # token_budget: 13000
-.claude/agents/business-analyst.md          # token_budget: 13000
-.claude/agents/cobol-developer.md           # token_budget: 13000
-.claude/agents/dotnet-developer.md          # token_budget: 8500
-.claude/agents/typescript-developer.md      # token_budget: 8500
-.claude/agents/frontend-developer.md        # token_budget: 8500
-.claude/agents/java-developer.md            # token_budget: 8500
-.claude/agents/python-developer.md          # token_budget: 8500
-.claude/agents/go-developer.md              # token_budget: 8500
-.claude/agents/rust-developer.md            # token_budget: 8500
-.claude/agents/php-developer.md             # token_budget: 8500
-.claude/agents/mobile-developer.md          # token_budget: 8500
-.claude/agents/ruby-developer.md            # token_budget: 8500
-.claude/agents/test-engineer.md             # token_budget: 8500
-.claude/agents/test-runner.md               # token_budget: 8500
-.claude/agents/coherence-validator.md       # token_budget: 8500
-.claude/agents/frontend-test-runner.md      # token_budget: 8500
-.claude/agents/security-attacker.md         # token_budget: 8500
-.claude/agents/security-defender.md         # token_budget: 8500
-.claude/agents/security-auditor.md          # token_budget: 8500
-.claude/agents/visual-qa-agent.md           # token_budget: 8500
-.claude/agents/dev-orchestrator.md          # token_budget: 8500
-.claude/agents/meeting-digest.md            # token_budget: 8500
-.claude/agents/commit-guardian.md           # token_budget: 8500
-.claude/agents/diagram-architect.md         # token_budget: 8500
-.claude/agents/web-e2e-tester.md            # token_budget: 8500
-.claude/agents/word-digest.md               # token_budget: 8500
-.claude/agents/excel-digest.md              # token_budget: 8500
-.claude/agents/pptx-digest.md               # token_budget: 8500
-.claude/agents/tech-writer.md               # token_budget: 4500
-.claude/agents/performance-analyst.md       # token_budget: 4500  (if exists)
-.claude/agents/azure-devops-operator.md     # token_budget: 2200
-.claude/agents/memory-agent.md              # token_budget: 2200
+.opencode/agents/architect.md                 # token_budget: 13000
+.opencode/agents/security-guardian.md         # token_budget: 13000
+.opencode/agents/code-reviewer.md             # token_budget: 13000
+.opencode/agents/reflection-validator.md      # token_budget: 13000
+.opencode/agents/pentester.md                 # token_budget: 13000
+.opencode/agents/drift-auditor.md             # token_budget: 13000
+.opencode/agents/visual-digest.md             # token_budget: 13000
+.opencode/agents/pdf-digest.md                # token_budget: 13000
+.opencode/agents/meeting-confidentiality-judge.md  # token_budget: 13000
+.opencode/agents/meeting-risk-analyst.md      # token_budget: 13000
+.opencode/agents/infrastructure-agent.md      # token_budget: 13000
+.opencode/agents/sdd-spec-writer.md           # token_budget: 13000
+.opencode/agents/business-analyst.md          # token_budget: 13000
+.opencode/agents/cobol-developer.md           # token_budget: 13000
+.opencode/agents/dotnet-developer.md          # token_budget: 8500
+.opencode/agents/typescript-developer.md      # token_budget: 8500
+.opencode/agents/frontend-developer.md        # token_budget: 8500
+.opencode/agents/java-developer.md            # token_budget: 8500
+.opencode/agents/python-developer.md          # token_budget: 8500
+.opencode/agents/go-developer.md              # token_budget: 8500
+.opencode/agents/rust-developer.md            # token_budget: 8500
+.opencode/agents/php-developer.md             # token_budget: 8500
+.opencode/agents/mobile-developer.md          # token_budget: 8500
+.opencode/agents/ruby-developer.md            # token_budget: 8500
+.opencode/agents/test-engineer.md             # token_budget: 8500
+.opencode/agents/test-runner.md               # token_budget: 8500
+.opencode/agents/coherence-validator.md       # token_budget: 8500
+.opencode/agents/frontend-test-runner.md      # token_budget: 8500
+.opencode/agents/security-attacker.md         # token_budget: 8500
+.opencode/agents/security-defender.md         # token_budget: 8500
+.opencode/agents/security-auditor.md          # token_budget: 8500
+.opencode/agents/visual-qa-agent.md           # token_budget: 8500
+.opencode/agents/dev-orchestrator.md          # token_budget: 8500
+.opencode/agents/meeting-digest.md            # token_budget: 8500
+.opencode/agents/commit-guardian.md           # token_budget: 8500
+.opencode/agents/diagram-architect.md         # token_budget: 8500
+.opencode/agents/web-e2e-tester.md            # token_budget: 8500
+.opencode/agents/word-digest.md               # token_budget: 8500
+.opencode/agents/excel-digest.md              # token_budget: 8500
+.opencode/agents/pptx-digest.md               # token_budget: 8500
+.opencode/agents/tech-writer.md               # token_budget: 4500
+.opencode/agents/performance-analyst.md       # token_budget: 4500  (if exists)
+.opencode/agents/azure-devops-operator.md     # token_budget: 2200
+.opencode/agents/memory-agent.md              # token_budget: 2200
 ```
 
 ### NO tocar
 ```
-.claude/hooks/session-init.sh               # Unrelated hook
+.opencode/hooks/session-init.sh               # Unrelated hook
 docs/rules/domain/agent-context-budget.md # Reference doc, not code
 scripts/context-tracker.sh                  # Separate tracking system
 ```
@@ -367,7 +367,7 @@ set -uo pipefail
 
 AGENT_NAME="${1:-}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-AGENT_FILE="$SCRIPT_DIR/.claude/agents/${AGENT_NAME}.md"
+AGENT_FILE="$SCRIPT_DIR/.opencode/agents/${AGENT_NAME}.md"
 
 if [[ -z "$AGENT_NAME" ]] || [[ ! -f "$AGENT_FILE" ]]; then
   echo "0"
@@ -434,9 +434,9 @@ Cover scenarios 4-6.
 
 ### Implementacion
 - [ ] `scripts/agent-budget-lookup.sh` created and executable
-- [ ] `.claude/hooks/agent-trace-log.sh` modified with budget fields
+- [ ] `.opencode/hooks/agent-trace-log.sh` modified with budget fields
 - [ ] All 44 agent `.md` files have `token_budget` in frontmatter
-- [ ] `.claude/commands/agent-cost.md` updated with budget columns
+- [ ] `.opencode/commands/agent-cost.md` updated with budget columns
 - [ ] `tests/hooks/test-agent-budget-lookup.bats` created with 3+ scenarios
 - [ ] `tests/hooks/test-agent-trace-log.bats` extended with budget scenarios
 - [ ] `bash tests/run-all.sh` passes (zero failures)

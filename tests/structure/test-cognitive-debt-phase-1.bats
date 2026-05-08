@@ -8,10 +8,10 @@ setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
   SCRIPT="scripts/cognitive-debt.sh"
   CDEBT_ABS="$REPO_ROOT/$SCRIPT"
-  HOOK_TELEM_ABS="$REPO_ROOT/.claude/hooks/cognitive-debt-telemetry.sh"
-  HOOK_HYPO_ABS="$REPO_ROOT/.claude/hooks/cognitive-debt-hypothesis-first.sh"
+  HOOK_TELEM_ABS="$REPO_ROOT/.opencode/hooks/cognitive-debt-telemetry.sh"
+  HOOK_HYPO_ABS="$REPO_ROOT/.opencode/hooks/cognitive-debt-hypothesis-first.sh"
   GUIDE_DOC="$REPO_ROOT/docs/cognitive-debt-guide.md"
-  COMMAND_DOC="$REPO_ROOT/.claude/commands/cognitive-status.md"
+  COMMAND_DOC="$REPO_ROOT/.opencode/commands/cognitive-status.md"
   TMPDIR_C=$(mktemp -d)
   export SAVIA_COGNITIVE_DIR="$TMPDIR_C/cog"
 }

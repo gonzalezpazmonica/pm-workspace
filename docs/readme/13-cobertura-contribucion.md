@@ -72,9 +72,9 @@ Este proyecto está diseñado para crecer con las aportaciones de la comunidad. 
 
 ### Qué tipos de contribución aceptamos
 
-**Nuevos slash commands** (`.claude/commands/`) — el área de mayor impacto inmediato. Si has automatizado una conversación con Claude que resuelve un problema de PM no cubierto, empaquétala como comando y compártela. Ejemplos de alto interés: `risk-log`, `sprint-release-notes`, `backlog-capture`, `pr-status`.
+**Nuevos slash commands** (`.opencode/commands/`) — el área de mayor impacto inmediato. Si has automatizado una conversación con Claude que resuelve un problema de PM no cubierto, empaquétala como comando y compártela. Ejemplos de alto interés: `risk-log`, `sprint-release-notes`, `backlog-capture`, `pr-status`.
 
-**Nuevas skills** (`.claude/skills/`) — skills que amplíen el comportamiento de Claude en áreas nuevas (gestión de deuda técnica, integración con Jira, soporte para metodologías Kanban o SAFe, nuevos proveedores cloud).
+**Nuevas skills** (`.opencode/skills/`) — skills que amplíen el comportamiento de Claude en áreas nuevas (gestión de deuda técnica, integración con Jira, soporte para metodologías Kanban o SAFe, nuevos proveedores cloud).
 
 **Ampliaciones del proyecto de test** (`projects/sala-reservas/`) — nuevos ficheros mock, nuevas specs de ejemplo, nuevas categorías en `test-workspace.sh`.
 
@@ -115,7 +115,7 @@ Convención de nombres de ramas:
 
 **Paso 2 — Desarrolla tu contribución**
 
-Si añades un slash command nuevo, sigue la estructura de los existentes en `.claude/commands/`. Cada comando debe incluir:
+Si añades un slash command nuevo, sigue la estructura de los existentes en `.opencode/commands/`. Cada comando debe incluir:
 - Descripción del propósito en las primeras líneas
 - Pasos numerados del proceso que Claude debe seguir
 - Manejo del caso de error más común
@@ -151,7 +151,7 @@ Usa esta plantilla para el cuerpo del PR:
 - [ ] Otro: ___
 
 ## Archivos modificados / creados
-- `.claude/commands/nombre-comando.md` — [qué hace]
+- `.opencode/commands/nombre-comando.md` — [qué hace]
 - `docs/` — [si aplica]
 
 ## Tests

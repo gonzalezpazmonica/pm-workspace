@@ -23,7 +23,7 @@ Savia ya tiene `knowledge-graph` skill. Portar el patrón temporal **sin infraes
 
 ## Scope
 
-1. **Extender** schema del knowledge-graph de Savia (`.claude/skills/knowledge-graph/`) para incluir en cada edge:
+1. **Extender** schema del knowledge-graph de Savia (`.opencode/skills/knowledge-graph/`) para incluir en cada edge:
    - `valid_from: ISO-8601 datetime`
    - `invalid_at: ISO-8601 datetime | null` (null = vigente)
 
@@ -115,4 +115,4 @@ Time-box: 75 min. Riesgo principal: parser de git blame no preserva historia tra
 
 - [getzep/graphiti](https://github.com/getzep/graphiti) — patrón original
 - [arXiv 2501.13956](https://arxiv.org/abs/2501.13956) — paper Zep
-- `.claude/skills/knowledge-graph/` — skill actual
+- `.opencode/skills/knowledge-graph/` — skill actual

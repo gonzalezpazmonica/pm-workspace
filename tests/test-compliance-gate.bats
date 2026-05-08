@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # BATS tests for compliance-gate.sh
-# SCRIPT=.claude/hooks/compliance-gate.sh
+# SCRIPT=.opencode/hooks/compliance-gate.sh
 # SPEC: SPEC-081 — Hook test coverage
 
-SCRIPT=".claude/hooks/compliance-gate.sh"
+SCRIPT=".opencode/hooks/compliance-gate.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

@@ -51,9 +51,9 @@ Tolaria reads the workspace as flat files organized by directory:
 | `docs/specs/` | Specs (~85) | `spec` | Blue |
 | `docs/propuestas/` | Proposals | `proposal` | Yellow |
 | `docs/ROADMAP.md` | Roadmap | `roadmap` | Purple |
-| `.claude/commands/` | Commands (535) | `command` | Orange |
-| `.claude/skills/` | Skills (92) | `skill` | Green |
-| `.claude/agents/` | Agents (70) | `agent` | Indigo |
+| `.opencode/commands/` | Commands (535) | `command` | Orange |
+| `.opencode/skills/` | Skills (92) | `skill` | Green |
+| `.opencode/agents/` | Agents (70) | `agent` | Indigo |
 | `CHANGELOG.md` | Changelog | `changelog` | Gray |
 
 Use **Cmd/Ctrl + K** (command palette) to search across all notes.

@@ -26,8 +26,8 @@ Alinear nuestro `spec-template.md` con la estructura spec-kit sin perder lo prop
 ## Scope
 
 1. **Auditar** los 4 templates existentes:
-   - `.claude/skills/spec-driven-development/references/spec-template.md`
-   - `.claude/commands/references/spec-template.md`
+   - `.opencode/skills/spec-driven-development/references/spec-template.md`
+   - `.opencode/commands/references/spec-template.md`
    - `projects/proyecto-alpha/specs/templates/spec-template.md`
    - `projects/proyecto-beta/specs/templates/spec-template.md`
 
@@ -38,7 +38,7 @@ Alinear nuestro `spec-template.md` con la estructura spec-kit sin perder lo prop
    - `Tests` ↔ `## Acceptance Criteria`
    - Mantener exclusivas: `Agent Assignment`, `Slicing`, `Feasibility Probe`
 
-3. **Actualizar** el template canónico (`.claude/skills/spec-driven-development/references/spec-template.md`) como **single source of truth**.
+3. **Actualizar** el template canónico (`.opencode/skills/spec-driven-development/references/spec-template.md`) como **single source of truth**.
 
 4. **Redirigir** los 3 templates duplicados vía `include:` pointer al canónico (elimina drift).
 
@@ -89,7 +89,7 @@ Specs existentes (109-114) NO se migran. La alineación aplica a **nuevos specs*
 
 ## Acceptance Criteria
 
-- [ ] AC-01 `.claude/skills/spec-driven-development/references/spec-template.md` incluye las 4 secciones spec-kit estándar
+- [ ] AC-01 `.opencode/skills/spec-driven-development/references/spec-template.md` incluye las 4 secciones spec-kit estándar
 - [ ] AC-02 Campo `spec_kit_compatible: true` documentado en el frontmatter
 - [ ] AC-03 Los 3 templates duplicados sustituidos por pointer al canónico
 - [ ] AC-04 `docs/agent-teams-sdd.md` actualizado con mapping Savia ↔ spec-kit
@@ -131,10 +131,10 @@ Infrastructure pre-existente + completion de los 2 project templates duplicados.
 
 ### Pre-existente (de trabajo anterior)
 
-- `.claude/skills/spec-driven-development/references/spec-template.md`: **spec_kit_compatible: true** marker + `## Spec-Kit Alignment` section con mapping table 4 secciones spec-kit ↔ secciones Savia
+- `.opencode/skills/spec-driven-development/references/spec-template.md`: **spec_kit_compatible: true** marker + `## Spec-Kit Alignment` section con mapping table 4 secciones spec-kit ↔ secciones Savia
 - `docs/agent-teams-sdd.md`: `## Spec-Kit Alignment (SPEC-120)` section con mapping + referencia a tests
 - `tests/test-spec-template-compliance.bats`: 26 tests, score **81** certified
-- `.claude/commands/references/spec-template.md`: ya era pointer al canonico (no content duplication)
+- `.opencode/commands/references/spec-template.md`: ya era pointer al canonico (no content duplication)
 
 ### Added (este PR)
 

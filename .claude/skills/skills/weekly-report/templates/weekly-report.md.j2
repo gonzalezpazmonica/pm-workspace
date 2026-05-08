@@ -1,0 +1,74 @@
+{# Plantilla lean — SPEC-WR01 §1bis. v0.2: WR02+WR03+WR05+WR07+WR08+WR09. trim_blocks+lstrip_blocks ON. #}
+# Informe Semanal — {{ project }} — {{ sprint.name }} (día {{ sprint.working_days_elapsed }}/{{ sprint.working_days_total }}, {{ sprint.phase }})
+
+> asof {{ asof }} · {{ sources_ok_count }} fuentes ok · {{ sources_stale_count }} stale · audience: {{ audience }} · view: {{ 'expanded' if expanded else 'lean' }} · narrative: {{ 'on' if narrative else 'off' }}
+{% if sprint.goal %}
+> Sprint goal: {{ sprint.goal }}
+{% endif %}
+{% for w in critical_source_banners %}
+> ⚠ {{ w }}
+{% endfor %}
+
+## Delta vs informe previo{% if previous_run.available %} (asof {{ previous_run.asof }}, {{ previous_run.days_ago }} días atrás){% endif %}
+
+{% if previous_run.available %}
+Δ {{ delta.imputed_h | format_h_signed }} imputadas · {{ delta.closed_count | format_signed }} closed · {{ delta.remaining_h | format_h_signed }} remaining
+
+{% if delta.score_swings %}
+Score swings ±1.0: {% for s in delta.score_swings %}{{ s.persona }} {{ s.delta | format_signed_decimal }}{% if not loop.last %} · {% endif %}{% endfor %}
+
+{% else %}
+Sin cambios en score swings
+
+{% endif %}
+{% if delta.source_status_changes %}
+Fuentes degradadas: {% for c in delta.source_status_changes %}{{ c.source }} ({{ c.from }} → {{ c.to }}){% if not loop.last %} · {% endif %}{% endfor %}
+{% else %}
+Sin cambios en estado de fuentes
+{% endif %}
+{% else %}
+Primera ejecución del sprint — sin línea base para comparar.
+{% endif %}
+
+## Equipo
+
+| Squad | Personas | Capacity | Imputado | Util % | Score medio | Alertas |
+|---|---|---|---|---|---|---|
+{% for s in squads %}
+| {{ s.name }} | {{ s.personas_count }} | {{ s.capacity_h }} h | {{ s.imputado_h }} h | {{ s.util_pct }} % | {{ s.score_avg | format_score(s.score_n, s.score_m) }} | {{ s.alertas_inline if s.alertas_inline else '—' }} |
+{% endfor %}
+{% if vacations_pendientes_sprint %}
+
+> ⚠ {{ vacations_pendientes_sprint | length }} vacaciones pendientes de aprobar afectando el sprint: {{ vacations_pendientes_sprint | format_vacation_names }}
+{% endif %}
+
+### Coordinación
+
+{{ coordinacion.reuniones }} reuniones · {{ coordinacion.decisiones }} decisiones · {{ coordinacion.action_items_abiertos }} action items abiertos ({{ coordinacion.action_items_propios_pm }} propios PM) · {{ coordinacion.prs_revisados }} PRs revisados.
+
+## Económica
+{% for vs in economica.vs_codes %}
+
+**{{ vs.code }} — {{ vs.descripcion }}** (Margen de venta: {{ vs.margen_venta_pct | format_pct }})
+
+Closed Year
+
+| Year | Budget | GM % | Cum Budget | Cum. GM % |
+|------|--------|------|------------|-----------|
+| {{ vs.closed_year.year }} | {{ vs.closed_year.budget | format_eur_or_dash }} | {{ vs.closed_year.gm_pct | format_pct_or_dash }} | {{ vs.closed_year.cum_budget | format_eur_or_dash }} | {{ vs.closed_year.cum_gm_pct | format_pct_or_dash }} |
+
+Year {{ asof[:4] }}
+
+| Period | Budget | GM % | Cum. Budget | Cum. GM % |
+|--------|--------|------|-------------|-----------|
+{% for row in vs.current_year %}
+| {{ row.period }} | {{ row.budget | format_eur_or_dash }} | {{ row.gm_pct | format_pct_or_dash }} | {{ row.cum_budget | format_eur_or_dash }} | {{ row.cum_gm_pct | format_pct_or_dash }} |
+{% endfor %}
+{% endfor %}
+
+## Festivos del sprint
+
+{% for f in festivos_sprint %}{{ f.fecha }} ({{ f.descripcion }}, {{ f.pais }}){% if not loop.last %} · {% endif %}{% endfor %}
+
+---
+> Para detalle persona-a-persona: --expanded · Resumen narrativo: --narrative

@@ -23,7 +23,7 @@ check_branch() {
 
 check_file_sizes() {
   local out="$TMPDIR_CI/1-sizes" fails=0 checked=0
-  for pattern in ".claude/commands/*.md" ".claude/skills/*/SKILL.md" ".claude/agents/*.md"; do
+  for pattern in ".opencode/commands/*.md" ".opencode/skills/*/SKILL.md" ".opencode/agents/*.md"; do
     for file in $pattern; do
       [ -f "$file" ] || continue; checked=$((checked+1))
       local lines; lines=$(wc -l < "$file")
@@ -37,7 +37,7 @@ check_file_sizes() {
 
 check_frontmatter() {
   local out="$TMPDIR_CI/2-frontmatter" fails=0 legacy=0
-  for file in .claude/commands/*.md; do
+  for file in .opencode/commands/*.md; do
     [ -f "$file" ] || continue
     if head -1 "$file" | grep -q "^---$"; then
       grep -q "^name:" "$file" || { echo "FAIL FM: $file missing name" >> "$out.f"; fails=$((fails+1)); }

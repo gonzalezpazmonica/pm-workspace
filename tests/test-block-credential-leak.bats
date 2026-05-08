@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # BATS tests for block-credential-leak.sh
-# SCRIPT=.claude/hooks/block-credential-leak.sh
+# SCRIPT=.opencode/hooks/block-credential-leak.sh
 # SPEC: SPEC-032 Security Benchmarks — hook coverage for corporate audit
 
-SCRIPT=".claude/hooks/block-credential-leak.sh"
+SCRIPT=".opencode/hooks/block-credential-leak.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

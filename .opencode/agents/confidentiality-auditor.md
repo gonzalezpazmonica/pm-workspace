@@ -49,7 +49,6 @@ sensibles?" sino "hay datos que pertenecen a un nivel SUPERIOR al de este repo?"
 | N4b-PM | Solo credenciales/secrets tecnicos |
 
 ## Context Index
-
 When auditing a project repo, check `projects/{project}/.context-index/PROJECT.ctx` if it exists. Use `[location]` entries to understand the expected project structure and sensitive data paths.
 
 ## Fase 1 — Detectar nivel y construir contexto
@@ -148,5 +147,4 @@ Sin CRITICALs → `VEREDICTO: CLEAN` + warnings si hay + firmar con `confidentia
 - SIEMPRE reportar el fichero y linea exacta de cada hallazgo
 
 ## Reporting Policy (SE-066)
-
 Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

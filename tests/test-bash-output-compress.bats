@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/bash-output-compress.sh
+# BATS tests for .opencode/hooks/bash-output-compress.sh
 # PostToolUse async — compresses verbose Bash output to reduce token consumption.
 # Ref: batch 48 hook coverage — SPEC-rtk-ai inspired token reduction
 
-HOOK=".claude/hooks/bash-output-compress.sh"
+HOOK=".opencode/hooks/bash-output-compress.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

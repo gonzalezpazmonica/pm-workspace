@@ -6,14 +6,14 @@ setup() {
   SCRIPT="scripts/generate-context-index.sh"
   TMPDIR_IDX=$(mktemp -d)
   mkdir -p "$TMPDIR_IDX/docs/rules/domain" "$TMPDIR_IDX/docs/rules/languages" \
-           "$TMPDIR_IDX/.claude/agents" "$TMPDIR_IDX/.claude/skills/test-skill" \
+           "$TMPDIR_IDX/.claude/agents" "$TMPDIR_IDX/.opencode/skills/test-skill" \
            "$TMPDIR_IDX/.claude/commands" "$TMPDIR_IDX/.claude/hooks" \
            "$TMPDIR_IDX/docs" "$TMPDIR_IDX/scripts" "$TMPDIR_IDX/tests" "$TMPDIR_IDX/output"
   touch "$TMPDIR_IDX/docs/rules/domain/test-rule.md"
-  touch "$TMPDIR_IDX/.claude/agents/test-agent.md"
-  touch "$TMPDIR_IDX/.claude/commands/test-cmd.md"
-  touch "$TMPDIR_IDX/.claude/hooks/test-hook.sh"
-  touch "$TMPDIR_IDX/.claude/skills/test-skill/SKILL.md"
+  touch "$TMPDIR_IDX/.opencode/agents/test-agent.md"
+  touch "$TMPDIR_IDX/.opencode/commands/test-cmd.md"
+  touch "$TMPDIR_IDX/.opencode/hooks/test-hook.sh"
+  touch "$TMPDIR_IDX/.opencode/skills/test-skill/SKILL.md"
 }
 teardown() { rm -rf "$TMPDIR_IDX"; }
 
@@ -135,14 +135,14 @@ teardown() { rm -rf "$TMPDIR_IDX"; }
 
 @test "all 8 digester agents reference context-index or .ctx" {
   local digesters=(
-    ".claude/agents/meeting-digest.md"
-    ".claude/agents/pdf-digest.md"
-    ".claude/agents/word-digest.md"
-    ".claude/agents/excel-digest.md"
-    ".claude/agents/pptx-digest.md"
-    ".claude/agents/visual-digest.md"
-    ".claude/agents/meeting-risk-analyst.md"
-    ".claude/agents/meeting-confidentiality-judge.md"
+    ".opencode/agents/meeting-digest.md"
+    ".opencode/agents/pdf-digest.md"
+    ".opencode/agents/word-digest.md"
+    ".opencode/agents/excel-digest.md"
+    ".opencode/agents/pptx-digest.md"
+    ".opencode/agents/visual-digest.md"
+    ".opencode/agents/meeting-risk-analyst.md"
+    ".opencode/agents/meeting-confidentiality-judge.md"
   )
   for agent in "${digesters[@]}"; do
     grep -qiE '(context-index|\.ctx)' "$agent" || {

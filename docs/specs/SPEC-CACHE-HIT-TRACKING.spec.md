@@ -255,7 +255,7 @@ AND     no usa tarifa 5min
 |--------|---------|-----------|
 | Crear | scripts/cache-scanner.py | Scanner incremental |
 | Crear | scripts/cache-analytics.py | Consultor con queries |
-| Crear | .claude/commands/cache-analytics.md | Command slash |
+| Crear | .opencode/commands/cache-analytics.md | Command slash |
 | Crear | tests/test-cache-scanner.bats | Suite BATS scanner |
 | Crear | tests/test-cache-analytics.bats | Suite BATS analytics |
 | Modificar | .gitignore | Excluir ~/.savia/usage.db |

@@ -98,6 +98,6 @@ SDD_VALIDATE_POST_COHORTE: true
 
 ## Referencia
 
-- Skill: .claude/skills/dag-scheduling/SKILL.md
+- Skill: .opencode/skills/dag-scheduling/SKILL.md
 - Comandos: /dag-plan, /dag-execute
-- Ver: .claude/skills/spec-driven-development/SKILL.md
+- Ver: .opencode/skills/spec-driven-development/SKILL.md

@@ -34,7 +34,7 @@ assert_fail() {
 }
 
 PROJECT_ROOT=$ROOT
-INTENT_CATALOG="${PROJECT_ROOT}/.claude/commands/references/intent-catalog.md"
+INTENT_CATALOG="${PROJECT_ROOT}/.opencode/commands/references/intent-catalog.md"
 
 echo "═══════════════════════════════════════════════════════════"
 echo "  Test Suite — NL Command Resolution (v1.9.0)"
@@ -46,7 +46,7 @@ echo "[Group 1] Intent Catalog Structure"
 
 assert_ok \
   "[ -f '$INTENT_CATALOG' ]" \
-  "intent-catalog.md exists at .claude/commands/references/"
+  "intent-catalog.md exists at .opencode/commands/references/"
 
 assert_ok \
   "grep -cE '^\| .+\|.+\|.+\|' '$INTENT_CATALOG' | awk '{ if (\$1 >= 50) exit 0; else exit 1 }'" \
@@ -68,7 +68,7 @@ echo ""
 # Test Group 2: NL query command structure
 echo "[Group 2] NL Query Command Structure"
 
-NL_QUERY="${PROJECT_ROOT}/.claude/commands/nl-query.md"
+NL_QUERY="${PROJECT_ROOT}/.opencode/commands/nl-query.md"
 
 assert_ok \
   "[ -f '$NL_QUERY' ]" \

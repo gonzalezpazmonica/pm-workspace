@@ -26,21 +26,21 @@ check "example-patterns ≤150 líneas" "test $(wc -l < docs/rules/domain/exampl
 
 # Verificar examples en 5 commands piloto
 for cmd in project-audit sprint-plan spec-generate debt-track risk-log; do
-    check "$cmd tiene sección Ejemplos" "grep -q '## Ejemplos' .claude/commands/$cmd.md"
-    check "$cmd tiene ejemplo positivo ✅" "grep -q '✅ Correcto' .claude/commands/$cmd.md"
-    check "$cmd tiene ejemplo negativo ❌" "grep -q '❌ Incorrecto' .claude/commands/$cmd.md"
-    check "$cmd ≤150 líneas" "test $(wc -l < .claude/commands/$cmd.md) -le 150"
+    check "$cmd tiene sección Ejemplos" "grep -q '## Ejemplos' .opencode/commands/$cmd.md"
+    check "$cmd tiene ejemplo positivo ✅" "grep -q '✅ Correcto' .opencode/commands/$cmd.md"
+    check "$cmd tiene ejemplo negativo ❌" "grep -q '❌ Incorrecto' .opencode/commands/$cmd.md"
+    check "$cmd ≤150 líneas" "test $(wc -l < .opencode/commands/$cmd.md) -le 150"
 done
 
 # === Sección 3: /eval-output (Mejora 2) ===
 echo -e "\n📋 Sección 3: /eval-output (G-Eval)"
-check "eval-output.md existe" "test -f .claude/commands/eval-output.md"
-check "eval-output tiene frontmatter con model" "grep -q 'model: opus' .claude/commands/eval-output.md"
-check "eval-output tiene sección Razonamiento" "grep -q '## Razonamiento' .claude/commands/eval-output.md"
-check "eval-output tiene sección Ejemplos" "grep -q '## Ejemplos' .claude/commands/eval-output.md"
-check "eval-output tiene template de output" "grep -q 'Template de Output' .claude/commands/eval-output.md"
-check "eval-output tiene modo Arena" "grep -q '\-\-compare' .claude/commands/eval-output.md"
-check "eval-output ≤150 líneas" "test $(wc -l < .claude/commands/eval-output.md) -le 150"
+check "eval-output.md existe" "test -f .opencode/commands/eval-output.md"
+check "eval-output tiene frontmatter con model" "grep -q 'model: opus' .opencode/commands/eval-output.md"
+check "eval-output tiene sección Razonamiento" "grep -q '## Razonamiento' .opencode/commands/eval-output.md"
+check "eval-output tiene sección Ejemplos" "grep -q '## Ejemplos' .opencode/commands/eval-output.md"
+check "eval-output tiene template de output" "grep -q 'Template de Output' .opencode/commands/eval-output.md"
+check "eval-output tiene modo Arena" "grep -q '\-\-compare' .opencode/commands/eval-output.md"
+check "eval-output ≤150 líneas" "test $(wc -l < .opencode/commands/eval-output.md) -le 150"
 check "eval-criteria.md existe" "test -f docs/rules/domain/eval-criteria.md"
 check "eval-criteria tiene 4 tipos" "test $(grep -c '### Tipo:' docs/rules/domain/eval-criteria.md) -ge 4"
 check "eval-criteria tiene escala scoring" "grep -q 'Escala de scoring' docs/rules/domain/eval-criteria.md"
@@ -48,10 +48,10 @@ check "eval-criteria ≤150 líneas" "test $(wc -l < docs/rules/domain/eval-crit
 
 # === Sección 4: Entity Memory (Mejora 3) ===
 echo -e "\n📋 Sección 4: Entity Memory"
-check "entity-recall.md existe" "test -f .claude/commands/entity-recall.md"
-check "entity-recall tiene sección Ejemplos" "grep -q '## Ejemplos' .claude/commands/entity-recall.md"
-check "entity-recall referencia memory-store" "grep -q 'memory-store' .claude/commands/entity-recall.md"
-check "entity-recall ≤150 líneas" "test $(wc -l < .claude/commands/entity-recall.md) -le 150"
+check "entity-recall.md existe" "test -f .opencode/commands/entity-recall.md"
+check "entity-recall tiene sección Ejemplos" "grep -q '## Ejemplos' .opencode/commands/entity-recall.md"
+check "entity-recall referencia memory-store" "grep -q 'memory-store' .opencode/commands/entity-recall.md"
+check "entity-recall ≤150 líneas" "test $(wc -l < .opencode/commands/entity-recall.md) -le 150"
 check "memory-store.sh tiene cmd_entity" "grep -q 'cmd_entity' scripts/memory-store.sh"
 check "memory-store.sh soporta entity subcommand" "grep -q 'entity)' scripts/memory-store.sh"
 check "memory-store.sh ≤150 líneas" "test $(wc -l < scripts/memory-store.sh) -le 150"
@@ -92,8 +92,8 @@ check "Doc EN referencia 5 improvements" "test $(grep -c 'Improvement' docs/cont
 
 # === Sección 7: Cross-references ===
 echo -e "\n📋 Sección 7: Integridad cross-reference"
-check "eval-output ref eval-criteria" "grep -q 'eval-criteria' .claude/commands/eval-output.md"
-check "entity-recall ref memory-store.sh" "grep -q 'memory-store' .claude/commands/entity-recall.md"
+check "eval-output ref eval-criteria" "grep -q 'eval-criteria' .opencode/commands/eval-output.md"
+check "entity-recall ref memory-store.sh" "grep -q 'memory-store' .opencode/commands/entity-recall.md"
 check "tool-discovery ref nl-command-resolution" "grep -q 'nl-command-resolution' docs/rules/domain/tool-discovery.md"
 check "prompt-structure ref context-health" "grep -q 'context-health' docs/rules/domain/prompt-structure.md"
 check "example-patterns ref PII-Free" "grep -q 'PII-Free' docs/rules/domain/example-patterns.md"

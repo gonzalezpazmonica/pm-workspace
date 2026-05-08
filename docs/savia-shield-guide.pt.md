@@ -37,12 +37,11 @@ Hooks de seguranca presentes em TODOS os perfis: `block-credential-leak.sh`, `bl
 
 **Camada 3 — Auditoria pos-escrita**: Hook assincrono que re-escaneia o arquivo completo. Nao bloqueia. Alerta imediato se detectar vazamento.
 
-**Camada 4 — Mascaramento reversivel**: Substitui entidades reais por ficticias antes de enviar para APIs cloud. Mapa local (N4, nunca no git).
+**Camada 4 — [OBSOLETA] Mascaramento manual removido**
 
-```bash
-bash scripts/sovereignty-mask.sh mask "texto com dados reais" --project meu-projeto
-bash scripts/sovereignty-mask.sh unmask "resposta do Claude"
-```
+O mascaramento manual (`sovereignty-mask.sh`) foi removido em 2026-05-05.  
+A Camada 4 (Proxy) mantem seu proprio mascaramento interno em `savia-shield-proxy.py`.  
+Este espaco esta reservado para uma alternativa futura.
 
 ---
 

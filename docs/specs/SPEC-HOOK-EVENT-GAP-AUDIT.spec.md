@@ -48,7 +48,7 @@ actualizar la documentacion.
   - **Implementar**: eventos con valor claro para Savia (probablemente 3-5)
   - **Diferir**: eventos con valor condicional
   - **Descartar**: eventos sin aplicacion en pm-workspace
-- **REQ-03** Para cada evento HIGH, crear un hook concreto en `.claude/hooks/`
+- **REQ-03** Para cada evento HIGH, crear un hook concreto en `.opencode/hooks/`
   con tier correcto (minimal/standard/strict) y registrar en `settings.json`.
 - **REQ-04** Actualizar `docs/rules/domain/async-hooks-config.md` con la
   nueva cobertura y los eventos descartados con justificacion.
@@ -64,7 +64,7 @@ actualizar la documentacion.
 - **AC-01** `bash scripts/hook-event-gap-audit.sh` genera el informe sin error.
 - **AC-02** El informe lista los 11 eventos no cubiertos con decision de cada uno.
 - **AC-03** Al menos 3 eventos clasificados HIGH tienen un hook correspondiente
-  implementado en `.claude/hooks/`.
+  implementado en `.opencode/hooks/`.
 - **AC-04** `docs/rules/domain/async-hooks-config.md` refleja la nueva
   cobertura (>=75% = 21/28 eventos).
 - **AC-05** Los nuevos hooks implementados tienen test BATS correspondiente.
@@ -85,7 +85,7 @@ actualizar la documentacion.
 **Nuevos:**
 - `scripts/hook-event-gap-audit.sh` (~100 lineas)
 - `output/hook-event-gap-audit.md` (informe generado)
-- 3-5 nuevos hooks en `.claude/hooks/` (segun clasificacion HIGH)
+- 3-5 nuevos hooks en `.opencode/hooks/` (segun clasificacion HIGH)
 - `tests/test-hook-event-gap-audit.bats`
 
 **Modificados:**

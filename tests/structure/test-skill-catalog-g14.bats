@@ -62,8 +62,8 @@ source_gates() {
   grep -q "skill-catalog-audit.sh" "$GATES_ABS"
 }
 
-@test "g14 filters to .claude/skills/.../SKILL.md only" {
-  grep -qF '.claude/skills/' "$GATES_ABS"
+@test "g14 filters to .opencode/skills/.../SKILL.md only" {
+  grep -qF '.opencode/skills/' "$GATES_ABS"
   grep -qF 'SKILL.md' "$GATES_ABS"
 }
 
@@ -104,7 +104,7 @@ source_gates() {
   source_gates
   run g14_skill_catalog
   [ "$status" -eq 0 ]
-  # On this branch we change docs/rules/, scripts/, tests/ but NO .claude/skills/*/SKILL.md
+  # On this branch we change docs/rules/, scripts/, tests/ but NO .opencode/skills/*/SKILL.md
   [[ "$output" == *"skipped"* ]] || [[ "$output" == *"audited"* ]]
 }
 
@@ -186,7 +186,7 @@ EOF
 }
 
 @test "auditor JSON output contains required keys for G14 to parse" {
-  run bash "$AUDITOR" --json --skill "$ROOT_DIR/.claude/skills/caveman" 2>&1
+  run bash "$AUDITOR" --json --skill "$ROOT_DIR/.opencode/skills/caveman" 2>&1
   if [ "$status" -eq 0 ]; then
     python3 -c "import json,sys; r=json.loads(sys.argv[1]); assert 'fail' in r and 'warn' in r" "$output"
   else

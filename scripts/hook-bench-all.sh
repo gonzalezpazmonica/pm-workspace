@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # hook-bench-all.sh — SE-037 Slice 1 probe: measure latency of all hooks.
 #
-# Runs each `.claude/hooks/*.sh` N times (default 5) with a neutral stdin
+# Runs each `.opencode/hooks/*.sh` N times (default 5) with a neutral stdin
 # payload and reports p50/p95/p99 in milliseconds. Output is a markdown
 # table sorted by p95 descending, plus a summary of violations against
 # the SLA 20ms p50 for critical hooks.
@@ -16,7 +16,7 @@
 set -uo pipefail
 
 REPO_ROOT="${REPO_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
-HOOKS_DIR="$REPO_ROOT/.claude/hooks"
+HOOKS_DIR="$REPO_ROOT/.opencode/hooks"
 OUTPUT_DIR="$REPO_ROOT/output"
 DATE_STR="$(date +%Y%m%d)"
 REPORT="$OUTPUT_DIR/hook-bench-report-$DATE_STR.md"

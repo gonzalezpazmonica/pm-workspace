@@ -11,7 +11,7 @@ STAGED=$(git diff --cached --name-only 2>/dev/null || echo "")
 
 for file in "$@"; do
   [[ -f "$file" ]] || continue
-  [[ "$file" =~ \.claude/commands/.+\.md$ ]] || continue
+  [[ "$file" =~ \.opencode/commands/.+\.md$ ]] || continue
 
   # Solo verificar si el fichero está staged (no pre-existente legacy)
   if ! echo "$STAGED" | grep -q "$file"; then

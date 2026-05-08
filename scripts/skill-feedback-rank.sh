@@ -47,7 +47,7 @@ STATS=$(jq -r --argjson d90 "$D90" --argjson d30 "$D30" '
 # Generate output
 TOTAL=$(echo "$STATS" | jq 'map(.total) | add // 0' 2>/dev/null || echo 0)
 RANKED=$(echo "$STATS" | jq '[.[] | select(.label=="ranked")] | length' 2>/dev/null || echo 0)
-SKILL_COUNT=$(ls -d .claude/skills/*/ 2>/dev/null | wc -l || echo 82)
+SKILL_COUNT=$(ls -d .opencode/skills/*/ 2>/dev/null | wc -l || echo 82)
 
 echo "===================================================="
 echo "  /skill-rank — Skill Effectiveness Ranking"

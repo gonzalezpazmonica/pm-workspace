@@ -23,7 +23,7 @@ Concrete input/output examples are the most powerful context type for guiding LL
 
 New command implementing G-Eval — output evaluation with quantitative scoring (1-10) against defined criteria. Includes Arena mode for A/B comparison of two outputs.
 
-**Command:** `.claude/commands/eval-output.md`
+**Command:** `.opencode/commands/eval-output.md`
 **Criteria:** `docs/rules/domain/eval-criteria.md` (4 types: report, spec, code, plan)
 
 ---
@@ -32,7 +32,7 @@ New command implementing G-Eval — output evaluation with quantitative scoring 
 
 Extends the memory system with Entity Memory — structured memory that tracks specific entities (stakeholders, components, decisions) persistently across sessions.
 
-**Command:** `.claude/commands/entity-recall.md`
+**Command:** `.opencode/commands/entity-recall.md`
 **Script:** `scripts/memory-store.sh` (new `entity` subcommand)
 
 ---

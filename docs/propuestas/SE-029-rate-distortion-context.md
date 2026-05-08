@@ -71,7 +71,7 @@ Clasifica cada turn en una clase de tarea:
 | `context` | 25:1 | no | explicaciones, docs |
 | `chitchat` | 80:1 | no | "thanks", small talk |
 
-Implementación: `.claude/skills/context-task-classifier/SKILL.md` + regex + heurísticas + fallback LLM-judge.
+Implementación: `.opencode/skills/context-task-classifier/SKILL.md` + regex + heurísticas + fallback LLM-judge.
 
 ### 3. Operational point selector (SE-029-O)
 
@@ -106,7 +106,7 @@ Zonas NUNCA comprimidas (coste asumido):
 - AC (acceptance criteria) del sprint actual
 - Errores con traceback completo (debugging)
 
-Enforzado por `.claude/hooks/compress-skip-frozen.sh`.
+Enforzado por `.opencode/hooks/compress-skip-frozen.sh`.
 
 ### 5. Re-state protocol (SE-029-R)
 
@@ -171,9 +171,9 @@ User puede corregir drift inmediatamente.
 ## Acceptance Criteria
 
 - [ ] AC-01 `scripts/context-distortion-measure.sh` implementado con 3 thresholds
-- [ ] AC-02 `.claude/skills/context-task-classifier/SKILL.md` con 6 task-classes
+- [ ] AC-02 `.opencode/skills/context-task-classifier/SKILL.md` con 6 task-classes
 - [ ] AC-03 Integración con `context-budget`: emite `operational_point` YAML
-- [ ] AC-04 `.claude/hooks/compress-skip-frozen.sh` hook PreToolUse bloqueando compactación en frozen zones
+- [ ] AC-04 `.opencode/hooks/compress-skip-frozen.sh` hook PreToolUse bloqueando compactación en frozen zones
 - [ ] AC-05 Re-state anchor auto-generado si ratio > 20:1
 - [ ] AC-06 Benchmark inicial: medir D actual vs objetivo ≤ 0.20 en 10 sesiones reales
 - [ ] AC-07 Tests bats 30+ cubriendo classifier + distortion + frozen

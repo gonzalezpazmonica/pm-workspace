@@ -2,7 +2,7 @@
 # rule-orphan-detector.sh — SE-048 Slice 1 rule usage audit.
 #
 # Para cada regla en `docs/rules/domain/*.md`, cuenta referencias reales
-# en: .claude/agents/, .claude/skills/, .claude/commands/, scripts/, tests/,
+# en: .opencode/agents/, .opencode/skills/, .opencode/commands/, scripts/, tests/,
 # docs/ (excluyendo la propia ruta), CLAUDE.md.
 #
 # Reporta reglas con ref_count=0 como "huérfanas" (candidate deprecate).

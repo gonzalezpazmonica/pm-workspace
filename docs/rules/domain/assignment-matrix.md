@@ -1,5 +1,5 @@
 ---
-globs: [".claude/agents/**"]
+globs: [".opencode/agents/**"]
 ---
 
 # Assignment Matrix — Task Type → Agent Routing

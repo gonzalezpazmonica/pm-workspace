@@ -37,12 +37,11 @@ Security hooks that run in ALL profiles: `block-credential-leak.sh`, `block-forc
 
 **Layer 3 — Post-write audit**: Async hook that re-scans the complete file. Does not block. Immediate alert if a leak is detected.
 
-**Layer 4 — Reversible masking**: Replaces real entities with fictional ones before sending to cloud APIs. Local map (N4, never in git).
+**Layer 4 — [DEPRECATED] Manual masking removed**
 
-```bash
-bash scripts/sovereignty-mask.sh mask "text with real data" --project my-project
-bash scripts/sovereignty-mask.sh unmask "Claude response"
-```
+Manual masking (`sovereignty-mask.sh`) was removed on 2026-05-05.  
+Layer 4 (Proxy) maintains its own internal masking in `savia-shield-proxy.py`.  
+This slot is reserved for a future alternative.
 
 ---
 

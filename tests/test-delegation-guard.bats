@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # BATS tests for SE-031 Delegation Toolset Enforcement
 # SPEC: docs/propuestas/savia-enterprise/SPEC-SE-031-delegation-toolset-enforcement.md
-# SCRIPT: .claude/hooks/delegation-guard.sh
+# SCRIPT: .opencode/hooks/delegation-guard.sh
 # Quality gate: SPEC-055 (audit score >=80)
 # Safety: tests use BATS run/status guards; target script has set -uo pipefail
 # Status: active
@@ -18,7 +18,7 @@
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  export HOOK="$REPO_ROOT/.claude/hooks/delegation-guard.sh"
+  export HOOK="$REPO_ROOT/.opencode/hooks/delegation-guard.sh"
   TMPDIR_DEL=$(mktemp -d)
   export CLAUDE_PROJECT_DIR="$TMPDIR_DEL"
   mkdir -p "$TMPDIR_DEL/output"

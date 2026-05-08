@@ -31,16 +31,16 @@ test_case() {
 # ── Test 1: Command files exist ─────────────────────────────────
 echo ""
 echo "1️⃣  Command Files Exist"
-test_case "playbook-create.md exists" "[ -f $REPO_ROOT/.claude/commands/playbook-create.md ]"
-test_case "playbook-evolve.md exists" "[ -f $REPO_ROOT/.claude/commands/playbook-evolve.md ]"
-test_case "playbook-library.md exists" "[ -f $REPO_ROOT/.claude/commands/playbook-library.md ]"
-test_case "playbook-reflect.md exists" "[ -f $REPO_ROOT/.claude/commands/playbook-reflect.md ]"
+test_case "playbook-create.md exists" "[ -f $REPO_ROOT/.opencode/commands/playbook-create.md ]"
+test_case "playbook-evolve.md exists" "[ -f $REPO_ROOT/.opencode/commands/playbook-evolve.md ]"
+test_case "playbook-library.md exists" "[ -f $REPO_ROOT/.opencode/commands/playbook-library.md ]"
+test_case "playbook-reflect.md exists" "[ -f $REPO_ROOT/.opencode/commands/playbook-reflect.md ]"
 
 # ── Test 2: YAML frontmatter ────────────────────────────────────
 echo ""
 echo "2️⃣  YAML Frontmatter"
 for cmd in playbook-create playbook-evolve playbook-library playbook-reflect; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   test_case "${cmd}: has name field" "grep -q '^name: ' $file"
   test_case "${cmd}: has description" "grep -q '^description: ' $file"
 done
@@ -49,7 +49,7 @@ done
 echo ""
 echo "3️⃣  Line Count (≤ 150 lines)"
 for cmd in playbook-create playbook-evolve playbook-library playbook-reflect; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   lines=$(wc -l < "$file")
   test_case "${cmd}: ${lines} lines ≤ 150" "[ $lines -le 150 ]"
 done
@@ -57,10 +57,10 @@ done
 # ── Test 4: Key concepts present ────────────────────────────────
 echo ""
 echo "4️⃣  Key Concepts"
-test_case "playbook-create mentions create\|define" "grep -q -i 'create\|define' $REPO_ROOT/.claude/commands/playbook-create.md"
-test_case "playbook-evolve mentions evolve\|improve" "grep -q -i 'evolve\|improve' $REPO_ROOT/.claude/commands/playbook-evolve.md"
-test_case "playbook-library mentions library\|reuse" "grep -q -i 'library\|reuse' $REPO_ROOT/.claude/commands/playbook-library.md"
-test_case "playbook-reflect mentions reflect\|learn" "grep -q -i 'reflect\|learn' $REPO_ROOT/.claude/commands/playbook-reflect.md"
+test_case "playbook-create mentions create\|define" "grep -q -i 'create\|define' $REPO_ROOT/.opencode/commands/playbook-create.md"
+test_case "playbook-evolve mentions evolve\|improve" "grep -q -i 'evolve\|improve' $REPO_ROOT/.opencode/commands/playbook-evolve.md"
+test_case "playbook-library mentions library\|reuse" "grep -q -i 'library\|reuse' $REPO_ROOT/.opencode/commands/playbook-library.md"
+test_case "playbook-reflect mentions reflect\|learn" "grep -q -i 'reflect\|learn' $REPO_ROOT/.opencode/commands/playbook-reflect.md"
 
 # ── Test 5: Meta files updated ──────────────────────────────────
 echo ""

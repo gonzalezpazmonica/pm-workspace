@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/agent-trace-log.sh
+# BATS tests for .opencode/hooks/agent-trace-log.sh
 # PostToolUse — logs Task (subagent) executions + token budget metering.
 # SPEC-AGENT-METERING.
 # Ref: batch 44 hook coverage
 
-HOOK=".claude/hooks/agent-trace-log.sh"
+HOOK=".opencode/hooks/agent-trace-log.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

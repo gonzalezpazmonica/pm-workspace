@@ -22,11 +22,11 @@ Quick reference for diagnosing and fixing common pm-workspace problems.
 
 ```bash
 # Enable hook debug output
-bash -x ~/.claude/hooks/block-credential-leak.sh < input.json
+bash -x ~/.opencode/hooks/block-credential-leak.sh < input.json
 
 # Test hook directly with sample input
 echo '{"tool_input":{"command":"git push"}}' | \
-  bash ~/.claude/hooks/block-force-push.sh
+  bash ~/.opencode/hooks/block-force-push.sh
 ```
 
 ### Problem: Hook Tests Failing
@@ -53,7 +53,7 @@ bash scripts/test-hooks.sh
 
 **Symptoms:** Legitimate operation blocked (e.g., valid test name matches pattern)
 
-**Solution:** Check `.claude/hooks/*.sh` for exclusion lists:
+**Solution:** Check `.opencode/hooks/*.sh` for exclusion lists:
 
 ```bash
 # Example: scope-guard.sh excludes test files
@@ -159,12 +159,12 @@ grep -n '## \[' CHANGELOG.md | head -5
 # Should show versions in descending order: v1.2.0, v1.1.1, v1.1.0
 
 # Check command/skill line counts
-wc -l .claude/commands/*.md | sort -n | tail -10
-wc -l .claude/skills/*/*.md | sort -n | tail -10
+wc -l .opencode/commands/*.md | sort -n | tail -10
+wc -l .opencode/skills/*/*.md | sort -n | tail -10
 # Should all be ≤ 150 lines
 
 # Check frontmatter in new commands
-head -10 .claude/commands/my-new-command.md
+head -10 .opencode/commands/my-new-command.md
 # Should have: name, description, arguments (if needed)
 
 # Run compliance check manually
@@ -202,7 +202,7 @@ bash .claude/compliance/runner.sh --staged
 
 ```bash
 # Check if skill is loading unnecessary files
-grep -n "^Read" .claude/skills/my-skill/SKILL.md
+grep -n "^Read" .opencode/skills/my-skill/SKILL.md
 # Reduce file reads, load on-demand instead
 
 # Use parallel execution if possible
@@ -221,7 +221,7 @@ grep -n "^Read" .claude/skills/my-skill/SKILL.md
 export CLAUDE_HOOK_DEBUG=1
 
 # Run hook with full trace
-bash -x ~/.claude/hooks/scope-guard.sh < input.json
+bash -x ~/.opencode/hooks/scope-guard.sh < input.json
 
 # Check hook logs (if persistent logging enabled)
 tail -100 ~/.pm-workspace/hook-trace.log
@@ -262,7 +262,7 @@ cat > test-input.json << 'EOF'
 EOF
 
 # Run hook against sample
-bash ~/.claude/hooks/tdd-gate.sh < test-input.json
+bash ~/.opencode/hooks/tdd-gate.sh < test-input.json
 echo "Exit code: $?"
 ```
 
@@ -274,7 +274,7 @@ echo "Exit code: $?"
 
 **Issue:** Real passwords flagged
 
-**Check:** `grep -E '(password|secret)=' ~/.claude/hooks/block-credential-leak.sh`
+**Check:** `grep -E '(password|secret)=' ~/.opencode/hooks/block-credential-leak.sh`
 
 **Regex patterns match:**
 - `password="ACTUAL_PASSWORD"` — BLOCKED
@@ -305,10 +305,10 @@ Fix: Ensure test filename matches one of these patterns.
 
 ```bash
 # Run checks individually to identify culprit
-bash ~/.claude/hooks/pre-commit-review.sh --check-branch
-bash ~/.claude/hooks/pre-commit-review.sh --check-tests
-bash ~/.claude/hooks/pre-commit-review.sh --check-format
-bash ~/.claude/hooks/pre-commit-review.sh --check-review
+bash ~/.opencode/hooks/pre-commit-review.sh --check-branch
+bash ~/.opencode/hooks/pre-commit-review.sh --check-tests
+bash ~/.opencode/hooks/pre-commit-review.sh --check-format
+bash ~/.opencode/hooks/pre-commit-review.sh --check-review
 ```
 
 Fix: Address the specific failing check, or request hook override from team lead.

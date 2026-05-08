@@ -12,7 +12,7 @@ EXCLUDES="CHANGELOG.md|ACKNOWLEDGMENTS.md|projects/|node_modules/|\.git/|rules/l
 for file in "$@"; do
   [[ -f "$file" ]] || continue
   [[ "$file" =~ $EXCLUDES ]] && continue
-  # Solo .md en .claude/commands/, docs/rules/, .claude/skills/
+  # Solo .md en .opencode/commands/, docs/rules/, .opencode/skills/
   if [[ "$file" =~ (\.claude/(commands|skills)|docs/rules)/.+\.md$ ]]; then
     lines=$(wc -l < "$file")
     if (( lines > MAX_LINES )); then

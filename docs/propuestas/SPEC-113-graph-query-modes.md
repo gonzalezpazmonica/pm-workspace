@@ -41,7 +41,7 @@ El `graph-query` skill/agent usa el modo para calibrar profundidad de traversal 
 
 ### 2. Docs en skill `knowledge-graph`
 
-Añadir sección "Query Modes" en `.claude/skills/knowledge-graph/DOMAIN.md` explicando cuándo usar cada modo.
+Añadir sección "Query Modes" en `.opencode/skills/knowledge-graph/DOMAIN.md` explicando cuándo usar cada modo.
 
 ## Acceptance criteria
 

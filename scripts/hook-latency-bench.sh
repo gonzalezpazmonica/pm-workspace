@@ -61,7 +61,7 @@ slow_count=0
 stop_hooks_re='^(scope-guard|session-end-snapshot|session-end-memory|session-end-signature)\.sh$'
 stop_threshold_ms=$(( THRESHOLD_MS * 5 / 2 ))  # 500ms for 200ms base
 
-for hook in "$ROOT"/.claude/hooks/*.sh; do
+for hook in "$ROOT"/.opencode/hooks/*.sh; do
   [[ -x "$hook" ]] || continue
   name=$(basename "$hook")
   avg_ms=$(measure_hook "$hook" 2>/dev/null || echo "-1")

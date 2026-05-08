@@ -5,6 +5,10 @@ shield-launcher.py — Start/stop Shield daemon + proxy as detached processes.
 On Windows, nohup/disown don't survive terminal close. This launcher uses
 DETACHED_PROCESS creation flags so both services persist independently.
 
+WARNING: shield-ner-daemon.py is NOT started here. The unified daemon
+(savia-shield-daemon.py) already bundles NER (Presidio+spaCy) internally.
+Starting both would cause a port conflict on :8444.
+
 Usage:
   python3 scripts/shield-launcher.py start   # start daemon + proxy
   python3 scripts/shield-launcher.py stop    # stop both
@@ -22,17 +26,25 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PID_DIR = Path.home() / ".savia"
+LOG_DIR = PID_DIR
 DAEMON_PID = PID_DIR / "shield-daemon.pid"
 PROXY_PID = PID_DIR / "shield-proxy.pid"
 
 DAEMON_PORT = int(os.environ.get("SAVIA_SHIELD_PORT", "8444"))
 PROXY_PORT = int(os.environ.get("SAVIA_SHIELD_PROXY_PORT", "8443"))
+START_TIMEOUT_S = int(os.environ.get("SAVIA_SHIELD_START_TIMEOUT", "20"))
 
 IS_WINDOWS = sys.platform == "win32"
+IS_WSL = not IS_WINDOWS and "microsoft" in (os.uname().release.lower() if hasattr(os, 'uname') else "")
 
 
-def health(port, timeout=3):
-    """Check if a service is healthy on localhost:port."""
+def log(msg: str):
+    ts = time.strftime("%H:%M:%S")
+    with open(LOG_DIR / "shield-launcher.log", "a") as f:
+        f.write(f"[{ts}] {msg}\n")
+
+
+def health(port: int, timeout: int = 3) -> dict | None:
     try:
         url = f"http://127.0.0.1:{port}/health"
         req = urllib.request.Request(url)
@@ -42,7 +54,7 @@ def health(port, timeout=3):
         return None
 
 
-def read_pid(path):
+def read_pid(path: Path) -> int | None:
     try:
         pid = int(path.read_text().strip())
         return pid if pid > 0 else None
@@ -50,15 +62,14 @@ def read_pid(path):
         return None
 
 
-def pid_alive(pid):
+def pid_alive(pid: int | None) -> bool:
     if pid is None:
         return False
     try:
         if IS_WINDOWS:
-            # tasklist returns 0 if PID exists
             r = subprocess.run(
                 ["tasklist", "/FI", f"PID eq {pid}", "/NH"],
-                capture_output=True, text=True, timeout=5
+                capture_output=True, text=True, timeout=5,
             )
             return str(pid) in r.stdout
         else:
@@ -68,14 +79,14 @@ def pid_alive(pid):
         return False
 
 
-def kill_pid(pid):
+def kill_pid(pid: int | None):
     if pid is None:
         return
     try:
         if IS_WINDOWS:
             subprocess.run(
                 ["taskkill", "/PID", str(pid), "/F"],
-                capture_output=True, timeout=5
+                capture_output=True, timeout=5,
             )
         else:
             os.kill(pid, signal.SIGTERM)
@@ -83,64 +94,102 @@ def kill_pid(pid):
         pass
 
 
-def start_service(script_name, pid_file, port, label):
+def preflight_check(script_name: str, label: str) -> bool:
+    """Verify python3 is available and the target script exists."""
+    py = sys.executable
+    if not py or not Path(py).exists():
+        log(f"preflight FAIL: no python3 executable ({py})")
+        print(f"  {label}: python3 not found")
+        return False
+    script_path = SCRIPT_DIR / script_name
+    if not script_path.exists():
+        log(f"preflight FAIL: {script_path} not found")
+        print(f"  {label}: script not found ({script_path})")
+        return False
+    # Quick import check: can the script be parsed?
+    try:
+        compile(script_path.read_text(), str(script_path), "exec")
+    except SyntaxError as e:
+        log(f"preflight FAIL: {script_name} syntax error: {e}")
+        print(f"  {label}: syntax error")
+        return False
+    return True
+
+
+def start_service(script_name: str, pid_file: Path, port: int, label: str, timeout_s: int = START_TIMEOUT_S) -> bool:
     """Start a Python script as a fully detached process."""
-    # Check if already running
+    if not preflight_check(script_name, label):
+        return False
+
     h = health(port, timeout=2)
     if h:
+        log(f"{label}: already running on :{port} (ner={h.get('ner', '?')})")
         print(f"  {label}: already running on :{port}")
         return True
 
-    # Kill stale PID if any
     old_pid = read_pid(pid_file)
     if old_pid and pid_alive(old_pid):
+        log(f"{label}: killing stale PID {old_pid}")
         kill_pid(old_pid)
         time.sleep(1)
 
     script_path = str(SCRIPT_DIR / script_name)
     PID_DIR.mkdir(parents=True, exist_ok=True)
+    stderr_log = open(str(LOG_DIR / f"{label}.log"), "a")
+
+    log(f"{label}: launching {script_name} on :{port}")
 
     if IS_WINDOWS:
-        # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP | CREATE_NO_WINDOW
         flags = 0x00000008 | 0x00000200 | 0x08000000
         proc = subprocess.Popen(
             [sys.executable, script_path],
             creationflags=flags,
             stdout=subprocess.DEVNULL,
-            stderr=open(str(PID_DIR / f"{label}.log"), "w"),
+            stderr=stderr_log,
             stdin=subprocess.DEVNULL,
         )
     else:
         proc = subprocess.Popen(
             [sys.executable, script_path],
             stdout=subprocess.DEVNULL,
-            stderr=open(str(PID_DIR / f"{label}.log"), "w"),
+            stderr=stderr_log,
             stdin=subprocess.DEVNULL,
             start_new_session=True,
         )
 
     pid_file.write_text(str(proc.pid))
+    log(f"{label}: PID {proc.pid}")
 
-    # Wait for health
-    for _ in range(10):
+    # WSL cold start: spaCy model loading can take 15s+
+    wait_msg = f"  {label}: waiting up to {timeout_s}s on :{port}"
+    if IS_WSL:
+        wait_msg += " (WSL — cold start may be slow)"
+    print(wait_msg)
+
+    for attempt in range(timeout_s):
         time.sleep(1)
-        if health(port, timeout=2):
-            print(f"  {label}: started (PID {proc.pid}, :{port})")
+        h = health(port, timeout=3)
+        if h:
+            ner_status = f" ner={h.get('ner', '?')}" if label == "daemon" else ""
+            log(f"{label}: started (PID {proc.pid}, :{port}){ner_status}")
+            print(f"  {label}: started after {attempt + 1}s (PID {proc.pid})")
             return True
 
-    print(f"  {label}: FAILED to start (PID {proc.pid}, :{port})")
+    log(f"{label}: FAILED to start after {timeout_s}s (PID {proc.pid})")
+    print(f"  {label}: FAILED to start after {timeout_s}s (check {LOG_DIR / label}.log)")
     return False
 
 
-def stop_service(pid_file, port, label):
-    """Stop a service by PID file, verify with health check."""
+def stop_service(pid_file: Path, port: int, label: str):
     pid = read_pid(pid_file)
     if pid and pid_alive(pid):
         kill_pid(pid)
         time.sleep(1)
         if not pid_alive(pid):
+            log(f"{label}: stopped (was PID {pid})")
             print(f"  {label}: stopped (was PID {pid})")
         else:
+            log(f"{label}: FAILED to stop PID {pid}")
             print(f"  {label}: FAILED to stop PID {pid}")
     elif health(port, timeout=1):
         print(f"  {label}: running but no PID file — cannot stop")
@@ -153,7 +202,9 @@ def stop_service(pid_file, port, label):
 
 
 def cmd_start():
+    log("=== start ===")
     print("Starting Savia Shield...")
+    log("WSL mode" if IS_WSL else "Native mode")
     start_service("savia-shield-daemon.py", DAEMON_PID, DAEMON_PORT, "daemon")
     start_service("savia-shield-proxy.py", PROXY_PID, PROXY_PORT, "proxy")
 
@@ -162,6 +213,7 @@ def cmd_stop():
     print("Stopping Savia Shield...")
     stop_service(PROXY_PID, PROXY_PORT, "proxy")
     stop_service(DAEMON_PID, DAEMON_PORT, "daemon")
+    log("=== stopped ===")
 
 
 def cmd_status():
@@ -185,6 +237,7 @@ def cmd_status():
 
 
 def main():
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
     if len(sys.argv) < 2:
         print("Usage: shield-launcher.py {start|stop|status|restart}")
         sys.exit(1)

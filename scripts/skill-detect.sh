@@ -208,7 +208,7 @@ DOMAIN
   echo "  Confidence: ${MIN_CONFIDENCE}%"
   echo "  Maturity: experimental"
   echo ""
-  echo "Review and approve: move to .claude/skills/$name/ to activate."
+  echo "Review and approve: move to .opencode/skills/$name/ to activate."
 }
 
 # ── Refine: suggest improvements to existing skills ──────────────────────────

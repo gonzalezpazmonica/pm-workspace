@@ -25,7 +25,7 @@ de 534 no estan indexados porque carecen de frontmatter YAML:
 - `court-review.md` — sin frontmatter
 - `trace-optimize.md` — sin frontmatter
 
-Ambos archivos existen en `.claude/commands/` y `.opencode/commands/`
+Ambos archivos existen en `.opencode/commands/` y `.opencode/commands/`
 pero son invisibles para el capability map. Si un agente o skill intenta
 enrutar hacia ellos via SCM, fallara porque no aparecen en INDEX.scm.
 
@@ -83,8 +83,8 @@ description: Optimize trace spans and sampling rates across distributed services
 
 | Fichero | Accion |
 |---------|--------|
-| `.claude/commands/court-review.md` | MODIFICAR: anadir frontmatter |
-| `.claude/commands/trace-optimize.md` | MODIFICAR: anadir frontmatter |
+| `.opencode/commands/court-review.md` | MODIFICAR: anadir frontmatter |
+| `.opencode/commands/trace-optimize.md` | MODIFICAR: anadir frontmatter |
 | `.opencode/commands/court-review.md` | MODIFICAR: replicar mismo frontmatter |
 | `.opencode/commands/trace-optimize.md` | MODIFICAR: replicar mismo frontmatter |
 | `.scm/INDEX.scm` | REGENERAR: via generate-capability-map.py |

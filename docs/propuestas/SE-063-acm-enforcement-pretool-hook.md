@@ -75,7 +75,7 @@ Un pre-tool hook que bloquea queries amplias sin lectura previa del ACM del turn
 ## Referencias
 
 - Research coderlm: `output/research-coderlm-20260421.md`
-- Skill ACM existente: `.claude/skills/agent-code-map/SKILL.md`
+- Skill ACM existente: `.opencode/skills/agent-code-map/SKILL.md`
 - Patrón inspirador: coderlm (MIT) hooks — `github.com/JaredStewart/coderlm`
 - SE-060 hook injection guard (complementario)
 - Rule #4 CLAUDE.md — "Leer `projects/{nombre}/CLAUDE.md` antes de actuar"

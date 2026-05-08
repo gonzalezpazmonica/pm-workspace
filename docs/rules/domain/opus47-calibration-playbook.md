@@ -95,7 +95,7 @@ recommendation: upgrade | keep_sonnet | downgrade_haiku | rerun
 reasoning: "2-3 sentence explanation citing the scores."
 ```
 
-If `upgrade`: PR to change `model:` in `.claude/agents/<agent-name>.md` frontmatter + `effort: xhigh`.
+If `upgrade`: PR to change `model:` in `.opencode/agents/<agent-name>.md` frontmatter + `effort: xhigh`.
 
 ## Cost guidance
 
@@ -143,5 +143,5 @@ Record in `decision-log.md` with observed regression + revert rationale.
 - Scorecard: `scripts/opus47-calibration-scorecard.sh`
 - Golden-set structure: `tests/golden/opus47-calibration/README.md`
 - Spec: `docs/propuestas/SE-070-opus47-eval-scorecard.md`
-- Related: `.claude/skills/model-upgrade-audit/SKILL.md` (prompt-debt detection, different purpose)
+- Related: `.opencode/skills/model-upgrade-audit/SKILL.md` (prompt-debt detection, different purpose)
 - Related: SE-066..SE-069 (Opus 4.7 immediate adaptations)

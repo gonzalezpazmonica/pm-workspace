@@ -16,7 +16,7 @@ teardown() {
 }
 
 @test "session-end-snapshot.sh hook exists and is executable" {
-  [ -x "$ROOT/.claude/hooks/session-end-snapshot.sh" ]
+  [ -x "$ROOT/.opencode/hooks/session-end-snapshot.sh" ]
 }
 
 @test "snapshot save produces valid JSON" {

@@ -263,7 +263,7 @@ Ubicacion: PostToolUse, matcher Edit|Write, junto a los hooks existentes. Timeou
 
 - `scripts/dual-estimate.sh` — engine CLI con subcomandos `classify`, `capacity`, `bottleneck`, `matrix`, `help`. Clasifica task types (crud, tests, translation, bugfix, refactor, architecture, code-review, security-audit, counter-fix, business-decision) y recomienda agent vs human.
 - `tests/test-dual-estimate.bats` — certified score 82.
-- `.claude/hooks/dual-estimation-gate.sh` — PostToolUse warning hook (no bloquea, solo avisa cuando spec/PBI tiene estimación pero falta una de las 3 escalas).
+- `.opencode/hooks/dual-estimation-gate.sh` — PostToolUse warning hook (no bloquea, solo avisa cuando spec/PBI tiene estimación pero falta una de las 3 escalas).
 - `docs/politica-estimacion.md` — política dual extendida con ejemplos.
 
 ### Coverage verification

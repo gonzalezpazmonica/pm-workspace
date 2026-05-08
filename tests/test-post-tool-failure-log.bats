@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/post-tool-failure-log.sh
+# BATS tests for .opencode/hooks/post-tool-failure-log.sh
 # PostToolUseFailure — structured tool failure logging, error categorization,
 # retry hints, pattern detection (3+ same tool per day).
 # Ref: batch 47 hook coverage — SPEC-068 tool failure observability
 
-HOOK=".claude/hooks/post-tool-failure-log.sh"
+HOOK=".opencode/hooks/post-tool-failure-log.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

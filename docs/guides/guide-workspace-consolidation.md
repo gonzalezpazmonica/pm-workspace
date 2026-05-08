@@ -29,9 +29,9 @@ El informe cubre:
 
 | Dimension | Fuente real | Fuente documentada |
 |-----------|-------------|-------------------|
-| Commands | `ls .claude/commands/*.md` | README "508 comandos" |
-| Agents | `ls .claude/agents/*.md` | README "48 agentes" |
-| Skills | `ls .claude/skills/*/SKILL.md` | README "89 skills" |
+| Commands | `ls .opencode/commands/*.md` | README "508 comandos" |
+| Agents | `ls .opencode/agents/*.md` | README "48 agentes" |
+| Skills | `ls .opencode/skills/*/SKILL.md` | README "89 skills" |
 | Hooks | settings.json hook entries | README "48 hooks" |
 | Tests | `ls tests/*.bats` | README "93 test suites" |
 
@@ -62,11 +62,11 @@ El informe cubre:
 
 **Contadores no coinciden**: ejecutar los conteos manualmente para identificar la fuente del drift:
 ```bash
-ls .claude/commands/*.md | wc -l
-ls .claude/agents/*.md | wc -l
-ls -d .claude/skills/*/SKILL.md | wc -l
+ls .opencode/commands/*.md | wc -l
+ls .opencode/agents/*.md | wc -l
+ls -d .opencode/skills/*/SKILL.md | wc -l
 ```
 
-**Hooks huerfanos**: un hook puede estar registrado en settings.json pero su fichero `.sh` no existir (o viceversa). Revisar `.claude/settings.json` y `.claude/hooks/`
+**Hooks huerfanos**: un hook puede estar registrado en settings.json pero su fichero `.sh` no existir (o viceversa). Revisar `.claude/settings.json` y `.opencode/hooks/`
 
 **Test suites nuevas sin registrar**: verificar que cada `.bats` nuevo esta referenciado en `tests/run-all.sh`

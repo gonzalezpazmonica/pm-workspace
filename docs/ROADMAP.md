@@ -93,7 +93,7 @@ Post-auditoría arquitectónica (`output/audit-arquitectura-20260420.md`): 15 sp
 
 ### Tier 2 — Cierres pendientes
 
-- ✅ **SE-050** SPEC-122 Slice 2 — `.claude/skills/emergency-mode/` (batch 9). Slice 3 rollout diferido
+- ✅ **SE-050** SPEC-122 Slice 2 — `.opencode/skills/emergency-mode/` (batch 9). Slice 3 rollout diferido
 - ✅ **SE-052** Agent-size remediation plan — `scripts/agent-size-remediation-plan.sh` (batch 8)
 - ✅ **SE-053** CHANGELOG.d consolidation hook — `scripts/changelog-consolidate.sh` + `changelog-consolidate-if-needed.sh` (batch 7)
 
@@ -423,7 +423,7 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 
 ### Hallazgos de auditoria (2026-05-02)
 
-- `.claude/agents/` tiene 70 .md + 1 directorio `decision-trees/`. `.opencode/agents/` tiene 70 .md pero falta `decision-trees/` (SPEC-OPC-AGENTSYNC).
+- `.opencode/agents/` tiene 70 .md + 1 directorio `decision-trees/`. `.opencode/agents/` tiene 70 .md pero falta `decision-trees/` (SPEC-OPC-AGENTSYNC).
 - 2/534 comandos sin frontmatter YAML (`court-review.md`, `trace-optimize.md`) → invisibles en SCM (SPEC-SCM-COVERAGE).
 - `generate-capability-map.py` no soporta `--check` — interpreta el flag como path de output y genera side-effect (SPEC-SCM-FRESHCHECK).
 - Sin script de auditoria continua para prevenir drift entre `.claude/` y `.opencode/` (SPEC-OPC-CROSS-AUDIT).

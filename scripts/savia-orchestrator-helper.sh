@@ -17,7 +17,7 @@ set -uo pipefail
 #       Returns "fan-out" or "single-shot" on stdout.
 #
 #   bash scripts/savia-orchestrator-helper.sh inline-prompt <agent-name>
-#       Reads .claude/agents/<agent-name>.md, strips frontmatter, prints
+#       Reads .opencode/agents/<agent-name>.md, strips frontmatter, prints
 #       the system prompt body for inline execution.
 #
 #   bash scripts/savia-orchestrator-helper.sh wrap <agent-name> <output-file>

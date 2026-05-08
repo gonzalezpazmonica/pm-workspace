@@ -51,9 +51,9 @@ Track repeated failures (3+ same tool/day) → flag as pattern.
 
 | File | Action | Lines |
 |------|--------|-------|
-| `.claude/hooks/pre-compact-backup.sh` | ENHANCE | 45→~90 |
+| `.opencode/hooks/pre-compact-backup.sh` | ENHANCE | 45→~90 |
 | `scripts/post-compaction.sh` | ENHANCE | 139→~145 |
-| `.claude/hooks/post-tool-failure-log.sh` | ENHANCE | 21→~70 |
+| `.opencode/hooks/post-tool-failure-log.sh` | ENHANCE | 21→~70 |
 | `tests/hooks/test-hook-enhancements.bats` | NEW | ~90 |
 
 ## Non-Goals

@@ -81,7 +81,7 @@ security-attacker -> security-defender -> security-auditor -> PR
 
 ## Implementación
 
-1. Modificar `.claude/commands/security-pipeline.md` para incluir paso 5-6
+1. Modificar `.opencode/commands/security-pipeline.md` para incluir paso 5-6
 2. Reutilizar patron de `autonomous-safety.md` para ramas agent/*
 3. El PR se crea con `gh pr create --draft`
 4. No requiere nuevo agente — Savia orquesta directamente

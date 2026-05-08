@@ -194,7 +194,7 @@ AND     reduccion tokens por turno medible
 | Crear | docs/audits/rule-audit-methodology.md | Documentar metodo |
 | Modificar | CLAUDE.md | Borrar reglas redundantes (tras audit) |
 | Modificar | docs/rules/domain/critical-rules-extended.md | Idem |
-| Crear | .claude/hooks/{nuevo}.sh | Nuevos hooks para reglas "olvidables" |
+| Crear | .opencode/hooks/{nuevo}.sh | Nuevos hooks para reglas "olvidables" |
 | Modificar | CHANGELOG.md | Registrar dieta con metricas |
 
 ---

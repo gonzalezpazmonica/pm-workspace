@@ -96,7 +96,7 @@ echo "[5/6] SKILLS.md index present"
 if [[ ! -f "$ROOT/SKILLS.md" ]]; then
   fail "SKILLS.md missing — run: bash scripts/skills-md-generate.sh --apply"
 else
-  ROWS=$(grep -cE '^\| [^|]+ \| `\.claude/skills/' "$ROOT/SKILLS.md")
+  ROWS=$(grep -cE '^\| [^|]+ \| `\.opencode/skills/' "$ROOT/SKILLS.md")
   if [[ "$ROWS" -ge 50 ]]; then
     ok "SKILLS.md lists $ROWS skills"
   else

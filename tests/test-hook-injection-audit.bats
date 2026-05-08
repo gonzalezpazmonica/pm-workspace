@@ -253,7 +253,7 @@ SH
 }
 
 @test "exemption: validate-bash-global.sh is flagged as detector (real hook)" {
-  run grep -E '^# hook-audit-detector:' .claude/hooks/validate-bash-global.sh
+  run grep -E '^# hook-audit-detector:' .opencode/hooks/validate-bash-global.sh
   [ "$status" -eq 0 ]
 }
 

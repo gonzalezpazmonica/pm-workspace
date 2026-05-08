@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/**"]
+globs: [".opencode/commands/**"]
 ---
 
 # Anexo: UX Feedback — Checklists Detalladas

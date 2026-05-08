@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/token-tracker-middleware.sh
+# BATS tests for .opencode/hooks/token-tracker-middleware.sh
 # PostToolUse async — monitors context token usage with 3 zones (50/70/85%).
 # Ref: batch 51 hook coverage — final 3 hooks → 58/58 (100%) — SPEC-071 Slice 4.
 
-HOOK=".claude/hooks/token-tracker-middleware.sh"
+HOOK=".opencode/hooks/token-tracker-middleware.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

@@ -166,8 +166,8 @@ de la implementacion. El lineage context enriquece el spec.
 
 | Fichero | Accion |
 |---------|--------|
-| `.claude/commands/pbi-decompose-deep.md` | Crear — comando recursivo |
-| `.claude/skills/pbi-decomposition/SKILL.md` | Modificar — flag --recursive |
+| `.opencode/commands/pbi-decompose-deep.md` | Crear — comando recursivo |
+| `.opencode/skills/pbi-decomposition/SKILL.md` | Modificar — flag --recursive |
 | `docs/rules/domain/parallel-execution.md` | Sin cambios (ya soporta DAG) |
 
 ---

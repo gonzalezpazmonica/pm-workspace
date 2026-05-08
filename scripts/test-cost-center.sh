@@ -8,10 +8,10 @@ fail() { ((FAIL++)); ((TOTAL++)); echo "  ❌ $1"; }
 check() { if eval "$1" > /dev/null 2>&1; then pass "$2"; else fail "$2"; fi; }
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CMD="$ROOT/.claude/commands/cost-center.md"
+CMD="$ROOT/.opencode/commands/cost-center.md"
 RULE_BM="$ROOT/docs/rules/domain/billing-model.md"
 RULE_CT="$ROOT/docs/rules/domain/cost-tracking.md"
-SKILL="$ROOT/.claude/skills/cost-management/SKILL.md"
+SKILL="$ROOT/.opencode/skills/cost-management/SKILL.md"
 
 echo "═══════════════════════════════════════════"
 echo "  Test: cost-center (Era 38, v2.12.1)"

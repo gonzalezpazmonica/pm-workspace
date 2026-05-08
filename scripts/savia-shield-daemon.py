@@ -275,10 +275,10 @@ def gate(hook_input):
     # Whitelist for shield's own files — require specific directory prefixes
     shield_patterns = [
         "scripts/data-sovereignty", "scripts/ollama-classify", "scripts/shield-ner",
-        "scripts/savia-shield", "scripts/sovereignty-mask", "scripts/pre-commit-sovereignty",
+        "scripts/savia-shield", "scripts/pre-commit-sovereignty",
         "hooks/data-sovereignty", "hooks/ollama-classify", "hooks/shield-ner",
         "tests/test-data-sovereignty", "tests/test-savia-shield", "tests/test-shield-daemon",
-        "tests/test-sovereignty",
+        "tests/test-sovereignty", "tests/test-prompt-injection-guard",
     ]
     for pat in shield_patterns:
         if pat in fp_norm:

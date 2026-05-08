@@ -4,7 +4,7 @@
 
 set -uo pipefail
 ROOT="$BATS_TEST_DIRNAME/.."
-SKILL_DIR="$ROOT/.claude/skills/mutation-audit"
+SKILL_DIR="$ROOT/.opencode/skills/mutation-audit"
 SCRIPT="$ROOT/scripts/mutation-audit.sh"
 
 setup() {

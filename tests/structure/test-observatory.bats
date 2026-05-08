@@ -21,7 +21,7 @@ teardown() {
 }
 
 @test "agent-activity command exists" {
-  [ -f "$ROOT/.claude/commands/agent-activity.md" ]
+  [ -f "$ROOT/.opencode/commands/agent-activity.md" ]
 }
 
 @test "statusline-provider outputs valid JSON" {
@@ -63,7 +63,7 @@ teardown() {
 }
 
 @test "agent-activity command references observatory" {
-  grep -qi "activit" "$ROOT/.claude/commands/agent-activity.md"
+  grep -qi "activit" "$ROOT/.opencode/commands/agent-activity.md"
 }
 
 # ── Safety verification ──

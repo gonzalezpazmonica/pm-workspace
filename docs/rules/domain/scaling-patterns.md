@@ -2,7 +2,7 @@
 name: scaling-patterns
 description: "Scaling tiers (small/medium/large), optimization recommendations, vendor sync patterns, knowledge search, CI/CD governance"
 auto_load: false
-paths: [".claude/commands/scale-optimizer*", ".claude/skills/scaling-operations/*"]
+paths: [".opencode/commands/scale-optimizer*", ".opencode/skills/scaling-operations/*"]
 ---
 
 # Regla: Patrones de Escalabilidad
@@ -101,4 +101,4 @@ Requisitos por tier:
 - Medium: build + test + review + security scan
 - Large: build + test + review + security + governance + compliance
 
-**Hooks compartidos**: `.claude/hooks/` en mono-repo o multi-repo sync
+**Hooks compartidos**: `.opencode/hooks/` en mono-repo o multi-repo sync

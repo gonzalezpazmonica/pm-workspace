@@ -137,7 +137,7 @@ Verificación rápida:
 - Functions / SQL: `grep -q "$fn(" -- $relevant_dir`
 - CLI flags: lookup en `--help` cacheado del binary
 - Libraries / packages: `npm view`/`pip show` con timeout 1s, fallback a pre-cached registry
-- Comandos pm-workspace: `ls .claude/commands/`
+- Comandos pm-workspace: `ls .opencode/commands/`
 
 Salida: lista de entidades inventadas con evidencia ("`scripts/foo.sh` no existe, archivo más cercano: `scripts/foo-bar.sh`").
 
@@ -280,15 +280,15 @@ El followup (`user_response_followup`) se rellena con el siguiente turno de la u
 ### Slice 1 (M, 12-16h) — Foundation: classifier + 4 jueces fast + banner
 
 Artefactos:
-- `.claude/agents/recommendation-tribunal-orchestrator.md` (orchestrator)
-- `.claude/agents/memory-conflict-judge.md`
-- `.claude/agents/rule-violation-judge.md`
-- `.claude/agents/hallucination-fast-judge.md`
-- `.claude/agents/expertise-asymmetry-judge.md`
+- `.opencode/agents/recommendation-tribunal-orchestrator.md` (orchestrator)
+- `.opencode/agents/memory-conflict-judge.md`
+- `.opencode/agents/rule-violation-judge.md`
+- `.opencode/agents/hallucination-fast-judge.md`
+- `.opencode/agents/expertise-asymmetry-judge.md`
 - `scripts/recommendation-tribunal/classifier.sh` (heurística + haiku call)
 - `scripts/recommendation-tribunal/aggregate.sh` (verdict aggregation + veto rules)
 - `scripts/recommendation-tribunal/banner.sh` (output mutation con banner)
-- `.claude/hooks/recommendation-tribunal-pre-output.sh` (hook integration)
+- `.opencode/hooks/recommendation-tribunal-pre-output.sh` (hook integration)
 - `docs/rules/domain/recommendation-tribunal.md` (regla canónica)
 - `tests/structure/test-recommendation-tribunal.bats` (≥30 tests)
 
@@ -301,7 +301,7 @@ Artefactos:
 
 ### Slice 3 (M, 8-10h) — Memory feedback loop + calibración
 
-- `.claude/hooks/recommendation-tribunal-followup.sh` (capture next-turn user reaction)
+- `.opencode/hooks/recommendation-tribunal-followup.sh` (capture next-turn user reaction)
 - `scripts/recommendation-tribunal/calibrate.sh` (lectura de followups → derivación de nuevos feedback memories)
 - Tests de regresión sobre los catches conocidos (las 6 patterns del problema reportado)
 - `docs/rules/domain/tribunal-calibration.md` (cómo evolucionan los pesos del tribunal con la memoria)
@@ -382,7 +382,7 @@ Tres slices secuenciales (Foundation → Asymmetric expertise → Memory feedbac
 
 Foundation entrega clasificador heurístico + haiku, 4 agentes de juez con prompts versionados, 1 orchestrator, hook PreToolUse de inyección, banner básico WARN/VETO, tests BATS estructurales.
 
-Decisión clave: cada juez es un `.claude/agents/*.md` con frontmatter `model: haiku-or-sonnet` para budgets controlables. El orchestrator es bash + Task delegation.
+Decisión clave: cada juez es un `.opencode/agents/*.md` con frontmatter `model: haiku-or-sonnet` para budgets controlables. El orchestrator es bash + Task delegation.
 
 ### Slice 2 — Asymmetric expertise (8-10h, batch ~82)
 

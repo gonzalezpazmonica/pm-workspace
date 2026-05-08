@@ -43,7 +43,7 @@ scan_file() {
   # Skip the hook and script themselves (they legitimately mention the path)
   case "$file" in
     scripts/validate-layer-contract.sh) return 0 ;;
-    .claude/hooks/validate-layer-contract.sh) return 0 ;;
+    .opencode/hooks/validate-layer-contract.sh) return 0 ;;
     .claude/enterprise/*) return 0 ;;
     docs/*) return 0 ;;
     tests/*) return 0 ;;

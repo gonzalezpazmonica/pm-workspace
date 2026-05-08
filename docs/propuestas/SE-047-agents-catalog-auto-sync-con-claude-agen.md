@@ -1,6 +1,6 @@
 ---
 id: SE-047
-title: SE-047 — Agents catalog auto-sync con .claude/agents/
+title: SE-047 — Agents catalog auto-sync con .opencode/agents/
 status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
@@ -13,7 +13,7 @@ batches: [6, 7]
 expires: "2026-05-20"
 ---
 
-# SE-047 — Agents catalog auto-sync con .claude/agents/
+# SE-047 — Agents catalog auto-sync con .opencode/agents/
 
 ## Purpose
 

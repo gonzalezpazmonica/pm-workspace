@@ -18,38 +18,38 @@ echo "════════════════════════�
 echo ""
 
 echo "📋 1. Async Standup Command"
-check_file ".claude/commands/async-standup.md" "async-standup.md exists"
-check_content ".claude/commands/async-standup.md" "name: async-standup" "Has correct name"
-check_content ".claude/commands/async-standup.md" "asíncrono" "References async"
-check_content ".claude/commands/async-standup.md" "agent: task" "Has agent: task"
+check_file ".opencode/commands/async-standup.md" "async-standup.md exists"
+check_content ".opencode/commands/async-standup.md" "name: async-standup" "Has correct name"
+check_content ".opencode/commands/async-standup.md" "asíncrono" "References async"
+check_content ".opencode/commands/async-standup.md" "agent: task" "Has agent: task"
 echo ""
 
 echo "📋 2. Retro Patterns Command"
-check_file ".claude/commands/retro-patterns.md" "retro-patterns.md exists"
-check_content ".claude/commands/retro-patterns.md" "name: retro-patterns" "Has correct name"
-check_content ".claude/commands/retro-patterns.md" "patrones" "References patterns"
-check_content ".claude/commands/retro-patterns.md" "agent: task" "Has agent: task"
+check_file ".opencode/commands/retro-patterns.md" "retro-patterns.md exists"
+check_content ".opencode/commands/retro-patterns.md" "name: retro-patterns" "Has correct name"
+check_content ".opencode/commands/retro-patterns.md" "patrones" "References patterns"
+check_content ".opencode/commands/retro-patterns.md" "agent: task" "Has agent: task"
 echo ""
 
 echo "📋 3. Ceremony Health Command"
-check_file ".claude/commands/ceremony-health.md" "ceremony-health.md exists"
-check_content ".claude/commands/ceremony-health.md" "name: ceremony-health" "Has correct name"
-check_content ".claude/commands/ceremony-health.md" "salud de ceremonias" "References ceremony health"
-check_content ".claude/commands/ceremony-health.md" "agent: task" "Has agent: task"
+check_file ".opencode/commands/ceremony-health.md" "ceremony-health.md exists"
+check_content ".opencode/commands/ceremony-health.md" "name: ceremony-health" "Has correct name"
+check_content ".opencode/commands/ceremony-health.md" "salud de ceremonias" "References ceremony health"
+check_content ".opencode/commands/ceremony-health.md" "agent: task" "Has agent: task"
 echo ""
 
 echo "📋 4. Meeting Agenda Command"
-check_file ".claude/commands/meeting-agenda.md" "meeting-agenda.md exists"
-check_content ".claude/commands/meeting-agenda.md" "name: meeting-agenda" "Has correct name"
-check_content ".claude/commands/meeting-agenda.md" "Agenda inteligente" "References intelligent agenda"
-check_content ".claude/commands/meeting-agenda.md" "agent: none" "Has agent: none"
+check_file ".opencode/commands/meeting-agenda.md" "meeting-agenda.md exists"
+check_content ".opencode/commands/meeting-agenda.md" "name: meeting-agenda" "Has correct name"
+check_content ".opencode/commands/meeting-agenda.md" "Agenda inteligente" "References intelligent agenda"
+check_content ".opencode/commands/meeting-agenda.md" "agent: none" "Has agent: none"
 echo ""
 
 echo "📋 5. Line Count Validation (≤150 lines each)"
-ASYNC_LINES=$(wc -l < .claude/commands/async-standup.md)
-RETRO_LINES=$(wc -l < .claude/commands/retro-patterns.md)
-CEREMONY_LINES=$(wc -l < .claude/commands/ceremony-health.md)
-AGENDA_LINES=$(wc -l < .claude/commands/meeting-agenda.md)
+ASYNC_LINES=$(wc -l < .opencode/commands/async-standup.md)
+RETRO_LINES=$(wc -l < .opencode/commands/retro-patterns.md)
+CEREMONY_LINES=$(wc -l < .opencode/commands/ceremony-health.md)
+AGENDA_LINES=$(wc -l < .opencode/commands/meeting-agenda.md)
 
 [ "$ASYNC_LINES" -le 150 ] && pass "async-standup.md: $ASYNC_LINES lines" || fail "async-standup.md: $ASYNC_LINES lines (> 150)"
 [ "$RETRO_LINES" -le 150 ] && pass "retro-patterns.md: $RETRO_LINES lines" || fail "retro-patterns.md: $RETRO_LINES lines (> 150)"
@@ -99,14 +99,14 @@ echo ""
 echo "📋 10. Command Structure Validation"
 # Check frontmatter
 for cmd in async-standup retro-patterns ceremony-health meeting-agenda; do
-  check_content ".claude/commands/$cmd.md" "^---$" "$cmd.md has frontmatter start"
+  check_content ".opencode/commands/$cmd.md" "^---$" "$cmd.md has frontmatter start"
 done
 echo ""
 
 echo "📋 11. Regression (existing commands)"
-check_file ".claude/commands/backlog-groom.md" "backlog-groom still exists"
-check_file ".claude/commands/okr-define.md" "okr-define still exists"
-check_file ".claude/commands/company-setup.md" "company-setup still exists"
+check_file ".opencode/commands/backlog-groom.md" "backlog-groom still exists"
+check_file ".opencode/commands/okr-define.md" "okr-define still exists"
+check_file ".opencode/commands/company-setup.md" "company-setup still exists"
 echo ""
 
 TOTAL=$((PASS + FAIL))

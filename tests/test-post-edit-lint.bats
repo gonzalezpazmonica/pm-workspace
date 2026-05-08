@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/post-edit-lint.sh
+# BATS tests for .opencode/hooks/post-edit-lint.sh
 # PostToolUse async — auto-lint tras edición según extensión del fichero.
 # Invoca linter disponible (dotnet/ruff/eslint/gofmt/rustfmt/rubocop/php-cs-fixer/terraform).
 # Ref: batch 47 hook coverage — SPEC-lint multi-lang auto-check
 
-HOOK=".claude/hooks/post-edit-lint.sh"
+HOOK=".opencode/hooks/post-edit-lint.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

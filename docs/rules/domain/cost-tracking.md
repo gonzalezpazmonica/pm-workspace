@@ -2,7 +2,7 @@
 name: cost-tracking
 description: "Cost Tracking — Append-only ledger, burn calculation, forecasting, alerts"
 auto_load: false
-paths: [".claude/commands/cost-center*", ".claude/skills/cost-management/*"]
+paths: [".opencode/commands/cost-center*", ".opencode/skills/cost-management/*"]
 ---
 
 # Regla: Seguimiento de Costes

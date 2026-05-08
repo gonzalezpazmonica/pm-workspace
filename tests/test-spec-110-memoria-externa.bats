@@ -122,11 +122,11 @@ teardown() {
 # ── session-init hook ──────────────────────────────────────────────────────
 
 @test "session-init: invoca bootstrap" {
-  grep -q 'savia-memory-bootstrap' .claude/hooks/session-init.sh
+  grep -q 'savia-memory-bootstrap' .opencode/hooks/session-init.sh
 }
 
 @test "session-init: reporta estado de memoria" {
-  grep -qE 'Memoria:|savia-memory' .claude/hooks/session-init.sh
+  grep -qE 'Memoria:|savia-memory' .opencode/hooks/session-init.sh
 }
 
 # ── SPEC doc ───────────────────────────────────────────────────────────────

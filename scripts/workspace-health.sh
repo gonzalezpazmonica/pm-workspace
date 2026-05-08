@@ -35,28 +35,28 @@ grade() {
 # ── Gather metrics ──
 
 # 1. Component completeness
-TOTAL_SKILLS=$(count_glob "$ROOT/.claude/skills/*/")
-SKILLS_WITH_MD=$(count_glob "$ROOT/.claude/skills/*/SKILL.md")
+TOTAL_SKILLS=$(count_glob "$ROOT/.opencode/skills/*/")
+SKILLS_WITH_MD=$(count_glob "$ROOT/.opencode/skills/*/SKILL.md")
 SKILL_COMPLETENESS=$(pct "$SKILLS_WITH_MD" "$TOTAL_SKILLS")
 
-TOTAL_COMMANDS=$(count_glob "$ROOT/.claude/commands/*.md")
+TOTAL_COMMANDS=$(count_glob "$ROOT/.opencode/commands/*.md")
 CMD_WITH_FM=0
-for f in "$ROOT/.claude/commands/"*.md; do
+for f in "$ROOT/.opencode/commands/"*.md; do
   [ -f "$f" ] || continue
   head -1 "$f" | grep -q "^---$" && CMD_WITH_FM=$((CMD_WITH_FM + 1))
 done
 CMD_COMPLETENESS=$(pct "$CMD_WITH_FM" "$TOTAL_COMMANDS")
 
 # 2. Maturity distribution
-STABLE=$(grep -rl "^maturity: stable" "$ROOT/.claude/skills/"*/SKILL.md 2>/dev/null | wc -l)
-BETA=$(grep -rl "^maturity: beta" "$ROOT/.claude/skills/"*/SKILL.md 2>/dev/null | wc -l)
-ALPHA=$(grep -rl "^maturity: alpha" "$ROOT/.claude/skills/"*/SKILL.md 2>/dev/null | wc -l)
+STABLE=$(grep -rl "^maturity: stable" "$ROOT/.opencode/skills/"*/SKILL.md 2>/dev/null | wc -l)
+BETA=$(grep -rl "^maturity: beta" "$ROOT/.opencode/skills/"*/SKILL.md 2>/dev/null | wc -l)
+ALPHA=$(grep -rl "^maturity: alpha" "$ROOT/.opencode/skills/"*/SKILL.md 2>/dev/null | wc -l)
 MATURITY_SCORE=$(pct "$((STABLE * 3 + BETA * 2 + ALPHA * 1))" "$((TOTAL_SKILLS * 3))")
 
 # 3. Test coverage
-TOTAL_HOOKS=$(count_glob "$ROOT/.claude/hooks/*.sh")
+TOTAL_HOOKS=$(count_glob "$ROOT/.opencode/hooks/*.sh")
 TESTED_HOOKS=0
-for h in "$ROOT/.claude/hooks/"*.sh; do
+for h in "$ROOT/.opencode/hooks/"*.sh; do
   [ -f "$h" ] || continue
   name=$(basename "$h" .sh)
   ls "$ROOT"/tests/hooks/test-"$name"*.bats 2>/dev/null | grep -q . && TESTED_HOOKS=$((TESTED_HOOKS + 1))
@@ -132,7 +132,7 @@ else
   echo "  └──────────────────────────┴───────┴───────┘"
   echo ""
   echo "  Components: $TOTAL_COMMANDS commands, $TOTAL_SKILLS skills,"
-  echo "              $(count_glob "$ROOT/.claude/agents/*.md") agents, $TOTAL_HOOKS hooks"
+  echo "              $(count_glob "$ROOT/.opencode/agents/*.md") agents, $TOTAL_HOOKS hooks"
   echo ""
   echo "═══════════════════════════════════════════════════"
 fi

@@ -15,7 +15,7 @@ echo "════════════════════════�
 # ── Section 1: Command file ────────────────────────────────────────────────
 echo ""
 echo "── Section 1: Command file ──"
-CMD=".claude/commands/sovereignty-audit.md"
+CMD=".opencode/commands/sovereignty-audit.md"
 check "Command exists" "[ -f $CMD ]"
 LINES=$(wc -l < "$CMD")
 check "Command within limit ($LINES/150 lines)" "[ $LINES -le 150 ]"
@@ -54,7 +54,7 @@ check "Has Gartner reference" "grep -q 'Gartner' $RULE"
 # ── Section 3: Skill ──────────────────────────────────────────────────────
 echo ""
 echo "── Section 3: Skill ──"
-SKILL=".claude/skills/sovereignty-auditor/SKILL.md"
+SKILL=".opencode/skills/sovereignty-auditor/SKILL.md"
 check "Skill exists" "[ -f $SKILL ]"
 LINES=$(wc -l < "$SKILL")
 check "Skill within limit ($LINES/150 lines)" "[ $LINES -le 150 ]"

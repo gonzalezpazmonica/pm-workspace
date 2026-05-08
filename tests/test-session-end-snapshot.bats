@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/session-end-snapshot.sh
+# BATS tests for .opencode/hooks/session-end-snapshot.sh
 # Stop hook — saves context snapshot at session end via context-snapshot.sh.
 # Ref: batch 50 hook coverage — context-snapshot integration
 
-HOOK=".claude/hooks/session-end-snapshot.sh"
+HOOK=".opencode/hooks/session-end-snapshot.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

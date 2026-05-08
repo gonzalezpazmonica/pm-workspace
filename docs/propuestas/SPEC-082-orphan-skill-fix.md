@@ -17,7 +17,7 @@ Esto rompe la Clara Philosophy de documentacion dual obligatoria.
 
 ## Solucion
 
-1. Listar todos los directorios en `.claude/skills/` con solo DOMAIN.md
+1. Listar todos los directorios en `.opencode/skills/` con solo DOMAIN.md
 2. Si falta SKILL.md: crear SKILL.md minimo con frontmatter
 3. Si el directorio es invalido: eliminar DOMAIN.md huerfano
 4. Validar con `/plugin-validate`

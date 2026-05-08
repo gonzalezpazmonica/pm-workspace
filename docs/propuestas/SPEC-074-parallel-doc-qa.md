@@ -40,7 +40,7 @@ Añadir flag `--parallel` a `/meeting-digest`:
 
 ## Implementación
 
-En `.claude/commands/meeting-digest.md`:
+En `.opencode/commands/meeting-digest.md`:
 
 ```markdown
 Si --parallel y N > 1:

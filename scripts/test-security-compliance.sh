@@ -32,14 +32,14 @@ test_case() {
 echo ""
 echo "1️⃣  Command Files Exist"
 for cmd in security-review security-audit security-alerts credential-scan sbom-generate compliance-scan compliance-fix compliance-report; do
-  test_case "${cmd}.md exists" "[ -f $REPO_ROOT/.claude/commands/${cmd}.md ]"
+  test_case "${cmd}.md exists" "[ -f $REPO_ROOT/.opencode/commands/${cmd}.md ]"
 done
 
 # ── Test 2: YAML frontmatter ────────────────────────────────────
 echo ""
 echo "2️⃣  YAML Frontmatter"
 for cmd in security-review security-audit credential-scan compliance-scan; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   test_case "${cmd}: has name field" "grep -q '^name: ' $file"
   test_case "${cmd}: has description" "grep -q '^description: ' $file"
 done
@@ -48,7 +48,7 @@ done
 echo ""
 echo "3️⃣  Line Count (≤ 150 lines)"
 for cmd in security-review security-audit credential-scan compliance-scan; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   lines=$(wc -l < "$file")
   test_case "${cmd}: ${lines} lines ≤ 150" "[ $lines -le 150 ]"
 done
@@ -56,10 +56,10 @@ done
 # ── Test 4: Key concepts present ────────────────────────────────
 echo ""
 echo "4️⃣  Key Concepts"
-test_case "security-review mentions review\|security" "grep -q -i 'review\|security' $REPO_ROOT/.claude/commands/security-review.md"
-test_case "security-audit mentions audit" "grep -q -i 'audit' $REPO_ROOT/.claude/commands/security-audit.md"
-test_case "credential-scan mentions credential\|secret" "grep -q -i 'credential\|secret' $REPO_ROOT/.claude/commands/credential-scan.md"
-test_case "compliance-scan mentions compliance" "grep -q -i 'compliance' $REPO_ROOT/.claude/commands/compliance-scan.md"
+test_case "security-review mentions review\|security" "grep -q -i 'review\|security' $REPO_ROOT/.opencode/commands/security-review.md"
+test_case "security-audit mentions audit" "grep -q -i 'audit' $REPO_ROOT/.opencode/commands/security-audit.md"
+test_case "credential-scan mentions credential\|secret" "grep -q -i 'credential\|secret' $REPO_ROOT/.opencode/commands/credential-scan.md"
+test_case "compliance-scan mentions compliance" "grep -q -i 'compliance' $REPO_ROOT/.opencode/commands/compliance-scan.md"
 
 # ── Test 5: Meta files updated ──────────────────────────────────
 echo ""

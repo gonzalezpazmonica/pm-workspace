@@ -2,7 +2,7 @@
 name: onboarding-enterprise
 description: "Enterprise onboarding at scale — 4-phase workflow, batch CSV import, per-role checklists, knowledge transfer"
 auto_load: false
-paths: [".claude/commands/onboard-enterprise*", ".claude/skills/enterprise-onboarding/*"]
+paths: [".opencode/commands/onboard-enterprise*", ".opencode/skills/enterprise-onboarding/*"]
 ---
 
 # Regla: Onboarding Empresarial a Escala

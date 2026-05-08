@@ -22,8 +22,8 @@ done
 # Default: all markdown docs (not internal rules/agents/commands)
 if [[ ${#FILES[@]} -eq 0 ]]; then
     mapfile -t FILES < <(find "$ROOT" -maxdepth 3 -name '*.md' \
-        -not -path '*/.claude/rules/*' -not -path '*/.claude/agents/*' \
-        -not -path '*/.claude/commands/*' -not -path '*/.claude/skills/*' \
+        -not -path '*/.claude/rules/*' -not -path '*/.opencode/agents/*' \
+        -not -path '*/.opencode/commands/*' -not -path '*/.opencode/skills/*' \
         -not -path '*/node_modules/*' -not -path '*/projects/*' \
         -not -path '*/.git/*' | sort)
 fi

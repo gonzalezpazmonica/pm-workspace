@@ -62,7 +62,7 @@ output/
 ├── sprint-snapshots/  ← sprint state snapshots
 └── .memory-store.jsonl ← my persistent memory
 
-.claude/commands/
+.opencode/commands/
 ├── sprint-*.md        ← sprint commands (plan, status, review, retro)
 ├── report-*.md        ← reporting commands
 ├── team-*.md          ← team and capacity commands

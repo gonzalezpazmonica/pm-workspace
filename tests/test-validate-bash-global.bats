@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # BATS tests for validate-bash-global.sh
-# SCRIPT=.claude/hooks/validate-bash-global.sh
+# SCRIPT=.opencode/hooks/validate-bash-global.sh
 # SPEC: SPEC-032 Security Benchmarks — dangerous command blocking
 
-SCRIPT=".claude/hooks/validate-bash-global.sh"
+SCRIPT=".opencode/hooks/validate-bash-global.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

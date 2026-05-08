@@ -11,14 +11,14 @@ teardown() { rm -rf "$TMPDIR_CIA"; }
 
 @test "all 8 Group A (writer) agents reference context-index or .ctx" {
   local writers=(
-    ".claude/agents/meeting-digest.md"
-    ".claude/agents/pdf-digest.md"
-    ".claude/agents/word-digest.md"
-    ".claude/agents/excel-digest.md"
-    ".claude/agents/pptx-digest.md"
-    ".claude/agents/visual-digest.md"
-    ".claude/agents/meeting-risk-analyst.md"
-    ".claude/agents/meeting-confidentiality-judge.md"
+    ".opencode/agents/meeting-digest.md"
+    ".opencode/agents/pdf-digest.md"
+    ".opencode/agents/word-digest.md"
+    ".opencode/agents/excel-digest.md"
+    ".opencode/agents/pptx-digest.md"
+    ".opencode/agents/visual-digest.md"
+    ".opencode/agents/meeting-risk-analyst.md"
+    ".opencode/agents/meeting-confidentiality-judge.md"
   )
   for agent in "${writers[@]}"; do
     grep -qiE '(context-index|\.ctx)' "$agent" || {
@@ -29,14 +29,14 @@ teardown() { rm -rf "$TMPDIR_CIA"; }
 
 @test "Group B reader agents (batch 1 of 2) reference context-index or .ctx" {
   local readers=(
-    ".claude/agents/architect.md"
-    ".claude/agents/business-analyst.md"
-    ".claude/agents/sdd-spec-writer.md"
-    ".claude/agents/code-reviewer.md"
-    ".claude/agents/security-guardian.md"
-    ".claude/agents/security-attacker.md"
-    ".claude/agents/security-defender.md"
-    ".claude/agents/security-auditor.md"
+    ".opencode/agents/architect.md"
+    ".opencode/agents/business-analyst.md"
+    ".opencode/agents/sdd-spec-writer.md"
+    ".opencode/agents/code-reviewer.md"
+    ".opencode/agents/security-guardian.md"
+    ".opencode/agents/security-attacker.md"
+    ".opencode/agents/security-defender.md"
+    ".opencode/agents/security-auditor.md"
   )
   for agent in "${readers[@]}"; do
     grep -qiE '(context-index|\.ctx)' "$agent" || {
@@ -47,15 +47,15 @@ teardown() { rm -rf "$TMPDIR_CIA"; }
 
 @test "Group B reader agents (batch 2 of 2) reference context-index or .ctx" {
   local readers=(
-    ".claude/agents/coherence-validator.md"
-    ".claude/agents/reflection-validator.md"
-    ".claude/agents/dev-orchestrator.md"
-    ".claude/agents/diagram-architect.md"
-    ".claude/agents/drift-auditor.md"
-    ".claude/agents/feasibility-probe.md"
-    ".claude/agents/test-engineer.md"
-    ".claude/agents/confidentiality-auditor.md"
-    ".claude/agents/tech-writer.md"
+    ".opencode/agents/coherence-validator.md"
+    ".opencode/agents/reflection-validator.md"
+    ".opencode/agents/dev-orchestrator.md"
+    ".opencode/agents/diagram-architect.md"
+    ".opencode/agents/drift-auditor.md"
+    ".opencode/agents/feasibility-probe.md"
+    ".opencode/agents/test-engineer.md"
+    ".opencode/agents/confidentiality-auditor.md"
+    ".opencode/agents/tech-writer.md"
   )
   for agent in "${readers[@]}"; do
     grep -qiE '(context-index|\.ctx)' "$agent" || {
@@ -66,18 +66,18 @@ teardown() { rm -rf "$TMPDIR_CIA"; }
 
 @test "all 12 Group C (developer) agents reference context-index or .ctx" {
   local devs=(
-    ".claude/agents/dotnet-developer.md"
-    ".claude/agents/typescript-developer.md"
-    ".claude/agents/frontend-developer.md"
-    ".claude/agents/java-developer.md"
-    ".claude/agents/python-developer.md"
-    ".claude/agents/go-developer.md"
-    ".claude/agents/rust-developer.md"
-    ".claude/agents/php-developer.md"
-    ".claude/agents/ruby-developer.md"
-    ".claude/agents/mobile-developer.md"
-    ".claude/agents/cobol-developer.md"
-    ".claude/agents/terraform-developer.md"
+    ".opencode/agents/dotnet-developer.md"
+    ".opencode/agents/typescript-developer.md"
+    ".opencode/agents/frontend-developer.md"
+    ".opencode/agents/java-developer.md"
+    ".opencode/agents/python-developer.md"
+    ".opencode/agents/go-developer.md"
+    ".opencode/agents/rust-developer.md"
+    ".opencode/agents/php-developer.md"
+    ".opencode/agents/ruby-developer.md"
+    ".opencode/agents/mobile-developer.md"
+    ".opencode/agents/cobol-developer.md"
+    ".opencode/agents/terraform-developer.md"
   )
   for agent in "${devs[@]}"; do
     grep -qiE '(context-index|\.ctx)' "$agent" || {
@@ -120,17 +120,17 @@ teardown() { rm -rf "$TMPDIR_CIA"; }
 
 @test "no modified agent exceeds 150 lines" {
   local agents=(
-    ".claude/agents/architect.md"
-    ".claude/agents/business-analyst.md"
-    ".claude/agents/sdd-spec-writer.md"
-    ".claude/agents/code-reviewer.md"
-    ".claude/agents/security-guardian.md"
-    ".claude/agents/dotnet-developer.md"
-    ".claude/agents/confidentiality-auditor.md"
-    ".claude/agents/meeting-digest.md"
-    ".claude/agents/terraform-developer.md"
-    ".claude/agents/cobol-developer.md"
-    ".claude/agents/mobile-developer.md"
+    ".opencode/agents/architect.md"
+    ".opencode/agents/business-analyst.md"
+    ".opencode/agents/sdd-spec-writer.md"
+    ".opencode/agents/code-reviewer.md"
+    ".opencode/agents/security-guardian.md"
+    ".opencode/agents/dotnet-developer.md"
+    ".opencode/agents/confidentiality-auditor.md"
+    ".opencode/agents/meeting-digest.md"
+    ".opencode/agents/terraform-developer.md"
+    ".opencode/agents/cobol-developer.md"
+    ".opencode/agents/mobile-developer.md"
   )
   for agent in "${agents[@]}"; do
     lines=$(wc -l < "$agent")

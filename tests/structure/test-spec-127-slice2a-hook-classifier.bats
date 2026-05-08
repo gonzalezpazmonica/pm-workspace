@@ -67,7 +67,7 @@ teardown() {
   echo "$output" | python3 -c "import json,sys; json.loads(sys.stdin.read())"
 }
 
-@test "AC-2.1: classifier processes all hooks in .claude/hooks/" {
+@test "AC-2.1: classifier processes all hooks in .opencode/hooks/" {
   hook_count=$(find "$HOOKS_DIR" -maxdepth 1 -name "*.sh" -type f | wc -l)
   row_count=$(bash "$CLASSIFIER" | tail -n +2 | wc -l)
   [ "$row_count" = "$hook_count" ]

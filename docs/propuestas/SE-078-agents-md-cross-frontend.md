@@ -17,7 +17,7 @@ era: 189
 
 ## Why
 
-Hoy Savia define 65 agentes en `.claude/agents/*.md` con frontmatter Anthropic-specific. OpenCode v1.14, Codex, Cursor y otros frontends modernos leen un formato emergente común: **`AGENTS.md`** (existe SPEC-114 PROPOSED al respecto, sin acción).
+Hoy Savia define 65 agentes en `.opencode/agents/*.md` con frontmatter Anthropic-specific. OpenCode v1.14, Codex, Cursor y otros frontends modernos leen un formato emergente común: **`AGENTS.md`** (existe SPEC-114 PROPOSED al respecto, sin acción).
 
 Sin single source, la deuda crece linealmente: cada nuevo agente requiere mantenerlo en N formatos, o quedar Claude-Code-only. Esto **mata SE-077 en la práctica**: aunque OpenCode esté operativo, los agentes que escribimos hoy no funcionarán allí salvo que se mantengan ambos formatos.
 
@@ -26,17 +26,17 @@ Cost of inaction: vendor lock-in via formato propietario, aunque la infra (SE-07
 ## Scope (Slice único, M 6h)
 
 1. **Generador**: `scripts/agents-md-generate.sh`
-   - Input: `.claude/agents/*.md` (65 agentes actuales)
+   - Input: `.opencode/agents/*.md` (65 agentes actuales)
    - Output: `AGENTS.md` en repo root (uno por proyecto que tenga agentes propios)
    - Formato: tabla canonical AGENTS.md ([spec emergente](https://agents.md))
    - Idempotente: re-run produce mismo hash si no hay cambios
 
 2. **Validator**: `scripts/agents-md-drift-check.sh`
-   - Compara AGENTS.md vs `.claude/agents/*.md`
+   - Compara AGENTS.md vs `.opencode/agents/*.md`
    - Falla si hay agente nuevo sin entrada AGENTS.md
    - Integra en pr-plan G_AGENTS_MD (nuevo gate)
 
-3. **Hook Stop**: `agents-md-auto-regenerate.sh` async — si la sesión añadió/modificó `.claude/agents/*.md`, regenera AGENTS.md y muestra diff
+3. **Hook Stop**: `agents-md-auto-regenerate.sh` async — si la sesión añadió/modificó `.opencode/agents/*.md`, regenera AGENTS.md y muestra diff
 
 4. **Migration**: ejecutar generador 1 vez, commit AGENTS.md inicial, verificar que OpenCode lo lee correctamente
 
@@ -46,20 +46,20 @@ Cost of inaction: vendor lock-in via formato propietario, aunque la infra (SE-07
 
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
-| Definición de agentes | `.claude/agents/*.md` (autoritativo) | Lee `AGENTS.md` desde repo root + `.opencode/agents/` (fallback) |
-| Generación | Manual (humano edita .claude/agents/*.md) | Auto-derivada de AGENTS.md mediante symlink o regenerator |
+| Definición de agentes | `.opencode/agents/*.md` (autoritativo) | Lee `AGENTS.md` desde repo root + `.opencode/agents/` (fallback) |
+| Generación | Manual (humano edita .opencode/agents/*.md) | Auto-derivada de AGENTS.md mediante symlink o regenerator |
 | Drift detection | `agents-catalog-sync.sh` (existe, SPEC-047) | `agents-md-drift-check.sh` (nuevo) |
 
 ### Verification protocol
 
-- [ ] AGENTS.md generado contiene 65 entries (matches `.claude/agents/`)
+- [ ] AGENTS.md generado contiene 65 entries (matches `.opencode/agents/`)
 - [ ] OpenCode v1.14 carga agentes desde AGENTS.md sin error
-- [ ] Drift check detecta agente nuevo en `.claude/agents/` no propagado a AGENTS.md (test: añadir dummy, verificar fail)
+- [ ] Drift check detecta agente nuevo en `.opencode/agents/` no propagado a AGENTS.md (test: añadir dummy, verificar fail)
 - [ ] Stop hook regenera AGENTS.md tras edición de un agente
 
 ### Portability classification
 
-- **DUAL_BINDING**: AGENTS.md es la single source. Claude Code lee `.claude/agents/*.md` (formato origen) — convención mantenida. OpenCode lee AGENTS.md (formato derivado).
+- **DUAL_BINDING**: AGENTS.md es la single source. Claude Code lee `.opencode/agents/*.md` (formato origen) — convención mantenida. OpenCode lee AGENTS.md (formato derivado).
 
 ## Acceptance criteria
 
@@ -75,7 +75,7 @@ Cost of inaction: vendor lock-in via formato propietario, aunque la infra (SE-07
 
 ## No hacen
 
-- NO sustituye `.claude/agents/*.md` como fuente original — esos siguen siendo donde se editan los agentes
+- NO sustituye `.opencode/agents/*.md` como fuente original — esos siguen siendo donde se editan los agentes
 - NO migra el formato Anthropic-specific a otro estándar — solo añade espejo AGENTS.md derivado
 - NO toca skills (skills tienen su propio mecanismo; SE-078 only aborda agents)
 - NO requiere cambios en agentes individuales

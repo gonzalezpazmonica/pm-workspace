@@ -48,6 +48,6 @@ Run `/managed-scan` in:
 
 ## Related
 
-- Skill: `.claude/skills/managed-content/SKILL.md`
+- Skill: `.opencode/skills/managed-content/SKILL.md`
 - Command: `/managed-sync` — Regenerate all marked sections
 - Command: `/managed-scan` — Audit all markers with freshness

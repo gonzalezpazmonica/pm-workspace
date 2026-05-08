@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests for wave-executor.sh — DAG scheduling engine
-# Ref: .claude/skills/dag-scheduling/SKILL.md
+# Ref: .opencode/skills/dag-scheduling/SKILL.md
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"

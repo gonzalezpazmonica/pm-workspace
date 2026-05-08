@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/stress-awareness-nudge.sh
+# BATS tests for .opencode/hooks/stress-awareness-nudge.sh
 # UserPromptSubmit hook — detects pressure patterns and injects calm-anchoring nudge.
 # Source: Anthropic "Emotion concepts in LLMs" (2026-04-02)
 # Ref: batch 43 hook coverage
 
-HOOK=".claude/hooks/stress-awareness-nudge.sh"
+HOOK=".opencode/hooks/stress-awareness-nudge.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

@@ -29,7 +29,7 @@ Coste de no adoptar: el patrón sigue produciendo "crap tests" cuando los agente
 
 ## Scope (Slice único, S 2h)
 
-### 1. `.claude/skills/tdd-vertical-slices/SKILL.md` (clean-room, ≤120 LOC)
+### 1. `.opencode/skills/tdd-vertical-slices/SKILL.md` (clean-room, ≤120 LOC)
 
 Contiene:
 
@@ -43,7 +43,7 @@ Atribución MIT a `mattpocock/skills/tdd/SKILL.md` en header. Clean-room — la 
 
 ### 2. Cross-reference desde test-architect
 
-`.claude/agents/test-architect.md` — añadir 1 línea en sección de proceso: "When applying TDD, use `.claude/skills/tdd-vertical-slices/SKILL.md` — vertical slicing only, never horizontal."
+`.opencode/agents/test-architect.md` — añadir 1 línea en sección de proceso: "When applying TDD, use `.opencode/skills/tdd-vertical-slices/SKILL.md` — vertical slicing only, never horizontal."
 
 (test-engineer y test-runner son ejecutores; el discípulo de TDD es test-architect.)
 
@@ -55,7 +55,7 @@ Atribución MIT a `mattpocock/skills/tdd/SKILL.md` en header. Clean-room — la 
 
 ## Acceptance criteria
 
-- [ ] AC-01 `.claude/skills/tdd-vertical-slices/SKILL.md` ≤120 LOC con frontmatter `name`, `description` que incluya "Use when ..."
+- [ ] AC-01 `.opencode/skills/tdd-vertical-slices/SKILL.md` ≤120 LOC con frontmatter `name`, `description` que incluya "Use when ..."
 - [ ] AC-02 Anti-pattern de horizontal slicing nombrado explícitamente con "DO NOT" o equivalente
 - [ ] AC-03 Atribución MIT a Pocock en header (clean-room — verificable por diff manual)
 - [ ] AC-04 Cross-reference añadida en `test-architect.md`
@@ -79,7 +79,7 @@ Atribución MIT a `mattpocock/skills/tdd/SKILL.md` en header. Clean-room — la 
 ## Dependencias
 
 - ✅ test-architect agent existe
-- ✅ `.claude/skills/` directory existe
+- ✅ `.opencode/skills/` directory existe
 - Sin bloqueantes externos. Independiente de SE-081/SE-082/SE-084.
 
 ## OpenCode Implementation Plan
@@ -88,8 +88,8 @@ Atribución MIT a `mattpocock/skills/tdd/SKILL.md` en header. Clean-room — la 
 
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
-| SKILL.md | `.claude/skills/tdd-vertical-slices/SKILL.md` | autoload via AGENTS.md regen |
-| Agent ref | `.claude/agents/test-architect.md` | regen via SE-078 |
+| SKILL.md | `.opencode/skills/tdd-vertical-slices/SKILL.md` | autoload via AGENTS.md regen |
+| Agent ref | `.opencode/agents/test-architect.md` | regen via SE-078 |
 
 ### Verification protocol
 

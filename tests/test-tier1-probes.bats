@@ -169,7 +169,7 @@ teardown() {
   [[ "$before_hash" == "$after_hash" ]]
 }
 
-@test "agent-size-audit does NOT modify .claude/agents/" {
+@test "agent-size-audit does NOT modify .opencode/agents/" {
   local before_hash after_hash
   before_hash=$(find .claude/agents -type f -name '*.md' -exec md5sum {} \; 2>/dev/null | sort | md5sum | awk '{print $1}')
   bash scripts/agent-size-audit.sh --quiet >/dev/null 2>&1 || true

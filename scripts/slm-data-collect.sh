@@ -4,8 +4,8 @@
 # Agrega JSONL training data desde fuentes soberanas del pm-workspace:
 #   - Specs aprobados (docs/propuestas/*.md con status: APPROVED)
 #   - Decision log entries (docs/decision-log.md si existe)
-#   - Agent prompts (.claude/agents/*.md)
-#   - Skill definitions (.claude/skills/*/SKILL.md)
+#   - Agent prompts (.opencode/agents/*.md)
+#   - Skill definitions (.opencode/skills/*/SKILL.md)
 #
 # Emite JSONL Alpaca-format con (instruction, output) derivados por heurísticas.
 # NO ejecuta scraping externo, NO hace llamadas LLM — solo filesystem read.
@@ -43,8 +43,8 @@ Usage:
 
 Sources:
   specs   — docs/propuestas/*.md (frontmatter + body → Q&A pairs)
-  agents  — .claude/agents/*.md (name/description → instruction/output)
-  skills  — .claude/skills/*/SKILL.md (name/description → instruction/output)
+  agents  — .opencode/agents/*.md (name/description → instruction/output)
+  skills  — .opencode/skills/*/SKILL.md (name/description → instruction/output)
   all     — concatenate all sources
 
 Output format: {"instruction": "...", "input": "", "output": "..."}

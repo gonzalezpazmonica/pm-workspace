@@ -25,10 +25,10 @@ A Claude Code workspace for Project Managers, with 454 commands, 67 skills, 33 a
 
 ```bash
 # List all available commands
-ls .claude/commands/
+ls .opencode/commands/
 
 # Search for commands by keyword
-grep -rl "sprint" .claude/commands/
+grep -rl "sprint" .opencode/commands/
 
 # Generate full component index
 bash scripts/generate-index.sh --markdown

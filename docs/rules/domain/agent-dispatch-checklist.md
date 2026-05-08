@@ -1,5 +1,5 @@
 ---
-globs: [".claude/agents/**", "CHANGELOG.md"]
+globs: [".opencode/agents/**", "CHANGELOG.md"]
 ---
 
 # Regla: Checklist de Dispatch a Agentes
@@ -10,7 +10,7 @@ proyecto. El hook `agent-dispatch-validate.sh` valida automáticamente.
 
 ## Checklists por tipo de tarea
 
-### Crear commands (.claude/commands/*.md)
+### Crear commands (.opencode/commands/*.md)
 
 - [ ] Mencionar frontmatter obligatorio: `name` + `description`
 - [ ] Incluir ejemplo de un command existente como referencia de formato
@@ -25,7 +25,7 @@ proyecto. El hook `agent-dispatch-validate.sh` valida automáticamente.
 - [ ] Exigir formato `## [x.y.z] — YYYY-MM-DD`
 - [ ] Incluir link comparativo al final: `[x.y.z]: .../compare/...`
 
-### Crear skills (.claude/skills/*/SKILL.md)
+### Crear skills (.opencode/skills/*/SKILL.md)
 
 - [ ] Especificar límite de 150 líneas
 - [ ] Exigir frontmatter YAML: `name`, `description`, `context`

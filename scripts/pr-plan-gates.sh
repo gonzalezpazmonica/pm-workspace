@@ -123,7 +123,7 @@ g5() {
   [[ -z "$non_md" ]] && echo "skipped (docs-only)" && return
   # High-impact paths: any change in these dirs requires CHANGELOG update.
   # Includes: all .claude/ infrastructure, scripts/, .scm/, .opencode/,
-  # .github/workflows/, CLAUDE.md. Commands dir (.claude/commands/) was
+  # .github/workflows/, CLAUDE.md. Commands dir (.opencode/commands/) was
   # previously missing — fixed 2026-05-02 after PR #749 G8 CI failure.
   local hi; hi=$(echo "$all" | grep -E '^(\.claude/|scripts/|\.scm/|\.opencode/|\.github/workflows/|CLAUDE\.md)' || true)
   [[ -z "$hi" ]] && echo "skipped (no high-impact paths)" && return
@@ -478,10 +478,10 @@ g14_skill_catalog() {
     return
   fi
 
-  # Files added or modified in the PR, restricted to SKILL.md under .claude/skills/
+  # Files added or modified in the PR, restricted to SKILL.md under .opencode/skills/
   local skills
   skills=$(git diff origin/main..HEAD --name-only --diff-filter=AM 2>/dev/null \
-           | grep -E '^\.claude/skills/[^/]+/SKILL\.md$' || true)
+           | grep -E '^\.opencode/skills/[^/]+/SKILL\.md$' || true)
   if [[ -z "$skills" ]]; then
     echo "skipped (no SKILL.md changed)"
     return
@@ -508,7 +508,7 @@ g14_skill_catalog() {
       echo "FAIL: ${fail_count} fail-severity issue(s) across ${#fail_skills[@]} modified skill(s):"
       for s in "${fail_skills[@]}"; do echo "  - $s"; done
       echo "  resolve: see docs/rules/domain/skill-catalog-discipline.md"
-      echo "  detail:  bash $auditor --report --skill .claude/skills/<name>"
+      echo "  detail:  bash $auditor --report --skill .opencode/skills/<name>"
     }
     return
   fi

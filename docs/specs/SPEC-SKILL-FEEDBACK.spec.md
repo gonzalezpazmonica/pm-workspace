@@ -305,22 +305,22 @@ Scenario: Exactly 90-day boundary
 ```
 scripts/skill-feedback-log.sh          # Append invocation entry to JSONL log
 scripts/skill-feedback-rank.sh         # Compute scores, generate ranking report
-.claude/commands/skill-rank.md         # /skill-rank command definition
+.opencode/commands/skill-rank.md         # /skill-rank command definition
 data/.gitkeep                          # Ensure data/ directory exists
 ```
 
 ### Modificar (existentes)
 
 ```
-.claude/skills/eval-registry.json      # NOT modified -- remains for eval engine
-.claude/commands/skill-eval.md         # Add step: after activate, call skill-feedback-log.sh
+.opencode/skills/eval-registry.json      # NOT modified -- remains for eval engine
+.opencode/commands/skill-eval.md         # Add step: after activate, call skill-feedback-log.sh
 .gitignore                             # Add: data/skill-invocations*.jsonl*
 ```
 
 ### NO tocar
 
 ```
-.claude/skills/skill-evaluation/SKILL.md   # Scoring engine stays separate
+.opencode/skills/skill-evaluation/SKILL.md   # Scoring engine stays separate
 docs/rules/domain/skill-lifecycle.md    # Rules stay declarative
 docs/rules/domain/skill-auto-activation.md  # Integration is via log data, not code change
 ```
@@ -439,7 +439,7 @@ bash scripts/skill-feedback-rank.sh --test
 grep -q "skill-invocations" .gitignore && echo "OK: gitignored"
 
 # 5. Verify command exists
-test -f .claude/commands/skill-rank.md && echo "OK: command exists"
+test -f .opencode/commands/skill-rank.md && echo "OK: command exists"
 
 # 6. Full validation
 bash tests/run-all.sh

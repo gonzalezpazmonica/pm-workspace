@@ -15,35 +15,35 @@ echo "════════════════════════�
 
 echo ""
 echo "1️⃣  Skill Files"
-check "$REPO_ROOT/.claude/skills/savia-flow-practice/SKILL.md" "SKILL.md"
-check "$REPO_ROOT/.claude/skills/savia-flow-practice/references/azure-devops-config.md" "azure-devops-config"
-check "$REPO_ROOT/.claude/skills/savia-flow-practice/references/backlog-structure.md" "backlog-structure"
-check "$REPO_ROOT/.claude/skills/savia-flow-practice/references/task-template-sdd.md" "task-template-sdd"
-check "$REPO_ROOT/.claude/skills/savia-flow-practice/references/meetings-cadence.md" "meetings-cadence"
-check "$REPO_ROOT/.claude/skills/savia-flow-practice/references/dual-track-coordination.md" "dual-track-coordination"
-check "$REPO_ROOT/.claude/skills/savia-flow-practice/references/example-socialapp.md" "example-socialapp"
+check "$REPO_ROOT/.opencode/skills/savia-flow-practice/SKILL.md" "SKILL.md"
+check "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/azure-devops-config.md" "azure-devops-config"
+check "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/backlog-structure.md" "backlog-structure"
+check "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/task-template-sdd.md" "task-template-sdd"
+check "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/meetings-cadence.md" "meetings-cadence"
+check "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/dual-track-coordination.md" "dual-track-coordination"
+check "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/example-socialapp.md" "example-socialapp"
 
 echo ""
 echo "2️⃣  Command Files"
 for cmd in flow-setup flow-board flow-intake flow-metrics flow-spec; do
-  check "$REPO_ROOT/.claude/commands/${cmd}.md" "$cmd"
+  check "$REPO_ROOT/.opencode/commands/${cmd}.md" "$cmd"
 done
 
 echo ""
 echo "3️⃣  Frontmatter"
 for cmd in flow-setup flow-board flow-intake flow-metrics flow-spec; do
-  f="$REPO_ROOT/.claude/commands/${cmd}.md"
+  f="$REPO_ROOT/.opencode/commands/${cmd}.md"
   grep -q "^name:" "$f" 2>/dev/null && ok "$cmd: has name" || fail "$cmd: missing name"
   grep -q "^description:" "$f" 2>/dev/null && ok "$cmd: has description" || fail "$cmd: missing description"
 done
 
 echo ""
 echo "4️⃣  Line Count (≤ 150)"
-for f in .claude/skills/savia-flow-practice/SKILL.md \
-         .claude/skills/savia-flow-practice/references/*.md \
-         .claude/commands/flow-setup.md .claude/commands/flow-board.md \
-         .claude/commands/flow-intake.md .claude/commands/flow-metrics.md \
-         .claude/commands/flow-spec.md; do
+for f in .opencode/skills/savia-flow-practice/SKILL.md \
+         .opencode/skills/savia-flow-practice/references/*.md \
+         .opencode/commands/flow-setup.md .opencode/commands/flow-board.md \
+         .opencode/commands/flow-intake.md .opencode/commands/flow-metrics.md \
+         .opencode/commands/flow-spec.md; do
   lines=$(wc -l < "$REPO_ROOT/$f" | tr -d ' ')
   name=$(basename "$f")
   if [ "$lines" -le 150 ]; then ok "$name: $lines lines ≤ 150"; else fail "$name: $lines lines > 150"; fi
@@ -51,14 +51,14 @@ done
 
 echo ""
 echo "5️⃣  Key Concepts"
-has "$REPO_ROOT/.claude/skills/savia-flow-practice/SKILL.md" "SKILL" "dual-track"
-has "$REPO_ROOT/.claude/skills/savia-flow-practice/SKILL.md" "SKILL" "cycle time"
-has "$REPO_ROOT/.claude/skills/savia-flow-practice/references/azure-devops-config.md" "azdevops" "exploration"
-has "$REPO_ROOT/.claude/skills/savia-flow-practice/references/azure-devops-config.md" "azdevops" "production"
-has "$REPO_ROOT/.claude/skills/savia-flow-practice/references/example-socialapp.md" "example" "ionic"
-has "$REPO_ROOT/.claude/skills/savia-flow-practice/references/example-socialapp.md" "example" "rabbitmq"
-has "$REPO_ROOT/.claude/skills/savia-flow-practice/references/task-template-sdd.md" "sdd" "outcome"
-has "$REPO_ROOT/.claude/skills/savia-flow-practice/references/dual-track-coordination.md" "dual-track" "handoff"
+has "$REPO_ROOT/.opencode/skills/savia-flow-practice/SKILL.md" "SKILL" "dual-track"
+has "$REPO_ROOT/.opencode/skills/savia-flow-practice/SKILL.md" "SKILL" "cycle time"
+has "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/azure-devops-config.md" "azdevops" "exploration"
+has "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/azure-devops-config.md" "azdevops" "production"
+has "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/example-socialapp.md" "example" "ionic"
+has "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/example-socialapp.md" "example" "rabbitmq"
+has "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/task-template-sdd.md" "sdd" "outcome"
+has "$REPO_ROOT/.opencode/skills/savia-flow-practice/references/dual-track-coordination.md" "dual-track" "handoff"
 
 echo ""
 echo "6️⃣  Meta Files"

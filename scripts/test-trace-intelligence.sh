@@ -85,7 +85,7 @@ check_concept() {
 }
 
 check_command_count() {
-  local current=$(ls $PROJECT_DIR/.claude/commands/*.md 2>/dev/null | wc -l)
+  local current=$(ls $PROJECT_DIR/.opencode/commands/*.md 2>/dev/null | wc -l)
   ((CHECKS_TOTAL++))
 
   if [ "$current" -ge 250 ]; then
@@ -102,24 +102,24 @@ check_command_count() {
 # Run checks
 echo ""
 echo "--- File Checks ---"
-check_file "$PROJECT_DIR/.claude/commands/trace-search.md" 150
-check_file "$PROJECT_DIR/.claude/commands/trace-analyze.md" 150
-check_file "$PROJECT_DIR/.claude/commands/error-investigate.md" 150
-check_file "$PROJECT_DIR/.claude/commands/incident-correlate.md" 150
+check_file "$PROJECT_DIR/.opencode/commands/trace-search.md" 150
+check_file "$PROJECT_DIR/.opencode/commands/trace-analyze.md" 150
+check_file "$PROJECT_DIR/.opencode/commands/error-investigate.md" 150
+check_file "$PROJECT_DIR/.opencode/commands/incident-correlate.md" 150
 
 echo ""
 echo "--- Frontmatter Checks ---"
-check_frontmatter "$PROJECT_DIR/.claude/commands/trace-search.md"
-check_frontmatter "$PROJECT_DIR/.claude/commands/trace-analyze.md"
-check_frontmatter "$PROJECT_DIR/.claude/commands/error-investigate.md"
-check_frontmatter "$PROJECT_DIR/.claude/commands/incident-correlate.md"
+check_frontmatter "$PROJECT_DIR/.opencode/commands/trace-search.md"
+check_frontmatter "$PROJECT_DIR/.opencode/commands/trace-analyze.md"
+check_frontmatter "$PROJECT_DIR/.opencode/commands/error-investigate.md"
+check_frontmatter "$PROJECT_DIR/.opencode/commands/incident-correlate.md"
 
 echo ""
 echo "--- Concept Coverage ---"
-check_concept "$PROJECT_DIR/.claude/commands/trace-search.md"
-check_concept "$PROJECT_DIR/.claude/commands/trace-analyze.md"
-check_concept "$PROJECT_DIR/.claude/commands/error-investigate.md"
-check_concept "$PROJECT_DIR/.claude/commands/incident-correlate.md"
+check_concept "$PROJECT_DIR/.opencode/commands/trace-search.md"
+check_concept "$PROJECT_DIR/.opencode/commands/trace-analyze.md"
+check_concept "$PROJECT_DIR/.opencode/commands/error-investigate.md"
+check_concept "$PROJECT_DIR/.opencode/commands/incident-correlate.md"
 
 echo ""
 echo "--- Command Count ---"

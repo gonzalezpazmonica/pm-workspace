@@ -52,7 +52,7 @@ no está instalado.
 ## Skill: nuclei-scanning
 
 ```
-.claude/skills/nuclei-scanning/
+.opencode/skills/nuclei-scanning/
   SKILL.md        -- Instrucciones de uso
   DOMAIN.md       -- Por que existe, conceptos
   templates/      -- Subset curado de templates (opcional)

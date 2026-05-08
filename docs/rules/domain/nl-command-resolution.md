@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/**", "data/confidence-log.jsonl"]
+globs: [".opencode/commands/**", "data/confidence-log.jsonl"]
 ---
 
 # Regla: NL Command Resolution
@@ -60,7 +60,7 @@ globs: [".claude/commands/**", "data/confidence-log.jsonl"]
 
 ## Validación Pre-Ejecución
 
-✅ Comando existe en .claude/commands/
+✅ Comando existe en .opencode/commands/
 ✅ Rol tiene permiso (verificar identity.md)
 ✅ No es destructivo O tiene confirmación explícita
 ✅ Parámetros son válidos

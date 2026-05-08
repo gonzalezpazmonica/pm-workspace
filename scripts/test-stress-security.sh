@@ -27,7 +27,7 @@ grep -q 'BEGIN.*PRIVATE KEY' "$RULES" && ok "SEC-1: Private key pattern document
 grep -q 'password' "$RULES" && ok "SEC-1: Password pattern documented" || fail "SEC-1: Password missing"
 
 # Verify hook implements these patterns
-HOOK="$REPO_ROOT/.claude/hooks/block-credential-leak.sh"
+HOOK="$REPO_ROOT/.opencode/hooks/block-credential-leak.sh"
 grep -q 'AKIA' "$HOOK" && ok "SEC-1: AKIA implemented in hook" || fail "SEC-1: AKIA not in hook"
 grep -q 'sv=20' "$HOOK" && ok "SEC-1: Azure SAS implemented in hook" || fail "SEC-1: SAS not in hook"
 grep -q 'AIza' "$HOOK" && ok "SEC-1: Google key implemented in hook" || fail "SEC-1: Google not in hook"

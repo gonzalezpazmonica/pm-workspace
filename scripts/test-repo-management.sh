@@ -31,18 +31,18 @@ test_case() {
 # ── Test 1: Command files exist ─────────────────────────────────
 echo ""
 echo "1️⃣  Command Files Exist"
-test_case "repos-branches.md exists" "[ -f $REPO_ROOT/.claude/commands/repos-branches.md ]"
-test_case "repos-list.md exists" "[ -f $REPO_ROOT/.claude/commands/repos-list.md ]"
-test_case "repos-pr-create.md exists" "[ -f $REPO_ROOT/.claude/commands/repos-pr-create.md ]"
-test_case "repos-pr-list.md exists" "[ -f $REPO_ROOT/.claude/commands/repos-pr-list.md ]"
-test_case "repos-pr-review.md exists" "[ -f $REPO_ROOT/.claude/commands/repos-pr-review.md ]"
-test_case "repos-search.md exists" "[ -f $REPO_ROOT/.claude/commands/repos-search.md ]"
+test_case "repos-branches.md exists" "[ -f $REPO_ROOT/.opencode/commands/repos-branches.md ]"
+test_case "repos-list.md exists" "[ -f $REPO_ROOT/.opencode/commands/repos-list.md ]"
+test_case "repos-pr-create.md exists" "[ -f $REPO_ROOT/.opencode/commands/repos-pr-create.md ]"
+test_case "repos-pr-list.md exists" "[ -f $REPO_ROOT/.opencode/commands/repos-pr-list.md ]"
+test_case "repos-pr-review.md exists" "[ -f $REPO_ROOT/.opencode/commands/repos-pr-review.md ]"
+test_case "repos-search.md exists" "[ -f $REPO_ROOT/.opencode/commands/repos-search.md ]"
 
 # ── Test 2: YAML frontmatter ────────────────────────────────────
 echo ""
 echo "2️⃣  YAML Frontmatter"
 for cmd in repos-branches repos-list repos-pr-create repos-pr-list repos-pr-review repos-search; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   test_case "${cmd}: has name field" "grep -q '^name: ' $file"
   test_case "${cmd}: has description" "grep -q '^description: ' $file"
 done
@@ -51,7 +51,7 @@ done
 echo ""
 echo "3️⃣  Line Count (≤ 150 lines)"
 for cmd in repos-branches repos-list repos-pr-create repos-pr-list repos-pr-review repos-search; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   lines=$(wc -l < "$file")
   test_case "${cmd}: ${lines} lines ≤ 150" "[ $lines -le 150 ]"
 done
@@ -59,12 +59,12 @@ done
 # ── Test 4: Key concepts present ────────────────────────────────
 echo ""
 echo "4️⃣  Key Concepts"
-test_case "repos-branches mentions branch" "grep -q -i 'branch' $REPO_ROOT/.claude/commands/repos-branches.md"
-test_case "repos-list mentions repository\|repo" "grep -q -i 'repository\|repo' $REPO_ROOT/.claude/commands/repos-list.md"
-test_case "repos-pr-create mentions pull request" "grep -q -i 'pull request' $REPO_ROOT/.claude/commands/repos-pr-create.md"
-test_case "repos-pr-list mentions list" "grep -q -i 'list' $REPO_ROOT/.claude/commands/repos-pr-list.md"
-test_case "repos-pr-review mentions review" "grep -q -i 'review' $REPO_ROOT/.claude/commands/repos-pr-review.md"
-test_case "repos-search mentions search" "grep -q -i 'search' $REPO_ROOT/.claude/commands/repos-search.md"
+test_case "repos-branches mentions branch" "grep -q -i 'branch' $REPO_ROOT/.opencode/commands/repos-branches.md"
+test_case "repos-list mentions repository\|repo" "grep -q -i 'repository\|repo' $REPO_ROOT/.opencode/commands/repos-list.md"
+test_case "repos-pr-create mentions pull request" "grep -q -i 'pull request' $REPO_ROOT/.opencode/commands/repos-pr-create.md"
+test_case "repos-pr-list mentions list" "grep -q -i 'list' $REPO_ROOT/.opencode/commands/repos-pr-list.md"
+test_case "repos-pr-review mentions review" "grep -q -i 'review' $REPO_ROOT/.opencode/commands/repos-pr-review.md"
+test_case "repos-search mentions search" "grep -q -i 'search' $REPO_ROOT/.opencode/commands/repos-search.md"
 
 # ── Test 5: Meta files updated ──────────────────────────────────
 echo ""

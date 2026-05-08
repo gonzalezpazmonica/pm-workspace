@@ -11,8 +11,8 @@ effort: ~2h
 
 ## Problema
 
-pm-workspace tiene 49 agentes en ficheros individuales (.claude/agents/*.md),
-505 commands en .claude/commands/, y 85+ skills en .claude/skills/. El catálogo
+pm-workspace tiene 49 agentes en ficheros individuales (.opencode/agents/*.md),
+505 commands en .opencode/commands/, y 85+ skills en .opencode/skills/. El catálogo
 de agentes está en agents-catalog.md (regla de dominio), pero no hay un índice
 compilado optimizado para que los LLMs hagan routing rápido.
 
@@ -30,7 +30,7 @@ en un solo fichero optimizado para consumo LLM.
 
 Script `scripts/compile-agent-index.sh` que:
 
-1. Lee todos los `.claude/agents/*.md` (frontmatter: name, description, model, tools)
+1. Lee todos los `.opencode/agents/*.md` (frontmatter: name, description, model, tools)
 2. Lee `agents-catalog.md` (flujos, token budgets)
 3. Lee `assignment-matrix.md` (routing por tipo de tarea)
 4. Genera un `AGENTS-INDEX.md` compilado y optimizado:
@@ -91,7 +91,7 @@ scripts/compile-agent-index.sh --check  # exit 0 if fresh, exit 1 if stale
 ## Criterios de aceptación
 
 - [ ] Script `scripts/compile-agent-index.sh` con compile/check/show subcomandos
-- [ ] Lee frontmatter de todos los .claude/agents/*.md
+- [ ] Lee frontmatter de todos los .opencode/agents/*.md
 - [ ] Genera AGENTS-INDEX.md en .claude/
 - [ ] Incluye hash de freshness para detección de stale
 - [ ] Formato compacto optimizado para LLM (min tokens, max info)

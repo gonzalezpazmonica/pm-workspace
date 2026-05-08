@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/memory-verified-gate.sh
+# BATS tests for .opencode/hooks/memory-verified-gate.sh
 # SE-072 Verified Memory axiom: blocks Write to auto-memory without citation.
 # Ref: docs/propuestas/SE-072-verified-memory-axiom.md
 
-HOOK=".claude/hooks/memory-verified-gate.sh"
+HOOK=".opencode/hooks/memory-verified-gate.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

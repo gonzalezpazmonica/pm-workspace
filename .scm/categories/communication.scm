@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 91 resources
+> 93 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -8,6 +8,7 @@
 - **inbox-start** (cmd): >
 - **masked-digest** (script): masked-digest.sh — Masked digestion pipeline
 - **meeting-agenda** (cmd): Generación inteligente de agendas basada en estado del sprint y temas pendientes
+- **meeting-audit** (script): Meeting Digest Audit — example-project
 - **meeting-confidentiality-judge** (agent): >
 - **meeting-digest** (cmd): >
 - **meeting-digest** (agent): >
@@ -75,6 +76,7 @@
 - **savia-setup** (cmd): >
 - **savia-shield** (cmd): Gestión de Savia Shield: activar, desactivar y comprobar instalación del sistema de soberanía de datos. Desactivado por defecto.
 - **savia-shield-setup** (script): savia-shield-setup.sh — Instalador de Savia Shield
+- **savia-shield-status** (script): savia-shield-status.sh — Status determinístico de las 8 capas de Savia Shield
 - **savia-sprint** (cmd): >
 - **savia-status** (cmd): Show Savia current status, health metrics, and top pending priorities
 - **savia-status** (script): savia-status.sh — What is Savia doing right now?

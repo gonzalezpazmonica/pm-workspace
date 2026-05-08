@@ -1,6 +1,6 @@
 // leakage-patterns.ts — SPEC-127 Slice 2b-ii
 //
-// Mirror of `.claude/hooks/block-gitignored-references.sh` patterns,
+// Mirror of `.opencode/hooks/block-gitignored-references.sh` patterns,
 // ported to TypeScript. Each rule emits a human-readable violation tag
 // describing what was detected. Patterns are constructed via `new RegExp`
 // from concatenated parts so the source file itself does not match the

@@ -2,7 +2,7 @@
 set -uo pipefail
 # safe-write.sh — Wrapper para escritura de archivos que ejecuta hooks de calidad
 # DEPRECATED — SE-077 Slice 1+2 (2026-04-26): replaced by
-#   ~/.savia/opencode/plugins/savia-gates/ which delegates to .claude/hooks/*.sh
+#   ~/.savia/opencode/plugins/savia-gates/ which delegates to .opencode/hooks/*.sh
 #   directly. Conservar 1 sprint, eliminar tras Slice 2 completion (AC-11).
 # Uso: safe-write.sh <file-path>
 # Nota: Este script solo valida; la escritura real debe hacerse con la herramienta Write de OpenCode.

@@ -35,7 +35,7 @@ Crear `memory-agent.md` como subagente especializado que:
 
 ## Implementación
 
-Agente en `.claude/agents/memory-agent.md` con herramientas Read, Bash, Glob, Grep.
+Agente en `.opencode/agents/memory-agent.md` con herramientas Read, Bash, Glob, Grep.
 Modelo haiku para velocidad. Cuatro operaciones:
 
 - `recall`: busca en ~/.savia/memory/*.jsonl por topic/concept

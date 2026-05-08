@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/emergency-mode-readiness.sh
+# BATS tests for .opencode/hooks/emergency-mode-readiness.sh
 # SessionStart async — runs LocalAI readiness check when feature flag enabled.
 # Ref: SPEC-122 LocalAI emergency-mode hardening (AC-03, AC-06)
 
-HOOK=".claude/hooks/emergency-mode-readiness.sh"
+HOOK=".opencode/hooks/emergency-mode-readiness.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

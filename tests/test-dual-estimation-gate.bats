@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/dual-estimation-gate.sh
+# BATS tests for .opencode/hooks/dual-estimation-gate.sh
 # PostToolUse — SPEC-078 Phase 1. Warns if spec/PBI has effort estimation
 # but is missing dual scale (agent + human). Always exits 0. Batch 46.
 
-HOOK=".claude/hooks/dual-estimation-gate.sh"
+HOOK=".opencode/hooks/dual-estimation-gate.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/task-lifecycle.sh
+# BATS tests for .opencode/hooks/task-lifecycle.sh
 # TaskCreated/TaskCompleted async — logs task lifecycle to jsonl.
 # Ref: batch 51 hook coverage — final 3 hooks → 58/58 (100%) — SPEC-071 Slice 4.
 
-HOOK=".claude/hooks/task-lifecycle.sh"
+HOOK=".opencode/hooks/task-lifecycle.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

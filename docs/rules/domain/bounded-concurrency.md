@@ -46,7 +46,7 @@ Claves:
 
 ## Auditoria pm-workspace 2026-04-18
 
-Escaneado `.claude/hooks/*.sh` y `scripts/*.sh` buscando patrones `&$` en loops:
+Escaneado `.opencode/hooks/*.sh` y `scripts/*.sh` buscando patrones `&$` en loops:
 
 **Safe (N fijo o semaphore explicito)**:
 - `scripts/fork-agents.sh` — semaphore `PARALLEL` con batches.
@@ -56,7 +56,7 @@ Escaneado `.claude/hooks/*.sh` y `scripts/*.sh` buscando patrones `&$` en loops:
 - `scripts/savia-shield-setup.sh`, `scripts/emergency-plan.sh` — daemon starters (1 proceso).
 
 **Endurecido en esta auditoria**:
-- `.claude/hooks/memory-prime-hook.sh` — bounded a `MAX_PARALLEL=5` explicito + drain final con `wait`. Antes: bounded implicitamente por `--top 3` upstream. Defense-in-depth.
+- `.opencode/hooks/memory-prime-hook.sh` — bounded a `MAX_PARALLEL=5` explicito + drain final con `wait`. Antes: bounded implicitamente por `--top 3` upstream. Defense-in-depth.
 
 **Sin findings criticos adicionales** — la arquitectura actual de hooks/scripts no tiene puntos con fan-out unbounded derivado de input externo.
 

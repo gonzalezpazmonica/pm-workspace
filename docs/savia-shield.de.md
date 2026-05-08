@@ -187,13 +187,13 @@ Jede Komponente ist eine menschenlesbare Klartextdatei:
 | Vereinheitlichter Daemon | `scripts/savia-shield-daemon.py` | Scan/Mask/Unmask/Health auf localhost:8444 |
 | API-Proxy | `scripts/savia-shield-proxy.py` | Fängt Claude-Prompts ab, maskiert/demaskiert |
 | NER-Daemon | `scripts/shield-ner-daemon.py` | Persistentes Presidio+spaCy im RAM (~100ms) |
-| Gate-Hook | `.claude/hooks/data-sovereignty-gate.sh` | PreToolUse: Daemon-first, Fallback-Regex |
-| Audit-Hook | `.claude/hooks/data-sovereignty-audit.sh` | PostToolUse async: erneuter Scan der vollständigen Datei |
+| Gate-Hook | `.opencode/hooks/data-sovereignty-gate.sh` | PreToolUse: Daemon-first, Fallback-Regex |
+| Audit-Hook | `.opencode/hooks/data-sovereignty-audit.sh` | PostToolUse async: erneuter Scan der vollständigen Datei |
 | LLM-Klassifizierer | `scripts/ollama-classify.sh` | Schicht 2 Ollama (Fallback bei ausgefallem Daemon) |
 | Maskierer | `scripts/sovereignty-mask.py` | Schicht 4 reversibles Mask/Unmask |
 | Git Pre-Commit | `scripts/pre-commit-sovereignty.sh` | Scan gestagter Dateien vor dem Commit |
 | Setup | `scripts/savia-shield-setup.sh` | Installer: Deps, Modelle, Token, Daemons |
-| Force-Push-Guard | `.claude/hooks/block-force-push.sh` | Blockiert Force-Push, Push auf main, Amend |
+| Force-Push-Guard | `.opencode/hooks/block-force-push.sh` | Blockiert Force-Push, Push auf main, Amend |
 | Domänregel | `docs/rules/domain/data-sovereignty.md` | Architektur und Richtlinien |
 
 **Audit-Logs:**

@@ -40,7 +40,7 @@ Candidato a archival si:
 Proceso:
 1. `/hub-audit` detecta skill candidato
 2. Savia sugiere archival al PM
-3. Si PM confirma: mover a `.claude/skills/_archived/{nombre}/`
+3. Si PM confirma: mover a `.opencode/skills/_archived/{nombre}/`
 4. Si PM rechaza: mantener con nota "reviewed, kept"
 
 ## Metricas

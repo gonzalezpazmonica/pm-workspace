@@ -43,7 +43,7 @@ excesiva.
 
 **Criterios de Aceptacion:**
 - [ ] Variable `CLAUDE_INVOKED_BY` documentada en autonomous-safety.md
-- [ ] Hook `.claude/hooks/recursion-guard.sh` en PreToolUse
+- [ ] Hook `.opencode/hooks/recursion-guard.sh` en PreToolUse
 - [ ] Max recursion depth = 2 (configurable)
 - [ ] Scripts que invocan `claude -p` exportan la variable
 - [ ] Auditoria de scripts vulnerables en el repo
@@ -80,7 +80,7 @@ fi
 
 ### 2.3 Hook de validacion
 
-`.claude/hooks/recursion-guard.sh` registrado en SessionStart y PreToolUse:
+`.opencode/hooks/recursion-guard.sh` registrado en SessionStart y PreToolUse:
 
 - SessionStart: log del depth inicial y trace
 - PreToolUse (Bash): verificar que comandos `claude -p` exportan la var
@@ -208,7 +208,7 @@ AND     permite ejecucion
 
 | Accion | Fichero | Que hacer |
 |--------|---------|-----------|
-| Crear | .claude/hooks/recursion-guard.sh | Hook principal |
+| Crear | .opencode/hooks/recursion-guard.sh | Hook principal |
 | Crear | scripts/recursion-guard-audit.sh | Auditor de scripts |
 | Crear | tests/test-recursion-guard.bats | Suite BATS |
 | Modificar | docs/rules/domain/autonomous-safety.md | Documentar patron |

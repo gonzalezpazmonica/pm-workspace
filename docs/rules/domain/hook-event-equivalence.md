@@ -1,7 +1,7 @@
 # Claude Code ↔ OpenCode — Hook Event Equivalence
 
 > Provider-agnostic reference for hook event mapping between frontends.
-> Ref: SPEC-127 (provider-agnostic migration), `.claude/hooks/README.md`.
+> Ref: SPEC-127 (provider-agnostic migration), `.opencode/hooks/README.md`.
 
 ## Event mapping
 

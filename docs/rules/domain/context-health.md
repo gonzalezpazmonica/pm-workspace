@@ -1,5 +1,5 @@
 ---
-globs: [".claude/commands/**", "output/**"]
+globs: [".opencode/commands/**", "output/**"]
 ---
 
 # Regla: Context Health — Gestión proactiva del contexto

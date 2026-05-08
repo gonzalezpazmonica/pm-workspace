@@ -10,7 +10,7 @@
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/post-report-write.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/post-report-write.sh"
   WORKER="$REPO_ROOT/scripts/truth-tribunal-worker.sh"
   TRIBUNAL="$REPO_ROOT/scripts/truth-tribunal.sh"
   TMPDIR_TEST=$(mktemp -d)

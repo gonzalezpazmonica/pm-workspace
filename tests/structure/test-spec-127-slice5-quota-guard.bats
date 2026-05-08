@@ -4,7 +4,7 @@
 #
 # Slice 5 ships:
 #   - scripts/savia-quota-tracker.sh (record/summary/threshold/reset/status)
-#   - .claude/hooks/savia-budget-guard.sh (PreToolUse advisory, never blocks)
+#   - .opencode/hooks/savia-budget-guard.sh (PreToolUse advisory, never blocks)
 #
 # Enforces SPEC-127 Slice 5 AC-5.1 (tracker reads budget_kind from
 # preferences and measures accordingly), AC-5.2 (guard warns at 70/85/95%
@@ -14,7 +14,7 @@ setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
   SCRIPT="scripts/savia-quota-tracker.sh"
   TRACKER="$REPO_ROOT/$SCRIPT"
-  HOOK="$REPO_ROOT/.claude/hooks/savia-budget-guard.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/savia-budget-guard.sh"
   PREFS_SCRIPT="$REPO_ROOT/scripts/savia-preferences.sh"
   SPEC="$REPO_ROOT/docs/propuestas/SPEC-127-savia-opencode-provider-agnostic.md"
   TMPDIR_Q=$(mktemp -d)

@@ -82,7 +82,7 @@ L1 se genera como indice compacto.
 
 ### Fase 1 — Generar L1 para top 20 skills (1 sprint)
 
-1. Para cada skill en `.claude/skills/*/SKILL.md`:
+1. Para cada skill en `.opencode/skills/*/SKILL.md`:
    - Leer SKILL.md
    - Generar campo `summary` de 5 lineas (puede hacerlo tech-writer)
    - Escribir en frontmatter
@@ -115,7 +115,7 @@ L1 se genera como indice compacto.
 
 ## Ficheros afectados
 
-- `.claude/skills/*/SKILL.md` — anadir campo summary
+- `.opencode/skills/*/SKILL.md` — anadir campo summary
 - `docs/rules/domain/skill-auto-activation.md` — actualizar protocolo
 - `docs/rules/domain/context-map.md` — documentar L0/L1/L2
 - `docs/rules/domain/context-health.md` — actualizar regla de carga

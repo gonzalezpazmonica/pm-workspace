@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # tests/test-postponement-judge.bats
-# BATS tests for .claude/hooks/postponement-judge.sh — Stop hook that
+# BATS tests for .opencode/hooks/postponement-judge.sh — Stop hook that
 # forces continuation when the assistant proposes an unjustified deferral.
 #
 # Ref: docs/rules/domain/hook-profiles.md (standard tier)
@@ -8,7 +8,7 @@
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  HOOK="$REPO_ROOT/.claude/hooks/postponement-judge.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/postponement-judge.sh"
   TMPDIR_TEST=$(mktemp -d)
   TRANSCRIPT="$TMPDIR_TEST/transcript.jsonl"
   SESSION_ID="bats-$BATS_TEST_NUMBER-$$"

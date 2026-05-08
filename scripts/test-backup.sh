@@ -40,7 +40,7 @@ echo ""
 echo "📄 Ficheros del sistema de backup"
 check_file "scripts/backup.sh" "scripts/backup.sh"
 check_executable "scripts/backup.sh" "scripts/backup.sh"
-check_file ".claude/commands/backup.md" "backup.md"
+check_file ".opencode/commands/backup.md" "backup.md"
 check_file "docs/rules/domain/backup-protocol.md" "backup-protocol.md"
 
 echo ""
@@ -68,16 +68,16 @@ check_contains "scripts/backup.sh" "devops-pat" "backup.sh"
 
 echo ""
 echo "📋 Contenido de backup.md (comando)"
-check_contains ".claude/commands/backup.md" "name: backup" "backup.md"
-check_contains ".claude/commands/backup.md" "now" "backup.md"
-check_contains ".claude/commands/backup.md" "restore" "backup.md"
-check_contains ".claude/commands/backup.md" "auto-on" "backup.md"
-check_contains ".claude/commands/backup.md" "auto-off" "backup.md"
-check_contains ".claude/commands/backup.md" "status" "backup.md"
-check_contains ".claude/commands/backup.md" "AES-256" "backup.md"
-check_contains ".claude/commands/backup.md" "Savia" "backup.md"
-check_contains ".claude/commands/backup.md" "NUNCA" "backup.md"
-check_contains ".claude/commands/backup.md" "backup-protocol" "backup.md"
+check_contains ".opencode/commands/backup.md" "name: backup" "backup.md"
+check_contains ".opencode/commands/backup.md" "now" "backup.md"
+check_contains ".opencode/commands/backup.md" "restore" "backup.md"
+check_contains ".opencode/commands/backup.md" "auto-on" "backup.md"
+check_contains ".opencode/commands/backup.md" "auto-off" "backup.md"
+check_contains ".opencode/commands/backup.md" "status" "backup.md"
+check_contains ".opencode/commands/backup.md" "AES-256" "backup.md"
+check_contains ".opencode/commands/backup.md" "Savia" "backup.md"
+check_contains ".opencode/commands/backup.md" "NUNCA" "backup.md"
+check_contains ".opencode/commands/backup.md" "backup-protocol" "backup.md"
 
 echo ""
 echo "🔒 Contenido de backup-protocol.md"
@@ -94,11 +94,11 @@ check_contains "docs/rules/domain/backup-protocol.md" "devops-pat" "backup-proto
 
 echo ""
 echo "🪝 Integración con session-init.sh"
-check_contains ".claude/hooks/session-init.sh" "backup" "session-init.sh"
-check_contains ".claude/hooks/session-init.sh" "backup-config" "session-init.sh"
-check_contains ".claude/hooks/session-init.sh" "auto_backup" "session-init.sh"
-check_contains ".claude/hooks/session-init.sh" "86400" "session-init.sh"
-check_contains ".claude/hooks/session-init.sh" "/backup" "session-init.sh"
+check_contains ".opencode/hooks/session-init.sh" "backup" "session-init.sh"
+check_contains ".opencode/hooks/session-init.sh" "backup-config" "session-init.sh"
+check_contains ".opencode/hooks/session-init.sh" "auto_backup" "session-init.sh"
+check_contains ".opencode/hooks/session-init.sh" "86400" "session-init.sh"
+check_contains ".opencode/hooks/session-init.sh" "/backup" "session-init.sh"
 
 echo ""
 echo "📖 Integración con CLAUDE.md"
@@ -189,7 +189,7 @@ fi
 
 echo ""
 echo "⚙️  Hook produce JSON válido"
-HOOK_OUTPUT=$(cd "$WORKSPACE_DIR" && bash .claude/hooks/session-init.sh 2>/dev/null)
+HOOK_OUTPUT=$(cd "$WORKSPACE_DIR" && bash .opencode/hooks/session-init.sh 2>/dev/null)
 if echo "$HOOK_OUTPUT" | jq . >/dev/null 2>&1; then
   pass "session-init.sh produce JSON válido"
 else

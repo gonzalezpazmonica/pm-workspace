@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # agents-md-generate.sh — SE-078
 #
-# Generates AGENTS.md from .claude/agents/*.md. AGENTS.md is the cross-frontend
+# Generates AGENTS.md from .opencode/agents/*.md. AGENTS.md is the cross-frontend
 # index that OpenCode v1.14, Codex, Cursor and other modern frontends read as
 # context (see https://agents.md/). The source of truth remains
-# .claude/agents/*.md — AGENTS.md is DERIVED, never hand-edited.
+# .opencode/agents/*.md — AGENTS.md is DERIVED, never hand-edited.
 #
 # Idempotent: same input → same output (no timestamps in body). pr-plan G14
 # (`agents-md-drift-check.sh`) calls this with --check to fail PRs where an
@@ -24,7 +24,7 @@
 set -uo pipefail
 
 ROOT="${PROJECT_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
-AGENTS_DIR="${AGENTS_DIR:-${ROOT}/.claude/agents}"
+AGENTS_DIR="${AGENTS_DIR:-${ROOT}/.opencode/agents}"
 TARGET="${AGENTS_MD:-${ROOT}/AGENTS.md}"
 MODE="generate"
 
@@ -38,7 +38,7 @@ Modes:
   --check    Exit 1 if generated content differs from on-disk AGENTS.md
 
 Env:
-  AGENTS_DIR  default \${ROOT}/.claude/agents
+  AGENTS_DIR  default \${ROOT}/.opencode/agents
   AGENTS_MD   default \${ROOT}/AGENTS.md
 USG
 }
@@ -133,15 +133,15 @@ build() {
   cat <<'HEADER'
 # AGENTS.md
 
-> Auto-generated from `.claude/agents/*.md`. **Do not edit by hand.**
+> Auto-generated from `.opencode/agents/*.md`. **Do not edit by hand.**
 > Source of truth: `docs/rules/domain/agents-md-source-of-truth.md` (SE-078).
 
 ## How to use
 
 This file is the cross-frontend mirror of Savia's agent registry. Claude Code
-reads `.claude/agents/*.md` directly; OpenCode v1.14, Codex, Cursor and other
+reads `.opencode/agents/*.md` directly; OpenCode v1.14, Codex, Cursor and other
 modern frontends pick up this `AGENTS.md` as freeform context. The source of
-truth is `.claude/agents/*.md`; this index is regenerated automatically by
+truth is `.opencode/agents/*.md`; this index is regenerated automatically by
 the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 
 ## Agents

@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# Tests for .claude/hooks/acm-enforcement.sh (SE-063 Slice 1)
+# Tests for .opencode/hooks/acm-enforcement.sh (SE-063 Slice 1)
 # Ref: docs/propuestas/SE-063-acm-enforcement-pretool-hook.md
 # Ref: SPEC-063 ACM enforcement pre-tool hook
 
-SCRIPT="${BATS_TEST_DIRNAME}/../.claude/hooks/acm-enforcement.sh"
-MARKER_SCRIPT="${BATS_TEST_DIRNAME}/../.claude/hooks/acm-turn-marker.sh"
+SCRIPT="${BATS_TEST_DIRNAME}/../.opencode/hooks/acm-enforcement.sh"
+MARKER_SCRIPT="${BATS_TEST_DIRNAME}/../.opencode/hooks/acm-turn-marker.sh"
 
 setup() {
   [[ -x "$SCRIPT" ]] || skip "enforcement hook missing"

@@ -6,7 +6,7 @@ REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)}"
 
 setup() {
   TMPDIR=$(mktemp -d)
-  HOOK="$REPO_ROOT/.claude/hooks/tool-call-healing.sh"
+  HOOK="$REPO_ROOT/.opencode/hooks/tool-call-healing.sh"
 }
 
 teardown() {

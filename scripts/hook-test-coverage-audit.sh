@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# hook-test-coverage-audit.sh — Detect hooks in .claude/hooks/ without BATS tests.
+# hook-test-coverage-audit.sh — Detect hooks in .opencode/hooks/ without BATS tests.
 #
 # Baseline ratchet: current untested count must not grow. New hooks must
 # ship with tests OR be explicitly exempted (small libs, profile-gate, etc).
@@ -38,7 +38,7 @@ usage() {
   cat <<EOF
 Usage: $0 [--json] [--min-lines N]
 
-Audits .claude/hooks/*.sh against tests/test-*.bats coverage. Emits count
+Audits .opencode/hooks/*.sh against tests/test-*.bats coverage. Emits count
 of untested hooks and list. Compares against baseline to detect regression.
 
 Options:

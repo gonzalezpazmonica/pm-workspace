@@ -67,4 +67,4 @@ a skip-list. Heurística se refina con uso.
 ## Referencias
 
 - opendataloader-pdf hybrid mode pattern
-- `.claude/agents/word-digest.md`, `pptx-digest.md`, `excel-digest.md`
+- `.opencode/agents/word-digest.md`, `pptx-digest.md`, `excel-digest.md`

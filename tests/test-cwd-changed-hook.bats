@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/cwd-changed-hook.sh
+# BATS tests for .opencode/hooks/cwd-changed-hook.sh
 # Hook: CwdChanged | Auto-inject project context on cd into projects/
 # Exit 0 always; stdout shown to Claude.
 # Ref: batch 41 hook coverage
 
-HOOK=".claude/hooks/cwd-changed-hook.sh"
+HOOK=".opencode/hooks/cwd-changed-hook.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

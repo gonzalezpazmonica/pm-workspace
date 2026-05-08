@@ -1,6 +1,6 @@
 // prompt-injection-guard.ts — SPEC-127 Slice 2b-ii
 //
-// Port of `.claude/hooks/prompt-injection-guard.sh` (SE-028). Scans
+// Port of `.opencode/hooks/prompt-injection-guard.sh` (SE-028). Scans
 // context-classified files (agents, skills, commands, rules, profiles,
 // projects/CLAUDE.md, docs/) for prompt injection patterns. Override and
 // hidden-instruction categories BLOCK; social engineering only WARNS.

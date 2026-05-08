@@ -159,7 +159,7 @@ Una vez dentro de Claude Code:
 
 ```
 CLAUDE.md                                    ← Léelo primero (contexto global + constantes)
-.claude/skills/                              ← Skills que Claude Code puede invocar
+.opencode/skills/                              ← Skills que Claude Code puede invocar
   ├── pbi-decomposition/SKILL.md             ← Descomposición inteligente de PBIs
   └── spec-driven-development/SKILL.md       ← SDD: specs para humanos y agentes
       └── references/

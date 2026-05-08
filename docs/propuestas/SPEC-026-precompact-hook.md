@@ -26,7 +26,7 @@ automáticamente. Es el lugar perfecto para persistir lo valioso.
 
 ## Solucion
 
-Hook `.claude/hooks/pre-compact-backup.sh` que:
+Hook `.opencode/hooks/pre-compact-backup.sh` que:
 
 1. Lee el contexto actual (ultimos N turnos via stdin)
 2. Extrae: decisiones, correcciones, descubrimientos
@@ -39,7 +39,7 @@ Hook `.claude/hooks/pre-compact-backup.sh` que:
 {
   "hooks": {
     "PreCompact": [{
-      "command": ".claude/hooks/pre-compact-backup.sh"
+      "command": ".opencode/hooks/pre-compact-backup.sh"
     }]
   }
 }

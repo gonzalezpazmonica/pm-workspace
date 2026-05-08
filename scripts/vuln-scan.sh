@@ -24,7 +24,7 @@ echo ""
 # ── 1. Unquoted variable expansion in scripts ──
 echo "--- Checking for unquoted variable expansion ---"
 unquoted=0
-for f in "$ROOT/.claude/hooks/"*.sh "$ROOT/scripts/"*.sh; do
+for f in "$ROOT/.opencode/hooks/"*.sh "$ROOT/scripts/"*.sh; do
   [ -f "$f" ] || continue
   # Look for $VAR in contexts where it should be "$VAR" (excluding comments, assignments)
   if grep -nE '([ =])\$[A-Z_]+[^"'\'')}]' "$f" 2>/dev/null \
@@ -44,7 +44,7 @@ echo ""
 
 # ── 2. eval usage (only in hooks — scripts/test-* are legacy) ──
 echo "--- Checking for eval usage in hooks ---"
-if grep -rn "eval " "$ROOT/.claude/hooks/"*.sh 2>/dev/null \
+if grep -rn "eval " "$ROOT/.opencode/hooks/"*.sh 2>/dev/null \
    | grep -v "^[^:]*:#" | head -1 | grep -q .; then
   vuln "eval found in hooks (command injection risk)"
   explain "eval can execute arbitrary code. Use safer alternatives."
@@ -64,7 +64,7 @@ echo ""
 # ── 3. Temp file security ──
 echo "--- Checking temp file handling ---"
 insecure_tmp=0
-for f in "$ROOT/.claude/hooks/"*.sh "$ROOT/scripts/"*.sh; do
+for f in "$ROOT/.opencode/hooks/"*.sh "$ROOT/scripts/"*.sh; do
   [ -f "$f" ] || continue
   # Check for /tmp/ usage without mktemp
   if grep -n '/tmp/' "$f" 2>/dev/null | grep -v "mktemp" | grep -v "^[^:]*:#" | head -1 | grep -q .; then
@@ -85,7 +85,7 @@ echo ""
 # ── 4. Curl/wget without cert verification ──
 echo "--- Checking HTTP client security ---"
 if grep -rn "curl.*-k\|curl.*--insecure\|wget.*--no-check-certificate" \
-   "$ROOT/.claude/hooks/"*.sh "$ROOT/scripts/"*.sh 2>/dev/null \
+   "$ROOT/.opencode/hooks/"*.sh "$ROOT/scripts/"*.sh 2>/dev/null \
    | grep -v "^[^:]*:#" | grep -v "vuln-scan.sh" | head -1 | grep -q .; then
   vuln "Insecure HTTP client usage (cert verification disabled)"
   explain "Never disable TLS cert verification — enables MITM attacks"
@@ -97,7 +97,7 @@ echo ""
 
 # ── 5. Hardcoded paths ──
 echo "--- Checking for hardcoded user paths ---"
-if grep -rn "/home/[a-z]" "$ROOT/.claude/hooks/"*.sh "$ROOT/scripts/"*.sh 2>/dev/null \
+if grep -rn "/home/[a-z]" "$ROOT/.opencode/hooks/"*.sh "$ROOT/scripts/"*.sh 2>/dev/null \
    | grep -v "^[^:]*:#" | grep -v "test-data" | head -1 | grep -q .; then
   warn "Hardcoded user home paths found"
   explain "Use \$HOME or relative paths for portability"
@@ -110,7 +110,7 @@ echo ""
 # ── 6. Permission checks ──
 echo "--- Checking script permissions ---"
 non_exec=0
-for f in "$ROOT/.claude/hooks/"*.sh; do
+for f in "$ROOT/.opencode/hooks/"*.sh; do
   [ -f "$f" ] || continue
   if [ ! -x "$f" ]; then
     non_exec=$((non_exec + 1))
@@ -128,7 +128,7 @@ echo ""
 # ── 7. set -u (nounset) in hooks ──
 echo "--- Checking strict mode usage ---"
 no_strict=0
-for f in "$ROOT/.claude/hooks/"*.sh; do
+for f in "$ROOT/.opencode/hooks/"*.sh; do
   [ -f "$f" ] || continue
   if ! head -5 "$f" | grep -qE "set.*-[a-z]*u|set.*nounset"; then
     no_strict=$((no_strict + 1))
@@ -146,7 +146,7 @@ echo ""
 # ── 8. Input validation in hooks ──
 echo "--- Checking hook input validation ---"
 no_validation=0
-for f in "$ROOT/.claude/hooks/"*.sh; do
+for f in "$ROOT/.opencode/hooks/"*.sh; do
   [ -f "$f" ] || continue
   # Hooks should validate stdin JSON — check for jq or json parsing
   if ! grep -q "jq\|JSON\|json" "$f" 2>/dev/null; then

@@ -15,10 +15,10 @@ pct() { [ "$2" -eq 0 ] && echo 0 || echo $(( ($1 * 100) / $2 )); }
 get_version() { head -20 "$ROOT/CHANGELOG.md" | grep "^## \[" | head -1 | sed 's/.*\[\(.*\)\].*/\1/'; }
 
 # Gather Metrics
-SKILLS_COUNT=$(count_glob "$ROOT/.claude/skills/*/SKILL.md")
-COMMANDS_COUNT=$(count_glob "$ROOT/.claude/commands/*.md")
-AGENTS_COUNT=$(count_glob "$ROOT/.claude/agents/*.md")
-HOOKS_COUNT=$(count_glob "$ROOT/.claude/hooks/*.sh")
+SKILLS_COUNT=$(count_glob "$ROOT/.opencode/skills/*/SKILL.md")
+COMMANDS_COUNT=$(count_glob "$ROOT/.opencode/commands/*.md")
+AGENTS_COUNT=$(count_glob "$ROOT/.opencode/agents/*.md")
+HOOKS_COUNT=$(count_glob "$ROOT/.opencode/hooks/*.sh")
 RULES_COUNT=$(find "$ROOT/.claude/rules" -name "*.md" -type f 2>/dev/null | wc -l)
 DOCS_COUNT=$(find "$ROOT/docs" -name "*.md" -type f 2>/dev/null | wc -l)
 TESTS_BATS=$(find "$ROOT/tests" -name "*.bats" -type f 2>/dev/null | wc -l)

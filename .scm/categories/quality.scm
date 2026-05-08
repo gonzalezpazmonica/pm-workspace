@@ -39,7 +39,7 @@
 - **hook-event-gap-audit** (script): hook-event-gap-audit.sh — Audita los 11 eventos de hook no cubiertos en pm-workspace
 - **hook-injection-audit** (script): hook-injection-audit.sh — SE-060 Slice 1 hook injection patterns audit.
 - **hook-latency-audit** (script): hook-latency-audit.sh — SE-037 Slice 1 hook latency enforcement audit.
-- **hook-test-coverage-audit** (script): hook-test-coverage-audit.sh — Detect hooks in .claude/hooks/ without BATS tests.
+- **hook-test-coverage-audit** (script): hook-test-coverage-audit.sh — Detect hooks in .opencode/hooks/ without BATS tests.
 - **hub-audit** (cmd): Auditar dependencias entre reglas de dominio, comandos y agentes — recalcular el índice de hubs
 - **knowledge-lint** (cmd): Health check for the persistent knowledge base — detect orphans, stale refs, missing evidence
 - **knowledge-lint** (script): knowledge-lint.sh — LLM Wiki pattern: periodic knowledge base health check

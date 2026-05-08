@@ -1,6 +1,6 @@
 # Regla: Skill Catalog Discipline
 
-> Vocabulario y disciplina obligatorios para CADA skill nuevo o modificado en `.claude/skills/`. Enforced by pr-plan G14 (SE-084 Slice 2). Pattern source: `mattpocock/skills/write-a-skill/SKILL.md` (MIT, clean-room).
+> Vocabulario y disciplina obligatorios para CADA skill nuevo o modificado en `.opencode/skills/`. Enforced by pr-plan G14 (SE-084 Slice 2). Pattern source: `mattpocock/skills/write-a-skill/SKILL.md` (MIT, clean-room).
 
 ## Por qué
 
@@ -73,7 +73,7 @@ NUNCA copiar texto literal del upstream — clean-room re-implementation.
 Skills que dependen de otra regla canónica deben enlazarla:
 
 - Si usa Module/Interface/Seam vocab → cita `docs/rules/domain/architectural-vocabulary.md` (SE-082)
-- Si invoca disciplina TDD → cita `.claude/skills/tdd-vertical-slices/SKILL.md` (SE-083)
+- Si invoca disciplina TDD → cita `.opencode/skills/tdd-vertical-slices/SKILL.md` (SE-083)
 - Si requiere supervisión humana → cita `docs/rules/domain/autonomous-safety.md`
 
 ## Enforcement

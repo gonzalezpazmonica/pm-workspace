@@ -2,7 +2,7 @@
 # BATS tests for validate-layer-contract.sh (hook + script)
 # SPEC: SE-001 Savia Enterprise Foundations & Layer Contract
 
-HOOK=".claude/hooks/validate-layer-contract.sh"
+HOOK=".opencode/hooks/validate-layer-contract.sh"
 SCRIPT="scripts/validate-layer-contract.sh"
 
 setup() {
@@ -59,7 +59,7 @@ teardown() {
 }
 
 @test "hook allows: Core file without enterprise reference" {
-  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.claude/commands/foo.md","content":"this is fine"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.opencode/commands/foo.md","content":"this is fine"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 0 ]]
 }
@@ -73,7 +73,7 @@ teardown() {
 # ── Hook: negative cases (should block) ─────────────────────────────────────
 
 @test "hook blocks: Core command importing enterprise via @import" {
-  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.claude/commands/foo.md","content":"load @.claude/enterprise/rules/bar.md"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.opencode/commands/foo.md","content":"load @.claude/enterprise/rules/bar.md"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 2 ]]
 }
@@ -85,7 +85,7 @@ teardown() {
 }
 
 @test "hook blocks: Core hook referencing enterprise path" {
-  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.claude/hooks/foo.sh","new_string":".claude/enterprise/manifest.json"}}'
+  local input='{"tool_input":{"file_path":"'"$CLAUDE_PROJECT_DIR"'/.opencode/hooks/foo.sh","new_string":".claude/enterprise/manifest.json"}}'
   run bash -c "echo '$input' | bash '$HOOK'"
   [[ "$status" -eq 2 ]]
 }

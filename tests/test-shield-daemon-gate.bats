@@ -2,11 +2,11 @@
 # test-shield-daemon-gate.bats — Gate path normalization + classification
 # SPEC-044: data-sovereignty (Layer 1 — deterministic path gate)
 # Ref: docs/rules/domain/data-sovereignty.md
-# Target: .claude/hooks/data-sovereignty-gate.sh
+# Target: .opencode/hooks/data-sovereignty-gate.sh
 
 setup() {
   # Verify set -uo pipefail in target hook
-  grep -q 'set -uo pipefail' .claude/hooks/data-sovereignty-gate.sh || true
+  grep -q 'set -uo pipefail' .opencode/hooks/data-sovereignty-gate.sh || true
   export TMPDIR="${BATS_TMPDIR:-/tmp}/shield-gate-$$"
   mkdir -p "$TMPDIR" 2>/dev/null || true
 }
@@ -102,9 +102,9 @@ print('PUBLIC')
 # --- Safety: verify target hook has set -uo pipefail ---
 
 @test "target hook has set -uo pipefail for safety" {
-  grep -q 'set -uo pipefail' .claude/hooks/data-sovereignty-gate.sh
+  grep -q 'set -uo pipefail' .opencode/hooks/data-sovereignty-gate.sh
 }
 
 @test "target hook blocks with exit 2 on PII detection" {
-  grep -q 'exit 2' .claude/hooks/data-sovereignty-gate.sh
+  grep -q 'exit 2' .opencode/hooks/data-sovereignty-gate.sh
 }

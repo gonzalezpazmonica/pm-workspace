@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # BATS tests for session-init.sh
-# SCRIPT=.claude/hooks/session-init.sh
+# SCRIPT=.opencode/hooks/session-init.sh
 # SPEC: SPEC-032 Security Benchmarks — session initialization
 
-SCRIPT=".claude/hooks/session-init.sh"
+SCRIPT=".opencode/hooks/session-init.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

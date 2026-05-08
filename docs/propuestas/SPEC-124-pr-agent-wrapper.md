@@ -25,12 +25,12 @@ Current Court: correctness-judge, security-judge, architecture-judge, cognitive-
 
 ## Scope
 
-1. **Crear** `.claude/skills/pr-agent-judge/SKILL.md`:
+1. **Crear** `.opencode/skills/pr-agent-judge/SKILL.md`:
    - Wrapper sobre CLI de pr-agent
    - Modo local (sin CI) y modo GHA
    - Output formato compatible con Court (JSON estructurado)
 
-2. **Crear** `.claude/agents/pr-agent-judge.md`:
+2. **Crear** `.opencode/agents/pr-agent-judge.md`:
    - Subagent que invoca pr-agent CLI
    - Integra con `court-orchestrator.md`
 
@@ -96,8 +96,8 @@ PR_AGENT_MODEL         = "claude-sonnet-4-6"
 
 ## Acceptance Criteria
 
-- [ ] AC-01 `.claude/skills/pr-agent-judge/SKILL.md` creado con invocation + output format
-- [ ] AC-02 `.claude/agents/pr-agent-judge.md` creado (subagent wrapper)
+- [ ] AC-01 `.opencode/skills/pr-agent-judge/SKILL.md` creado con invocation + output format
+- [ ] AC-02 `.opencode/agents/pr-agent-judge.md` creado (subagent wrapper)
 - [ ] AC-03 `scripts/pr-agent-run.sh` implementado (fetch PR via gh, invoke pr-agent CLI, output Court JSON)
 - [ ] AC-04 `.github/workflows/templates/pr-agent-review.yml` workflow reusable
 - [ ] AC-05 `court-orchestrator.md` actualizado con sección "External Judges" + opt-in flag
@@ -134,17 +134,17 @@ Time-box: 60 min. Riesgo principal: pr-agent CLI instalación requiere Python + 
 
 - [qodo-ai/pr-agent](https://github.com/qodo-ai/pr-agent)
 - `docs/agent-teams-sdd.md` — Court arquitectura actual
-- `.claude/agents/court-orchestrator.md` — orchestrator actual
+- `.opencode/agents/court-orchestrator.md` — orchestrator actual
 
 ## Resolution (2026-04-25)
 
 SPEC-124 completado en Era 187 (batch 56). 9/9 ACs cumplidos:
 
-- [x] AC-01 `.claude/skills/pr-agent-judge/SKILL.md` — wrapper definido (batch previo)
-- [x] AC-02 `.claude/agents/pr-agent-judge.md` — subagent integrado (batch previo)
+- [x] AC-01 `.opencode/skills/pr-agent-judge/SKILL.md` — wrapper definido (batch previo)
+- [x] AC-02 `.opencode/agents/pr-agent-judge.md` — subagent integrado (batch previo)
 - [x] AC-03 `scripts/pr-agent-run.sh` — wrapper CLI con graceful skip (batch previo)
 - [x] AC-04 `.github/workflows/templates/pr-agent-review.yml` — reusable workflow (este batch). Cost gate `max_lines` default 1000, feature-flag check, draft skip, comments tagged `[pr-agent]`
-- [x] AC-05 `.claude/agents/court-orchestrator.md` — sección "External Judges (SPEC-124)" añadida (batch previo)
+- [x] AC-05 `.opencode/agents/court-orchestrator.md` — sección "External Judges (SPEC-124)" añadida (batch previo)
 - [x] AC-06 `docs/rules/domain/pm-config.md` — `COURT_INCLUDE_PR_AGENT=false` y `PR_AGENT_VERSION="0.27"` registrados (batch previo)
 - [x] AC-07 `tests/test-pr-agent-wrapper.bats` — certified score 83 (batch previo)
 - [x] AC-08 `docs/rules/domain/court-external-judges.md` — política de inclusión, jueces aprobados, reglas operación, activación paso a paso, riesgos (este batch)

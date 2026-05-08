@@ -37,12 +37,11 @@ Hook di sicurezza presenti in TUTTI i profili: `block-credential-leak.sh`, `bloc
 
 **Livello 3 — Audit post-scrittura**: Hook asincrono che ri-scansiona il file completo. Non blocca. Allarme immediato se rileva una fuga.
 
-**Livello 4 — Mascheramento reversibile**: Sostituisce entita reali con fittizie prima dell'invio alle API cloud. Mappa locale (N4, mai in git).
+**Livello 4 — [DEPRECATO] Mascheramento manuale rimosso**
 
-```bash
-bash scripts/sovereignty-mask.sh mask "testo con dati reali" --project il-mio-progetto
-bash scripts/sovereignty-mask.sh unmask "risposta di Claude"
-```
+Il mascheramento manuale (`sovereignty-mask.sh`) e stato rimosso il 2026-05-05.  
+Il Livello 4 (Proxy) mantiene il proprio mascheramento interno in `savia-shield-proxy.py`.  
+Questo slot e riservato per un'alternativa futura.
 
 ---
 

@@ -1,6 +1,6 @@
 // injection-patterns.ts — SPEC-127 Slice 2b-ii
 //
-// Mirror of `.claude/hooks/prompt-injection-guard.sh` rules, ported to
+// Mirror of `.opencode/hooks/prompt-injection-guard.sh` rules, ported to
 // TypeScript. Distinguishes BLOCK (override + hidden) from WARN-only
 // (social engineering). Returns a structured verdict.
 

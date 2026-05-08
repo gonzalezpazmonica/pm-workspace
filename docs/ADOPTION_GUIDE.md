@@ -219,9 +219,9 @@ Al clonar, encontrarás esta estructura:
 | Directorio | Contenido | Editable |
 |------------|-----------|----------|
 | `CLAUDE.md` | Punto de entrada de Claude Code (constantes globales) | Sí |
-| `.claude/commands/` | 360+ slash commands para flujos PM | Avanzado |
-| `.claude/skills/` | 31 skills especializadas | Avanzado |
-| `.claude/agents/` | 27 subagentes IA | Avanzado |
+| `.opencode/commands/` | 360+ slash commands para flujos PM | Avanzado |
+| `.opencode/skills/` | 31 skills especializadas | Avanzado |
+| `.opencode/agents/` | 27 subagentes IA | Avanzado |
 | `docs/rules/` | Reglas modulares (PM, multi-lenguaje, Git) | Avanzado |
 | `projects/` | Carpeta de proyectos (cada uno con su `CLAUDE.md`) | Sí |
 | `scripts/` | Scripts auxiliares (Azure DevOps, informes) | No |

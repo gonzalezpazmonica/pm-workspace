@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # BATS tests for plan-gate.sh
-# SCRIPT=.claude/hooks/plan-gate.sh
+# SCRIPT=.opencode/hooks/plan-gate.sh
 # SPEC: SPEC-081 — Hook test coverage
 
-SCRIPT=".claude/hooks/plan-gate.sh"
+SCRIPT=".opencode/hooks/plan-gate.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

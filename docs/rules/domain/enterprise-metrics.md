@@ -2,7 +2,7 @@
 name: enterprise-metrics
 description: "SPACE framework metrics, portfolio aggregation, team health indicators, Monte Carlo forecasting"
 auto_load: false
-paths: [".claude/commands/enterprise-dashboard*", ".claude/skills/enterprise-analytics/*"]
+paths: [".opencode/commands/enterprise-dashboard*", ".opencode/skills/enterprise-analytics/*"]
 ---
 
 # Regla: Métricas Empresariales

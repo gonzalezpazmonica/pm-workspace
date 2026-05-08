@@ -37,7 +37,7 @@ related_rules:
 
 ## Tesis (one paragraph)
 
-Savia hoy asume Claude Code: 64 hooks hard-codean `CLAUDE_PROJECT_DIR`, 70 agentes declaran `model: claude-X`, 534 commands viven en `.claude/commands/` invocados por `/name`, 4 orchestrators dependen del Task tool. SE-077 (batch 2026-04-26) construyó el puente OpenCode v1.14 — buen primer paso, pero limitado a Claude como backend de inferencia. Cada usuario de Savia conecta OpenCode (o cualquier otro frontend OpenCode-compatible) a su proveedor: Anthropic API directa, hosted vendor-managed, LocalAI on-prem, Ollama local, OSS hosted (Mistral, DeepSeek), endpoint corporativo custom. Esos proveedores difieren en cuatro ejes ortogonales — **hook surface**, **subagent fan-out**, **slash command surface**, **token economy** — y Savia debe detectar cada eje en runtime y degradar gracefully cuando un primitivo no está disponible. **Esta spec no promete parity completo en ningún proveedor concreto** — declara explícitamente qué primitivos no están disponibles y cómo se reroutea (MCP server para slash, git pre-commit + CI para hooks, single-shot fallback para orchestrators). El usuario declara su stack en `~/.savia/preferences.yaml` (entrevista interactiva en `/savia-setup`); el framework respeta esa declaración + autodetect cuando hay señal de env var.
+Savia hoy asume Claude Code: 64 hooks hard-codean `CLAUDE_PROJECT_DIR`, 70 agentes declaran `model: claude-X`, 534 commands viven en `.opencode/commands/` invocados por `/name`, 4 orchestrators dependen del Task tool. SE-077 (batch 2026-04-26) construyó el puente OpenCode v1.14 — buen primer paso, pero limitado a Claude como backend de inferencia. Cada usuario de Savia conecta OpenCode (o cualquier otro frontend OpenCode-compatible) a su proveedor: Anthropic API directa, hosted vendor-managed, LocalAI on-prem, Ollama local, OSS hosted (Mistral, DeepSeek), endpoint corporativo custom. Esos proveedores difieren en cuatro ejes ortogonales — **hook surface**, **subagent fan-out**, **slash command surface**, **token economy** — y Savia debe detectar cada eje en runtime y degradar gracefully cuando un primitivo no está disponible. **Esta spec no promete parity completo en ningún proveedor concreto** — declara explícitamente qué primitivos no están disponibles y cómo se reroutea (MCP server para slash, git pre-commit + CI para hooks, single-shot fallback para orchestrators). El usuario declara su stack en `~/.savia/preferences.yaml` (entrevista interactiva en `/savia-setup`); el framework respeta esa declaración + autodetect cuando hay señal de env var.
 
 ---
 
@@ -53,11 +53,11 @@ Pasar de Claude Code a OpenCode con un proveedor distinto rompe ~75% de los enfo
 
 | Categoría | Total | Asunción Claude Code | Sin hook surface | Sin Task tool | Sin slash commands |
 |---|---:|---:|---:|---:|---:|
-| Hooks (`.claude/hooks/*.sh`) | 64 | 46 (`CLAUDE_PROJECT_DIR`) | 64 silenciosamente rotos | 64 quietos | 64 quietos |
+| Hooks (`.opencode/hooks/*.sh`) | 64 | 46 (`CLAUDE_PROJECT_DIR`) | 64 silenciosamente rotos | 64 quietos | 64 quietos |
 | Settings.json hook entries | 65 | 65 | 0 funcionan | 65 quietos | 65 quietos |
-| Agents (`.claude/agents/*.md`) | 71 | 70 declaran `claude-X` | 71 quietos | 71 sin fan-out | 71 quietos |
+| Agents (`.opencode/agents/*.md`) | 71 | 70 declaran `claude-X` | 71 quietos | 71 sin fan-out | 71 quietos |
 | Skills (`SKILL.md`) | 90 | 0 (~95% portable) | 90 portables | 90 portables | 90 portables |
-| Commands (`.claude/commands/*.md`) | 534 | 534 invocados con `/` | 534 quietos | 534 quietos | 534 sin discoverability |
+| Commands (`.opencode/commands/*.md`) | 534 | 534 invocados con `/` | 534 quietos | 534 quietos | 534 sin discoverability |
 | Tool_input parsing hooks | 26 | 26 | 26 broken | 26 quietos | 26 quietos |
 
 **Lectura**: cada eje (`hook surface`, `Task tool`, `slash commands`) se evalúa **independientemente**. Un proveedor con hooks y sin Task rompe orchestrators pero conserva enforcement. Un proveedor sin hooks y con Task conserva orquestación pero pierde la safety layer. La spec aborda los cuatro ejes ortogonales, no una matriz fija de proveedores conocidos.
@@ -65,14 +65,14 @@ Pasar de Claude Code a OpenCode con un proveedor distinto rompe ~75% de los enfo
 ### Top 10 archivos por execution weight
 
 1. `.claude/settings.json` (cada hook invocation)
-2. `.claude/hooks/session-init.sh` (cada session)
-3. `.claude/hooks/validate-bash-global.sh` (cada Bash call)
-4. `.claude/hooks/block-credential-leak.sh` (cada Bash/Edit)
-5. `.claude/hooks/tdd-gate.sh` (cada code edit)
-6. `.claude/hooks/responsibility-judge.sh` (cada PreToolUse)
-7. `.claude/hooks/block-gitignored-references.sh` (cada Edit/Write)
-8. `.claude/hooks/agent-dispatch-validate.sh` (cada Task call)
-9. `.claude/agents/dev-orchestrator.md` (entry point orquestación)
+2. `.opencode/hooks/session-init.sh` (cada session)
+3. `.opencode/hooks/validate-bash-global.sh` (cada Bash call)
+4. `.opencode/hooks/block-credential-leak.sh` (cada Bash/Edit)
+5. `.opencode/hooks/tdd-gate.sh` (cada code edit)
+6. `.opencode/hooks/responsibility-judge.sh` (cada PreToolUse)
+7. `.opencode/hooks/block-gitignored-references.sh` (cada Edit/Write)
+8. `.opencode/hooks/agent-dispatch-validate.sh` (cada Task call)
+9. `.opencode/agents/dev-orchestrator.md` (entry point orquestación)
 10. `CLAUDE.md` (5 `@import`s — cada turn)
 
 Slice 2 portea estos 10 (cuando el stack del usuario lo permita) o reroutea (cuando no).
@@ -115,7 +115,7 @@ Artefactos:
 - `scripts/savia-env.sh` — single-source loader. Exporta `SAVIA_WORKSPACE_DIR` (fallback chain) + `SAVIA_PROVIDER` (detect chain) + capability probes (`savia_has_hooks`, `savia_has_slash_commands`, `savia_has_task_fan_out`). Source desde cualquier hook.
 - `docs/rules/domain/provider-agnostic-env.md` — rule canonical. Define el contrato cross-frontend sin atar a vendor.
 - `scripts/savia-preferences.sh` — gestor de `~/.savia/preferences.yaml`. Subcomandos: `init` (entrevista interactiva), `show`, `set <key> <value>`, `get <key>`, `reset`, `validate`. Source-of-truth de las preferencias del usuario.
-- `.claude/commands/savia-setup.md` — comando que invoca el onboarding. Hace 8 preguntas neutrales (frontend, provider, modelos por tier, capabilities, budget, auth — todas con campo libre, sin lista cerrada de vendors).
+- `.opencode/commands/savia-setup.md` — comando que invoca el onboarding. Hace 8 preguntas neutrales (frontend, provider, modelos por tier, capabilities, budget, auth — todas con campo libre, sin lista cerrada de vendors).
 - `docs/rules/domain/model-alias-schema.md` — schema YAML user-extensible (NO tabla cerrada). Cada usuario añade sus mappings en `preferences.yaml`. El doc documenta el schema + ≥3 ejemplos genéricos (default Anthropic API, LocalAI/Ollama-hosted, vendor-managed-hosted).
 - BATS tests sobre los 5 artefactos.
 
@@ -150,7 +150,7 @@ Acceptance criteria Slice 2:
 **Objetivo**: si el stack del usuario no tiene slash command mechanism (`savia_has_slash_commands == false`), los 534 commands de Savia perderían descubribilidad. Reroute via MCP server local.
 
 Artefactos:
-- `scripts/savia-commands-mcp-server.ts` (Node/TS) — expone los 534 commands como MCP tools. Cada `.claude/commands/<name>.md` se traduce a un MCP tool.
+- `scripts/savia-commands-mcp-server.ts` (Node/TS) — expone los 534 commands como MCP tools. Cada `.opencode/commands/<name>.md` se traduce a un MCP tool.
 - `docs/rules/domain/savia-commands-mcp.md` — registry contract.
 - Configuración MCP genérica (instrucciones para cualquier MCP-supporting frontend).
 - BATS tests sobre el server (subset de 10 commands canary).
@@ -180,13 +180,13 @@ Acceptance criteria Slice 4:
 
 Artefactos:
 - `scripts/savia-quota-tracker.sh` — wrapper genérico. Lee tipo de cuota y límite desde preferences.yaml. Cuenta consumo via heurísticas configurables.
-- `.claude/hooks/savia-budget-guard.sh` — PreToolUse o equivalente que warns cuando consumo > 70%/85%/95% del budget.
+- `.opencode/hooks/savia-budget-guard.sh` — PreToolUse o equivalente que warns cuando consumo > 70%/85%/95% del budget.
 - Integración con `cognitive-debt.sh summary`.
 - Tests BATS sobre tracker.
 
 Acceptance criteria Slice 5:
 - AC-5.1: tracker detecta el tipo de cuota declarada en preferences.yaml y mide en consecuencia. ✅ IMPLEMENTED — `scripts/savia-quota-tracker.sh` lee `budget_kind` (req-count / token-count / dollar-cap / none) + `budget_limit` desde preferences.yaml y mantiene log JSONL en `~/.savia/quota/$USER.jsonl` (N3 gitignored).
-- AC-5.2: budget guard avisa (no bloquea) en thresholds 70%/85%/95%. ✅ IMPLEMENTED — `.claude/hooks/savia-budget-guard.sh` registrado como PreToolUse advisory. SIEMPRE exit 0. Stderr nudge once-per-threshold-per-session via /tmp marker. Threshold states: under-70 / over-70 / over-85 / over-95 / exceeded.
+- AC-5.2: budget guard avisa (no bloquea) en thresholds 70%/85%/95%. ✅ IMPLEMENTED — `.opencode/hooks/savia-budget-guard.sh` registrado como PreToolUse advisory. SIEMPRE exit 0. Stderr nudge once-per-threshold-per-session via /tmp marker. Threshold states: under-70 / over-70 / over-85 / over-95 / exceeded.
 - AC-5.3: si no hay cuota declarada, tracker skip silenciosamente. ✅ IMPLEMENTED — `budget_kind: none` o vacío → tracker no escribe log + threshold returns "none" + hook silent (no stderr).
 
 ---

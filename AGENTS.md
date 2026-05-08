@@ -1,14 +1,14 @@
 # AGENTS.md
 
-> Auto-generated from `.claude/agents/*.md`. **Do not edit by hand.**
+> Auto-generated from `.opencode/agents/*.md`. **Do not edit by hand.**
 > Source of truth: `docs/rules/domain/agents-md-source-of-truth.md` (SE-078).
 
 ## How to use
 
 This file is the cross-frontend mirror of Savia's agent registry. Claude Code
-reads `.claude/agents/*.md` directly; OpenCode v1.14, Codex, Cursor and other
+reads `.opencode/agents/*.md` directly; OpenCode v1.14, Codex, Cursor and other
 modern frontends pick up this `AGENTS.md` as freeform context. The source of
-truth is `.claude/agents/*.md`; this index is regenerated automatically by
+truth is `.opencode/agents/*.md`; this index is regenerated automatically by
 the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 
 ## Agents

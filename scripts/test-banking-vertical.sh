@@ -32,14 +32,14 @@ test_case() {
 echo ""
 echo "1️⃣  Command Files"
 for cmd in banking-detect banking-bian banking-eda-validate banking-data-governance banking-mlops-audit; do
-  test_case "$cmd.md exists" "[ -f $REPO_ROOT/.claude/commands/$cmd.md ]"
+  test_case "$cmd.md exists" "[ -f $REPO_ROOT/.opencode/commands/$cmd.md ]"
 done
 
 # ── 2. YAML frontmatter ──────────────────────────────────────
 echo ""
 echo "2️⃣  Frontmatter"
 for cmd in banking-detect banking-bian banking-eda-validate banking-data-governance banking-mlops-audit; do
-  file="$REPO_ROOT/.claude/commands/$cmd.md"
+  file="$REPO_ROOT/.opencode/commands/$cmd.md"
   test_case "$cmd: has name" "grep -q '^name: ' $file"
   test_case "$cmd: has description" "grep -q '^description: ' $file"
 done
@@ -48,7 +48,7 @@ done
 echo ""
 echo "3️⃣  Line Count (≤ 150)"
 for cmd in banking-detect banking-bian banking-eda-validate banking-data-governance banking-mlops-audit; do
-  file="$REPO_ROOT/.claude/commands/$cmd.md"
+  file="$REPO_ROOT/.opencode/commands/$cmd.md"
   lines=$(wc -l < "$file")
   test_case "$cmd: ${lines} lines ≤ 150" "[ $lines -le 150 ]"
 done
@@ -56,19 +56,19 @@ done
 # ── 4. Key concepts ──────────────────────────────────────────
 echo ""
 echo "4️⃣  Key Concepts"
-test_case "banking-detect: mentions BIAN" "grep -qi 'BIAN' $REPO_ROOT/.claude/commands/banking-detect.md"
-test_case "banking-bian: mentions ArchiMate" "grep -qi 'ArchiMate' $REPO_ROOT/.claude/commands/banking-bian.md"
-test_case "banking-eda: mentions Kafka" "grep -qi 'Kafka' $REPO_ROOT/.claude/commands/banking-eda-validate.md"
-test_case "banking-data: mentions lineage" "grep -qi 'lineage' $REPO_ROOT/.claude/commands/banking-data-governance.md"
-test_case "banking-mlops: mentions drift" "grep -qi 'drift' $REPO_ROOT/.claude/commands/banking-mlops-audit.md"
+test_case "banking-detect: mentions BIAN" "grep -qi 'BIAN' $REPO_ROOT/.opencode/commands/banking-detect.md"
+test_case "banking-bian: mentions ArchiMate" "grep -qi 'ArchiMate' $REPO_ROOT/.opencode/commands/banking-bian.md"
+test_case "banking-eda: mentions Kafka" "grep -qi 'Kafka' $REPO_ROOT/.opencode/commands/banking-eda-validate.md"
+test_case "banking-data: mentions lineage" "grep -qi 'lineage' $REPO_ROOT/.opencode/commands/banking-data-governance.md"
+test_case "banking-mlops: mentions drift" "grep -qi 'drift' $REPO_ROOT/.opencode/commands/banking-mlops-audit.md"
 
 # ── 5. Skill files ───────────────────────────────────────────
 echo ""
 echo "5️⃣  Skill: banking-architecture"
-test_case "SKILL.md exists" "[ -f $REPO_ROOT/.claude/skills/banking-architecture/SKILL.md ]"
-test_case "bian-framework.md exists" "[ -f $REPO_ROOT/.claude/skills/banking-architecture/references/bian-framework.md ]"
-test_case "eda-patterns.md exists" "[ -f $REPO_ROOT/.claude/skills/banking-architecture/references/eda-patterns-banking.md ]"
-test_case "data-governance.md exists" "[ -f $REPO_ROOT/.claude/skills/banking-architecture/references/data-governance-banking.md ]"
+test_case "SKILL.md exists" "[ -f $REPO_ROOT/.opencode/skills/banking-architecture/SKILL.md ]"
+test_case "bian-framework.md exists" "[ -f $REPO_ROOT/.opencode/skills/banking-architecture/references/bian-framework.md ]"
+test_case "eda-patterns.md exists" "[ -f $REPO_ROOT/.opencode/skills/banking-architecture/references/eda-patterns-banking.md ]"
+test_case "data-governance.md exists" "[ -f $REPO_ROOT/.opencode/skills/banking-architecture/references/data-governance-banking.md ]"
 
 # ── 6. Detection rule ────────────────────────────────────────
 echo ""

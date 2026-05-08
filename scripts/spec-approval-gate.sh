@@ -77,12 +77,12 @@ case "$MODE" in
   staged)
     while IFS= read -r f; do
       [[ -f "$PROJECT_ROOT/$f" ]] && FILES+=("$PROJECT_ROOT/$f")
-    done < <(cd "$PROJECT_ROOT" && git diff --cached --name-only --diff-filter=ACM 2>/dev/null | grep -E '^(scripts/|\.claude/agents/|\.claude/skills/)')
+    done < <(cd "$PROJECT_ROOT" && git diff --cached --name-only --diff-filter=ACM 2>/dev/null | grep -E '^(scripts/|\.opencode/agents/|\.opencode/skills/)')
     ;;
   against)
     while IFS= read -r f; do
       [[ -f "$PROJECT_ROOT/$f" ]] && FILES+=("$PROJECT_ROOT/$f")
-    done < <(cd "$PROJECT_ROOT" && git diff --name-only "$AGAINST" HEAD --diff-filter=ACM 2>/dev/null | grep -E '^(scripts/|\.claude/agents/|\.claude/skills/)')
+    done < <(cd "$PROJECT_ROOT" && git diff --name-only "$AGAINST" HEAD --diff-filter=ACM 2>/dev/null | grep -E '^(scripts/|\.opencode/agents/|\.opencode/skills/)')
     ;;
   full)
     while IFS= read -r f; do FILES+=("$f"); done < <(find "$PROJECT_ROOT/scripts" "$PROJECT_ROOT/.claude/agents" "$PROJECT_ROOT/.claude/skills" -type f \( -name "*.sh" -o -name "*.md" \) 2>/dev/null)

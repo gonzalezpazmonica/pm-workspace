@@ -56,32 +56,32 @@ teardown() {
 # --- Skill integration ---
 
 @test "skill: tech-research-agent references scrapling-fetch" {
-  run grep "scrapling-fetch" "$ROOT/.claude/skills/tech-research-agent/SKILL.md"
+  run grep "scrapling-fetch" "$ROOT/.opencode/skills/tech-research-agent/SKILL.md"
   [ "$status" -eq 0 ]
 }
 
 @test "skill: tech-research-agent references SE-061" {
-  run grep "SE-061" "$ROOT/.claude/skills/tech-research-agent/SKILL.md"
+  run grep "SE-061" "$ROOT/.opencode/skills/tech-research-agent/SKILL.md"
   [ "$status" -eq 0 ]
 }
 
 @test "skill: tech-research-agent references research-stack rule" {
-  run grep "research-stack" "$ROOT/.claude/skills/tech-research-agent/SKILL.md"
+  run grep "research-stack" "$ROOT/.opencode/skills/tech-research-agent/SKILL.md"
   [ "$status" -eq 0 ]
 }
 
 @test "skill: web-research references scrapling-fetch" {
-  run grep "scrapling-fetch" "$ROOT/.claude/skills/web-research/SKILL.md"
+  run grep "scrapling-fetch" "$ROOT/.opencode/skills/web-research/SKILL.md"
   [ "$status" -eq 0 ]
 }
 
 @test "skill: web-research references SE-061" {
-  run grep "SE-061" "$ROOT/.claude/skills/web-research/SKILL.md"
+  run grep "SE-061" "$ROOT/.opencode/skills/web-research/SKILL.md"
   [ "$status" -eq 0 ]
 }
 
 @test "skill: web-research references research-stack rule" {
-  run grep "research-stack" "$ROOT/.claude/skills/web-research/SKILL.md"
+  run grep "research-stack" "$ROOT/.opencode/skills/web-research/SKILL.md"
   [ "$status" -eq 0 ]
 }
 
@@ -118,13 +118,13 @@ teardown() {
 
 @test "coverage: tech-research-agent SKILL.md under 200 lines" {
   local lines
-  lines=$(wc -l < "$ROOT/.claude/skills/tech-research-agent/SKILL.md")
+  lines=$(wc -l < "$ROOT/.opencode/skills/tech-research-agent/SKILL.md")
   [ "$lines" -le 200 ]
 }
 
 @test "coverage: web-research SKILL.md under 200 lines" {
   local lines
-  lines=$(wc -l < "$ROOT/.claude/skills/web-research/SKILL.md")
+  lines=$(wc -l < "$ROOT/.opencode/skills/web-research/SKILL.md")
   [ "$lines" -le 200 ]
 }
 
@@ -158,11 +158,11 @@ teardown() {
 }
 
 @test "isolation: running tests does not modify skill files" {
-  local before_a=$(md5sum "$ROOT/.claude/skills/tech-research-agent/SKILL.md" | awk '{print $1}')
-  local before_b=$(md5sum "$ROOT/.claude/skills/web-research/SKILL.md" | awk '{print $1}')
+  local before_a=$(md5sum "$ROOT/.opencode/skills/tech-research-agent/SKILL.md" | awk '{print $1}')
+  local before_b=$(md5sum "$ROOT/.opencode/skills/web-research/SKILL.md" | awk '{print $1}')
   bash "$ROOT/scripts/scrapling-fetch.sh" --help >/dev/null 2>&1 || true
-  local after_a=$(md5sum "$ROOT/.claude/skills/tech-research-agent/SKILL.md" | awk '{print $1}')
-  local after_b=$(md5sum "$ROOT/.claude/skills/web-research/SKILL.md" | awk '{print $1}')
+  local after_a=$(md5sum "$ROOT/.opencode/skills/tech-research-agent/SKILL.md" | awk '{print $1}')
+  local after_b=$(md5sum "$ROOT/.opencode/skills/web-research/SKILL.md" | awk '{print $1}')
   [ "$before_a" = "$after_a" ]
   [ "$before_b" = "$after_b" ]
 }

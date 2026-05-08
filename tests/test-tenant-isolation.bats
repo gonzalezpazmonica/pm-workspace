@@ -105,7 +105,7 @@ export -f invoke_gate 2>/dev/null || true
 @test "positive: allows access to .claude/ core dir" {
   enable_module
   export SAVIA_TENANT=tenant-a
-  run invoke_gate '{"tool_input":{"file_path":".claude/commands/foo.md"}}'
+  run invoke_gate '{"tool_input":{"file_path":".opencode/commands/foo.md"}}'
   [[ "$status" -eq 0 ]]
 }
 

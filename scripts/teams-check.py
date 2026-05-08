@@ -19,6 +19,8 @@ os.environ["PYTHONUTF8"] = "1"
 
 SAVIA_DIR = Path.home() / ".savia"
 OUTPUT_DIR = SAVIA_DIR / "teams-inbox"
+COMMANDS_DIR = SAVIA_DIR / "browser-commands"
+DAEMON_STATUS_DIR = SAVIA_DIR / "outlook-inbox"  # daemon writes status here
 ACCOUNTS_FILE = SAVIA_DIR / "mail-accounts.json"
 
 TEAMS_URL = "https://teams.microsoft.com/v2/"
@@ -111,6 +113,60 @@ def extract_channel_list(page) -> list:
         });
         return results.slice(0, 40);
     }""")
+
+
+def daemon_running(alias: str) -> bool:
+    """Check whether the browser-daemon for this alias is running today."""
+    status_file = DAEMON_STATUS_DIR / f"{alias}-status.json"
+    if not status_file.exists():
+        return False
+    try:
+        with open(status_file, "r", encoding="utf-8") as f:
+            st = json.load(f)
+        return st.get("status") == "running"
+    except Exception:
+        return False
+
+
+def read_teams_via_daemon(alias: str, section: str = "all") -> dict:
+    """Send check-teams command to running daemon, wait for result file.
+
+    Preferred over read_teams_direct: avoids fighting the daemon for the
+    persistent profile lock (cause of TargetClosedError when both run).
+    """
+    COMMANDS_DIR.mkdir(parents=True, exist_ok=True)
+    DAEMON_STATUS_DIR.mkdir(parents=True, exist_ok=True)
+
+    cmd_file = COMMANDS_DIR / f"{alias}-cmd.json"
+    # Daemon dispatch: action=check-teams writes to {alias}-teams-result.json
+    # (different filename than the default {alias}-result.json used by
+    # mail/calendar handlers — see browser-daemon.py).
+    result_file = DAEMON_STATUS_DIR / f"{alias}-teams-result.json"
+    if result_file.exists():
+        try:
+            result_file.unlink()
+        except Exception:
+            pass
+
+    payload = {"action": "check-teams"}
+    if section and section != "all":
+        payload["section"] = section
+    with open(cmd_file, "w", encoding="utf-8") as f:
+        json.dump(payload, f)
+
+    # Teams scrape can take ~15s per chat × N chats; allow up to 120s
+    for _ in range(120):
+        time.sleep(1)
+        if result_file.exists():
+            try:
+                with open(result_file, "r", encoding="utf-8") as fp:
+                    got = json.load(fp)
+                got.setdefault("account", alias)
+                return got
+            except Exception:
+                continue
+
+    return {"account": alias, "error": "daemon_timeout"}
 
 
 def read_teams_direct(alias: str, cfg: dict, section: str = "all") -> dict:
@@ -226,7 +282,12 @@ def main():
         if not cfg:
             results.append({"account": alias, "error": "unknown_account"})
             continue
-        results.append(read_teams_direct(alias, cfg, section))
+        # Prefer the daemon path when running — direct mode collides with the
+        # persistent profile already in use by the daemon.
+        if daemon_running(alias):
+            results.append(read_teams_via_daemon(alias, section))
+        else:
+            results.append(read_teams_direct(alias, cfg, section))
 
     print(
         json.dumps(results, ensure_ascii=False, indent=2),

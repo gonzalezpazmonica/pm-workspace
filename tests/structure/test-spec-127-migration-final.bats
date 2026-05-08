@@ -133,9 +133,9 @@ sys.exit(0 if found else 1)
 }
 
 @test "savia-budget-guard hook file exists, executable, NEVER block marker" {
-  [ -f "$REPO_ROOT/.claude/hooks/savia-budget-guard.sh" ]
-  [ -x "$REPO_ROOT/.claude/hooks/savia-budget-guard.sh" ]
-  grep -qiE 'never block|NEVER block' "$REPO_ROOT/.claude/hooks/savia-budget-guard.sh"
+  [ -f "$REPO_ROOT/.opencode/hooks/savia-budget-guard.sh" ]
+  [ -x "$REPO_ROOT/.opencode/hooks/savia-budget-guard.sh" ]
+  grep -qiE 'never block|NEVER block' "$REPO_ROOT/.opencode/hooks/savia-budget-guard.sh"
 }
 
 @test "onboarding doc exists" {

@@ -8,9 +8,9 @@ fail() { ((FAIL++)); ((TOTAL++)); echo "  ❌ $1"; }
 check() { if eval "$1" > /dev/null 2>&1; then pass "$2"; else fail "$2"; fi; }
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CMD="$ROOT/.claude/commands/scale-optimizer.md"
+CMD="$ROOT/.opencode/commands/scale-optimizer.md"
 RULE="$ROOT/docs/rules/domain/scaling-patterns.md"
-SKILL="$ROOT/.claude/skills/scaling-operations/SKILL.md"
+SKILL="$ROOT/.opencode/skills/scaling-operations/SKILL.md"
 
 echo "═══════════════════════════════════════════"
 echo "  Test: scale-optimizer (Era 42, v2.14.0)"

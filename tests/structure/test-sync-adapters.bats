@@ -29,7 +29,7 @@ teardown() {
 }
 
 @test "backlog-sync command exists" {
-  [ -f "$ROOT/.claude/commands/backlog-sync.md" ]
+  [ -f "$ROOT/.opencode/commands/backlog-sync.md" ]
 }
 
 @test "adapter-interface has required functions" {

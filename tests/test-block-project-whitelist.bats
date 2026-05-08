@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 # BATS tests for block-project-whitelist.sh
-# SCRIPT=.claude/hooks/block-project-whitelist.sh
+# SCRIPT=.opencode/hooks/block-project-whitelist.sh
 # SPEC: SPEC-081 — Hook test coverage
 
-SCRIPT=".claude/hooks/block-project-whitelist.sh"
+SCRIPT=".opencode/hooks/block-project-whitelist.sh"
 
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"

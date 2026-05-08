@@ -152,7 +152,7 @@ con los 13 estados y sus transiciones recientes.
 |---------|--------|
 | `docs/rules/domain/session-state-machine.md` | Crear — grafo de transiciones |
 | `docs/rules/domain/dev-session-locks.md` | Modificar — ampliar state.json |
-| `.claude/hooks/agent-trace-log.sh` | Modificar — emitir state transitions |
+| `.opencode/hooks/agent-trace-log.sh` | Modificar — emitir state transitions |
 
 ---
 

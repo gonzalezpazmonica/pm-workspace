@@ -1,6 +1,6 @@
 // block-gitignored-references.ts — SPEC-127 Slice 2b-ii
 //
-// Port of `.claude/hooks/block-gitignored-references.sh`. Scans the
+// Port of `.opencode/hooks/block-gitignored-references.sh`. Scans the
 // content of Edit/Write operations for references to gitignored paths or
 // internal-only metrics. Skips when the target file IS itself a private
 // destination (writing TO gitignored is fine) or a hook source file

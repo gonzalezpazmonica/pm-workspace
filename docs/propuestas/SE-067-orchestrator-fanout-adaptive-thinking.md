@@ -22,7 +22,7 @@ Two unrelated-but-related changes collapse into one small batch:
 
 **A. Orchestrator fan-out** — Opus 4.7 is more judicious about delegating to subagents. `dev-orchestrator`, `court-orchestrator`, `truth-tribunal-orchestrator` benefit from parallel fan-out but don't state it explicitly. Under 4.7, these orchestrators will spawn fewer subagents than intended unless instructions are explicit.
 
-**B. feasibility-probe adaptive thinking** — `.claude/skills/feasibility-probe/SKILL.md` default `budget_tokens: 50000`. Opus 4.7 replaces fixed budgets with adaptive thinking (`thinking: {type: "adaptive"}`). Skill must migrate.
+**B. feasibility-probe adaptive thinking** — `.opencode/skills/feasibility-probe/SKILL.md` default `budget_tokens: 50000`. Opus 4.7 replaces fixed budgets with adaptive thinking (`thinking: {type: "adaptive"}`). Skill must migrate.
 
 ## Scope
 
@@ -44,7 +44,7 @@ response. Avoid serial 1-at-a-time spawning when parallel is possible.
 
 ### Slice 2 — feasibility-probe adaptive migration (XS, 0.5h)
 
-Update `.claude/skills/feasibility-probe/SKILL.md`:
+Update `.opencode/skills/feasibility-probe/SKILL.md`:
 - Remove `budget_tokens` parameter (line 36)
 - Replace with adaptive thinking reference
 - Preserve `budget_minutes` as time-box (orthogonal, still valid)
@@ -73,5 +73,5 @@ Update `.claude/skills/feasibility-probe/SKILL.md`:
 ## Referencias
 
 - Opus 4.7 migration analysis 2026-04-23
-- `.claude/skills/feasibility-probe/SKILL.md`
+- `.opencode/skills/feasibility-probe/SKILL.md`
 - Complementary: SE-066 (finding-vs-filtering), SE-068 (XML tags)

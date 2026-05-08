@@ -175,19 +175,19 @@ RELEASE_AIRGAP_MODE           = false  # activar para defensa/gobierno
 | Name | Kind | Purpose |
 |------|------|---------|
 | `docs/rules/domain/release-orchestration.md` | rule | Contrato Release-as-Code, perfiles compliance, flujo de gates |
-| `.claude/agents/release-orchestrator.md` | agent | L2 orquestador principal |
-| `.claude/agents/release-validator.md` | agent | L1 validador pre-ejecución |
-| `.claude/agents/rollback-executor.md` | agent | L3 ejecutor de rollback con gate humano |
-| `.claude/agents/release-postmortem.md` | agent | L2 analizador post-deploy |
-| `.claude/commands/release-plan.md` | command | `/release-plan` |
-| `.claude/commands/release-validate.md` | command | `/release-validate` |
-| `.claude/commands/release-execute.md` | command | `/release-execute` |
-| `.claude/commands/release-rollback.md` | command | `/release-rollback` |
-| `.claude/commands/release-postmortem.md` | command | `/release-postmortem` |
-| `.claude/commands/release-calendar.md` | command | `/release-calendar` |
-| `.claude/commands/portfolio-releases.md` | command | `/portfolio-releases` |
-| `.claude/skills/release-orchestration/SKILL.md` | skill | Pipeline de 5 fases: plan→validate→execute→monitor→postmortem |
-| `.claude/skills/release-orchestration/references/compliance-profiles.md` | ref | 6 perfiles documentados |
+| `.opencode/agents/release-orchestrator.md` | agent | L2 orquestador principal |
+| `.opencode/agents/release-validator.md` | agent | L1 validador pre-ejecución |
+| `.opencode/agents/rollback-executor.md` | agent | L3 ejecutor de rollback con gate humano |
+| `.opencode/agents/release-postmortem.md` | agent | L2 analizador post-deploy |
+| `.opencode/commands/release-plan.md` | command | `/release-plan` |
+| `.opencode/commands/release-validate.md` | command | `/release-validate` |
+| `.opencode/commands/release-execute.md` | command | `/release-execute` |
+| `.opencode/commands/release-rollback.md` | command | `/release-rollback` |
+| `.opencode/commands/release-postmortem.md` | command | `/release-postmortem` |
+| `.opencode/commands/release-calendar.md` | command | `/release-calendar` |
+| `.opencode/commands/portfolio-releases.md` | command | `/portfolio-releases` |
+| `.opencode/skills/release-orchestration/SKILL.md` | skill | Pipeline de 5 fases: plan→validate→execute→monitor→postmortem |
+| `.opencode/skills/release-orchestration/references/compliance-profiles.md` | ref | 6 perfiles documentados |
 | `templates/release-plan.template.md` | template | Skeleton YAML+prosa |
 | `templates/rollback-playbook.template.md` | template | Skeleton runbook |
 | `scripts/release-validate-gates.sh` | script | Verificador determinista de gates antes de ejecutar |

@@ -5,7 +5,7 @@
 set -uo pipefail
 ROOT="$BATS_TEST_DIRNAME/.."
 SCRIPT="$ROOT/scripts/rerank.py"
-SKILL_DIR="$ROOT/.claude/skills/reranker"
+SKILL_DIR="$ROOT/.opencode/skills/reranker"
 
 setup() {
   TMPDIR="$(mktemp -d)"

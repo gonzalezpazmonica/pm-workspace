@@ -245,9 +245,9 @@ AND     siguiente run no las vuelve a alertar
 | Crear | scripts/legal-drift.sh | Orquestador principal |
 | Crear | scripts/legal-drift-resolve.sh | Resolver paths en corpus |
 | Crear | scripts/legal-drift-classify.sh | LLM classifier wrapper |
-| Crear | .claude/commands/legal-drift.md | Command slash |
+| Crear | .opencode/commands/legal-drift.md | Command slash |
 | Crear | tests/test-legal-drift.bats | Suite BATS |
-| Modificar | .claude/agents/legal-compliance.md | Modo classifier |
+| Modificar | .opencode/agents/legal-compliance.md | Modo classifier |
 | Modificar | docs/rules/domain/pm-config.md | Verificar LEGALIZE_ES_* |
 | Crear | projects/PROJECT_TEMPLATE.md | Incluir LEGAL-REFS.md template |
 | Modificar | docs/rules/domain/legal-compliance.md | Cross-ref drift |

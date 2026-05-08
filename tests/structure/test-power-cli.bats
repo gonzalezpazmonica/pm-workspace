@@ -106,7 +106,7 @@ print('OK')
 }
 
 @test "F2: pre-compact hook calls semantic-compact" {
-    grep -q "semantic-compact" "$BATS_TEST_DIRNAME/../../.claude/hooks/pre-compact-backup.sh"
+    grep -q "semantic-compact" "$BATS_TEST_DIRNAME/../../.opencode/hooks/pre-compact-backup.sh"
 }
 
 # --- F4: PR Context Loader ---

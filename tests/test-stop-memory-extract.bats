@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/stop-memory-extract.sh
+# BATS tests for .opencode/hooks/stop-memory-extract.sh
 # Hook: Stop | Timeout: 10 min. Extracts decisions/failures/discoveries/URLs from session.
 # Ref: SPEC-013v2; batch 40 hook test coverage
 
-HOOK=".claude/hooks/stop-memory-extract.sh"
+HOOK=".opencode/hooks/stop-memory-extract.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

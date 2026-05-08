@@ -1,13 +1,13 @@
 ---
-globs: [".claude/commands/**"]
+globs: [".opencode/commands/**"]
 ---
 
 # Regla: Validación de Comandos — Pre-commit obligatorio
-# ── Aplica cuando se crean o modifican ficheros en .claude/commands/ ──────────
+# ── Aplica cuando se crean o modifican ficheros en .opencode/commands/ ──────────
 
 ## Cuándo aplica
 
-ANTES de hacer commit, si los cambios incluyen ficheros en `.claude/commands/`:
+ANTES de hacer commit, si los cambios incluyen ficheros en `.opencode/commands/`:
 
 1. **Ejecutar `scripts/validate-commands.sh`** pasando los ficheros modificados
 2. Si hay ERRORES → corregir antes de commit
@@ -42,5 +42,5 @@ En ese caso → reducir el comando o eliminar referencias externas.
 scripts/validate-commands.sh
 
 # Validar solo los modificados
-scripts/validate-commands.sh .claude/commands/help.md .claude/commands/pr-pending.md
+scripts/validate-commands.sh .opencode/commands/help.md .opencode/commands/pr-pending.md
 ```

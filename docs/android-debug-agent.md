@@ -33,8 +33,8 @@ The Android Debug Agent provides autonomous debugging and testing of Android app
 | File | Purpose |
 |------|---------|
 | `scripts/lib/adb-wrapper.sh` | ADB abstraction layer with 40+ functions |
-| `.claude/hooks/android-adb-validate.sh` | Security hook for PreToolUse |
-| `.claude/skills/android-autonomous-debugger/SKILL.md` | Agent skill with workflow |
+| `.opencode/hooks/android-adb-validate.sh` | Security hook for PreToolUse |
+| `.opencode/skills/android-autonomous-debugger/SKILL.md` | Agent skill with workflow |
 | `scripts/tests/test-adb-wrapper.sh` | Integration test suite (44 tests) |
 
 ## Quick Start

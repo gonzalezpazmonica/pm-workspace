@@ -79,7 +79,7 @@ teardown() {
   [[ "$output" -ge 1 ]]
 }
 
-@test "audit mode does NOT modify .claude/skills/" {
+@test "audit mode does NOT modify .opencode/skills/" {
   local before_hash after_hash
   before_hash=$(find .claude/skills -type f -name 'SKILL.md' -exec md5sum {} \; 2>/dev/null | sort | md5sum | awk '{print $1}')
   bash "$SCRIPT" --audit >/dev/null 2>&1 || true

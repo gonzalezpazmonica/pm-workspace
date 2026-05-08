@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/post-report-write.sh
+# BATS tests for .opencode/hooks/post-report-write.sh
 # PostToolUse async — queues Truth Tribunal verification for generated reports.
 # SPEC-106 Phase 2. Never blocks.
 # Ref: batch 43 hook coverage
 
-HOOK=".claude/hooks/post-report-write.sh"
+HOOK=".opencode/hooks/post-report-write.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

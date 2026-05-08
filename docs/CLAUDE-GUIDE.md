@@ -62,7 +62,7 @@ Añade sobre la mínima:
 ## SDD Config
 - Max parallel agents: {N}
 - Review mode: {human|agent|hybrid}
-- Spec template: @.claude/skills/spec-driven-development/
+- Spec template: @.opencode/skills/spec-driven-development/
 
 ## Vertical
 - Sector: {general|banking|healthcare|education|legal}

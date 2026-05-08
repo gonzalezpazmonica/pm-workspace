@@ -131,7 +131,7 @@ Capa 3 (audit post-escritura)
 
 - [opendataloader-pdf](https://github.com/opendataloader-project/opendataloader-pdf)
 - [Benchmarks](https://opendataloader.org/docs/benchmarks)
-- `.claude/agents/pdf-digest.md` (agente actual)
+- `.opencode/agents/pdf-digest.md` (agente actual)
 - `docs/rules/domain/source-tracking.md` (citas)
 - `docs/rules/domain/data-sovereignty.md` (Savia Shield)
 - `docs/rules/domain/digest-traceability.md` (idempotencia)

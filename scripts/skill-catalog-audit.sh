@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # skill-catalog-audit.sh — SE-084 Slice 1.
 #
-# Static auditor over `.claude/skills/*/SKILL.md` enforcing the
+# Static auditor over `.opencode/skills/*/SKILL.md` enforcing the
 # `mattpocock/skills/write-a-skill` discipline (MIT pattern, clean-room):
 # - frontmatter with `name:` + `description:` required
 # - description must contain a "Use when ..." trigger (or equivalent

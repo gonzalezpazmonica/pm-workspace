@@ -37,7 +37,7 @@ Nuevo hook `session-memory-extract.sh` registrado como async en Stop:
 {
   "hooks": {
     "Stop": [{
-      "command": ".claude/hooks/session-memory-extract.sh",
+      "command": ".opencode/hooks/session-memory-extract.sh",
       "async": true
     }]
   }
@@ -87,7 +87,7 @@ Rechazar automáticamente:
 
 ### Fase 1 — Hook basico (1 sprint)
 
-1. Crear `.claude/hooks/session-memory-extract.sh`
+1. Crear `.opencode/hooks/session-memory-extract.sh`
 2. Registrar en settings.json como async Stop hook
 3. Extraer solo correcciones del usuario (categoria mas valiosa)
 4. Persistir como tipo `feedback` en auto-memory
@@ -119,7 +119,7 @@ Rechazar automáticamente:
 
 ## Ficheros afectados
 
-- `.claude/hooks/session-memory-extract.sh` — nuevo
+- `.opencode/hooks/session-memory-extract.sh` — nuevo
 - `.claude/settings.json` — registrar hook en Stop
 - `docs/rules/domain/async-hooks-config.md` — documentar
 - `docs/memory-system.md` — actualizar con nuevo mecanismo

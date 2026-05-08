@@ -1,6 +1,6 @@
 // tdd-gate.ts — SPEC-127 Slice 2b-ii
 //
-// Port of `.claude/hooks/tdd-gate.sh`. Blocks Edit/Write to a production
+// Port of `.opencode/hooks/tdd-gate.sh`. Blocks Edit/Write to a production
 // code file when no corresponding test file exists. Production = the
 // language extensions cs/py/ts/tsx/js/jsx/go/rs/rb/php/java/kt/swift/dart.
 //

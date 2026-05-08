@@ -31,18 +31,18 @@ test_case() {
 # ── Test 1: Command files exist ─────────────────────────────────
 echo ""
 echo "1️⃣  Command Files Exist"
-test_case "perf-audit.md exists" "[ -f $REPO_ROOT/.claude/commands/perf-audit.md ]"
-test_case "perf-fix.md exists" "[ -f $REPO_ROOT/.claude/commands/perf-fix.md ]"
-test_case "perf-report.md exists" "[ -f $REPO_ROOT/.claude/commands/perf-report.md ]"
-test_case "testplan-generate.md exists" "[ -f $REPO_ROOT/.claude/commands/testplan-generate.md ]"
-test_case "testplan-results.md exists" "[ -f $REPO_ROOT/.claude/commands/testplan-results.md ]"
-test_case "testplan-status.md exists" "[ -f $REPO_ROOT/.claude/commands/testplan-status.md ]"
+test_case "perf-audit.md exists" "[ -f $REPO_ROOT/.opencode/commands/perf-audit.md ]"
+test_case "perf-fix.md exists" "[ -f $REPO_ROOT/.opencode/commands/perf-fix.md ]"
+test_case "perf-report.md exists" "[ -f $REPO_ROOT/.opencode/commands/perf-report.md ]"
+test_case "testplan-generate.md exists" "[ -f $REPO_ROOT/.opencode/commands/testplan-generate.md ]"
+test_case "testplan-results.md exists" "[ -f $REPO_ROOT/.opencode/commands/testplan-results.md ]"
+test_case "testplan-status.md exists" "[ -f $REPO_ROOT/.opencode/commands/testplan-status.md ]"
 
 # ── Test 2: YAML frontmatter ────────────────────────────────────
 echo ""
 echo "2️⃣  YAML Frontmatter"
 for cmd in perf-audit perf-fix perf-report testplan-generate testplan-results testplan-status; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   test_case "${cmd}: has name field" "grep -q '^name: ' $file"
   test_case "${cmd}: has description" "grep -q '^description: ' $file"
 done
@@ -51,7 +51,7 @@ done
 echo ""
 echo "3️⃣  Line Count (≤ 150 lines)"
 for cmd in perf-audit perf-fix perf-report testplan-generate; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   lines=$(wc -l < "$file")
   test_case "${cmd}: ${lines} lines ≤ 150" "[ $lines -le 150 ]"
 done
@@ -59,10 +59,10 @@ done
 # ── Test 4: Key concepts present ────────────────────────────────
 echo ""
 echo "4️⃣  Key Concepts"
-test_case "perf-audit mentions performance\|audit" "grep -q -i 'performance\|audit' $REPO_ROOT/.claude/commands/perf-audit.md"
-test_case "perf-fix mentions fix\|optimize" "grep -q -i 'fix\|optimize' $REPO_ROOT/.claude/commands/perf-fix.md"
-test_case "perf-report mentions report" "grep -q -i 'report' $REPO_ROOT/.claude/commands/perf-report.md"
-test_case "testplan-generate mentions testplan\|generate" "grep -q -i 'testplan\|generate' $REPO_ROOT/.claude/commands/testplan-generate.md"
+test_case "perf-audit mentions performance\|audit" "grep -q -i 'performance\|audit' $REPO_ROOT/.opencode/commands/perf-audit.md"
+test_case "perf-fix mentions fix\|optimize" "grep -q -i 'fix\|optimize' $REPO_ROOT/.opencode/commands/perf-fix.md"
+test_case "perf-report mentions report" "grep -q -i 'report' $REPO_ROOT/.opencode/commands/perf-report.md"
+test_case "testplan-generate mentions testplan\|generate" "grep -q -i 'testplan\|generate' $REPO_ROOT/.opencode/commands/testplan-generate.md"
 
 # ── Test 5: Meta files updated ──────────────────────────────────
 echo ""

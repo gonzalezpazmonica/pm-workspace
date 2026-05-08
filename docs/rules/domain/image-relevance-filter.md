@@ -112,9 +112,9 @@ Patrón fuente: `opendataloader-pdf` modo híbrido (local-first / AI-fallback). 
 
 - **SPEC-103** — spec original (`docs/propuestas/SPEC-103-deterministic-first-digests.md`)
 - **SPEC-102** — opendataloader-pdf migration (relacionado, separate scope)
-- **`.claude/agents/word-digest.md`** — consumidor Slice 2
-- **`.claude/agents/pptx-digest.md`** — consumidor Slice 2
-- **`.claude/agents/excel-digest.md`** — consumidor Slice 2
+- **`.opencode/agents/word-digest.md`** — consumidor Slice 2
+- **`.opencode/agents/pptx-digest.md`** — consumidor Slice 2
+- **`.opencode/agents/excel-digest.md`** — consumidor Slice 2
 
 ---
 

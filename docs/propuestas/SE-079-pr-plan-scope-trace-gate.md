@@ -122,7 +122,7 @@ Slice único S 3h NO arranca hasta que:
 - `docs/rules/domain/radical-honesty.md` — Rule #24, "don't add features beyond what the task requires"
 - `docs/rules/domain/autonomous-safety.md` — gates inviolables (referencia para tono del fail mode)
 - `scripts/pr-plan-gates.sh` — plumbing existente (G0–G12)
-- `.claude/commands/pr-plan.md` — comando público
+- `.opencode/commands/pr-plan.md` — comando público
 - SE-058 batch 58 — G11 `.pr-summary.md` natural-language summary (gate del que parte la detección de spec ref)
 
 ## OpenCode Implementation Plan

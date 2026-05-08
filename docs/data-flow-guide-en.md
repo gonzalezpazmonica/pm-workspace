@@ -34,7 +34,7 @@ Sprint items             Velocity trend         Capacity forecast         Alerts
 
 **How it works:** Each sprint closes with X story points completed. That feeds the velocity trend (moving average). With that velocity, `/capacity-forecast` runs Monte Carlo to predict if the next sprint is viable. If velocity drops and hours rise → burnout alert for PM and CEO.
 
-**Files involved:** `.claude/commands/sprint-*.md` → `output/sprint-snapshots/` → alerts in `output/alerts/`
+**Files involved:** `.opencode/commands/sprint-*.md` → `output/sprint-snapshots/` → alerts in `output/alerts/`
 
 **Why it matters:** Without historical velocity, there's no prediction. Without prediction, the PM plans blind.
 
@@ -52,7 +52,7 @@ SDD spec generated      Agent implements        Code review + tests      DORA me
 
 **How it works:** The PO or Tech Lead generates a spec (`/spec-generate`). An agent (or human) implements in an isolated worktree. Pre-commit hooks validate size, schema, and rules. If they pass, a PR is created. Automated code review checks against domain rules. Tests update coverage. Everything is measured as DORA metrics.
 
-**Files involved:** `output/specs/` → `.claude/agents/developer-*.md` → `output/implementations/` → metrics in `/kpi-dora`
+**Files involved:** `output/specs/` → `.opencode/agents/developer-*.md` → `output/implementations/` → metrics in `/kpi-dora`
 
 **Why it matters:** This is the flow that allows a "developer" to be human or AI interchangeably. The spec is the contract that guarantees quality.
 

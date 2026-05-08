@@ -66,7 +66,7 @@ Diferencia clave con Truth Tribunal (SPEC-106): aquí el contexto es **real-time
 - Output is JSON-only. NO prose explanation outside the structure.
 - Audit trail is append-only. Never overwrite existing audit files.
 - The 4 judges run **in parallel** (single message with 4 Task calls), never sequential.
-- This orchestrator is invoked by `.claude/hooks/recommendation-tribunal-pre-output.sh`. It is NOT user-callable directly except for testing.
+- This orchestrator is invoked by `.opencode/hooks/recommendation-tribunal-pre-output.sh`. It is NOT user-callable directly except for testing.
 
 ## Reference
 

@@ -93,10 +93,10 @@ Output: test files + strategy summary
 
 | File | Max | Purpose |
 |------|-----|---------|
-| `.claude/agents/test-architect.md` | 150 | Agent definition |
-| `.claude/skills/test-architect/SKILL.md` | 150 | Skill with test type matrix |
-| `.claude/skills/test-architect/DOMAIN.md` | 60 | Domain concepts |
-| `.claude/skills/test-architect/references/bats-template.md` | 100 | Golden BATS template |
+| `.opencode/agents/test-architect.md` | 150 | Agent definition |
+| `.opencode/skills/test-architect/SKILL.md` | 150 | Skill with test type matrix |
+| `.opencode/skills/test-architect/DOMAIN.md` | 60 | Domain concepts |
+| `.opencode/skills/test-architect/references/bats-template.md` | 100 | Golden BATS template |
 | `tests/evals/test-architect-agent.bats` | 150 | Tests for the architect |
 
 ## Quality Gate
@@ -116,4 +116,4 @@ Non-BATS tests MUST satisfy the 8-pattern checklist (manual verification).
 - `feedback_test_excellence_patterns.md` (8 patterns)
 - `docs/rules/domain/language-packs.md` (16 languages)
 - `docs/rules/domain/coverage-scripts.md` (coverage patterns)
-- `.claude/agents/test-engineer.md` (complementary agent)
+- `.opencode/agents/test-engineer.md` (complementary agent)

@@ -2,13 +2,13 @@
 name: billing-model
 description: "Cost Management & Billing — Rate tables, timesheets, budgets, invoices, EAC calculations"
 auto_load: false
-paths: [".claude/commands/cost-center*", ".claude/skills/cost-management/*"]
+paths: [".opencode/commands/cost-center*", ".opencode/skills/cost-management/*"]
 ---
 
 # Regla: Modelo de Facturación
 
 > Era 38: v2.12.1 — Cost Management & Billing
-> Complementa: @.claude/skills/savia-flow-practice/references/flow-tasks-config.md
+> Complementa: @.opencode/skills/savia-flow-practice/references/flow-tasks-config.md
 
 **Principio**: Los costes son datos de primera clase. Timesheets, presupuestos e invoices se versionan en Git, rates son git-ignorados.
 

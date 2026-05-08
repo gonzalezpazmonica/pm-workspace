@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 498 resources
+> 506 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -78,6 +78,7 @@
 - **changelog-assemble** (script): changelog-assemble.sh — Assemble CHANGELOG.md from CHANGELOG.d/ fragments
 - **changelog-fragment** (script): changelog-fragment.sh — create a CHANGELOG fragment for the current PR
 - **changelog-update** (cmd): >
+- **check-daemon-auth** (script): check-daemon-auth.sh
 - **ci-failure-tracker** (script): ci-failure-tracker.sh — Track CI pipeline failures for signal/noise analysis
 - **ci-health** (cmd): Muestra tasa de fallo de pipelines CI a partir del log local de ejecuciones.
 - **claude-md-drift-check** (script): claude-md-drift-check.sh — Valida que los conteos en CLAUDE.md coincidan con
@@ -147,6 +148,7 @@
 - **emergency-setup** (script): emergency-setup.sh — Setup rápido de LLM local para modo emergencia
 - **emergency-status** (script): emergency-status.sh — Estado del sistema de emergencia PM-Workspace
 - **emotional-state-tracker** (script): emotional-state-tracker.sh — Track session stress state for Savia
+- **ensure-daemons-auth** (script): ensure-daemons-auth.sh
 - **enterprise-onboarding** (skill): Enterprise onboarding at scale — batch import, per-role checklists, progress tracking, knowledge transfer
 - **epic-plan** (cmd): >
 - **estimate-calibrate** (script): estimate-calibrate.sh — Recompute empirical agent speedups from actuals log
@@ -243,6 +245,7 @@
 - **memvid-backup** (skill): Backup portable de memoria externa — evalua memvid vs tar-gzip. Round-trip con SHA256 integrity. Fallback robusto.
 - **mobile-developer** (agent): >
 - **model-capability-resolver** (script): model-capability-resolver.sh — Resolve model capabilities from YAML registry
+- **morning-bootstrap** (script): morning-bootstrap.sh — rutina lunes 09:00 (auth + project-update)
 - **my-learning** (cmd): Detección de tech stack gaps — código del developer vs best practices del proyecto
 - **my-sprint** (cmd): Vista personal del sprint — items asignados, progreso, cycle time, PRs pendientes
 - **nidos** (cmd): Manage parallel terminal isolation with named git worktrees (Savia Nidos)
@@ -296,6 +299,7 @@
 - **postmortem-heuristics** (cmd): Extract debugging heuristics from postmortems
 - **pre-commit-sovereignty** (script): NOTE: -e omitted intentionally — grep returns 1 on no-match which would
 - **privacy-check-company** (script): privacy-check-company.sh — Privacy filter for company repo content
+- **probe-devops** (script): probe-devops.sh — diagnóstico de acceso a Azure DevOps usando la
 - **product-catalog** (cmd): Gestiona el catálogo de productos: añadir, actualizar, listar, buscar y exportar
 - **product-discovery** (skill): Análisis de descubrimiento de producto - JTBD y PRD antes de descomposición
 - **profile-edit** (cmd): Savia actualiza tu perfil — editar una sección.
@@ -308,6 +312,7 @@
 - **project-new** (cmd): >
 - **project-release-plan** (cmd): >
 - **project-roadmap** (cmd): >
+- **project-update-devops** (script): project-update-devops.sh — wrapper que resuelve config real desde
 - **prompt-optimizer** (skill): >
 - **protect-project-privacy** (script): protect-project-privacy.sh — Barrera de protección contra publicación accidental de proyectos
 - **pursuit-bid** (cmd): Record bid/no-bid decision for a qualified pursuit
@@ -332,6 +337,7 @@
 - **ref-list** (cmd): List available resource references and their types
 - **reflection-validation** (skill): Meta-cognitive validation protocol (System 2). Detects proxy optimization, undeclared assumptions, and broken causal chains.
 - **reflection-validator** (agent): >
+- **refresh-agent-maps** (script): refresh-agent-maps.sh
 - **release-backfill** (script): release-backfill.sh — Create missing GitHub releases from git tags
 - **repos-branches** (cmd): >
 - **repos-list** (cmd): >
@@ -378,6 +384,7 @@
 - **setup-merge-drivers** (script): setup-merge-drivers.sh — configure local git with the custom merge drivers
 - **setup-savia-dual** (script): setup-savia-dual.sh — Installer for Savia Dual (Linux/macOS)
 - **setup-savia-remote** (script): setup-savia-remote.sh — Run ONCE on the remote server as root/sudo.
+- **setup-second-origin** (script): Add a second remote for machine-local persistence of Savia/pm-workspace
 - **sheets-setup** (cmd): Configure Google Sheets integration
 - **sheets-sync** (cmd): Synchronize data with Google Sheets
 - **shield-ner-hook** (script): shield-ner-hook.sh — Savia Shield Capa 1.5: NER via daemon (fast)
@@ -428,6 +435,7 @@
 - **sustainable-pace** (cmd): Cálculo de ritmo sostenible basado en histórico y capacidad real
 - **sync-calendars** (cmd): Sincronizar disponibilidad entre calendarios de dos tenants Microsoft 365
 - **sync-github-metadata** (script): sync-github-metadata.sh — Update GitHub repo metadata
+- **sync-model-tiers** (script): sync-model-tiers.sh — Resolve abstract model tiers (heavy|mid|fast) to provider-
 - **sync-tags-from-changelog** (script): sync-tags-from-changelog.sh — Create missing git tags from CHANGELOG.md
 - **task-create** (cmd): Add a task to Savia's todo list. Usage: /task-create Investigate this site...
 - **task-decomposer** (script): task-decomposer.sh — Classify tasks as atomic/composite and decompose recursively

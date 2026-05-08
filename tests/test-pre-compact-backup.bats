@@ -4,7 +4,7 @@
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  export SCRIPT="$REPO_ROOT/.claude/hooks/pre-compact-backup.sh"
+  export SCRIPT="$REPO_ROOT/.opencode/hooks/pre-compact-backup.sh"
   TMPDIR_PC=$(mktemp -d)
 }
 

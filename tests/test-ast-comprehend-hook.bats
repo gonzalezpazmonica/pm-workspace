@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/ast-comprehend-hook.sh
+# BATS tests for .opencode/hooks/ast-comprehend-hook.sh
 # PreToolUse(Edit) — injects structural map before editing. Never blocks.
 # Ref: batch 40 hook test coverage
 
-HOOK=".claude/hooks/ast-comprehend-hook.sh"
+HOOK=".opencode/hooks/ast-comprehend-hook.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."

@@ -28,9 +28,9 @@ echo
 echo "[Test 1] Files exist"
 assert "[ -f '$PROJECT_DIR/docs/rules/domain/consensus-protocol.md' ]" \
   "consensus-protocol.md exists"
-assert "[ -f '$PROJECT_DIR/.claude/skills/consensus-validation/SKILL.md' ]" \
+assert "[ -f '$PROJECT_DIR/.opencode/skills/consensus-validation/SKILL.md' ]" \
   "consensus-validation SKILL.md exists"
-assert "[ -f '$PROJECT_DIR/.claude/commands/validate-consensus.md' ]" \
+assert "[ -f '$PROJECT_DIR/.opencode/commands/validate-consensus.md' ]" \
   "validate-consensus.md command exists"
 echo
 
@@ -38,8 +38,8 @@ echo
 echo "[Test 2] Line count ≤ 150"
 for f in \
   "docs/rules/domain/consensus-protocol.md" \
-  ".claude/skills/consensus-validation/SKILL.md" \
-  ".claude/commands/validate-consensus.md"; do
+  ".opencode/skills/consensus-validation/SKILL.md" \
+  ".opencode/commands/validate-consensus.md"; do
   LINES=$(wc -l < "$PROJECT_DIR/$f")
   assert "[ $LINES -le 150 ]" "$f ($LINES lines)"
 done
@@ -77,7 +77,7 @@ echo
 
 # ── 7. Skill: orchestration protocol ─────────────────────────────
 echo "[Test 7] Skill orchestration"
-SKILL="$PROJECT_DIR/.claude/skills/consensus-validation/SKILL.md"
+SKILL="$PROJECT_DIR/.opencode/skills/consensus-validation/SKILL.md"
 assert "grep -qi 'protocol\|protocolo' '$SKILL'" "Protocol section exists"
 assert "grep -q '1\.0\|1,0' '$SKILL'" "Score 1.0 mapping exists"
 assert "grep -q '0\.5\|0,5' '$SKILL'" "Score 0.5 mapping exists"
@@ -93,7 +93,7 @@ echo
 
 # ── 9. Command: usage and flags ───────────────────────────────────
 echo "[Test 9] Command structure"
-CMD="$PROJECT_DIR/.claude/commands/validate-consensus.md"
+CMD="$PROJECT_DIR/.opencode/commands/validate-consensus.md"
 assert "grep -q 'validate-consensus' '$CMD'" "Command name present"
 assert "grep -qi 'spec\|pr\|decision' '$CMD'" "Input types documented"
 assert "grep -q '\-\-force' '$CMD'" "--force flag"

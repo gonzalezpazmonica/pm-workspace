@@ -17,15 +17,15 @@ La cuarta clase de output de Savia — **recomendaciones conversacionales en tie
 
 | Tipo | Path | Rol |
 |---|---|---|
-| Orchestrator | `.claude/agents/recommendation-tribunal-orchestrator.md` | Convoca 4 jueces en paralelo via Task, agrega, aplica vetos, mutates output |
-| Judge (memory) | `.claude/agents/memory-conflict-judge.md` | Detecta contradicción con `feedback_*.md` / `user_*.md` |
-| Judge (rules) | `.claude/agents/rule-violation-judge.md` | Detecta violación de CLAUDE.md / autonomous-safety / radical-honesty |
-| Judge (halluc) | `.claude/agents/hallucination-fast-judge.md` | Verifica entidades (paths, fns, flags) con tool calls reales |
-| Judge (expert) | `.claude/agents/expertise-asymmetry-judge.md` | Reescribe output cuando draft cae en área `audit_level: blind` |
+| Orchestrator | `.opencode/agents/recommendation-tribunal-orchestrator.md` | Convoca 4 jueces en paralelo via Task, agrega, aplica vetos, mutates output |
+| Judge (memory) | `.opencode/agents/memory-conflict-judge.md` | Detecta contradicción con `feedback_*.md` / `user_*.md` |
+| Judge (rules) | `.opencode/agents/rule-violation-judge.md` | Detecta violación de CLAUDE.md / autonomous-safety / radical-honesty |
+| Judge (halluc) | `.opencode/agents/hallucination-fast-judge.md` | Verifica entidades (paths, fns, flags) con tool calls reales |
+| Judge (expert) | `.opencode/agents/expertise-asymmetry-judge.md` | Reescribe output cuando draft cae en área `audit_level: blind` |
 | Classifier | `scripts/recommendation-tribunal/classifier.sh` | Heurística primer paso: ¿es una recomendación? ¿qué risk_class? |
 | Aggregator | `scripts/recommendation-tribunal/aggregate.sh` | Agrega 4 verdicts deterministicamente |
 | Banner | `scripts/recommendation-tribunal/banner.sh` | Renderiza markdown banner según verdict |
-| Hook stub | `.claude/hooks/recommendation-tribunal-pre-output.sh` | PreOutput hook (NOT activated) — detect-only |
+| Hook stub | `.opencode/hooks/recommendation-tribunal-pre-output.sh` | PreOutput hook (NOT activated) — detect-only |
 
 ---
 
@@ -59,7 +59,7 @@ Permite calibrar el classifier en uso real antes de wirear vetos. La usuaria rev
 
 ## Activación (paso humano explícito post-batch)
 
-En Slice 2 — cuando la classifier-precision esté validada — añadir a `.claude/settings.json` un hook PreOutput con `matcher: *` que invoque `$CLAUDE_PROJECT_DIR/.claude/hooks/recommendation-tribunal-pre-output.sh`. Y dentro del hook, sustituir el block "passthrough — Slice 1 detect-only" por la invocación real del orchestrator.
+En Slice 2 — cuando la classifier-precision esté validada — añadir a `.claude/settings.json` un hook PreOutput con `matcher: *` que invoque `$CLAUDE_PROJECT_DIR/.opencode/hooks/recommendation-tribunal-pre-output.sh`. Y dentro del hook, sustituir el block "passthrough — Slice 1 detect-only" por la invocación real del orchestrator.
 
 ---
 

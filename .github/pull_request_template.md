@@ -37,9 +37,9 @@
 ## Files added / modified
 
 <!-- List the key files and what each one does -->
-- `.claude/commands/` —
-- `.claude/skills/` —
-- `.claude/hooks/` —
+- `.opencode/commands/` —
+- `.opencode/skills/` —
+- `.opencode/hooks/` —
 - `scripts/` —
 - `docs/` —
 

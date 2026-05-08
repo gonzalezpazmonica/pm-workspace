@@ -116,7 +116,7 @@ fi
 **Hook:** `PreToolUse` con matcher `.*` escribe al log antes de cada tool use:
 
 ```bash
-# .claude/hooks/live-progress-hook.sh
+# .opencode/hooks/live-progress-hook.sh
 #!/usr/bin/env bash
 TOOL_NAME="$CLAUDE_TOOL_NAME"          # Bash, Edit, Write, Read, Task...
 TOOL_INPUT="$CLAUDE_TOOL_INPUT"        # JSON del input
@@ -258,7 +258,7 @@ Esto hace el queue visible en el panel de Tasks de Claude Code.
 
 ### Fase 2 — Hook live log (~1h)
 - [ ] Crear `scripts/savia-watch.sh`
-- [ ] Crear `.claude/hooks/live-progress-hook.sh`
+- [ ] Crear `.opencode/hooks/live-progress-hook.sh`
 - [ ] Añadir hook en `settings.json` (PreToolUse, matcher `.*`, async)
 - [ ] Añadir hook rotación log en SessionStart
 - [ ] Test: verificar que el log se actualiza en tiempo real
@@ -266,7 +266,7 @@ Esto hace el queue visible en el panel de Tasks de Claude Code.
 ### Fase 3 — Work queue JSON (~1h)
 - [ ] Crear `scripts/savia-status.sh`
 - [ ] Savia escribe en `~/.savia/work-queue.json` al inicio/fin de cada paso
-- [ ] Añadir comando `/savia-status` en `.claude/commands/`
+- [ ] Añadir comando `/savia-status` en `.opencode/commands/`
 - [ ] Test: `watch -n1 bash scripts/savia-status.sh` durante trabajo largo
 
 ### Fase 4 — Integración completa
@@ -307,8 +307,8 @@ Terminal 1: bash ~/claude/scripts/savia-status.sh
 |---------|--------|
 | `scripts/savia-watch.sh` | Nuevo |
 | `scripts/savia-status.sh` | Nuevo |
-| `.claude/hooks/live-progress-hook.sh` | Nuevo |
+| `.opencode/hooks/live-progress-hook.sh` | Nuevo |
 | `.claude/settings.json` | Añadir hook PreToolUse async |
-| `.claude/commands/savia-status.md` | Nuevo |
+| `.opencode/commands/savia-status.md` | Nuevo |
 | `~/.savia/live.log` | Runtime (gitignored) |
 | `~/.savia/work-queue.json` | Runtime (gitignored) |

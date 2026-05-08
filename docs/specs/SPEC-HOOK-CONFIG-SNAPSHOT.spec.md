@@ -58,7 +58,7 @@ echo "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$HOME/.savia/session-hook-snapshot"
 
 ### 2.2 Verificacion en PreToolUse
 
-Nuevo hook `.claude/hooks/validate-settings-integrity.sh` en PreToolUse:
+Nuevo hook `.opencode/hooks/validate-settings-integrity.sh` en PreToolUse:
 
 ```bash
 #!/bin/bash
@@ -215,11 +215,11 @@ AND     sin warnings (comportamiento idempotente)
 
 | Accion | Fichero | Que hacer |
 |--------|---------|-----------|
-| Modificar | .claude/hooks/session-init.sh | Calcular snapshot al iniciar |
-| Crear | .claude/hooks/validate-settings-integrity.sh | Verificador en PreToolUse |
+| Modificar | .opencode/hooks/session-init.sh | Calcular snapshot al iniciar |
+| Crear | .opencode/hooks/validate-settings-integrity.sh | Verificador en PreToolUse |
 | Crear | scripts/settings-snapshot-refresh.sh | Refresh manual del snapshot |
 | Modificar | scripts/hook-profile.sh | Llamar refresh tras cambio |
-| Modificar | .claude/commands/update.md | Llamar refresh tras update |
+| Modificar | .opencode/commands/update.md | Llamar refresh tras update |
 | Modificar | .claude/settings.json | Registrar hook en PreToolUse |
 | Crear | tests/test-hook-config-snapshot.bats | Suite BATS |
 | Modificar | docs/rules/domain/hook-profiles.md | Documentar integridad |

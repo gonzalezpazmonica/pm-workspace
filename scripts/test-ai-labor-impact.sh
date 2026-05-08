@@ -8,12 +8,12 @@ pass() { PASS=$((PASS+1)); TOTAL=$((TOTAL+1)); echo "  ✅ $1"; }
 fail() { FAIL=$((FAIL+1)); TOTAL=$((TOTAL+1)); echo "  ❌ $1"; }
 check() { if eval "$1" >/dev/null 2>&1; then pass "$2"; else fail "$2"; fi }
 
-CMD="$ROOT/.claude/commands/ai-exposure-audit.md"
+CMD="$ROOT/.opencode/commands/ai-exposure-audit.md"
 RULE="$ROOT/docs/rules/domain/ai-exposure-metrics.md"
-SKILL="$ROOT/.claude/skills/ai-labor-impact/SKILL.md"
+SKILL="$ROOT/.opencode/skills/ai-labor-impact/SKILL.md"
 AI_COMP="$ROOT/docs/rules/domain/ai-competency-framework.md"
-CAP_FORE="$ROOT/.claude/commands/capacity-forecast.md"
-ENT_DASH="$ROOT/.claude/commands/enterprise-dashboard.md"
+CAP_FORE="$ROOT/.opencode/commands/capacity-forecast.md"
+ENT_DASH="$ROOT/.opencode/commands/enterprise-dashboard.md"
 DOC_ES="$ROOT/docs/ai-labor-impact-es.md"
 DOC_EN="$ROOT/docs/ai-labor-impact-en.md"
 

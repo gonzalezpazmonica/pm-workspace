@@ -15,10 +15,10 @@ teardown() {
 
 @test "core directories exist with expected contents" {
   [ -d "$ROOT/.claude" ]
-  [ -d "$ROOT/.claude/commands" ] && [ "$(ls "$ROOT/.claude/commands/"*.md 2>/dev/null | wc -l)" -gt 0 ]
-  [ -d "$ROOT/.claude/skills" ] && [ "$(ls -d "$ROOT/.claude/skills/"*/ 2>/dev/null | wc -l)" -gt 0 ]
-  [ -d "$ROOT/.claude/agents" ] && [ "$(ls "$ROOT/.claude/agents/"*.md 2>/dev/null | wc -l)" -gt 0 ]
-  [ -d "$ROOT/.claude/hooks" ] && [ "$(ls "$ROOT/.claude/hooks/"*.sh 2>/dev/null | wc -l)" -gt 0 ]
+  [ -d "$ROOT/.claude/commands" ] && [ "$(ls "$ROOT/.opencode/commands/"*.md 2>/dev/null | wc -l)" -gt 0 ]
+  [ -d "$ROOT/.claude/skills" ] && [ "$(ls -d "$ROOT/.opencode/skills/"*/ 2>/dev/null | wc -l)" -gt 0 ]
+  [ -d "$ROOT/.claude/agents" ] && [ "$(ls "$ROOT/.opencode/agents/"*.md 2>/dev/null | wc -l)" -gt 0 ]
+  [ -d "$ROOT/.claude/hooks" ] && [ "$(ls "$ROOT/.opencode/hooks/"*.sh 2>/dev/null | wc -l)" -gt 0 ]
   [ -d "$ROOT/.claude/rules" ]
 }
 
@@ -38,7 +38,7 @@ teardown() {
 
 @test "all commands have frontmatter with name field" {
   local missing=0
-  for f in "$ROOT/.claude/commands/"*.md; do
+  for f in "$ROOT/.opencode/commands/"*.md; do
     [ -f "$f" ] || continue
     if head -1 "$f" | bash -c 'read line; [[ "$line" == "---" ]]'; then
       if ! bash -c "head -20 '$f'" | bash -c 'grep -q "^name:"'; then
@@ -53,7 +53,7 @@ teardown() {
 
 @test "at least 95% of skills have a SKILL.md file" {
   local total=0 missing=0
-  for d in "$ROOT/.claude/skills/"*/; do
+  for d in "$ROOT/.opencode/skills/"*/; do
     [ -d "$d" ] || continue
     total=$((total + 1))
     [ -f "${d}SKILL.md" ] || missing=$((missing + 1))
@@ -64,7 +64,7 @@ teardown() {
 
 @test "at least 75% of skills have frontmatter with name and description" {
   local total=0 with_fm=0
-  for f in "$ROOT/.claude/skills/"*/SKILL.md; do
+  for f in "$ROOT/.opencode/skills/"*/SKILL.md; do
     [ -f "$f" ] || continue
     total=$((total + 1))
     head -10 "$f" | grep -q "^name:" && head -10 "$f" | grep -q "^description:" && with_fm=$((with_fm + 1))
@@ -76,7 +76,7 @@ teardown() {
 
 @test "all hook scripts are valid bash and read stdin" {
   local invalid=0 no_stdin=0
-  for f in "$ROOT/.claude/hooks/"*.sh; do
+  for f in "$ROOT/.opencode/hooks/"*.sh; do
     [ -f "$f" ] || continue
     bash -n "$f" 2>/dev/null || invalid=$((invalid + 1))
     grep -q "cat\|read\|INPUT" "$f" || no_stdin=$((no_stdin + 1))
@@ -97,7 +97,7 @@ teardown() {
   # Ref: docs/rules/domain/file-size-limit.md — 150 lines max
   # Excludes: INDEX.md (auto-generated catalogs, not rules)
   local oversized=0
-  for f in "$ROOT/.claude/commands/"*.md "$ROOT/.claude/agents/"*.md "$ROOT/docs/rules/domain/"*.md; do
+  for f in "$ROOT/.opencode/commands/"*.md "$ROOT/.opencode/agents/"*.md "$ROOT/docs/rules/domain/"*.md; do
     [ -f "$f" ] || continue
     # Skip auto-generated index files
     case "$(basename "$f")" in
@@ -118,7 +118,7 @@ teardown() {
 
 @test "no empty command files exist" {
   local empty=0
-  for f in "$ROOT/.claude/commands/"*.md; do
+  for f in "$ROOT/.opencode/commands/"*.md; do
     [ -f "$f" ] || continue
     [ -s "$f" ] || empty=$((empty + 1))
   done
@@ -126,8 +126,8 @@ teardown() {
 }
 
 @test "no duplicate agent filenames" {
-  local count; count=$(ls "$ROOT/.claude/agents/"*.md 2>/dev/null | wc -l)
-  local unique; unique=$(ls "$ROOT/.claude/agents/"*.md 2>/dev/null | xargs -n1 basename | sort -u | wc -l)
+  local count; count=$(ls "$ROOT/.opencode/agents/"*.md 2>/dev/null | wc -l)
+  local unique; unique=$(ls "$ROOT/.opencode/agents/"*.md 2>/dev/null | xargs -n1 basename | sort -u | wc -l)
   [ "$count" -eq "$unique" ]
 }
 
@@ -138,12 +138,12 @@ teardown() {
 }
 
 @test "workspace handles empty skills dir gracefully" {
-  local count; count=$(ls -d "$ROOT/.claude/skills/"*/ 2>/dev/null | wc -l)
+  local count; count=$(ls -d "$ROOT/.opencode/skills/"*/ 2>/dev/null | wc -l)
   [ "$count" -ge 1 ]
 }
 
 @test "commands dir has nonexistent file handling" {
-  local count; count=$(ls "$ROOT/.claude/commands/nonexistent-$$"*.md 2>/dev/null | wc -l)
+  local count; count=$(ls "$ROOT/.opencode/commands/nonexistent-$$"*.md 2>/dev/null | wc -l)
   [ "$count" -eq 0 ]
 }
 

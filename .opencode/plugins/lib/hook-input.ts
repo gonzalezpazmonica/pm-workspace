@@ -24,12 +24,16 @@ export function extractCommand(input: ToolInput): string {
 
 export function extractFilePath(input: ToolInput): string {
   const args = input?.args ?? {};
-  const fp = args.file_path ?? args.path ?? "";
+  // OpenCode v1.14 tool schema uses camelCase (filePath); legacy Claude Code
+  // bash hooks used snake_case (file_path). Accept both for compat.
+  const fp = args.filePath ?? args.file_path ?? args.path ?? "";
   return typeof fp === "string" ? fp : "";
 }
 
 export function extractContent(input: ToolInput): string {
   const args = input?.args ?? {};
-  const c = args.content ?? args.new_string ?? "";
+  // OpenCode v1.14: write uses `content`, edit uses `newString` (camelCase).
+  // Legacy Claude Code: edit used `new_string` (snake_case). Accept both.
+  const c = args.content ?? args.newString ?? args.new_string ?? "";
   return typeof c === "string" ? c : "";
 }

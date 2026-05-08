@@ -32,16 +32,16 @@ test_case() {
 # ── Test 1: Command files exist ─────────────────────────────────
 echo ""
 echo "1️⃣  Command Files Exist"
-test_case "obs-connect.md exists" "[ -f $REPO_ROOT/.claude/commands/obs-connect.md ]"
-test_case "obs-query.md exists" "[ -f $REPO_ROOT/.claude/commands/obs-query.md ]"
-test_case "obs-dashboard.md exists" "[ -f $REPO_ROOT/.claude/commands/obs-dashboard.md ]"
-test_case "obs-status.md exists" "[ -f $REPO_ROOT/.claude/commands/obs-status.md ]"
+test_case "obs-connect.md exists" "[ -f $REPO_ROOT/.opencode/commands/obs-connect.md ]"
+test_case "obs-query.md exists" "[ -f $REPO_ROOT/.opencode/commands/obs-query.md ]"
+test_case "obs-dashboard.md exists" "[ -f $REPO_ROOT/.opencode/commands/obs-dashboard.md ]"
+test_case "obs-status.md exists" "[ -f $REPO_ROOT/.opencode/commands/obs-status.md ]"
 
 # ── Test 2: YAML frontmatter ────────────────────────────────────
 echo ""
 echo "2️⃣  YAML Frontmatter"
 for cmd in obs-connect obs-query obs-dashboard obs-status; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   test_case "${cmd}: has name field" "grep -q '^name: ' $file"
   test_case "${cmd}: has description" "grep -q '^description: ' $file"
   test_case "${cmd}: developer_type: all" "grep -q 'developer_type: all' $file"
@@ -53,7 +53,7 @@ done
 echo ""
 echo "3️⃣  Line Count (≤ 150 lines)"
 for cmd in obs-connect obs-query obs-dashboard obs-status; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   lines=$(wc -l < "$file")
   test_case "${cmd}: ${lines} lines ≤ 150" "[ $lines -le 150 ]"
 done
@@ -61,15 +61,15 @@ done
 # ── Test 4: Key concepts present ────────────────────────────────
 echo ""
 echo "4️⃣  Key Concepts"
-test_case "obs-connect mentions Grafana" "grep -q 'Grafana' $REPO_ROOT/.claude/commands/obs-connect.md"
-test_case "obs-connect mentions Datadog" "grep -q 'Datadog' $REPO_ROOT/.claude/commands/obs-connect.md"
-test_case "obs-connect mentions App Insights" "grep -q 'Application Insights\|App Insights' $REPO_ROOT/.claude/commands/obs-connect.md"
-test_case "obs-connect mentions OpenTelemetry" "grep -q 'OpenTelemetry' $REPO_ROOT/.claude/commands/obs-connect.md"
-test_case "obs-query mentions PromQL" "grep -q 'PromQL' $REPO_ROOT/.claude/commands/obs-query.md"
-test_case "obs-query mentions KQL" "grep -q 'KQL' $REPO_ROOT/.claude/commands/obs-query.md"
-test_case "obs-query mentions natural language" "grep -q 'lenguaje natural\|natural language' $REPO_ROOT/.claude/commands/obs-query.md"
-test_case "obs-dashboard mentions role-based" "grep -q 'rol\|role' $REPO_ROOT/.claude/commands/obs-dashboard.md"
-test_case "obs-status mentions health check" "grep -q 'health\|salud' $REPO_ROOT/.claude/commands/obs-status.md"
+test_case "obs-connect mentions Grafana" "grep -q 'Grafana' $REPO_ROOT/.opencode/commands/obs-connect.md"
+test_case "obs-connect mentions Datadog" "grep -q 'Datadog' $REPO_ROOT/.opencode/commands/obs-connect.md"
+test_case "obs-connect mentions App Insights" "grep -q 'Application Insights\|App Insights' $REPO_ROOT/.opencode/commands/obs-connect.md"
+test_case "obs-connect mentions OpenTelemetry" "grep -q 'OpenTelemetry' $REPO_ROOT/.opencode/commands/obs-connect.md"
+test_case "obs-query mentions PromQL" "grep -q 'PromQL' $REPO_ROOT/.opencode/commands/obs-query.md"
+test_case "obs-query mentions KQL" "grep -q 'KQL' $REPO_ROOT/.opencode/commands/obs-query.md"
+test_case "obs-query mentions natural language" "grep -q 'lenguaje natural\|natural language' $REPO_ROOT/.opencode/commands/obs-query.md"
+test_case "obs-dashboard mentions role-based" "grep -q 'rol\|role' $REPO_ROOT/.opencode/commands/obs-dashboard.md"
+test_case "obs-status mentions health check" "grep -q 'health\|salud' $REPO_ROOT/.opencode/commands/obs-status.md"
 
 # ── Test 5: Meta files updated ──────────────────────────────────
 echo ""
@@ -97,7 +97,7 @@ test_case "README.md mentions observability" "grep -q -i 'observability\|observa
 echo ""
 echo "6️⃣  Spanish Content & Savia Persona"
 for cmd in obs-connect obs-query obs-dashboard obs-status; do
-  file="$REPO_ROOT/.claude/commands/${cmd}.md"
+  file="$REPO_ROOT/.opencode/commands/${cmd}.md"
   test_case "${cmd}: has Savia emoji (🦉)" "grep -q '🦉' $file"
   test_case "${cmd}: has Spanish content" "grep -q -i 'conectar\|consulta\|estado' $file"
 done

@@ -4,7 +4,7 @@ description: Marco regulatorio cross-sector para validación de compliance en c�
 developer_type: all
 context_cost: medium
 paths:
-  - ".claude/commands/compliance-*.md"
+  - ".opencode/commands/compliance-*.md"
 ---
 
 # Regulatory Compliance — Regla de Dominio

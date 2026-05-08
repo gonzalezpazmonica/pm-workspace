@@ -578,17 +578,17 @@ bash scripts/ast-quality-gate.sh src/Module/
 
 ## References
 
-- Comprehension skill: `.claude/skills/ast-comprehension/SKILL.md`
-- Quality skill: `.claude/skills/ast-quality-gate/SKILL.md`
-- Comprehension hook: `.claude/hooks/ast-comprehend-hook.sh`
-- Quality hook: `.claude/hooks/ast-quality-gate-hook.sh`
+- Comprehension skill: `.opencode/skills/ast-comprehension/SKILL.md`
+- Quality skill: `.opencode/skills/ast-quality-gate/SKILL.md`
+- Comprehension hook: `.opencode/hooks/ast-comprehend-hook.sh`
+- Quality hook: `.opencode/hooks/ast-quality-gate-hook.sh`
 - Comprehension script: `scripts/ast-comprehend.sh`
 - Quality script: `scripts/ast-quality-gate.sh`
-- Semgrep rules: `.claude/skills/ast-quality-gate/references/semgrep-rules.yaml`
-- Comprehension schema: `.claude/skills/ast-comprehension/references/comprehension-schema.md`
-- Quality schema: `.claude/skills/ast-quality-gate/references/unified-schema.md`
-- Code map skill: `.claude/skills/agent-code-map/SKILL.md`
+- Semgrep rules: `.opencode/skills/ast-quality-gate/references/semgrep-rules.yaml`
+- Comprehension schema: `.opencode/skills/ast-comprehension/references/comprehension-schema.md`
+- Quality schema: `.opencode/skills/ast-quality-gate/references/unified-schema.md`
+- Code map skill: `.opencode/skills/agent-code-map/SKILL.md`
 - Human map rule: `docs/rules/domain/hcm-maps.md`
-- Human map skill: `.claude/skills/human-code-map/SKILL.md`
+- Human map skill: `.opencode/skills/human-code-map/SKILL.md`
 - Workspace maps: `.human-maps/`
 - Project maps: `projects/*/.human-maps/*.hcm`

@@ -14,16 +14,16 @@ Pre-installed since v4.7. No external dependencies.
 
 ```bash
 # Scan a single file
-bash scripts/prompt-security-scan.sh .claude/agents/mi-agente.md
+bash scripts/prompt-security-scan.sh .opencode/agents/mi-agente.md
 
 # Scan an entire directory
-bash scripts/prompt-security-scan.sh .claude/agents/
+bash scripts/prompt-security-scan.sh .opencode/agents/
 
 # Quiet mode (errors only)
 bash scripts/prompt-security-scan.sh --quiet .claude/
 
 # Scan a specific path
-bash scripts/prompt-security-scan.sh --path .claude/skills/
+bash scripts/prompt-security-scan.sh --path .opencode/skills/
 ```
 
 Typical output:

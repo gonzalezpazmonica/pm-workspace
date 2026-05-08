@@ -157,7 +157,7 @@ el caso habitual.
 ## Referencias
 
 - Regla: `docs/rules/domain/savia-dual.md`
-- Skill: `.claude/skills/savia-dual/`
+- Skill: `.opencode/skills/savia-dual/`
 - Comando: `/savia-dual {subcomando}`
 - Proxy: `scripts/savia-dual-proxy.py`
 - Setup Linux/macOS: `scripts/setup-savia-dual.sh`

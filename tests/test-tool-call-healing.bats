@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
-# BATS tests for .claude/hooks/tool-call-healing.sh
+# BATS tests for .opencode/hooks/tool-call-healing.sh
 # PreToolUse hook — validates Read/Edit/Write/Glob/Grep parameters before exec.
 # Exit 2 if required param missing/invalid; exit 0 otherwise (fail-open).
 # SPEC-141 reference. Batch 45 hook coverage.
 
-HOOK=".claude/hooks/tool-call-healing.sh"
+HOOK=".opencode/hooks/tool-call-healing.sh"
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."
