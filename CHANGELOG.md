@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [6.14.2] — 2026-05-08
 
+- Repair CI pipeline: fix missing .opencode/ dirs in test setups, align test generators with .claude/ paths, sync agents converter output, update stale baseline, add CHANGELOG reference link
 ### Fixed
 - scripts/push-pr.sh: PRs now created as draft by default (was: ready-for-review). Use --no-draft to opt out.
 - scripts/push-pr.sh: auto-title selection prefers first feat:/fix: commit chronologically, avoiding drift commits like fix(ci) being chosen as PR title.
