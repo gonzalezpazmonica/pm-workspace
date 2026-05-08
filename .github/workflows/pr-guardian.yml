@@ -417,13 +417,16 @@ jobs:
             const title = pr.title || '';
 
             // Get changed files first (needed for all checks)
-            const filesResponse = await github.rest.pulls.listFiles({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-              per_page: 100
-            });
-            const files = filesResponse.data.map(f => f.filename);
+            const allFiles = await github.paginate(
+              github.rest.pulls.listFiles,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                per_page: 100
+              }
+            );
+            const files = allFiles.map(f => f.filename);
 
             // Check if any CHANGELOG was modified (either CHANGELOG.md directly
             // or a new fragment under CHANGELOG.d/ — zero-conflict pattern).
@@ -496,13 +499,16 @@ jobs:
             const pr = context.payload.pull_request;
 
             // Get changed files via GitHub API (reliable, unlike git diff in PR merge context)
-            const filesResponse = await github.rest.pulls.listFiles({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-              per_page: 100
-            });
-            const diffNames = filesResponse.data.map(f => f.filename);
+            const allFiles2 = await github.paginate(
+              github.rest.pulls.listFiles,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                per_page: 100
+              }
+            );
+            const diffNames = allFiles2.map(f => f.filename);
 
             // Classify changes
             const categories = {
