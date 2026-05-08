@@ -1,6 +1,6 @@
 {
-  "hash": "1027552fee9d",
-  "total": 1142,
+  "hash": "afe4999e5cb5",
+  "total": 1158,
   "resources": [
     {
       "category": "analysis",
@@ -125,6 +125,20 @@
       "kind": "cmd",
       "path": ".claude/commands/agent-efficiency.md",
       "description": "Ratio de eficiencia de agentes — specs completadas, re-work y tiempos"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-file-map",
+      "intents": [
+        "agent",
+        "agentes",
+        "búsqueda",
+        "excel",
+        "externos"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/agent-file-map/SKILL.md",
+      "description": "Genera y gestiona Agent File Maps (.afm) — índice persistente de ficheros externos al workspace (Excel, PDF, imágenes, videos) que los agentes necesitan localizar sin búsqueda repetida."
     },
     {
       "category": "analysis",
@@ -868,6 +882,20 @@
       "kind": "cmd",
       "path": ".claude/commands/meeting-summarize.md",
       "description": "Transcribe y extrae action items de reuniones — Sprint Review, Retro, Planning, Daily"
+    },
+    {
+      "category": "communication",
+      "name": "meeting-transcript-extract",
+      "intents": [
+        "asistente",
+        "botón",
+        "browser",
+        "chat",
+        "click"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/meeting-transcript-extract/SKILL.md",
+      "description": "Extrae transcripciones de reuniones Teams web vía CDP del browser-daemon. Funciona para reuniones propias Y reuniones donde el usuario fue asistente (convocadas por otros). Pipeline: click chat → botón Transcripción → iframe xplatplugins.as"
     },
     {
       "category": "communication",
@@ -1629,6 +1657,20 @@
       "kind": "script",
       "path": "scripts/savia-shield-setup.sh",
       "description": "savia-shield-setup.sh — Instalador de Savia Shield"
+    },
+    {
+      "category": "communication",
+      "name": "savia-shield-status",
+      "intents": [
+        "capas",
+        "determinístico",
+        "savia",
+        "shield",
+        "status"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-shield-status.sh",
+      "description": "savia-shield-status.sh — Status determinístico de las 8 capas de Savia Shield"
     },
     {
       "category": "communication",
@@ -2987,6 +3029,18 @@
     },
     {
       "category": "development",
+      "name": "rebuild-folder-indexes",
+      "intents": [
+        "folder",
+        "indexes",
+        "rebuild"
+      ],
+      "kind": "script",
+      "path": "scripts/rebuild-folder-indexes.sh",
+      "description": "rebuild-folder-indexes.sh"
+    },
+    {
+      "category": "development",
       "name": "requirement-pushback",
       "intents": [
         "analyze",
@@ -3089,6 +3143,34 @@
       "kind": "script",
       "path": "scripts/semantic-map.sh",
       "description": "semantic-map.sh — Generate compressed semantic maps of source code files"
+    },
+    {
+      "category": "development",
+      "name": "setup-claude-permissions",
+      "intents": [
+        "backward",
+        "compatibility",
+        "deprecated",
+        "file",
+        "instead"
+      ],
+      "kind": "script",
+      "path": "scripts/setup-claude-permissions.sh",
+      "description": "DEPRECATED: use setup-opencode-permissions.sh instead. This file kept for backward compatibility."
+    },
+    {
+      "category": "development",
+      "name": "setup-opencode-permissions",
+      "intents": [
+        "claude",
+        "json",
+        "local",
+        "permisos",
+        "permissions"
+      ],
+      "kind": "script",
+      "path": "scripts/setup-opencode-permissions.sh",
+      "description": "setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados"
     },
     {
       "category": "development",
@@ -5607,6 +5689,20 @@
     },
     {
       "category": "planning",
+      "name": "ado-bridge",
+      "intents": [
+        "azure",
+        "bridge",
+        "commands",
+        "devops",
+        "rest"
+      ],
+      "kind": "script",
+      "path": "scripts/ado-bridge.sh",
+      "description": "ado-bridge.sh — Azure DevOps REST API v7.1 bridge for Savia PM commands"
+    },
+    {
+      "category": "planning",
       "name": "adoption-assess",
       "intents": [
         "adkar",
@@ -6395,6 +6491,18 @@
       "kind": "cmd",
       "path": ".claude/commands/changelog-update.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "check-daemon-auth",
+      "intents": [
+        "auth",
+        "check",
+        "daemon"
+      ],
+      "kind": "script",
+      "path": "scripts/check-daemon-auth.sh",
+      "description": "check-daemon-auth.sh"
     },
     {
       "category": "planning",
@@ -7242,6 +7350,18 @@
     },
     {
       "category": "planning",
+      "name": "ensure-daemons-auth",
+      "intents": [
+        "auth",
+        "daemons",
+        "ensure"
+      ],
+      "kind": "script",
+      "path": "scripts/ensure-daemons-auth.sh",
+      "description": "ensure-daemons-auth.sh"
+    },
+    {
+      "category": "planning",
       "name": "enterprise-onboarding",
       "intents": [
         "batch",
@@ -7990,6 +8110,14 @@
       "intents": [],
       "kind": "cmd",
       "path": ".claude/commands/hw-revision.md",
+      "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "import-sprint-story",
+      "intents": [],
+      "kind": "cmd",
+      "path": ".claude/commands/import-sprint-story.md",
       "description": ">"
     },
     {
@@ -9102,6 +9230,20 @@
     },
     {
       "category": "planning",
+      "name": "probe-devops",
+      "intents": [
+        "acceso",
+        "azure",
+        "devops",
+        "diagnóstico",
+        "probe"
+      ],
+      "kind": "script",
+      "path": "scripts/probe-devops.sh",
+      "description": "probe-devops.sh — diagnóstico de acceso a Azure DevOps usando la"
+    },
+    {
+      "category": "planning",
       "name": "product-catalog",
       "intents": [
         "actualizar",
@@ -9201,6 +9343,19 @@
     },
     {
       "category": "planning",
+      "name": "project-context",
+      "intents": [
+        "context",
+        "isolation",
+        "project",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/project-context.sh",
+      "description": "project-context.sh — Project isolation for Savia (SE-093)"
+    },
+    {
+      "category": "planning",
       "name": "project-kickoff",
       "intents": [],
       "kind": "cmd",
@@ -9230,6 +9385,34 @@
       "kind": "cmd",
       "path": ".claude/commands/project-roadmap.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "project-update",
+      "intents": [
+        "activo",
+        "actualización",
+        "bajo",
+        "calendar",
+        "confidencial"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/project-update/SKILL.md",
+      "description": "Actualización integral del proyecto activo. Orquestador determinista (multiproceso) que refresca DevOps+mail+calendar+teams+SharePoint+OneDrive+transcripts, digiere VTTs a meeting digests, y deja todo persistido bajo niveles de confidencial"
+    },
+    {
+      "category": "planning",
+      "name": "project-update-devops",
+      "intents": [
+        "config",
+        "devops",
+        "project",
+        "real",
+        "resuelve"
+      ],
+      "kind": "script",
+      "path": "scripts/project-update-devops.sh",
+      "description": "project-update-devops.sh — wrapper que resuelve config real desde"
     },
     {
       "category": "planning",
@@ -9535,6 +9718,18 @@
       "kind": "agent",
       "path": ".claude/agents/reflection-validator.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "refresh-agent-maps",
+      "intents": [
+        "agent",
+        "maps",
+        "refresh"
+      ],
+      "kind": "script",
+      "path": "scripts/refresh-agent-maps.sh",
+      "description": "refresh-agent-maps.sh"
     },
     {
       "category": "planning",
@@ -10045,20 +10240,6 @@
       "kind": "cmd",
       "path": ".claude/commands/service-catalog-telco.md",
       "description": "Gestión del catálogo de servicios de telecom con definiciones, configuración y precios"
-    },
-    {
-      "category": "planning",
-      "name": "setup-claude-permissions",
-      "intents": [
-        "claude",
-        "json",
-        "local",
-        "permisos",
-        "permissions"
-      ],
-      "kind": "script",
-      "path": "scripts/setup-claude-permissions.sh",
-      "description": "setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados"
     },
     {
       "category": "planning",
@@ -10774,6 +10955,20 @@
       "kind": "script",
       "path": "scripts/sync-github-metadata.sh",
       "description": "sync-github-metadata.sh — Update GitHub repo metadata"
+    },
+    {
+      "category": "planning",
+      "name": "sync-model-tiers",
+      "intents": [
+        "abstract",
+        "fast",
+        "heavy",
+        "model",
+        "provider"
+      ],
+      "kind": "script",
+      "path": "scripts/sync-model-tiers.sh",
+      "description": "sync-model-tiers.sh — Resolve abstract model tiers (heavy|mid|fast) to provider-"
     },
     {
       "category": "planning",
@@ -11603,6 +11798,20 @@
     },
     {
       "category": "planning",
+      "name": "weekly-report",
+      "intents": [
+        "capacity",
+        "consolidates",
+        "generator",
+        "project",
+        "report"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/weekly-report/SKILL.md",
+      "description": "Weekly project status report generator — consolidates sprint, git, PRs, and capacity"
+    },
+    {
+      "category": "planning",
       "name": "wellbeing-guardian",
       "intents": [
         "alerts",
@@ -12193,13 +12402,13 @@
       "intents": [
         "audit",
         "bats",
-        "claude",
         "coverage",
-        "detect"
+        "detect",
+        "hook"
       ],
       "kind": "script",
       "path": "scripts/hook-test-coverage-audit.sh",
-      "description": "hook-test-coverage-audit.sh — Detect hooks in .claude/hooks/ without BATS tests."
+      "description": "hook-test-coverage-audit.sh — Detect hooks in .opencode/hooks/ without BATS tests."
     },
     {
       "category": "quality",

@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 140 resources
+> 142 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
@@ -97,6 +97,8 @@
 - **sdd-spec-writer** (agent): >
 - **semantic-compact** (script): semantic-compact.sh — SPEC-022 F2: Smart compact summary generator
 - **semantic-map** (script): semantic-map.sh — Generate compressed semantic maps of source code files
+- **setup-claude-permissions** (script): DEPRECATED: use setup-opencode-permissions.sh instead. This file kept for backward compatibility.
+- **setup-opencode-permissions** (script): setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados
 - **setup-savia-web** (script): Setup, build, and serve savia-web on http://localhost:8081
 - **skill-loader** (script): skill-loader.sh — SPEC-144: Context-Aware Skill Loading
 - **slm-deploy** (script): slm-deploy.sh — Orchestrate post-training deployment scaffolding.

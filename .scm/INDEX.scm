@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 71d8a25022e6 | resources: 1142
-> 543 commands · 92 skills · 70 agents · 437 scripts
+> hash: 88c74cc2dcd4 | resources: 1158
+> 544 commands · 96 skills · 70 agents · 448 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -11,6 +11,7 @@
 [analysis] agent-code-map — agent,agentes,arquitectura,code,conozcan — skill:.claude/skills/agent-code-map/SKILL.md
 [analysis] agent-cost — agentes,coste,estimado,proyecto,sprint — cmd:.claude/commands/agent-cost.md
 [analysis] agent-efficiency — agentes,completadas,eficiencia,ratio,specs — cmd:.claude/commands/agent-efficiency.md
+[analysis] agent-file-map — agent,agentes,búsqueda,excel,externos — skill:.claude/skills/agent-file-map/SKILL.md
 [analysis] agent-journal — agent,append,autónomos,journal,jsonl — script:scripts/agent-journal.sh
 [analysis] agent-memory — fragments,inspect,manage,memory,persistent — cmd:.claude/commands/agent-memory.md
 [analysis] agent-notes-archive —  — cmd:.claude/commands/agent-notes-archive.md
@@ -71,6 +72,7 @@
 [communication] meeting-digest —  — agent:.claude/agents/meeting-digest.md
 [communication] meeting-risk-analyst —  — agent:.claude/agents/meeting-risk-analyst.md
 [communication] meeting-summarize — action,daily,extrae,items,planning — cmd:.claude/commands/meeting-summarize.md
+[communication] meeting-transcript-extract — asistente,botón,browser,chat,click — skill:.claude/skills/meeting-transcript-extract/SKILL.md
 [communication] nctalk-search —  — cmd:.claude/commands/nctalk-search.md
 [communication] notify — cross,desktop,notifications,notify,platform — script:scripts/notify.sh
 [communication] notify-nctalk —  — cmd:.claude/commands/notify-nctalk.md
@@ -133,6 +135,7 @@
 [communication] savia-setup —  — cmd:.claude/commands/savia-setup.md
 [communication] savia-shield — activar,comprobar,datos,defecto,desactivado — cmd:.claude/commands/savia-shield.md
 [communication] savia-shield-setup — instalador,savia,setup,shield — script:scripts/savia-shield-setup.sh
+[communication] savia-shield-status — capas,determinístico,savia,shield,status — script:scripts/savia-shield-status.sh
 [communication] savia-sprint —  — cmd:.claude/commands/savia-sprint.md
 [communication] savia-status — current,health,metrics,pending,priorities — cmd:.claude/commands/savia-status.md
 [communication] savia-status — doing,right,savia,status,what — script:scripts/savia-status.sh
@@ -237,6 +240,7 @@
 [development] pre-push-bats-critical — bats,critical,module,push,spec — script:scripts/pre-push-bats-critical.sh
 [development] prompt-suggestion-engine — driven,engine,optimization,phase,prompt — script:scripts/prompt-suggestion-engine.sh
 [development] reaction-engine — engine,phase,reaction,spec — script:scripts/reaction-engine.sh
+[development] rebuild-folder-indexes — folder,indexes,rebuild — script:scripts/rebuild-folder-indexes.sh
 [development] requirement-pushback — analyze,generate,pushback,questions,requirement — script:scripts/requirement-pushback.sh
 [development] reranker — agente,cross,encoder,filtra,memory — skill:.claude/skills/reranker/SKILL.md
 [development] retro-patterns — action,análisis,items,patrones,recurrentes — cmd:.claude/commands/retro-patterns.md
@@ -245,6 +249,8 @@
 [development] sdd-spec-writer —  — agent:.claude/agents/sdd-spec-writer.md
 [development] semantic-compact — compact,generator,semantic,smart,spec — script:scripts/semantic-compact.sh
 [development] semantic-map — code,compressed,files,generate,maps — script:scripts/semantic-map.sh
+[development] setup-claude-permissions — backward,compatibility,deprecated,file,instead — script:scripts/setup-claude-permissions.sh
+[development] setup-opencode-permissions — claude,json,local,permisos,permissions — script:scripts/setup-opencode-permissions.sh
 [development] setup-savia-web — build,http,localhost,savia,serve — script:scripts/setup-savia-web.sh
 [development] skill-loader — aware,context,loader,loading,skill — script:scripts/skill-loader.sh
 [development] slm-deploy — deploy,deployment,orchestrate,post,scaffolding — script:scripts/slm-deploy.sh
@@ -435,6 +441,7 @@
 [planning] adaptive-strategy-selector — adaptive,based,loading,model,select — script:scripts/adaptive-strategy-selector.sh
 [planning] adb-run — chains,compound,execute,functions,without — script:scripts/adb-run.sh
 [planning] add-maturity-levels — field,frontmatter,levels,maturity,skill — script:scripts/add-maturity-levels.sh
+[planning] ado-bridge — azure,bridge,commands,devops,rest — script:scripts/ado-bridge.sh
 [planning] adoption-assess — adkar,adopción,equipo,evaluar,madurez — cmd:.claude/commands/adoption-assess.md
 [planning] adoption-plan — adopción,aprender,orden,personalizado,plan — cmd:.claude/commands/adoption-plan.md
 [planning] adoption-sandbox — entorno,errores,experimentar,miedo,práctica — cmd:.claude/commands/adoption-sandbox.md
@@ -496,6 +503,7 @@
 [planning] changelog-assemble — assemble,changelog,fragments — script:scripts/changelog-assemble.sh
 [planning] changelog-fragment — changelog,create,current,fragment — script:scripts/changelog-fragment.sh
 [planning] changelog-update —  — cmd:.claude/commands/changelog-update.md
+[planning] check-daemon-auth — auth,check,daemon — script:scripts/check-daemon-auth.sh
 [planning] ci-failure-tracker — analysis,failure,failures,noise,pipeline — script:scripts/ci-failure-tracker.sh
 [planning] ci-health — ejecuciones,fallo,local,muestra,partir — cmd:.claude/commands/ci-health.md
 [planning] claude-md-drift-check — check,claude,coincidan,conteos,drift — script:scripts/claude-md-drift-check.sh
@@ -565,6 +573,7 @@
 [planning] emergency-setup — emergencia,emergency,local,modo,rápido — script:scripts/emergency-setup.sh
 [planning] emergency-status — emergencia,emergency,estado,sistema,status — script:scripts/emergency-status.sh
 [planning] emotional-state-tracker — emotional,savia,session,state,stress — script:scripts/emotional-state-tracker.sh
+[planning] ensure-daemons-auth — auth,daemons,ensure — script:scripts/ensure-daemons-auth.sh
 [planning] enterprise-onboarding — batch,checklists,enterprise,import,knowledge — skill:.claude/skills/enterprise-onboarding/SKILL.md
 [planning] epic-plan —  — cmd:.claude/commands/epic-plan.md
 [planning] estimate-calibrate — actuals,agent,calibrate,empirical,estimate — script:scripts/estimate-calibrate.sh
@@ -626,6 +635,7 @@
 [planning] hook-profile — active,hook,profile,savia — script:scripts/hook-profile.sh
 [planning] hw-bom —  — cmd:.claude/commands/hw-bom.md
 [planning] hw-revision —  — cmd:.claude/commands/hw-revision.md
+[planning] import-sprint-story —  — cmd:.claude/commands/import-sprint-story.md
 [planning] incident-postmortem — action,analysis,cause,items,postmortem — cmd:.claude/commands/incident-postmortem.md
 [planning] index-compact —  — cmd:.claude/commands/index-compact.md
 [planning] index-status —  — cmd:.claude/commands/index-status.md
@@ -714,6 +724,7 @@
 [planning] postmortem-heuristics — debugging,extract,heuristics,postmortems — cmd:.claude/commands/postmortem-heuristics.md
 [planning] pre-commit-sovereignty — grep,intentionally,match,note,omitted — script:scripts/pre-commit-sovereignty.sh
 [planning] privacy-check-company — check,company,content,filter,privacy — script:scripts/privacy-check-company.sh
+[planning] probe-devops — acceso,azure,devops,diagnóstico,probe — script:scripts/probe-devops.sh
 [planning] product-catalog — actualizar,añadir,buscar,catálogo,exportar — cmd:.claude/commands/product-catalog.md
 [planning] product-discovery — análisis,descomposición,descubrimiento,jtbd,producto — skill:.claude/skills/product-discovery/SKILL.md
 [planning] profile-edit — actualiza,editar,perfil,savia,sección — cmd:.claude/commands/profile-edit.md
@@ -722,10 +733,13 @@
 [planning] profile-switch — activo,cambia,cambiar,perfil,savia — cmd:.claude/commands/profile-switch.md
 [planning] project-assign —  — cmd:.claude/commands/project-assign.md
 [planning] project-audit —  — cmd:.claude/commands/project-audit.md
+[planning] project-context — context,isolation,project,savia — script:scripts/project-context.sh
 [planning] project-kickoff —  — cmd:.claude/commands/project-kickoff.md
 [planning] project-new —  — cmd:.claude/commands/project-new.md
 [planning] project-release-plan —  — cmd:.claude/commands/project-release-plan.md
 [planning] project-roadmap —  — cmd:.claude/commands/project-roadmap.md
+[planning] project-update — activo,actualización,bajo,calendar,confidencial — skill:.claude/skills/project-update/SKILL.md
+[planning] project-update-devops — config,devops,project,real,resuelve — script:scripts/project-update-devops.sh
 [planning] prompt-optimizer —  — skill:.claude/skills/prompt-optimizer/SKILL.md
 [planning] protect-project-privacy — accidental,barrera,contra,privacy,project — script:scripts/protect-project-privacy.sh
 [planning] pursuit-bid — decision,pursuit,qualified,record — cmd:.claude/commands/pursuit-bid.md
@@ -750,6 +764,7 @@
 [planning] ref-list — available,list,references,resource,their — cmd:.claude/commands/ref-list.md
 [planning] reflection-validation — assumptions,broken,causal,chains,cognitive — skill:.claude/skills/reflection-validation/SKILL.md
 [planning] reflection-validator —  — agent:.claude/agents/reflection-validator.md
+[planning] refresh-agent-maps — agent,maps,refresh — script:scripts/refresh-agent-maps.sh
 [planning] release-backfill — backfill,create,github,missing,release — script:scripts/release-backfill.sh
 [planning] repos-branches —  — cmd:.claude/commands/repos-branches.md
 [planning] repos-list —  — cmd:.claude/commands/repos-list.md
@@ -792,7 +807,6 @@
 [planning] sentry-bugs —  — cmd:.claude/commands/sentry-bugs.md
 [planning] sentry-health —  — cmd:.claude/commands/sentry-health.md
 [planning] service-catalog-telco — catálogo,configuración,definiciones,gestión,precios — cmd:.claude/commands/service-catalog-telco.md
-[planning] setup-claude-permissions — claude,json,local,permisos,permissions — script:scripts/setup-claude-permissions.sh
 [planning] setup-merge-drivers — configure,custom,drivers,local,merge — script:scripts/setup-merge-drivers.sh
 [planning] setup-savia-dual — dual,installer,linux,macos,savia — script:scripts/setup-savia-dual.sh
 [planning] setup-savia-remote — once,remote,root,savia,server — script:scripts/setup-savia-remote.sh
@@ -846,6 +860,7 @@
 [planning] sustainable-pace — basado,capacidad,cálculo,histórico,real — cmd:.claude/commands/sustainable-pace.md
 [planning] sync-calendars — calendarios,disponibilidad,microsoft,sincronizar,tenants — cmd:.claude/commands/sync-calendars.md
 [planning] sync-github-metadata — github,metadata,repo,sync,update — script:scripts/sync-github-metadata.sh
+[planning] sync-model-tiers — abstract,fast,heavy,model,provider — script:scripts/sync-model-tiers.sh
 [planning] sync-tags-from-changelog — changelog,create,missing,sync,tags — script:scripts/sync-tags-from-changelog.sh
 [planning] task-create — create,investigate,list,savia,site — cmd:.claude/commands/task-create.md
 [planning] task-decomposer — atomic,classify,composite,decompose,decomposer — script:scripts/task-decomposer.sh
@@ -911,6 +926,7 @@
 [planning] wave-executor — engine,execution,executor,generic,graphs — script:scripts/wave-executor.sh
 [planning] wave-executor-lib — executor,functions,helper,wave — script:scripts/wave-executor-lib.sh
 [planning] webhook-config — azure,configurar,devops,eventos,fuentes — cmd:.claude/commands/webhook-config.md
+[planning] weekly-report — capacity,consolidates,generator,project,report — skill:.claude/skills/weekly-report/SKILL.md
 [planning] wellbeing-guardian — alerts,balance,break,hours,individual — cmd:.claude/commands/wellbeing-guardian.md
 [planning] wellbeing-guardian — bienestar,individual,proactivo,sistema — skill:.claude/skills/wellbeing-guardian/SKILL.md
 [planning] wiki-publish —  — cmd:.claude/commands/wiki-publish.md
@@ -955,7 +971,7 @@
 [quality] hook-event-gap-audit — audit,audita,cubiertos,event,eventos — script:scripts/hook-event-gap-audit.sh
 [quality] hook-injection-audit — audit,hook,injection,patterns,slice — script:scripts/hook-injection-audit.sh
 [quality] hook-latency-audit — audit,enforcement,hook,latency,slice — script:scripts/hook-latency-audit.sh
-[quality] hook-test-coverage-audit — audit,bats,claude,coverage,detect — script:scripts/hook-test-coverage-audit.sh
+[quality] hook-test-coverage-audit — audit,bats,coverage,detect,hook — script:scripts/hook-test-coverage-audit.sh
 [quality] hub-audit — agentes,auditar,comandos,dependencias,dominio — cmd:.claude/commands/hub-audit.md
 [quality] knowledge-lint — base,check,detect,evidence,health — cmd:.claude/commands/knowledge-lint.md
 [quality] knowledge-lint — base,check,health,knowledge,lint — script:scripts/knowledge-lint.sh

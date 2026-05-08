@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 57 resources
+> 58 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
@@ -10,6 +10,7 @@
 - **agent-code-map** (skill): Genera y gestiona Agent Code Maps (.acm) — mapas estructurales persistentes entre sesiones para que los agentes conozcan la arquitectura real del proyecto desde el primer token.
 - **agent-cost** (cmd): Coste estimado de uso de agentes por sprint/proyecto
 - **agent-efficiency** (cmd): Ratio de eficiencia de agentes — specs completadas, re-work y tiempos
+- **agent-file-map** (skill): Genera y gestiona Agent File Maps (.afm) — índice persistente de ficheros externos al workspace (Excel, PDF, imágenes, videos) que los agentes necesitan localizar sin búsqueda repetida.
 - **agent-journal** (script): agent-journal.sh — Append-only JSONL journal para agent-runs autónomos.
 - **agent-memory** (cmd): Inspect and manage persistent memory fragments for subagents.
 - **agent-notes-archive** (cmd): >

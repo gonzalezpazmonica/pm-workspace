@@ -1,9 +1,13 @@
 #!/bin/bash
 set -uo pipefail
 # shield-autostart.sh — Garantiza que Savia Shield (daemon + proxy) este up.
-# Lanza shield-launcher.py con nohup+disown para que sobreviva al cierre del hook.
+# Fire-and-forget: lanza shield-launcher.py con nohup+disown para que sobreviva
+# al cierre del hook (usa DETACHED_PROCESS equivalente en Windows).
 # Espera hasta 15s al daemon (port 8444, tarda por spaCy) y al proxy (port 8443).
 # WSL: set PATH explícito por si el hook corre en shell no-interactive.
+#
+# Salida limpia si algo falla
+trap 'printf "{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"Shield autostart: ERR line %s\"}}\n" "$LINENO"; exit 0' ERR
 
 LOG="$HOME/.savia/shield-autostart.log"
 echo "[$(date +%H:%M:%S)] shield-autostart: starting" >> "$LOG"

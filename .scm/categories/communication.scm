@@ -8,12 +8,12 @@
 - **inbox-start** (cmd): >
 - **masked-digest** (script): masked-digest.sh — Masked digestion pipeline
 - **meeting-agenda** (cmd): Generación inteligente de agendas basada en estado del sprint y temas pendientes
-- **meeting-audit** (script): Meeting Digest Audit — example-project
 - **meeting-confidentiality-judge** (agent): >
 - **meeting-digest** (cmd): >
 - **meeting-digest** (agent): >
 - **meeting-risk-analyst** (agent): >
 - **meeting-summarize** (cmd): Transcribe y extrae action items de reuniones — Sprint Review, Retro, Planning, Daily
+- **meeting-transcript-extract** (skill): Extrae transcripciones de reuniones Teams web vía CDP del browser-daemon. Funciona para reuniones propias Y reuniones donde el usuario fue asistente (convocadas por otros). Pipeline: click chat → botón Transcripción → iframe xplatplugins.as
 - **nctalk-search** (cmd): >
 - **notify** (script): notify.sh — Cross-platform desktop notifications for Savia
 - **notify-nctalk** (cmd): >
