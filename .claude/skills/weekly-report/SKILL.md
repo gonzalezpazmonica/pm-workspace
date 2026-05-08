@@ -1,3 +1,10 @@
+---
+name: weekly-report
+description: Weekly project status report generator — consolidates sprint, git, PRs, and capacity
+model: mid
+context_cost: medium
+---
+
 # weekly-report — Weekly project status report generator
 # Trigger: `/weekly-report` or scheduled via cron
 
