@@ -6,7 +6,7 @@ setup() {
     export PROJECT_ROOT=$(mktemp -d)
     SCRIPT="$BATS_TEST_DIRNAME/../../scripts/generate-training-data.py"
     OUTPUT="$PROJECT_ROOT/output/training/test-data.jsonl"
-    mkdir -p "$PROJECT_ROOT/.claude/commands"
+    mkdir -p "$PROJECT_ROOT/.claude/commands" "$PROJECT_ROOT/.opencode/commands"
     echo -e "# Test command\nDoes something useful" > "$PROJECT_ROOT/.opencode/commands/test-cmd.md"
     mkdir -p "$PROJECT_ROOT/docs/rules/domain"
     echo -e "# Rule Test\nThis rule enforces quality standards for the project" > "$PROJECT_ROOT/docs/rules/domain/test-rule.md"

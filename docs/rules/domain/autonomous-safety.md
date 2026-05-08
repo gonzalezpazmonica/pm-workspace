@@ -8,7 +8,6 @@
 
 **La IA propone, el humano dispone.** Ningún agente autónomo tiene autoridad para tomar decisiones irreversibles. Todo output autónomo es una **propuesta pendiente de revisión humana**.
 
----
 
 ## Reglas de Git — Ramas y commits
 
@@ -32,7 +31,6 @@ SIEMPRE → Prefijo de commit: agent({modo}): descripción
 | Code Improvement | `agent/improve-{tipo}-{id}` | `agent/improve-coverage-auth-service` |
 | Tech Research | `agent/research-{tema}` | `agent/research-ef-alternatives` |
 
----
 
 ## Reglas de PRs — Revisión humana obligatoria
 
@@ -47,7 +45,6 @@ SIEMPRE → Asignar AUTONOMOUS_REVIEWER como reviewer obligatorio
 SIEMPRE → Incluir en el PR body: métricas antes/después, descripción del cambio, riesgo estimado
 SIEMPRE → Esperar aprobación humana — el agente NO hace seguimiento ni insiste
 ```
-
 ---
 
 ## Reglas de investigación — Notificación humana
@@ -61,7 +58,6 @@ SIEMPRE → Generar informe en output/research-{tema}-{fecha}.md
 SIEMPRE → Notificar a AUTONOMOUS_RESEARCH_NOTIFY al completar
 SIEMPRE → Las recomendaciones son PROPUESTAS, no acciones
 ```
-
 ---
 
 ## Configuración requerida

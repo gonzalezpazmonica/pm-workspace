@@ -21,6 +21,7 @@ cd "$PROJECT_DIR" || exit 2
 
 # Core paths that must NOT reference .claude/enterprise/
 CORE_PATHS=(
+  ".opencode/agents"
   ".claude/agents"
   ".claude/commands"
   ".claude/skills"

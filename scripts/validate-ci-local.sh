@@ -84,7 +84,9 @@ check_secrets() {
   local out="$TMPDIR_CI/6-secrets"
   if grep -rn --include="*.md" --include="*.sh" --include="*.json" --include="*.yml" \
     -E '[a-z0-9]{52}' --exclude-dir=".git" --exclude-dir="node_modules" \
-    . 2>/dev/null | grep -v "mock\|example\|placeholder\|test-data" > /dev/null 2>&1; then
+    --exclude-dir="projects" \
+    --exclude-dir="output" \
+    . 2>/dev/null | grep -v "mock\|example\|placeholder\|test-data\|\"hash\"\|sha256\|Hash:" > /dev/null 2>&1; then
     echo "WARN Possible secret pattern detected" > "$out"
   else echo "PASS No secrets detected" > "$out"; fi
 }

@@ -73,7 +73,6 @@ To use a skill: read `<path>` and follow its instructions.
 | pentesting | `.opencode/skills/pentesting/SKILL.md` | Arsenal de pentesting con pipeline Shannon — queue-driven, proof-based, 5 fases paralelas |
 | performance-audit | `.opencode/skills/performance-audit/SKILL.md` | Auditoría estática de rendimiento — detección de hotspots, async anti-patterns, test-first o... |
 | personal-vault | `.opencode/skills/personal-vault/SKILL.md` | Gestion del repositorio personal del usuario — perfil, preferencias, memoria, instintos, cache.... |
-| pm-radar | `.opencode/skills/pm-radar/SKILL.md` | Radar diario del PM — cruza DevOps, email, calendar, roadmap, chats, digests y produce lista pr... |
 | pr-agent-judge | `.opencode/skills/pr-agent-judge/SKILL.md` | 5º juez del Court — wrapper sobre qodo-ai/pr-agent OSS. Ejecuta review/describe/improve contra... |
 | product-discovery | `.opencode/skills/product-discovery/SKILL.md` | Análisis de descubrimiento de producto - JTBD y PRD antes de descomposición |
 | project-update | `.opencode/skills/project-update/SKILL.md` | Actualización integral del proyecto activo. Orquestador determinista (multiproceso) que refresca... |
@@ -110,6 +109,7 @@ To use a skill: read `<path>` and follow its instructions.
 | verification-lattice | `.opencode/skills/verification-lattice/SKILL.md` | Multi-layer verification pipeline beyond Code Review |
 | voice-inbox | `.opencode/skills/voice-inbox/SKILL.md` | Transcripción de audio y flujo audio→texto→acción para mensajes de voz |
 | web-research | `.opencode/skills/web-research/SKILL.md` | Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-st... |
+| weekly-report | `.opencode/skills/weekly-report/SKILL.md` | Weekly project status report generator — consolidates sprint, git, PRs, and capacity |
 | wellbeing-guardian | `.opencode/skills/wellbeing-guardian/SKILL.md` | Sistema proactivo de bienestar individual |
 | workspace-integrity | `.opencode/skills/workspace-integrity/SKILL.md` | Catalogo de integrity auditors — drift CLAUDE.md, rule manifest, orphan rules, agents catalog s... |
 | zoom-out | `.opencode/skills/zoom-out/SKILL.md` | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effe... |
