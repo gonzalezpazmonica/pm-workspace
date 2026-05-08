@@ -105,7 +105,7 @@ MD
 
 @test "edge: empty CLAUDE.md exits 2 (drift detected)" {
   local root="$BATS_TEST_TMPDIR/empty-claude"
-  mkdir -p "$root/.claude/agents" "$root/scripts"
+  mkdir -p "$root/.claude/agents" "$root/.opencode/agents" "$root/scripts"
   : > "$root/CLAUDE.md"  # empty file
   echo '{"hooks":{}}' > "$root/.claude/settings.json"
   cp "$SCRIPT" "$root/scripts/"
@@ -189,7 +189,7 @@ MD
 
 @test "negative: error output reports drift fields when FAIL" {
   local root="$BATS_TEST_TMPDIR/drift-fail"
-  mkdir -p "$root/.claude/agents" "$root/scripts"
+  mkdir -p "$root/.claude/agents" "$root/.opencode/agents" "$root/scripts"
   touch "$root/.opencode/agents/a1.md" "$root/.opencode/agents/a2.md"
   echo '{"hooks":{}}' > "$root/.claude/settings.json"
   echo 'agents(999)' > "$root/CLAUDE.md"

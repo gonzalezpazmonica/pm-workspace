@@ -1,5 +1,4 @@
 # SPEC-OC-04 — OpenCode-Native Exclusive Migration
-status: DRAFT
 
 > **Status:** DRAFT — pendiente de aprobación humana
 > **Author:** Savia (sesión Mónica · branch `agent/spec-oc-04-opencode-native-20260506`)
