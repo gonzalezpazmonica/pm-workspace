@@ -130,7 +130,7 @@ When verdict is ITERATE:
 
 
 SPEC-106 — `docs/propuestas/SPEC-106-truth-tribunal-report-reliability.md`
-
+<!-- SE-068 -->
 See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag pattern. Required tags below:
 
 <instructions>Apply operational guidance above.</instructions>
