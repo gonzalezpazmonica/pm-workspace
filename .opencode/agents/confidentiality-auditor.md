@@ -49,6 +49,7 @@ sensibles?" sino "hay datos que pertenecen a un nivel SUPERIOR al de este repo?"
 | N4b-PM | Solo credenciales/secrets tecnicos |
 
 ## Context Index
+
 When auditing a project repo, check `projects/{project}/.context-index/PROJECT.ctx` if it exists. Use `[location]` entries to understand the expected project structure and sensitive data paths.
 
 ## Fase 1 — Detectar nivel y construir contexto

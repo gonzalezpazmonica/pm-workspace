@@ -76,7 +76,7 @@ handoff:
 ## References
 
 - SPEC-124 — `docs/propuestas/SPEC-124-pr-agent-wrapper.md`
-- Skill SKILL.md — `.opencode/skills/pr-agent-judge/SKILL.md`
+- Skill SKILL.md — `.claude/skills/pr-agent-judge/SKILL.md`
 - Wrapper — `scripts/pr-agent-run.sh`
 - [qodo-ai/pr-agent](https://github.com/qodo-ai/pr-agent)
 

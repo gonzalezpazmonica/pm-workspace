@@ -33,7 +33,7 @@ teardown() { cd /; }
 @test "detects drift when CLAUDE.md count wrong (synthetic)" {
   # Create synthetic CLAUDE.md under TMPDIR with wrong count
   local root="$BATS_TEST_TMPDIR/fake-ws"
-  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks"
+  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/.opencode/agents" "$root/.opencode/commands" "$root/.opencode/hooks"
   for i in 1 2 3; do touch "$root/.opencode/agents/agent$i.md"; done
   for i in 1 2; do touch "$root/.opencode/commands/cmd$i.md"; done
   for i in 1; do mkdir -p "$root/.opencode/skills/skill$i"; touch "$root/.opencode/skills/skill$i/SKILL.md"; done
@@ -49,7 +49,7 @@ teardown() { cd /; }
 
 @test "passes when counts match (synthetic)" {
   local root="$BATS_TEST_TMPDIR/fake-ws2"
-  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/scripts"
+  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/.opencode/agents" "$root/.opencode/commands" "$root/.opencode/hooks" "$root/scripts"
   touch "$root/.opencode/agents/a1.md" "$root/.opencode/agents/a2.md"
   touch "$root/.opencode/commands/c1.md"
   mkdir -p "$root/.opencode/skills/s1"; touch "$root/.opencode/skills/s1/SKILL.md"
@@ -115,7 +115,7 @@ MD
 
 @test "edge: zero agents (empty .opencode/agents/) counted correctly" {
   local root="$BATS_TEST_TMPDIR/zero-agents"
-  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/scripts"
+  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/.opencode/agents" "$root/.opencode/commands" "$root/.opencode/hooks" "$root/scripts"
   # No agents at all
   echo '{"hooks":{}}' > "$root/.claude/settings.json"
   cat > "$root/CLAUDE.md" <<MD
@@ -143,7 +143,7 @@ MD
 
 @test "edge: large count (100+ agents) handled" {
   local root="$BATS_TEST_TMPDIR/large-agents"
-  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/scripts"
+  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/.opencode/agents" "$root/.opencode/commands" "$root/.opencode/hooks" "$root/scripts"
   for i in $(seq 1 100); do touch "$root/.opencode/agents/a$i.md"; done
   echo '{"hooks":{}}' > "$root/.claude/settings.json"
   cat > "$root/CLAUDE.md" <<MD
@@ -157,7 +157,7 @@ MD
 
 @test "edge: boundary off-by-one (n vs n+1)" {
   local root="$BATS_TEST_TMPDIR/off-by-one"
-  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/scripts"
+  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/.opencode/agents" "$root/.opencode/commands" "$root/.opencode/hooks" "$root/scripts"
   touch "$root/.opencode/agents/a1.md" "$root/.opencode/agents/a2.md" "$root/.opencode/agents/a3.md"
   echo '{"hooks":{}}' > "$root/.claude/settings.json"
   # CLAUDE.md says 2 but real is 3 → drift
@@ -174,7 +174,7 @@ MD
 
 @test "negative: invalid settings.json degrades gracefully" {
   local root="$BATS_TEST_TMPDIR/bad-settings"
-  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/scripts"
+  mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/.opencode/agents" "$root/.opencode/commands" "$root/.opencode/hooks" "$root/scripts"
   touch "$root/.opencode/agents/a1.md"
   echo 'invalid json }' > "$root/.claude/settings.json"
   cat > "$root/CLAUDE.md" <<MD

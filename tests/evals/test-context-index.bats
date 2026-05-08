@@ -11,9 +11,9 @@ setup() {
            "$TMPDIR_IDX/.claude/commands" "$TMPDIR_IDX/.claude/hooks" \
            "$TMPDIR_IDX/docs" "$TMPDIR_IDX/scripts" "$TMPDIR_IDX/tests" "$TMPDIR_IDX/output"
   touch "$TMPDIR_IDX/docs/rules/domain/test-rule.md"
-  touch "$TMPDIR_IDX/.opencode/agents/test-agent.md"
-  touch "$TMPDIR_IDX/.opencode/commands/test-cmd.md"
-  touch "$TMPDIR_IDX/.opencode/hooks/test-hook.sh"
+  touch "$TMPDIR_IDX/.claude/agents/test-agent.md"
+  touch "$TMPDIR_IDX/.claude/commands/test-cmd.md"
+  touch "$TMPDIR_IDX/.claude/hooks/test-hook.sh"
   touch "$TMPDIR_IDX/.opencode/skills/test-skill/SKILL.md"
 }
 teardown() { rm -rf "$TMPDIR_IDX"; }

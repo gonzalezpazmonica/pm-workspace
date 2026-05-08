@@ -46,9 +46,9 @@ az boards item show --id $PBI_ID --output json     # PBI padre
 ```
 
 También:
-- `.opencode/skills/spec-driven-development/SKILL.md` — metodología SDD completa
-- `.opencode/skills/spec-driven-development/references/spec-template.md` — plantilla canónica
-- `.opencode/skills/spec-driven-development/references/layer-assignment-matrix.md` — qué va a agente vs humano
+- `.claude/skills/spec-driven-development/SKILL.md` — metodología SDD completa
+- `.claude/skills/spec-driven-development/references/spec-template.md` — plantilla canónica
+- `.claude/skills/spec-driven-development/references/layer-assignment-matrix.md` — qué va a agente vs humano
 - `projects/[proyecto]/CLAUDE.md` — contexto del proyecto
 - `projects/[proyecto]/RULES.md (o reglas-negocio.md)` — reglas de negocio
 - Código fuente relevante (interfaces existentes, contratos, tests similares)

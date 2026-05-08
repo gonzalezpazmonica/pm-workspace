@@ -27,7 +27,7 @@ hooks:
     - matcher: "Bash"
       hooks:
         - type: command
-          command: ".opencode/hooks/block-infra-destructive.sh"
+          command: ".claude/hooks/block-infra-destructive.sh"
 token_budget: 13000
 ---
 

@@ -7,11 +7,11 @@ setup() {
     SCRIPT="$BATS_TEST_DIRNAME/../../scripts/generate-training-data.py"
     OUTPUT="$PROJECT_ROOT/output/training/test-data.jsonl"
     mkdir -p "$PROJECT_ROOT/.claude/commands" "$PROJECT_ROOT/.opencode/commands"
-    echo -e "# Test command\nDoes something useful" > "$PROJECT_ROOT/.opencode/commands/test-cmd.md"
+    echo -e "# Test command\nDoes something useful" > "$PROJECT_ROOT/.claude/commands/test-cmd.md"
     mkdir -p "$PROJECT_ROOT/docs/rules/domain"
     echo -e "# Rule Test\nThis rule enforces quality standards for the project" > "$PROJECT_ROOT/docs/rules/domain/test-rule.md"
-    mkdir -p "$PROJECT_ROOT/.opencode/skills/test-skill"
-    printf -- '---\nname: test-skill\ndescription: "A test skill for validation"\n---\n# Test Skill\n' > "$PROJECT_ROOT/.opencode/skills/test-skill/SKILL.md"
+    mkdir -p "$PROJECT_ROOT/.claude/skills/test-skill"
+    printf -- '---\nname: test-skill\ndescription: "A test skill for validation"\n---\n# Test Skill\n' > "$PROJECT_ROOT/.claude/skills/test-skill/SKILL.md"
 }
 
 teardown() {

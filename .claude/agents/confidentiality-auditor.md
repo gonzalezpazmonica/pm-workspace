@@ -144,5 +144,4 @@ Sin CRITICALs → `VEREDICTO: CLEAN` + warnings si hay + firmar con `confidentia
 - SIEMPRE reportar el fichero y linea exacta de cada hallazgo
 
 ## Reporting Policy (SE-066)
-
 Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.

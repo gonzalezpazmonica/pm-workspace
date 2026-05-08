@@ -44,7 +44,7 @@ Si no existe, informar al usuario con instrucciones de instalación.
 ### 1. Clasificar el input
 - Leer el documento a auditar
 - Extraer términos clave
-- Mapear a dominios legales usando `@.opencode/skills/legal-compliance/references/domain-terms.md`
+- Mapear a dominios legales usando `@.claude/skills/legal-compliance/references/domain-terms.md`
 - Si el proyecto tiene CCAA configurada, incluir normativa autonómica
 
 ### 2. Buscar legislación relevante

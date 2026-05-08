@@ -23,7 +23,7 @@ hooks:
     - matcher: "Bash"
       hooks:
         - type: command
-          command: ".opencode/hooks/block-credential-leak.sh"
+          command: ".claude/hooks/block-credential-leak.sh"
 token_budget: 13000
 ---
 

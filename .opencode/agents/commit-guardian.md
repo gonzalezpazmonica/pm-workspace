@@ -23,7 +23,7 @@ hooks:
     - matcher: "Bash"
       hooks:
         - type: command
-          command: ".opencode/hooks/block-force-push.sh"
+          command: ".claude/hooks/block-force-push.sh"
 token_budget: 8500
 ---
 
@@ -144,7 +144,7 @@ I'm the last line of defense before code enters the repository. I run every chec
 Ensure every commit meets all 10 workspace quality checks before reaching the repository.
 
 ## Decision Trees
-@.opencode/agents/decision-trees/commit-guardian-decisions.md
+@.claude/agents/decision-trees/commit-guardian-decisions.md
 
 ## Success Metrics
 - Zero commits on `main` — all 10 checks executed every time; security escalations reach human immediately

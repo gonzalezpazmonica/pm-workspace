@@ -129,16 +129,17 @@ When verdict is ITERATE:
 - NEVER deliver to user a report with verdict ITERATE — bounce back
 
 ## Budget and performance
+
 - 7 judges in parallel (fork) cost ~7 × agent_budget
 - Cap: if any judge exceeds 2× its budget, emit warning
 - Typical wall-clock: 30-90s per report
 - If MAX_TRIBUNAL_TIMEOUT_SEC exceeded → escalate NOT_EVALUABLE
 
-## Reference
+
 SPEC-106 — `docs/propuestas/SPEC-106-truth-tribunal-report-reliability.md`
 
-## Structured Context (SE-068)
 See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag pattern. Required tags below:
+
 <instructions>Apply operational guidance above.</instructions>
 <context_usage>Quote excerpts before acting on long docs.</context_usage>
 <constraints>Rule #24 (Radical Honesty), Rule #8 (SDD), permission_level.</constraints>
