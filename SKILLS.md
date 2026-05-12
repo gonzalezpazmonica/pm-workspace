@@ -18,8 +18,10 @@ To use a skill: read `<path>` and follow its instructions.
 | Name | Path | Description |
 |---|---|---|
 | adversarial-security | `.opencode/skills/adversarial-security/SKILL.md` | Pipeline de seguridad adversarial — Red Team, Blue Team, Auditor con scoring |
+| agent-artifacts | `.opencode/skills/agent-artifacts/SKILL.md` | Universal artifact toolset para outputs de agentes con URLs efimeras firmadas y trazabilidad JSONL. |
 | agent-code-map | `.opencode/skills/agent-code-map/SKILL.md` | Genera y gestiona Agent Code Maps (.acm) — mapas estructurales persistentes entre sesiones para... |
 | agent-file-map | `.opencode/skills/agent-file-map/SKILL.md` | Genera y gestiona Agent File Maps (.afm) — índice persistente de ficheros externos al workspac... |
+| agent-monolith-detector | `.opencode/skills/agent-monolith-detector/SKILL.md` | Detección de agentes monolíticos en `.opencode/agents/` mediante heurísticas explícitas (leng... |
 | ai-labor-impact | `.opencode/skills/ai-labor-impact/SKILL.md` | AI labor impact analysis — exposure audit, reskilling plans, workforce forecasting |
 | android-autonomous-debugger | `.opencode/skills/android-autonomous-debugger/SKILL.md` | Autonomous debugging and testing of Android apps against physical devices via USB/ADB |
 | architecture-intelligence | `.opencode/skills/architecture-intelligence/SKILL.md` | Detección de patrones de arquitectura, sugerencias de mejora y recomendaciones para proyectos nu... |
@@ -38,10 +40,12 @@ To use a skill: read `<path>` and follow its instructions.
 | company-messaging | `.opencode/skills/company-messaging/SKILL.md` | — |
 | consensus-validation | `.opencode/skills/consensus-validation/SKILL.md` | Orquestación de 4-judge panel (reflection, code-review, business, performance) |
 | context-caching | `.opencode/skills/context-caching/SKILL.md` | Optimize context loading order for prompt caching efficiency |
+| context-guard-recall | `.opencode/skills/context-guard-recall/SKILL.md` | Retrieve stored summaries from any agent or flow via recall_summary returning SummaryV1. |
 | context-interview-conductor | `.opencode/skills/context-interview-conductor/SKILL.md` | Conducción de entrevistas estructuradas de contexto |
 | context-optimized-dev | `.opencode/skills/context-optimized-dev/SKILL.md` | Context-Optimized Development — Skill |
 | context-rot-strategy | `.opencode/skills/context-rot-strategy/SKILL.md` | Context-rot strategy for 1M sessions — 5-option decision model per turn |
 | context-task-classifier | `.opencode/skills/context-task-classifier/SKILL.md` | Clasifica un turno en una de 6 clases de tarea (decision, spec, code, review, context, chitchat) ... |
+| context-update | `.opencode/skills/context-update/SKILL.md` | Auditar y actualizar el contexto markdown del workspace — frontmatter lint, wikilinks rotos, st... |
 | cost-management | `.opencode/skills/cost-management/SKILL.md` | Cost Management — Timesheets, budgets, forecasting, invoicing, cost analytics |
 | dag-scheduling | `.opencode/skills/dag-scheduling/SKILL.md` | Orquestar agentes SDD en paralelo usando gráficos de dependencias |
 | developer-experience | `.opencode/skills/developer-experience/SKILL.md` | Framework DX Core 4 y SPACE para medir y mejorar la experiencia del desarrollador |
@@ -53,6 +57,7 @@ To use a skill: read `<path>` and follow its instructions.
 | enterprise-analytics | `.opencode/skills/enterprise-analytics/SKILL.md` | Enterprise analytics — SPACE metrics, portfolio aggregation, team health, risk matrix, forecasting |
 | enterprise-onboarding | `.opencode/skills/enterprise-onboarding/SKILL.md` | Enterprise onboarding at scale — batch import, per-role checklists, progress tracking, knowledg... |
 | evaluations-framework | `.opencode/skills/evaluations-framework/SKILL.md` | Evaluations Framework |
+| executive-pptx-generator | `.opencode/skills/executive-pptx-generator/SKILL.md` | Genera presentaciones PPTX para audiencia directiva (≥95/100) desde notas, transcripción o spe... |
 | executive-reporting | `.opencode/skills/executive-reporting/SKILL.md` | Generación de informes ejecutivos multi-proyecto para dirección |
 | feasibility-probe | `.opencode/skills/feasibility-probe/SKILL.md` | Validate spec feasibility with time-boxed prototype attempt and viability scoring |
 | governance-enterprise | `.opencode/skills/governance-enterprise/SKILL.md` | Enterprise governance — audit trail queries, compliance verification, decision registry, certif... |
@@ -61,7 +66,6 @@ To use a skill: read `<path>` and follow its instructions.
 | knowledge-graph | `.opencode/skills/knowledge-graph/SKILL.md` | Construye y consulta grafos de conocimiento de entidades PM y sus relaciones |
 | legal-compliance | `.opencode/skills/legal-compliance/SKILL.md` | Auditoría de compliance legal contra legislación española consolidada (legalize-es) |
 | managed-content | `.opencode/skills/managed-content/SKILL.md` | Manage auto-generated content sections with safe regeneration markers |
-| meeting-transcript-extract | `.opencode/skills/meeting-transcript-extract/SKILL.md` | Extrae transcripciones de reuniones Teams web vía CDP del browser-daemon. Funciona para reunione... |
 | memvid-backup | `.opencode/skills/memvid-backup/SKILL.md` | Backup portable de memoria externa — evalua memvid vs tar-gzip. Round-trip con SHA256 integrity... |
 | model-upgrade-audit | `.opencode/skills/model-upgrade-audit/SKILL.md` | Audit workspace components for prompt debt when a new model is available. Detect workarounds, pro... |
 | mutation-audit | `.opencode/skills/mutation-audit/SKILL.md` | Mutation testing — mide calidad real de tests, detecta zombies AI-generated. On-demand sobre m�... |
@@ -72,10 +76,9 @@ To use a skill: read `<path>` and follow its instructions.
 | pbi-decomposition | `.opencode/skills/pbi-decomposition/SKILL.md` | Descomponer PBIs en Tasks, estimar en horas y asignar inteligentemente |
 | pentesting | `.opencode/skills/pentesting/SKILL.md` | Arsenal de pentesting con pipeline Shannon — queue-driven, proof-based, 5 fases paralelas |
 | performance-audit | `.opencode/skills/performance-audit/SKILL.md` | Auditoría estática de rendimiento — detección de hotspots, async anti-patterns, test-first o... |
-| personal-vault | `.opencode/skills/personal-vault/SKILL.md` | Gestion del repositorio personal del usuario — perfil, preferencias, memoria, instintos, cache.... |
+| pm-radar | `.opencode/skills/pm-radar/SKILL.md` | Radar diario del PM — cruza DevOps, email, calendar, roadmap, chats, digests y produce lista pr... |
 | pr-agent-judge | `.opencode/skills/pr-agent-judge/SKILL.md` | 5º juez del Court — wrapper sobre qodo-ai/pr-agent OSS. Ejecuta review/describe/improve contra... |
 | product-discovery | `.opencode/skills/product-discovery/SKILL.md` | Análisis de descubrimiento de producto - JTBD y PRD antes de descomposición |
-| project-update | `.opencode/skills/project-update/SKILL.md` | Actualización integral del proyecto activo. Orquestador determinista (multiproceso) que refresca... |
 | prompt-optimizer | `.opencode/skills/prompt-optimizer/SKILL.md` | — |
 | rbac-management | `.opencode/skills/rbac-management/SKILL.md` | Role management skill — grant, revoke, audit, and verify user permissions |
 | reflection-validation | `.opencode/skills/reflection-validation/SKILL.md` | Meta-cognitive validation protocol (System 2). Detects proxy optimization, undeclared assumptions... |
@@ -98,6 +101,7 @@ To use a skill: read `<path>` and follow its instructions.
 | sovereignty-auditor | `.opencode/skills/sovereignty-auditor/SKILL.md` | Auditoría de soberanía cognitiva — diagnóstico de lock-in de IA |
 | spec-driven-development | `.opencode/skills/spec-driven-development/SKILL.md` | Specs ejecutables para desarrolladores humanos y agentes Claude |
 | sprint-management | `.opencode/skills/sprint-management/SKILL.md` | Flujo completo de gestión de sprints - estado, items, progreso y resúmenes |
+| structured-document-tooling | `.opencode/skills/structured-document-tooling/SKILL.md` | Canonical tooling for Savia structured documents (specs, flows, rules) via scripts/lib/structured... |
 | tdd-vertical-slices | `.opencode/skills/tdd-vertical-slices/SKILL.md` | Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a... |
 | team-coordination | `.opencode/skills/team-coordination/SKILL.md` | Multi-team orchestration — create teams, assign members, detect cross-team blockers |
 | team-onboarding | `.opencode/skills/team-onboarding/SKILL.md` | Onboarding y evaluación de competencias para nuevos miembros del equipo |
@@ -109,7 +113,6 @@ To use a skill: read `<path>` and follow its instructions.
 | verification-lattice | `.opencode/skills/verification-lattice/SKILL.md` | Multi-layer verification pipeline beyond Code Review |
 | voice-inbox | `.opencode/skills/voice-inbox/SKILL.md` | Transcripción de audio y flujo audio→texto→acción para mensajes de voz |
 | web-research | `.opencode/skills/web-research/SKILL.md` | Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-st... |
-| weekly-report | `.opencode/skills/weekly-report/SKILL.md` | Weekly project status report generator — consolidates sprint, git, PRs, and capacity |
 | wellbeing-guardian | `.opencode/skills/wellbeing-guardian/SKILL.md` | Sistema proactivo de bienestar individual |
 | workspace-integrity | `.opencode/skills/workspace-integrity/SKILL.md` | Catalogo de integrity auditors — drift CLAUDE.md, rule manifest, orphan rules, agents catalog s... |
 | zoom-out | `.opencode/skills/zoom-out/SKILL.md` | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effe... |
