@@ -1,0 +1,24 @@
+flow_id: pr-plan
+version: 1
+description: >
+  Plan + creación de PR en Draft con AUTONOMOUS_REVIEWER. Esqueleto Slice 4.
+  Encadena /pr-plan (genera resumen y .pr-plan-ok) con /push-pr.
+confidentiality: N1
+
+nodes:
+  - id: plan
+    kind: command
+    invoke: /pr-plan
+
+  - id: court
+    kind: subflow
+    invoke: code-review-court
+    depends_on: [plan]
+
+edges:
+  - from: plan
+    to: court
+
+guards:
+  max_duration_minutes: 60
+  max_iterations: 20

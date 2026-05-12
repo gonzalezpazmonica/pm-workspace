@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 508 resources
+> 510 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -17,7 +17,6 @@
 - **adaptive-strategy-selector** (script): adaptive-strategy-selector.sh — Select loading strategy based on model tier
 - **adb-run** (script): adb-run.sh — Execute adb-wrapper functions without compound && chains
 - **add-maturity-levels** (script): add-maturity-levels.sh — Add maturity field to all skill frontmatter
-- **ado-bridge** (script): ado-bridge.sh — Azure DevOps REST API v7.1 bridge for Savia PM commands
 - **adoption-assess** (cmd): Evaluar madurez de adopción de IA del equipo usando modelo ADKAR
 - **adoption-plan** (cmd): Plan personalizado de adopción de Savia por rol — qué aprender, en qué orden
 - **adoption-sandbox** (cmd): Entorno seguro de práctica — experimentar con Savia sin miedo a errores
@@ -34,6 +33,8 @@
 - **ai-safety-config** (cmd): Configurar 4 niveles de supervisión humana (inform/recommend/decide/execute) por tipo de acción
 - **architect** (agent): >
 - **architecture-intelligence** (skill): Detección de patrones de arquitectura, sugerencias de mejora y recomendaciones para proyectos nuevos
+- **artifact-export** (script): artifact-export.sh — URL efímera para un artifact. ≤15 líneas. Rule #26.
+- **artifact-list** (script): artifact-list.sh — Lista artifacts de un run. ≤15 líneas. Rule #26.
 - **ast-comprehend** (script): ast-comprehend.sh — Extractor estructural multi-lenguaje (ast-comprehension skill)
 - **azdevops-queries** (script): =============================================================================
 - **azure-devops-operator** (agent): >
@@ -171,6 +172,8 @@
 - **flow-burndown** (cmd): Show sprint burndown chart data
 - **flow-intake** (cmd): Intake continuo — mover items Spec-Ready a Production y asignar a builders
 - **flow-metrics** (cmd): Dashboard de métricas de flujo Savia Flow (cycle time, lead time, throughput, CFR)
+- **flow-otel-exporter** (script): flow-otel-exporter.sh — Wrapper bash para el exporter OTel (≤20 líneas efectivas).
+- **flow-otel-test** (script): flow-otel-test.sh — Wrapper bash para /flow-otel-test (≤20 líneas efectivas).
 - **flow-protect** (cmd): Detector de context-switching y protector de flow state. Analiza densidad de reuniones, patrones de interrupciones, sobrecarga WIP.
 - **flow-setup** (cmd): Configurar proyecto en Azure DevOps para Savia Flow (dual-track, campos custom, áreas)
 - **flow-spec** (cmd): Crear spec ejecutable desde outcome de exploración (puente exploration → production)
@@ -211,7 +214,6 @@
 - **hook-profile** (script): hook-profile.sh — Get/set the active SAVIA_HOOK_PROFILE
 - **hw-bom** (cmd): >
 - **hw-revision** (cmd): >
-- **import-sprint-story** (cmd): >
 - **incident-postmortem** (cmd): Template de postmortem — timeline, root cause analysis, action items
 - **index-compact** (cmd): >
 - **index-status** (cmd): >
@@ -247,6 +249,7 @@
 - **memvid-backup** (skill): Backup portable de memoria externa — evalua memvid vs tar-gzip. Round-trip con SHA256 integrity. Fallback robusto.
 - **mobile-developer** (agent): >
 - **model-capability-resolver** (script): model-capability-resolver.sh — Resolve model capabilities from YAML registry
+- **morning-bootstrap** (script): morning-bootstrap.sh — rutina lunes 09:00 (auth + project-update)
 - **my-learning** (cmd): Detección de tech stack gaps — código del developer vs best practices del proyecto
 - **my-sprint** (cmd): Vista personal del sprint — items asignados, progreso, cycle time, PRs pendientes
 - **nidos** (cmd): Manage parallel terminal isolation with named git worktrees (Savia Nidos)
@@ -309,12 +312,10 @@
 - **profile-switch** (cmd): Savia cambia de usuario — cambiar perfil activo.
 - **project-assign** (cmd): >
 - **project-audit** (cmd): >
-- **project-context** (script): project-context.sh — Project isolation for Savia (SE-093)
 - **project-kickoff** (cmd): >
 - **project-new** (cmd): >
 - **project-release-plan** (cmd): >
 - **project-roadmap** (cmd): >
-- **project-update** (skill): Actualización integral del proyecto activo. Orquestador determinista (multiproceso) que refresca DevOps+mail+calendar+teams+SharePoint+OneDrive+transcripts, digiere VTTs a meeting digests, y deja todo persistido bajo niveles de confidencial
 - **project-update-devops** (script): project-update-devops.sh — wrapper que resuelve config real desde
 - **prompt-optimizer** (skill): >
 - **protect-project-privacy** (script): protect-project-privacy.sh — Barrera de protección contra publicación accidental de proyectos
@@ -383,9 +384,11 @@
 - **sentry-bugs** (cmd): >
 - **sentry-health** (cmd): >
 - **service-catalog-telco** (cmd): Gestión del catálogo de servicios de telecom con definiciones, configuración y precios
+- **setup-claude-permissions** (script): setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados
 - **setup-merge-drivers** (script): setup-merge-drivers.sh — configure local git with the custom merge drivers
 - **setup-savia-dual** (script): setup-savia-dual.sh — Installer for Savia Dual (Linux/macOS)
 - **setup-savia-remote** (script): setup-savia-remote.sh — Run ONCE on the remote server as root/sudo.
+- **setup-second-origin** (script): Add a second remote for machine-local persistence of Savia/pm-workspace
 - **sheets-setup** (cmd): Configure Google Sheets integration
 - **sheets-sync** (cmd): Synchronize data with Google Sheets
 - **shield-ner-hook** (script): shield-ner-hook.sh — Savia Shield Capa 1.5: NER via daemon (fast)
@@ -502,7 +505,6 @@
 - **wave-executor** (script): wave-executor.sh — Generic wave execution engine for DAG task graphs
 - **wave-executor-lib** (script): wave-executor-lib.sh — Helper functions for wave-executor.sh
 - **webhook-config** (cmd): Configurar webhooks para recibir eventos push de Azure DevOps, GitHub y otras fuentes
-- **weekly-report** (skill): Weekly project status report generator — consolidates sprint, git, PRs, and capacity
 - **wellbeing-guardian** (cmd): Proactive individual wellbeing system — break reminders, after-hours alerts, work-life balance nudges
 - **wellbeing-guardian** (skill): Sistema proactivo de bienestar individual
 - **wiki-publish** (cmd): >

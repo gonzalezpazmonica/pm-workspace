@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 98 resources
+> 102 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -22,6 +22,7 @@
 - **context-defer** (cmd): Sistema de carga diferida — cargar comandos/reglas solo cuando se necesitan (85% reducción de overhead)
 - **context-distortion-measure** (script): context-distortion-measure.sh — SE-029-M
 - **context-frozen-check** (script): context-frozen-check.sh — SE-029-F
+- **context-guard-recall** (script): context-guard-recall.sh — Retrieve a stored context-guard summary.
 - **context-interview** (cmd): Entrevista estructurada de contexto para proyectos y clientes
 - **context-interview-conductor** (skill): Conducción de entrevistas estructuradas de contexto
 - **context-load** (cmd): >
@@ -38,6 +39,8 @@
 - **context-task-classifier** (script): context-task-classifier.sh — SE-029-C
 - **context-task-classify** (script): context-task-classify.sh — SE-029 Slice 2 task-class classifier.
 - **context-tracker** (script): ── context-tracker.sh ─────────────────────────────────────────────────────
+- **context-update** (cmd): Audit and update Savia's markdown knowledge context — frontmatter lint, broken wikilinks, stale TODOs, duplicate IDs, schema drift, confidentiality leaks, tag consistency. SPEC-KNOWLEDGE-CONTEXT-INTEGRATION-PHASE2 Slice 6.
+- **context-update** (script): context-update.sh — wrapper for /context-update pipeline
 - **cross-project-search** (cmd): Búsqueda transversal de conocimiento entre todos los proyectos del portfolio
 - **digest-to-memory** (script): digest-to-memory.sh — Bridge: digest agents -> memory-store + graph
 - **entity-recall** (cmd): >
@@ -84,6 +87,7 @@
 - **post-compaction** (script): post-compaction.sh - Hook que inyecta contexto de memoria tras compactación
 - **repos-search** (cmd): >
 - **scaling-operations** (skill): Scaling operations — analyze tier, benchmark, recommend optimizations, knowledge search
+- **search-miss-log** (script): search-miss-log.sh — registra cuando la heurística tier-based bajó a T4/T5
 - **session-action-log** (script): session-action-log.sh — Append-only session action log (SPEC-065)
 - **session-event-log** (script): session-event-log.sh — Managed Agents pattern: durable session log
 - **session-init-bootstrap** (script): session-init-bootstrap.sh — SE-045 Slice 1 async bootstrap.

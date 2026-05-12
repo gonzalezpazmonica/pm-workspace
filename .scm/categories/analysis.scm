@@ -1,16 +1,17 @@
 # analysis — Savia Capability Map (L1)
-> 58 resources
+> 59 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **Trace Search** (cmd): Buscar y filtrar trazas across multiple observability platforms with natural language support
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
 - **agent-activity** (script): agent-activity.sh — Agent activity dashboard
+- **agent-architect** (agent): Detector y propositor de descomposición para agentes monolíticos. Lee un agente target, invoca el analizador Python vía wrapper bash, recibe señales cualificadas y, si detecta ≥ 2 alerts, redacta una propuesta de descomposición con diagnóst
+- **agent-architect** (script): Agent Architect wrapper (SPEC-AGENT-ARCHITECT §2.2).
 - **agent-budget-lookup** (script): agent-budget-lookup.sh — Extract token_budget from agent frontmatter
 - **agent-code-map** (skill): Genera y gestiona Agent Code Maps (.acm) — mapas estructurales persistentes entre sesiones para que los agentes conozcan la arquitectura real del proyecto desde el primer token.
 - **agent-cost** (cmd): Coste estimado de uso de agentes por sprint/proyecto
 - **agent-efficiency** (cmd): Ratio de eficiencia de agentes — specs completadas, re-work y tiempos
-- **agent-file-map** (skill): Genera y gestiona Agent File Maps (.afm) — índice persistente de ficheros externos al workspace (Excel, PDF, imágenes, videos) que los agentes necesitan localizar sin búsqueda repetida.
 - **agent-journal** (script): agent-journal.sh — Append-only JSONL journal para agent-runs autónomos.
 - **agent-memory** (cmd): Inspect and manage persistent memory fragments for subagents.
 - **agent-notes-archive** (cmd): >

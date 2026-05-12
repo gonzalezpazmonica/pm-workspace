@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 93 resources
+> 99 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -8,12 +8,12 @@
 - **inbox-start** (cmd): >
 - **masked-digest** (script): masked-digest.sh — Masked digestion pipeline
 - **meeting-agenda** (cmd): Generación inteligente de agendas basada en estado del sprint y temas pendientes
+- **meeting-audit** (script): Meeting Digest Audit — acme-project
 - **meeting-confidentiality-judge** (agent): >
 - **meeting-digest** (cmd): >
 - **meeting-digest** (agent): >
 - **meeting-risk-analyst** (agent): >
 - **meeting-summarize** (cmd): Transcribe y extrae action items de reuniones — Sprint Review, Retro, Planning, Daily
-- **meeting-transcript-extract** (skill): Extrae transcripciones de reuniones Teams web vía CDP del browser-daemon. Funciona para reuniones propias Y reuniones donde el usuario fue asistente (convocadas por otros). Pipeline: click chat → botón Transcripción → iframe xplatplugins.as
 - **nctalk-search** (cmd): >
 - **notify** (script): notify.sh — Cross-platform desktop notifications for Savia
 - **notify-nctalk** (cmd): >
@@ -31,6 +31,7 @@
 - **savia-crypto** (script): savia-crypto.sh — RSA + AES hybrid encryption using openssl only
 - **savia-crypto-ops** (script): savia-crypto-ops.sh — Encrypt and decrypt operations
 - **savia-directory** (cmd): >
+- **savia-doc** (script): savia-doc.sh — wrapper for `python3 -m structured_doc`
 - **savia-dual** (cmd): Gestiona Savia Dual — inference sovereignty con failover entre Anthropic y gemma4 local
 - **savia-dual** (skill): Inference sovereignty — transparent failover from Anthropic to local gemma4 when the cloud is slow, failing, rate-limited, or unreachable
 - **savia-enterprise** (script): savia-enterprise.sh — Enterprise module lifecycle manager
@@ -54,7 +55,10 @@
 - **savia-inbox** (cmd): >
 - **savia-index** (script): ── savia-index.sh ──────────────────────────────────────────────────────────
 - **savia-index-rebuild** (script): ── savia-index-rebuild.sh ──────────────────────────────────────────────────
+- **savia-init** (script): savia-init.sh — Generate savia.manifest.yaml for the current workspace.
+- **savia-install** (script): savia-install.sh — Resolve and install a Savia pack into the workspace.
 - **savia-live** (cmd): Show what Savia is working on right now — live task queue and recent activity
+- **savia-lock** (script): savia-lock.sh — Regenera savia.lock desde savia.manifest.yaml.
 - **savia-memory** (skill): Gestión de memoria canónica externa de Savia (.savia-memory). Lectura, escritura, búsqueda y consolidación de memoria entre sesiones.
 - **savia-memory-bootstrap** (script): savia-memory-bootstrap.sh — crea store externo canónico ../.savia-memory/
 - **savia-memory-migrate** (script): savia-memory-migrate.sh — migra memoria de silos internos/externos al store canónico
@@ -80,6 +84,7 @@
 - **savia-sprint** (cmd): >
 - **savia-status** (cmd): Show Savia current status, health metrics, and top pending priorities
 - **savia-status** (script): savia-status.sh — What is Savia doing right now?
+- **savia-sync** (script): savia-sync.sh — Verifica y sincroniza workspace contra savia.lock.
 - **savia-team** (cmd): >
 - **savia-timesheet** (cmd): >
 - **savia-travel** (script): savia-travel.sh — Travel Mode Core (≤150 lines)
@@ -87,6 +92,7 @@
 - **savia-travel-init** (script): savia-init.sh — Travel Mode Init Script (template)
 - **savia-travel-ops** (script): savia-travel-ops.sh — Pack and init operations for savia-travel.sh
 - **savia-travel-pack** (cmd): >
+- **savia-verify** (script): savia-verify.sh — Verify savia.manifest.yaml is valid (CI gate).
 - **savia-voice-chunk** (script): savia-voice-chunk.sh — SE-075 Slice 2.
 - **savia-watch** (script): savia-watch.sh — Live activity feed from Savia
 - **savia-watchdog** (script): savia-watchdog.sh — Emergency fallback: detect internet loss, activate local LLM

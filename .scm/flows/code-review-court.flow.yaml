@@ -1,0 +1,94 @@
+flow_id: code-review-court
+version: 1
+description: Revisión paralela por 5 jueces especializados con scoring 0-100.
+confidentiality: N1
+
+inputs:
+  - name: pr_number
+    type: integer
+    required: true
+  - name: target_branch
+    type: string
+    default: main
+
+state:
+  scores: {}
+  verdict: null
+  weighted_score: 0
+  findings: []
+
+nodes:
+  - id: fetch-diff
+    kind: command
+    invoke: /pr-fetch-diff
+    args:
+      pr: "${inputs.pr_number}"
+
+  - id: judge-correctness
+    kind: agent
+    invoke: correctness-judge
+    parallel_group: judges
+    depends_on: [fetch-diff]
+
+  - id: judge-architecture
+    kind: agent
+    invoke: architecture-judge
+    parallel_group: judges
+    depends_on: [fetch-diff]
+
+  - id: judge-security
+    kind: agent
+    invoke: security-judge
+    parallel_group: judges
+    depends_on: [fetch-diff]
+
+  - id: judge-cognitive
+    kind: agent
+    invoke: cognitive-judge
+    parallel_group: judges
+    depends_on: [fetch-diff]
+
+  - id: judge-spec
+    kind: agent
+    invoke: spec-judge
+    parallel_group: judges
+    depends_on: [fetch-diff]
+
+  - id: aggregate
+    kind: skill
+    invoke: court_aggregator
+    depends_on:
+      - judge-correctness
+      - judge-architecture
+      - judge-security
+      - judge-cognitive
+      - judge-spec
+
+edges:
+  - from: fetch-diff
+    to:
+      - judge-correctness
+      - judge-architecture
+      - judge-security
+      - judge-cognitive
+      - judge-spec
+  - from: judge-correctness
+    to: aggregate
+  - from: judge-architecture
+    to: aggregate
+  - from: judge-security
+    to: aggregate
+  - from: judge-cognitive
+    to: aggregate
+  - from: judge-spec
+    to: aggregate
+  - from: aggregate
+    to: END
+    when: "state.weighted_score > 70"
+  - from: aggregate
+    to: END
+    when: "state.weighted_score <= 70"
+
+guards:
+  max_iterations: 1
+  max_duration_minutes: 30

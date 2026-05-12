@@ -1,0 +1,40 @@
+flow_id: sprint-nocturno
+version: 1
+description: >
+  Modo autónomo nocturno — esqueleto Slice 4. Detecta tareas de bajo riesgo,
+  aplica mejoras y crea PRs en Draft. Ver SPEC-AGENTIC-FLOW-GRAPH §3.4 y la
+  skill overnight-sprint para detalle operativo.
+confidentiality: N1
+
+state:
+  budget:
+    max_tasks: 20
+    max_minutes: 480
+
+nodes:
+  - id: scan
+    kind: command
+    invoke: /overnight-sprint
+    args:
+      mode: scan-only
+
+  - id: improve-loop
+    kind: command
+    invoke: /code-improve
+    depends_on: [scan]
+    idempotent: false
+
+  - id: pr-plan
+    kind: subflow
+    invoke: pr-plan
+    depends_on: [improve-loop]
+
+edges:
+  - from: scan
+    to: improve-loop
+  - from: improve-loop
+    to: pr-plan
+
+guards:
+  max_duration_minutes: 480
+  max_iterations: 50

@@ -1,0 +1,32 @@
+flow_id: hello-world
+version: 1
+description: Smoke flow — single command node, no branching. Validates Slice 1 toolchain.
+confidentiality: N1
+
+inputs:
+  - name: greeting
+    type: string
+    default: "hello"
+
+state:
+  said: false
+
+nodes:
+  - id: say-hello
+    kind: command
+    invoke: /help
+    args:
+      msg: "${inputs.greeting}"
+    outputs: [stdout]
+
+edges:
+  - from: say-hello
+    to: END
+    when: "true"
+
+guards:
+  max_iterations: 1
+  max_duration_minutes: 1
+
+on_failure:
+  - log: output/flows/${run_id}/error.json

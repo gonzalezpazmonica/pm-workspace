@@ -1,0 +1,34 @@
+flow_id: debt-analyze
+version: 1
+description: >
+  Análisis de deuda técnica — esqueleto Slice 4. Cruza /debt-analyze con
+  /debt-prioritize y deja el track listo para /debt-budget. Idempotente:
+  re-ejecutar con el mismo backlog reutiliza el output cacheado.
+confidentiality: N1
+
+nodes:
+  - id: analyze
+    kind: command
+    invoke: /debt-analyze
+    idempotent: true
+
+  - id: prioritize
+    kind: command
+    invoke: /debt-prioritize
+    depends_on: [analyze]
+    idempotent: true
+
+  - id: track
+    kind: command
+    invoke: /debt-track
+    depends_on: [prioritize]
+
+edges:
+  - from: analyze
+    to: prioritize
+  - from: prioritize
+    to: track
+
+guards:
+  max_duration_minutes: 30
+  max_iterations: 10

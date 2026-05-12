@@ -1,6 +1,6 @@
 {
-  "hash": "afe4999e5cb5",
-  "total": 1158,
+  "hash": "48061fc2a264",
+  "total": 1169,
   "resources": [
     {
       "category": "analysis",
@@ -72,6 +72,33 @@
     },
     {
       "category": "analysis",
+      "name": "agent-architect",
+      "intents": [
+        "agente",
+        "agentes",
+        "alerts",
+        "analizador",
+        "bash"
+      ],
+      "kind": "agent",
+      "path": ".claude/agents/agent-architect.md",
+      "description": "Detector y propositor de descomposición para agentes monolíticos. Lee un agente target, invoca el analizador Python vía wrapper bash, recibe señales cualificadas y, si detecta ≥ 2 alerts, redacta una propuesta de descomposición con diagnóst"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-architect",
+      "intents": [
+        "agent",
+        "architect",
+        "spec",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-architect.sh",
+      "description": "Agent Architect wrapper (SPEC-AGENT-ARCHITECT §2.2)."
+    },
+    {
+      "category": "analysis",
       "name": "agent-budget-lookup",
       "intents": [
         "agent",
@@ -125,20 +152,6 @@
       "kind": "cmd",
       "path": ".claude/commands/agent-efficiency.md",
       "description": "Ratio de eficiencia de agentes — specs completadas, re-work y tiempos"
-    },
-    {
-      "category": "analysis",
-      "name": "agent-file-map",
-      "intents": [
-        "agent",
-        "agentes",
-        "búsqueda",
-        "excel",
-        "externos"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/agent-file-map/SKILL.md",
-      "description": "Genera y gestiona Agent File Maps (.afm) — índice persistente de ficheros externos al workspace (Excel, PDF, imágenes, videos) que los agentes necesitan localizar sin búsqueda repetida."
     },
     {
       "category": "analysis",
@@ -839,6 +852,19 @@
     },
     {
       "category": "communication",
+      "name": "meeting-audit",
+      "intents": [
+        "audit",
+        "digest",
+        "meeting",
+        "acme-project"
+      ],
+      "kind": "script",
+      "path": "scripts/meeting-audit.sh",
+      "description": "Meeting Digest Audit — acme-project"
+    },
+    {
+      "category": "communication",
       "name": "meeting-confidentiality-judge",
       "intents": [],
       "kind": "agent",
@@ -882,20 +908,6 @@
       "kind": "cmd",
       "path": ".claude/commands/meeting-summarize.md",
       "description": "Transcribe y extrae action items de reuniones — Sprint Review, Retro, Planning, Daily"
-    },
-    {
-      "category": "communication",
-      "name": "meeting-transcript-extract",
-      "intents": [
-        "asistente",
-        "botón",
-        "browser",
-        "chat",
-        "click"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/meeting-transcript-extract/SKILL.md",
-      "description": "Extrae transcripciones de reuniones Teams web vía CDP del browser-daemon. Funciona para reuniones propias Y reuniones donde el usuario fue asistente (convocadas por otros). Pipeline: click chat → botón Transcripción → iframe xplatplugins.as"
     },
     {
       "category": "communication",
@@ -1071,6 +1083,19 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-directory.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-doc",
+      "intents": [
+        "python",
+        "savia",
+        "structured",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-doc.sh",
+      "description": "savia-doc.sh — wrapper for `python3 -m structured_doc`"
     },
     {
       "category": "communication",
@@ -1377,6 +1402,34 @@
     },
     {
       "category": "communication",
+      "name": "savia-init",
+      "intents": [
+        "current",
+        "generate",
+        "init",
+        "manifest",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-init.sh",
+      "description": "savia-init.sh — Generate savia.manifest.yaml for the current workspace."
+    },
+    {
+      "category": "communication",
+      "name": "savia-install",
+      "intents": [
+        "install",
+        "pack",
+        "resolve",
+        "savia",
+        "workspace"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-install.sh",
+      "description": "savia-install.sh — Resolve and install a Savia pack into the workspace."
+    },
+    {
+      "category": "communication",
       "name": "savia-live",
       "intents": [
         "activity",
@@ -1388,6 +1441,20 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-live.md",
       "description": "Show what Savia is working on right now — live task queue and recent activity"
+    },
+    {
+      "category": "communication",
+      "name": "savia-lock",
+      "intents": [
+        "lock",
+        "manifest",
+        "regenera",
+        "savia",
+        "yaml"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-lock.sh",
+      "description": "savia-lock.sh — Regenera savia.lock desde savia.manifest.yaml."
     },
     {
       "category": "communication",
@@ -1710,6 +1777,20 @@
     },
     {
       "category": "communication",
+      "name": "savia-sync",
+      "intents": [
+        "contra",
+        "lock",
+        "savia",
+        "sincroniza",
+        "sync"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-sync.sh",
+      "description": "savia-sync.sh — Verifica y sincroniza workspace contra savia.lock."
+    },
+    {
+      "category": "communication",
       "name": "savia-team",
       "intents": [],
       "kind": "cmd",
@@ -1781,6 +1862,20 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-travel-pack.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-verify",
+      "intents": [
+        "gate",
+        "manifest",
+        "savia",
+        "valid",
+        "verify"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-verify.sh",
+      "description": "savia-verify.sh — Verify savia.manifest.yaml is valid (CI gate)."
     },
     {
       "category": "communication",
@@ -3146,34 +3241,6 @@
     },
     {
       "category": "development",
-      "name": "setup-claude-permissions",
-      "intents": [
-        "backward",
-        "compatibility",
-        "deprecated",
-        "file",
-        "instead"
-      ],
-      "kind": "script",
-      "path": "scripts/setup-claude-permissions.sh",
-      "description": "DEPRECATED: use setup-opencode-permissions.sh instead. This file kept for backward compatibility."
-    },
-    {
-      "category": "development",
-      "name": "setup-opencode-permissions",
-      "intents": [
-        "claude",
-        "json",
-        "local",
-        "permisos",
-        "permissions"
-      ],
-      "kind": "script",
-      "path": "scripts/setup-opencode-permissions.sh",
-      "description": "setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados"
-    },
-    {
-      "category": "development",
       "name": "setup-savia-web",
       "intents": [
         "build",
@@ -4471,6 +4538,20 @@
     },
     {
       "category": "memory",
+      "name": "context-guard-recall",
+      "intents": [
+        "context",
+        "guard",
+        "recall",
+        "retrieve",
+        "stored"
+      ],
+      "kind": "script",
+      "path": "scripts/context-guard-recall.sh",
+      "description": "context-guard-recall.sh — Retrieve a stored context-guard summary."
+    },
+    {
+      "category": "memory",
       "name": "context-interview",
       "intents": [
         "clientes",
@@ -4675,6 +4756,33 @@
       "kind": "script",
       "path": "scripts/context-tracker.sh",
       "description": "── context-tracker.sh ─────────────────────────────────────────────────────"
+    },
+    {
+      "category": "memory",
+      "name": "context-update",
+      "intents": [
+        "audit",
+        "broken",
+        "confidentiality",
+        "consistency",
+        "context"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/context-update.md",
+      "description": "Audit and update Savia's markdown knowledge context — frontmatter lint, broken wikilinks, stale TODOs, duplicate IDs, schema drift, confidentiality leaks, tag consistency. SPEC-KNOWLEDGE-CONTEXT-INTEGRATION-PHASE2 Slice 6."
+    },
+    {
+      "category": "memory",
+      "name": "context-update",
+      "intents": [
+        "context",
+        "pipeline",
+        "update",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/context-update.sh",
+      "description": "context-update.sh — wrapper for /context-update pipeline"
     },
     {
       "category": "memory",
@@ -5291,6 +5399,20 @@
     },
     {
       "category": "memory",
+      "name": "search-miss-log",
+      "intents": [
+        "bajó",
+        "based",
+        "heurística",
+        "miss",
+        "registra"
+      ],
+      "kind": "script",
+      "path": "scripts/search-miss-log.sh",
+      "description": "search-miss-log.sh — registra cuando la heurística tier-based bajó a T4/T5"
+    },
+    {
+      "category": "memory",
       "name": "session-action-log",
       "intents": [
         "action",
@@ -5689,20 +5811,6 @@
     },
     {
       "category": "planning",
-      "name": "ado-bridge",
-      "intents": [
-        "azure",
-        "bridge",
-        "commands",
-        "devops",
-        "rest"
-      ],
-      "kind": "script",
-      "path": "scripts/ado-bridge.sh",
-      "description": "ado-bridge.sh — Azure DevOps REST API v7.1 bridge for Savia PM commands"
-    },
-    {
-      "category": "planning",
       "name": "adoption-assess",
       "intents": [
         "adkar",
@@ -5907,6 +6015,34 @@
       "kind": "skill",
       "path": ".claude/skills/architecture-intelligence/SKILL.md",
       "description": "Detección de patrones de arquitectura, sugerencias de mejora y recomendaciones para proyectos nuevos"
+    },
+    {
+      "category": "planning",
+      "name": "artifact-export",
+      "intents": [
+        "artifact",
+        "efímera",
+        "export",
+        "líneas",
+        "rule"
+      ],
+      "kind": "script",
+      "path": "scripts/artifact-export.sh",
+      "description": "artifact-export.sh — URL efímera para un artifact. ≤15 líneas. Rule #26."
+    },
+    {
+      "category": "planning",
+      "name": "artifact-list",
+      "intents": [
+        "artifact",
+        "artifacts",
+        "list",
+        "lista",
+        "líneas"
+      ],
+      "kind": "script",
+      "path": "scripts/artifact-list.sh",
+      "description": "artifact-list.sh — Lista artifacts de un run. ≤15 líneas. Rule #26."
     },
     {
       "category": "planning",
@@ -7613,6 +7749,34 @@
     },
     {
       "category": "planning",
+      "name": "flow-otel-exporter",
+      "intents": [
+        "bash",
+        "efectivas",
+        "exporter",
+        "flow",
+        "líneas"
+      ],
+      "kind": "script",
+      "path": "scripts/flow-otel-exporter.sh",
+      "description": "flow-otel-exporter.sh — Wrapper bash para el exporter OTel (≤20 líneas efectivas)."
+    },
+    {
+      "category": "planning",
+      "name": "flow-otel-test",
+      "intents": [
+        "bash",
+        "efectivas",
+        "flow",
+        "líneas",
+        "otel"
+      ],
+      "kind": "script",
+      "path": "scripts/flow-otel-test.sh",
+      "description": "flow-otel-test.sh — Wrapper bash para /flow-otel-test (≤20 líneas efectivas)."
+    },
+    {
+      "category": "planning",
       "name": "flow-protect",
       "intents": [
         "analiza",
@@ -8114,14 +8278,6 @@
     },
     {
       "category": "planning",
-      "name": "import-sprint-story",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/import-sprint-story.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "incident-postmortem",
       "intents": [
         "action",
@@ -8534,6 +8690,20 @@
       "kind": "script",
       "path": "scripts/model-capability-resolver.sh",
       "description": "model-capability-resolver.sh — Resolve model capabilities from YAML registry"
+    },
+    {
+      "category": "planning",
+      "name": "morning-bootstrap",
+      "intents": [
+        "auth",
+        "bootstrap",
+        "lunes",
+        "morning",
+        "project"
+      ],
+      "kind": "script",
+      "path": "scripts/morning-bootstrap.sh",
+      "description": "morning-bootstrap.sh — rutina lunes 09:00 (auth + project-update)"
     },
     {
       "category": "planning",
@@ -9343,19 +9513,6 @@
     },
     {
       "category": "planning",
-      "name": "project-context",
-      "intents": [
-        "context",
-        "isolation",
-        "project",
-        "savia"
-      ],
-      "kind": "script",
-      "path": "scripts/project-context.sh",
-      "description": "project-context.sh — Project isolation for Savia (SE-093)"
-    },
-    {
-      "category": "planning",
       "name": "project-kickoff",
       "intents": [],
       "kind": "cmd",
@@ -9385,20 +9542,6 @@
       "kind": "cmd",
       "path": ".claude/commands/project-roadmap.md",
       "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "project-update",
-      "intents": [
-        "activo",
-        "actualización",
-        "bajo",
-        "calendar",
-        "confidencial"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/project-update/SKILL.md",
-      "description": "Actualización integral del proyecto activo. Orquestador determinista (multiproceso) que refresca DevOps+mail+calendar+teams+SharePoint+OneDrive+transcripts, digiere VTTs a meeting digests, y deja todo persistido bajo niveles de confidencial"
     },
     {
       "category": "planning",
@@ -10243,6 +10386,20 @@
     },
     {
       "category": "planning",
+      "name": "setup-claude-permissions",
+      "intents": [
+        "claude",
+        "json",
+        "local",
+        "permisos",
+        "permissions"
+      ],
+      "kind": "script",
+      "path": "scripts/setup-claude-permissions.sh",
+      "description": "setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados"
+    },
+    {
+      "category": "planning",
       "name": "setup-merge-drivers",
       "intents": [
         "configure",
@@ -10282,6 +10439,20 @@
       "kind": "script",
       "path": "scripts/setup-savia-remote.sh",
       "description": "setup-savia-remote.sh — Run ONCE on the remote server as root/sudo."
+    },
+    {
+      "category": "planning",
+      "name": "setup-second-origin",
+      "intents": [
+        "local",
+        "machine",
+        "persistence",
+        "remote",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/setup-second-origin.sh",
+      "description": "Add a second remote for machine-local persistence of Savia/pm-workspace"
     },
     {
       "category": "planning",
@@ -11795,20 +11966,6 @@
       "kind": "cmd",
       "path": ".claude/commands/webhook-config.md",
       "description": "Configurar webhooks para recibir eventos push de Azure DevOps, GitHub y otras fuentes"
-    },
-    {
-      "category": "planning",
-      "name": "weekly-report",
-      "intents": [
-        "capacity",
-        "consolidates",
-        "generator",
-        "project",
-        "report"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/weekly-report/SKILL.md",
-      "description": "Weekly project status report generator — consolidates sprint, git, PRs, and capacity"
     },
     {
       "category": "planning",
