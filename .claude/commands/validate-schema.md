@@ -33,15 +33,15 @@ Verificar que:
 
 ### 3. Validar frontmatter de commands
 
-Para cada `.opencode/commands/*.md`:
+Para cada `.claude/commands/*.md`:
 - Debe tener frontmatter YAML válido (entre `---`)
 - Campos requeridos: `name`, `description`
 - Campo `name` debe coincidir con nombre de fichero (sin `.md`)
-- Si tiene `agent:`, debe existir en `.opencode/agents/`
+- Si tiene `agent:`, debe existir en `.claude/agents/`
 
 ### 4. Validar frontmatter de skills
 
-Para cada `.opencode/skills/*/SKILL.md`:
+Para cada `.claude/skills/*/SKILL.md`:
 - Debe tener frontmatter YAML válido
 - Campos requeridos: `name`, `description`
 - Campo `context` debe ser `fork` o `main`

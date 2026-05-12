@@ -3,14 +3,14 @@ name: criticality-assess
 description: "Evaluar criticidad de un item con desglose de 5 dimensiones y perfil CoD"
 argument-hint: "{item-id} [--project nombre]"
 allowed-tools: [Read, Bash, Glob, Grep]
-model: github-copilot/claude-sonnet-4.5
+model: mid
 context_cost: low
 ---
 
 # /criticality-assess — Evaluacion de Criticidad
 
-Ejecutar skill: `@.opencode/skills/smart-calendar/SKILL.md`
-Spec: `@.opencode/skills/smart-calendar/spec-task-criticality.md`
+Ejecutar skill: `@.claude/skills/smart-calendar/SKILL.md`
+Spec: `@.claude/skills/smart-calendar/spec-task-criticality.md`
 
 ## Flujo
 

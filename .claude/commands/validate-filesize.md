@@ -2,7 +2,7 @@
 name: validate-filesize
 description: Validar que ficheros del workspace cumplen ≤150 líneas
 agent: commit-guardian
-model: github-copilot/claude-sonnet-4.5
+model: fast
 context_cost: low
 ---
 
@@ -25,10 +25,10 @@ Verifica que todos los ficheros gestionados del workspace (skills, agents, rules
 ### 2. Escanear ficheros
 
 Categorías a revisar:
-- `.opencode/skills/*/SKILL.md`
-- `.opencode/agents/*.md`
+- `.claude/skills/*/SKILL.md`
+- `.claude/agents/*.md`
 - `docs/rules/domain/*.md`
-- `.opencode/commands/*.md`
+- `.claude/commands/*.md`
 - `scripts/*.sh`
 - `CLAUDE.md`
 

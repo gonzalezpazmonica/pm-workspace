@@ -23,7 +23,7 @@
 
 ```bash
 semgrep \
-  --config .opencode/skills/ast-quality-gate/references/semgrep-rules.yaml \
+  --config .claude/skills/ast-quality-gate/references/semgrep-rules.yaml \
   --json \
   --no-git-ignore \
   "$TARGET"

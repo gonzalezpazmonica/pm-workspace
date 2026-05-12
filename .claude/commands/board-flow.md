@@ -1,7 +1,7 @@
 ---
 name: board-flow
 description: Analiza el flujo de trabajo del board — WIP actual, cuellos de botella y métricas de flujo.
-model: github-copilot/claude-sonnet-4.5
+model: mid
 context_cost: medium
 ---
 

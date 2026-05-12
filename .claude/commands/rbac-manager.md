@@ -3,15 +3,15 @@ name: rbac-manager
 description: "Role-based access control — grant, revoke, audit roles and permissions"
 allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[grant|revoke|audit|check] {user} {role} [--project proj] [--reason motivo]"
-model: github-copilot/claude-sonnet-4.5
+model: mid
 context_cost: low
 ---
 
 # /rbac-manager — Control de acceso basado en roles
 
-> Skill: @.opencode/skills/rbac-management/SKILL.md
+> Skill: @.claude/skills/rbac-management/SKILL.md
 > Regla: @docs/rules/domain/rbac-model.md
-> Integración: @.opencode/commands/team-orchestrator.md
+> Integración: @.claude/commands/team-orchestrator.md
 
 Gestiona la asignación de roles a usuarios, revocación de permisos, auditoría
 de accesos y verificación de permiso pre-comando.

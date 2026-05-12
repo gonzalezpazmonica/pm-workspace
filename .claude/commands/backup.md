@@ -84,7 +84,7 @@ Ver estado del sistema de backup:
 
 - `projects/` — código fuente (ya en git)
 - `output/` — informes (regenerables)
-- `.opencode/commands/`, `docs/rules/` — vienen del repo
+- `.claude/commands/`, `docs/rules/` — vienen del repo
 
 ## Voz de Savia
 

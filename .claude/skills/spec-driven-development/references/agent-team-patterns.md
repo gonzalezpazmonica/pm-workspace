@@ -33,7 +33,7 @@ BASE="projects/{proyecto}"
 SPEC_FILE="$BASE/specs/{sprint}/{spec_filename}.spec.md"
 LOG_FILE="output/agent-runs/$(date +%Y%m%d-%H%M%S)-{task_id}-single.log"
 
-opencode run --model heavy \
+claude --model claude-opus-4-7 \
   --system-prompt "$(cat $BASE/CLAUDE.md)" \
   --max-turns 40 \
   "Implementa la siguiente Spec exactamente como se describe.
@@ -79,7 +79,7 @@ SPEC_FILE="$BASE/specs/{sprint}/{spec_filename}.spec.md"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 
 # Agente 1: Implementador — solo código de producción, sin tests
-opencode run --model heavy \
+claude --model claude-opus-4-7 \
   --system-prompt "Eres un desarrollador .NET 8 senior especializado en Clean Architecture y CQRS.
 Tu único rol es implementar el código de PRODUCCIÓN de la Spec:
 - Ficheros en src/ (NO tests/)
@@ -93,7 +93,7 @@ $(cat $BASE/CLAUDE.md)" \
 PID_IMPL=$!
 
 # Agente 2: Tester — solo tests, usando la interfaz definida en la Spec
-opencode run --model fast \
+claude --model claude-haiku-4-5-20251001 \
   --system-prompt "Eres un QA engineer senior especializado en .NET y xUnit.
 Tu único rol es escribir los TESTS descritos en la Spec:
 - Ficheros en tests/ (NO src/)
@@ -155,7 +155,7 @@ wait $PID_IMPL $PID_TEST
 IMPL_LOG="output/agent-runs/${TIMESTAMP}-{task_id}-implementador.log"
 TEST_LOG="output/agent-runs/${TIMESTAMP}-{task_id}-tester.log"
 
-opencode run --model heavy \
+claude --model claude-opus-4-7 \
   --system-prompt "Eres un Tech Lead .NET revisando código generado por agentes IA.
 Tu rol es SOLO revisar y reportar — NO modificar código.
 Busca específicamente:
@@ -240,7 +240,7 @@ for ROLE in "api" "application" "infrastructure" "tests"; do
       ;;
   esac
 
-  opencode run --model heavy \
+  claude --model claude-opus-4-7 \
     --system-prompt "$SYSTEM_PROMPT. $ROLE_PROMPT" \
     "$(cat $SPEC_FILE)" \
     2>&1 | tee "output/agent-runs/${TIMESTAMP}-{task_id}-${ROLE}.log" &
@@ -281,7 +281,7 @@ for SPEC_FILE in $SPRINT_DIR/*.spec.md; do
   fi
 
   echo "🚀 Lanzando agente para: $SPEC_BASENAME"
-  opencode run --model heavy \
+  claude --model claude-opus-4-7 \
     --system-prompt "$(cat $BASE/CLAUDE.md)" \
     --max-turns 30 \
     "Implementa esta Spec exactamente. No tomes decisiones fuera de la Spec.
@@ -311,7 +311,7 @@ Cuando dos agentes modifican el mismo fichero (ej: `DependencyInjection.cs`), pu
 **Opción B — Merge post-ejecución:**
 ```bash
 # Después de que todos los agentes terminen, un agente merger resuelve conflictos
-opencode run --model fast \
+claude --model claude-haiku-4-5-20251001 \
   "Revisa los siguientes ficheros que han sido creados por múltiples agentes
    y fusiona los cambios en DependencyInjection.cs sin perder registros de ningún agente:
 
@@ -343,7 +343,7 @@ output/agent-runs/
 TIMESTAMP="20260404-143022"
 TASK_ID="AB1234"
 
-opencode run --model fast \
+claude --model claude-haiku-4-5-20251001 \
   "Analiza los siguientes logs de ejecución de agentes y genera un resumen en formato markdown:
    - Estado de cada agente (completado/bloqueado/error)
    - Ficheros creados/modificados
@@ -401,4 +401,4 @@ El Code Review siempre lo realiza un humano. Siempre. Sin excepción.
 → Spec template: `spec-template.md`
 → Matrix de asignación por capa: `layer-assignment-matrix.md`
 → Skill base SDD: `../SKILL.md`
-→ Comando de ejecución: `.opencode/commands/agent-run.md`
+→ Comando de ejecución: `.claude/commands/agent-run.md`

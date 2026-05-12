@@ -25,7 +25,7 @@ description: >
 ## 2. Protocolo
 
 ### 2.1 Leer contexto
-- `.opencode/skills/team-onboarding/SKILL.md`
+- `.claude/skills/team-onboarding/SKILL.md`
 - `projects/{proyecto}/CLAUDE.md` (módulos)
 - `projects/{proyecto}/equipo.md` (perfil existente)
 - `projects/{proyecto}/reglas-negocio.md` (para personalizar sección C)

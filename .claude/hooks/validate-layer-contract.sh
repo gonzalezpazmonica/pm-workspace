@@ -54,7 +54,6 @@ REL_PATH="${FILE_PATH#$PROJECT_DIR/}"
 case "$REL_PATH" in
   scripts/validate-layer-contract.sh) exit 0 ;;
   .claude/hooks/validate-layer-contract.sh) exit 0 ;;
-  .opencode/hooks/validate-layer-contract.sh) exit 0 ;;
   .claude/enterprise/*) exit 0 ;;
   docs/rules/*) ;;
   docs/*) exit 0 ;;
@@ -64,7 +63,7 @@ esac
 
 # Only guard Core paths
 case "$REL_PATH" in
-  .opencode/agents/*|.opencode/commands/*|.opencode/skills/*|.claude/rules/*|docs/rules/*|.opencode/hooks/*|CLAUDE.md)
+  .claude/agents/*|.claude/commands/*|.claude/skills/*|.claude/rules/*|docs/rules/*|.claude/hooks/*|CLAUDE.md)
     ;;
   *)
     exit 0

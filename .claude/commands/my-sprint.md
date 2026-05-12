@@ -4,7 +4,7 @@ description: Vista personal del sprint — items asignados, progreso, cycle time
 developer_type: all
 agent: none
 context_cost: medium
-model: github-copilot/claude-sonnet-4.5
+model: fast
 ---
 
 # /my-sprint

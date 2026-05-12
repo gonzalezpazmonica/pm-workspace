@@ -6,7 +6,7 @@ allowed-tools:
   - Read
   - Bash
   - Glob
-model: github-copilot/claude-sonnet-4.5
+model: mid
 context_cost: medium
 ---
 
@@ -24,9 +24,9 @@ Valida integridad de estructura, genera manifest dinámico, crea archivo comprim
 ### Argumentos
 
 - `--components` (opcional): Exportar solo componentes específicos (default: todos)
-  - `skills` — exportar directorio `.opencode/skills/`
-  - `agents` — exportar directorio `.opencode/agents/`
-  - `commands` — exportar directorio `.opencode/commands/`
+  - `skills` — exportar directorio `.claude/skills/`
+  - `agents` — exportar directorio `.claude/agents/`
+  - `commands` — exportar directorio `.claude/commands/`
   - `rules` — exportar directorio `docs/rules/`
   - Separar con comas: `skills,agents,commands`
 - `--output` (opcional): Ruta del archivo de salida (default: `output/pm-workspace-plugin.tar.gz`)
@@ -55,9 +55,9 @@ con estructura:
 ```
 pm-workspace-plugin/
 ├── .claude-plugin/plugin.json
-├── .opencode/commands/
-├── .opencode/skills/
-├── .opencode/agents/
+├── .claude/commands/
+├── .claude/skills/
+├── .claude/agents/
 └── README.md
 ```
 

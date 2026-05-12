@@ -42,6 +42,12 @@
           },
           {
             "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/heuristic-search-enforcement.sh",
+            "timeout": 3,
+            "statusMessage": "Heuristic search guard: verificando T1 antes de grep..."
+          },
+          {
+            "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/block-force-push.sh",
             "timeout": 5,
             "statusMessage": "Savia Shield: bloqueando force-push..."
@@ -301,6 +307,13 @@
             "async": true,
             "timeout": 3,
             "statusMessage": "ACM turn marker (SE-063)..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/heuristic-search-marker.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "Heuristic T1 marker..."
           }
         ]
       },

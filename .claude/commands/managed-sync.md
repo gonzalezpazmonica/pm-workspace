@@ -59,5 +59,5 @@ Found: 4 files with 6 managed sections
 ## Related
 
 - `/managed-scan` — Audit all markers with freshness status
-- `.opencode/skills/managed-content/SKILL.md` — Marker format and workflow
+- `.claude/skills/managed-content/SKILL.md` — Marker format and workflow
 - `docs/rules/domain/managed-content.md` — Enforcement rules

@@ -61,7 +61,7 @@ done
 for f in $STAGED_FILES; do
   [[ -f "$f" ]] || continue
   case "$f" in
-    .opencode/commands/*|.claude/rules/*|docs/rules/*|.opencode/agents/*|.opencode/skills/*)
+    .claude/commands/*|.claude/rules/*|docs/rules/*|.claude/agents/*|.claude/skills/*)
       LINES=$(awk 'END{print NR}' "$f")
       if [[ "$LINES" -gt 150 ]]; then
         ISSUES+="$f exceeds 150 lines ($LINES). "

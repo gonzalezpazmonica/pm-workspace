@@ -11,7 +11,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
-model: github-copilot/claude-opus-4.7
+model: heavy
 context_cost: high
 ---
 

@@ -4,7 +4,7 @@ description: >
   Responder a un mensaje en Company Savia con threading automático.
 argument-hint: "<msg_id> [--encrypt]"
 allowed-tools: [Read, Bash, Glob]
-model: github-copilot/claude-sonnet-4.5
+model: mid
 context_cost: low
 ---
 
@@ -21,7 +21,7 @@ context_cost: low
 
 ## Contexto requerido
 
-1. @.opencode/skills/company-messaging/references/company-savia-config.md — Config Company Savia
+1. @.claude/skills/company-messaging/references/company-savia-config.md — Config Company Savia
 
 ## Pasos de ejecución
 

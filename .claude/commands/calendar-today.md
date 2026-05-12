@@ -3,13 +3,13 @@ name: calendar-today
 description: "Vista del dia con alertas, reuniones, focus blocks y recomendaciones"
 argument-hint: "[--project nombre]"
 allowed-tools: [Read, Bash, Glob, Grep]
-model: github-copilot/claude-sonnet-4.5
+model: mid
 context_cost: medium
 ---
 
 # /calendar-today — Vista del Dia
 
-Ejecutar skill: `@.opencode/skills/smart-calendar/SKILL.md`
+Ejecutar skill: `@.claude/skills/smart-calendar/SKILL.md`
 
 ## Flujo
 

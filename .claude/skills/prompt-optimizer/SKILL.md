@@ -35,13 +35,13 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
 ### 1. Target (skill o agente a optimizar)
 
 ```
-.opencode/skills/{nombre}/SKILL.md    → skill
-.opencode/agents/{nombre}.md          → agente
+.claude/skills/{nombre}/SKILL.md    → skill
+.claude/agents/{nombre}.md          → agente
 ```
 
 ### 2. Test fixture (input + checklist)
 
-Fichero en `.opencode/skills/{nombre}/test-fixtures/` o `.opencode/agents/test-fixtures/{nombre}/`:
+Fichero en `.claude/skills/{nombre}/test-fixtures/` o `.claude/agents/test-fixtures/{nombre}/`:
 
 ```yaml
 # test-fixture.yaml
@@ -108,8 +108,8 @@ Cambios PROHIBIDOS:
 ### Fichero optimizado
 
 ```
-.opencode/skills/{nombre}/SKILL.optimized.md     → skill
-.opencode/agents/{nombre}.optimized.md            → agente
+.claude/skills/{nombre}/SKILL.optimized.md     → skill
+.claude/agents/{nombre}.optimized.md            → agente
 ```
 
 El original NO se modifica. El PM decide si adoptar la version optimizada.

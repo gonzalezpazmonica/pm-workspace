@@ -21,7 +21,7 @@ description: >
 
 ### 1. Leer la plantilla
 
-Leer `.opencode/skills/team-onboarding/references/privacy-notice-template.md`.
+Leer `.claude/skills/team-onboarding/references/privacy-notice-template.md`.
 
 ### 2. Obtener datos de la empresa
 

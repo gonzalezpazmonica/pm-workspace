@@ -19,10 +19,10 @@ $ARGUMENTS (número de PR o URL)
    ```
 
 2. **Clasificar los cambios** por área:
-   - 📋 Comandos (.opencode/commands/)
-   - 🤖 Agentes (.opencode/agents/)
-   - 🛠️ Skills (.opencode/skills/)
-   - 🪝 Hooks (.opencode/hooks/)
+   - 📋 Comandos (.claude/commands/)
+   - 🤖 Agentes (.claude/agents/)
+   - 🛠️ Skills (.claude/skills/)
+   - 🪝 Hooks (.claude/hooks/)
    - 📏 Reglas (docs/rules/)
    - ⚙️ Scripts (scripts/)
    - 📄 Documentación (docs/, *.md)
