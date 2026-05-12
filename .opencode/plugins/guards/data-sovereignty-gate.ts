@@ -31,6 +31,7 @@ import {
   isShieldScript,
   isN1Destination,
 } from "../lib/sovereignty-patterns.ts";
+import { mkdirSync, appendFileSync } from "node:fs";
 
 // ── Daemon path REMOVED 2026-05-06 (OpenCode-native migration) ──────────
 // Shield daemons no longer run. Guard relies on inline regex + base64
@@ -38,17 +39,37 @@ import {
 
 // ── Fallback audit log ────────────────────────────────────────────────────
 
-function auditLog(entry: Record<string, unknown>): void {
+function ensureOutputDir(): void {
   try {
+    mkdirSync("output", { recursive: true });
+  } catch {
+    // EEXIST on Windows bun is fine; ignore
+  }
+}
+
+export function auditLog(entry: Record<string, unknown>): void {
+  // Sync file append — never write to stderr (corrupts OpenCode TUI overlay).
+  // Persistent log: output/data-sovereignty-audit.jsonl
+  try {
+    ensureOutputDir();
     const ts = new Date().toISOString();
-    // console.warn for operator visibility — actual file write would need
-    // Bun.write which is async and not appropriate in a sync guard.
-    // The audit hook (data-sovereignty-audit.ts) handles persistent logging.
-    const line = JSON.stringify({ ts, ...entry });
-    // Stderr so it appears in OpenCode logs
-    process.stderr.write(`[savia-shield:audit] ${line}\n`);
+    const line = JSON.stringify({ ts, ...entry }) + "\n";
+    appendFileSync("output/data-sovereignty-audit.jsonl", line);
   } catch {
     // audit failure must not block the guard
+  }
+}
+
+export function warnLog(message: string): void {
+  // Sync file append — never write to stderr (corrupts OpenCode TUI overlay).
+  // Persistent log: output/data-sovereignty-warnings.log
+  try {
+    ensureOutputDir();
+    const ts = new Date().toISOString();
+    const line = `${ts} ${message}\n`;
+    appendFileSync("output/data-sovereignty-warnings.log", line);
+  } catch {
+    // warn failure must not block the guard
   }
 }
 
@@ -112,7 +133,7 @@ export async function dataSovereigntyGate(
         file: normPath,
       });
       throw new Error(
-        `BLOCKED [Savia Shield fallback]: split connection string detected in ${normPath}.`,
+        `BLOCKED [Savia Shield]: split connection string detected in ${normPath}.`,
       );
     }
   }
@@ -128,7 +149,7 @@ export async function dataSovereigntyGate(
       file: normPath,
     });
     throw new Error(
-      `BLOCKED [Savia Shield fallback]: ${reasons} in ${normPath}. ` +
+      `BLOCKED [Savia Shield]: ${reasons} in ${normPath}. ` +
         `Use private destinations (projects/, .savia/).`,
     );
   }
@@ -159,12 +180,12 @@ export async function dataSovereigntyGate(
       switch (result) {
         case "CONFIDENTIAL":
           throw new Error(
-            `BLOCKED [Savia Shield Ollama]: confidential content detected in ${normPath}.`,
+            `BLOCKED [Savia Shield]: confidential content detected in ${normPath}.`,
           );
         case "AMBIGUOUS":
           if (isN1Destination(normPath)) {
-            console.warn(
-              `WARNING [Savia Shield]: Ollama AMBIGUOUS in ${normPath} (N1 dest, allowed)`,
+            warnLog(
+              `AMBIGUOUS in ${normPath} (N1 dest, allowed)`,
             );
             auditLog({
               layer: "ollama",
@@ -174,7 +195,7 @@ export async function dataSovereigntyGate(
             });
           } else {
             throw new Error(
-              `BLOCKED [Savia Shield Ollama]: ambiguous content in ${normPath}`,
+              `BLOCKED [Savia Shield]: ambiguous content in ${normPath}`,
             );
           }
           break;

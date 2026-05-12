@@ -1,249 +1,133 @@
-# PM‑Workspace con OpenCode
+# PM-Workspace con OpenCode
 
-Este documento explica cómo usar PM‑Workspace (Savia) con **OpenCode** en lugar de Claude Code. PM‑Workspace es un entorno completo de gestión de proyectos automatizada con IA, originalmente diseñado para Claude Code, pero adaptado para funcionar con OpenCode.
+OpenCode es el **frontend primario** de PM-Workspace (Savia). Este documento describe la estructura y el funcionamiento nativo en OpenCode.
 
-## 🔄 ¿Qué cambia con OpenCode?
+> ¿Buscas el frontend alternativo? Claude Code sigue siendo compatible — ver [`../.claude/`](../.claude/) y [`../CLAUDE.md`](../CLAUDE.md).
 
-| Aspecto | Claude Code | OpenCode |
-|---------|-------------|----------|
-| **Interfaz principal** | CLI `claude` | CLI `opencode` |
-| **Comandos slash** | Ejecutados automáticamente | Se siguen manualmente (leer `.md` y usar tools) |
-| **Skills** | Cargados automáticamente | Se cargan con `/skill <nombre>` |
-| **Hooks automáticos** | Sí (session‑init, pre‑edit, etc.) | No se ejecutan automáticamente* |
-| **Agentes (Task tool)** | Sí | Sí (misma funcionalidad) |
-| **Integración Azure DevOps** | Completa | Completa (requiere PAT y `az`) |
-| **Variables de entorno** | Auto‑cargadas | Cargar con `source .opencode/init‑pm.sh` |
-
-
-*^Se proveen Git hooks y wrappers como alternativa; ver sección **🔒 Seguridad y calidad con hooks**.*
-
-## 🚀 Uso rápido
-
-### Instalación (Linux/macOS)
-```bash
-curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/.opencode/install.sh | bash
-```
-
-### Instalación (Windows PowerShell)
-```powershell
-irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/.opencode/install.ps1 | iex
-```
-
-### Configuración manual
-1. **Clonar e instalar** (ver instaladores arriba)
-2. **Inicializar entorno PM**:
-   ```bash
-   cd ~/claude/.opencode
-   source init‑pm.sh
-   ```
-3. **Abrir OpenCode**:
-   ```bash
-   opencode
-   ```
-4. **Cargar un skill**:
-   ```bash
-   /skill azure‑devops‑queries
-   /skill pbi‑decomposition
-   /skill spec‑driven‑development
-   ```
-5. **Seguir flujos manualmente**:
-   - Los comandos slash (400+) están en `.opencode/commands/`
-   - Lee el `.md` correspondiente y ejecuta sus pasos con las herramientas de OpenCode (Bash, Read, Grep, Task, etc.)
-
-## 📁 Estructura del directorio `.opencode`
+## Estructura
 
 ```
 .opencode/
-├── .claude/                 # Enlace simbólico al directorio original
-├── CLAUDE.md                # Configuración global (copia)
-├── CLAUDE.local.md          # Configuración privada (copia)
-├── init‑pm.sh               # Script para cargar variables de entorno PM
-├── docs/ → symlink          # Documentación
-├── projects/ → symlink      # Proyectos
-├── scripts/ → symlink       # Scripts de utilidad
-├── run‑all‑tests.sh         # Ejecuta todos los tests
-└── README.md                # Este archivo
+├── agents/          # Catalogo de agentes especializados
+├── commands/        # Comandos slash (/sprint-status, /pr-plan, etc.)
+├── skills/          # Skills cargables bajo demanda
+├── hooks/           # Hooks deterministas (PreToolUse, PostToolUse, Stop, etc.)
+├── plugins/         # Plugins TypeScript (~25 eventos)
+├── profiles/        # Perfiles de usuario activos
+└── settings.json    # Configuracion de hooks y permisos
 ```
 
-## ⚙️ Configuración necesaria
+OpenCode lee directamente esta estructura sin requerir adaptaciones. Los comandos slash, agentes y skills se invocan de forma nativa.
 
-### 1. Azure DevOps (opcional)
+## Uso rapido
+
+### Instalacion
+
+Linux/macOS:
 ```bash
-# Crear PAT en https://dev.azure.com/*/_usersSettings/tokens
-# Guardar en ~/.azure/devops‑pat (una línea, sin salto)
-echo "TU_PAT_AQUI" > ~/.azure/devops‑pat
+curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
+cd ~/savia && opencode
 ```
 
-### 2. Azure CLI (opcional, para operaciones avanzadas)
-```bash
-# Instalar
-curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+Windows (PowerShell):
+```powershell
+irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.ps1 | iex
+```
 
-# Configurar
+El instalador (`install.sh` / `install.ps1`) configura OpenCode por defecto. Anade `--with-claude-code` si quieres ambos frontends.
+
+### Primera sesion
+
+```bash
+cd ~/savia
+opencode
+```
+
+Savia te saluda, te pregunta el perfil y queda lista para operar. Despues:
+
+```
+/help                    # catalogo interactivo
+/sprint-status           # estado del sprint actual
+/spec-generate           # convierte una task en spec ejecutable
+```
+
+## Configuracion necesaria
+
+### Azure DevOps (opcional)
+```bash
+# Crear PAT en https://dev.azure.com/<ORG>/_usersSettings/tokens
+echo "TU_PAT" > ~/.azure/devops-pat
+```
+
+### Azure CLI (opcional)
+```bash
 az devops configure --defaults organization=https://dev.azure.com/TU_ORG
-export AZURE_DEVOPS_EXT_PAT=$(cat ~/.azure/devops‑pat)
+export AZURE_DEVOPS_EXT_PAT=$(cat ~/.azure/devops-pat)
 ```
 
-### 3. Dependencias Node.js
+### Dependencias scripts
 ```bash
-cd ~/claude/scripts && npm install
+cd ~/savia/scripts && npm install
 ```
 
-## 🧪 Ejecutar tests
+## Hooks y seguridad
 
-```bash
-cd ~/claude/.opencode
-bash run‑all‑tests.sh        # Ejecuta todos los scripts test-*.sh
-```
+OpenCode ejecuta hooks nativos definidos en `.opencode/settings.json`:
 
-Para tests individuales:
-```bash
-cd ~/claude
-bash scripts/test‑workspace.sh --mock      # Suite completa (modo mock)
-bash tests/run‑all.sh                      # Tests BATS (hooks)
-```
+- **PreToolUse**: validacion bash, prevencion de credenciales hardcodeadas, gate de specs SDD
+- **PostToolUse**: audit logging, AST quality gate, post-edit checks
+- **Stop**: regeneracion automatica de catalogos (AGENTS.md, SKILLS.md)
+- **SessionStart**: carga de identidad Savia, contexto de proyecto activo
 
-## 🔧 Skills disponibles (43)
+Los hooks bash en `.opencode/hooks/*.sh` se invocan automaticamente. Los plugins TypeScript en `.opencode/plugins/` cubren eventos adicionales.
 
-Carga cualquier skill con `/skill <nombre>`:
+## Skills
 
-- `azure‑devops‑queries` – Consultas a Azure DevOps
-- `pbi‑decomposition` – Descomposición de PBIs en tasks
-- `spec‑driven‑development` – SDD con specs ejecutables
-- `sprint‑management` – Gestión completa de sprints
-- `capacity‑planning` – Cálculo de capacidades del equipo
-- `time‑tracking‑report` – Informes de imputación de horas
-- `executive‑reporting` – Informes ejecutivos
-- `product‑discovery` – Descubrimiento de producto (JTBD/PRD)
-- `diagram‑generation` – Generación de diagramas
-- … y 34 más (ver `.opencode/skills/`)
+Los skills se cargan bajo demanda. Listado completo en `SKILLS.md` y `.opencode/skills/`. Ejemplos:
 
-## 📚 Cómo usar un comando slash manualmente
+- `azure-devops-queries` — consultas WIQL
+- `pbi-decomposition` — descomposicion de PBIs en tasks
+- `spec-driven-development` — SDD con specs ejecutables
+- `sprint-management` — gestion completa de sprints
+- `savia-shield` — clasificacion local de datos
 
-Ejemplo: **`/sprint‑status sala‑reservas`**
-
-1. **Leer el comando**:
-   ```bash
-   read ~/claude/.opencode/commands/sprint‑status.md
-   ```
-2. **Seguir sus instrucciones** (generalmente):
-   - Cargar skill `azure‑devops‑queries`
-   - Ejecutar queries WIQL con `bash` o `curl`
-   - Analizar resultados con `jq`, `grep`
-   - Generar informe
-
-3. **Ejecutar paso a paso** con las herramientas de OpenCode.
-
-## 🐛 Solución de problemas
-
-### “No se encuentra el PAT”
-```bash
-export AZURE_DEVOPS_PAT_FILE="$HOME/.azure/devops‑pat"
-source ~/claude/.opencode/init‑pm.sh
-```
-
-### “Comando az no encontrado”
-Instalar Azure CLI o usar modo `--mock` en los tests.
-
-### “Error al cargar skill”
-Verificar que el enlace `.claude/` existe:
-```bash
-ls -la ~/claude/.opencode/.claude
-```
-
-### “Los hooks no se ejecutan”
-OpenCode no ejecuta hooks automáticamente. Hemos implementado dos soluciones para mantener la seguridad y calidad:
-
-1. **Git hooks automáticos** (recomendado) — validan commits y pushes.
-2. **Wrappers para herramientas** — validan comandos bash, ediciones y tareas antes de ejecutarlas.
-
-Consulta la sección **🔒 Seguridad y calidad con hooks** más abajo.
-
-## 🔒 Seguridad y calidad con hooks
-
-### 🧠 ¿Qué son los hooks y por qué importan?
-Los hooks en PM‑Workspace son **salvaguardas programáticas no eludibles** que garantizan:
-- **Seguridad**: Detectan secretos hardcodeados, bloquean comandos destructivos (`rm -rf /`, `terraform destroy`) y previenen force‑push.
-- **Calidad**: Exigen specs aprobadas antes de implementar, verifican tests (TDD) y revisan código automáticamente.
-- **Consistencia**: Aseguran que los mensajes de commit sigan convenciones y que los agentes reciban prompts bien formados.
-
-En Claude Code, estos hooks se ejecutan automáticamente gracias al archivo `.claude/settings.json`. OpenCode **no interpreta** ese archivo, por lo que las protecciones quedarían desactivadas. Para resolverlo, hemos creado dos capas que **no interfieren con Claude Code**.
-
-### 🔧 Diseño de la solución (dos capas independientes)
-
-#### Capa 1: Git hooks automáticos
-**Ubicación**: Scripts instalados en `.git/hooks/` (solo en tu repositorio local).  
-**Invocación**: Git ejecuta estos hooks automáticamente al hacer `git commit`, `git push`, etc.  
-**Ventaja**: No requiere cambios en tu flujo de trabajo; la protección está siempre activa.
+## Tests
 
 ```bash
-# Instalar (una vez)
-cd ~/claude/.opencode
-bash scripts/install‑git‑hooks.sh
+cd ~/savia
+bash scripts/test-workspace.sh --mock   # suite completa modo mock
+bash tests/run-all.sh                   # tests BATS de hooks
 ```
 
-Se instalan tres hooks:
-- **pre‑commit**: Ejecuta `pre‑commit‑review.sh` (revisión de código) y `stop‑quality‑gate.sh` (detección de secrets en cambios staged).
-- **pre‑push**: Ejecuta `block‑force‑push.sh` mediante `run‑hook.sh` (bloquea `git push --force` y pushes directos a main).
-- **commit‑msg**: Ejecuta `prompt‑hook‑commit.sh` (valida el formato del mensaje de commit).
+## Solucion de problemas
 
-**Desinstalación**: Elimina los ficheros `pre‑commit`, `pre‑push` y `commit‑msg` del directorio `.git/hooks/` o restaura los backups creados durante la instalación.
-
-#### Capa 2: Wrappers para herramientas de OpenCode
-**Ubicación**: `.opencode/scripts/opencode‑hooks/wrappers/`.  
-**Invocación**: Tú llamas explícitamente a estos wrappers antes de usar las herramientas nativas de OpenCode.  
-**Ventaja**: Extiende la validación a comandos bash generales, ediciones, escrituras y tareas.
-
-| Herramienta | Wrapper | Validación realizada |
-|-------------|---------|----------------------|
-| `bash` | `safe‑bash.sh` | `validate‑bash‑global.sh` (comandos peligrosos), `block‑credential‑leak.sh` (secrets), `block‑infra‑destructive.sh` (infra destructiva). |
-| `Edit` / `Write` | `safe‑edit.sh` / `safe‑write.sh` | `plan‑gate.sh` (warning si falta spec), `tdd‑gate.sh` (bloquea si no hay tests para código de producción). |
-| `Task` | `safe‑task.sh` | `agent‑dispatch‑validate.sh` (valida que el prompt cumpla convenciones). |
-
-**Ejemplo de uso**:
+### "No se encuentra el PAT"
 ```bash
-# En lugar de: bash "git commit -m 'test'"
-bash .opencode/scripts/opencode‑hooks/wrappers/safe‑bash.sh "git commit -m 'test'"
-
-# Antes de editar con OpenCode (luego usas la herramienta Edit)
-bash .opencode/scripts/opencode‑hooks/wrappers/safe‑edit.sh src/app.js
+echo "TU_PAT" > ~/.azure/devops-pat
+chmod 600 ~/.azure/devops-pat
 ```
 
-### 🛡️ Por qué NO afecta al funcionamiento de Claude Code
-1. **Ubicación aislada**: Todos los scripts (`install‑git‑hooks.sh`, `run‑hook.sh`, wrappers) están dentro de `.opencode/`, que **Claude Code ignora por completo**. Claude Code solo lee `.claude/` y los archivos de configuración en la raíz del proyecto.
+### "Comando opencode no encontrado"
+Reinstala OpenCode: `curl -fsSL https://opencode.ai/install | bash`. Verifica con `opencode --version`.
 
-2. **Git hooks locales**: Los hooks instalados en `.git/hooks/` son específicos de tu repositorio local. Claude Code **no lee ni depende** de esos hooks; su sistema de hooks propio se basa exclusivamente en `.claude/settings.json`.
+### "Comando az no encontrado"
+Instala Azure CLI o usa modo `--mock` en los tests.
 
-3. **Wrappers opcionales**: Los wrappers **no reemplazan** las herramientas de OpenCode; son scripts auxiliares que tú invocas voluntariamente. Si no los usas, OpenCode funciona igual, solo que sin validaciones adicionales.
+## Compatibilidad con Claude Code
 
-4. **Hooks originales intactos**: Los scripts de hooks originales (en `.opencode/hooks/`) **no se modifican**. Claude Code los sigue ejecutando automáticamente cuando corresponde. Los wrappers y Git hooks simplemente **los reutilizan** pasándoles el JSON esperado.
+PM-Workspace mantiene 73 agentes y 532 comandos en `.claude/` como frontend alternativo. Si tienes ambos frontends:
 
-5. **Separación de responsabilidades**: La adaptación para OpenCode **no toca** ningún archivo que Claude Code utilice. Es una capa adicional que se activa solo cuando trabajas con OpenCode.
+- OpenCode lee `.opencode/`
+- Claude Code lee `.claude/`
+- Ambos comparten `projects/`, `scripts/`, `docs/`, memoria persistente
 
-### 📋 Recomendaciones de uso
-1. **Instala los Git hooks** nada más configurar el entorno. Así tendrás protección automática en commits y pushes.
-2. **Usa los wrappers** cuando ejecutes comandos bash delicados o edites código de producción. Para operaciones rutinarias (listar archivos, leer) puedes seguir usando las herramientas nativas.
-3. **Si prefieres no usar wrappers**, al menos los Git hooks te cubrirán las operaciones más críticas (commit/push).
-
-### 🔍 Validación manual de hooks
-Puedes probar cualquier hook manualmente con el script `run‑hook.sh`:
-
+Para activar Claude Code en un workspace ya instalado:
 ```bash
-# Simula un comando bash peligroso
-bash .opencode/scripts/opencode‑hooks/run‑hook.sh validate‑bash‑global Bash "rm -rf /"
-
-# Verifica si un archivo de código tiene tests
-bash .opencode/scripts/opencode‑hooks/run‑hook.sh tdd‑gate Edit src/app.js
+bash scripts/setup-claude-permissions.sh
 ```
 
-Esto es útil para depurar o entender qué bloquea cada hook.
+## Licencia
 
-## 📄 Licencia y créditos
+PM-Workspace es open-source (MIT). Desarrollado por [la usuaria González Paz](https://github.com/gonzalezpazmonica).
 
-PM‑Workspace es open‑source (MIT). Desarrollado por la usuaria González Paz.
-
-Para la versión completa con Claude Code, consulta el [README principal](../README.md).
-
----
-
-**Nota**: Esta adaptación mantiene el 100% de la funcionalidad de PM‑Workspace. La única diferencia es la interfaz (OpenCode vs Claude Code), no las capacidades de gestión de proyectos.
+Documentacion completa: [README principal](../README.md) | [Guia de instalacion](../docs/install/opencode-quick-install.md) | [Getting started](../docs/getting-started.md)

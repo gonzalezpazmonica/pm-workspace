@@ -1,20 +1,24 @@
-// tool-call-healing.ts — SPEC-OC-04 Slice 2 (port of SPEC-141 hook)
+// tool-call-healing.ts — SPEC-OC-04 Slice 2 (defensive rewrite 2026-05-10)
 //
 // Pre-execution validation for file/pattern tools. Catches common LLM errors
 // (empty paths, non-existent files, missing patterns) and throws diagnostic
 // messages instead of letting the underlying tool fail with a cryptic error.
-// Port of `.opencode/hooks/tool-call-healing.sh` (Tier: standard).
+//
+// Defensive: only blocks when extractor finds nothing AND the input shape
+// looks plausibly relevant. Logs every block to ~/.savia/logs/healing-trace.log
+// for post-mortem diagnosis of shape-drift bugs.
 //
 // Tools covered: read, edit, write, glob, grep.
 
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { dirname, basename } from "node:path";
-import { extractToolName, extractFilePath, type ToolInput } from "../lib/hook-input.ts";
-
-function extractPattern(input: ToolInput): string {
-  const p = input?.args?.pattern;
-  return typeof p === "string" ? p : "";
-}
+import {
+  extractToolName,
+  extractFilePath,
+  extractPattern,
+  traceHealing,
+  type ToolInput,
+} from "../lib/hook-input.ts";
 
 function findSimilar(filePath: string): string {
   const dir = dirname(filePath);
@@ -46,6 +50,7 @@ export async function toolCallHealing(input: ToolInput, _output: unknown): Promi
     case "edit": {
       const filePath = extractFilePath(input);
       if (!filePath) {
+        await traceHealing(`empty-filepath-on-${tool}`, input);
         throw new Error(`BLOCKED [tool-healing]: ${tool} called with empty file_path`);
       }
       if (!existsSync(filePath)) {
@@ -60,6 +65,7 @@ export async function toolCallHealing(input: ToolInput, _output: unknown): Promi
     case "write": {
       const filePath = extractFilePath(input);
       if (!filePath) {
+        await traceHealing("empty-filepath-on-write", input);
         throw new Error("BLOCKED [tool-healing]: write called with empty file_path");
       }
       const dir = dirname(filePath);
@@ -74,6 +80,7 @@ export async function toolCallHealing(input: ToolInput, _output: unknown): Promi
     case "grep": {
       const pattern = extractPattern(input);
       if (!pattern) {
+        await traceHealing(`empty-pattern-on-${tool}`, input);
         throw new Error(`BLOCKED [tool-healing]: ${tool} called with empty pattern`);
       }
       return;

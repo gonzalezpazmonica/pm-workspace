@@ -27,7 +27,7 @@ hooks:
     - matcher: "Edit|Write"
       hooks:
         - type: command
-          command: ".claude/hooks/tdd-gate.sh"
+          command: ".opencode/hooks/tdd-gate.sh"
 token_budget: 8500
 ---
 

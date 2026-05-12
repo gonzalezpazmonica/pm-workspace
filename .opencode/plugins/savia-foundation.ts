@@ -60,16 +60,31 @@ const AFTER_GUARDS = [
 ] as const;
 
 export const SaviaFoundationPlugin: Plugin = async ({ project, $, directory }) => {
+  // SDK shape (v1.14.x): tool.execute.before(input={tool,sessionID,callID}, output={args})
+  // tool.execute.after(input={tool,sessionID,callID,args}, output={title,output,metadata})
+  // Guards via lib/hook-input expect args at the top level of the object they receive.
+  // We merge so that guards work transparently regardless of shape.
+  const mergeBefore = (input: any, output: any) => ({
+    ...(input ?? {}),
+    args: output?.args,
+    ...((output?.args && typeof output.args === "object") ? output.args : {}),
+  });
+  const mergeAfter = (input: any) => ({
+    ...(input ?? {}),
+    ...((input?.args && typeof input.args === "object") ? input.args : {}),
+  });
   return {
     "tool.execute.before": async (input: any, output: any) => {
+      const merged = mergeBefore(input, output);
       for (const guard of BEFORE_GUARDS) {
-        await guard(input, output);
+        await guard(merged, output);
       }
     },
     "tool.execute.after": async (input: any, output: any) => {
+      const merged = mergeAfter(input);
       for (const guard of AFTER_GUARDS) {
         try {
-          await guard(input, output);
+          await guard(merged, output);
         } catch {
           // After-guards are non-blocking — errors are logged internally
           // but must not surface as tool failures

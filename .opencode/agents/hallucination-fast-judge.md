@@ -25,8 +25,8 @@ You are 1 of 4 judges. Your **only** job: verify entities the draft cites actual
 | Directory | `[ -d "$path" ]` |
 | Function name (sql, py, sh, ts) | `grep -q "def $fn(\|fn $fn(\|function $fn(\|$fn ()" $relevant_dir` |
 | CLI flag | check `--help` of the tool: `command --help 2>&1 | grep -q '$flag'` |
-| pm-workspace command | `[ -f .claude/commands/$cmd.md ]` |
-| Agent name | `[ -f .claude/agents/$agent.md ]` |
+| pm-workspace command | `[ -f .opencode/commands/$cmd.md ]` |
+| Agent name | `[ -f .opencode/agents/$agent.md ]` |
 | npm/pip/cargo package | (skip — too slow; only flag if obviously fabricated, e.g. typos of well-known names) |
 
 ## What you do

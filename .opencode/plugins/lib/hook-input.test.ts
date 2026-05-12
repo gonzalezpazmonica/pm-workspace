@@ -1,48 +1,112 @@
 import { test, expect } from "bun:test";
-import { extractCommand, extractFilePath, extractContent, extractToolName } from "./hook-input.ts";
+import {
+  extractCommand,
+  extractFilePath,
+  extractContent,
+  extractToolName,
+  extractPattern,
+} from "./hook-input.ts";
 
-test("extractCommand: returns command from Bash tool input", () => {
+// ─── extractCommand ────────────────────────────────────────────────────────
+test("extractCommand: nested args.command", () => {
   expect(extractCommand({ tool: "bash", args: { command: "ls -la" } } as any)).toBe("ls -la");
 });
 
-test("extractCommand: returns empty string when no command field", () => {
+test("extractCommand: top-level command (shape drift)", () => {
+  expect(extractCommand({ tool: "bash", command: "pwd" } as any)).toBe("pwd");
+});
+
+test("extractCommand: nested input.cmd alias", () => {
+  expect(extractCommand({ tool: "bash", input: { cmd: "echo hi" } } as any)).toBe("echo hi");
+});
+
+test("extractCommand: empty when missing", () => {
   expect(extractCommand({ tool: "edit", args: {} } as any)).toBe("");
   expect(extractCommand({} as any)).toBe("");
+  expect(extractCommand(null as any)).toBe("");
 });
 
-test("extractFilePath: handles Edit/Write file_path fields (legacy snake_case)", () => {
+// ─── extractFilePath ───────────────────────────────────────────────────────
+test("extractFilePath: nested args.filePath (camelCase)", () => {
+  expect(extractFilePath({ tool: "read", args: { filePath: "/abs/x.md" } } as any)).toBe("/abs/x.md");
+});
+
+test("extractFilePath: nested args.file_path (snake_case legacy)", () => {
   expect(extractFilePath({ args: { file_path: "/tmp/x.ts" } } as any)).toBe("/tmp/x.ts");
-  expect(extractFilePath({ args: { path: "/tmp/y.ts" } } as any)).toBe("/tmp/y.ts");
+});
+
+test("extractFilePath: top-level filePath (shape drift — KEY REGRESSION)", () => {
+  // Some OpenCode versions/forks pass tool args at top level, not under `args`.
+  // The healer must NOT block these as "empty file_path".
+  expect(extractFilePath({ tool: "read", filePath: "/abs/y.md" } as any)).toBe("/abs/y.md");
+  expect(extractFilePath({ tool: "write", filePath: "/abs/z.md", content: "x" } as any)).toBe("/abs/z.md");
+});
+
+test("extractFilePath: top-level path alias", () => {
+  expect(extractFilePath({ tool: "read", path: "/abs/p.md" } as any)).toBe("/abs/p.md");
+});
+
+test("extractFilePath: nested tool_input.file_path (Claude Code legacy)", () => {
+  expect(extractFilePath({ tool: "read", tool_input: { file_path: "/legacy.md" } } as any)).toBe("/legacy.md");
+});
+
+test("extractFilePath: empty/null returns empty string", () => {
   expect(extractFilePath({ args: {} } as any)).toBe("");
+  expect(extractFilePath({} as any)).toBe("");
+  expect(extractFilePath(null as any)).toBe("");
 });
 
-test("extractFilePath: handles OpenCode v1.14 filePath (camelCase) — regression for tool-healing false positives", () => {
-  // Reproducer for the bug where read/write/edit were blocked by tool-healing
-  // because the schema uses `filePath` (camelCase) but the extractor only
-  // looked at `file_path` (snake_case).
-  expect(extractFilePath({ tool: "read", args: { filePath: "/abs/path/x.md" } } as any)).toBe("/abs/path/x.md");
-  expect(extractFilePath({ tool: "write", args: { filePath: "/abs/path/y.md", content: "x" } } as any)).toBe("/abs/path/y.md");
-  expect(extractFilePath({ tool: "edit", args: { filePath: "/abs/path/z.ts", oldString: "a", newString: "b" } } as any)).toBe("/abs/path/z.ts");
-});
-
-test("extractFilePath: prefers filePath over file_path when both present", () => {
-  // If a caller mixes both, camelCase wins (matches the live OpenCode schema).
+test("extractFilePath: prefers camelCase when both present", () => {
   expect(extractFilePath({ args: { filePath: "/new.md", file_path: "/old.md" } } as any)).toBe("/new.md");
 });
 
-test("extractContent: pulls content or new_string field (legacy)", () => {
-  expect(extractContent({ args: { content: "hello" } } as any)).toBe("hello");
-  expect(extractContent({ args: { new_string: "world" } } as any)).toBe("world");
-  expect(extractContent({ args: {} } as any)).toBe("");
+// ─── extractPattern ────────────────────────────────────────────────────────
+test("extractPattern: top-level pattern (KEY REGRESSION for grep)", () => {
+  // grep tool in OpenCode passes `pattern` at top level, not under `args`.
+  expect(extractPattern({ tool: "grep", pattern: "BLOCKED" } as any)).toBe("BLOCKED");
 });
 
-test("extractContent: handles OpenCode v1.14 newString (camelCase)", () => {
-  // Edit tool in OpenCode v1.14 uses `newString`, not `new_string`.
+test("extractPattern: nested args.pattern", () => {
+  expect(extractPattern({ tool: "glob", args: { pattern: "*.ts" } } as any)).toBe("*.ts");
+});
+
+test("extractPattern: empty when missing", () => {
+  expect(extractPattern({ tool: "grep" } as any)).toBe("");
+});
+
+// ─── extractContent ────────────────────────────────────────────────────────
+test("extractContent: nested args.content", () => {
+  expect(extractContent({ args: { content: "hello" } } as any)).toBe("hello");
+});
+
+test("extractContent: top-level content (shape drift)", () => {
+  expect(extractContent({ tool: "write", content: "hello" } as any)).toBe("hello");
+});
+
+test("extractContent: nested args.newString (camelCase)", () => {
   expect(extractContent({ tool: "edit", args: { newString: "patched" } } as any)).toBe("patched");
 });
 
-test("extractToolName: normalizes case and aliases", () => {
+test("extractContent: legacy new_string", () => {
+  expect(extractContent({ args: { new_string: "world" } } as any)).toBe("world");
+});
+
+test("extractContent: empty when missing", () => {
+  expect(extractContent({ args: {} } as any)).toBe("");
+});
+
+// ─── extractToolName ───────────────────────────────────────────────────────
+test("extractToolName: lowercases", () => {
   expect(extractToolName({ tool: "Bash" } as any)).toBe("bash");
-  expect(extractToolName({ tool: "edit" } as any)).toBe("edit");
+  expect(extractToolName({ tool: "READ" } as any)).toBe("read");
+});
+
+test("extractToolName: handles `name` and `toolName` aliases", () => {
+  expect(extractToolName({ name: "edit" } as any)).toBe("edit");
+  expect(extractToolName({ toolName: "Write" } as any)).toBe("write");
+});
+
+test("extractToolName: empty when missing", () => {
   expect(extractToolName({} as any)).toBe("");
+  expect(extractToolName(null as any)).toBe("");
 });

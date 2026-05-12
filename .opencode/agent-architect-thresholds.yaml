@@ -1,0 +1,33 @@
+# Agent Architect — Thresholds (SPEC-AGENT-ARCHITECT §2.5)
+#
+# Each heuristic emits a qualitative signal: info | warn | alert.
+# A value >= warn triggers `warn`; a value >= alert triggers `alert`.
+# Orchestrator agents (kind: orchestrator) get 2x relaxed thresholds for
+# length, responsibilities and tools — they coordinate, so they're allowed
+# to be larger.
+#
+# Tune these values per-workspace. They are NOT spec-frozen.
+
+length:
+  warn: 200
+  alert: 400
+
+responsibilities:
+  warn: 3
+  alert: 5
+
+tools:
+  warn: 6
+  alert: 11
+
+contradictions:
+  warn: 1
+  alert: 3
+
+roleplay_depth:
+  warn: 1
+  alert: 2
+
+age_days:
+  warn: 30
+  alert: 180
