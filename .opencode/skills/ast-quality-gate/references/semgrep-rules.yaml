@@ -1,0 +1,303 @@
+# Semgrep Rules — LLM Anti-Patterns (Universal)
+# Coverage: TypeScript, JavaScript, Python, Java, Kotlin, Ruby, PHP, Go, C#, Rust
+# Gate mapping: QG-01..QG-12
+
+rules:
+
+  # ── QG-01: Async/concurrency sin manejo de errores ────────────────────────
+
+  - id: llm-async-no-await
+    patterns:
+      - pattern: |
+          async function $F(...) {
+            ...
+          }
+      - pattern-not: |
+          async function $F(...) {
+            ...
+            await ...;
+            ...
+          }
+    message: "LLM pattern QG-01: async function '$F' has no await — likely incorrect"
+    languages: [typescript, javascript]
+    severity: WARNING
+    metadata:
+      gate: QG-01
+      category: async-misuse
+
+  - id: llm-promise-no-catch
+    pattern-either:
+      - pattern: $PROMISE.then(...)
+      - pattern: $PROMISE.then(...).then(...)
+    pattern-not: $PROMISE.then(...).catch(...)
+    message: "LLM pattern QG-01: Promise chain without .catch() handler"
+    languages: [typescript, javascript]
+    severity: WARNING
+    metadata:
+      gate: QG-01
+
+  - id: llm-async-void-csharp
+    pattern: async void $F(...)
+    pattern-not: async void $F(object $SENDER, EventArgs $E)
+    message: "LLM pattern QG-01: async void '$F' — unhandled exceptions crash the process"
+    languages: [csharp]
+    severity: ERROR
+    metadata:
+      gate: QG-01
+
+  - id: llm-goroutine-no-recover
+    patterns:
+      - pattern: |
+          go func() {
+            ...
+          }()
+      - pattern-not: |
+          go func() {
+            defer func() { recover() }()
+            ...
+          }()
+    message: "LLM pattern QG-01: goroutine without recover() — panics are unhandled"
+    languages: [go]
+    severity: WARNING
+    metadata:
+      gate: QG-01
+
+  # ── QG-02: N+1 queries / acceso DB en loop ────────────────────────────────
+
+  - id: llm-db-query-in-loop-ts
+    pattern: |
+      for ($VAR of $COLLECTION) {
+        ...
+        await $REPO.$FIND(...);
+        ...
+      }
+    message: "LLM pattern QG-02: DB query inside loop — likely N+1 problem. Use eager loading or batch query."
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      gate: QG-02
+
+  - id: llm-db-query-in-loop-python
+    pattern: |
+      for $VAR in $COLLECTION:
+          ...
+          $SESSION.query(...).filter(...)...
+          ...
+    message: "LLM pattern QG-02: SQLAlchemy query inside loop — N+1 risk. Use joinedload or batch."
+    languages: [python]
+    severity: ERROR
+    metadata:
+      gate: QG-02
+
+  - id: llm-db-query-in-loop-java
+    pattern: |
+      for ($TYPE $VAR : $COLLECTION) {
+        ...
+        $REPO.findBy$X(...);
+        ...
+      }
+    message: "LLM pattern QG-02: Repository call inside loop — N+1 risk. Use findAllBy with @EntityGraph."
+    languages: [java]
+    severity: ERROR
+    metadata:
+      gate: QG-02
+
+  - id: llm-db-query-in-loop-go
+    pattern: |
+      for $_, $V := range $SLICE {
+        ...
+        $DB.Where(...).Find(...);
+        ...
+      }
+    message: "LLM pattern QG-02: GORM query inside range loop — N+1 risk. Use Preload or batch."
+    languages: [go]
+    severity: ERROR
+    metadata:
+      gate: QG-02
+
+  # ── QG-03: Null/nil/None dereference ─────────────────────────────────────
+
+  - id: llm-nil-deref-go
+    patterns:
+      - pattern: $RESULT, $ERR = $FUNC(...)
+      - pattern-next: $RESULT.$FIELD
+      - pattern-not-next: |
+          if $ERR != nil { ... }
+          ...
+          $RESULT.$FIELD
+    message: "LLM pattern QG-03: result used before error check — nil pointer risk"
+    languages: [go]
+    severity: ERROR
+    metadata:
+      gate: QG-03
+
+  - id: llm-optional-no-check-java
+    pattern: $OPT.get()
+    pattern-not: |
+      if ($OPT.isPresent()) {
+        ...
+        $OPT.get()
+        ...
+      }
+    message: "LLM pattern QG-03: Optional.get() without isPresent() check — NoSuchElementException risk"
+    languages: [java]
+    severity: ERROR
+    metadata:
+      gate: QG-03
+
+  - id: llm-none-check-python
+    pattern: |
+      $RESULT = $FUNC(...)
+      $RESULT.$ATTR
+    pattern-not: |
+      $RESULT = $FUNC(...)
+      if $RESULT is not None:
+          $RESULT.$ATTR
+    message: "LLM pattern QG-03: function result used without None check"
+    languages: [python]
+    severity: WARNING
+    metadata:
+      gate: QG-03
+
+  # ── QG-04: Magic numbers y strings ────────────────────────────────────────
+
+  - id: llm-magic-timeout-ms
+    pattern-either:
+      - pattern: setTimeout($F, $N)
+      - pattern: setInterval($F, $N)
+    pattern-not-inside:
+      - pattern: "const $C = $N"
+    message: "LLM pattern QG-04: magic number in timeout — extract to named constant"
+    languages: [typescript, javascript]
+    severity: WARNING
+    metadata:
+      gate: QG-04
+
+  - id: llm-magic-http-status
+    pattern-either:
+      - pattern: res.status(400)
+      - pattern: res.status(401)
+      - pattern: res.status(403)
+      - pattern: res.status(404)
+      - pattern: res.status(500)
+      - pattern: response.status_code == 200
+    message: "LLM pattern QG-04: magic HTTP status code — use HttpStatus enum or constant"
+    languages: [typescript, javascript, python]
+    severity: INFO
+    metadata:
+      gate: QG-04
+
+  # ── QG-05: Exception handling vacío o excesivamente amplio ────────────────
+
+  - id: llm-empty-catch
+    pattern-either:
+      - pattern: |
+          try {
+            ...
+          } catch ($E) {}
+      - pattern: |
+          try {
+            ...
+          } catch ($E) {
+          }
+    message: "LLM pattern QG-05: empty catch block silences errors — add logging or re-throw"
+    languages: [typescript, javascript, java, csharp, kotlin, php]
+    severity: ERROR
+    metadata:
+      gate: QG-05
+
+  - id: llm-bare-except-python
+    pattern: |
+      try:
+          ...
+      except:
+          pass
+    message: "LLM pattern QG-05: bare except silences all errors including KeyboardInterrupt"
+    languages: [python]
+    severity: ERROR
+    metadata:
+      gate: QG-05
+
+  - id: llm-rescue-empty-ruby
+    pattern: |
+      begin
+        ...
+      rescue
+      end
+    message: "LLM pattern QG-05: empty rescue block silences all exceptions"
+    languages: [ruby]
+    severity: ERROR
+    metadata:
+      gate: QG-05
+
+  - id: llm-catch-exception-java
+    pattern: catch (Exception $E) { ... }
+    pattern-not-inside:
+      - pattern: "@ControllerAdvice"
+      - pattern: "@ExceptionHandler"
+    message: "LLM pattern QG-05: catching java.lang.Exception — too broad, catch specific exceptions"
+    languages: [java]
+    severity: WARNING
+    metadata:
+      gate: QG-05
+
+  - id: llm-recover-no-reraise-go
+    pattern: |
+      defer func() {
+        if $R := recover(); $R != nil {
+        }
+      }()
+    message: "LLM pattern QG-05: recover() without logging or re-panic — error swallowed silently"
+    languages: [go]
+    severity: ERROR
+    metadata:
+      gate: QG-05
+
+  # ── QG-09: Credentials/secrets hardcodeados ───────────────────────────────
+
+  - id: llm-hardcoded-password
+    patterns:
+      - pattern: $VAR = "..."
+    pattern-regex: '(?i)(password|passwd|secret|api_key|apikey|token)\s*=\s*"[^"]{4,}"'
+    pattern-not-regex: '(?i)(password|secret|token)\s*=\s*"(test|placeholder|example|dummy|changeme|your_|<|{)'
+    message: "LLM pattern QG-09: hardcoded credential detected — use environment variables or vault"
+    languages: [typescript, javascript, python, go, java, ruby, php, csharp, kotlin, rust]
+    severity: ERROR
+    metadata:
+      gate: QG-09
+
+  - id: llm-hardcoded-connection-string
+    pattern-regex: '(Server|Host|mongodb\+srv|jdbc:)(=[^;{<]{10,}|://[^{<"]{10,})'
+    pattern-not-regex: '(localhost|127\.0\.0\.1|::1|example\.com|\$\{|\{|<)'
+    message: "LLM pattern QG-09: hardcoded connection string with potential credentials"
+    languages: [typescript, javascript, python, csharp, java]
+    severity: ERROR
+    metadata:
+      gate: QG-09
+
+  # ── QG-11: Dead code / unused imports ─────────────────────────────────────
+
+  - id: llm-console-log-production
+    pattern-either:
+      - pattern: console.log(...)
+      - pattern: console.debug(...)
+    message: "LLM pattern QG-10/QG-11: console.log in production code — use structured logger"
+    languages: [typescript, javascript]
+    severity: INFO
+    metadata:
+      gate: QG-10
+
+  - id: llm-print-production-python
+    pattern: print(...)
+    pattern-not-inside:
+      - pattern: |
+          if __name__ == "__main__":
+              ...
+      - pattern: |
+          def test_...:
+              ...
+    message: "LLM pattern QG-10/QG-11: print() in production code — use logging module"
+    languages: [python]
+    severity: INFO
+    metadata:
+      gate: QG-10
