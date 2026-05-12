@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8f6636362391 | resources: 1169
-> 544 commands · 92 skills · 71 agents · 462 scripts
+> hash: 3ca9318c4577 | resources: 1173
+> 545 commands · 95 skills · 71 agents · 462 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -13,6 +13,7 @@
 [analysis] agent-code-map — agent,agentes,arquitectura,code,conozcan — skill:.claude/skills/agent-code-map/SKILL.md
 [analysis] agent-cost — agentes,coste,estimado,proyecto,sprint — cmd:.claude/commands/agent-cost.md
 [analysis] agent-efficiency — agentes,completadas,eficiencia,ratio,specs — cmd:.claude/commands/agent-efficiency.md
+[analysis] agent-file-map — agent,agentes,búsqueda,excel,externos — skill:.claude/skills/agent-file-map/SKILL.md
 [analysis] agent-journal — agent,append,autónomos,journal,jsonl — script:scripts/agent-journal.sh
 [analysis] agent-memory — fragments,inspect,manage,memory,persistent — cmd:.claude/commands/agent-memory.md
 [analysis] agent-notes-archive —  — cmd:.claude/commands/agent-notes-archive.md
@@ -68,12 +69,12 @@
 [communication] inbox-start —  — cmd:.claude/commands/inbox-start.md
 [communication] masked-digest — digest,digestion,masked,pipeline — script:scripts/masked-digest.sh
 [communication] meeting-agenda — agendas,basada,estado,generación,inteligente — cmd:.claude/commands/meeting-agenda.md
-[communication] meeting-audit — audit,digest,meeting,acme-project — script:scripts/meeting-audit.sh
 [communication] meeting-confidentiality-judge —  — agent:.claude/agents/meeting-confidentiality-judge.md
 [communication] meeting-digest —  — cmd:.claude/commands/meeting-digest.md
 [communication] meeting-digest —  — agent:.claude/agents/meeting-digest.md
 [communication] meeting-risk-analyst —  — agent:.claude/agents/meeting-risk-analyst.md
 [communication] meeting-summarize — action,daily,extrae,items,planning — cmd:.claude/commands/meeting-summarize.md
+[communication] meeting-transcript-extract — asistente,botón,browser,chat,click — skill:.claude/skills/meeting-transcript-extract/SKILL.md
 [communication] nctalk-search —  — cmd:.claude/commands/nctalk-search.md
 [communication] notify — cross,desktop,notifications,notify,platform — script:scripts/notify.sh
 [communication] notify-nctalk —  — cmd:.claude/commands/notify-nctalk.md
@@ -256,6 +257,7 @@
 [development] sdd-spec-writer —  — agent:.claude/agents/sdd-spec-writer.md
 [development] semantic-compact — compact,generator,semantic,smart,spec — script:scripts/semantic-compact.sh
 [development] semantic-map — code,compressed,files,generate,maps — script:scripts/semantic-map.sh
+[development] setup-opencode-permissions — claude,json,local,permisos,permissions — script:scripts/setup-opencode-permissions.sh
 [development] setup-savia-web — build,http,localhost,savia,serve — script:scripts/setup-savia-web.sh
 [development] skill-loader — aware,context,loader,loading,skill — script:scripts/skill-loader.sh
 [development] slm-deploy — deploy,deployment,orchestrate,post,scaffolding — script:scripts/slm-deploy.sh
@@ -450,6 +452,7 @@
 [planning] adaptive-strategy-selector — adaptive,based,loading,model,select — script:scripts/adaptive-strategy-selector.sh
 [planning] adb-run — chains,compound,execute,functions,without — script:scripts/adb-run.sh
 [planning] add-maturity-levels — field,frontmatter,levels,maturity,skill — script:scripts/add-maturity-levels.sh
+[planning] ado-bridge — azure,bridge,commands,devops,rest — script:scripts/ado-bridge.sh
 [planning] adoption-assess — adkar,adopción,equipo,evaluar,madurez — cmd:.claude/commands/adoption-assess.md
 [planning] adoption-plan — adopción,aprender,orden,personalizado,plan — cmd:.claude/commands/adoption-plan.md
 [planning] adoption-sandbox — entorno,errores,experimentar,miedo,práctica — cmd:.claude/commands/adoption-sandbox.md
@@ -647,6 +650,7 @@
 [planning] hook-profile — active,hook,profile,savia — script:scripts/hook-profile.sh
 [planning] hw-bom —  — cmd:.claude/commands/hw-bom.md
 [planning] hw-revision —  — cmd:.claude/commands/hw-revision.md
+[planning] import-sprint-story —  — cmd:.claude/commands/import-sprint-story.md
 [planning] incident-postmortem — action,analysis,cause,items,postmortem — cmd:.claude/commands/incident-postmortem.md
 [planning] index-compact —  — cmd:.claude/commands/index-compact.md
 [planning] index-status —  — cmd:.claude/commands/index-status.md
@@ -682,7 +686,6 @@
 [planning] memvid-backup — backup,evalua,externa,fallback,gzip — skill:.claude/skills/memvid-backup/SKILL.md
 [planning] mobile-developer —  — agent:.claude/agents/mobile-developer.md
 [planning] model-capability-resolver — capabilities,capability,model,registry,resolve — script:scripts/model-capability-resolver.sh
-[planning] morning-bootstrap — auth,bootstrap,lunes,morning,project — script:scripts/morning-bootstrap.sh
 [planning] my-learning — best,código,detección,developer,gaps — cmd:.claude/commands/my-learning.md
 [planning] my-sprint — asignados,cycle,items,pendientes,personal — cmd:.claude/commands/my-sprint.md
 [planning] nidos — isolation,manage,named,nidos,parallel — cmd:.claude/commands/nidos.md
@@ -745,10 +748,12 @@
 [planning] profile-switch — activo,cambia,cambiar,perfil,savia — cmd:.claude/commands/profile-switch.md
 [planning] project-assign —  — cmd:.claude/commands/project-assign.md
 [planning] project-audit —  — cmd:.claude/commands/project-audit.md
+[planning] project-context — context,isolation,project,savia — script:scripts/project-context.sh
 [planning] project-kickoff —  — cmd:.claude/commands/project-kickoff.md
 [planning] project-new —  — cmd:.claude/commands/project-new.md
 [planning] project-release-plan —  — cmd:.claude/commands/project-release-plan.md
 [planning] project-roadmap —  — cmd:.claude/commands/project-roadmap.md
+[planning] project-update — activo,actualización,bajo,calendar,confidencial — skill:.claude/skills/project-update/SKILL.md
 [planning] project-update-devops — config,devops,project,real,resuelve — script:scripts/project-update-devops.sh
 [planning] prompt-optimizer —  — skill:.claude/skills/prompt-optimizer/SKILL.md
 [planning] protect-project-privacy — accidental,barrera,contra,privacy,project — script:scripts/protect-project-privacy.sh
@@ -821,7 +826,6 @@
 [planning] setup-merge-drivers — configure,custom,drivers,local,merge — script:scripts/setup-merge-drivers.sh
 [planning] setup-savia-dual — dual,installer,linux,macos,savia — script:scripts/setup-savia-dual.sh
 [planning] setup-savia-remote — once,remote,root,savia,server — script:scripts/setup-savia-remote.sh
-[planning] setup-second-origin — local,machine,persistence,remote,savia — script:scripts/setup-second-origin.sh
 [planning] sheets-setup — configure,google,integration,sheets — cmd:.claude/commands/sheets-setup.md
 [planning] sheets-sync — data,google,sheets,synchronize — cmd:.claude/commands/sheets-sync.md
 [planning] shield-ner-hook — capa,daemon,fast,hook,savia — script:scripts/shield-ner-hook.sh

@@ -1,6 +1,6 @@
 {
-  "hash": "48061fc2a264",
-  "total": 1169,
+  "hash": "ff8ea5ce64ca",
+  "total": 1173,
   "resources": [
     {
       "category": "analysis",
@@ -152,6 +152,20 @@
       "kind": "cmd",
       "path": ".claude/commands/agent-efficiency.md",
       "description": "Ratio de eficiencia de agentes — specs completadas, re-work y tiempos"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-file-map",
+      "intents": [
+        "agent",
+        "agentes",
+        "búsqueda",
+        "excel",
+        "externos"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/agent-file-map/SKILL.md",
+      "description": "Genera y gestiona Agent File Maps (.afm) — índice persistente de ficheros externos al workspace (Excel, PDF, imágenes, videos) que los agentes necesitan localizar sin búsqueda repetida."
     },
     {
       "category": "analysis",
@@ -852,19 +866,6 @@
     },
     {
       "category": "communication",
-      "name": "meeting-audit",
-      "intents": [
-        "audit",
-        "digest",
-        "meeting",
-        "acme-project"
-      ],
-      "kind": "script",
-      "path": "scripts/meeting-audit.sh",
-      "description": "Meeting Digest Audit — acme-project"
-    },
-    {
-      "category": "communication",
       "name": "meeting-confidentiality-judge",
       "intents": [],
       "kind": "agent",
@@ -908,6 +909,20 @@
       "kind": "cmd",
       "path": ".claude/commands/meeting-summarize.md",
       "description": "Transcribe y extrae action items de reuniones — Sprint Review, Retro, Planning, Daily"
+    },
+    {
+      "category": "communication",
+      "name": "meeting-transcript-extract",
+      "intents": [
+        "asistente",
+        "botón",
+        "browser",
+        "chat",
+        "click"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/meeting-transcript-extract/SKILL.md",
+      "description": "Extrae transcripciones de reuniones Teams web vía CDP del browser-daemon. Funciona para reuniones propias Y reuniones donde el usuario fue asistente (convocadas por otros). Pipeline: click chat → botón Transcripción → iframe xplatplugins.as"
     },
     {
       "category": "communication",
@@ -3238,6 +3253,20 @@
       "kind": "script",
       "path": "scripts/semantic-map.sh",
       "description": "semantic-map.sh — Generate compressed semantic maps of source code files"
+    },
+    {
+      "category": "development",
+      "name": "setup-opencode-permissions",
+      "intents": [
+        "claude",
+        "json",
+        "local",
+        "permisos",
+        "permissions"
+      ],
+      "kind": "script",
+      "path": "scripts/setup-opencode-permissions.sh",
+      "description": "setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados"
     },
     {
       "category": "development",
@@ -5811,6 +5840,20 @@
     },
     {
       "category": "planning",
+      "name": "ado-bridge",
+      "intents": [
+        "azure",
+        "bridge",
+        "commands",
+        "devops",
+        "rest"
+      ],
+      "kind": "script",
+      "path": "scripts/ado-bridge.sh",
+      "description": "ado-bridge.sh — Azure DevOps REST API v7.1 bridge for Savia PM commands"
+    },
+    {
+      "category": "planning",
       "name": "adoption-assess",
       "intents": [
         "adkar",
@@ -8278,6 +8321,14 @@
     },
     {
       "category": "planning",
+      "name": "import-sprint-story",
+      "intents": [],
+      "kind": "cmd",
+      "path": ".claude/commands/import-sprint-story.md",
+      "description": ">"
+    },
+    {
+      "category": "planning",
       "name": "incident-postmortem",
       "intents": [
         "action",
@@ -8690,20 +8741,6 @@
       "kind": "script",
       "path": "scripts/model-capability-resolver.sh",
       "description": "model-capability-resolver.sh — Resolve model capabilities from YAML registry"
-    },
-    {
-      "category": "planning",
-      "name": "morning-bootstrap",
-      "intents": [
-        "auth",
-        "bootstrap",
-        "lunes",
-        "morning",
-        "project"
-      ],
-      "kind": "script",
-      "path": "scripts/morning-bootstrap.sh",
-      "description": "morning-bootstrap.sh — rutina lunes 09:00 (auth + project-update)"
     },
     {
       "category": "planning",
@@ -9513,6 +9550,19 @@
     },
     {
       "category": "planning",
+      "name": "project-context",
+      "intents": [
+        "context",
+        "isolation",
+        "project",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/project-context.sh",
+      "description": "project-context.sh — Project isolation for Savia (SE-093)"
+    },
+    {
+      "category": "planning",
       "name": "project-kickoff",
       "intents": [],
       "kind": "cmd",
@@ -9542,6 +9592,20 @@
       "kind": "cmd",
       "path": ".claude/commands/project-roadmap.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "project-update",
+      "intents": [
+        "activo",
+        "actualización",
+        "bajo",
+        "calendar",
+        "confidencial"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/project-update/SKILL.md",
+      "description": "Actualización integral del proyecto activo. Orquestador determinista (multiproceso) que refresca DevOps+mail+calendar+teams+SharePoint+OneDrive+transcripts, digiere VTTs a meeting digests, y deja todo persistido bajo niveles de confidencial"
     },
     {
       "category": "planning",
@@ -10439,20 +10503,6 @@
       "kind": "script",
       "path": "scripts/setup-savia-remote.sh",
       "description": "setup-savia-remote.sh — Run ONCE on the remote server as root/sudo."
-    },
-    {
-      "category": "planning",
-      "name": "setup-second-origin",
-      "intents": [
-        "local",
-        "machine",
-        "persistence",
-        "remote",
-        "savia"
-      ],
-      "kind": "script",
-      "path": "scripts/setup-second-origin.sh",
-      "description": "Add a second remote for machine-local persistence of Savia/pm-workspace"
     },
     {
       "category": "planning",
