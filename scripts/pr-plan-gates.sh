@@ -48,15 +48,15 @@ g3() {
   [[ -n "$c" ]] && echo "FAIL: Merge conflicts in: $c" && return
 }
 _resolve_changelog_conflict() {
-  local mv; mv=$(git show origin/main:CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1) || true
-  [[ -z "$mv" ]] && { sed -i '/^<<<<<<< HEAD$/d; /^=======$/d; /^>>>>>>> origin\/main$/d' CHANGELOG.md; return; }
-  git show origin/main:CHANGELOG.md > /tmp/_cl_base.md 2>/dev/null || true
+  local mv; mv=$(git show "${BASE_REF}":CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1) || true
+  [[ -z "$mv" ]] && { sed -i "/^<<<<<<< HEAD$/d; /^=======$/d; /^>>>>>>> ${BASE_REMOTE}\/${BASE_BRANCH}\$/d" CHANGELOG.md; return; }
+  git show "${BASE_REF}":CHANGELOG.md > /tmp/_cl_base.md 2>/dev/null || true
   local my_entry=""
   my_entry=$(sed -n "1,/^## \[$mv\]/{ /^## \[$mv\]/d; p; }" CHANGELOG.md \
     | sed '/^<<<<<<</d; /^=======/d; /^>>>>>>>/d' \
     | sed '/^# Changelog/d; /^$/d; /^All notable/d; /^The format/d; /adheres to/d' || true)
   if [[ -z "$my_entry" ]]; then
-    sed -i '/^<<<<<<< HEAD$/d; /^=======$/d; /^>>>>>>> origin\/main$/d' CHANGELOG.md; return
+    sed -i "/^<<<<<<< HEAD$/d; /^=======$/d; /^>>>>>>> ${BASE_REMOTE}\/${BASE_BRANCH}\$/d" CHANGELOG.md; return
   fi
   local header_end
   header_end=$(grep -n '^## \[' /tmp/_cl_base.md | head -1 | cut -d: -f1) || header_end=8
@@ -89,12 +89,12 @@ _resolve_signature_conflict() {
 }
 
 g4() {
-  git fetch origin main --quiet 2>/dev/null || true
-  if git merge-base --is-ancestor origin/main HEAD 2>/dev/null; then
+  git fetch "${BASE_REMOTE}" "${BASE_BRANCH}" --quiet 2>/dev/null || true
+  if git merge-base --is-ancestor "${BASE_REF}" HEAD 2>/dev/null; then
     echo "0 behind"; return
   fi
   trap 'rm -f /tmp/_cl_base.md /tmp/_cl_new.md' RETURN
-  git merge origin/main --no-ff --no-edit 2>&1 >/dev/null || true
+  git merge "${BASE_REF}" --no-ff --no-edit 2>&1 >/dev/null || true
   local hard_conflicts
   hard_conflicts=$(git diff --name-only --diff-filter=U 2>/dev/null \
     | grep -vE '^CHANGELOG\.md$|\.confidentiality-signature$' | head -5) || true
@@ -118,7 +118,7 @@ g4() {
   echo "auto-merged"
 }
 g5() {
-  local all; all=$(git diff origin/main..HEAD --name-only 2>/dev/null) || true
+  local all; all=$(git diff "${BASE_REF}"..HEAD --name-only 2>/dev/null) || true
   local non_md; non_md=$(echo "$all" | grep -vE '\.md$' | grep -v '^$' || true)
   [[ -z "$non_md" ]] && echo "skipped (docs-only)" && return
   # High-impact paths: any change in these dirs requires CHANGELOG update.
@@ -139,7 +139,7 @@ g5() {
   fi
 
   local lv; lv=$(grep -oP '## \[\K[0-9.]+' CHANGELOG.md 2>/dev/null | head -1)
-  local mv; mv=$(git show origin/main:CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1) || true
+  local mv; mv=$(git show "${BASE_REF}":CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1) || true
   [[ "$lv" == "$mv" ]] && { FAILED_FILE="CHANGELOG.md"; echo "FAIL: CHANGELOG not updated (both $lv) — use scripts/changelog-fragment.sh or bump top version"; return; }
   local era; era=$(sed -n "/## \[$lv\]/,/## \[/p" CHANGELOG.md | grep -ci 'era ' || true)
   [[ "$era" -eq 0 ]] && { FAILED_FILE="CHANGELOG.md"; echo "FAIL: CHANGELOG v$lv missing Era reference (add 'Era NNN' to description)"; return; }
@@ -195,7 +195,7 @@ g5b() {
 # preventing the classic "push + CI fails on low-score test" loop.
 g6b() {
   [[ ! -x scripts/test-auditor.sh ]] && { echo "WARN: test-auditor.sh missing"; return; }
-  local changed; changed=$(git diff origin/main..HEAD --name-only --diff-filter=AM 2>/dev/null | grep -E '^tests/.*\.bats$' || true)
+  local changed; changed=$(git diff "${BASE_REF}"..HEAD --name-only --diff-filter=AM 2>/dev/null | grep -E '^tests/.*\.bats$' || true)
   [[ -z "$changed" ]] && { echo "skipped (no *.bats changed)"; return; }
   local low=""
   while IFS= read -r f; do
@@ -231,7 +231,7 @@ g7() {
   echo "0 violations"
 }
 g8() {
-  local nf; nf=$(git diff origin/main..HEAD --diff-filter=A --name-only 2>/dev/null) || true
+  local nf; nf=$(git diff "${BASE_REF}"..HEAD --diff-filter=A --name-only 2>/dev/null) || true
   local need=false
   echo "$nf" | grep -qE '^\.claude/(commands|skills|agents)/' && need=true
   $need && ! echo "$nf" | grep -q 'README.md' && { echo "WARN: new components, README not updated"; return; }
@@ -241,7 +241,7 @@ g9() {
   local names; names=$(ls -d projects/*/ 2>/dev/null | xargs -I{} basename {} | grep -vE "$safe") || true
   [[ -z "$names" ]] && return
   # Only scan ADDED lines in the diff, not full file content
-  local added; added=$(git diff origin/main..HEAD | grep '^+' | grep -v '^+++' || true)
+  local added; added=$(git diff "${BASE_REF}"..HEAD | grep '^+' | grep -v '^+++' || true)
   [[ -z "$added" ]] && return
   local leaks=""
   for n in $names; do
@@ -273,7 +273,7 @@ g_summary() {
 # G_OPENCODE_PLAN: G12 — every spec APPROVED post-2026-04-26 must include OpenCode Implementation Plan.
 # Rule: docs/rules/domain/spec-opencode-implementation-plan.md
 g_opencode_plan() {
-  if ! git diff origin/main..HEAD --name-only 2>/dev/null | grep -qE '^docs/propuestas/(SE|SPEC)-.*\.md$'; then
+  if ! git diff "${BASE_REF}"..HEAD --name-only 2>/dev/null | grep -qE '^docs/propuestas/(SE|SPEC)-.*\.md$'; then
     return
   fi
   if ! bash "$ROOT/scripts/spec-opencode-plan-audit.sh" >/dev/null 2>&1; then
@@ -285,10 +285,10 @@ g_opencode_plan() {
 }
 g11() {
   local stat_line
-  if ! git rev-parse origin/main >/dev/null 2>&1; then
-    echo "WARN: Review level: unknown (origin/main unreachable)"; return
+  if ! git rev-parse "${BASE_REF}" >/dev/null 2>&1; then
+    echo "WARN: Review level: unknown (${BASE_REF} unreachable)"; return
   fi
-  stat_line=$(git diff origin/main..HEAD --stat 2>/dev/null | tail -1) || true
+  stat_line=$(git diff "${BASE_REF}"..HEAD --stat 2>/dev/null | tail -1) || true
   if [[ -z "$stat_line" ]]; then
     echo "0 lines — nothing to review"; return
   fi
@@ -335,10 +335,10 @@ g11() {
 # Pattern: Genesis B9 GOAL STEWARD + B8 ATTENTION ANCHOR
 # (docs/rules/domain/attention-anchor.md, SE-080).
 g13_scope_trace() {
-  if ! git rev-parse origin/main >/dev/null 2>&1; then
-    echo "WARN: skipped (origin/main unreachable)"; return
+  if ! git rev-parse "${BASE_REF}" >/dev/null 2>&1; then
+    echo "WARN: skipped (${BASE_REF} unreachable)"; return
   fi
-  local files; files=$(git diff origin/main..HEAD --name-only 2>/dev/null | grep -v '^$') || true
+  local files; files=$(git diff "${BASE_REF}"..HEAD --name-only 2>/dev/null | grep -v '^$') || true
   [[ -z "$files" ]] && { echo "skipped (no changes)"; return; }
 
   # Skip override — explicit user opt-out with a reason
@@ -362,7 +362,7 @@ g13_scope_trace() {
   if [[ -f "$summary" ]]; then
     spec_ids=$(grep -oE '\b(SE|SPEC)-[0-9]+\b' "$summary" 2>/dev/null || true)
   fi
-  spec_ids="${spec_ids}"$'\n'"$(git log origin/main..HEAD --format=%B 2>/dev/null | grep -oE '\b(SE|SPEC)-[0-9]+\b' || true)"
+  spec_ids="${spec_ids}"$'\n'"$(git log "${BASE_REF}"..HEAD --format=%B 2>/dev/null | grep -oE '\b(SE|SPEC)-[0-9]+\b' || true)"
   local branch_id; branch_id=$(echo "$BRANCH" | grep -oE '\b(se|spec)-?[0-9]+\b' | head -1 | tr '[:lower:]' '[:upper:]' | sed 's/-\?\([0-9]\)/-\1/' || true)
   [[ -n "$branch_id" ]] && spec_ids="${spec_ids}"$'\n'"${branch_id}"
   spec_ids=$(echo "$spec_ids" | grep -E '^(SE|SPEC)-[0-9]+$' | sort -u)
@@ -480,7 +480,7 @@ g14_skill_catalog() {
 
   # Files added or modified in the PR, restricted to SKILL.md under .opencode/skills/
   local skills
-  skills=$(git diff origin/main..HEAD --name-only --diff-filter=AM 2>/dev/null \
+  skills=$(git diff "${BASE_REF}"..HEAD --name-only --diff-filter=AM 2>/dev/null \
            | grep -E '^\.opencode/skills/[^/]+/SKILL\.md$' || true)
   if [[ -z "$skills" ]]; then
     echo "skipped (no SKILL.md changed)"

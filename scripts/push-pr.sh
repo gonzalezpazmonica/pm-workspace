@@ -6,21 +6,27 @@
 set -euo pipefail
 cd "$(dirname "$(dirname "${BASH_SOURCE[0]}")")"
 
-TITLE="" BODY="" DRAFT=true MERGE=false SKIP_CL=false SKIP_CI=false FROM_PR_PLAN=false
+TITLE="" BODY="" DRAFT=true MERGE=false SKIP_CL=false SKIP_CI=false FROM_PR_PLAN=false BASE_OVERRIDE=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --title) TITLE="$2"; shift 2 ;;  --body) BODY="$2"; shift 2 ;;
     --draft) DRAFT=true; shift ;;     --no-draft) DRAFT=false; shift ;;
     --merge) MERGE=true; shift ;;
+    --base) BASE_OVERRIDE="$2"; shift 2 ;;
     --skip-changelog) SKIP_CL=true; shift ;; --skip-ci) SKIP_CI=true; shift ;;
     --from-pr-plan) FROM_PR_PLAN=true; shift ;;
-    --help|-h) echo "Usage: $0 [--title T] [--body B] [--no-draft] [--merge] [--skip-changelog] [--skip-ci]"; exit 0 ;;
+    --help|-h) echo "Usage: $0 [--title T] [--body B] [--no-draft] [--merge] [--base remote/branch] [--skip-changelog] [--skip-ci]"; exit 0 ;;
     *) shift ;;
   esac
 done
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 [[ "$BRANCH" == "main" || "$BRANCH" == "master" ]] && { echo "ERROR: On $BRANCH." >&2; exit 1; }
+
+# Resolve base ref: --base > SAVIA_PR_BASE env (set by pr-plan.sh) > origin/main
+BASE_REF="${BASE_OVERRIDE:-${BASE_REF:-${SAVIA_PR_BASE:-origin/main}}}"
+BASE_REMOTE="${BASE_REF%%/*}"
+BASE_BRANCH="${BASE_REF#*/}"
 
 # ── Step 0: pr-plan gate ──────────────────────────────────────────────────
 if ! $FROM_PR_PLAN && [[ ! -f ".pr-plan-ok" ]]; then
@@ -34,8 +40,8 @@ if ! $FROM_PR_PLAN && [[ -f ".pr-plan-ok" ]]; then
   fi
 fi
 
-REPO=$(git remote get-url origin | sed -E 's|.*github\.com[:/]||;s|\.git$||')
-TOKEN=$(git remote get-url origin | grep -oP 'ghp_[A-Za-z0-9]+' 2>/dev/null || true)
+REPO=$(git remote get-url "$BASE_REMOTE" 2>/dev/null | sed -E 's|.*github\.com[:/]||;s|\.git$||')
+TOKEN=$(git remote get-url "$BASE_REMOTE" 2>/dev/null | grep -oP 'ghp_[A-Za-z0-9]+' 2>/dev/null || true)
 if [[ -z "$TOKEN" ]] && command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
   USE_GH_CLI=true
 else USE_GH_CLI=false; fi
@@ -57,7 +63,7 @@ else bash scripts/validate-ci-local.sh 2>&1 | tail -5 | grep -q "safe to push" |
 echo -e "\n=== Step 3: CHANGELOG ==="
 if ! $SKIP_CL; then
   CL_V=$(grep -oP '## \[\K[0-9.]+' CHANGELOG.md | head -1)
-  PREV_V=$(git show origin/main:CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1)
+  PREV_V=$(git show "${BASE_REF}":CHANGELOG.md 2>/dev/null | grep -oP '## \[\K[0-9.]+' | head -1)
   [[ "$CL_V" == "$PREV_V" ]] && { echo "ERROR: CHANGELOG not updated." >&2; exit 1; }; echo "  $CL_V."
 else echo "  Skipped."; fi
 echo -e "\n=== Step 4: Sign ==="
@@ -66,7 +72,7 @@ if ! git diff --cached --quiet; then
   git commit -m "chore: sign confidentiality audit"
 else echo "  Unchanged."; fi
 echo -e "\n=== Step 5: Push ==="; export SAVIA_PUSH_PR=1
-git push origin "$BRANCH" 2>&1 | tail -3 || { echo "  Retrying..."; git push --force-with-lease origin "$BRANCH" 2>&1 | tail -3; }
+git push "$BASE_REMOTE" "$BRANCH" 2>&1 | tail -3 || { echo "  Retrying..."; git push --force-with-lease "$BASE_REMOTE" "$BRANCH" 2>&1 | tail -3; }
 
 # ── Step 6: PR ───────────────────────────────────────────────────────────
 echo -e "\n=== Step 6: PR ==="
@@ -75,12 +81,12 @@ if [[ -z "$TOKEN" ]] && ! $USE_GH_CLI; then
 fi
 if [[ -z "$TITLE" ]]; then
   # Prefer first feat:/fix: in chronological order; fallback to first non-chore/non-Merge.
-  TITLE=$(git log --reverse origin/main..HEAD --oneline | grep -E '^[a-f0-9]+ (feat|fix)(\(|:)' | head -1 | cut -d' ' -f2-)
-  [[ -z "$TITLE" ]] && TITLE=$(git log --reverse origin/main..HEAD --oneline | grep -vE '^[a-f0-9]+ (chore:|Merge)' | head -1 | cut -d' ' -f2-)
+  TITLE=$(git log --reverse "${BASE_REF}"..HEAD --oneline | grep -E '^[a-f0-9]+ (feat|fix)(\(|:)' | head -1 | cut -d' ' -f2-)
+  [[ -z "$TITLE" ]] && TITLE=$(git log --reverse "${BASE_REF}"..HEAD --oneline | grep -vE '^[a-f0-9]+ (chore:|Merge)' | head -1 | cut -d' ' -f2-)
 fi
 if [[ -z "$BODY" ]]; then
-  COMMITS=$(git log --oneline origin/main..HEAD | grep -v "^[a-f0-9]* chore: sign" | sed 's/^/- /')
-  FILES=$(git diff origin/main..HEAD --stat | tail -1 | grep -oP '[0-9]+' | head -1)
+  COMMITS=$(git log --oneline "${BASE_REF}"..HEAD | grep -v "^[a-f0-9]* chore: sign" | sed 's/^/- /')
+  FILES=$(git diff "${BASE_REF}"..HEAD --stat | tail -1 | grep -oP '[0-9]+' | head -1)
   # Read .pr-summary.md if present (rule pr-natural-language-summary.md)
   PR_SUMMARY=""
   if [[ -f .pr-summary.md ]]; then
@@ -107,7 +113,7 @@ else
 import json,urllib.request,sys
 t,r,b,ti='$TOKEN','$REPO','$BRANCH','$(echo "$TITLE" | sed "s/'/\\\\'/g")'
 body=open('$BODY_FILE').read(); dr=$([[ "$DRAFT_PY" == "True" ]] && echo True || echo False)
-d=json.dumps({'title':ti,'body':body,'head':b,'base':'main','draft':dr}).encode()
+d=json.dumps({'title':ti,'body':body,'head':b,'base':'$BASE_BRANCH','draft':dr}).encode()
 rq=urllib.request.Request(f'https://api.github.com/repos/{r}/pulls',data=d,
   headers={'Authorization':f'token {t}','Accept':'application/vnd.github+json','Content-Type':'application/json'})
 try:

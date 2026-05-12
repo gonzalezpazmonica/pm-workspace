@@ -4,15 +4,48 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(dirname "$SCRIPT_DIR")"; cd "$ROOT"
 
-DRY=false; SKIP_PUSH=false; TITLE=""
+DRY=false; SKIP_PUSH=false; TITLE=""; BASE_OVERRIDE=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run) DRY=true; shift ;; --skip-push) SKIP_PUSH=true; shift ;;
-    --title) TITLE="$2"; shift 2 ;; *) shift ;;
+    --title) TITLE="$2"; shift 2 ;;
+    --base) BASE_OVERRIDE="$2"; shift 2 ;;
+    *) shift ;;
   esac
 done
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# ── Resolve PR target (base) — fix for hardcoded origin/main ─────
+# Priority:
+#   1. --base remote/branch (explicit override)
+#   2. SAVIA_PR_BASE env var (remote/branch)
+#   3. gh pr view --json for current branch (auto-detect from open PR)
+#   4. fallback origin/main (backward compat)
+resolve_base() {
+  if [[ -n "$BASE_OVERRIDE" ]]; then echo "$BASE_OVERRIDE"; return; fi
+  if [[ -n "${SAVIA_PR_BASE:-}" ]]; then echo "$SAVIA_PR_BASE"; return; fi
+  if command -v gh >/dev/null 2>&1; then
+    local pr_info; pr_info=$(gh pr view --json baseRefName,baseRefRepository 2>/dev/null) || pr_info=""
+    if [[ -n "$pr_info" ]]; then
+      local base_repo base_branch base_owner
+      base_repo=$(echo "$pr_info" | python3 -c "import sys,json;d=json.load(sys.stdin);print(d['baseRefRepository']['name'])" 2>/dev/null) || base_repo=""
+      base_branch=$(echo "$pr_info" | python3 -c "import sys,json;d=json.load(sys.stdin);print(d['baseRefName'])" 2>/dev/null) || base_branch=""
+      base_owner=$(echo "$pr_info" | python3 -c "import sys,json;d=json.load(sys.stdin);print(d['baseRefRepository']['owner']['login'])" 2>/dev/null) || base_owner=""
+      if [[ -n "$base_repo" && -n "$base_branch" && -n "$base_owner" ]]; then
+        # Find local remote matching the PR's base repo
+        local rname; rname=$(git remote -v | grep -F "$base_owner/$base_repo" | head -1 | awk '{print $1}') || rname=""
+        [[ -n "$rname" ]] && { echo "$rname/$base_branch"; return; }
+      fi
+    fi
+  fi
+  echo "origin/main"
+}
+
+BASE_REF=$(resolve_base)
+BASE_REMOTE="${BASE_REF%%/*}"
+BASE_BRANCH="${BASE_REF#*/}"
+export BASE_REF BASE_REMOTE BASE_BRANCH
 PASS=0; FAIL=0; WARN=0; STOPPED=""
 FAILURE_FILE="output/pr-plan-failure.json"
 mkdir -p output 2>/dev/null
@@ -31,6 +64,7 @@ source "$SCRIPT_DIR/pr-plan-gates.sh"
 # ── Run gates ────────────────────────────────────────────────────
 echo "------------------------------------------------------------"
 echo "  PR Pre-Flight — $BRANCH"
+echo "  Target — $BASE_REF"
 echo "------------------------------------------------------------"
 echo ""
 gate "G0"  "Previous failure check" g0
@@ -70,7 +104,7 @@ $SKIP_PUSH && { rm -f .pr-plan-ok; echo "  --skip-push: gates passed, no push.";
 
 echo "  Pushing + PR..."
 export SAVIA_PUSH_PR=1
-PUSH_CMD=(bash scripts/push-pr.sh --skip-changelog --skip-ci --from-pr-plan)
+PUSH_CMD=(bash scripts/push-pr.sh --skip-changelog --skip-ci --from-pr-plan --base "$BASE_REF")
 [[ -n "$TITLE" ]] && PUSH_CMD+=(--title "$TITLE")
 PR_OUT=$("${PUSH_CMD[@]}" 2>&1) || true
 echo "$PR_OUT" | grep -E "(http|PR |Done)" | tail -3
