@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=081cfa4f6bf6a26f7ef2ea7fd91e08f5b2b0ae1b8f770e82ec1b10cbb41bbbfa
-timestamp=2026-05-12T22:08:55Z
+diff_hash=65506444de3346a5c6300e3144d2a4a30c3e43d6b8ea73b999cb2c90a4ac01d2
+timestamp=2026-05-12T22:19:06Z
 branch=docs/opencode-first-plus-pending
-head_commit=0cd7c24d
-signature=4893eeab2273b657ce5972c35db99b288c9f4eeca735d460e033039ebb6d4f9b
+head_commit=87c0891a
+signature=eb6f2c11ec92c7b31c2b23af7044371d38a4213e362641ec981c5511a8d2b3e0
