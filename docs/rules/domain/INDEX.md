@@ -72,6 +72,7 @@ Auto-generated. 200 files / 36 cats. Regen: `bash scripts/rules-domain-index.sh`
 | Other | [`business-case-as-code.md`](./business-case-as-code.md) | Business-Case-as-Code — Valuation Lifecycle (SE-016) |
 | Other | [`caveman-default.md`](./caveman-default.md) | Caveman Default — Restricciones base de Savia |
 | Other | [`changelog-enforcement.md`](./changelog-enforcement.md) | Regla: Actualización obligatoria de CHANGELOG.md |
+| Other | [`check-flows-before-improvising.md`](./check-flows-before-improvising.md) | Regla: Revisar flujos existentes antes de improvisar |
 | Other | [`changelog-integrity.md`](./changelog-integrity.md) | Regla: CHANGELOG.md — Integridad y Buenas Prácticas |
 | Other | [`clara-philosophy.md`](./clara-philosophy.md) | Clara Philosophy — Multi-Level Documentation Standard |
 | Other | [`cloud-decision-tree.md`](./cloud-decision-tree.md) | Infrastructure Agent: Cloud Decision Tree y Tier Recommendations |
