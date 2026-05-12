@@ -46,6 +46,20 @@ do_sign() {
   branch=$(git -C "$ROOT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null)
   head_commit=$(git -C "$ROOT_DIR" rev-parse --short HEAD 2>/dev/null)
   signature=$(compute_hmac "$diff_hash")
+  # Idempotency: if existing signature matches diff_hash, skip rewrite.
+  # Rationale: diff_hash is computed over the HEAD tree EXCLUDING the signature
+  # file itself (see get_diff_hash). Re-signing the same tree state is a no-op
+  # semantically — only timestamp/head_commit would change, and head_commit is
+  # informational (verification uses diff_hash). This prevents spurious churn
+  # when test suites invoke `sign` on the real repo with a temp HOME.
+  if [ -f "$SIG_FILE" ]; then
+    local existing_diff
+    existing_diff=$(grep '^diff_hash=' "$SIG_FILE" 2>/dev/null | cut -d= -f2)
+    if [ "$existing_diff" = "$diff_hash" ]; then
+      echo "SIGNED  hash=${diff_hash:0:16}... (idempotent — no change)"
+      return 0
+    fi
+  fi
   cat > "$SIG_FILE" <<SIGEOF
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=$diff_hash
