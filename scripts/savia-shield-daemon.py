@@ -324,6 +324,18 @@ def gate(hook_input):
     return {"verdict": verdict, "entities": result.get("entities", []),
             "file": fp, "latency_ms": latency}
 
+def _ollama_model_loaded():
+    """Probe Ollama for classification model presence. Returns bool. Never raises."""
+    try:
+        import urllib.request
+        model = os.environ.get("OLLAMA_CLASSIFY_MODEL", "qwen2.5:7b")
+        url = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434") + "/api/tags"
+        with urllib.request.urlopen(url, timeout=2) as r:
+            tags = json.loads(r.read().decode())
+            return any(m.get("name","").startswith(model) for m in tags.get("models",[]))
+    except Exception:
+        return False
+
 class H(http.server.BaseHTTPRequestHandler):
     def _check_auth(self):
         
@@ -352,7 +364,10 @@ class H(http.server.BaseHTTPRequestHandler):
             else: self._r({"error":"not found"},404)
         except Exception as e: self._r({"error":str(e)},500)
     def do_GET(self):
-        if self.path=="/health": self._r({"status":"ok","ner":ner is not None,"version":"2.0"})
+        if self.path=="/health":
+            self._r({"status":"ok","ner":ner is not None,"version":"2.0",
+                     "ollama_model_loaded": _ollama_model_loaded(),
+                     "ollama_model": os.environ.get("OLLAMA_CLASSIFY_MODEL","qwen2.5:7b")})
         else: self._r({"error":"not found"},404)
     def log_message(self,*a): pass
 

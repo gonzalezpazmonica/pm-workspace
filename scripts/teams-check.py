@@ -17,6 +17,10 @@ from pathlib import Path
 
 os.environ["PYTHONUTF8"] = "1"
 
+# SPEC-SH03 helpers
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from heartbeat_helpers import HeartbeatPoller  # noqa: E402
+
 SAVIA_DIR = Path.home() / ".savia"
 OUTPUT_DIR = SAVIA_DIR / "teams-inbox"
 COMMANDS_DIR = SAVIA_DIR / "browser-commands"
@@ -154,19 +158,14 @@ def read_teams_via_daemon(alias: str, section: str = "all") -> dict:
     with open(cmd_file, "w", encoding="utf-8") as f:
         json.dump(payload, f)
 
-    # Teams scrape can take ~15s per chat × N chats; allow up to 120s
-    for _ in range(120):
-        time.sleep(1)
-        if result_file.exists():
-            try:
-                with open(result_file, "r", encoding="utf-8") as fp:
-                    got = json.load(fp)
-                got.setdefault("account", alias)
-                return got
-            except Exception:
-                continue
-
-    return {"account": alias, "error": "daemon_timeout"}
+    # SPEC-SH03 poller: HEARTBEAT/RESULT to stdout, terminal-aware exit.
+    poller = HeartbeatPoller(result_file, op="check-teams", hard_cap_s=600)
+    final = poller.run_until_terminal()
+    if not isinstance(final, dict) or not final:
+        final = {"account": alias, "error": "no_payload"}
+    final.setdefault("account", alias)
+    final["_poll_rc"] = poller.exit_code
+    return final
 
 
 def read_teams_direct(alias: str, cfg: dict, section: str = "all") -> dict:

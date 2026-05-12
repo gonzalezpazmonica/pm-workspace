@@ -20,6 +20,10 @@ OUTPUT_DIR = SAVIA_DIR / "outlook-inbox"
 COMMANDS_DIR = SAVIA_DIR / "browser-commands"
 ACCOUNTS_FILE = SAVIA_DIR / "mail-accounts.json"
 
+# SPEC-SH03 helpers
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from heartbeat_helpers import HeartbeatPoller  # noqa: E402
+
 
 def load_accounts() -> dict:
     """Load account config from local file (never in git)."""
@@ -31,29 +35,27 @@ def load_accounts() -> dict:
 
 
 def read_inbox_via_daemon(alias: str) -> dict:
-    """Send check-mail command to running daemon and read result."""
+    """Send check-mail command to running daemon and poll heartbeat (SH03)."""
     COMMANDS_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     cmd_file = COMMANDS_DIR / f"{alias}-cmd.json"
-    result_file = OUTPUT_DIR / f"{alias}-result.json"
+    result_file = OUTPUT_DIR / f"{alias}-mail-result.json"
 
-    # Remove old result
+    # Clear stale result before sending command
     if result_file.exists():
         result_file.unlink()
 
-    # Send command
     with open(cmd_file, "w") as f:
         json.dump({"action": "check-mail"}, f)
 
-    # Wait for result (max 30s)
-    for _ in range(30):
-        time.sleep(1)
-        if result_file.exists():
-            with open(result_file, "r", encoding="utf-8") as f:
-                return json.load(f)
-
-    return {"account": alias, "error": "daemon_timeout"}
+    poller = HeartbeatPoller(result_file, op="check-mail", hard_cap_s=600)
+    final = poller.run_until_terminal()
+    if not isinstance(final, dict) or not final:
+        final = {"account": alias, "error": "no_payload"}
+    final.setdefault("account", alias)
+    final["_poll_rc"] = poller.exit_code
+    return final
 
 
 def read_inbox_direct(alias: str, cfg: dict) -> dict:

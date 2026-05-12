@@ -43,8 +43,6 @@ EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/.*\.test\.ts$"
 EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/lib/credential-patterns\.ts$"
 EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/lib/injection-patterns\.ts$"
 EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/lib/leakage-patterns\.ts$"
-EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/lib/sovereignty-patterns\.ts$"
-EXCLUDE_FILES="$EXCLUDE_FILES|docs/propuestas/SPEC-OC-01-savia-shield-opencode-adaptation\.md$"
 EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/block-credential-leak\.ts$"
 EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/block-gitignored-references\.ts$"
 EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/prompt-injection-guard\.ts$"
@@ -125,7 +123,7 @@ EMAILS=$(echo "$ADDED_LINES" | grep -oiE "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z
   | grep -v "@example\.\|@test\.\|@contoso\.\|@miorganizacion\.\|@anthropic\.\|@github\.\|@savia\.dev\|@empresa\.\|@cliente\." \
   | grep -v "@domain\.\|@org\.\|@co\.\|@company\.\|@cliente-alpha\.\|@cliente-beta\.\|@acme\." \
   | grep -vE "^@[a-z]+\.[a-z]+$" \
-  | grep -vE "@kotlinx\.|@orders\.|@router\.|@app\.|@pytest\.|@override" \
+  | grep -vE "@kotlinx\.|@orders\.|@router\.|@app\.|@pytest\.|@override|@mcp\.tool|@server\.tool|@dataclass" \
   | sort -u || true)
 if [ -n "$EMAILS" ]; then
   echo "::error::BLOCKED: Real emails found"

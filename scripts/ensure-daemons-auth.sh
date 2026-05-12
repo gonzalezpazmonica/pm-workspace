@@ -53,7 +53,7 @@ cdp_port_for() {
 }
 
 session_dir_for() {
-  python -c "import json; a=json.load(open(r'$ACCOUNTS_FILE')); print(a.get('$1',{}).get('session_dir',''))" 2>/dev/null
+  python3 -c "import json; a=json.load(open(r'$ACCOUNTS_FILE')); print(a.get('$1',{}).get('session_dir',''))" 2>/dev/null
 }
 
 daemon_status() {
@@ -61,7 +61,7 @@ daemon_status() {
   local alias="$1"
   local f="$STATUS_DIR/${alias}-status.json"
   [ -f "$f" ] || { echo ""; return; }
-  python -c "import json; print(json.load(open(r'$f')).get('status',''))" 2>/dev/null
+  python3 -c "import json; print(json.load(open(r'$f')).get('status',''))" 2>/dev/null
 }
 
 daemon_status_fresh() {
@@ -69,7 +69,7 @@ daemon_status_fresh() {
   local alias="$1"
   local f="$STATUS_DIR/${alias}-status.json"
   [ -f "$f" ] || return 1
-  python - "$f" <<'PY' 2>/dev/null
+  python3 - "$f" <<'PY' 2>/dev/null
 import json, sys, datetime
 try:
     d = json.load(open(sys.argv[1]))
@@ -106,7 +106,7 @@ wait_for_login() {
     sleep "$AUTH_POLL_SECONDS"
     local url
     url=$(curl -s --max-time 3 "http://localhost:${port}/json/list" 2>/dev/null \
-          | python -c "import sys,json
+          | python3 -c "import sys,json
 try:
   tabs=json.load(sys.stdin)
   print(tabs[0].get('url','') if tabs else '')
@@ -139,7 +139,7 @@ ensure_one() {
 
   local logf="$LOG_DIR/${alias}-auth-$(date +%Y%m%d-%H%M%S).log"
   : > "$logf"
-  (python scripts/browser-daemon.py "$alias" --auth > "$logf" 2>&1) &
+  (python3 scripts/browser-daemon.py "$alias" --auth > "$logf" 2>&1) &
   local daemon_pid=$!
   echo "$alias daemon pid=$daemon_pid log=$logf" >&2
 

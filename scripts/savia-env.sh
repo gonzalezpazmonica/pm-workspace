@@ -203,7 +203,7 @@ savia_autonomous_reviewer() {
     local email
     email="$(git -C "$ws" config user.email 2>/dev/null)"
     if [[ -n "$email" ]]; then
-      # Convert "user.name@example.com" -> "@user-name"
+      # Convert "monica.gonzalez@example.com" -> "@monica.gonzalez"
       printf '@%s\n' "${email%@*}"
       return 0
     fi
@@ -212,9 +212,51 @@ savia_autonomous_reviewer() {
   printf '@local-user\n'
 }
 
+# ── Workspace .env loader ─────────────────────────────────────────────────────
+# Loads $SAVIA_WORKSPACE_DIR/.env if it exists. Variables already present in the
+# parent environment WIN over .env (precedence: explicit env > .env > defaults).
+# This is THE canonical place to declare workspace-wide flags like
+# SAVIA_HEURISTIC_ENFORCE — opencode.json's "env" key is unsupported and
+# Claude Code's settings.json shouldn't carry workspace-specific runtime flags.
+_savia_load_dotenv() {
+  local envfile="$1/.env"
+  [[ -f "$envfile" ]] || return 0
+  local line key val
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line#"${line%%[![:space:]]*}"}"
+    [[ -z "$line" || "$line" == \#* ]] && continue
+    line="${line#export }"
+    [[ "$line" != *=* ]] && continue
+    key="${line%%=*}"
+    val="${line#*=}"
+    [[ "$key" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
+    if [[ "$val" =~ ^\".*\"$ ]] || [[ "$val" =~ ^\'.*\'$ ]]; then
+      val="${val:1:${#val}-2}"
+    fi
+    if [[ -z "$(printenv "$key" 2>/dev/null)" ]]; then
+      export "$key=$val"
+    fi
+  done < "$envfile"
+}
+
+# ── Workspace .venv auto-activator ────────────────────────────────────────────
+# If $SAVIA_WORKSPACE_DIR/.venv/bin/activate exists and we're not already in a
+# venv, source it so hooks/scripts get celpy/pyyaml/jsonschema without each
+# caller having to remember. Idempotent (skips if VIRTUAL_ENV already set).
+_savia_activate_venv() {
+  [[ -n "${VIRTUAL_ENV:-}" ]] && return 0
+  local activate="$1/.venv/bin/activate"
+  [[ -f "$activate" ]] || return 0
+  # shellcheck disable=SC1090
+  source "$activate"
+}
+
 if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
   # Sourced from another script: export variables
   export SAVIA_WORKSPACE_DIR="${SAVIA_WORKSPACE_DIR:-$(_resolve_workspace)}"
+  # Load workspace .env BEFORE provider detection so .env can influence it
+  _savia_load_dotenv "$SAVIA_WORKSPACE_DIR"
+  _savia_activate_venv "$SAVIA_WORKSPACE_DIR"
   export SAVIA_PROVIDER="${SAVIA_PROVIDER:-$(_resolve_provider)}"
 else
   # Direct invocation: print requested value

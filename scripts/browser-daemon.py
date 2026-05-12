@@ -28,6 +28,12 @@ from browser_helpers import (  # noqa: E402
     list_teams_items, open_chat_by_deep_link,
 )
 
+# SPEC-SH03 heartbeat helpers (lazy import path-safe)
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parent))
+from heartbeat_helpers import HeartbeatWriter as _HBWriter  # noqa: E402
+
 
 def resolve_cdp_port(alias, cfg):
     """Priority: env SAVIA_CDP_PORT > accounts file cdp_port > default map."""
@@ -135,101 +141,153 @@ def run_daemon(alias, auth_mode=False):
 
                 if action == "check-mail":
                     include_sent = bool(cmd.get("include_sent", True))
-                    page.goto(mail_url)
-                    page.wait_for_timeout(8000)
-                    if "login" in page.url:
-                        result["error"] = "session_expired"
-                    else:
-                        result["emails"] = extract_emails(page)
-                        result["count"] = len(result["emails"])
-                        page.screenshot(
-                            path=str(OUTPUT_DIR / f"{alias}-screenshot.png"))
-                        if include_sent:
-                            # Derive sent items URL by swapping the inbox segment.
-                            if "/mail/inbox" in mail_url:
-                                sent_url = mail_url.replace("/mail/inbox", "/mail/sentitems")
-                            else:
-                                sent_url = mail_url.rstrip("/") + "/sentitems"
-                            try:
-                                page.goto(sent_url)
-                                page.wait_for_timeout(8000)
-                                if "login" not in page.url:
-                                    result["sent"] = extract_emails(page)
-                                    result["sent_count"] = len(result["sent"])
-                                    page.screenshot(
-                                        path=str(OUTPUT_DIR / f"{alias}-sent-screenshot.png"))
+                    _mail_path = OUTPUT_DIR / f"{alias}-mail-result.json"
+                    _mail_trace = OUTPUT_DIR / f"{alias}-mail-trace.jsonl"
+                    _hb = _HBWriter(_mail_path, alias, "check-mail",
+                                    trace_path=_mail_trace)
+                    _hb.start()
+                    try:
+                        _hb.update(phase="inbox-load")
+                        page.goto(mail_url)
+                        page.wait_for_timeout(8000)
+                        if "login" in page.url:
+                            result["error"] = "session_expired"
+                            _hb.terminal_session_expired(extra=result)
+                            result["_hb_terminal"] = "session_expired"
+                        else:
+                            _hb.update(phase="inbox-extract")
+                            result["emails"] = extract_emails(page)
+                            result["count"] = len(result["emails"])
+                            _hb.update(phase="inbox-extract",
+                                       processed=result["count"])
+                            page.screenshot(
+                                path=str(OUTPUT_DIR / f"{alias}-screenshot.png"))
+                            if include_sent:
+                                _hb.update(phase="sent-load")
+                                if "/mail/inbox" in mail_url:
+                                    sent_url = mail_url.replace("/mail/inbox", "/mail/sentitems")
                                 else:
-                                    result["sent_error"] = "session_expired_on_sent"
-                                # Restore inbox view to keep daemon idempotent.
-                                page.goto(mail_url, wait_until="commit")
-                            except Exception as exc:
-                                result["sent_error"] = str(exc)[:200]
+                                    sent_url = mail_url.rstrip("/") + "/sentitems"
+                                try:
+                                    page.goto(sent_url)
+                                    page.wait_for_timeout(8000)
+                                    if "login" not in page.url:
+                                        _hb.update(phase="sent-extract")
+                                        result["sent"] = extract_emails(page)
+                                        result["sent_count"] = len(result["sent"])
+                                        _hb.update(phase="sent-extract",
+                                                   processed=result["sent_count"])
+                                        page.screenshot(
+                                            path=str(OUTPUT_DIR / f"{alias}-sent-screenshot.png"))
+                                    else:
+                                        result["sent_error"] = "session_expired_on_sent"
+                                    page.goto(mail_url, wait_until="commit")
+                                except Exception as exc:
+                                    result["sent_error"] = str(exc)[:200]
+                            _hb.terminal_done(extra=result)
+                            result["_hb_terminal"] = "done"
+                    except Exception as _exc:
+                        _hb.terminal_error(str(_exc))
+                        result["error"] = str(_exc)[:200]
+                        result["_hb_terminal"] = "error"
 
                 elif action == "check-calendar":
                     from calendar_72h import check_window as _cw
                     wdays = max(1, min(7, int(cmd.get("days", 3))))
-                    result.update(_cw(page, cal_url, extract_calendar,
-                                       alias, OUTPUT_DIR, wdays))
+                    _cal_path = OUTPUT_DIR / f"{alias}-calendar-result.json"
+                    _cal_trace = OUTPUT_DIR / f"{alias}-calendar-trace.jsonl"
+                    _hb = _HBWriter(_cal_path, alias, "check-calendar",
+                                    trace_path=_cal_trace)
+                    _hb.start()
+                    try:
+                        _cw_res = _cw(page, cal_url, extract_calendar,
+                                      alias, OUTPUT_DIR, wdays, hb=_hb)
+                        result.update(_cw_res)
+                        if _cw_res.get("error") == "session_expired":
+                            _hb.terminal_session_expired(extra=_cw_res)
+                            result["_hb_terminal"] = "session_expired"
+                        else:
+                            _hb.terminal_done(extra=_cw_res)
+                            result["_hb_terminal"] = "done"
+                    except Exception as _exc:
+                        _hb.terminal_error(str(_exc))
+                        result["error"] = str(_exc)[:200]
+                        result["_hb_terminal"] = "error"
 
                 elif action == "check-teams":
                     target_chat = cmd.get("chat")
                     extra_wait = int(cmd.get("wait_ms", 15000))
-                    page.goto(teams_url)
+                    _t_path = OUTPUT_DIR / f"{alias}-teams-result.json"
+                    _t_trace = OUTPUT_DIR / f"{alias}-teams-trace.jsonl"
+                    _hb = _HBWriter(_t_path, alias, "check-teams",
+                                    trace_path=_t_trace)
+                    _hb.start()
                     try:
-                        page.wait_for_load_state("networkidle", timeout=30000)
-                    except Exception:
-                        pass
-                    # Teams SPA shows "preparing" overlay long after
-                    # networkidle. Poll until the chat tree shows up or
-                    # a hard ceiling is hit.
-                    tree_selectors = (
-                        '[data-tid="chat-list-item"], '
-                        '[role="treeitem"], '
-                        '[data-tid*="chatTreeItem"]'
-                    )
-                    try:
-                        page.wait_for_selector(tree_selectors, timeout=45000)
-                    except Exception:
-                        pass
-                    page.wait_for_timeout(extra_wait)
-                    if "login" in page.url or "sso." in page.url:
-                        result["error"] = "session_expired"
-                    else:
+                        _hb.update(phase="navigate")
+                        page.goto(teams_url)
                         try:
-                            result["chat_list"] = extract_teams_chat_list(page)
-                        except Exception as e:
-                            result["chat_list"] = []
-                            result["chat_list_error"] = str(e)
-                        if target_chat:
-                            # Expand sidebar folders first — chats/DMs live
-                            # under the Chats folder which is collapsed by
-                            # default after navigation.
+                            page.wait_for_load_state("networkidle", timeout=30000)
+                        except Exception:
+                            pass
+                        _hb.update(phase="wait-tree")
+                        tree_selectors = (
+                            '[data-tid="chat-list-item"], '
+                            '[role="treeitem"], '
+                            '[data-tid*="chatTreeItem"]'
+                        )
+                        try:
+                            page.wait_for_selector(tree_selectors, timeout=45000)
+                        except Exception:
+                            pass
+                        page.wait_for_timeout(extra_wait)
+                        if "login" in page.url or "sso." in page.url:
+                            result["error"] = "session_expired"
+                            _hb.terminal_session_expired(extra=result)
+                            result["_hb_terminal"] = "session_expired"
+                        else:
+                            _hb.update(phase="extract-list")
                             try:
-                                list_teams_items(page, expand=True)
-                                page.wait_for_timeout(1500)
-                            except Exception:
-                                pass
-                            try:
-                                click_kind = cmd.get("click_kind", "name")
-                                clicked = click_teams_chat(
-                                    page, target_chat, kind=click_kind)
-                                result["chat_clicked"] = clicked
-                                if clicked:
-                                    page.wait_for_timeout(4000)
+                                result["chat_list"] = extract_teams_chat_list(page)
+                                _hb.update(phase="extract-list",
+                                           processed=len(result["chat_list"]))
                             except Exception as e:
-                                result["chat_click_error"] = str(e)
+                                result["chat_list"] = []
+                                result["chat_list_error"] = str(e)
+                            if target_chat:
+                                _hb.update(phase="click-chat")
+                                try:
+                                    list_teams_items(page, expand=True)
+                                    page.wait_for_timeout(1500)
+                                except Exception:
+                                    pass
+                                try:
+                                    click_kind = cmd.get("click_kind", "name")
+                                    clicked = click_teams_chat(
+                                        page, target_chat, kind=click_kind)
+                                    result["chat_clicked"] = clicked
+                                    if clicked:
+                                        page.wait_for_timeout(4000)
+                                except Exception as e:
+                                    result["chat_click_error"] = str(e)
+                            _hb.update(phase="extract-active")
+                            try:
+                                result["active_chat"] = extract_teams_active_chat(
+                                    page, teams_extractor_js)
+                            except Exception as e:
+                                result["active_chat"] = None
+                                result["active_chat_error"] = str(e)
+                            teams_png = OUTPUT_DIR / f"{alias}-teams.png"
+                            page.screenshot(path=str(teams_png))
+                            _hb.terminal_done(extra=result)
+                            result["_hb_terminal"] = "done"
                         try:
-                            result["active_chat"] = extract_teams_active_chat(
-                                page, teams_extractor_js)
-                        except Exception as e:
-                            result["active_chat"] = None
-                            result["active_chat_error"] = str(e)
-                        teams_png = OUTPUT_DIR / f"{alias}-teams.png"
-                        page.screenshot(path=str(teams_png))
-                    try:
-                        page.goto(mail_url, wait_until="commit")
-                    except Exception:
-                        pass
+                            page.goto(mail_url, wait_until="commit")
+                        except Exception:
+                            pass
+                    except Exception as _exc:
+                        _hb.terminal_error(str(_exc))
+                        result["error"] = str(_exc)[:200]
+                        result["_hb_terminal"] = "error"
 
                 elif action == "list-teams-items":
                     expand = bool(cmd.get("expand", True))
@@ -281,18 +339,25 @@ def run_daemon(alias, auth_mode=False):
                 elif action == "stop":
                     browser.close(); p.stop(); return
 
-                if action in ("check-teams", "open-chat"):
+                if action == "open-chat":
                     out_file = OUTPUT_DIR / f"{alias}-teams-result.json"
+                elif action == "check-teams":
+                    # SPEC-SH03: HeartbeatWriter wrote {alias}-teams-result.json.
+                    out_file = None
                 elif action == "list-teams-items":
                     out_file = OUTPUT_DIR / f"{alias}-teams-items.json"
                 elif action == "check-calendar":
-                    # Separate file from check-mail to avoid races when both
-                    # CLIs run concurrently and both target {alias}-result.json.
-                    out_file = OUTPUT_DIR / f"{alias}-calendar-result.json"
+                    # SPEC-SH03: HeartbeatWriter already wrote the terminal
+                    # payload atomically. Skip generic write to avoid races.
+                    out_file = None
+                elif action == "check-mail":
+                    # SPEC-SH03: HeartbeatWriter wrote {alias}-mail-result.json.
+                    out_file = None
                 else:
                     out_file = OUTPUT_DIR / f"{alias}-result.json"
-                with open(out_file, "w", encoding="utf-8") as f:
-                    json.dump(result, f, ensure_ascii=False, indent=2)
+                if out_file is not None:
+                    with open(out_file, "w", encoding="utf-8") as f:
+                        json.dump(result, f, ensure_ascii=False, indent=2)
 
             if time.time() - last_keepalive > KEEPALIVE_INTERVAL:
                 page.reload()

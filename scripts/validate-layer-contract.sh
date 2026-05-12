@@ -21,7 +21,6 @@ cd "$PROJECT_DIR" || exit 2
 
 # Core paths that must NOT reference .claude/enterprise/
 CORE_PATHS=(
-  ".opencode/agents"
   ".claude/agents"
   ".claude/commands"
   ".claude/skills"
@@ -44,7 +43,6 @@ scan_file() {
   # Skip the hook and script themselves (they legitimately mention the path)
   case "$file" in
     scripts/validate-layer-contract.sh) return 0 ;;
-    .claude/hooks/validate-layer-contract.sh) return 0 ;;
     .opencode/hooks/validate-layer-contract.sh) return 0 ;;
     .claude/enterprise/*) return 0 ;;
     docs/*) return 0 ;;

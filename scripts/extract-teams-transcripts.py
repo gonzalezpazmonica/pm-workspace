@@ -47,6 +47,8 @@ def xplat_iframe(port):
 
 class CDP:
     def __init__(self, target):
+        if not target or not isinstance(target, dict) or not target.get("webSocketDebuggerUrl"):
+            raise RuntimeError("CDP target unavailable (tab/iframe not found)")
         self.ws = websocket.create_connection(
             target["webSocketDebuggerUrl"], suppress_origin=True, timeout=30
         )
@@ -202,21 +204,31 @@ def expand_and_list(port):
 
 def click_chat(port, title):
     tt = teams_tab(port)
-    cdp = CDP(tt)
-    res = cdp.eval(JS_CLICK_CHAT_TPL.replace("__T__", json.dumps(title)))
-    cdp.close()
-    return res
+    if not tt:
+        return None
+    try:
+        cdp = CDP(tt)
+        res = cdp.eval(JS_CLICK_CHAT_TPL.replace("__T__", json.dumps(title)))
+        cdp.close()
+        return res
+    except Exception:
+        return None
 
 
 def click_transcript(port, trans_label, resumen_label):
     tt = teams_tab(port)
-    cdp = CDP(tt)
-    js = (JS_CLICK_TRANSCRIPT_TPL
-          .replace("__TRANS__", json.dumps(trans_label))
-          .replace("__RESUMEN__", json.dumps(resumen_label)))
-    res = cdp.eval(js)
-    cdp.close()
-    return res
+    if not tt:
+        return None
+    try:
+        cdp = CDP(tt)
+        js = (JS_CLICK_TRANSCRIPT_TPL
+              .replace("__TRANS__", json.dumps(trans_label))
+              .replace("__RESUMEN__", json.dumps(resumen_label)))
+        res = cdp.eval(js)
+        cdp.close()
+        return res
+    except Exception:
+        return None
 
 
 def _try_recap_panel(port, max_iter, stop_stalls):

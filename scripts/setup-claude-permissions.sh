@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -uo pipefail
-# DEPRECATED: use setup-opencode-permissions.sh instead. This file kept for backward compatibility.
 # setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados
 #
 # Uso:
