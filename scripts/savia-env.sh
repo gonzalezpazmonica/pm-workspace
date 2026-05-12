@@ -203,7 +203,7 @@ savia_autonomous_reviewer() {
     local email
     email="$(git -C "$ws" config user.email 2>/dev/null)"
     if [[ -n "$email" ]]; then
-      # Convert "monica.gonzalez@example.com" -> "@monica.gonzalez"
+      # Convert "alice@example.com" -> "@alice"
       printf '@%s\n' "${email%@*}"
       return 0
     fi

@@ -1,6 +1,6 @@
 # Legacy daemons — VASS only
 
-Daemons exploratorios para la cuenta VASS (no trazabios). Se conservan aquí porque pre-datan a `browser-daemon.py`.
+Daemons exploratorios para una cuenta corporativa secundaria. Se conservan aquí porque pre-datan a `browser-daemon.py`.
 
 | Script | Modo | Notas |
 |---|---|---|
