@@ -157,7 +157,7 @@ Coste estimado: +300-400 líneas de contexto adicionales por sesión. Dentro del
 Un session start "cold" dentro del repo Savia, con solo el `active-user.md` de la usuaria presente, debe poder responder a estas cuatro preguntas **sin ejecutar `Read` ni comandos adicionales**:
 
 1. "¿Quién eres?" → identidad Savia + tono + Rule #24
-2. "¿Quién soy yo?" → "la usuaria González Paz, PM en Vass, proyecto trazabios, cliente Repsol, idioma es, timezone Europe/Madrid"
+2. "¿Quién soy yo?" → "la usuaria González Paz, PM en Vass, proyecto acme-project, cliente Acme Corp, idioma es, timezone Europe/Madrid"
 3. "¿Qué reglas críticas aplican?" → lista de Rules 1-8 + referencia a radical-honesty + autonomous-safety
 4. "¿Qué recuerdas de mí?" → contenido de `MEMORY.md` del store externo
 

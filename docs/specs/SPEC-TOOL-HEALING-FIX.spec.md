@@ -16,7 +16,7 @@ BLOCKED [tool-healing]: write called with empty file_path
 BLOCKED [tool-healing]: read called with empty file_path
 ```
 
-El error aparece **incluso pasando un path absoluto valido** (`/path/to/workspace/...`) y no-vacio. Probado durante sesion 2026-05-07 redactando una spec.
+El error aparece **incluso pasando un path absoluto valido** (`/mnt/c/Users/test-user/savia/...`) y no-vacio. Probado durante sesion 2026-05-07 redactando SPEC-PROJECT-UPDATE.
 
 ## Repro
 

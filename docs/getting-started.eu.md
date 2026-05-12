@@ -2,6 +2,10 @@
 
 > Zerotik produktibora 15 minututan.
 
+> **OpenCode** da pm-workspace-rentzat gomendatutako frontend-a. Workspace-a Claude Code-rekin bateragarria da oraindik. Gida honetan `claude` ikusten duzun lekuan `opencode` erabili dezakezu; `.claude/` ikusten duzun lekuan `.opencode/` baliokidea dago. Instalazioa: [docs/install/opencode-quick-install.md](install/opencode-quick-install.md).
+>
+> *Itzulpen automatikoa, jatorrizko berrikuspenaren zain.*
+
 ---
 
 ## 1. Aurrebaldintzak

@@ -29,7 +29,7 @@ en codigo, docs, CHANGELOG, releases, commits, PRs ni README del repo.
 | "~100ms en produccion" | "Latencia baja (warm start)" |
 | "24 vulns encontradas, 24 resueltas" | No incluir. La doc describe el estado actual |
 | "Score seguridad: 100/100" | No incluir. Resultados de auditorias son internos |
-| "Sprint 2026-06 de TrazaBios" | "Sprint actual del proyecto activo" |
+| "Sprint 2026-06 de acme-project" | "Sprint actual del proyecto activo" |
 | Conteo exacto de tests de un proyecto | "Suite de tests automatizados" |
 
 ## Regla de redaccion

@@ -6,21 +6,32 @@
 
 ## 1. Prerequisitos
 
-- **Claude Code** instalado y autenticado (`opencode --version`)
+**Frontend (elige uno):**
+- **OpenCode** (recomendado): `opencode --version` — Instala con `curl -fsSL https://opencode.ai/install | bash`
+- **Claude Code** (alternativa): `claude --version`
+
+**Comunes:**
 - **Git** >= 2.30 (`git --version`)
 - **gh CLI** >= 2.0 para PRs y issues (`gh --version`)
 - **jq** para parseo JSON (`jq --version`)
 - (Opcional) **Ollama** para Savia Shield (`ollama --version`)
 
+> El instalador (`install.sh` / `install.ps1`) configura OpenCode por defecto. Añade `--with-claude-code` si quieres ambos frontends.
+
 ## 2. Clonar y primer arranque
 
 ```bash
-git clone https://github.com/your-org/pm-workspace.git
-cd pm-workspace
-claude
+# Opción A — instalador (recomendado)
+curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
+cd ~/savia && opencode
+
+# Opción B — manual
+git clone https://github.com/gonzalezpazmonica/pm-workspace.git ~/savia
+cd ~/savia
+opencode    # o `claude` si prefieres Claude Code
 ```
 
-Al arrancar, Savia detecta que no tienes perfil y se presenta. Responde a sus preguntas: nombre, rol, proyectos. Esto crea tu perfil en `.claude/profiles/users/{slug}/`.
+Al arrancar, Savia detecta que no tienes perfil y se presenta. Responde a sus preguntas: nombre, rol, proyectos. Esto crea tu perfil en `.opencode/profiles/users/{slug}/` (o `.claude/profiles/users/{slug}/` si usas Claude Code).
 
 Si quieres saltar el perfil: escribe directamente un comando. Savia no insiste.
 
@@ -100,20 +111,21 @@ Cada rol tiene una guia detallada: `docs/quick-starts/quick-start-{rol}.md`
 | Que configurar | Donde | Ejemplo |
 |----------------|-------|---------|
 | PAT Azure DevOps | `$HOME/.azure/devops-pat` | Token de una linea |
-| Perfil de usuario | `.claude/profiles/users/{slug}/` | Creado por `/profile-setup` |
+| Perfil de usuario (OpenCode) | `.opencode/profiles/users/{slug}/` | Creado por `/profile-setup` |
+| Perfil de usuario (Claude Code) | `.claude/profiles/users/{slug}/` | Creado por `/profile-setup` |
 | Hook profile | `~/.savia/hook-profile` | `standard` |
-| Savia Shield | `.claude/settings.local.json` | `SAVIA_SHIELD_ENABLED: true` |
-| Conectores | `claude.ai/settings/connectors` | Slack, GitHub, Jira |
-| Proyecto PM tool | `projects/{nombre}/CLAUDE.md` | Org URL, iteration path |
+| Savia Shield | `.opencode/settings.local.json` / `.claude/settings.local.json` | `SAVIA_SHIELD_ENABLED: true` |
+| Conectores | Configuración del frontend | Slack, GitHub, Jira |
+| Proyecto PM tool | `projects/{nombre}/AGENTS.md` o `CLAUDE.md` | Org URL, iteration path |
 | Config privada | `CLAUDE.local.md` (gitignored) | Proyectos reales |
 
 ## 9. Rendimiento
 
-- **CLAUDE.md consume tokens en cada turno** (no se cachea) — mantenlo escueto y bajo 150 lineas
+- **AGENTS.md / CLAUDE.md consumen tokens en cada turno** (no se cachean) — mantenlos escuetos y bajo 150 lineas
 - **Los skills no consumen contexto hasta que se invocan** — tener muchos skills es gratis
 - **auto-compact se dispara al 65%** de la ventana de contexto — ejecuta `/compact` manualmente si notas degradacion antes
 - **Las entradas de memoria deben ser < 150 caracteres** — resúmenes cortos se cargan mas rapido y ocupan menos contexto
-- Detalle completo: `docs/best-practices-claude-code.md`
+- Detalle completo: `docs/best-practices-claude-code.md` (aplica a ambos frontends)
 
 ## 10. Siguientes pasos
 

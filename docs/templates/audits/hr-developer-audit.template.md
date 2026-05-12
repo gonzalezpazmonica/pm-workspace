@@ -233,7 +233,7 @@ GLOBAL PONDERADO                           ... / 100    {bar}
 
 ## Anexo A — Umbrales absolutos (referencia para puntuación)
 
-Estos umbrales son los aplicados en las auditorías de example-project; pueden adaptarse a la práctica del proyecto auditado y deben **declararse explícitamente** en el Anexo A del informe concreto.
+Estos umbrales son los aplicados en las auditorías de acme-project; pueden adaptarse a la práctica del proyecto auditado y deben **declararse explícitamente** en el Anexo A del informe concreto.
 
 | Métrica | 100/100 | 50/100 | 0/100 |
 |---|---|---|---|

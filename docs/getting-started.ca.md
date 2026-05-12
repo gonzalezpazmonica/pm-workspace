@@ -2,6 +2,10 @@
 
 > De zero a productiu en 15 minuts.
 
+> **OpenCode** és el frontend recomanat per pm-workspace. El workspace continua sent compatible amb Claude Code. On llegeixis `claude` en aquesta guia, pots utilitzar `opencode`; on llegeixis `.claude/`, hi ha l'equivalent a `.opencode/`. Instal·lació: [docs/install/opencode-quick-install.md](install/opencode-quick-install.md).
+>
+> *Traducció automàtica pendent de revisió nativa.*
+
 ---
 
 ## 1. Prerequisits

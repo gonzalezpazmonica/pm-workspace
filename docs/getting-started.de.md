@@ -2,6 +2,10 @@
 
 > Von Null auf produktiv in 15 Minuten.
 
+> **OpenCode** ist das empfohlene Frontend für pm-workspace. Der Workspace bleibt mit Claude Code kompatibel. Wo in dieser Anleitung `claude` steht, kannst du `opencode` verwenden; wo `.claude/` steht, gibt es ein Äquivalent in `.opencode/`. Installation: [docs/install/opencode-quick-install.md](install/opencode-quick-install.md).
+>
+> *Automatische Übersetzung, muttersprachliche Überprüfung ausstehend.*
+
 ---
 
 ## 1. Voraussetzungen

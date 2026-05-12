@@ -1,6 +1,5 @@
 # SPEC-OC-01 — Savia Shield OpenCode Adaptation
 
-status: PROPOSED
 > **Status:** DRAFT → IMPLEMENTING
 > **Branch:** machine-local/monica-opencode (private, never pushed to origin/main)
 > **Date:** 2026-05-04
