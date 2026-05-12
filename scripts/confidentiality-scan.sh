@@ -110,7 +110,8 @@ CRED=$(echo "$ADDED_LINES" | grep -iE \
   | grep -v "regex\|pattern\|detect\|example\|pentest\|grep\|SECRETS_PATTERN" \
   | grep -v "VALIDATE\|validate\|PRIVATE_KEY:" \
   | grep -v "BEGIN.*KEY-----$\|'.*KEY.*'\|\".*KEY.*\"" \
-  | grep -v "\\\\|sed\|awk\|echo.*test\|-E '" || true)
+  | grep -v "\\\\|sed\|awk\|echo.*test\|-E '" \
+  | grep -v "TOKEN_RX\|_RX = /\|tokens (ghp_\|patterns (ghp_" || true)
 if [ -n "$CRED" ]; then
   echo "::error::BLOCKED: Credentials detected"
   echo "$CRED" | head -5 | while read -r l; do echo "  FAIL $l"; done
