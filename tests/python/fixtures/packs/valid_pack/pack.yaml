@@ -1,0 +1,12 @@
+pack_version: 1
+name: test-pack
+version: 2.0.0
+description: Valid test pack fixture.
+license: MIT
+confidentiality_declared: N1
+requires_savia: ">=4.0.0"
+components:
+  skills:
+    - test-skill
+  commands:
+    - test-command

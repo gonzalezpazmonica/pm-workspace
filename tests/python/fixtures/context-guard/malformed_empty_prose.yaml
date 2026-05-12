@@ -1,0 +1,11 @@
+# prose_summary is empty — violates minLength constraint
+summary_v1:
+  turn_count: 2
+  time_span:
+    first_turn_at: ""
+    last_turn_at: ""
+  key_decisions: []
+  artifacts_produced: []
+  errors_encountered: []
+  tools_invoked: []
+  prose_summary: ""

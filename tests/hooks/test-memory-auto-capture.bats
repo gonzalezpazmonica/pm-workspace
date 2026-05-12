@@ -10,7 +10,7 @@ setup() {
   export TEST_TMPDIR="$TMPDIR"
   mkdir -p "$TEST_TMPDIR/scripts"
   mkdir -p "$TEST_TMPDIR/.claude/rules"
-  mkdir -p "$TEST_TMPDIR/.claude/commands" "$TEST_TMPDIR/.opencode/commands"
+  mkdir -p "$TEST_TMPDIR/.claude/commands"
   mkdir -p "$HOME/.pm-workspace"
   cd "$TEST_TMPDIR"
   git init --quiet 2>/dev/null || true

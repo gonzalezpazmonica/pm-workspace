@@ -5,16 +5,15 @@ setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   SCRIPT="scripts/generate-capability-map.sh"
   TMPDIR_SCM=$(mktemp -d)
-  mkdir -p "$TMPDIR_SCM/.claude/commands" "$TMPDIR_SCM/.claude/skills/test-sk" \
-           "$TMPDIR_SCM/.opencode/commands" "$TMPDIR_SCM/.opencode/agents" \
+  mkdir -p "$TMPDIR_SCM/.claude/commands" "$TMPDIR_SCM/.opencode/skills/test-sk" \
            "$TMPDIR_SCM/.claude/agents" "$TMPDIR_SCM/scripts"
 }
 
 teardown() { rm -rf "$TMPDIR_SCM"; }
 
-mk_cmd() { printf -- '---\nname: %s\ndescription: %s\n---\n' "$1" "$2" > "$TMPDIR_SCM/.claude/commands/$1.md"; }
-mk_skill() { mkdir -p "$TMPDIR_SCM/.claude/skills/$1"; printf -- '---\nname: %s\ndescription: %s\n---\n' "$1" "$2" > "$TMPDIR_SCM/.claude/skills/$1/SKILL.md"; }
-mk_agent() { printf -- '---\nname: %s\ndescription: %s\n---\n' "$1" "$2" > "$TMPDIR_SCM/.claude/agents/$1.md"; }
+mk_cmd() { printf -- '---\nname: %s\ndescription: %s\n---\n' "$1" "$2" > "$TMPDIR_SCM/.opencode/commands/$1.md"; }
+mk_skill() { mkdir -p "$TMPDIR_SCM/.opencode/skills/$1"; printf -- '---\nname: %s\ndescription: %s\n---\n' "$1" "$2" > "$TMPDIR_SCM/.opencode/skills/$1/SKILL.md"; }
+mk_agent() { printf -- '---\nname: %s\ndescription: %s\n---\n' "$1" "$2" > "$TMPDIR_SCM/.opencode/agents/$1.md"; }
 mk_script() { printf '#!/usr/bin/env bash\n# %s\nset -uo pipefail\n' "$2" > "$TMPDIR_SCM/scripts/$1.sh"; chmod +x "$TMPDIR_SCM/scripts/$1.sh"; }
 
 @test "generate-capability-map.sh exists, executable, valid syntax" {

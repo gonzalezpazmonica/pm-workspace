@@ -1,0 +1,2 @@
+This is not YAML at all. It's just a random string.
+{ broken json that yaml cannot parse either [

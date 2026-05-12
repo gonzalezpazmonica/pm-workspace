@@ -1,0 +1,31 @@
+components:
+  agents:
+    enabled: all
+    exclude: []
+    list: []
+  commands:
+    enabled: listed
+    exclude: []
+    list:
+    - sprint-status
+    - pr-review
+  hooks:
+    enabled: none
+    exclude: []
+    list: []
+  skills:
+    enabled: all
+    exclude:
+    - legacy-skill
+    list: []
+description: Full test manifest
+manifest_version: 1
+packs:
+- name: savia-core
+  source: builtin
+  version: '>=4.0.0'
+- confidentiality_max: N2
+  name: pack-example
+  source: github:test-org/savia-pack-example
+  version: 1.2.0
+workspace_id: test-ws-full

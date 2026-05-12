@@ -65,7 +65,7 @@ def test_project_paths_compose_codename(monkeypatch, tmp_path):
 def test_no_real_names_in_module(monkeypatch):
     """Regression: this module itself MUST NOT hardcode org/user names."""
     src = SCRIPT.read_text(encoding="utf-8")
-    forbidden = ["Some Private Company", "private.username", "OneDrive - "]
+    forbidden = ["Grupo Zenith Industries", "test-user", "OneDrive - "]
     for term in forbidden:
         assert term not in src, "forbidden token: " + term
 

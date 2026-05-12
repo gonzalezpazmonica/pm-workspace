@@ -1,0 +1,10 @@
+rules:
+  - id: broken-spec-reference
+    severity: error
+    applies_to: spec-md
+    check: reference_exists
+    config:
+      field: depende_de
+      pattern: "^SPEC-[A-Z0-9-]+$"
+      registry: /mnt/c/Users/test-user/savia/tests/python/fixtures/structured_doc/refs
+      suffix: .spec.md

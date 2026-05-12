@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 from unittest import mock
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = ROOT / "scripts" / "project-update.py"
 
@@ -21,9 +23,15 @@ mod = _load()
 
 
 def test_build_jobs_skips_only_cdp_dependent_for_bad_accounts():
-    """SH02 graceful: when account daemon is down, only CDP-dependent
-    sources are skipped; saved-session sources (mail/calendar/teams-chats)
-    are still attempted because their session cookies may be fresh."""
+    """build_jobs contract: when account_skip contains an alias, only
+    CDP-dependent sources are skipped for that alias; saved-session sources
+    (mail/calendar/teams-chats) are still attempted because session cookies
+    may be fresh.
+
+    NOTE: F0 no longer populates account_skip via silent degrade (strict
+    mode aborts on any daemon failure). This test still guards build_jobs
+    behaviour for explicit per-source --skip flags or future use cases.
+    """
     accounts = {
         "account1": {"cdp_port": 9222},
         "account2": {"cdp_port": 9223},
@@ -96,6 +104,89 @@ def test_build_jobs_skip_devops_works():
     jobs = mod.build_jobs("Test", accounts, Path("/tmp/cfg.json"), opts)
     labels = [j[0] for j in jobs]
     assert "devops" not in labels
+
+
+# ---------------------------------------------------------------------------
+# F0 strict mode tests (no silent degrade)
+# ---------------------------------------------------------------------------
+
+def _run_main_with_args(monkeypatch, argv, ensure_fake, probe_fake=None):
+    """Helper: run mod.main() with argv and patched ensure/probe."""
+    monkeypatch.setattr(sys, "argv", ["project-update.py"] + argv)
+    monkeypatch.setattr(mod.subprocess, "run", ensure_fake)
+    if probe_fake is not None:
+        monkeypatch.setattr(mod, "probe_auth_per_account", probe_fake)
+    # Stub heavy phases so main() doesn't actually run F1-F4
+    monkeypatch.setattr(mod, "phase_refresh", lambda jobs, opts: [])
+    monkeypatch.setattr(mod, "phase_digest", lambda slug: [])
+    monkeypatch.setattr(mod, "phase_analyze", lambda slug: [])
+    monkeypatch.setattr(mod, "phase_sync", lambda slug: [])
+    monkeypatch.setattr(mod, "load_accounts", lambda: {"account1": {"cdp_port": 9222}})
+    monkeypatch.setattr(mod, "resolve_project", lambda slug: Path("/tmp/cfg.json"))
+
+
+def test_f0_aborts_on_ensure_nonzero_exit(monkeypatch, capsys):
+    """F0 strict: if ensure-daemons-auth.sh exits non-zero, orchestrator aborts."""
+    fake_proc = mock.MagicMock(returncode=1, stdout="", stderr="auth failed for account2")
+    fake_run = mock.MagicMock(return_value=fake_proc)
+    _run_main_with_args(monkeypatch, ["--slug", "Test"], fake_run)
+    with pytest.raises(SystemExit) as exc_info:
+        mod.main()
+    err = capsys.readouterr().err
+    msg = str(exc_info.value)
+    assert "ABORT" in msg
+    assert "rc=1" in msg
+    assert "auth failed" in msg
+
+
+def test_f0_aborts_on_ensure_timeout(monkeypatch, capsys):
+    """F0 strict: if ensure-daemons-auth.sh times out, orchestrator aborts."""
+    def raise_timeout(*a, **kw):
+        raise mod.subprocess.TimeoutExpired(cmd="x", timeout=600)
+    _run_main_with_args(monkeypatch, ["--slug", "Test"], raise_timeout)
+    with pytest.raises(SystemExit) as exc_info:
+        mod.main()
+    msg = str(exc_info.value)
+    assert "ABORT" in msg
+    assert "timed out" in msg
+
+
+def test_f0_aborts_when_probe_finds_bad_accounts(monkeypatch):
+    """F0 strict: even if ensure script returned 0, abort if probe inconsistent."""
+    fake_proc = mock.MagicMock(returncode=0, stdout="{}", stderr="")
+    fake_run = mock.MagicMock(return_value=fake_proc)
+    fake_probe = mock.MagicMock(return_value=({"account2"}, {"accounts": {}}))
+    _run_main_with_args(monkeypatch, ["--slug", "Test"], fake_run, fake_probe)
+    with pytest.raises(SystemExit) as exc_info:
+        mod.main()
+    msg = str(exc_info.value)
+    assert "ABORT" in msg
+    assert "account2" in msg
+    assert "inconsistent" in msg
+
+
+def test_f0_passes_when_ensure_ok_and_probe_clean(monkeypatch, capsys):
+    """F0 strict: ensure rc=0 + probe clean => continue to F1+."""
+    fake_proc = mock.MagicMock(returncode=0, stdout="{}", stderr="")
+    fake_run = mock.MagicMock(return_value=fake_proc)
+    fake_probe = mock.MagicMock(return_value=(set(), {"accounts": {"account1": {"status": "running"}}}))
+    _run_main_with_args(monkeypatch, ["--slug", "Test"], fake_run, fake_probe)
+    # Should not raise
+    mod.main()
+    err = capsys.readouterr().err
+    assert "[F0] OK" in err
+
+
+def test_f0_skipped_with_skip_auth_flag(monkeypatch, capsys):
+    """--skip-auth bypasses F0 entirely (explicit user opt-out)."""
+    # subprocess.run should NOT be called for ensure-daemons-auth.sh
+    fake_run = mock.MagicMock()
+    _run_main_with_args(monkeypatch, ["--slug", "Test", "--skip-auth"], fake_run)
+    mod.main()
+    err = capsys.readouterr().err
+    assert "[F0] auth gate skipped" in err
+    # subprocess.run was patched but should not have been invoked for ensure script
+    # (it's still the global mock; we just check the gate message)
 
 
 if __name__ == "__main__":

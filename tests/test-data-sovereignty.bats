@@ -11,7 +11,6 @@ setup() {
   mkdir -p "$CLAUDE_PROJECT_DIR/projects/test-project"
   mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
   mkdir -p "$CLAUDE_PROJECT_DIR/.claude/hooks"
-  mkdir -p "$CLAUDE_PROJECT_DIR/.opencode/hooks"
   # Copiar scripts al tmpdir
   SRC="${BATS_TEST_DIRNAME}/.."
   cp "$SRC/.opencode/hooks/data-sovereignty-gate.sh" "$CLAUDE_PROJECT_DIR/.opencode/hooks/"

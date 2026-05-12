@@ -143,7 +143,7 @@ teardown() {
 
 @test "detect: .opencode/agents/ file > 150 lines flagged" {
   cd "$TEST_REPO"
-  mkdir -p .claude/agents .opencode/agents
+  mkdir -p .claude/agents
   for i in $(seq 1 160); do echo "line $i"; done > .opencode/agents/big.md
   git add .opencode/agents/big.md
   export CLAUDE_TOOL_INPUT='git merge main'
@@ -154,7 +154,7 @@ teardown() {
 
 @test "pass: file at 150 lines not flagged" {
   cd "$TEST_REPO"
-  mkdir -p .claude/agents .opencode/agents
+  mkdir -p .claude/agents
   for i in $(seq 1 150); do echo "line $i"; done > .opencode/agents/border.md
   git add .opencode/agents/border.md
   export CLAUDE_TOOL_INPUT='git merge main'

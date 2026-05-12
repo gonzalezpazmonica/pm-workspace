@@ -1,0 +1,13 @@
+rules:
+  - id: missing-required-field
+    severity: error
+    applies_to: spec-md
+    check: required_field
+    config:
+      fields: [task_id, sprint, status]
+  - id: spec-too-long
+    severity: warning
+    applies_to: spec-md
+    check: line_count
+    config:
+      max_lines: 500

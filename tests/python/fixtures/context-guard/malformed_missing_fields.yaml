@@ -1,0 +1,5 @@
+# Missing required fields: time_span, key_decisions, etc.
+summary_v1:
+  turn_count: 5
+  prose_summary: |
+    Something happened.

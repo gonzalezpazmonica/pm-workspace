@@ -9,7 +9,7 @@ setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   HOOK="$PWD/.opencode/hooks/agent-trace-log.sh"
   export TEST_TMPDIR="$TMPDIR"
-  mkdir -p "$TEST_TMPDIR/projects/test-project/traces" "$TEST_TMPDIR/.opencode/agents"
+  mkdir -p "$TEST_TMPDIR/projects/test-project/traces"
   cd "$TEST_TMPDIR"
 }
 

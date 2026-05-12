@@ -1,0 +1,12 @@
+# turn_count is negative — violates minimum: 0
+summary_v1:
+  turn_count: -1
+  time_span:
+    first_turn_at: ""
+    last_turn_at: ""
+  key_decisions: []
+  artifacts_produced: []
+  errors_encountered: []
+  tools_invoked: []
+  prose_summary: |
+    A valid prose but negative turn count.

@@ -1,0 +1,7 @@
+{"event": "flow.start", "flow_id": "test-run-001", "version": "1.0", "profile": "monica", "confidentiality": "N1", "ts": 1715000000.0}
+{"event": "profile.resolved", "resolution": {"user": "monica", "tier": "mid"}, "ts": 1715000000.1}
+{"event": "node.start", "node_id": "validate", "kind": "validate", "tier_final": "mid", "tier_source": "preferences", "ts": 1715000000.2}
+{"event": "node.end", "node_id": "validate", "ts": 1715000001.0}
+{"event": "node.start", "node_id": "agent-review", "kind": "agent", "tier_final": "heavy", "tier_source": "flow_yaml", "ts": 1715000001.1}
+{"event": "node.end", "node_id": "agent-review", "ts": 1715000005.0}
+{"event": "flow.end", "verdict": "approved", "duration_ms": 5000, "ts": 1715000005.1}

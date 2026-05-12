@@ -10,7 +10,6 @@ setup() {
   mkdir -p "$CLAUDE_PROJECT_DIR/projects/test-project"
   mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
   mkdir -p "$CLAUDE_PROJECT_DIR/.claude/hooks"
-  mkdir -p "$CLAUDE_PROJECT_DIR/.opencode/hooks"
   SRC="${BATS_TEST_DIRNAME}/.."
   cp "$SRC/.opencode/hooks/data-sovereignty-gate.sh" "$CLAUDE_PROJECT_DIR/.opencode/hooks/"
   cp "$SRC/.opencode/hooks/data-sovereignty-audit.sh" "$CLAUDE_PROJECT_DIR/.opencode/hooks/"
@@ -174,10 +173,10 @@ setup() {
   [ "$status" -eq 2 ]
 }
 
-@test "FIX-C2: .opencode/hooks/ IS whitelisted (hook code triggers false positives)" {
+@test "FIX-C2: .opencode/hooks/ is NOT whitelisted for arbitrary files" {
   INPUT='{"tool_input":{"file_path":"/workspace/.opencode/hooks/my-custom-hook.sh","content":"AKIAIOSFODNN7REALKEY1"}}'
   run bash -c "echo '$INPUT' | bash $GATE"
-  [ "$status" -eq 0 ]
+  [ "$status" -eq 2 ]
 }
 
 @test "FIX-C3: docs/rules/ is treated as PUBLIC destination" {
