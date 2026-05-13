@@ -64,3 +64,45 @@ Cache válido: 5min (Anthropic default). Optimizar para:
 - [ ] Load Level 4 último (User request)
 - [ ] Coloca cache_control entre Levels
 - [ ] Monitor cache hit rates vía API responses
+
+## Baseline Real Medido (telemetría OpenCode)
+
+Capturado por `scripts/cache-scanner.py` desde `~/.local/share/opencode/opencode.db`.
+Última medición: 2026-05-13.
+
+### Global (ventana completa, n=92 sesiones, 7,159 mensajes assistant)
+
+| Métrica | Valor |
+|---|---|
+| Hit rate global | **93.6%** |
+| Tokens cache_read | 826M |
+| Tokens cache_write | 56M |
+| Tokens input nuevo | 3.3M |
+| Tokens output | 4.6M |
+
+### Por modelo (hit rate)
+
+| Modelo | Turns | Hit rate |
+|---|---|---|
+| claude-opus-4.7 | 5,562 | 92.3% |
+| claude-sonnet-4.6 | 918 | 95.0% |
+| deepseek-v4-pro | 523 | 100.0% |
+
+### Por agente (top 5 volumen)
+
+| Agente | Turns |
+|---|---|
+| build (sesión principal) | 6,208 |
+| python-developer | 362 |
+| compaction | 307 |
+| explore | 136 |
+| tech-writer | 90 |
+
+### Interpretación
+
+Hit rate global 93.6% supera el umbral objetivo (80%). Caché Anthropic
+está funcionando correctamente con la estrategia static-prefix actual.
+Decisión SPEC-D02 (split static/dynamic) NO debe degradar este número:
+revert si Δ < -5pp.
+
+Consulta el baseline actualizado vía: `/cache-analytics --since 7d`.

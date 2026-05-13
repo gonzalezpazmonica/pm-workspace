@@ -1,128 +1,86 @@
 ---
-name: cache-analytics
-description: Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
+name: /cache-analytics
+description: "Reporta hit rate del cache de prompts y desglose por agente/modelo/proyecto desde ~/.savia/usage.db. Lee de la base agregada poblada por scripts/cache-scanner.py (lee a su vez ~/.local/share/opencode/opencode.db, read-only). Permite filtros temporales (--since 7d), por proyecto, agente o modelo, y export CSV. SPEC-CACHE-HIT-TRACKING."
 developer_type: all
-agent: none
-context_cost: high
-model: github-copilot/claude-sonnet-4.6
+agent: task
+context_cost: low
 ---
 
-# /cache-analytics
+# /cache-analytics — Cache hit rate y desglose de uso
 
-> 🦉 Savia muestra el dashboard de caché — hit rate, ahorros, tendencias.
+Reporta el hit rate del cache de prompts (Anthropic prompt caching) y el desglose de uso por agente, modelo y proyecto. Fuente única: `~/.savia/usage.db` (espejo agregado de `opencode.db`, poblado incrementalmente por `scripts/cache-scanner.py`).
 
----
+**hit rate** = `cache_read / (cache_read + cache_write)` — ratio canónico de SPEC-CACHE-HIT-TRACKING v2.
 
-## Cargar perfil de usuario
+## Sintaxis
 
-Grupo: **Context Engineering** — cargar:
-
-- `identity.md` — para aislar métricas por usuario
-
-Ver `docs/rules/domain/context-map.md`.
-
----
+```bash
+/cache-analytics [--since 7d|24h|30m|all] [--project SUBSTR] [--agent NAME] [--model NAME] [--export csv]
+```
 
 ## Parámetros
 
-```
---period week|month     Período de análisis (por defecto: week)
---export               Exportar a CSV/JSON
---lang es|en           Idioma del output
-```
+- `--since` — Ventana temporal. Formatos: `Nd` (días), `Nh` (horas), `Nm` (minutos), `all`. Default: `7d`.
+- `--project` — Filtro por substring del `directory` de la sesión (ej: `savia`, `trazabios`).
+- `--agent` — Filtro exacto por nombre de agente (ej: `architect`, `general`).
+- `--model` — Filtro exacto por `modelID` (ej: `claude-sonnet-4-6`).
+- `--export csv` — Exporta turnos filtrados a CSV.
 
----
+## Salida
 
-## Flujo
+- **Totales globales** del filtro aplicado: turnos, hit rate, tokens, coste.
+- **Top 5 agents** por número de turnos con hit rate individual.
+- **Top 3 models** por turnos con hit rate y coste medio.
 
-### Paso 1 — Leer métricas de caché
+## Prerequisitos
 
-1. Leer logs de cache hits: `$HOME/.pm-workspace/cache-metrics.jsonl`
-   - Formato: timestamp, layer, hit/miss, tokens_saved, latency_ms
-2. Si no existe → informar que el tracking no está activo
-3. Filtrar por período (--period week | month)
+1. **`~/.savia/usage.db` debe existir.** Crearlo con:
+   ```bash
+   python3 scripts/cache-scanner.py
+   ```
+   Re-ejecutar cuando se quiera actualizar (scanner es incremental, ~50ms).
 
-### Paso 2 — Calcular métricas
+2. **`~/.local/share/opencode/opencode.db` debe estar presente** para que el scanner tenga fuente.
 
-**Hit Rate** (% of cache hits):
-- Fórmula: hits / (hits + misses)
-- Por capa: tools, system, rag, conversation
-- Tendencia: semana anterior vs. semana actual
+## Ejecución
 
-**Tokens Ahorrados**:
-- Suma de tokens_saved por período
-- Comparar con tokens sin caché (estimado)
-- Proyectar ahorro mensual/anual
+```bash
+# Default: últimos 7 días, totales + breakdown
+python3 scripts/cache-analytics.py
 
-**Latencia**:
-- Promedio latency_ms para hits vs. misses
-- Mejora estimada por hit
+# Última hora
+python3 scripts/cache-analytics.py --since 1h
 
-**Cost Savings**:
-- Tokens ahorrados × $0.00001 por token (estimado)
-- Mostrar en $ y en % de ahorro
+# Solo agente architect
+python3 scripts/cache-analytics.py --agent architect
 
-### Paso 3 — Generar dashboard
+# Todo el histórico, filtrado por proyecto Trazabios
+python3 scripts/cache-analytics.py --since all --project trazabios
 
-```
-📊 Cache Analytics — Última Semana
-
-Hit Rate Global: 71.3% 📈 (↑5.2% desde semana anterior)
-
-Por Capa:
-├─ Tools:       78% hit rate | 450 tokens ahorrados
-├─ System:      65% hit rate | 320 tokens ahorrados
-├─ RAG:         72% hit rate | 280 tokens ahorrados
-└─ Conversation: 68% hit rate | 190 tokens ahorrados
-
-Resumen:
-├─ Total tokens ahorrados: 1,240
-├─ Latencia mejorada: 2.3x promedio
-└─ Cost savings: $0.012 (12 mil tokens × $0.001/1M)
-
-Tendencias (últimas 4 semanas):
-├─ Hit rate: ↑ 62% → 71.3% (mejora sostenida)
-├─ Tokens: 920 → 1,240 (cache crece)
-└─ Latencia: 85ms → 120ms (ligeramente lenta)
+# Export CSV
+python3 scripts/cache-analytics.py --since 30d --export csv > cache-30d.csv
 ```
 
-### Paso 4 — Identificar cache misses
+## Interpretación
 
-Top 5 misses (comandos que siempre cachean):
-- Mostrar comando
-- % de misses
-- Sugerencia: ¿warm-up automático?
+- **Hit rate < 60%** — Cache mal aprovechado. Revisar invalidaciones (cambios en CLAUDE.md, agentes, skills cargados antes de prompts grandes).
+- **Hit rate 60-80%** — Aceptable. Margen de mejora con orden de loading.
+- **Hit rate > 80%** — Saludable. Cache estable.
 
-Ejemplo:
-```
-🔍 Cache Misses Principales
+Hit rate baseline objetivo: **≥80%** sostenido a 14 días tras SPEC-D02 (CLAUDE.md split static/dynamic).
 
-1. /sprint-status      — 28% miss rate (¿warm-up diario?)
-2. /my-sprint          — 22% miss rate (¿pre-cargar por rol?)
-3. /risk-predict       — 19% miss rate (poco frecuente)
-4. /backlog-prioritize — 15% miss rate (fine, poco usado)
-```
+## Errores comunes
 
-### Paso 5 — Exportar datos (--export)
+| Error | Causa | Fix |
+|---|---|---|
+| `usage.db not found` | Scanner nunca ejecutado | `python3 scripts/cache-scanner.py` |
+| `no turns in window` | Filtro demasiado estrecho | Ampliar `--since` o relajar filtros |
+| Hit rate 0% | Cache no activo o modelo sin soporte | Verificar `prompt_caching` en provider settings |
 
-Si `--export`: guardar en `output/cache-analytics-{YYYYMMDD}.{csv|json}`:
-- Tabla: timestamp, command, layer, hit/miss, tokens, latency
-- Resumen: métricas agregadas
-- Recomendaciones
+## Referencias
 
----
-
-## Validación
-
-- ✅ Período válido (week, month)
-- ✅ Datos al menos 24h (sino: insuficientes)
-- ✅ Métricas coherentes (hit rate 0-100%)
-- ✅ Export válido (CSV o JSON bien formado)
-
----
-
-## Restricciones
-
-- Datos agregados por usuario — nunca mostrar datos de otros
-- Métricas estimadas, no de facturación real
-
+- Implementación: `scripts/cache-analytics.py`
+- Scanner: `scripts/cache-scanner.py`
+- Spec: `docs/specs/SPEC-CACHE-HIT-TRACKING.spec.md`
+- Tests: `tests/test-cache-scanner.bats`
+- Schema: tabla `turns` (`message_id`, `session_id`, `agent`, `model`, `cache_read`, `cache_write`, `cost`, `ts`)
