@@ -56,6 +56,27 @@ teardown() {
   [[ "$status" -eq 2 ]]
 }
 
+@test "negative: blocks push to main from any remote (upstream)" {
+  run bash -c 'echo "{\"tool_input\":{\"command\":\"git push upstream main\"}}" | bash '"$SCRIPT"
+  [[ "$status" -eq 2 ]]
+  [[ "$output" == *"main/master"* ]]
+}
+
+@test "negative: blocks push to master from any remote (fork)" {
+  run bash -c 'echo "{\"tool_input\":{\"command\":\"git push fork master\"}}" | bash '"$SCRIPT"
+  [[ "$status" -eq 2 ]]
+}
+
+@test "negative: blocks --force-with-lease to main on any remote" {
+  run bash -c 'echo "{\"tool_input\":{\"command\":\"git push --force-with-lease upstream main\"}}" | bash '"$SCRIPT"
+  [[ "$status" -eq 2 ]]
+  [[ "$output" == *"main/master"* ]]
+}
+
+@test "positive: allows --force-with-lease to feature branch on any remote" {
+  echo '{"tool_input":{"command":"git push --force-with-lease public docs/opencode-first-plus-pending"}}' | bash "$SCRIPT"
+}
+
 @test "negative: blocks git commit --amend with error" {
   run bash -c 'echo "{\"tool_input\":{\"command\":\"git commit --amend -m fix\"}}" | bash '"$SCRIPT"
   [[ "$status" -eq 2 ]]

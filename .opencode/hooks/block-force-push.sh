@@ -60,9 +60,9 @@ if [[ "$IS_FORCE_WITH_LEASE" == "yes" && "$IS_PUSH_TO_MAIN" == "yes" ]]; then
   exit 2
 fi
 
-# Bloquear push directo a main/master
-# FIX: Add anchoring for compound command separators
-if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+(origin[[:space:]]+)?(main|master)([[:space:]]|$|[;&|])' > /dev/null; then
+# Bloquear push directo a main/master desde CUALQUIER remote (no solo origin)
+# Paridad con plugin TS block-force-push.ts: protege main/master sin depender de literal "origin"
+if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+([^[:space:]]+[[:space:]]+)?(main|master)([[:space:]]|$|[;&|])' > /dev/null; then
   echo "BLOQUEADO: Push directo a main/master no permitido. Usa rama + PR." >&2
   exit 2
 fi

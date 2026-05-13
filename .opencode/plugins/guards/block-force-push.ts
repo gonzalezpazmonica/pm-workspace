@@ -14,7 +14,7 @@ const BLOCK_RULES: Array<{ rx: RegExp; msg: string }> = [
     msg: "git push --force blocked. Use --force-with-lease instead.",
   },
   {
-    rx: /git\s+push\s+.*--force-with-lease.*\s(main|master)(\s|$)/i,
+    rx: /git\s+push\s+.*--force-with-lease\b[^;&|]*\s(main|master)(\s|$)/i,
     msg: "Cannot force-push to main/master. Create a branch.",
   },
   {
@@ -24,10 +24,6 @@ const BLOCK_RULES: Array<{ rx: RegExp; msg: string }> = [
   {
     rx: /git\s+push\s+\S+\s+(main|master)(\s|$)/i,
     msg: "Cannot push directly to main/master. Use a feature branch and PR.",
-  },
-  {
-    rx: /git\s+push\s+origin\s+master/i,
-    msg: "Cannot push directly to origin/master. Use a feature branch and PR.",
   },
   {
     rx: /git\s+reset\s+--hard/i,
