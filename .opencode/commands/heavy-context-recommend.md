@@ -1,4 +1,5 @@
 ---
+name: heavy-context-recommend
 description: Recomienda si usar ACM/HCM/Graphify segun task_scope y model_tier
 ---
 

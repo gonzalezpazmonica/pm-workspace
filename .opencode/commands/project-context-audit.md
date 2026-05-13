@@ -1,4 +1,5 @@
 ---
+name: project-context-audit
 description: Audit static/dynamic ratio in projects/<slug>/CLAUDE.md
 argument-hint: <project-slug>
 allowed-tools: Bash
