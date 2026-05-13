@@ -5,8 +5,8 @@ setup() {
   cd "$BATS_TEST_DIRNAME/../.." || exit 1
   SCRIPT="scripts/generate-capability-map.sh"
   TMPDIR_SCM=$(mktemp -d)
-  mkdir -p "$TMPDIR_SCM/.claude/commands" "$TMPDIR_SCM/.opencode/skills/test-sk" \
-           "$TMPDIR_SCM/.claude/agents" "$TMPDIR_SCM/scripts"
+  mkdir -p "$TMPDIR_SCM/.opencode/commands" "$TMPDIR_SCM/.opencode/skills/test-sk" \
+           "$TMPDIR_SCM/.opencode/agents" "$TMPDIR_SCM/scripts"
 }
 
 teardown() { rm -rf "$TMPDIR_SCM"; }

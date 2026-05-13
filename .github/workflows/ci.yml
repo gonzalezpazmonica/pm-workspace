@@ -152,7 +152,11 @@ jobs:
 
           # Update package lists and install dependencies
           sudo apt-get update -qq
-          sudo apt-get install -y jq git bash
+          sudo apt-get install -y jq git bash python3 python3-pip
+
+          # Install Python deps required by hooks/wrappers under BATS
+          # (pydantic, mcp, celpy used by artifact tools, context-guard, mcp_server)
+          python3 -m pip install --quiet --user pydantic mcp celpy
 
           # Ensure git is properly configured for test environment
           git config --global user.email "ci@example.com"

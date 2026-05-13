@@ -51,7 +51,7 @@ teardown() {
 
 @test "JSONL trace includes token_budget and budget_exceeded fields" {
   # Create a mock agent with known budget
-  mkdir -p "$TEST_TMPDIR/.claude/agents"
+  mkdir -p "$TEST_TMPDIR/.opencode/agents"
   cat > "$TEST_TMPDIR/.opencode/agents/test-agent.md" <<'AGENT'
 ---
 name: test-agent
@@ -87,7 +87,7 @@ AGENT
 
 @test "budget exceeded triggers alert in budget-alerts.jsonl" {
   # Create a mock agent with very small budget
-  mkdir -p "$TEST_TMPDIR/.claude/agents"
+  mkdir -p "$TEST_TMPDIR/.opencode/agents"
   cat > "$TEST_TMPDIR/.opencode/agents/tiny-agent.md" <<'AGENT'
 ---
 name: tiny-agent
@@ -122,7 +122,7 @@ AGENT
 }
 
 @test "no alert written when under budget" {
-  mkdir -p "$TEST_TMPDIR/.claude/agents" "$TEST_TMPDIR/scripts"
+  mkdir -p "$TEST_TMPDIR/.opencode/agents" "$TEST_TMPDIR/scripts"
   cat > "$TEST_TMPDIR/.opencode/agents/big-agent.md" <<'AGENT'
 ---
 name: big-agent
