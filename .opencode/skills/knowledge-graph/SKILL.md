@@ -83,6 +83,17 @@ Traduce preguntas en lenguaje natural a graph traversals:
 | "¿Impacto de cambiar decisión ADR-5?" | Decision→AFFECTS→Task | Tasks AB#123, AB#124, AB#125 |
 | "¿Capacidad de Alice el próximo sprint?" | Member→(ASSIGNED_TO←Task←CONTAINS) | 32/80 SP asignados en Sprint 2026-05 |
 
+## When NOT to use as heavy-context tool
+
+Aplica criterios de `docs/rules/domain/heavy-context-tools-criteria.md`:
+
+- **single-file scope**: AVOID — el grafo no añade valor para un único fichero.
+- **lookup scope**: AVOID — consulta directa más rápida.
+- **fast tier + cross-module**: AVOID — coste de construcción/consulta no se amortiza.
+- **systemic / cross-module + mid/heavy tier**: RECOMMEND.
+
+Consulta `heavy-context-recommend <scope> <tier>` antes de invocar `/graph-*`.
+
 ## Máximo 130 líneas
 
 Documentación comprimida. Detalles de implementación en comandos `/graph-*`.

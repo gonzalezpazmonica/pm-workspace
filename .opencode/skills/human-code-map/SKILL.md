@@ -135,16 +135,16 @@ Un .hcm con `last-walk:` = fecha de generación automática sin validación = no
 | Dev nuevo llega | — | Cargar .hcm del módulo que va a tocar |
 
 ---
-
 ## Cuándo NO generar .hcm
 
-- Componentes con < 50 líneas de código (overhead mayor que beneficio)
-- Ficheros de configuración pura (el .hcm sería solo repetición del .acm)
-- Código generado automáticamente (migrations, scaffolding)
-- Scripts de un solo uso (no hay deuda cognitiva a gestionar)
+- Componentes < 50 líneas · config pura · código generado · scripts single-use
 
----
+## When NOT to use as heavy-context tool
+
+- **single-file** o **lookup**: AVOID · **fast tier** + cross-module: AVOID
+- **systemic / cross-module + mid/heavy**: RECOMMEND
+- Matriz: `docs/rules/domain/heavy-context-tools-criteria.md`
 
 ## Output esperado
 
-`.human-maps/{capa}/{componente}.hcm` — obligatorias: header, La historia, El modelo mental, Puntos de entrada, Gotchas. Opcionales: Por qué está construido así, Indicadores de deuda. Límite: 150 líneas.
+`.human-maps/{capa}/{componente}.hcm` — header, La historia, El modelo mental, Puntos de entrada, Gotchas. Opcionales: Por qué construido así, Indicadores de deuda. Límite: 150 líneas.

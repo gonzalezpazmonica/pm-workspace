@@ -137,13 +137,14 @@ Cada .acm tiene un gemelo narrativo: el `.hcm` (Human Code Map). Mientras el .ac
 | Contenido | Qué existe y dónde | Por qué existe y cómo pensarlo |
 | Frescura | Hash automático | `last-walk` actualizable solo por humano |
 
-Directorio: `.human-maps/` (paralelo a `.agent-maps/`). Skill: `human-code-map`.
+Directorio: `.human-maps/` (paralelo a `.agent-maps/`). Skill: `human-code-map`. Si .acm cambia (hash inválido) → .hcm se marca como stale.
 
-Si .acm cambia (hash inválido) → .hcm se marca automáticamente como stale.
+## When NOT to use
+
+- **single-file** o **lookup**: AVOID · **fast tier** + cross-module: AVOID
+- Matriz: `docs/rules/domain/heavy-context-tools-criteria.md`
 
 ## Anti-patterns
 
-- **NUNCA** generar .acm con datos de proyectos privados de cliente (→ N4)
-- **NUNCA** commitear .acm con información sensible al repo público
-- **NUNCA** crear .acm de más de 150 líneas — dividir siempre
-- **NUNCA** usar .acm `roto` sin regenerar primero
+- **NUNCA** .acm con datos N4 de cliente · **NUNCA** commitear info sensible
+- **NUNCA** .acm >150 líneas — dividir · **NUNCA** usar .acm `roto` sin regenerar
