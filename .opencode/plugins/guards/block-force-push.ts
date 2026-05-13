@@ -10,20 +10,20 @@ import { extractToolName, extractCommand, type ToolInput } from "../lib/hook-inp
 
 const BLOCK_RULES: Array<{ rx: RegExp; msg: string }> = [
   {
-    rx: /git\s+push\s+.*--force/i,
+    rx: /git\s+push\s+(?:.*\s)?(?:--force(?!-with-lease)|-f)(?:\s|$)/i,
     msg: "git push --force blocked. Use --force-with-lease instead.",
   },
   {
-    rx: /git\s+push\s+.*--force-with-lease.*origin\s+main/i,
-    msg: "Cannot force-push to origin/main. Create a branch.",
+    rx: /git\s+push\s+.*--force-with-lease.*\s(main|master)(\s|$)/i,
+    msg: "Cannot force-push to main/master. Create a branch.",
   },
   {
-    rx: /git\s+push\s+.*--delete\s+origin\s+main/i,
-    msg: "Cannot delete origin/main branch.",
+    rx: /git\s+push\s+.*--delete\s+\S+\s+(main|master)(\s|$)/i,
+    msg: "Cannot delete main/master branch.",
   },
   {
-    rx: /git\s+push\s+origin\s+main/i,
-    msg: "Cannot push directly to origin/main. Use a feature branch and PR.",
+    rx: /git\s+push\s+\S+\s+(main|master)(\s|$)/i,
+    msg: "Cannot push directly to main/master. Use a feature branch and PR.",
   },
   {
     rx: /git\s+push\s+origin\s+master/i,
@@ -39,8 +39,8 @@ const BLOCK_RULES: Array<{ rx: RegExp; msg: string }> = [
   },
   // Rebasing on main/master
   {
-    rx: /git\s+rebase\s+origin\/(main|master)/i,
-    msg: "Cannot rebase onto origin/main or origin/master. Use merge instead.",
+    rx: /git\s+rebase\s+\S+\/(main|master)(\s|$)/i,
+    msg: "Cannot rebase onto main/master. Use merge instead.",
   },
 ];
 
