@@ -3,9 +3,45 @@
 # Dispatcher + shared utils. Logic in memory-save.sh and memory-search.sh.
 # Inspired by Engram (Gentleman-Programming/engram) observation model.
 set -euo pipefail
+
+# Guard: $HOME must be defined — /tmp fallback is PROHIBITED
+if [[ -z "${HOME:-}" ]]; then
+  echo "ERROR: \$HOME no definido — no se puede escribir memoria. Configura \$HOME antes de invocar memory-store.sh" >&2
+  exit 1
+fi
+
 STORE_FILE="${PROJECT_ROOT:-.}/output/.memory-store.jsonl"
 mkdir -p "$(dirname "$STORE_FILE")"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# --- Embedding server lazy-start ---
+# Ensures the in-process embedding server is running before vector/hybrid search.
+# Avoids 15-30s cold-start on first recall. Skipped in grep-only mode.
+SAVIA_EMBED_PORT="${SAVIA_EMBED_PORT:-7331}"
+SAVIA_EMBED_URL="${SAVIA_EMBED_URL:-http://127.0.0.1:$SAVIA_EMBED_PORT}"
+
+_ensure_embed_server() {
+    [[ "${SAVIA_TEST_MODE:-false}" == "true" ]] && return 0
+    command -v python3 &>/dev/null || return 0
+    # Check if already running
+    if python3 -c "import urllib.request; urllib.request.urlopen('$SAVIA_EMBED_URL/health', timeout=1)" &>/dev/null 2>&1; then
+        return 0
+    fi
+    # Not running — launch in background
+    local server_script="$SCRIPT_DIR/embedding-server.py"
+    [[ -f "$server_script" ]] || return 0
+    local os_type
+    os_type="$(uname -s 2>/dev/null || echo Windows)"
+    case "$os_type" in
+        MINGW*|MSYS*|CYGWIN*|Windows*)
+            cmd.exe /c "start /b python3 \"$server_script\"" &>/dev/null 2>&1 || true ;;
+        *)
+            nohup python3 "$server_script" >/dev/null 2>&1 & ;;
+    esac
+    # Brief wait for model load (non-blocking — search proceeds with fallback if not ready)
+    sleep 2
+}
+export SAVIA_EMBED_URL
 
 # --- Shared utils ---
 redact_private() { sed 's/<private>.*<\/private>/[REDACTED]/g'; }
@@ -16,7 +52,7 @@ iso8601_now() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 # Called after each successful JSONL save to keep the index in sync.
 _update_memory_index() {
     local topic_key="$1" title="$2" type="$3"
-    local idx_file="${HOME:-/tmp}/.savia-memory/auto/MEMORY.md"
+    local idx_file="${HOME}/.savia-memory/auto/MEMORY.md"
     [[ ! -f "$idx_file" ]] && return 0
     local entry="- ${type}: ${title} [${topic_key}]"
     entry="${entry:0:150}"
@@ -81,7 +117,7 @@ cmd_suggest_topic() {
 
 case "${1:-help}" in
     save) shift; cmd_save "$@" ;;
-    search|recall) shift; cmd_search "$@" ;;
+    search|recall) shift; _ensure_embed_server; cmd_search "$@" ;;
     context) shift; cmd_context "$@" ;;
     stats) cmd_stats ;;
     prune) cmd_prune ;;
