@@ -64,6 +64,49 @@ _resolve_workspace() {
   pwd
 }
 
+# ── Resolve project slug ─────────────────────────────────────────────────────
+# Fallback chain:
+#   1) $SAVIA_PROJECT_SLUG (explicit operator override)
+#   2) git branch matches projects/<slug> or project/<slug>
+#   3) $SAVIA_WORKSPACE_DIR/projects/ contains exactly one subdir
+#   4) Empty string (workspace without active project is valid)
+_resolve_project_slug() {
+  # 1. Explicit override
+  if [[ -n "${SAVIA_PROJECT_SLUG:-}" ]]; then
+    echo "$SAVIA_PROJECT_SLUG"
+    return
+  fi
+
+  # 2. Branch prefix
+  local branch
+  branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null) || true
+  if [[ -n "${branch:-}" ]]; then
+    case "$branch" in
+      projects/*) echo "${branch#projects/}"; return ;;
+      project/*)  echo "${branch#project/}";  return ;;
+    esac
+  fi
+
+  # 3. Single subdir in projects/
+  local ws
+  ws=$(_resolve_workspace)
+  if [[ -d "$ws/projects" ]]; then
+    local subdirs=()
+    local entry
+    for entry in "$ws/projects"/*/; do
+      [[ -d "$entry" ]] || continue
+      subdirs+=("$(basename "$entry")")
+    done
+    if [[ ${#subdirs[@]} -eq 1 ]]; then
+      echo "${subdirs[0]}"
+      return
+    fi
+  fi
+
+  # 4. Empty (not an error)
+  echo ""
+}
+
 # ── Detect provider (precedence chain) ───────────────────────────────────────
 _resolve_provider() {
   # 1. Operator override
@@ -212,26 +255,71 @@ savia_autonomous_reviewer() {
   printf '@local-user\n'
 }
 
+# ── Workspace .env loader ─────────────────────────────────────────────────────
+# Loads $SAVIA_WORKSPACE_DIR/.env if it exists. Variables already present in the
+# parent environment WIN over .env (precedence: explicit env > .env > defaults).
+# This is the canonical place to declare workspace-wide flags like
+# SAVIA_HEURISTIC_ENFORCE — opencode.json's "env" key is unsupported and
+# Claude Code's settings.json shouldn't carry workspace-specific runtime flags.
+_savia_load_dotenv() {
+  local envfile="$1/.env"
+  [[ -f "$envfile" ]] || return 0
+  local line key val
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line#"${line%%[![:space:]]*}"}"
+    [[ -z "$line" || "$line" == \#* ]] && continue
+    line="${line#export }"
+    [[ "$line" != *=* ]] && continue
+    key="${line%%=*}"
+    val="${line#*=}"
+    [[ "$key" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
+    if [[ "$val" =~ ^\".*\"$ ]] || [[ "$val" =~ ^\'.*\'$ ]]; then
+      val="${val:1:${#val}-2}"
+    fi
+    if [[ -z "$(printenv "$key" 2>/dev/null)" ]]; then
+      export "$key=$val"
+    fi
+  done < "$envfile"
+}
+
+# ── Workspace .venv auto-activator ────────────────────────────────────────────
+# If $SAVIA_WORKSPACE_DIR/.venv/bin/activate exists and we're not already in a
+# venv, source it so hooks/scripts get celpy/pyyaml/jsonschema without each
+# caller having to remember. Idempotent (skips if VIRTUAL_ENV already set).
+_savia_activate_venv() {
+  [[ -n "${VIRTUAL_ENV:-}" ]] && return 0
+  local activate="$1/.venv/bin/activate"
+  [[ -f "$activate" ]] || return 0
+  # shellcheck disable=SC1090
+  source "$activate"
+}
+
 if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
   # Sourced from another script: export variables
   export SAVIA_WORKSPACE_DIR="${SAVIA_WORKSPACE_DIR:-$(_resolve_workspace)}"
+  # Load workspace .env BEFORE provider detection so .env can influence it
+  _savia_load_dotenv "$SAVIA_WORKSPACE_DIR"
+  _savia_activate_venv "$SAVIA_WORKSPACE_DIR"
   export SAVIA_PROVIDER="${SAVIA_PROVIDER:-$(_resolve_provider)}"
+  export SAVIA_PROJECT_SLUG="${SAVIA_PROJECT_SLUG:-$(_resolve_project_slug)}"
 else
   # Direct invocation: print requested value
   case "${1:-}" in
     workspace) _resolve_workspace ;;
     provider)  _resolve_provider ;;
+    project)   _resolve_project_slug ;;
     reviewer)  savia_autonomous_reviewer ;;
     json)
-      printf '{"workspace":"%s","provider":"%s","reviewer":"%s","has_hooks":%s,"has_slash_commands":%s}\n' \
+      printf '{"workspace":"%s","provider":"%s","project":"%s","reviewer":"%s","has_hooks":%s,"has_slash_commands":%s}\n' \
         "$(_resolve_workspace)" \
         "$(_resolve_provider)" \
+        "$(_resolve_project_slug)" \
         "$(savia_autonomous_reviewer)" \
         "$(savia_has_hooks && echo true || echo false)" \
         "$(savia_has_slash_commands && echo true || echo false)"
       ;;
     *)
-      echo "Usage: savia-env.sh <workspace|provider|reviewer|json>" >&2
+      echo "Usage: savia-env.sh <workspace|provider|project|reviewer|json>" >&2
       exit 2
       ;;
   esac
