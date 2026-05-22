@@ -49,7 +49,7 @@ adb_selftest
 Expected output:
 ```
 === ADB Wrapper Self-Test ===
-1. ADB binary: OK (/home/monica/Android/Sdk/platform-tools/adb)
+1. ADB binary: OK ($HOME/Android/Sdk/platform-tools/adb)
 2. Device connected: OK (OUKITELC3690497)
 3. Device info: OK
 4. Screenshot: OK (90745 bytes)

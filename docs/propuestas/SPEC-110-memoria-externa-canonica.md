@@ -70,7 +70,7 @@ Al arrancar cualquier sesión Claude Code dentro del repo Savia, el siguiente co
 ```
 
 **Regla clave**: `../.savia-memory/` desde la raíz del repo funciona igual en:
-- Linux: `/home/monica/claude/` → `/home/monica/.savia-memory/`
+- Linux: `$HOME/savia/` → `$HOME/.savia-memory/`
 - Windows: `C:\dev\savia\` → `C:\dev\.savia-memory\`
 - macOS: `/Users/monica/dev/savia/` → `/Users/monica/dev/.savia-memory/`
 
@@ -105,7 +105,7 @@ El path elegido se escribe en `.claude/external-memory-target` (gitignored) para
 
 ```yaml
 ---
-active_slug: "monica"
+active_slug: "{pm-slug}"
 ---
 
 @.claude/profiles/users/monica/identity.md
@@ -157,7 +157,7 @@ Coste estimado: +300-400 líneas de contexto adicionales por sesión. Dentro del
 Un session start "cold" dentro del repo Savia, con solo el `active-user.md` de la usuaria presente, debe poder responder a estas cuatro preguntas **sin ejecutar `Read` ni comandos adicionales**:
 
 1. "¿Quién eres?" → identidad Savia + tono + Rule #24
-2. "¿Quién soy yo?" → "la usuaria González Paz, PM en Vass, proyecto trazabios, cliente Repsol, idioma es, timezone Europe/Madrid"
+2. "¿Quién soy yo?" → "la usuaria PM activa, PM en empresa-activa, proyecto activo, cliente cliente-activo, idioma es, timezone Europe/Madrid"
 3. "¿Qué reglas críticas aplican?" → lista de Rules 1-8 + referencia a radical-honesty + autonomous-safety
 4. "¿Qué recuerdas de mí?" → contenido de `MEMORY.md` del store externo
 

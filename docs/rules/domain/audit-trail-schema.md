@@ -19,7 +19,7 @@ Cada línea es un JSON con estos campos obligatorios:
 ```json
 {
   "timestamp": "2026-03-05T14:30:00Z",
-  "user": "@monica-gonzalez",
+  "user": "@pm-user",
   "action": "create|update|delete|execute|approve|deny",
   "target": "pbi#12345|team:backend|rule:security-check",
   "result": "success|failure|pending",
@@ -38,7 +38,7 @@ Cada línea es un JSON con estos campos obligatorios:
 | Campo | Tipo | Ejemplo | Notas |
 |---|---|---|---|
 | timestamp | ISO 8601 | 2026-03-05T14:30:00Z | UTC, precision segundos |
-| user | String | @monica-gonzalez | Handle o system identifier |
+| user | String | @pm-user | Handle o system identifier |
 | action | Enum | create, update, delete, execute, approve | Tipo de acción |
 | target | String | pbi#12345, team:backend | Resource identifier |
 | result | Enum | success, failure, pending | Outcome |

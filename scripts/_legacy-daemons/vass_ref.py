@@ -6,7 +6,7 @@ OUT = Path(__file__).parent / "output"
 OUT.mkdir(parents=True, exist_ok=True)
 p = sync_playwright().start()
 c = p.chromium.launch_persistent_context(
-    str(H/".savia"/"chromium-vass"), headless=True, timeout=30000,
+    str(H/".savia"/"chromium-corp"), headless=True, timeout=30000,
 )
 pg = c.pages[0] if c.pages else c.new_page()
 URL = "https" + "://" + "outlook.office365.com/mail/inbox"
@@ -22,7 +22,9 @@ em = pg.evaluate("""() => {
     });
     return r.slice(0, 40);
 }""")
-(OUT / "inbox-vass-chromium.json").write_text(json.dumps({"account":"vass","ts":time.strftime("%Y-%m-%dT%H:%M:%S"),"count":len(em),"emails":em}, ensure_ascii=False, indent=2), encoding="utf-8")
-print(f"vass: {len(em)} emails", flush=True)
+(OUT / "inbox-corp-chromium.json").write_text(
+    json.dumps({"account":"corp-account","ts":time.strftime("%Y-%m-%dT%H:%M:%S"),"count":len(em),"emails":em}, ensure_ascii=False, indent=2),
+    encoding="utf-8")
+print(f"corp: {len(em)} emails", flush=True)
 c.close()
 p.stop()

@@ -33,7 +33,7 @@ scan_pii() {
   fi
   # Personal threats, burnout, emotional state
   if echo "$content" | grep -qiE '(amenaza.*salida|quiere irse|no esta a gusto|burnout|desmotivado|frustra)'; then
-    add_finding "WARNING" "$file" "Personal emotional/exit risk data (should be in N4-VASS or N4b-PM)"
+    add_finding "WARNING" "$file" "Personal emotional/exit risk data (should be in N4-SUPPLIER or N4b-PM)"
   fi
   # One-to-one references
   if echo "$content" | grep -qiE '(one.to.one|one2one|1:1.*transcripcion|sesion privada)'; then

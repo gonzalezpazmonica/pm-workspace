@@ -12,16 +12,16 @@ const umbrellaProjects: ProjectInfo[] = [
     hasBacklog: false, health: 'healthy', parentId: null, children: [], confidentiality: null,
   },
   {
-    id: 'trazabios_main', name: 'TrazaBios', path: 'projects/trazabios_main', hasClaude: true,
-    hasBacklog: false, health: 'healthy', parentId: null, children: ['trazabios', 'trazabios-pm'], confidentiality: null,
+    id: 'project-alpha_main', name: 'ProjectAlpha', path: 'projects/project-alpha_main', hasClaude: true,
+    hasBacklog: false, health: 'healthy', parentId: null, children: ['project-alpha', 'project-alpha-pm'], confidentiality: null,
   },
   {
-    id: 'trazabios', name: 'trazabios', path: 'projects/trazabios_main/trazabios', hasClaude: false,
-    hasBacklog: true, health: 'healthy', parentId: 'trazabios_main', children: [], confidentiality: 'N4-SHARED',
+    id: 'project-alpha', name: 'project-alpha', path: 'projects/project-alpha_main/project-alpha', hasClaude: false,
+    hasBacklog: true, health: 'healthy', parentId: 'project-alpha_main', children: [], confidentiality: 'N4-SHARED',
   },
   {
-    id: 'trazabios-pm', name: 'trazabios-pm', path: 'projects/trazabios_main/trazabios-pm', hasClaude: false,
-    hasBacklog: false, health: 'healthy', parentId: 'trazabios_main', children: [], confidentiality: 'N4b-PM',
+    id: 'project-alpha-pm', name: 'project-alpha-pm', path: 'projects/project-alpha_main/project-alpha-pm', hasClaude: false,
+    hasBacklog: false, health: 'healthy', parentId: 'project-alpha_main', children: [], confidentiality: 'N4b-PM',
   },
   {
     id: 'savia-web', name: 'savia-web', path: 'projects/savia-web', hasClaude: true,
@@ -80,17 +80,17 @@ describe('AppTopBar', () => {
     it('shows breadcrumb when subproject is selected', () => {
       const store = useProjectStore()
       store.projects = [...umbrellaProjects]
-      store.select('trazabios')
+      store.select('project-alpha')
       const wrapper = shallowMount(AppTopBar)
       expect(wrapper.find('.breadcrumb').exists()).toBe(true)
-      expect(wrapper.find('.breadcrumb-parent').text()).toBe('TrazaBios')
-      expect(wrapper.find('.breadcrumb-child').text()).toBe('trazabios')
+      expect(wrapper.find('.breadcrumb-parent').text()).toBe('ProjectAlpha')
+      expect(wrapper.find('.breadcrumb-child').text()).toBe('project-alpha')
     })
 
     it('shows confidentiality label in breadcrumb', () => {
       const store = useProjectStore()
       store.projects = [...umbrellaProjects]
-      store.select('trazabios-pm')
+      store.select('project-alpha-pm')
       const wrapper = shallowMount(AppTopBar)
       expect(wrapper.find('.breadcrumb-conf').exists()).toBe(true)
       expect(wrapper.find('.breadcrumb-conf').text()).toBe('N4b-PM')
@@ -99,11 +99,11 @@ describe('AppTopBar', () => {
     it('hides confidentiality badge when confidentiality is null', () => {
       const projects = [...umbrellaProjects]
       // Override: child without confidentiality
-      const child = projects.find(p => p.id === 'trazabios')!
+      const child = projects.find(p => p.id === 'project-alpha')!
       child.confidentiality = null
       const store = useProjectStore()
       store.projects = projects
-      store.select('trazabios')
+      store.select('project-alpha')
       const wrapper = shallowMount(AppTopBar)
       expect(wrapper.find('.breadcrumb').exists()).toBe(true)
       expect(wrapper.find('.breadcrumb-conf').exists()).toBe(false)
@@ -112,19 +112,19 @@ describe('AppTopBar', () => {
     it('updates breadcrumb when switching between subprojects', async () => {
       const store = useProjectStore()
       store.projects = [...umbrellaProjects]
-      store.select('trazabios')
+      store.select('project-alpha')
       const wrapper = shallowMount(AppTopBar)
-      expect(wrapper.find('.breadcrumb-child').text()).toBe('trazabios')
+      expect(wrapper.find('.breadcrumb-child').text()).toBe('project-alpha')
 
-      store.select('trazabios-pm')
+      store.select('project-alpha-pm')
       await wrapper.vm.$nextTick()
-      expect(wrapper.find('.breadcrumb-child').text()).toBe('trazabios-pm')
+      expect(wrapper.find('.breadcrumb-child').text()).toBe('project-alpha-pm')
     })
 
     it('removes breadcrumb when switching from subproject to standalone', async () => {
       const store = useProjectStore()
       store.projects = [...umbrellaProjects]
-      store.select('trazabios')
+      store.select('project-alpha')
       const wrapper = shallowMount(AppTopBar)
       expect(wrapper.find('.breadcrumb').exists()).toBe(true)
 

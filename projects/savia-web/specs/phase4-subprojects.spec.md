@@ -10,20 +10,20 @@
 
 ## Objective
 
-Enable savia-web to detect and navigate projects with subprojects (like `trazabios_main` which contains `trazabios/`, `trazabios-vass/`, `trazabios-pm/`). When a project has subprojects, the UI shows them as a hierarchical group. When it doesn't, behavior remains unchanged.
+Enable savia-web to detect and navigate projects with subprojects (like `project-alpha_main` which contains `project-alpha/`, `project-alpha-supplier/`, `project-alpha-pm/`). When a project has subprojects, the UI shows them as a hierarchical group. When it doesn't, behavior remains unchanged.
 
 ## Current State
 
 - Bridge `GET /projects` scans `projects/` flat — every directory becomes a peer `ProjectInfo`.
-- `trazabios_main/`, `trazabios/`, `trazabios-vass/`, and `trazabios-pm/` all appear as 4 separate, unrelated projects in the selector.
+- `project-alpha_main/`, `project-alpha/`, `project-alpha-supplier/`, and `project-alpha-pm/` all appear as 4 separate, unrelated projects in the selector.
 - No concept of parent/child relationship between projects.
 - `ProjectSelector.vue` renders a flat `<select>` dropdown.
 
 ## Problem
 
-The trazabios umbrella pattern (and future similar projects) creates confusion:
+The project-alpha umbrella pattern (and future similar projects) creates confusion:
 1. User sees 4 entries that are really 1 project with 3 confidentiality levels.
-2. Selecting `trazabios_main` gives agent-level artifacts (CLAUDE.md, digests/) that humans shouldn't navigate directly.
+2. Selecting `project-alpha_main` gives agent-level artifacts (CLAUDE.md, digests/) that humans shouldn't navigate directly.
 3. No way to understand the hierarchy without prior knowledge.
 
 ## Design
@@ -35,7 +35,7 @@ A project directory is an **umbrella** (has subprojects) if:
 2. It contains **at least one immediate subdirectory** that:
    - Is a real directory (not dotfile, not `output/`, not `digests/`, not `agent-memory/`, not `.agent-maps/`, not `.human-maps/`)
    - Contains its own `README.md` OR has a `.git` directory (independent repo)
-   - Has a name that is a variation of the parent (e.g., parent `trazabios_main` → child `trazabios`, `trazabios-pm`, `trazabios-vass`)
+   - Has a name that is a variation of the parent (e.g., parent `project-alpha_main` → child `project-alpha`, `project-alpha-pm`, `project-alpha-supplier`)
 
 **Excluded directories** (never subprojects): names starting with `.`, `output`, `digests`, `agent-memory`, `specs`, `backlog`, `repos`, `docs`.
 
@@ -54,7 +54,7 @@ export interface ProjectInfo {
   hasBacklog: boolean
   health: string
   // NEW fields:
-  parentId: string | null       // null = top-level, "trazabios_main" = child
+  parentId: string | null       // null = top-level, "project-alpha_main" = child
   children: string[]            // IDs of subprojects (empty if leaf)
   confidentiality: string | null // label from confidentiality.md if exists
 }
@@ -65,8 +65,8 @@ export interface ProjectInfo {
 1. Scan `projects/` as before.
 2. For each directory, check if it's an umbrella (has qualifying subdirectories).
 3. If umbrella:
-   - The umbrella itself is returned with `children: ["trazabios", "trazabios-pm", "trazabios-vass"]`.
-   - Each child is returned with `parentId: "trazabios_main"`.
+   - The umbrella itself is returned with `children: ["project-alpha", "project-alpha-pm", "project-alpha-supplier"]`.
+   - Each child is returned with `parentId: "project-alpha_main"`.
    - Children that would normally appear as top-level peers are now nested.
 4. If not umbrella: unchanged (`parentId: null, children: []`).
 
@@ -77,10 +77,10 @@ export interface ProjectInfo {
 ```json
 [
   {"id": "_workspace", "name": "Savia (workspace)", "path": ".", "parentId": null, "children": [], "confidentiality": null, ...},
-  {"id": "trazabios_main", "name": "TrazaBios", "path": "projects/trazabios_main", "parentId": null, "children": ["trazabios", "trazabios-vass", "trazabios-pm"], "confidentiality": null, ...},
-  {"id": "trazabios", "name": "trazabios", "path": "projects/trazabios_main/trazabios", "parentId": "trazabios_main", "children": [], "confidentiality": "N4-SHARED", ...},
-  {"id": "trazabios-vass", "name": "trazabios-vass", "path": "projects/trazabios_main/trazabios-vass", "parentId": "trazabios_main", "children": [], "confidentiality": "N4-VASS", ...},
-  {"id": "trazabios-pm", "name": "trazabios-pm", "path": "projects/trazabios_main/trazabios-pm", "parentId": "trazabios_main", "children": [], "confidentiality": "N4b-PM", ...},
+  {"id": "project-alpha_main", "name": "ProjectAlpha", "path": "projects/project-alpha_main", "parentId": null, "children": ["project-alpha", "project-alpha-supplier", "project-alpha-pm"], "confidentiality": null, ...},
+  {"id": "project-alpha", "name": "project-alpha", "path": "projects/project-alpha_main/project-alpha", "parentId": "project-alpha_main", "children": [], "confidentiality": "N4-SHARED", ...},
+  {"id": "project-alpha-supplier", "name": "project-alpha-supplier", "path": "projects/project-alpha_main/project-alpha-supplier", "parentId": "project-alpha_main", "children": [], "confidentiality": "N4-SUPPLIER", ...},
+  {"id": "project-alpha-pm", "name": "project-alpha-pm", "path": "projects/project-alpha_main/project-alpha-pm", "parentId": "project-alpha_main", "children": [], "confidentiality": "N4b-PM", ...},
   {"id": "savia-web", "name": "savia-web", "path": "projects/savia-web", "parentId": null, "children": [], "confidentiality": null, ...}
 ]
 ```
@@ -125,12 +125,12 @@ const effective = computed(() => {
 Replace flat `<select>` with a grouped dropdown:
 
 ```
-[▾ TrazaBios > trazabios          ]
+[▾ ProjectAlpha > project-alpha          ]
    ├─ Savia (workspace)
-   ├─ TrazaBios                    ▾
-   │    ├─ trazabios        (N4-SHARED)
-   │    ├─ trazabios-vass   (N4-VASS)
-   │    └─ trazabios-pm     (N4b-PM)
+   ├─ ProjectAlpha                    ▾
+   │    ├─ project-alpha        (N4-SHARED)
+   │    ├─ project-alpha-supplier   (N4-SUPPLIER)
+   │    └─ project-alpha-pm     (N4b-PM)
    ├─ savia-web
    └─ proyecto-alpha
 ```
@@ -153,19 +153,19 @@ Decision: Start with `<optgroup>` (simpler, accessible by default). Upgrade to c
 #### 4. Display name for umbrella projects
 
 The umbrella directory name often has a suffix like `_main`. Clean it for display:
-- `trazabios_main` → `TrazaBios`
+- `project-alpha_main` → `ProjectAlpha`
 - Rule: strip `_main`, `_umbrella`, `-main` suffixes. Title-case the result.
 - If a `claude-{name}.md` exists at umbrella root, extract project name from its first `# heading`.
 
 #### 5. Breadcrumb / context indicator
 
-When a subproject is selected, the TopBar shows: `TrazaBios > trazabios (N4-SHARED)` next to the health dot. This makes it clear which level the user is viewing.
+When a subproject is selected, the TopBar shows: `ProjectAlpha > project-alpha (N4-SHARED)` next to the health dot. This makes it clear which level the user is viewing.
 
 ### Data flow when subproject is selected
 
 All stores that use `projectStore.selectedId` for data fetching continue to work:
-- `selectedId` = the subproject ID (e.g., `"trazabios"`)
-- Bridge resolves the path correctly (e.g., `projects/trazabios_main/trazabios`)
+- `selectedId` = the subproject ID (e.g., `"project-alpha"`)
+- Bridge resolves the path correctly (e.g., `projects/project-alpha_main/project-alpha`)
 - File browser shows files from the subproject directory
 - Backlog reads from subproject's `backlog/` if it exists
 - Reports scope to the subproject
@@ -194,12 +194,12 @@ Zero changes to behavior. `parentId: null, children: []` — the selector render
 
 ## Acceptance Criteria
 
-1. **Detection**: Bridge correctly identifies `trazabios_main` as umbrella with 3 children.
+1. **Detection**: Bridge correctly identifies `project-alpha_main` as umbrella with 3 children.
 2. **Flat projects unchanged**: Projects without subprojects (e.g., `savia-web`) render and behave identically to before.
 3. **Selector groups**: Umbrella projects show as `<optgroup>` with children indented and labeled with confidentiality level.
-4. **Selection persists**: Selecting a subproject stores `"trazabios"` (not `"trazabios_main"`) in localStorage. Reloading restores the selection.
+4. **Selection persists**: Selecting a subproject stores `"project-alpha"` (not `"project-alpha_main"`) in localStorage. Reloading restores the selection.
 5. **Data scoping**: File browser, backlog, and reports scope to the selected subproject's directory.
-6. **Breadcrumb**: TopBar shows `TrazaBios > trazabios` when a subproject is active.
+6. **Breadcrumb**: TopBar shows `ProjectAlpha > project-alpha` when a subproject is active.
 7. **No regression**: All existing 228 unit tests pass. All 150 E2E tests pass.
 
 ## Edge Cases

@@ -56,7 +56,7 @@ Hook `project-isolation-gate.sh` (PreToolUse):
 ### Slice 3: Filtro de contexto — ~15 min
 
 Modificar `opencode.json` para cargar contexto específico del proyecto activo:
-- Si proyecto activo = `trazabios`, cargar `projects/trazabios/CLAUDE.md` pero NO `projects/alpha/CLAUDE.md`
+- Si proyecto activo = `proyecto-alpha`, cargar `projects/proyecto-alpha/CLAUDE.md` pero NO `projects/alpha/CLAUDE.md`
 - Reglas de dominio y skills se cargan siempre (son compartidas)
 - Documentación de proyecto se carga solo si pertenece al proyecto activo
 

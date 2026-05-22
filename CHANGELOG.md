@@ -3689,7 +3689,7 @@ feat: Eras 167-170 — token economics, spec validation, coordinator research, t
 
 - **settings.json**: registered tool-call-healing.sh in PreToolUse hooks (Read|Edit|Write|Glob|Grep matcher)
 - **data-sovereignty-gate.sh**: path extraction and private-destination skip moved before daemon call (reduces latency). Windows backslash normalization added
-- **validate-bash-global.sh**: git commit/add block scoped to savia/pm-workspace repos only (allows commits in project repos like trazabios)
+- **validate-bash-global.sh**: git commit/add block scoped to savia/pm-workspace repos only (allows commits in project repos like project-alpha)
 - **SCM INDEX.scm**: category rebalancing and keyword re-indexing
 
 ## [3.98.0] — 2026-04-01
