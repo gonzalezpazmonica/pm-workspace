@@ -3,6 +3,10 @@
 # Verifica dependencias, instala Ollama + modelo, configura hooks
 set -uo pipefail
 
+# Source portable OS detection
+SCRIPT_DIR_SS="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR_SS/lib/os-detect.sh" 2>/dev/null && setup_paths || true
+
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
 CYAN='\033[0;36m'; NC='\033[0m'; BOLD='\033[1m'
 
