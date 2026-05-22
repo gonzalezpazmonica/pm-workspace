@@ -59,8 +59,28 @@ const AFTER_GUARDS = [
   dataSovereigntyAudit,
 ] as const;
 
+// Model tier mapping for provider-agnostic agents (SPEC-127 / model-alias-schema.md)
+// Maps abstract tiers declared in .opencode/agents/*.md frontmatter to the
+// concrete model IDs available under the active provider (GitHub Copilot).
+const MODEL_TIER_MAP: Record<string, string> = {
+  heavy: "github-copilot/claude-opus-4.7",
+  mid:   "github-copilot/claude-sonnet-4.6",
+  fast:  "github-copilot/claude-haiku-4.5",
+};
+
 export const SaviaFoundationPlugin: Plugin = async ({ project, $, directory }) => {
   return {
+    config: (cfg: any) => {
+      // Resolve abstract model tiers in agent definitions so the provider
+      // never receives an unknown model ID like "heavy" or "mid".
+      if (cfg.agent && typeof cfg.agent === "object") {
+        for (const agentDef of Object.values(cfg.agent) as any[]) {
+          if (agentDef?.model && MODEL_TIER_MAP[agentDef.model]) {
+            agentDef.model = MODEL_TIER_MAP[agentDef.model];
+          }
+        }
+      }
+    },
     "tool.execute.before": async (input: any, output: any) => {
       for (const guard of BEFORE_GUARDS) {
         await guard(input, output);
