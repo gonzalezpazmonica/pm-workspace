@@ -4,7 +4,7 @@ title: Hooks multi-handler — migrar gates críticos a plugin TS (OpenCode even
 status: PROPOSED
 origin: Investigación 2026-05-23 (P3 + F6) + paridad OpenCode. OpenCode v1.14+ expone 25+ eventos en `.opencode/plugin/*.ts` (`tool.execute.before/after`, `chat.message`, `permission.ask`, `event`, `file.edited`, `lsp.*`, etc.). Soporta nativamente 3 de los 5 handler types de Claude Code (command, mcp_tool, prompt vía slash). `http` y `agent` por composición. Savia tiene 65 hooks, todos bash `command`. Deja sobre la mesa el 70% del valor.
 severity: Alta — UX y precisión de gates.
-effort: ~24h (L) — migración por hook crítico + tests + observability.
+effort: ~35h (L) — recalibrado 2026-05-23 tras review: Slice 1 (baseline FP/FN 6 hooks × 100 invocaciones) son 4-6h reales; Slice 5 (`agent` handler experimental) puede salir scope si presupuesto aprieta. Original 24h era agresivo.
 priority: P3 — calidad y reducción de falsos positivos.
 confidence: media — efecto en producción a validar por hook.
 bucket: Q3 2026

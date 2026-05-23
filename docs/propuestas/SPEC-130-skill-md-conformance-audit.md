@@ -1,16 +1,22 @@
 ---
 spec_id: SPEC-130
 title: Conformidad SKILL.md con Agent Skills 1.0 open spec — auditoría y remediación
-status: PROPOSED
+status: ABORTED
+aborted_at: "2026-05-23"
+aborted_reason: Premisa del research falsa — el research §3.1 afirmaba "pentesting, enterprise-onboarding superan 500 líneas". Verificación local 2026-05-23 (`find .opencode/skills .claude/skills -name SKILL.md | xargs wc -l | sort -rn | head`) — max real 150 líneas en todas las skills. Causa raíz — Rule #11 cap workspace a 150 líneas por fichero .md, mucho más estricto que el límite Skills 1.0 (500). El audit propuesto no tendría targets reales para Slice 2 (remediación batch). Slice 1 (audit de `name` regex + `description` ≤1024 chars + frontmatter) tiene valor residual pero no justifica un spec dedicado — se absorberá como tarea operativa en `scripts/audit-skills-conformance.sh` sin proceso PROPOSED→APPROVED.
 origin: Investigación 2026-05-23 (P5). El 18-dic-2025 Anthropic publicó la Agent Skills specification bajo Apache-2.0/CC-BY-4.0 en agentskills.io. Los runtimes mayores (Claude Code, Codex CLI, Cursor, Copilot, Gemini CLI, OpenCode, Goose, Antigravity, Windsurf, Kiro) consumen el mismo formato. Savia tiene 96 skills cerca del estándar pero sin verificación sistemática.
-severity: Media — desbloquea portabilidad cross-tool. Hoy hay drift en `description` y cuerpos >500 líneas que rompen progressive disclosure.
-effort: ~8h (S) — 1 script + remediación batch.
-priority: P5 — portabilidad y reducción de tokens.
-confidence: alta
+severity: N/A — ABORTED
+effort: N/A — ABORTED (~8h proyectados)
+priority: N/A — ABORTED (originalmente P5)
+confidence: N/A
 bucket: Q2 2026
 related_specs:
-  - SPEC-135 (SKILL.md split — la remediación natural cuando un cuerpo supera 500 líneas)
-  - SPEC-128 (MCP catalog — algunas skills se exponen como MCP servers, deben cumplir spec)
+  - SPEC-135 (también ABORTED por dependencia rota)
+  - SPEC-128 (MCP catalog — independiente, no afectado)
+---
+
+> **ESTE SPEC ESTÁ ABORTADO.** Razón en `aborted_reason` del frontmatter. El contenido siguiente se conserva como registro auditable de la propuesta original.
+
 ---
 
 # SPEC-130 — Auditoría de conformidad SKILL.md

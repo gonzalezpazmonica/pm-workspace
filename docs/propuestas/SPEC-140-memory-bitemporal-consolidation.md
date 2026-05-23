@@ -168,4 +168,4 @@ Slice 2: tras correr consolidate sobre 1 sesión real, inspeccionar manualmente 
 - **Database bloat**: facts crece linealmente. Mitigación — política de retención: facts `invalid_at` > 6 meses se mueven a tabla `facts_archive` (no se cargan en queries default).
 - **Conflicto con MEMORY.md manual**: si el humano edita MEMORY.md a mano, regeneración la sobrescribe. Mitigación — managed-content markers (skill ya existe) para preservar bloques humanos.
 - **Coste API**: Haiku × 100 sesiones × NER por sesión. Estimado <$0.50/mes con paths actuales. Aceptable.
-- **Latencia retrieval con BM25**: SQLite no tiene BM25 nativo. Mitigación — `sqlite-fts5` extension o ranking BM25 simple en Python; aceptable hasta 100K facts.
+- **Latencia retrieval con BM25**: decisión aterrizada 2026-05-23 — usar **fts5** nativo en SQLite (incluido desde sqlite 3.9, no requiere extension externa). Ranking BM25 implícito en fts5 MATCH queries. Aceptable hasta 100K facts. Fallback a ranking Python solo si fts5 no disponible en el host.

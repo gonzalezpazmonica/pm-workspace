@@ -18,7 +18,7 @@ related_specs:
 
 Los decision trees explícitos en agentes son un patrón documentado (claudefa.st sub-agent best practices, claude-code-hooks-mastery) que reduce ambigüedad de routing y consumo de contexto: en lugar de re-leer la descripción del agente cada turno, el orchestrator sigue un árbol pre-computado. Beneficios medidos:
 
-- 15-25% menos tokens en system prompt agregado.
+- Reducción esperada de tokens en system prompt agregado (a medir en Feasibility Probe — sin baseline previa verificable).
 - 0% errores de routing en sample de 50 invocaciones con árbol vs ~12% sin árbol.
 
 Savia tiene solo 1 árbol (`commit-guardian-decisions.md`). Los otros 69 agentes carecen. La investigación de marzo 2026 ya identificó los 10 más críticos por volumen de invocación.
@@ -121,6 +121,7 @@ flowchart TD
 ## Acceptance Criteria
 
 - [ ] AC-01: 9 nuevos ficheros en `.claude/agents/decision-trees/`, cada uno ≤80 líneas.
+- [ ] AC-01b: Symlink `.opencode/agents/decision-trees` → `../../.claude/agents/decision-trees` creado y verificado por `tests/test-agent-decision-trees.bats` (hoy el symlink no existe — verificado 2026-05-23).
 - [ ] AC-02: Cada agente target tiene `decision_tree:` apuntando a su árbol — en AMBOS `.claude/agents/<name>.md` y `.opencode/agents/<name>.md`. El converter `agents-opencode-convert.sh` preserva el campo.
 - [ ] AC-03: BATS test `tests/test-agent-decision-trees.bats` verifica:
   - Existencia de cada fichero linkado.

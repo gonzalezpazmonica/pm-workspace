@@ -1,15 +1,21 @@
 ---
 spec_id: SPEC-135
 title: SKILL.md split — progressive disclosure para skills superdimensionadas
-status: PROPOSED
+status: ABORTED
+aborted_at: "2026-05-23"
+aborted_reason: Spec preventivo para problema inexistente. Depende del scan de SPEC-130, que también queda ABORTED por la misma causa raíz — Rule #11 cap workspace a 150 líneas por .md ya garantiza que NINGUNA SKILL.md supera el límite Skills 1.0 (500 líneas). El research §3.1 escribió "pentesting, enterprise-onboarding probably superan" — el "probably" se propagó a este spec como hecho. AC-01 decía "≥1 skill" — síntoma de propuesta sin caso real medido. Si en el futuro Savia importa skills externas que superen 500 líneas, se abrirá un SPEC nuevo con datos verificados.
 origin: Investigación 2026-05-23 (P14). Agent Skills 1.0 limita el cuerpo a 500 líneas; el resto va en subdirs `references/`, `scripts/`, `assets/`. Algunas skills (pentesting, enterprise-onboarding, savia-memory) probablemente superan.
-severity: Media — reduce tokens en context y habilita portabilidad cross-tool (SPEC-130).
-effort: ~6h (S) — 1h por skill superdimensionada.
-priority: P14 — token efficiency.
-confidence: alta — depende del scan de SPEC-130.
+severity: N/A — ABORTED
+effort: N/A — ABORTED (~6h proyectados)
+priority: N/A — ABORTED (originalmente P14)
+confidence: N/A
 bucket: Q2 2026
 related_specs:
-  - SPEC-130 (SKILL.md conformance audit — detecta cuáles necesitan split)
+  - SPEC-130 (también ABORTED — premisa compartida falsa)
+---
+
+> **ESTE SPEC ESTÁ ABORTADO.** Razón en `aborted_reason` del frontmatter. El contenido siguiente se conserva como registro auditable de la propuesta original.
+
 ---
 
 # SPEC-135 — SKILL.md Progressive Disclosure Split

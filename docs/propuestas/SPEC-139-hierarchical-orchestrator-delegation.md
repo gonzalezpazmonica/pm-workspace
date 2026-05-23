@@ -20,7 +20,7 @@ related_specs:
 Savia hoy usa orquestación plana en `dev-orchestrator` (reparte directo a 30+ developers especializados) y `court-orchestrator` (convoca jueces individualmente). Problemas medidos:
 
 - **Contexto del orchestrator infla**: cada developer convocado añade su descripción al context del orchestrator, que rápidamente excede 60% del budget.
-- **Errores de routing**: con 30+ candidates, la decisión de "qué developer toca" tiene FP rate del ~15% observado en logs de marzo 2026.
+- **Errores de routing**: con 30+ candidates, la decisión de "qué developer toca" es propensa a falsos positivos (sin baseline cuantitativa verificable — métrica a establecer en Feasibility Probe).
 - **Sin agrupación natural**: developers .NET, frontend, infra son grupos lógicos sin representación estructural.
 
 Patrón canónico 2026 (citado en arXiv 2509.08646 y shipyard.build): **Hierarchical Teams** — el orchestrator habla con 2-4 "feature leads" (uno por dominio: Backend, Frontend, Infra, QA), cada lead recibe brief de su scope y descompone internamente sin contaminar el contexto del padre.
@@ -116,7 +116,11 @@ flowchart TD
 - [ ] AC-02: `dev-orchestrator` body actualizado: no enumera developers individuales, solo leads.
 - [ ] AC-03: `court-orchestrator` análogo.
 - [ ] AC-04: Cada lead tiene decision tree (SPEC-134 dependency).
-- [ ] AC-05: Métrica en 10 PBIs reales: contexto del orchestrator -30%, FP rate ≤5%.
+- [ ] AC-05: Métrica en 10 PBIs reales. Definiciones explícitas:
+  - **Contexto del orchestrator** = tokens del system prompt + tools disponibles cargados en la primera llamada al LLM del orchestrator (medido con `tiktoken` o equivalente).
+  - **FP rate** = (PBIs cuyo agente final reasignado por humano) / (PBIs totales).
+  - **Targets**: contexto -20%+, FP rate no degradado vs baseline pre-jerárquico.
+  - Si baseline no existe (primera ejecución), se establece en Slice 1 antes de medir delta.
 - [ ] AC-06: Backward compatibility verificada — caller con `agent: dotnet-developer` explícito sigue funcionando.
 - [ ] AC-07: Documentación en `docs/agent-teams-sdd.md` con diagrama + ejemplo de hand-off.
 - [ ] AC-08: BATS tests cubren el flujo orchestrator → lead → developer.
@@ -139,7 +143,7 @@ flowchart TD
 
 ## Feasibility Probe
 
-Slice 1 con backend-feature-lead: ejecutar 10 PBIs reales pasando por la nueva ruta. Si el contexto del orchestrator no se reduce ≥20% o el FP rate empeora → reevaluar. Si los leads producen output peor que developers directos → considerar que el patrón no encaja en Savia y abortar.
+Slice 1 con backend-feature-lead: ejecutar 10 PBIs reales pasando por la nueva ruta tras establecer baseline (contexto tokens + FP rate) en plano. Si el contexto del orchestrator no se reduce ≥20% o el FP rate empeora → reevaluar. Si los leads producen output peor que developers directos → considerar que el patrón no encaja en Savia y abortar.
 
 ## Riesgos
 
