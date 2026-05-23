@@ -1,0 +1,18 @@
+// SPEC-141 · cloudflare-workers MCP template (opcional)
+{
+  "mcp": {
+    "cloudflare-workers": {
+      "type": "remote",
+      "url": "https://mcp.cloudflare.com/workers/sse",
+      "oauth": true,
+      "_savia_meta": {
+        "scope": "deploy:workers",
+        "auth": "oauth",
+        "rotation_days": 30,
+        "trigger": "despliegues Workers desde el agente",
+        "token_budget": "low",
+        "bluerock_audit": "passed 2026-05-23 - OAuth, official Cloudflare endpoint"
+      }
+    }
+  }
+}

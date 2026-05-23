@@ -1,0 +1,19 @@
+// SPEC-141 · linear MCP template
+// Remote SSE con OAuth. Sync con backlog Linear.
+{
+  "mcp": {
+    "linear": {
+      "type": "remote",
+      "url": "https://mcp.linear.app/sse",
+      "oauth": true,
+      "_savia_meta": {
+        "scope": "read:issues",
+        "auth": "oauth",
+        "rotation_days": 30,
+        "trigger": "consultar issues Linear sin salir del agente",
+        "token_budget": "medium",
+        "bluerock_audit": "passed 2026-05-23 - OAuth DCR, official Linear endpoint"
+      }
+    }
+  }
+}
