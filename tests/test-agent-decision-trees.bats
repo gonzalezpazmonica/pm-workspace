@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# audit: score=93 hash=5cb9ee2c date=2026-05-23
+# audit: score=91 hash=c8e23f76 date=2026-05-23
 # Ref: SPEC-147 — Decision trees for top-10 agents (Slice 1: 3 pilots)
 # docs/propuestas/SPEC-147-decision-trees-top-agents.md
 # Validates: structural existence, symlink, frontmatter link, ≤80 line cap.
@@ -134,6 +134,52 @@ teardown() {
 @test "edge: zero pilot trees would be detected (negative sanity)" {
   count=$(ls "$TREES_DIR"/*-decisions.md 2>/dev/null | wc -l)
   [ "$count" -gt 0 ]
+}
+
+
+# ── Slice 2 trees ───────────────────────────────────────────────────────────
+
+SLICE2_AGENTS=("dotnet-developer" "business-analyst" "sdd-spec-writer")
+
+@test "Slice2 AC-01: 3 Slice-2 decision-tree files exist" {
+  for agent in dotnet-developer business-analyst sdd-spec-writer; do
+    [ -f "$TREES_DIR/${agent}-decisions.md" ]
+  done
+}
+
+@test "Slice2 AC-01: each Slice-2 tree is <=80 lines (cap)" {
+  for agent in dotnet-developer business-analyst sdd-spec-writer; do
+    lines=$(wc -l < "$TREES_DIR/${agent}-decisions.md")
+    [ "$lines" -le 80 ]
+  done
+}
+
+@test "Slice2 AC-01: each Slice-2 tree starts with proper H1 heading" {
+  for agent in dotnet-developer business-analyst sdd-spec-writer; do
+    head -1 "$TREES_DIR/${agent}-decisions.md" | grep -Eq "^# Decision Trees? — ${agent}"
+  done
+}
+
+@test "Slice2 AC-02: each Slice-2 agent has decision_tree: in both catalogs" {
+  for agent in dotnet-developer business-analyst sdd-spec-writer; do
+    for cat in .claude/agents .opencode/agents; do
+      grep -q "^decision_tree: decision-trees/${agent}-decisions.md$" "$REPO_ROOT/$cat/${agent}.md"
+    done
+  done
+}
+
+@test "Slice2 AC-03: each Slice-2 tree has cap header + routing + anti-patterns" {
+  for agent in dotnet-developer business-analyst sdd-spec-writer; do
+    file="$TREES_DIR/${agent}-decisions.md"
+    grep -q "Cap.*80" "$file"
+    grep -qE "^## (Cuando|Cuándo|Routing|When|Entry)" "$file"
+    grep -qE "Anti-patrones|Escalado|Escalate|NO hacer" "$file"
+  done
+}
+
+@test "Slice2 coverage: 7/10 trees done (commit-guardian + 3 Slice 1 + 3 Slice 2)" {
+  count=$(ls "$TREES_DIR"/*-decisions.md 2>/dev/null | wc -l)
+  [ "$count" -ge 7 ]
 }
 
 # ── Negative cases ──────────────────────────────────────────────────────────
