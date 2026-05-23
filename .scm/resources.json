@@ -1,6 +1,6 @@
 {
-  "hash": "85f5d6dd3eeb",
-  "total": 1170,
+  "hash": "093f8e925902",
+  "total": 1171,
   "resources": [
     {
       "category": "analysis",
@@ -7389,6 +7389,20 @@
       "kind": "cmd",
       "path": ".claude/commands/dx-survey.md",
       "description": "Genera encuesta DX Core 4 adaptada al equipo y procesa respuestas"
+    },
+    {
+      "category": "planning",
+      "name": "ecosystem-watcher",
+      "intents": [
+        "acciones",
+        "automáticas",
+        "awesome",
+        "calcula",
+        "deltas"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/ecosystem-watcher/SKILL.md",
+      "description": "Watcher mensual de awesome-* repos y upstream tooling. Calcula deltas vs último snapshot y genera informe markdown con señales high/medium/low. Sin acciones automáticas — solo señalización para revisión humana."
     },
     {
       "category": "planning",
