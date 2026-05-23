@@ -1,6 +1,6 @@
 {
-  "hash": "ae7d3557b871",
-  "total": 1168,
+  "hash": "85f5d6dd3eeb",
+  "total": 1170,
   "resources": [
     {
       "category": "analysis",
@@ -1416,6 +1416,20 @@
       "kind": "script",
       "path": "scripts/savia-memory-bootstrap.sh",
       "description": "savia-memory-bootstrap.sh — crea store externo canónico ../.savia-memory/"
+    },
+    {
+      "category": "communication",
+      "name": "savia-memory-mcp-stdio",
+      "intents": [
+        "memory",
+        "savia",
+        "spec",
+        "stdio",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-memory-mcp-stdio.sh",
+      "description": "SPEC-141 · savia-memory MCP stdio wrapper"
     },
     {
       "category": "communication",
@@ -3938,6 +3952,18 @@
       "kind": "cmd",
       "path": ".claude/commands/audit-export.md",
       "description": "Exportar audit trail en JSON/CSV/PDF para auditorías externas. ISO 42001 & NIST AI RMF compliant."
+    },
+    {
+      "category": "governance",
+      "name": "audit-mcp-templates",
+      "intents": [
+        "audit",
+        "spec",
+        "templates"
+      ],
+      "kind": "script",
+      "path": "scripts/audit-mcp-templates.sh",
+      "description": "SPEC-141 · audit-mcp-templates.sh"
     },
     {
       "category": "governance",
