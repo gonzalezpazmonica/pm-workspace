@@ -12,7 +12,8 @@
 // Guard execution order (tool.execute.before):
 //   Cheap → expensive. Throwing aborts the chain.
 //   1. validate-bash-global   (regex on bash command, ~0ms)
-//   2. block-credential-leak  (regex on bash command, ~0ms)
+//   2. auto-redact-credentials    (SPEC-142: mutate args.command, ~0ms)
+//   3. block-credential-leak  (regex on bash command, ~0ms)
 //   3. block-force-push       (regex on git commands, ~0ms)
 //   4. data-sovereignty-gate  (regex + base64 + daemon/fallback, ~0ms-2s)
 //   5. block-gitignored-refs  (regex on edit/write content, ~0ms)
@@ -30,6 +31,7 @@
 import type { Plugin } from "@opencode-ai/plugin";
 
 import { validateBashGlobal } from "./guards/validate-bash-global.ts";
+import { autoRedactSecrets } from "./guards/auto-redact-credentials.ts";
 import { blockCredentialLeak } from "./guards/block-credential-leak.ts";
 import { blockForcePush } from "./guards/block-force-push.ts";
 import { blockBranchSwitchDirty } from "./guards/block-branch-switch-dirty.ts";
@@ -45,6 +47,7 @@ const BEFORE_GUARDS = [
   // Cheap guards first — fail fast.
   toolCallHealing,
   validateBashGlobal,
+  autoRedactSecrets,
   blockCredentialLeak,
   blockForcePush,
   blockBranchSwitchDirty,
