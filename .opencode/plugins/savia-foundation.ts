@@ -60,13 +60,35 @@ const AFTER_GUARDS = [
 ] as const;
 
 // Model tier mapping for provider-agnostic agents (SPEC-127 / model-alias-schema.md)
-// Maps abstract tiers declared in .opencode/agents/*.md frontmatter to the
-// concrete model IDs available under the active provider (GitHub Copilot).
-const MODEL_TIER_MAP: Record<string, string> = {
-  heavy: "github-copilot/claude-opus-4.7",
-  mid:   "github-copilot/claude-sonnet-4.6",
-  fast:  "github-copilot/claude-haiku-4.5",
-};
+// PV-06: NO vendor names hardcoded here. The map is loaded at runtime from
+// ~/.savia/preferences.yaml (model_heavy, model_mid, model_fast). The user
+// declares their own provider+model_id pairs in that file. The framework
+// stays neutral. See docs/rules/domain/model-alias-schema.md.
+import { readFileSync, existsSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+
+function loadModelTierMap(): Record<string, string> {
+  const prefsPath = join(homedir(), ".savia", "preferences.yaml");
+  if (!existsSync(prefsPath)) return {};
+  try {
+    const raw = readFileSync(prefsPath, "utf8");
+    const map: Record<string, string> = {};
+    for (const line of raw.split(/\r?\n/)) {
+      const m = line.match(/^\s*(model_heavy|model_mid|model_fast)\s*:\s*(.+?)\s*$/);
+      if (m) {
+        const tier = m[1].replace("model_", "");
+        const id = m[2].replace(/^["\']|["\']$/g, "");
+        if (id) map[tier] = id;
+      }
+    }
+    return map;
+  } catch {
+    return {};
+  }
+}
+
+const MODEL_TIER_MAP: Record<string, string> = loadModelTierMap();
 
 export const SaviaFoundationPlugin: Plugin = async ({ project, $, directory }) => {
   return {

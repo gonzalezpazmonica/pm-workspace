@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased] — savia-evolution incorporation
+## [Unreleased] — 2026-05-23 · savia-evolution incorporation
 
 Generic improvements ported from a downstream private fork. Confidential
 references and internal IDs scrubbed; only features with public utility

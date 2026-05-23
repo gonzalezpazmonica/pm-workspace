@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-148
 title: SKILL.md split — progressive disclosure para skills superdimensionadas
-status: ABORTED
+status: REJECTED
 aborted_at: "2026-05-23"
 aborted_reason: Spec preventivo para problema inexistente. Depende del scan de SPEC-143, que también queda ABORTED por la misma causa raíz — Rule #11 cap workspace a 150 líneas por .md ya garantiza que NINGUNA SKILL.md supera el límite Skills 1.0 (500 líneas). El research §3.1 escribió "pentesting, enterprise-onboarding probably superan" — el "probably" se propagó a este spec como hecho. AC-01 decía "≥1 skill" — síntoma de propuesta sin caso real medido. Si en el futuro Savia importa skills externas que superen 500 líneas, se abrirá un SPEC nuevo con datos verificados.
 origin: Investigación 2026-05-23 (P14). Agent Skills 1.0 limita el cuerpo a 500 líneas; el resto va en subdirs `references/`, `scripts/`, `assets/`. Algunas skills (pentesting, enterprise-onboarding, savia-memory) probablemente superan.
