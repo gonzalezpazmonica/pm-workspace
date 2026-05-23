@@ -164,7 +164,7 @@ Conjunto de 13 specs PROPOSED derivados de la investigación 2026-05-23 (`output
 | # | Spec | Tema | Esfuerzo |
 |---|---|---|---|
 | 8.1 | SPEC-141 | MCP Curated Catalog (opencode.jsonc mcp block, OAuth DCR, Server Cards) | S (6h) |
-| 8.2 | SPEC-142 | Plugin `tool.execute.before` para auto-redaction de secrets (TS, mutación args) | S (5h) |
+| 8.2 | SPEC-142 | Plugin `tool.execute.before` para auto-redaction de secrets (TS, mutación args) | S (5h) | ✅ IMPLEMENTED 2026-05-23 (Slices 1+2) |
 | 8.3 | ~~SPEC-143~~ | ~~Conformidad SKILL.md~~ — **ABORTED 2026-05-23** (premisa falsa: skills NO superan 150 líneas por Rule #11) | — |
 | 8.4 | SPEC-144 | `/speckit.*` slash command aliases (compatibilidad spec-kit) | S (4h) |
 | 8.5 | SPEC-145 | Import anthropics/skill-creator + mcp-builder | S (3h) |

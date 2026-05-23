@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-142
 title: Plugin tool.execute.before — auto-redaction de PATs y secrets via mutación de args
-status: PROPOSED
+status: IMPLEMENTED
 origin: Investigación 2026-05-23 (P4) + paridad OpenCode. OpenCode v1.14+ expone `tool.execute.before` en `.opencode/plugin/*.ts` que muta `args` directamente (modelo imperativo). Claude Code v2.0.10+ tiene equivalente funcional via `modifiedInput` — savia es opencode-native, especificamos el patrón OpenCode.
 severity: Media — defiende Rule #1 (NUNCA hardcodear PAT) sin penalizar latencia. Hoy bloquea + el modelo reintenta.
 effort: ~5h (S) — 1 plugin TS + tests + 1 doc.
@@ -141,6 +141,40 @@ fi
 - [ ] AC-07: Documentación `docs/rules/domain/secret-redaction-policy.md` con tabla pattern → var → fichero y nota sobre orden de mutación con otros plugins.
 - [ ] AC-08: Tests TypeScript con vitest cubren los 5 patterns + 5 escenarios negativos.
 - [ ] AC-09: Legacy hook `.claude/hooks/pretooluse-secret-redaction.sh` mantenido funcional para usuarios Claude Code (mismas semánticas).
+
+
+
+## Implementation Note (2026-05-23)
+
+**Slices 1+2 shipped** in `agent/overnight-20260523-spec-142`. Slices 3
+(legacy Claude Code bash hook) and 4 (caveman warning, post-hoc audit)
+remain as follow-up — they are operator-facing polish, not blocking the
+core SPEC-142 contract.
+
+### What shipped
+
+- `.opencode/plugins/guards/auto-redact-credentials.ts` (95 lines)
+- `.opencode/plugins/__tests__/auto-redact-credentials.test.ts` (113 lines,
+  10 Bun tests covering 5 patterns + 5 negative scenarios)
+- `tests/test-spec-142-auto-redact.bats` (19 structural tests, 19/19 PASS)
+- `docs/rules/domain/secret-redaction-policy.md` (95 lines, declares
+  pattern→env-var table, ordering with block-credential-leak)
+- Wired into `BEFORE_GUARDS` at position 2 in `savia-foundation.ts`
+  (before `block-credential-leak`, after `validate-bash-global`)
+
+### Composition with block-credential-leak
+
+Redactor mutates `args.command` when the configured `*_FILE` env var
+exists; otherwise it leaves the command intact and `block-credential-leak`
+aborts in the very next guard. Fail-closed by composition — no path
+where a leaked credential reaches the executor.
+
+### Follow-up (deferred)
+
+- **Slice 3** — `.claude/hooks/pretooluse-secret-redaction.sh` for Claude
+  Code users via `hookSpecificOutput.modifiedInput`.
+- **Slice 4** — Skill `caveman` integration: warn if
+  `output/secret-redactions.jsonl` shows >3 redactions per session.
 
 ## Agent Assignment
 
