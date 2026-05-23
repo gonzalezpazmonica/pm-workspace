@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: cb8245061304 | resources: 1168
-> 553 commands · 96 skills · 70 agents · 449 scripts
+> hash: 4ea2c882a8cb | resources: 1169
+> 553 commands · 97 skills · 70 agents · 449 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -574,6 +574,7 @@
 [planning] dx-dashboard — automatizables,cognitive,dashboard,feedback,load — cmd:.claude/commands/dx-dashboard.md
 [planning] dx-recommendations — análisis,equipo,experiencia,friction,mejorar — cmd:.claude/commands/dx-recommendations.md
 [planning] dx-survey — adaptada,core,encuesta,equipo,procesa — cmd:.claude/commands/dx-survey.md
+[planning] ecosystem-watcher — acciones,automáticas,awesome,calcula,deltas — skill:.claude/skills/ecosystem-watcher/SKILL.md
 [planning] emergency-fallback — emergency,fallback,operaciones — script:scripts/emergency-fallback.sh
 [planning] emergency-mode — cloud,disponible,emergencia,está,gestionar — cmd:.claude/commands/emergency-mode.md
 [planning] emergency-plan — caché,descargar,instalación,local,modelo — cmd:.claude/commands/emergency-plan.md
