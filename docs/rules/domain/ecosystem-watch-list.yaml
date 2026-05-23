@@ -1,0 +1,40 @@
+# Ecosystem watch list — SPEC-146
+# Consumed by skill: ecosystem-watcher
+# Cron: 0 9 1 * * (1st day of month, 09:00 UTC) via .github/workflows/ecosystem-watcher.yml
+
+repos:
+  - github: hesreallyhim/awesome-claude-code
+    interest: "nuevos plugins/agents/skills indexados"
+    high_signal_patterns: ["spec-kit", "skill-creator", "mcp-builder"]
+  - github: VoltAgent/awesome-agent-skills
+    interest: "catalog growth, top categorías nuevas"
+    high_signal_patterns: ["spec-driven", "verification-lattice", "decision-tree"]
+  - github: punkpeye/awesome-mcp-servers
+    interest: "nuevos servers con OAuth, filtrar los marcados SSRF"
+    high_signal_patterns: ["oauth", "dcr", "remote-mcp"]
+  - github: anthropics/skills
+    interest: "nuevos skills oficiales, releases periódicas"
+    high_signal_patterns: ["skill-creator", "mcp-builder", "webapp-testing"]
+  - github: github/spec-kit
+    interest: "nuevos commands /speckit.*, breaking changes"
+    high_signal_patterns: ["constitution", "specify", "implement", "checklist"]
+  - github: modelcontextprotocol/servers
+    interest: "reference servers actualizados"
+    high_signal_patterns: ["filesystem", "github", "git", "fetch"]
+  - github: sst/opencode
+    interest: "releases de OpenCode, breaking changes en hook events"
+    high_signal_patterns: ["plugin", "hook", "permission", "mcp"]
+
+docs:
+  - url: https://code.claude.com/docs/en/hooks
+    interest: "nuevos hook types y eventos"
+    slug: claude-code-hooks
+  - url: https://code.claude.com/docs/en/skills
+    interest: "cambios en spec de SKILL.md"
+    slug: claude-code-skills
+  - url: https://opencode.ai/docs/changelog
+    interest: "releases nuevos de OpenCode"
+    slug: opencode-changelog
+
+# Snapshot retention: keep last 12 months in .savia-memory/ecosystem-snapshots/
+retention_months: 12
