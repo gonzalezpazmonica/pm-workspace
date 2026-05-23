@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 4ea2c882a8cb | resources: 1169
-> 553 commands · 97 skills · 70 agents · 449 scripts
+> hash: 831da970484a | resources: 1171
+> 553 commands · 97 skills · 70 agents · 451 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -116,6 +116,7 @@
 [communication] savia-live — activity,live,queue,recent,right — cmd:.claude/commands/savia-live.md
 [communication] savia-memory — búsqueda,canónica,consolidación,escritura,externa — skill:.claude/skills/savia-memory/SKILL.md
 [communication] savia-memory-bootstrap — bootstrap,canónico,crea,externo,memory — script:scripts/savia-memory-bootstrap.sh
+[communication] savia-memory-mcp-stdio — memory,savia,spec,stdio,wrapper — script:scripts/savia-memory-mcp-stdio.sh
 [communication] savia-memory-migrate — canónico,externos,internos,memoria,memory — script:scripts/savia-memory-migrate.sh
 [communication] savia-messaging — creation,delivery,inbox,management,message — script:scripts/savia-messaging.sh
 [communication] savia-messaging-actions — actions,announce,broadcast,directory,messaging — script:scripts/savia-messaging-actions.sh
@@ -307,6 +308,7 @@
 [governance] audit-alert — acceso,alertas,alto,anómalos,automáticas — cmd:.claude/commands/audit-alert.md
 [governance] audit-all-bats — audit,auditor,bats,over,probe — script:scripts/audit-all-bats.sh
 [governance] audit-export — audit,auditorías,compliant,exportar,externas — cmd:.claude/commands/audit-export.md
+[governance] audit-mcp-templates — audit,spec,templates — script:scripts/audit-mcp-templates.sh
 [governance] audit-search — acción,audit,búsqueda,confianza,contextual — cmd:.claude/commands/audit-search.md
 [governance] audit-test-quality — audit,classifies,level,quality,scripts — script:scripts/audit-test-quality.sh
 [governance] audit-trail — acciones,archivos,comandos,cumplimiento,decisiones — cmd:.claude/commands/audit-trail.md
