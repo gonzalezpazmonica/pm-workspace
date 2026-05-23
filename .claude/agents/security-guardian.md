@@ -1,5 +1,6 @@
 ---
 name: security-guardian
+decision_tree: decision-trees/security-guardian-decisions.md
 permission_level: L4
 description: >
   Especialista en seguridad, confidencialidad y ciberseguridad. Audita los cambios

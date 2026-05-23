@@ -1,5 +1,6 @@
 ---
 name: architect
+decision_tree: decision-trees/architect-decisions.md
 permission_level: L1
 description: >
   Diseño de arquitectura .NET y decisiones técnicas de alto nivel. Usar PROACTIVELY cuando:
