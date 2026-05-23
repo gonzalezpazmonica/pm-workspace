@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 509 resources
+> 510 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -142,6 +142,7 @@
 - **dx-dashboard** (cmd): Dashboard DX con métricas automatizables de feedback loops, cognitive load y satisfacción
 - **dx-recommendations** (cmd): Análisis de friction points y recomendaciones para mejorar la experiencia del equipo
 - **dx-survey** (cmd): Genera encuesta DX Core 4 adaptada al equipo y procesa respuestas
+- **ecosystem-watcher** (skill): Watcher mensual de awesome-* repos y upstream tooling. Calcula deltas vs último snapshot y genera informe markdown con señales high/medium/low. Sin acciones automáticas — solo señalización para revisión humana.
 - **emergency-fallback** (script): emergency-fallback.sh — Operaciones PM sin LLM
 - **emergency-mode** (cmd): Gestionar el modo emergencia con LLM local cuando el proveedor cloud no está disponible
 - **emergency-plan** (cmd): Pre-descargar Ollama y modelo LLM en caché local para instalación offline
