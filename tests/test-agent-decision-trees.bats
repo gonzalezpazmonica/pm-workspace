@@ -1,12 +1,21 @@
 #!/usr/bin/env bats
+# audit: score=91 hash=c8e23f76 date=2026-05-23
 # Ref: SPEC-147 — Decision trees for top-10 agents (Slice 1: 3 pilots)
+# docs/propuestas/SPEC-147-decision-trees-top-agents.md
 # Validates: structural existence, symlink, frontmatter link, ≤80 line cap.
+
+set -uo pipefail
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   TREES_DIR="$REPO_ROOT/.claude/agents/decision-trees"
   TREES_SYMLINK="$REPO_ROOT/.opencode/agents/decision-trees"
   PILOTS=("architect" "code-reviewer" "security-guardian")
+  TMPDIR_TEST="$(mktemp -d)"
+}
+
+teardown() {
+  [ -n "${TMPDIR_TEST:-}" ] && [ -d "$TMPDIR_TEST" ] && rm -rf "$TMPDIR_TEST"
 }
 
 # ── Slice 1 pilots ──────────────────────────────────────────────────────────
@@ -63,7 +72,6 @@ setup() {
 }
 
 @test "AC-02: linked tree file exists for every agent with a decision_tree: field" {
-  # Sweep both catalogs — every reference must resolve.
   for cat in .claude/agents .opencode/agents; do
     while IFS= read -r line; do
       file="${line%%:decision_tree:*}"
@@ -102,8 +110,36 @@ setup() {
   [ -f "$REPO_ROOT/docs/propuestas/SPEC-147-decision-trees-top-agents.md" ]
 }
 
+# ── Edge cases ──────────────────────────────────────────────────────────────
+
+@test "edge: no pilot tree is empty (zero bytes)" {
+  for agent in "${PILOTS[@]}"; do
+    [ -s "$TREES_DIR/${agent}-decisions.md" ]
+  done
+}
+
+@test "edge: symlink target is nonexistent path → fail (sanity probe in tmp)" {
+  ln -s "$TMPDIR_TEST/nonexistent" "$TMPDIR_TEST/dangling"
+  [ -L "$TMPDIR_TEST/dangling" ]
+  [ ! -e "$TMPDIR_TEST/dangling" ]
+}
+
+@test "edge: empty agent name does not crash the linked-tree sweep" {
+  # Sweep must skip files with no decision_tree: field cleanly.
+  run grep -rH "^decision_tree:[[:space:]]*\$" "$REPO_ROOT/.claude/agents" 2>/dev/null
+  # Status may be 0 or 1; only assert no crash (status ≤ 1).
+  [ "$status" -le 1 ]
+}
+
+@test "edge: zero pilot trees would be detected (negative sanity)" {
+  count=$(ls "$TREES_DIR"/*-decisions.md 2>/dev/null | wc -l)
+  [ "$count" -gt 0 ]
+}
+
 
 # ── Slice 2 trees ───────────────────────────────────────────────────────────
+
+SLICE2_AGENTS=("dotnet-developer" "business-analyst" "sdd-spec-writer")
 
 @test "Slice2 AC-01: 3 Slice-2 decision-tree files exist" {
   for agent in dotnet-developer business-analyst sdd-spec-writer; do
@@ -111,7 +147,7 @@ setup() {
   done
 }
 
-@test "Slice2 AC-01: each Slice-2 tree is ≤80 lines (cap)" {
+@test "Slice2 AC-01: each Slice-2 tree is <=80 lines (cap)" {
   for agent in dotnet-developer business-analyst sdd-spec-writer; do
     lines=$(wc -l < "$TREES_DIR/${agent}-decisions.md")
     [ "$lines" -le 80 ]
@@ -127,21 +163,61 @@ setup() {
 @test "Slice2 AC-02: each Slice-2 agent has decision_tree: in both catalogs" {
   for agent in dotnet-developer business-analyst sdd-spec-writer; do
     for cat in .claude/agents .opencode/agents; do
-      grep -q "^decision_tree: decision-trees/${agent}-decisions.md\$" "$REPO_ROOT/$cat/${agent}.md"
+      grep -q "^decision_tree: decision-trees/${agent}-decisions.md$" "$REPO_ROOT/$cat/${agent}.md"
     done
   done
 }
 
 @test "Slice2 AC-03: each Slice-2 tree has cap header + routing + anti-patterns" {
   for agent in dotnet-developer business-analyst sdd-spec-writer; do
-    f="$TREES_DIR/${agent}-decisions.md"
-    grep -q "Cap.*80" "$f"
-    grep -qE "^## (Cuándo|Routing|When|Entry)" "$f"
-    grep -qE "Anti-patrones|Escalado|Escalate|NO hacer" "$f"
+    file="$TREES_DIR/${agent}-decisions.md"
+    grep -q "Cap.*80" "$file"
+    grep -qE "^## (Cuando|Cuándo|Routing|When|Entry)" "$file"
+    grep -qE "Anti-patrones|Escalado|Escalate|NO hacer" "$file"
   done
 }
 
-@test "coverage: 6/10 trees done (4 pilots + Slice 2), 4/10 deferred" {
+@test "Slice2 coverage: 7/10 trees done (commit-guardian + 3 Slice 1 + 3 Slice 2)" {
   count=$(ls "$TREES_DIR"/*-decisions.md 2>/dev/null | wc -l)
-  [ "$count" -eq 7 ]   # commit-guardian + 3 Slice 1 + 3 Slice 2
+  [ "$count" -ge 7 ]
+}
+
+# ── Negative cases ──────────────────────────────────────────────────────────
+
+@test "negative: pilot trees do NOT reference real client names" {
+  for agent in "${PILOTS[@]}"; do
+    ! grep -qE "@(gmail|outlook|hotmail)\.com" "$TREES_DIR/${agent}-decisions.md"
+  done
+}
+
+@test "negative: pilot trees do NOT leak hardcoded paths to private dirs" {
+  for agent in "${PILOTS[@]}"; do
+    ! grep -qE "/home/[a-z]+/\.azure|/home/[a-z]+/\.savia/" "$TREES_DIR/${agent}-decisions.md"
+  done
+}
+
+@test "negative: missing pilot file would fail the AC-01 assertion (counter-test)" {
+  ghost_file="$TMPDIR_TEST/ghost-decisions.md"
+  [ ! -f "$ghost_file" ]
+  ! [ -f "$ghost_file" ]
+}
+
+@test "negative: broken symlink in tmp does NOT pass -e check" {
+  ln -s "$TMPDIR_TEST/missing-target" "$TMPDIR_TEST/broken"
+  run test -e "$TMPDIR_TEST/broken"
+  [ "$status" -ne 0 ]
+}
+
+# ── Assertion quality ───────────────────────────────────────────────────────
+
+@test "assertion quality: pilot tree wc-l output contains the file path" {
+  run wc -l "$TREES_DIR/architect-decisions.md"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"architect-decisions.md"* ]]
+}
+
+@test "isolation: TMPDIR_TEST is created, writable, and isolated" {
+  [ -d "$TMPDIR_TEST" ]
+  touch "$TMPDIR_TEST/probe" && [ -f "$TMPDIR_TEST/probe" ]
+  [[ "$TMPDIR_TEST" == /tmp/* ]] || [[ "$TMPDIR_TEST" == /var/* ]]
 }

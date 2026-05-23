@@ -76,6 +76,8 @@ Sprints, burndown, capacity, dailies, retros, KPIs. Informes en Excel y PowerPoi
 ### Desarrollo con specs ejecutables (SDD)
 Las tasks se convierten en specs. Los agentes implementan en 16 lenguajes (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) en worktrees aislados. Code review automático + revisión humana obligatoria.
 
+**Compatible con `github/spec-kit`**: los slash commands `/speckit.constitution`, `/speckit.specify`, `/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.analyze`, `/speckit.implement` y `/speckit.checklist` son aliases delgados que delegan en el flujo SDD nativo de Savia. Ver `docs/agent-teams-sdd.md`.
+
 ### Seguridad y Code Review Court
 SAST contra OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dinámico, SBOM, compliance en 12 sectores. Savia Shield: clasificación local de datos con LLM on-premise, masking reversible, firma criptográfica de PRs. **Code Review Court**: 5 jueces especializados (correctness, architecture, security, cognitive, spec) revisan en paralelo con scoring 0-100 y gate de 400 LOC.
 
@@ -116,7 +118,7 @@ Sprint nocturno, mejora de código, investigación técnica. Los agentes propone
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 532 comandos
-│   ├── agents/         ← 65 agentes especializados
+│   ├── agents/         ← 65 agentes especializados (4 con decision trees: SPEC-147)
 │   ├── skills/         ← 86 skills de dominio
 │   ├── hooks/          ← 58 hooks deterministas
 │   └── rules/          ← reglas de contexto y lenguaje

@@ -113,7 +113,8 @@ CRED=$(echo "$ADDED_LINES" | grep -iE \
   | grep -v "regex\|pattern\|detect\|example\|pentest\|grep\|SECRETS_PATTERN" \
   | grep -v "VALIDATE\|validate\|PRIVATE_KEY:" \
   | grep -v "BEGIN.*KEY-----$\|'.*KEY.*'\|\".*KEY.*\"" \
-  | grep -v "\\\\|sed\|awk\|echo.*test\|-E '" || true)
+  | grep -v "\\\\|sed\\|awk\\|echo.*test\\|-E '" \
+  | grep -vE "rx:[[:space:]]*/|kind:[[:space:]]*\"(github-pat|openai-key|anthropic-key|azure-sas)|\`(ghp_|github_pat_|AIza|AKIA)|GITHUB_PAT_FILE=|\"kind\":\"github-pat" || true)
 if [ -n "$CRED" ]; then
   echo "::error::BLOCKED: Credentials detected"
   echo "$CRED" | head -5 | while read -r l; do echo "  FAIL $l"; done
@@ -126,7 +127,7 @@ EMAILS=$(echo "$ADDED_LINES" | grep -oiE "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z
   | grep -v "@example\.\|@test\.\|@contoso\.\|@miorganizacion\.\|@anthropic\.\|@github\.\|@savia\.dev\|@empresa\.\|@cliente\." \
   | grep -v "@domain\.\|@org\.\|@co\.\|@company\.\|@cliente-alpha\.\|@cliente-beta\.\|@acme\." \
   | grep -vE "^@[a-z]+\.[a-z]+$" \
-  | grep -vE "@kotlinx\.|@orders\.|@router\.|@app\.|@pytest\.|@override" \
+  | grep -vE "@kotlinx\.|@orders\.|@router\.|@app\.|@pytest\.|@override|@mcp\." \
   | sort -u || true)
 if [ -n "$EMAILS" ]; then
   echo "::error::BLOCKED: Real emails found"

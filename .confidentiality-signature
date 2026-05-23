@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=903274c8e55beeca5b785a309e337a02b45cc1c9ffc7c0b5d15f479cdbce6dc3
-timestamp=2026-05-23T07:10:07Z
-branch=feat/savia-evolution-2026-q2q3-specs
-head_commit=348c8514
-signature=c61037da66e1597b3d4b1fe5bf160b7ca0b0b50f0f8a74bd1f43222e9fae7d83
+diff_hash=8dcd1441dcdc9a82e33b9cde53a46fec29ebf60cfc1669a3fac2914ac9e1537c
+timestamp=2026-05-23T20:20:36Z
+branch=pr-772
+head_commit=de369683
+signature=d39f906c0bd83238b4950a4a6825ee08af758436523a082dff0d4e4ec0871f4e

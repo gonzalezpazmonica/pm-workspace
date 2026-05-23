@@ -1,6 +1,6 @@
 {
-  "hash": "bb381d1f3c1f",
-  "total": 1160,
+  "hash": "093f8e925902",
+  "total": 1171,
   "resources": [
     {
       "category": "analysis",
@@ -1419,6 +1419,20 @@
     },
     {
       "category": "communication",
+      "name": "savia-memory-mcp-stdio",
+      "intents": [
+        "memory",
+        "savia",
+        "spec",
+        "stdio",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-memory-mcp-stdio.sh",
+      "description": "SPEC-141 · savia-memory MCP stdio wrapper"
+    },
+    {
+      "category": "communication",
       "name": "savia-memory-migrate",
       "intents": [
         "canónico",
@@ -1880,6 +1894,104 @@
       "kind": "cmd",
       "path": ".claude/commands/a11y-monitor.md",
       "description": "Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y."
+    },
+    {
+      "category": "development",
+      "name": "/speckit.checklist",
+      "intents": [
+        "alias",
+        "calidad",
+        "capa",
+        "compatible",
+        "final"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/speckit.checklist.md",
+      "description": "Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit."
+    },
+    {
+      "category": "development",
+      "name": "/speckit.clarify",
+      "intents": [
+        "alias",
+        "ambigüedad",
+        "cerrar",
+        "compatible",
+        "conductor"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/speckit.clarify.md",
+      "description": "Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit."
+    },
+    {
+      "category": "development",
+      "name": "/speckit.constitution",
+      "intents": [
+        "alias",
+        "args",
+        "compatible",
+        "constituir",
+        "constitution"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/speckit.constitution.md",
+      "description": "Alias spec-kit compatible. Declara los principios inmutables de un proyecto (constitution). Invoca skill savia-identity con args para constituir un proyecto. Compatible con github/spec-kit (>100k stars)."
+    },
+    {
+      "category": "development",
+      "name": "/speckit.implement",
+      "intents": [
+        "alias",
+        "aprobada",
+        "compatible",
+        "github",
+        "implementación"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/speckit.implement.md",
+      "description": "Alias spec-kit compatible. Implementación supervisada de una spec aprobada. Invoca dev-orchestrator. Compatible con github/spec-kit."
+    },
+    {
+      "category": "development",
+      "name": "/speckit.plan",
+      "intents": [
+        "alias",
+        "capturada",
+        "compatible",
+        "development",
+        "diseño"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/speckit.plan.md",
+      "description": "Alias spec-kit compatible. Diseño técnico de una spec ya capturada. Invoca skill spec-driven-development sección Plan. Compatible con github/spec-kit."
+    },
+    {
+      "category": "development",
+      "name": "/speckit.specify",
+      "intents": [
+        "alias",
+        "captura",
+        "compatible",
+        "discovery",
+        "github"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/speckit.specify.md",
+      "description": "Alias spec-kit compatible. Captura el what inicial de una spec (JTBD + PRD). Invoca skill product-discovery de Savia. Compatible con github/spec-kit."
+    },
+    {
+      "category": "development",
+      "name": "/speckit.tasks",
+      "intents": [
+        "accionables",
+        "alias",
+        "compatible",
+        "decomposition",
+        "descomposición"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/speckit.tasks.md",
+      "description": "Alias spec-kit compatible. Descomposición de spec en tasks accionables. Invoca skill pbi-decomposition. Compatible con github/spec-kit."
     },
     {
       "category": "development",
@@ -3840,6 +3952,18 @@
       "kind": "cmd",
       "path": ".claude/commands/audit-export.md",
       "description": "Exportar audit trail en JSON/CSV/PDF para auditorías externas. ISO 42001 & NIST AI RMF compliant."
+    },
+    {
+      "category": "governance",
+      "name": "audit-mcp-templates",
+      "intents": [
+        "audit",
+        "spec",
+        "templates"
+      ],
+      "kind": "script",
+      "path": "scripts/audit-mcp-templates.sh",
+      "description": "SPEC-141 · audit-mcp-templates.sh"
     },
     {
       "category": "governance",
@@ -7265,6 +7389,20 @@
       "kind": "cmd",
       "path": ".claude/commands/dx-survey.md",
       "description": "Genera encuesta DX Core 4 adaptada al equipo y procesa respuestas"
+    },
+    {
+      "category": "planning",
+      "name": "ecosystem-watcher",
+      "intents": [
+        "acciones",
+        "automáticas",
+        "awesome",
+        "calcula",
+        "deltas"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/ecosystem-watcher/SKILL.md",
+      "description": "Watcher mensual de awesome-* repos y upstream tooling. Calcula deltas vs último snapshot y genera informe markdown con señales high/medium/low. Sin acciones automáticas — solo señalización para revisión humana."
     },
     {
       "category": "planning",
@@ -11937,6 +12075,20 @@
       "kind": "cmd",
       "path": ".claude/commands/drift-check.md",
       "description": "Audita reglas CLAUDE.md vs. estado real del repo. Detecta divergencias, archivos huérfanos, tests faltantes y patrones de PII."
+    },
+    {
+      "category": "quality",
+      "name": "/speckit.analyze",
+      "intents": [
+        "alias",
+        "compatible",
+        "consensus",
+        "cruzado",
+        "github"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/speckit.analyze.md",
+      "description": "Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit."
     },
     {
       "category": "quality",

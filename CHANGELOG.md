@@ -14,6 +14,12 @@ outside the fork are included. Branch:
 `feat/incorporate-savia-evolution`.
 
 ### Added
+- **SPEC-144**: `/speckit.*` slash command aliases for cross-tool
+  compatibility with `github/spec-kit`. New thin redirector commands
+  (`/speckit.specify`, `/speckit.plan`, `/speckit.tasks`,
+  `/speckit.implement`, `/speckit.constitution`, `/speckit.clarify`,
+  `/speckit.analyze`, `/speckit.checklist`) routing to existing Savia
+  SDD flow. Zero behaviour change, additive only.
 - `scripts/savia-env.sh`: `_resolve_project_slug()` (auto-detect via env,
   branch prefix, or single subdir under `projects/`), `_savia_load_dotenv()`
   (workspace `.env` loader with parent-env precedence) and

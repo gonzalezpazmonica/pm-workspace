@@ -1,0 +1,18 @@
+// SPEC-141 · slack MCP template (opcional)
+{
+  "mcp": {
+    "slack": {
+      "type": "remote",
+      "url": "https://mcp.slack.com/sse",
+      "oauth": true,
+      "_savia_meta": {
+        "scope": "read:messages",
+        "auth": "oauth",
+        "rotation_days": 30,
+        "trigger": "leer canales para connectors",
+        "token_budget": "medium",
+        "bluerock_audit": "passed 2026-05-23 - OAuth, official Slack endpoint"
+      }
+    }
+  }
+}

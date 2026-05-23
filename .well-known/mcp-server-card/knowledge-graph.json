@@ -1,0 +1,16 @@
+{
+  "name": "knowledge-graph",
+  "version": "0.1.0-draft",
+  "description": "Savia knowledge graph query/traverse as MCP stdio server",
+  "vendor": "savia",
+  "protocol_version": "2024-11-05",
+  "transport": "stdio",
+  "tools": [
+    {"name": "kg_query", "description": "Query entities and relations"},
+    {"name": "kg_traverse", "description": "Traverse graph from entity"},
+    {"name": "kg_neighbors", "description": "Return neighbors of entity"}
+  ],
+  "auth": {"required": false},
+  "spec": "SPEC-141",
+  "license": "MIT"
+}

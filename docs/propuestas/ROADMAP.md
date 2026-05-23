@@ -65,8 +65,8 @@ PRs Draft abiertos esta sesión (overnight 2026-05-23). Bloquean nuevos slices d
 | #768 | SPEC-141 (Slices 1-4) | Draft IMPLEMENTED | Review + merge |
 | #769 | SPEC-145 | Draft IMPLEMENTED, vendoring | Review (33 files +9327L) + merge |
 | #770 | SPEC-142 (Slices 1+2) | Draft IMPLEMENTED | Review + merge |
-| #771 | SPEC-147 Slice 1 | Draft IN_PROGRESS (3 trees + symlink) | Review + merge |
-| #772 | SPEC-147 Slice 2 | Draft IN_PROGRESS, **stacked sobre #771** | Merge order: #771 → #772 |
+| #771 | SPEC-147 Slice 1 | MERGED 2026-05-23 (3 trees + symlink) | done |
+| #772 | SPEC-147 Slice 2 | IN REVIEW (3 more trees, post-#771 rebase) | merge after CI |
 
 Orden de review recomendado por riesgo creciente: **#767 → #766 → #769 → #768 → #770 → #771 → #772 → #765**.
 

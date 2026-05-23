@@ -1,0 +1,18 @@
+// SPEC-141 · sentry MCP template
+{
+  "mcp": {
+    "sentry": {
+      "type": "remote",
+      "url": "https://mcp.sentry.dev/sse",
+      "oauth": true,
+      "_savia_meta": {
+        "scope": "read:issues",
+        "auth": "oauth",
+        "rotation_days": 30,
+        "trigger": "ingesta de bugs reportados a Sentry",
+        "token_budget": "low",
+        "bluerock_audit": "passed 2026-05-23 - official Sentry endpoint, OAuth"
+      }
+    }
+  }
+}

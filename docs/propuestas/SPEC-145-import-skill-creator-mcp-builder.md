@@ -84,6 +84,28 @@ docs/rules/domain/
 - [ ] AC-05: Doc `skill-authoring.md` explica cuándo usar skill-creator vs prompt-optimizer.
 - [ ] AC-06: `anthropics/skills` añadido al watcher (SPEC-146).
 
+## Implementation Note (2026-05-23)
+
+**Decision**: vendored under `external/anthropic-skills/` instead of
+`.claude/skills/`. Upstream SKILL.md files exceed Rule #11 (150-line cap):
+`skill-creator/SKILL.md` is 485 lines by design. Importing them into
+`.claude/skills/` would either violate Rule #11 or require structural
+surgery that defeats the point of vendoring.
+
+`external/` is a new top-level directory governed by `external/README.md`.
+It is invisible to workspace auditors (agents catalog, skills index,
+drift-check). Each package carries upstream LICENSE.txt verbatim plus a
+`PROVENANCE.md` (SHA, date, URL).
+
+**Imported**:
+- `external/anthropic-skills/skill-creator/` (Apache-2.0)
+- `external/anthropic-skills/mcp-builder/` (Apache-2.0)
+
+**Tests**: `tests/test-anthropic-skills-import.bats` (8/8 PASS).
+
+**Follow-up**: `scripts/anthropic-skills-sync.sh` for re-sync. Not shipped
+in this slice; manual sync documented in `external/README.md`.
+
 ## Agent Assignment
 
 - **Capa**: Infrastructure (tooling)
