@@ -1,7 +1,14 @@
 # development — Savia Capability Map (L1)
-> 142 resources
+> 149 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
+- **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
+- **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
+- **/speckit.constitution** (cmd): Alias spec-kit compatible. Declara los principios inmutables de un proyecto (constitution). Invoca skill savia-identity con args para constituir un proyecto. Compatible con github/spec-kit (>100k stars).
+- **/speckit.implement** (cmd): Alias spec-kit compatible. Implementación supervisada de una spec aprobada. Invoca dev-orchestrator. Compatible con github/spec-kit.
+- **/speckit.plan** (cmd): Alias spec-kit compatible. Diseño técnico de una spec ya capturada. Invoca skill spec-driven-development sección Plan. Compatible con github/spec-kit.
+- **/speckit.specify** (cmd): Alias spec-kit compatible. Captura el what inicial de una spec (JTBD + PRD). Invoca skill product-discovery de Savia. Compatible con github/spec-kit.
+- **/speckit.tasks** (cmd): Alias spec-kit compatible. Descomposición de spec en tasks accionables. Invoca skill pbi-decomposition. Compatible con github/spec-kit.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
 - **agents-opencode-convert** (script): agents-opencode-convert.sh — SPEC-127 Slice 2b-ii (final migration prep)
 - **arch-compare** (cmd): Comparar dos patrones de arquitectura para toma de decisiones

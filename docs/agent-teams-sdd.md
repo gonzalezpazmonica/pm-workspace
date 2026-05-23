@@ -112,3 +112,22 @@ Validación: `tests/spec-template-compliance.bats` verifica que el template mant
 - No nested teams (teammates no pueden crear sub-teams)
 - Split panes requiere tmux o iTerm2
 - El lead es fijo durante toda la sesión
+
+## Tabla canónica spec-kit ↔ Savia (slash commands)
+
+Savia expone aliases compatibles con `github/spec-kit` para reducir fricción de adopción.
+Cada alias es una redirección delgada al skill/agente Savia equivalente — cero lógica duplicada.
+
+| Comando spec-kit (Savia alias) | Skill/Agente Savia destino | Output esperado |
+|---|---|---|
+| `/speckit.constitution` | skill `savia-identity` + `docs/rules/domain/project-onboarding.md` | `projects/{active}/CONSTITUTION.md` |
+| `/speckit.specify $args` | skill `product-discovery` | `output/specs/draft-{slug}-{date}.md` |
+| `/speckit.clarify $args` | skill `context-interview-conductor` | Bloque "Aclaraciones" anexado a la spec |
+| `/speckit.plan $args` | skill `spec-driven-development` (sección Plan) | Spec ampliada con Design / AC / Slicing |
+| `/speckit.tasks $args` | skill `pbi-decomposition` | Lista de Tasks ≤8h con AC atómico |
+| `/speckit.analyze $args` | skill `consensus-validation` | Veredicto APPROVED / NEEDS_FIXES / BLOCKED |
+| `/speckit.implement $args` | agente `dev-orchestrator` + flujo SDD multi-agente | PRs Draft por slice con AUTONOMOUS_REVIEWER |
+| `/speckit.checklist $args` | skill `verification-lattice` | `output/checklist-{spec_id}-{date}.md` |
+
+Fuente: `.claude/commands/speckit.*.md` (8 ficheros, redirecciones puras).
+Tests: `tests/test-speckit-aliases.bats`.
