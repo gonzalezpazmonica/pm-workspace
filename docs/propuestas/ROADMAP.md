@@ -5,8 +5,8 @@ status: LIVING
 author: Savia (autoselección + consolidación)
 origin: Consolidación de SAVIA-SUPERPOWERS-ROADMAP.md + ROADMAP-UNIFIED-20260418.md + savia-enterprise/DEVELOPMENT-PLAN.md + debt specs SE-036..039
 supersedes: SAVIA-SUPERPOWERS-ROADMAP.md, ROADMAP-UNIFIED-20260418.md (partial)
-last_updated: "2026-04-30"
-expires: "2026-06-30"
+last_updated: "2026-05-23"
+expires: "2026-08-30"
 ---
 
 # Savia Roadmap — Canonical
@@ -152,6 +152,47 @@ Pattern: cuando SE-XXX refina un SPEC-YYY anterior con Spec Ops (Feasibility Pro
 ### Tier 7 — Backlog frío
 
 111 specs sin frontmatter YAML migrarán via SE-036 Slices 2/3. Tras migración, se reclasifican automáticamente por status.
+
+---
+
+### Tier 8 — Q2/Q3 2026: Cross-Tool & Agentic Hardening
+
+Conjunto de 13 specs PROPOSED derivados de la investigación 2026-05-23 (`output/research-tendencias-workspaces-agentes-2026-20260523.md` + investigación complementaria sobre paridad OpenCode). Todos opencode-native: usan `opencode.jsonc`, plugins TS en `.opencode/plugin/`, events nativos OpenCode (`tool.execute.before`, `event`, `chat.message`), `mcp` block en lugar de `.claude/mcp.json`. Skill `tech-research-agent` produjo el informe base; skill `web-research` validó paridad OpenCode (issues opencode/anomalyco #12472, #20387, #21075, #8058).
+
+**Bucket Q2 (S, low-risk, high-confidence — ~1 sprint)**:
+
+| # | Spec | Tema | Esfuerzo |
+|---|---|---|---|
+| 8.1 | SPEC-128 | MCP Curated Catalog (opencode.jsonc mcp block, OAuth DCR, Server Cards) | S (6h) |
+| 8.2 | SPEC-129 | Plugin `tool.execute.before` para auto-redaction de secrets (TS, mutación args) | S (5h) |
+| 8.3 | SPEC-130 | Conformidad SKILL.md con Agent Skills 1.0 (auditoría 96 skills) | S (8h) |
+| 8.4 | SPEC-131 | `/speckit.*` slash command aliases (compatibilidad spec-kit) | S (4h) |
+| 8.5 | SPEC-132 | Import anthropics/skill-creator + mcp-builder | S (3h) |
+| 8.6 | SPEC-133 | Watcher mensual de awesome-* repos | S (4h) |
+| 8.7 | SPEC-134 | Decision trees para top-10 agentes (1/10 → 10/10) | M (10h) |
+| 8.8 | SPEC-135 | SKILL.md progressive disclosure split (skills >500 líneas) | S (6h) |
+
+**Bucket Q3 (M-L, architectural — requieren SPEC Slice 1 probes)**:
+
+| # | Spec | Tema | Esfuerzo |
+|---|---|---|---|
+| 8.9 | SPEC-136 | Sandbox OS-level via plugin `opencode-sandbox` + permission block + Docker doble capa | M (20h) |
+| 8.10 | SPEC-137 | Hooks multi-handler — plugin TS para LLM judges + MCP audit + HTTP via fetch | L (24h) |
+| 8.11 | SPEC-138 | Evals CI gate (DeepEval + Promptfoo, paired-delta sobre baseline frozen, judge pinned) | L (24h) |
+| 8.12 | SPEC-139 | Delegación jerárquica — feature leads en lugar de fan-out plano | M (18h) |
+| 8.13 | SPEC-140 | Memory bi-temporal + consolidación episodic→semantic + multi-signal retrieval | L (22h) |
+
+**Dependencias intra-bucket**:
+- SPEC-130 ← SPEC-135 (audit detecta candidatos al split)
+- SPEC-128 ← SPEC-137 (MCP catalog habilita audit via mcp_tool)
+- SPEC-134 ← SPEC-139 (feature leads necesitan decision trees)
+- SPEC-138 ← SPEC-137 (los plugins TS LLM judges necesitan evals)
+- SPEC-128 ← SPEC-132 (mcp-builder produce plantillas del catálogo)
+
+**Filtros aplicados durante la redacción** (auditable):
+- Paridad OpenCode verificada para cada feature (research 2026-05-23 — sub-agent web-research).
+- Skip explícito de patterns Claude-Code-only sin equivalente OpenCode (eg. plugin marketplace declarativo).
+- Cero referencias a forks privados o información confidencial; los specs son publicables.
 
 ---
 
