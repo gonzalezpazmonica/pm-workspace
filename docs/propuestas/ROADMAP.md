@@ -169,7 +169,7 @@ Conjunto de 13 specs PROPOSED derivados de la investigación 2026-05-23 (`output
 | 8.4 | SPEC-144 | `/speckit.*` slash command aliases (compatibilidad spec-kit) — **IMPLEMENTED 2026-05-23** | S (4h) |
 | 8.5 | SPEC-145 | Import anthropics/skill-creator + mcp-builder — **IMPLEMENTED 2026-05-23** (external/anthropic-skills/) | S (3h) |
 | 8.6 | SPEC-146 | Watcher mensual de awesome-* repos — **IMPLEMENTED 2026-05-23** | S (4h) |
-| 8.7 | SPEC-147 | Decision trees para top-10 agentes (1/10 → 10/10) | M (10h) |
+| 8.7 | SPEC-147 | Decision trees para top-10 agentes (1/10 → 10/10) — 🟡 IN_PROGRESS 2026-05-23 (Slice 1: 4/10 trees) | M (10h) |
 | 8.8 | ~~SPEC-148~~ | ~~SKILL.md progressive disclosure split~~ — **REJECTED 2026-05-23** (sin caso real, depende de SPEC-143) | — |
 
 **Bucket Q3 (M-L, architectural — requieren SPEC Slice 1 probes)**:
