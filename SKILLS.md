@@ -49,6 +49,7 @@ To use a skill: read `<path>` and follow its instructions.
 | diagram-generation | `.opencode/skills/diagram-generation/SKILL.md` | Generar diagramas de arquitectura y flujo desde infraestructura y código |
 | diagram-import | `.opencode/skills/diagram-import/SKILL.md` | Importar diagramas, extraer entidades y generar Features/PBIs |
 | doc-quality-feedback | `.opencode/skills/doc-quality-feedback/SKILL.md` | — |
+| ecosystem-watcher | `.opencode/skills/ecosystem-watcher/SKILL.md` | Watcher mensual de awesome-* repos y upstream tooling. Calcula deltas vs último snapshot y gener... |
 | emergency-mode | `.opencode/skills/emergency-mode/SKILL.md` | Switchover de Savia a LocalAI cuando la API de Anthropic está caída. Activa endpoint local comp... |
 | enterprise-analytics | `.opencode/skills/enterprise-analytics/SKILL.md` | Enterprise analytics — SPACE metrics, portfolio aggregation, team health, risk matrix, forecasting |
 | enterprise-onboarding | `.opencode/skills/enterprise-onboarding/SKILL.md` | Enterprise onboarding at scale — batch import, per-role checklists, progress tracking, knowledg... |
