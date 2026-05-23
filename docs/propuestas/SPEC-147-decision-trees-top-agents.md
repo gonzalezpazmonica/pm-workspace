@@ -1,5 +1,5 @@
 ---
-spec_id: SPEC-134
+spec_id: SPEC-147
 title: Decision trees para los 10 agentes top — completar de 1/10 a 10/10
 status: PROPOSED
 origin: Investigación 2026-05-23 (P13). En `.claude/agents/decision-trees/` solo existe `commit-guardian-decisions.md`. La investigación de marzo 2026 proponía 10 agentes. Quedan 9.
@@ -12,7 +12,7 @@ related_specs:
   - investigacion-ecosistema-claude-code-2026.md (research previo)
 ---
 
-# SPEC-134 — Decision Trees para Top-10 Agentes
+# SPEC-147 — Decision Trees para Top-10 Agentes
 
 ## Why
 

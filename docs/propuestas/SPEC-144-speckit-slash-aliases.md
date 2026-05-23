@@ -1,5 +1,5 @@
 ---
-spec_id: SPEC-131
+spec_id: SPEC-144
 title: /speckit.* slash command aliases — compatibilidad cross-tool con github/spec-kit
 status: PROPOSED
 origin: Investigación 2026-05-23 (P6). github/spec-kit (>100k stars, MIT) es estándar de facto para SDD. SPEC-120 ya alineó el template; faltan los slash commands para que cualquiera que conozca spec-kit pueda usar Savia sin re-aprender.
@@ -12,7 +12,7 @@ related_specs:
   - SPEC-120 (spec-kit template alignment — IMPLEMENTED 2026-04-24; este spec completa la cara externa)
 ---
 
-# SPEC-131 — /speckit.* Slash Command Aliases
+# SPEC-144 — /speckit.* Slash Command Aliases
 
 ## Why
 
@@ -133,5 +133,5 @@ No requiere — son aliases puros. Si en Slice 1 alguna skill destino no acepta 
 
 ## Riesgos
 
-- **Drift con spec-kit upstream**: si spec-kit renombra/elimina un comando, los aliases quedan dangling. Mitigación — watcher mensual SPEC-133 vigila releases de github/spec-kit.
+- **Drift con spec-kit upstream**: si spec-kit renombra/elimina un comando, los aliases quedan dangling. Mitigación — watcher mensual SPEC-146 vigila releases de github/spec-kit.
 - **Confusión con SDD propio**: alguien podría pensar que `/speckit.*` y skills nativas son sistemas distintos. Mitigación — banner explícito en cada alias y tabla canónica en docs.

@@ -1,5 +1,5 @@
 ---
-spec_id: SPEC-133
+spec_id: SPEC-146
 title: Watcher mensual de awesome-* repos y upstream tooling (skill-creator, spec-kit, MCP servers)
 status: PROPOSED
 origin: Investigación 2026-05-23 (P10). El ecosistema (Claude Code, OpenCode, MCP, awesome-claude-code, awesome-agent-skills, awesome-mcp-servers) cambia semanalmente. Sin watcher, Savia re-pide investigación manual cada 3 meses.
@@ -9,13 +9,13 @@ priority: P10 — automatiza inteligencia competitiva.
 confidence: alta
 bucket: Q2 2026
 related_specs:
-  - SPEC-128 (MCP catalog — el watcher recomienda nuevos servers)
-  - SPEC-130 (SKILL.md conformance — el watcher detecta cambios en la spec)
-  - SPEC-131 (speckit aliases — el watcher detecta nuevos commands)
-  - SPEC-132 (skill-creator/mcp-builder — el watcher detecta updates)
+  - SPEC-141 (MCP catalog — el watcher recomienda nuevos servers)
+  - SPEC-143 (SKILL.md conformance — el watcher detecta cambios en la spec)
+  - SPEC-144 (speckit aliases — el watcher detecta nuevos commands)
+  - SPEC-145 (skill-creator/mcp-builder — el watcher detecta updates)
 ---
 
-# SPEC-133 — Awesome Repos Monthly Watcher
+# SPEC-146 — Awesome Repos Monthly Watcher
 
 ## Why
 

@@ -1,5 +1,5 @@
 ---
-spec_id: SPEC-139
+spec_id: SPEC-152
 title: Delegación jerárquica en orquestadores — feature leads en lugar de fan-out plano
 status: PROPOSED
 origin: Investigación 2026-05-23 (P8 + paper arXiv 2509.08646 "Architecting Resilient LLM Agents"). El patrón "Hierarchical Teams + Plan-and-Execute orchestrator + ReAct workers" es el consenso production 2026. Savia hoy hace orquestación plana (dev-orchestrator reparte directo a developers).
@@ -9,11 +9,11 @@ priority: P8 — escala con catálogo de 70 agentes.
 confidence: media — patrón establecido, implementación a probar.
 bucket: Q3 2026
 related_specs:
-  - SPEC-134 (Decision trees — los feature leads necesitan árbol claro)
-  - SPEC-138 (Evals CI — medir si la delegación degrada outcomes)
+  - SPEC-147 (Decision trees — los feature leads necesitan árbol claro)
+  - SPEC-151 (Evals CI — medir si la delegación degrada outcomes)
 ---
 
-# SPEC-139 — Delegación jerárquica de orquestadores
+# SPEC-152 — Delegación jerárquica de orquestadores
 
 ## Why
 
@@ -53,7 +53,7 @@ Beneficios esperados:
 4. **Contrato de feature lead**:
    - Recibe: brief estructurado (objetivo, scope, dependencies, deadline).
    - Devuelve: resultado consolidado (resultados, riesgos, próximos pasos).
-   - Tiene su decision tree (depende de SPEC-134).
+   - Tiene su decision tree (depende de SPEC-147).
    - Permission level L2-L3.
 
 5. **Backward compatibility**: el orchestrator todavía puede invocar a un developer específico si el caller lo pide explícito (`agent: dotnet-developer`). El default cambia a "via lead".
@@ -62,7 +62,7 @@ Beneficios esperados:
 
 ### No funcional
 
-- Cada feature lead ≤200 líneas de body (Skills 1.0 / SPEC-130).
+- Cada feature lead ≤200 líneas de body (Skills 1.0 / SPEC-143).
 - Hand-off entre orchestrator → lead → developer documentado con `agent-notes-protocol.md`.
 - Audit trail del hand-off en `output/orchestrator-runs/`.
 
@@ -115,7 +115,7 @@ flowchart TD
 - [ ] AC-01: 4 feature leads (backend/frontend/infra/qa) + 2 panel leads creados con SKILL.md conformes.
 - [ ] AC-02: `dev-orchestrator` body actualizado: no enumera developers individuales, solo leads.
 - [ ] AC-03: `court-orchestrator` análogo.
-- [ ] AC-04: Cada lead tiene decision tree (SPEC-134 dependency).
+- [ ] AC-04: Cada lead tiene decision tree (SPEC-147 dependency).
 - [ ] AC-05: Métrica en 10 PBIs reales. Definiciones explícitas:
   - **Contexto del orchestrator** = tokens del system prompt + tools disponibles cargados en la primera llamada al LLM del orchestrator (medido con `tiktoken` o equivalente).
   - **FP rate** = (PBIs cuyo agente final reasignado por humano) / (PBIs totales).
@@ -137,7 +137,7 @@ flowchart TD
 - **Slice 1** (4h) — `backend-feature-lead` + refactor parcial de `dev-orchestrator` para usarlo + tests.
 - **Slice 2** (3h) — Resto de feature leads (frontend, infra, qa).
 - **Slice 3** (3h) — Refactor `court-orchestrator` + 2 panel leads.
-- **Slice 4** (3h) — Decision trees de los 6 nuevos leads (dependencia SPEC-134).
+- **Slice 4** (3h) — Decision trees de los 6 nuevos leads (dependencia SPEC-147).
 - **Slice 5** (3h) — Métricas pre/post + ajustes.
 - **Slice 6** (2h) — Docs + tests BATS.
 

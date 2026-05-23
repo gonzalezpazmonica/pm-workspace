@@ -1,5 +1,5 @@
 ---
-spec_id: SPEC-136
+spec_id: SPEC-149
 title: Sandbox OS-level para modos autónomos — opencode-sandbox + permission block + Docker doble capa
 status: PROPOSED
 origin: Investigación 2026-05-23 (P1) + paridad OpenCode. OpenCode no trae sandbox kernel-level por defecto; su bloque `permission` en `opencode.jsonc` es app-layer (allow/deny/ask glob). El plugin npm `opencode-sandbox` envuelve `@anthropic-ai/sandbox-runtime` (seatbelt/bubblewrap+proxy) para opencode. Bug feb-2026 (oh-my-openagent#2194) confirmó bypass de `external_directory: "deny"`.
@@ -10,10 +10,10 @@ confidence: alta (mecanismo) / media (sin regresión en flujos existentes)
 bucket: Q3 2026
 related_specs:
   - autonomous-safety.md (regla existente, este SPEC añade enforcement OS)
-  - SPEC-137 (hooks multi-handler — el sandbox interactúa con permission.ask y tool.execute.before)
+  - SPEC-150 (hooks multi-handler — el sandbox interactúa con permission.ask y tool.execute.before)
 ---
 
-# SPEC-136 — Sandbox OS-level (OpenCode-native)
+# SPEC-149 — Sandbox OS-level (OpenCode-native)
 
 ## Why
 
@@ -194,7 +194,7 @@ Slice 2: instalar opencode-sandbox en entorno limpio Ubuntu 24.04, ejecutar smok
 ## Riesgos
 
 - **Falsos positivos**: bloquear algo legítimo paraliza al modelo. Mitigación — policies por modo, allowlist por defecto generosa pero bloqueando solo paths claramente sensibles.
-- **Maintenance burden**: cada policy requiere review periódica. Mitigación — watcher de SPEC-133 vigila cambios upstream en `opencode-sandbox` y `@anthropic-ai/sandbox-runtime`.
+- **Maintenance burden**: cada policy requiere review periódica. Mitigación — watcher de SPEC-146 vigila cambios upstream en `opencode-sandbox` y `@anthropic-ai/sandbox-runtime`.
 - **NVIDIA Red Team enero 2026 — 5 vulnerabilidades residuales** incluso con sandbox: MCP servers maliciosos fuera del sandbox, kernel escapes, secretos en memoria. Sandbox es **defensa en profundidad, no reemplazo** de `autonomous-safety.md`.
 - **`opencode-sandbox` package maturity**: el plugin es comunitario (no oficial sst). Mitigación — pin a versión exacta en `opencode.jsonc.plugin`, vigilar fork si abandono; fallback a Docker Sandbox como Capa C.
 - **Bug histórico `permission.external_directory: deny` (oh-my-openagent#2194 feb-2026)**: la capa A application sola es bypasseable. Por eso Capa B (kernel) es obligatoria, no opcional.

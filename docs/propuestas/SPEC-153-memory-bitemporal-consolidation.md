@@ -1,5 +1,5 @@
 ---
-spec_id: SPEC-140
+spec_id: SPEC-153
 title: Memory bi-temporal + consolidación episodic→semantic + multi-signal retrieval
 status: PROPOSED
 origin: Investigación 2026-05-23 (P12 + bloque "Memory systems"). Patrón canónico 2026 (Mem0, Graphiti/Zep, Letta, paper arXiv 2502.06975): episodic capture → bi-temporal edges → consolidation pipeline → multi-signal retrieval. Savia L0-L4 cubre lo episódico; falta el "reflection step" que destila episodic → semantic.
@@ -15,7 +15,7 @@ related_specs:
   - SPEC-018 (vector memory index — multi-signal foundation)
 ---
 
-# SPEC-140 — Memory Bi-temporal Consolidation
+# SPEC-153 — Memory Bi-temporal Consolidation
 
 ## Why
 

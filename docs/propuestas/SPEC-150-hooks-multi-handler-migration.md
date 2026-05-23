@@ -1,5 +1,5 @@
 ---
-spec_id: SPEC-137
+spec_id: SPEC-150
 title: Hooks multi-handler — migrar gates críticos a plugin TS (OpenCode events + composición)
 status: PROPOSED
 origin: Investigación 2026-05-23 (P3 + F6) + paridad OpenCode. OpenCode v1.14+ expone 25+ eventos en `.opencode/plugin/*.ts` (`tool.execute.before/after`, `chat.message`, `permission.ask`, `event`, `file.edited`, `lsp.*`, etc.). Soporta nativamente 3 de los 5 handler types de Claude Code (command, mcp_tool, prompt vía slash). `http` y `agent` por composición. Savia tiene 65 hooks, todos bash `command`. Deja sobre la mesa el 70% del valor.
@@ -9,12 +9,12 @@ priority: P3 — calidad y reducción de falsos positivos.
 confidence: media — efecto en producción a validar por hook.
 bucket: Q3 2026
 related_specs:
-  - SPEC-128 (MCP catalog — habilita invocación de MCP tools desde plugins)
-  - SPEC-138 (Evals CI — los plugins `prompt` necesitan eval continua)
-  - SPEC-129 (Plugin tool.execute.before — primer caso del patrón OpenCode imperativo)
+  - SPEC-141 (MCP catalog — habilita invocación de MCP tools desde plugins)
+  - SPEC-151 (Evals CI — los plugins `prompt` necesitan eval continua)
+  - SPEC-142 (Plugin tool.execute.before — primer caso del patrón OpenCode imperativo)
 ---
 
-# SPEC-137 — Hooks Multi-Handler Migration (OpenCode-native)
+# SPEC-150 — Hooks Multi-Handler Migration (OpenCode-native)
 
 ## Why
 
@@ -57,7 +57,7 @@ Migrar selectivamente los hooks **donde el problema es semántico, no sintáctic
    - **Layer 1 regex bloquea claros; Layer 2 plugin con LLM evalúa ambiguos**. Complemento, no reemplazo.
 
 2. **Migrar a `mcp_tool` (invocación desde plugin)**:
-   - `audit-trail-posttooluse.sh` → plugin TS en `tool.execute.after` que llama `client.mcp.tools.savia-memory.record_change()` (depende de SPEC-128 stdio MCP exposed).
+   - `audit-trail-posttooluse.sh` → plugin TS en `tool.execute.after` que llama `client.mcp.tools.savia-memory.record_change()` (depende de SPEC-141 stdio MCP exposed).
    - `pre-edit-context-load.sh` → plugin TS en `tool.execute.before` (tool=`edit`) que invoca `knowledge-graph.related_files`.
 
 3. **Migrar a `http` (vía `fetch` en plugin)**:
@@ -189,7 +189,7 @@ export default plugin(({ on, client, output }) => {
 
 - **Slice 1** (4h) — Medir FP/FN actual de los 6 hooks candidatos. Si <5% → reconsiderar candidato.
 - **Slice 2** (6h) — Migrar `privacy-shield-pretooluse` y `leaks-scan-stop` a `prompt` con fallback.
-- **Slice 3** (4h) — Migrar `audit-trail-posttooluse` a `mcp_tool` (depende de SPEC-128 stdio MCP listo).
+- **Slice 3** (4h) — Migrar `audit-trail-posttooluse` a `mcp_tool` (depende de SPEC-141 stdio MCP listo).
 - **Slice 4** (4h) — Migrar `stop-session-summary` a `http` (SaviaHub endpoint).
 - **Slice 5** (3h) — `prepush-pr-summary` a `agent` opt-in.
 - **Slice 6** (3h) — Audit script + docs + tests + cobertura PostToolBatch/PreCompact.

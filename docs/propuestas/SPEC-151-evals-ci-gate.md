@@ -1,5 +1,5 @@
 ---
-spec_id: SPEC-138
+spec_id: SPEC-151
 title: Evals CI Gate — DeepEval + Promptfoo con paired-delta sobre baseline frozen
 status: PROPOSED
 origin: Investigación 2026-05-23 (P7 + bloque "Evaluation frameworks"). DeepEval + Promptfoo son el combo estándar 2026. Savia tiene `evaluations-framework` skill y `eval-registry.json` pero sin CI gate. Patrón crítico señalado: **paired-delta**, no pass-rate agregado.
@@ -9,11 +9,11 @@ priority: P7 — calidad y trustworthiness.
 confidence: alta (mecanismo) — media en absorción.
 bucket: Q3 2026
 related_specs:
-  - SPEC-137 (Hooks multi-handler — los hooks `prompt` necesitan evals)
-  - SPEC-130 (SKILL.md conformance — habilita evals cross-tool)
+  - SPEC-150 (Hooks multi-handler — los hooks `prompt` necesitan evals)
+  - SPEC-143 (SKILL.md conformance — habilita evals cross-tool)
 ---
 
-# SPEC-138 — Evals CI Gate
+# SPEC-151 — Evals CI Gate
 
 ## Why
 

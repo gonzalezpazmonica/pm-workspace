@@ -1,5 +1,5 @@
 ---
-spec_id: SPEC-132
+spec_id: SPEC-145
 title: Importar anthropics/skill-creator y anthropics/mcp-builder como skills oficiales
 status: PROPOSED
 origin: Investigación 2026-05-23 (P9). Anthropic mantiene skills oficiales (skill-creator, mcp-builder, webapp-testing) en https://github.com/anthropics/skills. Savia tiene `prompt-optimizer` pero no las herramientas oficiales para autoría rápida.
@@ -9,11 +9,11 @@ priority: P9 — quality of life para el propio mantenimiento de Savia.
 confidence: alta
 bucket: Q2 2026
 related_specs:
-  - SPEC-128 (MCP catalog — mcp-builder ayuda a construir las plantillas)
-  - SPEC-130 (SKILL.md conformance — skill-creator emite skills conformes por defecto)
+  - SPEC-141 (MCP catalog — mcp-builder ayuda a construir las plantillas)
+  - SPEC-143 (SKILL.md conformance — skill-creator emite skills conformes por defecto)
 ---
 
-# SPEC-132 — Import skill-creator + mcp-builder
+# SPEC-145 — Import skill-creator + mcp-builder
 
 ## Why
 
@@ -23,7 +23,7 @@ Crear skills y MCP servers nuevos es un workflow que Savia ya hace pero sin tool
 - `mcp-builder` — scaffold para un MCP server stdio + Server Card + tests.
 - `webapp-testing` — orchestrator para testing E2E de webapps con Playwright.
 
-Importar las dos primeras (skill-creator + mcp-builder) acelera la autoría de las skills y plantillas MCP propuestas en SPEC-128 y SPEC-135, y nos mantiene en sync con upstream sin reinventar.
+Importar las dos primeras (skill-creator + mcp-builder) acelera la autoría de las skills y plantillas MCP propuestas en SPEC-141 y SPEC-148, y nos mantiene en sync con upstream sin reinventar.
 
 ## Scope
 
@@ -39,14 +39,14 @@ Importar las dos primeras (skill-creator + mcp-builder) acelera la autoría de l
    - Mantener attribution en frontmatter (`origin: anthropics/skills`, `license: Apache-2.0`).
    - Adaptar paths absolutos si el skill los referencia (ej. `~/.claude/...` → resolver via `savia-env.sh`).
 
-3. **Validar conformidad** con SPEC-130: las skills oficiales deben pasar `audit-skill-md-spec.sh` (si Anthropic las mantiene, deberían cumplir).
+3. **Validar conformidad** con SPEC-143: las skills oficiales deben pasar `audit-skill-md-spec.sh` (si Anthropic las mantiene, deberían cumplir).
 
 4. **Documentar** en `docs/rules/domain/skill-authoring.md` el flujo:
    - "Para crear una skill nueva: invoca `skill-creator`"
    - "Para crear un MCP server: invoca `mcp-builder`"
    - Mantener la skill propia `prompt-optimizer` para casos avanzados.
 
-5. **Watcher de actualización**: añadir `anthropics/skills` a la lista de SPEC-133 (awesome watcher mensual) para detectar updates.
+5. **Watcher de actualización**: añadir `anthropics/skills` a la lista de SPEC-146 (awesome watcher mensual) para detectar updates.
 
 ### No funcional
 
@@ -75,11 +75,11 @@ docs/rules/domain/
 ## Acceptance Criteria
 
 - [ ] AC-01: `.claude/skills/skill-creator/SKILL.md` y `mcp-builder/SKILL.md` presentes, attribution en frontmatter.
-- [ ] AC-02: `audit-skill-md-spec.sh` (SPEC-130) pasa sobre ambos.
+- [ ] AC-02: `audit-skill-md-spec.sh` (SPEC-143) pasa sobre ambos.
 - [ ] AC-03: Smoke test: invocar skill-creator pidiendo "skill para X" produce SKILL.md válido en `output/`.
 - [ ] AC-04: Smoke test: invocar mcp-builder pidiendo "MCP para listar PRs" produce server stdio + Server Card.
 - [ ] AC-05: Doc `skill-authoring.md` explica cuándo usar skill-creator vs prompt-optimizer.
-- [ ] AC-06: `anthropics/skills` añadido al watcher (SPEC-133).
+- [ ] AC-06: `anthropics/skills` añadido al watcher (SPEC-146).
 
 ## Agent Assignment
 

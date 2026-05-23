@@ -1,5 +1,5 @@
 ---
-spec_id: SPEC-130
+spec_id: SPEC-143
 title: Conformidad SKILL.md con Agent Skills 1.0 open spec — auditoría y remediación
 status: ABORTED
 aborted_at: "2026-05-23"
@@ -11,15 +11,15 @@ priority: N/A — ABORTED (originalmente P5)
 confidence: N/A
 bucket: Q2 2026
 related_specs:
-  - SPEC-135 (también ABORTED por dependencia rota)
-  - SPEC-128 (MCP catalog — independiente, no afectado)
+  - SPEC-148 (también ABORTED por dependencia rota)
+  - SPEC-141 (MCP catalog — independiente, no afectado)
 ---
 
 > **ESTE SPEC ESTÁ ABORTADO.** Razón en `aborted_reason` del frontmatter. El contenido siguiente se conserva como registro auditable de la propuesta original.
 
 ---
 
-# SPEC-130 — Auditoría de conformidad SKILL.md
+# SPEC-143 — Auditoría de conformidad SKILL.md
 
 ## Why
 
@@ -136,9 +136,9 @@ exit_with_status
 
 ## Feasibility Probe
 
-Correr `audit-skill-md-spec.sh --json` sobre las 96 skills actuales. Si encuentra <5% de incumplimientos → la deuda es menor de lo asumido, ajustar Slice 2 a 1h. Si encuentra >20% → considerar si Slice 2 debe ser su propio spec (SPEC-135).
+Correr `audit-skill-md-spec.sh --json` sobre las 96 skills actuales. Si encuentra <5% de incumplimientos → la deuda es menor de lo asumido, ajustar Slice 2 a 1h. Si encuentra >20% → considerar si Slice 2 debe ser su propio spec (SPEC-148).
 
 ## Riesgos
 
 - **Falsa portabilidad**: que el SKILL.md sea conforme no garantiza que Cursor/Codex la ejecute igual (hooks, sandbox, MCP varían). Mitigación — añadir un test de smoke "load skill en runtime alternativo" en Slice 3 si hay tooling disponible.
-- **Drift de la spec**: agentskills.io puede evolucionar. Mitigación — pin a versión 1.0 en el doc, watcher mensual (SPEC-133) vigila cambios.
+- **Drift de la spec**: agentskills.io puede evolucionar. Mitigación — pin a versión 1.0 en el doc, watcher mensual (SPEC-146) vigila cambios.

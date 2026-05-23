@@ -1,20 +1,20 @@
 ---
-spec_id: SPEC-128
+spec_id: SPEC-141
 title: MCP Curated Catalog — catálogo bajo demanda con OAuth, rotación y filtros de seguridad
 status: PROPOSED
 origin: Investigación 2026-05-23 sobre tendencias workspaces/agentes (output/research-tendencias-workspaces-agentes-2026-20260523.md, sección 3.8, P2). Atlassian deprecate SSE el 2026-06-30 → todos a Streamable HTTP; BlueRock encontró 36.7% MCPs con SSRF y 41% sin auth.
 severity: Alta — `mcp.json` está vacío hoy ("bajo demanda") pero sin catálogo curado. Resuelve task #12 pending del backlog.
 effort: ~6h (S) — 1 plantilla por proveedor + script de auditoría.
-priority: P2 — desbloquea hooks `mcp_tool` (ver SPEC-137) y mata "Claude inventa API antigua" (Context7).
+priority: P2 — desbloquea hooks `mcp_tool` (ver SPEC-150) y mata "Claude inventa API antigua" (Context7).
 confidence: alta
 bucket: Q2 2026
 related_specs:
   - SPEC-127 (provider-agnostic env — capa subyacente de detección de hooks)
-  - SPEC-130 (SKILL.md conformance — algunas skills se expondrán como MCP servers)
-  - SPEC-137 (hooks multi-handler — depende de tener MCP tools disponibles)
+  - SPEC-143 (SKILL.md conformance — algunas skills se expondrán como MCP servers)
+  - SPEC-150 (hooks multi-handler — depende de tener MCP tools disponibles)
 ---
 
-# SPEC-128 — MCP Curated Catalog
+# SPEC-141 — MCP Curated Catalog
 
 ## Why
 
@@ -168,4 +168,4 @@ Slice 1 actúa como probe: si Context7 stdio se integra sin OAuth complicado y r
 
 - **Lock-in al ecosistema MCP**: mitigación — todos los servers propios son stdio (no necesitan red), seguimos siendo sovereign.
 - **Token leakage en plantillas**: gatekeeping vía `audit-mcp-templates.sh` corriendo en pre-commit hook.
-- **Drift de upstream**: Atlassian deprecate SSE 2026-06-30 — la plantilla debe usar Streamable HTTP de entrada. Vigilancia via SPEC-133 (watcher mensual).
+- **Drift de upstream**: Atlassian deprecate SSE 2026-06-30 — la plantilla debe usar Streamable HTTP de entrada. Vigilancia via SPEC-146 (watcher mensual).
