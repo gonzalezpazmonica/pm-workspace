@@ -49,8 +49,6 @@ outside the fork are included. Branch:
 
 ## [6.14.2] — 2026-05-08
 
-## [6.14.2] — 2026-05-08
-
 - Repair CI pipeline: fix missing .opencode/ dirs in test setups, align test generators with .claude/ paths, sync agents converter output, update stale baseline, add CHANGELOG reference link
 ### Fixed
 - scripts/push-pr.sh: PRs now created as draft by default (was: ready-for-review). Use --no-draft to opt out.
