@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 88c74cc2dcd4 | resources: 1158
-> 544 commands · 96 skills · 70 agents · 448 scripts
+> hash: 27035427a0a5 | resources: 1160
+> 545 commands · 96 skills · 70 agents · 449 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -399,6 +399,7 @@
 [memory] memory-search — context,memory,search,sourced,stats — script:scripts/memory-search.sh
 [memory] memory-stack-load — budgeted,load,loading,memory,progressive — script:scripts/memory-stack-load.sh
 [memory] memory-stats — display,memory,optimization,recommendations,statistics — cmd:.claude/commands/memory-stats.md
+[memory] memory-status-check — capas,check,estado,memoria,memory — script:scripts/memory-status-check.sh
 [memory] memory-store — jsonl,memory,persistent,store,workspace — script:scripts/memory-store.sh
 [memory] memory-sync — auto,files,insights,memory,sincroniza — cmd:.claude/commands/memory-sync.md
 [memory] memory-sync-index — auto,index,jsonl,markdown,memory — script:scripts/memory-sync-index.sh
@@ -585,6 +586,7 @@
 [planning] eval-workspace — contra,eval,evaluación,integral,reservas — script:scripts/eval-workspace.sh
 [planning] evaluate-repo —  — cmd:.claude/commands/evaluate-repo.md
 [planning] evaluations-framework — evaluations,framework — skill:.claude/skills/evaluations-framework/SKILL.md
+[planning] exit —  — cmd:.claude/commands/exit.md
 [planning] experiment-log —  — cmd:.claude/commands/experiment-log.md
 [planning] factuality-judge — accuracy,against,claims,factual,judge — agent:.claude/agents/factuality-judge.md
 [planning] feature-impact — análisis,esfuerzo,features,impacto,priorización — cmd:.claude/commands/feature-impact.md

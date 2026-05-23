@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 98 resources
+> 99 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -73,6 +73,7 @@
 - **memory-search** (script): memory-search.sh — Search, context, stats (sourced by memory-store.sh)
 - **memory-stack-load** (script): memory-stack-load.sh — Token-budgeted progressive memory loading
 - **memory-stats** (cmd): Display memory usage statistics and optimization recommendations
+- **memory-status-check** (script): memory-status-check.sh — Tabla de estado de todas las capas de memoria de Savia
 - **memory-store** (script): memory-store.sh — JSONL persistent memory store for pm-workspace
 - **memory-sync** (cmd): Sincroniza insights del sprint en los topic files de auto memory
 - **memory-sync-index** (script): memory-sync-index.sh — Sync auto-memory markdown → JSONL vector index
