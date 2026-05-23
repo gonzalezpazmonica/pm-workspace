@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 93 resources
+> 94 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -57,6 +57,7 @@
 - **savia-live** (cmd): Show what Savia is working on right now — live task queue and recent activity
 - **savia-memory** (skill): Gestión de memoria canónica externa de Savia (.savia-memory). Lectura, escritura, búsqueda y consolidación de memoria entre sesiones.
 - **savia-memory-bootstrap** (script): savia-memory-bootstrap.sh — crea store externo canónico ../.savia-memory/
+- **savia-memory-mcp-stdio** (script): SPEC-141 · savia-memory MCP stdio wrapper
 - **savia-memory-migrate** (script): savia-memory-migrate.sh — migra memoria de silos internos/externos al store canónico
 - **savia-messaging** (script): savia-messaging.sh — Message creation, delivery, and inbox management
 - **savia-messaging-actions** (script): savia-messaging-actions.sh — Announce, broadcast, and directory operations

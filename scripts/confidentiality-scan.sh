@@ -126,7 +126,7 @@ EMAILS=$(echo "$ADDED_LINES" | grep -oiE "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z
   | grep -v "@example\.\|@test\.\|@contoso\.\|@miorganizacion\.\|@anthropic\.\|@github\.\|@savia\.dev\|@empresa\.\|@cliente\." \
   | grep -v "@domain\.\|@org\.\|@co\.\|@company\.\|@cliente-alpha\.\|@cliente-beta\.\|@acme\." \
   | grep -vE "^@[a-z]+\.[a-z]+$" \
-  | grep -vE "@kotlinx\.|@orders\.|@router\.|@app\.|@pytest\.|@override" \
+  | grep -vE "@kotlinx\.|@orders\.|@router\.|@app\.|@pytest\.|@override|@mcp\." \
   | sort -u || true)
 if [ -n "$EMAILS" ]; then
   echo "::error::BLOCKED: Real emails found"

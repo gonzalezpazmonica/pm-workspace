@@ -1,0 +1,17 @@
+// SPEC-141 · knowledge-graph MCP template (stdio)
+{
+  "mcp": {
+    "knowledge-graph": {
+      "type": "local",
+      "command": ["bash", "scripts/knowledge-graph-mcp-stdio.sh"],
+      "_savia_meta": {
+        "scope": "savia:kg",
+        "auth": "none",
+        "trigger": "agente necesita query/traverse del grafo de conocimiento",
+        "token_budget": "low",
+        "bluerock_audit": "local stdio - no network",
+        "tools": ["kg_query", "kg_traverse", "kg_neighbors"]
+      }
+    }
+  }
+}

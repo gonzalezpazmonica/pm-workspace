@@ -1,0 +1,17 @@
+// SPEC-141 · savia-recall MCP template (stdio, futuro - skeleton)
+{
+  "mcp": {
+    "savia-recall": {
+      "type": "local",
+      "command": ["bash", "scripts/savia-recall-mcp-stdio.sh"],
+      "_savia_meta": {
+        "scope": "savia:recall",
+        "auth": "none",
+        "trigger": "agente necesita semantic search + BM25 + entity match",
+        "token_budget": "low",
+        "bluerock_audit": "local stdio - no network",
+        "tools": ["semantic_search", "bm25_search", "entity_match"]
+      }
+    }
+  }
+}
