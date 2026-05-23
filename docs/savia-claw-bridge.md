@@ -32,14 +32,14 @@ State lives entirely under `~/.savia/bridge/`:
 ```
 Savia Mobile (Android)         Savia Claw daemon (host)
         │                              │
-        │ HTTPS + SSE                  │ SSH loopback (monica@localhost)
+        │ HTTPS + SSE                  │ SSH loopback (user@localhost)
         │ port 8922                    │ `pgrep -f claude`
         │                              │
         ▼                              ▼
    ┌─────────────────────────────────────────┐
    │  savia-bridge.service (systemd)         │
    │  python3 scripts/savia-bridge.py        │
-   │  User=monica, MemoryMax=512M            │
+   │  User=$USER, MemoryMax=512M            │
    └────────────────┬────────────────────────┘
                     │ stdio pipes
                     ▼
@@ -76,7 +76,7 @@ This script is idempotent and:
 2. Creates `/etc/systemd/system/savia-bridge.service` with hardening
    (PrivateTmp, ProtectSystem=strict, ProtectHome=read-only,
    NoNewPrivileges, MemoryMax=512M, CPUQuota=50%)
-3. Creates `/home/monica/.savia/bridge/` with correct ownership
+3. Creates `$HOME/.savia/bridge/` with correct ownership
 4. Runs `systemctl daemon-reload && enable && restart`
 5. Verifies `https://localhost:8922/health`
 
@@ -87,10 +87,10 @@ calls `remote_host.is_reachable()` and `remote_host.is_bridge_running()` on
 every breath. These talk to the bridge over SSH, not HTTPS — they use
 the shell for maximum reliability. Wiring:
 
-1. `~/.ssh/savia_remote_ed25519` — ed25519 key for `monica@localhost`
+1. `~/.ssh/savia_remote_ed25519` — ed25519 key for `$USER@localhost`
    (added to `~/.ssh/authorized_keys`)
 2. `~/.savia/remote-host-config` — `REMOTE_HOST=localhost`,
-   `REMOTE_SSH_USER=monica`, `REMOTE_SSH_KEY=~/.ssh/savia_remote_ed25519`
+   `REMOTE_SSH_USER=$USER`, `REMOTE_SSH_KEY=~/.ssh/savia_remote_ed25519`
 3. `scripts/start-bridge.sh` — invoked by `remote_host.restart_bridge()`;
    prefers `sudo -n systemctl restart savia-bridge` (system unit),
    falls back to `systemctl --user restart savia-bridge`
@@ -101,7 +101,7 @@ the shell for maximum reliability. Wiring:
 |---|---|---|
 | `remote:unreachable` in Talk | `~/.savia/remote-host-config` missing | Re-create from the template in `zeroclaw/host/remote-host-config.example` |
 | `bridge:down` in daemon log | Service stopped or crashed | `systemctl restart savia-bridge` and check `journalctl -u savia-bridge` |
-| Health returns 500 | Claude CLI not found in PATH | Ensure `/home/monica/.local/bin/claude` exists and PATH env is set |
+| Health returns 500 | Claude CLI not found in PATH | Ensure `$HOME/.local/bin/claude` exists and PATH env is set |
 | SSH loopback fails with "Permission denied" | Public key not in `authorized_keys` | `cat ~/.ssh/savia_remote_ed25519.pub >> ~/.ssh/authorized_keys` |
 | Bridge returns after reboot only when la usuaria logs in | User unit active, system unit not installed | Run `sudo bash scripts/install-savia-bridge-system.sh` |
 

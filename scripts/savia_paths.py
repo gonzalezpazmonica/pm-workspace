@@ -53,21 +53,21 @@ def project_paths(slug):
     """Return dict of canonical project paths for a given codename slug.
 
     Keys:
-      base, monica, pm, meetings, digests, reports, radar, notes, pending
+      base, pm_dir, meetings, digests, reports, radar, notes, pending
     """
     root = docs_root()
     base = root / "projects" / (slug + "_main")
-    monica = base / (slug + "-monica")
+    pm_dir = base / (slug + "-pm")
     pm = base / (slug + "-pm")
     return {
         "root": root,
         "base": base,
-        "monica": monica,
+        "pm": pm_dir,
         "pm": pm,
-        "meetings": monica / "meetings",
+        "meetings": pm_dir / "meetings",
         "digests": base / "digests",
-        "reports": monica / "reports",
-        "radar": monica / "reports" / "radar",
-        "notes": monica / "notes",
-        "pending": monica / "notes" / "PENDING.md",
+        "reports": pm_dir / "reports",
+        "radar": pm_dir / "reports" / "radar",
+        "notes": pm_dir / "notes",
+        "pending": pm_dir / "notes" / "PENDING.md",
     }

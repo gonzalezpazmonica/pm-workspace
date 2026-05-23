@@ -175,10 +175,18 @@ def test_n4_to_n1_path_blocks():
 
 
 def test_n1_to_n1_path_ok():
+    # SPEC-128: N1 is valid in a public workspace (no slug context)
+    ok = dict(VALID_BY_TYPE["spec"]); ok["confidentiality"] = "N1"
+    fm = vv.parse_frontmatter(_to_yaml(ok))
+    errs = vv.validate_frontmatter(fm, expected_slug=None, expected_path_n_level="N1")
+    assert errs == []
+
+def test_n1_inside_vault_blocked():
+    # SPEC-128: N1 is NOT allowed inside a project vault (expected_slug set = inside vault)
     ok = dict(VALID_BY_TYPE["spec"]); ok["confidentiality"] = "N1"
     fm = vv.parse_frontmatter(_to_yaml(ok))
     errs = vv.validate_frontmatter(fm, expected_slug="aurora", expected_path_n_level="N1")
-    assert errs == []
+    assert any("not allowed inside a project vault" in e for e in errs)
 
 
 def test_invalid_iso_date():

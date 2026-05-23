@@ -49,6 +49,7 @@ EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/block-credential-leak\.ts$"
 EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/block-gitignored-references\.ts$"
 EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/prompt-injection-guard\.ts$"
 EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/validate-bash-global\.ts$"
+EXCLUDE_FILES="$EXCLUDE_FILES|docs/propuestas/SPEC-142-pretooluse-input-modification\.md$"
 
 get_lines() {
   cd "$ROOT_DIR" || exit 2

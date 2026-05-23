@@ -44,35 +44,35 @@ const sampleProjects: ProjectInfo[] = [
 const projectsWithUmbrella: ProjectInfo[] = [
   ...sampleProjects,
   {
-    id: 'trazabios_main',
-    name: 'TrazaBios',
-    path: 'projects/trazabios_main',
+    id: 'project-alpha_main',
+    name: 'ProjectAlpha',
+    path: 'projects/project-alpha_main',
     hasClaude: true,
     hasBacklog: false,
     health: 'healthy',
     parentId: null,
-    children: ['trazabios', 'trazabios-pm'],
+    children: ['project-alpha', 'project-alpha-pm'],
     confidentiality: null,
   },
   {
-    id: 'trazabios',
-    name: 'trazabios',
-    path: 'projects/trazabios_main/trazabios',
+    id: 'project-alpha',
+    name: 'project-alpha',
+    path: 'projects/project-alpha_main/project-alpha',
     hasClaude: false,
     hasBacklog: true,
     health: 'healthy',
-    parentId: 'trazabios_main',
+    parentId: 'project-alpha_main',
     children: [],
     confidentiality: 'N4-SHARED',
   },
   {
-    id: 'trazabios-pm',
-    name: 'trazabios-pm',
-    path: 'projects/trazabios_main/trazabios-pm',
+    id: 'project-alpha-pm',
+    name: 'project-alpha-pm',
+    path: 'projects/project-alpha_main/project-alpha-pm',
     hasClaude: false,
     hasBacklog: false,
     health: 'healthy',
-    parentId: 'trazabios_main',
+    parentId: 'project-alpha_main',
     children: [],
     confidentiality: 'N4b-PM',
   },
@@ -136,7 +136,7 @@ describe('ProjectSelector', () => {
     const wrapper = mount(ProjectSelector)
     const groups = wrapper.findAll('optgroup')
     expect(groups.length).toBe(1)
-    expect(groups[0].attributes('label')).toBe('TrazaBios')
+    expect(groups[0].attributes('label')).toBe('ProjectAlpha')
   })
 
   it('renders children inside optgroup with confidentiality labels', () => {
@@ -146,9 +146,9 @@ describe('ProjectSelector', () => {
     const group = wrapper.find('optgroup')
     const children = group.findAll('option')
     expect(children.length).toBe(2)
-    expect(children[0].text()).toContain('trazabios')
+    expect(children[0].text()).toContain('project-alpha')
     expect(children[0].text()).toContain('N4-SHARED')
-    expect(children[1].text()).toContain('trazabios-pm')
+    expect(children[1].text()).toContain('project-alpha-pm')
     expect(children[1].text()).toContain('N4b-PM')
   })
 

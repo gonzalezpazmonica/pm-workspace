@@ -6,6 +6,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-05-23 · savia-evolution incorporation
+
+Generic improvements ported from a downstream private fork. Confidential
+references and internal IDs scrubbed; only features with public utility
+outside the fork are included. Branch:
+`feat/incorporate-savia-evolution`.
+
+### Added
+- `scripts/savia-env.sh`: `_resolve_project_slug()` (auto-detect via env,
+  branch prefix, or single subdir under `projects/`), `_savia_load_dotenv()`
+  (workspace `.env` loader with parent-env precedence) and
+  `_savia_activate_venv()` (auto-activate workspace `.venv/`). New CLI
+  action `project` and a `project` field in `json` output.
+- `scripts/lib/os-detect.sh` (new): `detect_os()` + `setup_paths()` with
+  Windows/macOS/Linux defaults for `OLLAMA_BIN`, `ANDROID_HOME`, `JAVA_HOME`.
+  `emergency-setup.sh` and `savia-shield-setup.sh` now source it.
+- `scripts/embedding-server.py` (new): in-process HTTP server keeping a
+  sentence-transformers model resident to avoid the 15-30s cold-start
+  per recall.
+- `scripts/memory-status-check.sh` (new): L0-L4 + agents + vault + hooks
+  status table, with a "frontend without hooks" warning banner.
+- `.claude/commands/exit.md` (new): `/exit` persists `ROADMAP.md` and
+  writes a `RESUME-{slug}.md`. Opt-in commit, no autonomous merges.
+
+### Changed
+- `scripts/memory-store.sh`: hard `$HOME` guard (no more `/tmp` fallback)
+  and lazy-start of `embedding-server.py` before `search`/`recall`.
+- `scripts/savia-shield-daemon.py`: `/health` now reports
+  `ollama_model_loaded` and `ollama_model` (env `OLLAMA_CLASSIFY_MODEL`,
+  default `qwen2.5:7b`).
+- `scripts/savia-shield-proxy.py`: docs reflect provider-agnostic use;
+  glossary search expanded to `projects/<umbrella>/GLOSSARY.md` and
+  `projects/<umbrella>/<subdir>/GLOSSARY.md`; `mask_text` uses
+  lookarounds so path-embedded identifiers still match;
+  request/response now traversed with `_mask_in_obj`/`_unmask_in_obj`
+  so system prompt, tool_use input, tool_result content and thinking
+  blocks no longer leak unmasked; SSE responses parsed and unmasked
+  per `data:` line; response audit entry includes content-type and
+  unmask-applied flag.
+
+
 ## [6.14.2] — 2026-05-08
 
 - Repair CI pipeline: fix missing .opencode/ dirs in test setups, align test generators with .claude/ paths, sync agents converter output, update stale baseline, add CHANGELOG reference link
@@ -3648,7 +3689,7 @@ feat: Eras 167-170 — token economics, spec validation, coordinator research, t
 
 - **settings.json**: registered tool-call-healing.sh in PreToolUse hooks (Read|Edit|Write|Glob|Grep matcher)
 - **data-sovereignty-gate.sh**: path extraction and private-destination skip moved before daemon call (reduces latency). Windows backslash normalization added
-- **validate-bash-global.sh**: git commit/add block scoped to savia/pm-workspace repos only (allows commits in project repos like trazabios)
+- **validate-bash-global.sh**: git commit/add block scoped to savia/pm-workspace repos only (allows commits in project repos like project-alpha)
 - **SCM INDEX.scm**: category rebalancing and keyword re-indexing
 
 ## [3.98.0] — 2026-04-01

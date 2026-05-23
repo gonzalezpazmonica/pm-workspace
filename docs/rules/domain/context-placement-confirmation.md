@@ -82,7 +82,7 @@ tiene un destino fisico y unas garantias de visibilidad diferentes.
 **Que va aqui:**
 - `projects/{proyecto}/` — TODO lo del proyecto va AQUI
 - Reglas de negocio, stakeholders, relaciones cliente-proveedor
-- Contexto de comunicacion (ej: "alinear con Virginia antes de hablar con Repsol")
+- Contexto de comunicacion (ej: "alinear con stakeholder antes de hablar con cliente")
 - Reuniones, digests, roadmaps del proyecto
 - Agent memory del proyecto: `projects/{proyecto}/agent-memory/`
 - Estado, riesgos, gaps, decisiones del proyecto

@@ -26,7 +26,7 @@ por Mónica via Talk.
 - **REQ-01** `~/.savia/zeroclaw/cron/jobs.json` — almacena tareas programadas:
   ```json
   [{"id": "backup-diario", "schedule": "30 22 * * *", "action": "zip + email memoria",
-    "created_by": "monica", "last_run": null, "last_status": null, "enabled": true}]
+    "created_by": "pm-user", "last_run": null, "last_status": null, "enabled": true}]
   ```
 
 - **REQ-02** Comandos via Talk: "/cron list", "/cron add <cron> <descripcion>",

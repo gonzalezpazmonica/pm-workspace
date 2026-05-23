@@ -47,7 +47,7 @@ $ git init -q && git config user.email t@t && git config user.name t
 $ echo a > a.txt && git add a.txt && git commit -qm init
 $ git branch feature
 $ echo modified > a.txt
-$ bash /home/monica/claude/.opencode/hooks/block-branch-switch-dirty.sh \
+$ bash $HOME/savia/.opencode/hooks/block-branch-switch-dirty.sh \
     <<< '{"tool_input":{"command":"git checkout feature"}}'
 $ echo $?
 0    # <-- deberia ser 2 (BLOQUEADO)

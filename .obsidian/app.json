@@ -1,0 +1,19 @@
+{
+  "showLineNumber": false,
+  "showIndentGuide": false,
+  "readableLineLength": false,
+  "strictLineBreaks": true,
+  "useTab": false,
+  "tabSize": 2,
+  "defaultViewMode": "source",
+  "livePreview": true,
+  "showFrontmatter": true,
+  "foldHeading": false,
+  "foldIndent": false,
+  "newFileLocation": "current",
+  "newFileFolderPath": "vault/99-Inbox",
+  "attachmentFolderPath": "vault/assets",
+  "promptDelete": false,
+  "alwaysUpdateLinks": true,
+  "showUnsupportedFiles": false
+}

@@ -112,7 +112,7 @@ output/rbac-audit.jsonl
 
 Formato JSONL (una línea por acción):
 ```json
-{"timestamp":"2026-03-05T10:15:00Z","user":"monica-gonzalez","command":"sprint-plan","allowed":true,"role":"PM","scope":"global","reason":""}
+{"timestamp":"2026-03-05T10:15:00Z","user":"pm-user","command":"sprint-plan","allowed":true,"role":"PM","scope":"global","reason":""}
 {"timestamp":"2026-03-05T10:30:00Z","user":"carlos-mendoza","command":"infra-create","allowed":false,"role":"Contributor","scope":"global","reason":"Admin only"}
 ```
 

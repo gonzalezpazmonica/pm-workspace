@@ -41,7 +41,6 @@ from .consciousness_comms import (  # notification + comms helpers
 )
 from .survival import survival_tick as _survival_tick
 
-
 def load_identity():
     if os.path.isfile(IDENTITY_FILE):
         with open(IDENTITY_FILE) as f: return json.load(f)
@@ -52,12 +51,10 @@ def load_schedule():
         with open(SCHEDULE_FILE) as f: return json.load(f)
     return DEFAULT_SCHEDULE
 
-
 def save_schedule(schedule):
     os.makedirs(LOG_DIR, exist_ok=True)
     with open(SCHEDULE_FILE, "w") as f:
         json.dump(schedule, f, indent=2)
-
 
 def log_result(task_name, result, success=True):
     os.makedirs(LOG_DIR, exist_ok=True)
@@ -66,7 +63,6 @@ def log_result(task_name, result, success=True):
              "result": str(result)[:300]}
     with open(TASK_LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")
-
 
 def run_device_task(ser, action):
     from .daemon_util import send_cmd
@@ -88,7 +84,6 @@ def run_llm_task(action):
         return reason(action)
     except Exception as e:
         return str(e)
-
 
 def tick(ser, schedule, last_runs):
     """Check schedule, run due tasks. Called from daemon loop."""
@@ -136,7 +131,6 @@ def tick(ser, schedule, last_runs):
 
     _survival_tick(ser, run_llm_task)
     return last_runs
-
 
 def get_recent_results(n=10):
     """Get last N task results for session context."""

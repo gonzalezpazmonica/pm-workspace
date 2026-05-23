@@ -1,6 +1,6 @@
 {
-  "hash": "afe4999e5cb5",
-  "total": 1158,
+  "hash": "bb381d1f3c1f",
+  "total": 1160,
   "resources": [
     {
       "category": "analysis",
@@ -5143,6 +5143,20 @@
     },
     {
       "category": "memory",
+      "name": "memory-status-check",
+      "intents": [
+        "capas",
+        "check",
+        "estado",
+        "memoria",
+        "memory"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-status-check.sh",
+      "description": "memory-status-check.sh — Tabla de estado de todas las capas de memoria de Savia"
+    },
+    {
+      "category": "memory",
       "name": "memory-store",
       "intents": [
         "jsonl",
@@ -7483,6 +7497,14 @@
       "kind": "skill",
       "path": ".claude/skills/evaluations-framework/SKILL.md",
       "description": "Evaluations Framework"
+    },
+    {
+      "category": "planning",
+      "name": "exit",
+      "intents": [],
+      "kind": "cmd",
+      "path": ".claude/commands/exit.md",
+      "description": ">"
     },
     {
       "category": "planning",

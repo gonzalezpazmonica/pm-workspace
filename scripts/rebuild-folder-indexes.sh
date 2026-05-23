@@ -9,7 +9,7 @@
 #
 # Salida:
 #   stdout: JSON con resumen de INDEX.md regenerados
-#   files:  actualiza projects/{slug}_main/{slug,slug-monica,slug-pm,slug-vass}/**/INDEX.md
+#   files:  actualiza projects/{slug}_main/{slug,slug-pm,slug-supplier}/**/INDEX.md
 #
 # Reglas:
 #   - Solo regenera INDEX.md de subcarpetas con >5 ficheros
@@ -34,7 +34,7 @@ TODAY="$(date +%Y-%m-%d)"
 NOW_TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 # Áreas a indexar (excluye repos/ — ese es código fuente, no docs)
-AREAS=("$SLUG" "${SLUG}-monica" "${SLUG}-pm" "${SLUG}-vass")
+AREAS=("$SLUG" "${SLUG}-pm" "${SLUG}-supplier")
 
 # Regenerar un INDEX.md
 rebuild_index() {

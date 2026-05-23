@@ -53,14 +53,14 @@ describe('ProjectInfo type', () => {
 
   it('accepts umbrella project with children', () => {
     const umbrella: ProjectInfo = {
-      id: 'trazabios_main',
-      name: 'TrazaBios',
-      path: 'projects/trazabios_main',
+      id: 'project-alpha_main',
+      name: 'ProjectAlpha',
+      path: 'projects/project-alpha_main',
       hasClaude: true,
       hasBacklog: false,
       health: 'healthy',
       parentId: null,
-      children: ['trazabios', 'trazabios-vass', 'trazabios-pm'],
+      children: ['project-alpha', 'project-alpha-supplier', 'project-alpha-pm'],
       confidentiality: null,
     }
     expect(umbrella.children).toHaveLength(3)
@@ -69,17 +69,17 @@ describe('ProjectInfo type', () => {
 
   it('accepts child project with parentId and confidentiality', () => {
     const child: ProjectInfo = {
-      id: 'trazabios-pm',
-      name: 'trazabios-pm',
-      path: 'projects/trazabios_main/trazabios-pm',
+      id: 'project-alpha-pm',
+      name: 'project-alpha-pm',
+      path: 'projects/project-alpha_main/project-alpha-pm',
       hasClaude: false,
       hasBacklog: false,
       health: 'healthy',
-      parentId: 'trazabios_main',
+      parentId: 'project-alpha_main',
       children: [],
       confidentiality: 'N4b-PM',
     }
-    expect(child.parentId).toBe('trazabios_main')
+    expect(child.parentId).toBe('project-alpha_main')
     expect(child.confidentiality).toBe('N4b-PM')
   })
 })

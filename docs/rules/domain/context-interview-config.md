@@ -32,7 +32,7 @@ current_phase: 3
 total_phases: 8
 sector: "fintech"
 interviewer: "savia"
-pm: "monica-gonzalez"
+pm: "pm-user"
 ---
 ```
 
