@@ -1,0 +1,19 @@
+// SPEC-141 · savia-memory MCP template (stdio, own skill exposed)
+// Expone scripts/memory-store.sh como herramientas MCP consumibles desde
+// OpenCode/Cursor/Codex sin reescribir la skill.
+{
+  "mcp": {
+    "savia-memory": {
+      "type": "local",
+      "command": ["bash", "scripts/savia-memory-mcp-stdio.sh"],
+      "_savia_meta": {
+        "scope": "savia:memory",
+        "auth": "none",
+        "trigger": "agente necesita recall/save/stats en memoria persistente",
+        "token_budget": "low",
+        "bluerock_audit": "local stdio - no network, no SSRF possible",
+        "tools": ["memory_recall", "memory_save", "memory_stats"]
+      }
+    }
+  }
+}

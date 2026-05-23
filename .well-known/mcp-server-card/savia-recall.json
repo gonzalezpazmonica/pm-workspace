@@ -1,0 +1,16 @@
+{
+  "name": "savia-recall",
+  "version": "0.1.0-draft",
+  "description": "Savia hybrid retrieval (semantic + BM25 + entity-match) as MCP stdio server",
+  "vendor": "savia",
+  "protocol_version": "2024-11-05",
+  "transport": "stdio",
+  "tools": [
+    {"name": "semantic_search", "description": "Vector similarity search"},
+    {"name": "bm25_search", "description": "BM25 lexical search"},
+    {"name": "entity_match", "description": "Entity-based retrieval"}
+  ],
+  "auth": {"required": false},
+  "spec": "SPEC-141",
+  "license": "MIT"
+}
