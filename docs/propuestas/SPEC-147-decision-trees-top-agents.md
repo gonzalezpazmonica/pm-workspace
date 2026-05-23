@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-147
 title: Decision trees para los 10 agentes top — completar de 1/10 a 10/10
-status: PROPOSED
+status: IN_PROGRESS
 origin: Investigación 2026-05-23 (P13). En `.claude/agents/decision-trees/` solo existe `commit-guardian-decisions.md`. La investigación de marzo 2026 proponía 10 agentes. Quedan 9.
 severity: Media — mejora calidad de routing y reduce contexto innecesario.
 effort: ~10h (M) — 1h por decision tree.
@@ -145,6 +145,39 @@ flowchart TD
 ## Feasibility Probe
 
 Slice 1: tras los 3 piloto, medir si invocaciones reales del orchestrator a esos agentes producen menos clarifying questions. Si no hay mejora medible, replantear formato (quizá Mermaid es overhead; tabla pura podría ser suficiente).
+
+
+
+## Implementation Note (2026-05-23)
+
+**Slice 1 shipped** in `agent/overnight-20260523-spec-147`. Slices 2 (6 remaining
+trees) and 3 (full BATS sweep + docs section) are follow-up — deferred to
+operator-driven sprint (require per-agent owner review).
+
+### What shipped (Slice 1)
+
+- 3 pilot decision trees in `.claude/agents/decision-trees/`:
+  - `architect-decisions.md` (49 lines)
+  - `code-reviewer-decisions.md` (53 lines)
+  - `security-guardian-decisions.md` (59 lines)
+- Symlink `.opencode/agents/decision-trees → ../../.claude/agents/decision-trees`
+  (single source of truth, eliminates drift).
+- Frontmatter `decision_tree:` added to 6 files (3 agents × 2 catalogs).
+- `tests/test-agent-decision-trees.bats` — 13 structural checks, **13/13 PASS**.
+
+### Format chosen
+
+Plain markdown tables + bulleted lists (NOT Mermaid). Rationale: matches the
+existing `commit-guardian-decisions.md` style, lower token overhead, easier
+to diff in PRs. Mermaid stays available for future trees if a flow becomes
+genuinely graph-shaped.
+
+### Follow-up (Slices 2-3)
+
+6 trees pending: `dotnet-developer`, `business-analyst`, `sdd-spec-writer`,
+`dev-orchestrator`, `court-orchestrator`, `frontend-developer`. Each requires
+owner-agent review before merging (per AC-04 smoke test). BATS sweep + docs
+section in `best-practices-claude-code.md` to be written alongside.
 
 ## Riesgos
 
