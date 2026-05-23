@@ -1,5 +1,6 @@
 ---
 name: sdd-spec-writer
+decision_tree: decision-trees/sdd-spec-writer-decisions.md
 permission_level: L2
 description: >
   Generación y validación de Specs SDD (Spec-Driven Development) como contratos ejecutables.

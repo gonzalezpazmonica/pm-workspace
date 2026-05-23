@@ -179,6 +179,30 @@ genuinely graph-shaped.
 owner-agent review before merging (per AC-04 smoke test). BATS sweep + docs
 section in `best-practices-claude-code.md` to be written alongside.
 
+
+
+### Slice 2 shipped (2026-05-23)
+
+3 more trees added in `agent/overnight-20260523-spec-147-slice2` (stacked
+on Slice 1 PR):
+
+- `dotnet-developer-decisions.md`  (52 lines) — accept/reject scope, test policy
+- `business-analyst-decisions.md`  (60 lines) — discovery vs refinement, skill routing
+- `sdd-spec-writer-decisions.md`   (65 lines) — agent-implementable check, spec anatomy
+
+Frontmatter wired in 6 more files (3 agents × 2 catalogs). BATS extended
+to 19 checks (6 new Slice-2 tests + 13 existing Slice-1). **19/19 PASS**.
+
+**Coverage: 7/10 trees done** (commit-guardian + 3 pilots + 3 Slice 2).
+
+### Remaining (Slice 3)
+
+3 trees + AC-05 docs section:
+- `dev-orchestrator-decisions.md`
+- `court-orchestrator-decisions.md`
+- `frontend-developer-decisions.md`
+- Docs section in `best-practices-claude-code.md`
+
 ## Riesgos
 
 - **Mantenimiento drift**: si el agente cambia y el árbol no → mismatch silencioso. Mitigación — test BATS bloquea PRs que tocan agent body sin tocar su árbol.

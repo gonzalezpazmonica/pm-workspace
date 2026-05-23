@@ -101,3 +101,47 @@ setup() {
 @test "spec ref: SPEC-147 doc exists" {
   [ -f "$REPO_ROOT/docs/propuestas/SPEC-147-decision-trees-top-agents.md" ]
 }
+
+
+# ── Slice 2 trees ───────────────────────────────────────────────────────────
+
+@test "Slice2 AC-01: 3 Slice-2 decision-tree files exist" {
+  for agent in dotnet-developer business-analyst sdd-spec-writer; do
+    [ -f "$TREES_DIR/${agent}-decisions.md" ]
+  done
+}
+
+@test "Slice2 AC-01: each Slice-2 tree is ≤80 lines (cap)" {
+  for agent in dotnet-developer business-analyst sdd-spec-writer; do
+    lines=$(wc -l < "$TREES_DIR/${agent}-decisions.md")
+    [ "$lines" -le 80 ]
+  done
+}
+
+@test "Slice2 AC-01: each Slice-2 tree starts with proper H1 heading" {
+  for agent in dotnet-developer business-analyst sdd-spec-writer; do
+    head -1 "$TREES_DIR/${agent}-decisions.md" | grep -Eq "^# Decision Trees? — ${agent}"
+  done
+}
+
+@test "Slice2 AC-02: each Slice-2 agent has decision_tree: in both catalogs" {
+  for agent in dotnet-developer business-analyst sdd-spec-writer; do
+    for cat in .claude/agents .opencode/agents; do
+      grep -q "^decision_tree: decision-trees/${agent}-decisions.md\$" "$REPO_ROOT/$cat/${agent}.md"
+    done
+  done
+}
+
+@test "Slice2 AC-03: each Slice-2 tree has cap header + routing + anti-patterns" {
+  for agent in dotnet-developer business-analyst sdd-spec-writer; do
+    f="$TREES_DIR/${agent}-decisions.md"
+    grep -q "Cap.*80" "$f"
+    grep -qE "^## (Cuándo|Routing|When|Entry)" "$f"
+    grep -qE "Anti-patrones|Escalado|Escalate|NO hacer" "$f"
+  done
+}
+
+@test "coverage: 6/10 trees done (4 pilots + Slice 2), 4/10 deferred" {
+  count=$(ls "$TREES_DIR"/*-decisions.md 2>/dev/null | wc -l)
+  [ "$count" -eq 7 ]   # commit-guardian + 3 Slice 1 + 3 Slice 2
+}
