@@ -1,0 +1,65 @@
+# SPEC-146 — Monthly ecosystem watcher
+# Runs the 1st of each month at 09:00 UTC. Can also be dispatched manually.
+# Output: output/research-skills-update-{YYYY-MM}.md (artifact only, no autonomous PR)
+name: Ecosystem Watcher
+
+on:
+  schedule:
+    - cron: '0 9 1 * *'
+  workflow_dispatch:
+    inputs:
+      since:
+        description: 'Custom since timestamp (ISO8601, optional)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up tools
+        run: |
+          which gh
+          which curl
+          gh --version
+
+      - name: Run ecosystem watcher
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p output .savia-memory/ecosystem-snapshots
+          if [[ -n "${{ inputs.since }}" ]]; then
+            echo "${{ inputs.since }}" > .savia-memory/ecosystem-snapshots/last-run.txt
+          fi
+          bash .opencode/skills/ecosystem-watcher/scripts/run-watch.sh
+
+      - name: Upload report as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-watch-${{ github.run_id }}
+          path: |
+            output/research-skills-update-*.md
+            output/ecosystem-watcher-history.jsonl
+          retention-days: 90
+
+      - name: Summary
+        if: always()
+        run: |
+          if ls output/research-skills-update-*.md 2>/dev/null | head -1 > /tmp/latest_report; then
+            REPORT=$(cat /tmp/latest_report)
+            echo "## Ecosystem Watch Report" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Report: \`$REPORT\`" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            tail -20 "$REPORT" >> $GITHUB_STEP_SUMMARY
+          fi
