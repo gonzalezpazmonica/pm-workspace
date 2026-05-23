@@ -1,0 +1,22 @@
+// SPEC-141 · github MCP template
+// Official server maintained by GitHub. Required: GITHUB_PERSONAL_ACCESS_TOKEN env var.
+// Scope minimo: repo:read. NO usar tokens con repo:write salvo necesidad explicita.
+{
+  "mcp": {
+    "github": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "environment": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${env:GITHUB_PERSONAL_ACCESS_TOKEN}"
+      },
+      "_savia_meta": {
+        "scope": "repo:read",
+        "auth": "pat",
+        "rotation_days": 90,
+        "trigger": "operaciones GitHub repetidas (issues, PRs, code search)",
+        "token_budget": "medium",
+        "bluerock_audit": "passed 2026-05-23 - official GitHub server, auth required, no SSRF"
+      }
+    }
+  }
+}
