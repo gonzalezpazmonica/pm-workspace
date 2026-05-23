@@ -2,6 +2,9 @@
 spec_id: SPEC-142
 title: Plugin tool.execute.before — auto-redaction de PATs y secrets via mutación de args
 status: IMPLEMENTED
+implementation_pr: 770
+implementation_date: "2026-05-23"
+slices_done: "1+2"
 origin: Investigación 2026-05-23 (P4) + paridad OpenCode. OpenCode v1.14+ expone `tool.execute.before` en `.opencode/plugin/*.ts` que muta `args` directamente (modelo imperativo). Claude Code v2.0.10+ tiene equivalente funcional via `modifiedInput` — savia es opencode-native, especificamos el patrón OpenCode.
 severity: Media — defiende Rule #1 (NUNCA hardcodear PAT) sin penalizar latencia. Hoy bloquea + el modelo reintenta.
 effort: ~5h (S) — 1 plugin TS + tests + 1 doc.

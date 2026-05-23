@@ -118,7 +118,7 @@ Sprint nocturno, mejora de código, investigación técnica. Los agentes propone
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 532 comandos
-│   ├── agents/         ← 65 agentes especializados (4 con decision trees: SPEC-147)
+│   ├── agents/         ← 65 agentes especializados (7 con decision trees: SPEC-147)
 │   ├── skills/         ← 86 skills de dominio
 │   ├── hooks/          ← 58 hooks deterministas
 │   └── rules/          ← reglas de contexto y lenguaje

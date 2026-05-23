@@ -118,7 +118,7 @@ Overnight sprint, code improvement, tech research. Agents propose on `agent/*` b
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 532 commands
-│   ├── agents/         ← 65 specialized agents (4 with decision trees: SPEC-147)
+│   ├── agents/         ← 65 specialized agents (7 with decision trees: SPEC-147)
 │   ├── skills/         ← 91 domain skills
 │   ├── hooks/          ← 55 deterministic hooks
 │   └── rules/          ← context and language rules

@@ -1,5 +1,6 @@
 ---
 name: dotnet-developer
+decision_tree: decision-trees/dotnet-developer-decisions.md
 permission_level: L3
 description: >
   Implementación de código C#/.NET siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando:
