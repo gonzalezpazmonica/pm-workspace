@@ -2,6 +2,10 @@
 spec_id: SPEC-147
 title: Decision trees para los 10 agentes top — completar de 1/10 a 10/10
 status: IN_PROGRESS
+implementation_prs: [771, 772]
+implementation_date: "2026-05-23"
+slices_done: "1+2 (7/10 trees)"
+slices_pending: "3 (3 remaining trees + AC-05 docs)"
 origin: Investigación 2026-05-23 (P13). En `.claude/agents/decision-trees/` solo existe `commit-guardian-decisions.md`. La investigación de marzo 2026 proponía 10 agentes. Quedan 9.
 severity: Media — mejora calidad de routing y reduce contexto innecesario.
 effort: ~10h (M) — 1h por decision tree.

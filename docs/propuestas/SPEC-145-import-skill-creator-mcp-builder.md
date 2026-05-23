@@ -1,7 +1,10 @@
 ---
 spec_id: SPEC-145
 title: Importar anthropics/skill-creator y anthropics/mcp-builder como skills oficiales
-status: PROPOSED
+status: IMPLEMENTED
+implementation_pr: 769
+implementation_date: "2026-05-23"
+slices_done: "1"
 origin: Investigación 2026-05-23 (P9). Anthropic mantiene skills oficiales (skill-creator, mcp-builder, webapp-testing) en https://github.com/anthropics/skills. Savia tiene `prompt-optimizer` pero no las herramientas oficiales para autoría rápida.
 severity: Baja — acelera autoría interna, no resuelve gap crítico.
 effort: ~3h (S) — clonado + verificación + integración.

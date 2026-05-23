@@ -2,245 +2,262 @@
 id: ROADMAP
 title: Savia Roadmap — Canonical single source of truth
 status: LIVING
-author: Savia (autoselección + consolidación)
-origin: Consolidación de SAVIA-SUPERPOWERS-ROADMAP.md + ROADMAP-UNIFIED-20260418.md + savia-enterprise/DEVELOPMENT-PLAN.md + debt specs SE-036..039
+author: Savia
 supersedes: SAVIA-SUPERPOWERS-ROADMAP.md, ROADMAP-UNIFIED-20260418.md (partial)
 last_updated: "2026-05-23"
 expires: "2026-08-30"
+rebuild_note: "2026-05-23 — Rebuild Opción A (honest). Snapshot real verificado vs frontmatter (no inferencias). Tiers obsoletos 1-7 colapsados."
 ---
 
 # Savia Roadmap — Canonical
 
-> **Único documento sobre el que Savia itera autónomamente**. Reemplaza 3 roadmaps previos (ver §Supersedes). Se actualiza en cada PR merged.
->
-> **Principios inmutables** (heredados de `autonomous-safety.md` + `DEVELOPMENT-PLAN.md`):
-> - Soberanía del dato — `.md` es la verdad
-> - Independencia del proveedor — adaptadores, no acoplamiento
-> - Honestidad radical — tests en rojo se dicen, no se esconden
-> - Privacidad absoluta — N4 jamás sale
-> - El humano decide — la usuaria revisa cada PR. Cero merge autónomo (Rule #8)
-> - Igualdad — Equality Shield
-> - Protección de identidad — Savia sigue siendo Savia
->
-> **Spec Ops (McRaven)**: Simplicity, Repetition (Feasibility Probe), Speed (Slicing), Purpose (cost-of-inaction), Theory of Relative Superiority (expires)
+> Único documento sobre el que Savia itera autónomamente. Se actualiza tras cada PR merged y tras cada cambio masivo de status.
+
+## Principios inmutables
+
+Heredados de `autonomous-safety.md`, `radical-honesty.md`, Rule #8:
+
+- Soberanía del dato — `.md` es la verdad
+- Independencia del proveedor — adaptadores, no acoplamiento (SPEC-127)
+- Honestidad radical — tests en rojo se dicen; specs sin status no se inventan
+- Privacidad absoluta — N4 jamás sale (Savia Shield)
+- El humano decide — la usuaria revisa cada PR. Cero merge autónomo
+- Igualdad — Equality Shield
+- Protección de identidad — Savia sigue siendo Savia
+
+Spec Ops (McRaven): Simplicity · Repetition (Probe) · Speed (Slicing) · Purpose · Relative Superiority (expires).
 
 ---
 
-## 0. Estado (snapshot 2026-04-18)
+## 0. Snapshot real (verificado 2026-05-23)
 
-**Repo state**: 130+ specs en `docs/propuestas/` + 37 savia-enterprise SPEC-SE-*
-**Activos (PROPOSED/ACCEPTED/Draft/IN_PROGRESS)**: 31
-**Legacy sin status field**: 111 (visibilizados via `spec-status-normalize.sh`)
-**Research outputs 2026-04-18 consolidados**: coderlm, Bluesky, MindStudio, Spec Ops, Hands-On LLM, Dify, Mutation Testing (Gómez Corio)
+Conteo desde `grep -lE '^status:' docs/propuestas/*.md`:
 
-**Merged recientes (era 234)**:
-- PRs #598–#608: pr-plan G5b+G6b, ast-comprehension RLM, SCM determinism, SCM freshness gate, bounded concurrency doctrine, MCP overhead audit, SE-032/033/034 specs, unified roadmap, SPEC-082 orphan fix, spec-status-normalize, debt specs
+| Status | Count |
+|---|---:|
+| Total specs | 203 |
+| IMPLEMENTED | 78 |
+| IN_PROGRESS | 10 |
+| APPROVED + ACCEPTED + DRAFT + PROPOSED | 104 |
+| REJECTED / SUPERSEDED / DEPRECATED | 9 |
+| Sin status field (drift) | ~2 |
+
+**De las 104 vivas**, sólo **32 tienen metadata `priority` + `effort`** completos. Las otras **72 no son priorizables sin triage** — bloqueadas hasta que tengan frontmatter normalizado (ver §4).
+
+**Hallazgos críticos sin reflejo previo en ROADMAP**:
+
+- **SE-092 PM-BACKEND** (APPROVED, CRITICAL, M) — bridge Azure DevOps/Jira con datos reales. No estaba en el roadmap anterior.
+- **SE-093 ZERO-LEAK** (APPROVED, CRITICAL, M) — enforcement de aislamiento por proyecto. No estaba en el roadmap anterior.
+- **SPEC-127** (APPROVED, P0, ~80h) — provider-agnostic. Foundation Slice 1 visible en `docs/rules/domain/provider-agnostic-env.md`.
+- **SPEC-125** (IN_PROGRESS, P0, ~36-48h) — Recommendation Tribunal. Slice 1 IMPLEMENTED pero no activado (requiere greenlight explícito de la usuaria).
 
 ---
 
-## 1. Queue autonomy-viable — orden de ejecución
+## 1. Trabajo en vuelo — pendiente de cierre humano
 
-Savia itera top-down. Cada ítem = 1 slice = 1 PR Draft. Criterio de salto: si Feasibility Probe falla, abort spec + documenta razón.
+PRs Draft abiertos esta sesión (overnight 2026-05-23). Bloquean nuevos slices del mismo dominio hasta merge/cierre.
 
-### Tier 1 — Probes de deuda (read-only, high signal)
-
-Todos Slice 1 de sus specs — solo mediciones, no cambian código. Producen ground truth para decidir remediación.
-
-| # | Spec | Acción concreta | Time-box |
+| PR | Spec | Estado | Acción de la usuaria |
 |---|---|---|---|
-| 1.1 | SE-037 Slice 1 | Hook bench sobre 60 hooks (`hook-bench.sh --all`) | 1h |
-| 1.2 | SE-038 Slice 1 | Agent size scan (`agent-size-audit.sh`) sobre 65 agentes | 1h |
-| 1.3 | SE-039 Slice 1 | Test-auditor sweep (`audit-all-bats.sh`) sobre 100+ `.bats` | 2h |
-| 1.4 | SE-036 Slice 1 | Migración batch Implemented confirmados (30 specs) | 2h |
+| #765 | savia-evolution (paraguas) | Draft, base=main, CI casi verde | Revisar, esperar BATS Hook Tests verde, merge |
+| #766 | SPEC-144 | Draft IMPLEMENTED | Review + merge |
+| #767 | SPEC-146 | Draft IMPLEMENTED | Review + merge |
+| #768 | SPEC-141 (Slices 1-4) | Draft IMPLEMENTED | Review + merge |
+| #769 | SPEC-145 | Draft IMPLEMENTED, vendoring | Review (33 files +9327L) + merge |
+| #770 | SPEC-142 (Slices 1+2) | Draft IMPLEMENTED | Review + merge |
+| #771 | SPEC-147 Slice 1 | Draft IN_PROGRESS (3 trees + symlink) | Review + merge |
+| #772 | SPEC-147 Slice 2 | Draft IN_PROGRESS, **stacked sobre #771** | Merge order: #771 → #772 |
 
-**Valor**: tras Tier 1 sabemos cuánta deuda real hay. Si una categoría no tiene problema, su spec queda ABORT/CLOSED automáticamente.
+Orden de review recomendado por riesgo creciente: **#767 → #766 → #769 → #768 → #770 → #771 → #772 → #765**.
 
-### Tier 1.5 — SLM Training Pipeline (strategic priority, 2026-04-19)
+---
 
-Aprobado para subir scaffolding al repo. GPU diferida hasta hardware disponible. Software puede operar sin GPU hoy.
+## 2. Tier P0 / CRITICAL — máxima prioridad
 
-| # | Spec | Status | Scaffolding hoy |
+Specs con `priority: P0` o `priority: CRITICAL` en frontmatter. No requieren triage; tienen contrato claro.
+
+| # | Spec | Status | Effort | Por qué ahora |
+|---|---|---|---|---|
+| P0.1 | **SPEC-127** Savia↔OpenCode provider-agnostic | APPROVED | ~80h | Foundation cross-frontend. Slice 1 ya en repo. Desbloquea Codex/Cursor/Copilot. |
+| P0.2 | **SPEC-125** Recommendation Tribunal real-time | IN_PROGRESS | ~36-48h | Slice 1 implementado, NO activado. Slice 2 = activación — **requiere greenlight humano explícito**. |
+| P0.3 | **SE-092** PM-BACKEND (Azure DevOps/Jira bridge) | APPROVED | M | CRITICAL. Sin esto, comandos PM ejecutan sobre datos vacíos. |
+| P0.4 | **SE-093** ZERO-LEAK enforcement | APPROVED | M | CRITICAL. Endurecimiento de aislamiento por proyecto. Complementa Savia Shield. |
+
+**Caveat**: Los 4 son CRITICAL pero **compiten por la misma cabeza humana**. Sugerencia secuencial: SE-092 (desbloquea valor inmediato PM) → SE-093 (cierra superficie de leak) → SPEC-127 Slice 2 (cross-frontend) → SPEC-125 Slice 2 (tribunal, decisión arquitectónica).
+
+---
+
+## 3. Tier Priorizado — P1..P13 con metadata
+
+Specs con `priority: P1..P13` o `priority: alta/media/baja` + `effort`. Ordenadas por valor × urgencia / esfuerzo.
+
+### 3.1 Top de la cola post-overnight (alto valor, S/M)
+
+| Rank | Spec | Prio | Effort | Tema | Por qué top |
+|---:|---|---|---|---|---|
+| 1 | **SPEC-147 Slice 3** | P13 | ~3h | 3 trees restantes + AC-05 docs | Cierra trabajo abierto. Coste mínimo, valor alto (10/10 cobertura). |
+| 2 | **SE-079** pr-plan G13 scope-trace | media | S | Gate anti scope-creep | Refuerza control de PRs. Habilita cierre seguro de #765. |
+| 3 | **SE-080** attention-anchor vocabulary | media | S | Genesis B8/B9/A7/A9 patterns | Bajo coste, alta señal. |
+| 4 | **SE-081** Pocock skills quick-wins | alta | S | caveman + zoom-out + grill-me | Mejora skills meta-cognitivas. Ya tenemos los 3 skills (verificado en SKILLS.md). |
+| 5 | **SE-082** architectural-vocabulary discipline | alta | M | Module/Interface/Seam/Adapter | Lenguaje común. Habilita SE-086/SE-087. |
+| 6 | **SE-083** TDD vertical-slice skill | media | S | Anti-horizontal-slicing | Refuerza patrón ya documentado. |
+| 7 | **SE-084** skill-catalog quality audit | alta | M | Use-when + progressive disclosure | 96 skills sin auditoría sistemática. |
+| 8 | **SE-085** write-a-skill meta-skill | baja | S | Skill creation discipline | Bajo coste. Complementa skill-creator vendorizado en #769. |
+
+### 3.2 Segundo lote (M, alta señal estratégica)
+
+| Rank | Spec | Prio | Effort | Tema |
+|---:|---|---|---|---|
+| 9 | **SE-086** ubiquitous-language extractor | media | M | DDD glossary from conversation |
+| 10 | **SE-087** design-an-interface parallel | media | M | Parallel sub-agents for module interface |
+| 11 | **SPEC-149** sandbox OS-level | P1 | ~20h | Defense in depth para modos autónomos. Convierte rule en runtime gate. |
+
+### 3.3 SLM pipeline (estratégico, requiere humano-en-loop)
+
+Todos APPROVED, Tier 1 estratégico. Scaffolding ya en repo; ejecución completa requiere hardware GPU.
+
+| # | Spec | Status | Acción no-GPU disponible |
 |---|---|---|---|
-| 1.5.1 | SPEC-SE-027 | **APPROVED** | Entry doc + rule |
-| 1.5.2 | SPEC-023 | **APPROVED** | Savia context brain — dataset prep ready |
-| 1.5.3 | SPEC-080 | **APPROVED** | Unsloth train-config.sh emite YAML |
-| 1.5.4 | SE-028 | **APPROVED** | oumi data synthesis scripts (pendiente) |
-| 1.5.5 | SE-042 | **APPROVED** | Voice/persona chat-to-SFT prep (pendiente) |
+| 12 | **SPEC-023** Savia LLM trainer | APPROVED | Dataset prep ready |
+| 13 | **SPEC-080** Custom LLM training Unsloth | APPROVED | `slm-train-config.sh` emite YAML |
+| 14 | **SE-028** oumi integration | APPROVED | Data synth scripts |
+| 15 | **SE-042** Savia voice training pipeline | APPROVED | Chat-to-SFT prep |
 
-Rule: `docs/rules/domain/slm-training-pipeline.md`.
-Scripts base: `scripts/slm-dataset-prep.sh`, `scripts/slm-train-config.sh`.
+### 3.4 Q3 architectural (L/XL — requieren probes Slice 1 antes de commit)
 
-### Tier 2 — Champions research (Feasibility Probes blocking)
+| Rank | Spec | Prio | Effort | Riesgo principal |
+|---:|---|---|---|---|
+| 16 | **SPEC-151** Evals CI gate | P7 | ~24h | Sin esto, no podemos medir las P3..P12. Recomendado **antes** de SPEC-150. |
+| 17 | **SPEC-150** Hooks multi-handler migration | P3 | ~35h | Cambio arquitectónico OpenCode events. Pesado pero desbloquea LLM judges. |
+| 18 | **SPEC-152** Hierarchical orchestrator delegation | P8 | ~18h | Cambia patrón fan-out. Depende de SPEC-147 (10/10 trees) — completar Rank 1 primero. |
+| 19 | **SPEC-153** Memory bi-temporal + consolidation | P12 | ~22h | Converge con SPEC-027/SPEC-123/SE-030 — consolidar antes de iniciar. |
 
-| # | Spec | Feasibility Probe | Gate decision |
-|---|---|---|---|
-| 2.1 | SE-032 Slice 1 | Reranker cross-encoder sobre 20 queries reales (2h) | precision@5 ≥ 80% → continue |
-| 2.2 | SE-033 Slice 1 | BERTopic sobre 50 retros reales (1.5h) | ≥3 clusters útiles → continue |
-| 2.3 | SE-035 Slice 1 | Mutation testing 3 módulos (1.5h) | score baseline >30% → continue |
-| 2.4 | SE-028 Slice 1 | oumi data synth para SLM (2h) | 500+ samples válidos → continue |
-| 2.5 | SE-041 Slice 1 | Memvid .mv2 format ingest 100 docs + round-trip (2h) | latencia <50ms + byte-identical restore → continue |
+### 3.5 Baja prioridad con effort conocido (background)
 
-Si TODOS los probes de Tier 2 aprueban: tenemos 5 capacidades nuevas con evidence empírico de ROI. Si fallan, documentamos y cerramos (valor del probe es evitar specs zombies).
+Solo iniciar cuando cola alta esté vacía o como fillers de capacidad.
 
-### Tier 3 — Seguridad (requiere luz verde humana antes)
+- **SPEC-085** Savia web data model (baja, ~6h)
+- **SPEC-100** GAIA benchmark integration (baja, ~5h)
+- **SPEC-102** opendataloader-pdf (baja, ~12h)
+- **SPEC-103** deterministic-first digests (baja, ~6h) — IN_PROGRESS, Slice 1 done
+- **SPEC-104** Tagged PDF compliance output (baja, ~4h)
+- **SPEC-107** AI cognitive debt mitigation (baja, ~32h)
+- **SPEC-108** Agent self-improvement + Sentry RCA (media, ~16h)
+- **SPEC-099** gitagent export adapter (baja, ~16h)
+- **SE-049** SLM command consolidation (media, L) — IN_PROGRESS
+- **SE-055** opencode parity generator (baja, M)
+- **SE-064** ACM multihost generator (baja, M)
 
-| # | Spec | Motivo del gate humano |
+---
+
+## 4. Tier Needs-Triage — 72 specs sin metadata
+
+Estas specs están vivas (PROPOSED/ACCEPTED) pero **sin `priority` ni `effort`**. **No son priorizables por Savia** sin que la usuaria o un agente con autoridad las clasifique.
+
+**Acción propuesta**: lote único de triage (1-2h humano) donde se asigne `priority` (alta/media/baja o P-N) + `effort` (S/M/L o ~Nh) a cada una. Sin esto, quedan invisibles en la cola y se acumula deuda.
+
+### 4.1 IN_PROGRESS sin metadata (riesgo alto — ya empezadas)
+
+- SPEC-010 SaviaClaw autonomy roadmap
+- SPEC-011 Context intelligence roadmap
+- SPEC-018 Vector memory index
+- SPEC-040 Memory research experiments
+- SPEC-109 Savia self-excellence (Opus 4.7 audit remediation)
+
+### 4.2 ACCEPTED sin metadata (14 specs)
+
+Memoria: SPEC-019, SPEC-020, SPEC-026, SPEC-029, SPEC-077, SPEC-112, SPEC-113.
+Otros: SPEC-021, SPEC-022, SPEC-024, SPEC-036, SPEC-038, SPEC-039, SPEC-041.
+
+### 4.3 PROPOSED sin metadata (~55 specs)
+
+Familias temáticas detectadas (auditar antes de priorizar):
+
+| Familia | Specs | Acción sugerida |
 |---|---|---|
-| 3.1 | **SPEC-SE-028** prompt injection guard | P0. Cambia arquitectura de seguridad. Savia escribe propuesta, espera luz verde explícita de la usuaria antes de implementar. |
-
-### Tier 4 — PROPOSED maduros (iteración directa)
-
-Orden por dependencia:
-
-| # | Spec | Dependencia | Por qué ahora |
-|---|---|---|---|
-| 4.1 | SE-029 rate-distortion context compression | Savia Dual Compact v2 | Alto impacto en tokens/sesión |
-| 4.2 | SE-030 GraphRAG quality gates | SPEC-027 merged | Converge con SPEC-SE-023 federation |
-| 4.3 | SE-034 workflow node typing | Independiente | DAG quality of life |
-| 4.4 | SPEC-102 opendataloader-pdf | pdf-digest merged | Determinismo de output |
-| 4.5 | SPEC-103 deterministic-first digests | SPEC-102 probe | Consistencia cross-digests |
-| 4.6 | SPEC-107 AI cognitive debt mitigation | — | Research-heavy, medium urgency |
-| 4.7 | SPEC-108 agent self-improvement + Sentry RCA | parcial merged | Closing loop |
-| 4.8 | SPEC-099 gitagent export adapter | — | Portabilidad futura |
-| 4.9 | SPEC-100 GAIA benchmark integration | — | Validación externa |
-| 4.10 | SE-040 agent degradation canary | Independiente | Alto — previene cascada de fallos silenciosa (Anthropic issue #42796) |
-| 4.11 | SE-042 Savia voice training pipeline | SE-027 | Data prep para SLM fine-tuning — pattern de WeClone |
-
-### Tier 5 — Enterprise SE-XXX absorbidos
-
-Del ex-DEVELOPMENT-PLAN.md savia-enterprise, iterable autónomamente sin infra externa:
-
-| # | Spec | Título | Por qué autonomy-viable |
-|---|---|---|---|
-| 5.1 | SE-011 | Docs restructuring | Solo docs — zero riesgo |
-| 5.2 | SE-012 | Signal-noise reduction | Solo docs + hooks |
-| 5.3 | SE-001 | Foundations (docs-portion) | Docs + scripts de setup |
-| 5.4 | SE-013 | Dual estimation (agent vs human) | Merge con SPEC-078 |
-| 5.5 | SPEC-SE-026 | Compliance evidence (ISO/SOC2) | Docs + hooks auto-generables |
-| 5.6 | SPEC-SE-029 | Iterative compression | Converge con SE-029 |
-| 5.7 | SPEC-SE-030 | Skill self-improvement pipeline | Sobre 77 skills existentes |
-| 5.8 | SPEC-SE-031 | Delegation toolset enforcement | Extensión policy-check existente |
-| 5.9 | SPEC-SE-032 | Cross-project lessons pipeline | Extiende lesson-extract skill |
-| 5.10 | SPEC-SE-033 | Context rotation strategy | Depende de SE-029 |
-| 5.11 | SPEC-SE-034 | Daily agent activation plan | Extiende daily-plan skill |
-| 5.12 | SPEC-SE-020 | Cross-project deps | Extensión portfolio-deps |
-| 5.13 | SPEC-SE-021 | Code Review Court (+pr-agent) | Converge con SPEC-124 |
-| 5.14 | SPEC-SE-023 | Knowledge federation | Converge con SE-030 |
-| 5.15 | SPEC-SE-025 | Agentic workforce analytics | Docs + script analyzer |
-| 5.16 | SPEC-SE-002 | Multi-tenant & RBAC | Workspace isolation via scripts + configs |
-| 5.17 | SPEC-SE-003 | MCP server catalog | Catalog tooling sobre `.claude/mcp.json` |
-| 5.18 | SPEC-SE-004 | Agent framework interop | Adapters a LangGraph/AutoGen/CrewAI — docs + wrappers |
-| 5.19 | SPEC-SE-006 | Governance & compliance pack | Policies + audits automatizables |
-| 5.20 | SPEC-SE-009 | Observability stack (agnóstico) | Autosufficient local mode (SE-005 sovereign) |
-| 5.21 | SPEC-SE-010 | Migration path & backward compat | Docs + migration scripts |
-| 5.22 | SPEC-SE-014 | Release orchestration | Adapters + templates (deploy humano en prod, autónomo en staging) |
-| 5.23 | SPEC-SE-022 | Resource & bench management | Benchmarking scripts |
-| 5.24 | SPEC-SE-024 | Client health intelligence | Signals aggregation scripts |
-| 5.25 | SPEC-SE-027 | SLM training pipeline | Ya merged (base) — extensiones opt-in |
-
-### Tier 6 — Convergencias / consolidaciones
-
-Estado de consolidaciones marcadas en frontmatter de cada spec:
-
-- SPEC-081 hook BATS coverage → **SUPERSEDED_BY SE-037** ✅ (aplicado 2026-04-18)
-- SPEC-028 search-reranker → **SUPERSEDED_BY SE-032** ✅ (aplicado 2026-04-18)
-- SPEC-027 graph memory layer → **converges_with SPEC-123 graphiti + SE-030** ✅ (aplicado 2026-04-18)
-- SPEC-078 dual estimation ↔ SPEC-SE-013 → **pendiente** — candidato a consolidar
-
-Pattern: cuando SE-XXX refina un SPEC-YYY anterior con Spec Ops (Feasibility Probe, Purpose, expires), marcar el SPEC-YYY como `status: SUPERSEDED` + `superseded_by: SE-XXX` + razón. Frontmatter metadata es auditable y grep-friendly.
-
-### Tier 7 — Backlog frío
-
-111 specs sin frontmatter YAML migrarán via SE-036 Slices 2/3. Tras migración, se reclasifican automáticamente por status.
+| Memory & graph | SPEC-027, SPEC-034, SPEC-035, SPEC-037, SPEC-073, SPEC-123, SE-030, SE-031 | Consolidar en plan unificado de memoria. |
+| SDD pipeline | SPEC-042..046, SPEC-048..054, SPEC-056..059, SPEC-063, SPEC-065, SPEC-074..076 | Familia grande (~22 specs). Triage por valor real (muchas pueden ser DUPLICATE/SUPERSEDED). |
+| Security | SPEC-030, SPEC-032, SPEC-033, SPEC-070 | Cruzar con SE-093 ZERO-LEAK y Savia Shield. |
+| OpenCode adaptation | SPEC-OC-01, SPEC-OC-04, SPEC-INSTALLER-OPENCODE | Cruzar con SPEC-127. Posibles SUPERSEDED. |
+| Misc activos | SPEC-003, SPEC-025, SPEC-031, SPEC-047, SPEC-079, SE-034 (IN_PROGRESS), era21-masterplan | Triage individual. |
+| Docs/propuestas sin spec_id | adr-connectors-vs-mcp, investigacion-ecosistema-claude-code-2026, propuesta-incorporacion-awesome-claude-code, propuesta-onboarding-y-evaluacion, propuesta-pr-guardian-system, TEMPLATE | Reclasificar: ¿spec real, ADR, research, o borrar? |
 
 ---
 
-### Tier 8 — Q2/Q3 2026: Cross-Tool & Agentic Hardening
+## 5. Deferido — hardware o humanos requeridos
 
-Conjunto de 13 specs PROPOSED derivados de la investigación 2026-05-23 (`output/research-tendencias-workspaces-agentes-2026-20260523.md` + investigación complementaria sobre paridad OpenCode). Todos opencode-native: usan `opencode.jsonc`, plugins TS en `.opencode/plugin/`, events nativos OpenCode (`tool.execute.before`, `event`, `chat.message`), `mcp` block en lugar de `.claude/mcp.json`. Skill `tech-research-agent` produjo el informe base; skill `web-research` validó paridad OpenCode (issues opencode/anomalyco #12472, #20387, #21075, #8058).
-
-**Bucket Q2 (S, low-risk, high-confidence — ~1 sprint)**:
-
-| # | Spec | Tema | Esfuerzo |
-|---|---|---|---|
-| 8.1 | SPEC-141 | MCP Curated Catalog (opencode.jsonc mcp block, OAuth DCR, Server Cards) | S (6h) |
-| 8.2 | SPEC-142 | Plugin `tool.execute.before` para auto-redaction de secrets (TS, mutación args) | S (5h) |
-| 8.3 | ~~SPEC-143~~ | ~~Conformidad SKILL.md~~ — **ABORTED 2026-05-23** (premisa falsa: skills NO superan 150 líneas por Rule #11) | — |
-| 8.4 | SPEC-144 | `/speckit.*` slash command aliases (compatibilidad spec-kit) | S (4h) |
-| 8.5 | SPEC-145 | Import anthropics/skill-creator + mcp-builder | S (3h) |
-| 8.6 | SPEC-146 | Watcher mensual de awesome-* repos | S (4h) |
-| 8.7 | SPEC-147 | Decision trees para top-10 agentes (1/10 → 10/10) | M (10h) | 🟡 IN_PROGRESS 2026-05-23 (Slices 1+2: 7/10 trees) |
-| 8.8 | ~~SPEC-148~~ | ~~SKILL.md progressive disclosure split~~ — **ABORTED 2026-05-23** (sin caso real, depende de SPEC-143) | — |
-
-**Bucket Q3 (M-L, architectural — requieren SPEC Slice 1 probes)**:
-
-| # | Spec | Tema | Esfuerzo |
-|---|---|---|---|
-| 8.9 | SPEC-149 | Sandbox OS-level via plugin `opencode-sandbox` + permission block + Docker doble capa | M (20h) |
-| 8.10 | SPEC-150 | Hooks multi-handler — plugin TS para LLM judges + MCP audit + HTTP via fetch | L (35h, recalibrado 2026-05-23) |
-| 8.11 | SPEC-151 | Evals CI gate (DeepEval + Promptfoo, paired-delta sobre baseline frozen, judge pinned) | L (24h) |
-| 8.12 | SPEC-152 | Delegación jerárquica — feature leads en lugar de fan-out plano | M (18h) |
-| 8.13 | SPEC-153 | Memory bi-temporal + consolidación episodic→semantic + multi-signal retrieval | L (22h) |
-
-**Dependencias intra-bucket**:
-- ~~SPEC-143 ← SPEC-148~~ (ambos ABORTED)
-- SPEC-141 ← SPEC-150 (MCP catalog habilita audit via mcp_tool)
-- SPEC-147 ← SPEC-152 (feature leads necesitan decision trees)
-- SPEC-151 ← SPEC-150 (los plugins TS LLM judges necesitan evals)
-- SPEC-141 ← SPEC-145 (mcp-builder produce plantillas del catálogo)
-
-**Bucket Q2 efectivo tras review 2026-05-23**: 6 specs (128, 129, 131, 132, 133, 134). 130 y 135 ABORTED. Ver `output/SPEC-141-140-review-20260523.md` para detalle.
-
-**Filtros aplicados durante la redacción** (auditable):
-- Paridad OpenCode verificada para cada feature (research 2026-05-23 — sub-agent web-research).
-- Skip explícito de patterns Claude-Code-only sin equivalente OpenCode (eg. plugin marketplace declarativo).
-- Cero referencias a forks privados o información confidencial; los specs son publicables.
-
----
-
-## 2. Sección diferida — hardware / humans required
-
-Savia NO escribe código. Puede mantener spec updated + documentar cuando la usuaria ejecuta manualmente.
+Savia mantiene la spec actualizada pero NO escribe código.
 
 | Spec | Motivo | Responsable humano |
 |---|---|---|
-| SPEC-006 ZeroClaw | Hardware físico | la usuaria |
-| SPEC-007 ZeroClaw voice | Hardware mic + audio | la usuaria + hardware testing |
-| SPEC-008 ZeroClaw meeting digest | Hardware + humanos en reunión | la usuaria |
-| SPEC-004 Robotics vertical | Hardware | la usuaria |
-| SPEC-005 Physical assembly | Hardware + monta humano | la usuaria |
-| SPEC-009 Savia Teams participant | Cuenta Teams + humanos | la usuaria + Teams admin |
-| SPEC-021 Readiness (parte hw) | GPU, TPM, USB reales | la usuaria |
+| SPEC-006/007/008 ZeroClaw | Hardware físico, mic, audio | la usuaria |
+| SPEC-004/005 Robotics + assembly | Hardware | la usuaria |
+| SPEC-009 Savia Teams participant | Cuenta Teams + humanos | usuaria + Teams admin |
+| SPEC-021 Readiness hardware | GPU, TPM, USB reales | la usuaria |
 | SPEC-064 Computer use integration | Entorno GUI dedicado | la usuaria |
-| SPEC-SE-005 Sovereign deployment | Ops humano (k8s, vault, DNS) | DevOps |
-| SPEC-SE-007 Enterprise onboarding | Ciclo comercial | Sales |
-| SPEC-SE-008 Licensing distribution | Legal + billing humano | Legal + finance |
-| SPEC-SE-015/016/017/018/019 | Prospect/valuation/definition/billing | Pre-sales + finance |
+| SPEC-SE-005 Sovereign deployment | Ops (k8s, vault, DNS) | DevOps |
+| SPEC-SE-007/008 Enterprise onboarding/licensing | Comercial + legal | Sales + Legal |
+| SPEC-SE-015..019 Prospect/valuation/billing | Pre-sales + finance | Pre-sales + Finance |
 
 ---
 
-## 3. Estrategia de iteración
+## 6. Era 234 — IMPLEMENTED reciente (overnight 2026-05-23)
+
+| Spec | Tema | PR | Notas |
+|---|---|---|---|
+| SPEC-141 | MCP Curated Catalog (10 plantillas + Server Cards + audit) | #768 | Slices 1+2+3+4 — BATS 14/14 |
+| SPEC-142 | Plugin tool.execute.before auto-redact credentials | #770 | Slices 1+2 — BATS 19/19, Bun 10/10 |
+| SPEC-144 | /speckit.* slash aliases (8 commands) | #766 | BATS 8/8 |
+| SPEC-145 | Vendored anthropics/skill-creator + mcp-builder | #769 | 33 files +9327L en `external/` |
+| SPEC-146 | Monthly watcher awesome-* repos | #767 | BATS 9/9 + cron mensual |
+| SPEC-147 | Decision trees top-10 agents (Slices 1+2) | #771+#772 | 7/10 trees, symlink dedup |
+
+**Bug-fix sesión**: status frontmatter de SPEC-141/142/144/145/146 corregido de `PROPOSED` a `IMPLEMENTED` (estaba mal — afirmado IMPLEMENTED en bitácora sin actualizar frontmatter). Lección a documentar: tras implementar, **siempre** actualizar `status:` + `implementation_pr:` + `implementation_date:` antes de cerrar slice.
+
+---
+
+## 7. Era 232-233 — IMPLEMENTED previo (selección, sin fecha verificable)
+
+Sin `implementation_date` en frontmatter → no se listan aquí para no inventar cronología. Lista completa: `grep -lE "^status:\s*IMPLEMENTED" docs/propuestas/*.md` (78 ficheros).
+
+Highlights conocidos: SPEC-097, 098, 101, 105, 106, 110, 120, 121, 122, 124.
+
+---
+
+## 8. REJECTED / DEPRECATED
+
+| Spec | Razón |
+|---|---|
+| SPEC-143 SKILL.md conformance | Premisa falsa: skills NO superan 150 líneas por Rule #11 (verificado 2026-05-23). |
+| SPEC-148 SKILL.md progressive disclosure split | Sin caso real; dependía de SPEC-143 (REJECTED). |
+
+Otras 7 cerradas históricas: `grep -lE "^status:\s*(REJECTED|SUPERSEDED|DEPRECATED|ABORTED)" docs/propuestas/*.md`.
+
+---
+
+## 9. Estrategia de iteración
 
 ### Cadencia
 
 - 1 slice = 1 rama `agent/{spec-id}-slice{N}-{YYYYMMDD}` = 1 PR Draft
-- Reviewer obligatorio: `@gonzalezpazmonica`
-- Nunca merge autónomo (Rule #8)
+- Reviewer obligatorio: `AUTONOMOUS_REVIEWER` resuelto desde `~/.savia/preferences.yaml`
+- Cero merge autónomo (Rule #8)
+- Cada slice incluye actualización de `status:` + `implementation_pr:` + `implementation_date:` en frontmatter de la spec
 
 ### Gates por slice
 
 1. `commit-guardian` pre-commit
-2. `/pr-plan` (13 gates G0-G10 + G5b extended CI + G6b test quality)
+2. `/pr-plan` (13 gates G0-G10 + G5b extended CI + G6b test quality + G13 scope-trace cuando SE-079 esté merged)
 3. `confidentiality-sign.sh sign`
 4. `git push origin agent/...`
-5. `gh pr create --draft --reviewer @gonzalezpazmonica`
+5. `gh pr create --draft --reviewer <handle>`
 
 ### Puntos de escalación (Savia se detiene)
 
 - Context >85% sin `/compact` útil
 - 3 fallos consecutivos mismo slice
 - `/pr-plan` rojo irrecuperable
-- Gate de autonomía falla (Tier 3, arquitectura de seguridad)
+- Gate de autonomía falla (Tier P0 sensible, arquitectura de seguridad)
 - Conflicto con principios inmutables
 
 ### Presupuesto por spec
@@ -254,101 +271,85 @@ Savia NO escribe código. Puede mantener spec updated + documentar cuando la usu
 - Test-auditor score medio ≥85 en tests nuevos
 - Latencia hooks críticos ≤20ms p50
 - Cero regresiones en tests existentes por slice
+- **Drift de status**: 0 specs IMPLEMENTED con PR mergeado sin `implementation_date`
 
 ---
 
-## 4. DAG de dependencias (crítico)
+## 10. DAG actualizado de dependencias críticas
 
 ```
-SE-035 (mutation) ────┐
-                      ├── SE-039 (test-auditor sweep) ── ci-gate
-SE-037 (hook lat) ────┘
-                      
-SE-036 (frontmatter) ──── unlocks grep-tooling on 111 specs
-                      
-SE-032 (reranker) ────┬── SE-030 (GraphRAG quality) ── SPEC-SE-023 (federation)
-SPEC-027 (graph) ─────┘
-                      
-SE-029 (rate-distortion) ── SPEC-SE-029 / SPEC-SE-033 (context rotation)
-                      
-SPEC-SE-028 (prompt injection) ── independient, P0 security
-                      
-SPEC-102 ── SPEC-103 ── SPEC-104 (pdf determinism chain)
+SE-079 (G13 scope-trace) ────┐
+                              ├── refuerza control de PRs (post-#765)
+SE-080 (attention vocab) ─────┘
+
+SE-082 (arch vocab) ──── SE-086 (DDD glossary) ── SE-087 (interface parallel)
+
+SPEC-147 (10/10 trees) ──── SPEC-152 (hierarchical delegation)
+
+SPEC-141 (MCP catalog) ──── SPEC-150 (hooks multi-handler) ──┐
+                                                              ├── SPEC-151 (evals CI gate)
+SPEC-127 (provider-agnostic) ──── SPEC-150 ───────────────────┘
+
+SE-092 (PM-BACKEND) ──── desbloquea valor inmediato Azure DevOps/Jira
+SE-093 (ZERO-LEAK) ──── endurece Savia Shield
+
+SPEC-127 ──── habilita Codex/Cursor/Copilot adoption
+SPEC-125 Slice 2 ──── requiere greenlight humano (tribunal en producción)
 ```
 
 Caminos críticos:
-- **Seguridad**: SPEC-SE-028 (independient, priorizar)
-- **Visibilidad**: SE-036 → habilita herramientas grep/jq confiables
-- **Calidad**: SE-037 + SE-039 → SLA sobre 60 hooks + 100+ tests
-- **Intelligence**: SE-032 + SE-030 + SPEC-SE-023 → stack RAG completo
+
+- **Cierre trabajo abierto**: #765-#772 merge → SPEC-147 Slice 3
+- **Valor inmediato**: SE-092 PM-BACKEND
+- **Seguridad**: SE-093 ZERO-LEAK + SPEC-149 sandbox
+- **Cross-frontend**: SPEC-127 Slice 2+
+- **Quality measurement**: SPEC-151 evals (precede SPEC-150)
 
 ---
 
-## 5. Consolidaciones pendientes
+## 11. Consolidaciones pendientes (debt)
 
 | Candidato | Acción propuesta |
 |---|---|
-| SAVIA-SUPERPOWERS-ROADMAP.md | SUPERSEDED por este roadmap — archivar |
-| ROADMAP-UNIFIED-20260418.md | SUPERSEDED parcialmente — archivar o referenciar solo §Iteration strategy |
-| savia-enterprise/DEVELOPMENT-PLAN.md | DAG absorbido en §Tier 5. Mantener como doc histórica-only de savia-enterprise |
-| SPEC-081 hook bats coverage | Marcar SUPERSEDED BY SE-037 |
-| SPEC-028 search-reranker | Auditar duplicación con SE-032 |
-
-Estas consolidaciones se ejecutan en un follow-up PR tras este roadmap aterrizar.
-
----
-
-## 6. Live status (se actualiza cada PR merged)
-
-### En curso — ninguna spec simultánea
-
-### Último PR merged — #730 hotfix `generate-blocklist.sh` Unicode-binary bug (2026-04-30)
-
-### Recientes (batches 78-83 + hotfixes)
-
-- **Era 232 cerrada**: SPEC-SE-037 (audit trigger primitive ✓ IMPLEMENTED) + SPEC-SE-036 Slices 1+2 (jwt-mint + api-key CLIs, IN_PROGRESS — Slice 3 sunset PAT pendiente) + SPEC-SE-035 Slices 1+3 (reconciliation primitive + CLI, IN_PROGRESS — Slices 2/4/5 follow-up).
-- **Recommendation Tribunal foundation**: SPEC-125 Slice 1 IMPLEMENTED (4 jueces + classifier + scripts + hook stub, IN_PROGRESS — **NO ACTIVADO**). Activación = Slice 2, requiere greenlight humano explícito.
-- **Image relevance filter primitive**: SPEC-103 Slice 1 IMPLEMENTED (deterministic-first triage, IN_PROGRESS — Slice 2 integración con 3 agents pendiente).
-- **Workspace hotfixes**: PR #729 (Pablo, savia-monitor macOS PID detection), PR #730 (blocklist generator Unicode fix).
-
-### Top 10 Critical Path post-audit (2026-04-30)
-
-Post drift-cleanup audit. Orden propuesto considerando severity, dependencies, momentum, user direction (SPEC-125 → SPEC-107 → roadmap principal Savia Enterprise) y safety alignment:
-
-1. **SPEC-125 Slice 2/3** — activación tribunal real-time (Crítica, requiere greenlight humano, ~24-32h).
-2. **SPEC-107 Slice 1** — AI Cognitive Debt measurement (Alta, read-only, ~10h).
-3. **SPEC-SE-001 foundations** — desbloquea SE-002/005/006/010 (~24h Slice 1).
-4. **Drift cleanup batch** — este PR. Process hygiene.
-5. **SPEC-SE-008 licensing** — wave 0 paralelo de SE-001 (~16h Slice 1).
-6. **SPEC-SE-028 prompt-injection-guard** — P0 security, complementa SPEC-125 (~12h Slice 1).
-7. **SE-079 pr-plan G13 scope-trace** — APPROVED, cierra scope-creep (~6h).
-8. **SE-086 ubiquitous-language extractor** — APPROVED, complementa SE-082 (~5h).
-9. **SPEC-SE-002 multi-tenant** — desbloquea SE-005/006/007/010 (~40h Slice 1).
-10. **SPEC-108 self-improvement Slice 1** — completa safety triad con SPEC-125 + SPEC-107 (~8h).
-
-### Próximo slice recomendado — **SPEC-107 Slice 1** (AI Cognitive Debt measurement)
-
-Tras drift cleanup. Por orden previo acordado con la usuaria. SPEC-125 Slice 2 (item #1) requiere greenlight humano explícito y queda pausado hasta entonces.
+| SAVIA-SUPERPOWERS-ROADMAP.md | Archivar (SUPERSEDED) |
+| ROADMAP-UNIFIED-20260418.md | Archivar parcial (mantener §Iteration strategy) |
+| savia-enterprise/DEVELOPMENT-PLAN.md | Mantener histórico — DAG ya absorbido |
+| SPEC-019/020/026/029/077 (memory family) | Consolidar en plan único memoria |
+| SPEC-042..076 (SDD family, ~22 specs) | Triage para detectar duplicados/superseded |
+| SPEC-OC-* | Cruzar con SPEC-127 |
+| TEMPLATE.md | Mover a `docs/propuestas/_TEMPLATE.md` (subrayado para no listar) |
 
 ---
 
-## 7. Roadmaps superseded (histórico)
-
-Estos documentos se mantienen en repo por razones de auditoría pero ya no son fuente de verdad:
-
-- `docs/propuestas/SAVIA-SUPERPOWERS-ROADMAP.md` — 2026-04-17, SPEC-120..124 (todos merged PRs #592–#594). Tachado.
-- `docs/propuestas/ROADMAP-UNIFIED-20260418.md` — 2026-04-18 v1, absorbido en este roadmap. Mantener Sección C (iteration strategy) como referencia histórica.
-- `docs/propuestas/savia-enterprise/DEVELOPMENT-PLAN.md` — 2026-04-11, onda 0-3 savia-enterprise. DAG consolidado en §Tier 5; mantener doc para detalle histórico de contrato de ejecución.
-
----
-
-## 8. Referencias
+## 12. Referencias
 
 - `docs/rules/domain/autonomous-safety.md` — Rule #8 + gates
+- `docs/rules/domain/radical-honesty.md` — Rule #24
 - `docs/rules/domain/bounded-concurrency.md` — doctrina anti-fork-bomb
 - `docs/rules/domain/mcp-overhead.md` — doctrina MCP
 - `docs/rules/domain/query-library-protocol.md` — RLM pattern
-- `.opencode/skills/` (77 skills)
-- `.opencode/agents/` (65 agents)
+- `docs/rules/domain/provider-agnostic-env.md` — SPEC-127 foundation
+- `.opencode/skills/` (96 skills, ver SKILLS.md)
+- `.opencode/agents/` (70 agents, ver AGENTS.md)
 - `tests/` (100+ .bats)
 - `output/agent-runs/` — auditoría de sesiones autónomas
+- `output/session-state/RESUME.md` — estado overnight 2026-05-23 (gitignored)
+
+---
+
+## Apéndice — Cómo se construyó este ROADMAP
+
+Comandos verificables ejecutados 2026-05-23 antes del rebuild:
+
+```bash
+# Conteo total
+ls docs/propuestas/*.md | wc -l                                # 203
+
+# Breakdown por status
+grep -lE "^status:\s*IMPLEMENTED" docs/propuestas/*.md | wc -l       # 78
+grep -lE "^status:\s*IN_PROGRESS" docs/propuestas/*.md | wc -l        # 10
+grep -lE "^status:\s*(PROPOSED|ACCEPTED|APPROVED|DRAFT)" docs/propuestas/*.md | wc -l  # 104
+grep -lE "^status:\s*(REJECTED|SUPERSEDED|DEPRECATED|ABORTED|CLOSED)" docs/propuestas/*.md | wc -l  # 9
+```
+
+Cero datos inventados. Las 72 specs sin priority/effort están listadas como "needs-triage" en §4, no priorizadas por inferencia.
