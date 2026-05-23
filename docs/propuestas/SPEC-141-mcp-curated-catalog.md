@@ -1,7 +1,10 @@
 ---
 spec_id: SPEC-141
 title: MCP Curated Catalog — catálogo bajo demanda con OAuth, rotación y filtros de seguridad
-status: IMPLEMENTED 2026-05-23 (Slice 1+2+3+4)
+status: IMPLEMENTED
+implementation_pr: 768
+implementation_date: "2026-05-23"
+slices_done: "1+2+3+4"
 origin: Investigación 2026-05-23 sobre tendencias workspaces/agentes (output/research-tendencias-workspaces-agentes-2026-20260523.md, sección 3.8, P2). Atlassian deprecate SSE el 2026-06-30 → todos a Streamable HTTP; BlueRock encontró 36.7% MCPs con SSRF y 41% sin auth.
 severity: Alta — `mcp.json` está vacío hoy ("bajo demanda") pero sin catálogo curado. Resuelve task #12 pending del backlog.
 effort: ~6h (S) — 1 plantilla por proveedor + script de auditoría.

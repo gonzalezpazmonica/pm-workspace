@@ -1,5 +1,6 @@
 ---
 name: business-analyst
+decision_tree: decision-trees/business-analyst-decisions.md
 permission_level: L1
 description: >
   Análisis de reglas de negocio, descomposición de PBIs, criterios de aceptación y evaluación
