@@ -1,0 +1,20 @@
+// SPEC-141 · atlassian MCP template
+// Atlassian deprecate SSE 2026-06-30. Usar mcp-remote stdio wrapper para Streamable HTTP
+// hasta que OpenCode soporte HTTP nativo (issue #8058).
+{
+  "mcp": {
+    "atlassian": {
+      "type": "local",
+      "command": ["npx", "-y", "mcp-remote", "https://mcp.atlassian.com/v1/sse", "--transport", "http-only"],
+      "_savia_meta": {
+        "scope": "read:issues",
+        "auth": "oauth",
+        "rotation_days": 30,
+        "trigger": "consultar Jira + Confluence",
+        "token_budget": "medium",
+        "bluerock_audit": "passed 2026-05-23 - OAuth, official Atlassian endpoint",
+        "transport_workaround": "mcp-remote stdio wrapper hasta opencode #8058"
+      }
+    }
+  }
+}

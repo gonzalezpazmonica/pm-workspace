@@ -1,0 +1,21 @@
+// SPEC-141 · context7 MCP template
+// Upstash Context7 - docs vivas por version. Mata invencion de APIs antiguas.
+{
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp"],
+      "environment": {
+        "CONTEXT7_API_KEY": "${env:CONTEXT7_API_KEY}"
+      },
+      "_savia_meta": {
+        "scope": "read:docs",
+        "auth": "api_key",
+        "rotation_days": 90,
+        "trigger": "antes de invocar API cuya version no conoces con seguridad",
+        "token_budget": "low",
+        "bluerock_audit": "passed 2026-05-23 - read-only, auth required, no URL injection"
+      }
+    }
+  }
+}

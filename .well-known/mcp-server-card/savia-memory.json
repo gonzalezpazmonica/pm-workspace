@@ -1,0 +1,16 @@
+{
+  "name": "savia-memory",
+  "version": "1.0.0",
+  "description": "Savia persistent JSONL memory store exposed as MCP stdio server",
+  "vendor": "savia",
+  "protocol_version": "2024-11-05",
+  "transport": "stdio",
+  "tools": [
+    {"name": "memory_recall", "description": "Recall memories matching query"},
+    {"name": "memory_save", "description": "Save a memory entry"},
+    {"name": "memory_stats", "description": "Return memory store statistics"}
+  ],
+  "auth": {"required": false},
+  "spec": "SPEC-141",
+  "license": "MIT"
+}
