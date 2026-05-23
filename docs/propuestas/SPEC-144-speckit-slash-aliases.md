@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-144
 title: /speckit.* slash command aliases — compatibilidad cross-tool con github/spec-kit
-status: PROPOSED
+status: IMPLEMENTED 2026-05-23
 origin: Investigación 2026-05-23 (P6). github/spec-kit (>100k stars, MIT) es estándar de facto para SDD. SPEC-120 ya alineó el template; faltan los slash commands para que cualquiera que conozca spec-kit pueda usar Savia sin re-aprender.
 severity: Media — DX externa, adopción comunitaria.
 effort: ~4h (S) — 8 ficheros de redirección + tests.

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 27035427a0a5 | resources: 1160
-> 545 commands · 96 skills · 70 agents · 449 scripts
+> hash: cb8245061304 | resources: 1168
+> 553 commands · 96 skills · 70 agents · 449 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -154,6 +154,13 @@
 [communication] word-digest —  — agent:.claude/agents/word-digest.md
 [communication] zeroclaw-meeting — diarization,digest,identification,live,meeting — cmd:.claude/commands/zeroclaw-meeting.md
 [development] /a11y-monitor — accesibilidad,alertas,baja,bloqueando,continua — cmd:.claude/commands/a11y-monitor.md
+[development] /speckit.checklist — alias,calidad,capa,compatible,final — cmd:.claude/commands/speckit.checklist.md
+[development] /speckit.clarify — alias,ambigüedad,cerrar,compatible,conductor — cmd:.claude/commands/speckit.clarify.md
+[development] /speckit.constitution — alias,args,compatible,constituir,constitution — cmd:.claude/commands/speckit.constitution.md
+[development] /speckit.implement — alias,aprobada,compatible,github,implementación — cmd:.claude/commands/speckit.implement.md
+[development] /speckit.plan — alias,capturada,compatible,development,diseño — cmd:.claude/commands/speckit.plan.md
+[development] /speckit.specify — alias,captura,compatible,discovery,github — cmd:.claude/commands/speckit.specify.md
+[development] /speckit.tasks — accionables,alias,compatible,decomposition,descomposición — cmd:.claude/commands/speckit.tasks.md
 [development] Trace Analyze — análisis,botella,cadenas,cuellos,detección — cmd:.claude/commands/trace-analyze.md
 [development] agents-opencode-convert — agents,convert,final,migration,opencode — script:scripts/agents-opencode-convert.sh
 [development] arch-compare — arquitectura,comparar,decisiones,patrones,toma — cmd:.claude/commands/arch-compare.md
@@ -938,6 +945,7 @@
 [quality] /a11y-audit — accesibilidad,aria,auditoría,completa,componentes — cmd:.claude/commands/a11y-audit.md
 [quality] /a11y-fix — accesibilidad,aplicar,aria,attributes,audit — cmd:.claude/commands/a11y-fix.md
 [quality] /drift-check — archivos,audita,claude,detecta,divergencias — cmd:.claude/commands/drift-check.md
+[quality] /speckit.analyze — alias,compatible,consensus,cruzado,github — cmd:.claude/commands/speckit.analyze.md
 [quality] Court Review — across,code,convene,court,evaluate — cmd:.claude/commands/court-review.md
 [quality] adversarial-security — adversarial,auditor,blue,pipeline,scoring — skill:.claude/skills/adversarial-security/SKILL.md
 [quality] ai-audit-log — agente,auditoría,cuándo,datos,ejecutó — cmd:.claude/commands/ai-audit-log.md

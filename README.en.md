@@ -76,6 +76,8 @@ Sprints, burndown, capacity, dailies, retros, KPIs. Reports in Excel and PowerPo
 ### Spec-Driven Development (SDD)
 Tasks become specs. Agents implement in 16 languages (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) in isolated worktrees. Automated code review + mandatory human review.
 
+**`github/spec-kit` compatible**: slash commands `/speckit.constitution`, `/speckit.specify`, `/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.analyze`, `/speckit.implement` and `/speckit.checklist` are thin aliases that delegate to Savia's native SDD flow. See `docs/agent-teams-sdd.md`.
+
 ### Security and Code Review Court
 SAST against OWASP Top 10, Red/Blue/Auditor pipeline, dynamic pentesting, SBOM, compliance across 12 sectors. Savia Shield: local data classification with on-premise LLM, reversible masking, cryptographic PR signing. **Code Review Court**: 5 specialized judges (correctness, architecture, security, cognitive, spec) review in parallel with 0-100 scoring and a 400 LOC batch-size gate.
 
