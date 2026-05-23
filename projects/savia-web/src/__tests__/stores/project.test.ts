@@ -37,46 +37,46 @@ const sampleProjects: ProjectInfo[] = [
 const projectsWithSubprojects: ProjectInfo[] = [
   ...sampleProjects,
   {
-    id: 'trazabios_main',
-    name: 'TrazaBios',
-    path: 'projects/trazabios_main',
+    id: 'project-alpha_main',
+    name: 'ProjectAlpha',
+    path: 'projects/project-alpha_main',
     hasClaude: true,
     hasBacklog: false,
     health: 'healthy',
     parentId: null,
-    children: ['trazabios', 'trazabios-vass', 'trazabios-pm'],
+    children: ['project-alpha', 'project-alpha-supplier', 'project-alpha-pm'],
     confidentiality: null,
   },
   {
-    id: 'trazabios',
-    name: 'trazabios',
-    path: 'projects/trazabios_main/trazabios',
+    id: 'project-alpha',
+    name: 'project-alpha',
+    path: 'projects/project-alpha_main/project-alpha',
     hasClaude: false,
     hasBacklog: true,
     health: 'healthy',
-    parentId: 'trazabios_main',
+    parentId: 'project-alpha_main',
     children: [],
     confidentiality: 'N4-SHARED',
   },
   {
-    id: 'trazabios-vass',
-    name: 'trazabios-vass',
-    path: 'projects/trazabios_main/trazabios-vass',
+    id: 'project-alpha-supplier',
+    name: 'project-alpha-supplier',
+    path: 'projects/project-alpha_main/project-alpha-supplier',
     hasClaude: false,
     hasBacklog: false,
     health: 'healthy',
-    parentId: 'trazabios_main',
+    parentId: 'project-alpha_main',
     children: [],
-    confidentiality: 'N4-VASS',
+    confidentiality: 'N4-SUPPLIER',
   },
   {
-    id: 'trazabios-pm',
-    name: 'trazabios-pm',
-    path: 'projects/trazabios_main/trazabios-pm',
+    id: 'project-alpha-pm',
+    name: 'project-alpha-pm',
+    path: 'projects/project-alpha_main/project-alpha-pm',
     hasClaude: false,
     hasBacklog: false,
     health: 'healthy',
-    parentId: 'trazabios_main',
+    parentId: 'project-alpha_main',
     children: [],
     confidentiality: 'N4b-PM',
   },
@@ -118,11 +118,11 @@ describe('useProjectStore', () => {
     })
 
     it('redirects umbrella selection to first child on load', async () => {
-      localStorage.setItem('savia:selectedProject', 'trazabios_main')
+      localStorage.setItem('savia:selectedProject', 'project-alpha_main')
       mockGet.mockResolvedValueOnce(projectsWithSubprojects)
       const store = useProjectStore()
       await store.load()
-      expect(store.selectedId).toBe('trazabios')
+      expect(store.selectedId).toBe('project-alpha')
     })
   })
 
@@ -158,7 +158,7 @@ describe('useProjectStore', () => {
       const store = useProjectStore()
       await store.load()
       const ids = store.topLevel.map(p => p.id)
-      expect(ids).toEqual(['_workspace', 'savia-web', 'trazabios_main'])
+      expect(ids).toEqual(['_workspace', 'savia-web', 'project-alpha_main'])
     })
 
     it('returns all projects when none have parents', async () => {
@@ -174,8 +174,8 @@ describe('useProjectStore', () => {
       mockGet.mockResolvedValueOnce(projectsWithSubprojects)
       const store = useProjectStore()
       await store.load()
-      const children = store.childrenOf('trazabios_main')
-      expect(children.map(c => c.id)).toEqual(['trazabios', 'trazabios-vass', 'trazabios-pm'])
+      const children = store.childrenOf('project-alpha_main')
+      expect(children.map(c => c.id)).toEqual(['project-alpha', 'project-alpha-supplier', 'project-alpha-pm'])
     })
 
     it('returns empty array for standalone projects', async () => {
@@ -191,9 +191,9 @@ describe('useProjectStore', () => {
       mockGet.mockResolvedValueOnce(projectsWithSubprojects)
       const store = useProjectStore()
       await store.load()
-      const parent = store.parentOf('trazabios-pm')
-      expect(parent?.id).toBe('trazabios_main')
-      expect(parent?.name).toBe('TrazaBios')
+      const parent = store.parentOf('project-alpha-pm')
+      expect(parent?.id).toBe('project-alpha_main')
+      expect(parent?.name).toBe('ProjectAlpha')
     })
 
     it('returns undefined for top-level projects', async () => {
@@ -217,17 +217,17 @@ describe('useProjectStore', () => {
       mockGet.mockResolvedValueOnce(projectsWithSubprojects)
       const store = useProjectStore()
       store.projects = projectsWithSubprojects
-      store.select('trazabios_main')
-      expect(store.effective?.id).toBe('trazabios')
+      store.select('project-alpha_main')
+      expect(store.effective?.id).toBe('project-alpha')
     })
 
     it('returns selected child directly', async () => {
       mockGet.mockResolvedValueOnce(projectsWithSubprojects)
       const store = useProjectStore()
       await store.load()
-      store.select('trazabios-vass')
-      expect(store.effective?.id).toBe('trazabios-vass')
-      expect(store.effective?.confidentiality).toBe('N4-VASS')
+      store.select('project-alpha-supplier')
+      expect(store.effective?.id).toBe('project-alpha-supplier')
+      expect(store.effective?.confidentiality).toBe('N4-SUPPLIER')
     })
   })
 })

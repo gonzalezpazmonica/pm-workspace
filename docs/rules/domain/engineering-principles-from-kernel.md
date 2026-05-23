@@ -1,7 +1,7 @@
 # Engineering Principles from the Linux Kernel
 
 > Era 211. Distilled from mapping the Linux kernel tree at
-> `/home/monica/research/linux-kernel/` into five .acm files plus a
+> `$HOME/research/linux-kernel/` into five .acm files plus a
 > patterns digest. The kernel is a 30-year laboratory of what actually
 > works under adversarial load. These are its five most transferable
 > engineering principles, adapted for pm-workspace and Savia.
@@ -121,12 +121,12 @@ specific error. Programs that pass run at near-native speed.
 
 ## References
 
-- `/home/monica/research/linux-kernel/agent-maps/INDEX.acm` — 22 subsystems
-- `/home/monica/research/linux-kernel/agent-maps/mm.acm`, `kernel.acm`,
+- `$HOME/research/linux-kernel/agent-maps/INDEX.acm` — 22 subsystems
+- `$HOME/research/linux-kernel/agent-maps/mm.acm`, `kernel.acm`,
   `net.acm`, `fs.acm` — 4 detailed subsystem maps
-- `/home/monica/research/linux-kernel/digest/PATTERNS.md` — 12 patterns
+- `$HOME/research/linux-kernel/digest/PATTERNS.md` — 12 patterns
   with concrete file references
-- `/home/monica/research/linux-kernel/digest/SUMMARY.md` — top-level
+- `$HOME/research/linux-kernel/digest/SUMMARY.md` — top-level
   digest + 10 files every newcomer should read first
-- `/home/monica/research/linux-kernel/digest/GLOSSARY.md` — kernel
+- `$HOME/research/linux-kernel/digest/GLOSSARY.md` — kernel
   vocabulary for future grep sessions

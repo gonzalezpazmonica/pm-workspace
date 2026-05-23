@@ -51,7 +51,7 @@ def extract_items(page):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("alias")
-    ap.add_argument("--tenant", default="grupovass-my.sharepoint.com")
+    ap.add_argument("--tenant", default="corp-sharepoint.com")
     args = ap.parse_args()
     from playwright.sync_api import sync_playwright
     cfg = load_account(args.alias)

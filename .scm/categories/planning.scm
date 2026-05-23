@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 508 resources
+> 509 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -161,6 +161,7 @@
 - **eval-workspace** (script): eval-workspace.sh — Evaluación integral de pm-workspace contra sala-reservas
 - **evaluate-repo** (cmd): >
 - **evaluations-framework** (skill): Evaluations Framework
+- **exit** (cmd): >
 - **experiment-log** (cmd): >
 - **factuality-judge** (agent): Truth Tribunal judge — factual accuracy of claims against verifiable sources
 - **feature-impact** (cmd): Análisis de impacto de features — esfuerzo vs valor, ROI, priorización

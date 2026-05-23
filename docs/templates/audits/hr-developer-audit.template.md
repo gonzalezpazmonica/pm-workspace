@@ -4,7 +4,7 @@
 **Estado**: estable v1.0
 **Uso**: auditorías de desarrolladores para expediente RR.HH., evaluaciones de desempeño, calibración de squads, decisiones de continuidad.
 **Audiencia**: PM, RR.HH., PM-Center, TLs.
-**Autor de la plantilla**: PM Mónica (a partir de las auditorías `20260424-audit-lester-arellano.md` y `20260428-alex-gonzalez-sprint26-hr-audit.md`).
+**Autor de la plantilla**: PM activa.
 
 ---
 
@@ -19,7 +19,7 @@
 5. Si la auditoría es para un caso disciplinario, el informe **debe** incluir tanto lo imputable a la persona como lo imputable al proceso (sec. 6 del informe). RR.HH. necesita ambas lecturas.
 6. **Nunca** sustituyas datos por opiniones. La sección 5 (negligencias) sólo se rellena con commits y SHAs verificables.
 7. Persiste el informe con nombre `YYYYMMDD-{persona-slug}-{periodo}-hr-audit.md` en la carpeta `audits/` del proyecto.
-8. Si el caso es sensible (RR.HH., expediente disciplinario), clasifica como **N4b-PM** o **N4c-MONICA-ONLY** según corresponda.
+8. Si el caso es sensible (RR.HH., expediente disciplinario), clasifica como **N4b-PM** o **N4c-PM-ONLY** según corresponda.
 
 ---
 
@@ -34,7 +34,7 @@
 **Equipo**: {Squad / Team / Área}
 **Solicitante**: {PM, TL, RR.HH., DL...}
 **Fuentes**: {Azure DevOps REST API · repos Git · Excel sprint · transcripciones de retros · etc.}
-**Clasificación**: {N4b-PM | N4c-MONICA-ONLY | N4-VASS}
+**Clasificación**: {N4b-PM | N4c-PM-ONLY | N4-SUPPLIER}
 
 ## 1. Resumen ejecutivo
 
@@ -397,13 +397,13 @@ curl -s -u ":$PAT" "$ORG/_apis/git/repositories/{repo-id}/items?path={ruta}&vers
 Reglas no negociables al producir una auditoría con esta plantilla:
 
 1. **Solo datos verificables**. Ninguna afirmación sin commit, SHA, work item ID o snapshot reproducible.
-2. **No afirmaciones testimoniales como hechos**. Si Ana dijo en chat "Alex insistió en standup que funcionaba", eso se incluye con atribución y como testimonio, no como hecho.
+2. **No afirmaciones testimoniales como hechos**. Si una persona dijo en chat "otra insistió en standup que funcionaba", eso se incluye con atribución y como testimonio, no como hecho.
 3. **No interpretación motivacional**. No calificar como "negligente" cuando el dato sólo prueba "no funcional". El lector decide la atribución de causa.
 4. **No comparación contra estándares ad-hoc**. Si se compara contra el cohorte, declarar el cohorte. Si se compara contra umbrales, declararlos en el Anexo A.
 5. **Separar lo imputable a la persona de lo imputable al proceso**. Sec. 6 obligatoria.
 6. **Lectura para RR.HH. acotada al dato**. Sec. 9 dice "lo que el dato sí dice" y "lo que el dato no dice". Esa segunda es tan importante como la primera.
 7. **Reproducibilidad**. Cualquier auditor con acceso a las fuentes debe poder reproducir las cifras. Sec. 11 lista las URLs y SHAs necesarios.
-8. **Confidencialidad**. Clasificar el informe (N4b-PM o N4c-MONICA-ONLY si afecta a evaluaciones disciplinarias). NUNCA compartir con personas fuera del círculo autorizado.
+8. **Confidencialidad**. Clasificar el informe (N4b-PM o N4c-PM-ONLY si afecta a evaluaciones disciplinarias). NUNCA compartir con personas fuera del círculo autorizado.
 
 ---
 
@@ -411,7 +411,7 @@ Reglas no negociables al producir una auditoría con esta plantilla:
 
 | Versión | Fecha | Cambios |
 |---|:---:|---|
-| v1.0 | 2026-04-28 | Versión inicial. Síntesis de Lester (rango temporal largo, posicional dominante) y Alex (HR-grade, umbrales absolutos dominantes). Incluye cohorte cross-squad, perfiles de pesos según propósito, y reglas de ética. |
+| v1.0 | 2026-04-28 | Versión inicial. Incluye cohorte cross-squad, perfiles de pesos según propósito, y reglas de ética. |
 
 ---
 

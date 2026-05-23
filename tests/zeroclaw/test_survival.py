@@ -52,6 +52,7 @@ class TestPhaseLatido(unittest.TestCase):
 
 
 class TestPhaseRespiracion(unittest.TestCase):
+    """Tests para phase_respiracion — arquitectura local (run_llm_fn, sin SSH)."""
 
     def _state(self):
         return {
@@ -60,123 +61,105 @@ class TestPhaseRespiracion(unittest.TestCase):
             "last_breath": 0,
         }
 
-    def test_servidor_inalcanzable_incrementa_contador(self):
-        from zeroclaw.host import survival_phases as sp
-        state = self._state()
-        with patch("zeroclaw.host.remote_host.is_reachable", return_value=False):
-            result = sp.phase_respiracion(state)
-        self.assertFalse(result["ok"])
-        self.assertEqual(result["bridge"], "unreachable")
-        self.assertEqual(state["consecutive_breath_failures"], 1)
-        self.assertIsNotNone(state["remote_unreachable_since"])
-
-    def test_servidor_inalcanzable_acumula(self):
+    def test_llm_responde_ok(self):
         from zeroclaw.host import survival_phases as sp
         state = self._state()
         state["consecutive_breath_failures"] = 1
-        with patch("zeroclaw.host.remote_host.is_reachable", return_value=False):
-            sp.phase_respiracion(state)
+        result = sp.phase_respiracion(state, run_llm_fn=lambda _: "pong")
+        self.assertTrue(result["ok"])
+        self.assertEqual(state["consecutive_breath_failures"], 0)
+        self.assertTrue(any("llm:responded" in d for d in result["details"]))
+
+    def test_llm_sin_respuesta_incrementa_contador(self):
+        from zeroclaw.host import survival_phases as sp
+        state = self._state()
+        result = sp.phase_respiracion(state, run_llm_fn=lambda _: None)
+        self.assertEqual(state["consecutive_breath_failures"], 1)
+        self.assertIn("llm:no_response", result["details"])
+
+    def test_llm_sin_respuesta_acumula(self):
+        from zeroclaw.host import survival_phases as sp
+        state = self._state()
+        state["consecutive_breath_failures"] = 1
+        sp.phase_respiracion(state, run_llm_fn=lambda _: None)
         self.assertEqual(state["consecutive_breath_failures"], 2)
 
-    def test_bridge_caido_se_reinicia(self):
+    def test_llm_error_marca_fallo(self):
         from zeroclaw.host import survival_phases as sp
         state = self._state()
-        with patch("zeroclaw.host.remote_host.is_reachable", return_value=True), \
-             patch("zeroclaw.host.remote_host.is_bridge_running", return_value=False), \
-             patch("zeroclaw.host.remote_host.restart_bridge",
-                   return_value=(True, "bridge started")):
-            result = sp.phase_respiracion(state)
-        self.assertTrue(result["healed"])
-        self.assertEqual(result["bridge"], "restarted")
-        self.assertEqual(state["consecutive_breath_failures"], 0)
-        self.assertIsNone(state["remote_unreachable_since"])
-
-    def test_bridge_caido_reinicio_falla(self):
-        from zeroclaw.host import survival_phases as sp
-        state = self._state()
-        with patch("zeroclaw.host.remote_host.is_reachable", return_value=True), \
-             patch("zeroclaw.host.remote_host.is_bridge_running", return_value=False), \
-             patch("zeroclaw.host.remote_host.restart_bridge",
-                   return_value=(False, "timeout")):
-            result = sp.phase_respiracion(state)
+        def llm_raises(_):
+            raise RuntimeError("timeout")
+        result = sp.phase_respiracion(state, run_llm_fn=llm_raises)
         self.assertFalse(result["ok"])
-        self.assertFalse(result["healed"])
         self.assertEqual(state["consecutive_breath_failures"], 1)
+        self.assertTrue(any("llm:error" in d for d in result["details"]))
 
-    def test_todo_ok_resetea_contador(self):
+    def test_sin_callback_no_falla(self):
         from zeroclaw.host import survival_phases as sp
         state = self._state()
-        state["consecutive_breath_failures"] = 2
-        with patch("zeroclaw.host.remote_host.is_reachable", return_value=True), \
-             patch("zeroclaw.host.remote_host.is_bridge_running", return_value=True):
-            result = sp.phase_respiracion(state)
+        result = sp.phase_respiracion(state, run_llm_fn=None)
         self.assertTrue(result["ok"])
-        self.assertEqual(result["bridge"], "ok")
-        self.assertEqual(state["consecutive_breath_failures"], 0)
+        self.assertIn("llm:no_callback", result["details"])
 
-    def test_escala_a_monica_al_tercer_fallo(self):
+    def test_escala_al_tercer_fallo(self):
         from zeroclaw.host import survival_phases as sp
         state = self._state()
-        state["consecutive_breath_failures"] = 2  # va a llegar a 3
-        with patch("zeroclaw.host.remote_host.is_reachable", return_value=False), \
-             patch("zeroclaw.host.survival_phases._notify_monica") as mock_notify:
-            sp.phase_respiracion(state)
+        state["consecutive_breath_failures"] = 2  # llega a 3 con este ciclo
+        with patch("zeroclaw.host.survival_phases._notify_monica") as mock_notify:
+            sp.phase_respiracion(state, run_llm_fn=lambda _: None)
         mock_notify.assert_called_once_with("respiracion", unittest.mock.ANY)
 
     def test_no_escala_antes_del_limite(self):
         from zeroclaw.host import survival_phases as sp
         state = self._state()
         state["consecutive_breath_failures"] = 0
-        with patch("zeroclaw.host.remote_host.is_reachable", return_value=False), \
-             patch("zeroclaw.host.survival_phases._notify_monica") as mock_notify:
-            sp.phase_respiracion(state)
+        with patch("zeroclaw.host.survival_phases._notify_monica") as mock_notify:
+            sp.phase_respiracion(state, run_llm_fn=lambda _: None)
         mock_notify.assert_not_called()
 
 
 class TestPhaseDespertar(unittest.TestCase):
+    """Tests para phase_despertar — arquitectura local (run_llm_fn, sin SSH)."""
 
     def _state(self):
         return {"consecutive_wakeup_failures": 0, "last_wakeup": 0}
 
-    def test_claude_responde(self):
+    def test_llm_responde_ok(self):
         from zeroclaw.host import survival_phases as sp
         state = self._state()
-        with patch("zeroclaw.host.remote_host.is_reachable", return_value=True), \
-             patch("zeroclaw.host.remote_host.wake_claude",
-                   return_value=(True, "Estoy activa")):
-            result = sp.phase_despertar(state)
+        result = sp.phase_despertar(state, run_llm_fn=lambda _: "ok latido")
         self.assertTrue(result["ok"])
-        self.assertEqual(result["claude_responds"], "ok")
+        self.assertEqual(result["llm_responds"], "ok")
         self.assertEqual(state["consecutive_wakeup_failures"], 0)
 
-    def test_claude_no_responde_incrementa(self):
+    def test_llm_respuesta_inesperada_incrementa(self):
         from zeroclaw.host import survival_phases as sp
         state = self._state()
-        with patch("zeroclaw.host.remote_host.is_reachable", return_value=True), \
-             patch("zeroclaw.host.remote_host.wake_claude",
-                   return_value=(False, "")):
-            result = sp.phase_despertar(state)
+        result = sp.phase_despertar(state, run_llm_fn=lambda _: "error desconocido")
         self.assertFalse(result["ok"])
-        self.assertEqual(result["claude_responds"], "no_response")
+        self.assertEqual(result["llm_responds"], "no_response")
         self.assertEqual(state["consecutive_wakeup_failures"], 1)
 
-    def test_remoto_inalcanzable(self):
+    def test_llm_none_incrementa(self):
         from zeroclaw.host import survival_phases as sp
         state = self._state()
-        with patch("zeroclaw.host.remote_host.is_reachable", return_value=False):
-            result = sp.phase_despertar(state)
+        result = sp.phase_despertar(state, run_llm_fn=lambda _: None)
         self.assertFalse(result["ok"])
-        self.assertEqual(result["claude_responds"], "remote_unreachable")
         self.assertEqual(state["consecutive_wakeup_failures"], 1)
+
+    def test_sin_callback_no_falla(self):
+        from zeroclaw.host import survival_phases as sp
+        state = self._state()
+        result = sp.phase_despertar(state, run_llm_fn=None)
+        self.assertTrue(result["ok"])
+        self.assertIn("llm:no_callback", result["details"])
 
     def test_escala_al_segundo_fallo(self):
         from zeroclaw.host import survival_phases as sp
         state = self._state()
         state["consecutive_wakeup_failures"] = 1
-        with patch("zeroclaw.host.remote_host.is_reachable", return_value=True), \
-             patch("zeroclaw.host.remote_host.wake_claude", return_value=(False, "")), \
-             patch("zeroclaw.host.survival_phases._notify_monica") as mock_notify:
-            sp.phase_despertar(state)
+        with patch("zeroclaw.host.survival_phases._notify_monica") as mock_notify:
+            sp.phase_despertar(state, run_llm_fn=lambda _: None)
         mock_notify.assert_called_once_with("despertar", unittest.mock.ANY)
 
 
@@ -256,19 +239,19 @@ class TestNotifyMonica(unittest.TestCase):
             sp._notify_monica("despertar", {"details": ["claude:no_response"]})
         mock_notify.assert_called_once()
         args = mock_notify.call_args[0]
-        self.assertIn("Claude Code", args[0])
+        self.assertIn("OpenCode", args[0])
 
 
 class TestConsciousnessIntegracion(unittest.TestCase):
     """Verifica via AST que consciousness.py integra survival_tick correctamente."""
 
     def test_import_survival_tick(self):
-        with open("/home/monica/claude/zeroclaw/host/consciousness.py") as f:
+        with open("/home/monica/savia/zeroclaw/host/consciousness.py") as f:
             src = f.read()
         self.assertIn("from .survival import survival_tick as _survival_tick", src)
 
     def test_llamada_en_tick(self):
-        with open("/home/monica/claude/zeroclaw/host/consciousness.py") as f:
+        with open("/home/monica/savia/zeroclaw/host/consciousness.py") as f:
             src = f.read()
         tree = ast.parse(src)
         tick_src = None
@@ -280,7 +263,7 @@ class TestConsciousnessIntegracion(unittest.TestCase):
         self.assertIn("_survival_tick(ser", tick_src)
 
     def test_survival_tick_antes_de_return(self):
-        with open("/home/monica/claude/zeroclaw/host/consciousness.py") as f:
+        with open("/home/monica/savia/zeroclaw/host/consciousness.py") as f:
             lines = f.readlines()
         survival_line = None
         return_line = None
@@ -302,7 +285,7 @@ class TestConsciousnessIntegracion(unittest.TestCase):
             "zeroclaw/host/remote_host.py",
         ]
         for modulo in modulos:
-            path = f"/home/monica/claude/{modulo}"
+            path = f"/home/monica/savia/{modulo}"
             with open(path) as f:
                 lineas = f.readlines()
             self.assertLessEqual(

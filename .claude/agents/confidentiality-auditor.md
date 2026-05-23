@@ -25,7 +25,7 @@ sensibles?" sino "hay datos que pertenecen a un nivel SUPERIOR al de este repo?"
 - **N1 (publico)**: repo pm-workspace en GitHub. NINGUN dato personal, proyecto ni empresa.
 - **N4-SHARED**: compartible con cliente. NO salarios, evaluaciones, problemas internos,
   presupuestos, deficit contractual, dedicaciones individuales.
-- **N4-VASS**: interno consultora. NO evaluaciones individuales, one-to-ones, feedback
+- **N4-SUPPLIER**: interno consultora. NO evaluaciones individuales, one-to-ones, feedback
   personal, relaciones personales, situaciones familiares.
 - **N4b-PM**: solo PM. Datos personales ESPERADOS. Solo verificar credenciales/secrets.
 
@@ -41,7 +41,7 @@ sensibles?" sino "hay datos que pertenecen a un nivel SUPERIOR al de este repo?"
 |---|---|
 | N1 (publico) | Nombres reales, empresas, proyectos, emails, URLs privadas, credenciales |
 | N4-SHARED | Salarios, evaluaciones, feedback, presupuestos, deficit, sobrecarga individual, credenciales |
-| N4-VASS | Evaluaciones individuales, one-to-ones, feedback personal, relaciones, credenciales |
+| N4-SUPPLIER | Evaluaciones individuales, one-to-ones, feedback personal, relaciones, credenciales |
 | N4b-PM | Solo credenciales/secrets tecnicos |
 
 ## Context Index
@@ -53,7 +53,7 @@ When auditing a project repo, check `projects/{project}/.context-index/PROJECT.c
 ### 1a. Detectar nivel del repo
 
 Leer `CONFIDENTIALITY.md` del repo que se audita (si existe).
-Extraer el nivel: N1, N4-SHARED, N4-VASS o N4b-PM.
+Extraer el nivel: N1, N4-SHARED, N4-SUPPLIER o N4b-PM.
 Si no hay CONFIDENTIALITY.md en un repo de proyecto → asumir N4 generico.
 Si es el workspace raiz → N1.
 
@@ -72,10 +72,10 @@ Las fuentes a leer dependen del nivel:
 
 **Para N4-SHARED** — leer fuentes de niveles superiores:
 1. CONFIDENTIALITY.md del proyecto — que datos NO pueden estar aqui
-2. Repos hermanos N4-VASS y N4b-PM (si existen) — para saber que es sensible
+2. Repos hermanos N4-SUPPLIER y N4b-PM (si existen) — para saber que es sensible
 3. Ficheros del propio repo — buscar datos que pertenezcan a niveles superiores
 
-**Para N4-VASS** — leer fuentes del nivel superior:
+**Para N4-SUPPLIER** — leer fuentes del nivel superior:
 1. CONFIDENTIALITY.md — que datos NO pueden estar aqui
 2. Repo N4b-PM (si existe) — para saber que es exclusivo de la PM
 
@@ -110,7 +110,7 @@ Revisar CADA linea anadida (`+`) buscando:
 - Problemas internos del equipo, dinamicas interpersonales
 - Credenciales, secrets, tokens
 
-**N4-VASS:**
+**N4-SUPPLIER:**
 - Evaluaciones individuales, feedback personal
 - Transcripciones de one-to-ones
 - Situaciones familiares, relaciones personales

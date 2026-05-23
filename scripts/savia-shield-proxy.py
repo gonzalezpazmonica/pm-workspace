@@ -2,13 +2,15 @@
 """
 savia-shield-proxy.py — Savia Shield Layer 0: API-level data sovereignty proxy
 
-Sits between Claude Code and Anthropic API. Intercepts ALL outbound prompts,
-scans for sensitive data, masks entities, forwards sanitized request,
-unmasks the response.
+Sits between OpenCode/Claude Code and the upstream LLM API (Anthropic by default,
+DeepSeek/others via --target). Intercepts ALL outbound prompts, scans for
+sensitive data, masks entities, forwards the sanitized request, unmasks the
+response.
 
 Usage:
   python3 scripts/savia-shield-proxy.py [--port 8443] [--target https://api.anthropic.com]
-  Then: export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
+  Then (Claude Code): export ANTHROPIC_BASE_URL=http://127.0.0.1:8443
+  Or (OpenCode):      set provider.<name>.options.baseURL in opencode.json
 
 AUDITABILITY: every intercepted request logged to proxy-audit.jsonl
 """
@@ -35,9 +37,16 @@ PROJECT_DIR = os.environ.get("CLAUDE_PROJECT_DIR",
     str(Path(__file__).resolve().parent.parent))
 
 GLOSSARY_PATH = None
-for g in Path(PROJECT_DIR).glob("projects/*/GLOSSARY-MASK.md"):
-    GLOSSARY_PATH = str(g)
-    break
+# Search common layouts: projects/<umbrella>/GLOSSARY.md and
+# projects/<umbrella>/<subdir>/GLOSSARY.md. Legacy GLOSSARY-MASK.md still honored.
+for pattern in ("projects/*/GLOSSARY.md",
+                "projects/*/*/GLOSSARY.md",
+                "projects/*/GLOSSARY-MASK.md"):
+    for g in Path(PROJECT_DIR).glob(pattern):
+        GLOSSARY_PATH = str(g)
+        break
+    if GLOSSARY_PATH:
+        break
 
 # Credential patterns (same as data-sovereignty-gate.sh Layer 1)
 CREDENTIAL_PATTERNS = [
@@ -93,7 +102,11 @@ def mask_text(text):
         load_mask_map()
     sorted_terms = sorted(mask_map.keys(), key=len, reverse=True)
     for real_term in sorted_terms:
-        pat = re.compile(re.escape(real_term), re.IGNORECASE)
+        # Lookarounds: only alphanumeric blocks the match. Sentence punctuation
+        # and path separators (`.`, `_`, `-`, `/`) do NOT block, so paths like
+        # "projects/<name>_main/" still get masked.
+        pat = re.compile(r'(?<![A-Za-z0-9])' + re.escape(real_term) +
+                         r'(?![A-Za-z0-9])', re.IGNORECASE)
         text = pat.sub(mask_map[real_term], text)
     for pattern, cred_type in CREDENTIAL_PATTERNS:
         text = re.sub(pattern, f'[REDACTED_{cred_type.upper()}]', text,
@@ -124,6 +137,44 @@ def audit_log(action, details):
         pass
 
 
+def _mask_in_obj(obj, stats):
+    """Recursively mask every string in the object.
+
+    Mirrors `_unmask_in_obj` so we cover system prompt, user messages,
+    tool_use.input, tool_result.content, thinking blocks, and any other
+    nested string regardless of the dict key.
+
+    Previous code only masked `messages[].content[].text` and skipped
+    `system` unless it contained a credential. Real names in the system
+    prompt (gitStatus, CLAUDE.md, environment) and in tool_result blocks
+    (Bash/Read output) leaked unmasked to the upstream API.
+    """
+    if isinstance(obj, dict):
+        for k, v in list(obj.items()):
+            if isinstance(v, str):
+                creds = scan_credentials(v)
+                if creds:
+                    stats["credentials_found"] += len(creds)
+                masked = mask_text(v)
+                if masked != v:
+                    stats["entities_masked"] += 1
+                obj[k] = masked
+            elif isinstance(v, (dict, list)):
+                _mask_in_obj(v, stats)
+    elif isinstance(obj, list):
+        for i, item in enumerate(obj):
+            if isinstance(item, str):
+                creds = scan_credentials(item)
+                if creds:
+                    stats["credentials_found"] += len(creds)
+                masked = mask_text(item)
+                if masked != item:
+                    stats["entities_masked"] += 1
+                obj[i] = masked
+            elif isinstance(item, (dict, list)):
+                _mask_in_obj(item, stats)
+
+
 def process_request_body(body_bytes):
     try:
         body = json.loads(body_bytes)
@@ -133,54 +184,97 @@ def process_request_body(body_bytes):
     stats = {"messages_scanned": 0, "credentials_found": 0,
              "entities_masked": 0}
 
-    for msg in body.get("messages", []):
-        content = msg.get("content", "")
-        if isinstance(content, list):
-            for block in content:
-                if isinstance(block, dict) and block.get("type") == "text":
-                    original = block["text"]
-                    creds = scan_credentials(original)
-                    stats["credentials_found"] += len(creds)
-                    stats["messages_scanned"] += 1
-                    masked = mask_text(original)
-                    if masked != original:
-                        stats["entities_masked"] += 1
-                    block["text"] = masked
-        elif isinstance(content, str):
-            stats["messages_scanned"] += 1
-            creds = scan_credentials(content)
-            stats["credentials_found"] += len(creds)
-            masked = mask_text(content)
-            if masked != content:
+    # Track scanned message count for audit (top-level conversation messages)
+    stats["messages_scanned"] = len(body.get("messages", []))
+
+    # Walk the entire request body — system, messages, tool_use, tool_result,
+    # thinking, etc. — and mask every string. mask_text is a no-op on strings
+    # without any matching entity, so applying it broadly is safe.
+    if "system" in body:
+        if isinstance(body["system"], str):
+            creds = scan_credentials(body["system"])
+            if creds:
+                stats["credentials_found"] += len(creds)
+            masked = mask_text(body["system"])
+            if masked != body["system"]:
                 stats["entities_masked"] += 1
-            msg["content"] = masked
+            body["system"] = masked
+        else:
+            _mask_in_obj(body["system"], stats)
 
-    system = body.get("system", "")
-    if isinstance(system, str) and system:
-        sys_creds = scan_credentials(system)
-        if sys_creds:
-            body["system"] = mask_text(system)
-            stats["credentials_found"] += len(sys_creds)
-    elif isinstance(system, list):
-        for block in system:
-            if isinstance(block, dict) and block.get("type") == "text":
-                sys_creds = scan_credentials(block["text"])
-                if sys_creds:
-                    block["text"] = mask_text(block["text"])
-                    stats["credentials_found"] += len(sys_creds)
+    if "messages" in body:
+        _mask_in_obj(body["messages"], stats)
 
-    return json.dumps(body).encode('utf-8'), stats
+    return json.dumps(body, ensure_ascii=False).encode('utf-8'), stats
 
 
-def process_response_body(body_bytes):
+def _unmask_in_obj(obj):
+    """Recursively unmask every string in the object.
+
+    Whitelisting keys (`text`, `input`, ...) misses nested fields like
+    `tool_use.input.{recipient,company}` where the dict key is user-defined.
+    unmask_text is a no-op on strings that contain no mask, so applying it
+    to every string is safe and catches all rendered output.
+    """
+    if isinstance(obj, dict):
+        for k, v in list(obj.items()):
+            if isinstance(v, str):
+                obj[k] = unmask_text(v)
+            elif isinstance(v, (dict, list)):
+                _unmask_in_obj(v)
+    elif isinstance(obj, list):
+        for i, item in enumerate(obj):
+            if isinstance(item, str):
+                obj[i] = unmask_text(item)
+            elif isinstance(item, (dict, list)):
+                _unmask_in_obj(item)
+
+
+def _is_sse(body_bytes, content_type):
+    if 'text/event-stream' in (content_type or '').lower():
+        return True
+    head = body_bytes[:200] if body_bytes else b''
+    return head.startswith(b'event:') or b'\nevent:' in head or \
+           head.startswith(b'data:')
+
+
+def _process_sse_body(body_bytes):
+    """SSE: parse each `data: {json}` line, unmask text fields, reserialize."""
+    if not reverse_map:
+        load_mask_map()
+    out_lines = []
+    # Split on \n preserving trailing empties (keep blank-line separators)
+    for raw_line in body_bytes.split(b'\n'):
+        if raw_line.startswith(b'data: '):
+            payload = raw_line[6:].rstrip(b'\r')
+            if not payload or payload == b'[DONE]':
+                out_lines.append(raw_line)
+                continue
+            try:
+                obj = json.loads(payload.decode('utf-8'))
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                out_lines.append(raw_line)
+                continue
+            _unmask_in_obj(obj)
+            new_payload = json.dumps(obj, ensure_ascii=False).encode('utf-8')
+            out_lines.append(b'data: ' + new_payload)
+        else:
+            out_lines.append(raw_line)
+    return b'\n'.join(out_lines)
+
+
+def process_response_body(body_bytes, content_type=None):
+    if _is_sse(body_bytes, content_type):
+        return _process_sse_body(body_bytes)
     try:
         body = json.loads(body_bytes)
-    except json.JSONDecodeError:
+    except (json.JSONDecodeError, UnicodeDecodeError):
         return body_bytes
-    for block in body.get("content", []):
-        if isinstance(block, dict) and block.get("type") == "text":
-            block["text"] = unmask_text(block["text"])
-    return json.dumps(body).encode('utf-8')
+    # Full unmask: walk the entire response object so we catch text blocks,
+    # tool_use inputs, thinking blocks, etc. Previous code only unmasked
+    # top-level content[].text, missing many fields.
+    _unmask_in_obj(body)
+    return json.dumps(body, ensure_ascii=False).encode('utf-8')
 
 
 class ShieldProxyHandler(http.server.BaseHTTPRequestHandler):
@@ -214,7 +308,14 @@ class ShieldProxyHandler(http.server.BaseHTTPRequestHandler):
             with urllib.request.urlopen(req, context=ctx,
                                         timeout=300) as resp:
                 resp_body = resp.read()
-                unmasked = process_response_body(resp_body)
+                resp_ct = resp.headers.get('Content-Type', '')
+                unmasked = process_response_body(resp_body, resp_ct)
+                audit_log("response", {
+                    "status": resp.status,
+                    "content_type": resp_ct,
+                    "bytes": len(resp_body),
+                    "unmask_applied": unmasked != resp_body,
+                })
                 self.send_response(resp.status)
                 for k, v in resp.getheaders():
                     if k.lower() not in ('content-length',

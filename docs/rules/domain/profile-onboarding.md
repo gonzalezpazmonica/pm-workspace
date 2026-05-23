@@ -114,7 +114,7 @@ status: ERROR
 error:
   code: "NO_ACTIVE_PROFILE"
   message: "Profiles exist but none active."
-  available: ["monica-gonzalez", "carlos-mendoza", "openclaw"]
+  available: ["pm-user", "dev-user", "openclaw"]
   fix: "Send: switch: {slug}"
 ```
 

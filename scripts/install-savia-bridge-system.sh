@@ -11,7 +11,7 @@
 #   1. Stops the user-level savia-bridge.service if running
 #   2. Disables the user unit and removes its default.target.wants symlink
 #   3. Writes /etc/systemd/system/savia-bridge.service with correct paths
-#   4. Creates /home/monica/.savia/bridge/ with monica:monica ownership
+#   4. Creates $HOME/.savia/bridge/ with $USER:$USER ownership
 #   5. Reloads systemd, enables and starts the system unit
 #   6. Verifies the /health endpoint
 #

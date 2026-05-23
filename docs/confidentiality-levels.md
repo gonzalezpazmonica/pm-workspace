@@ -47,7 +47,7 @@ tiene su propio repositorio git con permisos independientes.
 - Agent memory del proyecto: `projects/{proyecto}/agent-memory/`
 - Puede subdividirse en:
   - **N4-SHARED**: compartible con el cliente (ej: proyecto-alpha)
-  - **N4-VASS**: solo equipo proveedor (ej: proyecto-alpha-internal)
+  - **N4-SUPPLIER**: solo equipo proveedor (ej: proyecto-alpha-internal)
 - NUNCA datos personales de miembros del equipo (van a N4b)
 
 ### N4b — EQUIPO-PROYECTO (repo separado, solo PM)
@@ -106,7 +106,7 @@ tiene su propio repositorio git con permisos independientes.
 ## Ejemplo con Proyecto Genérico
 
 - `projects/proyecto-alpha/` (N4-SHARED) — repo git compartible con el cliente
-- `projects/proyecto-alpha-internal/` (N4-VASS) — repo git solo equipo proveedor
+- `projects/proyecto-alpha-internal/` (N4-SUPPLIER) — repo git solo equipo proveedor
 - `projects/proyecto-alpha-pm/` (N4b-PM) — repo git solo PM y superiores, datos RGPD
 - `~/.savia/personal-vault/` (N3) — repo git personal cross-project
 
@@ -117,7 +117,7 @@ tiene su propio repositorio git con permisos independientes.
 Cuando Savia recibe información para persistir:
 
 1. Clasificar: ¿es de un proyecto? ¿del usuario? ¿de la empresa? ¿genérica?
-2. Si PROYECTO → determinar subnivel (N4-SHARED, N4-VASS o N4b)
+2. Si PROYECTO → determinar subnivel (N4-SHARED, N4-SUPPLIER o N4b)
 3. Si USUARIO → escribir en el vault personal (N3)
 4. Si EMPRESA → guardar en ficheros gitignored (N2)
 5. Si GENÉRICA del workspace → repo público (N1)
@@ -132,7 +132,7 @@ Cuando los repos se muevan de Gitea local a Gitlab/Azure DevOps:
 
 - Los permisos de acceso se configuran por rol en el sistema destino
 - N4-SHARED: acceso cliente + equipo proveedor
-- N4-VASS: acceso solo equipo proveedor
+- N4-SUPPLIER: acceso solo equipo proveedor
 - N4b: acceso solo PM (permisos individuales, no por grupo)
 - N3: repo personal del usuario, no migra a plataforma compartida
 - N2: se incluye en el onboarding de nuevos miembros del equipo

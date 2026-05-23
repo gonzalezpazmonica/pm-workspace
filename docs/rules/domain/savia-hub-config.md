@@ -62,7 +62,7 @@ auto_sync_on_change: true
 ## Convenciones de nombres
 
 - **Client slugs**: kebab-case, sin acentos (`acme-corp`, `techstart-ai`)
-- **User handles**: kebab-case, sin acentos (`monica-gonzalez`)
+- **User handles**: kebab-case, sin acentos (`pm-user`)
 - **Project names**: kebab-case (`acme-erp`, `supply-chain`)
 - **Ficheros**: siempre `.md` para contenido, `.jsonl` para logs
 

@@ -57,9 +57,9 @@ def test_project_paths_compose_codename(monkeypatch, tmp_path):
     mod = _load()
     monkeypatch.setenv("SAVIA_DOCS_ROOT", str(tmp_path))
     paths = mod.project_paths("Project X")
-    assert paths["meetings"] == tmp_path / "projects" / "Project X_main" / "Project X-monica" / "meetings"
-    assert paths["radar"] == tmp_path / "projects" / "Project X_main" / "Project X-monica" / "reports" / "radar"
-    assert paths["pending"] == tmp_path / "projects" / "Project X_main" / "Project X-monica" / "notes" / "PENDING.md"
+    assert paths["meetings"] == tmp_path / "projects" / "Project X_main" / "Project X-pm" / "meetings"
+    assert paths["radar"] == tmp_path / "projects" / "Project X_main" / "Project X-pm" / "reports" / "radar"
+    assert paths["pending"] == tmp_path / "projects" / "Project X_main" / "Project X-pm" / "notes" / "PENDING.md"
 
 
 def test_no_real_names_in_module(monkeypatch):

@@ -3,6 +3,10 @@
 # Soporta: Linux (amd64/arm64), macOS (Intel/Apple Silicon), Windows (usar .ps1)
 set -euo pipefail
 
+# Source portable OS detection + OLLAMA_BIN default
+SCRIPT_DIR_EM="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR_EM/lib/os-detect.sh" 2>/dev/null && setup_paths || true
+
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
 BLUE='\033[0;34m'; CYAN='\033[0;36m'; NC='\033[0m'; BOLD='\033[1m'
 

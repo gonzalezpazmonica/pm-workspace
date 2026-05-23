@@ -42,7 +42,7 @@ test.describe('Subprojects', () => {
     }
     const firstChild = groups.first().locator('option').first()
     const text = await firstChild.textContent()
-    // Confidentiality labels like (N4-SHARED), (N4-VASS), (N4b-PM)
+    // Confidentiality labels like (N4-SHARED), (N4-SUPPLIER), (N4b-PM)
     // May or may not be present depending on project configuration
     expect(text?.length).toBeGreaterThan(0)
   })

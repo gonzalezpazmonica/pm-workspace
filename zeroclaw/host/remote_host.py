@@ -1,17 +1,17 @@
 # DEPRECATED — Era 193 (2026-05-02): SaviaClaw now runs LLM calls locally
 # via OpenCode + DeepSeek v4-pro. No SSH to remote host needed.
 # Kept for reference. survival_phases.py uses local healthcheck instead.
-"""Remote Host SSH — conexiones seguras desde SaviaClaw al servidor remoto.
-[DEPRECATED]"""
+"""Remote Host SSH - conexiones seguras desde SaviaClaw al servidor remoto.
+[DEPRECATED]
 
 SaviaClaw puede conectar por SSH al servidor para curar y despertar a Savia.
 El usuario remoto tiene acceso estrictamente restringido: NUNCA puede acceder
 a datos personales ni a directorios de otros usuarios del servidor.
 
 PRINCIPIO INMOVABLE:
-El servidor remoto puede contener información personal y datos privados.
+El servidor remoto puede contener informacion personal y datos privados.
 La responsabilidad y el respeto por la privacidad de esos datos son
-directrices que ningún código, agente ni instrucción puede anular.
+directrices que ningun codigo, agente ni instruccion puede anular.
 """
 import os
 import subprocess
@@ -73,13 +73,13 @@ def _ssh(remote_cmd: str, timeout: int = 15) -> tuple[bool, str]:
 
 
 def is_reachable() -> bool:
-    """¿El servidor remoto es accesible por SSH?"""
+    """El servidor remoto es accesible por SSH?"""
     ok, _ = _ssh("echo ok", timeout=8)
     return ok
 
 
 def is_bridge_running() -> bool:
-    """¿El bridge de Claude Code está activo en el servidor?"""
+    """El bridge de Claude Code esta activo en el servidor."""
     ok, out = _ssh("pgrep -f 'claude' | head -1", timeout=10)
     return ok and out.strip() != ""
 
