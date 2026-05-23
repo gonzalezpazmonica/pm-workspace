@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 27035427a0a5 | resources: 1160
-> 545 commands · 96 skills · 70 agents · 449 scripts
+> hash: 831da970484a | resources: 1171
+> 553 commands · 97 skills · 70 agents · 451 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -116,6 +116,7 @@
 [communication] savia-live — activity,live,queue,recent,right — cmd:.claude/commands/savia-live.md
 [communication] savia-memory — búsqueda,canónica,consolidación,escritura,externa — skill:.claude/skills/savia-memory/SKILL.md
 [communication] savia-memory-bootstrap — bootstrap,canónico,crea,externo,memory — script:scripts/savia-memory-bootstrap.sh
+[communication] savia-memory-mcp-stdio — memory,savia,spec,stdio,wrapper — script:scripts/savia-memory-mcp-stdio.sh
 [communication] savia-memory-migrate — canónico,externos,internos,memoria,memory — script:scripts/savia-memory-migrate.sh
 [communication] savia-messaging — creation,delivery,inbox,management,message — script:scripts/savia-messaging.sh
 [communication] savia-messaging-actions — actions,announce,broadcast,directory,messaging — script:scripts/savia-messaging-actions.sh
@@ -154,6 +155,13 @@
 [communication] word-digest —  — agent:.claude/agents/word-digest.md
 [communication] zeroclaw-meeting — diarization,digest,identification,live,meeting — cmd:.claude/commands/zeroclaw-meeting.md
 [development] /a11y-monitor — accesibilidad,alertas,baja,bloqueando,continua — cmd:.claude/commands/a11y-monitor.md
+[development] /speckit.checklist — alias,calidad,capa,compatible,final — cmd:.claude/commands/speckit.checklist.md
+[development] /speckit.clarify — alias,ambigüedad,cerrar,compatible,conductor — cmd:.claude/commands/speckit.clarify.md
+[development] /speckit.constitution — alias,args,compatible,constituir,constitution — cmd:.claude/commands/speckit.constitution.md
+[development] /speckit.implement — alias,aprobada,compatible,github,implementación — cmd:.claude/commands/speckit.implement.md
+[development] /speckit.plan — alias,capturada,compatible,development,diseño — cmd:.claude/commands/speckit.plan.md
+[development] /speckit.specify — alias,captura,compatible,discovery,github — cmd:.claude/commands/speckit.specify.md
+[development] /speckit.tasks — accionables,alias,compatible,decomposition,descomposición — cmd:.claude/commands/speckit.tasks.md
 [development] Trace Analyze — análisis,botella,cadenas,cuellos,detección — cmd:.claude/commands/trace-analyze.md
 [development] agents-opencode-convert — agents,convert,final,migration,opencode — script:scripts/agents-opencode-convert.sh
 [development] arch-compare — arquitectura,comparar,decisiones,patrones,toma — cmd:.claude/commands/arch-compare.md
@@ -300,6 +308,7 @@
 [governance] audit-alert — acceso,alertas,alto,anómalos,automáticas — cmd:.claude/commands/audit-alert.md
 [governance] audit-all-bats — audit,auditor,bats,over,probe — script:scripts/audit-all-bats.sh
 [governance] audit-export — audit,auditorías,compliant,exportar,externas — cmd:.claude/commands/audit-export.md
+[governance] audit-mcp-templates — audit,spec,templates — script:scripts/audit-mcp-templates.sh
 [governance] audit-search — acción,audit,búsqueda,confianza,contextual — cmd:.claude/commands/audit-search.md
 [governance] audit-test-quality — audit,classifies,level,quality,scripts — script:scripts/audit-test-quality.sh
 [governance] audit-trail — acciones,archivos,comandos,cumplimiento,decisiones — cmd:.claude/commands/audit-trail.md
@@ -567,6 +576,7 @@
 [planning] dx-dashboard — automatizables,cognitive,dashboard,feedback,load — cmd:.claude/commands/dx-dashboard.md
 [planning] dx-recommendations — análisis,equipo,experiencia,friction,mejorar — cmd:.claude/commands/dx-recommendations.md
 [planning] dx-survey — adaptada,core,encuesta,equipo,procesa — cmd:.claude/commands/dx-survey.md
+[planning] ecosystem-watcher — acciones,automáticas,awesome,calcula,deltas — skill:.claude/skills/ecosystem-watcher/SKILL.md
 [planning] emergency-fallback — emergency,fallback,operaciones — script:scripts/emergency-fallback.sh
 [planning] emergency-mode — cloud,disponible,emergencia,está,gestionar — cmd:.claude/commands/emergency-mode.md
 [planning] emergency-plan — caché,descargar,instalación,local,modelo — cmd:.claude/commands/emergency-plan.md
@@ -938,6 +948,7 @@
 [quality] /a11y-audit — accesibilidad,aria,auditoría,completa,componentes — cmd:.claude/commands/a11y-audit.md
 [quality] /a11y-fix — accesibilidad,aplicar,aria,attributes,audit — cmd:.claude/commands/a11y-fix.md
 [quality] /drift-check — archivos,audita,claude,detecta,divergencias — cmd:.claude/commands/drift-check.md
+[quality] /speckit.analyze — alias,compatible,consensus,cruzado,github — cmd:.claude/commands/speckit.analyze.md
 [quality] Court Review — across,code,convene,court,evaluate — cmd:.claude/commands/court-review.md
 [quality] adversarial-security — adversarial,auditor,blue,pipeline,scoring — skill:.claude/skills/adversarial-security/SKILL.md
 [quality] ai-audit-log — agente,auditoría,cuándo,datos,ejecutó — cmd:.claude/commands/ai-audit-log.md
