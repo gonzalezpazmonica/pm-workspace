@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=605a204f36c0088325a77a6915afe44abf8c6943d30b57f2606e71a623b8bd64
-timestamp=2026-05-23T22:14:37Z
-branch=pr-773
-head_commit=fdd431fb
-signature=9599dab0aa1859da1f1065ae1165d14a795d077dd9492feee51e330cb100c855
+diff_hash=2200419a4b8dc924fe70db2e6dbdb465386077d3b3a6b75aefe3c1018a25774e
+timestamp=2026-05-24T06:38:22Z
+branch=agent/codegraph-adoption-20260524
+head_commit=64c41ead
+signature=4250792b142393690c152cda9060730d66b15ab8a243777763074dcbaa6030ec

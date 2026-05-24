@@ -35,6 +35,7 @@ To use a skill: read `<path>` and follow its instructions.
 | code-comprehension-report | `.opencode/skills/code-comprehension-report/SKILL.md` | Generate comprehension report with mental model after SDD implementation. Automatically documents... |
 | code-improvement-loop | `.opencode/skills/code-improvement-loop/SKILL.md` | Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera P... |
 | codebase-map | `.opencode/skills/codebase-map/SKILL.md` | — |
+| codegraph | `.opencode/skills/codegraph/SKILL.md` | Motor de indexación AST persistente (tree-sitter + SQLite + FTS5) servido como MCP. Usado como b... |
 | company-messaging | `.opencode/skills/company-messaging/SKILL.md` | — |
 | consensus-validation | `.opencode/skills/consensus-validation/SKILL.md` | Orquestación de 4-judge panel (reflection, code-review, business, performance) |
 | context-caching | `.opencode/skills/context-caching/SKILL.md` | Optimize context loading order for prompt caching efficiency |

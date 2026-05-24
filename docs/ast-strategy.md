@@ -350,6 +350,27 @@ primaria no está disponible. Los agentes nunca se quedan sin información estru
 
 ## Parte 3 — Mapas de código para agentes (.acm)
 
+### Motor opcional: CodeGraph (MCP)
+
+Los `.acm` se generan por defecto con grep + tree-sitter ad-hoc. Si el proyecto
+activa el MCP [CodeGraph](https://github.com/colbymchenry/codegraph)
+(`@colbymchenry/codegraph`, MIT), `agent-code-map` y `ast-comprehension`
+usan su índice SQLite como backend — resuelve callers/callees/impact
+semánticamente, no por matches de grep. Opt-in por proyecto:
+
+```bash
+npm i -g @colbymchenry/codegraph
+cd <proyecto>
+codegraph init -i
+# Activar en opencode.json: mcp.codegraph.enabled = true
+```
+
+Confidencialidad: `.codegraph/` debe estar en `.gitignore` antes del primer
+`codegraph init`. Prohibido en scope N4b (PM-Only). Ver
+`docs/rules/domain/codegraph-confidentiality.md` y
+`.opencode/skills/codegraph/SKILL.md`.
+
+
 ### El problema
 
 Cada sesión de agente comienza desde cero. Sin contexto pre-generado, el agente

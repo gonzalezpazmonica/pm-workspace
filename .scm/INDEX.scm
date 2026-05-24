@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 831da970484a | resources: 1171
-> 553 commands · 97 skills · 70 agents · 451 scripts
+> hash: dac67976b737 | resources: 1172
+> 553 commands · 98 skills · 70 agents · 451 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -186,6 +186,7 @@
 [development] code-reviewer —  — agent:.claude/agents/code-reviewer.md
 [development] codebase-map — agentes,comandos,dependencias,generar,internas — cmd:.claude/commands/codebase-map.md
 [development] codebase-map —  — skill:.claude/skills/codebase-map/SKILL.md
+[development] codegraph — agent,auto,backend,callees,callers — skill:.claude/skills/codegraph/SKILL.md
 [development] cognitive-debt — cognitive,debt,entry,phase,point — script:scripts/cognitive-debt.sh
 [development] cognitive-status — cognitive,debt,phase,show,spec — cmd:.claude/commands/cognitive-status.md
 [development] competitive-design — competitive,design,generation,parallel,philosophies — script:scripts/competitive-design.sh

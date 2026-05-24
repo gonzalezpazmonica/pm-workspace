@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 149 resources
+> 150 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -33,6 +33,7 @@
 - **code-reviewer** (agent): >
 - **codebase-map** (cmd): Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills
 - **codebase-map** (skill): >
+- **codegraph** (skill): Motor de indexación AST persistente (tree-sitter + SQLite + FTS5) servido como MCP. Usado como backend de agent-code-map (.acm) y ast-comprehension. 19 lenguajes, auto-sync, callers/callees/impact resueltos. 100% local, MIT, sin API keys. O
 - **cognitive-debt** (script): cognitive-debt.sh — SPEC-107 Phase 1 entry point.
 - **cognitive-status** (cmd): Show cognitive-debt telemetry status (SPEC-107 Phase 1 — opt-in)
 - **competitive-design** (script): competitive-design.sh — Parallel design generation with 3 philosophies
