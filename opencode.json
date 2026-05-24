@@ -185,6 +185,17 @@
       ],
       "enabled": true,
       "timeout": 30000
+    },
+    "codegraph": {
+      "type": "local",
+      "command": [
+        "codegraph",
+        "serve",
+        "--mcp"
+      ],
+      "enabled": false,
+      "timeout": 30000,
+      "_comment": "Motor de indexación AST para .acm y ast-comprehension. Opt-in por proyecto. Ver .opencode/skills/codegraph/SKILL.md y docs/rules/domain/codegraph-confidentiality.md. Requiere: npm i -g @colbymchenry/codegraph && codegraph init -i en el proyecto."
     }
   }
 }

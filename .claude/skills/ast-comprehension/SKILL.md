@@ -94,6 +94,31 @@ Tokens: típicamente 5-10x menos que grep plano en código con mucho comentario.
 4. **Trace tests** — `tests` para ver cobertura. Los tests suelen contener el uso canónico.
 5. **Parar cuando tengas la narrativa**. No cuando hayas leído cada cosa relacionada.
 
+
+## Backend opt-in: CodeGraph MCP
+
+Las 6 queries tienen ahora dos backends. Si el MCP `codegraph` está activo
+en el proyecto (ver `.opencode/skills/codegraph/SKILL.md`), se usa como
+backend preferido — devuelve resultados resueltos semánticamente, no matches
+de grep que pueden ser comentarios o strings.
+
+| Query | Backend MCP (preferido) | Backend grep (fallback) |
+|---|---|---|
+| `symbol-search` | `codegraph_search` | `grep -rn` |
+| `impl` | `codegraph_node --source` | `awk` |
+| `callers` | `codegraph_callers` | `grep` + filtro |
+| `callees` | `codegraph_callees` | n/a |
+| `tests` | `codegraph_search --kind test` | grep en `__tests__/` |
+| `grep-code` | `codegraph_search` filtrado | grep con filtro de comentarios |
+
+Además CodeGraph añade dos queries que grep no puede emular:
+
+- `codegraph_impact <symbol>` — qué se afecta al cambiar X.
+- `codegraph affected --stdin` — tests afectados por un diff (CI).
+
+El agente decide el backend en runtime con `codegraph_status`. Sin CodeGraph
+activo, todo sigue funcionando con grep.
+
 ## Anti-patterns
 
 - ❌ `Read` de un fichero entero para responder "¿qué hace función X?" → usa `impl`.
