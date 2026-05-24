@@ -102,7 +102,7 @@ Texto plano (JSONL). Entity recall, búsqueda semántica, continuidad entre sesi
 Trabajo guiado para personas con discapacidad (visual, motora, TDAH, autismo, dislexia). Micro-tareas, detección de bloqueos, reformulación adaptativa.
 
 ### Inteligencia de código
-Detección de arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) que reducen la deuda cognitiva.
+Detección de arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) que reducen la deuda cognitiva. Agent Code Maps (.acm) y `ast-comprehension` con motor opcional [CodeGraph](https://github.com/colbymchenry/codegraph) (MCP, opt-in por proyecto).
 
 ### Modos autónomos
 Sprint nocturno, mejora de código, investigación técnica. Los agentes proponen en ramas `agent/*` con PRs Draft — el humano siempre decide.

@@ -1,6 +1,6 @@
 {
-  "hash": "093f8e925902",
-  "total": 1171,
+  "hash": "a7e3015d06be",
+  "total": 1172,
   "resources": [
     {
       "category": "analysis",
@@ -2316,6 +2316,20 @@
       "kind": "skill",
       "path": ".claude/skills/codebase-map/SKILL.md",
       "description": ">"
+    },
+    {
+      "category": "development",
+      "name": "codegraph",
+      "intents": [
+        "agent",
+        "auto",
+        "backend",
+        "callees",
+        "callers"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/codegraph/SKILL.md",
+      "description": "Motor de indexación AST persistente (tree-sitter + SQLite + FTS5) servido como MCP. Usado como backend de agent-code-map (.acm) y ast-comprehension. 19 lenguajes, auto-sync, callers/callees/impact resueltos. 100% local, MIT, sin API keys. O"
     },
     {
       "category": "development",

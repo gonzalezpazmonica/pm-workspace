@@ -127,19 +127,20 @@ Reglas: máximo 150 líneas por .acm. Si crece, dividir en subdirectorios:
 
 ## Gemelo humano: .hcm
 
-Cada .acm tiene un gemelo narrativo: el `.hcm` (Human Code Map). Mientras el .acm responde
-"qué existe y dónde", el .hcm responde "por qué existe y cómo pensarlo".
+Cada `.acm` tiene un gemelo narrativo `.hcm` en `.human-maps/` (skill
+`human-code-map`). `.acm` responde *qué existe y dónde* para agentes;
+`.hcm` responde *por qué existe y cómo pensarlo* para humanos. Si el
+hash del `.acm` cambia, el `.hcm` se marca automáticamente como stale.
 
-| Dimensión | .acm (este skill) | .hcm (human-code-map) |
-|-----------|------------------|----------------------|
-| Audiencia | Agentes de IA | Desarrolladores humanos |
-| Lenguaje | Estructurado, denso | Narrativo, natural |
-| Contenido | Qué existe y dónde | Por qué existe y cómo pensarlo |
-| Frescura | Hash automático | `last-walk` actualizable solo por humano |
 
-Directorio: `.human-maps/` (paralelo a `.agent-maps/`). Skill: `human-code-map`.
+## Motor opcional: CodeGraph MCP
 
-Si .acm cambia (hash inválido) → .hcm se marca automáticamente como stale.
+Si el MCP `codegraph` está activo (ver `.claude/skills/codegraph/SKILL.md`),
+`/codemap:generate` invoca `codegraph index` y proyecta el índice SQLite
+a `.acm` por capa; `/codemap:check` lee `codegraph status --json` para
+frescura. Sin CodeGraph, cae a grep + tree-sitter ad-hoc sin error.
+Confidencialidad: `.codegraph/` debe estar gitignored. Prohibido en N4b
+(ver `docs/rules/domain/codegraph-confidentiality.md`).
 
 ## Anti-patterns
 

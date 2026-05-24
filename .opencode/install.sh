@@ -222,6 +222,28 @@ else
   fi
 fi
 
+# --- Step 8: Optional — CodeGraph MCP -------------------------------------------
+step 8 "Optional: CodeGraph MCP (AST indexing engine)"
+
+info "CodeGraph indexes source code with tree-sitter and serves it via MCP."
+info "Powers the .acm engine and ast-comprehension queries (35% cheaper, 70% fewer tool calls in upstream benchmarks)."
+info "It is OPT-IN per project. NOT installed by default."
+echo ""
+echo "  To enable later for a specific project:"
+echo "    1. npm i -g @colbymchenry/codegraph"
+echo "    2. cd <project> && codegraph init -i"
+echo "    3. Set mcp.codegraph.enabled = true in opencode.json"
+echo "    4. Ensure .codegraph/ is in the project .gitignore (mandatory for N4)"
+echo ""
+echo "  Docs: .opencode/skills/codegraph/SKILL.md"
+echo "  Rule: docs/rules/domain/codegraph-confidentiality.md"
+
+if command -v codegraph &>/dev/null; then
+  ok "codegraph CLI already on PATH ($(codegraph --version 2>/dev/null || echo unknown))"
+else
+  info "codegraph CLI not on PATH — install only when you need it"
+fi
+
 # --- Done -----------------------------------------------------------------------
 echo ""
 echo -e "${BOLD}═══════════════════════════════════════════════════${NC}"
