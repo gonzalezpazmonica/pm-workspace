@@ -121,11 +121,15 @@ read_field() {
   awk -v field="^${field}:" '/^---$/{c++; next} c==1 && $0~field {sub(field, ""); gsub(/^[[:space:]]*"?|"?[[:space:]]*$/, ""); print; exit} c==2{exit}' "${file}"
 }
 
-# Allocate port range deterministic from worktree name
+# Allocate port range. Combines a deterministic per-name hash with the spec
+# index in the current run so two worktrees in the same run never collide
+# (mod 100 collisions on cksum alone caused ~1% test flakiness in CI).
 allocate_ports() {
   local name="$1"
+  local index="${2:-0}"
   local hash; hash=$(echo -n "${name}" | cksum | awk '{print $1}')
-  local offset=$(( (hash % 100) * PORT_RANGE_SIZE ))
+  local slot=$(( (hash + index) % 100 ))
+  local offset=$(( slot * PORT_RANGE_SIZE ))
   local start=$((PORT_RANGE_START + offset))
   echo "${start}-$((start + PORT_RANGE_SIZE - 1))"
 }
@@ -150,6 +154,7 @@ RUN_TS=$(date -u +%Y%m%d-%H%M%S)
 
 # Validate all specs first (fail-fast before spawning)
 declare -A SPEC_FILES SPEC_EFFORTS SPEC_BUDGETS SPEC_WORKTREE_NAMES SPEC_PORTS
+_spec_index=0
 for spec_id in "${SPEC_LIST[@]}"; do
   spec_file=$(locate_spec "${spec_id}") || { echo "ERROR: spec not found: ${spec_id}" >&2; exit 1; }
   SPEC_FILES["${spec_id}"]="${spec_file}"
@@ -164,7 +169,8 @@ for spec_id in "${SPEC_LIST[@]}"; do
   SPEC_BUDGETS["${spec_id}"]="${budget}"
   worktree_name="spec-${spec_id}-${RUN_TS}"
   SPEC_WORKTREE_NAMES["${spec_id}"]="${worktree_name}"
-  SPEC_PORTS["${spec_id}"]=$(allocate_ports "${worktree_name}")
+  SPEC_PORTS["${spec_id}"]=$(allocate_ports "${worktree_name}" "${_spec_index}")
+  _spec_index=$(( _spec_index + 1 ))
 done
 
 # Plan summary
