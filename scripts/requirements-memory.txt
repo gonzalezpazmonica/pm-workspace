@@ -1,0 +1,6 @@
+# Memory system dependencies — pm-workspace
+# Install: pip install -r scripts/requirements-memory.txt
+# Verify:  bash scripts/memory-store.sh doctor
+sentence-transformers>=2.7
+hnswlib>=0.8
+numpy>=1.26

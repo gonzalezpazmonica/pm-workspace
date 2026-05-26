@@ -254,6 +254,23 @@ else
 fi
 
 if [[ -n "$PYTHON_CMD" ]]; then
+  # --- Memory search dependencies (SE-143) ---
+  MEM_REQS="$SAVIA_HOME/scripts/requirements-memory.txt"
+  if [[ -f "$MEM_REQS" ]]; then
+    info "Installing memory search dependencies (sentence-transformers, faiss-cpu)..."
+    if $PYTHON_CMD -m pip install --break-system-packages -q -r "$MEM_REQS" 2>/dev/null \
+       || $PYTHON_CMD -m pip install -q -r "$MEM_REQS" 2>/dev/null; then
+      ok "Memory search dependencies installed (vector search enabled)"
+      # Rebuild index in background if store exists
+      STORE="$SAVIA_HOME/output/.memory-store.jsonl"
+      [[ -f "$STORE" ]] && bash "$SAVIA_HOME/scripts/memory-store.sh" rebuild-index >/dev/null 2>&1 &
+    else
+      warn "Memory search deps failed — vector search will run in grep-only mode"
+      warn "  Manual fix: pip install -r scripts/requirements-memory.txt"
+      warn "  Then: bash scripts/memory-store.sh rebuild-index"
+    fi
+  fi
+
   # Create bridge directories
   mkdir -p ~/.savia/scripts
   mkdir -p ~/.savia/bridge
