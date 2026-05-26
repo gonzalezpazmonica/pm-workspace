@@ -1,5 +1,5 @@
 {
-  "hash": "a7e3015d06be",
+  "hash": "7aa11d9a6bc8",
   "total": 1172,
   "resources": [
     {
@@ -2263,15 +2263,15 @@
       "category": "development",
       "name": "code-improvement-loop",
       "intents": [
-        "aplica",
-        "autónomo",
-        "bucle",
-        "continua",
-        "código"
+        "autónoma",
+        "código",
+        "ejecutar",
+        "mejora",
+        "plano"
       ],
       "kind": "skill",
       "path": ".claude/skills/code-improvement-loop/SKILL.md",
-      "description": "Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera PRs pendientes de revisión"
+      "description": "Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión."
     },
     {
       "category": "development",
@@ -2435,13 +2435,13 @@
       "intents": [
         "agentes",
         "dependencias",
-        "gráficos",
-        "orquestar",
-        "paralelo"
+        "ellos",
+        "múltiples",
+        "orquestan"
       ],
       "kind": "skill",
       "path": ".claude/skills/dag-scheduling/SKILL.md",
-      "description": "Orquestar agentes SDD en paralelo usando gráficos de dependencias"
+      "description": "Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos."
     },
     {
       "category": "development",
@@ -3414,15 +3414,15 @@
       "category": "development",
       "name": "spec-driven-development",
       "intents": [
-        "agentes",
-        "claude",
-        "desarrolladores",
-        "ejecutables",
-        "humanos"
+        "ejecutable",
+        "escribe",
+        "implementa",
+        "spec",
+        "valida"
       ],
       "kind": "skill",
       "path": ".claude/skills/spec-driven-development/SKILL.md",
-      "description": "Specs ejecutables para desarrolladores humanos y agentes Claude"
+      "description": "Usar cuando se escribe, valida o implementa una spec ejecutable SDD."
     },
     {
       "category": "development",
@@ -6977,6 +6977,20 @@
     },
     {
       "category": "planning",
+      "name": "consensus-validation",
+      "intents": [
+        "decisión",
+        "jueces",
+        "panel",
+        "recomendación",
+        "técnica"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/consensus-validation/SKILL.md",
+      "description": "Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces."
+    },
+    {
+      "category": "planning",
       "name": "contribute",
       "intents": [
         "contribuir",
@@ -9048,15 +9062,15 @@
       "category": "planning",
       "name": "overnight-sprint",
       "intents": [
-        "autónomo",
+        "autónoma",
         "bajo",
-        "bucle",
-        "ejecuta",
-        "humana"
+        "durante",
+        "ejecutar",
+        "forma"
       ],
       "kind": "skill",
       "path": ".claude/skills/overnight-sprint/SKILL.md",
-      "description": "Modo autónomo nocturno — ejecuta tareas de bajo riesgo en bucle, genera PRs pendientes de revisión humana"
+      "description": "Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche."
     },
     {
       "category": "planning",
@@ -11188,6 +11202,20 @@
     },
     {
       "category": "planning",
+      "name": "tdd-vertical-slices",
+      "intents": [
+        "aplica",
+        "ciclos",
+        "feature",
+        "green",
+        "nueva"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/tdd-vertical-slices/SKILL.md",
+      "description": "Usar cuando se aplica TDD a una feature nueva o bug fix con ciclos red-green-refactor."
+    },
+    {
+      "category": "planning",
       "name": "team-coordination",
       "intents": [
         "assign",
@@ -12122,15 +12150,15 @@
       "category": "quality",
       "name": "adversarial-security",
       "intents": [
-        "adversarial",
-        "auditor",
+        "auditar",
         "blue",
         "pipeline",
-        "scoring"
+        "proyecto",
+        "seguridad"
       ],
       "kind": "skill",
       "path": ".claude/skills/adversarial-security/SKILL.md",
-      "description": "Pipeline de seguridad adversarial — Red Team, Blue Team, Auditor con scoring"
+      "description": "Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team."
     },
     {
       "category": "quality",
@@ -12367,20 +12395,6 @@
       "kind": "script",
       "path": "scripts/confidentiality-sign.sh",
       "description": "confidentiality-sign.sh — Cryptographic signature for confidentiality audit"
-    },
-    {
-      "category": "quality",
-      "name": "consensus-validation",
-      "intents": [
-        "business",
-        "code",
-        "judge",
-        "orquestación",
-        "panel"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/consensus-validation/SKILL.md",
-      "description": "Orquestación de 4-judge panel (reflection, code-review, business, performance)"
     },
     {
       "category": "quality",
@@ -13542,20 +13556,6 @@
       "kind": "script",
       "path": "scripts/spellcheck-docs.sh",
       "description": "spellcheck-docs.sh — Orthographic review using accent dictionaries"
-    },
-    {
-      "category": "quality",
-      "name": "tdd-vertical-slices",
-      "intents": [
-        "applying",
-        "avoids",
-        "cycles",
-        "development",
-        "driven"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/tdd-vertical-slices/SKILL.md",
-      "description": "Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a new feature or bug fix, when user mentions 'red-green-refactor', 'tdd', 'test-first', 'vertical slice' — explicitly avoids the 'horizontal sli"
     },
     {
       "category": "quality",
@@ -14897,15 +14897,15 @@
       "category": "quality",
       "name": "verification-lattice",
       "intents": [
-        "beyond",
+        "allá",
+        "capa",
         "code",
-        "layer",
-        "multi",
-        "pipeline"
+        "estándar",
+        "multi"
       ],
       "kind": "skill",
       "path": ".claude/skills/verification-lattice/SKILL.md",
-      "description": "Multi-layer verification pipeline beyond Code Review"
+      "description": "Usar cuando se necesita verificación multi-capa más allá del code review estándar."
     },
     {
       "category": "quality",
