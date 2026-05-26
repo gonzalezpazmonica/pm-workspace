@@ -1,6 +1,6 @@
 ---
 name: product-discovery
-description: Análisis de descubrimiento de producto - JTBD y PRD antes de descomposición
+description: "Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto."
 summary: |
   Analisis pre-implementacion: Jobs-to-be-Done y PRD.
   Cuando: antes de descomponer un PBI en tasks.

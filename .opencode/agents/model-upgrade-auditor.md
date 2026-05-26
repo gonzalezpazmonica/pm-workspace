@@ -1,7 +1,7 @@
 ---
 name: model-upgrade-auditor
 permission_level: L1
-description: "Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence."
+description: "Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en agentes y skills."
 tools:
   read: true
   write: true

@@ -1,7 +1,7 @@
 ---
 name: tech-writer
 permission_level: L2
-description: >
+description: "Usar cuando se actualiza README, CHANGELOG, comentarios XML en C# o docs del proyecto."
   Documentación técnica: README, CHANGELOG, comentarios XML en C#, docs de proyecto.
   Usar PROACTIVELY cuando: se actualiza README.md tras cambios en estructura o herramientas,
   se añaden entradas a CHANGELOG.md, se documentan métodos públicos con comentarios ///,

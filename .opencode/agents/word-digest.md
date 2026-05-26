@@ -1,7 +1,7 @@
 ---
 name: word-digest
 permission_level: L2
-description: >
+description: "Usar cuando se necesita extraer texto, tablas e imágenes estructurados de documentos Word (DOCX)."
   Digestion de documentos Word (DOCX) con extraccion de texto, tablas e imagenes — pipeline
   de 4 fases. Actas, propuestas, manuales, informes, procedimientos. Usa contexto REAL del
   proyecto para resolver ambiguedades. Actualiza documentos de contexto vivos. Usar

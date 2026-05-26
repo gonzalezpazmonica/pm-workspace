@@ -1,6 +1,6 @@
 ---
 name: calibration-judge
-description: Truth Tribunal judge — confidence statements match evidence strength
+description: "Usar cuando el Truth Tribunal necesita verificar que las afirmaciones de confianza coinciden con la evidencia."
 model: mid
 permission_level: L1
 tools:

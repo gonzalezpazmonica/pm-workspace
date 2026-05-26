@@ -1,6 +1,6 @@
 ---
 name: completeness-judge
-description: Truth Tribunal judge — report covers what its title/abstract promises
+description: "Usar cuando el Truth Tribunal necesita verificar que el informe cubre lo que promete su título."
 model: mid
 permission_level: L1
 tools:

@@ -1,6 +1,6 @@
 ---
 name: rbac-management
-description: "Role management skill — grant, revoke, audit, and verify user permissions"
+description: "Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios."
 summary: |
   Control de acceso basado en roles: grant, revoke, audit.
   Gestiona permisos por usuario/equipo/proyecto.

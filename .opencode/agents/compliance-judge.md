@@ -1,6 +1,6 @@
 ---
 name: compliance-judge
-description: Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality
+description: "Usar cuando el Truth Tribunal necesita verificar cumplimiento de PII y niveles de confidencialidad."
 model: heavy
 permission_level: L1
 tools:

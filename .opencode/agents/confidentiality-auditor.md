@@ -1,7 +1,7 @@
 ---
 name: confidentiality-auditor
 permission_level: L1
-description: "Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles del workspace y verifica que no se filtran en el diff. Genera veredicto CLEAN/BLOCKED con firma si pasa."
+description: "Usar cuando se audita un PR de pm-workspace para verificar que no filtra datos sensibles."
 tools:
   read: true
   glob: true

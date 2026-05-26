@@ -1,6 +1,6 @@
 ---
 name: project-update
-description: Actualización integral del proyecto activo. Orquestador determinista (multiproceso) que refresca DevOps+mail+calendar+teams+SharePoint+OneDrive+transcripts, digiere VTTs a meeting digests, y deja todo persistido bajo niveles de confidencialidad estrictos. Implementación canónica en scripts/project-update.py. Sin agentes en F1; agentes solo para análisis y consolidación.
+description: "Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes."
 context: Activar cuando el PM pide "actualizar proyecto", "refrescar contexto", "digerir información", "pon al día", "update completo".
 argument-hint: "--slug {codename} [--only {refresh|digest}] [--skip {source}] [--skip-auth] [--dry-run]"
 allowed-tools: [Bash, Read, Write, Edit, Glob, Grep, Task]

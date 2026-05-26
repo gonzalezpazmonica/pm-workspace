@@ -1,7 +1,7 @@
 ---
 name: meeting-confidentiality-judge
 permission_level: L1
-description: >
+description: "Usar post-extracción de reuniones para verificar que datos confidenciales no se filtran."
   Juez de confidencialidad post-extraccion de reuniones. Valida que datos marcados como
   confidenciales NO se filtren a ficheros del proyecto. Verifica limites de secciones
   confidenciales y clasifica datos sensibles. Invocado por meeting-digest, NO directamente.

@@ -1,6 +1,6 @@
 ---
 name: android-autonomous-debugger
-description: Autonomous debugging and testing of Android apps against physical devices via USB/ADB
+description: "Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB."
 summary: |
   Depuracion autonoma de apps Android contra dispositivos fisicos via USB/ADB.
   Detecta crashes, ANRs, memory leaks. Ejecuta tests instrumentados.

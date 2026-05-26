@@ -1,6 +1,6 @@
 ---
 name: caveman
-description: Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use when you suspect self-deception, before committing, or before shipping.
+description: "Usar cuando se sospecha autoengaño, antes de commitear o antes de publicar."
 license: MIT
 compatibility: opencode
 metadata:

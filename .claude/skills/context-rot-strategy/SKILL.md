@@ -1,6 +1,6 @@
 ---
 name: context-rot-strategy
-description: Context-rot strategy for 1M sessions — 5-option decision model per turn
+description: "Usar cuando una sesión larga se aproxima al límite de contexto y hay que decidir qué compactar."
 summary: |
   Meta-skill para gestionar context rot en sesiones con ventanas de 1M
   tokens (Opus 4.7). Rutea entre 5 opciones de gestion de contexto per

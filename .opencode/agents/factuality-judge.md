@@ -1,6 +1,6 @@
 ---
 name: factuality-judge
-description: Truth Tribunal judge — factual accuracy of claims against verifiable sources
+description: "Usar cuando el Truth Tribunal necesita verificar la precisión factual de afirmaciones contra fuentes."
 model: heavy
 permission_level: L1
 tools:

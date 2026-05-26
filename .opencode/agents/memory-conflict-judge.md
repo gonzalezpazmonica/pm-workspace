@@ -1,6 +1,6 @@
 ---
 name: memory-conflict-judge
-description: Recommendation Tribunal judge — detects when a draft recommendation contradicts the active user's auto-memory (feedback_*, user_*)
+description: "Usar cuando el Recommendation Tribunal necesita detectar contradicciones con la auto-memoria del usuario."
 model: mid
 permission_level: L1
 tools:

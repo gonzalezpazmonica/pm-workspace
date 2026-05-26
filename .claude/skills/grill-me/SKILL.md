@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production. Use when merging, when reviewing security-critical code, or when the solution feels too simple.
+description: "Usar cuando se revisa código antes de merge, en código security-critical o cuando la solución parece demasiado simple."
 license: MIT
 compatibility: opencode
 metadata:

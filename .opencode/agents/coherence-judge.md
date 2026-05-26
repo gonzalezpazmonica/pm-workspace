@@ -1,6 +1,6 @@
 ---
 name: coherence-judge
-description: Truth Tribunal judge — internal consistency (sums, dates, entities)
+description: "Usar cuando el Truth Tribunal necesita verificar coherencia interna (sumas, fechas, entidades)."
 model: mid
 permission_level: L1
 tools:

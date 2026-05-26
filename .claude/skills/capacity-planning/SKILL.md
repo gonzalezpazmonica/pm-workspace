@@ -1,6 +1,6 @@
 ---
 name: capacity-planning
-description: Gestión completa de capacidades del equipo - consulta, cálculo y alertas
+description: "Usar cuando se calcula la capacidad del equipo para un sprint o periodo."
 summary: |
   Calcula capacidad del equipo: horas disponibles, focus factor,
   alertas de sobre-asignacion. Consulta Azure DevOps iterations API.

@@ -1,7 +1,7 @@
 ---
 name: security-attacker
 permission_level: L3
-description: >
+description: "Usar cuando se simulan ataques Red Team contra código o configuración del proyecto."
   Agente Red Team que simula ataques contra el código y la configuración del proyecto.
   Busca vulnerabilidades, misconfiguraciones, dependencias inseguras, inyecciones,
   exposición de datos y vectores de ataque comunes (OWASP Top 10, CWE Top 25).

@@ -1,7 +1,7 @@
 ---
 name: infrastructure-agent
 permission_level: L4
-description: >
+description: "Usar cuando se gestiona infraestructura cloud: detección de recursos existentes y creación de IaC."
   Agente de gestión de infraestructura cloud. Recibe solicitudes del architect,
   detecta infraestructura existente, crea recursos al MENOR COSTE posible, y
   propone escalados que REQUIEREN aprobación humana. Soporta Azure, AWS, GCP,

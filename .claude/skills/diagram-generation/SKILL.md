@@ -1,6 +1,6 @@
 ---
 name: diagram-generation
-description: Generar diagramas de arquitectura y flujo desde infraestructura y código
+description: "Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infraestructura."
 summary: |
   Genera diagramas de arquitectura y flujo desde codigo.
   Soporta Draw.io, Miro y Mermaid local.

@@ -1,6 +1,6 @@
 ---
 name: court-orchestrator
-description: Convenes the Code Review Court, manages fix cycles, produces .review.crc
+description: "Usar cuando se necesita orquestar un Code Review Court completo con múltiples jueces."
 model: heavy
 permission_level: L4
 tools:

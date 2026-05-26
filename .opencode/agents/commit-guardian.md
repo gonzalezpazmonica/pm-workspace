@@ -1,7 +1,7 @@
 ---
 name: commit-guardian
 permission_level: L4
-description: >
+description: "Usar antes de cada commit para verificar que los cambios staged cumplen las reglas del workspace."
   Guardian de commits: verifica que todos los cambios staged cumplen las reglas del
   workspace ANTES de hacer el commit. Invocar SIEMPRE antes de cualquier git commit.
   Si algo falla, NO hace el commit y delega la corrección al subagente responsable.

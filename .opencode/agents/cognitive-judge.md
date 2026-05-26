@@ -1,6 +1,6 @@
 ---
 name: cognitive-judge
-description: Code Review Court judge — debuggability at 3AM, naming, complexity, logs
+description: "Usar cuando el Code Review Court necesita auditar legibilidad, naming, complejidad y debuggability."
 model: mid
 permission_level: L1
 tools:

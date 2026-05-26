@@ -1,6 +1,6 @@
 ---
 name: legal-compliance
-description: Auditoría de compliance legal contra legislación española consolidada (legalize-es)
+description: "Usar cuando se audita compliance legal contra legislación española consolidada."
 summary: |
   Cruza reglas de negocio, contratos, políticas y arquitectura
   contra 12.235 normas españolas consolidadas del BOE.

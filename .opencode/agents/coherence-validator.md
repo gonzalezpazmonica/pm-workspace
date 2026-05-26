@@ -1,7 +1,7 @@
 ---
 name: coherence-validator
 permission_level: L0
-description: >
+description: "Usar post-SDD para verificar que el output generado coincide con el objetivo declarado."
   Verifies that generated outputs (specs, reports, code) actually match the stated
   objective. Use PROACTIVELY post-SDD, post-report generation, or when output quality
   is uncertain.

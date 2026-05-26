@@ -2,7 +2,7 @@
 name: code-reviewer
 decision_tree: decision-trees/code-reviewer-decisions.md
 permission_level: L1
-description: >
+description: "Usar como quality gate antes de merge para revisar código .NET."
   Revisión de código .NET como quality gate antes de merge. Usar PROACTIVELY cuando:
   se completa una implementación y necesita revisión, se detectan posibles vulnerabilidades
   de seguridad, se evalúa si el código cumple los principios SOLID, se verifica que la

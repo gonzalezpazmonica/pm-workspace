@@ -1,6 +1,6 @@
 ---
 name: spec-judge
-description: Code Review Court judge — implementation vs approved spec, acceptance criteria
+description: "Usar cuando el Code Review Court necesita verificar que la implementación cumple la spec aprobada."
 model: mid
 permission_level: L1
 tools:

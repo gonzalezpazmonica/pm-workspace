@@ -1,7 +1,7 @@
 ---
 name: ruby-developer
 permission_level: L3
-description: >
+description: "Usar cuando se implementa código Ruby on Rails siguiendo una spec SDD aprobada."
   Implementación de código Ruby on Rails siguiendo specs SDD aprobadas. Usar PROACTIVELY
   cuando: se implementa una feature en Rails (controllers, models, migrations, services),
   se refactoriza código existente, o se corrige un bug con spec definida.

@@ -1,6 +1,6 @@
 ---
 name: client-profile-manager
-description: "Gestión CRUD de perfiles de cliente en SaviaHub"
+description: "Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub."
 summary: |
   Gestion CRUD de perfiles de cliente en SaviaHub.
   Crear, actualizar, listar y buscar clientes con datos de contacto,

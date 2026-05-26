@@ -1,7 +1,7 @@
 ---
 name: meeting-digest
 permission_level: L2
-description: >
+description: "Usar cuando se necesita extraer datos estructurados de una transcripción de reunión."
   Digestion de transcripciones de reuniones (VTT, DOCX, TXT). Extrae datos estructurados
   de personas, contexto de negocio y action items. Analiza riesgos delegando a meeting-risk-analyst
   (Opus). Usar PROACTIVELY cuando: se procesan transcripciones de one-to-one, se actualizan
