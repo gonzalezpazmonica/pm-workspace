@@ -92,6 +92,40 @@ _maybe_rebuild_index() {
     fi
 }
 
+cmd_doctor() {
+    local level=0 warn=""
+    local has_st=false has_idx=false
+    python3 -c "import sentence_transformers" 2>/dev/null && has_st=true
+    python3 -c "import hnswlib" 2>/dev/null || python3 -c "import faiss" 2>/dev/null && has_idx=true
+    $has_st && $has_idx && level=2 || { $has_st && level=1; }
+
+    echo "=== memory-store doctor ==="
+    echo "Level: $level (0=grep, 1=partial, 2=vector+hybrid)"
+    $has_st && echo "  sentence_transformers: OK" || echo "  sentence_transformers: NOT INSTALLED"
+    $has_idx && echo "  vector backend (hnswlib/faiss): OK" || echo "  vector backend (hnswlib/faiss): NOT INSTALLED"
+
+    local idx_faiss="${STORE_FILE%.jsonl}-index.faiss"
+    local idx_hnsw="${STORE_FILE%.jsonl}-index.idx"
+    if [[ -f "$idx_faiss" || -f "$idx_hnsw" ]]; then
+        local idx="$idx_faiss"; [[ -f "$idx_hnsw" ]] && idx="$idx_hnsw"
+        if [[ "$STORE_FILE" -nt "$idx" ]]; then
+            echo "  index: STALE"
+            echo "  fix:   bash scripts/memory-store.sh rebuild-index"
+        else
+            echo "  index: fresh"
+        fi
+    else
+        echo "  index: ABSENT"
+        echo "  fix:   bash scripts/memory-store.sh rebuild-index"
+    fi
+
+    if [[ $level -lt 2 ]]; then
+        echo ""
+        echo "[WARN] Vector search DISABLED — running grep-only"
+        echo "  fix: pip install -r scripts/requirements-memory.txt"
+    fi
+}
+
 suggest_topic_key() {
     local type="$1" title="$2"
     local slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | sed 's/[^a-z0-9-]//g' | cut -c1-40)
@@ -124,6 +158,7 @@ case "${1:-help}" in
     entity) shift; cmd_entity "$@" ;;
     suggest-topic) shift; cmd_suggest_topic "$@" ;;
     session-summary) shift; cmd_session_summary "$@" ;;
+    doctor) cmd_doctor ;;
     rebuild-index) python3 "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" ;;
     index-status) python3 "$SCRIPT_DIR/memory-vector.py" status --store "$STORE_FILE" ;;
     benchmark) python3 "$SCRIPT_DIR/memory-vector.py" benchmark --store "$STORE_FILE" ;;
@@ -135,7 +170,7 @@ case "${1:-help}" in
 memory-store.sh {command} [options]
 
 Commands: save, search, context, stats, entity, suggest-topic,
-  session-summary, rebuild-index, index-status, benchmark,
+  session-summary, rebuild-index, index-status, benchmark, doctor,
   build-graph, graph-search, graph-status, graph-entities
 
 Save: --type TYPE --title TITLE [--content TEXT] [--what/--why/--where/--learned]
@@ -148,7 +183,7 @@ Vector index auto-rebuilds on JSONL changes (if deps installed).
 Install: pip install sentence-transformers hnswlib
 USAGE
     ;;
-    *) echo "Usage: memory-store.sh {save|search|context|stats|entity|suggest-topic|session-summary|rebuild-index|index-status|benchmark|help}" >&2
+    *) echo "Usage: memory-store.sh {save|search|context|stats|entity|suggest-topic|session-summary|rebuild-index|index-status|benchmark|doctor|help}" >&2
        exit 1
     ;;
 esac
