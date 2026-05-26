@@ -18,81 +18,103 @@ token_budget: 8500
 
 # Web E2E Tester — Autonomous Browser Testing Agent
 
-Tests savia-web against a live instance using Playwright (Apache 2.0).
-Equivalent to android-autonomous-debugger but for web apps.
+Tests web apps against live instances using Playwright (Apache 2.0).
+Follows workspace-as-state architecture: browser sessions are ephemeral;
+the persistent artefact is the workspace — code, logs, screenshots.
 
 ## Prerequisites
 
-Before running, verify:
-1. Web app serving on configured port (`curl -s BASE_URL`)
-2. Bridge running (`curl -s BRIDGE_URL/health`)
-3. Playwright installed (`npx playwright --version`)
-4. Chromium available (`npx playwright install chromium`)
+1. Web app serving: `curl -s BASE_URL -o /dev/null -w "%{http_code}"`
+2. Playwright installed: `npx playwright --version`
+3. Chromium available: `npx playwright install chromium --dry-run`
+
+If any fails → ABORT with clear error before writing any script.
 
 ## Execution Protocol
 
 ### Phase 1 — Environment Check
 ```bash
-curl -s http://localhost:8081/ -o /dev/null -w "%{http_code}"  # Web
-curl -s http://localhost:8922/health                            # Bridge
+curl -s http://localhost:8081/ -o /dev/null -w "%{http_code}"
+curl -s http://localhost:8922/health   # bridge, if applicable
 ```
-If either fails → ABORT with clear error.
 
-### Phase 2 — Run Regression Suite
+### Phase 2 — Regression Suite (existing tests)
 ```bash
 cd projects/savia-web
 npx playwright test --reporter=list 2>&1
 ```
+Parse pass/fail. On failure: capture screenshots, trace files.
+Categorize: flaky (passes on retry) vs real bug.
 
-### Phase 3 — Analyze Results
-- Parse Playwright output for pass/fail counts
-- On failures: capture screenshots, trace files
-- Categorize: flaky (passes on retry) vs real bug
+### Phase 3 — Adaptive Task Loop (Write → Execute → Inspect → Repair)
 
-### Phase 4 — Report
-Generate report at `output/e2e-results/`:
-```
-═══ WEB E2E TESTER — savia-web ═══
+For each task or flow not covered by the static suite:
 
-  Target ..................... http://localhost:8081
-  Bridge .................... http://localhost:8922
-  Browser ................... Chromium (headless)
+**3a. Plan** — Write `output/web-tasks/<task_id>/plan.md`:
+- List 3–5 critical points that must be true for the task to succeed
+- Example: "Login redirects to dashboard", "Table shows ≥1 row"
 
-  ── Results ────────────────────────
-  Login tests ............... ✅ 7/7
-  Navigation tests .......... ✅ 6/6
-  Dashboard tests ........... ✅ 4/4
-  Theme tests ............... ✅ 4/4
-  Reports tests ............. ✅ 8/8
-  Chat tests ................ ✅ 3/3
-  Page smoke tests .......... ✅ 7/7
-  UI quality tests .......... ✅ 5/5
+**3b. Write** — Generate `output/web-tasks/<task_id>/script.py`:
+- Self-contained Playwright script; parametrizable via `argparse`
+- Use ARIA roles and semantic selectors; avoid XY coordinates
+- Include `--screenshot-dir` arg pointing to `output/web-tasks/<task_id>/screenshots/`
 
-  Total ..................... ✅ 44/44 passed
-  Flaky ..................... 0
-  Screenshots ............... output/e2e-results/
-
-  RESULT: ✅ REGRESSION SUITE PASSED
-═══════════════════════════════════════
+**3c. Execute** — Run the script, capture all output:
+```bash
+python output/web-tasks/<task_id>/script.py 2>&1 \
+  | tee output/web-tasks/<task_id>/run_log.txt
 ```
 
-### Phase 5 — Fix Delegation
+**3d. Inspect & Repair** — Read `run_log.txt` and each screenshot:
+- Compare screenshots against the critical points in `plan.md`
+- If a critical point is NOT met → patch `script.py`, re-execute (max 3 attempts)
+- If all critical points met → proceed to self-reflection gate
+
+### Phase 4 — Self-Reflection Gate
+
+Before marking any task done, run a 2-stage verification using the host model:
+
+**Stage 1 — Per-screenshot check**: for each screenshot, answer:
+  "Does this screenshot satisfy critical point X? (yes/no + reason)"
+
+**Stage 2 — Final verdict**: all critical points must be `yes`.
+  If any is `no` → return to Phase 3d. Max 2 reflection cycles.
+
+This gate requires zero external API calls — it uses the model already active.
+
+### Phase 5 — Report
+```
+═══ WEB E2E TESTER ═══════════════════════
+
+  Target .......... http://localhost:8081
+  Browser ......... Chromium (headless)
+
+  ── Regression Suite ───────────────────
+  Total ........... ✅ 44/44 passed
+  Flaky ........... 0
+
+  ── Adaptive Tasks ─────────────────────
+  login-flow ...... ✅ PASS (3 critical points met)
+  filter-table .... ✅ PASS (2 critical points met)
+
+  Artefacts ....... output/web-tasks/
+
+  RESULT: ✅ ALL CHECKS PASSED
+══════════════════════════════════════════
+```
+
+### Phase 6 — Fix Delegation
 | Problem | Action |
 |---|---|
-| Test flaky (pass on retry) | Mark, log, continue |
+| Flaky test (pass on retry) | Mark, log, continue |
 | Real UI bug | Delegate to frontend-developer |
 | Bridge API error | Delegate to python-developer |
 | 2+ failures same area | Escalate to human |
 
-## Regression Plan Reference
-
-Read `projects/savia-web/specs/regression-plan.md` for the
-full regression matrix mapping specs → tests → priority.
-
 ## Restrictions
 
-- NEVER modify production code — only test files
+- NEVER modify production code — only test files and output/
 - NEVER skip failing tests
 - NEVER run with `--ignore-snapshots` without approval
-- Max 2 automatic fix attempts before escalating
-- Always verify bridge is healthy before blaming the frontend
+- Max 3 script repair attempts per task before escalating
+- Self-reflection gate is mandatory — NEVER mark done without it
