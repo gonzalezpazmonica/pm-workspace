@@ -1,6 +1,6 @@
 ---
 name: code-improvement-loop
-description: Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera PRs pendientes de revisión
+description: "Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión."
 summary: |
   Bucle autonomo de mejora de codigo: detecta oportunidades (deuda,
   cobertura, performance), aplica mejoras y genera PRs Draft.
