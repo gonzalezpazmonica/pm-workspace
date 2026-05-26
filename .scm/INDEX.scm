@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: dac67976b737 | resources: 1172
-> 553 commands · 98 skills · 70 agents · 451 scripts
+> hash: 5b75976692cd | resources: 1174
+> 553 commands · 98 skills · 70 agents · 453 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -638,6 +638,8 @@
 [planning] guided-work — acompaña,adaptando,guiado,necesidades,paso — cmd:.claude/commands/guided-work.md
 [planning] hallucination-fast-judge — actually,calls,cited,commands,draft — agent:.claude/agents/hallucination-fast-judge.md
 [planning] hallucination-judge — consistency,detects,facts,invented,judge — agent:.claude/agents/hallucination-judge.md
+[planning] hashline-edit — edit,file,hashline,protection,safe — script:scripts/hashline-edit.sh
+[planning] hashline-guard — agent,edits,file,guard,hashline — script:scripts/hashline-guard.sh
 [planning] health-dashboard — adaptada,dashboard,muestra,proyecto,rápida — cmd:.claude/commands/health-dashboard.md
 [planning] heat-scheduler — based,heat,lightweight,parallelism,scheduler — script:scripts/heat-scheduler.sh
 [planning] help — catálogo,comandos,pasos,pendientes,primeros — cmd:.claude/commands/help.md

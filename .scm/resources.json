@@ -1,6 +1,6 @@
 {
-  "hash": "a7e3015d06be",
-  "total": 1172,
+  "hash": "9c8a1b9e2b80",
+  "total": 1174,
   "resources": [
     {
       "category": "analysis",
@@ -8159,6 +8159,34 @@
       "kind": "agent",
       "path": ".claude/agents/hallucination-judge.md",
       "description": "Truth Tribunal judge — detects invented facts via SelfCheck-style consistency"
+    },
+    {
+      "category": "planning",
+      "name": "hashline-edit",
+      "intents": [
+        "edit",
+        "file",
+        "hashline",
+        "protection",
+        "safe"
+      ],
+      "kind": "script",
+      "path": "scripts/hashline-edit.sh",
+      "description": "hashline-edit.sh — Safe edit wrapper with stale-file protection (SE-149)"
+    },
+    {
+      "category": "planning",
+      "name": "hashline-guard",
+      "intents": [
+        "agent",
+        "edits",
+        "file",
+        "guard",
+        "hashline"
+      ],
+      "kind": "script",
+      "path": "scripts/hashline-guard.sh",
+      "description": "hashline-guard.sh — Stale-file protection for L3 agent edits (SE-149)"
     },
     {
       "category": "planning",
