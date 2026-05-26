@@ -148,3 +148,21 @@ Solo aplica si la tarea se reintenta. Si el fallo es de tipo OOM, timeout o erro
 ## Emergency-mode (LocalAI fallback) — SPEC-122
 
 `/emergency-mode` cambia SOLO el endpoint (`ANTHROPIC_BASE_URL` → LocalAI), **no bypassa** los gates de esta regla. AUTONOMOUS_REVIEWER, rama `agent/*`, PR Draft siguen siendo obligatorios. Si el revisor humano no está disponible, el agente **espera**. Ver `.opencode/skills/emergency-mode/SKILL.md` y `docs/rules/domain/emergency-mode-protocol.md`.
+
+---
+
+## Subagent Scope Guard — SE-146
+
+Cuando un agente o skill se invoca como **subagente delegado** (recibe una tarea concreta desde un orquestador), debe:
+
+```
+1. EJECUTAR solo la tarea asignada — sin activar workflows de orquestación completos
+2. REPORTAR resultado: DONE | DONE_WITH_CONCERNS | BLOCKED
+3. RETORNAR — no continuar en bucle ni lanzar sub-agentes adicionales
+```
+
+**Por qué**: Las skills de alto impacto (overnight-sprint, code-improvement-loop, adversarial-security, etc.) tienen bucles de orquestación que, si un subagente los activa íntegramente, generan runs en cascada fuera de control.
+
+**Detección de contexto subagente**: si se recibe una tarea vía `Task` tool, env var `SAVIA_SUBAGENT=1`, o flag `--subagent`, aplicar este guard.
+
+**Skills con este guard**: adversarial-security, code-improvement-loop, consensus-validation, dag-scheduling, overnight-sprint, spec-driven-development, tdd-vertical-slices, verification-lattice.

@@ -14,6 +14,13 @@ tags: ["consensus", "validation", "multi-judge", "quality"]
 priority: "high"
 ---
 
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
+
 # Skill: Consensus Validation
 
 > Lanza 4 jueces especializados. Cada uno evalúa independientemente.
@@ -113,8 +120,6 @@ If dissents and verdict == APPROVED → downgrade to CONDITIONAL
 
 Escribir a: `output/consensus/YYYYMMDD-HHmmss-{type}-{ref}.json`
 
----
-
 ## Dissent Rules
 
 **Triggered si:** `abs(judge_score - promedio) > 0.5`
@@ -136,8 +141,6 @@ Escribir a: `output/consensus/YYYYMMDD-HHmmss-{type}-{ref}.json`
 - Veto triggered: REJECTED (final)
 
 **SLA:** 120s máximo
-
----
 
 ## Integration & Antipatterns
 
