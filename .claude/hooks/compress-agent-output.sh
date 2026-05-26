@@ -3,6 +3,8 @@
 # PostToolUse hook for Task — compresses outputs >200 tokens in active dev sessions
 # async: true — never blocks main flow
 set -uo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 
 # Only activate in multi-agent sessions (dev-session active or SDD_COMPRESS_AGENT_OUTPUT)
 SESSION_STATE_DIR="output/dev-sessions"
@@ -46,10 +48,11 @@ mkdir -p "$RAW_DIR"
 RAW_FILE="$RAW_DIR/${TS}.txt"
 echo "$TOOL_OUTPUT" > "$RAW_FILE"
 
-# Generate compressed bullets via Claude haiku (speed over quality)
+# Generate compressed bullets via fast-tier model (speed over quality)
+FAST_MODEL="$(savia_resolve_model fast 2>/dev/null || echo "fast")"
 BULLETS=$(echo "$TOOL_OUTPUT" | \
     claude -p "Compress this agent output to 5-8 structured bullet points. Include: action taken, files modified, key decisions/errors, state for next agent. Be concrete. Output ONLY the bullets, no preamble." \
-    --model claude-haiku-4-5-20251001 2>/dev/null || \
+    --model "$FAST_MODEL" 2>/dev/null || \
     echo "- Output compressed (raw saved to $RAW_FILE)")
 
 WORD_COUNT=$(echo "$BULLETS" | wc -w)

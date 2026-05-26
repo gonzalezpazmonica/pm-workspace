@@ -218,6 +218,31 @@ The `memory-auto-capture.sh` PostToolUse hook automatically captures patterns fr
 
 ---
 
+## Activar búsqueda semántica (SE-143)
+
+El sistema soporta tres levels de búsqueda:
+
+| Level | Modo | Requisito |
+|---|---|---|
+| 0 | grep puro | ninguno |
+| 1 | embeddings sin backend | `sentence-transformers` |
+| 2 | vector + híbrido (recomendado) | `sentence-transformers` + `hnswlib` o `faiss-cpu` |
+
+**Instalar deps:**
+```bash
+pip install -r scripts/requirements-memory.txt
+```
+
+**Verificar estado:**
+```bash
+bash scripts/memory-store.sh doctor
+```
+
+Si `doctor` muestra `Level: 0`, la búsqueda semántica está desactivada.
+Instalar las deps y ejecutar `memory-store.sh rebuild-index` para activarla.
+
+---
+
 ## Best Practices
 
 1. **MEMORY.md conciso** — max 200 lineas AND 25KB. Each entry < 150 chars. Mover detalles a topic files

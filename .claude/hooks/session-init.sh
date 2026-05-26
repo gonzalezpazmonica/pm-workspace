@@ -283,6 +283,19 @@ for mh_path in "$HOME/claude/scripts/memory-hygiene.sh" "./scripts/memory-hygien
   fi
 done
 
+# Memory vector index auto-rebuild (SE-143) — background, non-blocking
+for ms_path in "$HOME/claude/scripts/memory-store.sh" "./scripts/memory-store.sh"; do
+  if [ -f "$ms_path" ]; then
+    (
+      # Only rebuild if Level=2 (deps installed) and index is stale
+      python3 -c "import sentence_transformers; import hnswlib" 2>/dev/null || \
+        python3 -c "import sentence_transformers; import faiss" 2>/dev/null || exit 0
+      bash "$ms_path" rebuild-index >/dev/null 2>&1 || true
+    ) &
+    break
+  fi
+done
+
 # Context rotation check (SE-033) — async, non-blocking
 for cr_path in "$HOME/claude/scripts/context-rotation.sh" "./scripts/context-rotation.sh"; do
   if [ -f "$cr_path" ]; then
