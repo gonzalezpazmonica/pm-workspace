@@ -59,6 +59,9 @@ slow_count=0
 # classified as Stop-event if its name matches a Stop* pattern or if
 # the hook is registered only under Stop in settings.json.
 stop_hooks_re='^(scope-guard|session-end-snapshot|session-end-memory|session-end-signature)\.sh$'
+# Session-start hooks run once per session, not in the per-tool-call hot path.
+# They get the same 2.5x SLA as stop hooks.
+session_hooks_re='^(session-init)\.sh$'
 stop_threshold_ms=$(( THRESHOLD_MS * 5 / 2 ))  # 500ms for 200ms base
 
 for hook in "$ROOT"/.opencode/hooks/*.sh; do
@@ -75,7 +78,7 @@ for hook in "$ROOT"/.opencode/hooks/*.sh; do
   total=$((total + 1))
 
   # Apply appropriate threshold based on classification.
-  if [[ "$name" =~ $stop_hooks_re ]]; then
+  if [[ "$name" =~ $stop_hooks_re ]] || [[ "$name" =~ $session_hooks_re ]]; then
     effective_threshold="$stop_threshold_ms"
     suffix=" (stop-event SLA ${stop_threshold_ms}ms)"
   else
