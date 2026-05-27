@@ -1,6 +1,6 @@
 ---
 name: agent-code-map
-description: Genera y gestiona Agent Code Maps (.acm) — mapas estructurales persistentes entre sesiones para que los agentes conozcan la arquitectura real del proyecto desde el primer token.
+description: "Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos."
 summary: |
   Genera INDEX.acm + mapas por capa (domain, infra, api) desde el código fuente.
   Valida frescura por hash. Carga progresiva con @include. Integrado en SDD step [0].

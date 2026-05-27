@@ -1,6 +1,6 @@
 ---
 name: architecture-intelligence
-description: Detección de patrones de arquitectura, sugerencias de mejora y recomendaciones para proyectos nuevos
+description: "Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente."
 summary: |
   Detecta patrones de arquitectura en 16 lenguajes.
   Analiza estructura de carpetas, dependencias y naming.

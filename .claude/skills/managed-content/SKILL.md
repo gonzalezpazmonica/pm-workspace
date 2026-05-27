@@ -1,6 +1,6 @@
 ---
 name: managed-content
-description: Manage auto-generated content sections with safe regeneration markers
+description: "Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad."
 summary: |
   Gestiona secciones auto-generadas con marcadores safe-regeneration.
   Permite actualizar contenido automatico sin tocar contenido manual.

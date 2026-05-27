@@ -1,6 +1,6 @@
 ---
 name: governance-enterprise
-description: "Enterprise governance — audit trail queries, compliance verification, decision registry, certification workflow"
+description: "Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise."
 summary: |
   Gobernanza empresarial: audit trail, verificacion de compliance,
   registro de decisiones y workflow de certificacion.

@@ -1,6 +1,6 @@
 ---
 name: smart-calendar
-description: >
+description: "Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams."
 summary: |
   Gestion inteligente de agenda: sincronizacion Outlook/Teams,
   planificacion automatica de focus blocks, rebalanceo por

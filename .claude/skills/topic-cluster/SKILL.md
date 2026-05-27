@@ -1,6 +1,6 @@
 ---
 name: topic-cluster
-description: BERTopic clustering — agrupa retros/PBIs/incidents/lessons en topics tematicos con labels. Filtra ruido, descubre patrones cross-proyecto
+description: "Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales."
 summary: |
   Clustering tematico con BERTopic (UMAP+HDBSCAN+c-TF-IDF). Aplica sobre
   retros, backlogs, incidentes, lessons. Fallback keyword cuando

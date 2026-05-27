@@ -1,6 +1,6 @@
 ---
 name: memvid-backup
-description: Backup portable de memoria externa — evalua memvid vs tar-gzip. Round-trip con SHA256 integrity. Fallback robusto.
+description: "Usar cuando se crea un backup portable de la memoria externa de Savia."
 summary: |
   Wrapper backup para memoria externa. Intenta memvid (.mv2) si disponible,
   fallback a tar-gzip con SHA256 integrity. 3 subcomandos: pack, restore, verify.

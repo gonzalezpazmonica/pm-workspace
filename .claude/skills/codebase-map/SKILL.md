@@ -1,6 +1,6 @@
 ---
 name: codebase-map
-description: >
+description: "Usar cuando se necesita un mapa de dependencias del workspace (comandos→agentes→reglas→skills)."
 summary: |
   Mapa de dependencias internas: que comandos invocan que agentes,
   que reglas cargan, que skills usan. Reduce alucinaciones

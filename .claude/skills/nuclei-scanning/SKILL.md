@@ -1,6 +1,6 @@
 ---
 name: nuclei-scanning
-description: "Scanner de vulnerabilidades Nuclei como complemento al analisis LLM. Detecta CVEs conocidos, misconfiguraciones y paneles expuestos. Degradacion graceful si Nuclei no esta instalado."
+description: "Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei."
 context: "Invocado por /security-pipeline y /pentesting. Complementa security-attacker con deteccion basada en templates."
 category: quality
 disable-model-invocation: false

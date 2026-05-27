@@ -1,6 +1,6 @@
 ---
 name: enterprise-onboarding
-description: "Enterprise onboarding at scale — batch import, per-role checklists, progress tracking, knowledge transfer"
+description: "Usar cuando se incorporan múltiples personas a la organización de forma masiva."
 summary: |
   Onboarding empresarial a escala: importacion batch de miembros,
   checklists por rol, tracking de progreso y knowledge transfer.

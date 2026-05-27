@@ -1,6 +1,6 @@
 ---
 name: reranker
-description: Cross-encoder reranker — filtra top-K ruidoso de memory-recall/savia-recall/cross-project-search antes de pasar al agente
+description: "Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por relevancia."
 summary: |
   Capa de reranking cross-encoder sobre top-K de retrieval (cosine).
   Filtra ruido antes de que el agente gaste tokens leyendo falsos

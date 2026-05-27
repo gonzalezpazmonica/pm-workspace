@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 511 resources
+> 512 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -443,6 +443,7 @@
 - **sync-tags-from-changelog** (script): sync-tags-from-changelog.sh — Create missing git tags from CHANGELOG.md
 - **task-create** (cmd): Add a task to Savia's todo list. Usage: /task-create Investigate this site...
 - **task-decomposer** (script): task-decomposer.sh — Classify tasks as atomic/composite and decompose recursively
+- **tdd-vertical-slices** (skill): Usar cuando se aplica TDD a una feature nueva o bug fix con ciclos red-green-refactor.
 - **team-coordination** (skill): Multi-team orchestration — create teams, assign members, detect cross-team blockers
 - **team-evaluate** (cmd): >
 - **team-onboarding** (cmd): >

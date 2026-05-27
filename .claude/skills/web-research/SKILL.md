@@ -1,6 +1,6 @@
 ---
 name: web-research
-description: Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-starts SearxNG Docker if available, falls back to WebSearch.
+description: "Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versiones, CVEs)."
 summary: |
   Busca en la web para resolver gaps de contexto: documentacion,
   versiones, CVEs, best practices. Auto-inicia SearxNG Docker

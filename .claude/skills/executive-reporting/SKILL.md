@@ -1,6 +1,6 @@
 ---
 name: executive-reporting
-description: Generación de informes ejecutivos multi-proyecto para dirección
+description: "Usar cuando se genera un informe ejecutivo multi-proyecto para dirección."
 summary: |
   Informes ejecutivos multi-proyecto para direccion.
   Formatos: PowerPoint y Word con formato corporativo.

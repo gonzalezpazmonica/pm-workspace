@@ -1,6 +1,6 @@
 ---
 name: savia-hub-sync
-description: Orquestación de sincronización del repositorio SaviaHub
+description: "Usar cuando se sincroniza el repositorio SaviaHub con el workspace local."
 summary: |
   Orquesta sincronizacion del repositorio SaviaHub.
   Detecta cambios locales vs remotos, resuelve conflictos.

@@ -1,6 +1,6 @@
 ---
 name: tech-research-agent
-description: Agente de investigación técnica autónoma — investiga temas, genera informes, notifica al humano designado
+description: "Usar cuando se necesita investigación técnica autónoma sobre un tema específico."
 summary: |
   Agente de investigacion tecnica autonoma: investiga temas,
   genera informes y notifica al humano designado.

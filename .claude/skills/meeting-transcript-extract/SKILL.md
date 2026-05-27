@@ -1,6 +1,6 @@
 ---
 name: meeting-transcript-extract
-description: Extrae transcripciones de reuniones Teams web vía CDP del browser-daemon. Funciona para reuniones propias Y reuniones donde el usuario fue asistente (convocadas por otros). Pipeline: click chat → botón Transcripción → iframe xplatplugins.aspx → scroll+extract DOM.
+description: "Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser."
 context: Activar cuando el PM pide extraer transcripciones de reuniones Teams, digerir reuniones pendientes, o leer transcripts. Útil post-/project-update cuando hay reuniones sin digest.
 argument-hint: "[--port 9222|9223] [--out-dir DIR] [--batch | --substring TEXT]"
 allowed-tools: [Read, Bash]
