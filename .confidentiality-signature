@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c4efccb09c5eb38e2463b65e27133f3b1baf1d5b1ee7c13356943bc6dad8ff74
-timestamp=2026-05-27T14:08:34Z
-branch=feature/SE-147-skill-behavior-tests
-head_commit=2dcaa572
-signature=fea53b0f2cff8a85b8dcec0419bce00bb82f2134c045c342f76609348be06116
+diff_hash=72d579502255d1643b8eb220d264bd92a7d14447074f034dbb268c6ead046e9a
+timestamp=2026-05-27T14:35:30Z
+branch=feature/SE-145-description-trap-fix
+head_commit=3fe1b9ea
+signature=fcf259d2793ca93044a922473af034b8b12f99ac9af15ddf2183dc008af49390
