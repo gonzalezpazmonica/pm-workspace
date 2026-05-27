@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 # tests/pre-output-validator.bats — SE-150 TTSR pre-output validator tests
+# SPEC-SE-150
+# Ref: docs/specs/SE-150-pre-output-validator.spec.md
 #
 # Tests for scripts/pre-output-validator.sh
 # One test per rule (POR-001 to POR-007) plus integration and edge cases.
@@ -7,6 +9,15 @@
 # Run: bats tests/pre-output-validator.bats
 
 VALIDATOR="${BATS_TEST_DIRNAME}/../scripts/pre-output-validator.sh"
+
+setup() {
+  TMP_DIR="$(mktemp -d)"
+  export TMP_DIR
+}
+
+teardown() {
+  [[ -n "${TMP_DIR:-}" && -d "$TMP_DIR" ]] && rm -rf "$TMP_DIR"
+}
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -248,4 +259,70 @@ run_json() {
   run_raw 'password = "mysecretpass" && terraform apply'
   [ "$status" -eq 2 ]
   [[ "$output" == *"POR-004"* ]] || [[ "$output" == *"POR-006"* ]]
+}
+
+# ── Safety and meta tests ─────────────────────────────────────────────────────
+
+@test "safety: validator script has set -uo pipefail" {
+  grep -q "set -uo pipefail" "$VALIDATOR"
+}
+
+@test "safety: validator is executable" {
+  [ -x "$VALIDATOR" ]
+}
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+
+@test "edge: null byte content passes without crash (large whitespace)" {
+  run bash "$VALIDATOR" <<< "$(printf '%0.s ' {1..1000})"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: nonexistent SKIP rule env var is treated as empty" {
+  PRE_OUTPUT_SKIP_RULES="" run bash "$VALIDATOR" <<< 'export TOKEN=ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+  [ "$status" -ne 0 ]
+}
+
+@test "edge: null-like empty json object passes without error" {
+  run bash "$VALIDATOR" <<< '{}'
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: very large clean input passes without overflow" {
+  local big_input
+  big_input=$(python3 -c "print('a' * 50000)")
+  run bash "$VALIDATOR" <<< "$big_input"
+  [ "$status" -eq 0 ]
+}
+
+# ── Function coverage: _is_skipped ────────────────────────────────────────────
+
+@test "_is_skipped: skipping multiple rules with comma-separated list" {
+  PRE_OUTPUT_SKIP_RULES="POR-001,POR-004,POR-006" run bash "$VALIDATOR" \
+    <<< 'export TOKEN=ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 && terraform apply'
+  [ "$status" -eq 0 ]
+}
+
+# ── Function coverage: _effective_severity ────────────────────────────────────
+
+@test "_effective_severity: PRE_OUTPUT_SEVERITY_OVERRIDE=remind downgrades block to reminder" {
+  PRE_OUTPUT_SEVERITY_OVERRIDE=remind run bash "$VALIDATOR" <<< 'export TOKEN=ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"reminder"* ]]
+}
+
+# ── File-based input (tmpdir isolation) ───────────────────────────────────────
+
+@test "isolation: validator reads from stdin using a tmp file pipe" {
+  local f="$TMP_DIR/input.txt"
+  echo 'no violations here' > "$f"
+  run bash "$VALIDATOR" < "$f"
+  [ "$status" -eq 0 ]
+}
+
+@test "isolation: violation file in tmpdir triggers block" {
+  local f="$TMP_DIR/secret.txt"
+  echo 'export MY_TOKEN=ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890' > "$f"
+  run bash "$VALIDATOR" < "$f"
+  [ "$status" -ne 0 ]
 }
