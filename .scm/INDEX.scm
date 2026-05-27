@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: e4be363d7e88 | resources: 1176
-> 553 commands · 98 skills · 70 agents · 455 scripts
+> hash: 4e653638ddff | resources: 1177
+> 553 commands · 98 skills · 70 agents · 456 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -742,6 +742,7 @@
 [planning] postmortem-create — analysis,create,incident,postmortem,structured — cmd:.claude/commands/postmortem-create.md
 [planning] postmortem-heuristics — debugging,extract,heuristics,postmortems — cmd:.claude/commands/postmortem-heuristics.md
 [planning] pre-commit-sovereignty — grep,intentionally,match,note,omitted — script:scripts/pre-commit-sovereignty.sh
+[planning] pre-output-validator — inspired,output,rule,ttsr,validator — script:scripts/pre-output-validator.sh
 [planning] privacy-check-company — check,company,content,filter,privacy — script:scripts/privacy-check-company.sh
 [planning] probe-devops — acceso,azure,devops,diagnóstico,probe — script:scripts/probe-devops.sh
 [planning] product-catalog — actualizar,añadir,buscar,catálogo,exportar — cmd:.claude/commands/product-catalog.md

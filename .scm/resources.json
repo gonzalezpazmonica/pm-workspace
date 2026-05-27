@@ -1,6 +1,6 @@
 {
-  "hash": "9f1a30bafa06",
-  "total": 1176,
+  "hash": "9e012cd6d3a9",
+  "total": 1177,
   "resources": [
     {
       "category": "analysis",
@@ -9498,6 +9498,20 @@
       "kind": "script",
       "path": "scripts/pre-commit-sovereignty.sh",
       "description": "NOTE: -e omitted intentionally — grep returns 1 on no-match which would"
+    },
+    {
+      "category": "planning",
+      "name": "pre-output-validator",
+      "intents": [
+        "inspired",
+        "output",
+        "rule",
+        "ttsr",
+        "validator"
+      ],
+      "kind": "script",
+      "path": "scripts/pre-output-validator.sh",
+      "description": "pre-output-validator.sh — TTSR-inspired pre-output rule validator (SE-150)"
     },
     {
       "category": "planning",
