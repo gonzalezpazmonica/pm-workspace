@@ -1,6 +1,6 @@
 ---
 name: wellbeing-guardian
-description: "Sistema proactivo de bienestar individual"
+description: "Usar cuando se monitorizan señales de bienestar individual en el equipo."
 summary: |
   Sistema proactivo de bienestar: recordatorios de descanso,
   alertas fuera de horario, nudges de work-life balance.

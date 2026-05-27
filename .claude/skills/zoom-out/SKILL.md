@@ -1,6 +1,6 @@
 ---
 name: zoom-out
-description: Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use when designing, when evaluating trade-offs, or at the start of design sessions.
+description: "Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use when designing, when evaluating trade-offs, or at the start of design sessions."
 license: MIT
 compatibility: opencode
 disable-model-invocation: true

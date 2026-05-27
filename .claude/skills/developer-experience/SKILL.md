@@ -1,6 +1,6 @@
 ---
 name: developer-experience
-description: Framework DX Core 4 y SPACE para medir y mejorar la experiencia del desarrollador
+description: "Usar cuando se mide o mejora la experiencia de desarrollo del equipo."
 summary: |
   Framework DX Core 4 (Speed, Effectiveness, Quality, Impact)
   y metricas SPACE para medir experiencia del desarrollador.

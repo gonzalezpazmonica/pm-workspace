@@ -1,6 +1,6 @@
 ---
 name: ecosystem-watcher
-description: Watcher mensual de awesome-* repos y upstream tooling. Calcula deltas vs último snapshot y genera informe markdown con señales high/medium/low. Sin acciones automáticas — solo señalización para revisión humana.
+description: "Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas."
 summary: |
   Monthly ecosystem intelligence. Tracks awesome-claude-code,
   awesome-agent-skills, awesome-mcp-servers, anthropics/skills,

@@ -1,6 +1,6 @@
 ---
 name: model-upgrade-audit
-description: "Audit workspace components for prompt debt when a new model is available. Detect workarounds, propose simplifications, compare with evals."
+description: "Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace."
 summary: |
   Audita agentes y prompts para detectar workarounds que modelos
   nuevos ya no necesitan. Propone simplificaciones con evidencia.

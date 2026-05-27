@@ -1,6 +1,6 @@
 ---
 name: orgchart-import
-description: >
+description: "Usar cuando se importa un organigrama para extraer la estructura del equipo."
 summary: |
   Importa organigramas (Mermaid, Draw.io XML, Miro) y genera
   estructura teams/ con departamentos, equipos y miembros.

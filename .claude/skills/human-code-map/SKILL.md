@@ -1,6 +1,6 @@
 ---
 name: human-code-map
-description: "Genera y mantiene mapas narrativos de componentes (.hcm) para luchar activamente contra la deuda cognitiva. Usar PROACTIVELY cuando: se incorpora un dev nuevo, se toca un módulo sin mapa, debt-score > 6, o se detecta que alguien re-lee el mismo código repetidamente."
+description: "Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el mismo código repetidamente."
 summary: |
   Pipeline de 4 fases: cargar .acm del componente → analizar código real →
   generar borrador narrativo → ciclo de validación humana.

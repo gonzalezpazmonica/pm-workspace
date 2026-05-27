@@ -1,6 +1,6 @@
 ---
 name: cost-management
-description: "Cost Management — Timesheets, budgets, forecasting, invoicing, cost analytics"
+description: "Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes."
 summary: |
   Gestion de costes: timesheets, presupuestos, forecasting e invoicing.
   Registra horas por tarea/proyecto, calcula desviaciones,

@@ -1,6 +1,6 @@
 ---
 name: time-tracking-report
-description: Generación de informes de imputación de horas a Excel/Word
+description: "Usar cuando se generan informes de imputación de horas en Excel o Word."
 summary: |
   Extrae horas imputadas de Azure DevOps y genera informe.
   Agrupa por persona, proyecto y tipo de tarea.

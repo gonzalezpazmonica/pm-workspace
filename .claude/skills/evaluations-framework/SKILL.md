@@ -1,6 +1,6 @@
 ---
 name: evaluations-framework
-description: Evaluations Framework
+description: "Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts."
 summary: |
   Framework G-Eval para evaluar calidad de outputs.
   Tipos: PBI quality, spec quality, estimation accuracy.

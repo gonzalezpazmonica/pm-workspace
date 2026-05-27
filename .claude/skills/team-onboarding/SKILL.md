@@ -1,6 +1,6 @@
 ---
 name: team-onboarding
-description: Onboarding y evaluación de competencias para nuevos miembros del equipo
+description: "Usar cuando se incorpora un nuevo miembro al equipo y se evalúan sus competencias."
 summary: |
   Onboarding de nuevos miembros: documentacion auto-generada,
   plan personalizado 30/60/90 y agente buddy de 3 capas.

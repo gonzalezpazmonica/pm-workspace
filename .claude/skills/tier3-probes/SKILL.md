@@ -1,6 +1,6 @@
 ---
 name: tier3-probes
-description: Catalogo de feasibility probes para champions Tier 3 — Scrapling, Oumi, Memvid, BERTopic, Reranker, PDF extract
+description: "Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace."
 summary: |
   Aggregator skill listando 6 probes Slice 1 de champions Tier 3.
   Cada probe verifica preconditions (Python version, pip deps, disk,

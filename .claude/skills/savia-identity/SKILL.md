@@ -1,6 +1,6 @@
 ---
 name: savia-identity
-description: Carga completa de la identidad y personalidad de Savia. Perfil, tono, reglas, y memoria al inicio de cada sesión.
+description: "Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia."
 license: MIT
 compatibility: opencode
 metadata:

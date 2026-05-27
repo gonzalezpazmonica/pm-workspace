@@ -1,6 +1,6 @@
 ---
 name: smart-routing
-description: Enrutamiento inteligente de comandos y descubrimiento de herramientas para 400+ comandos
+description: "Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles."
 summary: |
   Enrutamiento inteligente de comandos para 400+ herramientas.
   Capability groups + keyword matching + top-20 algorithm.

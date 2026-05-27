@@ -1,6 +1,6 @@
 ---
 name: context-interview-conductor
-description: "Conducción de entrevistas estructuradas de contexto"
+description: "Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada."
 summary: |
   Conduce entrevistas estructuradas de contexto para proyectos nuevos.
   Genera preguntas adaptativas, captura respuestas y produce
