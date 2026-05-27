@@ -1,6 +1,6 @@
 ---
 name: spec-driven-development
-description: Specs ejecutables para desarrolladores humanos y agentes Claude
+description: "Usar cuando se escribe, valida o implementa una spec ejecutable SDD."
 summary: |
   Genera specs ejecutables como contratos de implementacion.
   Flujo: analyst -> architect -> spec-writer -> developer -> test -> review.
