@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 510 resources
+> 511 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -106,6 +106,7 @@
 - **confidentiality-scan** (script): confidentiality-scan.sh — Scan for PII, credentials, real project names.
 - **conflict-check** (cmd): >
 - **confluence-publish** (cmd): >
+- **consensus-validation** (skill): Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces.
 - **contribute** (cmd): Contribuir mejoras, ideas o correcciones al repositorio de pm-workspace en GitHub
 - **contribute** (script): contribute.sh — Capa de interacción con GitHub para comunidad
 - **cost-center** (cmd): Cost management and billing — timesheets, budgets, forecasting, invoicing
@@ -275,7 +276,7 @@
 - **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.
 - **outcome-track** (cmd): Tracking de outcomes post-release — ¿la feature entregó el valor esperado?
 - **output-compress** (script): output-compress.sh — Compress verbose tool output (stdin -> stdout)
-- **overnight-sprint** (skill): Modo autónomo nocturno — ejecuta tareas de bajo riesgo en bucle, genera PRs pendientes de revisión humana
+- **overnight-sprint** (skill): Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche.
 - **path-redact** (script): path-redact.sh — Redact absolute paths containing $HOME from text
 - **pbi-assign** (cmd): Assign or reassign tasks based on intelligent allocation
 - **pbi-decompose** (cmd): Decompose a PBI into granular technical tasks
