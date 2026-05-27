@@ -21,14 +21,14 @@
 - **governance-audit-log** (script): governance-audit-log.sh — Append-only audit log with chain hash
 - **governance-certify** (cmd): Checklist de certificación — ISO 42001, EU AI Act, documentación de modelo
 - **governance-enterprise** (cmd): Enterprise governance — audit trail, compliance checks, decision registry, certification
-- **governance-enterprise** (skill): Enterprise governance — audit trail queries, compliance verification, decision registry, certification workflow
+- **governance-enterprise** (skill): Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise.
 - **governance-policy** (cmd): Definir política de uso de IA de la empresa — clasificación de riesgo, aprobaciones
 - **governance-report** (cmd): Reporte de gobernanza IA para management — cumplimiento normativo, uso responsable
 - **insurance-policy** (cmd): >
 - **legal-compliance** (agent): >
 - **opus47-compliance-check** (script): opus47-compliance-check.sh — Verifies Savia compliance with Opus 4.7 migration batches.
 - **policy-check** (cmd): Verificar politicas de agente para un proyecto — mostrar permisos y restricciones
-- **regulatory-compliance** (skill): Validación de marcos regulatorios por sector — detección automática, compliance checks y corrección
+- **regulatory-compliance** (skill): Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales.
 - **sdlc-policy** (cmd): Configure SDLC policies and quality gates
 - **vertical-education** (cmd): Extensión compliance para educación — FERPA, accesibilidad educativa, COPPA
 - **vertical-finance** (cmd): Extensión compliance para finanzas — SOX, Basel III, MiFID II, PCI DSS

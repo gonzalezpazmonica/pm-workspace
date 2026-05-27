@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 512 resources
+> 517 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -30,18 +30,21 @@
 - **ai-boundary** (cmd): Definir matriz de límites explícitos: qué puede hacer Savia autónomamente vs requiere aprobación
 - **ai-confidence** (cmd): Transparencia: Savia muestra confianza, razonamiento, datos y limitaciones de cada recomendación
 - **ai-incident** (cmd): Registrar y analizar incidentes donde recomendaciones de Savia fueron incorrectas
+- **ai-labor-impact** (skill): Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización.
 - **ai-model-card** (cmd): Genera model card documentando agentes IA, modelos, tareas y decisiones
 - **ai-safety-config** (cmd): Configurar 4 niveles de supervisión humana (inform/recommend/decide/execute) por tipo de acción
 - **architect** (agent): >
-- **architecture-intelligence** (skill): Detección de patrones de arquitectura, sugerencias de mejora y recomendaciones para proyectos nuevos
+- **architecture-intelligence** (skill): Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente.
 - **ast-comprehend** (script): ast-comprehend.sh — Extractor estructural multi-lenguaje (ast-comprehension skill)
+- **ast-comprehension** (skill): Usar cuando se explora código desconocido y se necesita comprensión estructural sin leer ficheros enteros.
+- **ast-quality-gate** (skill): Usar cuando se verifica la calidad de código generado por IA antes de merge.
 - **azdevops-queries** (script): =============================================================================
 - **azure-devops-operator** (agent): >
-- **azure-devops-queries** (skill): Skill transversal para operaciones con Azure DevOps
-- **azure-pipelines** (skill): Skill para gestión de CI/CD con Azure Pipelines via MCP
+- **azure-devops-queries** (skill): Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint en Azure DevOps.
+- **azure-pipelines** (skill): Usar cuando se gestiona o depura CI/CD con Azure Pipelines.
 - **backlog-capture** (cmd): >
 - **backlog-git** (cmd): Control de versiones para backlogs de proyectos
-- **backlog-git-tracker** (skill): Captura, comparación y auditoría de snapshots de backlog
+- **backlog-git-tracker** (skill): Usar cuando se capturan o comparan snapshots del backlog para detectar drift.
 - **backlog-groom** (cmd): Grooming asistido — detectar items obsoletos, duplicados, sin criterios de aceptación
 - **backlog-init** (script): backlog-init.sh — Initialize local backlog structure for a project
 - **backlog-patterns** (cmd): Detecta PBIs duplicados o similares entre proyectos del portfolio
@@ -52,7 +55,7 @@
 - **backlog-sync** (cmd): Sync local backlog with external PM tools (Azure DevOps, Jira, GitHub Issues)
 - **backup** (cmd): Backup cifrado de perfiles, configuraciones y datos locales a NextCloud o Google Drive
 - **backup** (script): backup.sh — Backup cifrado de datos locales a NextCloud/GDrive
-- **banking-architecture** (skill): Skill: Banking Architecture
+- **banking-architecture** (skill): Usar cuando se diseña o revisa arquitectura para proyectos del sector bancario.
 - **banking-bian** (cmd): Validar arquitectura contra estándar BIAN y generar diagramas ArchiMate
 - **banking-detect** (cmd): Auto-detectar proyecto bancario por entidades BIAN, Kafka, Snowflake, SWIFT
 - **banking-eda-validate** (cmd): Validar pipelines Kafka/EDA — topologías, schemas, DLQ, Saga, idempotencia
@@ -70,7 +73,7 @@
 - **calibration-judge** (agent): Truth Tribunal judge — confidence statements match evidence strength
 - **capacity-forecast** (cmd): Previsión de capacidad a medio plazo — planifica recursos para los próximos 3-6 sprints
 - **capacity-forecast-telco** (cmd): Medición, previsión y planificación de capacidad de red con alertas automáticas
-- **capacity-planning** (skill): Gestión completa de capacidades del equipo - consulta, cálculo y alertas
+- **capacity-planning** (skill): Usar cuando se calcula la capacidad del equipo para un sprint o periodo.
 - **case-init** (cmd): Scaffold a business case from pursuit and SOW data
 - **case-kill-check** (cmd): Run valuation sentinel across all active cases for kill recommendations
 - **case-validate** (script): case-validate.sh — SE-016: Validate business case directories
@@ -84,13 +87,13 @@
 - **ci-health** (cmd): Muestra tasa de fallo de pipelines CI a partir del log local de ejecuciones.
 - **claude-md-drift-check** (script): claude-md-drift-check.sh — Valida que los conteos en CLAUDE.md coincidan con
 - **client-profile** (cmd): Gestión de perfiles de cliente en SaviaHub
-- **client-profile-manager** (skill): Gestión CRUD de perfiles de cliente en SaviaHub
+- **client-profile-manager** (skill): Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub.
 - **cobol-developer** (agent): >
 - **coherence-judge** (agent): Truth Tribunal judge — internal consistency (sums, dates, entities)
 - **coherence-validator** (agent): >
 - **commit-guardian** (agent): >
 - **company-edit** (cmd): Editar secciones del perfil de empresa — identity, structure, strategy, policies, technology, vertical
-- **company-messaging** (skill): >
+- **company-messaging** (skill): Usar cuando se envían mensajes internos cifrados entre miembros de la organización vía Company Savia.
 - **company-repo** (cmd): >
 - **company-repo** (script): company-repo.sh — Git operations for company repo lifecycle
 - **company-repo-ops** (script): company-repo-ops.sh — Connect, status, and sync operations
@@ -110,7 +113,7 @@
 - **contribute** (cmd): Contribuir mejoras, ideas o correcciones al repositorio de pm-workspace en GitHub
 - **contribute** (script): contribute.sh — Capa de interacción con GitHub para comunidad
 - **cost-center** (cmd): Cost management and billing — timesheets, budgets, forecasting, invoicing
-- **cost-management** (skill): Cost Management — Timesheets, budgets, forecasting, invoicing, cost analytics
+- **cost-management** (skill): Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes.
 - **court-calendar** (cmd): >
 - **credential-proxy** (script): credential-proxy.sh — Managed Agents pattern: credential isolation
 - **credential-scan** (cmd): >
@@ -126,33 +129,35 @@
 - **dataset-version** (cmd): >
 - **deep-work** (cmd): Planificador de bloques de trabajo profundo basado en calendario y carga. Framework de Cal Newport aplicado a equipos de desarrollo.
 - **dependency-map** (cmd): >
-- **developer-experience** (skill): Framework DX Core 4 y SPACE para medir y mejorar la experiencia del desarrollador
+- **developer-experience** (skill): Usar cuando se mide o mejora la experiencia de desarrollo del equipo.
 - **devops-validate** (cmd): >
-- **devops-validation** (skill): Validates Azure DevOps project configuration against pm-workspace ideal Agile requirements. Invoked automatically when connecting a new project.
+- **devops-validation** (skill): Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración Agile.
 - **diagram-architect** (agent): >
 - **diagram-config** (cmd): >
 - **diagram-generate** (cmd): >
-- **diagram-generation** (skill): Generar diagramas de arquitectura y flujo desde infraestructura y código
+- **diagram-generation** (skill): Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infraestructura.
 - **diagram-import** (cmd): >
-- **diagram-import** (skill): Importar diagramas, extraer entidades y generar Features/PBIs
+- **diagram-import** (skill): Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs.
 - **diagram-status** (cmd): >
-- **doc-quality-feedback** (skill): >
+- **doc-quality-feedback** (skill): Usar cuando se recopila feedback de calidad de documentación tras usar skills y reglas.
 - **dotnet-developer** (agent): >
 - **dual-estimate** (script): dual-estimate.sh — Dual estimation engine: agent-time vs human-time
 - **dx-core4** (cmd): Marco DX Core 4 completo: velocidad, efectividad, calidad e impacto. Genera scorecard de experiencia del desarrollador.
 - **dx-dashboard** (cmd): Dashboard DX con métricas automatizables de feedback loops, cognitive load y satisfacción
 - **dx-recommendations** (cmd): Análisis de friction points y recomendaciones para mejorar la experiencia del equipo
 - **dx-survey** (cmd): Genera encuesta DX Core 4 adaptada al equipo y procesa respuestas
-- **ecosystem-watcher** (skill): Watcher mensual de awesome-* repos y upstream tooling. Calcula deltas vs último snapshot y genera informe markdown con señales high/medium/low. Sin acciones automáticas — solo señalización para revisión humana.
+- **ecosystem-watcher** (skill): Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas.
 - **emergency-fallback** (script): emergency-fallback.sh — Operaciones PM sin LLM
 - **emergency-mode** (cmd): Gestionar el modo emergencia con LLM local cuando el proveedor cloud no está disponible
+- **emergency-mode** (skill): Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI.
 - **emergency-plan** (cmd): Pre-descargar Ollama y modelo LLM en caché local para instalación offline
 - **emergency-plan** (script): emergency-plan.sh — Pre-descarga de Ollama y modelo LLM para modo offline
 - **emergency-setup** (script): emergency-setup.sh — Setup rápido de LLM local para modo emergencia
 - **emergency-status** (script): emergency-status.sh — Estado del sistema de emergencia PM-Workspace
 - **emotional-state-tracker** (script): emotional-state-tracker.sh — Track session stress state for Savia
 - **ensure-daemons-auth** (script): ensure-daemons-auth.sh
-- **enterprise-onboarding** (skill): Enterprise onboarding at scale — batch import, per-role checklists, progress tracking, knowledge transfer
+- **enterprise-analytics** (skill): Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial.
+- **enterprise-onboarding** (skill): Usar cuando se incorporan múltiples personas a la organización de forma masiva.
 - **epic-plan** (cmd): >
 - **estimate-calibrate** (script): estimate-calibrate.sh — Recompute empirical agent speedups from actuals log
 - **estimate-convert** (script): estimate-convert.sh — Convert human-days to agent-hours using dual ratios
@@ -162,7 +167,7 @@
 - **eval-output** (cmd): >
 - **eval-workspace** (script): eval-workspace.sh — Evaluación integral de pm-workspace contra sala-reservas
 - **evaluate-repo** (cmd): >
-- **evaluations-framework** (skill): Evaluations Framework
+- **evaluations-framework** (skill): Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts.
 - **exit** (cmd): >
 - **experiment-log** (cmd): >
 - **factuality-judge** (agent): Truth Tribunal judge — factual accuracy of claims against verifiable sources
@@ -228,7 +233,7 @@
 - **java-developer** (agent): >
 - **jira-connect** (cmd): Conectar y sincronizar con Jira Cloud como alternativa a Azure DevOps
 - **jira-sync** (cmd): >
-- **knowledge-graph** (skill): Construye y consulta grafos de conocimiento de entidades PM y sus relaciones
+- **knowledge-graph** (skill): Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto.
 - **knowledge-graph** (script): knowledge-graph.sh — Temporal knowledge graph in SQLite (local cache)
 - **knowledge-prime** (cmd): Generar documento de priming AI desde código y configuración del proyecto
 - **legacy-assess** (cmd): >
@@ -238,7 +243,7 @@
 - **lesson-extract** (cmd): Extract a cross-project lesson from the current task
 - **lesson-pipeline** (script): lesson-pipeline.sh — SE-032: Cross-Project Lessons Pipeline
 - **linear-sync** (cmd): Sincronización bidireccional con Linear — issues, cycles, métricas unificadas
-- **managed-content** (skill): Manage auto-generated content sections with safe regeneration markers
+- **managed-content** (skill): Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad.
 - **managed-scan** (cmd): Scan managed content for stale or outdated sections
 - **managed-sync** (cmd): Synchronize and regenerate managed content markers
 - **marketplace-publish** (cmd): Publish components to marketplace registry
@@ -247,7 +252,7 @@
 - **mcp-server-config** (cmd): Configure MCP servers and connection settings
 - **mcp-server-start** (cmd): Start and initialize MCP server instances
 - **mcp-server-status** (cmd): Check status and health of active MCP servers
-- **memvid-backup** (skill): Backup portable de memoria externa — evalua memvid vs tar-gzip. Round-trip con SHA256 integrity. Fallback robusto.
+- **memvid-backup** (skill): Usar cuando se crea un backup portable de la memoria externa de Savia.
 - **mobile-developer** (agent): >
 - **model-capability-resolver** (script): model-capability-resolver.sh — Resolve model capabilities from YAML registry
 - **my-learning** (cmd): Detección de tech stack gaps — código del developer vs best practices del proyecto
@@ -256,7 +261,7 @@
 - **nidos** (script): nidos.sh — Savia Nidos: parallel terminal isolation via named git worktrees
 - **nidos-lib** (script): nidos-lib.sh — Shared utilities for Savia Nidos
 - **notion-sync** (cmd): >
-- **nuclei-scanning** (skill): Scanner de vulnerabilidades Nuclei como complemento al analisis LLM. Detecta CVEs conocidos, misconfiguraciones y paneles expuestos. Degradacion graceful si Nuclei no esta instalado.
+- **nuclei-scanning** (skill): Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei.
 - **obs-connect** (cmd): Conectar Savia a plataformas de observabilidad — Grafana, Datadog, Azure App Insights, OpenTelemetry
 - **obs-query** (cmd): Consultas en lenguaje natural a datos de observabilidad — PromQL, KQL, Datadog Query Language
 - **obs-status** (cmd): Health check de todas las fuentes de observabilidad conectadas
@@ -268,11 +273,11 @@
 - **onboard** (cmd): >
 - **onboard-enterprise** (cmd): Enterprise onboarding at scale — batch import, per-role checklists, knowledge transfer
 - **onboarding-dev** (cmd): Technical onboarding with AI Buddy — auto-generates project docs, personalized plan, and 3-layer buddy agent
-- **onboarding-dev** (skill): Onboarding técnico con Buddy IA — auto-genera documentación del proyecto, plan personalizado 30/60/90 y agente buddy de 3 capas
+- **onboarding-dev** (skill): Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA.
 - **operational-point-selector** (script): operational-point-selector.sh — SE-029 Slice 4.
 - **opus47-calibration-scorecard** (script): opus47-calibration-scorecard.sh — SE-070 Slice 1
 - **orgchart-import** (cmd): >
-- **orgchart-import** (skill): >
+- **orgchart-import** (skill): Usar cuando se importa un organigrama para extraer la estructura del equipo.
 - **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.
 - **outcome-track** (cmd): Tracking de outcomes post-release — ¿la feature entregó el valor esperado?
 - **output-compress** (script): output-compress.sh — Compress verbose tool output (stdin -> stdout)
@@ -281,13 +286,13 @@
 - **pbi-assign** (cmd): Assign or reassign tasks based on intelligent allocation
 - **pbi-decompose** (cmd): Decompose a PBI into granular technical tasks
 - **pbi-decompose-batch** (cmd): Decompose multiple PBIs into technical tasks
-- **pbi-decomposition** (skill): Descomponer PBIs en Tasks, estimar en horas y asignar inteligentemente
+- **pbi-decomposition** (skill): Usar cuando se descompone un PBI en tasks y se estiman las horas.
 - **pbi-from-rules** (cmd): Map business rules to PBIs with traceability matrix
 - **pbi-from-rules-report** (cmd): Generate traceability matrix report without creating PBIs
 - **pbi-jtbd** (cmd): >
 - **pbi-plan-sprint** (cmd): Plan and allocate PBIs to upcoming sprint
 - **pbi-prd** (cmd): >
-- **personal-vault** (skill): Gestion del repositorio personal del usuario — perfil, preferencias, memoria, instintos, cache. Nivel N3 (USUARIO). Invocada por comandos vault-*.
+- **personal-vault** (skill): Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria).
 - **php-developer** (agent): >
 - **platform-migrate** (cmd): Migración asistida entre plataformas — Azure DevOps ↔ Jira ↔ GitHub Projects ↔ Linear
 - **playbook-create** (cmd): Crear playbooks evolutivos para tareas repetitivas con framework ACE
@@ -305,7 +310,7 @@
 - **privacy-check-company** (script): privacy-check-company.sh — Privacy filter for company repo content
 - **probe-devops** (script): probe-devops.sh — diagnóstico de acceso a Azure DevOps usando la
 - **product-catalog** (cmd): Gestiona el catálogo de productos: añadir, actualizar, listar, buscar y exportar
-- **product-discovery** (skill): Análisis de descubrimiento de producto - JTBD y PRD antes de descomposición
+- **product-discovery** (skill): Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto.
 - **profile-edit** (cmd): Savia actualiza tu perfil — editar una sección.
 - **profile-setup** (cmd): Savia te conoce — configuración del perfil en conversación natural.
 - **profile-show** (cmd): Savia muestra tu perfil actual.
@@ -317,9 +322,9 @@
 - **project-new** (cmd): >
 - **project-release-plan** (cmd): >
 - **project-roadmap** (cmd): >
-- **project-update** (skill): Actualización integral del proyecto activo. Orquestador determinista (multiproceso) que refresca DevOps+mail+calendar+teams+SharePoint+OneDrive+transcripts, digiere VTTs a meeting digests, y deja todo persistido bajo niveles de confidencial
+- **project-update** (skill): Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes.
 - **project-update-devops** (script): project-update-devops.sh — wrapper que resuelve config real desde
-- **prompt-optimizer** (skill): >
+- **prompt-optimizer** (skill): Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad.
 - **protect-project-privacy** (script): protect-project-privacy.sh — Barrera de protección contra publicación accidental de proyectos
 - **pursuit-bid** (cmd): Record bid/no-bid decision for a qualified pursuit
 - **pursuit-close** (cmd): Close a pursuit as won or lost and trigger post-mortem analysis
@@ -341,7 +346,7 @@
 - **record-stop** (cmd): Stop active recording session
 - **recover-savia** (script): recover-savia.sh — Launch a clean Claude session OUTSIDE pm-workspace
 - **ref-list** (cmd): List available resource references and their types
-- **reflection-validation** (skill): Meta-cognitive validation protocol (System 2). Detects proxy optimization, undeclared assumptions, and broken causal chains.
+- **reflection-validation** (skill): Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2).
 - **reflection-validator** (agent): >
 - **refresh-agent-maps** (script): refresh-agent-maps.sh
 - **release-backfill** (script): release-backfill.sh — Create missing GitHub releases from git tags
@@ -349,10 +354,11 @@
 - **repos-list** (cmd): >
 - **repos-pr-create** (cmd): >
 - **repos-pr-list** (cmd): >
+- **reranker** (skill): Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por relevancia.
 - **reranker-probe** (script): reranker-probe.sh — SE-032 Slice 1 reranker viability probe.
 - **resolve-all-open-prs** (script): resolve-all-open-prs.sh — one-shot helper that runs resolve-pr-conflicts.sh
 - **resolve-pr-conflicts** (script): resolve-pr-conflicts.sh — auto-resolver for the recurring conflicts that
-- **resource-references** (skill): skill: resource-references
+- **resource-references** (skill): Usar cuando se necesitan referencias a recursos y plantillas del workspace.
 - **retro-actions** (cmd): >
 - **rpi-start** (cmd): >
 - **ruby-developer** (agent): >
@@ -362,9 +368,10 @@
 - **rust-developer** (agent): >
 - **sbom-generate** (cmd): >
 - **scale-optimizer** (cmd): Scaling optimization — analyze, benchmark, recommend improvements for growing organizations
+- **scaling-operations** (skill): Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad.
 - **scheduled-create** (cmd): Crear tarea programada con notificaciones automáticas
 - **scheduled-list** (cmd): Listar todas las tareas programadas y su configuración de notificaciones
-- **scheduled-messaging** (skill): Configure Scheduled Tasks with automatic messaging to communication platforms
+- **scheduled-messaging** (skill): Usar cuando se configuran mensajes automáticos programados a plataformas de comunicación.
 - **scheduled-setup** (cmd): Wizard interactivo para configurar notificaciones automáticas en plataformas de mensajería
 - **school-analytics** (cmd): Teacher class-wide analytics and progress dashboard
 - **school-diary** (cmd): Student learning diary and reflection journal
@@ -395,6 +402,7 @@
 - **skill-detect** (cmd): Detect repeated patterns and propose new skills automatically
 - **skill-detect** (script): skill-detect.sh — SE-030: Skill Self-Improvement Pipeline
 - **skill-eval** (cmd): >
+- **skill-evaluation** (skill): Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada.
 - **skill-feedback-log** (script): skill-feedback-log.sh — Append skill invocation to JSONL log
 - **skill-feedback-rank** (script): skill-feedback-rank.sh — Compute skill effectiveness and generate ranking
 - **skill-propose** (cmd): Proponer nuevo skill desde un workflow repetitivo — auto-genera scaffold si 3+ observaciones
@@ -418,15 +426,14 @@
 - **slm-synth-recipe** (script): slm-synth-recipe.sh — SE-028 Slice 1 scaffolding: emit oumi synth recipe YAML.
 - **slm-train** (script): slm-train.sh — Fine-tune SLMs locally with Unsloth + export to Ollama
 - **slm-train-config** (script): slm-train-config.sh — Phase 3 scaffolding: emit Unsloth/TRL YAML config.
-- **smart-calendar** (skill): >
-- **smart-routing** (skill): Enrutamiento inteligente de comandos y descubrimiento de herramientas para 400+ comandos
+- **smart-calendar** (skill): Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams.
 - **sovereignty-benchmark** (script): sovereignty-benchmark.sh — Benchmark pm-workspace prompts with local LLM
 - **sovereignty-mask** (script): sovereignty-mask.sh — Wrapper for reversible data masking
 - **sovereignty-ops** (script): sovereignty-ops.sh — Download operations for sovereignty-pack.sh
 - **sovereignty-switch** (script): sovereignty-switch.sh — Switch between LLM providers for pm-workspace
 - **sprint-autoplan** (cmd): Planificación inteligente de sprint — sugiere composición óptima desde backlog y capacidad
 - **sprint-forecast** (cmd): Predicción de completitud del sprint basada en velocity histórica
-- **sprint-management** (skill): Flujo completo de gestión de sprints - estado, items, progreso y resúmenes
+- **sprint-management** (skill): Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen.
 - **sprint-plan** (cmd): Asiste en el Sprint Planning calculando capacity disponible y proponiendo la carga de trabajo.
 - **sprint-release-notes** (cmd): >
 - **sprint-retro** (cmd): Genera la plantilla de retrospectiva con datos del sprint para facilitar la ceremonia.
@@ -443,11 +450,10 @@
 - **sync-tags-from-changelog** (script): sync-tags-from-changelog.sh — Create missing git tags from CHANGELOG.md
 - **task-create** (cmd): Add a task to Savia's todo list. Usage: /task-create Investigate this site...
 - **task-decomposer** (script): task-decomposer.sh — Classify tasks as atomic/composite and decompose recursively
-- **tdd-vertical-slices** (skill): Usar cuando se aplica TDD a una feature nueva o bug fix con ciclos red-green-refactor.
-- **team-coordination** (skill): Multi-team orchestration — create teams, assign members, detect cross-team blockers
+- **team-coordination** (skill): Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloqueantes cross-team.
 - **team-evaluate** (cmd): >
 - **team-onboarding** (cmd): >
-- **team-onboarding** (skill): Onboarding y evaluación de competencias para nuevos miembros del equipo
+- **team-onboarding** (skill): Usar cuando se incorpora un nuevo miembro al equipo y se evalúan sus competencias.
 - **team-orchestrator** (cmd): Multi-team coordination — create teams, assign members, track cross-team dependencies and blockers
 - **team-privacy-notice** (cmd): >
 - **team-sentiment** (cmd): Análisis de sentimiento del equipo desde retros, standups y comunicaciones
@@ -457,11 +463,11 @@
 - **tech-writer** (agent): >
 - **terraform-developer** (agent): >
 - **threat-model** (cmd): >
-- **tier3-probes** (skill): Catalogo de feasibility probes para champions Tier 3 — Scrapling, Oumi, Memvid, BERTopic, Reranker, PDF extract
+- **tier3-probes** (skill): Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace.
 - **token-estimator** (script): token-estimator.sh — Estimate token cost before execution
 - **tool-catalog** (cmd): Catálogo categorizado de herramientas (400+ comandos)
 - **tool-result-trim** (script): tool-result-trim.sh — Deterministic hard cap for tool result output
-- **topic-cluster** (skill): BERTopic clustering — agrupa retros/PBIs/incidents/lessons en topics tematicos con labels. Filtra ruido, descubre patrones cross-proyecto
+- **topic-cluster** (skill): Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales.
 - **travel-clean** (cmd): Elimina rastros de Savia de una máquina temporal.
 - **travel-pack** (cmd): Empaca tu workspace en una unidad USB con cifrado AES-256.
 - **travel-sync** (cmd): Sincroniza workspace bidireccional entre máquina y USB.
@@ -506,9 +512,8 @@
 - **wave-executor** (script): wave-executor.sh — Generic wave execution engine for DAG task graphs
 - **wave-executor-lib** (script): wave-executor-lib.sh — Helper functions for wave-executor.sh
 - **webhook-config** (cmd): Configurar webhooks para recibir eventos push de Azure DevOps, GitHub y otras fuentes
-- **weekly-report** (skill): Weekly project status report generator — consolidates sprint, git, PRs, and capacity
 - **wellbeing-guardian** (cmd): Proactive individual wellbeing system — break reminders, after-hours alerts, work-life balance nudges
-- **wellbeing-guardian** (skill): Sistema proactivo de bienestar individual
+- **wellbeing-guardian** (skill): Usar cuando se monitorizan señales de bienestar individual en el equipo.
 - **wiki-publish** (cmd): >
 - **wiki-sync** (cmd): >
 - **workspace-doctor** (cmd): >
