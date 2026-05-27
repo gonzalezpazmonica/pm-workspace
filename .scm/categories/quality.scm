@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 226 resources
+> 225 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -9,11 +9,9 @@
 - **adversarial-security** (skill): Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team.
 - **ai-audit-log** (cmd): Log de auditoría IA — quién ejecutó qué agente, sobre qué datos, cuándo
 - **ai-exposure-audit** (cmd): Auditoría de exposición IA por rol — observed exposure, riesgo de desplazamiento, reskilling
-- **ai-labor-impact** (skill): AI labor impact analysis — exposure audit, reskilling plans, workforce forecasting
-- **android-autonomous-debugger** (skill): Autonomous debugging and testing of Android apps against physical devices via USB/ADB
+- **android-autonomous-debugger** (skill): Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB.
 - **architectural-vocabulary-audit** (script): architectural-vocabulary-audit.sh — SE-082 Slice única.
 - **architecture-judge** (agent): Code Review Court judge — boundaries, coupling, layer violations, patterns
-- **ast-comprehension** (skill): Comprensión estructural de código que no hemos escrito. Queries tipadas (impl, callers, tests, grep-code, peek, symbols) en lugar de leer ficheros completos. Inspirado en el patrón RLM (Recursive Language Models, Zhang/Kraska/Khattab 2025).
 - **audit** (cmd): Generate professional executive audit report for workspace reliability assessment
 - **banking-data-governance** (cmd): Auditar gobierno de datos — lineage, clasificación, GDPR/LOPD, feature stores
 - **banking-mlops-audit** (cmd): Auditar pipeline MLOps — versionado, drift, XAI, model risk, scoring architectures
@@ -44,27 +42,27 @@
 - **knowledge-lint** (cmd): Health check for the persistent knowledge base — detect orphans, stale refs, missing evidence
 - **knowledge-lint** (script): knowledge-lint.sh — LLM Wiki pattern: periodic knowledge base health check
 - **legal-audit** (cmd): Auditoría de compliance legal contra legislación española (legalize-es)
-- **legal-compliance** (skill): Auditoría de compliance legal contra legislación española consolidada (legalize-es)
+- **legal-compliance** (skill): Usar cuando se audita compliance legal contra legislación española consolidada.
 - **markdownlint** (script): Native markdownlint wrapper — no npm dependency.
 - **mcp-audit** (script): mcp-audit.sh — audit MCP server token overhead across configs
 - **mcp-security-audit** (script): mcp-security-audit.sh — SE-058 Slice 1 MCP supply-chain + config audit.
 - **model-upgrade-audit** (cmd): Audit workspace components for prompt debt that newer models may not need
-- **model-upgrade-audit** (skill): Audit workspace components for prompt debt when a new model is available. Detect workarounds, propose simplifications, compare with evals.
+- **model-upgrade-audit** (skill): Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace.
 - **model-upgrade-auditor** (agent): Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence.
-- **mutation-audit** (skill): Mutation testing — mide calidad real de tests, detecta zombies AI-generated. On-demand sobre módulo concreto. Invocable.
+- **mutation-audit** (skill): Usar cuando se quiere medir la calidad real de los tests mediante mutation testing.
 - **mutation-audit** (script): mutation-audit.sh — SE-035 Slice 1 mutation testing audit.
 - **opencode-cross-audit** (script): opencode-cross-audit.sh — Verifies .opencode/ vs .claude/ resource alignment
 - **opencode-parity-audit** (script): opencode-parity-audit.sh — SE-077 Slice 2
 - **overnight-sprint** (cmd): Launch autonomous overnight sprint — executes low-risk tasks, creates PRs for human review
 - **pentester** (agent): >
-- **pentesting** (skill): Arsenal de pentesting con pipeline Shannon — queue-driven, proof-based, 5 fases paralelas
+- **pentesting** (skill): Usar cuando se ejecuta un pentest contra una aplicación o infraestructura.
 - **perf-audit** (cmd): Auditoría estática de rendimiento — detecta hotspots, async anti-patterns y funciones pesadas
 - **perf-fix** (cmd): Optimización test-first de hallazgos de rendimiento — crea tests si no existen, aplica fix, re-verifica
 - **perf-report** (cmd): Informe ejecutivo de rendimiento — hotspots, async issues, roadmap y tendencias
-- **performance-audit** (skill): Auditoría estática de rendimiento — detección de hotspots, async anti-patterns, test-first optimization
+- **performance-audit** (skill): Usar cuando se audita el rendimiento estático de código para detectar hotspots.
 - **permissions-wildcard-audit** (script): permissions-wildcard-audit.sh — SE-059 Slice 1 permissions wildcard audit.
 - **postmortem-review** (cmd): Review and learn from past incident postmortems
-- **pr-agent-judge** (skill): 5º juez del Court — wrapper sobre qodo-ai/pr-agent OSS. Ejecuta review/describe/improve contra un PR y devuelve JSON compatible con Court.
+- **pr-agent-judge** (skill): Usar cuando se añade pr-agent como juez externo en el Code Review Court.
 - **pr-agent-judge** (agent): External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). Opt-in via COURT_INCLUDE_PR_AGENT=true.
 - **pr-agent-run** (script): pr-agent-run.sh — SPEC-124
 - **pr-context-loader** (script): pr-context-loader.sh — SPEC-022 F4: Load project context before PR creation
@@ -82,7 +80,7 @@
 - **qa-dashboard** (cmd): Dashboard de calidad — cobertura, tests flaky, bugs, escape rate, trends
 - **qa-regression-plan** (cmd): Plan de regresión basado en ficheros cambiados — impacto de cambios y suites a ejecutar
 - **qa-wizard** (cmd): Interactive wizard for QA engineer onboarding
-- **rbac-management** (skill): Role management skill — grant, revoke, audit, and verify user permissions
+- **rbac-management** (skill): Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios.
 - **rbac-manager** (cmd): Role-based access control — grant, revoke, audit roles and permissions
 - **record-start** (cmd): Start recording session for audit and replay
 - **ref-resolve** (cmd): Resolve and preview resource references
@@ -112,15 +110,16 @@
 - **skill-catalog-audit** (script): skill-catalog-audit.sh — SE-084 Slice 1.
 - **skills-usage-audit** (script): skills-usage-audit.sh — Audita uso de los 91 skills de pm-workspace.
 - **sovereignty-audit** (cmd): Cognitive sovereignty audit — diagnose AI vendor lock-in risk and data portability
-- **sovereignty-auditor** (skill): Auditoría de soberanía cognitiva — diagnóstico de lock-in de IA
+- **sovereignty-auditor** (skill): Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA.
 - **spellcheck-docs** (script): spellcheck-docs.sh — Orthographic review using accent dictionaries
+- **tdd-vertical-slices** (skill): Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a new feature or bug fix, when user mentions 'red-green-refactor', 'tdd', 'test-first', 'vertical slice' — explicitly avoids the 'horizontal sli
 - **test-accessibility** (script): test-accessibility.sh — Validates accessibility universal feature files
 - **test-ai-adoption** (script): ── test-ai-adoption.sh ────────────────────────────────────────────────────────
 - **test-ai-governance** (script): ── test-ai-governance.sh ─────────────────────────────────────────────────────
 - **test-ai-labor-impact** (script): test-ai-labor-impact.sh — Tests for AI Labor Impact Analysis (v2.5.0)
 - **test-ai-planning** (script): ── test-ai-planning.sh ────────────────────────────────────────────────
 - **test-ai-safety** (script): ── test-ai-safety.sh ────────────────────────────────────────────────────────
-- **test-architect** (skill): Design and generate highest-quality tests across 16 languages and 14 test types
+- **test-architect** (skill): Usar cuando se diseñan o generan tests de alta calidad en cualquier lenguaje.
 - **test-architect** (agent): >
 - **test-architecture-debt** (script): Test: Architecture & Debt v0.71.0 (Era 13)
 - **test-auditor** (script): test-auditor.sh — Score, validate, and certify BATS test files
@@ -225,5 +224,5 @@
 - **visual-qa-agent** (agent): Visual QA: screenshot analysis, wireframe comparison, regression detection. Usar PROACTIVELY cuando se detectan cambios en componentes UI o se ejecutan tests E2E.
 - **visual-regression** (cmd): Automated visual regression testing across builds and branches. Detect visual regressions with baseline comparison and approval workflows.
 - **web-e2e-tester** (agent): Autonomous E2E testing of web apps against live instances. Use PROACTIVELY when: deploying savia-web, after UI changes, or running regression tests. Equivalent of android-autonomous-debugger for web.
-- **workspace-integrity** (skill): Catalogo de integrity auditors — drift CLAUDE.md, rule manifest, orphan rules, agents catalog sync, baseline, agent size
+- **workspace-integrity** (skill): Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline).
 - **zeroclaw** (cmd): Interface with ZeroClaw ESP32 — setup, test, send commands, flash firmware.

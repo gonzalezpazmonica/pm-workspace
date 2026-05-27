@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 99 resources
+> 97 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -16,25 +16,25 @@
 - **context-benchmark** (cmd): Benchmark de posicionamiento de información en el contexto
 - **context-budget** (cmd): Presupuesto de contexto por sesión — tokens usados/disponibles, distribución por capa, sugerencias de optimización
 - **context-budget-check** (script): ── context-budget-check.sh ──────────────────────────────────────────────────
-- **context-caching** (skill): Optimize context loading order for prompt caching efficiency
+- **context-caching** (skill): Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits.
 - **context-calibration-measure** (script): context-calibration-measure.sh — Measure context usage patterns
 - **context-compress** (cmd): Compresión semántica de contexto — mantener significado, reducir tokens (80% reduction)
 - **context-defer** (cmd): Sistema de carga diferida — cargar comandos/reglas solo cuando se necesitan (85% reducción de overhead)
 - **context-distortion-measure** (script): context-distortion-measure.sh — SE-029-M
 - **context-frozen-check** (script): context-frozen-check.sh — SE-029-F
 - **context-interview** (cmd): Entrevista estructurada de contexto para proyectos y clientes
-- **context-interview-conductor** (skill): Conducción de entrevistas estructuradas de contexto
+- **context-interview-conductor** (skill): Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada.
 - **context-load** (cmd): >
 - **context-optimize** (cmd): Analizar patrones de uso de contexto y sugerir optimizaciones al context-map
-- **context-optimized-dev** (skill): Context-Optimized Development — Skill
+- **context-optimized-dev** (skill): Usar cuando se desarrolla con presupuesto de contexto limitado.
 - **context-profile** (cmd): Perfilar consumo de contexto — qué consume más, generación de flame-graph, comparación entre sesiones
 - **context-receipts-validate** (script): context-receipts-validate.sh — SE-030
 - **context-restate-anchor** (script): context-restate-anchor.sh — SE-029-R
-- **context-rot-strategy** (skill): Context-rot strategy for 1M sessions — 5-option decision model per turn
+- **context-rot-strategy** (skill): Usar cuando una sesión larga se aproxima al límite de contexto y hay que decidir qué compactar.
 - **context-rotation** (script): context-rotation.sh — SE-033: Automated context rotation (daily/weekly/monthly)
 - **context-snapshot** (script): context-snapshot.sh — Save/load session context between sessions
 - **context-status** (cmd): Show context window usage, model tier, and optimization recommendations
-- **context-task-classifier** (skill): Clasifica un turno en una de 6 clases de tarea (decision, spec, code, review, context, chitchat) para decidir ratio de compresión máximo. SE-029 §2 (SE-029-C).
+- **context-task-classifier** (skill): Usar antes de compactar contexto para clasificar la tarea del turno actual.
 - **context-task-classifier** (script): context-task-classifier.sh — SE-029-C
 - **context-task-classify** (script): context-task-classify.sh — SE-029 Slice 2 task-class classifier.
 - **context-tracker** (script): ── context-tracker.sh ─────────────────────────────────────────────────────
@@ -84,7 +84,6 @@
 - **nl-query** (cmd): Consultas en lenguaje natural — habla con Savia sin memorizar comandos
 - **post-compaction** (script): post-compaction.sh - Hook que inyecta contexto de memoria tras compactación
 - **repos-search** (cmd): >
-- **scaling-operations** (skill): Scaling operations — analyze tier, benchmark, recommend optimizations, knowledge search
 - **session-action-log** (script): session-action-log.sh — Append-only session action log (SPEC-065)
 - **session-event-log** (script): session-event-log.sh — Managed Agents pattern: durable session log
 - **session-init-bootstrap** (script): session-init-bootstrap.sh — SE-045 Slice 1 async bootstrap.
@@ -92,11 +91,10 @@
 - **session-save** (cmd): >
 - **session-state-machine** (script): session-state-machine.sh — SPEC-051 Phase 1: Session State Machine
 - **setup-memory** (script): setup-memory.sh — Inicializa estructura de auto memory para un proyecto
-- **skill-evaluation** (skill): Motor de evaluación inteligente de skills basado en análisis de prompt y contexto
 - **skill-optimize** (cmd): Auto-optimizar el prompt de un skill o agente con bucle AutoResearch
 - **slice-context-chain** (script): slice-context-chain.sh — Knowledge chain between dev-session slices
 - **tool-search** (cmd): Buscar comandos, skills y agentes por palabra clave
 - **ua-chat** (cmd): Semantic search the knowledge graph using natural language
 - **web-research** (cmd): Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-starts SearxNG Docker if available, falls back to WebSearch.
-- **web-research** (skill): Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-starts SearxNG Docker if available, falls back to WebSearch.
+- **web-research** (skill): Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versiones, CVEs).
 - **whatsapp-search** (cmd): >
