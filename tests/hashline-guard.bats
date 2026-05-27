@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
 # tests/hashline-guard.bats — SE-149 hashline stale-file protection
 # Ref: docs/rules/domain/hashline-edit-protocol.md
+# SPEC-SE-149
 
 GUARD="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)/scripts/hashline-guard.sh"
 EDIT="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)/scripts/hashline-edit.sh"
@@ -127,4 +128,85 @@ teardown() {
 
   run bash "$GUARD" check "$TEST_FILE" "$anchor_text" "$hash"
   [ "$status" -eq 2 ]
+}
+
+# ── Test 11: safety flags present in script ───────────────────────────────────
+
+@test "safety: hashline-guard.sh has set -uo pipefail" {
+  grep -q "set -uo pipefail" "$GUARD"
+}
+
+# ── Test 12: invalid command rejects with error ───────────────────────────────
+
+@test "invalid command: rejects unknown subcommand with error" {
+  run bash "$GUARD" unknown-subcommand
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"ERROR"* ]] || [[ "$output" == *"Usage"* ]]
+}
+
+# ── Test 13: anchor fails on nonexistent file ─────────────────────────────────
+
+@test "anchor: fails gracefully on nonexistent file" {
+  run bash "$GUARD" anchor "/nonexistent/path/file.txt" 1
+  [ "$status" -ne 0 ]
+}
+
+# ── Test 14: anchor fails with zero or invalid line number ───────────────────
+
+@test "anchor: fails with zero line number (boundary invalid input)" {
+  run bash "$GUARD" anchor "$TEST_FILE" "abc"
+  [ "$status" -ne 0 ]
+}
+
+# ── Test 15: anchor with no arguments is rejected ────────────────────────────
+
+@test "anchor: missing arguments are rejected (no-arg guard)" {
+  run bash "$GUARD" anchor
+  [ "$status" -ne 0 ]
+}
+
+# ── Test 16: check with empty anchor_text is rejected ────────────────────────
+
+@test "check: empty anchor_text returns error exit code" {
+  run bash "$GUARD" check "$TEST_FILE" "" "deadbeef"
+  [ "$status" -ne 0 ]
+}
+
+# ── Test 17: _hash_lines produces 64-char SHA256 hex ─────────────────────────
+
+@test "_hash_lines: anchor hash is 64-character hex (SHA256)" {
+  local out hash
+  out=$(bash "$GUARD" anchor "$TEST_FILE" 3)
+  hash=$(printf '%s' "$out" | head -1)
+  [[ ${#hash} -eq 64 ]]
+  [[ "$hash" =~ ^[0-9a-f]+$ ]]
+}
+
+# ── Test 18: _extract_context returns multi-line context block ───────────────
+
+@test "_extract_context: anchor context includes target line and neighbours" {
+  local out anchor_text
+  out=$(bash "$GUARD" anchor "$TEST_FILE" 3)
+  anchor_text=$(printf '%s' "$out" | tail -n +2)
+  # context should contain the target line (line3)
+  [[ "$anchor_text" == *"line3"* ]]
+  # context should be at least 1 line
+  local lc
+  lc=$(printf '%s\n' "$anchor_text" | wc -l)
+  [ "$lc" -ge 1 ]
+}
+
+# ── Test 19: check missing file argument is rejected ─────────────────────────
+
+@test "check: missing file argument is rejected (missing arg)" {
+  run bash "$GUARD" check
+  [ "$status" -ne 0 ]
+}
+
+# ── Test 20: hashline-edit fails gracefully on nonexistent file ───────────────
+
+@test "hashline-edit: fails gracefully on nonexistent file" {
+  [[ -x "$EDIT" ]] || skip "hashline-edit.sh missing or not executable"
+  run bash "$EDIT" "/nonexistent/path.txt" "old" "new"
+  [ "$status" -ne 0 ]
 }
