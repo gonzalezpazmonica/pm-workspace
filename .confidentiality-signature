@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=59a90623c320c0e05f810b1e4203eaa24859e2aa34c141952da7a9607194d95f
-timestamp=2026-05-27T03:40:32Z
-branch=feature/SE-144-web-e2e-webwright-patterns
-head_commit=fbd645a9
-signature=23e4826421caed4904dddbc20a9ae9b162afc66ea4de54307066e86083e82449
+diff_hash=60961c27a6552f4b94b531e4745d06230797722be3b2b25b4dd5d1294a780736
+timestamp=2026-05-27T06:53:52Z
+branch=feature/SE-146-subagent-stop
+head_commit=d20d844d
+signature=bd32fcd406c99fa6fc8c934879b2ff0ea2240fd2222bddf7b67a69085615f790

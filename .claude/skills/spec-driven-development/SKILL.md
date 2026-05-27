@@ -14,6 +14,13 @@ tags: ["sdd", "specs", "development", "agents"]
 priority: "high"
 ---
 
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
+
 # Skill: Spec-Driven Development (SDD)
 
 Transforma Tasks de Azure DevOps en Specs ejecutables por un Developer humano **o** un agente Claude.
@@ -140,5 +147,4 @@ Formato delta (ADDED/MODIFIED/REMOVED) en lugar de reescribir. Consolidar con `/
 ---
 
 ## Referencias
-
 Templates: `references/spec-template.md` · `references/layer-assignment-matrix.md` · `references/compliance-matrix.md` | Execution: `references/agent-invocation.md` · `references/review-metrics.md` | Comandos: `/spec-generate`, `/spec-implement`, `/spec-review`, `/spec-verify`

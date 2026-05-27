@@ -10,6 +10,13 @@ context: fork
 agent: any
 ---
 
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
+
 # TDD vertical-slices
 
 Pattern adoption from `mattpocock/skills/tdd/SKILL.md` (MIT, 26.4k⭐) — clean-room re-implementation, no source copied. SE-083 Slice única.
