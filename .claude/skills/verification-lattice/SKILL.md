@@ -1,6 +1,6 @@
 ---
 name: verification-lattice
-description: Multi-layer verification pipeline beyond Code Review
+description: "Usar cuando se necesita verificación multi-capa más allá del code review estándar."
 summary: |
   Pipeline de verificacion multi-capa (5 niveles) mas alla de code review.
   L1 determinista + L2 semantico + L3 seguridad + L4 agentico + L5 humano.
@@ -12,6 +12,13 @@ category: "governance"
 tags: ["verification", "multi-layer", "pipeline", "quality-gate"]
 priority: "high"
 ---
+
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
 
 # Verification Lattice: 5-Layer Verification Pipeline
 
@@ -131,7 +138,6 @@ Before running verification, answer sequentially:
 4. Layer 4 consumes Layers 1-3 reports → produces report
 5. Human reviewer reads consolidated report from Layers 1-4 → approves/requests changes
 Each layer is independent executable, but cascade provides context enrichment.
----
 ## Commands
 - **`/verify-full {task-id}`** — Run all 5 layers sequentially
 - **`/verify-layer {N} {task-id}`** — Run specific layer for debugging

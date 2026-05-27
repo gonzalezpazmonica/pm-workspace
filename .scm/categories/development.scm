@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 150 resources
+> 149 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -17,7 +17,6 @@
 - **arch-health** (cmd): Salud arquitectónica — fitness functions, drift detection, coupling metrics
 - **arch-recommend** (cmd): Recomendar la mejor arquitectura para un proyecto nuevo
 - **arch-suggest** (cmd): Sugerir mejoras de arquitectura basadas en detección previa
-- **ast-quality-gate** (skill): Language-agnostic code quality verification for AI-generated code. Runs native AST tools per language, detects 12 universal LLM error patterns, normalizes output to unified JSON. Integrates into SDD PostToolUse pipeline.
 - **ast-quality-gate** (script): ast-quality-gate.sh — Language-agnostic code quality meta-analyzer
 - **best-practices-check** (cmd): Evaluate workspace against Claude Code best practices
 - **budget-guard** (script): budget-guard.sh — Context budget monitor (SPEC-022 F1)
@@ -26,14 +25,14 @@
 - **calendar-focus** (cmd): Crear bloque de focus para una tarea especifica — Deep Work protegido
 - **caveman** (skill): Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use when you suspect self-deception, before committing, or before shipping.
 - **check-coherence** (cmd): Validate that a spec, report, or code output actually matches its stated objective
-- **code-comprehension-report** (skill): Generate comprehension report with mental model after SDD implementation. Automatically documents architectural decisions, failure heuristics, and 3AM debugging guides.
+- **code-comprehension-report** (skill): Usar cuando se ha completado una implementación SDD y se necesita documentar el modelo mental.
 - **code-improve** (cmd): Launch autonomous code improvement loop — detects opportunities, applies improvements, creates PRs for review
-- **code-improvement-loop** (skill): Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera PRs pendientes de revisión
+- **code-improvement-loop** (skill): Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión.
 - **code-patterns** (cmd): Catálogo de patterns del proyecto con ejemplos del propio código del equipo
 - **code-reviewer** (agent): >
 - **codebase-map** (cmd): Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills
-- **codebase-map** (skill): >
-- **codegraph** (skill): Motor de indexación AST persistente (tree-sitter + SQLite + FTS5) servido como MCP. Usado como backend de agent-code-map (.acm) y ast-comprehension. 19 lenguajes, auto-sync, callers/callees/impact resueltos. 100% local, MIT, sin API keys. O
+- **codebase-map** (skill): Usar cuando se necesita un mapa de dependencias del workspace (comandos→agentes→reglas→skills).
+- **codegraph** (skill): Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el código.
 - **cognitive-debt** (script): cognitive-debt.sh — SPEC-107 Phase 1 entry point.
 - **cognitive-status** (cmd): Show cognitive-debt telemetry status (SPEC-107 Phase 1 — opt-in)
 - **competitive-design** (script): competitive-design.sh — Parallel design generation with 3 philosophies
@@ -41,7 +40,7 @@
 - **comprehension-report** (cmd): Generate mental model report for an implemented task. Documents architectural decisions, failure heuristics, and 3AM debugging guide.
 - **dag-execute** (cmd): Ejecutar pipeline SDD con agentes en paralelo según DAG
 - **dag-plan** (cmd): Visualizar DAG de ejecución, camino crítico y ahorro de tiempo
-- **dag-scheduling** (skill): Orquestar agentes SDD en paralelo usando gráficos de dependencias
+- **dag-scheduling** (skill): Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos.
 - **dag-typing-validate** (script): dag-typing-validate.sh — SE-034 Slice 1 prototype validator.
 - **deps-validate** (script): deps-validate.sh — SPEC-SE-020 Slice 1 schema validator for deps.yaml.
 - **dev-orchestrator** (agent): Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto
@@ -53,14 +52,14 @@
 - **eval-run** (cmd): Execute evaluation against specified criteria
 - **execution-supervisor** (script): execution-supervisor.sh — Advisory reflection trigger (SPEC-065)
 - **feasibility-probe** (cmd): Validate spec feasibility with a time-boxed prototype attempt
-- **feasibility-probe** (skill): Validate spec feasibility with time-boxed prototype attempt and viability scoring
+- **feasibility-probe** (skill): Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla.
 - **feasibility-probe** (agent): Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions.
 - **gaia-benchmark-harness** (script): gaia-benchmark-harness.sh — SPEC-100 Slice 1 GAIA benchmark harness.
 - **gitagent-export** (script): gitagent-export.sh — SPEC-099 Slice 1 gitagent adapter.
 - **graph-build** (cmd): Construye el grafo de conocimiento PM para un proyecto
 - **graph-temporal-ops** (script): graph-temporal-ops.sh — SPEC-123
 - **hook-portability-classifier** (script): hook-portability-classifier.sh — SPEC-127 Slice 2
-- **human-code-map** (skill): Genera y mantiene mapas narrativos de componentes (.hcm) para luchar activamente contra la deuda cognitiva. Usar PROACTIVELY cuando: se incorpora un dev nuevo, se toca un módulo sin mapa, debt-score > 6, o se detecta que alguien re-lee el m
+- **human-code-map** (skill): Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el mismo código repetidamente.
 - **image-relevance-filter** (script): image-relevance-filter.sh — SPEC-103 Slice 1: deterministic-first image triage primitive.
 - **impact-analysis** (script): impact-analysis.sh — Analyze codebase impact of modifying files
 - **index-rebuild** (cmd): >
@@ -98,7 +97,6 @@
 - **reaction-engine** (script): reaction-engine.sh — SPEC-050 Phase 1: Reaction Engine
 - **rebuild-folder-indexes** (script): rebuild-folder-indexes.sh
 - **requirement-pushback** (script): requirement-pushback.sh — Analyze a spec and generate pushback questions
-- **reranker** (skill): Cross-encoder reranker — filtra top-K ruidoso de memory-recall/savia-recall/cross-project-search antes de pasar al agente
 - **retro-patterns** (cmd): Análisis de patrones en retrospectivas — temas recurrentes, action items sin resolver
 - **rpi-status** (cmd): Track progress of active RPI (Research → Plan → Implement) workflows.
 - **rules-domain-index** (script): rules-domain-index.sh — SPEC-115
@@ -111,11 +109,12 @@
 - **skill-loader** (script): skill-loader.sh — SPEC-144: Context-Aware Skill Loading
 - **slm-deploy** (script): slm-deploy.sh — Orchestrate post-training deployment scaffolding.
 - **slm-registry** (script): slm-registry.sh — Model registry for trained SLMs (SPEC-SE-027 registry).
+- **smart-routing** (skill): Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles.
 - **sovereignty-pack** (script): sovereignty-pack.sh — Build fully offline Savia USB installer
 - **spec-approval-gate** (script): spec-approval-gate.sh — SE-051 Slice 1 Rule #8 enforcement gate.
 - **spec-budget** (script): spec-budget.sh — SE-074 Slice 1.5 — dynamic retry budget per spec effort
 - **spec-design** (cmd): Genera diseño técnico a partir de una spec existente — decisiones, flujo de datos, estrategia de testing.
-- **spec-driven-development** (skill): Specs ejecutables para desarrolladores humanos y agentes Claude
+- **spec-driven-development** (skill): Usar cuando se escribe, valida o implementa una spec ejecutable SDD.
 - **spec-explore** (cmd): Explore and analyze specification documents
 - **spec-frontmatter-migrate** (script): spec-frontmatter-migrate.sh — SE-036 Slice 1.
 - **spec-generate** (cmd): Genera una Spec ejecutable a partir de una Task de Azure DevOps, lista para implementación.
@@ -134,7 +133,7 @@
 - **specs-frontmatter-normalize** (script): specs-frontmatter-normalize.sh — SE-054 Slice 2+3 frontmatter normalization.
 - **statusline-provider** (script): statusline-provider.sh — HUD data provider for Claude Code statusline
 - **tech-research** (cmd): Launch autonomous technical research — investigates topics, generates reports, notifies designated human
-- **tech-research-agent** (skill): Agente de investigación técnica autónoma — investiga temas, genera informes, notifica al humano designado
+- **tech-research-agent** (skill): Usar cuando se necesita investigación técnica autónoma sobre un tema específico.
 - **tolaria-open** (cmd): Open Tolaria desktop knowledge base on the Savia workspace (or specified path)
 - **tribunal-benchmark** (script): tribunal-benchmark.sh — SPEC-106 Phase 3.
 - **ua-analyze** (cmd): Generate knowledge graph for any codebase using Understand-Anything

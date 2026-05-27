@@ -1,6 +1,6 @@
 ---
 name: code-improvement-loop
-description: Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera PRs pendientes de revisión
+description: "Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión."
 summary: |
   Bucle autonomo de mejora de codigo: detecta oportunidades (deuda,
   cobertura, performance), aplica mejoras y genera PRs Draft.
@@ -12,6 +12,13 @@ category: "sdd-framework"
 tags: ["autonomous", "improvement", "refactoring", "pr-draft"]
 priority: "medium"
 ---
+
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
 
 # Skill: Code Improvement Loop
 
@@ -90,27 +97,22 @@ Generar informe resumen con todas las mejoras propuestas
 ```
 
 ## Tipos de mejora detectables
-
 ### 1. Cobertura de tests (`--tipo coverage`)
 - Identifica ficheros con cobertura < TEST_COVERAGE_MIN_PERCENT
 - Genera tests unitarios para cubrir ramas no cubiertas
 - Métrica: delta de cobertura (%)
-
 ### 2. Complejidad ciclomática (`--tipo complexity`)
 - Identifica funciones con complejidad > 10
 - Aplica refactoring: extract method, simplify conditions, early return
 - Métrica: complejidad promedio y máxima
-
 ### 3. Warnings de linter (`--tipo lint`)
 - Ejecuta linter del proyecto y recopila warnings
 - Corrige automáticamente los que tienen fix seguro
 - Métrica: count de warnings
-
 ### 4. Dependencias (`--tipo deps`)
 - Identifica dependencias con updates menores/patch disponibles
 - Aplica update + ejecuta tests
 - Métrica: count de dependencias desactualizadas
-
 ### 5. TODOs pendientes (`--tipo todos`)
 - Identifica TODOs en código que refieren a tickets cerrados
 - Resuelve el TODO o lo elimina si ya está resuelto

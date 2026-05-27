@@ -1,6 +1,6 @@
 ---
 name: resource-references
-description: skill: resource-references
+description: "Usar cuando se necesitan referencias a recursos y plantillas del workspace."
 summary: |
   Resolucion lazy de referencias @ (azure:workitem, project, spec,
   team, rules, memory). Cache por sesion. Max 5 simultaneas.

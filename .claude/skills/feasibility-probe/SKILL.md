@@ -1,6 +1,6 @@
 ---
 name: feasibility-probe
-description: "Validate spec feasibility with time-boxed prototype attempt and viability scoring"
+description: "Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla."
 summary: |
   Valida viabilidad de un spec con prototipo time-boxed.
   Intenta implementar las secciones criticas, mide bloqueos.

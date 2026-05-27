@@ -1,6 +1,6 @@
 ---
 name: emergency-mode
-description: Switchover de Savia a LocalAI cuando la API de Anthropic está caída. Activa endpoint local compatible, reporta features disponibles y permite volver a cloud cuando se recupera.
+description: "Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI."
 summary: |
   SPEC-122 Slice 2: skill que documenta y orquesta el modo emergencia.
   Usa `scripts/localai-readiness-check.sh` para verificar el stack local

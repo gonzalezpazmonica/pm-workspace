@@ -1,6 +1,6 @@
 ---
 name: pr-agent-judge
-description: 5º juez del Court — wrapper sobre qodo-ai/pr-agent OSS. Ejecuta review/describe/improve contra un PR y devuelve JSON compatible con Court.
+description: "Usar cuando se añade pr-agent como juez externo en el Code Review Court."
 trigger: "Use when COURT_INCLUDE_PR_AGENT=true and Court is convened"
 ---
 

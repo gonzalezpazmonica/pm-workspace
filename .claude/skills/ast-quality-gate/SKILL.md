@@ -1,6 +1,6 @@
 ---
 name: ast-quality-gate
-description: Language-agnostic code quality verification for AI-generated code. Runs native AST tools per language, detects 12 universal LLM error patterns, normalizes output to unified JSON. Integrates into SDD PostToolUse pipeline.
+description: "Usar cuando se verifica la calidad de código generado por IA antes de merge."
 summary: |
   Meta-analizador AST para 16 lenguajes. Detecta patrones de error
   LLM (async sin await, N+1, null deref, magic numbers, catch vacio).

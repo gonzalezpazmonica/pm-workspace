@@ -1,6 +1,6 @@
 ---
 name: onboarding-dev
-description: Onboarding técnico con Buddy IA — auto-genera documentación del proyecto, plan personalizado 30/60/90 y agente buddy de 3 capas
+description: "Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA."
 summary: |
   Onboarding tecnico con Buddy IA: auto-genera documentacion del
   proyecto, plan personalizado 30/60/90 y agente buddy de 3 capas.

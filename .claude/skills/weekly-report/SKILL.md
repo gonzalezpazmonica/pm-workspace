@@ -1,6 +1,6 @@
 ---
 name: weekly-report
-description: Weekly project status report generator — consolidates sprint, git, PRs, and capacity
+description: "Usar cuando se genera el informe semanal de estado del proyecto."
 model: mid
 context_cost: medium
 ---

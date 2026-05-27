@@ -1,6 +1,6 @@
 ---
 name: adversarial-security
-description: Pipeline de seguridad adversarial — Red Team, Blue Team, Auditor con scoring
+description: "Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team."
 summary: |
   Pipeline Red Team + Blue Team + Auditor independiente.
   Scoring CVSS, mapeo STRIDE, gap analysis.
@@ -13,6 +13,13 @@ category: "governance"
 tags: ["security", "adversarial", "red-team", "blue-team"]
 priority: "high"
 ---
+
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
 
 # Adversarial Security Skill
 

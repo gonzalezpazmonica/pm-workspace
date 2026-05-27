@@ -1,6 +1,6 @@
 ---
 name: azure-devops-queries
-description: Skill transversal para operaciones con Azure DevOps
+description: "Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint en Azure DevOps."
 summary: |
   Operaciones CRUD con Azure DevOps: queries WIQL, work items,
   sprint status, capacity. Autenticacion via PAT o az CLI.

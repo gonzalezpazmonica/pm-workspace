@@ -1,6 +1,6 @@
 ---
 name: enterprise-analytics
-description: "Enterprise analytics — SPACE metrics, portfolio aggregation, team health, risk matrix, forecasting"
+description: "Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial."
 summary: |
   Metricas empresariales: SPACE, agregacion de portfolio, salud de equipo,
   matriz de riesgo y forecasting. Para organizaciones con

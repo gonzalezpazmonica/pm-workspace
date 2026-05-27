@@ -1,6 +1,6 @@
 ---
 name: risk-scoring
-description: Calculate risk score for tasks and route to appropriate review level
+description: "Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido."
 summary: |
   Calcula score de riesgo (0-100) para tasks y PRs.
   8 factores: complejidad, seguridad, deps, cobertura, etc.

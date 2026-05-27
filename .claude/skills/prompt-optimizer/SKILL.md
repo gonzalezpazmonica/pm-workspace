@@ -1,6 +1,6 @@
 ---
 name: prompt-optimizer
-description: >
+description: "Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad."
 summary: |
   Bucle auto-optimizador de prompts para skills y agentes.
   Ejecuta con test fixture, puntua contra checklist, modifica,

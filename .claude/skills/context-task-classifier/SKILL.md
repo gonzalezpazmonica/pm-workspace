@@ -1,6 +1,6 @@
 ---
 name: context-task-classifier
-description: Clasifica un turno en una de 6 clases de tarea (decision, spec, code, review, context, chitchat) para decidir ratio de compresión máximo. SE-029 §2 (SE-029-C).
+description: "Usar antes de compactar contexto para clasificar la tarea del turno actual."
 input: text
 output: json
 ---

@@ -1,6 +1,6 @@
 ---
 name: savia-school
-description: Adapta pm-workspace para entornos educativos con estudiantes menores de edad. Matriculacion por alias, evaluacion con rubricas, portfolio versionado y cumplimiento RGPD/LOPD estricto.
+description: "Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad."
 summary: |
   Entorno educativo seguro: alias obligatorios, cifrado AES-256
   de evaluaciones, rubricas personalizables, portfolio de estudiante,

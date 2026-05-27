@@ -1,6 +1,6 @@
 {
-  "hash": "9c8a1b9e2b80",
-  "total": 1174,
+  "hash": "9f1a30bafa06",
+  "total": 1176,
   "resources": [
     {
       "category": "analysis",
@@ -88,15 +88,15 @@
       "category": "analysis",
       "name": "agent-code-map",
       "intents": [
-        "agent",
-        "agentes",
+        "agente",
         "arquitectura",
-        "code",
-        "conozcan"
+        "completos",
+        "conocer",
+        "ficheros"
       ],
       "kind": "skill",
       "path": ".claude/skills/agent-code-map/SKILL.md",
-      "description": "Genera y gestiona Agent Code Maps (.acm) — mapas estructurales persistentes entre sesiones para que los agentes conozcan la arquitectura real del proyecto desde el primer token."
+      "description": "Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos."
     },
     {
       "category": "analysis",
@@ -130,15 +130,15 @@
       "category": "analysis",
       "name": "agent-file-map",
       "intents": [
-        "agent",
         "agentes",
-        "búsqueda",
-        "excel",
-        "externos"
+        "deben",
+        "externos",
+        "ficheros",
+        "localizar"
       ],
       "kind": "skill",
       "path": ".claude/skills/agent-file-map/SKILL.md",
-      "description": "Genera y gestiona Agent File Maps (.afm) — índice persistente de ficheros externos al workspace (Excel, PDF, imágenes, videos) que los agentes necesitan localizar sin búsqueda repetida."
+      "description": "Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar."
     },
     {
       "category": "analysis",
@@ -189,6 +189,32 @@
       "kind": "cmd",
       "path": ".claude/commands/agent-run.md",
       "description": "Launch a Claude agent on a Spec or batch of pending specs"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-run-logger",
+      "intents": [
+        "agent",
+        "agentrunsummary",
+        "logger",
+        "telemetry"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-run-logger.sh",
+      "description": "agent-run-logger.sh — SE-148: AgentRunSummary telemetry logger"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-run-report",
+      "intents": [
+        "agent",
+        "agentrunsummary",
+        "generator",
+        "report"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-run-report.sh",
+      "description": "agent-run-report.sh — SE-148: AgentRunSummary report generator"
     },
     {
       "category": "analysis",
@@ -336,34 +362,6 @@
     },
     {
       "category": "analysis",
-      "name": "emergency-mode",
-      "intents": [
-        "activa",
-        "anthropic",
-        "caída",
-        "cloud",
-        "compatible"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/emergency-mode/SKILL.md",
-      "description": "Switchover de Savia a LocalAI cuando la API de Anthropic está caída. Activa endpoint local compatible, reporta features disponibles y permite volver a cloud cuando se recupera."
-    },
-    {
-      "category": "analysis",
-      "name": "enterprise-analytics",
-      "intents": [
-        "aggregation",
-        "analytics",
-        "enterprise",
-        "forecasting",
-        "health"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/enterprise-analytics/SKILL.md",
-      "description": "Enterprise analytics — SPACE metrics, portfolio aggregation, team health, risk matrix, forecasting"
-    },
-    {
-      "category": "analysis",
       "name": "enterprise-dashboard",
       "intents": [
         "analytics",
@@ -409,14 +407,14 @@
       "name": "executive-reporting",
       "intents": [
         "dirección",
-        "ejecutivos",
-        "generación",
-        "informes",
-        "multi"
+        "ejecutivo",
+        "informe",
+        "multi",
+        "proyecto"
       ],
       "kind": "skill",
       "path": ".claude/skills/executive-reporting/SKILL.md",
-      "description": "Generación de informes ejecutivos multi-proyecto para dirección"
+      "description": "Usar cuando se genera un informe ejecutivo multi-proyecto para dirección."
     },
     {
       "category": "analysis",
@@ -628,29 +626,29 @@
       "category": "analysis",
       "name": "risk-scoring",
       "intents": [
-        "appropriate",
-        "calculate",
-        "level",
-        "review",
-        "risk"
+        "calcula",
+        "decidir",
+        "nivel",
+        "requerido",
+        "revisión"
       ],
       "kind": "skill",
       "path": ".claude/skills/risk-scoring/SKILL.md",
-      "description": "Calculate risk score for tasks and route to appropriate review level"
+      "description": "Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido."
     },
     {
       "category": "analysis",
       "name": "rules-traceability",
       "intents": [
-        "business",
-        "matrix",
+        "completa",
+        "mapean",
+        "negocio",
         "pbis",
-        "rules",
-        "traceability"
+        "reglas"
       ],
       "kind": "skill",
       "path": ".claude/skills/rules-traceability/SKILL.md",
-      "description": "Map business rules (RN-XXX-NN) to PBIs with traceability matrix"
+      "description": "Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa."
     },
     {
       "category": "analysis",
@@ -721,14 +719,14 @@
       "name": "time-tracking-report",
       "intents": [
         "excel",
-        "generación",
+        "generan",
         "horas",
         "imputación",
         "informes"
       ],
       "kind": "skill",
       "path": ".claude/skills/time-tracking-report/SKILL.md",
-      "description": "Generación de informes de imputación de horas a Excel/Word"
+      "description": "Usar cuando se generan informes de imputación de horas en Excel o Word."
     },
     {
       "category": "analysis",
@@ -757,6 +755,19 @@
       "kind": "script",
       "path": "scripts/truth-tribunal.sh",
       "description": "truth-tribunal.sh — Orchestrate 7-judge reliability evaluation of reports."
+    },
+    {
+      "category": "analysis",
+      "name": "weekly-report",
+      "intents": [
+        "estado",
+        "informe",
+        "proyecto",
+        "semanal"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/weekly-report/SKILL.md",
+      "description": "Usar cuando se genera el informe semanal de estado del proyecto."
     },
     {
       "category": "communication",
@@ -887,15 +898,15 @@
       "category": "communication",
       "name": "meeting-transcript-extract",
       "intents": [
-        "asistente",
-        "botón",
         "browser",
-        "chat",
-        "click"
+        "extraer",
+        "reunión",
+        "teams",
+        "transcripción"
       ],
       "kind": "skill",
       "path": ".claude/skills/meeting-transcript-extract/SKILL.md",
-      "description": "Extrae transcripciones de reuniones Teams web vía CDP del browser-daemon. Funciona para reuniones propias Y reuniones donde el usuario fue asistente (convocadas por otros). Pipeline: click chat → botón Transcripción → iframe xplatplugins.as"
+      "description": "Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser."
     },
     {
       "category": "communication",
@@ -1090,15 +1101,15 @@
       "category": "communication",
       "name": "savia-dual",
       "intents": [
-        "anthropic",
         "cloud",
-        "failing",
+        "está",
         "failover",
-        "gemma"
+        "falla",
+        "inferencia"
       ],
       "kind": "skill",
       "path": ".claude/skills/savia-dual/SKILL.md",
-      "description": "Inference sovereignty — transparent failover from Anthropic to local gemma4 when the cloud is slow, failing, rate-limited, or unreachable"
+      "description": "Usar cuando la inferencia cloud falla, es lenta o está rate-limited y se necesita failover local."
     },
     {
       "category": "communication",
@@ -1175,14 +1186,14 @@
       "name": "savia-flow-practice",
       "intents": [
         "dual",
-        "ejecutables",
         "flow",
         "flujo",
-        "implementación"
+        "implementa",
+        "métricas"
       ],
       "kind": "skill",
       "path": ".claude/skills/savia-flow-practice/SKILL.md",
-      "description": "Implementación práctica de Savia Flow — dual-track, specs ejecutables, métricas de flujo"
+      "description": "Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto."
     },
     {
       "category": "communication",
@@ -1321,28 +1332,29 @@
       "category": "communication",
       "name": "savia-hub-sync",
       "intents": [
-        "orquestación",
+        "local",
         "repositorio",
         "saviahub",
-        "sincronización"
+        "sincroniza",
+        "workspace"
       ],
       "kind": "skill",
       "path": ".claude/skills/savia-hub-sync/SKILL.md",
-      "description": "Orquestación de sincronización del repositorio SaviaHub"
+      "description": "Usar cuando se sincroniza el repositorio SaviaHub con el workspace local."
     },
     {
       "category": "communication",
       "name": "savia-identity",
       "intents": [
-        "carga",
+        "cargar",
         "completa",
+        "comportamiento",
         "identidad",
-        "inicio",
-        "memoria"
+        "inicio"
       ],
       "kind": "skill",
       "path": ".claude/skills/savia-identity/SKILL.md",
-      "description": "Carga completa de la identidad y personalidad de Savia. Perfil, tono, reglas, y memoria al inicio de cada sesión."
+      "description": "Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia."
     },
     {
       "category": "communication",
@@ -1393,15 +1405,15 @@
       "category": "communication",
       "name": "savia-memory",
       "intents": [
-        "búsqueda",
-        "canónica",
-        "consolidación",
-        "escritura",
-        "externa"
+        "busca",
+        "consolida",
+        "escribe",
+        "memoria",
+        "persistente"
       ],
       "kind": "skill",
       "path": ".claude/skills/savia-memory/SKILL.md",
-      "description": "Gestión de memoria canónica externa de Savia (.savia-memory). Lectura, escritura, búsqueda y consolidación de memoria entre sesiones."
+      "description": "Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia."
     },
     {
       "category": "communication",
@@ -1592,14 +1604,14 @@
       "name": "savia-school",
       "intents": [
         "adapta",
-        "alias",
-        "cumplimiento",
         "edad",
-        "educativos"
+        "educativo",
+        "entorno",
+        "estudiantes"
       ],
       "kind": "skill",
       "path": ".claude/skills/savia-school/SKILL.md",
-      "description": "Adapta pm-workspace para entornos educativos con estudiantes menores de edad. Matriculacion por alias, evaluacion con rubricas, portfolio versionado y cumplimiento RGPD/LOPD estricto."
+      "description": "Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad."
     },
     {
       "category": "communication",
@@ -1849,15 +1861,15 @@
       "category": "communication",
       "name": "voice-inbox",
       "intents": [
-        "acción",
-        "audio",
-        "flujo",
+        "acciones",
+        "convertirlos",
         "mensajes",
-        "texto"
+        "procesan",
+        "transcribirlos"
       ],
       "kind": "skill",
       "path": ".claude/skills/voice-inbox/SKILL.md",
-      "description": "Transcripción de audio y flujo audio→texto→acción para mensajes de voz"
+      "description": "Usar cuando se procesan mensajes de voz para transcribirlos y convertirlos en acciones."
     },
     {
       "category": "communication",
@@ -2110,20 +2122,6 @@
       "name": "ast-quality-gate",
       "intents": [
         "agnostic",
-        "code",
-        "detects",
-        "error",
-        "generated"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/ast-quality-gate/SKILL.md",
-      "description": "Language-agnostic code quality verification for AI-generated code. Runs native AST tools per language, detects 12 universal LLM error patterns, normalizes output to unified JSON. Integrates into SDD PostToolUse pipeline."
-    },
-    {
-      "category": "development",
-      "name": "ast-quality-gate",
-      "intents": [
-        "agnostic",
         "analyzer",
         "code",
         "gate",
@@ -2235,15 +2233,15 @@
       "category": "development",
       "name": "code-comprehension-report",
       "intents": [
-        "architectural",
-        "automatically",
-        "comprehension",
-        "debugging",
-        "decisions"
+        "completado",
+        "documentar",
+        "implementación",
+        "mental",
+        "modelo"
       ],
       "kind": "skill",
       "path": ".claude/skills/code-comprehension-report/SKILL.md",
-      "description": "Generate comprehension report with mental model after SDD implementation. Automatically documents architectural decisions, failure heuristics, and 3AM debugging guides."
+      "description": "Usar cuando se ha completado una implementación SDD y se necesita documentar el modelo mental."
     },
     {
       "category": "development",
@@ -2263,15 +2261,15 @@
       "category": "development",
       "name": "code-improvement-loop",
       "intents": [
-        "aplica",
-        "autónomo",
-        "bucle",
-        "continua",
-        "código"
+        "autónoma",
+        "código",
+        "ejecutar",
+        "mejora",
+        "plano"
       ],
       "kind": "skill",
       "path": ".claude/skills/code-improvement-loop/SKILL.md",
-      "description": "Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera PRs pendientes de revisión"
+      "description": "Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión."
     },
     {
       "category": "development",
@@ -2312,24 +2310,30 @@
     {
       "category": "development",
       "name": "codebase-map",
-      "intents": [],
+      "intents": [
+        "agentes",
+        "comandos",
+        "dependencias",
+        "mapa",
+        "reglas"
+      ],
       "kind": "skill",
       "path": ".claude/skills/codebase-map/SKILL.md",
-      "description": ">"
+      "description": "Usar cuando se necesita un mapa de dependencias del workspace (comandos→agentes→reglas→skills)."
     },
     {
       "category": "development",
       "name": "codegraph",
       "intents": [
-        "agent",
-        "auto",
-        "backend",
         "callees",
-        "callers"
+        "callers",
+        "código",
+        "indexación",
+        "navegación"
       ],
       "kind": "skill",
       "path": ".claude/skills/codegraph/SKILL.md",
-      "description": "Motor de indexación AST persistente (tree-sitter + SQLite + FTS5) servido como MCP. Usado como backend de agent-code-map (.acm) y ast-comprehension. 19 lenguajes, auto-sync, callers/callees/impact resueltos. 100% local, MIT, sin API keys. O"
+      "description": "Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el código."
     },
     {
       "category": "development",
@@ -2435,13 +2439,13 @@
       "intents": [
         "agentes",
         "dependencias",
-        "gráficos",
-        "orquestar",
-        "paralelo"
+        "ellos",
+        "múltiples",
+        "orquestan"
       ],
       "kind": "skill",
       "path": ".claude/skills/dag-scheduling/SKILL.md",
-      "description": "Orquestar agentes SDD en paralelo usando gráficos de dependencias"
+      "description": "Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos."
     },
     {
       "category": "development",
@@ -2599,15 +2603,15 @@
       "category": "development",
       "name": "feasibility-probe",
       "intents": [
-        "attempt",
-        "boxed",
-        "feasibility",
-        "prototype",
-        "scoring"
+        "implementarla",
+        "spec",
+        "técnicamente",
+        "validar",
+        "viable"
       ],
       "kind": "skill",
       "path": ".claude/skills/feasibility-probe/SKILL.md",
-      "description": "Validate spec feasibility with time-boxed prototype attempt and viability scoring"
+      "description": "Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla."
     },
     {
       "category": "development",
@@ -2694,15 +2698,15 @@
       "category": "development",
       "name": "human-code-map",
       "intents": [
-        "activamente",
         "alguien",
-        "cognitiva",
-        "componentes",
-        "contra"
+        "código",
+        "incorpora",
+        "mapa",
+        "módulo"
       ],
       "kind": "skill",
       "path": ".claude/skills/human-code-map/SKILL.md",
-      "description": "Genera y mantiene mapas narrativos de componentes (.hcm) para luchar activamente contra la deuda cognitiva. Usar PROACTIVELY cuando: se incorpora un dev nuevo, se toca un módulo sin mapa, debt-score > 6, o se detecta que alguien re-lee el m"
+      "description": "Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el mismo código repetidamente."
     },
     {
       "category": "development",
@@ -3181,20 +3185,6 @@
     },
     {
       "category": "development",
-      "name": "reranker",
-      "intents": [
-        "agente",
-        "cross",
-        "encoder",
-        "filtra",
-        "memory"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/reranker/SKILL.md",
-      "description": "Cross-encoder reranker — filtra top-K ruidoso de memory-recall/savia-recall/cross-project-search antes de pasar al agente"
-    },
-    {
-      "category": "development",
       "name": "retro-patterns",
       "intents": [
         "action",
@@ -3356,6 +3346,20 @@
     },
     {
       "category": "development",
+      "name": "smart-routing",
+      "intents": [
+        "comando",
+        "descubrir",
+        "disponibles",
+        "enrutar",
+        "específico"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/smart-routing/SKILL.md",
+      "description": "Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles."
+    },
+    {
+      "category": "development",
       "name": "sovereignty-pack",
       "intents": [
         "build",
@@ -3414,15 +3418,15 @@
       "category": "development",
       "name": "spec-driven-development",
       "intents": [
-        "agentes",
-        "claude",
-        "desarrolladores",
-        "ejecutables",
-        "humanos"
+        "ejecutable",
+        "escribe",
+        "implementa",
+        "spec",
+        "valida"
       ],
       "kind": "skill",
       "path": ".claude/skills/spec-driven-development/SKILL.md",
-      "description": "Specs ejecutables para desarrolladores humanos y agentes Claude"
+      "description": "Usar cuando se escribe, valida o implementa una spec ejecutable SDD."
     },
     {
       "category": "development",
@@ -3677,15 +3681,15 @@
       "category": "development",
       "name": "tech-research-agent",
       "intents": [
-        "agente",
         "autónoma",
-        "designado",
-        "humano",
-        "informes"
+        "específico",
+        "investigación",
+        "tema",
+        "técnica"
       ],
       "kind": "skill",
       "path": ".claude/skills/tech-research-agent/SKILL.md",
-      "description": "Agente de investigación técnica autónoma — investiga temas, genera informes, notifica al humano designado"
+      "description": "Usar cuando se necesita investigación técnica autónoma sobre un tema específico."
     },
     {
       "category": "development",
@@ -4165,15 +4169,15 @@
       "category": "governance",
       "name": "governance-enterprise",
       "intents": [
-        "audit",
-        "certification",
+        "audita",
+        "certifican",
         "compliance",
-        "decision",
+        "decisiones",
         "enterprise"
       ],
       "kind": "skill",
       "path": ".claude/skills/governance-enterprise/SKILL.md",
-      "description": "Enterprise governance — audit trail queries, compliance verification, decision registry, certification workflow"
+      "description": "Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise."
     },
     {
       "category": "governance",
@@ -4251,15 +4255,15 @@
       "category": "governance",
       "name": "regulatory-compliance",
       "intents": [
-        "automática",
-        "checks",
-        "compliance",
-        "corrección",
-        "detección"
+        "cumplimiento",
+        "marcos",
+        "regulatorios",
+        "sectoriales",
+        "valida"
       ],
       "kind": "skill",
       "path": ".claude/skills/regulatory-compliance/SKILL.md",
-      "description": "Validación de marcos regulatorios por sector — detección automática, compliance checks y corrección"
+      "description": "Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales."
     },
     {
       "category": "governance",
@@ -4531,15 +4535,15 @@
       "category": "memory",
       "name": "context-caching",
       "intents": [
-        "caching",
-        "context",
-        "efficiency",
-        "loading",
-        "optimize"
+        "cache",
+        "carga",
+        "contexto",
+        "hits",
+        "maximizar"
       ],
       "kind": "skill",
       "path": ".claude/skills/context-caching/SKILL.md",
-      "description": "Optimize context loading order for prompt caching efficiency"
+      "description": "Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits."
     },
     {
       "category": "memory",
@@ -4625,14 +4629,15 @@
       "category": "memory",
       "name": "context-interview-conductor",
       "intents": [
-        "conducción",
         "contexto",
-        "entrevistas",
-        "estructuradas"
+        "entrevista",
+        "estructurado",
+        "guiada",
+        "mediante"
       ],
       "kind": "skill",
       "path": ".claude/skills/context-interview-conductor/SKILL.md",
-      "description": "Conducción de entrevistas estructuradas de contexto"
+      "description": "Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada."
     },
     {
       "category": "memory",
@@ -4660,14 +4665,14 @@
       "category": "memory",
       "name": "context-optimized-dev",
       "intents": [
-        "context",
-        "development",
-        "optimized",
-        "skill"
+        "contexto",
+        "desarrolla",
+        "limitado",
+        "presupuesto"
       ],
       "kind": "skill",
       "path": ".claude/skills/context-optimized-dev/SKILL.md",
-      "description": "Context-Optimized Development — Skill"
+      "description": "Usar cuando se desarrolla con presupuesto de contexto limitado."
     },
     {
       "category": "memory",
@@ -4711,15 +4716,15 @@
       "category": "memory",
       "name": "context-rot-strategy",
       "intents": [
-        "context",
-        "decision",
-        "model",
-        "option",
-        "sessions"
+        "aproxima",
+        "compactar",
+        "contexto",
+        "decidir",
+        "larga"
       ],
       "kind": "skill",
       "path": ".claude/skills/context-rot-strategy/SKILL.md",
-      "description": "Context-rot strategy for 1M sessions — 5-option decision model per turn"
+      "description": "Usar cuando una sesión larga se aproxima al límite de contexto y hay que decidir qué compactar."
     },
     {
       "category": "memory",
@@ -4767,15 +4772,15 @@
       "category": "memory",
       "name": "context-task-classifier",
       "intents": [
-        "chitchat",
-        "clases",
-        "clasifica",
-        "code",
-        "compresión"
+        "actual",
+        "clasificar",
+        "compactar",
+        "contexto",
+        "tarea"
       ],
       "kind": "skill",
       "path": ".claude/skills/context-task-classifier/SKILL.md",
-      "description": "Clasifica un turno en una de 6 clases de tarea (decision, spec, code, review, context, chitchat) para decidir ratio de compresión máximo. SE-029 §2 (SE-029-C)."
+      "description": "Usar antes de compactar contexto para clasificar la tarea del turno actual."
     },
     {
       "category": "memory",
@@ -5429,20 +5434,6 @@
     },
     {
       "category": "memory",
-      "name": "scaling-operations",
-      "intents": [
-        "analyze",
-        "benchmark",
-        "knowledge",
-        "operations",
-        "optimizations"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/scaling-operations/SKILL.md",
-      "description": "Scaling operations — analyze tier, benchmark, recommend optimizations, knowledge search"
-    },
-    {
-      "category": "memory",
       "name": "session-action-log",
       "intents": [
         "action",
@@ -5535,20 +5526,6 @@
     },
     {
       "category": "memory",
-      "name": "skill-evaluation",
-      "intents": [
-        "análisis",
-        "basado",
-        "contexto",
-        "evaluación",
-        "inteligente"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/skill-evaluation/SKILL.md",
-      "description": "Motor de evaluación inteligente de skills basado en análisis de prompt y contexto"
-    },
-    {
-      "category": "memory",
       "name": "skill-optimize",
       "intents": [
         "agente",
@@ -5621,15 +5598,15 @@
       "category": "memory",
       "name": "web-research",
       "intents": [
-        "auto",
-        "available",
-        "back",
-        "best",
-        "context"
+        "buscar",
+        "contexto",
+        "cves",
+        "docs",
+        "gaps"
       ],
       "kind": "skill",
       "path": ".claude/skills/web-research/SKILL.md",
-      "description": "Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-starts SearxNG Docker if available, falls back to WebSearch."
+      "description": "Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versiones, CVEs)."
     },
     {
       "category": "memory",
@@ -6012,6 +5989,20 @@
     },
     {
       "category": "planning",
+      "name": "ai-labor-impact",
+      "intents": [
+        "analiza",
+        "equipo",
+        "impacto",
+        "organización",
+        "trabajo"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/ai-labor-impact/SKILL.md",
+      "description": "Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización."
+    },
+    {
+      "category": "planning",
       "name": "ai-model-card",
       "intents": [
         "agentes",
@@ -6051,14 +6042,14 @@
       "name": "architecture-intelligence",
       "intents": [
         "arquitectura",
-        "detección",
-        "mejora",
-        "nuevos",
-        "patrones"
+        "diseña",
+        "existente",
+        "nuevo",
+        "proyecto"
       ],
       "kind": "skill",
       "path": ".claude/skills/architecture-intelligence/SKILL.md",
-      "description": "Detección de patrones de arquitectura, sugerencias de mejora y recomendaciones para proyectos nuevos"
+      "description": "Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente."
     },
     {
       "category": "planning",
@@ -6073,6 +6064,34 @@
       "kind": "script",
       "path": "scripts/ast-comprehend.sh",
       "description": "ast-comprehend.sh — Extractor estructural multi-lenguaje (ast-comprehension skill)"
+    },
+    {
+      "category": "planning",
+      "name": "ast-comprehension",
+      "intents": [
+        "comprensión",
+        "código",
+        "desconocido",
+        "enteros",
+        "estructural"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/ast-comprehension/SKILL.md",
+      "description": "Usar cuando se explora código desconocido y se necesita comprensión estructural sin leer ficheros enteros."
+    },
+    {
+      "category": "planning",
+      "name": "ast-quality-gate",
+      "intents": [
+        "calidad",
+        "código",
+        "generado",
+        "merge",
+        "verifica"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/ast-quality-gate/SKILL.md",
+      "description": "Usar cuando se verifica la calidad de código generado por IA antes de merge."
     },
     {
       "category": "planning",
@@ -6094,28 +6113,28 @@
       "category": "planning",
       "name": "azure-devops-queries",
       "intents": [
+        "actualización",
         "azure",
-        "devops",
-        "operaciones",
-        "skill",
-        "transversal"
+        "consultas",
+        "datos",
+        "devops"
       ],
       "kind": "skill",
       "path": ".claude/skills/azure-devops-queries/SKILL.md",
-      "description": "Skill transversal para operaciones con Azure DevOps"
+      "description": "Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint en Azure DevOps."
     },
     {
       "category": "planning",
       "name": "azure-pipelines",
       "intents": [
         "azure",
-        "gestión",
-        "pipelines",
-        "skill"
+        "depura",
+        "gestiona",
+        "pipelines"
       ],
       "kind": "skill",
       "path": ".claude/skills/azure-pipelines/SKILL.md",
-      "description": "Skill para gestión de CI/CD con Azure Pipelines via MCP"
+      "description": "Usar cuando se gestiona o depura CI/CD con Azure Pipelines."
     },
     {
       "category": "planning",
@@ -6142,15 +6161,15 @@
       "category": "planning",
       "name": "backlog-git-tracker",
       "intents": [
-        "auditoría",
         "backlog",
-        "captura",
-        "comparación",
-        "snapshots"
+        "capturan",
+        "comparan",
+        "detectar",
+        "drift"
       ],
       "kind": "skill",
       "path": ".claude/skills/backlog-git-tracker/SKILL.md",
-      "description": "Captura, comparación y auditoría de snapshots de backlog"
+      "description": "Usar cuando se capturan o comparan snapshots del backlog para detectar drift."
     },
     {
       "category": "planning",
@@ -6296,13 +6315,15 @@
       "category": "planning",
       "name": "banking-architecture",
       "intents": [
-        "architecture",
-        "banking",
-        "skill"
+        "arquitectura",
+        "bancario",
+        "diseña",
+        "proyectos",
+        "revisa"
       ],
       "kind": "skill",
       "path": ".claude/skills/banking-architecture/SKILL.md",
-      "description": "Skill: Banking Architecture"
+      "description": "Usar cuando se diseña o revisa arquitectura para proyectos del sector bancario."
     },
     {
       "category": "planning",
@@ -6532,15 +6553,15 @@
       "category": "planning",
       "name": "capacity-planning",
       "intents": [
-        "alertas",
-        "capacidades",
-        "completa",
-        "consulta",
-        "cálculo"
+        "calcula",
+        "capacidad",
+        "equipo",
+        "periodo",
+        "sprint"
       ],
       "kind": "skill",
       "path": ".claude/skills/capacity-planning/SKILL.md",
-      "description": "Gestión completa de capacidades del equipo - consulta, cálculo y alertas"
+      "description": "Usar cuando se calcula la capacidad del equipo para un sprint o periodo."
     },
     {
       "category": "planning",
@@ -6715,15 +6736,15 @@
       "category": "planning",
       "name": "client-profile-manager",
       "intents": [
+        "actualizan",
         "cliente",
-        "crud",
-        "gestión",
-        "perfiles",
-        "saviahub"
+        "consultan",
+        "crean",
+        "perfiles"
       ],
       "kind": "skill",
       "path": ".claude/skills/client-profile-manager/SKILL.md",
-      "description": "Gestión CRUD de perfiles de cliente en SaviaHub"
+      "description": "Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub."
     },
     {
       "category": "planning",
@@ -6780,10 +6801,16 @@
     {
       "category": "planning",
       "name": "company-messaging",
-      "intents": [],
+      "intents": [
+        "cifrados",
+        "company",
+        "envían",
+        "internos",
+        "mensajes"
+      ],
       "kind": "skill",
       "path": ".claude/skills/company-messaging/SKILL.md",
-      "description": ">"
+      "description": "Usar cuando se envían mensajes internos cifrados entre miembros de la organización vía Company Savia."
     },
     {
       "category": "planning",
@@ -6977,6 +7004,20 @@
     },
     {
       "category": "planning",
+      "name": "consensus-validation",
+      "intents": [
+        "decisión",
+        "jueces",
+        "panel",
+        "recomendación",
+        "técnica"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/consensus-validation/SKILL.md",
+      "description": "Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces."
+    },
+    {
+      "category": "planning",
       "name": "contribute",
       "intents": [
         "contribuir",
@@ -7021,15 +7062,15 @@
       "category": "planning",
       "name": "cost-management",
       "intents": [
-        "analytics",
-        "budgets",
-        "cost",
+        "costes",
+        "facturas",
         "forecasting",
-        "invoicing"
+        "gestionan",
+        "presupuestos"
       ],
       "kind": "skill",
       "path": ".claude/skills/cost-management/SKILL.md",
-      "description": "Cost Management — Timesheets, budgets, forecasting, invoicing, cost analytics"
+      "description": "Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes."
     },
     {
       "category": "planning",
@@ -7218,15 +7259,15 @@
       "category": "planning",
       "name": "developer-experience",
       "intents": [
-        "core",
-        "desarrollador",
+        "desarrollo",
+        "equipo",
         "experiencia",
-        "framework",
-        "medir"
+        "mejora",
+        "mide"
       ],
       "kind": "skill",
       "path": ".claude/skills/developer-experience/SKILL.md",
-      "description": "Framework DX Core 4 y SPACE para medir y mejorar la experiencia del desarrollador"
+      "description": "Usar cuando se mide o mejora la experiencia de desarrollo del equipo."
     },
     {
       "category": "planning",
@@ -7240,15 +7281,15 @@
       "category": "planning",
       "name": "devops-validation",
       "intents": [
-        "against",
         "agile",
-        "automatically",
         "azure",
-        "configuration"
+        "conecta",
+        "configuración",
+        "devops"
       ],
       "kind": "skill",
       "path": ".claude/skills/devops-validation/SKILL.md",
-      "description": "Validates Azure DevOps project configuration against pm-workspace ideal Agile requirements. Invoked automatically when connecting a new project."
+      "description": "Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración Agile."
     },
     {
       "category": "planning",
@@ -7286,7 +7327,7 @@
       ],
       "kind": "skill",
       "path": ".claude/skills/diagram-generation/SKILL.md",
-      "description": "Generar diagramas de arquitectura y flujo desde infraestructura y código"
+      "description": "Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infraestructura."
     },
     {
       "category": "planning",
@@ -7300,15 +7341,15 @@
       "category": "planning",
       "name": "diagram-import",
       "intents": [
-        "diagramas",
+        "crear",
+        "diagrama",
         "entidades",
-        "extraer",
-        "features",
-        "generar"
+        "existente",
+        "extraer"
       ],
       "kind": "skill",
       "path": ".claude/skills/diagram-import/SKILL.md",
-      "description": "Importar diagramas, extraer entidades y generar Features/PBIs"
+      "description": "Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs."
     },
     {
       "category": "planning",
@@ -7321,10 +7362,16 @@
     {
       "category": "planning",
       "name": "doc-quality-feedback",
-      "intents": [],
+      "intents": [
+        "calidad",
+        "documentación",
+        "feedback",
+        "recopila",
+        "reglas"
+      ],
       "kind": "skill",
       "path": ".claude/skills/doc-quality-feedback/SKILL.md",
-      "description": ">"
+      "description": "Usar cuando se recopila feedback de calidad de documentación tras usar skills y reglas."
     },
     {
       "category": "planning",
@@ -7408,15 +7455,15 @@
       "category": "planning",
       "name": "ecosystem-watcher",
       "intents": [
-        "acciones",
-        "automáticas",
-        "awesome",
-        "calcula",
-        "deltas"
+        "cambios",
+        "detectar",
+        "ecosistema",
+        "externas",
+        "herramientas"
       ],
       "kind": "skill",
       "path": ".claude/skills/ecosystem-watcher/SKILL.md",
-      "description": "Watcher mensual de awesome-* repos y upstream tooling. Calcula deltas vs último snapshot y genera informe markdown con señales high/medium/low. Sin acciones automáticas — solo señalización para revisión humana."
+      "description": "Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas."
     },
     {
       "category": "planning",
@@ -7443,6 +7490,20 @@
       "kind": "cmd",
       "path": ".claude/commands/emergency-mode.md",
       "description": "Gestionar el modo emergencia con LLM local cuando el proveedor cloud no está disponible"
+    },
+    {
+      "category": "planning",
+      "name": "emergency-mode",
+      "intents": [
+        "anthropic",
+        "caída",
+        "continuar",
+        "está",
+        "localai"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/emergency-mode/SKILL.md",
+      "description": "Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI."
     },
     {
       "category": "planning",
@@ -7528,17 +7589,31 @@
     },
     {
       "category": "planning",
+      "name": "enterprise-analytics",
+      "intents": [
+        "aggregación",
+        "empresarial",
+        "forecasting",
+        "métricas",
+        "necesitan"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/enterprise-analytics/SKILL.md",
+      "description": "Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial."
+    },
+    {
+      "category": "planning",
       "name": "enterprise-onboarding",
       "intents": [
-        "batch",
-        "checklists",
-        "enterprise",
-        "import",
-        "knowledge"
+        "forma",
+        "incorporan",
+        "masiva",
+        "múltiples",
+        "organización"
       ],
       "kind": "skill",
       "path": ".claude/skills/enterprise-onboarding/SKILL.md",
-      "description": "Enterprise onboarding at scale — batch import, per-role checklists, progress tracking, knowledge transfer"
+      "description": "Usar cuando se incorporan múltiples personas a la organización de forma masiva."
     },
     {
       "category": "planning",
@@ -7643,12 +7718,15 @@
       "category": "planning",
       "name": "evaluations-framework",
       "intents": [
-        "evaluations",
-        "framework"
+        "agentes",
+        "calidad",
+        "diseñan",
+        "ejecutan",
+        "evaluaciones"
       ],
       "kind": "skill",
       "path": ".claude/skills/evaluations-framework/SKILL.md",
-      "description": "Evaluations Framework"
+      "description": "Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts."
     },
     {
       "category": "planning",
@@ -8470,11 +8548,11 @@
         "construye",
         "consulta",
         "entidades",
-        "grafos"
+        "grafo"
       ],
       "kind": "skill",
       "path": ".claude/skills/knowledge-graph/SKILL.md",
-      "description": "Construye y consulta grafos de conocimiento de entidades PM y sus relaciones"
+      "description": "Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto."
     },
     {
       "category": "planning",
@@ -8589,14 +8667,14 @@
       "name": "managed-content",
       "intents": [
         "auto",
-        "content",
-        "generated",
-        "manage",
-        "markers"
+        "documentos",
+        "generadas",
+        "marcadores",
+        "regeneran"
       ],
       "kind": "skill",
       "path": ".claude/skills/managed-content/SKILL.md",
-      "description": "Manage auto-generated content sections with safe regeneration markers"
+      "description": "Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad."
     },
     {
       "category": "planning",
@@ -8706,14 +8784,14 @@
       "name": "memvid-backup",
       "intents": [
         "backup",
-        "evalua",
+        "crea",
         "externa",
-        "fallback",
-        "gzip"
+        "memoria",
+        "portable"
       ],
       "kind": "skill",
       "path": ".claude/skills/memvid-backup/SKILL.md",
-      "description": "Backup portable de memoria externa — evalua memvid vs tar-gzip. Round-trip con SHA256 integrity. Fallback robusto."
+      "description": "Usar cuando se crea un backup portable de la memoria externa de Savia."
     },
     {
       "category": "planning",
@@ -8818,15 +8896,15 @@
       "category": "planning",
       "name": "nuclei-scanning",
       "intents": [
-        "analisis",
-        "complemento",
-        "conocidos",
+        "conocidas",
         "cves",
-        "degradacion"
+        "escanean",
+        "misconfigs",
+        "nuclei"
       ],
       "kind": "skill",
       "path": ".claude/skills/nuclei-scanning/SKILL.md",
-      "description": "Scanner de vulnerabilidades Nuclei como complemento al analisis LLM. Detecta CVEs conocidos, misconfiguraciones y paneles expuestos. Degradacion graceful si Nuclei no esta instalado."
+      "description": "Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei."
     },
     {
       "category": "planning",
@@ -8978,15 +9056,15 @@
       "category": "planning",
       "name": "onboarding-dev",
       "intents": [
-        "agente",
-        "auto",
         "buddy",
-        "capas",
-        "documentación"
+        "desarrollador",
+        "incorpora",
+        "nuevo",
+        "proyecto"
       ],
       "kind": "skill",
       "path": ".claude/skills/onboarding-dev/SKILL.md",
-      "description": "Onboarding técnico con Buddy IA — auto-genera documentación del proyecto, plan personalizado 30/60/90 y agente buddy de 3 capas"
+      "description": "Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA."
     },
     {
       "category": "planning",
@@ -9025,10 +9103,16 @@
     {
       "category": "planning",
       "name": "orgchart-import",
-      "intents": [],
+      "intents": [
+        "equipo",
+        "estructura",
+        "extraer",
+        "importa",
+        "organigrama"
+      ],
       "kind": "skill",
       "path": ".claude/skills/orgchart-import/SKILL.md",
-      "description": ">"
+      "description": "Usar cuando se importa un organigrama para extraer la estructura del equipo."
     },
     {
       "category": "planning",
@@ -9076,15 +9160,15 @@
       "category": "planning",
       "name": "overnight-sprint",
       "intents": [
-        "autónomo",
+        "autónoma",
         "bajo",
-        "bucle",
-        "ejecuta",
-        "humana"
+        "durante",
+        "ejecutar",
+        "forma"
       ],
       "kind": "skill",
       "path": ".claude/skills/overnight-sprint/SKILL.md",
-      "description": "Modo autónomo nocturno — ejecuta tareas de bajo riesgo en bucle, genera PRs pendientes de revisión humana"
+      "description": "Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche."
     },
     {
       "category": "planning",
@@ -9145,15 +9229,14 @@
       "category": "planning",
       "name": "pbi-decomposition",
       "intents": [
-        "asignar",
-        "descomponer",
-        "estimar",
+        "descompone",
+        "estiman",
         "horas",
-        "inteligentemente"
+        "tasks"
       ],
       "kind": "skill",
       "path": ".claude/skills/pbi-decomposition/SKILL.md",
-      "description": "Descomponer PBIs en Tasks, estimar en horas y asignar inteligentemente"
+      "description": "Usar cuando se descompone un PBI en tasks y se estiman las horas."
     },
     {
       "category": "planning",
@@ -9217,15 +9300,15 @@
       "category": "planning",
       "name": "personal-vault",
       "intents": [
-        "cache",
-        "comandos",
-        "gestion",
-        "instintos",
-        "invocada"
+        "escribe",
+        "memoria",
+        "perfil",
+        "personal",
+        "preferencias"
       ],
       "kind": "skill",
       "path": ".claude/skills/personal-vault/SKILL.md",
-      "description": "Gestion del repositorio personal del usuario — perfil, preferencias, memoria, instintos, cache. Nivel N3 (USUARIO). Invocada por comandos vault-*."
+      "description": "Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria)."
     },
     {
       "category": "planning",
@@ -9463,14 +9546,14 @@
       "name": "product-discovery",
       "intents": [
         "análisis",
-        "descomposición",
-        "descubrimiento",
+        "descomponer",
         "jtbd",
+        "pbis",
         "producto"
       ],
       "kind": "skill",
       "path": ".claude/skills/product-discovery/SKILL.md",
-      "description": "Análisis de descubrimiento de producto - JTBD y PRD antes de descomposición"
+      "description": "Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto."
     },
     {
       "category": "planning",
@@ -9594,13 +9677,13 @@
       "intents": [
         "activo",
         "actualización",
-        "bajo",
-        "calendar",
-        "confidencial"
+        "fuentes",
+        "integral",
+        "proyecto"
       ],
       "kind": "skill",
       "path": ".claude/skills/project-update/SKILL.md",
-      "description": "Actualización integral del proyecto activo. Orquestador determinista (multiproceso) que refresca DevOps+mail+calendar+teams+SharePoint+OneDrive+transcripts, digiere VTTs a meeting digests, y deja todo persistido bajo niveles de confidencial"
+      "description": "Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes."
     },
     {
       "category": "planning",
@@ -9619,10 +9702,16 @@
     {
       "category": "planning",
       "name": "prompt-optimizer",
-      "intents": [],
+      "intents": [
+        "agente",
+        "efectividad",
+        "mejorar",
+        "optimiza",
+        "prompt"
+      ],
       "kind": "skill",
       "path": ".claude/skills/prompt-optimizer/SKILL.md",
-      "description": ">"
+      "description": "Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad."
     },
     {
       "category": "planning",
@@ -9903,15 +9992,15 @@
       "category": "planning",
       "name": "reflection-validation",
       "intents": [
-        "assumptions",
-        "broken",
-        "causal",
-        "chains",
-        "cognitive"
+        "decisión",
+        "importante",
+        "metacognitiva",
+        "respuesta",
+        "system"
       ],
       "kind": "skill",
       "path": ".claude/skills/reflection-validation/SKILL.md",
-      "description": "Meta-cognitive validation protocol (System 2). Detects proxy optimization, undeclared assumptions, and broken causal chains."
+      "description": "Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2)."
     },
     {
       "category": "planning",
@@ -9981,6 +10070,20 @@
     },
     {
       "category": "planning",
+      "name": "reranker",
+      "intents": [
+        "búsqueda",
+        "memoria",
+        "recibe",
+        "relevancia",
+        "reordenar"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/reranker/SKILL.md",
+      "description": "Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por relevancia."
+    },
+    {
+      "category": "planning",
       "name": "reranker-probe",
       "intents": [
         "probe",
@@ -10024,13 +10127,15 @@
       "category": "planning",
       "name": "resource-references",
       "intents": [
-        "references",
-        "resource",
-        "skill"
+        "necesitan",
+        "plantillas",
+        "recursos",
+        "referencias",
+        "workspace"
       ],
       "kind": "skill",
       "path": ".claude/skills/resource-references/SKILL.md",
-      "description": "skill: resource-references"
+      "description": "Usar cuando se necesitan referencias a recursos y plantillas del workspace."
     },
     {
       "category": "planning",
@@ -10130,6 +10235,20 @@
     },
     {
       "category": "planning",
+      "name": "scaling-operations",
+      "intents": [
+        "analiza",
+        "capacidad",
+        "escala",
+        "necesitan",
+        "optimizaciones"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/scaling-operations/SKILL.md",
+      "description": "Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad."
+    },
+    {
+      "category": "planning",
       "name": "scheduled-create",
       "intents": [
         "automáticas",
@@ -10160,15 +10279,15 @@
       "category": "planning",
       "name": "scheduled-messaging",
       "intents": [
-        "automatic",
-        "communication",
-        "configure",
-        "messaging",
-        "platforms"
+        "automáticos",
+        "comunicación",
+        "configuran",
+        "mensajes",
+        "plataformas"
       ],
       "kind": "skill",
       "path": ".claude/skills/scheduled-messaging/SKILL.md",
-      "description": "Configure Scheduled Tasks with automatic messaging to communication platforms"
+      "description": "Usar cuando se configuran mensajes automáticos programados a plataformas de comunicación."
     },
     {
       "category": "planning",
@@ -10563,6 +10682,20 @@
     },
     {
       "category": "planning",
+      "name": "skill-evaluation",
+      "intents": [
+        "apropiado",
+        "dada",
+        "seleccionar",
+        "skill",
+        "tarea"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/skill-evaluation/SKILL.md",
+      "description": "Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada."
+    },
+    {
+      "category": "planning",
       "name": "skill-feedback-log",
       "intents": [
         "append",
@@ -10880,24 +11013,16 @@
     {
       "category": "planning",
       "name": "smart-calendar",
-      "intents": [],
-      "kind": "skill",
-      "path": ".claude/skills/smart-calendar/SKILL.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "smart-routing",
       "intents": [
-        "comandos",
-        "descubrimiento",
-        "enrutamiento",
-        "herramientas",
-        "inteligente"
+        "agenda",
+        "gestiona",
+        "inteligente",
+        "outlook",
+        "sincronización"
       ],
       "kind": "skill",
-      "path": ".claude/skills/smart-routing/SKILL.md",
-      "description": "Enrutamiento inteligente de comandos y descubrimiento de herramientas para 400+ comandos"
+      "path": ".claude/skills/smart-calendar/SKILL.md",
+      "description": "Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams."
     },
     {
       "category": "planning",
@@ -10986,15 +11111,15 @@
       "category": "planning",
       "name": "sprint-management",
       "intents": [
-        "completo",
+        "actualizan",
+        "consulta",
         "estado",
-        "flujo",
-        "gestión",
-        "items"
+        "items",
+        "resumen"
       ],
       "kind": "skill",
       "path": ".claude/skills/sprint-management/SKILL.md",
-      "description": "Flujo completo de gestión de sprints - estado, items, progreso y resúmenes"
+      "description": "Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen."
     },
     {
       "category": "planning",
@@ -11218,15 +11343,15 @@
       "category": "planning",
       "name": "team-coordination",
       "intents": [
-        "assign",
-        "blockers",
-        "create",
+        "asignan",
+        "bloqueantes",
+        "coordinan",
         "cross",
-        "detect"
+        "detectan"
       ],
       "kind": "skill",
       "path": ".claude/skills/team-coordination/SKILL.md",
-      "description": "Multi-team orchestration — create teams, assign members, detect cross-team blockers"
+      "description": "Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloqueantes cross-team."
     },
     {
       "category": "planning",
@@ -11250,13 +11375,13 @@
       "intents": [
         "competencias",
         "equipo",
-        "evaluación",
-        "miembros",
-        "nuevos"
+        "evalúan",
+        "incorpora",
+        "miembro"
       ],
       "kind": "skill",
       "path": ".claude/skills/team-onboarding/SKILL.md",
-      "description": "Onboarding y evaluación de competencias para nuevos miembros del equipo"
+      "description": "Usar cuando se incorpora un nuevo miembro al equipo y se evalúan sus competencias."
     },
     {
       "category": "planning",
@@ -11364,15 +11489,15 @@
       "category": "planning",
       "name": "tier3-probes",
       "intents": [
-        "bertopic",
-        "catalogo",
-        "champions",
-        "extract",
-        "feasibility"
+        "adoptarlas",
+        "herramientas",
+        "tier",
+        "valida",
+        "viabilidad"
       ],
       "kind": "skill",
       "path": ".claude/skills/tier3-probes/SKILL.md",
-      "description": "Catalogo de feasibility probes para champions Tier 3 — Scrapling, Oumi, Memvid, BERTopic, Reranker, PDF extract"
+      "description": "Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace."
     },
     {
       "category": "planning",
@@ -11419,15 +11544,15 @@
       "category": "planning",
       "name": "topic-cluster",
       "intents": [
-        "agrupa",
-        "bertopic",
-        "clustering",
-        "cross",
-        "descubre"
+        "agrupan",
+        "detectar",
+        "incidentes",
+        "patrones",
+        "pbis"
       ],
       "kind": "skill",
       "path": ".claude/skills/topic-cluster/SKILL.md",
-      "description": "BERTopic clustering — agrupa retros/PBIs/incidents/lessons en topics tematicos con labels. Filtra ruido, descubre patrones cross-proyecto"
+      "description": "Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales."
     },
     {
       "category": "planning",
@@ -12000,20 +12125,6 @@
     },
     {
       "category": "planning",
-      "name": "weekly-report",
-      "intents": [
-        "capacity",
-        "consolidates",
-        "generator",
-        "project",
-        "report"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/weekly-report/SKILL.md",
-      "description": "Weekly project status report generator — consolidates sprint, git, PRs, and capacity"
-    },
-    {
-      "category": "planning",
       "name": "wellbeing-guardian",
       "intents": [
         "alerts",
@@ -12031,13 +12142,14 @@
       "name": "wellbeing-guardian",
       "intents": [
         "bienestar",
+        "equipo",
         "individual",
-        "proactivo",
-        "sistema"
+        "monitorizan",
+        "señales"
       ],
       "kind": "skill",
       "path": ".claude/skills/wellbeing-guardian/SKILL.md",
-      "description": "Sistema proactivo de bienestar individual"
+      "description": "Usar cuando se monitorizan señales de bienestar individual en el equipo."
     },
     {
       "category": "planning",
@@ -12150,15 +12262,15 @@
       "category": "quality",
       "name": "adversarial-security",
       "intents": [
-        "adversarial",
-        "auditor",
+        "auditar",
         "blue",
         "pipeline",
-        "scoring"
+        "proyecto",
+        "seguridad"
       ],
       "kind": "skill",
       "path": ".claude/skills/adversarial-security/SKILL.md",
-      "description": "Pipeline de seguridad adversarial — Red Team, Blue Team, Auditor con scoring"
+      "description": "Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team."
     },
     {
       "category": "quality",
@@ -12190,31 +12302,17 @@
     },
     {
       "category": "quality",
-      "name": "ai-labor-impact",
-      "intents": [
-        "analysis",
-        "audit",
-        "exposure",
-        "forecasting",
-        "impact"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/ai-labor-impact/SKILL.md",
-      "description": "AI labor impact analysis — exposure audit, reskilling plans, workforce forecasting"
-    },
-    {
-      "category": "quality",
       "name": "android-autonomous-debugger",
       "intents": [
-        "against",
         "android",
         "apps",
-        "autonomous",
-        "debugging"
+        "contra",
+        "depuran",
+        "dispositivos"
       ],
       "kind": "skill",
       "path": ".claude/skills/android-autonomous-debugger/SKILL.md",
-      "description": "Autonomous debugging and testing of Android apps against physical devices via USB/ADB"
+      "description": "Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB."
     },
     {
       "category": "quality",
@@ -12243,20 +12341,6 @@
       "kind": "agent",
       "path": ".claude/agents/architecture-judge.md",
       "description": "Code Review Court judge — boundaries, coupling, layer violations, patterns"
-    },
-    {
-      "category": "quality",
-      "name": "ast-comprehension",
-      "intents": [
-        "callers",
-        "code",
-        "completos",
-        "comprensión",
-        "código"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/ast-comprehension/SKILL.md",
-      "description": "Comprensión estructural de código que no hemos escrito. Queries tipadas (impl, callers, tests, grep-code, peek, symbols) en lugar de leer ficheros completos. Inspirado en el patrón RLM (Recursive Language Models, Zhang/Kraska/Khattab 2025)."
     },
     {
       "category": "quality",
@@ -12395,20 +12479,6 @@
       "kind": "script",
       "path": "scripts/confidentiality-sign.sh",
       "description": "confidentiality-sign.sh — Cryptographic signature for confidentiality audit"
-    },
-    {
-      "category": "quality",
-      "name": "consensus-validation",
-      "intents": [
-        "business",
-        "code",
-        "judge",
-        "orquestación",
-        "panel"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/consensus-validation/SKILL.md",
-      "description": "Orquestación de 4-judge panel (reflection, code-review, business, performance)"
     },
     {
       "category": "quality",
@@ -12686,7 +12756,7 @@
       "category": "quality",
       "name": "legal-compliance",
       "intents": [
-        "auditoría",
+        "audita",
         "compliance",
         "consolidada",
         "contra",
@@ -12694,7 +12764,7 @@
       ],
       "kind": "skill",
       "path": ".claude/skills/legal-compliance/SKILL.md",
-      "description": "Auditoría de compliance legal contra legislación española consolidada (legalize-es)"
+      "description": "Usar cuando se audita compliance legal contra legislación española consolidada."
     },
     {
       "category": "quality",
@@ -12755,15 +12825,15 @@
       "category": "quality",
       "name": "model-upgrade-audit",
       "intents": [
-        "audit",
-        "available",
-        "compare",
-        "components",
-        "debt"
+        "debt",
+        "detectar",
+        "disponible",
+        "modelo",
+        "nuevo"
       ],
       "kind": "skill",
       "path": ".claude/skills/model-upgrade-audit/SKILL.md",
-      "description": "Audit workspace components for prompt debt when a new model is available. Detect workarounds, propose simplifications, compare with evals."
+      "description": "Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace."
     },
     {
       "category": "quality",
@@ -12784,14 +12854,14 @@
       "name": "mutation-audit",
       "intents": [
         "calidad",
-        "concreto",
-        "demand",
-        "detecta",
-        "generated"
+        "mediante",
+        "medir",
+        "mutation",
+        "quiere"
       ],
       "kind": "skill",
       "path": ".claude/skills/mutation-audit/SKILL.md",
-      "description": "Mutation testing — mide calidad real de tests, detecta zombies AI-generated. On-demand sobre módulo concreto. Invocable."
+      "description": "Usar cuando se quiere medir la calidad real de los tests mediante mutation testing."
     },
     {
       "category": "quality",
@@ -12859,15 +12929,15 @@
       "category": "quality",
       "name": "pentesting",
       "intents": [
-        "arsenal",
-        "based",
-        "driven",
-        "fases",
-        "paralelas"
+        "aplicación",
+        "contra",
+        "ejecuta",
+        "infraestructura",
+        "pentest"
       ],
       "kind": "skill",
       "path": ".claude/skills/pentesting/SKILL.md",
-      "description": "Arsenal de pentesting con pipeline Shannon — queue-driven, proof-based, 5 fases paralelas"
+      "description": "Usar cuando se ejecuta un pentest contra una aplicación o infraestructura."
     },
     {
       "category": "quality",
@@ -12915,15 +12985,15 @@
       "category": "quality",
       "name": "performance-audit",
       "intents": [
-        "anti",
-        "async",
-        "auditoría",
-        "detección",
-        "estática"
+        "audita",
+        "código",
+        "detectar",
+        "estático",
+        "hotspots"
       ],
       "kind": "skill",
       "path": ".claude/skills/performance-audit/SKILL.md",
-      "description": "Auditoría estática de rendimiento — detección de hotspots, async anti-patterns, test-first optimization"
+      "description": "Usar cuando se audita el rendimiento estático de código para detectar hotspots."
     },
     {
       "category": "quality",
@@ -12957,14 +13027,14 @@
       "name": "pr-agent-judge",
       "intents": [
         "agent",
-        "compatible",
-        "contra",
+        "añade",
+        "code",
         "court",
-        "describe"
+        "externo"
       ],
       "kind": "skill",
       "path": ".claude/skills/pr-agent-judge/SKILL.md",
-      "description": "5º juez del Court — wrapper sobre qodo-ai/pr-agent OSS. Ejecuta review/describe/improve contra un PR y devuelve JSON compatible con Court."
+      "description": "Usar cuando se añade pr-agent como juez externo en el Code Review Court."
     },
     {
       "category": "quality",
@@ -13192,15 +13262,15 @@
       "category": "quality",
       "name": "rbac-management",
       "intents": [
-        "audit",
-        "grant",
-        "management",
-        "permissions",
-        "revoke"
+        "acceso",
+        "audita",
+        "gestionan",
+        "permisos",
+        "roles"
       ],
       "kind": "skill",
       "path": ".claude/skills/rbac-management/SKILL.md",
-      "description": "Role management skill — grant, revoke, audit, and verify user permissions"
+      "description": "Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios."
     },
     {
       "category": "quality",
@@ -13547,15 +13617,15 @@
       "category": "quality",
       "name": "sovereignty-auditor",
       "intents": [
-        "auditoría",
+        "audita",
         "cognitiva",
-        "diagnóstico",
-        "lock",
-        "soberanía"
+        "dependencia",
+        "equipo",
+        "grado"
       ],
       "kind": "skill",
       "path": ".claude/skills/sovereignty-auditor/SKILL.md",
-      "description": "Auditoría de soberanía cognitiva — diagnóstico de lock-in de IA"
+      "description": "Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA."
     },
     {
       "category": "quality",
@@ -13661,15 +13731,15 @@
       "category": "quality",
       "name": "test-architect",
       "intents": [
-        "across",
-        "design",
-        "generate",
-        "highest",
-        "languages"
+        "alta",
+        "calidad",
+        "diseñan",
+        "generan",
+        "lenguaje"
       ],
       "kind": "skill",
       "path": ".claude/skills/test-architect/SKILL.md",
-      "description": "Design and generate highest-quality tests across 16 languages and 14 test types"
+      "description": "Usar cuando se diseñan o generan tests de alta calidad en cualquier lenguaje."
     },
     {
       "category": "quality",
@@ -14925,15 +14995,15 @@
       "category": "quality",
       "name": "verification-lattice",
       "intents": [
-        "beyond",
+        "allá",
+        "capa",
         "code",
-        "layer",
-        "multi",
-        "pipeline"
+        "estándar",
+        "multi"
       ],
       "kind": "skill",
       "path": ".claude/skills/verification-lattice/SKILL.md",
-      "description": "Multi-layer verification pipeline beyond Code Review"
+      "description": "Usar cuando se necesita verificación multi-capa más allá del code review estándar."
     },
     {
       "category": "quality",
@@ -15009,15 +15079,15 @@
       "category": "quality",
       "name": "workspace-integrity",
       "intents": [
-        "agent",
-        "agents",
-        "auditors",
+        "agentes",
+        "audita",
         "baseline",
-        "catalog"
+        "drift",
+        "integridad"
       ],
       "kind": "skill",
       "path": ".claude/skills/workspace-integrity/SKILL.md",
-      "description": "Catalogo de integrity auditors — drift CLAUDE.md, rule manifest, orphan rules, agents catalog sync, baseline, agent size"
+      "description": "Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline)."
     },
     {
       "category": "quality",

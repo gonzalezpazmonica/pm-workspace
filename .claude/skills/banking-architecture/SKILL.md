@@ -1,6 +1,6 @@
 ---
 name: banking-architecture
-description: Skill: Banking Architecture
+description: "Usar cuando se diseña o revisa arquitectura para proyectos del sector bancario."
 summary: |
   Validacion de arquitectura bancaria contra estandar BIAN.
   Detecta entidades BIAN, Kafka, Snowflake, SWIFT en el codigo.

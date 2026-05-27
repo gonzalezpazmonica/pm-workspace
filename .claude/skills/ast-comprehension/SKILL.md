@@ -1,6 +1,6 @@
 ---
 name: ast-comprehension
-description: Comprensión estructural de código que no hemos escrito. Queries tipadas (impl, callers, tests, grep-code, peek, symbols) en lugar de leer ficheros completos. Inspirado en el patrón RLM (Recursive Language Models, Zhang/Kraska/Khattab 2025). Pre-edición, legacy assessment, exploration.
+description: "Usar cuando se explora código desconocido y se necesita comprensión estructural sin leer ficheros enteros."
 summary: |
   Query-oriented AST exploration para 16 lenguajes. Empieza en un entrypoint,
   pide solo lo que necesitas. Reduce tokens 10-100x vs leer ficheros completos.

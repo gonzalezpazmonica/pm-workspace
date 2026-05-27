@@ -1,6 +1,6 @@
 ---
 name: dag-scheduling
-description: Orquestar agentes SDD en paralelo usando gráficos de dependencias
+description: "Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos."
 summary: |
   Orquesta agentes SDD en paralelo usando grafos de dependencias.
   Calcula camino critico, cohortes paralelas y ahorro de tiempo.
@@ -13,6 +13,13 @@ category: "sdd-framework"
 tags: ["dag", "parallel", "orchestration", "pipeline"]
 priority: "high"
 ---
+
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
 
 # Skill: DAG Scheduling — Orquestación de agentes en paralelo
 

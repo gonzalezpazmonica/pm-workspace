@@ -1,6 +1,6 @@
 ---
 name: overnight-sprint
-description: Modo autónomo nocturno — ejecuta tareas de bajo riesgo en bucle, genera PRs pendientes de revisión humana
+description: "Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche."
 summary: |
   Sprint autonomo nocturno: ejecuta tareas de bajo riesgo en bucle.
   Genera PRs Draft en ramas agent/overnight-*.
@@ -12,6 +12,13 @@ category: "sdd-framework"
 tags: ["autonomous", "overnight", "batch", "low-risk"]
 priority: "medium"
 ---
+
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
 
 # Skill: Overnight Sprint
 

@@ -1,6 +1,6 @@
 ---
 name: rules-traceability
-description: Map business rules (RN-XXX-NN) to PBIs with traceability matrix
+description: "Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa."
 summary: |
   Mapea reglas de negocio (RN-XXX-NN) a PBIs con matriz de trazabilidad.
   Detecta reglas sin PBI y PBIs sin regla.
