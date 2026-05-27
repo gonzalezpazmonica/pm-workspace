@@ -1,6 +1,6 @@
 ---
 name: tdd-vertical-slices
-description: "Usar cuando se aplica TDD a una feature nueva o bug fix con ciclos red-green-refactor."
+description: "Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a new feature or bug fix, when user mentions 'red-green-refactor', 'tdd', 'test-first', 'vertical slice' — explicitly avoids the 'horizontal slicing' anti-pattern (write all tests first, then all code) which produces brittle implementation-coupled tests."
 summary: |
   Disciplina TDD por slices verticales: 1 test → 1 implementación → repeat.
   El anti-pattern de horizontal slicing (todos los tests primero, luego todo el
