@@ -1,6 +1,6 @@
 ---
 name: code-comprehension-report
-description: Generate comprehension report with mental model after SDD implementation. Automatically documents architectural decisions, failure heuristics, and 3AM debugging guides.
+description: "Usar cuando se ha completado una implementación SDD y se necesita documentar el modelo mental."
 summary: |
   Genera modelo mental post-implementacion: decisiones,
   heuristicas de fallo y guia de debugging 3AM.

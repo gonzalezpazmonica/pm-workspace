@@ -1,6 +1,6 @@
 ---
 name: personal-vault
-description: "Gestion del repositorio personal del usuario — perfil, preferencias, memoria, instintos, cache. Nivel N3 (USUARIO). Invocada por comandos vault-*."
+description: "Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria)."
 summary: |
   Gestion del repositorio personal del usuario (nivel N3).
   Perfil, preferencias, memoria, instintos, cache.

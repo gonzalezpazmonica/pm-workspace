@@ -1,6 +1,6 @@
 ---
 name: caveman
-description: Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use when you suspect self-deception, before committing, or before shipping.
+description: "Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use when you suspect self-deception, before committing, or before shipping."
 license: MIT
 compatibility: opencode
 metadata:

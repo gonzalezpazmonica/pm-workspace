@@ -1,6 +1,6 @@
 ---
 name: backlog-git-tracker
-description: "Captura, comparación y auditoría de snapshots de backlog"
+description: "Usar cuando se capturan o comparan snapshots del backlog para detectar drift."
 summary: |
   Captura snapshots periodicos del backlog (Azure DevOps, Jira, Savia Flow)
   y los almacena como markdown en SaviaHub. Compara versiones,

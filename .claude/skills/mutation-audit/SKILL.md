@@ -1,6 +1,6 @@
 ---
 name: mutation-audit
-description: Mutation testing — mide calidad real de tests, detecta zombies AI-generated. On-demand sobre módulo concreto. Invocable.
+description: "Usar cuando se quiere medir la calidad real de los tests mediante mutation testing."
 summary: |
   Mutation testing on-demand. Siembra mutantes determinísticos en un
   módulo y mide cuántos matan los tests. Detecta tests zombies (cobertura

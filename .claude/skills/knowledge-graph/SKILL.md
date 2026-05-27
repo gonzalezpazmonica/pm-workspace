@@ -1,6 +1,6 @@
 ---
 name: knowledge-graph
-description: Construye y consulta grafos de conocimiento de entidades PM y sus relaciones
+description: "Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto."
 summary: |
   Construye grafos de conocimiento de entidades PM y sus relaciones.
   Stakeholders, componentes, decisiones, dependencias.

@@ -1,6 +1,6 @@
 ---
 name: regulatory-compliance
-description: Validación de marcos regulatorios por sector — detección automática, compliance checks y corrección
+description: "Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales."
 summary: |
   Validacion de marcos regulatorios por sector (HIPAA, GDPR, SOX...).
   Deteccion automatica en 5 fases con scoring ponderado.

@@ -1,6 +1,6 @@
 ---
 name: team-coordination
-description: "Multi-team orchestration — create teams, assign members, detect cross-team blockers"
+description: "Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloqueantes cross-team."
 summary: |
   Orquestacion multi-equipo: crear equipos, asignar miembros,
   detectar bloqueantes cross-team y dependencias.

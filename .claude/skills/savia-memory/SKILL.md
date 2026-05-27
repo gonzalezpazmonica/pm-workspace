@@ -1,6 +1,6 @@
 ---
 name: savia-memory
-description: Gestión de memoria canónica externa de Savia (.savia-memory). Lectura, escritura, búsqueda y consolidación de memoria entre sesiones.
+description: "Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia."
 license: MIT
 compatibility: opencode
 metadata:

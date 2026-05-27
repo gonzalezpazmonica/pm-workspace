@@ -1,6 +1,6 @@
 ---
 name: codegraph
-description: Motor de indexación AST persistente (tree-sitter + SQLite + FTS5) servido como MCP. Usado como backend de agent-code-map (.acm) y ast-comprehension. 19 lenguajes, auto-sync, callers/callees/impact resueltos. 100% local, MIT, sin API keys. Opt-in por proyecto.
+description: "Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el código."
 summary: |
   CodeGraph (colbymchenry/codegraph) indexa código en SQLite con tree-sitter
   y lo expone vía MCP stdio. Sustituye grep ad-hoc de .acm/ast-comprehension

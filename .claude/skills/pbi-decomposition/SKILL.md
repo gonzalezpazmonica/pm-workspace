@@ -1,6 +1,6 @@
 ---
 name: pbi-decomposition
-description: Descomponer PBIs en Tasks, estimar en horas y asignar inteligentemente
+description: "Usar cuando se descompone un PBI en tasks y se estiman las horas."
 summary: |
   Descompone PBI en tasks tecnicas con estimacion en horas.
   Usa architect (capas) y business-analyst (criterios).

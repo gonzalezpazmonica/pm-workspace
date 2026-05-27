@@ -1,6 +1,6 @@
 ---
 name: test-architect
-description: Design and generate highest-quality tests across 16 languages and 14 test types
+description: "Usar cuando se diseñan o generan tests de alta calidad en cualquier lenguaje."
 summary: |
   Generates tests that score 80+ on the auditor from the first attempt.
   Knows 14 test types, 16 language frameworks, and 8 excellence patterns.

@@ -28,7 +28,7 @@
 - **check-coherence** (cmd): Validate that a spec, report, or code output actually matches its stated objective
 - **code-comprehension-report** (skill): Generate comprehension report with mental model after SDD implementation. Automatically documents architectural decisions, failure heuristics, and 3AM debugging guides.
 - **code-improve** (cmd): Launch autonomous code improvement loop — detects opportunities, applies improvements, creates PRs for review
-- **code-improvement-loop** (skill): Bucle autónomo de mejora continua de código — detecta oportunidades, aplica mejoras, genera PRs pendientes de revisión
+- **code-improvement-loop** (skill): Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión.
 - **code-patterns** (cmd): Catálogo de patterns del proyecto con ejemplos del propio código del equipo
 - **code-reviewer** (agent): >
 - **codebase-map** (cmd): Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills
@@ -41,7 +41,7 @@
 - **comprehension-report** (cmd): Generate mental model report for an implemented task. Documents architectural decisions, failure heuristics, and 3AM debugging guide.
 - **dag-execute** (cmd): Ejecutar pipeline SDD con agentes en paralelo según DAG
 - **dag-plan** (cmd): Visualizar DAG de ejecución, camino crítico y ahorro de tiempo
-- **dag-scheduling** (skill): Orquestar agentes SDD en paralelo usando gráficos de dependencias
+- **dag-scheduling** (skill): Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos.
 - **dag-typing-validate** (script): dag-typing-validate.sh — SE-034 Slice 1 prototype validator.
 - **deps-validate** (script): deps-validate.sh — SPEC-SE-020 Slice 1 schema validator for deps.yaml.
 - **dev-orchestrator** (agent): Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto
@@ -115,7 +115,7 @@
 - **spec-approval-gate** (script): spec-approval-gate.sh — SE-051 Slice 1 Rule #8 enforcement gate.
 - **spec-budget** (script): spec-budget.sh — SE-074 Slice 1.5 — dynamic retry budget per spec effort
 - **spec-design** (cmd): Genera diseño técnico a partir de una spec existente — decisiones, flujo de datos, estrategia de testing.
-- **spec-driven-development** (skill): Specs ejecutables para desarrolladores humanos y agentes Claude
+- **spec-driven-development** (skill): Usar cuando se escribe, valida o implementa una spec ejecutable SDD.
 - **spec-explore** (cmd): Explore and analyze specification documents
 - **spec-frontmatter-migrate** (script): spec-frontmatter-migrate.sh — SE-036 Slice 1.
 - **spec-generate** (cmd): Genera una Spec ejecutable a partir de una Task de Azure DevOps, lista para implementación.

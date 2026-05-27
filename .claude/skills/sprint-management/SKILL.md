@@ -1,6 +1,6 @@
 ---
 name: sprint-management
-description: Flujo completo de gestión de sprints - estado, items, progreso y resúmenes
+description: "Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen."
 summary: |
   Estado completo del sprint: items, progreso, burndown, velocity.
   Consulta Azure DevOps via WIQL. Genera resumenes para
