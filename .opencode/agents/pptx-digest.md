@@ -1,7 +1,7 @@
 ---
 name: pptx-digest
 permission_level: L2
-description: "Usar cuando se necesita extraer contenido estructurado de presentaciones PowerPoint."
+description: >
   Digestion de presentaciones PowerPoint (PPTX) — pipeline de 4 fases. Extrae texto,
   notas del presentador, imagenes, diagramas y datos de graficos. Usa contexto REAL del
   proyecto. Actualiza documentos de contexto vivos. Usar PROACTIVELY cuando se detectan

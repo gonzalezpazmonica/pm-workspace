@@ -2,7 +2,7 @@
 name: architect
 decision_tree: decision-trees/architect-decisions.md
 permission_level: L1
-description: "Usar cuando se diseña una nueva feature, se evalúan opciones técnicas o se toman decisiones de arquitectura .NET."
+description: >
   Diseño de arquitectura .NET y decisiones técnicas de alto nivel. Usar PROACTIVELY cuando:
   se diseña una nueva feature, se evalúa un cambio arquitectónico, se asigna la capa correcta
   a una task (Domain / Application / Infrastructure / API), se analiza dependencias entre

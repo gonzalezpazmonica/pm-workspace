@@ -2,7 +2,7 @@
 name: dotnet-developer
 decision_tree: decision-trees/dotnet-developer-decisions.md
 permission_level: L3
-description: "Usar cuando se implementa código C#/.NET siguiendo una spec SDD aprobada."
+description: >
   Implementación de código C#/.NET siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando:
   se implementa una feature en C#/.NET (controllers, services, repositories, domain entities,
   EF migrations, DTOs, mappers), se refactoriza código existente, o se corrige un bug con

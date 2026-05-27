@@ -2,7 +2,7 @@
 name: security-guardian
 decision_tree: decision-trees/security-guardian-decisions.md
 permission_level: L4
-description: "Usar antes de cada commit para auditar cambios staged en busca de secretos y vulnerabilidades."
+description: >
   Especialista en seguridad, confidencialidad y ciberseguridad. Audita los cambios
   staged ANTES de cualquier commit para detectar fugas de datos privados, credenciales,
   información de infraestructura, datos personales (GDPR) o cualquier dato sensible

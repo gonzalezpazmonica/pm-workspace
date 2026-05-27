@@ -1,6 +1,6 @@
 ---
 name: hallucination-fast-judge
-description: "Usar cuando el Recommendation Tribunal necesita verificar que las entidades citadas existen realmente."
+description: Recommendation Tribunal judge — verifies that entities cited in a draft (files, functions, flags, libs, paths, commands) actually exist via tool calls
 model: fast
 permission_level: L1
 tools:

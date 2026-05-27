@@ -1,7 +1,7 @@
 ---
 name: test-architect
 permission_level: L3
-description: "Usar cuando se diseñan o generan tests de alta calidad en cualquiera de los 16 lenguajes soportados."
+description: >
   Designs and generates the highest quality tests across all 16 language packs and 14
   test types. Use PROACTIVELY when: creating test suites for new specs or features,
   designing test strategy for a project, generating BATS validation tests that must

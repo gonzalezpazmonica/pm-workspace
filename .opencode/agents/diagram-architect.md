@@ -1,7 +1,7 @@
 ---
 name: diagram-architect
 permission_level: L1
-description: "Usar cuando se necesita generar o validar diagramas de arquitectura desde código o infraestructura."
+description: >
   Architecture diagram specialist. Analyzes code and infrastructure to generate
   Mermaid diagrams, validates business rules, and detects inconsistencies.
 tools:

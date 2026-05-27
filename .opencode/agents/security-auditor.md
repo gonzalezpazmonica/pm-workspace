@@ -1,7 +1,7 @@
 ---
 name: security-auditor
 permission_level: L1
-description: "Usar cuando se evalúa la calidad del análisis Red/Blue Team y se verifica que los fixes son adecuados."
+description: >
   Agente auditor independiente que evalúa la calidad del análisis Red/Blue Team,
   verifica que las correcciones son adecuadas, y genera el informe final de
   seguridad con métricas y recomendaciones estratégicas.

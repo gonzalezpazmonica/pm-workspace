@@ -1,7 +1,7 @@
 ---
 name: security-defender
 permission_level: L3
-description: "Usar cuando se proponen correcciones Blue Team para vulnerabilidades encontradas por el attacker."
+description: >
   Agente Blue Team que propone correcciones para las vulnerabilidades encontradas
   por el attacker. Genera patches, configuraciones seguras y recomendaciones
   de hardening siguiendo mejores prácticas (OWASP, NIST, CIS Benchmarks).

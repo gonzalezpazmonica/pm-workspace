@@ -1,7 +1,7 @@
 ---
 name: legal-compliance
 permission_level: L2
-description: "Usar cuando se audita compliance legal contra legislación española consolidada (legalize-es)."
+description: >
   Auditoría de compliance legal contra legislación española consolidada (legalize-es).
   Usar PROACTIVELY cuando: se crean reglas de negocio, se revisan contratos,
   se diseñan features con implicaciones legales, se audita un proyecto completo,

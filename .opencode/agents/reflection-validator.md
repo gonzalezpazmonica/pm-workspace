@@ -1,7 +1,7 @@
 ---
 name: reflection-validator
 permission_level: L0
-description: "Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2)."
+description: >
   Meta-cognitive validation of responses and decisions (System 2).
   Use PROACTIVELY when: evaluating a response to a complex question,
   reviewing a spec or plan before approval, making a decision with

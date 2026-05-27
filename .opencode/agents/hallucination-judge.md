@@ -1,6 +1,6 @@
 ---
 name: hallucination-judge
-description: "Usar cuando el Truth Tribunal necesita detectar hechos inventados mediante consistencia SelfCheck."
+description: Truth Tribunal judge — detects invented facts via SelfCheck-style consistency
 model: heavy
 permission_level: L1
 tools:

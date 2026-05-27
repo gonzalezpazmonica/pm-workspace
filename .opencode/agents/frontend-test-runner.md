@@ -1,7 +1,7 @@
 ---
 name: frontend-test-runner
 permission_level: L4
-description: "Usar post-commit para ejecutar la suite completa de tests frontend (unit, component, e2e)."
+description: Post-commit frontend test execution — unit, component, e2e, coverage
 tools:
   read: true
   write: true

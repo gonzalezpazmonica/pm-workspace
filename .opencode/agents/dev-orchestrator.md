@@ -1,7 +1,7 @@
 ---
 name: dev-orchestrator
 permission_level: L4
-description: "Usar cuando se necesita crear un plan de implementación desde una spec SDD aprobada."
+description: Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto
 tools:
   read: true
   glob: true

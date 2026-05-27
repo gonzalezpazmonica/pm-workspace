@@ -1,6 +1,6 @@
 ---
 name: truth-tribunal-orchestrator
-description: "Usar cuando un informe o recomendación necesita validación por el Truth Tribunal completo."
+description: Truth Tribunal orchestrator — convenes 7 judges, aggregates scores, applies vetos, drives iteration
 model: heavy
 permission_level: L2
 tools:

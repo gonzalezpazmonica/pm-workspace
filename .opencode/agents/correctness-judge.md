@@ -1,6 +1,6 @@
 ---
 name: correctness-judge
-description: "Usar cuando el Code Review Court necesita revisar lógica, tests, edge cases y paths de error."
+description: Code Review Court judge — logic, tests, edge cases, error paths
 model: mid
 permission_level: L1
 tools:

@@ -1,6 +1,6 @@
 ---
 name: fix-assigner
-description: "Usar cuando el Court ha emitido veredicto y hay que asignar fixes a agentes de desarrollo."
+description: Creates fix tasks from Court findings, assigns to dev agents, triggers re-review
 model: mid
 permission_level: L2
 tools:

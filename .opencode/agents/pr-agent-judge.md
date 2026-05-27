@@ -1,6 +1,6 @@
 ---
 name: pr-agent-judge
-description: "Usar cuando se añade pr-agent como 5º juez externo en el Code Review Court."
+description: External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). Opt-in via COURT_INCLUDE_PR_AGENT=true.
 model: mid
 permission_level: L1
 tools:

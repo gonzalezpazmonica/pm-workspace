@@ -1,7 +1,7 @@
 ---
 name: excel-digest
 permission_level: L2
-description: "Usar cuando se necesita extraer datos estructurados de hojas de cálculo Excel (XLSX/XLS/CSV)."
+description: >
   Digestion de hojas de calculo Excel (XLSX/XLS/CSV) — pipeline de 4 fases. Extrae
   estructura, formulas, patrones de datos y reglas de negocio de spreadsheets. Usa contexto
   REAL del proyecto. Actualiza documentos de contexto vivos. Usar PROACTIVELY cuando se

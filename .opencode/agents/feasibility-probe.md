@@ -1,7 +1,7 @@
 ---
 name: feasibility-probe
 permission_level: L3
-description: "Usar cuando se necesita validar la viabilidad de una spec mediante prototipo time-boxed."
+description: "Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions."
 tools:
   read: true
   write: true

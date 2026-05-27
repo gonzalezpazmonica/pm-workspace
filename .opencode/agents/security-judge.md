@@ -1,6 +1,6 @@
 ---
 name: security-judge
-description: "Usar cuando el Code Review Court necesita revisar seguridad OWASP, PII, injection y credenciales."
+description: Code Review Court judge — OWASP, PII, injection, auth, credentials
 model: mid
 permission_level: L1
 tools:

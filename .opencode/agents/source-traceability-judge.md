@@ -1,6 +1,6 @@
 ---
 name: source-traceability-judge
-description: "Usar cuando el Truth Tribunal necesita verificar que cada afirmación tiene cita verificable."
+description: Truth Tribunal judge — every claim must have a verifiable @ref citation
 model: mid
 permission_level: L1
 tools:

@@ -1,7 +1,7 @@
 ---
 name: mobile-developer
 permission_level: L3
-description: "Usar cuando se implementa código mobile (Swift/iOS, Kotlin/Android, Flutter) siguiendo una spec SDD."
+description: >
   Implementación de código mobile (Swift/iOS + Kotlin/Android + Flutter) siguiendo
   specs SDD aprobadas. Usar PROACTIVELY cuando: se implementa una feature en cualquier
   plataforma mobile, se refactoriza código existente, o se corrige un bug con spec

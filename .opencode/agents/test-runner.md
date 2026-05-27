@@ -1,7 +1,7 @@
 ---
 name: test-runner
 permission_level: L4
-description: "Usar post-commit para ejecutar la suite completa de tests y verificar cobertura mínima."
+description: >
   Ejecución de tests y verificación de cobertura post-commit. Ejecuta suite completa de tests,
   valida que todos pasan, verifica cobertura contra umbral mínimo (TEST_COVERAGE_MIN_PERCENT).
   Si tests fallan, delega a dotnet-developer. Si cobertura insuficiente, orquesta architect,

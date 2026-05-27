@@ -1,6 +1,6 @@
 ---
 name: architecture-judge
-description: "Usar cuando el Code Review Court necesita revisar boundaries, coupling o violaciones de arquitectura."
+description: Code Review Court judge — boundaries, coupling, layer violations, patterns
 model: mid
 permission_level: L1
 tools:

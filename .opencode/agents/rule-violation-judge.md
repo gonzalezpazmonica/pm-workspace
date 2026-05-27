@@ -1,6 +1,6 @@
 ---
 name: rule-violation-judge
-description: "Usar cuando el Recommendation Tribunal necesita verificar que el draft no viola reglas canónicas."
+description: Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)
 model: mid
 permission_level: L1
 tools:

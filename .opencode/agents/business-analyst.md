@@ -2,7 +2,7 @@
 name: business-analyst
 decision_tree: decision-trees/business-analyst-decisions.md
 permission_level: L1
-description: "Usar cuando se analizan reglas de negocio, se descomponen PBIs o se definen criterios de aceptación."
+description: >
   Análisis de reglas de negocio, descomposición de PBIs, criterios de aceptación y evaluación
   de competencias del equipo. Usar PROACTIVELY cuando: se analiza un PBI antes de descomponerlo,
   hay ambigüedades en los requisitos, se necesita validar que una implementación cumple las

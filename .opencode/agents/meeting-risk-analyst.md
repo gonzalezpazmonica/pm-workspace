@@ -1,7 +1,7 @@
 ---
 name: meeting-risk-analyst
 permission_level: L1
-description: "Usar post-digest de reunión para analizar riesgos derivados de decisiones y compromisos."
+description: >
   Analisis de riesgos post-digestion de reuniones. Cruza decisiones, compromisos y dinamicas
   extraidas de una transcripcion contra reglas de negocio, perfiles de equipo, specs y backlog.
   Detecta: contradicciones con reglas, conflictos interpersonales, duplicidades, dependencias
