@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b862dd95c789a2ac3b4f48f2939b7a4fa1708b4e5dad7bce58ec743ee3a6c14f
-timestamp=2026-05-27T04:19:00Z
+diff_hash=c5baf2c39e40f989a58d8528022b701919777539112f58d7105a0d03edb74e2e
+timestamp=2026-05-27T04:52:37Z
 branch=spike/SE-148-agent-run-summary
-head_commit=8182123c
-signature=f913d290a484b0be36526a527c55257b5d79d0dbb453c7172286d8c49d19fccc
+head_commit=287bf976
+signature=65d0b41e0794d9701f6c9caa2aa879829b6119646b7e6c1b74bd2a40cdca3a89
