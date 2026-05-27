@@ -14,6 +14,13 @@ tags: ["dag", "parallel", "orchestration", "pipeline"]
 priority: "high"
 ---
 
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
+
 # Skill: DAG Scheduling — Orquestación de agentes en paralelo
 
 Ejecuta el pipeline SDD con **ejecución paralela inteligente** mediante gráficos acíclicos dirigidos (DAG). Detecta fases independientes, calcula el camino crítico y ejecuta grupos de agentes en paralelo respetando dependencias.

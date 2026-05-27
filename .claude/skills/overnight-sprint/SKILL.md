@@ -13,6 +13,13 @@ tags: ["autonomous", "overnight", "batch", "low-risk"]
 priority: "medium"
 ---
 
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
+
 # Skill: Overnight Sprint
 
 > **Regla de seguridad**: `@docs/rules/domain/autonomous-safety.md` — NUNCA merge, SIEMPRE PR Draft con reviewer humano.

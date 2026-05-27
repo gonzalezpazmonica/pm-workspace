@@ -13,6 +13,13 @@ tags: ["verification", "multi-layer", "pipeline", "quality-gate"]
 priority: "high"
 ---
 
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
+
 # Verification Lattice: 5-Layer Verification Pipeline
 
 A layered verification system where each layer builds on previous results, culminating in informed human review.
@@ -131,7 +138,6 @@ Before running verification, answer sequentially:
 4. Layer 4 consumes Layers 1-3 reports → produces report
 5. Human reviewer reads consolidated report from Layers 1-4 → approves/requests changes
 Each layer is independent executable, but cascade provides context enrichment.
----
 ## Commands
 - **`/verify-full {task-id}`** — Run all 5 layers sequentially
 - **`/verify-layer {N} {task-id}`** — Run specific layer for debugging
