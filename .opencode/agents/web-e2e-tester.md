@@ -72,35 +72,22 @@ python output/web-tasks/<task_id>/script.py 2>&1 \
 
 ### Phase 4 — Self-Reflection Gate
 
-Before marking any task done, run a 2-stage verification using the host model:
+2-stage verification before marking any task done:
 
-**Stage 1 — Per-screenshot check**: for each screenshot, answer:
-  "Does this screenshot satisfy critical point X? (yes/no + reason)"
-
-**Stage 2 — Final verdict**: all critical points must be `yes`.
-  If any is `no` → return to Phase 3d. Max 2 reflection cycles.
-
-This gate requires zero external API calls — it uses the model already active.
+**Stage 1**: per screenshot — "Does this satisfy critical point X? (yes/no + reason)"
+**Stage 2**: all critical points must be `yes`. If any `no` → return to 3d. Max 2 cycles.
 
 ### Phase 5 — Report
 ```
-═══ WEB E2E TESTER ═══════════════════════
-
-  Target .......... http://localhost:8081
-  Browser ......... Chromium (headless)
-
-  ── Regression Suite ───────────────────
-  Total ........... ✅ 44/44 passed
-  Flaky ........... 0
-
-  ── Adaptive Tasks ─────────────────────
-  login-flow ...... ✅ PASS (3 critical points met)
-  filter-table .... ✅ PASS (2 critical points met)
-
-  Artefacts ....... output/web-tasks/
-
+═══ WEB E2E TESTER ════════════════════
+  Target ...... http://localhost:8081
+  ── Regression Suite ──────────────
+  Total ....... ✅ 44/44 passed  Flaky: 0
+  ── Adaptive Tasks ────────────────
+  login-flow .. ✅ PASS  filter-table .. ✅ PASS
+  Artefacts ... output/web-tasks/
   RESULT: ✅ ALL CHECKS PASSED
-══════════════════════════════════════════
+═══════════════════════════════════════
 ```
 
 ### Phase 6 — Fix Delegation
