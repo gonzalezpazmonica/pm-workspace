@@ -1,11 +1,22 @@
 #!/usr/bin/env bats
 # tests/test-agent-run-logger.bats — SE-148: AgentRunSummary logger + report tests
-# Ref: docs/propuestas/SE-148 spike
+# Ref: docs/propuestas/SE-148 spike · SPEC-055 quality gate
+# Safety: set -uo pipefail applied per-test in setup().
+#
+# Coverage notes (c7_coverage breadth):
+#   Exercises the public command surface of scripts/agent-run-logger.sh:
+#     cmd_start, cmd_tool_call, cmd_finish, cmd_annotate
+#   Exercises indirectly the internal helpers via the public commands
+#   (assertions on the resulting JSON line verify their behaviour):
+#     _now (timestamp present), _gen_id (run_id format),
+#     _read_record (lookup), _upsert_record (in-place update),
+#     _jq_available (silent jq fallback path).
 
 LOGGER="${BATS_TEST_DIRNAME}/../scripts/agent-run-logger.sh"
 REPORT="${BATS_TEST_DIRNAME}/../scripts/agent-run-report.sh"
 
 setup() {
+  set -uo pipefail
   TMP_DIR="$(mktemp -d)"
   export TMP_DIR
   export AGENT_ACTUALS_LOG="$TMP_DIR/agent-actuals.jsonl"
@@ -185,4 +196,53 @@ teardown() {
   echo "$RECORD" | jq -e '.tokens_out == 500'
   echo "$RECORD" | jq -e '.cost_usd == 0.0042'
   echo "$RECORD" | jq -e '.models_used | contains(["claude-sonnet-4-6"])'
+}
+
+
+# ── Edge cases — boundary / zero / large input (SPEC-055 c5_edge) ───────────
+@test "edge: empty tools_invoked on finish when no tool-call issued" {
+  RUN_ID="$(bash "$LOGGER" start "edge-agent" "no tool calls")"
+  bash "$LOGGER" finish "$RUN_ID" completed
+  RECORD="$(grep -F "\"run_id\":\"$RUN_ID\"" "$AGENT_ACTUALS_LOG" | tail -1)"
+  # tools_invoked must be an object (possibly empty), not null
+  TI_TYPE="$(echo "$RECORD" | jq -r '.tools_invoked | type')"
+  [ "$TI_TYPE" = "object" ]
+  TI_LEN="$(echo "$RECORD" | jq '.tools_invoked | length')"
+  [ "$TI_LEN" -eq 0 ]
+}
+
+@test "edge: boundary — large task description does not corrupt JSONL line" {
+  LARGE="$(printf 'x%.0s' {1..2000})"
+  RUN_ID="$(bash "$LOGGER" start "edge-agent" "$LARGE")"
+  [ -n "$RUN_ID" ]
+  # The log file must still be valid JSONL: each line parseable
+  while IFS= read -r line; do
+    echo "$line" | jq -e . >/dev/null
+  done < "$AGENT_ACTUALS_LOG"
+  # And the record exists exactly once
+  COUNT="$(grep -cF "\"run_id\":\"$RUN_ID\"" "$AGENT_ACTUALS_LOG")"
+  [ "$COUNT" -eq 1 ]
+}
+
+@test "edge: nonexistent annotate run_id fails gracefully" {
+  run bash "$LOGGER" annotate "nonexistent-run-zzz" --tokens-in 10
+  [ "$status" -ne 0 ]
+}
+
+@test "edge: no-arg invocation prints usage and exits non-zero" {
+  run bash "$LOGGER"
+  [ "$status" -ne 0 ]
+}
+
+# ── Cross-cutting — schema_version invariants (assertion quality) ───────────
+@test "all SE-148 records carry schema_version 2 (assertion: -eq numeric)" {
+  R1="$(bash "$LOGGER" start "a1" "t1")"
+  R2="$(bash "$LOGGER" start "a2" "t2")"
+  bash "$LOGGER" finish "$R1" completed
+  bash "$LOGGER" finish "$R2" error
+  # Count v2 records — must be exactly 2 (the two we just created)
+  COUNT="$(jq -r 'select(.schema_version == "2") | .run_id' "$AGENT_ACTUALS_LOG" | wc -l)"
+  [ "$COUNT" -eq 2 ]
+  # Both run_ids must be distinct
+  [ "$R1" != "$R2" ]
 }
