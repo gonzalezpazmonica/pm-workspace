@@ -2,12 +2,10 @@
 
 > **REGLA INMUTABLE** — Aplica a TODOS los modos autónomos: overnight-sprint, code-improvement-loop, tech-research-agent y cualquier skill futuro que opere sin supervisión directa en tiempo real.
 > **Pattern alignment**: implementa Genesis **A9 SUPERVISED EXECUTION** — ver `docs/rules/domain/attention-anchor.md` (SE-080).
----
 
 ## Principio fundamental
 
 **La IA propone, el humano dispone.** Ningún agente autónomo tiene autoridad para tomar decisiones irreversibles. Todo output autónomo es una **propuesta pendiente de revisión humana**.
-
 
 ## Reglas de Git — Ramas y commits
 
@@ -31,7 +29,6 @@ SIEMPRE → Prefijo de commit: agent({modo}): descripción
 | Code Improvement | `agent/improve-{tipo}-{id}` | `agent/improve-coverage-auth-service` |
 | Tech Research | `agent/research-{tema}` | `agent/research-ef-alternatives` |
 
-
 ## Reglas de PRs — Revisión humana obligatoria
 
 ```
@@ -45,7 +42,6 @@ SIEMPRE → Asignar AUTONOMOUS_REVIEWER como reviewer obligatorio
 SIEMPRE → Incluir en el PR body: métricas antes/después, descripción del cambio, riesgo estimado
 SIEMPRE → Esperar aprobación humana — el agente NO hace seguimiento ni insiste
 ```
----
 
 ## Reglas de investigación — Notificación humana
 
@@ -58,7 +54,6 @@ SIEMPRE → Generar informe en output/research-{tema}-{fecha}.md
 SIEMPRE → Notificar a AUTONOMOUS_RESEARCH_NOTIFY al completar
 SIEMPRE → Las recomendaciones son PROPUESTAS, no acciones
 ```
----
 
 ## Configuración requerida
 
@@ -86,8 +81,6 @@ ERROR: AUTONOMOUS_REVIEWER no resoluble.
    Tu handle NUNCA debe ir en ficheros versionados del repo público.
 ```
 
----
-
 ## Reglas de fail-safe
 
 ```
@@ -98,25 +91,13 @@ SIEMPRE → Si se detecta que el agente está en loop (misma acción 3+ veces) �
 SIEMPRE → Si consumo de contexto > 80% → compact y evaluar si continuar
 ```
 
----
-
 ## Auditoría
 
-Cada sesión autónoma genera un log de auditoría en `output/agent-runs/`:
-
-```
-output/agent-runs/{modo}-{fecha}-audit.log
-```
-
-Contenido mínimo:
-- Timestamp de inicio y fin
-- Tareas intentadas (con resultado: pr-created / discarded / crash / timeout)
-- Ramas creadas
-- PRs creados (con URLs)
-- Métricas agregadas
+Cada sesión autónoma genera `output/agent-runs/{modo}-{fecha}-audit.log`. Campos mínimos:
+- Timestamp inicio/fin
+- Tareas intentadas (pr-created / discarded / crash / timeout)
+- Ramas creadas · PRs creados (URLs) · métricas agregadas
 - Razón de parada (completado / max-tasks / max-failures / timeout global / abort manual)
-
----
 
 ## Auto Mode — Capa complementaria (Claude Code 2026-03-24)
 
@@ -128,28 +109,19 @@ Recomendado en toda sesión que invoque `overnight-sprint`,
 `code-improvement-loop` o `tech-research-agent`. Desktop/VS Code: Settings
 → Claude Code → Auto Mode. Ref: anthropic.com/engineering/claude-code-auto-mode
 
----
-
 ## Escalamiento de modelo
 
 Si un agente falla consecutivamente en una tarea:
+- Intento 1: CLAUDE_MODEL_FAST (haiku)
+- Intento 2: CLAUDE_MODEL_MID (sonnet)
+- Intento 3: CLAUDE_MODEL_AGENT (opus)
+- Intento 4+: ABORT — registrar como "requiere intervención humana"
 
-```
-Intento 1: CLAUDE_MODEL_FAST (haiku)
-Intento 2: CLAUDE_MODEL_MID (sonnet)
-Intento 3: CLAUDE_MODEL_AGENT (opus)
-Intento 4+: ABORT — registrar como "requiere intervención humana"
-```
-
-Solo aplica si la tarea se reintenta. Si el fallo es de tipo OOM, timeout o error de infra, NO se escala modelo — se descarta y pasa a la siguiente tarea.
-
----
+OOM, timeout o error de infra: NO escalar — descartar y continuar.
 
 ## Emergency-mode (LocalAI fallback) — SPEC-122
 
 `/emergency-mode` cambia SOLO el endpoint (`ANTHROPIC_BASE_URL` → LocalAI), **no bypassa** los gates de esta regla. AUTONOMOUS_REVIEWER, rama `agent/*`, PR Draft siguen siendo obligatorios. Si el revisor humano no está disponible, el agente **espera**. Ver `.opencode/skills/emergency-mode/SKILL.md` y `docs/rules/domain/emergency-mode-protocol.md`.
-
----
 
 ## Subagent Scope Guard — SE-146
 
