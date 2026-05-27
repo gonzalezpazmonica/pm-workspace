@@ -1,6 +1,6 @@
 ---
 name: adversarial-security
-description: Pipeline de seguridad adversarial — Red Team, Blue Team, Auditor con scoring
+description: "Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team."
 summary: |
   Pipeline Red Team + Blue Team + Auditor independiente.
   Scoring CVSS, mapeo STRIDE, gap analysis.

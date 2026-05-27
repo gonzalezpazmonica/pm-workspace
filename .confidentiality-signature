@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=60961c27a6552f4b94b531e4745d06230797722be3b2b25b4dd5d1294a780736
-timestamp=2026-05-27T06:53:52Z
-branch=feature/SE-146-subagent-stop
-head_commit=d20d844d
-signature=bd32fcd406c99fa6fc8c934879b2ff0ea2240fd2222bddf7b67a69085615f790
+diff_hash=c4efccb09c5eb38e2463b65e27133f3b1baf1d5b1ee7c13356943bc6dad8ff74
+timestamp=2026-05-27T14:08:34Z
+branch=feature/SE-147-skill-behavior-tests
+head_commit=2dcaa572
+signature=fea53b0f2cff8a85b8dcec0419bce00bb82f2134c045c342f76609348be06116
