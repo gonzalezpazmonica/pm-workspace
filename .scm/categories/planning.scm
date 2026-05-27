@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 517 resources
+> 518 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -307,6 +307,7 @@
 - **postmortem-create** (cmd): Create incident postmortem with structured analysis
 - **postmortem-heuristics** (cmd): Extract debugging heuristics from postmortems
 - **pre-commit-sovereignty** (script): NOTE: -e omitted intentionally — grep returns 1 on no-match which would
+- **pre-output-validator** (script): pre-output-validator.sh — TTSR-inspired pre-output rule validator (SE-150)
 - **privacy-check-company** (script): privacy-check-company.sh — Privacy filter for company repo content
 - **probe-devops** (script): probe-devops.sh — diagnóstico de acceso a Azure DevOps usando la
 - **product-catalog** (cmd): Gestiona el catálogo de productos: añadir, actualizar, listar, buscar y exportar

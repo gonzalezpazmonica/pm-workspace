@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 57e1638c38c0 | resources: 1173
-> 553 commands · 98 skills · 70 agents · 452 scripts
+> hash: ccba849a9996 | resources: 1175
+> 553 commands · 98 skills · 70 agents · 454 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -16,6 +16,8 @@
 [analysis] agent-memory — fragments,inspect,manage,memory,persistent — cmd:.claude/commands/agent-memory.md
 [analysis] agent-notes-archive —  — cmd:.claude/commands/agent-notes-archive.md
 [analysis] agent-run — agent,batch,claude,launch,pending — cmd:.claude/commands/agent-run.md
+[analysis] agent-run-logger — agent,agentrunsummary,logger,telemetry — script:scripts/agent-run-logger.sh
+[analysis] agent-run-report — agent,agentrunsummary,generator,report — script:scripts/agent-run-report.sh
 [analysis] agent-size-audit — agent,audit,every,measure,probe — script:scripts/agent-size-audit.sh
 [analysis] agent-size-remediation-plan — agent,analyzer,plan,remediation,size — script:scripts/agent-size-remediation-plan.sh
 [analysis] agent-trace — agentes,dashboard,duración,ejecución,resultado — cmd:.claude/commands/agent-trace.md

@@ -1,6 +1,6 @@
 {
-  "hash": "d953bdefafb1",
-  "total": 1173,
+  "hash": "e4bb328dd629",
+  "total": 1175,
   "resources": [
     {
       "category": "analysis",
@@ -189,6 +189,32 @@
       "kind": "cmd",
       "path": ".claude/commands/agent-run.md",
       "description": "Launch a Claude agent on a Spec or batch of pending specs"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-run-logger",
+      "intents": [
+        "agent",
+        "agentrunsummary",
+        "logger",
+        "telemetry"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-run-logger.sh",
+      "description": "agent-run-logger.sh — SE-148: AgentRunSummary telemetry logger"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-run-report",
+      "intents": [
+        "agent",
+        "agentrunsummary",
+        "generator",
+        "report"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-run-report.sh",
+      "description": "agent-run-report.sh — SE-148: AgentRunSummary report generator"
     },
     {
       "category": "analysis",
