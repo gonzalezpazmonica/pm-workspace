@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 58 resources
+> 57 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
@@ -7,10 +7,10 @@
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
 - **agent-activity** (script): agent-activity.sh — Agent activity dashboard
 - **agent-budget-lookup** (script): agent-budget-lookup.sh — Extract token_budget from agent frontmatter
-- **agent-code-map** (skill): Genera y gestiona Agent Code Maps (.acm) — mapas estructurales persistentes entre sesiones para que los agentes conozcan la arquitectura real del proyecto desde el primer token.
+- **agent-code-map** (skill): Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos.
 - **agent-cost** (cmd): Coste estimado de uso de agentes por sprint/proyecto
 - **agent-efficiency** (cmd): Ratio de eficiencia de agentes — specs completadas, re-work y tiempos
-- **agent-file-map** (skill): Genera y gestiona Agent File Maps (.afm) — índice persistente de ficheros externos al workspace (Excel, PDF, imágenes, videos) que los agentes necesitan localizar sin búsqueda repetida.
+- **agent-file-map** (skill): Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar.
 - **agent-journal** (script): agent-journal.sh — Append-only JSONL journal para agent-runs autónomos.
 - **agent-memory** (cmd): Inspect and manage persistent memory fragments for subagents.
 - **agent-notes-archive** (cmd): >
@@ -27,12 +27,10 @@
 - **debt-budget** (cmd): >
 - **debt-prioritize** (cmd): >
 - **debt-track** (cmd): >
-- **emergency-mode** (skill): Switchover de Savia a LocalAI cuando la API de Anthropic está caída. Activa endpoint local compatible, reporta features disponibles y permite volver a cloud cuando se recupera.
-- **enterprise-analytics** (skill): Enterprise analytics — SPACE metrics, portfolio aggregation, team health, risk matrix, forecasting
 - **enterprise-dashboard** (cmd): Enterprise analytics — portfolio metrics, team health, risk matrix, forecasting
 - **eval-report** (cmd): Generate evaluation report with scoring and analysis
 - **excel-report** (cmd): Generar plantillas Excel interactivas con Claude-in-Excel para reporting
-- **executive-reporting** (skill): Generación de informes ejecutivos multi-proyecto para dirección
+- **executive-reporting** (skill): Usar cuando se genera un informe ejecutivo multi-proyecto para dirección.
 - **impact-metric** (cmd): >
 - **kpi-dashboard** (cmd): Muestra el dashboard completo con todos los KPIs definidos en docs/kpis-equipo.md.
 - **kpi-dora** (cmd): >
@@ -49,13 +47,14 @@
 - **risk-log** (cmd): >
 - **risk-policy** (cmd): Display and manage risk scoring thresholds and policies
 - **risk-predict** (cmd): Predicción de riesgo del sprint basada en datos históricos y señales tempranas
-- **risk-scoring** (skill): Calculate risk score for tasks and route to appropriate review level
-- **rules-traceability** (skill): Map business rules (RN-XXX-NN) to PBIs with traceability matrix
+- **risk-scoring** (skill): Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido.
+- **rules-traceability** (skill): Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa.
 - **sheets-report** (cmd): Generate report and sync to Google Sheets
 - **solvency-report** (cmd): >
 - **source-traceability-judge** (agent): Truth Tribunal judge — every claim must have a verifiable @ref citation
 - **stakeholder-report** (cmd): Informe para stakeholders — progreso por epics, roadmap visual, riesgos
 - **stakeholder-view** (cmd): Generate stakeholder-focused reporting view
-- **time-tracking-report** (skill): Generación de informes de imputación de horas a Excel/Word
+- **time-tracking-report** (skill): Usar cuando se generan informes de imputación de horas en Excel o Word.
 - **trace-pattern-extractor** (script): trace-pattern-extractor.sh — SPEC-044 Phase 1: analyze agent traces
 - **truth-tribunal** (script): truth-tribunal.sh — Orchestrate 7-judge reliability evaluation of reports.
+- **weekly-report** (skill): Usar cuando se genera el informe semanal de estado del proyecto.
