@@ -1,6 +1,6 @@
 ---
 name: consensus-validation
-description: Orquestación de 4-judge panel (reflection, code-review, business, performance)
+description: "Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces."
 summary: |
   Panel de 4 jueces: reflection, code-review, business, performance.
   Cada juez evalua independientemente. Score ponderado 0-1.0.
@@ -130,8 +130,6 @@ Escribir a: `output/consensus/YYYYMMDD-HHmmss-{type}-{ref}.json`
 - dissents + REJECTED → REJECTED
 
 **Output:** listar dissents con razonamiento
-
----
 
 ## Error Handling & Timeline
 

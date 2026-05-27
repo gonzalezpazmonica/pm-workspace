@@ -1,6 +1,6 @@
 ---
 name: verification-lattice
-description: Multi-layer verification pipeline beyond Code Review
+description: "Usar cuando se necesita verificación multi-capa más allá del code review estándar."
 summary: |
   Pipeline de verificacion multi-capa (5 niveles) mas alla de code review.
   L1 determinista + L2 semantico + L3 seguridad + L4 agentico + L5 humano.
