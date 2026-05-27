@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8cf1e4c422ff14c89512322130be468d13aca13ab912357f6e1d99f69802d5eb
-timestamp=2026-05-27T16:59:57Z
+diff_hash=0ba499cf99c116b1f1fae41b78c3ea7cadfc39c38e29eb9b1339d5caa2d26cd8
+timestamp=2026-05-27T19:38:55Z
 branch=spike/SE-150-ttsr-pre-output
-head_commit=86955d5d
-signature=03927e289bec8e2a7e2535eca4c31cc771b2edb0b7b31a91c5c6172501e16cfa
+head_commit=a002f7f0
+signature=95e544445ad08810d87c9071234e7ea9185a718077582ac11271007b673acd35
