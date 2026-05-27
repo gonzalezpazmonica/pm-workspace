@@ -1,6 +1,6 @@
 ---
 name: skill-evaluation
-description: Motor de evaluación inteligente de skills basado en análisis de prompt y contexto
+description: "Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada."
 summary: |
   Motor de evaluacion inteligente de skills basado en prompt y contexto.
   Analiza el prompt del usuario y el proyecto activo.

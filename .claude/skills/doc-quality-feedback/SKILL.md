@@ -1,6 +1,6 @@
 ---
 name: doc-quality-feedback
-description: >
+description: "Usar cuando se recopila feedback de calidad de documentación tras usar skills y reglas."
 summary: |
   Sistema de feedback de calidad de documentacion. Los agentes puntuan
   skills y reglas tras usarlas. Agregacion mensual detecta docs

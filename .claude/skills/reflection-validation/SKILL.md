@@ -1,6 +1,6 @@
 ---
 name: reflection-validation
-description: "Meta-cognitive validation protocol (System 2). Detects proxy optimization, undeclared assumptions, and broken causal chains."
+description: "Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2)."
 summary: |
   Validacion meta-cognitiva (System 2): detecta proxy optimization,
   supuestos no declarados y cadenas causales rotas.

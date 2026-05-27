@@ -1,6 +1,6 @@
 ---
 name: savia-dual
-description: Inference sovereignty — transparent failover from Anthropic to local gemma4 when the cloud is slow, failing, rate-limited, or unreachable
+description: "Usar cuando la inferencia cloud falla, es lenta o está rate-limited y se necesita failover local."
 category: governance
 priority: high
 summary: |

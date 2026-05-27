@@ -1,6 +1,6 @@
 ---
 name: scaling-operations
-description: "Scaling operations — analyze tier, benchmark, recommend optimizations, knowledge search"
+description: "Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad."
 summary: |
   Analiza tier de escalado, benchmarks y recomienda optimizaciones.
   Para organizaciones en crecimiento. Knowledge search integrado.

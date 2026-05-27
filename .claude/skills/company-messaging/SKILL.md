@@ -1,6 +1,6 @@
 ---
 name: company-messaging
-description: >
+description: "Usar cuando se envían mensajes internos cifrados entre miembros de la organización vía Company Savia."
 summary: |
   Mensajeria interna Company Savia con cifrado E2E basado en ramas git.
   Soporta mensajes directos, broadcasts y threading.

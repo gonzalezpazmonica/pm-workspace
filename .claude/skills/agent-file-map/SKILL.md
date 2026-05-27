@@ -1,6 +1,6 @@
 ---
 name: agent-file-map
-description: Genera y gestiona Agent File Maps (.afm) — índice persistente de ficheros externos al workspace (Excel, PDF, imágenes, videos) que los agentes necesitan localizar sin búsqueda repetida.
+description: "Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar."
 summary: |
   Genera INDEX.afm por proyecto con rutas reales a ficheros externos (drives
   corporativos, OneDrive/SharePoint, NAS). Evita que los agentes pierdan tiempo
@@ -49,7 +49,7 @@ YAML frontmatter + secciones markdown por categoría:
 ```yaml
 ---
 name: {proyecto}-files.afm
-description: Mapa de ficheros externos del proyecto {proyecto}
+description: "Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar."
 version: 1.0
 last_sync: YYYY-MM-DD
 confidentiality: {N1|N2|N3|N4|N4b}

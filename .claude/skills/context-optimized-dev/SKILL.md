@@ -1,6 +1,6 @@
 ---
 name: context-optimized-dev
-description: Context-Optimized Development — Skill
+description: "Usar cuando se desarrolla con presupuesto de contexto limitado."
 summary: |
   Desarrollo optimizado para contexto limitado: dev-session protocol
   con slices, subagentes aislados y persistencia en disco.

@@ -1,6 +1,6 @@
 ---
 name: workspace-integrity
-description: Catalogo de integrity auditors — drift CLAUDE.md, rule manifest, orphan rules, agents catalog sync, baseline, agent size
+description: "Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline)."
 summary: |
   Aggregator skill listando 6 scripts de auditoria de integridad del
   workspace. Detectan drift entre docs y realidad, orphan rules,

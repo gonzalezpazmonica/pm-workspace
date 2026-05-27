@@ -1,6 +1,6 @@
 ---
 name: sovereignty-auditor
-description: "Auditoría de soberanía cognitiva — diagnóstico de lock-in de IA"
+description: "Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA."
 summary: |
   Auditoria de soberania cognitiva: diagnostica lock-in de IA,
   portabilidad de datos y dependencias de proveedor.

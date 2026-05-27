@@ -1,6 +1,6 @@
 ---
 name: performance-audit
-description: Auditoría estática de rendimiento — detección de hotspots, async anti-patterns, test-first optimization
+description: "Usar cuando se audita el rendimiento estático de código para detectar hotspots."
 summary: |
   Auditoria estatica de rendimiento: detecta N+1 queries, async
   anti-patterns, memory allocation en loops, complejidad O(n2).

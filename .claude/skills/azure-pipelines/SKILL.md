@@ -1,6 +1,6 @@
 ---
 name: azure-pipelines
-description: Skill para gestión de CI/CD con Azure Pipelines via MCP
+description: "Usar cuando se gestiona o depura CI/CD con Azure Pipelines."
 summary: |
   Gestion de CI/CD con Azure Pipelines: estado, ejecucion,
   creacion de pipelines, logs y artefactos.
