@@ -14,6 +14,13 @@ tags: ["security", "adversarial", "red-team", "blue-team"]
 priority: "high"
 ---
 
+## Subagent Scope Guard
+
+> If you were dispatched as a subagent to execute a specific delegated task,
+> **skip this skill's full orchestration workflow**. Execute only the assigned
+> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> This guard prevents runaway skill activation in nested agent contexts.
+
 # Adversarial Security Skill
 
 ## §1 Vulnerability Scoring
