@@ -13,7 +13,7 @@
 - **meeting-digest** (agent): >
 - **meeting-risk-analyst** (agent): >
 - **meeting-summarize** (cmd): Transcribe y extrae action items de reuniones — Sprint Review, Retro, Planning, Daily
-- **meeting-transcript-extract** (skill): Extrae transcripciones de reuniones Teams web vía CDP del browser-daemon. Funciona para reuniones propias Y reuniones donde el usuario fue asistente (convocadas por otros). Pipeline: click chat → botón Transcripción → iframe xplatplugins.as
+- **meeting-transcript-extract** (skill): Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser.
 - **nctalk-search** (cmd): >
 - **notify** (script): notify.sh — Cross-platform desktop notifications for Savia
 - **notify-nctalk** (cmd): >
@@ -32,13 +32,13 @@
 - **savia-crypto-ops** (script): savia-crypto-ops.sh — Encrypt and decrypt operations
 - **savia-directory** (cmd): >
 - **savia-dual** (cmd): Gestiona Savia Dual — inference sovereignty con failover entre Anthropic y gemma4 local
-- **savia-dual** (skill): Inference sovereignty — transparent failover from Anthropic to local gemma4 when the cloud is slow, failing, rate-limited, or unreachable
+- **savia-dual** (skill): Usar cuando la inferencia cloud falla, es lenta o está rate-limited y se necesita failover local.
 - **savia-enterprise** (script): savia-enterprise.sh — Enterprise module lifecycle manager
 - **savia-env** (script): savia-env.sh — Provider-agnostic environment layer (SPEC-127 Slice 1)
 - **savia-flow** (script): savia-flow.sh — Git-based project management: PBIs, sprints, boards via branch isolation
 - **savia-flow-board** (script): savia-flow-board.sh — ASCII Kanban board renderer via branch isolation
 - **savia-flow-ops** (script): savia-flow-ops.sh — CRUD operations for PBIs and assignments via branch isolation
-- **savia-flow-practice** (skill): Implementación práctica de Savia Flow — dual-track, specs ejecutables, métricas de flujo
+- **savia-flow-practice** (skill): Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto.
 - **savia-flow-sprint** (script): savia-flow-sprint.sh — Sprint lifecycle via branch isolation
 - **savia-flow-tasks** (script): savia-flow-tasks.sh — Task management (delegates to savia-flow-ops.sh)
 - **savia-flow-templates** (script): savia-flow-templates.sh — Project/team/member scaffolding via branch isolation
@@ -49,13 +49,13 @@
 - **savia-goal** (script): savia-goal.sh — Goal lifecycle management for Savia
 - **savia-hub** (cmd): Central hub for accessing Savia knowledge and tools
 - **savia-hub-init** (script): savia-hub-init.sh — Initialize SaviaHub local repository
-- **savia-hub-sync** (skill): Orquestación de sincronización del repositorio SaviaHub
-- **savia-identity** (skill): Carga completa de la identidad y personalidad de Savia. Perfil, tono, reglas, y memoria al inicio de cada sesión.
+- **savia-hub-sync** (skill): Usar cuando se sincroniza el repositorio SaviaHub con el workspace local.
+- **savia-identity** (skill): Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia.
 - **savia-inbox** (cmd): >
 - **savia-index** (script): ── savia-index.sh ──────────────────────────────────────────────────────────
 - **savia-index-rebuild** (script): ── savia-index-rebuild.sh ──────────────────────────────────────────────────
 - **savia-live** (cmd): Show what Savia is working on right now — live task queue and recent activity
-- **savia-memory** (skill): Gestión de memoria canónica externa de Savia (.savia-memory). Lectura, escritura, búsqueda y consolidación de memoria entre sesiones.
+- **savia-memory** (skill): Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia.
 - **savia-memory-bootstrap** (script): savia-memory-bootstrap.sh — crea store externo canónico ../.savia-memory/
 - **savia-memory-mcp-stdio** (script): SPEC-141 · savia-memory MCP stdio wrapper
 - **savia-memory-migrate** (script): savia-memory-migrate.sh — migra memoria de silos internos/externos al store canónico
@@ -70,7 +70,7 @@
 - **savia-quota-tracker** (script): savia-quota-tracker.sh — SPEC-127 Slice 5
 - **savia-recall** (cmd): Recall and retrieve information from Savia memory
 - **savia-reply** (cmd): >
-- **savia-school** (skill): Adapta pm-workspace para entornos educativos con estudiantes menores de edad. Matriculacion por alias, evaluacion con rubricas, portfolio versionado y cumplimiento RGPD/LOPD estricto.
+- **savia-school** (skill): Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad.
 - **savia-school** (script): Savia School: Core educational vertical management library
 - **savia-school-security** (script): Savia School Security Layer: Encryption, Access Control, GDPR
 - **savia-send** (cmd): >
@@ -92,6 +92,6 @@
 - **savia-watch** (script): savia-watch.sh — Live activity feed from Savia
 - **savia-watchdog** (script): savia-watchdog.sh — Emergency fallback: detect internet loss, activate local LLM
 - **slack-search** (cmd): >
-- **voice-inbox** (skill): Transcripción de audio y flujo audio→texto→acción para mensajes de voz
+- **voice-inbox** (skill): Usar cuando se procesan mensajes de voz para transcribirlos y convertirlos en acciones.
 - **word-digest** (agent): >
 - **zeroclaw-meeting** (cmd): Live meeting transcription via ZeroClaw — speaker diarization, voice identification, and digest.

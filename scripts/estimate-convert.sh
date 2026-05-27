@@ -16,6 +16,7 @@
 #   1  usage error
 #   2  empirical requested but insufficient data → fell back to conservative
 set -uo pipefail
+export LC_ALL=C  # force decimal point (not comma) for numeric output
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"

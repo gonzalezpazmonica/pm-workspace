@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=1b31e970dedbc09e3d87486ad2902fe8b77efe7b21124bde93600968cfc5ab45
-timestamp=2026-05-27T15:25:56Z
-branch=feature/SE-145-description-trap-fix
-head_commit=d454aacb
-signature=ceeb0dc2b76c13437fb7aff6acdf36be7b69d72ed4b6bf2d94887d933c6ef857
+diff_hash=e8d2b3cdaf3a9188db8c765e1746807230ef011621bbd34a69c459278460bd3b
+timestamp=2026-05-27T17:11:31Z
+branch=spike/SE-148-agent-run-summary
+head_commit=f5ef4307
+signature=b2c6e9304aac3751313f81d7eabaf4d7256a3febb96d217fe33486adeed9274f
