@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 57 resources
+> 59 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
@@ -15,6 +15,8 @@
 - **agent-memory** (cmd): Inspect and manage persistent memory fragments for subagents.
 - **agent-notes-archive** (cmd): >
 - **agent-run** (cmd): Launch a Claude agent on a Spec or batch of pending specs
+- **agent-run-logger** (script): agent-run-logger.sh — SE-148: AgentRunSummary telemetry logger
+- **agent-run-report** (script): agent-run-report.sh — SE-148: AgentRunSummary report generator
 - **agent-size-audit** (script): agent-size-audit.sh — SE-038 Slice 1 probe: measure size of every agent.
 - **agent-size-remediation-plan** (script): agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer.
 - **agent-trace** (cmd): Dashboard de trazas de ejecución de agentes con tokens, duración y resultado

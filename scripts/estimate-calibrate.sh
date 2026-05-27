@@ -18,6 +18,7 @@
 #   2  jq not installed
 
 set -uo pipefail
+export LC_ALL=C  # force decimal point (not comma) for jq numeric output
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -82,6 +83,10 @@ while IFS= read -r line || [[ -n "$line" ]]; do
   if ! echo "$line" | jq -e 'type == "object"' >/dev/null 2>&1; then
     echo "WARNING: skipping malformed line $LINE_NUM" >&2
     SKIPPED=$((SKIPPED + 1))
+    continue
+  fi
+  # Silently skip v2 schema records (AgentRunSummary format — different purpose)
+  if echo "$line" | jq -e '.schema_version != null' >/dev/null 2>&1; then
     continue
   fi
   # Require the essential numeric fields to be present and > 0
