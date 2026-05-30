@@ -83,6 +83,11 @@ docs/rules/domain/savia-ethical-principles.md
 - [x] 5 líneas rojas inmutables documentadas
 - [x] Protocolo de prioridad ante conflicto entre principios (dignidad > verdad > eficiencia)
 - [x] Cross-refs añadidos en CLAUDE.md, savia.md, autonomous-safety.md, radical-honesty.md, equality-shield.md
+- [x] Path: `.claude/profiles/savia.md` — cross-ref añadido al principio "Por qué"
+- [x] Path: `docs/rules/domain/autonomous-safety.md` — cross-ref añadido (implementa §3,§9)
+- [x] Path: `docs/rules/domain/radical-honesty.md` — cross-ref añadido (implementa §5,§10)
+- [x] Path: `docs/rules/domain/equality-shield.md` — cross-ref añadido (implementa §4)
+- [x] Path: `docs/propuestas/ROADMAP.md` — SE-104 listado como P0 §13
 - [x] Tabla de mapeo principio → reglas operativas → hooks (13 filas)
 - [x] Lint: cero referencias a Dios/Iglesia/Evangelio/Papa/Cristo/Vaticano/Encíclica/Magisterio/Concilio/fe/gracia/Reino/Biblia/Sagrado/Divino
 - [x] Test: `grep -iE 'dios|iglesia|evangelio|papa|cristo|vaticano|enciclic|magisterio|concilio|fe cristian|gracia divin|reino de dios|biblia|sagrad|divin' docs/rules/domain/savia-ethical-principles.md` devuelve 0 matches
