@@ -22,6 +22,7 @@ import {
   extractFilePath,
   extractContent,
   type ToolInput,
+  type ToolOutput,
 } from "../lib/hook-input.ts";
 import {
   detectSovereigntyLeak,
@@ -75,13 +76,12 @@ async function readExistingFile(filePath: string): Promise<string> {
 // ── Main guard ────────────────────────────────────────────────────────────
 
 export async function dataSovereigntyGate(
-  input: ToolInput,
-  _output: unknown,
+  input: ToolInput, output: ToolOutput,
 ): Promise<void> {
   const tool = extractToolName(input);
   if (tool !== "edit" && tool !== "write") return;
 
-  const rawPath = extractFilePath(input);
+  const rawPath = extractFilePath(input, output);
   if (!rawPath) return;
 
   const normPath = normalizePath(rawPath);
@@ -92,7 +92,7 @@ export async function dataSovereigntyGate(
   if (isPrivateDestination(normPath)) return;
   if (isHookSelfRef(normPath)) return; // hooks + tests/hooks self-references
 
-  const content = extractContent(input);
+  const content = extractContent(input, output);
   if (!content) return;
 
   // ── Shield script self-references ──

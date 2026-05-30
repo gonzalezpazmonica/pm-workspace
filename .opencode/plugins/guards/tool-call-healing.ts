@@ -9,12 +9,7 @@
 
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { dirname, basename } from "node:path";
-import { extractToolName, extractFilePath, type ToolInput } from "../lib/hook-input.ts";
-
-function extractPattern(input: ToolInput): string {
-  const p = input?.args?.pattern;
-  return typeof p === "string" ? p : "";
-}
+import { extractToolName, extractFilePath, extractPattern, type ToolInput, type ToolOutput } from "../lib/hook-input.ts";
 
 function findSimilar(filePath: string): string {
   const dir = dirname(filePath);
@@ -38,13 +33,13 @@ function findSimilar(filePath: string): string {
   }
 }
 
-export async function toolCallHealing(input: ToolInput, _output: unknown): Promise<void> {
+export async function toolCallHealing(input: ToolInput, output: ToolOutput): Promise<void> {
   const tool = extractToolName(input);
 
   switch (tool) {
     case "read":
     case "edit": {
-      const filePath = extractFilePath(input);
+      const filePath = extractFilePath(input, output);
       if (!filePath) {
         throw new Error(`BLOCKED [tool-healing]: ${tool} called with empty file_path`);
       }
@@ -58,7 +53,7 @@ export async function toolCallHealing(input: ToolInput, _output: unknown): Promi
       return;
     }
     case "write": {
-      const filePath = extractFilePath(input);
+      const filePath = extractFilePath(input, output);
       if (!filePath) {
         throw new Error("BLOCKED [tool-healing]: write called with empty file_path");
       }
@@ -72,7 +67,7 @@ export async function toolCallHealing(input: ToolInput, _output: unknown): Promi
     }
     case "glob":
     case "grep": {
-      const pattern = extractPattern(input);
+      const pattern = extractPattern(input, output);
       if (!pattern) {
         throw new Error(`BLOCKED [tool-healing]: ${tool} called with empty pattern`);
       }

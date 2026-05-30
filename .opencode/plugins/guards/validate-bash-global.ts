@@ -13,7 +13,7 @@
 //
 // Reference: SPEC-127 Slice 2b-ii AC-2.2
 
-import { extractToolName, extractCommand, type ToolInput } from "../lib/hook-input.ts";
+import { extractToolName, extractCommand, type ToolInput, type ToolOutput } from "../lib/hook-input.ts";
 
 const RULES: Array<{ rx: RegExp; msg: string }> = [
   {
@@ -42,9 +42,9 @@ const RULES: Array<{ rx: RegExp; msg: string }> = [
   },
 ];
 
-export async function validateBashGlobal(input: ToolInput, _output: unknown): Promise<void> {
+export async function validateBashGlobal(input: ToolInput, output: ToolOutput): Promise<void> {
   if (extractToolName(input) !== "bash") return;
-  const command = extractCommand(input);
+  const command = extractCommand(input, output);
   if (!command) return;
   for (const r of RULES) {
     if (r.rx.test(command)) {

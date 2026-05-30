@@ -58,3 +58,42 @@ test("dispatcher: foundation does not throw on partial context", async () => {
   expect(hooks).toBeDefined();
   expect(typeof hooks["tool.execute.before"]).toBe("function");
 });
+
+// ── SPEC-155 golden tests: real OpenCode v1.14+ shape ────────────────────────
+// Per https://opencode.ai/docs/plugins/: input.tool (string), output.args (mutable).
+// These tests assert guards correctly read from output.args, not input.args.
+
+test("SPEC-155: v1.14 shape — clean bash passes when args live on output.args", async () => {
+  const hooks: any = await SaviaFoundationPlugin(ctx as any);
+  const input = { tool: "bash" };
+  const output = { args: { command: "ls -la /tmp" } };
+  await expect(hooks["tool.execute.before"](input, output)).resolves.toBeUndefined();
+});
+
+test("SPEC-155: v1.14 shape — rm -rf / blocked when args on output.args", async () => {
+  const hooks: any = await SaviaFoundationPlugin(ctx as any);
+  const input = { tool: "bash" };
+  const output = { args: { command: "rm -rf /" } };
+  await expect(hooks["tool.execute.before"](input, output)).rejects.toThrow(/rm -rf/);
+});
+
+test("SPEC-155: v1.14 shape — AWS key blocked when args on output.args", async () => {
+  const hooks: any = await SaviaFoundationPlugin(ctx as any);
+  const input = { tool: "bash" };
+  const output = { args: { command: "X=AKIAIOSFODNN7EXAMPLE" } };
+  await expect(hooks["tool.execute.before"](input, output)).rejects.toThrow(/AWS/);
+});
+
+test("SPEC-155: v1.14 shape — empty output.args does NOT spurious-block read tool", async () => {
+  // Pre-SPEC-155 bug: tool-call-healing rejected this with "empty file_path"
+  // because it read input.args (undefined) instead of output.args.
+  const hooks: any = await SaviaFoundationPlugin(ctx as any);
+  const input = { tool: "read" };
+  const output = { args: { filePath: "/tmp/some-real-path.txt" } };
+  // Either passes or rejects for a non-args reason — but NOT "empty file_path".
+  try {
+    await hooks["tool.execute.before"](input, output);
+  } catch (e: any) {
+    expect(String(e?.message ?? e)).not.toMatch(/empty file_path/i);
+  }
+});

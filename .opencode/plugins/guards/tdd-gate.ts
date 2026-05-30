@@ -9,7 +9,7 @@
 // filesystem to look for matching test files; that runtime probe is
 // integration-tested via the bash hook fixture under Claude Code.
 
-import { extractToolName, extractFilePath, type ToolInput } from "../lib/hook-input.ts";
+import { extractToolName, extractFilePath, type ToolInput, type ToolOutput } from "../lib/hook-input.ts";
 
 const PRODUCTION_EXT = new Set([
   "cs", "py", "ts", "tsx", "js", "jsx", "go", "rs", "rb", "php",
@@ -67,10 +67,10 @@ export function tddGateForPath(filePath: string): TddVerdict {
  * Test-name lookup mirrors the bash hook: `${name}Test.*`,
  * `${name}.test.*`, `${name}.spec.*`, `${name}_test.*`, `test_${name}.*`.
  */
-export async function tddGate(input: ToolInput, _output: unknown): Promise<void> {
+export async function tddGate(input: ToolInput, output: ToolOutput): Promise<void> {
   const tool = extractToolName(input);
   if (tool !== "edit" && tool !== "write") return;
-  const filePath = extractFilePath(input);
+  const filePath = extractFilePath(input, output);
   if (!filePath) return;
 
   const verdict = tddGateForPath(filePath);
