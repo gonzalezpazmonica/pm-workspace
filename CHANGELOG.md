@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-05-30 · SPEC-155 plugin hook args shape fix [CRITICAL]
+
+### Fixed
+- **SPEC-155**: align plugin hook signature with OpenCode v1.14+ contract.
+  Pre-fix, all 12 guards (validate-bash-global, credential-leak,
+  data-sovereignty-gate, tool-call-healing, etc.) read `input.args`
+  (undefined in real runtime) instead of `output.args`, operating on
+  empty data = security theater. Symptom: spurious
+  `BLOCKED [tool-healing]: read called with empty file_path` on valid
+  tool calls. Helpers now prefer `output.args` with retro-compat fallback
+  to `input.args`. 4 golden tests added with real v1.14 shape.
+
+
 ## [Unreleased] — 2026-05-23 · savia-evolution incorporation
 
 Generic improvements ported from a downstream private fork. Confidential

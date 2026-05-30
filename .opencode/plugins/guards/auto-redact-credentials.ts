@@ -23,7 +23,7 @@
 
 import { appendFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
-import { extractToolName, extractCommand, type ToolInput } from "../lib/hook-input.ts";
+import { extractToolName, extractCommand, mutableArgs, type ToolInput, type ToolOutput } from "../lib/hook-input.ts";
 
 type RedactRule = {
   kind: string;
@@ -56,9 +56,9 @@ function writeAudit(record: Record<string, unknown>): void {
   }
 }
 
-export async function autoRedactSecrets(input: ToolInput, _output: unknown): Promise<void> {
+export async function autoRedactSecrets(input: ToolInput, output: ToolOutput): Promise<void> {
   if (extractToolName(input) !== "bash") return;
-  const original = extractCommand(input);
+  const original = extractCommand(input, output);
   if (!original) return;
 
   let mutated = original;
@@ -90,6 +90,8 @@ export async function autoRedactSecrets(input: ToolInput, _output: unknown): Pro
   if (redactions.length > 0 && mutated !== original) {
     const breadcrumb = ` # [shield] redacted ${redactions.join(",")}`;
     mutated = mutated + breadcrumb;
-    if (input.args) input.args.command = mutated;
+    // SPEC-155: mutate args object the runtime observes (output.args in v1.14+).
+    const args = mutableArgs(input, output);
+    if (args) args.command = mutated;
   }
 }

@@ -732,3 +732,108 @@ Lista de agentes costosos que no son invocables desde MCP en overnight-sprint/co
 
 **3. SE-081 — Pocock quick-wins** (~2h, APPROVED)
 caveman + zoom-out + grill-me ya aprobados. Zero código, solo skills. 5h total para los tres primeros items del stack — alta densidad de valor por hora.
+
+---
+
+## Era 197 — Flowsint cross-pollination (2026-05-30, PROPOSED)
+
+Análisis comparativo flowsint vs Savia context-as-code. Tres SE nuevos aditivos, no rompen nada existente.
+
+### SE-151 — Índice físico project_id + confidentiality_level en grafo memoria (~3h)
+**Problema**: `scripts/memory-graph.py` filtra por `project_id` post-hoc. Con 50+ proyectos la latencia degrada y hay riesgo teórico de leakage cross-project.
+**Solución**: indexar `project_id` y `confidentiality_level` como propiedades físicas en cada nodo (patrón flowsint `sketch_id`). Toda query arranca por scope → O(log n) garantizado, aislamiento físico no lógico.
+**AC**: query cross-project con 10k nodos < 50ms; test de leakage N4→N1 falla cerrado.
+**Prioridad**: ALTA (escala + refuerza Savia Shield).
+
+### SE-152 — Frontmatter `consumes:`/`produces:` en SKILL.md (~6h: 2h diseño + 4h migración 98 skills)
+**Problema**: skills son monolíticos, no se componen. `dag-scheduling` skill existe pero sin metadata para construir el DAG.
+**Solución**: añadir al frontmatter de SKILL.md los tipos consumidos/producidos (patrón enricher de flowsint con decorador `@register`). Habilita composición automática: skill A produce `pbi-spec` → skill B consume `pbi-spec` → DAG emerge sin orquestación manual.
+**AC**: 98 skills migrados con `consumes/produces`; comando `/skill-dag <objetivo>` devuelve cadena válida.
+**Prioridad**: ALTA (composabilidad real, no teórica).
+
+### SE-153 — Template SKILL.md "Authoritative paths first" (~1h template + opt-in)
+**Problema**: SKILL.md mezclan tutorial + referencia. Coste de contexto alto por prosa explicativa antes de paths.
+**Solución**: refactor template → sección obligatoria "Authoritative Paths" al inicio (patrón flowsint: "para tipos lee X, para handlers lee Y, NEVER asumas firmas"). Tutorial va después, opcional.
+**AC**: template actualizado en `.opencode/skills/_template/`; migración opt-in (skills tocados aplican el patrón).
+**Prioridad**: MEDIA (mejora contexto, no rompe nada).
+
+**Total Era 197**: ~10h. Aditivo. Origen: análisis flowsint 2026-05-30 (graph indexing + enricher pattern + SKILL.md authoritative paths).
+
+---
+
+## CRITICAL HOTFIX — SPEC-155 (2026-05-30, PROPOSED)
+
+**SPEC-155 — OpenCode plugin hooks args shape fix** (~4h, CRITICAL)
+Guards de seguridad (validate-bash-global, credential-leak, data-sovereignty-gate, tool-call-healing) leen `input.args` pero OpenCode v1.14+ pasa args en `output.args`. Silent security regression: guards no bloquean nada en producción salvo el ruido visible de tool-healing. Tests pasan porque emulan shape interno, no contrato externo.
+
+Detectado: 2026-05-30 vía fallo reproducible `BLOCKED [tool-healing]: read called with empty file_path`.
+Doc: `docs/propuestas/SPEC-155-plugin-hook-args-shape-fix.md`
+Prioridad: implementar ANTES que cualquier SE de Era 197.
+
+---
+
+## Repriorización post-SPEC-155 — 2026-05-30
+
+> Trigger: detección SPEC-155 (guards silent failure) + cierre PRs #783-#786 + nuevos SE-151/152/153 (Era 197).
+> Criterio: scoring canónico + estado real verificado contra commits y SKILLS.md (no contra memoria stale).
+
+### Tier 0 — HOTFIX inmediato (bloquea todo lo demás)
+
+| # | ID | Título | Estado | Esfuerzo | Por qué primero |
+|---|-----|--------|--------|----------|-----------------|
+| 0 | **SPEC-155** | Plugin hook args shape fix (input.args→output.args) | PROPOSED | ~4h | **CRITICAL**. Guards de seguridad no funcionan en producción desde migración OpenCode v1.14. validate-bash-global, credential-leak, data-sovereignty-gate operan sobre args vacíos. Security theater. **Bloquea cualquier otro trabajo** porque desbloquea sesiones (read/edit/write) y restaura defensa en profundidad. |
+
+### Tier 1 — Free wins (zero deps, alta densidad valor/hora)
+
+| # | ID | Título | Estado | Esfuerzo | Notas |
+|---|-----|--------|--------|----------|-------|
+| 1 | SE-099 | RESOLVER.md dispatch explícito | PROPOSED | ~2h | Sin cambios. Sigue siendo el mejor free-win. |
+| 2 | SE-101 | PROTECTED_JOB_NAMES bucles autónomos | PROPOSED | ~1h | Sin cambios. Seguridad operacional, zero deps. |
+| 3 | SE-153 | Template SKILL.md "Authoritative paths first" | PROPOSED | ~1h | Nuevo (Era 197). Patrón flowsint. Mejora contexto, zero migración obligatoria. |
+
+### Tier 2 — Foundations (multiplicador de capas posteriores)
+
+| # | ID | Título | Estado | Esfuerzo | Notas |
+|---|-----|--------|--------|----------|-------|
+| 4 | SE-151 | Índice físico project_id en grafo memoria | PROPOSED | ~3h | Nuevo (Era 197). Refuerza Savia Shield. Patrón flowsint sketch_id. |
+| 5 | SE-082 | Architectural vocabulary discipline | APPROVED | ~4h | Sin cambios. |
+| 6 | SE-084 | Skill catalog quality audit (Slice 1) | APPROVED | ~3h | Sin cambios. Prerequisito de SE-152. |
+| 7 | SE-152 | Frontmatter consumes/produces en SKILL.md | PROPOSED | ~6h | Nuevo (Era 197). Habilita composición DAG. Post SE-084 para tener baseline calidad. |
+
+### Tier 3 — Memoria y calidad
+
+| # | ID | Título | Estado | Esfuerzo | Notas |
+|---|-----|--------|--------|----------|-------|
+| 8 | SE-105 | Skill Maturity Kanban | PROPOSED | ~3h | Sin cambios. |
+| 9 | SE-098 | Knowledge Graph sobre memoria Savia | PROPOSED | ~8h | Sin cambios. Post SE-151 (índice físico) para integrar bien. |
+| 10 | SE-083 | TDD vertical-slice skill | APPROVED | ~2h | Sin cambios. |
+| 11 | SE-086 | Ubiquitous-language extractor | APPROVED | ~5h | Sin cambios. |
+| 12 | SE-091 | Caveman always-on + tribunal hooks | APPROVED | ~3h | Sin cambios. |
+
+### Tier 4 — SaviaClaw + alta complejidad
+
+| # | ID | Título | Estado | Esfuerzo | Notas |
+|---|-----|--------|--------|----------|-------|
+| 13 | SE-089 | SaviaClaw DeepSeek migration | APPROVED | ~2h | Sin cambios. |
+| 14 | SE-092 | PM backend bridge (ADO/Jira) | APPROVED | ~9h | Sin cambios. |
+| 15 | SE-095 | SaviaClaw self-monitoring | APPROVED | ~5h | Sin cambios. |
+| 16 | SE-096 | SaviaClaw cron infrastructure | APPROVED | ~6h | Sin cambios. |
+| 17 | SE-103 | /workspace-health scoring | PROPOSED | ~8h | Sin cambios. |
+| 18 | SE-108 | Transclusion macros en SKILL.md | PROPOSED | ~3h | Sin cambios. |
+| 19 | SE-104 | Skill Calibration Pipeline | PROPOSED | ~12h | Sin cambios. |
+| 20 | SE-109 | Contradiction detector sobre memoria | PROPOSED | ~8h | Requiere SE-098 + SE-151. |
+
+### Removidos del stack (ya hechos, verificado contra git/SKILLS.md)
+
+| ID | Motivo |
+|---|--------|
+| SE-081 | caveman/zoom-out/grill-me ya en `SKILLS.md` (commit pre-2026-05-30) |
+| SE-093 | Zero leak IMPLEMENTED 2026-05-27 (memoria + verificación commit) |
+| SE-094 | Hooks integrity allowlist merged #785 (2026-05-30) |
+| SE-100 | OpenCode docs migrated 2026-05-30 |
+
+### Decisión operativa
+
+1. **HOY**: implementar SPEC-155 (4h). No-go en cualquier otra cosa hasta que cierre.
+2. **Siguiente sesión**: Tier 1 completo (SE-099 + SE-101 + SE-153 = ~4h).
+3. **Después**: Tier 2 en orden (SE-151 → SE-082 → SE-084 → SE-152 = ~16h).

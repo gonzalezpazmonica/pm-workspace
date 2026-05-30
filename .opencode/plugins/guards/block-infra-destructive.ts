@@ -7,7 +7,7 @@
 // Reference: docs/rules/domain/critical-rules-extended.md (Rule 10)
 // Reference: docs/rules/domain/autonomous-safety.md
 
-import { extractToolName, extractCommand, type ToolInput } from "../lib/hook-input.ts";
+import { extractToolName, extractCommand, type ToolInput, type ToolOutput } from "../lib/hook-input.ts";
 
 const ENV_TOKEN = "(?:^|[\\s/=])(?:pre|production|prod|staging|pro)(?:[\\s/=.]|$)";
 
@@ -35,11 +35,10 @@ const BLOCK_RULES: Array<{ rx: RegExp; msg: string }> = [
 ];
 
 export async function blockInfraDestructive(
-  input: ToolInput,
-  _output: unknown,
+  input: ToolInput, output: ToolOutput,
 ): Promise<void> {
   if (extractToolName(input) !== "bash") return;
-  const command = extractCommand(input);
+  const command = extractCommand(input, output);
   if (!command) return;
 
   for (const r of BLOCK_RULES) {

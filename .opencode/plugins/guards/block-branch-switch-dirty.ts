@@ -8,7 +8,7 @@
 // Reference: docs/rules/domain/critical-rules-extended.md (Rule 13)
 
 import { execSync } from "node:child_process";
-import { extractToolName, extractCommand, type ToolInput } from "../lib/hook-input.ts";
+import { extractToolName, extractCommand, type ToolInput, type ToolOutput } from "../lib/hook-input.ts";
 
 // Match `git checkout <ref>` and `git switch <ref>` but NOT file restores
 // (`git checkout -- file`) which are safe with a dirty tree.
@@ -16,11 +16,10 @@ const BRANCH_CHANGE_RX = /\bgit\s+(checkout|switch)\s+(?!--\s)/i;
 const FILE_RESTORE_RX = /\bgit\s+checkout\s+--\s/i;
 
 export async function blockBranchSwitchDirty(
-  input: ToolInput,
-  _output: unknown,
+  input: ToolInput, output: ToolOutput,
 ): Promise<void> {
   if (extractToolName(input) !== "bash") return;
-  const command = extractCommand(input);
+  const command = extractCommand(input, output);
   if (!command) return;
 
   if (!BRANCH_CHANGE_RX.test(command)) return;

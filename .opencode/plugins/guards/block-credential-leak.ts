@@ -9,12 +9,12 @@
 //
 // Reference: SPEC-127 Slice 2b-ii AC-2.2
 
-import { extractToolName, extractCommand, type ToolInput } from "../lib/hook-input.ts";
+import { extractToolName, extractCommand, type ToolInput, type ToolOutput } from "../lib/hook-input.ts";
 import { detectCredentialLeak } from "../lib/credential-patterns.ts";
 
-export async function blockCredentialLeak(input: ToolInput, _output: unknown): Promise<void> {
+export async function blockCredentialLeak(input: ToolInput, output: ToolOutput): Promise<void> {
   if (extractToolName(input) !== "bash") return;
-  const command = extractCommand(input);
+  const command = extractCommand(input, output);
   if (!command) return;
   const detection = detectCredentialLeak(command);
   if (detection) {

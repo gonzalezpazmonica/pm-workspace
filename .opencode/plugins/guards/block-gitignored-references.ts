@@ -13,6 +13,7 @@ import {
   extractFilePath,
   extractContent,
   type ToolInput,
+  type ToolOutput,
 } from "../lib/hook-input.ts";
 import { detectLeakage } from "../lib/leakage-patterns.ts";
 
@@ -46,16 +47,16 @@ function isSourceSelfRef(p: string): boolean {
   return SOURCE_SELF_REFS.some((rx) => rx.test(p));
 }
 
-export async function blockGitignoredReferences(input: ToolInput, _output: unknown): Promise<void> {
+export async function blockGitignoredReferences(input: ToolInput, output: ToolOutput): Promise<void> {
   const tool = extractToolName(input);
   if (tool !== "edit" && tool !== "write") return;
 
-  const filePath = extractFilePath(input);
+  const filePath = extractFilePath(input, output);
   if (!filePath) return;
   if (isPrivateDestination(filePath)) return;
   if (isSourceSelfRef(filePath)) return;
 
-  const content = extractContent(input);
+  const content = extractContent(input, output);
   if (!content) return;
 
   const violations = detectLeakage(content);
