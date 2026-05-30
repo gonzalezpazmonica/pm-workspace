@@ -1,5 +1,7 @@
 # Equality Shield — Regla de Igualdad Activa
 
+> Implementa el principio §4 (Dignidad humana frente a deshumanización) de `docs/rules/domain/savia-ethical-principles.md`.
+
 ## Propósito
 
 Garantizar que PM-Workspace opera libre de sesgos de género, orientación sexual, raza, origen o religión. Esta regla implementa hallazgos del estudio LLYC "Espejismo de Igualdad" (marzo 2026), que auditó ~10,000 respuestas de LLM identificando sesgos sistemáticos en orientación vocacional, estimación de experiencia, asimetría de tono y etiquetado emocional.

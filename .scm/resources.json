@@ -1,6 +1,6 @@
 {
-  "hash": "9e012cd6d3a9",
-  "total": 1177,
+  "hash": "4cadc8d5debe",
+  "total": 1180,
   "resources": [
     {
       "category": "analysis",
@@ -7074,6 +7074,20 @@
     },
     {
       "category": "planning",
+      "name": "count-commands",
+      "intents": [
+        "canonical",
+        "commands",
+        "count",
+        "counter",
+        "slash"
+      ],
+      "kind": "script",
+      "path": "scripts/count-commands.sh",
+      "description": "count-commands.sh — SE-095: canonical counter for slash commands."
+    },
+    {
+      "category": "planning",
       "name": "court-calendar",
       "intents": [],
       "kind": "cmd",
@@ -8375,6 +8389,20 @@
       "kind": "script",
       "path": "scripts/hook-profile.sh",
       "description": "hook-profile.sh — Get/set the active SAVIA_HOOK_PROFILE"
+    },
+    {
+      "category": "planning",
+      "name": "hooks-integrity-check",
+      "intents": [
+        "check",
+        "detect",
+        "hooks",
+        "integrity",
+        "orphan"
+      ],
+      "kind": "script",
+      "path": "scripts/hooks-integrity-check.sh",
+      "description": "hooks-integrity-check.sh — SE-094: detect orphan and phantom hooks."
     },
     {
       "category": "planning",
@@ -9684,6 +9712,20 @@
       "kind": "cmd",
       "path": ".claude/commands/project-roadmap.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "project-switch",
+      "intents": [
+        "activo",
+        "aislamiento",
+        "cambia",
+        "contexto",
+        "proyecto"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/project-switch.md",
+      "description": "Cambia el proyecto activo de Savia para aislamiento de contexto (SE-093)."
     },
     {
       "category": "planning",

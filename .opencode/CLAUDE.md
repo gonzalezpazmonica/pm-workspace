@@ -1,121 +1,93 @@
-# PM-Workspace — Claude Code Global
-# ── Léelo completo antes de cualquier acción ─────────────────────────────────
+# PM-Workspace — OpenCode entrypoint
+# ── Este fichero solo redirige al canónico ─────────────────────────────────
 
-> Config: @docs/rules/domain/pm-config.md · @docs/rules/domain/pm-workflow.md
-> Privado: @.claude/rules/pm-config.local.md (git-ignorado) · Prácticas: @docs/best-practices-claude-code.md · Memoria canónica: ~/.savia-memory/auto/MEMORY.md · Sistema: @docs/savia-memory-architecture.md
+> **Fuente única de verdad**: `../CLAUDE.md` (raíz del workspace).
+> OpenCode carga este fichero, lee la delegación y aplica el CLAUDE.md raíz.
 
 ---
 
-## Configuración
+## Modelo arquitectónico (importante)
+
+`.opencode/` **no es** una copia paralela de `.claude/`. Es un **frontend** que
+comparte la mayoría de recursos vía symlinks:
 
 ```
-AZURE_DEVOPS_ORG_URL    = "https://dev.azure.com/MI-ORGANIZACIóN"
-AZURE_DEVOPS_PAT_FILE   = "$HOME/.azure/devops-pat"
-AZURE_DEVOPS_API_VERSION = "7.1"
-AZURE_DEVOPS_PM_USER    = "nombre.apellido@miorganizacion.com"
-SPRINT_DURATION_WEEKS   = 2
-# Model tiers resolved at runtime via scripts/savia-env.sh from ~/.savia/preferences.yaml
-# Heavy = complex reasoning (architect, code-reviewer, security)
-# Mid   = balanced (developers, test-runner)
-# Fast  = low-latency (azure-devops-operator, tech-writer)
-SDD_MAX_PARALLEL_AGENTS = 5
-TEST_COVERAGE_MIN_PERCENT = 80
+.opencode/
+├── .claude     → symlink a ../.claude
+├── commands    → symlink a ../.claude/commands  (559 commands)
+├── hooks       → symlink a ../.claude/hooks     (69 hooks)
+├── skills      → symlink a ../.claude/skills    (98 skills)
+├── docs        → symlink a ../docs
+├── agents/     ← DIRECTORIO REAL (70 agents, frontmatter adaptado a OpenCode)
+├── plugins/    ← DIRECTORIO REAL (OpenCode plugin model)
+└── mcp-templates/, install.sh, init-pm.sh, package.json, ...
 ```
 
----
+Por tanto, cuando ves una referencia `.claude/foo` desde `.opencode/`, apunta
+al mismo fichero físico que `../.claude/foo`. Ambas rutas son válidas.
 
-## Rol
-
-**PM automatizada con IA** · multi-lenguaje · Azure DevOps / Jira / Savia Flow · Sprints 2 sem · Daily 09:15 · 16 lenguajes: `@docs/rules/domain/language-packs.md`
-
----
-
-## Estructura
-
-```
-~/claude/                          ← Raíz y repositorio GitHub
-├── .claude/
-│   ├── agents/ (33)               ← @docs/rules/domain/agents-catalog.md
-│   ├── commands/ (401+)            ← @docs/rules/domain/pm-workflow.md
-│   ├── profiles/                  ← Perfiles fragmentados → @.claude/profiles/README.md
-│   ├── hooks/ (16)                ← .claude/settings.json
-│   ├── rules/{domain,languages}/  ← Reglas bajo demanda (por @) y por lenguaje (auto-carga)
-│   ├── skills/ (43)               ← Skills reutilizables
-│   └── settings.json              ← Hooks + Agent Teams env
-├── docs/ · projects/ · scripts/
-```
-
-> Proyectos reales en `CLAUDE.local.md` (git-ignorado). Leer `projects/{nombre}/CLAUDE.md` antes de actuar.
+**Lo único genuinamente independiente**: `.opencode/agents/*.md` (frontmatter
+distinto: model alias `heavy|mid|fast`, permission L0-L4, plugin hooks).
 
 ---
 
-## Savia
+## Qué hace OpenCode con este workspace
 
-**Savia** es la voz de pm-workspace — buhita cálida, inteligente, directa. Siempre femenino. Personalidad: `@.claude/profiles/savia.md`
-
-Inicio de sesión: `active-user.md` → voz Savia → si perfil: saludar; si no: `/profile-setup` (`@docs/rules/domain/profile-onboarding.md`). Leer `~/.savia-memory/auto/MEMORY.md` al inicio de cada sesión. Fragmentos por demanda: `@.claude/profiles/context-map.md`
-
-> Catálogo completo de comandos (396+): `@docs/rules/domain/pm-workflow.md`
-> MCP servers se conectan bajo demanda con `/mcp-server start {nombre}`, NO al arranque.
+- Lee `AGENTS.md` y `SKILLS.md` en la raíz (mirror cross-frontend de `.opencode/agents/` y `.opencode/skills/`).
+- Aplica el CLAUDE.md raíz como instrucciones del agente principal.
+- Ejecuta hooks del `.claude/settings.json` cuando se invoca vía `claude` shell.
+- Bajo OpenCode nativo (sin shell Claude), los hooks se ejecutan vía plugin TS — ver `plugins/`.
 
 ---
 
-## Reglas Críticas
+## Counters actuales (auto-generados)
 
-1. **NUNCA hardcodear PAT** — siempre `$(cat $PAT_FILE)`
-2. **SIEMPRE filtrar IterationPath** en WIQL salvo petición explícita
-3. **Confirmar antes de escribir** en Azure DevOps
-4. **Leer CLAUDE.md del proyecto** antes de actuar
-5. **Informes** en `output/` con `YYYYMMDD-tipo-proyecto.ext`
-6. **Repetición 2+** → documentar en skill
-7. **PBIs**: propuesta completa antes de tasks; NUNCA sin confirmación
-8. **SDD**: NUNCA agente sin Spec aprobada; Code Review (E1) SIEMPRE humano
-9. **Secrets**: NUNCA en repo — vault o `config.local/` · `@docs/rules/domain/confidentiality-config.md`
-10. **Infra**: NUNCA apply PRE/PRO sin aprobación · `@docs/rules/domain/infrastructure-as-code.md`
-11. **150 líneas máx.** por fichero — dividir si crece
-12. **README**: cambios en commands/agents/skills/rules → actualizar README.md + README.en.md
-13. **Git**: NUNCA commit/add en `main` — hook lo bloquea. Verificar rama antes de operar
-14. **CI Local**: antes de push → `bash scripts/validate-ci-local.sh`
-15. **UX**: TODO comando DEBE mostrar banner, prerequisitos, progreso, resultado. **El silencio es bug.**
-16. **Auto-compact**: Resultado >30 líneas → fichero + resumen. `Task` para pesados. Tras comando → `⚡ /compact`
-17. **Anti-improvisación**: Comando SOLO ejecuta lo de su `.md`. No cubierto → error + sugerencia
-18. **Serialización**: scopes antes de Agent Teams. Solapan → serializar. Hook `scope-guard.sh`
-19. **Arranque seguro**: MCP/integraciones se cargan bajo demanda, NUNCA al inicio. Savia SIEMPRE arranca.
-20. **PII-Free repo**: NUNCA nombres reales, empresas, handles ni datos personales en código, docs, CHANGELOG, releases, commits ni PRs. Usar genéricos (`test-org`, `alice`, `test company repo`). Detalle → `@docs/rules/domain/pii-sanitization.md`
-21. **Self-Improvement Loop**: Tras corrección del usuario o bug descubierto → escribir lección en `tasks/lessons.md`. Revisar al inicio de sesión. Detalle → `@docs/rules/domain/self-improvement.md`
-22. **Verification Before Done**: NUNCA marcar tarea como completada sin prueba demostrable. Preguntarse "¿lo aprobaría un senior?" Detalle → `@docs/rules/domain/verification-before-done.md`
-23. **Equality Shield**: Asignaciones, evaluaciones y comunicaciones INDEPENDIENTES de género, raza u origen. Test contrafactual obligatorio. Detalle → `@docs/rules/domain/equality-shield.md`
+| Recurso | Total | Fuente |
+|---|---|---|
+| Agents | 70 | `.opencode/agents/*.md` |
+| Commands | 559 | `scripts/count-commands.sh` |
+| Hooks | 69 | `.claude/hooks/*.sh` |
+| Skills | 98 | `.claude/skills/*/SKILL.md` |
+
+Drift check: `bash scripts/claude-md-drift-check.sh`.
 
 ---
 
-## Subagentes
+## Para devs nuevos
 
-> Catálogo (31): `@docs/rules/domain/agents-catalog.md` · Agent Notes: `@docs/agent-notes-protocol.md`
-
-Cada agente: `memory: project`, `skills:` precargados, `permissionMode:` apropiado. Developers: `isolation: worktree`.
-Flujos: SDD (analyst→architect→security→tester→developer→reviewer) · Infra · Diagramas · Agent Teams (`@docs/agent-teams-sdd.md`)
-
----
-
-## Packs · Infra · Operaciones
-
-> Packs (16): `@docs/rules/domain/language-packs.md` · Entornos: `@docs/rules/domain/environment-config.md` · IaC: `@docs/rules/domain/infrastructure-as-code.md`
-
-Skills: azure-devops-queries · product-discovery · pbi-decomposition · spec-driven-development · diagram-generation · diagram-import · azure-pipelines · sprint-management · capacity-planning · executive-reporting · time-tracking-report · team-onboarding · voice-inbox · enterprise-analytics · developer-experience · architecture-intelligence · regulatory-compliance
-
-Ciclo: Explorar → Planificar → Implementar → Commit. Arquitectura: **Command → Agent → Skills** — subagentes solo con `Task`.
+1. Lee `../CLAUDE.md` primero — reglas críticas, identidad de Savia, lazy reference.
+2. Lee `../AGENTS.md` y `../SKILLS.md` — catálogos cross-frontend.
+3. Si vas a editar agentes/skills/commands: edita en `.claude/` (la raíz real).
+4. Si vas a editar agentes OpenCode-específicos: edita en `.opencode/agents/`.
+5. Después de cualquier cambio: `bash scripts/claude-md-drift-check.sh`.
 
 ---
 
-## Hooks · Memoria
+## Compatibilidad cross-frontend
 
-> Hooks (16): `.claude/settings.json` — Arranque blindado (sin red, sin dependencias externas)
-> Memoria: `~/.savia-memory/auto/MEMORY.md` (índice canónico) · Store: `scripts/memory-store.sh` (JSONL, dedup, topic_key, `<private>`) · Arq: `@docs/savia-memory-architecture.md` · Security: `/security-review {spec}` — OWASP pre-implementación
+- **Claude Code nativo** → lee `../CLAUDE.md` + `.claude/settings.json` (hooks completos).
+- **OpenCode v1.14+** → lee este fichero + `../AGENTS.md` + `../SKILLS.md` (plugins TS).
+- **OpenCode-Copilot Enterprise** → lee `../AGENTS.md` + `../SKILLS.md` (sin hooks, sin slash commands).
+- **LocalAI emergency (SPEC-122)** → lee `../CLAUDE.md` (Claude Code shell con base URL local).
+
+Detalle: `docs/rules/domain/provider-agnostic-env.md`.
 
 ---
 
-## Checklist Nuevo Proyecto
+## Lo que NO está aquí
 
-- [ ] `projects/[nombre]/CLAUDE.md` (≤150 líneas) + entrada en `CLAUDE.local.md`
-- [ ] Entornos (DEV/PRE/PRO) + `config.local/` + `.env.example` + cloud/infra si aplica
-- [ ] `scripts/setup-memory.sh [nombre]` + `agent-notes/`, `adrs/` si hay decisiones
+- Configuración (PAT, sprint duration, model aliases): `docs/rules/domain/pm-config.md` + `.claude/rules/pm-config.local.md`.
+- Reglas críticas 1-25: `../CLAUDE.md` (inline 1-8) + `docs/rules/domain/critical-rules-extended.md` (9-25).
+- Identidad de Savia: `../.claude/profiles/savia.md`.
+- Catálogo de agentes: `docs/rules/domain/agents-catalog.md`.
+- Catálogo de comandos: `docs/rules/domain/pm-workflow.md`.
+
+---
+
+## Histórico
+
+Versiones anteriores de este fichero duplicaban configuración y reglas del
+CLAUDE.md raíz. Esa duplicación generaba drift sistemático (counters
+desactualizados, reglas obsoletas). Desde SE-100 (2026-05-27), este fichero
+solo redirige al canónico y describe el modelo arquitectónico real
+(symlinks shared). No añadas configuración aquí — añádela en la raíz.

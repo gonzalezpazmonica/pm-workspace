@@ -63,6 +63,13 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/validate-bash-global.sh",
             "statusMessage": "Validando comando...",
             "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/android-adb-validate.sh",
+            "name": "android-adb-validate",
+            "blocking": true,
+            "timeout": 5
           }
         ]
       },
@@ -183,6 +190,13 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/validate-layer-contract.sh",
             "timeout": 5,
             "statusMessage": "SE-001: Core/Enterprise layer contract check..."
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/cognitive-debt-hypothesis-first.sh",
+            "name": "cognitive-debt-hypothesis-first",
+            "blocking": false,
+            "timeout": 3
           }
         ]
       },
@@ -289,6 +303,18 @@
         "command": "bash .opencode/hooks/auto-zoom-out.sh Edit",
         "name": "auto-zoom-out",
         "blocking": false
+      },
+      {
+        "matcher": "Edit|Write|Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/project-isolation-gate.sh",
+            "name": "project-isolation-gate",
+            "blocking": false,
+            "timeout": 3
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -399,6 +425,18 @@
             "async": true,
             "timeout": 5,
             "statusMessage": "Registrando competencia..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/cognitive-debt-telemetry.sh",
+            "name": "cognitive-debt-telemetry",
+            "blocking": false,
+            "timeout": 2
           }
         ]
       }

@@ -4,9 +4,10 @@ title: Savia Roadmap — Canonical single source of truth
 status: LIVING
 author: Savia
 supersedes: SAVIA-SUPERPOWERS-ROADMAP.md, ROADMAP-UNIFIED-20260418.md (partial)
-last_updated: "2026-05-23"
+last_updated: "2026-05-27"
 expires: "2026-08-30"
 rebuild_note: "2026-05-23 — Rebuild Opción A (honest). Snapshot real verificado vs frontmatter (no inferencias). Tiers obsoletos 1-7 colapsados."
+audit_injection: "2026-05-27 — Integradas SE-094..SE-103 desde auditoria obsoleto/legado. Reprio P0..P3."
 ---
 
 # Savia Roadmap — Canonical
@@ -35,16 +36,20 @@ Conteo desde `grep -lE '^status:' docs/propuestas/*.md`:
 
 | Status | Count |
 |---|---:|
-| Total specs | 203 |
+| Total specs | 213 |
 | IMPLEMENTED | 78 |
 | IN_PROGRESS | 10 |
-| APPROVED + ACCEPTED + DRAFT + PROPOSED | 104 |
+| APPROVED + ACCEPTED + DRAFT + PROPOSED | 114 |
 | REJECTED / SUPERSEDED / DEPRECATED | 9 |
 | Sin status field (drift) | ~2 |
 
-**De las 104 vivas**, sólo **32 tienen metadata `priority` + `effort`** completos. Las otras **72 no son priorizables sin triage** — bloqueadas hasta que tengan frontmatter normalizado (ver §4).
+**De las 114 vivas**, sólo **42 tienen metadata `priority` + `effort`** completos (32 previas + 10 nuevas SE-094..SE-103 desde auditoría 2026-05-27). Las otras **72 no son priorizables sin triage** — bloqueadas hasta que tengan frontmatter normalizado (ver §4).
 
 **Hallazgos críticos sin reflejo previo en ROADMAP**:
+
+- **SE-094..SE-103** (10 specs, 2026-05-27) — Inyectadas desde auditoría obsoleto/legado. 4 FAIL estructurales + drift documental. Total esfuerzo Tier 1: ~1h. Tier 2: ~7h. Tier 3: ~16h. Ver §13.
+- **SE-104** (1 spec, 2026-05-27) — Principios éticos Savia. Fundacional P0 (precede a SE-094). 13 principios humanistas + 5 líneas rojas. Ver §13 Tier 0.
+
 
 - **SE-092 PM-BACKEND** (APPROVED, CRITICAL, M) — bridge Azure DevOps/Jira con datos reales. No estaba en el roadmap anterior.
 - **SE-093 ZERO-LEAK** (APPROVED, CRITICAL, M) — enforcement de aislamiento por proyecto. No estaba en el roadmap anterior.
@@ -82,8 +87,10 @@ Specs con `priority: P0` o `priority: CRITICAL` en frontmatter. No requieren tri
 | P0.2 | **SPEC-125** Recommendation Tribunal real-time | IN_PROGRESS | ~36-48h | Slice 1 implementado, NO activado. Slice 2 = activación — **requiere greenlight humano explícito**. |
 | P0.3 | **SE-092** PM-BACKEND (Azure DevOps/Jira bridge) | APPROVED | M | CRITICAL. Sin esto, comandos PM ejecutan sobre datos vacíos. |
 | P0.4 | **SE-093** ZERO-LEAK enforcement | APPROVED | M | CRITICAL. Endurecimiento de aislamiento por proyecto. Complementa Savia Shield. |
+| P0.5 | **SE-094** Hooks integrity (fantasma+huérfanos) | APPROVED | S | 45 min. 2 hooks registrados sin .sh fallan silenciosos + 7 .sh huérfanos. Auditoría 2026-05-27. |
+| P0.6 | **SE-095** Commands counter drift pm-workflow.md | APPROVED | XS | 15 min. pm-workflow.md dice 513, hay 553. Drift de 40 comandos. |
 
-**Caveat**: Los 4 son CRITICAL pero **compiten por la misma cabeza humana**. Sugerencia secuencial: SE-092 (desbloquea valor inmediato PM) → SE-093 (cierra superficie de leak) → SPEC-127 Slice 2 (cross-frontend) → SPEC-125 Slice 2 (tribunal, decisión arquitectónica).
+**Caveat**: 6 P0 compiten por cabeza humana. Reprio post-auditoría 2026-05-27 — **arrancar por SE-095 (15 min) + SE-094 (45 min)**: cierran deuda de drift estructural por <1h y desbloquean confianza en métricas. Después: SE-092 (valor inmediato PM) → SE-093 (cierre leak) → SPEC-127 Slice 2 → SPEC-125 Slice 2 (tribunal, requiere greenlight humano).
 
 ---
 
@@ -103,14 +110,20 @@ Specs con `priority: P1..P13` o `priority: alta/media/baja` + `effort`. Ordenada
 | 6 | **SE-083** TDD vertical-slice skill | media | S | Anti-horizontal-slicing | Refuerza patrón ya documentado. |
 | 7 | **SE-084** skill-catalog quality audit | alta | M | Use-when + progressive disclosure | 96 skills sin auditoría sistemática. |
 | 8 | **SE-085** write-a-skill meta-skill | baja | S | Skill creation discipline | Bajo coste. Complementa skill-creator vendorizado en #769. |
+| 9 | **SE-097** Rules INDEX & manifest regen (auditoría) | P1 | M (~90min) | Desync masivo manifest | INDEX.md 165 líneas (>150 Rule #22) · 25 entries inexistentes · 202 ficheros no listados. Desbloquea trazabilidad. |
+| 10 | **SE-100** Update .opencode/ docs (52 stale .claude/ refs) | P1 | S (~90min) | Migración doc incompleta | Docs mienten sobre estructura real. Bloquea onboarding nuevo. |
+| 11 | **SE-096** Archive 9 orphan rules | P1 | S (~60min) | Ruido cognitivo | rule-orphan-detector reporta 9. Limpieza rápida tras auditoría. |
+| 12 | **SE-098** Split top-5 oversized agents | P1 | M (~4h) | Rule #22 violations | 27/70 oversized; top-5 lidera (code-reviewer 6794 B). Reduce contexto inflado. |
 
 ### 3.2 Segundo lote (M, alta señal estratégica)
 
 | Rank | Spec | Prio | Effort | Tema |
 |---:|---|---|---|---|
-| 9 | **SE-086** ubiquitous-language extractor | media | M | DDD glossary from conversation |
-| 10 | **SE-087** design-an-interface parallel | media | M | Parallel sub-agents for module interface |
-| 11 | **SPEC-149** sandbox OS-level | P1 | ~20h | Defense in depth para modos autónomos. Convierte rule en runtime gate. |
+| 13 | **SE-086** ubiquitous-language extractor | media | M | DDD glossary from conversation |
+| 14 | **SE-087** design-an-interface parallel | media | M | Parallel sub-agents for module interface |
+| 15 | **SPEC-149** sandbox OS-level | P1 | ~20h | Defense in depth para modos autónomos. Convierte rule en runtime gate. |
+| 16 | **SE-105** GLM v1.0 governance manifest | media | M 4h | Self-declaration machine-readable de boundaries (RFC 8615 well-known). Externaliza governance interna de Savia para auditores/procurement/sistemas adyacentes. NO bloquea Tier 0. |
+| 17 | **SE-106** Tiered tribunal execution | media | M 5h | Secuencial Tier 0 + paralelo Tier 1 con early-stop on veto. Ahorra ~67% tokens en runs vetados de Truth Tribunal y Code Review Court. Recommendation Tribunal queda fuera (latencia sync). |
 
 ### 3.3 SLM pipeline (estratégico, requiere humano-en-loop)
 
@@ -118,19 +131,19 @@ Todos APPROVED, Tier 1 estratégico. Scaffolding ya en repo; ejecución completa
 
 | # | Spec | Status | Acción no-GPU disponible |
 |---|---|---|---|
-| 12 | **SPEC-023** Savia LLM trainer | APPROVED | Dataset prep ready |
-| 13 | **SPEC-080** Custom LLM training Unsloth | APPROVED | `slm-train-config.sh` emite YAML |
-| 14 | **SE-028** oumi integration | APPROVED | Data synth scripts |
-| 15 | **SE-042** Savia voice training pipeline | APPROVED | Chat-to-SFT prep |
+| 16 | **SPEC-023** Savia LLM trainer | APPROVED | Dataset prep ready |
+| 17 | **SPEC-080** Custom LLM training Unsloth | APPROVED | `slm-train-config.sh` emite YAML |
+| 18 | **SE-028** oumi integration | APPROVED | Data synth scripts |
+| 19 | **SE-042** Savia voice training pipeline | APPROVED | Chat-to-SFT prep |
 
 ### 3.4 Q3 architectural (L/XL — requieren probes Slice 1 antes de commit)
 
 | Rank | Spec | Prio | Effort | Riesgo principal |
 |---:|---|---|---|---|
-| 16 | **SPEC-151** Evals CI gate | P7 | ~24h | Sin esto, no podemos medir las P3..P12. Recomendado **antes** de SPEC-150. |
-| 17 | **SPEC-150** Hooks multi-handler migration | P3 | ~35h | Cambio arquitectónico OpenCode events. Pesado pero desbloquea LLM judges. |
-| 18 | **SPEC-152** Hierarchical orchestrator delegation | P8 | ~18h | Cambia patrón fan-out. Depende de SPEC-147 (10/10 trees) — completar Rank 1 primero. |
-| 19 | **SPEC-153** Memory bi-temporal + consolidation | P12 | ~22h | Converge con SPEC-027/SPEC-123/SE-030 — consolidar antes de iniciar. |
+| 20 | **SPEC-151** Evals CI gate | P7 | ~24h | Sin esto, no podemos medir las P3..P12. Recomendado **antes** de SPEC-150. |
+| 21 | **SPEC-150** Hooks multi-handler migration | P3 | ~35h | Cambio arquitectónico OpenCode events. Pesado pero desbloquea LLM judges. |
+| 22 | **SPEC-152** Hierarchical orchestrator delegation | P8 | ~18h | Cambia patrón fan-out. Depende de SPEC-147 (10/10 trees) — completar Rank 1 primero. |
+| 23 | **SPEC-153** Memory bi-temporal + consolidation | P12 | ~22h | Converge con SPEC-027/SPEC-123/SE-030 — consolidar antes de iniciar. |
 
 ### 3.5 Baja prioridad con effort conocido (background)
 
@@ -147,6 +160,10 @@ Solo iniciar cuando cola alta esté vacía o como fillers de capacidad.
 - **SE-049** SLM command consolidation (media, L) — IN_PROGRESS
 - **SE-055** opencode parity generator (baja, M)
 - **SE-064** ACM multihost generator (baja, M)
+- **SE-099** Split remaining 22 oversized agents (P2, L ~12h) — depende SE-098
+- **SE-101** Output dir retention policy (P2, XS ~30min)
+- **SE-102** Eras timeline consolidation (P3, S ~2h)
+- **SE-103** Quarterly dormant rules review (P3, S ~90min)
 
 ---
 
@@ -353,3 +370,64 @@ grep -lE "^status:\s*(REJECTED|SUPERSEDED|DEPRECATED|ABORTED|CLOSED)" docs/propu
 ```
 
 Cero datos inventados. Las 72 specs sin priority/effort están listadas como "needs-triage" en §4, no priorizadas por inferencia.
+
+
+---
+
+## 13. Inyección 2026-05-27 — Auditoría obsoleto/legado
+
+Origen: `output/20260527-auditoria-obsoleto-legado.md`. Veredicto auditoría: FAIL (sin bloqueantes operativos).
+
+### Tier 0 — fundacional (P0, ~6h)
+
+| Spec | Effort | Por qué P0 |
+|---|---|---|
+| **SE-104** Savia Ethical Principles | M 6h | Fundamenta autonomous-safety, radical-honesty, equality-shield, data-sovereignty. 13 principios humanistas + 5 líneas rojas inmutables. Criterio último ante conflictos. Sin esto las reglas operativas son tecnicismos sin alma. |
+
+### Tier 1 — fix ya (~1h total)
+
+| Spec | Effort | Por qué P0 |
+|---|---|---|
+| **SE-094** Hooks integrity | S 45min | 2 hooks fantasma fallan silenciosos en runtime + 7 huérfanos código muerto |
+| **SE-095** Commands counter drift | XS 15min | pm-workflow.md desincronizado en 40 comandos |
+
+### Tier 2 — limpieza estructural (~7h, 1 sprint)
+
+| Spec | Effort | Por qué P1 |
+|---|---|---|
+| **SE-096** Archive 9 orphan rules | S 60min | Ruido cognitivo, 0 xrefs |
+| **SE-097** Rules INDEX & manifest regen | M 90min | Desync masivo (202 ficheros no listados) — autoincumple Rule #22 |
+| **SE-098** Split top-5 oversized agents | M 4h | 27/70 violan SLA Rule #22; top-5 lidera |
+| **SE-100** Update .opencode/ docs | S 90min | 53 refs `.claude/` legacy; docs mienten sobre estructura |
+
+### Tier 3 — higiene continua (~16h, sin prisa)
+
+| Spec | Effort | Cuándo |
+|---|---|---|
+| **SE-099** Split remaining 22 agents | L 12h | Tras SE-098, lotes 5/semana |
+| **SE-101** Output retention policy | XS 30min | Cuando moleste el clutter |
+| **SE-102** Eras timeline | S 2h | Cuando se confunda el narrativo |
+| **SE-103** Dormant rules review | S 90min | Trimestral |
+
+### Orden de ejecución óptimo
+
+```
+SE-104 (6h)                           # PRIMERO — fundamento ético antes que técnico
+   ↓
+SE-095 (15') → SE-094 (45')          # 1h, cierra fantasmas + drift counter
+   ↓ (los siguientes se pueden paralelizar con sprint actual)
+SE-096 (1h) → SE-097 (1.5h)          # arquitectura de reglas limpia
+SE-100 (1.5h)                         # docs no mienten
+SE-098 (4h)                           # top-5 agents bajo límite
+   ↓ (background, sin urgencia)
+SE-099 → SE-101 → SE-102 → SE-103
+```
+
+Métricas baseline (auditoría 2026-05-27, para futura comparativa):
+
+- 70 agents (27 oversized) · 98 skills · 553 commands
+- 69 hooks (68 reg, 7 huérfanos, 2 fantasma)
+- 203 rules domain (9 huérfanas, ~40 dormant)
+- INDEX.md 165 líneas · output/ 4.7 MB 312 ficheros >30d · 53 refs legacy `.claude/`
+
+Próxima auditoría: post-Tier 1+2.

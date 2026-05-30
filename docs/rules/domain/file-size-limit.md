@@ -25,3 +25,11 @@ La regla original decia "aplicable a cada fichero". Esto causaba que Claude reco
 ## Verificacion
 
 `agent-hook-premerge.sh` ya filtra correctamente por `.claude/commands|rules|agents|skills`. `compliance-gate.sh` solo verifica en git commit. Ambos hooks son coherentes con esta regla.
+
+## Excepciones documentadas
+
+Documentos canonicos cuya naturaleza requiere unidad indivisible:
+
+- `docs/rules/domain/savia-ethical-principles.md` (SE-104): manifiesto canonico con los 13 principios humanistas + 5 lineas rojas inmutables. Particionarlo rompe su funcion de unico punto de referencia citable desde reglas, agentes y dilemas. Excepcion validada en `tests/structure/test-workspace-structure.bats` test 9.
+
+Toda nueva excepcion requiere: (1) justificacion documentada aqui, (2) entrada explicita en el test BATS, (3) aprobacion en review.
