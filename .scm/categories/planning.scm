@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 520 resources
+> 523 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -114,6 +114,7 @@
 - **contribute** (script): contribute.sh — Capa de interacción con GitHub para comunidad
 - **cost-center** (cmd): Cost management and billing — timesheets, budgets, forecasting, invoicing
 - **cost-management** (skill): Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes.
+- **count-commands** (script): count-commands.sh — SE-095: canonical counter for slash commands.
 - **court-calendar** (cmd): >
 - **credential-proxy** (script): credential-proxy.sh — Managed Agents pattern: credential isolation
 - **credential-scan** (cmd): >
@@ -219,6 +220,7 @@
 - **hook-pii-gate** (script): hook-pii-gate.sh — PII Quality Gate Pre-Commit Hook
 - **hook-profile** (cmd): View or change the active SAVIA_HOOK_PROFILE (minimal/standard/strict/ci)
 - **hook-profile** (script): hook-profile.sh — Get/set the active SAVIA_HOOK_PROFILE
+- **hooks-integrity-check** (script): hooks-integrity-check.sh — SE-094: detect orphan and phantom hooks.
 - **hw-bom** (cmd): >
 - **hw-revision** (cmd): >
 - **import-sprint-story** (cmd): >
@@ -325,6 +327,7 @@
 - **project-new** (cmd): >
 - **project-release-plan** (cmd): >
 - **project-roadmap** (cmd): >
+- **project-switch** (cmd): Cambia el proyecto activo de Savia para aislamiento de contexto (SE-093).
 - **project-update** (skill): Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes.
 - **project-update-devops** (script): project-update-devops.sh — wrapper que resuelve config real desde
 - **prompt-optimizer** (skill): Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad.
