@@ -1,5 +1,6 @@
 ---
 name: frontend-developer
+decision_tree: decision-trees/frontend-developer-decisions.md
 permission_level: L3
 description: >
   Implementación de código frontend (Angular y React) siguiendo specs SDD aprobadas.

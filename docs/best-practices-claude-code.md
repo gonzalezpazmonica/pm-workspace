@@ -475,3 +475,62 @@ Key performance findings from Claude Code architecture review:
 
 7. **@ imports only in text nodes**: Resolved by the markdown lexer, NOT
    inside code blocks or inline code. Never put @imports in fenced blocks.
+
+## 19. DECISION TREES PARA AGENTES (SPEC-147)
+
+> Implementado: SPEC-147 (10/10 árboles). Ref: `.claude/agents/decision-trees/`.
+
+### Qué es un Decision Tree de agente
+
+Un fichero markdown ≤80 líneas que externaliza la lógica de routing y
+escalado de un agente: cuándo aceptar la tarea, cuándo delegar, qué
+anti-patrones evitar. Se enlaza desde el frontmatter del agente:
+
+```yaml
+name: dev-orchestrator
+decision_tree: decision-trees/dev-orchestrator-decisions.md
+```
+
+El árbol se carga junto con el agent body al invocarse, ahorrando
+clarifying questions y forzando decisiones consistentes.
+
+### Cuándo crear un árbol
+
+- Agente con responsabilidades de routing (orchestrator, broker, dispatcher).
+- Agente con múltiples vectores de tarea legítimos (developer multi-stack).
+- Agente con frontera ambigua respecto a otros (cuándo delegar vs implementar).
+- Agente cuyas invocaciones repetidas producen output divergente sin árbol.
+
+NO crear árbol si el agente tiene una sola tarea bien definida (ej. judges
+internos del Court — su lógica está en el agent body y es suficiente).
+
+### Anatomía del árbol
+
+Secciones mínimas (ver `sdd-spec-writer-decisions.md` como referencia):
+1. **Cap header**: `> Cap ≤80 lines. <propósito>. Branching ≤4.`
+2. **Cuándo aceptar / Cuándo NO aceptar** (delegación explícita).
+3. **Routing por tipo** (tabla compacta con triggers y outputs).
+4. **Escalado a humano** (señales de SIEMPRE escalar).
+5. **Anti-patrones** (NO hacer — protege de regresiones de comportamiento).
+
+### Restricciones (enforced por BATS)
+
+- ≤80 líneas por fichero (cap duro, fuerza simplicidad).
+- Frontmatter del agente debe coincidir con name del árbol.
+- Branching factor ≤4 en cada decisión (más opciones → árbol mal cortado).
+- Sin nombres reales de clientes/personas (Rule #20 PII-free).
+- Cada árbol debe existir en `.claude/agents/decision-trees/` y ser visible
+  vía symlink desde `.opencode/agents/decision-trees/`.
+
+### Mantenimiento
+
+Si cambias el body de un agente con árbol, revisa el árbol — el BATS test
+bloquea PRs donde el agente body y el árbol divergen en `name` o donde
+el árbol referenciado no existe. Drift más sutil (semántica desalineada)
+queda como responsabilidad del code review humano (E1).
+
+### Cobertura actual
+
+10 árboles enviados (Slices 1+2+3 de SPEC-147): commit-guardian, architect,
+code-reviewer, security-guardian, dotnet-developer, business-analyst,
+sdd-spec-writer, dev-orchestrator, court-orchestrator, frontend-developer.

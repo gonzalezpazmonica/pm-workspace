@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=392fa6d8ea347acad119d1cfd74453ebfcaa902f57f93fb047364c413bd71709
-timestamp=2026-05-30T12:48:45Z
-branch=feat/se-094-finish-orphan-hook-20260530
-head_commit=0710887d
-signature=aa26110a1374d1f3664c48844ab5623aefd0ee32146a140b118bcaae5ceca0a0
+diff_hash=450977344e22b53a2f1c84a7b30ec70d2ab93413e2046c8b3d11aa9b952ba94e
+timestamp=2026-05-30T13:38:53Z
+branch=feat/spec-147-slice3-decision-trees-20260530
+head_commit=3f986830
+signature=0e88509926850f596c77e9940bfd22b06439e8dbc6c468e08b9f8a71887b9288
