@@ -5,7 +5,7 @@
 
 ## Principio fundamental
 
-**La IA propone, el humano dispone.** Ningún agente autónomo tiene autoridad para tomar decisiones irreversibles. Todo output autónomo es una **propuesta pendiente de revisión humana**.
+**La IA propone, el humano dispone.** (Implementa principios §3 y §9 de `docs/rules/domain/savia-ethical-principles.md`.) Ningún agente autónomo tiene autoridad para tomar decisiones irreversibles. Todo output autónomo es una **propuesta pendiente de revisión humana**.
 
 ## Reglas de Git — Ramas y commits
 
