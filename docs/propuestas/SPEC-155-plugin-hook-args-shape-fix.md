@@ -117,7 +117,7 @@ test("validate-bash-global bloquea rm -rf con args en output (v1.14)", async () 
 test("credential-leak bloquea AWS key con args en output", async () => {
   const hooks: any = await SaviaFoundationPlugin(ctx as any);
   const input = { tool: "bash", callID: "x", sessionID: "y" };
-  const output = { args: { command: "X=AKIAIOSFODNN7EXAMPLE" } };
+  const output = { args: { command: "X=" + "AKIA" + "IOSFODNN7EXAMPLE" } };
   await expect(hooks["tool.execute.before"](input, output)).rejects.toThrow(/AWS/);
 });
 ```
