@@ -123,6 +123,7 @@ Specs con `priority: P1..P13` o `priority: alta/media/baja` + `effort`. Ordenada
 | 14 | **SE-087** design-an-interface parallel | media | M | Parallel sub-agents for module interface |
 | 15 | **SPEC-149** sandbox OS-level | P1 | ~20h | Defense in depth para modos autónomos. Convierte rule en runtime gate. |
 | 16 | **SE-105** GLM v1.0 governance manifest | media | M 4h | Self-declaration machine-readable de boundaries (RFC 8615 well-known). Externaliza governance interna de Savia para auditores/procurement/sistemas adyacentes. NO bloquea Tier 0. |
+| 17 | **SE-106** Tiered tribunal execution | media | M 5h | Secuencial Tier 0 + paralelo Tier 1 con early-stop on veto. Ahorra ~67% tokens en runs vetados de Truth Tribunal y Code Review Court. Recommendation Tribunal queda fuera (latencia sync). |
 
 ### 3.3 SLM pipeline (estratégico, requiere humano-en-loop)
 
