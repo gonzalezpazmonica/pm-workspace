@@ -52,6 +52,9 @@ teardown() { cd /; }
   mkdir -p "$root/.claude/agents" "$root/.claude/commands" "$root/.claude/skills" "$root/.claude/hooks" "$root/.opencode/agents" "$root/.opencode/commands" "$root/.opencode/hooks" "$root/scripts"
   touch "$root/.opencode/agents/a1.md" "$root/.opencode/agents/a2.md"
   touch "$root/.opencode/commands/c1.md"
+  # SE-095: count-commands.sh canonical source is .claude/commands/.
+  # Mirror the synthetic fixture there for the drift check to see it.
+  touch "$root/.claude/commands/c1.md"
   mkdir -p "$root/.opencode/skills/s1"; touch "$root/.opencode/skills/s1/SKILL.md"
   touch "$root/.opencode/hooks/h1.sh"
   echo '{"hooks":{}}' > "$root/.claude/settings.json"
@@ -60,6 +63,9 @@ teardown() { cd /; }
 | Catálogo 2 agentes | path |
 MD
   cp "$SCRIPT" "$root/scripts/"
+  # SE-095: drift script depends on count-commands.sh helper. Copy it too
+  # so the synthetic fixture sees a working canonical counter.
+  cp scripts/count-commands.sh "$root/scripts/"
   run bash "$root/scripts/claude-md-drift-check.sh"
   [ "$status" -eq 0 ]
 }

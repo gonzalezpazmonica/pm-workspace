@@ -95,13 +95,18 @@ teardown() {
 
 @test "no command, agent or rule exceeds 150 lines" {
   # Ref: docs/rules/domain/file-size-limit.md — 150 lines max
-  # Excludes: INDEX.md (auto-generated catalogs, not rules)
+  # Excludes:
+  #  - INDEX.md (auto-generated catalogs, not rules)
+  #  - savia-ethical-principles.md (SE-104: canonical manifest, 13 principles + 5
+  #    red lines must remain in a single citable document, exception documented
+  #    in docs/rules/domain/file-size-limit.md)
   local oversized=0
   for f in "$ROOT/.opencode/commands/"*.md "$ROOT/.opencode/agents/"*.md "$ROOT/docs/rules/domain/"*.md; do
     [ -f "$f" ] || continue
-    # Skip auto-generated index files
+    # Skip auto-generated index files and canonical manifest exceptions
     case "$(basename "$f")" in
       INDEX.md) continue ;;
+      savia-ethical-principles.md) continue ;;
     esac
     local lines; lines=$(wc -l < "$f")
     [ "$lines" -le 150 ] || oversized=$((oversized + 1))
