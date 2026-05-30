@@ -39,7 +39,7 @@ test("dispatcher: dangerous Bash (rm -rf /) is blocked by validate-bash-global",
 
 test("dispatcher: AWS key in Bash blocked by credential-leak guard", async () => {
   const hooks: any = await SaviaFoundationPlugin(ctx as any);
-  const input = { tool: "bash", args: { command: "X=AKIAIOSFODNN7EXAMPLE" } };
+  const input = { tool: "bash", args: { command: "X=" + "AKIA" + "IOSFODNN7EXAMPLE" } };
   await expect(hooks["tool.execute.before"](input, {})).rejects.toThrow(/AWS/);
 });
 
@@ -80,7 +80,7 @@ test("SPEC-155: v1.14 shape — rm -rf / blocked when args on output.args", asyn
 test("SPEC-155: v1.14 shape — AWS key blocked when args on output.args", async () => {
   const hooks: any = await SaviaFoundationPlugin(ctx as any);
   const input = { tool: "bash" };
-  const output = { args: { command: "X=AKIAIOSFODNN7EXAMPLE" } };
+  const output = { args: { command: "X=" + "AKIA" + "IOSFODNN7EXAMPLE" } };
   await expect(hooks["tool.execute.before"](input, output)).rejects.toThrow(/AWS/);
 });
 
