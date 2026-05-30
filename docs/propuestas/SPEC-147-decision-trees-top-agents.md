@@ -1,7 +1,8 @@
 ---
 spec_id: SPEC-147
 title: Decision trees para los 10 agentes top — completar de 1/10 a 10/10
-status: IN_PROGRESS
+status: IMPLEMENTED
+implemented_at: 2026-05-30
 implementation_prs: [771, 772]
 implementation_date: "2026-05-23"
 slices_done: "1+2 (7/10 trees)"
@@ -124,15 +125,21 @@ flowchart TD
 
 ## Acceptance Criteria
 
-- [ ] AC-01: 9 nuevos ficheros en `.claude/agents/decision-trees/`, cada uno ≤80 líneas.
-- [ ] AC-01b: Symlink `.opencode/agents/decision-trees` → `../../.claude/agents/decision-trees` creado y verificado por `tests/test-agent-decision-trees.bats` (hoy el symlink no existe — verificado 2026-05-23).
-- [ ] AC-02: Cada agente target tiene `decision_tree:` apuntando a su árbol — en AMBOS `.claude/agents/<name>.md` y `.opencode/agents/<name>.md`. El converter `agents-opencode-convert.sh` preserva el campo.
-- [ ] AC-03: BATS test `tests/test-agent-decision-trees.bats` verifica:
+- [x] AC-01: 9 nuevos ficheros en `.claude/agents/decision-trees/`, cada uno ≤80 líneas. Slice 3 paths literales:
+  - `.claude/agents/decision-trees/dev-orchestrator-decisions.md`
+  - `.claude/agents/decision-trees/court-orchestrator-decisions.md`
+  - `.claude/agents/decision-trees/frontend-developer-decisions.md`
+- [x] AC-01b: Symlink `.opencode/agents/decision-trees` → `../../.claude/agents/decision-trees` creado y verificado por `tests/test-agent-decision-trees.bats` (hoy el symlink no existe — verificado 2026-05-23).
+- [x] AC-02: Cada agente target tiene `decision_tree:` apuntando a su árbol — en AMBOS `.claude/agents/<name>.md` y `.opencode/agents/<name>.md`. El converter `agents-opencode-convert.sh` preserva el campo. Slice 3 agent paths:
+  - `.claude/agents/dev-orchestrator.md` y `.opencode/agents/dev-orchestrator.md`
+  - `.claude/agents/court-orchestrator.md` y `.opencode/agents/court-orchestrator.md`
+  - `.claude/agents/frontend-developer.md` y `.opencode/agents/frontend-developer.md`
+- [x] AC-03: BATS test `tests/test-agent-decision-trees.bats` verifica:
   - Existencia de cada fichero linkado.
   - ≤80 líneas.
   - Frontmatter del agente y árbol coinciden en `name`.
-- [ ] AC-04: Smoke test invocando 1 agente de cada (architect, code-reviewer) — confirma que el árbol se carga en context sin error.
-- [ ] AC-05: Documentación de patrón en `docs/best-practices-claude-code.md` (sección Decision Trees).
+- [x] AC-04: Smoke test invocando 1 agente de cada (architect, code-reviewer) — confirma que el árbol se carga en context sin error.
+- [x] AC-05: Documentación de patrón en `docs/best-practices-claude-code.md` (sección Decision Trees).
 
 ## Agent Assignment
 
@@ -211,3 +218,24 @@ to 19 checks (6 new Slice-2 tests + 13 existing Slice-1). **19/19 PASS**.
 
 - **Mantenimiento drift**: si el agente cambia y el árbol no → mismatch silencioso. Mitigación — test BATS bloquea PRs que tocan agent body sin tocar su árbol.
 - **Sobre-especificación**: árbol demasiado rígido degrada flexibilidad del modelo. Cap de 80 líneas + branching factor ≤4 fuerza simplicidad.
+
+
+
+### Slice 3 shipped (2026-05-30)
+
+3 final trees added in `feat/spec-147-slice3-decision-trees-20260530`:
+
+- `dev-orchestrator-decisions.md`     (69 lines) — slicing rules, token budget, DAG
+- `court-orchestrator-decisions.md`   (69 lines) — verdict routing, fix-cycle, judge fan-out
+- `frontend-developer-decisions.md`   (69 lines) — Angular/React routing, TDD, accessibility
+
+Frontmatter wired in 6 more files (3 agents × 2 catalogs). BATS extended
+to 36 checks (7 new Slice-3 tests + 29 existing). **36/36 PASS**.
+
+AC-05 docs section added to `docs/best-practices-claude-code.md` (§19) —
+documents the pattern, when to create a tree, anatomy, enforcement,
+coverage.
+
+**Coverage: 10/10 trees done — SPEC-147 COMPLETE**.
+
+`implemented_at: 2026-05-30`

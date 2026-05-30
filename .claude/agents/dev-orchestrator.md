@@ -1,5 +1,6 @@
 ---
 name: dev-orchestrator
+decision_tree: decision-trees/dev-orchestrator-decisions.md
 permission_level: L4
 description: Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto
 tools: [Read, Glob, Grep, Bash]
@@ -110,7 +111,7 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 
 ## Subagent Fan-Out Policy (SE-067)
 
-Opus 4.7 under-spawns by default. Fan-out paralelo en un turno para items independientes (NO spawn para single-response work). Ver `docs/propuestas/SE-067-orchestrator-fanout-adaptive-thinking.md`.
+Fan-out paralelo para items independientes. Ver `docs/propuestas/SE-067-orchestrator-fanout-adaptive-thinking.md`.
 
 ## Fallback mode (SPEC-127 Slice 4)
 

@@ -182,6 +182,55 @@ SLICE2_AGENTS=("dotnet-developer" "business-analyst" "sdd-spec-writer")
   [ "$count" -ge 7 ]
 }
 
+# ── Slice 3 trees ───────────────────────────────────────────────────────────
+
+SLICE3_AGENTS=("dev-orchestrator" "court-orchestrator" "frontend-developer")
+
+@test "Slice3 AC-01: 3 Slice-3 decision-tree files exist" {
+  for agent in dev-orchestrator court-orchestrator frontend-developer; do
+    [ -f "$TREES_DIR/${agent}-decisions.md" ]
+  done
+}
+
+@test "Slice3 AC-01: each Slice-3 tree is <=80 lines (cap)" {
+  for agent in dev-orchestrator court-orchestrator frontend-developer; do
+    lines=$(wc -l < "$TREES_DIR/${agent}-decisions.md")
+    [ "$lines" -le 80 ]
+  done
+}
+
+@test "Slice3 AC-01: each Slice-3 tree starts with proper H1 heading" {
+  for agent in dev-orchestrator court-orchestrator frontend-developer; do
+    head -1 "$TREES_DIR/${agent}-decisions.md" | grep -Eq "^# Decision Trees? — ${agent}"
+  done
+}
+
+@test "Slice3 AC-02: each Slice-3 agent has decision_tree: in both catalogs" {
+  for agent in dev-orchestrator court-orchestrator frontend-developer; do
+    for cat in .claude/agents .opencode/agents; do
+      grep -q "^decision_tree: decision-trees/${agent}-decisions.md$" "$REPO_ROOT/$cat/${agent}.md"
+    done
+  done
+}
+
+@test "Slice3 AC-03: each Slice-3 tree has cap header + routing + anti-patterns" {
+  for agent in dev-orchestrator court-orchestrator frontend-developer; do
+    file="$TREES_DIR/${agent}-decisions.md"
+    grep -q "Cap.*80" "$file"
+    grep -qE "^## (Cuando|Cuándo|Routing|When|Entry)" "$file"
+    grep -qE "Anti-patrones|Escalado|Escalate|NO hacer" "$file"
+  done
+}
+
+@test "Slice3 AC-05: docs section in best-practices-claude-code.md" {
+  grep -qiE "^#{1,3}.*Decision Trees?" "$REPO_ROOT/docs/best-practices-claude-code.md"
+}
+
+@test "Slice3 coverage: 10/10 trees done (all SPEC-147 trees shipped)" {
+  count=$(ls "$TREES_DIR"/*-decisions.md 2>/dev/null | wc -l)
+  [ "$count" -ge 10 ]
+}
+
 # ── Negative cases ──────────────────────────────────────────────────────────
 
 @test "negative: pilot trees do NOT reference real client names" {
