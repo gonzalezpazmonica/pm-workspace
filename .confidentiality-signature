@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=98f5f3377f6f92b8c70e98805da765563817856341821cdde81d57017e767f5b
-timestamp=2026-05-30T10:01:16Z
-branch=feat/se-tier0-batch-glm-20260530
-head_commit=c4ab8df3
-signature=9b3318db2d209e1ddbf76bf46d21faa7a4ef9eb1b3cfabe7600ef43d29b9f0db
+diff_hash=2514163f26c96d1a596db05a3bee5afb9c9eeeb76d64409d14b9637e09c13f2d
+timestamp=2026-05-30T10:52:45Z
+branch=chore/roadmap-reprio-post-tier0-20260530
+head_commit=8240aedb
+signature=676ca31037ff6a1efa3ce8e038ed1890a1413b0445ef0d99aa57f5e45480876b
