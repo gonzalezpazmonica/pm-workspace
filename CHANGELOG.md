@@ -6,60 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased] — 2026-05-30 · Tier 0 audit batch + GLM proposal
-
-Batch implementing 6 SE specs from 2026-05-27 obsolete/legacy audit, plus
-SE-104 ethical principles foundation and SE-105 GLM governance manifest
-proposal from external standard analysis.
-
-### Added
-- **SE-104**: `docs/rules/domain/savia-ethical-principles.md` (275L) — 13
-  humanist principles + 5 immutable red lines. Cross-referenced from CLAUDE.md,
-  savia.md, autonomous-safety.md, radical-honesty.md, equality-shield.md.
-- **SE-094**: `scripts/hooks-integrity-check.sh` (86L) — bidirectional
-  phantom/orphan detector with symlink support and `scripts/` search path.
-  Registered 4 previously-orphan hooks in `.claude/settings.json`:
-  android-adb-validate, cognitive-debt-hypothesis-first,
-  cognitive-debt-telemetry, project-isolation-gate.
-- **SE-095**: `scripts/count-commands.sh` (72L) — canonical command counter
-  (`--verbose`/`--list`). Total: 559 commands.
-- **SE-093**: `.claude/commands/project-switch.md` — slash command for active
-  project switching (uses existing project-context.sh set/detect/list).
-- **SE-105 (PROPOSED)**: `docs/propuestas/SE-105-glm-governance-manifest.md`
-  (233L) — adopt Governance Layer Manifest v1.0 (RFC 8615 well-known) as
-  machine-readable self-declaration layer for Savia governance boundaries.
-  Tier 2 §3.2 rank 16, M 4h, prioridad media, NO bloquea Tier 0.
-- 6 new specs in `docs/propuestas/`: SE-098..SE-103 + SE-105.
-
-### Changed
-- **SE-100**: `.opencode/CLAUDE.md` (120→93L), `.opencode/README.md`
-  (248→215L), `.opencode/HOOKS-STRATEGY.md` (152→98L) rewritten to reflect
-  real architecture (symlinks shared with `.claude/`, not parallel copy).
-  Eliminated false claim "`.claude/` is symlink to original directory" (was
-  reversed). Counters updated: 33→70 agents, 401→559 commands, 16→69 hooks,
-  43→98 skills.
-- **SE-095 bug fix**: `scripts/claude-md-drift-check.sh` was silently broken
-  (counted 0 commands — pointed to empty `.opencode/commands/` instead of
-  `.claude/commands/`). Now uses `count-commands.sh` and validates
-  `pm-workflow.md`.
-- `CLAUDE.md` + `docs/rules/domain/pm-workflow.md`: counters 553→559 commands.
-- `docs/propuestas/ROADMAP.md`: added SE-105 to §3.2 rank 16.
-- `docs/propuestas/SE-093-ZERO-LEAK.md`: status APPROVED→IMPLEMENTED.
-- `docs/propuestas/SE-100-opencode-docs-mig.md`: status APPROVED→IMPLEMENTED.
-- `.claude/settings.json`: +4 hook registrations (38 lines added).
-
-### Fixed
-- Drift check was masking systematic counter drift due to wrong path.
-  Now PASS: agents=70, commands=559, skills=98, hooks=69 (72 regs).
-
-### Discovered (not fixed in this batch)
-- 53 `.claude/` refs from `.opencode/` were assumed drift — investigation
-  revealed they are valid (symlinks). Real drift was concentrated in 3 doc
-  files describing a false architectural model.
-- Auditoría 2026-05-27 had 2 systemic bugs: didn't follow symlinks (-L) and
-  didn't check `scripts/` for hook implementations → overestimated hooks and
-  commands drift.
-
 ## [Unreleased] — 2026-05-23 · savia-evolution incorporation
 
 Generic improvements ported from a downstream private fork. Confidential
