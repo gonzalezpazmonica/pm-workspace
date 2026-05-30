@@ -4,10 +4,11 @@ title: Savia Roadmap — Canonical single source of truth
 status: LIVING
 author: Savia
 supersedes: SAVIA-SUPERPOWERS-ROADMAP.md, ROADMAP-UNIFIED-20260418.md (partial)
-last_updated: "2026-05-27"
+last_updated: "2026-05-30"
 expires: "2026-08-30"
 rebuild_note: "2026-05-23 — Rebuild Opción A (honest). Snapshot real verificado vs frontmatter (no inferencias). Tiers obsoletos 1-7 colapsados."
 audit_injection: "2026-05-27 — Integradas SE-094..SE-103 desde auditoria obsoleto/legado. Reprio P0..P3."
+reprio_2026_05_30: "Reprio §3.1+§3.2 post-merge PR #783 (Tier 0 batch). SE-094 finish nuevo rank 1 (1 orphan hook residual). SE-106 sube 17→13 (mayor ROI tokens). SE-079 reforzado (evidencia de uso en PR multi-spec)."
 ---
 
 # Savia Roadmap — Canonical
@@ -98,32 +99,35 @@ Specs con `priority: P0` o `priority: CRITICAL` en frontmatter. No requieren tri
 
 Specs con `priority: P1..P13` o `priority: alta/media/baja` + `effort`. Ordenadas por valor × urgencia / esfuerzo.
 
-### 3.1 Top de la cola post-overnight (alto valor, S/M)
+### 3.1 Top de la cola post-Tier 0 (reprio 2026-05-30, alto valor, S/M)
+
+> Reprio tras merge PR #783 (SE-093/095/100/104 IMPLEMENTED, SE-094 PARTIALLY_IMPLEMENTED, SE-105/106 PROPOSED).
+> Criterios: (a) cierra trabajo en vuelo, (b) bloquea cadena dependiente, (c) evidencia de uso reciente, (d) S effort.
 
 | Rank | Spec | Prio | Effort | Tema | Por qué top |
 |---:|---|---|---|---|---|
-| 1 | **SPEC-147 Slice 3** | P13 | ~3h | 3 trees restantes + AC-05 docs | Cierra trabajo abierto. Coste mínimo, valor alto (10/10 cobertura). |
-| 2 | **SE-079** pr-plan G13 scope-trace | media | S | Gate anti scope-creep | Refuerza control de PRs. Habilita cierre seguro de #765. |
-| 3 | **SE-080** attention-anchor vocabulary | media | S | Genesis B8/B9/A7/A9 patterns | Bajo coste, alta señal. |
-| 4 | **SE-081** Pocock skills quick-wins | alta | S | caveman + zoom-out + grill-me | Mejora skills meta-cognitivas. Ya tenemos los 3 skills (verificado en SKILLS.md). |
-| 5 | **SE-082** architectural-vocabulary discipline | alta | M | Module/Interface/Seam/Adapter | Lenguaje común. Habilita SE-086/SE-087. |
-| 6 | **SE-083** TDD vertical-slice skill | media | S | Anti-horizontal-slicing | Refuerza patrón ya documentado. |
-| 7 | **SE-084** skill-catalog quality audit | alta | M | Use-when + progressive disclosure | 96 skills sin auditoría sistemática. |
-| 8 | **SE-085** write-a-skill meta-skill | baja | S | Skill creation discipline | Bajo coste. Complementa skill-creator vendorizado en #769. |
-| 9 | **SE-097** Rules INDEX & manifest regen (auditoría) | P1 | M (~90min) | Desync masivo manifest | INDEX.md 165 líneas (>150 Rule #22) · 25 entries inexistentes · 202 ficheros no listados. Desbloquea trazabilidad. |
-| 10 | **SE-100** Update .opencode/ docs (52 stale .claude/ refs) | P1 | S (~90min) | Migración doc incompleta | Docs mienten sobre estructura real. Bloquea onboarding nuevo. |
-| 11 | **SE-096** Archive 9 orphan rules | P1 | S (~60min) | Ruido cognitivo | rule-orphan-detector reporta 9. Limpieza rápida tras auditoría. |
-| 12 | **SE-098** Split top-5 oversized agents | P1 | M (~4h) | Rule #22 violations | 27/70 oversized; top-5 lidera (code-reviewer 6794 B). Reduce contexto inflado. |
+| 1 | **SE-094 finish** (hooks-integrity completion) | P1 | XS (~30min) | 1 orphan hook detectado post-merge (`recommendation-tribunal-pre-output.sh` de SE-150) | Cierra el único finding parcial de SE-094 ya mergeado. Evidencia: `hooks-integrity-check.sh` reporta 1 ORPHAN. Hace SE-094 IMPLEMENTED end-to-end. |
+| 2 | **SE-079** pr-plan G13 scope-trace | media | S (~3h) | Gate anti scope-creep | **Subió de rank 2→2 reforzado**: el PR #783 fue un batch de 7 specs sin G13 — el riesgo es real y reciente. Habilita cierre seguro de futuros PRs multi-spec. |
+| 3 | **SPEC-147 Slice 3** | P13 | ~3h | 3 trees restantes (dev-orchestrator, court-orchestrator, frontend-developer) + AC-05 docs | Cierra spec IN_PROGRESS. Coste mínimo, valor alto (10/10 cobertura decision-trees). |
+| 4 | **SE-097** Rules INDEX & manifest regen | P1 | M (~90min) | Desync masivo manifest | INDEX.md sigue en 165L (>150 Rule #11), 25 entries inexistentes, 202 ficheros no listados. Desbloquea trazabilidad y test workspace-structure. |
+| 5 | **SE-096** Archive 9 orphan rules | P1 | S (~60min) | Ruido cognitivo | rule-orphan-detector reporta 9. Limpieza rápida. Pre-requisito de SE-097 (no archivar lo que el INDEX nuevo va a referenciar). |
+| 6 | **SE-080** attention-anchor vocabulary | media | S (~2h) | Genesis B8/B9/A7/A9 patterns | Bajo coste, alta señal. Sin dependencias. |
+| 7 | **SE-081** Pocock skills quick-wins | alta | S (~2h) | caveman + zoom-out + grill-me | Skills ya existen — solo falta integración disciplinada en agentes. |
+| 8 | **SE-083** TDD vertical-slice skill | media | S (~2h) | Anti-horizontal-slicing | Refuerza patrón ya documentado. Sin dependencias. |
+| 9 | **SE-098** Split top-5 oversized agents | P1 | M (~4h) | Rule #11 violations | 27/70 oversized. Reduce contexto inflado de agentes pesados (code-reviewer 6794 B). |
+| 10 | **SE-082** architectural-vocabulary discipline | alta | M (~4h) | Module/Interface/Seam/Adapter | Lenguaje común. Habilita SE-086/SE-087. |
+| 11 | **SE-084** skill-catalog quality audit | alta | M (~6h) | Use-when + progressive disclosure | 98 skills sin auditoría sistemática. Coste alto pero amortizable. |
+| 12 | **SE-085** write-a-skill meta-skill | baja | S (~2h) | Skill creation discipline | Bajo coste. Complementa skill-creator vendorizado. |
 
 ### 3.2 Segundo lote (M, alta señal estratégica)
 
 | Rank | Spec | Prio | Effort | Tema |
 |---:|---|---|---|---|
-| 13 | **SE-086** ubiquitous-language extractor | media | M | DDD glossary from conversation |
-| 14 | **SE-087** design-an-interface parallel | media | M | Parallel sub-agents for module interface |
-| 15 | **SPEC-149** sandbox OS-level | P1 | ~20h | Defense in depth para modos autónomos. Convierte rule en runtime gate. |
-| 16 | **SE-105** GLM v1.0 governance manifest | media | M 4h | Self-declaration machine-readable de boundaries (RFC 8615 well-known). Externaliza governance interna de Savia para auditores/procurement/sistemas adyacentes. NO bloquea Tier 0. |
-| 17 | **SE-106** Tiered tribunal execution | media | M 5h | Secuencial Tier 0 + paralelo Tier 1 con early-stop on veto. Ahorra ~67% tokens en runs vetados de Truth Tribunal y Code Review Court. Recommendation Tribunal queda fuera (latencia sync). |
+| 13 | **SE-106** Tiered tribunal execution | media | M (~5h) | **Subió rank 17→13**: Tras SE-094/095/093/100/104 mergeados, los Tribunales son la mayor fuente de coste de tokens en CI. Court primero (menor blast radius), Truth Tribunal tras 2 semanas. |
+| 14 | **SE-086** ubiquitous-language extractor | media | M | DDD glossary from conversation |
+| 15 | **SE-087** design-an-interface parallel | media | M | Parallel sub-agents for module interface |
+| 16 | **SE-105** GLM v1.0 governance manifest | media | M (~4h) | Self-declaration machine-readable de boundaries (RFC 8615 well-known). Externaliza governance para auditores/procurement. Sin urgencia inmediata. |
+| 17 | **SPEC-149** sandbox OS-level | P1 | ~20h | Defense in depth para modos autónomos. Convierte rule en runtime gate. L effort — requiere probe Slice 1 antes. |
 
 ### 3.3 SLM pipeline (estratégico, requiere humano-en-loop)
 
