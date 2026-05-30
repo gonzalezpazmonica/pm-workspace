@@ -54,10 +54,25 @@ for rel in "${REGISTERED[@]}"; do
   PHANTOM+=("$rel")
 done
 
-# Detect orphans: .sh in .opencode/hooks/ not referenced anywhere in settings.json
+# Allowlist: hooks that are intentionally WIRE-READY but NOT registered.
+# Each entry MUST justify why (governance / spec reference / human-gate reason).
+# Format: "filename.sh\tjustification" — one per line, TAB-separated.
+ALLOWLIST_FILE="$REPO_ROOT/.claude/hooks-allowlist.tsv"
+
+declare -A ALLOWED=()
+if [[ -f "$ALLOWLIST_FILE" ]]; then
+  while IFS=$'\t' read -r fname _just; do
+    [[ -z "$fname" || "$fname" =~ ^# ]] && continue
+    ALLOWED["$fname"]=1
+  done < "$ALLOWLIST_FILE"
+fi
+
+# Detect orphans: .sh in .opencode/hooks/ not referenced in settings.json
+# AND not on the allowlist (deliberate non-registration).
 mapfile -t ORPHANS < <(
   while IFS= read -r f; do
     base="$(basename "$f")"
+    [[ -n "${ALLOWED[$base]:-}" ]] && continue
     if ! grep -q "$base" "$SETTINGS" 2>/dev/null; then
       echo "$base"
     fi

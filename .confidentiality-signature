@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2514163f26c96d1a596db05a3bee5afb9c9eeeb76d64409d14b9637e09c13f2d
-timestamp=2026-05-30T10:52:45Z
-branch=chore/roadmap-reprio-post-tier0-20260530
-head_commit=8240aedb
-signature=676ca31037ff6a1efa3ce8e038ed1890a1413b0445ef0d99aa57f5e45480876b
+diff_hash=969852c95187623ad556189670c12139b67568b3dc6f2eb068ea597cf28e820a
+timestamp=2026-05-30T11:32:17Z
+branch=feat/se-094-finish-orphan-hook-20260530
+head_commit=146cc45b
+signature=6a476ff56301f2196df7c9bb924d1199aa984c686907c06bc39c247ff3c2dad6
