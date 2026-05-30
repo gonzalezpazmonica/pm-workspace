@@ -1,10 +1,9 @@
 ---
 spec_id: SE-094
 title: Hooks integrity — registered without file & files without registration
-status: PARTIALLY_IMPLEMENTED
-implemented_at: 2026-05-27
+status: IMPLEMENTED
+implemented_at: 2026-05-30
 implemented_by: opencode-claude-opus-4.7
-pending: recommendation-tribunal-pre-output.sh registration (SPEC-125 review pending)
 approved_by: operator (2026-05-27)
 priority: P0
 effort: S
@@ -37,9 +36,10 @@ Para cada uno de los 7 sin registro:
 
 ## Aceptación
 
-- `hooks-orphan-check` (a crear o vía script ad-hoc del auditor) reporta 0 huérfanos en ambos sentidos
-- CLAUDE.md drift check sigue PASS
-- CHANGELOG documenta cada decisión
+- [x] AC-1: `hooks-orphan-check` reporta 0 huérfanos en ambos sentidos (`scripts/hooks-integrity-check.sh`)
+- [x] AC-2: CLAUDE.md drift check sigue PASS
+- [x] AC-3: CHANGELOG documenta cada decisión (`CHANGELOG.d/feat-se-094-finish-orphan-hook-20260530.md`)
+- [x] AC-4: allowlist mechanism for deliberate non-registration — `.claude/hooks-allowlist.tsv` + `scripts/hooks-integrity-check.sh` reads it + `tests/structure/test-hooks-integrity-allowlist.bats` enforces contract (justification ≥10 chars + spec/rule citation)
 
 ## Notas
 
@@ -61,3 +61,17 @@ Algunos huérfanos (`auto-grill-me`, `auto-zoom-out`, `recommendation-tribunal-p
   - `project-isolation-gate.sh` → PreToolUse / Edit|Write|Read (SE-093 zero-leak)
 - Backup: `.claude/settings.json.bak-se094`
 - `hooks-integrity-check.sh` ahora reporta solo 1 huérfano restante: `recommendation-tribunal-pre-output.sh` (SPEC-125, pendiente decisión).
+
+
+## Notas de cierre (2026-05-30)
+
+El último orphan residual (`recommendation-tribunal-pre-output.sh`) no es un fallo:
+es un hook WIRE-READY de SPEC-125 Slice 1 que requiere revisión humana deliberada
+antes de activarse (gobernanza). Para cerrar SE-094 sin forzar esa activación:
+
+- Añadido mecanismo de allowlist en `scripts/hooks-integrity-check.sh`.
+- `.claude/hooks-allowlist.tsv` lista hooks WIRE-READY con justificación obligatoria
+  (formato `filename.sh<TAB>justificación`, una entrada por hook).
+- Test BATS `tests/structure/test-hooks-integrity-allowlist.bats` valida el contrato:
+  cada entrada de la allowlist requiere justificación ≥10 chars y referencia a un spec.
+- Resultado: `bash scripts/hooks-integrity-check.sh` reporta PASS (0 orphans, 0 phantoms).
