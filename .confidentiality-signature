@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0ee8cd238ce0adaca4991ef4fc608638b50d096eb0764e899a53ff9fdd6fe98e
-timestamp=2026-05-30T12:09:41Z
+diff_hash=b96cd1bf51fd7a488d93662aa98af3c93fb03d32c5e54099e57d2428a6d1cd85
+timestamp=2026-05-30T12:18:05Z
 branch=feat/spec-147-slice3-decision-trees-20260530
-head_commit=4ddb8127
-signature=f7f45504a5b258ca84f3bb94d9447211c880da5faba34e91e1b2b22a0568e225
+head_commit=dc79883c
+signature=19bc688d6f06ae7f899edfbd64d7d82f2bb41d65777b9677bd02a661bebb670e
