@@ -1,7 +1,9 @@
 ---
 spec_id: SE-093
 title: Zero project leakage enforcement — context isolation by project
-status: APPROVED
+status: IMPLEMENTED
+implemented_at: 2026-05-27
+implemented_by: opencode-claude-opus-4.7
 approved_by: operator (2026-05-07)
 priority: CRITICAL
 effort: M
@@ -139,3 +141,14 @@ exit 0
 - docs/rules/domain/zero-project-leakage.md — regla canónica
 - docs/rules/domain/context-placement-confirmation.md — N1-N4b levels
 - SaviaClaw Talk: bug de mezcla de proyectos detectado 2026-05-07
+
+## Notas de implementación (2026-05-27)
+
+Estado al inicio: scripts/project-context.sh existía (112 líneas, funciones list/detect/set/clear/status), hook project-isolation-gate.sh existía pero sin registrar, regla docs/rules/domain/zero-project-leakage.md existía.
+
+Acciones completadas en este turno:
+- Hook `project-isolation-gate.sh` registrado en `.claude/settings.json` como PreToolUse/Edit|Write|Read (parte de SE-094).
+- Comando slash `/project-switch` creado en `.claude/commands/project-switch.md` (5 secciones: banner, estado sin args, validación, cambio, resumen). Usa funciones existentes set/detect/list.
+- Drift check actualizado: 558 -> 559 commands.
+
+Estado final: AC-1/AC-2/AC-3/AC-4 cumplidos.

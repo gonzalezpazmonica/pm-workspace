@@ -23,7 +23,7 @@ set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-SETTINGS="$ROOT_DIR/.claude/settings.json"
+SETTINGS="${SAVIA_SETTINGS_OVERRIDE:-$ROOT_DIR/.claude/settings.json}"
 
 USER_NAME="${USER:-unknown}"
 TELEMETRY_DIR="${SAVIA_COGNITIVE_DIR:-$HOME/.savia/cognitive-load}"

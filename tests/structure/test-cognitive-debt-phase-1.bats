@@ -62,7 +62,13 @@ teardown() {
 # ── C2 — Subcommand: status (positive) ──────────────────────────────────────
 
 @test "status: zero-arg shows DISABLED state by default (opt-in CD-04)" {
-  out=$(bash "$CDEBT_ABS" status 2>&1)
+  # SE-094 wired the cognitive-debt hooks in the real workspace settings.json
+  # (they were orphan registrations). The opt-in DISABLED path is still
+  # supported and tested here with a synthetic settings.json that does NOT
+  # reference the hook — proving the script reports DISABLED in that case.
+  local fake_settings="$TMPDIR_C/settings.json"
+  echo '{"hooks":{}}' > "$fake_settings"
+  out=$(SAVIA_SETTINGS_OVERRIDE="$fake_settings" bash "$CDEBT_ABS" status 2>&1)
   [[ "$out" == *"DISABLED"* ]]
   [[ "$out" == *"opt-in"* ]]
 }
@@ -189,7 +195,11 @@ teardown() {
 }
 
 @test "CD-04: opt-in by default (DISABLED state visible in status)" {
-  out=$(bash "$CDEBT_ABS" status 2>&1)
+  # SE-094 wired the hooks in real settings.json; the opt-in semantic is
+  # still honored when no hook references exist (tested with synthetic settings).
+  local fake_settings="$TMPDIR_C/settings.json"
+  echo '{"hooks":{}}' > "$fake_settings"
+  out=$(SAVIA_SETTINGS_OVERRIDE="$fake_settings" bash "$CDEBT_ABS" status 2>&1)
   [[ "$out" == *"DISABLED"* ]]
   [[ "$out" == *"opt-in"* ]] || [[ "$out" == *"CD-04"* ]]
 }

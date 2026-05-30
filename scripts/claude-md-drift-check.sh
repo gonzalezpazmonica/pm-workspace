@@ -16,7 +16,7 @@ CLAUDE_MD="$ROOT/CLAUDE.md"
 
 # Real counts
 REAL_AGENTS=$(ls "$ROOT"/.opencode/agents/*.md 2>/dev/null | wc -l)
-REAL_COMMANDS=$(ls "$ROOT"/.opencode/commands/*.md 2>/dev/null | wc -l)
+REAL_COMMANDS=$(REPO_ROOT="$ROOT" bash "$SCRIPT_DIR/count-commands.sh" 2>/dev/null || echo 0)
 REAL_SKILLS=$(ls "$ROOT"/.opencode/skills/*/SKILL.md 2>/dev/null | wc -l)
 REAL_HOOKS=$(ls "$ROOT"/.opencode/hooks/*.sh 2>/dev/null | wc -l)
 REAL_HOOK_REGS=$(python3 -c "
@@ -53,6 +53,15 @@ fi
 if ! grep -qE "hooks\($REAL_HOOKS" "$CLAUDE_MD"; then
   DRIFT=1
   FINDINGS+="  hooks: CLAUDE.md does not reference real count $REAL_HOOKS (on-disk)\n"
+fi
+
+# Check pm-workflow.md commands counter (SE-095)
+PM_WORKFLOW="$ROOT/docs/rules/domain/pm-workflow.md"
+if [[ -f "$PM_WORKFLOW" ]]; then
+  if ! grep -qE "Comandos Disponibles \($REAL_COMMANDS\)" "$PM_WORKFLOW"; then
+    DRIFT=1
+    FINDINGS+="  pm-workflow.md: commands counter does not match real count $REAL_COMMANDS\n"
+  fi
 fi
 
 # Check "Catálogo N agentes" in lazy reference table

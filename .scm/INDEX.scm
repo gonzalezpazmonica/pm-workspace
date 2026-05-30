@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 4e653638ddff | resources: 1177
-> 553 commands · 98 skills · 70 agents · 456 scripts
+> hash: f8acc5eaca8b | resources: 1180
+> 554 commands · 98 skills · 70 agents · 458 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -547,6 +547,7 @@
 [planning] contribute — capa,comunidad,contribute,github,interacción — script:scripts/contribute.sh
 [planning] cost-center — billing,budgets,cost,forecasting,invoicing — cmd:.claude/commands/cost-center.md
 [planning] cost-management — costes,facturas,forecasting,gestionan,presupuestos — skill:.claude/skills/cost-management/SKILL.md
+[planning] count-commands — canonical,commands,count,counter,slash — script:scripts/count-commands.sh
 [planning] court-calendar —  — cmd:.claude/commands/court-calendar.md
 [planning] credential-proxy — agents,credential,isolation,managed,pattern — script:scripts/credential-proxy.sh
 [planning] credential-scan —  — cmd:.claude/commands/credential-scan.md
@@ -652,6 +653,7 @@
 [planning] hook-pii-gate — commit,gate,hook,quality — script:scripts/hook-pii-gate.sh
 [planning] hook-profile — active,change,hook,minimal,profile — cmd:.claude/commands/hook-profile.md
 [planning] hook-profile — active,hook,profile,savia — script:scripts/hook-profile.sh
+[planning] hooks-integrity-check — check,detect,hooks,integrity,orphan — script:scripts/hooks-integrity-check.sh
 [planning] hw-bom —  — cmd:.claude/commands/hw-bom.md
 [planning] hw-revision —  — cmd:.claude/commands/hw-revision.md
 [planning] import-sprint-story —  — cmd:.claude/commands/import-sprint-story.md
@@ -758,6 +760,7 @@
 [planning] project-new —  — cmd:.claude/commands/project-new.md
 [planning] project-release-plan —  — cmd:.claude/commands/project-release-plan.md
 [planning] project-roadmap —  — cmd:.claude/commands/project-roadmap.md
+[planning] project-switch — activo,aislamiento,cambia,contexto,proyecto — cmd:.claude/commands/project-switch.md
 [planning] project-update — activo,actualización,fuentes,integral,proyecto — skill:.claude/skills/project-update/SKILL.md
 [planning] project-update-devops — config,devops,project,real,resuelve — script:scripts/project-update-devops.sh
 [planning] prompt-optimizer — agente,efectividad,mejorar,optimiza,prompt — skill:.claude/skills/prompt-optimizer/SKILL.md
