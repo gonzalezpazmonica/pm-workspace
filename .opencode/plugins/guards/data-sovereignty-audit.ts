@@ -20,6 +20,7 @@ import {
   extractToolName,
   extractFilePath,
   type ToolInput,
+  type ToolOutput,
 } from "../lib/hook-input.ts";
 import {
   detectSovereigntyLeak,
@@ -39,11 +40,11 @@ async function readWrittenFile(filePath: string): Promise<string> {
   }
 }
 
-export async function dataSovereigntyAudit(input: ToolInput, _output: unknown): Promise<void> {
+export async function dataSovereigntyAudit(input: ToolInput, output: ToolOutput): Promise<void> {
   const tool = extractToolName(input);
   if (tool !== "edit" && tool !== "write") return;
 
-  const rawPath = extractFilePath(input);
+  const rawPath = extractFilePath(input, output);
   if (!rawPath) return;
 
   const normPath = rawPath.replace(/\\/g, "/");

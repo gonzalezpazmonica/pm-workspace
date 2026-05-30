@@ -1,39 +1,88 @@
-// hook-input.ts — SPEC-127 Slice 2b-ii
+// hook-input.ts — SPEC-127 Slice 2b-ii + SPEC-155 (args shape fix)
 //
 // Common helpers for extracting fields from OpenCode tool.execute.before
-// input/output objects. Mirrors what the bash hooks did with `jq` against
-// stdin JSON.
+// (input, output) callbacks.
 //
-// OpenCode v1.14 hook signature: (input, output) where input has shape
-// { tool: string; args: Record<string, unknown> }. These helpers tolerate
-// shape drift and return empty string when fields are absent.
+// OpenCode v1.14+ contract (per https://opencode.ai/docs/plugins/):
+//   - `input.tool`     → string, tool name
+//   - `output.args`    → Record<string, unknown>, MUTABLE args object
+//   - Mutations to args (e.g. shell escaping, secret redaction) MUST be
+//     applied on `output.args` to take effect downstream.
+//
+// Legacy shape (pre-v1.14 / Claude Code bash hooks emulated in tests):
+//   - `input.args`     → was the args carrier.
+//
+// To stay compatible with both, helpers accept (input, output?) and prefer
+// `output.args` when present, falling back to `input.args`. Mutators use
+// `mutableArgs(input, output)` which returns the args object guards should
+// write to so the change is observed by the runtime.
 
 export type ToolInput = {
   tool?: string;
   args?: Record<string, unknown>;
 };
 
-export function extractToolName(input: ToolInput): string {
+export type ToolOutput = {
+  args?: Record<string, unknown>;
+};
+
+function pickArgs(input?: ToolInput, output?: ToolOutput): Record<string, unknown> {
+  // Real OpenCode v1.14+ shape first; legacy fallback for retro-compat.
+  return (output?.args as Record<string, unknown> | undefined)
+    ?? (input?.args as Record<string, unknown> | undefined)
+    ?? {};
+}
+
+/** Returns the args object guards should MUTATE for the runtime to see it.
+ *  Prefers output.args (real contract); if absent but input.args exists,
+ *  returns input.args (covers legacy fixtures + Claude Code bash hooks). */
+export function mutableArgs(input?: ToolInput, output?: ToolOutput): Record<string, unknown> | null {
+  // Real OpenCode v1.14+: output.args populated by runtime — mutate it.
+  if (output && typeof output === "object" && output.args && typeof output.args === "object") {
+    return output.args as Record<string, unknown>;
+  }
+  // Legacy fixtures / Claude Code bash hooks: args live on input. Mutate input.args
+  // so test assertions and downstream legacy callers observe the change.
+  if (input?.args && typeof input.args === "object") {
+    // Mirror by reference so a v1.14 runtime would also see it.
+    if (output && typeof output === "object") {
+      output.args = input.args;
+    }
+    return input.args as Record<string, unknown>;
+  }
+  // Last resort: materialize output.args.
+  if (output && typeof output === "object") {
+    output.args = {};
+    return output.args as Record<string, unknown>;
+  }
+  return null;
+}
+
+export function extractToolName(input?: ToolInput): string {
   return String(input?.tool ?? "").toLowerCase();
 }
 
-export function extractCommand(input: ToolInput): string {
-  const cmd = input?.args?.command;
+export function extractCommand(input?: ToolInput, output?: ToolOutput): string {
+  const cmd = pickArgs(input, output).command;
   return typeof cmd === "string" ? cmd : "";
 }
 
-export function extractFilePath(input: ToolInput): string {
-  const args = input?.args ?? {};
-  // OpenCode v1.14 tool schema uses camelCase (filePath); legacy Claude Code
-  // bash hooks used snake_case (file_path). Accept both for compat.
+export function extractFilePath(input?: ToolInput, output?: ToolOutput): string {
+  const args = pickArgs(input, output);
+  // OpenCode v1.14 schema: filePath (camelCase). Legacy: file_path / path.
   const fp = args.filePath ?? args.file_path ?? args.path ?? "";
   return typeof fp === "string" ? fp : "";
 }
 
-export function extractContent(input: ToolInput): string {
-  const args = input?.args ?? {};
-  // OpenCode v1.14: write uses `content`, edit uses `newString` (camelCase).
-  // Legacy Claude Code: edit used `new_string` (snake_case). Accept both.
+export function extractContent(input?: ToolInput, output?: ToolOutput): string {
+  const args = pickArgs(input, output);
+  // OpenCode v1.14: write → `content`, edit → `newString`.
+  // Legacy Claude Code: edit → `new_string`.
   const c = args.content ?? args.newString ?? args.new_string ?? "";
   return typeof c === "string" ? c : "";
+}
+
+export function extractPattern(input?: ToolInput, output?: ToolOutput): string {
+  const p = pickArgs(input, output).pattern;
+  return typeof p === "string" ? p : "";
 }

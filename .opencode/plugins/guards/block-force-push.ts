@@ -6,7 +6,7 @@
 // Reference: docs/rules/domain/autonomous-safety.md
 // Reference: docs/rules/domain/critical-rules-extended.md (Rule 13)
 
-import { extractToolName, extractCommand, type ToolInput } from "../lib/hook-input.ts";
+import { extractToolName, extractCommand, type ToolInput, type ToolOutput } from "../lib/hook-input.ts";
 
 const BLOCK_RULES: Array<{ rx: RegExp; msg: string }> = [
   {
@@ -44,9 +44,9 @@ const BLOCK_RULES: Array<{ rx: RegExp; msg: string }> = [
   },
 ];
 
-export async function blockForcePush(input: ToolInput, _output: unknown): Promise<void> {
+export async function blockForcePush(input: ToolInput, output: ToolOutput): Promise<void> {
   if (extractToolName(input) !== "bash") return;
-  const command = extractCommand(input);
+  const command = extractCommand(input, output);
   if (!command) return;
 
   for (const r of BLOCK_RULES) {

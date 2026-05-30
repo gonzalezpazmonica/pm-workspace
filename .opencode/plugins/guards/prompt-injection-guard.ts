@@ -13,6 +13,7 @@ import {
   extractFilePath,
   extractContent,
   type ToolInput,
+  type ToolOutput,
 } from "../lib/hook-input.ts";
 import { detectInjection } from "../lib/injection-patterns.ts";
 
@@ -57,17 +58,17 @@ function shouldSkipPath(p: string): boolean {
   return SKIP_PATH_PATTERNS.some((rx) => rx.test(p));
 }
 
-export async function promptInjectionGuard(input: ToolInput, _output: unknown): Promise<void> {
+export async function promptInjectionGuard(input: ToolInput, output: ToolOutput): Promise<void> {
   const tool = extractToolName(input);
   if (tool !== "edit" && tool !== "write") return;
 
-  const filePath = extractFilePath(input);
+  const filePath = extractFilePath(input, output);
   if (!filePath) return;
   if (SKIP_EXTENSIONS.has(ext(filePath))) return;
   if (shouldSkipPath(filePath)) return;
   if (!isContextPath(filePath)) return;
 
-  const content = extractContent(input);
+  const content = extractContent(input, output);
   if (!content) return;
 
   const verdict = detectInjection(content);
