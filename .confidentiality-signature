@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=a59b6d3a7bf2f8dcc4094a1d634a64a04e29cb478dff546dc41b2854b53ba569
-timestamp=2026-05-31T11:05:58Z
+timestamp=2026-05-31T11:12:27Z
 branch=feature/spec-161-protected-job-names
-head_commit=71476040
-signature=ea15606117e6547ade5986b6cc0a62b1c5543582e21d03f73976520a2fcdf951
+head_commit=ecdf7ead
+signature=4f45447e20a372c706f1ab3cd63c01b4904a8a708bd7708f1e3823620f2872dc
