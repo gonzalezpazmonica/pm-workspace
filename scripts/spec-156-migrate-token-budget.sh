@@ -9,7 +9,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-AGENTS_DIR="$ROOT_DIR/.opencode/agents"
+AGENTS_DIR="$ROOT_DIR/.claude/agents"
 
 [ -d "$AGENTS_DIR" ] || { echo "ERROR: $AGENTS_DIR not found"; exit 2; }
 
