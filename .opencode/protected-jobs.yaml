@@ -1,0 +1,24 @@
+# PROTECTED_JOB_NAMES — SPEC-161
+# Allowlist de agentes costosos NO invocables desde bucles autónomos.
+# Override: SAVIA_PROTECTED_JOB_OVERRIDE=@handle (requiere humano explícito).
+
+protected_agents:
+  - architect
+  - sdd-spec-writer
+  - court-orchestrator
+  - truth-tribunal-orchestrator
+  - infrastructure-agent
+  - security-guardian
+  - drift-auditor
+  - pentester
+  - legal-compliance
+  - confidentiality-auditor
+  - meeting-risk-analyst
+  - model-upgrade-auditor
+
+autonomous_modes:
+  - overnight-sprint
+  - code-improvement-loop
+  - tech-research-agent
+
+override_env: SAVIA_PROTECTED_JOB_OVERRIDE
