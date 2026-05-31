@@ -886,3 +886,40 @@ Archivos: `docs/propuestas/SPEC-156..160-*.md` + `SPEC-162-self-evolving-tools-r
 - Permisos L0-L4 + AUTONOMOUS_REVIEWER (autonomous-safety)
 - Subagent Scope Guard (SE-146)
 - Savia Shield (data-sovereignty)
+
+## Era 199 — LeCun JEPA Alignment (PROPOSED 2026-05-31)
+
+**Origen**: investigacion `lecun-jepa-h-research-2026` sobre arquitectura cognitiva H-JEPA de Yann LeCun aplicada a Savia.
+**Diagnostico**: Savia cubre ~60% del modelo cognitivo (Perception, Critic via tribunales, Short-term memory). Gaps reales en World Model, feedback de memoria, Configurator explicito y Actor iterativo.
+**Sinergia con Era 198**: SPEC-156 (token budget) habilita SPEC-165 (simulator pre-action). SPEC-163 (router) extiende SPEC-158 (workflow vs agent decision gate).
+
+### Tier 1A — HIGH (sprint inmediato, total 11h)
+
+| # | ID | Propuesta | Status | Esfuerzo | Notas |
+|---|----|-----------|--------|----------|-------|
+| 1 | SPEC-163 | Router Mode 1/2 (System 1 vs 2 dispatch) | PROPOSED | 6h | Extiende SPEC-158. Heuristica fast-path vs deep-reasoning. |
+| 2 | SPEC-164 | Memory Feedback Loop | PROPOSED | 5h | Auto-escritura de outcomes en memoria tras cada tarea. |
+
+### Tier 2 — MEDIUM (sprint siguiente, total 26h)
+
+| # | ID | Propuesta | Status | Esfuerzo | Notas |
+|---|----|-----------|--------|----------|-------|
+| 3 | SPEC-165 | World Model Simulation (pre-action) | PROPOSED | 12h | Simulador de coste/impacto antes de ejecutar. Habilita SPEC-168. |
+| 4 | SPEC-166 | Configurator Explicito | PROPOSED | 8h | Centraliza dispatch System 2. Sinergico con SPEC-163. |
+| 5 | SPEC-167 | Critic RAG (BM25 sobre memoria) | PROPOSED | 6h | Consume escrituras de SPEC-164 para jueces contextualizados. |
+
+### Tier 3 — LOW (research backlog, total 10h)
+
+| # | ID | Propuesta | Status | Esfuerzo | Notas |
+|---|----|-----------|--------|----------|-------|
+| 6 | SPEC-168 | Actor Iterativo Pre-Action | PROPOSED | 10h | Inner loop con simulator. **Blocked-by SPEC-165**. |
+
+### Dependencias internas
+
+- SPEC-168 → SPEC-165 (requiere world model)
+- SPEC-167 → SPEC-164 (consume memoria escrita)
+- SPEC-166 ⇄ SPEC-163 (sinergia configurator/router)
+
+### Specs detallados
+
+Archivos: `docs/propuestas/SPEC-163..168-*.md`. Todos comparten frontmatter `origin: lecun-jepa-h-research-2026` para trazabilidad.
