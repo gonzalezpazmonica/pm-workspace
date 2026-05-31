@@ -656,34 +656,36 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ### SPECs propuestas
 
+> **Nota saneamiento 2026-05-31**: bloque conceptual renumerado a SE-160..SE-171 para resolver colisión con specs reales en `docs/propuestas/SE-098..SE-106`. Mapping: 098→162, 099→160, 100→163, 101→161, 102→164, 103→165, 104→166, 105→167, 106→168, 107→169, 108→170, 109→171. Ver ADR-002 (pendiente).
+
 | ID | Título | Origen | Impacto | Complejidad | Era estimada |
 |----|--------|---------|---------|-------------|-------------|
-| SE-098 | Knowledge Graph sobre memoria Savia — aristas tipadas sin LLM en cada escritura | GBrain auto-link | Alto | Media | 251 |
-| SE-099 | RESOLVER.md explícito — tabla dispatch intent→skill/agente | GBrain RESOLVER.md | Medio | Baja | 251 |
-| SE-100 | Dream cycle upgrade — Haiku pre-filter + verdict cache en overnight-sprint | GBrain dream synthesize | Alto | Media | 252 |
-| SE-101 | PROTECTED_JOB_NAMES — bloquear invocación MCP de agentes costosos en bucles autónomos | GBrain PROTECTED_JOB_NAMES | Medio | Baja | 251 |
-| SE-102 | Typed facts en PBIs/sprints — columnas velocity, completion_rate para trajectory queries | GBrain trajectory | Medio | Media | 253 |
-| SE-103 | /workspace-health scoring 0-100 con --remediate automático | GBrain doctor | Alto | Alta | 253 |
-| SE-104 | Skill Calibration Pipeline — harness que mide uplift con/sin skill en tareas estándar | Modern Web Guidance eval | Alto | Alta | 254 |
-| SE-105 | Skill Maturity Kanban — savia audit con estados Stub/Incomplete/Calibrated/Deprecated | Modern Web Guidance gd audit | Medio | Baja | 252 |
-| SE-106 | Negative demo para skills críticas — output incorrecto gold-standard como artefacto de primera clase | Modern Web Guidance calibración | Medio | Media | 254 |
-| SE-107 | Token pruning basado en evidencia — identificar secciones de skills con uplift ~0 | Modern Web Guidance token efficiency | Medio | Alta | 255 |
-| SE-108 | Transclusion macros en SKILL.md — eliminar duplicación de reglas PII/seguridad | Modern Web Guidance macros | Bajo | Baja | 252 |
-| SE-109 | Contradiction detector sobre memoria Savia — detecta decisiones opuestas entre sesiones | GBrain suspected-contradictions | Alto | Alta | 254 |
+| SE-162 | Knowledge Graph sobre memoria Savia — aristas tipadas sin LLM en cada escritura | GBrain auto-link | Alto | Media | 251 |
+| SE-160 | RESOLVER.md explícito — tabla dispatch intent→skill/agente | GBrain RESOLVER.md | Medio | Baja | 251 |
+| SE-163 | Dream cycle upgrade — Haiku pre-filter + verdict cache en overnight-sprint | GBrain dream synthesize | Alto | Media | 252 |
+| SE-161 | PROTECTED_JOB_NAMES — bloquear invocación MCP de agentes costosos en bucles autónomos | GBrain PROTECTED_JOB_NAMES | Medio | Baja | 251 |
+| SE-164 | Typed facts en PBIs/sprints — columnas velocity, completion_rate para trajectory queries | GBrain trajectory | Medio | Media | 253 |
+| SE-165 | /workspace-health scoring 0-100 con --remediate automático | GBrain doctor | Alto | Alta | 253 |
+| SE-166 | Skill Calibration Pipeline — harness que mide uplift con/sin skill en tareas estándar | Modern Web Guidance eval | Alto | Alta | 254 |
+| SE-167 | Skill Maturity Kanban — savia audit con estados Stub/Incomplete/Calibrated/Deprecated | Modern Web Guidance gd audit | Medio | Baja | 252 |
+| SE-168 | Negative demo para skills críticas — output incorrecto gold-standard como artefacto de primera clase | Modern Web Guidance calibración | Medio | Media | 254 |
+| SE-169 | Token pruning basado en evidencia — identificar secciones de skills con uplift ~0 | Modern Web Guidance token efficiency | Medio | Alta | 255 |
+| SE-170 | Transclusion macros en SKILL.md — eliminar duplicación de reglas PII/seguridad | Modern Web Guidance macros | Bajo | Baja | 252 |
+| SE-171 | Contradiction detector sobre memoria Savia — detecta decisiones opuestas entre sesiones | GBrain suspected-contradictions | Alto | Alta | 254 |
 
 ### Priorización recomendada
 
-**Inmediato (Era 251):** SE-099 (~2h, cero deps), SE-101 (~1h, cero deps), SE-098 (~8h, requiere diseño schema de aristas).
+**Inmediato (Era 251):** SE-160 (~2h, cero deps), SE-161 (~1h, cero deps), SE-162 (~8h, requiere diseño schema de aristas).
 
-**Ciclo siguiente (Era 252-253):** SE-100 (dream cycle upgrade), SE-105 (skill maturity kanban), SE-103 (workspace health).
+**Ciclo siguiente (Era 252-253):** SE-163 (dream cycle upgrade), SE-167 (skill maturity kanban), SE-165 (workspace health).
 
-**Requieren madurez previa (Era 254+):** SE-104 y SE-107 dependen de corpus de evals. SE-109 depende de SE-098.
+**Requieren madurez previa (Era 254+):** SE-166 y SE-169 dependen de corpus de evals. SE-171 depende de SE-162.
 
 ### Descartados tras análisis
 
 - Separación src/dist para skills públicas: infraestructura mayor, bajo ROI inmediato.
-- Uplift dashboard: derivado de SE-104, no independiente.
-- Search modes nombrados: dependen de SE-098 como prerequisito real.
+- Uplift dashboard: derivado de SE-166, no independiente.
+- Search modes nombrados: dependen de SE-162 como prerequisito real.
 
 ---
 
@@ -701,33 +703,33 @@ Incluye: context-update pipeline, agent-artifacts, context-guard, savia-manifest
 
 | Rank | ID | Título | Estado | Esfuerzo | Por qué primero |
 |------|-----|--------|--------|----------|-----------------|
-| 1 | SE-099 | RESOLVER.md dispatch explícito | PROPOSED | ~2h | Zero deps. Reduce carga CLAUDE.md ahora mismo. Free-win. |
-| 2 | SE-101 | PROTECTED_JOB_NAMES — bloquear agentes costosos en bucles autónomos | PROPOSED | ~1h | Seguridad operacional. Zero deps. Evita burn de tokens en overnight-sprint. |
+| 1 | SE-160 | RESOLVER.md dispatch explícito | PROPOSED | ~2h | Zero deps. Reduce carga CLAUDE.md ahora mismo. Free-win. |
+| 2 | SE-161 | PROTECTED_JOB_NAMES — bloquear agentes costosos en bucles autónomos | PROPOSED | ~1h | Seguridad operacional. Zero deps. Evita burn de tokens en overnight-sprint. |
 | 3 | SE-081 | Pocock quick-wins (caveman + zoom-out + grill-me) | APPROVED | ~2h | Zero código, zero deps. Skills de calidad inmediata. |
 | 4 | SE-093 | Zero project leakage enforcement | APPROVED | ~1h | CRITICAL. Fuga de contexto entre proyectos activa. |
 | 5 | SE-082 | Architectural vocabulary discipline | APPROVED | ~4h | Multiplicador de todos los agentes posteriores. |
 | 6 | SE-084 | Skill catalog quality audit (Slice 1) | APPROVED | ~3h | Baseline auditor. Prerequisito para medir calidad de todo lo que viene. |
-| 7 | SE-105 | Skill Maturity Kanban (savia audit) | PROPOSED | ~3h | Baja complejidad. Convierte 96 skills sin estado en backlog gestionable. |
-| 8 | SE-098 | Knowledge Graph sobre memoria Savia | PROPOSED | ~8h | Mayor salto de calidad en memoria disponible. Habilita SE-109. |
+| 7 | SE-167 | Skill Maturity Kanban (savia audit) | PROPOSED | ~3h | Baja complejidad. Convierte 96 skills sin estado en backlog gestionable. |
+| 8 | SE-162 | Knowledge Graph sobre memoria Savia | PROPOSED | ~8h | Mayor salto de calidad en memoria disponible. Habilita SE-171. |
 | 9 | SE-083 | TDD vertical-slice skill | APPROVED | ~2h | Cierra anti-pattern horizontal-slicing. Multiplica calidad de tests. |
-| 10 | SE-086 | Ubiquitous-language extractor | APPROVED | ~5h | Bridge DDD→memory-graph. Multiplica SE-098 cuando esté. |
+| 10 | SE-086 | Ubiquitous-language extractor | APPROVED | ~5h | Bridge DDD→memory-graph. Multiplica SE-162 cuando esté. |
 | 11 | SE-091 | Caveman always-on + auto tribunal hooks | APPROVED | ~3h | Radical honesty enforced en todo output. Alta densidad de señal. |
-| 12 | SE-100 | Dream cycle upgrade (Haiku pre-filter + verdict cache) | PROPOSED | ~6h | Reduce ~70% coste overnight-sprint. Requiere overnight-sprint operativo. |
+| 12 | SE-163 | Dream cycle upgrade (Haiku pre-filter + verdict cache) | PROPOSED | ~6h | Reduce ~70% coste overnight-sprint. Requiere overnight-sprint operativo. |
 | 13 | SE-089 | SaviaClaw DeepSeek migration | APPROVED | ~2h | CRITICAL si SOS sigue con `remote:unreachable`. Sovereignty. |
 | 14 | SE-092 | PM backend bridge (ADO/Jira) | APPROVED | ~9h | CRITICAL para PM real. Alta complejidad — después de foundations. |
 | 15 | SE-095 | SaviaClaw self-monitoring | APPROVED | ~5h | CRITICAL para autonomía SaviaClaw. Post-DeepSeek. |
 | 16 | SE-096 | SaviaClaw cron infrastructure | APPROVED | ~6h | CRITICAL para autonomía SaviaClaw. Post-SE-095. |
-| 17 | SE-103 | /workspace-health scoring + --remediate | PROPOSED | ~8h | Alta complejidad. Valor real cuando hay más capas estabilizadas. |
-| 18 | SE-108 | Transclusion macros en SKILL.md | PROPOSED | ~3h | Elimina drift PII/seguridad. Post SE-084 para medir impacto. |
-| 19 | SE-104 | Skill Calibration Pipeline (uplift harness) | PROPOSED | ~12h | Alta complejidad. Requiere corpus de evals. Era 254+. |
-| 20 | SE-109 | Contradiction detector sobre memoria | PROPOSED | ~8h | Requiere SE-098 como prerequisito. |
+| 17 | SE-165 | /workspace-health scoring + --remediate | PROPOSED | ~8h | Alta complejidad. Valor real cuando hay más capas estabilizadas. |
+| 18 | SE-170 | Transclusion macros en SKILL.md | PROPOSED | ~3h | Elimina drift PII/seguridad. Post SE-084 para medir impacto. |
+| 19 | SE-166 | Skill Calibration Pipeline (uplift harness) | PROPOSED | ~12h | Alta complejidad. Requiere corpus de evals. Era 254+. |
+| 20 | SE-171 | Contradiction detector sobre memoria | PROPOSED | ~8h | Requiere SE-162 como prerequisito. |
 
 ### Los 3 próximos a implementar (cuando bloque 0 cierre)
 
-**1. SE-099 — RESOLVER.md** (~2h)
+**1. SE-160 — RESOLVER.md** (~2h)
 Tabla `trigger → skill/agente` en un fichero de texto plano. Sale de CLAUDE.md todo el routing implícito. Impacto: cada sesión nueva carga menos contexto innecesario.
 
-**2. SE-101 — PROTECTED_JOB_NAMES** (~1h)
+**2. SE-161 — PROTECTED_JOB_NAMES** (~1h)
 Lista de agentes costosos que no son invocables desde MCP en overnight-sprint/code-improvement-loop. Implementación: 1 fichero YAML + 1 check en hooks.
 
 **3. SE-081 — Pocock quick-wins** (~2h, APPROVED)
@@ -787,8 +789,8 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 
 | # | ID | Título | Estado | Esfuerzo | Notas |
 |---|-----|--------|--------|----------|-------|
-| 1 | SE-099 | RESOLVER.md dispatch explícito | PROPOSED | ~2h | Sin cambios. Sigue siendo el mejor free-win. |
-| 2 | SE-101 | PROTECTED_JOB_NAMES bucles autónomos | PROPOSED | ~1h | Sin cambios. Seguridad operacional, zero deps. |
+| 1 | SE-160 | RESOLVER.md dispatch explícito | PROPOSED | ~2h | Sin cambios. Sigue siendo el mejor free-win. |
+| 2 | SE-161 | PROTECTED_JOB_NAMES bucles autónomos | PROPOSED | ~1h | Sin cambios. Seguridad operacional, zero deps. |
 | 3 | SE-153 | Template SKILL.md "Authoritative paths first" | PROPOSED | ~1h | Nuevo (Era 197). Patrón flowsint. Mejora contexto, zero migración obligatoria. |
 
 ### Tier 2 — Foundations (multiplicador de capas posteriores)
@@ -804,8 +806,8 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 
 | # | ID | Título | Estado | Esfuerzo | Notas |
 |---|-----|--------|--------|----------|-------|
-| 8 | SE-105 | Skill Maturity Kanban | PROPOSED | ~3h | Sin cambios. |
-| 9 | SE-098 | Knowledge Graph sobre memoria Savia | PROPOSED | ~8h | Sin cambios. Post SE-151 (índice físico) para integrar bien. |
+| 8 | SE-167 | Skill Maturity Kanban | PROPOSED | ~3h | Sin cambios. |
+| 9 | SE-162 | Knowledge Graph sobre memoria Savia | PROPOSED | ~8h | Sin cambios. Post SE-151 (índice físico) para integrar bien. |
 | 10 | SE-083 | TDD vertical-slice skill | APPROVED | ~2h | Sin cambios. |
 | 11 | SE-086 | Ubiquitous-language extractor | APPROVED | ~5h | Sin cambios. |
 | 12 | SE-091 | Caveman always-on + tribunal hooks | APPROVED | ~3h | Sin cambios. |
@@ -818,10 +820,10 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 | 14 | SE-092 | PM backend bridge (ADO/Jira) | APPROVED | ~9h | Sin cambios. |
 | 15 | SE-095 | SaviaClaw self-monitoring | APPROVED | ~5h | Sin cambios. |
 | 16 | SE-096 | SaviaClaw cron infrastructure | APPROVED | ~6h | Sin cambios. |
-| 17 | SE-103 | /workspace-health scoring | PROPOSED | ~8h | Sin cambios. |
-| 18 | SE-108 | Transclusion macros en SKILL.md | PROPOSED | ~3h | Sin cambios. |
-| 19 | SE-104 | Skill Calibration Pipeline | PROPOSED | ~12h | Sin cambios. |
-| 20 | SE-109 | Contradiction detector sobre memoria | PROPOSED | ~8h | Requiere SE-098 + SE-151. |
+| 17 | SE-165 | /workspace-health scoring | PROPOSED | ~8h | Sin cambios. |
+| 18 | SE-170 | Transclusion macros en SKILL.md | PROPOSED | ~3h | Sin cambios. |
+| 19 | SE-166 | Skill Calibration Pipeline | PROPOSED | ~12h | Sin cambios. |
+| 20 | SE-171 | Contradiction detector sobre memoria | PROPOSED | ~8h | Requiere SE-162 + SE-151. |
 
 ### Removidos del stack (ya hechos, verificado contra git/SKILLS.md)
 
@@ -831,9 +833,10 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 | SE-093 | Zero leak IMPLEMENTED 2026-05-27 (memoria + verificación commit) |
 | SE-094 | Hooks integrity allowlist merged #785 (2026-05-30) |
 | SE-100 | OpenCode docs migrated 2026-05-30 |
+| SE-104 | Savia ethical principles MERGED PR #783 (2026-05-30) |
 
 ### Decisión operativa
 
 1. **HOY**: implementar SPEC-155 (4h). No-go en cualquier otra cosa hasta que cierre.
-2. **Siguiente sesión**: Tier 1 completo (SE-099 + SE-101 + SE-153 = ~4h).
+2. **Siguiente sesión**: Tier 1 completo (SE-160 + SE-161 + SE-153 = ~4h).
 3. **Después**: Tier 2 en orden (SE-151 → SE-082 → SE-084 → SE-152 = ~16h).
