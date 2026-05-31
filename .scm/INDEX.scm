@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 7caa08d45b72 | resources: 1181
-> 554 commands · 98 skills · 70 agents · 459 scripts
+> hash: 3639143518c8 | resources: 1182
+> 554 commands · 98 skills · 70 agents · 460 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -285,6 +285,7 @@
 [development] spec-status-normalize — across,audit,field,normalize,spec — script:scripts/spec-status-normalize.sh
 [development] spec-verify — against,criteria,implementation,specification,verify — cmd:.claude/commands/spec-verify.md
 [development] spec-verify-ui — componente,comprueba,cumple,implementado,spec — cmd:.claude/commands/spec-verify-ui.md
+[development] spec156-migrate-token-budget — budget,flat,migrate,nested,object — script:scripts/spec156-migrate-token-budget.sh
 [development] specs-frontmatter-normalize — frontmatter,normalization,normalize,slice,specs — script:scripts/specs-frontmatter-normalize.sh
 [development] statusline-provider — claude,code,data,provider,statusline — script:scripts/statusline-provider.sh
 [development] tech-research — autonomous,designated,generates,human,investigates — cmd:.claude/commands/tech-research.md

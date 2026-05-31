@@ -14,7 +14,10 @@ maxTurns: 20
 color: "#00CCCC"
 max_context_tokens: 8000
 output_max_tokens: 500
-token_budget: 8500
+token_budget:
+  per_invocation: 60000
+  context_window_target: 8500
+  escalation_policy: escalate
 ---
 
 # Dev Orchestrator — Planificador de sesiones de desarrollo

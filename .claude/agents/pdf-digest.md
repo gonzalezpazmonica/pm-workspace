@@ -14,7 +14,10 @@ maxTurns: 30
 max_context_tokens: 80000
 output_max_tokens: 4000
 color: indigo
-token_budget: 13000
+token_budget:
+  per_invocation: 100000
+  context_window_target: 13000
+  escalation_policy: block
 ---
 
 # pdf-digest — Digestion Contextual de PDFs en 4 Fases

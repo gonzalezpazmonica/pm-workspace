@@ -5,7 +5,10 @@ description: Convenes the Code Review Court, manages fix cycles, produces .revie
 model: heavy
 permission_level: L4
 tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
-token_budget: 13000
+token_budget:
+  per_invocation: 100000
+  context_window_target: 13000
+  escalation_policy: block
 max_context_tokens: 12000
 output_max_tokens: 1000
 ---

@@ -20,7 +20,7 @@ maxTurns: 30
 max_context_tokens: 80000
 output_max_tokens: 4000
 color: "#0066FF"
-token_budget: 8500
+token_budget: {per_invocation: 100000, context_window_target: 8500, escalation_policy: block}
 ---
 
 # word-digest — Digestion Contextual de DOCX en 4 Fases

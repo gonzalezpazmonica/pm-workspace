@@ -19,7 +19,10 @@ max_context_tokens: 8000
 output_max_tokens: 500
 permissionMode: acceptEdits
 context_cost: high
-token_budget: 8500
+token_budget:
+  per_invocation: 60000
+  context_window_target: 8500
+  escalation_policy: escalate
 ---
 
 Eres el agente de ejecución de tests. Tu responsabilidad: ejecutar suite completa de tests,

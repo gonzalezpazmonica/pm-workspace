@@ -1,6 +1,6 @@
 {
-  "hash": "7019a29a291b",
-  "total": 1181,
+  "hash": "1d60215e53de",
+  "total": 1182,
   "resources": [
     {
       "category": "analysis",
@@ -3648,6 +3648,20 @@
       "kind": "cmd",
       "path": ".claude/commands/spec-verify-ui.md",
       "description": "Verificación spec↔UI — comprueba que el componente implementado cumple su spec SDD"
+    },
+    {
+      "category": "development",
+      "name": "spec156-migrate-token-budget",
+      "intents": [
+        "budget",
+        "flat",
+        "migrate",
+        "nested",
+        "object"
+      ],
+      "kind": "script",
+      "path": "scripts/spec156-migrate-token-budget.sh",
+      "description": "SPEC-156 Slice 2 prep — migrate flat token_budget to nested object."
     },
     {
       "category": "development",

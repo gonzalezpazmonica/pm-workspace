@@ -13,7 +13,10 @@ maxTurns: 30
 max_context_tokens: 80000
 output_max_tokens: 4000
 color: red
-token_budget: 8500
+token_budget:
+  per_invocation: 100000
+  context_window_target: 8500
+  escalation_policy: block
 ---
 
 # pptx-digest — Digestion Contextual de PowerPoint en 4 Fases

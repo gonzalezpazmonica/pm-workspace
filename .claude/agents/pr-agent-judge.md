@@ -4,7 +4,10 @@ description: External 5th judge of the Code Review Court — wraps qodo-ai/pr-ag
 model: mid
 permission_level: L1
 tools: [Read, Bash, Grep]
-token_budget: 6000
+token_budget:
+  per_invocation: 60000
+  context_window_target: 6000
+  escalation_policy: escalate
 max_context_tokens: 6000
 output_max_tokens: 500
 ---
