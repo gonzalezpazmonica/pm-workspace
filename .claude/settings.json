@@ -7,7 +7,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-init.sh",
             "timeout": 15,
-            "statusMessage": "Inicializando sesión PM-Workspace..."
+            "statusMessage": "Inicializando sesi\u00f3n PM-Workspace..."
           },
           {
             "type": "command",
@@ -17,7 +17,7 @@
           },
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/check-daemon-auth.sh >/dev/null 2>&1 || echo \"[SPEC-SH02] browser-daemon auth expired — run: bash scripts/check-daemon-auth.sh\"",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/check-daemon-auth.sh >/dev/null 2>&1 || echo \"[SPEC-SH02] browser-daemon auth expired \u2014 run: bash scripts/check-daemon-auth.sh\"",
             "timeout": 5,
             "statusMessage": "SPEC-SH02: verificando auth de browser-daemon..."
           },
@@ -80,7 +80,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/prompt-hook-commit.sh",
             "timeout": 5,
-            "statusMessage": "Prompt hook: validando semántica..."
+            "statusMessage": "Prompt hook: validando sem\u00e1ntica..."
           },
           {
             "type": "command",
@@ -108,7 +108,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/agent-tool-call-validate.sh",
             "timeout": 5,
-            "statusMessage": "Validando parámetros de tool call..."
+            "statusMessage": "Validando par\u00e1metros de tool call..."
           }
         ]
       },
@@ -147,7 +147,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/tdd-gate.sh",
             "timeout": 10,
-            "statusMessage": "TDD gate: tests antes que código..."
+            "statusMessage": "TDD gate: tests antes que c\u00f3digo..."
           },
           {
             "type": "command",
@@ -183,7 +183,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/responsibility-judge.sh",
             "timeout": 5,
-            "statusMessage": "Responsibility Judge: evaluando decisión..."
+            "statusMessage": "Responsibility Judge: evaluando decisi\u00f3n..."
           },
           {
             "type": "command",
@@ -267,6 +267,16 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/delegation-guard.sh",
             "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/protected-job-guard.sh",
+            "timeout": 5
           }
         ]
       },
@@ -380,7 +390,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/ast-quality-gate-hook.sh",
             "async": true,
             "timeout": 60,
-            "statusMessage": "AST Quality Gate: analizando código..."
+            "statusMessage": "AST Quality Gate: analizando c\u00f3digo..."
           },
           {
             "type": "command",
@@ -449,7 +459,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-end-snapshot.sh",
             "async": true,
             "timeout": 5,
-            "statusMessage": "Guardando snapshot de sesión..."
+            "statusMessage": "Guardando snapshot de sesi\u00f3n..."
           },
           {
             "type": "command",
@@ -481,7 +491,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/emotional-regulation-monitor.sh",
             "async": true,
             "timeout": 10,
-            "statusMessage": "Evaluando bienestar de sesión..."
+            "statusMessage": "Evaluando bienestar de sesi\u00f3n..."
           },
           {
             "type": "command",
@@ -510,7 +520,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-end-memory.sh",
             "timeout": 1500,
-            "statusMessage": "Extrayendo memoria de sesión..."
+            "statusMessage": "Extrayendo memoria de sesi\u00f3n..."
           }
         ]
       }
@@ -558,7 +568,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/pre-compact-backup.sh",
             "timeout": 10,
-            "statusMessage": "Backup pre-compactación..."
+            "statusMessage": "Backup pre-compactaci\u00f3n..."
           }
         ]
       }
@@ -570,7 +580,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
             "timeout": 10,
-            "statusMessage": "Recuperando memoria persistente tras compactación..."
+            "statusMessage": "Recuperando memoria persistente tras compactaci\u00f3n..."
           }
         ]
       }
