@@ -868,7 +868,7 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 
 | # | ID | Propuesta | Status | Esfuerzo | Notas |
 |---|----|-----------|--------|----------|-------|
-| 6 | SPEC-161 | Self-Evolving Tools (research) | PROPOSED | 12h | Tier 3F. Time-boxed, go/no-go al final. |
+| 6 | SPEC-162 | Self-Evolving Tools (research) | PROPOSED | 12h | Tier 3F. Time-boxed, go/no-go al final. Renombrado desde SPEC-161 por colisión con protected-job-names (mergeado PR #789). |
 
 ### ROI estimado
 
@@ -878,7 +878,7 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 
 ### Specs detallados
 
-Archivos: `docs/propuestas/SPEC-156..161-*.md`
+Archivos: `docs/propuestas/SPEC-156..160-*.md` + `SPEC-162-self-evolving-tools-research.md`. SPEC-161 fue reasignado a `protected-job-names` (mergeado en PR #789, fuera de Era 198).
 
 ### Lo que NO se toca
 

@@ -4,6 +4,10 @@ permission_level: L3
 description: "Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions."
 tools: [Read, Write, Edit, Bash, Glob, Grep]
 model: mid
+token_budget:
+  per_invocation: 60000
+  context_window_target: 15000
+  escalation_policy: escalate
 permissionMode: bypassPermissions
 maxTurns: 30
 color: yellow

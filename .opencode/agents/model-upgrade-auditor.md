@@ -10,6 +10,10 @@ tools:
   bash: true
   task: true
 model: heavy
+token_budget:
+  per_invocation: 100000
+  context_window_target: 20000
+  escalation_policy: block
 permissionMode: acceptEdits
 maxTurns: 40
 color: "#CC00CC"

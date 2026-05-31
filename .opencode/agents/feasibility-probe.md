@@ -10,6 +10,10 @@ tools:
   glob: true
   grep: true
 model: mid
+token_budget:
+  per_invocation: 60000
+  context_window_target: 15000
+  escalation_policy: escalate
 permissionMode: bypassPermissions
 maxTurns: 30
 color: "#FFD700"

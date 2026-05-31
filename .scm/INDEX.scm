@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: f8acc5eaca8b | resources: 1180
-> 554 commands · 98 skills · 70 agents · 458 scripts
+> hash: 7caa08d45b72 | resources: 1181
+> 554 commands · 98 skills · 70 agents · 459 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -265,6 +265,7 @@
 [development] slm-registry — model,registry,slms,spec,trained — script:scripts/slm-registry.sh
 [development] smart-routing — comando,descubrir,disponibles,enrutar,específico — skill:.claude/skills/smart-routing/SKILL.md
 [development] sovereignty-pack — build,fully,installer,offline,pack — script:scripts/sovereignty-pack.sh
+[development] spec-156-migrate-token-budget — agents,budget,frontmatter,spec,token — script:scripts/spec-156-migrate-token-budget.sh
 [development] spec-approval-gate — approval,enforcement,gate,rule,slice — script:scripts/spec-approval-gate.sh
 [development] spec-budget — budget,dynamic,effort,retry,slice — script:scripts/spec-budget.sh
 [development] spec-design — datos,decisiones,diseño,estrategia,existente — cmd:.claude/commands/spec-design.md
