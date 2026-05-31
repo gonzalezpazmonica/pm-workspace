@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # protected-job-guard.sh — SPEC-161 PROTECTED_JOB_NAMES
 # PreToolUse hook on Task tool.
 # Blocks invocation of costly agents from autonomous loops unless override env is set.
 # Fail-safe: YAML missing → exit 0 with WARN (never break interactive sessions).
 
-set -uo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh" 2>/dev/null || true
 PROJECT_DIR="${SAVIA_WORKSPACE_DIR:-${CLAUDE_PROJECT_DIR:-$(pwd)}}"
 
