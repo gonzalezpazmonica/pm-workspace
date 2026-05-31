@@ -840,3 +840,49 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 1. **HOY**: implementar SPEC-155 (4h). No-go en cualquier otra cosa hasta que cierre.
 2. **Siguiente sesión**: Tier 1 completo (SE-160 + SE-161 + SE-153 = ~4h).
 3. **Después**: Tier 2 en orden (SE-151 → SE-082 → SE-084 → SE-152 = ~16h).
+
+---
+
+## Era 198 — Anthropic Effective Agents Alignment (PROPOSED 2026-05-31)
+
+**Origen**: tesis Anthropic "Building Effective Agents" (Barry Zhang, 2026).
+**Diagnostico**: ~70% del marco ya cubierto por SDD + tribunales + L0-L4 + SE-146.
+**Gaps reales**: (1) budget tokens explicito, (2) ergonomia de contexto obligatoria, (3) async fan-out.
+
+### Tier 1 — HIGH (sprint inmediato, total 13h)
+
+| # | ID | Propuesta | Status | Esfuerzo | Notas |
+|---|----|-----------|--------|----------|-------|
+| 1 | SPEC-156 | Token Budget Frontmatter | PROPOSED | 4h | Tier 1A. 70 agentes + hook PreToolUse. |
+| 2 | SPEC-157 | Context Pre-Flight Check | PROPOSED | 6h | Tier 1B. Depende de SPEC-156. |
+| 3 | SPEC-158 | Workflow vs Agent Decision Gate | PROPOSED | 3h | Tier 1C. Comando /decide-architecture. |
+
+### Tier 2 — MEDIUM (sprint siguiente, total 13h)
+
+| # | ID | Propuesta | Status | Esfuerzo | Notas |
+|---|----|-----------|--------|----------|-------|
+| 4 | SPEC-159 | Async Tribunal Fan-out | PROPOSED | 8h | Tier 2D. court + truth-tribunal a Promise.all. |
+| 5 | SPEC-160 | Tool Ergonomics Auto-Audit | PROPOSED | 5h | Tier 2E. Script mensual, limite 3 PRs/mes. |
+
+### Tier 3 — LOW (research backlog, total 12h)
+
+| # | ID | Propuesta | Status | Esfuerzo | Notas |
+|---|----|-----------|--------|----------|-------|
+| 6 | SPEC-161 | Self-Evolving Tools (research) | PROPOSED | 12h | Tier 3F. Time-boxed, go/no-go al final. |
+
+### ROI estimado
+
+- Heavy tier: -40% tokens por invocacion (cap duro)
+- Tribunal wall-time: -65% (async fan-out de jueces)
+- Pre-flight overhead: +2k tokens, ahorra 30k (ratio 15x) por agente
+
+### Specs detallados
+
+Archivos: `docs/propuestas/SPEC-156..161-*.md`
+
+### Lo que NO se toca
+
+- SDD obligatorio (Rule #8)
+- Permisos L0-L4 + AUTONOMOUS_REVIEWER (autonomous-safety)
+- Subagent Scope Guard (SE-146)
+- Savia Shield (data-sovereignty)

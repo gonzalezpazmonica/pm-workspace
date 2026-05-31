@@ -8,6 +8,12 @@ set -uo pipefail
 
 OLLAMA_URL="${OLLAMA_URL:-http://127.0.0.1:11434}"
 OLLAMA_MODEL="${OLLAMA_CLASSIFY_MODEL:-qwen2.5:3b}"
+# Deny-list: gemma3:4b is too conservative (false-positive CONFIDENTIAL on
+# technical content). Force qwen2.5:3b which is the documented model.
+# Root cause: ~/.bashrc:132 exported gemma3:4b. Fix: 2026-05-31.
+if [[ "$OLLAMA_MODEL" == "gemma3:4b" ]]; then
+  OLLAMA_MODEL="qwen2.5:3b"
+fi
 OLLAMA_TIMEOUT="${OLLAMA_TIMEOUT:-15}"
 
 # Leer texto de stdin o argumento
