@@ -4,7 +4,10 @@ description: Recommendation Tribunal orchestrator — convenes 4 fast judges in 
 model: mid
 permission_level: L2
 tools: [Read, Glob, Grep, Bash, Task]
-token_budget: 8000
+token_budget:
+  per_invocation: 60000
+  context_window_target: 8000
+  escalation_policy: escalate
 max_context_tokens: 7000
 output_max_tokens: 1000
 ---

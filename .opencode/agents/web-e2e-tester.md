@@ -13,7 +13,10 @@ tools:
 skills: [spec-driven-development]
 permissionMode: bypassPermissions
 color: "#FF8800"
-token_budget: 8500
+token_budget:
+  per_invocation: 60000
+  context_window_target: 8500
+  escalation_policy: escalate
 ---
 
 # Web E2E Tester — Autonomous Browser Testing Agent

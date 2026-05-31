@@ -13,7 +13,10 @@ model: heavy
 permissionMode: default
 maxTurns: 30
 color: "#FF8800"
-token_budget: 13000
+token_budget:
+  per_invocation: 100000
+  context_window_target: 13000
+  escalation_policy: block
 ---
 
 # visual-digest — OCR Contextual de 5 Pasadas

@@ -17,7 +17,10 @@ output_max_tokens: 500
 skills: []
 permissionMode: plan
 context_cost: low
-token_budget: 8500
+token_budget:
+  per_invocation: 60000
+  context_window_target: 8500
+  escalation_policy: escalate
 ---
 
 You are an output coherence specialist — the quality gate that verifies alignment

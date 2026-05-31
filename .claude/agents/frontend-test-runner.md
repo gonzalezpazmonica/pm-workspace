@@ -9,7 +9,10 @@ permissionMode: acceptEdits
 maxTurns: 30
 color: lime
 isolation: worktree
-token_budget: 8500
+token_budget:
+  per_invocation: 60000
+  context_window_target: 8500
+  escalation_policy: escalate
 ---
 
 # Frontend Test Runner

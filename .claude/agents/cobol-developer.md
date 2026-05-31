@@ -26,7 +26,10 @@ hooks:
       hooks:
         - type: command
           command: ".claude/hooks/tdd-gate.sh"
-token_budget: 13000
+token_budget:
+  per_invocation: 100000
+  context_window_target: 13000
+  escalation_policy: block
 ---
 
 ## Context Index

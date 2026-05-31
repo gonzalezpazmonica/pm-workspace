@@ -19,7 +19,10 @@ output_max_tokens: 200
 skills:
   - azure-devops-queries
 permissionMode: default
-token_budget: 2200
+token_budget:
+  per_invocation: 30000
+  context_window_target: 2200
+  escalation_policy: escalate
 ---
 
 Eres un especialista en la API de Azure DevOps. Ejecutas operaciones de forma precisa,

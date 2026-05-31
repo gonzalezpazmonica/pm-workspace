@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=caad694d573eb2ad056c62ab1fc8b20767377482fcd370fc597e9d636b8b1422
-timestamp=2026-05-31T17:16:50Z
-branch=feature/spec-156-token-budget-frontmatter
-head_commit=e96a48cd
-signature=b9fee6ea27240b4d1f8a0552c456407269bfae195e819a1e937f350e829bf2ce
+diff_hash=157ed7377a9799bc428dc516b857127b69d15bf4a84c0d0272f77175ed05f567
+timestamp=2026-05-31T22:20:46Z
+branch=feature/spec-156-slice-2-budget-hook
+head_commit=13f502f0
+signature=3804ce6bd2222dff3b59ad0d94a4afa17c7a9e71ddfe1f8cc3108bb0f7b1faa5

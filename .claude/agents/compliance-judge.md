@@ -4,7 +4,10 @@ description: Truth Tribunal judge — PII, N1-N4b levels, format rules, confiden
 model: heavy
 permission_level: L1
 tools: [Read, Glob, Grep, Bash]
-token_budget: 13000
+token_budget:
+  per_invocation: 100000
+  context_window_target: 13000
+  escalation_policy: block
 max_context_tokens: 12000
 output_max_tokens: 800
 ---

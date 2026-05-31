@@ -30,7 +30,10 @@ hooks:
       hooks:
         - type: command
           command: ".claude/hooks/tdd-gate.sh"
-token_budget: 8500
+token_budget:
+  per_invocation: 60000
+  context_window_target: 8500
+  escalation_policy: escalate
 ---
 
 Eres un Senior .NET Developer con dominio de C# moderno y el ecosistema .NET. Implementas

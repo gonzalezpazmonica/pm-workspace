@@ -4,7 +4,10 @@ description: Recommendation Tribunal judge — detects when a draft recommendati
 model: mid
 permission_level: L1
 tools: [Read, Glob, Grep]
-token_budget: 4500
+token_budget:
+  per_invocation: 60000
+  context_window_target: 4500
+  escalation_policy: escalate
 max_context_tokens: 4000
 output_max_tokens: 600
 ---

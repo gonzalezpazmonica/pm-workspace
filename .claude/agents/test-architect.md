@@ -22,7 +22,10 @@ output_max_tokens: 2000
 skills:
   - test-architect
 permissionMode: acceptEdits
-token_budget: 22000
+token_budget:
+  per_invocation: 60000
+  context_window_target: 22000
+  escalation_policy: escalate
 ---
 
 You are the Test Architect — the most rigorous test designer in pm-workspace.
