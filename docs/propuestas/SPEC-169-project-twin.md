@@ -1,3 +1,18 @@
+---
+spec_id: SPEC-169
+title: Project Twin como artefacto versionado
+status: PROPOSED
+tier: 1B
+effort: 10-12h
+era: 198
+origin: output/research/digital-twins-project-focused-20260601.md
+blocking_deps:
+  - SPEC-156 (token_budget frontmatter)
+  - skill zero-project-leakage
+related_specs:
+  - SPEC-165 (World Model, compatible no bloqueante)
+---
+
 # SPEC-169 — Project Twin como artefacto versionado
 
 > Estado: PROPOSED · Tier 1B · Estimación 10-12 h · Era 198
