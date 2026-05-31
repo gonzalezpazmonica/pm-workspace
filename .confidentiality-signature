@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2f91df9e60a6c19f72a85497f70e91410de92cf16337e989024cf4fc06f90cec
-timestamp=2026-05-31T12:03:21Z
-branch=feature/spec-161-protected-job-names
-head_commit=ab7ec0c7
-signature=8247083363ad984bcec9f9ef771b436d97176eb00842bcaf5661c72099758af6
+diff_hash=56ea5a2515933d1f202e01719fada0d9aef0d630281253160960b34f835b7ead
+timestamp=2026-05-31T16:14:32Z
+branch=feature/spec-156-token-budget-frontmatter
+head_commit=e6708891
+signature=65e571252eaf6d05f44225d6bd2467ad575e429b047e221556704672e9f6bd67
