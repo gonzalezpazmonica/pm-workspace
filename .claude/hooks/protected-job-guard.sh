@@ -5,7 +5,10 @@ set -uo pipefail
 # Blocks invocation of costly agents from autonomous loops unless override env is set.
 # Fail-safe: YAML missing → exit 0 with WARN (never break interactive sessions).
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh" 2>/dev/null || true
+SAVIA_ENV="$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+if [[ -r "$SAVIA_ENV" ]]; then
+  source "$SAVIA_ENV"
+fi
 PROJECT_DIR="${SAVIA_WORKSPACE_DIR:-${CLAUDE_PROJECT_DIR:-$(pwd)}}"
 
 YAML="$PROJECT_DIR/.opencode/protected-jobs.yaml"
