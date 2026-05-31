@@ -1,6 +1,6 @@
 {
-  "hash": "4cadc8d5debe",
-  "total": 1180,
+  "hash": "7019a29a291b",
+  "total": 1181,
   "resources": [
     {
       "category": "analysis",
@@ -3371,6 +3371,20 @@
       "kind": "script",
       "path": "scripts/sovereignty-pack.sh",
       "description": "sovereignty-pack.sh — Build fully offline Savia USB installer"
+    },
+    {
+      "category": "development",
+      "name": "spec-156-migrate-token-budget",
+      "intents": [
+        "agents",
+        "budget",
+        "frontmatter",
+        "spec",
+        "token"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-156-migrate-token-budget.sh",
+      "description": "SPEC-156 — Add token_budget frontmatter to all agents."
     },
     {
       "category": "development",

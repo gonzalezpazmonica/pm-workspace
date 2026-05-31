@@ -1,5 +1,5 @@
 ---
-id: SPEC-161
+id: SPEC-162
 title: Self-Evolving Tools (research)
 status: PROPOSED
 priority: LOW
@@ -8,7 +8,7 @@ tier: 3F
 origin: anthropic-effective-agents-thesis-2026
 ---
 
-# SPEC-161 Self-Evolving Tools (research)
+# SPEC-162 Self-Evolving Tools (research)
 
 ## Problema
 Tools del workspace son estaticas. Anthropic insinua tools que evolucionan: el agente analiza sus propias trajectories y propone mejoras a las tools que usa. Riesgo alto, recompensa alta, viabilidad incierta.

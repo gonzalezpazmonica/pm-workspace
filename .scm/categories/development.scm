@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 149 resources
+> 150 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -111,6 +111,7 @@
 - **slm-registry** (script): slm-registry.sh — Model registry for trained SLMs (SPEC-SE-027 registry).
 - **smart-routing** (skill): Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles.
 - **sovereignty-pack** (script): sovereignty-pack.sh — Build fully offline Savia USB installer
+- **spec-156-migrate-token-budget** (script): SPEC-156 — Add token_budget frontmatter to all agents.
 - **spec-approval-gate** (script): spec-approval-gate.sh — SE-051 Slice 1 Rule #8 enforcement gate.
 - **spec-budget** (script): spec-budget.sh — SE-074 Slice 1.5 — dynamic retry budget per spec effort
 - **spec-design** (cmd): Genera diseño técnico a partir de una spec existente — decisiones, flujo de datos, estrategia de testing.
