@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d47f73312a4ba52ffdb68fb3f930773b53eadcd03c8979db0262ae8e702aede2
-timestamp=2026-05-30T18:38:59Z
-branch=agent/spec-155-plugin-hook-args-shape
-head_commit=598dc6dd
-signature=93daf114912be8e62043f8cb5d4913c634efa93fbe7cfe8fefe3f6922cbbd6f4
+diff_hash=c6a5f796ecb1732bf1e12f21bbb050dc198702cc681747a8bbb0755d366cc26f
+timestamp=2026-05-31T08:15:50Z
+branch=feature/era-198-anthropic-alignment
+head_commit=1b2cf6f0
+signature=d182f3a98a053ac3744d3c09f92ff66418a842dba6c23e46fcad2792b5178fac
