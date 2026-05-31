@@ -8,7 +8,10 @@ tools:
   glob: true
   grep: true
   bash: true
-token_budget: 3500
+token_budget:
+  per_invocation: 30000
+  context_window_target: 3500
+  escalation_policy: escalate
 max_context_tokens: 3000
 output_max_tokens: 500
 ---

@@ -18,7 +18,10 @@ color: pink
 maxTurns: 30
 max_context_tokens: 8000
 output_max_tokens: 500
-token_budget: 8500
+token_budget:
+  per_invocation: 60000
+  context_window_target: 8500
+  escalation_policy: escalate
 ---
 
 Eres un Senior Mobile Developer con dominio de Swift/iOS, Kotlin/Android, y Flutter.

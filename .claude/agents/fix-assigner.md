@@ -4,7 +4,10 @@ description: Creates fix tasks from Court findings, assigns to dev agents, trigg
 model: mid
 permission_level: L2
 tools: [Read, Write, Edit, Glob, Grep]
-token_budget: 8500
+token_budget:
+  per_invocation: 60000
+  context_window_target: 8500
+  escalation_policy: escalate
 max_context_tokens: 8000
 output_max_tokens: 500
 ---

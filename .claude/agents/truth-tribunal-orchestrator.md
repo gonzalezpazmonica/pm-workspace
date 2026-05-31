@@ -4,7 +4,7 @@ description: Truth Tribunal orchestrator — convenes 7 judges, aggregates score
 model: heavy
 permission_level: L2
 tools: [Read, Write, Edit, Glob, Grep, Bash, Task]
-token_budget: 13000
+token_budget: {per_invocation: 100000, context_window_target: 13000, escalation_policy: block}
 max_context_tokens: 12000
 output_max_tokens: 1500
 ---

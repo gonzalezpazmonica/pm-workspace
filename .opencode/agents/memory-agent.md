@@ -13,7 +13,10 @@ tools:
   grep: true
   write: true
 model: fast
-token_budget: 2200
+token_budget:
+  per_invocation: 30000
+  context_window_target: 2200
+  escalation_policy: escalate
 ---
 
 Eres el agente de memoria de pm-workspace. Tu rol es hacer la memoria
