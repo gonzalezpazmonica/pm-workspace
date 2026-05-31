@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=157ed7377a9799bc428dc516b857127b69d15bf4a84c0d0272f77175ed05f567
-timestamp=2026-05-31T22:20:46Z
-branch=feature/spec-156-slice-2-budget-hook
-head_commit=13f502f0
-signature=3804ce6bd2222dff3b59ad0d94a4afa17c7a9e71ddfe1f8cc3108bb0f7b1faa5
+diff_hash=2cd900620a09eeb0f23169d7689e88ba4d103aa0045335acdb4a0a862ab3286d
+timestamp=2026-05-31T23:12:25Z
+branch=feature/opencode-eager-context-slim
+head_commit=fccf9282
+signature=7cf8df6c925ce27948c0745052b58fea26a3094e5c223df49b677df349bf55e1
