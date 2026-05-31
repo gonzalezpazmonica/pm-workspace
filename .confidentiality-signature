@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=157ed7377a9799bc428dc516b857127b69d15bf4a84c0d0272f77175ed05f567
-timestamp=2026-05-31T22:20:46Z
-branch=feature/spec-156-slice-2-budget-hook
-head_commit=13f502f0
-signature=3804ce6bd2222dff3b59ad0d94a4afa17c7a9e71ddfe1f8cc3108bb0f7b1faa5
+diff_hash=574203fd868ff23316d8a012418a91584be434bbd4e56e66f88acfeafb5bb814
+timestamp=2026-05-31T23:12:16Z
+branch=feature/spec-169-project-twin
+head_commit=f367e397
+signature=ce653f3e22402624561ffabb80a7206101a88cf507013af34f33788ba0ae9ef2
