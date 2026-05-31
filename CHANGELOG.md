@@ -6,6 +6,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-05-31 · SPEC-156 Slice 2 + LeCun roadmap (SPEC-163..168)
+
+### Added
+- **SPEC-156 Slice 2**: PreToolUse Task hook
+  `spec156-token-budget-projection.sh` projects token cost from
+  `subagent_type` frontmatter `token_budget` before dispatch. Emits
+  telemetry to `output/agent-runs/budget-projections.jsonl` (verdicts:
+  ok / warn >80% / exceeded). Enforcement gated by
+  `SAVIA_BUDGET_ENFORCEMENT` env (default `warn`; `block` + exceeded +
+  `escalation_policy: block` → exit 2). Dual-syntax YAML parser (block
+  + flow). 18/18 BATS PASS.
+- **SPEC-163**: System 1/2 dispatch router (Tier 1A, fast/heavy routing).
+- **SPEC-164**: Memory feedback loop — auto-memory writes from outcomes
+  (Tier 1A, 5h).
+- **SPEC-165**: World model simulation — pre-action simulator (Tier 2, 12h).
+- **SPEC-166**: Configurator explicit — centralize System 2 dispatch
+  (Tier 2, 8h).
+- **SPEC-167**: Critic RAG — BM25 over memory for judges (Tier 2, 6h).
+- **SPEC-168**: Actor iterative pre-action — inner loop, blocked by
+  SPEC-165 (Tier 3, 10h).
+
+### Changed
+- 70 agent frontmatter migrated flat `token_budget_*` → nested
+  `token_budget: {per_invocation, context_window_target, escalation_policy}`.
+  8 mirrors converted to flow form to keep ≤150 lines (Rule #11).
+- Agent size baseline `.ci-baseline/agent-size-violations.count` 27→30.
+  Honest ratchet: 3 obese agents (`code-reviewer` 6869B,
+  `security-guardian` 6531B, `test-runner` 6519B) deserve own refactor
+  SPEC; ratchet protects at new floor.
+
+
 ## [Unreleased] — 2026-05-30 · SPEC-155 plugin hook args shape fix [CRITICAL]
 
 ### Fixed
