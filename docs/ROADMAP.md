@@ -665,7 +665,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SE-163 | Dream cycle upgrade — Haiku pre-filter + verdict cache en overnight-sprint | GBrain dream synthesize | Alto | Media | 252 |
 | SE-161 | PROTECTED_JOB_NAMES — bloquear invocación MCP de agentes costosos en bucles autónomos | GBrain PROTECTED_JOB_NAMES | Medio | Baja | 251 |
 | SE-164 | Typed facts en PBIs/sprints — columnas velocity, completion_rate para trajectory queries | GBrain trajectory | Medio | Media | 253 |
-| SE-165 | /workspace-health scoring 0-100 con --remediate automático | GBrain doctor | Alto | Alta | 253 |
+| SE-165 | workspace-health PARTIAL: script done, remediate pending | GBrain doctor | Alto | Alta | 253 |
 | SE-166 | Skill Calibration Pipeline — harness que mide uplift con/sin skill en tareas estándar | Modern Web Guidance eval | Alto | Alta | 254 |
 | SE-167 | Skill Maturity Kanban — savia audit con estados Stub/Incomplete/Calibrated/Deprecated | Modern Web Guidance gd audit | Medio | Baja | 252 |
 | SE-168 | Negative demo para skills críticas — output incorrecto gold-standard como artefacto de primera clase | Modern Web Guidance calibración | Medio | Media | 254 |
