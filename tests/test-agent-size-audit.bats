@@ -143,7 +143,7 @@ teardown() {
 }
 
 @test "ratchet: --ratchet with equal baseline override passes" {
-  run timeout 30 bash "$SCRIPT" --ratchet --baseline 27
+  run timeout 30 bash "$SCRIPT" --ratchet --baseline 30
   [ "$status" -eq 0 ]
 }
 
