@@ -849,13 +849,14 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 **Diagnostico**: ~70% del marco ya cubierto por SDD + tribunales + L0-L4 + SE-146.
 **Gaps reales**: (1) budget tokens explicito, (2) ergonomia de contexto obligatoria, (3) async fan-out.
 
-### Tier 1 — HIGH (sprint inmediato, total 13h)
+### Tier 1 — HIGH (sprint inmediato, total 24h)
 
 | # | ID | Propuesta | Status | Esfuerzo | Notas |
 |---|----|-----------|--------|----------|-------|
-| 1 | SPEC-156 | Token Budget Frontmatter | PROPOSED | 4h | Tier 1A. 70 agentes + hook PreToolUse. |
+| 1 | SPEC-156 | Token Budget Frontmatter | IMPLEMENTED | 4h | Tier 1A. Slice 1 (frontmatter 70/70 agentes) PR #790. Slice 2 (hook PreToolUse) PR #791 mergeado 2026-06-01. |
 | 2 | SPEC-157 | Context Pre-Flight Check | PROPOSED | 6h | Tier 1B. Depende de SPEC-156. |
 | 3 | SPEC-158 | Workflow vs Agent Decision Gate | PROPOSED | 3h | Tier 1C. Comando /decide-architecture. |
+| 4 | SPEC-169 | Project Twin como artefacto versionado | PROPOSED | 11h | Tier 1B. Twin = proyecto. Refresh event-driven, predicciones acotadas, N4 + N1 anonimizado. Depende de SPEC-156 + skill `zero-project-leakage`. Compatible con SPEC-165 no bloqueante. |
 
 ### Tier 2 — MEDIUM (sprint siguiente, total 13h)
 
@@ -878,7 +879,7 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 
 ### Specs detallados
 
-Archivos: `docs/propuestas/SPEC-156..160-*.md` + `SPEC-162-self-evolving-tools-research.md`. SPEC-161 fue reasignado a `protected-job-names` (mergeado en PR #789, fuera de Era 198).
+Archivos: `docs/propuestas/SPEC-156..160-*.md` + `SPEC-162-self-evolving-tools-research.md` + `SPEC-169-project-twin.md`. SPEC-161 fue reasignado a `protected-job-names` (mergeado en PR #789, fuera de Era 198). SPEC-169 deriva del informe `output/research/digital-twins-project-focused-20260601.md` (reframe de `digital-twins-agents-context-domes-20260531.md` DEPRECATED). SPEC-170 (portfolio twin N2), SPEC-171 (Monte Carlo PBI) y SPEC-172 (integración SPEC-169 ↔ SPEC-165) reservados como follow-ups post-piloto.
 
 ### Lo que NO se toca
 
