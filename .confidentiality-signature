@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ccdbda259b2de0c453461cdd6b22cf320eaf5a08ee022eacb47878fac114fac9
-timestamp=2026-06-01T05:19:59Z
-branch=feature/opencode-eager-context-slim
-head_commit=86e84b01
-signature=f7737f4f14ac00c4c3f37ec0fd71704f1b3efed91e4791d73db04c3ab6849132
+diff_hash=ff450a56c6160a138d31f7b4275bb764f45c494f3e014aaebec7dc76511766bb
+timestamp=2026-06-01T20:36:38Z
+branch=feature/spec-180-186-obsidian-improvements
+head_commit=f408c81f
+signature=cb0ce1dc25140d0e73163cc2fb265ebf5d7d96fe9929e22c9f14dffecdb7bf5e
