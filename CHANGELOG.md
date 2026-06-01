@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-01 · SPEC-155 close-out + silent-regression sweep
+
+### Fixed
+- **SPEC-155 closed** (status: PROPOSED → IMPLEMENTED). Core args-shape fix
+  was already applied in `lib/hook-input.ts`. This PR completes the spec:
+  - 4 silent-regression tests fixed (88/88 plugin tests pass; was 83/88):
+    - `prompt-injection-guard`: added `.opencode/{agents,skills,rules,commands,profiles}`
+      patterns + `AGENTS.md` / `SKILLS.md`. Pre-fix, prompt injections in
+      `.opencode/agents/*.md` passed through silently.
+    - `block-gitignored-references`: added `/.opencode/hooks/` to
+      SOURCE_SELF_REFS. Pre-fix, edits to hook source files emitted false
+      positives on legitimate self-references.
+    - Test assertion in `block-gitignored-references.test.ts` aligned to
+      actual error message (was matching `/output/`, error says "dated").
+    - `savia-foundation.test.ts` Edit-on-docs test resolved against real
+      `README.md` via `import.meta.url` (independent of suite cwd).
+- **Derived rule**: `docs/rules/domain/external-contract-testing.md` —
+  every module dialoguing with an external system must have at least one
+  integration test using the documented shape, copied literally from the
+  external doc. Prevents silent regressions on frontend migrations.
+
 ## [Unreleased] — 2026-06-01 · Era 199 obsidian-inspired SPECs (SPEC-180..186)
 
 ### Added
