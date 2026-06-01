@@ -138,3 +138,39 @@ Cuando un agente o skill se invoca como **subagente delegado** (recibe una tarea
 **Detección de contexto subagente**: si se recibe una tarea vía `Task` tool, env var `SAVIA_SUBAGENT=1`, o flag `--subagent`, aplicar este guard.
 
 **Skills con este guard**: adversarial-security, code-improvement-loop, consensus-validation, dag-scheduling, overnight-sprint, spec-driven-development, tdd-vertical-slices, verification-lattice.
+
+## Doble opt-in para skills autónomas — SPEC-186
+
+> Apéndice añadido en Era 199 Wave 1. Cierra el vector de activación accidental por env vars heredadas en shells persistentes o runners CI.
+
+**Principio**: ninguna skill autónoma arranca con UN solo factor. Se requieren **dos confirmaciones independientes** en CADA invocación:
+
+1. **Variable de entorno persistente** (intención previa configurada)
+2. **Flag explícito `--confirm-autonomous`** (intención inmediata en este run)
+
+### Helper canónico
+
+```
+bash scripts/savia-double-optin-check.sh \
+  --skill <nombre> --confirm-autonomous
+```
+
+Exit codes: `0` ambos OK · `1` falta factor · `2` invocación inválida.
+
+### Mapeo skill → variable de entorno
+
+| Skill | Variable | Exigido por |
+|---|---|---|
+| `overnight-sprint` | `OVERNIGHT_SPRINT_ENABLED=true` | gate § Prerequisitos |
+| `code-improvement-loop` | `CODE_IMPROVEMENT_LOOP_ENABLED=true` | gate § Prerequisitos |
+| `adversarial-security` | `ADVERSARIAL_SECURITY_ENABLED=true` | gate §0 |
+| `tech-research-agent` | `TECH_RESEARCH_AGENT_ENABLED=true` | gate § Prerequisitos |
+| `savia-dual` (failover) | `SAVIA_DUAL_FAILOVER_ENABLED=true` | gate § Prerequisitos |
+
+### Auditoría
+
+Cada intento (aceptado o denegado) se registra en `output/agent-runs/optin-audit.log` con campos: `timestamp`, `user`, `skill`, `env=0|1`, `flag=0|1`, `verdict=ok|denied`. Override: `SAVIA_OPTIN_AUDIT_LOG`.
+
+### Bypass de tests
+
+Único bypass válido: `SAVIA_TESTING=1` AND `BATS_TEST_NAME` definido (entorno BATS real). Cualquier otro contexto debe pasar el gate doble.

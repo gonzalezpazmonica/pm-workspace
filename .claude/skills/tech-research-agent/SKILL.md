@@ -37,7 +37,11 @@ priority: "low"
 
 ```
 1. AUTONOMOUS_RESEARCH_NOTIFY configurado  → si no: ❌ ABORT
-2. Tema de investigación definido           → si no: pedir al humano
+2. Doble opt-in (SPEC-186):                → si no: ❌ ABORT
+   bash scripts/savia-double-optin-check.sh \
+     --skill tech-research-agent --confirm-autonomous
+   Requiere AMBOS: TECH_RESEARCH_AGENT_ENABLED=true Y flag explicito.
+3. Tema de investigación definido           → si no: pedir al humano
 ```
 
 ## Flujo completo

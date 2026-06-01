@@ -42,9 +42,13 @@ priority: "medium"
 
 ```
 1. AUTONOMOUS_REVIEWER configurado            → si no: ❌ ABORT
-2. Tests pasan (baseline sano)                → si no: ❌ ABORT
-3. Métricas baseline capturadas               → si no: capturar antes de empezar
-4. Auto Mode activado (claude --enable-auto-mode) → si no: ⚠️ warning, continuar
+2. Doble opt-in (SPEC-186):                   → si no: ❌ ABORT
+   bash scripts/savia-double-optin-check.sh \
+     --skill code-improvement-loop --confirm-autonomous
+   Requiere AMBOS: CODE_IMPROVEMENT_LOOP_ENABLED=true Y flag explicito.
+3. Tests pasan (baseline sano)                → si no: ❌ ABORT
+4. Métricas baseline capturadas               → si no: capturar antes de empezar
+5. Auto Mode activado (claude --enable-auto-mode) → si no: ⚠️ warning, continuar
 ```
 
 **Auto Mode**: activar `claude --enable-auto-mode` en la sesión que invoque esta
