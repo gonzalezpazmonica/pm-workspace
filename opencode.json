@@ -10,14 +10,7 @@
     ".claude/rules/pm-config.local.md",
     "docs/rules/domain/radical-honesty.md",
     "docs/rules/domain/autonomous-safety.md",
-    "docs/rules/domain/provider-agnostic-env.md",
-    "docs/rules/domain/model-alias-schema.md",
-    "docs/rules/domain/critical-rules-extended.md",
-    "docs/rules/domain/zero-project-leakage.md",
-    "docs/rules/domain/data-sovereignty.md",
-    "docs/savia-shield.md",
-    "docs/rules/domain/pm-config.md",
-    "docs/rules/domain/pm-workflow.md",
+    "docs/rules/domain/caveman-default.md",
     "docs/rules/domain/agents-catalog.md"
   ],
   "agent": {

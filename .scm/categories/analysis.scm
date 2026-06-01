@@ -6,7 +6,7 @@
 - **Trace Search** (cmd): Buscar y filtrar trazas across multiple observability platforms with natural language support
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
 - **agent-activity** (script): agent-activity.sh — Agent activity dashboard
-- **agent-budget-lookup** (script): agent-budget-lookup.sh — Extract token_budget from agent frontmatter
+- **agent-budget-lookup** (script): agent-budget-lookup.sh — Extract token budget from agent frontmatter
 - **agent-code-map** (skill): Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos.
 - **agent-cost** (cmd): Coste estimado de uso de agentes por sprint/proyecto
 - **agent-efficiency** (cmd): Ratio de eficiencia de agentes — specs completadas, re-work y tiempos
