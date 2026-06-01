@@ -32,6 +32,7 @@ const SOURCE_SELF_REFS = [
   /\/tests\/test-/,
   /\/tests\/.*\.bats$/,
   /\/\.claude\/hooks\//,
+  /\/\.opencode\/hooks\//,
   /\/scripts\/test-/,
   // The hook port itself is allowed to reference patterns in source/test
   /\/\.opencode\/plugins\/lib\/leakage-patterns/,

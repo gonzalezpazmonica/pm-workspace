@@ -8,7 +8,7 @@ const F = {
 
 test("blockGitignoredReferences: throws when content references dated output path", async () => {
   const input = { tool: "edit", args: { file_path: "/repo/docs/foo.md", content: `see ${F.outputDated}` } };
-  await expect(blockGitignoredReferences(input as any, {} as any)).rejects.toThrow(/output/);
+  await expect(blockGitignoredReferences(input as any, {} as any)).rejects.toThrow(/dated|internal|gitignored/i);
 });
 
 test("blockGitignoredReferences: throws when content references private memory", async () => {

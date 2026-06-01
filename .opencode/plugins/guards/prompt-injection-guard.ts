@@ -31,10 +31,14 @@ const SKIP_PATH_PATTERNS = [
 
 const CONTEXT_PATH_PATTERNS = [
   /\/\.claude\/rules\//,
+  /\/\.opencode\/rules\//,
   /\/docs\/rules\//,
   /\/\.claude\/agents\//,
+  /\/\.opencode\/agents\//,
   /\/\.claude\/skills\//,
+  /\/\.opencode\/skills\//,
   /\/\.claude\/commands\//,
+  /\/\.opencode\/commands\//,
   /\/projects\/[^/]+\/CLAUDE\.md$/,
   /\/projects\/[^/]+\/reglas-negocio/,
   /\/projects\/[^/]+\/specs\//,
@@ -42,7 +46,10 @@ const CONTEXT_PATH_PATTERNS = [
   /\/projects\/[^/]+\/team\//,
   /\/docs\//,
   /\/CLAUDE\.md$/,
+  /\/AGENTS\.md$/,
+  /\/SKILLS\.md$/,
   /\/\.claude\/profiles\//,
+  /\/\.opencode\/profiles\//,
 ];
 
 function ext(path: string): string {

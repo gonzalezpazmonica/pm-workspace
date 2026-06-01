@@ -45,9 +45,15 @@ test("dispatcher: AWS key in Bash blocked by credential-leak guard", async () =>
 
 test("dispatcher: clean Edit on docs passes guards (md is TDD-exempt)", async () => {
   const hooks: any = await SaviaFoundationPlugin(ctx as any);
+  // SPEC-155 + tool-call-healing: filePath must exist on disk. Resolve relative
+  // to this test file so it works regardless of suite cwd ordering.
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const here = dirname(fileURLToPath(import.meta.url));
+  const realPath = resolve(here, "..", "..", "..", "README.md");
   const input = {
     tool: "edit",
-    args: { file_path: "/repo/docs/x.md", content: "Just a doc." },
+    args: { file_path: realPath, content: "Just a doc." },
   };
   await expect(hooks["tool.execute.before"](input, {})).resolves.toBeUndefined();
 });
