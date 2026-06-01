@@ -1,5 +1,5 @@
 {
-  "hash": "1d60215e53de",
+  "hash": "4cacbe00e211",
   "total": 1182,
   "resources": [
     {
@@ -82,7 +82,7 @@
       ],
       "kind": "script",
       "path": "scripts/agent-budget-lookup.sh",
-      "description": "agent-budget-lookup.sh — Extract token_budget from agent frontmatter"
+      "description": "agent-budget-lookup.sh — Extract token budget from agent frontmatter"
     },
     {
       "category": "analysis",
