@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=dab2c1241900f87793bbbb31358d6b52c2bf64df5a32b5c57cb0794e33d17f73
-timestamp=2026-06-01T20:37:58Z
-branch=feature/spec-180-186-obsidian-improvements
-head_commit=597edfbf
-signature=1d679d40ffff60c1d8dd559fe18f6f4a1c81fb466891b82e7b173fdccbcc232b
+diff_hash=aaf692b02690a5591a38c9228091f08a0bb6f536c6d91426414cfe6034248aa2
+timestamp=2026-06-01T21:26:35Z
+branch=feature/spec-155-args-shape-fix
+head_commit=15f4bf33
+signature=f4a067db9f784512763bbcecfc762bab8abd5b9a37fcaee5081c0b7d8388c1c8
