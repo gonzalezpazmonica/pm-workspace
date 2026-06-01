@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2cd900620a09eeb0f23169d7689e88ba4d103aa0045335acdb4a0a862ab3286d
-timestamp=2026-05-31T23:12:25Z
+diff_hash=9a94c9abb14bee2e6070b071f57fab00643d01a5ce37da08bbee507dacfd060d
+timestamp=2026-06-01T05:19:44Z
 branch=feature/opencode-eager-context-slim
-head_commit=fccf9282
-signature=7cf8df6c925ce27948c0745052b58fea26a3094e5c223df49b677df349bf55e1
+head_commit=92a44bd9
+signature=0f77d46c5f583133c6a9fcdf77bd10b2804da7c411695359e886907b2f6061f9
