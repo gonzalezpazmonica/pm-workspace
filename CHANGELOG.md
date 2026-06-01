@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-01 · Era 199 obsidian-inspired SPECs (SPEC-180..186)
+
+### Added
+- **Era 199** (7 SPECs PROPOSED, 22-32h en 3 waves): transferencias del repo
+  `obsidian-second-brain` compatibles con SDD/Rule #8/#24/#25.
+  - SPEC-180 sentinel `@generated`/`@user` safe-regen (P1 Wave1, 2-3h)
+  - SPEC-181 L0-L3 context token budgets por tier (P2 Wave2, 4-6h, dep 180)
+  - SPEC-182 bitemporal timeline frontmatter (P2 Wave2, 6-8h)
+  - SPEC-183 reconciliation 3-bucket auto/manual/drift (P3 Wave3, 5-7h, dep 182)
+  - SPEC-184 write-time validator non-blocking warn (P1 Wave1, 3-4h)
+  - SPEC-185 critical-facts 150-token cap anchor (P2 Wave1, 1-2h)
+  - SPEC-186 double opt-in para gates autonomos (P1 Wave1, 1-2h)
+  Origen: `output/research/obsidian-second-brain-mejoras-cupulas-20260601.md`.
+  Rechazados explicitamente: write-time auto-rewriting (viola Rule #8),
+  Two-Output Rule, bg-agent PostCompact default, integraciones Perplexity/Grok,
+  sistema de 4 presets.
+
 ## [Unreleased] — 2026-05-31 · SPEC-156 Slice 2 + LeCun roadmap (SPEC-163..168)
 
 ### Added

@@ -887,3 +887,43 @@ Archivos: `docs/propuestas/SPEC-156..160-*.md` + `SPEC-162-self-evolving-tools-r
 - Permisos L0-L4 + AUTONOMOUS_REVIEWER (autonomous-safety)
 - Subagent Scope Guard (SE-146)
 - Savia Shield (data-sovereignty)
+
+## Era 199 — Obsidian-inspired context refinements (PROPOSED 2026-06-01)
+
+**Origen**: analisis transversal `output/research/obsidian-second-brain-mejoras-cupulas-20260601.md` (243 lineas, top-7 transferencias del repo obsidian-second-brain).
+**Diagnostico**: 7 patrones probados en obsidian-second-brain transferibles sin romper SDD ni Rule #8/#24/#25.
+**Total estimado**: 22-32h en 3 waves.
+
+### Wave 1 — Independientes (paralelizables, total 7-11h)
+
+| # | ID | Propuesta | Status | Prioridad | Esfuerzo | Deps |
+|---|----|-----------|--------|-----------|----------|------|
+| 1 | SPEC-180 | Sentinel markers @generated/@user safe-regen | PROPOSED | P1 | 2-3h | — |
+| 2 | SPEC-184 | Write-time validator non-blocking (warn) | PROPOSED | P1 | 3-4h | — |
+| 3 | SPEC-185 | Critical-facts 150-token cap | PROPOSED | P2 | 1-2h | — |
+| 4 | SPEC-186 | Double opt-in para gates autonomos | PROPOSED | P1 | 1-2h | — |
+
+### Wave 2 — Dependientes de Wave 1 (total 10-14h)
+
+| # | ID | Propuesta | Status | Prioridad | Esfuerzo | Deps |
+|---|----|-----------|--------|-----------|----------|------|
+| 5 | SPEC-181 | L0-L3 context token budgets por tier | PROPOSED | P2 | 4-6h | SPEC-180 |
+| 6 | SPEC-182 | Bitemporal timeline frontmatter | PROPOSED | P2 | 6-8h | — |
+
+### Wave 3 — Dependiente de Wave 2 (total 5-7h)
+
+| # | ID | Propuesta | Status | Prioridad | Esfuerzo | Deps |
+|---|----|-----------|--------|-----------|----------|------|
+| 7 | SPEC-183 | Reconciliation 3-bucket (auto/manual/drift) | PROPOSED | P3 | 5-7h | SPEC-182 |
+
+### Specs detallados
+
+Archivos: `docs/propuestas/SPEC-180..186-*.md`. Origen: `output/research/obsidian-second-brain-mejoras-cupulas-20260601.md` (gitignored).
+
+### Lo que NO se transfiere desde obsidian-second-brain
+
+- Write-time auto-rewriting (violaria Rule #8 SDD).
+- Two-Output Rule (incompatible con tono Savia + Radical Honesty).
+- Background-agent PostCompact por defecto (riesgo de drift no supervisado).
+- Integraciones Perplexity/Grok (data-sovereignty).
+- Sistema de 4 presets de contexto (sobre-ingenieria para workspace personal).
