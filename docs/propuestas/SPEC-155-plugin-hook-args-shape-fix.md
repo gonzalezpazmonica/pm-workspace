@@ -1,7 +1,20 @@
 ---
 id: SPEC-155
 title: OpenCode plugin hooks — fix args shape (input.args → output.args) + restore guard efficacy
-status: PROPOSED
+status: IMPLEMENTED
+implemented_at: 2026-06-01
+implemented_by: feature/spec-155-args-shape-fix
+implementation_notes: |
+  - lib/hook-input.ts: pickArgs prefers output.args with fallback to input.args.
+  - mutableArgs helper for guards that need to write mutations the runtime observes.
+  - 12 guards updated to (input, output) signature.
+  - savia-foundation.test.ts: 4 golden integration tests with v1.14 shape literal from OpenCode docs.
+  - Derived: docs/rules/domain/external-contract-testing.md (Rule #21 derivative).
+  - Related silent-regression fixes from same migration:
+    - prompt-injection-guard: added .opencode/{agents,skills,rules,commands,profiles} patterns + AGENTS.md/SKILLS.md.
+    - block-gitignored-references: added .opencode/hooks/ to SOURCE_SELF_REFS.
+    - Test assertion in block-gitignored-references aligned to actual error message.
+  - Result: 88/88 plugin tests pass (was 83/88 with 5 silent-regression failures).
 priority: CRITICAL
 estimated_hours: 4
 origin: Investigación 2026-05-30 tras fallo reproducible "BLOCKED [tool-healing]: read called with empty file_path" en sesión OpenCode/claude-opus-4.7
