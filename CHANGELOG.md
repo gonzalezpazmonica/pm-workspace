@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-02 · SE-153 Template SKILL.md "Authoritative Paths First"
+
+### Added
+- **SE-153 closed** (Era 197 / Tier 1 free-wins). Plantilla canónica para
+  crear nuevas skills con el patrón "Authoritative Paths First" (inspirado
+  en flowsint). Reduce coste de contexto: paths canónicos antes de la
+  prosa explicativa, eliminando inferencia incorrecta de firmas/paths.
+  - `.claude/skills/_template/SKILL.md`: template de 112 líneas con
+    Authoritative Paths obligatoria antes de Workflow y Decision Checklist.
+    Visible vía symlink desde `.opencode/skills/_template/`.
+  - `docs/rules/domain/skill-template-protocol.md`: managed-content rule
+    (68 líneas) — uso, reglas duras, migración opt-in, validación.
+  - `tests/test-skill-template.bats`: 34/34 pass — frontmatter, ordenamiento
+    de secciones (Authoritative Paths antes de Workflow/Decision), 150-line
+    cap, copyability, exclusión en generadores. Auditor: 88/100.
+  - `scripts/skills-md-generate.sh` y `scripts/resolver-md-generate.sh`:
+    excluyen `_template` con `! -path '*/_template/*'` para evitar
+    contaminar catálogos auto-generados.
+  - `CLAUDE.md`: lazy reference añadido.
+
+### Changed
+- `docs/ROADMAP.md`: SE-153 PROPOSED → IMPLEMENTED en Tier 1.
+
+### Notes
+- Migración opt-in: skills existentes NO se migran masivamente. Cada skill
+  se actualiza al patrón cuando se toca por otra razón.
+
+
 ## [Unreleased] — 2026-06-02 · SE-160 RESOLVER.md dispatch explícito
 
 ### Added
