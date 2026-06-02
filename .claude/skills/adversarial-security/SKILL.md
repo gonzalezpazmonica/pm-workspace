@@ -23,6 +23,15 @@ priority: "high"
 
 # Adversarial Security Skill
 
+## §0 Prerequisitos (gate de arranque)
+
+```
+Doble opt-in (SPEC-186):                     → si no: ❌ ABORT
+  bash scripts/savia-double-optin-check.sh \
+    --skill adversarial-security --confirm-autonomous
+Requiere AMBOS: ADVERSARIAL_SECURITY_ENABLED=true Y flag explicito.
+```
+
 ## §1 Vulnerability Scoring
 
 **CVSS simplificado para proyectos internos**:

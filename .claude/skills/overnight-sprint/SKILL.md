@@ -41,7 +41,10 @@ priority: "medium"
 
 ```
 1. AUTONOMOUS_REVIEWER configurado en pm-config.local.md    → si no: ❌ ABORT
-2. OVERNIGHT_SPRINT_ENABLED = true                           → si no: ❌ ABORT
+2. Doble opt-in (SPEC-186):                                  → si no: ❌ ABORT
+   bash scripts/savia-double-optin-check.sh \
+     --skill overnight-sprint --confirm-autonomous
+   Requiere AMBOS: OVERNIGHT_SPRINT_ENABLED=true Y flag explicito.
 3. Hay tareas etiquetadas como overnight-safe en el backlog  → si no: ⚠️ nada que hacer
 4. Tests del proyecto pasan en estado actual (baseline)      → si no: ❌ ABORT
 5. Auto Mode activado (claude --enable-auto-mode)            → si no: ⚠️ warning, continuar
