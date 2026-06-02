@@ -707,11 +707,11 @@ Incluye: context-update pipeline, agent-artifacts, context-guard, savia-manifest
 | 2 | SE-161 | PROTECTED_JOB_NAMES — bloquear agentes costosos en bucles autónomos | IMPLEMENTED | ~1h | Seguridad operacional. Zero deps. Evita burn de tokens en overnight-sprint. PR pendiente merge. |
 | 3 | SE-081 | Pocock quick-wins (caveman + zoom-out + grill-me) | IMPLEMENTED | ~2h | 3 skills en `.claude/skills/{caveman,zoom-out,grill-me}/` con SKILL.md+DOMAIN.md. |
 | 4 | SE-093 | Zero project leakage enforcement | IMPLEMENTED | ~1h | `scripts/project-context.sh` + `.claude/hooks/project-isolation-gate.sh`. PR #783. |
-| 5 | SE-082 | Architectural vocabulary discipline | APPROVED | ~4h | Multiplicador de todos los agentes posteriores. |
-| 6 | SE-084 | Skill catalog quality audit (Slice 1) | APPROVED | ~3h | Baseline auditor. Prerequisito para medir calidad de todo lo que viene. |
+| 5 | SE-082 | Architectural vocabulary discipline | IMPLEMENTED | ~4h | `docs/rules/domain/architectural-vocabulary.md` + `scripts/architectural-vocabulary-audit.sh` + tests 31/31. |
+| 6 | SE-084 | Skill catalog quality audit (Slice 1) | IMPLEMENTED | ~3h | `scripts/skill-catalog-audit.sh` operativo, audit TSVs diarios en `output/`. |
 | 7 | SE-167 | Skill Maturity Kanban (savia audit) | PROPOSED | ~3h | Baja complejidad. Convierte 96 skills sin estado en backlog gestionable. |
 | 8 | SE-162 | Knowledge Graph sobre memoria Savia | PROPOSED | ~8h | Mayor salto de calidad en memoria disponible. Habilita SE-171. |
-| 9 | SE-083 | TDD vertical-slice skill | APPROVED | ~2h | Cierra anti-pattern horizontal-slicing. Multiplica calidad de tests. |
+| 9 | SE-083 | TDD vertical-slice skill | IMPLEMENTED | ~2h | `.claude/skills/tdd-vertical-slices/` + tests SE-083 en architectural-vocabulary.bats. |
 | 10 | SE-086 | Ubiquitous-language extractor | APPROVED | ~5h | Bridge DDD→memory-graph. Multiplica SE-162 cuando esté. |
 | 11 | SE-091 | Caveman always-on + auto tribunal hooks | APPROVED | ~3h | Radical honesty enforced en todo output. Alta densidad de señal. |
 | 12 | SE-163 | Dream cycle upgrade (Haiku pre-filter + verdict cache) | PROPOSED | ~6h | Reduce ~70% coste overnight-sprint. Requiere overnight-sprint operativo. |
