@@ -703,7 +703,7 @@ Incluye: context-update pipeline, agent-artifacts, context-guard, savia-manifest
 
 | Rank | ID | Título | Estado | Esfuerzo | Por qué primero |
 |------|-----|--------|--------|----------|-----------------|
-| 1 | SE-160 | RESOLVER.md dispatch explícito | PROPOSED | ~2h | Zero deps. Reduce carga CLAUDE.md ahora mismo. Free-win. |
+| 1 | SE-160 | RESOLVER.md dispatch explícito | IMPLEMENTED | ~2h | Zero deps. Reduce carga CLAUDE.md ahora mismo. Free-win. |
 | 2 | SE-161 | PROTECTED_JOB_NAMES — bloquear agentes costosos en bucles autónomos | IMPLEMENTED | ~1h | Seguridad operacional. Zero deps. Evita burn de tokens en overnight-sprint. PR pendiente merge. |
 | 3 | SE-081 | Pocock quick-wins (caveman + zoom-out + grill-me) | APPROVED | ~2h | Zero código, zero deps. Skills de calidad inmediata. |
 | 4 | SE-093 | Zero project leakage enforcement | APPROVED | ~1h | CRITICAL. Fuga de contexto entre proyectos activa. |
@@ -789,7 +789,7 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 
 | # | ID | Título | Estado | Esfuerzo | Notas |
 |---|-----|--------|--------|----------|-------|
-| 1 | SE-160 | RESOLVER.md dispatch explícito | PROPOSED | ~2h | Sin cambios. Sigue siendo el mejor free-win. |
+| 1 | SE-160 | RESOLVER.md dispatch explícito | IMPLEMENTED | ~2h | Sin cambios. Sigue siendo el mejor free-win. |
 | 2 | SE-161 | PROTECTED_JOB_NAMES bucles autónomos | IMPLEMENTED | ~1h | Hook + YAML + 15 tests BATS. PR pendiente merge. |
 | 3 | SE-153 | Template SKILL.md "Authoritative paths first" | PROPOSED | ~1h | Nuevo (Era 197). Patrón flowsint. Mejora contexto, zero migración obligatoria. |
 
