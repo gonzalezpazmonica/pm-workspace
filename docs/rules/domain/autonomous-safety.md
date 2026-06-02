@@ -138,3 +138,13 @@ Cuando un agente o skill se invoca como **subagente delegado** (recibe una tarea
 **Detección de contexto subagente**: si se recibe una tarea vía `Task` tool, env var `SAVIA_SUBAGENT=1`, o flag `--subagent`, aplicar este guard.
 
 **Skills con este guard**: adversarial-security, code-improvement-loop, consensus-validation, dag-scheduling, overnight-sprint, spec-driven-development, tdd-vertical-slices, verification-lattice.
+
+## Doble opt-in para skills autónomas — SPEC-186
+
+Era 199 Wave 1. Toda skill autónoma exige **dos confirmaciones independientes** en cada invocación: variable de entorno persistente Y flag `--confirm-autonomous`. Helper canónico:
+
+```
+bash scripts/savia-double-optin-check.sh --skill <nombre> --confirm-autonomous
+```
+
+Detalle completo (mapeo skill→variable, auditoría, bypass de tests, exit codes): ver `docs/rules/domain/double-optin-protocol.md`.

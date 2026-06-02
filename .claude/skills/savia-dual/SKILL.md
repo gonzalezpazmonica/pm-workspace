@@ -15,6 +15,15 @@ summary: |
 > Soberanía de inferencia dual. Cuando la nube va bien, calidad máxima.
 > Cuando la nube falla, Savia sigue funcionando en local.
 
+## Prerequisitos (gate de arranque del failover)
+
+```
+Doble opt-in (SPEC-186):                  → si no: ❌ ABORT
+  bash scripts/savia-double-optin-check.sh \
+    --skill savia-dual --confirm-autonomous
+Requiere AMBOS: SAVIA_DUAL_FAILOVER_ENABLED=true Y flag explicito.
+```
+
 ## Cuándo se activa
 
 Esta skill se activa cuando el usuario necesita:

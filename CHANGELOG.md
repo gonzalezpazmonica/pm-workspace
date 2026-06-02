@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-02 · SPEC-186 double opt-in for autonomous skills
+
+### Added
+- **SPEC-186 closed** (status: PROPOSED → IMPLEMENTED). Era 199 Wave 1.
+  Closes the accidental-activation vector via inherited env vars in
+  persistent shells / CI runners.
+  - `scripts/savia-double-optin-check.sh`: canonical helper requiring BOTH
+    a persistent env var AND `--confirm-autonomous` flag per invocation.
+    Exit codes: 0 ok · 1 missing factor · 2 invalid invocation.
+    Test bypass only when `SAVIA_TESTING=1` AND inside BATS.
+    Audit log at `output/agent-runs/optin-audit.log`
+    (override via `SAVIA_OPTIN_AUDIT_LOG`).
+  - 24 BATS tests in `tests/test-savia-double-optin-check.bats` covering
+    all 4 confirmation combinations × multiple skills, env var mapping,
+    audit logging, and bypass semantics. 24/24 pass.
+  - 5 SKILL.md files updated with the double opt-in gate:
+    overnight-sprint, code-improvement-loop, adversarial-security,
+    tech-research-agent, savia-dual.
+  - `docs/rules/domain/autonomous-safety.md`: new appendix documenting
+    the principle, helper, skill→env-var mapping, audit, and bypass.
+
+
 ## [Unreleased] — 2026-06-01 · SPEC-155 close-out + silent-regression sweep
 
 ### Fixed

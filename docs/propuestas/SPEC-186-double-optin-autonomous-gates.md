@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-186
 title: Double opt-in para gates autonomos (env var + flag explicito)
-status: PROPOSED
+status: IMPLEMENTED
 tier: 1
 priority: P1
 effort: 1-2h
