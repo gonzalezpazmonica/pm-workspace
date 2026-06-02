@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=323404b70db1b37eaae02381559afbd534cd5a3f15d1febfa115150ce5526812
-timestamp=2026-06-02T20:37:10Z
-branch=feature/se-153-skill-template
-head_commit=cda3f8bd
-signature=960624c1c9c17bc3c42438875e55a11afadbf4c8c186d57b7fb42039c6a9e910
+diff_hash=34ba0266c6cf88ed27f97cb5b02164935bb84183394e3e317122b855b3d7ba04
+timestamp=2026-06-02T21:54:36Z
+branch=feature/se-162-knowledge-graph
+head_commit=8ffe3aec
+signature=c689217057b5a139313f6973dbe4778fc6d12db27d48020ef0e05b58271e7fe3

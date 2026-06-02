@@ -710,7 +710,7 @@ Incluye: context-update pipeline, agent-artifacts, context-guard, savia-manifest
 | 5 | SE-082 | Architectural vocabulary discipline | APPROVED | ~4h | Multiplicador de todos los agentes posteriores. |
 | 6 | SE-084 | Skill catalog quality audit (Slice 1) | APPROVED | ~3h | Baseline auditor. Prerequisito para medir calidad de todo lo que viene. |
 | 7 | SE-167 | Skill Maturity Kanban (savia audit) | PROPOSED | ~3h | Baja complejidad. Convierte 96 skills sin estado en backlog gestionable. |
-| 8 | SE-162 | Knowledge Graph sobre memoria Savia | PROPOSED | ~8h | Mayor salto de calidad en memoria disponible. Habilita SE-171. |
+| 8 | SE-162 | Knowledge Graph sobre memoria Savia | IMPLEMENTED | ~8h | `scripts/knowledge-graph.{py,sh}` + SQLite WAL + 5 subcomandos + `docs/rules/domain/knowledge-graph.md` + tests 26/26. Línea base: 543 entities, 661 relations. |
 | 9 | SE-083 | TDD vertical-slice skill | APPROVED | ~2h | Cierra anti-pattern horizontal-slicing. Multiplica calidad de tests. |
 | 10 | SE-086 | Ubiquitous-language extractor | APPROVED | ~5h | Bridge DDD→memory-graph. Multiplica SE-162 cuando esté. |
 | 11 | SE-091 | Caveman always-on + auto tribunal hooks | APPROVED | ~3h | Radical honesty enforced en todo output. Alta densidad de señal. |

@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-02 · SE-162 Knowledge Graph sobre memoria Savia
+
+### Added
+- **SE-162 closed** (Era 251 stack rank 8). Grafo de conocimiento tipado
+  sobre memoria Savia con SQLite WAL. Sin pip deps (stdlib Python).
+  - `scripts/knowledge-graph.py` — engine: build/query/impact/status/entities.
+  - `scripts/knowledge-graph.sh` — wrapper bash.
+  - `docs/rules/domain/knowledge-graph.md` — schema, tipos, comandos.
+  - `tests/test-knowledge-graph.bats` — 26/26 pass.
+  - `~/.savia/knowledge-graph.db` — SQLite gitignored (derived, regenerable).
+  - Línea base 2026-06-02: 543 entidades (211 specs, 209 rules…), 661 relaciones.
+- **Comandos actualizados** (`graph-build.md`, `graph-query.md`) con sección
+  SE-162 backend para queries al SQLite global.
+- Desbloquea: SE-086 (ubiquitous-language), SE-171 (contradiction detector).
+
 ## [Unreleased] — 2026-06-02 · SE-153 Template SKILL.md "Authoritative Paths First"
 
 ### Added
