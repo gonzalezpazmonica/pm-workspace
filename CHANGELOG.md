@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-02 · SE-160 RESOLVER.md dispatch explícito
+
+### Added
+- **SE-160 closed** (Era 251 free-wins). Tabla explícita intent → skill/agent
+  para reducir carga del contexto central y permitir routing editable sin
+  prompt engineering. Patrón GBrain adaptado.
+  - `docs/RESOLVER.md`: 98 skills + 70 agents en tablas auto-generadas;
+    sección OVERRIDE hand-curated con sinónimos comunes (es/en).
+  - `scripts/resolver-md-generate.sh`: generador con modos `generate` (stdout),
+    `--apply` (reemplaza solo bloque AUTO_BEGIN/AUTO_END preservando OVERRIDE),
+    `--check` (drift detection para CI). Soporta frontmatter multilinea
+    (`description: >`).
+  - `docs/rules/domain/resolver-protocol.md`: managed-content rule (62 líneas).
+  - `tests/test-resolver-md-generate.bats`: 21/21 tests — estructura,
+    drift detection, idempotencia, preservación de OVERRIDE, validación de
+    targets.
+  - `CLAUDE.md`: lazy reference añadido.
+
+### Changed
+- `docs/ROADMAP.md`: SE-160 PROPOSED → IMPLEMENTED en tablas de priorización
+  Era 251.
+
+
 ## [Unreleased] — 2026-06-02 · SPEC-186 double opt-in for autonomous skills
 
 ### Added
