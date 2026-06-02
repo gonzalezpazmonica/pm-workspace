@@ -15,9 +15,8 @@ priority: "medium"
 
 ## Subagent Scope Guard
 
-> If you were dispatched as a subagent to execute a specific delegated task,
-> **skip this skill's full orchestration workflow**. Execute only the assigned
-> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
+> If dispatched as a subagent: execute only the assigned task, report result
+> (DONE / DONE_WITH_CONCERNS / BLOCKED), and return. Skip full workflow.
 > This guard prevents runaway skill activation in nested agent contexts.
 
 # Skill: Code Improvement Loop
@@ -42,17 +41,14 @@ priority: "medium"
 
 ```
 1. AUTONOMOUS_REVIEWER configurado            → si no: ❌ ABORT
-2. Doble opt-in (SPEC-186):                   → si no: ❌ ABORT
-   bash scripts/savia-double-optin-check.sh \
-     --skill code-improvement-loop --confirm-autonomous
-   Requiere AMBOS: CODE_IMPROVEMENT_LOOP_ENABLED=true Y flag explicito.
+2. Doble opt-in SPEC-186 (env CODE_IMPROVEMENT_LOOP_ENABLED=true + flag): → si no: ❌ ABORT
+   bash scripts/savia-double-optin-check.sh --skill code-improvement-loop --confirm-autonomous
 3. Tests pasan (baseline sano)                → si no: ❌ ABORT
 4. Métricas baseline capturadas               → si no: capturar antes de empezar
 5. Auto Mode activado (claude --enable-auto-mode) → si no: ⚠️ warning, continuar
 ```
 
-**Auto Mode**: activar `claude --enable-auto-mode` en la sesión que invoque esta
-skill — añade classifier pre-tool-call complementario a `autonomous-safety.md`.
+**Auto Mode**: classifier pre-tool-call complementario a `autonomous-safety.md`.
 
 ## Flujo completo (patrón autoresearch adaptado)
 
