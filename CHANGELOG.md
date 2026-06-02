@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-03 · SE-086 Ubiquitous Language extractor
+
+### Added
+- **SE-086 closed** (Era 190 stack rank 10). DDD ubiquitous language extractor
+  para glosarios per-proyecto. Clean-room de mattpocock/skills (MIT).
+  - `.claude/skills/ubiquitous-language/{SKILL,DOMAIN}.md` — skill con proceso
+    5 pasos, triggers, atribución MIT, formato CONTEXT.md.
+  - `scripts/extract-domain-entities.py` — extractor: report + --auto-update
+    con marcadores [REVIEW]. Statuses: new / existing / inconsistent.
+  - `scripts/knowledge-graph-domain-bridge.py` — ingesta CONTEXT.md en SE-162
+    grafo con edges DOMAIN_TERM.
+  - `docs/rules/domain/ubiquitous-language.md` — rule doc.
+  - `tests/test-ubiquitous-language.bats` — 24/24 AC-01..AC-09 pass.
+- Desbloquea: SE-171 (contradiction detector) gana términos de dominio.
+
 ## [Unreleased] — 2026-06-02 · ROADMAP drift cleanup (SE-081 + SE-082 + SE-083 + SE-084 + SE-093)
 
 ### Changed

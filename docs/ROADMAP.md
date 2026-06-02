@@ -712,7 +712,7 @@ Incluye: context-update pipeline, agent-artifacts, context-guard, savia-manifest
 | 7 | SE-167 | Skill Maturity Kanban (savia audit) | PROPOSED | ~3h | Baja complejidad. Convierte 96 skills sin estado en backlog gestionable. |
 | 8 | SE-162 | Knowledge Graph sobre memoria Savia | PROPOSED | ~8h | Mayor salto de calidad en memoria disponible. Habilita SE-171. |
 | 9 | SE-083 | TDD vertical-slice skill | IMPLEMENTED | ~2h | `.claude/skills/tdd-vertical-slices/` + tests SE-083 en architectural-vocabulary.bats. |
-| 10 | SE-086 | Ubiquitous-language extractor | APPROVED | ~5h | Bridge DDD→memory-graph. Multiplica SE-162 cuando esté. |
+| 10 | SE-086 | Ubiquitous-language extractor | IMPLEMENTED | ~5h | Skill + extractor script + bridge SE-162 + rule + tests 24/24. Genera `CONTEXT.md` per-proyecto con [REVIEW] terms. |
 | 11 | SE-091 | Caveman always-on + auto tribunal hooks | APPROVED | ~3h | Radical honesty enforced en todo output. Alta densidad de señal. |
 | 12 | SE-163 | Dream cycle upgrade (Haiku pre-filter + verdict cache) | PROPOSED | ~6h | Reduce ~70% coste overnight-sprint. Requiere overnight-sprint operativo. |
 | 13 | SE-089 | SaviaClaw DeepSeek migration | APPROVED | ~2h | CRITICAL si SOS sigue con `remote:unreachable`. Sovereignty. |
