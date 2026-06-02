@@ -791,7 +791,7 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 |---|-----|--------|--------|----------|-------|
 | 1 | SE-160 | RESOLVER.md dispatch explícito | IMPLEMENTED | ~2h | Sin cambios. Sigue siendo el mejor free-win. |
 | 2 | SE-161 | PROTECTED_JOB_NAMES bucles autónomos | IMPLEMENTED | ~1h | Hook + YAML + 15 tests BATS. PR pendiente merge. |
-| 3 | SE-153 | Template SKILL.md "Authoritative paths first" | PROPOSED | ~1h | Nuevo (Era 197). Patrón flowsint. Mejora contexto, zero migración obligatoria. |
+| 3 | SE-153 | Template SKILL.md "Authoritative paths first" | IMPLEMENTED | ~1h | Nuevo (Era 197). Patrón flowsint. Mejora contexto, zero migración obligatoria. |
 
 ### Tier 2 — Foundations (multiplicador de capas posteriores)
 

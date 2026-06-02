@@ -106,7 +106,7 @@ HEADER
     [[ -z "$desc" ]] && desc="—"
     rel="${f#${ROOT}/}"
     printf '| %s | `%s` | %s |\n' "$name" "$rel" "$desc"
-  done < <(find -L "${SKILLS_DIR}" -mindepth 2 -maxdepth 2 -name "SKILL.md" -type f | LC_ALL=C sort)
+  done < <(find -L "${SKILLS_DIR}" -mindepth 2 -maxdepth 2 -name "SKILL.md" -type f ! -path '*/_template/*' | LC_ALL=C sort)
 }
 
 GENERATED=$(build)

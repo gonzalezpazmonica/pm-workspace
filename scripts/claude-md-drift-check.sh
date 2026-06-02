@@ -17,7 +17,7 @@ CLAUDE_MD="$ROOT/CLAUDE.md"
 # Real counts
 REAL_AGENTS=$(ls "$ROOT"/.opencode/agents/*.md 2>/dev/null | wc -l)
 REAL_COMMANDS=$(REPO_ROOT="$ROOT" bash "$SCRIPT_DIR/count-commands.sh" 2>/dev/null || echo 0)
-REAL_SKILLS=$(ls "$ROOT"/.opencode/skills/*/SKILL.md 2>/dev/null | wc -l)
+REAL_SKILLS=$(ls "$ROOT"/.opencode/skills/*/SKILL.md 2>/dev/null | grep -v '/_template/' | wc -l)
 REAL_HOOKS=$(ls "$ROOT"/.opencode/hooks/*.sh 2>/dev/null | wc -l)
 REAL_HOOK_REGS=$(python3 -c "
 import json

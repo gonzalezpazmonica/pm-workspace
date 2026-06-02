@@ -105,7 +105,7 @@ build_skills_table() {
     desc=$(extract_field "$f" "description")
     desc=$(sanitise "$desc")
     printf '| `%s` | skill:%s | %s |\n' "$name" "$name" "$desc"
-  done < <(find -L "$SKILLS_DIR" -maxdepth 2 -name 'SKILL.md' | LC_ALL=C sort)
+  done < <(find -L "$SKILLS_DIR" -maxdepth 2 -name 'SKILL.md' ! -path '*/_template/*' | LC_ALL=C sort)
 }
 
 build_agents_table() {
@@ -125,7 +125,7 @@ build_agents_table() {
 
 build_auto_block() {
   printf '%s\n\n' "$AUTO_BEGIN"
-  printf '### Skills (%d)\n\n' "$(find -L "$SKILLS_DIR" -maxdepth 2 -name 'SKILL.md' | wc -l)"
+  printf '### Skills (%d)\n\n' "$(find -L "$SKILLS_DIR" -maxdepth 2 -name 'SKILL.md' ! -path '*/_template/*' | wc -l)"
   build_skills_table
   printf '\n### Agents (%d)\n\n' "$(find -L "$AGENTS_DIR" -maxdepth 1 -type f -name '*.md' ! -name 'README.md' | wc -l)"
   build_agents_table
