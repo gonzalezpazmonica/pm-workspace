@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=323404b70db1b37eaae02381559afbd534cd5a3f15d1febfa115150ce5526812
-timestamp=2026-06-02T20:37:10Z
-branch=feature/se-153-skill-template
-head_commit=cda3f8bd
-signature=960624c1c9c17bc3c42438875e55a11afadbf4c8c186d57b7fb42039c6a9e910
+diff_hash=4b2b7a08fd110bc19f245822af6508d48c108f10648f9d7485f2c8aa8ecb087a
+timestamp=2026-06-02T21:16:26Z
+branch=feature/roadmap-drift-cleanup-20260602
+head_commit=549da4e5
+signature=f9f8618ce31bc99ab711dd18acf68e4e87733d34c3a5e225f7c6150258af043b
