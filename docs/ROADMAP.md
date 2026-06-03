@@ -709,7 +709,7 @@ Incluye: context-update pipeline, agent-artifacts, context-guard, savia-manifest
 | 4 | SE-093 | Zero project leakage enforcement | IMPLEMENTED | ~1h | `scripts/project-context.sh` + `.claude/hooks/project-isolation-gate.sh`. PR #783. |
 | 5 | SE-082 | Architectural vocabulary discipline | IMPLEMENTED | ~4h | `docs/rules/domain/architectural-vocabulary.md` + `scripts/architectural-vocabulary-audit.sh` + tests 31/31. |
 | 6 | SE-084 | Skill catalog quality audit (Slice 1) | IMPLEMENTED | ~3h | `scripts/skill-catalog-audit.sh` operativo, audit TSVs diarios en `output/`. |
-| 7 | SE-167 | Skill Maturity Kanban (savia audit) | PROPOSED | ~3h | Baja complejidad. Convierte 96 skills sin estado en backlog gestionable. |
+| 7 | SE-167 | Skill Maturity Kanban (savia audit) | IMPLEMENTED | ~3h | `scripts/skill-maturity-audit.sh` + `docs/rules/domain/skill-maturity-kanban.md` + tests 23/23. Línea base: 1 Calibrated, 94 Incomplete, 3 Stub, 0 Deprecated. |
 | 8 | SE-162 | Knowledge Graph sobre memoria Savia | PROPOSED | ~8h | Mayor salto de calidad en memoria disponible. Habilita SE-171. |
 | 9 | SE-083 | TDD vertical-slice skill | IMPLEMENTED | ~2h | `.claude/skills/tdd-vertical-slices/` + tests SE-083 en architectural-vocabulary.bats. |
 | 10 | SE-086 | Ubiquitous-language extractor | APPROVED | ~5h | Bridge DDD→memory-graph. Multiplica SE-162 cuando esté. |
