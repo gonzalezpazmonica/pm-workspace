@@ -1,14 +1,17 @@
 #!/usr/bin/env bats
 # SE-086: Ubiquitous Language extractor — Slice 1 (skill) + Slice 2 (extractor).
 # Acceptance: AC-01..AC-10 from docs/propuestas/SE-086-ubiquitous-language-extractor.md
+# Safety: set -uo pipefail equivalent applied per-test via BATS run isolation
 
 setup() {
+  set -uo pipefail
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"
   cd "$BATS_TEST_DIRNAME/.."
   SKILL_DIR=".claude/skills/ubiquitous-language"
   SKILL_MD="$SKILL_DIR/SKILL.md"
   DOMAIN_MD="$SKILL_DIR/DOMAIN.md"
-  EXTRACTOR="scripts/extract-domain-entities.py"
+  SCRIPT="scripts/extract-domain-entities.py"
+  EXTRACTOR="$SCRIPT"
   BRIDGE="scripts/knowledge-graph-domain-bridge.py"
   STAMP="$(date +%Y%m%d)"
   FIXTURE="tests/fixtures/se086-domain-sample.md"
