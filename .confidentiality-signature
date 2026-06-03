@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9464a20bacfb6c65900ed717b441685f6a653e14b682477300ff21585dd5fc22
-timestamp=2026-06-03T20:01:38Z
-branch=feature/se-086-ubiquitous-language
-head_commit=64f8c9c3
-signature=5fa06807184976a15e19f2e8d691783a53ef1a461f1a8ee273ca90dc60887933
+diff_hash=5cecf71f365406b3cca0d2c152b3e8baff65c1471fe8a3dd0036297f5bd9dc8c
+timestamp=2026-06-03T20:55:18Z
+branch=feature/se-172-markitdown-roadmap
+head_commit=4bc53aac
+signature=b19b6bef94681e4eb76afbe253775145992ea0c2a0b28209165ef9b0ed4a9f99
