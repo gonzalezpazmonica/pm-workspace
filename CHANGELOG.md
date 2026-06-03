@@ -20,6 +20,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Comandos actualizados** (`graph-build.md`, `graph-query.md`) con sección
   SE-162 backend para queries al SQLite global.
 - Desbloquea: SE-086 (ubiquitous-language), SE-171 (contradiction detector).
+## [Unreleased] — 2026-06-02 · ROADMAP drift cleanup (SE-081 + SE-082 + SE-083 + SE-084 + SE-093)
+
+### Changed
+- **ROADMAP table sync** (rank 3, 4, 5, 6, 9). Cinco specs marcados IMPLEMENTED
+  tras verificar realidad en disco:
+  - SE-081: 3 skills (`caveman`, `zoom-out`, `grill-me`) con SKILL.md+DOMAIN.md.
+  - SE-082: `docs/rules/domain/architectural-vocabulary.md` + auditor +
+    tests 31/31 + audit TSVs diarios en `output/`.
+  - SE-083: `.claude/skills/tdd-vertical-slices/` + tests SE-083 en
+    architectural-vocabulary.bats.
+  - SE-084: `scripts/skill-catalog-audit.sh` operativo, audit TSVs diarios.
+  - SE-093: `scripts/project-context.sh` + `.claude/hooks/project-isolation-gate.sh`,
+    merged en PR #783 (2026-05-30).
+- Stack priorizado en `docs/ROADMAP.md` ahora refleja estado real.
+## [Unreleased] — 2026-06-02 · SE-167 Skill Maturity Kanban
+
+### Added
+- **SE-167 closed** (Era 252 stack rank 7). Auditor que clasifica las 98
+  skills del workspace en 4 estados canónicos:
+  - `Calibrated` (stable + tests + DOMAIN.md)
+  - `Incomplete` (falta tests o maturity != stable)
+  - `Stub` (missing DOMAIN.md o SKILL <50 líneas)
+  - `Deprecated` (frontmatter `deprecated: true`)
+- `scripts/skill-maturity-audit.sh` — auditor con flags `--tsv-only`,
+  `--markdown-only`, `--help`. Output diario en `output/`.
+- `docs/rules/domain/skill-maturity-kanban.md` — reglas + transiciones.
+- `docs/propuestas/SE-167-skill-maturity-kanban.md` — spec.
+- `tests/test-skill-maturity-audit.bats` — 23 tests pass.
+- Línea base 2026-06-02: 1 Calibrated, 94 Incomplete, 3 Stub, 0 Deprecated.
 
 ## [Unreleased] — 2026-06-02 · SE-153 Template SKILL.md "Authoritative Paths First"
 
