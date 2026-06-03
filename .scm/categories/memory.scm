@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 97 resources
+> 98 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -95,6 +95,7 @@
 - **slice-context-chain** (script): slice-context-chain.sh — Knowledge chain between dev-session slices
 - **tool-search** (cmd): Buscar comandos, skills y agentes por palabra clave
 - **ua-chat** (cmd): Semantic search the knowledge graph using natural language
+- **ubiquitous-language** (skill): Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. Trigger: usuario dice 'extrae glosario', 'ubiquitous language', '/glossary', o hay >5 términos repetidos sin CONTEXT.md.
 - **web-research** (cmd): Search the web to resolve context gaps — documentation, versions, CVEs, best practices. Auto-starts SearxNG Docker if available, falls back to WebSearch.
 - **web-research** (skill): Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versiones, CVEs).
 - **whatsapp-search** (cmd): >
