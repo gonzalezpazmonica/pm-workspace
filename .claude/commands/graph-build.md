@@ -53,3 +53,17 @@ Escanea todas las fuentes PM (Azure DevOps, equipo.md, reglas-negocio.md, agent-
 - Idempotente: ejecutar 2 veces produce mismo resultado
 - Reemplaza grafo anterior (backup automático)
 - Máximo 60 líneas
+
+## SE-162 Backend (SQLite Knowledge Graph)
+
+Para el grafo global del workspace (memoria Savia + rules + ROADMAP), usar
+el engine SE-162 en lugar del pipeline manual anterior:
+
+```bash
+bash scripts/knowledge-graph.sh build    # 543+ entidades, 661+ relaciones
+bash scripts/knowledge-graph.sh status   # estadísticas
+```
+
+El JSONL por proyecto sigue vigente para grafos específicos de proyecto.
+El grafo global vive en `~/.savia/knowledge-graph.db` (gitignored).
+Ver `docs/rules/domain/knowledge-graph.md`.
