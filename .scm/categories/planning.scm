@@ -239,7 +239,7 @@
 - **jira-connect** (cmd): Conectar y sincronizar con Jira Cloud como alternativa a Azure DevOps
 - **jira-sync** (cmd): >
 - **knowledge-graph** (skill): Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto.
-- **knowledge-graph** (script): knowledge-graph.sh — Temporal knowledge graph in SQLite (local cache)
+- **knowledge-graph** (script): knowledge-graph.sh — SE-162: Shell wrapper for knowledge-graph.py
 - **knowledge-prime** (cmd): Generar documento de priming AI desde código y configuración del proyecto
 - **legacy-assess** (cmd): >
 - **legal-deadline** (cmd): >

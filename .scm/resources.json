@@ -1,5 +1,5 @@
 {
-  "hash": "c57723a0f5c6",
+  "hash": "005ac9021a99",
   "total": 1186,
   "resources": [
     {
@@ -8642,15 +8642,14 @@
       "category": "planning",
       "name": "knowledge-graph",
       "intents": [
-        "cache",
         "graph",
         "knowledge",
-        "local",
-        "sqlite"
+        "shell",
+        "wrapper"
       ],
       "kind": "script",
       "path": "scripts/knowledge-graph.sh",
-      "description": "knowledge-graph.sh — Temporal knowledge graph in SQLite (local cache)"
+      "description": "knowledge-graph.sh — SE-162: Shell wrapper for knowledge-graph.py"
     },
     {
       "category": "planning",

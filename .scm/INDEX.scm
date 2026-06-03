@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: c6c411ee654c | resources: 1186
+> hash: 43e5c1da6981 | resources: 1186
 > 554 commands · 99 skills · 70 agents · 463 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
@@ -675,7 +675,7 @@
 [planning] jira-connect — alternativa,azure,cloud,conectar,devops — cmd:.claude/commands/jira-connect.md
 [planning] jira-sync —  — cmd:.claude/commands/jira-sync.md
 [planning] knowledge-graph — conocimiento,construye,consulta,entidades,grafo — skill:.claude/skills/knowledge-graph/SKILL.md
-[planning] knowledge-graph — cache,graph,knowledge,local,sqlite — script:scripts/knowledge-graph.sh
+[planning] knowledge-graph — graph,knowledge,shell,wrapper — script:scripts/knowledge-graph.sh
 [planning] knowledge-prime — configuración,código,documento,generar,priming — cmd:.claude/commands/knowledge-prime.md
 [planning] legacy-assess —  — cmd:.claude/commands/legacy-assess.md
 [planning] legal-deadline —  — cmd:.claude/commands/legal-deadline.md
