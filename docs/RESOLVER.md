@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (98)
+### Skills (99)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -141,6 +141,7 @@
 | `tier3-probes` | skill:tier3-probes | Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el wo... |
 | `time-tracking-report` | skill:time-tracking-report | Usar cuando se generan informes de imputación de horas en Excel o Word. |
 | `topic-cluster` | skill:topic-cluster | Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones trans... |
+| `ubiquitous-language` | skill:ubiquitous-language | Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un ... |
 | `verification-lattice` | skill:verification-lattice | Usar cuando se necesita verificación multi-capa más allá del code review estándar. |
 | `voice-inbox` | skill:voice-inbox | Usar cuando se procesan mensajes de voz para transcribirlos y convertirlos en acciones. |
 | `web-research` | skill:web-research | Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versione... |

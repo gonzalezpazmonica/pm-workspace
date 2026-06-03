@@ -11,6 +11,7 @@ setup() {
   EXTRACTOR="scripts/extract-domain-entities.py"
   BRIDGE="scripts/knowledge-graph-domain-bridge.py"
   STAMP="$(date +%Y%m%d)"
+  FIXTURE="tests/fixtures/se086-domain-sample.md"
 }
 
 teardown() {
@@ -64,22 +65,22 @@ teardown() {
 }
 
 @test "AC-05: extractor produces report from memory-store" {
-  run python3 "$EXTRACTOR" --project test-se086 --output-dir "$TMPDIR"
+  run python3 "$EXTRACTOR" --project test-se086 --input "$FIXTURE" --output-dir "$TMPDIR"
   [ "$status" -eq 0 ]
 }
 
 @test "AC-05: report file is created with correct naming" {
-  python3 "$EXTRACTOR" --project test-se086 --output-dir "$TMPDIR" 2>/dev/null
+  python3 "$EXTRACTOR" --project test-se086 --input "$FIXTURE" --output-dir "$TMPDIR" 2>/dev/null
   [[ -f "$TMPDIR/domain-entity-report-test-se086-$STAMP.md" ]]
 }
 
 @test "AC-05: report contains table header with Term column" {
-  python3 "$EXTRACTOR" --project test-se086 --output-dir "$TMPDIR" 2>/dev/null
+  python3 "$EXTRACTOR" --project test-se086 --input "$FIXTURE" --output-dir "$TMPDIR" 2>/dev/null
   grep -q "| Term" "$TMPDIR/domain-entity-report-test-se086-$STAMP.md"
 }
 
 @test "AC-06: report includes status column with valid values" {
-  python3 "$EXTRACTOR" --project test-se086 --output-dir "$TMPDIR" 2>/dev/null
+  python3 "$EXTRACTOR" --project test-se086 --input "$FIXTURE" --output-dir "$TMPDIR" 2>/dev/null
   grep -qE "\| (new|existing|inconsistent) \|" \
     "$TMPDIR/domain-entity-report-test-se086-$STAMP.md"
 }
