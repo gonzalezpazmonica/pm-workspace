@@ -24,7 +24,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 
 ## Estructura
 
-`.claude/{agents(70), commands(559), profiles, hooks(71/74reg), rules/{domain,languages}, skills(98), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
+`.claude/{agents(70), commands(559), profiles, hooks(71/74reg), rules/{domain,languages}, skills(99), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
 
 ## Reglas Críticas (Rules 1-8, inline)
 
@@ -62,6 +62,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 | Template SKILL.md (Authoritative Paths first) | `.claude/skills/_template/SKILL.md` + `docs/rules/domain/skill-template-protocol.md` | Creas una skill nueva — copiar template, paths primero, prosa después (SE-153) |
 | Skill Maturity Kanban (Calibrated/Incomplete/Stub/Deprecated) | `scripts/skill-maturity-audit.sh` + `docs/rules/domain/skill-maturity-kanban.md` | Necesitas saber qué skills están calibradas, cuáles requieren tests, o priorizar trabajo de calidad (SE-167) |
 | Knowledge Graph (entities + relations tipadas, SQLite) | `scripts/knowledge-graph.sh` + `docs/rules/domain/knowledge-graph.md` | Consultas de impacto, relaciones entre specs/rules/skills/proyectos, build del grafo (SE-162) |
+| Ubiquitous Language (glosario de dominio per-proyecto) | `scripts/extract-domain-entities.py` + `docs/rules/domain/ubiquitous-language.md` | Extraer términos de dominio, crear/actualizar CONTEXT.md per-proyecto, bridge a knowledge graph (SE-086) |
 
 **Protocolo de carga**: usar `Read` directamente con el path exacto. NO uses `@import` aquí — romperías el lazy.
 
