@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0ab5a98958ed0c778b2bb255188fdcb1fa36dcdc932e5eea227392407681a59d
-timestamp=2026-06-03T09:55:46Z
-branch=feature/se-162-knowledge-graph
-head_commit=0a6169d2
-signature=f259af196cdc3bf85e331f7ffa8d39e2130ba9296907f26718b364abce70879d
+diff_hash=9464a20bacfb6c65900ed717b441685f6a653e14b682477300ff21585dd5fc22
+timestamp=2026-06-03T20:01:38Z
+branch=feature/se-086-ubiquitous-language
+head_commit=64f8c9c3
+signature=5fa06807184976a15e19f2e8d691783a53ef1a461f1a8ee273ca90dc60887933
