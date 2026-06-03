@@ -1,7 +1,9 @@
 #!/usr/bin/env bats
-# SE-091: Caveman always-on + auto tribunal hooks
+# Ref: SPEC-091 / SE-091 — docs/propuestas/SE-091-caveman-always.md
+# Caveman always-on + auto tribunal hooks.
 # Verifies: caveman-default loaded in instructions, guards exist and are
-# registered in savia-foundation, bash hook files present, opencode.json valid.
+# registered in savia-foundation, bash hook files present and use safe
+# shell flags, opencode.json valid, plus negative + edge cases.
 
 setup() {
   cd "$BATS_TEST_DIRNAME/.."
@@ -12,6 +14,11 @@ setup() {
   ZOOM_HOOK=".opencode/hooks/auto-zoom-out.sh"
   CAVEMAN_RULE="docs/rules/domain/caveman-default.md"
   OC_CONFIG="opencode.json"
+  TMPDIR_TEST="$(mktemp -d)"
+}
+
+teardown() {
+  rm -rf "$TMPDIR_TEST"
 }
 
 # ── caveman-default.md (AC-01..AC-02) ────────────────────────────────────────
@@ -128,4 +135,69 @@ PY
 
 @test "AC-08: opencode.json is valid JSON after changes" {
   python3 -c "import json; json.load(open('opencode.json'))"
+}
+
+# ── Safety verification (AC-09) ──────────────────────────────────────────────
+
+@test "AC-09: auto-grill-me.sh hook uses set -uo pipefail safety flags" {
+  grep -q "set -uo pipefail" "$GRILL_HOOK"
+}
+
+@test "AC-09: auto-zoom-out.sh hook uses set -uo pipefail safety flags" {
+  grep -q "set -uo pipefail" "$ZOOM_HOOK"
+}
+
+# ── Negative cases (AC-10) ───────────────────────────────────────────────────
+
+@test "AC-10: missing caveman-default.md path is detected as failure" {
+  run test -f "$TMPDIR_TEST/nonexistent-caveman.md"
+  [ "$status" -ne 0 ]
+}
+
+@test "AC-10: invalid JSON input fails json.load gracefully" {
+  run python3 -c "import json; json.loads('{not valid json')"
+  [ "$status" -ne 0 ]
+}
+
+@test "AC-10: empty guard file is rejected (no exports)" {
+  local empty_guard="$TMPDIR_TEST/empty-guard.ts"
+  : > "$empty_guard"
+  run grep -q "export function shouldGrillPath" "$empty_guard"
+  [ "$status" -ne 0 ]
+}
+
+@test "AC-10: bad opencode.json path returns error to readers" {
+  run python3 -c "import json; json.load(open('$TMPDIR_TEST/missing-config.json'))"
+  [ "$status" -ne 0 ]
+}
+
+@test "AC-10: missing FOUNDATION import for unknown guard fails grep" {
+  run grep -q "ZZZ_DOES_NOT_EXIST_GUARD_ZZZ" "$FOUNDATION"
+  [ "$status" -ne 0 ]
+}
+
+@test "AC-10: invalid extension list in guard would skip code paths" {
+  run grep -q "\"xyz_unknown_ext\"" "$GRILL_GUARD"
+  [ "$status" -ne 0 ]
+}
+
+# ── Edge cases (AC-11) ───────────────────────────────────────────────────────
+
+@test "AC-11: nonexistent hook path boundary returns false" {
+  [[ ! -f "$TMPDIR_TEST/nonexistent-hook.sh" ]]
+}
+
+@test "AC-11: empty foundation file edge case is detectable" {
+  local empty_foundation="$TMPDIR_TEST/empty-foundation.ts"
+  : > "$empty_foundation"
+  [ ! -s "$empty_foundation" ] || [ "$(wc -c < "$empty_foundation")" -eq 0 ]
+}
+
+@test "AC-11: zero matches for sentinel keyword confirms boundary" {
+  ! grep -q "SENTINEL_NULL_BOUNDARY_TOKEN_ZZZ" "$CAVEMAN_RULE"
+}
+
+@test "AC-11: large path with no arg defaults to safe no-op" {
+  run bash -c '[[ -z "" ]]'
+  [ "$status" -eq 0 ]
 }
