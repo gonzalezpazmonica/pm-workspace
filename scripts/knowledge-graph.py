@@ -265,6 +265,12 @@ def ingest_rules(conn: sqlite3.Connection) -> int:
             spec_id = upsert_entity(conn, spec_name.upper(), "spec")
             upsert_relation(conn, rule_id, "implements", spec_id,
                             source=str(md.relative_to(ROOT)), confidence=0.8)
+        # mentions: tools / concepts cited in the rule text
+        for name, etype in extract_entities_from_text(text):
+            if etype in ("tool", "concept") and name != md.stem:
+                eid = upsert_entity(conn, name, etype)
+                upsert_relation(conn, rule_id, "mentions", eid,
+                                source=str(md.relative_to(ROOT)), confidence=0.7)
         count += 1
     conn.commit()
     return count
