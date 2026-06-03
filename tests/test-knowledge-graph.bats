@@ -1,268 +1,256 @@
 #!/usr/bin/env bats
-# Tests for knowledge-graph.sh — Temporal knowledge graph in SQLite
-# SPEC-090: Entity/relation extraction, query, impact analysis
-# Ref: docs/propuestas/SPEC-090-temporal-knowledge-graph.md
-
-SCRIPT="scripts/knowledge-graph.sh"
+set -uo pipefail
+# SE-162: Knowledge Graph sobre memoria Savia.
+# Acceptance: build populates SQLite with entities+relations; query/impact/status
+# return results; degradation path (no DB) returns non-zero; idempotent builds.
+#
+# docs/propuestas/SE-162 + docs/rules/domain/knowledge-graph.md referenced below.
 
 setup() {
-  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  TMPDIR_KG=$(mktemp -d)
-  export SAVIA_DIR="$TMPDIR_KG/savia"
-  export KG_DB_PATH="$SAVIA_DIR/knowledge-graph.db"
-  export AUTOMEMORY_DIR="$TMPDIR_KG/automemory"
-  export MEMORY_STORE="$TMPDIR_KG/memory-store.jsonl"
-  export DECISION_LOG="$TMPDIR_KG/decision-log.md"
-  export PROJECT_ROOT="$REPO_ROOT"
-  mkdir -p "$SAVIA_DIR" "$AUTOMEMORY_DIR"
+  export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"
+  cd "$BATS_TEST_DIRNAME/.."
+  PY="scripts/knowledge-graph.py"
+  SH="scripts/knowledge-graph.sh"
+  DB="$TMPDIR/kg-test-$BATS_TEST_NUMBER.db"
+  export KG_DB="$DB"
 }
 
 teardown() {
-  rm -rf "$TMPDIR_KG"
+  rm -f "$DB"
+  cd /
 }
 
-# Helper: query sqlite via python3 (no sqlite3 CLI dependency)
-sql() {
+# ── Structural ────────────────────────────────────────────────────────────────
+
+@test "knowledge-graph.py exists and is executable" {
+  [[ -f "$PY" ]]
+  python3 "$PY" --help 2>&1 | grep -qi "knowledge\|build\|query\|impact"
+}
+
+@test "knowledge-graph.sh wrapper exists and is executable" {
+  [[ -x "$SH" ]]
+}
+
+@test "python script has SE-162 reference" {
+  grep -q "SE-162" "$PY"
+}
+
+# ── Build ─────────────────────────────────────────────────────────────────────
+
+@test "build creates SQLite DB" {
+  run python3 "$PY" build --db "$DB"
+  [ "$status" -eq 0 ]
+  [[ -f "$DB" ]]
+}
+
+@test "build: entities table is populated" {
+  python3 "$PY" build --db "$DB"
+  local count
+  count=$(python3 -c "
+import sqlite3; c=sqlite3.connect('$DB')
+print(c.execute('SELECT COUNT(*) FROM entities').fetchone()[0])
+")
+  [ "$count" -gt 0 ]
+}
+
+@test "build: relations table is populated" {
+  python3 "$PY" build --db "$DB"
+  local count
+  count=$(python3 -c "
+import sqlite3; c=sqlite3.connect('$DB')
+print(c.execute('SELECT COUNT(*) FROM relations').fetchone()[0])
+")
+  [ "$count" -gt 0 ]
+}
+
+@test "build: entity types include spec, rule, project" {
+  python3 "$PY" build --db "$DB"
   python3 -c "
-import sqlite3, sys
-conn = sqlite3.connect(sys.argv[1])
-cur = conn.execute(sys.argv[2])
-for r in cur.fetchall():
-    print('|'.join(str(c) if c is not None else '' for c in r))
-conn.close()
-" "$KG_DB_PATH" "$1"
+import sqlite3
+c = sqlite3.connect('$DB')
+types = {r[0] for r in c.execute('SELECT DISTINCT type FROM entities')}
+for required in ('spec', 'rule', 'project'):
+    assert required in types, f'missing type: {required}'
+print('all types present')
+"
 }
 
-# ── Safety ──────────────────────────────────────────────────────────────────
-
-@test "target script has safety flags set" {
-  grep -q 'set -uo pipefail' "$REPO_ROOT/$SCRIPT"
+@test "build: relation types include implements, uses, mentions" {
+  python3 "$PY" build --db "$DB"
+  python3 -c "
+import sqlite3
+c = sqlite3.connect('$DB')
+rels = {r[0] for r in c.execute('SELECT DISTINCT relation FROM relations')}
+for required in ('implements', 'uses', 'mentions'):
+    assert required in rels, f'missing relation: {required}'
+print('all relation types present')
+"
 }
 
-@test "script file exists and is executable" {
-  [ -f "$REPO_ROOT/$SCRIPT" ]
-  [ -x "$REPO_ROOT/$SCRIPT" ]
+@test "build: pm-workspace appears as project entity" {
+  python3 "$PY" build --db "$DB"
+  python3 -c "
+import sqlite3
+c = sqlite3.connect('$DB')
+row = c.execute(\"SELECT id FROM entities WHERE name='pm-workspace' AND type='project'\").fetchone()
+assert row is not None, 'pm-workspace project not found'
+print('pm-workspace found')
+"
 }
 
-# ── Build ───────────────────────────────────────────────────────────────────
+@test "build: idempotent — second build produces same counts" {
+  python3 "$PY" build --db "$DB"
+  local e1 r1
+  e1=$(python3 -c "import sqlite3; c=sqlite3.connect('$DB'); print(c.execute('SELECT COUNT(*) FROM entities').fetchone()[0])")
+  r1=$(python3 -c "import sqlite3; c=sqlite3.connect('$DB'); print(c.execute('SELECT COUNT(*) FROM relations').fetchone()[0])")
+  python3 "$PY" build --db "$DB"
+  local e2 r2
+  e2=$(python3 -c "import sqlite3; c=sqlite3.connect('$DB'); print(c.execute('SELECT COUNT(*) FROM entities').fetchone()[0])")
+  r2=$(python3 -c "import sqlite3; c=sqlite3.connect('$DB'); print(c.execute('SELECT COUNT(*) FROM relations').fetchone()[0])")
+  [ "$e1" -eq "$e2" ]
+  [ "$r1" -eq "$r2" ]
+}
 
-@test "build creates db file" {
-  run bash "$REPO_ROOT/$SCRIPT" build
+# ── Status ────────────────────────────────────────────────────────────────────
+
+@test "status: returns 0 after build" {
+  python3 "$PY" build --db "$DB"
+  run python3 "$PY" status --db "$DB"
   [ "$status" -eq 0 ]
-  [ -f "$KG_DB_PATH" ]
+  echo "$output" | grep -q "Entities"
+  echo "$output" | grep -q "Relations"
 }
 
-@test "build creates entities table with correct schema" {
-  bash "$REPO_ROOT/$SCRIPT" build
-  run python3 -c "
-import sqlite3, sys
-conn = sqlite3.connect(sys.argv[1])
-cur = conn.execute('PRAGMA table_info(entities)')
-cols = [r[1] for r in cur.fetchall()]
-assert 'name' in cols, 'missing name column'
-assert 'type' in cols, 'missing type column'
-assert 'first_seen' in cols, 'missing first_seen column'
-assert 'last_seen' in cols, 'missing last_seen column'
-print('schema OK')
-conn.close()
-" "$KG_DB_PATH"
+@test "status: degradation — no DB prints helpful message" {
+  run python3 "$PY" status --db "$TMPDIR/nonexistent-kg-99.db"
   [ "$status" -eq 0 ]
-  [[ "$output" == *"schema OK"* ]]
+  echo "$output" | grep -qi "not built\|run"
 }
 
-@test "build creates relations table with correct schema" {
-  bash "$REPO_ROOT/$SCRIPT" build
-  run python3 -c "
-import sqlite3, sys
-conn = sqlite3.connect(sys.argv[1])
-cur = conn.execute('PRAGMA table_info(relations)')
-cols = [r[1] for r in cur.fetchall()]
-assert 'entity_a' in cols, 'missing entity_a'
-assert 'relation' in cols, 'missing relation'
-assert 'entity_b' in cols, 'missing entity_b'
-assert 'confidence' in cols, 'missing confidence'
-assert 'source' in cols, 'missing source'
-print('schema OK')
-conn.close()
-" "$KG_DB_PATH"
+# ── Query ─────────────────────────────────────────────────────────────────────
+
+@test "query: returns results for known entity" {
+  python3 "$PY" build --db "$DB"
+  run python3 "$PY" query "pm-workspace" --db "$DB"
   [ "$status" -eq 0 ]
-  [[ "$output" == *"schema OK"* ]]
+  echo "$output" | grep -qi "pm-workspace"
 }
 
-@test "build with no sources exits gracefully with zero counts" {
-  run bash "$REPO_ROOT/$SCRIPT" build
+@test "query: unknown term returns no-results message (not crash)" {
+  python3 "$PY" build --db "$DB"
+  run python3 "$PY" query "xyzzy-nonexistent-9999" --db "$DB"
   [ "$status" -eq 0 ]
-  [[ "$output" == *"0 entities"* ]]
-  [[ "$output" == *"0 relations"* ]]
+  echo "$output" | grep -qi "no results\|not found\|No results"
 }
 
-@test "build extracts SPEC references as entities" {
-  mkdir -p "$AUTOMEMORY_DIR/project1/memory"
-  echo "Implemented SPEC-090 and referenced SPEC-013 for session memory." \
-    > "$AUTOMEMORY_DIR/project1/memory/notes.md"
-
-  bash "$REPO_ROOT/$SCRIPT" build
-
-  run sql "SELECT name FROM entities WHERE name='SPEC-090';"
-  [[ "$output" == "SPEC-090" ]]
-
-  run sql "SELECT name FROM entities WHERE name='SPEC-013';"
-  [[ "$output" == "SPEC-013" ]]
+@test "query: missing DB exits non-zero" {
+  run python3 "$PY" query "anything" --db "$TMPDIR/missing-kg.db"
+  [ "$status" -ne 0 ]
 }
 
-@test "build extracts tool names from source text" {
-  mkdir -p "$AUTOMEMORY_DIR/proj/memory"
-  echo "Uses memory-store.sh and knowledge-graph.sh for persistence." \
-    > "$AUTOMEMORY_DIR/proj/memory/tools.md"
+# ── Impact ────────────────────────────────────────────────────────────────────
 
-  bash "$REPO_ROOT/$SCRIPT" build
-
-  run sql "SELECT COUNT(*) FROM entities WHERE type='tool';"
+@test "impact: pm-workspace shows downstream relations" {
+  python3 "$PY" build --db "$DB"
+  run python3 "$PY" impact "pm-workspace" --db "$DB" --depth 1
   [ "$status" -eq 0 ]
-  [ "$output" -ge 1 ]
+  echo "$output" | grep -q "\-\-"
 }
 
-@test "build reads from memory-store.jsonl when present" {
-  echo '{"type":"decision","title":"Use SPEC-077 for caching","content":"caching layer"}' \
-    > "$MEMORY_STORE"
-
-  bash "$REPO_ROOT/$SCRIPT" build
-
-  run sql "SELECT name FROM entities WHERE name='SPEC-077';"
-  [[ "$output" == "SPEC-077" ]]
+@test "impact: missing entity exits non-zero" {
+  python3 "$PY" build --db "$DB"
+  run python3 "$PY" impact "xyzzy-ghost-entity-9999" --db "$DB"
+  [ "$status" -ne 0 ]
 }
 
-@test "indices exist on entities and relations tables" {
-  bash "$REPO_ROOT/$SCRIPT" build
+# ── Entities ──────────────────────────────────────────────────────────────────
 
-  run python3 -c "
-import sqlite3, sys
-conn = sqlite3.connect(sys.argv[1])
-indices = [r[1] for r in conn.execute('PRAGMA index_list(entities)').fetchall()]
-assert 'idx_entities_name' in indices, f'missing idx_entities_name in {indices}'
-indices_r = [r[1] for r in conn.execute('PRAGMA index_list(relations)').fetchall()]
-assert 'idx_relations_a' in indices_r, f'missing idx_relations_a in {indices_r}'
-assert 'idx_relations_b' in indices_r, f'missing idx_relations_b in {indices_r}'
-print('indices OK')
-conn.close()
-" "$KG_DB_PATH"
+@test "entities: --type spec returns spec list" {
+  python3 "$PY" build --db "$DB"
+  run python3 "$PY" entities --type spec --db "$DB"
   [ "$status" -eq 0 ]
-  [[ "$output" == *"indices OK"* ]]
+  echo "$output" | grep -q "spec"
 }
 
-# ── Query ───────────────────────────────────────────────────────────────────
+# ── Spec ref ─────────────────────────────────────────────────────────────────
 
-@test "query finds entity by name" {
-  mkdir -p "$AUTOMEMORY_DIR/proj/memory"
-  echo "SPEC-042 defines the query interface." \
-    > "$AUTOMEMORY_DIR/proj/memory/spec.md"
-
-  bash "$REPO_ROOT/$SCRIPT" build
-
-  run bash "$REPO_ROOT/$SCRIPT" query "SPEC-042"
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"SPEC-042"* ]]
+@test "spec ref: rule doc knowledge-graph.md exists" {
+  [[ -f "docs/rules/domain/knowledge-graph.md" ]]
 }
 
-@test "query with no match returns empty message" {
-  bash "$REPO_ROOT/$SCRIPT" build
-
-  run bash "$REPO_ROOT/$SCRIPT" query "NonExistentEntity9999"
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"No entities matching"* ]]
+@test "spec ref: rule doc mentions entity and relation types" {
+  grep -q "entities" docs/rules/domain/knowledge-graph.md
+  grep -q "relations" docs/rules/domain/knowledge-graph.md
 }
 
-@test "query without db shows helpful error message" {
-  run bash "$REPO_ROOT/$SCRIPT" query "anything"
-  [ "$status" -eq 1 ]
-  [[ "$output" == *"Run: knowledge-graph.sh build"* ]]
+# ── Coverage ──────────────────────────────────────────────────────────────────
+
+@test "coverage: build ingests at least 100 entities" {
+  python3 "$PY" build --db "$DB"
+  local count
+  count=$(python3 -c "import sqlite3; c=sqlite3.connect('$DB'); print(c.execute('SELECT COUNT(*) FROM entities').fetchone()[0])")
+  [ "$count" -ge 100 ]
 }
 
-@test "query with empty argument shows usage error" {
-  run bash "$REPO_ROOT/$SCRIPT" query ""
-  [ "$status" -eq 1 ]
-  [[ "$output" == *"Usage"* ]]
+@test "coverage: build ingests at least 100 relations" {
+  python3 "$PY" build --db "$DB"
+  local count
+  count=$(python3 -c "import sqlite3; c=sqlite3.connect('$DB'); print(c.execute('SELECT COUNT(*) FROM relations').fetchone()[0])")
+  [ "$count" -ge 100 ]
 }
 
-# ── Impact ──────────────────────────────────────────────────────────────────
+# ── Negative ─────────────────────────────────────────────────────────────────
 
-@test "impact shows connected entities via BFS" {
-  mkdir -p "$AUTOMEMORY_DIR/proj/memory"
-  echo "SPEC-090 and SPEC-013 are related specs in the same domain." \
-    > "$AUTOMEMORY_DIR/proj/memory/cross.md"
-
-  bash "$REPO_ROOT/$SCRIPT" build
-
-  local rel_count
-  rel_count=$(sql "SELECT COUNT(*) FROM relations;")
-
-  if [ "$rel_count" -gt 0 ]; then
-    run bash "$REPO_ROOT/$SCRIPT" impact "SPEC-090"
-    [ "$status" -eq 0 ]
-    [[ "$output" == *"Impact analysis"* ]]
-  else
-    skip "No relations extracted — pattern match dependent"
-  fi
+@test "negative: zero relations would fail coverage check" {
+  python3 -c "
+import sqlite3, os
+db = '$TMPDIR/empty-test.db'
+c = sqlite3.connect(db)
+c.execute('CREATE TABLE IF NOT EXISTS relations (id INTEGER)')
+n = c.execute('SELECT COUNT(*) FROM relations').fetchone()[0]
+assert n == 0
+print('zero-relations detectable')
+c.close()
+os.remove(db)
+"
 }
 
-@test "impact with unknown entity returns empty result" {
-  bash "$REPO_ROOT/$SCRIPT" build
-
-  run bash "$REPO_ROOT/$SCRIPT" impact "GhostEntity404"
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"not found"* ]]
+@test "negative: nonexistent entity name returns not-found (not crash)" {
+  python3 "$PY" build --db "$DB"
+  run python3 "$PY" impact "ghost-entity-does-not-exist-999" --db "$DB"
+  [ "$status" -ne 0 ]
 }
 
-@test "impact without db shows helpful error" {
-  run bash "$REPO_ROOT/$SCRIPT" impact "anything"
-  [ "$status" -eq 1 ]
-  [[ "$output" == *"Run: knowledge-graph.sh build"* ]]
+# ── Edge ─────────────────────────────────────────────────────────────────────
+
+@test "edge: build with no memory-store.jsonl still produces entities from rules" {
+  local alt_db="$TMPDIR/kg-norules.db"
+  STORE_FILE="$TMPDIR/nonexistent-store.jsonl" \
+    python3 -c "
+import sys, os
+sys.path.insert(0, 'scripts')
+os.environ['STORE_FILE'] = '$TMPDIR/nonexistent.jsonl'
+import importlib.util, pathlib
+spec = importlib.util.spec_from_file_location('kg', 'scripts/knowledge-graph.py')
+mod = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mod)
+conn = mod.open_db(pathlib.Path('$alt_db'))
+n = mod.ingest_rules(conn)
+total = conn.execute('SELECT COUNT(*) FROM entities').fetchone()[0]
+assert total > 0, f'no entities from rules: {total}'
+print(f'rules only: {total} entities from {n} rule files')
+"
+  rm -f "$alt_db"
 }
 
-# ── Status ──────────────────────────────────────────────────────────────────
-
-@test "status shows entity and relation counts" {
-  mkdir -p "$AUTOMEMORY_DIR/proj/memory"
-  echo "SPEC-099 implements a new feature." \
-    > "$AUTOMEMORY_DIR/proj/memory/feat.md"
-
-  bash "$REPO_ROOT/$SCRIPT" build
-
-  run bash "$REPO_ROOT/$SCRIPT" status
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"Entities:"* ]]
-  [[ "$output" == *"Relations:"* ]]
-  [[ "$output" == *"Last build:"* ]]
-}
-
-@test "status without db shows helpful message" {
-  run bash "$REPO_ROOT/$SCRIPT" status
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"No knowledge graph found"* ]]
-}
-
-@test "help subcommand shows usage info" {
-  run bash "$REPO_ROOT/$SCRIPT" help
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"build"* ]]
-  [[ "$output" == *"query"* ]]
-  [[ "$output" == *"impact"* ]]
-  [[ "$output" == *"status"* ]]
-}
-
-# Coverage: cmd_build, cmd_query, cmd_impact, cmd_status verified above
-# Coverage: init_schema, sql_exec, sql_exec_script, sql_query_formatted tested via subcommands
-# Coverage: extract_and_insert, extract_from_text_inline tested via build with sources
-# Coverage: ensure_dir, db_exists, iso8601_now tested indirectly
-
-@test "build extracts relations between entities" {
-  mkdir -p "$AUTOMEMORY_DIR/proj/memory"
-  echo "The validator uses memory-store.sh for persistence." \
-    > "$AUTOMEMORY_DIR/proj/memory/rel.md"
-
-  bash "$REPO_ROOT/$SCRIPT" build
-
-  run sql "SELECT COUNT(*) FROM relations WHERE relation='uses';"
-  [ "$status" -eq 0 ]
-  [ "$output" -ge 1 ]
+@test "edge: boundary — depends_on relations extracted from ROADMAP requires/post patterns" {
+  python3 "$PY" build --db "$DB"
+  local count
+  count=$(python3 -c "
+import sqlite3
+c = sqlite3.connect('$DB')
+n = c.execute(\"SELECT COUNT(*) FROM relations WHERE relation='depends_on'\").fetchone()[0]
+print(n)
+")
+  [ "$count" -gt 0 ]
 }

@@ -710,7 +710,7 @@ Incluye: context-update pipeline, agent-artifacts, context-guard, savia-manifest
 | 5 | SE-082 | Architectural vocabulary discipline | IMPLEMENTED | ~4h | `docs/rules/domain/architectural-vocabulary.md` + `scripts/architectural-vocabulary-audit.sh` + tests 31/31. |
 | 6 | SE-084 | Skill catalog quality audit (Slice 1) | IMPLEMENTED | ~3h | `scripts/skill-catalog-audit.sh` operativo, audit TSVs diarios en `output/`. |
 | 7 | SE-167 | Skill Maturity Kanban (savia audit) | IMPLEMENTED | ~3h | `scripts/skill-maturity-audit.sh` + `docs/rules/domain/skill-maturity-kanban.md` + tests 23/23. Línea base: 1 Calibrated, 94 Incomplete, 3 Stub, 0 Deprecated. |
-| 8 | SE-162 | Knowledge Graph sobre memoria Savia | PROPOSED | ~8h | Mayor salto de calidad en memoria disponible. Habilita SE-171. |
+| 8 | SE-162 | Knowledge Graph sobre memoria Savia | IMPLEMENTED | ~8h | `scripts/knowledge-graph.{py,sh}` + SQLite WAL + 5 subcomandos + `docs/rules/domain/knowledge-graph.md` + tests 26/26. Línea base: 543 entities, 661 relations. |
 | 9 | SE-083 | TDD vertical-slice skill | IMPLEMENTED | ~2h | `.claude/skills/tdd-vertical-slices/` + tests SE-083 en architectural-vocabulary.bats. |
 | 10 | SE-086 | Ubiquitous-language extractor | APPROVED | ~5h | Bridge DDD→memory-graph. Multiplica SE-162 cuando esté. |
 | 11 | SE-091 | Caveman always-on + auto tribunal hooks | IMPLEMENTED | ~3h | caveman-default.md en instructions (6 restricciones/turno). Guards auto-grill-me + auto-zoom-out en BEFORE_GUARDS de savia-foundation. 21 BATS + 31 TS. |
