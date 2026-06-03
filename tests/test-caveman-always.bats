@@ -115,10 +115,12 @@ PY
 # ── Semantics: non-blocking (AC-07) ─────────────────────────────────────────
 
 @test "AC-07: autoGrillMe guard does not throw — verified via TS tests" {
+  command -v bun >/dev/null 2>&1 || skip "bun not installed (CI runner)"
   cd .opencode && bun test plugins/__tests__/auto-grill-me.test.ts 2>&1 | grep -q "0 fail"
 }
 
 @test "AC-07: autoZoomOut guard does not throw — verified via TS tests" {
+  command -v bun >/dev/null 2>&1 || skip "bun not installed (CI runner)"
   cd .opencode && bun test plugins/__tests__/auto-zoom-out.test.ts 2>&1 | grep -q "0 fail"
 }
 
