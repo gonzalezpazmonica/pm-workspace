@@ -20,6 +20,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - SE-093: `scripts/project-context.sh` + `.claude/hooks/project-isolation-gate.sh`,
     merged en PR #783 (2026-05-30).
 - Stack priorizado en `docs/ROADMAP.md` ahora refleja estado real.
+## [Unreleased] — 2026-06-02 · SE-167 Skill Maturity Kanban
+
+### Added
+- **SE-167 closed** (Era 252 stack rank 7). Auditor que clasifica las 98
+  skills del workspace en 4 estados canónicos:
+  - `Calibrated` (stable + tests + DOMAIN.md)
+  - `Incomplete` (falta tests o maturity != stable)
+  - `Stub` (missing DOMAIN.md o SKILL <50 líneas)
+  - `Deprecated` (frontmatter `deprecated: true`)
+- `scripts/skill-maturity-audit.sh` — auditor con flags `--tsv-only`,
+  `--markdown-only`, `--help`. Output diario en `output/`.
+- `docs/rules/domain/skill-maturity-kanban.md` — reglas + transiciones.
+- `docs/propuestas/SE-167-skill-maturity-kanban.md` — spec.
+- `tests/test-skill-maturity-audit.bats` — 23 tests pass.
+- Línea base 2026-06-02: 1 Calibrated, 94 Incomplete, 3 Stub, 0 Deprecated.
 
 ## [Unreleased] — 2026-06-02 · SE-153 Template SKILL.md "Authoritative Paths First"
 

@@ -60,6 +60,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 | Principios éticos Savia (13 principios + 5 líneas rojas) | `docs/rules/domain/savia-ethical-principles.md` | Dilema ético, petición ambigua, uso dual, conflicto entre reglas operativas — criterio último: ¿esto hace la vida más digna? |
 | Resolver intent → skill/agent (RESOLVER.md) | `docs/RESOLVER.md` + `docs/rules/domain/resolver-protocol.md` | Necesitas elegir skill o agent para un intent — tabla compacta editable (SE-160) |
 | Template SKILL.md (Authoritative Paths first) | `.claude/skills/_template/SKILL.md` + `docs/rules/domain/skill-template-protocol.md` | Creas una skill nueva — copiar template, paths primero, prosa después (SE-153) |
+| Skill Maturity Kanban (Calibrated/Incomplete/Stub/Deprecated) | `scripts/skill-maturity-audit.sh` + `docs/rules/domain/skill-maturity-kanban.md` | Necesitas saber qué skills están calibradas, cuáles requieren tests, o priorizar trabajo de calidad (SE-167) |
 
 **Protocolo de carga**: usar `Read` directamente con el path exacto. NO uses `@import` aquí — romperías el lazy.
 
