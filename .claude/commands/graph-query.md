@@ -47,3 +47,17 @@ Traduce preguntas en lenguaje natural a graph traversals y retorna resultados.
 ## Máximo 60 líneas
 
 Documentación comprimida. Detalles de NL→traversal en SKILL.md.
+
+## SE-162 Backend (SQLite Knowledge Graph)
+
+Para consultas sobre memoria Savia global (entities + relations tipadas):
+
+```bash
+bash scripts/knowledge-graph.sh query "SE-162"
+bash scripts/knowledge-graph.sh query "pm-workspace" --limit 30
+bash scripts/knowledge-graph.sh impact "Monica" --depth 2
+bash scripts/knowledge-graph.sh entities --type skill
+```
+
+Si el grafo no está construido: `bash scripts/knowledge-graph.sh build`.
+Ver `docs/rules/domain/knowledge-graph.md`.

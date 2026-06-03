@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b473dea92d5362d405acfc627845301130cb4af92653c2fe3e4ff021d9531d57
-timestamp=2026-06-02T21:32:47Z
-branch=feature/roadmap-drift-cleanup-20260602
-head_commit=de118066
-signature=a3b57ec590ef0d777d8f027fea35d439fa86a8a1ff331c61f608102b41a6a6da
+diff_hash=0ab5a98958ed0c778b2bb255188fdcb1fa36dcdc932e5eea227392407681a59d
+timestamp=2026-06-03T09:55:46Z
+branch=feature/se-162-knowledge-graph
+head_commit=0a6169d2
+signature=f259af196cdc3bf85e331f7ffa8d39e2130ba9296907f26718b364abce70879d

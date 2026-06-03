@@ -21,6 +21,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `tests/test-ubiquitous-language.bats` — 24/24 AC-01..AC-09 pass.
 - Desbloquea: SE-171 (contradiction detector) gana términos de dominio.
 
+## [Unreleased] — 2026-06-02 · SE-162 Knowledge Graph sobre memoria Savia
+
+### Added
+- **SE-162 closed** (Era 251 stack rank 8). Grafo de conocimiento tipado
+  sobre memoria Savia con SQLite WAL. Sin pip deps (stdlib Python).
+  - `scripts/knowledge-graph.py` — engine: build/query/impact/status/entities.
+  - `scripts/knowledge-graph.sh` — wrapper bash.
+  - `docs/rules/domain/knowledge-graph.md` — schema, tipos, comandos.
+  - `tests/test-knowledge-graph.bats` — 26/26 pass.
+  - `~/.savia/knowledge-graph.db` — SQLite gitignored (derived, regenerable).
+  - Línea base 2026-06-02: 543 entidades (211 specs, 209 rules…), 661 relaciones.
+- **Comandos actualizados** (`graph-build.md`, `graph-query.md`) con sección
+  SE-162 backend para queries al SQLite global.
+- Desbloquea: SE-086 (ubiquitous-language), SE-171 (contradiction detector).
 ## [Unreleased] — 2026-06-02 · ROADMAP drift cleanup (SE-081 + SE-082 + SE-083 + SE-084 + SE-093)
 
 ### Changed
@@ -35,6 +49,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - SE-093: `scripts/project-context.sh` + `.claude/hooks/project-isolation-gate.sh`,
     merged en PR #783 (2026-05-30).
 - Stack priorizado en `docs/ROADMAP.md` ahora refleja estado real.
+## [Unreleased] — 2026-06-02 · SE-167 Skill Maturity Kanban
+
+### Added
+- **SE-167 closed** (Era 252 stack rank 7). Auditor que clasifica las 98
+  skills del workspace en 4 estados canónicos:
+  - `Calibrated` (stable + tests + DOMAIN.md)
+  - `Incomplete` (falta tests o maturity != stable)
+  - `Stub` (missing DOMAIN.md o SKILL <50 líneas)
+  - `Deprecated` (frontmatter `deprecated: true`)
+- `scripts/skill-maturity-audit.sh` — auditor con flags `--tsv-only`,
+  `--markdown-only`, `--help`. Output diario en `output/`.
+- `docs/rules/domain/skill-maturity-kanban.md` — reglas + transiciones.
+- `docs/propuestas/SE-167-skill-maturity-kanban.md` — spec.
+- `tests/test-skill-maturity-audit.bats` — 23 tests pass.
+- Línea base 2026-06-02: 1 Calibrated, 94 Incomplete, 3 Stub, 0 Deprecated.
 
 ## [Unreleased] — 2026-06-02 · SE-153 Template SKILL.md "Authoritative Paths First"
 
