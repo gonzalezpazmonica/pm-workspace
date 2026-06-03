@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+set -uo pipefail
 # SE-162: Knowledge Graph sobre memoria Savia.
 # Acceptance: build populates SQLite with entities+relations; query/impact/status
 # return results; degradation path (no DB) returns non-zero; idempotent builds.
