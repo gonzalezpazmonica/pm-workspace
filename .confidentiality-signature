@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=cc2b3cb8e29863a0f51950759379e7cf0f146cf24e0b9c1d045bcbd868fdc8d6
-timestamp=2026-06-03T21:35:02Z
+diff_hash=8675b15ae4c22633e8278a95b71d36c92ddf60a0e40a39d3e9fa80faf7c9dcfa
+timestamp=2026-06-03T21:36:17Z
 branch=feature/se-091-caveman-always
-head_commit=b532ff83
-signature=b1377611864c6953e15626cabbede1a455fed337d9e07e001996402ac7cef333
+head_commit=5d9b9bef
+signature=6cf14632771ad41b3c4ede92520239c9abac536426c9474bc7b78c82fc0bbde9
