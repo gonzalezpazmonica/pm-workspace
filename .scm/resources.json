@@ -1,6 +1,6 @@
 {
-  "hash": "005ac9021a99",
-  "total": 1186,
+  "hash": "12dbe7acd794",
+  "total": 1187,
   "resources": [
     {
       "category": "analysis",
@@ -5621,6 +5621,20 @@
       "kind": "cmd",
       "path": ".claude/commands/ua-chat.md",
       "description": "Semantic search the knowledge graph using natural language"
+    },
+    {
+      "category": "memory",
+      "name": "ubiquitous-language",
+      "intents": [
+        "consolidar",
+        "context",
+        "dice",
+        "dominio",
+        "extrae"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/ubiquitous-language/SKILL.md",
+      "description": "Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. Trigger: usuario dice 'extrae glosario', 'ubiquitous language', '/glossary', o hay >5 términos repetidos sin CONTEXT.md."
     },
     {
       "category": "memory",

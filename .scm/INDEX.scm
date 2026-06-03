@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 43e5c1da6981 | resources: 1186
-> 554 commands · 99 skills · 70 agents · 463 scripts
+> hash: 53b729652ed3 | resources: 1187
+> 554 commands · 100 skills · 70 agents · 463 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -434,6 +434,7 @@
 [memory] slice-context-chain — between,chain,context,knowledge,session — script:scripts/slice-context-chain.sh
 [memory] tool-search — agentes,buscar,clave,comandos,palabra — cmd:.claude/commands/tool-search.md
 [memory] ua-chat — graph,knowledge,language,natural,search — cmd:.claude/commands/ua-chat.md
+[memory] ubiquitous-language — consolidar,context,dice,dominio,extrae — skill:.claude/skills/ubiquitous-language/SKILL.md
 [memory] web-research — auto,available,back,best,context — cmd:.claude/commands/web-research.md
 [memory] web-research — buscar,contexto,cves,docs,gaps — skill:.claude/skills/web-research/SKILL.md
 [memory] whatsapp-search —  — cmd:.claude/commands/whatsapp-search.md
