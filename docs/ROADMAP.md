@@ -723,6 +723,7 @@ Incluye: context-update pipeline, agent-artifacts, context-guard, savia-manifest
 | 18 | SE-170 | Transclusion macros en SKILL.md | PROPOSED | ~3h | Elimina drift PII/seguridad. Post SE-084 para medir impacto. |
 | 19 | SE-166 | Skill Calibration Pipeline (uplift harness) | PROPOSED | ~12h | Alta complejidad. Requiere corpus de evals. Era 254+. |
 | 20 | SE-171 | Contradiction detector sobre memoria | PROPOSED | ~8h | Requiere SE-162 como prerequisito. |
+| 21 | SE-172 | markitdown como capa 0 universal de digestión | PROPOSED | ~6h | Microsoft markitdown (MIT, 143k★) reemplaza parsing en pdf/word/excel/pptx/visual/meeting-digest. Cobertura nueva gratis: ZIP, EPub, YouTube, Outlook .msg. ~60% menos código en parsers, una superficie de seguridad en lugar de seis. Los digest agents conservan análisis de dominio (perfiles, contexto proyecto, riesgos). |
 
 ### Los 3 próximos a implementar (cuando bloque 0 cierre)
 
@@ -824,6 +825,7 @@ Prioridad: implementar ANTES que cualquier SE de Era 197.
 | 18 | SE-170 | Transclusion macros en SKILL.md | PROPOSED | ~3h | Sin cambios. |
 | 19 | SE-166 | Skill Calibration Pipeline | PROPOSED | ~12h | Sin cambios. |
 | 20 | SE-171 | Contradiction detector sobre memoria | PROPOSED | ~8h | Requiere SE-162 + SE-151. |
+| 21 | SE-172 | markitdown como capa 0 universal de digestión | PROPOSED | ~6h | Nuevo (Era 199). Reemplaza parsing en 6 digest-agents. Cobertura ZIP/EPub/YouTube/.msg gratis. MIT compatible. |
 
 ### Removidos del stack (ya hechos, verificado contra git/SKILLS.md)
 
