@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=521218588b5f2fd07a3a815d0f813a941899fce3fe81e44b7ecb0a0cb17f63a0
-timestamp=2026-06-02T22:07:05Z
-branch=feature/se-167-skill-maturity-kanban
-head_commit=347ec6a3
-signature=6f90b94d0967f1f4c79498b8fb29c1f98a1701862163b4e43cf7c1be61e8e74b
+diff_hash=0ab5a98958ed0c778b2bb255188fdcb1fa36dcdc932e5eea227392407681a59d
+timestamp=2026-06-03T09:55:46Z
+branch=feature/se-162-knowledge-graph
+head_commit=0a6169d2
+signature=f259af196cdc3bf85e331f7ffa8d39e2130ba9296907f26718b364abce70879d
