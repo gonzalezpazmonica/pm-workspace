@@ -1,6 +1,6 @@
 {
-  "hash": "4cacbe00e211",
-  "total": 1182,
+  "hash": "c57723a0f5c6",
+  "total": 1186,
   "resources": [
     {
       "category": "analysis",
@@ -1082,6 +1082,20 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-directory.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-double-optin-check",
+      "intents": [
+        "check",
+        "double",
+        "optin",
+        "savia",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-double-optin-check.sh",
+      "description": "savia-double-optin-check.sh — SPEC-186 (Era 199 Wave 1)"
     },
     {
       "category": "communication",
@@ -5762,6 +5776,20 @@
     },
     {
       "category": "planning",
+      "name": "_template",
+      "intents": [
+        "carga",
+        "copia",
+        "crear",
+        "directorio",
+        "nueva"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/_template/SKILL.md",
+      "description": "TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime."
+    },
+    {
+      "category": "planning",
       "name": "accessibility-mode",
       "intents": [
         "accesibilidad",
@@ -10209,6 +10237,17 @@
     },
     {
       "category": "planning",
+      "name": "resolver-md-generate",
+      "intents": [
+        "generate",
+        "resolver"
+      ],
+      "kind": "script",
+      "path": "scripts/resolver-md-generate.sh",
+      "description": "resolver-md-generate.sh — SE-160"
+    },
+    {
+      "category": "planning",
       "name": "resource-references",
       "intents": [
         "necesitan",
@@ -13668,6 +13707,19 @@
       "kind": "script",
       "path": "scripts/skill-catalog-audit.sh",
       "description": "skill-catalog-audit.sh — SE-084 Slice 1."
+    },
+    {
+      "category": "quality",
+      "name": "skill-maturity-audit",
+      "intents": [
+        "audit",
+        "kanban",
+        "maturity",
+        "skill"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-maturity-audit.sh",
+      "description": "skill-maturity-audit.sh — SE-167 Skill Maturity Kanban"
     },
     {
       "category": "quality",

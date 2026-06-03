@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 523 resources
+> 525 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -11,6 +11,7 @@
 - **Crear Tenant** (cmd): Crea un workspace aislado por departamento/equipo con perfiles de usuario, configuración de proyecto, herencia de perfiles empresariales y control de acceso basado en roles
 - **Error Investigate** (cmd): Investigación asistida de errores en producción con root cause analysis y correlación de datos
 - **Incident Correlate** (cmd): Correlación cruzada de datos de múltiples fuentes para análisis integral de incidentes
+- **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
 - **accessibility-mode** (cmd): Toggle rápido de accesibilidad — activa, desactiva o muestra el estado
 - **accessibility-setup** (cmd): Configura las preferencias de accesibilidad de Savia para adaptarse a tus necesidades
 - **adaptive-halting** (script): adaptive-halting.sh — SE-074 Slice 1.5 — double-criterion halting check
@@ -364,6 +365,7 @@
 - **reranker-probe** (script): reranker-probe.sh — SE-032 Slice 1 reranker viability probe.
 - **resolve-all-open-prs** (script): resolve-all-open-prs.sh — one-shot helper that runs resolve-pr-conflicts.sh
 - **resolve-pr-conflicts** (script): resolve-pr-conflicts.sh — auto-resolver for the recurring conflicts that
+- **resolver-md-generate** (script): resolver-md-generate.sh — SE-160
 - **resource-references** (skill): Usar cuando se necesitan referencias a recursos y plantillas del workspace.
 - **retro-actions** (cmd): >
 - **rpi-start** (cmd): >

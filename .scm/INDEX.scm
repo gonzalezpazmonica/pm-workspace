@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 3639143518c8 | resources: 1182
-> 554 commands · 98 skills · 70 agents · 460 scripts
+> hash: c6c411ee654c | resources: 1186
+> 554 commands · 99 skills · 70 agents · 463 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -91,6 +91,7 @@
 [communication] savia-crypto — crypto,encryption,hybrid,only,openssl — script:scripts/savia-crypto.sh
 [communication] savia-crypto-ops — crypto,decrypt,encrypt,operations,savia — script:scripts/savia-crypto-ops.sh
 [communication] savia-directory —  — cmd:.claude/commands/savia-directory.md
+[communication] savia-double-optin-check — check,double,optin,savia,spec — script:scripts/savia-double-optin-check.sh
 [communication] savia-dual — anthropic,dual,failover,gemma,gestiona — cmd:.claude/commands/savia-dual.md
 [communication] savia-dual — cloud,está,failover,falla,inferencia — skill:.claude/skills/savia-dual/SKILL.md
 [communication] savia-enterprise — enterprise,lifecycle,manager,module,savia — script:scripts/savia-enterprise.sh
@@ -446,6 +447,7 @@
 [planning] Crear Tenant — acceso,aislado,basado,configuración,control — cmd:.claude/commands/tenant-create.md
 [planning] Error Investigate — analysis,asistida,cause,correlación,datos — cmd:.claude/commands/error-investigate.md
 [planning] Incident Correlate — análisis,correlación,cruzada,datos,fuentes — cmd:.claude/commands/incident-correlate.md
+[planning] _template — carga,copia,crear,directorio,nueva — skill:.claude/skills/_template/SKILL.md
 [planning] accessibility-mode — accesibilidad,activa,desactiva,estado,muestra — cmd:.claude/commands/accessibility-mode.md
 [planning] accessibility-setup — accesibilidad,adaptarse,configura,necesidades,preferencias — cmd:.claude/commands/accessibility-setup.md
 [planning] adaptive-halting — adaptive,check,criterion,double,halting — script:scripts/adaptive-halting.sh
@@ -799,6 +801,7 @@
 [planning] reranker-probe — probe,reranker,slice,viability — script:scripts/reranker-probe.sh
 [planning] resolve-all-open-prs — conflicts,helper,open,resolve,runs — script:scripts/resolve-all-open-prs.sh
 [planning] resolve-pr-conflicts — auto,conflicts,recurring,resolve,resolver — script:scripts/resolve-pr-conflicts.sh
+[planning] resolver-md-generate — generate,resolver — script:scripts/resolver-md-generate.sh
 [planning] resource-references — necesitan,plantillas,recursos,referencias,workspace — skill:.claude/skills/resource-references/SKILL.md
 [planning] retro-actions —  — cmd:.claude/commands/retro-actions.md
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md
@@ -1066,6 +1069,7 @@
 [quality] security-scan — audit,scan,security,workspace — script:scripts/security-scan.sh
 [quality] skill-audit — audit,auditor,baseline,catalog,quality — script:scripts/skill-audit.sh
 [quality] skill-catalog-audit — audit,catalog,skill,slice — script:scripts/skill-catalog-audit.sh
+[quality] skill-maturity-audit — audit,kanban,maturity,skill — script:scripts/skill-maturity-audit.sh
 [quality] skills-usage-audit — audit,audita,skills,usage,workspace — script:scripts/skills-usage-audit.sh
 [quality] sovereignty-audit — audit,cognitive,data,diagnose,lock — cmd:.claude/commands/sovereignty-audit.md
 [quality] sovereignty-auditor — audita,cognitiva,dependencia,equipo,grado — skill:.claude/skills/sovereignty-auditor/SKILL.md
