@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=925e23dc43cabf08375a0ad665642094aae1d5566a4eb5506fa91ea3f1417f9d
-timestamp=2026-06-04T12:31:57Z
-branch=feature/spec-185-critical-facts-cap
-head_commit=1ac73982
-signature=eb5c89ea69bd8b4d797c90d1911f6667fb1b85c319db3497c5a355e89b86b0be
+diff_hash=187ce71444279fbb77b40a6ae555371dd2dd1d107a38bc4e40d02dfc0ba4886c
+timestamp=2026-06-04T16:47:06Z
+branch=feature/spec-180-sentinel-safe-regen
+head_commit=b90fdfa3
+signature=23b398457aaf90889e59053e702842e186a6df09459e5589ab5138aef4ec06fb
