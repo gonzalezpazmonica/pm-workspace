@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 151 resources
+> 152 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -103,6 +103,7 @@
 - **sdd-spec-writer** (agent): >
 - **semantic-compact** (script): semantic-compact.sh — SPEC-022 F2: Smart compact summary generator
 - **semantic-map** (script): semantic-map.sh — Generate compressed semantic maps of source code files
+- **sentinel-regen** (script): Ref: SPEC-180 / docs/rules/domain/sentinel-safe-regen.md
 - **setup-claude-permissions** (script): DEPRECATED: use setup-opencode-permissions.sh instead. This file kept for backward compatibility.
 - **setup-opencode-permissions** (script): setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados
 - **setup-savia-web** (script): Setup, build, and serve savia-web on http://localhost:8081

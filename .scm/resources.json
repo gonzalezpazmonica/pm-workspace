@@ -1,6 +1,6 @@
 {
-  "hash": "12dbe7acd794",
-  "total": 1187,
+  "hash": "c9fe48e641a2",
+  "total": 1190,
   "resources": [
     {
       "category": "analysis",
@@ -3273,6 +3273,20 @@
       "kind": "script",
       "path": "scripts/semantic-map.sh",
       "description": "semantic-map.sh — Generate compressed semantic maps of source code files"
+    },
+    {
+      "category": "development",
+      "name": "sentinel-regen",
+      "intents": [
+        "docs",
+        "domain",
+        "regen",
+        "rules",
+        "safe"
+      ],
+      "kind": "script",
+      "path": "scripts/sentinel-regen.sh",
+      "description": "Ref: SPEC-180 / docs/rules/domain/sentinel-safe-regen.md"
     },
     {
       "category": "development",
@@ -8182,6 +8196,19 @@
     },
     {
       "category": "planning",
+      "name": "generate-critical-facts",
+      "intents": [
+        "critical",
+        "facts",
+        "generate",
+        "scripts"
+      ],
+      "kind": "script",
+      "path": "scripts/generate-critical-facts.sh",
+      "description": "scripts/generate-critical-facts.sh"
+    },
+    {
+      "category": "planning",
       "name": "generate-index",
       "intents": [
         "components",
@@ -11959,6 +11986,19 @@
       "kind": "script",
       "path": "scripts/validate-commands.sh",
       "description": "─────────────────────────────────────────────────────────────────────"
+    },
+    {
+      "category": "planning",
+      "name": "validate-critical-facts-cap",
+      "intents": [
+        "critical",
+        "facts",
+        "scripts",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/validate-critical-facts-cap.sh",
+      "description": "scripts/validate-critical-facts-cap.sh"
     },
     {
       "category": "planning",

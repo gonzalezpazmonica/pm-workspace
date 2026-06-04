@@ -18,6 +18,13 @@ on small file. BATS suite tests/test-write-time-validation.bats — 29/29 pass,
 audit 91/100. Doc rule docs/rules/domain/write-time-validation.md. Era 199
 Wave 1 Tier 1.
 
+## [Unreleased] — 2026-06-04 · SPEC-180 Sentinel-safe regeneration
+
+Added: scripts/sentinel-regen.sh primitive (inject/extract/verify-hash)
+with sha256-8 hash drift detection. Contract doc at
+docs/rules/domain/sentinel-safe-regen.md. Opt-in piloto on AGENTS.md
+auto-regen via SENTINEL_MODE=1. BATS suite 17 tests, audit 90/100.
+Era 199 Wave 1 Tier 1. Unblocks SPEC-181.
 ## [Unreleased] — 2026-06-04 · SPEC-185 Critical-facts anchor
 
 Added: docs/critical-facts.md anchor with 150-token cap, validator,

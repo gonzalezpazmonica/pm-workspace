@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 53b729652ed3 | resources: 1187
-> 554 commands · 100 skills · 70 agents · 463 scripts
+> hash: 0c192722f7b2 | resources: 1190
+> 554 commands · 100 skills · 70 agents · 466 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -258,6 +258,7 @@
 [development] sdd-spec-writer —  — agent:.claude/agents/sdd-spec-writer.md
 [development] semantic-compact — compact,generator,semantic,smart,spec — script:scripts/semantic-compact.sh
 [development] semantic-map — code,compressed,files,generate,maps — script:scripts/semantic-map.sh
+[development] sentinel-regen — docs,domain,regen,rules,safe — script:scripts/sentinel-regen.sh
 [development] setup-claude-permissions — backward,compatibility,deprecated,file,instead — script:scripts/setup-claude-permissions.sh
 [development] setup-opencode-permissions — claude,json,local,permisos,permissions — script:scripts/setup-opencode-permissions.sh
 [development] setup-savia-web — build,http,localhost,savia,serve — script:scripts/setup-savia-web.sh
@@ -636,6 +637,7 @@
 [planning] frontend-developer —  — agent:.claude/agents/frontend-developer.md
 [planning] gdrive-upload —  — cmd:.claude/commands/gdrive-upload.md
 [planning] generate-capability-map — around,capability,generate,generator,python — script:scripts/generate-capability-map.sh
+[planning] generate-critical-facts — critical,facts,generate,scripts — script:scripts/generate-critical-facts.sh
 [planning] generate-index — components,discoverable,generate,index,workspace — script:scripts/generate-index.sh
 [planning] github-activity —  — cmd:.claude/commands/github-activity.md
 [planning] github-issues —  — cmd:.claude/commands/github-issues.md
@@ -934,6 +936,7 @@
 [planning] validate-changelog-links — changelog,enlace,links,validate,verifica — script:scripts/validate-changelog-links.sh
 [planning] validate-ci-local — local,parallel,validate,validation — script:scripts/validate-ci-local.sh
 [planning] validate-commands —  — script:scripts/validate-commands.sh
+[planning] validate-critical-facts-cap — critical,facts,scripts,validate — script:scripts/validate-critical-facts-cap.sh
 [planning] validate-devops —  — script:scripts/validate-devops.sh
 [planning] validate-devops-checks — bash,shell,shellcheck — script:scripts/validate-devops-checks.sh
 [planning] validate-filesize — cumplen,ficheros,líneas,validar,workspace — cmd:.claude/commands/validate-filesize.md
