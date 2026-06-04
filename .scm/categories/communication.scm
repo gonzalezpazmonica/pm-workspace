@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 94 resources
+> 95 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -31,6 +31,7 @@
 - **savia-crypto** (script): savia-crypto.sh — RSA + AES hybrid encryption using openssl only
 - **savia-crypto-ops** (script): savia-crypto-ops.sh — Encrypt and decrypt operations
 - **savia-directory** (cmd): >
+- **savia-double-optin-check** (script): savia-double-optin-check.sh — SPEC-186 (Era 199 Wave 1)
 - **savia-dual** (cmd): Gestiona Savia Dual — inference sovereignty con failover entre Anthropic y gemma4 local
 - **savia-dual** (skill): Usar cuando la inferencia cloud falla, es lenta o está rate-limited y se necesita failover local.
 - **savia-enterprise** (script): savia-enterprise.sh — Enterprise module lifecycle manager

@@ -713,7 +713,7 @@ Incluye: context-update pipeline, agent-artifacts, context-guard, savia-manifest
 | 8 | SE-162 | Knowledge Graph sobre memoria Savia | IMPLEMENTED | ~8h | `scripts/knowledge-graph.{py,sh}` + SQLite WAL + 5 subcomandos + `docs/rules/domain/knowledge-graph.md` + tests 26/26. Línea base: 543 entities, 661 relations. |
 | 9 | SE-083 | TDD vertical-slice skill | IMPLEMENTED | ~2h | `.claude/skills/tdd-vertical-slices/` + tests SE-083 en architectural-vocabulary.bats. |
 | 10 | SE-086 | Ubiquitous-language extractor | IMPLEMENTED | ~5h | Skill + extractor script + bridge SE-162 + rule + tests 24/24. Genera `CONTEXT.md` per-proyecto con [REVIEW] terms. |
-| 11 | SE-091 | Caveman always-on + auto tribunal hooks | APPROVED | ~3h | Radical honesty enforced en todo output. Alta densidad de señal. |
+| 11 | SE-091 | Caveman always-on + auto tribunal hooks | IMPLEMENTED | ~3h | caveman-default.md en instructions (6 restricciones/turno). Guards auto-grill-me + auto-zoom-out en BEFORE_GUARDS de savia-foundation. 21 BATS + 31 TS. |
 | 12 | SE-163 | Dream cycle upgrade (Haiku pre-filter + verdict cache) | PROPOSED | ~6h | Reduce ~70% coste overnight-sprint. Requiere overnight-sprint operativo. |
 | 13 | SE-089 | SaviaClaw DeepSeek migration | APPROVED | ~2h | CRITICAL si SOS sigue con `remote:unreachable`. Sovereignty. |
 | 14 | SE-092 | PM backend bridge (ADO/Jira) | APPROVED | ~9h | CRITICAL para PM real. Alta complejidad — después de foundations. |

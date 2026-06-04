@@ -42,6 +42,8 @@ import { blockGitignoredReferences } from "./guards/block-gitignored-references.
 import { promptInjectionGuard } from "./guards/prompt-injection-guard.ts";
 import { tddGate } from "./guards/tdd-gate.ts";
 import { dataSovereigntyAudit } from "./guards/data-sovereignty-audit.ts";
+import { autoGrillMe } from "./guards/auto-grill-me.ts";
+import { autoZoomOut } from "./guards/auto-zoom-out.ts";
 
 const BEFORE_GUARDS = [
   // Cheap guards first — fail fast.
@@ -56,6 +58,9 @@ const BEFORE_GUARDS = [
   blockGitignoredReferences,
   promptInjectionGuard,
   tddGate,
+  // SE-091: caveman always-on reminders (non-blocking)
+  autoGrillMe,
+  autoZoomOut,
 ] as const;
 
 const AFTER_GUARDS = [

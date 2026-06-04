@@ -1,6 +1,6 @@
 {
-  "hash": "4cacbe00e211",
-  "total": 1182,
+  "hash": "12dbe7acd794",
+  "total": 1187,
   "resources": [
     {
       "category": "analysis",
@@ -1082,6 +1082,20 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-directory.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-double-optin-check",
+      "intents": [
+        "check",
+        "double",
+        "optin",
+        "savia",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-double-optin-check.sh",
+      "description": "savia-double-optin-check.sh — SPEC-186 (Era 199 Wave 1)"
     },
     {
       "category": "communication",
@@ -5610,6 +5624,20 @@
     },
     {
       "category": "memory",
+      "name": "ubiquitous-language",
+      "intents": [
+        "consolidar",
+        "context",
+        "dice",
+        "dominio",
+        "extrae"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/ubiquitous-language/SKILL.md",
+      "description": "Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. Trigger: usuario dice 'extrae glosario', 'ubiquitous language', '/glossary', o hay >5 términos repetidos sin CONTEXT.md."
+    },
+    {
+      "category": "memory",
       "name": "web-research",
       "intents": [
         "auto",
@@ -5759,6 +5787,20 @@
       "kind": "cmd",
       "path": ".claude/commands/incident-correlate.md",
       "description": "Correlación cruzada de datos de múltiples fuentes para análisis integral de incidentes"
+    },
+    {
+      "category": "planning",
+      "name": "_template",
+      "intents": [
+        "carga",
+        "copia",
+        "crear",
+        "directorio",
+        "nueva"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/_template/SKILL.md",
+      "description": "TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime."
     },
     {
       "category": "planning",
@@ -8614,15 +8656,14 @@
       "category": "planning",
       "name": "knowledge-graph",
       "intents": [
-        "cache",
         "graph",
         "knowledge",
-        "local",
-        "sqlite"
+        "shell",
+        "wrapper"
       ],
       "kind": "script",
       "path": "scripts/knowledge-graph.sh",
-      "description": "knowledge-graph.sh — Temporal knowledge graph in SQLite (local cache)"
+      "description": "knowledge-graph.sh — SE-162: Shell wrapper for knowledge-graph.py"
     },
     {
       "category": "planning",
@@ -10206,6 +10247,17 @@
       "kind": "script",
       "path": "scripts/resolve-pr-conflicts.sh",
       "description": "resolve-pr-conflicts.sh — auto-resolver for the recurring conflicts that"
+    },
+    {
+      "category": "planning",
+      "name": "resolver-md-generate",
+      "intents": [
+        "generate",
+        "resolver"
+      ],
+      "kind": "script",
+      "path": "scripts/resolver-md-generate.sh",
+      "description": "resolver-md-generate.sh — SE-160"
     },
     {
       "category": "planning",
@@ -13668,6 +13720,19 @@
       "kind": "script",
       "path": "scripts/skill-catalog-audit.sh",
       "description": "skill-catalog-audit.sh — SE-084 Slice 1."
+    },
+    {
+      "category": "quality",
+      "name": "skill-maturity-audit",
+      "intents": [
+        "audit",
+        "kanban",
+        "maturity",
+        "skill"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-maturity-audit.sh",
+      "description": "skill-maturity-audit.sh — SE-167 Skill Maturity Kanban"
     },
     {
       "category": "quality",
