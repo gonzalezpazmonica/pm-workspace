@@ -781,7 +781,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 |---|----|-----------|--------|----------|-------|
 | 1 | SPEC-156 | Token Budget Frontmatter | IMPLEMENTED | 4h | Tier 1A. Slice 1 (frontmatter 70/70 agentes) PR #790. Slice 2 (hook PreToolUse) PR #791 mergeado 2026-06-01. |
 | 2 | SPEC-157 | Context Pre-Flight Check | PROPOSED | 6h | Tier 1B. Depende de SPEC-156. |
-| 3 | SPEC-158 | Workflow vs Agent Decision Gate | PROPOSED | 3h | Tier 1C. Comando /decide-architecture. |
+| 3 | SPEC-158 | Workflow vs Agent Decision Gate | IMPLEMENTED (2026-06-04) | 3h | Tier 1C. Comando /decide-architecture. |
 | 4 | SPEC-169 | Project Twin como artefacto versionado | PROPOSED | 11h | Tier 1B. Twin = proyecto. Refresh event-driven, predicciones acotadas, N4 + N1 anonimizado. Depende de SPEC-156 + skill `zero-project-leakage`. Compatible con SPEC-165 no bloqueante. |
 
 ### Tier 2 — MEDIUM (sprint siguiente, total 13h)
