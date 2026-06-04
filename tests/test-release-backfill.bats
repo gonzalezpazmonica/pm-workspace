@@ -151,9 +151,10 @@ teardown() {
 @test "CLAUDE.md has only 3 eager imports for foundational context" {
   local count
   count=$(grep -cE "^@(\.claude|docs)" "$CLAUDE_MD")
-  # Allow 3-5 (savia, radical-honesty, autonomous-safety, maybe pm-config.local)
+  # Allow 3-7 (critical-facts SPEC-185, savia, radical-honesty, autonomous-safety,
+  # active-user, MEMORY auto, optionally pm-config.local).
   [ "$count" -ge 3 ]
-  [ "$count" -le 5 ]
+  [ "$count" -le 7 ]
 }
 
 @test "CLAUDE.md has lazy reference table" {
