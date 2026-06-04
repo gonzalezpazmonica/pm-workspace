@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-04 · SPEC-158 Workflow vs Agent decision gate
+
+Added: /decide-architecture command + scripts/decide-architecture.sh
+heuristic classifier with three-tier signals (weak +1, medium +2,
+strong +5) and Anthropic workflow-first bias (+1 base). Corpus
+scripts/decide-architecture-corpus-test.sh covers 20 curated tasks
+(10 workflow, 10 agent) with 100% accuracy (AC: 85% min). BATS suite
+tests/test-decide-architecture.bats — 31/31 pass, audit 93/100.
+Doc rule docs/rules/domain/workflow-vs-agent-decision-gate.md.
+Tier 1C from anthropic-effective-agents-thesis.
 ## [Unreleased] — 2026-06-04 · SPEC-184 Write-time non-blocking validators
 
 Added: PostToolUse Edit|Write hook .opencode/hooks/post-write-validate.sh that
