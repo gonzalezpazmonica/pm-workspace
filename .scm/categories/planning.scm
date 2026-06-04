@@ -1,7 +1,8 @@
 # planning — Savia Capability Map (L1)
-> 527 resources
+> 528 resources
 
 - **/accreditation-track** (cmd): >
+- **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
 - **/drive-sync** (cmd): Bidirectional sync between local workspace and Google Drive
 - **/health-kpi** (cmd): >
