@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-04 · SPEC-185 Critical-facts anchor
+
+Added: docs/critical-facts.md anchor with 150-token cap, validator,
+auto-regenerator, policy doc, CLAUDE.md integration, BATS suite (21
+tests, audit 86/100). Era 199 Wave 1 Tier 1.
+
 ## [Unreleased] — 2026-06-03 · SE-091 Caveman always-on
 
 ### Added
