@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-04 · SPEC-184 Write-time non-blocking validators
+
+Added: PostToolUse Edit|Write hook .opencode/hooks/post-write-validate.sh that
+runs composable markdown validators and warns to stderr without blocking. 4
+validators shipped: banned-unicode (em-dash, en-dash, curly quotes, NBSP,
+ellipsis), frontmatter (SPEC docs require yaml block), spec-status (enum),
+memory-entry-length (150 char cap). Bypass for output, .git, node_modules,
+dist, raw. Toggle via SAVIA_WRITE_VALIDATORS_ENABLED. Latency 23ms measured
+on small file. BATS suite tests/test-write-time-validation.bats — 29/29 pass,
+audit 91/100. Doc rule docs/rules/domain/write-time-validation.md. Era 199
+Wave 1 Tier 1.
+
 ## [Unreleased] — 2026-06-04 · SPEC-180 Sentinel-safe regeneration
 
 Added: scripts/sentinel-regen.sh primitive (inject/extract/verify-hash)

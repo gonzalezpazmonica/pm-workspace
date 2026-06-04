@@ -1,7 +1,8 @@
 ---
 spec_id: SPEC-184
 title: Write-time validator non-blocking (warn → self-repair same turn)
-status: PROPOSED
+status: IMPLEMENTED
+implemented_at: 2026-06-04
 tier: 1
 priority: P1
 effort: 3-4h
@@ -15,7 +16,11 @@ inspiration: obsidian-second-brain `validate-ai-first.sh` PostToolUse hook (warn
 
 # SPEC-184 — Write-time validator non-blocking
 
-> Estado: PROPOSED · Tier 1 · P1 · Estimación 3-4h · Era 199 · Wave 1
+> Estado: IMPLEMENTED · Tier 1 · P1 · Estimación 3-4h · Era 199 · Wave 1
+>
+> Implementación 2026-06-04. Hook .opencode/hooks/post-write-validate.sh +
+> 4 validators (banned-unicode, frontmatter, spec-status,
+> memory-entry-length). Tests 29/29, audit 91/100, latencia medida 23ms.
 
 ## Resumen
 
