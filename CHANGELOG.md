@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-03 · SE-091 Caveman always-on
+
+### Added
+- **SE-091 closed** (Era 195, rank 11). Caveman como comportamiento por defecto.
+  - `docs/rules/domain/caveman-default.md` ya existía; 6 restricciones cargadas
+    en cada turno via `instructions` en `opencode.json` (verificado AC-02).
+  - `.opencode/plugins/guards/auto-grill-me.ts` — guard non-blocking: Edit/Write
+    sobre código → `console.warn` con recordatorio grill-me (edge cases, error
+    handling, unstated assumptions).
+  - `.opencode/plugins/guards/auto-zoom-out.ts` — guard non-blocking: Edit/Write
+    sobre ROADMAP/docs/architecture → `console.warn` con recordatorio zoom-out
+    (dependencies, second-order effects).
+  - Ambos guards registrados en `BEFORE_GUARDS` de `savia-foundation.ts`.
+  - `tests/test-caveman-always.bats` — 21/21.
+  - `.opencode/plugins/__tests__/auto-grill-me.test.ts` — 14/14 TS.
+  - `.opencode/plugins/__tests__/auto-zoom-out.test.ts` — 15/15 TS.
 ## [Unreleased] — 2026-06-03 · SE-086 Ubiquitous Language extractor
 
 ### Added

@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5cecf71f365406b3cca0d2c152b3e8baff65c1471fe8a3dd0036297f5bd9dc8c
-timestamp=2026-06-03T20:55:18Z
-branch=feature/se-172-markitdown-roadmap
-head_commit=4bc53aac
-signature=b19b6bef94681e4eb76afbe253775145992ea0c2a0b28209165ef9b0ed4a9f99
+diff_hash=d5e2620c6a66e636f9566f401b663281bdcb9f539667c7383469dbcae43f5eb2
+timestamp=2026-06-03T22:52:51Z
+branch=feature/se-091-caveman-always
+head_commit=c219b595
+signature=0238566ebb6b19fd7d37915a9b895b2ca9967f5d3d4c462ed58ccb6ef60dd4a4
