@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d5e2620c6a66e636f9566f401b663281bdcb9f539667c7383469dbcae43f5eb2
-timestamp=2026-06-03T22:52:51Z
-branch=feature/se-091-caveman-always
-head_commit=c219b595
-signature=0238566ebb6b19fd7d37915a9b895b2ca9967f5d3d4c462ed58ccb6ef60dd4a4
+diff_hash=2646ec1565fa61c22438466f8f762dcd8b319fad59bffb2f31fdc1c380f71b7e
+timestamp=2026-06-04T05:08:02Z
+branch=chore/roadmap-cleanup-20260604
+head_commit=c747075e
+signature=25fafe79df205eb11791254bc545d4534653fe28381bc47045365aee3ceacc4d
