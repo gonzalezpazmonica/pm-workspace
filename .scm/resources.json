@@ -1,6 +1,6 @@
 {
-  "hash": "c9fe48e641a2",
-  "total": 1190,
+  "hash": "a19bab4b4af0",
+  "total": 1193,
   "resources": [
     {
       "category": "analysis",
@@ -2474,6 +2474,18 @@
       "kind": "script",
       "path": "scripts/dag-typing-validate.sh",
       "description": "dag-typing-validate.sh — SE-034 Slice 1 prototype validator."
+    },
+    {
+      "category": "development",
+      "name": "decide-architecture",
+      "intents": [
+        "architecture",
+        "decide",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/decide-architecture.sh",
+      "description": "decide-architecture.sh — SPEC-158"
     },
     {
       "category": "development",
@@ -5693,6 +5705,20 @@
       "kind": "cmd",
       "path": ".claude/commands/accreditation-track.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "/decide-architecture",
+      "intents": [
+        "accuracy",
+        "agent",
+        "anthropic",
+        "bias",
+        "clasifica"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/decide-architecture.md",
+      "description": "Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas."
     },
     {
       "category": "planning",
@@ -12711,6 +12737,20 @@
       "kind": "script",
       "path": "scripts/coverage-report.sh",
       "description": "coverage-report.sh — Generate test coverage report for pm-workspace"
+    },
+    {
+      "category": "quality",
+      "name": "decide-architecture-corpus-test",
+      "intents": [
+        "architecture",
+        "corpus",
+        "decide",
+        "spec",
+        "test"
+      ],
+      "kind": "script",
+      "path": "scripts/decide-architecture-corpus-test.sh",
+      "description": "decide-architecture-corpus-test.sh — SPEC-158"
     },
     {
       "category": "quality",

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 0c192722f7b2 | resources: 1190
-> 554 commands · 100 skills · 70 agents · 466 scripts
+> hash: adb7a272384c | resources: 1193
+> 555 commands · 100 skills · 70 agents · 468 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -197,6 +197,7 @@
 [development] dag-plan — ahorro,camino,crítico,ejecución,tiempo — cmd:.claude/commands/dag-plan.md
 [development] dag-scheduling — agentes,dependencias,ellos,múltiples,orquestan — skill:.claude/skills/dag-scheduling/SKILL.md
 [development] dag-typing-validate — prototype,slice,typing,validate,validator — script:scripts/dag-typing-validate.sh
+[development] decide-architecture — architecture,decide,spec — script:scripts/decide-architecture.sh
 [development] deps-validate — deps,schema,slice,spec,validate — script:scripts/deps-validate.sh
 [development] dev-orchestrator — analiza,contexto,crea,dependencias,implementación — agent:.claude/agents/dev-orchestrator.md
 [development] dev-session — aislamiento,contexto,desarrollo,disco,fases — cmd:.claude/commands/dev-session.md
@@ -440,6 +441,7 @@
 [memory] web-research — buscar,contexto,cves,docs,gaps — skill:.claude/skills/web-research/SKILL.md
 [memory] whatsapp-search —  — cmd:.claude/commands/whatsapp-search.md
 [planning] /accreditation-track —  — cmd:.claude/commands/accreditation-track.md
+[planning] /decide-architecture — accuracy,agent,anthropic,bias,clasifica — cmd:.claude/commands/decide-architecture.md
 [planning] /drive-setup — based,create,drive,folder,google — cmd:.claude/commands/drive-setup.md
 [planning] /drive-sync — between,bidirectional,drive,google,local — cmd:.claude/commands/drive-sync.md
 [planning] /health-kpi —  — cmd:.claude/commands/health-kpi.md
@@ -991,6 +993,7 @@
 [quality] court-orchestrator — code,convenes,court,cycles,manages — agent:.claude/agents/court-orchestrator.md
 [quality] court-review — code,court,helper,orchestration,review — script:scripts/court-review.sh
 [quality] coverage-report — coverage,generate,report,test,workspace — script:scripts/coverage-report.sh
+[quality] decide-architecture-corpus-test — architecture,corpus,decide,spec,test — script:scripts/decide-architecture-corpus-test.sh
 [quality] dependencies-audit —  — cmd:.claude/commands/dependencies-audit.md
 [quality] docs-quality-audit — agentes,auditar,basada,calidad,documentacion — cmd:.claude/commands/docs-quality-audit.md
 [quality] drift-auditor — auditoría,cambios,config,convergencia,código — agent:.claude/agents/drift-auditor.md

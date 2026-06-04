@@ -1,7 +1,8 @@
 ---
 id: SPEC-158
 title: Workflow vs Agent Decision Gate
-status: PROPOSED
+status: IMPLEMENTED
+implemented_at: 2026-06-04
 priority: HIGH
 estimated_hours: 3
 tier: 1C
@@ -9,6 +10,10 @@ origin: anthropic-effective-agents-thesis-2026
 ---
 
 # SPEC-158 Workflow vs Agent Decision Gate
+
+> Estado: IMPLEMENTED 2026-06-04. Heuristica 3-tier (weak/medium/strong),
+> bias workflow +1, comando /decide-architecture, corpus 20 tareas
+> accuracy 100%, BATS 31/31 audit 93/100.
 
 ## Problema
 No hay criterio explicito para decidir si una tarea va por SDD workflow (deterministico) o agente autonomo (loop con tools). Anthropic insiste: workflow first, agente solo si es necesario. Sin gate, hay sesgo a invocar agentes (mas potentes pero mas costosos).

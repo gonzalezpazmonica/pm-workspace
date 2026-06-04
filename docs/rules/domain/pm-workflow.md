@@ -18,7 +18,7 @@
 - **Sprints:** `Sprint YYYY-NN` (ej: `Sprint 2026-04`)
 - **Informes:** `YYYYMMDD-tipo-proyecto.ext`
 
-## 📟 Comandos Disponibles (559)
+## 📟 Comandos Disponibles (560)
 
 > Tabla completa: `.opencode/commands/references/command-catalog.md`
 > Catálogo interactivo: `/help [filtro]`
