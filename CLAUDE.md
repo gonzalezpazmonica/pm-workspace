@@ -1,7 +1,12 @@
 # PM-Workspace — OpenCode / Claude Code
 
-> **Lazy context**: 4 @imports criticos se cargan en cada turno (savia, radical-honesty, autonomous-safety, caveman-default).
+> **Lazy context**: 5 @imports criticos se cargan en cada turno (critical-facts, savia, radical-honesty, autonomous-safety, caveman-default).
 > El resto se lee **bajo demanda** desde los paths documentados abajo.
+
+## Anchor superior (SPEC-185)
+
+Hechos invariantes del workspace, hard-cap 150 tokens. Auto-regenerado.
+@docs/critical-facts.md
 
 ## Rol
 
