@@ -23,7 +23,7 @@ El workspace tiene piezas parciales para detectar shortcuts y validar razonamien
 
 NO duplica las sub-specs. Las coordina, fija contratos entre ellas y anade lo que falta.
 
-## Motivacion
+## Problema
 
 ### El sintoma reportado
 
@@ -118,7 +118,7 @@ SPEC-108 propone esto pero sigue PROPOSED. Hoy:
 - `memory-store.sh` captura decisiones puntuales.
 - **NO existe**: `feedback_root_cause_always.md` referenciado por `memory-conflict-judge` — el path no esta garantizado.
 
-Hallazgo (este turno): `memory-conflict-judge.md` cita `feedback_root_cause_always.md` pero el fichero no existe en `~/.claude/projects/-home-monica-claude/memory/` ni en `.claude/external-memory/`. **La memoria que esta regla asume es invisible al sistema**.
+Hallazgo (este turno): `memory-conflict-judge.md` cita `feedback_root_cause_always.md` pero el fichero no existe en el runtime memory path ni en el repo. **La memoria que esta regla asume es invisible al sistema**. Path canonico decidido en Fase 0: `.claude/rules/domain/feedback/feedback_root_cause_always.md` (N1, tracked, passes Shield).
 
 **Consecuencia**: el sistema referencia memoria que no existe. Los patrones de fallos recurrentes (ej. "agente X ha intentado bajar threshold 5 veces este mes") no se rastrean, no se cuentan, no se consultan al inicio de un turn.
 
@@ -143,7 +143,7 @@ Cuando un agente toma una decision (elegir threshold, elegir patron de codigo, e
 
 **Consecuencia**: el humano revisor (E1 SDD) no puede auditar el RAZONAMIENTO, solo el RESULTADO. Si el resultado parece bien pero la cadena causal es erronea, el revisor no tiene como verlo.
 
-## Tesis
+## Solucion
 
 **Sistema causal integrado de 5 piezas nuevas + 4 sub-specs coordinadas**.
 
@@ -204,6 +204,10 @@ CREATE TABLE failure_patterns (
 
 **Bridge con `feedback_*.md`**: cuando `occurrences ≥ 10`, sugerir promocion a regla permanente `feedback_*.md`.
 
+**Feature flag**: `SAVIA_FAILURE_PATTERN_MEMORY_ENABLED=1` (default `0` hasta validacion Fase 1). Off-switch sin codigo: `=0` desactiva escritura y lectura; el resto del sistema funciona sin P1.
+
+**Bridge SE-072**: cada insert requiere `verified_source` no nulo (`tool:post-tool-failure-log` por default). Cumple axioma verified-memory.
+
 ### P2 — Causal Confidence Channel (resuelve G2)
 
 **Que es**: campo estructurado en commit message + PR body + spec status updates:
@@ -226,6 +230,10 @@ Root-Cause-Claim: <una frase con la causa que el agente cree haber resuelto>
 - `Causal-Confidence: high` con cero referencias verificables → escalado a juez `calibration-judge` adapted (modo code).
 
 **Output**: PR template anadira esta seccion. Court orchestrator la lee.
+
+**Feature flag**: `SAVIA_CAUSAL_CONFIDENCE_ENABLED` (default off hasta validacion Fase 3).
+
+**Bridge SE-072**: `Causal-Evidence` debe respetar el axioma de fuente verificada (ver SE-072).
 
 ### P3 — Sealed Contract Tests (resuelve G1)
 
@@ -354,7 +362,7 @@ Root-Cause-Claim: <una frase con la causa que el agente cree haber resuelto>
 ## Acceptance criteria
 
 1. Documento `docs/propuestas/SPEC-188-root-cause-investigation-architecture.md` (este) presente y referenciado en ROADMAP.
-2. `feedback_root_cause_always.md` creado en path canonico (resuelve hallazgo G3).
+2. `feedback_root_cause_always.md` creado en path canonico `.claude/rules/domain/feedback/` (resuelve hallazgo G3).
 3. Para cada pieza nueva P1-P5, este documento define:
    - Esquema de datos.
    - Path de ubicacion.
@@ -403,8 +411,7 @@ Root-Cause-Claim: <una frase con la causa que el agente cree haber resuelto>
 }
 
 @test "feedback_root_cause_always.md existe en path canonico" {
-  [ -f .claude/external-memory/feedback/feedback_root_cause_always.md ] \
-    || [ -f .claude/feedback/feedback_root_cause_always.md ]
+  [ -f .claude/rules/domain/feedback/feedback_root_cause_always.md ]
 }
 
 @test "SPEC-188 status es PROPOSED inicial" {
@@ -432,7 +439,7 @@ Validar que SPEC-188 aparece en `docs/ROADMAP.md` como PROPOSED en Active Stack.
 ## Plan de implementacion (fasificado)
 
 ### Fase 0 — Cerrar deuda tecnica detectada (1h)
-- Crear `.claude/external-memory/feedback/feedback_root_cause_always.md` con contenido canonico.
+- Crear `.claude/rules/domain/feedback/feedback_root_cause_always.md` con contenido canonico. Path elegido por estar en N1 (`.claude/rules/`), tracked en repo, y pasar Savia Shield sin friccion. Alternativas descartadas: `.claude/external-memory/feedback/` (gitignored, no canonico), `.claude/feedback/` (no N1, bloqueado por Shield Ollama AMBIGUOUS).
 - Validar `memory-conflict-judge` ya no referencia path inexistente.
 - Commit aparte: `fix(memory): create missing feedback_root_cause_always.md (SPEC-188 Fase 0)`.
 
@@ -490,7 +497,7 @@ Validar que SPEC-188 aparece en `docs/ROADMAP.md` como PROPOSED en Active Stack.
 
 - `docs/propuestas/SPEC-188-root-cause-investigation-architecture.md` (nuevo, este)
 - `tests/test-spec-188-architecture.bats` (nuevo)
-- `.claude/external-memory/feedback/feedback_root_cause_always.md` (nuevo — Fase 0)
+- `.claude/rules/domain/feedback/feedback_root_cause_always.md` (nuevo — Fase 0, path canonico)
 - `CHANGELOG.md` (edit, 1 entrada)
 - `docs/ROADMAP.md` (edit, 1 entrada Active Stack)
 - `.confidentiality-signature` (auto re-firma)
