@@ -711,7 +711,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SE-082, SE-083, SE-084 | Vocabulary + TDD + skill audit | PR #720, #721 |
 | SE-081 | Pocock skills | PR #719, #753 |
 | SE-089 | SaviaClaw DeepSeek | PR #750 |
-| SE-091 | Caveman always-on + tribunal hooks | branch `feature/se-091-caveman-always` |
+| SE-091 | Caveman always-on + tribunal hooks | PR #803 |
 | SE-092 | ADO bridge | PR #761 |
 | SE-093, SE-094, SE-100, SE-104 | Zero-leak + hooks integrity + docs migration + ethical principles | PR #783, #785 |
 
