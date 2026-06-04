@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-05-02 | **Version:** v6.14.1 | **542 commands · 70 agents · 92 skills · 67 hooks · 301+ test suites · Era 188 CLOSED · Era 189 CLOSED · Era 190 IMPLEMENTING (PR #753) · Era 191 IMPLEMENTED · Era 192 IMPLEMENTED · Era 193 IMPLEMENTED · Era 194 IMPLEMENTED · Era 195 IMPLEMENTING · Era 196 PROPOSED · Era 197 PROPOSED — SaviaClaw Autonomy (3 specs CRITICAL, post-Hermes/OpenClaw analysis) · Era 232 PROPOSED · CRITICAL PATH 27 items · SE-072 to SE-097 PROPOSED**
+**Updated:** 2026-06-04 | **Version:** v6.15.0 | **554 commands · 70 agents · 101 skills · 71 hooks · 388 test suites · Active backlog 24 items (~115h)** — ver `## Active Stack — 2026-06-04`
 
 ---
 
@@ -615,17 +615,18 @@ Specs APPROVED antes de 2026-04-26 NO requieren la sección retroactivamente. SE
 
 ---
 
-## SPECs — Status Summary (87 total, post-Era 196 proposal)
+## SPECs — Status Summary (snapshot 2026-06-04)
 
-| Status | Count | Key examples |
-|--------|-------|-------------|
-| Implemented | 45 | 012-016, 034-055, 063, 065, 067-069, 071 |
-| Ready | 12 | 019-022, 024, 026, 028, 032, 043, 048, 065, 078 |
-| Draft | 17 | 005, 009, 017, 035, 042, 044, 054, 055, 060, 061, 066 |
-| Proposed | 15 | SE-081..SE-094 (Era 190-196), SE-035..037 (Era 232) |
-| Approved | 4 | SPEC-OPC-AGENTSYNC, SPEC-SCM-COVERAGE, SPEC-SCM-FRESHCHECK, SPEC-OPC-CROSS-AUDIT |
-| Research | 2 | 023, 027 |
-| Archive | 24 | 003, 004, 006-008, 025, 030, 031, 033, 034, 037, 053, 058, 063-064, 070, 075, 138-144 |
+> Fuente real: `docs/propuestas/SPEC-*.md` (151 ficheros) + git log. Conteos previos eran stale.
+
+| Status | Count | Notas |
+|--------|-------|-------|
+| Implemented (merged) | ~95 | incl. SPEC-155, 156 (slices 1+2), 186, SE-081/082/083/084/086/089/091/092/093/094/100/104/153/160/161/162/167 |
+| Proposed (active backlog) | 24 | ver `## Active Stack — 2026-06-04` |
+| Approved (no PR yet) | ~5 | SPEC-OPC-AGENTSYNC, SPEC-SCM-COVERAGE, SPEC-SCM-FRESHCHECK, SPEC-OPC-CROSS-AUDIT |
+| Research / time-boxed | 2 | SPEC-023, SPEC-027, SPEC-162 (self-evolving tools) |
+| Archive | 24 | renumbered/superseded — ver `docs/propuestas/archive/` |
+
 
 ## Rejected
 
@@ -689,159 +690,82 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ---
 
-## Repriorización por impacto — 2026-05-23
+## Active Stack — 2026-06-04 (supersedes 2026-05-23 + 2026-05-30 + Era 199 waves)
 
-> Criterio: scoring canónico (PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%) + estado real post-saviabios incorporation.
-> Separa lo que está **bloqueado por saviabios incorporation** de lo que puede arrancar ya.
+> Limpieza: 3 bloques de repriorización previos colapsados aquí. Estado verificado contra `git log` + PRs merged.
+> Criterio: scoring canónico (PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%).
 
-### Bloque 0 — Inmediato (bloqueado hasta que Claude Code termine la incorporación)
-Revisar, sanitizar, testear, documentar y validar los cambios de saviabios en `feat/incorporate-savia-evolution`.
-Incluye: context-update pipeline, agent-artifacts, context-guard, savia-manifest, flow-otel, agent-architect, structured-doc-tooling.
-**No arrancar ninguna spec nueva hasta que este bloque cierre.**
+### Recientemente cerrado (2026-05-27 → 2026-06-04)
 
-### Stack priorizado (ordenado por impacto neto, post-bloque 0)
+| ID | Título | Cerrado vía |
+|---|---|---|
+| SPEC-155 | Plugin hook args shape fix | PR #787, #795 |
+| SPEC-156 | Token Budget Frontmatter (Slices 1+2) | PR #790, #791 |
+| SPEC-186 | Double opt-in autonomous gates | PR #796 |
+| SE-160 | RESOLVER.md dispatch | PR #797 |
+| SE-161 | PROTECTED_JOB_NAMES | PR #789 |
+| SE-153 | Template SKILL.md authoritative paths | PR #798 |
+| SE-162 | Knowledge Graph memoria Savia | PR #801 |
+| SE-167 | Skill Maturity Kanban | PR #800 |
+| SE-086 | Ubiquitous-language extractor | PR #802 |
+| SE-082, SE-083, SE-084 | Vocabulary + TDD + skill audit | PR #720, #721 |
+| SE-081 | Pocock skills | PR #719, #753 |
+| SE-089 | SaviaClaw DeepSeek | PR #750 |
+| SE-091 | Caveman always-on + tribunal hooks | PR #803 |
+| SE-092 | ADO bridge | PR #761 |
+| SE-093, SE-094, SE-100, SE-104 | Zero-leak + hooks integrity + docs migration + ethical principles | PR #783, #785 |
 
-| Rank | ID | Título | Estado | Esfuerzo | Por qué primero |
-|------|-----|--------|--------|----------|-----------------|
-| 1 | SE-160 | RESOLVER.md dispatch explícito | IMPLEMENTED | ~2h | Zero deps. Reduce carga CLAUDE.md ahora mismo. Free-win. |
-| 2 | SE-161 | PROTECTED_JOB_NAMES — bloquear agentes costosos en bucles autónomos | IMPLEMENTED | ~1h | Seguridad operacional. Zero deps. Evita burn de tokens en overnight-sprint. PR pendiente merge. |
-| 3 | SE-081 | Pocock quick-wins (caveman + zoom-out + grill-me) | IMPLEMENTED | ~2h | 3 skills en `.claude/skills/{caveman,zoom-out,grill-me}/` con SKILL.md+DOMAIN.md. |
-| 4 | SE-093 | Zero project leakage enforcement | IMPLEMENTED | ~1h | `scripts/project-context.sh` + `.claude/hooks/project-isolation-gate.sh`. PR #783. |
-| 5 | SE-082 | Architectural vocabulary discipline | IMPLEMENTED | ~4h | `docs/rules/domain/architectural-vocabulary.md` + `scripts/architectural-vocabulary-audit.sh` + tests 31/31. |
-| 6 | SE-084 | Skill catalog quality audit (Slice 1) | IMPLEMENTED | ~3h | `scripts/skill-catalog-audit.sh` operativo, audit TSVs diarios en `output/`. |
-| 7 | SE-167 | Skill Maturity Kanban (savia audit) | IMPLEMENTED | ~3h | `scripts/skill-maturity-audit.sh` + `docs/rules/domain/skill-maturity-kanban.md` + tests 23/23. Línea base: 1 Calibrated, 94 Incomplete, 3 Stub, 0 Deprecated. |
-| 8 | SE-162 | Knowledge Graph sobre memoria Savia | IMPLEMENTED | ~8h | `scripts/knowledge-graph.{py,sh}` + SQLite WAL + 5 subcomandos + `docs/rules/domain/knowledge-graph.md` + tests 26/26. Línea base: 543 entities, 661 relations. |
-| 9 | SE-083 | TDD vertical-slice skill | IMPLEMENTED | ~2h | `.claude/skills/tdd-vertical-slices/` + tests SE-083 en architectural-vocabulary.bats. |
-| 10 | SE-086 | Ubiquitous-language extractor | IMPLEMENTED | ~5h | Skill + extractor script + bridge SE-162 + rule + tests 24/24. Genera `CONTEXT.md` per-proyecto con [REVIEW] terms. |
-| 11 | SE-091 | Caveman always-on + auto tribunal hooks | IMPLEMENTED | ~3h | caveman-default.md en instructions (6 restricciones/turno). Guards auto-grill-me + auto-zoom-out en BEFORE_GUARDS de savia-foundation. 21 BATS + 31 TS. |
-| 12 | SE-163 | Dream cycle upgrade (Haiku pre-filter + verdict cache) | PROPOSED | ~6h | Reduce ~70% coste overnight-sprint. Requiere overnight-sprint operativo. |
-| 13 | SE-089 | SaviaClaw DeepSeek migration | APPROVED | ~2h | CRITICAL si SOS sigue con `remote:unreachable`. Sovereignty. |
-| 14 | SE-092 | PM backend bridge (ADO/Jira) | APPROVED | ~9h | CRITICAL para PM real. Alta complejidad — después de foundations. |
-| 15 | SE-095 | SaviaClaw self-monitoring | APPROVED | ~5h | CRITICAL para autonomía SaviaClaw. Post-DeepSeek. |
-| 16 | SE-096 | SaviaClaw cron infrastructure | APPROVED | ~6h | CRITICAL para autonomía SaviaClaw. Post-SE-095. |
-| 17 | SE-165 | /workspace-health scoring + --remediate | PROPOSED | ~8h | Alta complejidad. Valor real cuando hay más capas estabilizadas. |
-| 18 | SE-170 | Transclusion macros en SKILL.md | PROPOSED | ~3h | Elimina drift PII/seguridad. Post SE-084 para medir impacto. |
-| 19 | SE-166 | Skill Calibration Pipeline (uplift harness) | PROPOSED | ~12h | Alta complejidad. Requiere corpus de evals. Era 254+. |
-| 20 | SE-171 | Contradiction detector sobre memoria | PROPOSED | ~8h | Requiere SE-162 como prerequisito. |
-| 21 | SE-172 | markitdown como capa 0 universal de digestión | PROPOSED | ~6h | Microsoft markitdown (MIT, 143k★) reemplaza parsing en pdf/word/excel/pptx/visual/meeting-digest. Cobertura nueva gratis: ZIP, EPub, YouTube, Outlook .msg. ~60% menos código en parsers, una superficie de seguridad en lugar de seis. Los digest agents conservan análisis de dominio (perfiles, contexto proyecto, riesgos). |
+### Tier 1 — Pendientes Wave 1 Era 199 (independientes, paralelizables, total 7-11h)
 
-### Los 3 próximos a implementar (cuando bloque 0 cierre)
+| # | ID | Título | Esfuerzo | Notas |
+|---|---|---|---|---|
+| 1 | SPEC-180 | Sentinel markers @generated/@user safe-regen | 2-3h | P1. Zero deps. |
+| 2 | SPEC-184 | Write-time validator non-blocking (warn) | 3-4h | P1. Zero deps. |
+| 3 | SPEC-185 | Critical-facts 150-token cap | 1-2h | P2. Zero deps. Free-win. |
 
-**1. SE-160 — RESOLVER.md** (~2h)
-Tabla `trigger → skill/agente` en un fichero de texto plano. Sale de CLAUDE.md todo el routing implícito. Impacto: cada sesión nueva carga menos contexto innecesario.
+### Tier 2 — Era 198 abierta (Anthropic Effective Agents, total 33h)
 
-**2. SE-161 — PROTECTED_JOB_NAMES** (~1h)
-Lista de agentes costosos que no son invocables desde MCP en overnight-sprint/code-improvement-loop. Implementación: 1 fichero YAML + 1 check en hooks.
+| # | ID | Título | Esfuerzo | Deps |
+|---|---|---|---|---|
+| 4 | SPEC-157 | Context Pre-Flight Check | 6h | SPEC-156 ✓ |
+| 5 | SPEC-158 | Workflow vs Agent Decision Gate | 3h | — |
+| 6 | SPEC-169 | Project Twin artefacto versionado | 11h | SPEC-156 ✓ + zero-leakage ✓ |
+| 7 | SPEC-159 | Async Tribunal Fan-out | 8h | — |
+| 8 | SPEC-160 (tool-erg) | Tool Ergonomics Auto-Audit | 5h | — |
 
-**3. SE-081 — Pocock quick-wins** (~2h, IMPLEMENTED)
-caveman + zoom-out + grill-me — 3 skills en `.claude/skills/` con SKILL.md+DOMAIN.md. Cerrado 2026-06-02 vía drift-cleanup tras verificación.
+### Tier 3 — Era 197 Flowsint + Wave 2/3 Era 199 (multiplicadores, total ~24h)
 
----
+| # | ID | Título | Esfuerzo | Deps |
+|---|---|---|---|---|
+| 9 | SE-151 | Índice físico project_id grafo memoria | 3h | SE-162 ✓ |
+| 10 | SE-152 | Frontmatter consumes/produces en SKILL.md | 6h | SE-084 ✓ |
+| 11 | SPEC-181 | L0-L3 context budgets por tier | 4-6h | SPEC-180 |
+| 12 | SPEC-182 | Bitemporal timeline frontmatter | 6-8h | — |
+| 13 | SPEC-183 | Reconciliation 3-bucket | 5-7h | SPEC-182 |
 
-## Era 197 — Flowsint cross-pollination (2026-05-30, PROPOSED)
+### Tier 4 — Memoria, calidad, SaviaClaw (alta complejidad, total ~52h)
 
-Análisis comparativo flowsint vs Savia context-as-code. Tres SE nuevos aditivos, no rompen nada existente.
+| # | ID | Título | Esfuerzo | Notas |
+|---|---|---|---|---|
+| 14 | SE-163 | Dream cycle upgrade (Haiku pre-filter) | 6h | -70% coste overnight-sprint |
+| 15 | SE-170 | Transclusion macros en SKILL.md | 3h | Post SE-084 ✓ |
+| 16 | SE-171 | Contradiction detector sobre memoria | 8h | Post SE-162 ✓ + SE-151 |
+| 17 | SE-172 | markitdown capa 0 digestión universal | 6h | MIT, refactor 6 digest-agents |
+| 18 | SE-095 | SaviaClaw self-monitoring | 5h | Post SE-089 ✓ |
+| 19 | SE-096 | SaviaClaw cron infrastructure | 6h | Post SE-095 |
+| 20 | SE-165 | /workspace-health scoring + remediate | 8h | Script base ya existe |
+| 21 | SE-166 | Skill Calibration Pipeline (uplift) | 12h | Requiere corpus evals |
+| 22 | SE-168 | Negative demos para skills críticas | ~4h | Post SE-166 |
+| 23 | SE-169 | Token pruning evidencia uplift | ~6h | Post SE-166 |
+| 24 | SPEC-162 | Self-Evolving Tools (research) | 12h | Time-boxed, go/no-go |
 
-### SE-151 — Índice físico project_id + confidentiality_level en grafo memoria (~3h)
-**Problema**: `scripts/memory-graph.py` filtra por `project_id` post-hoc. Con 50+ proyectos la latencia degrada y hay riesgo teórico de leakage cross-project.
-**Solución**: indexar `project_id` y `confidentiality_level` como propiedades físicas en cada nodo (patrón flowsint `sketch_id`). Toda query arranca por scope → O(log n) garantizado, aislamiento físico no lógico.
-**AC**: query cross-project con 10k nodos < 50ms; test de leakage N4→N1 falla cerrado.
-**Prioridad**: ALTA (escala + refuerza Savia Shield).
+### Decisión operativa (próximas 3 sesiones)
 
-### SE-152 — Frontmatter `consumes:`/`produces:` en SKILL.md (~6h: 2h diseño + 4h migración 98 skills)
-**Problema**: skills son monolíticos, no se componen. `dag-scheduling` skill existe pero sin metadata para construir el DAG.
-**Solución**: añadir al frontmatter de SKILL.md los tipos consumidos/producidos (patrón enricher de flowsint con decorador `@register`). Habilita composición automática: skill A produce `pbi-spec` → skill B consume `pbi-spec` → DAG emerge sin orquestación manual.
-**AC**: 98 skills migrados con `consumes/produces`; comando `/skill-dag <objetivo>` devuelve cadena válida.
-**Prioridad**: ALTA (composabilidad real, no teórica).
+1. **Sprint inmediato**: Tier 1 completo en paralelo (SPEC-180 + SPEC-184 + SPEC-185 = 7-11h, free-wins).
+2. **Sprint siguiente**: Tier 2 — empezar por SPEC-158 (3h, zero deps) → SPEC-157 (desbloquea agentes) → SPEC-169.
+3. **Después**: Tier 3 en orden (SE-151 → SE-152 → SPEC-181/182).
 
-### SE-153 — Template SKILL.md "Authoritative paths first" (~1h template + opt-in)
-**Problema**: SKILL.md mezclan tutorial + referencia. Coste de contexto alto por prosa explicativa antes de paths.
-**Solución**: refactor template → sección obligatoria "Authoritative Paths" al inicio (patrón flowsint: "para tipos lee X, para handlers lee Y, NEVER asumas firmas"). Tutorial va después, opcional.
-**AC**: template actualizado en `.opencode/skills/_template/`; migración opt-in (skills tocados aplican el patrón).
-**Prioridad**: MEDIA (mejora contexto, no rompe nada).
-
-**Total Era 197**: ~10h. Aditivo. Origen: análisis flowsint 2026-05-30 (graph indexing + enricher pattern + SKILL.md authoritative paths).
-
----
-
-## CRITICAL HOTFIX — SPEC-155 (2026-05-30, PROPOSED)
-
-**SPEC-155 — OpenCode plugin hooks args shape fix** (~4h, CRITICAL)
-Guards de seguridad (validate-bash-global, credential-leak, data-sovereignty-gate, tool-call-healing) leen `input.args` pero OpenCode v1.14+ pasa args en `output.args`. Silent security regression: guards no bloquean nada en producción salvo el ruido visible de tool-healing. Tests pasan porque emulan shape interno, no contrato externo.
-
-Detectado: 2026-05-30 vía fallo reproducible `BLOCKED [tool-healing]: read called with empty file_path`.
-Doc: `docs/propuestas/SPEC-155-plugin-hook-args-shape-fix.md`
-Prioridad: implementar ANTES que cualquier SE de Era 197.
-
----
-
-## Repriorización post-SPEC-155 — 2026-05-30
-
-> Trigger: detección SPEC-155 (guards silent failure) + cierre PRs #783-#786 + nuevos SE-151/152/153 (Era 197).
-> Criterio: scoring canónico + estado real verificado contra commits y SKILLS.md (no contra memoria stale).
-
-### Tier 0 — HOTFIX inmediato (bloquea todo lo demás)
-
-| # | ID | Título | Estado | Esfuerzo | Por qué primero |
-|---|-----|--------|--------|----------|-----------------|
-| 0 | **SPEC-155** | Plugin hook args shape fix (input.args→output.args) | PROPOSED | ~4h | **CRITICAL**. Guards de seguridad no funcionan en producción desde migración OpenCode v1.14. validate-bash-global, credential-leak, data-sovereignty-gate operan sobre args vacíos. Security theater. **Bloquea cualquier otro trabajo** porque desbloquea sesiones (read/edit/write) y restaura defensa en profundidad. |
-
-### Tier 1 — Free wins (zero deps, alta densidad valor/hora)
-
-| # | ID | Título | Estado | Esfuerzo | Notas |
-|---|-----|--------|--------|----------|-------|
-| 1 | SE-160 | RESOLVER.md dispatch explícito | IMPLEMENTED | ~2h | Sin cambios. Sigue siendo el mejor free-win. |
-| 2 | SE-161 | PROTECTED_JOB_NAMES bucles autónomos | IMPLEMENTED | ~1h | Hook + YAML + 15 tests BATS. PR pendiente merge. |
-| 3 | SE-153 | Template SKILL.md "Authoritative paths first" | IMPLEMENTED | ~1h | Nuevo (Era 197). Patrón flowsint. Mejora contexto, zero migración obligatoria. |
-
-### Tier 2 — Foundations (multiplicador de capas posteriores)
-
-| # | ID | Título | Estado | Esfuerzo | Notas |
-|---|-----|--------|--------|----------|-------|
-| 4 | SE-151 | Índice físico project_id en grafo memoria | PROPOSED | ~3h | Nuevo (Era 197). Refuerza Savia Shield. Patrón flowsint sketch_id. |
-| 5 | SE-082 | Architectural vocabulary discipline | APPROVED | ~4h | Sin cambios. |
-| 6 | SE-084 | Skill catalog quality audit (Slice 1) | APPROVED | ~3h | Sin cambios. Prerequisito de SE-152. |
-| 7 | SE-152 | Frontmatter consumes/produces en SKILL.md | PROPOSED | ~6h | Nuevo (Era 197). Habilita composición DAG. Post SE-084 para tener baseline calidad. |
-
-### Tier 3 — Memoria y calidad
-
-| # | ID | Título | Estado | Esfuerzo | Notas |
-|---|-----|--------|--------|----------|-------|
-| 8 | SE-167 | Skill Maturity Kanban | PROPOSED | ~3h | Sin cambios. |
-| 9 | SE-162 | Knowledge Graph sobre memoria Savia | PROPOSED | ~8h | Sin cambios. Post SE-151 (índice físico) para integrar bien. |
-| 10 | SE-083 | TDD vertical-slice skill | APPROVED | ~2h | Sin cambios. |
-| 11 | SE-086 | Ubiquitous-language extractor | APPROVED | ~5h | Sin cambios. |
-| 12 | SE-091 | Caveman always-on + tribunal hooks | APPROVED | ~3h | Sin cambios. |
-
-### Tier 4 — SaviaClaw + alta complejidad
-
-| # | ID | Título | Estado | Esfuerzo | Notas |
-|---|-----|--------|--------|----------|-------|
-| 13 | SE-089 | SaviaClaw DeepSeek migration | APPROVED | ~2h | Sin cambios. |
-| 14 | SE-092 | PM backend bridge (ADO/Jira) | APPROVED | ~9h | Sin cambios. |
-| 15 | SE-095 | SaviaClaw self-monitoring | APPROVED | ~5h | Sin cambios. |
-| 16 | SE-096 | SaviaClaw cron infrastructure | APPROVED | ~6h | Sin cambios. |
-| 17 | SE-165 | /workspace-health scoring | PROPOSED | ~8h | Sin cambios. |
-| 18 | SE-170 | Transclusion macros en SKILL.md | PROPOSED | ~3h | Sin cambios. |
-| 19 | SE-166 | Skill Calibration Pipeline | PROPOSED | ~12h | Sin cambios. |
-| 20 | SE-171 | Contradiction detector sobre memoria | PROPOSED | ~8h | Requiere SE-162 + SE-151. |
-| 21 | SE-172 | markitdown como capa 0 universal de digestión | PROPOSED | ~6h | Nuevo (Era 199). Reemplaza parsing en 6 digest-agents. Cobertura ZIP/EPub/YouTube/.msg gratis. MIT compatible. |
-
-### Removidos del stack (ya hechos, verificado contra git/SKILLS.md)
-
-| ID | Motivo |
-|---|--------|
-| SE-081 | caveman/zoom-out/grill-me ya en `SKILLS.md` (commit pre-2026-05-30) |
-| SE-093 | Zero leak IMPLEMENTED 2026-05-27 (memoria + verificación commit) |
-| SE-094 | Hooks integrity allowlist merged #785 (2026-05-30) |
-| SE-100 | OpenCode docs migrated 2026-05-30 |
-| SE-104 | Savia ethical principles MERGED PR #783 (2026-05-30) |
-
-### Decisión operativa
-
-1. **HOY**: implementar SPEC-155 (4h). No-go en cualquier otra cosa hasta que cierre.
-2. **Siguiente sesión**: Tier 1 completo (SE-160 + SE-161 + SE-153 = ~4h).
-3. **Después**: Tier 2 en orden (SE-151 → SE-082 → SE-084 → SE-152 = ~16h).
+### Total backlog activo: ~115h (24 items)
 
 ---
 
@@ -903,7 +827,7 @@ Archivos: `docs/propuestas/SPEC-156..160-*.md` + `SPEC-162-self-evolving-tools-r
 | 1 | SPEC-180 | Sentinel markers @generated/@user safe-regen | PROPOSED | P1 | 2-3h | — |
 | 2 | SPEC-184 | Write-time validator non-blocking (warn) | PROPOSED | P1 | 3-4h | — |
 | 3 | SPEC-185 | Critical-facts 150-token cap | PROPOSED | P2 | 1-2h | — |
-| 4 | SPEC-186 | Double opt-in para gates autonomos | PROPOSED | P1 | 1-2h | — |
+| 4 | SPEC-186 | Double opt-in para gates autonomos | IMPLEMENTED (PR #796) | P1 | 1-2h | — |
 
 ### Wave 2 — Dependientes de Wave 1 (total 10-14h)
 
