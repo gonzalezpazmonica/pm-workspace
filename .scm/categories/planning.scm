@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 525 resources
+> 527 resources
 
 - **/accreditation-track** (cmd): >
 - **/drive-setup** (cmd): Create Google Drive folder structure with role-based permissions
@@ -199,6 +199,7 @@
 - **frontend-developer** (agent): >
 - **gdrive-upload** (cmd): >
 - **generate-capability-map** (script): ── generate-capability-map.sh — Thin wrapper around the Python generator.
+- **generate-critical-facts** (script): scripts/generate-critical-facts.sh
 - **generate-index** (script): generate-index.sh — Generate discoverable index of all workspace components
 - **github-activity** (cmd): >
 - **github-issues** (cmd): >
@@ -497,6 +498,7 @@
 - **validate-changelog-links** (script): validate-changelog-links.sh — Verifica que cada ## [X.Y.Z] tiene su enlace [X.Y.Z]: URL
 - **validate-ci-local** (script): ── validate-ci-local.sh — Parallel CI validation ────────────────────────
 - **validate-commands** (script): ─────────────────────────────────────────────────────────────────────
+- **validate-critical-facts-cap** (script): scripts/validate-critical-facts-cap.sh
 - **validate-devops** (script): =============================================================================
 - **validate-devops-checks** (script): shellcheck shell=bash
 - **validate-filesize** (cmd): Validar que ficheros del workspace cumplen ≤150 líneas
