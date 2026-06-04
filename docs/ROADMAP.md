@@ -825,7 +825,7 @@ Archivos: `docs/propuestas/SPEC-156..160-*.md` + `SPEC-162-self-evolving-tools-r
 | # | ID | Propuesta | Status | Prioridad | Esfuerzo | Deps |
 |---|----|-----------|--------|-----------|----------|------|
 | 1 | SPEC-180 | Sentinel markers @generated/@user safe-regen | PROPOSED | P1 | 2-3h | — |
-| 2 | SPEC-184 | Write-time validator non-blocking (warn) | PROPOSED | P1 | 3-4h | — |
+| 2 | SPEC-184 | Write-time validator non-blocking (warn) | IMPLEMENTED (2026-06-04) | P1 | 3-4h | — |
 | 3 | SPEC-185 | Critical-facts 150-token cap | PROPOSED | P2 | 1-2h | — |
 | 4 | SPEC-186 | Double opt-in para gates autonomos | IMPLEMENTED (PR #796) | P1 | 1-2h | — |
 

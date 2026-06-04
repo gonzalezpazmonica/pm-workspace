@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=187ce71444279fbb77b40a6ae555371dd2dd1d107a38bc4e40d02dfc0ba4886c
-timestamp=2026-06-04T16:47:06Z
-branch=feature/spec-180-sentinel-safe-regen
-head_commit=b90fdfa3
-signature=23b398457aaf90889e59053e702842e186a6df09459e5589ab5138aef4ec06fb
+diff_hash=ddf95c93cc1148655594483a127c35c2b68da8acaca75e0bf90fd35ef086865e
+timestamp=2026-06-04T20:12:00Z
+branch=feature/spec-184-writetime-validator-nonblocking
+head_commit=d1861aa2
+signature=081bd885c6fbbc595182e9828e3230ba0db27e5c0b8331c3ff6ed304076fa419
