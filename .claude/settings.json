@@ -403,6 +403,11 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/dual-estimation-gate.sh",
             "timeout": 5,
             "statusMessage": "Dual Estimation: verificando escalas..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-write-validate.sh",
+            "timeout": 5000
           }
         ]
       },

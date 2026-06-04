@@ -16,6 +16,17 @@ scripts/decide-architecture-corpus-test.sh covers 20 curated tasks
 tests/test-decide-architecture.bats — 31/31 pass, audit 93/100.
 Doc rule docs/rules/domain/workflow-vs-agent-decision-gate.md.
 Tier 1C from anthropic-effective-agents-thesis.
+## [Unreleased] — 2026-06-04 · SPEC-184 Write-time non-blocking validators
+
+Added: PostToolUse Edit|Write hook .opencode/hooks/post-write-validate.sh that
+runs composable markdown validators and warns to stderr without blocking. 4
+validators shipped: banned-unicode (em-dash, en-dash, curly quotes, NBSP,
+ellipsis), frontmatter (SPEC docs require yaml block), spec-status (enum),
+memory-entry-length (150 char cap). Bypass for output, .git, node_modules,
+dist, raw. Toggle via SAVIA_WRITE_VALIDATORS_ENABLED. Latency 23ms measured
+on small file. BATS suite tests/test-write-time-validation.bats — 29/29 pass,
+audit 91/100. Doc rule docs/rules/domain/write-time-validation.md. Era 199
+Wave 1 Tier 1.
 
 ## [Unreleased] — 2026-06-04 · SPEC-180 Sentinel-safe regeneration
 
