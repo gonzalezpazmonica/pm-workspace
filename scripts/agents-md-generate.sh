@@ -175,10 +175,22 @@ GENERATED=$(build)
 case "$MODE" in
   generate) printf '%s' "$GENERATED" ;;
   apply)
-    tmp=$(mktemp)
-    printf '%s' "$GENERATED" > "$tmp"
-    mv "$tmp" "$TARGET"
-    echo "wrote ${TARGET} ($(wc -l < "$TARGET") lines)"
+    if [[ "${SENTINEL_MODE:-0}" == "1" ]]; then
+      # SPEC-180 piloto: write only the agents-table block via sentinel
+      # primitive, preserving any @user blocks present in the file.
+      table_content=$(printf '%s' "$GENERATED" | awk '/^\| Name \| Model \|/{flag=1} flag')
+      [[ -f "$TARGET" ]] || {
+        # First-time bootstrap: write header-only file (without table)
+        printf '%s' "$GENERATED" | awk '/^\| Name \| Model \|/{exit} {print}' > "$TARGET"
+      }
+      printf '%s' "$table_content" | bash "$(dirname "$0")/sentinel-regen.sh" inject "$TARGET" agents-table
+      echo "wrote (sentinel) ${TARGET} ($(wc -l < "$TARGET") lines)"
+    else
+      tmp=$(mktemp)
+      printf '%s' "$GENERATED" > "$tmp"
+      mv "$tmp" "$TARGET"
+      echo "wrote ${TARGET} ($(wc -l < "$TARGET") lines)"
+    fi
     ;;
   check)
     if [[ ! -f "$TARGET" ]]; then

@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=2646ec1565fa61c22438466f8f762dcd8b319fad59bffb2f31fdc1c380f71b7e
-timestamp=2026-06-04T05:08:02Z
-branch=chore/roadmap-cleanup-20260604
-head_commit=c747075e
+timestamp=2026-06-04T12:27:51Z
+branch=feature/spec-180-sentinel-safe-regen
+head_commit=d0746e93
 signature=25fafe79df205eb11791254bc545d4534653fe28381bc47045365aee3ceacc4d
