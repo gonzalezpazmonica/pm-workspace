@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # post-write-validate.sh — SPEC-184 write-time non-blocking validators
 #
 # PostToolUse hook for Edit|Write on *.md. Runs composable validators that
@@ -8,8 +9,6 @@
 #
 # Reference: docs/propuestas/SPEC-184-writetime-validator-nonblocking.md
 # Reference: docs/rules/domain/write-time-validation.md
-
-set -uo pipefail
 
 # Global toggle
 if [[ "${SAVIA_WRITE_VALIDATORS_ENABLED:-true}" == "false" ]]; then
