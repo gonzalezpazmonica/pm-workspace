@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c896025767a50d7d97af5ac604419b12e1017a2733501fd647f0fb91a9d3eb76
-timestamp=2026-06-04T12:31:44Z
+diff_hash=925e23dc43cabf08375a0ad665642094aae1d5566a4eb5506fa91ea3f1417f9d
+timestamp=2026-06-04T12:31:57Z
 branch=feature/spec-185-critical-facts-cap
-head_commit=f56786af
-signature=b8d9f86d6cbbb349ec849f95b8a873b2d1f54c538ca26a7b0aa148c8791e2562
+head_commit=1ac73982
+signature=eb5c89ea69bd8b4d797c90d1911f6667fb1b85c319db3497c5a355e89b86b0be
