@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ddf95c93cc1148655594483a127c35c2b68da8acaca75e0bf90fd35ef086865e
-timestamp=2026-06-04T20:12:00Z
-branch=feature/spec-184-writetime-validator-nonblocking
-head_commit=d1861aa2
-signature=081bd885c6fbbc595182e9828e3230ba0db27e5c0b8331c3ff6ed304076fa419
+diff_hash=718321a8049fa8b9da02d2854db922c8b58ae57372582a41ee69135f380aa0a6
+timestamp=2026-06-04T20:59:49Z
+branch=feature/spec-158-workflow-vs-agent-decision-gate
+head_commit=d88cc3fd
+signature=4ced443bb56a49aa946e97eb54ef9f1a3e73645ecdf11cd88ec163031418c1a4
