@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5d387e109bc19bc166ebad5ebb520a6f4a196725968a1937ecde811e8b5d3cf0
-timestamp=2026-06-04T18:28:25Z
+diff_hash=542cc11a05bd3111a7cc8bb312c73d57a8641b9c65af6792474c20e38569c548
+timestamp=2026-06-04T19:00:34Z
 branch=feature/spec-158-workflow-vs-agent-decision-gate
-head_commit=b303eaa6
-signature=d1eb374d320583f7f75ef240947278cc6dad665127dec5dd9d97035e6c2db301
+head_commit=c0cd6e3c
+signature=a95bd6205d4e0038f9c9d56c99acf0e0b59093dace370e9cd95e9e9b151a0dfe
