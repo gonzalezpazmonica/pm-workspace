@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 158 resources
+> 159 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -32,6 +32,7 @@
 - **code-reviewer** (agent): >
 - **code-twin-init** (script): code-twin-init.sh — Scaffold estructura vacía de ACT para un proyecto
 - **code-twin-lint** (script): code-twin-lint.sh — Valida Code Twin Files (CTF), CTI (index.md) y seeds JSONL
+- **code-twin-simulate** (script): code-twin-simulate.sh — SPEC-190 Slice 5
 - **codebase-map** (cmd): Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills
 - **codebase-map** (skill): Usar cuando se necesita un mapa de dependencias del workspace (comandos→agentes→reglas→skills).
 - **codegraph** (skill): Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el código.

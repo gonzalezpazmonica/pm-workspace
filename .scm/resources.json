@@ -1,6 +1,6 @@
 {
-  "hash": "87618a2402bb",
-  "total": 1202,
+  "hash": "346ddf49e119",
+  "total": 1203,
   "resources": [
     {
       "category": "analysis",
@@ -2334,6 +2334,20 @@
       "kind": "script",
       "path": "scripts/code-twin-lint.sh",
       "description": "code-twin-lint.sh — Valida Code Twin Files (CTF), CTI (index.md) y seeds JSONL"
+    },
+    {
+      "category": "development",
+      "name": "code-twin-simulate",
+      "intents": [
+        "code",
+        "simulate",
+        "slice",
+        "spec",
+        "twin"
+      ],
+      "kind": "script",
+      "path": "scripts/code-twin-simulate.sh",
+      "description": "code-twin-simulate.sh — SPEC-190 Slice 5"
     },
     {
       "category": "development",

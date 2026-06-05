@@ -1,0 +1,5 @@
+{"id":"sim-alice-001","email":"alice@test.com","password_hash":"sim:correct","roles":["user"],"disabled":false,"last_login_at":null,"created_at":"2026-01-15T10:00:00Z"}
+{"id":"sim-bob-002","email":"bob@test.com","password_hash":"sim:admin-pass","roles":["admin","user"],"disabled":false,"last_login_at":"2026-06-01T09:30:00Z","created_at":"2026-02-20T14:00:00Z"}
+{"id":"sim-charlie-003","email":"charlie@test.com","password_hash":"sim:correct","roles":["user"],"disabled":true,"last_login_at":"2026-03-10T11:00:00Z","created_at":"2026-03-01T08:00:00Z"}
+{"id":"sim-diana-004","email":"diana@test.com","password_hash":"sim:diana-pass","roles":["user","moderator"],"disabled":false,"last_login_at":"2026-05-30T16:45:00Z","created_at":"2026-04-10T12:00:00Z"}
+{"id":"sim-eve-005","email":"eve@test.com","password_hash":"sim:eve-pass","roles":["user"],"disabled":false,"last_login_at":null,"created_at":"2026-06-04T17:00:00Z"}
