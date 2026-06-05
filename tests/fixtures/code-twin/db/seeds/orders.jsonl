@@ -1,0 +1,5 @@
+{"id":"ord-001","user_id":"uuid-alice","total":49.99,"status":"completed","notes":null,"created_at":"2026-01-20T10:00:00Z"}
+{"id":"ord-002","user_id":"uuid-bob","total":129.00,"status":"shipped","notes":"gift wrap","created_at":"2026-02-25T11:00:00Z"}
+{"id":"ord-003","user_id":"uuid-charlie","total":19.99,"status":"cancelled","notes":null,"created_at":"2026-03-05T09:00:00Z"}
+{"id":"ord-004","user_id":"uuid-diana","total":89.50,"status":"processing","notes":null,"created_at":"2026-05-31T14:00:00Z"}
+{"id":"ord-005","user_id":"uuid-alice","total":35.00,"status":"pending","notes":"urgent","created_at":"2026-06-04T16:00:00Z"}

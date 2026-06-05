@@ -1,0 +1,5 @@
+{"id":"uuid-alice","email":"alice@test.com","password_hash":"$2b$10$abcXXXXXXXXXXXXXXXXXXuABCDEFGHIJKLMNOPQRSTUVWXYZ0123","roles":["user"],"disabled":false,"last_login_at":null,"created_at":"2026-01-15T10:00:00Z"}
+{"id":"uuid-bob","email":"bob@test.com","password_hash":"$2b$10$zyxXXXXXXXXXXXXXXXXXXeZYXWVUTSRQPONMLKJIHGFEDCBA9876","roles":["admin","user"],"disabled":false,"last_login_at":"2026-06-01T09:30:00Z","created_at":"2026-02-20T14:00:00Z"}
+{"id":"uuid-charlie","email":"charlie@test.com","password_hash":"$2b$10$mnbXXXXXXXXXXXXXXXXXXeMNBVCXZLKJHGFDSAPOIUYTREWQ09876","roles":["user"],"disabled":true,"last_login_at":"2026-03-10T11:00:00Z","created_at":"2026-03-01T08:00:00Z"}
+{"id":"uuid-diana","email":"diana@test.com","password_hash":"$2b$10$qweXXXXXXXXXXXXXXXXXXeQWERTYUIOPASDFGHJKLZXCVBNM12345","roles":["user","moderator"],"disabled":false,"last_login_at":"2026-05-30T16:45:00Z","created_at":"2026-04-10T12:00:00Z"}
+{"id":"uuid-eve","email":"eve@test.com","password_hash":"$2b$10$123XXXXXXXXXXXXXXXXXXXXXXXX1234567890ABCDEFGHIJKLMNOPQ","roles":["user"],"disabled":false,"last_login_at":null,"created_at":"2026-06-04T17:00:00Z"}
