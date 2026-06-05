@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 159 resources
+> 160 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -30,6 +30,7 @@
 - **code-improvement-loop** (skill): Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión.
 - **code-patterns** (cmd): Catálogo de patterns del proyecto con ejemplos del propio código del equipo
 - **code-reviewer** (agent): >
+- **code-twin-extract** (script): code-twin-extract.sh — SPEC-190 Slice 7
 - **code-twin-init** (script): code-twin-init.sh — Scaffold estructura vacía de ACT para un proyecto
 - **code-twin-lint** (script): code-twin-lint.sh — Valida Code Twin Files (CTF), CTI (index.md) y seeds JSONL
 - **code-twin-simulate** (script): code-twin-simulate.sh — SPEC-190 Slice 5

@@ -1,6 +1,6 @@
 {
-  "hash": "346ddf49e119",
-  "total": 1203,
+  "hash": "619f23d3d1e0",
+  "total": 1204,
   "resources": [
     {
       "category": "analysis",
@@ -2306,6 +2306,20 @@
       "kind": "agent",
       "path": ".claude/agents/code-reviewer.md",
       "description": ">"
+    },
+    {
+      "category": "development",
+      "name": "code-twin-extract",
+      "intents": [
+        "code",
+        "extract",
+        "slice",
+        "spec",
+        "twin"
+      ],
+      "kind": "script",
+      "path": "scripts/code-twin-extract.sh",
+      "description": "code-twin-extract.sh — SPEC-190 Slice 7"
     },
     {
       "category": "development",
