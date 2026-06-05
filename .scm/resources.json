@@ -1,6 +1,6 @@
 {
-  "hash": "660cc4f98a8f",
-  "total": 1195,
+  "hash": "50b58e6fc78b",
+  "total": 1200,
   "resources": [
     {
       "category": "analysis",
@@ -3785,6 +3785,48 @@
       "kind": "script",
       "path": "scripts/tribunal-benchmark.sh",
       "description": "tribunal-benchmark.sh — SPEC-106 Phase 3."
+    },
+    {
+      "category": "development",
+      "name": "twin-anonymize",
+      "intents": [
+        "anonymize",
+        "datos",
+        "organización",
+        "spec",
+        "twin"
+      ],
+      "kind": "script",
+      "path": "scripts/twin-anonymize.sh",
+      "description": "twin-anonymize.sh — Genera vista N1 de un twin sin datos de organización (SPEC-169 AC-6)"
+    },
+    {
+      "category": "development",
+      "name": "twin-load",
+      "intents": [
+        "carga",
+        "load",
+        "muestra",
+        "proyecto",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/twin-load.sh",
+      "description": "twin-load.sh — Carga y muestra el twin de un proyecto (SPEC-169 AC-2, AC-5)"
+    },
+    {
+      "category": "development",
+      "name": "twin-refresh",
+      "intents": [
+        "predicciones",
+        "recalcula",
+        "refresh",
+        "spec",
+        "twin"
+      ],
+      "kind": "script",
+      "path": "scripts/twin-refresh.sh",
+      "description": "twin-refresh.sh — Recalcula predicciones del twin sin LLM (SPEC-169 AC-3, AC-V2)"
     },
     {
       "category": "development",
@@ -11861,6 +11903,20 @@
     },
     {
       "category": "planning",
+      "name": "twin-decay-check",
+      "intents": [
+        "check",
+        "days",
+        "decay",
+        "escanea",
+        "marca"
+      ],
+      "kind": "script",
+      "path": "scripts/twin-decay-check.sh",
+      "description": "twin-decay-check.sh — Escanea todos los twins y marca STALE los que superaron stale_after_days"
+    },
+    {
+      "category": "planning",
       "name": "typescript-developer",
       "intents": [],
       "kind": "agent",
@@ -15241,6 +15297,20 @@
       "kind": "cmd",
       "path": ".claude/commands/testplan-status.md",
       "description": ">"
+    },
+    {
+      "category": "quality",
+      "name": "twin-linter",
+      "intents": [
+        "contra",
+        "linter",
+        "schema",
+        "spec",
+        "twin"
+      ],
+      "kind": "script",
+      "path": "scripts/twin-linter.sh",
+      "description": "twin-linter.sh — Valida twin.md contra schema SPEC-169"
     },
     {
       "category": "quality",

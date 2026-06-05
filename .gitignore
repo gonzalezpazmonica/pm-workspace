@@ -107,6 +107,7 @@ scripts/tests/screenshots
 # Configuraciones locales
 .claude/settings.local.*
 scripts/confidentiality-blocklist.local.txt
+.claude/rules/twin-anon-projects.local.txt
 
 # Informes de auditoria
 audit-report-*

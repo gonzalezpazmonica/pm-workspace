@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-169
 title: Project Twin como artefacto versionado
-status: PROPOSED
+status: IMPLEMENTED
 tier: 1B
 effort: 10-12h
 era: 198
