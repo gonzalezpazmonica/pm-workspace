@@ -43,8 +43,15 @@ CONTENT=$(echo "$CONTENT" | sed "s|projects/${SLUG}/|case-study/|g")
 # 3. Remove any handle-like patterns (@word)
 CONTENT=$(echo "$CONTENT" | sed -E 's/@[a-z][a-z0-9_-]+/@role/g')
 
-# 4. Replace org-looking names in paths (CamelCase or ALL_CAPS identifiers)
-CONTENT=$(echo "$CONTENT" | sed -E 's/ProyectoAlpha|ProyectoBeta|TrazaBios|SaviaWeb/[PROJECT]/gI')
+# 4. Replace org-specific project names loaded from local gitignored list
+# Add project names (one per line) to: .claude/rules/twin-anon-projects.local.txt
+LOCAL_PROJECTS_FILE="${ROOT_DIR}/.claude/rules/twin-anon-projects.local.txt"
+if [[ -f "$LOCAL_PROJECTS_FILE" ]]; then
+  while IFS= read -r proj || [[ -n "$proj" ]]; do
+    [[ -z "$proj" || "$proj" == \#* ]] && continue
+    CONTENT=$(echo "$CONTENT" | sed -E "s|${proj}|[PROJECT]|gI")
+  done < "$LOCAL_PROJECTS_FILE"
+fi
 
 # 5. Redact free-text blocker descriptions (keep only type hint)
 # Replace specific-looking blocker text (>20 chars) with placeholder
